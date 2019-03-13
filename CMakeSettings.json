@@ -1,0 +1,296 @@
+﻿{
+	"environments": [
+		{
+			"BUILD_DIR": "${projectDir}\\build",
+			"INSTALL_DIR": "${projectDir}\\install"
+		},
+		{
+			"environment": "std_11",
+			"CMAKE_CXX_STANDARD": "11"
+		},
+		{
+			"environment": "std_14",
+			"CMAKE_CXX_STANDARD": "14"
+		},
+		{
+			"environment": "std_17",
+			"CMAKE_CXX_STANDARD": "17"
+		},
+		{
+			"environment": "mingw_64",
+			"MINGW64_ROOT": "C:\\msys64\\mingw64",
+			"FLAVOR": "x86_64-w64-mingw32",
+			"TOOLSET_VERSION": "7.3.0",
+			"PATH": "${env.MINGW64_ROOT}\\bin;${env.MINGW64_ROOT}\\..\\usr\\local\\bin;${env.MINGW64_ROOT}\\..\\usr\\bin;${env.MINGW64_ROOT}\\..\\bin;${env.PATH}",
+			"INCLUDE": "${env.INCLUDE};${env.MINGW64_ROOT}\\include\\c++\\${env.TOOLSET_VERSION};${env.MINGW64_ROOT}\\include\\c++\\${env.TOOLSET_VERSION}\\tr1;${env.MINGW64_ROOT}\\include\\c++\\${env.TOOLSET_VERSION}\\${env.FLAVOR}",
+			"CMAKE_CXX_FLAGS": "-static -lstdc++ -lgcc -lwinpthread"
+		}
+	],
+
+	"configurations": [
+		// x64 Debug
+		{
+			"inheritEnvironments": [
+				"msvc_x64_x64",
+				"std_11"
+			],
+			"configurationType": "Debug",
+			"name": "x64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
+			"generator": "Visual Studio 15 2017 Win64",
+			"buildRoot": "${env.BUILD_DIR}\\${name}",
+			"installRoot": "${env.INSTALL_DIR}\\${name}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+			"buildCommandArgs": "",
+			"ctestCommandArgs": ""
+		},
+		{
+			"inheritEnvironments": [
+				"msvc_x64_x64",
+				"std_14"
+			],
+			"configurationType": "Debug",
+			"name": "x64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
+			"generator": "Visual Studio 15 2017 Win64",
+			"buildRoot": "${env.BUILD_DIR}\\${name}",
+			"installRoot": "${env.INSTALL_DIR}\\${name}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+			"buildCommandArgs": "",
+			"ctestCommandArgs": ""
+		},
+		{
+			"inheritEnvironments": [
+				"msvc_x64_x64",
+				"std_17"
+			],
+			"configurationType": "Debug",
+			"name": "x64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
+			"generator": "Visual Studio 15 2017 Win64",
+			"buildRoot": "${env.BUILD_DIR}\\${name}",
+			"installRoot": "${env.INSTALL_DIR}\\${name}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+			"buildCommandArgs": "",
+			"ctestCommandArgs": ""
+		},
+		// x64 Release
+		{
+			"inheritEnvironments": [
+				"msvc_x64_x64",
+				"std_11"
+			],
+			"configurationType": "Release",
+			"name": "x64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
+			"generator": "Visual Studio 15 2017 Win64",
+			"buildRoot": "${env.BUILD_DIR}\\${name}",
+			"installRoot": "${env.INSTALL_DIR}\\${name}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+			"buildCommandArgs": "",
+			"ctestCommandArgs": ""
+		},
+		{
+			"inheritEnvironments": [
+				"msvc_x64_x64",
+				"std_14"
+			],
+			"configurationType": "Release",
+			"name": "x64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
+			"generator": "Visual Studio 15 2017 Win64",
+			"buildRoot": "${env.BUILD_DIR}\\${name}",
+			"installRoot": "${env.INSTALL_DIR}\\${name}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+			"buildCommandArgs": "",
+			"ctestCommandArgs": ""
+		},
+		{
+			"inheritEnvironments": [
+				"msvc_x64_x64",
+				"std_17"
+			],
+			"configurationType": "Release",
+			"name": "x64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
+			"generator": "Visual Studio 15 2017 Win64",
+			"buildRoot": "${env.BUILD_DIR}\\${name}",
+			"installRoot": "${env.INSTALL_DIR}\\${name}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+			"buildCommandArgs": "",
+			"ctestCommandArgs": ""
+		},
+		// x86 Debug
+		{
+			"inheritEnvironments": [
+				"msvc_x86",
+				"std_11"
+			],
+			"configurationType": "Debug",
+			"name": "x86-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
+			"generator": "Visual Studio 15 2017",
+			"buildRoot": "${env.BUILD_DIR}\\${name}",
+			"installRoot": "${env.INSTALL_DIR}\\${name}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+			"buildCommandArgs": "",
+			"ctestCommandArgs": ""
+		},
+		{
+			"inheritEnvironments": [
+				"msvc_x86",
+				"std_14"
+			],
+			"configurationType": "Debug",
+			"name": "x86-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
+			"generator": "Visual Studio 15 2017",
+			"buildRoot": "${env.BUILD_DIR}\\${name}",
+			"installRoot": "${env.INSTALL_DIR}\\${name}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+			"buildCommandArgs": "",
+			"ctestCommandArgs": ""
+		},
+		{
+			"inheritEnvironments": [
+				"msvc_x86",
+				"std_17"
+			],
+			"configurationType": "Debug",
+			"name": "x86-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
+			"generator": "Visual Studio 15 2017",
+			"buildRoot": "${env.BUILD_DIR}\\${name}",
+			"installRoot": "${env.INSTALL_DIR}\\${name}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+			"buildCommandArgs": "",
+			"ctestCommandArgs": ""
+		},
+		// x86 Release
+		{
+			"inheritEnvironments": [
+				"msvc_x86",
+				"std_11"
+			],
+			"configurationType": "Release",
+			"name": "x86-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
+			"generator": "Visual Studio 15 2017",
+			"buildRoot": "${env.BUILD_DIR}\\${name}",
+			"installRoot": "${env.INSTALL_DIR}\\${name}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+			"buildCommandArgs": "",
+			"ctestCommandArgs": ""
+		},
+		{
+			"inheritEnvironments": [
+				"msvc_x86",
+				"std_14"
+			],
+			"configurationType": "Release",
+			"name": "x86-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
+			"generator": "Visual Studio 15 2017",
+			"buildRoot": "${env.BUILD_DIR}\\${name}",
+			"installRoot": "${env.INSTALL_DIR}\\${name}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+			"buildCommandArgs": "",
+			"ctestCommandArgs": ""
+		},
+		{
+			"inheritEnvironments": [
+				"msvc_x86",
+				"std_17"
+			],
+			"configurationType": "Release",
+			"name": "x86-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
+			"generator": "Visual Studio 15 2017",
+			"buildRoot": "${env.BUILD_DIR}\\${name}",
+			"installRoot": "${env.INSTALL_DIR}\\${name}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+			"buildCommandArgs": "",
+			"ctestCommandArgs": ""
+		},
+		// MinGW Debug
+		{
+			"inheritEnvironments": [
+				"mingw_64",
+				"std_11"
+			],
+			"configurationType": "Debug",
+			"name": "Mingw64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
+			"generator": "Ninja",
+			"buildRoot": "${env.BUILD_DIR}\\${name}",
+			"installRoot": "${env.INSTALL_DIR}\\${name}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_CXX_FLAGS=${env.CMAKE_CXX_FLAGS}",
+			"buildCommandArgs": "-v",
+			"ctestCommandArgs": "",
+			"intelliSenseMode": "linux-gcc-x64"
+		},
+		{
+			"inheritEnvironments": [
+				"mingw_64",
+				"std_14"
+			],
+			"configurationType": "Debug",
+			"name": "Mingw64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
+			"generator": "Ninja",
+			"buildRoot": "${env.BUILD_DIR}\\${name}",
+			"installRoot": "${env.INSTALL_DIR}\\${name}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_CXX_FLAGS=${env.CMAKE_CXX_FLAGS}",
+			"buildCommandArgs": "-v",
+			"ctestCommandArgs": "",
+			"intelliSenseMode": "linux-gcc-x64"
+		},
+		{
+			"inheritEnvironments": [
+				"mingw_64",
+				"std_17"
+			],
+			"configurationType": "Debug",
+			"name": "Mingw64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
+			"generator": "Ninja",
+			"buildRoot": "${env.BUILD_DIR}\\${name}",
+			"installRoot": "${env.INSTALL_DIR}\\${name}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_CXX_FLAGS=${env.CMAKE_CXX_FLAGS}",
+			"buildCommandArgs": "-v",
+			"ctestCommandArgs": "",
+			"intelliSenseMode": "linux-gcc-x64"
+		},
+		// MinGW Release
+		{
+			"inheritEnvironments": [
+				"mingw_64",
+				"std_11"
+			],
+			"configurationType": "Release",
+			"name": "Mingw64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
+			"generator": "Ninja",
+			"buildRoot": "${env.BUILD_DIR}\\${name}",
+			"installRoot": "${env.INSTALL_DIR}\\${name}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_CXX_FLAGS=${env.CMAKE_CXX_FLAGS}",
+			"buildCommandArgs": "-v",
+			"ctestCommandArgs": "",
+			"intelliSenseMode": "linux-gcc-x64"
+		},
+		{
+			"inheritEnvironments": [
+				"mingw_64",
+				"std_14"
+			],
+			"configurationType": "Release",
+			"name": "Mingw64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
+			"generator": "Ninja",
+			"buildRoot": "${env.BUILD_DIR}\\${name}",
+			"installRoot": "${env.INSTALL_DIR}\\${name}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_CXX_FLAGS=${env.CMAKE_CXX_FLAGS}",
+			"buildCommandArgs": "-v",
+			"ctestCommandArgs": "",
+			"intelliSenseMode": "linux-gcc-x64"
+		},
+		{
+			"inheritEnvironments": [
+				"mingw_64",
+				"std_17"
+			],
+			"configurationType": "Release",
+			"name": "Mingw64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
+			"generator": "Ninja",
+			"buildRoot": "${env.BUILD_DIR}\\${name}",
+			"installRoot": "${env.INSTALL_DIR}\\${name}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_CXX_FLAGS=${env.CMAKE_CXX_FLAGS}",
+			"buildCommandArgs": "-v",
+			"ctestCommandArgs": "",
+			"intelliSenseMode": "linux-gcc-x64"
+		}
+	]
+}

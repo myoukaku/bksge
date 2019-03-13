@@ -1,0 +1,9 @@
+﻿cmake_minimum_required(VERSION 3.12)
+
+include(${PROJECT_SOURCE_DIR}/cmake/assign_source_group.cmake)
+
+include_directories(${PROJECT_SOURCE_DIR}/include)
+
+add_executable(sample_window window/sample_window_main.cpp)
+assign_source_group(window/sample_window_main.cpp)
+set_target_properties(sample_window PROPERTIES FOLDER "samples")

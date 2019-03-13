@@ -1,0 +1,158 @@
+﻿language: cpp
+dist: trusty
+
+branches:
+  only:
+    - master
+    - develop
+    - ci-test
+
+sudo: false
+cache:
+  directories:
+    - $HOME/Library/Caches/Homebrew
+
+before_cache:
+  - brew cleanup
+
+install:
+  - |
+    if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
+      cd ${TRAVIS_BUILD_DIR}
+      curl https://cmake.org/files/v3.12/cmake-3.12.3-Linux-x86_64.tar.gz | tar xz
+      export PATH=$PWD/cmake-3.12.3-Linux-x86_64/bin:$PATH
+      export LD_LIBARY_PATH=$PWD/cmake-3.12.3-Linux-x86_64/lib:$LD_LIBRARY_PATH
+      mkdir -p ~/bin
+      export PATH=~/bin:$PATH
+    elif [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then
+      brew update -v
+      brew upgrade cmake
+    fi
+
+anchors:
+  clang-7:  &clang-7  { apt: { config: { retries: true }, packages: [ "clang-7",   "libstdc++-8-dev" ], sources: [ "llvm-toolchain-trusty-7",   "ubuntu-toolchain-r-test" ] } }
+  clang-6:  &clang-6  { apt: { config: { retries: true }, packages: [ "clang-6.0", "libstdc++-8-dev" ], sources: [ "llvm-toolchain-trusty-6.0", "ubuntu-toolchain-r-test" ] } }
+  clang-5:  &clang-5  { apt: { config: { retries: true }, packages: [ "clang-5.0", "libstdc++-7-dev" ], sources: [ "llvm-toolchain-trusty-5.0", "ubuntu-toolchain-r-test" ] } }
+  clang-4:  &clang-4  { apt: { config: { retries: true }, packages: [ "clang-4.0", "libstdc++-6-dev" ], sources: [ "llvm-toolchain-trusty-4.0", "ubuntu-toolchain-r-test" ] } }
+  clang-39: &clang-39 { apt: { config: { retries: true }, packages: [ "clang-3.9", "libstdc++-6-dev" ], sources: [ "llvm-toolchain-trusty-3.9", "ubuntu-toolchain-r-test" ] } }
+  clang-38: &clang-38 { apt: { config: { retries: true }, packages: [ "clang-3.8", "libstdc++-6-dev" ], sources: [ "llvm-toolchain-precise-3.8", "ubuntu-toolchain-r-test" ] } }
+  clang-37: &clang-37 { apt: { config: { retries: true }, packages: [ "clang-3.7", "libstdc++-5-dev" ], sources: [ "llvm-toolchain-precise-3.7", "ubuntu-toolchain-r-test" ] } }
+  clang-36: &clang-36 { apt: { config: { retries: true }, packages: [ "clang-3.6", "libstdc++-5-dev" ], sources: [ "llvm-toolchain-precise-3.6", "ubuntu-toolchain-r-test" ] } }
+  clang-35: &clang-35 { apt: { config: { retries: true }, packages: [ "clang-3.5", "libstdc++-5-dev" ], sources: [ "llvm-toolchain-precise-3.5", "ubuntu-toolchain-r-test" ] } }
+  gcc-8:    &gcc-8    { apt: { config: { retries: true }, packages: [ "g++-8"                        ], sources: [ "ubuntu-toolchain-r-test" ] } }
+  gcc-7:    &gcc-7    { apt: { config: { retries: true }, packages: [ "g++-7"                        ], sources: [ "ubuntu-toolchain-r-test" ] } }
+  gcc-6:    &gcc-6    { apt: { config: { retries: true }, packages: [ "g++-6"                        ], sources: [ "ubuntu-toolchain-r-test" ] } }
+  gcc-5:    &gcc-5    { apt: { config: { retries: true }, packages: [ "g++-5"                        ], sources: [ "ubuntu-toolchain-r-test" ] } }
+  gcc-49:   &gcc-49   { apt: { config: { retries: true }, packages: [ "g++-4.9"                      ], sources: [ "ubuntu-toolchain-r-test" ] } }
+  gcc-48:   &gcc-48   { apt: { config: { retries: true }, packages: [ "g++-4.8"                      ], sources: [ "ubuntu-toolchain-r-test" ] } }
+
+matrix:
+  include:
+    - name: "CodeCov"
+      os: "linux"
+      compiler: gcc
+      env: CXX_COMPILER=g++-7 CXX_STANDARD=11
+      addons:
+        apt:
+          sources: "ubuntu-toolchain-r-test"
+          packages:
+            - g++-7
+            - lcov
+      script:
+        - mkdir build && cd build
+        - cmake -DCOVERAGE=1 -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=$CXX_COMPILER -DCMAKE_CXX_STANDARD=$CXX_STANDARD ..
+        - cmake --build . -j 4
+        - ctest -j 4
+      after_success:
+        - lcov --capture --directory ./test --gcov-tool /usr/bin/gcov-7 --output-file coverage.info
+        - lcov --remove coverage.info '/usr/*' --output-file coverage.info
+        - lcov --remove coverage.info '*/googletest/*' --output-file coverage.info
+        - lcov --remove coverage.info '*/test/*' --output-file coverage.info
+        - lcov --list coverage.info
+        # Uploading report to CodeCov
+        - bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
+
+    - name: "Coveralls"
+      os: "linux"
+      compiler: gcc
+      env: CXX_COMPILER=g++-7 CXX_STANDARD=11
+      addons: *gcc-7
+      before_install:
+        - pip install --user cpp-coveralls
+      script:
+        - mkdir build && cd build
+        - cmake -DCOVERAGE=1 -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=$CXX_COMPILER -DCMAKE_CXX_STANDARD=$CXX_STANDARD ..
+        - cmake --build . -j 4
+        - ctest -j 4
+      after_success:
+        - coveralls --root ../ --build-root ./ --include include --gcov /usr/bin/gcov-7 --gcov-options '\-lp'
+
+    - { os: "linux", compiler: clang, env: CXX_COMPILER=clang++-7   CXX_STANDARD=11, addons: *clang-7  }
+    - { os: "linux", compiler: clang, env: CXX_COMPILER=clang++-7   CXX_STANDARD=14, addons: *clang-7  }
+    - { os: "linux", compiler: clang, env: CXX_COMPILER=clang++-7   CXX_STANDARD=17, addons: *clang-7  }
+    - { os: "linux", compiler: clang, env: CXX_COMPILER=clang++-6.0 CXX_STANDARD=11, addons: *clang-6  }
+    - { os: "linux", compiler: clang, env: CXX_COMPILER=clang++-6.0 CXX_STANDARD=14, addons: *clang-6  }
+    - { os: "linux", compiler: clang, env: CXX_COMPILER=clang++-6.0 CXX_STANDARD=17, addons: *clang-6  }
+    - { os: "linux", compiler: clang, env: CXX_COMPILER=clang++-5.0 CXX_STANDARD=11, addons: *clang-5  }
+    - { os: "linux", compiler: clang, env: CXX_COMPILER=clang++-5.0 CXX_STANDARD=14, addons: *clang-5  }
+    - { os: "linux", compiler: clang, env: CXX_COMPILER=clang++-5.0 CXX_STANDARD=17, addons: *clang-5  }
+    - { os: "linux", compiler: clang, env: CXX_COMPILER=clang++-4.0 CXX_STANDARD=11, addons: *clang-4  }
+    - { os: "linux", compiler: clang, env: CXX_COMPILER=clang++-4.0 CXX_STANDARD=14, addons: *clang-4  }
+    - { os: "linux", compiler: clang, env: CXX_COMPILER=clang++-3.9 CXX_STANDARD=11, addons: *clang-39 }
+    - { os: "linux", compiler: clang, env: CXX_COMPILER=clang++-3.9 CXX_STANDARD=14, addons: *clang-39 }
+    - { os: "linux", compiler: clang, env: CXX_COMPILER=clang++-3.8 CXX_STANDARD=11, addons: *clang-38 }
+    - { os: "linux", compiler: clang, env: CXX_COMPILER=clang++-3.8 CXX_STANDARD=14, addons: *clang-38 }
+    - { os: "linux", compiler: clang, env: CXX_COMPILER=clang++-3.7 CXX_STANDARD=11, addons: *clang-37 }
+    - { os: "linux", compiler: clang, env: CXX_COMPILER=clang++-3.6 CXX_STANDARD=11, addons: *clang-36 }
+    - { os: "linux", compiler: clang, env: CXX_COMPILER=clang++-3.5 CXX_STANDARD=11, addons: *clang-35 }
+    - { os: "linux", compiler: gcc,   env: CXX_COMPILER=g++-8       CXX_STANDARD=11, addons: *gcc-8    }
+    - { os: "linux", compiler: gcc,   env: CXX_COMPILER=g++-8       CXX_STANDARD=14, addons: *gcc-8    }
+    - { os: "linux", compiler: gcc,   env: CXX_COMPILER=g++-8       CXX_STANDARD=17, addons: *gcc-8    }
+    - { os: "linux", compiler: gcc,   env: CXX_COMPILER=g++-7       CXX_STANDARD=11, addons: *gcc-7    }
+    - { os: "linux", compiler: gcc,   env: CXX_COMPILER=g++-7       CXX_STANDARD=14, addons: *gcc-7    }
+    - { os: "linux", compiler: gcc,   env: CXX_COMPILER=g++-7       CXX_STANDARD=17, addons: *gcc-7    }
+    - { os: "linux", compiler: gcc,   env: CXX_COMPILER=g++-6       CXX_STANDARD=11, addons: *gcc-6    }
+    - { os: "linux", compiler: gcc,   env: CXX_COMPILER=g++-6       CXX_STANDARD=14, addons: *gcc-6    }
+    #- { os: "linux", compiler: gcc,   env: CXX_COMPILER=g++-6       CXX_STANDARD=17, addons: *gcc-6    }
+    - { os: "linux", compiler: gcc,   env: CXX_COMPILER=g++-5       CXX_STANDARD=11, addons: *gcc-5    }
+    #- { os: "linux", compiler: gcc,   env: CXX_COMPILER=g++-5       CXX_STANDARD=14, addons: *gcc-5    }
+    #- { os: "linux", compiler: gcc,   env: CXX_COMPILER=g++-5       CXX_STANDARD=17, addons: *gcc-5    }
+    #- { os: "linux", compiler: gcc,   env: CXX_COMPILER=g++-4.9     CXX_STANDARD=11, addons: *gcc-49   }
+    #- { os: "linux", compiler: gcc,   env: CXX_COMPILER=g++-4.9     CXX_STANDARD=14, addons: *gcc-49   }
+    #- { os: "linux", compiler: gcc,   env: CXX_COMPILER=g++-4.8     CXX_STANDARD=11, addons: *gcc-48   }
+    #- { os: "linux", compiler: gcc,   env: CXX_COMPILER=g++-4.8     CXX_STANDARD=14, addons: *gcc-48   }
+    - { os: "osx",   compiler: clang, osx_image: xcode10.1, env: CXX_COMPILER=clang++ CXX_STANDARD=11  }
+    - { os: "osx",   compiler: clang, osx_image: xcode10.1, env: CXX_COMPILER=clang++ CXX_STANDARD=14  }
+    - { os: "osx",   compiler: clang, osx_image: xcode10.1, env: CXX_COMPILER=clang++ CXX_STANDARD=17  }
+    - { os: "osx",   compiler: clang, osx_image: xcode10,   env: CXX_COMPILER=clang++ CXX_STANDARD=11  }
+    - { os: "osx",   compiler: clang, osx_image: xcode10,   env: CXX_COMPILER=clang++ CXX_STANDARD=14  }
+    - { os: "osx",   compiler: clang, osx_image: xcode10,   env: CXX_COMPILER=clang++ CXX_STANDARD=17  }
+    - { os: "osx",   compiler: clang, osx_image: xcode9.4,  env: CXX_COMPILER=clang++ CXX_STANDARD=11  }
+    - { os: "osx",   compiler: clang, osx_image: xcode9.4,  env: CXX_COMPILER=clang++ CXX_STANDARD=14  }
+    - { os: "osx",   compiler: clang, osx_image: xcode9.4,  env: CXX_COMPILER=clang++ CXX_STANDARD=17  }
+    - { os: "osx",   compiler: clang, osx_image: xcode9.3,  env: CXX_COMPILER=clang++ CXX_STANDARD=11  }
+    - { os: "osx",   compiler: clang, osx_image: xcode9.3,  env: CXX_COMPILER=clang++ CXX_STANDARD=14  }
+    - { os: "osx",   compiler: clang, osx_image: xcode9.3,  env: CXX_COMPILER=clang++ CXX_STANDARD=17  }
+    - { os: "osx",   compiler: clang, osx_image: xcode9.2,  env: CXX_COMPILER=clang++ CXX_STANDARD=11  }
+    - { os: "osx",   compiler: clang, osx_image: xcode9.2,  env: CXX_COMPILER=clang++ CXX_STANDARD=14  }
+    - { os: "osx",   compiler: clang, osx_image: xcode9.1,  env: CXX_COMPILER=clang++ CXX_STANDARD=11  }
+    - { os: "osx",   compiler: clang, osx_image: xcode9.1,  env: CXX_COMPILER=clang++ CXX_STANDARD=14  }
+    - { os: "osx",   compiler: clang, osx_image: xcode9,    env: CXX_COMPILER=clang++ CXX_STANDARD=11  }
+    - { os: "osx",   compiler: clang, osx_image: xcode9,    env: CXX_COMPILER=clang++ CXX_STANDARD=14  }
+    - { os: "osx",   compiler: clang, osx_image: xcode8.3,  env: CXX_COMPILER=clang++ CXX_STANDARD=11  }
+    - { os: "osx",   compiler: clang, osx_image: xcode8.3,  env: CXX_COMPILER=clang++ CXX_STANDARD=14  }
+    #- { os: "osx",   compiler: clang, osx_image: xcode8,    env: CXX_COMPILER=clang++ CXX_STANDARD=11  }
+    #- { os: "osx",   compiler: clang, osx_image: xcode8,    env: CXX_COMPILER=clang++ CXX_STANDARD=14  }
+    #- { os: "osx",   compiler: clang, osx_image: xcode7.3,  env: CXX_COMPILER=clang++ CXX_STANDARD=11  }
+    #- { os: "osx",   compiler: clang, osx_image: xcode7.3,  env: CXX_COMPILER=clang++ CXX_STANDARD=14  }
+
+before_script:
+  - $CXX --version
+  #- $CXX -std=c++$CXX_STANDARD -dM -E -x c++ /dev/null
+  - cmake --version
+
+script:
+  - mkdir build && cd build
+  - cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=$CXX_COMPILER -DCMAKE_CXX_STANDARD=$CXX_STANDARD ..
+  - cmake --build . -j 4
+  - ctest -j 4

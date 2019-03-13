@@ -1,0 +1,75 @@
+inspecode:
+
+# Artistic Style - Artistic Style is a source code indenter, formatter, and beautifier
+#  astyle:
+#    input:
+#      - include/bksge
+
+# CPD (Copy/Paste Detector) - Finding duplicated code.
+  cpd:
+    input:
+      - include/bksge
+
+# ClangFormat - A tool to format C/C++/Objective-C code.
+#  clang-format:
+#    input:
+#      - include/bksge
+
+# Cppcheck - Cppcheck is a static analysis tool for C/C++ code.
+  cppcheck:
+    ignore:
+      - external
+    options:
+      --enable: all
+      --inline-suppr:
+      --suppress: syntaxError
+      --suppress: preprocessorErrorDirective
+      --force:
+      -I: include
+
+# Infer - Facebook Infer is a static analysis tool
+#  infer: default
+
+# Uncrustify - Source Code Beautifier for C, C++, C#, ObjectiveC, D, Java, Pawn and VALA
+#  uncrustify:
+#    input:
+#      - include/bksge
+
+# Unused - A command line tool to identify unused code.
+#  unused: default
+
+# cpplint - This is automated checker to make sure a C++ file follows Google's C++ style guide
+  cpplint:
+    input:
+      - include/bksge
+    options:
+      --root: include
+      --linelength: 150
+      --headers: hpp
+      --extensions: hpp,cpp
+      --filter:
+        -build/header_guard,
+        -build/include_order,
+        -legal/copyright,
+        -readability/multiline_comment,
+        -whitespace/braces,
+        -whitespace/comma,
+        -whitespace/comments,
+        -whitespace/indent,
+        -whitespace/line_length,
+        -whitespace/parens,
+        -whitespace/tab
+
+# grep - Searches any given input files, selecting lines that match one or more patterns.
+  grep: default
+
+# jscpd - jscpd is a tool for detect copy/paste "design pattern" in programming source code.
+  jscpd:
+    options:
+      --path: include/bksge/
+
+# misspell - Correct commonly misspelled words in source files.
+  misspell: default
+
+# scan-build (Clang Static Analyzer)
+#  scan-build: default

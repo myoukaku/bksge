@@ -1,0 +1,95 @@
+version: 0.0.{build}
+
+branches:
+  only:
+    - master
+    - develop
+    - ci-test
+
+environment:
+  matrix:
+    - CMAKE_GENERATOR: "Visual Studio 15 2017"
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      CXX_STANDARD: 11
+
+    - CMAKE_GENERATOR: "Visual Studio 15 2017"
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      CXX_STANDARD: 14
+
+    - CMAKE_GENERATOR: "Visual Studio 15 2017"
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      CXX_STANDARD: 17
+
+    - CMAKE_GENERATOR: "Visual Studio 15 2017 Win64"
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      CXX_STANDARD: 11
+
+    - CMAKE_GENERATOR: "Visual Studio 15 2017 Win64"
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      CXX_STANDARD: 14
+
+    - CMAKE_GENERATOR: "Visual Studio 15 2017 Win64"
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      CXX_STANDARD: 17
+
+#    - CMAKE_GENERATOR: "Visual Studio 14 2015"
+#      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+
+#    - CMAKE_GENERATOR: "Visual Studio 14 2015 Win64"
+#      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+
+#    - CMAKE_GENERATOR: "MinGW Makefiles"
+#      cxx_path: 'C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\mingw32\bin'
+
+configuration:
+    - Debug
+    - Release
+
+build:
+  verbosity: minimal
+
+install:
+- ps: |
+    Write-Output "Generator: $env:CMAKE_GENERATOR"
+    Write-Output "Env:Configuation: $env:configuration"
+    Write-Output "Env: $env"
+
+before_build:
+- cmd: |
+    mkdir build && cd build
+    cmake .. -G "%CMAKE_GENERATOR%" -DCMAKE_CXX_STANDARD="%CXX_STANDARD%" -DCMAKE_BUILD_TYPE="%configuration%" -DCMAKE_CONFIGURATION_TYPES=Debug;Release -DCMAKE_IGNORE_PATH="C:/Program Files/Git/usr/bin"
+
+build_script:
+- cmd: |
+    cmake --build . --config "%configuration%"
+
+
+skip_commits:
+  files:
+    - docs/**/*
+    - .editorconfig
+    - .gitattributes
+    - .gitignore
+    - .travis.yml
+    - LICENSE
+    - README.md
+    - rocro.yml
+
+test_script:
+- ps: |
+    & ctest -C $env:configuration -j $env:NUMBER_OF_PROCESSORS --timeout 600 --output-on-failure -T Test
+    if ($LastExitCode -ne 0) {
+        throw "Exec: $ErrorMessage"
+    }
+
+    $XSLInputElement = New-Object System.Xml.Xsl.XslCompiledTransform
+    $XSLInputElement.Load("https://raw.githubusercontent.com/rpavlik/jenkins-ctest-plugin/master/ctest-to-junit.xsl")
+    $XSLInputElement.Transform((Resolve-Path .\Testing\**\*.xml), (Join-Path (Resolve-Path .) "ctest-to-junit-results.xml"))
+    $wc = New-Object 'System.Net.WebClient'
+    $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\ctest-to-junit-results.xml))
+
+artifacts:
+  - path: 'build/CMakeFiles/*.log'
+    name: logs
+  - path: 'build/Testing/**/*.xml'
+    name: test_results
