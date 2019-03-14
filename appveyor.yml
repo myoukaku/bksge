@@ -8,9 +8,9 @@ branches:
 
 environment:
   matrix:
-    - CMAKE_GENERATOR: "Visual Studio 15 2017"
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-      CXX_STANDARD: 11
+#    - CMAKE_GENERATOR: "Visual Studio 15 2017"
+#      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+#      CXX_STANDARD: 11
 
     - CMAKE_GENERATOR: "Visual Studio 15 2017"
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
@@ -20,9 +20,9 @@ environment:
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       CXX_STANDARD: 17
 
-    - CMAKE_GENERATOR: "Visual Studio 15 2017 Win64"
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-      CXX_STANDARD: 11
+#    - CMAKE_GENERATOR: "Visual Studio 15 2017 Win64"
+#      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+#      CXX_STANDARD: 11
 
     - CMAKE_GENERATOR: "Visual Studio 15 2017 Win64"
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017

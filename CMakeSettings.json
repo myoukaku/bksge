@@ -29,20 +29,20 @@
 
 	"configurations": [
 		// x64 Debug
-		{
-			"inheritEnvironments": [
-				"msvc_x64_x64",
-				"std_11"
-			],
-			"configurationType": "Debug",
-			"name": "x64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
-			"generator": "Visual Studio 15 2017 Win64",
-			"buildRoot": "${env.BUILD_DIR}\\${name}",
-			"installRoot": "${env.INSTALL_DIR}\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
-			"buildCommandArgs": "",
-			"ctestCommandArgs": ""
-		},
+//		{
+//			"inheritEnvironments": [
+//				"msvc_x64_x64",
+//				"std_11"
+//			],
+//			"configurationType": "Debug",
+//			"name": "x64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
+//			"generator": "Visual Studio 15 2017 Win64",
+//			"buildRoot": "${env.BUILD_DIR}\\${name}",
+//			"installRoot": "${env.INSTALL_DIR}\\${name}",
+//			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+//			"buildCommandArgs": "",
+//			"ctestCommandArgs": ""
+//		},
 		{
 			"inheritEnvironments": [
 				"msvc_x64_x64",
@@ -72,20 +72,20 @@
 			"ctestCommandArgs": ""
 		},
 		// x64 Release
-		{
-			"inheritEnvironments": [
-				"msvc_x64_x64",
-				"std_11"
-			],
-			"configurationType": "Release",
-			"name": "x64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
-			"generator": "Visual Studio 15 2017 Win64",
-			"buildRoot": "${env.BUILD_DIR}\\${name}",
-			"installRoot": "${env.INSTALL_DIR}\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
-			"buildCommandArgs": "",
-			"ctestCommandArgs": ""
-		},
+//		{
+//			"inheritEnvironments": [
+//				"msvc_x64_x64",
+//				"std_11"
+//			],
+//			"configurationType": "Release",
+//			"name": "x64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
+//			"generator": "Visual Studio 15 2017 Win64",
+//			"buildRoot": "${env.BUILD_DIR}\\${name}",
+//			"installRoot": "${env.INSTALL_DIR}\\${name}",
+//			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+//			"buildCommandArgs": "",
+//			"ctestCommandArgs": ""
+//		},
 		{
 			"inheritEnvironments": [
 				"msvc_x64_x64",
@@ -115,20 +115,20 @@
 			"ctestCommandArgs": ""
 		},
 		// x86 Debug
-		{
-			"inheritEnvironments": [
-				"msvc_x86",
-				"std_11"
-			],
-			"configurationType": "Debug",
-			"name": "x86-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
-			"generator": "Visual Studio 15 2017",
-			"buildRoot": "${env.BUILD_DIR}\\${name}",
-			"installRoot": "${env.INSTALL_DIR}\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
-			"buildCommandArgs": "",
-			"ctestCommandArgs": ""
-		},
+//		{
+//			"inheritEnvironments": [
+//				"msvc_x86",
+//				"std_11"
+//			],
+//			"configurationType": "Debug",
+//			"name": "x86-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
+//			"generator": "Visual Studio 15 2017",
+//			"buildRoot": "${env.BUILD_DIR}\\${name}",
+//			"installRoot": "${env.INSTALL_DIR}\\${name}",
+//			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+//			"buildCommandArgs": "",
+//			"ctestCommandArgs": ""
+//		},
 		{
 			"inheritEnvironments": [
 				"msvc_x86",
@@ -158,20 +158,20 @@
 			"ctestCommandArgs": ""
 		},
 		// x86 Release
-		{
-			"inheritEnvironments": [
-				"msvc_x86",
-				"std_11"
-			],
-			"configurationType": "Release",
-			"name": "x86-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
-			"generator": "Visual Studio 15 2017",
-			"buildRoot": "${env.BUILD_DIR}\\${name}",
-			"installRoot": "${env.INSTALL_DIR}\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
-			"buildCommandArgs": "",
-			"ctestCommandArgs": ""
-		},
+//		{
+//			"inheritEnvironments": [
+//				"msvc_x86",
+//				"std_11"
+//			],
+//			"configurationType": "Release",
+//			"name": "x86-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
+//			"generator": "Visual Studio 15 2017",
+//			"buildRoot": "${env.BUILD_DIR}\\${name}",
+//			"installRoot": "${env.INSTALL_DIR}\\${name}",
+//			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+//			"buildCommandArgs": "",
+//			"ctestCommandArgs": ""
+//		},
 		{
 			"inheritEnvironments": [
 				"msvc_x86",
