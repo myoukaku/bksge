@@ -10,7 +10,7 @@
 #define UNIT_TEST_CONSTEXPR_TEST_HPP
 
 #include <bksge/config.hpp>
-//#include <bksge/cmath/fabs.hpp>
+#include <bksge/cmath/fabs.hpp>
 
 #if !defined(BKSGE_NO_CXX11_CONSTEXPR)
 
