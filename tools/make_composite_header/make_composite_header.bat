@@ -6,6 +6,7 @@ call :func bksge/math                 "Math library"
 call :func bksge/stdexcept            "StdExcept library"
 call :func bksge/type_traits          "Type Traits library"
 call :func bksge/utility              "Utility library"
+call :func bksge/window               "Window library"
 
 call :func2 bksge/bksge   bksge       "Bksge library"
 

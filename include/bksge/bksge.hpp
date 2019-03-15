@@ -16,5 +16,6 @@
 #include <bksge/stdexcept.hpp>
 #include <bksge/type_traits.hpp>
 #include <bksge/utility.hpp>
+#include <bksge/window.hpp>
 
 #endif // BKSGE_BKSGE_HPP
