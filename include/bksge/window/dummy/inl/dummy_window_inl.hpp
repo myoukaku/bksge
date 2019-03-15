@@ -18,39 +18,39 @@ namespace bksge
 namespace window
 {
 
-inline
+BKSGE_INLINE
 DummyWindow::DummyWindow(SizeType const& /*client_size*/, std::string const& /*title*/)
 {}
 
-inline
+BKSGE_INLINE
 DummyWindow::~DummyWindow()
 {}
 
-inline
+BKSGE_INLINE
 void DummyWindow::Destroy(void)
 {}
 
-inline
+BKSGE_INLINE
 void DummyWindow::SetTitle(std::string const& /*title*/)
 {}
 
-inline
+BKSGE_INLINE
 void DummyWindow::SetClientSize(SizeType const& /*size*/)
 {}
 
-inline
+BKSGE_INLINE
 auto DummyWindow::ClientSize(void) const -> SizeType
 {
 	return SizeType{};
 }
 
-inline
+BKSGE_INLINE
 bool DummyWindow::Update(void)
 {
 	return true;
 }
 
-inline
+BKSGE_INLINE
 auto DummyWindow::Handle(void) const -> HandleType
 {
 	return HandleType{};

@@ -15,6 +15,7 @@
 #include <bksge/config.hpp>
 #include <bksge/math.hpp>
 #include <bksge/memory.hpp>
+#include <bksge/render.hpp>
 #include <bksge/stdexcept.hpp>
 #include <bksge/type_traits.hpp>
 #include <bksge/utility.hpp>

@@ -86,6 +86,9 @@ public:
 
 }	// namespace bksge
 
+#include <bksge/config.hpp>
+#if defined(BKSGE_HEADER_ONLY)
 #include <bksge/window/dummy/inl/dummy_window_inl.hpp>
+#endif
 
 #endif // BKSGE_WINDOW_DUMMY_DUMMY_WINDOW_HPP

@@ -23,7 +23,7 @@ include_directories(src)
 include(${PROJECT_SOURCE_DIR}/cmake/assign_source_group.cmake)
 assign_source_group(${test_sources})
 
-target_link_libraries(unit_test gtest gtest_main)
+target_link_libraries(unit_test bksge gtest gtest_main)
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
 include(GoogleTest)

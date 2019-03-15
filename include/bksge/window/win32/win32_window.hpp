@@ -93,7 +93,10 @@ private:
 
 }	// namespace bksge
 
+#include <bksge/config.hpp>
+#if defined(BKSGE_HEADER_ONLY)
 #include <bksge/window/win32/inl/win32_window_inl.hpp>
+#endif
 
 #endif // defined(BKSGE_PLATFORM_WIN32)
 

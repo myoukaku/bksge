@@ -29,4 +29,12 @@
 #include <bksge/config/suffix/unreachable.hpp>
 #include <bksge/config/suffix/warning.hpp>
 
+//#define BKSGE_HEADER_ONLY
+
+#if defined(BKSGE_HEADER_ONLY)
+#  define BKSGE_INLINE	inline
+#else
+#  define BKSGE_INLINE
+#endif
+
 #endif // BKSGE_CONFIG_SUFFIX_HPP
