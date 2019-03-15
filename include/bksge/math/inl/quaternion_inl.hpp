@@ -9,9 +9,9 @@
 #ifndef BKSGE_MATH_INL_QUATERNION_INL_HPP
 #define BKSGE_MATH_INL_QUATERNION_INL_HPP
 
-#include <bksge/math/Quaternion.hpp>
-#include <bksge/math/Vector3.hpp>
-#include <bksge/math/Matrix3x3.hpp>
+#include <bksge/math/quaternion.hpp>
+#include <bksge/math/vector3.hpp>
+#include <bksge/math/matrix3x3.hpp>
 #include <bksge/math/detail/vector_functions.hpp>
 #include <bksge/config.hpp>
 #include <algorithm>
