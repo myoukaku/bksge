@@ -50,7 +50,7 @@ GTEST_TEST(DebugAssertTest, SuccessTest)
 	BKSGE_ASSERT(x == 3 || y == 6);
 }
 
-BKSGE_CONSTEXPR int add(int x, int y)
+BKSGE_CXX14_CONSTEXPR int add(int x, int y)
 {
 	return
 		BKSGE_ASSERT(x != 0),
@@ -60,7 +60,7 @@ BKSGE_CONSTEXPR int add(int x, int y)
 
 GTEST_TEST(DebugAssertTest, ConstexprTest)
 {
-	BKSGE_CONSTEXPR int x = add(2, 1);
+	BKSGE_CXX14_CONSTEXPR int x = add(2, 1);
 	BKSGE_ASSERT(x == 3);
 	BKSGE_ASSERT_MSG(x == 3, "foo");
 
