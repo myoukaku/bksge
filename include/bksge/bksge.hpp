@@ -9,6 +9,7 @@
 #ifndef BKSGE_BKSGE_HPP
 #define BKSGE_BKSGE_HPP
 
+#include <bksge/assert.hpp>
 #include <bksge/bksge.hpp>
 #include <bksge/cmath.hpp>
 #include <bksge/config.hpp>
