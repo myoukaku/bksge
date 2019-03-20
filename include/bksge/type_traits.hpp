@@ -9,6 +9,7 @@
 #ifndef BKSGE_TYPE_TRAITS_HPP
 #define BKSGE_TYPE_TRAITS_HPP
 
+#include <bksge/type_traits/arithmetic_promote.hpp>
 #include <bksge/type_traits/conjunction.hpp>
 #include <bksge/type_traits/disjunction.hpp>
 #include <bksge/type_traits/float_promote.hpp>
