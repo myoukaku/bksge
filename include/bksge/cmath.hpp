@@ -20,5 +20,6 @@
 #include <bksge/cmath/lerp.hpp>
 #include <bksge/cmath/radians_to_degrees.hpp>
 #include <bksge/cmath/signbit.hpp>
+#include <bksge/cmath/trunc.hpp>
 
 #endif // BKSGE_CMATH_HPP
