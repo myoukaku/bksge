@@ -15,6 +15,7 @@
 #include <bksge/cmath/copysign.hpp>
 #include <bksge/cmath/degrees_to_radians.hpp>
 #include <bksge/cmath/fabs.hpp>
+#include <bksge/cmath/floor.hpp>
 #include <bksge/cmath/isinf.hpp>
 #include <bksge/cmath/isnan.hpp>
 #include <bksge/cmath/iszero.hpp>
