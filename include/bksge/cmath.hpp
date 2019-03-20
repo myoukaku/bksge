@@ -9,6 +9,7 @@
 #ifndef BKSGE_CMATH_HPP
 #define BKSGE_CMATH_HPP
 
+#include <bksge/cmath/almost_equal.hpp>
 #include <bksge/cmath/constants.hpp>
 #include <bksge/cmath/copysign.hpp>
 #include <bksge/cmath/degrees_to_radians.hpp>
