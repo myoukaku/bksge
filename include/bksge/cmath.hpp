@@ -22,6 +22,7 @@
 #include <bksge/cmath/lerp.hpp>
 #include <bksge/cmath/radians_to_degrees.hpp>
 #include <bksge/cmath/round_down.hpp>
+#include <bksge/cmath/round_up.hpp>
 #include <bksge/cmath/signbit.hpp>
 #include <bksge/cmath/trunc.hpp>
 
