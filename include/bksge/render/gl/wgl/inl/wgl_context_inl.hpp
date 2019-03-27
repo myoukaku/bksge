@@ -9,6 +9,9 @@
 #ifndef BKSGE_RENDER_GL_WGL_INL_WGL_CONTEXT_INL_HPP
 #define BKSGE_RENDER_GL_WGL_INL_WGL_CONTEXT_INL_HPP
 
+#include <bksge/config.hpp>
+#if defined(BKSGE_PLATFORM_WIN32)
+
 #include <bksge/render/config.hpp>
 #if BKSGE_RENDER_HAS_GL_RENDERER
 
@@ -125,5 +128,7 @@ void WglContext::MakeCurrent(bool current)
 }	// namespace bksge
 
 #endif // BKSGE_RENDER_HAS_GL_RENDERER
+
+#endif // defined(BKSGE_PLATFORM_WIN32)
 
 #endif // BKSGE_RENDER_GL_WGL_INL_WGL_CONTEXT_INL_HPP

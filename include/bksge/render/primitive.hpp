@@ -48,6 +48,28 @@ operator<<(std::basic_ostream<CharT, Traits>& os, Primitive const& rhs)
 
 }	// namespace bksge
 
+#if BKSGE_STD_VER <= 11
+
+#include <functional>
+#include <type_traits>
+
+namespace std
+{
+
+template<>
+struct hash<bksge::render::Primitive>
+{
+	std::size_t operator()(bksge::render::Primitive const& arg) const
+	{
+		using underlying_type = typename std::underlying_type<bksge::render::Primitive>::type;
+		return std::hash<underlying_type>{}(static_cast<underlying_type>(arg));
+	}
+};
+
+}	// namespace std
+
+#endif // BKSGE_STD_VER <= 11
+
 #include <bksge/config.hpp>
 #if defined(BKSGE_HEADER_ONLY)
 #include <bksge/render/inl/primitive_inl.hpp>

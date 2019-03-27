@@ -26,27 +26,27 @@ BKSGE_INLINE
 GlIndexBuffer::GlIndexBuffer(void const* src, std::size_t size)
 	: m_id(0)
 {
-	glGenBuffers(1, &m_id);
+	::glGenBuffers(1, &m_id);
 	Bind();
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, src, GL_STATIC_DRAW);
+	::glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, src, GL_STATIC_DRAW);
 }
 
 BKSGE_INLINE
 GlIndexBuffer::~GlIndexBuffer()
 {
-	glDeleteBuffers(1, &m_id);
+	::glDeleteBuffers(1, &m_id);
 }
 
 BKSGE_INLINE
 void GlIndexBuffer::Bind(void) const
 {
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_id);
+	::glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_id);
 }
 
 BKSGE_INLINE
 void GlIndexBuffer::Unbind(void) const
 {
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	::glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 }	// namespace render

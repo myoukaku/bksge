@@ -38,7 +38,7 @@ GlTexture::GlTexture(
 	int height,
 	void const* data)
 {
-	glGenTextures(1, &m_name);
+	::glGenTextures(1, &m_name);
 
 	Bind();
 
@@ -50,7 +50,7 @@ GlTexture::GlTexture(
 	GLenum	const  format = ToGlPixelFormat(texture_format);
 	GLenum	const  type = ToGlPixelType(texture_format);
 	GLvoid  const* p = data;
-	glTexImage2D(
+	::glTexImage2D(
 		GL_TEXTURE_2D,
 		level,
 		internal_format,
@@ -65,7 +65,7 @@ GlTexture::GlTexture(
 BKSGE_INLINE
 GlTexture::~GlTexture()
 {
-	glDeleteTextures(1, &m_name);
+	::glDeleteTextures(1, &m_name);
 }
 
 BKSGE_INLINE
@@ -77,7 +77,7 @@ GLuint GlTexture::name(void) const
 BKSGE_INLINE
 void GlTexture::Bind(void) const
 {
-	glBindTexture(GL_TEXTURE_2D , m_name);
+	::glBindTexture(GL_TEXTURE_2D , m_name);
 }
 
 }	// namespace render

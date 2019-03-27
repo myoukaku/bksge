@@ -67,13 +67,17 @@ endif()
 
 enable_testing()
 
+find_package(OpenGL REQUIRED)
+message(STATUS ${OPENGL_LIBRARIES})
+message(STATUS ${OPENGL_INCLUDE_DIR})
+
 file(GLOB_RECURSE bksge_sources src/bksge/*)
 add_library(bksge STATIC ${bksge_sources})
 include_directories(${PROJECT_SOURCE_DIR}/include)
-#target_include_directories(bksge PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_BINARY_DIR})
-#set_target_properties     (bksge PROPERTIES LINKER_LANGUAGE CXX)
-#set_property              (TARGET bksge PROPERTY CXX_STANDARD 17)
-#set_property              (TARGET bksge PROPERTY CXX_STANDARD_REQUIRED ON)
+include_directories(${OPENGL_INCLUDE_DIR})
+
+target_link_libraries(bksge ${OPENGL_LIBRARIES})
+
 include(${PROJECT_SOURCE_DIR}/cmake/assign_source_group.cmake)
 assign_source_group(${bksge_sources})
 

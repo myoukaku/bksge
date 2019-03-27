@@ -9,6 +9,9 @@
 #ifndef BKSGE_RENDER_GL_WGL_WGL_CONTEXT_HPP
 #define BKSGE_RENDER_GL_WGL_WGL_CONTEXT_HPP
 
+#include <bksge/config.hpp>
+#if defined(BKSGE_PLATFORM_WIN32)
+
 #include <bksge/render/gl/gl_context.hpp>
 #include <bksge/render/gl/gl_api.hpp>
 #include <bksge/window/fwd/window_fwd.hpp>
@@ -43,6 +46,8 @@ private:
 #include <bksge/config.hpp>
 #if defined(BKSGE_HEADER_ONLY)
 #include <bksge/render/gl/wgl/inl/wgl_context_inl.hpp>
+#endif
+
 #endif
 
 #endif // BKSGE_RENDER_GL_WGL_WGL_CONTEXT_HPP

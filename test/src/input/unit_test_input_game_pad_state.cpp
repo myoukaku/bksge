@@ -100,6 +100,11 @@ GTEST_TEST(InputTest, GamePadState_ConstructTest)
 	EXPECT_EQ(bksge::Vector2f( 4,  5), s2.analog_stick(1));
 }
 
+BKSGE_WARNING_PUSH()
+#if defined(__clang_major__) && (__clang_major__ >= 7) && !defined(__APPLE__)
+BKSGE_WARNING_DISABLE_CLANG("-Wself-assign-overloaded")
+#endif
+
 GTEST_TEST(InputTest, GamePadState_AssignTest)
 {
 	bksge::GamePadState s;
@@ -180,6 +185,8 @@ GTEST_TEST(InputTest, GamePadState_AssignTest)
 	EXPECT_EQ(bksge::Vector2f( 3,  4), s2.analog_stick(0));
 	EXPECT_EQ(bksge::Vector2f( 0,  0), s2.analog_stick(1));
 }
+
+BKSGE_WARNING_POP()
 
 GTEST_TEST(InputTest, GamePadState_CompareTest)
 {

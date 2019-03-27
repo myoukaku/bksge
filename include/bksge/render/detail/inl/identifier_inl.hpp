@@ -36,8 +36,6 @@ private:
 		: m_value(0)
 	{}
 
-	using ValueType = Identifier::ValueType;
-
 	ValueType		m_value;
 };
 

@@ -27,7 +27,7 @@ namespace render
 BKSGE_INLINE
 GlFrameBuffer::GlFrameBuffer()
 {
-	glGenFramebuffersEXT(1, &m_id);
+	::glGenFramebuffers(1, &m_id);
 
 	Bind();
 
@@ -41,19 +41,19 @@ GlFrameBuffer::GlFrameBuffer()
 BKSGE_INLINE
 GlFrameBuffer::~GlFrameBuffer()
 {
-	glDeleteFramebuffersEXT(1, &m_id);
+	::glDeleteFramebuffers(1, &m_id);
 }
 
 BKSGE_INLINE
 void GlFrameBuffer::Bind(void) const
 {
-	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, m_id);
+	::glBindFramebuffer(GL_FRAMEBUFFER_EXT, m_id);
 }
 
 BKSGE_INLINE
 void GlFrameBuffer::Unbind(void) const
 {
-	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+	::glBindFramebuffer(GL_FRAMEBUFFER_EXT, 0);
 }
 
 BKSGE_INLINE
@@ -66,7 +66,7 @@ void GlFrameBuffer::CreateColorBuffers(void)
 	{
 		auto gl_texture = bksge::make_unique<GlTexture>(TextureFormat::kRGBA_U8, width, height, nullptr);
 
-		glFramebufferTexture2DEXT(
+		::glFramebufferTexture2D(
 			GL_FRAMEBUFFER_EXT,
 			GL_COLOR_ATTACHMENT0_EXT + i,
 			GL_TEXTURE_2D,

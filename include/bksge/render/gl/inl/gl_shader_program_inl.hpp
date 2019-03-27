@@ -31,25 +31,25 @@ GlShaderProgram::GlShaderProgram(
 	ShaderStage stage,
 	std::string const& source)
 {
-	m_id = glCreateShader(ToGlShaderStage(stage));
+	m_id = ::glCreateShader(ToGlShaderStage(stage));
 	BKSGE_ASSERT(m_id != 0u);
 
 	const auto* src = source.c_str();
-	glShaderSource(m_id, 1, &src, nullptr);
-	glCompileShader(m_id);
+	::glShaderSource(m_id, 1, &src, nullptr);
+	::glCompileShader(m_id);
 
 	GLint compiled;
-	glGetShaderiv(m_id, GL_COMPILE_STATUS, &compiled);
+	::glGetShaderiv(m_id, GL_COMPILE_STATUS, &compiled);
 	if (compiled == GL_FALSE)
 	{
 		GLint log_length;
-		glGetShaderiv(m_id, GL_INFO_LOG_LENGTH, &log_length);
+		::glGetShaderiv(m_id, GL_INFO_LOG_LENGTH, &log_length);
 		if (log_length != 0)
 		{
 			std::string info_log;
 			info_log.resize(log_length);
 			GLsizei length;
-			glGetShaderInfoLog(m_id, log_length, &length, &info_log[0]);
+			::glGetShaderInfoLog(m_id, log_length, &length, &info_log[0]);
 
 			std::cout << info_log << std::endl;
 		}
@@ -59,7 +59,7 @@ GlShaderProgram::GlShaderProgram(
 BKSGE_INLINE
 GlShaderProgram::~GlShaderProgram()
 {
-	glDeleteShader(m_id);
+	::glDeleteShader(m_id);
 }
 
 BKSGE_INLINE

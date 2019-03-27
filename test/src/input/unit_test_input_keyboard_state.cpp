@@ -58,6 +58,11 @@ GTEST_TEST(InputTest, KeyboardState_ConstructTest)
 	EXPECT_EQ(false, s2.pressed(bksge::KeyCode::kLeft));
 }
 
+BKSGE_WARNING_PUSH()
+#if defined(__clang_major__) && (__clang_major__ >= 7) && !defined(__APPLE__)
+BKSGE_WARNING_DISABLE_CLANG("-Wself-assign-overloaded")
+#endif
+
 GTEST_TEST(InputTest, KeyboardState_AssignTest)
 {
 	bksge::KeyboardState s;
@@ -119,6 +124,8 @@ GTEST_TEST(InputTest, KeyboardState_AssignTest)
 	EXPECT_EQ(true,  s2.pressed(bksge::KeyCode::kLeft));
 	EXPECT_EQ(false, s2.pressed(bksge::KeyCode::kRight));
 }
+
+BKSGE_WARNING_POP()
 
 GTEST_TEST(InputTest, KeyboardState_CompareTest)
 {

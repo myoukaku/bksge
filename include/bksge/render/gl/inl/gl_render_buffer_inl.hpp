@@ -23,25 +23,25 @@ namespace render
 BKSGE_INLINE
 GlRenderBuffer::GlRenderBuffer()
 {
-	glGenRenderbuffersEXT(1, &m_id);
+	::glGenRenderbuffersEXT(1, &m_id);
 }
 
 BKSGE_INLINE
 GlRenderBuffer::~GlRenderBuffer()
 {
-	glDeleteRenderbuffersEXT(1, &m_id);
+	::glDeleteRenderbuffersEXT(1, &m_id);
 }
 
 BKSGE_INLINE
 void GlRenderBuffer::Bind(void) const
 {
-	glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, m_id);
+	::glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, m_id);
 }
 
 BKSGE_INLINE
 void GlRenderBuffer::Unbind(void) const
 {
-	glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
+	::glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
 }
 
 }	// namespace render

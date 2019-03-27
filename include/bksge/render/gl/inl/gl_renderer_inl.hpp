@@ -18,6 +18,7 @@
 #include <bksge/render/gl/gl_texture.hpp>
 #include <bksge/render/gl/gl_frame_buffer.hpp>
 #include <bksge/render/gl/wgl/wgl_context.hpp>
+#include <bksge/render/gl/glx/glx_context.hpp>
 #include <bksge/render/geometry.hpp>
 #include <bksge/render/shader.hpp>
 #include <bksge/render/texture.hpp>
@@ -41,7 +42,11 @@ namespace gl_renderer_detail
 ///////////////////////////////////////////////////////////////////////////////
 inline GlContext* MakeGlContext(Window const& window)
 {
+#if defined(BKSGE_PLATFORM_WIN32)
 	return new WglContext(window);
+#else
+	return new GlxContext(window);
+#endif
 }
 
 }	// namespace gl_renderer_detail
@@ -55,15 +60,13 @@ BKSGE_INLINE
 GlRenderer::GlRenderer(void)
 	: m_gl_context()
 {
-	glGenQueries(2, m_timer_queries);
-
-//	cgGLSetDebugMode(CG_TRUE);
+	::glGenQueries(2, m_timer_queries);
 }
 
 BKSGE_INLINE
 GlRenderer::~GlRenderer()
 {
-	glDeleteQueries(2, m_timer_queries);
+	::glDeleteQueries(2, m_timer_queries);
 }
 
 BKSGE_INLINE
@@ -79,20 +82,20 @@ void GlRenderer::VSetRenderTarget(Window const& window)
 BKSGE_INLINE
 void GlRenderer::VBegin(void)
 {
-	glQueryCounter(m_timer_queries[0], GL_TIMESTAMP);
+	::glQueryCounter(m_timer_queries[0], GL_TIMESTAMP);
 }
 
 BKSGE_INLINE
 void GlRenderer::VEnd(void)
 {
-	glQueryCounter(m_timer_queries[1], GL_TIMESTAMP);
+	::glQueryCounter(m_timer_queries[1], GL_TIMESTAMP);
 
 	m_gl_context->SwapBuffers();
 
 	GLuint64 time_0;
 	GLuint64 time_1;
-	glGetQueryObjectui64v(m_timer_queries[0], GL_QUERY_RESULT, &time_0);
-	glGetQueryObjectui64v(m_timer_queries[1], GL_QUERY_RESULT, &time_1);
+	::glGetQueryObjectui64v(m_timer_queries[0], GL_QUERY_RESULT, &time_0);
+	::glGetQueryObjectui64v(m_timer_queries[1], GL_QUERY_RESULT, &time_1);
 	// TODO
 	//m_draw_time = NanoSeconds(static_cast<float>(time_1 - time_0));
 }
@@ -105,28 +108,28 @@ void GlRenderer::VClear(ClearFlag clear_flag, Color4f const& clear_color)
 	// カラーバッファをクリアするときはglColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE)を呼ぶ必要がある
 	if ((clear_flag & ClearFlag::kColor) != ClearFlag::kNone)
 	{
-		glClearColor(clear_color.r(), clear_color.g(), clear_color.b(), clear_color.a());
-		glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+		::glClearColor(clear_color.r(), clear_color.g(), clear_color.b(), clear_color.a());
+		::glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 		mask |= GL_COLOR_BUFFER_BIT;
 	}
 
 	// デプスバッファをクリアするときはglDepthMask(GL_TRUE)を呼ぶ必要がある
 	if ((clear_flag & ClearFlag::kDepth) != ClearFlag::kNone)
 	{
-		glClearDepth(0);
-		glDepthMask(GL_TRUE);
+		::glClearDepth(0);
+		::glDepthMask(GL_TRUE);
 		mask |= GL_DEPTH_BUFFER_BIT;
 	}
 
 	// ステンシルバッファをクリアするときはglStencilMask(0xFFFFFFFF)を呼ぶ必要がある
 	if ((clear_flag & ClearFlag::kStencil) != ClearFlag::kNone)
 	{
-		glClearStencil(0);
-		glStencilMask(~0u);
+		::glClearStencil(0);
+		::glStencilMask(~0u);
 		mask |= GL_STENCIL_BUFFER_BIT;
 	}
 
-	glClear(mask);
+	::glClear(mask);
 }
 
 BKSGE_INLINE

@@ -12,6 +12,7 @@
 #include <bksge/serialization/detail/serialize_dispatch.hpp>
 #include <bksge/serialization/version.hpp>
 #include <bksge/serialization/nvp.hpp>
+#include <bksge/type_traits/is_null_pointer.hpp>
 #include <type_traits>
 #include <utility>	// declval
 
@@ -187,7 +188,7 @@ public:
 				save_pointer,
 
 			typename std::conditional<
-				std::is_null_pointer<T>::value,
+				bksge::is_null_pointer<T>::value,
 				save_null_pointer,
 
 			typename std::conditional<

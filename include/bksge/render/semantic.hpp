@@ -63,6 +63,28 @@ using render::Semantic;
 
 }	// namespace bksge
 
+#if BKSGE_STD_VER <= 11
+
+#include <functional>
+#include <type_traits>
+
+namespace std
+{
+
+template<>
+struct hash<bksge::render::Semantic>
+{
+	std::size_t operator()(bksge::render::Semantic const& arg) const
+	{
+		using underlying_type = typename std::underlying_type<bksge::render::Semantic>::type;
+		return std::hash<underlying_type>{}(static_cast<underlying_type>(arg));
+	}
+};
+
+}	// namespace std
+
+#endif // BKSGE_STD_VER <= 11
+
 #include <bksge/config.hpp>
 #if defined(BKSGE_HEADER_ONLY)
 #include <bksge/render/inl/semantic_inl.hpp>

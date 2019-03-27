@@ -50,6 +50,11 @@ GTEST_TEST(Render_Sampler, Arg1ConstructTest)
 	EXPECT_EQ(TextureFormat::kRGBA_U8, sampler.source().format());
 }
 
+BKSGE_WARNING_PUSH()
+#if defined(__clang_major__) && (__clang_major__ >= 7) && !defined(__APPLE__)
+BKSGE_WARNING_DISABLE_CLANG("-Wself-assign-overloaded")
+#endif
+
 GTEST_TEST(Render_Sampler, CopyTest)
 {
 	using namespace bksge;
@@ -140,6 +145,8 @@ GTEST_TEST(Render_Sampler, CopyTest)
 	EXPECT_EQ(WrapMode::kRepeat,	sampler2.wrap_r());
 	EXPECT_EQ(nullptr,				sampler2.source().data());
 }
+
+BKSGE_WARNING_POP()
 
 GTEST_TEST(Render_Sampler, IdTest)
 {

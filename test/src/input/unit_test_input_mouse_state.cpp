@@ -124,6 +124,11 @@ GTEST_TEST(InputTest, MouseState_ConstructTest)
 	EXPECT_EQ( 9.0f, d2.velocity(bksge::MouseAxis::kTilt));
 }
 
+BKSGE_WARNING_PUSH()
+#if defined(__clang_major__) && (__clang_major__ >= 7) && !defined(__APPLE__)
+BKSGE_WARNING_DISABLE_CLANG("-Wself-assign-overloaded")
+#endif
+
 GTEST_TEST(InputTest, MouseState_AssignTest)
 {
 	bksge::MouseState d;
@@ -220,6 +225,8 @@ GTEST_TEST(InputTest, MouseState_AssignTest)
 	EXPECT_EQ( 6.0f, d2.velocity(bksge::MouseAxis::kWheel));
 	EXPECT_EQ( 7.0f, d2.velocity(bksge::MouseAxis::kTilt));
 }
+
+BKSGE_WARNING_POP()
 
 GTEST_TEST(InputTest, MouseState_CompareTest)
 {

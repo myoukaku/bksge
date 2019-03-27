@@ -47,6 +47,28 @@ operator<<(std::basic_ostream<CharT, Traits>& os, FilterMode const& rhs)
 
 }	// namespace bksge
 
+#if BKSGE_STD_VER <= 11
+
+#include <functional>
+#include <type_traits>
+
+namespace std
+{
+
+template<>
+struct hash<bksge::render::FilterMode>
+{
+	std::size_t operator()(bksge::render::FilterMode const& arg) const
+	{
+		using underlying_type = typename std::underlying_type<bksge::render::FilterMode>::type;
+		return std::hash<underlying_type>{}(static_cast<underlying_type>(arg));
+	}
+};
+
+}	// namespace std
+
+#endif // BKSGE_STD_VER <= 11
+
 #include <bksge/config.hpp>
 #if defined(BKSGE_HEADER_ONLY)
 #include <bksge/render/inl/filter_mode_inl.hpp>

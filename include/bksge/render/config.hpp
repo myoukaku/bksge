@@ -30,7 +30,7 @@
  *	TODO
  */
 #if !defined(BKSGE_RENDER_HAS_GL_RENDERER)
-#	if defined(BKSGE_PLATFORM_WIN32)
+#	if 1//defined(BKSGE_PLATFORM_WIN32)
 #		define BKSGE_RENDER_HAS_GL_RENDERER	1
 #	else
 #		define BKSGE_RENDER_HAS_GL_RENDERER	0
@@ -42,19 +42,6 @@
  */
 #if !defined(BKSGE_RENDER_HAS_DUMMY_RENDERER)
 #	define BKSGE_RENDER_HAS_DUMMY_RENDERER	1
-#endif
-
-/**
- *	BKSGE_RENDER_HAS_CG
- *
- *	TODO
- */
-#if !defined(BKSGE_RENDER_HAS_CG)
-#	if defined(BKSGE_PLATFORM_WIN32)
-#		define BKSGE_RENDER_HAS_CG	1
-#	else
-#		define BKSGE_RENDER_HAS_CG	0
-#	endif
 #endif
 
 #endif // BKSGE_RENDER_CONFIG_HPP

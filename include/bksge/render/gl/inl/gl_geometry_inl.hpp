@@ -46,7 +46,7 @@ void GlGeometry::Bind(void) const
 BKSGE_INLINE
 void GlGeometry::Draw(void) const
 {
-	glDrawElements(m_primitive, m_index_count, m_index_type, 0);
+	::glDrawElements(m_primitive, m_index_count, m_index_type, 0);
 }
 
 }	// namespace render
