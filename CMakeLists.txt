@@ -77,5 +77,11 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 include(${PROJECT_SOURCE_DIR}/cmake/assign_source_group.cmake)
 assign_source_group(${bksge_sources})
 
+if(WIN32)
+  if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+    target_link_libraries(bksge -lopengl32)
+  endif()
+endif()
+
 add_subdirectory(test)
 add_subdirectory(samples)
