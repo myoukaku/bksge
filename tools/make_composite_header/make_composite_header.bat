@@ -2,6 +2,7 @@
 SET PATH=%PATH%;C:\python27
 
 call :func bksge/cmath                "CMath library"
+call :func bksge/input                "Input library"
 call :func bksge/math                 "Math library"
 call :func bksge/memory               "Memory library"
 call :func bksge/render               "Render library"

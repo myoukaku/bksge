@@ -20,9 +20,12 @@ namespace math
 template <typename T>
 using Vector3 = Vector<T, 3>;
 
+using Vector3f = Vector3<float>;
+
 }	// namespace math
 
 using math::Vector3;
+using math::Vector3f;
 
 }	// namespace bksge
 

@@ -20,9 +20,12 @@ namespace math
 template <typename T>
 using Vector4 = Vector<T, 4>;
 
+using Vector4f = Vector4<float>;
+
 }	// namespace math
 
 using math::Vector4;
+using math::Vector4f;
 
 }	// namespace bksge
 
