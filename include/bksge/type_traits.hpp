@@ -15,6 +15,7 @@
 #include <bksge/type_traits/float_promote.hpp>
 #include <bksge/type_traits/is_nothrow_swappable.hpp>
 #include <bksge/type_traits/is_nothrow_swappable_with.hpp>
+#include <bksge/type_traits/is_null_pointer.hpp>
 #include <bksge/type_traits/is_swappable.hpp>
 #include <bksge/type_traits/is_swappable_with.hpp>
 #include <bksge/type_traits/negation.hpp>
