@@ -71,6 +71,7 @@ void GlShader::Render(GlGeometry const* geometry)
 {
 	geometry->Bind();
 
+	// TODO
 	::glEnableVertexAttribArray(0);
 	::glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 

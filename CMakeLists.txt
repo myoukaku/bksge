@@ -83,7 +83,7 @@ assign_source_group(${bksge_sources})
 
 if(WIN32)
   if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-    target_link_libraries(bksge -lopengl32 -ldinput8 -ldxguid)
+    target_link_libraries(bksge -lopengl32 -ld3d11 -ld3dcompiler -ldinput8 -ldxguid)
   endif()
 endif()
 

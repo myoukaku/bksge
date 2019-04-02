@@ -13,7 +13,11 @@ int main()
 {
 	bksge::Window window({800, 600}, "sample_render_triangle");
 
+#if 1
 	bksge::GlRenderer renderer;
+#else
+	bksge::D3D11Renderer renderer;
+#endif
 	renderer.SetRenderTarget(window);
 	renderer.SetClearColor({0.5f, 0.0f, 0.5f, 1});
 
@@ -31,6 +35,8 @@ int main()
 
 	const bksge::Geometry geometry(bksge::Primitive::kTriangles, vertices, indices);
 
+#if 1
+	// GLSL
 	char const* vs_source =
 		"attribute vec3 aPosition;					"
 		"											"
@@ -46,6 +52,22 @@ int main()
 		"	gl_FragColor = vec4(0.0, 0.0, 1.0, 1.0);"
 		"}											"
 	;
+#else
+	// HLSL
+	char const* vs_source =
+		"float4 main(float3 aPosition : POSITION) : SV_POSITION	"
+		"{												"
+		"	return float4(aPosition, 1.0);				"
+		"}												"
+	;
+
+	char const* fs_source =
+		"float4 main() : SV_Target					"
+		"{											"
+		"	return float4(0.0, 0.0, 1.0, 1.0);		"
+		"}											"
+	;
+#endif
 
 	bksge::Shader shader;
 	shader.SetProgram(bksge::ShaderStage::kVertex, vs_source);
