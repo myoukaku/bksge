@@ -14,8 +14,8 @@
 #	include <bksge/window/win32/fwd/win32_window_fwd.hpp>
 #	define BKSGE_WINDOW_WINDOW Win32Window
 #else
-#	include <bksge/window/dummy/fwd/dummy_window_fwd.hpp>
-#	define BKSGE_WINDOW_WINDOW DummyWindow
+#	include <bksge/window/null/fwd/null_window_fwd.hpp>
+#	define BKSGE_WINDOW_WINDOW NullWindow
 #endif
 
 namespace bksge

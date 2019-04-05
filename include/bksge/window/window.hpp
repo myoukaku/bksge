@@ -15,7 +15,7 @@
 #if defined(BKSGE_PLATFORM_WIN32)
 #	include <bksge/window/win32/win32_window.hpp>
 #else
-#	include <bksge/window/dummy/dummy_window.hpp>
+#	include <bksge/window/null/null_window.hpp>
 #endif
 
 #endif // BKSGE_WINDOW_WINDOW_HPP

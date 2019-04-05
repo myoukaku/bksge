@@ -1,15 +1,15 @@
 ﻿/**
- *	@file	dummy_window.hpp
+ *	@file	null_window.hpp
  *
- *	@brief	DummyWindow クラスの定義
+ *	@brief	NullWindow クラスの定義
  *
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_WINDOW_DUMMY_DUMMY_WINDOW_HPP
-#define BKSGE_WINDOW_DUMMY_DUMMY_WINDOW_HPP
+#ifndef BKSGE_WINDOW_NULL_NULL_WINDOW_HPP
+#define BKSGE_WINDOW_NULL_NULL_WINDOW_HPP
 
-#include <bksge/window/dummy/fwd/dummy_window_fwd.hpp>
+#include <bksge/window/null/fwd/null_window_fwd.hpp>
 #include <bksge/math/size2.hpp>
 #include <cstdint>
 #include <string>
@@ -23,7 +23,7 @@ namespace window
 /**
  *	@brief
  */
-class DummyWindow
+class NullWindow
 {
 public:
 	/**
@@ -42,12 +42,12 @@ public:
 	 *	@param	client_size	ウィンドウのクライアント領域の大きさ
 	 *	@param	title		ウィンドウのタイトル
 	 */
-	DummyWindow(SizeType const& client_size, std::string const& title);
+	NullWindow(SizeType const& client_size, std::string const& title);
 
 	/**
 	 *	@brief	デストラクタ
 	 */
-	~DummyWindow();
+	~NullWindow();
 
 	/**
 	 *	@brief	ウィンドウを破棄します
@@ -88,7 +88,7 @@ public:
 
 #include <bksge/config.hpp>
 #if defined(BKSGE_HEADER_ONLY)
-#include <bksge/window/dummy/inl/dummy_window_inl.hpp>
+#include <bksge/window/null/inl/null_window_inl.hpp>
 #endif
 
-#endif // BKSGE_WINDOW_DUMMY_DUMMY_WINDOW_HPP
+#endif // BKSGE_WINDOW_NULL_NULL_WINDOW_HPP
