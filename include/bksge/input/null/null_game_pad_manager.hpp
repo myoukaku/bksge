@@ -1,13 +1,13 @@
 ﻿/**
- *	@file	dummy_game_pad_manager.hpp
+ *	@file	null_game_pad_manager.hpp
  *
- *	@brief	DummyGamePadManager の定義
+ *	@brief	NullGamePadManager の定義
  *
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_INPUT_DUMMY_DUMMY_GAME_PAD_MANAGER_HPP
-#define BKSGE_INPUT_DUMMY_DUMMY_GAME_PAD_MANAGER_HPP
+#ifndef BKSGE_INPUT_NULL_NULL_GAME_PAD_MANAGER_HPP
+#define BKSGE_INPUT_NULL_NULL_GAME_PAD_MANAGER_HPP
 
 #include <bksge/input/detail/game_pad_manager_base.hpp>
 #include <cstddef>
@@ -18,14 +18,14 @@ namespace bksge
 namespace input
 {
 
-class DummyGamePadManager : public GamePadManagerBase
+class NullGamePadManager : public GamePadManagerBase
 {
 public:
-	DummyGamePadManager(void)
+	NullGamePadManager(void)
 	{
 	}
 
-	virtual ~DummyGamePadManager()
+	virtual ~NullGamePadManager()
 	{
 	}
 
@@ -41,10 +41,10 @@ private:
 	}
 };
 
-using GamePadManager = DummyGamePadManager;
+using GamePadManager = NullGamePadManager;
 
 }	// namespace input
 
 }	// namespace bksge
 
-#endif // BKSGE_INPUT_DUMMY_DUMMY_GAME_PAD_MANAGER_HPP
+#endif // BKSGE_INPUT_NULL_NULL_GAME_PAD_MANAGER_HPP

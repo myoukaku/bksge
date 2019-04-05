@@ -17,7 +17,7 @@
 #	if defined(BKSGE_PLATFORM_WIN32)
 #		include	<bksge/input/win32/win32_game_pad_manager.hpp>
 #	else
-#		include	<bksge/input/dummy/dummy_game_pad_manager.hpp>
+#		include	<bksge/input/null/null_game_pad_manager.hpp>
 #	endif
 #endif
 

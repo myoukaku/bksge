@@ -1,13 +1,13 @@
 ﻿/**
- *	@file	dummy_keyboard_manager.hpp
+ *	@file	null_keyboard_manager.hpp
  *
- *	@brief	DummyKeyboardManager の定義
+ *	@brief	NullKeyboardManager の定義
  *
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_INPUT_DUMMY_DUMMY_KEYBOARD_MANAGER_HPP
-#define BKSGE_INPUT_DUMMY_DUMMY_KEYBOARD_MANAGER_HPP
+#ifndef BKSGE_INPUT_NULL_NULL_KEYBOARD_MANAGER_HPP
+#define BKSGE_INPUT_NULL_NULL_KEYBOARD_MANAGER_HPP
 
 #include <bksge/input/detail/keyboard_manager_base.hpp>
 #include <cstddef>
@@ -18,14 +18,14 @@ namespace bksge
 namespace input
 {
 
-class DummyKeyboardManager : public KeyboardManagerBase
+class NullKeyboardManager : public KeyboardManagerBase
 {
 public:
-	DummyKeyboardManager(void)
+	NullKeyboardManager(void)
 	{
 	}
 
-	virtual ~DummyKeyboardManager()
+	virtual ~NullKeyboardManager()
 	{
 	}
 
@@ -41,10 +41,10 @@ private:
 	}
 };
 
-using KeyboardManager = DummyKeyboardManager;
+using KeyboardManager = NullKeyboardManager;
 
 }	// namespace input
 
 }	// namespace bksge
 
-#endif // BKSGE_INPUT_DUMMY_DUMMY_KEYBOARD_MANAGER_HPP
+#endif // BKSGE_INPUT_NULL_NULL_KEYBOARD_MANAGER_HPP

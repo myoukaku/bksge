@@ -1,13 +1,13 @@
 ﻿/**
- *	@file	dummy_mouse_manager.hpp
+ *	@file	null_mouse_manager.hpp
  *
- *	@brief	DummyMouseManager の定義
+ *	@brief	NullMouseManager の定義
  *
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_INPUT_DUMMY_DUMMY_MOUSE_MANAGER_HPP
-#define BKSGE_INPUT_DUMMY_DUMMY_MOUSE_MANAGER_HPP
+#ifndef BKSGE_INPUT_NULL_NULL_MOUSE_MANAGER_HPP
+#define BKSGE_INPUT_NULL_NULL_MOUSE_MANAGER_HPP
 
 #include <bksge/input/detail/mouse_manager_base.hpp>
 #include <cstddef>
@@ -18,14 +18,14 @@ namespace bksge
 namespace input
 {
 
-class DummyMouseManager : public MouseManagerBase
+class NullMouseManager : public MouseManagerBase
 {
 public:
-	DummyMouseManager(void)
+	NullMouseManager(void)
 	{
 	}
 
-	virtual ~DummyMouseManager()
+	virtual ~NullMouseManager()
 	{
 	}
 
@@ -41,10 +41,10 @@ private:
 	}
 };
 
-using MouseManager = DummyMouseManager;
+using MouseManager = NullMouseManager;
 
 }	// namespace input
 
 }	// namespace bksge
 
-#endif // BKSGE_INPUT_DUMMY_DUMMY_MOUSE_MANAGER_HPP
+#endif // BKSGE_INPUT_NULL_NULL_MOUSE_MANAGER_HPP
