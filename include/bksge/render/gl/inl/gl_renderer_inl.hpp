@@ -14,7 +14,7 @@
 
 #include <bksge/render/gl/gl_renderer.hpp>
 #include <bksge/render/gl/gl_geometry.hpp>
-#include <bksge/render/gl/gl_shader.hpp>
+#include <bksge/render/gl/gl_glsl_program.hpp>
 #include <bksge/render/gl/gl_texture.hpp>
 #include <bksge/render/gl/gl_frame_buffer.hpp>
 #include <bksge/render/gl/wgl/wgl_context.hpp>
@@ -135,7 +135,7 @@ void GlRenderer::VClear(ClearFlag clear_flag, Color4f const& clear_color)
 BKSGE_INLINE
 void GlRenderer::VRender(Geometry const& geometry, Shader const& shader)
 {
-	auto gl_shader = GetGlShader(shader);
+	auto gl_shader = GetGlGLSLProgram(shader);
 	BKSGE_ASSERT(gl_shader != nullptr);
 
 	//glEnable(GL_CULL_FACE);
@@ -177,10 +177,10 @@ GlRenderer::GetGlGeometry(Geometry const& geometry)
 }
 
 BKSGE_INLINE
-std::shared_ptr<GlShader>
-GlRenderer::GetGlShader(Shader const& shader)
+std::shared_ptr<GlGLSLProgram>
+GlRenderer::GetGlGLSLProgram(Shader const& shader)
 {
-	return gl_renderer_detail::GetOrCreate<GlShader>(m_gl_shader_map, shader, this);
+	return gl_renderer_detail::GetOrCreate<GlGLSLProgram>(m_gl_shader_map, shader, this);
 }
 
 BKSGE_INLINE

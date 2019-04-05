@@ -1,19 +1,19 @@
 ﻿/**
- *	@file	gl_shader_inl.hpp
+ *	@file	gl_glsl_program_inl.hpp
  *
- *	@brief	GlShader クラスの定義
+ *	@brief	GlGLSLProgram クラスの定義
  *
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_RENDER_GL_INL_GL_SHADER_INL_HPP
-#define BKSGE_RENDER_GL_INL_GL_SHADER_INL_HPP
+#ifndef BKSGE_RENDER_GL_INL_GL_GLSL_PROGRAM_INL_HPP
+#define BKSGE_RENDER_GL_INL_GL_GLSL_PROGRAM_INL_HPP
 
 #include <bksge/render/config.hpp>
 #if BKSGE_RENDER_HAS_GL_RENDERER
 
-#include <bksge/render/gl/gl_shader.hpp>
-#include <bksge/render/gl/gl_shader_program.hpp>
+#include <bksge/render/gl/gl_glsl_program.hpp>
+#include <bksge/render/gl/gl_glsl_shader.hpp>
 #include <bksge/render/gl/gl_geometry.hpp>
 #include <bksge/render/shader.hpp>
 #include <bksge/memory/make_unique.hpp>
@@ -26,16 +26,16 @@ namespace render
 {
 
 BKSGE_INLINE
-GlShader::GlShader(Shader const& shader, GlRenderer* /*renderer*/)
+GlGLSLProgram::GlGLSLProgram(Shader const& shader, GlRenderer* /*renderer*/)
 {
 	m_id = ::glCreateProgram();
 	BKSGE_ASSERT(m_id != 0u);
 
 	for (auto&& it : shader.program_map())
 	{
-		auto shader_object = bksge::make_unique<GlShaderProgram>(it.first, it.second);
+		auto shader_object = bksge::make_unique<GlGLSLShader>(it.first, it.second);
 		::glAttachShader(m_id, shader_object->id());
-		m_programs.push_back(std::move(shader_object));
+		m_shaders.push_back(std::move(shader_object));
 	}
 
 	::glLinkProgram(m_id);
@@ -61,13 +61,13 @@ GlShader::GlShader(Shader const& shader, GlRenderer* /*renderer*/)
 }
 
 BKSGE_INLINE
-GlShader::~GlShader()
+GlGLSLProgram::~GlGLSLProgram()
 {
 	::glDeleteProgram(m_id);
 }
 
 BKSGE_INLINE
-void GlShader::Render(GlGeometry const* geometry)
+void GlGLSLProgram::Render(GlGeometry const* geometry)
 {
 	geometry->Bind();
 
@@ -84,4 +84,4 @@ void GlShader::Render(GlGeometry const* geometry)
 
 #endif // BKSGE_RENDER_HAS_GL_RENDERER
 
-#endif // BKSGE_RENDER_GL_INL_GL_SHADER_INL_HPP
+#endif // BKSGE_RENDER_GL_INL_GL_GLSL_PROGRAM_INL_HPP

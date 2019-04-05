@@ -1,18 +1,18 @@
 ﻿/**
- *	@file	gl_shader_program_inl.hpp
+ *	@file	gl_glsl_shader_inl.hpp
  *
- *	@brief	GlShaderProgram クラスの定義
+ *	@brief	GlGLSLShader クラスの定義
  *
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_RENDER_GL_INL_GL_SHADER_PROGRAM_INL_HPP
-#define BKSGE_RENDER_GL_INL_GL_SHADER_PROGRAM_INL_HPP
+#ifndef BKSGE_RENDER_GL_INL_GL_GLSL_SHADER_INL_HPP
+#define BKSGE_RENDER_GL_INL_GL_GLSL_SHADER_INL_HPP
 
 #include <bksge/render/config.hpp>
 #if BKSGE_RENDER_HAS_GL_RENDERER
 
-#include <bksge/render/gl/gl_shader_program.hpp>
+#include <bksge/render/gl/gl_glsl_shader.hpp>
 #include <bksge/render/gl/gl_shader_stage.hpp>
 #include <bksge/render/gl/gl_api.hpp>
 #include <bksge/render/shader_stage.hpp>
@@ -27,7 +27,7 @@ namespace render
 {
 
 BKSGE_INLINE
-GlShaderProgram::GlShaderProgram(
+GlGLSLShader::GlGLSLShader(
 	ShaderStage stage,
 	std::string const& source)
 {
@@ -57,13 +57,13 @@ GlShaderProgram::GlShaderProgram(
 }
 
 BKSGE_INLINE
-GlShaderProgram::~GlShaderProgram()
+GlGLSLShader::~GlGLSLShader()
 {
 	::glDeleteShader(m_id);
 }
 
 BKSGE_INLINE
-GLuint GlShaderProgram::id() const
+GLuint GlGLSLShader::id() const
 {
 	return m_id;
 }
@@ -74,4 +74,4 @@ GLuint GlShaderProgram::id() const
 
 #endif // BKSGE_RENDER_HAS_GL_RENDERER
 
-#endif // BKSGE_RENDER_GL_INL_GL_SHADER_PROGRAM_INL_HPP
+#endif // BKSGE_RENDER_GL_INL_GL_GLSL_SHADER_INL_HPP

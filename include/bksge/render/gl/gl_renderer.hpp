@@ -12,7 +12,7 @@
 #include <bksge/render/gl/fwd/gl_renderer_fwd.hpp>
 #include <bksge/render/gl/fwd/gl_context_fwd.hpp>
 #include <bksge/render/gl/fwd/gl_geometry_fwd.hpp>
-#include <bksge/render/gl/fwd/gl_shader_fwd.hpp>
+#include <bksge/render/gl/fwd/gl_glsl_program_fwd.hpp>
 #include <bksge/render/gl/fwd/gl_texture_fwd.hpp>
 #include <bksge/render/gl/fwd/gl_frame_buffer_fwd.hpp>
 #include <bksge/render/gl/gl_api.hpp>
@@ -41,9 +41,9 @@ public:
 	virtual ~GlRenderer();
 
 public:		// TODO privateにする
-	GlGeometryShared GetGlGeometry(Geometry const& geometry);
-	GlShaderShared   GetGlShader(Shader const& shader);
-	GlTextureShared  GetGlTexture(Texture const& texture);
+	GlGeometryShared    GetGlGeometry(Geometry const& geometry);
+	GlGLSLProgramShared GetGlGLSLProgram(Shader const& shader);
+	GlTextureShared     GetGlTexture(Texture const& texture);
 
 private:
 	virtual void VSetRenderTarget(Window const& window) override;
@@ -59,10 +59,10 @@ private:
 private:
 	std::unique_ptr<GlContext>  m_gl_context;
 	GlGeometryMap               m_gl_geometry_map;
-	GlShaderMap                 m_gl_shader_map;
+	GlGLSLProgramMap            m_gl_shader_map;
 	GlTextureMap                m_gl_texture_map;
 	GLuint                      m_timer_queries[2];  ///< 描画時間を図るためのクエリ
-	//MilliSeconds                 m_draw_time;		  ///< 描画時間
+//	MilliSeconds                m_draw_time;		 ///< 描画時間
 };
 
 }	// namespace render
