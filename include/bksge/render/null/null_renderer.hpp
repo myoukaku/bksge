@@ -1,13 +1,13 @@
 ﻿/**
- *	@file	dummy_renderer.hpp
+ *	@file	null_renderer.hpp
  *
- *	@brief	DummyRenderer クラスの定義
+ *	@brief	NullRenderer クラスの定義
  *
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_RENDER_DUMMY_DUMMY_RENDERER_HPP
-#define BKSGE_RENDER_DUMMY_DUMMY_RENDERER_HPP
+#ifndef BKSGE_RENDER_NULL_NULL_RENDERER_HPP
+#define BKSGE_RENDER_NULL_NULL_RENDERER_HPP
 
 #include <bksge/render/renderer.hpp>
 #include <bksge/window/fwd/window_fwd.hpp>
@@ -21,12 +21,12 @@ namespace render
 /**
  *	@brief
  */
-class DummyRenderer : public Renderer
+class NullRenderer : public Renderer
 {
 public:
-	DummyRenderer(void);
+	NullRenderer(void);
 
-	virtual ~DummyRenderer();
+	virtual ~NullRenderer();
 
 private:
 	virtual void VSetRenderTarget(Window const& window) override;
@@ -38,13 +38,13 @@ private:
 
 }	// namespace render
 
-using render::DummyRenderer;
+using render::NullRenderer;
 
 }	// namespace bksge
 
 #include <bksge/config.hpp>
 #if defined(BKSGE_HEADER_ONLY)
-#include <bksge/render/dummy/inl/dummy_renderer_inl.hpp>
+#include <bksge/render/null/inl/null_renderer_inl.hpp>
 #endif
 
-#endif // BKSGE_RENDER_DUMMY_DUMMY_RENDERER_HPP
+#endif // BKSGE_RENDER_NULL_NULL_RENDERER_HPP
