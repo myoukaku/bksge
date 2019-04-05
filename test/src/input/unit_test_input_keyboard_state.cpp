@@ -56,6 +56,12 @@ GTEST_TEST(InputTest, KeyboardState_ConstructTest)
 	EXPECT_EQ(true,  s2.pressed(bksge::KeyCode::k0));
 	EXPECT_EQ(false, s2.pressed(bksge::KeyCode::kA));
 	EXPECT_EQ(false, s2.pressed(bksge::KeyCode::kLeft));
+
+	bksge::KeyboardState const s3(s);
+	EXPECT_EQ(false, s3.pressed(bksge::KeyCode::kEscape));
+	EXPECT_EQ(false, s3.pressed(bksge::KeyCode::k0));
+	EXPECT_EQ(true,  s3.pressed(bksge::KeyCode::kA));
+	EXPECT_EQ(true,  s3.pressed(bksge::KeyCode::kLeft));
 }
 
 BKSGE_WARNING_PUSH()

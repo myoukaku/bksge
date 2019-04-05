@@ -59,7 +59,7 @@ GTEST_TEST(Render_VertexLayout, BasicTest)
 	}
 }
 
-GTEST_TEST(Render_VertexLayout, MoveTest)
+GTEST_TEST(Render_VertexLayout, MoveCtorTest)
 {
 	using namespace bksge;
 	using namespace bksge::render;
@@ -69,9 +69,29 @@ GTEST_TEST(Render_VertexLayout, MoveTest)
 	l.AddAttribute(MakeVertexAttribute<VNormal>(l.total_bytes()));
 	l.AddAttribute(MakeVertexAttribute<VTexCoord>(l.total_bytes()));
 
-	//VertexLayout const l2 = l;	// コピー禁止
-	VertexLayout const l2 = std::move(l);
+//	VertexLayout const l2(l);	// コピー禁止
+	VertexLayout const l2(std::move(l));
 
+	EXPECT_EQ(32u, l2.total_bytes());
+	EXPECT_NE(nullptr, l2.FindVertexAttributeBySemantic(Semantic::kPosition));
+	EXPECT_EQ(nullptr, l2.FindVertexAttributeBySemantic(Semantic::kColor));
+	EXPECT_NE(nullptr, l2.FindVertexAttributeBySemantic(Semantic::kNormal));
+	EXPECT_NE(nullptr, l2.FindVertexAttributeBySemantic(Semantic::kTexCoord));
+}
+
+GTEST_TEST(Render_VertexLayout, MoveAssignTest)
+{
+	using namespace bksge;
+	using namespace bksge::render;
+
+	VertexLayout l;
+	l.AddAttribute(MakeVertexAttribute<VPosition>(l.total_bytes()));
+	l.AddAttribute(MakeVertexAttribute<VNormal>(l.total_bytes()));
+	l.AddAttribute(MakeVertexAttribute<VTexCoord>(l.total_bytes()));
+
+	VertexLayout l2;
+//	l2 = l;	// コピー禁止
+	l2 = std::move(l);
 	EXPECT_EQ(32u, l2.total_bytes());
 	EXPECT_NE(nullptr, l2.FindVertexAttributeBySemantic(Semantic::kPosition));
 	EXPECT_EQ(nullptr, l2.FindVertexAttributeBySemantic(Semantic::kColor));

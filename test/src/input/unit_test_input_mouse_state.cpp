@@ -122,6 +122,20 @@ GTEST_TEST(InputTest, MouseState_ConstructTest)
 	EXPECT_EQ( 7.0f, d2.velocity(bksge::MouseAxis::kY));
 	EXPECT_EQ( 8.0f, d2.velocity(bksge::MouseAxis::kWheel));
 	EXPECT_EQ( 9.0f, d2.velocity(bksge::MouseAxis::kTilt));
+
+	bksge::MouseState const d3(d);
+	EXPECT_EQ(false, d3.pressed(bksge::MouseButton::kLeft));
+	EXPECT_EQ(true,  d3.pressed(bksge::MouseButton::kRight));
+	EXPECT_EQ(true,  d3.pressed(bksge::MouseButton::kMiddle));
+	EXPECT_EQ(false, d3.pressed(bksge::MouseButton::k3));
+	EXPECT_EQ(false, d3.pressed(bksge::MouseButton::k4));
+	EXPECT_EQ(false, d3.pressed(bksge::MouseButton::k5));
+	EXPECT_EQ(true,  d3.pressed(bksge::MouseButton::k6));
+	EXPECT_EQ(true,  d3.pressed(bksge::MouseButton::k7));
+	EXPECT_EQ(-0.5f, d3.velocity(bksge::MouseAxis::kX));
+	EXPECT_EQ( 2.0f, d3.velocity(bksge::MouseAxis::kY));
+	EXPECT_EQ(-3.0f, d3.velocity(bksge::MouseAxis::kWheel));
+	EXPECT_EQ( 5.0f, d3.velocity(bksge::MouseAxis::kTilt));
 }
 
 BKSGE_WARNING_PUSH()

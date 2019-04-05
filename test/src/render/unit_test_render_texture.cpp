@@ -48,6 +48,11 @@ GTEST_TEST(Render_Texture, BasicTest)
 	EXPECT_EQ(1u, tex3.mipmap_count());
 	EXPECT_EQ(2u, tex4.mipmap_count());
 
+	EXPECT_EQ(  0u, tex1.stride());
+	EXPECT_EQ(  0u, tex2.stride());
+	EXPECT_EQ( 64u, tex3.stride());
+	EXPECT_EQ(384u, tex4.stride());
+
 	EXPECT_TRUE(tex1.data() == nullptr);
 	EXPECT_TRUE(tex2.data() == nullptr);
 	EXPECT_TRUE(tex3.data() != nullptr);

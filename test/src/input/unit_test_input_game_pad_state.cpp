@@ -98,6 +98,18 @@ GTEST_TEST(InputTest, GamePadState_ConstructTest)
 	EXPECT_EQ(0.0f, s2.analog_button(1));
 	EXPECT_EQ(bksge::Vector2f( 1, -1), s2.analog_stick(0));
 	EXPECT_EQ(bksge::Vector2f( 4,  5), s2.analog_stick(1));
+
+	bksge::GamePadState const s3(s);
+	EXPECT_EQ(false, s3.pressed(0));
+	EXPECT_EQ(false, s3.pressed(1));
+	EXPECT_EQ(true,  s3.pressed(2));
+	EXPECT_EQ(false, s3.pressed(3));
+	EXPECT_EQ(true,  s3.pressed(4));
+	EXPECT_EQ(false, s3.pressed(5));
+	EXPECT_EQ(0.5f, s3.analog_button(0));
+	EXPECT_EQ(1.0f, s3.analog_button(1));
+	EXPECT_EQ(bksge::Vector2f( 2,  3), s3.analog_stick(0));
+	EXPECT_EQ(bksge::Vector2f( 0,  0), s3.analog_stick(1));
 }
 
 BKSGE_WARNING_PUSH()

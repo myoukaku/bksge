@@ -65,7 +65,12 @@ std::string to_string(Semantic const& semantic)
 		BKSGE_RENDER_MAKE_SEMANTIC_KVP(Semantic::kBinormal),
 	};
 
-	return m.at(semantic);
+	auto it = m.find(semantic);
+	if (it != m.end())
+	{
+		return it->second;
+	}
+	return "Semantic::kUnknown";
 
 #undef BKSGE_RENDER_MAKE_SEMANTIC_KVP
 }
