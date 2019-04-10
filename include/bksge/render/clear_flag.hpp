@@ -9,6 +9,7 @@
 #ifndef BKSGE_RENDER_CLEAR_FLAG_HPP
 #define BKSGE_RENDER_CLEAR_FLAG_HPP
 
+#include <bksge/render/fwd/clear_flag_fwd.hpp>
 #include <bksge/config.hpp>
 #include <cstdint>
 
@@ -58,8 +59,6 @@ BKSGE_CXX14_CONSTEXPR ClearFlag&
 operator^=(ClearFlag& lhs, ClearFlag rhs) BKSGE_NOEXCEPT;
 
 }	// namespace render
-
-using render::ClearFlag;
 
 }	// namespace bksge
 

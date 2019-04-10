@@ -15,6 +15,8 @@ int main()
 
 #if 1
 	bksge::GlRenderer renderer;
+#elif 0
+	bksge::D3D12Renderer renderer;
 #else
 	bksge::D3D11Renderer renderer;
 #endif

@@ -37,6 +37,20 @@ auto ShaderProgramMap::operator[](key_type const& key) -> mapped_type&
 	return m_value[key];
 }
 
+BKSGE_NODISCARD BKSGE_INLINE auto
+ShaderProgramMap::at(key_type const& key)
+-> mapped_type&
+{
+	return m_value.at(key);
+}
+
+BKSGE_NODISCARD BKSGE_INLINE auto
+ShaderProgramMap::at(key_type const& key) const
+-> mapped_type const&
+{
+	return m_value.at(key);
+}
+
 BKSGE_INLINE
 auto ShaderProgramMap::begin(void) const -> const_iterator
 {

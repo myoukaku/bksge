@@ -812,6 +812,42 @@ inline int TranslateAccelerator(HWND hWnd, HACCEL hAccTable, LPMSG lpMsg)
 #endif
 }
 
+inline HANDLE CreateEvent(
+	LPSECURITY_ATTRIBUTES lpEventAttributes,
+	BOOL                  bManualReset,
+	BOOL                  bInitialState,
+	char const*           lpName)
+{
+	return ::CreateEventA(lpEventAttributes, bManualReset, bInitialState, lpName);
+}
+
+inline HANDLE CreateEvent(
+	LPSECURITY_ATTRIBUTES lpEventAttributes,
+	BOOL                  bManualReset,
+	BOOL                  bInitialState,
+	wchar_t const*        lpName)
+{
+	return ::CreateEventW(lpEventAttributes, bManualReset, bInitialState, lpName);
+}
+
+inline HANDLE CreateEventEx(
+	LPSECURITY_ATTRIBUTES lpEventAttributes,
+	char const*           lpName,
+	DWORD                 dwFlags,
+	DWORD                 dwDesiredAccess)
+{
+	return CreateEventExA(lpEventAttributes, lpName, dwFlags, dwDesiredAccess);
+}
+
+inline HANDLE CreateEventEx(
+	LPSECURITY_ATTRIBUTES lpEventAttributes,
+	wchar_t const*        lpName,
+	DWORD                 dwFlags,
+	DWORD                 dwDesiredAccess)
+{
+	return CreateEventExW(lpEventAttributes, lpName, dwFlags, dwDesiredAccess);
+}
+
 }	// namespace win32
 
 }	// namespace bksge

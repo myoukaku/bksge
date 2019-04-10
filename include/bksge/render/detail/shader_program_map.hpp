@@ -48,6 +48,9 @@ public:
 
 	mapped_type& operator[](key_type const& key);
 
+	BKSGE_NODISCARD mapped_type& at(key_type const& key);
+	BKSGE_NODISCARD mapped_type const& at(key_type const& key) const;
+
 	const_iterator begin(void) const;
 
 	const_iterator end(void) const;

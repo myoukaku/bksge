@@ -12,6 +12,7 @@
 #include <bksge/render/clear_flag.hpp>
 #include <bksge/render/config.hpp>
 #include <bksge/render/d3d11_renderer.hpp>
+#include <bksge/render/d3d12_renderer.hpp>
 #include <bksge/render/filter_mode.hpp>
 #include <bksge/render/geometry.hpp>
 #include <bksge/render/gl_renderer.hpp>

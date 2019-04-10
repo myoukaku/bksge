@@ -12,6 +12,19 @@
 #include <bksge/config.hpp>
 
 /**
+ *	BKSGE_RENDER_HAS_D3D12_RENDERER
+ *
+ *	TODO
+ */
+#if !defined(BKSGE_RENDER_HAS_D3D12_RENDERER)
+#	if defined(BKSGE_PLATFORM_WIN32)
+#		define BKSGE_RENDER_HAS_D3D12_RENDERER	1
+#	else
+#		define BKSGE_RENDER_HAS_D3D12_RENDERER	0
+#	endif
+#endif
+
+/**
  *	BKSGE_RENDER_HAS_D3D11_RENDERER
  *
  *	TODO
