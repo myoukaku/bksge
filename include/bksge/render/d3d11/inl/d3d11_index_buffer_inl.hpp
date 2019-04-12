@@ -16,7 +16,7 @@
 #include <bksge/render/d3d11/d3d11_renderer.hpp>
 #include <bksge/render/d3d11/d3d11_format.hpp>
 #include <bksge/render/d3d11/d3d11.hpp>
-#include <bksge/render/d3d11/com_ptr.hpp>
+#include <bksge/render/d3d_helper/com_ptr.hpp>
 #include <bksge/render/detail/type_enum.hpp>
 #include <bksge/render/geometry.hpp>
 

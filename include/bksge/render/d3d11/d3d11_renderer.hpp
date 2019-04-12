@@ -15,7 +15,7 @@
 #include <bksge/render/d3d11/fwd/d3d11_geometry_fwd.hpp>
 #include <bksge/render/d3d11/fwd/d3d11_sampler_fwd.hpp>
 #include <bksge/render/d3d11/d3d11.hpp>
-#include <bksge/render/d3d11/com_ptr.hpp>
+#include <bksge/render/d3d_helper/com_ptr.hpp>
 #include <bksge/render/fwd/shader_fwd.hpp>
 #include <bksge/render/fwd/geometry_fwd.hpp>
 #include <bksge/render/fwd/texture_fwd.hpp>

@@ -12,7 +12,7 @@
 #include <bksge/render/d3d11/fwd/d3d11_texture_fwd.hpp>
 #include <bksge/render/d3d11/fwd/d3d11_renderer_fwd.hpp>
 #include <bksge/render/d3d11/d3d11.hpp>
-#include <bksge/render/d3d11/com_ptr.hpp>
+#include <bksge/render/d3d_helper/com_ptr.hpp>
 #include <bksge/render/fwd/texture_fwd.hpp>
 
 namespace bksge

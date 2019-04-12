@@ -18,7 +18,7 @@
 #include <bksge/render/d3d11/d3d11_geometry.hpp>
 #include <bksge/render/d3d11/d3d11_sampler.hpp>
 #include <bksge/render/d3d11/d3d11.hpp>
-#include <bksge/render/d3d11/com_ptr.hpp>
+#include <bksge/render/d3d_helper/com_ptr.hpp>
 #include <bksge/render/shader.hpp>
 #include <bksge/render/geometry.hpp>
 #include <bksge/render/texture.hpp>

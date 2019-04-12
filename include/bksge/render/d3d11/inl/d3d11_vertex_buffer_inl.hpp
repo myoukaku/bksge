@@ -15,7 +15,7 @@
 #include <bksge/render/d3d11/d3d11_vertex_buffer.hpp>
 #include <bksge/render/d3d11/d3d11_renderer.hpp>
 #include <bksge/render/d3d11/d3d11.hpp>
-#include <bksge/render/d3d11/com_ptr.hpp>
+#include <bksge/render/d3d_helper/com_ptr.hpp>
 #include <bksge/render/geometry.hpp>
 #include <bksge/render/detail/vertex_layout.hpp>
 

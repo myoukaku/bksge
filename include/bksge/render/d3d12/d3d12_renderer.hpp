@@ -10,6 +10,17 @@
 #define BKSGE_RENDER_D3D12_D3D12_RENDERER_HPP
 
 #include <bksge/render/d3d12/fwd/d3d12_renderer_fwd.hpp>
+#include <bksge/render/d3d12/fwd/d3d12_factory_fwd.hpp>
+#include <bksge/render/d3d12/fwd/d3d12_device_fwd.hpp>
+#include <bksge/render/d3d12/fwd/d3d12_command_queue_fwd.hpp>
+#include <bksge/render/d3d12/fwd/d3d12_command_list_fwd.hpp>
+#include <bksge/render/d3d12/fwd/d3d12_swap_chain_fwd.hpp>
+#include <bksge/render/d3d12/fwd/d3d12_render_target_fwd.hpp>
+#include <bksge/render/d3d12/fwd/d3d12_fence_fwd.hpp>
+
+#include <bksge/render/d3d12/d3d12.hpp>
+#include <bksge/render/d3d_helper/com_ptr.hpp>
+#include <bksge/render/d3d_helper/dxgi.hpp>
 #include <bksge/render/renderer.hpp>
 #include <bksge/render/fwd/clear_flag_fwd.hpp>
 #include <bksge/render/fwd/geometry_fwd.hpp>
@@ -17,9 +28,7 @@
 #include <bksge/math/fwd/color4_fwd.hpp>
 #include <bksge/window/fwd/window_fwd.hpp>
 
-#include <bksge/render/d3d11/com_ptr.hpp>
-#include <d3d12.h>
-#include <dxgi1_5.h>
+#include <memory>
 
 namespace bksge
 {
@@ -41,7 +50,6 @@ private:
 	void Initialize(void);
 	void Finalize(void);
 
-	void GetHardwareAdapter(IDXGIFactory2* pFactory, IDXGIAdapter1** ppAdapter);
 	void WaitForPreviousFrame();
 
 	virtual void VSetRenderTarget(Window const& window) override;
@@ -51,23 +59,17 @@ private:
 	virtual void VRender(Geometry const& geometry, Shader const& shader) override;
 
 private:
-	static const ::UINT FrameCount = 2;
+//	static const ::UINT FrameCount = 2;
 
-	bool m_useWarpDevice;
-	ComPtr<::IDXGIFactory4> factory;
-	ComPtr<::ID3D12Device> m_device;
-	ComPtr<::ID3D12CommandQueue> m_commandQueue;
-	ComPtr<::ID3D12CommandAllocator> m_commandAllocator;
-	ComPtr<::ID3D12GraphicsCommandList> m_commandList;
-	ComPtr<::IDXGISwapChain3> m_swapChain;
-	ComPtr<::ID3D12DescriptorHeap> m_rtvHeap;
-	::UINT m_rtvDescriptorSize;
-	ComPtr<::ID3D12Resource> m_renderTargets[FrameCount];
+	std::unique_ptr<D3D12Factory>		m_factory;
+	std::unique_ptr<D3D12Device>		m_device;
+	std::unique_ptr<D3D12CommandQueue>	m_command_queue;
+	std::unique_ptr<D3D12CommandList>	m_command_list;
+	std::unique_ptr<D3D12SwapChain>		m_swap_chain;
+	std::unique_ptr<D3D12RenderTarget>	m_render_target;
+	std::unique_ptr<D3D12Fence>			m_fence;
 
 	::UINT m_frameIndex;
-	::HANDLE m_fenceEvent;
-	ComPtr<::ID3D12Fence> m_fence;
-	::UINT64 m_fenceValue;
 
 	D3D12_VIEWPORT m_viewport;
 	D3D12_RECT m_scissorRect;

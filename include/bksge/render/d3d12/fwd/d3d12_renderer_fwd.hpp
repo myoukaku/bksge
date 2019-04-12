@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	d3d12_renderer_fwd.hpp
  *
- *	@brief	D3D12Renderer の前方宣言
+ *	@brief	D3D12Renderer クラスの前方宣言
  *
  *	@author	myoukaku
  */

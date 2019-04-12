@@ -17,7 +17,7 @@
 #include <bksge/render/d3d11/d3d11_filter_mode.hpp>
 #include <bksge/render/d3d11/d3d11_wrap_mode.hpp>
 #include <bksge/render/d3d11/d3d11.hpp>
-#include <bksge/render/d3d11/com_ptr.hpp>
+#include <bksge/render/d3d_helper/com_ptr.hpp>
 #include <bksge/render/filter_mode.hpp>
 #include <bksge/render/wrap_mode.hpp>
 #include <bksge/render/sampler.hpp>

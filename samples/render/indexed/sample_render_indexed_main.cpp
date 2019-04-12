@@ -16,7 +16,7 @@ int main()
 #if 1
 	bksge::GlRenderer renderer;
 	#define USE_GLSL
-#elif 0
+#elif 1
 	bksge::D3D12Renderer renderer;
 #else
 	bksge::D3D11Renderer renderer;
