@@ -32,8 +32,11 @@ public:
 
 	void Unbind(void) const;
 
+	bool enable(void) const;
+
 private:
-	GLuint m_id;
+	GLuint	m_id;
+	bool	m_enable;
 };
 
 }	// namespace render

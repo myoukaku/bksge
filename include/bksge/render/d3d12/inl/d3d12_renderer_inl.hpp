@@ -27,6 +27,7 @@
 #include <d3dcompiler.h>
 //#include <synchapi.h>
 //#include <vector>
+#include <unordered_map>
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
@@ -45,10 +46,10 @@ inline std::string HrToString(::HRESULT hr)
 	return std::string(s_str);
 }
 
-class HrException: public std::runtime_error
+class HrException : public std::runtime_error
 {
 public:
-	HrException(::HRESULT hr): std::runtime_error(HrToString(hr)), m_hr(hr) {}
+	HrException(::HRESULT hr) : std::runtime_error(HrToString(hr)), m_hr(hr) {}
 	::HRESULT Error() const { return m_hr; }
 private:
 	::HRESULT const m_hr;
@@ -378,6 +379,22 @@ D3D12Renderer::VClear(ClearFlag clear_flag, Color4f const& clear_color)
 	//m_commandList->ClearDepthStencilView(dsv_handle_, mask, 1.0f, 0, 0, nullptr);
 }
 
+inline DXGI_FORMAT ToD3D12Format(TypeEnum type)
+{
+	static std::unordered_map<TypeEnum, DXGI_FORMAT> const m =
+	{
+		{TypeEnum::kByte, DXGI_FORMAT_R8_SINT},
+		{TypeEnum::kUnsignedByte, DXGI_FORMAT_R8_UINT},
+		{TypeEnum::kShort, DXGI_FORMAT_R16_SINT},
+		{TypeEnum::kUnsignedShort, DXGI_FORMAT_R16_UINT},
+		{TypeEnum::kInt, DXGI_FORMAT_R32_SINT},
+		{TypeEnum::kUnsignedInt, DXGI_FORMAT_R32_UINT},
+		{TypeEnum::kFloat, DXGI_FORMAT_R32_FLOAT},
+	};
+
+	return m.at(type);
+}
+
 BKSGE_INLINE void
 D3D12Renderer::VRender(Geometry const& geometry, Shader const& shader)
 {
@@ -470,10 +487,10 @@ D3D12Renderer::VRender(Geometry const& geometry, Shader const& shader)
 		));
 
 		::D3D12_GRAPHICS_PIPELINE_STATE_DESC desc ={};
-		desc.InputLayout                     = {elementDescs, _countof(elementDescs)};
+		desc.InputLayout                     ={elementDescs, _countof(elementDescs)};
 		desc.pRootSignature                  = m_rootSignature.Get();
-		desc.VS                              = {vertexShader->GetBufferPointer(), vertexShader->GetBufferSize()};
-		desc.PS                              = {pixelShader->GetBufferPointer(), pixelShader->GetBufferSize()};
+		desc.VS                              ={vertexShader->GetBufferPointer(), vertexShader->GetBufferSize()};
+		desc.PS                              ={pixelShader->GetBufferPointer(), pixelShader->GetBufferSize()};
 		desc.RasterizerState                 = rasterDesc;
 		desc.BlendState                      = blendDesc;
 		desc.DepthStencilState.DepthEnable   = FALSE;
@@ -489,47 +506,101 @@ D3D12Renderer::VRender(Geometry const& geometry, Shader const& shader)
 
 	if (!m_vertexBuffer)
 	{
-		auto const vertices = geometry.vertex_array_data();
-		auto const size     = geometry.vertex_array_bytes();
-		auto const stride   = geometry.vertex_layout().total_bytes();
+		// Create the vertex buffer.
+		{
+			auto const vertices = geometry.vertex_array_data();
+			auto const size     = geometry.vertex_array_bytes();
+			auto const stride   = geometry.vertex_layout().total_bytes();
 
-		::D3D12_HEAP_PROPERTIES prop ={};
-		prop.Type                 = D3D12_HEAP_TYPE_UPLOAD;
-		prop.CPUPageProperty      = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
-		prop.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
-		prop.CreationNodeMask     = 1;
-		prop.VisibleNodeMask      = 1;
+			::D3D12_HEAP_PROPERTIES prop ={};
+			prop.Type                 = D3D12_HEAP_TYPE_UPLOAD;
+			prop.CPUPageProperty      = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
+			prop.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
+			prop.CreationNodeMask     = 1;
+			prop.VisibleNodeMask      = 1;
 
-		D3D12_RESOURCE_DESC desc ={};
-		desc.Dimension        = D3D12_RESOURCE_DIMENSION_BUFFER;
-		desc.Alignment        = 0;
-		desc.Width            = size;
-		desc.Height           = 1;
-		desc.DepthOrArraySize = 1;
-		desc.MipLevels        = 1;
-		desc.Format           = DXGI_FORMAT_UNKNOWN;
-		desc.SampleDesc.Count = 1;
-		desc.Layout           = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-		desc.Flags            = D3D12_RESOURCE_FLAG_NONE;
+			D3D12_RESOURCE_DESC desc ={};
+			desc.Dimension        = D3D12_RESOURCE_DIMENSION_BUFFER;
+			desc.Alignment        = 0;
+			desc.Width            = size;
+			desc.Height           = 1;
+			desc.DepthOrArraySize = 1;
+			desc.MipLevels        = 1;
+			desc.Format           = DXGI_FORMAT_UNKNOWN;
+			desc.SampleDesc.Count = 1;
+			desc.Layout           = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+			desc.Flags            = D3D12_RESOURCE_FLAG_NONE;
 
-		ThrowIfFailed(m_device->CreateCommittedResource(
-			&prop,
-			D3D12_HEAP_FLAG_NONE,
-			&desc,
-			D3D12_RESOURCE_STATE_GENERIC_READ,
-			nullptr,
-			IID_PPV_ARGS(&m_vertexBuffer)));
+			ThrowIfFailed(m_device->CreateCommittedResource(
+				&prop,
+				D3D12_HEAP_FLAG_NONE,
+				&desc,
+				D3D12_RESOURCE_STATE_GENERIC_READ,
+				nullptr,
+				IID_PPV_ARGS(&m_vertexBuffer)));
 
-		// バッファにコピー
-		UINT8* p;
-		ThrowIfFailed(m_vertexBuffer->Map(0, nullptr, reinterpret_cast<void**>(&p)));
-		std::memcpy(p, vertices, size);
-		m_vertexBuffer->Unmap(0, nullptr);
+			// バッファにコピー
+			UINT8* p;
+			ThrowIfFailed(m_vertexBuffer->Map(0, nullptr, reinterpret_cast<void**>(&p)));
+			std::memcpy(p, vertices, size);
+			m_vertexBuffer->Unmap(0, nullptr);
 
-		// Viewの初期化
-		m_vertexBufferView.BufferLocation = m_vertexBuffer->GetGPUVirtualAddress();
-		m_vertexBufferView.SizeInBytes = static_cast<::UINT>(size);
-		m_vertexBufferView.StrideInBytes = static_cast<::UINT>(stride);
+			// Viewの初期化
+			m_vertexBufferView.BufferLocation = m_vertexBuffer->GetGPUVirtualAddress();
+			m_vertexBufferView.SizeInBytes = static_cast<::UINT>(size);
+			m_vertexBufferView.StrideInBytes = static_cast<::UINT>(stride);
+		}
+
+		// Create the index buffer.
+		{
+			auto const src    = geometry.index_array_data();
+			auto const size   = geometry.index_array_bytes();
+
+			if (src != nullptr && size != 0u)
+			{
+				m_enable_index = true;
+
+				::D3D12_HEAP_PROPERTIES prop = {};
+				prop.Type                 = D3D12_HEAP_TYPE_UPLOAD;
+				prop.CPUPageProperty      = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
+				prop.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
+				prop.CreationNodeMask     = 1;
+				prop.VisibleNodeMask      = 1;
+
+				D3D12_RESOURCE_DESC desc ={};
+				desc.Dimension        = D3D12_RESOURCE_DIMENSION_BUFFER;
+				desc.Alignment        = 0;
+				desc.Width            = size;
+				desc.Height           = 1;
+				desc.DepthOrArraySize = 1;
+				desc.MipLevels        = 1;
+				desc.Format           = DXGI_FORMAT_UNKNOWN;
+				desc.SampleDesc.Count = 1;
+				desc.Layout           = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+				desc.Flags            = D3D12_RESOURCE_FLAG_NONE;
+
+				ThrowIfFailed(m_device->CreateCommittedResource(
+					&prop,
+					D3D12_HEAP_FLAG_NONE,
+					&desc,
+					D3D12_RESOURCE_STATE_GENERIC_READ,
+					nullptr,
+					IID_PPV_ARGS(&m_indexBuffer)));
+
+				// バッファにコピー
+				UINT8* p;
+				ThrowIfFailed(m_indexBuffer->Map(0, nullptr, reinterpret_cast<void**>(&p)));
+				std::memcpy(p, src, size);
+				m_indexBuffer->Unmap(0, nullptr);
+
+				// Describe the index buffer view.
+				m_indexBufferView.BufferLocation = m_indexBuffer->GetGPUVirtualAddress();
+				m_indexBufferView.Format = ToD3D12Format(geometry.index_array_type());
+				m_indexBufferView.SizeInBytes = static_cast<::UINT>(size);
+
+				m_numIndices = static_cast<::UINT>(geometry.index_array_count());
+			}
+		}
 	}
 
 	m_commandList->SetGraphicsRootSignature(m_rootSignature.Get());
@@ -537,7 +608,15 @@ D3D12Renderer::VRender(Geometry const& geometry, Shader const& shader)
 
 	m_commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	m_commandList->IASetVertexBuffers(0, 1, &m_vertexBufferView);
-	m_commandList->DrawInstanced(3, 1, 0, 0);
+	if (m_enable_index)
+	{
+		m_commandList->IASetIndexBuffer(&m_indexBufferView);
+		m_commandList->DrawIndexedInstanced(m_numIndices, 1, 0, 0, 0);
+	}
+	else
+	{
+		m_commandList->DrawInstanced(3, 1, 0, 0);
+	}
 }
 
 BKSGE_INLINE void

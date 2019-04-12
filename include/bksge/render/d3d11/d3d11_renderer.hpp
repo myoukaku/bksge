@@ -70,6 +70,8 @@ public:
 	void PSSetSamplers(::UINT start_slot, ::UINT num_samplers, ::ID3D11SamplerState* const* samplers);
 	void PSSetShaderResources(::UINT start_slot, ::UINT num_views, ::ID3D11ShaderResourceView* const* shader_resource_views);
 	void SetPrimitiveTopology(::D3D11_PRIMITIVE_TOPOLOGY topology);
+
+	void Draw(::UINT vertex_count, ::UINT start_vertex_location);
 	void DrawIndexed(::UINT index_count, ::UINT start_index_location, ::INT base_vertex_location);
 
 private:

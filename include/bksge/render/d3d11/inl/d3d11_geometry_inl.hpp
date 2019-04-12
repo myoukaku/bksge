@@ -30,6 +30,7 @@ D3D11Geometry::D3D11Geometry(
 	: m_vertex_buffer(renderer, geometry)
 	, m_index_buffer(renderer, geometry)
 	, m_primitive(ToD3D11Primitive(geometry.primitive()))
+	, m_vertex_count(static_cast<UINT>(geometry.vertex_array_count()))
 	, m_index_count(static_cast<UINT>(geometry.index_array_count()))
 {}
 
@@ -44,7 +45,14 @@ void D3D11Geometry::Draw(D3D11Renderer* renderer) const
 	m_index_buffer.Bind(renderer);
 
 	renderer->SetPrimitiveTopology(m_primitive);
-	renderer->DrawIndexed(m_index_count, 0, 0);
+	if (m_index_buffer.enable())
+	{
+		renderer->DrawIndexed(m_index_count, 0, 0);
+	}
+	else
+	{
+		renderer->Draw(m_vertex_count, 0);
+	}
 }
 
 }	// namespace render

@@ -523,6 +523,14 @@ D3D11Renderer::SetPrimitiveTopology(::D3D11_PRIMITIVE_TOPOLOGY topology)
 }
 
 BKSGE_INLINE void
+D3D11Renderer::Draw(
+	::UINT vertex_count,
+	::UINT start_vertex_location)
+{
+	m_device_context->Draw(vertex_count, start_vertex_location);
+}
+
+BKSGE_INLINE void
 D3D11Renderer::DrawIndexed(
 	::UINT index_count,
 	::UINT start_index_location,

@@ -46,6 +46,12 @@ inline auto VertexArray<T>::bytes(void) const -> size_type
 	return vertex_layout().total_bytes() * m_value.size();
 }
 
+template <typename T>
+inline auto VertexArray<T>::count(void) const -> size_type
+{
+	return m_value.size();
+}
+
 }	// namespace render
 
 }	// namespace bksge

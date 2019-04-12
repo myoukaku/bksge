@@ -28,6 +28,7 @@ GlGeometry::GlGeometry(Geometry const& geometry)
 	: m_vertex_buffer(geometry.vertex_array_data(), geometry.vertex_array_bytes())
 	, m_index_buffer(geometry.index_array_data(), geometry.index_array_bytes())
 	, m_primitive(ToGlPrimitive(geometry.primitive()))
+	, m_vertex_count(static_cast<GLsizei>(geometry.vertex_array_count()))
 	, m_index_count(static_cast<GLsizei>(geometry.index_array_count()))
 	, m_index_type(ToGlTypeEnum(geometry.index_array_type()))
 {}
@@ -40,13 +41,23 @@ BKSGE_INLINE
 void GlGeometry::Bind(void) const
 {
 	m_vertex_buffer.Bind();
-	m_index_buffer.Bind();
+	if (m_index_buffer.enable())
+	{
+		m_index_buffer.Bind();
+	}
 }
 
 BKSGE_INLINE
 void GlGeometry::Draw(void) const
 {
-	::glDrawElements(m_primitive, m_index_count, m_index_type, 0);
+	if (m_index_buffer.enable())
+	{
+		::glDrawElements(m_primitive, m_index_count, m_index_type, 0);
+	}
+	else
+	{
+		::glDrawArrays(m_primitive, 0, m_vertex_count);
+	}
 }
 
 }	// namespace render

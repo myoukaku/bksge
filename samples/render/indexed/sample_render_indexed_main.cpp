@@ -1,7 +1,7 @@
 ﻿/**
- *	@file	sample_render_triangle_main.cpp
+ *	@file	sample_render_indexed_main.cpp
  *
- *	@brief	三角形をレンダリングするサンプル
+ *	@brief	インデックスバッファーを使ってレンダリングするサンプル
  *
  *	@author	myoukaku
  */
@@ -11,7 +11,7 @@
 
 int main()
 {
-	bksge::Window window({800, 600}, "sample_render_triangle");
+	bksge::Window window({800, 600}, "sample_render_indexed");
 
 #if 1
 	bksge::GlRenderer renderer;
@@ -26,12 +26,19 @@ int main()
 
 	const bksge::Vertex<bksge::VPosition> vertices[] =
 	{
-		{{{ 0.0,  0.5, 0.0}}},
+		{{{-0.5,  0.5, 0.0}}},
+		{{{ 0.5,  0.5, 0.0}}},
 		{{{-0.5, -0.5, 0.0}}},
 		{{{ 0.5, -0.5, 0.0}}},
 	};
 
-	const bksge::Geometry geometry(bksge::Primitive::kTriangles, vertices);
+	const std::uint16_t indices[] =
+	{
+		0, 2, 1,
+		1, 2, 3,
+	};
+
+	const bksge::Geometry geometry(bksge::Primitive::kTriangles, vertices, indices);
 
 #if defined(USE_GLSL)
 	// GLSL

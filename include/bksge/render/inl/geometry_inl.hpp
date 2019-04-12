@@ -56,6 +56,12 @@ std::size_t Geometry::vertex_array_bytes(void) const
 }
 
 BKSGE_INLINE
+std::size_t Geometry::vertex_array_count(void) const
+{
+	return m_vertex_array ? m_vertex_array->count() : 0;
+}
+
+BKSGE_INLINE
 void const* Geometry::index_array_data(void) const
 {
 	return m_index_array ? m_index_array->data() : nullptr;

@@ -30,21 +30,32 @@ BKSGE_INLINE
 D3D11IndexBuffer::D3D11IndexBuffer(
 	D3D11Renderer* renderer,
 	Geometry const& geometry)
-	: m_format(ToD3D11Format(geometry.index_array_type()))
+	: m_format(DXGI_FORMAT_UNKNOWN)
+	, m_enable(false)
 {
-	D3D11_BUFFER_DESC desc;
-	desc.ByteWidth           = static_cast<UINT>(geometry.index_array_bytes());
-	desc.Usage               = D3D11_USAGE_DEFAULT;
-	desc.BindFlags           = D3D11_BIND_INDEX_BUFFER;
-	desc.CPUAccessFlags      = 0;
-	desc.MiscFlags           = 0;
-	desc.StructureByteStride = static_cast<UINT>(GetSizeOf(geometry.index_array_type()));
+	auto const src = geometry.index_array_data();
+	auto const size = geometry.index_array_bytes();
+	auto const type = geometry.index_array_type();
 
-	D3D11_SUBRESOURCE_DATA subsource_data;
-	ZeroMemory(&subsource_data, sizeof(D3D11_SUBRESOURCE_DATA));
-	subsource_data.pSysMem = geometry.index_array_data();
+	if (src != nullptr && size != 0u)
+	{
+		m_enable = true;
+		m_format = ToD3D11Format(type);
 
-	m_buffer = renderer->CreateBuffer(desc, subsource_data);
+		D3D11_BUFFER_DESC desc;
+		desc.ByteWidth           = static_cast<UINT>(size);
+		desc.Usage               = D3D11_USAGE_DEFAULT;
+		desc.BindFlags           = D3D11_BIND_INDEX_BUFFER;
+		desc.CPUAccessFlags      = 0;
+		desc.MiscFlags           = 0;
+		desc.StructureByteStride = static_cast<UINT>(GetSizeOf(type));
+
+		D3D11_SUBRESOURCE_DATA subsource_data;
+		ZeroMemory(&subsource_data, sizeof(D3D11_SUBRESOURCE_DATA));
+		subsource_data.pSysMem = src;
+
+		m_buffer = renderer->CreateBuffer(desc, subsource_data);
+	}
 }
 
 BKSGE_INLINE
@@ -54,7 +65,16 @@ D3D11IndexBuffer::~D3D11IndexBuffer()
 BKSGE_INLINE
 void D3D11IndexBuffer::Bind(D3D11Renderer* renderer) const
 {
-	renderer->SetIndexBuffer(m_buffer.Get(), m_format, 0);
+	if (m_enable)
+	{
+		renderer->SetIndexBuffer(m_buffer.Get(), m_format, 0);
+	}
+}
+
+BKSGE_INLINE bool
+D3D11IndexBuffer::enable(void) const
+{
+	return m_enable;
 }
 
 }	// namespace render

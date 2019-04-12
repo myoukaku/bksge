@@ -2,3 +2,4 @@
 
 add_subdirectory(clear)
 add_subdirectory(triangle)
+add_subdirectory(indexed)

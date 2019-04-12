@@ -39,6 +39,7 @@ private:
 	GlVertexBuffer	m_vertex_buffer;
 	GlIndexBuffer	m_index_buffer;
 	GLenum			m_primitive;
+	GLsizei			m_vertex_count;
 	GLsizei			m_index_count;
 	GLenum			m_index_type;
 };

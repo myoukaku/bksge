@@ -70,7 +70,7 @@ private:
 	::UINT64 m_fenceValue;
 
 	D3D12_VIEWPORT m_viewport;
-    D3D12_RECT m_scissorRect;
+	D3D12_RECT m_scissorRect;
 
 	// TODO
 	ComPtr<::ID3D12RootSignature> m_rootSignature;
@@ -79,6 +79,12 @@ private:
 	// TODO
 	ComPtr<::ID3D12Resource> m_vertexBuffer;
 	::D3D12_VERTEX_BUFFER_VIEW m_vertexBufferView;
+
+	// TODO
+	bool	m_enable_index = false;
+	::UINT m_numIndices;
+	ComPtr<::ID3D12Resource> m_indexBuffer;
+	::D3D12_INDEX_BUFFER_VIEW m_indexBufferView;
 };
 
 }	// namespace render

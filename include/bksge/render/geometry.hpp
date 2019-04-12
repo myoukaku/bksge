@@ -57,6 +57,16 @@ public:
 			std::end(index_range))
 	{}
 
+	template <typename VertexRange>
+	Geometry(
+		Primitive primitive,
+		VertexRange const& vertex_range)
+		: Geometry(
+			primitive,
+			std::begin(vertex_range),
+			std::end(vertex_range))
+	{}
+
 	template <
 		typename VertexIterator,
 		typename IndexIterator,
@@ -74,11 +84,25 @@ public:
 		, m_index_array(new IndexArray<IndexType>(index_first, index_last))
 	{}
 
+	template <
+		typename VertexIterator,
+		typename VertexType = typename std::iterator_traits<VertexIterator>::value_type
+	>
+	Geometry(
+		Primitive primitive,
+		VertexIterator vertex_first,
+		VertexIterator vertex_last)
+		: m_primitive(primitive)
+		, m_vertex_array(new VertexArray<VertexType>(vertex_first, vertex_last))
+		, m_index_array()
+	{}
+
 	Primitive const& primitive(void) const;
 	VertexLayout const& vertex_layout(void) const;
 
 	void const* vertex_array_data(void) const;
 	std::size_t vertex_array_bytes(void) const;
+	std::size_t vertex_array_count(void) const;
 
 	void const* index_array_data(void) const;
 	std::size_t index_array_bytes(void) const;

@@ -30,6 +30,7 @@ operator==(VertexArrayBase const& lhs, VertexArrayBase const& rhs)
 	return
 		lhs.vertex_layout() == rhs.vertex_layout() &&
 		lhs.bytes()         == rhs.bytes()         &&
+		lhs.count()         == rhs.count()         &&
 		(std::memcmp(lhs.data(), rhs.data(), lhs.bytes()) == 0);
 }
 

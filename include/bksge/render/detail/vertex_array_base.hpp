@@ -38,6 +38,8 @@ public:
 
 	virtual size_type bytes(void) const = 0;
 
+	virtual size_type count(void) const = 0;
+
 private:
 #if 0
 	friend class bksge::serialization::access;

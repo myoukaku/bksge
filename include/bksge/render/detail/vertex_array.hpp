@@ -49,6 +49,8 @@ public:
 
 	virtual size_type bytes(void) const override;
 
+	virtual size_type count(void) const override;
+
 private:
 	std::vector<T>	m_value;
 
