@@ -15,6 +15,7 @@ int main()
 
 #if 1
 	bksge::GlRenderer renderer;
+	#define USE_GLSL
 #elif 0
 	bksge::D3D12Renderer renderer;
 #else
@@ -25,9 +26,9 @@ int main()
 
 	const bksge::Vertex<bksge::VPosition> vertices[] =
 	{
-		{{{-0.5,  0.5, 0.0}}},
+		{{{ 0.0,  0.5, 0.0}}},
 		{{{-0.5, -0.5, 0.0}}},
-		{{{ 0.5,  0.5, 0.0}}},
+		{{{ 0.5, -0.5, 0.0}}},
 	};
 
 	const std::uint16_t indices[] =
@@ -37,7 +38,7 @@ int main()
 
 	const bksge::Geometry geometry(bksge::Primitive::kTriangles, vertices, indices);
 
-#if 1
+#if defined(USE_GLSL)
 	// GLSL
 	char const* vs_source =
 		"attribute vec3 aPosition;					"
