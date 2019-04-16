@@ -255,32 +255,32 @@ D3D12Renderer::VRender(Geometry const& geometry, Shader const& shader)
 		auto const& vs_src = shader.program_map().at(ShaderStage::kVertex);
 		ComPtr<::ID3DBlob> vertexShader;
 		ThrowIfFailed(::D3DCompile(
-			vs_src.c_str(),      // [in] Pointer to the shader in memory. 
-			vs_src.size(),       // [in] Size of the shader in memory.  
+			vs_src.c_str(),      // [in] Pointer to the shader in memory.
+			vs_src.size(),       // [in] Size of the shader in memory.
 			nullptr,			 // [in] Optional. You can use this parameter for strings that specify error messages.
-			nullptr,             // [in] Optional. Pointer to a NULL-terminated array of macro definitions. See D3D_SHADER_MACRO. If not used, set this to NULL. 
-			nullptr,			 // [in] Optional. Pointer to an ID3DInclude Interface interface for handling include files. Setting this to NULL will cause a compile error if a shader contains a #include. 
-			"main",				 // [in] Name of the shader-entrypoint function where shader execution begins. 
-			"vs_5_0",              // [in] A string that specifies the shader model; can be any profile in shader model 4 or higher. 
+			nullptr,             // [in] Optional. Pointer to a NULL-terminated array of macro definitions. See D3D_SHADER_MACRO. If not used, set this to NULL.
+			nullptr,			 // [in] Optional. Pointer to an ID3DInclude Interface interface for handling include files. Setting this to NULL will cause a compile error if a shader contains a #include.
+			"main",				 // [in] Name of the shader-entrypoint function where shader execution begins.
+			"vs_5_0",              // [in] A string that specifies the shader model; can be any profile in shader model 4 or higher.
 			compileFlags,       // [in] Effect compile flags - no D3DCOMPILE_ENABLE_BACKWARDS_COMPATIBILITY at the first try...
 			0,                   // [in] Effect compile flags
-			vertexShader.GetAddressOf(),// [out] A pointer to an ID3DBlob Interface which contains the compiled shader, as well as any embedded debug and symbol-table information. 
+			vertexShader.GetAddressOf(),// [out] A pointer to an ID3DBlob Interface which contains the compiled shader, as well as any embedded debug and symbol-table information.
 			nullptr // [out] A pointer to an ID3DBlob Interface which contains a listing of errors and warnings that occurred during compilation. These errors and warnings are identical to the the debug output from a debugger.
 		));
 
 		auto const& ps_src = shader.program_map().at(ShaderStage::kFragment);
 		ComPtr<::ID3DBlob> pixelShader;
 		ThrowIfFailed(::D3DCompile(
-			ps_src.c_str(),      // [in] Pointer to the shader in memory. 
-			ps_src.size(),       // [in] Size of the shader in memory.  
+			ps_src.c_str(),      // [in] Pointer to the shader in memory.
+			ps_src.size(),       // [in] Size of the shader in memory.
 			nullptr,			 // [in] Optional. You can use this parameter for strings that specify error messages.
-			nullptr,             // [in] Optional. Pointer to a NULL-terminated array of macro definitions. See D3D_SHADER_MACRO. If not used, set this to NULL. 
-			nullptr,			 // [in] Optional. Pointer to an ID3DInclude Interface interface for handling include files. Setting this to NULL will cause a compile error if a shader contains a #include. 
-			"main",				 // [in] Name of the shader-entrypoint function where shader execution begins. 
-			"ps_5_0",              // [in] A string that specifies the shader model; can be any profile in shader model 4 or higher. 
+			nullptr,             // [in] Optional. Pointer to a NULL-terminated array of macro definitions. See D3D_SHADER_MACRO. If not used, set this to NULL.
+			nullptr,			 // [in] Optional. Pointer to an ID3DInclude Interface interface for handling include files. Setting this to NULL will cause a compile error if a shader contains a #include.
+			"main",				 // [in] Name of the shader-entrypoint function where shader execution begins.
+			"ps_5_0",              // [in] A string that specifies the shader model; can be any profile in shader model 4 or higher.
 			compileFlags,       // [in] Effect compile flags - no D3DCOMPILE_ENABLE_BACKWARDS_COMPATIBILITY at the first try...
 			0,                   // [in] Effect compile flags
-			pixelShader.GetAddressOf(),// [out] A pointer to an ID3DBlob Interface which contains the compiled shader, as well as any embedded debug and symbol-table information. 
+			pixelShader.GetAddressOf(),// [out] A pointer to an ID3DBlob Interface which contains the compiled shader, as well as any embedded debug and symbol-table information.
 			nullptr // [out] A pointer to an ID3DBlob Interface which contains a listing of errors and warnings that occurred during compilation. These errors and warnings are identical to the the debug output from a debugger.
 		));
 

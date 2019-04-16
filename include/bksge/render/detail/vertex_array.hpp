@@ -43,13 +43,13 @@ public:
 	VertexArray(VertexArray const&) = delete;
 	VertexArray& operator=(VertexArray const&) = delete;
 
-	virtual VertexLayout const& vertex_layout(void) const override;
+	VertexLayout const& vertex_layout(void) const override;
 
-	virtual const_pointer data(void) const override;
+	const_pointer data(void) const override;
 
-	virtual size_type bytes(void) const override;
+	size_type bytes(void) const override;
 
-	virtual size_type count(void) const override;
+	size_type count(void) const override;
 
 private:
 	std::vector<T>	m_value;

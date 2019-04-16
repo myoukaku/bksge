@@ -30,9 +30,9 @@ public:
 	virtual ~Win32MouseManager();
 
 private:
-	virtual void VUpdate(void) override;
+	void VUpdate(void) override;
 
-	virtual MouseState const& VGetState(std::size_t index) const override;
+	MouseState const& VGetState(std::size_t index) const override;
 
 	class Impl;
 	std::unique_ptr<Impl>	m_impl;

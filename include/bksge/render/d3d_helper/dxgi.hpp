@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	dxgi.hpp
  *
- *	@brief
+ *	@brief	dxgi1_N.h をインクルード
  *
  *	@author	myoukaku
  */

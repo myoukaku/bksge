@@ -36,11 +36,11 @@ public:
 
 	void SetValue(T const& value);
 
-	virtual void const* data(void) const override;
+	void const* data(void) const override;
 
-	virtual bool Equals(ShaderParameterBase const& rhs) const override;
+	bool Equals(ShaderParameterBase const& rhs) const override;
 
-	virtual ClassId const& class_id(void) const override;
+	ClassId const& class_id(void) const override;
 
 	static ClassId const& StaticClassId(void);
 

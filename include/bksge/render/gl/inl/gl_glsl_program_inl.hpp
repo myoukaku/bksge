@@ -18,6 +18,8 @@
 #include <bksge/render/shader.hpp>
 #include <bksge/memory/make_unique.hpp>
 #include <bksge/assert.hpp>
+#include <string>
+#include <utility>
 
 namespace bksge
 {

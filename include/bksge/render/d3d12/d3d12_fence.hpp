@@ -24,7 +24,7 @@ namespace render
 class D3D12Fence
 {
 public:
-	D3D12Fence(D3D12Device* device);
+	explicit D3D12Fence(D3D12Device* device);
 
 	~D3D12Fence();
 

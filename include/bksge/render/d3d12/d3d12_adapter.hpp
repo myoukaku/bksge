@@ -26,7 +26,7 @@ namespace render
 class D3D12Adapter
 {
 public:
-	D3D12Adapter(ComPtr<::IDXGIAdapter1> adapter);
+	explicit D3D12Adapter(ComPtr<::IDXGIAdapter1> adapter);
 
 	~D3D12Adapter();
 

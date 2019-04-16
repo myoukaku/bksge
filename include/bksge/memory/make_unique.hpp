@@ -23,7 +23,6 @@ using std::make_unique;
 #else
 
 #include <cstddef>
-#include <memory>
 #include <type_traits>
 #include <utility>
 

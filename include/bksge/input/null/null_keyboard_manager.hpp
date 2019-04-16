@@ -30,11 +30,11 @@ public:
 	}
 
 private:
-	virtual void VUpdate(void) override
+	void VUpdate(void) override
 	{
 	}
 
-	virtual KeyboardState const& VGetState(std::size_t /*index*/) const override
+	KeyboardState const& VGetState(std::size_t /*index*/) const override
 	{
 		static KeyboardState const s;
 		return s;

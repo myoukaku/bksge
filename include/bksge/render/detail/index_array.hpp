@@ -43,13 +43,13 @@ public:
 	IndexArray(IndexArray const&) = delete;
 	IndexArray& operator=(IndexArray const&) = delete;
 
-	virtual TypeEnum type(void) const override;
+	TypeEnum type(void) const override;
 
-	virtual const_pointer data(void) const override;
+	const_pointer data(void) const override;
 
-	virtual size_type bytes(void) const override;
+	size_type bytes(void) const override;
 
-	virtual size_type count(void) const override;
+	size_type count(void) const override;
 
 	T const& operator[](std::size_t i) const;
 

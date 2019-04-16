@@ -23,7 +23,7 @@ namespace render
 class D3D12CommandList
 {
 public:
-	D3D12CommandList(D3D12Device* device);
+	explicit D3D12CommandList(D3D12Device* device);
 
 	~D3D12CommandList();
 

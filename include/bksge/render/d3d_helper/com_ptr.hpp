@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	com_ptr.hpp
  *
- *	@brief	
+ *	@brief	ComPtr の定義
  *
  *	@author	myoukaku
  */

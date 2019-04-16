@@ -29,8 +29,8 @@ class GlxContext : public GlContext
 public:
 	explicit GlxContext(Window const& window);
 	virtual ~GlxContext();
-	virtual void SwapBuffers(void) override;
-	virtual void MakeCurrent(bool current) override;
+	void SwapBuffers(void) override;
+	void MakeCurrent(bool current) override;
 
 private:
 };

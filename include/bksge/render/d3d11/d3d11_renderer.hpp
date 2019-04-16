@@ -78,11 +78,11 @@ private:
 	void CreateDevice(void);
 	void Finalize(void);
 
-	virtual void VSetRenderTarget(Window const& window) override;
-	virtual void VBegin(void) override;
-	virtual void VEnd(void) override;
-	virtual void VClear(ClearFlag clear_flag, Color4f const& clear_color) override;
-	virtual void VRender(Geometry const& geometry, Shader const& shader) override;
+	void VSetRenderTarget(Window const& window) override;
+	void VBegin(void) override;
+	void VEnd(void) override;
+	void VClear(ClearFlag clear_flag, Color4f const& clear_color) override;
+	void VRender(Geometry const& geometry, Shader const& shader) override;
 
 private:
 	::D3D_DRIVER_TYPE                m_driver_type   = ::D3D_DRIVER_TYPE_NULL;

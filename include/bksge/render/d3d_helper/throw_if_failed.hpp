@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	throw_if_failed.hpp
  *
- *	@brief
+ *	@brief	ThrowIfFailed の定義
  *
  *	@author	myoukaku
  */
@@ -21,7 +21,7 @@ namespace render
 class HrException : public std::runtime_error
 {
 public:
-	HrException(::HRESULT hr)
+	explicit HrException(::HRESULT hr)
 		: std::runtime_error(HrToString(hr))
 		, m_hr(hr)
 	{}

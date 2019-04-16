@@ -27,7 +27,7 @@ namespace render
 class D3D12Device
 {
 public:
-	D3D12Device(std::vector<D3D12Adapter> const& adapters);
+	explicit D3D12Device(std::vector<D3D12Adapter> const& adapters);
 
 	~D3D12Device();
 

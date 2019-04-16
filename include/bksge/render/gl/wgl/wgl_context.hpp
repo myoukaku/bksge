@@ -30,8 +30,8 @@ class WglContext : public GlContext
 public:
 	explicit WglContext(Window const& window);
 	virtual ~WglContext();
-	virtual void SwapBuffers(void) override;
-	virtual void MakeCurrent(bool current) override;
+	void SwapBuffers(void) override;
+	void MakeCurrent(bool current) override;
 
 private:
 	HWND	m_hwnd;

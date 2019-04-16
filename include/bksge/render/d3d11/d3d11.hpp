@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	d3d11.hpp
  *
- *	@brief	
+ *	@brief	d3d11_1.h をインクルード
  *
  *	@author	myoukaku
  */

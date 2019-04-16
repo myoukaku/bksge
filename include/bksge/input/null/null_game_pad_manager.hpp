@@ -30,11 +30,11 @@ public:
 	}
 
 private:
-	virtual void VUpdate(void) override
+	void VUpdate(void) override
 	{
 	}
 
-	virtual GamePadState const& VGetState(std::size_t /*index*/) const override
+	GamePadState const& VGetState(std::size_t /*index*/) const override
 	{
 		static GamePadState const s;
 		return s;

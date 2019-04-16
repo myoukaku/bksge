@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	d3dcompiler.hpp
  *
- *	@brief
+ *	@brief	d3dcompiler.h をインクルード
  *
  *	@author	myoukaku
  */

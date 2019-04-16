@@ -19,6 +19,8 @@
 #include <bksge/render/shader.hpp>
 #include <bksge/render/shader_stage.hpp>
 #include <bksge/memory/make_unique.hpp>
+#include <memory>
+#include <string>
 #include <utility>
 
 namespace bksge

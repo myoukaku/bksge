@@ -11,6 +11,7 @@
 
 #include <bksge/render/texture.hpp>
 #include <bksge/assert.hpp>
+#include <memory>
 #include <cstddef>
 #include <cstdint>
 

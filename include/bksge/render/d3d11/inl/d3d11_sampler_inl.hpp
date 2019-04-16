@@ -21,6 +21,7 @@
 #include <bksge/render/filter_mode.hpp>
 #include <bksge/render/wrap_mode.hpp>
 #include <bksge/render/sampler.hpp>
+#include <memory>
 
 namespace bksge
 {
@@ -56,14 +57,14 @@ D3D11Sampler::~D3D11Sampler()
 {
 }
 
-BKSGE_INLINE
-std::shared_ptr<D3D11Texture> const& D3D11Sampler::texture(void) const
+BKSGE_INLINE std::shared_ptr<D3D11Texture> const&
+D3D11Sampler::texture(void) const
 {
 	return m_texture;
 }
 
-BKSGE_INLINE
-ID3D11SamplerState* D3D11Sampler::state(void) const
+BKSGE_INLINE ID3D11SamplerState*
+D3D11Sampler::state(void) const
 {
 	return m_state.Get();
 }

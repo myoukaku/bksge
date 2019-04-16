@@ -16,6 +16,7 @@
 #include <bksge/render/d3d12/d3d12_adapter.hpp>
 #include <bksge/render/d3d_helper/throw_if_failed.hpp>
 #include <utility>
+#include <vector>
 
 namespace bksge
 {

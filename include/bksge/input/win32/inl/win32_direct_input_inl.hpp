@@ -36,7 +36,7 @@ Win32DirectInput::Win32DirectInput(void)
 			hinstance,
 			DIRECTINPUT_VERSION,
 			IID_IDirectInput8,
-			(VOID**)&m_direct_input,
+			reinterpret_cast<VOID**>(&m_direct_input),
 			nullptr);
 
 	if (FAILED(hr))

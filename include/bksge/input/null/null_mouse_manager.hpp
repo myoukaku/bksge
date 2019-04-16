@@ -30,11 +30,11 @@ public:
 	}
 
 private:
-	virtual void VUpdate(void) override
+	void VUpdate(void) override
 	{
 	}
 
-	virtual MouseState const& VGetState(std::size_t /*index*/) const override
+	MouseState const& VGetState(std::size_t /*index*/) const override
 	{
 		static MouseState const s;
 		return s;

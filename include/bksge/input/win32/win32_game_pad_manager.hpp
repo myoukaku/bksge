@@ -30,9 +30,9 @@ public:
 	virtual ~Win32GamePadManager();
 
 private:
-	virtual void VUpdate(void) override;
+	void VUpdate(void) override;
 
-	virtual GamePadState const& VGetState(std::size_t index) const override;
+	GamePadState const& VGetState(std::size_t index) const override;
 
 	class Impl;
 	std::unique_ptr<Impl>	m_impl;
