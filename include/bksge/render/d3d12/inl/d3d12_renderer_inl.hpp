@@ -24,6 +24,7 @@
 #include <bksge/render/d3d_helper/com_ptr.hpp>
 #include <bksge/render/d3d_helper/dxgi.hpp>
 #include <bksge/render/d3d_helper/throw_if_failed.hpp>
+#include <bksge/render/d3d_helper/d3dcompiler.hpp>
 
 #include <bksge/render/geometry.hpp>
 #include <bksge/render/shader.hpp>
@@ -34,9 +35,6 @@
 #include <bksge/assert.hpp>
 
 #include <unordered_map>
-
-#include <d3dcompiler.h>
-#pragma comment(lib, "d3dcompiler.lib")
 
 namespace bksge
 {

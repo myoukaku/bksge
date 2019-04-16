@@ -14,17 +14,11 @@
 
 #include <bksge/render/d3d11/d3d11_hlsl_shader.hpp>
 #include <bksge/render/d3d11/d3d11_renderer.hpp>
-#include <bksge/render/d3d11/com_ptr.hpp>
+#include <bksge/render/d3d_helper/com_ptr.hpp>
+#include <bksge/render/d3d_helper/d3dcompiler.hpp>
 #include <bksge/render/shader.hpp>
 #include <bksge/render/shader_stage.hpp>
 #include <bksge/assert.hpp>
-
-#include <d3dcompiler.h>
-
-#if defined(_MSC_VER)
-#pragma comment(lib, "d3dcompiler.lib")
-#endif
-
 #include <iostream>
 
 namespace bksge
