@@ -10,7 +10,7 @@
 #define BKSGE_RENDER_D3D11_D3D11_TEXTURE_HPP
 
 #include <bksge/render/d3d11/fwd/d3d11_texture_fwd.hpp>
-#include <bksge/render/d3d11/fwd/d3d11_renderer_fwd.hpp>
+#include <bksge/render/d3d11/fwd/d3d11_device_fwd.hpp>
 #include <bksge/render/d3d11/d3d11.hpp>
 #include <bksge/render/d3d_helper/com_ptr.hpp>
 #include <bksge/render/fwd/texture_fwd.hpp>
@@ -27,7 +27,7 @@ namespace render
 class D3D11Texture
 {
 public:
-	explicit D3D11Texture(D3D11Renderer* renderer, Texture const& texture);
+	explicit D3D11Texture(D3D11Device* device, Texture const& texture);
 
 	~D3D11Texture();
 

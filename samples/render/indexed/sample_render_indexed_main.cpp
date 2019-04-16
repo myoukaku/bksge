@@ -9,27 +9,34 @@
 #include <bksge/window.hpp>
 #include <bksge/render.hpp>
 
+#define SAMPLE_RENDERER_GL		0
+#define SAMPLE_RENDERER_D3D11	1
+#define SAMPLE_RENDERER_D3D12	2
+
+#define	SAMPLE_RENDERER		SAMPLE_RENDERER_GL
+
 int main()
 {
 	bksge::Window window({800, 600}, "sample_render_indexed");
 
-#if 1
+#if SAMPLE_RENDERER == SAMPLE_RENDERER_GL
 	bksge::GlRenderer renderer;
 	#define USE_GLSL
-#elif 1
+#elif SAMPLE_RENDERER == SAMPLE_RENDERER_D3D11
+	bksge::D3D11Renderer renderer;
+#elif SAMPLE_RENDERER == SAMPLE_RENDERER_D3D12
 	bksge::D3D12Renderer renderer;
 #else
-	bksge::D3D11Renderer renderer;
 #endif
 	renderer.SetRenderTarget(window);
 	renderer.SetClearColor({0.5f, 0.0f, 0.5f, 1});
 
-	const bksge::Vertex<bksge::VPosition> vertices[] =
+	const bksge::Vertex<bksge::VPosition, bksge::VColor> vertices[] =
 	{
-		{{{-0.5,  0.5, 0.0}}},
-		{{{ 0.5,  0.5, 0.0}}},
-		{{{-0.5, -0.5, 0.0}}},
-		{{{ 0.5, -0.5, 0.0}}},
+		{{{ -0.5f,  0.5f, 0.0f }}, {{ 1.0f, 0.0f, 0.0f, 1.0f }}},
+		{{{  0.5f,  0.5f, 0.0f }}, {{ 0.0f, 1.0f, 0.0f, 1.0f }}},
+		{{{ -0.5f, -0.5f, 0.0f }}, {{ 0.0f, 0.0f, 1.0f, 1.0f }}},
+		{{{  0.5f, -0.5f, 0.0f }}, {{ 1.0f, 1.0f, 0.0f, 1.0f }}},
 	};
 
 	const std::uint16_t indices[] =
@@ -44,32 +51,58 @@ int main()
 	// GLSL
 	char const* vs_source =
 		"attribute vec3 aPosition;					"
+		"attribute vec4 aColor;						"
+		"varying  vec4 vColor;						"
 		"											"
 		"void main()								"
 		"{											"
 		"	gl_Position = vec4(aPosition, 1.0);		"
+		"	vColor = aColor;						"
 		"}											"
 	;
 
 	char const* fs_source =
+		"varying  vec4 vColor;						"
+		"											"
 		"void main()								"
 		"{											"
-		"	gl_FragColor = vec4(0.0, 0.0, 1.0, 1.0);"
+		"	gl_FragColor = vColor;					"
 		"}											"
 	;
 #else
 	// HLSL
 	char const* vs_source =
-		"float4 main(float3 aPosition : POSITION) : SV_POSITION	"
-		"{												"
-		"	return float4(aPosition, 1.0);				"
-		"}												"
+		"struct VS_INPUT							"
+		"{											"
+		"	float3 pos   : POSITION;				"
+		"	float4 color : COLOR;					"
+		"};											"
+ 		"											"
+		"struct VS_OUTPUT							"
+		"{											"
+		"	float4 pos   : SV_POSITION;				"
+		"	float4 color : COLOR;					"
+		"};											"
+		"											"
+		"VS_OUTPUT main(VS_INPUT input)				"
+		"{											"
+		"	VS_OUTPUT output;						"
+		"	output.pos = float4(input.pos, 1.0);	"
+		"	output.color = input.color;				"
+		"	return output;							"
+		"}											"
 	;
 
 	char const* fs_source =
-		"float4 main() : SV_Target					"
+		"struct PS_INPUT							"
 		"{											"
-		"	return float4(0.0, 0.0, 1.0, 1.0);		"
+		"	float4 pos   : SV_POSITION;				"
+		"	float4 color : COLOR;					"
+		"};											"
+		"											"
+		"float4 main(PS_INPUT input) : SV_Target	"
+		"{											"
+		"	return input.color;						"
 		"}											"
 	;
 #endif

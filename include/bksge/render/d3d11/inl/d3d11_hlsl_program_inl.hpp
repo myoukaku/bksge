@@ -16,6 +16,7 @@
 #include <bksge/render/d3d11/d3d11_hlsl_shader.hpp>
 #include <bksge/render/d3d11/d3d11_geometry.hpp>
 #include <bksge/render/d3d11/d3d11_renderer.hpp>
+#include <bksge/render/d3d11/d3d11_device_context.hpp>
 #include <bksge/render/shader.hpp>
 #include <bksge/render/shader_stage.hpp>
 #include <bksge/memory/make_unique.hpp>
@@ -30,7 +31,7 @@ namespace render
 {
 
 BKSGE_INLINE
-D3D11HLSLProgram::D3D11HLSLProgram(D3D11Renderer* renderer, Shader const& shader)
+D3D11HLSLProgram::D3D11HLSLProgram(D3D11Device* device, Shader const& shader)
 {
 	for (auto&& it : shader.program_map())
 	{
@@ -58,7 +59,7 @@ D3D11HLSLProgram::D3D11HLSLProgram(D3D11Renderer* renderer, Shader const& shader
 
 		if (hlsl_shader)
 		{
-			auto const ret = hlsl_shader->Compile(renderer, source);
+			auto const ret = hlsl_shader->Compile(device, source);
 			if (ret)
 			{
 				m_shaders.push_back(std::move(hlsl_shader));
@@ -73,9 +74,14 @@ D3D11HLSLProgram::~D3D11HLSLProgram()
 }
 
 BKSGE_INLINE void
-D3D11HLSLProgram::Render(D3D11Renderer* renderer, D3D11Geometry const* geometry)
+D3D11HLSLProgram::Render(D3D11DeviceContext* device_context, D3D11Geometry const* geometry)
 {
-	geometry->Draw(renderer);
+	for (auto& shader : m_shaders)
+	{
+		shader->Draw(device_context);
+	}
+
+	geometry->Draw(device_context);
 }
 
 }	// namespace render

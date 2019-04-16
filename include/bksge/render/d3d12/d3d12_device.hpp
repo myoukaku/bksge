@@ -11,8 +11,8 @@
 
 #include <bksge/render/d3d12/fwd/d3d12_device_fwd.hpp>
 #include <bksge/render/d3d12/d3d12.hpp>
-#include <bksge/render/d3d12/d3d12_adapter.hpp>
 #include <bksge/render/d3d_helper/com_ptr.hpp>
+#include <bksge/render/dxgi/dxgi.hpp>
 #include <vector>
 
 namespace bksge
@@ -27,53 +27,54 @@ namespace render
 class D3D12Device
 {
 public:
-	explicit D3D12Device(std::vector<D3D12Adapter> const& adapters);
+	explicit D3D12Device(std::vector<ComPtr<::IDXGIAdapter1>> const& adapters);
 
 	~D3D12Device();
 
 	ComPtr<::ID3D12CommandQueue> CreateCommandQueue(
-		D3D12_COMMAND_QUEUE_DESC const& desc);
+		::D3D12_COMMAND_QUEUE_DESC const& desc);
 
 	ComPtr<::ID3D12CommandAllocator> CreateCommandAllocator(
-		D3D12_COMMAND_LIST_TYPE type);
+		::D3D12_COMMAND_LIST_TYPE type);
 
 	ComPtr<::ID3D12GraphicsCommandList> CreateGraphicsCommandList(
-		D3D12_COMMAND_LIST_TYPE type,
-		ID3D12CommandAllocator* command_allocator);
+		::D3D12_COMMAND_LIST_TYPE type,
+		::ID3D12CommandAllocator* command_allocator);
 
 	ComPtr<::ID3D12DescriptorHeap> CreateDescriptorHeap(
-		D3D12_DESCRIPTOR_HEAP_DESC const& desc);
+		::D3D12_DESCRIPTOR_HEAP_DESC const& desc);
 
 	UINT GetDescriptorHandleIncrementSize(
-		D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapType);
+		::D3D12_DESCRIPTOR_HEAP_TYPE descriptor_heap_type);
 
 	void CreateRenderTargetView(
-		ID3D12Resource*                      pResource,
-		const D3D12_RENDER_TARGET_VIEW_DESC* pDesc,
-		D3D12_CPU_DESCRIPTOR_HANDLE          DestDescriptor
+		::ID3D12Resource*                      resource,
+		::D3D12_RENDER_TARGET_VIEW_DESC const* desc,
+		::D3D12_CPU_DESCRIPTOR_HANDLE          dest_descriptor
 	);
 
 	ComPtr<::ID3D12Fence> CreateFence(
-		UINT64            InitialValue,
-		D3D12_FENCE_FLAGS Flags);
+		::UINT64            initial_value,
+		::D3D12_FENCE_FLAGS flags);
 
 	ComPtr<::ID3D12RootSignature> CreateRootSignature(
-		UINT        node_mask,
+		::UINT      node_mask,
 		void const* blob_with_root_signature,
-		SIZE_T      blob_length_in_bytes);
+		::SIZE_T    blob_length_in_bytes);
 
 	ComPtr<::ID3D12PipelineState> CreateGraphicsPipelineState(
-		D3D12_GRAPHICS_PIPELINE_STATE_DESC const& desc);
+		::D3D12_GRAPHICS_PIPELINE_STATE_DESC const& desc);
 
 	ComPtr<::ID3D12Resource> CreateCommittedResource(
-		const D3D12_HEAP_PROPERTIES *pHeapProperties,
-		D3D12_HEAP_FLAGS            HeapFlags,
-		const D3D12_RESOURCE_DESC   *pDesc,
-		D3D12_RESOURCE_STATES       InitialResourceState,
-		const D3D12_CLEAR_VALUE     *pOptimizedClearValue);
+		::D3D12_HEAP_PROPERTIES const* heap_properties,
+		::D3D12_HEAP_FLAGS             heap_flags,
+		::D3D12_RESOURCE_DESC const*   desc,
+		::D3D12_RESOURCE_STATES        initial_resource_state,
+		::D3D12_CLEAR_VALUE const*     optimized_clear_value);
 
 private:
-	ComPtr<::ID3D12Device> m_device;
+	ComPtr<::ID3D12Device>	m_device;
+	::D3D_FEATURE_LEVEL		m_feature_level;
 };
 
 }	// namespace render

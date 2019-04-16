@@ -137,7 +137,11 @@ BKSGE_INLINE void APIENTRY glDeleteShader(GLuint shader)
 }
 
 //BKSGE_INLINE void APIENTRY glDetachShader(GLuint program, GLuint shader);
-//BKSGE_INLINE void APIENTRY glDisableVertexAttribArray(GLuint index);
+
+BKSGE_INLINE void APIENTRY glDisableVertexAttribArray(GLuint index)
+{
+	BKSGE_GLEXT_FUNC(PFNGLDISABLEVERTEXATTRIBARRAYPROC, glDisableVertexAttribArray, index);
+}
 
 BKSGE_INLINE void APIENTRY glEnableVertexAttribArray(GLuint index)
 {
@@ -357,9 +361,22 @@ BKSGE_INLINE void APIENTRY glFramebufferTexture2D(GLenum target, GLenum attachme
 //BKSGE_INLINE void APIENTRY glFramebufferTextureLayer(GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer);
 //BKSGE_INLINE void* APIENTRY glMapBufferRange(GLenum target, GLintptr offset, GLsizeiptr length, GLbitfield access);
 //BKSGE_INLINE void APIENTRY glFlushMappedBufferRange(GLenum target, GLintptr offset, GLsizeiptr length);
-//BKSGE_INLINE void APIENTRY glBindVertexArray(GLuint array);
-//BKSGE_INLINE void APIENTRY glDeleteVertexArrays(GLsizei n, const GLuint* arrays);
-//BKSGE_INLINE void APIENTRY glGenVertexArrays(GLsizei n, GLuint* arrays);
+
+BKSGE_INLINE void APIENTRY glBindVertexArray(GLuint array)
+{
+	BKSGE_GLEXT_FUNC(PFNGLBINDVERTEXARRAYPROC, glBindVertexArray, array);
+}
+
+BKSGE_INLINE void APIENTRY glDeleteVertexArrays(GLsizei n, const GLuint* arrays)
+{
+	BKSGE_GLEXT_FUNC(PFNGLDELETEVERTEXARRAYSPROC, glDeleteVertexArrays, n, arrays);
+}
+
+BKSGE_INLINE void APIENTRY glGenVertexArrays(GLsizei n, GLuint* arrays)
+{
+	BKSGE_GLEXT_FUNC(PFNGLGENVERTEXARRAYSPROC, glGenVertexArrays, n, arrays);
+}
+
 //BKSGE_INLINE GLboolean APIENTRY glIsVertexArray(GLuint array);
 
 // GL_VERSION_3_3

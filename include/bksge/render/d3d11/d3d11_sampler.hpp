@@ -22,7 +22,7 @@ namespace bksge
 
 namespace render
 {
-
+#if 0
 /**
  *	@brief	SamplerをD3D11で使えるように変換したクラス
  */
@@ -40,7 +40,7 @@ private:
 	std::shared_ptr<D3D11Texture> m_texture;
 	ComPtr<::ID3D11SamplerState> m_state;
 };
-
+#endif
 }	// namespace render
 
 }	// namespace bksge

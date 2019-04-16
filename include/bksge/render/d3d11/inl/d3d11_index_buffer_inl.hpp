@@ -13,7 +13,8 @@
 #if BKSGE_RENDER_HAS_D3D11_RENDERER
 
 #include <bksge/render/d3d11/d3d11_index_buffer.hpp>
-#include <bksge/render/d3d11/d3d11_renderer.hpp>
+#include <bksge/render/d3d11/d3d11_device.hpp>
+#include <bksge/render/d3d11/d3d11_device_context.hpp>
 #include <bksge/render/d3d11/d3d11_format.hpp>
 #include <bksge/render/d3d11/d3d11.hpp>
 #include <bksge/render/d3d_helper/com_ptr.hpp>
@@ -28,7 +29,7 @@ namespace render
 
 BKSGE_INLINE
 D3D11IndexBuffer::D3D11IndexBuffer(
-	D3D11Renderer* renderer,
+	D3D11Device* device,
 	Geometry const& geometry)
 	: m_format(DXGI_FORMAT_UNKNOWN)
 	, m_enable(false)
@@ -54,7 +55,7 @@ D3D11IndexBuffer::D3D11IndexBuffer(
 		ZeroMemory(&subsource_data, sizeof(::D3D11_SUBRESOURCE_DATA));
 		subsource_data.pSysMem = src;
 
-		m_buffer = renderer->CreateBuffer(desc, subsource_data);
+		m_buffer = device->CreateBuffer(desc, subsource_data);
 	}
 }
 
@@ -63,11 +64,11 @@ D3D11IndexBuffer::~D3D11IndexBuffer()
 {}
 
 BKSGE_INLINE
-void D3D11IndexBuffer::Bind(D3D11Renderer* renderer) const
+void D3D11IndexBuffer::Bind(D3D11DeviceContext* device_context) const
 {
 	if (m_enable)
 	{
-		renderer->SetIndexBuffer(m_buffer.Get(), m_format, 0);
+		device_context->IASetIndexBuffer(m_buffer.Get(), m_format, 0);
 	}
 }
 

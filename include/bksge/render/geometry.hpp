@@ -13,7 +13,7 @@
 #include <bksge/render/primitive.hpp>
 #include <bksge/render/detail/fwd/vertex_array_fwd.hpp>
 #include <bksge/render/detail/fwd/index_array_fwd.hpp>
-#include <bksge/render/detail/fwd/vertex_layout_fwd.hpp>
+#include <bksge/render/fwd/vertex_layout_fwd.hpp>
 #include <bksge/render/detail/fwd/type_enum_fwd.hpp>
 #include <bksge/render/detail/identifiable.hpp>
 #include <bksge/render/detail/vertex_array.hpp>

@@ -32,60 +32,60 @@ public:
 	void Close(void);
 
 	void RSSetViewports(
-		UINT                 NumViewports,
-		const D3D12_VIEWPORT *pViewports);
+		::UINT                  num_viewports,
+		::D3D12_VIEWPORT const* viewports);
 
 	void RSSetScissorRects(
-		UINT             NumRects,
-		const D3D12_RECT *pRects);
+		::UINT              num_rects,
+		::D3D12_RECT const* rects);
 
 	void ResourceBarrier(
-		ID3D12Resource* resource,
-		D3D12_RESOURCE_STATES state_before,
-		D3D12_RESOURCE_STATES state_after);
+		::ID3D12Resource*       resource,
+		::D3D12_RESOURCE_STATES state_before,
+		::D3D12_RESOURCE_STATES state_after);
 
 	void OMSetRenderTargets(
-		UINT                              NumRenderTargetDescriptors,
-		D3D12_CPU_DESCRIPTOR_HANDLE const& pRenderTargetDescriptors);
+		::UINT                               num_render_target_descriptors,
+		::D3D12_CPU_DESCRIPTOR_HANDLE const* render_target_descriptors);
 
 	void ClearRenderTargetView(
-		D3D12_CPU_DESCRIPTOR_HANDLE const& RenderTargetView,
-		const FLOAT* ColorRGBA);
+		::D3D12_CPU_DESCRIPTOR_HANDLE const& render_target_view,
+		::FLOAT const*                       color_rgba);
 
 	void SetGraphicsRootSignature(
-		ID3D12RootSignature *pRootSignature);
+		::ID3D12RootSignature* root_signature);
 
 	void SetPipelineState(
-		ID3D12PipelineState *pPipelineState);
+		::ID3D12PipelineState* pipeline_state);
 
 	void IASetPrimitiveTopology(
-		D3D12_PRIMITIVE_TOPOLOGY PrimitiveTopology);
+		::D3D12_PRIMITIVE_TOPOLOGY primitive_topology);
 
 	void IASetVertexBuffers(
-		UINT                           StartSlot,
-		UINT                           NumViews,
-		const D3D12_VERTEX_BUFFER_VIEW *pViews);
+		::UINT                            start_slot,
+		::UINT                            num_views,
+		::D3D12_VERTEX_BUFFER_VIEW const* views);
 
 	void IASetIndexBuffer(
-		const D3D12_INDEX_BUFFER_VIEW *pView);
+		::D3D12_INDEX_BUFFER_VIEW const* view);
 
 	void DrawInstanced(
-		UINT VertexCountPerInstance,
-		UINT InstanceCount,
-		UINT StartVertexLocation,
-		UINT StartInstanceLocation);
+		::UINT vertex_count_per_instance,
+		::UINT instance_count,
+		::UINT start_vertex_location,
+		::UINT start_instance_location);
 
 	void DrawIndexedInstanced(
-		UINT IndexCountPerInstance,
-		UINT InstanceCount,
-		UINT StartIndexLocation,
-		INT  BaseVertexLocation,
-		UINT StartInstanceLocation);
+		::UINT index_count_per_instance,
+		::UINT instance_count,
+		::UINT start_index_location,
+		::INT  base_vertex_location,
+		::UINT start_instance_location);
 
 	void Execute(::ID3D12CommandQueue* command_queue);
 
 private:
-	ComPtr<::ID3D12CommandAllocator> m_command_allocator;
+	ComPtr<::ID3D12CommandAllocator>    m_command_allocator;
 	ComPtr<::ID3D12GraphicsCommandList> m_command_list;
 };
 

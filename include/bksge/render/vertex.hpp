@@ -9,7 +9,7 @@
 #ifndef BKSGE_RENDER_VERTEX_HPP
 #define BKSGE_RENDER_VERTEX_HPP
 
-#include <bksge/render/detail/vertex_layout.hpp>
+#include <bksge/render/vertex_layout.hpp>
 //#include <bksge/serialization/access.hpp>
 //#include <bksge/serialization/nvp.hpp>
 

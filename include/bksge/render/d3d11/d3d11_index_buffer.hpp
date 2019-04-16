@@ -9,7 +9,8 @@
 #ifndef BKSGE_RENDER_D3D11_D3D11_INDEX_BUFFER_HPP
 #define BKSGE_RENDER_D3D11_D3D11_INDEX_BUFFER_HPP
 
-#include <bksge/render/d3d11/fwd/d3d11_renderer_fwd.hpp>
+#include <bksge/render/d3d11/fwd/d3d11_device_fwd.hpp>
+#include <bksge/render/d3d11/fwd/d3d11_device_context_fwd.hpp>
 #include <bksge/render/d3d11/d3d11.hpp>
 #include <bksge/render/d3d_helper/com_ptr.hpp>
 #include <bksge/render/detail/fwd/type_enum_fwd.hpp>
@@ -27,11 +28,11 @@ namespace render
 class D3D11IndexBuffer
 {
 public:
-	D3D11IndexBuffer(D3D11Renderer* renderer, Geometry const& geometry);
+	D3D11IndexBuffer(D3D11Device* device, Geometry const& geometry);
 
 	~D3D11IndexBuffer();
 
-	void Bind(D3D11Renderer* renderer) const;
+	void Bind(D3D11DeviceContext* device_context) const;
 
 	bool enable(void) const;
 

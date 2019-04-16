@@ -72,12 +72,8 @@ BKSGE_INLINE
 void GlGLSLProgram::Render(GlGeometry const* geometry)
 {
 	geometry->Bind();
-
-	// TODO
-	::glEnableVertexAttribArray(0);
-	::glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
 	geometry->Draw();
+	geometry->Unbind();
 }
 
 }	// namespace render

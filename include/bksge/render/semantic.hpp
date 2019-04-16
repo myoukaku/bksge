@@ -45,6 +45,11 @@ Semantic ToSemantic(std::string const& semantic_str);
 /**
  *	@brief	文字列への変換
  */
+char const* ToSemanticName(Semantic const& semantic);
+
+/**
+ *	@brief	文字列への変換
+ */
 std::string to_string(Semantic const& semantic);
 
 /**

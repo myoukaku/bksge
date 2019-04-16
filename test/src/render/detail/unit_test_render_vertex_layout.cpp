@@ -6,7 +6,7 @@
  *	@author	myoukaku
  */
 
-#include <bksge/render/detail/vertex_layout.hpp>
+#include <bksge/render/vertex_layout.hpp>
 #include <bksge/render/vertex_element.hpp>
 #include <utility>
 #include <gtest/gtest.h>

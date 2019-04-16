@@ -54,25 +54,25 @@ D3D12CommandList::Close(void)
 
 BKSGE_INLINE void
 D3D12CommandList::RSSetViewports(
-	UINT                 NumViewports,
-	const D3D12_VIEWPORT *pViewports)
+	::UINT                  num_viewports,
+	::D3D12_VIEWPORT const* viewports)
 {
-	m_command_list->RSSetViewports(NumViewports, pViewports);
+	m_command_list->RSSetViewports(num_viewports, viewports);
 }
 
 BKSGE_INLINE void
 D3D12CommandList::RSSetScissorRects(
-	UINT             NumRects,
-	const D3D12_RECT *pRects)
+	::UINT              num_rects,
+	::D3D12_RECT const* rects)
 {
-	m_command_list->RSSetScissorRects(NumRects, pRects);
+	m_command_list->RSSetScissorRects(num_rects, rects);
 }
 
 BKSGE_INLINE void
 D3D12CommandList::ResourceBarrier(
-	ID3D12Resource* resource,
-	D3D12_RESOURCE_STATES state_before,
-	D3D12_RESOURCE_STATES state_after)
+	::ID3D12Resource*       resource,
+	::D3D12_RESOURCE_STATES state_before,
+	::D3D12_RESOURCE_STATES state_after)
 {
 	::D3D12_RESOURCE_BARRIER barrier;
 	barrier.Type  = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
@@ -86,93 +86,93 @@ D3D12CommandList::ResourceBarrier(
 
 BKSGE_INLINE void
 D3D12CommandList::OMSetRenderTargets(
-	UINT                              NumRenderTargetDescriptors,
-	D3D12_CPU_DESCRIPTOR_HANDLE const& pRenderTargetDescriptors)
+	::UINT                               num_render_target_descriptors,
+	::D3D12_CPU_DESCRIPTOR_HANDLE const* render_target_descriptors)
 {
 	m_command_list->OMSetRenderTargets(
-		NumRenderTargetDescriptors,
-		&pRenderTargetDescriptors,
+		num_render_target_descriptors,
+		render_target_descriptors,
 		FALSE,
 		nullptr);
 }
 
 BKSGE_INLINE void
 D3D12CommandList::ClearRenderTargetView(
-	D3D12_CPU_DESCRIPTOR_HANDLE const& RenderTargetView,
-	const FLOAT* ColorRGBA)
+	::D3D12_CPU_DESCRIPTOR_HANDLE const& render_target_view,
+	::FLOAT const*                       color_rgba)
 {
 	m_command_list->ClearRenderTargetView(
-		RenderTargetView,
-		ColorRGBA,
+		render_target_view,
+		color_rgba,
 		0,
 		nullptr);
 }
 
 BKSGE_INLINE void
 D3D12CommandList::SetGraphicsRootSignature(
-	ID3D12RootSignature *pRootSignature)
+	::ID3D12RootSignature* root_signature)
 {
-	m_command_list->SetGraphicsRootSignature(pRootSignature);
+	m_command_list->SetGraphicsRootSignature(root_signature);
 }
 
 BKSGE_INLINE void
 D3D12CommandList::SetPipelineState(
-	ID3D12PipelineState *pPipelineState)
+	::ID3D12PipelineState* pipeline_state)
 {
-	m_command_list->SetPipelineState(pPipelineState);
+	m_command_list->SetPipelineState(pipeline_state);
 }
 
 BKSGE_INLINE void
 D3D12CommandList::IASetPrimitiveTopology(
-	D3D12_PRIMITIVE_TOPOLOGY PrimitiveTopology)
+	::D3D12_PRIMITIVE_TOPOLOGY primitive_topology)
 {
-	m_command_list->IASetPrimitiveTopology(PrimitiveTopology);
+	m_command_list->IASetPrimitiveTopology(primitive_topology);
 }
 
 BKSGE_INLINE void
 D3D12CommandList::IASetVertexBuffers(
-	UINT                           StartSlot,
-	UINT                           NumViews,
-	const D3D12_VERTEX_BUFFER_VIEW *pViews)
+	::UINT                            start_slot,
+	::UINT                            num_views,
+	::D3D12_VERTEX_BUFFER_VIEW const* views)
 {
-	m_command_list->IASetVertexBuffers(StartSlot, NumViews, pViews);
+	m_command_list->IASetVertexBuffers(start_slot, num_views, views);
 }
 
 BKSGE_INLINE void
 D3D12CommandList::IASetIndexBuffer(
-	const D3D12_INDEX_BUFFER_VIEW *pView)
+	::D3D12_INDEX_BUFFER_VIEW const* view)
 {
-	m_command_list->IASetIndexBuffer(pView);
+	m_command_list->IASetIndexBuffer(view);
 }
 
 BKSGE_INLINE void
 D3D12CommandList::DrawInstanced(
-	UINT VertexCountPerInstance,
-	UINT InstanceCount,
-	UINT StartVertexLocation,
-	UINT StartInstanceLocation)
+	::UINT vertex_count_per_instance,
+	::UINT instance_count,
+	::UINT start_vertex_location,
+	::UINT start_instance_location)
 {
 	m_command_list->DrawInstanced(
-		VertexCountPerInstance,
-		InstanceCount,
-		StartVertexLocation,
-		StartInstanceLocation);
+		vertex_count_per_instance,
+		instance_count,
+		start_vertex_location,
+		start_instance_location);
 }
 
 BKSGE_INLINE void
 D3D12CommandList::DrawIndexedInstanced(
-	UINT IndexCountPerInstance,
-	UINT InstanceCount,
-	UINT StartIndexLocation,
-	INT  BaseVertexLocation,
-	UINT StartInstanceLocation)
+	::UINT index_count_per_instance,
+	::UINT instance_count,
+	::UINT start_index_location,
+	::INT  base_vertex_location,
+	::UINT start_instance_location)
 {
 	m_command_list->DrawIndexedInstanced(
-		IndexCountPerInstance,
-		InstanceCount,
-		StartIndexLocation,
-		BaseVertexLocation,
-		StartInstanceLocation);
+		index_count_per_instance,
+		instance_count,
+		start_index_location,
+		base_vertex_location,
+		start_instance_location);
 }
 
 BKSGE_INLINE void

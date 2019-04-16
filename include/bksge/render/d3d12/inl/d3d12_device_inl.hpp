@@ -13,8 +13,8 @@
 #if BKSGE_RENDER_HAS_D3D12_RENDERER
 
 #include <bksge/render/d3d12/d3d12_device.hpp>
-#include <bksge/render/d3d12/d3d12_adapter.hpp>
 #include <bksge/render/d3d_helper/throw_if_failed.hpp>
+#include <bksge/render/dxgi/dxgi.hpp>
 #include <utility>
 #include <vector>
 
@@ -25,9 +25,43 @@ namespace render
 {
 
 BKSGE_INLINE
-D3D12Device::D3D12Device(std::vector<D3D12Adapter> const& adapters)
+D3D12Device::D3D12Device(std::vector<ComPtr<::IDXGIAdapter1>> const& adapters)
 {
-	m_device = adapters[0].CreateDevice();
+	::HRESULT hr = S_OK;
+
+	for (auto& adapter : adapters)
+	{
+		::D3D_FEATURE_LEVEL const feature_level_tbl[] =
+		{
+			D3D_FEATURE_LEVEL_12_1,
+			D3D_FEATURE_LEVEL_12_0,
+			D3D_FEATURE_LEVEL_11_1,
+			D3D_FEATURE_LEVEL_11_0,
+		};
+
+		bool scceeded = false;
+		for (auto feature_level : feature_level_tbl)
+		{
+			hr = ::D3D12CreateDevice(
+				adapter.Get(),
+				feature_level,
+				IID_PPV_ARGS(&m_device));
+
+			if (SUCCEEDED(hr))
+			{
+				scceeded = true;
+				m_feature_level = feature_level;
+				break;
+			}
+		}
+
+		if (scceeded)
+		{
+			break;
+		}
+	}
+
+	ThrowIfFailed(hr);
 }
 
 BKSGE_INLINE
@@ -37,7 +71,7 @@ D3D12Device::~D3D12Device()
 
 BKSGE_INLINE ComPtr<::ID3D12CommandQueue>
 D3D12Device::CreateCommandQueue(
-	D3D12_COMMAND_QUEUE_DESC const& desc)
+	::D3D12_COMMAND_QUEUE_DESC const& desc)
 {
 	ComPtr<::ID3D12CommandQueue> command_queue;
 	ThrowIfFailed(
@@ -49,7 +83,7 @@ D3D12Device::CreateCommandQueue(
 
 BKSGE_INLINE ComPtr<::ID3D12CommandAllocator>
 D3D12Device::CreateCommandAllocator(
-	D3D12_COMMAND_LIST_TYPE type)
+	::D3D12_COMMAND_LIST_TYPE type)
 {
 	ComPtr<::ID3D12CommandAllocator> command_allocator;
 	ThrowIfFailed(
@@ -61,8 +95,8 @@ D3D12Device::CreateCommandAllocator(
 
 BKSGE_INLINE ComPtr<::ID3D12GraphicsCommandList>
 D3D12Device::CreateGraphicsCommandList(
-	D3D12_COMMAND_LIST_TYPE type,
-	ID3D12CommandAllocator* command_allocator)
+	::D3D12_COMMAND_LIST_TYPE type,
+	::ID3D12CommandAllocator* command_allocator)
 {
 	ComPtr<::ID3D12GraphicsCommandList> command_list;
 	ThrowIfFailed(
@@ -77,7 +111,7 @@ D3D12Device::CreateGraphicsCommandList(
 
 BKSGE_INLINE ComPtr<::ID3D12DescriptorHeap>
 D3D12Device::CreateDescriptorHeap(
-	D3D12_DESCRIPTOR_HEAP_DESC const& desc)
+	::D3D12_DESCRIPTOR_HEAP_DESC const& desc)
 {
 	ComPtr<::ID3D12DescriptorHeap> descriptor_heap;
 	ThrowIfFailed(
@@ -89,42 +123,42 @@ D3D12Device::CreateDescriptorHeap(
 
 BKSGE_INLINE UINT
 D3D12Device::GetDescriptorHandleIncrementSize(
-	D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapType)
+	::D3D12_DESCRIPTOR_HEAP_TYPE descriptor_heap_type)
 {
-	return m_device->GetDescriptorHandleIncrementSize(DescriptorHeapType);
+	return m_device->GetDescriptorHandleIncrementSize(descriptor_heap_type);
 }
 
 BKSGE_INLINE void
 D3D12Device::CreateRenderTargetView(
-	ID3D12Resource                      *pResource,
-	const D3D12_RENDER_TARGET_VIEW_DESC *pDesc,
-	D3D12_CPU_DESCRIPTOR_HANDLE         DestDescriptor)
+	::ID3D12Resource*                      resource,
+	::D3D12_RENDER_TARGET_VIEW_DESC const* desc,
+	::D3D12_CPU_DESCRIPTOR_HANDLE          dest_descriptor)
 {
 	m_device->CreateRenderTargetView(
-		pResource,
-		pDesc,
-		DestDescriptor);
+		resource,
+		desc,
+		dest_descriptor);
 }
 
 BKSGE_INLINE ComPtr<::ID3D12Fence>
 D3D12Device::CreateFence(
-	UINT64            InitialValue,
-	D3D12_FENCE_FLAGS Flags)
+	::UINT64            initial_value,
+	::D3D12_FENCE_FLAGS flags)
 {
 	ComPtr<::ID3D12Fence> fence;
 	ThrowIfFailed(
 		m_device->CreateFence(
-			InitialValue,
-			Flags,
+			initial_value,
+			flags,
 			IID_PPV_ARGS(&fence)));
 	return std::move(fence);
 }
 
 BKSGE_INLINE ComPtr<::ID3D12RootSignature>
 D3D12Device::CreateRootSignature(
-	UINT        node_mask,
+	::UINT      node_mask,
 	void const* blob_with_root_signature,
-	SIZE_T      blob_length_in_bytes)
+	::SIZE_T    blob_length_in_bytes)
 {
 	ComPtr<::ID3D12RootSignature> root_signature;
 	ThrowIfFailed(
@@ -138,7 +172,7 @@ D3D12Device::CreateRootSignature(
 
 BKSGE_INLINE ComPtr<::ID3D12PipelineState>
 D3D12Device::CreateGraphicsPipelineState(
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC const& desc)
+	::D3D12_GRAPHICS_PIPELINE_STATE_DESC const& desc)
 {
 	ComPtr<::ID3D12PipelineState> pipeline_state;
 	ThrowIfFailed(
@@ -150,20 +184,20 @@ D3D12Device::CreateGraphicsPipelineState(
 
 BKSGE_INLINE ComPtr<::ID3D12Resource>
 D3D12Device::CreateCommittedResource(
-	const D3D12_HEAP_PROPERTIES *pHeapProperties,
-	D3D12_HEAP_FLAGS            HeapFlags,
-	const D3D12_RESOURCE_DESC   *pDesc,
-	D3D12_RESOURCE_STATES       InitialResourceState,
-	const D3D12_CLEAR_VALUE     *pOptimizedClearValue)
+	::D3D12_HEAP_PROPERTIES const* heap_properties,
+	::D3D12_HEAP_FLAGS             heap_flags,
+	::D3D12_RESOURCE_DESC const*   desc,
+	::D3D12_RESOURCE_STATES        initial_resource_state,
+	::D3D12_CLEAR_VALUE const*     optimized_clearvalue)
 {
-	ComPtr<::ID3D12Resource>	resource;
+	ComPtr<::ID3D12Resource> resource;
 	ThrowIfFailed(
 		m_device->CreateCommittedResource(
-			pHeapProperties,
-			HeapFlags,
-			pDesc,
-			InitialResourceState,
-			pOptimizedClearValue,
+			heap_properties,
+			heap_flags,
+			desc,
+			initial_resource_state,
+			optimized_clearvalue,
 			IID_PPV_ARGS(&resource)));
 	return std::move(resource);
 }

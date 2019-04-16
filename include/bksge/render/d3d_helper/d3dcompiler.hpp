@@ -13,6 +13,7 @@
 
 #if defined(_MSC_VER)
 #  pragma comment(lib, "d3dcompiler.lib")
+#  pragma comment(lib, "dxguid.lib")
 #endif
 
 #endif // BKSGE_RENDER_D3D_HELPER_D3DCOMPILER_HPP

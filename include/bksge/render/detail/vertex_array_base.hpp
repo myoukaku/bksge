@@ -10,7 +10,7 @@
 #define BKSGE_RENDER_DETAIL_VERTEX_ARRAY_BASE_HPP
 
 #include <bksge/render/detail/fwd/vertex_array_base_fwd.hpp>
-#include <bksge/render/detail/fwd/vertex_layout_fwd.hpp>
+#include <bksge/render/fwd/vertex_layout_fwd.hpp>
 //#include <bksge/serialization/access.hpp>
 //#include <bksge/serialization/nvp.hpp>
 #include <cstddef>

@@ -9,17 +9,24 @@
 #include <bksge/window.hpp>
 #include <bksge/render.hpp>
 
+#define SAMPLE_RENDERER_GL		0
+#define SAMPLE_RENDERER_D3D11	1
+#define SAMPLE_RENDERER_D3D12	2
+
+#define	SAMPLE_RENDERER		SAMPLE_RENDERER_GL
+
 int main()
 {
 	bksge::Window window({800, 600}, "sample_render_triangle");
 
-#if 1
+#if SAMPLE_RENDERER == SAMPLE_RENDERER_GL
 	bksge::GlRenderer renderer;
 	#define USE_GLSL
-#elif 1
+#elif SAMPLE_RENDERER == SAMPLE_RENDERER_D3D11
+	bksge::D3D11Renderer renderer;
+#elif SAMPLE_RENDERER == SAMPLE_RENDERER_D3D12
 	bksge::D3D12Renderer renderer;
 #else
-	bksge::D3D11Renderer renderer;
 #endif
 	renderer.SetRenderTarget(window);
 	renderer.SetClearColor({0.5f, 0.0f, 0.5f, 1});
@@ -70,6 +77,8 @@ int main()
 	bksge::Shader shader;
 	shader.SetProgram(bksge::ShaderStage::kVertex, vs_source);
 	shader.SetProgram(bksge::ShaderStage::kFragment, fs_source);
+
+//	bksge::RenderState render_state;
 
 	while (window.Update())
 	{

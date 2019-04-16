@@ -11,7 +11,8 @@
 
 #include <bksge/render/d3d11/fwd/d3d11_hlsl_program_fwd.hpp>
 #include <bksge/render/d3d11/fwd/d3d11_hlsl_shader_fwd.hpp>
-#include <bksge/render/d3d11/fwd/d3d11_renderer_fwd.hpp>
+#include <bksge/render/d3d11/fwd/d3d11_device_fwd.hpp>
+#include <bksge/render/d3d11/fwd/d3d11_device_context_fwd.hpp>
 #include <bksge/render/d3d11/fwd/d3d11_geometry_fwd.hpp>
 #include <bksge/render/fwd/shader_fwd.hpp>
 #include <vector>
@@ -28,11 +29,11 @@ namespace render
 class D3D11HLSLProgram
 {
 public:
-	D3D11HLSLProgram(D3D11Renderer* renderer, Shader const& shader);
+	D3D11HLSLProgram(D3D11Device* device, Shader const& shader);
 
 	~D3D11HLSLProgram();
 
-	void Render(D3D11Renderer* renderer, D3D11Geometry const* geometry);
+	void Render(D3D11DeviceContext* device_context, D3D11Geometry const* geometry);
 
 private:
 	using D3D11HLSLShaders = std::vector<D3D11HLSLShaderUnique>;

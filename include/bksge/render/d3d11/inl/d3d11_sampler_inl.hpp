@@ -28,7 +28,7 @@ namespace bksge
 
 namespace render
 {
-
+#if 0
 BKSGE_INLINE
 D3D11Sampler::D3D11Sampler(D3D11Renderer* renderer, Sampler const& sampler)
 {
@@ -68,7 +68,7 @@ D3D11Sampler::state(void) const
 {
 	return m_state.Get();
 }
-
+#endif
 }	// namespace render
 
 }	// namespace bksge

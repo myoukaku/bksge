@@ -38,6 +38,19 @@
 #endif
 
 /**
+ *	BKSGE_RENDER_HAS_DXGI
+ *
+ *	TODO
+ */
+#if !defined(BKSGE_RENDER_HAS_DXGI)
+#	if defined(BKSGE_PLATFORM_WIN32)
+#		define BKSGE_RENDER_HAS_DXGI	1
+#	else
+#		define BKSGE_RENDER_HAS_DXGI	0
+#	endif
+#endif
+
+/**
  *	BKSGE_RENDER_HAS_GL_RENDERER
  *
  *	TODO

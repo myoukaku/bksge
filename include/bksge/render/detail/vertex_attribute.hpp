@@ -31,15 +31,15 @@ public:
 		std::size_t element_num,
 		std::size_t offset);
 
-	Semantic      semantic(void) const;
-	TypeEnum      type(void) const;
+	Semantic    semantic(void) const;
+	TypeEnum    type(void) const;
 	std::size_t element_num(void) const;
 	std::size_t offset(void) const;
 	std::size_t bytes(void) const;
 
 private:
-	Semantic      m_semantic;
-	TypeEnum      m_type;
+	Semantic    m_semantic;
+	TypeEnum    m_type;
 	std::size_t m_element_num;
 	std::size_t m_offset;
 };

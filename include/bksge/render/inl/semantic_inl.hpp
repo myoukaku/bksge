@@ -19,8 +19,8 @@ namespace bksge
 namespace render
 {
 
-BKSGE_INLINE
-Semantic ToSemantic(std::string const& semantic_str)
+BKSGE_INLINE Semantic
+ToSemantic(std::string const& semantic_str)
 {
 	static std::unordered_map<std::string, Semantic> const m =
 	{
@@ -46,8 +46,33 @@ Semantic ToSemantic(std::string const& semantic_str)
 	return Semantic::kUnknown;
 }
 
-BKSGE_INLINE
-std::string to_string(Semantic const& semantic)
+BKSGE_INLINE char const*
+ToSemanticName(Semantic const& semantic)
+{
+	static std::unordered_map<Semantic, char const*> const m =
+	{
+		{ Semantic::kPosition,		"POSITION"     },
+		{ Semantic::kNormal,   		"NORMAL"       },
+		{ Semantic::kColor,   		"COLOR"        },
+		{ Semantic::kTexCoord, 		"TEXCOORD"     },
+		{ Semantic::kFogCoord, 		"FOGCOORD"     },
+		{ Semantic::kPointSize, 	"POINTSIZE"    },
+		{ Semantic::kBlendWeight, 	"BLENDWEIGHT"  },
+		{ Semantic::kBlendIndices, 	"BLENDINDICES" },
+		{ Semantic::kTangent, 		"TANGENT"      },
+		{ Semantic::kBinormal, 		"BINORMAL"     },
+	};
+
+	auto it = m.find(semantic);
+	if (it != m.end())
+	{
+		return it->second;
+	}
+	return "UNKNOWN";
+}
+
+BKSGE_INLINE std::string
+to_string(Semantic const& semantic)
 {
 #define BKSGE_RENDER_MAKE_SEMANTIC_KVP(x)	{ x, #x }
 

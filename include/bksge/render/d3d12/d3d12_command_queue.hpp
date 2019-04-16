@@ -33,8 +33,8 @@ public:
 	::ID3D12CommandQueue* Get(void) { return m_command_queue.Get(); } // TODO
 
 	void Signal(
-		ID3D12Fence *pFence,
-		UINT64      Value);
+		::ID3D12Fence* fence,
+		::UINT64       value);
 
 private:
 	ComPtr<::ID3D12CommandQueue> m_command_queue;

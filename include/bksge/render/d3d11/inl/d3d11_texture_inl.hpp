@@ -13,7 +13,7 @@
 #if BKSGE_RENDER_HAS_D3D11_RENDERER
 
 #include <bksge/render/d3d11/d3d11_texture.hpp>
-#include <bksge/render/d3d11/d3d11_renderer.hpp>
+#include <bksge/render/d3d11/d3d11_device.hpp>
 #include <bksge/render/texture.hpp>
 #include <bksge/assert.hpp>
 
@@ -37,7 +37,7 @@ ToDXGIPixelFormat(TextureFormat format)
 }	// namespace d3d11_texture_detail
 
 BKSGE_INLINE
-D3D11Texture::D3D11Texture(D3D11Renderer* renderer, Texture const& texture)
+D3D11Texture::D3D11Texture(D3D11Device* device, Texture const& texture)
 {
 	using namespace d3d11_texture_detail;
 
@@ -60,7 +60,7 @@ D3D11Texture::D3D11Texture(D3D11Renderer* renderer, Texture const& texture)
 	init_data.SysMemPitch      = static_cast<::UINT>(texture.stride());
 	init_data.SysMemSlicePitch = static_cast<::UINT>(texture.stride());
 
-	m_texture = renderer->CreateTexture2D(desc, init_data);
+	m_texture = device->CreateTexture2D(desc, &init_data);
 
 	{
 		::D3D11_SHADER_RESOURCE_VIEW_DESC srv_desc;
@@ -70,7 +70,7 @@ D3D11Texture::D3D11Texture(D3D11Renderer* renderer, Texture const& texture)
 		srv_desc.Texture2D.MostDetailedMip = 0;
 		srv_desc.Texture2D.MipLevels       = desc.MipLevels;
 
-		m_shader_resource_view = renderer->CreateShaderResourceView(m_texture.Get(), srv_desc);
+		m_shader_resource_view = device->CreateShaderResourceView(m_texture.Get(), srv_desc);
 	}
 }
 
@@ -79,13 +79,13 @@ D3D11Texture::~D3D11Texture()
 {
 }
 
-BKSGE_INLINE ID3D11Texture2D*
+BKSGE_INLINE ::ID3D11Texture2D*
 D3D11Texture::texture() const
 {
 	return m_texture.Get();
 }
 
-BKSGE_INLINE ID3D11ShaderResourceView*
+BKSGE_INLINE ::ID3D11ShaderResourceView*
 D3D11Texture::shader_resource_view() const
 {
 	return m_shader_resource_view.Get();

@@ -10,7 +10,8 @@
 #define BKSGE_RENDER_D3D11_D3D11_GEOMETRY_HPP
 
 #include <bksge/render/d3d11/fwd/d3d11_geometry_fwd.hpp>
-#include <bksge/render/d3d11/fwd/d3d11_renderer_fwd.hpp>
+#include <bksge/render/d3d11/fwd/d3d11_device_fwd.hpp>
+#include <bksge/render/d3d11/fwd/d3d11_device_context_fwd.hpp>
 #include <bksge/render/d3d11/d3d11_vertex_buffer.hpp>
 #include <bksge/render/d3d11/d3d11_index_buffer.hpp>
 #include <bksge/render/d3d11/d3d11.hpp>
@@ -28,11 +29,11 @@ namespace render
 class D3D11Geometry
 {
 public:
-	explicit D3D11Geometry(D3D11Renderer* renderer, Geometry const& geometry);
+	explicit D3D11Geometry(D3D11Device* device, Geometry const& geometry);
 
 	~D3D11Geometry();
 
-	void Draw(D3D11Renderer* renderer) const;
+	void Draw(D3D11DeviceContext* device_context) const;
 
 private:
 	D3D11VertexBuffer	       m_vertex_buffer;

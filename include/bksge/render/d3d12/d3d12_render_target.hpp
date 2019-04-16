@@ -11,9 +11,9 @@
 
 #include <bksge/render/d3d12/fwd/d3d12_render_target_fwd.hpp>
 #include <bksge/render/d3d12/fwd/d3d12_device_fwd.hpp>
-#include <bksge/render/d3d12/fwd/d3d12_swap_chain_fwd.hpp>
 #include <bksge/render/d3d12/d3d12.hpp>
 #include <bksge/render/d3d_helper/com_ptr.hpp>
+#include <bksge/render/dxgi/fwd/dxgi_swap_chain_fwd.hpp>
 
 namespace bksge
 {
@@ -24,7 +24,7 @@ namespace render
 class D3D12RenderTarget
 {
 public:
-	D3D12RenderTarget(D3D12Device* device, D3D12SwapChain* swap_chain);
+	D3D12RenderTarget(D3D12Device* device, DXGISwapChain* swap_chain);
 
 	~D3D12RenderTarget();
 

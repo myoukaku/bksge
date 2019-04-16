@@ -10,7 +10,7 @@
 #define BKSGE_RENDER_DETAIL_INL_VERTEX_ARRAY_BASE_INL_HPP
 
 #include <bksge/render/detail/vertex_array_base.hpp>
-#include <bksge/render/detail/vertex_layout.hpp>
+#include <bksge/render/vertex_layout.hpp>
 #include <cstring>	// memcmp
 
 namespace bksge

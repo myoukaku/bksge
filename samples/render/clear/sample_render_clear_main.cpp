@@ -9,16 +9,23 @@
 #include <bksge/window.hpp>
 #include <bksge/render.hpp>
 
+#define SAMPLE_RENDERER_GL		0
+#define SAMPLE_RENDERER_D3D11	1
+#define SAMPLE_RENDERER_D3D12	2
+
+#define	SAMPLE_RENDERER		SAMPLE_RENDERER_GL
+
 int main()
 {
 	bksge::Window window({800, 600}, "sample_render_clear");
 
-#if 1
+#if SAMPLE_RENDERER == SAMPLE_RENDERER_GL
 	bksge::GlRenderer renderer;
-#elif 1
+#elif SAMPLE_RENDERER == SAMPLE_RENDERER_D3D11
+	bksge::D3D11Renderer renderer;
+#elif SAMPLE_RENDERER == SAMPLE_RENDERER_D3D12
 	bksge::D3D12Renderer renderer;
 #else
-	bksge::D3D11Renderer renderer;
 #endif
 	renderer.SetRenderTarget(window);
 

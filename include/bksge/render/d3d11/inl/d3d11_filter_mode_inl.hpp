@@ -23,7 +23,7 @@ namespace render
 namespace detail
 {
 
-inline D3D11_FILTER_TYPE
+inline ::D3D11_FILTER_TYPE
 D3D11FilterType(FilterMode filter)
 {
 	switch (filter)
@@ -38,13 +38,13 @@ D3D11FilterType(FilterMode filter)
 
 BKSGE_INLINE
 D3D11FilterMode::D3D11FilterMode(FilterMode min_filter, FilterMode mag_filter)
-	: m_filter(static_cast<D3D11_FILTER>(
+	: m_filter(static_cast<::D3D11_FILTER>(
 		(detail::D3D11FilterType(min_filter) << D3D11_MIN_FILTER_SHIFT) |
 		(detail::D3D11FilterType(mag_filter) << D3D11_MAG_FILTER_SHIFT)))
 {}
 
 BKSGE_INLINE
-D3D11FilterMode::operator D3D11_FILTER() const
+D3D11FilterMode::operator ::D3D11_FILTER() const
 {
 	return m_filter;
 }

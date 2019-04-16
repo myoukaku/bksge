@@ -9,7 +9,8 @@
 #ifndef BKSGE_RENDER_D3D11_D3D11_VERTEX_BUFFER_HPP
 #define BKSGE_RENDER_D3D11_D3D11_VERTEX_BUFFER_HPP
 
-#include <bksge/render/d3d11/fwd/d3d11_renderer_fwd.hpp>
+#include <bksge/render/d3d11/fwd/d3d11_device_fwd.hpp>
+#include <bksge/render/d3d11/fwd/d3d11_device_context_fwd.hpp>
 #include <bksge/render/d3d11/d3d11.hpp>
 #include <bksge/render/d3d_helper/com_ptr.hpp>
 #include <bksge/render/fwd/geometry_fwd.hpp>
@@ -26,11 +27,11 @@ namespace render
 class D3D11VertexBuffer
 {
 public:
-	D3D11VertexBuffer(D3D11Renderer* renderer, Geometry const& geometry);
+	D3D11VertexBuffer(D3D11Device* device, Geometry const& geometry);
 
 	~D3D11VertexBuffer();
 
-	void Bind(D3D11Renderer* renderer) const;
+	void Bind(D3D11DeviceContext* device_context) const;
 
 private:
 	ComPtr<::ID3D11Buffer> m_buffer;

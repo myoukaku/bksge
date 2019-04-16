@@ -46,10 +46,10 @@ D3D12CommandQueue::ExecuteCommandLists(D3D12CommandList* command_list)
 
 BKSGE_INLINE void
 D3D12CommandQueue::Signal(
-	ID3D12Fence *pFence,
-	UINT64      Value)
+	::ID3D12Fence* fence,
+	::UINT64       value)
 {
-	ThrowIfFailed(m_command_queue->Signal(pFence, Value));
+	ThrowIfFailed(m_command_queue->Signal(fence, value));
 }
 
 }	// namespace render

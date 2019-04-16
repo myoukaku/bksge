@@ -14,7 +14,7 @@
 
 #include <bksge/render/d3d12/d3d12_render_target.hpp>
 #include <bksge/render/d3d12/d3d12_device.hpp>
-#include <bksge/render/d3d12/d3d12_swap_chain.hpp>
+#include <bksge/render/dxgi/dxgi_swap_chain.hpp>
 
 namespace bksge
 {
@@ -25,7 +25,7 @@ namespace render
 BKSGE_INLINE
 D3D12RenderTarget::D3D12RenderTarget(
 	D3D12Device* device,
-	D3D12SwapChain* swap_chain)
+	DXGISwapChain* swap_chain)
 {
 	// Create descriptor heaps.
 	{

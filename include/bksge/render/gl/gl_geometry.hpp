@@ -11,7 +11,7 @@
 
 #include <bksge/render/gl/fwd/gl_geometry_fwd.hpp>
 #include <bksge/render/fwd/geometry_fwd.hpp>
-#include <bksge/render/gl/gl_vertex_buffer.hpp>
+#include <bksge/render/gl/gl_vertex_array.hpp>
 #include <bksge/render/gl/gl_index_buffer.hpp>
 #include <bksge/render/gl/gl_api.hpp>
 
@@ -32,11 +32,12 @@ public:
 	~GlGeometry();
 
 	void Bind(void) const;
+	void Unbind(void) const;
 
 	void Draw(void) const;
 
 private:
-	GlVertexBuffer	m_vertex_buffer;
+	GlVertexArray	m_vertex_array;
 	GlIndexBuffer	m_index_buffer;
 	GLenum			m_primitive;
 	GLsizei			m_vertex_count;

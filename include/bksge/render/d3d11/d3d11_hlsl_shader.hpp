@@ -10,7 +10,8 @@
 #define BKSGE_RENDER_D3D11_D3D11_HLSL_SHADER_HPP
 
 #include <bksge/render/d3d11/fwd/d3d11_hlsl_shader_fwd.hpp>
-#include <bksge/render/d3d11/fwd/d3d11_renderer_fwd.hpp>
+#include <bksge/render/d3d11/fwd/d3d11_device_fwd.hpp>
+#include <bksge/render/d3d11/fwd/d3d11_device_context_fwd.hpp>
 #include <bksge/render/d3d11/d3d11.hpp>
 #include <bksge/render/d3d_helper/com_ptr.hpp>
 #include <string>
@@ -31,11 +32,14 @@ public:
 
 	virtual ~D3D11HLSLShaderBase() = 0;
 
-	bool Compile(D3D11Renderer* renderer, std::string const& source);
+	bool Compile(D3D11Device* device, std::string const& source);
+
+	void Draw(D3D11DeviceContext* device_context);
 
 private:
 	virtual const char* VGetTargetString() = 0;
-	virtual bool VCompile(D3D11Renderer* renderer, ::ID3DBlob* micro_code) = 0;
+	virtual bool VCompile(D3D11Device* device, ::ID3DBlob* micro_code) = 0;
+	virtual void VDraw(D3D11DeviceContext* device_context) = 0;
 };
 
 /**
@@ -49,11 +53,13 @@ public:
 	virtual ~D3D11HLSLVertexShader();
 
 private:
-	virtual const char* VGetTargetString();
-	virtual bool VCompile(D3D11Renderer* renderer, ::ID3DBlob* micro_code);
+	const char* VGetTargetString() override;
+	bool VCompile(D3D11Device* device, ::ID3DBlob* micro_code) override;
+	void VDraw(D3D11DeviceContext* device_context) override;
 
 private:
 	ComPtr<::ID3D11VertexShader>	m_shader;
+	ComPtr<::ID3D11InputLayout>		m_input_layout;
 };
 
 /**
@@ -67,8 +73,9 @@ public:
 	virtual ~D3D11HLSLPixelShader();
 
 private:
-	virtual const char* VGetTargetString();
-	virtual bool VCompile(D3D11Renderer* renderer, ::ID3DBlob* micro_code);
+	const char* VGetTargetString() override;
+	bool VCompile(D3D11Device* device, ::ID3DBlob* micro_code) override;
+	void VDraw(D3D11DeviceContext* device_context) override;
 
 private:
 	ComPtr<::ID3D11PixelShader>	m_shader;
