@@ -22,8 +22,10 @@ inspecode:
     options:
       --enable: all
       --inline-suppr:
-      --suppress: syntaxError
-      --suppress: preprocessorErrorDirective
+      --suppress:
+        - syntaxError
+        - preprocessorErrorDirective
+        - unusedFunction
       --force:
       -I: include
 

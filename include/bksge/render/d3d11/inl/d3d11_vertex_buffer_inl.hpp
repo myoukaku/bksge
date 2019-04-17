@@ -29,17 +29,17 @@ BKSGE_INLINE
 D3D11VertexBuffer::D3D11VertexBuffer(
 	D3D11Renderer* renderer,
 	Geometry const& geometry)
-	: m_stride(static_cast<UINT>(geometry.vertex_layout().total_bytes()))
+	: m_stride(static_cast<::UINT>(geometry.vertex_layout().total_bytes()))
 {
-	D3D11_BUFFER_DESC desc;
-	desc.ByteWidth      = static_cast<UINT>(geometry.vertex_array_bytes());
+	::D3D11_BUFFER_DESC desc;
+	desc.ByteWidth      = static_cast<::UINT>(geometry.vertex_array_bytes());
 	desc.Usage          = D3D11_USAGE_DEFAULT;
 	desc.BindFlags      = D3D11_BIND_VERTEX_BUFFER;
 	desc.CPUAccessFlags = 0;
 	desc.MiscFlags      = 0;
 
-	D3D11_SUBRESOURCE_DATA subsource_data;
-	ZeroMemory(&subsource_data, sizeof(D3D11_SUBRESOURCE_DATA));
+	::D3D11_SUBRESOURCE_DATA subsource_data;
+	ZeroMemory(&subsource_data, sizeof(::D3D11_SUBRESOURCE_DATA));
 	subsource_data.pSysMem = geometry.vertex_array_data();
 
 	m_buffer = renderer->CreateBuffer(desc, subsource_data);
@@ -50,8 +50,8 @@ D3D11VertexBuffer::~D3D11VertexBuffer()
 {
 }
 
-BKSGE_INLINE
-void D3D11VertexBuffer::Bind(D3D11Renderer* renderer) const
+BKSGE_INLINE void
+D3D11VertexBuffer::Bind(D3D11Renderer* renderer) const
 {
 	renderer->SetVertexBuffers(0, 1, m_buffer.GetAddressOf(), &m_stride, &m_offset);
 }

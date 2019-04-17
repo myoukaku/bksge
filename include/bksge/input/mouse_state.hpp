@@ -96,7 +96,6 @@ using input::MouseState;
 
 }	// namespace bksge
 
-#include <bksge/config.hpp>
 #if defined(BKSGE_HEADER_ONLY)
 #include <bksge/input/inl/mouse_state_inl.hpp>
 #endif

@@ -21,7 +21,7 @@ namespace render
 /**
  *	@brief	TypeEnumをD3D11のDXGI_FORMATに変換
  */
-DXGI_FORMAT ToD3D11Format(TypeEnum type);
+::DXGI_FORMAT ToD3D11Format(TypeEnum type);
 
 }	// namespace render
 

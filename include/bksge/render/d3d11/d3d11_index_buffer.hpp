@@ -36,9 +36,9 @@ public:
 	bool enable(void) const;
 
 private:
-	ComPtr<ID3D11Buffer> m_buffer;
-	DXGI_FORMAT          m_format = DXGI_FORMAT_UNKNOWN;
-	bool                 m_enable = false;
+	ComPtr<::ID3D11Buffer> m_buffer;
+	::DXGI_FORMAT          m_format = DXGI_FORMAT_UNKNOWN;
+	bool                   m_enable = false;
 };
 
 }	// namespace render

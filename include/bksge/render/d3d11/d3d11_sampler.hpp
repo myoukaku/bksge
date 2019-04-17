@@ -34,11 +34,11 @@ public:
 	~D3D11Sampler();
 
 	std::shared_ptr<D3D11Texture> const& texture(void) const;
-	ID3D11SamplerState* state(void) const;
+	::ID3D11SamplerState* state(void) const;
 
 private:
 	std::shared_ptr<D3D11Texture> m_texture;
-	ComPtr<ID3D11SamplerState> m_state;
+	ComPtr<::ID3D11SamplerState> m_state;
 };
 
 }	// namespace render

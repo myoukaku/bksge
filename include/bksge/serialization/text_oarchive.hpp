@@ -33,19 +33,8 @@ public:
 	virtual ~text_oarchive_impl_base()
 	{}
 
-	virtual void save_arithmetic(bool) = 0;
-	virtual void save_arithmetic(char) = 0;
-	virtual void save_arithmetic(wchar_t) = 0;
-	virtual void save_arithmetic(signed char) = 0;
-	virtual void save_arithmetic(unsigned char) = 0;
-	virtual void save_arithmetic(signed short) = 0;
-	virtual void save_arithmetic(unsigned short) = 0;
-	virtual void save_arithmetic(signed int) = 0;
-	virtual void save_arithmetic(unsigned int) = 0;
-	virtual void save_arithmetic(signed long) = 0;
-	virtual void save_arithmetic(unsigned long) = 0;
-	virtual void save_arithmetic(signed long long) = 0;
-	virtual void save_arithmetic(unsigned long long) = 0;
+	virtual void save_arithmetic(std::intmax_t) = 0;
+	virtual void save_arithmetic(std::uintmax_t) = 0;
 	virtual void save_arithmetic(float) = 0;
 	virtual void save_arithmetic(double) = 0;
 	virtual void save_arithmetic(long double) = 0;
@@ -60,72 +49,32 @@ public:
 		: m_os(os)
 	{}
 
-	void save_arithmetic(bool t) override
+	void save_arithmetic(std::intmax_t t) override
 	{
 		m_os << t << " ";
 	}
-	void save_arithmetic(char t) override
-	{
-		save_arithmetic(static_cast<short int>(t));
-	}
-	void save_arithmetic(wchar_t t) override
-	{
-		static_assert(sizeof(wchar_t) <= sizeof(unsigned int), "");
-		save_arithmetic(static_cast<unsigned int>(t));
-	}
-	void save_arithmetic(signed char t) override
-	{
-		save_arithmetic(static_cast<short int>(t));
-	}
-	void save_arithmetic(unsigned char t) override
-	{
-		save_arithmetic(static_cast<short unsigned int>(t));
-	}
-	void save_arithmetic(signed short t) override
-	{
-		m_os << t << " ";
-	}
-	void save_arithmetic(unsigned short t) override
-	{
-		m_os << t << " ";
-	}
-	void save_arithmetic(signed int t) override
-	{
-		m_os << t << " ";
-	}
-	void save_arithmetic(unsigned int t) override
-	{
-		m_os << t << " ";
-	}
-	void save_arithmetic(signed long t) override
-	{
-		m_os << t << " ";
-	}
-	void save_arithmetic(unsigned long t) override
-	{
-		m_os << t << " ";
-	}
-	void save_arithmetic(signed long long t) override
-	{
-		m_os << t << " ";
-	}
-	void save_arithmetic(unsigned long long t) override
+	void save_arithmetic(std::uintmax_t t) override
 	{
 		m_os << t << " ";
 	}
 	void save_arithmetic(float t) override
 	{
-		auto const digits = std::numeric_limits<float>::max_digits10;
-		m_os << std::setprecision(digits) << std::scientific << t << " ";
+		save_float(t);
 	}
 	void save_arithmetic(double t) override
 	{
-		auto const digits = std::numeric_limits<double>::max_digits10;
-		m_os << std::setprecision(digits) << std::scientific << t << " ";
+		save_float(t);
 	}
 	void save_arithmetic(long double t) override
 	{
-		auto const digits = std::numeric_limits<long double>::max_digits10;
+		save_float(t);
+	}
+
+private:
+	template <typename T>
+	void save_float(T t)
+	{
+		auto const digits = std::numeric_limits<T>::max_digits10;
 		m_os << std::setprecision(digits) << std::scientific << t << " ";
 	}
 
@@ -198,16 +147,34 @@ private:
 		}
 	}
 
-	template <typename T>
+	template <typename T, typename std::enable_if<std::is_floating_point<T>::value>::type* = nullptr>
 	void save_arithmetic(T const& t)
 	{
 		m_impl->save_arithmetic(t);
 	}
 
+	template <typename T, typename std::enable_if<std::is_integral<T>::value>::type* = nullptr>
+	void save_arithmetic(T const& t)
+	{
+		save_integral(t);
+	}
+
+	template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
+	void save_integral(T const& t)
+	{
+		m_impl->save_arithmetic(static_cast<std::uintmax_t>(t));
+	}
+
+	template <typename T, typename std::enable_if<std::is_signed<T>::value>::type* = nullptr>
+	void save_integral(T const& t)
+	{
+		m_impl->save_arithmetic(static_cast<std::intmax_t>(t));
+	}
+
 	template <typename T>
 	void save_enum(T const& t)
 	{
-		m_impl->save_arithmetic(t);
+		m_impl->save_arithmetic(static_cast<std::uintmax_t>(t));
 	}
 
 	template <typename T>

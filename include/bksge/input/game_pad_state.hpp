@@ -99,7 +99,6 @@ using input::GamePadState;
 
 }	// namespace bksge
 
-#include <bksge/config.hpp>
 #if defined(BKSGE_HEADER_ONLY)
 #include <bksge/input/inl/game_pad_state_inl.hpp>
 #endif

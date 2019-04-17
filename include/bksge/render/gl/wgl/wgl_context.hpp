@@ -43,7 +43,6 @@ private:
 
 }	// namespace bksge
 
-#include <bksge/config.hpp>
 #if defined(BKSGE_HEADER_ONLY)
 #include <bksge/render/gl/wgl/inl/wgl_context_inl.hpp>
 #endif

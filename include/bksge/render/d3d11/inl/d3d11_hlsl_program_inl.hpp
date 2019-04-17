@@ -41,7 +41,7 @@ D3D11HLSLProgram::D3D11HLSLProgram(D3D11Renderer* renderer, Shader const& shader
 		switch (stage)
 		{
 		case ShaderStage::kVertex:
-			hlsl_shader.reset(new D3D11HLSLVertexShader());
+			hlsl_shader = std::move(bksge::make_unique<D3D11HLSLVertexShader>());
 			break;
 		case ShaderStage::kGeometry:
 			break;
@@ -72,8 +72,8 @@ D3D11HLSLProgram::~D3D11HLSLProgram()
 {
 }
 
-BKSGE_INLINE
-void D3D11HLSLProgram::Render(D3D11Renderer* renderer, D3D11Geometry const* geometry)
+BKSGE_INLINE void
+D3D11HLSLProgram::Render(D3D11Renderer* renderer, D3D11Geometry const* geometry)
 {
 	geometry->Draw(renderer);
 }

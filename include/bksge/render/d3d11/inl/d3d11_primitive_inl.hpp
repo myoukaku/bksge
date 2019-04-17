@@ -22,11 +22,10 @@ namespace bksge
 namespace render
 {
 
-BKSGE_INLINE
-D3D11_PRIMITIVE_TOPOLOGY
+BKSGE_INLINE ::D3D11_PRIMITIVE_TOPOLOGY
 ToD3D11Primitive(Primitive primitive)
 {
-	static std::unordered_map<Primitive, D3D11_PRIMITIVE_TOPOLOGY> const m =
+	static std::unordered_map<Primitive, ::D3D11_PRIMITIVE_TOPOLOGY> const m =
 	{
 		{ Primitive::kPoints,    D3D11_PRIMITIVE_TOPOLOGY_POINTLIST },
 		{ Primitive::kLines,	 D3D11_PRIMITIVE_TOPOLOGY_LINELIST },

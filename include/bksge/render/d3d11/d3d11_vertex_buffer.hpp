@@ -33,9 +33,9 @@ public:
 	void Bind(D3D11Renderer* renderer) const;
 
 private:
-	ComPtr<ID3D11Buffer> m_buffer;
-	UINT                 m_stride = 0;
-	UINT                 m_offset = 0;
+	ComPtr<::ID3D11Buffer> m_buffer;
+	::UINT                 m_stride = 0;
+	::UINT                 m_offset = 0;
 };
 
 }	// namespace render

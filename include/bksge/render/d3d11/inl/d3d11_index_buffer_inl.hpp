@@ -33,7 +33,7 @@ D3D11IndexBuffer::D3D11IndexBuffer(
 	: m_format(DXGI_FORMAT_UNKNOWN)
 	, m_enable(false)
 {
-	auto const src = geometry.index_array_data();
+	auto const src  = geometry.index_array_data();
 	auto const size = geometry.index_array_bytes();
 	auto const type = geometry.index_array_type();
 
@@ -42,16 +42,16 @@ D3D11IndexBuffer::D3D11IndexBuffer(
 		m_enable = true;
 		m_format = ToD3D11Format(type);
 
-		D3D11_BUFFER_DESC desc;
-		desc.ByteWidth           = static_cast<UINT>(size);
+		::D3D11_BUFFER_DESC desc;
+		desc.ByteWidth           = static_cast<::UINT>(size);
 		desc.Usage               = D3D11_USAGE_DEFAULT;
 		desc.BindFlags           = D3D11_BIND_INDEX_BUFFER;
 		desc.CPUAccessFlags      = 0;
 		desc.MiscFlags           = 0;
-		desc.StructureByteStride = static_cast<UINT>(GetSizeOf(type));
+		desc.StructureByteStride = static_cast<::UINT>(GetSizeOf(type));
 
-		D3D11_SUBRESOURCE_DATA subsource_data;
-		ZeroMemory(&subsource_data, sizeof(D3D11_SUBRESOURCE_DATA));
+		::D3D11_SUBRESOURCE_DATA subsource_data;
+		ZeroMemory(&subsource_data, sizeof(::D3D11_SUBRESOURCE_DATA));
 		subsource_data.pSysMem = src;
 
 		m_buffer = renderer->CreateBuffer(desc, subsource_data);

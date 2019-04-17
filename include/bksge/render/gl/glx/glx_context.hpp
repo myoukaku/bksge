@@ -39,7 +39,6 @@ private:
 
 }	// namespace bksge
 
-#include <bksge/config.hpp>
 #if defined(BKSGE_HEADER_ONLY)
 #include <bksge/render/gl/glx/inl/glx_context_inl.hpp>
 #endif

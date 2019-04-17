@@ -23,8 +23,8 @@ namespace render
 namespace d3d11_wrap_mode_detail
 {
 
-inline
-D3D11_TEXTURE_ADDRESS_MODE ToD3D11WrapMode(WrapMode wrap_mode)
+inline ::D3D11_TEXTURE_ADDRESS_MODE
+ToD3D11WrapMode(WrapMode wrap_mode)
 {
 	switch (wrap_mode)
 	{

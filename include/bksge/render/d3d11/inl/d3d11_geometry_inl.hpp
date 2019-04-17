@@ -30,16 +30,16 @@ D3D11Geometry::D3D11Geometry(
 	: m_vertex_buffer(renderer, geometry)
 	, m_index_buffer(renderer, geometry)
 	, m_primitive(ToD3D11Primitive(geometry.primitive()))
-	, m_vertex_count(static_cast<UINT>(geometry.vertex_array_count()))
-	, m_index_count(static_cast<UINT>(geometry.index_array_count()))
+	, m_vertex_count(static_cast<::UINT>(geometry.vertex_array_count()))
+	, m_index_count(static_cast<::UINT>(geometry.index_array_count()))
 {}
 
 BKSGE_INLINE
 D3D11Geometry::~D3D11Geometry()
 {}
 
-BKSGE_INLINE
-void D3D11Geometry::Draw(D3D11Renderer* renderer) const
+BKSGE_INLINE void
+D3D11Geometry::Draw(D3D11Renderer* renderer) const
 {
 	m_vertex_buffer.Bind(renderer);
 	m_index_buffer.Bind(renderer);

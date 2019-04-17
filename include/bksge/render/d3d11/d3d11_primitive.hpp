@@ -21,7 +21,7 @@ namespace render
 /**
  *	@brief	PrimitiveをD3D11のD3D11_PRIMITIVE_TOPOLOGYに変換
  */
-D3D11_PRIMITIVE_TOPOLOGY ToD3D11Primitive(Primitive primitive);
+::D3D11_PRIMITIVE_TOPOLOGY ToD3D11Primitive(Primitive primitive);
 
 }	// namespace render
 

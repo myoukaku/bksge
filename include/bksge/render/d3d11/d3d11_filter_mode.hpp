@@ -26,10 +26,10 @@ class D3D11FilterMode
 public:
 	D3D11FilterMode(FilterMode min_filter, FilterMode mag_filter);
 
-	operator D3D11_FILTER() const;
+	operator ::D3D11_FILTER() const;
 
 private:
-	D3D11_FILTER	m_filter;
+	::D3D11_FILTER	m_filter;
 };
 
 }	// namespace render

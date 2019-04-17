@@ -22,10 +22,10 @@ namespace bksge
 namespace render
 {
 
-BKSGE_INLINE
-DXGI_FORMAT ToD3D11Format(TypeEnum type)
+BKSGE_INLINE ::DXGI_FORMAT
+ToD3D11Format(TypeEnum type)
 {
-	static std::unordered_map<TypeEnum, DXGI_FORMAT> const m =
+	static std::unordered_map<TypeEnum, ::DXGI_FORMAT> const m =
 	{
 		{ TypeEnum::kByte,				DXGI_FORMAT_R8_SINT },
 		{ TypeEnum::kUnsignedByte,		DXGI_FORMAT_R8_UINT },

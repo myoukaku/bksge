@@ -34,7 +34,7 @@ D3D11Sampler::D3D11Sampler(D3D11Renderer* renderer, Sampler const& sampler)
 {
 	m_texture = renderer->GetD3D11Texture(sampler.source());
 
-	D3D11_SAMPLER_DESC desc;
+	::D3D11_SAMPLER_DESC desc;
 	desc.Filter = D3D11FilterMode(sampler.min_filter(), sampler.mag_filter());
 	desc.AddressU = D3D11WrapMode(sampler.wrap_s());
 	desc.AddressV = D3D11WrapMode(sampler.wrap_t());

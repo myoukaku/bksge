@@ -67,7 +67,6 @@ using input::KeyboardState;
 
 }	// namespace bksge
 
-#include <bksge/config.hpp>
 #if defined(BKSGE_HEADER_ONLY)
 #include <bksge/input/inl/keyboard_state_inl.hpp>
 #endif

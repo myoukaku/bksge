@@ -14,10 +14,12 @@
 #include <bksge/serialization/nvp.hpp>
 #include <bksge/serialization/base_object.hpp>
 #include <cstddef>
+#include <cstdint>
 #include <istream>
 #include <memory>
 #include <unordered_map>
 #include <vector>
+#include <type_traits>
 
 namespace bksge
 {
@@ -32,19 +34,8 @@ public:
 	{
 	}
 
-	virtual void load_arithmetic(bool&) = 0;
-	virtual void load_arithmetic(char&) = 0;
-	virtual void load_arithmetic(wchar_t&) = 0;
-	virtual void load_arithmetic(signed char&) = 0;
-	virtual void load_arithmetic(unsigned char&) = 0;
-	virtual void load_arithmetic(signed short&) = 0;
-	virtual void load_arithmetic(unsigned short&) = 0;
-	virtual void load_arithmetic(signed int&) = 0;
-	virtual void load_arithmetic(unsigned int&) = 0;
-	virtual void load_arithmetic(signed long&) = 0;
-	virtual void load_arithmetic(unsigned long&) = 0;
-	virtual void load_arithmetic(signed long long&) = 0;
-	virtual void load_arithmetic(unsigned long long&) = 0;
+	virtual void load_arithmetic(std::intmax_t&) = 0;
+	virtual void load_arithmetic(std::uintmax_t&) = 0;
 	virtual void load_arithmetic(float&) = 0;
 	virtual void load_arithmetic(double&) = 0;
 	virtual void load_arithmetic(long double&) = 0;
@@ -59,64 +50,11 @@ public:
 		: m_is(is)
 	{}
 
-	void load_arithmetic(bool& t) override
+	void load_arithmetic(std::intmax_t& t) override
 	{
 		m_is >> t;
 	}
-	void load_arithmetic(char& t) override
-	{
-		short i;
-		load_arithmetic(i);
-		t = static_cast<char>(i);
-	}
-	void load_arithmetic(wchar_t& t) override
-	{
-		static_assert(sizeof(wchar_t) <= sizeof(unsigned int), "");
-		unsigned int i;
-		load_arithmetic(i);
-		t = static_cast<wchar_t>(i);
-	}
-	void load_arithmetic(signed char& t) override
-	{
-		short i;
-		load_arithmetic(i);
-		t = static_cast<signed char>(i);
-	}
-	void load_arithmetic(unsigned char& t) override
-	{
-		unsigned short i;
-		load_arithmetic(i);
-		t = static_cast<unsigned char>(i);
-	}
-	void load_arithmetic(signed short& t) override
-	{
-		m_is >> t;
-	}
-	void load_arithmetic(unsigned short& t) override
-	{
-		m_is >> t;
-	}
-	void load_arithmetic(signed int& t) override
-	{
-		m_is >> t;
-	}
-	void load_arithmetic(unsigned int& t) override
-	{
-		m_is >> t;
-	}
-	void load_arithmetic(signed long& t) override
-	{
-		m_is >> t;
-	}
-	void load_arithmetic(unsigned long& t) override
-	{
-		m_is >> t;
-	}
-	void load_arithmetic(signed long long& t) override
-	{
-		m_is >> t;
-	}
-	void load_arithmetic(unsigned long long& t) override
+	void load_arithmetic(std::uintmax_t& t) override
 	{
 		m_is >> t;
 	}
@@ -210,16 +148,38 @@ private:
 		}
 	}
 
-	template <typename T>
+	template <typename T, typename std::enable_if<std::is_floating_point<T>::value>::type* = nullptr>
 	void load_arithmetic(T& t)
 	{
 		m_impl->load_arithmetic(t);
 	}
 
+	template <typename T, typename std::enable_if<std::is_integral<T>::value>::type* = nullptr>
+	void load_arithmetic(T& t)
+	{
+		load_integral(t);
+	}
+
+	template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
+	void load_integral(T& t)
+	{
+		std::uintmax_t i;
+		m_impl->load_arithmetic(i);
+		t = static_cast<T>(i);
+	}
+
+	template <typename T, typename std::enable_if<std::is_signed<T>::value>::type* = nullptr>
+	void load_integral(T& t)
+	{
+		std::intmax_t i;
+		m_impl->load_arithmetic(i);
+		t = static_cast<T>(i);
+	}
+
 	template <typename T>
 	void load_enum(T& t)
 	{
-		unsigned long long i;
+		std::uintmax_t i;
 		m_impl->load_arithmetic(i);
 		t = static_cast<T>(i);
 	}

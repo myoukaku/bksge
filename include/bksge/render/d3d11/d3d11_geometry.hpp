@@ -35,11 +35,11 @@ public:
 	void Draw(D3D11Renderer* renderer) const;
 
 private:
-	D3D11VertexBuffer	     m_vertex_buffer;
-	D3D11IndexBuffer	     m_index_buffer;
-	D3D11_PRIMITIVE_TOPOLOGY m_primitive;
-	UINT			         m_vertex_count;
-	UINT			         m_index_count;
+	D3D11VertexBuffer	       m_vertex_buffer;
+	D3D11IndexBuffer	       m_index_buffer;
+	::D3D11_PRIMITIVE_TOPOLOGY m_primitive;
+	::UINT			           m_vertex_count;
+	::UINT			           m_index_count;
 };
 
 }	// namespace render

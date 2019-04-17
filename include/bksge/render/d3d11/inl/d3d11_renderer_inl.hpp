@@ -45,8 +45,8 @@ D3D11Renderer::~D3D11Renderer()
 	Finalize();
 }
 
-BKSGE_INLINE
-void D3D11Renderer::CreateDevice(void)
+BKSGE_INLINE void
+D3D11Renderer::CreateDevice(void)
 {
 	::HRESULT hr = S_OK;
 
@@ -95,8 +95,8 @@ void D3D11Renderer::CreateDevice(void)
 	BKSGE_ASSERT(SUCCEEDED(hr));
 }
 
-BKSGE_INLINE
-void D3D11Renderer::Finalize(void)
+BKSGE_INLINE void
+D3D11Renderer::Finalize(void)
 {
 	if (m_device_context)
 	{
@@ -104,8 +104,8 @@ void D3D11Renderer::Finalize(void)
 	}
 }
 
-BKSGE_INLINE
-void D3D11Renderer::VSetRenderTarget(Window const& window)
+BKSGE_INLINE void
+D3D11Renderer::VSetRenderTarget(Window const& window)
 {
 	::HWND const hwnd = window.Handle();
 
@@ -274,19 +274,19 @@ void D3D11Renderer::VSetRenderTarget(Window const& window)
 	}
 }
 
-BKSGE_INLINE
-void D3D11Renderer::VBegin(void)
+BKSGE_INLINE void
+D3D11Renderer::VBegin(void)
 {
 }
 
-BKSGE_INLINE
-void D3D11Renderer::VEnd(void)
+BKSGE_INLINE void
+D3D11Renderer::VEnd(void)
 {
 	m_swap_chain->Present(1, 0);
 }
 
-BKSGE_INLINE
-void D3D11Renderer::VClear(ClearFlag clear_flag, Color4f const& clear_color)
+BKSGE_INLINE void
+D3D11Renderer::VClear(ClearFlag clear_flag, Color4f const& clear_color)
 {
 	if ((clear_flag & ClearFlag::kColor) != ClearFlag::kNone)
 	{
@@ -300,8 +300,8 @@ void D3D11Renderer::VClear(ClearFlag clear_flag, Color4f const& clear_color)
 	m_device_context->ClearDepthStencilView(m_depth_stencil_view.Get(), mask, 1.0f, 0);
 }
 
-BKSGE_INLINE
-void D3D11Renderer::VRender(Geometry const& geometry, Shader const& shader)
+BKSGE_INLINE void
+D3D11Renderer::VRender(Geometry const& geometry, Shader const& shader)
 {
 	auto d3d11_hlsl_program = GetD3D11HLSLProgram(shader);
 	BKSGE_ASSERT(d3d11_hlsl_program != nullptr);
@@ -334,29 +334,25 @@ GetOrCreate(D3D11Renderer* renderer, Map& map, Src const& src)
 
 }	// namespace d3d11_detail
 
-BKSGE_INLINE
-std::shared_ptr<D3D11HLSLProgram>
+BKSGE_INLINE std::shared_ptr<D3D11HLSLProgram>
 D3D11Renderer::GetD3D11HLSLProgram(Shader const& shader)
 {
 	return d3d11_detail::GetOrCreate<D3D11HLSLProgram>(this, m_d3d11_hlsl_program_map, shader);
 }
 
-BKSGE_INLINE
-std::shared_ptr<D3D11Geometry>
+BKSGE_INLINE std::shared_ptr<D3D11Geometry>
 D3D11Renderer::GetD3D11Geometry(Geometry const& geometry)
 {
 	return d3d11_detail::GetOrCreate<D3D11Geometry>(this, m_d3d11_geometry_map, geometry);
 }
 
-BKSGE_INLINE
-std::shared_ptr<D3D11Texture>
+BKSGE_INLINE std::shared_ptr<D3D11Texture>
 D3D11Renderer::GetD3D11Texture(Texture const& texture)
 {
 	return d3d11_detail::GetOrCreate<D3D11Texture>(this, m_d3d11_texture_map, texture);
 }
 
-BKSGE_INLINE
-std::shared_ptr<D3D11Sampler>
+BKSGE_INLINE std::shared_ptr<D3D11Sampler>
 D3D11Renderer::GetD3D11Sampler(Sampler const& sampler)
 {
 	return d3d11_detail::GetOrCreate<D3D11Sampler>(this, m_d3d11_sampler_map, sampler);

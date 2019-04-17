@@ -26,10 +26,10 @@ class D3D11WrapMode
 public:
 	explicit D3D11WrapMode(WrapMode wrap_mode);
 
-	operator D3D11_TEXTURE_ADDRESS_MODE() const;
+	operator ::D3D11_TEXTURE_ADDRESS_MODE() const;
 
 private:
-	D3D11_TEXTURE_ADDRESS_MODE	m_wrap_mode;
+	::D3D11_TEXTURE_ADDRESS_MODE	m_wrap_mode;
 };
 
 }	// namespace render
