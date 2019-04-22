@@ -9,13 +9,19 @@
 #ifndef BKSGE_RENDER_HPP
 #define BKSGE_RENDER_HPP
 
+#include <bksge/render/blend_factor.hpp>
+#include <bksge/render/blend_operation.hpp>
 #include <bksge/render/blend_state.hpp>
 #include <bksge/render/clear_flag.hpp>
+#include <bksge/render/comparison_function.hpp>
 #include <bksge/render/config.hpp>
+#include <bksge/render/cull_mode.hpp>
 #include <bksge/render/d3d11_renderer.hpp>
 #include <bksge/render/d3d12_renderer.hpp>
-#include <bksge/render/depth_stencil_state.hpp>
+#include <bksge/render/depth_state.hpp>
+#include <bksge/render/fill_mode.hpp>
 #include <bksge/render/filter_mode.hpp>
+#include <bksge/render/front_face.hpp>
 #include <bksge/render/geometry.hpp>
 #include <bksge/render/gl_renderer.hpp>
 #include <bksge/render/null_renderer.hpp>
@@ -27,6 +33,8 @@
 #include <bksge/render/semantic.hpp>
 #include <bksge/render/shader.hpp>
 #include <bksge/render/shader_stage.hpp>
+#include <bksge/render/stencil_operation.hpp>
+#include <bksge/render/stencil_state.hpp>
 #include <bksge/render/texture.hpp>
 #include <bksge/render/texture_format.hpp>
 #include <bksge/render/vertex.hpp>

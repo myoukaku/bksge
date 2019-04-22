@@ -12,7 +12,8 @@
 #include <bksge/render/fwd/render_state_fwd.hpp>
 #include <bksge/render/rasterizer_state.hpp>
 #include <bksge/render/blend_state.hpp>
-#include <bksge/render/depth_stencil_state.hpp>
+#include <bksge/render/depth_state.hpp>
+#include <bksge/render/stencil_state.hpp>
 
 namespace bksge
 {
@@ -20,13 +21,19 @@ namespace bksge
 namespace render
 {
 
+/**
+ *	@brief
+ */
 class RenderState
 {
 public:
+	RenderState(void);
+
 private:
 	RasterizerState		m_rasterizer_state;
 	BlendState			m_blend_state;
-	DepthStencilState	m_depth_stencil_state;
+	DepthState			m_depth_state;
+	StencilState		m_stencil_state;
 };
 
 }	// namespace render

@@ -10,6 +10,9 @@
 #define BKSGE_RENDER_RASTERIZER_STATE_HPP
 
 #include <bksge/render/fwd/rasterizer_state_fwd.hpp>
+#include <bksge/render/fill_mode.hpp>
+#include <bksge/render/cull_mode.hpp>
+#include <bksge/render/front_face.hpp>
 
 namespace bksge
 {
@@ -17,10 +20,18 @@ namespace bksge
 namespace render
 {
 
+/**
+ *	@brief
+ */
 class RasterizerState
 {
 public:
+	RasterizerState(void);
+
 private:
+	FillMode	m_fill_mode;
+	CullMode	m_cull_mode;
+	FrontFace	m_front_face;
 };
 
 }	// namespace render

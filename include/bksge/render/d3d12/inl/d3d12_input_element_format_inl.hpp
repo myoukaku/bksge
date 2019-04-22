@@ -27,7 +27,7 @@ namespace render
 BKSGE_INLINE ::DXGI_FORMAT
 ToD3D12InputElementFormat(TypeEnum type, std::size_t count)
 {
-	BKSGE_ASSERT(1 <= count && count <= 4);
+	BKSGE_ASSERT(1u <= count && count <= 4u);
 	static const ::DXGI_FORMAT format_tbl[][4] =
 	{
 		{
