@@ -38,7 +38,7 @@ BKSGE_INLINE void NullRenderer::VEnd(void)
 BKSGE_INLINE void NullRenderer::VClear(ClearFlag /*clear_flag*/, Color4f const& /*clear_color*/)
 {}
 
-BKSGE_INLINE void NullRenderer::VRender(Geometry const& /*geometry*/, Shader const& /*shader*/)
+BKSGE_INLINE void NullRenderer::VRender(Geometry const& /*geometry*/, RenderState const& /*render_state*/)
 {}
 
 }	// namespace render

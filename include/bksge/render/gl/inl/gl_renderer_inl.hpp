@@ -21,6 +21,7 @@
 #include <bksge/render/gl/glx/glx_context.hpp>
 #include <bksge/render/geometry.hpp>
 #include <bksge/render/shader.hpp>
+#include <bksge/render/render_state.hpp>
 #include <bksge/render/texture.hpp>
 #include <bksge/window/window.hpp>
 #include <bksge/assert.hpp>
@@ -133,9 +134,9 @@ void GlRenderer::VClear(ClearFlag clear_flag, Color4f const& clear_color)
 }
 
 BKSGE_INLINE
-void GlRenderer::VRender(Geometry const& geometry, Shader const& shader)
+void GlRenderer::VRender(Geometry const& geometry, RenderState const& render_state)
 {
-	auto gl_shader = GetGlGLSLProgram(shader);
+	auto gl_shader = GetGlGLSLProgram(render_state.glsl_shader());
 	BKSGE_ASSERT(gl_shader != nullptr);
 
 	//glEnable(GL_CULL_FACE);

@@ -33,7 +33,7 @@ private:
 	void VBegin(void) override;
 	void VEnd(void) override;
 	void VClear(ClearFlag clear_flag, Color4f const& clear_color) override;
-	void VRender(Geometry const& geometry, Shader const& shader) override;
+	void VRender(Geometry const& geometry, RenderState const& render_state) override;
 };
 
 }	// namespace render

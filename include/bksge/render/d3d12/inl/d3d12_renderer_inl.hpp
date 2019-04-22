@@ -34,6 +34,7 @@
 
 #include <bksge/render/geometry.hpp>
 #include <bksge/render/shader.hpp>
+#include <bksge/render/render_state.hpp>
 
 #include <bksge/memory/make_unique.hpp>
 #include <bksge/window/window.hpp>
@@ -201,7 +202,7 @@ D3D12Renderer::VClear(ClearFlag clear_flag, Color4f const& clear_color)
 }
 
 BKSGE_INLINE void
-D3D12Renderer::VRender(Geometry const& geometry, Shader const& shader)
+D3D12Renderer::VRender(Geometry const& geometry, RenderState const& render_state)
 {
 	if (!m_pipelineState)
 	{
@@ -214,6 +215,8 @@ D3D12Renderer::VRender(Geometry const& geometry, Shader const& shader)
 		D3D12RasterizerState   raster_state;
 		D3D12BlendState        blend_state;
 		D3D12DepthStencilState depth_stencil_state;
+
+		auto const& shader = render_state.hlsl_shader();
 
 #if defined(_DEBUG)
 		// Enable better shader debugging with the graphics debugging tools.

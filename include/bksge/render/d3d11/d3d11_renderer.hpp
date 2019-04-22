@@ -22,8 +22,9 @@
 #include <bksge/render/d3d_helper/com_ptr.hpp>
 #include <bksge/render/dxgi/fwd/dxgi_factory_fwd.hpp>
 #include <bksge/render/dxgi/fwd/dxgi_swap_chain_fwd.hpp>
-#include <bksge/render/fwd/shader_fwd.hpp>
+#include <bksge/render/fwd/render_state_fwd.hpp>
 #include <bksge/render/fwd/geometry_fwd.hpp>
+#include <bksge/render/fwd/shader_fwd.hpp>
 #include <bksge/render/fwd/texture_fwd.hpp>
 #include <bksge/render/fwd/sampler_fwd.hpp>
 #include <bksge/render/renderer.hpp>
@@ -54,7 +55,7 @@ private:
 	void VBegin(void) override;
 	void VEnd(void) override;
 	void VClear(ClearFlag clear_flag, Color4f const& clear_color) override;
-	void VRender(Geometry const& geometry, Shader const& shader) override;
+	void VRender(Geometry const& geometry, RenderState const& render_state) override;
 
 private:
 	std::shared_ptr<D3D11HLSLProgram> GetD3D11HLSLProgram(Shader const& shader);

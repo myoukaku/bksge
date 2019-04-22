@@ -28,6 +28,7 @@
 #include <bksge/render/dxgi/dxgi_swap_chain.hpp>
 #include <bksge/render/shader.hpp>
 #include <bksge/render/geometry.hpp>
+#include <bksge/render/render_state.hpp>
 #include <bksge/render/texture.hpp>
 #include <bksge/render/sampler.hpp>
 #include <bksge/window/window.hpp>
@@ -179,9 +180,9 @@ D3D11Renderer::VClear(ClearFlag clear_flag, Color4f const& clear_color)
 }
 
 BKSGE_INLINE void
-D3D11Renderer::VRender(Geometry const& geometry, Shader const& shader)
+D3D11Renderer::VRender(Geometry const& geometry, RenderState const& render_state)
 {
-	auto d3d11_hlsl_program = GetD3D11HLSLProgram(shader);
+	auto d3d11_hlsl_program = GetD3D11HLSLProgram(render_state.hlsl_shader());
 	BKSGE_ASSERT(d3d11_hlsl_program != nullptr);
 
 	auto d3d11_geometry = GetD3D11Geometry(geometry);
