@@ -11,36 +11,36 @@
 
 GTEST_TEST(Render_DepthState, DefaultCtorTest)
 {
-	bksge::DepthState const depth_state;
-	EXPECT_EQ(false,                            depth_state.enable());
-	EXPECT_EQ(false,                            depth_state.write());
-	EXPECT_EQ(bksge::ComparisonFunction::kLess, depth_state.func());
+	bksge::DepthState const state;
+	EXPECT_EQ(false,                            state.enable());
+	EXPECT_EQ(false,                            state.write());
+	EXPECT_EQ(bksge::ComparisonFunction::kLess, state.func());
 }
 
 GTEST_TEST(Render_DepthState, SetEnableTest)
 {
-	bksge::DepthState depth_state;
-	EXPECT_EQ(false, depth_state.enable());
+	bksge::DepthState state;
+	EXPECT_EQ(false, state.enable());
 
-	depth_state.SetEnable(true);
-	EXPECT_EQ(true, depth_state.enable());
+	state.SetEnable(true);
+	EXPECT_EQ(true, state.enable());
 }
 
 GTEST_TEST(Render_DepthState, SetWriteTest)
 {
-	bksge::DepthState depth_state;
-	EXPECT_EQ(false, depth_state.write());
+	bksge::DepthState state;
+	EXPECT_EQ(false, state.write());
 
-	depth_state.SetWrite(true);
-	EXPECT_EQ(true, depth_state.write());
+	state.SetWrite(true);
+	EXPECT_EQ(true, state.write());
 }
 
 GTEST_TEST(Render_DepthState, SetFuncTest)
 {
-	bksge::DepthState depth_state;
-	EXPECT_EQ(bksge::ComparisonFunction::kLess, depth_state.func());
+	bksge::DepthState state;
+	EXPECT_EQ(bksge::ComparisonFunction::kLess, state.func());
 
-	depth_state.SetFunc(
+	state.SetFunc(
 		bksge::ComparisonFunction::kGreater);
-	EXPECT_EQ(bksge::ComparisonFunction::kGreater, depth_state.func());
+	EXPECT_EQ(bksge::ComparisonFunction::kGreater, state.func());
 }

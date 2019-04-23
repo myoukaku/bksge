@@ -28,6 +28,42 @@ RasterizerState::RasterizerState(void)
 {
 }
 
+BKSGE_INLINE FillMode
+RasterizerState::fill_mode(void) const
+{
+	return m_fill_mode;
+}
+
+BKSGE_INLINE CullMode
+RasterizerState::cull_mode(void) const
+{
+	return m_cull_mode;
+}
+
+BKSGE_INLINE FrontFace
+RasterizerState::front_face(void) const
+{
+	return m_front_face;
+}
+
+BKSGE_INLINE void
+RasterizerState::SetFillMode(FillMode fill_mode)
+{
+	m_fill_mode = fill_mode;
+}
+
+BKSGE_INLINE void
+RasterizerState::SetCullMode(CullMode cull_mode)
+{
+	m_cull_mode = cull_mode;
+}
+
+BKSGE_INLINE void
+RasterizerState::SetFrontFace(FrontFace front_face)
+{
+	m_front_face = front_face;
+}
+
 }	// namespace render
 
 }	// namespace bksge

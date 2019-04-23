@@ -28,6 +28,14 @@ class RasterizerState
 public:
 	RasterizerState(void);
 
+	FillMode	fill_mode(void) const;
+	CullMode	cull_mode(void) const;
+	FrontFace	front_face(void) const;
+
+	void SetFillMode(FillMode fill_mode);
+	void SetCullMode(CullMode cull_mode);
+	void SetFrontFace(FrontFace front_face);
+
 private:
 	FillMode	m_fill_mode;
 	CullMode	m_cull_mode;
