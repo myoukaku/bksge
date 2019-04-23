@@ -6,8 +6,8 @@
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_RENDER_INL_front_face_INL_HPP
-#define BKSGE_RENDER_INL_front_face_INL_HPP
+#ifndef BKSGE_RENDER_INL_FRONT_FACE_INL_HPP
+#define BKSGE_RENDER_INL_FRONT_FACE_INL_HPP
 
 #include <bksge/render/front_face.hpp>
 #include <unordered_map>
@@ -32,11 +32,11 @@ std::string to_string(FrontFace const& front_face)
 
 	return m.at(front_face);
 
-#undef BKSGE_RENDER_MAKE_front_face_KVP
+#undef BKSGE_RENDER_MAKE_FRONT_FACE_KVP
 }
 
 }	// namespace render
 
 }	// namespace bksge
 
-#endif // BKSGE_RENDER_INL_front_face_INL_HPP
+#endif // BKSGE_RENDER_INL_FRONT_FACE_INL_HPP

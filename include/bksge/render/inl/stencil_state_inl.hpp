@@ -23,10 +23,94 @@ StencilState::StencilState(void)
 	, m_read_mask(0u)
 	, m_write_mask(0u)
 	, m_func(ComparisonFunction::kNever)
-	, m_fail_op(StencilOperation::kKeep)
-	, m_depth_fail_op(StencilOperation::kKeep)
-	, m_pass_op(StencilOperation::kKeep)
+	, m_fail_operation(StencilOperation::kKeep)
+	, m_depth_fail_operation(StencilOperation::kKeep)
+	, m_pass_operation(StencilOperation::kKeep)
 {
+}
+
+BKSGE_INLINE bool
+StencilState::enable(void) const
+{
+	return m_enable;
+}
+
+BKSGE_INLINE std::uint8_t
+StencilState::read_mask(void) const
+{
+	return m_read_mask;
+}
+
+BKSGE_INLINE std::uint8_t
+StencilState::write_mask(void) const
+{
+	return m_write_mask;
+}
+
+BKSGE_INLINE ComparisonFunction
+StencilState::func(void) const
+{
+	return m_func;
+}
+
+BKSGE_INLINE StencilOperation
+StencilState::fail_operation(void) const
+{
+	return m_fail_operation;
+}
+
+BKSGE_INLINE StencilOperation
+StencilState::depth_fail_operation(void) const
+{
+	return m_depth_fail_operation;
+}
+
+BKSGE_INLINE StencilOperation
+StencilState::pass_operation(void) const
+{
+	return m_pass_operation;
+}
+
+BKSGE_INLINE void
+StencilState::SetEnable(bool enable)
+{
+	m_enable = enable;
+}
+
+BKSGE_INLINE void
+StencilState::SetReadMask(std::uint8_t mask)
+{
+	m_read_mask = mask;
+}
+
+BKSGE_INLINE void
+StencilState::SetWriteMask(std::uint8_t mask)
+{
+	m_write_mask = mask;
+}
+
+BKSGE_INLINE void
+StencilState::SetFunc(ComparisonFunction func)
+{
+	m_func = func;
+}
+
+BKSGE_INLINE void
+StencilState::SetFailOperation(StencilOperation op)
+{
+	m_fail_operation = op;
+}
+
+BKSGE_INLINE void
+StencilState::SetDepthFailOperation(StencilOperation op)
+{
+	m_depth_fail_operation = op;
+}
+
+BKSGE_INLINE void
+StencilState::SetPassOperation(StencilOperation op)
+{
+	m_pass_operation = op;
 }
 
 }	// namespace render

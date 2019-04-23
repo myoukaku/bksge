@@ -28,14 +28,30 @@ class StencilState
 public:
 	StencilState(void);
 
+	bool				enable(void) const;
+	std::uint8_t		read_mask(void) const;
+	std::uint8_t		write_mask(void) const;
+	ComparisonFunction	func(void) const;
+	StencilOperation	fail_operation(void) const;
+	StencilOperation	depth_fail_operation(void) const;
+	StencilOperation	pass_operation(void) const;
+
+	void SetEnable(bool enable);
+	void SetReadMask(std::uint8_t mask);
+	void SetWriteMask(std::uint8_t mask);
+	void SetFunc(ComparisonFunction func);
+	void SetFailOperation(StencilOperation op);
+	void SetDepthFailOperation(StencilOperation op);
+	void SetPassOperation(StencilOperation op);
+
 private:
 	bool				m_enable;
 	std::uint8_t		m_read_mask;
 	std::uint8_t		m_write_mask;
 	ComparisonFunction	m_func;
-	StencilOperation	m_fail_op;
-	StencilOperation	m_depth_fail_op;
-	StencilOperation	m_pass_op;
+	StencilOperation	m_fail_operation;
+	StencilOperation	m_depth_fail_operation;
+	StencilOperation	m_pass_operation;
 };
 
 }	// namespace render

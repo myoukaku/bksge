@@ -6,8 +6,8 @@
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_RENDER_INL_cull_mode_INL_HPP
-#define BKSGE_RENDER_INL_cull_mode_INL_HPP
+#ifndef BKSGE_RENDER_INL_CULL_MODE_INL_HPP
+#define BKSGE_RENDER_INL_CULL_MODE_INL_HPP
 
 #include <bksge/render/cull_mode.hpp>
 #include <unordered_map>
@@ -40,4 +40,4 @@ std::string to_string(CullMode const& cull_mode)
 
 }	// namespace bksge
 
-#endif // BKSGE_RENDER_INL_cull_mode_INL_HPP
+#endif // BKSGE_RENDER_INL_CULL_MODE_INL_HPP
