@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	unit_test_render_primitive.cpp
  *
- *	@brief	Primitiveのテスト
+ *	@brief	Primitive のテスト
  *
  *	@author	myoukaku
  */

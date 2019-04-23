@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	unit_test_render_semantic.cpp
  *
- *	@brief	Semanticのテスト
+ *	@brief	Semantic のテスト
  *
  *	@author	myoukaku
  */

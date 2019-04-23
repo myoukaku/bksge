@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	unit_test_render_vertex.cpp
  *
- *	@brief	Vertexのテスト
+ *	@brief	Vertex のテスト
  *
  *	@author	myoukaku
  */

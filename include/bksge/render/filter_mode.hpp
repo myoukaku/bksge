@@ -60,7 +60,8 @@ struct hash<bksge::render::FilterMode>
 {
 	std::size_t operator()(bksge::render::FilterMode const& arg) const
 	{
-		using underlying_type = typename std::underlying_type<bksge::render::FilterMode>::type;
+		using underlying_type =
+			typename std::underlying_type<bksge::render::FilterMode>::type;
 		return std::hash<underlying_type>{}(static_cast<underlying_type>(arg));
 	}
 };

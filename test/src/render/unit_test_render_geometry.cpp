@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	unit_test_render_geometry.cpp
  *
- *	@brief	Geometryのテスト
+ *	@brief	Geometry のテスト
  *
  *	@author	myoukaku
  */

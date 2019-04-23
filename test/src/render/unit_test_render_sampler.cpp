@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	unit_test_render_sampler.cpp
  *
- *	@brief	Samplerのテスト
+ *	@brief	Sampler のテスト
  *
  *	@author	myoukaku
  */

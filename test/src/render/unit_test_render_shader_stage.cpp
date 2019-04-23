@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	unit_test_render_shader_stage.cpp
  *
- *	@brief	ShaderStageのテスト
+ *	@brief	ShaderStage のテスト
  *
  *	@author	myoukaku
  */

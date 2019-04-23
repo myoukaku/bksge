@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	unit_test_render_shader.cpp
  *
- *	@brief	Shaderのテスト
+ *	@brief	Shader のテスト
  *
  *	@author	myoukaku
  */

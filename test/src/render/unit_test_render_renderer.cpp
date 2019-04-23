@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	unit_test_render_renderer.cpp
  *
- *	@brief	Rendererのテスト
+ *	@brief	Renderer のテスト
  *
  *	@author	myoukaku
  */

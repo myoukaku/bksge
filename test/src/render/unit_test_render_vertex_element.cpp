@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	unit_test_render_vertex_element.cpp
  *
- *	@brief	VertexElementのテスト
+ *	@brief	VertexElement のテスト
  *
  *	@author	myoukaku
  */

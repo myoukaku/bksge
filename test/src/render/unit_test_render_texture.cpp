@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	unit_test_render_texture.cpp
  *
- *	@brief	Textureのテスト
+ *	@brief	Texture のテスト
  *
  *	@author	myoukaku
  */

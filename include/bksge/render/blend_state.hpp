@@ -27,14 +27,30 @@ class BlendState
 public:
 	BlendState(void);
 
+	bool			enable(void) const;
+	BlendOperation	operation(void) const;
+	BlendFactor		src_factor(void) const;
+	BlendFactor		dst_factor(void) const;
+	BlendOperation	alpha_operation(void) const;
+	BlendFactor		alpha_src_factor(void) const;
+	BlendFactor		alpha_dst_factor(void) const;
+
+	void SetEnable(bool enable);
+	void SetOperation(BlendOperation op);
+	void SetOperation(BlendOperation rgb_op, BlendOperation alpha_op);
+	void SetFactor(BlendFactor src, BlendFactor dst);
+	void SetFactor(
+		BlendFactor rgb_src, BlendFactor rgb_dst,
+		BlendFactor alpha_src, BlendFactor alpha_dst);
+
 private:
 	bool			m_enable;
-	BlendOperation	m_op;
-	BlendFactor		m_src;
-	BlendFactor		m_dst;
-	BlendOperation	m_alpha_op;
-	BlendFactor		m_alpha_src;
-	BlendFactor		m_alpha_dst;
+	BlendOperation	m_operation;
+	BlendFactor		m_src_factor;
+	BlendFactor		m_dst_factor;
+	BlendOperation	m_alpha_operation;
+	BlendFactor		m_alpha_src_factor;
+	BlendFactor		m_alpha_dst_factor;
 };
 
 }	// namespace render

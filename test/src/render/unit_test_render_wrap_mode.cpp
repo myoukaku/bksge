@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	unit_test_render_wrap_mode.cpp
  *
- *	@brief	WrapModeのテスト
+ *	@brief	WrapMode のテスト
  *
  *	@author	myoukaku
  */

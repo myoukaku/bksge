@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	unit_test_render_clear_flag.cpp
  *
- *	@brief	ClearFlagのテスト
+ *	@brief	ClearFlag のテスト
  *
  *	@author	myoukaku
  */
@@ -12,7 +12,7 @@
 
 GTEST_TEST(Render_ClearFlag, BasicTest)
 {
-	using namespace bksge;
+	using bksge::ClearFlag;
 
 	ClearFlag f0 = ClearFlag::kNone;
 	EXPECT_FALSE(bool(f0 & ClearFlag::kColor));
@@ -33,7 +33,7 @@ GTEST_TEST(Render_ClearFlag, BasicTest)
 #if 0	// TODO
 GTEST_TEST(Render_ClearFlag, OutputStreamTest)
 {
-	using namespace bksge;
+	using bksge::ClearFlag;
 
 	{
 		ClearFlag f = ClearFlag::kColor;

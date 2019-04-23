@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	unit_test_render_filter_mode.cpp
  *
- *	@brief	FilterModeのテスト
+ *	@brief	FilterMode のテスト
  *
  *	@author	myoukaku
  */
@@ -24,7 +24,7 @@ static void OutputStreamTestSub(bksge::FilterMode filter_mode, const TChar* str)
 	EXPECT_EQ(str, ss.str());
 }
 
-GTEST_TEST(Render_TextureFilter, OutputStreamTest)
+GTEST_TEST(Render_FilterMode, OutputStreamTest)
 {
 	using bksge::FilterMode;
 
