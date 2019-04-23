@@ -11,8 +11,8 @@
 
 #include <bksge/render/d3d12/fwd/d3d12_command_list_fwd.hpp>
 #include <bksge/render/d3d12/fwd/d3d12_device_fwd.hpp>
-#include <bksge/render/d3d12/d3d12.hpp>
-#include <bksge/render/d3d_helper/com_ptr.hpp>
+#include <bksge/render/d3d_common/d3d12.hpp>
+#include <bksge/render/d3d_common/com_ptr.hpp>
 
 namespace bksge
 {
@@ -57,6 +57,14 @@ public:
 
 	void SetPipelineState(
 		::ID3D12PipelineState* pipeline_state);
+
+	void SetDescriptorHeaps(
+		::UINT                         num_descriptor_heaps,
+		::ID3D12DescriptorHeap* const* descriptor_heaps);
+
+	void SetGraphicsRootDescriptorTable(
+		::UINT                        root_parameter_index,
+		::D3D12_GPU_DESCRIPTOR_HANDLE base_descriptor);
 
 	void IASetPrimitiveTopology(
 		::D3D12_PRIMITIVE_TOPOLOGY primitive_topology);

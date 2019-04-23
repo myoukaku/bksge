@@ -12,8 +12,8 @@
 #include <bksge/render/d3d12/fwd/d3d12_fence_fwd.hpp>
 #include <bksge/render/d3d12/fwd/d3d12_device_fwd.hpp>
 #include <bksge/render/d3d12/fwd/d3d12_command_queue_fwd.hpp>
-#include <bksge/render/d3d12/d3d12.hpp>
-#include <bksge/render/d3d_helper/com_ptr.hpp>
+#include <bksge/render/d3d_common/d3d12.hpp>
+#include <bksge/render/d3d_common/com_ptr.hpp>
 
 namespace bksge
 {

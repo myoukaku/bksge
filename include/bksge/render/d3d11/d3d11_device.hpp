@@ -10,8 +10,8 @@
 #define BKSGE_RENDER_D3D11_D3D11_DEVICE_HPP
 
 #include <bksge/render/d3d11/fwd/d3d11_device_fwd.hpp>
-#include <bksge/render/d3d11/d3d11.hpp>
-#include <bksge/render/d3d_helper/com_ptr.hpp>
+#include <bksge/render/d3d_common/d3d11.hpp>
+#include <bksge/render/d3d_common/com_ptr.hpp>
 #include <vector>
 
 namespace bksge
@@ -42,7 +42,7 @@ public:
 
 	ComPtr<::ID3D11Buffer> CreateBuffer(
 		::D3D11_BUFFER_DESC const&      desc,
-		::D3D11_SUBRESOURCE_DATA const& subsource_data);
+		::D3D11_SUBRESOURCE_DATA const* subsource_data);
 
 	ComPtr<::ID3D11SamplerState> CreateSamplerState(
 		::D3D11_SAMPLER_DESC const& desc);

@@ -15,14 +15,14 @@
 #include <bksge/render/d3d11/d3d11_hlsl_program.hpp>
 #include <bksge/render/d3d11/d3d11_hlsl_shader.hpp>
 #include <bksge/render/d3d11/d3d11_geometry.hpp>
-#include <bksge/render/d3d11/d3d11_renderer.hpp>
+//#include <bksge/render/d3d11/d3d11_renderer.hpp>
 #include <bksge/render/d3d11/d3d11_device_context.hpp>
 #include <bksge/render/shader.hpp>
 #include <bksge/render/shader_stage.hpp>
 #include <bksge/memory/make_unique.hpp>
 #include <memory>
 #include <string>
-#include <utility>
+#include <utility>	// std::move
 
 namespace bksge
 {
@@ -42,12 +42,12 @@ D3D11HLSLProgram::D3D11HLSLProgram(D3D11Device* device, Shader const& shader)
 		switch (stage)
 		{
 		case ShaderStage::kVertex:
-			hlsl_shader = std::move(bksge::make_unique<D3D11HLSLVertexShader>());
+			hlsl_shader = bksge::make_unique<D3D11HLSLVertexShader>();
 			break;
 		case ShaderStage::kGeometry:
 			break;
 		case ShaderStage::kFragment:
-			hlsl_shader = std::move(bksge::make_unique<D3D11HLSLPixelShader>());
+			hlsl_shader = bksge::make_unique<D3D11HLSLPixelShader>();
 			break;
 		case ShaderStage::kTessellationControl:
 			break;
@@ -57,14 +57,23 @@ D3D11HLSLProgram::D3D11HLSLProgram(D3D11Device* device, Shader const& shader)
 			break;
 		}
 
-		if (hlsl_shader)
+		if (!hlsl_shader)
 		{
-			auto const ret = hlsl_shader->Compile(device, source);
-			if (ret)
-			{
-				m_shaders.push_back(std::move(hlsl_shader));
-			}
+			continue;
 		}
+
+		auto const ret = hlsl_shader->Compile(device, source);
+		if (!ret)
+		{
+			continue;
+		}
+
+		if (stage == ShaderStage::kVertex)
+		{
+			m_input_layout = hlsl_shader->CreateInputLayout(device);
+		}
+
+		m_shaders.push_back(std::move(hlsl_shader));
 	}
 }
 
@@ -74,11 +83,17 @@ D3D11HLSLProgram::~D3D11HLSLProgram()
 }
 
 BKSGE_INLINE void
-D3D11HLSLProgram::Render(D3D11DeviceContext* device_context, D3D11Geometry const* geometry)
+D3D11HLSLProgram::Render(
+	D3D11DeviceContext* device_context,
+	D3D11Geometry const* geometry,
+	ShaderParameterMap const& shader_parameter_map)
 {
+	device_context->IASetInputLayout(m_input_layout.Get());
+
 	for (auto& shader : m_shaders)
 	{
-		shader->Draw(device_context);
+		shader->SetEnable(device_context);
+		shader->LoadParameters(device_context, shader_parameter_map);
 	}
 
 	geometry->Draw(device_context);

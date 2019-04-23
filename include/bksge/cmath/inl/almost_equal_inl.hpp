@@ -28,7 +28,7 @@ namespace detail
 
 template <typename T>
 inline BKSGE_CONSTEXPR T const&
-max(T const& a, T const& b)
+tmax(T const& a, T const& b)
 {
 	return b < a ? a : b;
 }
@@ -47,7 +47,7 @@ struct almost_equal_impl<FloatType, true>
 			x == y ||
 			bksge::fabs(x - y) <=
 				std::numeric_limits<FloatType>::epsilon() *
-				max(max(bksge::fabs(x), bksge::fabs(y)), FloatType(1));
+				tmax(tmax(bksge::fabs(x), bksge::fabs(y)), FloatType(1));
 	}
 };
 

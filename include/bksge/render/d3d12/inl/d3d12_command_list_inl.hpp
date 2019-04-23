@@ -14,7 +14,7 @@
 
 #include <bksge/render/d3d12/d3d12_command_list.hpp>
 #include <bksge/render/d3d12/d3d12_device.hpp>
-#include <bksge/render/d3d_helper/throw_if_failed.hpp>
+#include <bksge/render/d3d_common/throw_if_failed.hpp>
 
 namespace bksge
 {
@@ -120,6 +120,22 @@ D3D12CommandList::SetPipelineState(
 	::ID3D12PipelineState* pipeline_state)
 {
 	m_command_list->SetPipelineState(pipeline_state);
+}
+
+BKSGE_INLINE void
+D3D12CommandList::SetDescriptorHeaps(
+	::UINT                         num_descriptor_heaps,
+	::ID3D12DescriptorHeap* const* descriptor_heaps)
+{
+	m_command_list->SetDescriptorHeaps(num_descriptor_heaps, descriptor_heaps);
+}
+
+BKSGE_INLINE void
+D3D12CommandList::SetGraphicsRootDescriptorTable(
+	::UINT                        root_parameter_index,
+	::D3D12_GPU_DESCRIPTOR_HANDLE base_descriptor)
+{
+	m_command_list->SetGraphicsRootDescriptorTable(root_parameter_index, base_descriptor);
 }
 
 BKSGE_INLINE void

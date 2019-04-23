@@ -13,16 +13,22 @@
 #if BKSGE_RENDER_HAS_D3D11_RENDERER
 
 #include <bksge/render/d3d11/d3d11_hlsl_shader.hpp>
+#include <bksge/render/d3d11/d3d11_constant_buffer.hpp>
 #include <bksge/render/d3d11/d3d11_device.hpp>
 #include <bksge/render/d3d11/d3d11_device_context.hpp>
-#include <bksge/render/d3d_helper/com_ptr.hpp>
-#include <bksge/render/d3d_helper/d3dcompiler.hpp>
-#include <bksge/render/d3d_helper/throw_if_failed.hpp>
-#include <bksge/render/shader.hpp>
-#include <bksge/render/shader_stage.hpp>
-#include <bksge/assert.hpp>
+#include <bksge/render/d3d_common/dxgiformat.hpp>
+#include <bksge/render/d3d_common/d3d11.hpp>
+#include <bksge/render/d3d_common/d3d11shader.hpp>
+#include <bksge/render/d3d_common/d3dcommon.hpp>
+#include <bksge/render/d3d_common/d3dcompiler.hpp>
+#include <bksge/render/d3d_common/com_ptr.hpp>
+#include <bksge/render/d3d_common/throw_if_failed.hpp>
+#include <bksge/memory/make_unique.hpp>
 #include <string>
 #include <vector>
+#include <memory>
+#include <utility>	// std::move
+
 #include <iostream>
 
 namespace bksge
@@ -30,79 +36,6 @@ namespace bksge
 
 namespace render
 {
-
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-BKSGE_INLINE
-D3D11HLSLShaderBase::D3D11HLSLShaderBase()
-{
-}
-
-BKSGE_INLINE
-D3D11HLSLShaderBase::~D3D11HLSLShaderBase()
-{
-}
-
-BKSGE_INLINE bool
-D3D11HLSLShaderBase::Compile(D3D11Device* device, std::string const& source)
-{
-	const char* target = VGetTargetString();
-	::UINT compile_flags = 0;
-	ComPtr<::ID3DBlob> micro_code;
-	ComPtr<::ID3DBlob> errors;
-
-	::HRESULT hr = ::D3DCompile(
-		source.c_str(),
-		source.size(),
-		nullptr,
-		nullptr,
-		nullptr,
-		"main",
-		target,
-		compile_flags,
-		0,
-		micro_code.GetAddressOf(),
-		errors.GetAddressOf());
-
-	auto message =
-		static_cast<const char*>(errors ? errors->GetBufferPointer() : nullptr);
-	if (message)
-	{
-		std::cout << message << std::endl;
-	}
-
-	if (FAILED(hr))
-	{
-		return false;
-	}
-
-	return VCompile(device, micro_code.Get());
-}
-
-BKSGE_INLINE void
-D3D11HLSLShaderBase::Draw(
-	D3D11DeviceContext* device_context)
-{
-	VDraw(device_context);
-}
-
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-BKSGE_INLINE
-D3D11HLSLVertexShader::D3D11HLSLVertexShader()
-{
-}
-
-BKSGE_INLINE
-D3D11HLSLVertexShader::~D3D11HLSLVertexShader()
-{
-}
-
-BKSGE_INLINE const char*
-D3D11HLSLVertexShader::VGetTargetString()
-{
-	return "vs_4_0";
-}
 
 inline ::DXGI_FORMAT
 GetElementDescFormat(::D3D11_SIGNATURE_PARAMETER_DESC const& param_desc)
@@ -150,27 +83,118 @@ GetElementDescFormat(::D3D11_SIGNATURE_PARAMETER_DESC const& param_desc)
 	return DXGI_FORMAT_UNKNOWN;
 }
 
-BKSGE_INLINE bool
-D3D11HLSLVertexShader::VCompile(
-	D3D11Device* device, ::ID3DBlob* micro_code)
+///////////////////////////////////////////////////////////////////////////////
+//
+//	D3D11HLSLShaderBase
+//
+///////////////////////////////////////////////////////////////////////////////
+BKSGE_INLINE
+D3D11HLSLShaderBase::D3D11HLSLShaderBase()
 {
-	m_shader = device->CreateVertexShader(micro_code);
+}
 
-	// ShaderReflection を使って InputLayoutを作る
-	ComPtr<::ID3D11ShaderReflection> vertex_shader_reflection;
+BKSGE_INLINE
+D3D11HLSLShaderBase::~D3D11HLSLShaderBase()
+{
+}
+
+BKSGE_INLINE bool
+D3D11HLSLShaderBase::Compile(D3D11Device* device, std::string const& source)
+{
+	const char* target = VGetTargetString();
+	::UINT compile_flags = 0;
+	ComPtr<::ID3DBlob> errors;
+
+	::HRESULT hr = ::D3DCompile(
+		source.c_str(),
+		source.size(),
+		nullptr,
+		nullptr,
+		nullptr,
+		"main",
+		target,
+		compile_flags,
+		0,
+		m_micro_code.ReleaseAndGetAddressOf(),
+		errors.GetAddressOf());
+
+	auto message =
+		static_cast<const char*>(errors ? errors->GetBufferPointer() : nullptr);
+	if (message)
+	{
+		std::cout << message << std::endl;
+	}
+
+	if (FAILED(hr))
+	{
+		return false;
+	}
+
+	VCreateShader(device, m_micro_code.Get());
+
 	ThrowIfFailed(::D3DReflect(
-		micro_code->GetBufferPointer(),
-		micro_code->GetBufferSize(),
-		IID_PPV_ARGS(&vertex_shader_reflection)));
+		m_micro_code->GetBufferPointer(),
+		m_micro_code->GetBufferSize(),
+		IID_PPV_ARGS(&m_reflection)));
 
+	CreateConstantBuffer(device);
+
+	return true;
+}
+
+BKSGE_INLINE void
+D3D11HLSLShaderBase::SetEnable(
+	D3D11DeviceContext* device_context)
+{
+	VSetEnable(device_context);
+}
+
+BKSGE_INLINE void
+D3D11HLSLShaderBase::LoadParameters(
+	D3D11DeviceContext* device_context,
+	ShaderParameterMap const& shader_parameter_map)
+{
+	::UINT slot = 0;
+	for (auto&& constant_buffer : m_constant_buffers)
+	{
+		constant_buffer->LoadParameters(
+			device_context,
+			shader_parameter_map);
+		this->VSetConstantBuffers(
+			device_context,
+			slot,
+			1,
+			constant_buffer->buffer().GetAddressOf());
+		++slot;
+	}
+}
+
+BKSGE_INLINE void
+D3D11HLSLShaderBase::CreateConstantBuffer(D3D11Device* device)
+{
 	::D3D11_SHADER_DESC shader_desc;
-	vertex_shader_reflection->GetDesc(&shader_desc);
+	m_reflection->GetDesc(&shader_desc);
+
+	for (::UINT i = 0; i < shader_desc.ConstantBuffers; i++)
+	{
+		auto cb = bksge::make_unique<D3D11ConstantBuffer>(
+			device,
+			m_reflection->GetConstantBufferByIndex(i));
+		m_constant_buffers.push_back(std::move(cb));
+	}
+}
+
+BKSGE_INLINE ComPtr<::ID3D11InputLayout>
+D3D11HLSLShaderBase::CreateInputLayout(D3D11Device* device)
+{
+	::D3D11_SHADER_DESC shader_desc;
+	m_reflection->GetDesc(&shader_desc);
 
 	std::vector<::D3D11_INPUT_ELEMENT_DESC> input_layout_desc;
 	for (::UINT i = 0; i < shader_desc.InputParameters; i++)
 	{
 		::D3D11_SIGNATURE_PARAMETER_DESC param_desc;
-		vertex_shader_reflection->GetInputParameterDesc(i, &param_desc);
+		m_reflection->GetInputParameterDesc(i, &param_desc);
 
 		::D3D11_INPUT_ELEMENT_DESC element_desc;
 		element_desc.SemanticName         = param_desc.SemanticName;
@@ -184,24 +208,63 @@ D3D11HLSLVertexShader::VCompile(
 		input_layout_desc.push_back(element_desc);
 	}
 
-	m_input_layout = device->CreateInputLayout(
+	return device->CreateInputLayout(
 		&input_layout_desc[0],
 		static_cast<::UINT>(input_layout_desc.size()),
-		micro_code->GetBufferPointer(),
-		micro_code->GetBufferSize());
-
-	return true;
-}
-
-BKSGE_INLINE void
-D3D11HLSLVertexShader::VDraw(
-	D3D11DeviceContext* device_context)
-{
-	device_context->VSSetShader(m_shader.Get());
-	device_context->IASetInputLayout(m_input_layout.Get());
+		m_micro_code->GetBufferPointer(),
+		m_micro_code->GetBufferSize());
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+//
+//	D3D11HLSLVertexShader
+//
+///////////////////////////////////////////////////////////////////////////////
+BKSGE_INLINE
+D3D11HLSLVertexShader::D3D11HLSLVertexShader()
+{
+}
+
+BKSGE_INLINE
+D3D11HLSLVertexShader::~D3D11HLSLVertexShader()
+{
+}
+
+BKSGE_INLINE const char*
+D3D11HLSLVertexShader::VGetTargetString()
+{
+	return "vs_4_0";
+}
+
+BKSGE_INLINE void
+D3D11HLSLVertexShader::VCreateShader(
+	D3D11Device* device, ::ID3DBlob* micro_code)
+{
+	m_shader = device->CreateVertexShader(micro_code);
+}
+
+BKSGE_INLINE void
+D3D11HLSLVertexShader::VSetEnable(
+	D3D11DeviceContext* device_context)
+{
+	device_context->VSSetShader(m_shader.Get());
+}
+
+BKSGE_INLINE void
+D3D11HLSLVertexShader::VSetConstantBuffers(
+	D3D11DeviceContext* device_context,
+	::UINT         start_slot,
+	::UINT         num_buffers,
+	::ID3D11Buffer* const* constant_buffers)
+{
+	device_context->VSSetConstantBuffers(
+		start_slot, num_buffers, constant_buffers);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//	D3D11HLSLPixelShader
+//
 ///////////////////////////////////////////////////////////////////////////////
 BKSGE_INLINE
 D3D11HLSLPixelShader::D3D11HLSLPixelShader()
@@ -219,19 +282,29 @@ D3D11HLSLPixelShader::VGetTargetString()
 	return "ps_4_0";
 }
 
-BKSGE_INLINE bool
-D3D11HLSLPixelShader::VCompile(
+BKSGE_INLINE void
+D3D11HLSLPixelShader::VCreateShader(
 	D3D11Device* device, ::ID3DBlob* micro_code)
 {
 	m_shader = device->CreatePixelShader(micro_code);
-	return true;
 }
 
 BKSGE_INLINE void
-D3D11HLSLPixelShader::VDraw(
+D3D11HLSLPixelShader::VSetEnable(
 	D3D11DeviceContext* device_context)
 {
 	device_context->PSSetShader(m_shader.Get());
+}
+
+BKSGE_INLINE void
+D3D11HLSLPixelShader::VSetConstantBuffers(
+	D3D11DeviceContext* device_context,
+	::UINT         start_slot,
+	::UINT         num_buffers,
+	::ID3D11Buffer* const* constant_buffers)
+{
+	device_context->PSSetConstantBuffers(
+		start_slot, num_buffers, constant_buffers);
 }
 
 }	// namespace render

@@ -11,8 +11,8 @@
 
 #include <bksge/render/d3d11/fwd/d3d11_depth_stencil_fwd.hpp>
 #include <bksge/render/d3d11/fwd/d3d11_device_fwd.hpp>
-#include <bksge/render/d3d11/d3d11.hpp>
-#include <bksge/render/d3d_helper/com_ptr.hpp>
+#include <bksge/render/d3d_common/d3d11.hpp>
+#include <bksge/render/d3d_common/com_ptr.hpp>
 
 namespace bksge
 {

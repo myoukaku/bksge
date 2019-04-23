@@ -10,7 +10,7 @@
 #define BKSGE_RENDER_D3D12_D3D12_TYPE_ENUM_HPP
 
 #include <bksge/render/detail/fwd/type_enum_fwd.hpp>
-#include <bksge/render/dxgi/dxgi.hpp>
+#include <bksge/render/d3d_common/dxgi.hpp>
 
 namespace bksge
 {

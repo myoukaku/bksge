@@ -10,9 +10,9 @@
 #define BKSGE_RENDER_D3D12_D3D12_DEVICE_HPP
 
 #include <bksge/render/d3d12/fwd/d3d12_device_fwd.hpp>
-#include <bksge/render/d3d12/d3d12.hpp>
-#include <bksge/render/d3d_helper/com_ptr.hpp>
-#include <bksge/render/dxgi/dxgi.hpp>
+#include <bksge/render/d3d_common/d3d12.hpp>
+#include <bksge/render/d3d_common/com_ptr.hpp>
+#include <bksge/render/d3d_common/dxgi.hpp>
 #include <vector>
 
 namespace bksge
@@ -71,6 +71,10 @@ public:
 		::D3D12_RESOURCE_DESC const*   desc,
 		::D3D12_RESOURCE_STATES        initial_resource_state,
 		::D3D12_CLEAR_VALUE const*     optimized_clear_value);
+
+	void CreateConstantBufferView(
+		::D3D12_CONSTANT_BUFFER_VIEW_DESC const* desc,
+		::D3D12_CPU_DESCRIPTOR_HANDLE            dest_descriptor);
 
 private:
 	ComPtr<::ID3D12Device>	m_device;

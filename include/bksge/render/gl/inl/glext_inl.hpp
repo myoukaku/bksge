@@ -149,7 +149,12 @@ BKSGE_INLINE void APIENTRY glEnableVertexAttribArray(GLuint index)
 }
 
 //BKSGE_INLINE void APIENTRY glGetActiveAttrib(GLuint program, GLuint index, GLsizei bufSize, GLsizei* length, GLint* size, GLenum* type, GLchar* name);
-//BKSGE_INLINE void APIENTRY glGetActiveUniform(GLuint program, GLuint index, GLsizei bufSize, GLsizei* length, GLint* size, GLenum* type, GLchar* name);
+
+BKSGE_INLINE void APIENTRY glGetActiveUniform(GLuint program, GLuint index, GLsizei bufSize, GLsizei* length, GLint* size, GLenum* type, GLchar* name)
+{
+	BKSGE_GLEXT_FUNC(PFNGLGETACTIVEUNIFORMPROC, glGetActiveUniform, program, index, bufSize, length, size, type, name);
+}
+
 //BKSGE_INLINE void APIENTRY glGetAttachedShaders(GLuint program, GLsizei maxCount, GLsizei* count, GLuint* shaders);
 //BKSGE_INLINE GLint APIENTRY glGetAttribLocation(GLuint program, const GLchar* name);
 
@@ -174,7 +179,11 @@ BKSGE_INLINE void APIENTRY glGetShaderInfoLog(GLuint shader, GLsizei bufSize, GL
 }
 
 //BKSGE_INLINE void APIENTRY glGetShaderSource(GLuint shader, GLsizei bufSize, GLsizei* length, GLchar* source);
-//BKSGE_INLINE GLint APIENTRY glGetUniformLocation(GLuint program, const GLchar* name);
+BKSGE_INLINE GLint APIENTRY glGetUniformLocation(GLuint program, const GLchar* name)
+{
+	BKSGE_GLEXT_FUNC(PFNGLGETUNIFORMLOCATIONPROC, glGetUniformLocation, program, name);
+	return -1;
+}
 //BKSGE_INLINE void APIENTRY glGetUniformfv(GLuint program, GLint location, GLfloat* params);
 //BKSGE_INLINE void APIENTRY glGetUniformiv(GLuint program, GLint location, GLint* params);
 //BKSGE_INLINE void APIENTRY glGetVertexAttribdv(GLuint index, GLenum pname, GLdouble* params);
@@ -199,7 +208,11 @@ BKSGE_INLINE void APIENTRY glUseProgram(GLuint program)
 	BKSGE_GLEXT_FUNC(PFNGLUSEPROGRAMPROC, glUseProgram, program);
 }
 
-//BKSGE_INLINE void APIENTRY glUniform1f(GLint location, GLfloat v0);
+BKSGE_INLINE void APIENTRY glUniform1f(GLint location, GLfloat v0)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORM1FPROC, glUniform1f, location, v0);
+}
+
 //BKSGE_INLINE void APIENTRY glUniform2f(GLint location, GLfloat v0, GLfloat v1);
 //BKSGE_INLINE void APIENTRY glUniform3f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2);
 //BKSGE_INLINE void APIENTRY glUniform4f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3);
@@ -208,9 +221,22 @@ BKSGE_INLINE void APIENTRY glUseProgram(GLuint program)
 //BKSGE_INLINE void APIENTRY glUniform3i(GLint location, GLint v0, GLint v1, GLint v2);
 //BKSGE_INLINE void APIENTRY glUniform4i(GLint location, GLint v0, GLint v1, GLint v2, GLint v3);
 //BKSGE_INLINE void APIENTRY glUniform1fv(GLint location, GLsizei count, const GLfloat* value);
-//BKSGE_INLINE void APIENTRY glUniform2fv(GLint location, GLsizei count, const GLfloat* value);
-//BKSGE_INLINE void APIENTRY glUniform3fv(GLint location, GLsizei count, const GLfloat* value);
-//BKSGE_INLINE void APIENTRY glUniform4fv(GLint location, GLsizei count, const GLfloat* value);
+
+BKSGE_INLINE void APIENTRY glUniform2fv(GLint location, GLsizei count, const GLfloat* value)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORM2FVPROC, glUniform2fv, location, count, value);
+}
+
+BKSGE_INLINE void APIENTRY glUniform3fv(GLint location, GLsizei count, const GLfloat* value)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORM3FVPROC, glUniform3fv, location, count, value);
+}
+
+BKSGE_INLINE void APIENTRY glUniform4fv(GLint location, GLsizei count, const GLfloat* value)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORM4FVPROC, glUniform4fv, location, count, value);
+}
+
 //BKSGE_INLINE void APIENTRY glUniform1iv(GLint location, GLsizei count, const GLint* value);
 //BKSGE_INLINE void APIENTRY glUniform2iv(GLint location, GLsizei count, const GLint* value);
 //BKSGE_INLINE void APIENTRY glUniform3iv(GLint location, GLsizei count, const GLint* value);
@@ -378,6 +404,27 @@ BKSGE_INLINE void APIENTRY glGenVertexArrays(GLsizei n, GLuint* arrays)
 }
 
 //BKSGE_INLINE GLboolean APIENTRY glIsVertexArray(GLuint array);
+
+// GL_VERSION_3_1
+
+//BKSGE_INLINE void APIENTRY glDrawArraysInstanced(GLenum mode, GLint first, GLsizei count, GLsizei instancecount);
+//BKSGE_INLINE void APIENTRY glDrawElementsInstanced(GLenum mode, GLsizei count, GLenum type, const void *indices, GLsizei instancecount);
+//BKSGE_INLINE void APIENTRY glTexBuffer(GLenum target, GLenum internalformat, GLuint buffer);
+//BKSGE_INLINE void APIENTRY glPrimitiveRestartIndex(GLuint index);
+//BKSGE_INLINE void APIENTRY glCopyBufferSubData(GLenum readTarget, GLenum writeTarget, GLintptr readOffset, GLintptr writeOffset, GLsizeiptr size);
+//BKSGE_INLINE void APIENTRY glGetUniformIndices(GLuint program, GLsizei uniformCount, const GLchar *const*uniformNames, GLuint *uniformIndices);
+//BKSGE_INLINE void APIENTRY glGetActiveUniformsiv(GLuint program, GLsizei uniformCount, const GLuint *uniformIndices, GLenum pname, GLint *params);
+//BKSGE_INLINE void APIENTRY glGetActiveUniformName(GLuint program, GLuint uniformIndex, GLsizei bufSize, GLsizei *length, GLchar *uniformName);
+
+BKSGE_INLINE GLuint APIENTRY glGetUniformBlockIndex(GLuint program, const GLchar *uniformBlockName)
+{
+	BKSGE_GLEXT_FUNC(PFNGLGETUNIFORMBLOCKINDEXPROC, glGetUniformBlockIndex, program, uniformBlockName);
+	return GL_INVALID_INDEX;
+}
+
+//BKSGE_INLINE void APIENTRY glGetActiveUniformBlockiv(GLuint program, GLuint uniformBlockIndex, GLenum pname, GLint *params);
+//BKSGE_INLINE void APIENTRY glGetActiveUniformBlockName(GLuint program, GLuint uniformBlockIndex, GLsizei bufSize, GLsizei *length, GLchar *uniformBlockName);
+//BKSGE_INLINE void APIENTRY glUniformBlockBinding(GLuint program, GLuint uniformBlockIndex, GLuint uniformBlockBinding);
 
 // GL_VERSION_3_3
 

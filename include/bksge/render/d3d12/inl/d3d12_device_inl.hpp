@@ -13,8 +13,8 @@
 #if BKSGE_RENDER_HAS_D3D12_RENDERER
 
 #include <bksge/render/d3d12/d3d12_device.hpp>
-#include <bksge/render/d3d_helper/throw_if_failed.hpp>
-#include <bksge/render/dxgi/dxgi.hpp>
+#include <bksge/render/d3d_common/throw_if_failed.hpp>
+#include <bksge/render/d3d_common/dxgi.hpp>
 #include <utility>
 #include <vector>
 
@@ -200,6 +200,14 @@ D3D12Device::CreateCommittedResource(
 			optimized_clearvalue,
 			IID_PPV_ARGS(&resource)));
 	return std::move(resource);
+}
+
+BKSGE_INLINE void
+D3D12Device::CreateConstantBufferView(
+	::D3D12_CONSTANT_BUFFER_VIEW_DESC const* desc,
+	::D3D12_CPU_DESCRIPTOR_HANDLE            dest_descriptor)
+{
+	m_device->CreateConstantBufferView(desc, dest_descriptor);
 }
 
 }	// namespace render

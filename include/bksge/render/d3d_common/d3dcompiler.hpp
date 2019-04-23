@@ -6,8 +6,8 @@
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_RENDER_D3D_HELPER_D3DCOMPILER_HPP
-#define BKSGE_RENDER_D3D_HELPER_D3DCOMPILER_HPP
+#ifndef BKSGE_RENDER_D3D_COMMON_D3DCOMPILER_HPP
+#define BKSGE_RENDER_D3D_COMMON_D3DCOMPILER_HPP
 
 #include <d3dcompiler.h>
 
@@ -16,4 +16,4 @@
 #  pragma comment(lib, "dxguid.lib")
 #endif
 
-#endif // BKSGE_RENDER_D3D_HELPER_D3DCOMPILER_HPP
+#endif // BKSGE_RENDER_D3D_COMMON_D3DCOMPILER_HPP

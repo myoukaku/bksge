@@ -13,11 +13,12 @@
 #if BKSGE_RENDER_HAS_D3D11_RENDERER
 
 #include <bksge/render/d3d11/d3d11_device.hpp>
-#include <bksge/render/d3d11/d3d11.hpp>
-#include <bksge/render/d3d_helper/com_ptr.hpp>
-#include <bksge/render/d3d_helper/throw_if_failed.hpp>
+#include <bksge/render/d3d_common/d3d11.hpp>
+#include <bksge/render/d3d_common/com_ptr.hpp>
+#include <bksge/render/d3d_common/dxgi.hpp>
+#include <bksge/render/d3d_common/throw_if_failed.hpp>
 #include <vector>
-#include <utility>
+#include <utility>	// std::move
 
 namespace bksge
 {
@@ -110,10 +111,10 @@ D3D11Device::CreateDepthStencilView(
 BKSGE_INLINE ComPtr<::ID3D11Buffer>
 D3D11Device::CreateBuffer(
 	::D3D11_BUFFER_DESC const&      desc,
-	::D3D11_SUBRESOURCE_DATA const& subsource_data)
+	::D3D11_SUBRESOURCE_DATA const* subsource_data)
 {
 	ComPtr<::ID3D11Buffer> buffer;
-	ThrowIfFailed(m_device->CreateBuffer(&desc, &subsource_data, &buffer));
+	ThrowIfFailed(m_device->CreateBuffer(&desc, subsource_data, &buffer));
 	return std::move(buffer);
 }
 

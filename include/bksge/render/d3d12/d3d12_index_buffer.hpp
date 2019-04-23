@@ -12,8 +12,8 @@
 #include <bksge/render/d3d12/fwd/d3d12_index_buffer_fwd.hpp>
 #include <bksge/render/d3d12/fwd/d3d12_device_fwd.hpp>
 #include <bksge/render/d3d12/fwd/d3d12_command_list_fwd.hpp>
-#include <bksge/render/d3d12/d3d12.hpp>
-#include <bksge/render/d3d_helper/com_ptr.hpp>
+#include <bksge/render/d3d_common/d3d12.hpp>
+#include <bksge/render/d3d_common/com_ptr.hpp>
 #include <bksge/render/fwd/geometry_fwd.hpp>
 
 namespace bksge

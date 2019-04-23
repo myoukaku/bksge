@@ -9,7 +9,7 @@
 #ifndef BKSGE_RENDER_D3D12_D3D12_INPUT_ELEMENT_FORMAT_HPP
 #define BKSGE_RENDER_D3D12_D3D12_INPUT_ELEMENT_FORMAT_HPP
 
-#include <bksge/render/dxgi/dxgi.hpp>
+#include <bksge/render/d3d_common/dxgi.hpp>
 #include <bksge/render/detail/type_enum.hpp>
 #include <cstddef>
 

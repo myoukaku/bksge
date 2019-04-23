@@ -14,8 +14,8 @@
 
 #include <bksge/render/d3d11/d3d11_device_context.hpp>
 #include <bksge/render/d3d11/d3d11_device.hpp>
-#include <bksge/render/d3d11/d3d11.hpp>
-#include <bksge/render/d3d_helper/com_ptr.hpp>
+#include <bksge/render/d3d_common/d3d11.hpp>
+#include <bksge/render/d3d_common/com_ptr.hpp>
 
 namespace bksge
 {
@@ -78,9 +78,27 @@ D3D11DeviceContext::VSSetShader(::ID3D11VertexShader* vertex_shader)
 }
 
 BKSGE_INLINE void
+D3D11DeviceContext::VSSetConstantBuffers(
+	::UINT         start_slot,
+	::UINT         num_buffers,
+	::ID3D11Buffer* const* constant_buffers)
+{
+	m_device_context->VSSetConstantBuffers(start_slot, num_buffers, constant_buffers);
+}
+
+BKSGE_INLINE void
 D3D11DeviceContext::PSSetShader(::ID3D11PixelShader* pixel_shader)
 {
 	m_device_context->PSSetShader(pixel_shader, nullptr, 0u);
+}
+
+BKSGE_INLINE void
+D3D11DeviceContext::PSSetConstantBuffers(
+	::UINT         start_slot,
+	::UINT         num_buffers,
+	::ID3D11Buffer* const* constant_buffers)
+{
+	m_device_context->PSSetConstantBuffers(start_slot, num_buffers, constant_buffers);
 }
 
 BKSGE_INLINE void
@@ -123,6 +141,24 @@ D3D11DeviceContext::OMSetRenderTargets(
 	::ID3D11DepthStencilView*        depth_stencil_view)
 {
 	m_device_context->OMSetRenderTargets(num_views, render_target_views, depth_stencil_view);
+}
+
+BKSGE_INLINE void
+D3D11DeviceContext::UpdateSubresource(
+	::ID3D11Resource*  dst_resource,
+	::UINT             dst_subresource,
+	::D3D11_BOX const* dst_box,
+	void        const* src_data,
+	::UINT             src_row_pitch,
+	::UINT             src_depth_pitch)
+{
+	m_device_context->UpdateSubresource(
+		dst_resource,
+		dst_subresource,
+		dst_box,
+		src_data,
+		src_row_pitch,
+		src_depth_pitch);
 }
 
 BKSGE_INLINE void

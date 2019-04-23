@@ -15,18 +15,20 @@
 #include <bksge/render/d3d12/fwd/d3d12_command_list_fwd.hpp>
 #include <bksge/render/d3d12/fwd/d3d12_render_target_fwd.hpp>
 #include <bksge/render/d3d12/fwd/d3d12_fence_fwd.hpp>
+#include <bksge/render/d3d12/fwd/d3d12_hlsl_program_fwd.hpp>
 #include <bksge/render/d3d12/fwd/d3d12_geometry_fwd.hpp>
 #include <bksge/render/d3d12/fwd/d3d12_root_signature_fwd.hpp>
 #include <bksge/render/dxgi/fwd/dxgi_factory_fwd.hpp>
 #include <bksge/render/dxgi/fwd/dxgi_swap_chain_fwd.hpp>
 
-#include <bksge/render/d3d12/d3d12.hpp>
-#include <bksge/render/d3d_helper/com_ptr.hpp>
-#include <bksge/render/dxgi/dxgi.hpp>
+#include <bksge/render/d3d_common/d3d12.hpp>
+#include <bksge/render/d3d_common/com_ptr.hpp>
+
 #include <bksge/render/renderer.hpp>
 #include <bksge/render/fwd/clear_flag_fwd.hpp>
 #include <bksge/render/fwd/geometry_fwd.hpp>
 #include <bksge/render/fwd/render_state_fwd.hpp>
+#include <bksge/render/fwd/shader_fwd.hpp>
 #include <bksge/math/fwd/color4_fwd.hpp>
 #include <bksge/window/fwd/window_fwd.hpp>
 
@@ -61,21 +63,22 @@ private:
 	void VRender(Geometry const& geometry, RenderState const& render_state) override;
 
 private:
+	std::shared_ptr<D3D12HLSLProgram> GetD3D12HLSLProgram(Shader const& shader);
+	std::shared_ptr<D3D12Geometry> GetD3D12Geometry(Geometry const& geometry);
+
+private:
 //	static const ::UINT FrameCount = 2;
 
 	std::unique_ptr<DXGIFactory>		m_factory;
+	std::unique_ptr<DXGISwapChain>		m_swap_chain;
 	std::unique_ptr<D3D12Device>		m_device;
 	std::unique_ptr<D3D12CommandQueue>	m_command_queue;
 	std::unique_ptr<D3D12CommandList>	m_command_list;
-	std::unique_ptr<DXGISwapChain>		m_swap_chain;
 	std::unique_ptr<D3D12RenderTarget>	m_render_target;
 	std::unique_ptr<D3D12Fence>			m_fence;
 
-	// TODO
-	std::unique_ptr<D3D12RootSignature>	m_root_signature;
-
-	// TODO
-	std::unique_ptr<D3D12Geometry>		m_geometry;
+	D3D12HLSLProgramMap                 m_d3d12_hlsl_program_map;
+	D3D12GeometryMap                    m_d3d12_geometry_map;
 
 	::UINT m_frameIndex;
 
@@ -83,7 +86,6 @@ private:
 	::D3D12_RECT m_scissorRect;
 
 	// TODO
-	//ComPtr<::ID3D12RootSignature> m_rootSignature;
 	ComPtr<::ID3D12PipelineState> m_pipelineState;
 };
 

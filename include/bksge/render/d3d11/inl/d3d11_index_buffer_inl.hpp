@@ -16,8 +16,9 @@
 #include <bksge/render/d3d11/d3d11_device.hpp>
 #include <bksge/render/d3d11/d3d11_device_context.hpp>
 #include <bksge/render/d3d11/d3d11_format.hpp>
-#include <bksge/render/d3d11/d3d11.hpp>
-#include <bksge/render/d3d_helper/com_ptr.hpp>
+#include <bksge/render/d3d_common/d3d11.hpp>
+#include <bksge/render/d3d_common/dxgiformat.hpp>
+#include <bksge/render/d3d_common/com_ptr.hpp>
 #include <bksge/render/detail/type_enum.hpp>
 #include <bksge/render/geometry.hpp>
 
@@ -55,7 +56,7 @@ D3D11IndexBuffer::D3D11IndexBuffer(
 		ZeroMemory(&subsource_data, sizeof(::D3D11_SUBRESOURCE_DATA));
 		subsource_data.pSysMem = src;
 
-		m_buffer = device->CreateBuffer(desc, subsource_data);
+		m_buffer = device->CreateBuffer(desc, &subsource_data);
 	}
 }
 

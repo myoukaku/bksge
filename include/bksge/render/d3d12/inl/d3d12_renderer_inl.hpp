@@ -24,13 +24,14 @@
 #include <bksge/render/d3d12/d3d12_rasterizer_state.hpp>
 #include <bksge/render/d3d12/d3d12_blend_state.hpp>
 #include <bksge/render/d3d12/d3d12_depth_stencil_state.hpp>
-#include <bksge/render/d3d12/d3d12.hpp>
-#include <bksge/render/d3d_helper/com_ptr.hpp>
-#include <bksge/render/d3d_helper/throw_if_failed.hpp>
-#include <bksge/render/d3d_helper/d3dcompiler.hpp>
+#include <bksge/render/d3d12/d3d12_hlsl_program.hpp>
+#include <bksge/render/d3d_common/d3d12.hpp>
+#include <bksge/render/d3d_common/com_ptr.hpp>
+#include <bksge/render/d3d_common/throw_if_failed.hpp>
+#include <bksge/render/d3d_common/d3dcompiler.hpp>
 #include <bksge/render/dxgi/dxgi_swap_chain.hpp>
 #include <bksge/render/dxgi/dxgi_factory.hpp>
-#include <bksge/render/dxgi/dxgi.hpp>
+#include <bksge/render/d3d_common/dxgi.hpp>
 
 #include <bksge/render/geometry.hpp>
 #include <bksge/render/shader.hpp>
@@ -204,63 +205,21 @@ D3D12Renderer::VClear(ClearFlag clear_flag, Color4f const& clear_color)
 BKSGE_INLINE void
 D3D12Renderer::VRender(Geometry const& geometry, RenderState const& render_state)
 {
+	auto const& shader = render_state.hlsl_shader();
+	auto hlsl_program = GetD3D12HLSLProgram(shader);
+	hlsl_program->UpdateParameters(shader.parameter_map());
+
 	if (!m_pipelineState)
 	{
-		// Create an empty root signature
-		m_root_signature =
-			bksge::make_unique<D3D12RootSignature>(m_device.get());
-
-		// Create the pipeline state
-		D3D12InputLayout       input_layout(geometry);
 		D3D12RasterizerState   raster_state;
 		D3D12BlendState        blend_state;
 		D3D12DepthStencilState depth_stencil_state;
 
-		auto const& shader = render_state.hlsl_shader();
-
-#if defined(_DEBUG)
-		// Enable better shader debugging with the graphics debugging tools.
-		::UINT compileFlags = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
-#else
-		::UINT compileFlags = 0;
-#endif
-		auto const& vs_src = shader.program_map().at(ShaderStage::kVertex);
-		ComPtr<::ID3DBlob> vertexShader;
-		ThrowIfFailed(::D3DCompile(
-			vs_src.c_str(),      // [in] Pointer to the shader in memory.
-			vs_src.size(),       // [in] Size of the shader in memory.
-			nullptr,			 // [in] Optional. You can use this parameter for strings that specify error messages.
-			nullptr,             // [in] Optional. Pointer to a NULL-terminated array of macro definitions. See D3D_SHADER_MACRO. If not used, set this to NULL.
-			nullptr,			 // [in] Optional. Pointer to an ID3DInclude Interface interface for handling include files. Setting this to NULL will cause a compile error if a shader contains a #include.
-			"main",				 // [in] Name of the shader-entrypoint function where shader execution begins.
-			"vs_5_0",              // [in] A string that specifies the shader model; can be any profile in shader model 4 or higher.
-			compileFlags,       // [in] Effect compile flags - no D3DCOMPILE_ENABLE_BACKWARDS_COMPATIBILITY at the first try...
-			0,                   // [in] Effect compile flags
-			vertexShader.GetAddressOf(),// [out] A pointer to an ID3DBlob Interface which contains the compiled shader, as well as any embedded debug and symbol-table information.
-			nullptr // [out] A pointer to an ID3DBlob Interface which contains a listing of errors and warnings that occurred during compilation. These errors and warnings are identical to the the debug output from a debugger.
-		));
-
-		auto const& ps_src = shader.program_map().at(ShaderStage::kFragment);
-		ComPtr<::ID3DBlob> pixelShader;
-		ThrowIfFailed(::D3DCompile(
-			ps_src.c_str(),      // [in] Pointer to the shader in memory.
-			ps_src.size(),       // [in] Size of the shader in memory.
-			nullptr,			 // [in] Optional. You can use this parameter for strings that specify error messages.
-			nullptr,             // [in] Optional. Pointer to a NULL-terminated array of macro definitions. See D3D_SHADER_MACRO. If not used, set this to NULL.
-			nullptr,			 // [in] Optional. Pointer to an ID3DInclude Interface interface for handling include files. Setting this to NULL will cause a compile error if a shader contains a #include.
-			"main",				 // [in] Name of the shader-entrypoint function where shader execution begins.
-			"ps_5_0",              // [in] A string that specifies the shader model; can be any profile in shader model 4 or higher.
-			compileFlags,       // [in] Effect compile flags - no D3DCOMPILE_ENABLE_BACKWARDS_COMPATIBILITY at the first try...
-			0,                   // [in] Effect compile flags
-			pixelShader.GetAddressOf(),// [out] A pointer to an ID3DBlob Interface which contains the compiled shader, as well as any embedded debug and symbol-table information.
-			nullptr // [out] A pointer to an ID3DBlob Interface which contains a listing of errors and warnings that occurred during compilation. These errors and warnings are identical to the the debug output from a debugger.
-		));
-
 		::D3D12_GRAPHICS_PIPELINE_STATE_DESC desc = {};
-		desc.InputLayout           = input_layout;
-		desc.pRootSignature        = m_root_signature->Get();
-		desc.VS                    ={vertexShader->GetBufferPointer(), vertexShader->GetBufferSize()};
-		desc.PS                    ={pixelShader->GetBufferPointer(), pixelShader->GetBufferSize()};
+		desc.InputLayout           = hlsl_program->GetInputLayout();
+		desc.pRootSignature        = hlsl_program->GetRootSignature();
+		desc.VS                    = hlsl_program->GetVertexShaderBytecode();
+		desc.PS                    = hlsl_program->GetPixelShaderBytecode();
 		desc.RasterizerState       = raster_state;
 		desc.BlendState            = blend_state;
 		desc.DepthStencilState     = depth_stencil_state;
@@ -273,16 +232,13 @@ D3D12Renderer::VRender(Geometry const& geometry, RenderState const& render_state
 		m_pipelineState = m_device->CreateGraphicsPipelineState(desc);
 	}
 
-	if (!m_geometry)
-	{
-		m_geometry = bksge::make_unique<D3D12Geometry>(
-			geometry, m_device.get());
-	}
-
-	m_command_list->SetGraphicsRootSignature(m_root_signature->Get());
+	m_command_list->SetGraphicsRootSignature(hlsl_program->GetRootSignature());
 	m_command_list->SetPipelineState(m_pipelineState.Get());
 
-	m_geometry->Draw(m_command_list.get());
+	hlsl_program->SetEnable(m_command_list.get());
+
+	auto d3d12_geometry = GetD3D12Geometry(geometry);
+	d3d12_geometry->Draw(m_command_list.get());
 }
 
 BKSGE_INLINE void
@@ -291,6 +247,40 @@ D3D12Renderer::WaitForPreviousFrame()
 	m_fence->WaitForPreviousFrame(m_command_queue.get());
 
 	m_frameIndex = m_swap_chain->GetCurrentBackBufferIndex();
+}
+
+namespace d3d12_detail
+{
+
+template <typename T, typename Map, typename Key, typename... Args>
+inline typename Map::mapped_type
+GetOrCreate(Map& map, Key const& key, Args&&... args)
+{
+	auto const& it = map.find(key);
+	if (it != map.end())
+	{
+		return it->second;
+	}
+
+	auto p = std::make_shared<T>(std::forward<Args>(args)...);
+	map[key] = p;
+	return p;
+}
+
+}	// namespace d3d12_detail
+
+BKSGE_INLINE std::shared_ptr<D3D12HLSLProgram>
+D3D12Renderer::GetD3D12HLSLProgram(Shader const& shader)
+{
+	return d3d12_detail::GetOrCreate<D3D12HLSLProgram>(
+		m_d3d12_hlsl_program_map, shader.id(), m_device.get(), shader);
+}
+
+BKSGE_INLINE std::shared_ptr<D3D12Geometry>
+D3D12Renderer::GetD3D12Geometry(Geometry const& geometry)
+{
+	return d3d12_detail::GetOrCreate<D3D12Geometry>(
+		m_d3d12_geometry_map, geometry.id(), geometry, m_device.get());
 }
 
 }	// namespace render

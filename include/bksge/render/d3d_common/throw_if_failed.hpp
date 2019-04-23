@@ -6,8 +6,8 @@
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_RENDER_D3D_HELPER_THROW_IF_FAILED_HPP
-#define BKSGE_RENDER_D3D_HELPER_THROW_IF_FAILED_HPP
+#ifndef BKSGE_RENDER_D3D_COMMON_THROW_IF_FAILED_HPP
+#define BKSGE_RENDER_D3D_COMMON_THROW_IF_FAILED_HPP
 
 #include <stdexcept>
 #include <string>
@@ -55,4 +55,4 @@ inline void ThrowIfFailed(::HRESULT hr)
 
 }	// namespace bksge
 
-#endif // BKSGE_RENDER_D3D_HELPER_THROW_IF_FAILED_HPP
+#endif // BKSGE_RENDER_D3D_COMMON_THROW_IF_FAILED_HPP

@@ -6,8 +6,8 @@
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_RENDER_D3D_HELPER_COM_PTR_HPP
-#define BKSGE_RENDER_D3D_HELPER_COM_PTR_HPP
+#ifndef BKSGE_RENDER_D3D_COMMON_COM_PTR_HPP
+#define BKSGE_RENDER_D3D_COMMON_COM_PTR_HPP
 
 #if !defined(WIN32_LEAN_AND_MEAN)
 #define WIN32_LEAN_AND_MEAN
@@ -32,4 +32,4 @@ using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 }	// namespace bksge
 
-#endif // BKSGE_RENDER_D3D_HELPER_COM_PTR_HPP
+#endif // BKSGE_RENDER_D3D_COMMON_COM_PTR_HPP

@@ -11,8 +11,8 @@
 
 #include <bksge/render/d3d11/fwd/d3d11_device_context_fwd.hpp>
 #include <bksge/render/d3d11/fwd/d3d11_device_fwd.hpp>
-#include <bksge/render/d3d11/d3d11.hpp>
-#include <bksge/render/d3d_helper/com_ptr.hpp>
+#include <bksge/render/d3d_common/d3d11.hpp>
+#include <bksge/render/d3d_common/com_ptr.hpp>
 
 namespace bksge
 {
@@ -49,7 +49,17 @@ public:
 
 	void VSSetShader(::ID3D11VertexShader* vertex_shader);
 
+	void VSSetConstantBuffers(
+		::UINT         start_slot,
+		::UINT         num_buffers,
+		::ID3D11Buffer* const* constant_buffers);
+
 	void PSSetShader(::ID3D11PixelShader* pixel_shader);
+
+	void PSSetConstantBuffers(
+		::UINT         start_slot,
+		::UINT         num_buffers,
+		::ID3D11Buffer* const* constant_buffers);
 
 	void PSSetSamplers(
 		::UINT start_slot,
@@ -72,6 +82,14 @@ public:
 		::UINT                           num_views,
 		::ID3D11RenderTargetView* const* render_target_views,
 		::ID3D11DepthStencilView*        depth_stencil_view);
+
+	void UpdateSubresource(
+		::ID3D11Resource*  dst_resource,
+		::UINT             dst_subresource,
+		::D3D11_BOX const* dst_box,
+		void        const* src_data,
+		::UINT             src_row_pitch,
+		::UINT             src_depth_pitch);
 
 	void ClearState(void);
 

@@ -13,9 +13,9 @@
 #if BKSGE_RENDER_HAS_DXGI
 
 #include <bksge/render/dxgi/dxgi_factory.hpp>
-#include <bksge/render/dxgi/dxgi.hpp>
-#include <bksge/render/d3d_helper/com_ptr.hpp>
-#include <bksge/render/d3d_helper/throw_if_failed.hpp>
+#include <bksge/render/d3d_common/dxgi.hpp>
+#include <bksge/render/d3d_common/com_ptr.hpp>
+#include <bksge/render/d3d_common/throw_if_failed.hpp>
 #include <vector>
 
 namespace bksge

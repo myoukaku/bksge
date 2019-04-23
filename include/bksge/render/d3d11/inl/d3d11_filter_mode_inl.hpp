@@ -13,6 +13,7 @@
 #if BKSGE_RENDER_HAS_D3D11_RENDERER
 
 #include <bksge/render/d3d11/d3d11_filter_mode.hpp>
+#include <bksge/render/d3d_common/d3d11.hpp>
 
 namespace bksge
 {

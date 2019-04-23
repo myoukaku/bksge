@@ -17,22 +17,23 @@
 #include <bksge/render/d3d11/d3d11_device_context.hpp>
 #include <bksge/render/d3d11/d3d11_render_target.hpp>
 #include <bksge/render/d3d11/d3d11_depth_stencil.hpp>
-#include <bksge/render/d3d11/d3d11_texture.hpp>
 #include <bksge/render/d3d11/d3d11_hlsl_program.hpp>
 #include <bksge/render/d3d11/d3d11_geometry.hpp>
-#include <bksge/render/d3d11/d3d11_sampler.hpp>
-#include <bksge/render/d3d11/d3d11.hpp>
-#include <bksge/render/d3d_helper/com_ptr.hpp>
-#include <bksge/render/d3d_helper/throw_if_failed.hpp>
+//#include <bksge/render/d3d11/d3d11_texture.hpp>
+//#include <bksge/render/d3d11/d3d11_sampler.hpp>
+#include <bksge/render/d3d_common/d3d11.hpp>
+#include <bksge/render/d3d_common/com_ptr.hpp>
 #include <bksge/render/dxgi/dxgi_factory.hpp>
 #include <bksge/render/dxgi/dxgi_swap_chain.hpp>
+#include <bksge/render/clear_flag.hpp>
 #include <bksge/render/shader.hpp>
 #include <bksge/render/geometry.hpp>
 #include <bksge/render/render_state.hpp>
-#include <bksge/render/texture.hpp>
-#include <bksge/render/sampler.hpp>
-#include <bksge/window/window.hpp>
+//#include <bksge/render/texture.hpp>
+//#include <bksge/render/sampler.hpp>
+#include <bksge/math/color4.hpp>
 #include <bksge/memory/make_unique.hpp>
+#include <bksge/window/window.hpp>
 #include <bksge/assert.hpp>
 #include <memory>
 
@@ -182,11 +183,16 @@ D3D11Renderer::VClear(ClearFlag clear_flag, Color4f const& clear_color)
 BKSGE_INLINE void
 D3D11Renderer::VRender(Geometry const& geometry, RenderState const& render_state)
 {
-	auto d3d11_hlsl_program = GetD3D11HLSLProgram(render_state.hlsl_shader());
-	BKSGE_ASSERT(d3d11_hlsl_program != nullptr);
+	auto const& shader = render_state.hlsl_shader();
+
+	auto hlsl_program = GetD3D11HLSLProgram(shader);
+	BKSGE_ASSERT(hlsl_program != nullptr);
 
 	auto d3d11_geometry = GetD3D11Geometry(geometry);
-	d3d11_hlsl_program->Render(m_device_context.get(), d3d11_geometry.get());
+	hlsl_program->Render(
+		m_device_context.get(),
+		d3d11_geometry.get(),
+		shader.parameter_map());
 }
 
 namespace d3d11_detail

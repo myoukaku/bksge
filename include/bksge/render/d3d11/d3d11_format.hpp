@@ -10,7 +10,7 @@
 #define BKSGE_RENDER_D3D11_D3D11_FORMAT_HPP
 
 #include <bksge/render/detail/fwd/type_enum_fwd.hpp>
-#include <bksge/render/d3d11/d3d11.hpp>
+#include <bksge/render/d3d_common/dxgiformat.hpp>
 
 namespace bksge
 {

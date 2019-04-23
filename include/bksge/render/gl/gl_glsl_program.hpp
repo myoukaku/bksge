@@ -11,10 +11,11 @@
 
 #include <bksge/render/gl/fwd/gl_glsl_program_fwd.hpp>
 #include <bksge/render/gl/fwd/gl_glsl_shader_fwd.hpp>
-#include <bksge/render/gl/fwd/gl_renderer_fwd.hpp>
+#include <bksge/render/gl/fwd/gl_glsl_parameter_fwd.hpp>
 #include <bksge/render/gl/fwd/gl_geometry_fwd.hpp>
 #include <bksge/render/gl/gl_api.hpp>
 #include <bksge/render/fwd/shader_fwd.hpp>
+#include <bksge/render/detail/fwd/shader_parameter_map_fwd.hpp>
 #include <vector>
 
 namespace bksge
@@ -29,17 +30,23 @@ namespace render
 class GlGLSLProgram
 {
 public:
-	GlGLSLProgram(Shader const& shader, GlRenderer* renderer);
+	GlGLSLProgram(Shader const& shader);
 
 	~GlGLSLProgram();
 
-	void Render(GlGeometry const* geometry);
+	void Render(
+		GlGeometry const* geometry,
+		ShaderParameterMap const& shader_parameter_map);
 
 private:
-	using GlGLSLShaders = std::vector<GlGLSLShaderUnique>;
+	void LoadParameters(ShaderParameterMap const& shader_parameter_map);
 
-	GlGLSLShaders	m_shaders;
-	GLuint			m_id;
+	using GlGLSLShaders    = std::vector<GlGLSLShaderUnique>;
+	using GlGLSLParameters = std::vector<GlGLSLParameterUnique>;
+
+	GLuint				m_id;
+	GlGLSLShaders		m_shaders;
+	GlGLSLParameters	m_parameters;
 };
 
 }	// namespace render

@@ -6,8 +6,8 @@
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_RENDER_D3D11_D3D11_HPP
-#define BKSGE_RENDER_D3D11_D3D11_HPP
+#ifndef BKSGE_RENDER_D3D_COMMON_D3D11_HPP
+#define BKSGE_RENDER_D3D_COMMON_D3D11_HPP
 
 #if !defined(WIN32_LEAN_AND_MEAN)
 #define WIN32_LEAN_AND_MEAN
@@ -23,4 +23,4 @@
 #pragma comment(lib, "d3d11.lib")
 #endif
 
-#endif // BKSGE_RENDER_D3D11_D3D11_HPP
+#endif // BKSGE_RENDER_D3D_COMMON_D3D11_HPP

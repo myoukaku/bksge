@@ -13,7 +13,7 @@
 #if BKSGE_RENDER_HAS_D3D12_RENDERER
 
 #include <bksge/render/d3d12/d3d12_type_enum.hpp>
-#include <bksge/render/dxgi/dxgi.hpp>
+#include <bksge/render/d3d_common/dxgi.hpp>
 #include <bksge/render/detail/type_enum.hpp>
 #include <unordered_map>
 

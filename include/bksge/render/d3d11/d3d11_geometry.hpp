@@ -14,7 +14,7 @@
 #include <bksge/render/d3d11/fwd/d3d11_device_context_fwd.hpp>
 #include <bksge/render/d3d11/d3d11_vertex_buffer.hpp>
 #include <bksge/render/d3d11/d3d11_index_buffer.hpp>
-#include <bksge/render/d3d11/d3d11.hpp>
+#include <bksge/render/d3d_common/d3d11.hpp>
 #include <bksge/render/fwd/geometry_fwd.hpp>
 
 namespace bksge

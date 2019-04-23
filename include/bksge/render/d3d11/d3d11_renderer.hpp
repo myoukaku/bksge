@@ -18,8 +18,6 @@
 #include <bksge/render/d3d11/fwd/d3d11_hlsl_program_fwd.hpp>
 #include <bksge/render/d3d11/fwd/d3d11_geometry_fwd.hpp>
 #include <bksge/render/d3d11/fwd/d3d11_sampler_fwd.hpp>
-#include <bksge/render/d3d11/d3d11.hpp>
-#include <bksge/render/d3d_helper/com_ptr.hpp>
 #include <bksge/render/dxgi/fwd/dxgi_factory_fwd.hpp>
 #include <bksge/render/dxgi/fwd/dxgi_swap_chain_fwd.hpp>
 #include <bksge/render/fwd/render_state_fwd.hpp>

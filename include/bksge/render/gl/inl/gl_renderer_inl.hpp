@@ -136,15 +136,16 @@ void GlRenderer::VClear(ClearFlag clear_flag, Color4f const& clear_color)
 BKSGE_INLINE
 void GlRenderer::VRender(Geometry const& geometry, RenderState const& render_state)
 {
-	auto gl_shader = GetGlGLSLProgram(render_state.glsl_shader());
-	BKSGE_ASSERT(gl_shader != nullptr);
+	auto& shader = render_state.glsl_shader();
+	auto glsl_program = GetGlGLSLProgram(shader);
+	BKSGE_ASSERT(glsl_program != nullptr);
 
 	//glEnable(GL_CULL_FACE);
 	//glFrontFace(GL_CCW);
 	//glCullFace(GL_BACK);
 
 	auto gl_geometry = GetGlGeometry(geometry);
-	gl_shader->Render(gl_geometry.get());
+	glsl_program->Render(gl_geometry.get(), shader.parameter_map());
 }
 
 namespace gl_renderer_detail
@@ -181,7 +182,7 @@ BKSGE_INLINE
 std::shared_ptr<GlGLSLProgram>
 GlRenderer::GetGlGLSLProgram(Shader const& shader)
 {
-	return gl_renderer_detail::GetOrCreate<GlGLSLProgram>(m_gl_shader_map, shader, this);
+	return gl_renderer_detail::GetOrCreate<GlGLSLProgram>(m_gl_shader_map, shader);
 }
 
 BKSGE_INLINE

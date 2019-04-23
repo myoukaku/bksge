@@ -15,8 +15,8 @@
 #include <bksge/render/d3d12/d3d12_vertex_buffer.hpp>
 #include <bksge/render/d3d12/d3d12_device.hpp>
 #include <bksge/render/d3d12/d3d12_command_list.hpp>
-#include <bksge/render/d3d12/d3d12.hpp>
-#include <bksge/render/d3d_helper/throw_if_failed.hpp>
+#include <bksge/render/d3d_common/d3d12.hpp>
+#include <bksge/render/d3d_common/throw_if_failed.hpp>
 #include <bksge/render/geometry.hpp>
 #include <cstring>	// memcpy
 

@@ -6,8 +6,8 @@
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_RENDER_DXGI_DXGI_HPP
-#define BKSGE_RENDER_DXGI_DXGI_HPP
+#ifndef BKSGE_RENDER_D3D_COMMON_DXGI_HPP
+#define BKSGE_RENDER_D3D_COMMON_DXGI_HPP
 
 #include <dxgi1_5.h>
 
@@ -15,4 +15,4 @@
 #  pragma comment(lib, "dxgi.lib")
 #endif
 
-#endif // BKSGE_RENDER_DXGI_DXGI_HPP
+#endif // BKSGE_RENDER_D3D_COMMON_DXGI_HPP

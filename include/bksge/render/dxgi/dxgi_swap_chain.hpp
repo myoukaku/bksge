@@ -11,8 +11,8 @@
 
 #include <bksge/render/dxgi/fwd/dxgi_swap_chain_fwd.hpp>
 #include <bksge/render/dxgi/fwd/dxgi_factory_fwd.hpp>
-#include <bksge/render/dxgi/dxgi.hpp>
-#include <bksge/render/d3d_helper/com_ptr.hpp>
+#include <bksge/render/d3d_common/dxgi.hpp>
+#include <bksge/render/d3d_common/com_ptr.hpp>
 
 namespace bksge
 {

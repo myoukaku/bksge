@@ -33,18 +33,6 @@ RenderState::RenderState(void)
 {
 }
 
-BKSGE_INLINE void
-RenderState::SetHLSLShader(Shader&& shader)
-{
-	m_hlsl_shader = std::move(shader);
-}
-
-BKSGE_INLINE void
-RenderState::SetGLSLShader(Shader&& shader)
-{
-	m_glsl_shader = std::move(shader);
-}
-
 BKSGE_INLINE Shader const&
 RenderState::hlsl_shader(void) const
 {
@@ -53,6 +41,18 @@ RenderState::hlsl_shader(void) const
 
 BKSGE_INLINE Shader const&
 RenderState::glsl_shader(void) const
+{
+	return m_glsl_shader;
+}
+
+BKSGE_INLINE Shader&
+RenderState::hlsl_shader(void)
+{
+	return m_hlsl_shader;
+}
+
+BKSGE_INLINE Shader&
+RenderState::glsl_shader(void)
 {
 	return m_glsl_shader;
 }

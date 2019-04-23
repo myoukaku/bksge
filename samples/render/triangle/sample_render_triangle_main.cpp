@@ -57,8 +57,9 @@ int main()
 
 	const bksge::Geometry geometry(bksge::Primitive::kTriangles, vertices);
 
+	bksge::RenderState render_state;
+
 	// GLSL
-	bksge::Shader glsl;
 	{
 		char const* vs_source =
 			"attribute vec3 aPosition;					"
@@ -76,12 +77,12 @@ int main()
 			"}											"
 		;
 
+		auto& glsl = render_state.glsl_shader();
 		glsl.SetProgram(bksge::ShaderStage::kVertex, vs_source);
 		glsl.SetProgram(bksge::ShaderStage::kFragment, ps_source);
 	}
 
 	// HLSL
-	bksge::Shader hlsl;
 	{
 		char const* vs_source =
 			"float4 main(float3 aPosition : POSITION) : SV_POSITION	"
@@ -97,28 +98,19 @@ int main()
 			"}											"
 		;
 
+		auto& hlsl = render_state.hlsl_shader();
 		hlsl.SetProgram(bksge::ShaderStage::kVertex, vs_source);
 		hlsl.SetProgram(bksge::ShaderStage::kFragment, ps_source);
 	}
 
-	bksge::RenderState render_state;
-	render_state.SetGLSLShader(std::move(glsl));
-	render_state.SetHLSLShader(std::move(hlsl));
-
 	for (;;)
 	{
-		bool ret = false;
 		for (auto& window : windows)
 		{
 			if (!window->Update())
 			{
-				ret = true;
+				return 0;
 			}
-		}
-
-		if (ret)
-		{
-			break;
 		}
 
 		for (auto& renderer : renderers)

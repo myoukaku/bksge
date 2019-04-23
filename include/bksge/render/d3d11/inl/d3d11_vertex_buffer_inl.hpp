@@ -15,8 +15,8 @@
 #include <bksge/render/d3d11/d3d11_vertex_buffer.hpp>
 #include <bksge/render/d3d11/d3d11_device.hpp>
 #include <bksge/render/d3d11/d3d11_device_context.hpp>
-#include <bksge/render/d3d11/d3d11.hpp>
-#include <bksge/render/d3d_helper/com_ptr.hpp>
+#include <bksge/render/d3d_common/d3d11.hpp>
+#include <bksge/render/d3d_common/com_ptr.hpp>
 #include <bksge/render/geometry.hpp>
 #include <bksge/render/vertex_layout.hpp>
 
@@ -43,7 +43,7 @@ D3D11VertexBuffer::D3D11VertexBuffer(
 	ZeroMemory(&subsource_data, sizeof(::D3D11_SUBRESOURCE_DATA));
 	subsource_data.pSysMem = geometry.vertex_array_data();
 
-	m_buffer = device->CreateBuffer(desc, subsource_data);
+	m_buffer = device->CreateBuffer(desc, &subsource_data);
 }
 
 BKSGE_INLINE

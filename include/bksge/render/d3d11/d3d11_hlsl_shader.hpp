@@ -10,11 +10,17 @@
 #define BKSGE_RENDER_D3D11_D3D11_HLSL_SHADER_HPP
 
 #include <bksge/render/d3d11/fwd/d3d11_hlsl_shader_fwd.hpp>
+#include <bksge/render/d3d11/fwd/d3d11_constant_buffer_fwd.hpp>
 #include <bksge/render/d3d11/fwd/d3d11_device_fwd.hpp>
 #include <bksge/render/d3d11/fwd/d3d11_device_context_fwd.hpp>
-#include <bksge/render/d3d11/d3d11.hpp>
-#include <bksge/render/d3d_helper/com_ptr.hpp>
+#include <bksge/render/d3d_common/d3d11.hpp>
+#include <bksge/render/d3d_common/d3dcommon.hpp>
+#include <bksge/render/d3d_common/d3d11shader.hpp>
+#include <bksge/render/d3d_common/com_ptr.hpp>
+#include <bksge/render/detail/fwd/shader_parameter_map_fwd.hpp>
 #include <string>
+#include <vector>
+#include <memory>
 
 namespace bksge
 {
@@ -34,12 +40,32 @@ public:
 
 	bool Compile(D3D11Device* device, std::string const& source);
 
-	void Draw(D3D11DeviceContext* device_context);
+	ComPtr<::ID3D11InputLayout> CreateInputLayout(D3D11Device* device);
+
+	void SetEnable(D3D11DeviceContext* device_context);
+
+	void LoadParameters(
+		D3D11DeviceContext* device_context,
+		ShaderParameterMap const& shader_parameter_map);
 
 private:
+	void CreateConstantBuffer(D3D11Device* device);
+
 	virtual const char* VGetTargetString() = 0;
-	virtual bool VCompile(D3D11Device* device, ::ID3DBlob* micro_code) = 0;
-	virtual void VDraw(D3D11DeviceContext* device_context) = 0;
+	virtual void VCreateShader(D3D11Device* device, ::ID3DBlob* micro_code) = 0;
+	virtual void VSetEnable(D3D11DeviceContext* device_context) = 0;
+	virtual void VSetConstantBuffers(
+		D3D11DeviceContext* device_context,
+		::UINT         start_slot,
+		::UINT         num_buffers,
+		::ID3D11Buffer* const* constant_buffers) = 0;
+
+private:
+	using D3D11ConstantBuffers = std::vector<std::unique_ptr<D3D11ConstantBuffer>>;
+
+	ComPtr<::ID3DBlob>					m_micro_code;
+	ComPtr<::ID3D11ShaderReflection>	m_reflection;
+	D3D11ConstantBuffers				m_constant_buffers;
 };
 
 /**
@@ -54,12 +80,16 @@ public:
 
 private:
 	const char* VGetTargetString() override;
-	bool VCompile(D3D11Device* device, ::ID3DBlob* micro_code) override;
-	void VDraw(D3D11DeviceContext* device_context) override;
+	void VCreateShader(D3D11Device* device, ::ID3DBlob* micro_code) override;
+	void VSetEnable(D3D11DeviceContext* device_context) override;
+	void VSetConstantBuffers(
+		D3D11DeviceContext* device_context,
+		::UINT         start_slot,
+		::UINT         num_buffers,
+		::ID3D11Buffer* const* constant_buffers) override;
 
 private:
 	ComPtr<::ID3D11VertexShader>	m_shader;
-	ComPtr<::ID3D11InputLayout>		m_input_layout;
 };
 
 /**
@@ -74,11 +104,16 @@ public:
 
 private:
 	const char* VGetTargetString() override;
-	bool VCompile(D3D11Device* device, ::ID3DBlob* micro_code) override;
-	void VDraw(D3D11DeviceContext* device_context) override;
+	void VCreateShader(D3D11Device* device, ::ID3DBlob* micro_code) override;
+	void VSetEnable(D3D11DeviceContext* device_context) override;
+	void VSetConstantBuffers(
+		D3D11DeviceContext* device_context,
+		::UINT         start_slot,
+		::UINT         num_buffers,
+		::ID3D11Buffer* const* constant_buffers) override;
 
 private:
-	ComPtr<::ID3D11PixelShader>	m_shader;
+	ComPtr<::ID3D11PixelShader>		m_shader;
 };
 
 }	// namespace render

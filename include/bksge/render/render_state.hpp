@@ -30,11 +30,11 @@ class RenderState
 public:
 	RenderState(void);
 
-	void SetHLSLShader(Shader&& shader);
-	void SetGLSLShader(Shader&& shader);
-
 	Shader const& hlsl_shader(void) const;
 	Shader const& glsl_shader(void) const;
+
+	Shader& hlsl_shader(void);
+	Shader& glsl_shader(void);
 
 private:
 	RasterizerState		m_rasterizer_state;

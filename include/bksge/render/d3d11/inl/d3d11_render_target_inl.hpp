@@ -14,8 +14,8 @@
 
 #include <bksge/render/d3d11/d3d11_render_target.hpp>
 #include <bksge/render/d3d11/d3d11_device.hpp>
-#include <bksge/render/d3d11/d3d11.hpp>
-#include <bksge/render/d3d_helper/com_ptr.hpp>
+#include <bksge/render/d3d_common/d3d11.hpp>
+#include <bksge/render/d3d_common/com_ptr.hpp>
 #include <bksge/render/dxgi/dxgi_swap_chain.hpp>
 
 namespace bksge

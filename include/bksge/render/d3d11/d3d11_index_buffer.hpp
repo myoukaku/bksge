@@ -11,8 +11,9 @@
 
 #include <bksge/render/d3d11/fwd/d3d11_device_fwd.hpp>
 #include <bksge/render/d3d11/fwd/d3d11_device_context_fwd.hpp>
-#include <bksge/render/d3d11/d3d11.hpp>
-#include <bksge/render/d3d_helper/com_ptr.hpp>
+#include <bksge/render/d3d_common/d3d11.hpp>
+#include <bksge/render/d3d_common/dxgiformat.hpp>
+#include <bksge/render/d3d_common/com_ptr.hpp>
 #include <bksge/render/detail/fwd/type_enum_fwd.hpp>
 #include <bksge/render/fwd/geometry_fwd.hpp>
 

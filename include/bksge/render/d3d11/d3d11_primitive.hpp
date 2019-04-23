@@ -10,7 +10,7 @@
 #define BKSGE_RENDER_D3D11_D3D11_PRIMITIVE_HPP
 
 #include <bksge/render/fwd/primitive_fwd.hpp>
-#include <bksge/render/d3d11/d3d11.hpp>
+#include <bksge/render/d3d_common/d3d11.hpp>
 
 namespace bksge
 {

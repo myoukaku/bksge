@@ -8,34 +8,67 @@
 
 #include <bksge/window.hpp>
 #include <bksge/render.hpp>
-
-#define SAMPLE_RENDERER_GL		0
-#define SAMPLE_RENDERER_D3D11	1
-#define SAMPLE_RENDERER_D3D12	2
-
-#define	SAMPLE_RENDERER		SAMPLE_RENDERER_GL
+#include <vector>
+#include <memory>
+#include <utility>
 
 int main()
 {
-	bksge::Window window({800, 600}, "sample_render_clear");
+	std::vector<std::shared_ptr<bksge::Renderer>>	renderers;
+	std::vector<std::shared_ptr<bksge::Window>>		windows;
 
-#if SAMPLE_RENDERER == SAMPLE_RENDERER_GL
-	bksge::GlRenderer renderer;
-#elif SAMPLE_RENDERER == SAMPLE_RENDERER_D3D11
-	bksge::D3D11Renderer renderer;
-#elif SAMPLE_RENDERER == SAMPLE_RENDERER_D3D12
-	bksge::D3D12Renderer renderer;
-#else
+#if BKSGE_RENDER_HAS_D3D11_RENDERER
+	{
+		std::shared_ptr<bksge::D3D11Renderer> renderer(new bksge::D3D11Renderer());
+		std::shared_ptr<bksge::Window> window(new bksge::Window({800, 600}, "sample_render_clear - D3D11"));
+		renderer->SetRenderTarget(*window);
+		renderer->SetClearColor({0.5f, 0.0f, 0.5f, 1});
+		renderers.push_back(renderer);
+		windows.push_back(window);
+	}
 #endif
-	renderer.SetRenderTarget(window);
+#if BKSGE_RENDER_HAS_D3D12_RENDERER
+	{
+		std::shared_ptr<bksge::D3D12Renderer> renderer(new bksge::D3D12Renderer());
+		std::shared_ptr<bksge::Window> window(new bksge::Window({800, 600}, "sample_render_clear - D3D12"));
+		renderer->SetRenderTarget(*window);
+		renderer->SetClearColor({0.5f, 0.0f, 0.5f, 1});
+		renderers.push_back(renderer);
+		windows.push_back(window);
+	}
+#endif
+#if BKSGE_RENDER_HAS_GL_RENDERER
+	{
+		std::shared_ptr<bksge::GlRenderer> renderer(new bksge::GlRenderer());
+		std::shared_ptr<bksge::Window> window(new bksge::Window({800, 600}, "sample_render_clear - GL"));
+		renderer->SetRenderTarget(*window);
+		renderer->SetClearColor({0.5f, 0.0f, 0.5f, 1});
+		renderers.push_back(renderer);
+		windows.push_back(window);
+	}
+#endif
 
 	float r = 0;
 	float g = 0;
 	float b = 0;
 
-	while (window.Update())
+	for (;;)
 	{
-		renderer.SetClearColor({r, g, b, 1});
+		for (auto& window : windows)
+		{
+			if (!window->Update())
+			{
+				return 0;
+			}
+		}
+
+		for (auto& renderer : renderers)
+		{
+			renderer->SetClearColor({r, g, b, 1});
+			renderer->Begin();
+			renderer->Clear();
+			renderer->End();
+		}
 
 		r += 3.0f / 256.0f;
 		g += 4.0f / 256.0f;
@@ -44,10 +77,6 @@ int main()
 		if (r > 1.0f) { r = 0; }
 		if (g > 1.0f) { g = 0; }
 		if (b > 1.0f) { b = 0; }
-
-		renderer.Begin();
-		renderer.Clear();
-		renderer.End();
 	}
 
 	return 0;

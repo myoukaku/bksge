@@ -13,7 +13,7 @@
 #if BKSGE_RENDER_HAS_D3D12_RENDERER
 
 #include <bksge/render/d3d12/d3d12_primitive.hpp>
-#include <bksge/render/d3d12/d3d12.hpp>
+#include <bksge/render/d3d_common/d3d12.hpp>
 #include <bksge/render/primitive.hpp>
 #include <unordered_map>
 
