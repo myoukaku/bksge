@@ -22,8 +22,44 @@ BKSGE_INLINE
 DepthState::DepthState(void)
 	: m_enable(false)
 	, m_write(false)
-	, m_func(ComparisonFunction::kNever)
+	, m_func(ComparisonFunction::kLess)
 {
+}
+
+BKSGE_INLINE bool
+DepthState::enable(void) const
+{
+	return m_enable;
+}
+
+BKSGE_INLINE bool
+DepthState::write(void) const
+{
+	return m_write;
+}
+
+BKSGE_INLINE ComparisonFunction
+DepthState::func(void) const
+{
+	return m_func;
+}
+
+BKSGE_INLINE void
+DepthState::SetEnable(bool enable)
+{
+	m_enable = enable;
+}
+
+BKSGE_INLINE void
+DepthState::SetWrite(bool write)
+{
+	m_write = write;
+}
+
+BKSGE_INLINE void
+DepthState::SetFunc(ComparisonFunction func)
+{
+	m_func = func;
 }
 
 }	// namespace render

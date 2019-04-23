@@ -26,6 +26,14 @@ class DepthState
 public:
 	DepthState(void);
 
+	bool				enable(void) const;
+	bool				write(void) const;
+	ComparisonFunction	func(void) const;
+
+	void SetEnable(bool enable);
+	void SetWrite(bool write);
+	void SetFunc(ComparisonFunction func);
+
 private:
 	bool				m_enable;
 	bool				m_write;
