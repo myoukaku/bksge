@@ -25,6 +25,7 @@
 #include <bksge/render/d3d12/d3d12_blend_state.hpp>
 #include <bksge/render/d3d12/d3d12_depth_stencil_state.hpp>
 #include <bksge/render/d3d12/d3d12_hlsl_program.hpp>
+#include <bksge/render/d3d12/d3d12_primitive_topology_type.hpp>
 #include <bksge/render/d3d_common/d3d12.hpp>
 #include <bksge/render/d3d_common/com_ptr.hpp>
 #include <bksge/render/d3d_common/throw_if_failed.hpp>
@@ -224,7 +225,7 @@ D3D12Renderer::VRender(Geometry const& geometry, RenderState const& render_state
 		desc.BlendState            = blend_state;
 		desc.DepthStencilState     = depth_stencil_state;
 		desc.SampleMask            = UINT_MAX;
-		desc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+		desc.PrimitiveTopologyType = ToD3D12PrimitiveTopologyType(geometry.primitive());
 		desc.NumRenderTargets      = 1;
 		desc.RTVFormats[0]         = DXGI_FORMAT_R8G8B8A8_UNORM;
 		desc.SampleDesc.Count      = 1;
