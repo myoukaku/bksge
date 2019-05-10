@@ -6,7 +6,7 @@
  *	@author	myoukaku
  */
 
-#include <bksge/render/detail/shader_parameter_map.hpp>
+#include <bksge/render/shader_parameter_map.hpp>
 #include <bksge/render/detail/shader_parameter.hpp>
 #include <bksge/math/vector3.hpp>
 #include <bksge/math/color4.hpp>

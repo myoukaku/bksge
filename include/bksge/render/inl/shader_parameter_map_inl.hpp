@@ -6,10 +6,10 @@
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_RENDER_DETAIL_INL_SHADER_PARAMETER_MAP_INL_HPP
-#define BKSGE_RENDER_DETAIL_INL_SHADER_PARAMETER_MAP_INL_HPP
+#ifndef BKSGE_RENDER_INL_SHADER_PARAMETER_MAP_INL_HPP
+#define BKSGE_RENDER_INL_SHADER_PARAMETER_MAP_INL_HPP
 
-#include <bksge/render/detail/shader_parameter_map.hpp>
+#include <bksge/render/shader_parameter_map.hpp>
 #include <bksge/render/detail/shader_parameter.hpp>
 #include <memory>
 #include <utility>
@@ -56,4 +56,4 @@ auto ShaderParameterMap::operator[](key_type const& key) const
 
 }	// namespace bksge
 
-#endif // BKSGE_RENDER_DETAIL_INL_SHADER_PARAMETER_MAP_INL_HPP
+#endif // BKSGE_RENDER_INL_SHADER_PARAMETER_MAP_INL_HPP

@@ -24,6 +24,8 @@ using Scale2 = Scale<T, 2>;
 
 using math::Scale2;
 
+using Scale2f = Scale2<float>;
+
 }	// namespace bksge
 
 #endif // BKSGE_MATH_FWD_SCALE2_FWD_HPP

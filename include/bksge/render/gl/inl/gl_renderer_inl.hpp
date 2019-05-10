@@ -21,6 +21,7 @@
 #include <bksge/render/gl/glx/glx_context.hpp>
 #include <bksge/render/geometry.hpp>
 #include <bksge/render/shader.hpp>
+#include <bksge/render/shader_map.hpp>
 #include <bksge/render/render_state.hpp>
 #include <bksge/render/texture.hpp>
 #include <bksge/window/window.hpp>
@@ -134,18 +135,28 @@ void GlRenderer::VClear(ClearFlag clear_flag, Color4f const& clear_color)
 }
 
 BKSGE_INLINE
-void GlRenderer::VRender(Geometry const& geometry, RenderState const& render_state)
+void GlRenderer::VRender(
+	Geometry const& geometry,
+	ShaderMap const& shader_map,
+	ShaderParameterMap const& shader_parameter_map,
+	RenderState const& render_state)
 {
-	auto& shader = render_state.glsl_shader();
-	auto glsl_program = GetGlGLSLProgram(shader);
+	auto* shader = shader_map.GetShader(ShaderType::kGLSL);
+	if (shader == nullptr)
+	{
+		return;
+	}
+
+	auto glsl_program = GetGlGLSLProgram(*shader);
 	BKSGE_ASSERT(glsl_program != nullptr);
 
+	(void)render_state;
 	//glEnable(GL_CULL_FACE);
 	//glFrontFace(GL_CCW);
 	//glCullFace(GL_BACK);
 
 	auto gl_geometry = GetGlGeometry(geometry);
-	glsl_program->Render(gl_geometry.get(), shader.parameter_map());
+	glsl_program->Render(gl_geometry.get(), shader_parameter_map);
 }
 
 namespace gl_renderer_detail

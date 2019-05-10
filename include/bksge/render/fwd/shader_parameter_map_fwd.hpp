@@ -6,8 +6,8 @@
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_RENDER_DETAIL_FWD_SHADER_PARAMETER_MAP_FWD_HPP
-#define BKSGE_RENDER_DETAIL_FWD_SHADER_PARAMETER_MAP_FWD_HPP
+#ifndef BKSGE_RENDER_FWD_SHADER_PARAMETER_MAP_FWD_HPP
+#define BKSGE_RENDER_FWD_SHADER_PARAMETER_MAP_FWD_HPP
 
 namespace bksge
 {
@@ -19,6 +19,8 @@ class ShaderParameterMap;
 
 }	// namespace render
 
+using render::ShaderParameterMap;
+
 }	// namespace bksge
 
-#endif // BKSGE_RENDER_DETAIL_FWD_SHADER_PARAMETER_MAP_FWD_HPP
+#endif // BKSGE_RENDER_FWD_SHADER_PARAMETER_MAP_FWD_HPP

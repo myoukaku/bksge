@@ -25,11 +25,13 @@ namespace render
 class Identifier
 {
 public:
-	Identifier(void);
-
-private:
 	using ValueType = std::uint32_t;
 
+	Identifier(void);
+
+	ValueType value() const;
+
+private:
 	ValueType m_value;
 
 	class Generator;
@@ -46,17 +48,32 @@ private:
 		ar & BKSGE_SERIALIZATION_NVP(m_value);
 	}
 #endif
-
-private:
-	friend bool operator==(Identifier const& lhs, Identifier const& rhs);
-	friend bool operator< (Identifier const& lhs, Identifier const& rhs);
 };
 
+bool operator==(Identifier const& lhs, Identifier const& rhs);
 bool operator!=(Identifier const& lhs, Identifier const& rhs);
+bool operator< (Identifier const& lhs, Identifier const& rhs);
 
 }	// namespace render
 
 }	// namespace bksge
+
+#include <functional>
+
+namespace std
+{
+
+template<>
+struct hash<bksge::render::Identifier>
+{
+	std::size_t operator()(bksge::render::Identifier const& arg) const
+	{
+		using type = bksge::render::Identifier::ValueType;
+		return std::hash<type>{}(arg.value());
+	}
+};
+
+}	// namespace std
 
 #include <bksge/config.hpp>
 #if defined(BKSGE_HEADER_ONLY)

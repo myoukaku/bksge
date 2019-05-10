@@ -17,7 +17,7 @@
 #include <bksge/render/d3d12/d3d12_command_list.hpp>
 #include <bksge/render/d3d_common/d3d12.hpp>
 #include <bksge/render/d3d_common/d3dcompiler.hpp>
-#include <bksge/render/detail/shader_parameter_map.hpp>
+#include <bksge/render/shader_parameter_map.hpp>
 #include <bksge/cmath/round_up.hpp>
 
 //#include <iostream>

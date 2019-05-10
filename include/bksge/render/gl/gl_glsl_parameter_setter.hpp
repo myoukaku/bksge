@@ -81,6 +81,41 @@ private:
 	{
 		::glUniform4fv(location, 1, &v[0]);
 	}
+
+	static void SetParameterImpl(GLint location, double const& v)
+	{
+		::glUniform1d(location, v);
+	}
+
+	static void SetParameterImpl(GLint location, double const (&v)[2])
+	{
+		::glUniform2dv(location, 1, &v[0]);
+	}
+
+	static void SetParameterImpl(GLint location, double const (&v)[3])
+	{
+		::glUniform3dv(location, 1, &v[0]);
+	}
+
+	static void SetParameterImpl(GLint location, double const (&v)[4])
+	{
+		::glUniform4dv(location, 1, &v[0]);
+	}
+
+	static void SetParameterImpl(GLint location, float const (&v)[2][2])
+	{
+		::glUniformMatrix2fv(location, 1, GL_TRUE, &v[0][0]);
+	}
+
+	static void SetParameterImpl(GLint location, float const (&v)[3][3])
+	{
+		::glUniformMatrix3fv(location, 1, GL_TRUE, &v[0][0]);
+	}
+
+	static void SetParameterImpl(GLint location, float const (&v)[4][4])
+	{
+		::glUniformMatrix4fv(location, 1, GL_TRUE, &v[0][0]);
+	}
 };
 
 }	// namespace render

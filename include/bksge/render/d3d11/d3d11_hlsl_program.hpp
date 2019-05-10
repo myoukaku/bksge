@@ -17,7 +17,7 @@
 #include <bksge/render/d3d_common/d3d11.hpp>
 #include <bksge/render/d3d_common/com_ptr.hpp>
 #include <bksge/render/fwd/shader_fwd.hpp>
-#include <bksge/render/detail/fwd/shader_parameter_map_fwd.hpp>
+#include <bksge/render/fwd/shader_parameter_map_fwd.hpp>
 #include <vector>
 
 namespace bksge

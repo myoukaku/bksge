@@ -81,19 +81,18 @@ D3D12HLSLShaderBase::Compile(D3D12Device* /*device*/, std::string const& source)
 		return false;
 	}
 
+	ThrowIfFailed(::D3DReflect(
+		m_micro_code->GetBufferPointer(),
+		m_micro_code->GetBufferSize(),
+		IID_PPV_ARGS(&m_reflection)));
+
 	return true;
 }
 
 BKSGE_INLINE std::unique_ptr<D3D12InputLayout>
 D3D12HLSLShaderBase::CreateInputLayout(void)
 {
-	ComPtr<::ID3D12ShaderReflection> reflection;
-	ThrowIfFailed(::D3DReflect(
-		m_micro_code->GetBufferPointer(),
-		m_micro_code->GetBufferSize(),
-		IID_PPV_ARGS(&reflection)));
-
-	return bksge::make_unique<D3D12InputLayout>(reflection);
+	return bksge::make_unique<D3D12InputLayout>(m_reflection);
 }
 
 BKSGE_INLINE auto
@@ -102,56 +101,25 @@ D3D12HLSLShaderBase::CreateConstantBuffers(D3D12Device* device)
 {
 	D3D12ConstantBuffers constant_buffers;
 
-	ComPtr<::ID3D12ShaderReflection> reflection;
-	ThrowIfFailed(::D3DReflect(
-		m_micro_code->GetBufferPointer(),
-		m_micro_code->GetBufferSize(),
-		IID_PPV_ARGS(&reflection)));
-
 	::D3D12_SHADER_DESC shader_desc;
-	reflection->GetDesc(&shader_desc);
+	m_reflection->GetDesc(&shader_desc);
 
 	for (::UINT i = 0; i < shader_desc.ConstantBuffers; i++)
 	{
 		auto cb = bksge::make_unique<D3D12ConstantBuffer>(
 			device,
-			reflection->GetConstantBufferByIndex(i));
+			m_reflection->GetConstantBufferByIndex(i));
 		constant_buffers.push_back(std::move(cb));
 	}
 
 	return constant_buffers;
 }
 
-//BKSGE_INLINE void
-//D3D12HLSLShaderBase::UpdateParameters(
-//	ShaderParameterMap const& shader_parameter_map)
-//{
-//	for (auto&& constant_buffers : m_constant_buffers)
-//	{
-//		constant_buffers->UpdateParameters(shader_parameter_map);
-//	}
-//}
-//
-//BKSGE_INLINE void
-//D3D12HLSLShaderBase::SetEnable(D3D12CommandList* command_list)
-//{
-//	for (auto&& constant_buffers : m_constant_buffers)
-//	{
-//		constant_buffers->SetEnable(command_list);
-//	}
-//}
-
 BKSGE_INLINE ::UINT
 D3D12HLSLShaderBase::GetConstantBufferCount(void) const
 {
-	ComPtr<::ID3D12ShaderReflection> reflection;
-	ThrowIfFailed(::D3DReflect(
-		m_micro_code->GetBufferPointer(),
-		m_micro_code->GetBufferSize(),
-		IID_PPV_ARGS(&reflection)));
-
 	::D3D12_SHADER_DESC shader_desc;
-	reflection->GetDesc(&shader_desc);
+	m_reflection->GetDesc(&shader_desc);
 
 	return shader_desc.ConstantBuffers;
 }

@@ -53,7 +53,11 @@ private:
 	void VBegin(void) override;
 	void VEnd(void) override;
 	void VClear(ClearFlag clear_flag, Color4f const& clear_color) override;
-	void VRender(Geometry const& geometry, RenderState const& render_state) override;
+	void VRender(
+		Geometry const& geometry,
+		ShaderMap const& shader_map,
+		ShaderParameterMap const& shader_parameter_map,
+		RenderState const& render_state) override;
 
 private:
 	std::shared_ptr<D3D11HLSLProgram> GetD3D11HLSLProgram(Shader const& shader);

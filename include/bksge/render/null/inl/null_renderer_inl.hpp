@@ -26,7 +26,8 @@ BKSGE_INLINE NullRenderer::NullRenderer(void)
 BKSGE_INLINE NullRenderer::~NullRenderer()
 {}
 
-BKSGE_INLINE void NullRenderer::VSetRenderTarget(Window const& /*window*/)
+BKSGE_INLINE void NullRenderer::VSetRenderTarget(
+	Window const& /*window*/)
 {}
 
 BKSGE_INLINE void NullRenderer::VBegin(void)
@@ -35,10 +36,16 @@ BKSGE_INLINE void NullRenderer::VBegin(void)
 BKSGE_INLINE void NullRenderer::VEnd(void)
 {}
 
-BKSGE_INLINE void NullRenderer::VClear(ClearFlag /*clear_flag*/, Color4f const& /*clear_color*/)
+BKSGE_INLINE void NullRenderer::VClear(
+	ClearFlag /*clear_flag*/,
+	Color4f const& /*clear_color*/)
 {}
 
-BKSGE_INLINE void NullRenderer::VRender(Geometry const& /*geometry*/, RenderState const& /*render_state*/)
+BKSGE_INLINE void NullRenderer::VRender(
+	Geometry const& /*geometry*/,
+	ShaderMap const& /*shader_map*/,
+	ShaderParameterMap const& /*shader_parameter_map*/,
+	RenderState const& /*render_state*/)
 {}
 
 }	// namespace render

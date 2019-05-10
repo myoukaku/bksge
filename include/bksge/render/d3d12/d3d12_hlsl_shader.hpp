@@ -16,8 +16,9 @@
 #include <bksge/render/d3d12/fwd/d3d12_command_list_fwd.hpp>
 #include <bksge/render/d3d_common/d3d12.hpp>
 #include <bksge/render/d3d_common/d3dcommon.hpp>
+#include <bksge/render/d3d_common/d3d12shader.hpp>
 #include <bksge/render/d3d_common/com_ptr.hpp>
-#include <bksge/render/detail/fwd/shader_parameter_map_fwd.hpp>
+#include <bksge/render/fwd/shader_parameter_map_fwd.hpp>
 #include <string>
 #include <memory>
 #include <vector>
@@ -47,16 +48,14 @@ public:
 	D3D12ConstantBuffers CreateConstantBuffers(D3D12Device* device);
 	::UINT GetConstantBufferCount(void) const;
 
-	//void UpdateParameters(ShaderParameterMap const& shader_parameter_map);
-	//void SetEnable(D3D12CommandList* command_list);
-
 	::D3D12_SHADER_BYTECODE GetBytecode(void) const;
 
 private:
 	virtual const char* VGetTargetString() = 0;
 
 private:
-	ComPtr<::ID3DBlob>		m_micro_code;
+	ComPtr<::ID3DBlob>					m_micro_code;
+	ComPtr<::ID3D12ShaderReflection>	m_reflection;
 };
 
 /**

@@ -15,7 +15,7 @@
 #include <bksge/render/gl/fwd/gl_geometry_fwd.hpp>
 #include <bksge/render/gl/gl_api.hpp>
 #include <bksge/render/fwd/shader_fwd.hpp>
-#include <bksge/render/detail/fwd/shader_parameter_map_fwd.hpp>
+#include <bksge/render/fwd/shader_parameter_map_fwd.hpp>
 #include <vector>
 
 namespace bksge

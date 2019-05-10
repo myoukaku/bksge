@@ -53,9 +53,13 @@ void Renderer::Clear(void)
 }
 
 BKSGE_INLINE
-void Renderer::Render(Geometry const& geometry, RenderState const& render_state)
+void Renderer::Render(
+	Geometry const& geometry,
+	ShaderMap const& shader_map,
+	ShaderParameterMap const& shader_parameter_map,
+	RenderState const& render_state)
 {
-	VRender(geometry, render_state);
+	VRender(geometry, shader_map, shader_parameter_map, render_state);
 }
 
 BKSGE_INLINE

@@ -16,8 +16,10 @@
 #include <bksge/render/d3d12/fwd/d3d12_render_target_fwd.hpp>
 #include <bksge/render/d3d12/fwd/d3d12_fence_fwd.hpp>
 #include <bksge/render/d3d12/fwd/d3d12_hlsl_program_fwd.hpp>
+#include <bksge/render/d3d12/fwd/d3d12_constant_buffer_descriptor_fwd.hpp>
 #include <bksge/render/d3d12/fwd/d3d12_geometry_fwd.hpp>
 #include <bksge/render/d3d12/fwd/d3d12_root_signature_fwd.hpp>
+#include <bksge/render/d3d12/fwd/d3d12_pipeline_state_fwd.hpp>
 #include <bksge/render/dxgi/fwd/dxgi_factory_fwd.hpp>
 #include <bksge/render/dxgi/fwd/dxgi_swap_chain_fwd.hpp>
 
@@ -29,6 +31,7 @@
 #include <bksge/render/fwd/geometry_fwd.hpp>
 #include <bksge/render/fwd/render_state_fwd.hpp>
 #include <bksge/render/fwd/shader_fwd.hpp>
+#include <bksge/render/fwd/primitive_fwd.hpp>
 #include <bksge/math/fwd/color4_fwd.hpp>
 #include <bksge/window/fwd/window_fwd.hpp>
 
@@ -60,11 +63,26 @@ private:
 	void VBegin(void) override;
 	void VEnd(void) override;
 	void VClear(ClearFlag clear_flag, Color4f const& clear_color) override;
-	void VRender(Geometry const& geometry, RenderState const& render_state) override;
+	void VRender(
+		Geometry const& geometry,
+		ShaderMap const& shader_map,
+		ShaderParameterMap const& shader_parameter_map,
+		RenderState const& render_state) override;
 
 private:
-	std::shared_ptr<D3D12HLSLProgram> GetD3D12HLSLProgram(Shader const& shader);
-	std::shared_ptr<D3D12Geometry> GetD3D12Geometry(Geometry const& geometry);
+	std::shared_ptr<D3D12HLSLProgram>
+	GetD3D12HLSLProgram(Shader const& shader);
+
+	std::shared_ptr<D3D12ConstantBufferDescriptor>
+	GetD3D12ConstantBufferDescriptor(
+		ShaderParameterMap const& shader_parameter_map,
+		D3D12HLSLProgram* hlsl_program);
+
+	std::shared_ptr<D3D12Geometry>
+	GetD3D12Geometry(Geometry const& geometry);
+
+	std::shared_ptr<D3D12PipelineState>
+	GetD3D12PipelineState(Shader const& shader, Primitive primitive);
 
 private:
 //	static const ::UINT FrameCount = 2;
@@ -78,15 +96,15 @@ private:
 	std::unique_ptr<D3D12Fence>			m_fence;
 
 	D3D12HLSLProgramMap                 m_d3d12_hlsl_program_map;
+	D3D12ConstantBufferDescriptorMap    m_d3d12_constant_buffer_descriptor_map;
 	D3D12GeometryMap                    m_d3d12_geometry_map;
-
-	::UINT m_frameIndex;
-
-	::D3D12_VIEWPORT m_viewport;
-	::D3D12_RECT m_scissorRect;
+	D3D12PipelineStateMap               m_d3d12_pipeline_state;
 
 	// TODO
-	ComPtr<::ID3D12PipelineState> m_pipelineState;
+	::UINT m_frameIndex;
+	::D3D12_VIEWPORT m_viewport;
+	::D3D12_RECT m_scissorRect;
+//	ComPtr<::ID3D12PipelineState> m_pipelineState;
 };
 
 }	// namespace render

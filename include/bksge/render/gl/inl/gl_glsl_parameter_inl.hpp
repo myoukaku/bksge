@@ -15,7 +15,8 @@
 #include <bksge/render/gl/gl_glsl_parameter.hpp>
 #include <bksge/render/gl/gl_glsl_parameter_setter.hpp>
 #include <bksge/render/gl/gl_api.hpp>
-#include <bksge/render/detail/shader_parameter_map.hpp>
+#include <bksge/render/shader_parameter_map.hpp>
+#include <bksge/assert.hpp>
 #include <string>
 #include <vector>
 
@@ -51,7 +52,26 @@ GlGLSLParameter::GlGLSLParameter(GLuint program, GLint index)
 	case GL_FLOAT_VEC2: m_setter.reset(new GlGLSLParameterSetter<float[2]>(m_location)); break;
 	case GL_FLOAT_VEC3: m_setter.reset(new GlGLSLParameterSetter<float[3]>(m_location)); break;
 	case GL_FLOAT_VEC4: m_setter.reset(new GlGLSLParameterSetter<float[4]>(m_location)); break;
-	default: break;
+	case GL_DOUBLE:      m_setter.reset(new GlGLSLParameterSetter<double>(m_location)); break;
+	case GL_DOUBLE_VEC2: m_setter.reset(new GlGLSLParameterSetter<double[2]>(m_location)); break;
+	case GL_DOUBLE_VEC3: m_setter.reset(new GlGLSLParameterSetter<double[3]>(m_location)); break;
+	case GL_DOUBLE_VEC4: m_setter.reset(new GlGLSLParameterSetter<double[4]>(m_location)); break;
+	//case GL_INT:      m_setter.reset(new GlGLSLParameterSetter<int>(m_location)); break;
+	//case GL_INT_VEC2: m_setter.reset(new GlGLSLParameterSetter<int[2]>(m_location)); break;
+	//case GL_INT_VEC3: m_setter.reset(new GlGLSLParameterSetter<int[3]>(m_location)); break;
+	//case GL_INT_VEC4: m_setter.reset(new GlGLSLParameterSetter<int[4]>(m_location)); break;
+	//case GL_UNSIGNED_INT:      m_setter.reset(new GlGLSLParameterSetter<unsigned int>(m_location)); break;
+	//case GL_UNSIGNED_INT_VEC2: m_setter.reset(new GlGLSLParameterSetter<unsigned int[2]>(m_location)); break;
+	//case GL_UNSIGNED_INT_VEC3: m_setter.reset(new GlGLSLParameterSetter<unsigned int[3]>(m_location)); break;
+	//case GL_UNSIGNED_INT_VEC4: m_setter.reset(new GlGLSLParameterSetter<unsigned int[4]>(m_location)); break;
+	//case GL_BOOL:      m_setter.reset(new GlGLSLParameterSetter<bool>(m_location)); break;
+	//case GL_BOOL_VEC2: m_setter.reset(new GlGLSLParameterSetter<bool[2]>(m_location)); break;
+	//case GL_BOOL_VEC3: m_setter.reset(new GlGLSLParameterSetter<bool[3]>(m_location)); break;
+	//case GL_BOOL_VEC4: m_setter.reset(new GlGLSLParameterSetter<bool[4]>(m_location)); break;
+	case GL_FLOAT_MAT2: m_setter.reset(new GlGLSLParameterSetter<float[2][2]>(m_location)); break;
+	case GL_FLOAT_MAT3: m_setter.reset(new GlGLSLParameterSetter<float[3][3]>(m_location)); break;
+	case GL_FLOAT_MAT4: m_setter.reset(new GlGLSLParameterSetter<float[4][4]>(m_location)); break;
+	default: BKSGE_ASSERT(false); break;
 	}
 }
 

@@ -22,6 +22,8 @@ class Quaternion;
 
 using math::Quaternion;
 
+using Quaternionf = Quaternion<float>;
+
 }	// namespace bksge
 
 #endif // BKSGE_MATH_FWD_QUATERNION_FWD_HPP

@@ -25,7 +25,9 @@
 #include <bksge/render/d3d12/d3d12_blend_state.hpp>
 #include <bksge/render/d3d12/d3d12_depth_stencil_state.hpp>
 #include <bksge/render/d3d12/d3d12_hlsl_program.hpp>
+#include <bksge/render/d3d12/d3d12_constant_buffer_descriptor.hpp>
 #include <bksge/render/d3d12/d3d12_primitive_topology_type.hpp>
+#include <bksge/render/d3d12/d3d12_pipeline_state.hpp>
 #include <bksge/render/d3d_common/d3d12.hpp>
 #include <bksge/render/d3d_common/com_ptr.hpp>
 #include <bksge/render/d3d_common/throw_if_failed.hpp>
@@ -36,11 +38,14 @@
 
 #include <bksge/render/geometry.hpp>
 #include <bksge/render/shader.hpp>
+#include <bksge/render/shader_parameter_map.hpp>
+#include <bksge/render/shader_map.hpp>
 #include <bksge/render/render_state.hpp>
 
 #include <bksge/memory/make_unique.hpp>
 #include <bksge/window/window.hpp>
 #include <bksge/detail/win32.hpp>
+#include <bksge/functional/hash_combine.hpp>
 #include <bksge/assert.hpp>
 
 #include <unordered_map>
@@ -204,39 +209,55 @@ D3D12Renderer::VClear(ClearFlag clear_flag, Color4f const& clear_color)
 }
 
 BKSGE_INLINE void
-D3D12Renderer::VRender(Geometry const& geometry, RenderState const& render_state)
+D3D12Renderer::VRender(
+	Geometry const& geometry,
+	ShaderMap const& shader_map,
+	ShaderParameterMap const& shader_parameter_map,
+	RenderState const& render_state)
 {
-	auto const& shader = render_state.hlsl_shader();
-	auto hlsl_program = GetD3D12HLSLProgram(shader);
-	hlsl_program->UpdateParameters(shader.parameter_map());
+	// TODO
+	(void)render_state;
 
-	if (!m_pipelineState)
+	auto* shader = shader_map.GetShader(ShaderType::kHLSL);
+	if (shader == nullptr)
 	{
-		D3D12RasterizerState   raster_state;
-		D3D12BlendState        blend_state;
-		D3D12DepthStencilState depth_stencil_state;
-
-		::D3D12_GRAPHICS_PIPELINE_STATE_DESC desc = {};
-		desc.InputLayout           = hlsl_program->GetInputLayout();
-		desc.pRootSignature        = hlsl_program->GetRootSignature();
-		desc.VS                    = hlsl_program->GetVertexShaderBytecode();
-		desc.PS                    = hlsl_program->GetPixelShaderBytecode();
-		desc.RasterizerState       = raster_state;
-		desc.BlendState            = blend_state;
-		desc.DepthStencilState     = depth_stencil_state;
-		desc.SampleMask            = UINT_MAX;
-		desc.PrimitiveTopologyType = ToD3D12PrimitiveTopologyType(geometry.primitive());
-		desc.NumRenderTargets      = 1;
-		desc.RTVFormats[0]         = DXGI_FORMAT_R8G8B8A8_UNORM;
-		desc.SampleDesc.Count      = 1;
-
-		m_pipelineState = m_device->CreateGraphicsPipelineState(desc);
+		return;
 	}
 
-	m_command_list->SetGraphicsRootSignature(hlsl_program->GetRootSignature());
-	m_command_list->SetPipelineState(m_pipelineState.Get());
+	auto hlsl_program = GetD3D12HLSLProgram(*shader);
 
-	hlsl_program->SetEnable(m_command_list.get());
+	auto pipeline_state = GetD3D12PipelineState(*shader, geometry.primitive());
+
+	//if (!m_pipelineState)
+	//{
+	//	D3D12RasterizerState   raster_state;
+	//	D3D12BlendState        blend_state;
+	//	D3D12DepthStencilState depth_stencil_state;
+
+	//	::D3D12_GRAPHICS_PIPELINE_STATE_DESC desc = {};
+	//	desc.InputLayout           = hlsl_program->GetInputLayout();
+	//	desc.pRootSignature        = hlsl_program->GetRootSignature();
+	//	desc.VS                    = hlsl_program->GetVertexShaderBytecode();
+	//	desc.PS                    = hlsl_program->GetPixelShaderBytecode();
+	//	desc.RasterizerState       = raster_state;
+	//	desc.BlendState            = blend_state;
+	//	desc.DepthStencilState     = depth_stencil_state;
+	//	desc.SampleMask            = UINT_MAX;
+	//	desc.PrimitiveTopologyType = ToD3D12PrimitiveTopologyType(geometry.primitive());
+	//	desc.NumRenderTargets      = 1;
+	//	desc.RTVFormats[0]         = DXGI_FORMAT_R8G8B8A8_UNORM;
+	//	desc.SampleDesc.Count      = 1;
+
+	//	m_pipelineState = m_device->CreateGraphicsPipelineState(desc);
+	//}
+
+	m_command_list->SetGraphicsRootSignature(hlsl_program->GetRootSignature());
+	//m_command_list->SetPipelineState(m_pipelineState.Get());
+	pipeline_state->SetPipelineState(m_command_list.get());
+
+	auto constant_buffer = GetD3D12ConstantBufferDescriptor(shader_parameter_map, hlsl_program.get());
+	constant_buffer->UpdateParameters(shader_parameter_map);
+	constant_buffer->SetEnable(m_command_list.get());
 
 	auto d3d12_geometry = GetD3D12Geometry(geometry);
 	d3d12_geometry->Draw(m_command_list.get());
@@ -277,11 +298,36 @@ D3D12Renderer::GetD3D12HLSLProgram(Shader const& shader)
 		m_d3d12_hlsl_program_map, shader.id(), m_device.get(), shader);
 }
 
+BKSGE_INLINE std::shared_ptr<D3D12ConstantBufferDescriptor>
+D3D12Renderer::GetD3D12ConstantBufferDescriptor(
+	ShaderParameterMap const& shader_parameter_map,
+	D3D12HLSLProgram* hlsl_program)
+{
+	return d3d12_detail::GetOrCreate<D3D12ConstantBufferDescriptor>(
+		m_d3d12_constant_buffer_descriptor_map,
+		shader_parameter_map.id(),
+		m_device.get(),
+		hlsl_program);
+}
+
 BKSGE_INLINE std::shared_ptr<D3D12Geometry>
 D3D12Renderer::GetD3D12Geometry(Geometry const& geometry)
 {
 	return d3d12_detail::GetOrCreate<D3D12Geometry>(
 		m_d3d12_geometry_map, geometry.id(), geometry, m_device.get());
+}
+
+BKSGE_INLINE std::shared_ptr<D3D12PipelineState>
+D3D12Renderer::GetD3D12PipelineState(
+	Shader const& shader,
+	Primitive primitive)
+{
+	return d3d12_detail::GetOrCreate<D3D12PipelineState>(
+		m_d3d12_pipeline_state,
+		bksge::hash_combine(shader.id(), primitive),
+		m_device.get(),
+		*GetD3D12HLSLProgram(shader),
+		primitive);
 }
 
 }	// namespace render

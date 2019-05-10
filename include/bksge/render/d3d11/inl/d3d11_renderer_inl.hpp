@@ -27,6 +27,7 @@
 #include <bksge/render/dxgi/dxgi_swap_chain.hpp>
 #include <bksge/render/clear_flag.hpp>
 #include <bksge/render/shader.hpp>
+#include <bksge/render/shader_map.hpp>
 #include <bksge/render/geometry.hpp>
 #include <bksge/render/render_state.hpp>
 //#include <bksge/render/texture.hpp>
@@ -181,18 +182,29 @@ D3D11Renderer::VClear(ClearFlag clear_flag, Color4f const& clear_color)
 }
 
 BKSGE_INLINE void
-D3D11Renderer::VRender(Geometry const& geometry, RenderState const& render_state)
+D3D11Renderer::VRender(
+	Geometry const& geometry,
+	ShaderMap const& shader_map,
+	ShaderParameterMap const& shader_parameter_map,
+	RenderState const& render_state)
 {
-	auto const& shader = render_state.hlsl_shader();
+	// TODO
+	(void)render_state;
 
-	auto hlsl_program = GetD3D11HLSLProgram(shader);
+	auto* shader = shader_map.GetShader(ShaderType::kHLSL);
+	if (shader == nullptr)
+	{
+		return;
+	}
+
+	auto hlsl_program = GetD3D11HLSLProgram(*shader);
 	BKSGE_ASSERT(hlsl_program != nullptr);
 
 	auto d3d11_geometry = GetD3D11Geometry(geometry);
 	hlsl_program->Render(
 		m_device_context.get(),
 		d3d11_geometry.get(),
-		shader.parameter_map());
+		shader_parameter_map);
 }
 
 namespace d3d11_detail

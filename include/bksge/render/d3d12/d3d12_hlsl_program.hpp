@@ -19,8 +19,8 @@
 #include <bksge/render/d3d_common/d3d12.hpp>
 #include <bksge/render/d3d_common/com_ptr.hpp>
 #include <bksge/render/fwd/shader_fwd.hpp>
+#include <bksge/render/fwd/shader_parameter_map_fwd.hpp>
 #include <bksge/render/shader_stage.hpp>
-#include <bksge/render/detail/fwd/shader_parameter_map_fwd.hpp>
 #include <map>
 #include <memory>
 #include <vector>
@@ -38,8 +38,8 @@ public:
 
 	~D3D12HLSLProgram();
 
-	void UpdateParameters(ShaderParameterMap const& shader_parameter_map);
-	void SetEnable(D3D12CommandList* command_list);
+	//void UpdateParameters(ShaderParameterMap const& shader_parameter_map);
+	//void SetEnable(D3D12CommandList* command_list);
 
 	::D3D12_SHADER_BYTECODE GetShaderBytecode(ShaderStage stage) const;
 	::D3D12_SHADER_BYTECODE GetVertexShaderBytecode(void) const;
@@ -47,16 +47,19 @@ public:
 
 	::D3D12_INPUT_LAYOUT_DESC	GetInputLayout(void) const;
 	::ID3D12RootSignature*		GetRootSignature(void) const;
+	::UINT						GetRootParameterCount(void) const;
 
-private:
 	using D3D12ConstantBuffers =
 		std::vector<std::unique_ptr<D3D12ConstantBuffer>>;
 
+	D3D12ConstantBuffers CreateConstantBuffers(D3D12Device* device);
+
+private:
 	D3D12HLSLShaderMap					m_shader_map;
 	std::unique_ptr<D3D12InputLayout>	m_input_layout;
-	D3D12ConstantBuffers				m_constant_buffers;
-	ComPtr<::ID3D12DescriptorHeap>		m_descriptor_heap;
-	::UINT								m_cbv_descriptor_handle_incrementsize;
+	//D3D12ConstantBuffers				m_constant_buffers;
+	//ComPtr<::ID3D12DescriptorHeap>		m_descriptor_heap;
+	//::UINT								m_cbv_descriptor_handle_incrementsize;
 	std::unique_ptr<D3D12RootSignature>	m_root_signature;
 };
 

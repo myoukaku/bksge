@@ -14,7 +14,6 @@
 #include <bksge/render/blend_state.hpp>
 #include <bksge/render/depth_state.hpp>
 #include <bksge/render/stencil_state.hpp>
-#include <bksge/render/shader.hpp>
 
 namespace bksge
 {
@@ -30,19 +29,11 @@ class RenderState
 public:
 	RenderState(void);
 
-	Shader const& hlsl_shader(void) const;
-	Shader const& glsl_shader(void) const;
-
-	Shader& hlsl_shader(void);
-	Shader& glsl_shader(void);
-
 private:
 	RasterizerState		m_rasterizer_state;
 	BlendState			m_blend_state;
 	DepthState			m_depth_state;
 	StencilState		m_stencil_state;
-	Shader				m_hlsl_shader;
-	Shader				m_glsl_shader;
 };
 
 }	// namespace render

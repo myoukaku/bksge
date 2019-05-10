@@ -6,11 +6,12 @@
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_RENDER_DETAIL_SHADER_PARAMETER_MAP_HPP
-#define BKSGE_RENDER_DETAIL_SHADER_PARAMETER_MAP_HPP
+#ifndef BKSGE_RENDER_SHADER_PARAMETER_MAP_HPP
+#define BKSGE_RENDER_SHADER_PARAMETER_MAP_HPP
 
-#include <bksge/render/detail/fwd/shader_parameter_map_fwd.hpp>
+#include <bksge/render/fwd/shader_parameter_map_fwd.hpp>
 #include <bksge/render/detail/fwd/shader_parameter_base_fwd.hpp>
+#include <bksge/render/detail/identifiable.hpp>
 //#include <bksge/serialization/access.hpp>
 //#include <bksge/serialization/nvp.hpp>
 //#include <bksge/serialization/map.hpp>
@@ -29,7 +30,7 @@ namespace render
 /**
  *	@brief	シェーダパラメータのmap
  */
-class ShaderParameterMap
+class ShaderParameterMap : public Identifiable
 {
 public:
 	using key_type = std::string;
@@ -73,7 +74,7 @@ private:
 
 #include <bksge/config.hpp>
 #if defined(BKSGE_HEADER_ONLY)
-#include <bksge/render/detail/inl/shader_parameter_map_inl.hpp>
+#include <bksge/render/inl/shader_parameter_map_inl.hpp>
 #endif
 
 #include <bksge/render/detail/shader_parameter.hpp>
@@ -105,4 +106,4 @@ inline void ShaderParameterMap::SetParameter(key_type const& key, T const& value
 
 }	// namespace bksge
 
-#endif // BKSGE_RENDER_DETAIL_SHADER_PARAMETER_MAP_HPP
+#endif // BKSGE_RENDER_SHADER_PARAMETER_MAP_HPP

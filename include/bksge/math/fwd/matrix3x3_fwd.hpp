@@ -24,6 +24,8 @@ using Matrix3x3 = Matrix<T, 3, 3>;
 
 using math::Matrix3x3;
 
+using Matrix3x3f = Matrix3x3<float>;
+
 }	// namespace bksge
 
 #endif // BKSGE_MATH_FWD_MATRIX3X3_FWD_HPP

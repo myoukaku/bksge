@@ -9,6 +9,85 @@
 #include <bksge/window.hpp>
 #include <bksge/render.hpp>
 
+namespace
+{
+
+static bksge::Shader GetGLSLShader(void)
+{
+	char const* vs_source =
+		"attribute vec3 aPosition;					"
+		"attribute vec4 aColor;						"
+		"varying  vec4 vColor;						"
+		"											"
+		"void main()								"
+		"{											"
+		"	gl_Position = vec4(aPosition, 1.0);		"
+		"	vColor = aColor;						"
+		"}											"
+	;
+
+	char const* fs_source =
+		"varying  vec4 vColor;						"
+		"											"
+		"void main()								"
+		"{											"
+		"	gl_FragColor = vColor;					"
+		"}											"
+	;
+
+	return bksge::Shader
+	{
+		{ bksge::ShaderStage::kVertex,   vs_source },
+		{ bksge::ShaderStage::kFragment, fs_source },
+	};
+}
+
+static bksge::Shader GetHLSLShader(void)
+{
+	char const* vs_source =
+		"struct VS_INPUT							"
+		"{											"
+		"	float3 pos   : POSITION;				"
+		"	float4 color : COLOR;					"
+		"};											"
+ 		"											"
+		"struct VS_OUTPUT							"
+		"{											"
+		"	float4 pos   : SV_POSITION;				"
+		"	float4 color : COLOR;					"
+		"};											"
+		"											"
+		"VS_OUTPUT main(VS_INPUT input)				"
+		"{											"
+		"	VS_OUTPUT output;						"
+		"	output.pos = float4(input.pos, 1.0);	"
+		"	output.color = input.color;				"
+		"	return output;							"
+		"}											"
+	;
+
+	char const* ps_source =
+		"struct PS_INPUT							"
+		"{											"
+		"	float4 pos   : SV_POSITION;				"
+		"	float4 color : COLOR;					"
+		"};											"
+		"											"
+		"float4 main(PS_INPUT input) : SV_Target	"
+		"{											"
+		"	return input.color;						"
+		"}											"
+	;
+
+	return bksge::Shader
+	{
+		{ bksge::ShaderStage::kVertex,   vs_source },
+		{ bksge::ShaderStage::kFragment, ps_source },
+	};
+}
+
+}	// namespace
+
 int main()
 {
 	std::vector<std::shared_ptr<bksge::Renderer>>	renderers;
@@ -61,77 +140,15 @@ int main()
 
 	const bksge::Geometry geometry(bksge::Primitive::kTriangles, vertices, indices);
 
+	bksge::ShaderMap const shader_map
+	{
+		{ bksge::ShaderType::kGLSL, GetGLSLShader() },
+		{ bksge::ShaderType::kHLSL, GetHLSLShader() },
+	};
+
+	bksge::ShaderParameterMap shader_parameter;
+
 	bksge::RenderState render_state;
-
-	// GLSL
-	{
-		char const* vs_source =
-			"attribute vec3 aPosition;					"
-			"attribute vec4 aColor;						"
-			"varying  vec4 vColor;						"
-			"											"
-			"void main()								"
-			"{											"
-			"	gl_Position = vec4(aPosition, 1.0);		"
-			"	vColor = aColor;						"
-			"}											"
-		;
-
-		char const* ps_source =
-			"varying  vec4 vColor;						"
-			"											"
-			"void main()								"
-			"{											"
-			"	gl_FragColor = vColor;					"
-			"}											"
-		;
-
-		auto& glsl = render_state.glsl_shader();
-		glsl.SetProgram(bksge::ShaderStage::kVertex, vs_source);
-		glsl.SetProgram(bksge::ShaderStage::kFragment, ps_source);
-	}
-
-	// HLSL
-	{
-		char const* vs_source =
-			"struct VS_INPUT							"
-			"{											"
-			"	float3 pos   : POSITION;				"
-			"	float4 color : COLOR;					"
-			"};											"
- 			"											"
-			"struct VS_OUTPUT							"
-			"{											"
-			"	float4 pos   : SV_POSITION;				"
-			"	float4 color : COLOR;					"
-			"};											"
-			"											"
-			"VS_OUTPUT main(VS_INPUT input)				"
-			"{											"
-			"	VS_OUTPUT output;						"
-			"	output.pos = float4(input.pos, 1.0);	"
-			"	output.color = input.color;				"
-			"	return output;							"
-			"}											"
-		;
-
-		char const* ps_source =
-			"struct PS_INPUT							"
-			"{											"
-			"	float4 pos   : SV_POSITION;				"
-			"	float4 color : COLOR;					"
-			"};											"
-			"											"
-			"float4 main(PS_INPUT input) : SV_Target	"
-			"{											"
-			"	return input.color;						"
-			"}											"
-		;
-
-		auto& hlsl = render_state.hlsl_shader();
-		hlsl.SetProgram(bksge::ShaderStage::kVertex, vs_source);
-		hlsl.SetProgram(bksge::ShaderStage::kFragment, ps_source);
-	}
 
 	for (;;)
 	{
@@ -147,7 +164,7 @@ int main()
 		{
 			renderer->Begin();
 			renderer->Clear();
-			renderer->Render(geometry, render_state);
+			renderer->Render(geometry, shader_map, shader_parameter, render_state);
 			renderer->End();
 		}
 	}

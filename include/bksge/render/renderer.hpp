@@ -11,6 +11,8 @@
 
 #include <bksge/render/fwd/renderer_fwd.hpp>
 #include <bksge/render/fwd/geometry_fwd.hpp>
+#include <bksge/render/fwd/shader_map_fwd.hpp>
+#include <bksge/render/fwd/shader_parameter_map_fwd.hpp>
 #include <bksge/render/fwd/render_state_fwd.hpp>
 #include <bksge/render/clear_flag.hpp>
 #include <bksge/window/fwd/window_fwd.hpp>
@@ -55,13 +57,16 @@ public:
 	/**
 	 *	@brief	Geometryを1つ描画します
 	 *
-	 *	@param	geometry		描画するジオメトリ
-	 *	@param	render_state	レンダリングステート
-	 *
-	 *	geometryによって描画する形状(幾何)が決まり、
-	 *	render_stateによって描画結果の見た目が決まります。
+	 *	@param	geometry				描画するジオメトリ
+	 *	@param	shader_map				描画に使用するシェーダ
+	 *	@param	shader_parameter_map	シェーダのパラメータ
+	 *	@param	render_state			レンダリングステート
 	 */
-	void Render(Geometry const& geometry, RenderState const& render_state);
+	void Render(
+		Geometry const& geometry,
+		ShaderMap const& shader_map,
+		ShaderParameterMap const& shader_parameter_map,
+		RenderState const& render_state);
 
 	/**
 	 *	@brief	レンダリングターゲットのクリアフラグを設定します。
@@ -86,7 +91,11 @@ private:
 
 	virtual void VClear(ClearFlag clear_flag, Color4f const& clear_color) = 0;
 
-	virtual void VRender(Geometry const& geometry, RenderState const& render_state) = 0;
+	virtual void VRender(
+		Geometry const& geometry,
+		ShaderMap const& shader_map,
+		ShaderParameterMap const& shader_parameter_map,
+		RenderState const& render_state) = 0;
 
 	ClearFlag  m_clear_flag;
 	Color4f    m_clear_color;

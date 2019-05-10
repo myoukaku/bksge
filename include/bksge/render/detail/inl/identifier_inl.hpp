@@ -44,22 +44,29 @@ Identifier::Identifier(void)
 	: m_value(Generator::GetInstance().Get())
 {}
 
-BKSGE_INLINE
-bool operator==(Identifier const& lhs, Identifier const& rhs)
+BKSGE_INLINE auto
+Identifier::value() const
+-> ValueType
 {
-	return lhs.m_value == rhs.m_value;
+	return m_value;
 }
 
 BKSGE_INLINE
-bool operator<(Identifier const& lhs, Identifier const& rhs)
+bool operator==(Identifier const& lhs, Identifier const& rhs)
 {
-	return lhs.m_value < rhs.m_value;
+	return lhs.value() == rhs.value();
 }
 
 BKSGE_INLINE
 bool operator!=(Identifier const& lhs, Identifier const& rhs)
 {
 	return !(lhs == rhs);
+}
+
+BKSGE_INLINE
+bool operator<(Identifier const& lhs, Identifier const& rhs)
+{
+	return lhs.value() < rhs.value();
 }
 
 }	// namespace render

@@ -14,6 +14,80 @@
 #include <utility>
 #include <cmath>
 
+namespace
+{
+
+static bksge::Shader GetGLSLShader(void)
+{
+	char const* vs_source =
+		"attribute vec3 aPosition;					"
+		"uniform vec3 uOffset;						"
+		"											"
+		"void main()								"
+		"{											"
+		"	gl_Position = vec4(aPosition + uOffset, 1.0);		"
+		"}											"
+	;
+
+	char const* fs_source =
+		"uniform float uRed;						"
+		"uniform float uGreen;						"
+		"uniform float uBlue;						"
+		"											"
+		"void main()								"
+		"{											"
+		"	gl_FragColor = vec4(uRed, uGreen, uBlue, 1.0);"
+		"}											"
+	;
+
+	return bksge::Shader
+	{
+		{ bksge::ShaderStage::kVertex,   vs_source },
+		{ bksge::ShaderStage::kFragment, fs_source },
+	};
+}
+
+static bksge::Shader GetHLSLShader(void)
+{
+	char const* vs_source =
+		"cbuffer ConstantBuffer1						"
+		"{												"
+		"	float4 uDummyVariable;						"
+		"	float3 uOffset;								"
+		"};												"
+		"												"
+		"float4 main(float3 aPosition : POSITION) : SV_POSITION	"
+		"{												"
+		"	return float4(aPosition + uOffset, 1.0);	"
+		"}												"
+	;
+
+	char const* ps_source =
+		"cbuffer ConstantBuffer2						"
+		"{												"
+		"	float uRed;									"
+		"	float uGreen;								"
+		"};												"
+		"cbuffer ConstantBuffer3						"
+		"{												"
+		"	float uBlue;								"
+		"};												"
+		"												"
+		"float4 main() : SV_Target						"
+		"{												"
+		"	return float4(uRed, uGreen, uBlue, 1.0);	"
+		"}												"
+	;
+
+	return bksge::Shader
+	{
+		{ bksge::ShaderStage::kVertex,   vs_source },
+		{ bksge::ShaderStage::kFragment, ps_source },
+	};
+}
+
+}	// namespace
+
 int main()
 {
 	std::vector<std::shared_ptr<bksge::Renderer>>	renderers;
@@ -59,74 +133,16 @@ int main()
 
 	const bksge::Geometry geometry(bksge::Primitive::kTriangles, vertices);
 
+	bksge::ShaderMap const shader_map
+	{
+		{ bksge::ShaderType::kGLSL, GetGLSLShader() },
+		{ bksge::ShaderType::kHLSL, GetHLSLShader() },
+	};
+
+	bksge::ShaderParameterMap shader_parameter;
+	shader_parameter.SetParameter("uGreen", 0.5f);
+
 	bksge::RenderState render_state;
-
-	// GLSL
-	{
-		char const* vs_source =
-			"attribute vec3 aPosition;					"
-			"uniform vec3 uPositionOffset;				"
-			"											"
-			"void main()								"
-			"{											"
-			"	gl_Position = vec4(aPosition + uPositionOffset, 1.0);		"
-			"}											"
-		;
-
-		char const* ps_source =
-			"uniform float uRed;						"
-			"uniform float uGreen;						"
-			"uniform float uBlue;						"
-			"											"
-			"void main()								"
-			"{											"
-			"	gl_FragColor = vec4(uRed, uGreen, uBlue, 1.0);"
-			"}											"
-		;
-
-		auto& glsl = render_state.glsl_shader();
-		glsl.SetProgram(bksge::ShaderStage::kVertex, vs_source);
-		glsl.SetProgram(bksge::ShaderStage::kFragment, ps_source);
-		glsl.SetParameter("uGreen", 0.5f);
-	}
-
-	// HLSL
-	{
-		char const* vs_source =
-			"cbuffer ConstantBuffer1						"
-			"{												"
-			"	float4 uDummyVariable;						"
-			"	float3 uPositionOffset;						"
-			"};												"
-			"												"
-			"float4 main(float3 aPosition : POSITION) : SV_POSITION	"
-			"{												"
-			"	return float4(aPosition + uPositionOffset, 1.0);	"
-			"}												"
-		;
-
-		char const* ps_source =
-			"cbuffer ConstantBuffer2						"
-			"{												"
-			"	float uRed;									"
-			"	float uGreen;								"
-			"};												"
-			"cbuffer ConstantBuffer3						"
-			"{												"
-			"	float uBlue;								"
-			"};												"
-			"												"
-			"float4 main() : SV_Target						"
-			"{												"
-			"	return float4(uRed, uGreen, uBlue, 1.0);	"
-			"}												"
-		;
-
-		auto& hlsl = render_state.hlsl_shader();
-		hlsl.SetProgram(bksge::ShaderStage::kVertex, vs_source);
-		hlsl.SetProgram(bksge::ShaderStage::kFragment, ps_source);
-		hlsl.SetParameter("uGreen", 0.5f);
-	}
 
 	float r = 0.0f;
 	float b = 0.0f;
@@ -147,22 +163,13 @@ int main()
 		{
 			renderer->Begin();
 			renderer->Clear();
-			renderer->Render(geometry, render_state);
+			renderer->Render(geometry, shader_map, shader_parameter, render_state);
 			renderer->End();
 		}
 
-		{
-			auto& glsl = render_state.glsl_shader();
-			glsl.SetParameter("uBlue", b);
-			glsl.SetParameter("uRed", r);
-			glsl.SetParameter("uPositionOffset", position_offset);
-		}
-		{
-			auto& hlsl = render_state.hlsl_shader();
-			hlsl.SetParameter("uBlue", b);
-			hlsl.SetParameter("uRed", r);
-			hlsl.SetParameter("uPositionOffset", position_offset);
-		}
+		shader_parameter.SetParameter("uBlue", b);
+		shader_parameter.SetParameter("uRed", r);
+		shader_parameter.SetParameter("uOffset", position_offset);
 
 		r += 0.01f;
 		if (r > 1.0f)

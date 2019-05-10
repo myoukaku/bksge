@@ -17,7 +17,7 @@
 #include <bksge/render/d3d11/d3d11_device_context.hpp>
 #include <bksge/render/d3d_common/d3d11shader.hpp>
 #include <bksge/render/d3d_common/d3d11.hpp>
-#include <bksge/render/detail/shader_parameter_map.hpp>
+#include <bksge/render/shader_parameter_map.hpp>
 #include <string>
 #include <vector>
 #include <cstring>	// memcpy

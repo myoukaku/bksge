@@ -21,57 +21,33 @@ namespace render
 {
 
 BKSGE_INLINE
-Shader::Shader(void)
+Shader::Shader(std::initializer_list<std::pair<ShaderStage, char const*>> il)
 	: Base()
-	, m_type()
-{}
-
-BKSGE_INLINE
-Shader::Shader(std::string type)
-	: Base()
-	, m_type(std::move(type))
-{}
+{
+	for (auto i : il)
+	{
+		m_program_map[i.first] = i.second;
+	}
+}
 
 BKSGE_INLINE
 Shader::Shader(Shader&& rhs)
 	: Base(std::move(rhs))
-	, m_type(std::move(rhs.m_type))
 	, m_program_map(std::move(rhs.m_program_map))
-	, m_parameter_map(std::move(rhs.m_parameter_map))
 {}
 
 BKSGE_INLINE
 Shader& Shader::operator=(Shader&& rhs)
 {
 	Base::operator=(std::move(rhs));
-	m_type = std::move(rhs.m_type);
 	m_program_map = std::move(rhs.m_program_map);
-	m_parameter_map = std::move(rhs.m_parameter_map);
 	return *this;
-}
-
-BKSGE_INLINE
-void Shader::SetProgram(ShaderStage stage, std::string source)
-{
-	m_program_map[stage] = std::move(source);
-}
-
-BKSGE_INLINE
-std::string const& Shader::type(void) const
-{
-	return m_type;
 }
 
 BKSGE_INLINE
 ShaderProgramMap const& Shader::program_map(void) const
 {
 	return m_program_map;
-}
-
-BKSGE_INLINE
-ShaderParameterMap const& Shader::parameter_map(void) const
-{
-	return m_parameter_map;
 }
 
 }	// namespace render

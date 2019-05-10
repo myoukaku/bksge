@@ -12,6 +12,59 @@
 #include <memory>
 #include <utility>
 
+namespace
+{
+
+static bksge::Shader GetGLSLShader(void)
+{
+	char const* vs_source =
+		"attribute vec3 aPosition;					"
+		"											"
+		"void main()								"
+		"{											"
+		"	gl_Position = vec4(aPosition, 1.0);		"
+		"}											"
+	;
+
+	char const* fs_source =
+		"void main()								"
+		"{											"
+		"	gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);"
+		"}											"
+	;
+
+	return bksge::Shader
+	{
+		{ bksge::ShaderStage::kVertex,   vs_source },
+		{ bksge::ShaderStage::kFragment, fs_source },
+	};
+}
+
+static bksge::Shader GetHLSLShader(void)
+{
+	char const* vs_source =
+		"float4 main(float3 aPosition : POSITION) : SV_POSITION	"
+		"{												"
+		"	return float4(aPosition, 1.0);				"
+		"}												"
+	;
+
+	char const* ps_source =
+		"float4 main() : SV_Target					"
+		"{											"
+		"	return float4(1.0, 0.0, 0.0, 1.0);		"
+		"}											"
+	;
+
+	return bksge::Shader
+	{
+		{ bksge::ShaderStage::kVertex,   vs_source },
+		{ bksge::ShaderStage::kFragment, ps_source },
+	};
+}
+
+}	// namespace
+
 int main()
 {
 	std::vector<std::shared_ptr<bksge::Renderer>>	renderers;
@@ -58,51 +111,15 @@ int main()
 
 	const bksge::Geometry geometry(bksge::Primitive::kLines, vertices);
 
+	bksge::ShaderMap const shader_map
+	{
+		{ bksge::ShaderType::kGLSL, GetGLSLShader() },
+		{ bksge::ShaderType::kHLSL, GetHLSLShader() },
+	};
+
+	bksge::ShaderParameterMap shader_parameter;
+
 	bksge::RenderState render_state;
-
-	// GLSL
-	{
-		char const* vs_source =
-			"attribute vec3 aPosition;					"
-			"											"
-			"void main()								"
-			"{											"
-			"	gl_Position = vec4(aPosition, 1.0);		"
-			"}											"
-		;
-
-		char const* ps_source =
-			"void main()								"
-			"{											"
-			"	gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);"
-			"}											"
-		;
-
-		auto& glsl = render_state.glsl_shader();
-		glsl.SetProgram(bksge::ShaderStage::kVertex, vs_source);
-		glsl.SetProgram(bksge::ShaderStage::kFragment, ps_source);
-	}
-
-	// HLSL
-	{
-		char const* vs_source =
-			"float4 main(float3 aPosition : POSITION) : SV_POSITION	"
-			"{												"
-			"	return float4(aPosition, 1.0);				"
-			"}												"
-		;
-
-		char const* ps_source =
-			"float4 main() : SV_Target					"
-			"{											"
-			"	return float4(1.0, 0.0, 0.0, 1.0);		"
-			"}											"
-		;
-
-		auto& hlsl = render_state.hlsl_shader();
-		hlsl.SetProgram(bksge::ShaderStage::kVertex, vs_source);
-		hlsl.SetProgram(bksge::ShaderStage::kFragment, ps_source);
-	}
 
 	for (;;)
 	{
@@ -118,7 +135,7 @@ int main()
 		{
 			renderer->Begin();
 			renderer->Clear();
-			renderer->Render(geometry, render_state);
+			renderer->Render(geometry, shader_map, shader_parameter, render_state);
 			renderer->End();
 		}
 	}

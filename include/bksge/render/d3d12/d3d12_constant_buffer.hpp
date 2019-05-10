@@ -14,7 +14,7 @@
 #include <bksge/render/d3d_common/d3d12.hpp>
 #include <bksge/render/d3d_common/d3d12shader.hpp>
 #include <bksge/render/d3d_common/com_ptr.hpp>
-#include <bksge/render/detail/fwd/shader_parameter_map_fwd.hpp>
+#include <bksge/render/fwd/shader_parameter_map_fwd.hpp>
 #include <string>
 #include <cstdint>
 #include <vector>

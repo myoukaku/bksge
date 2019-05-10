@@ -241,9 +241,21 @@ BKSGE_INLINE void APIENTRY glUniform4fv(GLint location, GLsizei count, const GLf
 //BKSGE_INLINE void APIENTRY glUniform2iv(GLint location, GLsizei count, const GLint* value);
 //BKSGE_INLINE void APIENTRY glUniform3iv(GLint location, GLsizei count, const GLint* value);
 //BKSGE_INLINE void APIENTRY glUniform4iv(GLint location, GLsizei count, const GLint* value);
-//BKSGE_INLINE void APIENTRY glUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat* value);
-//BKSGE_INLINE void APIENTRY glUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat* value);
-//BKSGE_INLINE void APIENTRY glUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat* value);
+BKSGE_INLINE void APIENTRY glUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat* value)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORMMATRIX2FVPROC, glUniformMatrix2fv, location, count, transpose, value);
+}
+
+BKSGE_INLINE void APIENTRY glUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat* value)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORMMATRIX3FVPROC, glUniformMatrix3fv, location, count, transpose, value);
+}
+
+BKSGE_INLINE void APIENTRY glUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat* value)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORMMATRIX4FVPROC, glUniformMatrix4fv, location, count, transpose, value);
+}
+
 //BKSGE_INLINE void APIENTRY glValidateProgram(GLuint program);
 //BKSGE_INLINE void APIENTRY glVertexAttrib1d(GLuint index, GLdouble x);
 //BKSGE_INLINE void APIENTRY glVertexAttrib1dv(GLuint index, const GLdouble* v);
@@ -437,6 +449,72 @@ BKSGE_INLINE void APIENTRY glGetQueryObjectui64v(GLuint id, GLenum pname, GLuint
 {
 	BKSGE_GLEXT_FUNC(PFNGLGETQUERYOBJECTUI64VPROC, glGetQueryObjectui64v, id, pname, params);
 }
+
+// GL_VERSION_4_0
+//BKSGE_INLINE void APIENTRY glMinSampleShading (GLfloat value);
+//BKSGE_INLINE void APIENTRY glBlendEquationi (GLuint buf, GLenum mode);
+//BKSGE_INLINE void APIENTRY glBlendEquationSeparatei (GLuint buf, GLenum modeRGB, GLenum modeAlpha);
+//BKSGE_INLINE void APIENTRY glBlendFunci (GLuint buf, GLenum src, GLenum dst);
+//BKSGE_INLINE void APIENTRY glBlendFuncSeparatei (GLuint buf, GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha);
+//BKSGE_INLINE void APIENTRY glDrawArraysIndirect (GLenum mode, const void *indirect);
+//BKSGE_INLINE void APIENTRY glDrawElementsIndirect (GLenum mode, GLenum type, const void *indirect);
+
+BKSGE_INLINE void APIENTRY glUniform1d (GLint location, GLdouble x)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORM1DPROC, glUniform1d, location, x);
+}
+
+//BKSGE_INLINE void APIENTRY glUniform2d (GLint location, GLdouble x, GLdouble y);
+//BKSGE_INLINE void APIENTRY glUniform3d (GLint location, GLdouble x, GLdouble y, GLdouble z);
+//BKSGE_INLINE void APIENTRY glUniform4d (GLint location, GLdouble x, GLdouble y, GLdouble z, GLdouble w);
+//BKSGE_INLINE void APIENTRY glUniform1dv (GLint location, GLsizei count, const GLdouble *value);
+
+BKSGE_INLINE void APIENTRY glUniform2dv (GLint location, GLsizei count, const GLdouble *value)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORM2DVPROC, glUniform2dv, location, count, value);
+}
+
+BKSGE_INLINE void APIENTRY glUniform3dv (GLint location, GLsizei count, const GLdouble *value)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORM3DVPROC, glUniform3dv, location, count, value);
+}
+
+BKSGE_INLINE void APIENTRY glUniform4dv (GLint location, GLsizei count, const GLdouble *value)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORM4DVPROC, glUniform4dv, location, count, value);
+}
+
+//BKSGE_INLINE void APIENTRY glUniformMatrix2dv (GLint location, GLsizei count, GLboolean transpose, const GLdouble *value);
+//BKSGE_INLINE void APIENTRY glUniformMatrix3dv (GLint location, GLsizei count, GLboolean transpose, const GLdouble *value);
+//BKSGE_INLINE void APIENTRY glUniformMatrix4dv (GLint location, GLsizei count, GLboolean transpose, const GLdouble *value);
+//BKSGE_INLINE void APIENTRY glUniformMatrix2x3dv (GLint location, GLsizei count, GLboolean transpose, const GLdouble *value);
+//BKSGE_INLINE void APIENTRY glUniformMatrix2x4dv (GLint location, GLsizei count, GLboolean transpose, const GLdouble *value);
+//BKSGE_INLINE void APIENTRY glUniformMatrix3x2dv (GLint location, GLsizei count, GLboolean transpose, const GLdouble *value);
+//BKSGE_INLINE void APIENTRY glUniformMatrix3x4dv (GLint location, GLsizei count, GLboolean transpose, const GLdouble *value);
+//BKSGE_INLINE void APIENTRY glUniformMatrix4x2dv (GLint location, GLsizei count, GLboolean transpose, const GLdouble *value);
+//BKSGE_INLINE void APIENTRY glUniformMatrix4x3dv (GLint location, GLsizei count, GLboolean transpose, const GLdouble *value);
+//BKSGE_INLINE void APIENTRY glGetUniformdv (GLuint program, GLint location, GLdouble *params);
+//BKSGE_INLINE GLint APIENTRY glGetSubroutineUniformLocation (GLuint program, GLenum shadertype, const GLchar *name);
+//BKSGE_INLINE GLuint APIENTRY glGetSubroutineIndex (GLuint program, GLenum shadertype, const GLchar *name);
+//BKSGE_INLINE void APIENTRY glGetActiveSubroutineUniformiv (GLuint program, GLenum shadertype, GLuint index, GLenum pname, GLint *values);
+//BKSGE_INLINE void APIENTRY glGetActiveSubroutineUniformName (GLuint program, GLenum shadertype, GLuint index, GLsizei bufsize, GLsizei *length, GLchar *name);
+//BKSGE_INLINE void APIENTRY glGetActiveSubroutineName (GLuint program, GLenum shadertype, GLuint index, GLsizei bufsize, GLsizei *length, GLchar *name);
+//BKSGE_INLINE void APIENTRY glUniformSubroutinesuiv (GLenum shadertype, GLsizei count, const GLuint *indices);
+//BKSGE_INLINE void APIENTRY glGetUniformSubroutineuiv (GLenum shadertype, GLint location, GLuint *params);
+//BKSGE_INLINE void APIENTRY glGetProgramStageiv (GLuint program, GLenum shadertype, GLenum pname, GLint *values);
+//BKSGE_INLINE void APIENTRY glPatchParameteri (GLenum pname, GLint value);
+//BKSGE_INLINE void APIENTRY glPatchParameterfv (GLenum pname, const GLfloat *values);
+//BKSGE_INLINE void APIENTRY glBindTransformFeedback (GLenum target, GLuint id);
+//BKSGE_INLINE void APIENTRY glDeleteTransformFeedbacks (GLsizei n, const GLuint *ids);
+//BKSGE_INLINE void APIENTRY glGenTransformFeedbacks (GLsizei n, GLuint *ids);
+//BKSGE_INLINE GLboolean APIENTRY glIsTransformFeedback (GLuint id);
+//BKSGE_INLINE void APIENTRY glPauseTransformFeedback (void);
+//BKSGE_INLINE void APIENTRY glResumeTransformFeedback (void);
+//BKSGE_INLINE void APIENTRY glDrawTransformFeedback (GLenum mode, GLuint id);
+//BKSGE_INLINE void APIENTRY glDrawTransformFeedbackStream (GLenum mode, GLuint id, GLuint stream);
+//BKSGE_INLINE void APIENTRY glBeginQueryIndexed (GLenum target, GLuint index, GLuint id);
+//BKSGE_INLINE void APIENTRY glEndQueryIndexed (GLenum target, GLuint index);
+//BKSGE_INLINE void APIENTRY glGetQueryIndexediv (GLenum target, GLuint index, GLenum pname, GLint *params);
 
 // GL_EXT_framebuffer_object
 

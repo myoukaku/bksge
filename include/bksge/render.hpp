@@ -32,7 +32,10 @@
 #include <bksge/render/sampler.hpp>
 #include <bksge/render/semantic.hpp>
 #include <bksge/render/shader.hpp>
+#include <bksge/render/shader_map.hpp>
+#include <bksge/render/shader_parameter_map.hpp>
 #include <bksge/render/shader_stage.hpp>
+#include <bksge/render/shader_type.hpp>
 #include <bksge/render/stencil_operation.hpp>
 #include <bksge/render/stencil_state.hpp>
 #include <bksge/render/texture.hpp>
