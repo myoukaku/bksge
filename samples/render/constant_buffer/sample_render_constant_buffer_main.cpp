@@ -12,6 +12,7 @@
 #include <vector>
 #include <memory>
 #include <utility>
+#include <cmath>
 
 int main()
 {
@@ -174,7 +175,7 @@ int main()
 			b = 0.0f;
 		}
 		t += 0.01f;
-		position_offset.x() = std::sinf(t);
+		position_offset.x() = std::sin(t);
 	}
 
 	return 0;
