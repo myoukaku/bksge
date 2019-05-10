@@ -11,7 +11,7 @@
 
 #include <bksge/render/gl/fwd/gl_glsl_parameter_setter_fwd.hpp>
 #include <bksge/render/gl/gl_api.hpp>
-#include <bksge/render/detail/fwd/shader_parameter_base_fwd.hpp>
+#include <bksge/render/detail/shader_parameter_base.hpp>
 #include <memory>
 
 namespace bksge
