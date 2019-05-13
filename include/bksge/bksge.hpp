@@ -13,6 +13,7 @@
 #include <bksge/bksge.hpp>
 #include <bksge/cmath.hpp>
 #include <bksge/config.hpp>
+#include <bksge/functional.hpp>
 #include <bksge/input.hpp>
 #include <bksge/math.hpp>
 #include <bksge/memory.hpp>
