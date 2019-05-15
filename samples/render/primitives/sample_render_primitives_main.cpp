@@ -121,7 +121,7 @@ private:
 		static char const* vs_source =
 			"cbuffer ConstantBuffer1						"
 			"{												"
-			"	float4x4 uMatrix;								"
+			"	row_major float4x4 uMatrix;					"
 			"};												"
 			"												"
 			"float4 main(float3 aPosition : POSITION) : SV_POSITION	"
@@ -194,7 +194,7 @@ private:
 			bksge::Matrix4x4f::MakeScale(m_scale) *
 			bksge::Matrix4x4f::MakeRotationZ(m_rotation) *
 			bksge::Matrix4x4f::MakeTranslation(m_position);
-		m_shader_parameter.SetParameter("uMatrix", Transposed(mat));	// TODO
+		m_shader_parameter.SetParameter("uMatrix", mat);
 
 		m_shader_parameter.SetParameter("uColor", m_color);
 		renderer->Render(GetGeometry(), GetShaderMap(), m_shader_parameter, m_render_state);

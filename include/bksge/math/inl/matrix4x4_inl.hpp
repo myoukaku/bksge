@@ -134,10 +134,10 @@ Matrix<T, 4, 4>::MakeOrthographic(T l, T r, T b, T t, T n, T f) BKSGE_NOEXCEPT
 {
 	return
 	{
-		Vector<T, 4> { 2 / (r - l),        0,                  0,                  0 },
-		Vector<T, 4> { 0,                  2 / (t - b),        0,                  0 },
-		Vector<T, 4> { 0,                  0,                  -2 / (f - n),       0 },
-		Vector<T, 4> { -(r + l) / (r - l), -(t + b) / (t - b), -(f + n) / (f - n), 1 },
+		Vector<T, 4> { 2 / (r - l),        0,                  0,           0 },
+		Vector<T, 4> { 0,                  2 / (t - b),        0,           0 },
+		Vector<T, 4> { 0,                  0,                  1 / (f - n), 0 },
+		Vector<T, 4> { (l + r) / (l - r), (t + b) / (b - t),   n / (n - f), 1 },
 	};
 }
 
@@ -148,10 +148,10 @@ Matrix<T, 4, 4>::MakeFrustum(T l, T r, T b, T t, T n, T f) BKSGE_NOEXCEPT
 {
 	return
 	{
-		Vector<T, 4> { (2 * n) / (r - l), 0,                 0,                      0 },
-		Vector<T, 4> { 0,                 (2 * n) / (t - b), 0,                      0 },
-		Vector<T, 4> { (r + l) / (r - l), (t + b) / (t - b), -(f + n) / (f - n),    -1 },
-		Vector<T, 4> { 0,                 0,                 -(2 * f * n) / (f - n), 0 },
+		Vector<T, 4> { (2 * n) / (r - l), 0,                 0,                 0 },
+		Vector<T, 4> { 0,                 (2 * n) / (t - b), 0,                 0 },
+		Vector<T, 4> { (l + r) / (l - r), (t + b) / (b - t), f / (f - n),       1 },
+		Vector<T, 4> { 0,                 0,                 (n * f) / (n - f), 0 },
 	};
 }
 
@@ -168,10 +168,10 @@ Matrix<T, 4, 4>::MakePerspective(AngleType const& fovy, T aspect, T near_z, T fa
 
 	return
 	{
-		Vector<T, 4>{ x / a, 0,  0,                    0 },
-		Vector<T, 4>{ 0,     x,  0,                    0 },
-		Vector<T, 4>{ 0,     0, (n + f) / (n - f),    -1 },
-		Vector<T, 4>{ 0,     0, (2 * n * f) / (n - f), 0 },
+		Vector<T, 4>{ x / a, 0,  0,                 0 },
+		Vector<T, 4>{ 0,     x,  0,                 0 },
+		Vector<T, 4>{ 0,     0,  f / (f - n),       1 },
+		Vector<T, 4>{ 0,     0, -(n * f) / (f - n), 0 },
 	};
 }
 
@@ -183,17 +183,17 @@ Matrix<T, 4, 4>::MakeView(
 	Vector<T, 3> const& up) BKSGE_NOEXCEPT
 -> Matrix
 {
-	auto const zaxis = Normalized(-direction);
+	auto const zaxis = Normalized(direction);
 	auto const xaxis = Normalized(Cross(up, zaxis));
 	auto const yaxis = Cross(zaxis, xaxis);
 
-	return Transposed(Matrix<T, 4, 4>
+	return Matrix<T, 4, 4>
 	{
-		Vector<T, 4>{ xaxis.x(), xaxis.y(), xaxis.z(), -Dot(xaxis, eye) },
-		Vector<T, 4>{ yaxis.x(), yaxis.y(), yaxis.z(), -Dot(yaxis, eye) },
-		Vector<T, 4>{ zaxis.x(), zaxis.y(), zaxis.z(), -Dot(zaxis, eye) },
-		Vector<T, 4>{ 0, 0, 0, 1 },
-	});
+		Vector<T, 4>{ xaxis.x(), yaxis.x(), zaxis.x(), 0 },
+		Vector<T, 4>{ xaxis.y(), yaxis.y(), zaxis.y(), 0 },
+		Vector<T, 4>{ xaxis.z(), yaxis.z(), zaxis.z(), 0 },
+		Vector<T, 4>{ -Dot(xaxis, eye), -Dot(yaxis, eye), -Dot(zaxis, eye), 1 },
+	};
 }
 
 template <typename T>

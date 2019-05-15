@@ -104,17 +104,17 @@ private:
 
 	static void SetParameterImpl(GLint location, float const (&v)[2][2])
 	{
-		::glUniformMatrix2fv(location, 1, GL_TRUE, &v[0][0]);
+		::glUniformMatrix2fv(location, 1, GL_FALSE, &v[0][0]);
 	}
 
 	static void SetParameterImpl(GLint location, float const (&v)[3][3])
 	{
-		::glUniformMatrix3fv(location, 1, GL_TRUE, &v[0][0]);
+		::glUniformMatrix3fv(location, 1, GL_FALSE, &v[0][0]);
 	}
 
 	static void SetParameterImpl(GLint location, float const (&v)[4][4])
 	{
-		::glUniformMatrix4fv(location, 1, GL_TRUE, &v[0][0]);
+		::glUniformMatrix4fv(location, 1, GL_FALSE, &v[0][0]);
 	}
 };
 

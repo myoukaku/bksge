@@ -22,6 +22,82 @@
 #include <type_traits>
 #include "constexpr_test.hpp"
 
+//#define BKSGE_DXMATH_TEST
+
+#if defined(BKSGE_DXMATH_TEST)
+#include <directxmath.h>
+using namespace DirectX;
+
+namespace
+{
+
+template <typename T>
+XMVECTOR ToXMVECTOR(bksge::math::Vector3<T> const& vec)
+{
+	return XMVectorSet((float)vec[0], (float)vec[1], (float)vec[2], 0.0f);
+}
+
+template <typename T>
+XMVECTOR ToXMVECTOR(bksge::math::Vector4<T> const& vec)
+{
+	return XMVectorSet((float)vec[0], (float)vec[1], (float)vec[2], (float)vec[3]);
+}
+
+template <typename T>
+XMVECTOR ToXMVECTOR(bksge::math::Scale3<T> const& vec)
+{
+	return XMVectorSet((float)vec[0], (float)vec[1], (float)vec[2], 0.0f);
+}
+
+template <typename T>
+bksge::math::Matrix4x4<T> ToMatrix4x4(XMMATRIX const& mat)
+{
+	return bksge::math::Matrix4x4<T>
+	{
+		bksge::math::Vector4<T>
+		{
+			(T)XMVectorGetX(mat.r[0]),
+			(T)XMVectorGetY(mat.r[0]),
+			(T)XMVectorGetZ(mat.r[0]),
+			(T)XMVectorGetW(mat.r[0]),
+		},
+		bksge::math::Vector4<T>
+		{
+			(T)XMVectorGetX(mat.r[1]),
+			(T)XMVectorGetY(mat.r[1]),
+			(T)XMVectorGetZ(mat.r[1]),
+			(T)XMVectorGetW(mat.r[1]),
+		},
+		bksge::math::Vector4<T>
+		{
+			(T)XMVectorGetX(mat.r[2]),
+			(T)XMVectorGetY(mat.r[2]),
+			(T)XMVectorGetZ(mat.r[2]),
+			(T)XMVectorGetW(mat.r[2]),
+		},
+		bksge::math::Vector4<T>
+		{
+			(T)XMVectorGetX(mat.r[3]),
+			(T)XMVectorGetY(mat.r[3]),
+			(T)XMVectorGetZ(mat.r[3]),
+			(T)XMVectorGetW(mat.r[3]),
+		},
+	};
+}
+
+template <typename T>
+XMMATRIX ToXMMATRIX(bksge::math::Matrix4x4<T> const& mat)
+{
+	return XMMATRIX(
+		ToXMVECTOR(mat[0]),
+		ToXMVECTOR(mat[1]),
+		ToXMVECTOR(mat[2]),
+		ToXMVECTOR(mat[3]));
+}
+
+}	// namespace
+#endif // defined(BKSGE_DXMATH_TEST)
+
 namespace bksge_math_test
 {
 
@@ -1771,6 +1847,13 @@ TYPED_TEST(MathMatrix4x4Test, DeterminantTest)
 	BKSGE_CONSTEXPR_EXPECT_EQ(TypeParam( -22), Determinant(m1));
 	BKSGE_CONSTEXPR_EXPECT_EQ(TypeParam(-102), Determinant(m2));
 	BKSGE_CONSTEXPR_EXPECT_EQ(TypeParam(  -6), Determinant(m3));
+
+	// XMMatrixDeterminant と同じかどうかをテストします。
+#if defined(BKSGE_DXMATH_TEST)
+	EXPECT_EQ(XMVectorGetX(XMMatrixDeterminant(ToXMMATRIX(m1))), Determinant(m1));
+	EXPECT_EQ(XMVectorGetX(XMMatrixDeterminant(ToXMMATRIX(m2))), Determinant(m2));
+	EXPECT_EQ(XMVectorGetX(XMMatrixDeterminant(ToXMMATRIX(m3))), Determinant(m3));
+#endif
 }
 
 TYPED_TEST(MathMatrix4x4Test, MakeTranslationTest)
@@ -1780,7 +1863,7 @@ TYPED_TEST(MathMatrix4x4Test, MakeTranslationTest)
 	using Vector4 = bksge::math::Vector4<T>;
 	using Vector3 = bksge::math::Vector3<T>;
 
-	// glTranslatefを呼び出したときに設定される値と同じかどうかをテストします。
+	// XMMatrixTranslation と同じかどうかをテストします。
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST Vector3 trans(3, 4, 5);
@@ -1796,6 +1879,10 @@ TYPED_TEST(MathMatrix4x4Test, MakeTranslationTest)
 		};
 
 		BKSGE_CONSTEXPR_EXPECT_EQ(expected, m);
+
+#if defined(BKSGE_DXMATH_TEST)
+		EXPECT_EQ(ToMatrix4x4<T>(XMMatrixTranslationFromVector(ToXMVECTOR(trans))), m);
+#endif
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto m = Matrix4x4::MakeTranslation(Vector3{-4, 5, -6});
@@ -1810,16 +1897,21 @@ TYPED_TEST(MathMatrix4x4Test, MakeTranslationTest)
 		};
 
 		BKSGE_CONSTEXPR_EXPECT_EQ(expected, m);
+
+#if defined(BKSGE_DXMATH_TEST)
+		EXPECT_EQ(ToMatrix4x4<T>(XMMatrixTranslation(-4, 5, -6)), m);
+#endif
 	}
 }
 
 TYPED_TEST(MathMatrix4x4Test, MakeScaleTest)
 {
-	using Matrix4x4 = bksge::math::Matrix4x4<TypeParam>;
-	using Vector4 = bksge::math::Vector4<TypeParam>;
-	using Scale3 = bksge::math::Scale3<TypeParam>;
+	using T = TypeParam;
+	using Matrix4x4 = bksge::math::Matrix4x4<T>;
+	using Vector4 = bksge::math::Vector4<T>;
+	using Scale3 = bksge::math::Scale3<T>;
 
-	// glScalefを呼び出したときに設定される値と同じかどうかをテストします。
+	// XMMatrixScaling と同じかどうかをテストします。
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST Scale3 scale(2, 3, 4);
@@ -1835,6 +1927,10 @@ TYPED_TEST(MathMatrix4x4Test, MakeScaleTest)
 		};
 
 		BKSGE_CONSTEXPR_EXPECT_EQ(expected, m);
+
+#if defined(BKSGE_DXMATH_TEST)
+		EXPECT_EQ(ToMatrix4x4<T>(XMMatrixScalingFromVector(ToXMVECTOR(scale))), m);
+#endif
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto m = Matrix4x4::MakeScale(Scale3{ 5, -4, 3 });
@@ -1849,207 +1945,338 @@ TYPED_TEST(MathMatrix4x4Test, MakeScaleTest)
 		};
 
 		BKSGE_CONSTEXPR_EXPECT_EQ(expected, m);
+
+#if defined(BKSGE_DXMATH_TEST)
+		EXPECT_EQ(ToMatrix4x4<T>(XMMatrixScaling(5, -4, 3)), m);
+#endif
 	}
 }
 
 TYPED_TEST(MathMatrix4x4FloatTest, MakeRotationXTest)
 {
-	using Matrix4x4 = bksge::math::Matrix4x4<TypeParam>;
+	using T = TypeParam;
+	using Matrix4x4 = bksge::math::Matrix4x4<T>;
+	using Vector4 = bksge::math::Vector4<T>;
 
-	double const error = 0.0000001;
+	double const error = 0.000001;
+
+	// XMMatrixRotationX と同じかどうかをテストします。
 
 	{
 		auto const m = Matrix4x4::MakeRotationX(bksge::degrees_to_radians(0));
 		static_assert(std::is_same<decltype(m), Matrix4x4 const>::value, "");
 		EXPECT_EQ(Matrix4x4::Identity(), m);
+#if defined(BKSGE_DXMATH_TEST)
+		EXPECT_EQ(ToMatrix4x4<T>(XMMatrixRotationX((float)bksge::degrees_to_radians(0))), m);
+#endif
 	}
 	{
 		auto const m = Matrix4x4::MakeRotationX(bksge::degrees_to_radians(30));
-		EXPECT_NEAR( 1.00000000000000000, (double)m[0][0], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[0][1], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[0][2], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[0][3], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[1][0], error);
-		EXPECT_NEAR( 0.86602538824081421, (double)m[1][1], error);
-		EXPECT_NEAR( 0.50000000000000000, (double)m[1][2], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[1][3], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[2][0], error);
-		EXPECT_NEAR(-0.50000000000000000, (double)m[2][1], error);
-		EXPECT_NEAR( 0.86602538824081421, (double)m[2][2], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[2][3], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[3][0], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[3][1], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[3][2], error);
-		EXPECT_NEAR( 1.00000000000000000, (double)m[3][3], error);
+#if defined(BKSGE_DXMATH_TEST)
+		Matrix4x4 const expected = ToMatrix4x4<T>(XMMatrixRotationX((float)bksge::degrees_to_radians(30)));
+#else
+		Matrix4x4 const expected
+		{
+			Vector4{ 1.0000000,  0.0000000, 0.0000000, 0.0000000 },
+			Vector4{ 0.0000000,  0.8660253, 0.5000000, 0.0000000 },
+			Vector4{ 0.0000000, -0.5000000, 0.8660253, 0.0000000 },
+			Vector4{ 0.0000000,  0.0000000, 0.0000000, 1.0000000 },
+		};
+#endif
+
+		EXPECT_NEAR((double)expected[0][0], (double)m[0][0], error);
+		EXPECT_NEAR((double)expected[0][1], (double)m[0][1], error);
+		EXPECT_NEAR((double)expected[0][2], (double)m[0][2], error);
+		EXPECT_NEAR((double)expected[0][3], (double)m[0][3], error);
+		EXPECT_NEAR((double)expected[1][0], (double)m[1][0], error);
+		EXPECT_NEAR((double)expected[1][1], (double)m[1][1], error);
+		EXPECT_NEAR((double)expected[1][2], (double)m[1][2], error);
+		EXPECT_NEAR((double)expected[1][3], (double)m[1][3], error);
+		EXPECT_NEAR((double)expected[2][0], (double)m[2][0], error);
+		EXPECT_NEAR((double)expected[2][1], (double)m[2][1], error);
+		EXPECT_NEAR((double)expected[2][2], (double)m[2][2], error);
+		EXPECT_NEAR((double)expected[2][3], (double)m[2][3], error);
+		EXPECT_NEAR((double)expected[3][0], (double)m[3][0], error);
+		EXPECT_NEAR((double)expected[3][1], (double)m[3][1], error);
+		EXPECT_NEAR((double)expected[3][2], (double)m[3][2], error);
+		EXPECT_NEAR((double)expected[3][3], (double)m[3][3], error);
 	}
 	{
 		auto const m = Matrix4x4::MakeRotationX(bksge::degrees_to_radians(90));
-		EXPECT_NEAR( 1.00000000000000000, (double)m[0][0], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[0][1], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[0][2], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[0][3], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[1][0], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[1][1], error);
-		EXPECT_NEAR( 1.00000000000000000, (double)m[1][2], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[1][3], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[2][0], error);
-		EXPECT_NEAR(-1.00000000000000000, (double)m[2][1], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[2][2], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[2][3], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[3][0], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[3][1], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[3][2], error);
-		EXPECT_NEAR( 1.00000000000000000, (double)m[3][3], error);
+#if defined(BKSGE_DXMATH_TEST)
+		Matrix4x4 const expected = ToMatrix4x4<T>(XMMatrixRotationX((float)bksge::degrees_to_radians(90)));
+#else
+		Matrix4x4 const expected
+		{
+			Vector4{ 1.0000000,  0.0000000, 0.0000000, 0.0000000 },
+			Vector4{ 0.0000000,  0.0000000, 1.0000000, 0.0000000 },
+			Vector4{ 0.0000000, -1.0000000, 0.0000000, 0.0000000 },
+			Vector4{ 0.0000000,  0.0000000, 0.0000000, 1.0000000 },
+		};
+#endif
+
+		EXPECT_NEAR((double)expected[0][0], (double)m[0][0], error);
+		EXPECT_NEAR((double)expected[0][1], (double)m[0][1], error);
+		EXPECT_NEAR((double)expected[0][2], (double)m[0][2], error);
+		EXPECT_NEAR((double)expected[0][3], (double)m[0][3], error);
+		EXPECT_NEAR((double)expected[1][0], (double)m[1][0], error);
+		EXPECT_NEAR((double)expected[1][1], (double)m[1][1], error);
+		EXPECT_NEAR((double)expected[1][2], (double)m[1][2], error);
+		EXPECT_NEAR((double)expected[1][3], (double)m[1][3], error);
+		EXPECT_NEAR((double)expected[2][0], (double)m[2][0], error);
+		EXPECT_NEAR((double)expected[2][1], (double)m[2][1], error);
+		EXPECT_NEAR((double)expected[2][2], (double)m[2][2], error);
+		EXPECT_NEAR((double)expected[2][3], (double)m[2][3], error);
+		EXPECT_NEAR((double)expected[3][0], (double)m[3][0], error);
+		EXPECT_NEAR((double)expected[3][1], (double)m[3][1], error);
+		EXPECT_NEAR((double)expected[3][2], (double)m[3][2], error);
+		EXPECT_NEAR((double)expected[3][3], (double)m[3][3], error);
 	}
 }
 
 TYPED_TEST(MathMatrix4x4FloatTest, MakeRotationYTest)
 {
-	using Matrix4x4 = bksge::math::Matrix4x4<TypeParam>;
+	using T = TypeParam;
+	using Matrix4x4 = bksge::math::Matrix4x4<T>;
+	using Vector4 = bksge::math::Vector4<T>;
 
-	double const error = 0.0000001;
+	double const error = 0.000001;
+
+	// XMMatrixRotationY と同じかどうかをテストします。
 
 	{
 		auto const m = Matrix4x4::MakeRotationY(bksge::degrees_to_radians(0));
 		static_assert(std::is_same<decltype(m), Matrix4x4 const>::value, "");
 		EXPECT_EQ(Matrix4x4::Identity(), m);
+#if defined(BKSGE_DXMATH_TEST)
+		EXPECT_EQ(ToMatrix4x4<T>(XMMatrixRotationY((float)bksge::degrees_to_radians(0))), m);
+#endif
 	}
 	{
 		auto const m = Matrix4x4::MakeRotationY(bksge::degrees_to_radians(45));
-		EXPECT_NEAR( 0.70710676908493042, (double)m[0][0], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[0][1], error);
-		EXPECT_NEAR(-0.70710676908493042, (double)m[0][2], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[0][3], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[1][0], error);
-		EXPECT_NEAR( 1.00000000000000000, (double)m[1][1], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[1][2], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[1][3], error);
-		EXPECT_NEAR( 0.70710676908493042, (double)m[2][0], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[2][1], error);
-		EXPECT_NEAR( 0.70710676908493042, (double)m[2][2], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[2][3], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[3][0], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[3][1], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[3][2], error);
-		EXPECT_NEAR( 1.00000000000000000, (double)m[3][3], error);
+#if defined(BKSGE_DXMATH_TEST)
+		Matrix4x4 const expected = ToMatrix4x4<T>(XMMatrixRotationY((float)bksge::degrees_to_radians(45)));
+#else
+		Matrix4x4 const expected
+		{
+			Vector4{ 0.7071067,  0.0000000, -0.7071067, 0.0000000 },
+			Vector4{ 0.0000000,  1.0000000,  0.0000000, 0.0000000 },
+			Vector4{ 0.7071067,  0.0000000,  0.7071067, 0.0000000 },
+			Vector4{ 0.0000000,  0.0000000,  0.0000000, 1.0000000 },
+		};
+#endif
+
+		EXPECT_NEAR((double)expected[0][0], (double)m[0][0], error);
+		EXPECT_NEAR((double)expected[0][1], (double)m[0][1], error);
+		EXPECT_NEAR((double)expected[0][2], (double)m[0][2], error);
+		EXPECT_NEAR((double)expected[0][3], (double)m[0][3], error);
+		EXPECT_NEAR((double)expected[1][0], (double)m[1][0], error);
+		EXPECT_NEAR((double)expected[1][1], (double)m[1][1], error);
+		EXPECT_NEAR((double)expected[1][2], (double)m[1][2], error);
+		EXPECT_NEAR((double)expected[1][3], (double)m[1][3], error);
+		EXPECT_NEAR((double)expected[2][0], (double)m[2][0], error);
+		EXPECT_NEAR((double)expected[2][1], (double)m[2][1], error);
+		EXPECT_NEAR((double)expected[2][2], (double)m[2][2], error);
+		EXPECT_NEAR((double)expected[2][3], (double)m[2][3], error);
+		EXPECT_NEAR((double)expected[3][0], (double)m[3][0], error);
+		EXPECT_NEAR((double)expected[3][1], (double)m[3][1], error);
+		EXPECT_NEAR((double)expected[3][2], (double)m[3][2], error);
+		EXPECT_NEAR((double)expected[3][3], (double)m[3][3], error);
 	}
 	{
 		auto const m = Matrix4x4::MakeRotationY(bksge::degrees_to_radians(90));
-		EXPECT_NEAR( 0.00000000000000000, (double)m[0][0], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[0][1], error);
-		EXPECT_NEAR(-1.00000000000000000, (double)m[0][2], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[0][3], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[1][0], error);
-		EXPECT_NEAR( 1.00000000000000000, (double)m[1][1], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[1][2], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[1][3], error);
-		EXPECT_NEAR( 1.00000000000000000, (double)m[2][0], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[2][1], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[2][2], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[2][3], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[3][0], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[3][1], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[3][2], error);
-		EXPECT_NEAR( 1.00000000000000000, (double)m[3][3], error);
+#if defined(BKSGE_DXMATH_TEST)
+		Matrix4x4 const expected = ToMatrix4x4<T>(XMMatrixRotationY((float)bksge::degrees_to_radians(90)));
+#else
+		Matrix4x4 const expected
+		{
+			Vector4{ 0.0000000,  0.0000000, -1.0000000,  0.0000000 },
+			Vector4{ 0.0000000,  1.0000000,  0.0000000,  0.0000000 },
+			Vector4{ 1.0000000,  0.0000000,  0.0000000,  0.0000000 },
+			Vector4{ 0.0000000,  0.0000000,  0.0000000,  1.0000000 },
+		};
+#endif
+
+		EXPECT_NEAR((double)expected[0][0], (double)m[0][0], error);
+		EXPECT_NEAR((double)expected[0][1], (double)m[0][1], error);
+		EXPECT_NEAR((double)expected[0][2], (double)m[0][2], error);
+		EXPECT_NEAR((double)expected[0][3], (double)m[0][3], error);
+		EXPECT_NEAR((double)expected[1][0], (double)m[1][0], error);
+		EXPECT_NEAR((double)expected[1][1], (double)m[1][1], error);
+		EXPECT_NEAR((double)expected[1][2], (double)m[1][2], error);
+		EXPECT_NEAR((double)expected[1][3], (double)m[1][3], error);
+		EXPECT_NEAR((double)expected[2][0], (double)m[2][0], error);
+		EXPECT_NEAR((double)expected[2][1], (double)m[2][1], error);
+		EXPECT_NEAR((double)expected[2][2], (double)m[2][2], error);
+		EXPECT_NEAR((double)expected[2][3], (double)m[2][3], error);
+		EXPECT_NEAR((double)expected[3][0], (double)m[3][0], error);
+		EXPECT_NEAR((double)expected[3][1], (double)m[3][1], error);
+		EXPECT_NEAR((double)expected[3][2], (double)m[3][2], error);
+		EXPECT_NEAR((double)expected[3][3], (double)m[3][3], error);
 	}
 }
 
 TYPED_TEST(MathMatrix4x4FloatTest, MakeRotationZTest)
 {
-	using Matrix4x4 = bksge::math::Matrix4x4<TypeParam>;
+	using T = TypeParam;
+	using Matrix4x4 = bksge::math::Matrix4x4<T>;
+	using Vector4 = bksge::math::Vector4<T>;
 
-	double const error = 0.0000001;
+	double const error = 0.000001;
+
+	// XMMatrixRotationZ と同じかどうかをテストします。
 
 	{
 		auto const m = Matrix4x4::MakeRotationZ(bksge::degrees_to_radians(0));
 		static_assert(std::is_same<decltype(m), Matrix4x4 const>::value, "");
 		EXPECT_EQ(Matrix4x4::Identity(), m);
+#if defined(BKSGE_DXMATH_TEST)
+		EXPECT_EQ(ToMatrix4x4<T>(XMMatrixRotationZ((float)bksge::degrees_to_radians(0))), m);
+#endif
 	}
 	{
 		auto const m = Matrix4x4::MakeRotationZ(bksge::degrees_to_radians(60));
-		EXPECT_NEAR( 0.50000000000000000, (double)m[0][0], error);
-		EXPECT_NEAR( 0.86602538824081421, (double)m[0][1], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[0][2], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[0][3], error);
-		EXPECT_NEAR(-0.86602538824081421, (double)m[1][0], error);
-		EXPECT_NEAR( 0.50000000000000000, (double)m[1][1], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[1][2], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[1][3], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[2][0], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[2][1], error);
-		EXPECT_NEAR( 1.00000000000000000, (double)m[2][2], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[2][3], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[3][0], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[3][1], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[3][2], error);
-		EXPECT_NEAR( 1.00000000000000000, (double)m[3][3], error);
+#if defined(BKSGE_DXMATH_TEST)
+		Matrix4x4 const expected = ToMatrix4x4<T>(XMMatrixRotationZ((float)bksge::degrees_to_radians(60)));
+#else
+		Matrix4x4 const expected
+		{
+			Vector4{  0.5000000,  0.8660253,  0.0000000, 0.0000000 },
+			Vector4{ -0.8660253,  0.5000000,  0.0000000, 0.0000000 },
+			Vector4{  0.0000000,  0.0000000,  1.0000000, 0.0000000 },
+			Vector4{  0.0000000,  0.0000000,  0.0000000, 1.0000000 },
+		};
+#endif
+
+		EXPECT_NEAR((double)expected[0][0], (double)m[0][0], error);
+		EXPECT_NEAR((double)expected[0][1], (double)m[0][1], error);
+		EXPECT_NEAR((double)expected[0][2], (double)m[0][2], error);
+		EXPECT_NEAR((double)expected[0][3], (double)m[0][3], error);
+		EXPECT_NEAR((double)expected[1][0], (double)m[1][0], error);
+		EXPECT_NEAR((double)expected[1][1], (double)m[1][1], error);
+		EXPECT_NEAR((double)expected[1][2], (double)m[1][2], error);
+		EXPECT_NEAR((double)expected[1][3], (double)m[1][3], error);
+		EXPECT_NEAR((double)expected[2][0], (double)m[2][0], error);
+		EXPECT_NEAR((double)expected[2][1], (double)m[2][1], error);
+		EXPECT_NEAR((double)expected[2][2], (double)m[2][2], error);
+		EXPECT_NEAR((double)expected[2][3], (double)m[2][3], error);
+		EXPECT_NEAR((double)expected[3][0], (double)m[3][0], error);
+		EXPECT_NEAR((double)expected[3][1], (double)m[3][1], error);
+		EXPECT_NEAR((double)expected[3][2], (double)m[3][2], error);
+		EXPECT_NEAR((double)expected[3][3], (double)m[3][3], error);
 	}
 	{
 		auto const m = Matrix4x4::MakeRotationZ(bksge::degrees_to_radians(90));
-		EXPECT_NEAR( 0.00000000000000000, (double)m[0][0], error);
-		EXPECT_NEAR( 1.00000000000000000, (double)m[0][1], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[0][2], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[0][3], error);
-		EXPECT_NEAR(-1.00000000000000000, (double)m[1][0], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[1][1], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[1][2], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[1][3], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[2][0], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[2][1], error);
-		EXPECT_NEAR( 1.00000000000000000, (double)m[2][2], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[2][3], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[3][0], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[3][1], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[3][2], error);
-		EXPECT_NEAR( 1.00000000000000000, (double)m[3][3], error);
+#if defined(BKSGE_DXMATH_TEST)
+		Matrix4x4 const expected = ToMatrix4x4<T>(XMMatrixRotationZ((float)bksge::degrees_to_radians(90)));
+#else
+		Matrix4x4 const expected
+		{
+			Vector4{ 0.0000000,  1.0000000,  0.0000000, 0.0000000 },
+			Vector4{-1.0000000,  0.0000000,  0.0000000, 0.0000000 },
+			Vector4{ 0.0000000,  0.0000000,  1.0000000, 0.0000000 },
+			Vector4{ 0.0000000,  0.0000000,  0.0000000, 1.0000000 },
+		};
+#endif
+
+		EXPECT_NEAR((double)expected[0][0], (double)m[0][0], error);
+		EXPECT_NEAR((double)expected[0][1], (double)m[0][1], error);
+		EXPECT_NEAR((double)expected[0][2], (double)m[0][2], error);
+		EXPECT_NEAR((double)expected[0][3], (double)m[0][3], error);
+		EXPECT_NEAR((double)expected[1][0], (double)m[1][0], error);
+		EXPECT_NEAR((double)expected[1][1], (double)m[1][1], error);
+		EXPECT_NEAR((double)expected[1][2], (double)m[1][2], error);
+		EXPECT_NEAR((double)expected[1][3], (double)m[1][3], error);
+		EXPECT_NEAR((double)expected[2][0], (double)m[2][0], error);
+		EXPECT_NEAR((double)expected[2][1], (double)m[2][1], error);
+		EXPECT_NEAR((double)expected[2][2], (double)m[2][2], error);
+		EXPECT_NEAR((double)expected[2][3], (double)m[2][3], error);
+		EXPECT_NEAR((double)expected[3][0], (double)m[3][0], error);
+		EXPECT_NEAR((double)expected[3][1], (double)m[3][1], error);
+		EXPECT_NEAR((double)expected[3][2], (double)m[3][2], error);
+		EXPECT_NEAR((double)expected[3][3], (double)m[3][3], error);
 	}
 }
 
 TYPED_TEST(MathMatrix4x4FloatTest, MakeRotationTest)
 {
-	using Matrix4x4 = bksge::math::Matrix4x4<TypeParam>;
-	using Vector3 = bksge::math::Vector3<TypeParam>;
+	using T = TypeParam;
+	using Matrix4x4 = bksge::math::Matrix4x4<T>;
+	using Vector4 = bksge::math::Vector4<T>;
+	using Vector3 = bksge::math::Vector3<T>;
 
 	double const error = 0.000001;
 
+	// XMMatrixRotationAxis と同じかどうかをテストします。
+
 	{
-		auto const m = Matrix4x4::MakeRotation(Vector3(1, 2, 3), bksge::degrees_to_radians(90));
+		auto const axis = Vector3(1, 2, 3);
+		auto const r = bksge::degrees_to_radians(90);
+		auto const m = Matrix4x4::MakeRotation(axis, r);
 		static_assert(std::is_same<decltype(m), Matrix4x4 const>::value, "");
-		EXPECT_NEAR( 0.07142856717109680, (double)m[0][0], error);
-		EXPECT_NEAR( 0.94464081525802612, (double)m[0][1], error);
-		EXPECT_NEAR(-0.32023677229881287, (double)m[0][2], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[0][3], error);
-		EXPECT_NEAR(-0.65892654657363892, (double)m[1][0], error);
-		EXPECT_NEAR( 0.28571426868438721, (double)m[1][1], error);
-		EXPECT_NEAR( 0.69583261013031006, (double)m[1][2], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[1][3], error);
-		EXPECT_NEAR( 0.74880814552307129, (double)m[2][0], error);
-		EXPECT_NEAR( 0.16131016612052917, (double)m[2][1], error);
-		EXPECT_NEAR( 0.64285707473754883, (double)m[2][2], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[2][3], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[3][0], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[3][1], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[3][2], error);
-		EXPECT_NEAR( 1.00000000000000000, (double)m[3][3], error);
+
+#if defined(BKSGE_DXMATH_TEST)
+		Matrix4x4 const expected = ToMatrix4x4<T>(XMMatrixRotationAxis(ToXMVECTOR(axis), (float)r));
+#else
+		Matrix4x4 const expected
+		{
+			Vector4{ 0.0714285,  0.9446408, -0.3202367, 0.0000000 },
+			Vector4{-0.6589265,  0.2857142,  0.6958326, 0.0000000 },
+			Vector4{ 0.7488081,  0.1613101,  0.6428570, 0.0000000 },
+			Vector4{ 0.0000000,  0.0000000,  0.0000000, 1.0000000 },
+		};
+#endif
+
+		EXPECT_NEAR((double)expected[0][0], (double)m[0][0], error);
+		EXPECT_NEAR((double)expected[0][1], (double)m[0][1], error);
+		EXPECT_NEAR((double)expected[0][2], (double)m[0][2], error);
+		EXPECT_NEAR((double)expected[0][3], (double)m[0][3], error);
+		EXPECT_NEAR((double)expected[1][0], (double)m[1][0], error);
+		EXPECT_NEAR((double)expected[1][1], (double)m[1][1], error);
+		EXPECT_NEAR((double)expected[1][2], (double)m[1][2], error);
+		EXPECT_NEAR((double)expected[1][3], (double)m[1][3], error);
+		EXPECT_NEAR((double)expected[2][0], (double)m[2][0], error);
+		EXPECT_NEAR((double)expected[2][1], (double)m[2][1], error);
+		EXPECT_NEAR((double)expected[2][2], (double)m[2][2], error);
+		EXPECT_NEAR((double)expected[2][3], (double)m[2][3], error);
+		EXPECT_NEAR((double)expected[3][0], (double)m[3][0], error);
+		EXPECT_NEAR((double)expected[3][1], (double)m[3][1], error);
+		EXPECT_NEAR((double)expected[3][2], (double)m[3][2], error);
+		EXPECT_NEAR((double)expected[3][3], (double)m[3][3], error);
 	}
 	{
-		auto const m = Matrix4x4::MakeRotation(Vector3(-1, 1, 10), bksge::degrees_to_radians(120));
-		EXPECT_NEAR(-0.48529410362243652, (double)m[0][0], error);
-		EXPECT_NEAR( 0.84278708696365356, (double)m[0][1], error);
-		EXPECT_NEAR(-0.23280812799930573, (double)m[0][2], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[0][3], error);
-		EXPECT_NEAR(-0.87219887971878052, (double)m[1][0], error);
-		EXPECT_NEAR(-0.48529410362243652, (double)m[1][1], error);
-		EXPECT_NEAR( 0.06130953878164291, (double)m[1][2], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[1][3], error);
-		EXPECT_NEAR(-0.06130953878164291, (double)m[2][0], error);
-		EXPECT_NEAR( 0.23280812799930573, (double)m[2][1], error);
-		EXPECT_NEAR( 0.97058844566345215, (double)m[2][2], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[2][3], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[3][0], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[3][1], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[3][2], error);
-		EXPECT_NEAR( 1.00000000000000000, (double)m[3][3], error);
+		auto const axis = Vector3(-1, 1, 10);
+		auto const r = bksge::degrees_to_radians(120);
+		auto const m = Matrix4x4::MakeRotation(axis, r);
+
+#if defined(BKSGE_DXMATH_TEST)
+		Matrix4x4 const expected = ToMatrix4x4<T>(XMMatrixRotationAxis(ToXMVECTOR(axis), (float)r));
+#else
+		Matrix4x4 const expected
+		{
+			Vector4{-0.4852941,  0.8427870, -0.2328081, 0.0000000 },
+			Vector4{-0.8721988, -0.4852941,  0.0613095, 0.0000000 },
+			Vector4{-0.0613095,  0.2328081,  0.9705884, 0.0000000 },
+			Vector4{ 0.0000000,  0.0000000,  0.0000000, 1.0000000 },
+		};
+#endif
+
+		EXPECT_NEAR((double)expected[0][0], (double)m[0][0], error);
+		EXPECT_NEAR((double)expected[0][1], (double)m[0][1], error);
+		EXPECT_NEAR((double)expected[0][2], (double)m[0][2], error);
+		EXPECT_NEAR((double)expected[0][3], (double)m[0][3], error);
+		EXPECT_NEAR((double)expected[1][0], (double)m[1][0], error);
+		EXPECT_NEAR((double)expected[1][1], (double)m[1][1], error);
+		EXPECT_NEAR((double)expected[1][2], (double)m[1][2], error);
+		EXPECT_NEAR((double)expected[1][3], (double)m[1][3], error);
+		EXPECT_NEAR((double)expected[2][0], (double)m[2][0], error);
+		EXPECT_NEAR((double)expected[2][1], (double)m[2][1], error);
+		EXPECT_NEAR((double)expected[2][2], (double)m[2][2], error);
+		EXPECT_NEAR((double)expected[2][3], (double)m[2][3], error);
+		EXPECT_NEAR((double)expected[3][0], (double)m[3][0], error);
+		EXPECT_NEAR((double)expected[3][1], (double)m[3][1], error);
+		EXPECT_NEAR((double)expected[3][2], (double)m[3][2], error);
+		EXPECT_NEAR((double)expected[3][3], (double)m[3][3], error);
 	}
 }
 
@@ -2090,159 +2317,285 @@ TYPED_TEST(MathMatrix4x4Test, MakeShearTest)
 
 TYPED_TEST(MathMatrix4x4FloatTest, MakeOrthographicTest)
 {
-	using Matrix4x4 = bksge::math::Matrix4x4<TypeParam>;
-	using Vector4 = bksge::math::Vector4<TypeParam>;
+	using T = TypeParam;
+	using Matrix4x4 = bksge::math::Matrix4x4<T>;
+	using Vector4 = bksge::math::Vector4<T>;
 
-	// glOrthoを呼び出したときに設定される値と同じかどうかをテストします。
+	// XMMatrixOrthographicOffCenterLH と同じかどうかをテストします。
 
 	{
+		BKSGE_CONSTEXPR_OR_CONST T left   = 0;
+		BKSGE_CONSTEXPR_OR_CONST T right  = 400;
+		BKSGE_CONSTEXPR_OR_CONST T top    = 300;
+		BKSGE_CONSTEXPR_OR_CONST T bottom = 0;
+		BKSGE_CONSTEXPR_OR_CONST T nearz  = 1;
+		BKSGE_CONSTEXPR_OR_CONST T farz   = 1000;
+
 		BKSGE_CONSTEXPR_OR_CONST double error = 0.0001;
 		BKSGE_CONSTEXPR_OR_CONST Matrix4x4 m =
-			Matrix4x4::MakeOrthographic(0, 400, 0, 300, 1, 1000);
-		BKSGE_CONSTEXPR_OR_CONST Matrix4x4 expected
+			Matrix4x4::MakeOrthographic(left, right, bottom, top, nearz, farz);
 		{
-			Vector4{  0.005,  0,           0,        0 },
-			Vector4{  0,      0.00666667,  0,        0 },
-			Vector4{  0,      0,          -0.002002, 0 },
-			Vector4{ -1,     -1,          -1.002,    1 },
-		};
+			BKSGE_CONSTEXPR_OR_CONST Matrix4x4 expected
+			{
+				Vector4{  0.005,  0,           0,        0 },
+				Vector4{  0,      0.00666667,  0,        0 },
+				Vector4{  0,      0,           0.001001, 0 },
+				Vector4{ -1,     -1,          -0.001001, 1 },
+			};
 
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[0][0], (double)m[0][0], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[0][1], (double)m[0][1], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[0][2], (double)m[0][2], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[0][3], (double)m[0][3], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[1][0], (double)m[1][0], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[1][1], (double)m[1][1], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[1][2], (double)m[1][2], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[1][3], (double)m[1][3], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[2][0], (double)m[2][0], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[2][1], (double)m[2][1], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[2][2], (double)m[2][2], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[2][3], (double)m[2][3], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[3][0], (double)m[3][0], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[3][1], (double)m[3][1], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[3][2], (double)m[3][2], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[3][3], (double)m[3][3], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[0][0], (double)m[0][0], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[0][1], (double)m[0][1], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[0][2], (double)m[0][2], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[0][3], (double)m[0][3], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[1][0], (double)m[1][0], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[1][1], (double)m[1][1], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[1][2], (double)m[1][2], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[1][3], (double)m[1][3], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[2][0], (double)m[2][0], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[2][1], (double)m[2][1], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[2][2], (double)m[2][2], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[2][3], (double)m[2][3], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[3][0], (double)m[3][0], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[3][1], (double)m[3][1], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[3][2], (double)m[3][2], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[3][3], (double)m[3][3], error);
+		}
+
+#if defined(BKSGE_DXMATH_TEST)
+		{
+			Matrix4x4 const expected = ToMatrix4x4<T>(XMMatrixOrthographicOffCenterLH(left, right, bottom, top, nearz, farz));
+			EXPECT_NEAR((double)expected[0][0], (double)m[0][0], error);
+			EXPECT_NEAR((double)expected[0][1], (double)m[0][1], error);
+			EXPECT_NEAR((double)expected[0][2], (double)m[0][2], error);
+			EXPECT_NEAR((double)expected[0][3], (double)m[0][3], error);
+			EXPECT_NEAR((double)expected[1][0], (double)m[1][0], error);
+			EXPECT_NEAR((double)expected[1][1], (double)m[1][1], error);
+			EXPECT_NEAR((double)expected[1][2], (double)m[1][2], error);
+			EXPECT_NEAR((double)expected[1][3], (double)m[1][3], error);
+			EXPECT_NEAR((double)expected[2][0], (double)m[2][0], error);
+			EXPECT_NEAR((double)expected[2][1], (double)m[2][1], error);
+			EXPECT_NEAR((double)expected[2][2], (double)m[2][2], error);
+			EXPECT_NEAR((double)expected[2][3], (double)m[2][3], error);
+			EXPECT_NEAR((double)expected[3][0], (double)m[3][0], error);
+			EXPECT_NEAR((double)expected[3][1], (double)m[3][1], error);
+			EXPECT_NEAR((double)expected[3][2], (double)m[3][2], error);
+			EXPECT_NEAR((double)expected[3][3], (double)m[3][3], error);
+		}
+#endif
 	}
 	{
+		BKSGE_CONSTEXPR_OR_CONST T left   = -300;
+		BKSGE_CONSTEXPR_OR_CONST T right  = 300;
+		BKSGE_CONSTEXPR_OR_CONST T top    = 100;
+		BKSGE_CONSTEXPR_OR_CONST T bottom = -100;
+		BKSGE_CONSTEXPR_OR_CONST T nearz  = 0.1f;
+		BKSGE_CONSTEXPR_OR_CONST T farz   = 100;
+
 		BKSGE_CONSTEXPR_OR_CONST double error = 0.0001;
 		BKSGE_CONSTEXPR_OR_CONST Matrix4x4 m =
-			Matrix4x4::MakeOrthographic(-300, 300, -100, 100, 0.1f, 100);
-		BKSGE_CONSTEXPR_OR_CONST Matrix4x4 expected
+			Matrix4x4::MakeOrthographic(left, right, bottom, top, nearz, farz);
 		{
-			Vector4{  0.00333333, 0,     0,       0 },
-			Vector4{  0,          0.01,  0,       0 },
-			Vector4{  0,          0,    -0.02002, 0 },
-			Vector4{ -0,         -0,    -1.002,   1 },
-		};
+			BKSGE_CONSTEXPR_OR_CONST Matrix4x4 expected
+			{
+				Vector4{  0.00333333, 0,     0,        0 },
+				Vector4{  0,          0.01,  0,        0 },
+				Vector4{  0,          0,     0.010010, 0 },
+				Vector4{ -0,         -0,    -0.001001, 1 },
+			};
 
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[0][0], (double)m[0][0], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[0][1], (double)m[0][1], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[0][2], (double)m[0][2], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[0][3], (double)m[0][3], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[1][0], (double)m[1][0], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[1][1], (double)m[1][1], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[1][2], (double)m[1][2], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[1][3], (double)m[1][3], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[2][0], (double)m[2][0], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[2][1], (double)m[2][1], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[2][2], (double)m[2][2], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[2][3], (double)m[2][3], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[3][0], (double)m[3][0], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[3][1], (double)m[3][1], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[3][2], (double)m[3][2], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[3][3], (double)m[3][3], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[0][0], (double)m[0][0], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[0][1], (double)m[0][1], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[0][2], (double)m[0][2], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[0][3], (double)m[0][3], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[1][0], (double)m[1][0], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[1][1], (double)m[1][1], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[1][2], (double)m[1][2], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[1][3], (double)m[1][3], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[2][0], (double)m[2][0], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[2][1], (double)m[2][1], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[2][2], (double)m[2][2], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[2][3], (double)m[2][3], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[3][0], (double)m[3][0], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[3][1], (double)m[3][1], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[3][2], (double)m[3][2], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[3][3], (double)m[3][3], error);
+		}
+#if defined(BKSGE_DXMATH_TEST)
+		{
+			Matrix4x4 const expected = ToMatrix4x4<T>(XMMatrixOrthographicOffCenterLH(left, right, bottom, top, nearz, farz));
+			EXPECT_NEAR((double)expected[0][0], (double)m[0][0], error);
+			EXPECT_NEAR((double)expected[0][1], (double)m[0][1], error);
+			EXPECT_NEAR((double)expected[0][2], (double)m[0][2], error);
+			EXPECT_NEAR((double)expected[0][3], (double)m[0][3], error);
+			EXPECT_NEAR((double)expected[1][0], (double)m[1][0], error);
+			EXPECT_NEAR((double)expected[1][1], (double)m[1][1], error);
+			EXPECT_NEAR((double)expected[1][2], (double)m[1][2], error);
+			EXPECT_NEAR((double)expected[1][3], (double)m[1][3], error);
+			EXPECT_NEAR((double)expected[2][0], (double)m[2][0], error);
+			EXPECT_NEAR((double)expected[2][1], (double)m[2][1], error);
+			EXPECT_NEAR((double)expected[2][2], (double)m[2][2], error);
+			EXPECT_NEAR((double)expected[2][3], (double)m[2][3], error);
+			EXPECT_NEAR((double)expected[3][0], (double)m[3][0], error);
+			EXPECT_NEAR((double)expected[3][1], (double)m[3][1], error);
+			EXPECT_NEAR((double)expected[3][2], (double)m[3][2], error);
+			EXPECT_NEAR((double)expected[3][3], (double)m[3][3], error);
+		}
+#endif
 	}
 }
 
 TYPED_TEST(MathMatrix4x4FloatTest, MakeFrustumTest)
 {
-	using Matrix4x4 = bksge::math::Matrix4x4<TypeParam>;
-	using Vector4 = bksge::math::Vector4<TypeParam>;
+	using T = TypeParam;
+	using Matrix4x4 = bksge::math::Matrix4x4<T>;
+	using Vector4 = bksge::math::Vector4<T>;
 
-	// glFrustumを呼び出したときに設定される値と同じかどうかをテストします。
+	// XMMatrixPerspectiveOffCenterLH と同じかどうかをテストします。
 
 	{
+		BKSGE_CONSTEXPR_OR_CONST T left   = 0;
+		BKSGE_CONSTEXPR_OR_CONST T right  = 400;
+		BKSGE_CONSTEXPR_OR_CONST T bottom = 0;
+		BKSGE_CONSTEXPR_OR_CONST T top    = 300;
+		BKSGE_CONSTEXPR_OR_CONST T nearz  = 1;
+		BKSGE_CONSTEXPR_OR_CONST T farz   = 1000;
 		BKSGE_CONSTEXPR_OR_CONST double error = 0.00000001;
 		BKSGE_CONSTEXPR_OR_CONST Matrix4x4 m =
-			Matrix4x4::MakeFrustum(0, 400, 0, 300, 1, 1000);
-		BKSGE_CONSTEXPR_OR_CONST Matrix4x4 expected
+			Matrix4x4::MakeFrustum(left, right, bottom, top, nearz, farz);
 		{
-			Vector4{  0.005, 0,                     0,                   0 },
-			Vector4{  0,     0.0066666666666666671, 0,                   0 },
-			Vector4{  1,     1,                    -1.0020020008087158, -1 },
-			Vector4{  0,     0,                    -2.0020020008087158,  0 },
-		};
+			BKSGE_CONSTEXPR_OR_CONST Matrix4x4 expected
+			{
+				Vector4{  0.005,  0,                     0,                   0 },
+				Vector4{  0,      0.0066666666666666671, 0,                   0 },
+				Vector4{ -1,     -1,                     1.0010010004043579,  1 },
+				Vector4{  0,      0,                    -1.0010010004043579,  0 },
+			};
 
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[0][0], (double)m[0][0], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[0][1], (double)m[0][1], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[0][2], (double)m[0][2], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[0][3], (double)m[0][3], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[1][0], (double)m[1][0], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[1][1], (double)m[1][1], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[1][2], (double)m[1][2], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[1][3], (double)m[1][3], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[2][0], (double)m[2][0], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[2][1], (double)m[2][1], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[2][2], (double)m[2][2], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[2][3], (double)m[2][3], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[3][0], (double)m[3][0], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[3][1], (double)m[3][1], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[3][2], (double)m[3][2], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[3][3], (double)m[3][3], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[0][0], (double)m[0][0], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[0][1], (double)m[0][1], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[0][2], (double)m[0][2], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[0][3], (double)m[0][3], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[1][0], (double)m[1][0], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[1][1], (double)m[1][1], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[1][2], (double)m[1][2], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[1][3], (double)m[1][3], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[2][0], (double)m[2][0], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[2][1], (double)m[2][1], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[2][2], (double)m[2][2], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[2][3], (double)m[2][3], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[3][0], (double)m[3][0], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[3][1], (double)m[3][1], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[3][2], (double)m[3][2], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[3][3], (double)m[3][3], error);
+		}
+#if defined(BKSGE_DXMATH_TEST)
+		{
+			Matrix4x4 const expected = ToMatrix4x4<T>(XMMatrixPerspectiveOffCenterLH(left, right, bottom, top, nearz, farz));
+			EXPECT_NEAR((double)expected[0][0], (double)m[0][0], error);
+			EXPECT_NEAR((double)expected[0][1], (double)m[0][1], error);
+			EXPECT_NEAR((double)expected[0][2], (double)m[0][2], error);
+			EXPECT_NEAR((double)expected[0][3], (double)m[0][3], error);
+			EXPECT_NEAR((double)expected[1][0], (double)m[1][0], error);
+			EXPECT_NEAR((double)expected[1][1], (double)m[1][1], error);
+			EXPECT_NEAR((double)expected[1][2], (double)m[1][2], error);
+			EXPECT_NEAR((double)expected[1][3], (double)m[1][3], error);
+			EXPECT_NEAR((double)expected[2][0], (double)m[2][0], error);
+			EXPECT_NEAR((double)expected[2][1], (double)m[2][1], error);
+			EXPECT_NEAR((double)expected[2][2], (double)m[2][2], error);
+			EXPECT_NEAR((double)expected[2][3], (double)m[2][3], error);
+			EXPECT_NEAR((double)expected[3][0], (double)m[3][0], error);
+			EXPECT_NEAR((double)expected[3][1], (double)m[3][1], error);
+			EXPECT_NEAR((double)expected[3][2], (double)m[3][2], error);
+			EXPECT_NEAR((double)expected[3][3], (double)m[3][3], error);
+		}
+#endif
 	}
 	{
+		BKSGE_CONSTEXPR_OR_CONST T left   = -960;
+		BKSGE_CONSTEXPR_OR_CONST T right  =  960;
+		BKSGE_CONSTEXPR_OR_CONST T bottom = -540;
+		BKSGE_CONSTEXPR_OR_CONST T top    =  540;
+		BKSGE_CONSTEXPR_OR_CONST T nearz  = 0.001f;
+		BKSGE_CONSTEXPR_OR_CONST T farz   = 1000;
 		BKSGE_CONSTEXPR_OR_CONST double error = 0.000001;
 		BKSGE_CONSTEXPR_OR_CONST Matrix4x4 m =
-			Matrix4x4::MakeFrustum(-960, 960, -540, 540, 0.001f, 1000);
-		BKSGE_CONSTEXPR_OR_CONST Matrix4x4 expected
+			Matrix4x4::MakeFrustum(left, right, bottom, top, nearz, farz);
 		{
-			Vector4{  0.0000010416667161431785, 0,                     0,                  0 },
-			Vector4{  0,                        0.0000018518519398100, 0,                  0 },
-			Vector4{  0,                        0,                    -1.000002000002095, -1 },
-			Vector4{  0,                        0,                    -0.002000002094997,  0 },
-		};
+			BKSGE_CONSTEXPR_OR_CONST Matrix4x4 expected
+			{
+				Vector4{  0.0000010416667161431785, 0,                     0,                   0 },
+				Vector4{  0,                        0.0000018518519398100, 0,                   0 },
+				Vector4{  0,                        0,                     1.0000009536743164,  1 },
+				Vector4{  0,                        0,                    -0.0010000009788200,  0 },
+			};
 
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[0][0], (double)m[0][0], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[0][1], (double)m[0][1], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[0][2], (double)m[0][2], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[0][3], (double)m[0][3], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[1][0], (double)m[1][0], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[1][1], (double)m[1][1], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[1][2], (double)m[1][2], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[1][3], (double)m[1][3], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[2][0], (double)m[2][0], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[2][1], (double)m[2][1], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[2][2], (double)m[2][2], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[2][3], (double)m[2][3], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[3][0], (double)m[3][0], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[3][1], (double)m[3][1], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[3][2], (double)m[3][2], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[3][3], (double)m[3][3], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[0][0], (double)m[0][0], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[0][1], (double)m[0][1], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[0][2], (double)m[0][2], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[0][3], (double)m[0][3], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[1][0], (double)m[1][0], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[1][1], (double)m[1][1], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[1][2], (double)m[1][2], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[1][3], (double)m[1][3], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[2][0], (double)m[2][0], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[2][1], (double)m[2][1], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[2][2], (double)m[2][2], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[2][3], (double)m[2][3], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[3][0], (double)m[3][0], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[3][1], (double)m[3][1], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[3][2], (double)m[3][2], error);
+			BKSGE_CONSTEXPR_EXPECT_NEAR((double)expected[3][3], (double)m[3][3], error);
+		}
+#if defined(BKSGE_DXMATH_TEST)
+		{
+			Matrix4x4 const expected = ToMatrix4x4<T>(XMMatrixPerspectiveOffCenterLH(left, right, bottom, top, nearz, farz));
+			EXPECT_NEAR((double)expected[0][0], (double)m[0][0], error);
+			EXPECT_NEAR((double)expected[0][1], (double)m[0][1], error);
+			EXPECT_NEAR((double)expected[0][2], (double)m[0][2], error);
+			EXPECT_NEAR((double)expected[0][3], (double)m[0][3], error);
+			EXPECT_NEAR((double)expected[1][0], (double)m[1][0], error);
+			EXPECT_NEAR((double)expected[1][1], (double)m[1][1], error);
+			EXPECT_NEAR((double)expected[1][2], (double)m[1][2], error);
+			EXPECT_NEAR((double)expected[1][3], (double)m[1][3], error);
+			EXPECT_NEAR((double)expected[2][0], (double)m[2][0], error);
+			EXPECT_NEAR((double)expected[2][1], (double)m[2][1], error);
+			EXPECT_NEAR((double)expected[2][2], (double)m[2][2], error);
+			EXPECT_NEAR((double)expected[2][3], (double)m[2][3], error);
+			EXPECT_NEAR((double)expected[3][0], (double)m[3][0], error);
+			EXPECT_NEAR((double)expected[3][1], (double)m[3][1], error);
+			EXPECT_NEAR((double)expected[3][2], (double)m[3][2], error);
+			EXPECT_NEAR((double)expected[3][3], (double)m[3][3], error);
+		}
+#endif
 	}
 }
 
 TYPED_TEST(MathMatrix4x4FloatTest, MakePerspectiveTest)
 {
-	using Matrix4x4 = bksge::math::Matrix4x4<TypeParam>;
-	using Vector4 = bksge::math::Vector4<TypeParam>;
+	using T = TypeParam;
+	using Matrix4x4 = bksge::math::Matrix4x4<T>;
+	using Vector4 = bksge::math::Vector4<T>;
 
-	// gluPerspectiveを呼び出したときに設定される値と同じかどうかをテストします。
+	// XMMatrixPerspectiveFovLH と同じかどうかをテストします。
 
 	double const error = 0.000001;
 	{
-		TypeParam const fovy = bksge::degrees_to_radians(45.0f);
-		TypeParam const aspect = 4.0f / 3.0f;
-		TypeParam const zn = 1;
-		TypeParam const zf = 10;
+		T const fovy = bksge::degrees_to_radians(45.0f);
+		T const aspect = 4.0f / 3.0f;
+		T const zn = 1;
+		T const zf = 10;
 		Matrix4x4 const m = Matrix4x4::MakePerspective(fovy, aspect, zn, zf);
+#if defined(BKSGE_DXMATH_TEST)
+		Matrix4x4 const expected = ToMatrix4x4<T>(XMMatrixPerspectiveFovLH(fovy, aspect, zn, zf));
+#else
 		Matrix4x4 const expected
 		{
 			Vector4{ 1.81066006185294, 0,                   0,                  0 },
 			Vector4{ 0,                2.4142134877530865,  0,                  0 },
-			Vector4{ 0,                0,                  -1.222222222222222, -1 },
-			Vector4{ 0,                0,                  -2.222222222222222,  0 },
+			Vector4{ 0,                0,                   1.111111164093017,  1 },
+			Vector4{ 0,                0,                  -1.111111164093017,  0 },
 		};
+#endif
 
 		EXPECT_NEAR((double)expected[0][0], (double)m[0][0], error);
 		EXPECT_NEAR((double)expected[0][1], (double)m[0][1], error);
@@ -2262,18 +2615,22 @@ TYPED_TEST(MathMatrix4x4FloatTest, MakePerspectiveTest)
 		EXPECT_NEAR((double)expected[3][3], (double)m[3][3], error);
 	}
 	{
-		TypeParam const fovy = bksge::degrees_to_radians(60.0f);
-		TypeParam const aspect = 16.0f / 9.0f;
-		TypeParam const zn = 0.5f;
-		TypeParam const zf = 5000;
+		T const fovy = bksge::degrees_to_radians(60.0f);
+		T const aspect = 16.0f / 9.0f;
+		T const zn = 0.5f;
+		T const zf = 5000;
 		Matrix4x4 const m = Matrix4x4::MakePerspective(fovy, aspect, zn, zf);
+#if defined(BKSGE_DXMATH_TEST)
+		Matrix4x4 const expected = ToMatrix4x4<T>(XMMatrixPerspectiveFovLH(fovy, aspect, zn, zf));
+#else
 		Matrix4x4 const expected
 		{
 			Vector4{ 0.97427853921501106, 0,                   0,               0 },
 			Vector4{ 0,                   1.7320507492870254,  0,               0 },
-			Vector4{ 0,                   0,                  -1.000200020002, -1 },
-			Vector4{ 0,                   0,                  -1.000100010001,  0 },
+			Vector4{ 0,                   0,                   1.0001000165939, 1 },
+			Vector4{ 0,                   0,                  -0.5000500082969, 0 },
 		};
+#endif
 
 		EXPECT_NEAR((double)expected[0][0], (double)m[0][0], error);
 		EXPECT_NEAR((double)expected[0][1], (double)m[0][1], error);
@@ -2296,11 +2653,12 @@ TYPED_TEST(MathMatrix4x4FloatTest, MakePerspectiveTest)
 
 TYPED_TEST(MathMatrix4x4FloatTest, MakeViewTest)
 {
-	using Matrix4x4 = bksge::math::Matrix4x4<TypeParam>;
-	using Vector4 = bksge::math::Vector4<TypeParam>;
-	using Vector3 = bksge::math::Vector3<TypeParam>;
+	using T = TypeParam;
+	using Matrix4x4 = bksge::math::Matrix4x4<T>;
+	using Vector4 = bksge::math::Vector4<T>;
+	using Vector3 = bksge::math::Vector3<T>;
 
-	// gluLookAtを呼び出したときに設定される値と同じかどうかをテストします。
+	// XMMatrixLookAtLH と同じかどうかをテストします。
 
 	double const error = 0.0001;
 	{
@@ -2309,13 +2667,20 @@ TYPED_TEST(MathMatrix4x4FloatTest, MakeViewTest)
 		Vector3 const up(0, 1, 0);
 		Vector3 const direction = at - eye;
 		Matrix4x4 const m = Matrix4x4::MakeView(eye, direction, up);
+#if defined(BKSGE_DXMATH_TEST)
+		Matrix4x4 const expected = ToMatrix4x4<T>(XMMatrixLookAtLH(
+			ToXMVECTOR(eye),
+			ToXMVECTOR(at),
+			ToXMVECTOR(up)));
+#else
 		Matrix4x4 const expected
 		{
-			Vector4{ -0.707107f, -0.408248f, -0.57735f, 0 },
-			Vector4{  0,          0.816497f, -0.57735f, 0 },
-			Vector4{  0.707107f, -0.408248f, -0.57735f, 0 },
-			Vector4{ -1.41421f,   0,          3.4641f,  1 },
+			Vector4{  0.707107f, -0.408248f,  0.57735f, 0 },
+			Vector4{  0,          0.816497f,  0.57735f, 0 },
+			Vector4{ -0.707107f, -0.408248f,  0.57735f, 0 },
+			Vector4{  1.41421f,   0,         -3.4641f,  1 },
 		};
+#endif
 
 		EXPECT_NEAR((double)expected[0][0], (double)m[0][0], error);
 		EXPECT_NEAR((double)expected[0][1], (double)m[0][1], error);
@@ -2340,13 +2705,20 @@ TYPED_TEST(MathMatrix4x4FloatTest, MakeViewTest)
 		Vector3 const up(0, 0, 1);
 		Vector3 const direction = at - eye;
 		Matrix4x4 const m = Matrix4x4::MakeView(eye, direction, up);
+#if defined(BKSGE_DXMATH_TEST)
+		Matrix4x4 const expected = ToMatrix4x4<T>(XMMatrixLookAtLH(
+			ToXMVECTOR(eye),
+			ToXMVECTOR(at),
+			ToXMVECTOR(up)));
+#else
 		Matrix4x4 const expected
 		{
-			Vector4{   0.894427f,  0.0234969f,  0.446596f,  0 },
-			Vector4{   0.447214f, -0.0469938f, -0.893192f,  0 },
-			Vector4{  -0,          0.998619f,  -0.0525407f, 0 },
-			Vector4{ -13.8636f,    1.04561f,    0.840651f,  1 },
+			Vector4{  -0.894427f,  0.0234969f, -0.446596f,  0 },
+			Vector4{  -0.447214f, -0.0469938f,  0.893192f,  0 },
+			Vector4{  -0,          0.998619f,   0.0525407f, 0 },
+			Vector4{  13.8636f,    1.04561f,   -0.840651f,  1 },
 		};
+#endif
 
 		EXPECT_NEAR((double)expected[0][0], (double)m[0][0], error);
 		EXPECT_NEAR((double)expected[0][1], (double)m[0][1], error);
@@ -2369,11 +2741,12 @@ TYPED_TEST(MathMatrix4x4FloatTest, MakeViewTest)
 
 TYPED_TEST(MathMatrix4x4FloatTest, MakeLookAtTest)
 {
-	using Matrix4x4 = bksge::math::Matrix4x4<TypeParam>;
-	using Vector4 = bksge::math::Vector4<TypeParam>;
-	using Vector3 = bksge::math::Vector3<TypeParam>;
+	using T = TypeParam;
+	using Matrix4x4 = bksge::math::Matrix4x4<T>;
+	using Vector4 = bksge::math::Vector4<T>;
+	using Vector3 = bksge::math::Vector3<T>;
 
-	// gluLookAtを呼び出したときに設定される値と同じかどうかをテストします。
+	// XMMatrixLookAtLH と同じかどうかをテストします。
 
 	double const error = 0.0001;
 	{
@@ -2381,13 +2754,20 @@ TYPED_TEST(MathMatrix4x4FloatTest, MakeLookAtTest)
 		Vector3 const at(4, 5, 6);
 		Vector3 const up(0, 1, 0);
 		Matrix4x4 const m = Matrix4x4::MakeLookAt(eye, at, up);
+#if defined(BKSGE_DXMATH_TEST)
+		Matrix4x4 const expected = ToMatrix4x4<T>(XMMatrixLookAtLH(
+			ToXMVECTOR(eye),
+			ToXMVECTOR(at),
+			ToXMVECTOR(up)));
+#else
 		Matrix4x4 const expected
 		{
-			Vector4{ -0.707107f, -0.408248f, -0.57735f, 0 },
-			Vector4{  0,          0.816497f, -0.57735f, 0 },
-			Vector4{  0.707107f, -0.408248f, -0.57735f, 0 },
-			Vector4{ -1.41421f,   0,          3.4641f,  1 },
+			Vector4{  0.707107f, -0.408248f,  0.57735f, 0 },
+			Vector4{  0,          0.816497f,  0.57735f, 0 },
+			Vector4{ -0.707107f, -0.408248f,  0.57735f, 0 },
+			Vector4{  1.41421f,   0,         -3.4641f,  1 },
 		};
+#endif
 
 		EXPECT_NEAR((double)expected[0][0], (double)m[0][0], error);
 		EXPECT_NEAR((double)expected[0][1], (double)m[0][1], error);
@@ -2411,13 +2791,20 @@ TYPED_TEST(MathMatrix4x4FloatTest, MakeLookAtTest)
 		Vector3 const at(-5, 41, 1);
 		Vector3 const up(0, 0, 1);
 		Matrix4x4 const m = Matrix4x4::MakeLookAt(eye, at, up);
+#if defined(BKSGE_DXMATH_TEST)
+		Matrix4x4 const expected = ToMatrix4x4<T>(XMMatrixLookAtLH(
+			ToXMVECTOR(eye),
+			ToXMVECTOR(at),
+			ToXMVECTOR(up)));
+#else
 		Matrix4x4 const expected
 		{
-			Vector4{   0.894427f,  0.0234969f,  0.446596f,  0 },
-			Vector4{   0.447214f, -0.0469938f, -0.893192f,  0 },
-			Vector4{  -0,          0.998619f,  -0.0525407f, 0 },
-			Vector4{ -13.8636f,    1.04561f,    0.840651f,  1 },
+			Vector4{  -0.894427f,  0.0234969f, -0.446596f,  0 },
+			Vector4{  -0.447214f, -0.0469938f,  0.893192f,  0 },
+			Vector4{  -0,          0.998619f,   0.0525407f, 0 },
+			Vector4{  13.8636f,    1.04561f,   -0.840651f,  1 },
 		};
+#endif
 
 		EXPECT_NEAR((double)expected[0][0], (double)m[0][0], error);
 		EXPECT_NEAR((double)expected[0][1], (double)m[0][1], error);

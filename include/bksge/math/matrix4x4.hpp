@@ -136,7 +136,7 @@ public:
 	MakeShear(T x, T y, T z) BKSGE_NOEXCEPT;
 
 	/**
-	 *	@brief	右手座標系正射影行列を計算します
+	 *	@brief	左手座標系正射影行列を計算します
 	 *
 	 *	@param	left	ビューボリュームの最小X値
 	 *	@param	right	ビューボリュームの最大X値
@@ -144,12 +144,14 @@ public:
 	 *	@param	top		ビューボリュームの最大Y値
 	 *	@param	near_z	ビューボリュームの最小Z値
 	 *	@param	far_z	ビューボリュームの最大Z値
+	 *
+	 *	Clip座標系のZが0～wと想定しています。
 	 */
 	static BKSGE_CONSTEXPR Matrix
 	MakeOrthographic(T left, T right, T bottom, T top, T near_z, T far_z) BKSGE_NOEXCEPT;
 
 	/**
-	 *	@brief	右手座標系透視射影行列を計算します
+	 *	@brief	左手座標系透視射影行列を計算します
 	 *
 	 *	@param	left	ビューボリュームの最小X値
 	 *	@param	right	ビューボリュームの最大X値
@@ -157,24 +159,28 @@ public:
 	 *	@param	top		ビューボリュームの最大Y値
 	 *	@param	near_z	ビューボリュームの最小Z値
 	 *	@param	far_z	ビューボリュームの最大Z値
+	 *
+	 *	Clip座標系のZが0～wと想定しています。
 	 */
 	static BKSGE_CONSTEXPR Matrix
 	MakeFrustum(T left, T right, T bottom, T top, T near_z, T far_z) BKSGE_NOEXCEPT;
 
 	/**
-	 *	@brief	右手座標系透視射影行列を計算します
+	 *	@brief	左手座標系透視射影行列を計算します
 	 *
 	 *	@param	fovy	Y軸方向の視野角
 	 *	@param	aspect	アスペクト比。(ビュー空間の 横幅/高さ)
 	 *	@param	near_z	視点に近いほうのビュー平面のZ値
 	 *	@param	far_z	視点から遠いほうのビュー平面のZ値
+	 *
+	 *	Clip座標系のZが0～wと想定しています。
 	 */
 	template <typename AngleType>
 	static BKSGE_CXX14_CONSTEXPR Matrix
 	MakePerspective(AngleType const& fovy, T aspect, T near_z, T far_z) BKSGE_NOEXCEPT;
 
 	/**
-	 *	@brief	視点と向きから右手座標系ビュー行列を作成します。
+	 *	@brief	視点と向きから左手座標系ビュー行列を作成します。
 	 *
 	 *	@param	eye			視点
 	 *	@param	direction	視点の向き(正規化していなくても可)
@@ -187,7 +193,7 @@ public:
 		Vector<T, 3> const& up) BKSGE_NOEXCEPT;
 
 	/**
-	 *	@brief	視点と注視点から右手座標系ビュー行列を作成します。
+	 *	@brief	視点と注視点から左手座標系ビュー行列を作成します。
 	 *
 	 *	@param	eye			視点
 	 *	@param	target		注視点
