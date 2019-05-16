@@ -119,18 +119,6 @@ D3D12Renderer::VSetRenderTarget(Window const& window)
 	::UINT const width  = 800;	// TODO
 	::UINT const height = 600;	// TODO
 
-	m_viewport.TopLeftX = 0.0f;
-	m_viewport.TopLeftY = 0.0f;
-	m_viewport.Width    = width;
-	m_viewport.Height   = height;
-	m_viewport.MinDepth = D3D12_MIN_DEPTH;
-	m_viewport.MaxDepth = D3D12_MAX_DEPTH;
-
-	m_scissorRect.left   = 0;
-	m_scissorRect.top    = 0;
-	m_scissorRect.right  = width;
-	m_scissorRect.bottom = height;
-
 	m_swap_chain = bksge::make_unique<DXGISwapChain>(
 		m_factory.get(), m_command_queue->Get(), width, height, hwnd);
 
@@ -154,8 +142,27 @@ D3D12Renderer::VBegin(void)
 {
 	m_command_list->Reset();
 
-	m_command_list->RSSetViewports(1, &m_viewport);
-	m_command_list->RSSetScissorRects(1, &m_scissorRect);
+	if (m_viewport)
+	{
+		::D3D12_VIEWPORT viewport;
+		viewport.TopLeftX = m_viewport->left();
+		viewport.TopLeftY = m_viewport->top();
+		viewport.Width    = m_viewport->width();
+		viewport.Height   = m_viewport->height();
+		viewport.MinDepth = D3D12_MIN_DEPTH;
+		viewport.MaxDepth = D3D12_MAX_DEPTH;
+		m_command_list->RSSetViewports(1, &viewport);
+	}
+
+	if (m_scissor)
+	{
+		::D3D12_RECT scissor_rect;
+		scissor_rect.left   = static_cast<::LONG>(m_scissor->left());
+		scissor_rect.top    = static_cast<::LONG>(m_scissor->top());
+		scissor_rect.right  = static_cast<::LONG>(m_scissor->right());
+		scissor_rect.bottom = static_cast<::LONG>(m_scissor->bottom());
+		m_command_list->RSSetScissorRects(1, &scissor_rect);
+	}
 
 	// Indicate that the back buffer will be used as a render target.
 	m_command_list->ResourceBarrier(

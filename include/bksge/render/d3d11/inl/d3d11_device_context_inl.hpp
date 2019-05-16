@@ -128,6 +128,14 @@ D3D11DeviceContext::RSSetViewports(
 }
 
 BKSGE_INLINE void
+D3D11DeviceContext::RSSetScissorRects(
+	UINT              num_rects,
+	D3D11_RECT const* rects)
+{
+	m_device_context->RSSetScissorRects(num_rects, rects);
+}
+
+BKSGE_INLINE void
 D3D11DeviceContext::RSSetState(
 	::ID3D11RasterizerState* rasterizer_state)
 {

@@ -17,6 +17,8 @@
 #include <bksge/render/clear_flag.hpp>
 #include <bksge/window/fwd/window_fwd.hpp>
 #include <bksge/math/color4.hpp>
+#include <bksge/math/rect.hpp>
+#include <memory>
 
 namespace bksge
 {
@@ -38,6 +40,16 @@ public:
 	 *	@brief	レンダリングターゲットを設定します
 	 */
 	void SetRenderTarget(Window const& window);
+
+	/**
+	 *	@brief	ビューポート矩形を設定します
+	 */
+	void SetViewport(Rectf const& viewport);
+
+	/**
+	 *	@brief	シザー矩形を設定します
+	 */
+	void SetScissor(Rectf const& scissor);
 
 	/**
 	 *	@brief	レンダリングを開始します
@@ -97,8 +109,11 @@ private:
 		ShaderParameterMap const& shader_parameter_map,
 		RenderState const& render_state) = 0;
 
-	ClearFlag  m_clear_flag;
-	Color4f    m_clear_color;
+protected:
+	ClearFlag					m_clear_flag;
+	Color4f						m_clear_color;
+	std::unique_ptr<Rectf>		m_viewport;
+	std::unique_ptr<Rectf>		m_scissor;
 };
 
 }	// namespace render

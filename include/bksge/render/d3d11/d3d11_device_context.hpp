@@ -75,6 +75,10 @@ public:
 		::UINT                  num_viewports,
 		::D3D11_VIEWPORT const* viewports);
 
+	void RSSetScissorRects(
+		UINT              num_rects,
+		D3D11_RECT const* rects);
+
 	void RSSetState(
 		::ID3D11RasterizerState* rasterizer_state);
 

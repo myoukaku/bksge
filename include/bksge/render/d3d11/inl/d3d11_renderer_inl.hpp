@@ -104,19 +104,8 @@ D3D11Renderer::VSetRenderTarget(Window const& window)
 	m_device_context->OMSetRenderTargets(
 		1,
 		m_render_target->GetView().GetAddressOf(),
-		m_depth_stencil->GetView());
+		nullptr/*m_depth_stencil->GetView()*/);
 
-	// Setup the viewport
-	{
-		::D3D11_VIEWPORT vp;
-		vp.Width    = (::FLOAT)width;
-		vp.Height   = (::FLOAT)height;
-		vp.MinDepth = 0.0f;
-		vp.MaxDepth = 1.0f;
-		vp.TopLeftX = 0;
-		vp.TopLeftY = 0;
-		m_device_context->RSSetViewports(1, &vp);
-	}
 
 	//
 	{
@@ -127,7 +116,7 @@ D3D11Renderer::VSetRenderTarget(Window const& window)
 		rd.DepthBias             = 0;
 		rd.DepthBiasClamp        = 0;
 		rd.SlopeScaledDepthBias  = 0;
-		rd.ScissorEnable         = FALSE;
+		rd.ScissorEnable         = TRUE;
 		rd.MultisampleEnable     = FALSE;
 		rd.AntialiasedLineEnable = FALSE;
 
@@ -142,10 +131,33 @@ D3D11Renderer::VSetRenderTarget(Window const& window)
 BKSGE_INLINE void
 D3D11Renderer::VBegin(void)
 {
+	// Setup the viewport
+	if (m_viewport)
+	{
+		::D3D11_VIEWPORT vp;
+		vp.TopLeftX = m_viewport->left();
+		vp.TopLeftY = m_viewport->top();
+		vp.Width    = m_viewport->width();
+		vp.Height   = m_viewport->height();
+		vp.MinDepth = D3D11_MIN_DEPTH;
+		vp.MaxDepth = D3D11_MAX_DEPTH;
+		m_device_context->RSSetViewports(1, &vp);
+	}
+
+	if (m_scissor)
+	{
+		::D3D11_RECT scissor_rect;
+		scissor_rect.left   = static_cast<::LONG>(m_scissor->left());
+		scissor_rect.top    = static_cast<::LONG>(m_scissor->top());
+		scissor_rect.right  = static_cast<::LONG>(m_scissor->right());
+		scissor_rect.bottom = static_cast<::LONG>(m_scissor->bottom());
+		m_device_context->RSSetScissorRects(1, &scissor_rect);
+	}
+
 	m_device_context->OMSetRenderTargets(
 		1,
 		m_render_target->GetView().GetAddressOf(),
-		m_depth_stencil->GetView());
+		nullptr/*m_depth_stencil->GetView()*/);
 }
 
 BKSGE_INLINE void
@@ -174,11 +186,11 @@ D3D11Renderer::VClear(ClearFlag clear_flag, Color4f const& clear_color)
 		mask |= D3D11_CLEAR_STENCIL;
 	}
 
-	m_device_context->ClearDepthStencilView(
-		m_depth_stencil->GetView(),
-		mask,
-		1.0f,
-		0);
+	//m_device_context->ClearDepthStencilView(
+	//	m_depth_stencil->GetView(),
+	//	mask,
+	//	1.0f,
+	//	0);
 }
 
 BKSGE_INLINE void

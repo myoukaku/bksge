@@ -55,6 +55,9 @@ public:
 	BKSGE_CONSTEXPR T right(void) const;
 	BKSGE_CONSTEXPR T bottom(void) const;
 
+	BKSGE_CONSTEXPR T width(void) const;
+	BKSGE_CONSTEXPR T height(void) const;
+
 	BKSGE_NODISCARD BKSGE_CONSTEXPR T const*
 	data() const BKSGE_NOEXCEPT_OR_NOTHROW;
 

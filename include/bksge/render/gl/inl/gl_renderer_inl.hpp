@@ -84,7 +84,31 @@ void GlRenderer::VSetRenderTarget(Window const& window)
 BKSGE_INLINE
 void GlRenderer::VBegin(void)
 {
+//	int const width  = 800;	// TODO
+	int const height = 600;	// TODO
+
 	::glQueryCounter(m_timer_queries[0], GL_TIMESTAMP);
+
+//	::glClipControl(GL_UPPER_LEFT, GL_ZERO_TO_ONE);
+
+	if (m_viewport)
+	{
+		::glViewport(
+			static_cast<GLint>(m_viewport->left()),
+			static_cast<GLint>(height - m_viewport->bottom()),//m_viewport->top()),
+			static_cast<GLsizei>(m_viewport->width()),
+			static_cast<GLsizei>(m_viewport->height()));
+	}
+
+	if (m_scissor)
+	{
+		::glEnable(GL_SCISSOR_TEST);
+		::glScissor(
+			static_cast<GLint>(m_scissor->left()),
+			static_cast<GLint>(height - m_scissor->bottom()),//m_scissor->top()),
+			static_cast<GLsizei>(m_scissor->width()),
+			static_cast<GLsizei>(m_scissor->height()));
+	}
 }
 
 BKSGE_INLINE
@@ -131,7 +155,9 @@ void GlRenderer::VClear(ClearFlag clear_flag, Color4f const& clear_color)
 		mask |= GL_STENCIL_BUFFER_BIT;
 	}
 
+	::glDisable(GL_SCISSOR_TEST);
 	::glClear(mask);
+	::glEnable(GL_SCISSOR_TEST);
 }
 
 BKSGE_INLINE

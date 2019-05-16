@@ -11,6 +11,9 @@
 
 #include <bksge/render/renderer.hpp>
 #include <bksge/window/window.hpp>
+#include <bksge/math/rect.hpp>
+#include <bksge/math/vector2.hpp>
+#include <bksge/memory/make_unique.hpp>
 
 namespace bksge
 {
@@ -22,6 +25,8 @@ BKSGE_INLINE
 Renderer::Renderer(void)
 	: m_clear_flag(ClearFlag::kAll)
 	, m_clear_color(0, 0, 0, 0)
+	, m_viewport()
+	, m_scissor()
 {}
 
 BKSGE_INLINE
@@ -32,6 +37,42 @@ BKSGE_INLINE
 void Renderer::SetRenderTarget(Window const& window)
 {
 	VSetRenderTarget(window);
+
+	if (!m_viewport)
+	{
+		SetViewport(Rectf(Vector2f(0,0), Size2f(window.ClientSize())));
+	}
+
+	if (!m_scissor)
+	{
+		SetScissor(Rectf(Vector2f(0,0), Size2f(window.ClientSize())));
+	}
+}
+
+BKSGE_INLINE void
+Renderer::SetViewport(Rectf const& viewport)
+{
+	if (!m_viewport)
+	{
+		m_viewport = bksge::make_unique<Rectf>(viewport);
+	}
+	else
+	{
+		*m_viewport = viewport;
+	}
+}
+
+BKSGE_INLINE void
+Renderer::SetScissor(Rectf const& scissor)
+{
+	if (!m_scissor)
+	{
+		m_scissor = bksge::make_unique<Rectf>(scissor);
+	}
+	else
+	{
+		*m_scissor = scissor;
+	}
 }
 
 BKSGE_INLINE
