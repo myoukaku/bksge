@@ -29,6 +29,16 @@ class RenderState
 public:
 	RenderState(void);
 
+	RasterizerState const&	rasterizer_state(void) const;
+	BlendState const&		blend_state(void) const;
+	DepthState const&		depth_state(void) const;
+	StencilState const&		stencil_state(void) const;
+
+	RasterizerState&	rasterizer_state(void);
+	BlendState&			blend_state(void);
+	DepthState&			depth_state(void);
+	StencilState&		stencil_state(void);
+
 private:
 	RasterizerState		m_rasterizer_state;
 	BlendState			m_blend_state;

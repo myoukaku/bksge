@@ -22,14 +22,15 @@ GTEST_TEST(Render_Geometry, BasicTest)
 		Geometry geometry;
 		auto const& layout = geometry.vertex_layout();
 
-		EXPECT_EQ(Primitive::kTriangles, geometry.primitive());
-		EXPECT_EQ(nullptr, geometry.vertex_array_data());
-		EXPECT_EQ(0u, geometry.vertex_array_bytes());
-		EXPECT_EQ(nullptr, geometry.index_array_data());
-		EXPECT_EQ(0u, geometry.index_array_bytes());
-		EXPECT_EQ(0u, geometry.index_array_count());
-		EXPECT_EQ(TypeEnum::kUnsignedShort, geometry.index_array_type());
-		EXPECT_EQ(0u, layout.total_bytes());
+		EXPECT_EQ(Primitive::kTriangles,    geometry.primitive());
+		EXPECT_EQ(nullptr,                  geometry.vertex_array_data());
+		EXPECT_EQ(0u,                       geometry.vertex_array_bytes());
+		EXPECT_EQ(0u,                       geometry.vertex_array_count());
+		EXPECT_EQ(nullptr,                  geometry.index_array_data());
+		EXPECT_EQ(0u,                       geometry.index_array_bytes());
+		EXPECT_EQ(0u,                       geometry.index_array_count());
+//		EXPECT_EQ(TypeEnum::kUnsignedShort, geometry.index_array_type());
+		EXPECT_EQ(0u,                       layout.total_bytes());
 	}
 
 	{
@@ -48,14 +49,37 @@ GTEST_TEST(Render_Geometry, BasicTest)
 		Geometry geometry(Primitive::kLines, vertex_array, index_array);
 		auto const& layout = geometry.vertex_layout();
 
-		EXPECT_EQ(Primitive::kLines, geometry.primitive());
-		EXPECT_NE(nullptr, geometry.vertex_array_data());
-		EXPECT_EQ(sizeof(vertex_array), geometry.vertex_array_bytes());
-		EXPECT_NE(nullptr, geometry.index_array_data());
-		EXPECT_EQ(sizeof(index_array), geometry.index_array_bytes());
-		EXPECT_EQ(2u, geometry.index_array_count());
+		EXPECT_EQ(Primitive::kLines,        geometry.primitive());
+		EXPECT_NE(nullptr,                  geometry.vertex_array_data());
+		EXPECT_EQ(sizeof(vertex_array),     geometry.vertex_array_bytes());
+		EXPECT_EQ(2u,                       geometry.vertex_array_count());
+		EXPECT_NE(nullptr,                  geometry.index_array_data());
+		EXPECT_EQ(sizeof(index_array),      geometry.index_array_bytes());
+		EXPECT_EQ(2u,                       geometry.index_array_count());
 		EXPECT_EQ(TypeEnum::kUnsignedShort, geometry.index_array_type());
-		EXPECT_EQ(sizeof(VertexType), layout.total_bytes());
+		EXPECT_EQ(sizeof(VertexType),       layout.total_bytes());
+	}
+
+	{
+		using VertexType = Vertex<VPosition, VColor, VNormal>;
+		const VertexType vertex_array[] =
+		{
+			{{{10, 11, 12}}, {{13, 14, 15, 16}}, {{17, 18, 19}}},
+			{{{20, 21, 22}}, {{23, 24, 25, 26}}, {{27, 28, 29}}},
+		};
+
+		Geometry geometry(Primitive::kLines, vertex_array);
+		auto const& layout = geometry.vertex_layout();
+
+		EXPECT_EQ(Primitive::kLines,        geometry.primitive());
+		EXPECT_NE(nullptr,                  geometry.vertex_array_data());
+		EXPECT_EQ(sizeof(vertex_array),     geometry.vertex_array_bytes());
+		EXPECT_EQ(2u,                       geometry.vertex_array_count());
+		EXPECT_EQ(nullptr,                  geometry.index_array_data());
+		EXPECT_EQ(0u,                       geometry.index_array_bytes());
+		EXPECT_EQ(0u,                       geometry.index_array_count());
+//		EXPECT_EQ(TypeEnum::kUnsignedShort, geometry.index_array_type());
+		EXPECT_EQ(sizeof(VertexType),       layout.total_bytes());
 	}
 
 	{
@@ -75,14 +99,38 @@ GTEST_TEST(Render_Geometry, BasicTest)
 		Geometry geometry(Primitive::kTriangles, vertex_array, index_array);
 		auto const& layout = geometry.vertex_layout();
 
-		EXPECT_EQ(Primitive::kTriangles, geometry.primitive());
-		EXPECT_NE(nullptr, geometry.vertex_array_data());
-		EXPECT_EQ(sizeof(vertex_array), geometry.vertex_array_bytes());
-		EXPECT_NE(nullptr, geometry.index_array_data());
-		EXPECT_EQ(sizeof(index_array), geometry.index_array_bytes());
-		EXPECT_EQ(3u, geometry.index_array_count());
+		EXPECT_EQ(Primitive::kTriangles,  geometry.primitive());
+		EXPECT_NE(nullptr,                geometry.vertex_array_data());
+		EXPECT_EQ(sizeof(vertex_array),   geometry.vertex_array_bytes());
+		EXPECT_EQ(3u,                     geometry.vertex_array_count());
+		EXPECT_NE(nullptr,                geometry.index_array_data());
+		EXPECT_EQ(sizeof(index_array),    geometry.index_array_bytes());
+		EXPECT_EQ(3u,                     geometry.index_array_count());
 		EXPECT_EQ(TypeEnum::kUnsignedInt, geometry.index_array_type());
-		EXPECT_EQ(sizeof(VertexType), layout.total_bytes());
+		EXPECT_EQ(sizeof(VertexType),     layout.total_bytes());
+	}
+
+	{
+		using VertexType = Vertex<VPosition, VNormal, VColor, VTexCoord>;
+		const VertexType vertex_array[] =
+		{
+			{{{10, 11, 12}}, {{13, 14, 15}}, {{16, 17, 18, 19}}, {{20, 21}}},
+			{{{20, 21, 22}}, {{23, 24, 25}}, {{26, 27, 28, 29}}, {{30, 31}}},
+			{{{30, 31, 32}}, {{33, 34, 35}}, {{36, 37, 38, 39}}, {{40, 41}}},
+		};
+
+		Geometry geometry(Primitive::kTriangles, vertex_array);
+		auto const& layout = geometry.vertex_layout();
+
+		EXPECT_EQ(Primitive::kTriangles,    geometry.primitive());
+		EXPECT_NE(nullptr,                  geometry.vertex_array_data());
+		EXPECT_EQ(sizeof(vertex_array),     geometry.vertex_array_bytes());
+		EXPECT_EQ(3u,                       geometry.vertex_array_count());
+		EXPECT_EQ(nullptr,                  geometry.index_array_data());
+		EXPECT_EQ(0u,                       geometry.index_array_bytes());
+		EXPECT_EQ(0u,                       geometry.index_array_count());
+//		EXPECT_EQ(TypeEnum::kUnsignedShort, geometry.index_array_type());
+		EXPECT_EQ(sizeof(VertexType),       layout.total_bytes());
 	}
 }
 
@@ -109,14 +157,15 @@ GTEST_TEST(Render_Geometry, CopyTest)
 
 		auto const& layout = geometry.vertex_layout();
 
-		EXPECT_EQ(Primitive::kLines, geometry.primitive());
-		EXPECT_NE(nullptr, geometry.vertex_array_data());
-		EXPECT_EQ(sizeof(vertex_array), geometry.vertex_array_bytes());
-		EXPECT_NE(nullptr, geometry.index_array_data());
-		EXPECT_EQ(sizeof(index_array), geometry.index_array_bytes());
-		EXPECT_EQ(2u, geometry.index_array_count());
+		EXPECT_EQ(Primitive::kLines,        geometry.primitive());
+		EXPECT_NE(nullptr,                  geometry.vertex_array_data());
+		EXPECT_EQ(sizeof(vertex_array),     geometry.vertex_array_bytes());
+		EXPECT_EQ(2u,                       geometry.vertex_array_count());
+		EXPECT_NE(nullptr,                  geometry.index_array_data());
+		EXPECT_EQ(sizeof(index_array),      geometry.index_array_bytes());
+		EXPECT_EQ(2u,                       geometry.index_array_count());
 		EXPECT_EQ(TypeEnum::kUnsignedShort, geometry.index_array_type());
-		EXPECT_EQ(sizeof(VertexType), layout.total_bytes());
+		EXPECT_EQ(sizeof(VertexType),       layout.total_bytes());
 	}
 	{
 		Geometry geometry;
@@ -140,14 +189,15 @@ GTEST_TEST(Render_Geometry, CopyTest)
 
 		auto const& layout = geometry.vertex_layout();
 
-		EXPECT_EQ(Primitive::kTriangles, geometry.primitive());
-		EXPECT_NE(nullptr, geometry.vertex_array_data());
-		EXPECT_EQ(sizeof(vertex_array), geometry.vertex_array_bytes());
-		EXPECT_NE(nullptr, geometry.index_array_data());
-		EXPECT_EQ(sizeof(index_array), geometry.index_array_bytes());
-		EXPECT_EQ(3u, geometry.index_array_count());
+		EXPECT_EQ(Primitive::kTriangles,  geometry.primitive());
+		EXPECT_NE(nullptr,                geometry.vertex_array_data());
+		EXPECT_EQ(sizeof(vertex_array),   geometry.vertex_array_bytes());
+		EXPECT_EQ(3u,                     geometry.vertex_array_count());
+		EXPECT_NE(nullptr,                geometry.index_array_data());
+		EXPECT_EQ(sizeof(index_array),    geometry.index_array_bytes());
+		EXPECT_EQ(3u,                     geometry.index_array_count());
 		EXPECT_EQ(TypeEnum::kUnsignedInt, geometry.index_array_type());
-		EXPECT_EQ(sizeof(VertexType), layout.total_bytes());
+		EXPECT_EQ(sizeof(VertexType),     layout.total_bytes());
 	}
 }
 

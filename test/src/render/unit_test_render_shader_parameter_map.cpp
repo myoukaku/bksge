@@ -9,6 +9,7 @@
 #include <bksge/render/shader_parameter_map.hpp>
 #include <bksge/render/detail/shader_parameter.hpp>
 #include <bksge/math/vector3.hpp>
+#include <bksge/math/vector4.hpp>
 #include <bksge/math/color4.hpp>
 #include <bksge/math/matrix4x4.hpp>
 #include <gtest/gtest.h>
@@ -51,6 +52,20 @@ GTEST_TEST(Render_ShaderParameterMap, BasicTest)
 		EXPECT_EQ(6.0f, p[3]);
 	}
 
+	// 値の更新
+	m.SetParameter("COLOR", bksge::Color4<float>(1, 2, 3, 4));
+	EXPECT_NE(nullptr, m["foo"]);
+	EXPECT_NE(nullptr, m["COLOR"]);
+	EXPECT_EQ(nullptr, m["Position"]);
+	{
+		auto const& param = m["COLOR"];
+		auto const* p = static_cast<const float*>(param->data());
+		EXPECT_EQ(1.0f, p[0]);
+		EXPECT_EQ(2.0f, p[1]);
+		EXPECT_EQ(3.0f, p[2]);
+		EXPECT_EQ(4.0f, p[3]);
+	}
+
 	m.SetParameter("Position", bksge::Vector3<float>(7, 8, 9));
 	EXPECT_NE(nullptr, m["foo"]);
 	EXPECT_NE(nullptr, m["COLOR"]);
@@ -61,6 +76,20 @@ GTEST_TEST(Render_ShaderParameterMap, BasicTest)
 		EXPECT_EQ(7.0f, p[0]);
 		EXPECT_EQ(8.0f, p[1]);
 		EXPECT_EQ(9.0f, p[2]);
+	}
+
+	// 違う型で作り直し
+	m.SetParameter("Position", bksge::Vector4<float>(10, 11, 12, 13));
+	EXPECT_NE(nullptr, m["foo"]);
+	EXPECT_NE(nullptr, m["COLOR"]);
+	EXPECT_NE(nullptr, m["Position"]);
+	{
+		auto const& param = m["Position"];
+		auto const* p = static_cast<const float*>(param->data());
+		EXPECT_EQ(10.0f, p[0]);
+		EXPECT_EQ(11.0f, p[1]);
+		EXPECT_EQ(12.0f, p[2]);
+		EXPECT_EQ(13.0f, p[3]);
 	}
 
 	// 大文字小文字は区別される

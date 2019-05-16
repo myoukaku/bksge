@@ -99,6 +99,22 @@ GTEST_TEST(Render_VertexLayout, MoveAssignTest)
 	EXPECT_NE(nullptr, l2.FindVertexAttributeBySemantic(Semantic::kTexCoord));
 }
 
+GTEST_TEST(Render_VertexLayout, VertexAttributeArrayTest)
+{
+	using namespace bksge;
+
+	VertexLayout l;
+	l.AddAttribute(render::MakeVertexAttribute<VPosition>(l.total_bytes()));
+	l.AddAttribute(render::MakeVertexAttribute<VNormal>  (l.total_bytes()));
+	l.AddAttribute(render::MakeVertexAttribute<VTexCoord>(l.total_bytes()));
+
+	auto const& vaa = l.vertex_attribute_array();
+	EXPECT_EQ(3u, vaa.size());
+	EXPECT_EQ(Semantic::kPosition, vaa[0].semantic());
+	EXPECT_EQ(Semantic::kNormal,   vaa[1].semantic());
+	EXPECT_EQ(Semantic::kTexCoord, vaa[2].semantic());
+}
+
 GTEST_TEST(Render_VertexLayout, CompareTest)
 {
 	using namespace bksge;

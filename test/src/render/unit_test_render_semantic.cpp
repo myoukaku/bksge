@@ -40,6 +40,29 @@ GTEST_TEST(Render_Semantic, StringToSemanticTest)
 }
 
 template <typename TChar>
+static void ToSemanticNameTestSub(bksge::Semantic semantic, const TChar* str)
+{
+	EXPECT_STREQ(str, bksge::render::ToSemanticName(semantic));
+}
+
+GTEST_TEST(Render_Semantic, ToSemanticNameTest)
+{
+	using bksge::Semantic;
+
+	ToSemanticNameTestSub(Semantic::kPosition,     "POSITION");
+	ToSemanticNameTestSub(Semantic::kNormal,       "NORMAL");
+	ToSemanticNameTestSub(Semantic::kColor,        "COLOR");
+	ToSemanticNameTestSub(Semantic::kTexCoord,     "TEXCOORD");
+	ToSemanticNameTestSub(Semantic::kFogCoord,     "FOGCOORD");
+	ToSemanticNameTestSub(Semantic::kPointSize,    "POINTSIZE");
+	ToSemanticNameTestSub(Semantic::kBlendWeight,  "BLENDWEIGHT");
+	ToSemanticNameTestSub(Semantic::kBlendIndices, "BLENDINDICES");
+	ToSemanticNameTestSub(Semantic::kTangent,      "TANGENT");
+	ToSemanticNameTestSub(Semantic::kBinormal,     "BINORMAL");
+	ToSemanticNameTestSub(Semantic::kUnknown,      "UNKNOWN");
+}
+
+template <typename TChar>
 static void OutputStreamTestSub(bksge::Semantic semantic, const TChar* str)
 {
 	std::basic_stringstream<TChar> ss;

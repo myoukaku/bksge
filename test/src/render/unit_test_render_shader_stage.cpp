@@ -16,7 +16,7 @@ namespace bksge_render_test
 namespace shader_stage_test
 {
 
-GTEST_TEST(Render_TextureFilter, ToStringTest)
+GTEST_TEST(Render_ShaderStage, ToStringTest)
 {
 	using namespace bksge;
 	EXPECT_EQ("ShaderStage::kVertex"					, to_string(ShaderStage::kVertex));
@@ -34,7 +34,7 @@ static void OutputStreamTestSub(bksge::ShaderStage shader_stage, const TChar* st
 	EXPECT_EQ(str, ss.str());
 }
 
-GTEST_TEST(Render_TextureFilter, OutputStreamTest)
+GTEST_TEST(Render_ShaderStage, OutputStreamTest)
 {
 	using namespace bksge;
 	OutputStreamTestSub(ShaderStage::kVertex					, "ShaderStage::kVertex");

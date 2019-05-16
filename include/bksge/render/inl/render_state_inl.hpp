@@ -30,6 +30,54 @@ RenderState::RenderState(void)
 {
 }
 
+BKSGE_INLINE RasterizerState const&
+RenderState::rasterizer_state(void) const
+{
+	return m_rasterizer_state;
+}
+
+BKSGE_INLINE BlendState const&
+RenderState::blend_state(void) const
+{
+	return m_blend_state;
+}
+
+BKSGE_INLINE DepthState const&
+RenderState::depth_state(void) const
+{
+	return m_depth_state;
+}
+
+BKSGE_INLINE StencilState const&
+RenderState::stencil_state(void) const
+{
+	return m_stencil_state;
+}
+
+BKSGE_INLINE RasterizerState&
+RenderState::rasterizer_state(void)
+{
+	return m_rasterizer_state;
+}
+
+BKSGE_INLINE BlendState&
+RenderState::blend_state(void)
+{
+	return m_blend_state;
+}
+
+BKSGE_INLINE DepthState&
+RenderState::depth_state(void)
+{
+	return m_depth_state;
+}
+
+BKSGE_INLINE StencilState&
+RenderState::stencil_state(void)
+{
+	return m_stencil_state;
+}
+
 }	// namespace render
 
 }	// namespace bksge
