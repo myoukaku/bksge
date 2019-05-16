@@ -18,6 +18,7 @@
 #include <bksge/math/matrix4x3.hpp>
 #include <bksge/math/matrix4x4.hpp>
 #include <bksge/math/quaternion.hpp>
+#include <bksge/math/rect.hpp>
 #include <bksge/math/scale.hpp>
 #include <bksge/math/scale2.hpp>
 #include <bksge/math/scale3.hpp>
