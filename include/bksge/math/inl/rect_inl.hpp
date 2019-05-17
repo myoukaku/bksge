@@ -107,7 +107,7 @@ Rect<T>::bottom(void) const
 }
 
 template <typename T>
-inline BKSGE_NODISCARD BKSGE_CONSTEXPR T const*
+BKSGE_NODISCARD inline BKSGE_CONSTEXPR T const*
 Rect<T>::data() const BKSGE_NOEXCEPT_OR_NOTHROW
 {
 	return &m_left;
