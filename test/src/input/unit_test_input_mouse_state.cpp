@@ -50,6 +50,7 @@ GTEST_TEST(InputTest, MouseState_ConstructTest)
 	EXPECT_EQ( 1.0f, d2.velocity(bksge::MouseAxis::kY));
 	EXPECT_EQ( 1.5f, d2.velocity(bksge::MouseAxis::kWheel));
 	EXPECT_EQ( 2.0f, d2.velocity(bksge::MouseAxis::kTilt));
+	EXPECT_TRUE(d.buttons() == d2.buttons());
 
 	// MouseStateはディープコピーされるので、dを変更してもd2には影響がない
 	d.pressed(bksge::MouseButton::kLeft)	= false;
@@ -86,6 +87,7 @@ GTEST_TEST(InputTest, MouseState_ConstructTest)
 	EXPECT_EQ( 1.0f, d2.velocity(bksge::MouseAxis::kY));
 	EXPECT_EQ( 1.5f, d2.velocity(bksge::MouseAxis::kWheel));
 	EXPECT_EQ( 2.0f, d2.velocity(bksge::MouseAxis::kTilt));
+	EXPECT_TRUE(d.buttons() != d2.buttons());
 
 	// 同様にd2を変更してもdには影響がない
 	d2.pressed(bksge::MouseButton::kLeft)	= false;
@@ -122,6 +124,7 @@ GTEST_TEST(InputTest, MouseState_ConstructTest)
 	EXPECT_EQ( 7.0f, d2.velocity(bksge::MouseAxis::kY));
 	EXPECT_EQ( 8.0f, d2.velocity(bksge::MouseAxis::kWheel));
 	EXPECT_EQ( 9.0f, d2.velocity(bksge::MouseAxis::kTilt));
+	EXPECT_TRUE(d.buttons() != d2.buttons());
 
 	bksge::MouseState const d3(d);
 	EXPECT_EQ(false, d3.pressed(bksge::MouseButton::kLeft));
@@ -136,6 +139,7 @@ GTEST_TEST(InputTest, MouseState_ConstructTest)
 	EXPECT_EQ( 2.0f, d3.velocity(bksge::MouseAxis::kY));
 	EXPECT_EQ(-3.0f, d3.velocity(bksge::MouseAxis::kWheel));
 	EXPECT_EQ( 5.0f, d3.velocity(bksge::MouseAxis::kTilt));
+	EXPECT_TRUE(d.buttons() == d3.buttons());
 }
 
 BKSGE_WARNING_PUSH()
