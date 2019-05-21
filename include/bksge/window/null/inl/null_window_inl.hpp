@@ -19,39 +19,39 @@ namespace window
 {
 
 BKSGE_INLINE
-NullWindow::NullWindow(SizeType const& /*client_size*/, std::string const& /*title*/)
+NullWindow::NullWindow(
+	SizeType const& client_size,
+	std::string const& title)
+	: Base(client_size, title)
 {}
 
 BKSGE_INLINE
 NullWindow::~NullWindow()
-{}
-
-BKSGE_INLINE
-void NullWindow::Destroy(void)
-{}
-
-BKSGE_INLINE
-void NullWindow::SetTitle(std::string const& /*title*/)
-{}
-
-BKSGE_INLINE
-void NullWindow::SetClientSize(SizeType const& /*size*/)
-{}
-
-BKSGE_INLINE
-auto NullWindow::ClientSize(void) const -> SizeType
 {
-	return SizeType{};
+	Destroy();
 }
 
-BKSGE_INLINE
-bool NullWindow::Update(void)
+BKSGE_INLINE void
+NullWindow::VDestroy(void)
+{}
+
+BKSGE_INLINE void
+NullWindow::VSetTitle(std::string const& /*title*/)
+{}
+
+BKSGE_INLINE void
+NullWindow::VSetClientSize(SizeType const& /*size*/)
+{}
+
+BKSGE_INLINE bool
+NullWindow::VUpdate(void)
 {
 	return true;
 }
 
-BKSGE_INLINE
-auto NullWindow::Handle(void) const -> HandleType
+BKSGE_INLINE auto
+NullWindow::handle(void) const
+-> HandleType
 {
 	return HandleType{};
 }

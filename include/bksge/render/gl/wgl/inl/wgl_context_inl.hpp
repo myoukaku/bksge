@@ -86,7 +86,7 @@ WglContext::WglContext(Window const& window)
 	, m_hdc(nullptr)
 	, m_hglrc(nullptr)
 {
-	m_hwnd = window.Handle();
+	m_hwnd = window.handle();
 	m_hdc = ::GetDC(m_hwnd);
 	wgl_context_detail::SetPixelFormat(m_hdc, 32);
 	m_hglrc = wglCreateContext(m_hdc);

@@ -10,8 +10,8 @@
 #define BKSGE_WINDOW_NULL_NULL_WINDOW_HPP
 
 #include <bksge/window/null/fwd/null_window_fwd.hpp>
+#include <bksge/window/detail/window_base.hpp>
 #include <bksge/math/size2.hpp>
-#include <cstdint>
 #include <string>
 
 namespace bksge
@@ -23,14 +23,12 @@ namespace window
 /**
  *	@brief
  */
-class NullWindow
+class NullWindow : public WindowBase
 {
-public:
-	/**
-	 *	@brief	幅と高さを表す型
-	 */
-	using SizeType = Size2<std::int32_t>;
+private:
+	using Base = WindowBase;
 
+public:
 	/**
 	 *	@brief	ネイティブハンドル
 	 */
@@ -50,36 +48,18 @@ public:
 	~NullWindow();
 
 	/**
-	 *	@brief	ウィンドウを破棄します
-	 */
-	void Destroy(void);
-
-	/**
-	 *	@brief	ウィンドウタイトルを設定します
-	 */
-	void SetTitle(std::string const& title);
-
-	/**
-	 *	@brief	ウィンドウのクライアント領域のサイズを設定します
-	 */
-	void SetClientSize(SizeType const& size);
-
-	/**
-	 *	@brief	ウィンドウのクライアント領域のサイズを取得します
-	 */
-	SizeType ClientSize(void) const;
-
-	/**
-	 *	@brief	ウィンドウメッセージを処理します
-	 *
-	 *	@return	ウィンドウが閉じられたときにfalseを返します。
-	 */
-	bool Update(void);
-
-	/**
 	 *	@brief	ウィンドウのプラットフォーム依存のハンドルを取得します
 	 */
-	HandleType Handle(void) const;
+	HandleType handle(void) const;
+
+private:
+	void VDestroy(void) override;
+
+	void VSetTitle(std::string const& title) override;
+
+	void VSetClientSize(SizeType const& size) override;
+
+	bool VUpdate(void) override;
 };
 
 }	// namespace window

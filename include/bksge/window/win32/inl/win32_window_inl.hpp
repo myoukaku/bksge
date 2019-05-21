@@ -186,7 +186,8 @@ inline void SetClientSize(HWND hwnd, Win32Window::SizeType const& size)
 
 BKSGE_INLINE
 Win32Window::Win32Window(SizeType const& client_size, std::string const& title)
-	: m_hwnd(nullptr)
+	: Base(client_size, title)
+	, m_hwnd(nullptr)
 {
 	m_hwnd = win32_window_detail::Create(client_size, title.c_str(), this);
 	win32::ShowWindow(m_hwnd, SW_SHOW);
@@ -198,8 +199,8 @@ Win32Window::~Win32Window()
 	Destroy();
 }
 
-BKSGE_INLINE
-void Win32Window::Destroy(void)
+BKSGE_INLINE void
+Win32Window::VDestroy(void)
 {
 	if (m_hwnd)
 	{
@@ -209,32 +210,20 @@ void Win32Window::Destroy(void)
 	m_hwnd = nullptr;
 }
 
-BKSGE_INLINE
-void Win32Window::SetTitle(std::string const& title)
+BKSGE_INLINE void
+Win32Window::VSetTitle(std::string const& title)
 {
 	win32::SetWindowText(m_hwnd, title.c_str());
 }
 
-BKSGE_INLINE
-void Win32Window::SetClientSize(SizeType const& size)
+BKSGE_INLINE void
+Win32Window::VSetClientSize(SizeType const& size)
 {
 	win32_window_detail::SetClientSize(m_hwnd, size);
 }
 
-BKSGE_INLINE
-auto Win32Window::ClientSize(void) const -> SizeType
-{
-	::RECT client_rect;
-	::GetClientRect(m_hwnd, &client_rect);
-	return SizeType
-	{
-		win32_window_detail::Width(client_rect),
-		win32_window_detail::Height(client_rect)
-	};
-}
-
-BKSGE_INLINE
-bool Win32Window::Update(void)
+BKSGE_INLINE bool
+Win32Window::VUpdate(void)
 {
 	::MSG msg;
 
@@ -255,8 +244,9 @@ bool Win32Window::Update(void)
 	return true;
 }
 
-BKSGE_INLINE
-auto Win32Window::Handle(void) const -> HandleType
+BKSGE_INLINE auto
+Win32Window::handle(void) const
+-> HandleType
 {
 	return m_hwnd;
 }

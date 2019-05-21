@@ -109,7 +109,7 @@ D3D12Renderer::Finalize(void)
 BKSGE_INLINE void
 D3D12Renderer::VSetRenderTarget(Window const& window)
 {
-	::HWND const hwnd = window.Handle();
+	::HWND const hwnd = window.handle();
 
 	if (hwnd == nullptr)
 	{

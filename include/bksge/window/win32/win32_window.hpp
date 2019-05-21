@@ -13,9 +13,9 @@
 #if defined(BKSGE_PLATFORM_WIN32)
 
 #include <bksge/window/win32/fwd/win32_window_fwd.hpp>
+#include <bksge/window/detail/window_base.hpp>
 #include <bksge/detail/win32.hpp>
 #include <bksge/math/size2.hpp>
-#include <cstdint>
 #include <string>
 
 namespace bksge
@@ -27,14 +27,12 @@ namespace window
 /**
  *	@brief
  */
-class Win32Window
+class Win32Window : public WindowBase
 {
-public:
-	/**
-	 *	@brief	幅と高さを表す型
-	 */
-	using SizeType = Size2<std::int32_t>;
+private:
+	using Base = WindowBase;
 
+public:
 	/**
 	 *	@brief	ネイティブハンドル
 	 */
@@ -54,36 +52,18 @@ public:
 	~Win32Window();
 
 	/**
-	 *	@brief	ウィンドウを破棄します
-	 */
-	void Destroy(void);
-
-	/**
-	 *	@brief	ウィンドウタイトルを設定します
-	 */
-	void SetTitle(std::string const& title);
-
-	/**
-	 *	@brief	ウィンドウのクライアント領域のサイズを設定します
-	 */
-	void SetClientSize(SizeType const& size);
-
-	/**
-	 *	@brief	ウィンドウのクライアント領域のサイズを取得します
-	 */
-	SizeType ClientSize(void) const;
-
-	/**
-	 *	@brief	ウィンドウメッセージを処理します
-	 *
-	 *	@return	ウィンドウが閉じられたときにfalseを返します。
-	 */
-	bool Update(void);
-
-	/**
 	 *	@brief	ウィンドウのプラットフォーム依存のハンドルを取得します
 	 */
-	HandleType Handle(void) const;
+	HandleType handle(void) const;
+
+private:
+	void VDestroy(void) override;
+
+	void VSetTitle(std::string const& title) override;
+
+	void VSetClientSize(SizeType const& size) override;
+
+	bool VUpdate(void) override;
 
 private:
 	HandleType	m_hwnd;

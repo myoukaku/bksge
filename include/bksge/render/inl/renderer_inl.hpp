@@ -40,12 +40,12 @@ void Renderer::SetRenderTarget(Window const& window)
 
 	if (!m_viewport)
 	{
-		SetViewport(Rectf(Vector2f(0,0), Size2f(window.ClientSize())));
+		SetViewport(Rectf(Vector2f(0,0), Size2f(window.client_size())));
 	}
 
 	if (!m_scissor)
 	{
-		SetScissor(Rectf(Vector2f(0,0), Size2f(window.ClientSize())));
+		SetScissor(Rectf(Vector2f(0,0), Size2f(window.client_size())));
 	}
 }
 
