@@ -17,7 +17,7 @@
  *	TODO
  */
 #if !defined(BKSGE_RENDER_HAS_D3D12_RENDERER)
-#	if defined(BKSGE_PLATFORM_WIN32) && BKSGE_HAS_INCLUDE(<d3d12.h>)
+#	if defined(BKSGE_PLATFORM_WIN32) && BKSGE_HAS_INCLUDE(<d3d12.h>) && !defined(__MINGW32__)
 #		define BKSGE_RENDER_HAS_D3D12_RENDERER	1
 #	else
 #		define BKSGE_RENDER_HAS_D3D12_RENDERER	0
@@ -30,7 +30,7 @@
  *	TODO
  */
 #if !defined(BKSGE_RENDER_HAS_D3D11_RENDERER)
-#	if defined(BKSGE_PLATFORM_WIN32) && BKSGE_HAS_INCLUDE(<d3d11_1.h>)
+#	if defined(BKSGE_PLATFORM_WIN32) && BKSGE_HAS_INCLUDE(<d3d11_1.h>) && !defined(__MINGW32__)
 #		define BKSGE_RENDER_HAS_D3D11_RENDERER	1
 #	else
 #		define BKSGE_RENDER_HAS_D3D11_RENDERER	0
@@ -43,7 +43,7 @@
  *	TODO
  */
 #if !defined(BKSGE_RENDER_HAS_DXGI)
-#	if defined(BKSGE_PLATFORM_WIN32) && BKSGE_HAS_INCLUDE(<dxgi1_5.h>)
+#	if defined(BKSGE_PLATFORM_WIN32) && BKSGE_HAS_INCLUDE(<dxgi1_5.h>) && !defined(__MINGW32__)
 #		define BKSGE_RENDER_HAS_DXGI	1
 #	else
 #		define BKSGE_RENDER_HAS_DXGI	0

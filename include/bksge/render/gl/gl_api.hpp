@@ -33,6 +33,8 @@
 #  define GLX_GLXEXT_PROTOTYPES
 #  include <GL/glx.h>
 #  include <GL/glxext.h>
+#  undef None
+#  undef Bool
 #endif
 
 #if defined(BKSGE_HEADER_ONLY)
