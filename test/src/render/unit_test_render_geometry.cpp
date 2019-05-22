@@ -268,7 +268,7 @@ GTEST_TEST(Render_Geometry, CompareTest)
 	const Geometry geometry_11(Primitive::kLines, vertex_array_6, index_array_1);
 	const Geometry geometry_12(Primitive::kPoints, vertex_array_1, index_array_1);
 	const Geometry geometry_13(Primitive::kTriangles, vertex_array_1, index_array_1);
-	const Geometry geometry_14;
+	const Geometry geometry_14(Primitive::kLines, vertex_array_1);
 
 	EXPECT_TRUE (geometry_1 == geometry_1);
 	EXPECT_TRUE (geometry_1 == geometry_2);
