@@ -28,7 +28,6 @@ GTEST_TEST(RenderTest, NullRendererTest)
 
 //	renderer.SetRenderTarget(window);
 	renderer.SetViewport({});
-	renderer.SetScissor({});
 	renderer.SetClearFlag(bksge::ClearFlag::kAll);
 	renderer.SetClearColor({});
 	renderer.Begin();

@@ -30,6 +30,7 @@
 #include <bksge/render/renderer.hpp>
 #include <bksge/render/render_state.hpp>
 #include <bksge/render/sampler.hpp>
+#include <bksge/render/scissor_state.hpp>
 #include <bksge/render/semantic.hpp>
 #include <bksge/render/shader.hpp>
 #include <bksge/render/shader_map.hpp>

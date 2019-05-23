@@ -47,9 +47,18 @@ public:
 	void SetViewport(Rectf const& viewport);
 
 	/**
-	 *	@brief	シザー矩形を設定します
+	 *	@brief	レンダリングターゲットのクリアフラグを設定します。
+	 *
+	 *	@param	clear_flag	ClearFlagの論理和を設定します
 	 */
-	void SetScissor(Rectf const& scissor);
+	void SetClearFlag(ClearFlag clear_flag);
+
+	/**
+	 *	@brief	レンダリングターゲットをクリアする色を設定します。
+	 *
+	 *	@param	clear_color	クリアする色
+	 */
+	void SetClearColor(Color4f const& clear_color);
 
 	/**
 	 *	@brief	レンダリングを開始します
@@ -80,20 +89,6 @@ public:
 		ShaderParameterMap const& shader_parameter_map,
 		RenderState const& render_state);
 
-	/**
-	 *	@brief	レンダリングターゲットのクリアフラグを設定します。
-	 *
-	 *	@param	clear_flag	ClearFlagの論理和を設定します
-	 */
-	void SetClearFlag(ClearFlag clear_flag);
-
-	/**
-	 *	@brief	レンダリングターゲットをクリアする色を設定します。
-	 *
-	 *	@param	clear_color	クリアする色
-	 */
-	void SetClearColor(Color4f const& clear_color);
-
 private:
 	virtual void VSetRenderTarget(Window const& window) = 0;
 
@@ -113,7 +108,6 @@ protected:
 	ClearFlag					m_clear_flag;
 	Color4f						m_clear_color;
 	std::unique_ptr<Rectf>		m_viewport;
-	std::unique_ptr<Rectf>		m_scissor;
 };
 
 }	// namespace render

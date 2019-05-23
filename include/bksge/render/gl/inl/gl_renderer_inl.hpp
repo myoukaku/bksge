@@ -99,16 +99,6 @@ void GlRenderer::VBegin(void)
 			static_cast<GLsizei>(m_viewport->width()),
 			static_cast<GLsizei>(m_viewport->height()));
 	}
-
-	if (m_scissor)
-	{
-		::glEnable(GL_SCISSOR_TEST);
-		::glScissor(
-			static_cast<GLint>(m_scissor->left()),
-			static_cast<GLint>(height - m_scissor->bottom()),//m_scissor->top()),
-			static_cast<GLsizei>(m_scissor->width()),
-			static_cast<GLsizei>(m_scissor->height()));
-	}
 }
 
 BKSGE_INLINE
@@ -167,6 +157,27 @@ void GlRenderer::VRender(
 	ShaderParameterMap const& shader_parameter_map,
 	RenderState const& render_state)
 {
+//	int const width  = 800;	// TODO
+	int const height = 600;	// TODO
+
+	{
+		auto const& scissor = render_state.scissor_state();
+		if (scissor.enable())
+		{
+			auto const& rect = scissor.rect();
+			::glEnable(GL_SCISSOR_TEST);
+			::glScissor(
+				static_cast<GLint>(rect.left()),
+				static_cast<GLint>(height - rect.bottom()),//rect.top()),
+				static_cast<GLsizei>(rect.width()),
+				static_cast<GLsizei>(rect.height()));
+		}
+		else
+		{
+			::glDisable(GL_SCISSOR_TEST);
+		}
+	}
+
 	auto* shader = shader_map.GetShader(ShaderType::kGLSL);
 	if (shader == nullptr)
 	{

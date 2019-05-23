@@ -105,27 +105,6 @@ D3D11Renderer::VSetRenderTarget(Window const& window)
 		1,
 		m_render_target->GetView().GetAddressOf(),
 		nullptr/*m_depth_stencil->GetView()*/);
-
-
-	//
-	{
-		::D3D11_RASTERIZER_DESC rd;
-		rd.FillMode              = D3D11_FILL_SOLID;
-		rd.CullMode              = D3D11_CULL_BACK;
-		rd.FrontCounterClockwise = TRUE;
-		rd.DepthBias             = 0;
-		rd.DepthBiasClamp        = 0;
-		rd.SlopeScaledDepthBias  = 0;
-		rd.ScissorEnable         = TRUE;
-		rd.MultisampleEnable     = FALSE;
-		rd.AntialiasedLineEnable = FALSE;
-
-		// ラスタライザーステートを生成して設定
-		ComPtr<::ID3D11RasterizerState> state =
-			m_device->CreateRasterizerState(&rd);
-
-		m_device_context->RSSetState(state.Get());
-	}
 }
 
 BKSGE_INLINE void
@@ -142,16 +121,6 @@ D3D11Renderer::VBegin(void)
 		vp.MinDepth = D3D11_MIN_DEPTH;
 		vp.MaxDepth = D3D11_MAX_DEPTH;
 		m_device_context->RSSetViewports(1, &vp);
-	}
-
-	if (m_scissor)
-	{
-		::D3D11_RECT scissor_rect;
-		scissor_rect.left   = static_cast<::LONG>(m_scissor->left());
-		scissor_rect.top    = static_cast<::LONG>(m_scissor->top());
-		scissor_rect.right  = static_cast<::LONG>(m_scissor->right());
-		scissor_rect.bottom = static_cast<::LONG>(m_scissor->bottom());
-		m_device_context->RSSetScissorRects(1, &scissor_rect);
 	}
 
 	m_device_context->OMSetRenderTargets(
@@ -202,6 +171,36 @@ D3D11Renderer::VRender(
 {
 	// TODO
 	(void)render_state;
+
+	//
+	{
+		::D3D11_RASTERIZER_DESC rd;
+		rd.FillMode              = D3D11_FILL_SOLID;
+		rd.CullMode              = D3D11_CULL_BACK;
+		rd.FrontCounterClockwise = TRUE;
+		rd.DepthBias             = 0;
+		rd.DepthBiasClamp        = 0;
+		rd.SlopeScaledDepthBias  = 0;
+		rd.ScissorEnable         = render_state.scissor_state().enable() ? TRUE : FALSE;
+		rd.MultisampleEnable     = FALSE;
+		rd.AntialiasedLineEnable = FALSE;
+
+		// ラスタライザーステートを生成して設定
+		ComPtr<::ID3D11RasterizerState> state =
+			m_device->CreateRasterizerState(&rd);
+
+		m_device_context->RSSetState(state.Get());
+	}
+
+	{
+		auto const& scissor = render_state.scissor_state();
+		::D3D11_RECT scissor_rect;
+		scissor_rect.left   = static_cast<::LONG>(scissor.rect().left());
+		scissor_rect.top    = static_cast<::LONG>(scissor.rect().top());
+		scissor_rect.right  = static_cast<::LONG>(scissor.rect().right());
+		scissor_rect.bottom = static_cast<::LONG>(scissor.rect().bottom());
+		m_device_context->RSSetScissorRects(1, &scissor_rect);
+	}
 
 	auto* shader = shader_map.GetShader(ShaderType::kHLSL);
 	if (shader == nullptr)

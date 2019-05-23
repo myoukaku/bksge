@@ -14,6 +14,7 @@
 #include <bksge/render/blend_state.hpp>
 #include <bksge/render/depth_state.hpp>
 #include <bksge/render/stencil_state.hpp>
+#include <bksge/render/scissor_state.hpp>
 
 namespace bksge
 {
@@ -33,17 +34,20 @@ public:
 	BlendState const&		blend_state(void) const;
 	DepthState const&		depth_state(void) const;
 	StencilState const&		stencil_state(void) const;
+	ScissorState const&		scissor_state(void) const;
 
 	RasterizerState&	rasterizer_state(void);
 	BlendState&			blend_state(void);
 	DepthState&			depth_state(void);
 	StencilState&		stencil_state(void);
+	ScissorState&		scissor_state(void);
 
 private:
 	RasterizerState		m_rasterizer_state;
 	BlendState			m_blend_state;
 	DepthState			m_depth_state;
 	StencilState		m_stencil_state;
+	ScissorState		m_scissor_state;
 };
 
 }	// namespace render

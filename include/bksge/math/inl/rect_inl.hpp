@@ -12,6 +12,7 @@
 #include <bksge/math/rect.hpp>
 #include <bksge/math/vector2.hpp>
 #include <bksge/math/size2.hpp>
+#include <algorithm>
 
 namespace bksge
 {

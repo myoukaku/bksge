@@ -26,7 +26,6 @@ Renderer::Renderer(void)
 	: m_clear_flag(ClearFlag::kAll)
 	, m_clear_color(0, 0, 0, 0)
 	, m_viewport()
-	, m_scissor()
 {}
 
 BKSGE_INLINE
@@ -41,11 +40,6 @@ void Renderer::SetRenderTarget(Window const& window)
 	if (!m_viewport)
 	{
 		SetViewport(Rectf(Vector2f(0,0), Size2f(window.client_size())));
-	}
-
-	if (!m_scissor)
-	{
-		SetScissor(Rectf(Vector2f(0,0), Size2f(window.client_size())));
 	}
 }
 
@@ -62,17 +56,16 @@ Renderer::SetViewport(Rectf const& viewport)
 	}
 }
 
-BKSGE_INLINE void
-Renderer::SetScissor(Rectf const& scissor)
+BKSGE_INLINE
+void Renderer::SetClearFlag(ClearFlag clear_flag)
 {
-	if (!m_scissor)
-	{
-		m_scissor = bksge::make_unique<Rectf>(scissor);
-	}
-	else
-	{
-		*m_scissor = scissor;
-	}
+	m_clear_flag = clear_flag;
+}
+
+BKSGE_INLINE
+void Renderer::SetClearColor(Color4f const& clear_color)
+{
+	m_clear_color = clear_color;
 }
 
 BKSGE_INLINE
@@ -101,18 +94,6 @@ void Renderer::Render(
 	RenderState const& render_state)
 {
 	VRender(geometry, shader_map, shader_parameter_map, render_state);
-}
-
-BKSGE_INLINE
-void Renderer::SetClearFlag(ClearFlag clear_flag)
-{
-	m_clear_flag = clear_flag;
-}
-
-BKSGE_INLINE
-void Renderer::SetClearColor(Color4f const& clear_color)
-{
-	m_clear_color = clear_color;
 }
 
 }	// namespace render

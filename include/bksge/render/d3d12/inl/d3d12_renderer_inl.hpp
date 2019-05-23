@@ -46,6 +46,9 @@
 #include <bksge/window/window.hpp>
 #include <bksge/detail/win32.hpp>
 #include <bksge/functional/hash_combine.hpp>
+#include <bksge/math/rect.hpp>
+#include <bksge/math/vector2.hpp>
+#include <bksge/math/size2.hpp>
 #include <bksge/assert.hpp>
 
 #include <unordered_map>
@@ -154,16 +157,6 @@ D3D12Renderer::VBegin(void)
 		m_command_list->RSSetViewports(1, &viewport);
 	}
 
-	if (m_scissor)
-	{
-		::D3D12_RECT scissor_rect;
-		scissor_rect.left   = static_cast<::LONG>(m_scissor->left());
-		scissor_rect.top    = static_cast<::LONG>(m_scissor->top());
-		scissor_rect.right  = static_cast<::LONG>(m_scissor->right());
-		scissor_rect.bottom = static_cast<::LONG>(m_scissor->bottom());
-		m_command_list->RSSetScissorRects(1, &scissor_rect);
-	}
-
 	// Indicate that the back buffer will be used as a render target.
 	m_command_list->ResourceBarrier(
 		m_render_target->GetResource(m_frameIndex),
@@ -224,6 +217,22 @@ D3D12Renderer::VRender(
 {
 	// TODO
 	(void)render_state;
+
+	{
+		auto const& scissor = render_state.scissor_state();
+		auto const rect = 
+			scissor.enable() ?
+			scissor.rect() :
+			m_viewport ?
+			*m_viewport :
+			Rectf(Vector2f{0, 0}, Size2f{100000, 100000});	// TODO フレームバッファの解像度にする
+		::D3D12_RECT scissor_rect;
+		scissor_rect.left   = static_cast<::LONG>(rect.left());
+		scissor_rect.top    = static_cast<::LONG>(rect.top());
+		scissor_rect.right  = static_cast<::LONG>(rect.right());
+		scissor_rect.bottom = static_cast<::LONG>(rect.bottom());
+		m_command_list->RSSetScissorRects(1, &scissor_rect);
+	}
 
 	auto* shader = shader_map.GetShader(ShaderType::kHLSL);
 	if (shader == nullptr)

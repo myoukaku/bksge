@@ -115,7 +115,6 @@ int main()
 	for (auto& renderer : renderers)
 	{
 		renderer->SetViewport(viewport);
-		renderer->SetScissor({bksge::Vector2f{0, 0}, size});
 		renderer->SetClearColor({0.5f, 0.0f, 0.5f, 1});
 	}
 

@@ -70,7 +70,6 @@ static bksge::Shader GetHLSLShader(void)
 int main()
 {
 	bksge::Size2f size{800, 600};
-	bksge::Rectf scissor({bksge::Vector2f{0, 0}, size});
 
 	std::vector<std::shared_ptr<bksge::Renderer>>	renderers;
 	std::vector<std::shared_ptr<bksge::Window>>		windows;
@@ -133,6 +132,8 @@ int main()
 	bksge::ShaderParameterMap shader_parameter;
 
 	bksge::RenderState render_state;
+	render_state.scissor_state().SetEnable(true);
+	render_state.scissor_state().SetRect({bksge::Vector2f{0, 0}, size});
 
 	bksge::KeyboardManager keyboard;
 
@@ -148,7 +149,6 @@ int main()
 
 		for (auto& renderer : renderers)
 		{
-			renderer->SetScissor(scissor);
 			renderer->Begin();
 			renderer->Clear();
 			renderer->Render(
@@ -161,8 +161,10 @@ int main()
 
 		keyboard.Update();
 		{
-			bksge::Vector2f p1{scissor.left(), scissor.top()};
-			bksge::Vector2f p2{scissor.right(), scissor.bottom()};
+			auto& scissor_state = render_state.scissor_state();
+			auto& scissor_rect = scissor_state.rect();
+			bksge::Vector2f p1{scissor_rect.left(), scissor_rect.top()};
+			bksge::Vector2f p2{scissor_rect.right(), scissor_rect.bottom()};
 			const float v = 2.0f;
 
 			auto const& state = keyboard.state(0);
@@ -186,7 +188,15 @@ int main()
 				p->y() += v;
 			}
 
-			scissor = bksge::Rectf(p1, p2);
+			if (state.pressed(bksge::KeyCode::kA))
+			{
+				scissor_state.SetEnable(false);
+			}
+			if (state.pressed(bksge::KeyCode::kS))
+			{
+				scissor_state.SetEnable(true);
+			}
+			scissor_state.SetRect({p1, p2});
 		}
 	}
 
