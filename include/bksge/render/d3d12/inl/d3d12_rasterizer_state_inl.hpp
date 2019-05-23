@@ -13,7 +13,10 @@
 #if BKSGE_RENDER_HAS_D3D12_RENDERER
 
 #include <bksge/render/d3d12/d3d12_rasterizer_state.hpp>
+#include <bksge/render/d3d12/d3d12_fill_mode.hpp>
+#include <bksge/render/d3d12/d3d12_cull_mode.hpp>
 #include <bksge/render/d3d_common/d3d12.hpp>
+#include <bksge/render/rasterizer_state.hpp>
 
 namespace bksge
 {
@@ -22,12 +25,12 @@ namespace render
 {
 
 BKSGE_INLINE
-D3D12RasterizerState::D3D12RasterizerState()
+D3D12RasterizerState::D3D12RasterizerState(RasterizerState const& state)
 	: m_desc{}
 {
-	m_desc.FillMode              = D3D12_FILL_MODE_SOLID;
-	m_desc.CullMode              = D3D12_CULL_MODE_NONE;
-	m_desc.FrontCounterClockwise = false;
+	m_desc.FillMode              = ToD3D12FillMode(state.fill_mode());
+	m_desc.CullMode              = ToD3D12CullMode(state.cull_mode());
+	m_desc.FrontCounterClockwise = (state.front_face() == FrontFace::kCounterClockwise);
 	m_desc.DepthBias             = D3D12_DEFAULT_DEPTH_BIAS;
 	m_desc.DepthBiasClamp        = D3D12_DEFAULT_DEPTH_BIAS_CLAMP;
 	m_desc.SlopeScaledDepthBias  = D3D12_DEFAULT_SLOPE_SCALED_DEPTH_BIAS;

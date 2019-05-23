@@ -10,6 +10,7 @@
 #define BKSGE_RENDER_D3D12_D3D12_RASTERIZER_STATE_HPP
 
 #include <bksge/render/d3d_common/d3d12.hpp>
+#include <bksge/render/fwd/rasterizer_state_fwd.hpp>
 
 namespace bksge
 {
@@ -20,7 +21,7 @@ namespace render
 class D3D12RasterizerState
 {
 public:
-	D3D12RasterizerState();
+	explicit D3D12RasterizerState(RasterizerState const& state);
 
 	operator ::D3D12_RASTERIZER_DESC() const;
 

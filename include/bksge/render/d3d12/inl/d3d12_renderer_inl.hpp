@@ -242,30 +242,7 @@ D3D12Renderer::VRender(
 
 	auto hlsl_program = GetD3D12HLSLProgram(*shader);
 
-	auto pipeline_state = GetD3D12PipelineState(*shader, geometry.primitive());
-
-	//if (!m_pipelineState)
-	//{
-	//	D3D12RasterizerState   raster_state;
-	//	D3D12BlendState        blend_state;
-	//	D3D12DepthStencilState depth_stencil_state;
-
-	//	::D3D12_GRAPHICS_PIPELINE_STATE_DESC desc = {};
-	//	desc.InputLayout           = hlsl_program->GetInputLayout();
-	//	desc.pRootSignature        = hlsl_program->GetRootSignature();
-	//	desc.VS                    = hlsl_program->GetVertexShaderBytecode();
-	//	desc.PS                    = hlsl_program->GetPixelShaderBytecode();
-	//	desc.RasterizerState       = raster_state;
-	//	desc.BlendState            = blend_state;
-	//	desc.DepthStencilState     = depth_stencil_state;
-	//	desc.SampleMask            = UINT_MAX;
-	//	desc.PrimitiveTopologyType = ToD3D12PrimitiveTopologyType(geometry.primitive());
-	//	desc.NumRenderTargets      = 1;
-	//	desc.RTVFormats[0]         = DXGI_FORMAT_R8G8B8A8_UNORM;
-	//	desc.SampleDesc.Count      = 1;
-
-	//	m_pipelineState = m_device->CreateGraphicsPipelineState(desc);
-	//}
+	auto pipeline_state = GetD3D12PipelineState(*shader, render_state.rasterizer_state(), geometry.primitive());
 
 	m_command_list->SetGraphicsRootSignature(hlsl_program->GetRootSignature());
 	//m_command_list->SetPipelineState(m_pipelineState.Get());
@@ -336,13 +313,16 @@ D3D12Renderer::GetD3D12Geometry(Geometry const& geometry)
 BKSGE_INLINE std::shared_ptr<D3D12PipelineState>
 D3D12Renderer::GetD3D12PipelineState(
 	Shader const& shader,
+	RasterizerState const& rasterizer_state,
 	Primitive primitive)
 {
+	auto const id = bksge::hash_combine(shader.id(), rasterizer_state, primitive);
 	return d3d12_detail::GetOrCreate<D3D12PipelineState>(
 		m_d3d12_pipeline_state,
-		bksge::hash_combine(shader.id(), primitive),
+		id,
 		m_device.get(),
 		*GetD3D12HLSLProgram(shader),
+		rasterizer_state,
 		primitive);
 }
 

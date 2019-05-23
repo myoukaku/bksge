@@ -15,6 +15,7 @@
 #include <bksge/render/d3d12/fwd/d3d12_command_list_fwd.hpp>
 #include <bksge/render/d3d_common/com_ptr.hpp>
 #include <bksge/render/d3d_common/d3d12.hpp>
+#include <bksge/render/fwd/rasterizer_state_fwd.hpp>
 #include <bksge/render/fwd/primitive_fwd.hpp>
 
 namespace bksge
@@ -29,6 +30,7 @@ public:
 	D3D12PipelineState(
 		D3D12Device* device,
 		D3D12HLSLProgram const& hlsl_program,
+		RasterizerState const& rasterizer_state,
 		Primitive primitive);
 
 	~D3D12PipelineState();

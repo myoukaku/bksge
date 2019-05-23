@@ -51,4 +51,25 @@ private:
 #include <bksge/render/inl/rasterizer_state_inl.hpp>
 #endif
 
+#include <functional>
+#include <type_traits>
+#include <bksge/functional/hash_combine.hpp>
+
+namespace std
+{
+
+template<>
+struct hash<bksge::render::RasterizerState>
+{
+	std::size_t operator()(bksge::render::RasterizerState const& arg) const
+	{
+		return bksge::hash_combine(
+			arg.fill_mode(),
+			arg.cull_mode(),
+			arg.front_face());
+	}
+};
+
+}	// namespace std
+
 #endif // BKSGE_RENDER_RASTERIZER_STATE_HPP

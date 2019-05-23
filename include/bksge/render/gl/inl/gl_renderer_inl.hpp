@@ -187,10 +187,21 @@ void GlRenderer::VRender(
 	auto glsl_program = GetGlGLSLProgram(*shader);
 	BKSGE_ASSERT(glsl_program != nullptr);
 
-	(void)render_state;
-	//glEnable(GL_CULL_FACE);
-	//glFrontFace(GL_CCW);
-	//glCullFace(GL_BACK);
+	auto const& rasterizer_state = render_state.rasterizer_state();
+	auto const& cull_mode = rasterizer_state.cull_mode();
+	auto const& front_face = rasterizer_state.front_face();
+
+	if (cull_mode == CullMode::kNone)
+	{
+		glDisable(GL_CULL_FACE);
+	}
+	else
+	{
+		glEnable(GL_CULL_FACE);
+		glCullFace(cull_mode == CullMode::kBack ? GL_BACK : GL_FRONT);
+	}
+
+	glFrontFace(front_face == FrontFace::kClockwise ? GL_CW : GL_CCW);
 
 	auto gl_geometry = GetGlGeometry(geometry);
 	glsl_program->Render(gl_geometry.get(), shader_parameter_map);

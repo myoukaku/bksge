@@ -19,6 +19,8 @@
 #include <bksge/render/d3d11/d3d11_depth_stencil.hpp>
 #include <bksge/render/d3d11/d3d11_hlsl_program.hpp>
 #include <bksge/render/d3d11/d3d11_geometry.hpp>
+#include <bksge/render/d3d11/d3d11_fill_mode.hpp>
+#include <bksge/render/d3d11/d3d11_cull_mode.hpp>
 //#include <bksge/render/d3d11/d3d11_texture.hpp>
 //#include <bksge/render/d3d11/d3d11_sampler.hpp>
 #include <bksge/render/d3d_common/d3d11.hpp>
@@ -174,14 +176,17 @@ D3D11Renderer::VRender(
 
 	//
 	{
+		auto const& rasterizer_state = render_state.rasterizer_state();
+		auto const& scissor_state = render_state.scissor_state();
+
 		::D3D11_RASTERIZER_DESC rd;
-		rd.FillMode              = D3D11_FILL_SOLID;
-		rd.CullMode              = D3D11_CULL_BACK;
-		rd.FrontCounterClockwise = TRUE;
+		rd.FillMode              = ToD3D11FillMode(rasterizer_state.fill_mode());
+		rd.CullMode              = ToD3D11CullMode(rasterizer_state.cull_mode());
+		rd.FrontCounterClockwise = (rasterizer_state.front_face() == FrontFace::kCounterClockwise);
 		rd.DepthBias             = 0;
 		rd.DepthBiasClamp        = 0;
 		rd.SlopeScaledDepthBias  = 0;
-		rd.ScissorEnable         = render_state.scissor_state().enable() ? TRUE : FALSE;
+		rd.ScissorEnable         = scissor_state.enable() ? TRUE : FALSE;
 		rd.MultisampleEnable     = FALSE;
 		rd.AntialiasedLineEnable = FALSE;
 

@@ -22,6 +22,7 @@
 #include <bksge/render/d3d12/d3d12_command_list.hpp>
 #include <bksge/render/d3d_common/d3d12.hpp>
 #include <bksge/render/d3d_common/dxgiformat.hpp>
+#include <bksge/render/rasterizer_state.hpp>
 
 namespace bksge
 {
@@ -33,9 +34,10 @@ BKSGE_INLINE
 D3D12PipelineState::D3D12PipelineState(
 	D3D12Device* device,
 	D3D12HLSLProgram const& hlsl_program,
+	RasterizerState const& rasterizer_state,
 	Primitive primitive)
 {
-	D3D12RasterizerState   raster_state;
+	D3D12RasterizerState   raster_state(rasterizer_state);
 	D3D12BlendState        blend_state;
 	D3D12DepthStencilState depth_stencil_state;
 
