@@ -1408,11 +1408,20 @@ TYPED_TEST(MathMatrix3x3Test, ZeroTest)
 	using Matrix3x3 = bksge::math::Matrix3x3<T>;
 	using Vector3 = bksge::math::Vector3<T>;
 
-	BKSGE_CONSTEXPR_OR_CONST auto m = Matrix3x3::Zero();
-	static_assert(std::is_same<decltype(m), const Matrix3x3>::value, "");
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 0, 0), m[0]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 0, 0), m[1]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 0, 0), m[2]);
+	{
+		BKSGE_CONSTEXPR_OR_CONST auto m = Matrix3x3::Zero();
+		static_assert(std::is_same<decltype(m), const Matrix3x3>::value, "");
+		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 0, 0), m[0]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 0, 0), m[1]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 0, 0), m[2]);
+	}
+	{
+		const auto m = Matrix3x3::Zero();
+		static_assert(std::is_same<decltype(m), const Matrix3x3>::value, "");
+		EXPECT_EQ(Vector3(0, 0, 0), m[0]);
+		EXPECT_EQ(Vector3(0, 0, 0), m[1]);
+		EXPECT_EQ(Vector3(0, 0, 0), m[2]);
+	}
 }
 
 TYPED_TEST(MathMatrix3x3Test, IdentityTest)
@@ -1421,11 +1430,20 @@ TYPED_TEST(MathMatrix3x3Test, IdentityTest)
 	using Matrix3x3 = bksge::math::Matrix3x3<T>;
 	using Vector3 = bksge::math::Vector3<T>;
 
-	BKSGE_CONSTEXPR_OR_CONST auto m = Matrix3x3::Identity();
-	static_assert(std::is_same<decltype(m), const Matrix3x3>::value, "");
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(1, 0, 0), m[0]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 1, 0), m[1]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 0, 1), m[2]);
+	{
+		BKSGE_CONSTEXPR_OR_CONST auto m = Matrix3x3::Identity();
+		static_assert(std::is_same<decltype(m), const Matrix3x3>::value, "");
+		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(1, 0, 0), m[0]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 1, 0), m[1]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 0, 1), m[2]);
+	}
+	{
+		const auto m = Matrix3x3::Identity();
+		static_assert(std::is_same<decltype(m), const Matrix3x3>::value, "");
+		EXPECT_EQ(Vector3(1, 0, 0), m[0]);
+		EXPECT_EQ(Vector3(0, 1, 0), m[1]);
+		EXPECT_EQ(Vector3(0, 0, 1), m[2]);
+	}
 }
 
 TYPED_TEST(MathMatrix3x3Test, TransposedTest)
@@ -1633,17 +1651,30 @@ TYPED_TEST(MathMatrix3x3Test, MakeTranslationTest)
 		BKSGE_CONSTEXPR_EXPECT_EQ(expected, m);
 	}
 	{
-		BKSGE_CONSTEXPR_OR_CONST auto m = Matrix3x3::MakeTranslation(Vector2{-4, 5});
+		const auto m = Matrix3x3::MakeTranslation(Vector2{-4, 5});
 		static_assert(std::is_same<decltype(m), const Matrix3x3>::value, "");
 
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 expected
+		const Matrix3x3 expected
 		{
 			Vector3{  1,  0,  0 },
 			Vector3{  0,  1,  0 },
 			Vector3{ -4,  5,  1 },
 		};
 
-		BKSGE_CONSTEXPR_EXPECT_EQ(expected, m);
+		EXPECT_EQ(expected, m);
+	}
+	{
+		const auto m = Matrix3x3::MakeTranslation(1, 2);
+		static_assert(std::is_same<decltype(m), const Matrix3x3>::value, "");
+
+		const Matrix3x3 expected
+		{
+			Vector3{  1,  0,  0 },
+			Vector3{  0,  1,  0 },
+			Vector3{  1,  2,  1 },
+		};
+
+		EXPECT_EQ(expected, m);
 	}
 }
 
@@ -1846,17 +1877,17 @@ TYPED_TEST(MathMatrix3x3Test, MakeShearTest)
 		BKSGE_CONSTEXPR_EXPECT_EQ(expected, m);
 	}
 	{
-		BKSGE_CONSTEXPR_OR_CONST auto m = Matrix3x3::MakeShear(-1, 2, -3);
+		const auto m = Matrix3x3::MakeShear(-1, 2, -3);
 		static_assert(std::is_same<decltype(m), const Matrix3x3>::value, "");
 
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 expected
+		const Matrix3x3 expected
 		{
 			Vector3{  1,  2, -3 },
 			Vector3{ -1,  1, -3 },
 			Vector3{ -1,  2,  1 },
 		};
 
-		BKSGE_CONSTEXPR_EXPECT_EQ(expected, m);
+		EXPECT_EQ(expected, m);
 	}
 }
 

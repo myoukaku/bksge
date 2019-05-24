@@ -496,9 +496,16 @@ TYPED_TEST(MathVector2Test, ZeroTest)
 	using T = TypeParam;
 	using Vector2 = bksge::math::Vector2<T>;
 
-	BKSGE_CONSTEXPR_OR_CONST auto v = Vector2::Zero();
-	static_assert(std::is_same<decltype(v), const Vector2>::value, "");
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector2(0, 0), v);
+	{
+		BKSGE_CONSTEXPR_OR_CONST auto v = Vector2::Zero();
+		static_assert(std::is_same<decltype(v), const Vector2>::value, "");
+		BKSGE_CONSTEXPR_EXPECT_EQ(Vector2(0, 0), v);
+	}
+	{
+		const auto v = Vector2::Zero();
+		static_assert(std::is_same<decltype(v), const Vector2>::value, "");
+		EXPECT_EQ(Vector2(0, 0), v);
+	}
 }
 
 TYPED_TEST(MathVector2Test, SwapTest)

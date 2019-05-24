@@ -796,8 +796,8 @@ TYPED_TEST(MathSize3Test, MulScalarTest)
 		BKSGE_CONSTEXPR_EXPECT_EQ(Size3(12, -168, -20), t);
 	}
 	{
-		BKSGE_CONSTEXPR_OR_CONST Size3 t = Size3(4, 6, 2) * 2.5;
-		BKSGE_CONSTEXPR_EXPECT_EQ(Size3(10, 15, 5), t);
+		const Size3 t = Size3(4, 6, 2) * 2.5;
+		EXPECT_EQ(Size3(10, 15, 5), t);
 	}
 	// スカラー * Size3 -> Size3
 	{
@@ -805,8 +805,8 @@ TYPED_TEST(MathSize3Test, MulScalarTest)
 		BKSGE_CONSTEXPR_EXPECT_EQ(Size3(35, -40, 45), t);
 	}
 	{
-		BKSGE_CONSTEXPR_OR_CONST Size3 t = -1.5 * Size3(4, -6, -2);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Size3(-6, 9, 3), t);
+		const Size3 t = -1.5 * Size3(4, -6, -2);
+		EXPECT_EQ(Size3(-6, 9, 3), t);
 	}
 }
 
@@ -935,9 +935,16 @@ TYPED_TEST(MathSize3Test, ZeroTest)
 	using T = TypeParam;
 	using Size3 = bksge::math::Size3<T>;
 
-	BKSGE_CONSTEXPR_OR_CONST auto v = Size3::Zero();
-	static_assert(std::is_same<decltype(v), const Size3>::value, "");
-	BKSGE_CONSTEXPR_EXPECT_EQ(Size3(0, 0, 0), v);
+	{
+		BKSGE_CONSTEXPR_OR_CONST auto v = Size3::Zero();
+		static_assert(std::is_same<decltype(v), const Size3>::value, "");
+		BKSGE_CONSTEXPR_EXPECT_EQ(Size3(0, 0, 0), v);
+	}
+	{
+		const auto v = Size3::Zero();
+		static_assert(std::is_same<decltype(v), const Size3>::value, "");
+		EXPECT_EQ(Size3(0, 0, 0), v);
+	}
 }
 
 }	// namespace size3_test

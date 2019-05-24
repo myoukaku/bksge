@@ -1110,8 +1110,8 @@ TYPED_TEST(MathQuaternionTest, MulScalarTest)
 		BKSGE_CONSTEXPR_EXPECT_EQ(Quaternion(12, -168, -20, -16), t);
 	}
 	{
-		BKSGE_CONSTEXPR_OR_CONST Quaternion t = Quaternion(4, 6, 2, -10) * 2.5;
-		BKSGE_CONSTEXPR_EXPECT_EQ(Quaternion(10, 15, 5, -25), t);
+		const Quaternion t = Quaternion(4, 6, 2, -10) * 2.5;
+		EXPECT_EQ(Quaternion(10, 15, 5, -25), t);
 	}
 	// スカラー * Quaternion -> Quaternion
 	{
@@ -1119,8 +1119,8 @@ TYPED_TEST(MathQuaternionTest, MulScalarTest)
 		BKSGE_CONSTEXPR_EXPECT_EQ(Quaternion(35, -40, 45, 10), t);
 	}
 	{
-		BKSGE_CONSTEXPR_OR_CONST Quaternion t = -1.5 * Quaternion(4, -6, -2, 8);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Quaternion(-6, 9, 3, -12), t);
+		const Quaternion t = -1.5 * Quaternion(4, -6, -2, 8);
+		EXPECT_EQ(Quaternion(-6, 9, 3, -12), t);
 	}
 }
 
@@ -1462,9 +1462,16 @@ TYPED_TEST(MathQuaternionTest, ZeroTest)
 	using T = TypeParam;
 	using Quaternion = bksge::math::Quaternion<T>;
 
-	BKSGE_CONSTEXPR_OR_CONST auto v = Quaternion::Zero();
-	static_assert(std::is_same<decltype(v), const Quaternion>::value, "");
-	BKSGE_CONSTEXPR_EXPECT_EQ(Quaternion(0, 0, 0, 0), v);
+	{
+		BKSGE_CONSTEXPR_OR_CONST auto v = Quaternion::Zero();
+		static_assert(std::is_same<decltype(v), const Quaternion>::value, "");
+		BKSGE_CONSTEXPR_EXPECT_EQ(Quaternion(0, 0, 0, 0), v);
+	}
+	{
+		const auto v = Quaternion::Zero();
+		static_assert(std::is_same<decltype(v), const Quaternion>::value, "");
+		EXPECT_EQ(Quaternion(0, 0, 0, 0), v);
+	}
 }
 
 TYPED_TEST(MathQuaternionTest, IdentityTest)
@@ -1472,9 +1479,16 @@ TYPED_TEST(MathQuaternionTest, IdentityTest)
 	using T = TypeParam;
 	using Quaternion = bksge::math::Quaternion<T>;
 
-	BKSGE_CONSTEXPR_OR_CONST auto q = Quaternion::Identity();
-	static_assert(std::is_same<decltype(q), const Quaternion>::value, "");
-	BKSGE_CONSTEXPR_EXPECT_EQ(Quaternion(0, 0, 0, 1), q);
+	{
+		BKSGE_CONSTEXPR_OR_CONST auto q = Quaternion::Identity();
+		static_assert(std::is_same<decltype(q), const Quaternion>::value, "");
+		BKSGE_CONSTEXPR_EXPECT_EQ(Quaternion(0, 0, 0, 1), q);
+	}
+	{
+		const auto q = Quaternion::Identity();
+		static_assert(std::is_same<decltype(q), const Quaternion>::value, "");
+		EXPECT_EQ(Quaternion(0, 0, 0, 1), q);
+	}
 }
 
 TYPED_TEST(MathQuaternionTest, ConjugateTest)
@@ -1509,10 +1523,10 @@ TYPED_TEST(MathQuaternionFloatTest, InversedTest)
 	using Quaternion = bksge::math::Quaternion<T>;
 
 	BKSGE_CONSTEXPR_OR_CONST Quaternion q1(1, 2, 3, 4);
-	BKSGE_CONSTEXPR_OR_CONST Quaternion q2(9, 41, -5, 6);
+	                   const Quaternion q2(9, 41, -5, 6);
 
 	BKSGE_CONSTEXPR_OR_CONST auto q1_inv = Inversed(q1);
-	BKSGE_CONSTEXPR_OR_CONST auto q2_inv = Inversed(q2);
+	                   const auto q2_inv = Inversed(q2);
 	static_assert(std::is_same<decltype(q1_inv), const Quaternion>::value, "");
 	static_assert(std::is_same<decltype(q2_inv), const Quaternion>::value, "");
 
@@ -1521,22 +1535,22 @@ TYPED_TEST(MathQuaternionFloatTest, InversedTest)
 	BKSGE_CONSTEXPR_EXPECT_NEAR(-0.06666666666666666, (double)q1_inv.y(), error);
 	BKSGE_CONSTEXPR_EXPECT_NEAR(-0.10000000000000000, (double)q1_inv.z(), error);
 	BKSGE_CONSTEXPR_EXPECT_NEAR( 0.13333333333333333, (double)q1_inv.w(), error);
-	BKSGE_CONSTEXPR_EXPECT_NEAR(-0.00493691716950082, (double)q2_inv.x(), error);
-	BKSGE_CONSTEXPR_EXPECT_NEAR(-0.02249040043883708, (double)q2_inv.y(), error);
-	BKSGE_CONSTEXPR_EXPECT_NEAR( 0.00274273176083379, (double)q2_inv.z(), error);
-	BKSGE_CONSTEXPR_EXPECT_NEAR( 0.00329127811300054, (double)q2_inv.w(), error);
+	                EXPECT_NEAR(-0.00493691716950082, (double)q2_inv.x(), error);
+	                EXPECT_NEAR(-0.02249040043883708, (double)q2_inv.y(), error);
+	                EXPECT_NEAR( 0.00274273176083379, (double)q2_inv.z(), error);
+	                EXPECT_NEAR( 0.00329127811300054, (double)q2_inv.w(), error);
 
 	// あるクォータニオンとその逆クォータニオンをかけると単位クォータニオンになる
 	BKSGE_CONSTEXPR_OR_CONST auto q3 = q1 * q1_inv;
-	BKSGE_CONSTEXPR_OR_CONST auto q4 = q2 * q2_inv;
+	                   const auto q4 = q2 * q2_inv;
 	BKSGE_CONSTEXPR_EXPECT_NEAR(0.0, (double)q3.x(), error);
 	BKSGE_CONSTEXPR_EXPECT_NEAR(0.0, (double)q3.y(), error);
 	BKSGE_CONSTEXPR_EXPECT_NEAR(0.0, (double)q3.z(), error);
 	BKSGE_CONSTEXPR_EXPECT_NEAR(1.0, (double)q3.w(), error);
-	BKSGE_CONSTEXPR_EXPECT_NEAR(0.0, (double)q4.x(), error);
-	BKSGE_CONSTEXPR_EXPECT_NEAR(0.0, (double)q4.y(), error);
-	BKSGE_CONSTEXPR_EXPECT_NEAR(0.0, (double)q4.z(), error);
-	BKSGE_CONSTEXPR_EXPECT_NEAR(1.0, (double)q4.w(), error);
+	                EXPECT_NEAR(0.0, (double)q4.x(), error);
+	                EXPECT_NEAR(0.0, (double)q4.y(), error);
+	                EXPECT_NEAR(0.0, (double)q4.z(), error);
+	                EXPECT_NEAR(1.0, (double)q4.w(), error);
 }
 
 TYPED_TEST(MathQuaternionFloatTest, NormalizedTest)

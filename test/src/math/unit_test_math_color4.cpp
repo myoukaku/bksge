@@ -1065,8 +1065,8 @@ TYPED_TEST(MathColor4Test, MulScalarTest)
 		BKSGE_CONSTEXPR_EXPECT_EQ(Color4(12, -168, -20, -16), t);
 	}
 	{
-		BKSGE_CONSTEXPR_OR_CONST Color4 t = Color4(4, 6, 2, -10) * 2.5;
-		BKSGE_CONSTEXPR_EXPECT_EQ(Color4(10, 15, 5, -25), t);
+		const Color4 t = Color4(4, 6, 2, -10) * 2.5;
+		EXPECT_EQ(Color4(10, 15, 5, -25), t);
 	}
 	// スカラー * Color4 -> Color4
 	{
@@ -1074,8 +1074,8 @@ TYPED_TEST(MathColor4Test, MulScalarTest)
 		BKSGE_CONSTEXPR_EXPECT_EQ(Color4(35, -40, 45, 10), t);
 	}
 	{
-		BKSGE_CONSTEXPR_OR_CONST Color4 t = -1.5 * Color4(4, -6, -2, 8);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Color4(-6, 9, 3, -12), t);
+		const Color4 t = -1.5 * Color4(4, -6, -2, 8);
+		EXPECT_EQ(Color4(-6, 9, 3, -12), t);
 	}
 }
 
@@ -1259,9 +1259,16 @@ TYPED_TEST(MathColor4Test, ZeroTest)
 	using T = TypeParam;
 	using Color4 = bksge::math::Color4<T>;
 
-	BKSGE_CONSTEXPR_OR_CONST auto v = Color4::Zero();
-	static_assert(std::is_same<decltype(v), const Color4>::value, "");
-	BKSGE_CONSTEXPR_EXPECT_EQ(Color4(0, 0, 0, 0), v);
+	{
+		BKSGE_CONSTEXPR_OR_CONST auto v = Color4::Zero();
+		static_assert(std::is_same<decltype(v), const Color4>::value, "");
+		BKSGE_CONSTEXPR_EXPECT_EQ(Color4(0, 0, 0, 0), v);
+	}
+	{
+		const auto v = Color4::Zero();
+		static_assert(std::is_same<decltype(v), const Color4>::value, "");
+		EXPECT_EQ(Color4(0, 0, 0, 0), v);
+	}
 }
 
 TYPED_TEST(MathColor4FloatTest, LerpTest)

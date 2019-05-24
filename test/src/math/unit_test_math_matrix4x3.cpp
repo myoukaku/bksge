@@ -1088,11 +1088,11 @@ TYPED_TEST(MathMatrix4x3Test, MulScalarTest)
 			BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(120, 126, 132), t[3]);
 		}
 		{
-			BKSGE_CONSTEXPR_OR_CONST Matrix4x3 t = m1 * 2.5;
-			BKSGE_CONSTEXPR_EXPECT_EQ(Vector3( 25,  30,  35), t[0]);
-			BKSGE_CONSTEXPR_EXPECT_EQ(Vector3( 50,  55,  60), t[1]);
-			BKSGE_CONSTEXPR_EXPECT_EQ(Vector3( 75,  80,  85), t[2]);
-			BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(100, 105, 110), t[3]);
+			const Matrix4x3 t = m1 * 2.5;
+			EXPECT_EQ(Vector3( 25,  30,  35), t[0]);
+			EXPECT_EQ(Vector3( 50,  55,  60), t[1]);
+			EXPECT_EQ(Vector3( 75,  80,  85), t[2]);
+			EXPECT_EQ(Vector3(100, 105, 110), t[3]);
 		}
 		// スカラー * Matrix4x3 -> Matrix4x3
 		{
@@ -1103,11 +1103,11 @@ TYPED_TEST(MathMatrix4x3Test, MulScalarTest)
 			BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(160, 168, 176), t[3]);
 		}
 		{
-			BKSGE_CONSTEXPR_OR_CONST Matrix4x3 t = -1.5 * m1;
-			BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(-15, -18, -21), t[0]);
-			BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(-30, -33, -36), t[1]);
-			BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(-45, -48, -51), t[2]);
-			BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(-60, -63, -66), t[3]);
+			const Matrix4x3 t = -1.5 * m1;
+			EXPECT_EQ(Vector3(-15, -18, -21), t[0]);
+			EXPECT_EQ(Vector3(-30, -33, -36), t[1]);
+			EXPECT_EQ(Vector3(-45, -48, -51), t[2]);
+			EXPECT_EQ(Vector3(-60, -63, -66), t[3]);
 		}
 	}
 }
@@ -1479,12 +1479,22 @@ TYPED_TEST(MathMatrix4x3Test, ZeroTest)
 	using Matrix4x3 = bksge::math::Matrix4x3<T>;
 	using Vector3 = bksge::math::Vector3<T>;
 
-	BKSGE_CONSTEXPR_OR_CONST auto m = Matrix4x3::Zero();
-	static_assert(std::is_same<decltype(m), const Matrix4x3>::value, "");
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 0, 0), m[0]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 0, 0), m[1]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 0, 0), m[2]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 0, 0), m[3]);
+	{
+		BKSGE_CONSTEXPR_OR_CONST auto m = Matrix4x3::Zero();
+		static_assert(std::is_same<decltype(m), const Matrix4x3>::value, "");
+		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 0, 0), m[0]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 0, 0), m[1]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 0, 0), m[2]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 0, 0), m[3]);
+	}
+	{
+		const auto m = Matrix4x3::Zero();
+		static_assert(std::is_same<decltype(m), const Matrix4x3>::value, "");
+		EXPECT_EQ(Vector3(0, 0, 0), m[0]);
+		EXPECT_EQ(Vector3(0, 0, 0), m[1]);
+		EXPECT_EQ(Vector3(0, 0, 0), m[2]);
+		EXPECT_EQ(Vector3(0, 0, 0), m[3]);
+	}
 }
 
 TYPED_TEST(MathMatrix4x3Test, IdentityTest)
@@ -1493,12 +1503,22 @@ TYPED_TEST(MathMatrix4x3Test, IdentityTest)
 	using Matrix4x3 = bksge::math::Matrix4x3<T>;
 	using Vector3 = bksge::math::Vector3<T>;
 
-	BKSGE_CONSTEXPR_OR_CONST auto m = Matrix4x3::Identity();
-	static_assert(std::is_same<decltype(m), const Matrix4x3>::value, "");
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(1, 0, 0), m[0]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 1, 0), m[1]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 0, 1), m[2]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 0, 0), m[3]);
+	{
+		BKSGE_CONSTEXPR_OR_CONST auto m = Matrix4x3::Identity();
+		static_assert(std::is_same<decltype(m), const Matrix4x3>::value, "");
+		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(1, 0, 0), m[0]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 1, 0), m[1]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 0, 1), m[2]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 0, 0), m[3]);
+	}
+	{
+		const auto m = Matrix4x3::Identity();
+		static_assert(std::is_same<decltype(m), const Matrix4x3>::value, "");
+		EXPECT_EQ(Vector3(1, 0, 0), m[0]);
+		EXPECT_EQ(Vector3(0, 1, 0), m[1]);
+		EXPECT_EQ(Vector3(0, 0, 1), m[2]);
+		EXPECT_EQ(Vector3(0, 0, 0), m[3]);
+	}
 }
 
 TYPED_TEST(MathMatrix4x3Test, TransposedTest)
@@ -1523,14 +1543,14 @@ TYPED_TEST(MathMatrix4x3Test, TransposedTest)
 	BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(12, 22, 32, 42), m2[1]);
 	BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(13, 23, 33, 43), m2[2]);
 
-	BKSGE_CONSTEXPR_OR_CONST auto m3 = Transposed(m2);
+	const auto m3 = Transposed(m2);
 	static_assert(std::is_same<decltype(m3), const Matrix4x3>::value, "");
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(11, 12, 13), m3[0]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(21, 22, 23), m3[1]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(31, 32, 33), m3[2]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(41, 42, 43), m3[3]);
+	EXPECT_EQ(Vector3(11, 12, 13), m3[0]);
+	EXPECT_EQ(Vector3(21, 22, 23), m3[1]);
+	EXPECT_EQ(Vector3(31, 32, 33), m3[2]);
+	EXPECT_EQ(Vector3(41, 42, 43), m3[3]);
 
-	BKSGE_CONSTEXPR_EXPECT_EQ(m1, m3);
+	EXPECT_EQ(m1, m3);
 }
 
 TYPED_TEST(MathMatrix4x3Test, ResizedTest)

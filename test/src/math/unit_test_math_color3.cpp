@@ -780,8 +780,8 @@ TYPED_TEST(MathColor3Test, MulScalarTest)
 		BKSGE_CONSTEXPR_EXPECT_EQ(Color3(12, -168, -20), t);
 	}
 	{
-		BKSGE_CONSTEXPR_OR_CONST Color3 t = Color3(4, 6, 2) * 2.5;
-		BKSGE_CONSTEXPR_EXPECT_EQ(Color3(10, 15, 5), t);
+		const Color3 t = Color3(4, 6, 2) * 2.5;
+		EXPECT_EQ(Color3(10, 15, 5), t);
 	}
 	// スカラー * Color3 -> Color3
 	{
@@ -789,8 +789,8 @@ TYPED_TEST(MathColor3Test, MulScalarTest)
 		BKSGE_CONSTEXPR_EXPECT_EQ(Color3(35, -40, 45), t);
 	}
 	{
-		BKSGE_CONSTEXPR_OR_CONST Color3 t = -1.5 * Color3(4, -6, -2);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Color3(-6, 9, 3), t);
+		const Color3 t = -1.5 * Color3(4, -6, -2);
+		EXPECT_EQ(Color3(-6, 9, 3), t);
 	}
 }
 
@@ -965,9 +965,16 @@ TYPED_TEST(MathColor3Test, ZeroTest)
 	using T = TypeParam;
 	using Color3 = bksge::math::Color3<T>;
 
-	BKSGE_CONSTEXPR_OR_CONST auto v = Color3::Zero();
-	static_assert(std::is_same<decltype(v), const Color3>::value, "");
-	BKSGE_CONSTEXPR_EXPECT_EQ(Color3(0, 0, 0), v);
+	{
+		BKSGE_CONSTEXPR_OR_CONST auto v = Color3::Zero();
+		static_assert(std::is_same<decltype(v), const Color3>::value, "");
+		BKSGE_CONSTEXPR_EXPECT_EQ(Color3(0, 0, 0), v);
+	}
+	{
+		const auto v = Color3::Zero();
+		static_assert(std::is_same<decltype(v), const Color3>::value, "");
+		EXPECT_EQ(Color3(0, 0, 0), v);
+	}
 }
 
 TYPED_TEST(MathColor3FloatTest, LerpTest)

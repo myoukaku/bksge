@@ -779,8 +779,8 @@ TYPED_TEST(MathScale3Test, MulScalarTest)
 		BKSGE_CONSTEXPR_EXPECT_EQ(Scale3(12, -168, -20), t);
 	}
 	{
-		BKSGE_CONSTEXPR_OR_CONST Scale3 t = Scale3(4, 6, 2) * 2.5;
-		BKSGE_CONSTEXPR_EXPECT_EQ(Scale3(10, 15, 5), t);
+		const Scale3 t = Scale3(4, 6, 2) * 2.5;
+		EXPECT_EQ(Scale3(10, 15, 5), t);
 	}
 	// スカラー * Scale3 -> Scale3
 	{
@@ -788,8 +788,8 @@ TYPED_TEST(MathScale3Test, MulScalarTest)
 		BKSGE_CONSTEXPR_EXPECT_EQ(Scale3(35, -40, 45), t);
 	}
 	{
-		BKSGE_CONSTEXPR_OR_CONST Scale3 t = -1.5 * Scale3(4, -6, -2);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Scale3(-6, 9, 3), t);
+		const Scale3 t = -1.5 * Scale3(4, -6, -2);
+		EXPECT_EQ(Scale3(-6, 9, 3), t);
 	}
 }
 
@@ -988,9 +988,16 @@ TYPED_TEST(MathScale3Test, ZeroTest)
 	using T = TypeParam;
 	using Scale3 = bksge::math::Scale3<T>;
 
-	BKSGE_CONSTEXPR_OR_CONST auto v = Scale3::Zero();
-	static_assert(std::is_same<decltype(v), const Scale3>::value, "");
-	BKSGE_CONSTEXPR_EXPECT_EQ(Scale3(0, 0, 0), v);
+	{
+		BKSGE_CONSTEXPR_OR_CONST auto v = Scale3::Zero();
+		static_assert(std::is_same<decltype(v), const Scale3>::value, "");
+		BKSGE_CONSTEXPR_EXPECT_EQ(Scale3(0, 0, 0), v);
+	}
+	{
+		const auto v = Scale3::Zero();
+		static_assert(std::is_same<decltype(v), const Scale3>::value, "");
+		EXPECT_EQ(Scale3(0, 0, 0), v);
+	}
 }
 
 TYPED_TEST(MathScale3Test, IdentityTest)
@@ -998,9 +1005,16 @@ TYPED_TEST(MathScale3Test, IdentityTest)
 	using T = TypeParam;
 	using Scale3 = bksge::math::Scale3<T>;
 
-	BKSGE_CONSTEXPR_OR_CONST auto v = Scale3::Identity();
-	static_assert(std::is_same<decltype(v), const Scale3>::value, "");
-	BKSGE_CONSTEXPR_EXPECT_EQ(Scale3(1, 1, 1), v);
+	{
+		BKSGE_CONSTEXPR_OR_CONST auto v = Scale3::Identity();
+		static_assert(std::is_same<decltype(v), const Scale3>::value, "");
+		BKSGE_CONSTEXPR_EXPECT_EQ(Scale3(1, 1, 1), v);
+	}
+	{
+		const auto v = Scale3::Identity();
+		static_assert(std::is_same<decltype(v), const Scale3>::value, "");
+		EXPECT_EQ(Scale3(1, 1, 1), v);
+	}
 }
 
 TYPED_TEST(MathScale3FloatTest, LerpTest)
