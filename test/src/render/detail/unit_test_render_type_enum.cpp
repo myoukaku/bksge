@@ -27,15 +27,6 @@ GTEST_TEST(Render_TypeEnum, TypeToEnumTest)
 	static_assert(TypeEnum::kUInt16	== TypeToEnum<std::uint16_t>::value, "");
 	static_assert(TypeEnum::kSInt32	== TypeToEnum<std::int32_t>::value, "");
 	static_assert(TypeEnum::kUInt32	== TypeToEnum<std::uint32_t>::value, "");
-
-	static_assert(TypeEnum::kSInt8	== TypeToEnum<signed   char>::value, "");
-	static_assert(TypeEnum::kUInt8	== TypeToEnum<unsigned char>::value, "");
-	static_assert(TypeEnum::kSInt16	== TypeToEnum<signed   short>::value, "");
-	static_assert(TypeEnum::kUInt16	== TypeToEnum<unsigned short>::value, "");
-	static_assert(TypeEnum::kSInt32	== TypeToEnum<signed   int>::value, "");
-	static_assert(TypeEnum::kUInt32	== TypeToEnum<unsigned int>::value, "");
-	static_assert(TypeEnum::kSInt32	== TypeToEnum<signed   long>::value, "");
-	static_assert(TypeEnum::kUInt32	== TypeToEnum<unsigned long>::value, "");
 	static_assert(TypeEnum::kFloat	== TypeToEnum<float>::value, "");
 }
 
