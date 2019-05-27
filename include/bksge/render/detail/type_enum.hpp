@@ -11,8 +11,10 @@
 
 #include <bksge/render/detail/fwd/type_enum_fwd.hpp>
 #include <cstddef>
+#include <cstdint>
 #include <ostream>
 #include <string>
+#include <type_traits>
 
 namespace bksge
 {
@@ -25,44 +27,38 @@ namespace render
  */
 enum class TypeEnum
 {
-	kByte,
-	kUnsignedByte,
-	kShort,
-	kUnsignedShort,
-	kInt,
-	kUnsignedInt,
+	kSInt8,
+	kUInt8,
+	kSInt16,
+	kUInt16,
+	kSInt32,
+	kUInt32,
 	kFloat,
 };
 
 /**
  *	@brief	型をTypeEnumに変換
  */
-template <typename T> struct TypeToEnum;
-template <> struct TypeToEnum<signed char>
+template <typename T>
+struct TypeToEnum
 {
-	static TypeEnum const value = TypeEnum::kByte;
+private:
+	template <typename U, bool, std::size_t>
+	struct Helper;
+
+	template <typename U> struct Helper<U, true,  1> { static TypeEnum const value = TypeEnum::kSInt8; };
+	template <typename U> struct Helper<U, false, 1> { static TypeEnum const value = TypeEnum::kUInt8; };
+	template <typename U> struct Helper<U, true,  2> { static TypeEnum const value = TypeEnum::kSInt16; };
+	template <typename U> struct Helper<U, false, 2> { static TypeEnum const value = TypeEnum::kUInt16; };
+	template <typename U> struct Helper<U, true,  4> { static TypeEnum const value = TypeEnum::kSInt32; };
+	template <typename U> struct Helper<U, false, 4> { static TypeEnum const value = TypeEnum::kUInt32; };
+
+public:
+	static TypeEnum const value = Helper<T, std::is_signed<T>::value, sizeof(T)>::value;
 };
-template <> struct TypeToEnum<unsigned char>
-{
-	static TypeEnum const value = TypeEnum::kUnsignedByte;
-};
-template <> struct TypeToEnum<signed short>
-{
-	static TypeEnum const value = TypeEnum::kShort;
-};
-template <> struct TypeToEnum<unsigned short>
-{
-	static TypeEnum const value = TypeEnum::kUnsignedShort;
-};
-template <> struct TypeToEnum<signed int>
-{
-	static TypeEnum const value = TypeEnum::kInt;
-};
-template <> struct TypeToEnum<unsigned int>
-{
-	static TypeEnum const value = TypeEnum::kUnsignedInt;
-};
-template <> struct TypeToEnum<float>
+
+template <>
+struct TypeToEnum<float>
 {
 	static TypeEnum const value = TypeEnum::kFloat;
 };
@@ -71,29 +67,29 @@ template <> struct TypeToEnum<float>
  *	@brief	TypeEnumを型に変換
  */
 template <TypeEnum type> struct EnumToType;
-template <> struct EnumToType<TypeEnum::kByte>
+template <> struct EnumToType<TypeEnum::kSInt8>
 {
-	using type = signed char;
+	using type = std::int8_t;
 };
-template <> struct EnumToType<TypeEnum::kUnsignedByte>
+template <> struct EnumToType<TypeEnum::kUInt8>
 {
-	using type = unsigned char;
+	using type = std::uint8_t;
 };
-template <> struct EnumToType<TypeEnum::kShort>
+template <> struct EnumToType<TypeEnum::kSInt16>
 {
-	using type = signed short;
+	using type = std::int16_t;
 };
-template <> struct EnumToType<TypeEnum::kUnsignedShort>
+template <> struct EnumToType<TypeEnum::kUInt16>
 {
-	using type = unsigned short;
+	using type = std::uint16_t;
 };
-template <> struct EnumToType<TypeEnum::kInt>
+template <> struct EnumToType<TypeEnum::kSInt32>
 {
-	using type = signed int;
+	using type = std::int32_t;
 };
-template <> struct EnumToType<TypeEnum::kUnsignedInt>
+template <> struct EnumToType<TypeEnum::kUInt32>
 {
-	using type = unsigned int;
+	using type = std::uint32_t;
 };
 template <> struct EnumToType<TypeEnum::kFloat>
 {

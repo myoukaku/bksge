@@ -40,7 +40,7 @@ GTEST_TEST(Render_VertexLayout, BasicTest)
 	}
 
 	{
-		const VertexAttribute a(Semantic::kColor, TypeEnum::kByte, 4, 12);
+		const VertexAttribute a(Semantic::kColor, TypeEnum::kSInt8, 4, 12);
 		l.AddAttribute(a);
 	}
 
@@ -52,7 +52,7 @@ GTEST_TEST(Render_VertexLayout, BasicTest)
 	{
 		auto const a = l.FindVertexAttributeBySemantic(Semantic::kColor);
 		EXPECT_EQ(Semantic::kColor, a->semantic());
-		EXPECT_EQ(TypeEnum::kByte, a->type());
+		EXPECT_EQ(TypeEnum::kSInt8, a->type());
 		EXPECT_EQ( 4u, a->element_num());
 		EXPECT_EQ(12u, a->offset());
 		EXPECT_EQ( 4u, a->bytes());
@@ -66,7 +66,7 @@ GTEST_TEST(Render_VertexLayout, MoveCtorTest)
 
 	VertexLayout l;
 	l.AddAttribute(MakeVertexAttribute<VPosition>(l.total_bytes()));
-	l.AddAttribute(MakeVertexAttribute<VNormal>(l.total_bytes()));
+	l.AddAttribute(MakeVertexAttribute<VNormal>  (l.total_bytes()));
 	l.AddAttribute(MakeVertexAttribute<VTexCoord>(l.total_bytes()));
 
 //	VertexLayout const l2(l);	// コピー禁止
@@ -86,7 +86,7 @@ GTEST_TEST(Render_VertexLayout, MoveAssignTest)
 
 	VertexLayout l;
 	l.AddAttribute(MakeVertexAttribute<VPosition>(l.total_bytes()));
-	l.AddAttribute(MakeVertexAttribute<VNormal>(l.total_bytes()));
+	l.AddAttribute(MakeVertexAttribute<VNormal>  (l.total_bytes()));
 	l.AddAttribute(MakeVertexAttribute<VTexCoord>(l.total_bytes()));
 
 	VertexLayout l2;
@@ -122,36 +122,36 @@ GTEST_TEST(Render_VertexLayout, CompareTest)
 
 	VertexLayout l1;
 	l1.AddAttribute(MakeVertexAttribute<VPosition>(l1.total_bytes()));
-	l1.AddAttribute(MakeVertexAttribute<VNormal>(l1.total_bytes()));
+	l1.AddAttribute(MakeVertexAttribute<VNormal>  (l1.total_bytes()));
 	l1.AddAttribute(MakeVertexAttribute<VTexCoord>(l1.total_bytes()));
 
 	VertexLayout l2;
 	l2.AddAttribute(MakeVertexAttribute<VPosition>(l2.total_bytes()));
-	l2.AddAttribute(MakeVertexAttribute<VNormal>(l2.total_bytes()));
+	l2.AddAttribute(MakeVertexAttribute<VNormal>  (l2.total_bytes()));
 	l2.AddAttribute(MakeVertexAttribute<VTexCoord>(l2.total_bytes()));
 
 	VertexLayout l3;
-	l3.AddAttribute(MakeVertexAttribute<VNormal>(l3.total_bytes()));
+	l3.AddAttribute(MakeVertexAttribute<VNormal>  (l3.total_bytes()));
 	l3.AddAttribute(MakeVertexAttribute<VPosition>(l3.total_bytes()));
 	l3.AddAttribute(MakeVertexAttribute<VTexCoord>(l3.total_bytes()));
 
 	VertexLayout l4;
 	l4.AddAttribute(MakeVertexAttribute<VPosition>(l4.total_bytes()));
-	l4.AddAttribute(MakeVertexAttribute<VNormal>(l4.total_bytes()));
-	l4.AddAttribute(MakeVertexAttribute<VColor>(l4.total_bytes()));
+	l4.AddAttribute(MakeVertexAttribute<VNormal>  (l4.total_bytes()));
+	l4.AddAttribute(MakeVertexAttribute<VColor>  (l4.total_bytes()));
 
 	VertexLayout l5;
 	l5.AddAttribute(MakeVertexAttribute<VPosition>(l5.total_bytes()));
-	l5.AddAttribute(MakeVertexAttribute<VNormal>(l5.total_bytes()));
+	l5.AddAttribute(MakeVertexAttribute<VNormal>  (l5.total_bytes()));
 
 	VertexLayout l6;
 	l6.AddAttribute(MakeVertexAttribute<VPosition>(l6.total_bytes()));
-	l6.AddAttribute(MakeVertexAttribute<VNormal>(l6.total_bytes()));
+	l6.AddAttribute(MakeVertexAttribute<VNormal>  (l6.total_bytes()));
 	l6.AddAttribute(MakeVertexAttribute<VTexCoord>(l6.total_bytes()));
-	l6.AddAttribute(MakeVertexAttribute<VColor>(l6.total_bytes()));
+	l6.AddAttribute(MakeVertexAttribute<VColor>   (l6.total_bytes()));
 
-	EXPECT_TRUE(l1 == l1);
-	EXPECT_TRUE(l1 == l2);
+	EXPECT_TRUE (l1 == l1);
+	EXPECT_TRUE (l1 == l2);
 	EXPECT_FALSE(l1 == l3);
 	EXPECT_FALSE(l1 == l4);
 	EXPECT_FALSE(l1 == l5);
@@ -159,8 +159,8 @@ GTEST_TEST(Render_VertexLayout, CompareTest)
 
 	EXPECT_FALSE(l1 != l1);
 	EXPECT_FALSE(l1 != l2);
-	EXPECT_TRUE(l1 != l3);
-	EXPECT_TRUE(l1 != l4);
-	EXPECT_TRUE(l1 != l5);
-	EXPECT_TRUE(l1 != l6);
+	EXPECT_TRUE (l1 != l3);
+	EXPECT_TRUE (l1 != l4);
+	EXPECT_TRUE (l1 != l5);
+	EXPECT_TRUE (l1 != l6);
 }

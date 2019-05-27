@@ -54,11 +54,15 @@ foreach(compiler_flag ${compiler_flags})
   elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     set(${compiler_flag} "${${compiler_flag}} -Wall -Wextra -Werror -Wno-mismatched-tags")
 
-  elseif (CMAKE_COMPILER_IS_GNUCXX)
+  elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     set(${compiler_flag} "${${compiler_flag}} -Wall -Wextra -Werror")
 
   endif()
 endforeach()
+
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
+endif()
 
 SET(COVERAGE OFF CACHE BOOL "Coverage")
 if (COVERAGE)
@@ -71,6 +75,10 @@ find_package(OpenGL REQUIRED)
 message(STATUS ${OPENGL_LIBRARIES})
 message(STATUS ${OPENGL_INCLUDE_DIR})
 
+message(STATUS ${CMAKE_CXX_FLAGS})
+message(STATUS ${CMAKE_CXX_FLAGS_DEBUG})
+message(STATUS ${CMAKE_CXX_FLAGS_RELEASE})
+
 file(GLOB_RECURSE bksge_sources src/bksge/*)
 add_library(bksge STATIC ${bksge_sources})
 include_directories(${PROJECT_SOURCE_DIR}/include)
@@ -81,10 +89,8 @@ target_link_libraries(bksge ${OPENGL_LIBRARIES})
 include(${PROJECT_SOURCE_DIR}/cmake/assign_source_group.cmake)
 assign_source_group(${bksge_sources})
 
-if(WIN32)
-  if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-    target_link_libraries(bksge -lopengl32 -ld3d11 -ld3dcompiler -ldinput8 -ldxguid)
-  endif()
+if(MINGW)
+  target_link_libraries(bksge -lopengl32 -ld3d11 -ld3dcompiler -ldinput8 -ldxguid)
 endif()
 
 add_subdirectory(test)

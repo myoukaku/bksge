@@ -22,42 +22,42 @@ GTEST_TEST(Render_IndexArray, DefaultConstructTest)
 
 	{
 		IndexArray<std::uint8_t> a;
-		EXPECT_EQ(TypeEnum::kUnsignedByte, a.type());
+		EXPECT_EQ(TypeEnum::kUInt8, a.type());
 		EXPECT_EQ(nullptr, a.data());
 		EXPECT_EQ(0u, a.bytes());
 		EXPECT_EQ(0u, a.count());
 	}
 	{
 		IndexArray<std::uint16_t> a;
-		EXPECT_EQ(TypeEnum::kUnsignedShort, a.type());
+		EXPECT_EQ(TypeEnum::kUInt16, a.type());
 		EXPECT_EQ(nullptr, a.data());
 		EXPECT_EQ(0u, a.bytes());
 		EXPECT_EQ(0u, a.count());
 	}
 	{
 		IndexArray<std::uint32_t> a;
-		EXPECT_EQ(TypeEnum::kUnsignedInt, a.type());
+		EXPECT_EQ(TypeEnum::kUInt32, a.type());
 		EXPECT_EQ(nullptr, a.data());
 		EXPECT_EQ(0u, a.bytes());
 		EXPECT_EQ(0u, a.count());
 	}
 	{
 		IndexArray<std::int8_t> a;
-		EXPECT_EQ(TypeEnum::kByte, a.type());
+		EXPECT_EQ(TypeEnum::kSInt8, a.type());
 		EXPECT_EQ(nullptr, a.data());
 		EXPECT_EQ(0u, a.bytes());
 		EXPECT_EQ(0u, a.count());
 	}
 	{
 		IndexArray<std::int16_t> a;
-		EXPECT_EQ(TypeEnum::kShort, a.type());
+		EXPECT_EQ(TypeEnum::kSInt16, a.type());
 		EXPECT_EQ(nullptr, a.data());
 		EXPECT_EQ(0u, a.bytes());
 		EXPECT_EQ(0u, a.count());
 	}
 	{
 		IndexArray<std::int32_t> a;
-		EXPECT_EQ(TypeEnum::kInt, a.type());
+		EXPECT_EQ(TypeEnum::kSInt32, a.type());
 		EXPECT_EQ(nullptr, a.data());
 		EXPECT_EQ(0u, a.bytes());
 		EXPECT_EQ(0u, a.count());
@@ -79,7 +79,7 @@ GTEST_TEST(Render_IndexArray, ConstructTest)
 	{
 		const std::uint8_t t[] = { 0, 1, 2 };
 		IndexArray<std::uint8_t> a(std::begin(t), std::end(t));
-		EXPECT_EQ(TypeEnum::kUnsignedByte, a.type());
+		EXPECT_EQ(TypeEnum::kUInt8, a.type());
 		EXPECT_NE(nullptr, a.data());
 		EXPECT_EQ(0, a[0]);
 		EXPECT_EQ(1, a[1]);
@@ -90,7 +90,7 @@ GTEST_TEST(Render_IndexArray, ConstructTest)
 	{
 		const std::uint16_t t[] = { 3 };
 		IndexArray<std::uint16_t> a(std::begin(t), std::end(t));
-		EXPECT_EQ(TypeEnum::kUnsignedShort, a.type());
+		EXPECT_EQ(TypeEnum::kUInt16, a.type());
 		EXPECT_NE(nullptr, a.data());
 		EXPECT_EQ(3, a[0]);
 		EXPECT_EQ(2u, a.bytes());
@@ -99,7 +99,7 @@ GTEST_TEST(Render_IndexArray, ConstructTest)
 	{
 		const std::uint32_t t[] = { 4, 5 };
 		IndexArray<std::uint32_t> a(std::begin(t), std::end(t));
-		EXPECT_EQ(TypeEnum::kUnsignedInt, a.type());
+		EXPECT_EQ(TypeEnum::kUInt32, a.type());
 		EXPECT_NE(nullptr, a.data());
 		EXPECT_EQ(std::uint32_t(4), a[0]);
 		EXPECT_EQ(std::uint32_t(5), a[1]);
@@ -109,7 +109,7 @@ GTEST_TEST(Render_IndexArray, ConstructTest)
 	{
 		const std::int8_t t[] = { 6, 7, 8, 9 };
 		IndexArray<std::int8_t> a(std::begin(t), std::end(t));
-		EXPECT_EQ(TypeEnum::kByte, a.type());
+		EXPECT_EQ(TypeEnum::kSInt8, a.type());
 		EXPECT_NE(nullptr, a.data());
 		EXPECT_EQ(6, a[0]);
 		EXPECT_EQ(7, a[1]);
@@ -121,7 +121,7 @@ GTEST_TEST(Render_IndexArray, ConstructTest)
 	{
 		const std::int16_t t[] = { 10, 11, 12, 13, 14 };
 		IndexArray<std::int16_t> a(std::begin(t), std::end(t));
-		EXPECT_EQ(TypeEnum::kShort, a.type());
+		EXPECT_EQ(TypeEnum::kSInt16, a.type());
 		EXPECT_NE(nullptr, a.data());
 		EXPECT_EQ(10, a[0]);
 		EXPECT_EQ(14, a[4]);
@@ -131,7 +131,7 @@ GTEST_TEST(Render_IndexArray, ConstructTest)
 	{
 		const std::int32_t t[] = { 15, 16, 17, 18, 19, 20 };
 		IndexArray<std::int32_t> a(std::begin(t), std::end(t));
-		EXPECT_EQ(TypeEnum::kInt, a.type());
+		EXPECT_EQ(TypeEnum::kSInt32, a.type());
 		EXPECT_NE(nullptr, a.data());
 		EXPECT_EQ(15, a[0]);
 		EXPECT_EQ(20, a[5]);
@@ -240,9 +240,9 @@ void SerializeBasePtrTest(void)
 		ia >> BKSGE_SERIALIZATION_NVP(a2);
 		ia >> BKSGE_SERIALIZATION_NVP(a3);
 
-		EXPECT_EQ(TypeEnum::kUnsignedByte,  a1->type());
-		EXPECT_EQ(TypeEnum::kUnsignedShort, a2->type());
-		EXPECT_EQ(TypeEnum::kUnsignedInt,   a3->type());
+		EXPECT_EQ(TypeEnum::kUInt8,  a1->type());
+		EXPECT_EQ(TypeEnum::kUInt16, a2->type());
+		EXPECT_EQ(TypeEnum::kUInt32,   a3->type());
 
 		EXPECT_EQ(10, static_cast<std::uint8_t const*> (a1->data())[0]);
 		EXPECT_EQ(11, static_cast<std::uint16_t const*>(a2->data())[0]);

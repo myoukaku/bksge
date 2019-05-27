@@ -29,7 +29,7 @@ GTEST_TEST(Render_Geometry, BasicTest)
 		EXPECT_EQ(nullptr,                  geometry.index_array_data());
 		EXPECT_EQ(0u,                       geometry.index_array_bytes());
 		EXPECT_EQ(0u,                       geometry.index_array_count());
-//		EXPECT_EQ(TypeEnum::kUnsignedShort, geometry.index_array_type());
+//		EXPECT_EQ(TypeEnum::kUInt16,        geometry.index_array_type());
 		EXPECT_EQ(0u,                       layout.total_bytes());
 	}
 
@@ -56,7 +56,7 @@ GTEST_TEST(Render_Geometry, BasicTest)
 		EXPECT_NE(nullptr,                  geometry.index_array_data());
 		EXPECT_EQ(sizeof(index_array),      geometry.index_array_bytes());
 		EXPECT_EQ(2u,                       geometry.index_array_count());
-		EXPECT_EQ(TypeEnum::kUnsignedShort, geometry.index_array_type());
+		EXPECT_EQ(TypeEnum::kUInt16,        geometry.index_array_type());
 		EXPECT_EQ(sizeof(VertexType),       layout.total_bytes());
 	}
 
@@ -78,7 +78,7 @@ GTEST_TEST(Render_Geometry, BasicTest)
 		EXPECT_EQ(nullptr,                  geometry.index_array_data());
 		EXPECT_EQ(0u,                       geometry.index_array_bytes());
 		EXPECT_EQ(0u,                       geometry.index_array_count());
-//		EXPECT_EQ(TypeEnum::kUnsignedShort, geometry.index_array_type());
+//		EXPECT_EQ(TypeEnum::kUInt16,        geometry.index_array_type());
 		EXPECT_EQ(sizeof(VertexType),       layout.total_bytes());
 	}
 
@@ -106,7 +106,7 @@ GTEST_TEST(Render_Geometry, BasicTest)
 		EXPECT_NE(nullptr,                geometry.index_array_data());
 		EXPECT_EQ(sizeof(index_array),    geometry.index_array_bytes());
 		EXPECT_EQ(3u,                     geometry.index_array_count());
-		EXPECT_EQ(TypeEnum::kUnsignedInt, geometry.index_array_type());
+		EXPECT_EQ(TypeEnum::kUInt32,      geometry.index_array_type());
 		EXPECT_EQ(sizeof(VertexType),     layout.total_bytes());
 	}
 
@@ -129,7 +129,7 @@ GTEST_TEST(Render_Geometry, BasicTest)
 		EXPECT_EQ(nullptr,                  geometry.index_array_data());
 		EXPECT_EQ(0u,                       geometry.index_array_bytes());
 		EXPECT_EQ(0u,                       geometry.index_array_count());
-//		EXPECT_EQ(TypeEnum::kUnsignedShort, geometry.index_array_type());
+//		EXPECT_EQ(TypeEnum::kUInt16,        geometry.index_array_type());
 		EXPECT_EQ(sizeof(VertexType),       layout.total_bytes());
 	}
 }
@@ -164,7 +164,7 @@ GTEST_TEST(Render_Geometry, CopyTest)
 		EXPECT_NE(nullptr,                  geometry.index_array_data());
 		EXPECT_EQ(sizeof(index_array),      geometry.index_array_bytes());
 		EXPECT_EQ(2u,                       geometry.index_array_count());
-		EXPECT_EQ(TypeEnum::kUnsignedShort, geometry.index_array_type());
+		EXPECT_EQ(TypeEnum::kUInt16,        geometry.index_array_type());
 		EXPECT_EQ(sizeof(VertexType),       layout.total_bytes());
 	}
 	{
@@ -196,7 +196,7 @@ GTEST_TEST(Render_Geometry, CopyTest)
 		EXPECT_NE(nullptr,                geometry.index_array_data());
 		EXPECT_EQ(sizeof(index_array),    geometry.index_array_bytes());
 		EXPECT_EQ(3u,                     geometry.index_array_count());
-		EXPECT_EQ(TypeEnum::kUnsignedInt, geometry.index_array_type());
+		EXPECT_EQ(TypeEnum::kUInt32,      geometry.index_array_type());
 		EXPECT_EQ(sizeof(VertexType),     layout.total_bytes());
 	}
 }

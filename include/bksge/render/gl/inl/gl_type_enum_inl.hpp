@@ -27,13 +27,13 @@ GLenum ToGlTypeEnum(TypeEnum type)
 {
 	static std::unordered_map<TypeEnum, GLenum> const m =
 	{
-		{ TypeEnum::kByte,			GL_BYTE },
-		{ TypeEnum::kUnsignedByte,	GL_UNSIGNED_BYTE },
-		{ TypeEnum::kShort,			GL_SHORT },
-		{ TypeEnum::kUnsignedShort,	GL_UNSIGNED_SHORT },
-		{ TypeEnum::kInt,			GL_INT },
-		{ TypeEnum::kUnsignedInt,	GL_UNSIGNED_INT },
-		{ TypeEnum::kFloat,			GL_FLOAT },
+		{ TypeEnum::kSInt8,		GL_BYTE },
+		{ TypeEnum::kUInt8,		GL_UNSIGNED_BYTE },
+		{ TypeEnum::kSInt16,	GL_SHORT },
+		{ TypeEnum::kUInt16,	GL_UNSIGNED_SHORT },
+		{ TypeEnum::kSInt32,	GL_INT },
+		{ TypeEnum::kUInt32,	GL_UNSIGNED_INT },
+		{ TypeEnum::kFloat,		GL_FLOAT },
 	};
 
 	return m.at(type);

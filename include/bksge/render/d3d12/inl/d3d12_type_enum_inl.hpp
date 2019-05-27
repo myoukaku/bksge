@@ -28,13 +28,13 @@ ToD3D12TypeEnum(TypeEnum type)
 {
 	static std::unordered_map<TypeEnum, ::DXGI_FORMAT> const m =
 	{
-		{TypeEnum::kByte,          DXGI_FORMAT_R8_SINT},
-		{TypeEnum::kUnsignedByte,  DXGI_FORMAT_R8_UINT},
-		{TypeEnum::kShort,         DXGI_FORMAT_R16_SINT},
-		{TypeEnum::kUnsignedShort, DXGI_FORMAT_R16_UINT},
-		{TypeEnum::kInt,           DXGI_FORMAT_R32_SINT},
-		{TypeEnum::kUnsignedInt,   DXGI_FORMAT_R32_UINT},
-		{TypeEnum::kFloat,         DXGI_FORMAT_R32_FLOAT},
+		{TypeEnum::kSInt8,  DXGI_FORMAT_R8_SINT},
+		{TypeEnum::kUInt8,  DXGI_FORMAT_R8_UINT},
+		{TypeEnum::kSInt16, DXGI_FORMAT_R16_SINT},
+		{TypeEnum::kUInt16, DXGI_FORMAT_R16_UINT},
+		{TypeEnum::kSInt32, DXGI_FORMAT_R32_SINT},
+		{TypeEnum::kUInt32, DXGI_FORMAT_R32_UINT},
+		{TypeEnum::kFloat,  DXGI_FORMAT_R32_FLOAT},
 	};
 
 	return m.at(type);

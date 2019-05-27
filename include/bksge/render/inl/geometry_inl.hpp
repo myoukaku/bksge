@@ -29,67 +29,67 @@ Geometry::Geometry(void)
 	, m_index_array()
 {}
 
-BKSGE_INLINE
-Primitive const& Geometry::primitive(void) const
+BKSGE_INLINE Primitive const&
+Geometry::primitive(void) const
 {
 	return m_primitive;
 }
 
-BKSGE_INLINE
-VertexLayout const& Geometry::vertex_layout(void) const
+BKSGE_INLINE VertexLayout const&
+Geometry::vertex_layout(void) const
 {
 	static VertexLayout const dummy;
 
 	return m_vertex_array ? m_vertex_array->vertex_layout() : dummy;
 }
 
-BKSGE_INLINE
-void const* Geometry::vertex_array_data(void) const
+BKSGE_INLINE void const*
+Geometry::vertex_array_data(void) const
 {
 	return m_vertex_array ? m_vertex_array->data() : nullptr;
 }
 
-BKSGE_INLINE
-std::size_t Geometry::vertex_array_bytes(void) const
+BKSGE_INLINE std::size_t
+Geometry::vertex_array_bytes(void) const
 {
 	return m_vertex_array ? m_vertex_array->bytes() : 0;
 }
 
-BKSGE_INLINE
-std::size_t Geometry::vertex_array_count(void) const
+BKSGE_INLINE std::size_t
+Geometry::vertex_array_count(void) const
 {
 	return m_vertex_array ? m_vertex_array->count() : 0;
 }
 
-BKSGE_INLINE
-void const* Geometry::index_array_data(void) const
+BKSGE_INLINE void const*
+Geometry::index_array_data(void) const
 {
 	return m_index_array ? m_index_array->data() : nullptr;
 }
 
-BKSGE_INLINE
-std::size_t Geometry::index_array_bytes(void) const
+BKSGE_INLINE std::size_t
+Geometry::index_array_bytes(void) const
 {
 	return m_index_array ? m_index_array->bytes() : 0;
 }
 
-BKSGE_INLINE
-std::size_t Geometry::index_array_count(void) const
+BKSGE_INLINE std::size_t
+Geometry::index_array_count(void) const
 {
 	return m_index_array ? m_index_array->count() : 0;
 }
 
-BKSGE_INLINE
-TypeEnum Geometry::index_array_type(void) const
+BKSGE_INLINE TypeEnum
+Geometry::index_array_type(void) const
 {
-	return m_index_array ? m_index_array->type() : TypeEnum::kUnsignedShort;
+	return m_index_array ? m_index_array->type() : TypeEnum::kUInt16;
 }
 
 namespace geometry_detail
 {
 
-template <typename Ptr> inline
-bool PointerDeepCompare(Ptr const& lhs, Ptr const& rhs)
+template <typename Ptr> inline bool
+PointerDeepCompare(Ptr const& lhs, Ptr const& rhs)
 {
 	if (lhs == rhs)
 	{
@@ -107,8 +107,8 @@ bool PointerDeepCompare(Ptr const& lhs, Ptr const& rhs)
 
 }	// namespace geometry_detail
 
-BKSGE_INLINE
-bool operator==(Geometry const& lhs, Geometry const& rhs)
+BKSGE_INLINE bool
+operator==(Geometry const& lhs, Geometry const& rhs)
 {
 	return
 		lhs.m_primitive == rhs.m_primitive &&
@@ -116,8 +116,8 @@ bool operator==(Geometry const& lhs, Geometry const& rhs)
 		geometry_detail::PointerDeepCompare(lhs.m_index_array,  rhs.m_index_array);
 }
 
-BKSGE_INLINE
-bool operator!=(Geometry const& lhs, Geometry const& rhs)
+BKSGE_INLINE bool
+operator!=(Geometry const& lhs, Geometry const& rhs)
 {
 	return !(lhs == rhs);
 }

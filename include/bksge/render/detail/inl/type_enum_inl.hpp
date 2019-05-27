@@ -21,12 +21,12 @@ namespace render
 {
 
 #define BKSGE_FOREACH_TYPEENUM(F)	\
-	F(TypeEnum::kByte),				\
-	F(TypeEnum::kUnsignedByte),		\
-	F(TypeEnum::kShort),			\
-	F(TypeEnum::kUnsignedShort),	\
-	F(TypeEnum::kInt),				\
-	F(TypeEnum::kUnsignedInt),		\
+	F(TypeEnum::kSInt8),			\
+	F(TypeEnum::kUInt8),			\
+	F(TypeEnum::kSInt16),			\
+	F(TypeEnum::kUInt16),			\
+	F(TypeEnum::kSInt32),			\
+	F(TypeEnum::kUInt32),			\
 	F(TypeEnum::kFloat)
 
 BKSGE_INLINE

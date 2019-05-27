@@ -16,17 +16,17 @@ GTEST_TEST(Render_VertexAttribute, BasicTest)
 	using namespace bksge::render;
 
 	{
-		const VertexAttribute a(Semantic::kPosition, TypeEnum::kByte, 3, 0);
+		const VertexAttribute a(Semantic::kPosition, TypeEnum::kSInt8, 3, 0);
 		EXPECT_EQ(Semantic::kPosition,	a.semantic());
-		EXPECT_EQ(TypeEnum::kByte,		a.type());
+		EXPECT_EQ(TypeEnum::kSInt8,		a.type());
 		EXPECT_EQ(3u,					a.element_num());
 		EXPECT_EQ(0u,					a.offset());
 		EXPECT_EQ(3u,					a.bytes());
 	}
 	{
-		const VertexAttribute a(Semantic::kColor, TypeEnum::kUnsignedShort, 4, 2);
+		const VertexAttribute a(Semantic::kColor, TypeEnum::kUInt16, 4, 2);
 		EXPECT_EQ(Semantic::kColor,			a.semantic());
-		EXPECT_EQ(TypeEnum::kUnsignedShort,	a.type());
+		EXPECT_EQ(TypeEnum::kUInt16,		a.type());
 		EXPECT_EQ(4u,						a.element_num());
 		EXPECT_EQ(2u,						a.offset());
 		EXPECT_EQ(8u,						a.bytes());
@@ -38,12 +38,12 @@ GTEST_TEST(Render_VertexAttribute, CompareTest)
 	using namespace bksge;
 	using namespace bksge::render;
 
-	const VertexAttribute a1(Semantic::kPosition, TypeEnum::kByte, 3, 0);
-	const VertexAttribute a2(Semantic::kPosition, TypeEnum::kByte, 3, 0);
-	const VertexAttribute a3(Semantic::kNormal,   TypeEnum::kByte, 3, 0);
-	const VertexAttribute a4(Semantic::kPosition, TypeEnum::kInt,  3, 0);
-	const VertexAttribute a5(Semantic::kPosition, TypeEnum::kByte, 4, 0);
-	const VertexAttribute a6(Semantic::kPosition, TypeEnum::kByte, 3, 1);
+	const VertexAttribute a1(Semantic::kPosition, TypeEnum::kSInt8,  3, 0);
+	const VertexAttribute a2(Semantic::kPosition, TypeEnum::kSInt8,  3, 0);
+	const VertexAttribute a3(Semantic::kNormal,   TypeEnum::kSInt8,  3, 0);
+	const VertexAttribute a4(Semantic::kPosition, TypeEnum::kSInt32, 3, 0);
+	const VertexAttribute a5(Semantic::kPosition, TypeEnum::kSInt8,  4, 0);
+	const VertexAttribute a6(Semantic::kPosition, TypeEnum::kSInt8,  3, 1);
 
 	EXPECT_TRUE (a1 == a1);
 	EXPECT_TRUE (a1 == a2);
