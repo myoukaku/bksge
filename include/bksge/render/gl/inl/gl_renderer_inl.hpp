@@ -17,6 +17,9 @@
 #include <bksge/render/gl/gl_glsl_program.hpp>
 #include <bksge/render/gl/gl_texture.hpp>
 #include <bksge/render/gl/gl_frame_buffer.hpp>
+#include <bksge/render/gl/gl_fill_mode.hpp>
+#include <bksge/render/gl/gl_front_face.hpp>
+#include <bksge/render/gl/gl_cull_mode.hpp>
 #include <bksge/render/gl/wgl/wgl_context.hpp>
 #include <bksge/render/gl/glx/glx_context.hpp>
 #include <bksge/render/geometry.hpp>
@@ -188,20 +191,22 @@ void GlRenderer::VRender(
 	BKSGE_ASSERT(glsl_program != nullptr);
 
 	auto const& rasterizer_state = render_state.rasterizer_state();
-	auto const& cull_mode = rasterizer_state.cull_mode();
+	auto const& cull_mode  = rasterizer_state.cull_mode();
 	auto const& front_face = rasterizer_state.front_face();
+	auto const& fill_mode  = rasterizer_state.fill_mode();
 
 	if (cull_mode == CullMode::kNone)
 	{
-		glDisable(GL_CULL_FACE);
+		::glDisable(GL_CULL_FACE);
 	}
 	else
 	{
-		glEnable(GL_CULL_FACE);
-		glCullFace(cull_mode == CullMode::kBack ? GL_BACK : GL_FRONT);
+		::glEnable(GL_CULL_FACE);
+		::glCullFace(ToGlCullMode(cull_mode));
 	}
 
-	glFrontFace(front_face == FrontFace::kClockwise ? GL_CW : GL_CCW);
+	::glFrontFace(ToGlFrontFace(front_face));
+	::glPolygonMode(GL_FRONT_AND_BACK, ToGlFillMode(fill_mode));
 
 	auto gl_geometry = GetGlGeometry(geometry);
 	glsl_program->Render(gl_geometry.get(), shader_parameter_map);

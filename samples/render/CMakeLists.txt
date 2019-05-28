@@ -3,6 +3,7 @@
 add_subdirectory(clear)
 add_subdirectory(constant_buffer)
 add_subdirectory(cull_face)
+add_subdirectory(fill_mode)
 add_subdirectory(indexed)
 add_subdirectory(line)
 add_subdirectory(point)

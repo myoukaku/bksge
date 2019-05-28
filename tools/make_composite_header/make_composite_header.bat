@@ -1,5 +1,5 @@
 @echo off
-SET PATH=%PATH%;C:\python27
+SET PATH=C:\python27;%PATH%
 
 call :func bksge/cmath                "CMath library"
 call :func bksge/functional           "Functional library"
