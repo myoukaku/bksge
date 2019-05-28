@@ -27,16 +27,13 @@ private:
 	using BaseType = detail::VectorRGBA<T, 3>;
 
 public:
+	// 継承コンストラクタ
+	using BaseType::BaseType;
+
 	// デフォルトコンストラクタ
 	BKSGE_CONSTEXPR
 	Color() BKSGE_NOEXCEPT_OR_NOTHROW
 		: BaseType()
-	{}
-
-	template <typename U1, typename U2, typename U3>
-	BKSGE_CONSTEXPR
-	Color(U1 const& r, U2 const& g, U3 const& b) BKSGE_NOEXCEPT_OR_NOTHROW
-		: BaseType(r, g, b)
 	{}
 
 	template <typename U>

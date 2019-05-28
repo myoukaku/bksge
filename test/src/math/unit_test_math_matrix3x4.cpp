@@ -13,6 +13,8 @@
 #include <bksge/math/vector4.hpp>
 #include <bksge/math/vector3.hpp>
 #include <bksge/cmath/degrees_to_radians.hpp>
+#include <bksge/type_traits/is_implicitly_constructible.hpp>
+#include <bksge/type_traits/is_implicitly_default_constructible.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
 #include <stdexcept>
@@ -48,6 +50,7 @@ TYPED_TEST(MathMatrix3x4Test, DefaultConstructTest)
 	static_assert(sizeof(Matrix3x4) == sizeof(T) * 12, "");
 	static_assert(std::is_default_constructible<Matrix3x4>::value, "");
 	static_assert(std::is_nothrow_default_constructible<Matrix3x4>::value, "");
+	static_assert(bksge::is_implicitly_default_constructible<Matrix3x4>::value, "");
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST Matrix3x4 m;
@@ -110,6 +113,10 @@ TYPED_TEST(MathMatrix3x4Test, VectorConstructTest)
 	static_assert( std::is_nothrow_constructible<Matrix3x4, Vector4, Vector4, Vector4>::value, "");
 	static_assert(!std::is_nothrow_constructible<Matrix3x4, Vector4, Vector4>::value, "");
 	static_assert(!std::is_nothrow_constructible<Matrix3x4, Vector4>::value, "");
+	static_assert(!bksge::is_implicitly_constructible<Matrix3x4, Vector4, Vector4, Vector4, Vector4>::value, "");
+	static_assert( bksge::is_implicitly_constructible<Matrix3x4, Vector4, Vector4, Vector4>::value, "");
+	static_assert(!bksge::is_implicitly_constructible<Matrix3x4, Vector4, Vector4>::value, "");
+	static_assert(!bksge::is_implicitly_constructible<Matrix3x4, Vector4>::value, "");
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST Vector4 v1(1,  2,  3,  4);
@@ -186,6 +193,26 @@ TYPED_TEST(MathMatrix3x4Test, CopyConstructTest)
 	static_assert(std::is_constructible<Matrix3x4f, Matrix3x4  const&>::value, "");
 	static_assert(std::is_constructible<Matrix3x4f, Matrix3x4i const&>::value, "");
 	static_assert(std::is_constructible<Matrix3x4f, Matrix3x4f const&>::value, "");
+
+	static_assert(std::is_nothrow_constructible<Matrix3x4,  Matrix3x4  const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Matrix3x4,  Matrix3x4i const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Matrix3x4,  Matrix3x4f const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Matrix3x4i, Matrix3x4  const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Matrix3x4i, Matrix3x4i const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Matrix3x4i, Matrix3x4f const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Matrix3x4f, Matrix3x4  const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Matrix3x4f, Matrix3x4i const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Matrix3x4f, Matrix3x4f const&>::value, "");
+
+	static_assert(bksge::is_implicitly_constructible<Matrix3x4,  Matrix3x4  const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Matrix3x4,  Matrix3x4i const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Matrix3x4,  Matrix3x4f const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Matrix3x4i, Matrix3x4  const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Matrix3x4i, Matrix3x4i const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Matrix3x4i, Matrix3x4f const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Matrix3x4f, Matrix3x4  const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Matrix3x4f, Matrix3x4i const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Matrix3x4f, Matrix3x4f const&>::value, "");
 
 	BKSGE_CONSTEXPR_OR_CONST Matrix3x4  m1
 	{

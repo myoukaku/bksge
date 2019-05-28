@@ -9,6 +9,8 @@
 #include <bksge/math/vector4.hpp>
 #include <bksge/math/vector3.hpp>
 #include <bksge/math/vector2.hpp>
+#include <bksge/type_traits/is_implicitly_constructible.hpp>
+#include <bksge/type_traits/is_implicitly_default_constructible.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
 #include <stdexcept>
@@ -44,6 +46,7 @@ TYPED_TEST(MathVector4Test, DefaultConstructTest)
 	static_assert(sizeof(Vector4) == sizeof(T) * 4, "");
 	static_assert(std::is_default_constructible<Vector4>::value, "");
 	static_assert(std::is_nothrow_default_constructible<Vector4>::value, "");
+	static_assert(bksge::is_implicitly_default_constructible<Vector4>::value, "");
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST Vector4 v;
@@ -83,6 +86,11 @@ TYPED_TEST(MathVector4Test, ValueConstructTest)
 	static_assert(!std::is_nothrow_constructible<Vector4, T, T, T>::value, "");
 	static_assert(!std::is_nothrow_constructible<Vector4, T, T>::value, "");
 	static_assert(!std::is_nothrow_constructible<Vector4, T>::value, "");
+	static_assert(!bksge::is_implicitly_constructible<Vector4, T, T, T, T, T>::value, "");
+	static_assert( bksge::is_implicitly_constructible<Vector4, T, T, T, T>::value, "");
+	static_assert(!bksge::is_implicitly_constructible<Vector4, T, T, T>::value, "");
+	static_assert(!bksge::is_implicitly_constructible<Vector4, T, T>::value, "");
+	static_assert(!bksge::is_implicitly_constructible<Vector4, T>::value, "");
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST Vector4 v(1, 2, 3, 4);
@@ -112,15 +120,35 @@ TYPED_TEST(MathVector4Test, CopyConstructTest)
 	using T = TypeParam;
 	using Vector4 = bksge::Vector4<T>;
 
-	static_assert(std::is_constructible<Vector4, Vector4  const&>::value, "");
-	static_assert(std::is_constructible<Vector4, Vector4i const&>::value, "");
-	static_assert(std::is_constructible<Vector4, Vector4f const&>::value, "");
+	static_assert(std::is_constructible<Vector4,  Vector4  const&>::value, "");
+	static_assert(std::is_constructible<Vector4,  Vector4i const&>::value, "");
+	static_assert(std::is_constructible<Vector4,  Vector4f const&>::value, "");
 	static_assert(std::is_constructible<Vector4i, Vector4  const&>::value, "");
 	static_assert(std::is_constructible<Vector4i, Vector4i const&>::value, "");
 	static_assert(std::is_constructible<Vector4i, Vector4f const&>::value, "");
 	static_assert(std::is_constructible<Vector4f, Vector4  const&>::value, "");
 	static_assert(std::is_constructible<Vector4f, Vector4i const&>::value, "");
 	static_assert(std::is_constructible<Vector4f, Vector4f const&>::value, "");
+
+	static_assert(std::is_nothrow_constructible<Vector4,  Vector4  const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Vector4,  Vector4i const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Vector4,  Vector4f const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Vector4i, Vector4  const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Vector4i, Vector4i const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Vector4i, Vector4f const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Vector4f, Vector4  const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Vector4f, Vector4i const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Vector4f, Vector4f const&>::value, "");
+
+	static_assert(bksge::is_implicitly_constructible<Vector4,  Vector4  const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Vector4,  Vector4i const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Vector4,  Vector4f const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Vector4i, Vector4  const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Vector4i, Vector4i const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Vector4i, Vector4f const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Vector4f, Vector4  const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Vector4f, Vector4i const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Vector4f, Vector4f const&>::value, "");
 
 	BKSGE_CONSTEXPR_OR_CONST Vector4  v1{1, 2, 3, 4};
 	BKSGE_CONSTEXPR_OR_CONST Vector4  v2{v1};

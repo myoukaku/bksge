@@ -10,6 +10,8 @@
 #include <bksge/math/vector4.hpp>
 #include <bksge/math/vector3.hpp>
 #include <bksge/math/vector2.hpp>
+#include <bksge/type_traits/is_implicitly_constructible.hpp>
+#include <bksge/type_traits/is_implicitly_default_constructible.hpp>
 #include <bksge/config.hpp>
 #include <sstream>
 #include <stdexcept>
@@ -42,6 +44,7 @@ TYPED_TEST(MathSize2Test, DefaultConstructTest)
 	static_assert(sizeof(Size2) == sizeof(T) * 2, "");
 	static_assert(std::is_default_constructible<Size2>::value, "");
 	static_assert(std::is_nothrow_default_constructible<Size2>::value, "");
+	static_assert(bksge::is_implicitly_default_constructible<Size2>::value, "");
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST Size2 v;
@@ -75,6 +78,11 @@ TYPED_TEST(MathSize2Test, ValueConstructTest)
 	static_assert(!std::is_nothrow_constructible<Size2, T, T, T>::value, "");
 	static_assert( std::is_nothrow_constructible<Size2, T, T>::value, "");
 	static_assert(!std::is_nothrow_constructible<Size2, T>::value, "");
+	static_assert(!bksge::is_implicitly_constructible<Size2, T, T, T, T, T>::value, "");
+	static_assert(!bksge::is_implicitly_constructible<Size2, T, T, T, T>::value, "");
+	static_assert(!bksge::is_implicitly_constructible<Size2, T, T, T>::value, "");
+	static_assert( bksge::is_implicitly_constructible<Size2, T, T>::value, "");
+	static_assert(!bksge::is_implicitly_constructible<Size2, T>::value, "");
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST Size2 v(1, 2);
@@ -98,15 +106,35 @@ TYPED_TEST(MathSize2Test, CopyConstructTest)
 	using T = TypeParam;
 	using Size2 = bksge::math::Size2<T>;
 
-	static_assert(std::is_constructible<Size2, Size2  const&>::value, "");
-	static_assert(std::is_constructible<Size2, Size2i const&>::value, "");
-	static_assert(std::is_constructible<Size2, Size2f const&>::value, "");
+	static_assert(std::is_constructible<Size2,  Size2  const&>::value, "");
+	static_assert(std::is_constructible<Size2,  Size2i const&>::value, "");
+	static_assert(std::is_constructible<Size2,  Size2f const&>::value, "");
 	static_assert(std::is_constructible<Size2i, Size2  const&>::value, "");
 	static_assert(std::is_constructible<Size2i, Size2i const&>::value, "");
 	static_assert(std::is_constructible<Size2i, Size2f const&>::value, "");
 	static_assert(std::is_constructible<Size2f, Size2  const&>::value, "");
 	static_assert(std::is_constructible<Size2f, Size2i const&>::value, "");
 	static_assert(std::is_constructible<Size2f, Size2f const&>::value, "");
+
+	static_assert(std::is_nothrow_constructible<Size2,  Size2  const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Size2,  Size2i const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Size2,  Size2f const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Size2i, Size2  const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Size2i, Size2i const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Size2i, Size2f const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Size2f, Size2  const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Size2f, Size2i const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Size2f, Size2f const&>::value, "");
+
+	static_assert(bksge::is_implicitly_constructible<Size2,  Size2  const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Size2,  Size2i const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Size2,  Size2f const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Size2i, Size2  const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Size2i, Size2i const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Size2i, Size2f const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Size2f, Size2  const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Size2f, Size2i const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Size2f, Size2f const&>::value, "");
 
 	BKSGE_CONSTEXPR_OR_CONST Size2  v1{1, 2};
 	BKSGE_CONSTEXPR_OR_CONST Size2  v2{v1};

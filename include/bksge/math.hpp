@@ -12,6 +12,7 @@
 #include <bksge/math/color.hpp>
 #include <bksge/math/color3.hpp>
 #include <bksge/math/color4.hpp>
+#include <bksge/math/color_hsv.hpp>
 #include <bksge/math/matrix.hpp>
 #include <bksge/math/matrix3x3.hpp>
 #include <bksge/math/matrix3x4.hpp>

@@ -9,6 +9,8 @@
 #include <bksge/math/rect.hpp>
 #include <bksge/math/vector2.hpp>
 #include <bksge/math/size2.hpp>
+#include <bksge/type_traits/is_implicitly_constructible.hpp>
+#include <bksge/type_traits/is_implicitly_default_constructible.hpp>
 #include <bksge/config.hpp>
 #include <sstream>
 #include <type_traits>
@@ -41,6 +43,7 @@ TYPED_TEST(MathRectTest, DefaultConstructTest)
 	static_assert(sizeof(Rect) == sizeof(T) * 4, "");
 	static_assert(std::is_default_constructible<Rect>::value, "");
 	static_assert(std::is_nothrow_default_constructible<Rect>::value, "");
+	static_assert(bksge::is_implicitly_default_constructible<Rect>::value, "");
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST Rect r;
@@ -83,6 +86,9 @@ TYPED_TEST(MathRectTest, Vector2Vector2ConstructTest)
 	static_assert(!std::is_nothrow_constructible<Rect, Vector2, Vector2, Vector2>::value, "");
 	static_assert( std::is_nothrow_constructible<Rect, Vector2, Vector2>::value, "");
 	static_assert(!std::is_nothrow_constructible<Rect, Vector2>::value, "");
+	static_assert(!bksge::is_implicitly_constructible<Rect, Vector2, Vector2, Vector2>::value, "");
+	static_assert( bksge::is_implicitly_constructible<Rect, Vector2, Vector2>::value, "");
+	static_assert(!bksge::is_implicitly_constructible<Rect, Vector2>::value, "");
 
 	{
 		BKSGE_CXX14_CONSTEXPR_OR_CONST Rect r(Vector2{1, 2}, Vector2{-3, -4});
@@ -126,6 +132,9 @@ TYPED_TEST(MathRectTest, Vector2Size2ConstructTest)
 	static_assert(!std::is_nothrow_constructible<Rect, Vector2, Size2, Vector2>::value, "");
 	static_assert( std::is_nothrow_constructible<Rect, Vector2, Size2>::value, "");
 	static_assert(!std::is_nothrow_constructible<Rect, Vector2>::value, "");
+	static_assert(!bksge::is_implicitly_constructible<Rect, Vector2, Size2, Vector2>::value, "");
+	static_assert( bksge::is_implicitly_constructible<Rect, Vector2, Size2>::value, "");
+	static_assert(!bksge::is_implicitly_constructible<Rect, Vector2>::value, "");
 
 	{
 		BKSGE_CXX14_CONSTEXPR_OR_CONST Rect r(Vector2{1, 2}, Size2{3, 4});
@@ -171,6 +180,26 @@ TYPED_TEST(MathRectTest, CopyConstructTest)
 	static_assert(std::is_constructible<Rectf, Rect  const&>::value, "");
 	static_assert(std::is_constructible<Rectf, Recti const&>::value, "");
 	static_assert(std::is_constructible<Rectf, Rectf const&>::value, "");
+
+	static_assert(std::is_nothrow_constructible<Rect,  Rect  const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Rect,  Recti const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Rect,  Rectf const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Recti, Rect  const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Recti, Recti const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Recti, Rectf const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Rectf, Rect  const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Rectf, Recti const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Rectf, Rectf const&>::value, "");
+
+	static_assert(bksge::is_implicitly_constructible<Rect,  Rect  const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Rect,  Recti const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Rect,  Rectf const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Recti, Rect  const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Recti, Recti const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Recti, Rectf const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Rectf, Rect  const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Rectf, Recti const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Rectf, Rectf const&>::value, "");
 
 	BKSGE_CXX14_CONSTEXPR_OR_CONST Rect  r1{Vector2{1, 2}, Vector2{3, 4}};
 	BKSGE_CXX14_CONSTEXPR_OR_CONST Rect  r2{r1};

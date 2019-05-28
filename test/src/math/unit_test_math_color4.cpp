@@ -10,6 +10,8 @@
 #include <bksge/math/vector4.hpp>
 #include <bksge/math/vector3.hpp>
 #include <bksge/math/vector2.hpp>
+#include <bksge/type_traits/is_implicitly_constructible.hpp>
+#include <bksge/type_traits/is_implicitly_default_constructible.hpp>
 #include <bksge/config.hpp>
 #include <sstream>
 #include <stdexcept>
@@ -46,6 +48,7 @@ TYPED_TEST(MathColor4Test, DefaultConstructTest)
 	static_assert(sizeof(Color4) == sizeof(T) * 4, "");
 	static_assert(std::is_default_constructible<Color4>::value, "");
 	static_assert(std::is_nothrow_default_constructible<Color4>::value, "");
+	static_assert(bksge::is_implicitly_default_constructible<Color4>::value, "");
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST Color4 v;
@@ -85,6 +88,11 @@ TYPED_TEST(MathColor4Test, ValueConstructTest)
 	static_assert(!std::is_nothrow_constructible<Color4, T, T, T>::value, "");
 	static_assert(!std::is_nothrow_constructible<Color4, T, T>::value, "");
 	static_assert(!std::is_nothrow_constructible<Color4, T>::value, "");
+	static_assert(!bksge::is_implicitly_constructible<Color4, T, T, T, T, T>::value, "");
+	static_assert( bksge::is_implicitly_constructible<Color4, T, T, T, T>::value, "");
+	static_assert(!bksge::is_implicitly_constructible<Color4, T, T, T>::value, "");
+	static_assert(!bksge::is_implicitly_constructible<Color4, T, T>::value, "");
+	static_assert(!bksge::is_implicitly_constructible<Color4, T>::value, "");
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST Color4 v(1, 2, 3, 4);
@@ -114,15 +122,35 @@ TYPED_TEST(MathColor4Test, CopyConstructTest)
 	using T = TypeParam;
 	using Color4 = bksge::math::Color4<T>;
 
-	static_assert(std::is_constructible<Color4, Color4  const&>::value, "");
-	static_assert(std::is_constructible<Color4, Color4i const&>::value, "");
-	static_assert(std::is_constructible<Color4, Color4f const&>::value, "");
+	static_assert(std::is_constructible<Color4,  Color4  const&>::value, "");
+	static_assert(std::is_constructible<Color4,  Color4i const&>::value, "");
+	static_assert(std::is_constructible<Color4,  Color4f const&>::value, "");
 	static_assert(std::is_constructible<Color4i, Color4  const&>::value, "");
 	static_assert(std::is_constructible<Color4i, Color4i const&>::value, "");
 	static_assert(std::is_constructible<Color4i, Color4f const&>::value, "");
 	static_assert(std::is_constructible<Color4f, Color4  const&>::value, "");
 	static_assert(std::is_constructible<Color4f, Color4i const&>::value, "");
 	static_assert(std::is_constructible<Color4f, Color4f const&>::value, "");
+
+	static_assert(std::is_nothrow_constructible<Color4,  Color4  const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Color4,  Color4i const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Color4,  Color4f const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Color4i, Color4  const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Color4i, Color4i const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Color4i, Color4f const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Color4f, Color4  const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Color4f, Color4i const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Color4f, Color4f const&>::value, "");
+
+	static_assert(bksge::is_implicitly_constructible<Color4,  Color4  const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Color4,  Color4i const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Color4,  Color4f const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Color4i, Color4  const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Color4i, Color4i const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Color4i, Color4f const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Color4f, Color4  const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Color4f, Color4i const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Color4f, Color4f const&>::value, "");
 
 	BKSGE_CONSTEXPR_OR_CONST Color4  v1{1, 2, 3, 4};
 	BKSGE_CONSTEXPR_OR_CONST Color4  v2{v1};

@@ -12,6 +12,8 @@
 #include <bksge/math/vector2.hpp>
 #include <bksge/math/matrix3x3.hpp>
 #include <bksge/cmath/degrees_to_radians.hpp>
+#include <bksge/type_traits/is_implicitly_constructible.hpp>
+#include <bksge/type_traits/is_implicitly_default_constructible.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
 #include <stdexcept>
@@ -47,6 +49,7 @@ TYPED_TEST(MathQuaternionTest, DefaultConstructTest)
 	static_assert(sizeof(Quaternion) == sizeof(T) * 4, "");
 	static_assert(std::is_default_constructible<Quaternion>::value, "");
 	static_assert(std::is_nothrow_default_constructible<Quaternion>::value, "");
+	static_assert(bksge::is_implicitly_default_constructible<Quaternion>::value, "");
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST Quaternion v;
@@ -86,6 +89,11 @@ TYPED_TEST(MathQuaternionTest, ValueConstructTest)
 	static_assert(!std::is_nothrow_constructible<Quaternion, T, T, T>::value, "");
 	static_assert(!std::is_nothrow_constructible<Quaternion, T, T>::value, "");
 	static_assert(!std::is_nothrow_constructible<Quaternion, T>::value, "");
+	static_assert(!bksge::is_implicitly_constructible<Quaternion, T, T, T, T, T>::value, "");
+	static_assert( bksge::is_implicitly_constructible<Quaternion, T, T, T, T>::value, "");
+	static_assert(!bksge::is_implicitly_constructible<Quaternion, T, T, T>::value, "");
+	static_assert(!bksge::is_implicitly_constructible<Quaternion, T, T>::value, "");
+	static_assert(!bksge::is_implicitly_constructible<Quaternion, T>::value, "");
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST Quaternion v(1, 2, 3, 4);
@@ -115,15 +123,35 @@ TYPED_TEST(MathQuaternionTest, CopyConstructTest)
 	using T = TypeParam;
 	using Quaternion = bksge::math::Quaternion<T>;
 
-	static_assert(std::is_constructible<Quaternion, Quaternion  const&>::value, "");
-	static_assert(std::is_constructible<Quaternion, Quaternioni const&>::value, "");
-	static_assert(std::is_constructible<Quaternion, Quaternionf const&>::value, "");
+	static_assert(std::is_constructible<Quaternion,  Quaternion  const&>::value, "");
+	static_assert(std::is_constructible<Quaternion,  Quaternioni const&>::value, "");
+	static_assert(std::is_constructible<Quaternion,  Quaternionf const&>::value, "");
 	static_assert(std::is_constructible<Quaternioni, Quaternion  const&>::value, "");
 	static_assert(std::is_constructible<Quaternioni, Quaternioni const&>::value, "");
 	static_assert(std::is_constructible<Quaternioni, Quaternionf const&>::value, "");
 	static_assert(std::is_constructible<Quaternionf, Quaternion  const&>::value, "");
 	static_assert(std::is_constructible<Quaternionf, Quaternioni const&>::value, "");
 	static_assert(std::is_constructible<Quaternionf, Quaternionf const&>::value, "");
+
+	static_assert(std::is_nothrow_constructible<Quaternion,  Quaternion  const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Quaternion,  Quaternioni const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Quaternion,  Quaternionf const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Quaternioni, Quaternion  const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Quaternioni, Quaternioni const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Quaternioni, Quaternionf const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Quaternionf, Quaternion  const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Quaternionf, Quaternioni const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Quaternionf, Quaternionf const&>::value, "");
+
+	static_assert(bksge::is_implicitly_constructible<Quaternion,  Quaternion  const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Quaternion,  Quaternioni const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Quaternion,  Quaternionf const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Quaternioni, Quaternion  const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Quaternioni, Quaternioni const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Quaternioni, Quaternionf const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Quaternionf, Quaternion  const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Quaternionf, Quaternioni const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Quaternionf, Quaternionf const&>::value, "");
 
 	BKSGE_CONSTEXPR_OR_CONST Quaternion  v1{1, 2, 3, 4};
 	BKSGE_CONSTEXPR_OR_CONST Quaternion  v2{v1};
