@@ -51,7 +51,9 @@
 #include <bksge/math/size2.hpp>
 #include <bksge/assert.hpp>
 
+#include <memory>
 #include <unordered_map>
+#include <utility>
 
 namespace bksge
 {
@@ -220,7 +222,7 @@ D3D12Renderer::VRender(
 
 	{
 		auto const& scissor = render_state.scissor_state();
-		auto const rect = 
+		auto const rect =
 			scissor.enable() ?
 			scissor.rect() :
 			m_viewport ?

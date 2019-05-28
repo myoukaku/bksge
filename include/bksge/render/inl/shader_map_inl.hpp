@@ -10,6 +10,8 @@
 #define BKSGE_RENDER_INL_SHADER_MAP_INL_HPP
 
 #include <bksge/render/shader_map.hpp>
+#include <initializer_list>
+#include <utility>
 
 namespace bksge
 {

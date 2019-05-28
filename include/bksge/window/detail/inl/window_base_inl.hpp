@@ -10,6 +10,8 @@
 #define BKSGE_WINDOW_DETAIL_INL_WINDOW_BASE_INL_HPP
 
 #include <bksge/window/detail/window_base.hpp>
+#include <bksge/math/size2.hpp>
+#include <string>
 
 namespace bksge
 {

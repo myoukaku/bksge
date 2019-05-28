@@ -30,7 +30,7 @@ namespace render
 class GlGLSLProgram
 {
 public:
-	GlGLSLProgram(Shader const& shader);
+	explicit GlGLSLProgram(Shader const& shader);
 
 	~GlGLSLProgram();
 

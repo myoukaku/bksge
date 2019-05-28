@@ -20,6 +20,7 @@
 #include <bksge/render/d3d_common/d3dcompiler.hpp>
 #include <bksge/render/d3d_common/throw_if_failed.hpp>
 #include <bksge/memory/make_unique.hpp>
+#include <memory>
 #include <string>
 #include <utility>
 #include <iostream>

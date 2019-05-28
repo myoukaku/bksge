@@ -25,7 +25,7 @@ namespace render
 class GlVertexArray
 {
 public:
-	GlVertexArray(Geometry const& geometry);
+	explicit GlVertexArray(Geometry const& geometry);
 
 	~GlVertexArray();
 

@@ -17,6 +17,7 @@
 #include <bksge/render/d3d_common/com_ptr.hpp>
 #include <bksge/render/d3d_common/throw_if_failed.hpp>
 #include <vector>
+#include <utility>
 
 namespace bksge
 {

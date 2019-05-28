@@ -174,9 +174,9 @@ operator<<(std::basic_ostream<CharT, Traits>& os, Rect<T> const& rhs)
 {
 	return
 		os << "{ "
-			<< rhs.left()  << ", " 
-			<< rhs.top()   << ", " 
-			<< rhs.right() << ", " 
+			<< rhs.left()  << ", "
+			<< rhs.top()   << ", "
+			<< rhs.right() << ", "
 			<< rhs.bottom()
 		<< " }";
 }

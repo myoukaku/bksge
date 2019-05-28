@@ -171,7 +171,7 @@ D3D11Device::CreateShaderResourceView(
 }
 
 BKSGE_INLINE ComPtr<::ID3D11InputLayout>
-D3D11Device::CreateInputLayout( 
+D3D11Device::CreateInputLayout(
 	::D3D11_INPUT_ELEMENT_DESC const* desc,
 	::UINT num_elements,
 	void const* bytecode,

@@ -11,6 +11,7 @@
 
 #include <bksge/render/shader.hpp>
 #include <bksge/render/detail/shader_parameter.hpp>
+#include <initializer_list>
 #include <string>
 #include <utility>
 
