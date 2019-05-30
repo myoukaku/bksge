@@ -20,11 +20,12 @@ namespace math
 template <typename T>
 using Matrix4x4 = Matrix<T, 4, 4>;
 
+using Matrix4x4f = Matrix4x4<float>;
+
 }	// namespace math
 
 using math::Matrix4x4;
-
-using Matrix4x4f = Matrix4x4<float>;
+using math::Matrix4x4f;
 
 }	// namespace bksge
 

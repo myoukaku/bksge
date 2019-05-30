@@ -20,11 +20,12 @@ namespace math
 template <typename T>
 using Scale2 = Scale<T, 2>;
 
+using Scale2f = Scale2<float>;
+
 }	// namespace math
 
 using math::Scale2;
-
-using Scale2f = Scale2<float>;
+using math::Scale2f;
 
 }	// namespace bksge
 

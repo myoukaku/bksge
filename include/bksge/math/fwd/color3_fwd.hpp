@@ -20,11 +20,12 @@ namespace math
 template <typename T>
 using Color3 = Color<T, 3>;
 
+using Color3f = Color3<float>;
+
 }	// namespace math
 
 using math::Color3;
-
-using Color3f = Color3<float>;
+using math::Color3f;
 
 }	// namespace bksge
 

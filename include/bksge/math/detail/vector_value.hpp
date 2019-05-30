@@ -345,6 +345,29 @@ get(bksge::math::detail::vector_value<T, N> const&& v) noexcept
 
 }	// namespace bksge
 
+namespace std
+{
+
+/**
+ *	@brief	tuple_size
+ */
+template <typename T, std::size_t N>
+struct tuple_size<bksge::math::detail::vector_value<T, N>>
+	: public std::integral_constant<std::size_t, N>
+{};
+
+/**
+ *	@brief	tuple_element
+ */
+template <std::size_t I, typename T, std::size_t N>
+struct tuple_element<I, bksge::math::detail::vector_value<T, N>>
+{
+	static_assert(I < N, "vector_value index out of bounds");
+	using type = T;
+};
+
+}	// namespace std
+
 #include <bksge/math/detail/vector_value_inl.hpp>
 
 #endif // BKSGE_MATH_DETAIL_VECTOR_VALUE_HPP

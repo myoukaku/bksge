@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	vector_functions.hpp
  *
- *	@brief	vector_value用の関数の定義
+ *	@brief	Vector 用の関数の定義
  *
  *	@author	myoukaku
  */
@@ -9,9 +9,10 @@
 #ifndef BKSGE_MATH_DETAIL_VECTOR_FUNCTIONS_HPP
 #define BKSGE_MATH_DETAIL_VECTOR_FUNCTIONS_HPP
 
-#include <bksge/math/detail/vector_value.hpp>
 #include <bksge/utility/index_sequence.hpp>
 #include <bksge/utility/make_index_sequence.hpp>
+#include <bksge/tpp/accumulate.hpp>
+#include <bksge/tpp/all_of.hpp>
 #include <bksge/cmath/lerp.hpp>
 #include <bksge/config.hpp>
 #include <cstddef>
@@ -27,165 +28,171 @@ namespace math
 namespace detail
 {
 
-template <typename T, std::size_t N, std::size_t... Is>
-inline BKSGE_CONSTEXPR vector_value<T, N>
-negate_per_elem_impl(vector_value<T, N> const& v, bksge::index_sequence<Is...>) BKSGE_NOEXCEPT_OR_NOTHROW
+template <typename Vec, std::size_t... Is>
+inline BKSGE_CONSTEXPR Vec
+negate_per_elem_impl(Vec const& v, bksge::index_sequence<Is...>)
+BKSGE_NOEXCEPT_OR_NOTHROW
 {
 	return {-v[Is]...};
 }
 
-template <typename T, std::size_t N>
-inline BKSGE_CONSTEXPR vector_value<T, N>
-negate_per_elem(vector_value<T, N> const& v) BKSGE_NOEXCEPT_OR_NOTHROW
+template <typename Vec>
+inline BKSGE_CONSTEXPR Vec
+negate_per_elem(Vec const& v)
+BKSGE_NOEXCEPT_OR_NOTHROW
 {
-	return negate_per_elem_impl(v, bksge::make_index_sequence<N>());
+	return negate_per_elem_impl(v,
+		bksge::make_index_sequence<std::tuple_size<Vec>::value>());
 }
 
-template <typename T, std::size_t N, std::size_t... Is>
-inline BKSGE_CONSTEXPR vector_value<T, N>
-add_per_elem_impl(vector_value<T, N> const& lhs, vector_value<T, N> const& rhs, bksge::index_sequence<Is...>) BKSGE_NOEXCEPT_OR_NOTHROW
+template <typename Vec, std::size_t... Is>
+inline BKSGE_CONSTEXPR Vec
+add_per_elem_impl(Vec const& lhs, Vec const& rhs, bksge::index_sequence<Is...>)
+BKSGE_NOEXCEPT_OR_NOTHROW
 {
 	return {(lhs[Is] + rhs[Is])...};
 }
 
-template <typename T, std::size_t N>
-inline BKSGE_CONSTEXPR vector_value<T, N>
-add_per_elem(vector_value<T, N> const& lhs, vector_value<T, N> const& rhs) BKSGE_NOEXCEPT_OR_NOTHROW
+template <typename Vec>
+inline BKSGE_CONSTEXPR Vec
+add_per_elem(Vec const& lhs, Vec const& rhs)
+BKSGE_NOEXCEPT_OR_NOTHROW
 {
-	return add_per_elem_impl(lhs, rhs, bksge::make_index_sequence<N>());
+	return add_per_elem_impl(lhs, rhs,
+		bksge::make_index_sequence<std::tuple_size<Vec>::value>());
 }
 
-template <typename T, std::size_t N, std::size_t... Is>
-inline BKSGE_CONSTEXPR vector_value<T, N>
-sub_per_elem_impl(vector_value<T, N> const& lhs, vector_value<T, N> const& rhs, bksge::index_sequence<Is...>) BKSGE_NOEXCEPT_OR_NOTHROW
+template <typename Vec, std::size_t... Is>
+inline BKSGE_CONSTEXPR Vec
+sub_per_elem_impl(Vec const& lhs, Vec const& rhs, bksge::index_sequence<Is...>)
+BKSGE_NOEXCEPT_OR_NOTHROW
 {
 	return {(lhs[Is] - rhs[Is])...};
 }
 
-template <typename T, std::size_t N>
-inline BKSGE_CONSTEXPR vector_value<T, N>
-sub_per_elem(vector_value<T, N> const& lhs, vector_value<T, N> const& rhs) BKSGE_NOEXCEPT_OR_NOTHROW
+template <typename Vec>
+inline BKSGE_CONSTEXPR Vec
+sub_per_elem(Vec const& lhs, Vec const& rhs)
+BKSGE_NOEXCEPT_OR_NOTHROW
 {
-	return sub_per_elem_impl(lhs, rhs, bksge::make_index_sequence<N>());
+	return sub_per_elem_impl(lhs, rhs,
+		bksge::make_index_sequence<std::tuple_size<Vec>::value>());
 }
 
-template <typename T, std::size_t N, typename U, std::size_t... Is,
-	typename = typename std::enable_if<
+template <typename Vec, typename U, std::size_t... Is,
+	typename std::enable_if<
 		std::is_arithmetic<U>::value
-	>::type
+	>::type* = nullptr
 >
-inline BKSGE_CONSTEXPR vector_value<T, N>
-mul_per_elem_impl(vector_value<T, N> const& lhs, U const& rhs, bksge::index_sequence<Is...>) BKSGE_NOEXCEPT_OR_NOTHROW
+inline BKSGE_CONSTEXPR Vec
+mul_per_elem_impl(Vec const& lhs, U const& rhs, bksge::index_sequence<Is...>)
+BKSGE_NOEXCEPT_OR_NOTHROW
 {
 	return {(lhs[Is] * rhs)...};
 }
 
-template <typename T, std::size_t N, std::size_t... Is>
-inline BKSGE_CONSTEXPR vector_value<T, N>
-mul_per_elem_impl(vector_value<T, N> const& lhs, vector_value<T, N> const& rhs, bksge::index_sequence<Is...>) BKSGE_NOEXCEPT_OR_NOTHROW
+template <typename Vec1, typename Vec2, std::size_t... Is,
+	typename std::enable_if<
+		!std::is_arithmetic<Vec2>::value
+	>::type* = nullptr
+>
+inline BKSGE_CONSTEXPR Vec1
+mul_per_elem_impl(Vec1 const& lhs, Vec2 const& rhs, bksge::index_sequence<Is...>)
+BKSGE_NOEXCEPT_OR_NOTHROW
 {
 	return {(lhs[Is] * rhs[Is])...};
 }
 
-template <typename T, std::size_t N, typename U>
-inline BKSGE_CONSTEXPR vector_value<T, N>
-mul_per_elem(vector_value<T, N> const& lhs, U const& rhs) BKSGE_NOEXCEPT_OR_NOTHROW
+template <typename Vec, typename U>
+inline BKSGE_CONSTEXPR Vec
+mul_per_elem(Vec const& lhs, U const& rhs)
+BKSGE_NOEXCEPT_OR_NOTHROW
 {
-	return mul_per_elem_impl(lhs, rhs, bksge::make_index_sequence<N>());
+	return mul_per_elem_impl(lhs, rhs,
+		bksge::make_index_sequence<std::tuple_size<Vec>::value>());
 }
 
-template <typename T, std::size_t N, typename U, std::size_t... Is,
-	typename = typename std::enable_if<
+template <typename Vec, typename U, std::size_t... Is,
+	typename std::enable_if<
 		std::is_arithmetic<U>::value
-	>::type
+	>::type* = nullptr
 >
-inline BKSGE_CONSTEXPR vector_value<T, N>
-div_per_elem_impl(vector_value<T, N> const& lhs, U const& rhs, bksge::index_sequence<Is...>) BKSGE_NOEXCEPT_OR_NOTHROW
+inline BKSGE_CONSTEXPR Vec
+div_per_elem_impl(Vec const& lhs, U const& rhs, bksge::index_sequence<Is...>)
+BKSGE_NOEXCEPT_OR_NOTHROW
 {
 	return {(lhs[Is] / rhs)...};
 }
 
-template <typename T, std::size_t N, std::size_t... Is>
-inline BKSGE_CONSTEXPR vector_value<T, N>
-div_per_elem_impl(vector_value<T, N> const& lhs, vector_value<T, N> const& rhs, bksge::index_sequence<Is...>) BKSGE_NOEXCEPT_OR_NOTHROW
+template <typename Vec1, typename Vec2, std::size_t... Is,
+	typename std::enable_if<
+		!std::is_arithmetic<Vec2>::value
+	>::type* = nullptr
+>
+inline BKSGE_CONSTEXPR Vec1
+div_per_elem_impl(Vec1 const& lhs, Vec2 const& rhs, bksge::index_sequence<Is...>)
+BKSGE_NOEXCEPT_OR_NOTHROW
 {
 	return {(lhs[Is] / rhs[Is])...};
 }
 
-template <typename T, std::size_t N, typename U>
-inline BKSGE_CONSTEXPR vector_value<T, N>
-div_per_elem(vector_value<T, N> const& lhs, U const& rhs) BKSGE_NOEXCEPT_OR_NOTHROW
+template <typename Vec, typename U>
+inline BKSGE_CONSTEXPR Vec
+div_per_elem(Vec const& lhs, U const& rhs)
+BKSGE_NOEXCEPT_OR_NOTHROW
 {
-	return div_per_elem_impl(lhs, rhs, bksge::make_index_sequence<N>());
+	return div_per_elem_impl(lhs, rhs,
+		bksge::make_index_sequence<std::tuple_size<Vec>::value>());
 }
 
-template <typename T, std::size_t N, std::size_t I = 0u>
-struct accumulate_impl
+template <typename R, typename Vec, std::size_t... Is>
+inline BKSGE_CONSTEXPR R
+accumulate_impl(Vec const& lhs, bksge::index_sequence<Is...>)
+BKSGE_NOEXCEPT_OR_NOTHROW
 {
-	static BKSGE_CONSTEXPR T
-	invoke(vector_value<T, N> const& lhs) BKSGE_NOEXCEPT_OR_NOTHROW
-	{
-		return lhs[I] + accumulate_impl<T, N, I + 1>::invoke(lhs);
-	}
-};
-
-template <typename T, std::size_t N>
-struct accumulate_impl<T, N, N>
-{
-	static BKSGE_CONSTEXPR T
-	invoke(vector_value<T, N> const&) BKSGE_NOEXCEPT_OR_NOTHROW
-	{
-		return T{};
-	}
-};
-
-template <typename T, std::size_t N>
-inline BKSGE_CONSTEXPR T
-accumulate(vector_value<T, N> const& lhs) BKSGE_NOEXCEPT_OR_NOTHROW
-{
-	return accumulate_impl<T, N>::invoke(lhs);
+	return bksge::tpp::accumulate<R>(lhs[Is]...);
 }
 
-template <typename T, std::size_t N, std::size_t I = 0u>
-struct equal_per_elem_impl
+template <typename Vec>
+inline BKSGE_CONSTEXPR typename Vec::value_type
+accumulate(Vec const& lhs) BKSGE_NOEXCEPT_OR_NOTHROW
 {
-	static BKSGE_CONSTEXPR bool
-	invoke(vector_value<T, N> const& lhs, vector_value<T, N> const& rhs) BKSGE_NOEXCEPT_OR_NOTHROW
-	{
-		return lhs[I] == rhs[I] &&
-			equal_per_elem_impl<T, N, I + 1>::invoke(lhs, rhs);
-	}
-};
+	return accumulate_impl<typename Vec::value_type>(lhs,
+		bksge::make_index_sequence<std::tuple_size<Vec>::value>());
+}
 
-template <typename T, std::size_t N>
-struct equal_per_elem_impl<T, N, N>
-{
-	static BKSGE_CONSTEXPR bool
-	invoke(vector_value<T, N> const&, vector_value<T, N> const&) BKSGE_NOEXCEPT_OR_NOTHROW
-	{
-		return true;
-	}
-};
-
-template <typename T, std::size_t N>
+template <typename Vec, std::size_t... Is>
 inline BKSGE_CONSTEXPR bool
-equal_per_elem(vector_value<T, N> const& lhs, vector_value<T, N> const& rhs) BKSGE_NOEXCEPT_OR_NOTHROW
+equal_per_elem_impl(Vec const& lhs, Vec const& rhs, bksge::index_sequence<Is...>)
+BKSGE_NOEXCEPT_OR_NOTHROW
 {
-	return equal_per_elem_impl<T, N>::invoke(lhs, rhs);
+	return bksge::tpp::all_of(lhs[Is] == rhs[Is]...);
 }
 
-template <typename T, std::size_t N, typename U, std::size_t... Is>
-inline BKSGE_CONSTEXPR vector_value<T, N>
-lerp_per_elem_impl(vector_value<T, N> const& from, vector_value<T, N> const& to, U const& t, bksge::index_sequence<Is...>) BKSGE_NOEXCEPT_OR_NOTHROW
+template <typename Vec>
+inline BKSGE_CONSTEXPR bool
+equal_per_elem(Vec const& lhs, Vec const& rhs)
+BKSGE_NOEXCEPT_OR_NOTHROW
+{
+	return equal_per_elem_impl(lhs, rhs,
+		bksge::make_index_sequence<std::tuple_size<Vec>::value>());
+}
+
+template <typename Vec, typename U, std::size_t... Is>
+inline BKSGE_CONSTEXPR Vec
+lerp_per_elem_impl(Vec const& from, Vec const& to, U const& t, bksge::index_sequence<Is...>)
+BKSGE_NOEXCEPT_OR_NOTHROW
 {
 	return {bksge::lerp(from[Is], to[Is], t)...};
 }
 
-template <typename T, std::size_t N, typename U>
-inline BKSGE_CONSTEXPR vector_value<T, N>
-lerp_per_elem(vector_value<T, N> const& from, vector_value<T, N> const& to, U const& t) BKSGE_NOEXCEPT
+template <typename Vec, typename U>
+inline BKSGE_CONSTEXPR Vec
+lerp_per_elem(Vec const& from, Vec const& to, U const& t)
+BKSGE_NOEXCEPT_OR_NOTHROW
 {
-	return lerp_per_elem_impl(from, to, t, bksge::make_index_sequence<N>());
+	return lerp_per_elem_impl(from, to, t,
+		bksge::make_index_sequence<std::tuple_size<Vec>::value>());
 }
 
 }	// namespace detail

@@ -18,11 +18,12 @@ namespace math
 template <typename T>
 class Quaternion;
 
+using Quaternionf = Quaternion<float>;
+
 }	// namespace math
 
 using math::Quaternion;
-
-using Quaternionf = Quaternion<float>;
+using math::Quaternionf;
 
 }	// namespace bksge
 

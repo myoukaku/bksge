@@ -18,11 +18,12 @@ namespace math
 template <typename T>
 class Rect;
 
+using Rectf = Rect<float>;
+
 }	// namespace math
 
 using math::Rect;
-
-using Rectf = Rect<float>;
+using math::Rectf;
 
 }	// namespace bksge
 
