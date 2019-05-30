@@ -33,7 +33,6 @@
 #include <bksge/render/scissor_state.hpp>
 #include <bksge/render/semantic.hpp>
 #include <bksge/render/shader.hpp>
-#include <bksge/render/shader_map.hpp>
 #include <bksge/render/shader_parameter_map.hpp>
 #include <bksge/render/shader_stage.hpp>
 #include <bksge/render/shader_type.hpp>

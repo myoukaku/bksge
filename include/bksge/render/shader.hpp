@@ -11,13 +11,15 @@
 
 #include <bksge/render/fwd/shader_fwd.hpp>
 #include <bksge/render/detail/identifiable.hpp>
-#include <bksge/render/detail/shader_program_map.hpp>
+#include <bksge/render/shader_type.hpp>
+#include <bksge/render/shader_stage.hpp>
 //#include <bksge/serialization/access.hpp>
 //#include <bksge/serialization/nvp.hpp>
 //#include <bksge/serialization/string.hpp>
 #include <string>
 #include <initializer_list>
 #include <utility>	// pair
+#include <unordered_map>
 
 namespace bksge
 {
@@ -30,10 +32,14 @@ namespace render
  */
 class Shader : public Identifiable
 {
+private:
 	using Base = Identifiable;
+	using ContainerType = std::unordered_map<ShaderStage, std::string>;
 
 public:
-	explicit Shader(std::initializer_list<std::pair<ShaderStage, char const*>> il);
+	using const_iterator = ContainerType::const_iterator;
+
+	Shader(ShaderType type, std::initializer_list<std::pair<ShaderStage, char const*>> il);
 
 	// コピー禁止
 	Shader(Shader const&) = delete;
@@ -45,13 +51,14 @@ public:
 
 	~Shader() = default;
 
-	/**
-	 *	@brief	シェーダプログラムのマップを取得します
-	 */
-	ShaderProgramMap const& program_map(void) const;
+	ShaderType type(void) const;
+
+	const_iterator begin(void) const;
+	const_iterator end(void) const;
 
 private:
-	ShaderProgramMap    m_program_map;
+	ShaderType			m_type;
+	ContainerType		m_shaders;
 
 private:
 #if 0
@@ -63,8 +70,7 @@ private:
 	void serialize(Archive& ar, unsigned int /*version*/)
 	{
 		ar & BKSGE_SERIALIZATION_NVP(m_type);
-		ar & BKSGE_SERIALIZATION_NVP(m_program_map);
-		ar & BKSGE_SERIALIZATION_NVP(m_parameter_map);
+		ar & BKSGE_SERIALIZATION_NVP(m_shaders);
 	}
 #endif
 };

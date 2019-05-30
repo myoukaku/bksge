@@ -35,7 +35,7 @@ GlGLSLProgram::GlGLSLProgram(Shader const& shader)
 	m_id = ::glCreateProgram();
 	BKSGE_ASSERT(m_id != 0u);
 
-	for (auto&& it : shader.program_map())
+	for (auto&& it : shader)
 	{
 		auto shader_object = bksge::make_unique<GlGLSLShader>(it.first, it.second);
 		::glAttachShader(m_id, shader_object->id());

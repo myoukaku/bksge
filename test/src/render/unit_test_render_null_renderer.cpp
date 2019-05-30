@@ -8,11 +8,12 @@
 
 #include <bksge/render/null_renderer.hpp>
 #include <bksge/render/geometry.hpp>
-#include <bksge/render/shader_map.hpp>
+#include <bksge/render/shader.hpp>
 #include <bksge/render/shader_parameter_map.hpp>
 #include <bksge/render/render_state.hpp>
 #include <bksge/window/null/null_window.hpp>
 #include <gtest/gtest.h>
+#include <vector>
 
 namespace bksge_render_test
 {
@@ -33,10 +34,10 @@ GTEST_TEST(RenderTest, NullRendererTest)
 	renderer.Begin();
 	renderer.Clear();
 	bksge::Geometry geometry;
-	bksge::ShaderMap shader_map({});
+	std::vector<bksge::Shader const*> shader_list;
 	bksge::ShaderParameterMap shader_parameter_map;
 	bksge::RenderState render_state;
-	renderer.Render(geometry, shader_map, shader_parameter_map, render_state);
+	renderer.Render(geometry, shader_list, shader_parameter_map, render_state);
 	renderer.End();
 #endif
 }

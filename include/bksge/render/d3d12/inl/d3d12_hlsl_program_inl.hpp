@@ -36,7 +36,7 @@ namespace render
 BKSGE_INLINE
 D3D12HLSLProgram::D3D12HLSLProgram(D3D12Device* device, Shader const& shader)
 {
-	for (auto&& it : shader.program_map())
+	for (auto&& it : shader)
 	{
 		ShaderStage const stage = it.first;
 		std::string const& source = it.second;

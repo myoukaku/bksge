@@ -24,7 +24,6 @@
 #include <bksge/render/gl/glx/glx_context.hpp>
 #include <bksge/render/geometry.hpp>
 #include <bksge/render/shader.hpp>
-#include <bksge/render/shader_map.hpp>
 #include <bksge/render/render_state.hpp>
 #include <bksge/render/texture.hpp>
 #include <bksge/window/window.hpp>
@@ -154,12 +153,17 @@ void GlRenderer::VClear(ClearFlag clear_flag, Color4f const& clear_color)
 }
 
 BKSGE_INLINE
-void GlRenderer::VRender(
+bool GlRenderer::VRender(
 	Geometry const& geometry,
-	ShaderMap const& shader_map,
+	Shader const& shader,
 	ShaderParameterMap const& shader_parameter_map,
 	RenderState const& render_state)
 {
+	if (shader.type() != ShaderType::kGLSL)
+	{
+		return false;
+	}
+
 //	int const width  = 800;	// TODO
 	int const height = 600;	// TODO
 
@@ -181,13 +185,7 @@ void GlRenderer::VRender(
 		}
 	}
 
-	auto* shader = shader_map.GetShader(ShaderType::kGLSL);
-	if (shader == nullptr)
-	{
-		return;
-	}
-
-	auto glsl_program = GetGlGLSLProgram(*shader);
+	auto glsl_program = GetGlGLSLProgram(shader);
 	BKSGE_ASSERT(glsl_program != nullptr);
 
 	auto const& rasterizer_state = render_state.rasterizer_state();
@@ -210,6 +208,8 @@ void GlRenderer::VRender(
 
 	auto gl_geometry = GetGlGeometry(geometry);
 	glsl_program->Render(gl_geometry.get(), shader_parameter_map);
+
+	return true;
 }
 
 namespace gl_renderer_detail

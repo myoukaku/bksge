@@ -51,7 +51,7 @@ public:
 		m_shader_parameter.SetParameter("uColor", m_color);
 		renderer->Render(
 			GetGeometry(),
-			GetShaderMap(),
+			GetShaderList(),
 			m_shader_parameter,
 			m_render_state);
 	}
@@ -72,7 +72,7 @@ private:
 		return geometry;
 	}
 
-	static bksge::Shader GetGLSLShader(void)
+	static bksge::Shader const* GetGLSLShader(void)
 	{
 		static char const* vs_source =
 			"attribute vec3 aPosition;					"
@@ -93,14 +93,19 @@ private:
 			"}											"
 		;
 
-		return bksge::Shader
+		static bksge::Shader const shader
 		{
-			{ bksge::ShaderStage::kVertex,   vs_source },
-			{ bksge::ShaderStage::kFragment, fs_source },
+			bksge::ShaderType::kGLSL,
+			{
+				{ bksge::ShaderStage::kVertex,   vs_source },
+				{ bksge::ShaderStage::kFragment, fs_source },
+			}
 		};
+
+		return &shader;
 	}
 
-	static bksge::Shader GetHLSLShader(void)
+	static bksge::Shader const* GetHLSLShader(void)
 	{
 		static char const* vs_source =
 			"cbuffer ConstantBuffer1						"
@@ -126,22 +131,27 @@ private:
 			"}												"
 		;
 
-		return bksge::Shader
+		static bksge::Shader const shader
 		{
-			{ bksge::ShaderStage::kVertex,   vs_source },
-			{ bksge::ShaderStage::kFragment, ps_source },
+			bksge::ShaderType::kHLSL,
+			{
+				{ bksge::ShaderStage::kVertex,   vs_source },
+				{ bksge::ShaderStage::kFragment, ps_source },
+			}
 		};
+
+		return &shader;
 	}
 
-	static bksge::ShaderMap const& GetShaderMap(void)
+	static std::vector<bksge::Shader const*> const& GetShaderList(void)
 	{
-		static bksge::ShaderMap const shader_map
+		static std::vector<bksge::Shader const*> const shader_list
 		{
-			{ bksge::ShaderType::kGLSL, GetGLSLShader() },
-			{ bksge::ShaderType::kHLSL, GetHLSLShader() },
+			GetGLSLShader(),
+			GetHLSLShader(),
 		};
 
-		return shader_map;
+		return shader_list;
 	}
 
 private:

@@ -39,7 +39,6 @@
 #include <bksge/render/geometry.hpp>
 #include <bksge/render/shader.hpp>
 #include <bksge/render/shader_parameter_map.hpp>
-#include <bksge/render/shader_map.hpp>
 #include <bksge/render/render_state.hpp>
 
 #include <bksge/memory/make_unique.hpp>
@@ -211,15 +210,17 @@ D3D12Renderer::VClear(ClearFlag clear_flag, Color4f const& clear_color)
 	//m_command_list->ClearDepthStencilView(dsv_handle_, mask, 1.0f, 0, 0, nullptr);
 }
 
-BKSGE_INLINE void
+BKSGE_INLINE bool
 D3D12Renderer::VRender(
 	Geometry const& geometry,
-	ShaderMap const& shader_map,
+	Shader const& shader,
 	ShaderParameterMap const& shader_parameter_map,
 	RenderState const& render_state)
 {
-	// TODO
-	(void)render_state;
+	if (shader.type() != ShaderType::kHLSL)
+	{
+		return false;
+	}
 
 	{
 		auto const& scissor = render_state.scissor_state();
@@ -237,15 +238,9 @@ D3D12Renderer::VRender(
 		m_command_list->RSSetScissorRects(1, &scissor_rect);
 	}
 
-	auto* shader = shader_map.GetShader(ShaderType::kHLSL);
-	if (shader == nullptr)
-	{
-		return;
-	}
+	auto hlsl_program = GetD3D12HLSLProgram(shader);
 
-	auto hlsl_program = GetD3D12HLSLProgram(*shader);
-
-	auto pipeline_state = GetD3D12PipelineState(*shader, render_state.rasterizer_state(), geometry.primitive());
+	auto pipeline_state = GetD3D12PipelineState(shader, render_state.rasterizer_state(), geometry.primitive());
 
 	m_command_list->SetGraphicsRootSignature(hlsl_program->GetRootSignature());
 	//m_command_list->SetPipelineState(m_pipelineState.Get());
@@ -257,6 +252,8 @@ D3D12Renderer::VRender(
 
 	auto d3d12_geometry = GetD3D12Geometry(geometry);
 	d3d12_geometry->Draw(m_command_list.get());
+
+	return true;
 }
 
 BKSGE_INLINE void

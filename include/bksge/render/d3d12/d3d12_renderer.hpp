@@ -64,9 +64,9 @@ private:
 	void VBegin(void) override;
 	void VEnd(void) override;
 	void VClear(ClearFlag clear_flag, Color4f const& clear_color) override;
-	void VRender(
+	bool VRender(
 		Geometry const& geometry,
-		ShaderMap const& shader_map,
+		Shader const& shader,
 		ShaderParameterMap const& shader_parameter_map,
 		RenderState const& render_state) override;
 

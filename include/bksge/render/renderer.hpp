@@ -11,7 +11,7 @@
 
 #include <bksge/render/fwd/renderer_fwd.hpp>
 #include <bksge/render/fwd/geometry_fwd.hpp>
-#include <bksge/render/fwd/shader_map_fwd.hpp>
+#include <bksge/render/fwd/shader_fwd.hpp>
 #include <bksge/render/fwd/shader_parameter_map_fwd.hpp>
 #include <bksge/render/fwd/render_state_fwd.hpp>
 #include <bksge/render/clear_flag.hpp>
@@ -19,6 +19,7 @@
 #include <bksge/math/color4.hpp>
 #include <bksge/math/rect.hpp>
 #include <memory>
+#include <vector>
 
 namespace bksge
 {
@@ -85,7 +86,7 @@ public:
 	 */
 	void Render(
 		Geometry const& geometry,
-		ShaderMap const& shader_map,
+		std::vector<Shader const*> const& shader_list,
 		ShaderParameterMap const& shader_parameter_map,
 		RenderState const& render_state);
 
@@ -98,9 +99,9 @@ private:
 
 	virtual void VClear(ClearFlag clear_flag, Color4f const& clear_color) = 0;
 
-	virtual void VRender(
+	virtual bool VRender(
 		Geometry const& geometry,
-		ShaderMap const& shader_map,
+		Shader const& shader,
 		ShaderParameterMap const& shader_parameter_map,
 		RenderState const& render_state) = 0;
 

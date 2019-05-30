@@ -282,7 +282,7 @@ TYPED_TEST(MathColorHSVTest, ToColor3Test)
 	using ColorHSV = bksge::math::ColorHSV<T>;
 	using ColorRGB = bksge::math::Color3<T>;
 
-	double const error = 0.00000000001;
+	double const error = 0.0000001;
 
 	{
 		const ColorHSV hsv(0, 0, 0);

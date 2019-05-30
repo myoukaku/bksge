@@ -41,12 +41,14 @@ BKSGE_INLINE void NullRenderer::VClear(
 	Color4f const& /*clear_color*/)
 {}
 
-BKSGE_INLINE void NullRenderer::VRender(
+BKSGE_INLINE bool NullRenderer::VRender(
 	Geometry const& /*geometry*/,
-	ShaderMap const& /*shader_map*/,
+	Shader const& /*shader*/,
 	ShaderParameterMap const& /*shader_parameter_map*/,
 	RenderState const& /*render_state*/)
-{}
+{
+	return true;
+}
 
 }	// namespace render
 

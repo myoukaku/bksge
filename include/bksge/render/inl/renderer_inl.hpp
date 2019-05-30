@@ -10,10 +10,12 @@
 #define BKSGE_RENDER_INL_RENDERER_INL_HPP
 
 #include <bksge/render/renderer.hpp>
+#include <bksge/render/shader.hpp>
 #include <bksge/window/window.hpp>
 #include <bksge/math/rect.hpp>
 #include <bksge/math/vector2.hpp>
 #include <bksge/memory/make_unique.hpp>
+#include <vector>
 
 namespace bksge
 {
@@ -89,11 +91,20 @@ void Renderer::Clear(void)
 BKSGE_INLINE
 void Renderer::Render(
 	Geometry const& geometry,
-	ShaderMap const& shader_map,
+	std::vector<Shader const*> const& shader_list,
 	ShaderParameterMap const& shader_parameter_map,
 	RenderState const& render_state)
 {
-	VRender(geometry, shader_map, shader_parameter_map, render_state);
+	for (auto&& shader : shader_list)
+	{
+		if (shader)
+		{
+			if (VRender(geometry, *shader, shader_parameter_map, render_state))
+			{
+				break;
+			}
+		}
+	}
 }
 
 }	// namespace render

@@ -17,7 +17,7 @@
 namespace
 {
 
-static bksge::Shader GetGLSLShader(void)
+static bksge::Shader const* GetGLSLShader(void)
 {
 	char const* vs_source =
 		"attribute vec3 aPosition;					"
@@ -40,14 +40,19 @@ static bksge::Shader GetGLSLShader(void)
 		"}											"
 	;
 
-	return bksge::Shader
+	static bksge::Shader const shader
 	{
-		{ bksge::ShaderStage::kVertex,   vs_source },
-		{ bksge::ShaderStage::kFragment, fs_source },
+		bksge::ShaderType::kGLSL,
+		{
+			{ bksge::ShaderStage::kVertex,   vs_source },
+			{ bksge::ShaderStage::kFragment, fs_source },
+		}
 	};
+
+	return &shader;
 }
 
-static bksge::Shader GetHLSLShader(void)
+static bksge::Shader const* GetHLSLShader(void)
 {
 	char const* vs_source =
 		"cbuffer ConstantBuffer1						"
@@ -79,11 +84,16 @@ static bksge::Shader GetHLSLShader(void)
 		"}												"
 	;
 
-	return bksge::Shader
+	static bksge::Shader const shader
 	{
-		{ bksge::ShaderStage::kVertex,   vs_source },
-		{ bksge::ShaderStage::kFragment, ps_source },
+		bksge::ShaderType::kHLSL,
+		{
+			{ bksge::ShaderStage::kVertex,   vs_source },
+			{ bksge::ShaderStage::kFragment, ps_source },
+		}
 	};
+
+	return &shader;
 }
 
 }	// namespace
@@ -143,10 +153,10 @@ int main()
 	const bksge::Geometry geometry(
 		bksge::Primitive::kTriangles, vertices);
 
-	bksge::ShaderMap const shader_map
+	std::vector<bksge::Shader const*> const shader_list
 	{
-		{ bksge::ShaderType::kGLSL, GetGLSLShader() },
-		{ bksge::ShaderType::kHLSL, GetHLSLShader() },
+		GetGLSLShader(),
+		GetHLSLShader(),
 	};
 
 	bksge::ShaderParameterMap shader_parameter;
@@ -174,7 +184,7 @@ int main()
 			renderer->Begin();
 			renderer->Clear();
 			renderer->Render(
-				geometry, shader_map, shader_parameter, render_state);
+				geometry, shader_list, shader_parameter, render_state);
 			renderer->End();
 		}
 
