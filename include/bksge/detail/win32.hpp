@@ -848,6 +848,34 @@ inline HANDLE CreateEventEx(
 	return CreateEventExW(lpEventAttributes, lpName, dwFlags, dwDesiredAccess);
 }
 
+inline void OutputDebugString(char const* lpOutputString)
+{
+	::OutputDebugStringA(lpOutputString);
+}
+
+inline void OutputDebugString(wchar_t const* lpOutputString)
+{
+	::OutputDebugStringW(lpOutputString);
+}
+
+inline int MessageBox(
+	HWND hWnd,
+	char const* lpText,
+	char const* lpCaption,
+	UINT uType)
+{
+	return ::MessageBoxA(hWnd, lpText, lpCaption, uType);
+}
+
+inline int MessageBox(
+	HWND hWnd,
+	wchar_t const* lpText,
+	wchar_t const* lpCaption,
+	UINT uType)
+{
+	return ::MessageBoxW(hWnd, lpText, lpCaption, uType);
+}
+
 }	// namespace win32
 
 }	// namespace bksge

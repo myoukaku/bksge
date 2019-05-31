@@ -56,6 +56,19 @@ int main()
 		renderer->SetClearColor({0.5f, 0.0f, 0.5f, 1});
 	}
 #endif
+#if BKSGE_RENDER_HAS_VULKAN_RENDERER
+	{
+		std::shared_ptr<bksge::Window> window(
+			new bksge::Window({800, 600}, "sample_render_clear - Vulkan"));
+		windows.push_back(window);
+
+		std::shared_ptr<bksge::VulkanRenderer> renderer(
+			new bksge::VulkanRenderer());
+		renderers.push_back(renderer);
+		renderer->SetRenderTarget(*window);
+		renderer->SetClearColor({0.5f, 0.0f, 0.5f, 1});
+	}
+#endif
 
 	float r = 0;
 	float g = 0;

@@ -4,11 +4,6 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 include(Dart)
 
-set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
-
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
-
 set(compiler_flags
   CMAKE_CXX_FLAGS
   CMAKE_CXX_FLAGS_DEBUG
@@ -20,6 +15,57 @@ set(compiler_flags
   CMAKE_C_FLAGS_RELEASE
   CMAKE_C_FLAGS_MINSIZEREL
   CMAKE_C_FLAGS_RELWITHDEBINFO)
+
+set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
+
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+foreach(compiler_flag ${compiler_flags})
+  if (MSVC)
+    # /ZI -> /Zi
+    if(${compiler_flag} MATCHES "/ZI")
+	  string(REGEX REPLACE "/ZI" "/Zi" ${compiler_flag} "${${compiler_flag}}")
+    else()
+	  set(${compiler_flag} "${${compiler_flag}} /Zi")
+    endif()
+  endif()
+endforeach()
+
+include(${PROJECT_SOURCE_DIR}/cmake/DownloadProject/DownloadProject.cmake)
+
+download_project(
+  PROJ Vulkan-Headers
+  GIT_REPOSITORY https://github.com/KhronosGroup/Vulkan-Headers.git
+  GIT_TAG master
+  UPDATE_DISCONNECTED 1
+  QUIET)
+message(STATUS ${Vulkan-Headers_SOURCE_DIR})
+message(STATUS ${Vulkan-Headers_BINARY_DIR})
+add_subdirectory(${Vulkan-Headers_SOURCE_DIR} ${Vulkan-Headers_BINARY_DIR})
+
+if (DEFINED Vulkan-Headers_SOURCE_DIR)
+    message(STATUS "Using Vulkan headers from ${Vulkan-Headers_SOURCE_DIR}")
+    set(VulkanHeaders_INCLUDE_DIR "${Vulkan-Headers_SOURCE_DIR}/include")
+    set(VulkanHeaders_INCLUDE_DIRS "${VulkanHeaders_INCLUDE_DIR}")
+    set(VulkanRegistry_DIR "${Vulkan-Headers_SOURCE_DIR}/registry")
+    set(VulkanRegistry_DIRS "${VulkanRegistry_DIR}")
+else()
+    find_package(VulkanHeaders)
+endif()
+message(STATUS ${VulkanHeaders_INCLUDE_DIR})
+#message(STATUS ${VulkanHeaders_LIBRARIES})
+message(STATUS ${VulkanRegistry_DIR})
+
+download_project(
+  PROJ Vulkan-Loader
+  GIT_REPOSITORY https://github.com/KhronosGroup/Vulkan-Loader.git
+  GIT_TAG master
+  UPDATE_DISCONNECTED 1
+  QUIET)
+message(STATUS ${Vulkan-Loader_SOURCE_DIR})
+message(STATUS ${Vulkan-Loader_BINARY_DIR})
+add_subdirectory(${Vulkan-Loader_SOURCE_DIR} ${Vulkan-Loader_BINARY_DIR})
 
 foreach(compiler_flag ${compiler_flags})
   if (MSVC)
@@ -38,6 +84,8 @@ foreach(compiler_flag ${compiler_flags})
     # /ZI -> /Zi
     if(${compiler_flag} MATCHES "/ZI")
 	  string(REGEX REPLACE "/ZI" "/Zi" ${compiler_flag} "${${compiler_flag}}")
+    else()
+	  set(${compiler_flag} "${${compiler_flag}} /Zi")
     endif()
 
 	# /guard:cf (Enable Control Flow Guard)
@@ -70,11 +118,6 @@ foreach(compiler_flag ${compiler_flags})
   endif()
 endforeach()
 
-if (MSVC)
-  set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /guard:cf")
-  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /guard:cf")
-endif()
-
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
 endif()
@@ -98,8 +141,11 @@ file(GLOB_RECURSE bksge_sources src/bksge/*)
 add_library(bksge STATIC ${bksge_sources})
 include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${OPENGL_INCLUDE_DIR})
+include_directories(${VulkanHeaders_INCLUDE_DIR})
 
 target_link_libraries(bksge ${OPENGL_LIBRARIES})
+link_directories("${Vulkan-Loader_BINARY_DIR}/loader")
+target_link_libraries(bksge vulkan-1)
 
 include(${PROJECT_SOURCE_DIR}/cmake/assign_source_group.cmake)
 assign_source_group(${bksge_sources})
