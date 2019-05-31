@@ -11,9 +11,9 @@
 
 #include <bksge/utility/index_sequence.hpp>
 #include <bksge/utility/index_sequence_for.hpp>
+#include <bksge/utility/forward.hpp>
 #include <bksge/config.hpp>
 #include <cstddef>
-#include <utility>
 
 namespace bksge
 {
@@ -31,7 +31,7 @@ public:
 	T m_value;
 
 	BKSGE_CONSTEXPR element_holder(T&& value)
-		: m_value(std::forward<T>(value))
+		: m_value(bksge::forward<T>(value))
 	{}
 
 private:
@@ -47,7 +47,7 @@ class type_tuple_impl<bksge::index_sequence<Indices...>, Types...>
 {
 public:
 	BKSGE_CONSTEXPR type_tuple_impl(Types&&... args)
-		: element_holder<Indices, Types>(std::forward<Types>(args))...
+		: element_holder<Indices, Types>(bksge::forward<Types>(args))...
 	{}
 
 private:

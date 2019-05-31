@@ -11,9 +11,9 @@
 
 #include <bksge/tpp/accumulate.hpp>
 #include <bksge/tpp/detail/type_tuple.hpp>
+#include <bksge/utility/forward.hpp>
 #include <bksge/config.hpp>
 #include <cstddef>
-#include <utility>
 
 namespace bksge
 {
@@ -59,7 +59,7 @@ inline BKSGE_CONSTEXPR Result accumulate(Args&&... args)
 {
 	using Tuple = detail::type_tuple<Args...>;
 	using Helper = detail::accumulate_impl<Result, 0, sizeof...(Args)>;
-	return Helper::invoke(Tuple(std::forward<Args>(args)...));
+	return Helper::invoke(Tuple(bksge::forward<Args>(args)...));
 }
 
 }	// namespace tpp

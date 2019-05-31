@@ -11,11 +11,11 @@
 
 #include <bksge/debug/detail/value_expression_fwd.hpp>
 #include <bksge/debug/detail/expression_base.hpp>
+#include <bksge/utility/forward.hpp>
 #include <bksge/config.hpp>
 #include <cstddef>
 #include <ostream>
 #include <type_traits>
-#include <utility>
 
 namespace bksge
 {
@@ -31,7 +31,7 @@ class value_expression : public expression_base<value_expression<T>, typename st
 {
 public:
 	BKSGE_CONSTEXPR value_expression(value_expression&& ve)
-		: m_value(std::forward<T>(ve.m_value))
+		: m_value(bksge::forward<T>(ve.m_value))
 	{
 	}
 
@@ -41,7 +41,7 @@ public:
 	}
 
 	explicit BKSGE_CONSTEXPR value_expression(T&& val)
-		: m_value(std::forward<T>(val))
+		: m_value(bksge::forward<T>(val))
 	{
 	}
 

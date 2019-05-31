@@ -49,6 +49,7 @@
 #include <bksge/math/rect.hpp>
 #include <bksge/math/vector2.hpp>
 #include <bksge/math/size2.hpp>
+#include <bksge/utility/forward.hpp>
 #include <bksge/assert.hpp>
 
 #include <memory>
@@ -279,7 +280,7 @@ GetOrCreate(Map& map, Key const& key, Args&&... args)
 		return it->second;
 	}
 
-	auto p = std::make_shared<T>(std::forward<Args>(args)...);
+	auto p = std::make_shared<T>(bksge::forward<Args>(args)...);
 	map[key] = p;
 	return p;
 }

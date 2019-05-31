@@ -9,6 +9,7 @@
 #ifndef BKSGE_UTILITY_HPP
 #define BKSGE_UTILITY_HPP
 
+#include <bksge/utility/forward.hpp>
 #include <bksge/utility/index_sequence.hpp>
 #include <bksge/utility/index_sequence_for.hpp>
 #include <bksge/utility/integer_sequence.hpp>

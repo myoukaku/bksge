@@ -22,9 +22,9 @@ using std::make_unique;
 
 #else
 
+#include <bksge/utility/forward.hpp>
 #include <cstddef>
 #include <type_traits>
-#include <utility>
 
 namespace bksge
 {
@@ -33,7 +33,7 @@ template <typename T, typename... Types> inline
 typename std::enable_if<!std::is_array<T>::value, std::unique_ptr<T>>::type
 make_unique(Types&&... args)
 {
-	return std::unique_ptr<T>(new T(std::forward<Types>(args)...));
+	return std::unique_ptr<T>(new T(bksge::forward<Types>(args)...));
 }
 
 template <typename T> inline

@@ -12,9 +12,9 @@
 #include <bksge/debug/detail/binary_expression_fwd.hpp>
 #include <bksge/debug/detail/value_expression_fwd.hpp>
 #include <bksge/debug/detail/operators.hpp>
+#include <bksge/utility/forward.hpp>
 #include <bksge/config.hpp>
 #include <type_traits>
-#include <utility>
 
 namespace bksge
 {
@@ -36,8 +36,8 @@ public:
     operator oper(T&& rhs) const                                 \
     {                                                           \
         return binary_expression<ExprType, value_expression<T>, op::name<ValType, typename std::remove_reference<T>::type>> \
-            (std::forward<ExprType const>(*static_cast<ExprType const*>(this)),                \
-              value_expression<T>(std::forward<T>(rhs)));                           \
+            (bksge::forward<ExprType const>(*static_cast<ExprType const*>(this)),                \
+              value_expression<T>(bksge::forward<T>(rhs)));                           \
     }                                                           \
 /**/
 
