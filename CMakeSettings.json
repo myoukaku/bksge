@@ -36,11 +36,11 @@
 //			],
 //			"configurationType": "Debug",
 //			"name": "x64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
-//			"generator": "Visual Studio 15 2017 Win64",
+//			"generator": "Ninja",
 //			"buildRoot": "${env.BUILD_DIR}\\${name}",
 //			"installRoot": "${env.INSTALL_DIR}\\${name}",
 //			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
-//			"buildCommandArgs": "",
+//			"buildCommandArgs": "-v",
 //			"ctestCommandArgs": ""
 //		},
 		{
@@ -50,11 +50,11 @@
 			],
 			"configurationType": "Debug",
 			"name": "x64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
-			"generator": "Visual Studio 15 2017 Win64",
+			"generator": "Ninja",
 			"buildRoot": "${env.BUILD_DIR}\\${name}",
 			"installRoot": "${env.INSTALL_DIR}\\${name}",
 			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
-			"buildCommandArgs": "",
+			"buildCommandArgs": "-v",
 			"ctestCommandArgs": ""
 		},
 		{
@@ -64,11 +64,11 @@
 			],
 			"configurationType": "Debug",
 			"name": "x64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
-			"generator": "Visual Studio 15 2017 Win64",
+			"generator": "Ninja",
 			"buildRoot": "${env.BUILD_DIR}\\${name}",
 			"installRoot": "${env.INSTALL_DIR}\\${name}",
 			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
-			"buildCommandArgs": "",
+			"buildCommandArgs": "-v",
 			"ctestCommandArgs": ""
 		},
 		// x64 Release
@@ -79,11 +79,11 @@
 //			],
 //			"configurationType": "Release",
 //			"name": "x64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
-//			"generator": "Visual Studio 15 2017 Win64",
+//			"generator": "Ninja",
 //			"buildRoot": "${env.BUILD_DIR}\\${name}",
 //			"installRoot": "${env.INSTALL_DIR}\\${name}",
 //			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
-//			"buildCommandArgs": "",
+//			"buildCommandArgs": "-v",
 //			"ctestCommandArgs": ""
 //		},
 		{
@@ -93,11 +93,11 @@
 			],
 			"configurationType": "Release",
 			"name": "x64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
-			"generator": "Visual Studio 15 2017 Win64",
+			"generator": "Ninja",
 			"buildRoot": "${env.BUILD_DIR}\\${name}",
 			"installRoot": "${env.INSTALL_DIR}\\${name}",
 			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
-			"buildCommandArgs": "",
+			"buildCommandArgs": "-v",
 			"ctestCommandArgs": ""
 		},
 		{
@@ -107,11 +107,11 @@
 			],
 			"configurationType": "Release",
 			"name": "x64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
-			"generator": "Visual Studio 15 2017 Win64",
+			"generator": "Ninja",
 			"buildRoot": "${env.BUILD_DIR}\\${name}",
 			"installRoot": "${env.INSTALL_DIR}\\${name}",
 			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
-			"buildCommandArgs": "",
+			"buildCommandArgs": "-v",
 			"ctestCommandArgs": ""
 		},
 		// x86 Debug
@@ -122,11 +122,11 @@
 //			],
 //			"configurationType": "Debug",
 //			"name": "x86-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
-//			"generator": "Visual Studio 15 2017",
+//			"generator": "Ninja",
 //			"buildRoot": "${env.BUILD_DIR}\\${name}",
 //			"installRoot": "${env.INSTALL_DIR}\\${name}",
 //			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
-//			"buildCommandArgs": "",
+//			"buildCommandArgs": "-v",
 //			"ctestCommandArgs": ""
 //		},
 		{
@@ -136,11 +136,11 @@
 			],
 			"configurationType": "Debug",
 			"name": "x86-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
-			"generator": "Visual Studio 15 2017",
+			"generator": "Ninja",
 			"buildRoot": "${env.BUILD_DIR}\\${name}",
 			"installRoot": "${env.INSTALL_DIR}\\${name}",
 			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
-			"buildCommandArgs": "",
+			"buildCommandArgs": "-v",
 			"ctestCommandArgs": ""
 		},
 		{
@@ -150,11 +150,11 @@
 			],
 			"configurationType": "Debug",
 			"name": "x86-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
-			"generator": "Visual Studio 15 2017",
+			"generator": "Ninja",
 			"buildRoot": "${env.BUILD_DIR}\\${name}",
 			"installRoot": "${env.INSTALL_DIR}\\${name}",
 			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
-			"buildCommandArgs": "",
+			"buildCommandArgs": "-v",
 			"ctestCommandArgs": ""
 		},
 		// x86 Release
@@ -165,11 +165,11 @@
 //			],
 //			"configurationType": "Release",
 //			"name": "x86-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
-//			"generator": "Visual Studio 15 2017",
+//			"generator": "Ninja",
 //			"buildRoot": "${env.BUILD_DIR}\\${name}",
 //			"installRoot": "${env.INSTALL_DIR}\\${name}",
 //			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
-//			"buildCommandArgs": "",
+//			"buildCommandArgs": "-v",
 //			"ctestCommandArgs": ""
 //		},
 		{
@@ -179,11 +179,11 @@
 			],
 			"configurationType": "Release",
 			"name": "x86-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
-			"generator": "Visual Studio 15 2017",
+			"generator": "Ninja",
 			"buildRoot": "${env.BUILD_DIR}\\${name}",
 			"installRoot": "${env.INSTALL_DIR}\\${name}",
 			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
-			"buildCommandArgs": "",
+			"buildCommandArgs": "-v",
 			"ctestCommandArgs": ""
 		},
 		{
@@ -193,11 +193,11 @@
 			],
 			"configurationType": "Release",
 			"name": "x86-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
-			"generator": "Visual Studio 15 2017",
+			"generator": "Ninja",
 			"buildRoot": "${env.BUILD_DIR}\\${name}",
 			"installRoot": "${env.INSTALL_DIR}\\${name}",
 			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
-			"buildCommandArgs": "",
+			"buildCommandArgs": "-v",
 			"ctestCommandArgs": ""
 		},
 		// MinGW Debug
