@@ -60,7 +60,12 @@ BKSGE_CXX14_CONSTEXPR int add(int x, int y)
 
 GTEST_TEST(DebugAssertTest, ConstexprTest)
 {
+#if defined(_MSC_VER) && _MSC_VER >= 1920 && _MSC_FULL_VER <= 192127702
+	// Visual Studio Version 16.(0-1)だとconstexprにできない
+	int x = add(2, 1);
+#else
 	BKSGE_CXX14_CONSTEXPR int x = add(2, 1);
+#endif
 	BKSGE_ASSERT(x == 3);
 	BKSGE_ASSERT_MSG(x == 3, "foo");
 
