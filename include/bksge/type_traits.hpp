@@ -13,6 +13,10 @@
 #include <bksge/type_traits/conjunction.hpp>
 #include <bksge/type_traits/disjunction.hpp>
 #include <bksge/type_traits/float_promote.hpp>
+#include <bksge/type_traits/is_implicitly_constructible.hpp>
+#include <bksge/type_traits/is_implicitly_copy_constructible.hpp>
+#include <bksge/type_traits/is_implicitly_default_constructible.hpp>
+#include <bksge/type_traits/is_implicitly_move_constructible.hpp>
 #include <bksge/type_traits/is_nothrow_swappable.hpp>
 #include <bksge/type_traits/is_nothrow_swappable_with.hpp>
 #include <bksge/type_traits/is_null_pointer.hpp>
