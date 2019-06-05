@@ -10,6 +10,8 @@
 #define BKSGE_TYPE_TRAITS_INL_IS_IMPLICITLY_CONSTRUCTIBLE_INL_HPP
 
 #include <bksge/type_traits/is_implicitly_constructible.hpp>
+#include <bksge/type_traits/conjunction.hpp>
+#include <bksge/type_traits/negation.hpp>
 #include <bksge/type_traits/detail/is_array_unknown_bounds.hpp>
 #include <utility>	// declval
 #include <type_traits>
@@ -43,7 +45,7 @@ struct is_implicitly_constructible_impl<true, T, Args...>
 	: public std::true_type
 {};
 
-template <bool, bool, typename T, typename... Args>
+template <bool, typename T, typename... Args>
 struct is_implicitly_constructible
 	: public is_implicitly_constructible_impl<
 		std::is_trivially_constructible<T, Args...>::value,
@@ -51,13 +53,8 @@ struct is_implicitly_constructible
 	>::type
 {};
 
-template <bool B, typename T, typename... Args>
-struct is_implicitly_constructible<true, B, T, Args...>
-	: public std::false_type
-{};
-
 template <typename T, typename... Args>
-struct is_implicitly_constructible<false, false, T, Args...>
+struct is_implicitly_constructible<false, T, Args...>
 	: public std::false_type
 {};
 
@@ -66,8 +63,11 @@ struct is_implicitly_constructible<false, false, T, Args...>
 template <typename T, typename... Args>
 struct is_implicitly_constructible
 	: public detail::is_implicitly_constructible<
-		detail::is_array_unknown_bounds<T>::value,
-		std::is_constructible<T, Args...>::value,
+		bksge::conjunction<
+			bksge::negation<detail::is_array_unknown_bounds<T>>,
+			bksge::negation<std::is_function<T>>,
+			std::is_constructible<T, Args...>
+		>::value,
 		T, Args...
 	>
 {};
