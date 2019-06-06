@@ -76,4 +76,7 @@ inspecode:
   misspell: default
 
 # scan-build (Clang Static Analyzer)
-#  scan-build: default
+  scan-build:
+    options:
+      - -analyze-headers
+      - -k
