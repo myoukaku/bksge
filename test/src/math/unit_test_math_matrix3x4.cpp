@@ -26,8 +26,8 @@ namespace bksge_math_test
 namespace matrix3x4_test
 {
 
-using matrix3x4f = bksge::math::Matrix3x4<float>;
-using matrix3x4i = bksge::math::Matrix3x4<int>;
+using Matrix3x4f = bksge::math::Matrix3x4<float>;
+using Matrix3x4i = bksge::math::Matrix3x4<int>;
 
 using MathTestTypes = ::testing::Types<int, float, double, long double>;
 using MathFloatTestTypes = ::testing::Types<float, double, long double>;
@@ -178,14 +178,14 @@ TYPED_TEST(MathMatrix3x4Test, CopyConstructTest)
 	using Vector4 = bksge::math::Vector4<T>;
 
 	static_assert(std::is_constructible<Matrix3x4,  Matrix3x4  const&>::value, "");
-	static_assert(std::is_constructible<Matrix3x4,  matrix3x4i const&>::value, "");
-	static_assert(std::is_constructible<Matrix3x4,  matrix3x4f const&>::value, "");
-	static_assert(std::is_constructible<matrix3x4i, Matrix3x4  const&>::value, "");
-	static_assert(std::is_constructible<matrix3x4i, matrix3x4i const&>::value, "");
-	static_assert(std::is_constructible<matrix3x4i, matrix3x4f const&>::value, "");
-	static_assert(std::is_constructible<matrix3x4f, Matrix3x4  const&>::value, "");
-	static_assert(std::is_constructible<matrix3x4f, matrix3x4i const&>::value, "");
-	static_assert(std::is_constructible<matrix3x4f, matrix3x4f const&>::value, "");
+	static_assert(std::is_constructible<Matrix3x4,  Matrix3x4i const&>::value, "");
+	static_assert(std::is_constructible<Matrix3x4,  Matrix3x4f const&>::value, "");
+	static_assert(std::is_constructible<Matrix3x4i, Matrix3x4  const&>::value, "");
+	static_assert(std::is_constructible<Matrix3x4i, Matrix3x4i const&>::value, "");
+	static_assert(std::is_constructible<Matrix3x4i, Matrix3x4f const&>::value, "");
+	static_assert(std::is_constructible<Matrix3x4f, Matrix3x4  const&>::value, "");
+	static_assert(std::is_constructible<Matrix3x4f, Matrix3x4i const&>::value, "");
+	static_assert(std::is_constructible<Matrix3x4f, Matrix3x4f const&>::value, "");
 
 	BKSGE_CONSTEXPR_OR_CONST Matrix3x4  m1
 	{
@@ -194,8 +194,8 @@ TYPED_TEST(MathMatrix3x4Test, CopyConstructTest)
 		Vector4{31, 32, 33, 34},
 	};
 	BKSGE_CONSTEXPR_OR_CONST Matrix3x4  m2{m1};
-	BKSGE_CONSTEXPR_OR_CONST matrix3x4i m3{m2};
-	BKSGE_CONSTEXPR_OR_CONST matrix3x4f m4{m2};
+	BKSGE_CONSTEXPR_OR_CONST Matrix3x4i m3{m2};
+	BKSGE_CONSTEXPR_OR_CONST Matrix3x4f m4{m2};
 
 	BKSGE_CONSTEXPR_EXPECT_EQ(11, m3[0][0]);
 	BKSGE_CONSTEXPR_EXPECT_EQ(12, m3[0][1]);
@@ -257,7 +257,7 @@ TYPED_TEST(MathMatrix3x4Test, CopyAssignTest)
 	EXPECT_EQ(Vector4(61, 62, 63, 64), m1[1]);
 	EXPECT_EQ(Vector4(71, 72, 73, 74), m1[2]);
 
-	m2 = matrix3x4i
+	m2 = Matrix3x4i
 	{
 		Vector4{1,  2,  3,  4},
 		Vector4{5,  6,  7,  8},
@@ -268,7 +268,7 @@ TYPED_TEST(MathMatrix3x4Test, CopyAssignTest)
 	EXPECT_EQ(Vector4(5,  6,  7,  8), m2[1]);
 	EXPECT_EQ(Vector4(9, 10, 11, 12), m2[2]);
 
-	m1 = m2 = matrix3x4f
+	m1 = m2 = Matrix3x4f
 	{
 		Vector4{10, 11, 12, 13},
 		Vector4{20, 21, 22, 23},

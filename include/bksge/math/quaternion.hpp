@@ -35,13 +35,31 @@ public:
 	// 継承コンストラクタ
 	using BaseType::BaseType;
 
-	// デフォルトコンストラクタ
+	/**
+	 *	@brief	デフォルトコンストラクタ
+	 */
 	BKSGE_CONSTEXPR
 	Quaternion() BKSGE_NOEXCEPT_OR_NOTHROW
 		: BaseType()
 	{}
 
-	// 虚部と実部を指定するコンストラクタ
+	/**
+	 *	@brief	変換コンストラクタ
+	 */
+	template <
+		typename U,
+		typename std::enable_if<
+			std::is_constructible<T, U>::value
+		>::type* = nullptr
+	>
+	BKSGE_CONSTEXPR
+	Quaternion(Quaternion<U> const& rhs) BKSGE_NOEXCEPT_OR_NOTHROW
+		: BaseType(rhs.as_array())
+	{}
+
+	/**
+	 *	@brief	虚部と実部を指定するコンストラクタ
+	 */
 	BKSGE_CONSTEXPR
 	Quaternion(Vector3<T> const& imag, T const real) BKSGE_NOEXCEPT_OR_NOTHROW;
 

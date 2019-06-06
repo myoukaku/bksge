@@ -100,7 +100,7 @@ private:
 	template <std::size_t... Ks>
 	BKSGE_CONSTEXPR T invoke(std::size_t i, std::size_t j, bksge::index_sequence<Ks...>) const BKSGE_NOEXCEPT
 	{
-		return detail::accumulate(vector_value<T, L>{m_lhs[i][Ks] * m_rhs[Ks][j]...});
+		return detail::accumulate(VectorBase<T, L>{m_lhs[i][Ks] * m_rhs[Ks][j]...});
 	}
 
 	Matrix<T, N, L> const& m_lhs;

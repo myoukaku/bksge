@@ -9,15 +9,16 @@
 #ifndef BKSGE_MATH_DETAIL_VECTOR_BASE_HPP
 #define BKSGE_MATH_DETAIL_VECTOR_BASE_HPP
 
-#include <bksge/math/detail/vector_value.hpp>
+#include <bksge/type_traits/is_nothrow_swappable.hpp>
 #include <bksge/type_traits/conjunction.hpp>
-#include <bksge/utility/make_index_sequence.hpp>
 #include <bksge/utility/index_sequence.hpp>
 #include <bksge/config.hpp>
-#include <cstddef>
-#include <iterator>
-#include <type_traits>
-#include <utility>
+#include <array>
+#include <cstddef>		// size_t, ptrdiff_t
+#include <iterator>		// reverse_iterator
+#include <iosfwd>		// basic_ostream
+#include <type_traits>	// is_constructible, enable_if, integral_constant
+#include <tuple>
 
 namespace bksge
 {
@@ -29,11 +30,8 @@ namespace detail
 {
 
 template <typename T, std::size_t N>
-class VectorBase : public vector_value<T, N>
+class VectorBase
 {
-private:
-	using base_type = vector_value<T, N>;
-
 #if defined(_MSC_VER)
 public:
 #else
@@ -42,19 +40,14 @@ private:
 	template <bool, typename... UTypes>
 	struct CheckArgsCtorImpl
 	{
-		static constexpr bool enable_implicit = false;
-		static constexpr bool enable_explicit = false;
+		static constexpr bool value = false;
 	};
 
 	template <typename... UTypes>
 	struct CheckArgsCtorImpl<true, UTypes...>
 	{
-		static constexpr bool enable_implicit =
-			bksge::conjunction<std::is_convertible<UTypes, T>...>::value;
-
-		static constexpr bool enable_explicit =
-			bksge::conjunction<std::is_constructible<T, UTypes>...>::value &&
-			!enable_implicit;
+		static constexpr bool value =
+			bksge::conjunction<std::is_constructible<T, UTypes>...>::value;
 	};
 
 	template <typename... UTypes>
@@ -65,75 +58,215 @@ private:
 		>
 	{};
 
-	template <typename... UTypes>
-	struct IsNothrowArgsConstructible
-		: public bksge::conjunction<
-			std::is_nothrow_constructible<T, UTypes>...
-		>
-	{};
-
 public:
+	using value_type             = T;
+	using size_type              = std::size_t;
+	using difference_type        = std::ptrdiff_t;
+	using reference              = T&;
+	using const_reference        = T const&;
+	using pointer                = T*;
+	using const_pointer          = T const*;
+	using iterator               = T*;
+	using const_iterator         = T const*;
+	using reverse_iterator       = std::reverse_iterator<iterator>;
+	using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+
 	// Default ctor
-	BKSGE_CONSTEXPR
-	VectorBase() BKSGE_NOEXCEPT_OR_NOTHROW
-		: base_type()
-	{}
+	explicit BKSGE_CONSTEXPR
+	VectorBase() BKSGE_NOEXCEPT_OR_NOTHROW;
 
 	// Converting ctor
 	template <
 		typename... UTypes,
-		typename std::enable_if<CheckArgsCtor<UTypes&&...>::enable_implicit>::type* = nullptr
+		typename = typename std::enable_if<
+			CheckArgsCtor<UTypes const&...>::value
+		>::type
 	>
 	BKSGE_CONSTEXPR
-	VectorBase(UTypes&&... args)
-		BKSGE_NOEXCEPT_IF(IsNothrowArgsConstructible<UTypes...>::value)
-		: base_type({static_cast<T>(args)...})
-	{}
-
-	template <
-		typename... UTypes,
-		typename std::enable_if<CheckArgsCtor<UTypes&&...>::enable_explicit>::type* = nullptr
-	>
-	explicit BKSGE_CONSTEXPR
-	VectorBase(UTypes&&... args)
-		BKSGE_NOEXCEPT_IF(IsNothrowArgsConstructible<UTypes...>::value)
-		: base_type(static_cast<T>(args)...)
-	{}
-
-	// Converting copy-ctor
-	template <
-		typename U,
-		typename std::enable_if<CheckArgsCtorImpl<true, U const&>::enable_implicit>::type* = nullptr
-	>
-	BKSGE_CONSTEXPR
-	VectorBase(vector_value<U, N> const& other)
-		BKSGE_NOEXCEPT_IF(IsNothrowArgsConstructible<U>::value)
-		: VectorBase(other, bksge::make_index_sequence<N>())
-	{}
+	VectorBase(UTypes const&... args)
+		BKSGE_NOEXCEPT_OR_NOTHROW;
 
 	template <
 		typename U,
-		typename std::enable_if<CheckArgsCtorImpl<true, U const&>::enable_explicit>::type* = nullptr
+		typename = typename std::enable_if<
+			std::is_constructible<T, U>::value
+		>::type
 	>
-	explicit BKSGE_CONSTEXPR
-	VectorBase(vector_value<U, N> const& other)
-		BKSGE_NOEXCEPT_IF(IsNothrowArgsConstructible<U>::value)
-		: VectorBase(other, bksge::make_index_sequence<N>())
-	{}
+	BKSGE_CONSTEXPR
+	VectorBase(std::array<U, N> const& a)
+		BKSGE_NOEXCEPT_OR_NOTHROW;
 
 private:
-	template <typename Vector, std::size_t... Is>
-	BKSGE_CONSTEXPR
-	VectorBase(Vector const& other, bksge::index_sequence<Is...>)
-		BKSGE_NOEXCEPT_OR_NOTHROW
-		: base_type(static_cast<T>(other[Is])...)
-	{}
+	template <typename U, std::size_t... Is>
+	explicit BKSGE_CONSTEXPR
+	VectorBase(
+		std::array<U, N> const& a,
+		bksge::index_sequence<Is...>)
+		BKSGE_NOEXCEPT_OR_NOTHROW;
+
+public:
+	BKSGE_NODISCARD BKSGE_CXX14_CONSTEXPR reference
+	operator[](size_type pos) BKSGE_NOEXCEPT_OR_NOTHROW;
+
+	BKSGE_NODISCARD BKSGE_CONSTEXPR const_reference
+	operator[](size_type pos) const BKSGE_NOEXCEPT_OR_NOTHROW;
+
+	BKSGE_NODISCARD BKSGE_CXX14_CONSTEXPR reference
+	at(size_type pos);
+
+	BKSGE_NODISCARD BKSGE_CONSTEXPR const_reference
+	at(size_type pos) const;
+
+	BKSGE_NODISCARD BKSGE_CXX14_CONSTEXPR pointer
+	data() BKSGE_NOEXCEPT_OR_NOTHROW;
+
+	BKSGE_NODISCARD BKSGE_CONSTEXPR const_pointer
+	data() const BKSGE_NOEXCEPT_OR_NOTHROW;
+
+	BKSGE_NODISCARD BKSGE_CXX14_CONSTEXPR iterator
+	begin() BKSGE_NOEXCEPT_OR_NOTHROW;
+
+	BKSGE_NODISCARD BKSGE_CONSTEXPR const_iterator
+	begin() const BKSGE_NOEXCEPT_OR_NOTHROW;
+
+	BKSGE_NODISCARD BKSGE_CXX14_CONSTEXPR iterator
+	end() BKSGE_NOEXCEPT_OR_NOTHROW;
+
+	BKSGE_NODISCARD BKSGE_CONSTEXPR const_iterator
+	end() const BKSGE_NOEXCEPT_OR_NOTHROW;
+
+	BKSGE_NODISCARD BKSGE_CXX14_CONSTEXPR reverse_iterator
+	rbegin() BKSGE_NOEXCEPT_OR_NOTHROW;
+
+	BKSGE_NODISCARD BKSGE_CONSTEXPR const_reverse_iterator
+	rbegin() const BKSGE_NOEXCEPT_OR_NOTHROW;
+
+	BKSGE_NODISCARD BKSGE_CXX14_CONSTEXPR reverse_iterator
+	rend() BKSGE_NOEXCEPT_OR_NOTHROW;
+
+	BKSGE_NODISCARD BKSGE_CONSTEXPR const_reverse_iterator
+	rend() const BKSGE_NOEXCEPT_OR_NOTHROW;
+
+	BKSGE_NODISCARD BKSGE_CONSTEXPR const_iterator
+	cbegin() const BKSGE_NOEXCEPT_OR_NOTHROW;
+
+	BKSGE_NODISCARD BKSGE_CONSTEXPR const_iterator
+	cend() const BKSGE_NOEXCEPT_OR_NOTHROW;
+
+	BKSGE_NODISCARD BKSGE_CONSTEXPR const_reverse_iterator
+	crbegin() const BKSGE_NOEXCEPT_OR_NOTHROW;
+
+	BKSGE_NODISCARD BKSGE_CONSTEXPR const_reverse_iterator
+	crend() const BKSGE_NOEXCEPT_OR_NOTHROW;
+
+	BKSGE_NODISCARD BKSGE_CONSTEXPR bool
+	empty() const BKSGE_NOEXCEPT_OR_NOTHROW;
+
+	BKSGE_NODISCARD BKSGE_CONSTEXPR size_type
+	size() const BKSGE_NOEXCEPT_OR_NOTHROW;
+
+	BKSGE_NODISCARD BKSGE_CONSTEXPR size_type
+	max_size() const BKSGE_NOEXCEPT_OR_NOTHROW;
+
+	BKSGE_CXX14_CONSTEXPR void
+	swap(VectorBase& other)
+		BKSGE_NOEXCEPT_IF(bksge::is_nothrow_swappable<T>::value);
+
+	BKSGE_CONSTEXPR std::array<T, N>
+	as_array(void) const;
+
+private:
+	T		m_elems[N];
 };
+
+/**
+ *	@brief	swap
+ */
+template <typename T, std::size_t N>
+BKSGE_CXX14_CONSTEXPR void
+swap(VectorBase<T, N>& lhs, VectorBase<T, N>& rhs)
+BKSGE_NOEXCEPT_IF_EXPR(lhs.swap(rhs));
+
+/**
+ *	@brief	operator==
+ */
+template <typename T, std::size_t N>
+BKSGE_CONSTEXPR bool
+operator==(VectorBase<T, N> const& lhs, VectorBase<T, N> const& rhs)
+BKSGE_NOEXCEPT_OR_NOTHROW;
+
+template <typename T, std::size_t N>
+BKSGE_CONSTEXPR bool
+operator==(VectorBase<T, N> const& lhs, std::array<T, N> const& rhs)
+BKSGE_NOEXCEPT_OR_NOTHROW;
+
+/**
+ *	@brief	operator!=
+ */
+template <typename T, std::size_t N>
+BKSGE_CONSTEXPR bool
+operator!=(VectorBase<T, N> const& lhs, VectorBase<T, N> const& rhs)
+BKSGE_NOEXCEPT_OR_NOTHROW;
+
+template <typename T, std::size_t N>
+BKSGE_CONSTEXPR bool
+operator!=(VectorBase<T, N> const& lhs, std::array<T, N> const& rhs)
+BKSGE_NOEXCEPT_OR_NOTHROW;
+
+/**
+ *	@brief	ストリームへの出力
+ */
+template <typename CharT, typename Traits, typename T, std::size_t N>
+std::basic_ostream<CharT, Traits>&
+operator<<(
+	std::basic_ostream<CharT, Traits>& os,
+	VectorBase<T, N> const& rhs);
 
 }	// namespace detail
 
 }	// namespace math
 
+template <std::size_t I, typename T, std::size_t N>
+BKSGE_NODISCARD BKSGE_CXX14_CONSTEXPR T&
+get(bksge::math::detail::VectorBase<T, N>& v) BKSGE_NOEXCEPT;
+
+template <std::size_t I, typename T, std::size_t N>
+BKSGE_NODISCARD BKSGE_CONSTEXPR T const&
+get(bksge::math::detail::VectorBase<T, N> const& v) BKSGE_NOEXCEPT;
+
+template <std::size_t I, typename T, std::size_t N>
+BKSGE_NODISCARD BKSGE_CXX14_CONSTEXPR T&&
+get(bksge::math::detail::VectorBase<T, N>&& v) BKSGE_NOEXCEPT;
+
+template <std::size_t I, typename T, std::size_t N>
+BKSGE_NODISCARD BKSGE_CONSTEXPR T const&&
+get(bksge::math::detail::VectorBase<T, N> const&& v) BKSGE_NOEXCEPT;
+
 }	// namespace bksge
+
+namespace std
+{
+
+/**
+ *	@brief	tuple_size
+ */
+template <typename T, std::size_t N>
+struct tuple_size<bksge::math::detail::VectorBase<T, N>>
+	: public std::integral_constant<std::size_t, N>
+{};
+
+/**
+ *	@brief	tuple_element
+ */
+template <std::size_t I, typename T, std::size_t N>
+struct tuple_element<I, bksge::math::detail::VectorBase<T, N>>
+{
+	static_assert(I < N, "VectorBase index out of bounds");
+	using type = T;
+};
+
+}	// namespace std
+
+#include <bksge/math/detail/vector_base_inl.hpp>
 
 #endif // BKSGE_MATH_DETAIL_VECTOR_BASE_HPP

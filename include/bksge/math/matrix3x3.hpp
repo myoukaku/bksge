@@ -33,7 +33,9 @@ public:
 	// 継承コンストラクタ
 	using BaseType::BaseType;
 
-	// デフォルトコンストラクタ
+	/**
+	 *	@brief	デフォルトコンストラクタ
+	 */
 	BKSGE_CONSTEXPR
 	Matrix() BKSGE_NOEXCEPT_OR_NOTHROW
 		: BaseType()

@@ -33,10 +33,26 @@ public:
 	// 継承コンストラクタ
 	using BaseType::BaseType;
 
-	// デフォルトコンストラクタ
+	/**
+	 *	@brief	デフォルトコンストラクタ
+	 */
 	BKSGE_CONSTEXPR
 	Size() BKSGE_NOEXCEPT_OR_NOTHROW
 		: BaseType()
+	{}
+
+	/**
+	 *	@brief	変換コンストラクタ
+	 */
+	template <
+		typename U,
+		typename std::enable_if<
+			std::is_constructible<T, U>::value
+		>::type* = nullptr
+	>
+	BKSGE_CONSTEXPR
+	Size(Size<U, N> const& rhs) BKSGE_NOEXCEPT_OR_NOTHROW
+		: BaseType(rhs.as_array())
 	{}
 
 	/**
