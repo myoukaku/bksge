@@ -1,6 +1,7 @@
 @echo off
 SET PATH=C:\python27;%PATH%
 
+call :func bksge/algorithm            "Algorithm library"
 call :func bksge/cmath                "CMath library"
 call :func bksge/functional           "Functional library"
 call :func bksge/input                "Input library"
