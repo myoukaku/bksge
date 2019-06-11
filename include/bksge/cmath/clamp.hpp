@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	clamp.hpp
  *
- *	@brief	clamp関数の定義
+ *	@brief	clamp 関数の定義
  *
  *	@author	myoukaku
  */
