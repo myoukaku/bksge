@@ -367,7 +367,7 @@ TYPED_TEST(MathSize2Test, ReverseIteratorTest)
 		++it;
 		EXPECT_TRUE(it == v.crend());
 	}
-#if defined(__cpp_lib_array_constexpr) && (__cpp_lib_array_constexpr >= 201603)
+#if defined(__cpp_lib_array_constexpr) && (__cpp_lib_array_constexpr >= 201603) && !defined(__MINGW32__)
 	// rbegin, rend (constexpr)
 	{
 		BKSGE_CXX17_STATIC_CONSTEXPR Size2 v{1, 2};

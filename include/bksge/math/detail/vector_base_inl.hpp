@@ -15,7 +15,6 @@
 #include <bksge/utility/index_sequence.hpp>
 #include <bksge/utility/make_index_sequence.hpp>
 #include <bksge/config.hpp>
-#include <array>
 #include <algorithm>	// swap_ranges
 #include <cstddef>
 #include <ostream>		// basic_ostream
@@ -34,7 +33,7 @@ template <typename T, std::size_t N>
 inline BKSGE_CONSTEXPR
 VectorBase<T, N>::VectorBase()
 	BKSGE_NOEXCEPT_OR_NOTHROW
-	: m_elems{}
+	: m_value{}
 {}
 
 template <typename T, std::size_t N>
@@ -42,13 +41,13 @@ template <typename... UTypes, typename>
 inline BKSGE_CONSTEXPR
 VectorBase<T, N>::VectorBase(UTypes const&... args)
 	BKSGE_NOEXCEPT_OR_NOTHROW
-	: m_elems{static_cast<T>(args)...}
+	: m_value{static_cast<T>(args)...}
 {}
 
 template <typename T, std::size_t N>
 template <typename U, typename>
 inline BKSGE_CONSTEXPR
-VectorBase<T, N>::VectorBase(std::array<U, N> const& a)
+VectorBase<T, N>::VectorBase(VectorValue<U, N> const& a)
 	BKSGE_NOEXCEPT_OR_NOTHROW
 	: VectorBase(a, bksge::make_index_sequence<N>())
 {}
@@ -57,7 +56,7 @@ template <typename T, std::size_t N>
 template <typename U, std::size_t... Is>
 inline BKSGE_CONSTEXPR
 VectorBase<T, N>::VectorBase(
-	std::array<U, N> const& a,
+	VectorValue<U, N> const& a,
 	bksge::index_sequence<Is...>)
 	BKSGE_NOEXCEPT_OR_NOTHROW
 	: VectorBase(a[Is]...)
@@ -69,7 +68,7 @@ VectorBase<T, N>::operator[](size_type pos)
 	BKSGE_NOEXCEPT_OR_NOTHROW
 -> reference
 {
-	return m_elems[pos];
+	return m_value[pos];
 }
 
 template <typename T, std::size_t N>
@@ -78,7 +77,7 @@ VectorBase<T, N>::operator[](size_type pos) const
 	BKSGE_NOEXCEPT_OR_NOTHROW
 -> const_reference
 {
-	return m_elems[pos];
+	return m_value[pos];
 }
 
 BKSGE_WARNING_PUSH();
@@ -90,8 +89,8 @@ VectorBase<T, N>::at(size_type pos)
 -> reference
 {
 	return (pos >= N) ?
-		(bksge::throw_out_of_range("VectorBase::at"), m_elems[0]) :
-		m_elems[pos];
+		(bksge::throw_out_of_range("VectorBase::at"), m_value[0]) :
+		m_value[pos];
 }
 
 template <typename T, std::size_t N>
@@ -100,8 +99,8 @@ VectorBase<T, N>::at(size_type pos) const
 -> const_reference
 {
 	return (pos >= N) ?
-		(bksge::throw_out_of_range("VectorBase::at"), m_elems[0]) :
-		m_elems[pos];
+		(bksge::throw_out_of_range("VectorBase::at"), m_value[0]) :
+		m_value[pos];
 }
 
 BKSGE_WARNING_POP();
@@ -111,7 +110,7 @@ BKSGE_NODISCARD inline BKSGE_CXX14_CONSTEXPR auto
 VectorBase<T, N>::data() BKSGE_NOEXCEPT_OR_NOTHROW
 -> pointer
 {
-	return m_elems;
+	return &m_value[0];
 }
 
 template <typename T, std::size_t N>
@@ -119,7 +118,7 @@ BKSGE_NODISCARD inline BKSGE_CONSTEXPR auto
 VectorBase<T, N>::data() const BKSGE_NOEXCEPT_OR_NOTHROW
 -> const_pointer
 {
-	return m_elems;
+	return &m_value[0];
 }
 
 template <typename T, std::size_t N>
@@ -247,21 +246,14 @@ inline BKSGE_CXX14_CONSTEXPR void
 VectorBase<T, N>::swap(VectorBase& other)
 	BKSGE_NOEXCEPT_IF(bksge::is_nothrow_swappable<T>::value)
 {
-	std::swap_ranges(m_elems, m_elems + N, other.m_elems);
-}
-
-template <typename T, std::size_t N, std::size_t... Is>
-inline BKSGE_CONSTEXPR std::array<T, N>
-as_array_impl(T const (&a)[N], bksge::index_sequence<Is...>)
-{
-	return {{a[Is]...}};
+	std::swap_ranges(begin(), begin() + N, other.begin());
 }
 
 template <typename T, std::size_t N>
-inline BKSGE_CONSTEXPR std::array<T, N>
+inline BKSGE_CONSTEXPR VectorValue<T, N>
 VectorBase<T, N>::as_array(void) const
 {
-	return as_array_impl(m_elems, bksge::make_index_sequence<N>());
+	return m_value;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -288,7 +280,7 @@ BKSGE_NOEXCEPT_OR_NOTHROW
 
 template <typename T, std::size_t N>
 inline BKSGE_CONSTEXPR bool
-operator==(VectorBase<T, N> const& lhs, std::array<T, N> const& rhs)
+operator==(VectorBase<T, N> const& lhs, VectorValue<T, N> const& rhs)
 BKSGE_NOEXCEPT_OR_NOTHROW
 {
 	return lhs == VectorBase<T, N>(rhs);
@@ -304,7 +296,7 @@ BKSGE_NOEXCEPT_OR_NOTHROW
 
 template <typename T, std::size_t N>
 inline BKSGE_CONSTEXPR bool
-operator!=(VectorBase<T, N> const& lhs, std::array<T, N> const& rhs)
+operator!=(VectorBase<T, N> const& lhs, VectorValue<T, N> const& rhs)
 BKSGE_NOEXCEPT_OR_NOTHROW
 {
 	return !(lhs == rhs);

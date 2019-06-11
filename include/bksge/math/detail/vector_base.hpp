@@ -9,11 +9,11 @@
 #ifndef BKSGE_MATH_DETAIL_VECTOR_BASE_HPP
 #define BKSGE_MATH_DETAIL_VECTOR_BASE_HPP
 
+#include <bksge/math/detail/vector_value.hpp>
 #include <bksge/type_traits/is_nothrow_swappable.hpp>
 #include <bksge/type_traits/conjunction.hpp>
 #include <bksge/utility/index_sequence.hpp>
 #include <bksge/config.hpp>
-#include <array>
 #include <cstddef>		// size_t, ptrdiff_t
 #include <iterator>		// reverse_iterator
 #include <iosfwd>		// basic_ostream
@@ -93,14 +93,14 @@ public:
 		>::type
 	>
 	BKSGE_CONSTEXPR
-	VectorBase(std::array<U, N> const& a)
+	VectorBase(VectorValue<U, N> const& a)
 		BKSGE_NOEXCEPT_OR_NOTHROW;
 
 private:
 	template <typename U, std::size_t... Is>
 	explicit BKSGE_CONSTEXPR
 	VectorBase(
-		std::array<U, N> const& a,
+		VectorValue<U, N> const& a,
 		bksge::index_sequence<Is...>)
 		BKSGE_NOEXCEPT_OR_NOTHROW;
 
@@ -172,11 +172,11 @@ public:
 	swap(VectorBase& other)
 		BKSGE_NOEXCEPT_IF(bksge::is_nothrow_swappable<T>::value);
 
-	BKSGE_CONSTEXPR std::array<T, N>
+	BKSGE_CONSTEXPR VectorValue<T, N>
 	as_array(void) const;
 
 private:
-	T		m_elems[N];
+	VectorValue<T, N>	m_value;
 };
 
 /**
@@ -197,7 +197,7 @@ BKSGE_NOEXCEPT_OR_NOTHROW;
 
 template <typename T, std::size_t N>
 BKSGE_CONSTEXPR bool
-operator==(VectorBase<T, N> const& lhs, std::array<T, N> const& rhs)
+operator==(VectorBase<T, N> const& lhs, VectorValue<T, N> const& rhs)
 BKSGE_NOEXCEPT_OR_NOTHROW;
 
 /**
@@ -210,7 +210,7 @@ BKSGE_NOEXCEPT_OR_NOTHROW;
 
 template <typename T, std::size_t N>
 BKSGE_CONSTEXPR bool
-operator!=(VectorBase<T, N> const& lhs, std::array<T, N> const& rhs)
+operator!=(VectorBase<T, N> const& lhs, VectorValue<T, N> const& rhs)
 BKSGE_NOEXCEPT_OR_NOTHROW;
 
 /**
