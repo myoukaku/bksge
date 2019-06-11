@@ -16,9 +16,29 @@
 
 #if defined(__APPLE__)
 
-#import <mach-o/dyld.h>
 #import <stdlib.h>
 #import <string.h>
+#include <AvailabilityMacros.h>
+
+#if defined(MAC_OS_X_VERSION_10_3)
+
+#include <dlfcn.h>
+
+static void* NSGLGetProcAddress(const char* name)
+{
+	static void* image = NULL;
+
+	if (image == NULL)
+	{
+		image = dlopen("/System/Library/Frameworks/OpenGL.framework/Versions/Current/OpenGL", RTLD_LAZY);
+	}
+
+	return image ? dlsym(image, name) : NULL;
+}
+
+#else
+
+#include <mach-o/dyld.h>
 
 static void* NSGLGetProcAddress(const char* name)
 {
@@ -35,7 +55,7 @@ static void* NSGLGetProcAddress(const char* name)
 	free(symbolName);
 	return symbol ? NSAddressOfSymbol(symbol) : NULL;
 }
-
+#endif	// defined(MAC_OS_X_VERSION_10_3)
 #endif	// defined(__APPLE__)
 
 BKSGE_WARNING_PUSH()
