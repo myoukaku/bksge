@@ -21,6 +21,14 @@ namespace math
 {
 
 template <typename T, std::size_t N>
+template <typename U, typename>
+inline BKSGE_CONSTEXPR
+Color<T, N>::Color(Color<U, N> const& rhs)
+	BKSGE_NOEXCEPT_OR_NOTHROW
+	: BaseType(rhs.as_array())
+{}
+
+template <typename T, std::size_t N>
 inline BKSGE_CONSTEXPR auto
 Color<T, N>::Zero() BKSGE_NOEXCEPT
 -> Color
@@ -141,7 +149,10 @@ operator/(Color<T, N> const& lhs, Color<T, N> const& rhs) BKSGE_NOEXCEPT
 
 template <typename T, std::size_t N, typename ArithmeticType, typename>
 inline BKSGE_CONSTEXPR Color<T, N>
-Lerp(Color<T, N> const& from, Color<T, N> const& to, ArithmeticType const& t) BKSGE_NOEXCEPT
+Lerp(
+	Color<T, N> const& from,
+	Color<T, N> const& to,
+	ArithmeticType const& t) BKSGE_NOEXCEPT
 {
 	return bksge::math::detail::lerp_per_elem(from, to, t);
 }

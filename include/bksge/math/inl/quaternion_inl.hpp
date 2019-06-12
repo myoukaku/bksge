@@ -95,8 +95,17 @@ make_quaternion_from_matrix(Matrix3x3<T> const& m) BKSGE_NOEXCEPT
 }	// namespace detail
 
 template <typename T>
+template <typename U, typename>
 inline BKSGE_CONSTEXPR
-Quaternion<T>::Quaternion(Vector3<T> const& imag, T const real) BKSGE_NOEXCEPT_OR_NOTHROW
+Quaternion<T>::Quaternion(Quaternion<U> const& rhs)
+	BKSGE_NOEXCEPT_OR_NOTHROW
+	: BaseType(rhs.as_array())
+{}
+
+template <typename T>
+inline BKSGE_CONSTEXPR
+Quaternion<T>::Quaternion(Vector3<T> const& imag, T const real)
+	BKSGE_NOEXCEPT_OR_NOTHROW
 	: BaseType(imag.x(), imag.y(), imag.z(), real)
 {}
 
@@ -166,7 +175,8 @@ Quaternion<T>::MakeRotationZ(AngleType const& angle) BKSGE_NOEXCEPT
 template <typename T>
 template <typename AngleType>
 inline BKSGE_CONSTEXPR auto
-Quaternion<T>::MakeRotation(Vector3<T> const& axis, AngleType const& angle) BKSGE_NOEXCEPT
+Quaternion<T>::MakeRotation(Vector3<T> const& axis, AngleType const& angle)
+	BKSGE_NOEXCEPT
 -> Quaternion
 {
 	return

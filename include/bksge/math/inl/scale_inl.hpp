@@ -25,6 +25,14 @@ namespace math
 {
 
 template <typename T, std::size_t N>
+template <typename U, typename>
+inline BKSGE_CONSTEXPR
+Scale<T, N>::Scale(Scale<U, N> const& rhs)
+	BKSGE_NOEXCEPT_OR_NOTHROW
+	: BaseType(rhs.as_array())
+{}
+
+template <typename T, std::size_t N>
 inline BKSGE_CONSTEXPR auto
 Scale<T, N>::Zero() BKSGE_NOEXCEPT
 -> Scale
@@ -180,7 +188,10 @@ operator*(Vector<T, N> const& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
 
 template <typename T, std::size_t N, typename ArithmeticType, typename>
 inline BKSGE_CONSTEXPR Scale<T, N>
-Lerp(Scale<T, N> const& from, Scale<T, N> const& to, ArithmeticType const& t) BKSGE_NOEXCEPT
+Lerp(
+	Scale<T, N> const& from,
+	Scale<T, N> const& to,
+	ArithmeticType const& t) BKSGE_NOEXCEPT
 {
 	return bksge::math::detail::lerp_per_elem(from, to, t);
 }

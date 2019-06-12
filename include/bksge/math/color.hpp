@@ -46,14 +46,13 @@ public:
 	 */
 	template <
 		typename U,
-		typename std::enable_if<
+		typename = typename std::enable_if<
 			std::is_constructible<T, U>::value
-		>::type* = nullptr
+		>::type
 	>
 	BKSGE_CONSTEXPR
-	Color(Color<U, N> const& rhs) BKSGE_NOEXCEPT_OR_NOTHROW
-		: BaseType(rhs.as_array())
-	{}
+	Color(Color<U, N> const& rhs)
+		BKSGE_NOEXCEPT_OR_NOTHROW;
 
 	/**
 	 *	@brief	ゼロ初期化されたColorを作成します

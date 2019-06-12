@@ -21,6 +21,14 @@ namespace math
 {
 
 template <typename T, std::size_t N>
+template <typename U, typename>
+inline BKSGE_CONSTEXPR
+Size<T, N>::Size(Size<U, N> const& rhs)
+	BKSGE_NOEXCEPT_OR_NOTHROW
+	: BaseType(rhs.as_array())
+{}
+
+template <typename T, std::size_t N>
 inline BKSGE_CONSTEXPR auto
 Size<T, N>::Zero() BKSGE_NOEXCEPT
 -> Size

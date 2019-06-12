@@ -46,14 +46,13 @@ public:
 	 */
 	template <
 		typename U,
-		typename std::enable_if<
+		typename = typename std::enable_if<
 			std::is_constructible<T, U>::value
-		>::type* = nullptr
+		>::type
 	>
 	BKSGE_CONSTEXPR
-	ColorHSV(ColorHSV<U> const& rhs) BKSGE_NOEXCEPT_OR_NOTHROW
-		: BaseType(rhs.as_array())
-	{}
+	ColorHSV(ColorHSV<U> const& rhs)
+		BKSGE_NOEXCEPT_OR_NOTHROW;
 
 	/**
 	 *	@brief	RGB から HSV への変換
@@ -61,11 +60,6 @@ public:
 	template <typename U>
 	BKSGE_CXX14_CONSTEXPR
 	explicit ColorHSV(Color3<U> const& rgb);
-
-	/**
-	 *	@brief	HSV から RGB への変換
-	 */
-	operator Color3<T>() const;
 
 	/**
 	 *	@brief	ゼロ初期化されたColorHSVを作成します
@@ -78,8 +72,26 @@ public:
 	BKSGE_MATH_NAMED_ACCESS(v, 2);
 };
 
+/**
+ *	@brief	正規化されたColorHSVを作成します
+ */
 template <typename T>
-ColorHSV<T> Normalized(ColorHSV<T> const& hsv);
+BKSGE_CONSTEXPR ColorHSV<T>
+Normalized(ColorHSV<T> const& hsv);
+
+/**
+ *	@brief	RGB から HSV への変換
+ */
+template <typename T>
+BKSGE_CXX14_CONSTEXPR ColorHSV<T>
+RGBtoHSV(Color3<T> const& rgb);
+
+/**
+ *	@brief	HSV から RGB への変換
+ */
+template <typename T>
+BKSGE_CXX14_CONSTEXPR Color3<T>
+HSVtoRGB(ColorHSV<T> const& hsv);
 
 }	// namespace math
 

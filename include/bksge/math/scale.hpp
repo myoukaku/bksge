@@ -47,14 +47,13 @@ public:
 	 */
 	template <
 		typename U,
-		typename std::enable_if<
+		typename = typename std::enable_if<
 			std::is_constructible<T, U>::value
-		>::type* = nullptr
+		>::type
 	>
 	BKSGE_CONSTEXPR
-	Scale(Scale<U, N> const& rhs) BKSGE_NOEXCEPT_OR_NOTHROW
-		: BaseType(rhs.as_array())
-	{}
+	Scale(Scale<U, N> const& rhs)
+		BKSGE_NOEXCEPT_OR_NOTHROW;
 
 	/**
 	 *	@brief	ゼロスケールを作成します

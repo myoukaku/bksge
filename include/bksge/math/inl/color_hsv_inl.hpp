@@ -23,9 +23,54 @@ namespace math
 {
 
 template <typename T>
+template <typename U, typename>
+inline BKSGE_CONSTEXPR
+ColorHSV<T>::ColorHSV(ColorHSV<U> const& rhs)
+	BKSGE_NOEXCEPT_OR_NOTHROW
+	: BaseType(rhs.as_array())
+{}
+
+template <typename T>
 template <typename U>
 inline BKSGE_CXX14_CONSTEXPR
 ColorHSV<T>::ColorHSV(Color3<U> const& rgb)
+	: ColorHSV(RGBtoHSV(rgb))
+{
+}
+
+template <typename T>
+inline BKSGE_CONSTEXPR auto
+ColorHSV<T>::Zero() BKSGE_NOEXCEPT
+-> ColorHSV
+{
+	return ColorHSV{};
+}
+
+namespace detail
+{
+
+template <typename T>
+inline BKSGE_CONSTEXPR ColorHSV<T>
+NormalizedImpl(T h, T s, T v)
+{
+	return ColorHSV<T>(
+		h < 0 ? h + T(1) : h,
+		bksge::clamp(s, T(0), T(1)),
+		bksge::clamp(v, T(0), T(1)));
+}
+
+}	// namespace detail
+
+template <typename T>
+inline BKSGE_CONSTEXPR ColorHSV<T>
+Normalized(ColorHSV<T> const& hsv)
+{
+	return detail::NormalizedImpl(bksge::fmod(hsv.h(), T(1)), hsv.s(), hsv.v());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR ColorHSV<T>
+RGBtoHSV(Color3<T> const& rgb)
 {
 	T const r = rgb.r();
 	T const g = rgb.g();
@@ -34,43 +79,50 @@ ColorHSV<T>::ColorHSV(Color3<U> const& rgb)
 	T const min = std::min({r, g, b});
 	T const d = max - min;
 
+	T h = 0;
+	T s = 0;
+	T v = 0;
+
 	if (max == min)
 	{
-		h() = 0;
+		h = 0;
 	}
 	else if (max == r)
 	{
-		h() = ((g - b) / d + T(0)) / T(6);
-		if (h() < 0)
+		h = ((g - b) / d + T(0)) / T(6);
+		if (h < 0)
 		{
-			h() += T(1);
+			h += T(1);
 		}
 	}
 	else if (max == g)
 	{
-		h() = ((b - r) / d + T(2)) / T(6);
+		h = ((b - r) / d + T(2)) / T(6);
 	}
 	else // if (max == b)
 	{
-		h() = ((r - g) / d + T(4)) / T(6);
+		h = ((r - g) / d + T(4)) / T(6);
 	}
 
 	if (max == 0)
 	{
-		s() = 0;
+		s = 0;
 	}
 	else
 	{
-		s() = d / max;
+		s = d / max;
 	}
 
-	v() = max;
+	v = max;
+
+	return { h, s, v };
 }
 
 template <typename T>
-inline ColorHSV<T>::operator Color3<T>() const
+inline BKSGE_CXX14_CONSTEXPR Color3<T>
+HSVtoRGB(ColorHSV<T> const& hsv)
 {
-	auto const normalized_hsv = Normalized(*this);
+	auto const normalized_hsv = Normalized(hsv);
 	T const h = normalized_hsv.h();
 	T const s = normalized_hsv.s();
 	T const v = normalized_hsv.v();
@@ -97,25 +149,6 @@ inline ColorHSV<T>::operator Color3<T>() const
 	}
 
 	return {};
-}
-
-template <typename T>
-inline BKSGE_CONSTEXPR auto
-ColorHSV<T>::Zero() BKSGE_NOEXCEPT
--> ColorHSV
-{
-	return ColorHSV{};
-}
-
-template <typename T>
-inline ColorHSV<T>
-Normalized(ColorHSV<T> const& hsv)
-{
-	auto const tmp_h = bksge::fmod(hsv.h(), T(1));
-	return ColorHSV<T>(
-		tmp_h < 0 ? tmp_h + T(1) : tmp_h,
-		bksge::clamp(hsv.s(), T(0), T(1)),
-		bksge::clamp(hsv.v(), T(0), T(1)));
 }
 
 }	// namespace math

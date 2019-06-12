@@ -48,20 +48,20 @@ public:
 	 */
 	template <
 		typename U,
-		typename std::enable_if<
+		typename = typename std::enable_if<
 			std::is_constructible<T, U>::value
-		>::type* = nullptr
+		>::type
 	>
 	BKSGE_CONSTEXPR
-	Quaternion(Quaternion<U> const& rhs) BKSGE_NOEXCEPT_OR_NOTHROW
-		: BaseType(rhs.as_array())
-	{}
+	Quaternion(Quaternion<U> const& rhs)
+		BKSGE_NOEXCEPT_OR_NOTHROW;
 
 	/**
 	 *	@brief	虚部と実部を指定するコンストラクタ
 	 */
 	BKSGE_CONSTEXPR
-	Quaternion(Vector3<T> const& imag, T const real) BKSGE_NOEXCEPT_OR_NOTHROW;
+	Quaternion(Vector3<T> const& imag, T const real)
+		BKSGE_NOEXCEPT_OR_NOTHROW;
 
 	/**
 	 *	@brief	Matrix3x3からのコンストラクタ

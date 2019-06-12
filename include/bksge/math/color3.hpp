@@ -10,9 +10,9 @@
 #define BKSGE_MATH_COLOR3_HPP
 
 #include <bksge/math/fwd/color3_fwd.hpp>
+#include <bksge/math/fwd/color_hsv_fwd.hpp>
 #include <bksge/math/color.hpp>
 
-#if 0
 namespace bksge
 {
 
@@ -36,11 +36,25 @@ public:
 		: BaseType()
 	{}
 
-	template <typename U>
+	/**
+	 *	@brief	変換コンストラクタ
+	 */
+	template <
+		typename U,
+		typename = typename std::enable_if<
+			std::is_constructible<T, U>::value
+		>::type
+	>
 	BKSGE_CONSTEXPR
-	Color(Color<U, 3> const& rhs) BKSGE_NOEXCEPT_OR_NOTHROW
-		: BaseType(rhs.r(), rhs.g(), rhs.b())
-	{}
+	Color(Color<U, 3> const& rhs)
+		BKSGE_NOEXCEPT_OR_NOTHROW;
+
+	/**
+	 *	@brief	HSV から RGB への変換
+	 */
+	template <typename U>
+	BKSGE_CXX14_CONSTEXPR
+	explicit Color(ColorHSV<U> const& hsv);
 
 	/**
 	 *	@brief	ゼロ初期化されたColorを作成します
@@ -55,6 +69,7 @@ public:
 }	// namespace math
 
 }	// namespace bksge
-#endif
+
+#include <bksge/math/inl/color3_inl.hpp>
 
 #endif // BKSGE_MATH_COLOR3_HPP

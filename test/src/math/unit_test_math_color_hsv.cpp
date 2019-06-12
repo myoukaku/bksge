@@ -169,110 +169,112 @@ TYPED_TEST(MathColorHSVTest, FromColor3Test)
 	using ColorHSV = bksge::math::ColorHSV<T>;
 	using ColorRGB = bksge::math::Color3<T>;
 
+	BKSGE_CXX14_CONSTEXPR double error = 0.0000001;
+
 	{
-		const ColorRGB rgb(0, 0, 0);
-		const ColorHSV hsv(rgb);
-		EXPECT_EQ(0.0f, hsv.h());
-		EXPECT_EQ(0.0f, hsv.s());
-		EXPECT_EQ(0.0f, hsv.v());
+		BKSGE_CXX14_CONSTEXPR ColorRGB rgb(0, 0, 0);
+		BKSGE_CXX14_CONSTEXPR ColorHSV hsv(rgb);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(0.0, hsv.h());
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(0.0, hsv.s());
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(0.0, hsv.v());
 	}
 	{
-		const ColorRGB rgb(1, 0, 0);
-		const ColorHSV hsv(rgb);
-		EXPECT_EQ(0.0f, hsv.h());
-		EXPECT_EQ(1.0f, hsv.s());
-		EXPECT_EQ(1.0f, hsv.v());
+		BKSGE_CXX14_CONSTEXPR ColorRGB rgb(1, 0, 0);
+		BKSGE_CXX14_CONSTEXPR ColorHSV hsv(rgb);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(0.0, hsv.h());
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(1.0, hsv.s());
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(1.0, hsv.v());
 	}
 	{
-		const ColorRGB rgb(0, 1, 0);
-		const ColorHSV hsv(rgb);
-		EXPECT_FLOAT_EQ(2.0f / 6.0f, (float)hsv.h());
-		EXPECT_FLOAT_EQ(1.0f,        (float)hsv.s());
-		EXPECT_FLOAT_EQ(1.0f,        (float)hsv.v());
+		BKSGE_CXX14_CONSTEXPR ColorRGB rgb(0, 1, 0);
+		BKSGE_CXX14_CONSTEXPR ColorHSV hsv(rgb);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(2.0 / 6.0, (double)hsv.h(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(1.0,       (double)hsv.s(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(1.0,       (double)hsv.v(), error);
 	}
 	{
-		const ColorRGB rgb(0, 0, 1);
-		const ColorHSV hsv(rgb);
-		EXPECT_FLOAT_EQ(4.0f / 6.0f, (float)hsv.h());
-		EXPECT_FLOAT_EQ(1.0f,        (float)hsv.s());
-		EXPECT_FLOAT_EQ(1.0f,        (float)hsv.v());
+		BKSGE_CXX14_CONSTEXPR ColorRGB rgb(0, 0, 1);
+		BKSGE_CXX14_CONSTEXPR ColorHSV hsv(rgb);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(4.0 / 6.0, (double)hsv.h(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(1.0,       (double)hsv.s(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(1.0,       (double)hsv.v(), error);
 	}
 	{
-		const ColorRGB rgb(1, 1, 0);
-		const ColorHSV hsv(rgb);
-		EXPECT_FLOAT_EQ(1.0f / 6.0f, (float)hsv.h());
-		EXPECT_FLOAT_EQ(1.0f,        (float)hsv.s());
-		EXPECT_FLOAT_EQ(1.0f,        (float)hsv.v());
+		BKSGE_CXX14_CONSTEXPR ColorRGB rgb(1, 1, 0);
+		BKSGE_CXX14_CONSTEXPR ColorHSV hsv(rgb);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(1.0 / 6.0, (double)hsv.h(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(1.0,       (double)hsv.s(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(1.0,       (double)hsv.v(), error);
 	}
 	{
-		const ColorRGB rgb(1, 0, 1);
-		const ColorHSV hsv(rgb);
-		EXPECT_FLOAT_EQ(5.0f / 6.0f, (float)hsv.h());
-		EXPECT_FLOAT_EQ(1.0f,        (float)hsv.s());
-		EXPECT_FLOAT_EQ(1.0f,        (float)hsv.v());
+		BKSGE_CXX14_CONSTEXPR ColorRGB rgb(1, 0, 1);
+		BKSGE_CXX14_CONSTEXPR ColorHSV hsv(rgb);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(5.0 / 6.0, (double)hsv.h(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(1.0,       (double)hsv.s(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(1.0,       (double)hsv.v(), error);
 	}
 	{
-		const ColorRGB rgb(0, 1, 1);
-		const ColorHSV hsv(rgb);
-		EXPECT_FLOAT_EQ(3.0f / 6.0f, (float)hsv.h());
-		EXPECT_FLOAT_EQ(1.0f,        (float)hsv.s());
-		EXPECT_FLOAT_EQ(1.0f,        (float)hsv.v());
+		BKSGE_CXX14_CONSTEXPR ColorRGB rgb(0, 1, 1);
+		BKSGE_CXX14_CONSTEXPR ColorHSV hsv(rgb);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(3.0 / 6.0, (double)hsv.h(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(1.0,       (double)hsv.s(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(1.0,       (double)hsv.v(), error);
 	}
 	{
-		const ColorRGB rgb(1, 1, 1);
-		const ColorHSV hsv(rgb);
-		EXPECT_FLOAT_EQ(0.0f / 6.0f, (float)hsv.h());
-		EXPECT_FLOAT_EQ(0.0f,        (float)hsv.s());
-		EXPECT_FLOAT_EQ(1.0f,        (float)hsv.v());
+		BKSGE_CXX14_CONSTEXPR ColorRGB rgb(1, 1, 1);
+		BKSGE_CXX14_CONSTEXPR ColorHSV hsv(rgb);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(0.0 / 6.0, (double)hsv.h(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(0.0,       (double)hsv.s(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(1.0,       (double)hsv.v(), error);
 	}
 	{
-		const ColorRGB rgb(0.5, 0, 0);
-		const ColorHSV hsv(rgb);
-		EXPECT_FLOAT_EQ(0.0f,        (float)hsv.h());
-		EXPECT_FLOAT_EQ(1.0f,        (float)hsv.s());
-		EXPECT_FLOAT_EQ(0.5f,        (float)hsv.v());
+		BKSGE_CXX14_CONSTEXPR ColorRGB rgb(0.5, 0, 0);
+		BKSGE_CXX14_CONSTEXPR ColorHSV hsv(rgb);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(0.0,       (double)hsv.h(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(1.0,       (double)hsv.s(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(0.5,       (double)hsv.v(), error);
 	}
 	{
-		const ColorRGB rgb(0, 0.25, 0);
-		const ColorHSV hsv(rgb);
-		EXPECT_FLOAT_EQ(2.0f / 6.0f, (float)hsv.h());
-		EXPECT_FLOAT_EQ(1.0f,        (float)hsv.s());
-		EXPECT_FLOAT_EQ(0.25f,       (float)hsv.v());
+		BKSGE_CXX14_CONSTEXPR ColorRGB rgb(0, 0.25, 0);
+		BKSGE_CXX14_CONSTEXPR ColorHSV hsv(rgb);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(2.0 / 6.0, (double)hsv.h(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(1.0,       (double)hsv.s(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(0.25,      (double)hsv.v(), error);
 	}
 	{
-		const ColorRGB rgb(0, 0, 0.125);
-		const ColorHSV hsv(rgb);
-		EXPECT_FLOAT_EQ(4.0f / 6.0f, (float)hsv.h());
-		EXPECT_FLOAT_EQ(1.0f,        (float)hsv.s());
-		EXPECT_FLOAT_EQ(0.125f,      (float)hsv.v());
+		BKSGE_CXX14_CONSTEXPR ColorRGB rgb(0, 0, 0.125);
+		BKSGE_CXX14_CONSTEXPR ColorHSV hsv(rgb);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(4.0 / 6.0, (double)hsv.h(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(1.0,       (double)hsv.s(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(0.125,     (double)hsv.v(), error);
 	}
 	{
-		const ColorRGB rgb(0.5, 0.5, 0);
-		const ColorHSV hsv(rgb);
-		EXPECT_FLOAT_EQ(1.0f / 6.0f, (float)hsv.h());
-		EXPECT_FLOAT_EQ(1.0f,        (float)hsv.s());
-		EXPECT_FLOAT_EQ(0.5f,        (float)hsv.v());
+		BKSGE_CXX14_CONSTEXPR ColorRGB rgb(0.5, 0.5, 0);
+		BKSGE_CXX14_CONSTEXPR ColorHSV hsv(rgb);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(1.0 / 6.0, (double)hsv.h(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(1.0,       (double)hsv.s(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(0.5,       (double)hsv.v(), error);
 	}
 	{
-		const ColorRGB rgb(0.5, 0, 0.5);
-		const ColorHSV hsv(rgb);
-		EXPECT_FLOAT_EQ(5.0f / 6.0f, (float)hsv.h());
-		EXPECT_FLOAT_EQ(1.0f,        (float)hsv.s());
-		EXPECT_FLOAT_EQ(0.5f,        (float)hsv.v());
+		BKSGE_CXX14_CONSTEXPR ColorRGB rgb(0.5, 0, 0.5);
+		BKSGE_CXX14_CONSTEXPR ColorHSV hsv(rgb);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(5.0 / 6.0, (double)hsv.h(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(1.0,       (double)hsv.s(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(0.5,       (double)hsv.v(), error);
 	}
 	{
-		const ColorRGB rgb(0, 0.5, 0.5);
-		const ColorHSV hsv(rgb);
-		EXPECT_FLOAT_EQ(3.0f / 6.0f, (float)hsv.h());
-		EXPECT_FLOAT_EQ(1.0f,        (float)hsv.s());
-		EXPECT_FLOAT_EQ(0.5f,        (float)hsv.v());
+		BKSGE_CXX14_CONSTEXPR ColorRGB rgb(0, 0.5, 0.5);
+		BKSGE_CXX14_CONSTEXPR ColorHSV hsv(rgb);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(3.0 / 6.0, (double)hsv.h(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(1.0,       (double)hsv.s(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(0.5,       (double)hsv.v(), error);
 	}
 	{
-		const ColorRGB rgb(0.5, 0.5, 0.5);
-		const ColorHSV hsv(rgb);
-		EXPECT_FLOAT_EQ(0.0f / 6.0f, (float)hsv.h());
-		EXPECT_FLOAT_EQ(0.0f,        (float)hsv.s());
-		EXPECT_FLOAT_EQ(0.5f,        (float)hsv.v());
+		BKSGE_CXX14_CONSTEXPR ColorRGB rgb(0.5, 0.5, 0.5);
+		BKSGE_CXX14_CONSTEXPR ColorHSV hsv(rgb);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(0.0 / 6.0, (double)hsv.h(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(0.0,       (double)hsv.s(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(0.5,       (double)hsv.v(), error);
 	}
 }
 
@@ -282,126 +284,187 @@ TYPED_TEST(MathColorHSVTest, ToColor3Test)
 	using ColorHSV = bksge::math::ColorHSV<T>;
 	using ColorRGB = bksge::math::Color3<T>;
 
-	double const error = 0.0000001;
+	BKSGE_CXX14_CONSTEXPR double error = 0.0000001;
 
 	{
-		const ColorHSV hsv(0, 0, 0);
-		const ColorRGB rgb(hsv);
-		EXPECT_EQ(0.0f, rgb.r());
-		EXPECT_EQ(0.0f, rgb.g());
-		EXPECT_EQ(0.0f, rgb.b());
+		BKSGE_CXX14_CONSTEXPR ColorHSV hsv(0, 0, 0);
+		BKSGE_CXX14_CONSTEXPR ColorRGB rgb(hsv);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(0.0f, rgb.r());
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(0.0f, rgb.g());
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(0.0f, rgb.b());
 	}
 	{
-		const ColorHSV hsv(0, 1, 0);
-		const ColorRGB rgb(hsv);
-		EXPECT_EQ(0.0f, rgb.r());
-		EXPECT_EQ(0.0f, rgb.g());
-		EXPECT_EQ(0.0f, rgb.b());
+		BKSGE_CXX14_CONSTEXPR ColorHSV hsv(0, 1, 0);
+		BKSGE_CXX14_CONSTEXPR ColorRGB rgb(hsv);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(0.0f, rgb.r());
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(0.0f, rgb.g());
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(0.0f, rgb.b());
 	}
 	{
-		const ColorHSV hsv(0, 0, 1);
-		const ColorRGB rgb(hsv);
-		EXPECT_EQ(1.0f, rgb.r());
-		EXPECT_EQ(1.0f, rgb.g());
-		EXPECT_EQ(1.0f, rgb.b());
+		BKSGE_CXX14_CONSTEXPR ColorHSV hsv(0, 0, 1);
+		BKSGE_CXX14_CONSTEXPR ColorRGB rgb(hsv);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(1.0f, rgb.r());
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(1.0f, rgb.g());
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(1.0f, rgb.b());
 	}
 	{
-		const ColorHSV hsv(0, 1, 1);
-		const ColorRGB rgb(hsv);
-		EXPECT_EQ(1.0f, rgb.r());
-		EXPECT_EQ(0.0f, rgb.g());
-		EXPECT_EQ(0.0f, rgb.b());
+		BKSGE_CXX14_CONSTEXPR ColorHSV hsv(0, 1, 1);
+		BKSGE_CXX14_CONSTEXPR ColorRGB rgb(hsv);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(1.0f, rgb.r());
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(0.0f, rgb.g());
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(0.0f, rgb.b());
 	}
 	{
-		const ColorHSV hsv(0, 0.5, 0);
-		const ColorRGB rgb(hsv);
-		EXPECT_EQ(0.0f, rgb.r());
-		EXPECT_EQ(0.0f, rgb.g());
-		EXPECT_EQ(0.0f, rgb.b());
+		BKSGE_CXX14_CONSTEXPR ColorHSV hsv(0, 0.5, 0);
+		BKSGE_CXX14_CONSTEXPR ColorRGB rgb(hsv);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(0.0f, rgb.r());
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(0.0f, rgb.g());
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(0.0f, rgb.b());
 	}
 	{
-		const ColorHSV hsv(0, 0, 0.5);
-		const ColorRGB rgb(hsv);
-		EXPECT_EQ(0.5f, rgb.r());
-		EXPECT_EQ(0.5f, rgb.g());
-		EXPECT_EQ(0.5f, rgb.b());
+		BKSGE_CXX14_CONSTEXPR ColorHSV hsv(0, 0, 0.5);
+		BKSGE_CXX14_CONSTEXPR ColorRGB rgb(hsv);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(0.5f, rgb.r());
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(0.5f, rgb.g());
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(0.5f, rgb.b());
 	}
 	{
-		const ColorHSV hsv(0, 0.5, 0.5);
-		const ColorRGB rgb(hsv);
-		EXPECT_EQ(0.5f,  rgb.r());
-		EXPECT_EQ(0.25f, rgb.g());
-		EXPECT_EQ(0.25f, rgb.b());
+		BKSGE_CXX14_CONSTEXPR ColorHSV hsv(0, 0.5, 0.5);
+		BKSGE_CXX14_CONSTEXPR ColorRGB rgb(hsv);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(0.5f,  rgb.r());
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(0.25f, rgb.g());
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(0.25f, rgb.b());
 	}
 	{
-		const ColorHSV hsv(0.0 / 6.0, 1, 1);
-		const ColorRGB rgb(hsv);
-		EXPECT_NEAR(1.0, (double)rgb.r(), error);
-		EXPECT_NEAR(0.0, (double)rgb.g(), error);
-		EXPECT_NEAR(0.0, (double)rgb.b(), error);
+		BKSGE_CXX14_CONSTEXPR ColorHSV hsv(0.0 / 6.0, 1, 1);
+		BKSGE_CXX14_CONSTEXPR ColorRGB rgb(hsv);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(1.0, (double)rgb.r(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(0.0, (double)rgb.g(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(0.0, (double)rgb.b(), error);
 	}
 	{
-		const ColorHSV hsv(1.0 / 6.0, 1, 1);
-		const ColorRGB rgb(hsv);
-		EXPECT_NEAR(1.0, (double)rgb.r(), error);
-		EXPECT_NEAR(1.0, (double)rgb.g(), error);
-		EXPECT_NEAR(0.0, (double)rgb.b(), error);
+		BKSGE_CXX14_CONSTEXPR ColorHSV hsv(1.0 / 6.0, 1, 1);
+		BKSGE_CXX14_CONSTEXPR ColorRGB rgb(hsv);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(1.0, (double)rgb.r(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(1.0, (double)rgb.g(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(0.0, (double)rgb.b(), error);
 	}
 	{
-		const ColorHSV hsv(2.0 / 6.0, 1, 1);
-		const ColorRGB rgb(hsv);
-		EXPECT_NEAR(0.0, (double)rgb.r(), error);
-		EXPECT_NEAR(1.0, (double)rgb.g(), error);
-		EXPECT_NEAR(0.0, (double)rgb.b(), error);
+		BKSGE_CXX14_CONSTEXPR ColorHSV hsv(2.0 / 6.0, 1, 1);
+		BKSGE_CXX14_CONSTEXPR ColorRGB rgb(hsv);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(0.0, (double)rgb.r(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(1.0, (double)rgb.g(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(0.0, (double)rgb.b(), error);
 	}
 	{
-		const ColorHSV hsv(3.0 / 6.0, 1, 1);
-		const ColorRGB rgb(hsv);
-		EXPECT_NEAR(0.0, (double)rgb.r(), error);
-		EXPECT_NEAR(1.0, (double)rgb.g(), error);
-		EXPECT_NEAR(1.0, (double)rgb.b(), error);
+		BKSGE_CXX14_CONSTEXPR ColorHSV hsv(3.0 / 6.0, 1, 1);
+		BKSGE_CXX14_CONSTEXPR ColorRGB rgb(hsv);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(0.0, (double)rgb.r(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(1.0, (double)rgb.g(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(1.0, (double)rgb.b(), error);
 	}
 	{
-		const ColorHSV hsv(4.0 / 6.0, 1, 1);
-		const ColorRGB rgb(hsv);
-		EXPECT_NEAR(0.0, (double)rgb.r(), error);
-		EXPECT_NEAR(0.0, (double)rgb.g(), error);
-		EXPECT_NEAR(1.0, (double)rgb.b(), error);
+		BKSGE_CXX14_CONSTEXPR ColorHSV hsv(4.0 / 6.0, 1, 1);
+		BKSGE_CXX14_CONSTEXPR ColorRGB rgb(hsv);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(0.0, (double)rgb.r(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(0.0, (double)rgb.g(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(1.0, (double)rgb.b(), error);
 	}
 	{
-		const ColorHSV hsv(5.0 / 6.0, 1, 1);
-		const ColorRGB rgb(hsv);
-		EXPECT_NEAR(1.0, (double)rgb.r(), error);
-		EXPECT_NEAR(0.0, (double)rgb.g(), error);
-		EXPECT_NEAR(1.0, (double)rgb.b(), error);
+		BKSGE_CXX14_CONSTEXPR ColorHSV hsv(5.0 / 6.0, 1, 1);
+		BKSGE_CXX14_CONSTEXPR ColorRGB rgb(hsv);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(1.0, (double)rgb.r(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(0.0, (double)rgb.g(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(1.0, (double)rgb.b(), error);
 	}
 	{
-		const ColorHSV hsv(6.0 / 6.0, 1, 1);
-		const ColorRGB rgb(hsv);
-		EXPECT_NEAR(1.0, (double)rgb.r(), error);
-		EXPECT_NEAR(0.0, (double)rgb.g(), error);
-		EXPECT_NEAR(0.0, (double)rgb.b(), error);
+		BKSGE_CXX14_CONSTEXPR ColorHSV hsv(6.0 / 6.0, 1, 1);
+		BKSGE_CXX14_CONSTEXPR ColorRGB rgb(hsv);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(1.0, (double)rgb.r(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(0.0, (double)rgb.g(), error);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(0.0, (double)rgb.b(), error);
 	}
 	{
-		const ColorHSV hsv(0.25, 1, 1);
-		const ColorRGB rgb(hsv);
-		EXPECT_EQ(0.5f, rgb.r());
-		EXPECT_EQ(1.0f, rgb.g());
-		EXPECT_EQ(0.0f, rgb.b());
+		BKSGE_CXX14_CONSTEXPR ColorHSV hsv(0.25, 1, 1);
+		BKSGE_CXX14_CONSTEXPR ColorRGB rgb(hsv);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(0.5f, rgb.r());
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(1.0f, rgb.g());
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(0.0f, rgb.b());
 	}
 	{
-		const ColorHSV hsv(0.5, 1, 1);
-		const ColorRGB rgb(hsv);
-		EXPECT_EQ(0.0f, rgb.r());
-		EXPECT_EQ(1.0f, rgb.g());
-		EXPECT_EQ(1.0f, rgb.b());
+		BKSGE_CXX14_CONSTEXPR ColorHSV hsv(0.5, 1, 1);
+		BKSGE_CXX14_CONSTEXPR ColorRGB rgb(hsv);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(0.0f, rgb.r());
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(1.0f, rgb.g());
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(1.0f, rgb.b());
 	}
 	{
-		const ColorHSV hsv(0.75, 1, 1);
-		const ColorRGB rgb(hsv);
-		EXPECT_EQ(0.5f, rgb.r());
-		EXPECT_EQ(0.0f, rgb.g());
-		EXPECT_EQ(1.0f, rgb.b());
+		BKSGE_CXX14_CONSTEXPR ColorHSV hsv(0.75, 1, 1);
+		BKSGE_CXX14_CONSTEXPR ColorRGB rgb(hsv);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(0.5f, rgb.r());
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(0.0f, rgb.g());
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(1.0f, rgb.b());
+	}
+}
+
+TYPED_TEST(MathColorHSVTest, NormalizedTest)
+{
+	using T = TypeParam;
+	using ColorHSV = bksge::math::ColorHSV<T>;
+
+	{
+		BKSGE_CONSTEXPR auto hsv = Normalized(ColorHSV(0.0, 0.0, -1.0));
+		BKSGE_CONSTEXPR_EXPECT_EQ(0.0f, hsv.h());
+		BKSGE_CONSTEXPR_EXPECT_EQ(0.0f, hsv.s());
+		BKSGE_CONSTEXPR_EXPECT_EQ(0.0f, hsv.v());
+	}
+	{
+		BKSGE_CONSTEXPR auto hsv = Normalized(ColorHSV(0.5, 1.0, -0.5));
+		BKSGE_CONSTEXPR_EXPECT_EQ(0.5f, hsv.h());
+		BKSGE_CONSTEXPR_EXPECT_EQ(1.0f, hsv.s());
+		BKSGE_CONSTEXPR_EXPECT_EQ(0.0f, hsv.v());
+	}
+	{
+		BKSGE_CONSTEXPR auto hsv = Normalized(ColorHSV(1.0, 1.25, -0.25));
+		BKSGE_CONSTEXPR_EXPECT_EQ(0.0f, hsv.h());
+		BKSGE_CONSTEXPR_EXPECT_EQ(1.0f, hsv.s());
+		BKSGE_CONSTEXPR_EXPECT_EQ(0.0f, hsv.v());
+	}
+	{
+		BKSGE_CONSTEXPR auto hsv = Normalized(ColorHSV(1.25, 1.5, 2.0));
+		BKSGE_CONSTEXPR_EXPECT_EQ(0.25f, hsv.h());
+		BKSGE_CONSTEXPR_EXPECT_EQ(1.0f,  hsv.s());
+		BKSGE_CONSTEXPR_EXPECT_EQ(1.0f,  hsv.v());
+	}
+	{
+		BKSGE_CONSTEXPR auto hsv = Normalized(ColorHSV(1.5, 2.0, 1.5));
+		BKSGE_CONSTEXPR_EXPECT_EQ(0.5f, hsv.h());
+		BKSGE_CONSTEXPR_EXPECT_EQ(1.0f, hsv.s());
+		BKSGE_CONSTEXPR_EXPECT_EQ(1.0f, hsv.v());
+	}
+	{
+		BKSGE_CONSTEXPR auto hsv = Normalized(ColorHSV(2.0, -0.25, 1.0));
+		BKSGE_CONSTEXPR_EXPECT_EQ(0.0f, hsv.h());
+		BKSGE_CONSTEXPR_EXPECT_EQ(0.0f, hsv.s());
+		BKSGE_CONSTEXPR_EXPECT_EQ(1.0f, hsv.v());
+	}
+	{
+		BKSGE_CONSTEXPR auto hsv = Normalized(ColorHSV(-0.25, -0.5, 0.5));
+		BKSGE_CONSTEXPR_EXPECT_EQ(0.75f, hsv.h());
+		BKSGE_CONSTEXPR_EXPECT_EQ(0.0f,  hsv.s());
+		BKSGE_CONSTEXPR_EXPECT_EQ(0.5f,  hsv.v());
+	}
+	{
+		BKSGE_CONSTEXPR auto hsv = Normalized(ColorHSV(-0.5, -1.0, 0.25));
+		BKSGE_CONSTEXPR_EXPECT_EQ(0.5f,  hsv.h());
+		BKSGE_CONSTEXPR_EXPECT_EQ(0.0f,  hsv.s());
+		BKSGE_CONSTEXPR_EXPECT_EQ(0.25f, hsv.v());
+	}
+	{
+		BKSGE_CONSTEXPR auto hsv = Normalized(ColorHSV(-1.0, 0.5, 0.0));
+		BKSGE_CONSTEXPR_EXPECT_EQ(0.0f, hsv.h());
+		BKSGE_CONSTEXPR_EXPECT_EQ(0.5f, hsv.s());
+		BKSGE_CONSTEXPR_EXPECT_EQ(0.0f, hsv.v());
 	}
 }
 
