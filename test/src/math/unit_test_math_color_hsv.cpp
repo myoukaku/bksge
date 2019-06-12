@@ -282,7 +282,7 @@ TYPED_TEST(MathColorHSVTest, ToColor3Test)
 	using ColorHSV = bksge::math::ColorHSV<T>;
 	using ColorRGB = bksge::math::Color3<T>;
 
-	double const error = 0.000000000000001;
+	double const error = 0.00000000001;
 
 	{
 		const ColorHSV hsv(0, 0, 0);
@@ -703,7 +703,7 @@ TYPED_TEST(MathColorHSVTest, ReverseIteratorTest)
 		EXPECT_EQ(1, *it++);
 		EXPECT_TRUE(it == v.crend());
 	}
-#if defined(__cpp_lib_array_constexpr) && (__cpp_lib_array_constexpr >= 201603) && !defined(__MINGW32__)
+#if defined(__cpp_lib_array_constexpr) && (__cpp_lib_array_constexpr >= 201603) && !defined(BKSGE_GCC)
 	// rbegin, rend (constexpr)
 	{
 		BKSGE_CXX17_STATIC_CONSTEXPR ColorHSV v{1, 2, 3};

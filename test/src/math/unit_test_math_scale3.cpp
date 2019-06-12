@@ -462,7 +462,7 @@ TYPED_TEST(MathScale3Test, ReverseIteratorTest)
 		EXPECT_EQ(1, *it++);
 		EXPECT_TRUE(it == v.crend());
 	}
-#if defined(__cpp_lib_array_constexpr) && (__cpp_lib_array_constexpr >= 201603) && !defined(__MINGW32__)
+#if defined(__cpp_lib_array_constexpr) && (__cpp_lib_array_constexpr >= 201603) && !defined(BKSGE_GCC)
 	// rbegin, rend (constexpr)
 	{
 		BKSGE_CXX17_STATIC_CONSTEXPR Scale3 v{1, 2, 3};

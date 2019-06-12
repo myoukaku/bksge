@@ -41,7 +41,7 @@ template <typename... UTypes, typename>
 inline BKSGE_CONSTEXPR
 VectorBase<T, N>::VectorBase(UTypes const&... args)
 	BKSGE_NOEXCEPT_OR_NOTHROW
-	: m_value{static_cast<T>(args)...}
+	: m_value{{static_cast<T>(args)...}}
 {}
 
 template <typename T, std::size_t N>
