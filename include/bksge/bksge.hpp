@@ -24,6 +24,7 @@
 #include <bksge/stdexcept.hpp>
 #include <bksge/tmp.hpp>
 #include <bksge/tpp.hpp>
+#include <bksge/tuple.hpp>
 #include <bksge/type_traits.hpp>
 #include <bksge/utility.hpp>
 #include <bksge/window.hpp>
