@@ -23,6 +23,7 @@
 #include <bksge/type_traits/is_swappable.hpp>
 #include <bksge/type_traits/is_swappable_with.hpp>
 #include <bksge/type_traits/negation.hpp>
+#include <bksge/type_traits/nth.hpp>
 #include <bksge/type_traits/type_identity.hpp>
 #include <bksge/type_traits/void_t.hpp>
 
