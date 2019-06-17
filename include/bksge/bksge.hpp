@@ -18,6 +18,7 @@
 #include <bksge/input.hpp>
 #include <bksge/math.hpp>
 #include <bksge/memory.hpp>
+#include <bksge/ratio.hpp>
 #include <bksge/render.hpp>
 #include <bksge/serialization.hpp>
 #include <bksge/stdexcept.hpp>
