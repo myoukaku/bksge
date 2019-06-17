@@ -26,6 +26,7 @@
 #include <bksge/tpp.hpp>
 #include <bksge/tuple.hpp>
 #include <bksge/type_traits.hpp>
+#include <bksge/units.hpp>
 #include <bksge/utility.hpp>
 #include <bksge/window.hpp>
 

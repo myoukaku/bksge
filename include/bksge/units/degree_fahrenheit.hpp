@@ -1,0 +1,30 @@
+﻿/**
+ *	@file	degree_fahrenheit.hpp
+ *
+ *	@brief	degree_fahrenheit の定義
+ *
+ *	@author	myoukaku
+ */
+
+#ifndef BKSGE_UNITS_DEGREE_FAHRENHEIT_HPP
+#define BKSGE_UNITS_DEGREE_FAHRENHEIT_HPP
+
+#include <bksge/units/base_dimensions/temperature.hpp>
+#include <bksge/units/detail/quantity.hpp>
+#include <ratio>
+
+namespace bksge
+{
+
+namespace units
+{
+
+// ファーレンハイト度
+template <typename T> using degree_fahrenheit  = quantity<T, temperature_dimension, std::ratio<5, 9>, std::ratio<45967, 100>>;
+template <typename T> using degrees_fahrenheit = degree_fahrenheit<T>;
+
+}	// namespace units
+
+}	// namespace bksge
+
+#endif // BKSGE_UNITS_DEGREE_FAHRENHEIT_HPP

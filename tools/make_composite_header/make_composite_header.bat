@@ -15,6 +15,7 @@ call :func bksge/tmp                  "TMP(Template Meta Programming) library"
 call :func bksge/tpp                  "TPP(Template Parameter Pack) library"
 call :func bksge/tuple                "Tuple library"
 call :func bksge/type_traits          "Type Traits library"
+call :func bksge/units                "Units library"
 call :func bksge/utility              "Utility library"
 call :func bksge/window               "Window library"
 
