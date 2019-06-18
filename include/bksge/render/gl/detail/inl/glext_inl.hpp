@@ -236,7 +236,12 @@ BKSGE_INLINE void APIENTRY glUniform1f(GLint location, GLfloat v0)
 //BKSGE_INLINE void APIENTRY glUniform2f(GLint location, GLfloat v0, GLfloat v1);
 //BKSGE_INLINE void APIENTRY glUniform3f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2);
 //BKSGE_INLINE void APIENTRY glUniform4f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3);
-//BKSGE_INLINE void APIENTRY glUniform1i(GLint location, GLint v0);
+
+BKSGE_INLINE void APIENTRY glUniform1i(GLint location, GLint v0)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORM1IPROC, glUniform1i, location, v0);
+}
+
 //BKSGE_INLINE void APIENTRY glUniform2i(GLint location, GLint v0, GLint v1);
 //BKSGE_INLINE void APIENTRY glUniform3i(GLint location, GLint v0, GLint v1, GLint v2);
 //BKSGE_INLINE void APIENTRY glUniform4i(GLint location, GLint v0, GLint v1, GLint v2, GLint v3);

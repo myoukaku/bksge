@@ -53,6 +53,7 @@ public:
 
 private:
 	void CreateConstantBuffer(Device* device);
+	void CreateShaderResources(Device* device);
 
 	virtual const char* VGetTargetString() = 0;
 	virtual void VCreateShader(Device* device, ::ID3DBlob* micro_code) = 0;

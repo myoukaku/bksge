@@ -150,6 +150,7 @@ HLSLShaderBase::Compile(Device* device, std::string const& source)
 		IID_PPV_ARGS(&m_reflection)));
 
 	CreateConstantBuffer(device);
+	CreateShaderResources(device);
 
 	return true;
 }
@@ -185,7 +186,7 @@ BKSGE_INLINE void
 HLSLShaderBase::CreateConstantBuffer(Device* device)
 {
 	::D3D11_SHADER_DESC shader_desc;
-	m_reflection->GetDesc(&shader_desc);
+	ThrowIfFailed(m_reflection->GetDesc(&shader_desc));
 
 	for (::UINT i = 0; i < shader_desc.ConstantBuffers; i++)
 	{
@@ -196,17 +197,30 @@ HLSLShaderBase::CreateConstantBuffer(Device* device)
 	}
 }
 
+BKSGE_INLINE void
+HLSLShaderBase::CreateShaderResources(Device* /*device*/)
+{
+	::D3D11_SHADER_DESC shader_desc;
+	ThrowIfFailed(m_reflection->GetDesc(&shader_desc));
+
+	for (::UINT i = 0; i < shader_desc.BoundResources; i++)
+	{
+		::D3D11_SHADER_INPUT_BIND_DESC bind_desc;
+		ThrowIfFailed(m_reflection->GetResourceBindingDesc(i, &bind_desc));
+	}
+}
+
 BKSGE_INLINE ComPtr<::ID3D11InputLayout>
 HLSLShaderBase::CreateInputLayout(Device* device)
 {
 	::D3D11_SHADER_DESC shader_desc;
-	m_reflection->GetDesc(&shader_desc);
+	ThrowIfFailed(m_reflection->GetDesc(&shader_desc));
 
 	std::vector<::D3D11_INPUT_ELEMENT_DESC> input_layout_desc;
 	for (::UINT i = 0; i < shader_desc.InputParameters; i++)
 	{
 		::D3D11_SIGNATURE_PARAMETER_DESC param_desc;
-		m_reflection->GetInputParameterDesc(i, &param_desc);
+		ThrowIfFailed(m_reflection->GetInputParameterDesc(i, &param_desc));
 
 		::D3D11_INPUT_ELEMENT_DESC element_desc;
 		element_desc.SemanticName         = param_desc.SemanticName;

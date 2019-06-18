@@ -31,7 +31,7 @@
 #include <bksge/render/shader.hpp>
 #include <bksge/render/geometry.hpp>
 #include <bksge/render/render_state.hpp>
-//#include <bksge/render/texture.hpp>
+#include <bksge/render/texture.hpp>
 //#include <bksge/render/sampler.hpp>
 #include <bksge/math/color4.hpp>
 #include <bksge/memory/make_unique.hpp>
@@ -223,9 +223,9 @@ D3D11Renderer::VRender(
 namespace d3d11_detail
 {
 
-template <typename Ret, typename Map, typename Src>
+template <typename Ret, typename Map, typename Src, typename... Args>
 inline typename Map::mapped_type
-GetOrCreate(d3d11::Device* device, Map& map, Src const& src)
+GetOrCreate(d3d11::Device* device, Map& map, Src const& src, Args... args)
 {
 	auto const& id = src.id();
 	{
@@ -237,7 +237,7 @@ GetOrCreate(d3d11::Device* device, Map& map, Src const& src)
 		}
 	}
 
-	auto p = std::make_shared<Ret>(device, src);
+	auto p = std::make_shared<Ret>(device, src, bksge::forward<Args>(args)...);
 	map[id] = p;
 	return p;
 }
@@ -247,13 +247,15 @@ GetOrCreate(d3d11::Device* device, Map& map, Src const& src)
 BKSGE_INLINE std::shared_ptr<d3d11::HLSLProgram>
 D3D11Renderer::GetD3D11HLSLProgram(bksge::Shader const& shader)
 {
-	return d3d11_detail::GetOrCreate<d3d11::HLSLProgram>(m_device.get(), m_d3d11_hlsl_program_map, shader);
+	return d3d11_detail::GetOrCreate<d3d11::HLSLProgram>(
+		m_device.get(), m_d3d11_hlsl_program_map, shader);
 }
 
 BKSGE_INLINE std::shared_ptr<d3d11::Geometry>
 D3D11Renderer::GetD3D11Geometry(bksge::Geometry const& geometry)
 {
-	return d3d11_detail::GetOrCreate<d3d11::Geometry>(m_device.get(), m_d3d11_geometry_map, geometry);
+	return d3d11_detail::GetOrCreate<d3d11::Geometry>(
+		m_device.get(), m_d3d11_geometry_map, geometry);
 }
 
 //BKSGE_INLINE std::shared_ptr<d3d11::Texture>

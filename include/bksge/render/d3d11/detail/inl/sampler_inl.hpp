@@ -39,21 +39,21 @@ Sampler::Sampler(D3D11Renderer* renderer, bksge::Sampler const& sampler)
 	m_texture = renderer->GetD3D11Texture(sampler.source());
 
 	::D3D11_SAMPLER_DESC desc;
-	desc.Filter = D3D11FilterMode(sampler.min_filter(), sampler.mag_filter());
-	desc.AddressU = D3D11WrapMode(sampler.wrap_s());
-	desc.AddressV = D3D11WrapMode(sampler.wrap_t());
-	desc.AddressW = D3D11WrapMode(sampler.wrap_r());
-	desc.MipLODBias = 0;
-	desc.MaxAnisotropy = 16;
+	desc.Filter         = D3D11FilterMode(sampler.min_filter(), sampler.mag_filter());
+	desc.AddressU       = D3D11WrapMode(sampler.wrap_s());
+	desc.AddressV       = D3D11WrapMode(sampler.wrap_t());
+	desc.AddressW       = D3D11WrapMode(sampler.wrap_r());
+	desc.MipLODBias     = 0;
+	desc.MaxAnisotropy  = 16;
 	desc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
 	desc.BorderColor[0] = sampler.border_color().r();
 	desc.BorderColor[1] = sampler.border_color().g();
 	desc.BorderColor[2] = sampler.border_color().b();
 	desc.BorderColor[3] = sampler.border_color().a();
-	desc.MinLOD = -D3D11_FLOAT32_MAX;
-	desc.MaxLOD =  D3D11_FLOAT32_MAX;
+	desc.MinLOD         = -D3D11_FLOAT32_MAX;
+	desc.MaxLOD         =  D3D11_FLOAT32_MAX;
 
-	m_state = renderer->CreateSamplerState(desc);
+	m_state = device->CreateSamplerState(desc);
 }
 
 BKSGE_INLINE

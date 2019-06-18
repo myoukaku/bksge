@@ -56,7 +56,7 @@ Texture::Texture(Device* device, bksge::Texture const& texture)
 	desc.CPUAccessFlags     = 0;
 	desc.MiscFlags          = 0;
 
-	::D3D11_SUBRESOURCE_DATA init_data;
+	::D3D11_SUBRESOURCE_DATA init_data {};
 	init_data.pSysMem          = texture.data();
 	init_data.SysMemPitch      = static_cast<::UINT>(texture.stride());
 	init_data.SysMemSlicePitch = static_cast<::UINT>(texture.stride());
@@ -64,14 +64,14 @@ Texture::Texture(Device* device, bksge::Texture const& texture)
 	m_texture = device->CreateTexture2D(desc, &init_data);
 
 	{
-		::D3D11_SHADER_RESOURCE_VIEW_DESC srv_desc;
-		ZeroMemory(&srv_desc, sizeof(srv_desc));
+		::D3D11_SHADER_RESOURCE_VIEW_DESC srv_desc {};
 		srv_desc.Format                    = desc.Format;
 		srv_desc.ViewDimension             = D3D11_SRV_DIMENSION_TEXTURE2D;
 		srv_desc.Texture2D.MostDetailedMip = 0;
 		srv_desc.Texture2D.MipLevels       = desc.MipLevels;
 
-		m_shader_resource_view = device->CreateShaderResourceView(m_texture.Get(), srv_desc);
+		m_shader_resource_view =
+			device->CreateShaderResourceView(m_texture.Get(), srv_desc);
 	}
 }
 
