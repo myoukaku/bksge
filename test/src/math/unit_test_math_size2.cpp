@@ -10,6 +10,7 @@
 #include <bksge/math/vector4.hpp>
 #include <bksge/math/vector3.hpp>
 #include <bksge/math/vector2.hpp>
+#include <bksge/math/scale2.hpp>
 #include <bksge/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/type_traits/is_implicitly_default_constructible.hpp>
 #include <bksge/config.hpp>
@@ -665,6 +666,30 @@ TYPED_TEST(MathSize2Test, MulScalarTest)
 		EXPECT_EQ(Size2(-6, 9), t);
 	}
 }
+
+TYPED_TEST(MathSize2Test, MulScaleTest)
+{
+	using T = TypeParam;
+	using Size2 = bksge::math::Size2<T>;
+	using Scale2 = bksge::math::Scale2<T>;
+
+	// Size2 *= Scale2
+	{
+		Size2 v(2, 3);
+		{
+			Size2 t = (v *= Scale2(4, 5));
+			EXPECT_EQ(Size2(8, 15), v);
+			EXPECT_EQ(t, v);
+		}
+	}
+
+	// Size2 * Scale2 -> Size2
+	{
+		BKSGE_CONSTEXPR_OR_CONST Size2 t = Size2(-3, 2) * Scale2(-4, -5);
+		BKSGE_CONSTEXPR_EXPECT_EQ(Size2(12, -10), t);
+	}
+}
+
 TYPED_TEST(MathSize2Test, DivScalarTest)
 {
 	using T = TypeParam;

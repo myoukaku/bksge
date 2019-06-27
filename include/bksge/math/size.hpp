@@ -10,6 +10,7 @@
 #define BKSGE_MATH_SIZE_HPP
 
 #include <bksge/math/fwd/size_fwd.hpp>
+#include <bksge/math/fwd/scale_fwd.hpp>
 #include <bksge/math/detail/vector_whd.hpp>
 #include <bksge/config.hpp>
 #include <cstddef>
@@ -117,6 +118,13 @@ BKSGE_CXX14_CONSTEXPR Size<T, N>&
 operator*=(Size<T, N>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
 
 /**
+ *	@brief	Size *= Scale
+ */
+template <typename T, std::size_t N>
+BKSGE_CXX14_CONSTEXPR Size<T, N>&
+operator*=(Size<T, N>& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT;
+
+/**
  *	@brief	Size * scalar
  */
 template <
@@ -141,6 +149,13 @@ template <
 >
 BKSGE_CONSTEXPR Size<T, N>
 operator*(ArithmeticType lhs, Size<T, N> const& rhs) BKSGE_NOEXCEPT;
+
+/**
+ *	@brief	Size * Scale -> Size
+ */
+template <typename T, std::size_t N>
+BKSGE_CONSTEXPR Size<T, N> const
+operator*(Size<T, N> const& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT;
 
 /**
  *	@brief	Size /= scalar
