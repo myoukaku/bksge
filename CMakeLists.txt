@@ -31,7 +31,17 @@ foreach(compiler_flag ${compiler_flags})
     endif()
 
     # /MD[d] -> /MT[d] (Run-Time Library)
-	string(REPLACE "/MD" "/MT" ${compiler_flag} "${${compiler_flag}}")
+    if(${compiler_flag} MATCHES "/MD")
+	  string(REGEX REPLACE "/MD" "/MT" ${compiler_flag} "${${compiler_flag}}")
+    endif()
+
+    # /ZI -> /Zi
+    if(${compiler_flag} MATCHES "/ZI")
+	  string(REGEX REPLACE "/ZI" "/Zi" ${compiler_flag} "${${compiler_flag}}")
+    endif()
+
+	# /guard:cf (Enable Control Flow Guard)
+    set(${compiler_flag} "${${compiler_flag}} /guard:cf")
 
 	# /WX (Treat all warnings as errors)
     set(${compiler_flag} "${${compiler_flag}} /WX")
@@ -59,6 +69,11 @@ foreach(compiler_flag ${compiler_flags})
 
   endif()
 endforeach()
+
+if (MSVC)
+  set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /guard:cf")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /guard:cf")
+endif()
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
