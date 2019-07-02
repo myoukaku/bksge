@@ -35,8 +35,12 @@
 #include <bksge/render/shader.hpp>
 #include <bksge/memory/make_unique.hpp>
 #include <bksge/window/window.hpp>
+#include <bksge/config.hpp>
 #include <cstdint>
 #include <cstddef>
+#if defined(BKSGE_PLATFORM_WIN32)
+#include <bksge/detail/win32.hpp>
+#endif
 
 namespace bksge
 {
@@ -44,17 +48,18 @@ namespace bksge
 namespace render
 {
 
-VKAPI_ATTR VkBool32 VKAPI_CALL
+VKAPI_ATTR ::VkBool32 VKAPI_CALL
 debugCallback(
-	VkDebugReportFlagsEXT flags,
-	VkDebugReportObjectTypeEXT,
-	uint64_t /*object*/,
-	size_t /*location*/,
-	int32_t /*messageCode*/,
+	::VkDebugReportFlagsEXT flags,
+	::VkDebugReportObjectTypeEXT,
+	std::uint64_t /*object*/,
+	std::size_t /*location*/,
+	std::int32_t /*messageCode*/,
 	const char* /*pLayerPrefix*/,
 	const char* pMessage,
 	void* /*pUserData*/)
 {
+#if defined(BKSGE_PLATFORM_WIN32)
 	// OutputDebugString(L"Message Code: ");
 	// OutputDebugString(std::to_wstring(messageCode).c_str());
 	// OutputDebugString(L"\n");
@@ -67,6 +72,10 @@ debugCallback(
 	{
 		win32::MessageBox(nullptr, pMessage, "Vulkan DebugReportCallback", MB_OK);
 	}
+#else
+	(void)flags;
+	(void)pMessage;
+#endif
 
 	return VK_FALSE;
 }
@@ -86,12 +95,14 @@ VulkanRenderer::VulkanRenderer(void)
 		static char const* extensions[] =
 		{
 			VK_KHR_SURFACE_EXTENSION_NAME,
+#if defined(BKSGE_PLATFORM_WIN32)
 			VK_KHR_WIN32_SURFACE_EXTENSION_NAME,
+#endif
 			VK_EXT_DEBUG_REPORT_EXTENSION_NAME
 		};
 
 		// initialize the VkApplicationInfo structure
-		vk::ApplicationInfo app_info = {};
+		vk::ApplicationInfo app_info;
 		app_info.pApplicationName   = app_name;
 		app_info.applicationVersion = VK_MAKE_VERSION(0, 0, 1);
 		app_info.pEngineName        = app_name;
@@ -99,7 +110,7 @@ VulkanRenderer::VulkanRenderer(void)
 		app_info.apiVersion         = VK_API_VERSION_1_0;
 
 		// initialize the VkInstanceCreateInfo structure
-		vk::InstanceCreateInfo inst_info = {};
+		vk::InstanceCreateInfo inst_info;
 		inst_info.flags            = 0;
 		inst_info.pApplicationInfo = &app_info;
 		inst_info.SetEnabledLayers(layers);
@@ -109,7 +120,7 @@ VulkanRenderer::VulkanRenderer(void)
 	}
 
 	{
-		vk::DebugReportCallbackCreateInfoEXT callback_info = {};
+		vk::DebugReportCallbackCreateInfoEXT callback_info;
 
 		callback_info.flags =
 			VK_DEBUG_REPORT_ERROR_BIT_EXT |
@@ -118,8 +129,7 @@ VulkanRenderer::VulkanRenderer(void)
 			VK_DEBUG_REPORT_INFORMATION_BIT_EXT;
 		callback_info.pfnCallback = &debugCallback;
 
-		m_callback = bksge::make_unique<vk::DebugReportCallbackEXT>(
-			m_instance, callback_info);
+		m_callback = bksge::make_unique<vk::DebugReportCallbackEXT>(m_instance, callback_info);
 	}
 
 	std::uint32_t queue_family_index = 0xffffffff;
@@ -140,7 +150,7 @@ VulkanRenderer::VulkanRenderer(void)
 
 		float const queue_priorities[1] = {0.0};
 
-		vk::DeviceQueueCreateInfo queue_info = {};
+		vk::DeviceQueueCreateInfo queue_info;
 		queue_info.queueCount       = 1;
 		queue_info.queueFamilyIndex = queue_family_index;
 		queue_info.pQueuePriorities = queue_priorities;
@@ -155,14 +165,13 @@ VulkanRenderer::VulkanRenderer(void)
 			"VK_KHR_swapchain"
 		};
 
-		vk::DeviceCreateInfo device_info = {};
+		vk::DeviceCreateInfo device_info;
 		device_info.queueCreateInfoCount = 1;
 		device_info.pQueueCreateInfos    = &queue_info;
 		device_info.SetEnabledLayers(layers);
 		device_info.SetEnabledExtensions(extensions);
 
-		m_device =
-			std::make_shared<vk::Device>(m_gpus[0], device_info);
+		m_device = std::make_shared<vk::Device>(m_gpus[0], device_info);
 	}
 
 	// Init Device Queue
@@ -180,29 +189,26 @@ VulkanRenderer::VulkanRenderer(void)
 
 	// Init Command Pool
 	{
-		vk::CommandPoolCreateInfo cmd_pool_info = {};
+		vk::CommandPoolCreateInfo cmd_pool_info;
 		cmd_pool_info.queueFamilyIndex = queue_family_index;
 		cmd_pool_info.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
 
-		m_command_pool =
-			bksge::make_unique<vk::CommandPool>(m_device, cmd_pool_info);
+		m_command_pool = bksge::make_unique<vk::CommandPool>(m_device, cmd_pool_info);
 	}
 
 	// Init Command Buffer
 	{
-		vk::CommandBufferAllocateInfo cmd_buf_info = {};
+		vk::CommandBufferAllocateInfo cmd_buf_info;
 		cmd_buf_info.commandPool        = *m_command_pool;
 		cmd_buf_info.level              = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
 		cmd_buf_info.commandBufferCount = 1;
 
-		m_command_buffer =
-			bksge::make_unique<vk::CommandBuffer>(m_device, cmd_buf_info);
+		m_command_buffer = bksge::make_unique<vk::CommandBuffer>(m_device, cmd_buf_info);
 	}
 
 	// Init Fence
 	{
-		vk::FenceCreateInfo fence_info = {};
-
+		vk::FenceCreateInfo fence_info;
 		m_fence = bksge::make_unique<vk::Fence>(m_device, fence_info);
 	}
 }
@@ -231,13 +237,12 @@ VulkanRenderer::VSetRenderTarget(
 #define NUM_SCISSORS NUM_VIEWPORTS
 
 	// Init Surface
-	m_surface = bksge::make_unique<vk::Surface>(m_instance, window.handle());
+	m_surface = bksge::make_unique<vk::Surface>(m_instance, window);
 
 	// Init Swapchain
 	{
 		::VkSurfaceCapabilitiesKHR surf_caps;
-		vk::GetPhysicalDeviceSurfaceCapabilitiesKHR(
-			m_gpus[0], *m_surface, &surf_caps);
+		vk::GetPhysicalDeviceSurfaceCapabilitiesKHR(m_gpus[0], *m_surface, &surf_caps);
 
 		auto surf_formats = m_gpus[0].GetSurfaceFormats(*m_surface);
 
@@ -277,7 +282,7 @@ VulkanRenderer::VSetRenderTarget(
 			}
 		}
 
-		vk::SwapchainCreateInfoKHR swapchain_ci = {};
+		vk::SwapchainCreateInfoKHR swapchain_ci;
 		swapchain_ci.surface               = *m_surface;
 		swapchain_ci.minImageCount         = surf_caps.minImageCount;
 		swapchain_ci.imageFormat           = surf_format;
@@ -288,7 +293,7 @@ VulkanRenderer::VSetRenderTarget(
 		swapchain_ci.imageArrayLayers      = 1;
 		swapchain_ci.presentMode           = VK_PRESENT_MODE_FIFO_KHR;
 		swapchain_ci.oldSwapchain          = VK_NULL_HANDLE;
-		swapchain_ci.clipped               = true;
+		swapchain_ci.clipped               = VK_TRUE;
 		swapchain_ci.imageColorSpace       = VK_COLORSPACE_SRGB_NONLINEAR_KHR;
 		swapchain_ci.imageUsage            = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 		swapchain_ci.imageSharingMode      = VK_SHARING_MODE_EXCLUSIVE;
@@ -319,7 +324,7 @@ VulkanRenderer::VSetRenderTarget(
 		auto images = m_swapchain->GetImages();
 		for (auto&& image : images)
 		{
-			vk::ImageViewCreateInfo color_image_view = {};
+			vk::ImageViewCreateInfo color_image_view;
 			color_image_view.flags                           = 0;
 			color_image_view.image                           = image;
 			color_image_view.viewType                        = VK_IMAGE_VIEW_TYPE_2D;
@@ -334,8 +339,7 @@ VulkanRenderer::VSetRenderTarget(
 			color_image_view.subresourceRange.baseArrayLayer = 0;
 			color_image_view.subresourceRange.layerCount     = 1;
 
-			m_image_views.push_back(
-				std::make_shared<vk::ImageView>(m_device, color_image_view));
+			m_image_views.push_back(std::make_shared<vk::ImageView>(m_device, color_image_view));
 		}
 	}
 
@@ -368,7 +372,7 @@ VulkanRenderer::VSetRenderTarget(
 		subpass.preserveAttachmentCount = 0;
 		subpass.pPreserveAttachments    = nullptr;
 
-		vk::RenderPassCreateInfo rp_info = {};
+		vk::RenderPassCreateInfo rp_info;
 		rp_info.attachmentCount = 1;
 		rp_info.pAttachments    = &attachment_desc;
 		rp_info.subpassCount    = 1;
@@ -376,17 +380,14 @@ VulkanRenderer::VSetRenderTarget(
 		rp_info.dependencyCount = 0;
 		rp_info.pDependencies   = nullptr;
 
-		m_render_pass =
-			bksge::make_unique<vk::RenderPass>(m_device, rp_info);
+		m_render_pass = bksge::make_unique<vk::RenderPass>(m_device, rp_info);
 	}
 
 	// Init Frame Buffers
 	{
 		::VkImageView attachments[1];
 
-		vk::FramebufferCreateInfo fb_info = {};
-		fb_info.sType           = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
-		fb_info.pNext           = nullptr;
+		vk::FramebufferCreateInfo fb_info;
 		fb_info.renderPass      = *m_render_pass;
 		fb_info.attachmentCount = 1;
 		fb_info.pAttachments    = attachments;
@@ -398,8 +399,7 @@ VulkanRenderer::VSetRenderTarget(
 		{
 			attachments[0] = *image_view;
 
-			m_framebuffers.push_back(
-				std::make_shared<vk::Framebuffer>(m_device, fb_info));
+			m_framebuffers.push_back(std::make_shared<vk::Framebuffer>(m_device, fb_info));
 		}
 
 //		execute_end_command_buffer(info);
@@ -408,31 +408,29 @@ VulkanRenderer::VSetRenderTarget(
 
 	// Init DescriptorSet Layout
 	{
-		vk::DescriptorSetLayoutBinding layout_binding = {};
+		vk::DescriptorSetLayoutBinding layout_binding;
 		layout_binding.binding            = 0;
 		layout_binding.descriptorType     = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 		layout_binding.descriptorCount    = 1;
 		layout_binding.stageFlags         = VK_SHADER_STAGE_VERTEX_BIT;
 		layout_binding.pImmutableSamplers = nullptr;
 
-		vk::DescriptorSetLayoutCreateInfo descriptor_layout = {};
+		vk::DescriptorSetLayoutCreateInfo descriptor_layout;
 		descriptor_layout.bindingCount = 1;
 		descriptor_layout.pBindings    = &layout_binding;
 
-		m_descriptor_set_layout =
-			bksge::make_unique<vk::DescriptorSetLayout>(m_device, descriptor_layout, NUM_DESCRIPTOR_SETS);
+		m_descriptor_set_layout = bksge::make_unique<vk::DescriptorSetLayout>(m_device, descriptor_layout, NUM_DESCRIPTOR_SETS);
 	}
 
 	// Init Pipeline Layout
 	{
-		vk::PipelineLayoutCreateInfo pPipelineLayoutCreateInfo = {};
+		vk::PipelineLayoutCreateInfo pPipelineLayoutCreateInfo;
 		pPipelineLayoutCreateInfo.setLayoutCount         = NUM_DESCRIPTOR_SETS;
 		pPipelineLayoutCreateInfo.pSetLayouts            = m_descriptor_set_layout->get();
 		pPipelineLayoutCreateInfo.pushConstantRangeCount = 0;
 		pPipelineLayoutCreateInfo.pPushConstantRanges    = nullptr;
 
-		m_pipeline_layout =
-			bksge::make_unique<vk::PipelineLayout>(m_device, pPipelineLayoutCreateInfo);
+		m_pipeline_layout = bksge::make_unique<vk::PipelineLayout>(m_device, pPipelineLayoutCreateInfo);
 	}
 
 	bool use_texture = false;
@@ -448,13 +446,12 @@ VulkanRenderer::VSetRenderTarget(
 			type_count[1].descriptorCount = 1;
 		}
 
-		vk::DescriptorPoolCreateInfo descriptor_pool = {};
+		vk::DescriptorPoolCreateInfo descriptor_pool;
 		descriptor_pool.maxSets = 1;
 		descriptor_pool.poolSizeCount = use_texture ? 2 : 1;
 		descriptor_pool.pPoolSizes = type_count;
 
-		m_descriptor_pool =
-			bksge::make_unique<vk::DescriptorPool>(m_device, descriptor_pool);
+		m_descriptor_pool = bksge::make_unique<vk::DescriptorPool>(m_device, descriptor_pool);
 	}
 
 	// Init Descriptor Set
@@ -464,8 +461,7 @@ VulkanRenderer::VSetRenderTarget(
 		alloc_info.descriptorSetCount = NUM_DESCRIPTOR_SETS;
 		alloc_info.pSetLayouts = m_descriptor_set_layout->get();
 
-		m_descriptor_set =
-			bksge::make_unique<vk::DescriptorSet>(m_device, alloc_info, NUM_DESCRIPTOR_SETS);
+		m_descriptor_set = bksge::make_unique<vk::DescriptorSet>(m_device, alloc_info, NUM_DESCRIPTOR_SETS);
 #if 0
 		VkWriteDescriptorSet writes[2];
 
@@ -497,8 +493,7 @@ VulkanRenderer::VSetRenderTarget(
 
 	// Init Pipeline Cache
 	{
-		vk::PipelineCacheCreateInfo pipelineCache = {};
-
+		vk::PipelineCacheCreateInfo pipelineCache;
 		m_pipeline_cache = bksge::make_unique<vk::PipelineCache>(m_device, pipelineCache);
 	}
 }
@@ -508,12 +503,10 @@ VulkanRenderer::VBegin(void)
 {
 	// BeginCommandWithFramebuffer
 	{
-		::VkCommandBufferInheritanceInfo inh_info{};
-		inh_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_INFO;
+		vk::CommandBufferInheritanceInfo inh_info{};
 		inh_info.framebuffer = *m_framebuffers[m_current_frame_index];
 
-		::VkCommandBufferBeginInfo begin_info{};
-		begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+		vk::CommandBufferBeginInfo begin_info{};
 		begin_info.pInheritanceInfo = &inh_info;
 
 		vk::BeginCommandBuffer(*m_command_buffer, &begin_info);
@@ -530,17 +523,16 @@ VulkanRenderer::VBegin(void)
 	{
 		static ::VkClearValue clearValue
 		{
-			{0.0f, 1.0f, 0.0f, 1.0f}
+			{{0.0f, 1.0f, 0.0f, 1.0f}}
 		};
 
-		::VkRenderPassBeginInfo rpinfo{};
-		rpinfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-		rpinfo.framebuffer = *m_framebuffers[m_current_frame_index];
-		rpinfo.renderPass = *m_render_pass;
-		rpinfo.renderArea.extent.width = m_swapchain->width();
+		vk::RenderPassBeginInfo rpinfo{};
+		rpinfo.framebuffer              = *m_framebuffers[m_current_frame_index];
+		rpinfo.renderPass               = *m_render_pass;
+		rpinfo.renderArea.extent.width  = m_swapchain->width();
 		rpinfo.renderArea.extent.height = m_swapchain->height();
-		rpinfo.clearValueCount = 1;
-		rpinfo.pClearValues = &clearValue;
+		rpinfo.clearValueCount          = 1;
+		rpinfo.pClearValues             = &clearValue;
 
 		vk::CmdBeginRenderPass(*m_command_buffer, &rpinfo, VK_SUBPASS_CONTENTS_INLINE);
 	}
@@ -626,26 +618,15 @@ VulkanRenderer::VRender(
 	// Init Shaders
 	if (!m_shader_stages)
 	{
-		m_shader_stages =
-			bksge::make_unique<vk::ShaderStages>(m_device, shader);
+		m_shader_stages = bksge::make_unique<vk::ShaderStages>(m_device, shader);
 	}
 
 	// Init Pipeline
 	if (!m_pipeline)
 	{
-		VkDynamicState dynamicStateEnables[VK_DYNAMIC_STATE_RANGE_SIZE];
-		VkPipelineDynamicStateCreateInfo dynamicState = {};
-		memset(dynamicStateEnables, 0, sizeof dynamicStateEnables);
-		dynamicState.sType             = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
-		dynamicState.pNext             = nullptr;
-		dynamicState.pDynamicStates    = dynamicStateEnables;
-		dynamicState.dynamicStateCount = 0;
+		std::vector<::VkDynamicState> dynamicStateEnables;
 
-		VkPipelineVertexInputStateCreateInfo vi;
-		memset(&vi, 0, sizeof(vi));
-		vi.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-		vi.pNext = nullptr;
-		vi.flags = 0;
+		vk::PipelineVertexInputStateCreateInfo vi;
 		//if (include_vi)
 		//{
 		//	vi.vertexBindingDescriptionCount = 1;
@@ -654,17 +635,11 @@ VulkanRenderer::VRender(
 		//	vi.pVertexAttributeDescriptions = info.vi_attribs;
 		//}
 
-		VkPipelineInputAssemblyStateCreateInfo ia;
-		ia.sType                  = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
-		ia.pNext                  = nullptr;
-		ia.flags                  = 0;
+		vk::PipelineInputAssemblyStateCreateInfo ia;
 		ia.primitiveRestartEnable = VK_FALSE;
 		ia.topology               = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
 
-		VkPipelineRasterizationStateCreateInfo rs;
-		rs.sType                   = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
-		rs.pNext                   = nullptr;
-		rs.flags                   = 0;
+		vk::PipelineRasterizationStateCreateInfo rs;
 		rs.polygonMode             = VK_POLYGON_MODE_FILL;
 		rs.cullMode                = VK_CULL_MODE_BACK_BIT;
 		rs.frontFace               = VK_FRONT_FACE_CLOCKWISE;
@@ -676,7 +651,7 @@ VulkanRenderer::VRender(
 		rs.depthBiasSlopeFactor    = 0;
 		rs.lineWidth               = 1.0f;
 
-		VkPipelineColorBlendAttachmentState att_state[1];
+		::VkPipelineColorBlendAttachmentState att_state[1];
 		att_state[0].colorWriteMask      = 0xf;
 		att_state[0].blendEnable         = VK_FALSE;
 		att_state[0].alphaBlendOp        = VK_BLEND_OP_ADD;
@@ -686,10 +661,7 @@ VulkanRenderer::VRender(
 		att_state[0].srcAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
 		att_state[0].dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
 
-		VkPipelineColorBlendStateCreateInfo cb;
-		cb.sType             = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
-		cb.flags             = 0;
-		cb.pNext             = nullptr;
+		vk::PipelineColorBlendStateCreateInfo cb;
 		cb.attachmentCount   = 1;
 		cb.pAttachments      = att_state;
 		cb.logicOpEnable     = VK_FALSE;
@@ -699,28 +671,25 @@ VulkanRenderer::VRender(
 		cb.blendConstants[2] = 1.0f;
 		cb.blendConstants[3] = 1.0f;
 
-		VkPipelineViewportStateCreateInfo vp ={};
-		vp.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
-		vp.pNext = nullptr;
-		vp.flags = 0;
-#if 0//ndef __ANDROID__
+		vk::PipelineViewportStateCreateInfo vp;
+#ifndef __ANDROID__
 		vp.viewportCount = NUM_VIEWPORTS;
-		dynamicStateEnables[dynamicState.dynamicStateCount++] = VK_DYNAMIC_STATE_VIEWPORT;
 		vp.scissorCount = NUM_SCISSORS;
-		dynamicStateEnables[dynamicState.dynamicStateCount++] = VK_DYNAMIC_STATE_SCISSOR;
 		vp.pScissors = nullptr;
 		vp.pViewports = nullptr;
+		dynamicStateEnables.push_back(VK_DYNAMIC_STATE_VIEWPORT);
+		dynamicStateEnables.push_back(VK_DYNAMIC_STATE_SCISSOR);
 #else
 		// Temporary disabling dynamic viewport on Android because some of drivers doesn't
 		// support the feature.
-		VkViewport viewports;
+		::VkViewport viewports;
 		viewports.minDepth = 0.0f;
 		viewports.maxDepth = 1.0f;
 		viewports.x = 0;
 		viewports.y = 0;
 		viewports.width = static_cast<float>(m_swapchain->width());
 		viewports.height = static_cast<float>(m_swapchain->height());
-		VkRect2D scissor;
+		::VkRect2D scissor;
 		scissor.extent.width = m_swapchain->width();
 		scissor.extent.height = m_swapchain->height();
 		scissor.offset.x = 0;
@@ -758,6 +727,10 @@ VulkanRenderer::VRender(
 		ms.alphaToOneEnable      = VK_FALSE;
 		ms.minSampleShading      = 0.0;
 
+		vk::PipelineDynamicStateCreateInfo dynamicState;
+		dynamicState.pDynamicStates    = dynamicStateEnables.data();
+		dynamicState.dynamicStateCount = static_cast<std::uint32_t>(dynamicStateEnables.size());
+
 		vk::GraphicsPipelineCreateInfo pipeline;
 		pipeline.layout              = *m_pipeline_layout;
 		pipeline.basePipelineHandle  = VK_NULL_HANDLE;
@@ -777,8 +750,7 @@ VulkanRenderer::VRender(
 		pipeline.renderPass          = *m_render_pass;
 		pipeline.subpass             = 0;
 
-		m_pipeline = bksge::make_unique<vk::GraphicsPipeline>(
-			m_device, *m_pipeline_cache, pipeline);
+		m_pipeline = bksge::make_unique<vk::GraphicsPipeline>(m_device, *m_pipeline_cache, pipeline);
 	}
 
 	return true;

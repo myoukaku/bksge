@@ -43,7 +43,7 @@ struct SwapchainCreateInfoKHR : public ::VkSwapchainCreateInfoKHR
 		preTransform          = VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR;
 		compositeAlpha        = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
 		presentMode           = VK_PRESENT_MODE_IMMEDIATE_KHR;
-		clipped               = true;
+		clipped               = VK_FALSE;
 		oldSwapchain          = VK_NULL_HANDLE;
 	}
 };

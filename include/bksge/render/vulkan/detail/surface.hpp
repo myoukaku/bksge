@@ -11,8 +11,13 @@
 
 #include <bksge/render/vulkan/detail/vulkan.hpp>
 #include <bksge/render/vulkan/detail/instance.hpp>
-#include <bksge/detail/win32.hpp>
+#include <bksge/window/window.hpp>
+#include <bksge/config.hpp>
 #include <memory>
+
+#if defined(BKSGE_PLATFORM_WIN32)
+#include <bksge/detail/win32.hpp>
+#endif
 
 namespace bksge
 {
@@ -26,17 +31,19 @@ namespace vk
 class Surface
 {
 public:
-	explicit Surface(std::shared_ptr<vk::Instance> const& instance, HWND hwnd)
+	explicit Surface(std::shared_ptr<vk::Instance> const& instance, Window const& window)
 		: m_surface(VK_NULL_HANDLE)
 		, m_instance(instance)
 	{
-#ifdef _WIN32
+#if defined(BKSGE_PLATFORM_WIN32)
 		::VkWin32SurfaceCreateInfoKHR createInfo = {};
 		createInfo.sType     = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
 		createInfo.pNext     = nullptr;
 		createInfo.hinstance = win32::GetModuleHandle<char>(nullptr);
-		createInfo.hwnd      = hwnd;
+		createInfo.hwnd      = window.handle();
 		vk::CreateWin32SurfaceKHR(*m_instance, &createInfo, nullptr, &m_surface);
+#else
+		(void)window;
 #endif
 	}
 

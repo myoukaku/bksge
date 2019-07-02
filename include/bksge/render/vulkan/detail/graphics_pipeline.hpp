@@ -23,6 +23,96 @@ namespace render
 namespace vk
 {
 
+struct PipelineDynamicStateCreateInfo : public ::VkPipelineDynamicStateCreateInfo
+{
+	PipelineDynamicStateCreateInfo(void)
+	{
+		sType             = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
+		pNext             = nullptr;
+		flags             = 0;
+		dynamicStateCount = 0;
+		pDynamicStates    = nullptr;
+	}
+};
+
+struct PipelineVertexInputStateCreateInfo : public ::VkPipelineVertexInputStateCreateInfo
+{
+	PipelineVertexInputStateCreateInfo(void)
+	{
+		sType                           = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
+		pNext                           = nullptr;
+		flags                           = 0;
+		vertexBindingDescriptionCount   = 0;
+		pVertexBindingDescriptions      = nullptr;
+		vertexAttributeDescriptionCount = 0;
+		pVertexAttributeDescriptions    = nullptr;
+	}
+};
+
+struct PipelineInputAssemblyStateCreateInfo : public ::VkPipelineInputAssemblyStateCreateInfo
+{
+	PipelineInputAssemblyStateCreateInfo(void)
+	{
+		sType                  = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
+		pNext                  = nullptr;
+		flags                  = 0;
+		topology               = VK_PRIMITIVE_TOPOLOGY_POINT_LIST;
+		primitiveRestartEnable = VK_FALSE;
+	}
+};
+
+struct PipelineRasterizationStateCreateInfo : public ::VkPipelineRasterizationStateCreateInfo
+{
+	PipelineRasterizationStateCreateInfo(void)
+	{
+		sType                   = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
+		pNext                   = nullptr;
+		flags                   = 0;
+		depthClampEnable        = VK_FALSE;
+		rasterizerDiscardEnable = VK_FALSE;
+		polygonMode             = VK_POLYGON_MODE_FILL;
+		cullMode                = 0;
+		frontFace               = VK_FRONT_FACE_COUNTER_CLOCKWISE;
+		depthBiasEnable         = VK_FALSE;
+		depthBiasConstantFactor = 0;
+		depthBiasClamp          = 0;
+		depthBiasSlopeFactor    = 0;
+		lineWidth               = 0;
+	}
+};
+
+struct PipelineColorBlendStateCreateInfo : public ::VkPipelineColorBlendStateCreateInfo
+{
+	PipelineColorBlendStateCreateInfo(void)
+	{
+		sType             = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
+		pNext             = nullptr;
+		flags             = 0;
+		logicOpEnable     = VK_FALSE;
+		logicOp           = VK_LOGIC_OP_CLEAR;
+		attachmentCount   = 0;
+		pAttachments      = nullptr;
+		blendConstants[0] = 0;
+		blendConstants[1] = 0;
+		blendConstants[2] = 0;
+		blendConstants[3] = 0;
+	}
+};
+
+struct PipelineViewportStateCreateInfo : public ::VkPipelineViewportStateCreateInfo
+{
+	PipelineViewportStateCreateInfo(void)
+	{
+		sType         = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
+		pNext         = nullptr;
+		flags         = 0;
+		viewportCount = 0;
+		pViewports    = nullptr;
+		scissorCount  = 0;
+		pScissors     = nullptr;
+	}
+};
+
 struct PipelineDepthStencilStateCreateInfo : public ::VkPipelineDepthStencilStateCreateInfo
 {
 	PipelineDepthStencilStateCreateInfo(void)

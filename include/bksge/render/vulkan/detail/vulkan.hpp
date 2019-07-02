@@ -9,12 +9,20 @@
 #ifndef BKSGE_RENDER_VULKAN_DETAIL_VULKAN_HPP
 #define BKSGE_RENDER_VULKAN_DETAIL_VULKAN_HPP
 
+#include <bksge/config.hpp>
+
+#if defined(BKSGE_PLATFORM_WIN32)
 #define VK_USE_PLATFORM_WIN32_KHR
+#endif
+
 #include <vulkan/vulkan.h>
 
 #include <bksge/render/vulkan/detail/check_error.hpp>
 #include <bksge/render/vulkan/detail/vulkan_ext.hpp>
+
+#if defined(BKSGE_PLATFORM_WIN32)
 #include <bksge/render/vulkan/detail/vulkan_win32.hpp>
+#endif
 
 namespace bksge
 {

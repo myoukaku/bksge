@@ -4,6 +4,11 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 include(Dart)
 
+set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
+
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 set(compiler_flags
   CMAKE_CXX_FLAGS
   CMAKE_CXX_FLAGS_DEBUG
@@ -16,13 +21,23 @@ set(compiler_flags
   CMAKE_C_FLAGS_MINSIZEREL
   CMAKE_C_FLAGS_RELWITHDEBINFO)
 
-set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
-
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
-
 foreach(compiler_flag ${compiler_flags})
   if (MSVC)
+    # /MD[d] -> /MT[d] (Run-Time Library)
+    if(${compiler_flag} MATCHES "/MD")
+	  if(CMAKE_BUILD_TYPE MATCHES "Debug")
+	    string(REGEX REPLACE "/MDd?" "/MTd" ${compiler_flag} "${${compiler_flag}}")
+      else()
+	    string(REGEX REPLACE "/MDd?" "/MT" ${compiler_flag} "${${compiler_flag}}")
+      endif()
+    else()
+	  if(CMAKE_BUILD_TYPE MATCHES "Debug")
+	    set(${compiler_flag} "${${compiler_flag}} /MTd")
+      else()
+	    set(${compiler_flag} "${${compiler_flag}} /MT")
+      endif()
+    endif()
+
     # /ZI -> /Zi
     if(${compiler_flag} MATCHES "/ZI")
 	  string(REGEX REPLACE "/ZI" "/Zi" ${compiler_flag} "${${compiler_flag}}")
@@ -40,8 +55,9 @@ download_project(
   GIT_TAG master
   UPDATE_DISCONNECTED 1
   QUIET)
-message(STATUS ${Vulkan-Headers_SOURCE_DIR})
-message(STATUS ${Vulkan-Headers_BINARY_DIR})
+message(STATUS "Vulkan-Headers_SOURCE_DIR: ${Vulkan-Headers_SOURCE_DIR}")
+message(STATUS "Vulkan-Headers_BINARY_DIR: ${Vulkan-Headers_BINARY_DIR}")
+set(ENABLE_STATIC_LOADER ON CACHE BOOL "")
 add_subdirectory(${Vulkan-Headers_SOURCE_DIR} ${Vulkan-Headers_BINARY_DIR})
 
 if (DEFINED Vulkan-Headers_SOURCE_DIR)
@@ -53,9 +69,9 @@ if (DEFINED Vulkan-Headers_SOURCE_DIR)
 else()
     find_package(VulkanHeaders)
 endif()
-message(STATUS ${VulkanHeaders_INCLUDE_DIR})
-#message(STATUS ${VulkanHeaders_LIBRARIES})
-message(STATUS ${VulkanRegistry_DIR})
+message(STATUS "VulkanHeaders_INCLUDE_DIR: ${VulkanHeaders_INCLUDE_DIR}")
+#message(STATUS "VulkanHeaders_LIBRARIES: ${VulkanHeaders_LIBRARIES}")
+message(STATUS "VulkanRegistry_DIR: ${VulkanRegistry_DIR}")
 
 download_project(
   PROJ Vulkan-Loader
@@ -63,8 +79,8 @@ download_project(
   GIT_TAG master
   UPDATE_DISCONNECTED 1
   QUIET)
-message(STATUS ${Vulkan-Loader_SOURCE_DIR})
-message(STATUS ${Vulkan-Loader_BINARY_DIR})
+message(STATUS "Vulkan-Loader_SOURCE_DIR: ${Vulkan-Loader_SOURCE_DIR}")
+message(STATUS "Vulkan-Loader_BINARY_DIR: ${Vulkan-Loader_BINARY_DIR}")
 add_subdirectory(${Vulkan-Loader_SOURCE_DIR} ${Vulkan-Loader_BINARY_DIR})
 
 foreach(compiler_flag ${compiler_flags})
@@ -74,18 +90,6 @@ foreach(compiler_flag ${compiler_flags})
       string(REGEX REPLACE "/W[0-4]" "/W4" ${compiler_flag} "${${compiler_flag}}")
     else()
       set(${compiler_flag} "${${compiler_flag}} /W4")
-    endif()
-
-    # /MD[d] -> /MT[d] (Run-Time Library)
-    if(${compiler_flag} MATCHES "/MD")
-	  string(REGEX REPLACE "/MD" "/MT" ${compiler_flag} "${${compiler_flag}}")
-    endif()
-
-    # /ZI -> /Zi
-    if(${compiler_flag} MATCHES "/ZI")
-	  string(REGEX REPLACE "/ZI" "/Zi" ${compiler_flag} "${${compiler_flag}}")
-    else()
-	  set(${compiler_flag} "${${compiler_flag}} /Zi")
     endif()
 
 	# /guard:cf (Enable Control Flow Guard)
@@ -130,12 +134,22 @@ endif()
 enable_testing()
 
 find_package(OpenGL REQUIRED)
-message(STATUS ${OPENGL_LIBRARIES})
-message(STATUS ${OPENGL_INCLUDE_DIR})
+message(STATUS "OPENGL_LIBRARIES: ${OPENGL_LIBRARIES}")
+message(STATUS "OPENGL_INCLUDE_DIR: ${OPENGL_INCLUDE_DIR}")
 
-message(STATUS ${CMAKE_CXX_FLAGS})
-message(STATUS ${CMAKE_CXX_FLAGS_DEBUG})
-message(STATUS ${CMAKE_CXX_FLAGS_RELEASE})
+message(STATUS "CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
+message(STATUS "CMAKE_CXX_FLAGS_DEBUG: ${CMAKE_CXX_FLAGS_DEBUG}")
+message(STATUS "CMAKE_CXX_FLAGS_RELEASE: ${CMAKE_CXX_FLAGS_RELEASE}")
+message(STATUS "CMAKE_CXX_FLAGS_MINSIZEREL: ${CMAKE_CXX_FLAGS_MINSIZEREL}")
+message(STATUS "CMAKE_CXX_FLAGS_RELWITHDEBINFO: ${CMAKE_CXX_FLAGS_RELWITHDEBINFO}")
+#message(STATUS "CMAKE_C_FLAGS: ${CMAKE_C_FLAGS}")
+#message(STATUS "CMAKE_C_FLAGS_DEBUG: ${CMAKE_C_FLAGS_DEBUG}")
+#message(STATUS "CMAKE_C_FLAGS_RELEASE: ${CMAKE_C_FLAGS_RELEASE}")
+#message(STATUS "CMAKE_C_FLAGS_MINSIZEREL: ${CMAKE_C_FLAGS_MINSIZEREL}")
+#message(STATUS "CMAKE_C_FLAGS_RELWITHDEBINFO: ${CMAKE_C_FLAGS_RELWITHDEBINFO}")
+
+message(STATUS "CMAKE_CXX_COMPILER: ${CMAKE_CXX_COMPILER}")
+message(STATUS "CMAKE_C_COMPILER: ${CMAKE_C_COMPILER}")
 
 file(GLOB_RECURSE bksge_sources src/bksge/*)
 add_library(bksge STATIC ${bksge_sources})
@@ -145,14 +159,20 @@ include_directories(${VulkanHeaders_INCLUDE_DIR})
 
 target_link_libraries(bksge ${OPENGL_LIBRARIES})
 link_directories("${Vulkan-Loader_BINARY_DIR}/loader")
-target_link_libraries(bksge vulkan-1)
-
-include(${PROJECT_SOURCE_DIR}/cmake/assign_source_group.cmake)
-assign_source_group(${bksge_sources})
+add_dependencies(bksge vulkan)
+if(WIN32)
+  target_link_libraries(bksge VKstatic.1)
+  target_link_libraries(bksge Cfgmgr32)
+else()
+  target_link_libraries(bksge vulkan)
+endif()
 
 if(MINGW)
   target_link_libraries(bksge -lopengl32 -ld3d11 -ld3dcompiler -ldinput8 -ldxguid)
 endif()
+
+include(${PROJECT_SOURCE_DIR}/cmake/assign_source_group.cmake)
+assign_source_group(${bksge_sources})
 
 add_subdirectory(test)
 add_subdirectory(samples)

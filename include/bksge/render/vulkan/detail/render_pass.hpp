@@ -22,6 +22,20 @@ namespace render
 namespace vk
 {
 
+struct RenderPassBeginInfo : public ::VkRenderPassBeginInfo
+{
+	RenderPassBeginInfo(void)
+	{
+		sType           = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+		pNext           = nullptr;
+		renderPass      = VK_NULL_HANDLE;
+		framebuffer     = VK_NULL_HANDLE;
+		renderArea      = {{0,0},{0,0}};
+		clearValueCount = 0;
+		pClearValues    = nullptr;
+	}
+};
+
 struct RenderPassCreateInfo : public ::VkRenderPassCreateInfo
 {
 	RenderPassCreateInfo(void)

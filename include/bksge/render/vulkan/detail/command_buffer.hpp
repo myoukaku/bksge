@@ -22,6 +22,32 @@ namespace render
 namespace vk
 {
 
+struct CommandBufferInheritanceInfo : public ::VkCommandBufferInheritanceInfo
+{
+	CommandBufferInheritanceInfo(void)
+	{
+		sType                = VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_INFO;
+		pNext                = nullptr;
+		renderPass           = VK_NULL_HANDLE;
+		subpass              = 0;
+		framebuffer          = VK_NULL_HANDLE;
+		occlusionQueryEnable = VK_FALSE;
+		queryFlags           = 0;
+		pipelineStatistics   = 0;
+	}
+};
+
+struct CommandBufferBeginInfo : public ::VkCommandBufferBeginInfo
+{
+	CommandBufferBeginInfo(void)
+	{
+		sType            = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+		pNext            = nullptr;
+		flags            = 0;
+		pInheritanceInfo = nullptr;
+	}
+};
+
 struct CommandBufferAllocateInfo : public ::VkCommandBufferAllocateInfo
 {
 	CommandBufferAllocateInfo(void)
