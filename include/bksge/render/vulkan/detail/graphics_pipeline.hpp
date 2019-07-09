@@ -81,6 +81,21 @@ struct PipelineRasterizationStateCreateInfo : public ::VkPipelineRasterizationSt
 	}
 };
 
+struct PipelineColorBlendAttachmentState : public ::VkPipelineColorBlendAttachmentState
+{
+	PipelineColorBlendAttachmentState(void)
+	{
+		blendEnable         = VK_FALSE;
+		srcColorBlendFactor = VK_BLEND_FACTOR_ZERO;
+		dstColorBlendFactor = VK_BLEND_FACTOR_ZERO;
+		colorBlendOp        = VK_BLEND_OP_ADD;
+		srcAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+		dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+		alphaBlendOp        = VK_BLEND_OP_ADD;
+		colorWriteMask      = 0;
+	}
+};
+
 struct PipelineColorBlendStateCreateInfo : public ::VkPipelineColorBlendStateCreateInfo
 {
 	PipelineColorBlendStateCreateInfo(void)

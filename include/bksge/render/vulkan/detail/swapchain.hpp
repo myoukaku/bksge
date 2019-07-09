@@ -78,6 +78,11 @@ public:
 		return images;
 	}
 
+	::VkExtent2D extent(void) const
+	{
+		return m_info.imageExtent;
+	}
+
 	std::uint32_t width(void) const
 	{
 		return m_info.imageExtent.width;

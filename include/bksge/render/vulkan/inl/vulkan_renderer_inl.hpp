@@ -252,20 +252,20 @@ VulkanRenderer::VSetRenderTarget(
 			surf_format = surf_formats[0].format;
 		}
 
-		::VkExtent2D swapchainExtent = surf_caps.currentExtent;
+		::VkExtent2D swapchain_extent = surf_caps.currentExtent;
 
-		::VkSurfaceTransformFlagBitsKHR preTransform;
+		::VkSurfaceTransformFlagBitsKHR pre_transform;
 		if (surf_caps.supportedTransforms & VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR)
 		{
-			preTransform = VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR;
+			pre_transform = VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR;
 		}
 		else
 		{
-			preTransform = surf_caps.currentTransform;
+			pre_transform = surf_caps.currentTransform;
 		}
 
-		::VkCompositeAlphaFlagBitsKHR compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
-		::VkCompositeAlphaFlagBitsKHR compositeAlphaFlags[4] =
+		::VkCompositeAlphaFlagBitsKHR composite_alpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
+		::VkCompositeAlphaFlagBitsKHR const composite_alpha_flags[] =
 		{
 			VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR,
 			VK_COMPOSITE_ALPHA_PRE_MULTIPLIED_BIT_KHR,
@@ -273,11 +273,11 @@ VulkanRenderer::VSetRenderTarget(
 			VK_COMPOSITE_ALPHA_INHERIT_BIT_KHR,
 		};
 
-		for (auto flag : compositeAlphaFlags)
+		for (auto flag : composite_alpha_flags)
 		{
 			if (surf_caps.supportedCompositeAlpha & flag)
 			{
-				compositeAlpha = flag;
+				composite_alpha = flag;
 				break;
 			}
 		}
@@ -286,10 +286,9 @@ VulkanRenderer::VSetRenderTarget(
 		swapchain_ci.surface               = *m_surface;
 		swapchain_ci.minImageCount         = surf_caps.minImageCount;
 		swapchain_ci.imageFormat           = surf_format;
-		swapchain_ci.imageExtent.width     = swapchainExtent.width;
-		swapchain_ci.imageExtent.height    = swapchainExtent.height;
-		swapchain_ci.preTransform          = preTransform;
-		swapchain_ci.compositeAlpha        = compositeAlpha;
+		swapchain_ci.imageExtent           = swapchain_extent;
+		swapchain_ci.preTransform          = pre_transform;
+		swapchain_ci.compositeAlpha        = composite_alpha;
 		swapchain_ci.imageArrayLayers      = 1;
 		swapchain_ci.presentMode           = VK_PRESENT_MODE_FIFO_KHR;
 		swapchain_ci.oldSwapchain          = VK_NULL_HANDLE;
@@ -424,13 +423,13 @@ VulkanRenderer::VSetRenderTarget(
 
 	// Init Pipeline Layout
 	{
-		vk::PipelineLayoutCreateInfo pPipelineLayoutCreateInfo;
-		pPipelineLayoutCreateInfo.setLayoutCount         = NUM_DESCRIPTOR_SETS;
-		pPipelineLayoutCreateInfo.pSetLayouts            = m_descriptor_set_layout->get();
-		pPipelineLayoutCreateInfo.pushConstantRangeCount = 0;
-		pPipelineLayoutCreateInfo.pPushConstantRanges    = nullptr;
+		vk::PipelineLayoutCreateInfo pipeline_layout_ci;
+		pipeline_layout_ci.setLayoutCount         = NUM_DESCRIPTOR_SETS;
+		pipeline_layout_ci.pSetLayouts            = m_descriptor_set_layout->get();
+		pipeline_layout_ci.pushConstantRangeCount = 0;
+		pipeline_layout_ci.pPushConstantRanges    = nullptr;
 
-		m_pipeline_layout = bksge::make_unique<vk::PipelineLayout>(m_device, pPipelineLayoutCreateInfo);
+		m_pipeline_layout = bksge::make_unique<vk::PipelineLayout>(m_device, pipeline_layout_ci);
 	}
 
 	bool use_texture = false;
@@ -493,8 +492,8 @@ VulkanRenderer::VSetRenderTarget(
 
 	// Init Pipeline Cache
 	{
-		vk::PipelineCacheCreateInfo pipelineCache;
-		m_pipeline_cache = bksge::make_unique<vk::PipelineCache>(m_device, pipelineCache);
+		vk::PipelineCacheCreateInfo pipeline_cache_ci;
+		m_pipeline_cache = bksge::make_unique<vk::PipelineCache>(m_device, pipeline_cache_ci);
 	}
 }
 
@@ -521,18 +520,22 @@ VulkanRenderer::VBegin(void)
 
 	// BeginRenderPass
 	{
-		static ::VkClearValue clearValue
+		::VkClearValue const clear_value[1]
 		{
-			{{0.0f, 1.0f, 0.0f, 1.0f}}
+			{{
+				m_clear_color.r(),
+				m_clear_color.g(),
+				m_clear_color.b(),
+				m_clear_color.a(),
+			}}
 		};
 
 		vk::RenderPassBeginInfo rpinfo{};
-		rpinfo.framebuffer              = *m_framebuffers[m_current_frame_index];
-		rpinfo.renderPass               = *m_render_pass;
-		rpinfo.renderArea.extent.width  = m_swapchain->width();
-		rpinfo.renderArea.extent.height = m_swapchain->height();
-		rpinfo.clearValueCount          = 1;
-		rpinfo.pClearValues             = &clearValue;
+		rpinfo.framebuffer       = *m_framebuffers[m_current_frame_index];
+		rpinfo.renderPass        = *m_render_pass;
+		rpinfo.renderArea.extent = m_swapchain->extent();
+		rpinfo.clearValueCount   = 1;
+		rpinfo.pClearValues      = clear_value;
 
 		vk::CmdBeginRenderPass(*m_command_buffer, &rpinfo, VK_SUBPASS_CONTENTS_INLINE);
 	}
@@ -560,13 +563,14 @@ VulkanRenderer::VEnd(void)
 
 	// Submit and Wait with Fences
 	{
-		static const ::VkPipelineStageFlags waitStageMask = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;
+		static const ::VkPipelineStageFlags wait_stage_mask = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;
 
 		::VkSubmitInfo sinfo{};
-		sinfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+		sinfo.sType              = VK_STRUCTURE_TYPE_SUBMIT_INFO;
 		sinfo.commandBufferCount = 1;
-		sinfo.pCommandBuffers = m_command_buffer->GetAddress();
-		sinfo.pWaitDstStageMask = &waitStageMask;
+		sinfo.pCommandBuffers    = m_command_buffer->GetAddress();
+		sinfo.pWaitDstStageMask  = &wait_stage_mask;
+
 		vk::QueueSubmit(m_graphics_queue, 1, &sinfo, *m_fence);
 	}
 
@@ -575,11 +579,10 @@ VulkanRenderer::VEnd(void)
 	case VK_SUCCESS:
 		{
 			::VkPresentInfoKHR pinfo{};
-
-			pinfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+			pinfo.sType          = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
 			pinfo.swapchainCount = 1;
-			pinfo.pSwapchains = m_swapchain->GetAddress();
-			pinfo.pImageIndices = &m_current_frame_index;
+			pinfo.pSwapchains    = m_swapchain->GetAddress();
+			pinfo.pImageIndices  = &m_current_frame_index;
 
 			vk::QueuePresentKHR(m_graphics_queue, &pinfo);
 		}
@@ -587,6 +590,7 @@ VulkanRenderer::VEnd(void)
 	default:
 		break;
 	}
+
 	vk::ResetFences(*m_device, 1, m_fence->GetAddress());
 
 	// Acquire next
@@ -624,61 +628,61 @@ VulkanRenderer::VRender(
 	// Init Pipeline
 	if (!m_pipeline)
 	{
-		std::vector<::VkDynamicState> dynamicStateEnables;
+		std::vector<::VkDynamicState> dynamic_state_enables;
 
-		vk::PipelineVertexInputStateCreateInfo vi;
+		vk::PipelineVertexInputStateCreateInfo vertex_input_state_ci;
 		//if (include_vi)
 		//{
-		//	vi.vertexBindingDescriptionCount = 1;
-		//	vi.pVertexBindingDescriptions = &info.vi_binding;
-		//	vi.vertexAttributeDescriptionCount = 2;
-		//	vi.pVertexAttributeDescriptions = info.vi_attribs;
+		//	vertex_input_state_ci.vertexBindingDescriptionCount = 1;
+		//	vertex_input_state_ci.pVertexBindingDescriptions = &info.vi_binding;
+		//	vertex_input_state_ci.vertexAttributeDescriptionCount = 2;
+		//	vertex_input_state_ci.pVertexAttributeDescriptions = info.vi_attribs;
 		//}
 
-		vk::PipelineInputAssemblyStateCreateInfo ia;
-		ia.primitiveRestartEnable = VK_FALSE;
-		ia.topology               = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+		vk::PipelineInputAssemblyStateCreateInfo input_assembly_state_ci;
+		input_assembly_state_ci.primitiveRestartEnable = VK_FALSE;
+		input_assembly_state_ci.topology               = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
 
-		vk::PipelineRasterizationStateCreateInfo rs;
-		rs.polygonMode             = VK_POLYGON_MODE_FILL;
-		rs.cullMode                = VK_CULL_MODE_BACK_BIT;
-		rs.frontFace               = VK_FRONT_FACE_CLOCKWISE;
-		rs.depthClampEnable        = VK_FALSE;
-		rs.rasterizerDiscardEnable = VK_FALSE;
-		rs.depthBiasEnable         = VK_FALSE;
-		rs.depthBiasConstantFactor = 0;
-		rs.depthBiasClamp          = 0;
-		rs.depthBiasSlopeFactor    = 0;
-		rs.lineWidth               = 1.0f;
+		vk::PipelineRasterizationStateCreateInfo rasterization_state_ci;
+		rasterization_state_ci.polygonMode             = VK_POLYGON_MODE_FILL;
+		rasterization_state_ci.cullMode                = VK_CULL_MODE_BACK_BIT;
+		rasterization_state_ci.frontFace               = VK_FRONT_FACE_CLOCKWISE;
+		rasterization_state_ci.depthClampEnable        = VK_FALSE;
+		rasterization_state_ci.rasterizerDiscardEnable = VK_FALSE;
+		rasterization_state_ci.depthBiasEnable         = VK_FALSE;
+		rasterization_state_ci.depthBiasConstantFactor = 0;
+		rasterization_state_ci.depthBiasClamp          = 0;
+		rasterization_state_ci.depthBiasSlopeFactor    = 0;
+		rasterization_state_ci.lineWidth               = 1.0f;
 
-		::VkPipelineColorBlendAttachmentState att_state[1];
-		att_state[0].colorWriteMask      = 0xf;
-		att_state[0].blendEnable         = VK_FALSE;
-		att_state[0].alphaBlendOp        = VK_BLEND_OP_ADD;
-		att_state[0].colorBlendOp        = VK_BLEND_OP_ADD;
-		att_state[0].srcColorBlendFactor = VK_BLEND_FACTOR_ZERO;
-		att_state[0].dstColorBlendFactor = VK_BLEND_FACTOR_ZERO;
-		att_state[0].srcAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
-		att_state[0].dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+		vk::PipelineColorBlendAttachmentState attachment_state[1];
+		attachment_state[0].colorWriteMask      = 0xf;
+		attachment_state[0].blendEnable         = VK_FALSE;
+		attachment_state[0].alphaBlendOp        = VK_BLEND_OP_ADD;
+		attachment_state[0].colorBlendOp        = VK_BLEND_OP_ADD;
+		attachment_state[0].srcColorBlendFactor = VK_BLEND_FACTOR_ZERO;
+		attachment_state[0].dstColorBlendFactor = VK_BLEND_FACTOR_ZERO;
+		attachment_state[0].srcAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+		attachment_state[0].dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
 
-		vk::PipelineColorBlendStateCreateInfo cb;
-		cb.attachmentCount   = 1;
-		cb.pAttachments      = att_state;
-		cb.logicOpEnable     = VK_FALSE;
-		cb.logicOp           = VK_LOGIC_OP_NO_OP;
-		cb.blendConstants[0] = 1.0f;
-		cb.blendConstants[1] = 1.0f;
-		cb.blendConstants[2] = 1.0f;
-		cb.blendConstants[3] = 1.0f;
+		vk::PipelineColorBlendStateCreateInfo color_blend_state_ci;
+		color_blend_state_ci.attachmentCount   = 1;
+		color_blend_state_ci.pAttachments      = attachment_state;
+		color_blend_state_ci.logicOpEnable     = VK_FALSE;
+		color_blend_state_ci.logicOp           = VK_LOGIC_OP_NO_OP;
+		color_blend_state_ci.blendConstants[0] = 1.0f;
+		color_blend_state_ci.blendConstants[1] = 1.0f;
+		color_blend_state_ci.blendConstants[2] = 1.0f;
+		color_blend_state_ci.blendConstants[3] = 1.0f;
 
-		vk::PipelineViewportStateCreateInfo vp;
+		vk::PipelineViewportStateCreateInfo viewport_state_ci;
 #ifndef __ANDROID__
-		vp.viewportCount = NUM_VIEWPORTS;
-		vp.scissorCount = NUM_SCISSORS;
-		vp.pScissors = nullptr;
-		vp.pViewports = nullptr;
-		dynamicStateEnables.push_back(VK_DYNAMIC_STATE_VIEWPORT);
-		dynamicStateEnables.push_back(VK_DYNAMIC_STATE_SCISSOR);
+		viewport_state_ci.viewportCount = NUM_VIEWPORTS;
+		viewport_state_ci.scissorCount = NUM_SCISSORS;
+		viewport_state_ci.pScissors = nullptr;
+		viewport_state_ci.pViewports = nullptr;
+		dynamic_state_enables.push_back(VK_DYNAMIC_STATE_VIEWPORT);
+		dynamic_state_enables.push_back(VK_DYNAMIC_STATE_SCISSOR);
 #else
 		// Temporary disabling dynamic viewport on Android because some of drivers doesn't
 		// support the feature.
@@ -694,63 +698,63 @@ VulkanRenderer::VRender(
 		scissor.extent.height = m_swapchain->height();
 		scissor.offset.x = 0;
 		scissor.offset.y = 0;
-		vp.viewportCount = NUM_VIEWPORTS;
-		vp.scissorCount = NUM_SCISSORS;
-		vp.pScissors = &scissor;
-		vp.pViewports = &viewports;
+		viewport_state_ci.viewportCount = NUM_VIEWPORTS;
+		viewport_state_ci.scissorCount = NUM_SCISSORS;
+		viewport_state_ci.pScissors = &scissor;
+		viewport_state_ci.pViewports = &viewports;
 #endif
 
-		vk::PipelineDepthStencilStateCreateInfo ds;
-		ds.flags                 = 0;
-		ds.depthTestEnable       = VK_FALSE;//include_depth;
-		ds.depthWriteEnable      = VK_FALSE;//include_depth;
-		ds.depthCompareOp        = VK_COMPARE_OP_LESS_OR_EQUAL;
-		ds.depthBoundsTestEnable = VK_FALSE;
-		ds.stencilTestEnable     = VK_FALSE;
-		ds.back.failOp           = VK_STENCIL_OP_KEEP;
-		ds.back.passOp           = VK_STENCIL_OP_KEEP;
-		ds.back.compareOp        = VK_COMPARE_OP_ALWAYS;
-		ds.back.compareMask      = 0;
-		ds.back.reference        = 0;
-		ds.back.depthFailOp      = VK_STENCIL_OP_KEEP;
-		ds.back.writeMask        = 0;
-		ds.front                 = ds.back;
-		ds.minDepthBounds        = 0;
-		ds.maxDepthBounds        = 0;
+		vk::PipelineDepthStencilStateCreateInfo depth_stencil_state_ci;
+		depth_stencil_state_ci.flags                 = 0;
+		depth_stencil_state_ci.depthTestEnable       = VK_FALSE;//include_depth;
+		depth_stencil_state_ci.depthWriteEnable      = VK_FALSE;//include_depth;
+		depth_stencil_state_ci.depthCompareOp        = VK_COMPARE_OP_LESS_OR_EQUAL;
+		depth_stencil_state_ci.depthBoundsTestEnable = VK_FALSE;
+		depth_stencil_state_ci.stencilTestEnable     = VK_FALSE;
+		depth_stencil_state_ci.back.failOp           = VK_STENCIL_OP_KEEP;
+		depth_stencil_state_ci.back.passOp           = VK_STENCIL_OP_KEEP;
+		depth_stencil_state_ci.back.compareOp        = VK_COMPARE_OP_ALWAYS;
+		depth_stencil_state_ci.back.compareMask      = 0;
+		depth_stencil_state_ci.back.reference        = 0;
+		depth_stencil_state_ci.back.depthFailOp      = VK_STENCIL_OP_KEEP;
+		depth_stencil_state_ci.back.writeMask        = 0;
+		depth_stencil_state_ci.front                 = depth_stencil_state_ci.back;
+		depth_stencil_state_ci.minDepthBounds        = 0;
+		depth_stencil_state_ci.maxDepthBounds        = 0;
 
-		vk::PipelineMultisampleStateCreateInfo ms;
-		ms.flags                 = 0;
-		ms.pSampleMask           = nullptr;
-		ms.rasterizationSamples  = NUM_SAMPLES;
-		ms.sampleShadingEnable   = VK_FALSE;
-		ms.alphaToCoverageEnable = VK_FALSE;
-		ms.alphaToOneEnable      = VK_FALSE;
-		ms.minSampleShading      = 0.0;
+		vk::PipelineMultisampleStateCreateInfo multisample_state_ci;
+		multisample_state_ci.flags                 = 0;
+		multisample_state_ci.pSampleMask           = nullptr;
+		multisample_state_ci.rasterizationSamples  = NUM_SAMPLES;
+		multisample_state_ci.sampleShadingEnable   = VK_FALSE;
+		multisample_state_ci.alphaToCoverageEnable = VK_FALSE;
+		multisample_state_ci.alphaToOneEnable      = VK_FALSE;
+		multisample_state_ci.minSampleShading      = 0.0;
 
-		vk::PipelineDynamicStateCreateInfo dynamicState;
-		dynamicState.pDynamicStates    = dynamicStateEnables.data();
-		dynamicState.dynamicStateCount = static_cast<std::uint32_t>(dynamicStateEnables.size());
+		vk::PipelineDynamicStateCreateInfo dynamic_state_ci;
+		dynamic_state_ci.pDynamicStates    = dynamic_state_enables.data();
+		dynamic_state_ci.dynamicStateCount = static_cast<std::uint32_t>(dynamic_state_enables.size());
 
-		vk::GraphicsPipelineCreateInfo pipeline;
-		pipeline.layout              = *m_pipeline_layout;
-		pipeline.basePipelineHandle  = VK_NULL_HANDLE;
-		pipeline.basePipelineIndex   = 0;
-		pipeline.flags               = 0;
-		pipeline.pVertexInputState   = &vi;
-		pipeline.pInputAssemblyState = &ia;
-		pipeline.pRasterizationState = &rs;
-		pipeline.pColorBlendState    = &cb;
-		pipeline.pTessellationState  = nullptr;
-		pipeline.pMultisampleState   = &ms;
-		pipeline.pDynamicState       = &dynamicState;
-		pipeline.pViewportState      = &vp;
-		pipeline.pDepthStencilState  = &ds;
-		pipeline.pStages             = m_shader_stages->GetPtr();
-		pipeline.stageCount          = m_shader_stages->GetCount();
-		pipeline.renderPass          = *m_render_pass;
-		pipeline.subpass             = 0;
+		vk::GraphicsPipelineCreateInfo pipeline_ci;
+		pipeline_ci.layout              = *m_pipeline_layout;
+		pipeline_ci.basePipelineHandle  = VK_NULL_HANDLE;
+		pipeline_ci.basePipelineIndex   = 0;
+		pipeline_ci.flags               = 0;
+		pipeline_ci.pVertexInputState   = &vertex_input_state_ci;
+		pipeline_ci.pInputAssemblyState = &input_assembly_state_ci;
+		pipeline_ci.pRasterizationState = &rasterization_state_ci;
+		pipeline_ci.pColorBlendState    = &color_blend_state_ci;
+		pipeline_ci.pTessellationState  = nullptr;
+		pipeline_ci.pMultisampleState   = &multisample_state_ci;
+		pipeline_ci.pDynamicState       = &dynamic_state_ci;
+		pipeline_ci.pViewportState      = &viewport_state_ci;
+		pipeline_ci.pDepthStencilState  = &depth_stencil_state_ci;
+		pipeline_ci.pStages             = m_shader_stages->GetPtr();
+		pipeline_ci.stageCount          = m_shader_stages->GetCount();
+		pipeline_ci.renderPass          = *m_render_pass;
+		pipeline_ci.subpass             = 0;
 
-		m_pipeline = bksge::make_unique<vk::GraphicsPipeline>(m_device, *m_pipeline_cache, pipeline);
+		m_pipeline = bksge::make_unique<vk::GraphicsPipeline>(m_device, *m_pipeline_cache, pipeline_ci);
 	}
 
 	return true;
