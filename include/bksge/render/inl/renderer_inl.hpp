@@ -83,12 +83,6 @@ void Renderer::End(void)
 }
 
 BKSGE_INLINE
-void Renderer::Clear(void)
-{
-	VClear(m_clear_flag, m_clear_color);
-}
-
-BKSGE_INLINE
 void Renderer::Render(
 	Geometry const& geometry,
 	std::vector<Shader const*> const& shader_list,

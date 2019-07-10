@@ -47,10 +47,11 @@ public:		// TODO privateにする
 	GlTextureShared     GetGlTexture(Texture const& texture);
 
 private:
+	void Clear(void);
+
 	void VSetRenderTarget(Window const& window) override;
 	void VBegin(void) override;
 	void VEnd(void) override;
-	void VClear(ClearFlag clear_flag, Color4f const& clear_color) override;
 	bool VRender(
 		Geometry const& geometry,
 		Shader const& shader,

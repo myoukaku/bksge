@@ -607,7 +607,6 @@ int main()
 		for (auto& renderer : renderers)
 		{
 			renderer->Begin();
-			renderer->Clear();
 			for (auto&& primitive : primitives)
 			{
 				primitive->Draw(renderer.get());

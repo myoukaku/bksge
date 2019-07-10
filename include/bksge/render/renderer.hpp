@@ -72,11 +72,6 @@ public:
 	void End(void);
 
 	/**
-	 *	@brief	バッファをクリアします
-	 */
-	void Clear(void);
-
-	/**
 	 *	@brief	Geometryを1つ描画します
 	 *
 	 *	@param	geometry				描画するジオメトリ
@@ -96,8 +91,6 @@ private:
 	virtual void VBegin(void) = 0;
 
 	virtual void VEnd(void) = 0;
-
-	virtual void VClear(ClearFlag clear_flag, Color4f const& clear_color) = 0;
 
 	virtual bool VRender(
 		Geometry const& geometry,

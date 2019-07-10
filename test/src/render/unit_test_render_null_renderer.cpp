@@ -32,7 +32,6 @@ GTEST_TEST(RenderTest, NullRendererTest)
 	renderer.SetClearFlag(bksge::ClearFlag::kAll);
 	renderer.SetClearColor({});
 	renderer.Begin();
-	renderer.Clear();
 	bksge::Geometry geometry;
 	std::vector<bksge::Shader const*> shader_list;
 	bksge::ShaderParameterMap shader_parameter_map;

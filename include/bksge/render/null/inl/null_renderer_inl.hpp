@@ -36,11 +36,6 @@ BKSGE_INLINE void NullRenderer::VBegin(void)
 BKSGE_INLINE void NullRenderer::VEnd(void)
 {}
 
-BKSGE_INLINE void NullRenderer::VClear(
-	ClearFlag /*clear_flag*/,
-	Color4f const& /*clear_color*/)
-{}
-
 BKSGE_INLINE bool NullRenderer::VRender(
 	Geometry const& /*geometry*/,
 	Shader const& /*shader*/,

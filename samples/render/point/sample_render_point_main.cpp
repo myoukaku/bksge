@@ -153,7 +153,6 @@ int main()
 		for (auto& renderer : renderers)
 		{
 			renderer->Begin();
-			renderer->Clear();
 			renderer->Render(
 				geometry,
 				shader_list,

@@ -167,6 +167,29 @@ D3D12Renderer::VBegin(void)
 
 	auto const handle = m_render_target->GetHandle(m_frameIndex);
 	m_command_list->OMSetRenderTargets(1, &handle);
+
+	// Clear Color
+	if ((m_clear_flag & ClearFlag::kColor) != ClearFlag::kNone)
+	{
+		m_command_list->ClearRenderTargetView(
+			m_render_target->GetHandle(m_frameIndex),
+			m_clear_color.data());
+	}
+
+	// Clear Depth Stencil
+	{
+		::D3D12_CLEAR_FLAGS mask{};
+		if ((m_clear_flag & ClearFlag::kDepth) != ClearFlag::kNone)
+		{
+			mask |= D3D12_CLEAR_FLAG_DEPTH;
+		}
+		if ((m_clear_flag & ClearFlag::kStencil) != ClearFlag::kNone)
+		{
+			mask |= D3D12_CLEAR_FLAG_STENCIL;
+		}
+
+		//m_command_list->ClearDepthStencilView(dsv_handle_, mask, 1.0f, 0, 0, nullptr);
+	}
 }
 
 BKSGE_INLINE void
@@ -185,29 +208,6 @@ D3D12Renderer::VEnd(void)
 	m_swap_chain->Present(1, 0);
 
 	WaitForPreviousFrame();
-}
-
-BKSGE_INLINE void
-D3D12Renderer::VClear(ClearFlag clear_flag, Color4f const& clear_color)
-{
-	if ((clear_flag & ClearFlag::kColor) != ClearFlag::kNone)
-	{
-		m_command_list->ClearRenderTargetView(
-			m_render_target->GetHandle(m_frameIndex),
-			clear_color.data());
-	}
-
-	::D3D12_CLEAR_FLAGS mask{};
-	if ((clear_flag & ClearFlag::kDepth) != ClearFlag::kNone)
-	{
-		mask |= D3D12_CLEAR_FLAG_DEPTH;
-	}
-	if ((clear_flag & ClearFlag::kStencil) != ClearFlag::kNone)
-	{
-		mask |= D3D12_CLEAR_FLAG_STENCIL;
-	}
-
-	//m_command_list->ClearDepthStencilView(dsv_handle_, mask, 1.0f, 0, 0, nullptr);
 }
 
 BKSGE_INLINE bool

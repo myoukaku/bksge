@@ -88,7 +88,6 @@ int main()
 		{
 			renderer->SetClearColor({r, g, b, 1});
 			renderer->Begin();
-			renderer->Clear();
 			renderer->End();
 		}
 

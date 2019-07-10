@@ -101,6 +101,8 @@ void GlRenderer::VBegin(void)
 			static_cast<GLsizei>(m_viewport->width()),
 			static_cast<GLsizei>(m_viewport->height()));
 	}
+
+	Clear();
 }
 
 BKSGE_INLINE
@@ -119,28 +121,35 @@ void GlRenderer::VEnd(void)
 }
 
 BKSGE_INLINE
-void GlRenderer::VClear(ClearFlag clear_flag, Color4f const& clear_color)
+void GlRenderer::Clear(void)
 {
 	GLbitfield mask = 0;
 
-	// カラーバッファをクリアするときはglColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE)を呼ぶ必要がある
-	if ((clear_flag & ClearFlag::kColor) != ClearFlag::kNone)
+	// カラーバッファをクリアするときは
+	// glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE)を呼ぶ必要がある
+	if ((m_clear_flag & ClearFlag::kColor) != ClearFlag::kNone)
 	{
-		::glClearColor(clear_color.r(), clear_color.g(), clear_color.b(), clear_color.a());
+		::glClearColor(
+			m_clear_color.r(),
+			m_clear_color.g(),
+			m_clear_color.b(),
+			m_clear_color.a());
 		::glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 		mask |= GL_COLOR_BUFFER_BIT;
 	}
 
-	// デプスバッファをクリアするときはglDepthMask(GL_TRUE)を呼ぶ必要がある
-	if ((clear_flag & ClearFlag::kDepth) != ClearFlag::kNone)
+	// デプスバッファをクリアするときは
+	// glDepthMask(GL_TRUE)を呼ぶ必要がある
+	if ((m_clear_flag & ClearFlag::kDepth) != ClearFlag::kNone)
 	{
 		::glClearDepth(0);
 		::glDepthMask(GL_TRUE);
 		mask |= GL_DEPTH_BUFFER_BIT;
 	}
 
-	// ステンシルバッファをクリアするときはglStencilMask(0xFFFFFFFF)を呼ぶ必要がある
-	if ((clear_flag & ClearFlag::kStencil) != ClearFlag::kNone)
+	// ステンシルバッファをクリアするときは
+	// glStencilMask(0xFFFFFFFF)を呼ぶ必要がある
+	if ((m_clear_flag & ClearFlag::kStencil) != ClearFlag::kNone)
 	{
 		::glClearStencil(0);
 		::glStencilMask(~0u);

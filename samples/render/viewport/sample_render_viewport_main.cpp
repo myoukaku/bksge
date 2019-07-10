@@ -163,7 +163,6 @@ int main()
 		{
 			renderer->SetViewport(viewport);
 			renderer->Begin();
-			renderer->Clear();
 			renderer->Render(
 				geometry,
 				shader_list,

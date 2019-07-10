@@ -224,7 +224,6 @@ int main()
 		for (auto& renderer : renderers)
 		{
 			renderer->Begin();
-			renderer->Clear();
 			for (auto&& triangle : triangles)
 			{
 				triangle->Draw(renderer.get());

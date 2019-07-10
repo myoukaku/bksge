@@ -128,39 +128,39 @@ D3D11Renderer::VBegin(void)
 		1,
 		m_render_target->GetView().GetAddressOf(),
 		nullptr/*m_depth_stencil->GetView()*/);
+
+	// Clear Color
+	if ((m_clear_flag & ClearFlag::kColor) != ClearFlag::kNone)
+	{
+		m_device_context->ClearRenderTargetView(
+			m_render_target->GetView().Get(),
+			m_clear_color.data());
+	}
+
+	// Clear Depth Stencil
+	{
+		::UINT mask = 0u;
+		if ((m_clear_flag & ClearFlag::kDepth) != ClearFlag::kNone)
+		{
+			mask |= D3D11_CLEAR_DEPTH;
+		}
+		if ((m_clear_flag & ClearFlag::kStencil) != ClearFlag::kNone)
+		{
+			mask |= D3D11_CLEAR_STENCIL;
+		}
+
+		//m_device_context->ClearDepthStencilView(
+		//	m_depth_stencil->GetView(),
+		//	mask,
+		//	1.0f,
+		//	0);
+	}
 }
 
 BKSGE_INLINE void
 D3D11Renderer::VEnd(void)
 {
 	m_swap_chain->Present(1, 0);
-}
-
-BKSGE_INLINE void
-D3D11Renderer::VClear(ClearFlag clear_flag, Color4f const& clear_color)
-{
-	if ((clear_flag & ClearFlag::kColor) != ClearFlag::kNone)
-	{
-		m_device_context->ClearRenderTargetView(
-			m_render_target->GetView().Get(),
-			clear_color.data());
-	}
-
-	::UINT mask = 0u;
-	if ((clear_flag & ClearFlag::kDepth) != ClearFlag::kNone)
-	{
-		mask |= D3D11_CLEAR_DEPTH;
-	}
-	if ((clear_flag & ClearFlag::kStencil) != ClearFlag::kNone)
-	{
-		mask |= D3D11_CLEAR_STENCIL;
-	}
-
-	//m_device_context->ClearDepthStencilView(
-	//	m_depth_stencil->GetView(),
-	//	mask,
-	//	1.0f,
-	//	0);
 }
 
 BKSGE_INLINE bool

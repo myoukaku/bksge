@@ -601,12 +601,6 @@ VulkanRenderer::VEnd(void)
 	}
 }
 
-BKSGE_INLINE void
-VulkanRenderer::VClear(
-	ClearFlag /*clear_flag*/,
-	Color4f const& /*clear_color*/)
-{}
-
 BKSGE_INLINE bool
 VulkanRenderer::VRender(
 	Geometry const& /*geometry*/,
