@@ -18,18 +18,28 @@ namespace
 static bksge::Shader const* GetGLSLShader(void)
 {
 	char const* vs_source =
-		"attribute vec3 aPosition;					"
-		"											"
-		"void main()								"
-		"{											"
-		"	gl_Position = vec4(aPosition, 1.0);		"
-		"}											"
+		"#version 400								\n"
+		"#extension GL_ARB_separate_shader_objects : enable		\n"
+		"#extension GL_ARB_shading_language_420pack : enable	\n"
+		"											\n"
+		"layout (location = 0) in vec3 aPosition;	\n"
+		"											\n"
+		"void main()								\n"
+		"{											\n"
+		"	gl_Position = vec4(aPosition, 1.0);		\n"
+		"}											\n"
 	;
 
 	char const* fs_source =
+		"#version 400								\n"
+		"#extension GL_ARB_separate_shader_objects : enable		\n"
+		"#extension GL_ARB_shading_language_420pack : enable	\n"
+		"											\n"
+		"layout (location = 0) out vec4 oColor;		\n"
+		"											\n"
 		"void main()								"
 		"{											"
-		"	gl_FragColor = vec4(0.0, 0.0, 1.0, 1.0);"
+		"	oColor = vec4(0.0, 0.0, 1.0, 1.0);		"
 		"}											"
 	;
 
@@ -114,6 +124,19 @@ int main()
 
 		std::shared_ptr<bksge::GlRenderer> renderer(
 			new bksge::GlRenderer());
+		renderers.push_back(renderer);
+		renderer->SetRenderTarget(*window);
+		renderer->SetClearColor({0.5f, 0.0f, 0.5f, 1});
+	}
+#endif
+#if BKSGE_RENDER_HAS_VULKAN_RENDERER
+	{
+		std::shared_ptr<bksge::Window> window(
+			new bksge::Window({800, 600}, "sample_render_triangle - Vulkan"));
+		windows.push_back(window);
+
+		std::shared_ptr<bksge::VulkanRenderer> renderer(
+			new bksge::VulkanRenderer());
 		renderers.push_back(renderer);
 		renderer->SetRenderTarget(*window);
 		renderer->SetClearColor({0.5f, 0.0f, 0.5f, 1});

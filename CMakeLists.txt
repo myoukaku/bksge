@@ -83,6 +83,17 @@ message(STATUS "Vulkan-Loader_SOURCE_DIR: ${Vulkan-Loader_SOURCE_DIR}")
 message(STATUS "Vulkan-Loader_BINARY_DIR: ${Vulkan-Loader_BINARY_DIR}")
 add_subdirectory(${Vulkan-Loader_SOURCE_DIR} ${Vulkan-Loader_BINARY_DIR})
 
+download_project(
+  PROJ glslang
+  GIT_REPOSITORY https://github.com/KhronosGroup/glslang.git
+  GIT_TAG master
+  UPDATE_DISCONNECTED 1
+  QUIET)
+message(STATUS "glslang_SOURCE_DIR: ${glslang_SOURCE_DIR}")
+message(STATUS "glslang_BINARY_DIR: ${glslang_BINARY_DIR}")
+add_subdirectory(${glslang_SOURCE_DIR} ${glslang_BINARY_DIR})
+set(glslang_INCLUDE_DIR "${glslang_SOURCE_DIR}")
+
 foreach(compiler_flag ${compiler_flags})
   if (MSVC)
     # /Wn -> /W4 (Warning Level)
@@ -156,6 +167,7 @@ add_library(bksge STATIC ${bksge_sources})
 include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${OPENGL_INCLUDE_DIR})
 include_directories(${VulkanHeaders_INCLUDE_DIR})
+include_directories(${glslang_INCLUDE_DIR})
 
 target_link_libraries(bksge ${OPENGL_LIBRARIES})
 link_directories("${Vulkan-Loader_BINARY_DIR}/loader")
@@ -166,6 +178,8 @@ if(WIN32)
 else()
   target_link_libraries(bksge vulkan)
 endif()
+add_dependencies(bksge glslang)
+target_link_libraries(bksge glslang SPIRV)
 
 if(MINGW)
   target_link_libraries(bksge -lopengl32 -ld3d11 -ld3dcompiler -ldinput8 -ldxguid)

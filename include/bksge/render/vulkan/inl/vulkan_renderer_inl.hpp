@@ -624,14 +624,24 @@ VulkanRenderer::VRender(
 	{
 		std::vector<::VkDynamicState> dynamic_state_enables;
 
+		::VkVertexInputBindingDescription vi_binding;
+		vi_binding.binding = 0;
+		vi_binding.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+		vi_binding.stride = sizeof(float) * 3;
+
+		::VkVertexInputAttributeDescription vi_attribs[1];
+		vi_attribs[0].binding = 0;
+		vi_attribs[0].location = 0;
+		vi_attribs[0].format = VK_FORMAT_R32G32B32_SFLOAT;
+
 		vk::PipelineVertexInputStateCreateInfo vertex_input_state_ci;
 		//if (include_vi)
-		//{
-		//	vertex_input_state_ci.vertexBindingDescriptionCount = 1;
-		//	vertex_input_state_ci.pVertexBindingDescriptions = &info.vi_binding;
-		//	vertex_input_state_ci.vertexAttributeDescriptionCount = 2;
-		//	vertex_input_state_ci.pVertexAttributeDescriptions = info.vi_attribs;
-		//}
+		{
+			vertex_input_state_ci.vertexBindingDescriptionCount = 1;
+			vertex_input_state_ci.pVertexBindingDescriptions = &vi_binding;
+			vertex_input_state_ci.vertexAttributeDescriptionCount = 1;
+			vertex_input_state_ci.pVertexAttributeDescriptions = vi_attribs;
+		}
 
 		vk::PipelineInputAssemblyStateCreateInfo input_assembly_state_ci;
 		input_assembly_state_ci.primitiveRestartEnable = VK_FALSE;
