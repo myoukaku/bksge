@@ -119,8 +119,8 @@ std::size_t GetMipmappedSizeInBytes(
 			break;
 		}
 
-		w = std::max(w, 1u);
-		h = std::max(h, 1u);
+		w = (std::max)(w, 1u);
+		h = (std::max)(h, 1u);
 		--mipmap_level;
 	}
 

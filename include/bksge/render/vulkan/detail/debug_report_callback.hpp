@@ -9,8 +9,9 @@
 #ifndef BKSGE_RENDER_VULKAN_DETAIL_DEBUG_REPORT_CALLBACK_HPP
 #define BKSGE_RENDER_VULKAN_DETAIL_DEBUG_REPORT_CALLBACK_HPP
 
-#include <bksge/render/vulkan/detail/vulkan.hpp>
-#include <bksge/render/vulkan/detail/instance.hpp>
+#include <bksge/render/vulkan/detail/fwd/debug_report_callback_fwd.hpp>
+#include <bksge/render/vulkan/detail/fwd/instance_fwd.hpp>
+#include <bksge/render/vulkan/detail/vulkan_h.hpp>
 #include <memory>
 
 namespace bksge
@@ -25,14 +26,7 @@ namespace vk
 struct DebugReportCallbackCreateInfoEXT
 	: public ::VkDebugReportCallbackCreateInfoEXT
 {
-	DebugReportCallbackCreateInfoEXT(void)
-	{
-		sType       = VK_STRUCTURE_TYPE_DEBUG_REPORT_CALLBACK_CREATE_INFO_EXT;
-		pNext       = nullptr;
-		flags       = 0;
-		pfnCallback = nullptr;
-		pUserData   = nullptr;
-	}
+	DebugReportCallbackCreateInfoEXT(void);
 };
 
 class DebugReportCallbackEXT
@@ -40,17 +34,9 @@ class DebugReportCallbackEXT
 public:
 	explicit DebugReportCallbackEXT(
 		std::shared_ptr<vk::Instance> const& instance,
-		vk::DebugReportCallbackCreateInfoEXT const& info)
-		: m_callback(VK_NULL_HANDLE)
-		, m_instance(instance)
-	{
-		vk::CreateDebugReportCallbackEXT(*m_instance, &info, nullptr, &m_callback);
-	}
+		vk::DebugReportCallbackCreateInfoEXT const& info);
 
-	~DebugReportCallbackEXT()
-	{
-		vk::DestroyDebugReportCallbackEXT(*m_instance, m_callback, nullptr);
-	}
+	~DebugReportCallbackEXT();
 
 private:
 	::VkDebugReportCallbackEXT		m_callback;
@@ -62,5 +48,10 @@ private:
 }	// namespace render
 
 }	// namespace bksge
+
+#include <bksge/config.hpp>
+#if defined(BKSGE_HEADER_ONLY)
+#include <bksge/render/vulkan/detail/inl/debug_report_callback_inl.hpp>
+#endif
 
 #endif // BKSGE_RENDER_VULKAN_DETAIL_DEBUG_REPORT_CALLBACK_HPP

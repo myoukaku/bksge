@@ -9,8 +9,10 @@
 #ifndef BKSGE_RENDER_VULKAN_DETAIL_DEVICE_HPP
 #define BKSGE_RENDER_VULKAN_DETAIL_DEVICE_HPP
 
-#include <bksge/render/vulkan/detail/vulkan.hpp>
-#include <bksge/render/vulkan/detail/physical_device.hpp>
+#include <bksge/render/vulkan/detail/fwd/device_fwd.hpp>
+#include <bksge/render/vulkan/detail/fwd/physical_device_fwd.hpp>
+#include <bksge/render/vulkan/detail/vulkan_h.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -23,31 +25,12 @@ namespace vk
 
 struct DeviceQueueCreateInfo : public ::VkDeviceQueueCreateInfo
 {
-	DeviceQueueCreateInfo(void)
-	{
-		sType            = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
-		pNext            = nullptr;
-		flags            = 0;
-		queueFamilyIndex = 0;
-		queueCount       = 0;
-		pQueuePriorities = nullptr;
-	}
+	DeviceQueueCreateInfo(void);
 };
 
 struct DeviceCreateInfo : public ::VkDeviceCreateInfo
 {
-	DeviceCreateInfo(void)
-	{
-		sType                   = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
-		pNext                   = nullptr;
-		queueCreateInfoCount    = 0;
-		pQueueCreateInfos       = nullptr;
-		enabledLayerCount       = 0;
-		ppEnabledLayerNames     = nullptr;
-		enabledExtensionCount   = 0;
-		ppEnabledExtensionNames = nullptr;
-		pEnabledFeatures        = nullptr;
-	}
+	DeviceCreateInfo(void);
 
 	template <std::size_t N>
 	void SetEnabledLayers(char const* (&layers)[N])
@@ -67,21 +50,13 @@ struct DeviceCreateInfo : public ::VkDeviceCreateInfo
 class Device
 {
 public:
-	explicit Device(vk::PhysicalDevice const& gpu, vk::DeviceCreateInfo const& info)
-		: m_device(VK_NULL_HANDLE)
-	{
-		vk::CreateDevice(gpu, &info, nullptr, &m_device);
-	}
+	explicit Device(
+		vk::PhysicalDevice const& gpu,
+		vk::DeviceCreateInfo const& info);
 
-	~Device()
-	{
-		vk::DestroyDevice(m_device, nullptr);
-	}
+	~Device();
 
-	operator ::VkDevice() const
-	{
-		return m_device;
-	}
+	operator ::VkDevice() const;
 
 private:
 	::VkDevice m_device;
@@ -92,5 +67,10 @@ private:
 }	// namespace render
 
 }	// namespace bksge
+
+#include <bksge/config.hpp>
+#if defined(BKSGE_HEADER_ONLY)
+#include <bksge/render/vulkan/detail/inl/device_inl.hpp>
+#endif
 
 #endif // BKSGE_RENDER_VULKAN_DETAIL_DEVICE_HPP

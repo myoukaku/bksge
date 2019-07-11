@@ -237,7 +237,7 @@ VulkanRenderer::VSetRenderTarget(
 #define NUM_SCISSORS NUM_VIEWPORTS
 
 	// Init Surface
-	m_surface = bksge::make_unique<vk::Surface>(m_instance, window);
+	m_surface = bksge::make_unique<vk::SurfaceKHR>(m_instance, window);
 
 	// Init Swapchain
 	{
@@ -315,7 +315,7 @@ VulkanRenderer::VSetRenderTarget(
 		//	swapchain_ci.pQueueFamilyIndices = queueFamilyIndices;
 		//}
 
-		m_swapchain = bksge::make_unique<vk::Swapchain>(m_device, swapchain_ci);
+		m_swapchain = bksge::make_unique<vk::SwapchainKHR>(m_device, swapchain_ci);
 	}
 
 	// Init Image Views
@@ -521,14 +521,14 @@ VulkanRenderer::VBegin(void)
 	// BeginRenderPass
 	{
 		::VkClearValue const clear_value[1]
-		{
+		{{
 			{{
 				m_clear_color.r(),
 				m_clear_color.g(),
 				m_clear_color.b(),
 				m_clear_color.a(),
 			}}
-		};
+		}};
 
 		vk::RenderPassBeginInfo rpinfo{};
 		rpinfo.framebuffer       = *m_framebuffers[m_current_frame_index];

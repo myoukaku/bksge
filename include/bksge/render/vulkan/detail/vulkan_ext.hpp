@@ -9,7 +9,8 @@
 #ifndef BKSGE_RENDER_VULKAN_DETAIL_VULKAN_EXT_HPP
 #define BKSGE_RENDER_VULKAN_DETAIL_VULKAN_EXT_HPP
 
-#include <bksge/render/vulkan/detail/vulkan.hpp>
+#include <bksge/render/vulkan/detail/vulkan_h.hpp>
+#include <bksge/render/vulkan/detail/check_error.hpp>
 
 namespace bksge
 {

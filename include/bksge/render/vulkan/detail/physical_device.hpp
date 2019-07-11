@@ -9,7 +9,9 @@
 #ifndef BKSGE_RENDER_VULKAN_DETAIL_PHYSICAL_DEVICE_HPP
 #define BKSGE_RENDER_VULKAN_DETAIL_PHYSICAL_DEVICE_HPP
 
-#include <bksge/render/vulkan/detail/vulkan.hpp>
+#include <bksge/render/vulkan/detail/fwd/physical_device_fwd.hpp>
+#include <bksge/render/vulkan/detail/vulkan_h.hpp>
+#include <vector>
 
 namespace bksge
 {
@@ -23,49 +25,15 @@ namespace vk
 class PhysicalDevice
 {
 public:
-	explicit PhysicalDevice(::VkPhysicalDevice const& physical_device)
-		: m_physical_device(physical_device)
-	{
-	}
+	explicit PhysicalDevice(::VkPhysicalDevice const& physical_device);
 
-	~PhysicalDevice()
-	{
-	}
+	~PhysicalDevice();
 
-	std::vector<::VkQueueFamilyProperties> GetQueueFamilyProperties()
-	{
-		std::uint32_t queue_family_count = 0;
-		vk::GetPhysicalDeviceQueueFamilyProperties(
-			m_physical_device,
-			&queue_family_count,
-			nullptr);
+	std::vector<::VkQueueFamilyProperties> GetQueueFamilyProperties();
 
-		std::vector<::VkQueueFamilyProperties> queue_family_properties;
-		queue_family_properties.resize(queue_family_count);
-		vk::GetPhysicalDeviceQueueFamilyProperties(
-			m_physical_device,
-			&queue_family_count,
-			queue_family_properties.data());
+	std::vector<::VkSurfaceFormatKHR> GetSurfaceFormats(::VkSurfaceKHR surface);
 
-		return queue_family_properties;
-	}
-
-	std::vector<::VkSurfaceFormatKHR> GetSurfaceFormats(::VkSurfaceKHR surface)
-	{
-		std::uint32_t count;
-		vk::GetPhysicalDeviceSurfaceFormatsKHR(m_physical_device, surface, &count, nullptr);
-
-		std::vector<::VkSurfaceFormatKHR> formats;
-		formats.resize(count);
-		vk::GetPhysicalDeviceSurfaceFormatsKHR(m_physical_device, surface, &count, formats.data());
-
-		return formats;
-	}
-
-	operator ::VkPhysicalDevice() const
-	{
-		return m_physical_device;
-	}
+	operator ::VkPhysicalDevice() const;
 
 private:
 	::VkPhysicalDevice m_physical_device;
@@ -76,5 +44,10 @@ private:
 }	// namespace render
 
 }	// namespace bksge
+
+#include <bksge/config.hpp>
+#if defined(BKSGE_HEADER_ONLY)
+#include <bksge/render/vulkan/detail/inl/physical_device_inl.hpp>
+#endif
 
 #endif // BKSGE_RENDER_VULKAN_DETAIL_PHYSICAL_DEVICE_HPP

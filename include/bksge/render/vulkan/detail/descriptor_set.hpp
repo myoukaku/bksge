@@ -9,8 +9,10 @@
 #ifndef BKSGE_RENDER_VULKAN_DETAIL_DESCRIPTOR_SET_HPP
 #define BKSGE_RENDER_VULKAN_DETAIL_DESCRIPTOR_SET_HPP
 
-#include <bksge/render/vulkan/detail/vulkan.hpp>
-#include <bksge/render/vulkan/detail/device.hpp>
+#include <bksge/render/vulkan/detail/fwd/descriptor_pool_fwd.hpp>
+#include <bksge/render/vulkan/detail/fwd/device_fwd.hpp>
+#include <bksge/render/vulkan/detail/vulkan_h.hpp>
+#include <cstdint>
 #include <vector>
 #include <memory>
 
@@ -25,14 +27,7 @@ namespace vk
 
 struct DescriptorSetAllocateInfo : public ::VkDescriptorSetAllocateInfo
 {
-	DescriptorSetAllocateInfo(void)
-	{
-		sType              = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
-		pNext              = nullptr;
-		descriptorPool     = VK_NULL_HANDLE;
-		descriptorSetCount = 0;
-		pSetLayouts        = nullptr;
-	}
+	DescriptorSetAllocateInfo(void);
 };
 
 class DescriptorSet
@@ -41,17 +36,9 @@ public:
 	explicit DescriptorSet(
 		std::shared_ptr<vk::Device> const& device,
 		vk::DescriptorSetAllocateInfo const& info,
-		std::uint32_t num)
-		: m_device(device)
-	{
-		m_descriptor_sets.resize(num);
-		vk::AllocateDescriptorSets(*m_device, &info, m_descriptor_sets.data());
-	}
+		std::uint32_t num);
 
-	~DescriptorSet()
-	{
-//		vk::FreeDescriptorSets(*m_device, *m_descriptor_pool, m_descriptor_sets.size(), m_descriptor_sets.data());
-	}
+	~DescriptorSet();
 
 private:
 	std::vector<::VkDescriptorSet>	m_descriptor_sets;
@@ -63,5 +50,10 @@ private:
 }	// namespace render
 
 }	// namespace bksge
+
+#include <bksge/config.hpp>
+#if defined(BKSGE_HEADER_ONLY)
+#include <bksge/render/vulkan/detail/inl/descriptor_set_inl.hpp>
+#endif
 
 #endif // BKSGE_RENDER_VULKAN_DETAIL_DESCRIPTOR_SET_HPP

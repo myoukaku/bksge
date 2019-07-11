@@ -9,8 +9,11 @@
 #ifndef BKSGE_RENDER_VULKAN_DETAIL_INSTANCE_HPP
 #define BKSGE_RENDER_VULKAN_DETAIL_INSTANCE_HPP
 
-#include <bksge/render/vulkan/detail/vulkan.hpp>
+#include <bksge/render/vulkan/detail/fwd/instance_fwd.hpp>
 #include <bksge/render/vulkan/detail/physical_device.hpp>
+#include <bksge/render/vulkan/detail/vulkan_h.hpp>
+#include <cstddef>
+#include <vector>
 
 namespace bksge
 {
@@ -23,31 +26,12 @@ namespace vk
 
 struct ApplicationInfo : public ::VkApplicationInfo
 {
-	ApplicationInfo(void)
-	{
-		sType              = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-		pNext              = nullptr;
-		pApplicationName   = nullptr;
-		applicationVersion = 0;
-		pEngineName        = nullptr;
-		engineVersion      = 0;
-		apiVersion         = 0;
-	}
+	ApplicationInfo(void);
 };
 
 struct InstanceCreateInfo : public ::VkInstanceCreateInfo
 {
-	InstanceCreateInfo(void)
-	{
-		sType                   = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-		pNext                   = nullptr;
-		flags                   = 0;
-		pApplicationInfo        = nullptr;
-		enabledLayerCount       = 0;
-		ppEnabledLayerNames     = nullptr;
-		enabledExtensionCount   = 0;
-		ppEnabledExtensionNames = nullptr;
-	}
+	InstanceCreateInfo(void);
 
 	template <std::size_t N>
 	void SetEnabledLayers(char const* (&layers)[N])
@@ -67,33 +51,13 @@ struct InstanceCreateInfo : public ::VkInstanceCreateInfo
 class Instance
 {
 public:
-	explicit Instance(vk::InstanceCreateInfo const& info)
-		: m_instance(VK_NULL_HANDLE)
-	{
-		vk::CreateInstance(&info, nullptr, &m_instance);
-	}
+	explicit Instance(vk::InstanceCreateInfo const& info);
 
-	~Instance()
-	{
-		vk::DestroyInstance(m_instance, nullptr);
-	}
+	~Instance();
 
-	std::vector<vk::PhysicalDevice> EnumeratePhysicalDevices(void) const
-	{
-		std::uint32_t gpu_count = 0;
-		vk::EnumeratePhysicalDevices(m_instance, &gpu_count, nullptr);
-		std::vector<::VkPhysicalDevice> gpus;
-		gpus.resize(gpu_count);
-		vk::EnumeratePhysicalDevices(m_instance, &gpu_count, gpus.data());
+	std::vector<vk::PhysicalDevice> EnumeratePhysicalDevices(void) const;
 
-		std::vector<vk::PhysicalDevice> result(gpus.begin(), gpus.end());
-		return result;
-	}
-
-	operator ::VkInstance() const
-	{
-		return m_instance;
-	}
+	operator ::VkInstance() const;
 
 private:
 	::VkInstance m_instance;
@@ -104,5 +68,10 @@ private:
 }	// namespace render
 
 }	// namespace bksge
+
+#include <bksge/config.hpp>
+#if defined(BKSGE_HEADER_ONLY)
+#include <bksge/render/vulkan/detail/inl/instance_inl.hpp>
+#endif
 
 #endif // BKSGE_RENDER_VULKAN_DETAIL_INSTANCE_HPP

@@ -11,24 +11,24 @@
 
 #include <bksge/render/renderer.hpp>
 #include <bksge/window/fwd/window_fwd.hpp>
-#include <bksge/render/vulkan/detail/instance.hpp>
+#include <bksge/render/vulkan/detail/fwd/instance_fwd.hpp>
 #include <bksge/render/vulkan/detail/physical_device.hpp>
-#include <bksge/render/vulkan/detail/device.hpp>
-#include <bksge/render/vulkan/detail/command_pool.hpp>
-#include <bksge/render/vulkan/detail/command_buffer.hpp>
-#include <bksge/render/vulkan/detail/debug_report_callback.hpp>
+#include <bksge/render/vulkan/detail/fwd/device_fwd.hpp>
+#include <bksge/render/vulkan/detail/fwd/command_pool_fwd.hpp>
+#include <bksge/render/vulkan/detail/fwd/command_buffer_fwd.hpp>
+#include <bksge/render/vulkan/detail/fwd/debug_report_callback_fwd.hpp>
 #include <bksge/render/vulkan/detail/surface.hpp>
-#include <bksge/render/vulkan/detail/fence.hpp>
-#include <bksge/render/vulkan/detail/swapchain.hpp>
-#include <bksge/render/vulkan/detail/image_view.hpp>
-#include <bksge/render/vulkan/detail/descriptor_set_layout.hpp>
-#include <bksge/render/vulkan/detail/pipeline_layout.hpp>
-#include <bksge/render/vulkan/detail/render_pass.hpp>
-#include <bksge/render/vulkan/detail/framebuffer.hpp>
-#include <bksge/render/vulkan/detail/descriptor_pool.hpp>
-#include <bksge/render/vulkan/detail/descriptor_set.hpp>
-#include <bksge/render/vulkan/detail/pipeline_cache.hpp>
-#include <bksge/render/vulkan/detail/graphics_pipeline.hpp>
+#include <bksge/render/vulkan/detail/fwd/fence_fwd.hpp>
+#include <bksge/render/vulkan/detail/fwd/swapchain_fwd.hpp>
+#include <bksge/render/vulkan/detail/fwd/image_view_fwd.hpp>
+#include <bksge/render/vulkan/detail/fwd/descriptor_set_layout_fwd.hpp>
+#include <bksge/render/vulkan/detail/fwd/pipeline_layout_fwd.hpp>
+#include <bksge/render/vulkan/detail/fwd/render_pass_fwd.hpp>
+#include <bksge/render/vulkan/detail/fwd/framebuffer_fwd.hpp>
+#include <bksge/render/vulkan/detail/fwd/descriptor_pool_fwd.hpp>
+#include <bksge/render/vulkan/detail/fwd/descriptor_set_fwd.hpp>
+#include <bksge/render/vulkan/detail/fwd/pipeline_cache_fwd.hpp>
+#include <bksge/render/vulkan/detail/fwd/graphics_pipeline_fwd.hpp>
 #include <bksge/render/vulkan/detail/shader_stage.hpp>
 #include <memory>
 #include <vector>
@@ -68,8 +68,8 @@ private:
 	std::unique_ptr<vk::Fence>						m_fence;
 	std::unique_ptr<vk::CommandPool>				m_command_pool;
 	std::unique_ptr<vk::CommandBuffer>				m_command_buffer;
-	std::unique_ptr<vk::Surface>					m_surface;
-	std::unique_ptr<vk::Swapchain>					m_swapchain;
+	std::unique_ptr<vk::SurfaceKHR>					m_surface;
+	std::unique_ptr<vk::SwapchainKHR>				m_swapchain;
 	std::vector<std::shared_ptr<vk::ImageView>>		m_image_views;
 	std::unique_ptr<vk::DescriptorSetLayout>		m_descriptor_set_layout;
 	std::unique_ptr<vk::PipelineLayout>				m_pipeline_layout;

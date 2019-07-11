@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	image_view.hpp
  *
- *	@brief	Surface クラスの定義
+ *	@brief	ImageView クラスの定義
  *
  *	@author	myoukaku
  */
@@ -9,8 +9,9 @@
 #ifndef BKSGE_RENDER_VULKAN_DETAIL_IMAGE_VIEW_HPP
 #define BKSGE_RENDER_VULKAN_DETAIL_IMAGE_VIEW_HPP
 
-#include <bksge/render/vulkan/detail/vulkan.hpp>
-#include <bksge/render/vulkan/detail/instance.hpp>
+#include <bksge/render/vulkan/detail/fwd/image_view_fwd.hpp>
+#include <bksge/render/vulkan/detail/fwd/device_fwd.hpp>
+#include <bksge/render/vulkan/detail/vulkan_h.hpp>
 #include <memory>
 
 namespace bksge
@@ -24,24 +25,7 @@ namespace vk
 
 struct ImageViewCreateInfo : public ::VkImageViewCreateInfo
 {
-	ImageViewCreateInfo(void)
-	{
-		sType                           = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-		pNext                           = nullptr;
-		flags                           = 0;
-		image                           = VK_NULL_HANDLE;
-		viewType                        = VK_IMAGE_VIEW_TYPE_2D;
-		format                          = VK_FORMAT_UNDEFINED;
-		components.r                    = VK_COMPONENT_SWIZZLE_IDENTITY;
-		components.g                    = VK_COMPONENT_SWIZZLE_IDENTITY;
-		components.b                    = VK_COMPONENT_SWIZZLE_IDENTITY;
-		components.a                    = VK_COMPONENT_SWIZZLE_IDENTITY;
-		subresourceRange.aspectMask     = 0;
-		subresourceRange.baseMipLevel   = 0;
-		subresourceRange.levelCount     = 0;
-		subresourceRange.baseArrayLayer = 0;
-		subresourceRange.layerCount     = 0;
-	}
+	ImageViewCreateInfo(void);
 };
 
 class ImageView
@@ -49,22 +33,11 @@ class ImageView
 public:
 	explicit ImageView(
 		std::shared_ptr<vk::Device> const& device,
-		vk::ImageViewCreateInfo const& info)
-		: m_image_view(VK_NULL_HANDLE)
-		, m_device(device)
-	{
-		vk::CreateImageView(*m_device, &info, nullptr, &m_image_view);
-	}
+		vk::ImageViewCreateInfo const& info);
 
-	~ImageView()
-	{
-		vk::DestroyImageView(*m_device, m_image_view, nullptr);
-	}
+	~ImageView();
 
-	operator ::VkImageView() const
-	{
-		return m_image_view;
-	}
+	operator ::VkImageView() const;
 
 private:
 	::VkImageView				m_image_view;
@@ -76,5 +49,10 @@ private:
 }	// namespace render
 
 }	// namespace bksge
+
+#include <bksge/config.hpp>
+#if defined(BKSGE_HEADER_ONLY)
+#include <bksge/render/vulkan/detail/inl/image_view_inl.hpp>
+#endif
 
 #endif // BKSGE_RENDER_VULKAN_DETAIL_IMAGE_VIEW_HPP

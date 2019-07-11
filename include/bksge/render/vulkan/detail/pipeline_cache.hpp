@@ -9,8 +9,9 @@
 #ifndef BKSGE_RENDER_VULKAN_DETAIL_PIPELINE_CACHE_HPP
 #define BKSGE_RENDER_VULKAN_DETAIL_PIPELINE_CACHE_HPP
 
-#include <bksge/render/vulkan/detail/vulkan.hpp>
-#include <bksge/render/vulkan/detail/device.hpp>
+#include <bksge/render/vulkan/detail/fwd/pipeline_cache_fwd.hpp>
+#include <bksge/render/vulkan/detail/fwd/device_fwd.hpp>
+#include <bksge/render/vulkan/detail/vulkan_h.hpp>
 #include <memory>
 
 namespace bksge
@@ -24,14 +25,7 @@ namespace vk
 
 struct PipelineCacheCreateInfo : public ::VkPipelineCacheCreateInfo
 {
-	PipelineCacheCreateInfo(void)
-	{
-		sType           = VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO;
-		pNext           = nullptr;
-		flags           = 0;
-		initialDataSize = 0;
-		pInitialData    = nullptr;
-	}
+	PipelineCacheCreateInfo(void);
 };
 
 class PipelineCache
@@ -39,22 +33,11 @@ class PipelineCache
 public:
 	explicit PipelineCache(
 		std::shared_ptr<vk::Device> const& device,
-		vk::PipelineCacheCreateInfo const& info)
-		: m_pipeline_cache(VK_NULL_HANDLE)
-		, m_device(device)
-	{
-		vk::CreatePipelineCache(*m_device, &info, nullptr, &m_pipeline_cache);
-	}
+		vk::PipelineCacheCreateInfo const& info);
 
-	~PipelineCache()
-	{
-		vk::DestroyPipelineCache(*m_device, m_pipeline_cache, nullptr);
-	}
+	~PipelineCache();
 
-	operator ::VkPipelineCache() const
-	{
-		return m_pipeline_cache;
-	}
+	operator ::VkPipelineCache() const;
 
 private:
 	::VkPipelineCache			m_pipeline_cache;
@@ -66,5 +49,10 @@ private:
 }	// namespace render
 
 }	// namespace bksge
+
+#include <bksge/config.hpp>
+#if defined(BKSGE_HEADER_ONLY)
+#include <bksge/render/vulkan/detail/inl/pipeline_cache_inl.hpp>
+#endif
 
 #endif // BKSGE_RENDER_VULKAN_DETAIL_PIPELINE_CACHE_HPP

@@ -9,8 +9,9 @@
 #ifndef BKSGE_RENDER_VULKAN_DETAIL_COMMAND_POOL_HPP
 #define BKSGE_RENDER_VULKAN_DETAIL_COMMAND_POOL_HPP
 
-#include <bksge/render/vulkan/detail/vulkan.hpp>
-#include <bksge/render/vulkan/detail/device.hpp>
+#include <bksge/render/vulkan/detail/fwd/command_pool_fwd.hpp>
+#include <bksge/render/vulkan/detail/fwd/device_fwd.hpp>
+#include <bksge/render/vulkan/detail/vulkan_h.hpp>
 #include <memory>
 
 namespace bksge
@@ -24,13 +25,7 @@ namespace vk
 
 struct CommandPoolCreateInfo : public ::VkCommandPoolCreateInfo
 {
-	CommandPoolCreateInfo(void)
-	{
-		sType            = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
-		pNext            = nullptr;
-		flags            = 0;
-		queueFamilyIndex = 0;
-	}
+	CommandPoolCreateInfo(void);
 };
 
 class CommandPool
@@ -38,22 +33,11 @@ class CommandPool
 public:
 	explicit CommandPool(
 		std::shared_ptr<vk::Device> const& device,
-		vk::CommandPoolCreateInfo const& info)
-		: m_command_pool(VK_NULL_HANDLE)
-		, m_device(device)
-	{
-		vk::CreateCommandPool(*m_device, &info, nullptr, &m_command_pool);
-	}
+		vk::CommandPoolCreateInfo const& info);
 
-	~CommandPool()
-	{
-		vk::DestroyCommandPool(*m_device, m_command_pool, nullptr);
-	}
+	~CommandPool();
 
-	operator ::VkCommandPool() const
-	{
-		return m_command_pool;
-	}
+	operator ::VkCommandPool() const;
 
 private:
 	::VkCommandPool				m_command_pool;
@@ -65,5 +49,10 @@ private:
 }	// namespace render
 
 }	// namespace bksge
+
+#include <bksge/config.hpp>
+#if defined(BKSGE_HEADER_ONLY)
+#include <bksge/render/vulkan/detail/inl/command_pool_inl.hpp>
+#endif
 
 #endif // BKSGE_RENDER_VULKAN_DETAIL_COMMAND_POOL_HPP

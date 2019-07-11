@@ -9,8 +9,9 @@
 #ifndef BKSGE_RENDER_VULKAN_DETAIL_FENCE_HPP
 #define BKSGE_RENDER_VULKAN_DETAIL_FENCE_HPP
 
-#include <bksge/render/vulkan/detail/vulkan.hpp>
-#include <bksge/render/vulkan/detail/device.hpp>
+#include <bksge/render/vulkan/detail/fwd/fence_fwd.hpp>
+#include <bksge/render/vulkan/detail/fwd/device_fwd.hpp>
+#include <bksge/render/vulkan/detail/vulkan_h.hpp>
 #include <memory>
 
 namespace bksge
@@ -24,12 +25,7 @@ namespace vk
 
 struct FenceCreateInfo : public ::VkFenceCreateInfo
 {
-	FenceCreateInfo(void)
-	{
-		sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
-		pNext = nullptr;
-		flags = 0;
-	}
+	FenceCreateInfo(void);
 };
 
 class Fence
@@ -37,27 +33,13 @@ class Fence
 public:
 	explicit Fence(
 		std::shared_ptr<vk::Device> const& device,
-		vk::FenceCreateInfo const& info)
-		: m_fence(VK_NULL_HANDLE)
-		, m_device(device)
-	{
-		vk::CreateFence(*m_device, &info, nullptr, &m_fence);
-	}
+		vk::FenceCreateInfo const& info);
 
-	~Fence()
-	{
-		vk::DestroyFence(*m_device, m_fence, nullptr);
-	}
+	~Fence();
 
-	operator ::VkFence() const
-	{
-		return m_fence;
-	}
+	operator ::VkFence() const;
 
-	::VkFence const* GetAddress() const
-	{
-		return &m_fence;
-	}
+	::VkFence const* GetAddress() const;
 
 private:
 	::VkFence					m_fence;
@@ -69,5 +51,10 @@ private:
 }	// namespace render
 
 }	// namespace bksge
+
+#include <bksge/config.hpp>
+#if defined(BKSGE_HEADER_ONLY)
+#include <bksge/render/vulkan/detail/inl/fence_inl.hpp>
+#endif
 
 #endif // BKSGE_RENDER_VULKAN_DETAIL_FENCE_HPP

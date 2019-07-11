@@ -9,8 +9,9 @@
 #ifndef BKSGE_RENDER_VULKAN_DETAIL_RENDER_PASS_HPP
 #define BKSGE_RENDER_VULKAN_DETAIL_RENDER_PASS_HPP
 
-#include <bksge/render/vulkan/detail/vulkan.hpp>
-#include <bksge/render/vulkan/detail/device.hpp>
+#include <bksge/render/vulkan/detail/fwd/render_pass_fwd.hpp>
+#include <bksge/render/vulkan/detail/fwd/device_fwd.hpp>
+#include <bksge/render/vulkan/detail/vulkan_h.hpp>
 #include <memory>
 
 namespace bksge
@@ -24,32 +25,12 @@ namespace vk
 
 struct RenderPassBeginInfo : public ::VkRenderPassBeginInfo
 {
-	RenderPassBeginInfo(void)
-	{
-		sType           = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-		pNext           = nullptr;
-		renderPass      = VK_NULL_HANDLE;
-		framebuffer     = VK_NULL_HANDLE;
-		renderArea      = {{0,0},{0,0}};
-		clearValueCount = 0;
-		pClearValues    = nullptr;
-	}
+	RenderPassBeginInfo(void);
 };
 
 struct RenderPassCreateInfo : public ::VkRenderPassCreateInfo
 {
-	RenderPassCreateInfo(void)
-	{
-		sType           = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
-		pNext           = nullptr;
-		flags           = 0;
-		attachmentCount = 0;
-		pAttachments    = nullptr;
-		subpassCount    = 0;
-		pSubpasses      = nullptr;
-		dependencyCount = 0;
-		pDependencies   = nullptr;
-	}
+	RenderPassCreateInfo(void);
 };
 
 class RenderPass
@@ -57,22 +38,11 @@ class RenderPass
 public:
 	explicit RenderPass(
 		std::shared_ptr<vk::Device> const& device,
-		vk::RenderPassCreateInfo const& info)
-		: m_render_pass(VK_NULL_HANDLE)
-		, m_device(device)
-	{
-		vk::CreateRenderPass(*m_device, &info, nullptr, &m_render_pass);
-	}
+		vk::RenderPassCreateInfo const& info);
 
-	~RenderPass()
-	{
-		vk::DestroyRenderPass(*m_device, m_render_pass, nullptr);
-	}
+	~RenderPass();
 
-	operator ::VkRenderPass() const
-	{
-		return m_render_pass;
-	}
+	operator ::VkRenderPass() const;
 
 private:
 	::VkRenderPass				m_render_pass;
@@ -84,5 +54,10 @@ private:
 }	// namespace render
 
 }	// namespace bksge
+
+#include <bksge/config.hpp>
+#if defined(BKSGE_HEADER_ONLY)
+#include <bksge/render/vulkan/detail/inl/render_pass_inl.hpp>
+#endif
 
 #endif // BKSGE_RENDER_VULKAN_DETAIL_RENDER_PASS_HPP
