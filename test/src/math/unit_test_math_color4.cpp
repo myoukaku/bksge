@@ -154,8 +154,6 @@ TYPED_TEST(MathColor4Test, CopyConstructTest)
 
 	BKSGE_CONSTEXPR_OR_CONST Color4  v1{1, 2, 3, 4};
 	BKSGE_CONSTEXPR_OR_CONST Color4  v2{v1};
-	BKSGE_CONSTEXPR_OR_CONST Color4i v3{v2};
-	BKSGE_CONSTEXPR_OR_CONST Color4f v4{v2};
 
 	BKSGE_CONSTEXPR_EXPECT_EQ(1, v1[0]);
 	BKSGE_CONSTEXPR_EXPECT_EQ(2, v1[1]);
@@ -165,14 +163,47 @@ TYPED_TEST(MathColor4Test, CopyConstructTest)
 	BKSGE_CONSTEXPR_EXPECT_EQ(2, v2[1]);
 	BKSGE_CONSTEXPR_EXPECT_EQ(3, v2[2]);
 	BKSGE_CONSTEXPR_EXPECT_EQ(4, v2[3]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(1, v3[0]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(2, v3[1]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(3, v3[2]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(4, v3[3]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(1, v4[0]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(2, v4[1]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(3, v4[2]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(4, v4[3]);
+}
+
+TYPED_TEST(MathColor4FloatTest, ConvertConstructTest)
+{
+	using T = TypeParam;
+	using Color4 = bksge::math::Color4<T>;
+	using Color4u8 = bksge::math::Color4<std::uint8_t>;
+
+	BKSGE_CONSTEXPR double error = 0.0000001;
+	{
+		BKSGE_CONSTEXPR_OR_CONST Color4u8 v1(0, 128, 255, 160);
+		BKSGE_CONSTEXPR_OR_CONST Color4   v2(v1);
+		BKSGE_CONSTEXPR_EXPECT_NEAR(0.00000000000000000, (double)v2[0], error);
+		BKSGE_CONSTEXPR_EXPECT_NEAR(0.50196078431372548, (double)v2[1], error);
+		BKSGE_CONSTEXPR_EXPECT_NEAR(1.00000000000000000, (double)v2[2], error);
+		BKSGE_CONSTEXPR_EXPECT_NEAR(0.62745100259780884, (double)v2[3], error);
+	}
+	{
+		BKSGE_CONSTEXPR_OR_CONST Color4u8 v1(32, 64, 192, 225);
+		BKSGE_CONSTEXPR_OR_CONST Color4   v2(v1);
+		BKSGE_CONSTEXPR_EXPECT_NEAR(0.12549019607843137, (double)v2[0], error);
+		BKSGE_CONSTEXPR_EXPECT_NEAR(0.25098039215686274, (double)v2[1], error);
+		BKSGE_CONSTEXPR_EXPECT_NEAR(0.75294117647058822, (double)v2[2], error);
+		BKSGE_CONSTEXPR_EXPECT_NEAR(0.88235294818878174, (double)v2[3], error);
+	}
+	{
+		BKSGE_CONSTEXPR_OR_CONST Color4   v1(0.5, 1.0, 0.0, 0.25);
+		BKSGE_CONSTEXPR_OR_CONST Color4u8 v2(v1);
+		BKSGE_CONSTEXPR_EXPECT_EQ(127, v2[0]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(255, v2[1]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(  0, v2[2]);
+		BKSGE_CONSTEXPR_EXPECT_EQ( 63, v2[3]);
+	}
+	{
+		BKSGE_CONSTEXPR_OR_CONST Color4   v1(0.25, 0.75, 0.125, 0.375);
+		BKSGE_CONSTEXPR_OR_CONST Color4u8 v2(v1);
+		BKSGE_CONSTEXPR_EXPECT_EQ( 63, v2[0]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(191, v2[1]);
+		BKSGE_CONSTEXPR_EXPECT_EQ( 31, v2[2]);
+		BKSGE_CONSTEXPR_EXPECT_EQ( 95, v2[3]);
+	}
 }
 
 BKSGE_WARNING_PUSH()
@@ -180,10 +211,12 @@ BKSGE_WARNING_PUSH()
 BKSGE_WARNING_DISABLE_CLANG("-Wself-assign-overloaded")
 #endif
 
-TYPED_TEST(MathColor4Test, CopyAssignTest)
+TYPED_TEST(MathColor4FloatTest, CopyAssignTest)
 {
 	using T = TypeParam;
 	using Color4 = bksge::math::Color4<T>;
+
+	const double error = 0.0000001;
 
 	Color4 v1(0, 1, 2, -2);
 	Color4 v2(3, 4, 5, 6);
@@ -197,27 +230,27 @@ TYPED_TEST(MathColor4Test, CopyAssignTest)
 	EXPECT_EQ( 6, v2[3]);
 
 	v1 = Color4(6, -7, 8, 9);
-	v2 = Color4i(-9, 10, 11, -12);
-	EXPECT_EQ(  6, v1[0]);
-	EXPECT_EQ( -7, v1[1]);
-	EXPECT_EQ(  8, v1[2]);
-	EXPECT_EQ(  9, v1[3]);
-	EXPECT_EQ( -9, v2[0]);
-	EXPECT_EQ( 10, v2[1]);
-	EXPECT_EQ( 11, v2[2]);
-	EXPECT_EQ(-12, v2[3]);
+	v2 = Color4i(16, 32, 64, 128);
+	EXPECT_EQ( 6, v1[0]);
+	EXPECT_EQ(-7, v1[1]);
+	EXPECT_EQ( 8, v1[2]);
+	EXPECT_EQ( 9, v1[3]);
+	EXPECT_NEAR(0.06274510174989700, (double)v2[0], error);
+	EXPECT_NEAR(0.12549019607843137, (double)v2[1], error);
+	EXPECT_NEAR(0.25098039215686274, (double)v2[2], error);
+	EXPECT_NEAR(0.50196078431372548, (double)v2[3], error);
 
 	// 自己代入
 	v1 = v1;
 	v2 = v2;
-	EXPECT_EQ(  6, v1[0]);
-	EXPECT_EQ( -7, v1[1]);
-	EXPECT_EQ(  8, v1[2]);
-	EXPECT_EQ(  9, v1[3]);
-	EXPECT_EQ( -9, v2[0]);
-	EXPECT_EQ( 10, v2[1]);
-	EXPECT_EQ( 11, v2[2]);
-	EXPECT_EQ(-12, v2[3]);
+	EXPECT_EQ( 6, v1[0]);
+	EXPECT_EQ(-7, v1[1]);
+	EXPECT_EQ( 8, v1[2]);
+	EXPECT_EQ( 9, v1[3]);
+	EXPECT_NEAR(0.06274510174989700, (double)v2[0], error);
+	EXPECT_NEAR(0.12549019607843137, (double)v2[1], error);
+	EXPECT_NEAR(0.25098039215686274, (double)v2[2], error);
+	EXPECT_NEAR(0.50196078431372548, (double)v2[3], error);
 
 	// 多重代入
 	v1 = v2 = Color4f(4, 5, 6, 7);

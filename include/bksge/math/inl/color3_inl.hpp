@@ -23,7 +23,7 @@ template <typename U, typename>
 inline BKSGE_CONSTEXPR
 Color<T, 3>::Color(Color<U, 3> const& rhs)
 	BKSGE_NOEXCEPT_OR_NOTHROW
-	: BaseType(rhs.as_array())
+	: BaseType(color_cast<Color<T, 3>>(rhs).as_array())
 {}
 
 template <typename T>

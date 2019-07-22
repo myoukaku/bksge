@@ -148,8 +148,6 @@ TYPED_TEST(MathColor3Test, CopyConstructTest)
 
 	BKSGE_CONSTEXPR_OR_CONST Color3  v1{1, 2, 3};
 	BKSGE_CONSTEXPR_OR_CONST Color3  v2{v1};
-	BKSGE_CONSTEXPR_OR_CONST Color3i v3{v2};
-	BKSGE_CONSTEXPR_OR_CONST Color3f v4{v2};
 
 	BKSGE_CONSTEXPR_EXPECT_EQ(1, v1[0]);
 	BKSGE_CONSTEXPR_EXPECT_EQ(2, v1[1]);
@@ -157,12 +155,43 @@ TYPED_TEST(MathColor3Test, CopyConstructTest)
 	BKSGE_CONSTEXPR_EXPECT_EQ(1, v2[0]);
 	BKSGE_CONSTEXPR_EXPECT_EQ(2, v2[1]);
 	BKSGE_CONSTEXPR_EXPECT_EQ(3, v2[2]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(1, v3[0]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(2, v3[1]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(3, v3[2]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(1, v4[0]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(2, v4[1]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(3, v4[2]);
+}
+
+TYPED_TEST(MathColor3FloatTest, ConvertConstructTest)
+{
+	using T = TypeParam;
+	using Color3 = bksge::math::Color3<T>;
+	using Color3u8 = bksge::math::Color3<std::uint8_t>;
+
+	BKSGE_CONSTEXPR double error = 0.0000001;
+	{
+		BKSGE_CONSTEXPR_OR_CONST Color3u8 v1(0, 128, 255);
+		BKSGE_CONSTEXPR_OR_CONST Color3   v2(v1);
+		BKSGE_CONSTEXPR_EXPECT_NEAR(0.00000000000000000, (double)v2[0], error);
+		BKSGE_CONSTEXPR_EXPECT_NEAR(0.50196078431372548, (double)v2[1], error);
+		BKSGE_CONSTEXPR_EXPECT_NEAR(1.00000000000000000, (double)v2[2], error);
+	}
+	{
+		BKSGE_CONSTEXPR_OR_CONST Color3u8 v1(32, 64, 192);
+		BKSGE_CONSTEXPR_OR_CONST Color3   v2(v1);
+		BKSGE_CONSTEXPR_EXPECT_NEAR(0.12549019607843137, (double)v2[0], error);
+		BKSGE_CONSTEXPR_EXPECT_NEAR(0.25098039215686274, (double)v2[1], error);
+		BKSGE_CONSTEXPR_EXPECT_NEAR(0.75294117647058822, (double)v2[2], error);
+	}
+	{
+		BKSGE_CONSTEXPR_OR_CONST Color3   v1(0.5, 1.0, 0.0);
+		BKSGE_CONSTEXPR_OR_CONST Color3u8 v2(v1);
+		BKSGE_CONSTEXPR_EXPECT_EQ(127, v2[0]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(255, v2[1]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(  0, v2[2]);
+	}
+	{
+		BKSGE_CONSTEXPR_OR_CONST Color3   v1(0.25, 0.75, 0.125);
+		BKSGE_CONSTEXPR_OR_CONST Color3u8 v2(v1);
+		BKSGE_CONSTEXPR_EXPECT_EQ( 63, v2[0]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(191, v2[1]);
+		BKSGE_CONSTEXPR_EXPECT_EQ( 31, v2[2]);
+	}
 }
 
 BKSGE_WARNING_PUSH()
@@ -170,10 +199,12 @@ BKSGE_WARNING_PUSH()
 BKSGE_WARNING_DISABLE_CLANG("-Wself-assign-overloaded")
 #endif
 
-TYPED_TEST(MathColor3Test, CopyAssignTest)
+TYPED_TEST(MathColor3FloatTest, CopyAssignTest)
 {
 	using T = TypeParam;
 	using Color3 = bksge::math::Color3<T>;
+
+	const double error = 0.0000001;
 
 	Color3 v1(0, 1, 2);
 	Color3 v2(3, 4, 5);
@@ -185,13 +216,13 @@ TYPED_TEST(MathColor3Test, CopyAssignTest)
 	EXPECT_EQ(5, v2[2]);
 
 	v1 = Color3(6, -7, 8);
-	v2 = Color3i(-9, 10, 11);
+	v2 = Color3i(128, 255, 64);
 	EXPECT_EQ( 6, v1[0]);
 	EXPECT_EQ(-7, v1[1]);
 	EXPECT_EQ( 8, v1[2]);
-	EXPECT_EQ(-9, v2[0]);
-	EXPECT_EQ(10, v2[1]);
-	EXPECT_EQ(11, v2[2]);
+	EXPECT_NEAR(0.50196078431372548, (double)v2[0], error);
+	EXPECT_NEAR(1.00000000000000000, (double)v2[1], error);
+	EXPECT_NEAR(0.25098039215686274, (double)v2[2], error);
 
 	// 自己代入
 	v1 = v1;
@@ -199,9 +230,9 @@ TYPED_TEST(MathColor3Test, CopyAssignTest)
 	EXPECT_EQ( 6, v1[0]);
 	EXPECT_EQ(-7, v1[1]);
 	EXPECT_EQ( 8, v1[2]);
-	EXPECT_EQ(-9, v2[0]);
-	EXPECT_EQ(10, v2[1]);
-	EXPECT_EQ(11, v2[2]);
+	EXPECT_NEAR(0.50196078431372548, (double)v2[0], error);
+	EXPECT_NEAR(1.00000000000000000, (double)v2[1], error);
+	EXPECT_NEAR(0.25098039215686274, (double)v2[2], error);
 
 	// 多重代入
 	v1 = v2 = Color3f(4, 5, 6);
