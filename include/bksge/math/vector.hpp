@@ -10,6 +10,7 @@
 #define BKSGE_MATH_VECTOR_HPP
 
 #include <bksge/math/fwd/vector_fwd.hpp>
+#include <bksge/math/detail/vector_base.hpp>
 #include <bksge/math/detail/vector_xyzw.hpp>
 #include <bksge/type_traits/float_promote.hpp>
 #include <bksge/config.hpp>

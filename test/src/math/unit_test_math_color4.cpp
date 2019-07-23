@@ -122,35 +122,9 @@ TYPED_TEST(MathColor4Test, CopyConstructTest)
 	using T = TypeParam;
 	using Color4 = bksge::math::Color4<T>;
 
-	static_assert(std::is_constructible<Color4,  Color4  const&>::value, "");
-	static_assert(std::is_constructible<Color4,  Color4i const&>::value, "");
-	static_assert(std::is_constructible<Color4,  Color4f const&>::value, "");
-	static_assert(std::is_constructible<Color4i, Color4  const&>::value, "");
-	static_assert(std::is_constructible<Color4i, Color4i const&>::value, "");
-	static_assert(std::is_constructible<Color4i, Color4f const&>::value, "");
-	static_assert(std::is_constructible<Color4f, Color4  const&>::value, "");
-	static_assert(std::is_constructible<Color4f, Color4i const&>::value, "");
-	static_assert(std::is_constructible<Color4f, Color4f const&>::value, "");
-
-	static_assert(std::is_nothrow_constructible<Color4,  Color4  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Color4,  Color4i const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Color4,  Color4f const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Color4i, Color4  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Color4i, Color4i const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Color4i, Color4f const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Color4f, Color4  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Color4f, Color4i const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Color4f, Color4f const&>::value, "");
-
-	static_assert(bksge::is_implicitly_constructible<Color4,  Color4  const&>::value, "");
-	static_assert(bksge::is_implicitly_constructible<Color4,  Color4i const&>::value, "");
-	static_assert(bksge::is_implicitly_constructible<Color4,  Color4f const&>::value, "");
-	static_assert(bksge::is_implicitly_constructible<Color4i, Color4  const&>::value, "");
-	static_assert(bksge::is_implicitly_constructible<Color4i, Color4i const&>::value, "");
-	static_assert(bksge::is_implicitly_constructible<Color4i, Color4f const&>::value, "");
-	static_assert(bksge::is_implicitly_constructible<Color4f, Color4  const&>::value, "");
-	static_assert(bksge::is_implicitly_constructible<Color4f, Color4i const&>::value, "");
-	static_assert(bksge::is_implicitly_constructible<Color4f, Color4f const&>::value, "");
+	static_assert(std::is_constructible<Color4, Color4 const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Color4, Color4 const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Color4, Color4 const&>::value, "");
 
 	BKSGE_CONSTEXPR_OR_CONST Color4  v1{1, 2, 3, 4};
 	BKSGE_CONSTEXPR_OR_CONST Color4  v2{v1};
@@ -171,22 +145,30 @@ TYPED_TEST(MathColor4FloatTest, ConvertConstructTest)
 	using Color4 = bksge::math::Color4<T>;
 	using Color4u8 = bksge::math::Color4<std::uint8_t>;
 
+	static_assert(std::is_constructible<Color4,   Color4u8 const&>::value, "");
+	static_assert(std::is_constructible<Color4u8, Color4   const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Color4,   Color4u8 const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Color4u8, Color4   const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Color4,   Color4u8 const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Color4u8, Color4   const&>::value, "");
+
 	BKSGE_CONSTEXPR double error = 0.0000001;
 	{
-		BKSGE_CONSTEXPR_OR_CONST Color4u8 v1(0, 128, 255, 160);
-		BKSGE_CONSTEXPR_OR_CONST Color4   v2(v1);
-		BKSGE_CONSTEXPR_EXPECT_NEAR(0.00000000000000000, (double)v2[0], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR(0.50196078431372548, (double)v2[1], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR(1.00000000000000000, (double)v2[2], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR(0.62745100259780884, (double)v2[3], error);
+		// TODO constexpr にしたい
+		/*BKSGE_CONSTEXPR_OR_CONST*/ Color4u8 v1(0, 128, 255, 160);
+		/*BKSGE_CONSTEXPR_OR_CONST*/ Color4   v2(v1);
+		/*BKSGE_CONSTEXPR_*/EXPECT_NEAR(0.00000000000000000, (double)v2[0], error);
+		/*BKSGE_CONSTEXPR_*/EXPECT_NEAR(0.50196078431372548, (double)v2[1], error);
+		/*BKSGE_CONSTEXPR_*/EXPECT_NEAR(1.00000000000000000, (double)v2[2], error);
+		/*BKSGE_CONSTEXPR_*/EXPECT_NEAR(0.62745100259780884, (double)v2[3], error);
 	}
 	{
-		BKSGE_CONSTEXPR_OR_CONST Color4u8 v1(32, 64, 192, 225);
-		BKSGE_CONSTEXPR_OR_CONST Color4   v2(v1);
-		BKSGE_CONSTEXPR_EXPECT_NEAR(0.12549019607843137, (double)v2[0], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR(0.25098039215686274, (double)v2[1], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR(0.75294117647058822, (double)v2[2], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR(0.88235294818878174, (double)v2[3], error);
+		/*BKSGE_CONSTEXPR_OR_CONST*/ Color4u8 v1(32, 64, 192, 225);
+		/*BKSGE_CONSTEXPR_OR_CONST*/ Color4   v2(v1);
+		/*BKSGE_CONSTEXPR_*/EXPECT_NEAR(0.12549019607843137, (double)v2[0], error);
+		/*BKSGE_CONSTEXPR_*/EXPECT_NEAR(0.25098039215686274, (double)v2[1], error);
+		/*BKSGE_CONSTEXPR_*/EXPECT_NEAR(0.75294117647058822, (double)v2[2], error);
+		/*BKSGE_CONSTEXPR_*/EXPECT_NEAR(0.88235294818878174, (double)v2[3], error);
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST Color4   v1(0.5, 1.0, 0.0, 0.25);

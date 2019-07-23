@@ -10,6 +10,7 @@
 #define BKSGE_MATH_COLOR_HPP
 
 #include <bksge/math/fwd/color_fwd.hpp>
+#include <bksge/math/detail/vector_base.hpp>
 #include <bksge/math/detail/vector_rgba.hpp>
 #include <bksge/config.hpp>
 #include <cstddef>

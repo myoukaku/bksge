@@ -116,38 +116,12 @@ TYPED_TEST(MathColor3Test, CopyConstructTest)
 	using T = TypeParam;
 	using Color3 = bksge::math::Color3<T>;
 
-	static_assert(std::is_constructible<Color3,  Color3  const&>::value, "");
-	static_assert(std::is_constructible<Color3,  Color3i const&>::value, "");
-	static_assert(std::is_constructible<Color3,  Color3f const&>::value, "");
-	static_assert(std::is_constructible<Color3i, Color3  const&>::value, "");
-	static_assert(std::is_constructible<Color3i, Color3i const&>::value, "");
-	static_assert(std::is_constructible<Color3i, Color3f const&>::value, "");
-	static_assert(std::is_constructible<Color3f, Color3  const&>::value, "");
-	static_assert(std::is_constructible<Color3f, Color3i const&>::value, "");
-	static_assert(std::is_constructible<Color3f, Color3f const&>::value, "");
+	static_assert(std::is_constructible<Color3, Color3 const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Color3, Color3 const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Color3, Color3 const&>::value, "");
 
-	static_assert(std::is_nothrow_constructible<Color3,  Color3  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Color3,  Color3i const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Color3,  Color3f const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Color3i, Color3  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Color3i, Color3i const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Color3i, Color3f const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Color3f, Color3  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Color3f, Color3i const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Color3f, Color3f const&>::value, "");
-
-	static_assert(bksge::is_implicitly_constructible<Color3,  Color3  const&>::value, "");
-	static_assert(bksge::is_implicitly_constructible<Color3,  Color3i const&>::value, "");
-	static_assert(bksge::is_implicitly_constructible<Color3,  Color3f const&>::value, "");
-	static_assert(bksge::is_implicitly_constructible<Color3i, Color3  const&>::value, "");
-	static_assert(bksge::is_implicitly_constructible<Color3i, Color3i const&>::value, "");
-	static_assert(bksge::is_implicitly_constructible<Color3i, Color3f const&>::value, "");
-	static_assert(bksge::is_implicitly_constructible<Color3f, Color3  const&>::value, "");
-	static_assert(bksge::is_implicitly_constructible<Color3f, Color3i const&>::value, "");
-	static_assert(bksge::is_implicitly_constructible<Color3f, Color3f const&>::value, "");
-
-	BKSGE_CONSTEXPR_OR_CONST Color3  v1{1, 2, 3};
-	BKSGE_CONSTEXPR_OR_CONST Color3  v2{v1};
+	BKSGE_CONSTEXPR_OR_CONST Color3 v1{1, 2, 3};
+	BKSGE_CONSTEXPR_OR_CONST Color3 v2{v1};
 
 	BKSGE_CONSTEXPR_EXPECT_EQ(1, v1[0]);
 	BKSGE_CONSTEXPR_EXPECT_EQ(2, v1[1]);
@@ -163,30 +137,38 @@ TYPED_TEST(MathColor3FloatTest, ConvertConstructTest)
 	using Color3 = bksge::math::Color3<T>;
 	using Color3u8 = bksge::math::Color3<std::uint8_t>;
 
+	static_assert(std::is_constructible<Color3,   Color3u8 const&>::value, "");
+	static_assert(std::is_constructible<Color3u8, Color3   const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Color3,   Color3u8 const&>::value, "");
+	static_assert(std::is_nothrow_constructible<Color3u8, Color3   const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Color3,   Color3u8 const&>::value, "");
+	static_assert(bksge::is_implicitly_constructible<Color3u8, Color3   const&>::value, "");
+
 	BKSGE_CONSTEXPR double error = 0.0000001;
 	{
-		BKSGE_CONSTEXPR_OR_CONST Color3u8 v1(0, 128, 255);
-		BKSGE_CONSTEXPR_OR_CONST Color3   v2(v1);
-		BKSGE_CONSTEXPR_EXPECT_NEAR(0.00000000000000000, (double)v2[0], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR(0.50196078431372548, (double)v2[1], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR(1.00000000000000000, (double)v2[2], error);
+		// TODO constexpr にしたい
+		/*BKSGE_CONSTEXPR_OR_CONST*/ Color3u8 v1(0, 128, 255);
+		/*BKSGE_CONSTEXPR_OR_CONST*/ Color3  v2(v1);
+		/*BKSGE_CONSTEXPR_*/EXPECT_NEAR(0.00000000000000000, (double)v2[0], error);
+		/*BKSGE_CONSTEXPR_*/EXPECT_NEAR(0.50196078431372548, (double)v2[1], error);
+		/*BKSGE_CONSTEXPR_*/EXPECT_NEAR(1.00000000000000000, (double)v2[2], error);
 	}
 	{
-		BKSGE_CONSTEXPR_OR_CONST Color3u8 v1(32, 64, 192);
-		BKSGE_CONSTEXPR_OR_CONST Color3   v2(v1);
-		BKSGE_CONSTEXPR_EXPECT_NEAR(0.12549019607843137, (double)v2[0], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR(0.25098039215686274, (double)v2[1], error);
-		BKSGE_CONSTEXPR_EXPECT_NEAR(0.75294117647058822, (double)v2[2], error);
+		/*BKSGE_CONSTEXPR_OR_CONST*/ Color3u8 v1(32, 64, 192);
+		/*BKSGE_CONSTEXPR_OR_CONST*/ Color3  v2(v1);
+		/*BKSGE_CONSTEXPR_*/EXPECT_NEAR(0.12549019607843137, (double)v2[0], error);
+		/*BKSGE_CONSTEXPR_*/EXPECT_NEAR(0.25098039215686274, (double)v2[1], error);
+		/*BKSGE_CONSTEXPR_*/EXPECT_NEAR(0.75294117647058822, (double)v2[2], error);
 	}
 	{
-		BKSGE_CONSTEXPR_OR_CONST Color3   v1(0.5, 1.0, 0.0);
+		BKSGE_CONSTEXPR_OR_CONST Color3  v1(0.5, 1.0, 0.0);
 		BKSGE_CONSTEXPR_OR_CONST Color3u8 v2(v1);
 		BKSGE_CONSTEXPR_EXPECT_EQ(127, v2[0]);
 		BKSGE_CONSTEXPR_EXPECT_EQ(255, v2[1]);
 		BKSGE_CONSTEXPR_EXPECT_EQ(  0, v2[2]);
 	}
 	{
-		BKSGE_CONSTEXPR_OR_CONST Color3   v1(0.25, 0.75, 0.125);
+		BKSGE_CONSTEXPR_OR_CONST Color3  v1(0.25, 0.75, 0.125);
 		BKSGE_CONSTEXPR_OR_CONST Color3u8 v2(v1);
 		BKSGE_CONSTEXPR_EXPECT_EQ( 63, v2[0]);
 		BKSGE_CONSTEXPR_EXPECT_EQ(191, v2[1]);

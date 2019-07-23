@@ -11,7 +11,11 @@
 
 #include <bksge/math/fwd/color3_fwd.hpp>
 #include <bksge/math/fwd/color_hsv_fwd.hpp>
+#include <bksge/math/detail/vector_base.hpp>
+#include <bksge/math/detail/vector_rgba.hpp>
 #include <bksge/math/color.hpp>
+#include <bksge/config.hpp>
+#include <type_traits>
 
 namespace bksge
 {
