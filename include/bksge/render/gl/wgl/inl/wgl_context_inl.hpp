@@ -89,15 +89,34 @@ WglContext::WglContext(Window const& window)
 	m_hwnd = window.handle();
 	m_hdc = ::GetDC(m_hwnd);
 	wgl_context_detail::SetPixelFormat(m_hdc, 32);
-	m_hglrc = wglCreateContext(m_hdc);
-	MakeCurrent(true);
+
+	// 仮のGLコンテキストの作成
+	auto hglrc_dummy = ::wglCreateContext(m_hdc);
+	::wglMakeCurrent(m_hdc, hglrc_dummy);
+
+	// 使用する OpenGL のバージョンとプロファイルの指定
+	static const int att[] =
+	{
+		WGL_CONTEXT_MAJOR_VERSION_ARB, 4,
+		WGL_CONTEXT_MINOR_VERSION_ARB, 3,
+		WGL_CONTEXT_FLAGS_ARB,         WGL_CONTEXT_DEBUG_BIT_ARB,
+		WGL_CONTEXT_PROFILE_MASK_ARB,  WGL_CONTEXT_CORE_PROFILE_BIT_ARB,
+		0,
+	};
+
+	// 使用するGLコンテキストの作成
+	m_hglrc = ::wglCreateContextAttribsARB(m_hdc, NULL, att);
+	::wglMakeCurrent(m_hdc, m_hglrc);
+
+	// 仮のGLコンテキストの削除
+	::wglDeleteContext(hglrc_dummy);
 }
 
 BKSGE_INLINE
 WglContext::~WglContext()
 {
 //	MakeCurrent(false);
-	wglDeleteContext(m_hglrc);
+	::wglDeleteContext(m_hglrc);
 	::ReleaseDC(m_hwnd, m_hdc);
 }
 
@@ -107,7 +126,7 @@ void WglContext::SwapBuffers(void)
 	::SwapBuffers(m_hdc);
 
 	// TODO
-	wglSwapIntervalEXT(1);
+	::wglSwapIntervalEXT(1);
 }
 
 BKSGE_INLINE
@@ -115,11 +134,11 @@ void WglContext::MakeCurrent(bool current)
 {
 	if (current)
 	{
-		wglMakeCurrent(m_hdc, m_hglrc);
+		::wglMakeCurrent(m_hdc, m_hglrc);
 	}
 	else
 	{
-		wglMakeCurrent(nullptr, nullptr);
+		::wglMakeCurrent(nullptr, nullptr);
 	}
 }
 

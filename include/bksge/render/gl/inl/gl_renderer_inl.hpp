@@ -29,6 +29,7 @@
 #include <bksge/window/window.hpp>
 #include <bksge/assert.hpp>
 #include <memory>
+#include <cstdio>	// printf
 
 namespace bksge
 {
@@ -53,6 +54,12 @@ inline GlContext* MakeGlContext(Window const& window)
 #endif
 }
 
+void APIENTRY DebugCallback(GLenum /*source*/, GLenum /*type*/, GLuint /*id*/, GLenum /*severity*/, GLsizei /*length*/, const GLchar *message, const void* /*userParam*/)
+{
+	(void)message;
+	std::printf("%s\n", message);
+}
+
 }	// namespace gl_renderer_detail
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -64,7 +71,6 @@ BKSGE_INLINE
 GlRenderer::GlRenderer(void)
 	: m_gl_context()
 {
-	::glGenQueries(2, m_timer_queries);
 }
 
 BKSGE_INLINE
@@ -81,6 +87,19 @@ void GlRenderer::VSetRenderTarget(Window const& window)
 	m_gl_texture_map.clear();
 
 	m_gl_context.reset(gl_renderer_detail::MakeGlContext(window));
+
+	//std::printf("GL_VENDOR : %s\n",     ::glGetString(GL_VENDOR));		// ベンダー情報の取得
+	//std::printf("GL_RENDERER : %s\n",   ::glGetString(GL_RENDERER));		// レンダラー情報の取得
+	//std::printf("GL_VERSION : %s\n",    ::glGetString(GL_VERSION));		// バージョン情報の取得
+	//std::printf("GL_SHADING_LANGUAGE_VERSION : %s\n", ::glGetString(GL_SHADING_LANGUAGE_VERSION));	// シェーダのバージョン情報
+	//std::printf("GL_EXTENSIONS : %s\n", ::glGetString(GL_EXTENSIONS));	// OpenGL拡張の取得
+
+	::glGenQueries(2, m_timer_queries);
+
+	::glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, nullptr, GL_FALSE); // notificationレベルの報告を無効化
+	::glDebugMessageCallback(gl_renderer_detail::DebugCallback, nullptr);
+//	::glEnable(GL_DEBUG_OUTPUT);
+	::glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 }
 
 BKSGE_INLINE
