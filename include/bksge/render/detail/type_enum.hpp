@@ -123,7 +123,6 @@ operator<<(std::basic_ostream<CharT, Traits>& os, TypeEnum const& rhs)
 #if BKSGE_STD_VER <= 11
 
 #include <functional>
-#include <type_traits>
 
 namespace std
 {

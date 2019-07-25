@@ -13,6 +13,7 @@
 #if BKSGE_RENDER_HAS_GL_RENDERER
 
 #include <bksge/render/gl/gl_glsl_parameter_setter.hpp>
+#include <memory>
 
 namespace bksge
 {

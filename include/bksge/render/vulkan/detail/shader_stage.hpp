@@ -14,6 +14,8 @@
 #include <bksge/render/shader.hpp>
 #include <SPIRV/GlslangToSpv.h>
 #include <memory>
+#include <string>
+#include <vector>
 
 namespace bksge
 {

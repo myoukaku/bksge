@@ -38,6 +38,8 @@
 #include <bksge/config.hpp>
 #include <cstdint>
 #include <cstddef>
+#include <memory>	// make_shared
+#include <vector>
 #if defined(BKSGE_PLATFORM_WIN32)
 #include <bksge/detail/win32.hpp>
 #endif
