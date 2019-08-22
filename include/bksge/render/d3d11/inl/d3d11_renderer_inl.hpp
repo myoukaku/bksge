@@ -13,16 +13,16 @@
 #if BKSGE_RENDER_HAS_D3D11_RENDERER
 
 #include <bksge/render/d3d11/d3d11_renderer.hpp>
-#include <bksge/render/d3d11/d3d11_device.hpp>
-#include <bksge/render/d3d11/d3d11_device_context.hpp>
-#include <bksge/render/d3d11/d3d11_render_target.hpp>
-#include <bksge/render/d3d11/d3d11_depth_stencil.hpp>
-#include <bksge/render/d3d11/d3d11_hlsl_program.hpp>
-#include <bksge/render/d3d11/d3d11_geometry.hpp>
-#include <bksge/render/d3d11/d3d11_fill_mode.hpp>
-#include <bksge/render/d3d11/d3d11_cull_mode.hpp>
-//#include <bksge/render/d3d11/d3d11_texture.hpp>
-//#include <bksge/render/d3d11/d3d11_sampler.hpp>
+#include <bksge/render/d3d11/detail/device.hpp>
+#include <bksge/render/d3d11/detail/device_context.hpp>
+#include <bksge/render/d3d11/detail/render_target.hpp>
+#include <bksge/render/d3d11/detail/depth_stencil.hpp>
+#include <bksge/render/d3d11/detail/hlsl_program.hpp>
+#include <bksge/render/d3d11/detail/geometry.hpp>
+#include <bksge/render/d3d11/detail/fill_mode.hpp>
+#include <bksge/render/d3d11/detail/cull_mode.hpp>
+//#include <bksge/render/d3d11/detail/texture.hpp>
+//#include <bksge/render/d3d11/detail/sampler.hpp>
 #include <bksge/render/d3d_common/d3d11.hpp>
 #include <bksge/render/d3d_common/com_ptr.hpp>
 #include <bksge/render/dxgi/dxgi_factory.hpp>
@@ -61,8 +61,8 @@ BKSGE_INLINE void
 D3D11Renderer::Initialize(void)
 {
 	m_factory = bksge::make_unique<DXGIFactory>();
-	m_device = bksge::make_unique<D3D11Device>(m_factory->EnumAdapters());
-	m_device_context = bksge::make_unique<D3D11DeviceContext>(m_device.get());
+	m_device = bksge::make_unique<d3d11::Device>(m_factory->EnumAdapters());
+	m_device_context = bksge::make_unique<d3d11::DeviceContext>(m_device.get());
 }
 
 BKSGE_INLINE void
@@ -96,10 +96,10 @@ D3D11Renderer::VSetRenderTarget(Window const& window)
 		DXGI_MWA_NO_ALT_ENTER      |
 		DXGI_MWA_NO_PRINT_SCREEN);
 
-	m_render_target = bksge::make_unique<D3D11RenderTarget>(
+	m_render_target = bksge::make_unique<d3d11::RenderTarget>(
 		m_device.get(), m_swap_chain.get());
 
-	m_depth_stencil = bksge::make_unique<D3D11DepthStencil>(
+	m_depth_stencil = bksge::make_unique<d3d11::DepthStencil>(
 		m_device.get(), width, height);
 
 	m_device_context->OMSetRenderTargets(
@@ -181,8 +181,8 @@ D3D11Renderer::VRender(
 		auto const& scissor_state = render_state.scissor_state();
 
 		::D3D11_RASTERIZER_DESC rd;
-		rd.FillMode              = ToD3D11FillMode(rasterizer_state.fill_mode());
-		rd.CullMode              = ToD3D11CullMode(rasterizer_state.cull_mode());
+		rd.FillMode              = d3d11::FillMode(rasterizer_state.fill_mode());
+		rd.CullMode              = d3d11::CullMode(rasterizer_state.cull_mode());
 		rd.FrontCounterClockwise = (rasterizer_state.front_face() == FrontFace::kCounterClockwise);
 		rd.DepthBias             = 0;
 		rd.DepthBiasClamp        = 0;
@@ -225,7 +225,7 @@ namespace d3d11_detail
 
 template <typename Ret, typename Map, typename Src>
 inline typename Map::mapped_type
-GetOrCreate(D3D11Device* device, Map& map, Src const& src)
+GetOrCreate(d3d11::Device* device, Map& map, Src const& src)
 {
 	auto const& id = src.id();
 	{
@@ -244,28 +244,28 @@ GetOrCreate(D3D11Device* device, Map& map, Src const& src)
 
 }	// namespace d3d11_detail
 
-BKSGE_INLINE std::shared_ptr<D3D11HLSLProgram>
-D3D11Renderer::GetD3D11HLSLProgram(Shader const& shader)
+BKSGE_INLINE std::shared_ptr<d3d11::HLSLProgram>
+D3D11Renderer::GetD3D11HLSLProgram(bksge::Shader const& shader)
 {
-	return d3d11_detail::GetOrCreate<D3D11HLSLProgram>(m_device.get(), m_d3d11_hlsl_program_map, shader);
+	return d3d11_detail::GetOrCreate<d3d11::HLSLProgram>(m_device.get(), m_d3d11_hlsl_program_map, shader);
 }
 
-BKSGE_INLINE std::shared_ptr<D3D11Geometry>
-D3D11Renderer::GetD3D11Geometry(Geometry const& geometry)
+BKSGE_INLINE std::shared_ptr<d3d11::Geometry>
+D3D11Renderer::GetD3D11Geometry(bksge::Geometry const& geometry)
 {
-	return d3d11_detail::GetOrCreate<D3D11Geometry>(m_device.get(), m_d3d11_geometry_map, geometry);
+	return d3d11_detail::GetOrCreate<d3d11::Geometry>(m_device.get(), m_d3d11_geometry_map, geometry);
 }
 
-//BKSGE_INLINE std::shared_ptr<D3D11Texture>
-//D3D11Renderer::GetD3D11Texture(Texture const& texture)
+//BKSGE_INLINE std::shared_ptr<d3d11::Texture>
+//D3D11Renderer::GetD3D11Texture(bksge::Texture const& texture)
 //{
-//	return d3d11_detail::GetOrCreate<D3D11Texture>(this, m_d3d11_texture_map, texture);
+//	return d3d11_detail::GetOrCreate<d3d11::Texture>(this, m_d3d11_texture_map, texture);
 //}
 
-//BKSGE_INLINE std::shared_ptr<D3D11Sampler>
-//D3D11Renderer::GetD3D11Sampler(Sampler const& sampler)
+//BKSGE_INLINE std::shared_ptr<d3d11::Sampler>
+//D3D11Renderer::GetD3D11Sampler(bksge::Sampler const& sampler)
 //{
-//	return d3d11_detail::GetOrCreate<D3D11Sampler>(this, m_d3d11_sampler_map, sampler);
+//	return d3d11_detail::GetOrCreate<d3d11::Sampler>(this, m_d3d11_sampler_map, sampler);
 //}
 
 }	// namespace render
