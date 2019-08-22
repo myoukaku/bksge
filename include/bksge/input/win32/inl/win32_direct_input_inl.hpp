@@ -26,11 +26,14 @@ namespace bksge
 namespace input
 {
 
+namespace win32
+{
+
 BKSGE_INLINE
 Win32DirectInput::Win32DirectInput(void)
 	: m_direct_input(nullptr)
 {
-	HINSTANCE const hinstance = win32::GetModuleHandle<char>(nullptr);
+	HINSTANCE const hinstance = bksge::win32::GetModuleHandle<char>(nullptr);
 	HRESULT const hr =
 		::DirectInput8Create(
 			hinstance,
@@ -61,6 +64,8 @@ Win32DirectInput::get(void)
 	static Win32DirectInput	s_instance;
 	return s_instance.m_direct_input;
 }
+
+}	// namespace win32
 
 }	// namespace input
 

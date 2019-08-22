@@ -17,6 +17,9 @@ namespace bksge
 namespace input
 {
 
+namespace win32
+{
+
 /**
  *	@brief	DIPROPDWORDのラッパー
  */
@@ -47,6 +50,8 @@ struct DIPropertyRange : public DIPROPRANGE
 		lMax	            = 0;
 	}
 };
+
+}	// namespace win32
 
 }	// namespace input
 

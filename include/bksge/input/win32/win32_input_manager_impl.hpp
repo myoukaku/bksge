@@ -20,6 +20,9 @@ namespace bksge
 namespace input
 {
 
+namespace win32
+{
+
 /**
  *	@brief	Win32のInputManagerの基底となるクラステンプレート
  */
@@ -53,6 +56,8 @@ private:
 
 	DeviceList	m_device_list;
 };
+
+}	// namespace win32
 
 }	// namespace input
 

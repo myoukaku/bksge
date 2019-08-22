@@ -30,12 +30,15 @@ namespace bksge
 namespace input
 {
 
+namespace win32
+{
+
 ///////////////////////////////////////////////////////////////////////////////
 //
 //	非メンバ関数
 //
 ///////////////////////////////////////////////////////////////////////////////
-namespace win32_input_detail
+namespace detail
 {
 
 inline KeyCode DIKtoKeyCode(DWORD dik)
@@ -193,7 +196,7 @@ inline KeyCode DIKtoKeyCode(DWORD dik)
 	return m.at(dik);
 }
 
-}	// namespace win32_input_detail
+}	// namespace detail
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -335,7 +338,7 @@ Win32KeyboardDevice::ReadBuffered(void)
 	for (DWORD i = 0; i < entries; ++i)
 	{
 		DWORD const dik = di_buff[i].dwOfs;
-		KeyCode const kc = win32_input_detail::DIKtoKeyCode(dik);
+		KeyCode const kc = detail::DIKtoKeyCode(dik);
 		bool const pressed = ((di_buff[i].dwData & 0x80) != 0);
 		m_state.pressed(kc) = pressed;
 	}
@@ -368,11 +371,13 @@ Win32KeyboardDevice::ReadNonBuffered(void)
 	{
 		if ((buffer[i] & 0x80) != 0)
 		{
-			KeyCode const kc = win32_input_detail::DIKtoKeyCode(static_cast<DWORD>(i));
+			KeyCode const kc = detail::DIKtoKeyCode(static_cast<DWORD>(i));
 			m_state.pressed(kc) = true;
 		}
 	}
 }
+
+}	// namespace win32
 
 }	// namespace input
 

@@ -17,6 +17,9 @@ namespace bksge
 namespace input
 {
 
+namespace win32
+{
+
 /**
  *	@brief	DirectInputの唯一のインスタンスを得るためのクラス
  */
@@ -32,6 +35,8 @@ private:
 
 	IDirectInput8*	m_direct_input;
 };
+
+}	// namespace win32
 
 }	// namespace input
 

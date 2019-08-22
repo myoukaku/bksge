@@ -19,6 +19,9 @@ namespace bksge
 namespace input
 {
 
+namespace win32
+{
+
 /**
  *	@brief	Win32版のGamePadManager
  */
@@ -38,7 +41,9 @@ private:
 	std::unique_ptr<Impl>	m_impl;
 };
 
-using GamePadManager = Win32GamePadManager;
+}	// namespace win32
+
+using GamePadManager = win32::Win32GamePadManager;
 
 }	// namespace input
 

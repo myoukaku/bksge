@@ -19,6 +19,9 @@ namespace bksge
 namespace input
 {
 
+namespace win32
+{
+
 /**
  *	@brief	マウスデバイスのWin32版
  */
@@ -56,6 +59,8 @@ private:
 	HWND					m_hwnd;
 	DWORD					m_coop_setting;
 };
+
+}	// namespace win32
 
 }	// namespace input
 

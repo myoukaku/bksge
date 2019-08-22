@@ -28,7 +28,10 @@ namespace bksge
 namespace input
 {
 
-namespace win32_input_detail
+namespace win32
+{
+
+namespace detail
 {
 
 enum
@@ -53,7 +56,7 @@ enum
 	kWin32GamePad_Direction_Max,
 };
 
-}	// namespace win32_input_detail
+}	// namespace detail
 
 BKSGE_INLINE
 Win32GamePadDevice::Win32GamePadDevice(void)
@@ -210,8 +213,6 @@ Win32GamePadDevice::device_type(void)
 BKSGE_INLINE void
 Win32GamePadDevice::Read(void)
 {
-	using namespace win32_input_detail;
-
 	m_state = GamePadState();
 
 	if (!m_device)
@@ -250,29 +251,29 @@ Win32GamePadDevice::Read(void)
 	{
 		auto const lx = static_cast<float>(joystate.lX);
 		auto const ly = static_cast<float>(joystate.lY);
-		m_state.analog_stick(kWin32GamePad_AnalogStick_Left) = bksge::Vector2f(lx, ly) / analog_range;
+		m_state.analog_stick(detail::kWin32GamePad_AnalogStick_Left) = bksge::Vector2f(lx, ly) / analog_range;
 	}
 	{
 		auto const rx = static_cast<float>(joystate.lZ);
 		auto const ry = static_cast<float>(joystate.lRz);
-		m_state.analog_stick(kWin32GamePad_AnalogStick_Right) = bksge::Vector2f(rx, ry) / analog_range;
+		m_state.analog_stick(detail::kWin32GamePad_AnalogStick_Right) = bksge::Vector2f(rx, ry) / analog_range;
 	}
 	{
 		auto const lz = static_cast<float>(joystate.lRx);
-		m_state.analog_button(kWin32GamePad_AnalogButton_Left) = lz / analog_range;
+		m_state.analog_button(detail::kWin32GamePad_AnalogButton_Left) = lz / analog_range;
 	}
 	{
 		auto const rz = static_cast<float>(joystate.lRy);
-		m_state.analog_button(kWin32GamePad_AnalogButton_Right) = rz / analog_range;
+		m_state.analog_button(detail::kWin32GamePad_AnalogButton_Right) = rz / analog_range;
 	}
 
 	ChangePOV(joystate.rgdwPOV[0]);
 
-	for (std::size_t i = 0; i < m_state.kButtonMax - kWin32GamePad_Direction_Max; i++)
+	for (std::size_t i = 0; i < m_state.kButtonMax - detail::kWin32GamePad_Direction_Max; i++)
 	{
 		if ((joystate.rgbButtons[i] & 0x80) != 0)
 		{
-			m_state.pressed(i + kWin32GamePad_Direction_Max) = true;
+			m_state.pressed(i + detail::kWin32GamePad_Direction_Max) = true;
 		}
 	}
 }
@@ -280,8 +281,6 @@ Win32GamePadDevice::Read(void)
 BKSGE_INLINE void
 Win32GamePadDevice::ChangePOV(DWORD rgdwPOV)
 {
-	using namespace win32_input_detail;
-
 	if (LOWORD(rgdwPOV) == 0xFFFF)
 	{
 		return;
@@ -289,24 +288,26 @@ Win32GamePadDevice::ChangePOV(DWORD rgdwPOV)
 
 	if (rgdwPOV < 9000 || 27000 < rgdwPOV)
 	{
-		m_state.pressed(kWin32GamePad_Direction_Up) = true;
+		m_state.pressed(detail::kWin32GamePad_Direction_Up) = true;
 	}
 
 	if (0 < rgdwPOV && rgdwPOV < 18000)
 	{
-		m_state.pressed(kWin32GamePad_Direction_Right) = true;
+		m_state.pressed(detail::kWin32GamePad_Direction_Right) = true;
 	}
 
 	if (9000 < rgdwPOV && rgdwPOV < 27000)
 	{
-		m_state.pressed(kWin32GamePad_Direction_Down) = true;
+		m_state.pressed(detail::kWin32GamePad_Direction_Down) = true;
 	}
 
 	if (18000 < rgdwPOV && rgdwPOV < 36000)
 	{
-		m_state.pressed(kWin32GamePad_Direction_Left) = true;
+		m_state.pressed(detail::kWin32GamePad_Direction_Left) = true;
 	}
 }
+
+}	// namespace win32
 
 }	// namespace input
 

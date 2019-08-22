@@ -19,6 +19,9 @@ namespace bksge
 namespace input
 {
 
+namespace win32
+{
+
 /**
  *	@brief	キーボードデバイスのWin32版
  */
@@ -54,6 +57,8 @@ private:
 	IDirectInputDevice8*	m_device;
 	bool					m_buffered;
 };
+
+}	// namespace win32
 
 }	// namespace input
 

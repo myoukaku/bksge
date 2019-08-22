@@ -20,6 +20,9 @@ namespace bksge
 namespace input
 {
 
+namespace win32
+{
+
 /**
  *	@brief	ゲームパッドデバイスのWin32版
  */
@@ -59,6 +62,8 @@ private:
 	IDirectInputDevice8*	m_device;
 	bool					m_buffered;
 };
+
+}	// namespace win32
 
 }	// namespace input
 

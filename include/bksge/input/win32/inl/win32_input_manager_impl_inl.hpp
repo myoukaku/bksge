@@ -28,6 +28,9 @@ namespace bksge
 namespace input
 {
 
+namespace win32
+{
+
 template <typename Device> inline
 Win32InputManagerImpl<Device>::Win32InputManagerImpl(void)
 {
@@ -94,6 +97,8 @@ Win32InputManagerImpl<Device>::EnumDevicesCallback(LPCDIDEVICEINSTANCE lpddi, LP
 	param->device_list->push_back(device);
 	return DIENUM_CONTINUE;
 }
+
+}	// namespace win32
 
 }	// namespace input
 

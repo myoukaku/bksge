@@ -23,6 +23,9 @@ namespace bksge
 namespace input
 {
 
+namespace win32
+{
+
 class Win32KeyboardManager::Impl
 	: public Win32InputManagerImpl<Win32KeyboardDevice>
 {};
@@ -47,6 +50,8 @@ Win32KeyboardManager::VGetState(std::size_t index) const
 {
 	return m_impl->GetState(index);
 }
+
+}	// namespace win32
 
 }	// namespace input
 

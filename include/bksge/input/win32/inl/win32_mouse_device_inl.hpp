@@ -31,12 +31,15 @@ namespace bksge
 namespace input
 {
 
+namespace win32
+{
+
 ///////////////////////////////////////////////////////////////////////////////
 //
 //	非メンバ関数
 //
 ///////////////////////////////////////////////////////////////////////////////
-namespace win32_input_detail
+namespace detail
 {
 
 inline MouseButton DIMOfsToMouseButton(DWORD ofs)
@@ -68,7 +71,7 @@ inline MouseAxis DIMOfsToMouseAxis(DWORD ofs)
 	return m.at(ofs);
 }
 
-}	// namespace win32_input_detail
+}	// namespace detail
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -240,7 +243,7 @@ Win32MouseDevice::Read(void)
 		case DIMOFS_BUTTON6:
 		case DIMOFS_BUTTON7:
 		{
-			auto const button = win32_input_detail::DIMOfsToMouseButton(di_buff[i].dwOfs);
+			auto const button = detail::DIMOfsToMouseButton(di_buff[i].dwOfs);
 			auto const data = ((di_buff[i].dwData & 0x80) != 0);
 			state.pressed(button) = data;
 		}
@@ -251,7 +254,7 @@ Win32MouseDevice::Read(void)
 		case DIMOFS_Z:
 		{
 			using SignedDataType = typename std::make_signed<DWORD>::type;
-			auto const axis = win32_input_detail::DIMOfsToMouseAxis(di_buff[i].dwOfs);
+			auto const axis = detail::DIMOfsToMouseAxis(di_buff[i].dwOfs);
 			auto const data = static_cast<SignedDataType>(di_buff[i].dwData);
 			auto const granularity = (axis == MouseAxis::kWheel) ? m_granularity_z : 1.0f;
 			state.velocity(axis) = data / granularity;
@@ -265,6 +268,8 @@ Win32MouseDevice::Read(void)
 
 	m_state = state;
 }
+
+}	// namespace win32
 
 }	// namespace input
 

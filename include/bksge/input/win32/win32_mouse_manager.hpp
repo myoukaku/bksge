@@ -19,6 +19,9 @@ namespace bksge
 namespace input
 {
 
+namespace win32
+{
+
 /**
  *	@brief	Win32版のMouseManager
  */
@@ -38,7 +41,9 @@ private:
 	std::unique_ptr<Impl>	m_impl;
 };
 
-using MouseManager = Win32MouseManager;
+}	// namespace win32
+
+using MouseManager = win32::Win32MouseManager;
 
 }	// namespace input
 
