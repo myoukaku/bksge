@@ -13,21 +13,21 @@
 #if BKSGE_RENDER_HAS_D3D12_RENDERER
 
 #include <bksge/render/d3d12/d3d12_renderer.hpp>
-#include <bksge/render/d3d12/d3d12_device.hpp>
-#include <bksge/render/d3d12/d3d12_command_queue.hpp>
-#include <bksge/render/d3d12/d3d12_command_list.hpp>
-#include <bksge/render/d3d12/d3d12_render_target.hpp>
-#include <bksge/render/d3d12/d3d12_fence.hpp>
-#include <bksge/render/d3d12/d3d12_geometry.hpp>
-#include <bksge/render/d3d12/d3d12_root_signature.hpp>
-#include <bksge/render/d3d12/d3d12_input_layout.hpp>
-#include <bksge/render/d3d12/d3d12_rasterizer_state.hpp>
-#include <bksge/render/d3d12/d3d12_blend_state.hpp>
-#include <bksge/render/d3d12/d3d12_depth_stencil_state.hpp>
-#include <bksge/render/d3d12/d3d12_hlsl_program.hpp>
-#include <bksge/render/d3d12/d3d12_constant_buffer_descriptor.hpp>
-#include <bksge/render/d3d12/d3d12_primitive_topology_type.hpp>
-#include <bksge/render/d3d12/d3d12_pipeline_state.hpp>
+#include <bksge/render/d3d12/detail/device.hpp>
+#include <bksge/render/d3d12/detail/command_queue.hpp>
+#include <bksge/render/d3d12/detail/command_list.hpp>
+#include <bksge/render/d3d12/detail/render_target.hpp>
+#include <bksge/render/d3d12/detail/fence.hpp>
+#include <bksge/render/d3d12/detail/geometry.hpp>
+#include <bksge/render/d3d12/detail/root_signature.hpp>
+#include <bksge/render/d3d12/detail/input_layout.hpp>
+#include <bksge/render/d3d12/detail/rasterizer_state.hpp>
+#include <bksge/render/d3d12/detail/blend_state.hpp>
+#include <bksge/render/d3d12/detail/depth_stencil_state.hpp>
+#include <bksge/render/d3d12/detail/hlsl_program.hpp>
+#include <bksge/render/d3d12/detail/constant_buffer_descriptor.hpp>
+#include <bksge/render/d3d12/detail/primitive_topology_type.hpp>
+#include <bksge/render/d3d12/detail/pipeline_state.hpp>
 #include <bksge/render/d3d_common/d3d12.hpp>
 #include <bksge/render/d3d_common/com_ptr.hpp>
 #include <bksge/render/d3d_common/throw_if_failed.hpp>
@@ -90,11 +90,11 @@ D3D12Renderer::Initialize(void)
 
 	m_factory = bksge::make_unique<DXGIFactory>();
 
-	m_device = bksge::make_unique<D3D12Device>(m_factory->EnumAdapters());
+	m_device = bksge::make_unique<d3d12::Device>(m_factory->EnumAdapters());
 
-	m_command_queue = bksge::make_unique<D3D12CommandQueue>(m_device.get());
+	m_command_queue = bksge::make_unique<d3d12::CommandQueue>(m_device.get());
 
-	m_command_list = bksge::make_unique<D3D12CommandList>(m_device.get());
+	m_command_list = bksge::make_unique<d3d12::CommandList>(m_device.get());
 
 	// Command lists are created in the recording state, but there is nothing
 	// to record yet. The main loop expects it to be closed, so close it now.
@@ -135,10 +135,10 @@ D3D12Renderer::VSetRenderTarget(Window const& window)
 
 	m_frameIndex = m_swap_chain->GetCurrentBackBufferIndex();
 
-	m_render_target = bksge::make_unique<D3D12RenderTarget>(
+	m_render_target = bksge::make_unique<d3d12::RenderTarget>(
 		m_device.get(), m_swap_chain.get());
 
-	m_fence = bksge::make_unique<D3D12Fence>(m_device.get());
+	m_fence = bksge::make_unique<d3d12::Fence>(m_device.get());
 	WaitForPreviousFrame();
 }
 
@@ -284,40 +284,40 @@ GetOrCreate(Map& map, Key const& key, Args&&... args)
 
 }	// namespace d3d12_detail
 
-BKSGE_INLINE std::shared_ptr<D3D12HLSLProgram>
+BKSGE_INLINE std::shared_ptr<d3d12::HLSLProgram>
 D3D12Renderer::GetD3D12HLSLProgram(Shader const& shader)
 {
-	return d3d12_detail::GetOrCreate<D3D12HLSLProgram>(
+	return d3d12_detail::GetOrCreate<d3d12::HLSLProgram>(
 		m_d3d12_hlsl_program_map, shader.id(), m_device.get(), shader);
 }
 
-BKSGE_INLINE std::shared_ptr<D3D12ConstantBufferDescriptor>
+BKSGE_INLINE std::shared_ptr<d3d12::ConstantBufferDescriptor>
 D3D12Renderer::GetD3D12ConstantBufferDescriptor(
 	ShaderParameterMap const& shader_parameter_map,
-	D3D12HLSLProgram* hlsl_program)
+	d3d12::HLSLProgram* hlsl_program)
 {
-	return d3d12_detail::GetOrCreate<D3D12ConstantBufferDescriptor>(
+	return d3d12_detail::GetOrCreate<d3d12::ConstantBufferDescriptor>(
 		m_d3d12_constant_buffer_descriptor_map,
 		shader_parameter_map.id(),
 		m_device.get(),
 		hlsl_program);
 }
 
-BKSGE_INLINE std::shared_ptr<D3D12Geometry>
+BKSGE_INLINE std::shared_ptr<d3d12::Geometry>
 D3D12Renderer::GetD3D12Geometry(Geometry const& geometry)
 {
-	return d3d12_detail::GetOrCreate<D3D12Geometry>(
+	return d3d12_detail::GetOrCreate<d3d12::Geometry>(
 		m_d3d12_geometry_map, geometry.id(), geometry, m_device.get());
 }
 
-BKSGE_INLINE std::shared_ptr<D3D12PipelineState>
+BKSGE_INLINE std::shared_ptr<d3d12::PipelineState>
 D3D12Renderer::GetD3D12PipelineState(
 	Shader const& shader,
 	RasterizerState const& rasterizer_state,
 	Primitive primitive)
 {
 	auto const id = bksge::hash_combine(shader.id(), rasterizer_state, primitive);
-	return d3d12_detail::GetOrCreate<D3D12PipelineState>(
+	return d3d12_detail::GetOrCreate<d3d12::PipelineState>(
 		m_d3d12_pipeline_state,
 		id,
 		m_device.get(),

@@ -1,0 +1,37 @@
+﻿/**
+ *	@file	primitive.hpp
+ *
+ *	@brief	ToD3D12Primitive 関数の定義
+ *
+ *	@author	myoukaku
+ */
+
+#ifndef BKSGE_RENDER_D3D12_DETAIL_PRIMITIVE_HPP
+#define BKSGE_RENDER_D3D12_DETAIL_PRIMITIVE_HPP
+
+#include <bksge/render/fwd/primitive_fwd.hpp>
+#include <bksge/render/d3d_common/d3d12.hpp>
+
+namespace bksge
+{
+
+namespace render
+{
+
+namespace d3d12
+{
+
+::D3D12_PRIMITIVE_TOPOLOGY ToD3D12Primitive(bksge::Primitive primitive);
+
+}	// namespace d3d12
+
+}	// namespace render
+
+}	// namespace bksge
+
+#include <bksge/config.hpp>
+#if defined(BKSGE_HEADER_ONLY)
+#include <bksge/render/d3d12/detail/inl/primitive_inl.hpp>
+#endif
+
+#endif // BKSGE_RENDER_D3D12_DETAIL_PRIMITIVE_HPP
