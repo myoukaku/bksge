@@ -275,6 +275,7 @@ struct DelimitedString
 {
 	std::string str;
 
+	DelimitedString(std::string const& s) : str(s) {}
 	std::string::iterator begin() { return str.begin(); }
 	EndOfDelimitedString<delimiter> end() const { return EndOfDelimitedString<delimiter>(); }
 };

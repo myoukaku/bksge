@@ -11,8 +11,8 @@
 
 #include <bksge/render/vulkan/detail/vulkan.hpp>
 #include <bksge/render/vulkan/detail/device.hpp>
+#include <bksge/render/vulkan/detail/spirv_h.hpp>
 #include <bksge/render/shader.hpp>
-#include <SPIRV/GlslangToSpv.h>
 #include <memory>
 #include <string>
 #include <vector>
