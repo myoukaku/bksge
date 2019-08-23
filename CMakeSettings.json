@@ -28,7 +28,7 @@
 	],
 
 	"configurations": [
-		// x64 Debug
+//		// x64 C++11 Debug
 //		{
 //			"inheritEnvironments": [
 //				"msvc_x64_x64",
@@ -43,35 +43,7 @@
 //			"buildCommandArgs": "-v",
 //			"ctestCommandArgs": ""
 //		},
-		{
-			"inheritEnvironments": [
-				"msvc_x64_x64",
-				"std_14"
-			],
-			"configurationType": "Debug",
-			"name": "x64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
-			"generator": "Ninja",
-			"buildRoot": "${env.BUILD_DIR}\\${name}",
-			"installRoot": "${env.INSTALL_DIR}\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
-			"buildCommandArgs": "-v",
-			"ctestCommandArgs": ""
-		},
-		{
-			"inheritEnvironments": [
-				"msvc_x64_x64",
-				"std_17"
-			],
-			"configurationType": "Debug",
-			"name": "x64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
-			"generator": "Ninja",
-			"buildRoot": "${env.BUILD_DIR}\\${name}",
-			"installRoot": "${env.INSTALL_DIR}\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
-			"buildCommandArgs": "-v",
-			"ctestCommandArgs": ""
-		},
-		// x64 Release
+//		// x64 C++11 Release
 //		{
 //			"inheritEnvironments": [
 //				"msvc_x64_x64",
@@ -86,6 +58,22 @@
 //			"buildCommandArgs": "-v",
 //			"ctestCommandArgs": ""
 //		},
+		// x64 C++14 Debug
+		{
+			"inheritEnvironments": [
+				"msvc_x64_x64",
+				"std_14"
+			],
+			"configurationType": "Debug",
+			"name": "x64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
+			"generator": "Ninja",
+			"buildRoot": "${env.BUILD_DIR}\\${name}",
+			"installRoot": "${env.INSTALL_DIR}\\${name}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+			"buildCommandArgs": "-v",
+			"ctestCommandArgs": ""
+		},
+		// x64 C++14 Release
 		{
 			"inheritEnvironments": [
 				"msvc_x64_x64",
@@ -100,6 +88,22 @@
 			"buildCommandArgs": "-v",
 			"ctestCommandArgs": ""
 		},
+		// x64 C++17 Debug
+		{
+			"inheritEnvironments": [
+				"msvc_x64_x64",
+				"std_17"
+			],
+			"configurationType": "Debug",
+			"name": "x64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
+			"generator": "Ninja",
+			"buildRoot": "${env.BUILD_DIR}\\${name}",
+			"installRoot": "${env.INSTALL_DIR}\\${name}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+			"buildCommandArgs": "-v",
+			"ctestCommandArgs": ""
+		},
+		// x64 C++17 Release
 		{
 			"inheritEnvironments": [
 				"msvc_x64_x64",
@@ -114,7 +118,7 @@
 			"buildCommandArgs": "-v",
 			"ctestCommandArgs": ""
 		},
-		// x86 Debug
+//		// x86 C++11 Debug
 //		{
 //			"inheritEnvironments": [
 //				"msvc_x86",
@@ -129,35 +133,7 @@
 //			"buildCommandArgs": "-v",
 //			"ctestCommandArgs": ""
 //		},
-		{
-			"inheritEnvironments": [
-				"msvc_x86",
-				"std_14"
-			],
-			"configurationType": "Debug",
-			"name": "x86-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
-			"generator": "Ninja",
-			"buildRoot": "${env.BUILD_DIR}\\${name}",
-			"installRoot": "${env.INSTALL_DIR}\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
-			"buildCommandArgs": "-v",
-			"ctestCommandArgs": ""
-		},
-		{
-			"inheritEnvironments": [
-				"msvc_x86",
-				"std_17"
-			],
-			"configurationType": "Debug",
-			"name": "x86-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
-			"generator": "Ninja",
-			"buildRoot": "${env.BUILD_DIR}\\${name}",
-			"installRoot": "${env.INSTALL_DIR}\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
-			"buildCommandArgs": "-v",
-			"ctestCommandArgs": ""
-		},
-		// x86 Release
+//		// x86 C++11 Release
 //		{
 //			"inheritEnvironments": [
 //				"msvc_x86",
@@ -172,6 +148,22 @@
 //			"buildCommandArgs": "-v",
 //			"ctestCommandArgs": ""
 //		},
+		// x86 C++14 Debug
+		{
+			"inheritEnvironments": [
+				"msvc_x86",
+				"std_14"
+			],
+			"configurationType": "Debug",
+			"name": "x86-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
+			"generator": "Ninja",
+			"buildRoot": "${env.BUILD_DIR}\\${name}",
+			"installRoot": "${env.INSTALL_DIR}\\${name}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+			"buildCommandArgs": "-v",
+			"ctestCommandArgs": ""
+		},
+		// x86 C++14 Release
 		{
 			"inheritEnvironments": [
 				"msvc_x86",
@@ -186,6 +178,22 @@
 			"buildCommandArgs": "-v",
 			"ctestCommandArgs": ""
 		},
+		// x86 C++17 Debug
+		{
+			"inheritEnvironments": [
+				"msvc_x86",
+				"std_17"
+			],
+			"configurationType": "Debug",
+			"name": "x86-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
+			"generator": "Ninja",
+			"buildRoot": "${env.BUILD_DIR}\\${name}",
+			"installRoot": "${env.INSTALL_DIR}\\${name}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+			"buildCommandArgs": "-v",
+			"ctestCommandArgs": ""
+		},
+		// x86 C++17 Release
 		{
 			"inheritEnvironments": [
 				"msvc_x86",
@@ -200,7 +208,7 @@
 			"buildCommandArgs": "-v",
 			"ctestCommandArgs": ""
 		},
-		// MinGW Debug
+		// MinGW C++11 Debug
 		{
 			"inheritEnvironments": [
 				"mingw_64",
@@ -216,37 +224,7 @@
 			"ctestCommandArgs": "",
 			"intelliSenseMode": "linux-gcc-x64"
 		},
-		{
-			"inheritEnvironments": [
-				"mingw_64",
-				"std_14"
-			],
-			"configurationType": "Debug",
-			"name": "Mingw64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
-			"generator": "Ninja",
-			"buildRoot": "${env.BUILD_DIR}\\${name}",
-			"installRoot": "${env.INSTALL_DIR}\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_CXX_FLAGS=${env.CMAKE_CXX_FLAGS}",
-			"buildCommandArgs": "-v",
-			"ctestCommandArgs": "",
-			"intelliSenseMode": "linux-gcc-x64"
-		},
-		{
-			"inheritEnvironments": [
-				"mingw_64",
-				"std_17"
-			],
-			"configurationType": "Debug",
-			"name": "Mingw64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
-			"generator": "Ninja",
-			"buildRoot": "${env.BUILD_DIR}\\${name}",
-			"installRoot": "${env.INSTALL_DIR}\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_CXX_FLAGS=${env.CMAKE_CXX_FLAGS}",
-			"buildCommandArgs": "-v",
-			"ctestCommandArgs": "",
-			"intelliSenseMode": "linux-gcc-x64"
-		},
-		// MinGW Release
+		// MinGW C++11 Release
 		{
 			"inheritEnvironments": [
 				"mingw_64",
@@ -262,6 +240,23 @@
 			"ctestCommandArgs": "",
 			"intelliSenseMode": "linux-gcc-x64"
 		},
+		// MinGW C++14 Debug
+		{
+			"inheritEnvironments": [
+				"mingw_64",
+				"std_14"
+			],
+			"configurationType": "Debug",
+			"name": "Mingw64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
+			"generator": "Ninja",
+			"buildRoot": "${env.BUILD_DIR}\\${name}",
+			"installRoot": "${env.INSTALL_DIR}\\${name}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_CXX_FLAGS=${env.CMAKE_CXX_FLAGS}",
+			"buildCommandArgs": "-v",
+			"ctestCommandArgs": "",
+			"intelliSenseMode": "linux-gcc-x64"
+		},
+		// MinGW C++14 Release
 		{
 			"inheritEnvironments": [
 				"mingw_64",
@@ -277,6 +272,23 @@
 			"ctestCommandArgs": "",
 			"intelliSenseMode": "linux-gcc-x64"
 		},
+		// MinGW C++17 Debug
+		{
+			"inheritEnvironments": [
+				"mingw_64",
+				"std_17"
+			],
+			"configurationType": "Debug",
+			"name": "Mingw64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
+			"generator": "Ninja",
+			"buildRoot": "${env.BUILD_DIR}\\${name}",
+			"installRoot": "${env.INSTALL_DIR}\\${name}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_CXX_FLAGS=${env.CMAKE_CXX_FLAGS}",
+			"buildCommandArgs": "-v",
+			"ctestCommandArgs": "",
+			"intelliSenseMode": "linux-gcc-x64"
+		},
+		// MinGW C++17 Release
 		{
 			"inheritEnvironments": [
 				"mingw_64",
