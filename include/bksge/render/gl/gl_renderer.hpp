@@ -10,12 +10,12 @@
 #define BKSGE_RENDER_GL_GL_RENDERER_HPP
 
 #include <bksge/render/gl/fwd/gl_renderer_fwd.hpp>
-#include <bksge/render/gl/fwd/gl_context_fwd.hpp>
-#include <bksge/render/gl/fwd/gl_geometry_fwd.hpp>
-#include <bksge/render/gl/fwd/gl_glsl_program_fwd.hpp>
-#include <bksge/render/gl/fwd/gl_texture_fwd.hpp>
-#include <bksge/render/gl/fwd/gl_frame_buffer_fwd.hpp>
-#include <bksge/render/gl/gl_api.hpp>
+#include <bksge/render/gl/detail/fwd/context_fwd.hpp>
+#include <bksge/render/gl/detail/fwd/geometry_fwd.hpp>
+#include <bksge/render/gl/detail/fwd/glsl_program_fwd.hpp>
+#include <bksge/render/gl/detail/fwd/texture_fwd.hpp>
+#include <bksge/render/gl/detail/fwd/frame_buffer_fwd.hpp>
+#include <bksge/render/gl/detail/gl_h.hpp>
 #include <bksge/render/fwd/geometry_fwd.hpp>
 #include <bksge/render/fwd/shader_fwd.hpp>
 #include <bksge/render/fwd/render_state_fwd.hpp>
@@ -42,9 +42,9 @@ public:
 	virtual ~GlRenderer();
 
 public:		// TODO privateにする
-	GlGeometryShared    GetGlGeometry(Geometry const& geometry);
-	GlGLSLProgramShared GetGlGLSLProgram(Shader const& shader);
-	GlTextureShared     GetGlTexture(Texture const& texture);
+	gl::GeometryShared    GetGlGeometry(Geometry const& geometry);
+	gl::GlslProgramShared GetGlslProgram(Shader const& shader);
+	gl::TextureShared     GetGlTexture(Texture const& texture);
 
 private:
 	void Clear(void);
@@ -63,12 +63,12 @@ private:
 	//using NanoSeconds  = bksge::units::nanoseconds<float>;
 
 private:
-	std::unique_ptr<GlContext>  m_gl_context;
-	GlGeometryMap               m_gl_geometry_map;
-	GlGLSLProgramMap            m_gl_shader_map;
-	GlTextureMap                m_gl_texture_map;
-	GLuint                      m_timer_queries[2];  ///< 描画時間を図るためのクエリ
-//	MilliSeconds                m_draw_time;		 ///< 描画時間
+	std::unique_ptr<gl::Context>  m_gl_context;
+	gl::GeometryMap               m_gl_geometry_map;
+	gl::GlslProgramMap            m_gl_shader_map;
+	gl::TextureMap                m_gl_texture_map;
+	::GLuint                      m_timer_queries[2];  ///< 描画時間を図るためのクエリ
+//	MilliSeconds                  m_draw_time;		 ///< 描画時間
 };
 
 }	// namespace render

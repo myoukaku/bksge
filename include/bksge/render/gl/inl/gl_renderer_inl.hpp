@@ -13,15 +13,15 @@
 #if BKSGE_RENDER_HAS_GL_RENDERER
 
 #include <bksge/render/gl/gl_renderer.hpp>
-#include <bksge/render/gl/gl_geometry.hpp>
-#include <bksge/render/gl/gl_glsl_program.hpp>
-#include <bksge/render/gl/gl_texture.hpp>
-#include <bksge/render/gl/gl_frame_buffer.hpp>
-#include <bksge/render/gl/gl_fill_mode.hpp>
-#include <bksge/render/gl/gl_front_face.hpp>
-#include <bksge/render/gl/gl_cull_mode.hpp>
-#include <bksge/render/gl/wgl/wgl_context.hpp>
-#include <bksge/render/gl/glx/glx_context.hpp>
+#include <bksge/render/gl/detail/geometry.hpp>
+#include <bksge/render/gl/detail/glsl_program.hpp>
+#include <bksge/render/gl/detail/texture.hpp>
+#include <bksge/render/gl/detail/frame_buffer.hpp>
+#include <bksge/render/gl/detail/fill_mode.hpp>
+#include <bksge/render/gl/detail/front_face.hpp>
+#include <bksge/render/gl/detail/cull_mode.hpp>
+#include <bksge/render/gl/detail/wgl/wgl_context.hpp>
+#include <bksge/render/gl/detail/glx/glx_context.hpp>
 #include <bksge/render/geometry.hpp>
 #include <bksge/render/shader.hpp>
 #include <bksge/render/render_state.hpp>
@@ -45,16 +45,23 @@ namespace gl_renderer_detail
 //	非メンバ関数
 //
 ///////////////////////////////////////////////////////////////////////////////
-inline GlContext* MakeGlContext(Window const& window)
+inline gl::Context* MakeGlContext(Window const& window)
 {
 #if defined(BKSGE_PLATFORM_WIN32)
-	return new WglContext(window);
+	return new gl::WglContext(window);
 #else
-	return new GlxContext(window);
+	return new gl::GlxContext(window);
 #endif
 }
 
-void APIENTRY DebugCallback(GLenum /*source*/, GLenum /*type*/, GLuint /*id*/, GLenum /*severity*/, GLsizei /*length*/, const GLchar *message, const void* /*userParam*/)
+void APIENTRY DebugCallback(
+	::GLenum /*source*/,
+	::GLenum /*type*/,
+	::GLuint /*id*/,
+	::GLenum /*severity*/,
+	::GLsizei /*length*/,
+	::GLchar const* message,
+	void const* /*userParam*/)
 {
 	(void)message;
 	std::printf("%s\n", message);
@@ -79,8 +86,8 @@ GlRenderer::~GlRenderer()
 	::glDeleteQueries(2, m_timer_queries);
 }
 
-BKSGE_INLINE
-void GlRenderer::VSetRenderTarget(Window const& window)
+BKSGE_INLINE void
+GlRenderer::VSetRenderTarget(Window const& window)
 {
 	m_gl_geometry_map.clear();
 	m_gl_shader_map.clear();
@@ -102,8 +109,8 @@ void GlRenderer::VSetRenderTarget(Window const& window)
 	::glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 }
 
-BKSGE_INLINE
-void GlRenderer::VBegin(void)
+BKSGE_INLINE void
+GlRenderer::VBegin(void)
 {
 //	int const width  = 800;	// TODO
 	int const height = 600;	// TODO
@@ -115,34 +122,34 @@ void GlRenderer::VBegin(void)
 	if (m_viewport)
 	{
 		::glViewport(
-			static_cast<GLint>(m_viewport->left()),
-			static_cast<GLint>(height - m_viewport->bottom()),//m_viewport->top()),
-			static_cast<GLsizei>(m_viewport->width()),
-			static_cast<GLsizei>(m_viewport->height()));
+			static_cast<::GLint>(m_viewport->left()),
+			static_cast<::GLint>(height - m_viewport->bottom()),//m_viewport->top()),
+			static_cast<::GLsizei>(m_viewport->width()),
+			static_cast<::GLsizei>(m_viewport->height()));
 	}
 
 	Clear();
 }
 
-BKSGE_INLINE
-void GlRenderer::VEnd(void)
+BKSGE_INLINE void
+GlRenderer::VEnd(void)
 {
 	::glQueryCounter(m_timer_queries[1], GL_TIMESTAMP);
 
 	m_gl_context->SwapBuffers();
 
-	GLuint64 time_0;
-	GLuint64 time_1;
+	::GLuint64 time_0;
+	::GLuint64 time_1;
 	::glGetQueryObjectui64v(m_timer_queries[0], GL_QUERY_RESULT, &time_0);
 	::glGetQueryObjectui64v(m_timer_queries[1], GL_QUERY_RESULT, &time_1);
 	// TODO
 	//m_draw_time = NanoSeconds(static_cast<float>(time_1 - time_0));
 }
 
-BKSGE_INLINE
-void GlRenderer::Clear(void)
+BKSGE_INLINE void
+GlRenderer::Clear(void)
 {
-	GLbitfield mask = 0;
+	::GLbitfield mask = 0;
 
 	// カラーバッファをクリアするときは
 	// glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE)を呼ぶ必要がある
@@ -180,8 +187,8 @@ void GlRenderer::Clear(void)
 	::glEnable(GL_SCISSOR_TEST);
 }
 
-BKSGE_INLINE
-bool GlRenderer::VRender(
+BKSGE_INLINE bool
+GlRenderer::VRender(
 	Geometry const& geometry,
 	Shader const& shader,
 	ShaderParameterMap const& shader_parameter_map,
@@ -202,10 +209,10 @@ bool GlRenderer::VRender(
 			auto const& rect = scissor.rect();
 			::glEnable(GL_SCISSOR_TEST);
 			::glScissor(
-				static_cast<GLint>(rect.left()),
-				static_cast<GLint>(height - rect.bottom()),//rect.top()),
-				static_cast<GLsizei>(rect.width()),
-				static_cast<GLsizei>(rect.height()));
+				static_cast<::GLint>(rect.left()),
+				static_cast<::GLint>(height - rect.bottom()),//rect.top()),
+				static_cast<::GLsizei>(rect.width()),
+				static_cast<::GLsizei>(rect.height()));
 		}
 		else
 		{
@@ -213,7 +220,7 @@ bool GlRenderer::VRender(
 		}
 	}
 
-	auto glsl_program = GetGlGLSLProgram(shader);
+	auto glsl_program = GetGlslProgram(shader);
 	BKSGE_ASSERT(glsl_program != nullptr);
 
 	auto const& rasterizer_state = render_state.rasterizer_state();
@@ -228,11 +235,11 @@ bool GlRenderer::VRender(
 	else
 	{
 		::glEnable(GL_CULL_FACE);
-		::glCullFace(ToGlCullMode(cull_mode));
+		::glCullFace(gl::CullMode(cull_mode));
 	}
 
-	::glFrontFace(ToGlFrontFace(front_face));
-	::glPolygonMode(GL_FRONT_AND_BACK, ToGlFillMode(fill_mode));
+	::glFrontFace(gl::FrontFace(front_face));
+	::glPolygonMode(GL_FRONT_AND_BACK, gl::FillMode(fill_mode));
 
 	auto gl_geometry = GetGlGeometry(geometry);
 	glsl_program->Render(gl_geometry.get(), shader_parameter_map);
@@ -263,25 +270,22 @@ typename Map::mapped_type GetOrCreate(Map& map, Src const& src, Args... args)
 
 }	// namespace gl_renderer_detail
 
-BKSGE_INLINE
-std::shared_ptr<GlGeometry>
+BKSGE_INLINE std::shared_ptr<gl::Geometry>
 GlRenderer::GetGlGeometry(Geometry const& geometry)
 {
-	return gl_renderer_detail::GetOrCreate<GlGeometry>(m_gl_geometry_map, geometry);
+	return gl_renderer_detail::GetOrCreate<gl::Geometry>(m_gl_geometry_map, geometry);
 }
 
-BKSGE_INLINE
-std::shared_ptr<GlGLSLProgram>
-GlRenderer::GetGlGLSLProgram(Shader const& shader)
+BKSGE_INLINE std::shared_ptr<gl::GlslProgram>
+GlRenderer::GetGlslProgram(Shader const& shader)
 {
-	return gl_renderer_detail::GetOrCreate<GlGLSLProgram>(m_gl_shader_map, shader);
+	return gl_renderer_detail::GetOrCreate<gl::GlslProgram>(m_gl_shader_map, shader);
 }
 
-BKSGE_INLINE
-std::shared_ptr<GlTexture>
+BKSGE_INLINE std::shared_ptr<gl::Texture>
 GlRenderer::GetGlTexture(Texture const& texture)
 {
-	return gl_renderer_detail::GetOrCreate<GlTexture>(m_gl_texture_map, texture);
+	return gl_renderer_detail::GetOrCreate<gl::Texture>(m_gl_texture_map, texture);
 }
 
 }	// namespace render
