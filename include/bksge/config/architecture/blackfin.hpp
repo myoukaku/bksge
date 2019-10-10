@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	blackfin.hpp
  *
- *	@brief	BKSGE_ARCH_BLACKFIN を定義
+ *	@brief	BKSGE_ARCHITECTURE_BLACKFIN を定義
  *
  *	@author	myoukaku
  */
@@ -11,7 +11,8 @@
 
 #if defined(__bfin__) || defined(__BFIN__) || \
     defined(bfin)     || defined(BFIN)
-#  define BKSGE_ARCH_BLACKFIN
+#  define BKSGE_ARCHITECTURE "blackfin"
+#  define BKSGE_ARCHITECTURE_BLACKFIN
 #endif
 
 #endif // BKSGE_CONFIG_ARCHITECTURE_BLACKFIN_HPP

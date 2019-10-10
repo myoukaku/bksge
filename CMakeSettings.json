@@ -17,6 +17,10 @@
 			"CMAKE_CXX_STANDARD": "17"
 		},
 		{
+			"environment": "std_20",
+			"CMAKE_CXX_STANDARD": "20"
+		},
+		{
 			"environment": "mingw_64",
 			"MINGW64_ROOT": "C:\\msys64\\mingw64",
 			"FLAVOR": "x86_64-w64-mingw32",
@@ -118,6 +122,36 @@
 			"buildCommandArgs": "-v",
 			"ctestCommandArgs": ""
 		},
+		// x64 C++20 Debug
+		{
+			"inheritEnvironments": [
+				"msvc_x64_x64",
+				"std_20"
+			],
+			"configurationType": "Debug",
+			"name": "x64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
+			"generator": "Ninja",
+			"buildRoot": "${env.BUILD_DIR}\\${name}",
+			"installRoot": "${env.INSTALL_DIR}\\${name}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+			"buildCommandArgs": "-v",
+			"ctestCommandArgs": ""
+		},
+		// x64 C++20 Release
+		{
+			"inheritEnvironments": [
+				"msvc_x64_x64",
+				"std_20"
+			],
+			"configurationType": "Release",
+			"name": "x64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
+			"generator": "Ninja",
+			"buildRoot": "${env.BUILD_DIR}\\${name}",
+			"installRoot": "${env.INSTALL_DIR}\\${name}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+			"buildCommandArgs": "-v",
+			"ctestCommandArgs": ""
+		},
 //		// x86 C++11 Debug
 //		{
 //			"inheritEnvironments": [
@@ -198,6 +232,36 @@
 			"inheritEnvironments": [
 				"msvc_x86",
 				"std_17"
+			],
+			"configurationType": "Release",
+			"name": "x86-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
+			"generator": "Ninja",
+			"buildRoot": "${env.BUILD_DIR}\\${name}",
+			"installRoot": "${env.INSTALL_DIR}\\${name}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+			"buildCommandArgs": "-v",
+			"ctestCommandArgs": ""
+		},
+		// x86 C++20 Debug
+		{
+			"inheritEnvironments": [
+				"msvc_x86",
+				"std_20"
+			],
+			"configurationType": "Debug",
+			"name": "x86-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
+			"generator": "Ninja",
+			"buildRoot": "${env.BUILD_DIR}\\${name}",
+			"installRoot": "${env.INSTALL_DIR}\\${name}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+			"buildCommandArgs": "-v",
+			"ctestCommandArgs": ""
+		},
+		// x86 C++20 Release
+		{
+			"inheritEnvironments": [
+				"msvc_x86",
+				"std_20"
 			],
 			"configurationType": "Release",
 			"name": "x86-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",

@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	rs6k.hpp
  *
- *	@brief	BKSGE_ARCH_RS6000 を定義
+ *	@brief	BKSGE_ARCHITECTURE_RS6000 を定義
  *
  *	@author	myoukaku
  */
@@ -12,7 +12,8 @@
 #if defined(__THW_RS6000) || defined(_IBMR2)    || \
     defined(_POWER)       || defined(_ARCH_PWR) || \
     defined(_ARCH_PWR2)
-#  define BKSGE_ARCH_RS6000
+#  define BKSGE_ARCHITECTURE "rs6000"
+#  define BKSGE_ARCHITECTURE_RS6000
 #endif
 
 #endif // BKSGE_CONFIG_ARCHITECTURE_RS6K_HPP

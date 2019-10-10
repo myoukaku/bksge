@@ -9,6 +9,8 @@
 #ifndef BKSGE_CONFIG_COMPILER_MSVC_HPP
 #define BKSGE_CONFIG_COMPILER_MSVC_HPP
 
+#define BKSGE_COMPILER "Microsoft Visual C++"
+
 #define BKSGE_MSVC _MSC_VER
 
 #if _MSC_FULL_VER > 100000000
@@ -75,7 +77,9 @@
 
 // BKSGE_STD_VER
 #if !defined(BKSGE_STD_VER)
-#  if _MSVC_LANG >= 201703L
+#  if _MSVC_LANG > 201703L
+#    define BKSGE_STD_VER 20
+#  elif _MSVC_LANG >= 201703L
 #    define BKSGE_STD_VER 17
 #  elif _MSVC_LANG >= 201402L
 #    define BKSGE_STD_VER 14

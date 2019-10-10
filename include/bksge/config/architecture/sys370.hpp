@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	sys370.hpp
  *
- *	@brief	BKSGE_ARCH_SYS370 を定義
+ *	@brief	BKSGE_ARCHITECTURE_SYS370 を定義
  *
  *	@author	myoukaku
  */
@@ -10,7 +10,8 @@
 #define BKSGE_CONFIG_ARCHITECTURE_SYS370_HPP
 
 #if defined(__370__) || defined(__THW_370__)
-#  define BKSGE_ARCH_SYS370
+#  define BKSGE_ARCHITECTURE "sys370"
+#  define BKSGE_ARCHITECTURE_SYS370
 #endif
 
 #endif // BKSGE_CONFIG_ARCHITECTURE_SYS370_HPP

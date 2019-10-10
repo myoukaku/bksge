@@ -9,12 +9,16 @@
 #ifndef BKSGE_CONFIG_COMPILER_CLANG_HPP
 #define BKSGE_CONFIG_COMPILER_CLANG_HPP
 
+#define BKSGE_COMPILER "clang"
+
 #define BKSGE_CLANG_VERSION (__clang_major__ * 10000 + __clang_minor__ * 100 + __clang_patchlevel__)
 #define BKSGE_CLANG BKSGE_CLANG_VERSION
 
 // BKSGE_STD_VER
 #if !defined(BKSGE_STD_VER)
-#  if __cplusplus >= 201703L
+#  if __cplusplus > 201703L
+#    define BKSGE_STD_VER 20
+#  elif __cplusplus >= 201703L
 #    define BKSGE_STD_VER 17
 #  elif __cplusplus >= 201402L
 #    define BKSGE_STD_VER 14

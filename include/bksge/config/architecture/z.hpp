@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	z.hpp
  *
- *	@brief	BKSGE_ARCH_Z を定義
+ *	@brief	BKSGE_ARCHITECTURE_Z を定義
  *
  *	@author	myoukaku
  */
@@ -10,7 +10,8 @@
 #define BKSGE_CONFIG_ARCHITECTURE_Z_HPP
 
 #if defined(__SYSC_ZARCH__)
-#  define BKSGE_ARCH_Z
+#  define BKSGE_ARCHITECTURE "z"
+#  define BKSGE_ARCHITECTURE_Z
 #endif
 
 #endif // BKSGE_CONFIG_ARCHITECTURE_Z_HPP

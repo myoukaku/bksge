@@ -40,7 +40,7 @@ GTEST_TEST(ConfigTest, Cxx17U8CharacterLiteralsTest)
 {
 #if !defined(BKSGE_NO_CXX17_U8_CHARACTER_LITERALS)
 	char c = u8'A';
-	EXPECT_EQ(u8'A', c);
+	EXPECT_EQ('A', c);
 #endif
 }
 

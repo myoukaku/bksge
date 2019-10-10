@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	ia64.hpp
  *
- *	@brief	BKSGE_ARCH_IA64 を定義
+ *	@brief	BKSGE_ARCHITECTURE_IA64 を定義
  *
  *	@author	myoukaku
  */
@@ -12,7 +12,8 @@
 #if defined(__ia64__) || defined(_IA64)  || \
     defined(__IA64__) || defined(__ia64) || \
     defined(_M_IA64)  || defined(__itanium__)
-#  define BKSGE_ARCH_IA64
+#  define BKSGE_ARCHITECTURE "ia64"
+#  define BKSGE_ARCHITECTURE_IA64
 #endif
 
 #endif // BKSGE_CONFIG_ARCHITECTURE_IA64_HPP

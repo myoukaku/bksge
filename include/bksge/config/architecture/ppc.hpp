@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	ppc.hpp
  *
- *	@brief	BKSGE_ARCH_PPC を定義
+ *	@brief	BKSGE_ARCHITECTURE_PPC を定義
  *
  *	@author	myoukaku
  */
@@ -14,7 +14,8 @@
     defined(_M_PPC)       || defined(_ARCH_PPC)       || \
     defined(__PPCGECKO__) || defined(__PPCBROADWAY__) || \
     defined(_XENON)
-#  define BKSGE_ARCH_PPC
+#  define BKSGE_ARCHITECTURE "ppc"
+#  define BKSGE_ARCHITECTURE_PPC
 #endif
 
 #endif // BKSGE_CONFIG_ARCHITECTURE_PPC_HPP

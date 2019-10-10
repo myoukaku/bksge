@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	sparc.hpp
  *
- *	@brief	BKSGE_ARCH_SPARC を定義
+ *	@brief	BKSGE_ARCHITECTURE_SPARC を定義
  *
  *	@author	myoukaku
  */
@@ -10,7 +10,8 @@
 #define BKSGE_CONFIG_ARCHITECTURE_SPARC_HPP
 
 #if defined(__sparc__) || defined(__sparc)
-#  define BKSGE_ARCH_SPARC
+#  define BKSGE_ARCHITECTURE "sparc"
+#  define BKSGE_ARCHITECTURE_SPARC
 #endif
 
 #endif // BKSGE_CONFIG_ARCHITECTURE_SPARC_HPP

@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	mips.hpp
  *
- *	@brief	BKSGE_ARCH_MIPS を定義
+ *	@brief	BKSGE_ARCHITECTURE_MIPS を定義
  *
  *	@author	myoukaku
  */
@@ -11,7 +11,8 @@
 
 #if defined(__mips__) || defined(__mips) || \
     defined(__MIPS__)
-#  define BKSGE_ARCH_MIPS
+#  define BKSGE_ARCHITECTURE "mips"
+#  define BKSGE_ARCHITECTURE_MIPS
 #endif
 
 #endif // BKSGE_CONFIG_ARCHITECTURE_MIPS_HPP

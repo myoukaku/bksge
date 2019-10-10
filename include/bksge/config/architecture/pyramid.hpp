@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	pyramid.hpp
  *
- *	@brief	BKSGE_ARCH_PYRAMID を定義
+ *	@brief	BKSGE_ARCHITECTURE_PYRAMID を定義
  *
  *	@author	myoukaku
  */
@@ -10,7 +10,8 @@
 #define BKSGE_CONFIG_ARCHITECTURE_PYRAMID_HPP
 
 #if defined(pyr)
-#  define BKSGE_ARCH_PYRAMID
+#  define BKSGE_ARCHITECTURE "pyramid"
+#  define BKSGE_ARCHITECTURE_PYRAMID
 #endif
 
 #endif // BKSGE_CONFIG_ARCHITECTURE_PYRAMID_HPP

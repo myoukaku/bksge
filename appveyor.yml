@@ -21,6 +21,11 @@ environment:
       VS_BUILD_TOOLS_DIR: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\Build\\"
       CXX_STANDARD: 17
 
+    - CMAKE_GENERATOR: "Visual Studio 16 2019"
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      VS_BUILD_TOOLS_DIR: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\Build\\"
+      CXX_STANDARD: 20
+
 #    - CMAKE_GENERATOR: "Visual Studio 15 2017"
 #      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
 #      VS_BUILD_TOOLS_DIR: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\VC\\Auxiliary\\Build\\"
@@ -30,6 +35,11 @@ environment:
 #      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
 #      VS_BUILD_TOOLS_DIR: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\VC\\Auxiliary\\Build\\"
 #      CXX_STANDARD: 17
+
+#    - CMAKE_GENERATOR: "Visual Studio 15 2017"
+#      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+#      VS_BUILD_TOOLS_DIR: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\VC\\Auxiliary\\Build\\"
+#      CXX_STANDARD: 20
 
 platform:
   - x64

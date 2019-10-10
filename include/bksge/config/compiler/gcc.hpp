@@ -9,6 +9,8 @@
 #ifndef BKSGE_CONFIG_COMPILER_GCC_HPP
 #define BKSGE_CONFIG_COMPILER_GCC_HPP
 
+#define BKSGE_COMPILER "gcc"
+
 #define BKSGE_GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
 
 #if !defined(__CUDACC__)
@@ -17,7 +19,9 @@
 
 // BKSGE_STD_VER
 #if !defined(BKSGE_STD_VER)
-#  if __cplusplus >= 201703L
+#  if __cplusplus > 201703L
+#    define BKSGE_STD_VER 20
+#  elif __cplusplus >= 201703L
 #    define BKSGE_STD_VER 17
 #  elif __cplusplus >= 201402L
 #    define BKSGE_STD_VER 14

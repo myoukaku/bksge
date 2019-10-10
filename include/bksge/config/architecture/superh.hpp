@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	superh.hpp
  *
- *	@brief	BKSGE_ARCH_SH を定義
+ *	@brief	BKSGE_ARCHITECTURE_SH を定義
  *
  *	@author	myoukaku
  */
@@ -10,7 +10,8 @@
 #define BKSGE_CONFIG_ARCHITECTURE_SUPERH_HPP
 
 #if defined(__sh__)
-#  define BKSGE_ARCH_SH
+#  define BKSGE_ARCHITECTURE "sh"
+#  define BKSGE_ARCHITECTURE_SH
 #endif
 
 #endif // BKSGE_CONFIG_ARCHITECTURE_SUPERH_HPP

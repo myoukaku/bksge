@@ -499,7 +499,7 @@ GTEST_TEST(ConfigTest, Cxx11Char32TTest)
 GTEST_TEST(ConfigTest, Cxx11UnicodeLiteralsTest)
 {
 #if !defined(BKSGE_NO_CXX11_UNICODE_LITERALS)
-	char s[] = u8"あいうえお";
+	auto s = u8"あいうえお";
 #endif
 }
 
