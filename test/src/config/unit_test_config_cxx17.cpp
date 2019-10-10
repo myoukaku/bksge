@@ -115,9 +115,9 @@ using f = void(*)() noexcept;
 GTEST_TEST(ConfigTest, Cxx17ExpressionEvaluationOrderTest)
 {
 #if !defined(BKSGE_NO_CXX17_EXPRESSION_EVALUATION_ORDER)
-	std::map<int, int> m;
+	std::map<int, std::size_t> m;
 	m[0] = m.size();
-	EXPECT_EQ(0, m[0]);
+	EXPECT_EQ(0u, m[0]);
 #endif	// !defined(BKSGE_NO_CXX17_EXPRESSION_EVALUATION_ORDER)
 }
 
@@ -573,6 +573,7 @@ namespace ignoring_unrecognized_attributes_test
 BKSGE_WARNING_PUSH()
 BKSGE_WARNING_DISABLE_GCC("-Wattributes")
 BKSGE_WARNING_DISABLE_CLANG("-Wunknown-attributes")
+BKSGE_WARNING_DISABLE_MSVC(5030)	// 属性 '...' は認識されません
 
 [[UNKNOWN::unknown_attribute]] void f() {}
 

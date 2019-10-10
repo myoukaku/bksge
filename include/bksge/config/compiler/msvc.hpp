@@ -73,6 +73,19 @@
 #  define BKSGE_NO_RTTI
 #endif
 
+// BKSGE_STD_VER
+#if !defined(BKSGE_STD_VER)
+#  if _MSVC_LANG >= 201703L
+#    define BKSGE_STD_VER 17
+#  elif _MSVC_LANG >= 201402L
+#    define BKSGE_STD_VER 14
+#  elif  _MSVC_LANG >= 201103L
+#    define BKSGE_STD_VER 11
+#  else
+#    define BKSGE_STD_VER  3
+#  endif
+#endif  // BKSGE_STD_VER
+
 #if _MSC_VER >= 1600
 #  define BKSGE_HAS_STDINT_H
 #endif
@@ -160,12 +173,13 @@
 #  define BKSGE_NO_CXX14_SIZED_DEALLOCATION							// サイズ付きデアロケーション
 #  define BKSGE_NO_CXX14_DIGIT_SEPARATORS							// 数値リテラルの桁区切り文字
 #endif
-#if (_MSC_FULL_VER < 190023026) || (_MSVC_LANG < 201402)
+#if (_MSC_FULL_VER < 190023026) || (BKSGE_STD_VER < 14)
 #  define BKSGE_NO_CXX17_AUTO_DEDUCTION_BRACED_INIT_LIST			// 波括弧初期化の型推論の新規則
 #  define BKSGE_NO_CXX17_TEMPLATE_TEMPLATE_TYPENAME					// テンプレートテンプレートパラメータにtypenameを許可
 #  define BKSGE_NO_CXX17_ENUMERATOR_ATTRIBUTES						// 列挙子に属性の付加を許可
 #  define BKSGE_NO_CXX17_NAMESPACE_ATTRIBUTES						// 名前空間に属性の付加を許可
 #  define BKSGE_NO_CXX17_U8_CHARACTER_LITERALS						// UTF-8文字リテラル
+#  define BKSGE_NO_CXX17_IGNORING_UNRECOGNIZED_ATTRIBUTES			// 不明な属性を無視する
 #endif
 
 // Visual Studio 2015 Update 1	(Visual C++ 14.0)
@@ -182,7 +196,7 @@
 #  define BKSGE_NO_CXX11_SFINAE_EXPR								// 任意の式によるSFINAE
 #  define BKSGE_NO_CXX11_CONSTEXPR									// 定数式
 #endif
-#if (_MSC_FULL_VER < 190024210) || (_MSVC_LANG < 201703)
+#if (_MSC_FULL_VER < 190024210) || (BKSGE_STD_VER < 17)
 #  define BKSGE_NO_CXX17_NESTED_NAMESPACE_DEFINITIONS				// 入れ子名前空間の定義
 #endif
 
@@ -191,19 +205,19 @@
 #  define BKSGE_NO_CXX14_CONSTEXPR									// constexprの制限緩和
 #  define BKSGE_NO_CXX14_AGGREGATE_NSDMI							// 宣言時のメンバ初期化を持つ型の集成体初期化
 #endif
-#if (_MSC_FULL_VER < 191025017) || (_MSVC_LANG < 201402)
+#if (_MSC_FULL_VER < 191025017) || (BKSGE_STD_VER < 14)
 #  define BKSGE_NO_CXX17_RANGE_BASED_FOR							// 範囲for文の制限を緩和
 #endif
-#if (_MSC_FULL_VER < 191025017) || (_MSVC_LANG < 201703)
+#if (_MSC_FULL_VER < 191025017) || (BKSGE_STD_VER < 17)
 #  define BKSGE_NO_CXX17_STATIC_ASSERT								// メッセージなしのstatic_assert
 #  define BKSGE_NO_CXX17_FALLTHROUGH								// [[fallthrough]]属性
 #endif
 
 // Visual Studio 2017 Update 3 (15.3.3)	(Visual C++ 14.11)
-#if (_MSC_FULL_VER < 191125507) || (_MSVC_LANG < 201402)
+#if (_MSC_FULL_VER < 191125507) || (BKSGE_STD_VER < 14)
 #  define BKSGE_NO_CXX17_HAS_INCLUDE								// プリプロセッサでの条件式__has_include
 #endif
-#if (_MSC_FULL_VER < 191125507) || (_MSVC_LANG < 201703)
+#if (_MSC_FULL_VER < 191125507) || (BKSGE_STD_VER < 17)
 #  define BKSGE_NO_CXX17_IF_CONSTEXPR								// if constexpr文
 #  define BKSGE_NO_CXX17_CAPTURE_STAR_THIS							// ラムダ式での*thisのコピーキャプチャ
 #  define BKSGE_NO_CXX17_USING_ATTRIBUTE_NAMESPACES					// 属性の名前空間指定に繰り返しをなくす
@@ -223,11 +237,15 @@
 #if (_MSC_FULL_VER < 191125547)
 #endif
 
+// Visual Studio 2017 Update 5 (v15.5)	(Visual C++ 14.12)
+#if (_MSC_FULL_VER < 191225830)
+#endif
+
 // Visual Studio 2017 Update 5 (15.5.2)	(Visual C++ 14.12)
 #if (_MSC_FULL_VER < 191225831)
 #  define BKSGE_NO_CXX17_HEX_FLOAT								// 浮動小数点数の16進数リテラル
 #endif
-#if (_MSC_FULL_VER < 191225831) || (_MSVC_LANG < 201703)
+#if (_MSC_FULL_VER < 191225831) || (BKSGE_STD_VER < 17)
 #  define BKSGE_NO_CXX17_NONTYPE_TEMPLATE_ARGS					// 非型テンプレートパラメータの定数式を評価
 #  define BKSGE_NO_CXX17_FOLD_EXPRESSIONS						// 畳み込み式
 #  define BKSGE_NO_CXX17_EXCEPTION_SPECIFICATIONS				// 非推奨だった例外仕様を削除
@@ -237,19 +255,22 @@
 #  define BKSGE_NO_CXX17_TEMPLATE_TEMPLATE_ARGS					// テンプレートテンプレート引数のマッチングにおいて、互換性のあるテンプレートを除外
 #endif
 
-// Visual Studio 2017 Update 5 (15.5.4)	(Visual C++ 14.12)
+// Visual Studio 2017 Update 5 (15.5.(3-4))	(Visual C++ 14.12)
 #if (_MSC_FULL_VER < 191225834)
 #endif
 
-// Visual Studio 2017 Update 5 (15.5.7)	(Visual C++ 14.12)
+// Visual Studio 2017 Update 5 (15.5.(5-7))	(Visual C++ 14.12)
 #if (_MSC_FULL_VER < 191225835)
 #endif
 
-// Visual Studio 2017 Update 6 (15.6.2)	(Visual C++ 14.13)
+// Visual Studio 2017 Update 6 (15.6.(0-2))	(Visual C++ 14.13)
 #if (_MSC_FULL_VER < 191326128)
 #endif
+#if (_MSC_FULL_VER < 191326128) || (BKSGE_STD_VER < 17)
+#  define BKSGE_NO_CXX17_GUARANTEED_COPY_ELISION				// 値のコピー省略を保証
+#endif
 
-// Visual Studio 2017 Update 6 (15.6.4)	(Visual C++ 14.13)
+// Visual Studio 2017 Update 6 (15.6.(3-5))	(Visual C++ 14.13)
 #if (_MSC_FULL_VER < 191326129)
 #endif
 
@@ -261,8 +282,16 @@
 #if (_MSC_FULL_VER < 191326132)
 #endif
 
-// Visual Studio 2017 Update 7 (15.7.1)	(Visual C++ 14.14)
+// Visual Studio 2017 Update 7 (15.7.(0-1))	(Visual C++ 14.14)
 #if (_MSC_FULL_VER < 191426428)
+#endif
+#if (_MSC_FULL_VER < 191426428) || (BKSGE_STD_VER < 17)
+#  define BKSGE_NO_CXX17_VARIADIC_USING							// using宣言でのパック展開
+#  define BKSGE_NO_CXX17_AGGREGATE_BASES						// 集成体初期化の波カッコを省略
+#  define BKSGE_NO_CXX17_DEDUCTION_GUIDES						// クラステンプレートのテンプレート引数推論
+#  define BKSGE_NO_CXX17_NONTYPE_TEMPLATE_PARAMETER_AUTO		// 非型テンプレート引数のauto宣言
+#  define BKSGE_NO_CXX17_INHERITING_CONSTRUCTORS				// 継承コンストラクタの新仕様
+#  define BKSGE_NO_CXX17_EXPRESSION_EVALUATION_ORDER			// 厳密な式の評価順
 #endif
 
 // Visual Studio 2017 Update 7 (15.7.2)	(Visual C++ 14.14)
@@ -273,7 +302,11 @@
 #if (_MSC_FULL_VER < 191426430)
 #endif
 
-// Visual Studio 2017 Update 7 (15.7.5)	(Visual C++ 14.14)
+// Visual Studio 2017 Update 7 (15.7.4)	(Visual C++ 14.14)
+#if (_MSC_FULL_VER < 191426431)
+#endif
+
+// Visual Studio 2017 Update 7 (15.7.(5-6))	(Visual C++ 14.14)
 #if (_MSC_FULL_VER < 191426433)
 #endif
 
@@ -289,34 +322,73 @@
 #if (_MSC_FULL_VER < 191526730)
 #endif
 
-// BKSGE_STD_VER
-#if !defined(BKSGE_STD_VER)
-#  if _MSVC_LANG >= 201703L
-#    define BKSGE_STD_VER 17
-#  elif _MSVC_LANG >= 201402L
-#    define BKSGE_STD_VER 14
-#  elif  _MSVC_LANG >= 201103L
-#    define BKSGE_STD_VER 11
-#  else
-#    define BKSGE_STD_VER  3
-#  endif
-#endif  // BKSGE_STD_VER
+// Visual Studio 2017 Update 8 (15.8.(8-9))	(Visual C++ 14.15)
+#if (_MSC_FULL_VER < 191526732)
+#endif
 
-#if BKSGE_STD_VER < 17
+// Visual Studio 2017 Update 9 (15.9.(0-1))	(Visual C++ 14.16)
+#if (_MSC_FULL_VER < 191627023)
+#endif
+
+// Visual Studio 2017 Update 9 (15.9.(2-3))	(Visual C++ 14.16)
+#if (_MSC_FULL_VER < 191627024)
+#endif
+
+// Visual Studio 2017 Update 9 (15.9.4)	(Visual C++ 14.16)
+#if (_MSC_FULL_VER < 191627025)
+#endif
+
+// Visual Studio 2017 Update 9 (15.9.(5-6))	(Visual C++ 14.16)
+#if (_MSC_FULL_VER < 191627026)
+#endif
+
+// Visual Studio 2017 Update 9 (15.9.(7-10)) (Visual C++ 14.16)
+#if (_MSC_FULL_VER < 191627027)
+#endif
+
+// Visual Studio 2017 Update 9 (15.9.11) (Visual C++ 14.16)
+#if (_MSC_FULL_VER < 191627030)
+#endif
+
+// Visual Studio 2017 Update 9 (15.9.(12-13)) (Visual C++ 14.16)
+#if (_MSC_FULL_VER < 191627031)
+#endif
+
+// Visual Studio 2017 Update 9 (15.9.14) (Visual C++ 14.16)
+#if (_MSC_FULL_VER < 191627032)
+#endif
+
+// Visual Studio 2019 (16.0.Prev(1-4)) (Visual C++ 14.20)
+#if (_MSC_FULL_VER < 192027027)
+#endif
+
+// Visual Studio 2019 (16.0.(0-4)) (Visual C++ 14.20)
+#if (_MSC_FULL_VER < 192027508)
+#endif
+
+// Visual Studio 2019 Update 1 (16.1.(0-6)) (Visual C++ 14.21)
+#if (_MSC_FULL_VER < 192127702)
+#endif
+
+// Visual Studio 2019 Update 2 (16.2.(0-5)) (Visual C++ 14.22)
+#if (_MSC_FULL_VER < 192227905)
+#endif
+
+// Visual Studio 2019 Update 3 (16.3.(0-2)) (Visual C++ 14.23)
+#if (_MSC_FULL_VER < 192328105)
+#endif
+
+// Visual Studio 2019 Update 3 (16.3.3) (Visual C++ 14.23)
+#if (_MSC_FULL_VER < 192328106)
+#endif
+
+#if (BKSGE_STD_VER < 17)
 #  define BKSGE_NO_CXX17_CONSTEXPR
 #endif
 
 #define BKSGE_NO_COMPLETE_VALUE_INITIALIZATION
 #define BKSGE_NO_TWO_PHASE_NAME_LOOKUP							// Two-phase name lookup
 #define BKSGE_NO_CXX11_PRAGMA_OPERATOR							// Pragma演算子
-#define BKSGE_NO_CXX17_GUARANTEED_COPY_ELISION					// 値のコピー省略を保証
-#define BKSGE_NO_CXX17_INHERITING_CONSTRUCTORS					// 継承コンストラクタの新仕様
-#define BKSGE_NO_CXX17_AGGREGATE_BASES							// 集成体初期化の波カッコを省略
-#define BKSGE_NO_CXX17_DEDUCTION_GUIDES							// クラステンプレートのテンプレート引数推論
-#define BKSGE_NO_CXX17_NONTYPE_TEMPLATE_PARAMETER_AUTO			// 非型テンプレート引数のauto宣言
-#define BKSGE_NO_CXX17_EXPRESSION_EVALUATION_ORDER				// 厳密な式の評価順
-#define BKSGE_NO_CXX17_IGNORING_UNRECOGNIZED_ATTRIBUTES			// 不明な属性を無視する
-#define BKSGE_NO_CXX17_VARIADIC_USING							// using宣言でのパック展開
 
 #if 0
 
