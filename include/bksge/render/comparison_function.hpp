@@ -54,7 +54,7 @@ operator<<(std::basic_ostream<CharT, Traits>& os, ComparisonFunction const& rhs)
 
 }	// namespace bksge
 
-#if BKSGE_STD_VER <= 11
+#if BKSGE_CXX_STANDARD <= 11
 
 #include <functional>
 #include <type_traits>
@@ -75,7 +75,7 @@ struct hash<bksge::render::ComparisonFunction>
 
 }	// namespace std
 
-#endif // BKSGE_STD_VER <= 11
+#endif // BKSGE_CXX_STANDARD <= 11
 
 #include <bksge/config.hpp>
 #if defined(BKSGE_HEADER_ONLY)
