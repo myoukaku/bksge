@@ -12,7 +12,7 @@
 #include <bksge/config.hpp>
 #include <bksge/cmath/fabs.hpp>
 
-#if !defined(BKSGE_NO_CXX11_CONSTEXPR)
+#if defined(BKSGE_HAS_CXX11_CONSTEXPR)
 
 #  define BKSGE_CONSTEXPR_EXPECT_EQ(x, y)	\
 	static_assert((x) == (y), "");	\
@@ -54,7 +54,7 @@
 #endif
 
 
-#if !defined(BKSGE_NO_CXX14_CONSTEXPR)
+#if defined(BKSGE_HAS_CXX14_CONSTEXPR)
 
 #  define BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(x, y)	\
 	static_assert((x) == (y), "");	\
@@ -89,7 +89,7 @@
 #endif
 
 
-#if !defined(BKSGE_NO_CXX17_CONSTEXPR)
+#if defined(BKSGE_HAS_CXX17_CONSTEXPR)
 
 #  define BKSGE_CXX17_CONSTEXPR_EXPECT_EQ(x, y)	\
 	static_assert((x) == (y), "");	\

@@ -13,34 +13,34 @@
 // noexcept workarounds
 //
 #if !defined(BKSGE_NOEXCEPT)
-#	if defined(BKSGE_NO_CXX11_NOEXCEPT)
-#	  define BKSGE_NOEXCEPT
-#	else
+#	if defined(BKSGE_HAS_CXX11_NOEXCEPT)
 #	  define BKSGE_NOEXCEPT noexcept
+#	else
+#	  define BKSGE_NOEXCEPT
 #	endif
 #endif
 
 #if !defined(BKSGE_NOEXCEPT_OR_NOTHROW)
-#	if defined(BKSGE_NO_CXX11_NOEXCEPT)
-#	  define BKSGE_NOEXCEPT_OR_NOTHROW throw()
-#	else
+#	if defined(BKSGE_HAS_CXX11_NOEXCEPT)
 #	  define BKSGE_NOEXCEPT_OR_NOTHROW noexcept
+#	else
+#	  define BKSGE_NOEXCEPT_OR_NOTHROW throw()
 #	endif
 #endif
 
 #if !defined(BKSGE_NOEXCEPT_IF)
-#	if defined(BKSGE_NO_CXX11_NOEXCEPT)
-#	  define BKSGE_NOEXCEPT_IF(Predicate)
-#	else
+#	if defined(BKSGE_HAS_CXX11_NOEXCEPT)
 #	  define BKSGE_NOEXCEPT_IF(Predicate) noexcept((Predicate))
+#	else
+#	  define BKSGE_NOEXCEPT_IF(Predicate)
 #	endif
 #endif
 
 #if !defined(BKSGE_NOEXCEPT_EXPR)
-#	if defined(BKSGE_NO_CXX11_NOEXCEPT)
-#	  define BKSGE_NOEXCEPT_EXPR(Expression) false
-#	else
+#	if defined(BKSGE_HAS_CXX11_NOEXCEPT)
 #	  define BKSGE_NOEXCEPT_EXPR(Expression) noexcept((Expression))
+#	else
+#	  define BKSGE_NOEXCEPT_EXPR(Expression) false
 #	endif
 #endif
 

@@ -54,7 +54,7 @@ GTEST_TEST(TypeTraitsTest, IsNothrowSwappableWithTest)
 	IntegralConstantTest<bksge::is_nothrow_swappable_with<int, int>, false>();
 	IntegralConstantTest<bksge::is_nothrow_swappable_with<int, void>, false>();
 
-#if !defined(BKSGE_NO_CXX11_NOEXCEPT)
+#if defined(BKSGE_HAS_CXX11_NOEXCEPT)
 	BKSGE_IS_NOTHROW_SWAPPABLE_WITH_TEST(false, SwapThrow1&, SwapThrow1&);
 	BKSGE_IS_NOTHROW_SWAPPABLE_WITH_TEST(false, SwapThrow1&, SwapThrow2&);
 	BKSGE_IS_NOTHROW_SWAPPABLE_WITH_TEST(false, SwapThrow2&, SwapThrow1&);

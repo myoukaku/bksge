@@ -13,7 +13,7 @@
 //	override workaround
 //
 #if !defined(BKSGE_OVERRIDE)
-#	if !defined(BKSGE_NO_CXX11_OVERRIDE)
+#	if defined(BKSGE_HAS_CXX11_OVERRIDE)
 #		define BKSGE_OVERRIDE override
 #	else
 #		define BKSGE_OVERRIDE

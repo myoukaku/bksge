@@ -13,7 +13,7 @@
 //	[[deprecated]] workaround
 //
 #if !defined(BKSGE_DEPRECATED)
-#	if !defined(BKSGE_NO_CXX14_DEPRECATED)
+#	if defined(BKSGE_HAS_CXX14_DEPRECATED)
 #		define BKSGE_DEPRECATED(message) [[deprecated(message)]]
 #	elif defined(_MSC_VER)
 #		define BKSGE_DEPRECATED(message) __declspec(deprecated(message))

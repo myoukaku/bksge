@@ -52,7 +52,7 @@ GTEST_TEST(ConfigTest, ConstexprTest)
 	static_assert(sizeof(arr2) == 2, "");
 	static_assert(sizeof(arr3) == 3, "");
 
-#if !defined(BKSGE_NO_CXX11_CONSTEXPR)
+#if defined(BKSGE_HAS_CXX11_CONSTEXPR)
 	static_assert(a == 1, "");
 	static_assert(d == 8, "");
 
@@ -65,7 +65,7 @@ GTEST_TEST(ConfigTest, ConstexprTest)
 	static_assert(sizeof(arr4) == 8, "");
 #endif
 
-#if !defined(BKSGE_NO_CXX14_CONSTEXPR)
+#if defined(BKSGE_HAS_CXX14_CONSTEXPR)
 	static_assert(e == 5, "");
 	static_assert(f == 18, "");
 	static_assert(g == 21, "");

@@ -27,7 +27,7 @@ namespace bksge_config_cxx11_test
 namespace alignas_test
 {
 
-#if !defined(BKSGE_NO_CXX11_ALIGNAS)
+#if defined(BKSGE_HAS_CXX11_ALIGNAS)
 
 BKSGE_WARNING_PUSH()
 BKSGE_WARNING_DISABLE_MSVC(4324)	// アラインメント指定子のために構造体がパッドされました
@@ -47,14 +47,14 @@ struct alignas(32) hoge
 
 BKSGE_WARNING_POP()
 
-#endif	// !defined(BKSGE_NO_CXX11_ALIGNAS)
+#endif	// defined(BKSGE_HAS_CXX11_ALIGNAS)
 
 }	// namespace alignas_test
 
 namespace alignof_test
 {
 
-#if !defined(BKSGE_NO_CXX11_ALIGNOF)
+#if defined(BKSGE_HAS_CXX11_ALIGNOF)
 
 struct hoge
 {
@@ -72,14 +72,14 @@ static const std::size_t a3 = alignof(hoge);
 static const std::size_t a4 = alignof(empty);
 static const std::size_t a5 = alignof(void*);
 
-#endif	// !defined(BKSGE_NO_CXX11_ALIGNOF)
+#endif	// defined(BKSGE_HAS_CXX11_ALIGNOF)
 
 }	// namespace alignof_test
 
 namespace auto_test
 {
 
-#if !defined(BKSGE_NO_CXX11_AUTO_DECLARATIONS)
+#if defined(BKSGE_HAS_CXX11_AUTO_DECLARATIONS)
 
 auto s_i = 0;
 const auto s_l = 0L;
@@ -115,14 +115,14 @@ void func()
 	}
 }
 
-#endif	// !defined(BKSGE_NO_CXX11_AUTO_DECLARATIONS)
+#endif	// defined(BKSGE_HAS_CXX11_AUTO_DECLARATIONS)
 
 }	// namespace auto_test
 
 namespace decltype_test
 {
 
-#if !defined(BKSGE_NO_CXX11_DECLTYPE)
+#if defined(BKSGE_HAS_CXX11_DECLTYPE)
 
 template <typename T, typename U>
 auto add(const T& lhs, const U& rhs)
@@ -138,7 +138,7 @@ void func()
 	decltype((i)) k = i;
 }
 
-#endif	// !defined(BKSGE_NO_CXX11_DECLTYPE)
+#endif	// defined(BKSGE_HAS_CXX11_DECLTYPE)
 
 }	// namespace decltype_test
 
@@ -152,7 +152,7 @@ int f3(int, int, int) { return 40; }
 
 GTEST_TEST(ConfigTest, Cxx11VariadicMacrosTest)
 {
-#if !defined(BKSGE_NO_CXX11_VARIADIC_MACROS)
+#if defined(BKSGE_HAS_CXX11_VARIADIC_MACROS)
 
 	#define FORWARD_ARGS(...) __VA_ARGS__
 
@@ -166,7 +166,7 @@ GTEST_TEST(ConfigTest, Cxx11VariadicMacrosTest)
 
 }	// namespace variadic_macros_test
 
-#if !defined(BKSGE_NO_CXX11_CONSTEXPR)
+#if defined(BKSGE_HAS_CXX11_CONSTEXPR)
 namespace constexpr_test
 {
 	constexpr int square(int x)
@@ -193,11 +193,11 @@ namespace constexpr_test
 
 GTEST_TEST(ConfigTest, Cxx11ConstexprTest)
 {
-#if !defined(BKSGE_NO_CXX11_CONSTEXPR)
+#if defined(BKSGE_HAS_CXX11_CONSTEXPR)
 	using namespace constexpr_test;
 
 	constexpr int compile_time_result = square(3);
-#if !defined(BKSGE_NO_CXX11_STATIC_ASSERT)
+#if defined(BKSGE_HAS_CXX11_STATIC_ASSERT)
 	static_assert(compile_time_result == 9, "result must be 9");
 #endif
 	EXPECT_EQ(9, compile_time_result);
@@ -209,7 +209,7 @@ GTEST_TEST(ConfigTest, Cxx11ConstexprTest)
 	EXPECT_EQ(9, runtime_result);
 
 	constexpr Integer x = 3;
-#if !defined(BKSGE_NO_CXX11_STATIC_ASSERT)
+#if defined(BKSGE_HAS_CXX11_STATIC_ASSERT)
 	static_assert(x.get() == 3, "x value must be 3");
 #endif
 	EXPECT_EQ(3, x.get());
@@ -223,7 +223,7 @@ GTEST_TEST(ConfigTest, Cxx11ConstexprTest)
 namespace defaulted_functions_test
 {
 
-#if !defined(BKSGE_NO_CXX11_DEFAULTED_FUNCTIONS)
+#if defined(BKSGE_HAS_CXX11_DEFAULTED_FUNCTIONS)
 
 class X
 {
@@ -232,14 +232,14 @@ public:
 	inline X(const X&) = default;
 };
 
-#endif	// !defined(BKSGE_NO_CXX11_DEFAULTED_FUNCTIONS)
+#endif	// defined(BKSGE_HAS_CXX11_DEFAULTED_FUNCTIONS)
 
 }	// namespace defaulted_functions_test
 
 namespace deleted_functions_test
 {
 
-#if !defined(BKSGE_NO_CXX11_DELETED_FUNCTIONS)
+#if defined(BKSGE_HAS_CXX11_DELETED_FUNCTIONS)
 
 class X
 {
@@ -248,11 +248,11 @@ public:
 	X& operator=(const X&) = delete;
 };
 
-#endif	// !defined(BKSGE_NO_CXX11_DELETED_FUNCTIONS)
+#endif	// defined(BKSGE_HAS_CXX11_DELETED_FUNCTIONS)
 
 }	// namespace deleted_functions_test
 
-#if !defined(BKSGE_NO_CXX11_DELEGATING_CONSTRUCTORS)
+#if defined(BKSGE_HAS_CXX11_DELEGATING_CONSTRUCTORS)
 namespace delegating_constructors_test
 {
 	struct X
@@ -267,7 +267,7 @@ namespace delegating_constructors_test
 
 GTEST_TEST(ConfigTest, Cxx11DelegatingConstructorsTest)
 {
-#if !defined(BKSGE_NO_CXX11_DELEGATING_CONSTRUCTORS)
+#if defined(BKSGE_HAS_CXX11_DELEGATING_CONSTRUCTORS)
 	using namespace delegating_constructors_test;
 
 	X x;
@@ -278,7 +278,7 @@ GTEST_TEST(ConfigTest, Cxx11DelegatingConstructorsTest)
 namespace explicit_conversion_operators_test
 {
 
-#if !defined(BKSGE_NO_CXX11_EXPLICIT_CONVERSION_OPERATORS)
+#if defined(BKSGE_HAS_CXX11_EXPLICIT_CONVERSION_OPERATORS)
 
 struct X
 {
@@ -306,14 +306,14 @@ void test()
 	bool b9 = x ? true : false;
 }
 
-#endif	// !defined(BKSGE_NO_CXX11_EXPLICIT_CONVERSION_OPERATORS)
+#endif	// defined(BKSGE_HAS_CXX11_EXPLICIT_CONVERSION_OPERATORS)
 
 }	// namespace explicit_conversion_operators_test
 
 namespace extended_friend_declarations_test
 {
 
-#if !defined(BKSGE_NO_CXX11_EXTENDED_FRIEND_DECLARATIONS)
+#if defined(BKSGE_HAS_CXX11_EXTENDED_FRIEND_DECLARATIONS)
 
 template <typename Derived>
 class base
@@ -329,12 +329,12 @@ public:
 	derived() {}
 };
 
-#endif	// !defined(BKSGE_NO_CXX11_EXTENDED_FRIEND_DECLARATIONS)
+#endif	// defined(BKSGE_HAS_CXX11_EXTENDED_FRIEND_DECLARATIONS)
 
 }	// namespace extended_friend_declarations_test
 
 
-#if !defined(BKSGE_NO_CXX11_EXTENDED_SIZEOF)
+#if defined(BKSGE_HAS_CXX11_EXTENDED_SIZEOF)
 namespace extended_sizeof_test
 {
 	struct hoge
@@ -346,12 +346,12 @@ namespace extended_sizeof_test
 
 GTEST_TEST(ConfigTest, Cxx11ExtendedSizeofTest)
 {
-#if !defined(BKSGE_NO_CXX11_EXTENDED_SIZEOF)
+#if defined(BKSGE_HAS_CXX11_EXTENDED_SIZEOF)
 	EXPECT_EQ(sizeof(int), sizeof(extended_sizeof_test::hoge::id));
 #endif
 }
 
-#if !defined(BKSGE_NO_CXX11_EXTERN_TEMPLATE)
+#if defined(BKSGE_HAS_CXX11_EXTERN_TEMPLATE)
 namespace extern_template_test
 {
 	template <typename T>
@@ -363,9 +363,9 @@ namespace extern_template_test
 	extern template class Foo<int>;
 	extern template void func<int>();
 }
-#endif	// !defined(BKSGE_NO_CXX11_EXTERN_TEMPLATE)
+#endif	// defined(BKSGE_HAS_CXX11_EXTERN_TEMPLATE)
 
-#if !defined(BKSGE_NO_CXX11_INHERITING_CONSTRUCTORS)
+#if defined(BKSGE_HAS_CXX11_INHERITING_CONSTRUCTORS)
 namespace inheriting_constructors_test
 {
 	struct Base1
@@ -394,7 +394,7 @@ namespace inheriting_constructors_test
 
 GTEST_TEST(ConfigTest, Cxx11InheritingConstructorsTest)
 {
-#if !defined(BKSGE_NO_CXX11_INHERITING_CONSTRUCTORS)
+#if defined(BKSGE_HAS_CXX11_INHERITING_CONSTRUCTORS)
 	using namespace inheriting_constructors_test;
 
 	Derived d0;
@@ -412,7 +412,7 @@ GTEST_TEST(ConfigTest, Cxx11InheritingConstructorsTest)
 
 GTEST_TEST(ConfigTest, Cxx11LambdasTest)
 {
-#if !defined(BKSGE_NO_CXX11_LAMBDAS)
+#if defined(BKSGE_HAS_CXX11_LAMBDAS)
 	{
 		auto plus = [](int a, int b) { return a + b; };
 		int result = plus(2, 3);
@@ -442,7 +442,7 @@ int to_int(T x) { return static_cast<int>(x); }
 
 GTEST_TEST(ConfigTest, Cxx11LocalTypeTemplateArgsTest)
 {
-#if !defined(BKSGE_NO_CXX11_LOCAL_TYPE_TEMPLATE_ARGS)
+#if defined(BKSGE_HAS_CXX11_LOCAL_TYPE_TEMPLATE_ARGS)
 
 	enum { E1, E2 };
 
@@ -458,13 +458,13 @@ GTEST_TEST(ConfigTest, Cxx11LocalTypeTemplateArgsTest)
 
 GTEST_TEST(ConfigTest, Cxx11LongLongTest)
 {
-#if !defined(BKSGE_NO_CXX11_LONG_LONG)
+#if defined(BKSGE_HAS_CXX11_LONG_LONG)
 	long long x = 123LL;
 	EXPECT_EQ(123, x);
 #endif
 }
 
-#if !defined(BKSGE_NO_CXX11_INLINE_NAMESPACES)
+#if defined(BKSGE_HAS_CXX11_INLINE_NAMESPACES)
 namespace inline_namespaces_test
 {
 	inline namespace features
@@ -476,7 +476,7 @@ namespace inline_namespaces_test
 
 GTEST_TEST(ConfigTest, Cxx11InlineNamespacesTest)
 {
-#if !defined(BKSGE_NO_CXX11_INLINE_NAMESPACES)
+#if defined(BKSGE_HAS_CXX11_INLINE_NAMESPACES)
 	inline_namespaces_test::features::f();
 	inline_namespaces_test::f();
 #endif
@@ -484,28 +484,28 @@ GTEST_TEST(ConfigTest, Cxx11InlineNamespacesTest)
 
 GTEST_TEST(ConfigTest, Cxx11Char16TTest)
 {
-#if !defined(BKSGE_NO_CXX11_CHAR16_T)
+#if defined(BKSGE_HAS_CXX11_CHAR16_T)
 	char16_t s[] = u"あいうえお";
 #endif
 }
 
 GTEST_TEST(ConfigTest, Cxx11Char32TTest)
 {
-#if !defined(BKSGE_NO_CXX11_CHAR32_T)
+#if defined(BKSGE_HAS_CXX11_CHAR32_T)
 	char32_t s[] = U"あいうえお";
 #endif
 }
 
 GTEST_TEST(ConfigTest, Cxx11UnicodeLiteralsTest)
 {
-#if !defined(BKSGE_NO_CXX11_UNICODE_LITERALS)
+#if defined(BKSGE_HAS_CXX11_UNICODE_LITERALS)
 	auto s = u8"あいうえお";
 #endif
 }
 
 GTEST_TEST(ConfigTest, Cxx11UniversalCharacterNameTest)
 {
-#if !defined(BKSGE_NO_CXX11_UNIVERSAL_CHARACTER_NAME)
+#if defined(BKSGE_HAS_CXX11_UNIVERSAL_CHARACTER_NAME)
 	{
 		char16_t s[] = u"\U00020BB7野家"; // 吉野家
 	}
@@ -517,7 +517,7 @@ GTEST_TEST(ConfigTest, Cxx11UniversalCharacterNameTest)
 
 GTEST_TEST(ConfigTest, Cxx11RawStringsTest)
 {
-#if !defined(BKSGE_NO_CXX11_RAW_STRINGS)
+#if defined(BKSGE_HAS_CXX11_RAW_STRINGS)
 	{
 		const char s[] = R"({"user_id": 123, "name": "Alice"})";
 		EXPECT_STREQ("{\"user_id\": 123, \"name\": \"Alice\"}", s);
@@ -533,7 +533,7 @@ GTEST_TEST(ConfigTest, Cxx11RawStringsTest)
 #endif
 }
 
-#if !defined(BKSGE_NO_CXX11_USER_DEFINED_LITERALS)
+#if defined(BKSGE_HAS_CXX11_USER_DEFINED_LITERALS)
 
 namespace user_defined_literals_test
 {
@@ -572,11 +572,11 @@ float operator"" _kh()
 
 }	// namespace user_defined_literals_test
 
-#endif	// !defined(BKSGE_NO_CXX11_USER_DEFINED_LITERALS)
+#endif	// defined(BKSGE_HAS_CXX11_USER_DEFINED_LITERALS)
 
 GTEST_TEST(ConfigTest, Cxx11UserDefinedLiteralsTest)
 {
-#if !defined(BKSGE_NO_CXX11_USER_DEFINED_LITERALS)
+#if defined(BKSGE_HAS_CXX11_USER_DEFINED_LITERALS)
 	using namespace user_defined_literals_test;
 
 	int   x1 = 123_ki;
@@ -598,7 +598,7 @@ GTEST_TEST(ConfigTest, Cxx11UserDefinedLiteralsTest)
 namespace trailing_return_type_test
 {
 
-#if !defined(BKSGE_NO_CXX11_TRAILING_RETURN_TYPE)
+#if defined(BKSGE_HAS_CXX11_TRAILING_RETURN_TYPE)
 
 auto f() -> int
 {
@@ -614,7 +614,7 @@ auto g(int a, int b) -> decltype(a + b)
 
 GTEST_TEST(ConfigTest, Cxx11TrailingReturnTypeTest)
 {
-#if !defined(BKSGE_NO_CXX11_TRAILING_RETURN_TYPE)
+#if defined(BKSGE_HAS_CXX11_TRAILING_RETURN_TYPE)
 	EXPECT_EQ(42, f());
 	EXPECT_EQ(5, g(2, 3));
 #endif
@@ -624,7 +624,7 @@ GTEST_TEST(ConfigTest, Cxx11TrailingReturnTypeTest)
 
 GTEST_TEST(ConfigTest, Cxx11NullptrTest)
 {
-#if !defined(BKSGE_NO_CXX11_NULLPTR)
+#if defined(BKSGE_HAS_CXX11_NULLPTR)
 	int* p = nullptr;
 	EXPECT_TRUE(p == 0);
 #endif
@@ -632,7 +632,7 @@ GTEST_TEST(ConfigTest, Cxx11NullptrTest)
 
 GTEST_TEST(ConfigTest, Cxx11RightAngleBracketsTest)
 {
-#if !defined(BKSGE_NO_CXX11_RIGHT_ANGLE_BRACKETS)
+#if defined(BKSGE_HAS_CXX11_RIGHT_ANGLE_BRACKETS)
 	std::vector<std::vector<int>> v;
 #endif
 }
@@ -647,7 +647,7 @@ struct Foo
 	Foo(const Foo&) = delete;
 	Foo& operator=(const Foo&) = delete;
 
-#if !defined(BKSGE_NO_CXX11_RVALUE_REFERENCES)
+#if defined(BKSGE_HAS_CXX11_RVALUE_REFERENCES)
 	Foo(Foo&&){}
 	Foo& operator=(Foo&&){return *this;}
 #endif
@@ -655,7 +655,7 @@ struct Foo
 
 GTEST_TEST(ConfigTest, Cxx11RvalueReferencesTest)
 {
-#if !defined(BKSGE_NO_CXX11_RVALUE_REFERENCES)
+#if defined(BKSGE_HAS_CXX11_RVALUE_REFERENCES)
 	int x = 0;
 
 	// lvalue reference
@@ -682,7 +682,7 @@ GTEST_TEST(ConfigTest, Cxx11RvalueReferencesTest)
 
 }	// namespace rvalue_references_test
 
-#if !defined(BKSGE_NO_CXX11_STATIC_ASSERT)
+#if defined(BKSGE_HAS_CXX11_STATIC_ASSERT)
 
 static_assert(true, "");
 //static_assert(false, "");
@@ -692,7 +692,7 @@ static_assert(true, "");
 namespace scoped_enums_test
 {
 
-#if !defined(BKSGE_NO_CXX11_SCOPED_ENUMS)
+#if defined(BKSGE_HAS_CXX11_SCOPED_ENUMS)
 
 enum class Color;
 enum class CharColor : char;
@@ -706,28 +706,28 @@ enum Enum2 : int;
 enum Enum1 {A, B, C};
 enum Enum2 : int {D, E};
 
-#endif	// !defined(BKSGE_NO_CXX11_SCOPED_ENUMS)
+#endif	// defined(BKSGE_HAS_CXX11_SCOPED_ENUMS)
 
 }	// namespace scoped_enums_test
 
 namespace alias_templates_test
 {
 
-#if !defined(BKSGE_NO_CXX11_ALIAS_TEMPLATES)
+#if defined(BKSGE_HAS_CXX11_ALIAS_TEMPLATES)
 
 template <typename T>
 using Vec = std::vector<T>;
 
 using Integer = int;
 
-#endif	// !defined(BKSGE_NO_CXX11_ALIAS_TEMPLATES)
+#endif	// defined(BKSGE_HAS_CXX11_ALIAS_TEMPLATES)
 
 }	// namespace alias_templates_test
 
 namespace unrestricted_unions_test
 {
 
-#if !defined(BKSGE_NO_CXX11_UNRESTRICTED_UNIONS)
+#if defined(BKSGE_HAS_CXX11_UNRESTRICTED_UNIONS)
 
 union X
 {
@@ -738,14 +738,14 @@ union X
 	~X() {}
 };
 
-#endif	// !defined(BKSGE_NO_CXX11_UNRESTRICTED_UNIONS)
+#endif	// defined(BKSGE_HAS_CXX11_UNRESTRICTED_UNIONS)
 
 }	// namespace unrestricted_unions_test
 
 namespace variadic_templates_test
 {
 
-#if !defined(BKSGE_NO_CXX11_VARIADIC_TEMPLATES)
+#if defined(BKSGE_HAS_CXX11_VARIADIC_TEMPLATES)
 
 template <typename... Args>
 struct X;
@@ -753,13 +753,13 @@ struct X;
 template <typename... Args>
 void f(Args... args);
 
-#endif	// !defined(BKSGE_NO_CXX11_VARIADIC_TEMPLATES)
+#endif	// defined(BKSGE_HAS_CXX11_VARIADIC_TEMPLATES)
 
 }	// namespace variadic_templates_test
 
 GTEST_TEST(ConfigTest, Cxx11RangeBasedForTest)
 {
-#if !defined(BKSGE_NO_CXX11_RANGE_BASED_FOR)
+#if defined(BKSGE_HAS_CXX11_RANGE_BASED_FOR)
 	std::vector<int> v;
 
 	for (auto e : v)
@@ -782,7 +782,7 @@ GTEST_TEST(ConfigTest, Cxx11RangeBasedForTest)
 namespace override_test
 {
 
-#if !defined(BKSGE_NO_CXX11_OVERRIDE)
+#if defined(BKSGE_HAS_CXX11_OVERRIDE)
 
 class base
 {
@@ -798,14 +798,14 @@ class derived : public base
 //	void func_non_virt() override;
 };
 
-#endif	// !defined(BKSGE_NO_CXX11_OVERRIDE)
+#endif	// defined(BKSGE_HAS_CXX11_OVERRIDE)
 
 }	// namespace override_test
 
 namespace final_test
 {
 
-#if !defined(BKSGE_NO_CXX11_FINAL)
+#if defined(BKSGE_HAS_CXX11_FINAL)
 
 class base
 {
@@ -826,28 +826,28 @@ class base_f final
 
 //class derived_f : public base_f {};
 
-#endif	// !defined(BKSGE_NO_CXX11_FINAL)
+#endif	// defined(BKSGE_HAS_CXX11_FINAL)
 
 }	// namespace final_test
 
 namespace noreturn_test
 {
 
-#if !defined(BKSGE_NO_CXX11_NORETURN)
+#if defined(BKSGE_HAS_CXX11_NORETURN)
 
 [[noreturn]] void report_error()
 {
 	throw std::runtime_error("");
 }
 
-#endif	// !defined(BKSGE_NO_CXX11_NORETURN)
+#endif	// defined(BKSGE_HAS_CXX11_NORETURN)
 
 }	// namespace noreturn_test
 
 namespace carries_dependency_test
 {
 
-#if !defined(BKSGE_NO_CXX11_CARRIES_DEPENDENCY)
+#if defined(BKSGE_HAS_CXX11_CARRIES_DEPENDENCY)
 
 BKSGE_WARNING_PUSH()
 BKSGE_WARNING_DISABLE_MSVC(4648)	// 標準属性 'carries_dependency' は無視されます
@@ -863,14 +863,14 @@ void g(int* r[[carries_dependency]])
 
 BKSGE_WARNING_POP()
 
-#endif	// !defined(BKSGE_NO_CXX11_CARRIES_DEPENDENCY)
+#endif	// defined(BKSGE_HAS_CXX11_CARRIES_DEPENDENCY)
 
 }	// namespace carries_dependency_test
 
 namespace ref_qualifiers_test
 {
 
-#if !defined(BKSGE_NO_CXX11_REF_QUALIFIERS)
+#if defined(BKSGE_HAS_CXX11_REF_QUALIFIERS)
 struct X
 {
 	X() {}
@@ -894,7 +894,7 @@ struct X
 
 GTEST_TEST(ConfigTest, Cxx11RefQualifiersTest)
 {
-#if !defined(BKSGE_NO_CXX11_REF_QUALIFIERS)
+#if defined(BKSGE_HAS_CXX11_REF_QUALIFIERS)
 	X x;
 	const X cx;
 
@@ -906,7 +906,7 @@ GTEST_TEST(ConfigTest, Cxx11RefQualifiersTest)
 
 }	// namespace ref_qualifiers_test
 
-#if !defined(BKSGE_NO_CXX11_NSDMI)
+#if defined(BKSGE_HAS_CXX11_NSDMI)
 namespace nsdmi_test
 {
 	struct Person
@@ -918,14 +918,14 @@ namespace nsdmi_test
 
 GTEST_TEST(ConfigTest, Cxx11NsdmiTest)
 {
-#if !defined(BKSGE_NO_CXX11_NSDMI)
+#if defined(BKSGE_HAS_CXX11_NSDMI)
 	nsdmi_test::Person p;
 	EXPECT_EQ(3, p.id);
 #endif
 }
 
 
-#if !defined(BKSGE_NO_CXX11_INITIALIZER_LISTS)
+#if defined(BKSGE_HAS_CXX11_INITIALIZER_LISTS)
 namespace initializer_lists_test
 {
 	template <typename T>
@@ -950,7 +950,7 @@ namespace initializer_lists_test
 
 GTEST_TEST(ConfigTest, Cxx11InitializerListsTest)
 {
-#if !defined(BKSGE_NO_CXX11_INITIALIZER_LISTS)
+#if defined(BKSGE_HAS_CXX11_INITIALIZER_LISTS)
 	using namespace initializer_lists_test;
 	{
 		std::vector<int> v1 = {1, 2, 3};
@@ -971,7 +971,7 @@ GTEST_TEST(ConfigTest, Cxx11InitializerListsTest)
 }
 
 
-#if !defined(BKSGE_NO_CXX11_UNIFORM_INITIALIZATION)
+#if defined(BKSGE_HAS_CXX11_UNIFORM_INITIALIZATION)
 namespace uniform_initialization_test
 {
 	struct X
@@ -994,7 +994,7 @@ namespace uniform_initialization_test
 
 GTEST_TEST(ConfigTest, Cxx11UniformInitializationTest)
 {
-#if !defined(BKSGE_NO_CXX11_UNIFORM_INITIALIZATION)
+#if defined(BKSGE_HAS_CXX11_UNIFORM_INITIALIZATION)
 	using namespace uniform_initialization_test;
 
 	X x1(0);
@@ -1015,7 +1015,7 @@ GTEST_TEST(ConfigTest, Cxx11UniformInitializationTest)
 }
 
 
-#if !defined(BKSGE_NO_CXX11_NOEXCEPT)
+#if defined(BKSGE_HAS_CXX11_NOEXCEPT)
 namespace noexcept_test
 {
 	struct X
@@ -1030,12 +1030,12 @@ namespace noexcept_test
 
 void test()
 {
-#if !defined(BKSGE_NO_CXX11_NOEXCEPT)
+#if defined(BKSGE_HAS_CXX11_NOEXCEPT)
 	using namespace noexcept_test;
 
 	X x;
 
-#if !defined(BKSGE_NO_CXX11_STATIC_ASSERT)
+#if defined(BKSGE_HAS_CXX11_STATIC_ASSERT)
 	static_assert( noexcept(x.func1()), "");
 	static_assert(!noexcept(x.func2()), "");
 	static_assert( noexcept(x.func3()), "");
@@ -1052,7 +1052,7 @@ void test()
 namespace sfinae_expr_test
 {
 
-#if 1//!defined(BKSGE_NO_CXX11_SFINAE_EXPR)
+#if 1//defined(BKSGE_HAS_CXX11_SFINAE_EXPR)
 
 typedef char yes;
 struct no { char m[2]; };
@@ -1076,14 +1076,14 @@ void test()
 	static_assert(sizeof(is_addable(3, X())) == 2, "");
 }
 
-#endif	// !defined(BKSGE_NO_CXX11_SFINAE_EXPR)
+#endif	// defined(BKSGE_HAS_CXX11_SFINAE_EXPR)
 
 }	// namespace sfinae_expr_test
 
 namespace thread_local_test
 {
 
-#if !defined(BKSGE_NO_CXX11_THREAD_LOCAL)
+#if defined(BKSGE_HAS_CXX11_THREAD_LOCAL)
 
 int func()
 {
@@ -1091,7 +1091,7 @@ int func()
 	return x++;
 }
 
-#endif	// !defined(BKSGE_NO_CXX11_THREAD_LOCAL)
+#endif	// defined(BKSGE_HAS_CXX11_THREAD_LOCAL)
 
 }	// namespace thread_local_test
 

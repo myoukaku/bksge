@@ -13,7 +13,7 @@
 //	alignas workaround
 //
 #if !defined(BKSGE_ALIGNAS)
-#  if !defined(BKSGE_NO_CXX11_ALIGNAS)
+#  if defined(BKSGE_HAS_CXX11_ALIGNAS)
 #    define BKSGE_ALIGNAS(x)      alignas(x)
 #    define BKSGE_ALIGNAS_TYPE(x) alignas(x)
 #  elif defined(_MSC_VER)

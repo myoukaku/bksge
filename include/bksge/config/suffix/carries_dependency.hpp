@@ -13,7 +13,7 @@
 //	[[carries_dependency]] workaround
 //
 #if !defined(BKSGE_CARRIES_DEPENDENCY)
-#	if !defined(BKSGE_NO_CXX11_CARRIES_DEPENDENCY)
+#	if defined(BKSGE_HAS_CXX11_CARRIES_DEPENDENCY)
 #		define BKSGE_CARRIES_DEPENDENCY [[carries_dependency]]
 #	else
 #		define BKSGE_CARRIES_DEPENDENCY

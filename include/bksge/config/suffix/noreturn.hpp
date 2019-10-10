@@ -13,7 +13,7 @@
 //	[[noreturn]] workaround
 //
 #if !defined(BKSGE_NORETURN)
-#	if !defined(BKSGE_NO_CXX11_NORETURN)
+#	if defined(BKSGE_HAS_CXX11_NORETURN)
 #		define BKSGE_NORETURN [[noreturn]]
 #	elif defined(_MSC_VER)
 #		define BKSGE_NORETURN __declspec(noreturn)

@@ -13,7 +13,7 @@
 //	fallthrough workaround
 //
 #if !defined(BKSGE_FALLTHROUGH)
-#	if !defined(BKSGE_NO_CXX17_FALLTHROUGH)
+#	if defined(BKSGE_HAS_CXX17_FALLTHROUGH)
 #		define BKSGE_FALLTHROUGH() [[fallthrough]]
 #	elif BKSGE_HAS_ATTRIBUTE(fallthrough)
 #		define BKSGE_FALLTHROUGH() __attribute__((__fallthrough__))

@@ -207,7 +207,7 @@ class PrivateBase : private Base {};
 
 class NonDerived { };
 
-#ifndef BKSGE_NO_CXX11_FINAL
+#if defined(BKSGE_HAS_CXX11_FINAL)
 struct final_UDT final {};
 class final_Derived_UDT final : public Base {};
 union final_union_UDT final {};
@@ -374,7 +374,7 @@ void IntegralConstantTest()
 {
 	static_assert(T::value == b, "");
 
-#if !defined(BKSGE_NO_CXX11_CONSTEXPR)
+#if defined(BKSGE_HAS_CXX11_CONSTEXPR)
 	static_assert(T() == b, "");
 #if defined(__cpp_lib_integral_constant_callable) && (__cpp_lib_integral_constant_callable >= 201304L)
 	static_assert(T()() == b, "");

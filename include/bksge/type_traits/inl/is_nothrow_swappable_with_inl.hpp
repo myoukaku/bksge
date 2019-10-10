@@ -24,7 +24,7 @@ namespace is_nothrow_swappable_detail
 
 using bksge::swap;
 
-#if !defined(BKSGE_NO_CXX11_NOEXCEPT)
+#if defined(BKSGE_HAS_CXX11_NOEXCEPT)
 
 template <typename T, typename U>
 struct is_nothrow_swappable_with_impl_2

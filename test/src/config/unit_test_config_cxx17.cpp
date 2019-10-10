@@ -25,7 +25,7 @@ namespace bksge_config_cxx17_test
 
 GTEST_TEST(ConfigTest, Cxx17HexFloatTest)
 {
-#if !defined(BKSGE_NO_CXX17_HEX_FLOAT)
+#if defined(BKSGE_HAS_CXX17_HEX_FLOAT)
 	float f = 0xABCp-3f;
 	double d = 0x1.0p-2;
 	long double ld = 0x2.5P3l;
@@ -38,7 +38,7 @@ GTEST_TEST(ConfigTest, Cxx17HexFloatTest)
 
 GTEST_TEST(ConfigTest, Cxx17U8CharacterLiteralsTest)
 {
-#if !defined(BKSGE_NO_CXX17_U8_CHARACTER_LITERALS)
+#if defined(BKSGE_HAS_CXX17_U8_CHARACTER_LITERALS)
 	char c = u8'A';
 	EXPECT_EQ('A', c);
 #endif
@@ -47,19 +47,19 @@ GTEST_TEST(ConfigTest, Cxx17U8CharacterLiteralsTest)
 namespace inline_variables_test
 {
 
-#if !defined(BKSGE_NO_CXX17_INLINE_VARIABLES)
+#if defined(BKSGE_HAS_CXX17_INLINE_VARIABLES)
 
 inline int inline_var = 30;
 
 struct A { static inline int inline_var = 100; };
 
-#endif	// !defined(BKSGE_NO_CXX17_INLINE_VARIABLES)
+#endif	// defined(BKSGE_HAS_CXX17_INLINE_VARIABLES)
 
 }	// namespace inline_variables_test
 
 GTEST_TEST(ConfigTest, Cxx17AlignedNewTest)
 {
-#if !defined(BKSGE_NO_CXX17_ALIGNED_NEW)
+#if defined(BKSGE_HAS_CXX17_ALIGNED_NEW)
 	std::align_val_t align = static_cast<std::align_val_t>(32);
 	(void)align;
 	//{
@@ -70,13 +70,13 @@ GTEST_TEST(ConfigTest, Cxx17AlignedNewTest)
 	//	auto* p = new(align) int[10];
 	//	delete[] p;
 	//}
-#endif	// !defined(BKSGE_NO_CXX17_ALIGNED_NEW)
+#endif	// defined(BKSGE_HAS_CXX17_ALIGNED_NEW)
 }
 
 namespace guaranteed_copy_elision_test
 {
 
-#if !defined(BKSGE_NO_CXX17_GUARANTEED_COPY_ELISION)
+#if defined(BKSGE_HAS_CXX17_GUARANTEED_COPY_ELISION)
 
 struct Foo
 {
@@ -96,35 +96,35 @@ void test()
 	(void)y;
 }
 
-#endif	// !defined(BKSGE_NO_CXX17_GUARANTEED_COPY_ELISION)
+#endif	// defined(BKSGE_HAS_CXX17_GUARANTEED_COPY_ELISION)
 
 }	// namespace guaranteed_copy_elision_test
 
 namespace noexcept_function_type_test
 {
 
-#if !defined(BKSGE_NO_CXX17_NOEXCEPT_FUNCTION_TYPE)
+#if defined(BKSGE_HAS_CXX17_NOEXCEPT_FUNCTION_TYPE)
 
 using f = void(*)() noexcept;
 
-#endif	// !defined(BKSGE_NO_CXX17_NOEXCEPT_FUNCTION_TYPE)
+#endif	// defined(BKSGE_HAS_CXX17_NOEXCEPT_FUNCTION_TYPE)
 
 }	// namespace noexcept_function_type_test
 
 
 GTEST_TEST(ConfigTest, Cxx17ExpressionEvaluationOrderTest)
 {
-#if !defined(BKSGE_NO_CXX17_EXPRESSION_EVALUATION_ORDER)
+#if defined(BKSGE_HAS_CXX17_EXPRESSION_EVALUATION_ORDER)
 	std::map<int, std::size_t> m;
 	m[0] = m.size();
 	EXPECT_EQ(0u, m[0]);
-#endif	// !defined(BKSGE_NO_CXX17_EXPRESSION_EVALUATION_ORDER)
+#endif	// defined(BKSGE_HAS_CXX17_EXPRESSION_EVALUATION_ORDER)
 }
 
 namespace fold_expressions_test
 {
 
-#if !defined(BKSGE_NO_CXX17_FOLD_EXPRESSIONS)
+#if defined(BKSGE_HAS_CXX17_FOLD_EXPRESSIONS)
 
 template <typename... Args> auto sum(Args... args)
 {
@@ -150,7 +150,7 @@ template <typename... Args> void print_all(std::ostream& os, Args... args)
 
 GTEST_TEST(ConfigTest, Cxx17FoldExpressionsTest)
 {
-#if !defined(BKSGE_NO_CXX17_FOLD_EXPRESSIONS)
+#if defined(BKSGE_HAS_CXX17_FOLD_EXPRESSIONS)
 	EXPECT_EQ(15, sum(1, 2, 3, 4, 5));
 	EXPECT_EQ(5, sum(5));
 	EXPECT_EQ(10, sum0(1, 2, 3, 4));
@@ -170,7 +170,7 @@ GTEST_TEST(ConfigTest, Cxx17FoldExpressionsTest)
 namespace capture_star_this_test
 {
 
-#if !defined(BKSGE_NO_CXX17_CAPTURE_STAR_THIS)
+#if defined(BKSGE_HAS_CXX17_CAPTURE_STAR_THIS)
 
 struct S
 {
@@ -200,7 +200,7 @@ struct S
 
 GTEST_TEST(ConfigTest, Cxx17CaptureStarThisTest)
 {
-#if !defined(BKSGE_NO_CXX17_CAPTURE_STAR_THIS)
+#if defined(BKSGE_HAS_CXX17_CAPTURE_STAR_THIS)
 	std::function<int(void)> func;
 
 	{
@@ -217,7 +217,7 @@ GTEST_TEST(ConfigTest, Cxx17CaptureStarThisTest)
 
 GTEST_TEST(ConfigTest, Cxx17ConstexprLambdaTest)
 {
-#if !defined(BKSGE_NO_CXX17_CONSTEXPR_LAMBDA)
+#if defined(BKSGE_HAS_CXX17_CONSTEXPR_LAMBDA)
 	auto f = []{ return 42; };
 	constexpr int value = f();
 	static_assert(value == 42, "");
@@ -226,7 +226,7 @@ GTEST_TEST(ConfigTest, Cxx17ConstexprLambdaTest)
 
 GTEST_TEST(ConfigTest, Cxx17IfConstexprTest)
 {
-#if !defined(BKSGE_NO_CXX17_IF_CONSTEXPR)
+#if defined(BKSGE_HAS_CXX17_IF_CONSTEXPR)
 	if constexpr (sizeof(int) >= sizeof(char))
 	{
 		GTEST_SUCCEED();
@@ -240,7 +240,7 @@ GTEST_TEST(ConfigTest, Cxx17IfConstexprTest)
 
 GTEST_TEST(ConfigTest, Cxx17SelectionWithInitTest)
 {
-#if !defined(BKSGE_NO_CXX17_SELECTION_WITH_INIT)
+#if defined(BKSGE_HAS_CXX17_SELECTION_WITH_INIT)
 	if (int x = 1; x != 0)
 	{
 		GTEST_SUCCEED();
@@ -288,7 +288,7 @@ bool operator!=(std::string::iterator it, EndOfDelimitedString<delimiter> e)
 
 GTEST_TEST(ConfigTest, Cxx17RangeBasedForTest)
 {
-#if !defined(BKSGE_NO_CXX17_RANGE_BASED_FOR)
+#if defined(BKSGE_HAS_CXX17_RANGE_BASED_FOR)
 	std::string str{"ABCDE, abcde|12345"};
 	{
 		std::stringstream ss;
@@ -322,12 +322,12 @@ GTEST_TEST(ConfigTest, Cxx17RangeBasedForTest)
 namespace static_assert_test
 {
 
-#if !defined(BKSGE_NO_CXX17_STATIC_ASSERT)
+#if defined(BKSGE_HAS_CXX17_STATIC_ASSERT)
 
 static_assert(true);
 //static_assert(false);
 
-#endif	// !defined(BKSGE_NO_CXX17_STATIC_ASSERT)
+#endif	// defined(BKSGE_HAS_CXX17_STATIC_ASSERT)
 
 }	// namespace static_assert_test
 
@@ -346,18 +346,18 @@ GTEST_TEST(ConfigTest, Cxx17AutoDeductionBracedInitListTest)
 
 	static_assert(std::is_same<decltype(assign_brace_single), std::initializer_list<int>>::value, "");
 	static_assert(std::is_same<decltype(assign_brace_multi), std::initializer_list<int>>::value, "");
-#if !defined(BKSGE_NO_CXX17_AUTO_DEDUCTION_BRACED_INIT_LIST)
+#if defined(BKSGE_HAS_CXX17_AUTO_DEDUCTION_BRACED_INIT_LIST)
 	static_assert(std::is_same<decltype(brace_init_single), int>::value, "");
 #else
 	static_assert(std::is_same<decltype(brace_init_single), std::initializer_list<int>>::value, "");
-#endif	// !defined(BKSGE_NO_CXX17_AUTO_DEDUCTION_BRACED_INIT_LIST)
+#endif	// defined(BKSGE_HAS_CXX17_AUTO_DEDUCTION_BRACED_INIT_LIST)
 }
 
 BKSGE_WARNING_POP()
 
 GTEST_TEST(ConfigTest, Cxx17DeductionGuidesTest)
 {
-#if !defined(BKSGE_NO_CXX17_DEDUCTION_GUIDES)
+#if defined(BKSGE_HAS_CXX17_DEDUCTION_GUIDES)
 	std::vector v = {1, 2, 3};
 	EXPECT_EQ(1, v[0]);
 	EXPECT_EQ(2, v[1]);
@@ -368,7 +368,7 @@ GTEST_TEST(ConfigTest, Cxx17DeductionGuidesTest)
 namespace nontype_template_parameter_auto_test
 {
 
-#if !defined(BKSGE_NO_CXX17_NONTYPE_TEMPLATE_PARAMETER_AUTO)
+#if defined(BKSGE_HAS_CXX17_NONTYPE_TEMPLATE_PARAMETER_AUTO)
 
 template <auto x>
 struct X {};
@@ -379,7 +379,7 @@ void f() {}
 
 GTEST_TEST(ConfigTest, Cxx17NontypeTemplateParameterAutoTest)
 {
-#if !defined(BKSGE_NO_CXX17_NONTYPE_TEMPLATE_PARAMETER_AUTO)
+#if defined(BKSGE_HAS_CXX17_NONTYPE_TEMPLATE_PARAMETER_AUTO)
 	X<0> x1;
 	X<0l> x2;
 	X<&f> x3;
@@ -394,7 +394,7 @@ GTEST_TEST(ConfigTest, Cxx17NontypeTemplateParameterAutoTest)
 namespace namespace_attributes_test
 {
 
-#if !defined(BKSGE_NO_CXX17_NAMESPACE_ATTRIBUTES)
+#if defined(BKSGE_HAS_CXX17_NAMESPACE_ATTRIBUTES)
 
 BKSGE_WARNING_PUSH()
 BKSGE_WARNING_DISABLE_GCC("-Wattributes")
@@ -406,14 +406,14 @@ namespace[[deprecated]] bar
 
 BKSGE_WARNING_POP()
 
-#endif	// !defined(BKSGE_NO_CXX17_NAMESPACE_ATTRIBUTES)
+#endif	// defined(BKSGE_HAS_CXX17_NAMESPACE_ATTRIBUTES)
 
 }	// namespace namespace_attributes_test
 
 namespace enumerator_attributes_test
 {
 
-#if !defined(BKSGE_NO_CXX17_ENUMERATOR_ATTRIBUTES)
+#if defined(BKSGE_HAS_CXX17_ENUMERATOR_ATTRIBUTES)
 
 enum FOO
 {
@@ -422,27 +422,27 @@ enum FOO
 	FOO_C,
 };
 
-#endif	// !defined(BKSGE_NO_CXX17_ENUMERATOR_ATTRIBUTES)
+#endif	// defined(BKSGE_HAS_CXX17_ENUMERATOR_ATTRIBUTES)
 
 }	// namespace enumerator_attributes_test
 
 namespace nested_namespace_definitions_test
 {
 
-#if !defined(BKSGE_NO_CXX17_NESTED_NAMESPACE_DEFINITIONS)
+#if defined(BKSGE_HAS_CXX17_NESTED_NAMESPACE_DEFINITIONS)
 
 namespace aaa::bbb::ccc
 {
 	void f() {}
 }
 
-#endif	// !defined(BKSGE_NO_CXX17_NESTED_NAMESPACE_DEFINITIONS)
+#endif	// defined(BKSGE_HAS_CXX17_NESTED_NAMESPACE_DEFINITIONS)
 
 }	// namespace nested_namespace_definitions_test
 
 namespace inheriting_constructors_test
 {
-#if !defined(BKSGE_NO_CXX17_INHERITING_CONSTRUCTORS)
+#if defined(BKSGE_HAS_CXX17_INHERITING_CONSTRUCTORS)
 
 // TODO
 
@@ -452,7 +452,7 @@ namespace inheriting_constructors_test
 namespace variadic_using_test
 {
 
-#if !defined(BKSGE_NO_CXX17_VARIADIC_USING)
+#if defined(BKSGE_HAS_CXX17_VARIADIC_USING)
 template <typename... Types>
 struct S : Types...
 {
@@ -491,7 +491,7 @@ GTEST_TEST(ConfigTest, Cxx17VariadicUsingTest)
 
 GTEST_TEST(ConfigTest, Cxx17FallthroughTest)
 {
-#if !defined(BKSGE_NO_CXX17_FALLTHROUGH)
+#if defined(BKSGE_HAS_CXX17_FALLTHROUGH)
 	int n = 2;
 	int count = 0;
 	switch (n)
@@ -511,7 +511,7 @@ GTEST_TEST(ConfigTest, Cxx17FallthroughTest)
 namespace nodiscard_test
 {
 
-#if !defined(BKSGE_NO_CXX17_NODISCARD)
+#if defined(BKSGE_HAS_CXX17_NODISCARD)
 
 struct [[nodiscard]] error_info {};
 
@@ -523,7 +523,7 @@ error_info f() { return error_info{}; }
 
 GTEST_TEST(ConfigTest, Cxx17NodiscardTest)
 {
-#if !defined(BKSGE_NO_CXX17_NODISCARD)
+#if defined(BKSGE_HAS_CXX17_NODISCARD)
 BKSGE_WARNING_PUSH()
 BKSGE_WARNING_DISABLE_MSVC(4834)	// 'nodiscard' 属性を持つ関数の戻り値を破棄しています
 BKSGE_WARNING_DISABLE_CLANG("-Wunused-result")
@@ -541,7 +541,7 @@ BKSGE_WARNING_POP()
 namespace maybe_unused_test
 {
 
-#if !defined(BKSGE_NO_CXX17_MAYBE_UNUSED)
+#if defined(BKSGE_HAS_CXX17_MAYBE_UNUSED)
 
 void f(bool flag1, [[maybe_unused]] bool flag2)
 {
@@ -552,14 +552,14 @@ void f(bool flag1, [[maybe_unused]] bool flag2)
 
 GTEST_TEST(ConfigTest, Cxx17MaybeUnusedTestTest)
 {
-#if !defined(BKSGE_NO_CXX17_MAYBE_UNUSED)
+#if defined(BKSGE_HAS_CXX17_MAYBE_UNUSED)
 	f(true, true);
 #endif
 }
 
 }	// namespace maybe_unused_test
 
-#if !defined(BKSGE_NO_CXX17_USING_ATTRIBUTE_NAMESPACES)
+#if defined(BKSGE_HAS_CXX17_USING_ATTRIBUTE_NAMESPACES)
 
 // TODO
 
@@ -568,7 +568,7 @@ GTEST_TEST(ConfigTest, Cxx17MaybeUnusedTestTest)
 namespace ignoring_unrecognized_attributes_test
 {
 
-#if !defined(BKSGE_NO_CXX17_IGNORING_UNRECOGNIZED_ATTRIBUTES)
+#if defined(BKSGE_HAS_CXX17_IGNORING_UNRECOGNIZED_ATTRIBUTES)
 
 BKSGE_WARNING_PUSH()
 BKSGE_WARNING_DISABLE_GCC("-Wattributes")
@@ -585,7 +585,7 @@ BKSGE_WARNING_POP()
 
 GTEST_TEST(ConfigTest, Cxx17StructuredBindingsTest)
 {
-#if !defined(BKSGE_NO_CXX17_STRUCTURED_BINDINGS)
+#if defined(BKSGE_HAS_CXX17_STRUCTURED_BINDINGS)
 	auto [id, message] = std::make_pair(3, std::string("hoge"));
 	EXPECT_EQ(3, id);
 	EXPECT_EQ("hoge", message);
@@ -624,7 +624,7 @@ GTEST_TEST(ConfigTest, Cxx17AggregateBasesTest)
 {
 	base b{42};
 	EXPECT_EQ(42, b.i);
-#if !defined(BKSGE_NO_CXX17_AGGREGATE_BASES)
+#if defined(BKSGE_HAS_CXX17_AGGREGATE_BASES)
 	derived d{{42}};
 	EXPECT_EQ(42, d.i);
 #endif
@@ -641,7 +641,7 @@ enum class Handle : unsigned { Invalid = 0 };
 
 GTEST_TEST(ConfigTest, Cxx17InitEnumClassTest)
 {
-#if !defined(BKSGE_NO_CXX17_INIT_ENUM_CLASS)
+#if defined(BKSGE_HAS_CXX17_INIT_ENUM_CLASS)
 	Handle h { 42 };
 	EXPECT_EQ((unsigned)42, (unsigned)h);
 #endif
@@ -652,16 +652,16 @@ GTEST_TEST(ConfigTest, Cxx17InitEnumClassTest)
 namespace template_template_typename_test
 {
 
-#if !defined(BKSGE_NO_CXX17_TEMPLATE_TEMPLATE_TYPENAME)
+#if defined(BKSGE_HAS_CXX17_TEMPLATE_TEMPLATE_TYPENAME)
 
 template <template <typename> class X> struct S1;
 template <template <typename> typename X> struct S2;
 
-#endif	// !defined(BKSGE_NO_CXX17_TEMPLATE_TEMPLATE_TYPENAME)
+#endif	// defined(BKSGE_HAS_CXX17_TEMPLATE_TEMPLATE_TYPENAME)
 
 }	// namespace template_template_typename_test
 
-#if !defined(BKSGE_NO_CXX17_NONTYPE_TEMPLATE_ARGS)
+#if defined(BKSGE_HAS_CXX17_NONTYPE_TEMPLATE_ARGS)
 namespace nontype_template_args_test
 {
 
@@ -710,7 +710,7 @@ B<c> b1;     // ok
 namespace exception_specifications_test
 {
 
-#if !defined(BKSGE_NO_CXX17_EXCEPTION_SPECIFICATIONS)
+#if defined(BKSGE_HAS_CXX17_EXCEPTION_SPECIFICATIONS)
 void f() noexcept(false);
 #else
 BKSGE_WARNING_PUSH()
@@ -724,14 +724,14 @@ BKSGE_WARNING_POP()
 
 }
 
-#if !defined(BKSGE_NO_CXX17_HAS_INCLUDE)
+#if defined(BKSGE_HAS_CXX17_HAS_INCLUDE)
 
 #if __has_include(<hoge>)
 #endif
 
 #endif
 
-#if !defined(BKSGE_NO_CXX17_TEMPLATE_TEMPLATE_ARGS)
+#if defined(BKSGE_HAS_CXX17_TEMPLATE_TEMPLATE_ARGS)
 
 namespace template_template_args_test
 {
@@ -739,7 +739,7 @@ namespace template_template_args_test
 template <typename T> class A {};
 template <typename T, typename U = T> class B {};
 template <typename ... Types> class C {};
-#if !defined(BKSGE_NO_CXX17_NONTYPE_TEMPLATE_PARAMETER_AUTO)
+#if defined(BKSGE_HAS_CXX17_NONTYPE_TEMPLATE_PARAMETER_AUTO)
 template <auto n> class D {};
 #endif
 template <template <typename> class P> class X {};
@@ -751,7 +751,7 @@ X<C> xc;
 Y<A> ya;
 Y<B> yb;
 Y<C> yc;
-#if !defined(BKSGE_NO_CXX17_NONTYPE_TEMPLATE_PARAMETER_AUTO)
+#if defined(BKSGE_HAS_CXX17_NONTYPE_TEMPLATE_PARAMETER_AUTO)
 Z<D> zd;
 #endif
 

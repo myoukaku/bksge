@@ -13,7 +13,7 @@
 //	Pragma演算子
 //
 #if !defined(BKSGE_PRAGMA)
-#	if !defined(BKSGE_NO_CXX11_PRAGMA_OPERATOR)
+#	if defined(BKSGE_HAS_CXX11_PRAGMA_OPERATOR)
 #	  define BKSGE_PRAGMA(x)		_Pragma(#x)
 #	else
 #	  define BKSGE_PRAGMA(x)		__pragma(x)

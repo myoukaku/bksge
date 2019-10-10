@@ -13,50 +13,50 @@
 // constexpr workarounds
 //
 #if !defined(BKSGE_CONSTEXPR)
-#  if defined(BKSGE_NO_CXX11_CONSTEXPR)
-#    define BKSGE_CONSTEXPR
-#  else
+#  if defined(BKSGE_HAS_CXX11_CONSTEXPR)
 #    define BKSGE_CONSTEXPR constexpr
+#  else
+#    define BKSGE_CONSTEXPR
 #  endif
 #endif
 
 #if !defined(BKSGE_CONSTEXPR_OR_CONST)
-# if defined(BKSGE_NO_CXX11_CONSTEXPR)
-#   define BKSGE_CONSTEXPR_OR_CONST const
-# else
+# if defined(BKSGE_HAS_CXX11_CONSTEXPR)
 #   define BKSGE_CONSTEXPR_OR_CONST constexpr
+# else
+#   define BKSGE_CONSTEXPR_OR_CONST const
 # endif
 #endif
 
 #if !defined(BKSGE_CXX14_CONSTEXPR)
-#  if defined(BKSGE_NO_CXX14_CONSTEXPR)
-#    define BKSGE_CXX14_CONSTEXPR
-#  else
+#  if defined(BKSGE_HAS_CXX14_CONSTEXPR)
 #    define BKSGE_CXX14_CONSTEXPR constexpr
+#  else
+#    define BKSGE_CXX14_CONSTEXPR
 #  endif
 #endif
 
 #if !defined(BKSGE_CXX14_CONSTEXPR_OR_CONST)
-#  if defined(BKSGE_NO_CXX14_CONSTEXPR)
-#    define BKSGE_CXX14_CONSTEXPR_OR_CONST const
-#  else
+#  if defined(BKSGE_HAS_CXX14_CONSTEXPR)
 #    define BKSGE_CXX14_CONSTEXPR_OR_CONST constexpr
+#  else
+#    define BKSGE_CXX14_CONSTEXPR_OR_CONST const
 #  endif
 #endif
 
 #if !defined(BKSGE_CXX17_CONSTEXPR)
-#  if defined(BKSGE_NO_CXX17_CONSTEXPR)
-#    define BKSGE_CXX17_CONSTEXPR
-#  else
+#  if defined(BKSGE_HAS_CXX17_CONSTEXPR)
 #    define BKSGE_CXX17_CONSTEXPR constexpr
+#  else
+#    define BKSGE_CXX17_CONSTEXPR
 #  endif
 #endif
 
 #if !defined(BKSGE_CXX17_CONSTEXPR_OR_CONST)
-#  if defined(BKSGE_NO_CXX17_CONSTEXPR)
-#    define BKSGE_CXX17_CONSTEXPR_OR_CONST const
-#  else
+#  if defined(BKSGE_HAS_CXX17_CONSTEXPR)
 #    define BKSGE_CXX17_CONSTEXPR_OR_CONST constexpr
+#  else
+#    define BKSGE_CXX17_CONSTEXPR_OR_CONST const
 #  endif
 #endif
 

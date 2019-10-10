@@ -13,7 +13,7 @@
 //	alignof workaround
 //
 #if !defined(BKSGE_ALIGNOF)
-#	if !defined(BKSGE_NO_CXX11_ALIGNOF)
+#	if defined(BKSGE_HAS_CXX11_ALIGNOF)
 #		define BKSGE_ALIGNOF(type) alignof(type)
 #	elif defined(_MSC_VER)
 #		define BKSGE_ALIGNOF(type) __alignof(type)

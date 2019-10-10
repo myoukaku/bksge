@@ -22,7 +22,7 @@ namespace bksge_config_cxx14_test
 
 GTEST_TEST(ConfigTest, Cxx14AlignedNewTest)
 {
-#if !defined(BKSGE_NO_CXX14_BINARY_LITERALS)
+#if defined(BKSGE_HAS_CXX14_BINARY_LITERALS)
 	int x = 0b1010;
 	int y = 0B1111000011001010;
 
@@ -34,7 +34,7 @@ GTEST_TEST(ConfigTest, Cxx14AlignedNewTest)
 namespace return_type_deduction_test
 {
 
-#if !defined(BKSGE_NO_CXX14_RETURN_TYPE_DEDUCTION)
+#if defined(BKSGE_HAS_CXX14_RETURN_TYPE_DEDUCTION)
 auto f1()
 {
 	return 42;
@@ -48,7 +48,7 @@ decltype(auto) f2(int& r)
 
 GTEST_TEST(ConfigTest, Cxx14ReturnTypeDeductionTest)
 {
-#if !defined(BKSGE_NO_CXX14_RETURN_TYPE_DEDUCTION)
+#if defined(BKSGE_HAS_CXX14_RETURN_TYPE_DEDUCTION)
 	int x = f1();
 	int& r = f2(x);
 	EXPECT_EQ(42, x);
@@ -69,7 +69,7 @@ int increment(int x)
 
 GTEST_TEST(ConfigTest, Cxx14InitCapturesTest)
 {
-#if !defined(BKSGE_NO_CXX14_INIT_CAPTURES)
+#if defined(BKSGE_HAS_CXX14_INIT_CAPTURES)
 	{
 		auto f = [a = increment(3)](int b) { return a + b; };
 		int result = f(2);
@@ -84,14 +84,14 @@ GTEST_TEST(ConfigTest, Cxx14InitCapturesTest)
 		auto f = [b = a, &c = a] { (void)b; (void)c; };
 		(void)f;
 	}
-#endif	// !defined(BKSGE_NO_CXX14_INIT_CAPTURES)
+#endif	// defined(BKSGE_HAS_CXX14_INIT_CAPTURES)
 }
 
 }	// namespace init_captures_test
 
 GTEST_TEST(ConfigTest, Cxx14GenericLambdasTest)
 {
-#if !defined(BKSGE_NO_CXX14_GENERIC_LAMBDAS)
+#if defined(BKSGE_HAS_CXX14_GENERIC_LAMBDAS)
 	auto plus = [](auto a, auto b) { return a + b; };
 
 	int   result1 = plus(3, 2);
@@ -99,13 +99,13 @@ GTEST_TEST(ConfigTest, Cxx14GenericLambdasTest)
 
 	EXPECT_EQ(5,    result1);
 	EXPECT_EQ(4.0f, result2);
-#endif	// !defined(BKSGE_NO_CXX14_GENERIC_LAMBDAS)
+#endif	// defined(BKSGE_HAS_CXX14_GENERIC_LAMBDAS)
 }
 
 namespace variable_templates_test
 {
 
-#if !defined(BKSGE_NO_CXX14_VARIABLE_TEMPLATES)
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
 
 template <typename T>
 constexpr T pi = static_cast<T>(3.14159265358979323846);
@@ -114,14 +114,14 @@ constexpr float pif = pi<float>;
 constexpr double pid = pi<double>;
 constexpr long double pild = pi<long double>;
 
-#endif	// !defined(BKSGE_NO_CXX14_VARIABLE_TEMPLATES)
+#endif	// defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
 
 }	// namespace variable_templates_test
 
 namespace constexpr_test
 {
 
-#if !defined(BKSGE_NO_CXX14_CONSTEXPR)
+#if defined(BKSGE_HAS_CXX14_CONSTEXPR)
 constexpr int f(int a)
 {
 	int x = a;
@@ -168,7 +168,7 @@ constexpr int f(int a)
 
 GTEST_TEST(ConfigTest, Cxx14ConstexprTest)
 {
-#if !defined(BKSGE_NO_CXX14_CONSTEXPR)
+#if defined(BKSGE_HAS_CXX14_CONSTEXPR)
 	constexpr int x = f(10);
 	EXPECT_EQ(65, x);
 #endif
@@ -183,7 +183,7 @@ GTEST_TEST(ConfigTest, Cxx14AggregateNsdmiTest)
 	EXPECT_EQ(2, ar1[1]);
 	EXPECT_EQ(3, ar1[2]);
 
-#if !defined(BKSGE_NO_CXX14_AGGREGATE_NSDMI)
+#if defined(BKSGE_HAS_CXX14_AGGREGATE_NSDMI)
 	std::array<int, 3> ar2 = {1, 2, 3};
 	EXPECT_EQ(1, ar2[0]);
 	EXPECT_EQ(2, ar2[1]);
@@ -191,7 +191,7 @@ GTEST_TEST(ConfigTest, Cxx14AggregateNsdmiTest)
 #endif
 }
 
-#if !defined(BKSGE_NO_CXX14_DEPRECATED)
+#if defined(BKSGE_HAS_CXX14_DEPRECATED)
 
 namespace deprecated_test
 {
@@ -201,15 +201,15 @@ void old_func() {}
 
 }	// namespace deprecated_test
 
-#endif	// !defined(BKSGE_NO_CXX14_DEPRECATED)
+#endif	// defined(BKSGE_HAS_CXX14_DEPRECATED)
 
 GTEST_TEST(ConfigTest, Cxx14DigitSeparatorsTest)
 {
-#if !defined(BKSGE_NO_CXX14_DIGIT_SEPARATORS)
+#if defined(BKSGE_HAS_CXX14_DIGIT_SEPARATORS)
 	int decimal_value = 123'456'789;
 	int octal_value = 012'34'56;
 	int hex_value = 0x1'234'5678;
-#if !defined(BKSGE_NO_CXX14_BINARY_LITERALS)
+#if defined(BKSGE_HAS_CXX14_BINARY_LITERALS)
 	int binary_value = 0b1010'1010'0001;
 #endif
 	double floating_point_value = 12'345.678'901;
@@ -219,11 +219,11 @@ GTEST_TEST(ConfigTest, Cxx14DigitSeparatorsTest)
 namespace sized_deallocation_test
 {
 
-#if !defined(BKSGE_NO_CXX14_SIZED_DEALLOCATION)
+#if defined(BKSGE_HAS_CXX14_SIZED_DEALLOCATION)
 
 // TODO
 
-#endif	// !defined(BKSGE_NO_CXX14_SIZED_DEALLOCATION)
+#endif	// defined(BKSGE_HAS_CXX14_SIZED_DEALLOCATION)
 
 }	// namespace sized_deallocation_test
 

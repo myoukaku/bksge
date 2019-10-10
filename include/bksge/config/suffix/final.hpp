@@ -13,7 +13,7 @@
 //	final workaround
 //
 #if !defined(BKSGE_FINAL)
-#	if !defined(BKSGE_NO_CXX11_FINAL)
+#	if defined(BKSGE_HAS_CXX11_FINAL)
 #		define BKSGE_FINAL final
 #	else
 #		define BKSGE_FINAL

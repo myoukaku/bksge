@@ -24,7 +24,7 @@ void f9() BKSGE_NOEXCEPT_IF_EXPR(f2());
 
 GTEST_TEST(ConfigTest, NoexceptTest)
 {
-#if !defined(BKSGE_NO_CXX11_NOEXCEPT)
+#if defined(BKSGE_HAS_CXX11_NOEXCEPT)
 	static_assert(!BKSGE_NOEXCEPT_EXPR(f1()), "");
 	static_assert( BKSGE_NOEXCEPT_EXPR(f2()), "");
 	static_assert( BKSGE_NOEXCEPT_EXPR(f3()), "");

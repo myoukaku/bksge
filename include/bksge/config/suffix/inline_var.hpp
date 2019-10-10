@@ -13,7 +13,7 @@
 //	inline variables workaround
 //
 #if !defined(BKSGE_INLINE_VAR)
-#	if !defined(BKSGE_NO_CXX17_INLINE_VARIABLES)
+#	if defined(BKSGE_HAS_CXX17_INLINE_VARIABLES)
 #		define BKSGE_INLINE_VAR inline
 #	else
 #		define BKSGE_INLINE_VAR
