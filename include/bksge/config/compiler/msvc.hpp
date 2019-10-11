@@ -9,8 +9,6 @@
 #ifndef BKSGE_CONFIG_COMPILER_MSVC_HPP
 #define BKSGE_CONFIG_COMPILER_MSVC_HPP
 
-#define BKSGE_COMPILER "Microsoft Visual C++"
-
 #define BKSGE_MSVC _MSC_VER
 
 #if _MSC_FULL_VER > 100000000
@@ -18,6 +16,9 @@
 #else
 #  define BKSGE_MSVC_FULL_VER (_MSC_FULL_VER * 10)
 #endif
+
+#define BKSGE_COMPILER "Microsoft Visual C++"
+#define BKSGE_COMPILER_VERSION BKSGE_MSVC_FULL_VER
 
 #pragma warning(disable : 4503) // 修飾された名前の長さが限界を超えました。名前は切り捨てられます。
 
@@ -382,7 +383,7 @@
 #if (_MSC_FULL_VER >= 192328105)
 #endif
 
-// Visual Studio 2019 Update 3 (16.3.3) (Visual C++ 14.23)
+// Visual Studio 2019 Update 3 (16.3.(3-4)) (Visual C++ 14.23)
 #if (_MSC_FULL_VER >= 192328106)
 #endif
 
