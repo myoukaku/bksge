@@ -136,14 +136,14 @@ matrix:
     - { os: "osx",   compiler: clang, osx_image: xcode9.3,  env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=11  }
     - { os: "osx",   compiler: clang, osx_image: xcode9.3,  env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=14  }
     - { os: "osx",   compiler: clang, osx_image: xcode9.3,  env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=17  }
-    - { os: "osx",   compiler: clang, osx_image: xcode9.2,  env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=11  }
-    - { os: "osx",   compiler: clang, osx_image: xcode9.2,  env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=14  }
-    - { os: "osx",   compiler: clang, osx_image: xcode9.1,  env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=11  }
-    - { os: "osx",   compiler: clang, osx_image: xcode9.1,  env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=14  }
-    - { os: "osx",   compiler: clang, osx_image: xcode9,    env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=11  }
-    - { os: "osx",   compiler: clang, osx_image: xcode9,    env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=14  }
-    - { os: "osx",   compiler: clang, osx_image: xcode8.3,  env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=11  }
-    - { os: "osx",   compiler: clang, osx_image: xcode8.3,  env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=14  }
+#   - { os: "osx",   compiler: clang, osx_image: xcode9.2,  env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=11  }
+#   - { os: "osx",   compiler: clang, osx_image: xcode9.2,  env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=14  }
+#   - { os: "osx",   compiler: clang, osx_image: xcode9.1,  env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=11  }
+#   - { os: "osx",   compiler: clang, osx_image: xcode9.1,  env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=14  }
+#   - { os: "osx",   compiler: clang, osx_image: xcode9,    env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=11  }
+#   - { os: "osx",   compiler: clang, osx_image: xcode9,    env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=14  }
+#   - { os: "osx",   compiler: clang, osx_image: xcode8.3,  env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=11  }
+#   - { os: "osx",   compiler: clang, osx_image: xcode8.3,  env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=14  }
 #   - { os: "osx",   compiler: clang, osx_image: xcode8,    env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=11  }
 #   - { os: "osx",   compiler: clang, osx_image: xcode8,    env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=14  }
 #   - { os: "osx",   compiler: clang, osx_image: xcode7.3,  env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=11  }
