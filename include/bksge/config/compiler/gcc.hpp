@@ -392,6 +392,15 @@
 #  define BKSGE_HAS_CXX17_AUTO_DEDUCTION_BRACED_INIT_LIST
 #endif
 
+// C++20
+#if (BKSGE_CXX_STANDARD >= 20)
+#  if (BKSGE_GCC_VERSION >= 80000)
+#    define BKSGE_HAS_CXX20_BITFIELD_DEFAULT_MEMBER_INITIALIZER
+#    define BKSGE_HAS_CXX20_CAPTURE_COPY_THIS
+#    define BKSGE_HAS_CXX20_TEMPLATE_LAMBDA
+#  endif
+#endif
+
 #if !defined(__MINGW32__)
 // Currently (June 2017) thread_local is broken on mingw for all current compiler releases, see
 // https://sourceforge.net/p/mingw-w64/bugs/527/

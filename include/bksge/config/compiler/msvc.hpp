@@ -373,10 +373,16 @@
 
 // Visual Studio 2019 Update 1 (16.1.(0-6)) (Visual C++ 14.21)
 #if (_MSC_FULL_VER >= 192127702)
+# if (BKSGE_CXX_STANDARD >= 20)
+#  define BKSGE_HAS_CXX20_CAPTURE_COPY_THIS		// ラムダ式のキャプチャとして[=, this]を許可する
+# endif
 #endif
 
 // Visual Studio 2019 Update 2 (16.2.(0-5)) (Visual C++ 14.22)
 #if (_MSC_FULL_VER >= 192227905)
+# if (BKSGE_CXX_STANDARD >= 20)
+#  define BKSGE_HAS_CXX20_TEMPLATE_LAMBDA			// ジェネリックラムダのテンプレート構文
+# endif
 #endif
 
 // Visual Studio 2019 Update 3 (16.3.(0-2)) (Visual C++ 14.23)
@@ -501,6 +507,82 @@
 #define BKSGE_HAS_CXX17_HAS_INCLUDE						// P0061R1	__has_include							プリプロセッサでの条件式__has_include
 // P0398R0	Explicit default constructors and copy-list-initialization						none
 // P0134R0	Introducing a name for brace-or-equal-initializers for non-static data members	none
+
+// C++20
+#define BKSGE_HAS_CXX20_BITFIELD_DEFAULT_MEMBER_INITIALIZER	// P0683R1	ビットフィールドのメンバ変数初期化
+// P0704R1		Fixing const-qualified pointers to members
+#define BKSGE_HAS_CXX20_CAPTURE_COPY_THIS					// P0409R2	ラムダ式のキャプチャとして[=, this]を許可する
+// P0306R4		__VA_OPT__ for preprocessor comma elision
+// P1042R1
+// P0329R4		Designated initializers
+#define BKSGE_HAS_CXX20_TEMPLATE_LAMBDA						// P0428R2	ジェネリックラムダのテンプレート構文
+// P0702R1		List deduction of vector
+// P0734R0		Concepts
+// P0857R0
+// P1084R2
+// P1141R2
+// P0848R3
+// P1616R1
+// P1452R2
+// P0614R1		Range-based for statements with initializer
+// P0588R1		Simplifying implicit lambda capture
+// P0846R0		ADL and function templates that are not visible
+// P0641R2		const mismatch with defaulted copy constructor
+// P0859R0		Less eager instantiation of constexpr functions
+// P0515R3	__cpp_impl_three_way_comparison >= 201711	Consistent comparison (operator<=>)
+// P0905R1
+// P1120R0
+// P1185R2
+// P1186R3
+// P1630R1
+// P0692R1		Access checking on specializations
+// P0624R2		Default constructible and assignable stateless lambdas
+// P0315R4		Lambdas in unevaluated contexts
+// P0840R2		Language support for empty objects
+// P0962R1		Relaxing the range-for loop customization point finding rules
+// P0969R0		Allow structured bindings to accessible members
+// P0961R1		Relaxing the structured bindings customization point finding rules
+// P0634R3		Down with typename!
+// P0780R2		Allow pack expansion in lambda init-capture
+// P0479R5		Proposed wording for likelyand unlikely attributes
+// P0806R2		[=]によるthisの暗黙のキャプチャを非推奨化
+// P0732R2	__cpp_nontype_template_parameter_class >= 201806	Class Types in Non-Type Template Parameters
+// P0528R3		Atomic Compare-and-Exchange with Padding Bits
+// P0722R3	__cpp_impl_destroying_delete >= 201806	Efficient sized delete for variable sized classes
+// P1064R0		Allowing Virtual Function Calls in Constant Expressions
+// P1008R1		Prohibit aggregates with user-declared constructors
+// P0892R2	__cpp_conditional_explicit >= 201806	explicit(bool)
+// P1236R1		Signed integers are two's complement
+// P0482R6	__cpp_char8_t >= 201811	char8_t
+// P1073R3		Immediate functions (consteval)
+// P0595R2		std::is_constant_evaluated
+// P1094R2		Nested inline namespaces
+// P1002R1		Relaxations of constexpr restrictions
+// P1327R1
+// P1330R0
+// P1331R2	__cpp_constexpr >= 201907	
+// P1668R1
+// P0784R7
+// P0941R2		Feature test macros
+// P1103R3		Modules
+// P1766R1
+// P1811R0
+// P1703R1
+// P0912R5		Coroutines
+// P0960R3	__cpp_aggregate_paren_init >= 201902	Parenthesized initialization of aggregates
+// P1041R4		Stronger Unicode requirements
+// P1139R2
+// P1091R3		Structured binding extensions
+// P1381R1
+// P1161R3		Deprecate a[b,c]
+// P1152R4		Deprecating some uses of volatile
+// P1301R4		[[nodiscard("with reason")]]
+// P1099R5		using enum
+// P1816R0		Class template argument deduction for aggregates
+// P1814R0		Class template argument deduction for alias templates
+// P0388R4		Permit conversions to arrays of unknown bound
+// P1143R2	__cpp_constinit >= 201907	constinit
+// P1825R0		More implicit moves (merge P0527R1 and P1155R3)
 
 #endif
 
