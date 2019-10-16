@@ -23,6 +23,7 @@ GTEST_TEST(ConfigTest, Cxx20BitfieldDefaultMemberInitializerTest)
 		int b : 2 {1};
 	};
 
+	X x;
 	EXPECT_EQ(8, x.a);
 	EXPECT_EQ(1, x.b);
 #endif
