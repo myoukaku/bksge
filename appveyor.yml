@@ -6,40 +6,29 @@ branches:
     - develop
     - ci-test
 
+skip_commits:
+  files:
+    - docs/**/*
+    - .editorconfig
+    - .gitattributes
+    - .gitignore
+    - .travis.yml
+    - LICENSE
+    - README.md
+    - rocro.yml
+
+image:
+  - Visual Studio 2019
+  - Visual Studio 2017
+
 environment:
   global:
     PYTHON: "C:\\Python35"
 
   matrix:
-    - CMAKE_GENERATOR: "Visual Studio 16 2019"
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-      VS_BUILD_TOOLS_DIR: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\Build\\"
-      CXX_STANDARD: 14
-
-    - CMAKE_GENERATOR: "Visual Studio 16 2019"
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-      VS_BUILD_TOOLS_DIR: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\Build\\"
-      CXX_STANDARD: 17
-
-    - CMAKE_GENERATOR: "Visual Studio 16 2019"
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-      VS_BUILD_TOOLS_DIR: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\Build\\"
-      CXX_STANDARD: 20
-
-#    - CMAKE_GENERATOR: "Visual Studio 15 2017"
-#      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-#      VS_BUILD_TOOLS_DIR: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\VC\\Auxiliary\\Build\\"
-#      CXX_STANDARD: 14
-
-#    - CMAKE_GENERATOR: "Visual Studio 15 2017"
-#      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-#      VS_BUILD_TOOLS_DIR: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\VC\\Auxiliary\\Build\\"
-#      CXX_STANDARD: 17
-
-#    - CMAKE_GENERATOR: "Visual Studio 15 2017"
-#      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-#      VS_BUILD_TOOLS_DIR: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\VC\\Auxiliary\\Build\\"
-#      CXX_STANDARD: 20
+    - CXX_STANDARD: 14
+    - CXX_STANDARD: 17
+    - CXX_STANDARD: 20
 
 platform:
   - x64
@@ -55,7 +44,7 @@ build:
   project: build/bksge.sln
 
 install:
-  - ps: |
+- ps: |
     Write-Output "Generator: $env:CMAKE_GENERATOR"
     Write-Output "CXX_STANDARD: $env:CXX_STANDARD"
     Write-Output "Platform: $env:platform"
@@ -64,28 +53,13 @@ install:
 
 before_build:
   - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
-  # vcvars32.bat will override the platform ennvar, so we need to reset it or else appveyor dies
-  - "SET APPVEYOR_PLATFORM=%PLATFORM%"
-  - if %APPVEYOR_PLATFORM% == x64   (call "%VS_BUILD_TOOLS_DIR%vcvars64.bat")
-  - if %APPVEYOR_PLATFORM% == Win32 (call "%VS_BUILD_TOOLS_DIR%vcvars32.bat")
-  - "SET PLATFORM=%APPVEYOR_PLATFORM%"
-  # Generate build files using CMake for the build step.
-  - echo Generating CMake files for %PLATFORM%
+  - if "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2019" (set CMAKE_GENERATOR="Visual Studio 16 2019")
+  - if "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2017" (set CMAKE_GENERATOR="Visual Studio 15 2017")
+  - echo CMAKE_GENERATOR=%CMAKE_GENERATOR%
   - mkdir build
   - cd build
-  - cmake .. -G "%CMAKE_GENERATOR%" -A "%PLATFORM%" -DCMAKE_CXX_STANDARD="%CXX_STANDARD%" -DCMAKE_BUILD_TYPE="%CONFIGURATION%" -DCMAKE_CONFIGURATION_TYPES=Debug;Release -DCMAKE_IGNORE_PATH="C:/Program Files/Git/usr/bin"
+  - cmake .. -G %CMAKE_GENERATOR% -A "%PLATFORM%" -DCMAKE_CXX_STANDARD="%CXX_STANDARD%" -DCMAKE_BUILD_TYPE="%CONFIGURATION%" -DCMAKE_CONFIGURATION_TYPES=Debug;Release -DCMAKE_IGNORE_PATH="C:/Program Files/Git/usr/bin"
   - echo Building platform=%PLATFORM% configuration=%CONFIGURATION%
-
-skip_commits:
-  files:
-    - docs/**/*
-    - .editorconfig
-    - .gitattributes
-    - .gitignore
-    - .travis.yml
-    - LICENSE
-    - README.md
-    - rocro.yml
 
 test_script:
 - ps: |
