@@ -83,6 +83,7 @@ message(STATUS "Vulkan-Loader_SOURCE_DIR: ${Vulkan-Loader_SOURCE_DIR}")
 message(STATUS "Vulkan-Loader_BINARY_DIR: ${Vulkan-Loader_BINARY_DIR}")
 add_subdirectory(${Vulkan-Loader_SOURCE_DIR} ${Vulkan-Loader_BINARY_DIR})
 
+set(BUILD_TESTING OFF CACHE BOOL "" FORCE)
 download_project(
   PROJ glslang
   GIT_REPOSITORY https://github.com/KhronosGroup/glslang.git
