@@ -12,7 +12,12 @@
 #if defined(__clang__) && !defined(__CUDACC__) && !defined(__ibmxl__)
 // when using clang and cuda at same time, you want to appear as gcc
 //  Clang C++ emulates GCC, so it has to appear early.
-#   define BKSGE_COMPILER_CONFIG	"bksge/config/compiler/clang.hpp"
+
+#  if defined(__APPLE__)
+#    define BKSGE_COMPILER_CONFIG	"bksge/config/compiler/apple_clang.hpp"
+#  else
+#    define BKSGE_COMPILER_CONFIG	"bksge/config/compiler/clang.hpp"
+#  endif
 
 #elif defined(__GNUC__) && !defined(__ibmxl__)
 //  GNU C++:
