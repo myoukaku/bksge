@@ -29,6 +29,16 @@ GTEST_TEST(ConfigTest, Cxx20BitfieldDefaultMemberInitializerTest)
 #endif
 }
 
+GTEST_TEST(ConfigTest, Cxx20ConstQualifiedPointersToMembersTest)
+{
+	struct X { void foo() const& {} };
+
+	X{}.foo();
+#if defined(BKSGE_HAS_CXX20_CONST_QUALIFIED_POINTERS_TO_MEMBERS)
+	(X{}.*&X::foo)();
+#endif
+}
+
 GTEST_TEST(ConfigTest, Cxx20CaptureCopyThisTest)
 {
 #if defined(BKSGE_HAS_CXX20_CAPTURE_COPY_THIS)

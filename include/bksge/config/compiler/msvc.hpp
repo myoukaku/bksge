@@ -182,6 +182,7 @@
 #  define BKSGE_HAS_CXX17_NAMESPACE_ATTRIBUTES				// 名前空間に属性の付加を許可
 #  define BKSGE_HAS_CXX17_U8_CHARACTER_LITERALS				// UTF-8文字リテラル
 #  define BKSGE_HAS_CXX17_IGNORING_UNRECOGNIZED_ATTRIBUTES	// 不明な属性を無視する
+#  define BKSGE_HAS_CXX20_CONST_QUALIFIED_POINTERS_TO_MEMBERS	// const修飾されたメンバポインタの制限を修正
 # endif
 #endif
 
@@ -389,7 +390,7 @@
 #if (_MSC_FULL_VER >= 192328105)
 #endif
 
-// Visual Studio 2019 Update 3 (16.3.(3-4)) (Visual C++ 14.23)
+// Visual Studio 2019 Update 3 (16.3.(3-6)) (Visual C++ 14.23)
 #if (_MSC_FULL_VER >= 192328106)
 #endif
 
@@ -510,7 +511,7 @@
 
 // C++20
 #define BKSGE_HAS_CXX20_BITFIELD_DEFAULT_MEMBER_INITIALIZER	// P0683R1	ビットフィールドのメンバ変数初期化
-// P0704R1		Fixing const-qualified pointers to members
+#define BKSGE_HAS_CXX20_CONST_QUALIFIED_POINTERS_TO_MEMBERS	// P0704R1	const修飾されたメンバポインタの制限を修正
 #define BKSGE_HAS_CXX20_CAPTURE_COPY_THIS					// P0409R2	ラムダ式のキャプチャとして[=, this]を許可する
 // P0306R4		__VA_OPT__ for preprocessor comma elision
 // P1042R1
