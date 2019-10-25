@@ -858,22 +858,22 @@ BKSGE_INLINE void APIENTRY glClipControl (GLenum origin, GLenum depth)
 //	BKSGE_GLEXT_FUNC(PFNGLISRENDERBUFFEREXTPROC, glIsRenderbufferEXT, renderbuffer);
 //	return GL_FALSE;
 //}
-//
-//BKSGE_INLINE void APIENTRY glBindRenderbufferEXT(GLenum target, GLuint renderbuffer)
-//{
-//	BKSGE_GLEXT_FUNC(PFNGLBINDRENDERBUFFEREXTPROC, glBindRenderbufferEXT, target, renderbuffer);
-//}
-//
-//BKSGE_INLINE void APIENTRY glDeleteRenderbuffersEXT(GLsizei n, const GLuint* renderbuffers)
-//{
-//	BKSGE_GLEXT_FUNC(PFNGLDELETERENDERBUFFERSEXTPROC, glDeleteRenderbuffersEXT, n, renderbuffers);
-//}
-//
-//BKSGE_INLINE void APIENTRY glGenRenderbuffersEXT(GLsizei n, GLuint* renderbuffers)
-//{
-//	BKSGE_GLEXT_FUNC(PFNGLGENRENDERBUFFERSEXTPROC, glGenRenderbuffersEXT, n, renderbuffers);
-//}
-//
+
+BKSGE_INLINE void APIENTRY glBindRenderbufferEXT(GLenum target, GLuint renderbuffer)
+{
+	BKSGE_GLEXT_FUNC(PFNGLBINDRENDERBUFFEREXTPROC, glBindRenderbufferEXT, target, renderbuffer);
+}
+
+BKSGE_INLINE void APIENTRY glDeleteRenderbuffersEXT(GLsizei n, const GLuint* renderbuffers)
+{
+	BKSGE_GLEXT_FUNC(PFNGLDELETERENDERBUFFERSEXTPROC, glDeleteRenderbuffersEXT, n, renderbuffers);
+}
+
+BKSGE_INLINE void APIENTRY glGenRenderbuffersEXT(GLsizei n, GLuint* renderbuffers)
+{
+	BKSGE_GLEXT_FUNC(PFNGLGENRENDERBUFFERSEXTPROC, glGenRenderbuffersEXT, n, renderbuffers);
+}
+
 //BKSGE_INLINE void APIENTRY glRenderbufferStorageEXT(GLenum target, GLenum internalformat, GLsizei width, GLsizei height)
 //{
 //	BKSGE_GLEXT_FUNC(PFNGLRENDERBUFFERSTORAGEEXTPROC, glRenderbufferStorageEXT, target, internalformat, width, height);

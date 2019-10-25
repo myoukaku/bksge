@@ -4,6 +4,8 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 include(Dart)
 
+option(BKSGE_UNITY_BUILD "Use Unity Builds" OFF)
+
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -163,7 +165,12 @@ message(STATUS "CMAKE_CXX_FLAGS_RELWITHDEBINFO: ${CMAKE_CXX_FLAGS_RELWITHDEBINFO
 message(STATUS "CMAKE_CXX_COMPILER: ${CMAKE_CXX_COMPILER}")
 message(STATUS "CMAKE_C_COMPILER: ${CMAKE_C_COMPILER}")
 
+include(${PROJECT_SOURCE_DIR}/cmake/UnityBuild.cmake)
+
 file(GLOB_RECURSE bksge_sources src/bksge/*)
+if(BKSGE_UNITY_BUILD)
+  ENABLE_UNITY_BUILD(bksge bksge_sources 10 cpp)
+endif()
 add_library(bksge STATIC ${bksge_sources})
 include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${OPENGL_INCLUDE_DIR})

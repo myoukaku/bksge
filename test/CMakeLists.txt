@@ -16,8 +16,14 @@ set_target_properties(gtest_main PROPERTIES FOLDER "externals")
 #set_target_properties(gmock      PROPERTIES FOLDER "externals")
 #set_target_properties(gmock_main PROPERTIES FOLDER "externals")
 
+include(${PROJECT_SOURCE_DIR}/cmake/UnityBuild.cmake)
+
 file(GLOB_RECURSE test_sources src/*)
+if(BKSGE_UNITY_BUILD)
+  ENABLE_UNITY_BUILD(unit_test test_sources 10 cpp)
+endif()
 add_executable(unit_test ${test_sources})
+
 include_directories(src)
 
 include(${PROJECT_SOURCE_DIR}/cmake/assign_source_group.cmake)
