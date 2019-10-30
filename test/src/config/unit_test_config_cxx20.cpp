@@ -62,6 +62,36 @@ GTEST_TEST(ConfigTest, Cxx20CaptureCopyThisTest)
 #endif
 }
 
+GTEST_TEST(ConfigTest, Cxx20DesignatedInitializersTest)
+{
+#if defined(BKSGE_HAS_CXX20_DESIGNATED_INITIALIZERS)
+	struct A { int x; int y; int z; };
+
+	A a{.x = 1, .y = 2, .z = 3};
+	EXPECT_EQ(1, a.x);
+	EXPECT_EQ(2, a.y);
+	EXPECT_EQ(3, a.z);
+
+	A b{.x = 1, .z = 2};
+	EXPECT_EQ(1, b.x);
+	EXPECT_EQ(0, b.y);
+	EXPECT_EQ(2, b.z);
+
+	A c{.y = 1};
+	EXPECT_EQ(0, c.x);
+	EXPECT_EQ(1, c.y);
+	EXPECT_EQ(0, c.z);
+
+	union U { int a; const char* b; };
+
+	U d ={.a = 42};
+	EXPECT_EQ(42, d.a);
+
+	U e ={.b = "asdf"};
+	EXPECT_STREQ("asdf", e.b);
+#endif
+}
+
 GTEST_TEST(ConfigTest, Cxx20TemplateLambdaTest)
 {
 #if defined(BKSGE_HAS_CXX20_TEMPLATE_LAMBDA)

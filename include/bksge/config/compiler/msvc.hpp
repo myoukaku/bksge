@@ -375,7 +375,8 @@
 // Visual Studio 2019 Update 1 (16.1.(0-6)) (Visual C++ 14.21)
 #if (_MSC_FULL_VER >= 192127702)
 # if (BKSGE_CXX_STANDARD >= 20)
-#  define BKSGE_HAS_CXX20_CAPTURE_COPY_THIS		// ラムダ式のキャプチャとして[=, this]を許可する
+#  define BKSGE_HAS_CXX20_DESIGNATED_INITIALIZERS	// 指示付き初期化子
+#  define BKSGE_HAS_CXX20_CAPTURE_COPY_THIS			// ラムダ式のキャプチャとして[=, this]を許可する
 # endif
 #endif
 
@@ -515,7 +516,7 @@
 #define BKSGE_HAS_CXX20_CAPTURE_COPY_THIS					// P0409R2	ラムダ式のキャプチャとして[=, this]を許可する
 // P0306R4		__VA_OPT__ for preprocessor comma elision
 // P1042R1
-// P0329R4		Designated initializers
+#define BKSGE_HAS_CXX20_DESIGNATED_INITIALIZERS				// P0329R4	指示付き初期化子
 #define BKSGE_HAS_CXX20_TEMPLATE_LAMBDA						// P0428R2	ジェネリックラムダのテンプレート構文
 // P0702R1		List deduction of vector
 // P0734R0		Concepts
