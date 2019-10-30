@@ -131,7 +131,7 @@ foreach(compiler_flag ${compiler_flags})
     set(${compiler_flag} "${${compiler_flag}} -Wall -Wextra -Werror -Wno-mismatched-tags")
 
   elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    set(${compiler_flag} "${${compiler_flag}} -Wall -Wextra -Werror")
+    set(${compiler_flag} "${${compiler_flag}} -Wall -Wextra -Werror -Wno-missing-field-initializers")
 
   endif()
 endforeach()
