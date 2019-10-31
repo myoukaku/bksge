@@ -115,4 +115,20 @@ GTEST_TEST(ConfigTest, Cxx20TemplateLambdaTest)
 #endif
 }
 
+GTEST_TEST(ConfigTest, Cxx20RangeBasedForInitializerTest)
+{
+#if defined(BKSGE_HAS_CXX20_RANGE_BASED_FOR_INITIALIZER)
+	std::vector<int> v {10, 20, 30};
+	for (int i = 0; auto& x : v)
+	{
+		x += i;
+		i++;
+	}
+
+	EXPECT_EQ(10, v[0]);
+	EXPECT_EQ(21, v[1]);
+	EXPECT_EQ(32, v[2]);
+#endif
+}
+
 }	// namespace bksge_config_cxx20_test

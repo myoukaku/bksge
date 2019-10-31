@@ -401,13 +401,16 @@
 #    define BKSGE_HAS_CXX20_TEMPLATE_LAMBDA
 #    define BKSGE_HAS_CXX20_DESIGNATED_INITIALIZERS
 #  endif
+#  if (BKSGE_GCC_VERSION >= 90000)
+#    define BKSGE_HAS_CXX20_RANGE_BASED_FOR_INITIALIZER
+#  endif
 #endif
 
-#if !defined(__MINGW32__)
+#if defined(__MINGW32__)
 // Currently (June 2017) thread_local is broken on mingw for all current compiler releases, see
 // https://sourceforge.net/p/mingw-w64/bugs/527/
 // Not setting this causes program termination on thread exit.
-#  define BKSGE_HAS_CXX11_THREAD_LOCAL
+#  undef BKSGE_HAS_CXX11_THREAD_LOCAL
 #endif
 
 #endif // BKSGE_CONFIG_COMPILER_GCC_HPP

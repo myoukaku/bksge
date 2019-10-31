@@ -526,7 +526,7 @@
 // P0848R3
 // P1616R1
 // P1452R2
-// P0614R1		Range-based for statements with initializer
+#define BKSGE_HAS_CXX20_RANGE_BASED_FOR_INITIALIZER			// P0614R1	初期化式をともなう範囲for文
 // P0588R1		Simplifying implicit lambda capture
 // P0846R0		ADL and function templates that are not visible
 // P0641R2		const mismatch with defaulted copy constructor
