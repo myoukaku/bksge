@@ -10,6 +10,7 @@
 #include <gtest/gtest.h>
 #include <vector>
 #include <string>
+#include <map>
 
 namespace bksge_config_cxx20_test
 {
@@ -128,6 +129,15 @@ GTEST_TEST(ConfigTest, Cxx20RangeBasedForInitializerTest)
 	EXPECT_EQ(10, v[0]);
 	EXPECT_EQ(21, v[1]);
 	EXPECT_EQ(32, v[2]);
+#endif
+}
+
+GTEST_TEST(ConfigTest, Cxx20DefaultConstructibleAndAssignableStatelessLambdasTest)
+{
+#if defined(BKSGE_HAS_CXX20_DEFAULT_CONSTRUCTIBLE_AND_ASSIGNABLE_STATELESS_LAMBDAS)
+	auto greater = [](auto x, auto y) { return x > y; };
+	decltype(greater) f;
+	f = greater;
 #endif
 }
 

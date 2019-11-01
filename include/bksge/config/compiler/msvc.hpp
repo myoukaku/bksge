@@ -384,6 +384,7 @@
 #if (_MSC_FULL_VER >= 192227905)
 # if (BKSGE_CXX_STANDARD >= 20)
 #  define BKSGE_HAS_CXX20_TEMPLATE_LAMBDA			// ジェネリックラムダのテンプレート構文
+#  define BKSGE_HAS_CXX20_DEFAULT_CONSTRUCTIBLE_AND_ASSIGNABLE_STATELESS_LAMBDAS
 # endif
 #endif
 
@@ -538,7 +539,7 @@
 // P1186R3
 // P1630R1
 // P0692R1		Access checking on specializations
-// P0624R2		Default constructible and assignable stateless lambdas
+#define BKSGE_HAS_CXX20_DEFAULT_CONSTRUCTIBLE_AND_ASSIGNABLE_STATELESS_LAMBDAS			// P0624R2		Default constructible and assignable stateless lambdas
 // P0315R4		Lambdas in unevaluated contexts
 // P0840R2		Language support for empty objects
 // P0962R1		Relaxing the range-for loop customization point finding rules
