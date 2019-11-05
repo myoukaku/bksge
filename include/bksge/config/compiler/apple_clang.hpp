@@ -251,46 +251,46 @@
 #  if defined(__cpp_nontype_template_parameter_auto) && (__cpp_nontype_template_parameter_auto >= 201606)
 #    define BKSGE_HAS_CXX17_NONTYPE_TEMPLATE_PARAMETER_AUTO	// P0127R2
 #  endif
-#  if defined(__cpp_namespace_attributes) && (__cpp_namespace_attributes >= 201411 )
+#  if defined(__cpp_namespace_attributes) && (__cpp_namespace_attributes >= 201411)
 #    define BKSGE_HAS_CXX17_NAMESPACE_ATTRIBUTES		// N4266
 #  endif
-#  if defined(__cpp_enumerator_attributes) && (__cpp_enumerator_attributes >= 201411 )
+#  if defined(__cpp_enumerator_attributes) && (__cpp_enumerator_attributes >= 201411)
 #    define BKSGE_HAS_CXX17_ENUMERATOR_ATTRIBUTES		// N4266
 #  endif
-#  if defined(__cpp_nested_namespace_definitions) && (__cpp_nested_namespace_definitions >= 201411 )
+#  if defined(__cpp_nested_namespace_definitions) && (__cpp_nested_namespace_definitions >= 201411)
 #    define BKSGE_HAS_CXX17_NESTED_NAMESPACE_DEFINITIONS	// N4230
 #  endif
-#  if defined(__cpp_inheriting_constructors) && (__cpp_inheriting_constructors >= 201511 )
+#  if defined(__cpp_inheriting_constructors) && (__cpp_inheriting_constructors >= 201511)
 #    define BKSGE_HAS_CXX17_INHERITING_CONSTRUCTORS	// P0136R1
 #  endif
-#  if defined(__cpp_variadic_using) && (__cpp_variadic_using >= 201611 )
+#  if defined(__cpp_variadic_using) && (__cpp_variadic_using >= 201611)
 #    define BKSGE_HAS_CXX17_VARIADIC_USING				// P0195R2
 #  endif
-#  if (BKSGE_HAS_CPP_ATTRIBUTE(fallthrough) >= 201603 )
+#  if (BKSGE_HAS_CPP_ATTRIBUTE(fallthrough) >= 201603)
 #    define BKSGE_HAS_CXX17_FALLTHROUGH				// P0188R1
 #  endif
-#  if (BKSGE_HAS_CPP_ATTRIBUTE(nodiscard) >= 201603 )
+#  if (BKSGE_HAS_CPP_ATTRIBUTE(nodiscard) >= 201603)
 #    define BKSGE_HAS_CXX17_NODISCARD					// P0189R1
 #  endif
-#  if (BKSGE_HAS_CPP_ATTRIBUTE(maybe_unused) >= 201603 )
+#  if (BKSGE_HAS_CPP_ATTRIBUTE(maybe_unused) >= 201603)
 #    define BKSGE_HAS_CXX17_MAYBE_UNUSED				// P0212R1
 #  endif
 #  define BKSGE_HAS_CXX17_USING_ATTRIBUTE_NAMESPACES	// P0028R4
 #  if (BKSGE_CXX_STANDARD >= 17)
 #    define BKSGE_HAS_CXX17_IGNORING_UNRECOGNIZED_ATTRIBUTES	// P0283R2
 #  endif
-#  if defined(__cpp_structured_bindings) && (__cpp_structured_bindings >= 201606 )
+#  if defined(__cpp_structured_bindings) && (__cpp_structured_bindings >= 201606)
 #    define BKSGE_HAS_CXX17_STRUCTURED_BINDINGS		// P0217R3
 #  endif
-#  if defined(__cpp_aggregate_bases) && (__cpp_aggregate_bases >= 201603 )
+#  if defined(__cpp_aggregate_bases) && (__cpp_aggregate_bases >= 201603)
 #    define BKSGE_HAS_CXX17_AGGREGATE_BASES			// P0017R1
 #  endif
 #  define BKSGE_HAS_CXX17_INIT_ENUM_CLASS			// P0138R2
 #  define BKSGE_HAS_CXX17_TEMPLATE_TEMPLATE_TYPENAME	// N4051
-#  if defined(__cpp_nontype_template_args) && (__cpp_nontype_template_args >= 201411 )
+#  if defined(__cpp_nontype_template_args) && (__cpp_nontype_template_args >= 201411)
 #    define BKSGE_HAS_CXX17_NONTYPE_TEMPLATE_ARGS		// N4268
 #  endif
-#  if defined(__cpp_template_template_args) && (__cpp_template_template_args >= 201611 )
+#  if defined(__cpp_template_template_args) && (__cpp_template_template_args >= 201611)
 #    define BKSGE_HAS_CXX17_TEMPLATE_TEMPLATE_ARGS		// P0522R0
 #  endif
 #  define BKSGE_HAS_CXX17_EXCEPTION_SPECIFICATIONS	// P0003R5
@@ -315,6 +315,9 @@
 #    define BKSGE_HAS_CXX20_TEMPLATE_LAMBDA
 #    define BKSGE_HAS_CXX20_DESIGNATED_INITIALIZERS
 #    define BKSGE_HAS_CXX20_DEFAULT_CONSTRUCTIBLE_AND_ASSIGNABLE_STATELESS_LAMBDAS
+#  endif
+#  if defined(__cpp_impl_three_way_comparison) && (__cpp_impl_three_way_comparison >= 201711L)
+#    define BKSGE_HAS_CXX20_THREE_WAY_COMPARISON
 #  endif
 #endif
 

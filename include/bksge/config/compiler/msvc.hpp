@@ -366,6 +366,9 @@
 
 // Visual Studio 2019 (16.0.Prev(1-4)) (Visual C++ 14.20)
 #if (_MSC_FULL_VER >= 192027027)
+# if (BKSGE_CXX_STANDARD >= 20)
+#  define BKSGE_HAS_CXX20_THREE_WAY_COMPARISON		// 三方比較演算子
+# endif
 #endif
 
 // Visual Studio 2019 (16.0.(0-4)) (Visual C++ 14.20)
@@ -523,21 +526,21 @@
 // P0734R0		Concepts
 // P0857R0
 // P1084R2
-// P1141R2
 // P0848R3
 // P1616R1
 // P1452R2
+// P1141R2		制約付きの宣言のためのもうひとつの方法
 #define BKSGE_HAS_CXX20_RANGE_BASED_FOR_INITIALIZER			// P0614R1	初期化式をともなう範囲for文
 // P0588R1		Simplifying implicit lambda capture
 // P0846R0		ADL and function templates that are not visible
 // P0641R2		const mismatch with defaulted copy constructor
 // P0859R0		Less eager instantiation of constexpr functions
-// P0515R3	__cpp_impl_three_way_comparison >= 201711	Consistent comparison (operator<=>)
-// P0905R1
-// P1120R0
-// P1185R2
-// P1186R3
-// P1630R1
+#define BKSGE_HAS_CXX20_THREE_WAY_COMPARISON				// P0515R3	__cpp_impl_three_way_comparison >= 201711	三方比較演算子 (operator<=>)
+															// P0905R1
+															// P1120R0
+															// P1185R2
+															// P1186R3
+															// P1630R1
 // P0692R1		Access checking on specializations
 #define BKSGE_HAS_CXX20_DEFAULT_CONSTRUCTIBLE_AND_ASSIGNABLE_STATELESS_LAMBDAS			// P0624R2		Default constructible and assignable stateless lambdas
 // P0315R4		Lambdas in unevaluated contexts

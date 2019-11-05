@@ -12,6 +12,8 @@
 #include <string>
 #include <map>
 
+#include <compare>
+
 namespace bksge_config_cxx20_test
 {
 
@@ -129,6 +131,54 @@ GTEST_TEST(ConfigTest, Cxx20RangeBasedForInitializerTest)
 	EXPECT_EQ(10, v[0]);
 	EXPECT_EQ(21, v[1]);
 	EXPECT_EQ(32, v[2]);
+#endif
+}
+
+GTEST_TEST(ConfigTest, Cxx20ThreeWayComparisonTest)
+{
+#if defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
+	struct X
+	{
+		int x;
+		int y;
+		auto operator<=>(const X&) const = default;
+	};
+
+	X x1 = {10, 20};
+	X x2 = {10, 20};
+	X x3 = {11, 20};
+	X x4 = {10, 19};
+
+	EXPECT_TRUE ((x1 <=> x2) == 0);
+	EXPECT_FALSE((x1 <=> x2) >  0);
+	EXPECT_FALSE((x1 <=> x2) <  0);
+	EXPECT_FALSE((x1 <=> x3) == 0);
+	EXPECT_FALSE((x1 <=> x3) >  0);
+	EXPECT_TRUE ((x1 <=> x3) <  0);
+	EXPECT_FALSE((x1 <=> x4) == 0);
+	EXPECT_TRUE ((x1 <=> x4) >  0);
+	EXPECT_FALSE((x1 <=> x4) <  0);
+
+	EXPECT_TRUE (x1 == x2);
+	EXPECT_FALSE(x1 != x2);
+	EXPECT_FALSE(x1 <  x2);
+	EXPECT_FALSE(x1 >  x2);
+	EXPECT_TRUE (x1 <= x2);
+	EXPECT_TRUE (x1 >= x2);
+
+	EXPECT_FALSE(x1 == x3);
+	EXPECT_TRUE (x1 != x3);
+	EXPECT_TRUE (x1 <  x3);
+	EXPECT_FALSE(x1 >  x3);
+	EXPECT_TRUE (x1 <= x3);
+	EXPECT_FALSE(x1 >= x3);
+
+	EXPECT_FALSE(x1 == x4);
+	EXPECT_TRUE (x1 != x4);
+	EXPECT_FALSE(x1 <  x4);
+	EXPECT_TRUE (x1 >  x4);
+	EXPECT_FALSE(x1 <= x4);
+	EXPECT_TRUE (x1 >= x4);
 #endif
 }
 
