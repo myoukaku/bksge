@@ -12,7 +12,9 @@
 #include <string>
 #include <map>
 
+#if BKSGE_HAS_INCLUDE(<compare>)
 #include <compare>
+#endif
 
 namespace bksge_config_cxx20_test
 {
