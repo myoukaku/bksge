@@ -388,6 +388,7 @@
 # if (BKSGE_CXX_STANDARD >= 20)
 #  define BKSGE_HAS_CXX20_TEMPLATE_LAMBDA			// ジェネリックラムダのテンプレート構文
 #  define BKSGE_HAS_CXX20_DEFAULT_CONSTRUCTIBLE_AND_ASSIGNABLE_STATELESS_LAMBDAS
+#  define BKSGE_HAS_CXX20_CHAR8_T
 # endif
 #endif
 
@@ -563,7 +564,7 @@
 // P1008R1		Prohibit aggregates with user-declared constructors
 // P0892R2	__cpp_conditional_explicit >= 201806	explicit(bool)
 // P1236R1		Signed integers are two's complement
-// P0482R6	__cpp_char8_t >= 201811	char8_t
+#define BKSGE_HAS_CXX20_CHAR8_T								// P0482R6	__cpp_char8_t >= 201811	char8_t
 // P1073R3		Immediate functions (consteval)
 // P0595R2		std::is_constant_evaluated
 // P1094R2		Nested inline namespaces

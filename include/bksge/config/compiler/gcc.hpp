@@ -405,6 +405,9 @@
 #    define BKSGE_HAS_CXX20_RANGE_BASED_FOR_INITIALIZER
 #    define BKSGE_HAS_CXX20_DEFAULT_CONSTRUCTIBLE_AND_ASSIGNABLE_STATELESS_LAMBDAS
 #  endif
+#  if defined(__cpp_char8_t) && (__cpp_char8_t >= 201811)
+#    define BKSGE_HAS_CXX20_CHAR8_T
+#  endif
 #  if defined(__cpp_impl_three_way_comparison) && (__cpp_impl_three_way_comparison >= 201711L)
 #    define BKSGE_HAS_CXX20_THREE_WAY_COMPARISON
 #  endif

@@ -11,6 +11,7 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <type_traits>
 
 #if BKSGE_HAS_INCLUDE(<compare>)
 #include <compare>
@@ -192,5 +193,41 @@ GTEST_TEST(ConfigTest, Cxx20DefaultConstructibleAndAssignableStatelessLambdasTes
 	f = greater;
 #endif
 }
+
+namespace char8_t_test
+{
+
+#if defined(BKSGE_HAS_CXX20_CHAR8_T)
+template <typename> struct S { static const bool value = false; };
+template <> struct S<char8_t> { static const bool value = true; };
+#endif
+
+GTEST_TEST(ConfigTest, Cxx20Char8TTest)
+{
+#if defined(BKSGE_HAS_CXX20_CHAR8_T)
+	{
+		const char8_t* s = u8"hoge";
+		const char8_t c = u8'c';
+		(void)s;
+		(void)c;
+	}
+	{
+		const auto* s = u8"hoge";
+		const auto c = u8'c';
+		static_assert(std::is_same<const char8_t*, decltype(s)>::value, "");
+		static_assert(std::is_same<const char8_t, decltype(c)>::value, "");
+	}
+
+	static_assert(sizeof(char8_t) == sizeof(unsigned char), "");
+	static_assert(!std::is_same<char8_t, char>::value, "");
+	static_assert(!std::is_same<char8_t, unsigned char>::value, "");
+
+	static_assert(S<char8_t>::value, "");
+	static_assert(!S<char>::value, "");
+	static_assert(!S<unsigned char>::value, "");
+#endif
+}
+
+}	// namespace char8_t_test
 
 }	// namespace bksge_config_cxx20_test
