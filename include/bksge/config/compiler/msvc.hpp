@@ -389,6 +389,7 @@
 #  define BKSGE_HAS_CXX20_TEMPLATE_LAMBDA			// ジェネリックラムダのテンプレート構文
 #  define BKSGE_HAS_CXX20_DEFAULT_CONSTRUCTIBLE_AND_ASSIGNABLE_STATELESS_LAMBDAS
 #  define BKSGE_HAS_CXX20_CHAR8_T
+#  define BKSGE_HAS_CXX20_CONDITIONAL_EXPLICIT
 # endif
 #endif
 
@@ -562,7 +563,7 @@
 // P0722R3	__cpp_impl_destroying_delete >= 201806	Efficient sized delete for variable sized classes
 // P1064R0		Allowing Virtual Function Calls in Constant Expressions
 // P1008R1		Prohibit aggregates with user-declared constructors
-// P0892R2	__cpp_conditional_explicit >= 201806	explicit(bool)
+#define BKSGE_HAS_CXX20_CONDITIONAL_EXPLICIT				// P0892R2	__cpp_conditional_explicit >= 201806	explicit(bool)
 // P1236R1		Signed integers are two's complement
 #define BKSGE_HAS_CXX20_CHAR8_T								// P0482R6	__cpp_char8_t >= 201811	char8_t
 // P1073R3		Immediate functions (consteval)

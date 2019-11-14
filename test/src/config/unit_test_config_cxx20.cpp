@@ -6,6 +6,7 @@
  *	@author	myoukaku
  */
 
+#include <bksge/type_traits/is_implicitly_default_constructible.hpp>
 #include <bksge/config.hpp>
 #include <gtest/gtest.h>
 #include <vector>
@@ -193,6 +194,42 @@ GTEST_TEST(ConfigTest, Cxx20DefaultConstructibleAndAssignableStatelessLambdasTes
 	f = greater;
 #endif
 }
+
+namespace conditional_explicit_test
+{
+
+#if defined(BKSGE_HAS_CXX20_CONDITIONAL_EXPLICIT)
+template <bool B>
+struct S
+{
+	explicit(B) S() {}
+	explicit(B) operator bool() const { return true; }
+};
+#endif
+
+GTEST_TEST(ConfigTest, Cxx20ConditionalExplicitTest)
+{
+#if defined(BKSGE_HAS_CXX20_CONDITIONAL_EXPLICIT)
+	static_assert( std::is_default_constructible<S<true>>::value, "");
+	static_assert( std::is_default_constructible<S<false>>::value, "");
+
+	static_assert(!bksge::is_implicitly_default_constructible<S<true>>::value, "");
+	static_assert( bksge::is_implicitly_default_constructible<S<false>>::value, "");
+
+	S<true> x1;
+	S<false> x2;
+//	bool b1 = x1;
+	bool b2 = x2;
+	bool b3 = static_cast<bool>(x1);
+	bool b4 = static_cast<bool>(x2);
+
+	(void)b2;
+	(void)b3;
+	(void)b4;
+#endif
+}
+
+}	// namespace conditional_explicit_test
 
 namespace char8_t_test
 {

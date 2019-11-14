@@ -315,6 +315,7 @@
 #    define BKSGE_HAS_CXX20_TEMPLATE_LAMBDA
 #    define BKSGE_HAS_CXX20_DESIGNATED_INITIALIZERS
 #    define BKSGE_HAS_CXX20_DEFAULT_CONSTRUCTIBLE_AND_ASSIGNABLE_STATELESS_LAMBDAS
+#    define BKSGE_HAS_CXX20_CONDITIONAL_EXPLICIT
 #    define BKSGE_HAS_CXX20_CHAR8_T
 #  endif
 #  if defined(__cpp_impl_three_way_comparison) && (__cpp_impl_three_way_comparison >= 201711L)

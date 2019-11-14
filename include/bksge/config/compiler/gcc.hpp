@@ -405,6 +405,9 @@
 #    define BKSGE_HAS_CXX20_RANGE_BASED_FOR_INITIALIZER
 #    define BKSGE_HAS_CXX20_DEFAULT_CONSTRUCTIBLE_AND_ASSIGNABLE_STATELESS_LAMBDAS
 #  endif
+#  if defined(__cpp_conditional_explicit) && (__cpp_conditional_explicit >= 201806)
+#    define BKSGE_HAS_CXX20_CONDITIONAL_EXPLICIT
+#  endif
 #  if defined(__cpp_char8_t) && (__cpp_char8_t >= 201811)
 #    define BKSGE_HAS_CXX20_CHAR8_T
 #  endif

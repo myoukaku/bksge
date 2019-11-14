@@ -354,6 +354,9 @@
 #  if (BKSGE_CLANG_VERSION >= 100000)
 #    define BKSGE_HAS_CXX20_DESIGNATED_INITIALIZERS
 #  endif
+#  if defined(__cpp_conditional_explicit) && (__cpp_conditional_explicit >= 201806)
+#    define BKSGE_HAS_CXX20_CONDITIONAL_EXPLICIT
+#  endif
 #  if defined(__cpp_char8_t) && (__cpp_char8_t >= 201811)
 #    define BKSGE_HAS_CXX20_CHAR8_T
 #  endif
