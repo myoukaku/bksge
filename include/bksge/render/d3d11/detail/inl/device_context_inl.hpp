@@ -90,6 +90,24 @@ DeviceContext::VSSetConstantBuffers(
 }
 
 BKSGE_INLINE void
+DeviceContext::VSSetSamplers(
+	::UINT start_slot,
+	::UINT num_samplers,
+	::ID3D11SamplerState* const* samplers)
+{
+	m_device_context->VSSetSamplers(start_slot, num_samplers, samplers);
+}
+
+BKSGE_INLINE void
+DeviceContext::VSSetShaderResources(
+	::UINT start_slot,
+	::UINT num_views,
+	::ID3D11ShaderResourceView* const* shader_resource_views)
+{
+	m_device_context->VSSetShaderResources(start_slot, num_views, shader_resource_views);
+}
+
+BKSGE_INLINE void
 DeviceContext::PSSetShader(::ID3D11PixelShader* pixel_shader)
 {
 	m_device_context->PSSetShader(pixel_shader, nullptr, 0u);

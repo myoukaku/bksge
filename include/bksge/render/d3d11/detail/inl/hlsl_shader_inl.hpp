@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	hlsl_shader_inl.hpp
  *
- *	@brief	D3D11HLSLShader クラスの実装
+ *	@brief	HlslShader クラスの実装
  *
  *	@author	myoukaku
  */
@@ -14,8 +14,11 @@
 
 #include <bksge/render/d3d11/detail/hlsl_shader.hpp>
 #include <bksge/render/d3d11/detail/constant_buffer.hpp>
+#include <bksge/render/d3d11/detail/hlsl_sampler.hpp>
+#include <bksge/render/d3d11/detail/hlsl_texture.hpp>
 #include <bksge/render/d3d11/detail/device.hpp>
 #include <bksge/render/d3d11/detail/device_context.hpp>
+#include <bksge/render/d3d11/detail/resource_cache.hpp>
 #include <bksge/render/d3d_common/dxgiformat.hpp>
 #include <bksge/render/d3d_common/d3d11.hpp>
 #include <bksge/render/d3d_common/d3d11shader.hpp>
@@ -29,7 +32,7 @@
 #include <memory>
 #include <utility>	// std::move
 
-#include <iostream>
+#include <iostream>		// TODO
 
 namespace bksge
 {
@@ -97,21 +100,21 @@ GetElementDescFormat(::D3D11_SIGNATURE_PARAMETER_DESC const& param_desc)
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//	HLSLShaderBase
+//	HlslShaderBase
 //
 ///////////////////////////////////////////////////////////////////////////////
 BKSGE_INLINE
-HLSLShaderBase::HLSLShaderBase()
+HlslShaderBase::HlslShaderBase()
 {
 }
 
 BKSGE_INLINE
-HLSLShaderBase::~HLSLShaderBase()
+HlslShaderBase::~HlslShaderBase()
 {
 }
 
 BKSGE_INLINE bool
-HLSLShaderBase::Compile(Device* device, std::string const& source)
+HlslShaderBase::Compile(Device* device, std::string const& source)
 {
 	const char* target = VGetTargetString();
 	::UINT compile_flags = 0;
@@ -156,14 +159,15 @@ HLSLShaderBase::Compile(Device* device, std::string const& source)
 }
 
 BKSGE_INLINE void
-HLSLShaderBase::SetEnable(
+HlslShaderBase::SetEnable(
 	DeviceContext* device_context)
 {
 	VSetEnable(device_context);
 }
 
 BKSGE_INLINE void
-HLSLShaderBase::LoadParameters(
+HlslShaderBase::LoadParameters(
+	ResourceCache* resource_cache,
 	DeviceContext* device_context,
 	bksge::ShaderParameterMap const& shader_parameter_map)
 {
@@ -180,10 +184,36 @@ HLSLShaderBase::LoadParameters(
 			constant_buffer->buffer().GetAddressOf());
 		++slot;
 	}
+
+	slot = 0;
+	for (auto&& hlsl_sampler : m_hlsl_samplers)
+	{
+		hlsl_sampler->Load(
+			resource_cache,
+			device_context,
+			shader_parameter_map,
+			this,
+			slot);
+
+		++slot;
+	}
+
+	slot = 0;
+	for (auto&& hlsl_texture : m_hlsl_textures)
+	{
+		hlsl_texture->Load(
+			resource_cache,
+			device_context,
+			shader_parameter_map,
+			this,
+			slot);
+
+		++slot;
+	}
 }
 
 BKSGE_INLINE void
-HLSLShaderBase::CreateConstantBuffer(Device* device)
+HlslShaderBase::CreateConstantBuffer(Device* device)
 {
 	::D3D11_SHADER_DESC shader_desc;
 	ThrowIfFailed(m_reflection->GetDesc(&shader_desc));
@@ -198,7 +228,7 @@ HLSLShaderBase::CreateConstantBuffer(Device* device)
 }
 
 BKSGE_INLINE void
-HLSLShaderBase::CreateShaderResources(Device* /*device*/)
+HlslShaderBase::CreateShaderResources(Device* /*device*/)
 {
 	::D3D11_SHADER_DESC shader_desc;
 	ThrowIfFailed(m_reflection->GetDesc(&shader_desc));
@@ -207,11 +237,27 @@ HLSLShaderBase::CreateShaderResources(Device* /*device*/)
 	{
 		::D3D11_SHADER_INPUT_BIND_DESC bind_desc;
 		ThrowIfFailed(m_reflection->GetResourceBindingDesc(i, &bind_desc));
+
+		switch (bind_desc.Type)
+		{
+		case D3D_SIT_TEXTURE:
+			{
+				auto hlsl_texture = bksge::make_unique<HlslTexture>(bind_desc);
+				m_hlsl_textures.push_back(std::move(hlsl_texture));
+			}
+			break;
+		case D3D_SIT_SAMPLER:
+			{
+				auto hlsl_sampler = bksge::make_unique<HlslSampler>(bind_desc);
+				m_hlsl_samplers.push_back(std::move(hlsl_sampler));
+			}
+			break;
+		}
 	}
 }
 
 BKSGE_INLINE ComPtr<::ID3D11InputLayout>
-HLSLShaderBase::CreateInputLayout(Device* device)
+HlslShaderBase::CreateInputLayout(Device* device)
 {
 	::D3D11_SHADER_DESC shader_desc;
 	ThrowIfFailed(m_reflection->GetDesc(&shader_desc));
@@ -243,41 +289,41 @@ HLSLShaderBase::CreateInputLayout(Device* device)
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//	HLSLVertexShader
+//	HlslVertexShader
 //
 ///////////////////////////////////////////////////////////////////////////////
 BKSGE_INLINE
-HLSLVertexShader::HLSLVertexShader()
+HlslVertexShader::HlslVertexShader()
 {
 }
 
 BKSGE_INLINE
-HLSLVertexShader::~HLSLVertexShader()
+HlslVertexShader::~HlslVertexShader()
 {
 }
 
 BKSGE_INLINE const char*
-HLSLVertexShader::VGetTargetString()
+HlslVertexShader::VGetTargetString()
 {
 	return "vs_4_0";
 }
 
 BKSGE_INLINE void
-HLSLVertexShader::VCreateShader(
+HlslVertexShader::VCreateShader(
 	Device* device, ::ID3DBlob* micro_code)
 {
 	m_shader = device->CreateVertexShader(micro_code);
 }
 
 BKSGE_INLINE void
-HLSLVertexShader::VSetEnable(
+HlslVertexShader::VSetEnable(
 	DeviceContext* device_context)
 {
 	device_context->VSSetShader(m_shader.Get());
 }
 
 BKSGE_INLINE void
-HLSLVertexShader::VSetConstantBuffers(
+HlslVertexShader::VSetConstantBuffers(
 	DeviceContext* device_context,
 	::UINT         start_slot,
 	::UINT         num_buffers,
@@ -287,43 +333,65 @@ HLSLVertexShader::VSetConstantBuffers(
 		start_slot, num_buffers, constant_buffers);
 }
 
+BKSGE_INLINE void
+HlslVertexShader::VSetSamplers(
+	DeviceContext* device_context,
+	::UINT         start_slot,
+	::UINT         num_samplers,
+	::ID3D11SamplerState* const* samplers)
+{
+	device_context->VSSetSamplers(
+		start_slot, num_samplers, samplers);
+}
+
+BKSGE_INLINE void
+HlslVertexShader::VSetShaderResources(
+	DeviceContext* device_context,
+	::UINT         start_slot,
+	::UINT         num_views,
+	::ID3D11ShaderResourceView* const* shader_resource_views)
+{
+	device_context->VSSetShaderResources(
+		start_slot, num_views, shader_resource_views);
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 //
-//	HLSLPixelShader
+//	HlslPixelShader
 //
 ///////////////////////////////////////////////////////////////////////////////
 BKSGE_INLINE
-HLSLPixelShader::HLSLPixelShader()
+HlslPixelShader::HlslPixelShader()
 {
 }
 
 BKSGE_INLINE
-HLSLPixelShader::~HLSLPixelShader()
+HlslPixelShader::~HlslPixelShader()
 {
 }
 
 BKSGE_INLINE const char*
-HLSLPixelShader::VGetTargetString()
+HlslPixelShader::VGetTargetString()
 {
 	return "ps_4_0";
 }
 
 BKSGE_INLINE void
-HLSLPixelShader::VCreateShader(
+HlslPixelShader::VCreateShader(
 	Device* device, ::ID3DBlob* micro_code)
 {
 	m_shader = device->CreatePixelShader(micro_code);
 }
 
 BKSGE_INLINE void
-HLSLPixelShader::VSetEnable(
+HlslPixelShader::VSetEnable(
 	DeviceContext* device_context)
 {
 	device_context->PSSetShader(m_shader.Get());
 }
 
 BKSGE_INLINE void
-HLSLPixelShader::VSetConstantBuffers(
+HlslPixelShader::VSetConstantBuffers(
 	DeviceContext* device_context,
 	::UINT         start_slot,
 	::UINT         num_buffers,
@@ -331,6 +399,28 @@ HLSLPixelShader::VSetConstantBuffers(
 {
 	device_context->PSSetConstantBuffers(
 		start_slot, num_buffers, constant_buffers);
+}
+
+BKSGE_INLINE void
+HlslPixelShader::VSetSamplers(
+	DeviceContext* device_context,
+	::UINT         start_slot,
+	::UINT         num_samplers,
+	::ID3D11SamplerState* const* samplers)
+{
+	device_context->PSSetSamplers(
+		start_slot, num_samplers, samplers);
+}
+
+BKSGE_INLINE void
+HlslPixelShader::VSetShaderResources(
+	DeviceContext* device_context,
+	::UINT         start_slot,
+	::UINT         num_views,
+	::ID3D11ShaderResourceView* const* shader_resource_views)
+{
+	device_context->PSSetShaderResources(
+		start_slot, num_views, shader_resource_views);
 }
 
 }	// namespace d3d11

@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	hlsl_program_inl.hpp
  *
- *	@brief	HLSLProgram クラスの実装
+ *	@brief	HlslProgram クラスの実装
  *
  *	@author	myoukaku
  */
@@ -34,23 +34,23 @@ namespace d3d11
 {
 
 BKSGE_INLINE
-HLSLProgram::HLSLProgram(Device* device, bksge::Shader const& shader)
+HlslProgram::HlslProgram(Device* device, bksge::Shader const& shader)
 {
 	for (auto&& it : shader)
 	{
 		bksge::ShaderStage const stage = it.first;
 		std::string const& source = it.second;
 
-		std::unique_ptr<HLSLShaderBase> hlsl_shader;
+		std::unique_ptr<HlslShaderBase> hlsl_shader;
 		switch (stage)
 		{
 		case bksge::ShaderStage::kVertex:
-			hlsl_shader = bksge::make_unique<HLSLVertexShader>();
+			hlsl_shader = bksge::make_unique<HlslVertexShader>();
 			break;
 		case bksge::ShaderStage::kGeometry:
 			break;
 		case bksge::ShaderStage::kFragment:
-			hlsl_shader = bksge::make_unique<HLSLPixelShader>();
+			hlsl_shader = bksge::make_unique<HlslPixelShader>();
 			break;
 		case bksge::ShaderStage::kTessellationControl:
 			break;
@@ -81,12 +81,13 @@ HLSLProgram::HLSLProgram(Device* device, bksge::Shader const& shader)
 }
 
 BKSGE_INLINE
-HLSLProgram::~HLSLProgram()
+HlslProgram::~HlslProgram()
 {
 }
 
 BKSGE_INLINE void
-HLSLProgram::Render(
+HlslProgram::Render(
+	ResourceCache* resource_cache,
 	DeviceContext* device_context,
 	Geometry const* geometry,
 	bksge::ShaderParameterMap const& shader_parameter_map)
@@ -96,7 +97,10 @@ HLSLProgram::Render(
 	for (auto& shader : m_shaders)
 	{
 		shader->SetEnable(device_context);
-		shader->LoadParameters(device_context, shader_parameter_map);
+		shader->LoadParameters(
+			resource_cache,
+			device_context,
+			shader_parameter_map);
 	}
 
 	geometry->Draw(device_context);

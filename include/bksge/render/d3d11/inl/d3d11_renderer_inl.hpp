@@ -18,21 +18,23 @@
 #include <bksge/render/d3d11/detail/render_target.hpp>
 #include <bksge/render/d3d11/detail/depth_stencil.hpp>
 #include <bksge/render/d3d11/detail/hlsl_program.hpp>
-#include <bksge/render/d3d11/detail/geometry.hpp>
+//#include <bksge/render/d3d11/detail/geometry.hpp>
 #include <bksge/render/d3d11/detail/fill_mode.hpp>
 #include <bksge/render/d3d11/detail/cull_mode.hpp>
-//#include <bksge/render/d3d11/detail/texture.hpp>
-//#include <bksge/render/d3d11/detail/sampler.hpp>
+////#include <bksge/render/d3d11/detail/texture.hpp>
+////#include <bksge/render/d3d11/detail/sampler.hpp>
+#include <bksge/render/d3d11/detail/resource_cache.hpp>
 #include <bksge/render/d3d_common/d3d11.hpp>
 #include <bksge/render/d3d_common/com_ptr.hpp>
 #include <bksge/render/dxgi/dxgi_factory.hpp>
 #include <bksge/render/dxgi/dxgi_swap_chain.hpp>
 #include <bksge/render/clear_flag.hpp>
+#include <bksge/render/front_face.hpp>
 #include <bksge/render/shader.hpp>
-#include <bksge/render/geometry.hpp>
+//#include <bksge/render/geometry.hpp>
 #include <bksge/render/render_state.hpp>
-#include <bksge/render/texture.hpp>
-//#include <bksge/render/sampler.hpp>
+//#include <bksge/render/texture.hpp>
+////#include <bksge/render/sampler.hpp>
 #include <bksge/math/color4.hpp>
 #include <bksge/memory/make_unique.hpp>
 #include <bksge/window/window.hpp>
@@ -63,6 +65,7 @@ D3D11Renderer::Initialize(void)
 	m_factory = bksge::make_unique<DXGIFactory>();
 	m_device = bksge::make_unique<d3d11::Device>(m_factory->EnumAdapters());
 	m_device_context = bksge::make_unique<d3d11::DeviceContext>(m_device.get());
+	m_resource_cache = bksge::make_unique<d3d11::ResourceCache>(m_device.get());
 }
 
 BKSGE_INLINE void
@@ -208,67 +211,18 @@ D3D11Renderer::VRender(
 		m_device_context->RSSetScissorRects(1, &scissor_rect);
 	}
 
-	auto hlsl_program = GetD3D11HLSLProgram(shader);
+	auto hlsl_program = m_resource_cache->GetD3D11HlslProgram(shader);
 	BKSGE_ASSERT(hlsl_program != nullptr);
 
-	auto d3d11_geometry = GetD3D11Geometry(geometry);
+	auto d3d11_geometry = m_resource_cache->GetD3D11Geometry(geometry);
 	hlsl_program->Render(
+		m_resource_cache.get(),
 		m_device_context.get(),
 		d3d11_geometry.get(),
 		shader_parameter_map);
 
 	return true;
 }
-
-namespace d3d11_detail
-{
-
-template <typename Ret, typename Map, typename Src, typename... Args>
-inline typename Map::mapped_type
-GetOrCreate(d3d11::Device* device, Map& map, Src const& src, Args... args)
-{
-	auto const& id = src.id();
-	{
-		auto const& it = map.find(id);
-
-		if (it != map.end())
-		{
-			return it->second;
-		}
-	}
-
-	auto p = std::make_shared<Ret>(device, src, bksge::forward<Args>(args)...);
-	map[id] = p;
-	return p;
-}
-
-}	// namespace d3d11_detail
-
-BKSGE_INLINE std::shared_ptr<d3d11::HLSLProgram>
-D3D11Renderer::GetD3D11HLSLProgram(bksge::Shader const& shader)
-{
-	return d3d11_detail::GetOrCreate<d3d11::HLSLProgram>(
-		m_device.get(), m_d3d11_hlsl_program_map, shader);
-}
-
-BKSGE_INLINE std::shared_ptr<d3d11::Geometry>
-D3D11Renderer::GetD3D11Geometry(bksge::Geometry const& geometry)
-{
-	return d3d11_detail::GetOrCreate<d3d11::Geometry>(
-		m_device.get(), m_d3d11_geometry_map, geometry);
-}
-
-//BKSGE_INLINE std::shared_ptr<d3d11::Texture>
-//D3D11Renderer::GetD3D11Texture(bksge::Texture const& texture)
-//{
-//	return d3d11_detail::GetOrCreate<d3d11::Texture>(this, m_d3d11_texture_map, texture);
-//}
-
-//BKSGE_INLINE std::shared_ptr<d3d11::Sampler>
-//D3D11Renderer::GetD3D11Sampler(bksge::Sampler const& sampler)
-//{
-//	return d3d11_detail::GetOrCreate<d3d11::Sampler>(this, m_d3d11_sampler_map, sampler);
-//}
 
 }	// namespace render
 

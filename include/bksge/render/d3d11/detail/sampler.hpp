@@ -10,12 +10,10 @@
 #define BKSGE_RENDER_D3D11_DETAIL_SAMPLER_HPP
 
 #include <bksge/render/d3d11/detail/fwd/sampler_fwd.hpp>
-#include <bksge/render/d3d11/detail/fwd/texture_fwd.hpp>
-#include <bksge/render/d3d11/fwd/d3d11_renderer_fwd.hpp>
+#include <bksge/render/d3d11/detail/fwd/device_fwd.hpp>
 #include <bksge/render/d3d_common/d3d11.hpp>
 #include <bksge/render/d3d_common/com_ptr.hpp>
 #include <bksge/render/fwd/sampler_fwd.hpp>
-#include <memory>
 
 namespace bksge
 {
@@ -26,25 +24,21 @@ namespace render
 namespace d3d11
 {
 
-#if 0
 /**
- *	@brief	SamplerをD3D11で使えるように変換したクラス
+ *	@brief
  */
 class Sampler
 {
 public:
-	Sampler(D3D11Renderer* renderer, bksge::Sampler const& sampler);
+	explicit Sampler(Device* device, bksge::Sampler const& sampler);
 
 	~Sampler();
 
-	std::shared_ptr<Texture> const& texture(void) const;
-	::ID3D11SamplerState* state(void) const;
+	ComPtr<::ID3D11SamplerState> const& state(void) const;
 
 private:
-	std::shared_ptr<Texture> m_texture;
-	ComPtr<::ID3D11SamplerState> m_state;
+	ComPtr<::ID3D11SamplerState>	m_state;
 };
-#endif
 
 }	// namespace d3d11
 

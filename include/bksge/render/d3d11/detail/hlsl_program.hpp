@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	hlsl_program.hpp
  *
- *	@brief	HLSLProgram クラスの定義
+ *	@brief	HlslProgram クラスの定義
  *
  *	@author	myoukaku
  */
@@ -14,6 +14,7 @@
 #include <bksge/render/d3d11/detail/fwd/device_fwd.hpp>
 #include <bksge/render/d3d11/detail/fwd/device_context_fwd.hpp>
 #include <bksge/render/d3d11/detail/fwd/geometry_fwd.hpp>
+#include <bksge/render/d3d11/detail/fwd/resource_cache_fwd.hpp>
 #include <bksge/render/d3d_common/d3d11.hpp>
 #include <bksge/render/d3d_common/com_ptr.hpp>
 #include <bksge/render/fwd/shader_fwd.hpp>
@@ -32,22 +33,23 @@ namespace d3d11
 /**
  *	@brief
  */
-class HLSLProgram
+class HlslProgram
 {
 public:
-	HLSLProgram(Device* device, bksge::Shader const& shader);
+	HlslProgram(Device* device, bksge::Shader const& shader);
 
-	~HLSLProgram();
+	~HlslProgram();
 
 	void Render(
+		ResourceCache* resource_cache,
 		DeviceContext* device_context,
 		Geometry const* geometry,
 		bksge::ShaderParameterMap const& shader_parameter_map);
 
 private:
-	using HLSLShaders = std::vector<HLSLShaderUnique>;
+	using HlslShaders = std::vector<HlslShaderUnique>;
 
-	HLSLShaders						m_shaders;
+	HlslShaders						m_shaders;
 	ComPtr<::ID3D11InputLayout>		m_input_layout;
 };
 

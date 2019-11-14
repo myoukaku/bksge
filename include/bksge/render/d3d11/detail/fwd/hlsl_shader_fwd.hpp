@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	hlsl_shader_fwd.hpp
  *
- *	@brief	HLSLShader の前方宣言
+ *	@brief	HlslShader の前方宣言
  *
  *	@author	myoukaku
  */
@@ -20,9 +20,9 @@ namespace render
 namespace d3d11
 {
 
-class HLSLShaderBase;
+class HlslShaderBase;
 
-using HLSLShaderUnique = std::unique_ptr<HLSLShaderBase>;
+using HlslShaderUnique = std::unique_ptr<HlslShaderBase>;
 
 }	// namespace d3d11
 

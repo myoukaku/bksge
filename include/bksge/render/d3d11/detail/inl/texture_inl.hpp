@@ -15,6 +15,7 @@
 #include <bksge/render/d3d11/detail/texture.hpp>
 #include <bksge/render/d3d11/detail/device.hpp>
 #include <bksge/render/texture.hpp>
+#include <bksge/render/shader_parameter_map.hpp>
 #include <bksge/assert.hpp>
 
 namespace bksge
@@ -80,16 +81,16 @@ Texture::~Texture()
 {
 }
 
-BKSGE_INLINE ::ID3D11Texture2D*
-Texture::texture() const
-{
-	return m_texture.Get();
-}
+//BKSGE_INLINE ::ID3D11Texture2D*
+//Texture::texture() const
+//{
+//	return m_texture.Get();
+//}
 
-BKSGE_INLINE ::ID3D11ShaderResourceView*
+BKSGE_INLINE ComPtr<::ID3D11ShaderResourceView> const&
 Texture::shader_resource_view() const
 {
-	return m_shader_resource_view.Get();
+	return m_shader_resource_view;
 }
 
 }	// namespace d3d11

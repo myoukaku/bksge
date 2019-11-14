@@ -24,7 +24,8 @@ namespace d3d11
 
 class Texture;
 
-using TextureMap = std::map<Identifier, std::shared_ptr<Texture>>;
+using TextureShared = std::shared_ptr<Texture>;
+using TextureMap = std::map<Identifier, TextureShared>;
 
 }	// namespace d3d11
 

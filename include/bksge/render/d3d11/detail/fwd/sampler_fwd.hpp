@@ -24,7 +24,8 @@ namespace d3d11
 
 class Sampler;
 
-using SamplerMap = std::map<Identifier, std::shared_ptr<Sampler>>;
+using SamplerShared = std::shared_ptr<Sampler>;
+using SamplerMap = std::map<Identifier, SamplerShared>;
 
 }	// namespace d3d11
 

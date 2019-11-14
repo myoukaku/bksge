@@ -196,6 +196,7 @@ int main()
 
 	bksge::ShaderParameterMap shader_parameter;
 	shader_parameter.SetParameter("uSampler", sampler);
+	shader_parameter.SetParameter("uTexture", texture);
 
 	bksge::RenderState render_state;
 

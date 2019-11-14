@@ -57,6 +57,16 @@ public:
 		::UINT         num_buffers,
 		::ID3D11Buffer* const* constant_buffers);
 
+	void VSSetSamplers(
+		::UINT start_slot,
+		::UINT num_samplers,
+		::ID3D11SamplerState* const* samplers);
+
+	void VSSetShaderResources(
+		::UINT start_slot,
+		::UINT num_views,
+		::ID3D11ShaderResourceView* const* shader_resource_views);
+
 	void PSSetShader(::ID3D11PixelShader* pixel_shader);
 
 	void PSSetConstantBuffers(
