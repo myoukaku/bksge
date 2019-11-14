@@ -11,7 +11,10 @@
 
 #include <bksge/render/gl/detail/fwd/glsl_parameter_setter_fwd.hpp>
 #include <bksge/render/gl/detail/gl_h.hpp>
+#include <bksge/render/gl/detail/resource_cache.hpp>
+#include <bksge/render/gl/detail/sampler.hpp>
 #include <bksge/render/detail/shader_parameter_base.hpp>
+#include <bksge/render/sampler.hpp>
 #include <memory>
 
 namespace bksge
@@ -33,10 +36,13 @@ public:
 
 	virtual ~GlslParameterSetterBase();
 
-	void SetParameter(std::shared_ptr<ShaderParameterBase> const& src) const;
+	void SetParameter(
+		ResourceCache* resource_cache,
+		std::shared_ptr<ShaderParameterBase> const& src) const;
 
 private:
 	virtual void VSetParameter(
+		ResourceCache* resource_cache,
 		::GLint location,
 		std::shared_ptr<ShaderParameterBase> const& src) const = 0;
 
@@ -55,69 +61,77 @@ public:
 
 private:
 	void VSetParameter(
+		ResourceCache* resource_cache,
 		::GLint location,
 		std::shared_ptr<ShaderParameterBase> const& src) const override
 	{
 		if (src)
 		{
 			auto const* v = static_cast<T const*>(src->data());
-			SetParameterImpl(location, *v);
+			SetParameterImpl(resource_cache, location, *v);
 		}
 	}
 
-	static void SetParameterImpl(::GLint location, float const& v)
+	static void SetParameterImpl(ResourceCache*, ::GLint location, float const& v)
 	{
 		::glUniform1f(location, v);
 	}
 
-	static void SetParameterImpl(::GLint location, float const (&v)[2])
+	static void SetParameterImpl(ResourceCache*, ::GLint location, float const (&v)[2])
 	{
 		::glUniform2fv(location, 1, &v[0]);
 	}
 
-	static void SetParameterImpl(::GLint location, float const (&v)[3])
+	static void SetParameterImpl(ResourceCache*, ::GLint location, float const (&v)[3])
 	{
 		::glUniform3fv(location, 1, &v[0]);
 	}
 
-	static void SetParameterImpl(::GLint location, float const (&v)[4])
+	static void SetParameterImpl(ResourceCache*, ::GLint location, float const (&v)[4])
 	{
 		::glUniform4fv(location, 1, &v[0]);
 	}
 
-	static void SetParameterImpl(::GLint location, double const& v)
+	static void SetParameterImpl(ResourceCache*, ::GLint location, double const& v)
 	{
 		::glUniform1d(location, v);
 	}
 
-	static void SetParameterImpl(::GLint location, double const (&v)[2])
+	static void SetParameterImpl(ResourceCache*, ::GLint location, double const (&v)[2])
 	{
 		::glUniform2dv(location, 1, &v[0]);
 	}
 
-	static void SetParameterImpl(::GLint location, double const (&v)[3])
+	static void SetParameterImpl(ResourceCache*, ::GLint location, double const (&v)[3])
 	{
 		::glUniform3dv(location, 1, &v[0]);
 	}
 
-	static void SetParameterImpl(::GLint location, double const (&v)[4])
+	static void SetParameterImpl(ResourceCache*, ::GLint location, double const (&v)[4])
 	{
 		::glUniform4dv(location, 1, &v[0]);
 	}
 
-	static void SetParameterImpl(::GLint location, float const (&v)[2][2])
+	static void SetParameterImpl(ResourceCache*, ::GLint location, float const (&v)[2][2])
 	{
 		::glUniformMatrix2fv(location, 1, GL_FALSE, &v[0][0]);
 	}
 
-	static void SetParameterImpl(::GLint location, float const (&v)[3][3])
+	static void SetParameterImpl(ResourceCache*, ::GLint location, float const (&v)[3][3])
 	{
 		::glUniformMatrix3fv(location, 1, GL_FALSE, &v[0][0]);
 	}
 
-	static void SetParameterImpl(::GLint location, float const (&v)[4][4])
+	static void SetParameterImpl(ResourceCache*, ::GLint location, float const (&v)[4][4])
 	{
 		::glUniformMatrix4fv(location, 1, GL_FALSE, &v[0][0]);
+	}
+
+	static void SetParameterImpl(ResourceCache* resource_cache, ::GLint location, bksge::Sampler const& sampler)
+	{
+		(void)location;
+		gl::Sampler gl_sampler(resource_cache, sampler);
+		gl_sampler.Apply();
 	}
 };
 

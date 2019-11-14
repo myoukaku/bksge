@@ -10,6 +10,7 @@
 #define BKSGE_RENDER_GL_DETAIL_SAMPLER_HPP
 
 #include <bksge/render/gl/detail/fwd/texture_fwd.hpp>
+#include <bksge/render/gl/detail/fwd/resource_cache_fwd.hpp>
 #include <bksge/render/gl/detail/gl_h.hpp>
 #include <bksge/render/gl/fwd/gl_renderer_fwd.hpp>
 #include <bksge/render/fwd/sampler_fwd.hpp>
@@ -31,7 +32,7 @@ namespace gl
 class Sampler
 {
 public:
-	Sampler(GlRenderer* renderer, bksge::Sampler const& sampler);
+	Sampler(ResourceCache* resource_cache, bksge::Sampler const& sampler);
 
 	TextureShared const& source(void) const;
 

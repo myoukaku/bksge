@@ -82,12 +82,13 @@ GlslProgram::~GlslProgram()
 
 BKSGE_INLINE void
 GlslProgram::Render(
+	ResourceCache* resource_cache,
 	Geometry const* geometry,
 	ShaderParameterMap const& shader_parameter_map)
 {
 	::glUseProgram(m_id);
 	{
-		LoadParameters(shader_parameter_map);
+		LoadParameters(resource_cache, shader_parameter_map);
 
 		geometry->Bind();
 		geometry->Draw();
@@ -98,11 +99,12 @@ GlslProgram::Render(
 
 BKSGE_INLINE void
 GlslProgram::LoadParameters(
+	ResourceCache* resource_cache,
 	ShaderParameterMap const& shader_parameter_map)
 {
 	for (auto&& parameter : m_parameters)
 	{
-		parameter->LoadParameter(shader_parameter_map);
+		parameter->LoadParameter(resource_cache, shader_parameter_map);
 	}
 }
 

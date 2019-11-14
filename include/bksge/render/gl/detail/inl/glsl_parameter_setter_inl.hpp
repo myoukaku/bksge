@@ -37,9 +37,10 @@ GlslParameterSetterBase::~GlslParameterSetterBase()
 
 BKSGE_INLINE void
 GlslParameterSetterBase::SetParameter(
+	ResourceCache* resource_cache,
 	std::shared_ptr<ShaderParameterBase> const& src) const
 {
-	VSetParameter(m_location, src);
+	VSetParameter(resource_cache, m_location, src);
 }
 
 }	// namespace gl

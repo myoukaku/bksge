@@ -11,15 +11,12 @@
 
 #include <bksge/render/gl/fwd/gl_renderer_fwd.hpp>
 #include <bksge/render/gl/detail/fwd/context_fwd.hpp>
-#include <bksge/render/gl/detail/fwd/geometry_fwd.hpp>
-#include <bksge/render/gl/detail/fwd/glsl_program_fwd.hpp>
-#include <bksge/render/gl/detail/fwd/texture_fwd.hpp>
-#include <bksge/render/gl/detail/fwd/frame_buffer_fwd.hpp>
+#include <bksge/render/gl/detail/fwd/resource_cache_fwd.hpp>
 #include <bksge/render/gl/detail/gl_h.hpp>
 #include <bksge/render/fwd/geometry_fwd.hpp>
 #include <bksge/render/fwd/shader_fwd.hpp>
+#include <bksge/render/fwd/shader_parameter_map_fwd.hpp>
 #include <bksge/render/fwd/render_state_fwd.hpp>
-#include <bksge/render/fwd/texture_fwd.hpp>
 #include <bksge/render/renderer.hpp>
 #include <bksge/window/fwd/window_fwd.hpp>
 //#include <bksge/units/time.hpp>
@@ -41,11 +38,6 @@ public:
 
 	virtual ~GlRenderer();
 
-public:		// TODO privateにする
-	gl::GeometryShared    GetGlGeometry(Geometry const& geometry);
-	gl::GlslProgramShared GetGlslProgram(Shader const& shader);
-	gl::TextureShared     GetGlTexture(Texture const& texture);
-
 private:
 	void Clear(void);
 
@@ -63,12 +55,10 @@ private:
 	//using NanoSeconds  = bksge::units::nanoseconds<float>;
 
 private:
-	std::unique_ptr<gl::Context>  m_gl_context;
-	gl::GeometryMap               m_gl_geometry_map;
-	gl::GlslProgramMap            m_gl_shader_map;
-	gl::TextureMap                m_gl_texture_map;
+	std::unique_ptr<gl::Context>		m_gl_context;
+	std::unique_ptr<gl::ResourceCache>	m_resource_cache;
 	::GLuint                      m_timer_queries[2];  ///< 描画時間を図るためのクエリ
-//	MilliSeconds                  m_draw_time;		 ///< 描画時間
+//	MilliSeconds                  m_draw_time;		   ///< 描画時間
 };
 
 }	// namespace render

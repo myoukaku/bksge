@@ -20,6 +20,7 @@
 #include <bksge/render/gl/detail/fill_mode.hpp>
 #include <bksge/render/gl/detail/front_face.hpp>
 #include <bksge/render/gl/detail/cull_mode.hpp>
+#include <bksge/render/gl/detail/resource_cache.hpp>
 #include <bksge/render/gl/detail/wgl/wgl_context.hpp>
 #include <bksge/render/gl/detail/glx/glx_context.hpp>
 #include <bksge/render/geometry.hpp>
@@ -77,6 +78,7 @@ void APIENTRY DebugCallback(
 BKSGE_INLINE
 GlRenderer::GlRenderer(void)
 	: m_gl_context()
+	, m_resource_cache(new gl::ResourceCache())
 {
 }
 
@@ -89,10 +91,6 @@ GlRenderer::~GlRenderer()
 BKSGE_INLINE void
 GlRenderer::VSetRenderTarget(Window const& window)
 {
-	m_gl_geometry_map.clear();
-	m_gl_shader_map.clear();
-	m_gl_texture_map.clear();
-
 	m_gl_context.reset(gl_renderer_detail::MakeGlContext(window));
 
 	//std::printf("GL_VENDOR : %s\n",     ::glGetString(GL_VENDOR));		// ベンダー情報の取得
@@ -220,7 +218,7 @@ GlRenderer::VRender(
 		}
 	}
 
-	auto glsl_program = GetGlslProgram(shader);
+	auto glsl_program = m_resource_cache->GetGlslProgram(shader);
 	BKSGE_ASSERT(glsl_program != nullptr);
 
 	auto const& rasterizer_state = render_state.rasterizer_state();
@@ -241,51 +239,10 @@ GlRenderer::VRender(
 	::glFrontFace(gl::FrontFace(front_face));
 	::glPolygonMode(GL_FRONT_AND_BACK, gl::FillMode(fill_mode));
 
-	auto gl_geometry = GetGlGeometry(geometry);
-	glsl_program->Render(gl_geometry.get(), shader_parameter_map);
+	auto gl_geometry = m_resource_cache->GetGlGeometry(geometry);
+	glsl_program->Render(m_resource_cache.get(), gl_geometry.get(), shader_parameter_map);
 
 	return true;
-}
-
-namespace gl_renderer_detail
-{
-
-template <typename Ret, typename Map, typename Src, typename... Args> inline
-typename Map::mapped_type GetOrCreate(Map& map, Src const& src, Args... args)
-{
-	auto const& id = src.id();
-	{
-		auto const& it = map.find(id);
-
-		if (it != map.end())
-		{
-			return it->second;
-		}
-	}
-
-	auto p = std::make_shared<Ret>(src, args...);
-	map[id] = p;
-	return p;
-}
-
-}	// namespace gl_renderer_detail
-
-BKSGE_INLINE std::shared_ptr<gl::Geometry>
-GlRenderer::GetGlGeometry(Geometry const& geometry)
-{
-	return gl_renderer_detail::GetOrCreate<gl::Geometry>(m_gl_geometry_map, geometry);
-}
-
-BKSGE_INLINE std::shared_ptr<gl::GlslProgram>
-GlRenderer::GetGlslProgram(Shader const& shader)
-{
-	return gl_renderer_detail::GetOrCreate<gl::GlslProgram>(m_gl_shader_map, shader);
-}
-
-BKSGE_INLINE std::shared_ptr<gl::Texture>
-GlRenderer::GetGlTexture(Texture const& texture)
-{
-	return gl_renderer_detail::GetOrCreate<gl::Texture>(m_gl_texture_map, texture);
 }
 
 }	// namespace render

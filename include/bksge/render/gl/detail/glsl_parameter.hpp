@@ -11,6 +11,7 @@
 
 #include <bksge/render/gl/detail/fwd/glsl_parameter_fwd.hpp>
 #include <bksge/render/gl/detail/fwd/glsl_parameter_setter_fwd.hpp>
+#include <bksge/render/gl/detail/fwd/resource_cache_fwd.hpp>
 #include <bksge/render/gl/detail/gl_h.hpp>
 #include <bksge/render/fwd/shader_parameter_map_fwd.hpp>
 #include <string>
@@ -35,7 +36,9 @@ public:
 
 	~GlslParameter();
 
-	void LoadParameter(bksge::ShaderParameterMap const& shader_parameter_map);
+	void LoadParameter(
+		ResourceCache* resource_cache,
+		bksge::ShaderParameterMap const& shader_parameter_map);
 
 private:
 	std::string		m_name;

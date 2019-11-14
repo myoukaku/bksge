@@ -16,6 +16,7 @@
 #include <bksge/render/gl/detail/glsl_parameter_setter.hpp>
 #include <bksge/render/gl/detail/gl_h.hpp>
 #include <bksge/render/shader_parameter_map.hpp>
+#include <bksge/render/sampler.hpp>
 #include <bksge/assert.hpp>
 #include <string>
 #include <vector>
@@ -74,6 +75,7 @@ GlslParameter::GlslParameter(::GLuint program, ::GLint index)
 	case GL_FLOAT_MAT2: m_setter.reset(new GlslParameterSetter<float[2][2]>(m_location)); break;
 	case GL_FLOAT_MAT3: m_setter.reset(new GlslParameterSetter<float[3][3]>(m_location)); break;
 	case GL_FLOAT_MAT4: m_setter.reset(new GlslParameterSetter<float[4][4]>(m_location)); break;
+	case GL_SAMPLER_2D: m_setter.reset(new GlslParameterSetter<bksge::Sampler>(m_location)); break;
 	default: BKSGE_ASSERT(false); break;
 	}
 }
@@ -85,11 +87,12 @@ GlslParameter::~GlslParameter()
 
 BKSGE_INLINE void
 GlslParameter::LoadParameter(
+	ResourceCache* resource_cache,
 	ShaderParameterMap const& shader_parameter_map)
 {
 	if (m_setter)
 	{
-		m_setter->SetParameter(shader_parameter_map[m_name]);
+		m_setter->SetParameter(resource_cache, shader_parameter_map[m_name]);
 	}
 }
 
