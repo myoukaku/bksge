@@ -169,7 +169,7 @@ include(${PROJECT_SOURCE_DIR}/cmake/UnityBuild.cmake)
 
 file(GLOB_RECURSE bksge_sources src/bksge/*)
 if(BKSGE_UNITY_BUILD)
-  ENABLE_UNITY_BUILD(bksge bksge_sources 10 cpp)
+  ENABLE_UNITY_BUILD(bksge bksge_sources 1000 cpp)
 endif()
 add_library(bksge STATIC ${bksge_sources})
 include_directories(${PROJECT_SOURCE_DIR}/include)

@@ -12,7 +12,7 @@
 #include <bksge/config.hpp>
 
 #if defined(BKSGE_PLATFORM_WIN32)
-//#  include <bksge/detail/win32.hpp>
+#  include <bksge/detail/win32.hpp>
 #  define GL_GLEXT_PROTOTYPES
 //#  include <GL/gl.h>
 #  include <GL/glcorearb.h>
