@@ -25,7 +25,7 @@
 #include <bksge/render/d3d12/detail/blend_state.hpp>
 #include <bksge/render/d3d12/detail/depth_stencil_state.hpp>
 #include <bksge/render/d3d12/detail/hlsl_program.hpp>
-#include <bksge/render/d3d12/detail/constant_buffer_descriptor.hpp>
+//#include <bksge/render/d3d12/detail/constant_buffer_descriptor.hpp>
 #include <bksge/render/d3d12/detail/primitive_topology_type.hpp>
 #include <bksge/render/d3d12/detail/pipeline_state.hpp>
 #include <bksge/render/d3d_common/d3d12.hpp>
@@ -239,16 +239,13 @@ D3D12Renderer::VRender(
 	}
 
 	auto hlsl_program = GetD3D12HlslProgram(shader);
+	m_command_list->SetGraphicsRootSignature(hlsl_program->GetRootSignature());
+
+	hlsl_program->UpdateParameters(shader_parameter_map);
+	hlsl_program->SetEnable(m_command_list.get());
 
 	auto pipeline_state = GetD3D12PipelineState(shader, render_state.rasterizer_state(), geometry.primitive());
-
-	m_command_list->SetGraphicsRootSignature(hlsl_program->GetRootSignature());
-	//m_command_list->SetPipelineState(m_pipelineState.Get());
 	pipeline_state->SetPipelineState(m_command_list.get());
-
-	auto constant_buffer = GetD3D12ConstantBufferDescriptor(shader_parameter_map, hlsl_program.get());
-	constant_buffer->UpdateParameters(shader_parameter_map);
-	constant_buffer->SetEnable(m_command_list.get());
 
 	auto d3d12_geometry = GetD3D12Geometry(geometry);
 	d3d12_geometry->Draw(m_command_list.get());
@@ -288,26 +285,14 @@ BKSGE_INLINE std::shared_ptr<d3d12::HlslProgram>
 D3D12Renderer::GetD3D12HlslProgram(Shader const& shader)
 {
 	return d3d12_detail::GetOrCreate<d3d12::HlslProgram>(
-		m_d3d12_hlsl_program_map, shader.id(), m_device.get(), shader);
-}
-
-BKSGE_INLINE std::shared_ptr<d3d12::ConstantBufferDescriptor>
-D3D12Renderer::GetD3D12ConstantBufferDescriptor(
-	ShaderParameterMap const& shader_parameter_map,
-	d3d12::HlslProgram* hlsl_program)
-{
-	return d3d12_detail::GetOrCreate<d3d12::ConstantBufferDescriptor>(
-		m_d3d12_constant_buffer_descriptor_map,
-		shader_parameter_map.id(),
-		m_device.get(),
-		hlsl_program);
+		m_d3d12_hlsl_program_map, shader.id(), m_device.get(), shader);		// TODO 引数の順番を統一する
 }
 
 BKSGE_INLINE std::shared_ptr<d3d12::Geometry>
 D3D12Renderer::GetD3D12Geometry(Geometry const& geometry)
 {
 	return d3d12_detail::GetOrCreate<d3d12::Geometry>(
-		m_d3d12_geometry_map, geometry.id(), geometry, m_device.get());
+		m_d3d12_geometry_map, geometry.id(), geometry, m_device.get());		// TODO 引数の順番を統一する
 }
 
 BKSGE_INLINE std::shared_ptr<d3d12::PipelineState>

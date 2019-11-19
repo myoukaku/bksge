@@ -13,7 +13,6 @@
 #include <bksge/render/d3d11/detail/fwd/hlsl_shader_fwd.hpp>
 #include <bksge/render/d3d11/detail/fwd/device_fwd.hpp>
 #include <bksge/render/d3d11/detail/fwd/device_context_fwd.hpp>
-#include <bksge/render/d3d11/detail/fwd/geometry_fwd.hpp>
 #include <bksge/render/d3d11/detail/fwd/resource_cache_fwd.hpp>
 #include <bksge/render/d3d_common/d3d11.hpp>
 #include <bksge/render/d3d_common/com_ptr.hpp>
@@ -43,7 +42,6 @@ public:
 	void Render(
 		ResourceCache* resource_cache,
 		DeviceContext* device_context,
-		Geometry const* geometry,
 		bksge::ShaderParameterMap const& shader_parameter_map);
 
 private:

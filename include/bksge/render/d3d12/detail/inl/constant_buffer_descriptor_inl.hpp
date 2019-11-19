@@ -31,18 +31,17 @@ namespace d3d12
 BKSGE_INLINE
 ConstantBufferDescriptor::ConstantBufferDescriptor(
 	Device* device,
-	HlslProgram* hlsl_program)
+	ConstantBuffers const& constant_buffers,
+	::UINT root_parameter_count)
 {
 	m_cbv_descriptor_handle_incrementsize =
 		device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
-	m_constant_buffers = hlsl_program->CreateConstantBuffers(device);
-
-	if (!m_constant_buffers.empty())
+	if (!constant_buffers.empty())
 	{
 		// Create descriptor heap.
 		::D3D12_DESCRIPTOR_HEAP_DESC desc{};
-		desc.NumDescriptors = static_cast<::UINT>(m_constant_buffers.size());
+		desc.NumDescriptors = static_cast<::UINT>(constant_buffers.size());
 		desc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 		desc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
 
@@ -52,7 +51,7 @@ ConstantBufferDescriptor::ConstantBufferDescriptor(
 		{
 			::D3D12_CPU_DESCRIPTOR_HANDLE handle =
 				m_descriptor_heap->GetCPUDescriptorHandleForHeapStart();
-			for (auto&& constant_buffer : m_constant_buffers)
+			for (auto&& constant_buffer : constant_buffers)
 			{
 				constant_buffer->CreateConstantBufferView(device, handle);
 				handle.ptr += m_cbv_descriptor_handle_incrementsize;
@@ -60,22 +59,12 @@ ConstantBufferDescriptor::ConstantBufferDescriptor(
 		}
 	}
 
-	m_root_parameter_count = hlsl_program->GetRootParameterCount();
+	m_root_parameter_count = root_parameter_count;
 }
 
 BKSGE_INLINE
 ConstantBufferDescriptor::~ConstantBufferDescriptor()
 {
-}
-
-BKSGE_INLINE void
-ConstantBufferDescriptor::UpdateParameters(
-	bksge::ShaderParameterMap const& shader_parameter_map)
-{
-	for (auto&& constant_buffer : m_constant_buffers)
-	{
-		constant_buffer->UpdateParameters(shader_parameter_map);
-	}
 }
 
 BKSGE_INLINE void

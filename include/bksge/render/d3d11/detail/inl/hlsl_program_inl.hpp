@@ -14,7 +14,6 @@
 
 #include <bksge/render/d3d11/detail/hlsl_program.hpp>
 #include <bksge/render/d3d11/detail/hlsl_shader.hpp>
-#include <bksge/render/d3d11/detail/geometry.hpp>
 #include <bksge/render/d3d11/detail/device_context.hpp>
 //#include <bksge/render/d3d11/d3d11_renderer.hpp>
 #include <bksge/render/shader.hpp>
@@ -89,7 +88,6 @@ BKSGE_INLINE void
 HlslProgram::Render(
 	ResourceCache* resource_cache,
 	DeviceContext* device_context,
-	Geometry const* geometry,
 	bksge::ShaderParameterMap const& shader_parameter_map)
 {
 	device_context->IASetInputLayout(m_input_layout.Get());
@@ -102,8 +100,6 @@ HlslProgram::Render(
 			device_context,
 			shader_parameter_map);
 	}
-
-	geometry->Draw(device_context);
 }
 
 }	// namespace d3d11

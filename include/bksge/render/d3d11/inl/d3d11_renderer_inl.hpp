@@ -18,7 +18,7 @@
 #include <bksge/render/d3d11/detail/render_target.hpp>
 #include <bksge/render/d3d11/detail/depth_stencil.hpp>
 #include <bksge/render/d3d11/detail/hlsl_program.hpp>
-//#include <bksge/render/d3d11/detail/geometry.hpp>
+#include <bksge/render/d3d11/detail/geometry.hpp>
 #include <bksge/render/d3d11/detail/fill_mode.hpp>
 #include <bksge/render/d3d11/detail/cull_mode.hpp>
 ////#include <bksge/render/d3d11/detail/texture.hpp>
@@ -213,13 +213,14 @@ D3D11Renderer::VRender(
 
 	auto hlsl_program = m_resource_cache->GetD3D11HlslProgram(shader);
 	BKSGE_ASSERT(hlsl_program != nullptr);
-
-	auto d3d11_geometry = m_resource_cache->GetD3D11Geometry(geometry);
 	hlsl_program->Render(
 		m_resource_cache.get(),
 		m_device_context.get(),
-		d3d11_geometry.get(),
 		shader_parameter_map);
+
+	auto d3d11_geometry = m_resource_cache->GetD3D11Geometry(geometry);
+	BKSGE_ASSERT(d3d11_geometry != nullptr);
+	d3d11_geometry->Draw(m_device_context.get());
 
 	return true;
 }
