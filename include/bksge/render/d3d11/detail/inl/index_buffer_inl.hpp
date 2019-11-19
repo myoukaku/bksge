@@ -55,8 +55,7 @@ IndexBuffer::IndexBuffer(
 		desc.MiscFlags           = 0;
 		desc.StructureByteStride = static_cast<::UINT>(GetSizeOf(type));
 
-		::D3D11_SUBRESOURCE_DATA subsource_data;
-		ZeroMemory(&subsource_data, sizeof(::D3D11_SUBRESOURCE_DATA));
+		::D3D11_SUBRESOURCE_DATA subsource_data {};
 		subsource_data.pSysMem = src;
 
 		m_buffer = device->CreateBuffer(desc, &subsource_data);

@@ -42,8 +42,7 @@ VertexBuffer::VertexBuffer(
 	desc.CPUAccessFlags = 0;
 	desc.MiscFlags      = 0;
 
-	::D3D11_SUBRESOURCE_DATA subsource_data;
-	ZeroMemory(&subsource_data, sizeof(::D3D11_SUBRESOURCE_DATA));
+	::D3D11_SUBRESOURCE_DATA subsource_data {};
 	subsource_data.pSysMem = geometry.vertex_array_data();
 
 	m_buffer = device->CreateBuffer(desc, &subsource_data);

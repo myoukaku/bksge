@@ -43,8 +43,7 @@ ToDXGIPixelFormat(bksge::TextureFormat format)
 BKSGE_INLINE
 Texture::Texture(Device* device, bksge::Texture const& texture)
 {
-	::D3D11_TEXTURE2D_DESC desc;
-	ZeroMemory(&desc, sizeof(desc));
+	::D3D11_TEXTURE2D_DESC desc {};
 	desc.Width              = texture.width();
 	desc.Height             = texture.height();
 	desc.MipLevels          = 1;
