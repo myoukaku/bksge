@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	hlsl_shader_inl.hpp
  *
- *	@brief	HLSLShader クラスの実装
+ *	@brief	HlslShader クラスの実装
  *
  *	@author	myoukaku
  */
@@ -36,21 +36,21 @@ namespace d3d12
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//	HLSLShaderBase
+//	HlslShaderBase
 //
 ///////////////////////////////////////////////////////////////////////////////
 BKSGE_INLINE
-HLSLShaderBase::HLSLShaderBase()
+HlslShaderBase::HlslShaderBase()
 {
 }
 
 BKSGE_INLINE
-HLSLShaderBase::~HLSLShaderBase()
+HlslShaderBase::~HlslShaderBase()
 {
 }
 
 BKSGE_INLINE bool
-HLSLShaderBase::Compile(Device* /*device*/, std::string const& source)
+HlslShaderBase::Compile(Device* /*device*/, std::string const& source)
 {
 	const char* target = VGetTargetString();
 #if defined(_DEBUG)
@@ -94,13 +94,13 @@ HLSLShaderBase::Compile(Device* /*device*/, std::string const& source)
 }
 
 BKSGE_INLINE std::unique_ptr<InputLayout>
-HLSLShaderBase::CreateInputLayout(void)
+HlslShaderBase::CreateInputLayout(void)
 {
 	return bksge::make_unique<InputLayout>(m_reflection);
 }
 
 BKSGE_INLINE auto
-HLSLShaderBase::CreateConstantBuffers(Device* device)
+HlslShaderBase::CreateConstantBuffers(Device* device)
 -> ConstantBuffers
 {
 	ConstantBuffers constant_buffers;
@@ -120,7 +120,7 @@ HLSLShaderBase::CreateConstantBuffers(Device* device)
 }
 
 BKSGE_INLINE ::UINT
-HLSLShaderBase::GetConstantBufferCount(void) const
+HlslShaderBase::GetConstantBufferCount(void) const
 {
 	::D3D12_SHADER_DESC shader_desc;
 	m_reflection->GetDesc(&shader_desc);
@@ -129,7 +129,7 @@ HLSLShaderBase::GetConstantBufferCount(void) const
 }
 
 BKSGE_INLINE ::D3D12_SHADER_BYTECODE
-HLSLShaderBase::GetBytecode(void) const
+HlslShaderBase::GetBytecode(void) const
 {
 	return {
 		m_micro_code->GetBufferPointer(),
@@ -139,42 +139,42 @@ HLSLShaderBase::GetBytecode(void) const
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//	HLSLVertexShader
+//	HlslVertexShader
 //
 ///////////////////////////////////////////////////////////////////////////////
 BKSGE_INLINE
-HLSLVertexShader::HLSLVertexShader()
+HlslVertexShader::HlslVertexShader()
 {
 }
 
 BKSGE_INLINE
-HLSLVertexShader::~HLSLVertexShader()
+HlslVertexShader::~HlslVertexShader()
 {
 }
 
 BKSGE_INLINE const char*
-HLSLVertexShader::VGetTargetString()
+HlslVertexShader::VGetTargetString()
 {
 	return "vs_5_0";
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//	HLSLPixelShader
+//	HlslPixelShader
 //
 ///////////////////////////////////////////////////////////////////////////////
 BKSGE_INLINE
-HLSLPixelShader::HLSLPixelShader()
+HlslPixelShader::HlslPixelShader()
 {
 }
 
 BKSGE_INLINE
-HLSLPixelShader::~HLSLPixelShader()
+HlslPixelShader::~HlslPixelShader()
 {
 }
 
 BKSGE_INLINE const char*
-HLSLPixelShader::VGetTargetString()
+HlslPixelShader::VGetTargetString()
 {
 	return "ps_5_0";
 }

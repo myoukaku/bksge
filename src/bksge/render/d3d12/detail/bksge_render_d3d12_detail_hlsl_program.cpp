@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	bksge_render_d3d12_detail_hlsl_program.cpp
  *
- *	@brief	HLSLProgram クラスの実装
+ *	@brief	HlslProgram クラスの実装
  *
  *	@author	myoukaku
  */

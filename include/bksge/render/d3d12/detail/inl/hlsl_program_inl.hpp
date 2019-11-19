@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	hlsl_program_inl.hpp
  *
- *	@brief	HLSLProgram クラスの実装
+ *	@brief	HlslProgram クラスの実装
  *
  *	@author	myoukaku
  */
@@ -37,23 +37,23 @@ namespace d3d12
 {
 
 BKSGE_INLINE
-HLSLProgram::HLSLProgram(Device* device, bksge::Shader const& shader)
+HlslProgram::HlslProgram(Device* device, bksge::Shader const& shader)
 {
 	for (auto&& it : shader)
 	{
 		bksge::ShaderStage const stage = it.first;
 		std::string const& source = it.second;
 
-		std::unique_ptr<HLSLShaderBase> hlsl_shader;
+		std::unique_ptr<HlslShaderBase> hlsl_shader;
 		switch (stage)
 		{
 		case bksge::ShaderStage::kVertex:
-			hlsl_shader = bksge::make_unique<HLSLVertexShader>();
+			hlsl_shader = bksge::make_unique<HlslVertexShader>();
 			break;
 		case bksge::ShaderStage::kGeometry:
 			break;
 		case bksge::ShaderStage::kFragment:
-			hlsl_shader = bksge::make_unique<HLSLPixelShader>();
+			hlsl_shader = bksge::make_unique<HlslPixelShader>();
 			break;
 		case bksge::ShaderStage::kTessellationControl:
 			break;
@@ -87,7 +87,7 @@ HLSLProgram::HLSLProgram(Device* device, bksge::Shader const& shader)
 }
 
 BKSGE_INLINE auto
-HLSLProgram::CreateConstantBuffers(Device* device)
+HlslProgram::CreateConstantBuffers(Device* device)
 -> ConstantBuffers
 {
 	ConstantBuffers result;
@@ -104,12 +104,12 @@ HLSLProgram::CreateConstantBuffers(Device* device)
 }
 
 BKSGE_INLINE
-HLSLProgram::~HLSLProgram()
+HlslProgram::~HlslProgram()
 {
 }
 
 BKSGE_INLINE ::D3D12_SHADER_BYTECODE
-HLSLProgram::GetShaderBytecode(bksge::ShaderStage stage) const
+HlslProgram::GetShaderBytecode(bksge::ShaderStage stage) const
 {
 	auto it = m_shader_map.find(stage);
 	if (it != m_shader_map.end())
@@ -123,19 +123,19 @@ HLSLProgram::GetShaderBytecode(bksge::ShaderStage stage) const
 }
 
 BKSGE_INLINE ::D3D12_SHADER_BYTECODE
-HLSLProgram::GetVertexShaderBytecode(void) const
+HlslProgram::GetVertexShaderBytecode(void) const
 {
 	return GetShaderBytecode(bksge::ShaderStage::kVertex);
 }
 
 BKSGE_INLINE ::D3D12_SHADER_BYTECODE
-HLSLProgram::GetPixelShaderBytecode(void) const
+HlslProgram::GetPixelShaderBytecode(void) const
 {
 	return GetShaderBytecode(bksge::ShaderStage::kFragment);
 }
 
 BKSGE_INLINE ::D3D12_INPUT_LAYOUT_DESC
-HLSLProgram::GetInputLayout(void) const
+HlslProgram::GetInputLayout(void) const
 {
 	if (m_input_layout)
 	{
@@ -146,7 +146,7 @@ HLSLProgram::GetInputLayout(void) const
 }
 
 BKSGE_INLINE ::ID3D12RootSignature*
-HLSLProgram::GetRootSignature(void) const
+HlslProgram::GetRootSignature(void) const
 {
 	if (m_root_signature)
 	{
@@ -157,7 +157,7 @@ HLSLProgram::GetRootSignature(void) const
 }
 
 BKSGE_INLINE ::UINT
-HLSLProgram::GetRootParameterCount(void) const
+HlslProgram::GetRootParameterCount(void) const
 {
 	if (m_root_signature)
 	{

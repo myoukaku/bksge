@@ -29,7 +29,7 @@ class RootSignature
 public:
 	explicit RootSignature(
 		Device* device,
-		HLSLShaderMap const& shader_map);
+		HlslShaderMap const& shader_map);
 
 	~RootSignature();
 

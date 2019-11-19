@@ -70,13 +70,13 @@ private:
 		RenderState const& render_state) override;
 
 private:
-	std::shared_ptr<d3d12::HLSLProgram>
-	GetD3D12HLSLProgram(Shader const& shader);
+	std::shared_ptr<d3d12::HlslProgram>
+	GetD3D12HlslProgram(Shader const& shader);
 
 	std::shared_ptr<d3d12::ConstantBufferDescriptor>
 	GetD3D12ConstantBufferDescriptor(
 		ShaderParameterMap const& shader_parameter_map,
-		d3d12::HLSLProgram* hlsl_program);
+		d3d12::HlslProgram* hlsl_program);
 
 	std::shared_ptr<d3d12::Geometry>
 	GetD3D12Geometry(Geometry const& geometry);
@@ -98,7 +98,7 @@ private:
 	std::unique_ptr<d3d12::RenderTarget>	m_render_target;
 	std::unique_ptr<d3d12::Fence>			m_fence;
 
-	d3d12::HLSLProgramMap                 m_d3d12_hlsl_program_map;
+	d3d12::HlslProgramMap                 m_d3d12_hlsl_program_map;
 	d3d12::ConstantBufferDescriptorMap    m_d3d12_constant_buffer_descriptor_map;
 	d3d12::GeometryMap                    m_d3d12_geometry_map;
 	d3d12::PipelineStateMap               m_d3d12_pipeline_state;

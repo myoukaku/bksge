@@ -50,7 +50,7 @@ ToShaderVisibility(bksge::ShaderStage stage)
 BKSGE_INLINE
 RootSignature::RootSignature(
 	Device* device,
-	HLSLShaderMap const& shader_map)
+	HlslShaderMap const& shader_map)
 {
 	std::vector<::D3D12_DESCRIPTOR_RANGE> ranges;
 	for (auto&& it : shader_map)

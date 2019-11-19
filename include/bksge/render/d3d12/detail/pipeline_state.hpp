@@ -32,7 +32,7 @@ class PipelineState
 public:
 	PipelineState(
 		Device* device,
-		HLSLProgram const& hlsl_program,
+		HlslProgram const& hlsl_program,
 		bksge::RasterizerState const& rasterizer_state,
 		bksge::Primitive primitive);
 

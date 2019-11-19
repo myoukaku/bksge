@@ -34,7 +34,7 @@ class ConstantBufferDescriptor
 public:
 	explicit ConstantBufferDescriptor(
 		Device* device,
-		HLSLProgram* hlsl_program);
+		HlslProgram* hlsl_program);
 
 	~ConstantBufferDescriptor();
 

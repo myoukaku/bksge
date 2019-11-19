@@ -36,7 +36,7 @@ namespace d3d12
 BKSGE_INLINE
 PipelineState::PipelineState(
 	Device* device,
-	HLSLProgram const& hlsl_program,
+	HlslProgram const& hlsl_program,
 	bksge::RasterizerState const& rasterizer_state,
 	bksge::Primitive primitive)
 {

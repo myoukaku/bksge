@@ -31,7 +31,7 @@ namespace d3d12
 BKSGE_INLINE
 ConstantBufferDescriptor::ConstantBufferDescriptor(
 	Device* device,
-	HLSLProgram* hlsl_program)
+	HlslProgram* hlsl_program)
 {
 	m_cbv_descriptor_handle_incrementsize =
 		device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);

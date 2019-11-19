@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	hlsl_program_fwd.hpp
  *
- *	@brief	HLSLProgram クラスの前方宣言
+ *	@brief	HlslProgram クラスの前方宣言
  *
  *	@author	myoukaku
  */
@@ -22,9 +22,9 @@ namespace render
 namespace d3d12
 {
 
-class HLSLProgram;
+class HlslProgram;
 
-using HLSLProgramMap = std::map<Identifier, std::shared_ptr<HLSLProgram>>;
+using HlslProgramMap = std::map<Identifier, std::shared_ptr<HlslProgram>>;
 
 }	// namespace d3d12
 

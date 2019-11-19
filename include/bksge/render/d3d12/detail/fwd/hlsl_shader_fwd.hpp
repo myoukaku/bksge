@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	hlsl_shader_fwd.hpp
  *
- *	@brief	HLSLShader クラスの前方宣言
+ *	@brief	HlslShader クラスの前方宣言
  *
  *	@author	myoukaku
  */
@@ -22,12 +22,12 @@ namespace render
 namespace d3d12
 {
 
-class HLSLShaderBase;
-class HLSLVertexShader;
-class HLSLPixelShader;
+class HlslShaderBase;
+class HlslVertexShader;
+class HlslPixelShader;
 
-using HLSLShaderMap =
-	std::map<ShaderStage, std::unique_ptr<HLSLShaderBase>>;
+using HlslShaderMap =
+	std::map<ShaderStage, std::unique_ptr<HlslShaderBase>>;
 
 }	// namespace d3d12
 

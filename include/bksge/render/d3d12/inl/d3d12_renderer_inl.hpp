@@ -238,7 +238,7 @@ D3D12Renderer::VRender(
 		m_command_list->RSSetScissorRects(1, &scissor_rect);
 	}
 
-	auto hlsl_program = GetD3D12HLSLProgram(shader);
+	auto hlsl_program = GetD3D12HlslProgram(shader);
 
 	auto pipeline_state = GetD3D12PipelineState(shader, render_state.rasterizer_state(), geometry.primitive());
 
@@ -284,17 +284,17 @@ GetOrCreate(Map& map, Key const& key, Args&&... args)
 
 }	// namespace d3d12_detail
 
-BKSGE_INLINE std::shared_ptr<d3d12::HLSLProgram>
-D3D12Renderer::GetD3D12HLSLProgram(Shader const& shader)
+BKSGE_INLINE std::shared_ptr<d3d12::HlslProgram>
+D3D12Renderer::GetD3D12HlslProgram(Shader const& shader)
 {
-	return d3d12_detail::GetOrCreate<d3d12::HLSLProgram>(
+	return d3d12_detail::GetOrCreate<d3d12::HlslProgram>(
 		m_d3d12_hlsl_program_map, shader.id(), m_device.get(), shader);
 }
 
 BKSGE_INLINE std::shared_ptr<d3d12::ConstantBufferDescriptor>
 D3D12Renderer::GetD3D12ConstantBufferDescriptor(
 	ShaderParameterMap const& shader_parameter_map,
-	d3d12::HLSLProgram* hlsl_program)
+	d3d12::HlslProgram* hlsl_program)
 {
 	return d3d12_detail::GetOrCreate<d3d12::ConstantBufferDescriptor>(
 		m_d3d12_constant_buffer_descriptor_map,
@@ -321,7 +321,7 @@ D3D12Renderer::GetD3D12PipelineState(
 		m_d3d12_pipeline_state,
 		id,
 		m_device.get(),
-		*GetD3D12HLSLProgram(shader),
+		*GetD3D12HlslProgram(shader),
 		rasterizer_state,
 		primitive);
 }

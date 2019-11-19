@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	hlsl_shader.hpp
  *
- *	@brief	HLSLShader クラスの定義
+ *	@brief	HlslShader クラスの定義
  *
  *	@author	myoukaku
  */
@@ -35,16 +35,16 @@ namespace d3d12
 /**
  *	@brief
  */
-class HLSLShaderBase
+class HlslShaderBase
 {
 private:
 	using ConstantBuffers =
 		std::vector<std::unique_ptr<ConstantBuffer>>;
 
 public:
-	HLSLShaderBase();
+	HlslShaderBase();
 
-	virtual ~HLSLShaderBase() = 0;
+	virtual ~HlslShaderBase() = 0;
 
 	bool Compile(Device* device, std::string const& source);
 	std::unique_ptr<InputLayout> CreateInputLayout(void);
@@ -64,12 +64,12 @@ private:
 /**
  *	@brief
  */
-class HLSLVertexShader : public HLSLShaderBase
+class HlslVertexShader : public HlslShaderBase
 {
 public:
-	HLSLVertexShader();
+	HlslVertexShader();
 
-	virtual ~HLSLVertexShader();
+	virtual ~HlslVertexShader();
 
 private:
 	const char* VGetTargetString() override;
@@ -80,12 +80,12 @@ private:
 /**
  *	@brief
  */
-class HLSLPixelShader : public HLSLShaderBase
+class HlslPixelShader : public HlslShaderBase
 {
 public:
-	HLSLPixelShader();
+	HlslPixelShader();
 
-	virtual ~HLSLPixelShader();
+	virtual ~HlslPixelShader();
 
 private:
 	const char* VGetTargetString() override;

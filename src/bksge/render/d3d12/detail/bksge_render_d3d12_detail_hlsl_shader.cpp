@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	bksge_render_d3d12_detail_hlsl_shader.cpp
  *
- *	@brief	HLSLShader クラスの実装
+ *	@brief	HlslShader クラスの実装
  *
  *	@author	myoukaku
  */

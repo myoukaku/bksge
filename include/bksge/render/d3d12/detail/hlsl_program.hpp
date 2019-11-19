@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	hlsl_program.hpp
  *
- *	@brief	HLSLProgram クラスの定義
+ *	@brief	HlslProgram クラスの定義
  *
  *	@author	myoukaku
  */
@@ -34,12 +34,12 @@ namespace render
 namespace d3d12
 {
 
-class HLSLProgram
+class HlslProgram
 {
 public:
-	explicit HLSLProgram(Device* device, bksge::Shader const& shader);
+	explicit HlslProgram(Device* device, bksge::Shader const& shader);
 
-	~HLSLProgram();
+	~HlslProgram();
 
 	//void UpdateParameters(bksge::ShaderParameterMap const& shader_parameter_map);
 	//void SetEnable(CommandList* command_list);
@@ -58,7 +58,7 @@ public:
 	ConstantBuffers CreateConstantBuffers(Device* device);
 
 private:
-	HLSLShaderMap					m_shader_map;
+	HlslShaderMap					m_shader_map;
 	std::unique_ptr<InputLayout>	m_input_layout;
 	//ConstantBuffers				m_constant_buffers;
 	//ComPtr<::ID3D12DescriptorHeap>		m_descriptor_heap;
