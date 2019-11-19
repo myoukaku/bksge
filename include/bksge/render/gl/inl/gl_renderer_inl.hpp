@@ -140,8 +140,8 @@ GlRenderer::VEnd(void)
 	::GLuint64 time_1;
 	::glGetQueryObjectui64v(m_timer_queries[0], GL_QUERY_RESULT, &time_0);
 	::glGetQueryObjectui64v(m_timer_queries[1], GL_QUERY_RESULT, &time_1);
-	// TODO
-	//m_draw_time = NanoSeconds(static_cast<float>(time_1 - time_0));
+
+	m_draw_time = NanoSeconds(static_cast<float>(time_1 - time_0));
 }
 
 BKSGE_INLINE void

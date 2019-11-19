@@ -19,7 +19,7 @@
 #include <bksge/render/fwd/render_state_fwd.hpp>
 #include <bksge/render/renderer.hpp>
 #include <bksge/window/fwd/window_fwd.hpp>
-//#include <bksge/units/time.hpp>
+#include <bksge/units/time.hpp>
 #include <memory>
 
 namespace bksge
@@ -50,15 +50,14 @@ private:
 		ShaderParameterMap const& shader_parameter_map,
 		RenderState const& render_state) override;
 
-	// TODO
-	//using MilliSeconds = bksge::units::milliseconds<float>;
-	//using NanoSeconds  = bksge::units::nanoseconds<float>;
+	using MilliSeconds = bksge::units::milliseconds<float>;
+	using NanoSeconds  = bksge::units::nanoseconds<float>;
 
 private:
 	std::unique_ptr<gl::Context>		m_gl_context;
 	std::unique_ptr<gl::ResourceCache>	m_resource_cache;
-	::GLuint                      m_timer_queries[2];  ///< 描画時間を図るためのクエリ
-//	MilliSeconds                  m_draw_time;		   ///< 描画時間
+	::GLuint							m_timer_queries[2];	///< 描画時間を図るためのクエリ
+	MilliSeconds						m_draw_time;		///< 描画時間
 };
 
 }	// namespace render
