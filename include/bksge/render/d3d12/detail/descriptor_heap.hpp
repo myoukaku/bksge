@@ -1,15 +1,15 @@
 ﻿/**
- *	@file	constant_buffer_descriptor.hpp
+ *	@file	descriptor_heap.hpp
  *
- *	@brief	ConstantBufferDescriptor クラスの定義
+ *	@brief	DescriptorHeap クラスの定義
  *
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_RENDER_D3D12_DETAIL_CONSTANT_BUFFER_DESCRIPTOR_HPP
-#define BKSGE_RENDER_D3D12_DETAIL_CONSTANT_BUFFER_DESCRIPTOR_HPP
+#ifndef BKSGE_RENDER_D3D12_DETAIL_DESCRIPTOR_HEAP_HPP
+#define BKSGE_RENDER_D3D12_DETAIL_DESCRIPTOR_HEAP_HPP
 
-#include <bksge/render/d3d12/detail/fwd/constant_buffer_descriptor_fwd.hpp>
+#include <bksge/render/d3d12/detail/fwd/descriptor_heap_fwd.hpp>
 #include <bksge/render/d3d12/detail/fwd/constant_buffer_fwd.hpp>
 #include <bksge/render/d3d12/detail/fwd/command_list_fwd.hpp>
 #include <bksge/render/d3d12/detail/fwd/device_fwd.hpp>
@@ -28,25 +28,23 @@ namespace render
 namespace d3d12
 {
 
-class ConstantBufferDescriptor
+class DescriptorHeap
 {
 public:
 	using ConstantBuffers =
 		std::vector<std::unique_ptr<ConstantBuffer>>;
 
-	explicit ConstantBufferDescriptor(
+	explicit DescriptorHeap(
 		Device* device,
-		ConstantBuffers const& constant_buffers,
-		::UINT root_parameter_count);
+		ConstantBuffers const& constant_buffers);
 
-	~ConstantBufferDescriptor();
+	~DescriptorHeap();
 
-	void SetEnable(CommandList* command_list);
+	void SetEnable(CommandList* command_list, ::UINT root_parameter_count);
 
 private:
 	ComPtr<::ID3D12DescriptorHeap>		m_descriptor_heap;
 	::UINT								m_cbv_descriptor_handle_incrementsize;
-	::UINT								m_root_parameter_count;
 };
 
 }	// namespace d3d12
@@ -57,7 +55,7 @@ private:
 
 #include <bksge/config.hpp>
 #if defined(BKSGE_HEADER_ONLY)
-#include <bksge/render/d3d12/detail/inl/constant_buffer_descriptor_inl.hpp>
+#include <bksge/render/d3d12/detail/inl/descriptor_heap_inl.hpp>
 #endif
 
-#endif // BKSGE_RENDER_D3D12_DETAIL_CONSTANT_BUFFER_DESCRIPTOR_HPP
+#endif // BKSGE_RENDER_D3D12_DETAIL_DESCRIPTOR_HEAP_HPP

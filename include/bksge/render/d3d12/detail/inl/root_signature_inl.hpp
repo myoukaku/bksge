@@ -33,6 +33,9 @@ namespace render
 namespace d3d12
 {
 
+namespace detail
+{
+
 inline D3D12_SHADER_VISIBILITY
 ToShaderVisibility(bksge::ShaderStage stage)
 {
@@ -47,12 +50,14 @@ ToShaderVisibility(bksge::ShaderStage stage)
 	return D3D12_SHADER_VISIBILITY_ALL;
 }
 
+}	// namespace detail
+
 BKSGE_INLINE
 RootSignature::RootSignature(
 	Device* device,
 	HlslShaderMap const& shader_map)
 {
-	std::vector<::D3D12_DESCRIPTOR_RANGE> ranges;
+	std::vector<::D3D12_DESCRIPTOR_RANGE> descriptor_ranges;
 	for (auto&& it : shader_map)
 	{
 		auto const& shader = it.second;
@@ -64,7 +69,7 @@ RootSignature::RootSignature(
 			range.BaseShaderRegister = 0;
 			range.RegisterSpace      = 0;
 			range.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
-			ranges.push_back(range);
+			descriptor_ranges.push_back(range);
 		}
 	}
 
@@ -76,11 +81,11 @@ RootSignature::RootSignature(
 		auto const& shader = it.second;
 		if (shader->GetConstantBufferCount() != 0)
 		{
-			::D3D12_ROOT_PARAMETER root_parameter;
-			root_parameter.ParameterType    = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
-			root_parameter.ShaderVisibility = ToShaderVisibility(stage);
-			root_parameter.DescriptorTable  = { 1, &ranges[i] };
-			root_parameters.push_back(root_parameter);
+			::D3D12_ROOT_PARAMETER param;
+			param.ParameterType    = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+			param.ShaderVisibility = detail::ToShaderVisibility(stage);
+			param.DescriptorTable  = { 1, &descriptor_ranges[i] };
+			root_parameters.push_back(param);
 
 			++i;
 		}

@@ -14,7 +14,7 @@
 #include <bksge/render/d3d12/detail/fwd/device_fwd.hpp>
 #include <bksge/render/d3d12/detail/fwd/input_layout_fwd.hpp>
 #include <bksge/render/d3d12/detail/fwd/constant_buffer_fwd.hpp>
-#include <bksge/render/d3d12/detail/fwd/constant_buffer_descriptor_fwd.hpp>
+#include <bksge/render/d3d12/detail/fwd/descriptor_heap_fwd.hpp>
 #include <bksge/render/d3d12/detail/fwd/command_list_fwd.hpp>
 #include <bksge/render/d3d12/detail/fwd/root_signature_fwd.hpp>
 #include <bksge/render/d3d_common/d3d12.hpp>
@@ -63,7 +63,7 @@ private:
 	HlslShaderMap					m_shader_map;
 	std::unique_ptr<InputLayout>	m_input_layout;
 	ConstantBuffers					m_constant_buffers;
-	std::unique_ptr<ConstantBufferDescriptor>	m_constant_buffer_desc;
+	std::unique_ptr<DescriptorHeap>	m_descriptor_heap;
 	std::unique_ptr<RootSignature>	m_root_signature;
 };
 

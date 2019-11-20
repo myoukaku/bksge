@@ -17,7 +17,7 @@
 #include <bksge/render/d3d12/detail/device.hpp>
 #include <bksge/render/d3d12/detail/input_layout.hpp>
 #include <bksge/render/d3d12/detail/constant_buffer.hpp>
-#include <bksge/render/d3d12/detail/constant_buffer_descriptor.hpp>
+#include <bksge/render/d3d12/detail/descriptor_heap.hpp>
 #include <bksge/render/d3d12/detail/command_list.hpp>
 #include <bksge/render/d3d12/detail/root_signature.hpp>
 #include <bksge/render/d3d_common/d3d12.hpp>
@@ -89,11 +89,11 @@ HlslProgram::HlslProgram(Device* device, bksge::Shader const& shader)
 		m_shader_map[stage] = std::move(hlsl_shader);
 	}
 
+	m_descriptor_heap =
+		bksge::make_unique<DescriptorHeap>(device, m_constant_buffers);
+
 	m_root_signature =
 		bksge::make_unique<RootSignature>(device, m_shader_map);
-
-	m_constant_buffer_desc =
-		bksge::make_unique<ConstantBufferDescriptor>(device, m_constant_buffers, GetRootParameterCount());
 }
 
 BKSGE_INLINE
@@ -113,7 +113,7 @@ HlslProgram::UpdateParameters(bksge::ShaderParameterMap const& shader_parameter_
 BKSGE_INLINE void
 HlslProgram::SetEnable(CommandList* command_list)
 {
-	m_constant_buffer_desc->SetEnable(command_list);
+	m_descriptor_heap->SetEnable(command_list, GetRootParameterCount());
 }
 
 BKSGE_INLINE ::D3D12_SHADER_BYTECODE
