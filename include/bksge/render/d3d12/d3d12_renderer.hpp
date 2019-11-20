@@ -19,6 +19,7 @@
 #include <bksge/render/d3d12/detail/fwd/geometry_fwd.hpp>
 #include <bksge/render/d3d12/detail/fwd/root_signature_fwd.hpp>
 #include <bksge/render/d3d12/detail/fwd/pipeline_state_fwd.hpp>
+#include <bksge/render/d3d12/detail/fwd/resource_cache_fwd.hpp>
 #include <bksge/render/dxgi/fwd/dxgi_factory_fwd.hpp>
 #include <bksge/render/dxgi/fwd/dxgi_swap_chain_fwd.hpp>
 
@@ -95,6 +96,8 @@ private:
 	d3d12::HlslProgramMap                 m_d3d12_hlsl_program_map;
 	d3d12::GeometryMap                    m_d3d12_geometry_map;
 	d3d12::PipelineStateMap               m_d3d12_pipeline_state;
+
+	std::unique_ptr<d3d12::ResourceCache> m_resource_cache;
 
 	// TODO
 	::UINT m_frameIndex;

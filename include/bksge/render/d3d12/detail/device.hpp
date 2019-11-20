@@ -47,8 +47,18 @@ public:
 	ComPtr<::ID3D12DescriptorHeap> CreateDescriptorHeap(
 		::D3D12_DESCRIPTOR_HEAP_DESC const& desc);
 
-	UINT GetDescriptorHandleIncrementSize(
+	::UINT GetDescriptorHandleIncrementSize(
 		::D3D12_DESCRIPTOR_HEAP_TYPE descriptor_heap_type);
+
+	void GetCopyableFootprints(
+		::D3D12_RESOURCE_DESC const*			resource_desc,
+		::UINT									first_subresource,
+		::UINT									num_subresources,
+		::UINT64								base_offset,
+		::D3D12_PLACED_SUBRESOURCE_FOOTPRINT*	layouts,
+		::UINT*									num_rows,
+		::UINT64*								row_size_in_bytes,
+		::UINT64*								total_bytes);
 
 	void CreateRenderTargetView(
 		::ID3D12Resource*                      resource,
@@ -78,6 +88,15 @@ public:
 	void CreateConstantBufferView(
 		::D3D12_CONSTANT_BUFFER_VIEW_DESC const* desc,
 		::D3D12_CPU_DESCRIPTOR_HANDLE            dest_descriptor);
+
+	void CreateShaderResourceView(
+		::ID3D12Resource*                        resource,
+		::D3D12_SHADER_RESOURCE_VIEW_DESC const* desc,
+		::D3D12_CPU_DESCRIPTOR_HANDLE            dest_descriptor);
+
+	void CreateSampler(
+		::D3D12_SAMPLER_DESC const*   desc,
+		::D3D12_CPU_DESCRIPTOR_HANDLE dest_descriptor);
 
 private:
 	ComPtr<::ID3D12Device>	m_device;

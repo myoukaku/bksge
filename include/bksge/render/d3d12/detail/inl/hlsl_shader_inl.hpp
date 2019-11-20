@@ -16,6 +16,8 @@
 #include <bksge/render/d3d12/detail/device.hpp>
 #include <bksge/render/d3d12/detail/input_layout.hpp>
 #include <bksge/render/d3d12/detail/constant_buffer.hpp>
+#include <bksge/render/d3d12/detail/hlsl_texture.hpp>
+#include <bksge/render/d3d12/detail/hlsl_sampler.hpp>
 #include <bksge/render/d3d_common/com_ptr.hpp>
 #include <bksge/render/d3d_common/d3dcompiler.hpp>
 #include <bksge/render/d3d_common/throw_if_failed.hpp>
@@ -90,7 +92,68 @@ HlslShaderBase::Compile(Device* /*device*/, std::string const& source)
 		m_micro_code->GetBufferSize(),
 		IID_PPV_ARGS(&m_reflection)));
 
+	CreateDescriptorRanges();
+
 	return true;
+}
+
+BKSGE_INLINE void
+HlslShaderBase::CreateDescriptorRanges(void)
+{
+	::D3D12_SHADER_DESC shader_desc;
+	ThrowIfFailed(m_reflection->GetDesc(&shader_desc));
+
+	::UINT cbv_count = shader_desc.ConstantBuffers;
+
+	::UINT srv_count = 0;
+	::UINT sampler_count = 0;
+	for (::UINT i = 0; i < shader_desc.BoundResources; i++)
+	{
+		::D3D12_SHADER_INPUT_BIND_DESC bind_desc;
+		ThrowIfFailed(m_reflection->GetResourceBindingDesc(i, &bind_desc));
+
+		switch (bind_desc.Type)
+		{
+		case D3D_SIT_TEXTURE:
+			++srv_count;
+		case D3D_SIT_SAMPLER:
+			++sampler_count;
+			break;
+		}
+	}
+
+	if (cbv_count != 0)
+	{
+		::D3D12_DESCRIPTOR_RANGE range;
+		range.RangeType          = D3D12_DESCRIPTOR_RANGE_TYPE_CBV;
+		range.NumDescriptors     = cbv_count;
+		range.BaseShaderRegister = 0;
+		range.RegisterSpace      = 0;
+		range.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+		m_descriptor_ranges.push_back(range);
+	}
+
+	if (srv_count != 0)
+	{
+		::D3D12_DESCRIPTOR_RANGE range;
+		range.RangeType          = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+		range.NumDescriptors     = srv_count;
+		range.BaseShaderRegister = 0;
+		range.RegisterSpace      = 0;
+		range.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+		m_descriptor_ranges.push_back(range);
+	}
+
+	if (sampler_count != 0)
+	{
+		::D3D12_DESCRIPTOR_RANGE range;
+		range.RangeType          = D3D12_DESCRIPTOR_RANGE_TYPE_SAMPLER;
+		range.NumDescriptors     = sampler_count;
+		range.BaseShaderRegister = 0;
+		range.RegisterSpace      = 0;
+		range.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+		m_sampler_descriptor_ranges.push_back(range);
+	}
 }
 
 BKSGE_INLINE std::unique_ptr<InputLayout>
@@ -99,33 +162,59 @@ HlslShaderBase::CreateInputLayout(void)
 	return bksge::make_unique<InputLayout>(m_reflection);
 }
 
-BKSGE_INLINE auto
-HlslShaderBase::CreateConstantBuffers(Device* device)
--> ConstantBuffers
+BKSGE_INLINE void
+HlslShaderBase::CreateConstantBuffers(Device* device, ConstantBuffers* constant_buffers)
 {
-	ConstantBuffers constant_buffers;
-
 	::D3D12_SHADER_DESC shader_desc;
-	m_reflection->GetDesc(&shader_desc);
+	ThrowIfFailed(m_reflection->GetDesc(&shader_desc));
 
 	for (::UINT i = 0; i < shader_desc.ConstantBuffers; i++)
 	{
 		auto cb = bksge::make_unique<ConstantBuffer>(
 			device,
 			m_reflection->GetConstantBufferByIndex(i));
-		constant_buffers.push_back(std::move(cb));
+		constant_buffers->push_back(std::move(cb));
 	}
-
-	return constant_buffers;
 }
 
-BKSGE_INLINE ::UINT
-HlslShaderBase::GetConstantBufferCount(void) const
+BKSGE_INLINE void
+HlslShaderBase::CreateHlslTextures(Device* /*device*/, HlslTextures* hlsl_textures)
 {
 	::D3D12_SHADER_DESC shader_desc;
-	m_reflection->GetDesc(&shader_desc);
+	ThrowIfFailed(m_reflection->GetDesc(&shader_desc));
 
-	return shader_desc.ConstantBuffers;
+	for (::UINT i = 0; i < shader_desc.BoundResources; i++)
+	{
+		::D3D12_SHADER_INPUT_BIND_DESC bind_desc;
+		ThrowIfFailed(m_reflection->GetResourceBindingDesc(i, &bind_desc));
+
+		switch (bind_desc.Type)
+		{
+		case D3D_SIT_TEXTURE:
+			hlsl_textures->push_back(bksge::make_unique<HlslTexture>(bind_desc));
+			break;
+		}
+	}
+}
+
+BKSGE_INLINE void
+HlslShaderBase::CreateHlslSamplers(Device* /*device*/, HlslSamplers* hlsl_samplers)
+{
+	::D3D12_SHADER_DESC shader_desc;
+	ThrowIfFailed(m_reflection->GetDesc(&shader_desc));
+
+	for (::UINT i = 0; i < shader_desc.BoundResources; i++)
+	{
+		::D3D12_SHADER_INPUT_BIND_DESC bind_desc;
+		ThrowIfFailed(m_reflection->GetResourceBindingDesc(i, &bind_desc));
+
+		switch (bind_desc.Type)
+		{
+		case D3D_SIT_SAMPLER:
+			hlsl_samplers->push_back(bksge::make_unique<HlslSampler>(bind_desc));
+			break;
+		}
+	}
 }
 
 BKSGE_INLINE ::D3D12_SHADER_BYTECODE
@@ -135,6 +224,18 @@ HlslShaderBase::GetBytecode(void) const
 		m_micro_code->GetBufferPointer(),
 		m_micro_code->GetBufferSize()
 	};
+}
+
+BKSGE_INLINE std::vector<::D3D12_DESCRIPTOR_RANGE> const&
+HlslShaderBase::GetDescriptorRanges(void) const
+{
+	return m_descriptor_ranges;
+}
+
+BKSGE_INLINE std::vector<::D3D12_DESCRIPTOR_RANGE> const&
+HlslShaderBase::GetSamplerDescriptorRanges(void) const
+{
+	return m_sampler_descriptor_ranges;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -34,6 +34,21 @@ public:
 
 	void Close(void);
 
+	void CopyBufferRegion(
+		::ID3D12Resource*	dst_buffer,
+		::UINT64			dst_offset,
+		::ID3D12Resource*	src_buffer,
+		::UINT64			src_offset,
+		::UINT64			num_bytes);
+
+	void CopyTextureRegion(
+		::D3D12_TEXTURE_COPY_LOCATION const* dst,
+		::UINT                               dst_x,
+		::UINT                               dst_y,
+		::UINT                               dst_z,
+		::D3D12_TEXTURE_COPY_LOCATION const* src,
+		::D3D12_BOX const*					 src_box);
+
 	void RSSetViewports(
 		::UINT                  num_viewports,
 		::D3D12_VIEWPORT const* viewports);

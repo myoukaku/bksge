@@ -132,6 +132,28 @@ Device::GetDescriptorHandleIncrementSize(
 }
 
 BKSGE_INLINE void
+Device::GetCopyableFootprints(
+	::D3D12_RESOURCE_DESC const*			resource_desc,
+	::UINT									first_subresource,
+	::UINT									num_subresources,
+	::UINT64								base_offset,
+	::D3D12_PLACED_SUBRESOURCE_FOOTPRINT*	layouts,
+	::UINT*									num_rows,
+	::UINT64*								row_size_in_bytes,
+	::UINT64*								total_bytes)
+{
+	m_device->GetCopyableFootprints(
+		resource_desc,
+		first_subresource,
+		num_subresources,
+		base_offset,
+		layouts,
+		num_rows,
+		row_size_in_bytes,
+		total_bytes);
+}
+
+BKSGE_INLINE void
 Device::CreateRenderTargetView(
 	::ID3D12Resource*                      resource,
 	::D3D12_RENDER_TARGET_VIEW_DESC const* desc,
@@ -211,6 +233,23 @@ Device::CreateConstantBufferView(
 	::D3D12_CPU_DESCRIPTOR_HANDLE            dest_descriptor)
 {
 	m_device->CreateConstantBufferView(desc, dest_descriptor);
+}
+
+BKSGE_INLINE void
+Device::CreateShaderResourceView(
+	::ID3D12Resource*                        resource,
+	::D3D12_SHADER_RESOURCE_VIEW_DESC const* desc,
+	::D3D12_CPU_DESCRIPTOR_HANDLE            dest_descriptor)
+{
+	m_device->CreateShaderResourceView(resource, desc, dest_descriptor);
+}
+
+BKSGE_INLINE void
+Device::CreateSampler(
+	::D3D12_SAMPLER_DESC const*   desc,
+	::D3D12_CPU_DESCRIPTOR_HANDLE dest_descriptor)
+{
+	m_device->CreateSampler(desc, dest_descriptor);
 }
 
 }	// namespace d3d12

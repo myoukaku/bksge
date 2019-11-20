@@ -56,6 +56,40 @@ CommandList::Close(void)
 }
 
 BKSGE_INLINE void
+CommandList::CopyBufferRegion(
+	::ID3D12Resource*	dst_buffer,
+	::UINT64			dst_offset,
+	::ID3D12Resource*	src_buffer,
+	::UINT64			src_offset,
+	::UINT64			num_bytes)
+{
+	m_command_list->CopyBufferRegion(
+		dst_buffer,
+		dst_offset,
+		src_buffer,
+		src_offset,
+		num_bytes);
+}
+
+BKSGE_INLINE void
+CommandList::CopyTextureRegion(
+	::D3D12_TEXTURE_COPY_LOCATION const* dst,
+	::UINT                               dst_x,
+	::UINT                               dst_y,
+	::UINT                               dst_z,
+	::D3D12_TEXTURE_COPY_LOCATION const* src,
+	::D3D12_BOX const*					 src_box)
+{
+	m_command_list->CopyTextureRegion(
+		dst,
+		dst_x,
+		dst_y,
+		dst_z,
+		src,
+		src_box);
+}
+
+BKSGE_INLINE void
 CommandList::RSSetViewports(
 	::UINT                  num_viewports,
 	::D3D12_VIEWPORT const* viewports)

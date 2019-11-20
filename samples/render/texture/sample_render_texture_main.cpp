@@ -123,7 +123,7 @@ int main()
 		renderer->SetClearColor({0.5f, 0.0f, 0.5f, 1});
 	}
 #endif
-#if 0//BKSGE_RENDER_HAS_D3D12_RENDERER
+#if BKSGE_RENDER_HAS_D3D12_RENDERER
 	{
 		std::shared_ptr<bksge::Window> window(
 			new bksge::Window({800, 600}, "sample_render_texture - D3D12"));

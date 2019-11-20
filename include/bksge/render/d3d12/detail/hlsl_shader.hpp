@@ -13,6 +13,8 @@
 #include <bksge/render/d3d12/detail/fwd/device_fwd.hpp>
 #include <bksge/render/d3d12/detail/fwd/input_layout_fwd.hpp>
 #include <bksge/render/d3d12/detail/fwd/constant_buffer_fwd.hpp>
+#include <bksge/render/d3d12/detail/fwd/hlsl_texture_fwd.hpp>
+#include <bksge/render/d3d12/detail/fwd/hlsl_sampler_fwd.hpp>
 #include <bksge/render/d3d12/detail/fwd/command_list_fwd.hpp>
 #include <bksge/render/d3d_common/d3d12.hpp>
 #include <bksge/render/d3d_common/d3dcommon.hpp>
@@ -40,6 +42,10 @@ class HlslShaderBase
 private:
 	using ConstantBuffers =
 		std::vector<std::unique_ptr<ConstantBuffer>>;
+	using HlslTextures =
+		std::vector<std::unique_ptr<HlslTexture>>;
+	using HlslSamplers =
+		std::vector<std::unique_ptr<HlslSampler>>;
 
 public:
 	HlslShaderBase();
@@ -48,17 +54,25 @@ public:
 
 	bool Compile(Device* device, std::string const& source);
 	std::unique_ptr<InputLayout> CreateInputLayout(void);
-	ConstantBuffers CreateConstantBuffers(Device* device);
-	::UINT GetConstantBufferCount(void) const;
+	void CreateConstantBuffers(Device* device, ConstantBuffers* constant_buffers);
+	void CreateHlslTextures(Device* device, HlslTextures* hlsl_textures);
+	void CreateHlslSamplers(Device* device, HlslSamplers* hlsl_samplers);
 
 	::D3D12_SHADER_BYTECODE GetBytecode(void) const;
+
+	std::vector<::D3D12_DESCRIPTOR_RANGE> const& GetDescriptorRanges(void) const;
+	std::vector<::D3D12_DESCRIPTOR_RANGE> const& GetSamplerDescriptorRanges(void) const;
 
 private:
 	virtual const char* VGetTargetString() = 0;
 
+	void CreateDescriptorRanges(void);
+
 private:
 	ComPtr<::ID3DBlob>					m_micro_code;
 	ComPtr<::ID3D12ShaderReflection>	m_reflection;
+	std::vector<::D3D12_DESCRIPTOR_RANGE> m_descriptor_ranges;
+	std::vector<::D3D12_DESCRIPTOR_RANGE> m_sampler_descriptor_ranges;
 };
 
 /**

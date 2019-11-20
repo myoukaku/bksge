@@ -25,9 +25,9 @@
 #include <bksge/render/d3d12/detail/blend_state.hpp>
 #include <bksge/render/d3d12/detail/depth_stencil_state.hpp>
 #include <bksge/render/d3d12/detail/hlsl_program.hpp>
-//#include <bksge/render/d3d12/detail/constant_buffer_descriptor.hpp>
 #include <bksge/render/d3d12/detail/primitive_topology_type.hpp>
 #include <bksge/render/d3d12/detail/pipeline_state.hpp>
+#include <bksge/render/d3d12/detail/resource_cache.hpp>
 #include <bksge/render/d3d_common/d3d12.hpp>
 #include <bksge/render/d3d_common/com_ptr.hpp>
 #include <bksge/render/d3d_common/throw_if_failed.hpp>
@@ -88,13 +88,12 @@ D3D12Renderer::Initialize(void)
 	}
 #endif
 
-	m_factory = bksge::make_unique<DXGIFactory>();
-
-	m_device = bksge::make_unique<d3d12::Device>(m_factory->EnumAdapters());
-
-	m_command_queue = bksge::make_unique<d3d12::CommandQueue>(m_device.get());
-
-	m_command_list = bksge::make_unique<d3d12::CommandList>(m_device.get());
+	m_factory        = bksge::make_unique<DXGIFactory>();
+	m_device         = bksge::make_unique<d3d12::Device>(m_factory->EnumAdapters());
+	m_command_queue  = bksge::make_unique<d3d12::CommandQueue>(m_device.get());
+	m_command_list   = bksge::make_unique<d3d12::CommandList>(m_device.get());
+	m_fence          = bksge::make_unique<d3d12::Fence>(m_device.get());
+	m_resource_cache = bksge::make_unique<d3d12::ResourceCache>(m_device.get());
 
 	// Command lists are created in the recording state, but there is nothing
 	// to record yet. The main loop expects it to be closed, so close it now.
@@ -138,7 +137,6 @@ D3D12Renderer::VSetRenderTarget(Window const& window)
 	m_render_target = bksge::make_unique<d3d12::RenderTarget>(
 		m_device.get(), m_swap_chain.get());
 
-	m_fence = bksge::make_unique<d3d12::Fence>(m_device.get());
 	WaitForPreviousFrame();
 }
 
@@ -241,7 +239,7 @@ D3D12Renderer::VRender(
 	auto hlsl_program = GetD3D12HlslProgram(shader);
 	m_command_list->SetGraphicsRootSignature(hlsl_program->GetRootSignature());
 
-	hlsl_program->UpdateParameters(shader_parameter_map);
+	hlsl_program->UpdateParameters(m_resource_cache.get(), shader_parameter_map);
 	hlsl_program->SetEnable(m_command_list.get());
 
 	auto pipeline_state = GetD3D12PipelineState(shader, render_state.rasterizer_state(), geometry.primitive());

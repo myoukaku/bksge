@@ -15,7 +15,6 @@
 #include <bksge/render/d3d11/detail/texture.hpp>
 #include <bksge/render/d3d11/detail/device.hpp>
 #include <bksge/render/texture.hpp>
-#include <bksge/render/shader_parameter_map.hpp>
 #include <bksge/assert.hpp>
 
 namespace bksge

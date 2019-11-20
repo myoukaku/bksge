@@ -11,7 +11,8 @@
 
 #include <bksge/render/d3d12/detail/fwd/root_signature_fwd.hpp>
 #include <bksge/render/d3d12/detail/fwd/device_fwd.hpp>
-#include <bksge/render/d3d12/detail/fwd/hlsl_shader_fwd.hpp>
+//#include <bksge/render/d3d12/detail/fwd/hlsl_shader_fwd.hpp>
+#include <bksge/render/d3d12/detail/fwd/root_parameters_fwd.hpp>
 #include <bksge/render/d3d_common/d3d12.hpp>
 #include <bksge/render/d3d_common/com_ptr.hpp>
 
@@ -29,17 +30,14 @@ class RootSignature
 public:
 	explicit RootSignature(
 		Device* device,
-		HlslShaderMap const& shader_map);
+		RootParameters const& root_parameters);
 
 	~RootSignature();
 
 	::ID3D12RootSignature* Get(void) const;
 
-	::UINT GetRootParameterCount(void) const;
-
 private:
 	ComPtr<::ID3D12RootSignature> m_root_signature;
-	::UINT m_root_parameter_count;
 };
 
 }	// namespace d3d12
