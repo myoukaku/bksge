@@ -401,7 +401,7 @@
 #if (_MSC_FULL_VER >= 192328106)
 #endif
 
-// Visual Studio 2019 Update 3 (16.3.9) (Visual C++ 14.23)
+// Visual Studio 2019 Update 3 (16.3.(9-10)) (Visual C++ 14.23)
 #if (_MSC_FULL_VER >= 192328107)
 #endif
 
