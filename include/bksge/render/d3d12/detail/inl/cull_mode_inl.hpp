@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	cull_mode_inl.hpp
  *
- *	@brief	ToD3D12CullMode 関数の実装
+ *	@brief	CullMode の実装
  *
  *	@author	myoukaku
  */
@@ -15,7 +15,6 @@
 #include <bksge/render/d3d12/detail/cull_mode.hpp>
 #include <bksge/render/d3d_common/d3d12.hpp>
 #include <bksge/render/cull_mode.hpp>
-#include <unordered_map>
 
 namespace bksge
 {
@@ -26,17 +25,32 @@ namespace render
 namespace d3d12
 {
 
-BKSGE_INLINE ::D3D12_CULL_MODE
+namespace detail
+{
+
+inline ::D3D12_CULL_MODE
 ToD3D12CullMode(bksge::CullMode cull_mode)
 {
-	static std::unordered_map<bksge::CullMode, ::D3D12_CULL_MODE> const m =
+	switch (cull_mode)
 	{
-		{ bksge::CullMode::kNone,   D3D12_CULL_MODE_NONE },
-		{ bksge::CullMode::kFront,  D3D12_CULL_MODE_FRONT },
-		{ bksge::CullMode::kBack,   D3D12_CULL_MODE_BACK },
+	case bksge::CullMode::kNone:   return D3D12_CULL_MODE_NONE;
+	case bksge::CullMode::kFront:  return D3D12_CULL_MODE_FRONT;
+	case bksge::CullMode::kBack:   return D3D12_CULL_MODE_BACK;
 	};
+	return D3D12_CULL_MODE_NONE;
+}
 
-	return m.at(cull_mode);
+}	// namespace detail
+
+BKSGE_INLINE
+CullMode::CullMode(bksge::CullMode cull_mode)
+	: m_cull_mode(detail::ToD3D12CullMode(cull_mode))
+{}
+
+BKSGE_INLINE
+CullMode::operator D3D12_CULL_MODE() const
+{
+	return m_cull_mode;
 }
 
 }	// namespace d3d12

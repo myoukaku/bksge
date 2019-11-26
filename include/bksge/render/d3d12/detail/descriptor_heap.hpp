@@ -10,17 +10,9 @@
 #define BKSGE_RENDER_D3D12_DETAIL_DESCRIPTOR_HEAP_HPP
 
 #include <bksge/render/d3d12/detail/fwd/descriptor_heap_fwd.hpp>
-#include <bksge/render/d3d12/detail/fwd/constant_buffer_fwd.hpp>
-#include <bksge/render/d3d12/detail/fwd/command_list_fwd.hpp>
 #include <bksge/render/d3d12/detail/fwd/device_fwd.hpp>
-#include <bksge/render/d3d12/detail/fwd/hlsl_texture_fwd.hpp>
-#include <bksge/render/d3d12/detail/fwd/hlsl_sampler_fwd.hpp>
-#include <bksge/render/d3d12/detail/fwd/root_parameters_fwd.hpp>
 #include <bksge/render/d3d_common/d3d12.hpp>
 #include <bksge/render/d3d_common/com_ptr.hpp>
-#include <bksge/render/fwd/shader_parameter_map_fwd.hpp>
-#include <memory>
-#include <vector>
 
 namespace bksge
 {
@@ -34,39 +26,30 @@ namespace d3d12
 class DescriptorHeap
 {
 public:
-	using ConstantBuffers =
-		std::vector<std::unique_ptr<ConstantBuffer>>;
-	using HlslTextures =
-		std::vector<std::unique_ptr<HlslTexture>>;
-	using HlslSamplers =
-		std::vector<std::unique_ptr<HlslSampler>>;
-
 	explicit DescriptorHeap(
-		Device* device,
-		RootParameters const& root_parameters,
-		ConstantBuffers const& constant_buffers,
-		HlslTextures const& hlsl_textures,
-		HlslSamplers const& hlsl_samplers);
+		Device*							device,
+		::D3D12_DESCRIPTOR_HEAP_TYPE	type,
+		::UINT							num_descriptors,
+		::D3D12_DESCRIPTOR_HEAP_FLAGS	flags);
 
 	~DescriptorHeap();
 
-	void SetEnable(CommandList* command_list);
+	::ID3D12DescriptorHeap* Get(void) const;
+
+	::D3D12_GPU_DESCRIPTOR_HANDLE AssignGpuDescriptorHandle(void);
+
+	::D3D12_CPU_DESCRIPTOR_HANDLE AssignCpuDescriptorHandle(void);
+
+	void BeginFrame(void);
 
 private:
-	void CreateCbvSrvUavDescriptorHeap(
-		Device* device,
-		ConstantBuffers const& constant_buffers,
-		HlslTextures const& hlsl_textures);
-	void CreateSamplerDescriptorHeap(
-		Device* device,
-		HlslSamplers const& hlsl_samplers);
+	::UINT GetNumDescriptors(void) const;
 
 private:
-	ComPtr<::ID3D12DescriptorHeap>		m_cbv_srv_uav_descriptor_heap;
-	::UINT								m_cbv_srv_uav_descriptor_handle_incrementsize;
-	ComPtr<::ID3D12DescriptorHeap>		m_sampler_descriptor_heap;
-	::UINT								m_sampler_descriptor_handle_incrementsize;
-	std::vector<::D3D12_GPU_DESCRIPTOR_HANDLE> m_gpu_handles;
+	ComPtr<::ID3D12DescriptorHeap>	m_descriptor_heap;
+	::UINT							m_descriptor_handle_increment_size;
+	::UINT							m_gpu_descriptor_handle_index;
+	::UINT							m_cpu_descriptor_handle_index;
 };
 
 }	// namespace d3d12

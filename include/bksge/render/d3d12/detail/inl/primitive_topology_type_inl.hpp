@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	primitive_topology_type_inl.hpp
  *
- *	@brief	ToD3D12PrimitiveTopologyType 関数の実装
+ *	@brief	PrimitiveTopologyType の実装
  *
  *	@author	myoukaku
  */
@@ -15,7 +15,6 @@
 #include <bksge/render/d3d12/detail/primitive_topology_type.hpp>
 #include <bksge/render/d3d_common/d3d12.hpp>
 #include <bksge/render/primitive.hpp>
-#include <unordered_map>
 
 namespace bksge
 {
@@ -26,17 +25,32 @@ namespace render
 namespace d3d12
 {
 
-BKSGE_INLINE ::D3D12_PRIMITIVE_TOPOLOGY_TYPE
+namespace detail
+{
+
+inline ::D3D12_PRIMITIVE_TOPOLOGY_TYPE
 ToD3D12PrimitiveTopologyType(bksge::Primitive primitive)
 {
-	static std::unordered_map<bksge::Primitive, ::D3D12_PRIMITIVE_TOPOLOGY_TYPE> const m =
+	switch (primitive)
 	{
-		{ bksge::Primitive::kPoints,    D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT },
-		{ bksge::Primitive::kLines,     D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE },
-		{ bksge::Primitive::kTriangles, D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE },
-	};
+	case bksge::Primitive::kPoints:    return D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT;
+	case bksge::Primitive::kLines:     return D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE;
+	case bksge::Primitive::kTriangles: return D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	}
+	return D3D12_PRIMITIVE_TOPOLOGY_TYPE_UNDEFINED;
+}
 
-	return m.at(primitive);
+}	// namespace detail
+
+BKSGE_INLINE
+PrimitiveTopologyType::PrimitiveTopologyType(bksge::Primitive primitive)
+	: m_primitive_topology_type(detail::ToD3D12PrimitiveTopologyType(primitive))
+{}
+
+BKSGE_INLINE
+PrimitiveTopologyType::operator D3D12_PRIMITIVE_TOPOLOGY_TYPE() const
+{
+	return m_primitive_topology_type;
 }
 
 }	// namespace d3d12

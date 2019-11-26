@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	type_enum.hpp
  *
- *	@brief	ToD3D12TypeEnum 関数の定義
+ *	@brief	TypeEnum クラスの定義
  *
  *	@author	myoukaku
  */
@@ -21,7 +21,19 @@ namespace render
 namespace d3d12
 {
 
-::DXGI_FORMAT ToD3D12TypeEnum(bksge::TypeEnum type);
+/**
+ *	@brief
+ */
+class TypeEnum
+{
+public:
+	explicit TypeEnum(bksge::TypeEnum type_enum);
+
+	operator ::DXGI_FORMAT() const;
+
+private:
+	::DXGI_FORMAT	m_type_enum;
+};
 
 }	// namespace d3d12
 

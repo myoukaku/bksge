@@ -188,8 +188,8 @@ int main()
 #endif
 #if BKSGE_RENDER_HAS_D3D12_RENDERER
 	{
-		std::shared_ptr<bksge::Window> window(new bksge::Window(
-			{800, 600}, "sample_render_cull_face - D3D12"));
+		std::shared_ptr<bksge::Window> window(
+			new bksge::Window({800, 600}, "sample_render_cull_face - D3D12"));
 		windows.push_back(window);
 
 		std::shared_ptr<bksge::D3D12Renderer> renderer(new bksge::D3D12Renderer());

@@ -31,30 +31,33 @@ namespace d3d12
 BKSGE_INLINE
 Sampler::Sampler(
 	Device* device,
-	bksge::Sampler const& sampler,
-	::D3D12_CPU_DESCRIPTOR_HANDLE dest)
+	bksge::Sampler const& sampler)
+	: m_device(device)
 {
-	::D3D12_SAMPLER_DESC desc = {};
-	desc.Filter         = FilterMode(sampler.min_filter(), sampler.mag_filter());
-	desc.AddressU       = WrapMode(sampler.wrap_s());
-	desc.AddressV       = WrapMode(sampler.wrap_t());
-	desc.AddressW       = WrapMode(sampler.wrap_r());
-	desc.MipLODBias     = 0;
-	desc.MaxAnisotropy  = 16;
-	desc.ComparisonFunc = D3D12_COMPARISON_FUNC_ALWAYS;
-	desc.BorderColor[0] = sampler.border_color().r();
-	desc.BorderColor[1] = sampler.border_color().g();
-	desc.BorderColor[2] = sampler.border_color().b();
-	desc.BorderColor[3] = sampler.border_color().a();
-	desc.MinLOD         = -D3D12_FLOAT32_MAX;
-	desc.MaxLOD         =  D3D12_FLOAT32_MAX;
-
-	device->CreateSampler(&desc, dest);
+	m_desc.Filter         = FilterMode(sampler.min_filter(), sampler.mag_filter());
+	m_desc.AddressU       = WrapMode(sampler.wrap_s());
+	m_desc.AddressV       = WrapMode(sampler.wrap_t());
+	m_desc.AddressW       = WrapMode(sampler.wrap_r());
+	m_desc.MipLODBias     = 0;
+	m_desc.MaxAnisotropy  = 16;
+	m_desc.ComparisonFunc = D3D12_COMPARISON_FUNC_ALWAYS;
+	m_desc.BorderColor[0] = sampler.border_color().r();
+	m_desc.BorderColor[1] = sampler.border_color().g();
+	m_desc.BorderColor[2] = sampler.border_color().b();
+	m_desc.BorderColor[3] = sampler.border_color().a();
+	m_desc.MinLOD         = -D3D12_FLOAT32_MAX;
+	m_desc.MaxLOD         =  D3D12_FLOAT32_MAX;
 }
 
 BKSGE_INLINE
 Sampler::~Sampler()
 {
+}
+
+BKSGE_INLINE void
+Sampler::CreateView(::D3D12_CPU_DESCRIPTOR_HANDLE dest)
+{
+	m_device->CreateSampler(&m_desc, dest);
 }
 
 }	// namespace d3d12

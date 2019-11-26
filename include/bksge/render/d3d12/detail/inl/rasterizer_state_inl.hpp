@@ -31,8 +31,8 @@ BKSGE_INLINE
 RasterizerState::RasterizerState(bksge::RasterizerState const& state)
 	: m_desc{}
 {
-	m_desc.FillMode              = ToD3D12FillMode(state.fill_mode());
-	m_desc.CullMode              = ToD3D12CullMode(state.cull_mode());
+	m_desc.FillMode              = FillMode(state.fill_mode());
+	m_desc.CullMode              = CullMode(state.cull_mode());
 	m_desc.FrontCounterClockwise = (state.front_face() == bksge::FrontFace::kCounterClockwise);
 	m_desc.DepthBias             = D3D12_DEFAULT_DEPTH_BIAS;
 	m_desc.DepthBiasClamp        = D3D12_DEFAULT_DEPTH_BIAS_CLAMP;

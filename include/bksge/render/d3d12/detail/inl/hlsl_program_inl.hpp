@@ -16,8 +16,8 @@
 #include <bksge/render/d3d12/detail/hlsl_shader.hpp>
 #include <bksge/render/d3d12/detail/device.hpp>
 #include <bksge/render/d3d12/detail/input_layout.hpp>
-#include <bksge/render/d3d12/detail/constant_buffer.hpp>
-#include <bksge/render/d3d12/detail/descriptor_heap.hpp>
+#include <bksge/render/d3d12/detail/hlsl_constant_buffer.hpp>
+#include <bksge/render/d3d12/detail/descriptor_heaps.hpp>
 #include <bksge/render/d3d12/detail/command_list.hpp>
 #include <bksge/render/d3d12/detail/root_signature.hpp>
 #include <bksge/render/d3d12/detail/root_parameters.hpp>
@@ -83,23 +83,15 @@ HlslProgram::HlslProgram(Device* device, bksge::Shader const& shader)
 			m_input_layout = hlsl_shader->CreateInputLayout();
 		}
 
-		hlsl_shader->CreateConstantBuffers(device, &m_constant_buffers);
-		hlsl_shader->CreateHlslTextures(device, &m_hlsl_textures);
-		hlsl_shader->CreateHlslSamplers(device, &m_hlsl_samplers);
+		hlsl_shader->CreateHlslConstantBuffers(/*device,*/ &m_hlsl_constant_buffers);
+		hlsl_shader->CreateHlslTextures(&m_hlsl_textures);
+		hlsl_shader->CreateHlslSamplers(&m_hlsl_samplers);
 
 		m_shader_map[stage] = std::move(hlsl_shader);
 	}
 
 	m_root_parameters =
 		bksge::make_unique<RootParameters>(m_shader_map);
-
-	m_descriptor_heap =
-		bksge::make_unique<DescriptorHeap>(
-			device,
-			*m_root_parameters,
-			m_constant_buffers,
-			m_hlsl_textures,
-			m_hlsl_samplers);
 
 	m_root_signature =
 		bksge::make_unique<RootSignature>(device, *m_root_parameters);
@@ -111,28 +103,42 @@ HlslProgram::~HlslProgram()
 }
 
 BKSGE_INLINE void
-HlslProgram::UpdateParameters(ResourceCache* resource_cache, bksge::ShaderParameterMap const& shader_parameter_map)
+HlslProgram::SetDescriptorTables(
+	CommandList* command_list,
+	DescriptorHeaps* descriptor_heaps)
 {
-	for (auto&& constant_buffer : m_constant_buffers)
+	descriptor_heaps->SetDescriptorTables(command_list, *m_root_parameters);
+}
+
+BKSGE_INLINE void
+HlslProgram::UpdateParameters(
+	DescriptorHeaps* descriptor_heaps,
+	ResourceCache* resource_cache,
+	bksge::ShaderParameterMap const& shader_parameter_map)
+{
+	for (auto&& hlsl_constant_buffer : m_hlsl_constant_buffers)
 	{
-		constant_buffer->UpdateParameters(shader_parameter_map);
+		hlsl_constant_buffer->UpdateParameters(
+			descriptor_heaps,
+			resource_cache,
+			shader_parameter_map);
 	}
 
 	for (auto&& hlsl_texture : m_hlsl_textures)
 	{
-		hlsl_texture->UpdateParameters(resource_cache, shader_parameter_map);
+		hlsl_texture->UpdateParameters(
+			descriptor_heaps,
+			resource_cache,
+			shader_parameter_map);
 	}
 
 	for (auto&& hlsl_sampler : m_hlsl_samplers)
 	{
-		hlsl_sampler->UpdateParameters(resource_cache, shader_parameter_map);
+		hlsl_sampler->UpdateParameters(
+			descriptor_heaps,
+			resource_cache,
+			shader_parameter_map);
 	}
-}
-
-BKSGE_INLINE void
-HlslProgram::SetEnable(CommandList* command_list)
-{
-	m_descriptor_heap->SetEnable(command_list);
 }
 
 BKSGE_INLINE ::D3D12_SHADER_BYTECODE

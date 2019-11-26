@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	fill_mode.hpp
  *
- *	@brief	ToD3D12FillMode 関数の定義
+ *	@brief	FillMode クラスの定義
  *
  *	@author	myoukaku
  */
@@ -21,7 +21,19 @@ namespace render
 namespace d3d12
 {
 
-::D3D12_FILL_MODE ToD3D12FillMode(bksge::FillMode fill_mode);
+/**
+ *	@brief
+ */
+class FillMode
+{
+public:
+	explicit FillMode(bksge::FillMode fill_mode);
+
+	operator ::D3D12_FILL_MODE() const;
+
+private:
+	::D3D12_FILL_MODE	m_fill_mode;
+};
 
 }	// namespace d3d12
 

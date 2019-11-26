@@ -15,7 +15,7 @@
 #include <bksge/render/d3d12/detail/hlsl_shader.hpp>
 #include <bksge/render/d3d12/detail/device.hpp>
 #include <bksge/render/d3d12/detail/input_layout.hpp>
-#include <bksge/render/d3d12/detail/constant_buffer.hpp>
+#include <bksge/render/d3d12/detail/hlsl_constant_buffer.hpp>
 #include <bksge/render/d3d12/detail/hlsl_texture.hpp>
 #include <bksge/render/d3d12/detail/hlsl_sampler.hpp>
 #include <bksge/render/d3d_common/com_ptr.hpp>
@@ -163,22 +163,22 @@ HlslShaderBase::CreateInputLayout(void)
 }
 
 BKSGE_INLINE void
-HlslShaderBase::CreateConstantBuffers(Device* device, ConstantBuffers* constant_buffers)
+HlslShaderBase::CreateHlslConstantBuffers(/*Device* device, */HlslConstantBuffers* hlsl_constant_buffers)
 {
 	::D3D12_SHADER_DESC shader_desc;
 	ThrowIfFailed(m_reflection->GetDesc(&shader_desc));
 
 	for (::UINT i = 0; i < shader_desc.ConstantBuffers; i++)
 	{
-		auto cb = bksge::make_unique<ConstantBuffer>(
-			device,
+		auto cb = bksge::make_unique<HlslConstantBuffer>(
+//			device,
 			m_reflection->GetConstantBufferByIndex(i));
-		constant_buffers->push_back(std::move(cb));
+		hlsl_constant_buffers->push_back(std::move(cb));
 	}
 }
 
 BKSGE_INLINE void
-HlslShaderBase::CreateHlslTextures(Device* /*device*/, HlslTextures* hlsl_textures)
+HlslShaderBase::CreateHlslTextures(HlslTextures* hlsl_textures)
 {
 	::D3D12_SHADER_DESC shader_desc;
 	ThrowIfFailed(m_reflection->GetDesc(&shader_desc));
@@ -198,7 +198,7 @@ HlslShaderBase::CreateHlslTextures(Device* /*device*/, HlslTextures* hlsl_textur
 }
 
 BKSGE_INLINE void
-HlslShaderBase::CreateHlslSamplers(Device* /*device*/, HlslSamplers* hlsl_samplers)
+HlslShaderBase::CreateHlslSamplers(HlslSamplers* hlsl_samplers)
 {
 	::D3D12_SHADER_DESC shader_desc;
 	ThrowIfFailed(m_reflection->GetDesc(&shader_desc));
@@ -220,7 +220,8 @@ HlslShaderBase::CreateHlslSamplers(Device* /*device*/, HlslSamplers* hlsl_sample
 BKSGE_INLINE ::D3D12_SHADER_BYTECODE
 HlslShaderBase::GetBytecode(void) const
 {
-	return {
+	return
+	{
 		m_micro_code->GetBufferPointer(),
 		m_micro_code->GetBufferSize()
 	};

@@ -75,7 +75,7 @@ IndexBuffer::IndexBuffer(bksge::Geometry const& geometry, Device* device)
 
 		// Describe the index buffer view.
 		m_view.BufferLocation = m_resource->GetGPUVirtualAddress();
-		m_view.Format = ToD3D12TypeEnum(geometry.index_array_type());
+		m_view.Format = TypeEnum(geometry.index_array_type());
 		m_view.SizeInBytes = static_cast<::UINT>(size);
 
 		m_count = static_cast<::UINT>(geometry.index_array_count());

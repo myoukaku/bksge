@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	cull_mode.hpp
  *
- *	@brief	ToD3D12CullMode 関数の定義
+ *	@brief	CullMode クラスの定義
  *
  *	@author	myoukaku
  */
@@ -21,7 +21,19 @@ namespace render
 namespace d3d12
 {
 
-::D3D12_CULL_MODE ToD3D12CullMode(bksge::CullMode cull_mode);
+/**
+ *	@brief
+ */
+class CullMode
+{
+public:
+	explicit CullMode(bksge::CullMode cull_mode);
+
+	operator ::D3D12_CULL_MODE() const;
+
+private:
+	::D3D12_CULL_MODE	m_cull_mode;
+};
 
 }	// namespace d3d12
 

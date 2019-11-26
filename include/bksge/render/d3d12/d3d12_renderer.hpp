@@ -20,6 +20,7 @@
 #include <bksge/render/d3d12/detail/fwd/root_signature_fwd.hpp>
 #include <bksge/render/d3d12/detail/fwd/pipeline_state_fwd.hpp>
 #include <bksge/render/d3d12/detail/fwd/resource_cache_fwd.hpp>
+#include <bksge/render/d3d12/detail/fwd/descriptor_heaps_fwd.hpp>
 #include <bksge/render/dxgi/fwd/dxgi_factory_fwd.hpp>
 #include <bksge/render/dxgi/fwd/dxgi_swap_chain_fwd.hpp>
 
@@ -92,6 +93,7 @@ private:
 	std::unique_ptr<d3d12::CommandList>		m_command_list;
 	std::unique_ptr<d3d12::RenderTarget>	m_render_target;
 	std::unique_ptr<d3d12::Fence>			m_fence;
+	std::unique_ptr<d3d12::DescriptorHeaps>	m_descriptor_heaps;
 
 	d3d12::HlslProgramMap                 m_d3d12_hlsl_program_map;
 	d3d12::GeometryMap                    m_d3d12_geometry_map;

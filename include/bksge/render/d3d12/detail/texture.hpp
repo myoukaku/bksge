@@ -35,10 +35,11 @@ public:
 		CommandList* command_list,
 		CommandQueue* command_queue,
 		Fence* fence,
-		bksge::Texture const& texture,
-		::D3D12_CPU_DESCRIPTOR_HANDLE dest);
+		bksge::Texture const& texture);
 
 	~Texture();
+
+	void CreateView(::D3D12_CPU_DESCRIPTOR_HANDLE dest);
 
 private:
 	ComPtr<::ID3D12Resource>	m_resource;

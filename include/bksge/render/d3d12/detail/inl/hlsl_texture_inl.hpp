@@ -14,6 +14,8 @@
 
 #include <bksge/render/d3d12/detail/hlsl_texture.hpp>
 #include <bksge/render/d3d12/detail/resource_cache.hpp>
+#include <bksge/render/d3d12/detail/descriptor_heaps.hpp>
+#include <bksge/render/d3d12/detail/texture.hpp>
 #include <bksge/render/shader_parameter_map.hpp>
 #include <bksge/render/detail/shader_parameter.hpp>
 #include <bksge/render/texture.hpp>
@@ -35,13 +37,8 @@ HlslTexture::HlslTexture(::D3D12_SHADER_INPUT_BIND_DESC const& bind_desc)
 }
 
 BKSGE_INLINE void
-HlslTexture::SetDescriptorHandle(::D3D12_CPU_DESCRIPTOR_HANDLE dest)
-{
-	m_dest = dest;
-}
-
-BKSGE_INLINE void
 HlslTexture::UpdateParameters(
+	DescriptorHeaps* descriptor_heaps,
 	ResourceCache* resource_cache,
 	bksge::ShaderParameterMap const& shader_parameter_map)
 {
@@ -63,7 +60,10 @@ HlslTexture::UpdateParameters(
 
 	auto texture = *static_cast<bksge::Texture const*>(param->data());
 
-	auto d3d12_texture = resource_cache->GetD3D12Texture(texture, m_dest);
+	auto d3d12_texture = resource_cache->GetD3D12Texture(texture);
+	d3d12_texture->CreateView(
+		descriptor_heaps->AssignCpuDescriptorHandle(
+			D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV));
 }
 
 }	// namespace d3d12

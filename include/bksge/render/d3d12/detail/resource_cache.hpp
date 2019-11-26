@@ -11,6 +11,7 @@
 
 #include <bksge/render/d3d12/detail/fwd/resource_cache_fwd.hpp>
 #include <bksge/render/d3d12/detail/fwd/device_fwd.hpp>
+#include <bksge/render/d3d12/detail/fwd/constant_buffer_fwd.hpp>
 #include <bksge/render/d3d12/detail/fwd/texture_fwd.hpp>
 #include <bksge/render/d3d12/detail/fwd/sampler_fwd.hpp>
 #include <bksge/render/d3d12/detail/fwd/command_list_fwd.hpp>
@@ -20,6 +21,8 @@
 #include <bksge/render/fwd/texture_fwd.hpp>
 #include <bksge/render/fwd/sampler_fwd.hpp>
 #include <memory>
+#include <vector>
+#include <cstdint>
 
 namespace bksge
 {
@@ -37,19 +40,23 @@ public:
 
 	~ResourceCache();
 
+	ConstantBufferShared GetD3D12ConstantBuffer(
+		std::vector<std::uint8_t> const& buf);
+
 	TextureShared GetD3D12Texture(
-		bksge::Texture const& texture,
-		::D3D12_CPU_DESCRIPTOR_HANDLE dest);
+		bksge::Texture const& texture);
 
 	SamplerShared GetD3D12Sampler(
-		bksge::Sampler const& sampler,
-		::D3D12_CPU_DESCRIPTOR_HANDLE dest);
+		bksge::Sampler const& sampler);
 
 private:
 	Device*							m_device;	// TODO 生ポインタを保存しない
 	std::unique_ptr<CommandQueue>	m_command_queue;
 	std::unique_ptr<CommandList>	m_command_list;
 	std::unique_ptr<Fence>			m_fence;
+//	ConstantBufferMap				m_constant_buffer_map;
+	std::vector<ConstantBufferShared>	m_constant_buffers;
+	std::size_t							m_constant_buffer_index;
 	TextureMap						m_texture_map;
 	SamplerMap						m_sampler_map;
 };

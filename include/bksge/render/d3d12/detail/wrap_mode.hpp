@@ -9,8 +9,8 @@
 #ifndef BKSGE_RENDER_D3D12_DETAIL_WRAP_MODE_HPP
 #define BKSGE_RENDER_D3D12_DETAIL_WRAP_MODE_HPP
 
+#include <bksge/render/fwd/wrap_mode_fwd.hpp>
 #include <bksge/render/d3d_common/d3d12.hpp>
-#include <bksge/render/wrap_mode.hpp>
 
 namespace bksge
 {

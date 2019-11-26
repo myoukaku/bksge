@@ -28,11 +28,15 @@ class Sampler
 public:
 	explicit Sampler(
 		Device* device,
-		bksge::Sampler const& sampler,
-		::D3D12_CPU_DESCRIPTOR_HANDLE dest);
+		bksge::Sampler const& sampler);
 
 	~Sampler();
 
+	void CreateView(::D3D12_CPU_DESCRIPTOR_HANDLE dest);
+
+private:
+	Device*					m_device;	// TODO 生ポインタを保存しない
+	::D3D12_SAMPLER_DESC	m_desc;
 };
 
 }	// namespace d3d12

@@ -28,6 +28,7 @@
 #include <bksge/render/d3d12/detail/primitive_topology_type.hpp>
 #include <bksge/render/d3d12/detail/pipeline_state.hpp>
 #include <bksge/render/d3d12/detail/resource_cache.hpp>
+#include <bksge/render/d3d12/detail/descriptor_heaps.hpp>
 #include <bksge/render/d3d_common/d3d12.hpp>
 #include <bksge/render/d3d_common/com_ptr.hpp>
 #include <bksge/render/d3d_common/throw_if_failed.hpp>
@@ -94,6 +95,12 @@ D3D12Renderer::Initialize(void)
 	m_command_list   = bksge::make_unique<d3d12::CommandList>(m_device.get());
 	m_fence          = bksge::make_unique<d3d12::Fence>(m_device.get());
 	m_resource_cache = bksge::make_unique<d3d12::ResourceCache>(m_device.get());
+	m_descriptor_heaps = bksge::make_unique<d3d12::DescriptorHeaps>(
+		m_device.get(),
+		1000,
+		100,
+		0,
+		0);
 
 	// Command lists are created in the recording state, but there is nothing
 	// to record yet. The main loop expects it to be closed, so close it now.
@@ -188,6 +195,9 @@ D3D12Renderer::VBegin(void)
 
 		//m_command_list->ClearDepthStencilView(dsv_handle_, mask, 1.0f, 0, 0, nullptr);
 	}
+
+	m_descriptor_heaps->SetEnable(m_command_list.get());
+	m_descriptor_heaps->BeginFrame();
 }
 
 BKSGE_INLINE void
@@ -237,10 +247,19 @@ D3D12Renderer::VRender(
 	}
 
 	auto hlsl_program = GetD3D12HlslProgram(shader);
+
+	// TODO
+	// hlsl_program->SetRootSignature(m_command_list.get());
 	m_command_list->SetGraphicsRootSignature(hlsl_program->GetRootSignature());
 
-	hlsl_program->UpdateParameters(m_resource_cache.get(), shader_parameter_map);
-	hlsl_program->SetEnable(m_command_list.get());
+	hlsl_program->SetDescriptorTables(
+		m_command_list.get(),
+		m_descriptor_heaps.get());
+
+	hlsl_program->UpdateParameters(
+		m_descriptor_heaps.get(),
+		m_resource_cache.get(),
+		shader_parameter_map);
 
 	auto pipeline_state = GetD3D12PipelineState(shader, render_state.rasterizer_state(), geometry.primitive());
 	pipeline_state->SetPipelineState(m_command_list.get());

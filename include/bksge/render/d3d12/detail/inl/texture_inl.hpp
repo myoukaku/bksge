@@ -18,6 +18,7 @@
 #include <bksge/render/d3d12/detail/command_queue.hpp>
 #include <bksge/render/d3d12/detail/fence.hpp>
 #include <bksge/render/d3d_common/d3d12.hpp>
+#include <bksge/render/d3d_common/throw_if_failed.hpp>
 #include <bksge/render/texture.hpp>
 
 namespace bksge
@@ -181,8 +182,7 @@ Texture::Texture(
 	CommandList* command_list,
 	CommandQueue* command_queue,
 	Fence* fence,
-	bksge::Texture const& texture,
-	::D3D12_CPU_DESCRIPTOR_HANDLE dest)
+	bksge::Texture const& texture)
 {
 	::D3D12_HEAP_PROPERTIES prop = {};
 	prop.Type                 = D3D12_HEAP_TYPE_DEFAULT;
@@ -212,8 +212,22 @@ Texture::Texture(
 		nullptr);
 
 	UpdateSubresource(device, command_list, command_queue, fence, m_resource.Get(), texture);
+}
 
-	::D3D12_SHADER_RESOURCE_VIEW_DESC srv_desc ={};
+BKSGE_INLINE
+Texture::~Texture()
+{
+}
+
+BKSGE_INLINE void
+Texture::CreateView(::D3D12_CPU_DESCRIPTOR_HANDLE dest)
+{
+	ComPtr<::ID3D12Device> device;
+	ThrowIfFailed(m_resource->GetDevice(IID_PPV_ARGS(&device)));
+
+	auto const desc = m_resource->GetDesc();
+
+	::D3D12_SHADER_RESOURCE_VIEW_DESC srv_desc = {};
 	srv_desc.Format                        = desc.Format;
 	srv_desc.ViewDimension                 = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srv_desc.Shader4ComponentMapping       = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
@@ -223,11 +237,6 @@ Texture::Texture(
 	srv_desc.Texture2D.ResourceMinLODClamp = 0;
 
 	device->CreateShaderResourceView(m_resource.Get(), &srv_desc, dest);
-}
-
-BKSGE_INLINE
-Texture::~Texture()
-{
 }
 
 }	// namespace d3d12

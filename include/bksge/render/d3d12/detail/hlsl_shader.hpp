@@ -12,7 +12,7 @@
 #include <bksge/render/d3d12/detail/fwd/hlsl_shader_fwd.hpp>
 #include <bksge/render/d3d12/detail/fwd/device_fwd.hpp>
 #include <bksge/render/d3d12/detail/fwd/input_layout_fwd.hpp>
-#include <bksge/render/d3d12/detail/fwd/constant_buffer_fwd.hpp>
+#include <bksge/render/d3d12/detail/fwd/hlsl_constant_buffer_fwd.hpp>
 #include <bksge/render/d3d12/detail/fwd/hlsl_texture_fwd.hpp>
 #include <bksge/render/d3d12/detail/fwd/hlsl_sampler_fwd.hpp>
 #include <bksge/render/d3d12/detail/fwd/command_list_fwd.hpp>
@@ -40,8 +40,8 @@ namespace d3d12
 class HlslShaderBase
 {
 private:
-	using ConstantBuffers =
-		std::vector<std::unique_ptr<ConstantBuffer>>;
+	using HlslConstantBuffers =
+		std::vector<std::unique_ptr<HlslConstantBuffer>>;
 	using HlslTextures =
 		std::vector<std::unique_ptr<HlslTexture>>;
 	using HlslSamplers =
@@ -54,9 +54,9 @@ public:
 
 	bool Compile(Device* device, std::string const& source);
 	std::unique_ptr<InputLayout> CreateInputLayout(void);
-	void CreateConstantBuffers(Device* device, ConstantBuffers* constant_buffers);
-	void CreateHlslTextures(Device* device, HlslTextures* hlsl_textures);
-	void CreateHlslSamplers(Device* device, HlslSamplers* hlsl_samplers);
+	void CreateHlslConstantBuffers(/*Device* device, */HlslConstantBuffers* hlsl_constant_buffers);
+	void CreateHlslTextures(HlslTextures* hlsl_textures);
+	void CreateHlslSamplers(HlslSamplers* hlsl_samplers);
 
 	::D3D12_SHADER_BYTECODE GetBytecode(void) const;
 

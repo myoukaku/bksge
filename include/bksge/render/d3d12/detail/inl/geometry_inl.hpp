@@ -16,7 +16,7 @@
 #include <bksge/render/d3d12/detail/vertex_buffer.hpp>
 #include <bksge/render/d3d12/detail/index_buffer.hpp>
 #include <bksge/render/d3d12/detail/command_list.hpp>
-#include <bksge/render/d3d12/detail/primitive.hpp>
+#include <bksge/render/d3d12/detail/primitive_topology.hpp>
 #include <bksge/render/geometry.hpp>
 
 namespace bksge
@@ -32,7 +32,7 @@ BKSGE_INLINE
 Geometry::Geometry(bksge::Geometry const& geometry, Device* device)
 	: m_vertex_buffer(new VertexBuffer(geometry, device))
 	, m_index_buffer(new IndexBuffer(geometry, device))
-	, m_primitive_topology(ToD3D12Primitive(geometry.primitive()))
+	, m_primitive_topology(PrimitiveTopology(geometry.primitive()))
 {
 }
 

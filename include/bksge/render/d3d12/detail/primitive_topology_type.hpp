@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	primitive_topology_type.hpp
  *
- *	@brief	ToD3D12PrimitiveTopologyType 関数の定義
+ *	@brief	PrimitiveTopologyType クラスの定義
  *
  *	@author	myoukaku
  */
@@ -21,7 +21,19 @@ namespace render
 namespace d3d12
 {
 
-::D3D12_PRIMITIVE_TOPOLOGY_TYPE ToD3D12PrimitiveTopologyType(bksge::Primitive primitive);
+/**
+ *	@brief
+ */
+class PrimitiveTopologyType
+{
+public:
+	explicit PrimitiveTopologyType(bksge::Primitive primitive);
+
+	operator ::D3D12_PRIMITIVE_TOPOLOGY_TYPE() const;
+
+private:
+	::D3D12_PRIMITIVE_TOPOLOGY_TYPE	m_primitive_topology_type;
+};
 
 }	// namespace d3d12
 

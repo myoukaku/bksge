@@ -9,6 +9,10 @@
 #ifndef BKSGE_RENDER_D3D12_DETAIL_FWD_CONSTANT_BUFFER_FWD_HPP
 #define BKSGE_RENDER_D3D12_DETAIL_FWD_CONSTANT_BUFFER_FWD_HPP
 
+#include <cstddef>
+#include <map>
+#include <memory>
+
 namespace bksge
 {
 
@@ -19,6 +23,8 @@ namespace d3d12
 {
 
 class ConstantBuffer;
+using ConstantBufferShared = std::shared_ptr<ConstantBuffer>;
+using ConstantBufferMap = std::map<std::size_t, ConstantBufferShared>;
 
 }	// namespace d3d12
 

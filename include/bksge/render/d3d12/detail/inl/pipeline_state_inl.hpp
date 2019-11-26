@@ -53,7 +53,7 @@ PipelineState::PipelineState(
 	desc.BlendState            = blend_state;
 	desc.DepthStencilState     = depth_stencil_state;
 	desc.SampleMask            = UINT_MAX;
-	desc.PrimitiveTopologyType = ToD3D12PrimitiveTopologyType(primitive);
+	desc.PrimitiveTopologyType = PrimitiveTopologyType(primitive);
 	desc.NumRenderTargets      = 1;
 	desc.RTVFormats[0]         = DXGI_FORMAT_R8G8B8A8_UNORM;
 	desc.SampleDesc.Count      = 1;
