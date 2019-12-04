@@ -405,6 +405,10 @@
 #if (_MSC_FULL_VER >= 192328107)
 #endif
 
+// Visual Studio 2019 Update 4 (16.4.0) (Visual C++ 14.23)
+#if (_MSC_FULL_VER >= 192428314)
+#endif
+
 #if (BKSGE_CXX_STANDARD >= 17)
 #  define BKSGE_HAS_CXX17_CONSTEXPR
 #endif
