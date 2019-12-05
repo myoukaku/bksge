@@ -18,7 +18,6 @@
 #include <bksge/render/d3d12/detail/descriptor_heaps.hpp>
 #include <bksge/render/d3d_common/d3d12shader.hpp>
 #include <bksge/render/shader_parameter_map.hpp>
-#include <bksge/cmath/round_up.hpp>
 #include <vector>
 
 namespace bksge
@@ -37,9 +36,7 @@ HlslConstantBuffer::HlslConstantBuffer(::ID3D12ShaderReflectionConstantBuffer* c
 	constant_buffer->GetDesc(&shader_buffer_desc);
 
 	m_name = shader_buffer_desc.Name;
-	m_size = bksge::round_up(
-		shader_buffer_desc.Size,
-		D3D12_CONSTANT_BUFFER_DATA_PLACEMENT_ALIGNMENT);
+	m_size = shader_buffer_desc.Size;
 
 	//std::cout
 	//	<< shader_buffer_desc.Name << ", "
@@ -93,9 +90,11 @@ HlslConstantBuffer::UpdateParameters(
 		}
 	}
 
-	auto d3d12_constant_buffer = resource_cache->GetD3D12ConstantBuffer(buf);
-	d3d12_constant_buffer->Update(buf);
-	d3d12_constant_buffer->CreateView(
+	auto d3d12_constant_buffer = resource_cache->GetD3D12ConstantBuffer();
+
+	auto subresource = d3d12_constant_buffer->AssignSubresource(buf.size());
+	subresource.Update(buf);
+	subresource.CreateView(
 		descriptor_heaps->AssignCpuDescriptorHandle(
 			D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV));
 }

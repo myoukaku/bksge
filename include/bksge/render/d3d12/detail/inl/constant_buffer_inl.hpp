@@ -14,12 +14,9 @@
 
 #include <bksge/render/d3d12/detail/constant_buffer.hpp>
 #include <bksge/render/d3d12/detail/device.hpp>
-//#include <bksge/render/d3d12/detail/command_list.hpp>
 #include <bksge/render/d3d_common/d3d12.hpp>
-//#include <bksge/render/d3d_common/d3dcompiler.hpp>
 #include <bksge/render/d3d_common/throw_if_failed.hpp>
-//#include <bksge/render/shader_parameter_map.hpp>
-//#include <bksge/cmath/round_up.hpp>
+#include <bksge/cmath/round_up.hpp>
 #include <cstdint>
 #include <vector>
 #include <cstring>	// memcpy
@@ -40,6 +37,8 @@ ConstantBuffer::ConstantBuffer(
 	Device* device,
 	::UINT	size)
 {
+	size = bksge::round_up(size, D3D12_CONSTANT_BUFFER_DATA_PLACEMENT_ALIGNMENT);
+
 	// Create resource.
 	{
 		::D3D12_HEAP_PROPERTIES prop = {};
@@ -71,7 +70,7 @@ ConstantBuffer::ConstantBuffer(
 
 	// Map the constant buffer. We don't unmap this until the app closes.
 	// Keeping things mapped for the lifetime of the resource is okay.
-	m_resource->Map(0, nullptr, reinterpret_cast<void**>(&m_buffer_data));
+	m_resource->Map(0, nullptr, reinterpret_cast<void**>(&m_mapped_resource));
 }
 
 BKSGE_INLINE
@@ -79,11 +78,76 @@ ConstantBuffer::~ConstantBuffer()
 {
 }
 
+BKSGE_INLINE ConstantBuffer::Subresource
+ConstantBuffer::AssignSubresource(std::size_t size)
+{
+	size = bksge::round_up(size, D3D12_CONSTANT_BUFFER_DATA_PLACEMENT_ALIGNMENT);
+
+	ComPtr<::ID3D12Device> device;
+	ThrowIfFailed(m_resource->GetDevice(IID_PPV_ARGS(&device)));
+
+	auto offset = m_offset;
+
+	if (m_offset + size >= GetSizeInBytes())
+	{
+		m_offset = 0;
+	}
+	else
+	{
+		m_offset += size;
+	}
+
+	return
+	{
+		device,
+		static_cast<::UINT>(size),
+		m_resource->GetGPUVirtualAddress() + offset,
+		m_mapped_resource + offset
+	};
+}
+
+BKSGE_INLINE
+ConstantBuffer::Subresource::Subresource(
+	ComPtr<::ID3D12Device> const& device,
+	::UINT						  size,
+	::D3D12_GPU_VIRTUAL_ADDRESS	  gpu_virtual_address,
+	std::uint8_t*				  mapped_resource)
+	: m_device(device)
+	, m_size(size)
+	, m_gpu_virtual_address(gpu_virtual_address)
+	, m_mapped_resource(mapped_resource)
+{
+}
+
+BKSGE_INLINE
+ConstantBuffer::Subresource::~Subresource()
+{
+}
+
+BKSGE_INLINE void
+ConstantBuffer::Subresource::Update(std::vector<std::uint8_t> const& buffer)
+{
+	std::memcpy(
+		m_mapped_resource,
+		buffer.data(),
+		buffer.size());
+}
+
+BKSGE_INLINE void
+ConstantBuffer::Subresource::CreateView(::D3D12_CPU_DESCRIPTOR_HANDLE dest)
+{
+	::D3D12_CONSTANT_BUFFER_VIEW_DESC desc = {};
+	desc.BufferLocation = m_gpu_virtual_address;
+	desc.SizeInBytes    = m_size;
+	m_device->CreateConstantBufferView(&desc, dest);
+}
+
+#if 0
 BKSGE_INLINE void
 ConstantBuffer::Update(std::vector<std::uint8_t> const& buffer)
 {
 	std::memcpy(
-		m_buffer_data,
+		m_mapped_resource,
 		buffer.data(),
 		buffer.size());
 }
@@ -99,6 +163,7 @@ ConstantBuffer::CreateView(::D3D12_CPU_DESCRIPTOR_HANDLE dest)
 	desc.SizeInBytes    = GetSizeInBytes();
 	device->CreateConstantBufferView(&desc, dest);
 }
+#endif
 
 BKSGE_INLINE ::UINT
 ConstantBuffer::GetSizeInBytes(void) const

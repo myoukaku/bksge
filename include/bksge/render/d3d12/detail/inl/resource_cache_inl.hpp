@@ -61,17 +61,13 @@ GetOrCreate(Map& map, Id const& id, Args... args)
 BKSGE_INLINE
 ResourceCache::ResourceCache(Device* device)
 	: m_device(device)
-	, m_constant_buffer_index(0)
 {
 	m_command_queue = bksge::make_unique<CommandQueue>(m_device);
 	m_command_list  = bksge::make_unique<CommandList>(m_device);
 	m_fence         = bksge::make_unique<Fence>(m_device);
 	m_command_list->Close();
 
-	for (int i = 0; i < 1000; ++i)
-	{
-		m_constant_buffers.push_back(std::make_shared<ConstantBuffer>(device, 256));
-	}
+	m_constant_buffer = std::make_shared<ConstantBuffer>(device, 256 * 1024);
 }
 
 BKSGE_INLINE
@@ -80,41 +76,9 @@ ResourceCache::~ResourceCache()
 }
 
 BKSGE_INLINE ConstantBufferShared
-ResourceCache::GetD3D12ConstantBuffer(
-	std::vector<std::uint8_t> const& buf)
+ResourceCache::GetD3D12ConstantBuffer()
 {
-#if 0
-	std::size_t id = 0;
-	for (auto x : buf)
-	{
-		id = bksge::hash_combine(id, x);
-	}
-
-	return detail::GetOrCreate<ConstantBuffer>(
-		m_constant_buffer_map,
-		id,
-		m_device,
-		(::UINT)buf.size());
-#else
-	//auto p = std::make_shared<ConstantBuffer>(m_device, (::UINT)buf.size());
-	//m_constant_buffers.push_back(p);
-	//return p;
-
-	if (buf.size() != 256)
-	{
-		return {};
-	}
-
-	auto p = m_constant_buffers[m_constant_buffer_index];
-
-	++m_constant_buffer_index;
-	if (m_constant_buffer_index >= m_constant_buffers.size())
-	{
-		m_constant_buffer_index = 0;
-	}
-
-	return p;
-#endif
+	return m_constant_buffer;
 }
 
 BKSGE_INLINE TextureShared

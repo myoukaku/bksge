@@ -44,21 +44,22 @@ ToDXGIPixelFormat(bksge::TextureFormat format)
 }	// namespace detail
 
 inline void MemcpySubresource(
-	const D3D12_MEMCPY_DEST* pDest,
-	const D3D12_SUBRESOURCE_DATA* pSrc,
-	SIZE_T RowSizeInBytes,
-	UINT NumRows,
-	UINT NumSlices)
+	::D3D12_MEMCPY_DEST const* dst,
+	::D3D12_SUBRESOURCE_DATA const* src,
+	::SIZE_T row_size_in_bytes,
+	::UINT num_rows,
+	::UINT num_slices)
 {
-	for (UINT z = 0; z < NumSlices; ++z)
+	for (::UINT z = 0; z < num_slices; ++z)
 	{
-		BYTE* pDestSlice = reinterpret_cast<BYTE*>(pDest->pData) + pDest->SlicePitch * z;
-		BYTE const* pSrcSlice = reinterpret_cast<const BYTE*>(pSrc->pData) + pSrc->SlicePitch * z;
-		for (UINT y = 0; y < NumRows; ++y)
+		auto dst_slice = reinterpret_cast<::BYTE*>(dst->pData) + dst->SlicePitch * z;
+		auto src_slice = reinterpret_cast<::BYTE const*>(src->pData) + src->SlicePitch * z;
+		for (::UINT y = 0; y < num_rows; ++y)
 		{
-			memcpy(pDestSlice + pDest->RowPitch * y,
-				pSrcSlice + pSrc->RowPitch * y,
-				RowSizeInBytes);
+			std::memcpy(
+				dst_slice + dst->RowPitch * y,
+				src_slice + src->RowPitch * y,
+				row_size_in_bytes);
 		}
 	}
 }
@@ -106,34 +107,34 @@ inline void UpdateSubresource(
 			D3D12_RESOURCE_STATE_GENERIC_READ,
 			nullptr);
 
-	::D3D12_SUBRESOURCE_DATA textureData ={};
-	textureData.pData = src_texture.data();
-	textureData.RowPitch = src_texture.stride();
-	textureData.SlicePitch = textureData.RowPitch * src_texture.height();
+	::D3D12_SUBRESOURCE_DATA texture_data ={};
+	texture_data.pData = src_texture.data();
+	texture_data.RowPitch = src_texture.stride();
+	texture_data.SlicePitch = texture_data.RowPitch * src_texture.height();
 
-	::BYTE* pData;
-	HRESULT hr = intermediate_resource->Map(0, nullptr, reinterpret_cast<void**>(&pData));
+	::BYTE* data;
+	auto hr = intermediate_resource->Map(0, nullptr, reinterpret_cast<void**>(&data));
 	if (FAILED(hr))
 	{
 		return;
 	}
 	{
-		if (row_size_in_bytes > SIZE_T(-1))
+		if (row_size_in_bytes > ::SIZE_T(-1))
 		{
 			return;
 		}
 
-		D3D12_MEMCPY_DEST DestData =
+		::D3D12_MEMCPY_DEST dest_data =
 		{
-			pData + layout.Offset,
+			data + layout.Offset,
 			layout.Footprint.RowPitch,
-			SIZE_T(layout.Footprint.RowPitch) * SIZE_T(num_row)
+			::SIZE_T(layout.Footprint.RowPitch) * ::SIZE_T(num_row)
 		};
 
 		MemcpySubresource(
-			&DestData,
-			&textureData,
-			static_cast<SIZE_T>(row_size_in_bytes),
+			&dest_data,
+			&texture_data,
+			static_cast<::SIZE_T>(row_size_in_bytes),
 			num_row,
 			layout.Footprint.Depth);
 	}
@@ -152,8 +153,8 @@ inline void UpdateSubresource(
 	}
 	else
 	{
-		D3D12_TEXTURE_COPY_LOCATION dst;
-		D3D12_TEXTURE_COPY_LOCATION src;
+		::D3D12_TEXTURE_COPY_LOCATION dst;
+		::D3D12_TEXTURE_COPY_LOCATION src;
 
 		dst.pResource        = destination_resource;
 		dst.Type             = D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;

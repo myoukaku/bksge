@@ -15,6 +15,7 @@
 #include <bksge/render/d3d_common/com_ptr.hpp>
 //#include <bksge/render/fwd/shader_parameter_map_fwd.hpp>
 #include <cstdint>
+#include <cstddef>
 #include <vector>
 
 namespace bksge
@@ -35,16 +36,41 @@ public:
 
 	~ConstantBuffer();
 
-	void Update(std::vector<std::uint8_t> const& buffer);
+	struct Subresource
+	{
+	public:
+		Subresource(
+			ComPtr<::ID3D12Device> const& device,
+			::UINT						  size,
+			::D3D12_GPU_VIRTUAL_ADDRESS	  gpu_virtual_address,
+			std::uint8_t*				  mapped_resource);
 
-	void CreateView(::D3D12_CPU_DESCRIPTOR_HANDLE dest);
+		~Subresource();
+
+		void Update(std::vector<std::uint8_t> const& buffer);
+
+		void CreateView(::D3D12_CPU_DESCRIPTOR_HANDLE dest);
+
+	private:
+		ComPtr<::ID3D12Device>		m_device;
+		::UINT						m_size;
+		::D3D12_GPU_VIRTUAL_ADDRESS	m_gpu_virtual_address;
+		std::uint8_t*				m_mapped_resource;
+	};
+
+	Subresource AssignSubresource(std::size_t size);
+
+//	void Update(std::vector<std::uint8_t> const& buffer);
+
+//	void CreateView(::D3D12_CPU_DESCRIPTOR_HANDLE dest);
 
 private:
 	::UINT GetSizeInBytes(void) const;
 
 private:
 	ComPtr<::ID3D12Resource>	m_resource;
-	std::uint8_t*				m_buffer_data = nullptr;
+	std::uint8_t*				m_mapped_resource = nullptr;
+	std::size_t					m_offset = 0;
 };
 
 }	// namespace d3d12

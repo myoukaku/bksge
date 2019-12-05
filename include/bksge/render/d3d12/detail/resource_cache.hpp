@@ -40,8 +40,7 @@ public:
 
 	~ResourceCache();
 
-	ConstantBufferShared GetD3D12ConstantBuffer(
-		std::vector<std::uint8_t> const& buf);
+	ConstantBufferShared GetD3D12ConstantBuffer();
 
 	TextureShared GetD3D12Texture(
 		bksge::Texture const& texture);
@@ -54,9 +53,7 @@ private:
 	std::unique_ptr<CommandQueue>	m_command_queue;
 	std::unique_ptr<CommandList>	m_command_list;
 	std::unique_ptr<Fence>			m_fence;
-//	ConstantBufferMap				m_constant_buffer_map;
-	std::vector<ConstantBufferShared>	m_constant_buffers;
-	std::size_t							m_constant_buffer_index;
+	ConstantBufferShared			m_constant_buffer;
 	TextureMap						m_texture_map;
 	SamplerMap						m_sampler_map;
 };
