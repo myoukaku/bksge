@@ -60,8 +60,8 @@ public:
 
 	::D3D12_SHADER_BYTECODE GetBytecode(void) const;
 
-	std::vector<::D3D12_DESCRIPTOR_RANGE> const& GetDescriptorRanges(void) const;
-	std::vector<::D3D12_DESCRIPTOR_RANGE> const& GetSamplerDescriptorRanges(void) const;
+	std::vector<::D3D12_DESCRIPTOR_RANGE1> const& GetDescriptorRanges(void) const;
+	std::vector<::D3D12_DESCRIPTOR_RANGE1> const& GetSamplerDescriptorRanges(void) const;
 
 private:
 	virtual const char* VGetTargetString() = 0;
@@ -71,8 +71,8 @@ private:
 private:
 	ComPtr<::ID3DBlob>					m_micro_code;
 	ComPtr<::ID3D12ShaderReflection>	m_reflection;
-	std::vector<::D3D12_DESCRIPTOR_RANGE> m_descriptor_ranges;
-	std::vector<::D3D12_DESCRIPTOR_RANGE> m_sampler_descriptor_ranges;
+	std::vector<::D3D12_DESCRIPTOR_RANGE1> m_descriptor_ranges;
+	std::vector<::D3D12_DESCRIPTOR_RANGE1> m_sampler_descriptor_ranges;
 };
 
 /**

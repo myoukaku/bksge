@@ -124,33 +124,36 @@ HlslShaderBase::CreateDescriptorRanges(void)
 
 	if (cbv_count != 0)
 	{
-		::D3D12_DESCRIPTOR_RANGE range;
+		::D3D12_DESCRIPTOR_RANGE1 range;
 		range.RangeType          = D3D12_DESCRIPTOR_RANGE_TYPE_CBV;
 		range.NumDescriptors     = cbv_count;
 		range.BaseShaderRegister = 0;
 		range.RegisterSpace      = 0;
+		range.Flags              = D3D12_DESCRIPTOR_RANGE_FLAG_DESCRIPTORS_VOLATILE;
 		range.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 		m_descriptor_ranges.push_back(range);
 	}
 
 	if (srv_count != 0)
 	{
-		::D3D12_DESCRIPTOR_RANGE range;
+		::D3D12_DESCRIPTOR_RANGE1 range;
 		range.RangeType          = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
 		range.NumDescriptors     = srv_count;
 		range.BaseShaderRegister = 0;
 		range.RegisterSpace      = 0;
+		range.Flags              = D3D12_DESCRIPTOR_RANGE_FLAG_DESCRIPTORS_VOLATILE;
 		range.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 		m_descriptor_ranges.push_back(range);
 	}
 
 	if (sampler_count != 0)
 	{
-		::D3D12_DESCRIPTOR_RANGE range;
+		::D3D12_DESCRIPTOR_RANGE1 range;
 		range.RangeType          = D3D12_DESCRIPTOR_RANGE_TYPE_SAMPLER;
 		range.NumDescriptors     = sampler_count;
 		range.BaseShaderRegister = 0;
 		range.RegisterSpace      = 0;
+		range.Flags              = D3D12_DESCRIPTOR_RANGE_FLAG_DESCRIPTORS_VOLATILE;
 		range.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 		m_sampler_descriptor_ranges.push_back(range);
 	}
@@ -227,13 +230,13 @@ HlslShaderBase::GetBytecode(void) const
 	};
 }
 
-BKSGE_INLINE std::vector<::D3D12_DESCRIPTOR_RANGE> const&
+BKSGE_INLINE std::vector<::D3D12_DESCRIPTOR_RANGE1> const&
 HlslShaderBase::GetDescriptorRanges(void) const
 {
 	return m_descriptor_ranges;
 }
 
-BKSGE_INLINE std::vector<::D3D12_DESCRIPTOR_RANGE> const&
+BKSGE_INLINE std::vector<::D3D12_DESCRIPTOR_RANGE1> const&
 HlslShaderBase::GetSamplerDescriptorRanges(void) const
 {
 	return m_sampler_descriptor_ranges;

@@ -21,8 +21,6 @@
 #include <vector>
 #include <cstring>	// memcpy
 
-//#include <iostream>
-
 namespace bksge
 {
 
@@ -141,29 +139,6 @@ ConstantBuffer::Subresource::CreateView(::D3D12_CPU_DESCRIPTOR_HANDLE dest)
 	desc.SizeInBytes    = m_size;
 	m_device->CreateConstantBufferView(&desc, dest);
 }
-
-#if 0
-BKSGE_INLINE void
-ConstantBuffer::Update(std::vector<std::uint8_t> const& buffer)
-{
-	std::memcpy(
-		m_mapped_resource,
-		buffer.data(),
-		buffer.size());
-}
-
-BKSGE_INLINE void
-ConstantBuffer::CreateView(::D3D12_CPU_DESCRIPTOR_HANDLE dest)
-{
-	ComPtr<::ID3D12Device> device;
-	ThrowIfFailed(m_resource->GetDevice(IID_PPV_ARGS(&device)));
-
-	::D3D12_CONSTANT_BUFFER_VIEW_DESC desc = {};
-	desc.BufferLocation = m_resource->GetGPUVirtualAddress();
-	desc.SizeInBytes    = GetSizeInBytes();
-	device->CreateConstantBufferView(&desc, dest);
-}
-#endif
 
 BKSGE_INLINE ::UINT
 ConstantBuffer::GetSizeInBytes(void) const

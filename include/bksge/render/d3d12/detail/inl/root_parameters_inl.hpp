@@ -57,14 +57,11 @@ RootParameters::RootParameters(HlslShaderMap const& shader_map)
 
 		if (!descriptor_ranges.empty())
 		{
-			::D3D12_ROOT_PARAMETER param;
+			::D3D12_ROOT_PARAMETER1 param;
 			param.ParameterType    = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
 			param.ShaderVisibility = detail::ToShaderVisibility(stage);
-			param.DescriptorTable  =
-			{
-				static_cast<::UINT>(descriptor_ranges.size()),
-				descriptor_ranges.data()
-			};
+			param.DescriptorTable.NumDescriptorRanges = static_cast<::UINT>(descriptor_ranges.size());
+			param.DescriptorTable.pDescriptorRanges   = descriptor_ranges.data();
 			m_root_parameters.push_back(param);
 		}
 
@@ -72,14 +69,11 @@ RootParameters::RootParameters(HlslShaderMap const& shader_map)
 
 		if (!sampler_descriptor_ranges.empty())
 		{
-			::D3D12_ROOT_PARAMETER param;
+			::D3D12_ROOT_PARAMETER1 param;
 			param.ParameterType    = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
 			param.ShaderVisibility = detail::ToShaderVisibility(stage);
-			param.DescriptorTable  =
-			{
-				static_cast<::UINT>(sampler_descriptor_ranges.size()),
-				sampler_descriptor_ranges.data()
-			};
+			param.DescriptorTable.NumDescriptorRanges = static_cast<::UINT>(sampler_descriptor_ranges.size());
+			param.DescriptorTable.pDescriptorRanges   = sampler_descriptor_ranges.data();
 			m_root_parameters.push_back(param);
 		}
 	}
@@ -96,7 +90,7 @@ RootParameters::GetSize(void) const
 	return static_cast<::UINT>(m_root_parameters.size());
 }
 
-BKSGE_INLINE ::D3D12_ROOT_PARAMETER const*
+BKSGE_INLINE ::D3D12_ROOT_PARAMETER1 const*
 RootParameters::GetData(void) const
 {
 	return m_root_parameters.data();

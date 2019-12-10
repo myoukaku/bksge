@@ -54,17 +54,18 @@ RootSignature::RootSignature(
 	//sampler.RegisterSpace    = 0;
 	//sampler.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 
-	::D3D12_ROOT_SIGNATURE_DESC desc;
-	desc.NumParameters     = root_parameters.GetSize();
-	desc.pParameters       = root_parameters.GetData();
-	desc.NumStaticSamplers = 0;
-	desc.pStaticSamplers   = nullptr;
-	desc.Flags             = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+	::D3D12_VERSIONED_ROOT_SIGNATURE_DESC desc;
+	desc.Version = D3D_ROOT_SIGNATURE_VERSION_1_1;
+	desc.Desc_1_1.NumParameters     = root_parameters.GetSize();
+	desc.Desc_1_1.pParameters       = root_parameters.GetData();
+	desc.Desc_1_1.NumStaticSamplers = 0;
+	desc.Desc_1_1.pStaticSamplers   = nullptr;
+	desc.Desc_1_1.Flags             = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	ComPtr<::ID3DBlob> signature;
 	ComPtr<::ID3DBlob> error;
-	::HRESULT hr = ::D3D12SerializeRootSignature(
-		&desc, D3D_ROOT_SIGNATURE_VERSION_1, &signature, &error);
+	::HRESULT hr = ::D3D12SerializeVersionedRootSignature(
+		&desc, &signature, &error);
 
 	auto message =
 		static_cast<const char*>(error ? error->GetBufferPointer() : nullptr);

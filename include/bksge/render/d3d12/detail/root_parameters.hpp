@@ -32,14 +32,14 @@ public:
 
 	::UINT GetSize(void) const;
 
-	::D3D12_ROOT_PARAMETER const* GetData(void) const;
+	::D3D12_ROOT_PARAMETER1 const* GetData(void) const;
 
 	::D3D12_ROOT_PARAMETER_TYPE GetType(::UINT index) const;
 
 	::D3D12_DESCRIPTOR_RANGE_TYPE GetDescriptorRangeType(::UINT index) const;
 
 private:
-	std::vector<::D3D12_ROOT_PARAMETER> m_root_parameters;
+	std::vector<::D3D12_ROOT_PARAMETER1> m_root_parameters;
 };
 
 }	// namespace d3d12
