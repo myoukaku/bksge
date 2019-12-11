@@ -50,6 +50,7 @@ public:
 	void SetDescriptorTables(CommandList* command_list, DescriptorHeaps* descriptor_heaps);
 
 	void UpdateParameters(
+		Device* device,
 		DescriptorHeaps* descriptor_heaps,
 		ResourceCache* resource_cache,
 		bksge::ShaderParameterMap const& shader_parameter_map);

@@ -38,6 +38,7 @@ HlslTexture::HlslTexture(::D3D12_SHADER_INPUT_BIND_DESC const& bind_desc)
 
 BKSGE_INLINE void
 HlslTexture::UpdateParameters(
+	Device* device,
 	DescriptorHeaps* descriptor_heaps,
 	ResourceCache* resource_cache,
 	bksge::ShaderParameterMap const& shader_parameter_map)
@@ -60,8 +61,9 @@ HlslTexture::UpdateParameters(
 
 	auto texture = *static_cast<bksge::Texture const*>(param->data());
 
-	auto d3d12_texture = resource_cache->GetD3D12Texture(texture);
+	auto d3d12_texture = resource_cache->GetD3D12Texture(device, texture);
 	d3d12_texture->CreateView(
+		device,
 		descriptor_heaps->AssignCpuDescriptorHandle(
 			D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV));
 }

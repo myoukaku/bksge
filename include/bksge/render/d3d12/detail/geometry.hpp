@@ -30,7 +30,7 @@ namespace d3d12
 class Geometry
 {
 public:
-	Geometry(bksge::Geometry const& geometry, Device* device);
+	explicit Geometry(Device* device, bksge::Geometry const& geometry);
 
 	~Geometry();
 

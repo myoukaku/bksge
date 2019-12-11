@@ -28,7 +28,7 @@ namespace d3d12
 class VertexBuffer
 {
 public:
-	VertexBuffer(bksge::Geometry const& geometry, Device* device);
+	explicit VertexBuffer(Device* device, bksge::Geometry const& geometry);
 
 	~VertexBuffer();
 

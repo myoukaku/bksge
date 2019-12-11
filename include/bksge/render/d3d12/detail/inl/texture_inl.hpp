@@ -221,11 +221,8 @@ Texture::~Texture()
 }
 
 BKSGE_INLINE void
-Texture::CreateView(::D3D12_CPU_DESCRIPTOR_HANDLE dest)
+Texture::CreateView(Device* device, ::D3D12_CPU_DESCRIPTOR_HANDLE dest)
 {
-	ComPtr<::ID3D12Device> device;
-	ThrowIfFailed(m_resource->GetDevice(IID_PPV_ARGS(&device)));
-
 	auto const desc = m_resource->GetDesc();
 
 	::D3D12_SHADER_RESOURCE_VIEW_DESC srv_desc = {};

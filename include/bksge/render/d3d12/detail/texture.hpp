@@ -39,7 +39,7 @@ public:
 
 	~Texture();
 
-	void CreateView(::D3D12_CPU_DESCRIPTOR_HANDLE dest);
+	void CreateView(Device* device, ::D3D12_CPU_DESCRIPTOR_HANDLE dest);
 
 private:
 	ComPtr<::ID3D12Resource>	m_resource;

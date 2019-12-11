@@ -30,7 +30,7 @@ namespace d3d12
 class PipelineState
 {
 public:
-	PipelineState(
+	explicit PipelineState(
 		Device* device,
 		HlslProgram const& hlsl_program,
 		bksge::RasterizerState const& rasterizer_state,

@@ -112,6 +112,7 @@ HlslProgram::SetDescriptorTables(
 
 BKSGE_INLINE void
 HlslProgram::UpdateParameters(
+	Device* device,
 	DescriptorHeaps* descriptor_heaps,
 	ResourceCache* resource_cache,
 	bksge::ShaderParameterMap const& shader_parameter_map)
@@ -119,6 +120,7 @@ HlslProgram::UpdateParameters(
 	for (auto&& hlsl_constant_buffer : m_hlsl_constant_buffers)
 	{
 		hlsl_constant_buffer->UpdateParameters(
+			device,
 			descriptor_heaps,
 			resource_cache,
 			shader_parameter_map);
@@ -127,6 +129,7 @@ HlslProgram::UpdateParameters(
 	for (auto&& hlsl_texture : m_hlsl_textures)
 	{
 		hlsl_texture->UpdateParameters(
+			device,
 			descriptor_heaps,
 			resource_cache,
 			shader_parameter_map);
@@ -135,6 +138,7 @@ HlslProgram::UpdateParameters(
 	for (auto&& hlsl_sampler : m_hlsl_samplers)
 	{
 		hlsl_sampler->UpdateParameters(
+			device,
 			descriptor_heaps,
 			resource_cache,
 			shader_parameter_map);

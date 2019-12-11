@@ -60,11 +60,10 @@ GetOrCreate(Map& map, Id const& id, Args... args)
 
 BKSGE_INLINE
 ResourceCache::ResourceCache(Device* device)
-	: m_device(device)
 {
-	m_command_queue = bksge::make_unique<CommandQueue>(m_device);
-	m_command_list  = bksge::make_unique<CommandList>(m_device);
-	m_fence         = bksge::make_unique<Fence>(m_device);
+	m_command_queue = bksge::make_unique<CommandQueue>(device);
+	m_command_list  = bksge::make_unique<CommandList>(device);
+	m_fence         = bksge::make_unique<Fence>(device);
 	m_command_list->Close();
 
 	m_constant_buffer = std::make_shared<ConstantBuffer>(device, 256 * 1024);
@@ -82,13 +81,12 @@ ResourceCache::GetD3D12ConstantBuffer()
 }
 
 BKSGE_INLINE TextureShared
-ResourceCache::GetD3D12Texture(
-	bksge::Texture const& texture)
+ResourceCache::GetD3D12Texture(Device* device, bksge::Texture const& texture)
 {
 	return detail::GetOrCreate<Texture>(
 		m_texture_map,
 		texture.id(),
-		m_device,
+		device,
 		m_command_list.get(),
 		m_command_queue.get(),
 		m_fence.get(),
@@ -96,13 +94,11 @@ ResourceCache::GetD3D12Texture(
 }
 
 BKSGE_INLINE SamplerShared
-ResourceCache::GetD3D12Sampler(
-	bksge::Sampler const& sampler)
+ResourceCache::GetD3D12Sampler(bksge::Sampler const& sampler)
 {
 	return detail::GetOrCreate<Sampler>(
 		m_sampler_map,
 		sampler.id(),
-		m_device,
 		sampler);
 }
 

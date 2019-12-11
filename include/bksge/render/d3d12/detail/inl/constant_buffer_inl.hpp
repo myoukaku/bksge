@@ -81,9 +81,6 @@ ConstantBuffer::AssignSubresource(std::size_t size)
 {
 	size = bksge::round_up(size, D3D12_CONSTANT_BUFFER_DATA_PLACEMENT_ALIGNMENT);
 
-	ComPtr<::ID3D12Device> device;
-	ThrowIfFailed(m_resource->GetDevice(IID_PPV_ARGS(&device)));
-
 	auto offset = m_offset;
 
 	if (m_offset + size >= GetSizeInBytes())
@@ -97,7 +94,6 @@ ConstantBuffer::AssignSubresource(std::size_t size)
 
 	return
 	{
-		device,
 		static_cast<::UINT>(size),
 		m_resource->GetGPUVirtualAddress() + offset,
 		m_mapped_resource + offset
@@ -106,12 +102,10 @@ ConstantBuffer::AssignSubresource(std::size_t size)
 
 BKSGE_INLINE
 ConstantBuffer::Subresource::Subresource(
-	ComPtr<::ID3D12Device> const& device,
 	::UINT						  size,
 	::D3D12_GPU_VIRTUAL_ADDRESS	  gpu_virtual_address,
 	std::uint8_t*				  mapped_resource)
-	: m_device(device)
-	, m_size(size)
+	: m_size(size)
 	, m_gpu_virtual_address(gpu_virtual_address)
 	, m_mapped_resource(mapped_resource)
 {
@@ -132,12 +126,12 @@ ConstantBuffer::Subresource::Update(std::vector<std::uint8_t> const& buffer)
 }
 
 BKSGE_INLINE void
-ConstantBuffer::Subresource::CreateView(::D3D12_CPU_DESCRIPTOR_HANDLE dest)
+ConstantBuffer::Subresource::CreateView(Device* device, ::D3D12_CPU_DESCRIPTOR_HANDLE dest)
 {
 	::D3D12_CONSTANT_BUFFER_VIEW_DESC desc = {};
 	desc.BufferLocation = m_gpu_virtual_address;
 	desc.SizeInBytes    = m_size;
-	m_device->CreateConstantBufferView(&desc, dest);
+	device->CreateConstantBufferView(&desc, dest);
 }
 
 BKSGE_INLINE ::UINT

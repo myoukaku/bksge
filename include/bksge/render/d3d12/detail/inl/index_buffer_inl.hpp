@@ -31,7 +31,7 @@ namespace d3d12
 {
 
 BKSGE_INLINE
-IndexBuffer::IndexBuffer(bksge::Geometry const& geometry, Device* device)
+IndexBuffer::IndexBuffer(Device* device, bksge::Geometry const& geometry)
 	: m_enable(false)
 {
 	auto const src  = geometry.index_array_data();

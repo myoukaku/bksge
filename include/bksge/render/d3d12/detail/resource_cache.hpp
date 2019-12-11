@@ -42,14 +42,11 @@ public:
 
 	ConstantBufferShared GetD3D12ConstantBuffer();
 
-	TextureShared GetD3D12Texture(
-		bksge::Texture const& texture);
+	TextureShared GetD3D12Texture(Device* device, bksge::Texture const& texture);
 
-	SamplerShared GetD3D12Sampler(
-		bksge::Sampler const& sampler);
+	SamplerShared GetD3D12Sampler(bksge::Sampler const& sampler);
 
 private:
-	Device*							m_device;	// TODO 生ポインタを保存しない
 	std::unique_ptr<CommandQueue>	m_command_queue;
 	std::unique_ptr<CommandList>	m_command_list;
 	std::unique_ptr<Fence>			m_fence;

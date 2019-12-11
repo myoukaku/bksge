@@ -29,9 +29,9 @@ namespace d3d12
 {
 
 BKSGE_INLINE
-Geometry::Geometry(bksge::Geometry const& geometry, Device* device)
-	: m_vertex_buffer(new VertexBuffer(geometry, device))
-	, m_index_buffer(new IndexBuffer(geometry, device))
+Geometry::Geometry(Device* device, bksge::Geometry const& geometry)
+	: m_vertex_buffer(new VertexBuffer(device, geometry))
+	, m_index_buffer(new IndexBuffer(device, geometry))
 	, m_primitive_topology(PrimitiveTopology(geometry.primitive()))
 {
 }

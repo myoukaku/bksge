@@ -40,7 +40,6 @@ public:
 	{
 	public:
 		Subresource(
-			ComPtr<::ID3D12Device> const& device,
 			::UINT						  size,
 			::D3D12_GPU_VIRTUAL_ADDRESS	  gpu_virtual_address,
 			std::uint8_t*				  mapped_resource);
@@ -49,20 +48,15 @@ public:
 
 		void Update(std::vector<std::uint8_t> const& buffer);
 
-		void CreateView(::D3D12_CPU_DESCRIPTOR_HANDLE dest);
+		void CreateView(Device* device, ::D3D12_CPU_DESCRIPTOR_HANDLE dest);
 
 	private:
-		ComPtr<::ID3D12Device>		m_device;
 		::UINT						m_size;
 		::D3D12_GPU_VIRTUAL_ADDRESS	m_gpu_virtual_address;
 		std::uint8_t*				m_mapped_resource;
 	};
 
 	Subresource AssignSubresource(std::size_t size);
-
-//	void Update(std::vector<std::uint8_t> const& buffer);
-
-//	void CreateView(::D3D12_CPU_DESCRIPTOR_HANDLE dest);
 
 private:
 	::UINT GetSizeInBytes(void) const;

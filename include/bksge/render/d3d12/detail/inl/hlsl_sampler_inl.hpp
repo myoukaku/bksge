@@ -38,6 +38,7 @@ HlslSampler::HlslSampler(::D3D12_SHADER_INPUT_BIND_DESC const& bind_desc)
 
 BKSGE_INLINE void
 HlslSampler::UpdateParameters(
+	Device* device,
 	DescriptorHeaps* descriptor_heaps,
 	ResourceCache* resource_cache,
 	bksge::ShaderParameterMap const& shader_parameter_map)
@@ -62,6 +63,7 @@ HlslSampler::UpdateParameters(
 
 	auto d3d12_sampler = resource_cache->GetD3D12Sampler(sampler);
 	d3d12_sampler->CreateView(
+		device,
 		descriptor_heaps->AssignCpuDescriptorHandle(
 			D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER));
 }

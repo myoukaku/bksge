@@ -30,7 +30,7 @@ namespace d3d12
 {
 
 BKSGE_INLINE
-VertexBuffer::VertexBuffer(bksge::Geometry const& geometry, Device* device)
+VertexBuffer::VertexBuffer(Device* device, bksge::Geometry const& geometry)
 {
 	auto const src    = geometry.vertex_array_data();
 	auto const size   = geometry.vertex_array_bytes();

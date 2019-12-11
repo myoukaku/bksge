@@ -28,7 +28,7 @@ namespace d3d12
 class IndexBuffer
 {
 public:
-	IndexBuffer(bksge::Geometry const& geometry, Device* device);
+	explicit IndexBuffer(Device* device, bksge::Geometry const& geometry);
 
 	~IndexBuffer();
 

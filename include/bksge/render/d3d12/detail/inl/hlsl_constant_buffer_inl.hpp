@@ -71,6 +71,7 @@ HlslConstantBuffer::~HlslConstantBuffer()
 
 BKSGE_INLINE void
 HlslConstantBuffer::UpdateParameters(
+	Device* device,
 	DescriptorHeaps* descriptor_heaps,
 	ResourceCache* resource_cache,
 	bksge::ShaderParameterMap const& shader_parameter_map)
@@ -95,6 +96,7 @@ HlslConstantBuffer::UpdateParameters(
 	auto subresource = d3d12_constant_buffer->AssignSubresource(buf.size());
 	subresource.Update(buf);
 	subresource.CreateView(
+		device,
 		descriptor_heaps->AssignCpuDescriptorHandle(
 			D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV));
 }

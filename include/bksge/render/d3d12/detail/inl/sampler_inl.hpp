@@ -29,10 +29,7 @@ namespace d3d12
 {
 
 BKSGE_INLINE
-Sampler::Sampler(
-	Device* device,
-	bksge::Sampler const& sampler)
-	: m_device(device)
+Sampler::Sampler(bksge::Sampler const& sampler)
 {
 	m_desc.Filter         = FilterMode(sampler.min_filter(), sampler.mag_filter());
 	m_desc.AddressU       = WrapMode(sampler.wrap_s());
@@ -55,9 +52,9 @@ Sampler::~Sampler()
 }
 
 BKSGE_INLINE void
-Sampler::CreateView(::D3D12_CPU_DESCRIPTOR_HANDLE dest)
+Sampler::CreateView(Device* device, ::D3D12_CPU_DESCRIPTOR_HANDLE dest)
 {
-	m_device->CreateSampler(&m_desc, dest);
+	device->CreateSampler(&m_desc, dest);
 }
 
 }	// namespace d3d12
