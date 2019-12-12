@@ -173,6 +173,15 @@ DeviceContext::OMSetRenderTargets(
 }
 
 BKSGE_INLINE void
+DeviceContext::OMSetBlendState(
+	::ID3D11BlendState* blend_state,
+	::FLOAT const       blend_factor[4],
+	::UINT              sample_mask)
+{
+	m_device_context->OMSetBlendState(blend_state, blend_factor, sample_mask);
+}
+
+BKSGE_INLINE void
 DeviceContext::UpdateSubresource(
 	::ID3D11Resource*  dst_resource,
 	::UINT             dst_subresource,

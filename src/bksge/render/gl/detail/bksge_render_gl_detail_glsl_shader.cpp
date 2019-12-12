@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	bksge_render_gl_detail_glsl_shader.cpp
  *
- *	@brief	GlGLSLShader クラスの定義
+ *	@brief	GlslShader クラスの定義
  *
  *	@author	myoukaku
  */

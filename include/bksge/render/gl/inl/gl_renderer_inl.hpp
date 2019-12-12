@@ -20,6 +20,8 @@
 #include <bksge/render/gl/detail/fill_mode.hpp>
 #include <bksge/render/gl/detail/front_face.hpp>
 #include <bksge/render/gl/detail/cull_mode.hpp>
+#include <bksge/render/gl/detail/blend_factor.hpp>
+#include <bksge/render/gl/detail/blend_operation.hpp>
 #include <bksge/render/gl/detail/resource_cache.hpp>
 #include <bksge/render/gl/detail/wgl/wgl_context.hpp>
 #include <bksge/render/gl/detail/glx/glx_context.hpp>
@@ -197,30 +199,45 @@ GlRenderer::VRender(
 		return false;
 	}
 
-//	int const width  = 800;	// TODO
-	int const height = 600;	// TODO
-
-	{
-		auto const& scissor = render_state.scissor_state();
-		if (scissor.enable())
-		{
-			auto const& rect = scissor.rect();
-			::glEnable(GL_SCISSOR_TEST);
-			::glScissor(
-				static_cast<::GLint>(rect.left()),
-				static_cast<::GLint>(height - rect.bottom()),//rect.top()),
-				static_cast<::GLsizei>(rect.width()),
-				static_cast<::GLsizei>(rect.height()));
-		}
-		else
-		{
-			::glDisable(GL_SCISSOR_TEST);
-		}
-	}
+	ApplyScissorState(render_state);
+	ApplyRasterizerState(render_state);
+	ApplyBlendState(render_state);
 
 	auto glsl_program = m_resource_cache->GetGlslProgram(shader);
 	BKSGE_ASSERT(glsl_program != nullptr);
 
+	auto gl_geometry = m_resource_cache->GetGlGeometry(geometry);
+	glsl_program->Render(m_resource_cache.get(), gl_geometry.get(), shader_parameter_map);
+
+	return true;
+}
+
+BKSGE_INLINE void
+GlRenderer::ApplyScissorState(RenderState const& render_state)
+{
+//	int const width  = 800;	// TODO
+	int const height = 600;	// TODO
+
+	auto const& scissor = render_state.scissor_state();
+	if (scissor.enable())
+	{
+		auto const& rect = scissor.rect();
+		::glEnable(GL_SCISSOR_TEST);
+		::glScissor(
+			static_cast<::GLint>(rect.left()),
+			static_cast<::GLint>(height - rect.bottom()),//rect.top()),
+			static_cast<::GLsizei>(rect.width()),
+			static_cast<::GLsizei>(rect.height()));
+	}
+	else
+	{
+		::glDisable(GL_SCISSOR_TEST);
+	}
+}
+
+BKSGE_INLINE void
+GlRenderer::ApplyRasterizerState(RenderState const& render_state)
+{
 	auto const& rasterizer_state = render_state.rasterizer_state();
 	auto const& cull_mode  = rasterizer_state.cull_mode();
 	auto const& front_face = rasterizer_state.front_face();
@@ -238,11 +255,31 @@ GlRenderer::VRender(
 
 	::glFrontFace(gl::FrontFace(front_face));
 	::glPolygonMode(GL_FRONT_AND_BACK, gl::FillMode(fill_mode));
+}
 
-	auto gl_geometry = m_resource_cache->GetGlGeometry(geometry);
-	glsl_program->Render(m_resource_cache.get(), gl_geometry.get(), shader_parameter_map);
+BKSGE_INLINE void
+GlRenderer::ApplyBlendState(RenderState const& render_state)
+{
+	auto const& blend_state = render_state.blend_state();
 
-	return true;
+	if (blend_state.enable())
+	{
+		::glEnable(GL_BLEND);
+	}
+	else
+	{
+		::glDisable(GL_BLEND);
+	}
+
+	::glBlendFuncSeparate(
+		gl::BlendFactor(blend_state.src_factor()),
+		gl::BlendFactor(blend_state.dst_factor()),
+		gl::BlendFactor(blend_state.alpha_src_factor()),
+		gl::BlendFactor(blend_state.alpha_dst_factor()));
+
+	::glBlendEquationSeparate(
+		gl::BlendOperation(blend_state.operation()),
+		gl::BlendOperation(blend_state.alpha_operation()));
 }
 
 }	// namespace render

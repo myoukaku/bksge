@@ -27,7 +27,7 @@ namespace d3d11
 class FillMode
 {
 public:
-	FillMode(bksge::FillMode fill_mode);
+	explicit FillMode(bksge::FillMode fill_mode);
 
 	operator ::D3D11_FILL_MODE() const;
 

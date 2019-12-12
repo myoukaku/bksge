@@ -27,7 +27,7 @@ namespace gl
 class FrontFace
 {
 public:
-	FrontFace(bksge::FrontFace front_face);
+	explicit FrontFace(bksge::FrontFace front_face);
 
 	operator ::GLenum() const;
 

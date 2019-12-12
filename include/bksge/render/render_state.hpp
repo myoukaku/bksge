@@ -59,4 +59,27 @@ private:
 #include <bksge/render/inl/render_state_inl.hpp>
 #endif
 
+#include <cstddef>
+#include <functional>
+#include <bksge/functional/hash_combine.hpp>
+
+namespace std
+{
+
+template<>
+struct hash<bksge::render::RenderState>
+{
+	std::size_t operator()(bksge::render::RenderState const& arg) const
+	{
+		return bksge::hash_combine(
+			arg.rasterizer_state(),
+			arg.blend_state(),
+			arg.depth_state(),
+			arg.stencil_state(),
+			arg.scissor_state());
+	}
+};
+
+}	// namespace std
+
 #endif // BKSGE_RENDER_RENDER_STATE_HPP

@@ -63,10 +63,10 @@ DepthStencil::~DepthStencil()
 {
 }
 
-BKSGE_INLINE ::ID3D11DepthStencilView*
+BKSGE_INLINE ComPtr<::ID3D11DepthStencilView> const&
 DepthStencil::GetView(void) const
 {
-	return m_view.Get();
+	return m_view;
 }
 
 }	// namespace d3d11

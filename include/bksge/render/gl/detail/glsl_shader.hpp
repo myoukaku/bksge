@@ -29,7 +29,7 @@ namespace gl
 class GlslShader
 {
 public:
-	GlslShader(bksge::ShaderStage stage, std::string const& source);
+	explicit GlslShader(bksge::ShaderStage stage, std::string const& source);
 
 	~GlslShader();
 

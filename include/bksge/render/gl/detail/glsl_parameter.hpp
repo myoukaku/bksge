@@ -32,7 +32,7 @@ namespace gl
 class GlslParameter
 {
 public:
-	GlslParameter(::GLuint program, ::GLint index);
+	explicit GlslParameter(::GLuint program, ::GLint index);
 
 	~GlslParameter();
 

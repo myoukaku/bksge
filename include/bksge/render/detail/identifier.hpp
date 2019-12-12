@@ -58,6 +58,7 @@ bool operator< (Identifier const& lhs, Identifier const& rhs);
 
 }	// namespace bksge
 
+#include <cstddef>
 #include <functional>
 
 namespace std

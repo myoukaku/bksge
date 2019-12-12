@@ -15,7 +15,7 @@
 #include <bksge/render/d3d12/detail/fwd/command_list_fwd.hpp>
 #include <bksge/render/d3d_common/com_ptr.hpp>
 #include <bksge/render/d3d_common/d3d12.hpp>
-#include <bksge/render/fwd/rasterizer_state_fwd.hpp>
+#include <bksge/render/fwd/render_state_fwd.hpp>
 #include <bksge/render/fwd/primitive_fwd.hpp>
 
 namespace bksge
@@ -33,7 +33,7 @@ public:
 	explicit PipelineState(
 		Device* device,
 		HlslProgram const& hlsl_program,
-		bksge::RasterizerState const& rasterizer_state,
+		bksge::RenderState const& render_state,
 		bksge::Primitive primitive);
 
 	~PipelineState();

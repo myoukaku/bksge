@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	bksge_render_gl_detail_index_buffer.cpp
  *
- *	@brief	GlIndexBuffer クラスの定義
+ *	@brief	IndexBuffer クラスの定義
  *
  *	@author	myoukaku
  */

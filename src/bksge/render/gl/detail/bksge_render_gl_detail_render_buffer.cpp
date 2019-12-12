@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	bksge_render_gl_detail_render_buffer.cpp
  *
- *	@brief	GlRenderBuffer クラスの定義
+ *	@brief	RenderBuffer クラスの定義
  *
  *	@author	myoukaku
  */

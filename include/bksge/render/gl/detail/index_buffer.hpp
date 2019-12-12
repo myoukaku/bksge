@@ -27,7 +27,7 @@ namespace gl
 class IndexBuffer
 {
 public:
-	IndexBuffer(void const* src, std::size_t size);
+	explicit IndexBuffer(void const* src, std::size_t size);
 
 	~IndexBuffer();
 

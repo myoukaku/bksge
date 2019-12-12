@@ -192,10 +192,19 @@ Device::CreateInputLayout(
 
 BKSGE_INLINE ComPtr<::ID3D11RasterizerState>
 Device::CreateRasterizerState(
-	::D3D11_RASTERIZER_DESC const* rasterizer_desc)
+	::D3D11_RASTERIZER_DESC const& rasterizer_desc)
 {
 	ComPtr<::ID3D11RasterizerState> state;
-	ThrowIfFailed(m_device->CreateRasterizerState(rasterizer_desc, &state));
+	ThrowIfFailed(m_device->CreateRasterizerState(&rasterizer_desc, &state));
+	return std::move(state);
+}
+
+BKSGE_INLINE ComPtr<::ID3D11BlendState>
+Device::CreateBlendState(
+	::D3D11_BLEND_DESC const& blend_state_desc)
+{
+	ComPtr<::ID3D11BlendState> state;
+	ThrowIfFailed(m_device->CreateBlendState(&blend_state_desc, &state));
 	return std::move(state);
 }
 

@@ -262,7 +262,7 @@ D3D12Renderer::VRender(
 		m_resource_cache.get(),
 		shader_parameter_map);
 
-	auto pipeline_state = GetD3D12PipelineState(shader, render_state.rasterizer_state(), geometry.primitive());
+	auto pipeline_state = GetD3D12PipelineState(shader, render_state, geometry.primitive());
 	pipeline_state->SetPipelineState(m_command_list.get());
 
 	auto d3d12_geometry = GetD3D12Geometry(geometry);
@@ -316,16 +316,16 @@ D3D12Renderer::GetD3D12Geometry(Geometry const& geometry)
 BKSGE_INLINE std::shared_ptr<d3d12::PipelineState>
 D3D12Renderer::GetD3D12PipelineState(
 	Shader const& shader,
-	RasterizerState const& rasterizer_state,
+	RenderState const& render_state,
 	Primitive primitive)
 {
-	auto const id = bksge::hash_combine(shader.id(), rasterizer_state, primitive);
+	auto const id = bksge::hash_combine(shader.id(), render_state, primitive);
 	return d3d12_detail::GetOrCreate<d3d12::PipelineState>(
 		m_d3d12_pipeline_state,
 		id,
 		m_device.get(),
 		*GetD3D12HlslProgram(shader),
-		rasterizer_state,
+		render_state,
 		primitive);
 }
 

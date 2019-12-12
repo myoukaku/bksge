@@ -35,7 +35,7 @@ namespace d3d11
 class HlslProgram
 {
 public:
-	HlslProgram(Device* device, bksge::Shader const& shader);
+	explicit HlslProgram(Device* device, bksge::Shader const& shader);
 
 	~HlslProgram();
 

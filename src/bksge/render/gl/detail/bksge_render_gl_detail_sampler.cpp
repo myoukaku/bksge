@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	bksge_render_gl_detail_sampler.cpp
  *
- *	@brief	GlSampler クラスの定義
+ *	@brief	Sampler クラスの定義
  *
  *	@author	myoukaku
  */

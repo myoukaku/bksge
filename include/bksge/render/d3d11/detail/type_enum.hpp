@@ -27,7 +27,7 @@ namespace d3d11
 class TypeEnum
 {
 public:
-	TypeEnum(bksge::TypeEnum type);
+	explicit TypeEnum(bksge::TypeEnum type);
 
 	operator ::DXGI_FORMAT() const;
 

@@ -10,6 +10,7 @@
 #define BKSGE_RENDER_D3D12_DETAIL_BLEND_STATE_HPP
 
 #include <bksge/render/d3d_common/d3d12.hpp>
+#include <bksge/render/fwd/blend_state_fwd.hpp>
 
 namespace bksge
 {
@@ -23,7 +24,7 @@ namespace d3d12
 class BlendState
 {
 public:
-	BlendState();
+	explicit BlendState(bksge::BlendState const& blend_state);
 
 	operator ::D3D12_BLEND_DESC() const;
 

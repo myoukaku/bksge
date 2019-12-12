@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	bksge_render_gl_detail_front_face.cpp
  *
- *	@brief	ToGlFrontFace の実装
+ *	@brief	FrontFace の実装
  *
  *	@author	myoukaku
  */

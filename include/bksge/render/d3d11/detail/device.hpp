@@ -71,7 +71,10 @@ public:
 		::SIZE_T                          bytecode_length);
 
 	ComPtr<::ID3D11RasterizerState> CreateRasterizerState(
-		::D3D11_RASTERIZER_DESC const* rasterizer_desc);
+		::D3D11_RASTERIZER_DESC const& rasterizer_desc);
+
+	ComPtr<::ID3D11BlendState> CreateBlendState(
+		::D3D11_BLEND_DESC const& blend_state_desc);
 
 	// TODO
 	::ID3D11Device* Get(void) { return m_device.Get(); }

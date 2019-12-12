@@ -46,4 +46,24 @@ private:
 #include <bksge/render/inl/scissor_state_inl.hpp>
 #endif
 
+#include <cstddef>
+#include <functional>
+#include <bksge/functional/hash_combine.hpp>
+
+namespace std
+{
+
+template<>
+struct hash<bksge::render::ScissorState>
+{
+	std::size_t operator()(bksge::render::ScissorState const& arg) const
+	{
+		return bksge::hash_combine(
+			arg.enable(),
+			arg.rect());
+	}
+};
+
+}	// namespace std
+
 #endif // BKSGE_RENDER_SCISSOR_STATE_HPP

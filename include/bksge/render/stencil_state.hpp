@@ -63,4 +63,29 @@ private:
 #include <bksge/render/inl/stencil_state_inl.hpp>
 #endif
 
+#include <cstddef>
+#include <functional>
+#include <bksge/functional/hash_combine.hpp>
+
+namespace std
+{
+
+template<>
+struct hash<bksge::render::StencilState>
+{
+	std::size_t operator()(bksge::render::StencilState const& arg) const
+	{
+		return bksge::hash_combine(
+			arg.enable(),
+			arg.read_mask(),
+			arg.write_mask(),
+			arg.func(),
+			arg.fail_operation(),
+			arg.depth_fail_operation(),
+			arg.pass_operation());
+	}
+};
+
+}	// namespace std
+
 #endif // BKSGE_RENDER_STENCIL_STATE_HPP

@@ -27,7 +27,7 @@ namespace gl
 class FilterMode
 {
 public:
-	FilterMode(bksge::FilterMode mode);
+	explicit FilterMode(bksge::FilterMode mode);
 
 	operator ::GLint() const;
 

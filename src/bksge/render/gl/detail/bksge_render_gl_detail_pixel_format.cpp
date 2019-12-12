@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	bksge_render_gl_detail_pixel_format.cpp
  *
- *	@brief	ToGlPixelFormat の実装
+ *	@brief	PixelFormat の実装
  *
  *	@author	myoukaku
  */

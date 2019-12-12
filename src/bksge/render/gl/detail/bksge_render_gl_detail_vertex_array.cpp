@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	bksge_render_gl_detail_vertex_array.cpp
  *
- *	@brief	GlVertexArray クラスの定義
+ *	@brief	VertexArray クラスの定義
  *
  *	@author	myoukaku
  */

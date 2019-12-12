@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	bksge_render_gl_detail_primitive.cpp
  *
- *	@brief	ToGlPrimitive の実装
+ *	@brief	Primitive の実装
  *
  *	@author	myoukaku
  */

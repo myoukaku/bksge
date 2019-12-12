@@ -30,7 +30,7 @@ namespace d3d11
 class VertexBuffer
 {
 public:
-	VertexBuffer(Device* device, bksge::Geometry const& geometry);
+	explicit VertexBuffer(Device* device, bksge::Geometry const& geometry);
 
 	~VertexBuffer();
 

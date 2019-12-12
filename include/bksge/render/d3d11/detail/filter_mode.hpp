@@ -27,7 +27,7 @@ namespace d3d11
 class FilterMode
 {
 public:
-	FilterMode(bksge::FilterMode min_filter, bksge::FilterMode mag_filter);
+	explicit FilterMode(bksge::FilterMode min_filter, bksge::FilterMode mag_filter);
 
 	operator ::D3D11_FILTER() const;
 

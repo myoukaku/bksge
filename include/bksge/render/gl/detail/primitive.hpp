@@ -27,7 +27,7 @@ namespace gl
 class Primitive
 {
 public:
-	Primitive(bksge::Primitive primitive);
+	explicit Primitive(bksge::Primitive primitive);
 
 	operator ::GLenum() const;
 

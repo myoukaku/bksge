@@ -49,4 +49,25 @@ private:
 #include <bksge/render/inl/depth_state_inl.hpp>
 #endif
 
+#include <functional>
+#include <cstddef>
+#include <bksge/functional/hash_combine.hpp>
+
+namespace std
+{
+
+template<>
+struct hash<bksge::render::DepthState>
+{
+	std::size_t operator()(bksge::render::DepthState const& arg) const
+	{
+		return bksge::hash_combine(
+			arg.enable(),
+			arg.write(),
+			arg.func());
+	}
+};
+
+}	// namespace std
+
 #endif // BKSGE_RENDER_DEPTH_STATE_HPP

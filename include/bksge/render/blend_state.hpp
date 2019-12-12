@@ -62,4 +62,29 @@ private:
 #include <bksge/render/inl/blend_state_inl.hpp>
 #endif
 
+#include <functional>
+#include <cstddef>
+#include <bksge/functional/hash_combine.hpp>
+
+namespace std
+{
+
+template<>
+struct hash<bksge::render::BlendState>
+{
+	std::size_t operator()(bksge::render::BlendState const& arg) const
+	{
+		return bksge::hash_combine(
+			arg.enable(),
+			arg.operation(),
+			arg.src_factor(),
+			arg.dst_factor(),
+			arg.alpha_operation(),
+			arg.alpha_src_factor(),
+			arg.alpha_dst_factor());
+	}
+};
+
+}	// namespace std
+
 #endif // BKSGE_RENDER_BLEND_STATE_HPP

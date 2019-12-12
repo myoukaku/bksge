@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	bksge_render_gl_detail_type_enum.cpp
  *
- *	@brief	ToGlTypeEnum の実装
+ *	@brief	TypeEnum の実装
  *
  *	@author	myoukaku
  */

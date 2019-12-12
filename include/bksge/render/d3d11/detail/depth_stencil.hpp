@@ -29,14 +29,14 @@ namespace d3d11
 class DepthStencil
 {
 public:
-	DepthStencil(
+	explicit DepthStencil(
 		Device*		device,
 		::UINT      width,
 		::UINT      height);
 
 	~DepthStencil();
 
-	::ID3D11DepthStencilView* GetView(void) const;
+	ComPtr<::ID3D11DepthStencilView> const& GetView(void) const;
 
 private:
 	ComPtr<::ID3D11Texture2D>        m_texture;

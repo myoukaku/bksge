@@ -27,7 +27,7 @@ namespace gl
 class CullMode
 {
 public:
-	CullMode(bksge::CullMode cull_mode);
+	explicit CullMode(bksge::CullMode cull_mode);
 
 	operator ::GLenum() const;
 

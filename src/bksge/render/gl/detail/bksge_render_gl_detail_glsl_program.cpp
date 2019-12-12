@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	bksge_render_gl_detail_glsl_program.cpp
  *
- *	@brief	GlGLSLProgram クラスの定義
+ *	@brief	GlslProgram クラスの定義
  *
  *	@author	myoukaku
  */

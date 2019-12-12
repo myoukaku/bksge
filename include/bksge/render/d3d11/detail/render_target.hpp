@@ -30,11 +30,11 @@ namespace d3d11
 class RenderTarget
 {
 public:
-	RenderTarget(Device* device, DXGISwapChain* swap_chain);
+	explicit RenderTarget(Device* device, DXGISwapChain* swap_chain);
 
 	~RenderTarget();
 
-	ComPtr<::ID3D11RenderTargetView> GetView(void) const;
+	ComPtr<::ID3D11RenderTargetView> const& GetView(void) const;
 
 private:
 	ComPtr<::ID3D11RenderTargetView> m_view;

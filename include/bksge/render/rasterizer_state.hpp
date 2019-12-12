@@ -51,8 +51,8 @@ private:
 #include <bksge/render/inl/rasterizer_state_inl.hpp>
 #endif
 
+#include <cstddef>
 #include <functional>
-#include <type_traits>
 #include <bksge/functional/hash_combine.hpp>
 
 namespace std

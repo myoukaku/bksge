@@ -33,7 +33,6 @@
 #include <bksge/render/fwd/render_state_fwd.hpp>
 #include <bksge/render/fwd/shader_fwd.hpp>
 #include <bksge/render/fwd/primitive_fwd.hpp>
-#include <bksge/render/fwd/rasterizer_state_fwd.hpp>
 #include <bksge/math/fwd/color4_fwd.hpp>
 #include <bksge/window/fwd/window_fwd.hpp>
 
@@ -80,7 +79,7 @@ private:
 	std::shared_ptr<d3d12::PipelineState>
 	GetD3D12PipelineState(
 		Shader const& shader,
-		RasterizerState const& rasterizer_state,
+		RenderState const& render_state,
 		Primitive primitive);
 
 private:

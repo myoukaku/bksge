@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	bksge_render_gl_detail_shader_stage.cpp
  *
- *	@brief	ToGlShaderStage の実装
+ *	@brief	ShaderStage の実装
  *
  *	@author	myoukaku
  */

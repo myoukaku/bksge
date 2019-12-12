@@ -50,6 +50,10 @@ private:
 		ShaderParameterMap const& shader_parameter_map,
 		RenderState const& render_state) override;
 
+	void ApplyScissorState(RenderState const& render_state);
+	void ApplyRasterizerState(RenderState const& render_state);
+	void ApplyBlendState(RenderState const& render_state);
+
 	using MilliSeconds = bksge::units::milliseconds<float>;
 	using NanoSeconds  = bksge::units::nanoseconds<float>;
 

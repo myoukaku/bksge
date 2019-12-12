@@ -27,7 +27,7 @@ namespace d3d11
 class Primitive
 {
 public:
-	Primitive(bksge::Primitive primitive);
+	explicit Primitive(bksge::Primitive primitive);
 
 	operator ::D3D11_PRIMITIVE_TOPOLOGY() const;
 

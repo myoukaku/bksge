@@ -27,7 +27,7 @@ namespace gl
 class WrapMode
 {
 public:
-	WrapMode(bksge::WrapMode wrap_mode);
+	explicit WrapMode(bksge::WrapMode wrap_mode);
 
 	operator ::GLint() const;
 

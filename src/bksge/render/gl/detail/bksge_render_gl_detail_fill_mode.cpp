@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	bksge_render_gl_detail_fill_mode.cpp
  *
- *	@brief	ToGlFillMode の実装
+ *	@brief	FillMode の実装
  *
  *	@author	myoukaku
  */

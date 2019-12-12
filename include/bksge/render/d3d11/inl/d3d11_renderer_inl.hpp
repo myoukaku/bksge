@@ -21,8 +21,8 @@
 #include <bksge/render/d3d11/detail/geometry.hpp>
 #include <bksge/render/d3d11/detail/fill_mode.hpp>
 #include <bksge/render/d3d11/detail/cull_mode.hpp>
-////#include <bksge/render/d3d11/detail/texture.hpp>
-////#include <bksge/render/d3d11/detail/sampler.hpp>
+#include <bksge/render/d3d11/detail/blend_factor.hpp>
+#include <bksge/render/d3d11/detail/blend_operation.hpp>
 #include <bksge/render/d3d11/detail/resource_cache.hpp>
 #include <bksge/render/d3d_common/d3d11.hpp>
 #include <bksge/render/d3d_common/com_ptr.hpp>
@@ -31,10 +31,7 @@
 #include <bksge/render/clear_flag.hpp>
 #include <bksge/render/front_face.hpp>
 #include <bksge/render/shader.hpp>
-//#include <bksge/render/geometry.hpp>
 #include <bksge/render/render_state.hpp>
-//#include <bksge/render/texture.hpp>
-////#include <bksge/render/sampler.hpp>
 #include <bksge/math/color4.hpp>
 #include <bksge/memory/make_unique.hpp>
 #include <bksge/window/window.hpp>
@@ -195,20 +192,39 @@ D3D11Renderer::VRender(
 		rd.AntialiasedLineEnable = FALSE;
 
 		// ラスタライザーステートを生成して設定
-		ComPtr<::ID3D11RasterizerState> state =
-			m_device->CreateRasterizerState(&rd);
-
+		auto state = m_device->CreateRasterizerState(rd);
 		m_device_context->RSSetState(state.Get());
+
+		::D3D11_RECT scissor_rect;
+		scissor_rect.left   = static_cast<::LONG>(scissor_state.rect().left());
+		scissor_rect.top    = static_cast<::LONG>(scissor_state.rect().top());
+		scissor_rect.right  = static_cast<::LONG>(scissor_state.rect().right());
+		scissor_rect.bottom = static_cast<::LONG>(scissor_state.rect().bottom());
+		m_device_context->RSSetScissorRects(1, &scissor_rect);
 	}
 
 	{
-		auto const& scissor = render_state.scissor_state();
-		::D3D11_RECT scissor_rect;
-		scissor_rect.left   = static_cast<::LONG>(scissor.rect().left());
-		scissor_rect.top    = static_cast<::LONG>(scissor.rect().top());
-		scissor_rect.right  = static_cast<::LONG>(scissor.rect().right());
-		scissor_rect.bottom = static_cast<::LONG>(scissor.rect().bottom());
-		m_device_context->RSSetScissorRects(1, &scissor_rect);
+		auto const& blend_state = render_state.blend_state();
+
+		::D3D11_BLEND_DESC blend_desc;
+		blend_desc.AlphaToCoverageEnable  = FALSE;
+		blend_desc.IndependentBlendEnable = FALSE;
+		for (auto& rt : blend_desc.RenderTarget)
+		{
+			rt.BlendEnable           = blend_state.enable() ? TRUE : FALSE;
+			rt.SrcBlend              = d3d11::BlendFactor(blend_state.src_factor());
+			rt.DestBlend             = d3d11::BlendFactor(blend_state.dst_factor());
+			rt.BlendOp               = d3d11::BlendOperation(blend_state.operation());
+			rt.SrcBlendAlpha         = d3d11::BlendFactor(blend_state.alpha_src_factor());
+			rt.DestBlendAlpha        = d3d11::BlendFactor(blend_state.alpha_dst_factor());
+			rt.BlendOpAlpha          = d3d11::BlendOperation(blend_state.alpha_operation());
+			rt.RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+		}
+
+		auto state = m_device->CreateBlendState(blend_desc);
+		float const blend_factor[4] = {};
+		::UINT const sample_mask = 0xffffffff;
+		m_device_context->OMSetBlendState(state.Get(), blend_factor, sample_mask);
 	}
 
 	auto hlsl_program = m_resource_cache->GetD3D11HlslProgram(shader);

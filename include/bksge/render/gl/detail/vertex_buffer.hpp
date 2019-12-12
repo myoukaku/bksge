@@ -27,7 +27,7 @@ namespace gl
 class VertexBuffer
 {
 public:
-	VertexBuffer(void const* src, std::size_t size);
+	explicit VertexBuffer(void const* src, std::size_t size);
 
 	~VertexBuffer();
 

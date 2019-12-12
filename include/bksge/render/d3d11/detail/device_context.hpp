@@ -100,6 +100,11 @@ public:
 		::ID3D11RenderTargetView* const* render_target_views,
 		::ID3D11DepthStencilView*        depth_stencil_view);
 
+	void OMSetBlendState(
+		::ID3D11BlendState* blend_state,
+		::FLOAT const       blend_factor[4],
+		::UINT              sample_mask);
+
 	void UpdateSubresource(
 		::ID3D11Resource*  dst_resource,
 		::UINT             dst_subresource,

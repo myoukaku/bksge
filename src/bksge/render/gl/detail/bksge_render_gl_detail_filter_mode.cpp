@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	bksge_render_gl_detail_filter_mode.cpp
  *
- *	@brief	ToGlFilterMode の実装
+ *	@brief	FilterMode の実装
  *
  *	@author	myoukaku
  */

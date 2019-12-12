@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	bksge_render_gl_detail_vertex_buffer.cpp
  *
- *	@brief	GlVertexBuffer クラスの定義
+ *	@brief	VertexBuffer クラスの定義
  *
  *	@author	myoukaku
  */

@@ -27,7 +27,7 @@ namespace gl
 class FillMode
 {
 public:
-	FillMode(bksge::FillMode fill_mode);
+	explicit FillMode(bksge::FillMode fill_mode);
 
 	operator ::GLenum() const;
 

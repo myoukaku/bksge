@@ -27,7 +27,7 @@ namespace gl
 class ShaderStage
 {
 public:
-	ShaderStage(bksge::ShaderStage stage);
+	explicit ShaderStage(bksge::ShaderStage stage);
 
 	operator ::GLenum() const;
 

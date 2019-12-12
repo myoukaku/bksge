@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	bksge_render_gl_detail_texture.cpp
  *
- *	@brief	GlTexture クラスの定義
+ *	@brief	Texture クラスの定義
  *
  *	@author	myoukaku
  */

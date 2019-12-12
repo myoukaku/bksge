@@ -45,7 +45,7 @@ RenderTarget::~RenderTarget()
 {
 }
 
-BKSGE_INLINE ComPtr<::ID3D11RenderTargetView>
+BKSGE_INLINE ComPtr<::ID3D11RenderTargetView> const&
 RenderTarget::GetView(void) const
 {
 	return m_view;

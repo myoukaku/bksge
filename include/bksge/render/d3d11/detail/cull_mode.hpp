@@ -27,7 +27,7 @@ namespace d3d11
 class CullMode
 {
 public:
-	CullMode(bksge::CullMode cull_mode);
+	explicit CullMode(bksge::CullMode cull_mode);
 
 	operator ::D3D11_CULL_MODE() const;
 

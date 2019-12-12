@@ -35,7 +35,7 @@ namespace d3d11
 class ConstantBuffer
 {
 public:
-	ConstantBuffer(
+	explicit ConstantBuffer(
 		Device* device,
 		::ID3D11ShaderReflectionConstantBuffer* constant_buffer);
 

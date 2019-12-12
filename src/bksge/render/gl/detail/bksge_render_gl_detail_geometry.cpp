@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	bksge_render_gl_detail_geometry.cpp
  *
- *	@brief	GlGeometry クラスの定義
+ *	@brief	Geometry クラスの定義
  *
  *	@author	myoukaku
  */

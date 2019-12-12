@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	bksge_render_gl_detail_cull_mode.cpp
  *
- *	@brief	ToGlCullMode の実装
+ *	@brief	CullMode の実装
  *
  *	@author	myoukaku
  */

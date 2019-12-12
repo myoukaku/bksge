@@ -27,7 +27,7 @@ namespace gl
 class TypeEnum
 {
 public:
-	TypeEnum(bksge::TypeEnum type_enum);
+	explicit TypeEnum(bksge::TypeEnum type_enum);
 
 	operator ::GLenum() const;
 

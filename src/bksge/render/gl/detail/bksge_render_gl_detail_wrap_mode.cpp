@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	bksge_render_gl_detail_wrap_mode.cpp
  *
- *	@brief	ToGlWrapMode の実装
+ *	@brief	WrapMode の実装
  *
  *	@author	myoukaku
  */

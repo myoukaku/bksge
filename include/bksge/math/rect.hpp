@@ -115,4 +115,26 @@ operator<<(std::basic_ostream<CharT, Traits>& os, Rect<T> const& rhs);
 
 #include <bksge/math/inl/rect_inl.hpp>
 
+#include <functional>
+#include <cstddef>
+#include <bksge/functional/hash_combine.hpp>
+
+namespace std
+{
+
+template <typename T>
+struct hash<bksge::math::Rect<T>>
+{
+	std::size_t operator()(bksge::math::Rect<T> const& arg) const
+	{
+		return bksge::hash_combine(
+			arg.left(),
+			arg.top(),
+			arg.right(),
+			arg.bottom());
+	}
+};
+
+}	// namespace std
+
 #endif // BKSGE_MATH_RECT_HPP

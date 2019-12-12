@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	bksge_render_gl_detail_glsl_parameter_setter.cpp
  *
- *	@brief	GlGLSLParameterSetter クラスの定義
+ *	@brief	GlslParameterSetter クラスの定義
  *
  *	@author	myoukaku
  */

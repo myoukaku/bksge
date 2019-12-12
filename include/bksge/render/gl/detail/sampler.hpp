@@ -32,7 +32,7 @@ namespace gl
 class Sampler
 {
 public:
-	Sampler(ResourceCache* resource_cache, bksge::Sampler const& sampler);
+	explicit Sampler(ResourceCache* resource_cache, bksge::Sampler const& sampler);
 
 	TextureShared const& source(void) const;
 
