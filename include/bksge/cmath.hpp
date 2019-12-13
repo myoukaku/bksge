@@ -18,6 +18,7 @@
 #include <bksge/cmath/fabs.hpp>
 #include <bksge/cmath/floor.hpp>
 #include <bksge/cmath/fmod.hpp>
+#include <bksge/cmath/frac.hpp>
 #include <bksge/cmath/isinf.hpp>
 #include <bksge/cmath/isnan.hpp>
 #include <bksge/cmath/iszero.hpp>
