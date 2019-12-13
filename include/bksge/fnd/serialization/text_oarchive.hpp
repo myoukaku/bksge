@@ -13,6 +13,7 @@
 #include <bksge/fnd/serialization/detail/pointer_saver.hpp>
 #include <bksge/fnd/serialization/nvp.hpp>
 #include <bksge/fnd/serialization/base_object.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <cstddef>
 #include <iomanip>
 #include <limits>
@@ -147,25 +148,25 @@ private:
 		}
 	}
 
-	template <typename T, typename std::enable_if<std::is_floating_point<T>::value>::type* = nullptr>
+	template <typename T, bksge::enable_if_t<std::is_floating_point<T>::value>* = nullptr>
 	void save_arithmetic(T const& t)
 	{
 		m_impl->save_arithmetic(t);
 	}
 
-	template <typename T, typename std::enable_if<std::is_integral<T>::value>::type* = nullptr>
+	template <typename T, bksge::enable_if_t<std::is_integral<T>::value>* = nullptr>
 	void save_arithmetic(T const& t)
 	{
 		save_integral(t);
 	}
 
-	template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
+	template <typename T, bksge::enable_if_t<std::is_unsigned<T>::value>* = nullptr>
 	void save_integral(T const& t)
 	{
 		m_impl->save_arithmetic(static_cast<std::uintmax_t>(t));
 	}
 
-	template <typename T, typename std::enable_if<std::is_signed<T>::value>::type* = nullptr>
+	template <typename T, bksge::enable_if_t<std::is_signed<T>::value>* = nullptr>
 	void save_integral(T const& t)
 	{
 		m_impl->save_arithmetic(static_cast<std::intmax_t>(t));

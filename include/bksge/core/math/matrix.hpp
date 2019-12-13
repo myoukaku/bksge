@@ -11,6 +11,7 @@
 
 #include <bksge/core/math/fwd/matrix_fwd.hpp>
 #include <bksge/core/math/vector.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 #include <type_traits>
 #include <tuple>
@@ -102,9 +103,9 @@ operator-(Matrix<T, N, M> const& lhs, Matrix<T, N, M> const& rhs) BKSGE_NOEXCEPT
 template <
 	typename T, std::size_t N, std::size_t M,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CXX14_CONSTEXPR Matrix<T, N, M>&
 operator*=(Matrix<T, N, M>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
@@ -115,9 +116,9 @@ operator*=(Matrix<T, N, M>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
 template <
 	typename T, std::size_t N, std::size_t M,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CONSTEXPR Matrix<T, N, M>
 operator*(Matrix<T, N, M> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
@@ -128,9 +129,9 @@ operator*(Matrix<T, N, M> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
 template <
 	typename T, std::size_t N, std::size_t M,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CONSTEXPR Matrix<T, N, M>
 operator*(ArithmeticType lhs, Matrix<T, N, M> const& rhs) BKSGE_NOEXCEPT;
@@ -169,9 +170,9 @@ operator*(Vector<T, N> const& lhs, Matrix<T, N, M> const& rhs) BKSGE_NOEXCEPT;
 template <
 	typename T, std::size_t N, std::size_t M,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CXX14_CONSTEXPR Matrix<T, N, M>&
 operator/=(Matrix<T, N, M>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
@@ -182,9 +183,9 @@ operator/=(Matrix<T, N, M>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
 template <
 	typename T, std::size_t N, std::size_t M,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CONSTEXPR Matrix<T, N, M>
 operator/(Matrix<T, N, M> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;

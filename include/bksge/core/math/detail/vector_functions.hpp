@@ -13,6 +13,7 @@
 #include <bksge/fnd/utility/make_index_sequence.hpp>
 #include <bksge/fnd/tpp/accumulate.hpp>
 #include <bksge/fnd/tpp/all_of.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/cmath/lerp.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
@@ -80,9 +81,9 @@ BKSGE_NOEXCEPT_OR_NOTHROW
 }
 
 template <typename Vec, typename U, std::size_t... Is,
-	typename std::enable_if<
+	bksge::enable_if_t<
 		std::is_arithmetic<U>::value
-	>::type* = nullptr
+	>* = nullptr
 >
 inline BKSGE_CONSTEXPR Vec
 mul_per_elem_impl(Vec const& lhs, U const& rhs, bksge::index_sequence<Is...>)
@@ -92,9 +93,9 @@ BKSGE_NOEXCEPT_OR_NOTHROW
 }
 
 template <typename Vec1, typename Vec2, std::size_t... Is,
-	typename std::enable_if<
+	bksge::enable_if_t<
 		!std::is_arithmetic<Vec2>::value
-	>::type* = nullptr
+	>* = nullptr
 >
 inline BKSGE_CONSTEXPR Vec1
 mul_per_elem_impl(Vec1 const& lhs, Vec2 const& rhs, bksge::index_sequence<Is...>)
@@ -113,9 +114,9 @@ BKSGE_NOEXCEPT_OR_NOTHROW
 }
 
 template <typename Vec, typename U, std::size_t... Is,
-	typename std::enable_if<
+	bksge::enable_if_t<
 		std::is_arithmetic<U>::value
-	>::type* = nullptr
+	>* = nullptr
 >
 inline BKSGE_CONSTEXPR Vec
 div_per_elem_impl(Vec const& lhs, U const& rhs, bksge::index_sequence<Is...>)
@@ -125,9 +126,9 @@ BKSGE_NOEXCEPT_OR_NOTHROW
 }
 
 template <typename Vec1, typename Vec2, std::size_t... Is,
-	typename std::enable_if<
+	bksge::enable_if_t<
 		!std::is_arithmetic<Vec2>::value
-	>::type* = nullptr
+	>* = nullptr
 >
 inline BKSGE_CONSTEXPR Vec1
 div_per_elem_impl(Vec1 const& lhs, Vec2 const& rhs, bksge::index_sequence<Is...>)

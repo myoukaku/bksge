@@ -13,6 +13,7 @@
 #include <bksge/core/math/fwd/vector3_fwd.hpp>
 #include <bksge/core/math/fwd/matrix3x3_fwd.hpp>
 #include <bksge/core/math/detail/vector_xyzw.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
 #include <tuple>
@@ -48,9 +49,9 @@ public:
 	 */
 	template <
 		typename U,
-		typename = typename std::enable_if<
+		typename = bksge::enable_if_t<
 			std::is_constructible<T, U>::value
-		>::type
+		>
 	>
 	BKSGE_CONSTEXPR
 	Quaternion(Quaternion<U> const& rhs)
@@ -200,9 +201,9 @@ operator-(Quaternion<T> const& lhs, Quaternion<T> const& rhs) BKSGE_NOEXCEPT;
 template <
 	typename T,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CXX14_CONSTEXPR Quaternion<T>&
 operator*=(Quaternion<T>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
@@ -213,9 +214,9 @@ operator*=(Quaternion<T>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
 template <
 	typename T,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CONSTEXPR Quaternion<T>
 operator*(Quaternion<T> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
@@ -226,9 +227,9 @@ operator*(Quaternion<T> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
 template <
 	typename T,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CONSTEXPR Quaternion<T>
 operator*(ArithmeticType lhs, Quaternion<T> const& rhs) BKSGE_NOEXCEPT;
@@ -277,9 +278,9 @@ operator*=(Vector3<T>& lhs, Quaternion<T> const& rhs) BKSGE_NOEXCEPT;
 template <
 	typename T,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CXX14_CONSTEXPR Quaternion<T>&
 operator/=(Quaternion<T>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
@@ -290,9 +291,9 @@ operator/=(Quaternion<T>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
 template <
 	typename T,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CONSTEXPR Quaternion<T>
 operator/(Quaternion<T> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
@@ -374,9 +375,9 @@ Norm(Quaternion<T> const& q) BKSGE_NOEXCEPT;
 template <
 	typename T,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CONSTEXPR Quaternion<T>
 Lerp(Quaternion<T> const& from, Quaternion<T> const& to, ArithmeticType const& t) BKSGE_NOEXCEPT;

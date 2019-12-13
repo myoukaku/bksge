@@ -12,6 +12,7 @@
 #include <bksge/core/math/fwd/vector_fwd.hpp>
 #include <bksge/core/math/detail/vector_base.hpp>
 #include <bksge/core/math/detail/vector_xyzw.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
@@ -48,9 +49,9 @@ public:
 	 */
 	template <
 		typename U,
-		typename = typename std::enable_if<
+		typename = bksge::enable_if_t<
 			std::is_constructible<T, U>::value
-		>::type
+		>
 	>
 	BKSGE_CONSTEXPR
 	Vector(Vector<U, N> const& rhs)
@@ -111,9 +112,9 @@ operator-(Vector<T, N> const& lhs, Vector<T, N> const& rhs) BKSGE_NOEXCEPT;
 template <
 	typename T, std::size_t N,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CXX14_CONSTEXPR Vector<T, N>&
 operator*=(Vector<T, N>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
@@ -124,9 +125,9 @@ operator*=(Vector<T, N>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
 template <
 	typename T, std::size_t N,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CONSTEXPR Vector<T, N>
 operator*(Vector<T, N> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
@@ -137,9 +138,9 @@ operator*(Vector<T, N> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
 template <
 	typename T, std::size_t N,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CONSTEXPR Vector<T, N>
 operator*(ArithmeticType lhs, Vector<T, N> const& rhs) BKSGE_NOEXCEPT;
@@ -150,9 +151,9 @@ operator*(ArithmeticType lhs, Vector<T, N> const& rhs) BKSGE_NOEXCEPT;
 template <
 	typename T, std::size_t N,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CXX14_CONSTEXPR Vector<T, N>&
 operator/=(Vector<T, N>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
@@ -163,9 +164,9 @@ operator/=(Vector<T, N>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
 template <
 	typename T, std::size_t N,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CONSTEXPR Vector<T, N>
 operator/(Vector<T, N> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
@@ -220,9 +221,9 @@ Normalized(Vector<T, N> const& v);
 template <
 	typename T, std::size_t N,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CONSTEXPR Vector<T, N>
 Lerp(Vector<T, N> const& from, Vector<T, N> const& to, ArithmeticType const& t) BKSGE_NOEXCEPT;

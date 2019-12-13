@@ -10,6 +10,7 @@
 #define BKSGE_CORE_MATH_DETAIL_VECTOR_BASE_HPP
 
 #include <bksge/core/math/detail/vector_value.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_swappable.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/utility/index_sequence.hpp>
@@ -17,7 +18,7 @@
 #include <cstddef>		// size_t, ptrdiff_t
 #include <iterator>		// reverse_iterator
 #include <iosfwd>		// basic_ostream
-#include <type_traits>	// is_constructible, enable_if, integral_constant
+#include <type_traits>	// is_constructible, integral_constant
 #include <tuple>
 
 namespace bksge
@@ -78,9 +79,9 @@ public:
 	// Converting ctor
 	template <
 		typename... UTypes,
-		typename = typename std::enable_if<
+		typename = bksge::enable_if_t<
 			CheckArgsCtor<UTypes const&...>::value
-		>::type
+		>
 	>
 	BKSGE_CONSTEXPR
 	VectorBase(UTypes const&... args)
@@ -88,9 +89,9 @@ public:
 
 	template <
 		typename U,
-		typename = typename std::enable_if<
+		typename = bksge::enable_if_t<
 			std::is_constructible<T, U>::value
-		>::type
+		>
 	>
 	BKSGE_CONSTEXPR
 	VectorBase(VectorValue<U, N> const& a)

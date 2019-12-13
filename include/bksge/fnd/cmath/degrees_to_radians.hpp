@@ -9,6 +9,7 @@
 #ifndef BKSGE_FND_CMATH_DEGREES_TO_RADIANS_HPP
 #define BKSGE_FND_CMATH_DEGREES_TO_RADIANS_HPP
 
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
 #include <bksge/fnd/config.hpp>
 #include <type_traits>
@@ -33,9 +34,9 @@ namespace cmath
  */
 template <
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CONSTEXPR bksge::float_promote_t<ArithmeticType>
 degrees_to_radians(ArithmeticType x) BKSGE_NOEXCEPT;

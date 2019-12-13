@@ -14,6 +14,7 @@
 #include <bksge/core/math/detail/vector_base.hpp>
 #include <bksge/core/math/detail/vector_rgba.hpp>
 #include <bksge/core/math/color.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 #include <type_traits>
 
@@ -45,9 +46,9 @@ public:
 	 */
 	template <
 		typename U,
-		typename = typename std::enable_if<
+		typename = bksge::enable_if_t<
 			std::is_constructible<T, U>::value
-		>::type
+		>
 	>
 	BKSGE_CONSTEXPR
 	Color(Color<U, 3> const& rhs)

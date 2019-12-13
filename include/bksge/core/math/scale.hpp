@@ -12,6 +12,7 @@
 #include <bksge/core/math/fwd/scale_fwd.hpp>
 #include <bksge/core/math/fwd/vector_fwd.hpp>
 #include <bksge/core/math/detail/vector_xyzw.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
 #include <tuple>
@@ -47,9 +48,9 @@ public:
 	 */
 	template <
 		typename U,
-		typename = typename std::enable_if<
+		typename = bksge::enable_if_t<
 			std::is_constructible<T, U>::value
-		>::type
+		>
 	>
 	BKSGE_CONSTEXPR
 	Scale(Scale<U, N> const& rhs)
@@ -116,9 +117,9 @@ operator-(Scale<T, N> const& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT;
 template <
 	typename T, std::size_t N,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CXX14_CONSTEXPR Scale<T, N>&
 operator*=(Scale<T, N>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
@@ -129,9 +130,9 @@ operator*=(Scale<T, N>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
 template <
 	typename T, std::size_t N,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CONSTEXPR Scale<T, N>
 operator*(Scale<T, N> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
@@ -142,9 +143,9 @@ operator*(Scale<T, N> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
 template <
 	typename T, std::size_t N,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CONSTEXPR Scale<T, N>
 operator*(ArithmeticType lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT;
@@ -169,9 +170,9 @@ operator*(Scale<T, N> const& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT;
 template <
 	typename T, std::size_t N,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CXX14_CONSTEXPR Scale<T, N>&
 operator/=(Scale<T, N>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
@@ -182,9 +183,9 @@ operator/=(Scale<T, N>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
 template <
 	typename T, std::size_t N,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CONSTEXPR Scale<T, N>
 operator/(Scale<T, N> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
@@ -223,9 +224,9 @@ operator*(Vector<T, N> const& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT;
 template <
 	typename T, std::size_t N,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CONSTEXPR Scale<T, N>
 Lerp(Scale<T, N> const& from, Scale<T, N> const& to, ArithmeticType const& t) BKSGE_NOEXCEPT;

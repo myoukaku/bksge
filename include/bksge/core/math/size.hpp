@@ -12,6 +12,7 @@
 #include <bksge/core/math/fwd/size_fwd.hpp>
 #include <bksge/core/math/fwd/scale_fwd.hpp>
 #include <bksge/core/math/detail/vector_whd.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
 #include <tuple>
@@ -47,9 +48,9 @@ public:
 	 */
 	template <
 		typename U,
-		typename = typename std::enable_if<
+		typename = bksge::enable_if_t<
 			std::is_constructible<T, U>::value
-		>::type
+		>
 	>
 	BKSGE_CONSTEXPR
 	Size(Size<U, N> const& rhs)
@@ -110,9 +111,9 @@ operator-(Size<T, N> const& lhs, Size<T, N> const& rhs) BKSGE_NOEXCEPT;
 template <
 	typename T, std::size_t N,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CXX14_CONSTEXPR Size<T, N>&
 operator*=(Size<T, N>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
@@ -130,9 +131,9 @@ operator*=(Size<T, N>& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT;
 template <
 	typename T, std::size_t N,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CONSTEXPR Size<T, N>
 operator*(Size<T, N> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
@@ -143,9 +144,9 @@ operator*(Size<T, N> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
 template <
 	typename T, std::size_t N,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CONSTEXPR Size<T, N>
 operator*(ArithmeticType lhs, Size<T, N> const& rhs) BKSGE_NOEXCEPT;
@@ -163,9 +164,9 @@ operator*(Size<T, N> const& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT;
 template <
 	typename T, std::size_t N,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CXX14_CONSTEXPR Size<T, N>&
 operator/=(Size<T, N>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
@@ -176,9 +177,9 @@ operator/=(Size<T, N>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
 template <
 	typename T, std::size_t N,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CONSTEXPR Size<T, N>
 operator/(Size<T, N> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;

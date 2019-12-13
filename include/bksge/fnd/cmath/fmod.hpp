@@ -9,6 +9,7 @@
 #ifndef BKSGE_FND_CMATH_FMOD_HPP
 #define BKSGE_FND_CMATH_FMOD_HPP
 
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
 #include <bksge/fnd/config.hpp>
 #include <type_traits>
@@ -39,10 +40,10 @@ namespace cmath
 template <
 	typename ArithmeticType1,
 	typename ArithmeticType2,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType1>::value &&
 		std::is_arithmetic<ArithmeticType2>::value
-	>::type
+	>
 >
 BKSGE_CONSTEXPR bksge::float_promote_t<ArithmeticType1, ArithmeticType2>
 fmod(ArithmeticType1 x, ArithmeticType2 y) BKSGE_NOEXCEPT;

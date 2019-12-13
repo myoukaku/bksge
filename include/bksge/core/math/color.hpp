@@ -12,6 +12,7 @@
 #include <bksge/core/math/fwd/color_fwd.hpp>
 #include <bksge/core/math/detail/vector_base.hpp>
 #include <bksge/core/math/detail/vector_rgba.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
 #include <tuple>
@@ -47,9 +48,9 @@ public:
 	 */
 	template <
 		typename U,
-		typename = typename std::enable_if<
+		typename = bksge::enable_if_t<
 			std::is_constructible<T, U>::value
-		>::type
+		>
 	>
 	BKSGE_CONSTEXPR
 	Color(Color<U, N> const& rhs)
@@ -110,9 +111,9 @@ operator-(Color<T, N> const& lhs, Color<T, N> const& rhs) BKSGE_NOEXCEPT;
 template <
 	typename T, std::size_t N,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CXX14_CONSTEXPR Color<T, N>&
 operator*=(Color<T, N>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
@@ -123,9 +124,9 @@ operator*=(Color<T, N>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
 template <
 	typename T, std::size_t N,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CONSTEXPR Color<T, N>
 operator*(Color<T, N> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
@@ -136,9 +137,9 @@ operator*(Color<T, N> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
 template <
 	typename T, std::size_t N,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CONSTEXPR Color<T, N>
 operator*(ArithmeticType lhs, Color<T, N> const& rhs) BKSGE_NOEXCEPT;
@@ -163,9 +164,9 @@ operator*(Color<T, N> const& lhs, Color<T, N> const& rhs) BKSGE_NOEXCEPT;
 template <
 	typename T, std::size_t N,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CXX14_CONSTEXPR Color<T, N>&
 operator/=(Color<T, N>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
@@ -176,9 +177,9 @@ operator/=(Color<T, N>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
 template <
 	typename T, std::size_t N,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CONSTEXPR Color<T, N>
 operator/(Color<T, N> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
@@ -203,9 +204,9 @@ operator/(Color<T, N> const& lhs, Color<T, N> const& rhs) BKSGE_NOEXCEPT;
 template <
 	typename T, std::size_t N,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CONSTEXPR Color<T, N>
 Lerp(Color<T, N> const& from, Color<T, N> const& to, ArithmeticType const& t) BKSGE_NOEXCEPT;

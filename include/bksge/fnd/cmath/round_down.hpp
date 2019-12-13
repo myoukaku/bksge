@@ -9,6 +9,7 @@
 #ifndef BKSGE_FND_CMATH_ROUND_DOWN_HPP
 #define BKSGE_FND_CMATH_ROUND_DOWN_HPP
 
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 #include <type_traits>
 
@@ -42,10 +43,10 @@ namespace cmath
 template <
 	typename ArithmeticType1,
 	typename ArithmeticType2,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType1>::value &&
 		std::is_arithmetic<ArithmeticType2>::value
-	>::type
+	>
 >
 BKSGE_CONSTEXPR ArithmeticType1
 round_down(ArithmeticType1 x, ArithmeticType2 base) BKSGE_NOEXCEPT;

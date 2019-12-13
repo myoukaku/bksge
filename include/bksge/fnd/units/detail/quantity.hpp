@@ -12,6 +12,7 @@
 #include <bksge/fnd/units/detail/quantity_fwd.hpp>
 #include <bksge/fnd/units/detail/derived_dimension_fwd.hpp>
 #include <bksge/fnd/utility/swap.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_swappable.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstdint>
@@ -148,9 +149,9 @@ operator-=(quantity<T...>& lhs, quantity<U...> const& rhs) BKSGE_NOEXCEPT;
 template <
 	typename... T,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CONSTEXPR quantity<T...>
 operator*(quantity<T...> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
@@ -161,9 +162,9 @@ operator*(quantity<T...> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
 template <
 	typename... T,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CONSTEXPR quantity<T...>
 operator*(ArithmeticType lhs, quantity<T...> const& rhs) BKSGE_NOEXCEPT;
@@ -182,9 +183,9 @@ operator*(quantity<T...> const& lhs, std::ratio<N, D> const& rhs) BKSGE_NOEXCEPT
 template <
 	typename... T,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CXX14_CONSTEXPR quantity<T...>&
 operator*=(quantity<T...>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
@@ -203,9 +204,9 @@ operator*(quantity<T...> const& lhs, quantity<U...> const& rhs) BKSGE_NOEXCEPT
 template <
 	typename... T,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CONSTEXPR quantity<T...>
 operator/(quantity<T...> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
@@ -216,9 +217,9 @@ operator/(quantity<T...> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
 template <
 	typename... T,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CONSTEXPR quantity_divide_result_t<dimensionless<ArithmeticType>, quantity<T...>>
 operator/(ArithmeticType lhs, quantity<T...> const& rhs) BKSGE_NOEXCEPT;
@@ -229,9 +230,9 @@ operator/(ArithmeticType lhs, quantity<T...> const& rhs) BKSGE_NOEXCEPT;
 template <
 	typename... T,
 	typename ArithmeticType,
-	typename = typename std::enable_if<
+	typename = bksge::enable_if_t<
 		std::is_arithmetic<ArithmeticType>::value
-	>::type
+	>
 >
 BKSGE_CXX14_CONSTEXPR quantity<T...>&
 operator/=(quantity<T...>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;

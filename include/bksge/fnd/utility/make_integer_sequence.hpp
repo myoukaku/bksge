@@ -23,6 +23,7 @@ using std::make_integer_sequence;
 
 #else
 
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <type_traits>
 
 namespace bksge
@@ -65,25 +66,25 @@ template <typename T, T N>
 using make_integer_sequence_impl_t = typename make_integer_sequence_impl<T, N>::type;
 
 template <typename T, T N>
-struct make_integer_sequence_impl<T, N, typename std::enable_if<(N == 0)>::type>
+struct make_integer_sequence_impl<T, N, bksge::enable_if_t<(N == 0)>>
 {
 	using type = bksge::integer_sequence<T>;
 };
 
 template <typename T, T N>
-struct make_integer_sequence_impl<T, N, typename std::enable_if<(N == 1)>::type>
+struct make_integer_sequence_impl<T, N, bksge::enable_if_t<(N == 1)>>
 {
 	using type = bksge::integer_sequence<T, 0>;
 };
 
 template <typename T, T N>
-struct make_integer_sequence_impl<T, N, typename std::enable_if<(N > 1 && N % 2 == 0)>::type>
+struct make_integer_sequence_impl<T, N, bksge::enable_if_t<(N > 1 && N % 2 == 0)>>
 	: public make_integer_sequence_next_even<T, make_integer_sequence_impl_t<T, N / 2>, N / 2>
 {
 };
 
 template <typename T, T N>
-struct make_integer_sequence_impl<T, N, typename std::enable_if<(N > 1 && N % 2 == 1)>::type>
+struct make_integer_sequence_impl<T, N, bksge::enable_if_t<(N > 1 && N % 2 == 1)>>
 	: public make_integer_sequence_next_odd<T, make_integer_sequence_impl_t<T, N / 2>, N / 2, N - 1>
 {
 };
