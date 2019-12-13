@@ -26,6 +26,7 @@
 #include <bksge/cmath/round_down.hpp>
 #include <bksge/cmath/round_half_even.hpp>
 #include <bksge/cmath/round_up.hpp>
+#include <bksge/cmath/saturate.hpp>
 #include <bksge/cmath/signbit.hpp>
 #include <bksge/cmath/trunc.hpp>
 

@@ -20,7 +20,6 @@ namespace bksge_cmath_test
 namespace clamp_test
 {
 
-
 template <typename T>
 void ClampTestFloat(void)
 {

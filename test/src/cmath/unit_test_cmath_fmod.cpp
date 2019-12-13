@@ -14,7 +14,10 @@
 #include <limits>
 #include "constexpr_test.hpp"
 
-namespace bksge_cmath_fmod_test
+namespace bksge_cmath_test
+{
+
+namespace fmod_test
 {
 
 template <typename T1, typename T2>
@@ -125,4 +128,6 @@ GTEST_TEST(CMathTest, FmodTest)
 	FmodTestInteger<long double, int>();
 }
 
-}	// namespace bksge_cmath_fmod_test
+}	// namespace fmod_test
+
+}	// namespace bksge_cmath_test
