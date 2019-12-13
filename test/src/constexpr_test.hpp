@@ -9,8 +9,8 @@
 #ifndef UNIT_TEST_CONSTEXPR_TEST_HPP
 #define UNIT_TEST_CONSTEXPR_TEST_HPP
 
-#include <bksge/config.hpp>
-#include <bksge/cmath/fabs.hpp>
+#include <bksge/fnd/config.hpp>
+#include <bksge/fnd/cmath/fabs.hpp>
 
 #if defined(BKSGE_HAS_CXX11_CONSTEXPR)
 

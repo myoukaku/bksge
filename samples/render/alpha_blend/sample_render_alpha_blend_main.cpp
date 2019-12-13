@@ -6,10 +6,10 @@
  *	@author	myoukaku
  */
 
-#include <bksge/window.hpp>
-#include <bksge/render.hpp>
-#include <bksge/math.hpp>
-#include <bksge/cmath.hpp>
+#include <bksge/core/window.hpp>
+#include <bksge/core/render.hpp>
+#include <bksge/core/math.hpp>
+#include <bksge/fnd/cmath.hpp>
 #include <vector>
 #include <memory>
 #include <utility>
@@ -197,7 +197,7 @@ int main()
 	std::vector<std::shared_ptr<bksge::Renderer>>	renderers;
 	std::vector<std::shared_ptr<bksge::Window>>		windows;
 
-#if BKSGE_RENDER_HAS_D3D11_RENDERER
+#if BKSGE_CORE_RENDER_HAS_D3D11_RENDERER
 	{
 		std::shared_ptr<bksge::Window> window(
 			new bksge::Window({800, 600}, "sample_render_alpha_blend - D3D11"));
@@ -210,7 +210,7 @@ int main()
 		renderer->SetClearColor({0.5f, 0.0f, 0.5f, 1});
 	}
 #endif
-#if BKSGE_RENDER_HAS_D3D12_RENDERER
+#if BKSGE_CORE_RENDER_HAS_D3D12_RENDERER
 	{
 		std::shared_ptr<bksge::Window> window(
 			new bksge::Window({800, 600}, "sample_render_alpha_blend - D3D12"));
@@ -223,7 +223,7 @@ int main()
 		renderer->SetClearColor({0.5f, 0.0f, 0.5f, 1});
 	}
 #endif
-#if BKSGE_RENDER_HAS_GL_RENDERER
+#if BKSGE_CORE_RENDER_HAS_GL_RENDERER
 	{
 		std::shared_ptr<bksge::Window> window(
 			new bksge::Window({800, 600}, "sample_render_alpha_blend - GL"));

@@ -6,8 +6,8 @@
  *	@author	myoukaku
  */
 
-#include <bksge/input.hpp>
-#include <bksge/math.hpp>
+#include <bksge/core/input.hpp>
+#include <bksge/core/math.hpp>
 #include <iostream>
 
 int main()

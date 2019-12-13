@@ -6,7 +6,7 @@
  *	@author	myoukaku
  */
 
-#include <bksge/input.hpp>
+#include <bksge/core/input.hpp>
 #include <cstddef>
 #include <iostream>
 

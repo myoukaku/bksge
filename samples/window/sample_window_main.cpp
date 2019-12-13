@@ -6,7 +6,7 @@
  *	@author	myoukaku
  */
 
-#include <bksge/window.hpp>
+#include <bksge/core/window.hpp>
 #include <sstream>
 
 int main()
