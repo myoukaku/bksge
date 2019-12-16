@@ -29,6 +29,7 @@
 #include <bksge/fnd/cmath/round_up.hpp>
 #include <bksge/fnd/cmath/saturate.hpp>
 #include <bksge/fnd/cmath/signbit.hpp>
+#include <bksge/fnd/cmath/step.hpp>
 #include <bksge/fnd/cmath/trunc.hpp>
 
 #endif // BKSGE_FND_CMATH_HPP
