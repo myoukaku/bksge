@@ -42,7 +42,7 @@ ToDXGIPixelFormat(bksge::TextureFormat format)
 BKSGE_INLINE
 Texture::Texture(Device* device, bksge::Texture const& texture)
 {
-	::D3D11_TEXTURE2D_DESC desc {};
+	D3D11_TEXTURE2D_DESC_N desc {};
 	desc.Width              = texture.width();
 	desc.Height             = texture.height();
 	desc.MipLevels          = 1;
@@ -63,11 +63,12 @@ Texture::Texture(Device* device, bksge::Texture const& texture)
 	m_texture = device->CreateTexture2D(desc, &init_data);
 
 	{
-		::D3D11_SHADER_RESOURCE_VIEW_DESC srv_desc {};
+		D3D11_SHADER_RESOURCE_VIEW_DESC_N srv_desc {};
 		srv_desc.Format                    = desc.Format;
 		srv_desc.ViewDimension             = D3D11_SRV_DIMENSION_TEXTURE2D;
 		srv_desc.Texture2D.MostDetailedMip = 0;
 		srv_desc.Texture2D.MipLevels       = desc.MipLevels;
+		srv_desc.Texture2D.PlaneSlice      = 0;
 
 		m_shader_resource_view =
 			device->CreateShaderResourceView(m_texture.Get(), srv_desc);
@@ -85,10 +86,10 @@ Texture::~Texture()
 //	return m_texture.Get();
 //}
 
-BKSGE_INLINE ComPtr<::ID3D11ShaderResourceView> const&
+BKSGE_INLINE ::ID3D11ShaderResourceView*
 Texture::shader_resource_view() const
 {
-	return m_shader_resource_view;
+	return m_shader_resource_view.Get();
 }
 
 }	// namespace d3d11

@@ -31,12 +31,12 @@ public:
 
 	~RenderTarget();
 
-	::ID3D12Resource* GetResource(::UINT index);
+	ID3D12ResourceN* GetResource(::UINT index);
 
 	::D3D12_CPU_DESCRIPTOR_HANDLE GetHandle(::UINT index);
 
 private:
-	ComPtr<::ID3D12Resource>		m_resource[2/*FrameCount*/];
+	ComPtr<ID3D12ResourceN>			m_resource[2/*FrameCount*/];
 	ComPtr<::ID3D12DescriptorHeap>	m_descriptor_heap;
 	::UINT							m_descriptor_size;
 };

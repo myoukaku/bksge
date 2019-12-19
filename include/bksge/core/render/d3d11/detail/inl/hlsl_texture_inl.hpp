@@ -72,11 +72,13 @@ HlslTexture::Load(
 	auto d3d11_texture =
 		resource_cache->GetD3D11Texture(texture);
 
+	auto srv = d3d11_texture->shader_resource_view();
+
 	hlsl_shader->VSetShaderResources(
 		device_context,
 		slot,
 		1,
-		d3d11_texture->shader_resource_view().GetAddressOf());
+		&srv);
 }
 
 }	// namespace d3d11

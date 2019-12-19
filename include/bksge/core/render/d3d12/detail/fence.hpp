@@ -36,7 +36,7 @@ public:
 	void WaitForPreviousFrame(CommandQueue* command_queue);
 
 private:
-	ComPtr<::ID3D12Fence>	m_fence;
+	ComPtr<ID3D12FenceN>	m_fence;
 	::HANDLE				m_event;
 	::UINT64				m_value;
 };

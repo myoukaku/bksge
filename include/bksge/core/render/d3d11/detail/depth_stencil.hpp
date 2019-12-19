@@ -39,7 +39,7 @@ public:
 	ComPtr<::ID3D11DepthStencilView> const& GetView(void) const;
 
 private:
-	ComPtr<::ID3D11Texture2D>        m_texture;
+	ComPtr<ID3D11Texture2DN>         m_texture;
 	ComPtr<::ID3D11DepthStencilView> m_view;
 };
 

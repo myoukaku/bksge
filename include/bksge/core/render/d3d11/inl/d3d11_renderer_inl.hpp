@@ -102,10 +102,13 @@ D3D11Renderer::VSetRenderTarget(Window const& window)
 	m_depth_stencil = bksge::make_unique<d3d11::DepthStencil>(
 		m_device.get(), width, height);
 
-	m_device_context->OMSetRenderTargets(
-		1,
-		m_render_target->GetView().GetAddressOf(),
-		nullptr/*m_depth_stencil->GetView()*/);
+	{
+		auto rtv = m_render_target->GetView();
+		m_device_context->OMSetRenderTargets(
+			1,
+			&rtv,
+			nullptr/*m_depth_stencil->GetView()*/);
+	}
 }
 
 BKSGE_INLINE void
@@ -124,16 +127,19 @@ D3D11Renderer::VBegin(void)
 		m_device_context->RSSetViewports(1, &vp);
 	}
 
-	m_device_context->OMSetRenderTargets(
-		1,
-		m_render_target->GetView().GetAddressOf(),
-		nullptr/*m_depth_stencil->GetView()*/);
+	{
+		auto rtv = m_render_target->GetView();
+		m_device_context->OMSetRenderTargets(
+			1,
+			&rtv,
+			nullptr/*m_depth_stencil->GetView()*/);
+	}
 
 	// Clear Color
 	if ((m_clear_flag & ClearFlag::kColor) != ClearFlag::kNone)
 	{
 		m_device_context->ClearRenderTargetView(
-			m_render_target->GetView().Get(),
+			m_render_target->GetView(),
 			m_clear_color.data());
 	}
 
@@ -206,7 +212,7 @@ D3D11Renderer::VRender(
 	{
 		auto const& blend_state = render_state.blend_state();
 
-		::D3D11_BLEND_DESC blend_desc;
+		D3D11_BLEND_DESC_N blend_desc;
 		blend_desc.AlphaToCoverageEnable  = FALSE;
 		blend_desc.IndependentBlendEnable = FALSE;
 		for (auto& rt : blend_desc.RenderTarget)
@@ -219,6 +225,8 @@ D3D11Renderer::VRender(
 			rt.DestBlendAlpha        = d3d11::BlendFactor(blend_state.alpha_dst_factor());
 			rt.BlendOpAlpha          = d3d11::BlendOperation(blend_state.alpha_operation());
 			rt.RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+			rt.LogicOpEnable         = FALSE;
+			rt.LogicOp               = D3D11_LOGIC_OP_NOOP;
 		}
 
 		auto state = m_device->CreateBlendState(blend_desc);

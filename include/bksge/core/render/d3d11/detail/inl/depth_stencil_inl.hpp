@@ -32,7 +32,7 @@ DepthStencil::DepthStencil(
 	::UINT       width,
 	::UINT       height)
 {
-	::D3D11_TEXTURE2D_DESC desc_depth = {};
+	D3D11_TEXTURE2D_DESC_N desc_depth = {};
 	desc_depth.Width              = width;
 	desc_depth.Height             = height;
 	desc_depth.MipLevels          = 1;

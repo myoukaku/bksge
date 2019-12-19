@@ -34,10 +34,10 @@ public:
 
 	~RenderTarget();
 
-	ComPtr<::ID3D11RenderTargetView> const& GetView(void) const;
+	::ID3D11RenderTargetView* GetView(void) const;
 
 private:
-	ComPtr<::ID3D11RenderTargetView> m_view;
+	ComPtr<ID3D11RenderTargetViewN> m_view;
 };
 
 }	// namespace d3d11

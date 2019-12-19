@@ -62,7 +62,7 @@ private:
 	::UINT GetSizeInBytes(void) const;
 
 private:
-	ComPtr<::ID3D12Resource>	m_resource;
+	ComPtr<ID3D12ResourceN>		m_resource;
 	std::uint8_t*				m_mapped_resource = nullptr;
 	std::size_t					m_offset = 0;
 };

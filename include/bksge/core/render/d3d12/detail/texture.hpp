@@ -42,7 +42,7 @@ public:
 	void CreateView(Device* device, ::D3D12_CPU_DESCRIPTOR_HANDLE dest);
 
 private:
-	ComPtr<::ID3D12Resource>	m_resource;
+	ComPtr<ID3D12ResourceN>	m_resource;
 
 };
 

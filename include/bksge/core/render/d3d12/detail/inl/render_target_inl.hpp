@@ -63,7 +63,7 @@ RenderTarget::~RenderTarget()
 {
 }
 
-BKSGE_INLINE ::ID3D12Resource*
+BKSGE_INLINE ID3D12ResourceN*
 RenderTarget::GetResource(::UINT index)
 {
 	return m_resource[index].Get();

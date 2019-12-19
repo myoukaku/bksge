@@ -30,21 +30,21 @@ public:
 
 	~DXGIFactory();
 
-	std::vector<ComPtr<::IDXGIAdapter1>> EnumAdapters(void);
+	std::vector<ComPtr<IDXGIAdapterN>> EnumAdapters(void);
 
-	ComPtr<::IDXGISwapChain1> CreateSwapChainForHwnd(
+	ComPtr<IDXGISwapChainN> CreateSwapChainForHwnd(
 		::IUnknown*                              device,
 		::HWND                                   hwnd,
 		::DXGI_SWAP_CHAIN_DESC1 const*           desc,
 		::DXGI_SWAP_CHAIN_FULLSCREEN_DESC const* fullscreen_desc,
-		::IDXGIOutput*                           restrict_to_output);
+		IDXGIOutputN*                            restrict_to_output);
 
 	void MakeWindowAssociation(
 		::HWND hwnd,
 		::UINT flags);
 
 private:
-	ComPtr<::IDXGIFactory4> m_factory;
+	ComPtr<IDXGIFactoryN> m_factory;
 };
 
 }	// namespace render

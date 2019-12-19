@@ -112,7 +112,7 @@ public:
 
 private:
 	ComPtr<::ID3D12CommandAllocator>    m_command_allocator;
-	ComPtr<::ID3D12GraphicsCommandList> m_command_list;
+	ComPtr<ID3D12GraphicsCommandListN>  m_command_list;
 };
 
 }	// namespace d3d12

@@ -39,7 +39,7 @@ public:
 	void GetBuffer(::UINT buffer, REFIID riid, void** surface);
 
 private:
-	ComPtr<::IDXGISwapChain3> m_swap_chain;
+	ComPtr<IDXGISwapChainN> m_swap_chain;
 };
 
 }	// namespace render

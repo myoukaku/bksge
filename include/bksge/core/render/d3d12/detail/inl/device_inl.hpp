@@ -28,7 +28,7 @@ namespace d3d12
 {
 
 BKSGE_INLINE
-Device::Device(std::vector<ComPtr<::IDXGIAdapter1>> const& adapters)
+Device::Device(std::vector<ComPtr<IDXGIAdapterN>> const& adapters)
 {
 	::HRESULT hr = S_OK;
 
@@ -96,12 +96,12 @@ Device::CreateCommandAllocator(
 	return std::move(command_allocator);
 }
 
-BKSGE_INLINE ComPtr<::ID3D12GraphicsCommandList>
+BKSGE_INLINE ComPtr<ID3D12GraphicsCommandListN>
 Device::CreateGraphicsCommandList(
 	::D3D12_COMMAND_LIST_TYPE type,
 	::ID3D12CommandAllocator* command_allocator)
 {
-	ComPtr<::ID3D12GraphicsCommandList> command_list;
+	ComPtr<ID3D12GraphicsCommandListN> command_list;
 	ThrowIfFailed(
 		m_device->CreateCommandList(
 			0,
@@ -155,7 +155,7 @@ Device::GetCopyableFootprints(
 
 BKSGE_INLINE void
 Device::CreateRenderTargetView(
-	::ID3D12Resource*                      resource,
+	ID3D12ResourceN*                       resource,
 	::D3D12_RENDER_TARGET_VIEW_DESC const* desc,
 	::D3D12_CPU_DESCRIPTOR_HANDLE          dest_descriptor)
 {
@@ -165,12 +165,12 @@ Device::CreateRenderTargetView(
 		dest_descriptor);
 }
 
-BKSGE_INLINE ComPtr<::ID3D12Fence>
+BKSGE_INLINE ComPtr<ID3D12FenceN>
 Device::CreateFence(
 	::UINT64            initial_value,
 	::D3D12_FENCE_FLAGS flags)
 {
-	ComPtr<::ID3D12Fence> fence;
+	ComPtr<ID3D12FenceN> fence;
 	ThrowIfFailed(
 		m_device->CreateFence(
 			initial_value,
@@ -207,7 +207,7 @@ Device::CreateGraphicsPipelineState(
 	return std::move(pipeline_state);
 }
 
-BKSGE_INLINE ComPtr<::ID3D12Resource>
+BKSGE_INLINE ComPtr<ID3D12ResourceN>
 Device::CreateCommittedResource(
 	::D3D12_HEAP_PROPERTIES const* heap_properties,
 	::D3D12_HEAP_FLAGS             heap_flags,
@@ -215,7 +215,7 @@ Device::CreateCommittedResource(
 	::D3D12_RESOURCE_STATES        initial_resource_state,
 	::D3D12_CLEAR_VALUE const*     optimized_clearvalue)
 {
-	ComPtr<::ID3D12Resource> resource;
+	ComPtr<ID3D12ResourceN> resource;
 	ThrowIfFailed(
 		m_device->CreateCommittedResource(
 			heap_properties,
@@ -237,7 +237,7 @@ Device::CreateConstantBufferView(
 
 BKSGE_INLINE void
 Device::CreateShaderResourceView(
-	::ID3D12Resource*                        resource,
+	ID3D12ResourceN*                         resource,
 	::D3D12_SHADER_RESOURCE_VIEW_DESC const* desc,
 	::D3D12_CPU_DESCRIPTOR_HANDLE            dest_descriptor)
 {

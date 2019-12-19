@@ -135,7 +135,7 @@ public:
 		::INT  base_vertex_location);
 
 private:
-	ComPtr<::ID3D11DeviceContext>    m_device_context;
+	ComPtr<ID3D11DeviceContextN>    m_device_context;
 };
 
 }	// namespace d3d11

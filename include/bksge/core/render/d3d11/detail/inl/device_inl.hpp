@@ -30,7 +30,7 @@ namespace d3d11
 {
 
 BKSGE_INLINE
-Device::Device(std::vector<ComPtr<::IDXGIAdapter1>> const& adapters)
+Device::Device(std::vector<ComPtr<IDXGIAdapterN>> const& adapters)
 {
 	::UINT create_device_flags = 0;
 #if defined(_DEBUG)
@@ -57,6 +57,7 @@ Device::Device(std::vector<ComPtr<::IDXGIAdapter1>> const& adapters)
 	for (auto driver_type : driver_types)
 	{
 		m_driver_type = driver_type;
+		ComPtr<::ID3D11Device> device;
 		hr = ::D3D11CreateDevice(
 			adapters[0].Get(),
 			D3D_DRIVER_TYPE_UNKNOWN,	// m_driver_type
@@ -65,12 +66,13 @@ Device::Device(std::vector<ComPtr<::IDXGIAdapter1>> const& adapters)
 			feature_levels,
 			num_feature_levels,
 			D3D11_SDK_VERSION,
-			&m_device,
+			&device,
 			&m_feature_level,
 			nullptr);
 
 		if (SUCCEEDED(hr))
 		{
+			ThrowIfFailed(device.As(&m_device));
 			break;
 		}
 	}
@@ -83,12 +85,25 @@ Device::~Device()
 {
 }
 
-BKSGE_INLINE ComPtr<::ID3D11DeviceContext>
+BKSGE_INLINE ComPtr<ID3D11DeviceContextN>
 Device::GetImmediateContext(void)
 {
 	ComPtr<::ID3D11DeviceContext> device_context;
 	m_device->GetImmediateContext(&device_context);
-	return std::move(device_context);
+
+	ComPtr<ID3D11DeviceContextN> device_context_n;
+	ThrowIfFailed(device_context.As(&device_context_n));
+	return std::move(device_context_n);
+}
+
+BKSGE_INLINE ComPtr<::ID3D11RenderTargetView1>
+Device::CreateRenderTargetView(
+	::ID3D11Resource*                      resource,
+	::D3D11_RENDER_TARGET_VIEW_DESC1 const* desc)
+{
+	ComPtr<::ID3D11RenderTargetView1> rtv;
+	ThrowIfFailed(m_device->CreateRenderTargetView1(resource, desc, &rtv));
+	return std::move(rtv);
 }
 
 BKSGE_INLINE ComPtr<::ID3D11RenderTargetView>
@@ -129,6 +144,16 @@ Device::CreateSamplerState(::D3D11_SAMPLER_DESC const& desc)
 	return std::move(state);
 }
 
+BKSGE_INLINE ComPtr<::ID3D11Texture2D1>
+Device::CreateTexture2D(
+	::D3D11_TEXTURE2D_DESC1 const&  desc,
+	::D3D11_SUBRESOURCE_DATA const* init_data)
+{
+	ComPtr<::ID3D11Texture2D1> texture;
+	ThrowIfFailed(m_device->CreateTexture2D1(&desc, init_data, &texture));
+	return std::move(texture);
+}
+
 BKSGE_INLINE ComPtr<::ID3D11Texture2D>
 Device::CreateTexture2D(
 	::D3D11_TEXTURE2D_DESC const&   desc,
@@ -163,6 +188,16 @@ Device::CreatePixelShader(::ID3DBlob* micro_code)
 	return std::move(shader);
 }
 
+BKSGE_INLINE ComPtr<::ID3D11ShaderResourceView1>
+Device::CreateShaderResourceView(
+	::ID3D11Resource*                         resource,
+	::D3D11_SHADER_RESOURCE_VIEW_DESC1 const& desc)
+{
+	ComPtr<::ID3D11ShaderResourceView1> srv;
+	ThrowIfFailed(m_device->CreateShaderResourceView1(resource, &desc, &srv));
+	return std::move(srv);
+}
+
 BKSGE_INLINE ComPtr<::ID3D11ShaderResourceView>
 Device::CreateShaderResourceView(
 	::ID3D11Resource*                        resource,
@@ -190,12 +225,39 @@ Device::CreateInputLayout(
 	return std::move(layout);
 }
 
+BKSGE_INLINE ComPtr<::ID3D11RasterizerState2>
+Device::CreateRasterizerState(
+	::D3D11_RASTERIZER_DESC2 const& rasterizer_desc)
+{
+	ComPtr<::ID3D11RasterizerState2> state;
+	ThrowIfFailed(m_device->CreateRasterizerState2(&rasterizer_desc, &state));
+	return std::move(state);
+}
+
+BKSGE_INLINE ComPtr<::ID3D11RasterizerState1>
+Device::CreateRasterizerState(
+	::D3D11_RASTERIZER_DESC1 const& rasterizer_desc)
+{
+	ComPtr<::ID3D11RasterizerState1> state;
+	ThrowIfFailed(m_device->CreateRasterizerState1(&rasterizer_desc, &state));
+	return std::move(state);
+}
+
 BKSGE_INLINE ComPtr<::ID3D11RasterizerState>
 Device::CreateRasterizerState(
 	::D3D11_RASTERIZER_DESC const& rasterizer_desc)
 {
 	ComPtr<::ID3D11RasterizerState> state;
 	ThrowIfFailed(m_device->CreateRasterizerState(&rasterizer_desc, &state));
+	return std::move(state);
+}
+
+BKSGE_INLINE ComPtr<::ID3D11BlendState1>
+Device::CreateBlendState(
+	::D3D11_BLEND_DESC1 const& blend_state_desc)
+{
+	ComPtr<::ID3D11BlendState1> state;
+	ThrowIfFailed(m_device->CreateBlendState1(&blend_state_desc, &state));
 	return std::move(state);
 }
 

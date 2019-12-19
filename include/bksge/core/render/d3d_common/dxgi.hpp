@@ -17,7 +17,25 @@
 #define NOMINMAX
 #endif
 
-#include <dxgi1_5.h>
+#include <dxgi1_6.h>
+
+namespace bksge
+{
+
+namespace render
+{
+
+using IDXGIAdapterN   = ::IDXGIAdapter4;
+using IDXGIDeviceN    = ::IDXGIDevice4;
+using IDXGIFactoryN   = ::IDXGIFactory7;
+using IDXGIOutputN    = ::IDXGIOutput6;
+using IDXGIResourceN  = ::IDXGIResource1;
+using IDXGISurfaceN   = ::IDXGISurface2;
+using IDXGISwapChainN = ::IDXGISwapChain4;
+
+}	// namespace render
+
+}	// namespace bksge
 
 #if defined(_MSC_VER)
 #  pragma comment(lib, "dxgi.lib")

@@ -30,7 +30,7 @@ namespace d3d12
 class Device
 {
 public:
-	explicit Device(std::vector<ComPtr<::IDXGIAdapter1>> const& adapters);
+	explicit Device(std::vector<ComPtr<IDXGIAdapterN>> const& adapters);
 
 	~Device();
 
@@ -40,7 +40,7 @@ public:
 	ComPtr<::ID3D12CommandAllocator> CreateCommandAllocator(
 		::D3D12_COMMAND_LIST_TYPE type);
 
-	ComPtr<::ID3D12GraphicsCommandList> CreateGraphicsCommandList(
+	ComPtr<ID3D12GraphicsCommandListN> CreateGraphicsCommandList(
 		::D3D12_COMMAND_LIST_TYPE type,
 		::ID3D12CommandAllocator* command_allocator);
 
@@ -61,12 +61,12 @@ public:
 		::UINT64*								total_bytes);
 
 	void CreateRenderTargetView(
-		::ID3D12Resource*                      resource,
+		ID3D12ResourceN*                       resource,
 		::D3D12_RENDER_TARGET_VIEW_DESC const* desc,
 		::D3D12_CPU_DESCRIPTOR_HANDLE          dest_descriptor
 	);
 
-	ComPtr<::ID3D12Fence> CreateFence(
+	ComPtr<ID3D12FenceN> CreateFence(
 		::UINT64            initial_value,
 		::D3D12_FENCE_FLAGS flags);
 
@@ -78,7 +78,7 @@ public:
 	ComPtr<::ID3D12PipelineState> CreateGraphicsPipelineState(
 		::D3D12_GRAPHICS_PIPELINE_STATE_DESC const& desc);
 
-	ComPtr<::ID3D12Resource> CreateCommittedResource(
+	ComPtr<ID3D12ResourceN> CreateCommittedResource(
 		::D3D12_HEAP_PROPERTIES const* heap_properties,
 		::D3D12_HEAP_FLAGS             heap_flags,
 		::D3D12_RESOURCE_DESC const*   desc,
@@ -90,7 +90,7 @@ public:
 		::D3D12_CPU_DESCRIPTOR_HANDLE            dest_descriptor);
 
 	void CreateShaderResourceView(
-		::ID3D12Resource*                        resource,
+		ID3D12ResourceN*                         resource,
 		::D3D12_SHADER_RESOURCE_VIEW_DESC const* desc,
 		::D3D12_CPU_DESCRIPTOR_HANDLE            dest_descriptor);
 
@@ -99,7 +99,7 @@ public:
 		::D3D12_CPU_DESCRIPTOR_HANDLE dest_descriptor);
 
 private:
-	ComPtr<::ID3D12Device>	m_device;
+	ComPtr<ID3D12DeviceN>	m_device;
 	::D3D_FEATURE_LEVEL		m_feature_level;
 };
 

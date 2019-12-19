@@ -40,12 +40,12 @@ DXGIFactory::~DXGIFactory()
 {
 }
 
-BKSGE_INLINE std::vector<ComPtr<::IDXGIAdapter1>>
+BKSGE_INLINE std::vector<ComPtr<IDXGIAdapterN>>
 DXGIFactory::EnumAdapters(void)
 {
-	std::vector<ComPtr<::IDXGIAdapter1>> result;
+	std::vector<ComPtr<IDXGIAdapterN>> result;
 
-	ComPtr<::IDXGIAdapter1> adapter;
+	ComPtr<IDXGIAdapter1> adapter;
 
 	// Enum hardware adapters
 	for (::UINT i = 0;
@@ -62,25 +62,29 @@ DXGIFactory::EnumAdapters(void)
 		}
 #endif
 
-		result.push_back(adapter);
+		ComPtr<IDXGIAdapterN> adapter_n;
+		ThrowIfFailed(adapter.As(&adapter_n));
+		result.push_back(adapter_n);
 	}
 
 	// Enum warp adapter
 	ThrowIfFailed(m_factory->EnumWarpAdapter(IID_PPV_ARGS(&adapter)));
-	result.push_back(adapter);
+	ComPtr<IDXGIAdapterN> adapter_n;
+	ThrowIfFailed(adapter.As(&adapter_n));
+	result.push_back(adapter_n);
 
 	return result;
 }
 
-BKSGE_INLINE ComPtr<::IDXGISwapChain1>
+BKSGE_INLINE ComPtr<IDXGISwapChainN>
 DXGIFactory::CreateSwapChainForHwnd(
 	::IUnknown*                              device,
 	::HWND                                   hwnd,
 	::DXGI_SWAP_CHAIN_DESC1 const*           desc,
 	::DXGI_SWAP_CHAIN_FULLSCREEN_DESC const* fullscreen_desc,
-	::IDXGIOutput*                           restrict_to_output)
+	IDXGIOutputN*                            restrict_to_output)
 {
-	ComPtr<::IDXGISwapChain1> swap_chain;
+	ComPtr<IDXGISwapChain1> swap_chain;
 	ThrowIfFailed(m_factory->CreateSwapChainForHwnd(
 		device,
 		hwnd,
@@ -88,7 +92,10 @@ DXGIFactory::CreateSwapChainForHwnd(
 		fullscreen_desc,
 		restrict_to_output,
 		&swap_chain));
-	return std::move(swap_chain);
+
+	ComPtr<IDXGISwapChainN> swap_chain_n;
+	ThrowIfFailed(swap_chain.As(&swap_chain_n));
+	return std::move(swap_chain_n);
 }
 
 BKSGE_INLINE void

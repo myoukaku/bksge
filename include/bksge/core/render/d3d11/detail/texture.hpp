@@ -35,11 +35,11 @@ public:
 	~Texture();
 
 //	::ID3D11Texture2D* texture() const;
-	ComPtr<::ID3D11ShaderResourceView> const& shader_resource_view() const;
+	::ID3D11ShaderResourceView* shader_resource_view() const;
 
 private:
-	ComPtr<::ID3D11Texture2D>			m_texture;
-	ComPtr<::ID3D11ShaderResourceView>	m_shader_resource_view;
+	ComPtr<ID3D11Texture2DN>			m_texture;
+	ComPtr<ID3D11ShaderResourceViewN>	m_shader_resource_view;
 };
 
 }	// namespace d3d11

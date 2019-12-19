@@ -69,7 +69,7 @@ inline void UpdateSubresource(
 	CommandList* command_list,
 	CommandQueue* command_queue,
 	Fence* fence,
-	::ID3D12Resource* destination_resource,
+	ID3D12ResourceN* destination_resource,
 	bksge::Texture const& src_texture)
 {
 	auto const destination_desc = destination_resource->GetDesc();
@@ -99,7 +99,7 @@ inline void UpdateSubresource(
 	desc.Layout             = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 	desc.Flags              = D3D12_RESOURCE_FLAG_NONE;
 
-	ComPtr<::ID3D12Resource> intermediate_resource =
+	ComPtr<ID3D12ResourceN> intermediate_resource =
 		device->CreateCommittedResource(
 			&prop,
 			D3D12_HEAP_FLAG_NONE,

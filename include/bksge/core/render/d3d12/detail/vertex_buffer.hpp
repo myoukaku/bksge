@@ -36,7 +36,7 @@ public:
 	void Draw(CommandList* command_list);
 
 private:
-	ComPtr<::ID3D12Resource>	m_resource;
+	ComPtr<ID3D12ResourceN>		m_resource;
 	::D3D12_VERTEX_BUFFER_VIEW	m_view;
 	::UINT						m_count = 0;
 };

@@ -37,7 +37,7 @@ RenderTarget::RenderTarget(
 
 	m_view = device->CreateRenderTargetView(
 		back_buffer.Get(),
-		nullptr);
+		static_cast<D3D11_RENDER_TARGET_VIEW_DESC_N*>(nullptr));
 }
 
 BKSGE_INLINE
@@ -45,10 +45,10 @@ RenderTarget::~RenderTarget()
 {
 }
 
-BKSGE_INLINE ComPtr<::ID3D11RenderTargetView> const&
+BKSGE_INLINE ::ID3D11RenderTargetView*
 RenderTarget::GetView(void) const
 {
-	return m_view;
+	return m_view.Get();
 }
 
 }	// namespace d3d11
