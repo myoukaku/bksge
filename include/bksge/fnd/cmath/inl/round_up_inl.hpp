@@ -13,7 +13,6 @@
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/isinf.hpp>
 #include <bksge/fnd/cmath/ceil.hpp>
-#include <cmath>
 #include <limits>
 
 namespace bksge

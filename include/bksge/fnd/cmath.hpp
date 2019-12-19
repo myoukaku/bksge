@@ -28,9 +28,11 @@
 #include <bksge/fnd/cmath/round_down.hpp>
 #include <bksge/fnd/cmath/round_half_even.hpp>
 #include <bksge/fnd/cmath/round_up.hpp>
+#include <bksge/fnd/cmath/rsqrt.hpp>
 #include <bksge/fnd/cmath/saturate.hpp>
 #include <bksge/fnd/cmath/signbit.hpp>
 #include <bksge/fnd/cmath/smoothstep.hpp>
+#include <bksge/fnd/cmath/sqrt.hpp>
 #include <bksge/fnd/cmath/step.hpp>
 #include <bksge/fnd/cmath/trunc.hpp>
 
