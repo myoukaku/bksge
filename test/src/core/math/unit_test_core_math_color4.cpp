@@ -19,6 +19,7 @@
 #include <type_traits>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
+#include "serialize_test.hpp"
 
 namespace bksge_math_test
 {
@@ -1339,6 +1340,24 @@ TYPED_TEST(MathColor4FloatTest, LerpTest)
 		BKSGE_CONSTEXPR_EXPECT_EQ(Color4(  5.0, -12.5, -17.5,  22.5), Lerp(v1, v2, 0.75));
 		BKSGE_CONSTEXPR_EXPECT_EQ(Color4( 10.0, -20.0, -30.0,  40.0), Lerp(v1, v2, 1.00));
 	}
+}
+
+TYPED_TEST(MathColor4Test, SerializeTest)
+{
+	using namespace bksge::serialization;
+
+	using T = TypeParam;
+	bksge::Color4<T> const v { 1, 2, -3, 4 };
+
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v);
+
+#if !defined(BKSGE_NO_STD_WSTREAMBUF)
+	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
+#endif
 }
 
 }	// namespace color4_test

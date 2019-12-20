@@ -23,6 +23,7 @@
 #include <tuple>
 #include <type_traits>
 #include "constexpr_test.hpp"
+#include "serialize_test.hpp"
 
 //#define BKSGE_DXMATH_TEST
 
@@ -3177,6 +3178,33 @@ TYPED_TEST(MathMatrix4x4FloatTest, DecomposeTest)
 		EXPECT_EQ(scale_expected,    scale);
 		EXPECT_EQ(rotation_expected, rotation);
 	}
+}
+
+TYPED_TEST(MathMatrix4x4Test, SerializeTest)
+{
+	using namespace bksge::serialization;
+
+	using T = TypeParam;
+	using Matrix4x4 = bksge::math::Matrix4x4<T>;
+	using Vector4 = bksge::math::Vector4<T>;
+
+	Matrix4x4 const v
+	{
+		Vector4{11, 12, 13, 14},
+		Vector4{21, 22, 23, 24},
+		Vector4{31, 32, 33, 34},
+		Vector4{41, 42, 43, 44},
+	};
+
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v);
+
+#if !defined(BKSGE_NO_STD_WSTREAMBUF)
+	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
+#endif
 }
 
 }	// namespace matrix4x4_test

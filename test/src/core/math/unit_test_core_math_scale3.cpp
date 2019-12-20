@@ -18,6 +18,7 @@
 #include <tuple>
 #include <type_traits>
 #include "constexpr_test.hpp"
+#include "serialize_test.hpp"
 
 namespace bksge_math_test
 {
@@ -1055,6 +1056,24 @@ TYPED_TEST(MathScale3FloatTest, LerpTest)
 	BKSGE_CONSTEXPR_EXPECT_EQ(Scale3( 5.0, 10.0, 15.0), Lerp(Scale3(0, 0, 0), Scale3(10, 20, 30), TypeParam(0.50)));
 	BKSGE_CONSTEXPR_EXPECT_EQ(Scale3( 7.5, 15.0, 22.5), Lerp(Scale3(0, 0, 0), Scale3(10, 20, 30), TypeParam(0.75)));
 	BKSGE_CONSTEXPR_EXPECT_EQ(Scale3(10.0, 20.0, 30.0), Lerp(Scale3(0, 0, 0), Scale3(10, 20, 30), TypeParam(1.00)));
+}
+
+TYPED_TEST(MathScale3Test, SerializeTest)
+{
+	using namespace bksge::serialization;
+
+	using T = TypeParam;
+	bksge::Scale3<T> const v { -1, 2, 3 };
+
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v);
+
+#if !defined(BKSGE_NO_STD_WSTREAMBUF)
+	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
+#endif
 }
 
 }	// namespace scale3_test

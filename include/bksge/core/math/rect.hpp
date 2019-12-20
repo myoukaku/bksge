@@ -12,6 +12,8 @@
 #include <bksge/core/math/fwd/rect_fwd.hpp>
 #include <bksge/core/math/fwd/vector2_fwd.hpp>
 #include <bksge/core/math/fwd/size2_fwd.hpp>
+#include <bksge/fnd/serialization/access.hpp>
+#include <bksge/fnd/serialization/nvp.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_swappable.hpp>
 #include <bksge/fnd/config.hpp>
 #include <iosfwd>		// basic_ostream
@@ -76,6 +78,20 @@ private:
 	T	 m_top;			///< 上
 	T	 m_right;		///< 右
 	T	 m_bottom;		///< 下
+
+private:
+	/**
+	 *	@brief	シリアライズ
+	 */
+	friend class bksge::serialization::access;
+	template <typename Archive>
+	void serialize(Archive& ar, unsigned int /*version*/)
+	{
+		ar & BKSGE_SERIALIZATION_NVP(m_left);
+		ar & BKSGE_SERIALIZATION_NVP(m_top);
+		ar & BKSGE_SERIALIZATION_NVP(m_right);
+		ar & BKSGE_SERIALIZATION_NVP(m_bottom);
+	}
 };
 
 /**

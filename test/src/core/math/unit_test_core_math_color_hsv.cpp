@@ -17,6 +17,7 @@
 #include <tuple>
 #include <type_traits>
 #include "constexpr_test.hpp"
+#include "serialize_test.hpp"
 
 namespace bksge_math_test
 {
@@ -985,6 +986,24 @@ TYPED_TEST(MathColorHSVTest, ZeroTest)
 		static_assert(std::is_same<decltype(v), const ColorHSV>::value, "");
 		EXPECT_EQ(ColorHSV(0, 0, 0), v);
 	}
+}
+
+TYPED_TEST(MathColorHSVTest, SerializeTest)
+{
+	using namespace bksge::serialization;
+
+	using T = TypeParam;
+	bksge::ColorHSV<T> const v { 1, 2, 3 };
+
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v);
+
+#if !defined(BKSGE_NO_STD_WSTREAMBUF)
+	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
+#endif
 }
 
 }	// namespace color_hsv_test

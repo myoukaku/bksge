@@ -17,6 +17,7 @@
 #include <tuple>
 #include <type_traits>
 #include "constexpr_test.hpp"
+#include "serialize_test.hpp"
 
 namespace bksge_math_test
 {
@@ -896,6 +897,24 @@ TYPED_TEST(MathVector2FloatTest, LerpTest)
 	BKSGE_CONSTEXPR_EXPECT_EQ(Vector2( 5.0, 10.0), Lerp(Vector2(0, 0), Vector2(10, 20), TypeParam(0.50)));
 	BKSGE_CONSTEXPR_EXPECT_EQ(Vector2( 7.5, 15.0), Lerp(Vector2(0, 0), Vector2(10, 20), TypeParam(0.75)));
 	BKSGE_CONSTEXPR_EXPECT_EQ(Vector2(10.0, 20.0), Lerp(Vector2(0, 0), Vector2(10, 20), TypeParam(1.00)));
+}
+
+TYPED_TEST(MathVector2Test, SerializeTest)
+{
+	using namespace bksge::serialization;
+
+	using T = TypeParam;
+	bksge::Vector2<T> const v { 4, 5 };
+
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v);
+
+#if !defined(BKSGE_NO_STD_WSTREAMBUF)
+	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
+#endif
 }
 
 }	// namespace vector2_test

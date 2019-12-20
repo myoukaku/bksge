@@ -25,6 +25,7 @@
 #include <tuple>
 #include <type_traits>
 #include "constexpr_test.hpp"
+#include "serialize_test.hpp"
 
 namespace bksge_math_test
 {
@@ -1916,6 +1917,32 @@ TYPED_TEST(MathMatrix3x3Test, MakeShearTest)
 
 		EXPECT_EQ(expected, m);
 	}
+}
+
+TYPED_TEST(MathMatrix3x3Test, SerializeTest)
+{
+	using namespace bksge::serialization;
+
+	using T = TypeParam;
+	using Matrix3x3 = bksge::math::Matrix3x3<T>;
+	using Vector3 = bksge::math::Vector3<T>;
+
+	Matrix3x3 const v
+	{
+		Vector3{11, 12, 13},
+		Vector3{21, 22, 23},
+		Vector3{31, 32, 33},
+	};
+
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v);
+
+#if !defined(BKSGE_NO_STD_WSTREAMBUF)
+	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
+#endif
 }
 
 }	// namespace matrix3x3_test

@@ -9,6 +9,8 @@
 #ifndef BKSGE_CORE_MATH_DETAIL_VECTOR_VALUE_HPP
 #define BKSGE_CORE_MATH_DETAIL_VECTOR_VALUE_HPP
 
+#include <bksge/fnd/serialization/access.hpp>
+#include <bksge/fnd/serialization/nvp.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
 
@@ -43,6 +45,17 @@ public:
 
 public:
 	T	m_elems[N];
+
+private:
+	/**
+	 *	@brief	シリアライズ
+	 */
+	friend class bksge::serialization::access;
+	template <typename Archive>
+	void serialize(Archive& ar, unsigned int /*version*/)
+	{
+		ar & BKSGE_SERIALIZATION_NVP(m_elems);
+	}
 };
 
 }	// namespace detail

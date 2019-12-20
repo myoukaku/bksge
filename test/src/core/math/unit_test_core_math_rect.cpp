@@ -16,6 +16,7 @@
 #include <type_traits>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
+#include "serialize_test.hpp"
 
 namespace bksge_math_test
 {
@@ -378,6 +379,27 @@ TYPED_TEST(MathRectTest, OutputStreamTest)
 		ss << r;
 		EXPECT_EQ(L"{ -10, 9, 0, 24 }", ss.str());
 	}
+}
+
+TYPED_TEST(MathRectTest, SerializeTest)
+{
+	using namespace bksge::serialization;
+
+	using T = TypeParam;
+	using Rect = bksge::math::Rect<T>;
+	using Vector2 = bksge::math::Vector2<T>;
+
+	Rect const v{Vector2{1, -2}, Vector2{3, 4}};
+
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v);
+
+#if !defined(BKSGE_NO_STD_WSTREAMBUF)
+	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
+#endif
 }
 
 }	// namespace rect_test
