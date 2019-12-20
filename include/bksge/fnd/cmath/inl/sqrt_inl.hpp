@@ -63,12 +63,12 @@ inline BKSGE_CONSTEXPR FloatType
 sqrt_impl(FloatType x) BKSGE_NOEXCEPT
 {
 	return
+		bksge::isnan(x) ?
+			std::numeric_limits<FloatType>::quiet_NaN() :
 		x < 0 ?
 			std::numeric_limits<FloatType>::quiet_NaN() :
 		bksge::isinf(x) || bksge::iszero(x) ?
 			x :
-		bksge::isnan(x) ?
-			std::numeric_limits<FloatType>::quiet_NaN() :
 		sqrt_unchecked(x);
 }
 
