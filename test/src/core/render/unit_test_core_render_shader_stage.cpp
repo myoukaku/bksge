@@ -9,6 +9,7 @@
 #include <bksge/core/render/shader_stage.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
+#include "serialize_test.hpp"
 
 namespace bksge_core_render_test
 {
@@ -48,6 +49,23 @@ GTEST_TEST(Render_ShaderStage, OutputStreamTest)
 	OutputStreamTestSub(ShaderStage::kFragment					, L"ShaderStage::kFragment");
 	OutputStreamTestSub(ShaderStage::kTessellationControl		, L"ShaderStage::kTessellationControl");
 	OutputStreamTestSub(ShaderStage::kTessellationEvaluation	, L"ShaderStage::kTessellationEvaluation");
+}
+
+GTEST_TEST(Render_ShaderStage, SerializeTest)
+{
+	using namespace bksge::serialization;
+
+	auto const v = bksge::ShaderStage::kFragment;
+
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v);
+
+#if !defined(BKSGE_NO_STD_WSTREAMBUF)
+	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
+#endif
 }
 
 }	// namespace shader_stage_test

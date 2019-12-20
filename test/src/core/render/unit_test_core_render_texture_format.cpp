@@ -8,6 +8,8 @@
 
 #include <bksge/core/render/texture_format.hpp>
 #include <gtest/gtest.h>
+#include <sstream>
+#include "serialize_test.hpp"
 
 GTEST_TEST(TextureFormatTest, GetPixelSwizzleTest)
 {
@@ -528,4 +530,21 @@ GTEST_TEST(TextureFormatTest, GetMipmappedSizeInBytesTest)
 	EXPECT_EQ(0u, GetMipmappedSizeInBytes(TextureFormat::kRGBA_U8, 0, 4, 2));
 	EXPECT_EQ(0u, GetMipmappedSizeInBytes(TextureFormat::kRGBA_U8, 4, 0, 2));
 	EXPECT_EQ(0u, GetMipmappedSizeInBytes(TextureFormat::kRGBA_U8, 4, 4, 0));
+}
+
+GTEST_TEST(TextureFormatTest, SerializeTest)
+{
+	using namespace bksge::serialization;
+
+	auto const v = bksge::TextureFormat::kRGBA_U8;
+
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v);
+
+#if !defined(BKSGE_NO_STD_WSTREAMBUF)
+	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
+#endif
 }

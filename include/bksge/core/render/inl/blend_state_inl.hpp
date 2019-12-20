@@ -109,6 +109,25 @@ BlendState::SetFactor(
 	m_alpha_dst_factor = alpha_dst;
 }
 
+BKSGE_INLINE bool
+operator==(BlendState const& lhs, BlendState const& rhs)
+{
+	return
+		lhs.enable()           == rhs.enable() &&
+		lhs.operation()        == rhs.operation() &&
+		lhs.src_factor()       == rhs.src_factor() &&
+		lhs.dst_factor()       == rhs.dst_factor() &&
+		lhs.alpha_operation()  == rhs.alpha_operation() &&
+		lhs.alpha_src_factor() == rhs.alpha_src_factor() &&
+		lhs.alpha_dst_factor() == rhs.alpha_dst_factor();
+}
+
+BKSGE_INLINE bool
+operator!=(BlendState const& lhs, BlendState const& rhs)
+{
+	return !(lhs == rhs);
+}
+
 }	// namespace render
 
 }	// namespace bksge

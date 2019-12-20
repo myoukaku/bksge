@@ -9,6 +9,7 @@
 #include <bksge/core/render/clear_flag.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
+#include "serialize_test.hpp"
 
 GTEST_TEST(Render_ClearFlag, BasicTest)
 {
@@ -51,3 +52,20 @@ GTEST_TEST(Render_ClearFlag, OutputStreamTest)
 	}
 }
 #endif
+
+GTEST_TEST(Render_ClearFlag, SerializeTest)
+{
+	using namespace bksge::serialization;
+
+	auto const v = bksge::ClearFlag::kColor | bksge::ClearFlag::kStencil;
+
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v);
+
+#if !defined(BKSGE_NO_STD_WSTREAMBUF)
+	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
+#endif
+}

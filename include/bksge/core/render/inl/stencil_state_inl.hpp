@@ -113,6 +113,25 @@ StencilState::SetPassOperation(StencilOperation op)
 	m_pass_operation = op;
 }
 
+BKSGE_INLINE bool
+operator==(StencilState const& lhs, StencilState const& rhs)
+{
+	return
+		lhs.enable()               == rhs.enable() &&
+		lhs.read_mask()            == rhs.read_mask() &&
+		lhs.write_mask()           == rhs.write_mask() &&
+		lhs.func()                 == rhs.func() &&
+		lhs.fail_operation()       == rhs.fail_operation() &&
+		lhs.depth_fail_operation() == rhs.depth_fail_operation() &&
+		lhs.pass_operation()       == rhs.pass_operation();
+}
+
+BKSGE_INLINE bool
+operator!=(StencilState const& lhs, StencilState const& rhs)
+{
+	return !(lhs == rhs);
+}
+
 }	// namespace render
 
 }	// namespace bksge

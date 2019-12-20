@@ -133,9 +133,9 @@ GTEST_TEST(Render_ShaderParameterMap, MoveTest)
 	}
 }
 
+#if 0
 GTEST_TEST(Render_ShaderParameterMap, SerializeTest)
 {
-#if 0
 	using namespace bksge;
 	using namespace bksge::render;
 	using namespace bksge::archive;
@@ -153,5 +153,5 @@ GTEST_TEST(Render_ShaderParameterMap, SerializeTest)
 	SerializeTest<text_woarchive,  text_wiarchive,  std::wstringstream>(m);
 	SerializeTest<xml_woarchive,   xml_wiarchive,   std::wstringstream>(m);
 #endif
-#endif
 }
+#endif

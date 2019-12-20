@@ -10,7 +10,7 @@
 #include <gtest/gtest.h>
 #include <sstream>
 #include <type_traits>
-//#include "serialize_test.hpp"
+#include "serialize_test.hpp"
 
 GTEST_TEST(Render_VertexElement, BasicTest)
 {
@@ -55,20 +55,24 @@ GTEST_TEST(Render_VertexElement, BasicTest)
 
 GTEST_TEST(Render_VertexElement, SerializeTest)
 {
-#if 0
-	using namespace bksge::archive;
-	using namespace bksge;
+	using namespace bksge::serialization;
 
-	const VPosition v {{1,2,3}};
-	const VNormal n {{4,5,6}};
+	const bksge::VPosition v {{1,2,3}};
+	const bksge::VNormal n {{4,5,6}};
 
-	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream> (v);
-	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream> (n);
-	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream> (v);
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(n);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(n);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(n);
 
 #if !defined(BKSGE_NO_STD_WSTREAMBUF)
-	SerializeTest<text_woarchive,  text_wiarchive,  std::wstringstream>(n);
-	SerializeTest<xml_woarchive,   xml_wiarchive,   std::wstringstream>(v);
-#endif
+	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v);
+	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(n);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(n);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(n);
 #endif
 }

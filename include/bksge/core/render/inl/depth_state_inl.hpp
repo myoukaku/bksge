@@ -62,6 +62,21 @@ DepthState::SetFunc(ComparisonFunction func)
 	m_func = func;
 }
 
+BKSGE_INLINE bool
+operator==(DepthState const& lhs, DepthState const& rhs)
+{
+	return
+		lhs.enable() == rhs.enable() &&
+		lhs.write()  == rhs.write() &&
+		lhs.func()   == rhs.func();
+}
+
+BKSGE_INLINE bool
+operator!=(DepthState const& lhs, DepthState const& rhs)
+{
+	return !(lhs == rhs);
+}
+
 }	// namespace render
 
 }	// namespace bksge

@@ -11,8 +11,8 @@
 
 #include <bksge/core/render/semantic.hpp>
 #include <bksge/core/render/detail/type_enum.hpp>
-//#include <bksge/fnd/serialization/access.hpp>
-//#include <bksge/fnd/serialization/nvp.hpp>
+#include <bksge/fnd/serialization/access.hpp>
+#include <bksge/fnd/serialization/nvp.hpp>
 #include <cstddef>
 
 namespace bksge
@@ -43,7 +43,6 @@ struct VertexElement
 	const_iterator end(void) const;
 
 private:
-#if 0
 	/**
 	 *	@brief	シリアライズ
 	 */
@@ -53,7 +52,6 @@ private:
 	{
 		ar & BKSGE_SERIALIZATION_NVP(m_data);
 	}
-#endif
 };
 
 template <typename T, std::size_t N, Semantic S>

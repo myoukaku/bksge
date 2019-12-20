@@ -12,7 +12,12 @@
 #include <bksge/core/render/fwd/stencil_state_fwd.hpp>
 #include <bksge/core/render/comparison_function.hpp>
 #include <bksge/core/render/stencil_operation.hpp>
+#include <bksge/fnd/serialization/access.hpp>
+#include <bksge/fnd/serialization/nvp.hpp>
+#include <bksge/fnd/ios/flags_saver.hpp>
 #include <cstdint>
+#include <ostream>
+#include <ios>
 
 namespace bksge
 {
@@ -52,7 +57,45 @@ private:
 	StencilOperation	m_fail_operation;
 	StencilOperation	m_depth_fail_operation;
 	StencilOperation	m_pass_operation;
+
+private:
+	/**
+	 *	@brief	シリアライズ
+	 */
+	friend class bksge::serialization::access;
+	template <typename Archive>
+	void serialize(Archive& ar, unsigned int /*version*/)
+	{
+		ar & BKSGE_SERIALIZATION_NVP(m_enable);
+		ar & BKSGE_SERIALIZATION_NVP(m_read_mask);
+		ar & BKSGE_SERIALIZATION_NVP(m_write_mask);
+		ar & BKSGE_SERIALIZATION_NVP(m_func);
+		ar & BKSGE_SERIALIZATION_NVP(m_fail_operation);
+		ar & BKSGE_SERIALIZATION_NVP(m_depth_fail_operation);
+		ar & BKSGE_SERIALIZATION_NVP(m_pass_operation);
+	}
 };
+
+bool operator==(StencilState const& lhs, StencilState const& rhs);
+bool operator!=(StencilState const& lhs, StencilState const& rhs);
+
+/**
+ *	@brief	ストリームへの出力
+ */
+template <typename CharT, typename Traits>
+inline std::basic_ostream<CharT, Traits>&
+operator<<(std::basic_ostream<CharT, Traits>& os, StencilState const& rhs)
+{
+	bksge::ios::flags_saver ifs(os);
+	return os << std::boolalpha << "{ "
+		<< rhs.enable() << ", "
+		<< static_cast<std::uint32_t>(rhs.read_mask()) << ", "
+		<< static_cast<std::uint32_t>(rhs.write_mask()) << ", "
+		<< rhs.func() << ", "
+		<< rhs.fail_operation() << ", "
+		<< rhs.depth_fail_operation() << ", "
+		<< rhs.pass_operation() << " }";
+}
 
 }	// namespace render
 

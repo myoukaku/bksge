@@ -13,6 +13,9 @@
 #include <bksge/core/render/fill_mode.hpp>
 #include <bksge/core/render/cull_mode.hpp>
 #include <bksge/core/render/front_face.hpp>
+#include <bksge/fnd/serialization/access.hpp>
+#include <bksge/fnd/serialization/nvp.hpp>
+#include <ostream>
 
 namespace bksge
 {
@@ -40,7 +43,36 @@ private:
 	FillMode	m_fill_mode;
 	CullMode	m_cull_mode;
 	FrontFace	m_front_face;
+
+private:
+	/**
+	 *	@brief	シリアライズ
+	 */
+	friend class bksge::serialization::access;
+	template <typename Archive>
+	void serialize(Archive& ar, unsigned int /*version*/)
+	{
+		ar & BKSGE_SERIALIZATION_NVP(m_fill_mode);
+		ar & BKSGE_SERIALIZATION_NVP(m_cull_mode);
+		ar & BKSGE_SERIALIZATION_NVP(m_front_face);
+	}
 };
+
+bool operator==(RasterizerState const& lhs, RasterizerState const& rhs);
+bool operator!=(RasterizerState const& lhs, RasterizerState const& rhs);
+
+/**
+ *	@brief	ストリームへの出力
+ */
+template <typename CharT, typename Traits>
+inline std::basic_ostream<CharT, Traits>&
+operator<<(std::basic_ostream<CharT, Traits>& os, RasterizerState const& rhs)
+{
+	return os << "{ "
+		<< rhs.fill_mode() << ", "
+		<< rhs.cull_mode() << ", "
+		<< rhs.front_face() << " }";
+}
 
 }	// namespace render
 

@@ -10,8 +10,8 @@
 #define BKSGE_CORE_RENDER_VERTEX_HPP
 
 #include <bksge/core/render/vertex_layout.hpp>
-//#include <bksge/fnd/serialization/access.hpp>
-//#include <bksge/fnd/serialization/nvp.hpp>
+#include <bksge/fnd/serialization/access.hpp>
+#include <bksge/fnd/serialization/nvp.hpp>
 
 namespace bksge
 {
@@ -114,7 +114,6 @@ struct Vertex<T> : public detail::VertexBase<Vertex<T>>
 	}
 
 private:
-#if 0
 	/**
 	 *	@brief	シリアライズ
 	 */
@@ -124,7 +123,6 @@ private:
 	{
 		ar & BKSGE_SERIALIZATION_NVP(m_value);
 	}
-#endif
 };
 
 template <typename T, typename... Rest>
@@ -159,7 +157,6 @@ struct Vertex<T, Rest...> : public detail::VertexBase<Vertex<T, Rest...>>
 	}
 
 private:
-#if 0
 	/**
 	 *	@brief	シリアライズ
 	 */
@@ -170,7 +167,6 @@ private:
 		ar & BKSGE_SERIALIZATION_NVP(m_value);
 		ar & BKSGE_SERIALIZATION_NVP(m_rest);
 	}
-#endif
 };
 
 template <typename... Types>

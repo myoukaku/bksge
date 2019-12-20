@@ -9,6 +9,7 @@
 #include <bksge/core/render/front_face.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
+#include "serialize_test.hpp"
 
 namespace bksge_core_render_test
 {
@@ -33,6 +34,23 @@ GTEST_TEST(Render_FrontFace, OutputStreamTest)
 
 	OutputStreamTestSub(FrontFace::kClockwise,		  L"FrontFace::kClockwise");
 	OutputStreamTestSub(FrontFace::kCounterClockwise, L"FrontFace::kCounterClockwise");
+}
+
+GTEST_TEST(Render_FrontFace, SerializeTest)
+{
+	using namespace bksge::serialization;
+
+	auto const v = bksge::FrontFace::kClockwise;
+
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v);
+
+#if !defined(BKSGE_NO_STD_WSTREAMBUF)
+	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
+#endif
 }
 
 }	// namespace front_face_test

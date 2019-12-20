@@ -9,6 +9,7 @@
 #include <bksge/core/render/filter_mode.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
+#include "serialize_test.hpp"
 
 namespace bksge_core_render_test
 {
@@ -33,6 +34,23 @@ GTEST_TEST(Render_FilterMode, OutputStreamTest)
 
 	OutputStreamTestSub(FilterMode::kNearest,	L"FilterMode::kNearest");
 	OutputStreamTestSub(FilterMode::kLinear,	L"FilterMode::kLinear");
+}
+
+GTEST_TEST(Render_FilterMode, SerializeTest)
+{
+	using namespace bksge::serialization;
+
+	auto const v = bksge::FilterMode::kLinear;
+
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v);
+
+#if !defined(BKSGE_NO_STD_WSTREAMBUF)
+	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
+#endif
 }
 
 }	// namespace filter_mode_test

@@ -8,6 +8,8 @@
 
 #include <bksge/core/render/depth_state.hpp>
 #include <gtest/gtest.h>
+#include <sstream>
+#include "serialize_test.hpp"
 
 GTEST_TEST(Render_DepthState, DefaultCtorTest)
 {
@@ -43,4 +45,84 @@ GTEST_TEST(Render_DepthState, SetFuncTest)
 	state.SetFunc(
 		bksge::ComparisonFunction::kGreater);
 	EXPECT_EQ(bksge::ComparisonFunction::kGreater, state.func());
+}
+
+GTEST_TEST(Render_DepthState, CompareTest)
+{
+	bksge::DepthState v1;
+	bksge::DepthState v2;
+	bksge::DepthState v3;
+	bksge::DepthState v4;
+	bksge::DepthState v5;
+
+	v1.SetEnable(true);
+	v1.SetWrite(true);
+	v1.SetFunc(bksge::ComparisonFunction::kEqual);
+
+	v2.SetEnable(true);
+	v2.SetWrite(true);
+	v2.SetFunc(bksge::ComparisonFunction::kEqual);
+
+	v3.SetEnable(false);
+	v3.SetWrite(true);
+	v3.SetFunc(bksge::ComparisonFunction::kEqual);
+
+	v4.SetEnable(true);
+	v4.SetWrite(false);
+	v4.SetFunc(bksge::ComparisonFunction::kEqual);
+
+	v5.SetEnable(true);
+	v5.SetWrite(true);
+	v5.SetFunc(bksge::ComparisonFunction::kGreaterEqual);
+
+	EXPECT_TRUE (v1 == v1);
+	EXPECT_TRUE (v1 == v2);
+	EXPECT_FALSE(v1 == v3);
+	EXPECT_FALSE(v1 == v4);
+	EXPECT_FALSE(v1 == v5);
+
+	EXPECT_FALSE(v1 != v1);
+	EXPECT_FALSE(v1 != v2);
+	EXPECT_TRUE (v1 != v3);
+	EXPECT_TRUE (v1 != v4);
+	EXPECT_TRUE (v1 != v5);
+}
+
+GTEST_TEST(Render_DepthState, OutputStreamTest)
+{
+	{
+		bksge::DepthState v;
+		std::stringstream ss;
+		ss << v;
+		EXPECT_EQ("{ false, false, ComparisonFunction::kLess }", ss.str());
+	}
+	{
+		bksge::DepthState v;
+		v.SetEnable(true);
+		v.SetWrite(true);
+		v.SetFunc(bksge::ComparisonFunction::kNotEqual);
+		std::wstringstream ss;
+		ss << v;
+		EXPECT_EQ(L"{ true, true, ComparisonFunction::kNotEqual }", ss.str());
+	}
+}
+
+GTEST_TEST(Render_DepthState, SerializeTest)
+{
+	using namespace bksge::serialization;
+
+	bksge::DepthState v;
+	v.SetEnable(true);
+	v.SetWrite(true);
+	v.SetFunc(bksge::ComparisonFunction::kGreater);
+
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v);
+
+#if !defined(BKSGE_NO_STD_WSTREAMBUF)
+	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
+#endif
 }

@@ -48,6 +48,20 @@ ScissorState::SetRect(Rectf const& rect)
 	m_rect = rect;
 }
 
+BKSGE_INLINE bool
+operator==(ScissorState const& lhs, ScissorState const& rhs)
+{
+	return
+		lhs.enable() == rhs.enable() &&
+		lhs.rect()   == rhs.rect();
+}
+
+BKSGE_INLINE bool
+operator!=(ScissorState const& lhs, ScissorState const& rhs)
+{
+	return !(lhs == rhs);
+}
+
 }	// namespace render
 
 }	// namespace bksge

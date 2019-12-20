@@ -64,6 +64,21 @@ RasterizerState::SetFrontFace(FrontFace front_face)
 	m_front_face = front_face;
 }
 
+BKSGE_INLINE bool
+operator==(RasterizerState const& lhs, RasterizerState const& rhs)
+{
+	return
+		lhs.fill_mode()  == rhs.fill_mode() &&
+		lhs.cull_mode()  == rhs.cull_mode() &&
+		lhs.front_face() == rhs.front_face();
+}
+
+BKSGE_INLINE bool
+operator!=(RasterizerState const& lhs, RasterizerState const& rhs)
+{
+	return !(lhs == rhs);
+}
+
 }	// namespace render
 
 }	// namespace bksge

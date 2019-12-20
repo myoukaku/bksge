@@ -12,6 +12,11 @@
 #include <bksge/core/render/fwd/blend_state_fwd.hpp>
 #include <bksge/core/render/blend_operation.hpp>
 #include <bksge/core/render/blend_factor.hpp>
+#include <bksge/fnd/serialization/access.hpp>
+#include <bksge/fnd/serialization/nvp.hpp>
+#include <bksge/fnd/ios/flags_saver.hpp>
+#include <ostream>
+#include <ios>
 
 namespace bksge
 {
@@ -51,7 +56,45 @@ private:
 	BlendOperation	m_alpha_operation;
 	BlendFactor		m_alpha_src_factor;
 	BlendFactor		m_alpha_dst_factor;
+
+private:
+	/**
+	 *	@brief	シリアライズ
+	 */
+	friend class bksge::serialization::access;
+	template <typename Archive>
+	void serialize(Archive& ar, unsigned int /*version*/)
+	{
+		ar & BKSGE_SERIALIZATION_NVP(m_enable);
+		ar & BKSGE_SERIALIZATION_NVP(m_operation);
+		ar & BKSGE_SERIALIZATION_NVP(m_src_factor);
+		ar & BKSGE_SERIALIZATION_NVP(m_dst_factor);
+		ar & BKSGE_SERIALIZATION_NVP(m_alpha_operation);
+		ar & BKSGE_SERIALIZATION_NVP(m_alpha_src_factor);
+		ar & BKSGE_SERIALIZATION_NVP(m_alpha_dst_factor);
+	}
 };
+
+bool operator==(BlendState const& lhs, BlendState const& rhs);
+bool operator!=(BlendState const& lhs, BlendState const& rhs);
+
+/**
+ *	@brief	ストリームへの出力
+ */
+template <typename CharT, typename Traits>
+inline std::basic_ostream<CharT, Traits>&
+operator<<(std::basic_ostream<CharT, Traits>& os, BlendState const& rhs)
+{
+	bksge::ios::flags_saver ifs(os);
+	return os << std::boolalpha << "{ "
+		<< rhs.enable() << ", "
+		<< rhs.operation() << ", "
+		<< rhs.src_factor() << ", "
+		<< rhs.dst_factor() << ", "
+		<< rhs.alpha_operation() << ", "
+		<< rhs.alpha_src_factor() << ", "
+		<< rhs.alpha_dst_factor() << " }";
+}
 
 }	// namespace render
 

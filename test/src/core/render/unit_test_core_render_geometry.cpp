@@ -12,7 +12,7 @@
 #include <gtest/gtest.h>
 #include <cstdint>
 #include <sstream>
-//#include "serialize_test.hpp"
+#include "serialize_test.hpp"
 
 GTEST_TEST(Render_Geometry, BasicTest)
 {
@@ -304,7 +304,8 @@ GTEST_TEST(Render_Geometry, CompareTest)
 #if 0
 GTEST_TEST(Render_Geometry, SerializeTest)
 {
-	using namespace bksge::archive;
+	using namespace bksge::render;
+	using namespace bksge::serialization;
 
 	using VertexType = Vertex<VPosition, VColor, VNormal>;
 	const VertexType vertex_array[] =
@@ -318,15 +319,16 @@ GTEST_TEST(Render_Geometry, SerializeTest)
 		0, 1,
 	};
 
-	Geometry geometry(Primitive::kLines, vertex_array, index_array);
+	Geometry v(Primitive::kLines, vertex_array, index_array);
 
-	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream> (geometry);
-	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream> (geometry);
-	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream> (geometry);
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v);
 
 #if !defined(BKSGE_NO_STD_WSTREAMBUF)
-	SerializeTest<text_woarchive,  text_wiarchive,  std::wstringstream>(geometry);
-	SerializeTest<xml_woarchive,   xml_wiarchive,   std::wstringstream>(geometry);
+	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
 #endif
 }
 #endif

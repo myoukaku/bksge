@@ -9,6 +9,7 @@
 #include <bksge/core/render/stencil_operation.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
+#include "serialize_test.hpp"
 
 namespace bksge_core_render_test
 {
@@ -45,6 +46,23 @@ GTEST_TEST(Render_StencilOperation, OutputStreamTest)
 	OutputStreamTestSub(StencilOperation::kInvert,			L"StencilOperation::kInvert");
 	OutputStreamTestSub(StencilOperation::kIncr,			L"StencilOperation::kIncr");
 	OutputStreamTestSub(StencilOperation::kDecr,			L"StencilOperation::kDecr");
+}
+
+GTEST_TEST(Render_StencilOperation, SerializeTest)
+{
+	using namespace bksge::serialization;
+
+	auto const v = bksge::StencilOperation::kDecrSaturate;
+
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v);
+
+#if !defined(BKSGE_NO_STD_WSTREAMBUF)
+	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
+#endif
 }
 
 }	// namespace stencil_operation_test

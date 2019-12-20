@@ -11,6 +11,11 @@
 
 #include <bksge/core/render/fwd/scissor_state_fwd.hpp>
 #include <bksge/core/math/rect.hpp>
+#include <bksge/fnd/serialization/access.hpp>
+#include <bksge/fnd/serialization/nvp.hpp>
+#include <bksge/fnd/ios/flags_saver.hpp>
+#include <ostream>
+#include <ios>
 
 namespace bksge
 {
@@ -35,7 +40,35 @@ public:
 private:
 	bool		m_enable;
 	Rectf		m_rect;
+
+private:
+	/**
+	 *	@brief	シリアライズ
+	 */
+	friend class bksge::serialization::access;
+	template <typename Archive>
+	void serialize(Archive& ar, unsigned int /*version*/)
+	{
+		ar & BKSGE_SERIALIZATION_NVP(m_enable);
+		ar & BKSGE_SERIALIZATION_NVP(m_rect);
+	}
 };
+
+bool operator==(ScissorState const& lhs, ScissorState const& rhs);
+bool operator!=(ScissorState const& lhs, ScissorState const& rhs);
+
+/**
+ *	@brief	ストリームへの出力
+ */
+template <typename CharT, typename Traits>
+inline std::basic_ostream<CharT, Traits>&
+operator<<(std::basic_ostream<CharT, Traits>& os, ScissorState const& rhs)
+{
+	bksge::ios::flags_saver ifs(os);
+	return os << std::boolalpha << "{ "
+		<< rhs.enable() << ", "
+		<< rhs.rect() << " }";
+}
 
 }	// namespace render
 
