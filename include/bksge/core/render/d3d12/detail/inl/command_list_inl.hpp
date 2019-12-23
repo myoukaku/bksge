@@ -26,14 +26,18 @@ namespace d3d12
 {
 
 BKSGE_INLINE
-CommandList::CommandList(Device* device)
+CommandList::CommandList(Device* device, ::UINT frame_buffer_count)
 {
-	m_command_allocator = device->CreateCommandAllocator(
-		D3D12_COMMAND_LIST_TYPE_DIRECT);
+	m_command_allocators.resize(frame_buffer_count);
+	for (::UINT i = 0; i < frame_buffer_count; ++i)
+	{
+		m_command_allocators[i] = device->CreateCommandAllocator(
+			D3D12_COMMAND_LIST_TYPE_DIRECT);
+	}
 
 	m_command_list = device->CreateGraphicsCommandList(
 		D3D12_COMMAND_LIST_TYPE_DIRECT,
-		m_command_allocator.Get());
+		m_command_allocators[0].Get());
 }
 
 BKSGE_INLINE
@@ -42,11 +46,11 @@ CommandList::~CommandList()
 }
 
 BKSGE_INLINE void
-CommandList::Reset(void)
+CommandList::Reset(::UINT frame_index)
 {
-	ThrowIfFailed(m_command_allocator->Reset());
+	ThrowIfFailed(m_command_allocators[frame_index]->Reset());
 
-	ThrowIfFailed(m_command_list->Reset(m_command_allocator.Get(), nullptr));
+	ThrowIfFailed(m_command_list->Reset(m_command_allocators[frame_index].Get(), nullptr));
 }
 
 BKSGE_INLINE void
@@ -124,13 +128,15 @@ CommandList::ResourceBarrier(
 BKSGE_INLINE void
 CommandList::OMSetRenderTargets(
 	::UINT                               num_render_target_descriptors,
-	::D3D12_CPU_DESCRIPTOR_HANDLE const* render_target_descriptors)
+	::D3D12_CPU_DESCRIPTOR_HANDLE const* render_target_descriptors,
+	::BOOL                               rts_single_handle_to_descriptor_range,
+	::D3D12_CPU_DESCRIPTOR_HANDLE const* depth_stencil_descriptor)
 {
 	m_command_list->OMSetRenderTargets(
 		num_render_target_descriptors,
 		render_target_descriptors,
-		FALSE,
-		nullptr);
+		rts_single_handle_to_descriptor_range,
+		depth_stencil_descriptor);
 }
 
 BKSGE_INLINE void

@@ -28,11 +28,11 @@ namespace d3d12
 {
 
 BKSGE_INLINE
-Fence::Fence(Device* device)
+Fence::Fence(Device* device, ::UINT frame_buffer_count)
 {
-	m_fence = device->CreateFence(0, D3D12_FENCE_FLAG_NONE);
-
-	m_value = 1;
+	::UINT64 const initial_value = 0;
+	m_fence = device->CreateFence(initial_value, D3D12_FENCE_FLAG_NONE);
+	m_values.resize(frame_buffer_count, initial_value + 1);
 
 	// Create an event handle to use for frame synchronization.
 	m_event = bksge::win32::CreateEvent(
@@ -55,24 +55,38 @@ Fence::Close(void)
 }
 
 BKSGE_INLINE void
-Fence::WaitForPreviousFrame(CommandQueue* command_queue)
+Fence::WaitForGpu(CommandQueue* command_queue, ::UINT frame_index)
 {
-	// WAITING FOR THE FRAME TO COMPLETE BEFORE CONTINUING IS NOT BEST PRACTICE.
-	// This is code implemented as such for simplicity. The D3D12HelloFrameBuffering
-	// sample illustrates how to use fences for efficient resource usage and to
-	// maximize GPU utilization.
+    // Schedule a Signal command in the queue.
+	command_queue->Signal(m_fence.Get(), m_values[frame_index]);
 
-	// Signal and increment the fence value.
-	const ::UINT64 fence = m_value;
-	command_queue->Signal(m_fence.Get(), fence);
-	m_value++;
+	// Wait until the fence has been processed.
+	ThrowIfFailed(m_fence->SetEventOnCompletion(m_values[frame_index], m_event));
+	WaitForSingleObjectEx(m_event, INFINITE, FALSE);
 
-	// Wait until the previous frame is finished.
-	if (m_fence->GetCompletedValue() < fence)
-	{
-		ThrowIfFailed(m_fence->SetEventOnCompletion(fence, m_event));
-		WaitForSingleObject(m_event, INFINITE);
-	}
+	// Increment the fence value for the current frame.
+	m_values[frame_index]++;
+}
+
+BKSGE_INLINE void
+Fence::MoveToNextFrame(CommandQueue* command_queue, ::UINT frame_index)
+{
+    // Schedule a Signal command in the queue.
+    ::UINT64 const current_value = m_values[frame_index];
+    command_queue->Signal(m_fence.Get(), current_value);
+
+    // Update the frame index.
+	auto next_index = (frame_index + 1) % m_values.size();
+
+    // If the next frame is not ready to be rendered yet, wait until it is ready.
+    if (m_fence->GetCompletedValue() < m_values[next_index])
+    {
+        ThrowIfFailed(m_fence->SetEventOnCompletion(m_values[next_index], m_event));
+        WaitForSingleObjectEx(m_event, INFINITE, FALSE);
+    }
+
+    // Set the fence value for the next frame.
+    m_values[next_index] = current_value + 1;
 }
 
 }	// namespace d3d12

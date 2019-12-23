@@ -84,11 +84,12 @@ D3D11Renderer::VSetRenderTarget(Window const& window)
 		return;
 	}
 
+	::UINT const frame_buffer_count = 2;	// TODO
 	::UINT const width  = 800;	// TODO
 	::UINT const height = 600;	// TODO
 
 	m_swap_chain = bksge::make_unique<DXGISwapChain>(
-		m_factory.get(), m_device->Get(), width, height, hwnd);
+		m_factory.get(), m_device->Get(), frame_buffer_count, width, height, hwnd);
 
 	m_factory->MakeWindowAssociation(
 		hwnd,

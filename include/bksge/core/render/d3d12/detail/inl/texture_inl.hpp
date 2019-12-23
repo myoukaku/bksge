@@ -140,7 +140,7 @@ inline void UpdateSubresource(
 	}
 	intermediate_resource->Unmap(0, nullptr);
 
-	command_list->Reset();
+	command_list->Reset(0);
 
 	if (destination_desc.Dimension == D3D12_RESOURCE_DIMENSION_BUFFER)
 	{
@@ -174,7 +174,7 @@ inline void UpdateSubresource(
 
 	command_list->Close();
 	command_queue->ExecuteCommandLists(command_list);
-	fence->WaitForPreviousFrame(command_queue);
+	fence->WaitForGpu(command_queue, 0);
 }
 
 BKSGE_INLINE

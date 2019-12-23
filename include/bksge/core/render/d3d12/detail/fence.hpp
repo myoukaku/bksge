@@ -14,6 +14,7 @@
 #include <bksge/core/render/d3d12/detail/fwd/command_queue_fwd.hpp>
 #include <bksge/core/render/d3d_common/d3d12.hpp>
 #include <bksge/core/render/d3d_common/com_ptr.hpp>
+#include <vector>
 
 namespace bksge
 {
@@ -27,18 +28,19 @@ namespace d3d12
 class Fence
 {
 public:
-	explicit Fence(Device* device);
+	explicit Fence(Device* device, ::UINT frame_buffer_count);
 
 	~Fence();
 
 	void Close(void);
 
-	void WaitForPreviousFrame(CommandQueue* command_queue);
+	void WaitForGpu(CommandQueue* command_queue, ::UINT frame_index);
+	void MoveToNextFrame(CommandQueue* command_queue, ::UINT frame_index);
 
 private:
 	ComPtr<ID3D12FenceN>	m_fence;
+	std::vector<::UINT64>	m_values;
 	::HANDLE				m_event;
-	::UINT64				m_value;
 };
 
 }	// namespace d3d12

@@ -28,12 +28,13 @@ BKSGE_INLINE
 DXGISwapChain::DXGISwapChain(
 	DXGIFactory* factory,
 	IUnknown*    device,
+	::UINT       buffer_count,
 	::UINT       width,
 	::UINT       height,
 	::HWND       hwnd)
 {
 	::DXGI_SWAP_CHAIN_DESC1 desc = {};
-	desc.BufferCount      = 2/*FrameCount*/;
+	desc.BufferCount      = buffer_count;
 	desc.Width            = width;
 	desc.Height           = height;
 	desc.Format           = DXGI_FORMAT_R8G8B8A8_UNORM;

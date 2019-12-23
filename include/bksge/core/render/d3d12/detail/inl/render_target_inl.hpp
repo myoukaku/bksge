@@ -28,13 +28,14 @@ namespace d3d12
 BKSGE_INLINE
 RenderTarget::RenderTarget(
 	Device* device,
-	DXGISwapChain* swap_chain)
+	DXGISwapChain* swap_chain,
+	::UINT frame_buffer_count)
 {
 	// Create descriptor heaps.
 	{
 		// Describe and create a render target view (RTV) descriptor heap.
 		::D3D12_DESCRIPTOR_HEAP_DESC desc ={};
-		desc.NumDescriptors = 2/*FrameCount*/;
+		desc.NumDescriptors = frame_buffer_count;
 		desc.Type           = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
 		desc.Flags          = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
 		m_descriptor_heap = device->CreateDescriptorHeap(desc);
@@ -48,11 +49,12 @@ RenderTarget::RenderTarget(
 		::D3D12_CPU_DESCRIPTOR_HANDLE handle(
 			m_descriptor_heap->GetCPUDescriptorHandleForHeapStart());
 
+		m_resource.resize(frame_buffer_count);
 		// Create a RTV for each frame.
-		for (::UINT n = 0; n < 2/*FrameCount*/; n++)
+		for (::UINT i = 0; i < frame_buffer_count; i++)
 		{
-			swap_chain->GetBuffer(n, IID_PPV_ARGS(&m_resource[n]));
-			device->CreateRenderTargetView(m_resource[n].Get(), nullptr, handle);
+			swap_chain->GetBuffer(i, IID_PPV_ARGS(&m_resource[i]));
+			device->CreateRenderTargetView(m_resource[i].Get(), nullptr, handle);
 			handle.ptr += m_descriptor_size;
 		}
 	}

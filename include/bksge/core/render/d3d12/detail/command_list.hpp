@@ -13,6 +13,7 @@
 #include <bksge/core/render/d3d12/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/d3d_common/d3d12.hpp>
 #include <bksge/core/render/d3d_common/com_ptr.hpp>
+#include <vector>
 
 namespace bksge
 {
@@ -26,11 +27,11 @@ namespace d3d12
 class CommandList
 {
 public:
-	explicit CommandList(Device* device);
+	explicit CommandList(Device* device, ::UINT frame_buffer_count);
 
 	~CommandList();
 
-	void Reset(void);
+	void Reset(::UINT frame_index);
 
 	void Close(void);
 
@@ -64,7 +65,9 @@ public:
 
 	void OMSetRenderTargets(
 		::UINT                               num_render_target_descriptors,
-		::D3D12_CPU_DESCRIPTOR_HANDLE const* render_target_descriptors);
+		::D3D12_CPU_DESCRIPTOR_HANDLE const* render_target_descriptors,
+		::BOOL                               rts_single_handle_to_descriptor_range,
+		::D3D12_CPU_DESCRIPTOR_HANDLE const* depth_stencil_descriptor);
 
 	void ClearRenderTargetView(
 		::D3D12_CPU_DESCRIPTOR_HANDLE const& render_target_view,
@@ -111,8 +114,8 @@ public:
 	void Execute(::ID3D12CommandQueue* command_queue);
 
 private:
-	ComPtr<::ID3D12CommandAllocator>    m_command_allocator;
-	ComPtr<ID3D12GraphicsCommandListN>  m_command_list;
+	std::vector<ComPtr<::ID3D12CommandAllocator>>	m_command_allocators;
+	ComPtr<ID3D12GraphicsCommandListN>				m_command_list;
 };
 
 }	// namespace d3d12

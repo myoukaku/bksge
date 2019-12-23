@@ -62,6 +62,13 @@ namespace bksge
 namespace render
 {
 
+namespace
+{
+
+static ::UINT const frame_buffer_count = 2;	// TODO
+
+}	// namespace
+
 BKSGE_INLINE
 D3D12Renderer::D3D12Renderer(void)
 {
@@ -92,8 +99,8 @@ D3D12Renderer::Initialize(void)
 	m_factory        = bksge::make_unique<DXGIFactory>();
 	m_device         = bksge::make_unique<d3d12::Device>(m_factory->EnumAdapters());
 	m_command_queue  = bksge::make_unique<d3d12::CommandQueue>(m_device.get());
-	m_command_list   = bksge::make_unique<d3d12::CommandList>(m_device.get());
-	m_fence          = bksge::make_unique<d3d12::Fence>(m_device.get());
+	m_command_list   = bksge::make_unique<d3d12::CommandList>(m_device.get(), frame_buffer_count);
+	m_fence          = bksge::make_unique<d3d12::Fence>(m_device.get(), frame_buffer_count);
 	m_resource_cache = bksge::make_unique<d3d12::ResourceCache>(m_device.get());
 	m_descriptor_heaps = bksge::make_unique<d3d12::DescriptorHeaps>(
 		m_device.get(),
@@ -112,8 +119,7 @@ D3D12Renderer::Finalize(void)
 {
 	// Ensure that the GPU is no longer referencing resources that are about to be
 	// cleaned up by the destructor.
-	WaitForPreviousFrame();
-
+	m_fence->WaitForGpu(m_command_queue.get(), m_frame_index);
 	m_fence->Close();
 }
 
@@ -131,7 +137,8 @@ D3D12Renderer::VSetRenderTarget(Window const& window)
 	::UINT const height = 600;	// TODO
 
 	m_swap_chain = bksge::make_unique<DXGISwapChain>(
-		m_factory.get(), m_command_queue->Get(), width, height, hwnd);
+		m_factory.get(), m_command_queue->Get(), frame_buffer_count, width, height, hwnd);
+	m_frame_index = m_swap_chain->GetCurrentBackBufferIndex();
 
 	m_factory->MakeWindowAssociation(
 		hwnd,
@@ -139,18 +146,18 @@ D3D12Renderer::VSetRenderTarget(Window const& window)
 		DXGI_MWA_NO_ALT_ENTER      |
 		DXGI_MWA_NO_PRINT_SCREEN);
 
-	m_frameIndex = m_swap_chain->GetCurrentBackBufferIndex();
-
 	m_render_target = bksge::make_unique<d3d12::RenderTarget>(
-		m_device.get(), m_swap_chain.get());
+		m_device.get(), m_swap_chain.get(), frame_buffer_count);
 
-	WaitForPreviousFrame();
+	m_fence->WaitForGpu(m_command_queue.get(), m_frame_index);
 }
 
 BKSGE_INLINE void
 D3D12Renderer::VBegin(void)
 {
-	m_command_list->Reset();
+	m_frame_index = m_swap_chain->GetCurrentBackBufferIndex();
+
+	m_command_list->Reset(m_frame_index);
 
 	if (m_viewport)
 	{
@@ -166,18 +173,18 @@ D3D12Renderer::VBegin(void)
 
 	// Indicate that the back buffer will be used as a render target.
 	m_command_list->ResourceBarrier(
-		m_render_target->GetResource(m_frameIndex),
+		m_render_target->GetResource(m_frame_index),
 		D3D12_RESOURCE_STATE_PRESENT,
 		D3D12_RESOURCE_STATE_RENDER_TARGET);
 
-	auto const handle = m_render_target->GetHandle(m_frameIndex);
-	m_command_list->OMSetRenderTargets(1, &handle);
+	auto const rtv_handle = m_render_target->GetHandle(m_frame_index);
+	m_command_list->OMSetRenderTargets(1, &rtv_handle, FALSE, nullptr);
 
 	// Clear Color
 	if ((m_clear_flag & ClearFlag::kColor) != ClearFlag::kNone)
 	{
 		m_command_list->ClearRenderTargetView(
-			m_render_target->GetHandle(m_frameIndex),
+			rtv_handle,
 			m_clear_color.data());
 	}
 
@@ -205,7 +212,7 @@ D3D12Renderer::VEnd(void)
 {
 	// Indicate that the back buffer will now be used to present.
 	m_command_list->ResourceBarrier(
-		m_render_target->GetResource(m_frameIndex),
+		m_render_target->GetResource(m_frame_index),
 		D3D12_RESOURCE_STATE_RENDER_TARGET,
 		D3D12_RESOURCE_STATE_PRESENT);
 
@@ -215,7 +222,7 @@ D3D12Renderer::VEnd(void)
 
 	m_swap_chain->Present(1, 0);
 
-	WaitForPreviousFrame();
+	m_fence->MoveToNextFrame(m_command_queue.get(), m_frame_index);
 }
 
 BKSGE_INLINE bool
@@ -269,14 +276,6 @@ D3D12Renderer::VRender(
 	d3d12_geometry->Draw(m_command_list.get());
 
 	return true;
-}
-
-BKSGE_INLINE void
-D3D12Renderer::WaitForPreviousFrame()
-{
-	m_fence->WaitForPreviousFrame(m_command_queue.get());
-
-	m_frameIndex = m_swap_chain->GetCurrentBackBufferIndex();
 }
 
 namespace d3d12_detail

@@ -62,8 +62,8 @@ BKSGE_INLINE
 ResourceCache::ResourceCache(Device* device)
 {
 	m_command_queue = bksge::make_unique<CommandQueue>(device);
-	m_command_list  = bksge::make_unique<CommandList>(device);
-	m_fence         = bksge::make_unique<Fence>(device);
+	m_command_list  = bksge::make_unique<CommandList>(device, 1);
+	m_fence         = bksge::make_unique<Fence>(device, 1);
 	m_command_list->Close();
 
 	m_constant_buffer = std::make_shared<ConstantBuffer>(device, 256 * 1024);

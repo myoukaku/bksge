@@ -26,6 +26,7 @@ public:
 	DXGISwapChain(
 		DXGIFactory* factory,
 		IUnknown*    device,
+		::UINT       buffer_count,
 		::UINT       width,
 		::UINT       height,
 		::HWND       hwnd);

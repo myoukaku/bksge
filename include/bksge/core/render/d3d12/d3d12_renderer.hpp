@@ -58,8 +58,6 @@ private:
 	void Initialize(void);
 	void Finalize(void);
 
-	void WaitForPreviousFrame();
-
 	void VSetRenderTarget(Window const& window) override;
 	void VBegin(void) override;
 	void VEnd(void) override;
@@ -83,8 +81,6 @@ private:
 		Primitive primitive);
 
 private:
-//	static const ::UINT FrameCount = 2;
-
 	std::unique_ptr<DXGIFactory>			m_factory;
 	std::unique_ptr<DXGISwapChain>			m_swap_chain;
 	std::unique_ptr<d3d12::Device>			m_device;
@@ -98,10 +94,9 @@ private:
 	d3d12::GeometryMap                    m_d3d12_geometry_map;
 	d3d12::PipelineStateMap               m_d3d12_pipeline_state;
 
-	std::unique_ptr<d3d12::ResourceCache> m_resource_cache;
+	std::unique_ptr<d3d12::ResourceCache>	m_resource_cache;
 
-	// TODO
-	::UINT m_frameIndex;
+	::UINT									m_frame_index;
 };
 
 }	// namespace render
