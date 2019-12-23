@@ -59,7 +59,7 @@
 //			"generator": "${env.GENERATOR}",
 //			"buildRoot": "${env.BUILD_DIR}\\${name}",
 //			"installRoot": "${env.INSTALL_DIR}\\${name}",
-//			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+//			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_BUILD_TYPE=${configurationType}",
 //			"buildCommandArgs": "${env.BUILD_COMMAND_ARGS}",
 //			"ctestCommandArgs": ""
 //		},
@@ -75,7 +75,7 @@
 //			"generator": "${env.GENERATOR}",
 //			"buildRoot": "${env.BUILD_DIR}\\${name}",
 //			"installRoot": "${env.INSTALL_DIR}\\${name}",
-//			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+//			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_BUILD_TYPE=${configurationType}",
 //			"buildCommandArgs": "${env.BUILD_COMMAND_ARGS}",
 //			"ctestCommandArgs": ""
 //		},
@@ -91,7 +91,7 @@
 			"generator": "${env.GENERATOR}",
 			"buildRoot": "${env.BUILD_DIR}\\${name}",
 			"installRoot": "${env.INSTALL_DIR}\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_BUILD_TYPE=${configurationType}",
 			"buildCommandArgs": "${env.BUILD_COMMAND_ARGS}",
 			"ctestCommandArgs": ""
 		},
@@ -107,7 +107,7 @@
 			"generator": "${env.GENERATOR}",
 			"buildRoot": "${env.BUILD_DIR}\\${name}",
 			"installRoot": "${env.INSTALL_DIR}\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_BUILD_TYPE=${configurationType}",
 			"buildCommandArgs": "${env.BUILD_COMMAND_ARGS}",
 			"ctestCommandArgs": ""
 		},
@@ -123,7 +123,7 @@
 			"generator": "${env.GENERATOR}",
 			"buildRoot": "${env.BUILD_DIR}\\${name}",
 			"installRoot": "${env.INSTALL_DIR}\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_BUILD_TYPE=${configurationType}",
 			"buildCommandArgs": "${env.BUILD_COMMAND_ARGS}",
 			"ctestCommandArgs": ""
 		},
@@ -139,7 +139,7 @@
 			"generator": "${env.GENERATOR}",
 			"buildRoot": "${env.BUILD_DIR}\\${name}",
 			"installRoot": "${env.INSTALL_DIR}\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_BUILD_TYPE=${configurationType}",
 			"buildCommandArgs": "${env.BUILD_COMMAND_ARGS}",
 			"ctestCommandArgs": ""
 		},
@@ -155,7 +155,7 @@
 			"generator": "${env.GENERATOR}",
 			"buildRoot": "${env.BUILD_DIR}\\${name}",
 			"installRoot": "${env.INSTALL_DIR}\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_BUILD_TYPE=${configurationType}",
 			"buildCommandArgs": "${env.BUILD_COMMAND_ARGS}",
 			"ctestCommandArgs": ""
 		},
@@ -171,7 +171,7 @@
 			"generator": "${env.GENERATOR}",
 			"buildRoot": "${env.BUILD_DIR}\\${name}",
 			"installRoot": "${env.INSTALL_DIR}\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_BUILD_TYPE=${configurationType}",
 			"buildCommandArgs": "${env.BUILD_COMMAND_ARGS}",
 			"ctestCommandArgs": ""
 		},
@@ -187,7 +187,7 @@
 //			"generator": "${env.GENERATOR}",
 //			"buildRoot": "${env.BUILD_DIR}\\${name}",
 //			"installRoot": "${env.INSTALL_DIR}\\${name}",
-//			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+//			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_BUILD_TYPE=${configurationType}",
 //			"buildCommandArgs": "${env.BUILD_COMMAND_ARGS}",
 //			"ctestCommandArgs": ""
 //		},
@@ -203,7 +203,7 @@
 //			"generator": "${env.GENERATOR}",
 //			"buildRoot": "${env.BUILD_DIR}\\${name}",
 //			"installRoot": "${env.INSTALL_DIR}\\${name}",
-//			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+//			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_BUILD_TYPE=${configurationType}",
 //			"buildCommandArgs": "${env.BUILD_COMMAND_ARGS}",
 //			"ctestCommandArgs": ""
 //		},
@@ -219,7 +219,7 @@
 			"generator": "${env.GENERATOR}",
 			"buildRoot": "${env.BUILD_DIR}\\${name}",
 			"installRoot": "${env.INSTALL_DIR}\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_BUILD_TYPE=${configurationType}",
 			"buildCommandArgs": "${env.BUILD_COMMAND_ARGS}",
 			"ctestCommandArgs": ""
 		},
@@ -235,7 +235,7 @@
 			"generator": "${env.GENERATOR}",
 			"buildRoot": "${env.BUILD_DIR}\\${name}",
 			"installRoot": "${env.INSTALL_DIR}\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_BUILD_TYPE=${configurationType}",
 			"buildCommandArgs": "${env.BUILD_COMMAND_ARGS}",
 			"ctestCommandArgs": ""
 		},
@@ -251,7 +251,7 @@
 			"generator": "${env.GENERATOR}",
 			"buildRoot": "${env.BUILD_DIR}\\${name}",
 			"installRoot": "${env.INSTALL_DIR}\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_BUILD_TYPE=${configurationType}",
 			"buildCommandArgs": "${env.BUILD_COMMAND_ARGS}",
 			"ctestCommandArgs": ""
 		},
@@ -267,7 +267,7 @@
 			"generator": "${env.GENERATOR}",
 			"buildRoot": "${env.BUILD_DIR}\\${name}",
 			"installRoot": "${env.INSTALL_DIR}\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_BUILD_TYPE=${configurationType}",
 			"buildCommandArgs": "${env.BUILD_COMMAND_ARGS}",
 			"ctestCommandArgs": ""
 		},
@@ -283,7 +283,7 @@
 			"generator": "${env.GENERATOR}",
 			"buildRoot": "${env.BUILD_DIR}\\${name}",
 			"installRoot": "${env.INSTALL_DIR}\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_BUILD_TYPE=${configurationType}",
 			"buildCommandArgs": "${env.BUILD_COMMAND_ARGS}",
 			"ctestCommandArgs": ""
 		},
@@ -299,7 +299,7 @@
 			"generator": "${env.GENERATOR}",
 			"buildRoot": "${env.BUILD_DIR}\\${name}",
 			"installRoot": "${env.INSTALL_DIR}\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_BUILD_TYPE=${configurationType}",
 			"buildCommandArgs": "${env.BUILD_COMMAND_ARGS}",
 			"ctestCommandArgs": ""
 		}
