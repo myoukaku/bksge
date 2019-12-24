@@ -25,6 +25,14 @@ namespace bksge
 namespace render
 {
 
+#if defined(NTDDI_WIN10_RS2) && NTDDI_VERSION >= NTDDI_WIN10_RS2	// Windows 10 version 1703 (SDK 10.0.15063.0)		Windows 10 Creators Update
+using ID3D11DeviceN                   = ::ID3D11Device5;
+using ID3D11DeviceContextN            = ::ID3D11DeviceContext4;
+#else
+using ID3D11DeviceN                   = ::ID3D11Device4;
+using ID3D11DeviceContextN            = ::ID3D11DeviceContext3;
+#endif
+
 using D3D11_BLEND_DESC_N                 = ::D3D11_BLEND_DESC1;
 using D3D11_QUERY_DESC_N                 = ::D3D11_QUERY_DESC1;
 using D3D11_RASTERIZER_DESC_N            = ::D3D11_RASTERIZER_DESC2;
@@ -42,8 +50,6 @@ using D3D11_TEXTURE3D_DESC_N             = ::D3D11_TEXTURE3D_DESC1;
 using D3D11_UNORDERED_ACCESS_VIEW_DESC_N = ::D3D11_UNORDERED_ACCESS_VIEW_DESC1;
 
 using ID3D11BlendStateN               = ::ID3D11BlendState1;
-using ID3D11DeviceN                   = ::ID3D11Device5;
-using ID3D11DeviceContextN            = ::ID3D11DeviceContext4;
 using ID3D11QueryN                    = ::ID3D11Query1;
 using ID3D11RasterizerStateN          = ::ID3D11RasterizerState2;
 using ID3D11RenderTargetViewN         = ::ID3D11RenderTargetView1;
@@ -51,9 +57,6 @@ using ID3D11ShaderResourceViewN       = ::ID3D11ShaderResourceView1;
 using ID3D11Texture2DN                = ::ID3D11Texture2D1;
 using ID3D11Texture3DN                = ::ID3D11Texture3D1;
 using ID3D11UnorderedAccessViewN      = ::ID3D11UnorderedAccessView1;
-using ID3D11VideoContextN             = ::ID3D11VideoContext3;
-using ID3D11VideoDeviceN              = ::ID3D11VideoDevice2;
-using ID3D11VideoProcessorEnumeratorN = ::ID3D11VideoProcessorEnumerator1;
 
 }	// namespace render
 

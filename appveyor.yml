@@ -63,7 +63,7 @@ before_build:
 
 test_script:
 - ps: |
-    & ctest -C $env:configuration -j $env:NUMBER_OF_PROCESSORS --timeout 600 --output-on-failure -T Test
+    & ctest -C $env:configuration -j $env:NUMBER_OF_PROCESSORS --timeout 6000 --output-on-failure -T Test
     if ($LastExitCode -ne 0) {
         throw "Exec: $ErrorMessage"
     }
