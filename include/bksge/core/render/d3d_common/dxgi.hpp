@@ -39,9 +39,15 @@ using IDXGIFactoryN   = ::IDXGIFactory6;
 using IDXGIFactoryN   = ::IDXGIFactory5;
 #endif
 
+#if defined(NTDDI_WIN10_RS2) && NTDDI_VERSION >= NTDDI_WIN10_RS2	// Windows 10 version 1703 (SDK 10.0.15063.0)		Windows 10 Creators Update
 using IDXGIAdapterN   = ::IDXGIAdapter4;
-using IDXGIDeviceN    = ::IDXGIDevice4;
 using IDXGIOutputN    = ::IDXGIOutput6;
+#else
+using IDXGIAdapterN   = ::IDXGIAdapter3;
+using IDXGIOutputN    = ::IDXGIOutput5;
+#endif
+
+using IDXGIDeviceN    = ::IDXGIDevice4;
 using IDXGIResourceN  = ::IDXGIResource1;
 using IDXGISurfaceN   = ::IDXGISurface2;
 using IDXGISwapChainN = ::IDXGISwapChain4;
