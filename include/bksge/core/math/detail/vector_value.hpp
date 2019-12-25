@@ -11,6 +11,7 @@
 
 #include <bksge/fnd/serialization/access.hpp>
 #include <bksge/fnd/serialization/nvp.hpp>
+#include <bksge/fnd/serialization/version.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
 
@@ -52,7 +53,7 @@ private:
 	 */
 	friend class bksge::serialization::access;
 	template <typename Archive>
-	void serialize(Archive& ar, unsigned int /*version*/)
+	void serialize(Archive& ar, bksge::serialization::version_t /*version*/)
 	{
 		ar & BKSGE_SERIALIZATION_NVP(m_elems);
 	}

@@ -15,6 +15,7 @@
 #include <bksge/core/render/front_face.hpp>
 #include <bksge/fnd/serialization/access.hpp>
 #include <bksge/fnd/serialization/nvp.hpp>
+#include <bksge/fnd/serialization/version.hpp>
 #include <ostream>
 
 namespace bksge
@@ -50,7 +51,7 @@ private:
 	 */
 	friend class bksge::serialization::access;
 	template <typename Archive>
-	void serialize(Archive& ar, unsigned int /*version*/)
+	void serialize(Archive& ar, bksge::serialization::version_t /*version*/)
 	{
 		ar & BKSGE_SERIALIZATION_NVP(m_fill_mode);
 		ar & BKSGE_SERIALIZATION_NVP(m_cull_mode);

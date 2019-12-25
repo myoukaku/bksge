@@ -17,6 +17,7 @@
 //#include <bksge/fnd/serialization/map.hpp>
 //#include <bksge/fnd/serialization/string.hpp>
 //#include <bksge/fnd/serialization/shared_ptr.hpp>
+//#include <bksge/fnd/serialization/version.hpp>
 #include <map>
 #include <memory>
 #include <string>
@@ -61,7 +62,7 @@ private:
 	 */
 	friend class bksge::serialization::access;
 	template <typename Archive>
-	void serialize(Archive& ar, unsigned int /*version*/)
+	void serialize(Archive& ar, bksge::serialization::version_t /*version*/)
 	{
 		ar & BKSGE_SERIALIZATION_NVP(m_parameters);
 	}

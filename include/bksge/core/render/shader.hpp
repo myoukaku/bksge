@@ -16,6 +16,7 @@
 //#include <bksge/fnd/serialization/access.hpp>
 //#include <bksge/fnd/serialization/nvp.hpp>
 //#include <bksge/fnd/serialization/string.hpp>
+//#include <bksge/fnd/serialization/version.hpp>
 #include <string>
 #include <initializer_list>
 #include <utility>	// pair
@@ -67,7 +68,7 @@ private:
 	 */
 	friend class bksge::serialization::access;
 	template <typename Archive>
-	void serialize(Archive& ar, unsigned int /*version*/)
+	void serialize(Archive& ar, bksge::serialization::version_t /*version*/)
 	{
 		ar & BKSGE_SERIALIZATION_NVP(m_type);
 		ar & BKSGE_SERIALIZATION_NVP(m_shaders);

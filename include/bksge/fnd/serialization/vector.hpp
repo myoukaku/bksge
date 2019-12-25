@@ -9,7 +9,6 @@
 #ifndef BKSGE_FND_SERIALIZATION_VECTOR_HPP
 #define BKSGE_FND_SERIALIZATION_VECTOR_HPP
 
-#include <bksge/fnd/serialization/version.hpp>
 #include <vector>
 #include <cstddef>
 
@@ -21,7 +20,7 @@ namespace serialization
 
 template <typename Archive, typename T>
 inline void
-save(Archive& ar, std::vector<T> const& t, bksge::serialization::version_t /*version*/)
+save(Archive& ar, std::vector<T> const& t)
 {
 	std::size_t const size = t.size();
 	ar << size;
@@ -33,7 +32,7 @@ save(Archive& ar, std::vector<T> const& t, bksge::serialization::version_t /*ver
 
 template <typename Archive, typename T>
 inline void
-load(Archive& ar, std::vector<T>& t, bksge::serialization::version_t /*version*/)
+load(Archive& ar, std::vector<T>& t)
 {
 	std::size_t size;
 	ar >> size;

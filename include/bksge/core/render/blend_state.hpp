@@ -14,6 +14,7 @@
 #include <bksge/core/render/blend_factor.hpp>
 #include <bksge/fnd/serialization/access.hpp>
 #include <bksge/fnd/serialization/nvp.hpp>
+#include <bksge/fnd/serialization/version.hpp>
 #include <bksge/fnd/ios/flags_saver.hpp>
 #include <ostream>
 #include <ios>
@@ -63,7 +64,7 @@ private:
 	 */
 	friend class bksge::serialization::access;
 	template <typename Archive>
-	void serialize(Archive& ar, unsigned int /*version*/)
+	void serialize(Archive& ar, bksge::serialization::version_t /*version*/)
 	{
 		ar & BKSGE_SERIALIZATION_NVP(m_enable);
 		ar & BKSGE_SERIALIZATION_NVP(m_operation);

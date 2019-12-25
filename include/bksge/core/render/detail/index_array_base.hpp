@@ -13,6 +13,7 @@
 #include <bksge/core/render/detail/fwd/type_enum_fwd.hpp>
 //#include <bksge/fnd/serialization/access.hpp>
 //#include <bksge/fnd/serialization/nvp.hpp>
+//#include <bksge/fnd/serialization/version.hpp>
 #include <cstddef>
 
 namespace bksge
@@ -44,7 +45,7 @@ private:
 #if 0
 	friend class bksge::serialization::access;
 	template <typename Archive>
-	void serialize(Archive& /*ar*/, unsigned int /*version*/)
+	void serialize(Archive& /*ar*/, bksge::serialization::version_t /*version*/)
 	{
 	}
 #endif
