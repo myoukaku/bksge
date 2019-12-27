@@ -17,6 +17,7 @@
 #include <bksge/core/render/d3d12/detail/command_queue.hpp>
 #include <bksge/core/render/d3d12/detail/command_list.hpp>
 #include <bksge/core/render/d3d12/detail/render_target.hpp>
+#include <bksge/core/render/d3d12/detail/depth_stencil.hpp>
 #include <bksge/core/render/d3d12/detail/fence.hpp>
 #include <bksge/core/render/d3d12/detail/geometry.hpp>
 #include <bksge/core/render/d3d12/detail/root_signature.hpp>
@@ -119,6 +120,9 @@ D3D12Renderer::D3D12Renderer(Window const& window)
 	m_render_target = bksge::make_unique<d3d12::RenderTarget>(
 		m_device.get(), m_swap_chain.get(), frame_buffer_count);
 
+	m_depth_stencil = bksge::make_unique<d3d12::DepthStencil>(
+		m_device.get(), width, height);
+
 	m_fence->WaitForGpu(m_command_queue.get(), m_frame_index);
 
 	SetViewport(Rectf(Vector2f(0,0), Size2f(window.client_size())));
@@ -158,14 +162,13 @@ D3D12Renderer::VBegin(void)
 		D3D12_RESOURCE_STATE_RENDER_TARGET);
 
 	auto const rtv_handle = m_render_target->GetHandle(m_frame_index);
-	m_command_list->OMSetRenderTargets(1, &rtv_handle, FALSE, nullptr);
+	auto const dsv_handle = m_depth_stencil->GetHandle();
+	m_command_list->OMSetRenderTargets(1, &rtv_handle, FALSE, &dsv_handle);
 
 	// Clear Color
 	if ((m_clear_flag & ClearFlag::kColor) != ClearFlag::kNone)
 	{
-		m_command_list->ClearRenderTargetView(
-			rtv_handle,
-			m_clear_color.data());
+		m_command_list->ClearRenderTargetView(rtv_handle, m_clear_color.data(), 0, nullptr);
 	}
 
 	// Clear Depth Stencil
@@ -180,7 +183,7 @@ D3D12Renderer::VBegin(void)
 			mask |= D3D12_CLEAR_FLAG_STENCIL;
 		}
 
-		//m_command_list->ClearDepthStencilView(dsv_handle_, mask, 1.0f, 0, 0, nullptr);
+		m_command_list->ClearDepthStencilView(dsv_handle, mask, 1.0f, 0, 0, nullptr);
 	}
 
 	m_descriptor_heaps->SetEnable(m_command_list.get());

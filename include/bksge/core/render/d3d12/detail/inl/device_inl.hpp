@@ -165,6 +165,43 @@ Device::CreateRenderTargetView(
 		dest_descriptor);
 }
 
+BKSGE_INLINE void
+Device::CreateDepthStencilView(
+	ID3D12ResourceN*                       resource,
+	::D3D12_DEPTH_STENCIL_VIEW_DESC const* desc,
+	::D3D12_CPU_DESCRIPTOR_HANDLE          dest_descriptor)
+{
+	m_device->CreateDepthStencilView(
+		resource,
+		desc,
+		dest_descriptor);
+}
+
+BKSGE_INLINE void
+Device::CreateConstantBufferView(
+	::D3D12_CONSTANT_BUFFER_VIEW_DESC const* desc,
+	::D3D12_CPU_DESCRIPTOR_HANDLE            dest_descriptor)
+{
+	m_device->CreateConstantBufferView(desc, dest_descriptor);
+}
+
+BKSGE_INLINE void
+Device::CreateShaderResourceView(
+	ID3D12ResourceN*                         resource,
+	::D3D12_SHADER_RESOURCE_VIEW_DESC const* desc,
+	::D3D12_CPU_DESCRIPTOR_HANDLE            dest_descriptor)
+{
+	m_device->CreateShaderResourceView(resource, desc, dest_descriptor);
+}
+
+BKSGE_INLINE void
+Device::CreateSampler(
+	::D3D12_SAMPLER_DESC const*   desc,
+	::D3D12_CPU_DESCRIPTOR_HANDLE dest_descriptor)
+{
+	m_device->CreateSampler(desc, dest_descriptor);
+}
+
 BKSGE_INLINE ComPtr<ID3D12FenceN>
 Device::CreateFence(
 	::UINT64            initial_value,
@@ -225,31 +262,6 @@ Device::CreateCommittedResource(
 			optimized_clearvalue,
 			IID_PPV_ARGS(&resource)));
 	return std::move(resource);
-}
-
-BKSGE_INLINE void
-Device::CreateConstantBufferView(
-	::D3D12_CONSTANT_BUFFER_VIEW_DESC const* desc,
-	::D3D12_CPU_DESCRIPTOR_HANDLE            dest_descriptor)
-{
-	m_device->CreateConstantBufferView(desc, dest_descriptor);
-}
-
-BKSGE_INLINE void
-Device::CreateShaderResourceView(
-	ID3D12ResourceN*                         resource,
-	::D3D12_SHADER_RESOURCE_VIEW_DESC const* desc,
-	::D3D12_CPU_DESCRIPTOR_HANDLE            dest_descriptor)
-{
-	m_device->CreateShaderResourceView(resource, desc, dest_descriptor);
-}
-
-BKSGE_INLINE void
-Device::CreateSampler(
-	::D3D12_SAMPLER_DESC const*   desc,
-	::D3D12_CPU_DESCRIPTOR_HANDLE dest_descriptor)
-{
-	m_device->CreateSampler(desc, dest_descriptor);
 }
 
 }	// namespace d3d12

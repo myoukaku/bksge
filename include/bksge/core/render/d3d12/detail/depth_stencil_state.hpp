@@ -10,6 +10,8 @@
 #define BKSGE_CORE_RENDER_D3D12_DETAIL_DEPTH_STENCIL_STATE_HPP
 
 #include <bksge/core/render/d3d_common/d3d12.hpp>
+#include <bksge/core/render/fwd/depth_state_fwd.hpp>
+#include <bksge/core/render/fwd/stencil_state_fwd.hpp>
 
 namespace bksge
 {
@@ -23,7 +25,9 @@ namespace d3d12
 class DepthStencilState
 {
 public:
-	DepthStencilState();
+	explicit DepthStencilState(
+		bksge::DepthState const& depth_state,
+		bksge::StencilState const& stencil_state);
 
 	operator ::D3D12_DEPTH_STENCIL_DESC() const;
 

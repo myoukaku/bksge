@@ -36,7 +36,7 @@ public:
 
 	~DepthStencil();
 
-	ComPtr<::ID3D11DepthStencilView> const& GetView(void) const;
+	::ID3D11DepthStencilView* GetView(void) const;
 
 private:
 	ComPtr<ID3D11Texture2DN>         m_texture;

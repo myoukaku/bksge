@@ -98,6 +98,9 @@ public:
 	ComPtr<::ID3D11BlendState> CreateBlendState(
 		::D3D11_BLEND_DESC const& blend_state_desc);
 
+	ComPtr<::ID3D11DepthStencilState> CreateDepthStencilState(
+		::D3D11_DEPTH_STENCIL_DESC const& depth_stencil_desc);
+
 	// TODO
 	ID3D11DeviceN* Get(void) { return m_device.Get(); }
 

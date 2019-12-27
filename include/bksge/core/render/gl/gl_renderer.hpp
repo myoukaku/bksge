@@ -17,6 +17,8 @@
 #include <bksge/core/render/fwd/shader_fwd.hpp>
 #include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
 #include <bksge/core/render/fwd/render_state_fwd.hpp>
+#include <bksge/core/render/fwd/blend_state_fwd.hpp>
+#include <bksge/core/render/fwd/depth_state_fwd.hpp>
 #include <bksge/core/render/renderer.hpp>
 #include <bksge/core/window/fwd/window_fwd.hpp>
 #include <bksge/fnd/units/time.hpp>
@@ -51,7 +53,8 @@ private:
 
 	void ApplyScissorState(RenderState const& render_state);
 	void ApplyRasterizerState(RenderState const& render_state);
-	void ApplyBlendState(RenderState const& render_state);
+	void ApplyBlendState(BlendState const& blend_state);
+	void ApplyDepthState(DepthState const& depth_state);
 
 	using MilliSeconds = bksge::units::milliseconds<float>;
 	using NanoSeconds  = bksge::units::nanoseconds<float>;

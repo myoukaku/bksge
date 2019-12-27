@@ -105,6 +105,10 @@ public:
 		::FLOAT const       blend_factor[4],
 		::UINT              sample_mask);
 
+	void OMSetDepthStencilState(
+		::ID3D11DepthStencilState* depth_stencil_state,
+		::UINT                     stencil_ref);
+
 	void UpdateSubresource(
 		::ID3D11Resource*  dst_resource,
 		::UINT             dst_subresource,

@@ -14,6 +14,7 @@
 #include <bksge/core/render/d3d12/detail/fwd/command_queue_fwd.hpp>
 #include <bksge/core/render/d3d12/detail/fwd/command_list_fwd.hpp>
 #include <bksge/core/render/d3d12/detail/fwd/render_target_fwd.hpp>
+#include <bksge/core/render/d3d12/detail/fwd/depth_stencil_fwd.hpp>
 #include <bksge/core/render/d3d12/detail/fwd/fence_fwd.hpp>
 #include <bksge/core/render/d3d12/detail/fwd/hlsl_program_fwd.hpp>
 #include <bksge/core/render/d3d12/detail/fwd/geometry_fwd.hpp>
@@ -83,6 +84,7 @@ private:
 	std::unique_ptr<d3d12::CommandQueue>	m_command_queue;
 	std::unique_ptr<d3d12::CommandList>		m_command_list;
 	std::unique_ptr<d3d12::RenderTarget>	m_render_target;
+	std::unique_ptr<d3d12::DepthStencil>	m_depth_stencil;
 	std::unique_ptr<d3d12::Fence>			m_fence;
 	std::unique_ptr<d3d12::DescriptorHeaps>	m_descriptor_heaps;
 

@@ -182,6 +182,14 @@ DeviceContext::OMSetBlendState(
 }
 
 BKSGE_INLINE void
+DeviceContext::OMSetDepthStencilState(
+	::ID3D11DepthStencilState* depth_stencil_state,
+	::UINT                     stencil_ref)
+{
+	m_device_context->OMSetDepthStencilState(depth_stencil_state, stencil_ref);
+}
+
+BKSGE_INLINE void
 DeviceContext::UpdateSubresource(
 	::ID3D11Resource*  dst_resource,
 	::UINT             dst_subresource,

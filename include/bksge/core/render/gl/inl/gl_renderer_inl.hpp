@@ -22,6 +22,7 @@
 #include <bksge/core/render/gl/detail/cull_mode.hpp>
 #include <bksge/core/render/gl/detail/blend_factor.hpp>
 #include <bksge/core/render/gl/detail/blend_operation.hpp>
+#include <bksge/core/render/gl/detail/comparison_function.hpp>
 #include <bksge/core/render/gl/detail/resource_cache.hpp>
 #include <bksge/core/render/gl/detail/wgl/wgl_context.hpp>
 #include <bksge/core/render/gl/detail/glx/glx_context.hpp>
@@ -165,7 +166,7 @@ GlRenderer::Clear(void)
 	// glDepthMask(GL_TRUE)を呼ぶ必要がある
 	if ((m_clear_flag & ClearFlag::kDepth) != ClearFlag::kNone)
 	{
-		::glClearDepth(0);
+		::glClearDepth(1);
 		::glDepthMask(GL_TRUE);
 		mask |= GL_DEPTH_BUFFER_BIT;
 	}
@@ -181,7 +182,6 @@ GlRenderer::Clear(void)
 
 	::glDisable(GL_SCISSOR_TEST);
 	::glClear(mask);
-	::glEnable(GL_SCISSOR_TEST);
 }
 
 BKSGE_INLINE bool
@@ -198,7 +198,8 @@ GlRenderer::VRender(
 
 	ApplyScissorState(render_state);
 	ApplyRasterizerState(render_state);
-	ApplyBlendState(render_state);
+	ApplyBlendState(render_state.blend_state());
+	ApplyDepthState(render_state.depth_state());
 
 	auto glsl_program = m_resource_cache->GetGlslProgram(shader);
 	BKSGE_ASSERT(glsl_program != nullptr);
@@ -255,10 +256,8 @@ GlRenderer::ApplyRasterizerState(RenderState const& render_state)
 }
 
 BKSGE_INLINE void
-GlRenderer::ApplyBlendState(RenderState const& render_state)
+GlRenderer::ApplyBlendState(BlendState const& blend_state)
 {
-	auto const& blend_state = render_state.blend_state();
-
 	if (blend_state.enable())
 	{
 		::glEnable(GL_BLEND);
@@ -277,6 +276,22 @@ GlRenderer::ApplyBlendState(RenderState const& render_state)
 	::glBlendEquationSeparate(
 		gl::BlendOperation(blend_state.operation()),
 		gl::BlendOperation(blend_state.alpha_operation()));
+}
+
+BKSGE_INLINE void
+GlRenderer::ApplyDepthState(DepthState const& depth_state)
+{
+	if (depth_state.enable())
+	{
+		::glEnable(GL_DEPTH_TEST);
+	}
+	else
+	{
+		::glDisable(GL_DEPTH_TEST);
+	}
+
+	::glDepthMask(depth_state.write() ? TRUE : FALSE);
+	::glDepthFunc(gl::ComparisonFunction(depth_state.func()));
 }
 
 }	// namespace render

@@ -63,8 +63,25 @@ public:
 	void CreateRenderTargetView(
 		ID3D12ResourceN*                       resource,
 		::D3D12_RENDER_TARGET_VIEW_DESC const* desc,
-		::D3D12_CPU_DESCRIPTOR_HANDLE          dest_descriptor
-	);
+		::D3D12_CPU_DESCRIPTOR_HANDLE          dest_descriptor);
+
+	void CreateDepthStencilView(
+		ID3D12ResourceN*                       resource,
+		::D3D12_DEPTH_STENCIL_VIEW_DESC const* desc,
+		::D3D12_CPU_DESCRIPTOR_HANDLE          dest_descriptor);
+
+	void CreateConstantBufferView(
+		::D3D12_CONSTANT_BUFFER_VIEW_DESC const* desc,
+		::D3D12_CPU_DESCRIPTOR_HANDLE            dest_descriptor);
+
+	void CreateShaderResourceView(
+		ID3D12ResourceN*                         resource,
+		::D3D12_SHADER_RESOURCE_VIEW_DESC const* desc,
+		::D3D12_CPU_DESCRIPTOR_HANDLE            dest_descriptor);
+
+	void CreateSampler(
+		::D3D12_SAMPLER_DESC const*   desc,
+		::D3D12_CPU_DESCRIPTOR_HANDLE dest_descriptor);
 
 	ComPtr<ID3D12FenceN> CreateFence(
 		::UINT64            initial_value,
@@ -84,19 +101,6 @@ public:
 		::D3D12_RESOURCE_DESC const*   desc,
 		::D3D12_RESOURCE_STATES        initial_resource_state,
 		::D3D12_CLEAR_VALUE const*     optimized_clear_value);
-
-	void CreateConstantBufferView(
-		::D3D12_CONSTANT_BUFFER_VIEW_DESC const* desc,
-		::D3D12_CPU_DESCRIPTOR_HANDLE            dest_descriptor);
-
-	void CreateShaderResourceView(
-		ID3D12ResourceN*                         resource,
-		::D3D12_SHADER_RESOURCE_VIEW_DESC const* desc,
-		::D3D12_CPU_DESCRIPTOR_HANDLE            dest_descriptor);
-
-	void CreateSampler(
-		::D3D12_SAMPLER_DESC const*   desc,
-		::D3D12_CPU_DESCRIPTOR_HANDLE dest_descriptor);
 
 private:
 	ComPtr<ID3D12DeviceN>	m_device;

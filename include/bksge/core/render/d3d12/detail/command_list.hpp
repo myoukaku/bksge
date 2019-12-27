@@ -71,7 +71,18 @@ public:
 
 	void ClearRenderTargetView(
 		::D3D12_CPU_DESCRIPTOR_HANDLE const& render_target_view,
-		::FLOAT const*                       color_rgba);
+		::FLOAT const*                       color_rgba,
+		::UINT                               num_rects,
+		::D3D12_RECT const*                  rects
+	);
+
+	void ClearDepthStencilView(
+		::D3D12_CPU_DESCRIPTOR_HANDLE const& depth_stencil_view,
+		::D3D12_CLEAR_FLAGS                  clear_flags,
+		::FLOAT                              depth,
+		::UINT8                              stencil,
+		::UINT                               num_rects,
+		::D3D12_RECT const *                 rects);
 
 	void SetGraphicsRootSignature(
 		::ID3D12RootSignature* root_signature);

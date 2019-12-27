@@ -142,13 +142,33 @@ CommandList::OMSetRenderTargets(
 BKSGE_INLINE void
 CommandList::ClearRenderTargetView(
 	::D3D12_CPU_DESCRIPTOR_HANDLE const& render_target_view,
-	::FLOAT const*                       color_rgba)
+	::FLOAT const*                       color_rgba,
+	::UINT                               num_rects,
+	::D3D12_RECT const*                  rects)
 {
 	m_command_list->ClearRenderTargetView(
 		render_target_view,
 		color_rgba,
-		0,
-		nullptr);
+		num_rects,
+		rects);
+}
+
+BKSGE_INLINE void
+CommandList::ClearDepthStencilView(
+	::D3D12_CPU_DESCRIPTOR_HANDLE const& depth_stencil_view,
+	::D3D12_CLEAR_FLAGS                  clear_flags,
+	::FLOAT                              depth,
+	::UINT8                              stencil,
+	::UINT                               num_rects,
+	::D3D12_RECT const*                  rects)
+{
+	m_command_list->ClearDepthStencilView(
+		depth_stencil_view,
+		clear_flags,
+		depth,
+		stencil,
+		num_rects,
+		rects);
 }
 
 BKSGE_INLINE void

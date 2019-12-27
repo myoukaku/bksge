@@ -23,6 +23,7 @@
 #include <bksge/core/render/d3d11/detail/cull_mode.hpp>
 #include <bksge/core/render/d3d11/detail/blend_factor.hpp>
 #include <bksge/core/render/d3d11/detail/blend_operation.hpp>
+#include <bksge/core/render/d3d11/detail/comparison_function.hpp>
 #include <bksge/core/render/d3d11/detail/resource_cache.hpp>
 #include <bksge/core/render/d3d_common/d3d11.hpp>
 #include <bksge/core/render/d3d_common/com_ptr.hpp>
@@ -83,7 +84,7 @@ D3D11Renderer::D3D11Renderer(Window const& window)
 		m_device_context->OMSetRenderTargets(
 			1,
 			&rtv,
-			nullptr/*m_depth_stencil->GetView()*/);
+			m_depth_stencil->GetView());
 	}
 
 	SetViewport(Rectf(Vector2f(0,0), Size2f(window.client_size())));
@@ -118,7 +119,7 @@ D3D11Renderer::VBegin(void)
 		m_device_context->OMSetRenderTargets(
 			1,
 			&rtv,
-			nullptr/*m_depth_stencil->GetView()*/);
+			m_depth_stencil->GetView());
 	}
 
 	// Clear Color
@@ -141,11 +142,11 @@ D3D11Renderer::VBegin(void)
 			mask |= D3D11_CLEAR_STENCIL;
 		}
 
-		//m_device_context->ClearDepthStencilView(
-		//	m_depth_stencil->GetView(),
-		//	mask,
-		//	1.0f,
-		//	0);
+		m_device_context->ClearDepthStencilView(
+			m_depth_stencil->GetView(),
+			mask,
+			1.0f,
+			0);
 	}
 }
 
@@ -219,6 +220,22 @@ D3D11Renderer::VRender(
 		float const blend_factor[4] = {};
 		::UINT const sample_mask = 0xffffffff;
 		m_device_context->OMSetBlendState(state.Get(), blend_factor, sample_mask);
+	}
+	{
+		auto const& depth_state = render_state.depth_state();
+
+		::D3D11_DEPTH_STENCIL_DESC desc {};
+		desc.DepthEnable = depth_state.enable() ? TRUE : FALSE;
+		desc.DepthWriteMask = depth_state.write() ? D3D11_DEPTH_WRITE_MASK_ALL : D3D11_DEPTH_WRITE_MASK_ZERO;
+		desc.DepthFunc = d3d11::ComparisonFunction(depth_state.func());
+		desc.StencilEnable = FALSE;
+		desc.StencilReadMask = 0;
+		desc.StencilWriteMask = 0;
+//		desc.FrontFace;
+//		desc.BackFace;
+
+		auto state = m_device->CreateDepthStencilState(desc);
+		m_device_context->OMSetDepthStencilState(state.Get(), 0);
 	}
 
 	auto hlsl_program = m_resource_cache->GetD3D11HlslProgram(shader);

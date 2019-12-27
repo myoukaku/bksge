@@ -42,7 +42,7 @@ PipelineState::PipelineState(
 {
 	RasterizerState   raster_state(render_state.rasterizer_state());
 	BlendState        blend_state(render_state.blend_state());
-	DepthStencilState depth_stencil_state;
+	DepthStencilState depth_stencil_state(render_state.depth_state(), render_state.stencil_state());
 
 	::D3D12_GRAPHICS_PIPELINE_STATE_DESC desc = {};
 	desc.InputLayout           = hlsl_program.GetInputLayout();
@@ -56,6 +56,7 @@ PipelineState::PipelineState(
 	desc.PrimitiveTopologyType = PrimitiveTopologyType(primitive);
 	desc.NumRenderTargets      = 1;
 	desc.RTVFormats[0]         = DXGI_FORMAT_R8G8B8A8_UNORM;
+	desc.DSVFormat             = DXGI_FORMAT_D32_FLOAT;
 	desc.SampleDesc.Count      = 1;
 
 	m_pipeline_state = device->CreateGraphicsPipelineState(desc);

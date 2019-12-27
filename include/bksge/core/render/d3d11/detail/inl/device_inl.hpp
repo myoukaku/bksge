@@ -270,6 +270,15 @@ Device::CreateBlendState(
 	return std::move(state);
 }
 
+BKSGE_INLINE ComPtr<::ID3D11DepthStencilState>
+Device::CreateDepthStencilState(
+	::D3D11_DEPTH_STENCIL_DESC const& depth_stencil_desc)
+{
+	ComPtr<::ID3D11DepthStencilState> state;
+	ThrowIfFailed(m_device->CreateDepthStencilState(&depth_stencil_desc, &state));
+	return std::move(state);
+}
+
 }	// namespace d3d11
 
 }	// namespace render
