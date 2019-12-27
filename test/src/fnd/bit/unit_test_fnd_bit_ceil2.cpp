@@ -24,7 +24,7 @@ namespace ceil2_test
 template <typename T>
 void Ceil2TestU8(void)
 {
-	BKSGE_CONSTEXPR_EXPECT_EQ(T(0x00), bksge::ceil2(T(0x00)));
+	BKSGE_CONSTEXPR_EXPECT_EQ(T(0x01), bksge::ceil2(T(0x00)));
 	BKSGE_CONSTEXPR_EXPECT_EQ(T(0x01), bksge::ceil2(T(0x01)));
 	BKSGE_CONSTEXPR_EXPECT_EQ(T(0x02), bksge::ceil2(T(0x02)));
 	BKSGE_CONSTEXPR_EXPECT_EQ(T(0x04), bksge::ceil2(T(0x03)));

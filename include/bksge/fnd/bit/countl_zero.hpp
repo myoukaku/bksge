@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/config.hpp>
 
-#if (BKSGE_CXX_STANDARD >= 20) && BKSGE_HAS_INCLUDE(<bit>)
+#if (BKSGE_CXX_STANDARD >= 20) && BKSGE_HAS_INCLUDE(<bit>) && !defined(BKSGE_APPLE_CLANG)
 #include <bit>
 
 namespace bksge

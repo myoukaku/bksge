@@ -41,16 +41,16 @@ namespace detail
 //	これを任意のビット数に拡張しています。
 
 template <typename T, std::size_t N>
-struct ceil2_impl
+struct ceil2_impl2
 {
 	static BKSGE_CONSTEXPR T invoke(T x) BKSGE_NOEXCEPT
 	{
-		return ceil2_impl<T, N / 2>::invoke(x | (x >> N));
+		return ceil2_impl2<T, N / 2>::invoke(x | (x >> N));
 	}
 };
 
 template <typename T>
-struct ceil2_impl<T, 0>
+struct ceil2_impl2<T, 0>
 {
 	static BKSGE_CONSTEXPR T invoke(T x) BKSGE_NOEXCEPT
 	{
@@ -58,13 +58,20 @@ struct ceil2_impl<T, 0>
 	}
 };
 
+template <typename T>
+inline BKSGE_CONSTEXPR T
+ceil2_impl(T x) BKSGE_NOEXCEPT
+{
+	return (x == 0) ? T(1) : detail::ceil2_impl2<T, bitsof(x) / 2>::invoke(x - 1);
+}
+
 }	// namespace detail
 
 template <typename T, typename>
 inline BKSGE_CONSTEXPR T
 ceil2(T x) BKSGE_NOEXCEPT
 {
-	return detail::ceil2_impl<T, bitsof(x) / 2>::invoke(x - 1);
+	return detail::ceil2_impl(x);
 }
 
 }	// namespace bksge

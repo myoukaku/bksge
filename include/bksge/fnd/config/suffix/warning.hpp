@@ -15,7 +15,7 @@
 #if !defined(BKSGE_WARNING_PUSH)
 #	if defined(BKSGE_MSVC)
 #	  define BKSGE_WARNING_PUSH()			BKSGE_PRAGMA(warning(push))
-#	elif defined(__clang__)
+#	elif defined(BKSGE_CLANG)
 #	  define BKSGE_WARNING_PUSH()			BKSGE_PRAGMA(clang diagnostic push)
 #	elif defined(BKSGE_GCC)
 #	  define BKSGE_WARNING_PUSH()			BKSGE_PRAGMA(GCC diagnostic push)
@@ -30,7 +30,7 @@
 #if !defined(BKSGE_WARNING_POP)
 #	if defined(BKSGE_MSVC)
 #	  define BKSGE_WARNING_POP()			BKSGE_PRAGMA(warning(pop))
-#	elif defined(__clang__)
+#	elif defined(BKSGE_CLANG)
 #	  define BKSGE_WARNING_POP()			BKSGE_PRAGMA(clang diagnostic pop)
 #	elif defined(BKSGE_GCC)
 #	  define BKSGE_WARNING_POP()			BKSGE_PRAGMA(GCC diagnostic pop)
@@ -51,7 +51,7 @@
 #endif
 
 #if !defined(BKSGE_WARNING_DISABLE_CLANG)
-#	if defined(__clang__)
+#	if defined(BKSGE_CLANG)
 #	  define BKSGE_WARNING_DISABLE_CLANG(x)	BKSGE_PRAGMA(clang diagnostic ignored x)
 #	else
 #	  define BKSGE_WARNING_DISABLE_CLANG(x)

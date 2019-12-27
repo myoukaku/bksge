@@ -24,7 +24,7 @@ namespace detail
 // http://www.hackersdelight.org/
 // を参照してください。
 
-#if !defined(BKSGE_NO_CXX14_CONSTEXPR)
+#if defined(BKSGE_HAS_CXX14_CONSTEXPR)
 
 inline constexpr int
 popcount_impl(std::uint64_t x) BKSGE_NOEXCEPT
