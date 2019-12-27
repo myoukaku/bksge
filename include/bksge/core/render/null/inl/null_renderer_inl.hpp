@@ -26,10 +26,6 @@ BKSGE_INLINE NullRenderer::NullRenderer(void)
 BKSGE_INLINE NullRenderer::~NullRenderer()
 {}
 
-BKSGE_INLINE void NullRenderer::VSetRenderTarget(
-	Window const& /*window*/)
-{}
-
 BKSGE_INLINE void NullRenderer::VBegin(void)
 {}
 

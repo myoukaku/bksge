@@ -18,7 +18,6 @@
 #include <bksge/core/window/fwd/window_fwd.hpp>
 #include <bksge/core/math/color4.hpp>
 #include <bksge/core/math/rect.hpp>
-#include <memory>
 #include <vector>
 
 namespace bksge
@@ -36,11 +35,6 @@ public:
 	Renderer(void);
 
 	virtual ~Renderer();
-
-	/**
-	 *	@brief	レンダリングターゲットを設定します
-	 */
-	void SetRenderTarget(Window const& window);
 
 	/**
 	 *	@brief	ビューポート矩形を設定します
@@ -86,8 +80,6 @@ public:
 		RenderState const& render_state);
 
 private:
-	virtual void VSetRenderTarget(Window const& window) = 0;
-
 	virtual void VBegin(void) = 0;
 
 	virtual void VEnd(void) = 0;
@@ -99,9 +91,9 @@ private:
 		RenderState const& render_state) = 0;
 
 protected:
-	ClearFlag					m_clear_flag;
-	Color4f						m_clear_color;
-	std::unique_ptr<Rectf>		m_viewport;
+	ClearFlag	m_clear_flag;
+	Color4f		m_clear_color;
+	Rectf		m_viewport;
 };
 
 }	// namespace render

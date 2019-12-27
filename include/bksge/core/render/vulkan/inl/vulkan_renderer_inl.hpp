@@ -83,7 +83,7 @@ debugCallback(
 }
 
 BKSGE_INLINE
-VulkanRenderer::VulkanRenderer(void)
+VulkanRenderer::VulkanRenderer(Window const& window)
 {
 	// Init Instance
 	{
@@ -213,17 +213,7 @@ VulkanRenderer::VulkanRenderer(void)
 		vk::FenceCreateInfo fence_info;
 		m_fence = bksge::make_unique<vk::Fence>(m_device, fence_info);
 	}
-}
 
-BKSGE_INLINE
-VulkanRenderer::~VulkanRenderer()
-{
-}
-
-BKSGE_INLINE void
-VulkanRenderer::VSetRenderTarget(
-	Window const& window)
-{
 /* Number of descriptor sets needs to be the same at alloc,       */
 /* pipeline layout creation, and descriptor set layout creation   */
 #define NUM_DESCRIPTOR_SETS 1
@@ -497,6 +487,13 @@ VulkanRenderer::VSetRenderTarget(
 		vk::PipelineCacheCreateInfo pipeline_cache_ci;
 		m_pipeline_cache = bksge::make_unique<vk::PipelineCache>(m_device, pipeline_cache_ci);
 	}
+
+	SetViewport(Rectf(Vector2f(0,0), Size2f(window.client_size())));
+}
+
+BKSGE_INLINE
+VulkanRenderer::~VulkanRenderer()
+{
 }
 
 BKSGE_INLINE void

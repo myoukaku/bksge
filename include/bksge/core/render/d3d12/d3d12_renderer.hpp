@@ -50,15 +50,11 @@ namespace render
 class D3D12Renderer : public Renderer
 {
 public:
-	D3D12Renderer(void);
+	D3D12Renderer(Window const& window);
 
 	virtual ~D3D12Renderer();
 
 private:
-	void Initialize(void);
-	void Finalize(void);
-
-	void VSetRenderTarget(Window const& window) override;
 	void VBegin(void) override;
 	void VEnd(void) override;
 	bool VRender(

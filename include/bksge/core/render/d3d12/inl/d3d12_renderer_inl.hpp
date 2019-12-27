@@ -62,27 +62,8 @@ namespace bksge
 namespace render
 {
 
-namespace
-{
-
-static ::UINT const frame_buffer_count = 2;	// TODO
-
-}	// namespace
-
 BKSGE_INLINE
-D3D12Renderer::D3D12Renderer(void)
-{
-	Initialize();
-}
-
-BKSGE_INLINE
-D3D12Renderer::~D3D12Renderer()
-{
-	Finalize();
-}
-
-BKSGE_INLINE void
-D3D12Renderer::Initialize(void)
+D3D12Renderer::D3D12Renderer(Window const& window)
 {
 #if defined(_DEBUG)
 	// Enable the debug layer (requires the Graphics Tools "optional feature").
@@ -95,6 +76,8 @@ D3D12Renderer::Initialize(void)
 		}
 	}
 #endif
+
+	::UINT const frame_buffer_count = 2;	// TODO
 
 	m_factory        = bksge::make_unique<DXGIFactory>();
 	m_device         = bksge::make_unique<d3d12::Device>(m_factory->EnumAdapters());
@@ -112,20 +95,7 @@ D3D12Renderer::Initialize(void)
 	// Command lists are created in the recording state, but there is nothing
 	// to record yet. The main loop expects it to be closed, so close it now.
 	m_command_list->Close();
-}
 
-BKSGE_INLINE void
-D3D12Renderer::Finalize(void)
-{
-	// Ensure that the GPU is no longer referencing resources that are about to be
-	// cleaned up by the destructor.
-	m_fence->WaitForGpu(m_command_queue.get(), m_frame_index);
-	m_fence->Close();
-}
-
-BKSGE_INLINE void
-D3D12Renderer::VSetRenderTarget(Window const& window)
-{
 	::HWND const hwnd = window.handle();
 
 	if (hwnd == nullptr)
@@ -150,6 +120,17 @@ D3D12Renderer::VSetRenderTarget(Window const& window)
 		m_device.get(), m_swap_chain.get(), frame_buffer_count);
 
 	m_fence->WaitForGpu(m_command_queue.get(), m_frame_index);
+
+	SetViewport(Rectf(Vector2f(0,0), Size2f(window.client_size())));
+}
+
+BKSGE_INLINE
+D3D12Renderer::~D3D12Renderer()
+{
+	// Ensure that the GPU is no longer referencing resources that are about to be
+	// cleaned up by the destructor.
+	m_fence->WaitForGpu(m_command_queue.get(), m_frame_index);
+	m_fence->Close();
 }
 
 BKSGE_INLINE void
@@ -159,13 +140,12 @@ D3D12Renderer::VBegin(void)
 
 	m_command_list->Reset(m_frame_index);
 
-	if (m_viewport)
 	{
 		::D3D12_VIEWPORT viewport;
-		viewport.TopLeftX = m_viewport->left();
-		viewport.TopLeftY = m_viewport->top();
-		viewport.Width    = m_viewport->width();
-		viewport.Height   = m_viewport->height();
+		viewport.TopLeftX = m_viewport.left();
+		viewport.TopLeftY = m_viewport.top();
+		viewport.Width    = m_viewport.width();
+		viewport.Height   = m_viewport.height();
 		viewport.MinDepth = D3D12_MIN_DEPTH;
 		viewport.MaxDepth = D3D12_MAX_DEPTH;
 		m_command_list->RSSetViewports(1, &viewport);
@@ -242,9 +222,7 @@ D3D12Renderer::VRender(
 		auto const rect =
 			scissor.enable() ?
 			scissor.rect() :
-			m_viewport ?
-			*m_viewport :
-			Rectf(Vector2f{0, 0}, Size2f{100000, 100000});	// TODO フレームバッファの解像度にする
+			m_viewport;	// TODO フレームバッファの解像度にする
 		::D3D12_RECT scissor_rect;
 		scissor_rect.left   = static_cast<::LONG>(rect.left());
 		scissor_rect.top    = static_cast<::LONG>(rect.top());

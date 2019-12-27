@@ -40,14 +40,17 @@ namespace bksge
 namespace render
 {
 
-namespace gl_renderer_detail
-{
-
 ///////////////////////////////////////////////////////////////////////////////
 //
 //	非メンバ関数
 //
 ///////////////////////////////////////////////////////////////////////////////
+namespace gl
+{
+
+namespace detail
+{
+
 inline gl::Context* MakeGlContext(Window const& window)
 {
 #if defined(BKSGE_PLATFORM_WIN32)
@@ -70,7 +73,9 @@ void APIENTRY DebugCallback(
 	std::printf("%s\n", message);
 }
 
-}	// namespace gl_renderer_detail
+}	// namespace detail
+
+}	// namespace gl
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -78,23 +83,10 @@ void APIENTRY DebugCallback(
 //
 ///////////////////////////////////////////////////////////////////////////////
 BKSGE_INLINE
-GlRenderer::GlRenderer(void)
-	: m_gl_context()
+GlRenderer::GlRenderer(Window const& window)
+	: m_gl_context(gl::detail::MakeGlContext(window))
 	, m_resource_cache(new gl::ResourceCache())
 {
-}
-
-BKSGE_INLINE
-GlRenderer::~GlRenderer()
-{
-	::glDeleteQueries(2, m_timer_queries);
-}
-
-BKSGE_INLINE void
-GlRenderer::VSetRenderTarget(Window const& window)
-{
-	m_gl_context.reset(gl_renderer_detail::MakeGlContext(window));
-
 	//std::printf("GL_VENDOR : %s\n",     ::glGetString(GL_VENDOR));		// ベンダー情報の取得
 	//std::printf("GL_RENDERER : %s\n",   ::glGetString(GL_RENDERER));		// レンダラー情報の取得
 	//std::printf("GL_VERSION : %s\n",    ::glGetString(GL_VERSION));		// バージョン情報の取得
@@ -104,9 +96,17 @@ GlRenderer::VSetRenderTarget(Window const& window)
 	::glGenQueries(2, m_timer_queries);
 
 	::glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, nullptr, GL_FALSE); // notificationレベルの報告を無効化
-	::glDebugMessageCallback(gl_renderer_detail::DebugCallback, nullptr);
+	::glDebugMessageCallback(gl::detail::DebugCallback, nullptr);
 //	::glEnable(GL_DEBUG_OUTPUT);
 	::glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+
+	SetViewport(Rectf(Vector2f(0,0), Size2f(window.client_size())));
+}
+
+BKSGE_INLINE
+GlRenderer::~GlRenderer()
+{
+	::glDeleteQueries(2, m_timer_queries);
 }
 
 BKSGE_INLINE void
@@ -119,14 +119,11 @@ GlRenderer::VBegin(void)
 
 //	::glClipControl(GL_UPPER_LEFT, GL_ZERO_TO_ONE);
 
-	if (m_viewport)
-	{
-		::glViewport(
-			static_cast<::GLint>(m_viewport->left()),
-			static_cast<::GLint>(height - m_viewport->bottom()),//m_viewport->top()),
-			static_cast<::GLsizei>(m_viewport->width()),
-			static_cast<::GLsizei>(m_viewport->height()));
-	}
+	::glViewport(
+		static_cast<::GLint>(m_viewport.left()),
+		static_cast<::GLint>(height - m_viewport.bottom()),//m_viewport.top()),
+		static_cast<::GLsizei>(m_viewport.width()),
+		static_cast<::GLsizei>(m_viewport.height()));
 
 	Clear();
 }

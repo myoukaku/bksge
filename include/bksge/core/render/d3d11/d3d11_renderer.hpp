@@ -43,15 +43,11 @@ namespace render
 class D3D11Renderer : public Renderer
 {
 public:
-	D3D11Renderer(void);
+	D3D11Renderer(Window const& window);
 
 	virtual ~D3D11Renderer();
 
 private:
-	void Initialize(void);
-	void Finalize(void);
-
-	void VSetRenderTarget(Window const& window) override;
 	void VBegin(void) override;
 	void VEnd(void) override;
 	bool VRender(

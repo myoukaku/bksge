@@ -34,14 +34,13 @@ namespace render
 class GlRenderer : public Renderer
 {
 public:
-	GlRenderer(void);
+	GlRenderer(Window const& window);
 
 	virtual ~GlRenderer();
 
 private:
 	void Clear(void);
 
-	void VSetRenderTarget(Window const& window) override;
 	void VBegin(void) override;
 	void VEnd(void) override;
 	bool VRender(

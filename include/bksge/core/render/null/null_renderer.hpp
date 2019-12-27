@@ -29,7 +29,6 @@ public:
 	virtual ~NullRenderer();
 
 private:
-	void VSetRenderTarget(Window const& window) override;
 	void VBegin(void) override;
 	void VEnd(void) override;
 	bool VRender(

@@ -34,28 +34,10 @@ BKSGE_INLINE
 Renderer::~Renderer()
 {}
 
-BKSGE_INLINE
-void Renderer::SetRenderTarget(Window const& window)
-{
-	VSetRenderTarget(window);
-
-	if (!m_viewport)
-	{
-		SetViewport(Rectf(Vector2f(0,0), Size2f(window.client_size())));
-	}
-}
-
 BKSGE_INLINE void
 Renderer::SetViewport(Rectf const& viewport)
 {
-	if (!m_viewport)
-	{
-		m_viewport = bksge::make_unique<Rectf>(viewport);
-	}
-	else
-	{
-		*m_viewport = viewport;
-	}
+	m_viewport = viewport;
 }
 
 BKSGE_INLINE

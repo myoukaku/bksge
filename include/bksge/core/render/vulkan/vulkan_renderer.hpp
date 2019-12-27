@@ -45,12 +45,11 @@ namespace render
 class VulkanRenderer : public Renderer
 {
 public:
-	VulkanRenderer(void);
+	VulkanRenderer(Window const& window);
 
 	virtual ~VulkanRenderer();
 
 private:
-	void VSetRenderTarget(Window const& window) override;
 	void VBegin(void) override;
 	void VEnd(void) override;
 	bool VRender(

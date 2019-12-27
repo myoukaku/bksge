@@ -45,38 +45,13 @@ namespace render
 {
 
 BKSGE_INLINE
-D3D11Renderer::D3D11Renderer(void)
-{
-	Initialize();
-}
-
-BKSGE_INLINE
-D3D11Renderer::~D3D11Renderer()
-{
-	Finalize();
-}
-
-BKSGE_INLINE void
-D3D11Renderer::Initialize(void)
+D3D11Renderer::D3D11Renderer(Window const& window)
 {
 	m_factory = bksge::make_unique<DXGIFactory>();
 	m_device = bksge::make_unique<d3d11::Device>(m_factory->EnumAdapters());
 	m_device_context = bksge::make_unique<d3d11::DeviceContext>(m_device.get());
 	m_resource_cache = bksge::make_unique<d3d11::ResourceCache>(m_device.get());
-}
 
-BKSGE_INLINE void
-D3D11Renderer::Finalize(void)
-{
-	if (m_device_context)
-	{
-		m_device_context->ClearState();
-	}
-}
-
-BKSGE_INLINE void
-D3D11Renderer::VSetRenderTarget(Window const& window)
-{
 	::HWND const hwnd = window.handle();
 
 	if (hwnd == nullptr)
@@ -110,19 +85,29 @@ D3D11Renderer::VSetRenderTarget(Window const& window)
 			&rtv,
 			nullptr/*m_depth_stencil->GetView()*/);
 	}
+
+	SetViewport(Rectf(Vector2f(0,0), Size2f(window.client_size())));
+}
+
+BKSGE_INLINE
+D3D11Renderer::~D3D11Renderer()
+{
+	if (m_device_context)
+	{
+		m_device_context->ClearState();
+	}
 }
 
 BKSGE_INLINE void
 D3D11Renderer::VBegin(void)
 {
 	// Setup the viewport
-	if (m_viewport)
 	{
 		::D3D11_VIEWPORT vp;
-		vp.TopLeftX = m_viewport->left();
-		vp.TopLeftY = m_viewport->top();
-		vp.Width    = m_viewport->width();
-		vp.Height   = m_viewport->height();
+		vp.TopLeftX = m_viewport.left();
+		vp.TopLeftY = m_viewport.top();
+		vp.Width    = m_viewport.width();
+		vp.Height   = m_viewport.height();
 		vp.MinDepth = D3D11_MIN_DEPTH;
 		vp.MaxDepth = D3D11_MAX_DEPTH;
 		m_device_context->RSSetViewports(1, &vp);

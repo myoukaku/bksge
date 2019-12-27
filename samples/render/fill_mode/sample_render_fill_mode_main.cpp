@@ -175,9 +175,8 @@ int main()
 			new bksge::Window({800, 600}, "sample_render_fill_mode - D3D11"));
 		windows.push_back(window);
 
-		std::shared_ptr<bksge::D3D11Renderer> renderer(new bksge::D3D11Renderer());
+		std::shared_ptr<bksge::D3D11Renderer> renderer(new bksge::D3D11Renderer(*window));
 		renderers.push_back(renderer);
-		renderer->SetRenderTarget(*window);
 		renderer->SetClearColor({0.5f, 0.0f, 0.5f, 1});
 	}
 #endif
@@ -187,9 +186,8 @@ int main()
 			new bksge::Window({800, 600}, "sample_render_fill_mode - D3D12"));
 		windows.push_back(window);
 
-		std::shared_ptr<bksge::D3D12Renderer> renderer(new bksge::D3D12Renderer());
+		std::shared_ptr<bksge::D3D12Renderer> renderer(new bksge::D3D12Renderer(*window));
 		renderers.push_back(renderer);
-		renderer->SetRenderTarget(*window);
 		renderer->SetClearColor({0.5f, 0.0f, 0.5f, 1});
 	}
 #endif
@@ -199,9 +197,8 @@ int main()
 			new bksge::Window({800, 600}, "sample_render_fill_mode - GL"));
 		windows.push_back(window);
 
-		std::shared_ptr<bksge::GlRenderer> renderer(new bksge::GlRenderer());
+		std::shared_ptr<bksge::GlRenderer> renderer(new bksge::GlRenderer(*window));
 		renderers.push_back(renderer);
-		renderer->SetRenderTarget(*window);
 		renderer->SetClearColor({0.5f, 0.0f, 0.5f, 1});
 	}
 #endif
