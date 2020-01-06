@@ -34,7 +34,7 @@ public:
 
 	ID3D12ResourceN* GetResource(::UINT index);
 
-	::D3D12_CPU_DESCRIPTOR_HANDLE GetHandle(::UINT index);
+	::D3D12_CPU_DESCRIPTOR_HANDLE GetHandle(::UINT index) const;
 
 private:
 	std::vector<ComPtr<ID3D12ResourceN>>	m_resource;

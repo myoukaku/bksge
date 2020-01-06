@@ -10,34 +10,24 @@
 #define BKSGE_CORE_RENDER_D3D12_D3D12_RENDERER_HPP
 
 #include <bksge/core/render/d3d12/fwd/d3d12_renderer_fwd.hpp>
-#include <bksge/core/render/d3d12/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/d3d12/detail/fwd/command_queue_fwd.hpp>
 #include <bksge/core/render/d3d12/detail/fwd/command_list_fwd.hpp>
-#include <bksge/core/render/d3d12/detail/fwd/render_target_fwd.hpp>
 #include <bksge/core/render/d3d12/detail/fwd/depth_stencil_fwd.hpp>
-#include <bksge/core/render/d3d12/detail/fwd/fence_fwd.hpp>
-#include <bksge/core/render/d3d12/detail/fwd/hlsl_program_fwd.hpp>
-#include <bksge/core/render/d3d12/detail/fwd/geometry_fwd.hpp>
-#include <bksge/core/render/d3d12/detail/fwd/root_signature_fwd.hpp>
-#include <bksge/core/render/d3d12/detail/fwd/pipeline_state_fwd.hpp>
-#include <bksge/core/render/d3d12/detail/fwd/resource_cache_fwd.hpp>
 #include <bksge/core/render/d3d12/detail/fwd/descriptor_heaps_fwd.hpp>
+#include <bksge/core/render/d3d12/detail/fwd/device_fwd.hpp>
+#include <bksge/core/render/d3d12/detail/fwd/fence_fwd.hpp>
+#include <bksge/core/render/d3d12/detail/fwd/render_target_fwd.hpp>
+#include <bksge/core/render/d3d12/detail/fwd/resource_cache_fwd.hpp>
+#include <bksge/core/render/d3d_common/d3d12.hpp>
 #include <bksge/core/render/dxgi/fwd/dxgi_factory_fwd.hpp>
 #include <bksge/core/render/dxgi/fwd/dxgi_swap_chain_fwd.hpp>
-
-#include <bksge/core/render/d3d_common/d3d12.hpp>
-#include <bksge/core/render/d3d_common/com_ptr.hpp>
-
-#include <bksge/core/render/renderer.hpp>
-#include <bksge/core/render/fwd/clear_flag_fwd.hpp>
 #include <bksge/core/render/fwd/geometry_fwd.hpp>
 #include <bksge/core/render/fwd/render_state_fwd.hpp>
 #include <bksge/core/render/fwd/shader_fwd.hpp>
-#include <bksge/core/render/fwd/primitive_fwd.hpp>
-#include <bksge/core/math/fwd/color4_fwd.hpp>
+#include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
+#include <bksge/core/render/renderer.hpp>
 #include <bksge/core/window/fwd/window_fwd.hpp>
-
-#include <memory>
+#include <memory>	// std::unique_ptr
 
 namespace bksge
 {
@@ -65,19 +55,6 @@ private:
 		RenderState const& render_state) override;
 
 private:
-	std::shared_ptr<d3d12::HlslProgram>
-	GetD3D12HlslProgram(Shader const& shader);
-
-	std::shared_ptr<d3d12::Geometry>
-	GetD3D12Geometry(Geometry const& geometry);
-
-	std::shared_ptr<d3d12::PipelineState>
-	GetD3D12PipelineState(
-		Shader const& shader,
-		RenderState const& render_state,
-		Primitive primitive);
-
-private:
 	std::unique_ptr<DXGIFactory>			m_factory;
 	std::unique_ptr<DXGISwapChain>			m_swap_chain;
 	std::unique_ptr<d3d12::Device>			m_device;
@@ -87,13 +64,7 @@ private:
 	std::unique_ptr<d3d12::DepthStencil>	m_depth_stencil;
 	std::unique_ptr<d3d12::Fence>			m_fence;
 	std::unique_ptr<d3d12::DescriptorHeaps>	m_descriptor_heaps;
-
-	d3d12::HlslProgramMap                 m_d3d12_hlsl_program_map;
-	d3d12::GeometryMap                    m_d3d12_geometry_map;
-	d3d12::PipelineStateMap               m_d3d12_pipeline_state;
-
 	std::unique_ptr<d3d12::ResourceCache>	m_resource_cache;
-
 	::UINT									m_frame_index;
 };
 

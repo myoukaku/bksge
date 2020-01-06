@@ -13,49 +13,31 @@
 #if BKSGE_CORE_RENDER_HAS_D3D12_RENDERER
 
 #include <bksge/core/render/d3d12/d3d12_renderer.hpp>
-#include <bksge/core/render/d3d12/detail/device.hpp>
 #include <bksge/core/render/d3d12/detail/command_queue.hpp>
 #include <bksge/core/render/d3d12/detail/command_list.hpp>
-#include <bksge/core/render/d3d12/detail/render_target.hpp>
 #include <bksge/core/render/d3d12/detail/depth_stencil.hpp>
+#include <bksge/core/render/d3d12/detail/descriptor_heaps.hpp>
+#include <bksge/core/render/d3d12/detail/device.hpp>
 #include <bksge/core/render/d3d12/detail/fence.hpp>
 #include <bksge/core/render/d3d12/detail/geometry.hpp>
-#include <bksge/core/render/d3d12/detail/root_signature.hpp>
-#include <bksge/core/render/d3d12/detail/input_layout.hpp>
-#include <bksge/core/render/d3d12/detail/rasterizer_state.hpp>
-#include <bksge/core/render/d3d12/detail/blend_state.hpp>
-#include <bksge/core/render/d3d12/detail/depth_stencil_state.hpp>
 #include <bksge/core/render/d3d12/detail/hlsl_program.hpp>
-#include <bksge/core/render/d3d12/detail/primitive_topology_type.hpp>
 #include <bksge/core/render/d3d12/detail/pipeline_state.hpp>
 #include <bksge/core/render/d3d12/detail/resource_cache.hpp>
-#include <bksge/core/render/d3d12/detail/descriptor_heaps.hpp>
-#include <bksge/core/render/d3d_common/d3d12.hpp>
+#include <bksge/core/render/d3d12/detail/render_target.hpp>
 #include <bksge/core/render/d3d_common/com_ptr.hpp>
-#include <bksge/core/render/d3d_common/throw_if_failed.hpp>
-#include <bksge/core/render/d3d_common/d3dcompiler.hpp>
-#include <bksge/core/render/dxgi/dxgi_swap_chain.hpp>
+#include <bksge/core/render/d3d_common/d3d12.hpp>
 #include <bksge/core/render/dxgi/dxgi_factory.hpp>
-#include <bksge/core/render/d3d_common/dxgi.hpp>
-
+#include <bksge/core/render/dxgi/dxgi_swap_chain.hpp>
 #include <bksge/core/render/geometry.hpp>
 #include <bksge/core/render/shader.hpp>
-#include <bksge/core/render/shader_parameter_map.hpp>
+#include <bksge/core/render/shader_type.hpp>
 #include <bksge/core/render/render_state.hpp>
-
-#include <bksge/fnd/memory/make_unique.hpp>
-#include <bksge/core/window/window.hpp>
 #include <bksge/core/detail/win32.hpp>
-#include <bksge/fnd/functional/hash_combine.hpp>
 #include <bksge/core/math/rect.hpp>
-#include <bksge/core/math/vector2.hpp>
 #include <bksge/core/math/size2.hpp>
-#include <bksge/fnd/utility/forward.hpp>
-#include <bksge/fnd/assert.hpp>
-
-#include <memory>
-#include <unordered_map>
-#include <utility>
+#include <bksge/core/math/vector2.hpp>
+#include <bksge/core/window/window.hpp>
+#include <bksge/fnd/memory/make_unique.hpp>
 
 namespace bksge
 {
@@ -234,7 +216,7 @@ D3D12Renderer::VRender(
 		m_command_list->RSSetScissorRects(1, &scissor_rect);
 	}
 
-	auto hlsl_program = GetD3D12HlslProgram(shader);
+	auto hlsl_program = m_resource_cache->GetD3D12HlslProgram(m_device.get(), shader);
 
 	// TODO
 	// hlsl_program->SetRootSignature(m_command_list.get());
@@ -250,63 +232,13 @@ D3D12Renderer::VRender(
 		m_resource_cache.get(),
 		shader_parameter_map);
 
-	auto pipeline_state = GetD3D12PipelineState(shader, render_state, geometry.primitive());
+	auto pipeline_state = m_resource_cache->GetD3D12PipelineState(m_device.get(), shader, render_state, geometry.primitive());
 	pipeline_state->SetPipelineState(m_command_list.get());
 
-	auto d3d12_geometry = GetD3D12Geometry(geometry);
+	auto d3d12_geometry = m_resource_cache->GetD3D12Geometry(m_device.get(), geometry);
 	d3d12_geometry->Draw(m_command_list.get());
 
 	return true;
-}
-
-namespace d3d12_detail
-{
-
-template <typename T, typename Map, typename Key, typename... Args>
-inline typename Map::mapped_type
-GetOrCreate(Map& map, Key const& key, Args&&... args)
-{
-	auto const& it = map.find(key);
-	if (it != map.end())
-	{
-		return it->second;
-	}
-
-	auto p = std::make_shared<T>(bksge::forward<Args>(args)...);
-	map[key] = p;
-	return p;
-}
-
-}	// namespace d3d12_detail
-
-BKSGE_INLINE std::shared_ptr<d3d12::HlslProgram>
-D3D12Renderer::GetD3D12HlslProgram(Shader const& shader)
-{
-	return d3d12_detail::GetOrCreate<d3d12::HlslProgram>(
-		m_d3d12_hlsl_program_map, shader.id(), m_device.get(), shader);
-}
-
-BKSGE_INLINE std::shared_ptr<d3d12::Geometry>
-D3D12Renderer::GetD3D12Geometry(Geometry const& geometry)
-{
-	return d3d12_detail::GetOrCreate<d3d12::Geometry>(
-		m_d3d12_geometry_map, geometry.id(), m_device.get(), geometry);
-}
-
-BKSGE_INLINE std::shared_ptr<d3d12::PipelineState>
-D3D12Renderer::GetD3D12PipelineState(
-	Shader const& shader,
-	RenderState const& render_state,
-	Primitive primitive)
-{
-	auto const id = bksge::hash_combine(shader.id(), render_state, primitive);
-	return d3d12_detail::GetOrCreate<d3d12::PipelineState>(
-		m_d3d12_pipeline_state,
-		id,
-		m_device.get(),
-		*GetD3D12HlslProgram(shader),
-		render_state,
-		primitive);
 }
 
 }	// namespace render

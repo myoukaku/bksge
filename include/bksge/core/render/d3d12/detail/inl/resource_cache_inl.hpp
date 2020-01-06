@@ -14,11 +14,18 @@
 
 #include <bksge/core/render/d3d12/detail/resource_cache.hpp>
 #include <bksge/core/render/d3d12/detail/constant_buffer.hpp>
+#include <bksge/core/render/d3d12/detail/pipeline_state.hpp>
+#include <bksge/core/render/d3d12/detail/hlsl_program.hpp>
+#include <bksge/core/render/d3d12/detail/geometry.hpp>
 #include <bksge/core/render/d3d12/detail/texture.hpp>
 #include <bksge/core/render/d3d12/detail/sampler.hpp>
 #include <bksge/core/render/d3d12/detail/command_queue.hpp>
 #include <bksge/core/render/d3d12/detail/command_list.hpp>
 #include <bksge/core/render/d3d12/detail/fence.hpp>
+#include <bksge/core/render/render_state.hpp>
+#include <bksge/core/render/shader.hpp>
+#include <bksge/core/render/primitive.hpp>
+#include <bksge/core/render/geometry.hpp>
 #include <bksge/core/render/texture.hpp>
 #include <bksge/core/render/sampler.hpp>
 #include <bksge/fnd/utility/forward.hpp>
@@ -40,7 +47,7 @@ namespace detail
 
 template <typename Ret, typename Map, typename Id, typename... Args>
 inline typename Map::mapped_type
-GetOrCreate(Map& map, Id const& id, Args... args)
+GetOrCreate(Map& map, Id const& id, Args&&... args)
 {
 	{
 		auto const& it = map.find(id);
@@ -78,6 +85,37 @@ BKSGE_INLINE ConstantBufferShared
 ResourceCache::GetD3D12ConstantBuffer()
 {
 	return m_constant_buffer;
+}
+
+BKSGE_INLINE PipelineStateShared
+ResourceCache::GetD3D12PipelineState(
+	Device* device,
+	bksge::Shader const& shader,
+	bksge::RenderState const& render_state,
+	bksge::Primitive primitive)
+{
+	auto const id = bksge::hash_combine(shader.id(), render_state, primitive);
+	return detail::GetOrCreate<PipelineState>(
+		m_pipeline_state,
+		id,
+		device,
+		*GetD3D12HlslProgram(device, shader),
+		render_state,
+		primitive);
+}
+
+BKSGE_INLINE HlslProgramShared
+ResourceCache::GetD3D12HlslProgram(Device* device, bksge::Shader const& shader)
+{
+	return detail::GetOrCreate<HlslProgram>(
+		m_hlsl_program_map, shader.id(), device, shader);
+}
+
+BKSGE_INLINE GeometryShared
+ResourceCache::GetD3D12Geometry(Device* device, bksge::Geometry const& geometry)
+{
+	return detail::GetOrCreate<Geometry>(
+		m_geometry_map, geometry.id(), device, geometry);
 }
 
 BKSGE_INLINE TextureShared

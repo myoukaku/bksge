@@ -24,7 +24,8 @@ namespace d3d12
 
 class HlslProgram;
 
-using HlslProgramMap = std::map<Identifier, std::shared_ptr<HlslProgram>>;
+using HlslProgramShared = std::shared_ptr<HlslProgram>;
+using HlslProgramMap = std::map<Identifier, HlslProgramShared>;
 
 }	// namespace d3d12
 

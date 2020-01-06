@@ -72,7 +72,7 @@ RenderTarget::GetResource(::UINT index)
 }
 
 BKSGE_INLINE ::D3D12_CPU_DESCRIPTOR_HANDLE
-RenderTarget::GetHandle(::UINT index)
+RenderTarget::GetHandle(::UINT index) const
 {
 	::D3D12_CPU_DESCRIPTOR_HANDLE handle(
 		m_descriptor_heap->GetCPUDescriptorHandleForHeapStart());
