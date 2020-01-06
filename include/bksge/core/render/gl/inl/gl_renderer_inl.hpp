@@ -290,7 +290,7 @@ GlRenderer::ApplyDepthState(DepthState const& depth_state)
 		::glDisable(GL_DEPTH_TEST);
 	}
 
-	::glDepthMask(depth_state.write() ? TRUE : FALSE);
+	::glDepthMask(depth_state.write() ? GL_TRUE : GL_FALSE);
 	::glDepthFunc(gl::ComparisonFunction(depth_state.func()));
 }
 
