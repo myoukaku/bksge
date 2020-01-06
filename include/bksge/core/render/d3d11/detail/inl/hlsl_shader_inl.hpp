@@ -168,6 +168,7 @@ HlslShaderBase::SetEnable(
 BKSGE_INLINE void
 HlslShaderBase::LoadParameters(
 	ResourceCache* resource_cache,
+	Device* device,
 	DeviceContext* device_context,
 	bksge::ShaderParameterMap const& shader_parameter_map)
 {
@@ -190,6 +191,7 @@ HlslShaderBase::LoadParameters(
 	{
 		hlsl_sampler->Load(
 			resource_cache,
+			device,
 			device_context,
 			shader_parameter_map,
 			this,
@@ -203,6 +205,7 @@ HlslShaderBase::LoadParameters(
 	{
 		hlsl_texture->Load(
 			resource_cache,
+			device,
 			device_context,
 			shader_parameter_map,
 			this,

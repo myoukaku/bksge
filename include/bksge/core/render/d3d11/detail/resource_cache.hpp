@@ -35,17 +35,16 @@ namespace d3d11
 class ResourceCache
 {
 public:
-	explicit ResourceCache(Device* device);
+	explicit ResourceCache(void);
 
 	~ResourceCache();
 
-	HlslProgramShared GetD3D11HlslProgram(bksge::Shader const& shader);
-	GeometryShared    GetD3D11Geometry(bksge::Geometry const& geometry);
-	TextureShared     GetD3D11Texture(bksge::Texture const& texture);
-	SamplerShared     GetD3D11Sampler(bksge::Sampler const& sampler);
+	HlslProgramShared GetD3D11HlslProgram(Device* device, bksge::Shader const& shader);
+	GeometryShared    GetD3D11Geometry(Device* device, bksge::Geometry const& geometry);
+	TextureShared     GetD3D11Texture(Device* device, bksge::Texture const& texture);
+	SamplerShared     GetD3D11Sampler(Device* device, bksge::Sampler const& sampler);
 
 private:
-	Device*			m_device;	// TODO 生ポインタを保存しない
 	HlslProgramMap	m_hlsl_program_map;
 	GeometryMap		m_geometry_map;
 	TextureMap		m_texture_map;

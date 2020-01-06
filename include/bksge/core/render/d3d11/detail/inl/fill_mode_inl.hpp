@@ -15,7 +15,6 @@
 #include <bksge/core/render/d3d11/detail/fill_mode.hpp>
 #include <bksge/core/render/d3d_common/d3d11.hpp>
 #include <bksge/core/render/fill_mode.hpp>
-#include <unordered_map>
 
 namespace bksge
 {
@@ -30,22 +29,21 @@ namespace detail
 {
 
 inline ::D3D11_FILL_MODE
-D3D11FillMode(bksge::FillMode fill_mode)
+ToD3D11FillMode(bksge::FillMode fill_mode)
 {
-	static std::unordered_map<bksge::FillMode, ::D3D11_FILL_MODE> const m =
+	switch (fill_mode)
 	{
-		{ bksge::FillMode::kSolid,     D3D11_FILL_SOLID },
-		{ bksge::FillMode::kWireframe, D3D11_FILL_WIREFRAME },
-	};
-
-	return m.at(fill_mode);
+	case bksge::FillMode::kSolid:     return D3D11_FILL_SOLID;
+	case bksge::FillMode::kWireframe: return D3D11_FILL_WIREFRAME;
+	}
+	return D3D11_FILL_SOLID;
 }
 
 }	// namespace detail
 
 BKSGE_INLINE
 FillMode::FillMode(bksge::FillMode fill_mode)
-	: m_fill_mode(detail::D3D11FillMode(fill_mode))
+	: m_fill_mode(detail::ToD3D11FillMode(fill_mode))
 {}
 
 BKSGE_INLINE

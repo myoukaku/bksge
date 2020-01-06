@@ -15,7 +15,6 @@
 #include <bksge/core/render/d3d12/detail/comparison_function.hpp>
 #include <bksge/core/render/d3d_common/d3d12.hpp>
 #include <bksge/core/render/comparison_function.hpp>
-#include <unordered_map>
 
 namespace bksge
 {
@@ -30,28 +29,27 @@ namespace detail
 {
 
 inline ::D3D12_COMPARISON_FUNC
-D3D12ComparisonFunction(bksge::ComparisonFunction comparison_function)
+ToD3D12ComparisonFunction(bksge::ComparisonFunction comparison_function)
 {
-	static std::unordered_map<bksge::ComparisonFunction, ::D3D12_COMPARISON_FUNC> const m =
+	switch (comparison_function)
 	{
-		{ bksge::ComparisonFunction::kNever,			D3D12_COMPARISON_FUNC_NEVER },
-		{ bksge::ComparisonFunction::kLess,				D3D12_COMPARISON_FUNC_LESS },
-		{ bksge::ComparisonFunction::kEqual,			D3D12_COMPARISON_FUNC_EQUAL },
-		{ bksge::ComparisonFunction::kLessEqual,		D3D12_COMPARISON_FUNC_LESS_EQUAL },
-		{ bksge::ComparisonFunction::kGreater,			D3D12_COMPARISON_FUNC_GREATER },
-		{ bksge::ComparisonFunction::kNotEqual,			D3D12_COMPARISON_FUNC_NOT_EQUAL },
-		{ bksge::ComparisonFunction::kGreaterEqual,		D3D12_COMPARISON_FUNC_GREATER_EQUAL },
-		{ bksge::ComparisonFunction::kAlways,			D3D12_COMPARISON_FUNC_ALWAYS },
-	};
-
-	return m.at(comparison_function);
+	case bksge::ComparisonFunction::kNever:        return D3D12_COMPARISON_FUNC_NEVER;
+	case bksge::ComparisonFunction::kLess:         return D3D12_COMPARISON_FUNC_LESS;
+	case bksge::ComparisonFunction::kEqual:        return D3D12_COMPARISON_FUNC_EQUAL;
+	case bksge::ComparisonFunction::kLessEqual:    return D3D12_COMPARISON_FUNC_LESS_EQUAL;
+	case bksge::ComparisonFunction::kGreater:      return D3D12_COMPARISON_FUNC_GREATER;
+	case bksge::ComparisonFunction::kNotEqual:     return D3D12_COMPARISON_FUNC_NOT_EQUAL;
+	case bksge::ComparisonFunction::kGreaterEqual: return D3D12_COMPARISON_FUNC_GREATER_EQUAL;
+	case bksge::ComparisonFunction::kAlways:       return D3D12_COMPARISON_FUNC_ALWAYS;
+	}
+	return D3D12_COMPARISON_FUNC_NEVER;
 }
 
 }	// namespace detail
 
 BKSGE_INLINE
 ComparisonFunction::ComparisonFunction(bksge::ComparisonFunction comparison_function)
-	: m_comparison_function(detail::D3D12ComparisonFunction(comparison_function))
+	: m_comparison_function(detail::ToD3D12ComparisonFunction(comparison_function))
 {}
 
 BKSGE_INLINE

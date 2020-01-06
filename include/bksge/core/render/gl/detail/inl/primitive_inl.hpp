@@ -14,7 +14,6 @@
 
 #include <bksge/core/render/gl/detail/primitive.hpp>
 #include <bksge/core/render/primitive.hpp>
-#include <unordered_map>
 
 namespace bksge
 {
@@ -29,23 +28,22 @@ namespace detail
 {
 
 inline ::GLenum
-GlPrimitive(bksge::Primitive primitive)
+ToGlPrimitive(bksge::Primitive primitive)
 {
-	static std::unordered_map<bksge::Primitive, ::GLenum> const m =
+	switch (primitive)
 	{
-		{ bksge::Primitive::kPoints,    GL_POINTS },
-		{ bksge::Primitive::kLines,     GL_LINES },
-		{ bksge::Primitive::kTriangles, GL_TRIANGLES },
-	};
-
-	return m.at(primitive);
+	case bksge::Primitive::kPoints:    return GL_POINTS;
+	case bksge::Primitive::kLines:     return GL_LINES;
+	case bksge::Primitive::kTriangles: return GL_TRIANGLES;
+	}
+	return GL_POINTS;
 }
 
 }	// namespace detail
 
 BKSGE_INLINE
 Primitive::Primitive(bksge::Primitive primitive)
-	: m_primitive(detail::GlPrimitive(primitive))
+	: m_primitive(detail::ToGlPrimitive(primitive))
 {}
 
 BKSGE_INLINE

@@ -14,7 +14,6 @@
 
 #include <bksge/core/render/gl/detail/filter_mode.hpp>
 #include <bksge/core/render/filter_mode.hpp>
-#include <unordered_map>
 
 namespace bksge
 {
@@ -29,22 +28,21 @@ namespace detail
 {
 
 inline ::GLint
-GlFilterMode(bksge::FilterMode mode)
+ToGlFilterMode(bksge::FilterMode filter_mode)
 {
-	static std::unordered_map<bksge::FilterMode, ::GLint> const m =
+	switch (filter_mode)
 	{
-		{ bksge::FilterMode::kLinear,	GL_LINEAR },
-		{ bksge::FilterMode::kNearest,	GL_NEAREST },
-	};
-
-	return m.at(mode);
+	case bksge::FilterMode::kLinear:  return GL_LINEAR;
+	case bksge::FilterMode::kNearest: return GL_NEAREST;
+	}
+	return GL_LINEAR;
 }
 
 }	// namespace detail
 
 BKSGE_INLINE
-FilterMode::FilterMode(bksge::FilterMode mode)
-	: m_mode(detail::GlFilterMode(mode))
+FilterMode::FilterMode(bksge::FilterMode filter_mode)
+	: m_mode(detail::ToGlFilterMode(filter_mode))
 {}
 
 BKSGE_INLINE

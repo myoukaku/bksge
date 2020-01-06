@@ -14,7 +14,6 @@
 
 #include <bksge/core/render/gl/detail/fill_mode.hpp>
 #include <bksge/core/render/fill_mode.hpp>
-#include <unordered_map>
 
 namespace bksge
 {
@@ -29,22 +28,21 @@ namespace detail
 {
 
 inline ::GLenum
-GlFillMode(bksge::FillMode mode)
+ToGlFillMode(bksge::FillMode fill_mode)
 {
-	static std::unordered_map<bksge::FillMode, ::GLenum> const m =
+	switch (fill_mode)
 	{
-		{ bksge::FillMode::kSolid,		GL_FILL },
-		{ bksge::FillMode::kWireframe,	GL_LINE },
-	};
-
-	return m.at(mode);
+	case bksge::FillMode::kSolid:     return GL_FILL;
+	case bksge::FillMode::kWireframe: return GL_LINE;
+	}
+	return GL_FILL;
 }
 
 }	// namespace detail
 
 BKSGE_INLINE
 FillMode::FillMode(bksge::FillMode fill_mode)
-	: m_fill_mode(detail::GlFillMode(fill_mode))
+	: m_fill_mode(detail::ToGlFillMode(fill_mode))
 {}
 
 BKSGE_INLINE

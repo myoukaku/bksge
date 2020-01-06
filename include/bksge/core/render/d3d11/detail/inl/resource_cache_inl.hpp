@@ -58,8 +58,7 @@ GetOrCreate(Device* device, Map& map, Src const& src, Args... args)
 }	// namespace detail
 
 BKSGE_INLINE
-ResourceCache::ResourceCache(Device* device)
-	: m_device(device)
+ResourceCache::ResourceCache(void)
 {
 }
 
@@ -69,31 +68,31 @@ ResourceCache::~ResourceCache()
 }
 
 BKSGE_INLINE HlslProgramShared
-ResourceCache::GetD3D11HlslProgram(bksge::Shader const& shader)
+ResourceCache::GetD3D11HlslProgram(Device* device, bksge::Shader const& shader)
 {
 	return detail::GetOrCreate<HlslProgram>(
-		m_device, m_hlsl_program_map, shader);
+		device, m_hlsl_program_map, shader);
 }
 
 BKSGE_INLINE GeometryShared
-ResourceCache::GetD3D11Geometry(bksge::Geometry const& geometry)
+ResourceCache::GetD3D11Geometry(Device* device, bksge::Geometry const& geometry)
 {
 	return detail::GetOrCreate<Geometry>(
-		m_device, m_geometry_map, geometry);
+		device, m_geometry_map, geometry);
 }
 
 BKSGE_INLINE TextureShared
-ResourceCache::GetD3D11Texture(bksge::Texture const& texture)
+ResourceCache::GetD3D11Texture(Device* device, bksge::Texture const& texture)
 {
 	return detail::GetOrCreate<Texture>(
-		m_device, m_texture_map, texture);
+		device, m_texture_map, texture);
 }
 
 BKSGE_INLINE SamplerShared
-ResourceCache::GetD3D11Sampler(bksge::Sampler const& sampler)
+ResourceCache::GetD3D11Sampler(Device* device, bksge::Sampler const& sampler)
 {
 	return detail::GetOrCreate<Sampler>(
-		m_device, m_sampler_map, sampler);
+		device, m_sampler_map, sampler);
 }
 
 }	// namespace d3d11

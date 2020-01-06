@@ -14,7 +14,6 @@
 
 #include <bksge/core/render/gl/detail/blend_operation.hpp>
 #include <bksge/core/render/blend_operation.hpp>
-#include <unordered_map>
 
 namespace bksge
 {
@@ -29,25 +28,24 @@ namespace detail
 {
 
 inline ::GLenum
-GlBlendOperation(bksge::BlendOperation mode)
+ToGlBlendOperation(bksge::BlendOperation blend_operation)
 {
-	static std::unordered_map<bksge::BlendOperation, ::GLenum> const m =
+	switch (blend_operation)
 	{
-		{ bksge::BlendOperation::kAdd,             GL_FUNC_ADD },
-		{ bksge::BlendOperation::kSubtract,        GL_FUNC_SUBTRACT },
-		{ bksge::BlendOperation::kReverseSubtract, GL_FUNC_REVERSE_SUBTRACT },
-		{ bksge::BlendOperation::kMin,             GL_MIN },
-		{ bksge::BlendOperation::kMax,             GL_MAX },
-	};
-
-	return m.at(mode);
+	case bksge::BlendOperation::kAdd:             return GL_FUNC_ADD;
+	case bksge::BlendOperation::kSubtract:        return GL_FUNC_SUBTRACT;
+	case bksge::BlendOperation::kReverseSubtract: return GL_FUNC_REVERSE_SUBTRACT;
+	case bksge::BlendOperation::kMin:             return GL_MIN;
+	case bksge::BlendOperation::kMax:             return GL_MAX;
+	}
+	return GL_FUNC_ADD;
 }
 
 }	// namespace detail
 
 BKSGE_INLINE
 BlendOperation::BlendOperation(bksge::BlendOperation blend_operation)
-	: m_blend_operation(detail::GlBlendOperation(blend_operation))
+	: m_blend_operation(detail::ToGlBlendOperation(blend_operation))
 {}
 
 BKSGE_INLINE

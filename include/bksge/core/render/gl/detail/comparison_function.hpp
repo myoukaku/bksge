@@ -6,8 +6,8 @@
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_CORE_RENDER_GL_DETAIL_comparison_function_HPP
-#define BKSGE_CORE_RENDER_GL_DETAIL_comparison_function_HPP
+#ifndef BKSGE_CORE_RENDER_GL_DETAIL_COMPARISON_FUNCTION_HPP
+#define BKSGE_CORE_RENDER_GL_DETAIL_COMPARISON_FUNCTION_HPP
 
 #include <bksge/core/render/fwd/comparison_function_fwd.hpp>
 #include <bksge/core/render/gl/detail/gl_h.hpp>
@@ -46,4 +46,4 @@ private:
 #include <bksge/core/render/gl/detail/inl/comparison_function_inl.hpp>
 #endif
 
-#endif // BKSGE_CORE_RENDER_GL_DETAIL_comparison_function_HPP
+#endif // BKSGE_CORE_RENDER_GL_DETAIL_COMPARISON_FUNCTION_HPP

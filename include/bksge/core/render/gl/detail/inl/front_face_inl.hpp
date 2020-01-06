@@ -14,7 +14,6 @@
 
 #include <bksge/core/render/gl/detail/front_face.hpp>
 #include <bksge/core/render/front_face.hpp>
-#include <unordered_map>
 
 namespace bksge
 {
@@ -29,22 +28,21 @@ namespace detail
 {
 
 inline ::GLenum
-GlFrontFace(bksge::FrontFace mode)
+ToGlFrontFace(bksge::FrontFace front_face)
 {
-	static std::unordered_map<bksge::FrontFace, ::GLenum> const m =
+	switch (front_face)
 	{
-		{ bksge::FrontFace::kClockwise,			GL_CW },
-		{ bksge::FrontFace::kCounterClockwise,	GL_CCW },
-	};
-
-	return m.at(mode);
+	case bksge::FrontFace::kClockwise:        return GL_CW;
+	case bksge::FrontFace::kCounterClockwise: return GL_CCW;
+	}
+	return GL_CW;
 }
 
 }	// namespace detail
 
 BKSGE_INLINE
 FrontFace::FrontFace(bksge::FrontFace front_face)
-	: m_front_face(detail::GlFrontFace(front_face))
+	: m_front_face(detail::ToGlFrontFace(front_face))
 {}
 
 BKSGE_INLINE

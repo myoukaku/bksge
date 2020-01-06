@@ -36,7 +36,7 @@ ToD3D12PrimitiveTopology(bksge::Primitive primitive)
 	case bksge::Primitive::kPoints:    return D3D_PRIMITIVE_TOPOLOGY_POINTLIST;
 	case bksge::Primitive::kLines:     return D3D_PRIMITIVE_TOPOLOGY_LINELIST;
 	case bksge::Primitive::kTriangles: return D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-	};
+	}
 	return D3D_PRIMITIVE_TOPOLOGY_UNDEFINED;
 }
 

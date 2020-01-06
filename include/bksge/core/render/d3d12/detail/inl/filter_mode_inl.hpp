@@ -29,7 +29,7 @@ namespace detail
 {
 
 inline ::D3D12_FILTER_TYPE
-D3D12FilterType(bksge::FilterMode filter)
+ToD3D12FilterType(bksge::FilterMode filter)
 {
 	switch (filter)
 	{
@@ -44,8 +44,8 @@ D3D12FilterType(bksge::FilterMode filter)
 BKSGE_INLINE
 FilterMode::FilterMode(bksge::FilterMode min_filter, bksge::FilterMode mag_filter)
 	: m_filter(static_cast<::D3D12_FILTER>(
-		(detail::D3D12FilterType(min_filter) << D3D12_MIN_FILTER_SHIFT) |
-		(detail::D3D12FilterType(mag_filter) << D3D12_MAG_FILTER_SHIFT)))
+		(detail::ToD3D12FilterType(min_filter) << D3D12_MIN_FILTER_SHIFT) |
+		(detail::ToD3D12FilterType(mag_filter) << D3D12_MAG_FILTER_SHIFT)))
 {}
 
 BKSGE_INLINE

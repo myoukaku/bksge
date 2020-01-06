@@ -46,6 +46,7 @@ HlslTexture::~HlslTexture()
 BKSGE_INLINE void
 HlslTexture::Load(
 	ResourceCache* resource_cache,
+	Device* device,
 	DeviceContext* device_context,
 	bksge::ShaderParameterMap const& shader_parameter_map,
 	HlslShaderBase* hlsl_shader,
@@ -70,7 +71,7 @@ HlslTexture::Load(
 	auto texture = *static_cast<bksge::Texture const*>(param->data());
 
 	auto d3d11_texture =
-		resource_cache->GetD3D11Texture(texture);
+		resource_cache->GetD3D11Texture(device, texture);
 
 	auto srv = d3d11_texture->shader_resource_view();
 

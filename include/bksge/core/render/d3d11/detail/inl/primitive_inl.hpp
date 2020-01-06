@@ -13,8 +13,8 @@
 #if BKSGE_CORE_RENDER_HAS_D3D11_RENDERER
 
 #include <bksge/core/render/d3d11/detail/primitive.hpp>
+#include <bksge/core/render/d3d_common/d3d11.hpp>
 #include <bksge/core/render/primitive.hpp>
-#include <unordered_map>
 
 namespace bksge
 {
@@ -29,23 +29,22 @@ namespace detail
 {
 
 inline ::D3D11_PRIMITIVE_TOPOLOGY
-D3D11Primitive(bksge::Primitive primitive)
+ToD3D11Primitive(bksge::Primitive primitive)
 {
-	static std::unordered_map<bksge::Primitive, ::D3D11_PRIMITIVE_TOPOLOGY> const m =
+	switch (primitive)
 	{
-		{ bksge::Primitive::kPoints,    D3D11_PRIMITIVE_TOPOLOGY_POINTLIST },
-		{ bksge::Primitive::kLines,	    D3D11_PRIMITIVE_TOPOLOGY_LINELIST },
-		{ bksge::Primitive::kTriangles, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST },
-	};
-
-	return m.at(primitive);
+	case bksge::Primitive::kPoints:    return D3D11_PRIMITIVE_TOPOLOGY_POINTLIST;
+	case bksge::Primitive::kLines:	   return D3D11_PRIMITIVE_TOPOLOGY_LINELIST;
+	case bksge::Primitive::kTriangles: return D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	}
+	return D3D11_PRIMITIVE_TOPOLOGY_POINTLIST;
 }
 
 }	// namespace detail
 
 BKSGE_INLINE
 Primitive::Primitive(bksge::Primitive primitive)
-	: m_primitive(detail::D3D11Primitive(primitive))
+	: m_primitive(detail::ToD3D11Primitive(primitive))
 {}
 
 BKSGE_INLINE

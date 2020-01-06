@@ -15,7 +15,6 @@
 #include <bksge/core/render/gl/detail/shader_stage.hpp>
 #include <bksge/core/render/gl/detail/gl_h.hpp>
 #include <bksge/core/render/shader_stage.hpp>
-#include <unordered_map>
 
 namespace bksge
 {
@@ -30,25 +29,24 @@ namespace detail
 {
 
 inline ::GLenum
-GlShaderStage(bksge::ShaderStage stage)
+ToGlShaderStage(bksge::ShaderStage stage)
 {
-	static std::unordered_map<bksge::ShaderStage, ::GLenum> const m =
+	switch (stage)
 	{
-		{ bksge::ShaderStage::kVertex,					GL_VERTEX_SHADER },
-		{ bksge::ShaderStage::kGeometry,				GL_GEOMETRY_SHADER },
-		{ bksge::ShaderStage::kFragment,				GL_FRAGMENT_SHADER },
-		{ bksge::ShaderStage::kTessellationControl,		GL_TESS_CONTROL_SHADER },
-		{ bksge::ShaderStage::kTessellationEvaluation,	GL_TESS_EVALUATION_SHADER },
-	};
-
-	return m.at(stage);
+	case bksge::ShaderStage::kVertex:                 return GL_VERTEX_SHADER;
+	case bksge::ShaderStage::kGeometry:               return GL_GEOMETRY_SHADER;
+	case bksge::ShaderStage::kFragment:               return GL_FRAGMENT_SHADER;
+	case bksge::ShaderStage::kTessellationControl:    return GL_TESS_CONTROL_SHADER;
+	case bksge::ShaderStage::kTessellationEvaluation: return GL_TESS_EVALUATION_SHADER;
+	}
+	return GL_VERTEX_SHADER;
 }
 
 }	// namespace detail
 
 BKSGE_INLINE
 ShaderStage::ShaderStage(bksge::ShaderStage stage)
-	: m_stage(detail::GlShaderStage(stage))
+	: m_stage(detail::ToGlShaderStage(stage))
 {}
 
 BKSGE_INLINE

@@ -13,6 +13,8 @@
 #if BKSGE_CORE_RENDER_HAS_D3D11_RENDERER
 
 #include <bksge/core/render/d3d11/detail/wrap_mode.hpp>
+#include <bksge/core/render/d3d_common/d3d11.hpp>
+#include <bksge/core/render/wrap_mode.hpp>
 
 namespace bksge
 {

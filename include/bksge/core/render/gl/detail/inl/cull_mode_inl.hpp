@@ -14,7 +14,6 @@
 
 #include <bksge/core/render/gl/detail/cull_mode.hpp>
 #include <bksge/core/render/cull_mode.hpp>
-#include <unordered_map>
 
 namespace bksge
 {
@@ -29,22 +28,21 @@ namespace detail
 {
 
 inline ::GLenum
-GlCullMode(bksge::CullMode mode)
+ToGlCullMode(bksge::CullMode cull_mode)
 {
-	static std::unordered_map<bksge::CullMode, ::GLenum> const m =
+	switch (cull_mode)
 	{
-		{ bksge::CullMode::kBack,	GL_BACK },
-		{ bksge::CullMode::kFront,	GL_FRONT },
-	};
-
-	return m.at(mode);
+	case bksge::CullMode::kBack:  return GL_BACK;
+	case bksge::CullMode::kFront: return GL_FRONT;
+	}
+	return GL_BACK;
 }
 
 }	// namespace detail
 
 BKSGE_INLINE
 CullMode::CullMode(bksge::CullMode cull_mode)
-	: m_cull_mode(detail::GlCullMode(cull_mode))
+	: m_cull_mode(detail::ToGlCullMode(cull_mode))
 {}
 
 BKSGE_INLINE

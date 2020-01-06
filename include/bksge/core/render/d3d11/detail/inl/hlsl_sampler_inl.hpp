@@ -46,6 +46,7 @@ HlslSampler::~HlslSampler()
 BKSGE_INLINE void
 HlslSampler::Load(
 	ResourceCache* resource_cache,
+	Device* device,
 	DeviceContext* device_context,
 	bksge::ShaderParameterMap const& shader_parameter_map,
 	HlslShaderBase* hlsl_shader,
@@ -70,7 +71,7 @@ HlslSampler::Load(
 	auto sampler = *static_cast<bksge::Sampler const*>(param->data());
 
 	auto d3d11_sampler =
-		resource_cache->GetD3D11Sampler(sampler);
+		resource_cache->GetD3D11Sampler(device, sampler);
 
 	hlsl_shader->VSetSamplers(
 		device_context,

@@ -15,7 +15,6 @@
 #include <bksge/core/render/d3d11/detail/cull_mode.hpp>
 #include <bksge/core/render/d3d_common/d3d11.hpp>
 #include <bksge/core/render/cull_mode.hpp>
-#include <unordered_map>
 
 namespace bksge
 {
@@ -30,23 +29,22 @@ namespace detail
 {
 
 inline ::D3D11_CULL_MODE
-D3D11CullMode(bksge::CullMode cull_mode)
+ToD3D11CullMode(bksge::CullMode cull_mode)
 {
-	static std::unordered_map<bksge::CullMode, ::D3D11_CULL_MODE> const m =
+	switch (cull_mode)
 	{
-		{ bksge::CullMode::kNone,   D3D11_CULL_NONE },
-		{ bksge::CullMode::kFront,  D3D11_CULL_FRONT },
-		{ bksge::CullMode::kBack,   D3D11_CULL_BACK },
-	};
-
-	return m.at(cull_mode);
+	case bksge::CullMode::kNone:   return D3D11_CULL_NONE;
+	case bksge::CullMode::kFront:  return D3D11_CULL_FRONT;
+	case bksge::CullMode::kBack:   return D3D11_CULL_BACK;
+	}
+	return D3D11_CULL_NONE;
 }
 
 }	// namespace detail
 
 BKSGE_INLINE
 CullMode::CullMode(bksge::CullMode cull_mode)
-	: m_cull_mode(detail::D3D11CullMode(cull_mode))
+	: m_cull_mode(detail::ToD3D11CullMode(cull_mode))
 {}
 
 BKSGE_INLINE

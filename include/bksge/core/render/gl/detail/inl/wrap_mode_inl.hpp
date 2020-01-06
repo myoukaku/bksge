@@ -14,7 +14,6 @@
 
 #include <bksge/core/render/gl/detail/wrap_mode.hpp>
 #include <bksge/core/render/wrap_mode.hpp>
-#include <unordered_map>
 
 namespace bksge
 {
@@ -29,23 +28,22 @@ namespace detail
 {
 
 inline ::GLint
-GlWrapMode(bksge::WrapMode mode)
+ToGlWrapMode(bksge::WrapMode wrap_mode)
 {
-	static std::unordered_map<bksge::WrapMode, ::GLint> const m =
+	switch (wrap_mode)
 	{
-		{ bksge::WrapMode::kRepeat,	GL_REPEAT },
-		{ bksge::WrapMode::kClamp,		GL_CLAMP_TO_EDGE },
-		{ bksge::WrapMode::kBorder,	GL_CLAMP_TO_BORDER },
-	};
-
-	return m.at(mode);
+	case bksge::WrapMode::kRepeat: return GL_REPEAT;
+	case bksge::WrapMode::kClamp:  return GL_CLAMP_TO_EDGE;
+	case bksge::WrapMode::kBorder: return GL_CLAMP_TO_BORDER;
+	}
+	return GL_REPEAT;
 }
 
 }	// namespace detail
 
 BKSGE_INLINE
 WrapMode::WrapMode(bksge::WrapMode wrap_mode)
-	: m_wrap_mode(detail::GlWrapMode(wrap_mode))
+	: m_wrap_mode(detail::ToGlWrapMode(wrap_mode))
 {}
 
 BKSGE_INLINE

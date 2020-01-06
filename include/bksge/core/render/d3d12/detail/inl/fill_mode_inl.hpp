@@ -35,7 +35,7 @@ ToD3D12FillMode(bksge::FillMode fill_mode)
 	{
 	case bksge::FillMode::kSolid:     return D3D12_FILL_MODE_SOLID;
 	case bksge::FillMode::kWireframe: return D3D12_FILL_MODE_WIREFRAME;
-	};
+	}
 	return D3D12_FILL_MODE_SOLID;
 }
 

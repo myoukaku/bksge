@@ -10,14 +10,10 @@
 #define BKSGE_CORE_RENDER_D3D11_D3D11_RENDERER_HPP
 
 #include <bksge/core/render/d3d11/fwd/d3d11_renderer_fwd.hpp>
+#include <bksge/core/render/d3d11/detail/fwd/depth_stencil_fwd.hpp>
 #include <bksge/core/render/d3d11/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/d3d11/detail/fwd/device_context_fwd.hpp>
 #include <bksge/core/render/d3d11/detail/fwd/render_target_fwd.hpp>
-#include <bksge/core/render/d3d11/detail/fwd/depth_stencil_fwd.hpp>
-//#include <bksge/core/render/d3d11/detail/fwd/texture_fwd.hpp>
-//#include <bksge/core/render/d3d11/detail/fwd/hlsl_program_fwd.hpp>
-//#include <bksge/core/render/d3d11/detail/fwd/geometry_fwd.hpp>
-//#include <bksge/core/render/d3d11/detail/fwd/sampler_fwd.hpp>
 #include <bksge/core/render/d3d11/detail/fwd/resource_cache_fwd.hpp>
 #include <bksge/core/render/dxgi/fwd/dxgi_factory_fwd.hpp>
 #include <bksge/core/render/dxgi/fwd/dxgi_swap_chain_fwd.hpp>
@@ -25,8 +21,6 @@
 #include <bksge/core/render/fwd/shader_fwd.hpp>
 #include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
 #include <bksge/core/render/fwd/render_state_fwd.hpp>
-//#include <bksge/core/render/fwd/texture_fwd.hpp>
-//#include <bksge/core/render/fwd/sampler_fwd.hpp>
 #include <bksge/core/render/renderer.hpp>
 #include <bksge/core/window/fwd/window_fwd.hpp>
 #include <memory>
@@ -58,9 +52,9 @@ private:
 
 private:
 	std::unique_ptr<DXGIFactory>          m_factory;
+	std::unique_ptr<DXGISwapChain>        m_swap_chain;
 	std::unique_ptr<d3d11::Device>        m_device;
 	std::unique_ptr<d3d11::DeviceContext> m_device_context;
-	std::unique_ptr<DXGISwapChain>        m_swap_chain;
 	std::unique_ptr<d3d11::RenderTarget>  m_render_target;
 	std::unique_ptr<d3d11::DepthStencil>  m_depth_stencil;
 	std::unique_ptr<d3d11::ResourceCache> m_resource_cache;

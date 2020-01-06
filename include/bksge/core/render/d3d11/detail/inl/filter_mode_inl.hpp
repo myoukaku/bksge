@@ -14,6 +14,7 @@
 
 #include <bksge/core/render/d3d11/detail/filter_mode.hpp>
 #include <bksge/core/render/d3d_common/d3d11.hpp>
+#include <bksge/core/render/filter_mode.hpp>
 
 namespace bksge
 {
@@ -28,7 +29,7 @@ namespace detail
 {
 
 inline ::D3D11_FILTER_TYPE
-D3D11FilterType(bksge::FilterMode filter)
+ToD3D11FilterType(bksge::FilterMode filter)
 {
 	switch (filter)
 	{
@@ -43,8 +44,8 @@ D3D11FilterType(bksge::FilterMode filter)
 BKSGE_INLINE
 FilterMode::FilterMode(bksge::FilterMode min_filter, bksge::FilterMode mag_filter)
 	: m_filter(static_cast<::D3D11_FILTER>(
-		(detail::D3D11FilterType(min_filter) << D3D11_MIN_FILTER_SHIFT) |
-		(detail::D3D11FilterType(mag_filter) << D3D11_MAG_FILTER_SHIFT)))
+		(detail::ToD3D11FilterType(min_filter) << D3D11_MIN_FILTER_SHIFT) |
+		(detail::ToD3D11FilterType(mag_filter) << D3D11_MAG_FILTER_SHIFT)))
 {}
 
 BKSGE_INLINE

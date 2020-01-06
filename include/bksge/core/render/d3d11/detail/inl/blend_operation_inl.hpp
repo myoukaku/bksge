@@ -15,7 +15,6 @@
 #include <bksge/core/render/d3d11/detail/blend_operation.hpp>
 #include <bksge/core/render/d3d_common/d3d11.hpp>
 #include <bksge/core/render/blend_operation.hpp>
-#include <unordered_map>
 
 namespace bksge
 {
@@ -30,25 +29,24 @@ namespace detail
 {
 
 inline ::D3D11_BLEND_OP
-D3D11BlendOperation(bksge::BlendOperation blend_operation)
+ToD3D11BlendOperation(bksge::BlendOperation blend_operation)
 {
-	static std::unordered_map<bksge::BlendOperation, ::D3D11_BLEND_OP> const m =
+	switch (blend_operation)
 	{
-		{ bksge::BlendOperation::kAdd,             D3D11_BLEND_OP_ADD },
-		{ bksge::BlendOperation::kSubtract,        D3D11_BLEND_OP_SUBTRACT },
-		{ bksge::BlendOperation::kReverseSubtract, D3D11_BLEND_OP_REV_SUBTRACT },
-		{ bksge::BlendOperation::kMin,             D3D11_BLEND_OP_MIN },
-		{ bksge::BlendOperation::kMax,             D3D11_BLEND_OP_MAX },
-	};
-
-	return m.at(blend_operation);
+	case bksge::BlendOperation::kAdd:             return D3D11_BLEND_OP_ADD;
+	case bksge::BlendOperation::kSubtract:        return D3D11_BLEND_OP_SUBTRACT;
+	case bksge::BlendOperation::kReverseSubtract: return D3D11_BLEND_OP_REV_SUBTRACT;
+	case bksge::BlendOperation::kMin:             return D3D11_BLEND_OP_MIN;
+	case bksge::BlendOperation::kMax:             return D3D11_BLEND_OP_MAX;
+	}
+	return D3D11_BLEND_OP_ADD;
 }
 
 }	// namespace detail
 
 BKSGE_INLINE
 BlendOperation::BlendOperation(bksge::BlendOperation blend_operation)
-	: m_blend_operation(detail::D3D11BlendOperation(blend_operation))
+	: m_blend_operation(detail::ToD3D11BlendOperation(blend_operation))
 {}
 
 BKSGE_INLINE

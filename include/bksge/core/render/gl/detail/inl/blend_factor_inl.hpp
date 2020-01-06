@@ -14,7 +14,6 @@
 
 #include <bksge/core/render/gl/detail/blend_factor.hpp>
 #include <bksge/core/render/blend_factor.hpp>
-#include <unordered_map>
 
 namespace bksge
 {
@@ -29,39 +28,38 @@ namespace detail
 {
 
 inline ::GLenum
-GlBlendFactor(bksge::BlendFactor mode)
+ToGlBlendFactor(bksge::BlendFactor blend_factor)
 {
-	static std::unordered_map<bksge::BlendFactor, ::GLenum> const m =
+	switch (blend_factor)
 	{
-		{ bksge::BlendFactor::kZero,             GL_ZERO },
-		{ bksge::BlendFactor::kOne,              GL_ONE },
-		{ bksge::BlendFactor::kSrcColor,         GL_SRC_COLOR },
-		{ bksge::BlendFactor::kInvSrcColor,      GL_ONE_MINUS_SRC_COLOR },
-		{ bksge::BlendFactor::kSrcAlpha,         GL_SRC_ALPHA },
-		{ bksge::BlendFactor::kInvSrcAlpha,      GL_ONE_MINUS_SRC_ALPHA },
-		{ bksge::BlendFactor::kDestAlpha,        GL_DST_ALPHA },
-		{ bksge::BlendFactor::kInvDestAlpha,     GL_ONE_MINUS_DST_ALPHA },
-		{ bksge::BlendFactor::kDestColor,        GL_DST_COLOR },
-		{ bksge::BlendFactor::kInvDestColor,     GL_ONE_MINUS_DST_COLOR },
-		{ bksge::BlendFactor::kSrcAlphaSaturate, GL_SRC_ALPHA_SATURATE },
-		{ bksge::BlendFactor::kBlendFactor,      GL_CONSTANT_COLOR },
-		{ bksge::BlendFactor::kInvBlendFactor,   GL_ONE_MINUS_CONSTANT_COLOR },
-		{ bksge::BlendFactor::kSrc1Color,        GL_SRC1_COLOR },
-		{ bksge::BlendFactor::kInvSrc1Color,     GL_ONE_MINUS_SRC1_COLOR },
-		{ bksge::BlendFactor::kSrc1Alpha,        GL_SRC1_ALPHA },
-		{ bksge::BlendFactor::kInvSrc1Alpha,     GL_ONE_MINUS_SRC1_ALPHA },
+	case bksge::BlendFactor::kZero:             return GL_ZERO;
+	case bksge::BlendFactor::kOne:              return GL_ONE;
+	case bksge::BlendFactor::kSrcColor:         return GL_SRC_COLOR;
+	case bksge::BlendFactor::kInvSrcColor:      return GL_ONE_MINUS_SRC_COLOR;
+	case bksge::BlendFactor::kSrcAlpha:         return GL_SRC_ALPHA;
+	case bksge::BlendFactor::kInvSrcAlpha:      return GL_ONE_MINUS_SRC_ALPHA;
+	case bksge::BlendFactor::kDestAlpha:        return GL_DST_ALPHA;
+	case bksge::BlendFactor::kInvDestAlpha:     return GL_ONE_MINUS_DST_ALPHA;
+	case bksge::BlendFactor::kDestColor:        return GL_DST_COLOR;
+	case bksge::BlendFactor::kInvDestColor:     return GL_ONE_MINUS_DST_COLOR;
+	case bksge::BlendFactor::kSrcAlphaSaturate: return GL_SRC_ALPHA_SATURATE;
+	case bksge::BlendFactor::kBlendFactor:      return GL_CONSTANT_COLOR;
+	case bksge::BlendFactor::kInvBlendFactor:   return GL_ONE_MINUS_CONSTANT_COLOR;
+	case bksge::BlendFactor::kSrc1Color:        return GL_SRC1_COLOR;
+	case bksge::BlendFactor::kInvSrc1Color:     return GL_ONE_MINUS_SRC1_COLOR;
+	case bksge::BlendFactor::kSrc1Alpha:        return GL_SRC1_ALPHA;
+	case bksge::BlendFactor::kInvSrc1Alpha:     return GL_ONE_MINUS_SRC1_ALPHA;
 		// GL_CONSTANT_ALPHA
 		// GL_ONE_MINUS_CONSTANT_ALPHA
-	};
-
-	return m.at(mode);
+	}
+	return GL_ZERO;
 }
 
 }	// namespace detail
 
 BKSGE_INLINE
 BlendFactor::BlendFactor(bksge::BlendFactor blend_factor)
-	: m_blend_factor(detail::GlBlendFactor(blend_factor))
+	: m_blend_factor(detail::ToGlBlendFactor(blend_factor))
 {}
 
 BKSGE_INLINE

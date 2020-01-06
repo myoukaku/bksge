@@ -14,7 +14,6 @@
 
 #include <bksge/core/render/gl/detail/type_enum.hpp>
 #include <bksge/core/render/detail/type_enum.hpp>
-#include <unordered_map>
 
 namespace bksge
 {
@@ -29,27 +28,26 @@ namespace detail
 {
 
 inline ::GLenum
-GlTypeEnum(bksge::TypeEnum type)
+ToGlTypeEnum(bksge::TypeEnum type_enum)
 {
-	static std::unordered_map<bksge::TypeEnum, ::GLenum> const m =
+	switch (type_enum)
 	{
-		{ bksge::TypeEnum::kSInt8,	GL_BYTE },
-		{ bksge::TypeEnum::kUInt8,	GL_UNSIGNED_BYTE },
-		{ bksge::TypeEnum::kSInt16,	GL_SHORT },
-		{ bksge::TypeEnum::kUInt16,	GL_UNSIGNED_SHORT },
-		{ bksge::TypeEnum::kSInt32,	GL_INT },
-		{ bksge::TypeEnum::kUInt32,	GL_UNSIGNED_INT },
-		{ bksge::TypeEnum::kFloat,	GL_FLOAT },
-	};
-
-	return m.at(type);
+	case bksge::TypeEnum::kSInt8:	return GL_BYTE;
+	case bksge::TypeEnum::kUInt8:	return GL_UNSIGNED_BYTE;
+	case bksge::TypeEnum::kSInt16:	return GL_SHORT;
+	case bksge::TypeEnum::kUInt16:	return GL_UNSIGNED_SHORT;
+	case bksge::TypeEnum::kSInt32:	return GL_INT;
+	case bksge::TypeEnum::kUInt32:	return GL_UNSIGNED_INT;
+	case bksge::TypeEnum::kFloat:	return GL_FLOAT;
+	}
+	return GL_BYTE;
 }
 
 }	// namespace detail
 
 BKSGE_INLINE
 TypeEnum::TypeEnum(bksge::TypeEnum type_enum)
-	: m_type_enum(detail::GlTypeEnum(type_enum))
+	: m_type_enum(detail::ToGlTypeEnum(type_enum))
 {}
 
 BKSGE_INLINE

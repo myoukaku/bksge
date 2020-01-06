@@ -41,6 +41,7 @@ public:
 
 	void Render(
 		ResourceCache* resource_cache,
+		Device* device,
 		DeviceContext* device_context,
 		bksge::ShaderParameterMap const& shader_parameter_map);
 

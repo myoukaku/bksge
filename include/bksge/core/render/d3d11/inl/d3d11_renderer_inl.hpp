@@ -26,18 +26,16 @@
 #include <bksge/core/render/d3d11/detail/comparison_function.hpp>
 #include <bksge/core/render/d3d11/detail/resource_cache.hpp>
 #include <bksge/core/render/d3d_common/d3d11.hpp>
-#include <bksge/core/render/d3d_common/com_ptr.hpp>
 #include <bksge/core/render/dxgi/dxgi_factory.hpp>
 #include <bksge/core/render/dxgi/dxgi_swap_chain.hpp>
 #include <bksge/core/render/clear_flag.hpp>
 #include <bksge/core/render/front_face.hpp>
 #include <bksge/core/render/shader.hpp>
+#include <bksge/core/render/shader_type.hpp>
 #include <bksge/core/render/render_state.hpp>
-#include <bksge/core/math/color4.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/core/window/window.hpp>
 #include <bksge/fnd/assert.hpp>
-#include <memory>
 
 namespace bksge
 {
@@ -51,7 +49,7 @@ D3D11Renderer::D3D11Renderer(Window const& window)
 	m_factory = bksge::make_unique<DXGIFactory>();
 	m_device = bksge::make_unique<d3d11::Device>(m_factory->EnumAdapters());
 	m_device_context = bksge::make_unique<d3d11::DeviceContext>(m_device.get());
-	m_resource_cache = bksge::make_unique<d3d11::ResourceCache>(m_device.get());
+	m_resource_cache = bksge::make_unique<d3d11::ResourceCache>();
 
 	::HWND const hwnd = window.handle();
 
@@ -238,14 +236,15 @@ D3D11Renderer::VRender(
 		m_device_context->OMSetDepthStencilState(state.Get(), 0);
 	}
 
-	auto hlsl_program = m_resource_cache->GetD3D11HlslProgram(shader);
+	auto hlsl_program = m_resource_cache->GetD3D11HlslProgram(m_device.get(), shader);
 	BKSGE_ASSERT(hlsl_program != nullptr);
 	hlsl_program->Render(
 		m_resource_cache.get(),
+		m_device.get(),
 		m_device_context.get(),
 		shader_parameter_map);
 
-	auto d3d11_geometry = m_resource_cache->GetD3D11Geometry(geometry);
+	auto d3d11_geometry = m_resource_cache->GetD3D11Geometry(m_device.get(), geometry);
 	BKSGE_ASSERT(d3d11_geometry != nullptr);
 	d3d11_geometry->Draw(m_device_context.get());
 
