@@ -34,6 +34,10 @@ ToGlCullMode(bksge::CullMode cull_mode)
 	{
 	case bksge::CullMode::kBack:  return GL_BACK;
 	case bksge::CullMode::kFront: return GL_FRONT;
+	case bksge::CullMode::kNone:
+		// glCullFace に GL_NONE は設定できないので適当な値を返す。
+		// glDisable(GL_CULL_FACE) を呼んでカリングを無効にすること。
+		return GL_BACK;
 	}
 	return GL_BACK;
 }

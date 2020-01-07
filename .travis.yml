@@ -28,6 +28,7 @@ install:
       export PATH=~/bin:$PATH
     elif [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then
       travis_retry brew update -v
+      travis_retry brew unlink python@2
       travis_retry brew upgrade
     fi
 
