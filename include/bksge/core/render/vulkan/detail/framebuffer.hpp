@@ -13,6 +13,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan_h.hpp>
 #include <memory>
+#include <vector>
 
 namespace bksge
 {
@@ -20,31 +21,28 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
-
-struct FramebufferCreateInfo : public ::VkFramebufferCreateInfo
-{
-	FramebufferCreateInfo(void);
-};
 
 class Framebuffer
 {
 public:
 	explicit Framebuffer(
-		std::shared_ptr<vk::Device> const& device,
-		vk::FramebufferCreateInfo const& info);
+		vulkan::DeviceSharedPtr const& device,
+		::VkRenderPass const& render_pass,
+		std::vector<::VkImageView> const& attachments,
+		::VkExtent2D const& extent);
 
 	~Framebuffer();
 
 	operator ::VkFramebuffer() const;
 
 private:
-	::VkFramebuffer				m_framebuffer;
-	std::shared_ptr<vk::Device>	m_device;
+	vulkan::DeviceSharedPtr	m_device;
+	::VkFramebuffer			m_framebuffer;
 };
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

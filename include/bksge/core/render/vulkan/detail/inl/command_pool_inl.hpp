@@ -23,25 +23,20 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
-
-BKSGE_INLINE
-CommandPoolCreateInfo::CommandPoolCreateInfo(void)
-{
-	sType            = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
-	pNext            = nullptr;
-	flags            = 0;
-	queueFamilyIndex = 0;
-}
 
 BKSGE_INLINE
 CommandPool::CommandPool(
-	std::shared_ptr<vk::Device> const& device,
-	vk::CommandPoolCreateInfo const& info)
-	: m_command_pool(VK_NULL_HANDLE)
-	, m_device(device)
+	vulkan::DeviceSharedPtr const& device,
+	std::uint32_t queue_family_index)
+	: m_device(device)
+	, m_command_pool(VK_NULL_HANDLE)
 {
+	vk::CommandPoolCreateInfo info;
+	info.queueFamilyIndex = queue_family_index;
+	info.flags            = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
+
 	vk::CreateCommandPool(*m_device, &info, nullptr, &m_command_pool);
 }
 
@@ -57,7 +52,7 @@ CommandPool::operator ::VkCommandPool() const
 	return m_command_pool;
 }
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

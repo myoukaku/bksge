@@ -23,30 +23,24 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
-
-BKSGE_INLINE
-FramebufferCreateInfo::FramebufferCreateInfo(void)
-{
-	sType           = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
-	pNext           = nullptr;
-	flags           = 0;
-	renderPass      = VK_NULL_HANDLE;
-	attachmentCount = 0;
-	pAttachments    = nullptr;
-	width           = 0;
-	height          = 0;
-	layers          = 0;
-}
 
 BKSGE_INLINE
 Framebuffer::Framebuffer(
-	std::shared_ptr<vk::Device> const& device,
-	vk::FramebufferCreateInfo const& info)
-	: m_framebuffer(VK_NULL_HANDLE)
-	, m_device(device)
+	vulkan::DeviceSharedPtr const& device,
+	::VkRenderPass const& render_pass,
+	std::vector<::VkImageView> const& attachments,
+	::VkExtent2D const& extent)
+	: m_device(device)
+	, m_framebuffer(VK_NULL_HANDLE)
 {
+	vk::FramebufferCreateInfo info;
+	info.renderPass      = render_pass;
+	info.SetAttachments(attachments);
+	info.SetExtent(extent);
+	info.layers          = 1;
+
 	vk::CreateFramebuffer(*m_device, &info, nullptr, &m_framebuffer);
 }
 
@@ -62,7 +56,7 @@ Framebuffer::operator ::VkFramebuffer() const
 	return m_framebuffer;
 }
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

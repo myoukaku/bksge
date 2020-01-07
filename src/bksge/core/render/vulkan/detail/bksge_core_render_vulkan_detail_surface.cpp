@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	bksge_core_render_vulkan_detail_surface.cpp
  *
- *	@brief	SurfaceKHR クラスの定義
+ *	@brief	Surface クラスの定義
  *
  *	@author	myoukaku
  */

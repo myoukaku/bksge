@@ -11,9 +11,13 @@
 
 #include <bksge/core/render/vulkan/detail/fwd/graphics_pipeline_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/render_pass_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/shader_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/pipeline_cache_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/pipeline_layout_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan_h.hpp>
-#include <memory>
+#include <bksge/core/render/fwd/render_state_fwd.hpp>
+#include <bksge/core/render/fwd/geometry_fwd.hpp>
 
 namespace bksge
 {
@@ -21,77 +25,34 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
-
-struct PipelineDynamicStateCreateInfo : public ::VkPipelineDynamicStateCreateInfo
-{
-	PipelineDynamicStateCreateInfo(void);
-};
-
-struct PipelineVertexInputStateCreateInfo : public ::VkPipelineVertexInputStateCreateInfo
-{
-	PipelineVertexInputStateCreateInfo(void);
-};
-
-struct PipelineInputAssemblyStateCreateInfo : public ::VkPipelineInputAssemblyStateCreateInfo
-{
-	PipelineInputAssemblyStateCreateInfo(void);
-};
-
-struct PipelineRasterizationStateCreateInfo : public ::VkPipelineRasterizationStateCreateInfo
-{
-	PipelineRasterizationStateCreateInfo(void);
-};
-
-struct PipelineColorBlendAttachmentState : public ::VkPipelineColorBlendAttachmentState
-{
-	PipelineColorBlendAttachmentState(void);
-};
-
-struct PipelineColorBlendStateCreateInfo : public ::VkPipelineColorBlendStateCreateInfo
-{
-	PipelineColorBlendStateCreateInfo(void);
-};
-
-struct PipelineViewportStateCreateInfo : public ::VkPipelineViewportStateCreateInfo
-{
-	PipelineViewportStateCreateInfo(void);
-};
-
-struct PipelineDepthStencilStateCreateInfo : public ::VkPipelineDepthStencilStateCreateInfo
-{
-	PipelineDepthStencilStateCreateInfo(void);
-};
-
-struct PipelineMultisampleStateCreateInfo : public ::VkPipelineMultisampleStateCreateInfo
-{
-	PipelineMultisampleStateCreateInfo(void);
-};
-
-struct GraphicsPipelineCreateInfo : public ::VkGraphicsPipelineCreateInfo
-{
-	GraphicsPipelineCreateInfo(void);
-};
 
 class GraphicsPipeline
 {
 public:
 	explicit GraphicsPipeline(
-		std::shared_ptr<vk::Device> const& device,
-		vk::PipelineCache const& cache,
-		vk::GraphicsPipelineCreateInfo const& info);
+		vulkan::DeviceSharedPtr const& device,
+		::VkSampleCountFlagBits num_samples,
+		bksge::Geometry const& geometry,
+		vulkan::RenderPass const& render_pass,
+		vulkan::Shader const& shader,
+		bksge::RenderState const& render_state);
 
 	~GraphicsPipeline();
 
 	operator ::VkPipeline() const;
 
+	::VkPipelineLayout GetLayout(void) const;
+
 private:
-	::VkPipeline				m_pipeline;
-	std::shared_ptr<vk::Device>	m_device;
+	vulkan::DeviceSharedPtr			m_device;
+	vulkan::PipelineCacheUniquePtr	m_pipeline_cache;
+	vulkan::PipelineLayoutUniquePtr	m_pipeline_layout;
+	::VkPipeline					m_pipeline;
 };
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

@@ -21,41 +21,17 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
-
-struct ApplicationInfo : public ::VkApplicationInfo
-{
-	ApplicationInfo(void);
-};
-
-struct InstanceCreateInfo : public ::VkInstanceCreateInfo
-{
-	InstanceCreateInfo(void);
-
-	template <std::size_t N>
-	void SetEnabledLayers(char const* (&layers)[N])
-	{
-		enabledLayerCount       = N;
-		ppEnabledLayerNames     = layers;
-	}
-
-	template <std::size_t N>
-	void SetEnabledExtensions(char const* (&extensions)[N])
-	{
-		enabledExtensionCount   = N;
-		ppEnabledExtensionNames = extensions;
-	}
-};
 
 class Instance
 {
 public:
-	explicit Instance(vk::InstanceCreateInfo const& info);
+	explicit Instance(char const* app_name);
 
 	~Instance();
 
-	std::vector<vk::PhysicalDevice> EnumeratePhysicalDevices(void) const;
+	std::vector<::VkPhysicalDevice> EnumeratePhysicalDevices(void) const;
 
 	operator ::VkInstance() const;
 
@@ -63,7 +39,7 @@ private:
 	::VkInstance m_instance;
 };
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

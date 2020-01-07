@@ -20,49 +20,27 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
-
-struct DeviceQueueCreateInfo : public ::VkDeviceQueueCreateInfo
-{
-	DeviceQueueCreateInfo(void);
-};
-
-struct DeviceCreateInfo : public ::VkDeviceCreateInfo
-{
-	DeviceCreateInfo(void);
-
-	template <std::size_t N>
-	void SetEnabledLayers(char const* (&layers)[N])
-	{
-		enabledLayerCount       = N;
-		ppEnabledLayerNames     = layers;
-	}
-
-	template <std::size_t N>
-	void SetEnabledExtensions(char const* (&extensions)[N])
-	{
-		enabledExtensionCount   = N;
-		ppEnabledExtensionNames = extensions;
-	}
-};
 
 class Device
 {
 public:
 	explicit Device(
-		vk::PhysicalDevice const& gpu,
-		vk::DeviceCreateInfo const& info);
+		vulkan::PhysicalDeviceSharedPtr const& physical_device);
 
 	~Device();
 
 	operator ::VkDevice() const;
 
+	vulkan::PhysicalDeviceSharedPtr const& GetPhysicalDevice(void) const;
+
 private:
-	::VkDevice m_device;
+	vulkan::PhysicalDeviceSharedPtr	m_physical_device;
+	::VkDevice						m_device;
 };
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

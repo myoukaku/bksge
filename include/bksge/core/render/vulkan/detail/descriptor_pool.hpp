@@ -11,6 +11,7 @@
 
 #include <bksge/core/render/vulkan/detail/fwd/descriptor_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/shader_reflection_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan_h.hpp>
 #include <memory>
 
@@ -20,31 +21,26 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
-
-struct DescriptorPoolCreateInfo : public ::VkDescriptorPoolCreateInfo
-{
-	DescriptorPoolCreateInfo(void);
-};
 
 class DescriptorPool
 {
 public:
 	explicit DescriptorPool(
-		std::shared_ptr<vk::Device> const& device,
-		vk::DescriptorPoolCreateInfo const& info);
+		vulkan::DeviceSharedPtr const& device,
+		vulkan::ShaderReflection const& reflection);
 
 	~DescriptorPool();
 
 	operator ::VkDescriptorPool() const;
 
 private:
+	vulkan::DeviceSharedPtr		m_device;
 	::VkDescriptorPool			m_descriptor_pool;
-	std::shared_ptr<vk::Device>	m_device;
 };
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

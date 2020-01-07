@@ -9,18 +9,21 @@
 #ifndef BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_PHYSICAL_DEVICE_FWD_HPP
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_PHYSICAL_DEVICE_FWD_HPP
 
+#include <memory>
+
 namespace bksge
 {
 
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
 
 class PhysicalDevice;
+using PhysicalDeviceSharedPtr = std::shared_ptr<PhysicalDevice>;
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

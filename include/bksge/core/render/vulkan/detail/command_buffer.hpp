@@ -10,6 +10,7 @@
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_COMMAND_BUFFER_HPP
 
 #include <bksge/core/render/vulkan/detail/fwd/command_buffer_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/command_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan_h.hpp>
 #include <memory>
@@ -20,44 +21,29 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
-
-struct CommandBufferInheritanceInfo : public ::VkCommandBufferInheritanceInfo
-{
-	CommandBufferInheritanceInfo(void);
-};
-
-struct CommandBufferBeginInfo : public ::VkCommandBufferBeginInfo
-{
-	CommandBufferBeginInfo(void);
-};
-
-struct CommandBufferAllocateInfo : public ::VkCommandBufferAllocateInfo
-{
-	CommandBufferAllocateInfo(void);
-};
 
 class CommandBuffer
 {
 public:
 	explicit CommandBuffer(
-		std::shared_ptr<vk::Device> const& device,
-		vk::CommandBufferAllocateInfo const& info);
+		vulkan::DeviceSharedPtr const& device,
+		vulkan::CommandPoolSharedPtr const& command_pool);
 
 	~CommandBuffer();
 
 	operator ::VkCommandBuffer() const;
 
-	::VkCommandBuffer const* GetAddress() const;
+	::VkCommandBuffer const* GetAddressOf(void) const;
 
 private:
-	::VkCommandBuffer			m_command_buffer;
-	::VkCommandPool				m_command_pool;
-	std::shared_ptr<vk::Device>	m_device;
+	vulkan::DeviceSharedPtr			m_device;
+	vulkan::CommandPoolSharedPtr	m_command_pool;
+	::VkCommandBuffer				m_command_buffer;
 };
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

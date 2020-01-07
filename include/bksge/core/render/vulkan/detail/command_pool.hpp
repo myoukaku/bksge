@@ -20,31 +20,26 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
-
-struct CommandPoolCreateInfo : public ::VkCommandPoolCreateInfo
-{
-	CommandPoolCreateInfo(void);
-};
 
 class CommandPool
 {
 public:
 	explicit CommandPool(
-		std::shared_ptr<vk::Device> const& device,
-		vk::CommandPoolCreateInfo const& info);
+		vulkan::DeviceSharedPtr const& device,
+		std::uint32_t queue_family_index);
 
 	~CommandPool();
 
 	operator ::VkCommandPool() const;
 
 private:
+	vulkan::DeviceSharedPtr		m_device;
 	::VkCommandPool				m_command_pool;
-	std::shared_ptr<vk::Device>	m_device;
 };
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

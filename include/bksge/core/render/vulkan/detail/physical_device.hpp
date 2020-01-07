@@ -19,7 +19,7 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
 
 class PhysicalDevice
@@ -29,17 +29,26 @@ public:
 
 	~PhysicalDevice();
 
-	std::vector<::VkQueueFamilyProperties> GetQueueFamilyProperties();
+	::VkPhysicalDeviceMemoryProperties const& GetMemoryProperties(void) const;
 
-	std::vector<::VkSurfaceFormatKHR> GetSurfaceFormats(::VkSurfaceKHR surface);
+	std::uint32_t GetGraphicsQueueFamilyIndex(void) const;
+
+	std::uint32_t GetPresentQueueFamilyIndex(::VkSurfaceKHR surface) const;
+
+	//std::vector<::VkQueueFamilyProperties> GetQueueFamilyProperties();
+
+	//std::vector<::VkSurfaceFormatKHR> GetSurfaceFormats(::VkSurfaceKHR surface);
 
 	operator ::VkPhysicalDevice() const;
 
 private:
-	::VkPhysicalDevice m_physical_device;
+	::VkPhysicalDevice					m_physical_device;
+	::VkPhysicalDeviceMemoryProperties	m_memory_properties;
+	std::uint32_t						m_queue_family_properties_count = 0;
+	std::uint32_t						m_graphics_queue_family_index = UINT32_MAX;
 };
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

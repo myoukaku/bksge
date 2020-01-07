@@ -20,36 +20,29 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
-
-struct RenderPassBeginInfo : public ::VkRenderPassBeginInfo
-{
-	RenderPassBeginInfo(void);
-};
-
-struct RenderPassCreateInfo : public ::VkRenderPassCreateInfo
-{
-	RenderPassCreateInfo(void);
-};
 
 class RenderPass
 {
 public:
 	explicit RenderPass(
-		std::shared_ptr<vk::Device> const& device,
-		vk::RenderPassCreateInfo const& info);
+		vulkan::DeviceSharedPtr const& device,
+		::VkSampleCountFlagBits num_samples,
+		::VkFormat surface_format,
+		::VkFormat depth_format,
+		bool include_depth);
 
 	~RenderPass();
 
 	operator ::VkRenderPass() const;
 
 private:
+	vulkan::DeviceSharedPtr		m_device;
 	::VkRenderPass				m_render_pass;
-	std::shared_ptr<vk::Device>	m_device;
 };
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

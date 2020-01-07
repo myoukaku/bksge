@@ -15,12 +15,12 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
 
 class CommandBuffer;
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

@@ -11,8 +11,10 @@
 
 #include <bksge/core/render/vulkan/detail/fwd/descriptor_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/descriptor_pool_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/descriptor_set_layout_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/shader_reflection_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan_h.hpp>
-#include <cstdint>
 #include <vector>
 #include <memory>
 
@@ -22,30 +24,30 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
-
-struct DescriptorSetAllocateInfo : public ::VkDescriptorSetAllocateInfo
-{
-	DescriptorSetAllocateInfo(void);
-};
 
 class DescriptorSet
 {
 public:
 	explicit DescriptorSet(
-		std::shared_ptr<vk::Device> const& device,
-		vk::DescriptorSetAllocateInfo const& info,
-		std::uint32_t num);
+		vulkan::DeviceSharedPtr const& device,
+		vulkan::ShaderReflection const& reflection);
 
 	~DescriptorSet();
 
+	std::vector<::VkDescriptorSet> const& Get(void) const;
+
+	vulkan::DescriptorSetLayout const& GetDescriptorSetLayout(void) const;
+
 private:
-	std::vector<::VkDescriptorSet>	m_descriptor_sets;
-	std::shared_ptr<vk::Device>		m_device;
+	vulkan::DeviceSharedPtr					m_device;
+	vulkan::DescriptorPoolUniquePtr			m_descriptor_pool;
+	vulkan::DescriptorSetLayoutUniquePtr	m_descriptor_set_layout;
+	std::vector<::VkDescriptorSet>			m_descriptor_sets;
 };
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

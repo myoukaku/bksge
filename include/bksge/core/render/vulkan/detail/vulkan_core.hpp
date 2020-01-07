@@ -11,6 +11,7 @@
 
 #include <bksge/core/render/vulkan/detail/vulkan_h.hpp>
 #include <bksge/core/render/vulkan/detail/check_error.hpp>
+#include <vector>
 
 namespace bksge
 {
@@ -36,22 +37,42 @@ inline void DestroyInstance(
 	::vkDestroyInstance(instance, pAllocator);
 }
 
-inline VkResult EnumeratePhysicalDevices(
-    VkInstance                                  instance,
-    uint32_t*                                   pPhysicalDeviceCount,
-    VkPhysicalDevice*                           pPhysicalDevices)
+inline std::vector<VkPhysicalDevice>
+EnumeratePhysicalDevices(VkInstance instance)
 {
-	return vk::CheckError(::vkEnumeratePhysicalDevices(instance, pPhysicalDeviceCount, pPhysicalDevices));
+	for (;;)
+	{
+		uint32_t count;
+		vk::CheckError(::vkEnumeratePhysicalDevices(instance, &count, nullptr));
+
+		if (count == 0)
+		{
+			return {};
+		}
+
+		std::vector<VkPhysicalDevice> physical_devices(count);
+		auto res = ::vkEnumeratePhysicalDevices(instance, &count, physical_devices.data());
+		if (res == VK_INCOMPLETE)
+		{
+			continue;
+		}
+		vk::CheckError(res);
+
+		return physical_devices;
+	}
 }
 
 void vkGetPhysicalDeviceFeatures(
     VkPhysicalDevice                            physicalDevice,
     VkPhysicalDeviceFeatures*                   pFeatures);
 
-void vkGetPhysicalDeviceFormatProperties(
+inline void GetPhysicalDeviceFormatProperties(
     VkPhysicalDevice                            physicalDevice,
     VkFormat                                    format,
-    VkFormatProperties*                         pFormatProperties);
+    VkFormatProperties*                         pFormatProperties)
+{
+	vkGetPhysicalDeviceFormatProperties(physicalDevice, format, pFormatProperties);
+}
 
 VkResult vkGetPhysicalDeviceImageFormatProperties(
     VkPhysicalDevice                            physicalDevice,
@@ -74,9 +95,12 @@ inline void GetPhysicalDeviceQueueFamilyProperties(
 	::vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, pQueueFamilyPropertyCount, pQueueFamilyProperties);
 }
 
-void vkGetPhysicalDeviceMemoryProperties(
+inline void GetPhysicalDeviceMemoryProperties(
     VkPhysicalDevice                            physicalDevice,
-    VkPhysicalDeviceMemoryProperties*           pMemoryProperties);
+    VkPhysicalDeviceMemoryProperties*           pMemoryProperties)
+{
+	::vkGetPhysicalDeviceMemoryProperties(physicalDevice, pMemoryProperties);
+}
 
 PFN_vkVoidFunction vkGetInstanceProcAddr(
     VkInstance                                  instance,
@@ -102,25 +126,118 @@ inline void DestroyDevice(
 	::vkDestroyDevice(device, pAllocator);
 }
 
-VkResult vkEnumerateInstanceExtensionProperties(
-    const char*                                 pLayerName,
-    uint32_t*                                   pPropertyCount,
-    VkExtensionProperties*                      pProperties);
+inline std::vector<VkExtensionProperties>
+EnumerateInstanceExtensionProperties(const char* pLayerName)
+{
+	for (;;)
+	{
+		uint32_t count;
+		vk::CheckError(::vkEnumerateInstanceExtensionProperties(pLayerName, &count, nullptr));
 
-VkResult vkEnumerateDeviceExtensionProperties(
-    VkPhysicalDevice                            physicalDevice,
-    const char*                                 pLayerName,
-    uint32_t*                                   pPropertyCount,
-    VkExtensionProperties*                      pProperties);
+		if (count == 0)
+		{
+			return {};
+		}
 
-VkResult vkEnumerateInstanceLayerProperties(
-    uint32_t*                                   pPropertyCount,
-    VkLayerProperties*                          pProperties);
+		std::vector<VkExtensionProperties> extension_properties(count);
+		auto res = ::vkEnumerateInstanceExtensionProperties(pLayerName, &count, extension_properties.data());
+		if (res == VK_INCOMPLETE)
+		{
+			continue;
+		}
+		vk::CheckError(res);
 
-VkResult vkEnumerateDeviceLayerProperties(
-    VkPhysicalDevice                            physicalDevice,
-    uint32_t*                                   pPropertyCount,
-    VkLayerProperties*                          pProperties);
+		return extension_properties;
+	}
+}
+
+inline std::vector<VkExtensionProperties>
+EnumerateDeviceExtensionProperties(VkPhysicalDevice physicalDevice, const char* pLayerName)
+{
+	for (;;)
+	{
+		uint32_t count;
+		vk::CheckError(::vkEnumerateDeviceExtensionProperties(physicalDevice, pLayerName, &count, nullptr));
+
+		if (count == 0)
+		{
+			return {};
+		}
+
+		std::vector<VkExtensionProperties> extension_properties(count);
+		auto res = ::vkEnumerateDeviceExtensionProperties(physicalDevice, pLayerName, &count, extension_properties.data());
+		if (res == VK_INCOMPLETE)
+		{
+			continue;
+		}
+		vk::CheckError(res);
+
+		return extension_properties;
+	}
+}
+
+inline std::vector<VkLayerProperties>
+EnumerateInstanceLayerProperties(void)
+{
+	/*
+	 * It's possible, though very rare, that the number of
+	 * instance layers could change. For example, installing something
+	 * could include new layers that the loader would pick up
+	 * between the initial query for the count and the
+	 * request for VkLayerProperties. The loader indicates that
+	 * by returning a VK_INCOMPLETE status and will update the
+	 * the count parameter.
+	 * The count parameter will be updated with the number of
+	 * entries loaded into the data pointer - in case the number
+	 * of layers went down or is smaller than the size given.
+	 */
+
+	for (;;)
+	{
+		uint32_t count;
+		vk::CheckError(::vkEnumerateInstanceLayerProperties(&count, nullptr));
+
+		if (count == 0)
+		{
+			return {};
+		}
+
+		std::vector<VkLayerProperties> layer_properties(count);
+		auto res = ::vkEnumerateInstanceLayerProperties(&count, layer_properties.data());
+		if (res == VK_INCOMPLETE)
+		{
+			continue;
+		}
+		vk::CheckError(res);
+
+		return layer_properties;
+	}
+}
+
+inline std::vector<VkLayerProperties>
+EnumerateDeviceLayerProperties(VkPhysicalDevice physicalDevice)
+{
+	for (;;)
+	{
+		uint32_t count;
+		vk::CheckError(::vkEnumerateDeviceLayerProperties(physicalDevice, &count, nullptr));
+
+		if (count == 0)
+		{
+			return {};
+		}
+
+		std::vector<VkLayerProperties> layer_properties(count);
+		auto res = ::vkEnumerateDeviceLayerProperties(physicalDevice, &count, layer_properties.data());
+		if (res == VK_INCOMPLETE)
+		{
+			continue;
+		}
+		vk::CheckError(res);
+
+		return layer_properties;
+	}
+}
 
 inline void GetDeviceQueue(
     VkDevice                                    device,
@@ -140,34 +257,47 @@ inline VkResult QueueSubmit(
 	return vk::CheckError(::vkQueueSubmit(queue, submitCount, pSubmits, fence));
 }
 
-VkResult vkQueueWaitIdle(
-    VkQueue                                     queue);
+VkResult vkQueueWaitIdle(VkQueue queue);
 
-VkResult vkDeviceWaitIdle(
-    VkDevice                                    device);
+inline VkResult DeviceWaitIdle(VkDevice device)
+{
+	return vk::CheckError(::vkDeviceWaitIdle(device));
+}
 
-VkResult vkAllocateMemory(
+inline VkResult AllocateMemory(
     VkDevice                                    device,
     const VkMemoryAllocateInfo*                 pAllocateInfo,
     const VkAllocationCallbacks*                pAllocator,
-    VkDeviceMemory*                             pMemory);
+    VkDeviceMemory*                             pMemory)
+{
+	return vk::CheckError(::vkAllocateMemory(device, pAllocateInfo, pAllocator, pMemory));
+}
 
-void vkFreeMemory(
+inline void FreeMemory(
     VkDevice                                    device,
     VkDeviceMemory                              memory,
-    const VkAllocationCallbacks*                pAllocator);
+    const VkAllocationCallbacks*                pAllocator)
+{
+	::vkFreeMemory(device, memory, pAllocator);
+}
 
-VkResult vkMapMemory(
+inline VkResult MapMemory(
     VkDevice                                    device,
     VkDeviceMemory                              memory,
     VkDeviceSize                                offset,
     VkDeviceSize                                size,
     VkMemoryMapFlags                            flags,
-    void**                                      ppData);
+    void**                                      ppData)
+{
+	return vk::CheckError(::vkMapMemory(device, memory, offset, size, flags, ppData));
+}
 
-void vkUnmapMemory(
+inline void UnmapMemory(
     VkDevice                                    device,
-    VkDeviceMemory                              memory);
+    VkDeviceMemory                              memory)
+{
+	::vkUnmapMemory(device, memory);
+}
 
 VkResult vkFlushMappedMemoryRanges(
     VkDevice                                    device,
@@ -184,27 +314,39 @@ void vkGetDeviceMemoryCommitment(
     VkDeviceMemory                              memory,
     VkDeviceSize*                               pCommittedMemoryInBytes);
 
-VkResult vkBindBufferMemory(
+inline VkResult BindBufferMemory(
     VkDevice                                    device,
     VkBuffer                                    buffer,
     VkDeviceMemory                              memory,
-    VkDeviceSize                                memoryOffset);
+    VkDeviceSize                                memoryOffset)
+{
+	return vk::CheckError(::vkBindBufferMemory(device, buffer, memory, memoryOffset));
+}
 
-VkResult vkBindImageMemory(
+inline VkResult BindImageMemory(
     VkDevice                                    device,
     VkImage                                     image,
     VkDeviceMemory                              memory,
-    VkDeviceSize                                memoryOffset);
+    VkDeviceSize                                memoryOffset)
+{
+	return vk::CheckError(::vkBindImageMemory(device, image, memory, memoryOffset));
+}
 
-void vkGetBufferMemoryRequirements(
+inline void GetBufferMemoryRequirements(
     VkDevice                                    device,
     VkBuffer                                    buffer,
-    VkMemoryRequirements*                       pMemoryRequirements);
+    VkMemoryRequirements*                       pMemoryRequirements)
+{
+	::vkGetBufferMemoryRequirements(device, buffer, pMemoryRequirements);
+}
 
-void vkGetImageMemoryRequirements(
+inline void GetImageMemoryRequirements(
     VkDevice                                    device,
     VkImage                                     image,
-    VkMemoryRequirements*                       pMemoryRequirements);
+    VkMemoryRequirements*                       pMemoryRequirements)
+{
+	::vkGetImageMemoryRequirements(device, image, pMemoryRequirements);
+}
 
 void vkGetImageSparseMemoryRequirements(
     VkDevice                                    device,
@@ -267,16 +409,22 @@ inline VkResult WaitForFences(
 	return vk::CheckError(::vkWaitForFences(device, fenceCount, pFences, waitAll, timeout));
 }
 
-VkResult vkCreateSemaphore(
+inline VkResult CreateSemaphore(
     VkDevice                                    device,
     const VkSemaphoreCreateInfo*                pCreateInfo,
     const VkAllocationCallbacks*                pAllocator,
-    VkSemaphore*                                pSemaphore);
+    VkSemaphore*                                pSemaphore)
+{
+	return vk::CheckError(::vkCreateSemaphore(device, pCreateInfo, pAllocator, pSemaphore));
+}
 
-void vkDestroySemaphore(
+inline void DestroySemaphore(
     VkDevice                                    device,
     VkSemaphore                                 semaphore,
-    const VkAllocationCallbacks*                pAllocator);
+    const VkAllocationCallbacks*                pAllocator)
+{
+	::vkDestroySemaphore(device, semaphore, pAllocator);
+}
 
 VkResult vkCreateEvent(
     VkDevice                                    device,
@@ -322,16 +470,22 @@ VkResult vkGetQueryPoolResults(
     VkDeviceSize                                stride,
     VkQueryResultFlags                          flags);
 
-VkResult vkCreateBuffer(
+inline VkResult CreateBuffer(
     VkDevice                                    device,
     const VkBufferCreateInfo*                   pCreateInfo,
     const VkAllocationCallbacks*                pAllocator,
-    VkBuffer*                                   pBuffer);
+    VkBuffer*                                   pBuffer)
+{
+	return vk::CheckError(::vkCreateBuffer(device, pCreateInfo, pAllocator, pBuffer));
+}
 
-void vkDestroyBuffer(
+inline void DestroyBuffer(
     VkDevice                                    device,
     VkBuffer                                    buffer,
-    const VkAllocationCallbacks*                pAllocator);
+    const VkAllocationCallbacks*                pAllocator)
+{
+	::vkDestroyBuffer(device, buffer, pAllocator);
+}
 
 VkResult vkCreateBufferView(
     VkDevice                                    device,
@@ -344,16 +498,22 @@ void vkDestroyBufferView(
     VkBufferView                                bufferView,
     const VkAllocationCallbacks*                pAllocator);
 
-VkResult vkCreateImage(
+inline VkResult CreateImage(
     VkDevice                                    device,
     const VkImageCreateInfo*                    pCreateInfo,
     const VkAllocationCallbacks*                pAllocator,
-    VkImage*                                    pImage);
+    VkImage*                                    pImage)
+{
+	return vk::CheckError(::vkCreateImage(device, pCreateInfo, pAllocator, pImage));
+}
 
-void vkDestroyImage(
+inline void DestroyImage(
     VkDevice                                    device,
     VkImage                                     image,
-    const VkAllocationCallbacks*                pAllocator);
+    const VkAllocationCallbacks*                pAllocator)
+{
+	::vkDestroyImage(device, image, pAllocator);
+}
 
 void vkGetImageSubresourceLayout(
     VkDevice                                    device,
@@ -535,12 +695,15 @@ inline VkResult FreeDescriptorSets(
 	return vk::CheckError(::vkFreeDescriptorSets(device, descriptorPool, descriptorSetCount, pDescriptorSets));
 }
 
-void vkUpdateDescriptorSets(
+inline void UpdateDescriptorSets(
     VkDevice                                    device,
     uint32_t                                    descriptorWriteCount,
     const VkWriteDescriptorSet*                 pDescriptorWrites,
     uint32_t                                    descriptorCopyCount,
-    const VkCopyDescriptorSet*                  pDescriptorCopies);
+    const VkCopyDescriptorSet*                  pDescriptorCopies)
+{
+	::vkUpdateDescriptorSets(device, descriptorWriteCount, pDescriptorWrites, descriptorCopyCount, pDescriptorCopies);
+}
 
 inline VkResult CreateFramebuffer(
     VkDevice                                    device,
@@ -645,17 +808,23 @@ inline void CmdBindPipeline(
 	::vkCmdBindPipeline(commandBuffer, pipelineBindPoint, pipeline);
 }
 
-void vkCmdSetViewport(
+inline void CmdSetViewport(
     VkCommandBuffer                             commandBuffer,
     uint32_t                                    firstViewport,
     uint32_t                                    viewportCount,
-    const VkViewport*                           pViewports);
+    const VkViewport*                           pViewports)
+{
+	::vkCmdSetViewport(commandBuffer, firstViewport, viewportCount, pViewports);
+}
 
-void vkCmdSetScissor(
+inline void CmdSetScissor(
     VkCommandBuffer                             commandBuffer,
     uint32_t                                    firstScissor,
     uint32_t                                    scissorCount,
-    const VkRect2D*                             pScissors);
+    const VkRect2D*                             pScissors)
+{
+	::vkCmdSetScissor(commandBuffer, firstScissor, scissorCount, pScissors);
+}
 
 void vkCmdSetLineWidth(
     VkCommandBuffer                             commandBuffer,
@@ -691,7 +860,7 @@ void vkCmdSetStencilReference(
     VkStencilFaceFlags                          faceMask,
     uint32_t                                    reference);
 
-void vkCmdBindDescriptorSets(
+inline void CmdBindDescriptorSets(
     VkCommandBuffer                             commandBuffer,
     VkPipelineBindPoint                         pipelineBindPoint,
     VkPipelineLayout                            layout,
@@ -699,35 +868,78 @@ void vkCmdBindDescriptorSets(
     uint32_t                                    descriptorSetCount,
     const VkDescriptorSet*                      pDescriptorSets,
     uint32_t                                    dynamicOffsetCount,
-    const uint32_t*                             pDynamicOffsets);
+    const uint32_t*                             pDynamicOffsets)
+{
+	::vkCmdBindDescriptorSets(
+		commandBuffer,
+		pipelineBindPoint,
+		layout,
+		firstSet,
+		descriptorSetCount,
+		pDescriptorSets,
+		dynamicOffsetCount,
+		pDynamicOffsets);
+}
 
-void vkCmdBindIndexBuffer(
+inline void CmdBindIndexBuffer(
     VkCommandBuffer                             commandBuffer,
     VkBuffer                                    buffer,
     VkDeviceSize                                offset,
-    VkIndexType                                 indexType);
+    VkIndexType                                 indexType)
+{
+	::vkCmdBindIndexBuffer(
+		commandBuffer,
+		buffer,
+		offset,
+		indexType);
+}
 
-void vkCmdBindVertexBuffers(
+inline void CmdBindVertexBuffers(
     VkCommandBuffer                             commandBuffer,
     uint32_t                                    firstBinding,
     uint32_t                                    bindingCount,
     const VkBuffer*                             pBuffers,
-    const VkDeviceSize*                         pOffsets);
+    const VkDeviceSize*                         pOffsets)
+{
+	::vkCmdBindVertexBuffers(
+		commandBuffer,
+		firstBinding,
+		bindingCount,
+		pBuffers,
+		pOffsets);
+}
 
-void vkCmdDraw(
+inline void CmdDraw(
     VkCommandBuffer                             commandBuffer,
     uint32_t                                    vertexCount,
     uint32_t                                    instanceCount,
     uint32_t                                    firstVertex,
-    uint32_t                                    firstInstance);
+    uint32_t                                    firstInstance)
+{
+	::vkCmdDraw(
+		commandBuffer,
+		vertexCount,
+		instanceCount,
+		firstVertex,
+		firstInstance);
+}
 
-void vkCmdDrawIndexed(
+inline void CmdDrawIndexed(
     VkCommandBuffer                             commandBuffer,
     uint32_t                                    indexCount,
     uint32_t                                    instanceCount,
     uint32_t                                    firstIndex,
     int32_t                                     vertexOffset,
-    uint32_t                                    firstInstance);
+    uint32_t                                    firstInstance)
+{
+	::vkCmdDrawIndexed(
+		commandBuffer,
+		indexCount,
+		instanceCount,
+		firstIndex,
+		vertexOffset,
+		firstInstance);
+}
 
 void vkCmdDrawIndirect(
     VkCommandBuffer                             commandBuffer,
@@ -1094,11 +1306,14 @@ inline void DestroySurfaceKHR(
 	::vkDestroySurfaceKHR(instance, surface, pAllocator);
 }
 
-VkResult vkGetPhysicalDeviceSurfaceSupportKHR(
+inline VkResult GetPhysicalDeviceSurfaceSupportKHR(
     VkPhysicalDevice                            physicalDevice,
     uint32_t                                    queueFamilyIndex,
     VkSurfaceKHR                                surface,
-    VkBool32*                                   pSupported);
+    VkBool32*                                   pSupported)
+{
+	return vk::CheckError(::vkGetPhysicalDeviceSurfaceSupportKHR(physicalDevice, queueFamilyIndex, surface, pSupported));
+}
 
 inline VkResult GetPhysicalDeviceSurfaceCapabilitiesKHR(
     VkPhysicalDevice                            physicalDevice,
@@ -1108,13 +1323,31 @@ inline VkResult GetPhysicalDeviceSurfaceCapabilitiesKHR(
 	return vk::CheckError(::vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physicalDevice, surface, pSurfaceCapabilities));
 }
 
-inline VkResult GetPhysicalDeviceSurfaceFormatsKHR(
-    VkPhysicalDevice                            physicalDevice,
-    VkSurfaceKHR                                surface,
-    uint32_t*                                   pSurfaceFormatCount,
-    VkSurfaceFormatKHR*                         pSurfaceFormats)
+inline std::vector<VkSurfaceFormatKHR>
+GetPhysicalDeviceSurfaceFormatsKHR(
+    VkPhysicalDevice physicalDevice,
+    VkSurfaceKHR     surface)
 {
-	return vk::CheckError(::vkGetPhysicalDeviceSurfaceFormatsKHR(physicalDevice, surface, pSurfaceFormatCount, pSurfaceFormats));
+	for (;;)
+	{
+		uint32_t count;
+		vk::CheckError(::vkGetPhysicalDeviceSurfaceFormatsKHR(physicalDevice, surface, &count, nullptr));
+
+		if (count == 0)
+		{
+			return {};
+		}
+
+		std::vector<VkSurfaceFormatKHR> surface_formats(count);
+		auto res = ::vkGetPhysicalDeviceSurfaceFormatsKHR(physicalDevice, surface, &count, surface_formats.data());
+		if (res == VK_INCOMPLETE)
+		{
+			continue;
+		}
+		vk::CheckError(res);
+
+		return surface_formats;
+	}
 }
 
 VkResult vkGetPhysicalDeviceSurfacePresentModesKHR(
@@ -1140,13 +1373,16 @@ inline void DestroySwapchainKHR(
 	::vkDestroySwapchainKHR(device, swapchain, pAllocator);
 }
 
-inline VkResult GetSwapchainImagesKHR(
-    VkDevice                                    device,
-    VkSwapchainKHR                              swapchain,
-    uint32_t*                                   pSwapchainImageCount,
-    VkImage*                                    pSwapchainImages)
+inline std::vector<::VkImage>
+GetSwapchainImagesKHR(VkDevice device, VkSwapchainKHR swapchain)
 {
-	return vk::CheckError(::vkGetSwapchainImagesKHR(device, swapchain, pSwapchainImageCount, pSwapchainImages));
+	std::uint32_t count = 0;
+	vk::CheckError(::vkGetSwapchainImagesKHR(device, swapchain, &count, nullptr));
+
+	std::vector<::VkImage> images(count);
+	vk::CheckError(::vkGetSwapchainImagesKHR(device, swapchain, &count, images.data()));
+
+	return images;
 }
 
 inline VkResult AcquireNextImageKHR(

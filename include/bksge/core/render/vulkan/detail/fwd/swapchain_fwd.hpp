@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	swapchain_fwd.hpp
  *
- *	@brief	SwapchainKHR クラスの前方宣言
+ *	@brief	Swapchain クラスの前方宣言
  *
  *	@author	myoukaku
  */
@@ -15,12 +15,12 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
 
-class SwapchainKHR;
+class Swapchain;
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

@@ -97,6 +97,17 @@ message(STATUS "glslang_BINARY_DIR: ${glslang_BINARY_DIR}")
 add_subdirectory(${glslang_SOURCE_DIR} ${glslang_BINARY_DIR})
 set(glslang_INCLUDE_DIR "${glslang_SOURCE_DIR}")
 
+download_project(
+  PROJ SPIRV-Cross
+  GIT_REPOSITORY https://github.com/KhronosGroup/SPIRV-Cross.git
+  GIT_TAG master
+  UPDATE_DISCONNECTED 1
+  QUIET)
+message(STATUS "SPIRV-Cross_SOURCE_DIR: ${SPIRV-Cross_SOURCE_DIR}")
+message(STATUS "SPIRV-Cross_BINARY_DIR: ${SPIRV-Cross_BINARY_DIR}")
+add_subdirectory(${SPIRV-Cross_SOURCE_DIR} ${SPIRV-Cross_BINARY_DIR})
+set(SPIRV-Cross_INCLUDE_DIR "${SPIRV-Cross_SOURCE_DIR}")
+
 foreach(compiler_flag ${compiler_flags})
   if (MSVC)
     # /Wn -> /W4 (Warning Level)
@@ -176,6 +187,7 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${OPENGL_INCLUDE_DIR})
 include_directories(${VulkanHeaders_INCLUDE_DIR})
 include_directories(${glslang_INCLUDE_DIR})
+include_directories(${SPIRV-Cross_INCLUDE_DIR})
 
 target_link_libraries(bksge ${OPENGL_LIBRARIES})
 link_directories("${Vulkan-Loader_BINARY_DIR}/loader")
@@ -187,7 +199,7 @@ else()
   target_link_libraries(bksge vulkan)
 endif()
 add_dependencies(bksge glslang)
-target_link_libraries(bksge glslang SPIRV)
+target_link_libraries(bksge glslang SPIRV spirv-cross-glsl)
 
 if(MINGW)
   target_link_libraries(bksge -lopengl32 -ld3d11 -ld3dcompiler -ldinput8 -ldxguid)

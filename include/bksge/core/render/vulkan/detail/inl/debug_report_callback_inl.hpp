@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	debug_report_callback_inl.hpp
  *
- *	@brief	DebugReportCallbackEXT クラスの実装
+ *	@brief	DebugReportCallback クラスの実装
  *
  *	@author	myoukaku
  */
@@ -23,36 +23,32 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
 
 BKSGE_INLINE
-DebugReportCallbackCreateInfoEXT::DebugReportCallbackCreateInfoEXT(void)
+DebugReportCallback::DebugReportCallback(
+	vulkan::InstanceSharedPtr const& instance,
+	::VkDebugReportFlagsEXT flags,
+	::PFN_vkDebugReportCallbackEXT func)
+	: m_instance(instance)
+	, m_callback(VK_NULL_HANDLE)
 {
-	sType       = VK_STRUCTURE_TYPE_DEBUG_REPORT_CALLBACK_CREATE_INFO_EXT;
-	pNext       = nullptr;
-	flags       = 0;
-	pfnCallback = nullptr;
-	pUserData   = nullptr;
-}
+	vk::DebugReportCallbackCreateInfoEXT info;
+	info.flags       = flags;
+	info.pfnCallback = func;
+	info.pUserData   = nullptr;
 
-BKSGE_INLINE
-DebugReportCallbackEXT::DebugReportCallbackEXT(
-	std::shared_ptr<vk::Instance> const& instance,
-	vk::DebugReportCallbackCreateInfoEXT const& info)
-	: m_callback(VK_NULL_HANDLE)
-	, m_instance(instance)
-{
 	vk::CreateDebugReportCallbackEXT(*m_instance, &info, nullptr, &m_callback);
 }
 
 BKSGE_INLINE
-DebugReportCallbackEXT::~DebugReportCallbackEXT()
+DebugReportCallback::~DebugReportCallback()
 {
 	vk::DestroyDebugReportCallbackEXT(*m_instance, m_callback, nullptr);
 }
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

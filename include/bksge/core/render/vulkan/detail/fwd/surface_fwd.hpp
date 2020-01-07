@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	surface_fwd.hpp
  *
- *	@brief	SurfaceKHR クラスの前方宣言
+ *	@brief	Surface クラスの前方宣言
  *
  *	@author	myoukaku
  */
@@ -15,12 +15,12 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
 
-class SurfaceKHR;
+class Surface;
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

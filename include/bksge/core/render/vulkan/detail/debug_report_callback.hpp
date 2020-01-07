@@ -20,30 +20,25 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
 
-struct DebugReportCallbackCreateInfoEXT
-	: public ::VkDebugReportCallbackCreateInfoEXT
-{
-	DebugReportCallbackCreateInfoEXT(void);
-};
-
-class DebugReportCallbackEXT
+class DebugReportCallback
 {
 public:
-	explicit DebugReportCallbackEXT(
-		std::shared_ptr<vk::Instance> const& instance,
-		vk::DebugReportCallbackCreateInfoEXT const& info);
+	explicit DebugReportCallback(
+		vulkan::InstanceSharedPtr const& instance,
+		::VkDebugReportFlagsEXT flags,
+		::PFN_vkDebugReportCallbackEXT func);
 
-	~DebugReportCallbackEXT();
+	~DebugReportCallback();
 
 private:
-	::VkDebugReportCallbackEXT		m_callback;
-	std::shared_ptr<vk::Instance>	m_instance;
+	vulkan::InstanceSharedPtr	m_instance;
+	::VkDebugReportCallbackEXT	m_callback;
 };
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	surface_inl.hpp
  *
- *	@brief	SurfaceKHR クラスの実装
+ *	@brief	Surface クラスの実装
  *
  *	@author	myoukaku
  */
@@ -28,41 +28,39 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
 
 BKSGE_INLINE
-SurfaceKHR::SurfaceKHR(
-	std::shared_ptr<vk::Instance> const& instance,
+Surface::Surface(
+	vulkan::InstanceSharedPtr const& instance,
 	Window const& window)
-	: m_surface(VK_NULL_HANDLE)
-	, m_instance(instance)
+	: m_instance(instance)
+	, m_surface(VK_NULL_HANDLE)
 {
 #if defined(BKSGE_PLATFORM_WIN32)
-	::VkWin32SurfaceCreateInfoKHR createInfo = {};
-	createInfo.sType     = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
-	createInfo.pNext     = nullptr;
-	createInfo.hinstance = win32::GetModuleHandle<char>(nullptr);
-	createInfo.hwnd      = window.handle();
-	vk::CreateWin32SurfaceKHR(*m_instance, &createInfo, nullptr, &m_surface);
+	vk::Win32SurfaceCreateInfoKHR info;
+	info.hinstance = win32::GetModuleHandle<char>(nullptr);
+	info.hwnd      = window.handle();
+	vk::CreateWin32SurfaceKHR(*m_instance, &info, nullptr, &m_surface);
 #else
 	(void)window;
 #endif
 }
 
 BKSGE_INLINE
-SurfaceKHR::~SurfaceKHR()
+Surface::~Surface()
 {
 	vk::DestroySurfaceKHR(*m_instance, m_surface, nullptr);
 }
 
 BKSGE_INLINE
-SurfaceKHR::operator ::VkSurfaceKHR() const
+Surface::operator ::VkSurfaceKHR() const
 {
 	return m_surface;
 }
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

@@ -14,7 +14,9 @@
 
 #include <bksge/core/render/vulkan/detail/descriptor_set_layout.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
+#include <bksge/core/render/vulkan/detail/shader_reflection.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
+#include <bksge/fnd/algorithm/max.hpp>
 #include <cstdint>
 #include <memory>
 #include <vector>
@@ -25,38 +27,64 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
 
-BKSGE_INLINE
-DescriptorSetLayoutBinding::DescriptorSetLayoutBinding(void)
+namespace detail
 {
-	binding            = 0;
-	descriptorType     = VK_DESCRIPTOR_TYPE_SAMPLER;
-	descriptorCount    = 0;
-	stageFlags         = 0;
-	pImmutableSamplers = nullptr;
+
+inline void CreateDescriptorSetLayoutBindingList(
+	std::vector<ShaderReflectionUniformBuffer> const& reflection_list,
+	::VkDescriptorType descriptor_type,
+	std::vector<std::vector<::VkDescriptorSetLayoutBinding>>* layout_bindings_list)
+{
+	for (auto const& reflection : reflection_list)
+	{
+		auto& layout_bindings = layout_bindings_list->at(reflection.set);
+
+		::VkDescriptorSetLayoutBinding layout_binding;
+		layout_binding.binding            = reflection.binding;
+		layout_binding.descriptorType     = descriptor_type;
+		layout_binding.descriptorCount    = 1;		// TODO 配列のときは配列サイズを入れる?
+		layout_binding.stageFlags         = reflection.stage_flags;
+		layout_binding.pImmutableSamplers = nullptr;
+		layout_bindings.push_back(layout_binding);
+	}
 }
 
-BKSGE_INLINE
-DescriptorSetLayoutCreateInfo::DescriptorSetLayoutCreateInfo(void)
-{
-	sType        = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
-	pNext        = nullptr;
-	flags        = 0;
-	bindingCount = 0;
-	pBindings    = nullptr;
-}
+}	// namespace detail
 
 BKSGE_INLINE
 DescriptorSetLayout::DescriptorSetLayout(
-	std::shared_ptr<vk::Device> const& device,
-	vk::DescriptorSetLayoutCreateInfo const& info,
-	std::uint32_t num)
+	vulkan::DeviceSharedPtr const& device,
+	vulkan::ShaderReflection const& reflection)
 	: m_device(device)
 {
-	m_descriptor_set_layout.resize(num);
-	vk::CreateDescriptorSetLayout(*m_device, &info, nullptr, m_descriptor_set_layout.data());
+	std::size_t const descriptor_set_count = reflection.GetMaxSets() + 1;
+
+	std::vector<std::vector<::VkDescriptorSetLayoutBinding>>
+		descriptor_set_layout_bindings_list(descriptor_set_count);
+
+	detail::CreateDescriptorSetLayoutBindingList(
+		reflection.GetUniformBuffers(),
+		VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+		&descriptor_set_layout_bindings_list);
+
+	std::vector<vk::DescriptorSetLayoutCreateInfo> info;
+	info.resize(descriptor_set_count);
+
+	for (std::size_t i = 0; i < descriptor_set_count; ++i)
+	{
+		info[i].SetBindings(descriptor_set_layout_bindings_list[i]);
+	}
+
+	m_descriptor_set_layout.resize(descriptor_set_count);
+
+	for (std::size_t i = 0; i < descriptor_set_count; ++i)
+	{
+		vk::CreateDescriptorSetLayout(
+			*m_device, &info[i], nullptr, &m_descriptor_set_layout[i]);
+	}
 }
 
 BKSGE_INLINE
@@ -68,13 +96,13 @@ DescriptorSetLayout::~DescriptorSetLayout()
 	}
 }
 
-BKSGE_INLINE ::VkDescriptorSetLayout const*
-DescriptorSetLayout::get(void) const
+BKSGE_INLINE std::vector<::VkDescriptorSetLayout> const&
+DescriptorSetLayout::GetLayouts(void) const
 {
-	return m_descriptor_set_layout.data();
+	return m_descriptor_set_layout;
 }
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

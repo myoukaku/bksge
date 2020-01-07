@@ -9,18 +9,21 @@
 #ifndef BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_PIPELINE_CACHE_FWD_HPP
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_PIPELINE_CACHE_FWD_HPP
 
+#include <memory>
+
 namespace bksge
 {
 
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
 
 class PipelineCache;
+using PipelineCacheUniquePtr = std::unique_ptr<PipelineCache>;
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

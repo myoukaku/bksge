@@ -13,6 +13,7 @@
 #if BKSGE_CORE_RENDER_HAS_VULKAN_RENDERER
 
 #include <bksge/core/render/vulkan/detail/image_view.hpp>
+#include <bksge/core/render/vulkan/detail/image.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <memory>
@@ -23,36 +24,31 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
-
-BKSGE_INLINE
-ImageViewCreateInfo::ImageViewCreateInfo(void)
-{
-	sType                           = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-	pNext                           = nullptr;
-	flags                           = 0;
-	image                           = VK_NULL_HANDLE;
-	viewType                        = VK_IMAGE_VIEW_TYPE_2D;
-	format                          = VK_FORMAT_UNDEFINED;
-	components.r                    = VK_COMPONENT_SWIZZLE_IDENTITY;
-	components.g                    = VK_COMPONENT_SWIZZLE_IDENTITY;
-	components.b                    = VK_COMPONENT_SWIZZLE_IDENTITY;
-	components.a                    = VK_COMPONENT_SWIZZLE_IDENTITY;
-	subresourceRange.aspectMask     = 0;
-	subresourceRange.baseMipLevel   = 0;
-	subresourceRange.levelCount     = 0;
-	subresourceRange.baseArrayLayer = 0;
-	subresourceRange.layerCount     = 0;
-}
 
 BKSGE_INLINE
 ImageView::ImageView(
-	std::shared_ptr<vk::Device> const& device,
-	vk::ImageViewCreateInfo const& info)
-	: m_image_view(VK_NULL_HANDLE)
-	, m_device(device)
+	vulkan::DeviceSharedPtr const& device,
+	vulkan::Image const& image,
+	::VkImageAspectFlags aspect_mask)
+	: m_device(device)
+	, m_image_view(VK_NULL_HANDLE)
 {
+	vk::ImageViewCreateInfo info;
+	info.image                           = image;
+	info.viewType                        = VK_IMAGE_VIEW_TYPE_2D;
+	info.format                          = image.format();
+	info.components.r                    = VK_COMPONENT_SWIZZLE_R;
+	info.components.g                    = VK_COMPONENT_SWIZZLE_G;
+	info.components.b                    = VK_COMPONENT_SWIZZLE_B;
+	info.components.a                    = VK_COMPONENT_SWIZZLE_A;
+	info.subresourceRange.aspectMask     = aspect_mask;
+	info.subresourceRange.baseMipLevel   = 0;
+	info.subresourceRange.levelCount     = 1;
+	info.subresourceRange.baseArrayLayer = 0;
+	info.subresourceRange.layerCount     = 1;
+
 	vk::CreateImageView(*m_device, &info, nullptr, &m_image_view);
 }
 
@@ -68,7 +64,7 @@ ImageView::operator ::VkImageView() const
 	return m_image_view;
 }
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

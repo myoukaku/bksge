@@ -10,6 +10,7 @@
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_IMAGE_VIEW_HPP
 
 #include <bksge/core/render/vulkan/detail/fwd/image_view_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/image_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan_h.hpp>
 #include <memory>
@@ -20,31 +21,27 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
-
-struct ImageViewCreateInfo : public ::VkImageViewCreateInfo
-{
-	ImageViewCreateInfo(void);
-};
 
 class ImageView
 {
 public:
 	explicit ImageView(
-		std::shared_ptr<vk::Device> const& device,
-		vk::ImageViewCreateInfo const& info);
+		vulkan::DeviceSharedPtr const& device,
+		vulkan::Image const& image,
+		::VkImageAspectFlags aspect_mask);
 
 	~ImageView();
 
 	operator ::VkImageView() const;
 
 private:
+	vulkan::DeviceSharedPtr		m_device;
 	::VkImageView				m_image_view;
-	std::shared_ptr<vk::Device> m_device;
 };
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

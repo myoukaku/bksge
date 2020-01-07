@@ -21,6 +21,18 @@ namespace render
 namespace vk
 {
 
+struct Win32SurfaceCreateInfoKHR : public ::VkWin32SurfaceCreateInfoKHR
+{
+	Win32SurfaceCreateInfoKHR()
+	{
+		sType     = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
+		pNext     = nullptr;
+		flags     = 0;
+		hinstance = nullptr;
+		hwnd      = nullptr;
+	}
+};
+
 inline VkResult CreateWin32SurfaceKHR(
     VkInstance                                  instance,
     const VkWin32SurfaceCreateInfoKHR*          pCreateInfo,

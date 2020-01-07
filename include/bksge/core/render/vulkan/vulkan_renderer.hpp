@@ -10,28 +10,42 @@
 #define BKSGE_CORE_RENDER_VULKAN_VULKAN_RENDERER_HPP
 
 #include <bksge/core/render/renderer.hpp>
-#include <bksge/core/window/fwd/window_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/instance_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/physical_device.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/debug_report_callback_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/physical_device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/surface_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/command_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/command_buffer_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/debug_report_callback_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/surface.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/fence_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/swapchain_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/image_view_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/descriptor_set_layout_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/pipeline_layout_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/depth_buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/render_pass_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/framebuffer_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/descriptor_pool_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/descriptor_set_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/pipeline_cache_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/shader_fwd.hpp>
+//#include <bksge/core/render/vulkan/detail/fwd/uniform_buffer_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/fence_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/semaphore_fwd.hpp>
+//#include <bksge/core/render/vulkan/detail/fwd/pipeline_cache_fwd.hpp>
+//#include <bksge/core/render/vulkan/detail/fwd/descriptor_set_layout_fwd.hpp>
+//#include <bksge/core/render/vulkan/detail/fwd/image_view_fwd.hpp>
+//#include <bksge/core/render/vulkan/detail/fwd/pipeline_layout_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/graphics_pipeline_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/shader_stage.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/geometry_fwd.hpp>
+//#include <bksge/core/render/vulkan/detail/fwd/descriptor_pool_fwd.hpp>
+//#include <bksge/core/render/vulkan/detail/fwd/descriptor_set_fwd.hpp>
+//#include <bksge/core/render/vulkan/detail/fwd/graphics_pipeline_fwd.hpp>
+//#include <bksge/core/render/vulkan/detail/fwd/resource_cache_fwd.hpp>
+//#include <bksge/core/render/vulkan/detail/shader_stage.hpp>
+#include <bksge/core/render/fwd/geometry_fwd.hpp>
+#include <bksge/core/render/fwd/render_state_fwd.hpp>
+#include <bksge/core/render/fwd/shader_fwd.hpp>
+#include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
+#include <bksge/core/window/fwd/window_fwd.hpp>
 #include <memory>
 #include <vector>
+
+#include <bksge/core/render/vulkan/detail/vulkan_h.hpp>
+#include <bksge/core/math/matrix4x4.hpp>
 
 namespace bksge
 {
@@ -59,27 +73,25 @@ private:
 		RenderState const& render_state) override;
 
 private:
-	std::shared_ptr<vk::Instance>					m_instance;
-	std::unique_ptr<vk::DebugReportCallbackEXT>		m_callback;
-	std::vector<vk::PhysicalDevice>					m_gpus;
-	std::shared_ptr<vk::Device>						m_device;
-	::VkQueue										m_graphics_queue;
-	std::unique_ptr<vk::Fence>						m_fence;
-	std::unique_ptr<vk::CommandPool>				m_command_pool;
-	std::unique_ptr<vk::CommandBuffer>				m_command_buffer;
-	std::unique_ptr<vk::SurfaceKHR>					m_surface;
-	std::unique_ptr<vk::SwapchainKHR>				m_swapchain;
-	std::vector<std::shared_ptr<vk::ImageView>>		m_image_views;
-	std::unique_ptr<vk::DescriptorSetLayout>		m_descriptor_set_layout;
-	std::unique_ptr<vk::PipelineLayout>				m_pipeline_layout;
-	std::unique_ptr<vk::RenderPass>					m_render_pass;
-	std::vector<std::shared_ptr<vk::Framebuffer>>	m_framebuffers;
-	std::unique_ptr<vk::DescriptorPool>				m_descriptor_pool;
-	std::unique_ptr<vk::DescriptorSet>				m_descriptor_set;
-	std::unique_ptr<vk::PipelineCache>				m_pipeline_cache;
-	std::unique_ptr<vk::GraphicsPipeline>			m_pipeline;
-	std::unique_ptr<vk::ShaderStages>				m_shader_stages;
-	std::uint32_t									m_current_frame_index = 0;
+	std::shared_ptr<vulkan::Instance>					m_instance;
+	std::unique_ptr<vulkan::DebugReportCallback>		m_callback;
+	std::shared_ptr<vulkan::PhysicalDevice>				m_physical_device;
+	std::shared_ptr<vulkan::Device>						m_device;
+	std::unique_ptr<vulkan::Surface>					m_surface;
+	std::shared_ptr<vulkan::CommandPool>				m_command_pool;
+	std::unique_ptr<vulkan::CommandBuffer>				m_command_buffer;
+	::VkQueue											m_graphics_queue;
+	::VkQueue											m_present_queue;
+	std::unique_ptr<vulkan::Swapchain>					m_swapchain;
+	std::unique_ptr<vulkan::DepthBuffer>				m_depth_buffer;
+	std::unique_ptr<vulkan::RenderPass>					m_render_pass;
+	std::vector<std::unique_ptr<vulkan::Framebuffer>>	m_framebuffers;
+	std::unique_ptr<vulkan::Shader>						m_shader;
+	std::unique_ptr<vulkan::GraphicsPipeline>			m_graphics_pipeline;
+	std::unique_ptr<vulkan::Geometry>					m_geometry;
+	std::unique_ptr<vulkan::Fence>						m_draw_fence;
+	std::unique_ptr<vulkan::Semaphore>					m_image_acquired_semaphore;
+	std::uint32_t										m_frame_index = 0;
 };
 
 }	// namespace render

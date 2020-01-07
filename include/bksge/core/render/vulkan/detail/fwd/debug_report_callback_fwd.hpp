@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	debug_report_callback_fwd.hpp
  *
- *	@brief	DebugReportCallbackEXT クラスの前方宣言
+ *	@brief	DebugReportCallback クラスの前方宣言
  *
  *	@author	myoukaku
  */
@@ -15,12 +15,12 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
 
-class DebugReportCallbackEXT;
+class DebugReportCallback;
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

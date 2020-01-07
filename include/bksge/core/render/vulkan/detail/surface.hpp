@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	surface.hpp
  *
- *	@brief	SurfaceKHR クラスの定義
+ *	@brief	Surface クラスの定義
  *
  *	@author	myoukaku
  */
@@ -21,26 +21,26 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
 
-class SurfaceKHR
+class Surface
 {
 public:
-	explicit SurfaceKHR(
-		std::shared_ptr<vk::Instance> const& instance,
+	explicit Surface(
+		vulkan::InstanceSharedPtr const& instance,
 		Window const& window);
 
-	~SurfaceKHR();
+	~Surface();
 
 	operator ::VkSurfaceKHR() const;
 
 private:
-	::VkSurfaceKHR					m_surface;
-	std::shared_ptr<vk::Instance>   m_instance;
+	vulkan::InstanceSharedPtr   m_instance;
+	::VkSurfaceKHR				m_surface;
 };
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

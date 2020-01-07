@@ -11,6 +11,7 @@
 
 #include <bksge/core/render/vulkan/detail/fwd/descriptor_set_layout_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/shader_reflection_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan_h.hpp>
 #include <cstdint>
 #include <memory>
@@ -22,37 +23,26 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
-
-struct DescriptorSetLayoutBinding : public ::VkDescriptorSetLayoutBinding
-{
-	DescriptorSetLayoutBinding(void);
-};
-
-struct DescriptorSetLayoutCreateInfo : public ::VkDescriptorSetLayoutCreateInfo
-{
-	DescriptorSetLayoutCreateInfo(void);
-};
 
 class DescriptorSetLayout
 {
 public:
 	explicit DescriptorSetLayout(
-		std::shared_ptr<vk::Device> const& device,
-		vk::DescriptorSetLayoutCreateInfo const& info,
-		std::uint32_t num);
+		vulkan::DeviceSharedPtr const& device,
+		vulkan::ShaderReflection const& reflection);
 
 	~DescriptorSetLayout();
 
-	::VkDescriptorSetLayout const* get(void) const;
+	std::vector<::VkDescriptorSetLayout> const& GetLayouts(void) const;
 
 private:
+	vulkan::DeviceSharedPtr					m_device;
 	std::vector<::VkDescriptorSetLayout>	m_descriptor_set_layout;
-	std::shared_ptr<vk::Device>				m_device;
 };
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

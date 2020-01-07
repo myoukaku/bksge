@@ -20,33 +20,26 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
-
-struct FenceCreateInfo : public ::VkFenceCreateInfo
-{
-	FenceCreateInfo(void);
-};
 
 class Fence
 {
 public:
-	explicit Fence(
-		std::shared_ptr<vk::Device> const& device,
-		vk::FenceCreateInfo const& info);
+	explicit Fence(vulkan::DeviceSharedPtr const& device);
 
 	~Fence();
 
 	operator ::VkFence() const;
 
-	::VkFence const* GetAddress() const;
+	::VkFence const* GetAddressOf() const;
 
 private:
+	vulkan::DeviceSharedPtr		m_device;
 	::VkFence					m_fence;
-	std::shared_ptr<vk::Device>	m_device;
 };
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

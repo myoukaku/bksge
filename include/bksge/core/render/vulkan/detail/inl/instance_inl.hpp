@@ -23,38 +23,73 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
 
 BKSGE_INLINE
-ApplicationInfo::ApplicationInfo(void)
-{
-	sType              = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-	pNext              = nullptr;
-	pApplicationName   = nullptr;
-	applicationVersion = 0;
-	pEngineName        = nullptr;
-	engineVersion      = 0;
-	apiVersion         = 0;
-}
-
-BKSGE_INLINE
-InstanceCreateInfo::InstanceCreateInfo(void)
-{
-	sType                   = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-	pNext                   = nullptr;
-	flags                   = 0;
-	pApplicationInfo        = nullptr;
-	enabledLayerCount       = 0;
-	ppEnabledLayerNames     = nullptr;
-	enabledExtensionCount   = 0;
-	ppEnabledExtensionNames = nullptr;
-}
-
-BKSGE_INLINE
-Instance::Instance(vk::InstanceCreateInfo const& info)
+Instance::Instance(char const* app_name)
 	: m_instance(VK_NULL_HANDLE)
 {
+	std::vector<char const*> layer_names;
+	std::vector<char const*> extension_names;
+
+#if 0	// 可能なレイヤーと拡張を全て追加
+
+	// これらのインスタンスは vk::CreateInstance を呼び出すまで生きていなければいけない
+	// (layer_names 等には char const* をコピーしているだけなので)
+	auto extension_properties = vk::EnumerateInstanceExtensionProperties(nullptr);
+	auto layer_properties     = vk::EnumerateInstanceLayerProperties();
+
+	for (auto&& layer_property : layer_properties)
+	{
+		layer_names.push_back(layer_property.layerName);
+		auto layer_extension_properties =
+			vk::EnumerateInstanceExtensionProperties(layer_property.layerName);
+		for (auto&& layer_extension_property : layer_extension_properties)
+		{
+			extension_properties.push_back(layer_extension_property);
+		}
+	}
+
+	for (auto&& extension_property : extension_properties)
+	{
+		extension_names.push_back(extension_property.extensionName);
+	}
+
+#else	// 使うものだけを手動で追加
+
+#if defined(_DEBUG)
+	layer_names.push_back("VK_LAYER_LUNARG_standard_validation");
+#endif
+
+	extension_names.push_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
+	extension_names.push_back(VK_KHR_SURFACE_EXTENSION_NAME);
+#if defined(__ANDROID__)
+	extension_names.push_back(VK_KHR_ANDROID_SURFACE_EXTENSION_NAME);
+#elif defined(_WIN32)
+	extension_names.push_back(VK_KHR_WIN32_SURFACE_EXTENSION_NAME);
+#elif defined(VK_USE_PLATFORM_METAL_EXT)
+	extension_names.push_back(VK_EXT_METAL_SURFACE_EXTENSION_NAME);
+#elif defined(VK_USE_PLATFORM_WAYLAND_KHR)
+	extension_names.push_back(VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME);
+#else
+	extension_names.push_back(VK_KHR_XCB_SURFACE_EXTENSION_NAME);
+#endif
+
+#endif
+
+	vk::ApplicationInfo app_info;
+	app_info.pApplicationName   = app_name;
+	app_info.applicationVersion = 1;
+	app_info.pEngineName        = app_name;
+	app_info.engineVersion      = 1;
+	app_info.apiVersion         = VK_API_VERSION_1_0;
+
+	vk::InstanceCreateInfo info;
+	info.pApplicationInfo = &app_info;
+	info.SetEnabledLayerNames(layer_names);
+	info.SetEnabledExtensionNames(extension_names);
+
 	vk::CreateInstance(&info, nullptr, &m_instance);
 }
 
@@ -64,17 +99,10 @@ Instance::~Instance()
 	vk::DestroyInstance(m_instance, nullptr);
 }
 
-BKSGE_INLINE std::vector<vk::PhysicalDevice>
+BKSGE_INLINE std::vector<::VkPhysicalDevice>
 Instance::EnumeratePhysicalDevices(void) const
 {
-	std::uint32_t gpu_count = 0;
-	vk::EnumeratePhysicalDevices(m_instance, &gpu_count, nullptr);
-	std::vector<::VkPhysicalDevice> gpus;
-	gpus.resize(gpu_count);
-	vk::EnumeratePhysicalDevices(m_instance, &gpu_count, gpus.data());
-
-	std::vector<vk::PhysicalDevice> result(gpus.begin(), gpus.end());
-	return result;
+	return vk::EnumeratePhysicalDevices(m_instance);
 }
 
 BKSGE_INLINE
@@ -83,7 +111,7 @@ Instance::operator ::VkInstance() const
 	return m_instance;
 }
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

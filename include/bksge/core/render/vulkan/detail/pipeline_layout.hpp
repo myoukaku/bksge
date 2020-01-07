@@ -10,6 +10,7 @@
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_PIPELINE_LAYOUT_HPP
 
 #include <bksge/core/render/vulkan/detail/fwd/pipeline_layout_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/descriptor_set_layout_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan_h.hpp>
 #include <memory>
@@ -20,31 +21,26 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
-
-struct PipelineLayoutCreateInfo : public ::VkPipelineLayoutCreateInfo
-{
-	PipelineLayoutCreateInfo(void);
-};
 
 class PipelineLayout
 {
 public:
 	explicit PipelineLayout(
-		std::shared_ptr<vk::Device> const& device,
-		vk::PipelineLayoutCreateInfo const& info);
+		vulkan::DeviceSharedPtr const& device,
+		vulkan::DescriptorSetLayout const& descriptor_set_layout);
 
 	~PipelineLayout();
 
 	operator ::VkPipelineLayout() const;
 
 private:
+	vulkan::DeviceSharedPtr		m_device;
 	::VkPipelineLayout			m_pipeline_layout;
-	std::shared_ptr<vk::Device>	m_device;
 };
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

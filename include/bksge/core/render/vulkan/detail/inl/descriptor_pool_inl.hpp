@@ -14,6 +14,7 @@
 
 #include <bksge/core/render/vulkan/detail/descriptor_pool.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
+#include <bksge/core/render/vulkan/detail/shader_reflection.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <memory>
 
@@ -23,27 +24,48 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
-
-BKSGE_INLINE
-DescriptorPoolCreateInfo::DescriptorPoolCreateInfo(void)
-{
-	sType         = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
-	pNext         = nullptr;
-	flags         = 0;
-	maxSets       = 0;
-	poolSizeCount = 0;
-	pPoolSizes    = nullptr;
-}
 
 BKSGE_INLINE
 DescriptorPool::DescriptorPool(
-	std::shared_ptr<vk::Device> const& device,
-	vk::DescriptorPoolCreateInfo const& info)
-	: m_descriptor_pool(VK_NULL_HANDLE)
-	, m_device(device)
+	vulkan::DeviceSharedPtr const& device,
+	vulkan::ShaderReflection const& reflection)
+	: m_device(device)
+	, m_descriptor_pool(VK_NULL_HANDLE)
 {
+	std::vector<::VkDescriptorPoolSize> type_count;
+
+	// TODO ハードコーディングを取り除く
+	{
+		::VkDescriptorPoolSize pool_size;
+		pool_size.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+		pool_size.descriptorCount = (uint32_t)reflection.GetUniformBuffers().size();
+		type_count.push_back(pool_size);
+	}
+	{
+		::VkDescriptorPoolSize pool_size;
+		pool_size.type = VK_DESCRIPTOR_TYPE_SAMPLER;
+		pool_size.descriptorCount = 100;
+		type_count.push_back(pool_size);
+	}
+	{
+		::VkDescriptorPoolSize pool_size;
+		pool_size.type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+		pool_size.descriptorCount = 100;
+		type_count.push_back(pool_size);
+	}
+	{
+		::VkDescriptorPoolSize pool_size;
+		pool_size.type = VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE;
+		pool_size.descriptorCount = 100;
+		type_count.push_back(pool_size);
+	}
+
+	vk::DescriptorPoolCreateInfo info;
+	info.maxSets = reflection.GetMaxSets() + 1;
+	info.SetPoolSizes(type_count);
+
 	vk::CreateDescriptorPool(*m_device, &info, nullptr, &m_descriptor_pool);
 }
 
@@ -59,7 +81,7 @@ DescriptorPool::operator ::VkDescriptorPool() const
 	return m_descriptor_pool;
 }
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

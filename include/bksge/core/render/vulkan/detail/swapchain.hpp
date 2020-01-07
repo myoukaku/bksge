@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	swapchain.hpp
  *
- *	@brief	SwapchainKHR クラスの定義
+ *	@brief	Swapchain クラスの定義
  *
  *	@author	myoukaku
  */
@@ -11,6 +11,7 @@
 
 #include <bksge/core/render/vulkan/detail/fwd/swapchain_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/surface_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan_h.hpp>
 #include <cstdint>
 #include <memory>
@@ -22,24 +23,24 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
 
-struct SwapchainCreateInfoKHR : public ::VkSwapchainCreateInfoKHR
-{
-	SwapchainCreateInfoKHR(void);
-};
-
-class SwapchainKHR
+class Swapchain
 {
 public:
-	explicit SwapchainKHR(
-		std::shared_ptr<vk::Device> const& device,
-		vk::SwapchainCreateInfoKHR const& info);
+	explicit Swapchain(
+		vulkan::DeviceSharedPtr const& device,
+		vulkan::Surface const& surface,
+		::VkFormat surface_format,
+		std::uint32_t graphics_queue_family_index,
+		std::uint32_t present_queue_family_index);
 
-	~SwapchainKHR();
+	~Swapchain();
 
-	std::vector<VkImage> GetImages(void) const;
+	//std::vector<VkImage> GetImages(void) const;
+
+	std::vector<::VkImageView> const& GetImageViews(void) const;
 
 	::VkExtent2D extent(void) const;
 
@@ -50,15 +51,16 @@ public:
 
 	operator ::VkSwapchainKHR() const;
 
-	::VkSwapchainKHR const* GetAddress() const;
+	::VkSwapchainKHR const* GetAddressOf() const;
 
 private:
-	::VkSwapchainKHR			m_swap_chain;
-	vk::SwapchainCreateInfoKHR	m_info;
-	std::shared_ptr<vk::Device>	m_device;
+	vulkan::DeviceSharedPtr			m_device;
+	vk::SwapchainCreateInfoKHR		m_info;
+	::VkSwapchainKHR				m_swap_chain;
+	std::vector<::VkImageView>		m_image_views;
 };
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

@@ -12,7 +12,6 @@
 #include <bksge/core/render/vulkan/detail/fwd/pipeline_cache_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan_h.hpp>
-#include <memory>
 
 namespace bksge
 {
@@ -20,31 +19,25 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
-
-struct PipelineCacheCreateInfo : public ::VkPipelineCacheCreateInfo
-{
-	PipelineCacheCreateInfo(void);
-};
 
 class PipelineCache
 {
 public:
 	explicit PipelineCache(
-		std::shared_ptr<vk::Device> const& device,
-		vk::PipelineCacheCreateInfo const& info);
+		vulkan::DeviceSharedPtr const& device);
 
 	~PipelineCache();
 
 	operator ::VkPipelineCache() const;
 
 private:
-	::VkPipelineCache			m_pipeline_cache;
-	std::shared_ptr<vk::Device>	m_device;
+	vulkan::DeviceSharedPtr	m_device;
+	::VkPipelineCache		m_pipeline_cache;
 };
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

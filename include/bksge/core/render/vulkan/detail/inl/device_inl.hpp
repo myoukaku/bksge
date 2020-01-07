@@ -22,44 +22,67 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
 
 BKSGE_INLINE
-DeviceQueueCreateInfo::DeviceQueueCreateInfo(void)
+Device::Device(vulkan::PhysicalDeviceSharedPtr const& physical_device)
+	: m_physical_device(physical_device)
+	, m_device(VK_NULL_HANDLE)
 {
-	sType            = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
-	pNext            = nullptr;
-	flags            = 0;
-	queueFamilyIndex = 0;
-	queueCount       = 0;
-	pQueuePriorities = nullptr;
-}
+	std::vector<char const*> layer_names;
+	std::vector<char const*> extension_names;
 
-BKSGE_INLINE
-DeviceCreateInfo::DeviceCreateInfo(void)
-{
-	sType                   = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
-	pNext                   = nullptr;
-	queueCreateInfoCount    = 0;
-	pQueueCreateInfos       = nullptr;
-	enabledLayerCount       = 0;
-	ppEnabledLayerNames     = nullptr;
-	enabledExtensionCount   = 0;
-	ppEnabledExtensionNames = nullptr;
-	pEnabledFeatures        = nullptr;
-}
+#if 1	// 可能なレイヤーと拡張を全て追加
 
-BKSGE_INLINE
-Device::Device(vk::PhysicalDevice const& gpu, vk::DeviceCreateInfo const& info)
-	: m_device(VK_NULL_HANDLE)
-{
-	vk::CreateDevice(gpu, &info, nullptr, &m_device);
+	// これらのインスタンスは vk::CreateDevice を呼び出すまで生きていなければいけない
+	// (layer_names 等には char const* をコピーしているだけなので)
+	auto extension_properties = vk::EnumerateDeviceExtensionProperties(*physical_device, nullptr);
+	auto layer_properties     = vk::EnumerateDeviceLayerProperties(*physical_device);
+
+	for (auto&& layer_property : layer_properties)
+	{
+		layer_names.push_back(layer_property.layerName);
+		auto layer_extension_properties =
+			vk::EnumerateDeviceExtensionProperties(
+				*physical_device, layer_property.layerName);
+		for (auto&& layer_extension_property : layer_extension_properties)
+		{
+			extension_properties.push_back(layer_extension_property);
+		}
+	}
+
+	for (auto&& extension_property : extension_properties)
+	{
+		extension_names.push_back(extension_property.extensionName);
+	}
+
+#else	// 使うものだけを手動で追加
+
+	extension_names.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
+
+#endif
+
+	float const queue_priorities = 0.0;
+
+	vk::DeviceQueueCreateInfo queue_info;
+	queue_info.flags            = 0;
+	queue_info.queueFamilyIndex = physical_device->GetGraphicsQueueFamilyIndex();
+	queue_info.queueCount       = 1;
+	queue_info.pQueuePriorities = &queue_priorities;
+
+	vk::DeviceCreateInfo info;
+	info.SetQueueCreateInfos(&queue_info);
+	info.SetEnabledLayerNames(layer_names);
+	info.SetEnabledExtensionNames(extension_names);
+
+	vk::CreateDevice(*physical_device, &info, nullptr, &m_device);
 }
 
 BKSGE_INLINE
 Device::~Device()
 {
+	vk::DeviceWaitIdle(m_device);
 	vk::DestroyDevice(m_device, nullptr);
 }
 
@@ -69,7 +92,13 @@ Device::operator ::VkDevice() const
 	return m_device;
 }
 
-}	// namespace vk
+BKSGE_INLINE vulkan::PhysicalDeviceSharedPtr const&
+Device::GetPhysicalDevice(void) const
+{
+	return m_physical_device;
+}
+
+}	// namespace vulkan
 
 }	// namespace render
 

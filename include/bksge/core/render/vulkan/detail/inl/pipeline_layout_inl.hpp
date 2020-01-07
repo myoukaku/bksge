@@ -13,6 +13,7 @@
 #if BKSGE_CORE_RENDER_HAS_VULKAN_RENDERER
 
 #include <bksge/core/render/vulkan/detail/pipeline_layout.hpp>
+#include <bksge/core/render/vulkan/detail/descriptor_set_layout.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <memory>
@@ -23,28 +24,20 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
-
-BKSGE_INLINE
-PipelineLayoutCreateInfo::PipelineLayoutCreateInfo(void)
-{
-	sType                  = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-	pNext                  = nullptr;
-	flags                  = 0;
-	setLayoutCount         = 0;
-	pSetLayouts            = nullptr;
-	pushConstantRangeCount = 0;
-	pPushConstantRanges    = nullptr;
-}
 
 BKSGE_INLINE
 PipelineLayout::PipelineLayout(
-	std::shared_ptr<vk::Device> const& device,
-	vk::PipelineLayoutCreateInfo const& info)
-	: m_pipeline_layout(VK_NULL_HANDLE)
-	, m_device(device)
+	vulkan::DeviceSharedPtr const& device,
+	vulkan::DescriptorSetLayout const& descriptor_set_layout)
+	: m_device(device)
+	, m_pipeline_layout(VK_NULL_HANDLE)
 {
+	vk::PipelineLayoutCreateInfo info;
+	info.SetSetLayouts(descriptor_set_layout.GetLayouts());
+	info.SetPushConstantRanges(nullptr);
+
 	vk::CreatePipelineLayout(*m_device, &info, nullptr, &m_pipeline_layout);
 }
 
@@ -60,7 +53,7 @@ PipelineLayout::operator ::VkPipelineLayout() const
 	return m_pipeline_layout;
 }
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

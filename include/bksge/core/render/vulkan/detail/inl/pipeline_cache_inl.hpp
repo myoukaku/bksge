@@ -23,26 +23,16 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
-
-BKSGE_INLINE
-PipelineCacheCreateInfo::PipelineCacheCreateInfo(void)
-{
-	sType           = VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO;
-	pNext           = nullptr;
-	flags           = 0;
-	initialDataSize = 0;
-	pInitialData    = nullptr;
-}
 
 BKSGE_INLINE
 PipelineCache::PipelineCache(
-	std::shared_ptr<vk::Device> const& device,
-	vk::PipelineCacheCreateInfo const& info)
-	: m_pipeline_cache(VK_NULL_HANDLE)
-	, m_device(device)
+	vulkan::DeviceSharedPtr const& device)
+	: m_device(device)
+	, m_pipeline_cache(VK_NULL_HANDLE)
 {
+	vk::PipelineCacheCreateInfo info;
 	vk::CreatePipelineCache(*m_device, &info, nullptr, &m_pipeline_cache);
 }
 
@@ -58,7 +48,7 @@ PipelineCache::operator ::VkPipelineCache() const
 	return m_pipeline_cache;
 }
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

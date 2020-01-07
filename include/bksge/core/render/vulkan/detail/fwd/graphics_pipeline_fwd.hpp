@@ -15,12 +15,12 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
 
 class GraphicsPipeline;
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

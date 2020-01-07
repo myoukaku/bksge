@@ -9,18 +9,21 @@
 #ifndef BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_DESCRIPTOR_SET_LAYOUT_FWD_HPP
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_DESCRIPTOR_SET_LAYOUT_FWD_HPP
 
+#include <memory>
+
 namespace bksge
 {
 
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
 
 class DescriptorSetLayout;
+using DescriptorSetLayoutUniquePtr = std::unique_ptr<DescriptorSetLayout>;
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

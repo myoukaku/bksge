@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	swapchain_inl.hpp
  *
- *	@brief	SwapchainKHR クラスの実装
+ *	@brief	Swapchain クラスの実装
  *
  *	@author	myoukaku
  */
@@ -14,6 +14,8 @@
 
 #include <bksge/core/render/vulkan/detail/swapchain.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
+#include <bksge/core/render/vulkan/detail/physical_device.hpp>
+#include <bksge/core/render/vulkan/detail/surface.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <cstdint>
 #include <memory>
@@ -25,100 +27,203 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
 
 BKSGE_INLINE
-SwapchainCreateInfoKHR::SwapchainCreateInfoKHR(void)
+Swapchain::Swapchain(
+	vulkan::DeviceSharedPtr const& device,
+	vulkan::Surface const& surface,
+	::VkFormat surface_format,
+	std::uint32_t graphics_queue_family_index,
+	std::uint32_t present_queue_family_index)
+	: m_device(device)
+	, m_info()
+	, m_swap_chain(VK_NULL_HANDLE)
 {
-	sType                 = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
-	pNext                 = nullptr;
-	flags                 = 0;
-	surface               = VK_NULL_HANDLE;
-	minImageCount         = 0;
-	imageFormat           = VK_FORMAT_UNDEFINED;
-	imageColorSpace       = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR;
-	imageExtent.width     = 0;
-	imageExtent.height    = 0;
-	imageArrayLayers      = 0;
-	imageUsage            = 0;
-	imageSharingMode      = VK_SHARING_MODE_EXCLUSIVE;
-	queueFamilyIndexCount = 0;
-	pQueueFamilyIndices   = nullptr;
-	preTransform          = VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR;
-	compositeAlpha        = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
-	presentMode           = VK_PRESENT_MODE_IMMEDIATE_KHR;
-	clipped               = VK_FALSE;
-	oldSwapchain          = VK_NULL_HANDLE;
+	auto physical_device = device->GetPhysicalDevice();
+
+	::VkSurfaceCapabilitiesKHR surface_capabilities;
+	vk::GetPhysicalDeviceSurfaceCapabilitiesKHR(*physical_device, surface, &surface_capabilities);
+
+	::VkExtent2D swapchain_extent = surface_capabilities.currentExtent;
+	// width and height are either both 0xFFFFFFFF, or both not 0xFFFFFFFF.
+	//if (surface_capabilities.currentExtent.width == 0xFFFFFFFF) {
+	//	// If the surface size is undefined, the size is set to
+	//	// the size of the images requested.
+	//	swapchain_extent.width = info.width;
+	//	swapchain_extent.height = info.height;
+	//	if (swapchain_extent.width < surface_capabilities.minImageExtent.width) {
+	//		swapchain_extent.width = surface_capabilities.minImageExtent.width;
+	//	}
+	//	else if (swapchain_extent.width > surface_capabilities.maxImageExtent.width) {
+	//		swapchain_extent.width = surface_capabilities.maxImageExtent.width;
+	//	}
+
+	//	if (swapchain_extent.height < surface_capabilities.minImageExtent.height) {
+	//		swapchain_extent.height = surface_capabilities.minImageExtent.height;
+	//	}
+	//	else if (swapchain_extent.height > surface_capabilities.maxImageExtent.height) {
+	//		swapchain_extent.height = surface_capabilities.maxImageExtent.height;
+	//	}
+	//}
+
+	::VkSurfaceTransformFlagBitsKHR pre_transform;
+	if (surface_capabilities.supportedTransforms & VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR)
+	{
+		pre_transform = VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR;
+	}
+	else
+	{
+		pre_transform = surface_capabilities.currentTransform;
+	}
+
+	::VkCompositeAlphaFlagBitsKHR composite_alpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
+	::VkCompositeAlphaFlagBitsKHR const composite_alpha_flags[] =
+	{
+		VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR,
+		VK_COMPOSITE_ALPHA_PRE_MULTIPLIED_BIT_KHR,
+		VK_COMPOSITE_ALPHA_POST_MULTIPLIED_BIT_KHR,
+		VK_COMPOSITE_ALPHA_INHERIT_BIT_KHR,
+	};
+
+	for (auto flag : composite_alpha_flags)
+	{
+		if (surface_capabilities.supportedCompositeAlpha & flag)
+		{
+			composite_alpha = flag;
+			break;
+		}
+	}
+
+	m_info.surface          = surface;
+	m_info.minImageCount    = surface_capabilities.minImageCount;
+	m_info.imageFormat      = surface_format;
+	m_info.imageColorSpace  = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR;
+	m_info.imageExtent      = swapchain_extent;
+	m_info.imageArrayLayers = 1;
+	m_info.imageUsage       = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT |
+		                      VK_IMAGE_USAGE_TRANSFER_SRC_BIT;
+	m_info.preTransform     = pre_transform;
+	m_info.compositeAlpha   = composite_alpha;
+	m_info.presentMode      = VK_PRESENT_MODE_FIFO_KHR;
+#if !defined(__ANDROID__)
+	m_info.clipped          = VK_TRUE;
+#else
+	m_info.clipped          = VK_FALSE;
+#endif
+	m_info.oldSwapchain     = VK_NULL_HANDLE;
+
+	std::uint32_t const queue_family_indices[] =
+	{
+		graphics_queue_family_index,
+		present_queue_family_index,
+	};
+
+	if (graphics_queue_family_index != present_queue_family_index)
+	{
+		m_info.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
+		m_info.SetQueueFamilyIndices(queue_family_indices);
+	}
+	else
+	{
+		m_info.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
+		m_info.SetQueueFamilyIndices(nullptr);
+	}
+
+	vk::CreateSwapchainKHR(*m_device, &m_info, nullptr, &m_swap_chain);
+
+	// Create ImageViews
+	auto images = vk::GetSwapchainImagesKHR(*m_device, m_swap_chain);
+	for (auto&& image : images)
+	{
+		vk::ImageViewCreateInfo info;
+		info.format                          = surface_format;
+		info.components.r                    = VK_COMPONENT_SWIZZLE_R;
+		info.components.g                    = VK_COMPONENT_SWIZZLE_G;
+		info.components.b                    = VK_COMPONENT_SWIZZLE_B;
+		info.components.a                    = VK_COMPONENT_SWIZZLE_A;
+		info.subresourceRange.aspectMask     = VK_IMAGE_ASPECT_COLOR_BIT;
+		info.subresourceRange.baseMipLevel   = 0;
+		info.subresourceRange.levelCount     = 1;
+		info.subresourceRange.baseArrayLayer = 0;
+		info.subresourceRange.layerCount     = 1;
+		info.viewType                        = VK_IMAGE_VIEW_TYPE_2D;
+		info.image                           = image;
+
+		::VkImageView view;
+		vk::CreateImageView(*m_device, &info, nullptr, &view);
+		m_image_views.push_back(view);
+	}
 }
 
 BKSGE_INLINE
-SwapchainKHR::SwapchainKHR(
-	std::shared_ptr<vk::Device> const& device,
-	vk::SwapchainCreateInfoKHR const& info)
-	: m_swap_chain(VK_NULL_HANDLE)
-	, m_info(info)
-	, m_device(device)
+Swapchain::~Swapchain()
 {
-	vk::CreateSwapchainKHR(*m_device, &info, nullptr, &m_swap_chain);
-}
+	for (auto&& image_view : m_image_views)
+	{
+		vk::DestroyImageView(*m_device, image_view, nullptr);
+	}
 
-BKSGE_INLINE
-SwapchainKHR::~SwapchainKHR()
-{
 	vk::DestroySwapchainKHR(*m_device, m_swap_chain, nullptr);
 }
 
-BKSGE_INLINE std::vector<VkImage>
-SwapchainKHR::GetImages(void) const
+//BKSGE_INLINE std::vector<VkImage>
+//Swapchain::GetImages(void) const
+//{
+//	std::uint32_t count = 0;
+//	vk::GetSwapchainImagesKHR(*m_device, m_swap_chain, &count, nullptr);
+//
+//	std::vector<VkImage> images;
+//	images.resize(count);
+//	vk::GetSwapchainImagesKHR(*m_device, m_swap_chain, &count, images.data());
+//
+//	return images;
+//}
+
+BKSGE_INLINE std::vector<::VkImageView> const&
+Swapchain::GetImageViews(void) const
 {
-	std::uint32_t count = 0;
-	vk::GetSwapchainImagesKHR(*m_device, m_swap_chain, &count, nullptr);
-
-	std::vector<VkImage> images;
-	images.resize(count);
-	vk::GetSwapchainImagesKHR(*m_device, m_swap_chain, &count, images.data());
-
-	return images;
+	return m_image_views;
 }
 
 BKSGE_INLINE ::VkExtent2D
-SwapchainKHR::extent(void) const
+Swapchain::extent(void) const
 {
 	return m_info.imageExtent;
 }
 
 BKSGE_INLINE std::uint32_t
-SwapchainKHR::width(void) const
+Swapchain::width(void) const
 {
 	return m_info.imageExtent.width;
 }
 
 BKSGE_INLINE std::uint32_t
-SwapchainKHR::height(void) const
+Swapchain::height(void) const
 {
 	return m_info.imageExtent.height;
 }
 
 BKSGE_INLINE ::VkFormat
-SwapchainKHR::format(void) const
+Swapchain::format(void) const
 {
 	return m_info.imageFormat;
 }
 
 BKSGE_INLINE
-SwapchainKHR::operator ::VkSwapchainKHR() const
+Swapchain::operator ::VkSwapchainKHR() const
 {
 	return m_swap_chain;
 }
 
 BKSGE_INLINE ::VkSwapchainKHR const*
-SwapchainKHR::GetAddress() const
+Swapchain::GetAddressOf() const
 {
 	return &m_swap_chain;
 }
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

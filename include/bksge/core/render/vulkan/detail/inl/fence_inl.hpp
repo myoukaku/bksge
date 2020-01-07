@@ -23,24 +23,16 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
-
-BKSGE_INLINE
-FenceCreateInfo::FenceCreateInfo(void)
-{
-	sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
-	pNext = nullptr;
-	flags = 0;
-}
 
 BKSGE_INLINE
 Fence::Fence(
-	std::shared_ptr<vk::Device> const& device,
-	vk::FenceCreateInfo const& info)
-	: m_fence(VK_NULL_HANDLE)
-	, m_device(device)
+	vulkan::DeviceSharedPtr const& device)
+	: m_device(device)
+	, m_fence(VK_NULL_HANDLE)
 {
+	vk::FenceCreateInfo info;
 	vk::CreateFence(*m_device, &info, nullptr, &m_fence);
 }
 
@@ -57,12 +49,12 @@ Fence::operator ::VkFence() const
 }
 
 BKSGE_INLINE
-::VkFence const* Fence::GetAddress() const
+::VkFence const* Fence::GetAddressOf() const
 {
 	return &m_fence;
 }
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

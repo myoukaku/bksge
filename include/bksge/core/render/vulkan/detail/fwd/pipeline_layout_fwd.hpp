@@ -9,18 +9,21 @@
 #ifndef BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_PIPELINE_LAYOUT_FWD_HPP
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_PIPELINE_LAYOUT_FWD_HPP
 
+#include <memory>
+
 namespace bksge
 {
 
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
 
 class PipelineLayout;
+using PipelineLayoutUniquePtr = std::unique_ptr<PipelineLayout>;
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 

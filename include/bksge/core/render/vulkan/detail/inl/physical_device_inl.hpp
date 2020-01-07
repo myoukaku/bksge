@@ -22,13 +22,27 @@ namespace bksge
 namespace render
 {
 
-namespace vk
+namespace vulkan
 {
 
 BKSGE_INLINE
 PhysicalDevice::PhysicalDevice(::VkPhysicalDevice const& physical_device)
 	: m_physical_device(physical_device)
 {
+	vk::GetPhysicalDeviceMemoryProperties(physical_device, &m_memory_properties);
+
+	vk::GetPhysicalDeviceQueueFamilyProperties(physical_device, &m_queue_family_properties_count, nullptr);
+	std::vector<VkQueueFamilyProperties> props(m_queue_family_properties_count);
+	vk::GetPhysicalDeviceQueueFamilyProperties(physical_device, &m_queue_family_properties_count, props.data());
+
+	for (std::uint32_t i = 0; i < m_queue_family_properties_count; ++i)
+	{
+		if (props[i].queueFlags & VK_QUEUE_GRAPHICS_BIT)
+		{
+			m_graphics_queue_family_index = i;
+			break;
+		}
+	}
 }
 
 BKSGE_INLINE
@@ -36,6 +50,36 @@ PhysicalDevice::~PhysicalDevice()
 {
 }
 
+BKSGE_INLINE ::VkPhysicalDeviceMemoryProperties const&
+PhysicalDevice::GetMemoryProperties(void) const
+{
+	return m_memory_properties;
+}
+
+BKSGE_INLINE std::uint32_t
+PhysicalDevice::GetGraphicsQueueFamilyIndex(void) const
+{
+	return m_graphics_queue_family_index;
+}
+
+BKSGE_INLINE std::uint32_t
+PhysicalDevice::GetPresentQueueFamilyIndex(::VkSurfaceKHR surface) const
+{
+	for (std::uint32_t i = 0; i < m_queue_family_properties_count; i++)
+	{
+		::VkBool32 supports_present;
+		vk::GetPhysicalDeviceSurfaceSupportKHR(
+			m_physical_device, i, surface, &supports_present);
+		if (supports_present == VK_TRUE)
+		{
+			return i;
+		}
+	}
+
+	return UINT32_MAX;
+}
+
+#if 0
 BKSGE_INLINE std::vector<::VkQueueFamilyProperties>
 PhysicalDevice::GetQueueFamilyProperties()
 {
@@ -67,6 +111,7 @@ PhysicalDevice::GetSurfaceFormats(::VkSurfaceKHR surface)
 
 	return formats;
 }
+#endif
 
 BKSGE_INLINE
 PhysicalDevice::operator ::VkPhysicalDevice() const
@@ -74,7 +119,7 @@ PhysicalDevice::operator ::VkPhysicalDevice() const
 	return m_physical_device;
 }
 
-}	// namespace vk
+}	// namespace vulkan
 
 }	// namespace render
 
