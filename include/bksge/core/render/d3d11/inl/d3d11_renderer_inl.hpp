@@ -25,6 +25,7 @@
 #include <bksge/core/render/d3d11/detail/blend_operation.hpp>
 #include <bksge/core/render/d3d11/detail/comparison_function.hpp>
 #include <bksge/core/render/d3d11/detail/bool.hpp>
+#include <bksge/core/render/d3d11/detail/depth_write_mask.hpp>
 #include <bksge/core/render/d3d11/detail/resource_cache.hpp>
 #include <bksge/core/render/d3d_common/d3d11.hpp>
 #include <bksge/core/render/dxgi/dxgi_factory.hpp>
@@ -225,7 +226,7 @@ D3D11Renderer::VRender(
 
 		::D3D11_DEPTH_STENCIL_DESC desc {};
 		desc.DepthEnable      = d3d11::Bool(depth_state.enable());
-		desc.DepthWriteMask   = depth_state.write() ? D3D11_DEPTH_WRITE_MASK_ALL : D3D11_DEPTH_WRITE_MASK_ZERO;
+		desc.DepthWriteMask   = d3d11::DepthWriteMask(depth_state.write());
 		desc.DepthFunc        = d3d11::ComparisonFunction(depth_state.func());
 		desc.StencilEnable    = FALSE;
 		desc.StencilReadMask  = 0;
