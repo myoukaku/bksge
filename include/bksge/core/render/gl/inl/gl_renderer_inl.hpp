@@ -23,6 +23,7 @@
 #include <bksge/core/render/gl/detail/blend_factor.hpp>
 #include <bksge/core/render/gl/detail/blend_operation.hpp>
 #include <bksge/core/render/gl/detail/comparison_function.hpp>
+#include <bksge/core/render/gl/detail/bool.hpp>
 #include <bksge/core/render/gl/detail/resource_cache.hpp>
 #include <bksge/core/render/gl/detail/wgl/wgl_context.hpp>
 #include <bksge/core/render/gl/detail/glx/glx_context.hpp>
@@ -290,7 +291,7 @@ GlRenderer::ApplyDepthState(DepthState const& depth_state)
 		::glDisable(GL_DEPTH_TEST);
 	}
 
-	::glDepthMask(depth_state.write() ? GL_TRUE : GL_FALSE);
+	::glDepthMask(gl::Bool(depth_state.write()));
 	::glDepthFunc(gl::ComparisonFunction(depth_state.func()));
 }
 
