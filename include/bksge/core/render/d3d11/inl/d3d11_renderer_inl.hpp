@@ -24,6 +24,7 @@
 #include <bksge/core/render/d3d11/detail/blend_factor.hpp>
 #include <bksge/core/render/d3d11/detail/blend_operation.hpp>
 #include <bksge/core/render/d3d11/detail/comparison_function.hpp>
+#include <bksge/core/render/d3d11/detail/bool.hpp>
 #include <bksge/core/render/d3d11/detail/resource_cache.hpp>
 #include <bksge/core/render/d3d_common/d3d11.hpp>
 #include <bksge/core/render/dxgi/dxgi_factory.hpp>
@@ -178,7 +179,7 @@ D3D11Renderer::VRender(
 		rd.DepthBias             = 0;
 		rd.DepthBiasClamp        = 0;
 		rd.SlopeScaledDepthBias  = 0;
-		rd.ScissorEnable         = scissor_state.enable() ? TRUE : FALSE;
+		rd.ScissorEnable         = d3d11::Bool(scissor_state.enable());
 		rd.MultisampleEnable     = FALSE;
 		rd.AntialiasedLineEnable = FALSE;
 
@@ -202,7 +203,7 @@ D3D11Renderer::VRender(
 		blend_desc.IndependentBlendEnable = FALSE;
 		for (auto& rt : blend_desc.RenderTarget)
 		{
-			rt.BlendEnable           = blend_state.enable() ? TRUE : FALSE;
+			rt.BlendEnable           = d3d11::Bool(blend_state.enable());
 			rt.SrcBlend              = d3d11::BlendFactor(blend_state.src_factor());
 			rt.DestBlend             = d3d11::BlendFactor(blend_state.dst_factor());
 			rt.BlendOp               = d3d11::BlendOperation(blend_state.operation());
@@ -223,11 +224,11 @@ D3D11Renderer::VRender(
 		auto const& depth_state = render_state.depth_state();
 
 		::D3D11_DEPTH_STENCIL_DESC desc {};
-		desc.DepthEnable = depth_state.enable() ? TRUE : FALSE;
-		desc.DepthWriteMask = depth_state.write() ? D3D11_DEPTH_WRITE_MASK_ALL : D3D11_DEPTH_WRITE_MASK_ZERO;
-		desc.DepthFunc = d3d11::ComparisonFunction(depth_state.func());
-		desc.StencilEnable = FALSE;
-		desc.StencilReadMask = 0;
+		desc.DepthEnable      = d3d11::Bool(depth_state.enable());
+		desc.DepthWriteMask   = depth_state.write() ? D3D11_DEPTH_WRITE_MASK_ALL : D3D11_DEPTH_WRITE_MASK_ZERO;
+		desc.DepthFunc        = d3d11::ComparisonFunction(depth_state.func());
+		desc.StencilEnable    = FALSE;
+		desc.StencilReadMask  = 0;
 		desc.StencilWriteMask = 0;
 //		desc.FrontFace;
 //		desc.BackFace;
