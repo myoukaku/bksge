@@ -12,6 +12,7 @@
 #include <bksge/core/render/gl/detail/fwd/glsl_program_fwd.hpp>
 #include <bksge/core/render/gl/detail/fwd/glsl_shader_fwd.hpp>
 #include <bksge/core/render/gl/detail/fwd/glsl_parameter_fwd.hpp>
+#include <bksge/core/render/gl/detail/fwd/glsl_uniform_block_fwd.hpp>
 #include <bksge/core/render/gl/detail/fwd/geometry_fwd.hpp>
 #include <bksge/core/render/gl/detail/fwd/resource_cache_fwd.hpp>
 #include <bksge/core/render/gl/detail/gl_h.hpp>
@@ -50,10 +51,12 @@ private:
 
 	using GlslShaders    = std::vector<GlslShaderUnique>;
 	using GlslParameters = std::vector<GlslParameterUnique>;
+	using GlslUniformBlocks = std::vector<GlslUniformBlockUnique>;
 
 	::GLuint		m_id;
 	GlslShaders		m_shaders;
 	GlslParameters	m_parameters;
+	GlslUniformBlocks	m_uniform_blocks;
 };
 
 }	// namespace gl

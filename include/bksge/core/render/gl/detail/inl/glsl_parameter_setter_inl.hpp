@@ -25,8 +25,7 @@ namespace gl
 {
 
 BKSGE_INLINE
-GlslParameterSetterBase::GlslParameterSetterBase(::GLint location)
-	: m_location(location)
+GlslParameterSetterBase::GlslParameterSetterBase(void)
 {
 }
 
@@ -38,9 +37,18 @@ GlslParameterSetterBase::~GlslParameterSetterBase()
 BKSGE_INLINE void
 GlslParameterSetterBase::SetParameter(
 	ResourceCache* resource_cache,
-	std::shared_ptr<ShaderParameterBase> const& src) const
+	std::shared_ptr<ShaderParameterBase> const& src,
+	::GLint location) const
 {
-	VSetParameter(resource_cache, m_location, src);
+	VSetParameter(resource_cache, src, location);
+}
+
+BKSGE_INLINE void
+GlslParameterSetterBase::LoadUniformBuffer(
+	std::shared_ptr<ShaderParameterBase> const& src,
+	::GLint offset) const
+{
+	VLoadUniformBuffer(src, offset);
 }
 
 }	// namespace gl

@@ -15,6 +15,7 @@
 #include <bksge/core/render/gl/detail/glsl_program.hpp>
 #include <bksge/core/render/gl/detail/glsl_shader.hpp>
 #include <bksge/core/render/gl/detail/glsl_parameter.hpp>
+#include <bksge/core/render/gl/detail/glsl_uniform_block.hpp>
 #include <bksge/core/render/gl/detail/geometry.hpp>
 #include <bksge/core/render/shader.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
@@ -64,6 +65,14 @@ GlslProgram::GlslProgram(bksge::Shader const& shader)
 		}
 	}
 
+	::GLint uniform_block_count;
+	::glGetProgramiv(m_id, GL_ACTIVE_UNIFORM_BLOCKS, &uniform_block_count);
+	for (::GLint i = 0; i < uniform_block_count; i++)
+	{
+		auto uniform_block = bksge::make_unique<gl::GlslUniformBlock>(m_id, i);
+		m_uniform_blocks.push_back(std::move(uniform_block));
+	}
+
 	::GLint uniform_count;
 	::glGetProgramiv(m_id, GL_ACTIVE_UNIFORMS, &uniform_count);
 
@@ -102,6 +111,11 @@ GlslProgram::LoadParameters(
 	ResourceCache* resource_cache,
 	ShaderParameterMap const& shader_parameter_map)
 {
+	for (auto&& uniform_block : m_uniform_blocks)
+	{
+		uniform_block->LoadParameter(shader_parameter_map, m_parameters);
+	}
+
 	for (auto&& parameter : m_parameters)
 	{
 		parameter->LoadParameter(resource_cache, shader_parameter_map);

@@ -20,25 +20,42 @@ namespace
 static bksge::Shader const* GetGLSLShader(void)
 {
 	static char const* vs_source =
-		"attribute vec3 aPosition;					"
-		"attribute vec4 aColor;						"
-		"varying  vec4 vColor;						"
-		"uniform mat4 uMatrix;						"
-		"											"
-		"void main()								"
-		"{											"
-		"	gl_Position = uMatrix * vec4(aPosition, 1.0);	"
-		"	vColor = aColor;						"
-		"}											"
+		"#version 420											\n"
+		"#extension GL_ARB_separate_shader_objects : enable		\n"
+		"														\n"
+		"layout (location = 0) in vec3 aPosition;				\n"
+		"layout (location = 1) in vec4 aColor;					\n"
+		"														\n"
+		"layout (location = 0) out vec4 vColor;					\n"
+		"														\n"
+		"layout(set=0, binding=0) uniform UniformBuffer1 {		\n"
+		"	mat4 uProjection;									\n"
+		"	mat4 uView;											\n"
+		"};														\n"
+		"layout(set=0, binding=1) uniform UniformBuffer2 {		\n"
+		"	mat4 uModel;										\n"
+		"};														\n"
+		"														\n"
+		"void main()											\n"
+		"{														\n"
+		"	vec4 pos = vec4(aPosition, 1.0);					\n"
+		"	gl_Position = uProjection * uView * uModel * pos;	\n"
+		"	vColor = aColor;									\n"
+		"}														\n"
 	;
 
 	static char const* fs_source =
-		"varying  vec4 vColor;						"
-		"											"
-		"void main()								"
-		"{											"
-		"	gl_FragColor = vColor;					"
-		"}											"
+		"#version 420											\n"
+		"#extension GL_ARB_separate_shader_objects : enable		\n"
+		"														\n"
+		"layout (location = 0) in vec4 vColor;					\n"
+		"														\n"
+		"layout (location = 0) out vec4 oColor;					\n"
+		"														\n"
+		"void main()											\n"
+		"{														\n"
+		"	oColor = vColor;									\n"
+		"}														\n"
 	;
 
 	static bksge::Shader const shader
@@ -56,43 +73,53 @@ static bksge::Shader const* GetGLSLShader(void)
 static bksge::Shader const* GetHLSLShader(void)
 {
 	static char const* vs_source =
-		"struct VS_INPUT								"
-		"{												"
-		"	float3 pos   : POSITION;					"
-		"	float4 color : COLOR;						"
-		"};												"
- 		"												"
-		"struct VS_OUTPUT								"
-		"{												"
-		"	float4 pos   : SV_POSITION;					"
-		"	float4 color : COLOR;						"
-		"};												"
-		"												"
-		"cbuffer ConstantBuffer1						"
-		"{												"
-		"	row_major float4x4 uMatrix;					"
-		"};												"
-		"												"
-		"VS_OUTPUT main(VS_INPUT input)					"
-		"{												"
-		"	VS_OUTPUT output;							"
-		"	output.pos = mul(float4(input.pos, 1.0), uMatrix);"
-		"	output.color = input.color;					"
-		"	return output;								"
-		"}												"
+		"struct VS_INPUT								\n"
+		"{												\n"
+		"	float3 pos   : POSITION;					\n"
+		"	float4 color : COLOR;						\n"
+		"};												\n"
+ 		"												\n"
+		"struct VS_OUTPUT								\n"
+		"{												\n"
+		"	float4 pos   : SV_POSITION;					\n"
+		"	float4 color : COLOR;						\n"
+		"};												\n"
+		"												\n"
+		"cbuffer ConstantBuffer1						\n"
+		"{												\n"
+		"	row_major float4x4 uProjection;				\n"
+		"	row_major float4x4 uView;					\n"
+		"};												\n"
+		"cbuffer ConstantBuffer2						\n"
+		"{												\n"
+		"	row_major float4x4 uModel;					\n"
+		"};												\n"
+		"												\n"
+		"VS_OUTPUT main(VS_INPUT input)					\n"
+		"{												\n"
+		"	float4 pos = float4(input.pos, 1.0);		\n"
+		"	pos = mul(pos, uModel);						\n"
+		"	pos = mul(pos, uView);						\n"
+		"	pos = mul(pos, uProjection);				\n"
+		"												\n"
+		"	VS_OUTPUT output;							\n"
+		"	output.pos   = pos;							\n"
+		"	output.color = input.color;					\n"
+		"	return output;								\n"
+		"}												\n"
 	;
 
 	static char const* ps_source =
-		"struct PS_INPUT								"
-		"{												"
-		"	float4 pos   : SV_POSITION;					"
-		"	float4 color : COLOR;						"
-		"};												"
-		"												"
-		"float4 main(PS_INPUT input) : SV_Target		"
-		"{												"
-		"	return input.color;							"
-		"}												"
+		"struct PS_INPUT								\n"
+		"{												\n"
+		"	float4 pos   : SV_POSITION;					\n"
+		"	float4 color : COLOR;						\n"
+		"};												\n"
+		"												\n"
+		"float4 main(PS_INPUT input) : SV_Target		\n"
+		"{												\n"
+		"	return input.color;							\n"
+		"}												\n"
 	;
 
 	static bksge::Shader const shader
@@ -240,21 +267,26 @@ int main()
 		render_state.depth_state().SetEnable(((count / 120) % 2) == 0);
 		count++;
 
-		bksge::Matrix4x4f const mat =
-			bksge::Matrix4x4f::MakeRotationX(rotation_x) *
-			bksge::Matrix4x4f::MakeRotationY(rotation_y) *
-			bksge::Matrix4x4f::MakeLookAt(
-				bksge::Vector3f(0, 2, 5),
-				bksge::Vector3f(0, 0, 0),
-				bksge::Vector3f(0, 1, 0)) *
+		auto const projection =
 			bksge::Matrix4x4f::MakePerspective(
 				bksge::degrees_to_radians(45.0f),
 				800.0f / 600.0f,
 				0.1f,
 				100.0f);
-		shader_parameter.SetParameter("uMatrix", mat);
 
-		shader_parameter.SetParameter("uColor", bksge::Color3f(1, 0, 0));
+		auto const view =
+			bksge::Matrix4x4f::MakeLookAt(
+				bksge::Vector3f(0, 2, 5),
+				bksge::Vector3f(0, 0, 0),
+				bksge::Vector3f(0, 1, 0));
+
+		auto const model =
+			bksge::Matrix4x4f::MakeRotationX(rotation_x) *
+			bksge::Matrix4x4f::MakeRotationY(rotation_y);
+
+		shader_parameter.SetParameter("uProjection", projection);
+		shader_parameter.SetParameter("uView", view);
+		shader_parameter.SetParameter("uModel", model);
 
 		for (auto& renderer : renderers)
 		{

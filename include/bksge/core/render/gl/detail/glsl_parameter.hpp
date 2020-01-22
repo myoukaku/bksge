@@ -32,7 +32,7 @@ namespace gl
 class GlslParameter
 {
 public:
-	explicit GlslParameter(::GLuint program, ::GLint index);
+	explicit GlslParameter(::GLuint program, ::GLuint index);
 
 	~GlslParameter();
 
@@ -40,11 +40,15 @@ public:
 		ResourceCache* resource_cache,
 		bksge::ShaderParameterMap const& shader_parameter_map);
 
+	void LoadUniformBuffer(
+		bksge::ShaderParameterMap const& shader_parameter_map);
+
 private:
 	std::string		m_name;
 	::GLint			m_size;
 	::GLenum		m_type;
 	::GLint			m_location;
+	::GLint			m_offset;
 	std::unique_ptr<GlslParameterSetterBase>	m_setter;
 };
 

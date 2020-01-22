@@ -32,22 +32,28 @@ namespace gl
 class GlslParameterSetterBase
 {
 public:
-	explicit GlslParameterSetterBase(::GLint location);
+	explicit GlslParameterSetterBase(void);
 
 	virtual ~GlslParameterSetterBase();
 
 	void SetParameter(
 		ResourceCache* resource_cache,
-		std::shared_ptr<ShaderParameterBase> const& src) const;
+		std::shared_ptr<ShaderParameterBase> const& src,
+		::GLint location) const;
+
+	void LoadUniformBuffer(
+		std::shared_ptr<ShaderParameterBase> const& src,
+		::GLint offset) const;
 
 private:
 	virtual void VSetParameter(
 		ResourceCache* resource_cache,
-		::GLint location,
-		std::shared_ptr<ShaderParameterBase> const& src) const = 0;
+		std::shared_ptr<ShaderParameterBase> const& src,
+		::GLint location) const = 0;
 
-private:
-	::GLint	m_location;
+	virtual void VLoadUniformBuffer(
+		std::shared_ptr<ShaderParameterBase> const& src,
+		::GLint offset) const = 0;
 };
 
 /**
@@ -62,13 +68,23 @@ public:
 private:
 	void VSetParameter(
 		ResourceCache* resource_cache,
-		::GLint location,
-		std::shared_ptr<ShaderParameterBase> const& src) const override
+		std::shared_ptr<ShaderParameterBase> const& src,
+		::GLint location) const override
 	{
 		if (src)
 		{
 			auto const* v = static_cast<T const*>(src->data());
 			SetParameterImpl(resource_cache, location, *v);
+		}
+	}
+
+	void VLoadUniformBuffer(
+		std::shared_ptr<ShaderParameterBase> const& src,
+		::GLint offset) const override
+	{
+		if (src)
+		{
+			::glBufferSubData(GL_UNIFORM_BUFFER, offset, sizeof(T), src->data());
 		}
 	}
 
