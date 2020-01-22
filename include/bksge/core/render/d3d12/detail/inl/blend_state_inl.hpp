@@ -15,6 +15,7 @@
 #include <bksge/core/render/d3d12/detail/blend_state.hpp>
 #include <bksge/core/render/d3d12/detail/blend_factor.hpp>
 #include <bksge/core/render/d3d12/detail/blend_operation.hpp>
+#include <bksge/core/render/d3d12/detail/bool.hpp>
 #include <bksge/core/render/d3d_common/d3d12.hpp>
 #include <bksge/core/render/blend_state.hpp>
 
@@ -35,7 +36,7 @@ BlendState::BlendState(bksge::BlendState const& blend_state)
 	m_desc.IndependentBlendEnable = FALSE;
 	for (auto& rt : m_desc.RenderTarget)
 	{
-		rt.BlendEnable           = blend_state.enable() ? TRUE : FALSE;
+		rt.BlendEnable           = d3d12::Bool(blend_state.enable());
 		rt.LogicOpEnable         = FALSE;
 		rt.SrcBlend              = d3d12::BlendFactor(blend_state.src_factor());
 		rt.DestBlend             = d3d12::BlendFactor(blend_state.dst_factor());

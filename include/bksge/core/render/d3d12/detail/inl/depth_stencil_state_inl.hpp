@@ -14,6 +14,7 @@
 
 #include <bksge/core/render/d3d12/detail/depth_stencil_state.hpp>
 #include <bksge/core/render/d3d12/detail/comparison_function.hpp>
+#include <bksge/core/render/d3d12/detail/bool.hpp>
 #include <bksge/core/render/d3d_common/d3d12.hpp>
 #include <bksge/core/render/depth_state.hpp>
 #include <bksge/core/render/stencil_state.hpp>
@@ -33,10 +34,10 @@ DepthStencilState::DepthStencilState(
 	bksge::StencilState const& stencil_state)
 	: m_desc{}
 {
-	m_desc.DepthEnable                  = depth_state.enable() ? TRUE : FALSE;
+	m_desc.DepthEnable                  = d3d12::Bool(depth_state.enable());
 	m_desc.DepthWriteMask               = depth_state.write() ? D3D12_DEPTH_WRITE_MASK_ALL : D3D12_DEPTH_WRITE_MASK_ZERO;
 	m_desc.DepthFunc                    = d3d12::ComparisonFunction(depth_state.func());
-	m_desc.StencilEnable                = stencil_state.enable() ? TRUE : FALSE;;
+	m_desc.StencilEnable                = d3d12::Bool(stencil_state.enable());
 //	m_desc.StencilReadMask              = 0u;
 //	m_desc.StencilWriteMask             = 0u;
 //	m_desc.FrontFace.StencilFailOp      = D3D12_STENCIL_OP_KEEP;
