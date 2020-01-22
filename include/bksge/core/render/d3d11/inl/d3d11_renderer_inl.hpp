@@ -26,6 +26,7 @@
 #include <bksge/core/render/d3d11/detail/comparison_function.hpp>
 #include <bksge/core/render/d3d11/detail/bool.hpp>
 #include <bksge/core/render/d3d11/detail/depth_write_mask.hpp>
+#include <bksge/core/render/d3d11/detail/front_counter_clockwise.hpp>
 #include <bksge/core/render/d3d11/detail/resource_cache.hpp>
 #include <bksge/core/render/d3d_common/d3d11.hpp>
 #include <bksge/core/render/dxgi/dxgi_factory.hpp>
@@ -176,7 +177,7 @@ D3D11Renderer::VRender(
 		::D3D11_RASTERIZER_DESC rd;
 		rd.FillMode              = d3d11::FillMode(rasterizer_state.fill_mode());
 		rd.CullMode              = d3d11::CullMode(rasterizer_state.cull_mode());
-		rd.FrontCounterClockwise = (rasterizer_state.front_face() == FrontFace::kCounterClockwise);
+		rd.FrontCounterClockwise = d3d11::FrontCounterClockwise(rasterizer_state.front_face());
 		rd.DepthBias             = 0;
 		rd.DepthBiasClamp        = 0;
 		rd.SlopeScaledDepthBias  = 0;
