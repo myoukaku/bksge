@@ -53,6 +53,7 @@ GTEST_TEST(Render_ShaderParameter, BasicTest)
 	}
 }
 
+#if 0
 GTEST_TEST(Render_ShaderParameter, CompareTest)
 {
 	using namespace bksge;
@@ -90,10 +91,11 @@ GTEST_TEST(Render_ShaderParameter, CompareTest)
 	EXPECT_TRUE (p4 != p6);
 	EXPECT_TRUE (p4 != p7);
 }
+#endif
 
+#if 0
 GTEST_TEST(Render_ShaderParameter, SerializeTest)
 {
-#if 0
 	using namespace bksge;
 	using namespace bksge::render;
 	using namespace bksge::archive;
@@ -109,8 +111,8 @@ GTEST_TEST(Render_ShaderParameter, SerializeTest)
 	SerializeTest<text_woarchive,  text_wiarchive,  std::wstringstream>(p2);
 	SerializeTest<xml_woarchive,   xml_wiarchive,   std::wstringstream>(p1);
 #endif
-#endif
 }
+#endif
 
 #if 0
 
@@ -166,9 +168,9 @@ void SerializeBasePtrTest(void)
 }
 #endif
 
+#if 0
 GTEST_TEST(Render_ShaderParameter, SerializeBasePtrTest)
 {
-#if 0
 	using namespace bksge::archive;
 
 	SerializeBasePtrTest<text_oarchive,   text_iarchive,   std::stringstream> ();
@@ -179,8 +181,8 @@ GTEST_TEST(Render_ShaderParameter, SerializeBasePtrTest)
 	SerializeBasePtrTest<text_woarchive,  text_wiarchive,  std::wstringstream>();
 	SerializeBasePtrTest<xml_woarchive,   xml_wiarchive,   std::wstringstream>();
 #endif
-#endif
 }
+#endif
 
 }	// namespace shader_parameter_test
 

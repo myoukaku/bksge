@@ -32,8 +32,6 @@ public:
 
 	virtual void const* data(void) const = 0;
 
-	virtual bool Equals(ShaderParameterBase const& rhs) const = 0;
-
 	virtual ClassId const& class_id(void) const = 0;
 
 private:
@@ -48,9 +46,6 @@ private:
 	}
 #endif
 };
-
-bool operator==(ShaderParameterBase const& lhs, ShaderParameterBase const& rhs);
-bool operator!=(ShaderParameterBase const& lhs, ShaderParameterBase const& rhs);
 
 }	// namespace render
 

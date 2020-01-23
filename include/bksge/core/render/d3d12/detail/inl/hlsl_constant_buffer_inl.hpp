@@ -78,15 +78,24 @@ HlslConstantBuffer::UpdateParameters(
 {
 	std::vector<std::uint8_t> buf(m_size);
 
+	// ConstantBuffer をまとめて更新
+	{
+		auto param = shader_parameter_map[m_name];
+		if (param)
+		{
+			std::memcpy(buf.data(), param->data(), m_size);
+		}
+	}
+
+	// ConstantBuffer のメンバーを個別に更新
 	for (auto&& variable : m_variables)
 	{
 		auto param = shader_parameter_map[variable.m_name];
 		if (param)
 		{
-			auto src = param->data();
 			std::memcpy(
 				buf.data() + variable.m_start_offset,
-				src,
+				param->data(),
 				variable.m_size);
 		}
 	}

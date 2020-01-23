@@ -39,8 +39,6 @@ public:
 
 	void const* data(void) const override;
 
-	bool Equals(ShaderParameterBase const& rhs) const override;
-
 	ClassId const& class_id(void) const override;
 
 	static ClassId const& StaticClassId(void);

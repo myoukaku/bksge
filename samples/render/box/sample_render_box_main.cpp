@@ -28,11 +28,9 @@ static bksge::Shader const* GetGLSLShader(void)
 		"														\n"
 		"layout (location = 0) out vec4 vColor;					\n"
 		"														\n"
-		"layout(set=0, binding=0) uniform UniformBuffer1 {		\n"
+		"layout(set=0, binding=0) uniform Matrices {			\n"
 		"	mat4 uProjection;									\n"
 		"	mat4 uView;											\n"
-		"};														\n"
-		"layout(set=0, binding=1) uniform UniformBuffer2 {		\n"
 		"	mat4 uModel;										\n"
 		"};														\n"
 		"														\n"
@@ -85,13 +83,10 @@ static bksge::Shader const* GetHLSLShader(void)
 		"	float4 color : COLOR;						\n"
 		"};												\n"
 		"												\n"
-		"cbuffer ConstantBuffer1						\n"
+		"cbuffer Matrices								\n"
 		"{												\n"
 		"	row_major float4x4 uProjection;				\n"
 		"	row_major float4x4 uView;					\n"
-		"};												\n"
-		"cbuffer ConstantBuffer2						\n"
-		"{												\n"
 		"	row_major float4x4 uModel;					\n"
 		"};												\n"
 		"												\n"
@@ -284,9 +279,22 @@ int main()
 			bksge::Matrix4x4f::MakeRotationX(rotation_x) *
 			bksge::Matrix4x4f::MakeRotationY(rotation_y);
 
+#if 0
 		shader_parameter.SetParameter("uProjection", projection);
 		shader_parameter.SetParameter("uView", view);
 		shader_parameter.SetParameter("uModel", model);
+#else
+		struct Matrices
+		{
+			bksge::Matrix4x4f	projection;
+			bksge::Matrix4x4f	view;
+			bksge::Matrix4x4f	model;
+		} matrices;
+		matrices.projection = projection;
+		matrices.view = view;
+		matrices.model = model;
+		shader_parameter.SetParameter("Matrices", matrices);
+#endif
 
 		for (auto& renderer : renderers)
 		{

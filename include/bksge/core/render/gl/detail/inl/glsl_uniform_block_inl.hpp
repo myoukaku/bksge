@@ -65,10 +65,22 @@ GlslUniformBlock::LoadParameter(
 	std::vector<GlslParameterUnique> const& parameters)
 {
 	m_uniform_buffer->Bind();
+
+	// Uniform Block をまとめて更新
+	{
+		auto param = shader_parameter_map[m_name];
+		if (param)
+		{
+			::glBufferSubData(GL_UNIFORM_BUFFER, 0, m_size, param->data());
+		}
+	}
+
+	// Uniform Block のメンバーを個別に更新
 	for (auto index : m_member_indices)
 	{
 		parameters[index]->LoadUniformBuffer(shader_parameter_map);
 	}
+
 	m_uniform_buffer->Unbind();
 }
 

@@ -47,18 +47,6 @@ inline void const* ShaderParameter<T>::data(void) const
 }
 
 template <typename T>
-inline bool ShaderParameter<T>::Equals(ShaderParameterBase const& rhs) const
-{
-	if (rhs.class_id() != class_id())
-	{
-		return false;
-	}
-
-	auto const* t = static_cast<ShaderParameter<T> const*>(&rhs);
-	return m_value == t->m_value;
-}
-
-template <typename T>
 inline ClassId const& ShaderParameter<T>::class_id(void) const
 {
 	return StaticClassId();

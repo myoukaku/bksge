@@ -21,18 +21,6 @@ BKSGE_INLINE
 ShaderParameterBase::~ShaderParameterBase()
 {}
 
-BKSGE_INLINE bool
-operator==(ShaderParameterBase const& lhs, ShaderParameterBase const& rhs)
-{
-	return lhs.Equals(rhs);
-}
-
-BKSGE_INLINE bool
-operator!=(ShaderParameterBase const& lhs, ShaderParameterBase const& rhs)
-{
-	return !(lhs == rhs);
-}
-
 }	// namespace render
 
 }	// namespace bksge
