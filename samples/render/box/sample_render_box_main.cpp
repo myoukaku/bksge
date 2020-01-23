@@ -19,7 +19,6 @@ namespace
 
 static bksge::Shader const* GetGLSLShader(void)
 {
-#if 1
 	static char const* vs_source =
 		"#version 420											\n"
 		"#extension GL_ARB_separate_shader_objects : enable		\n"
@@ -56,77 +55,6 @@ static bksge::Shader const* GetGLSLShader(void)
 		"	oColor = vColor;									\n"
 		"}														\n"
 	;
-#endif
-#if 0
-	static char const* vs_source =
-		"#version 400												\n"
-		"#extension GL_ARB_separate_shader_objects : enable			\n"
-		"#extension GL_ARB_shading_language_420pack : enable		\n"
-		"															\n"
-		"layout (location = 0) in vec3 aPosition;					\n"
-		"layout (location = 1) in vec4 aColor;						\n"
-		"															\n"
-		"layout (location = 0) out vec4 vColor;						\n"
-		"															\n"
-		"layout(set=0, binding=0) uniform SceneMatrices {			\n"
-		"    mat4 uProjection;										\n"
-		"    mat4 uView;											\n"
-		"};															\n"
-		"layout(set=0, binding=1) uniform ModelMatrices {			\n"
-		"    mat4 uModel;											\n"
-		"};															\n"
-		"layout(set=1, binding=0) uniform texture2D LightMap;		\n"
-		"layout(set=2, binding=0) uniform sampler LightMapSampler;	\n"
-		"layout(set=3, binding=0) uniform sampler2D BoneMap;		\n"
-		"															\n"
-		"void main()												\n"
-		"{															\n"
-		"	LightMap;												\n"
-		"	LightMapSampler;										\n"
-		"	BoneMap;												\n"
-		"	gl_Position = uModel * uView * uProjection* vec4(aPosition, 1.0);	\n"
-		"	vColor = aColor;										\n"
-		"}															\n"
-	;
-
-	static char const* fs_source =
-		"#version 400													\n"
-		"#extension GL_ARB_separate_shader_objects : enable				\n"
-		"#extension GL_ARB_shading_language_420pack : enable			\n"
-		"																\n"
-		"layout (location = 0) in vec4 vColor;							\n"
-		"																\n"
-		"layout (location = 0) out vec4 oColor;							\n"
-		"																\n"
-		"layout(set=0, binding=1) uniform ModelMatrices {		        \n"
-		"    mat4 uModel;		                                        \n"
-		"};		                                                        \n"
-		"layout(set=0, binding=2) uniform Material {		            \n"
-		"    vec4 uColorScale;		                                    \n"
-		"};		                                                        \n"
-		"layout(set=0, binding=3) uniform Camera {		                \n"
-		"    vec3 uCameraPos[3];	                                    \n"
-		"};		                                                        \n"
-		"layout(set=1, binding=0) uniform texture2D LightMap;		    \n"
-		"layout(set=1, binding=1) uniform texture2D ColorTexture;		\n"
-		"layout(set=2, binding=0) uniform sampler LightMapSampler;		\n"
-		"layout(set=2, binding=1) uniform sampler ColorTextureSampler;	\n"
-		"														        \n"
-		"void main()											        \n"
-		"{														        \n"
-		"	uModel;														\n"
-		"	uColorScale;												\n"
-		"	uCameraPos[0];													\n"
-		"	uCameraPos[1];													\n"
-		"	uCameraPos[2];													\n"
-		"	LightMap;													\n"
-		"	ColorTexture;												\n"
-		"	LightMapSampler;											\n"
-		"	ColorTextureSampler;										\n"
-		"	oColor = vColor;											\n"
-		"}														        \n"
-	;
-#endif
 
 	static bksge::Shader const shader
 	{

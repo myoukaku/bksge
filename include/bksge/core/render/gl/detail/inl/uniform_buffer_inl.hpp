@@ -26,11 +26,11 @@ namespace gl
 BKSGE_INLINE
 UniformBuffer::UniformBuffer(void const* src, ::GLsizeiptr size, ::GLint binding)
 	: m_id(0)
+	, m_binding(binding)
 {
 	::glGenBuffers(1, &m_id);
 	Bind();
 	::glBufferData(GL_UNIFORM_BUFFER, size, src, GL_DYNAMIC_DRAW);
-	::glBindBufferBase(GL_UNIFORM_BUFFER, binding, m_id);
 	Unbind();
 }
 
@@ -44,6 +44,7 @@ BKSGE_INLINE void
 UniformBuffer::Bind(void) const
 {
 	::glBindBuffer(GL_UNIFORM_BUFFER, m_id);
+	::glBindBufferBase(GL_UNIFORM_BUFFER, m_binding, m_id);
 }
 
 BKSGE_INLINE void

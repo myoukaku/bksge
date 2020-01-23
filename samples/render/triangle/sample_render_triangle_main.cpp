@@ -18,10 +18,10 @@ namespace
 static bksge::Shader const* GetGLSLShader(void)
 {
 	char const* vs_source =
-		"#version 400								\n"
+		"#version 400											\n"
 		"#extension GL_ARB_separate_shader_objects : enable		\n"
 		"#extension GL_ARB_shading_language_420pack : enable	\n"
-		"											\n"
+		"														\n"
 		"layout (location = 0) in vec3 aPosition;	\n"
 		"											\n"
 		"void main()								\n"
@@ -90,7 +90,7 @@ int main()
 	std::vector<std::shared_ptr<bksge::Renderer>>	renderers;
 	std::vector<std::shared_ptr<bksge::Window>>		windows;
 
-#if 0//BKSGE_CORE_RENDER_HAS_D3D11_RENDERER
+#if BKSGE_CORE_RENDER_HAS_D3D11_RENDERER
 	{
 		std::shared_ptr<bksge::Window> window(
 			new bksge::Window({800, 600}, "sample_render_triangle - D3D11"));
@@ -102,7 +102,7 @@ int main()
 		renderer->SetClearColor({0.5f, 0.0f, 0.5f, 1});
 	}
 #endif
-#if 0//BKSGE_CORE_RENDER_HAS_D3D12_RENDERER
+#if BKSGE_CORE_RENDER_HAS_D3D12_RENDERER
 	{
 		std::shared_ptr<bksge::Window> window(
 			new bksge::Window({800, 600}, "sample_render_triangle - D3D12"));
@@ -114,7 +114,7 @@ int main()
 		renderer->SetClearColor({0.5f, 0.0f, 0.5f, 1});
 	}
 #endif
-#if 0//BKSGE_CORE_RENDER_HAS_GL_RENDERER
+#if BKSGE_CORE_RENDER_HAS_GL_RENDERER
 	{
 		std::shared_ptr<bksge::Window> window(
 			new bksge::Window({800, 600}, "sample_render_triangle - GL"));

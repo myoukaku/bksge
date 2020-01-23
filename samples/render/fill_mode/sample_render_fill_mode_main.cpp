@@ -75,22 +75,35 @@ private:
 	static bksge::Shader const* GetGLSLShader(void)
 	{
 		static char const* vs_source =
-			"attribute vec3 aPosition;					"
-			"uniform mat4 uMatrix;						"
-			"											"
-			"void main()								"
-			"{											"
-			"	gl_Position = uMatrix * vec4(aPosition, 1.0);		"
-			"}											"
+			"#version 420											\n"
+			"#extension GL_ARB_separate_shader_objects : enable		\n"
+			"														\n"
+			"layout (location = 0) in vec3 aPosition;				\n"
+			"														\n"
+			"layout(set=0, binding=0) uniform UniformBuffer1 {		\n"
+			"	mat4 uMatrix;										\n"
+			"};														\n"
+			"														\n"
+			"void main()											\n"
+			"{														\n"
+			"	gl_Position = uMatrix * vec4(aPosition, 1.0);		\n"
+			"}														\n"
 		;
 
 		static char const* fs_source =
-			"uniform vec3 uColor;						"
-			"											"
-			"void main()								"
-			"{											"
-			"	gl_FragColor = vec4(uColor, 1.0);		"
-			"}											"
+			"#version 420											\n"
+			"#extension GL_ARB_separate_shader_objects : enable		\n"
+			"														\n"
+			"layout (location = 0) out vec4 oColor;					\n"
+			"														\n"
+			"layout(set=0, binding=1) uniform UniformBuffer2 {		\n"
+			"	vec3 uColor;										\n"
+			"};														\n"
+			"														\n"
+			"void main()											\n"
+			"{														\n"
+			"	oColor = vec4(uColor, 1.0);							\n"
+			"}														\n"
 		;
 
 		static bksge::Shader const shader
@@ -198,6 +211,18 @@ int main()
 		windows.push_back(window);
 
 		std::shared_ptr<bksge::GlRenderer> renderer(new bksge::GlRenderer(*window));
+		renderers.push_back(renderer);
+		renderer->SetClearColor({0.5f, 0.0f, 0.5f, 1});
+	}
+#endif
+#if BKSGE_CORE_RENDER_HAS_VULKAN_RENDERER
+	{
+		std::shared_ptr<bksge::Window> window(
+			new bksge::Window({800, 600}, "sample_render_fill_mode - Vulkan"));
+		windows.push_back(window);
+
+		std::shared_ptr<bksge::VulkanRenderer> renderer(
+			new bksge::VulkanRenderer(*window));
 		renderers.push_back(renderer);
 		renderer->SetClearColor({0.5f, 0.0f, 0.5f, 1});
 	}

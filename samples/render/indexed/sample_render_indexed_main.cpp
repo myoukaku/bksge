@@ -15,24 +15,33 @@ namespace
 static bksge::Shader const* GetGLSLShader(void)
 {
 	char const* vs_source =
-		"attribute vec3 aPosition;					"
-		"attribute vec4 aColor;						"
-		"varying  vec4 vColor;						"
-		"											"
-		"void main()								"
-		"{											"
-		"	gl_Position = vec4(aPosition, 1.0);		"
-		"	vColor = aColor;						"
-		"}											"
+		"#version 420											\n"
+		"#extension GL_ARB_separate_shader_objects : enable		\n"
+		"														\n"
+		"layout (location = 0) in vec3 aPosition;				\n"
+		"layout (location = 1) in vec4 aColor;					\n"
+		"														\n"
+		"layout (location = 0) out vec4 vColor;					\n"
+		"														\n"
+		"void main()											\n"
+		"{														\n"
+		"	gl_Position = vec4(aPosition, 1.0);					\n"
+		"	vColor = aColor;									\n"
+		"}														\n"
 	;
 
 	char const* fs_source =
-		"varying  vec4 vColor;						"
-		"											"
-		"void main()								"
-		"{											"
-		"	gl_FragColor = vColor;					"
-		"}											"
+		"#version 420											\n"
+		"#extension GL_ARB_separate_shader_objects : enable		\n"
+		"														\n"
+		"layout (location = 0) in vec4 vColor;					\n"
+		"														\n"
+		"layout (location = 0) out vec4 oColor;					\n"
+		"														\n"
+		"void main()											\n"
+		"{														\n"
+		"	oColor = vColor;									\n"
+		"}														\n"
 	;
 
 	static bksge::Shader const shader
@@ -135,6 +144,18 @@ int main()
 
 		std::shared_ptr<bksge::GlRenderer> renderer(
 			new bksge::GlRenderer(*window));
+		renderers.push_back(renderer);
+		renderer->SetClearColor({0.5f, 0.0f, 0.5f, 1});
+	}
+#endif
+#if BKSGE_CORE_RENDER_HAS_VULKAN_RENDERER
+	{
+		std::shared_ptr<bksge::Window> window(
+			new bksge::Window({800, 600}, "sample_render_indexed - Vulkan"));
+		windows.push_back(window);
+
+		std::shared_ptr<bksge::VulkanRenderer> renderer(
+			new bksge::VulkanRenderer(*window));
 		renderers.push_back(renderer);
 		renderer->SetClearColor({0.5f, 0.0f, 0.5f, 1});
 	}

@@ -20,24 +20,37 @@ namespace
 static bksge::Shader const* GetGLSLShader(void)
 {
 	char const* vs_source =
-		"attribute vec3 aPosition;					"
-		"uniform vec3 uOffset;						"
-		"											"
-		"void main()								"
-		"{											"
-		"	gl_Position = vec4(aPosition + uOffset, 1.0);		"
-		"}											"
+		"#version 420											\n"
+		"#extension GL_ARB_separate_shader_objects : enable		\n"
+		"														\n"
+		"layout (location = 0) in vec3 aPosition;				\n"
+		"														\n"
+		"layout(set=0, binding=0) uniform UniformBuffer1 {		\n"
+		"	vec3 uOffset;										\n"
+		"};														\n"
+		"														\n"
+		"void main()											\n"
+		"{														\n"
+		"	gl_Position = vec4(aPosition + uOffset, 1.0);		\n"
+		"}														\n"
 	;
 
 	char const* fs_source =
-		"uniform float uRed;						"
-		"uniform float uGreen;						"
-		"uniform float uBlue;						"
-		"											"
-		"void main()								"
-		"{											"
-		"	gl_FragColor = vec4(uRed, uGreen, uBlue, 1.0);"
-		"}											"
+		"#version 420											\n"
+		"#extension GL_ARB_separate_shader_objects : enable		\n"
+		"														\n"
+		"layout (location = 0) out vec4 oColor;					\n"
+		"														\n"
+		"layout(set=0, binding=1) uniform UniformBuffer2 {		\n"
+		"	float uRed;											\n"
+		"	float uGreen;										\n"
+		"	float uBlue;										\n"
+		"};														\n"
+		"														\n"
+		"void main()											\n"
+		"{														\n"
+		"	oColor = vec4(uRed, uGreen, uBlue, 1.0);			\n"
+		"}														\n"
 	;
 
 	static bksge::Shader const shader
@@ -135,6 +148,18 @@ int main()
 
 		std::shared_ptr<bksge::GlRenderer> renderer(
 			new bksge::GlRenderer(*window));
+		renderers.push_back(renderer);
+		renderer->SetClearColor({0.5f, 0.0f, 0.5f, 1});
+	}
+#endif
+#if BKSGE_CORE_RENDER_HAS_VULKAN_RENDERER
+	{
+		std::shared_ptr<bksge::Window> window(
+			new bksge::Window({800, 600}, "sample_render_constant_buffer - Vulkan"));
+		windows.push_back(window);
+
+		std::shared_ptr<bksge::VulkanRenderer> renderer(
+			new bksge::VulkanRenderer(*window));
 		renderers.push_back(renderer);
 		renderer->SetClearColor({0.5f, 0.0f, 0.5f, 1});
 	}

@@ -36,7 +36,8 @@ public:
 	void Unbind(void) const;
 
 private:
-	::GLuint m_id;
+	::GLuint m_id = 0;
+	::GLuint m_binding = 0;
 };
 
 }	// namespace gl
