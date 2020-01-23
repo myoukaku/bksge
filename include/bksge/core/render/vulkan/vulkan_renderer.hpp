@@ -21,21 +21,22 @@
 #include <bksge/core/render/vulkan/detail/fwd/depth_buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/render_pass_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/framebuffer_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/shader_fwd.hpp>
-//#include <bksge/core/render/vulkan/detail/fwd/uniform_buffer_fwd.hpp>
+//#include <bksge/core/render/vulkan/detail/fwd/shader_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/uniform_buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/fence_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/semaphore_fwd.hpp>
 //#include <bksge/core/render/vulkan/detail/fwd/pipeline_cache_fwd.hpp>
 //#include <bksge/core/render/vulkan/detail/fwd/descriptor_set_layout_fwd.hpp>
 //#include <bksge/core/render/vulkan/detail/fwd/image_view_fwd.hpp>
 //#include <bksge/core/render/vulkan/detail/fwd/pipeline_layout_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/graphics_pipeline_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/geometry_fwd.hpp>
+//#include <bksge/core/render/vulkan/detail/fwd/graphics_pipeline_fwd.hpp>
+//#include <bksge/core/render/vulkan/detail/fwd/geometry_fwd.hpp>
 //#include <bksge/core/render/vulkan/detail/fwd/descriptor_pool_fwd.hpp>
 //#include <bksge/core/render/vulkan/detail/fwd/descriptor_set_fwd.hpp>
 //#include <bksge/core/render/vulkan/detail/fwd/graphics_pipeline_fwd.hpp>
-//#include <bksge/core/render/vulkan/detail/fwd/resource_cache_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/resource_pool_fwd.hpp>
 //#include <bksge/core/render/vulkan/detail/shader_stage.hpp>
+#include <bksge/core/render/vulkan/detail/vulkan_h.hpp>
 #include <bksge/core/render/fwd/geometry_fwd.hpp>
 #include <bksge/core/render/fwd/render_state_fwd.hpp>
 #include <bksge/core/render/fwd/shader_fwd.hpp>
@@ -43,9 +44,6 @@
 #include <bksge/core/window/fwd/window_fwd.hpp>
 #include <memory>
 #include <vector>
-
-#include <bksge/core/render/vulkan/detail/vulkan_h.hpp>
-#include <bksge/core/math/matrix4x4.hpp>
 
 namespace bksge
 {
@@ -86,11 +84,10 @@ private:
 	std::unique_ptr<vulkan::DepthBuffer>				m_depth_buffer;
 	std::unique_ptr<vulkan::RenderPass>					m_render_pass;
 	std::vector<std::unique_ptr<vulkan::Framebuffer>>	m_framebuffers;
-	std::unique_ptr<vulkan::Shader>						m_shader;
-	std::unique_ptr<vulkan::GraphicsPipeline>			m_graphics_pipeline;
-	std::unique_ptr<vulkan::Geometry>					m_geometry;
 	std::unique_ptr<vulkan::Fence>						m_draw_fence;
 	std::unique_ptr<vulkan::Semaphore>					m_image_acquired_semaphore;
+	std::unique_ptr<vulkan::ResourcePool>				m_resource_pool;
+	std::unique_ptr<vulkan::UniformBuffer>				m_uniform_buffer;
 	std::uint32_t										m_frame_index = 0;
 };
 

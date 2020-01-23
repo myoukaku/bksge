@@ -36,11 +36,10 @@ namespace d3d11
 namespace detail
 {
 
-template <typename Ret, typename Map, typename Src, typename... Args>
+template <typename Ret, typename Map, typename Id, typename... Args>
 inline typename Map::mapped_type
-GetOrCreate(Device* device, Map& map, Src const& src, Args... args)
+GetOrCreate(Map& map, Id const& id, Args&&... args)
 {
-	auto const& id = src.id();
 	{
 		auto const& it = map.find(id);
 
@@ -50,7 +49,7 @@ GetOrCreate(Device* device, Map& map, Src const& src, Args... args)
 		}
 	}
 
-	auto p = std::make_shared<Ret>(device, src, bksge::forward<Args>(args)...);
+	auto p = std::make_shared<Ret>(bksge::forward<Args>(args)...);
 	map[id] = p;
 	return p;
 }
@@ -71,28 +70,28 @@ BKSGE_INLINE HlslProgramShared
 ResourceCache::GetD3D11HlslProgram(Device* device, bksge::Shader const& shader)
 {
 	return detail::GetOrCreate<HlslProgram>(
-		device, m_hlsl_program_map, shader);
+		m_hlsl_program_map, shader.id(), device, shader);
 }
 
 BKSGE_INLINE GeometryShared
 ResourceCache::GetD3D11Geometry(Device* device, bksge::Geometry const& geometry)
 {
 	return detail::GetOrCreate<Geometry>(
-		device, m_geometry_map, geometry);
+		m_geometry_map, geometry.id(), device, geometry);
 }
 
 BKSGE_INLINE TextureShared
 ResourceCache::GetD3D11Texture(Device* device, bksge::Texture const& texture)
 {
 	return detail::GetOrCreate<Texture>(
-		device, m_texture_map, texture);
+		m_texture_map, texture.id(), device, texture);
 }
 
 BKSGE_INLINE SamplerShared
 ResourceCache::GetD3D11Sampler(Device* device, bksge::Sampler const& sampler)
 {
 	return detail::GetOrCreate<Sampler>(
-		device, m_sampler_map, sampler);
+		m_sampler_map, sampler.id(), device, sampler);
 }
 
 }	// namespace d3d11

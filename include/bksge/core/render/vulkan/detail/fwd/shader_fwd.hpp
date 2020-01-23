@@ -9,6 +9,10 @@
 #ifndef BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_SHADER_FWD_HPP
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_SHADER_FWD_HPP
 
+#include <bksge/core/render/detail/identifier.hpp>
+#include <map>
+#include <memory>
+
 namespace bksge
 {
 
@@ -19,6 +23,9 @@ namespace vulkan
 {
 
 class Shader;
+
+using ShaderSharedPtr = std::shared_ptr<Shader>;
+using ShaderSharedPtrMap = std::map<Identifier, ShaderSharedPtr>;
 
 }	// namespace vulkan
 

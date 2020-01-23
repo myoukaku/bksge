@@ -67,7 +67,7 @@ DescriptorSetLayout::DescriptorSetLayout(
 
 	detail::CreateDescriptorSetLayoutBindingList(
 		reflection.GetUniformBuffers(),
-		VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+		VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC,
 		&descriptor_set_layout_bindings_list);
 
 	std::vector<vk::DescriptorSetLayoutCreateInfo> info;

@@ -25,7 +25,7 @@ namespace vulkan
 class Geometry;
 
 using GeometrySharedPtr = std::shared_ptr<Geometry>;
-using GeometryMap = std::map<Identifier, GeometrySharedPtr>;
+using GeometrySharedPtrMap = std::map<Identifier, GeometrySharedPtr>;
 
 }	// namespace vulkan
 

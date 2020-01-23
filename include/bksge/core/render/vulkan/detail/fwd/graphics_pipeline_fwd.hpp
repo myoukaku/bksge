@@ -9,6 +9,9 @@
 #ifndef BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_GRAPHICS_PIPELINE_FWD_HPP
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_GRAPHICS_PIPELINE_FWD_HPP
 
+#include <map>
+#include <memory>
+
 namespace bksge
 {
 
@@ -19,6 +22,8 @@ namespace vulkan
 {
 
 class GraphicsPipeline;
+using GraphicsPipelineSharedPtr = std::shared_ptr<GraphicsPipeline>;
+using GraphicsPipelineSharedPtrMap = std::map<std::size_t, GraphicsPipelineSharedPtr>;
 
 }	// namespace vulkan
 

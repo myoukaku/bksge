@@ -83,9 +83,12 @@ VkResult vkGetPhysicalDeviceImageFormatProperties(
     VkImageCreateFlags                          flags,
     VkImageFormatProperties*                    pImageFormatProperties);
 
-void vkGetPhysicalDeviceProperties(
+inline void GetPhysicalDeviceProperties(
     VkPhysicalDevice                            physicalDevice,
-    VkPhysicalDeviceProperties*                 pProperties);
+    VkPhysicalDeviceProperties*                 pProperties)
+{
+	::vkGetPhysicalDeviceProperties(physicalDevice, pProperties);
+}
 
 inline void GetPhysicalDeviceQueueFamilyProperties(
     VkPhysicalDevice                            physicalDevice,

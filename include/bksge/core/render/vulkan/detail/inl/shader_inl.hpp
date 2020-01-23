@@ -20,7 +20,9 @@
 #include <bksge/core/render/vulkan/detail/descriptor_pool.hpp>
 #include <bksge/core/render/vulkan/detail/descriptor_set_layout.hpp>
 #include <bksge/core/render/vulkan/detail/descriptor_set.hpp>
+#include <bksge/core/render/vulkan/detail/uniform_buffer_setter.hpp>
 #include <bksge/core/render/vulkan/detail/uniform_buffer.hpp>
+#include <bksge/core/render/vulkan/detail/buffer.hpp>
 #include <bksge/core/render/vulkan/detail/glsl_to_spv.hpp>
 #include <bksge/core/render/vulkan/detail/shader_reflection.hpp>
 #include <bksge/core/render/shader.hpp>
@@ -65,7 +67,8 @@ inline ::VkShaderStageFlagBits ToVkShaderStage(spv::ExecutionModel model)
 BKSGE_INLINE
 Shader::Shader(
 	vulkan::DeviceSharedPtr const& device,
-	bksge::Shader const& shader)
+	bksge::Shader const& shader,
+	vulkan::UniformBuffer* uniform_buffer)
 	: m_device(device)
 {
 	// Create Spv List
@@ -95,15 +98,17 @@ Shader::Shader(
 	// Create UniformBuffers
 	for (auto const& info : reflection.GetUniformBuffers())
 	{
-		auto const& set     = info.set;
-		auto const& binding = info.binding;
-
-		m_uniform_buffer_map[set][binding] =
-			bksge::make_unique<vulkan::UniformBuffer>(m_device, info);
+		m_uniform_buffer_setter.push_back(
+			bksge::make_unique<vulkan::UniformBufferSetter>(info));
 	}
 
 	m_descriptor_set = bksge::make_unique<vulkan::DescriptorSet>(
 		m_device, reflection);
+
+	::VkDescriptorBufferInfo buffer_info;
+	buffer_info.buffer = *(uniform_buffer->GetBuffer());
+	buffer_info.offset = 0;
+	buffer_info.range  = VK_WHOLE_SIZE;
 
 	// Update DescriptorSet
 	{
@@ -113,16 +118,15 @@ Shader::Shader(
 		{
 			auto const& set             = info.set;
 			auto const& binding         = info.binding;
-			//auto const& descriptor_type = info.descriptor_type;
 
 			vk::WriteDescriptorSet write;
 			write.dstSet           = m_descriptor_set->Get()[set];
 			write.dstBinding       = binding;
 			write.dstArrayElement  = 0;
 			write.descriptorCount  = 1;
-			write.descriptorType   = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;//descriptor_type; TODO
+			write.descriptorType   = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC;
 			write.pImageInfo       = nullptr;
-			write.pBufferInfo      = m_uniform_buffer_map[set][binding]->GetDescriptorBufferInfo();
+			write.pBufferInfo      = &buffer_info;
 			//write.pTexelBufferView = nullptr;
 
 			writes.push_back(write);
@@ -164,16 +168,20 @@ Shader::GetDescriptorSet(void) const
 	return m_descriptor_set;
 }
 
-BKSGE_INLINE void
-Shader::LoadParameters(bksge::ShaderParameterMap const& shader_parameter_map)
+BKSGE_INLINE std::vector<std::uint32_t>
+Shader::LoadParameters(
+	bksge::ShaderParameterMap const& shader_parameter_map,
+	vulkan::UniformBuffer* uniform_buffer)
 {
-	for (auto&& i : m_uniform_buffer_map)
+	std::vector<std::uint32_t> offsets;
+
+	for (auto&& setter : m_uniform_buffer_setter)
 	{
-		for (auto&& j : i.second)
-		{
-			j.second->LoadParameters(shader_parameter_map);
-		}
+		offsets.push_back(static_cast<std::uint32_t>(
+			setter->LoadParameters(shader_parameter_map, uniform_buffer)));
 	}
+
+	return offsets;
 }
 
 BKSGE_INLINE void
@@ -195,74 +203,6 @@ Shader::AddShaderStage(
 	vk::CreateShaderModule(*m_device, &module_create_info, nullptr, &shader_stage_create_info.module);
 
 	m_shader_stages.push_back(shader_stage_create_info);
-
-
-#if 0
-	for (auto const& resource : resources.uniform_buffers)
-	{
-		auto const spirv_type = glsl.get_type(resource.type_id);
-		auto const base_type = spirv_type.basetype;
-		auto const res_name = resource.name.c_str();
-		auto const offset = glsl.get_decoration(resource.id, spv::DecorationOffset);
-		auto const arraysize = spirv_type.array.empty() ? 0 : spirv_type.array[0];
-		auto const bytesize = spirv_type.basetype == spirv_cross::SPIRType::Struct ? glsl.get_declared_struct_size(spirv_type) : 0;
-		auto const descriptor_set = glsl.get_decoration(resource.id, spv::DecorationDescriptorSet);
-		auto const binding = glsl.get_decoration(resource.id, spv::DecorationBinding);
-		auto const member_count = spirv_type.member_types.size();
-		const char* BaseTypeName[] =
-		{
-			"Unknown",
-			"Void",
-			"Boolean",
-			"SByte",
-			"UByte",
-			"Short",
-			"UShort",
-			"Int",
-			"UInt",
-			"Int64",
-			"UInt64",
-			"AtomicCounter",
-			"Half",
-			"Float",
-			"Double",
-			"Struct",
-			"Image",
-			"SampledImage",
-			"Sampler",
-			"AccelerationStructureNV",
-		};
-
-		printf("UniformBuffer\n");
-		printf("name           :%s\n", res_name);
-		printf("base_type      :%s\n", BaseTypeName[base_type]);
-		printf("offset         :%u\n", offset);
-		printf("arraysize      :%u\n", arraysize);
-		printf("bytesize       :%zu\n", bytesize);
-		printf("descriptor_set :%u\n", descriptor_set);
-		printf("binding        :%u\n", binding);
-		printf("member_count   :%zu\n", member_count);
-
-		for (std::uint32_t index = 0; index < member_count; ++index)
-		{
-			auto const& member_type_id = spirv_type.member_types[index];
-
-			auto const member_type      = glsl.get_type(member_type_id);
-			auto const member_baseType  = member_type.basetype;
-			auto const member_name      = glsl.get_member_name(resource.base_type_id, index).c_str();
-			auto const member_bytesize  = glsl.get_declared_struct_member_size(spirv_type, index);
-			auto const member_offset    = glsl.get_member_decoration(resource.base_type_id, index, spv::DecorationOffset);
-			auto const member_arraysize = member_type.array.empty() ? 0 : member_type.array[0];
-
-			printf("    member_name      :%s\n", member_name);
-			printf("    member_baseType  :%s\n", BaseTypeName[member_baseType]);
-			printf("    member_bytesize  :%zu\n", member_bytesize);
-			printf("    member_offset    :%u\n", member_offset);
-			printf("    member_arraysize :%u\n", member_arraysize);
-			printf("\n");
-		}
-	}
-#endif
 }
 
 }	// namespace vulkan

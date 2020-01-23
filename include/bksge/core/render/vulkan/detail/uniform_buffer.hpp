@@ -13,13 +13,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_memory_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/shader_reflection_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan_h.hpp>
-#include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
-#include <cstddef>
-#include <cstdint>
-#include <string>
-#include <vector>
 #include <memory>
 
 namespace bksge
@@ -36,29 +30,25 @@ class UniformBuffer
 public:
 	explicit UniformBuffer(
 		vulkan::DeviceSharedPtr const& device,
-		vulkan::ShaderReflectionUniformBuffer const& reflection);
+		::VkDeviceSize                 size);
 
 	~UniformBuffer();
 
-	void LoadParameters(bksge::ShaderParameterMap const& shader_parameter_map);
+	vulkan::BufferUniquePtr const& GetBuffer() const;
 
-	::VkDescriptorBufferInfo const* GetDescriptorBufferInfo(void) const;
+	std::uint8_t* GetMappedBuffer(void) const;
+
+	std::size_t Allocate(std::size_t size);
+
+	void BeginFrame(void);
 
 private:
-	struct Variable
-	{
-		std::string		name;
-		std::size_t		bytes;
-		std::uint32_t	offset;
-	};
-
 	vulkan::DeviceSharedPtr			m_device;
 	vulkan::BufferUniquePtr			m_buffer;
 	vulkan::DeviceMemoryUniquePtr	m_device_memory;
-	::VkDescriptorBufferInfo		m_descriptor_buffer_info;
-	std::string						m_name;
-	std::size_t						m_bytes = 0;
-	std::vector<Variable>			m_variables;
+	std::uint8_t*					m_mapped_buffer = nullptr;
+	std::size_t						m_offset = 0;
+	std::size_t						m_offset_alignment = 0;
 };
 
 }	// namespace vulkan

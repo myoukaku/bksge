@@ -35,9 +35,9 @@ public:
 		vulkan::DeviceSharedPtr const& device,
 		::VkSampleCountFlagBits num_samples,
 		bksge::Geometry const& geometry,
+		bksge::RenderState const& render_state,
 		vulkan::RenderPass const& render_pass,
-		vulkan::Shader const& shader,
-		bksge::RenderState const& render_state);
+		vulkan::Shader const& shader);
 
 	~GraphicsPipeline();
 

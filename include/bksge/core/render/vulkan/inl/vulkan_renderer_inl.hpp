@@ -38,6 +38,7 @@
 #include <bksge/core/render/vulkan/detail/descriptor_set.hpp>
 #include <bksge/core/render/vulkan/detail/geometry.hpp>
 #include <bksge/core/render/vulkan/detail/image_view.hpp>
+#include <bksge/core/render/vulkan/detail/resource_pool.hpp>
 #include <bksge/core/render/shader.hpp>
 #include <bksge/core/math/matrix4x4.hpp>
 #include <bksge/core/math/vector3.hpp>
@@ -224,6 +225,10 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 
 	m_draw_fence = bksge::make_unique<vulkan::Fence>(m_device);
 	m_image_acquired_semaphore = bksge::make_unique<vulkan::Semaphore>(m_device);
+	m_resource_pool = bksge::make_unique<vulkan::ResourcePool>();
+	m_uniform_buffer = bksge::make_unique<vulkan::UniformBuffer>(
+		m_device,
+		256 * 1024);	// TODO
 }
 
 BKSGE_INLINE
@@ -246,6 +251,8 @@ VulkanRenderer::VBegin(void)
 	// TODO: Deal with the VK_SUBOPTIMAL_KHR and VK_ERROR_OUT_OF_DATE_KHR
 	// return codes
 	assert(res == VK_SUCCESS);
+
+	m_uniform_buffer->BeginFrame();
 
 	{
 		vk::CommandBufferBeginInfo cmd_buf_info;
@@ -367,47 +374,44 @@ VulkanRenderer::VRender(
 		return false;
 	}
 
-	if (!m_shader)
-	{
-		m_shader = bksge::make_unique<vulkan::Shader>(m_device, shader);
-	}
+	auto vk_shader =
+		m_resource_pool->GetShader(
+			m_device,
+			shader,
+			m_uniform_buffer.get());
 
-	if (!m_graphics_pipeline)
-	{
-		m_graphics_pipeline = bksge::make_unique<vulkan::GraphicsPipeline>(
+	auto graphics_pipeline =
+		m_resource_pool->GetGraphicsPipeline(
 			m_device,
 			NUM_SAMPLES,
 			geometry,
+			shader,
+			render_state,
 			*m_render_pass,
-			*m_shader,
-			render_state);
-	}
+			m_uniform_buffer.get());
 
-	m_shader->LoadParameters(shader_parameter_map);
+	auto offsets = vk_shader->LoadParameters(
+		shader_parameter_map,
+		m_uniform_buffer.get());
 
 	vk::CmdBindPipeline(
 		*m_command_buffer,
 		VK_PIPELINE_BIND_POINT_GRAPHICS,
-		*m_graphics_pipeline);
+		*graphics_pipeline);
 
 	vk::CmdBindDescriptorSets(
 		*m_command_buffer,
 		VK_PIPELINE_BIND_POINT_GRAPHICS,
-		m_graphics_pipeline->GetLayout(),
+		graphics_pipeline->GetLayout(),
 		0,
-		static_cast<std::uint32_t>(m_shader->GetDescriptorSet()->Get().size()),
-		m_shader->GetDescriptorSet()->Get().data(),
-		0,
-		nullptr);
+		static_cast<std::uint32_t>(vk_shader->GetDescriptorSet()->Get().size()),
+		vk_shader->GetDescriptorSet()->Get().data(),
+		static_cast<std::uint32_t>(offsets.size()),
+		offsets.data());
 
-	if (!m_geometry)
-	{
-		m_geometry =
-			bksge::make_unique<vulkan::Geometry>(
-				m_device, geometry);
-	}
+	auto vk_geometry = m_resource_pool->GetGeometry(m_device, geometry);
 
-	m_geometry->Draw(m_command_buffer.get());
+	vk_geometry->Draw(m_command_buffer.get());
 
 	return true;
 }

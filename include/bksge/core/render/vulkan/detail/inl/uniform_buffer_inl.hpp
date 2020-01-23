@@ -21,6 +21,7 @@
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/shader_parameter_map.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
+#include <bksge/fnd/cmath/round_up.hpp>
 
 namespace bksge
 {
@@ -34,11 +35,9 @@ namespace vulkan
 BKSGE_INLINE
 UniformBuffer::UniformBuffer(
 	vulkan::DeviceSharedPtr const& device,
-	vulkan::ShaderReflectionUniformBuffer const& reflection)
+	::VkDeviceSize                 size)
 	: m_device(device)
 {
-	auto const size = reflection.bytes;
-
 	m_buffer = bksge::make_unique<vulkan::Buffer>(
 		device,
 		size,
@@ -46,73 +45,65 @@ UniformBuffer::UniformBuffer(
 
 	auto const mem_reqs = m_buffer->requirements();
 
-	m_device_memory = bksge::make_unique<vulkan::DeviceMemory>(
-		device,
-		mem_reqs,
-		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
-		VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
+	m_device_memory =
+		bksge::make_unique<vulkan::DeviceMemory>(
+			device,
+			mem_reqs,
+			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
+			VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
 
-	vk::BindBufferMemory(*m_device, *m_buffer, *m_device_memory, 0);
+	vk::BindBufferMemory(
+		*m_device,
+		*m_buffer,
+		*m_device_memory,
+		0);
 
-	m_descriptor_buffer_info.buffer = *m_buffer;
-	m_descriptor_buffer_info.offset = 0;
-	m_descriptor_buffer_info.range  = size;
+	vk::MapMemory(
+		*m_device,
+		*m_device_memory,
+		0,
+		VK_WHOLE_SIZE,
+		0,
+		reinterpret_cast<void**>(&m_mapped_buffer));
 
-	m_name  = reflection.name;
-	m_bytes = reflection.bytes;
-
-	for (auto const& member : reflection.members)
-	{
-		Variable v;
-		v.name   = member.name;
-		v.offset = member.offset;
-		v.bytes  = member.bytes;
-		m_variables.push_back(v);
-	}
+	auto physical_device = device->GetPhysicalDevice();
+	VkPhysicalDeviceProperties properties;
+	vk::GetPhysicalDeviceProperties(*physical_device, &properties);
+	m_offset_alignment = properties.limits.minUniformBufferOffsetAlignment;
 }
 
 BKSGE_INLINE
 UniformBuffer::~UniformBuffer()
 {
-}
-
-BKSGE_INLINE void
-UniformBuffer::LoadParameters(bksge::ShaderParameterMap const& shader_parameter_map)
-{
-	auto const mem_reqs = m_buffer->requirements();
-
-	std::uint8_t* dst;
-	vk::MapMemory(*m_device, *m_device_memory, 0, mem_reqs.size, 0, reinterpret_cast<void**>(&dst));
-
-	// Uniform Block をまとめて更新
-	{
-		auto param = shader_parameter_map[m_name];
-		if (param)
-		{
-			std::memcpy(dst, param->data(), m_bytes);
-		}
-	}
-
-	// Uniform Block のメンバーを個別に更新
-	for (auto&& variable : m_variables)
-	{
-		auto param = shader_parameter_map[variable.name];
-		if (param)
-		{
-			std::memcpy(
-				dst + variable.offset,
-				param->data(),
-				variable.bytes);
-		}
-	}
-
 	vk::UnmapMemory(*m_device, *m_device_memory);
 }
 
-BKSGE_INLINE ::VkDescriptorBufferInfo const*
-UniformBuffer::GetDescriptorBufferInfo(void) const
+BKSGE_INLINE vulkan::BufferUniquePtr const&
+UniformBuffer::GetBuffer() const
 {
-	return &m_descriptor_buffer_info;
+	return m_buffer;
+}
+
+BKSGE_INLINE std::uint8_t*
+UniformBuffer::GetMappedBuffer(void) const
+{
+	return m_mapped_buffer;
+}
+
+BKSGE_INLINE std::size_t
+UniformBuffer::Allocate(std::size_t size)
+{
+	auto const offset = m_offset;
+
+	m_offset += bksge::round_up(size, m_offset_alignment);
+
+	return offset;
+}
+
+BKSGE_INLINE void
+UniformBuffer::BeginFrame(void)
+{
+	m_offset = 0;
 }
 
 }	// namespace vulkan
