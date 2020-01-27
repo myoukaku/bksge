@@ -21,6 +21,7 @@
 #include <bksge/core/render/vulkan/detail/rasterizer_state.hpp>
 #include <bksge/core/render/vulkan/detail/depth_stencil_state.hpp>
 #include <bksge/core/render/vulkan/detail/blend_state.hpp>
+#include <bksge/core/render/vulkan/detail/primitive_topology.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/render_state.hpp>
 #include <bksge/core/render/geometry.hpp>
@@ -148,7 +149,8 @@ GraphicsPipeline::GraphicsPipeline(
 	vertex_input_state.SetVertexAttributeDescriptions(vi_attribs);
 
 	vk::PipelineInputAssemblyStateCreateInfo input_assembly_state;
-	input_assembly_state.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+	input_assembly_state.topology =
+		vulkan::PrimitiveTopology(geometry.primitive());
 
 	vulkan::RasterizerState raster_state(render_state.rasterizer_state());
 
@@ -163,8 +165,6 @@ GraphicsPipeline::GraphicsPipeline(
 	dynamic_states.push_back(VK_DYNAMIC_STATE_VIEWPORT);
 	dynamic_states.push_back(VK_DYNAMIC_STATE_SCISSOR);
 #else
-	// Temporary disabling dynamic viewport on Android because some of drivers doesn't
-	// support the feature.
 	VkViewport viewports;
 	viewports.minDepth = 0.0f;
 	viewports.maxDepth = 1.0f;
@@ -183,7 +183,8 @@ GraphicsPipeline::GraphicsPipeline(
 	viewport_state.pViewports    = &viewports;
 #endif
 
-	vulkan::DepthStencilState depth_stencil_state(render_state.depth_state(), render_state.stencil_state());
+	vulkan::DepthStencilState depth_stencil_state(
+		render_state.depth_state(), render_state.stencil_state());
 
 	vk::PipelineMultisampleStateCreateInfo multisample_state;
 	multisample_state.pSampleMask           = nullptr;
