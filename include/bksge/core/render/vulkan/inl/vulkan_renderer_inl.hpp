@@ -286,26 +286,15 @@ VulkanRenderer::VBegin(void)
 
 	// init_viewports
 	{
-#if defined(__ANDROID__)
-		// Disable dynamic viewport on Android. Some drive has an issue with the dynamic viewport
-		// feature.
-#else
-		auto const extent = m_swapchain->extent();
 		::VkViewport viewport;
-		viewport.x        = 0;
-		viewport.y        = 0;
-		viewport.width    = (float)extent.width;
-		viewport.height   = (float)extent.height;
-		viewport.minDepth = (float)0.0f;
-		viewport.maxDepth = (float)1.0f;
-
-		// TODO このままだと上下反転しているので、以下のようにして
-		// さらにポリゴンの裏表も入れ替える
-		viewport.y        = (float)extent.height;
-		viewport.height   = (float)extent.height * -1.0f;
+		viewport.x        = m_viewport.left();
+		viewport.y        = m_viewport.top() + m_viewport.height();
+		viewport.width    = m_viewport.width();
+		viewport.height   = -m_viewport.height();
+		viewport.minDepth = 0.0f;
+		viewport.maxDepth = 1.0f;
 
 		vk::CmdSetViewport(*m_command_buffer, 0, NUM_VIEWPORTS, &viewport);
-#endif
 	}
 }
 
