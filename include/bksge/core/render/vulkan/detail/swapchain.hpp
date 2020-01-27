@@ -12,7 +12,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/swapchain_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/surface_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/vulkan_h.hpp>
+#include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <cstdint>
 #include <memory>
 #include <vector>

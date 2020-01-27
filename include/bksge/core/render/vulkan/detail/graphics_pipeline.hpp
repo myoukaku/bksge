@@ -15,7 +15,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/shader_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/pipeline_cache_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/pipeline_layout_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/vulkan_h.hpp>
+#include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/fwd/render_state_fwd.hpp>
 #include <bksge/core/render/fwd/geometry_fwd.hpp>
 

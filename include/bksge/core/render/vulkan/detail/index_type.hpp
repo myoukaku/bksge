@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_INDEX_TYPE_HPP
 
 #include <bksge/core/render/detail/type_enum.hpp>
-#include <bksge/core/render/vulkan/detail/vulkan_h.hpp>
+#include <bksge/core/render/vulkan/detail/vulkan.hpp>
 
 namespace bksge
 {

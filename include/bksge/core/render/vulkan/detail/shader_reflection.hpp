@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_SHADER_REFLECTION_HPP
 
 #include <bksge/core/render/vulkan/detail/fwd/shader_reflection_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/vulkan_h.hpp>
+#include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <vector>
 #include <string>
 #include <cstdint>

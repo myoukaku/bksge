@@ -64,15 +64,19 @@ Instance::Instance(char const* app_name)
 
 	extension_names.push_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
 	extension_names.push_back(VK_KHR_SURFACE_EXTENSION_NAME);
-#if defined(__ANDROID__)
+#if defined(VK_USE_PLATFORM_ANDROID_KHR)
 	extension_names.push_back(VK_KHR_ANDROID_SURFACE_EXTENSION_NAME);
-#elif defined(_WIN32)
+#endif
+#if defined(VK_USE_PLATFORM_WIN32_KHR)
 	extension_names.push_back(VK_KHR_WIN32_SURFACE_EXTENSION_NAME);
-#elif defined(VK_USE_PLATFORM_METAL_EXT)
+#endif
+#if defined(VK_USE_PLATFORM_METAL_EXT)
 	extension_names.push_back(VK_EXT_METAL_SURFACE_EXTENSION_NAME);
-#elif defined(VK_USE_PLATFORM_WAYLAND_KHR)
+#endif
+#if defined(VK_USE_PLATFORM_WAYLAND_KHR)
 	extension_names.push_back(VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME);
-#else
+#endif
+#if defined(VK_USE_PLATFORM_XCB_KHR)
 	extension_names.push_back(VK_KHR_XCB_SURFACE_EXTENSION_NAME);
 #endif
 

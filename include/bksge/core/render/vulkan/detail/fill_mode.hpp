@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_FILL_MODE_HPP
 
 #include <bksge/core/render/fill_mode.hpp>
-#include <bksge/core/render/vulkan/detail/vulkan_h.hpp>
+#include <bksge/core/render/vulkan/detail/vulkan.hpp>
 
 namespace bksge
 {

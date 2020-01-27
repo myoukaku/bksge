@@ -36,7 +36,7 @@
 //#include <bksge/core/render/vulkan/detail/fwd/graphics_pipeline_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/resource_pool_fwd.hpp>
 //#include <bksge/core/render/vulkan/detail/shader_stage.hpp>
-#include <bksge/core/render/vulkan/detail/vulkan_h.hpp>
+#include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/fwd/geometry_fwd.hpp>
 #include <bksge/core/render/fwd/render_state_fwd.hpp>
 #include <bksge/core/render/fwd/shader_fwd.hpp>

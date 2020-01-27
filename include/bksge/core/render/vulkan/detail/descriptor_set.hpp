@@ -14,7 +14,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/descriptor_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/descriptor_set_layout_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/shader_reflection_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/vulkan_h.hpp>
+#include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <vector>
 #include <memory>
 

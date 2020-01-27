@@ -51,6 +51,7 @@ ToVkFormat(bksge::TypeEnum type, std::size_t num)
 		case 3: return VK_FORMAT_R8G8B8_SINT;
 		case 4: return VK_FORMAT_R8G8B8A8_SINT;
 		}
+		break;
 	case bksge::TypeEnum::kUInt8:
 		switch (num)
 		{
@@ -59,6 +60,7 @@ ToVkFormat(bksge::TypeEnum type, std::size_t num)
 		case 3: return VK_FORMAT_R8G8B8_UINT;
 		case 4: return VK_FORMAT_R8G8B8A8_UINT;
 		}
+		break;
 	case bksge::TypeEnum::kSInt16:
 		switch (num)
 		{
@@ -67,6 +69,7 @@ ToVkFormat(bksge::TypeEnum type, std::size_t num)
 		case 3: return VK_FORMAT_R16G16B16_SINT;
 		case 4: return VK_FORMAT_R16G16B16A16_SINT;
 		}
+		break;
 	case bksge::TypeEnum::kUInt16:
 		switch (num)
 		{
@@ -75,6 +78,7 @@ ToVkFormat(bksge::TypeEnum type, std::size_t num)
 		case 3: return VK_FORMAT_R16G16B16_UINT;
 		case 4: return VK_FORMAT_R16G16B16A16_UINT;
 		}
+		break;
 	case bksge::TypeEnum::kSInt32:
 		switch (num)
 		{
@@ -83,6 +87,7 @@ ToVkFormat(bksge::TypeEnum type, std::size_t num)
 		case 3: return VK_FORMAT_R32G32B32_SINT;
 		case 4: return VK_FORMAT_R32G32B32A32_SINT;
 		}
+		break;
 	case bksge::TypeEnum::kUInt32:
 		switch (num)
 		{
@@ -91,6 +96,7 @@ ToVkFormat(bksge::TypeEnum type, std::size_t num)
 		case 3: return VK_FORMAT_R32G32B32_UINT;
 		case 4: return VK_FORMAT_R32G32B32A32_UINT;
 		}
+		break;
 	case bksge::TypeEnum::kFloat:
 		switch (num)
 		{
@@ -99,6 +105,7 @@ ToVkFormat(bksge::TypeEnum type, std::size_t num)
 		case 3: return VK_FORMAT_R32G32B32_SFLOAT;
 		case 4: return VK_FORMAT_R32G32B32A32_SFLOAT;
 		}
+		break;
 	}
 	return VK_FORMAT_UNDEFINED;
 }

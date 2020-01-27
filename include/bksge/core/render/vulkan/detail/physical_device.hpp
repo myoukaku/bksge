@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_PHYSICAL_DEVICE_HPP
 
 #include <bksge/core/render/vulkan/detail/fwd/physical_device_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/vulkan_h.hpp>
+#include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <vector>
 
 namespace bksge

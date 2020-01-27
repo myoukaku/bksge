@@ -9,7 +9,7 @@
 #ifndef BKSGE_CORE_RENDER_VULKAN_DETAIL_GLSL_TO_SPV_HPP
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_GLSL_TO_SPV_HPP
 
-#include <bksge/core/render/vulkan/detail/vulkan_h.hpp>
+#include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <vector>
 
 namespace bksge

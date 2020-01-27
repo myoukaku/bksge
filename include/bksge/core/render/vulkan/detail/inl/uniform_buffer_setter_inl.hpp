@@ -19,6 +19,7 @@
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/shader_parameter_map.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
+#include <cstring>
 
 namespace bksge
 {

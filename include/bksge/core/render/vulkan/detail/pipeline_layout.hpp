@@ -12,7 +12,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/pipeline_layout_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/descriptor_set_layout_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/vulkan_h.hpp>
+#include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <memory>
 
 namespace bksge

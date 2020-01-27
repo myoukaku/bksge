@@ -13,7 +13,7 @@
 #if BKSGE_CORE_RENDER_HAS_VULKAN_RENDERER
 
 #include <bksge/core/render/vulkan/detail/glsl_to_spv.hpp>
-#include <bksge/core/render/vulkan/detail/vulkan_h.hpp>
+#include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/vulkan/detail/spirv_h.hpp>
 #include <vector>
 #include <utility>
@@ -191,7 +191,7 @@ GlslToSpv(::VkShaderStageFlagBits shader_type, const char* source)
 
 	glslang::FinalizeProcess();
 
-	return std::move(spirv);
+	return spirv;
 }
 
 }	// namespace vulkan

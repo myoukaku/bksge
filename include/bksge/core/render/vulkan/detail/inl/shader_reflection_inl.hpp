@@ -13,9 +13,9 @@
 #if BKSGE_CORE_RENDER_HAS_VULKAN_RENDERER
 
 #include <bksge/core/render/vulkan/detail/shader_reflection.hpp>
+#include <bksge/core/render/vulkan/detail/spirv_cross.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/assert.hpp>
-#include <spirv_glsl.hpp>
 
 namespace bksge
 {
@@ -28,21 +28,6 @@ namespace vulkan
 
 namespace detail
 {
-
-// TODO 重複
-inline ::VkShaderStageFlagBits ToVkShaderStage(spv::ExecutionModel model)
-{
-	switch (model)
-	{
-	case spv::ExecutionModelVertex:					return VK_SHADER_STAGE_VERTEX_BIT;
-	case spv::ExecutionModelTessellationControl:	return VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT;
-	case spv::ExecutionModelTessellationEvaluation:	return VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT;
-	case spv::ExecutionModelGeometry:				return VK_SHADER_STAGE_GEOMETRY_BIT;
-	case spv::ExecutionModelFragment:				return VK_SHADER_STAGE_FRAGMENT_BIT;
-	case spv::ExecutionModelGLCompute:				return VK_SHADER_STAGE_COMPUTE_BIT;
-	}
-	return ::VkShaderStageFlagBits(0);	// TODO エラー処理
-}
 
 inline void AddUniformBuffer(
 	spirv_cross::CompilerGLSL const& glsl,

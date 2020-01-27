@@ -11,7 +11,7 @@
 
 #include <bksge/core/render/vulkan/detail/fwd/instance_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/physical_device.hpp>
-#include <bksge/core/render/vulkan/detail/vulkan_h.hpp>
+#include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <cstddef>
 #include <vector>
 

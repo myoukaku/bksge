@@ -9,7 +9,8 @@
 #ifndef BKSGE_CORE_RENDER_VULKAN_DETAIL_VULKAN_WIN32_HPP
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_VULKAN_WIN32_HPP
 
-#include <bksge/core/render/vulkan/detail/vulkan_h.hpp>
+#include <bksge/core/detail/win32.hpp>
+#include <vulkan/vulkan_win32.h>
 #include <bksge/core/render/vulkan/detail/check_error.hpp>
 
 namespace bksge

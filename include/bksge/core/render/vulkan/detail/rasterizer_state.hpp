@@ -9,7 +9,7 @@
 #ifndef BKSGE_CORE_RENDER_VULKAN_DETAIL_RASTERIZER_STATE_HPP
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_RASTERIZER_STATE_HPP
 
-#include <bksge/core/render/vulkan/detail/vulkan_h.hpp>
+#include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/fwd/rasterizer_state_fwd.hpp>
 
 namespace bksge

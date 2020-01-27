@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_BLEND_OPERATION_HPP
 
 #include <bksge/core/render/fwd/blend_operation_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/vulkan_h.hpp>
+#include <bksge/core/render/vulkan/detail/vulkan.hpp>
 
 namespace bksge
 {

@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_PRIMITIVE_TOPOLOGY_HPP
 
 #include <bksge/core/render/fwd/primitive_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/vulkan_h.hpp>
+#include <bksge/core/render/vulkan/detail/vulkan.hpp>
 
 namespace bksge
 {

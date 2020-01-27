@@ -13,7 +13,7 @@
 #if BKSGE_CORE_RENDER_HAS_VULKAN_RENDERER
 
 #include <bksge/core/render/vulkan/detail/check_error.hpp>
-#include <bksge/core/render/vulkan/detail/vulkan_h.hpp>
+#include <vulkan/vulkan_core.h>
 #include <stdexcept>
 #include <string>
 

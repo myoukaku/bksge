@@ -9,7 +9,7 @@
 #ifndef BKSGE_CORE_RENDER_VULKAN_DETAIL_CHECK_ERROR_HPP
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_CHECK_ERROR_HPP
 
-#include <bksge/core/render/vulkan/detail/vulkan_h.hpp>
+#include <vulkan/vulkan_core.h>
 #include <stdexcept>
 #include <string>
 
