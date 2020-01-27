@@ -230,6 +230,8 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 	m_uniform_buffer = bksge::make_unique<vulkan::UniformBuffer>(
 		m_device,
 		256 * 1024);	// TODO
+
+	SetViewport(Rectf(Vector2f(0,0), Size2f(window.client_size())));
 }
 
 BKSGE_INLINE
@@ -293,7 +295,6 @@ VulkanRenderer::VBegin(void)
 		viewport.height   = -m_viewport.height();
 		viewport.minDepth = 0.0f;
 		viewport.maxDepth = 1.0f;
-
 		vk::CmdSetViewport(*m_command_buffer, 0, NUM_VIEWPORTS, &viewport);
 	}
 }
