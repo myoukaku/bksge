@@ -40,6 +40,7 @@
 #include <bksge/core/render/vulkan/detail/image_view.hpp>
 #include <bksge/core/render/vulkan/detail/resource_pool.hpp>
 #include <bksge/core/render/shader.hpp>
+#include <bksge/core/render/render_state.hpp>
 #include <bksge/core/math/matrix4x4.hpp>
 #include <bksge/core/math/vector3.hpp>
 #include <bksge/core/math/vector4.hpp>
@@ -306,20 +307,6 @@ VulkanRenderer::VBegin(void)
 		vk::CmdSetViewport(*m_command_buffer, 0, NUM_VIEWPORTS, &viewport);
 #endif
 	}
-
-	// init_scissors
-	{
-#if defined(__ANDROID__)
-		// Disable dynamic viewport on Android. Some drive has an issue with the dynamic scissors
-		// feature.
-#else
-		::VkRect2D scissor;
-		scissor.offset.x = 0;
-		scissor.offset.y = 0;
-		scissor.extent   = m_swapchain->extent();
-		vk::CmdSetScissor(*m_command_buffer, 0, NUM_SCISSORS, &scissor);
-#endif
-	}
 }
 
 BKSGE_INLINE void
@@ -372,6 +359,27 @@ VulkanRenderer::VRender(
 	if (shader.type() != ShaderType::kGLSL)
 	{
 		return false;
+	}
+
+	{
+		vk::Rect2D scissor_rect;
+
+		auto const& scissor_state = render_state.scissor_state();
+		if (scissor_state.enable())
+		{
+			scissor_rect.offset.x = static_cast<std::int32_t>(scissor_state.rect().left());
+			scissor_rect.offset.y = static_cast<std::int32_t>(scissor_state.rect().top());
+			scissor_rect.extent.width  = static_cast<std::uint32_t>(scissor_state.rect().width());
+			scissor_rect.extent.height = static_cast<std::uint32_t>(scissor_state.rect().height());
+		}
+		else
+		{
+			scissor_rect.offset.x = 0;
+			scissor_rect.offset.y = 0;
+			scissor_rect.extent   = m_swapchain->extent();
+		}
+
+		vk::CmdSetScissor(*m_command_buffer, 0, NUM_SCISSORS, &scissor_rect);
 	}
 
 	auto vk_shader =
