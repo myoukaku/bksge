@@ -336,6 +336,8 @@ VulkanRenderer::VEnd(void)
 	} while (res == VK_TIMEOUT);
 	assert(res == VK_SUCCESS);
 
+	vk::ResetFences(*m_device, 1, m_draw_fence->GetAddressOf());
+
 	vk::QueuePresentKHR(m_present_queue, &present);
 }
 
