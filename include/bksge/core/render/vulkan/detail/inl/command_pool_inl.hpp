@@ -31,7 +31,7 @@ CommandPool::CommandPool(
 	vulkan::DeviceSharedPtr const& device,
 	std::uint32_t queue_family_index)
 	: m_device(device)
-	, m_command_pool(VK_NULL_HANDLE)
+	, m_queue_family_index(queue_family_index)
 {
 	vk::CommandPoolCreateInfo info;
 	info.queueFamilyIndex = queue_family_index;
@@ -50,6 +50,14 @@ BKSGE_INLINE
 CommandPool::operator ::VkCommandPool() const
 {
 	return m_command_pool;
+}
+
+BKSGE_INLINE ::VkQueue
+CommandPool::GetQueue(void) const
+{
+	::VkQueue queue;
+	vk::GetDeviceQueue(*m_device, m_queue_family_index, 0, &queue);
+	return queue;
 }
 
 }	// namespace vulkan

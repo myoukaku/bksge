@@ -19,7 +19,7 @@ namespace vulkan
 {
 
 class ShaderReflection;
-struct ShaderReflectionUniformBuffer;
+struct ShaderReflectionUniform;
 
 }	// namespace vulkan
 

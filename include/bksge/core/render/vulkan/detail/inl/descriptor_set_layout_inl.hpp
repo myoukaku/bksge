@@ -34,8 +34,7 @@ namespace detail
 {
 
 inline void CreateDescriptorSetLayoutBindingList(
-	std::vector<ShaderReflectionUniformBuffer> const& reflection_list,
-	::VkDescriptorType descriptor_type,
+	std::vector<ShaderReflectionUniform> const& reflection_list,
 	std::vector<std::vector<::VkDescriptorSetLayoutBinding>>* layout_bindings_list)
 {
 	for (auto const& reflection : reflection_list)
@@ -44,7 +43,7 @@ inline void CreateDescriptorSetLayoutBindingList(
 
 		::VkDescriptorSetLayoutBinding layout_binding;
 		layout_binding.binding            = reflection.binding;
-		layout_binding.descriptorType     = descriptor_type;
+		layout_binding.descriptorType     = reflection.descriptor_type;
 		layout_binding.descriptorCount    = 1;		// TODO 配列のときは配列サイズを入れる?
 		layout_binding.stageFlags         = reflection.stage_flags;
 		layout_binding.pImmutableSamplers = nullptr;
@@ -66,8 +65,7 @@ DescriptorSetLayout::DescriptorSetLayout(
 		descriptor_set_layout_bindings_list(descriptor_set_count);
 
 	detail::CreateDescriptorSetLayoutBindingList(
-		reflection.GetUniformBuffers(),
-		VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+		reflection.GetUniforms(),
 		&descriptor_set_layout_bindings_list);
 
 	std::vector<vk::DescriptorSetLayoutCreateInfo> info;

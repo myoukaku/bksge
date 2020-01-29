@@ -184,8 +184,8 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 	m_command_buffer = bksge::make_unique<vulkan::CommandBuffer>(
 		m_device, m_command_pool);
 
-	::vkGetDeviceQueue(*m_device, graphics_queue_family_index, 0, &m_graphics_queue);
-	::vkGetDeviceQueue(*m_device, present_queue_family_index, 0, &m_present_queue);
+	vk::GetDeviceQueue(*m_device, graphics_queue_family_index, 0, &m_graphics_queue);
+	vk::GetDeviceQueue(*m_device, present_queue_family_index, 0, &m_present_queue);
 
 	m_swapchain = bksge::make_unique<vulkan::Swapchain>(
 		m_device,
@@ -390,7 +390,10 @@ VulkanRenderer::VRender(
 
 	vk_shader->LoadParameters(
 		shader_parameter_map,
-		m_uniform_buffer.get());
+		m_device,
+		m_command_pool,
+		m_uniform_buffer.get(),
+		m_resource_pool.get());
 
 	vk::CmdBindPipeline(
 		*m_command_buffer,

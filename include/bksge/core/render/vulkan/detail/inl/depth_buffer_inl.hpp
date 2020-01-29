@@ -91,7 +91,8 @@ DepthBuffer::DepthBuffer(
 		extent,
 		num_samples,
 		tiling,
-		VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT);
+		VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT,
+		VK_IMAGE_LAYOUT_UNDEFINED);
 
 	auto const mem_reqs = m_image->requirements();
 

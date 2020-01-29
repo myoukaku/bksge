@@ -34,7 +34,7 @@ class UniformBufferSetter
 {
 public:
 	explicit UniformBufferSetter(
-		vulkan::ShaderReflectionUniformBuffer const& reflection);
+		vulkan::ShaderReflectionUniform const& reflection);
 
 	~UniformBufferSetter();
 
@@ -42,11 +42,7 @@ public:
 		bksge::ShaderParameterMap const& shader_parameter_map,
 		vulkan::UniformBuffer* uniform_buffer);
 
-	std::uint32_t set(void) const;
-
-	std::uint32_t binding(void) const;
-
-	::VkDescriptorBufferInfo const& GetBufferInfo(void) const;
+	vk::WriteDescriptorSet GetWriteDescriptorSet(void) const;
 
 private:
 	struct Variable
@@ -59,6 +55,7 @@ private:
 	std::uint32_t					m_set = 0;
 	std::uint32_t					m_binding = 0;
 	std::string						m_name;
+	::VkDescriptorType				m_descriptor_type;
 	std::size_t						m_bytes = 0;
 	std::vector<Variable>			m_variables;
 	::VkDescriptorBufferInfo		m_buffer_info;

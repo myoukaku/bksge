@@ -33,7 +33,8 @@ Image::Image(
 	::VkExtent2D const& extent,
 	::VkSampleCountFlagBits num_samples,
 	::VkImageTiling tiling,
-	::VkImageUsageFlags usage)
+	::VkImageUsageFlags usage,
+	::VkImageLayout initial_layout)
 	: m_device(device)
 	, m_image(VK_NULL_HANDLE)
 	, m_format(format)
@@ -50,7 +51,7 @@ Image::Image(
 	info.tiling        = tiling;
 	info.usage         = usage;
 	info.sharingMode   = VK_SHARING_MODE_EXCLUSIVE;
-	info.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+	info.initialLayout = initial_layout;
 	info.SetQueueFamilyIndices(nullptr);
 
 	vk::CreateImage(*device, &info, nullptr, &m_image);

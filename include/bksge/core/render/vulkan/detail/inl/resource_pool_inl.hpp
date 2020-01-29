@@ -16,9 +16,11 @@
 #include <bksge/core/render/vulkan/detail/shader.hpp>
 #include <bksge/core/render/vulkan/detail/geometry.hpp>
 #include <bksge/core/render/vulkan/detail/graphics_pipeline.hpp>
+#include <bksge/core/render/vulkan/detail/combined_image_sampler.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/shader.hpp>
 #include <bksge/core/render/geometry.hpp>
+#include <bksge/core/render/sampler.hpp>
 #include <bksge/core/render/render_state.hpp>
 #include <bksge/fnd/functional/hash_combine.hpp>
 #include <bksge/fnd/utility/forward.hpp>
@@ -109,6 +111,16 @@ ResourcePool::GetGraphicsPipeline(
 		render_state,
 		render_pass,
 		*(this->GetShader(device, shader)));
+}
+
+BKSGE_INLINE vulkan::CombinedImageSamplerSharedPtr
+ResourcePool::GetCombinedImageSampler(
+	vulkan::DeviceSharedPtr const& device,
+	vulkan::CommandPoolSharedPtr const& command_pool,
+	bksge::Sampler const& sampler)
+{
+	return detail::GetOrCreate<vulkan::CombinedImageSampler>(
+		m_combined_image_sampler_map, sampler.id(), device, command_pool, sampler);
 }
 
 }	// namespace vulkan

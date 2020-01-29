@@ -25,7 +25,7 @@ namespace render
 namespace vulkan
 {
 
-struct ShaderReflectionUniformBuffer
+struct ShaderReflectionUniform
 {
 	struct Member
 	{
@@ -37,6 +37,7 @@ struct ShaderReflectionUniformBuffer
 	std::uint32_t			set;
 	std::uint32_t			binding;
 	std::string				name;
+	::VkDescriptorType		descriptor_type;
 	std::size_t				bytes;
 	::VkShaderStageFlags	stage_flags;
 	std::vector<Member>		members;
@@ -52,13 +53,15 @@ public:
 
 	std::uint32_t GetMaxSets(void) const;
 
-	using UniformBuffers = std::vector<ShaderReflectionUniformBuffer>;
+	std::uint32_t GetUniformCount(::VkDescriptorType descriptor_type) const;
 
-	UniformBuffers const& GetUniformBuffers(void) const;
+	using Uniforms = std::vector<ShaderReflectionUniform>;
+
+	Uniforms const& GetUniforms(void) const;
 
 private:
 	std::uint32_t	m_max_sets = 0;
-	UniformBuffers	m_uniform_buffers;
+	Uniforms		m_uniforms;
 };
 
 }	// namespace vulkan

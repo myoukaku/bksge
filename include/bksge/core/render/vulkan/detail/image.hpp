@@ -32,7 +32,8 @@ public:
 		::VkExtent2D const& extent,
 		::VkSampleCountFlagBits num_samples,
 		::VkImageTiling tiling,
-		::VkImageUsageFlags usage);
+		::VkImageUsageFlags usage,
+		::VkImageLayout initial_layout);
 
 	~Image();
 

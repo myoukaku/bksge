@@ -1059,28 +1059,31 @@ struct PipelineLayoutCreateInfo : public ::VkPipelineLayoutCreateInfo
 	}
 };
 
-//struct SamplerCreateInfo
-//{
-//	VkStructureType         sType;
-//	const void* pNext;
-//	VkSamplerCreateFlags    flags;
-//	VkFilter                magFilter;
-//	VkFilter                minFilter;
-//	VkSamplerMipmapMode     mipmapMode;
-//	VkSamplerAddressMode    addressModeU;
-//	VkSamplerAddressMode    addressModeV;
-//	VkSamplerAddressMode    addressModeW;
-//	float                   mipLodBias;
-//	VkBool32                anisotropyEnable;
-//	float                   maxAnisotropy;
-//	VkBool32                compareEnable;
-//	VkCompareOp             compareOp;
-//	float                   minLod;
-//	float                   maxLod;
-//	VkBorderColor           borderColor;
-//	VkBool32                unnormalizedCoordinates;
-//};
-//
+struct SamplerCreateInfo : public ::VkSamplerCreateInfo
+{
+	SamplerCreateInfo()
+	{
+		sType                   = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
+		pNext                   = nullptr;
+		flags                   = 0;
+		magFilter               = VK_FILTER_NEAREST;
+		minFilter               = VK_FILTER_NEAREST;
+		mipmapMode              = VK_SAMPLER_MIPMAP_MODE_NEAREST;
+		addressModeU            = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+		addressModeV            = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+		addressModeW            = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+		mipLodBias              = 0;
+		anisotropyEnable        = VK_FALSE;
+		maxAnisotropy           = 0;
+		compareEnable           = VK_FALSE;
+		compareOp               = VK_COMPARE_OP_NEVER;
+		minLod                  = 0;
+		maxLod                  = 0;
+		borderColor             = VK_BORDER_COLOR_FLOAT_TRANSPARENT_BLACK;
+		unnormalizedCoordinates = VK_FALSE;
+	}
+};
+
 //struct DescriptorSetLayoutBinding
 //{
 //	uint32_t              binding;
@@ -1472,20 +1475,23 @@ struct CommandBufferBeginInfo : public ::VkCommandBufferBeginInfo
 //	VkDeviceSize       offset;
 //	VkDeviceSize       size;
 //};
-//
-//struct ImageMemoryBarrier
-//{
-//	VkStructureType            sType;
-//	const void* pNext;
-//	VkAccessFlags              srcAccessMask;
-//	VkAccessFlags              dstAccessMask;
-//	VkImageLayout              oldLayout;
-//	VkImageLayout              newLayout;
-//	uint32_t                   srcQueueFamilyIndex;
-//	uint32_t                   dstQueueFamilyIndex;
-//	VkImage                    image;
-//	VkImageSubresourceRange    subresourceRange;
-//};
+
+struct ImageMemoryBarrier : public ::VkImageMemoryBarrier
+{
+	ImageMemoryBarrier()
+	{
+		sType               = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
+		pNext               = nullptr;
+		srcAccessMask       = 0;
+		dstAccessMask       = 0;
+		oldLayout           = VK_IMAGE_LAYOUT_UNDEFINED;
+		newLayout           = VK_IMAGE_LAYOUT_UNDEFINED;
+		srcQueueFamilyIndex = 0;
+		dstQueueFamilyIndex = 0;
+		image               = VK_NULL_HANDLE;
+		subresourceRange    = ImageSubresourceRange();
+	}
+};
 
 struct RenderPassBeginInfo : public ::VkRenderPassBeginInfo
 {
@@ -4854,7 +4860,10 @@ inline VkResult QueueSubmit(
 	return vk::CheckError(::vkQueueSubmit(queue, submitCount, pSubmits, fence));
 }
 
-VkResult vkQueueWaitIdle(VkQueue queue);
+inline VkResult QueueWaitIdle(VkQueue queue)
+{
+	return vk::CheckError(::vkQueueWaitIdle(queue));
+}
 
 inline VkResult DeviceWaitIdle(VkDevice device)
 {
@@ -5225,16 +5234,22 @@ inline void DestroyPipelineLayout(
 	::vkDestroyPipelineLayout(device, pipelineLayout, pAllocator);
 }
 
-VkResult vkCreateSampler(
+inline VkResult CreateSampler(
     VkDevice                                    device,
     const VkSamplerCreateInfo*                  pCreateInfo,
     const VkAllocationCallbacks*                pAllocator,
-    VkSampler*                                  pSampler);
+    VkSampler*                                  pSampler)
+{
+	return vk::CheckError(::vkCreateSampler(device, pCreateInfo, pAllocator, pSampler));
+}
 
-void vkDestroySampler(
+inline void DestroySampler(
     VkDevice                                    device,
     VkSampler                                   sampler,
-    const VkAllocationCallbacks*                pAllocator);
+    const VkAllocationCallbacks*                pAllocator)
+{
+	::vkDestroySampler(device, sampler, pAllocator);
+}
 
 inline VkResult CreateDescriptorSetLayout(
     VkDevice                                    device,
@@ -5589,13 +5604,22 @@ void vkCmdBlitImage(
     const VkImageBlit*                          pRegions,
     VkFilter                                    filter);
 
-void vkCmdCopyBufferToImage(
+inline void CmdCopyBufferToImage(
     VkCommandBuffer                             commandBuffer,
     VkBuffer                                    srcBuffer,
     VkImage                                     dstImage,
     VkImageLayout                               dstImageLayout,
     uint32_t                                    regionCount,
-    const VkBufferImageCopy*                    pRegions);
+    const VkBufferImageCopy*                    pRegions)
+{
+	::vkCmdCopyBufferToImage(
+		commandBuffer,
+		srcBuffer,
+		dstImage,
+		dstImageLayout,
+		regionCount,
+		pRegions);
+}
 
 void vkCmdCopyImageToBuffer(
     VkCommandBuffer                             commandBuffer,
@@ -5674,7 +5698,7 @@ void vkCmdWaitEvents(
     uint32_t                                    imageMemoryBarrierCount,
     const VkImageMemoryBarrier*                 pImageMemoryBarriers);
 
-void vkCmdPipelineBarrier(
+inline void CmdPipelineBarrier(
     VkCommandBuffer                             commandBuffer,
     VkPipelineStageFlags                        srcStageMask,
     VkPipelineStageFlags                        dstStageMask,
@@ -5684,7 +5708,20 @@ void vkCmdPipelineBarrier(
     uint32_t                                    bufferMemoryBarrierCount,
     const VkBufferMemoryBarrier*                pBufferMemoryBarriers,
     uint32_t                                    imageMemoryBarrierCount,
-    const VkImageMemoryBarrier*                 pImageMemoryBarriers);
+    const VkImageMemoryBarrier*                 pImageMemoryBarriers)
+{
+	::vkCmdPipelineBarrier(
+		commandBuffer,
+		srcStageMask,
+		dstStageMask,
+		dependencyFlags,
+		memoryBarrierCount,
+		pMemoryBarriers,
+		bufferMemoryBarrierCount,
+		pBufferMemoryBarriers,
+		imageMemoryBarrierCount,
+		pImageMemoryBarriers);
+}
 
 void vkCmdBeginQuery(
     VkCommandBuffer                             commandBuffer,

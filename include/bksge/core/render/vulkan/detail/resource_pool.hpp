@@ -11,15 +11,18 @@
 
 #include <bksge/core/render/vulkan/detail/fwd/resource_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/command_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/shader_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/geometry_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/graphics_pipeline_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/render_pass_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/uniform_buffer_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/combined_image_sampler_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/fwd/shader_fwd.hpp>
 #include <bksge/core/render/fwd/geometry_fwd.hpp>
 #include <bksge/core/render/fwd/render_state_fwd.hpp>
+#include <bksge/core/render/fwd/sampler_fwd.hpp>
 
 namespace bksge
 {
@@ -53,10 +56,16 @@ public:
 		bksge::RenderState const& render_state,
 		vulkan::RenderPass const& render_pass);
 
+	vulkan::CombinedImageSamplerSharedPtr GetCombinedImageSampler(
+		vulkan::DeviceSharedPtr const& device,
+		vulkan::CommandPoolSharedPtr const& command_pool,
+		bksge::Sampler const& sampler);
+
 private:
-	vulkan::ShaderSharedPtrMap				m_shader_map;
-	vulkan::GeometrySharedPtrMap			m_geometry_map;
-	vulkan::GraphicsPipelineSharedPtrMap	m_graphics_pipeline_map;
+	vulkan::ShaderSharedPtrMap					m_shader_map;
+	vulkan::GeometrySharedPtrMap				m_geometry_map;
+	vulkan::GraphicsPipelineSharedPtrMap		m_graphics_pipeline_map;
+	vulkan::CombinedImageSamplerSharedPtrMap	m_combined_image_sampler_map;
 };
 
 }	// namespace vulkan

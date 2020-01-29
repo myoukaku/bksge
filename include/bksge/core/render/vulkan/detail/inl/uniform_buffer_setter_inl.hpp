@@ -32,12 +32,13 @@ namespace vulkan
 
 BKSGE_INLINE
 UniformBufferSetter::UniformBufferSetter(
-	vulkan::ShaderReflectionUniformBuffer const& reflection)
+	vulkan::ShaderReflectionUniform const& reflection)
 {
-	m_set     = reflection.set;
-	m_binding = reflection.binding;
-	m_name    = reflection.name;
-	m_bytes   = reflection.bytes;
+	m_set             = reflection.set;
+	m_binding         = reflection.binding;
+	m_name            = reflection.name;
+	m_descriptor_type = reflection.descriptor_type;
+	m_bytes           = reflection.bytes;
 
 	for (auto const& member : reflection.members)
 	{
@@ -95,22 +96,20 @@ UniformBufferSetter::LoadParameters(
 	m_buffer_info.range  = m_bytes;
 }
 
-BKSGE_INLINE std::uint32_t
-UniformBufferSetter::set(void) const
+BKSGE_INLINE vk::WriteDescriptorSet
+UniformBufferSetter::GetWriteDescriptorSet(void) const
 {
-	return m_set;
-}
+	vk::WriteDescriptorSet write;
+	write.dstSet           = VK_NULL_HANDLE;
+	write.dstBinding       = m_binding;
+	write.dstArrayElement  = 0;
+	write.descriptorCount  = 1;
+	write.descriptorType   = m_descriptor_type;
+	write.pImageInfo       = nullptr;
+	write.pBufferInfo      = &m_buffer_info;
+	write.pTexelBufferView = nullptr;
 
-BKSGE_INLINE std::uint32_t
-UniformBufferSetter::binding(void) const
-{
-	return m_binding;
-}
-
-BKSGE_INLINE ::VkDescriptorBufferInfo const&
-UniformBufferSetter::GetBufferInfo(void) const
-{
-	return m_buffer_info;
+	return write;
 }
 
 }	// namespace vulkan

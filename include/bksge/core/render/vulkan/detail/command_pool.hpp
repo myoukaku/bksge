@@ -13,6 +13,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <memory>
+#include <cstdint>
 
 namespace bksge
 {
@@ -34,9 +35,12 @@ public:
 
 	operator ::VkCommandPool() const;
 
+	::VkQueue GetQueue(void) const;
+
 private:
 	vulkan::DeviceSharedPtr		m_device;
-	::VkCommandPool				m_command_pool;
+	::VkCommandPool				m_command_pool = VK_NULL_HANDLE;
+	std::uint32_t				m_queue_family_index = 0;
 };
 
 }	// namespace vulkan

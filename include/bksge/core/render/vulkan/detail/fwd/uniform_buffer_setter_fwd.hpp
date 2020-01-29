@@ -9,6 +9,8 @@
 #ifndef BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_UNIFORM_BUFFER_SETTER_FWD_HPP
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_UNIFORM_BUFFER_SETTER_FWD_HPP
 
+#include <memory>
+
 namespace bksge
 {
 
@@ -19,6 +21,7 @@ namespace vulkan
 {
 
 class UniformBufferSetter;
+using UniformBufferSetterUniquePtr = std::unique_ptr<UniformBufferSetter>;
 
 }	// namespace vulkan
 

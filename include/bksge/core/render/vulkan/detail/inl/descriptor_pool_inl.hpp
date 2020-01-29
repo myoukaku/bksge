@@ -36,29 +36,19 @@ DescriptorPool::DescriptorPool(
 {
 	std::vector<::VkDescriptorPoolSize> type_count;
 
-	// TODO ハードコーディングを取り除く
+	::VkDescriptorType const descriptor_type_tbl[] =
+	{
+		VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+		VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+		VK_DESCRIPTOR_TYPE_SAMPLER,
+		VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE,
+	};
+
+	for (auto const& descriptor_type : descriptor_type_tbl)
 	{
 		::VkDescriptorPoolSize pool_size;
-		pool_size.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-		pool_size.descriptorCount = (uint32_t)reflection.GetUniformBuffers().size();
-		type_count.push_back(pool_size);
-	}
-	{
-		::VkDescriptorPoolSize pool_size;
-		pool_size.type = VK_DESCRIPTOR_TYPE_SAMPLER;
-		pool_size.descriptorCount = 100;
-		type_count.push_back(pool_size);
-	}
-	{
-		::VkDescriptorPoolSize pool_size;
-		pool_size.type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-		pool_size.descriptorCount = 100;
-		type_count.push_back(pool_size);
-	}
-	{
-		::VkDescriptorPoolSize pool_size;
-		pool_size.type = VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE;
-		pool_size.descriptorCount = 100;
+		pool_size.type = descriptor_type;
+		pool_size.descriptorCount = reflection.GetUniformCount(descriptor_type);
 		type_count.push_back(pool_size);
 	}
 

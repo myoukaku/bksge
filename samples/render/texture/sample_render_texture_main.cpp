@@ -45,13 +45,14 @@ private:
 		static char const* vs_source =
 			"#version 420											\n"
 			"#extension GL_ARB_separate_shader_objects : enable		\n"
+			"#extension GL_KHR_vulkan_glsl : enable					\n"
 			"														\n"
 			"layout (location = 0) in vec3 aPosition;				\n"
 			"layout (location = 1) in vec2 aTexCoord;				\n"
 			"														\n"
 			"layout (location = 0) out vec2 vTexCoord;				\n"
 			"														\n"
-			"layout(set=0, binding=0) uniform UniformBuffer1 {		\n"
+			"layout (binding = 0) uniform UniformBuffer1 {			\n"
 			"	mat4 uMatrix;										\n"
 			"};														\n"
 			"														\n"
@@ -65,16 +66,17 @@ private:
 		static char const* fs_source =
 			"#version 420											\n"
 			"#extension GL_ARB_separate_shader_objects : enable		\n"
+			"#extension GL_KHR_vulkan_glsl : enable					\n"
 			"														\n"
 			"layout (location = 0) in vec2 vTexCoord;				\n"
 			"														\n"
 			"layout (location = 0) out vec4 oColor;					\n"
 			"														\n"
-			"uniform sampler2D uSampler;							\n"
+			"layout (binding = 1) uniform sampler2D uSampler;		\n"
 			"														\n"
 			"void main()											\n"
 			"{														\n"
-			"	oColor = texture2D(uSampler, vTexCoord);			\n"
+			"	oColor = texture(uSampler, vTexCoord);				\n"
 			"}														\n"
 		;
 
@@ -242,6 +244,18 @@ int main()
 
 		std::shared_ptr<bksge::GlRenderer> renderer(
 			new bksge::GlRenderer(*window));
+		renderers.push_back(renderer);
+		renderer->SetClearColor({0.5f, 0.0f, 0.5f, 1});
+	}
+#endif
+#if BKSGE_CORE_RENDER_HAS_VULKAN_RENDERER
+	{
+		std::shared_ptr<bksge::Window> window(
+			new bksge::Window({800, 600}, "sample_render_texture - Vulkan"));
+		windows.push_back(window);
+
+		std::shared_ptr<bksge::VulkanRenderer> renderer(
+			new bksge::VulkanRenderer(*window));
 		renderers.push_back(renderer);
 		renderer->SetClearColor({0.5f, 0.0f, 0.5f, 1});
 	}

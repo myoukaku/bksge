@@ -19,6 +19,7 @@
 #include <bksge/core/render/vulkan/detail/spirv_h.hpp>
 #include <bksge/core/render/vulkan/detail/descriptor_set_layout.hpp>
 #include <bksge/core/render/vulkan/detail/uniform_buffer_setter.hpp>
+#include <bksge/core/render/vulkan/detail/combined_image_sampler_setter.hpp>
 #include <bksge/core/render/vulkan/detail/uniform_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/buffer.hpp>
 #include <bksge/core/render/vulkan/detail/glsl_to_spv.hpp>
@@ -73,10 +74,19 @@ Shader::Shader(
 	ShaderReflection reflection(spv_list);
 
 	// Create UniformBuffers
-	for (auto const& info : reflection.GetUniformBuffers())
+	for (auto const& info : reflection.GetUniforms())
 	{
-		m_uniform_buffer_setter.push_back(
-			bksge::make_unique<vulkan::UniformBufferSetter>(info));
+		switch (info.descriptor_type)
+		{
+		case VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER:
+			m_uniform_buffer_setter.push_back(
+				bksge::make_unique<vulkan::UniformBufferSetter>(info));
+			break;
+		case VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER:
+			m_combined_image_sampler_setter.push_back(
+				bksge::make_unique<vulkan::CombinedImageSamplerSetter>(info));
+			break;
+		}
 	}
 
 	m_descriptor_set_layout =
@@ -107,11 +117,23 @@ Shader::GetDescriptorSetLayout(void) const
 BKSGE_INLINE void
 Shader::LoadParameters(
 	bksge::ShaderParameterMap const& shader_parameter_map,
-	vulkan::UniformBuffer* uniform_buffer)
+	vulkan::DeviceSharedPtr const& device,
+	vulkan::CommandPoolSharedPtr const& command_pool,
+	vulkan::UniformBuffer* uniform_buffer,
+	vulkan::ResourcePool* resource_pool)
 {
 	for (auto&& setter : m_uniform_buffer_setter)
 	{
 		setter->LoadParameters(shader_parameter_map, uniform_buffer);
+	}
+	for (auto&& setter : m_combined_image_sampler_setter)
+	{
+		setter->LoadParameters(
+			shader_parameter_map,
+			device,
+			command_pool,
+			uniform_buffer,
+			resource_pool);
 	}
 }
 
@@ -122,17 +144,13 @@ Shader::GetWriteDescriptorSets(void) const
 
 	for (auto&& setter : m_uniform_buffer_setter)
 	{
-		vk::WriteDescriptorSet write;
-		write.dstSet           = VK_NULL_HANDLE;
-		write.dstBinding       = setter->binding();
-		write.dstArrayElement  = 0;
-		write.descriptorCount  = 1;
-		write.descriptorType   = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-		write.pImageInfo       = nullptr;
-		write.pBufferInfo      = &setter->GetBufferInfo();
-		write.pTexelBufferView = nullptr;
-
-		writes.push_back(write);
+		writes.push_back(
+			setter->GetWriteDescriptorSet());
+	}
+	for (auto&& setter : m_combined_image_sampler_setter)
+	{
+		writes.push_back(
+			setter->GetWriteDescriptorSet());
 	}
 
 	return writes;
@@ -154,7 +172,11 @@ Shader::AddShaderStage(
 	module_create_info.codeSize = spv.size() * sizeof(unsigned int);
 	module_create_info.pCode    = spv.data();
 
-	vk::CreateShaderModule(*m_device, &module_create_info, nullptr, &shader_stage_create_info.module);
+	vk::CreateShaderModule(
+		*m_device,
+		&module_create_info,
+		nullptr,
+		&shader_stage_create_info.module);
 
 	m_shader_stages.push_back(shader_stage_create_info);
 }
