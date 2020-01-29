@@ -33,7 +33,7 @@ Device::Device(vulkan::PhysicalDeviceSharedPtr const& physical_device)
 	std::vector<char const*> layer_names;
 	std::vector<char const*> extension_names;
 
-#if 1	// 可能なレイヤーと拡張を全て追加
+#if 0	// 可能なレイヤーと拡張を全て追加
 
 	// これらのインスタンスは vk::CreateDevice を呼び出すまで生きていなければいけない
 	// (layer_names 等には char const* をコピーしているだけなので)
@@ -60,6 +60,7 @@ Device::Device(vulkan::PhysicalDeviceSharedPtr const& physical_device)
 #else	// 使うものだけを手動で追加
 
 	extension_names.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
+	extension_names.push_back(VK_KHR_MAINTENANCE1_EXTENSION_NAME);
 
 #endif
 
