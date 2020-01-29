@@ -60,6 +60,7 @@ Device::Device(vulkan::PhysicalDeviceSharedPtr const& physical_device)
 #else	// 使うものだけを手動で追加
 
 	extension_names.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
+	extension_names.push_back(VK_KHR_PUSH_DESCRIPTOR_EXTENSION_NAME);
 	extension_names.push_back(VK_KHR_MAINTENANCE1_EXTENSION_NAME);
 
 #endif

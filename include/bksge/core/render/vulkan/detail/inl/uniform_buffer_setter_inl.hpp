@@ -34,8 +34,10 @@ BKSGE_INLINE
 UniformBufferSetter::UniformBufferSetter(
 	vulkan::ShaderReflectionUniformBuffer const& reflection)
 {
-	m_name  = reflection.name;
-	m_bytes = reflection.bytes;
+	m_set     = reflection.set;
+	m_binding = reflection.binding;
+	m_name    = reflection.name;
+	m_bytes   = reflection.bytes;
 
 	for (auto const& member : reflection.members)
 	{
@@ -45,6 +47,10 @@ UniformBufferSetter::UniformBufferSetter(
 		v.bytes  = member.bytes;
 		m_variables.push_back(v);
 	}
+
+	m_buffer_info.buffer = VK_NULL_HANDLE;
+	m_buffer_info.offset = 0;
+	m_buffer_info.range  = 0;
 }
 
 BKSGE_INLINE
@@ -52,7 +58,7 @@ UniformBufferSetter::~UniformBufferSetter()
 {
 }
 
-BKSGE_INLINE std::size_t
+BKSGE_INLINE void
 UniformBufferSetter::LoadParameters(
 	bksge::ShaderParameterMap const& shader_parameter_map,
 	vulkan::UniformBuffer* uniform_buffer)
@@ -84,7 +90,27 @@ UniformBufferSetter::LoadParameters(
 		}
 	}
 
-	return offset;
+	m_buffer_info.buffer = *(uniform_buffer->GetBuffer());
+	m_buffer_info.offset = offset;
+	m_buffer_info.range  = m_bytes;
+}
+
+BKSGE_INLINE std::uint32_t
+UniformBufferSetter::set(void) const
+{
+	return m_set;
+}
+
+BKSGE_INLINE std::uint32_t
+UniformBufferSetter::binding(void) const
+{
+	return m_binding;
+}
+
+BKSGE_INLINE ::VkDescriptorBufferInfo const&
+UniformBufferSetter::GetBufferInfo(void) const
+{
+	return m_buffer_info;
 }
 
 }	// namespace vulkan

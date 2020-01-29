@@ -38,21 +38,30 @@ public:
 
 	~UniformBufferSetter();
 
-	std::size_t LoadParameters(
+	void LoadParameters(
 		bksge::ShaderParameterMap const& shader_parameter_map,
 		vulkan::UniformBuffer* uniform_buffer);
+
+	std::uint32_t set(void) const;
+
+	std::uint32_t binding(void) const;
+
+	::VkDescriptorBufferInfo const& GetBufferInfo(void) const;
 
 private:
 	struct Variable
 	{
 		std::string		name;
-		std::size_t		bytes;
-		std::uint32_t	offset;
+		std::size_t		bytes = 0;
+		std::uint32_t	offset = 0;
 	};
 
+	std::uint32_t					m_set = 0;
+	std::uint32_t					m_binding = 0;
 	std::string						m_name;
 	std::size_t						m_bytes = 0;
 	std::vector<Variable>			m_variables;
+	::VkDescriptorBufferInfo		m_buffer_info;
 };
 
 }	// namespace vulkan

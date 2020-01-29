@@ -39,7 +39,7 @@ DescriptorPool::DescriptorPool(
 	// TODO ハードコーディングを取り除く
 	{
 		::VkDescriptorPoolSize pool_size;
-		pool_size.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC;
+		pool_size.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 		pool_size.descriptorCount = (uint32_t)reflection.GetUniformBuffers().size();
 		type_count.push_back(pool_size);
 	}

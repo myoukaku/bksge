@@ -17,9 +17,7 @@
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/vulkan/detail/spirv_h.hpp>
-#include <bksge/core/render/vulkan/detail/descriptor_pool.hpp>
 #include <bksge/core/render/vulkan/detail/descriptor_set_layout.hpp>
-#include <bksge/core/render/vulkan/detail/descriptor_set.hpp>
 #include <bksge/core/render/vulkan/detail/uniform_buffer_setter.hpp>
 #include <bksge/core/render/vulkan/detail/uniform_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/buffer.hpp>
@@ -47,8 +45,7 @@ namespace vulkan
 BKSGE_INLINE
 Shader::Shader(
 	vulkan::DeviceSharedPtr const& device,
-	bksge::Shader const& shader,
-	vulkan::UniformBuffer* uniform_buffer)
+	bksge::Shader const& shader)
 	: m_device(device)
 {
 	// Create Spv List
@@ -84,50 +81,6 @@ Shader::Shader(
 
 	m_descriptor_set_layout =
 		bksge::make_unique<vulkan::DescriptorSetLayout>(m_device, reflection);
-
-	m_descriptor_pool =
-		std::make_shared<vulkan::DescriptorPool>(m_device, reflection);
-
-	m_descriptor_set =
-		bksge::make_unique<vulkan::DescriptorSet>(
-			m_device,
-			m_descriptor_pool,
-			m_descriptor_set_layout->GetLayouts());
-
-	::VkDescriptorBufferInfo buffer_info;
-	buffer_info.buffer = *(uniform_buffer->GetBuffer());
-	buffer_info.offset = 0;
-	buffer_info.range  = VK_WHOLE_SIZE;
-
-	// Update DescriptorSet
-	{
-		std::vector<::VkWriteDescriptorSet> writes;
-
-		for (auto const& info : reflection.GetUniformBuffers())
-		{
-			auto const& set             = info.set;
-			auto const& binding         = info.binding;
-
-			vk::WriteDescriptorSet write;
-			write.dstSet           = m_descriptor_set->Get()[set];
-			write.dstBinding       = binding;
-			write.dstArrayElement  = 0;
-			write.descriptorCount  = 1;
-			write.descriptorType   = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC;
-			write.pImageInfo       = nullptr;
-			write.pBufferInfo      = &buffer_info;
-			//write.pTexelBufferView = nullptr;
-
-			writes.push_back(write);
-		}
-
-		vk::UpdateDescriptorSets(
-			*m_device,
-			static_cast<std::uint32_t>(writes.size()),
-			writes.data(),
-			0,
-			nullptr);
-	}
 }
 
 BKSGE_INLINE
@@ -151,26 +104,38 @@ Shader::GetDescriptorSetLayout(void) const
 	return *m_descriptor_set_layout;
 }
 
-BKSGE_INLINE std::unique_ptr<vulkan::DescriptorSet> const&
-Shader::GetDescriptorSet(void) const
-{
-	return m_descriptor_set;
-}
-
-BKSGE_INLINE std::vector<std::uint32_t>
+BKSGE_INLINE void
 Shader::LoadParameters(
 	bksge::ShaderParameterMap const& shader_parameter_map,
 	vulkan::UniformBuffer* uniform_buffer)
 {
-	std::vector<std::uint32_t> offsets;
+	for (auto&& setter : m_uniform_buffer_setter)
+	{
+		setter->LoadParameters(shader_parameter_map, uniform_buffer);
+	}
+}
+
+BKSGE_INLINE std::vector<::VkWriteDescriptorSet>
+Shader::GetWriteDescriptorSets(void) const
+{
+	std::vector<::VkWriteDescriptorSet> writes;
 
 	for (auto&& setter : m_uniform_buffer_setter)
 	{
-		offsets.push_back(static_cast<std::uint32_t>(
-			setter->LoadParameters(shader_parameter_map, uniform_buffer)));
+		vk::WriteDescriptorSet write;
+		write.dstSet           = VK_NULL_HANDLE;
+		write.dstBinding       = setter->binding();
+		write.dstArrayElement  = 0;
+		write.descriptorCount  = 1;
+		write.descriptorType   = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+		write.pImageInfo       = nullptr;
+		write.pBufferInfo      = &setter->GetBufferInfo();
+		write.pTexelBufferView = nullptr;
+
+		writes.push_back(write);
 	}
 
-	return offsets;
+	return writes;
 }
 
 BKSGE_INLINE void

@@ -67,7 +67,7 @@ DescriptorSetLayout::DescriptorSetLayout(
 
 	detail::CreateDescriptorSetLayoutBindingList(
 		reflection.GetUniformBuffers(),
-		VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC,
+		VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
 		&descriptor_set_layout_bindings_list);
 
 	std::vector<vk::DescriptorSetLayoutCreateInfo> info;
@@ -75,6 +75,7 @@ DescriptorSetLayout::DescriptorSetLayout(
 
 	for (std::size_t i = 0; i < descriptor_set_count; ++i)
 	{
+		info[i].flags = VK_DESCRIPTOR_SET_LAYOUT_CREATE_PUSH_DESCRIPTOR_BIT_KHR;
 		info[i].SetBindings(descriptor_set_layout_bindings_list[i]);
 	}
 

@@ -70,11 +70,10 @@ ResourcePool::~ResourcePool()
 BKSGE_INLINE vulkan::ShaderSharedPtr
 ResourcePool::GetShader(
 	vulkan::DeviceSharedPtr const& device,
-	bksge::Shader const& shader,
-	vulkan::UniformBuffer* uniform_buffer)
+	bksge::Shader const& shader)
 {
 	return detail::GetOrCreate<vulkan::Shader>(
-		m_shader_map, shader.id(), device, shader, uniform_buffer);
+		m_shader_map, shader.id(), device, shader);
 }
 
 BKSGE_INLINE vulkan::GeometrySharedPtr
@@ -93,8 +92,7 @@ ResourcePool::GetGraphicsPipeline(
 	bksge::Geometry const& geometry,
 	bksge::Shader const& shader,
 	bksge::RenderState const& render_state,
-	vulkan::RenderPass const& render_pass,
-	vulkan::UniformBuffer* uniform_buffer)
+	vulkan::RenderPass const& render_pass)
 {
 	auto const id = bksge::hash_combine(
 		static_cast<std::uint32_t>(num_samples),
@@ -110,7 +108,7 @@ ResourcePool::GetGraphicsPipeline(
 		geometry,
 		render_state,
 		render_pass,
-		*(this->GetShader(device, shader, uniform_buffer)));
+		*(this->GetShader(device, shader)));
 }
 
 }	// namespace vulkan

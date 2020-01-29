@@ -39,8 +39,7 @@ public:
 
 	vulkan::ShaderSharedPtr GetShader(
 		vulkan::DeviceSharedPtr const& device,
-		bksge::Shader const& shader,
-		vulkan::UniformBuffer* uniform_buffer);
+		bksge::Shader const& shader);
 
 	vulkan::GeometrySharedPtr GetGeometry(
 		vulkan::DeviceSharedPtr const& device,
@@ -52,8 +51,7 @@ public:
 		bksge::Geometry const& geometry,
 		bksge::Shader const& shader,
 		bksge::RenderState const& render_state,
-		vulkan::RenderPass const& render_pass,
-		vulkan::UniformBuffer* uniform_buffer);
+		vulkan::RenderPass const& render_pass);
 
 private:
 	vulkan::ShaderSharedPtrMap				m_shader_map;

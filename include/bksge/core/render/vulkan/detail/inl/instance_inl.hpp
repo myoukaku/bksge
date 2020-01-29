@@ -62,6 +62,8 @@ Instance::Instance(char const* app_name)
 	layer_names.push_back("VK_LAYER_LUNARG_standard_validation");
 #endif
 
+	extension_names.push_back(VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME);
+
 	extension_names.push_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
 	extension_names.push_back(VK_KHR_SURFACE_EXTENSION_NAME);
 #if defined(VK_USE_PLATFORM_ANDROID_KHR)

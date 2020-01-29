@@ -377,8 +377,7 @@ VulkanRenderer::VRender(
 	auto vk_shader =
 		m_resource_pool->GetShader(
 			m_device,
-			shader,
-			m_uniform_buffer.get());
+			shader);
 
 	auto graphics_pipeline =
 		m_resource_pool->GetGraphicsPipeline(
@@ -387,10 +386,9 @@ VulkanRenderer::VRender(
 			geometry,
 			shader,
 			render_state,
-			*m_render_pass,
-			m_uniform_buffer.get());
+			*m_render_pass);
 
-	auto offsets = vk_shader->LoadParameters(
+	vk_shader->LoadParameters(
 		shader_parameter_map,
 		m_uniform_buffer.get());
 
@@ -399,15 +397,15 @@ VulkanRenderer::VRender(
 		VK_PIPELINE_BIND_POINT_GRAPHICS,
 		*graphics_pipeline);
 
-	vk::CmdBindDescriptorSets(
+	auto const writes = vk_shader->GetWriteDescriptorSets();
+	vk::CmdPushDescriptorSetKHR(
+		*m_device,
 		*m_command_buffer,
 		VK_PIPELINE_BIND_POINT_GRAPHICS,
 		graphics_pipeline->GetLayout(),
-		0,
-		static_cast<std::uint32_t>(vk_shader->GetDescriptorSet()->Get().size()),
-		vk_shader->GetDescriptorSet()->Get().data(),
-		static_cast<std::uint32_t>(offsets.size()),
-		offsets.data());
+		0,	// TODO set
+		static_cast<std::uint32_t>(writes.size()),
+		writes.data());
 
 	auto vk_geometry = m_resource_pool->GetGeometry(m_device, geometry);
 

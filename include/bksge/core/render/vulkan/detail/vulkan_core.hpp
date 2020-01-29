@@ -22,12 +22,20 @@ namespace render
 namespace vk
 {
 
-#define BKSGE_VKEXT_FUNC(funcname, instance, ...)			\
+#define BKSGE_VK_INSTANCE_FUNC(instance, funcname, ...)		\
 	static auto p = reinterpret_cast<PFN_ ## funcname>(		\
 		::vkGetInstanceProcAddr(instance, #funcname));		\
 	if (p)	                                                \
 	{	                                                    \
-		p(instance, __VA_ARGS__);						    \
+		p(__VA_ARGS__);						    \
+	}
+
+#define BKSGE_VK_DEVICE_FUNC(device, funcname, ...)			\
+	static auto p = reinterpret_cast<PFN_ ## funcname>(		\
+		::vkGetDeviceProcAddr(device, #funcname));			\
+	if (p)	                                                \
+	{	                                                    \
+		p(__VA_ARGS__);										\
 	}
 
 struct ApplicationInfo : public ::VkApplicationInfo
@@ -6153,13 +6161,25 @@ VkResult vkGetSemaphoreFdKHR(
     const VkSemaphoreGetFdInfoKHR*              pGetFdInfo,
     int*                                        pFd);
 
-void vkCmdPushDescriptorSetKHR(
-    VkCommandBuffer                             commandBuffer,
-    VkPipelineBindPoint                         pipelineBindPoint,
-    VkPipelineLayout                            layout,
-    uint32_t                                    set,
-    uint32_t                                    descriptorWriteCount,
-    const VkWriteDescriptorSet*                 pDescriptorWrites);
+inline void CmdPushDescriptorSetKHR(
+	VkDevice                                    device,
+	VkCommandBuffer                             commandBuffer,
+	VkPipelineBindPoint                         pipelineBindPoint,
+	VkPipelineLayout                            layout,
+	uint32_t                                    set,
+	uint32_t                                    descriptorWriteCount,
+	const VkWriteDescriptorSet*                 pDescriptorWrites)
+{
+	BKSGE_VK_DEVICE_FUNC(
+		device,
+		vkCmdPushDescriptorSetKHR,
+		commandBuffer,
+		pipelineBindPoint,
+		layout,
+		set,
+		descriptorWriteCount,
+		pDescriptorWrites);
+}
 
 void vkCmdPushDescriptorSetWithTemplateKHR(
     VkCommandBuffer                             commandBuffer,
@@ -6321,7 +6341,13 @@ inline VkResult CreateDebugReportCallbackEXT(
 	const VkAllocationCallbacks* pAllocator,
 	VkDebugReportCallbackEXT* pCallback)
 {
-	BKSGE_VKEXT_FUNC(vkCreateDebugReportCallbackEXT, instance, pCreateInfo, pAllocator, pCallback);
+	BKSGE_VK_INSTANCE_FUNC(
+		instance,
+		vkCreateDebugReportCallbackEXT,
+		instance,
+		pCreateInfo,
+		pAllocator,
+		pCallback);
 	return VK_SUCCESS;
 }
 
@@ -6330,7 +6356,12 @@ inline void DestroyDebugReportCallbackEXT(
 	VkDebugReportCallbackEXT callback,
 	const VkAllocationCallbacks* pAllocator)
 {
-	BKSGE_VKEXT_FUNC(vkDestroyDebugReportCallbackEXT, instance, callback, pAllocator);
+	BKSGE_VK_INSTANCE_FUNC(
+		instance,
+		vkDestroyDebugReportCallbackEXT,
+		instance,
+		callback,
+		pAllocator);
 }
 
 void vkDebugReportMessageEXT(
@@ -6884,7 +6915,8 @@ void vkResetQueryPoolEXT(
     uint32_t                                    firstQuery,
     uint32_t                                    queryCount);
 
-#undef BKSGE_VKEXT_FUNC
+#undef BKSGE_VK_INSTANCE_FUNC
+#undef BKSGE_VK_DEVICE_FUNC
 
 }	// namespace vk
 

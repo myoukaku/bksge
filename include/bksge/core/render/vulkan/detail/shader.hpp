@@ -11,9 +11,7 @@
 
 #include <bksge/core/render/vulkan/detail/fwd/shader_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/descriptor_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/descriptor_set_layout_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/descriptor_set_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/uniform_buffer_setter_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/uniform_buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
@@ -37,8 +35,7 @@ class Shader
 public:
 	explicit Shader(
 		vulkan::DeviceSharedPtr const& device,
-		bksge::Shader const& shader,
-		vulkan::UniformBuffer* uniform_buffer);
+		bksge::Shader const& shader);
 
 	~Shader();
 
@@ -46,11 +43,11 @@ public:
 
 	vulkan::DescriptorSetLayout const& GetDescriptorSetLayout(void) const;
 
-	std::unique_ptr<vulkan::DescriptorSet> const& GetDescriptorSet(void) const;
-
-	std::vector<std::uint32_t> LoadParameters(
+	void LoadParameters(
 		bksge::ShaderParameterMap const& shader_parameter_map,
 		vulkan::UniformBuffer* uniform_buffer);
+
+	std::vector<::VkWriteDescriptorSet> GetWriteDescriptorSets(void) const;
 
 private:
 	void AddShaderStage(
@@ -63,8 +60,6 @@ private:
 	std::vector<::VkPipelineShaderStageCreateInfo>		m_shader_stages;
 	std::vector<std::unique_ptr<vulkan::UniformBufferSetter>>	m_uniform_buffer_setter;
 	vulkan::DescriptorSetLayoutUniquePtr		m_descriptor_set_layout;
-	vulkan::DescriptorPoolSharedPtr				m_descriptor_pool;
-	vulkan::DescriptorSetUniquePtr				m_descriptor_set;
 };
 
 }	// namespace vulkan
