@@ -229,7 +229,7 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 	m_resource_pool = bksge::make_unique<vulkan::ResourcePool>();
 	m_uniform_buffer = bksge::make_unique<vulkan::UniformBuffer>(
 		m_device,
-		256 * 1024);	// TODO
+		65536);	// TODO
 
 	SetViewport(Rectf(Vector2f(0,0), Size2f(window.client_size())));
 }
