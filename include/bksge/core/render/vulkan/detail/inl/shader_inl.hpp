@@ -82,8 +82,17 @@ Shader::Shader(
 			bksge::make_unique<vulkan::UniformBufferSetter>(info));
 	}
 
-	m_descriptor_set = bksge::make_unique<vulkan::DescriptorSet>(
-		m_device, reflection);
+	m_descriptor_set_layout =
+		bksge::make_unique<vulkan::DescriptorSetLayout>(m_device, reflection);
+
+	m_descriptor_pool =
+		std::make_shared<vulkan::DescriptorPool>(m_device, reflection);
+
+	m_descriptor_set =
+		bksge::make_unique<vulkan::DescriptorSet>(
+			m_device,
+			m_descriptor_pool,
+			m_descriptor_set_layout->GetLayouts());
 
 	::VkDescriptorBufferInfo buffer_info;
 	buffer_info.buffer = *(uniform_buffer->GetBuffer());
@@ -139,7 +148,7 @@ Shader::GetStages(void) const
 BKSGE_INLINE vulkan::DescriptorSetLayout const&
 Shader::GetDescriptorSetLayout(void) const
 {
-	return m_descriptor_set->GetDescriptorSetLayout();
+	return *m_descriptor_set_layout;
 }
 
 BKSGE_INLINE std::unique_ptr<vulkan::DescriptorSet> const&

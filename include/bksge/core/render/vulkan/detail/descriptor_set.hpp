@@ -12,7 +12,6 @@
 #include <bksge/core/render/vulkan/detail/fwd/descriptor_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/descriptor_pool_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/descriptor_set_layout_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/shader_reflection_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <vector>
@@ -32,18 +31,16 @@ class DescriptorSet
 public:
 	explicit DescriptorSet(
 		vulkan::DeviceSharedPtr const& device,
-		vulkan::ShaderReflection const& reflection);
+		vulkan::DescriptorPoolSharedPtr const& descriptor_pool,
+		std::vector<::VkDescriptorSetLayout> const& descriptor_set_layout);
 
 	~DescriptorSet();
 
 	std::vector<::VkDescriptorSet> const& Get(void) const;
 
-	vulkan::DescriptorSetLayout const& GetDescriptorSetLayout(void) const;
-
 private:
 	vulkan::DeviceSharedPtr					m_device;
-	vulkan::DescriptorPoolUniquePtr			m_descriptor_pool;
-	vulkan::DescriptorSetLayoutUniquePtr	m_descriptor_set_layout;
+	vulkan::DescriptorPoolSharedPtr			m_descriptor_pool;
 	std::vector<::VkDescriptorSet>			m_descriptor_sets;
 };
 

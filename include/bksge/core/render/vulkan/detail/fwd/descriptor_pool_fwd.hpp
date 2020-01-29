@@ -21,7 +21,7 @@ namespace vulkan
 {
 
 class DescriptorPool;
-//using DescriptorPoolSharedPtr = std::shared_ptr<DescriptorPool>;
+using DescriptorPoolSharedPtr = std::shared_ptr<DescriptorPool>;
 using DescriptorPoolUniquePtr = std::unique_ptr<DescriptorPool>;
 
 }	// namespace vulkan

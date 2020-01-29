@@ -11,7 +11,7 @@
 
 #include <bksge/core/render/vulkan/detail/fwd/shader_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
-//#include <bksge/core/render/vulkan/detail/fwd/descriptor_pool_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/descriptor_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/descriptor_set_layout_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/descriptor_set_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/uniform_buffer_setter_fwd.hpp>
@@ -62,6 +62,8 @@ private:
 	vulkan::DeviceSharedPtr						m_device;
 	std::vector<::VkPipelineShaderStageCreateInfo>		m_shader_stages;
 	std::vector<std::unique_ptr<vulkan::UniformBufferSetter>>	m_uniform_buffer_setter;
+	vulkan::DescriptorSetLayoutUniquePtr		m_descriptor_set_layout;
+	vulkan::DescriptorPoolSharedPtr				m_descriptor_pool;
 	vulkan::DescriptorSetUniquePtr				m_descriptor_set;
 };
 

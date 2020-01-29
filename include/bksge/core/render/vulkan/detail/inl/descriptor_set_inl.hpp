@@ -15,7 +15,6 @@
 #include <bksge/core/render/vulkan/detail/descriptor_set.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/descriptor_pool.hpp>
-#include <bksge/core/render/vulkan/detail/descriptor_set_layout.hpp>
 #include <bksge/core/render/vulkan/detail/uniform_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/shader_reflection.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
@@ -35,18 +34,16 @@ namespace vulkan
 BKSGE_INLINE
 DescriptorSet::DescriptorSet(
 	vulkan::DeviceSharedPtr const& device,
-	vulkan::ShaderReflection const& reflection)
+	vulkan::DescriptorPoolSharedPtr const& descriptor_pool,
+	std::vector<::VkDescriptorSetLayout> const& descriptor_set_layouts)
 	: m_device(device)
-	, m_descriptor_pool(
-		bksge::make_unique<vulkan::DescriptorPool>(device, reflection))
-	, m_descriptor_set_layout(
-		bksge::make_unique<vulkan::DescriptorSetLayout>(device, reflection))
+	, m_descriptor_pool(descriptor_pool)
 {
 	vk::DescriptorSetAllocateInfo info;
-	info.descriptorPool = *m_descriptor_pool;
-	info.SetSetLayouts(m_descriptor_set_layout->GetLayouts());
+	info.descriptorPool = *descriptor_pool;
+	info.SetSetLayouts(descriptor_set_layouts);
 
-	m_descriptor_sets.resize(m_descriptor_set_layout->GetLayouts().size());
+	m_descriptor_sets.resize(descriptor_set_layouts.size());
 	vk::AllocateDescriptorSets(*m_device, &info, m_descriptor_sets.data());
 }
 
@@ -64,12 +61,6 @@ BKSGE_INLINE std::vector<::VkDescriptorSet> const&
 DescriptorSet::Get(void) const
 {
 	return m_descriptor_sets;
-}
-
-BKSGE_INLINE vulkan::DescriptorSetLayout const&
-DescriptorSet::GetDescriptorSetLayout(void) const
-{
-	return *m_descriptor_set_layout;
 }
 
 }	// namespace vulkan
