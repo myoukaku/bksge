@@ -63,6 +63,7 @@ DescriptorPool::DescriptorPool(
 	}
 
 	vk::DescriptorPoolCreateInfo info;
+	info.flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT;	// vkFreeDescriptorSets() を呼び出すときはこれを指定する
 	info.maxSets = reflection.GetMaxSets() + 1;
 	info.SetPoolSizes(type_count);
 
