@@ -9,7 +9,7 @@
 #ifndef BKSGE_CORE_RENDER_D3D12_DETAIL_PRIMITIVE_TOPOLOGY_TYPE_HPP
 #define BKSGE_CORE_RENDER_D3D12_DETAIL_PRIMITIVE_TOPOLOGY_TYPE_HPP
 
-#include <bksge/core/render/fwd/primitive_fwd.hpp>
+#include <bksge/core/render/fwd/primitive_topology_fwd.hpp>
 #include <bksge/core/render/d3d_common/d3d12.hpp>
 
 namespace bksge
@@ -27,7 +27,7 @@ namespace d3d12
 class PrimitiveTopologyType
 {
 public:
-	explicit PrimitiveTopologyType(bksge::Primitive primitive);
+	explicit PrimitiveTopologyType(bksge::PrimitiveTopology primitive_topology);
 
 	operator ::D3D12_PRIMITIVE_TOPOLOGY_TYPE() const;
 

@@ -24,15 +24,15 @@ namespace render
 
 BKSGE_INLINE
 Geometry::Geometry(void)
-	: m_primitive(Primitive::kTriangles)
+	: m_primitive_topology(PrimitiveTopology::kTriangles)
 	, m_vertex_array()
 	, m_index_array()
 {}
 
-BKSGE_INLINE Primitive const&
-Geometry::primitive(void) const
+BKSGE_INLINE PrimitiveTopology const&
+Geometry::primitive_topology(void) const
 {
-	return m_primitive;
+	return m_primitive_topology;
 }
 
 BKSGE_INLINE VertexLayout const&
@@ -111,7 +111,7 @@ BKSGE_INLINE bool
 operator==(Geometry const& lhs, Geometry const& rhs)
 {
 	return
-		lhs.m_primitive == rhs.m_primitive &&
+		lhs.m_primitive_topology == rhs.m_primitive_topology &&
 		geometry_detail::PointerDeepCompare(lhs.m_vertex_array, rhs.m_vertex_array) &&
 		geometry_detail::PointerDeepCompare(lhs.m_index_array,  rhs.m_index_array);
 }

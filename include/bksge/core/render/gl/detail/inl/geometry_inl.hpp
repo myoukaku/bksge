@@ -13,7 +13,7 @@
 #if BKSGE_CORE_RENDER_HAS_GL_RENDERER
 
 #include <bksge/core/render/gl/detail/geometry.hpp>
-#include <bksge/core/render/gl/detail/primitive.hpp>
+#include <bksge/core/render/gl/detail/primitive_topology.hpp>
 #include <bksge/core/render/gl/detail/type_enum.hpp>
 #include <bksge/core/render/geometry.hpp>
 
@@ -30,7 +30,7 @@ BKSGE_INLINE
 Geometry::Geometry(bksge::Geometry const& geometry)
 	: m_vertex_array(geometry)
 	, m_index_buffer(geometry.index_array_data(), geometry.index_array_bytes())
-	, m_primitive(gl::Primitive(geometry.primitive()))
+	, m_primitive_topology(gl::PrimitiveTopology(geometry.primitive_topology()))
 	, m_vertex_count(static_cast<::GLsizei>(geometry.vertex_array_count()))
 	, m_index_count(static_cast<::GLsizei>(geometry.index_array_count()))
 	, m_index_type(gl::TypeEnum(geometry.index_array_type()))
@@ -67,11 +67,11 @@ Geometry::Draw(void) const
 {
 	if (m_index_buffer.enable())
 	{
-		::glDrawElements(m_primitive, m_index_count, m_index_type, 0);
+		::glDrawElements(m_primitive_topology, m_index_count, m_index_type, 0);
 	}
 	else
 	{
-		::glDrawArrays(m_primitive, 0, m_vertex_count);
+		::glDrawArrays(m_primitive_topology, 0, m_vertex_count);
 	}
 }
 

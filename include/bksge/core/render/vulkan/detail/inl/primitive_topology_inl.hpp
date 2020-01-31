@@ -14,7 +14,7 @@
 
 #include <bksge/core/render/vulkan/detail/primitive_topology.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <bksge/core/render/primitive.hpp>
+#include <bksge/core/render/primitive_topology.hpp>
 
 namespace bksge
 {
@@ -29,13 +29,13 @@ namespace detail
 {
 
 inline ::VkPrimitiveTopology
-ToVulkanPrimitiveTopology(bksge::Primitive primitive_topology)
+ToVulkanPrimitiveTopology(bksge::PrimitiveTopology primitive_topology)
 {
 	switch (primitive_topology)
 	{
-	case bksge::Primitive::kPoints:    return VK_PRIMITIVE_TOPOLOGY_POINT_LIST;
-	case bksge::Primitive::kLines:     return VK_PRIMITIVE_TOPOLOGY_LINE_LIST;
-	case bksge::Primitive::kTriangles: return VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+	case bksge::PrimitiveTopology::kPoints:    return VK_PRIMITIVE_TOPOLOGY_POINT_LIST;
+	case bksge::PrimitiveTopology::kLines:     return VK_PRIMITIVE_TOPOLOGY_LINE_LIST;
+	case bksge::PrimitiveTopology::kTriangles: return VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
 	}
 	// TODO エラー
 	return VK_PRIMITIVE_TOPOLOGY_POINT_LIST;
@@ -44,7 +44,7 @@ ToVulkanPrimitiveTopology(bksge::Primitive primitive_topology)
 }	// namespace detail
 
 BKSGE_INLINE
-PrimitiveTopology::PrimitiveTopology(bksge::Primitive primitive_topology)
+PrimitiveTopology::PrimitiveTopology(bksge::PrimitiveTopology primitive_topology)
 	: m_primitive_topology(detail::ToVulkanPrimitiveTopology(primitive_topology))
 {}
 

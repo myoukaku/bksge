@@ -184,7 +184,7 @@ int main()
 		2, 1, 3,
 	};
 
-	bksge::Geometry const geometry(bksge::Primitive::kTriangles, vertices, indices);
+	bksge::Geometry const geometry(bksge::PrimitiveTopology::kTriangles, vertices, indices);
 
 	std::vector<bksge::Shader const*> const shader_list
 	{

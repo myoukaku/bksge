@@ -30,10 +30,10 @@ inline T get_random_float(T min, T max)
 	return dist(get_random_engine());
 }
 
-class Primitive
+class PrimitiveTopology
 {
 public:
-	virtual ~Primitive() {}
+	virtual ~PrimitiveTopology() {}
 
 	void Update(void)
 	{
@@ -50,7 +50,7 @@ private:
 	virtual void VDraw(bksge::Renderer* renderer) = 0;
 };
 
-class Triangle : public Primitive
+class Triangle : public PrimitiveTopology
 {
 public:
 	Triangle()
@@ -84,7 +84,7 @@ private:
 		};
 
 		static bksge::Geometry const geometry(
-			bksge::Primitive::kTriangles, vertices);
+			bksge::PrimitiveTopology::kTriangles, vertices);
 
 		return geometry;
 	}
@@ -238,7 +238,7 @@ private:
 	bksge::Color3f				m_color;
 };
 
-class Line : public Primitive
+class Line : public PrimitiveTopology
 {
 public:
 	Line()
@@ -266,7 +266,7 @@ private:
 		};
 
 		static bksge::Geometry const geometry(
-			bksge::Primitive::kLines, vertices);
+			bksge::PrimitiveTopology::kLines, vertices);
 
 		return geometry;
 	}
@@ -411,7 +411,7 @@ private:
 	bksge::Color3f				m_color;
 };
 
-class Point : public Primitive
+class Point : public PrimitiveTopology
 {
 public:
 	Point()
@@ -434,7 +434,7 @@ private:
 		};
 
 		static bksge::Geometry const geometry(
-			bksge::Primitive::kPoints, vertices);
+			bksge::PrimitiveTopology::kPoints, vertices);
 
 		return geometry;
 	}
@@ -621,7 +621,7 @@ int main()
 	}
 #endif
 
-	std::vector<std::shared_ptr<Primitive>>	primitives;
+	std::vector<std::shared_ptr<PrimitiveTopology>>	primitives;
 
 	static const int kTriangleNum = 5;
 	static const int kLineNum = 100;

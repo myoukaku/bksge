@@ -32,7 +32,7 @@ BKSGE_INLINE
 Geometry::Geometry(Device* device, bksge::Geometry const& geometry)
 	: m_vertex_buffer(new VertexBuffer(device, geometry))
 	, m_index_buffer(new IndexBuffer(device, geometry))
-	, m_primitive_topology(PrimitiveTopology(geometry.primitive()))
+	, m_primitive_topology(PrimitiveTopology(geometry.primitive_topology()))
 {
 }
 

@@ -36,7 +36,7 @@ private:
 		};
 
 		static bksge::Geometry const geometry(
-			bksge::Primitive::kTriangles, vertices, indices);
+			bksge::PrimitiveTopology::kTriangles, vertices, indices);
 
 		return geometry;
 	}

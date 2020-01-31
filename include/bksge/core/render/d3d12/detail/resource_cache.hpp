@@ -23,7 +23,7 @@
 #include <bksge/core/render/d3d_common/d3d12.hpp>
 #include <bksge/core/render/fwd/render_state_fwd.hpp>
 #include <bksge/core/render/fwd/shader_fwd.hpp>
-#include <bksge/core/render/fwd/primitive_fwd.hpp>
+#include <bksge/core/render/fwd/primitive_topology_fwd.hpp>
 #include <bksge/core/render/fwd/geometry_fwd.hpp>
 #include <bksge/core/render/fwd/texture_fwd.hpp>
 #include <bksge/core/render/fwd/sampler_fwd.hpp>
@@ -53,7 +53,7 @@ public:
 		Device* device,
 		bksge::Shader const& shader,
 		bksge::RenderState const& render_state,
-		bksge::Primitive primitive);
+		bksge::PrimitiveTopology primitive_topology);
 
 	HlslProgramShared GetD3D12HlslProgram(Device* device, bksge::Shader const& shader);
 

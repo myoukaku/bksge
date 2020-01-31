@@ -42,7 +42,7 @@ public:
 private:
 	VertexArray		m_vertex_array;
 	IndexBuffer		m_index_buffer;
-	::GLenum		m_primitive;
+	::GLenum		m_primitive_topology;
 	::GLsizei		m_vertex_count;
 	::GLsizei		m_index_count;
 	::GLenum		m_index_type;

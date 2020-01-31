@@ -9,7 +9,7 @@
 #ifndef BKSGE_CORE_RENDER_VULKAN_DETAIL_PRIMITIVE_TOPOLOGY_HPP
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_PRIMITIVE_TOPOLOGY_HPP
 
-#include <bksge/core/render/fwd/primitive_fwd.hpp>
+#include <bksge/core/render/fwd/primitive_topology_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 
 namespace bksge
@@ -27,7 +27,7 @@ namespace vulkan
 class PrimitiveTopology
 {
 public:
-	explicit PrimitiveTopology(bksge::Primitive primitive_topology);
+	explicit PrimitiveTopology(bksge::PrimitiveTopology primitive_topology);
 
 	operator ::VkPrimitiveTopology() const;
 

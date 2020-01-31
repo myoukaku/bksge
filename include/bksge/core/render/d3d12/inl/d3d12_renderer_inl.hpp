@@ -232,7 +232,7 @@ D3D12Renderer::VRender(
 		m_resource_cache.get(),
 		shader_parameter_map);
 
-	auto pipeline_state = m_resource_cache->GetD3D12PipelineState(m_device.get(), shader, render_state, geometry.primitive());
+	auto pipeline_state = m_resource_cache->GetD3D12PipelineState(m_device.get(), shader, render_state, geometry.primitive_topology());
 	pipeline_state->SetPipelineState(m_command_list.get());
 
 	auto d3d12_geometry = m_resource_cache->GetD3D12Geometry(m_device.get(), geometry);

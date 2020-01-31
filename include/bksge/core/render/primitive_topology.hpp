@@ -1,15 +1,15 @@
 ﻿/**
- *	@file	primitive.hpp
+ *	@file	primitive_topology.hpp
  *
- *	@brief	Primitive の定義
+ *	@brief	PrimitiveTopology の定義
  *
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_CORE_RENDER_PRIMITIVE_HPP
-#define BKSGE_CORE_RENDER_PRIMITIVE_HPP
+#ifndef BKSGE_CORE_RENDER_PRIMITIVE_TOPOLOGY_HPP
+#define BKSGE_CORE_RENDER_PRIMITIVE_TOPOLOGY_HPP
 
-#include <bksge/core/render/fwd/primitive_fwd.hpp>
+#include <bksge/core/render/fwd/primitive_topology_fwd.hpp>
 #include <ostream>
 #include <string>
 
@@ -22,7 +22,7 @@ namespace render
 /**
  *	@brief	描画プリミティブの種類
  */
-enum class Primitive
+enum class PrimitiveTopology
 {
 	kPoints,
 	kLines,
@@ -32,14 +32,14 @@ enum class Primitive
 /**
  *	@brief	文字列への変換
  */
-std::string to_string(Primitive const& primitive);
+std::string to_string(PrimitiveTopology const& primitive_topology);
 
 /**
  *	@brief	ストリームへの出力
  */
 template <typename CharT, typename Traits>
 inline std::basic_ostream<CharT, Traits>&
-operator<<(std::basic_ostream<CharT, Traits>& os, Primitive const& rhs)
+operator<<(std::basic_ostream<CharT, Traits>& os, PrimitiveTopology const& rhs)
 {
 	return os << to_string(rhs).c_str();
 }
@@ -57,11 +57,11 @@ namespace std
 {
 
 template<>
-struct hash<bksge::render::Primitive>
+struct hash<bksge::render::PrimitiveTopology>
 {
-	std::size_t operator()(bksge::render::Primitive const& arg) const
+	std::size_t operator()(bksge::render::PrimitiveTopology const& arg) const
 	{
-		using underlying_type = typename std::underlying_type<bksge::render::Primitive>::type;
+		using underlying_type = typename std::underlying_type<bksge::render::PrimitiveTopology>::type;
 		return std::hash<underlying_type>{}(static_cast<underlying_type>(arg));
 	}
 };
@@ -72,7 +72,7 @@ struct hash<bksge::render::Primitive>
 
 #include <bksge/fnd/config.hpp>
 #if defined(BKSGE_HEADER_ONLY)
-#include <bksge/core/render/inl/primitive_inl.hpp>
+#include <bksge/core/render/inl/primitive_topology_inl.hpp>
 #endif
 
-#endif // BKSGE_CORE_RENDER_PRIMITIVE_HPP
+#endif // BKSGE_CORE_RENDER_PRIMITIVE_TOPOLOGY_HPP

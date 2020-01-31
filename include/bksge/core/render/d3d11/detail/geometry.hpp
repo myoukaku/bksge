@@ -41,7 +41,7 @@ public:
 private:
 	VertexBuffer               m_vertex_buffer;
 	IndexBuffer                m_index_buffer;
-	::D3D11_PRIMITIVE_TOPOLOGY m_primitive;
+	::D3D11_PRIMITIVE_TOPOLOGY m_primitive_topology;
 	::UINT			           m_vertex_count;
 	::UINT			           m_index_count;
 };

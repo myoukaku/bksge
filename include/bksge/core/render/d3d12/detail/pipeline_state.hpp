@@ -16,7 +16,7 @@
 #include <bksge/core/render/d3d_common/com_ptr.hpp>
 #include <bksge/core/render/d3d_common/d3d12.hpp>
 #include <bksge/core/render/fwd/render_state_fwd.hpp>
-#include <bksge/core/render/fwd/primitive_fwd.hpp>
+#include <bksge/core/render/fwd/primitive_topology_fwd.hpp>
 
 namespace bksge
 {
@@ -34,7 +34,7 @@ public:
 		Device* device,
 		HlslProgram const& hlsl_program,
 		bksge::RenderState const& render_state,
-		bksge::Primitive primitive);
+		bksge::PrimitiveTopology primitive_topology);
 
 	~PipelineState();
 

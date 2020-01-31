@@ -157,7 +157,7 @@ GraphicsPipeline::GraphicsPipeline(
 
 	vk::PipelineInputAssemblyStateCreateInfo input_assembly_state;
 	input_assembly_state.topology =
-		vulkan::PrimitiveTopology(geometry.primitive());
+		vulkan::PrimitiveTopology(geometry.primitive_topology());
 
 	vulkan::RasterizerState raster_state(render_state.rasterizer_state());
 

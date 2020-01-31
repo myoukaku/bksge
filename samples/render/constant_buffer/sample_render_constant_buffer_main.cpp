@@ -173,7 +173,7 @@ int main()
 	};
 
 	const bksge::Geometry geometry(
-		bksge::Primitive::kTriangles, vertices);
+		bksge::PrimitiveTopology::kTriangles, vertices);
 
 	std::vector<bksge::Shader const*> const shader_list
 	{

@@ -14,7 +14,7 @@
 
 #include <bksge/core/render/d3d12/detail/primitive_topology.hpp>
 #include <bksge/core/render/d3d_common/d3d12.hpp>
-#include <bksge/core/render/primitive.hpp>
+#include <bksge/core/render/primitive_topology.hpp>
 
 namespace bksge
 {
@@ -29,13 +29,13 @@ namespace detail
 {
 
 inline ::D3D12_PRIMITIVE_TOPOLOGY
-ToD3D12PrimitiveTopology(bksge::Primitive primitive)
+ToD3D12PrimitiveTopology(bksge::PrimitiveTopology primitive_topology)
 {
-	switch (primitive)
+	switch (primitive_topology)
 	{
-	case bksge::Primitive::kPoints:    return D3D_PRIMITIVE_TOPOLOGY_POINTLIST;
-	case bksge::Primitive::kLines:     return D3D_PRIMITIVE_TOPOLOGY_LINELIST;
-	case bksge::Primitive::kTriangles: return D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	case bksge::PrimitiveTopology::kPoints:    return D3D_PRIMITIVE_TOPOLOGY_POINTLIST;
+	case bksge::PrimitiveTopology::kLines:     return D3D_PRIMITIVE_TOPOLOGY_LINELIST;
+	case bksge::PrimitiveTopology::kTriangles: return D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 	}
 	return D3D_PRIMITIVE_TOPOLOGY_UNDEFINED;
 }
@@ -43,8 +43,8 @@ ToD3D12PrimitiveTopology(bksge::Primitive primitive)
 }	// namespace detail
 
 BKSGE_INLINE
-PrimitiveTopology::PrimitiveTopology(bksge::Primitive primitive)
-	: m_primitive_topology(detail::ToD3D12PrimitiveTopology(primitive))
+PrimitiveTopology::PrimitiveTopology(bksge::PrimitiveTopology primitive_topology)
+	: m_primitive_topology(detail::ToD3D12PrimitiveTopology(primitive_topology))
 {}
 
 BKSGE_INLINE

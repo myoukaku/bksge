@@ -67,7 +67,7 @@ private:
 		};
 
 		static bksge::Geometry const geometry(
-			bksge::Primitive::kTriangles, vertices);
+			bksge::PrimitiveTopology::kTriangles, vertices);
 
 		return geometry;
 	}

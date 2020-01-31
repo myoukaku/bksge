@@ -38,7 +38,7 @@ PipelineState::PipelineState(
 	Device* device,
 	HlslProgram const& hlsl_program,
 	bksge::RenderState const& render_state,
-	bksge::Primitive primitive)
+	bksge::PrimitiveTopology primitive_topology)
 {
 	RasterizerState   raster_state(render_state.rasterizer_state());
 	BlendState        blend_state(render_state.blend_state());
@@ -53,7 +53,7 @@ PipelineState::PipelineState(
 	desc.BlendState            = blend_state;
 	desc.DepthStencilState     = depth_stencil_state;
 	desc.SampleMask            = UINT_MAX;
-	desc.PrimitiveTopologyType = PrimitiveTopologyType(primitive);
+	desc.PrimitiveTopologyType = PrimitiveTopologyType(primitive_topology);
 	desc.NumRenderTargets      = 1;
 	desc.RTVFormats[0]         = DXGI_FORMAT_R8G8B8A8_UNORM;
 	desc.DSVFormat             = DXGI_FORMAT_D32_FLOAT;

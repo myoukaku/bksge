@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_GEOMETRY_HPP
 
 #include <bksge/core/render/fwd/geometry_fwd.hpp>
-#include <bksge/core/render/primitive.hpp>
+#include <bksge/core/render/primitive_topology.hpp>
 #include <bksge/core/render/detail/fwd/vertex_array_fwd.hpp>
 #include <bksge/core/render/detail/fwd/index_array_fwd.hpp>
 #include <bksge/core/render/fwd/vertex_layout_fwd.hpp>
@@ -47,11 +47,11 @@ public:
 
 	template <typename VertexRange, typename IndexRange>
 	Geometry(
-		Primitive primitive,
+		PrimitiveTopology primitive_topology,
 		VertexRange const& vertex_range,
 		IndexRange const& index_range)
 		: Geometry(
-			primitive,
+			primitive_topology,
 			std::begin(vertex_range),
 			std::end(vertex_range),
 			std::begin(index_range),
@@ -60,10 +60,10 @@ public:
 
 	template <typename VertexRange>
 	Geometry(
-		Primitive primitive,
+		PrimitiveTopology primitive_topology,
 		VertexRange const& vertex_range)
 		: Geometry(
-			primitive,
+			primitive_topology,
 			std::begin(vertex_range),
 			std::end(vertex_range))
 	{}
@@ -75,12 +75,12 @@ public:
 		typename IndexType = typename std::iterator_traits<IndexIterator>::value_type
 	>
 	Geometry(
-		Primitive primitive,
+		PrimitiveTopology primitive_topology,
 		VertexIterator vertex_first,
 		VertexIterator vertex_last,
 		IndexIterator index_first,
 		IndexIterator index_last)
-		: m_primitive(primitive)
+		: m_primitive_topology(primitive_topology)
 		, m_vertex_array(new VertexArray<VertexType>(vertex_first, vertex_last))
 		, m_index_array(new IndexArray<IndexType>(index_first, index_last))
 	{}
@@ -90,15 +90,15 @@ public:
 		typename VertexType = typename std::iterator_traits<VertexIterator>::value_type
 	>
 	Geometry(
-		Primitive primitive,
+		PrimitiveTopology primitive_topology,
 		VertexIterator vertex_first,
 		VertexIterator vertex_last)
-		: m_primitive(primitive)
+		: m_primitive_topology(primitive_topology)
 		, m_vertex_array(new VertexArray<VertexType>(vertex_first, vertex_last))
 		, m_index_array()
 	{}
 
-	Primitive const& primitive(void) const;
+	PrimitiveTopology const& primitive_topology(void) const;
 	VertexLayout const& vertex_layout(void) const;
 
 	void const* vertex_array_data(void) const;
@@ -111,7 +111,7 @@ public:
 	TypeEnum index_array_type(void) const;
 
 private:
-	Primitive					        m_primitive;
+	PrimitiveTopology					m_primitive_topology;
 	std::shared_ptr<VertexArrayBase>	m_vertex_array;
 	std::shared_ptr<IndexArrayBase>		m_index_array;
 
@@ -125,7 +125,7 @@ private:
 	void serialize(Archive& ar, bksge::serialization::version_t /*version*/)
 	{
 		ar & BKSGE_SERIALIZATION_NVP(m_id);
-		ar & BKSGE_SERIALIZATION_NVP(m_primitive);
+		ar & BKSGE_SERIALIZATION_NVP(m_primitive_topology);
 		ar & BKSGE_SERIALIZATION_NVP(m_vertex_array);
 		ar & BKSGE_SERIALIZATION_NVP(m_index_array);
 	}

@@ -24,7 +24,7 @@
 #include <bksge/core/render/d3d12/detail/fence.hpp>
 #include <bksge/core/render/render_state.hpp>
 #include <bksge/core/render/shader.hpp>
-#include <bksge/core/render/primitive.hpp>
+#include <bksge/core/render/primitive_topology.hpp>
 #include <bksge/core/render/geometry.hpp>
 #include <bksge/core/render/texture.hpp>
 #include <bksge/core/render/sampler.hpp>
@@ -92,16 +92,16 @@ ResourceCache::GetD3D12PipelineState(
 	Device* device,
 	bksge::Shader const& shader,
 	bksge::RenderState const& render_state,
-	bksge::Primitive primitive)
+	bksge::PrimitiveTopology primitive_topology)
 {
-	auto const id = bksge::hash_combine(shader.id(), render_state, primitive);
+	auto const id = bksge::hash_combine(shader.id(), render_state, primitive_topology);
 	return detail::GetOrCreate<PipelineState>(
 		m_pipeline_state,
 		id,
 		device,
 		*GetD3D12HlslProgram(device, shader),
 		render_state,
-		primitive);
+		primitive_topology);
 }
 
 BKSGE_INLINE HlslProgramShared
