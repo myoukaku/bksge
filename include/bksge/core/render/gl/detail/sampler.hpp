@@ -36,7 +36,7 @@ public:
 
 	TextureShared const& source(void) const;
 
-	void Apply(void) const;
+	void Apply(GLint location) const;
 
 private:
 	TextureShared	m_source;

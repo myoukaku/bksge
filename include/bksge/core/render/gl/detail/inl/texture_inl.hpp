@@ -43,7 +43,7 @@ Texture::Texture(
 {
 	::glGenTextures(1, &m_name);
 
-	Bind();
+	::glBindTexture(GL_TEXTURE_2D , m_name);
 
 	::GLint	  const  level = 0;
 	::GLint	  const  internal_format = ToGlInternalPixelFormat(texture_format);
@@ -63,6 +63,8 @@ Texture::Texture(
 		format,
 		type,
 		p);
+
+	::glBindTexture(GL_TEXTURE_2D , 0);
 }
 
 BKSGE_INLINE
@@ -78,8 +80,10 @@ Texture::name(void) const
 }
 
 BKSGE_INLINE void
-Texture::Bind(void) const
+Texture::Bind(GLint location) const
 {
+	::glUniform1i(location, location);
+	::glActiveTexture(GL_TEXTURE0 + location);
 	::glBindTexture(GL_TEXTURE_2D , m_name);
 }
 

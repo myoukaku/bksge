@@ -145,9 +145,8 @@ private:
 
 	static void SetParameterImpl(ResourceCache* resource_cache, ::GLint location, bksge::Sampler const& sampler)
 	{
-		(void)location;
 		gl::Sampler gl_sampler(resource_cache, sampler);
-		gl_sampler.Apply();
+		gl_sampler.Apply(location);
 	}
 };
 

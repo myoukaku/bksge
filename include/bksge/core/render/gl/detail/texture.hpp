@@ -37,7 +37,7 @@ public:
 
 	::GLuint name(void) const;
 
-	void Bind(void) const;
+	void Bind(GLint location) const;
 
 private:
 	::GLuint	m_name;

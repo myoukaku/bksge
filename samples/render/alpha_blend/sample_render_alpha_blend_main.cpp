@@ -53,7 +53,7 @@ private:
 			"														\n"
 			"layout (location = 0) out vec2 vTexCoord;				\n"
 			"														\n"
-			"layout (binding=0) uniform UniformBuffer1 {			\n"
+			"layout (binding = 0) uniform UniformBuffer1 {			\n"
 			"	mat4 uMatrix;										\n"
 			"};														\n"
 			"														\n"

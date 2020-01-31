@@ -82,6 +82,93 @@ BKSGE_WARNING_DISABLE_GCC("-Wcast-function-type")
 		return p(__VA_ARGS__);	\
 	}
 
+// GL_VERSION_1_0
+//BKSGE_INLINE void APIENTRY glCullFace(GLenum mode);
+//BKSGE_INLINE void APIENTRY glFrontFace(GLenum mode);
+//BKSGE_INLINE void APIENTRY glHint(GLenum target, GLenum mode);
+//BKSGE_INLINE void APIENTRY glLineWidth(GLfloat width);
+//BKSGE_INLINE void APIENTRY glPointSize(GLfloat size);
+//BKSGE_INLINE void APIENTRY glPolygonMode(GLenum face, GLenum mode);
+//BKSGE_INLINE void APIENTRY glScissor(GLint x, GLint y, GLsizei width, GLsizei height);
+//BKSGE_INLINE void APIENTRY glTexParameterf(GLenum target, GLenum pname, GLfloat param);
+//BKSGE_INLINE void APIENTRY glTexParameterfv(GLenum target, GLenum pname, const GLfloat *params);
+//BKSGE_INLINE void APIENTRY glTexParameteri(GLenum target, GLenum pname, GLint param);
+//BKSGE_INLINE void APIENTRY glTexParameteriv(GLenum target, GLenum pname, const GLint *params);
+//BKSGE_INLINE void APIENTRY glTexImage1D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLint border, GLenum format, GLenum type, const void *pixels);
+//BKSGE_INLINE void APIENTRY glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const void *pixels);
+//BKSGE_INLINE void APIENTRY glDrawBuffer(GLenum buf);
+//BKSGE_INLINE void APIENTRY glClear(GLbitfield mask);
+//BKSGE_INLINE void APIENTRY glClearColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
+//BKSGE_INLINE void APIENTRY glClearStencil(GLint s);
+//BKSGE_INLINE void APIENTRY glClearDepth(GLdouble depth);
+//BKSGE_INLINE void APIENTRY glStencilMask(GLuint mask);
+//BKSGE_INLINE void APIENTRY glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha);
+//BKSGE_INLINE void APIENTRY glDepthMask(GLboolean flag);
+//BKSGE_INLINE void APIENTRY glDisable(GLenum cap);
+//BKSGE_INLINE void APIENTRY glEnable(GLenum cap);
+//BKSGE_INLINE void APIENTRY glFinish(void);
+//BKSGE_INLINE void APIENTRY glFlush(void);
+//BKSGE_INLINE void APIENTRY glBlendFunc(GLenum sfactor, GLenum dfactor);
+//BKSGE_INLINE void APIENTRY glLogicOp(GLenum opcode);
+//BKSGE_INLINE void APIENTRY glStencilFunc(GLenum func, GLint ref, GLuint mask);
+//BKSGE_INLINE void APIENTRY glStencilOp(GLenum fail, GLenum zfail, GLenum zpass);
+//BKSGE_INLINE void APIENTRY glDepthFunc(GLenum func);
+//BKSGE_INLINE void APIENTRY glPixelStoref(GLenum pname, GLfloat param);
+//BKSGE_INLINE void APIENTRY glPixelStorei(GLenum pname, GLint param);
+//BKSGE_INLINE void APIENTRY glReadBuffer(GLenum src);
+//BKSGE_INLINE void APIENTRY glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, void *pixels);
+//BKSGE_INLINE void APIENTRY glGetBooleanv(GLenum pname, GLboolean *data);
+//BKSGE_INLINE void APIENTRY glGetDoublev(GLenum pname, GLdouble *data);
+//BKSGE_INLINE GLenum APIENTRY glGetError(void);
+//BKSGE_INLINE void APIENTRY glGetFloatv(GLenum pname, GLfloat *data);
+//BKSGE_INLINE void APIENTRY glGetIntegerv(GLenum pname, GLint *data);
+//BKSGE_INLINE const GLubyte *APIENTRY glGetString(GLenum name);
+//BKSGE_INLINE void APIENTRY glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, void *pixels);
+//BKSGE_INLINE void APIENTRY glGetTexParameterfv(GLenum target, GLenum pname, GLfloat *params);
+//BKSGE_INLINE void APIENTRY glGetTexParameteriv(GLenum target, GLenum pname, GLint *params);
+//BKSGE_INLINE void APIENTRY glGetTexLevelParameterfv(GLenum target, GLint level, GLenum pname, GLfloat *params);
+//BKSGE_INLINE void APIENTRY glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *params);
+//BKSGE_INLINE GLboolean APIENTRY glIsEnabled(GLenum cap);
+//BKSGE_INLINE void APIENTRY glDepthRange(GLdouble n, GLdouble f);
+//BKSGE_INLINE void APIENTRY glViewport(GLint x, GLint y, GLsizei width, GLsizei height);
+
+// GL_VERSION_1_1
+//BKSGE_INLINE void APIENTRY glDrawArrays(GLenum mode, GLint first, GLsizei count);
+//BKSGE_INLINE void APIENTRY glDrawElements(GLenum mode, GLsizei count, GLenum type, const void *indices);
+//BKSGE_INLINE void APIENTRY glGetPointerv(GLenum pname, void **params);
+//BKSGE_INLINE void APIENTRY glPolygonOffset(GLfloat factor, GLfloat units);
+//BKSGE_INLINE void APIENTRY glCopyTexImage1D(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLint border);
+//BKSGE_INLINE void APIENTRY glCopyTexImage2D(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border);
+//BKSGE_INLINE void APIENTRY glCopyTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLint x, GLint y, GLsizei width);
+//BKSGE_INLINE void APIENTRY glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height);
+//BKSGE_INLINE void APIENTRY glTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, const void *pixels);
+//BKSGE_INLINE void APIENTRY glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const void *pixels);
+//BKSGE_INLINE void APIENTRY glBindTexture(GLenum target, GLuint texture);
+//BKSGE_INLINE void APIENTRY glDeleteTextures(GLsizei n, const GLuint *textures);
+//BKSGE_INLINE void APIENTRY glGenTextures(GLsizei n, GLuint *textures);
+//BKSGE_INLINE GLboolean APIENTRY glIsTexture(GLuint texture);
+
+// GL_VERSION_1_2
+//BKSGE_INLINE void APIENTRY glDrawRangeElements(GLenum mode, GLuint start, GLuint end, GLsizei count, GLenum type, const void *indices);
+//BKSGE_INLINE void APIENTRY glTexImage3D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLenum format, GLenum type, const void *pixels);
+//BKSGE_INLINE void APIENTRY glTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const void *pixels);
+//BKSGE_INLINE void APIENTRY glCopyTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width, GLsizei height);
+
+// GL_VERSION_1_3
+BKSGE_INLINE void APIENTRY glActiveTexture(GLenum texture)
+{
+	BKSGE_GLEXT_FUNC(PFNGLACTIVETEXTUREPROC, glActiveTexture, texture);
+}
+
+//BKSGE_INLINE void APIENTRY glSampleCoverage(GLfloat value, GLboolean invert);
+//BKSGE_INLINE void APIENTRY glCompressedTexImage3D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLsizei imageSize, const void *data);
+//BKSGE_INLINE void APIENTRY glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const void *data);
+//BKSGE_INLINE void APIENTRY glCompressedTexImage1D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLint border, GLsizei imageSize, const void *data);
+//BKSGE_INLINE void APIENTRY glCompressedTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLsizei imageSize, const void *data);
+//BKSGE_INLINE void APIENTRY glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const void *data);
+//BKSGE_INLINE void APIENTRY glCompressedTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLsizei imageSize, const void *data);
+//BKSGE_INLINE void APIENTRY glGetCompressedTexImage(GLenum target, GLint level, void *img);
+
 // GL_VERSION_1_4
 BKSGE_INLINE void APIENTRY glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha)
 {
