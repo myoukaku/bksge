@@ -13,7 +13,6 @@
 #include <bksge/core/render/filter_mode.hpp>
 #include <bksge/core/render/wrap_mode.hpp>
 #include <bksge/core/render/texture.hpp>
-#include <bksge/core/render/detail/identifiable.hpp>
 #include <bksge/core/math/color4.hpp>
 //#include <bksge/fnd/serialization/access.hpp>
 //#include <bksge/fnd/serialization/nvp.hpp>
@@ -29,7 +28,7 @@ namespace render
 /**
  *	@brief	テクスチャサンプラー
  */
-class Sampler : public Identifiable
+class Sampler
 {
 public:
 	Sampler(void);
@@ -110,5 +109,31 @@ operator<<(std::basic_ostream<CharT, Traits>& os, Sampler const& rhs)
 #if defined(BKSGE_HEADER_ONLY)
 #include <bksge/core/render/inl/sampler_inl.hpp>
 #endif
+
+#include <cstddef>
+#include <functional>
+#include <bksge/fnd/functional/hash_combine.hpp>
+
+namespace std
+{
+
+template<>
+struct hash<bksge::render::Sampler>
+{
+	std::size_t operator()(bksge::render::Sampler const& arg) const
+	{
+		return bksge::hash_combine(
+			arg.source().id(),
+			arg.min_filter(),
+			arg.mag_filter(),
+			arg.wrap_s(),
+			arg.wrap_t(),
+			arg.wrap_r()/*,
+			arg.border_color()*/);	// TODO
+	}
+};
+
+}	// namespace std
+
 
 #endif // BKSGE_CORE_RENDER_SAMPLER_HPP

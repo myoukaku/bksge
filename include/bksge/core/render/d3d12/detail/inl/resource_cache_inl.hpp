@@ -134,9 +134,10 @@ ResourceCache::GetD3D12Texture(Device* device, bksge::Texture const& texture)
 BKSGE_INLINE SamplerShared
 ResourceCache::GetD3D12Sampler(bksge::Sampler const& sampler)
 {
+	auto const id = bksge::hash_combine(sampler);
 	return detail::GetOrCreate<Sampler>(
 		m_sampler_map,
-		sampler.id(),
+		id,
 		sampler);
 }
 

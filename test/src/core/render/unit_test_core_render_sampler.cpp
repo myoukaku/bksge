@@ -167,26 +167,6 @@ GTEST_TEST(Render_Sampler, IdTest)
 	Sampler sampler9;
 	sampler9 = sampler1;
 
-	EXPECT_TRUE (sampler1.id() == sampler1.id());
-	EXPECT_FALSE(sampler1.id() == sampler2.id());
-	EXPECT_FALSE(sampler1.id() == sampler3.id());
-	EXPECT_FALSE(sampler1.id() == sampler4.id());
-	EXPECT_FALSE(sampler1.id() == sampler5.id());
-	EXPECT_FALSE(sampler1.id() == sampler6.id());
-	EXPECT_TRUE (sampler1.id() == sampler7.id());
-	EXPECT_FALSE(sampler1.id() == sampler8.id());
-	EXPECT_TRUE (sampler1.id() == sampler9.id());
-
-	EXPECT_FALSE(sampler1.id() != sampler1.id());
-	EXPECT_TRUE (sampler1.id() != sampler2.id());
-	EXPECT_TRUE (sampler1.id() != sampler3.id());
-	EXPECT_TRUE (sampler1.id() != sampler4.id());
-	EXPECT_TRUE (sampler1.id() != sampler5.id());
-	EXPECT_TRUE (sampler1.id() != sampler6.id());
-	EXPECT_FALSE(sampler1.id() != sampler7.id());
-	EXPECT_TRUE (sampler1.id() != sampler8.id());
-	EXPECT_FALSE(sampler1.id() != sampler9.id());
-
 	EXPECT_TRUE (sampler1 == sampler1);
 	EXPECT_TRUE (sampler1 == sampler2);
 	EXPECT_FALSE(sampler1 == sampler3);

@@ -21,6 +21,7 @@
 #include <bksge/core/render/geometry.hpp>
 #include <bksge/core/render/texture.hpp>
 #include <bksge/core/render/sampler.hpp>
+#include <bksge/fnd/functional/hash_combine.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <memory>
 
@@ -90,8 +91,9 @@ ResourceCache::GetD3D11Texture(Device* device, bksge::Texture const& texture)
 BKSGE_INLINE SamplerShared
 ResourceCache::GetD3D11Sampler(Device* device, bksge::Sampler const& sampler)
 {
+	auto const id = bksge::hash_combine(sampler);
 	return detail::GetOrCreate<Sampler>(
-		m_sampler_map, sampler.id(), device, sampler);
+		m_sampler_map, id, device, sampler);
 }
 
 }	// namespace d3d11

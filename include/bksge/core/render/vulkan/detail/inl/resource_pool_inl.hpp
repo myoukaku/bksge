@@ -119,8 +119,9 @@ ResourcePool::GetCombinedImageSampler(
 	vulkan::CommandPoolSharedPtr const& command_pool,
 	bksge::Sampler const& sampler)
 {
+	auto const id = bksge::hash_combine(sampler);
 	return detail::GetOrCreate<vulkan::CombinedImageSampler>(
-		m_combined_image_sampler_map, sampler.id(), device, command_pool, sampler);
+		m_combined_image_sampler_map, id, device, command_pool, sampler);
 }
 
 }	// namespace vulkan

@@ -263,9 +263,9 @@ int main()
 	std::size_t const tex0_width  = 32;
 	std::size_t const tex0_height = 32;
 
-	std::uint8_t pixels0[tex0_width * tex0_height * 4];
+	std::vector<std::uint8_t> pixels0(tex0_width * tex0_height * 4);
 	{
-		auto* p = pixels0;
+		auto* p = pixels0.data();
 		for (std::size_t y = 0; y < tex0_height; ++y)
 		{
 			for (std::size_t x = 0; x < tex0_width; ++x)
@@ -279,14 +279,14 @@ int main()
 		}
 	}
 	bksge::Texture const tex0(
-		bksge::TextureFormat::kRGBA_U8, {tex0_width, tex0_height}, pixels0);
+		bksge::TextureFormat::kRGBA_U8, {tex0_width, tex0_height}, pixels0.data());
 
 	std::size_t const tex1_width  = 64;
 	std::size_t const tex1_height = 64;
 
-	std::uint8_t pixels1[tex1_width * tex1_height * 4];
+	std::vector<std::uint8_t> pixels1(tex1_width * tex1_height * 4);
 	{
-		auto* p = pixels1;
+		auto* p = pixels1.data();
 		for (std::size_t y = 0; y < tex1_height; ++y)
 		{
 			for (std::size_t x = 0; x < tex1_width; ++x)
@@ -303,7 +303,7 @@ int main()
 		}
 	}
 	bksge::Texture const tex1(
-		bksge::TextureFormat::kRGBA_U8, {tex1_width, tex1_height}, pixels1);
+		bksge::TextureFormat::kRGBA_U8, {tex1_width, tex1_height}, pixels1.data());
 
 	std::vector<std::shared_ptr<Sprite>>	sprites;
 

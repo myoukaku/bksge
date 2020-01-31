@@ -9,9 +9,9 @@
 #ifndef BKSGE_CORE_RENDER_D3D12_DETAIL_FWD_SAMPLER_FWD_HPP
 #define BKSGE_CORE_RENDER_D3D12_DETAIL_FWD_SAMPLER_FWD_HPP
 
-#include <bksge/core/render/detail/identifier.hpp>
 #include <map>
 #include <memory>
+#include <cstddef>
 
 namespace bksge
 {
@@ -25,7 +25,7 @@ namespace d3d12
 class Sampler;
 
 using SamplerShared = std::shared_ptr<Sampler>;
-using SamplerMap = std::map<Identifier, SamplerShared>;
+using SamplerMap = std::map<std::size_t, SamplerShared>;
 
 }	// namespace d3d12
 

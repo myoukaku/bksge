@@ -9,9 +9,9 @@
 #ifndef BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_COMBINED_IMAGE_SAMPLER_FWD_HPP
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_COMBINED_IMAGE_SAMPLER_FWD_HPP
 
-#include <bksge/core/render/detail/identifier.hpp>
 #include <map>
 #include <memory>
+#include <cstddef>
 
 namespace bksge
 {
@@ -24,7 +24,7 @@ namespace vulkan
 
 class CombinedImageSampler;
 using CombinedImageSamplerSharedPtr = std::shared_ptr<CombinedImageSampler>;
-using CombinedImageSamplerSharedPtrMap = std::map<Identifier, CombinedImageSamplerSharedPtr>;
+using CombinedImageSamplerSharedPtrMap = std::map<std::size_t, CombinedImageSamplerSharedPtr>;
 
 }	// namespace vulkan
 
