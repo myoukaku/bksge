@@ -37,11 +37,11 @@ public:
 
 	~Image();
 
-	operator ::VkImage() const;
-
 	::VkFormat const&		format(void) const;
 
 	::VkMemoryRequirements	requirements(void) const;
+
+	operator ::VkImage() const;
 
 private:
 	vulkan::DeviceSharedPtr		m_device;

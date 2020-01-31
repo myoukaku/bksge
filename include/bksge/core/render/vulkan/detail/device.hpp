@@ -31,9 +31,15 @@ public:
 
 	~Device();
 
-	operator ::VkDevice() const;
-
 	vulkan::PhysicalDeviceSharedPtr const& GetPhysicalDevice(void) const;
+
+	::VkCommandPool	CreateCommandPool(
+		::VkCommandPoolCreateFlags flags,
+		std::uint32_t queue_family_index);
+
+	void DestroyCommandPool(::VkCommandPool command_pool);
+
+	operator ::VkDevice() const;
 
 private:
 	vulkan::PhysicalDeviceSharedPtr	m_physical_device;

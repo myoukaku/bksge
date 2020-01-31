@@ -33,11 +33,9 @@ public:
 
 	~Buffer();
 
-	operator ::VkBuffer() const;
-
-	::VkBuffer const* GetAddressOf(void) const;
-
 	::VkMemoryRequirements requirements(void) const;
+
+	operator ::VkBuffer() const;
 
 private:
 	vulkan::DeviceSharedPtr		m_device;

@@ -65,12 +65,6 @@ namespace render
 /* renderpass creation and pipeline creation.                     */
 #define NUM_SAMPLES VK_SAMPLE_COUNT_1_BIT
 
-/* Number of viewports and number of scissors have to be the same */
-/* at pipeline creation and in any call to set them dynamically   */
-/* They also have to be the same as each other                    */
-#define NUM_VIEWPORTS 1
-#define NUM_SCISSORS NUM_VIEWPORTS
-
 /* Amount of time, in nanoseconds, to wait for a command buffer to complete */
 #define FENCE_TIMEOUT 100000000
 
@@ -150,9 +144,6 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 	char sample_title[] = "Draw Cube";
 	const bool depthPresent = true;
 
-	//auto width = window.client_size().width();
-	//auto height = window.client_size().height();
-
 	m_instance = std::make_shared<vulkan::Instance>(sample_title);
 
 	m_callback = bksge::make_unique<vulkan::DebugReportCallback>(
@@ -165,6 +156,7 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 		&DebugCallback);
 
 	auto gpus = m_instance->EnumeratePhysicalDevices();
+
 	m_physical_device = bksge::make_unique<vulkan::PhysicalDevice>(gpus[0]);
 
 	m_surface = bksge::make_unique<vulkan::Surface>(m_instance, window);
@@ -174,7 +166,7 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 	auto const present_queue_family_index =
 		m_physical_device->GetPresentQueueFamilyIndex(*m_surface);
 
-	::VkFormat surface_format =
+	::VkFormat const surface_format =
 		GetSurfaceFormat(*m_physical_device, *m_surface);
 
 	m_device = std::make_shared<vulkan::Device>(m_physical_device);
@@ -186,7 +178,6 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 		m_device, m_command_pool);
 
 	vk::GetDeviceQueue(*m_device, graphics_queue_family_index, 0, &m_graphics_queue);
-	vk::GetDeviceQueue(*m_device, present_queue_family_index, 0, &m_present_queue);
 
 	m_swapchain = bksge::make_unique<vulkan::Swapchain>(
 		m_device,
@@ -230,9 +221,7 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 	m_resource_pool = bksge::make_unique<vulkan::ResourcePool>();
 	m_uniform_buffer = bksge::make_unique<vulkan::UniformBuffer>(
 		m_device,
-		65536);	// TODO
-
-	//SetViewport(Rectf(Vector2f(0,0), Extent2f(window.client_size())));
+		65536 * 1024);	// TODO
 }
 
 BKSGE_INLINE
@@ -243,34 +232,20 @@ VulkanRenderer::~VulkanRenderer()
 BKSGE_INLINE void
 VulkanRenderer::VBegin(void)
 {
-	VkResult res;
-	// Get the index of the next available swapchain image:
-	res = vk::AcquireNextImageKHR(
-		*m_device,
-		*m_swapchain,
+	m_frame_index = m_swapchain->AcquireNextImage(
 		UINT64_MAX,
 		*m_image_acquired_semaphore,
-		VK_NULL_HANDLE,
-		&m_frame_index);
-	// TODO: Deal with the VK_SUBOPTIMAL_KHR and VK_ERROR_OUT_OF_DATE_KHR
-	// return codes
-	assert(res == VK_SUCCESS);
+		VK_NULL_HANDLE);
 
 	m_uniform_buffer->BeginFrame();
 
-	{
-		vk::CommandBufferBeginInfo cmd_buf_info;
-		cmd_buf_info.flags = 0;
-		cmd_buf_info.pInheritanceInfo = nullptr;
-
-		vk::BeginCommandBuffer(*m_command_buffer, &cmd_buf_info);
-	}
+	m_command_buffer->Begin(0);
 }
 
 BKSGE_INLINE void
 VulkanRenderer::VEnd(void)
 {
-	vk::EndCommandBuffer(*m_command_buffer);
+	m_command_buffer->End();
 
 	::VkPipelineStageFlags pipe_stage_flags =
 		VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
@@ -280,32 +255,17 @@ VulkanRenderer::VEnd(void)
 	submit_info.SetCommandBuffers(m_command_buffer->GetAddressOf());
 	submit_info.SetSignalSemaphores(nullptr);
 
-	/* Queue the command buffer for execution */
 	vk::QueueSubmit(m_graphics_queue, 1, &submit_info, *m_draw_fence);
 
-	/* Now present the image in the window */
-
-	vk::PresentInfoKHR present;
-	present.SetSwapchains(m_swapchain->GetAddressOf());
-	present.SetWaitSemaphores(nullptr);
-	present.pImageIndices = &m_frame_index;
-	present.pResults      = nullptr;
-
-	/* Make sure command buffer is finished before presenting */
 	::VkResult res;
 	do {
-		res = vk::WaitForFences(
-			*m_device,
-			1,
-			m_draw_fence->GetAddressOf(),
-			VK_TRUE,
-			FENCE_TIMEOUT);
+		res = m_draw_fence->Wait(VK_TRUE, FENCE_TIMEOUT);
 	} while (res == VK_TIMEOUT);
 	assert(res == VK_SUCCESS);
 
-	vk::ResetFences(*m_device, 1, m_draw_fence->GetAddressOf());
+	m_draw_fence->Reset();
 
-	vk::QueuePresentKHR(m_present_queue, &present);
+	m_swapchain->Present(m_frame_index);
 }
 
 BKSGE_INLINE void
@@ -334,10 +294,7 @@ VulkanRenderer::VBeginRenderPass(RenderPassInfo const& render_pass_info)
 		rp_begin.renderArea.extent   = m_swapchain->extent();
 		rp_begin.SetClearValues(clear_values);
 
-		vk::CmdBeginRenderPass(
-			*m_command_buffer,
-			&rp_begin,
-			VK_SUBPASS_CONTENTS_INLINE);
+		m_command_buffer->BeginRenderPass(rp_begin);
 	}
 	{
 		auto const& viewport = render_pass_info.viewport();
@@ -349,7 +306,7 @@ VulkanRenderer::VBeginRenderPass(RenderPassInfo const& render_pass_info)
 		vp.height   = -viewport.rect().height();
 		vp.minDepth = viewport.min_depth();
 		vp.maxDepth = viewport.max_depth();
-		vk::CmdSetViewport(*m_command_buffer, 0, NUM_VIEWPORTS, &vp);
+		m_command_buffer->SetViewport(vp);
 	}
 	{
 
@@ -365,14 +322,14 @@ VulkanRenderer::VBeginRenderPass(RenderPassInfo const& render_pass_info)
 		scissor_rect.extent.width  = static_cast<std::uint32_t>(rect.width());
 		scissor_rect.extent.height = static_cast<std::uint32_t>(rect.height());
 
-		vk::CmdSetScissor(*m_command_buffer, 0, NUM_SCISSORS, &scissor_rect);
+		m_command_buffer->SetScissor(scissor_rect);
 	}
 }
 
 BKSGE_INLINE void
 VulkanRenderer::VEndRenderPass(void)
 {
-	vk::CmdEndRenderPass(*m_command_buffer);
+	m_command_buffer->EndRenderPass();
 }
 
 BKSGE_INLINE bool
@@ -408,23 +365,15 @@ VulkanRenderer::VRender(
 		m_uniform_buffer.get(),
 		m_resource_pool.get());
 
-	vk::CmdBindPipeline(
-		*m_command_buffer,
+	m_command_buffer->BindPipeline(
 		VK_PIPELINE_BIND_POINT_GRAPHICS,
 		*graphics_pipeline);
 
-	auto const writes = vk_shader->GetWriteDescriptorSets();
-	if (!writes.empty())
-	{
-		vk::CmdPushDescriptorSetKHR(
-			*m_device,
-			*m_command_buffer,
-			VK_PIPELINE_BIND_POINT_GRAPHICS,
-			graphics_pipeline->GetLayout(),
-			0,	// TODO set
-			static_cast<std::uint32_t>(writes.size()),
-			writes.data());
-	}
+	m_command_buffer->PushDescriptorSet(
+		VK_PIPELINE_BIND_POINT_GRAPHICS,
+		graphics_pipeline->GetLayout(),
+		0,	// TODO set
+		vk_shader->GetWriteDescriptorSets());
 
 	auto vk_geometry = m_resource_pool->GetGeometry(m_device, geometry);
 

@@ -10,11 +10,12 @@
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_UNIFORM_BUFFER_HPP
 
 #include <bksge/core/render/vulkan/detail/fwd/uniform_buffer_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/device_memory_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/buffer_object_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <memory>
+#include <cstdint>
+#include <cstddef>
 
 namespace bksge
 {
@@ -34,7 +35,7 @@ public:
 
 	~UniformBuffer();
 
-	vulkan::BufferUniquePtr const& GetBuffer() const;
+	::VkBuffer GetBuffer(void) const;
 
 	std::uint8_t* GetMappedBuffer(void) const;
 
@@ -43,12 +44,10 @@ public:
 	void BeginFrame(void);
 
 private:
-	vulkan::DeviceSharedPtr			m_device;
-	vulkan::BufferUniquePtr			m_buffer;
-	vulkan::DeviceMemoryUniquePtr	m_device_memory;
-	std::uint8_t*					m_mapped_buffer = nullptr;
-	std::size_t						m_offset = 0;
-	std::size_t						m_offset_alignment = 0;
+	std::unique_ptr<vulkan::BufferObject>	m_buffer;
+	std::uint8_t*							m_mapped_buffer = nullptr;
+	std::size_t								m_offset = 0;
+	std::size_t								m_offset_alignment = 0;
 };
 
 }	// namespace vulkan

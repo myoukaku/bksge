@@ -14,6 +14,8 @@
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <memory>
+#include <vector>
+#include <cstdint>
 
 namespace bksge
 {
@@ -33,8 +35,28 @@ public:
 
 	~CommandBuffer();
 
-	operator ::VkCommandBuffer() const;
+	void Begin(::VkCommandBufferUsageFlags flags);
+	void End(void);
 
+	void BeginRenderPass(::VkRenderPassBeginInfo const& render_pass_begin);
+	void EndRenderPass(void);
+
+	void SetViewport(::VkViewport const& viewport);
+	void SetScissor(::VkRect2D const& scissor_rect);
+
+	void BindPipeline(
+		::VkPipelineBindPoint pipeline_bind_point,
+		::VkPipeline          pipeline);
+
+	void PushDescriptorSet(
+		::VkPipelineBindPoint                    pipeline_bind_point,
+		::VkPipelineLayout                       layout,
+		std::uint32_t                            set,
+		std::vector<VkWriteDescriptorSet> const& descriptor_writes);
+
+public:
+	operator ::VkCommandBuffer() const;
+public:
 	::VkCommandBuffer const* GetAddressOf(void) const;
 
 private:

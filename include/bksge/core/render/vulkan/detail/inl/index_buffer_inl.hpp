@@ -14,8 +14,7 @@
 
 #include <bksge/core/render/vulkan/detail/index_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
-#include <bksge/core/render/vulkan/detail/buffer.hpp>
-#include <bksge/core/render/vulkan/detail/device_memory.hpp>
+#include <bksge/core/render/vulkan/detail/buffer_object.hpp>
 #include <bksge/core/render/vulkan/detail/command_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/index_type.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
@@ -48,26 +47,17 @@ IndexBuffer::IndexBuffer(
 	m_count = static_cast<std::uint32_t>(geometry.index_array_count());
 	m_type  = vulkan::IndexType(geometry.index_array_type());
 
-	m_buffer = bksge::make_unique<Buffer>(
+	m_buffer = bksge::make_unique<vulkan::BufferObject>(
 		device,
 		size,
-		VK_BUFFER_USAGE_INDEX_BUFFER_BIT);
-
-	auto const mem_reqs = m_buffer->requirements();
-
-	m_device_memory = bksge::make_unique<DeviceMemory>(
-		device,
-		mem_reqs,
+		VK_BUFFER_USAGE_INDEX_BUFFER_BIT,
 		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
 		VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
 
-	vk::BindBufferMemory(*device, *m_buffer, *m_device_memory, 0);
-
 	{
-		void* dst;
-		vk::MapMemory(*device, *m_device_memory, 0, size, 0, &dst);
+		void* dst = m_buffer->MapMemory(size);
 		std::memcpy(dst, src, size);
-		vk::UnmapMemory(*device, *m_device_memory);
+		m_buffer->UnmapMemory();
 	}
 }
 
@@ -79,7 +69,7 @@ IndexBuffer::~IndexBuffer()
 BKSGE_INLINE void
 IndexBuffer::Bind(CommandBuffer* command_buffer)
 {
-	vk::CmdBindIndexBuffer(*command_buffer, *m_buffer, 0, m_type);
+	vk::CmdBindIndexBuffer(*command_buffer, m_buffer->GetBuffer(), 0, m_type);
 }
 
 BKSGE_INLINE void

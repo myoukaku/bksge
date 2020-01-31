@@ -33,7 +33,12 @@ public:
 
 	~DescriptorPool();
 
-	operator ::VkDescriptorPool() const;
+	void AllocateDescriptorSets(
+		std::vector<::VkDescriptorSetLayout> const& descriptor_set_layouts,
+		VkDescriptorSet*                            descriptor_sets);
+
+	void FreeDescriptorSets(
+		std::vector<::VkDescriptorSet> const& descriptor_sets);
 
 private:
 	vulkan::DeviceSharedPtr		m_device;

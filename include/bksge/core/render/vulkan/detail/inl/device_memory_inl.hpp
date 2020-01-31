@@ -85,6 +85,20 @@ DeviceMemory::operator ::VkDeviceMemory() const
 	return m_device_memory;
 }
 
+BKSGE_INLINE void*
+DeviceMemory::MapMemory(::VkDeviceSize size)
+{
+	void* dst;
+	vk::MapMemory(*m_device, m_device_memory, 0, size, 0, &dst);
+	return dst;
+}
+
+BKSGE_INLINE void
+DeviceMemory::UnmapMemory(void)
+{
+	vk::UnmapMemory(*m_device, m_device_memory);
+}
+
 }	// namespace vulkan
 
 }	// namespace render

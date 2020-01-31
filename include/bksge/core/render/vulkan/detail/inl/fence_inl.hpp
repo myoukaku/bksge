@@ -16,6 +16,7 @@
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <memory>
+#include <cstdint>
 
 namespace bksge
 {
@@ -48,10 +49,17 @@ Fence::operator ::VkFence() const
 	return m_fence;
 }
 
-BKSGE_INLINE
-::VkFence const* Fence::GetAddressOf() const
+BKSGE_INLINE ::VkResult
+Fence::Wait(::VkBool32 wait_all, std::uint64_t timeout)
 {
-	return &m_fence;
+	return vk::WaitForFences(
+		*m_device, 1, &m_fence, wait_all, timeout);
+}
+
+BKSGE_INLINE ::VkResult
+Fence::Reset(void)
+{
+	return vk::ResetFences(*m_device, 1, &m_fence);
 }
 
 }	// namespace vulkan

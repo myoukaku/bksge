@@ -10,7 +10,6 @@
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_IMAGE_VIEW_HPP
 
 #include <bksge/core/render/vulkan/detail/fwd/image_view_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/image_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <memory>
@@ -29,7 +28,8 @@ class ImageView
 public:
 	explicit ImageView(
 		vulkan::DeviceSharedPtr const& device,
-		vulkan::Image const& image,
+		::VkImage image,
+		::VkFormat format,
 		::VkImageAspectFlags aspect_mask);
 
 	~ImageView();

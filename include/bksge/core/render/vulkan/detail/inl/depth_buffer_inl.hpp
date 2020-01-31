@@ -14,9 +14,8 @@
 
 #include <bksge/core/render/vulkan/detail/depth_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
-#include <bksge/core/render/vulkan/detail/device_memory.hpp>
 #include <bksge/core/render/vulkan/detail/physical_device.hpp>
-#include <bksge/core/render/vulkan/detail/image.hpp>
+#include <bksge/core/render/vulkan/detail/image_object.hpp>
 #include <bksge/core/render/vulkan/detail/image_view.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
@@ -35,7 +34,6 @@ DepthBuffer::DepthBuffer(
 	vulkan::DeviceSharedPtr const& device,
 	::VkExtent2D const& extent,
 	::VkSampleCountFlagBits num_samples)
-	: m_device(device)
 {
 	::VkFormat format = VK_FORMAT_UNDEFINED;
 
@@ -85,21 +83,15 @@ DepthBuffer::DepthBuffer(
 		exit(-1);
 	}
 
-	m_image = bksge::make_unique<vulkan::Image>(
+	m_image = bksge::make_unique<vulkan::ImageObject>(
 		device,
 		format,
 		extent,
 		num_samples,
 		tiling,
 		VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT,
-		VK_IMAGE_LAYOUT_UNDEFINED);
-
-	auto const mem_reqs = m_image->requirements();
-
-	m_device_memory = bksge::make_unique<vulkan::DeviceMemory>(
-		device, mem_reqs, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
-
-	vk::BindImageMemory(*device, *m_image, *m_device_memory, 0);
+		VK_IMAGE_LAYOUT_UNDEFINED,
+		VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 
 	::VkImageAspectFlags aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT;
 	if (format == VK_FORMAT_D16_UNORM_S8_UINT ||
@@ -111,7 +103,8 @@ DepthBuffer::DepthBuffer(
 
 	m_image_view = bksge::make_unique<vulkan::ImageView>(
 		device,
-		*m_image,
+		m_image->GetImage(),
+		format,
 		aspectMask);
 }
 
@@ -123,7 +116,7 @@ DepthBuffer::~DepthBuffer()
 BKSGE_INLINE ::VkFormat const&
 DepthBuffer::GetFormat(void) const
 {
-	return m_image->format();
+	return m_image->GetFormat();
 }
 
 BKSGE_INLINE vulkan::ImageView const&

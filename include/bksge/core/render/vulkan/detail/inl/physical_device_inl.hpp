@@ -113,6 +113,14 @@ PhysicalDevice::GetSurfaceFormats(::VkSurfaceKHR surface)
 }
 #endif
 
+BKSGE_INLINE ::VkPhysicalDeviceFeatures
+PhysicalDevice::GetFeatures(void) const
+{
+	::VkPhysicalDeviceFeatures feature;
+	vk::GetPhysicalDeviceFeatures(m_physical_device, &feature);
+	return feature;
+}
+
 BKSGE_INLINE
 PhysicalDevice::operator ::VkPhysicalDevice() const
 {

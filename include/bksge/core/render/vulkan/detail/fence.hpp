@@ -13,6 +13,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <memory>
+#include <cstdint>
 
 namespace bksge
 {
@@ -30,9 +31,11 @@ public:
 
 	~Fence();
 
-	operator ::VkFence() const;
+	::VkResult Wait(::VkBool32 waitAll, std::uint64_t timeout);
 
-	::VkFence const* GetAddressOf() const;
+	::VkResult Reset(void);
+
+	operator ::VkFence() const;
 
 private:
 	vulkan::DeviceSharedPtr		m_device;

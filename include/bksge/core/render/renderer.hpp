@@ -15,9 +15,6 @@
 #include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
 #include <bksge/core/render/fwd/render_state_fwd.hpp>
 #include <bksge/core/render/fwd/render_pass_info_fwd.hpp>
-//#include <bksge/core/render/clear_flag.hpp>
-//#include <bksge/core/math/color4.hpp>
-//#include <bksge/core/math/rect.hpp>
 #include <vector>
 
 namespace bksge
@@ -35,20 +32,6 @@ public:
 	Renderer(void);
 
 	virtual ~Renderer();
-
-	///**
-	// *	@brief	レンダリングターゲットのクリアフラグを設定します。
-	// *
-	// *	@param	clear_flag	ClearFlagの論理和を設定します
-	// */
-	//void SetClearFlag(ClearFlag clear_flag);
-
-	///**
-	// *	@brief	レンダリングターゲットをクリアする色を設定します。
-	// *
-	// *	@param	clear_color	クリアする色
-	// */
-	//void SetClearColor(Color4f const& clear_color);
 
 	/**
 	 *	@brief	レンダリングを開始します
@@ -98,10 +81,6 @@ private:
 		Shader const& shader,
 		ShaderParameterMap const& shader_parameter_map,
 		RenderState const& render_state) = 0;
-
-protected:
-	//ClearFlag	m_clear_flag;
-	//Color4f		m_clear_color;
 };
 
 }	// namespace render

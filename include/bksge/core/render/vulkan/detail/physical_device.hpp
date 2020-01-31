@@ -39,6 +39,8 @@ public:
 
 	//std::vector<::VkSurfaceFormatKHR> GetSurfaceFormats(::VkSurfaceKHR surface);
 
+	::VkPhysicalDeviceFeatures GetFeatures(void) const;
+
 	operator ::VkPhysicalDevice() const;
 
 private:

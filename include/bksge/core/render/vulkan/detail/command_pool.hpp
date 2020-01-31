@@ -33,9 +33,11 @@ public:
 
 	~CommandPool();
 
-	operator ::VkCommandPool() const;
-
 	::VkQueue GetQueue(void) const;
+
+	::VkCommandBuffer AllocateCommandBuffer(::VkCommandBufferLevel level);
+
+	void FreeCommandBuffer(::VkCommandBuffer buffer);
 
 private:
 	vulkan::DeviceSharedPtr		m_device;

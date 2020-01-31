@@ -33,6 +33,10 @@ public:
 
 	~DeviceMemory();
 
+	void* MapMemory(::VkDeviceSize size);
+
+	void UnmapMemory(void);
+
 	operator ::VkDeviceMemory() const;
 
 private:

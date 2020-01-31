@@ -73,10 +73,13 @@ Device::Device(vulkan::PhysicalDeviceSharedPtr const& physical_device)
 	queue_info.queueCount       = 1;
 	queue_info.pQueuePriorities = &queue_priorities;
 
+	auto const enabled_features = physical_device->GetFeatures();
+
 	vk::DeviceCreateInfo info;
 	info.SetQueueCreateInfos(&queue_info);
 	info.SetEnabledLayerNames(layer_names);
 	info.SetEnabledExtensionNames(extension_names);
+	info.pEnabledFeatures = &enabled_features;
 
 	vk::CreateDevice(*physical_device, &info, nullptr, &m_device);
 }
@@ -98,6 +101,26 @@ BKSGE_INLINE vulkan::PhysicalDeviceSharedPtr const&
 Device::GetPhysicalDevice(void) const
 {
 	return m_physical_device;
+}
+
+BKSGE_INLINE ::VkCommandPool
+Device::CreateCommandPool(
+	::VkCommandPoolCreateFlags flags,
+	std::uint32_t queue_family_index)
+{
+	vk::CommandPoolCreateInfo info;
+	info.flags            = flags;
+	info.queueFamilyIndex = queue_family_index;
+
+	::VkCommandPool command_pool;
+	vk::CreateCommandPool(m_device, &info, nullptr, &command_pool);
+	return command_pool;
+}
+
+BKSGE_INLINE void
+Device::DestroyCommandPool(::VkCommandPool command_pool)
+{
+	vk::DestroyCommandPool(m_device, command_pool, nullptr);
 }
 
 }	// namespace vulkan

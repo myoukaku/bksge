@@ -55,12 +55,6 @@ Buffer::operator ::VkBuffer() const
 	return m_buffer;
 }
 
-BKSGE_INLINE ::VkBuffer const*
-Buffer::GetAddressOf(void) const
-{
-	return &m_buffer;
-}
-
 BKSGE_INLINE ::VkMemoryRequirements
 Buffer::requirements(void) const
 {

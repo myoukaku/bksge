@@ -30,7 +30,8 @@ namespace vulkan
 BKSGE_INLINE
 ImageView::ImageView(
 	vulkan::DeviceSharedPtr const& device,
-	vulkan::Image const& image,
+	::VkImage image,
+	::VkFormat format,
 	::VkImageAspectFlags aspect_mask)
 	: m_device(device)
 	, m_image_view(VK_NULL_HANDLE)
@@ -38,7 +39,7 @@ ImageView::ImageView(
 	vk::ImageViewCreateInfo info;
 	info.image                           = image;
 	info.viewType                        = VK_IMAGE_VIEW_TYPE_2D;
-	info.format                          = image.format();
+	info.format                          = format;
 	info.components.r                    = VK_COMPONENT_SWIZZLE_R;
 	info.components.g                    = VK_COMPONENT_SWIZZLE_G;
 	info.components.b                    = VK_COMPONENT_SWIZZLE_B;

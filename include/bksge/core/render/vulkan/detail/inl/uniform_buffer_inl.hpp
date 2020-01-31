@@ -13,9 +13,8 @@
 #if BKSGE_CORE_RENDER_HAS_VULKAN_RENDERER
 
 #include <bksge/core/render/vulkan/detail/uniform_buffer.hpp>
-#include <bksge/core/render/vulkan/detail/buffer.hpp>
+#include <bksge/core/render/vulkan/detail/buffer_object.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
-#include <bksge/core/render/vulkan/detail/device_memory.hpp>
 #include <bksge/core/render/vulkan/detail/physical_device.hpp>
 #include <bksge/core/render/vulkan/detail/shader_reflection.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
@@ -36,35 +35,16 @@ BKSGE_INLINE
 UniformBuffer::UniformBuffer(
 	vulkan::DeviceSharedPtr const& device,
 	::VkDeviceSize                 size)
-	: m_device(device)
 {
-	m_buffer = bksge::make_unique<vulkan::Buffer>(
+	m_buffer = bksge::make_unique<vulkan::BufferObject>(
 		device,
 		size,
-		VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT);
+		VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
+		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
+		VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
 
-	auto const mem_reqs = m_buffer->requirements();
-
-	m_device_memory =
-		bksge::make_unique<vulkan::DeviceMemory>(
-			device,
-			mem_reqs,
-			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
-			VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
-
-	vk::BindBufferMemory(
-		*m_device,
-		*m_buffer,
-		*m_device_memory,
-		0);
-
-	vk::MapMemory(
-		*m_device,
-		*m_device_memory,
-		0,
-		VK_WHOLE_SIZE,
-		0,
-		reinterpret_cast<void**>(&m_mapped_buffer));
+	m_mapped_buffer =
+		static_cast<std::uint8_t*>(m_buffer->MapMemory(VK_WHOLE_SIZE));
 
 	auto physical_device = device->GetPhysicalDevice();
 	::VkPhysicalDeviceProperties properties;
@@ -76,13 +56,13 @@ UniformBuffer::UniformBuffer(
 BKSGE_INLINE
 UniformBuffer::~UniformBuffer()
 {
-	vk::UnmapMemory(*m_device, *m_device_memory);
+	m_buffer->UnmapMemory();
 }
 
-BKSGE_INLINE vulkan::BufferUniquePtr const&
-UniformBuffer::GetBuffer() const
+BKSGE_INLINE ::VkBuffer
+UniformBuffer::GetBuffer(void) const
 {
-	return m_buffer;
+	return m_buffer->GetBuffer();
 }
 
 BKSGE_INLINE std::uint8_t*

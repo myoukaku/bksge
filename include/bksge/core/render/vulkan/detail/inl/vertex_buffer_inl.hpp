@@ -14,9 +14,7 @@
 
 #include <bksge/core/render/vulkan/detail/vertex_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
-#include <bksge/core/render/vulkan/detail/physical_device.hpp>
-#include <bksge/core/render/vulkan/detail/buffer.hpp>
-#include <bksge/core/render/vulkan/detail/device_memory.hpp>
+#include <bksge/core/render/vulkan/detail/buffer_object.hpp>
 #include <bksge/core/render/vulkan/detail/command_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/geometry.hpp>
@@ -41,26 +39,17 @@ VertexBuffer::VertexBuffer(
 	auto const src  = geometry.vertex_array_data();
 	auto const size = geometry.vertex_array_bytes();
 
-	m_buffer = bksge::make_unique<vulkan::Buffer>(
+	m_buffer = bksge::make_unique<vulkan::BufferObject>(
 		device,
 		size,
-		VK_BUFFER_USAGE_VERTEX_BUFFER_BIT);
-
-	auto const mem_reqs = m_buffer->requirements();
-
-	m_device_memory = bksge::make_unique<vulkan::DeviceMemory>(
-		device,
-		mem_reqs,
+		VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
 		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
 		VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
 
-	vk::BindBufferMemory(*device, *m_buffer, *m_device_memory, 0);
-
 	{
-		void* dst;
-		vk::MapMemory(*device, *m_device_memory, 0, size, 0, &dst);
+		void* dst = m_buffer->MapMemory(size);
 		std::memcpy(dst, src, size);
-		vk::UnmapMemory(*device, *m_device_memory);
+		m_buffer->UnmapMemory();
 	}
 }
 
@@ -70,19 +59,20 @@ VertexBuffer::~VertexBuffer()
 }
 
 BKSGE_INLINE void
-VertexBuffer::Bind(CommandBuffer* command_buffer)
+VertexBuffer::Bind(vulkan::CommandBuffer* command_buffer)
 {
+	::VkBuffer buffer = m_buffer->GetBuffer();
 	::VkDeviceSize offset = 0;
 	vk::CmdBindVertexBuffers(
 		*command_buffer,
 		0,
 		1,
-		m_buffer->GetAddressOf(),
+		&buffer,
 		&offset);
 }
 
 BKSGE_INLINE void
-VertexBuffer::Draw(CommandBuffer* command_buffer)
+VertexBuffer::Draw(vulkan::CommandBuffer* command_buffer)
 {
 	vk::CmdDraw(
 		*command_buffer,

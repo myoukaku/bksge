@@ -38,6 +38,11 @@ public:
 
 	~Swapchain();
 
+	std::uint32_t AcquireNextImage(
+		std::uint64_t timeout,
+		::VkSemaphore semaphore,
+		::VkFence     fence);
+
 	//std::vector<VkImage> GetImages(void) const;
 
 	std::vector<::VkImageView> const& GetImageViews(void) const;
@@ -49,15 +54,14 @@ public:
 
 	::VkFormat format(void) const;
 
-	operator ::VkSwapchainKHR() const;
-
-	::VkSwapchainKHR const* GetAddressOf() const;
+	void Present(std::uint32_t const& image_index);
 
 private:
 	vulkan::DeviceSharedPtr			m_device;
 	vk::SwapchainCreateInfoKHR		m_info;
-	::VkSwapchainKHR				m_swap_chain;
+	::VkSwapchainKHR				m_swapchain;
 	std::vector<::VkImageView>		m_image_views;
+	::VkQueue						m_present_queue;
 };
 
 }	// namespace vulkan

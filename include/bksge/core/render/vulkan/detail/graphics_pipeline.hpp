@@ -41,9 +41,9 @@ public:
 
 	~GraphicsPipeline();
 
-	operator ::VkPipeline() const;
-
 	::VkPipelineLayout GetLayout(void) const;
+
+	operator ::VkPipeline() const;
 
 private:
 	vulkan::DeviceSharedPtr			m_device;

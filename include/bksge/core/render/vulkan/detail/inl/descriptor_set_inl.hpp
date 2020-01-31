@@ -39,22 +39,16 @@ DescriptorSet::DescriptorSet(
 	: m_device(device)
 	, m_descriptor_pool(descriptor_pool)
 {
-	vk::DescriptorSetAllocateInfo info;
-	info.descriptorPool = *descriptor_pool;
-	info.SetSetLayouts(descriptor_set_layouts);
-
 	m_descriptor_sets.resize(descriptor_set_layouts.size());
-	vk::AllocateDescriptorSets(*m_device, &info, m_descriptor_sets.data());
+	m_descriptor_pool->AllocateDescriptorSets(
+		descriptor_set_layouts,
+		m_descriptor_sets.data());
 }
 
 BKSGE_INLINE
 DescriptorSet::~DescriptorSet()
 {
-	vk::FreeDescriptorSets(
-		*m_device,
-		*m_descriptor_pool,
-		static_cast<std::uint32_t>(m_descriptor_sets.size()),
-		m_descriptor_sets.data());
+	m_descriptor_pool->FreeDescriptorSets(m_descriptor_sets);
 }
 
 BKSGE_INLINE std::vector<::VkDescriptorSet> const&

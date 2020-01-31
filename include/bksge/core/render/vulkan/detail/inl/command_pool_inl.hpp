@@ -33,23 +33,16 @@ CommandPool::CommandPool(
 	: m_device(device)
 	, m_queue_family_index(queue_family_index)
 {
-	vk::CommandPoolCreateInfo info;
-	info.queueFamilyIndex = queue_family_index;
-	info.flags            = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
-
-	vk::CreateCommandPool(*m_device, &info, nullptr, &m_command_pool);
+	m_command_pool =
+		m_device->CreateCommandPool(
+			VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT,
+			queue_family_index);
 }
 
 BKSGE_INLINE
 CommandPool::~CommandPool()
 {
-	vk::DestroyCommandPool(*m_device, m_command_pool, nullptr);
-}
-
-BKSGE_INLINE
-CommandPool::operator ::VkCommandPool() const
-{
-	return m_command_pool;
+	m_device->DestroyCommandPool(m_command_pool);
 }
 
 BKSGE_INLINE ::VkQueue
@@ -58,6 +51,25 @@ CommandPool::GetQueue(void) const
 	::VkQueue queue;
 	vk::GetDeviceQueue(*m_device, m_queue_family_index, 0, &queue);
 	return queue;
+}
+
+BKSGE_INLINE ::VkCommandBuffer
+CommandPool::AllocateCommandBuffer(::VkCommandBufferLevel level)
+{
+	vk::CommandBufferAllocateInfo info;
+	info.commandPool        = m_command_pool;
+	info.level              = level;
+	info.commandBufferCount = 1;
+
+	::VkCommandBuffer buffer;
+	vk::AllocateCommandBuffers(*m_device, &info, &buffer);
+	return buffer;
+}
+
+BKSGE_INLINE void
+CommandPool::FreeCommandBuffer(::VkCommandBuffer buffer)
+{
+	vk::FreeCommandBuffers(*m_device, m_command_pool, 1, &buffer);
 }
 
 }	// namespace vulkan

@@ -11,10 +11,6 @@
 
 #include <bksge/core/render/renderer.hpp>
 #include <bksge/core/render/shader.hpp>
-//#include <bksge/core/window/window.hpp>
-//#include <bksge/core/math/rect.hpp>
-//#include <bksge/core/math/vector2.hpp>
-//#include <bksge/fnd/memory/make_unique.hpp>
 #include <vector>
 
 namespace bksge
@@ -25,26 +21,12 @@ namespace render
 
 BKSGE_INLINE
 Renderer::Renderer(void)
-	//: m_clear_flag(ClearFlag::kAll)
-	//, m_clear_color(0, 0, 0, 0)
 {}
 
 BKSGE_INLINE
 Renderer::~Renderer()
 {}
 
-//BKSGE_INLINE
-//void Renderer::SetClearFlag(ClearFlag clear_flag)
-//{
-//	m_clear_flag = clear_flag;
-//}
-//
-//BKSGE_INLINE
-//void Renderer::SetClearColor(Color4f const& clear_color)
-//{
-//	m_clear_color = clear_color;
-//}
-//
 BKSGE_INLINE
 void Renderer::Begin(void)
 {

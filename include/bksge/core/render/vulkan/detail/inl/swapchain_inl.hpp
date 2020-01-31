@@ -39,7 +39,7 @@ Swapchain::Swapchain(
 	std::uint32_t present_queue_family_index)
 	: m_device(device)
 	, m_info()
-	, m_swap_chain(VK_NULL_HANDLE)
+	, m_swapchain(VK_NULL_HANDLE)
 {
 	auto physical_device = device->GetPhysicalDevice();
 
@@ -131,10 +131,10 @@ Swapchain::Swapchain(
 		m_info.SetQueueFamilyIndices(nullptr);
 	}
 
-	vk::CreateSwapchainKHR(*m_device, &m_info, nullptr, &m_swap_chain);
+	vk::CreateSwapchainKHR(*m_device, &m_info, nullptr, &m_swapchain);
 
 	// Create ImageViews
-	auto images = vk::GetSwapchainImagesKHR(*m_device, m_swap_chain);
+	auto images = vk::GetSwapchainImagesKHR(*m_device, m_swapchain);
 	for (auto&& image : images)
 	{
 		vk::ImageViewCreateInfo info;
@@ -155,6 +155,8 @@ Swapchain::Swapchain(
 		vk::CreateImageView(*m_device, &info, nullptr, &view);
 		m_image_views.push_back(view);
 	}
+
+	vk::GetDeviceQueue(*m_device, present_queue_family_index, 0, &m_present_queue);
 }
 
 BKSGE_INLINE
@@ -165,18 +167,35 @@ Swapchain::~Swapchain()
 		vk::DestroyImageView(*m_device, image_view, nullptr);
 	}
 
-	vk::DestroySwapchainKHR(*m_device, m_swap_chain, nullptr);
+	vk::DestroySwapchainKHR(*m_device, m_swapchain, nullptr);
+}
+
+BKSGE_INLINE std::uint32_t
+Swapchain::AcquireNextImage(
+	std::uint64_t timeout,
+	::VkSemaphore semaphore,
+	::VkFence     fence)
+{
+	std::uint32_t image_index;
+	vk::AcquireNextImageKHR(
+		*m_device,
+		m_swapchain,
+		timeout,
+		semaphore,
+		fence,
+		&image_index);
+	return image_index;
 }
 
 //BKSGE_INLINE std::vector<VkImage>
 //Swapchain::GetImages(void) const
 //{
 //	std::uint32_t count = 0;
-//	vk::GetSwapchainImagesKHR(*m_device, m_swap_chain, &count, nullptr);
+//	vk::GetSwapchainImagesKHR(*m_device, m_swapchain, &count, nullptr);
 //
 //	std::vector<VkImage> images;
 //	images.resize(count);
-//	vk::GetSwapchainImagesKHR(*m_device, m_swap_chain, &count, images.data());
+//	vk::GetSwapchainImagesKHR(*m_device, m_swapchain, &count, images.data());
 //
 //	return images;
 //}
@@ -211,16 +230,16 @@ Swapchain::format(void) const
 	return m_info.imageFormat;
 }
 
-BKSGE_INLINE
-Swapchain::operator ::VkSwapchainKHR() const
+BKSGE_INLINE void
+Swapchain::Present(std::uint32_t const& image_index)
 {
-	return m_swap_chain;
-}
+	vk::PresentInfoKHR present;
+	present.SetSwapchains(&m_swapchain);
+	present.SetWaitSemaphores(nullptr);
+	present.pImageIndices = &image_index;
+	present.pResults      = nullptr;
 
-BKSGE_INLINE ::VkSwapchainKHR const*
-Swapchain::GetAddressOf() const
-{
-	return &m_swap_chain;
+	vk::QueuePresentKHR(m_present_queue, &present);
 }
 
 }	// namespace vulkan

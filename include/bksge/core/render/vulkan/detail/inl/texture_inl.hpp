@@ -17,12 +17,11 @@
 #include <bksge/core/render/vulkan/detail/command_pool.hpp>
 #include <bksge/core/render/vulkan/detail/command_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/physical_device.hpp>
-#include <bksge/core/render/vulkan/detail/image.hpp>
+#include <bksge/core/render/vulkan/detail/image_object.hpp>
 #include <bksge/core/render/vulkan/detail/image_view.hpp>
-#include <bksge/core/render/vulkan/detail/device_memory.hpp>
 #include <bksge/core/render/vulkan/detail/texture_format.hpp>
 #include <bksge/core/render/vulkan/detail/extent2d.hpp>
-#include <bksge/core/render/vulkan/detail/buffer.hpp>
+#include <bksge/core/render/vulkan/detail/buffer_object.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/texture.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
@@ -45,10 +44,7 @@ beginSingleTimeCommands(
 	auto command_buffer = bksge::make_unique<vulkan::CommandBuffer>(
 		device, command_pool);
 
-	vk::CommandBufferBeginInfo begin_info;
-	begin_info.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
-
-	vk::BeginCommandBuffer(*command_buffer, &begin_info);
+	command_buffer->Begin(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
 
 	return command_buffer;
 }
@@ -58,7 +54,7 @@ endSingleTimeCommands(
 	std::unique_ptr<vulkan::CommandBuffer> const& command_buffer,
 	::VkQueue graphics_queue)
 {
-	vk::EndCommandBuffer(*command_buffer);
+	command_buffer->End();
 
 	vk::SubmitInfo submit_info;
 	submit_info.SetCommandBuffers(command_buffer->GetAddressOf());
@@ -217,68 +213,55 @@ Texture::Texture(
 		VK_IMAGE_LAYOUT_PREINITIALIZED;
 
 	::VkExtent2D extent = vulkan::Extent2D(texture.extent());
-	m_image = bksge::make_unique<vulkan::Image>(
+
+	::VkFlags requirements_mask = needs_staging ?
+		VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT :
+		(VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
+			VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
+
+	m_image = bksge::make_unique<vulkan::ImageObject>(
 		device,
 		format,
 		extent,
 		VK_SAMPLE_COUNT_1_BIT,
 		tiling,
 		usage,
-		initial_layout);
-
-	{
-		auto const mem_reqs = m_image->requirements();
-
-		::VkFlags requirements_mask = needs_staging ?
-			VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT :
-			(VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
-			 VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
-
-		m_device_memory =
-			bksge::make_unique<vulkan::DeviceMemory>(
-				device,
-				mem_reqs,
-				requirements_mask);
-	}
-
-	vk::BindImageMemory(*device, *m_image, *m_device_memory, 0);
+		initial_layout,
+		requirements_mask);
 
 	auto image_size = texture.stride() * texture.height();
 
-	std::unique_ptr<vulkan::Buffer>			staging_buffer;
-	std::unique_ptr<vulkan::DeviceMemory>	staging_device_memory;
+	std::unique_ptr<vulkan::BufferObject> staging_buffer;
+	if (needs_staging)
+	{
+		staging_buffer = bksge::make_unique<vulkan::BufferObject>(
+			device,
+			image_size,
+			VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
+			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
+			VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
+	}
+
+	void* dst;
+	if (needs_staging)
+	{
+		dst = staging_buffer->MapMemory(VK_WHOLE_SIZE);
+	}
+	else
+	{
+		dst = m_image->MapMemory(VK_WHOLE_SIZE);
+	}
+
+	std::memcpy(dst, texture.data(), image_size);
 
 	if (needs_staging)
 	{
-		staging_buffer = bksge::make_unique<vulkan::Buffer>(
-			device,
-			image_size,
-			VK_BUFFER_USAGE_TRANSFER_SRC_BIT);
-
-		auto const mem_reqs = staging_buffer->requirements();
-
-		staging_device_memory = bksge::make_unique<vulkan::DeviceMemory>(
-			device,
-			mem_reqs,
-			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
-			VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
-
-		vk::BindBufferMemory(*device, *staging_buffer, *staging_device_memory, 0);
+		staging_buffer->UnmapMemory();
 	}
-
-	std::uint8_t* dst;
-	vk::MapMemory(
-		*device,
-		*(needs_staging ? staging_device_memory : m_device_memory),
-		0,
-		VK_WHOLE_SIZE,
-		0,
-		reinterpret_cast<void**>(&dst));
-
-	auto src = texture.data();
-	std::memcpy(dst, src, image_size);
-
-	vk::UnmapMemory(*device, *(needs_staging ? staging_device_memory : m_device_memory));
+	else
+	{
+		m_image->UnmapMemory();
+	}
 
 	if (!needs_staging)
 	{
@@ -286,7 +269,7 @@ Texture::Texture(
 			device,
 			command_pool,
 			command_pool->GetQueue(),
-			*m_image,
+			m_image->GetImage(),
 			initial_layout,
 			VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL,
 			VK_PIPELINE_STAGE_HOST_BIT,
@@ -298,7 +281,7 @@ Texture::Texture(
 			device,
 			command_pool,
 			command_pool->GetQueue(),
-			*m_image,
+			m_image->GetImage(),
 			initial_layout,
 			VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
 			VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
@@ -308,15 +291,15 @@ Texture::Texture(
 			device,
 			command_pool,
 			command_pool->GetQueue(),
-			*staging_buffer,
-			*m_image,
+			staging_buffer->GetBuffer(),
+			m_image->GetImage(),
 			extent);
 
 		transitionImageLayout(
 			device,
 			command_pool,
 			command_pool->GetQueue(),
-			*m_image,
+			m_image->GetImage(),
 			VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
 			VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL,
 			VK_PIPELINE_STAGE_TRANSFER_BIT,
@@ -325,7 +308,7 @@ Texture::Texture(
 
 
 	m_image_view = bksge::make_unique<vulkan::ImageView>(
-		device, *m_image, VK_IMAGE_ASPECT_COLOR_BIT);
+		device, m_image->GetImage(), format, VK_IMAGE_ASPECT_COLOR_BIT);
 }
 
 BKSGE_INLINE

@@ -12,9 +12,8 @@
 #include <bksge/core/render/vulkan/detail/fwd/texture_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/command_pool_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/image_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/image_object_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/image_view_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/device_memory_fwd.hpp>
 #include <bksge/core/render/fwd/texture_fwd.hpp>
 
 namespace bksge
@@ -39,8 +38,7 @@ public:
 	vulkan::ImageViewUniquePtr const& GetImageView(void) const;
 
 private:
-	vulkan::ImageUniquePtr			m_image;
-	vulkan::DeviceMemoryUniquePtr	m_device_memory;
+	vulkan::ImageObjectUniquePtr	m_image;
 	vulkan::ImageViewUniquePtr		m_image_view;
 };
 

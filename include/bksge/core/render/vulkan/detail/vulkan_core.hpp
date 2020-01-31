@@ -4662,16 +4662,19 @@ EnumeratePhysicalDevices(VkInstance instance)
 	}
 }
 
-void vkGetPhysicalDeviceFeatures(
+inline void GetPhysicalDeviceFeatures(
     VkPhysicalDevice                            physicalDevice,
-    VkPhysicalDeviceFeatures*                   pFeatures);
+    VkPhysicalDeviceFeatures*                   pFeatures)
+{
+	::vkGetPhysicalDeviceFeatures(physicalDevice, pFeatures);
+}
 
 inline void GetPhysicalDeviceFormatProperties(
     VkPhysicalDevice                            physicalDevice,
     VkFormat                                    format,
     VkFormatProperties*                         pFormatProperties)
 {
-	vkGetPhysicalDeviceFormatProperties(physicalDevice, format, pFormatProperties);
+	::vkGetPhysicalDeviceFormatProperties(physicalDevice, format, pFormatProperties);
 }
 
 VkResult vkGetPhysicalDeviceImageFormatProperties(

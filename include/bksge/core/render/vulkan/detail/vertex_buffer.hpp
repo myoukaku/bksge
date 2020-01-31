@@ -12,8 +12,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/vertex_buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/command_buffer_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/buffer_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/device_memory_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/buffer_object_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/fwd/geometry_fwd.hpp>
 #include <memory>
@@ -36,12 +35,12 @@ public:
 
 	~VertexBuffer();
 
-	void Bind(CommandBuffer* command_buffer);
-	void Draw(CommandBuffer* command_buffer);
+	void Bind(vulkan::CommandBuffer* command_buffer);
+
+	void Draw(vulkan::CommandBuffer* command_buffer);
 
 private:
-	std::unique_ptr<vulkan::Buffer>			m_buffer;
-	std::unique_ptr<vulkan::DeviceMemory>	m_device_memory;
+	std::unique_ptr<vulkan::BufferObject>	m_buffer;
 	std::uint32_t							m_count = 0;
 };
 

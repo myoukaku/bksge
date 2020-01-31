@@ -81,7 +81,6 @@ private:
 	std::shared_ptr<vulkan::CommandPool>				m_command_pool;
 	std::unique_ptr<vulkan::CommandBuffer>				m_command_buffer;
 	::VkQueue											m_graphics_queue;
-	::VkQueue											m_present_queue;
 	std::unique_ptr<vulkan::Swapchain>					m_swapchain;
 	std::unique_ptr<vulkan::DepthBuffer>				m_depth_buffer;
 	std::unique_ptr<vulkan::RenderPass>					m_render_pass;

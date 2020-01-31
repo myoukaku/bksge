@@ -12,8 +12,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/index_buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/command_buffer_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/buffer_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/device_memory_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/buffer_object_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/fwd/geometry_fwd.hpp>
 #include <memory>
@@ -36,16 +35,16 @@ public:
 
 	~IndexBuffer();
 
-	void Bind(CommandBuffer* command_buffer);
-	void Draw(CommandBuffer* command_buffer);
+	void Bind(vulkan::CommandBuffer* command_buffer);
+
+	void Draw(vulkan::CommandBuffer* command_buffer);
 
 	bool enable(void) const;
 
 private:
-	std::unique_ptr<Buffer>			m_buffer;
-	std::unique_ptr<DeviceMemory>	m_device_memory;
-	std::uint32_t					m_count = 0;
-	::VkIndexType					m_type;
+	std::unique_ptr<vulkan::BufferObject>	m_buffer;
+	std::uint32_t							m_count = 0;
+	::VkIndexType							m_type;
 };
 
 }	// namespace vulkan

@@ -66,10 +66,26 @@ DescriptorPool::~DescriptorPool()
 	vk::DestroyDescriptorPool(*m_device, m_descriptor_pool, nullptr);
 }
 
-BKSGE_INLINE
-DescriptorPool::operator ::VkDescriptorPool() const
+BKSGE_INLINE void
+DescriptorPool::AllocateDescriptorSets(
+	std::vector<::VkDescriptorSetLayout> const& descriptor_set_layouts,
+	VkDescriptorSet*                            descriptor_sets)
 {
-	return m_descriptor_pool;
+	vk::DescriptorSetAllocateInfo info;
+	info.descriptorPool = m_descriptor_pool;
+	info.SetSetLayouts(descriptor_set_layouts);
+	vk::AllocateDescriptorSets(*m_device, &info, descriptor_sets);
+}
+
+BKSGE_INLINE void
+DescriptorPool::FreeDescriptorSets(
+	std::vector<::VkDescriptorSet> const& descriptor_sets)
+{
+	vk::FreeDescriptorSets(
+		*m_device,
+		m_descriptor_pool,
+		static_cast<std::uint32_t>(descriptor_sets.size()),
+		descriptor_sets.data());
 }
 
 }	// namespace vulkan
