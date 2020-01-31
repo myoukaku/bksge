@@ -168,8 +168,8 @@ public:
 		, m_rotation(0)
 	{
 		m_sampler.SetMagFilter(bksge::FilterMode::kLinear);
-		m_sampler.SetWrapS(bksge::WrapMode::kClamp);
-		m_sampler.SetWrapT(bksge::WrapMode::kClamp);
+		m_sampler.SetAddressModeU(bksge::AddressMode::kClamp);
+		m_sampler.SetAddressModeV(bksge::AddressMode::kClamp);
 	}
 
 	void Update(void)

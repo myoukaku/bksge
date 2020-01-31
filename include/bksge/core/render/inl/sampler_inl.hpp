@@ -22,9 +22,9 @@ Sampler::Sampler(void)
 	: m_source()
 	, m_min_filter(FilterMode::kNearest)
 	, m_mag_filter(FilterMode::kNearest)
-	, m_wrap_s(WrapMode::kRepeat)
-	, m_wrap_t(WrapMode::kRepeat)
-	, m_wrap_r(WrapMode::kRepeat)
+	, m_address_mode_u(AddressMode::kRepeat)
+	, m_address_mode_v(AddressMode::kRepeat)
+	, m_address_mode_w(AddressMode::kRepeat)
 	, m_border_color(0, 0, 0, 0)
 {}
 
@@ -54,21 +54,21 @@ void Sampler::SetMagFilter(FilterMode mag_filter)
 }
 
 BKSGE_INLINE
-void Sampler::SetWrapS(WrapMode wrap_s)
+void Sampler::SetAddressModeU(AddressMode address_mode_u)
 {
-	m_wrap_s = wrap_s;
+	m_address_mode_u = address_mode_u;
 }
 
 BKSGE_INLINE
-void Sampler::SetWrapT(WrapMode wrap_t)
+void Sampler::SetAddressModeV(AddressMode address_mode_v)
 {
-	m_wrap_t = wrap_t;
+	m_address_mode_v = address_mode_v;
 }
 
 BKSGE_INLINE
-void Sampler::SetWrapR(WrapMode wrap_r)
+void Sampler::SetAddressModeW(AddressMode address_mode_w)
 {
-	m_wrap_r = wrap_r;
+	m_address_mode_w = address_mode_w;
 }
 
 BKSGE_INLINE
@@ -96,21 +96,21 @@ FilterMode Sampler::mag_filter(void) const
 }
 
 BKSGE_INLINE
-WrapMode Sampler::wrap_s(void) const
+AddressMode Sampler::address_mode_u(void) const
 {
-	return m_wrap_s;
+	return m_address_mode_u;
 }
 
 BKSGE_INLINE
-WrapMode Sampler::wrap_t(void) const
+AddressMode Sampler::address_mode_v(void) const
 {
-	return m_wrap_t;
+	return m_address_mode_v;
 }
 
 BKSGE_INLINE
-WrapMode Sampler::wrap_r(void) const
+AddressMode Sampler::address_mode_w(void) const
 {
-	return m_wrap_r;
+	return m_address_mode_w;
 }
 
 BKSGE_INLINE
@@ -126,9 +126,9 @@ bool operator==(Sampler const& lhs, Sampler const& rhs)
 		lhs.source()       == rhs.source()     &&
 		lhs.min_filter()   == rhs.min_filter() &&
 		lhs.mag_filter()   == rhs.mag_filter() &&
-		lhs.wrap_s()       == rhs.wrap_s()     &&
-		lhs.wrap_t()       == rhs.wrap_t()     &&
-		lhs.wrap_r()       == rhs.wrap_r()     &&
+		lhs.address_mode_u()       == rhs.address_mode_u()     &&
+		lhs.address_mode_v()       == rhs.address_mode_v()     &&
+		lhs.address_mode_w()       == rhs.address_mode_w()     &&
 		lhs.border_color() == rhs.border_color();
 }
 

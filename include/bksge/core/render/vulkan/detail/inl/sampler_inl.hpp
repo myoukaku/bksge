@@ -15,9 +15,11 @@
 #include <bksge/core/render/vulkan/detail/sampler.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/filter_mode.hpp>
-#include <bksge/core/render/vulkan/detail/wrap_mode.hpp>
+#include <bksge/core/render/vulkan/detail/address_mode.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
+#include <bksge/core/render/filter_mode.hpp>
+#include <bksge/core/render/address_mode.hpp>
 #include <bksge/core/render/sampler.hpp>
 
 namespace bksge
@@ -39,9 +41,9 @@ Sampler::Sampler(
 	info.magFilter               = vulkan::FilterMode(sampler.mag_filter());
 	info.minFilter               = vulkan::FilterMode(sampler.min_filter());
 	info.mipmapMode              = VK_SAMPLER_MIPMAP_MODE_NEAREST;
-	info.addressModeU            = vulkan::WrapMode(sampler.wrap_s());
-	info.addressModeV            = vulkan::WrapMode(sampler.wrap_t());
-	info.addressModeW            = vulkan::WrapMode(sampler.wrap_r());
+	info.addressModeU            = vulkan::AddressMode(sampler.address_mode_u());
+	info.addressModeV            = vulkan::AddressMode(sampler.address_mode_v());
+	info.addressModeW            = vulkan::AddressMode(sampler.address_mode_w());
 	info.mipLodBias              = 0;
 	info.anisotropyEnable        = VK_FALSE;
 	info.maxAnisotropy           = 1;

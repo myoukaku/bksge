@@ -1,15 +1,15 @@
 ﻿/**
- *	@file	wrap_mode.hpp
+ *	@file	address_mode.hpp
  *
- *	@brief	WrapMode の定義
+ *	@brief	AddressMode の定義
  *
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_CORE_RENDER_WRAP_MODE_HPP
-#define BKSGE_CORE_RENDER_WRAP_MODE_HPP
+#ifndef BKSGE_CORE_RENDER_ADDRESS_MODE_HPP
+#define BKSGE_CORE_RENDER_ADDRESS_MODE_HPP
 
-#include <bksge/core/render/fwd/wrap_mode_fwd.hpp>
+#include <bksge/core/render/fwd/address_mode_fwd.hpp>
 #include <ostream>
 #include <string>
 
@@ -22,7 +22,7 @@ namespace render
 /**
  *	@brief	テクスチャ座標がテクスチャのサイズを超えた時の補正方法
  */
-enum class WrapMode
+enum class AddressMode
 {
 	kRepeat, ///< 繰り返し
 	kClamp,	 ///< [0, 1]の範囲にクランプ
@@ -32,14 +32,14 @@ enum class WrapMode
 /**
  *	@brief	文字列への変換
  */
-std::string to_string(WrapMode const& wrap_mode);
+std::string to_string(AddressMode const& address_mode);
 
 /**
  *	@brief	ストリームへの出力
  */
 template <typename CharT, typename Traits>
 inline std::basic_ostream<CharT, Traits>&
-operator<<(std::basic_ostream<CharT, Traits>& os, WrapMode const& rhs)
+operator<<(std::basic_ostream<CharT, Traits>& os, AddressMode const& rhs)
 {
 	return os << to_string(rhs).c_str();
 }
@@ -57,11 +57,11 @@ namespace std
 {
 
 template<>
-struct hash<bksge::render::WrapMode>
+struct hash<bksge::render::AddressMode>
 {
-	std::size_t operator()(bksge::render::WrapMode const& arg) const
+	std::size_t operator()(bksge::render::AddressMode const& arg) const
 	{
-		using underlying_type = typename std::underlying_type<bksge::render::WrapMode>::type;
+		using underlying_type = typename std::underlying_type<bksge::render::AddressMode>::type;
 		return std::hash<underlying_type>{}(static_cast<underlying_type>(arg));
 	}
 };
@@ -72,7 +72,7 @@ struct hash<bksge::render::WrapMode>
 
 #include <bksge/fnd/config.hpp>
 #if defined(BKSGE_HEADER_ONLY)
-#include <bksge/core/render/inl/wrap_mode_inl.hpp>
+#include <bksge/core/render/inl/address_mode_inl.hpp>
 #endif
 
-#endif // BKSGE_CORE_RENDER_WRAP_MODE_HPP
+#endif // BKSGE_CORE_RENDER_ADDRESS_MODE_HPP

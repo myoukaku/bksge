@@ -21,9 +21,9 @@ GTEST_TEST(Render_Sampler, DefaultConstructTest)
 	EXPECT_EQ(nullptr, sampler.source().data());
 	EXPECT_EQ(FilterMode::kNearest, sampler.min_filter());
 	EXPECT_EQ(FilterMode::kNearest, sampler.mag_filter());
-	EXPECT_EQ(WrapMode::kRepeat, sampler.wrap_s());
-	EXPECT_EQ(WrapMode::kRepeat, sampler.wrap_t());
-	EXPECT_EQ(WrapMode::kRepeat, sampler.wrap_r());
+	EXPECT_EQ(AddressMode::kRepeat, sampler.address_mode_u());
+	EXPECT_EQ(AddressMode::kRepeat, sampler.address_mode_v());
+	EXPECT_EQ(AddressMode::kRepeat, sampler.address_mode_w());
 	EXPECT_EQ(Color4f(0,0,0,0), sampler.border_color());
 	EXPECT_EQ(0u, sampler.source().width());
 	EXPECT_EQ(0u, sampler.source().height());
@@ -39,9 +39,9 @@ GTEST_TEST(Render_Sampler, Arg1ConstructTest)
 
 	EXPECT_EQ(FilterMode::kNearest, sampler.min_filter());
 	EXPECT_EQ(FilterMode::kNearest, sampler.mag_filter());
-	EXPECT_EQ(WrapMode::kRepeat, sampler.wrap_s());
-	EXPECT_EQ(WrapMode::kRepeat, sampler.wrap_t());
-	EXPECT_EQ(WrapMode::kRepeat, sampler.wrap_r());
+	EXPECT_EQ(AddressMode::kRepeat, sampler.address_mode_u());
+	EXPECT_EQ(AddressMode::kRepeat, sampler.address_mode_v());
+	EXPECT_EQ(AddressMode::kRepeat, sampler.address_mode_w());
 	EXPECT_EQ(Color4f(0,0,0,0), sampler.border_color());
 	EXPECT_NE(nullptr, sampler.source().data());
 	EXPECT_EQ(texture.data(), sampler.source().data());
@@ -63,86 +63,86 @@ GTEST_TEST(Render_Sampler, CopyTest)
 	const Texture texture2(TextureFormat::kRGB_F32, {32, 24});
 	Sampler sampler1(texture1);
 	sampler1.SetMinFilter(FilterMode::kLinear);
-	sampler1.SetWrapT(WrapMode::kClamp);
+	sampler1.SetAddressModeV(AddressMode::kClamp);
 
 	Sampler sampler2(sampler1);	// コピーコンストラクタ
 	EXPECT_EQ(FilterMode::kLinear,  sampler2.min_filter());
 	EXPECT_EQ(FilterMode::kNearest, sampler2.mag_filter());
-	EXPECT_EQ(WrapMode::kRepeat, sampler2.wrap_s());
-	EXPECT_EQ(WrapMode::kClamp,  sampler2.wrap_t());
-	EXPECT_EQ(WrapMode::kRepeat, sampler2.wrap_r());
+	EXPECT_EQ(AddressMode::kRepeat, sampler2.address_mode_u());
+	EXPECT_EQ(AddressMode::kClamp,  sampler2.address_mode_v());
+	EXPECT_EQ(AddressMode::kRepeat, sampler2.address_mode_w());
 	EXPECT_EQ(texture1, sampler2.source());
 
 	// コピー元を変更してもコピー先は変わらない
 	sampler1.SetMagFilter(FilterMode::kLinear);
-	sampler1.SetWrapR(WrapMode::kClamp);
+	sampler1.SetAddressModeW(AddressMode::kClamp);
 	sampler1.SetSource(texture2);
 	EXPECT_EQ(FilterMode::kLinear,	sampler1.min_filter());
 	EXPECT_EQ(FilterMode::kLinear,	sampler1.mag_filter());
-	EXPECT_EQ(WrapMode::kRepeat,	sampler1.wrap_s());
-	EXPECT_EQ(WrapMode::kClamp,		sampler1.wrap_t());
-	EXPECT_EQ(WrapMode::kClamp,	    sampler1.wrap_r());
+	EXPECT_EQ(AddressMode::kRepeat,	sampler1.address_mode_u());
+	EXPECT_EQ(AddressMode::kClamp,	sampler1.address_mode_v());
+	EXPECT_EQ(AddressMode::kClamp,	sampler1.address_mode_w());
 	EXPECT_EQ(texture2,				sampler1.source());
 	EXPECT_EQ(FilterMode::kLinear,	sampler2.min_filter());
 	EXPECT_EQ(FilterMode::kNearest,	sampler2.mag_filter());
-	EXPECT_EQ(WrapMode::kRepeat,	sampler2.wrap_s());
-	EXPECT_EQ(WrapMode::kClamp,		sampler2.wrap_t());
-	EXPECT_EQ(WrapMode::kRepeat,	sampler2.wrap_r());
+	EXPECT_EQ(AddressMode::kRepeat,	sampler2.address_mode_u());
+	EXPECT_EQ(AddressMode::kClamp,	sampler2.address_mode_v());
+	EXPECT_EQ(AddressMode::kRepeat,	sampler2.address_mode_w());
 	EXPECT_EQ(texture1,				sampler2.source());
 
 	// コピー先を変更してもコピー元は変わらない
 	sampler2.SetMinFilter(FilterMode::kNearest);
-	sampler2.SetWrapS(WrapMode::kClamp);
+	sampler2.SetAddressModeU(AddressMode::kClamp);
 	EXPECT_EQ(FilterMode::kLinear,	sampler1.min_filter());
 	EXPECT_EQ(FilterMode::kLinear,	sampler1.mag_filter());
-	EXPECT_EQ(WrapMode::kRepeat,	sampler1.wrap_s());
-	EXPECT_EQ(WrapMode::kClamp,		sampler1.wrap_t());
-	EXPECT_EQ(WrapMode::kClamp,	    sampler1.wrap_r());
+	EXPECT_EQ(AddressMode::kRepeat,	sampler1.address_mode_u());
+	EXPECT_EQ(AddressMode::kClamp,	sampler1.address_mode_v());
+	EXPECT_EQ(AddressMode::kClamp,	sampler1.address_mode_w());
 	EXPECT_EQ(texture2,				sampler1.source());
 	EXPECT_EQ(FilterMode::kNearest,	sampler2.min_filter());
 	EXPECT_EQ(FilterMode::kNearest,	sampler2.mag_filter());
-	EXPECT_EQ(WrapMode::kClamp,		sampler2.wrap_s());
-	EXPECT_EQ(WrapMode::kClamp,		sampler2.wrap_t());
-	EXPECT_EQ(WrapMode::kRepeat,	sampler2.wrap_r());
+	EXPECT_EQ(AddressMode::kClamp,	sampler2.address_mode_u());
+	EXPECT_EQ(AddressMode::kClamp,	sampler2.address_mode_v());
+	EXPECT_EQ(AddressMode::kRepeat,	sampler2.address_mode_w());
 	EXPECT_EQ(texture1,				sampler2.source());
 
 	// コピー代入
 	sampler1 = sampler2;
 	EXPECT_EQ(FilterMode::kNearest,	sampler1.min_filter());
 	EXPECT_EQ(FilterMode::kNearest,	sampler1.mag_filter());
-	EXPECT_EQ(WrapMode::kClamp,		sampler1.wrap_s());
-	EXPECT_EQ(WrapMode::kClamp,		sampler1.wrap_t());
-	EXPECT_EQ(WrapMode::kRepeat,	sampler1.wrap_r());
+	EXPECT_EQ(AddressMode::kClamp,	sampler1.address_mode_u());
+	EXPECT_EQ(AddressMode::kClamp,	sampler1.address_mode_v());
+	EXPECT_EQ(AddressMode::kRepeat,	sampler1.address_mode_w());
 	EXPECT_EQ(texture1,				sampler1.source());
 	EXPECT_EQ(FilterMode::kNearest,	sampler2.min_filter());
 	EXPECT_EQ(FilterMode::kNearest,	sampler2.mag_filter());
-	EXPECT_EQ(WrapMode::kClamp,		sampler2.wrap_s());
-	EXPECT_EQ(WrapMode::kClamp,		sampler2.wrap_t());
-	EXPECT_EQ(WrapMode::kRepeat,	sampler2.wrap_r());
+	EXPECT_EQ(AddressMode::kClamp,	sampler2.address_mode_u());
+	EXPECT_EQ(AddressMode::kClamp,	sampler2.address_mode_v());
+	EXPECT_EQ(AddressMode::kRepeat,	sampler2.address_mode_w());
 	EXPECT_EQ(texture1,				sampler2.source());
 
 	// 自己代入
 	sampler2 = sampler2;
 	EXPECT_EQ(FilterMode::kNearest,	sampler2.min_filter());
 	EXPECT_EQ(FilterMode::kNearest,	sampler2.mag_filter());
-	EXPECT_EQ(WrapMode::kClamp,		sampler2.wrap_s());
-	EXPECT_EQ(WrapMode::kClamp,		sampler2.wrap_t());
-	EXPECT_EQ(WrapMode::kRepeat,	sampler2.wrap_r());
+	EXPECT_EQ(AddressMode::kClamp,	sampler2.address_mode_u());
+	EXPECT_EQ(AddressMode::kClamp,	sampler2.address_mode_v());
+	EXPECT_EQ(AddressMode::kRepeat,	sampler2.address_mode_w());
 	EXPECT_EQ(texture1,				sampler2.source());
 
 	// 多重代入
 	sampler1 = sampler2 = Sampler();
 	EXPECT_EQ(FilterMode::kNearest,	sampler1.min_filter());
 	EXPECT_EQ(FilterMode::kNearest,	sampler1.mag_filter());
-	EXPECT_EQ(WrapMode::kRepeat,	sampler1.wrap_s());
-	EXPECT_EQ(WrapMode::kRepeat,	sampler1.wrap_t());
-	EXPECT_EQ(WrapMode::kRepeat,	sampler1.wrap_r());
+	EXPECT_EQ(AddressMode::kRepeat,	sampler1.address_mode_u());
+	EXPECT_EQ(AddressMode::kRepeat,	sampler1.address_mode_v());
+	EXPECT_EQ(AddressMode::kRepeat,	sampler1.address_mode_w());
 	EXPECT_EQ(nullptr,				sampler1.source().data());
 	EXPECT_EQ(FilterMode::kNearest,	sampler2.min_filter());
 	EXPECT_EQ(FilterMode::kNearest,	sampler2.mag_filter());
-	EXPECT_EQ(WrapMode::kRepeat,	sampler2.wrap_s());
-	EXPECT_EQ(WrapMode::kRepeat,	sampler2.wrap_t());
-	EXPECT_EQ(WrapMode::kRepeat,	sampler2.wrap_r());
+	EXPECT_EQ(AddressMode::kRepeat,	sampler2.address_mode_u());
+	EXPECT_EQ(AddressMode::kRepeat,	sampler2.address_mode_v());
+	EXPECT_EQ(AddressMode::kRepeat,	sampler2.address_mode_w());
 	EXPECT_EQ(nullptr,				sampler2.source().data());
 }
 
@@ -188,9 +188,9 @@ GTEST_TEST(Render_Sampler, SetParameterTest)
 	EXPECT_EQ(nullptr, sampler.source().data());
 	EXPECT_EQ(FilterMode::kNearest, sampler.min_filter());
 	EXPECT_EQ(FilterMode::kNearest, sampler.mag_filter());
-	EXPECT_EQ(WrapMode::kRepeat, sampler.wrap_s());
-	EXPECT_EQ(WrapMode::kRepeat, sampler.wrap_t());
-	EXPECT_EQ(WrapMode::kRepeat, sampler.wrap_r());
+	EXPECT_EQ(AddressMode::kRepeat, sampler.address_mode_u());
+	EXPECT_EQ(AddressMode::kRepeat, sampler.address_mode_v());
+	EXPECT_EQ(AddressMode::kRepeat, sampler.address_mode_w());
 	EXPECT_EQ(Color4f(0,0,0,0), sampler.border_color());
 
 	sampler.SetSource(texture);
@@ -203,14 +203,14 @@ GTEST_TEST(Render_Sampler, SetParameterTest)
 	sampler.SetMagFilter(FilterMode::kLinear);
 	EXPECT_EQ(FilterMode::kLinear, sampler.mag_filter());
 
-	sampler.SetWrapS(WrapMode::kBorder);
-	EXPECT_EQ(WrapMode::kBorder, sampler.wrap_s());
+	sampler.SetAddressModeU(AddressMode::kBorder);
+	EXPECT_EQ(AddressMode::kBorder, sampler.address_mode_u());
 
-	sampler.SetWrapT(WrapMode::kClamp);
-	EXPECT_EQ(WrapMode::kClamp, sampler.wrap_t());
+	sampler.SetAddressModeV(AddressMode::kClamp);
+	EXPECT_EQ(AddressMode::kClamp, sampler.address_mode_v());
 
-	sampler.SetWrapR(WrapMode::kBorder);
-	EXPECT_EQ(WrapMode::kBorder, sampler.wrap_r());
+	sampler.SetAddressModeW(AddressMode::kBorder);
+	EXPECT_EQ(AddressMode::kBorder, sampler.address_mode_w());
 
 	sampler.SetBorderColor(Color4f{0, 1, 0, 0});
 	EXPECT_EQ(Color4f(0,1,0,0), sampler.border_color());
@@ -226,9 +226,9 @@ GTEST_TEST(Render_Sampler, CompareTest)
 	sampler1.SetSource(texture);
 	sampler1.SetMinFilter(FilterMode::kLinear);
 	sampler1.SetMagFilter(FilterMode::kNearest);
-	sampler1.SetWrapS(WrapMode::kRepeat);
-	sampler1.SetWrapT(WrapMode::kClamp);
-	sampler1.SetWrapR(WrapMode::kBorder);
+	sampler1.SetAddressModeU(AddressMode::kRepeat);
+	sampler1.SetAddressModeV(AddressMode::kClamp);
+	sampler1.SetAddressModeW(AddressMode::kBorder);
 	sampler1.SetBorderColor(Color4f{0, 1, 0, 0});
 
 	const Sampler sampler2(sampler1);
@@ -237,11 +237,11 @@ GTEST_TEST(Render_Sampler, CompareTest)
 	Sampler sampler4(sampler1);
 	sampler4.SetMagFilter(FilterMode::kLinear);
 	Sampler sampler5(sampler1);
-	sampler5.SetWrapS(WrapMode::kClamp);
+	sampler5.SetAddressModeU(AddressMode::kClamp);
 	Sampler sampler6(sampler1);
-	sampler6.SetWrapT(WrapMode::kBorder);
+	sampler6.SetAddressModeV(AddressMode::kBorder);
 	Sampler sampler7(sampler1);
-	sampler7.SetWrapR(WrapMode::kRepeat);
+	sampler7.SetAddressModeW(AddressMode::kRepeat);
 	Sampler sampler8(sampler1);
 	sampler8.SetBorderColor(Color4f{1, 1, 0, 0});
 
@@ -273,7 +273,7 @@ GTEST_TEST(Render_Sampler, OutputStreamTest)
 
 		std::stringstream ss;
 		ss << sampler;
-		EXPECT_EQ("{ { TextureFormat::kNone, { 0, 0 }, 0, {  } }, FilterMode::kNearest, FilterMode::kNearest, WrapMode::kRepeat, WrapMode::kRepeat, WrapMode::kRepeat, { 0, 0, 0, 0 } }", ss.str());
+		EXPECT_EQ("{ { TextureFormat::kNone, { 0, 0 }, 0, {  } }, FilterMode::kNearest, FilterMode::kNearest, AddressMode::kRepeat, AddressMode::kRepeat, AddressMode::kRepeat, { 0, 0, 0, 0 } }", ss.str());
 	}
 	{
 		const std::uint8_t pixels[] =
@@ -288,14 +288,14 @@ GTEST_TEST(Render_Sampler, OutputStreamTest)
 		sampler.SetSource(texture);
 		sampler.SetMinFilter(FilterMode::kNearest);
 		sampler.SetMagFilter(FilterMode::kLinear);
-		sampler.SetWrapS(WrapMode::kClamp);
-		sampler.SetWrapT(WrapMode::kRepeat);
-		sampler.SetWrapR(WrapMode::kBorder);
+		sampler.SetAddressModeU(AddressMode::kClamp);
+		sampler.SetAddressModeV(AddressMode::kRepeat);
+		sampler.SetAddressModeW(AddressMode::kBorder);
 		sampler.SetBorderColor(Color4f{ 1, 0, 0, 1 });
 
 		std::wstringstream ss;
 		ss << sampler;
-		EXPECT_EQ(L"{ { TextureFormat::kRGBA_U8, { 2, 3 }, 1, { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,  } }, FilterMode::kNearest, FilterMode::kLinear, WrapMode::kClamp, WrapMode::kRepeat, WrapMode::kBorder, { 1, 0, 0, 1 } }", ss.str());
+		EXPECT_EQ(L"{ { TextureFormat::kRGBA_U8, { 2, 3 }, 1, { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,  } }, FilterMode::kNearest, FilterMode::kLinear, AddressMode::kClamp, AddressMode::kRepeat, AddressMode::kBorder, { 1, 0, 0, 1 } }", ss.str());
 	}
 }
 
@@ -311,9 +311,9 @@ GTEST_TEST(Render_Sampler, SerializeTest)
 	sampler.SetSource(texture);
 	sampler.SetMinFilter(FilterMode::kNearest);
 	sampler.SetMagFilter(FilterMode::kLinear);
-	sampler.SetWrapS(WrapMode::kClamp);
-	sampler.SetWrapT(WrapMode::kRepeat);
-	sampler.SetWrapR(WrapMode::kBorder);
+	sampler.SetAddressModeU(AddressMode::kClamp);
+	sampler.SetAddressModeV(AddressMode::kRepeat);
+	sampler.SetAddressModeW(AddressMode::kBorder);
 
 	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream> (sampler);
 	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream> (sampler);

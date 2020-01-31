@@ -14,12 +14,12 @@
 
 #include <bksge/core/render/d3d11/detail/sampler.hpp>
 #include <bksge/core/render/d3d11/detail/filter_mode.hpp>
-#include <bksge/core/render/d3d11/detail/wrap_mode.hpp>
+#include <bksge/core/render/d3d11/detail/address_mode.hpp>
 #include <bksge/core/render/d3d11/detail/device.hpp>
 #include <bksge/core/render/d3d_common/d3d11.hpp>
 #include <bksge/core/render/d3d_common/com_ptr.hpp>
 #include <bksge/core/render/filter_mode.hpp>
-#include <bksge/core/render/wrap_mode.hpp>
+#include <bksge/core/render/address_mode.hpp>
 #include <bksge/core/render/sampler.hpp>
 
 namespace bksge
@@ -35,10 +35,10 @@ BKSGE_INLINE
 Sampler::Sampler(Device* device, bksge::Sampler const& sampler)
 {
 	::D3D11_SAMPLER_DESC desc;
-	desc.Filter         = FilterMode(sampler.min_filter(), sampler.mag_filter());
-	desc.AddressU       = WrapMode(sampler.wrap_s());
-	desc.AddressV       = WrapMode(sampler.wrap_t());
-	desc.AddressW       = WrapMode(sampler.wrap_r());
+	desc.Filter         = d3d11::FilterMode(sampler.min_filter(), sampler.mag_filter());
+	desc.AddressU       = d3d11::AddressMode(sampler.address_mode_u());
+	desc.AddressV       = d3d11::AddressMode(sampler.address_mode_v());
+	desc.AddressW       = d3d11::AddressMode(sampler.address_mode_w());
 	desc.MipLODBias     = 0;
 	desc.MaxAnisotropy  = 16;
 	desc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;

@@ -9,6 +9,7 @@
 #ifndef BKSGE_CORE_RENDER_HPP
 #define BKSGE_CORE_RENDER_HPP
 
+#include <bksge/core/render/address_mode.hpp>
 #include <bksge/core/render/blend_factor.hpp>
 #include <bksge/core/render/blend_operation.hpp>
 #include <bksge/core/render/blend_state.hpp>
@@ -44,6 +45,5 @@
 #include <bksge/core/render/vertex_element.hpp>
 #include <bksge/core/render/vertex_layout.hpp>
 #include <bksge/core/render/vulkan_renderer.hpp>
-#include <bksge/core/render/wrap_mode.hpp>
 
 #endif // BKSGE_CORE_RENDER_HPP

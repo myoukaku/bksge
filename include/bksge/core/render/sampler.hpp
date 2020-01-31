@@ -11,7 +11,7 @@
 
 #include <bksge/core/render/fwd/sampler_fwd.hpp>
 #include <bksge/core/render/filter_mode.hpp>
-#include <bksge/core/render/wrap_mode.hpp>
+#include <bksge/core/render/address_mode.hpp>
 #include <bksge/core/render/texture.hpp>
 #include <bksge/core/math/color4.hpp>
 //#include <bksge/fnd/serialization/access.hpp>
@@ -38,27 +38,27 @@ public:
 	void SetSource(Texture const& source);
 	void SetMinFilter(FilterMode min_filter);
 	void SetMagFilter(FilterMode mag_filter);
-	void SetWrapS(WrapMode wrap_s);
-	void SetWrapT(WrapMode wrap_t);
-	void SetWrapR(WrapMode wrap_r);
+	void SetAddressModeU(AddressMode address_mode_u);
+	void SetAddressModeV(AddressMode address_mode_v);
+	void SetAddressModeW(AddressMode address_mode_w);
 	void SetBorderColor(Color4f const& border_color);
 
 	Texture const&	source(void)		const;
 	FilterMode		min_filter(void)	const;
 	FilterMode		mag_filter(void)	const;
-	WrapMode		wrap_s(void)		const;
-	WrapMode		wrap_t(void)		const;
-	WrapMode		wrap_r(void)		const;
+	AddressMode		address_mode_u(void)const;
+	AddressMode		address_mode_v(void)const;
+	AddressMode		address_mode_w(void)const;
 	Color4f const&	border_color(void)	const;
 
 private:
-	Texture			m_source;		///< テクスチャ
-	FilterMode		m_min_filter;	///< 縮小フィルタの種類
-	FilterMode		m_mag_filter;	///< 拡大フィルタの種類
-	WrapMode		m_wrap_s;		///< テクスチャ座標sのラップモード
-	WrapMode		m_wrap_t;		///< テクスチャ座標tのラップモード
-	WrapMode		m_wrap_r;		///< テクスチャ座標rのラップモード
-	Color4f         m_border_color; ///< 境界色
+	Texture			m_source;			///< テクスチャ
+	FilterMode		m_min_filter;		///< 縮小フィルタの種類
+	FilterMode		m_mag_filter;		///< 拡大フィルタの種類
+	AddressMode		m_address_mode_u;	///< テクスチャ座標uのラップモード
+	AddressMode		m_address_mode_v;	///< テクスチャ座標vのラップモード
+	AddressMode		m_address_mode_w;	///< テクスチャ座標wのラップモード
+	Color4f         m_border_color;		///< 境界色
 
 private:
 #if 0
@@ -72,9 +72,9 @@ private:
 		ar & BKSGE_SERIALIZATION_NVP(m_source);
 		ar & BKSGE_SERIALIZATION_NVP(m_min_filter);
 		ar & BKSGE_SERIALIZATION_NVP(m_mag_filter);
-		ar & BKSGE_SERIALIZATION_NVP(m_wrap_s);
-		ar & BKSGE_SERIALIZATION_NVP(m_wrap_t);
-		ar & BKSGE_SERIALIZATION_NVP(m_wrap_r);
+		ar & BKSGE_SERIALIZATION_NVP(m_address_mode_u);
+		ar & BKSGE_SERIALIZATION_NVP(m_address_mode_v);
+		ar & BKSGE_SERIALIZATION_NVP(m_address_mode_w);
 		ar & BKSGE_SERIALIZATION_NVP(m_border_color);
 	}
 #endif
@@ -94,9 +94,9 @@ operator<<(std::basic_ostream<CharT, Traits>& os, Sampler const& rhs)
 		   << rhs.source() << ", "
 		   << rhs.min_filter() << ", "
 		   << rhs.mag_filter() << ", "
-		   << rhs.wrap_s() << ", "
-		   << rhs.wrap_t() << ", "
-		   << rhs.wrap_r() << ", "
+		   << rhs.address_mode_u() << ", "
+		   << rhs.address_mode_v() << ", "
+		   << rhs.address_mode_w() << ", "
 		   << rhs.border_color()
 		   << " }";
 }
@@ -126,9 +126,9 @@ struct hash<bksge::render::Sampler>
 			arg.source().id(),
 			arg.min_filter(),
 			arg.mag_filter(),
-			arg.wrap_s(),
-			arg.wrap_t(),
-			arg.wrap_r()/*,
+			arg.address_mode_u(),
+			arg.address_mode_v(),
+			arg.address_mode_w()/*,
 			arg.border_color()*/);	// TODO
 	}
 };

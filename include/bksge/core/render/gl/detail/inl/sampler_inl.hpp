@@ -14,9 +14,11 @@
 
 #include <bksge/core/render/gl/detail/sampler.hpp>
 #include <bksge/core/render/gl/detail/filter_mode.hpp>
-#include <bksge/core/render/gl/detail/wrap_mode.hpp>
+#include <bksge/core/render/gl/detail/address_mode.hpp>
 #include <bksge/core/render/gl/detail/texture.hpp>
 #include <bksge/core/render/gl/detail/resource_cache.hpp>
+#include <bksge/core/render/filter_mode.hpp>
+#include <bksge/core/render/address_mode.hpp>
 #include <bksge/core/render/sampler.hpp>
 
 namespace bksge
@@ -33,9 +35,9 @@ Sampler::Sampler(ResourceCache* resource_cache, bksge::Sampler const& sampler)
 	: m_source(resource_cache->GetGlTexture(sampler.source()))
 	, m_min_filter(gl::FilterMode(sampler.min_filter()))
 	, m_mag_filter(gl::FilterMode(sampler.mag_filter()))
-	, m_wrap_s(gl::WrapMode(sampler.wrap_s()))
-	, m_wrap_t(gl::WrapMode(sampler.wrap_t()))
-	, m_wrap_r(gl::WrapMode(sampler.wrap_r()))
+	, m_wrap_s(gl::AddressMode(sampler.address_mode_u()))
+	, m_wrap_t(gl::AddressMode(sampler.address_mode_v()))
+	, m_wrap_r(gl::AddressMode(sampler.address_mode_w()))
 	, m_border_color(sampler.border_color())
 {}
 

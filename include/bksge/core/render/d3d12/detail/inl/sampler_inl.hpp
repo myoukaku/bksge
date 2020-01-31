@@ -14,9 +14,11 @@
 
 #include <bksge/core/render/d3d12/detail/sampler.hpp>
 #include <bksge/core/render/d3d12/detail/filter_mode.hpp>
-#include <bksge/core/render/d3d12/detail/wrap_mode.hpp>
+#include <bksge/core/render/d3d12/detail/address_mode.hpp>
 #include <bksge/core/render/d3d12/detail/device.hpp>
 #include <bksge/core/render/d3d_common/d3d12.hpp>
+#include <bksge/core/render/filter_mode.hpp>
+#include <bksge/core/render/address_mode.hpp>
 #include <bksge/core/render/sampler.hpp>
 
 namespace bksge
@@ -31,10 +33,10 @@ namespace d3d12
 BKSGE_INLINE
 Sampler::Sampler(bksge::Sampler const& sampler)
 {
-	m_desc.Filter         = FilterMode(sampler.min_filter(), sampler.mag_filter());
-	m_desc.AddressU       = WrapMode(sampler.wrap_s());
-	m_desc.AddressV       = WrapMode(sampler.wrap_t());
-	m_desc.AddressW       = WrapMode(sampler.wrap_r());
+	m_desc.Filter         = d3d12::FilterMode(sampler.min_filter(), sampler.mag_filter());
+	m_desc.AddressU       = d3d12::AddressMode(sampler.address_mode_u());
+	m_desc.AddressV       = d3d12::AddressMode(sampler.address_mode_v());
+	m_desc.AddressW       = d3d12::AddressMode(sampler.address_mode_w());
 	m_desc.MipLODBias     = 0;
 	m_desc.MaxAnisotropy  = 16;
 	m_desc.ComparisonFunc = D3D12_COMPARISON_FUNC_ALWAYS;

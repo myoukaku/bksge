@@ -214,20 +214,20 @@ int main()
 
 	bksge::Sampler	sampler;
 	sampler.SetSource(tex);
-	sampler.SetWrapS(bksge::WrapMode::kBorder);
+	sampler.SetAddressModeU(bksge::AddressMode::kBorder);
 
 	bksge::ShaderParameterMap shader_parameter;
 
 	bksge::RenderState render_state;
 
-	std::pair<bksge::FilterMode, bksge::WrapMode> const setting_tbl[] =
+	std::pair<bksge::FilterMode, bksge::AddressMode> const setting_tbl[] =
 	{
-		{ bksge::FilterMode::kLinear,  bksge::WrapMode::kRepeat },
-		{ bksge::FilterMode::kLinear,  bksge::WrapMode::kClamp },
-		{ bksge::FilterMode::kLinear,  bksge::WrapMode::kBorder },
-		{ bksge::FilterMode::kNearest, bksge::WrapMode::kRepeat },
-		{ bksge::FilterMode::kNearest, bksge::WrapMode::kClamp },
-		{ bksge::FilterMode::kNearest, bksge::WrapMode::kBorder },
+		{ bksge::FilterMode::kLinear,  bksge::AddressMode::kRepeat },
+		{ bksge::FilterMode::kLinear,  bksge::AddressMode::kClamp },
+		{ bksge::FilterMode::kLinear,  bksge::AddressMode::kBorder },
+		{ bksge::FilterMode::kNearest, bksge::AddressMode::kRepeat },
+		{ bksge::FilterMode::kNearest, bksge::AddressMode::kClamp },
+		{ bksge::FilterMode::kNearest, bksge::AddressMode::kBorder },
 	};
 
 	int frame_count = 0;
@@ -257,9 +257,9 @@ int main()
 
 		sampler.SetMagFilter(setting_tbl[setting_index].first);
 		sampler.SetMinFilter(setting_tbl[setting_index].first);
-		sampler.SetWrapS(setting_tbl[setting_index].second);
-		sampler.SetWrapT(setting_tbl[setting_index].second);
-		sampler.SetWrapR(setting_tbl[setting_index].second);
+		sampler.SetAddressModeU(setting_tbl[setting_index].second);
+		sampler.SetAddressModeV(setting_tbl[setting_index].second);
+		sampler.SetAddressModeW(setting_tbl[setting_index].second);
 
 		shader_parameter.SetParameter("uSampler", sampler);
 		shader_parameter.SetParameter("uTexture", sampler.source());
