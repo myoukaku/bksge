@@ -17,7 +17,7 @@
 #include <bksge/core/render/d3d12/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/d3d12/detail/fwd/fence_fwd.hpp>
 #include <bksge/core/render/d3d12/detail/fwd/render_target_fwd.hpp>
-#include <bksge/core/render/d3d12/detail/fwd/resource_cache_fwd.hpp>
+#include <bksge/core/render/d3d12/detail/fwd/resource_pool_fwd.hpp>
 #include <bksge/core/render/d3d_common/d3d12.hpp>
 #include <bksge/core/render/dxgi/fwd/dxgi_factory_fwd.hpp>
 #include <bksge/core/render/dxgi/fwd/dxgi_swap_chain_fwd.hpp>
@@ -64,7 +64,7 @@ private:
 	std::unique_ptr<d3d12::DepthStencil>	m_depth_stencil;
 	std::unique_ptr<d3d12::Fence>			m_fence;
 	std::unique_ptr<d3d12::DescriptorHeaps>	m_descriptor_heaps;
-	std::unique_ptr<d3d12::ResourceCache>	m_resource_cache;
+	std::unique_ptr<d3d12::ResourcePool>	m_resource_pool;
 	::UINT									m_frame_index;
 };
 

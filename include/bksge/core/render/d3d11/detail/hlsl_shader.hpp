@@ -15,7 +15,7 @@
 #include <bksge/core/render/d3d11/detail/fwd/hlsl_texture_fwd.hpp>
 #include <bksge/core/render/d3d11/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/d3d11/detail/fwd/device_context_fwd.hpp>
-#include <bksge/core/render/d3d11/detail/fwd/resource_cache_fwd.hpp>
+#include <bksge/core/render/d3d11/detail/fwd/resource_pool_fwd.hpp>
 #include <bksge/core/render/d3d_common/d3d11.hpp>
 #include <bksge/core/render/d3d_common/d3dcommon.hpp>
 #include <bksge/core/render/d3d_common/d3d11shader.hpp>
@@ -51,7 +51,7 @@ public:
 	void SetEnable(DeviceContext* device_context);
 
 	void LoadParameters(
-		ResourceCache* resource_cache,
+		ResourcePool* resource_pool,
 		Device* device,
 		DeviceContext* device_context,
 		bksge::ShaderParameterMap const& shader_parameter_map);

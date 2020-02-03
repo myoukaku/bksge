@@ -14,7 +14,7 @@
 
 #include <bksge/core/render/d3d12/detail/hlsl_constant_buffer.hpp>
 #include <bksge/core/render/d3d12/detail/constant_buffer.hpp>
-#include <bksge/core/render/d3d12/detail/resource_cache.hpp>
+#include <bksge/core/render/d3d12/detail/resource_pool.hpp>
 #include <bksge/core/render/d3d12/detail/descriptor_heaps.hpp>
 #include <bksge/core/render/d3d_common/d3d12shader.hpp>
 #include <bksge/core/render/shader_parameter_map.hpp>
@@ -73,7 +73,7 @@ BKSGE_INLINE void
 HlslConstantBuffer::UpdateParameters(
 	Device* device,
 	DescriptorHeaps* descriptor_heaps,
-	ResourceCache* resource_cache,
+	ResourcePool* resource_pool,
 	bksge::ShaderParameterMap const& shader_parameter_map)
 {
 	std::vector<std::uint8_t> buf(m_size);
@@ -100,7 +100,7 @@ HlslConstantBuffer::UpdateParameters(
 		}
 	}
 
-	auto d3d12_constant_buffer = resource_cache->GetD3D12ConstantBuffer();
+	auto d3d12_constant_buffer = resource_pool->GetD3D12ConstantBuffer();
 
 	auto subresource = d3d12_constant_buffer->AssignSubresource(buf.size());
 	subresource.Update(buf);

@@ -15,7 +15,7 @@
 #include <bksge/core/render/d3d11/detail/hlsl_sampler.hpp>
 #include <bksge/core/render/d3d11/detail/hlsl_shader.hpp>
 #include <bksge/core/render/d3d11/detail/device_context.hpp>
-#include <bksge/core/render/d3d11/detail/resource_cache.hpp>
+#include <bksge/core/render/d3d11/detail/resource_pool.hpp>
 #include <bksge/core/render/d3d11/detail/sampler.hpp>
 #include <bksge/core/render/d3d_common/d3d11shader.hpp>
 #include <bksge/core/render/detail/shader_parameter.hpp>
@@ -45,7 +45,7 @@ HlslSampler::~HlslSampler()
 
 BKSGE_INLINE void
 HlslSampler::Load(
-	ResourceCache* resource_cache,
+	ResourcePool* resource_pool,
 	Device* device,
 	DeviceContext* device_context,
 	bksge::ShaderParameterMap const& shader_parameter_map,
@@ -71,7 +71,7 @@ HlslSampler::Load(
 	auto sampler = *static_cast<bksge::Sampler const*>(param->data());
 
 	auto d3d11_sampler =
-		resource_cache->GetD3D11Sampler(device, sampler);
+		resource_pool->GetD3D11Sampler(device, sampler);
 
 	hlsl_shader->VSetSamplers(
 		device_context,

@@ -20,7 +20,7 @@
 #include <bksge/core/render/d3d12/detail/fwd/command_list_fwd.hpp>
 #include <bksge/core/render/d3d12/detail/fwd/root_signature_fwd.hpp>
 #include <bksge/core/render/d3d12/detail/fwd/root_parameters_fwd.hpp>
-#include <bksge/core/render/d3d12/detail/fwd/resource_cache_fwd.hpp>
+#include <bksge/core/render/d3d12/detail/fwd/resource_pool_fwd.hpp>
 #include <bksge/core/render/d3d12/detail/fwd/descriptor_heaps_fwd.hpp>
 #include <bksge/core/render/d3d_common/d3d12.hpp>
 #include <bksge/core/render/d3d_common/com_ptr.hpp>
@@ -52,7 +52,7 @@ public:
 	void UpdateParameters(
 		Device* device,
 		DescriptorHeaps* descriptor_heaps,
-		ResourceCache* resource_cache,
+		ResourcePool* resource_pool,
 		bksge::ShaderParameterMap const& shader_parameter_map);
 
 	::D3D12_SHADER_BYTECODE GetShaderBytecode(bksge::ShaderStage stage) const;

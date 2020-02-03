@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_D3D12_DETAIL_HLSL_TEXTURE_HPP
 
 #include <bksge/core/render/d3d12/detail/fwd/hlsl_texture_fwd.hpp>
-#include <bksge/core/render/d3d12/detail/fwd/resource_cache_fwd.hpp>
+#include <bksge/core/render/d3d12/detail/fwd/resource_pool_fwd.hpp>
 #include <bksge/core/render/d3d12/detail/fwd/descriptor_heaps_fwd.hpp>
 #include <bksge/core/render/d3d12/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/d3d_common/d3d12.hpp>
@@ -38,7 +38,7 @@ public:
 	void UpdateParameters(
 		Device* device,
 		DescriptorHeaps* descriptor_heaps,
-		ResourceCache* resource_cache,
+		ResourcePool* resource_pool,
 		bksge::ShaderParameterMap const& shader_parameter_map);
 
 private:

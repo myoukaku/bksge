@@ -1,18 +1,18 @@
 ﻿/**
- *	@file	resource_cache_inl.hpp
+ *	@file	resource_pool_inl.hpp
  *
- *	@brief	ResourceCache クラスの実装
+ *	@brief	ResourcePool クラスの実装
  *
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_CORE_RENDER_GL_DETAIL_INL_RESOURCE_CACHE_INL_HPP
-#define BKSGE_CORE_RENDER_GL_DETAIL_INL_RESOURCE_CACHE_INL_HPP
+#ifndef BKSGE_CORE_RENDER_GL_DETAIL_INL_RESOURCE_POOL_INL_HPP
+#define BKSGE_CORE_RENDER_GL_DETAIL_INL_RESOURCE_POOL_INL_HPP
 
 #include <bksge/core/render/config.hpp>
 #if BKSGE_CORE_RENDER_HAS_GL_RENDERER
 
-#include <bksge/core/render/gl/detail/resource_cache.hpp>
+#include <bksge/core/render/gl/detail/resource_pool.hpp>
 #include <bksge/core/render/gl/detail/geometry.hpp>
 #include <bksge/core/render/gl/detail/glsl_program.hpp>
 #include <bksge/core/render/gl/detail/texture.hpp>
@@ -53,21 +53,21 @@ GetOrCreate(Map& map, Id const& id, Args&&... args)
 }	// namespace detail
 
 BKSGE_INLINE GeometryShared
-ResourceCache::GetGlGeometry(bksge::Geometry const& geometry)
+ResourcePool::GetGlGeometry(bksge::Geometry const& geometry)
 {
 	return detail::GetOrCreate<gl::Geometry>(
 		m_geometry_map, geometry.id(), geometry);
 }
 
 BKSGE_INLINE GlslProgramShared
-ResourceCache::GetGlslProgram(bksge::Shader const& shader)
+ResourcePool::GetGlslProgram(bksge::Shader const& shader)
 {
 	return detail::GetOrCreate<gl::GlslProgram>(
 		m_shader_map, shader.id(), shader);
 }
 
 BKSGE_INLINE TextureShared
-ResourceCache::GetGlTexture(bksge::Texture const& texture)
+ResourcePool::GetGlTexture(bksge::Texture const& texture)
 {
 	return detail::GetOrCreate<gl::Texture>(
 		m_texture_map, texture.id(), texture);
@@ -81,4 +81,4 @@ ResourceCache::GetGlTexture(bksge::Texture const& texture)
 
 #endif // BKSGE_CORE_RENDER_HAS_GL_RENDERER
 
-#endif // BKSGE_CORE_RENDER_GL_DETAIL_INL_RESOURCE_CACHE_INL_HPP
+#endif // BKSGE_CORE_RENDER_GL_DETAIL_INL_RESOURCE_POOL_INL_HPP

@@ -1,18 +1,18 @@
 ﻿/**
- *	@file	resource_cache_inl.hpp
+ *	@file	resource_pool_inl.hpp
  *
- *	@brief	ResourceCache クラスの実装
+ *	@brief	ResourcePool クラスの実装
  *
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_CORE_RENDER_D3D11_DETAIL_INL_RESOURCE_CACHE_INL_HPP
-#define BKSGE_CORE_RENDER_D3D11_DETAIL_INL_RESOURCE_CACHE_INL_HPP
+#ifndef BKSGE_CORE_RENDER_D3D11_DETAIL_INL_RESOURCE_POOL_INL_HPP
+#define BKSGE_CORE_RENDER_D3D11_DETAIL_INL_RESOURCE_POOL_INL_HPP
 
 #include <bksge/core/render/config.hpp>
 #if BKSGE_CORE_RENDER_HAS_D3D11_RENDERER
 
-#include <bksge/core/render/d3d11/detail/resource_cache.hpp>
+#include <bksge/core/render/d3d11/detail/resource_pool.hpp>
 #include <bksge/core/render/d3d11/detail/hlsl_program.hpp>
 #include <bksge/core/render/d3d11/detail/geometry.hpp>
 #include <bksge/core/render/d3d11/detail/texture.hpp>
@@ -58,38 +58,38 @@ GetOrCreate(Map& map, Id const& id, Args&&... args)
 }	// namespace detail
 
 BKSGE_INLINE
-ResourceCache::ResourceCache(void)
+ResourcePool::ResourcePool(void)
 {
 }
 
 BKSGE_INLINE
-ResourceCache::~ResourceCache()
+ResourcePool::~ResourcePool()
 {
 }
 
 BKSGE_INLINE HlslProgramShared
-ResourceCache::GetD3D11HlslProgram(Device* device, bksge::Shader const& shader)
+ResourcePool::GetD3D11HlslProgram(Device* device, bksge::Shader const& shader)
 {
 	return detail::GetOrCreate<HlslProgram>(
 		m_hlsl_program_map, shader.id(), device, shader);
 }
 
 BKSGE_INLINE GeometryShared
-ResourceCache::GetD3D11Geometry(Device* device, bksge::Geometry const& geometry)
+ResourcePool::GetD3D11Geometry(Device* device, bksge::Geometry const& geometry)
 {
 	return detail::GetOrCreate<Geometry>(
 		m_geometry_map, geometry.id(), device, geometry);
 }
 
 BKSGE_INLINE TextureShared
-ResourceCache::GetD3D11Texture(Device* device, bksge::Texture const& texture)
+ResourcePool::GetD3D11Texture(Device* device, bksge::Texture const& texture)
 {
 	return detail::GetOrCreate<Texture>(
 		m_texture_map, texture.id(), device, texture);
 }
 
 BKSGE_INLINE SamplerShared
-ResourceCache::GetD3D11Sampler(Device* device, bksge::Sampler const& sampler)
+ResourcePool::GetD3D11Sampler(Device* device, bksge::Sampler const& sampler)
 {
 	auto const id = bksge::hash_combine(sampler);
 	return detail::GetOrCreate<Sampler>(
@@ -104,4 +104,4 @@ ResourceCache::GetD3D11Sampler(Device* device, bksge::Sampler const& sampler)
 
 #endif // BKSGE_CORE_RENDER_HAS_D3D11_RENDERER
 
-#endif // BKSGE_CORE_RENDER_D3D11_DETAIL_INL_RESOURCE_CACHE_INL_HPP
+#endif // BKSGE_CORE_RENDER_D3D11_DETAIL_INL_RESOURCE_POOL_INL_HPP

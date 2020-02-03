@@ -16,7 +16,7 @@
 #include <bksge/core/render/gl/detail/filter_mode.hpp>
 #include <bksge/core/render/gl/detail/address_mode.hpp>
 #include <bksge/core/render/gl/detail/texture.hpp>
-#include <bksge/core/render/gl/detail/resource_cache.hpp>
+#include <bksge/core/render/gl/detail/resource_pool.hpp>
 #include <bksge/core/render/filter_mode.hpp>
 #include <bksge/core/render/address_mode.hpp>
 #include <bksge/core/render/sampler.hpp>
@@ -31,8 +31,8 @@ namespace gl
 {
 
 BKSGE_INLINE
-Sampler::Sampler(ResourceCache* resource_cache, bksge::Sampler const& sampler)
-	: m_source(resource_cache->GetGlTexture(sampler.source()))
+Sampler::Sampler(ResourcePool* resource_pool, bksge::Sampler const& sampler)
+	: m_source(resource_pool->GetGlTexture(sampler.source()))
 	, m_min_filter(gl::FilterMode(sampler.min_filter()))
 	, m_mag_filter(gl::FilterMode(sampler.mag_filter()))
 	, m_wrap_s(gl::AddressMode(sampler.address_mode_u()))

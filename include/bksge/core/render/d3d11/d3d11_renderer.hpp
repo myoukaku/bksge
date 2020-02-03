@@ -14,7 +14,7 @@
 #include <bksge/core/render/d3d11/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/d3d11/detail/fwd/device_context_fwd.hpp>
 #include <bksge/core/render/d3d11/detail/fwd/render_target_fwd.hpp>
-#include <bksge/core/render/d3d11/detail/fwd/resource_cache_fwd.hpp>
+#include <bksge/core/render/d3d11/detail/fwd/resource_pool_fwd.hpp>
 #include <bksge/core/render/dxgi/fwd/dxgi_factory_fwd.hpp>
 #include <bksge/core/render/dxgi/fwd/dxgi_swap_chain_fwd.hpp>
 #include <bksge/core/render/fwd/geometry_fwd.hpp>
@@ -57,7 +57,7 @@ private:
 	std::unique_ptr<d3d11::DeviceContext> m_device_context;
 	std::unique_ptr<d3d11::RenderTarget>  m_render_target;
 	std::unique_ptr<d3d11::DepthStencil>  m_depth_stencil;
-	std::unique_ptr<d3d11::ResourceCache> m_resource_cache;
+	std::unique_ptr<d3d11::ResourcePool>  m_resource_pool;
 };
 
 }	// namespace render

@@ -1,18 +1,18 @@
 ﻿/**
- *	@file	resource_cache_inl.hpp
+ *	@file	resource_pool_inl.hpp
  *
- *	@brief	ResourceCache クラスの実装
+ *	@brief	ResourcePool クラスの実装
  *
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_CORE_RENDER_D3D12_DETAIL_INL_RESOURCE_CACHE_INL_HPP
-#define BKSGE_CORE_RENDER_D3D12_DETAIL_INL_RESOURCE_CACHE_INL_HPP
+#ifndef BKSGE_CORE_RENDER_D3D12_DETAIL_INL_RESOURCE_POOL_INL_HPP
+#define BKSGE_CORE_RENDER_D3D12_DETAIL_INL_RESOURCE_POOL_INL_HPP
 
 #include <bksge/core/render/config.hpp>
 #if BKSGE_CORE_RENDER_HAS_D3D12_RENDERER
 
-#include <bksge/core/render/d3d12/detail/resource_cache.hpp>
+#include <bksge/core/render/d3d12/detail/resource_pool.hpp>
 #include <bksge/core/render/d3d12/detail/constant_buffer.hpp>
 #include <bksge/core/render/d3d12/detail/pipeline_state.hpp>
 #include <bksge/core/render/d3d12/detail/hlsl_program.hpp>
@@ -66,7 +66,7 @@ GetOrCreate(Map& map, Id const& id, Args&&... args)
 }	// namespace detail
 
 BKSGE_INLINE
-ResourceCache::ResourceCache(Device* device)
+ResourcePool::ResourcePool(Device* device)
 {
 	m_command_queue = bksge::make_unique<CommandQueue>(device);
 	m_command_list  = bksge::make_unique<CommandList>(device, 1);
@@ -77,18 +77,18 @@ ResourceCache::ResourceCache(Device* device)
 }
 
 BKSGE_INLINE
-ResourceCache::~ResourceCache()
+ResourcePool::~ResourcePool()
 {
 }
 
 BKSGE_INLINE ConstantBufferShared
-ResourceCache::GetD3D12ConstantBuffer()
+ResourcePool::GetD3D12ConstantBuffer()
 {
 	return m_constant_buffer;
 }
 
 BKSGE_INLINE PipelineStateShared
-ResourceCache::GetD3D12PipelineState(
+ResourcePool::GetD3D12PipelineState(
 	Device* device,
 	bksge::Shader const& shader,
 	bksge::RenderState const& render_state,
@@ -105,21 +105,21 @@ ResourceCache::GetD3D12PipelineState(
 }
 
 BKSGE_INLINE HlslProgramShared
-ResourceCache::GetD3D12HlslProgram(Device* device, bksge::Shader const& shader)
+ResourcePool::GetD3D12HlslProgram(Device* device, bksge::Shader const& shader)
 {
 	return detail::GetOrCreate<HlslProgram>(
 		m_hlsl_program_map, shader.id(), device, shader);
 }
 
 BKSGE_INLINE GeometryShared
-ResourceCache::GetD3D12Geometry(Device* device, bksge::Geometry const& geometry)
+ResourcePool::GetD3D12Geometry(Device* device, bksge::Geometry const& geometry)
 {
 	return detail::GetOrCreate<Geometry>(
 		m_geometry_map, geometry.id(), device, geometry);
 }
 
 BKSGE_INLINE TextureShared
-ResourceCache::GetD3D12Texture(Device* device, bksge::Texture const& texture)
+ResourcePool::GetD3D12Texture(Device* device, bksge::Texture const& texture)
 {
 	return detail::GetOrCreate<Texture>(
 		m_texture_map,
@@ -132,7 +132,7 @@ ResourceCache::GetD3D12Texture(Device* device, bksge::Texture const& texture)
 }
 
 BKSGE_INLINE SamplerShared
-ResourceCache::GetD3D12Sampler(bksge::Sampler const& sampler)
+ResourcePool::GetD3D12Sampler(bksge::Sampler const& sampler)
 {
 	auto const id = bksge::hash_combine(sampler);
 	return detail::GetOrCreate<Sampler>(
@@ -149,4 +149,4 @@ ResourceCache::GetD3D12Sampler(bksge::Sampler const& sampler)
 
 #endif // BKSGE_CORE_RENDER_HAS_D3D12_RENDERER
 
-#endif // BKSGE_CORE_RENDER_D3D12_DETAIL_INL_RESOURCE_CACHE_INL_HPP
+#endif // BKSGE_CORE_RENDER_D3D12_DETAIL_INL_RESOURCE_POOL_INL_HPP

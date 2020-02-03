@@ -36,11 +36,11 @@ GlslParameterSetterBase::~GlslParameterSetterBase()
 
 BKSGE_INLINE void
 GlslParameterSetterBase::SetParameter(
-	ResourceCache* resource_cache,
+	ResourcePool* resource_pool,
 	std::shared_ptr<ShaderParameterBase> const& src,
 	::GLint location) const
 {
-	VSetParameter(resource_cache, src, location);
+	VSetParameter(resource_pool, src, location);
 }
 
 BKSGE_INLINE void

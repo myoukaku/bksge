@@ -24,7 +24,7 @@
 #include <bksge/core/render/gl/detail/blend_operation.hpp>
 #include <bksge/core/render/gl/detail/comparison_function.hpp>
 #include <bksge/core/render/gl/detail/bool.hpp>
-#include <bksge/core/render/gl/detail/resource_cache.hpp>
+#include <bksge/core/render/gl/detail/resource_pool.hpp>
 #include <bksge/core/render/gl/detail/wgl/wgl_context.hpp>
 #include <bksge/core/render/gl/detail/glx/glx_context.hpp>
 #include <bksge/core/render/geometry.hpp>
@@ -87,7 +87,7 @@ void APIENTRY DebugCallback(
 BKSGE_INLINE
 GlRenderer::GlRenderer(Window const& window)
 	: m_gl_context(gl::detail::MakeGlContext(window))
-	, m_resource_cache(new gl::ResourceCache())
+	, m_resource_pool(new gl::ResourcePool())
 {
 	//std::printf("GL_VENDOR : %s\n",     ::glGetString(GL_VENDOR));		// ベンダー情報の取得
 	//std::printf("GL_RENDERER : %s\n",   ::glGetString(GL_RENDERER));		// レンダラー情報の取得
@@ -202,11 +202,11 @@ GlRenderer::VRender(
 	ApplyBlendState(render_state.blend_state());
 	ApplyDepthState(render_state.depth_state());
 
-	auto glsl_program = m_resource_cache->GetGlslProgram(shader);
+	auto glsl_program = m_resource_pool->GetGlslProgram(shader);
 	BKSGE_ASSERT(glsl_program != nullptr);
 
-	auto gl_geometry = m_resource_cache->GetGlGeometry(geometry);
-	glsl_program->Render(m_resource_cache.get(), gl_geometry.get(), shader_parameter_map);
+	auto gl_geometry = m_resource_pool->GetGlGeometry(geometry);
+	glsl_program->Render(m_resource_pool.get(), gl_geometry.get(), shader_parameter_map);
 
 	return true;
 }

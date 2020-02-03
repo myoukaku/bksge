@@ -22,7 +22,7 @@
 #include <bksge/core/render/d3d12/detail/geometry.hpp>
 #include <bksge/core/render/d3d12/detail/hlsl_program.hpp>
 #include <bksge/core/render/d3d12/detail/pipeline_state.hpp>
-#include <bksge/core/render/d3d12/detail/resource_cache.hpp>
+#include <bksge/core/render/d3d12/detail/resource_pool.hpp>
 #include <bksge/core/render/d3d12/detail/render_target.hpp>
 #include <bksge/core/render/d3d_common/com_ptr.hpp>
 #include <bksge/core/render/d3d_common/d3d12.hpp>
@@ -67,7 +67,7 @@ D3D12Renderer::D3D12Renderer(Window const& window)
 	m_command_queue  = bksge::make_unique<d3d12::CommandQueue>(m_device.get());
 	m_command_list   = bksge::make_unique<d3d12::CommandList>(m_device.get(), frame_buffer_count);
 	m_fence          = bksge::make_unique<d3d12::Fence>(m_device.get(), frame_buffer_count);
-	m_resource_cache = bksge::make_unique<d3d12::ResourceCache>(m_device.get());
+	m_resource_pool  = bksge::make_unique<d3d12::ResourcePool>(m_device.get());
 	m_descriptor_heaps = bksge::make_unique<d3d12::DescriptorHeaps>(
 		m_device.get(),
 		1000,
@@ -216,7 +216,7 @@ D3D12Renderer::VRender(
 		m_command_list->RSSetScissorRects(1, &scissor_rect);
 	}
 
-	auto hlsl_program = m_resource_cache->GetD3D12HlslProgram(m_device.get(), shader);
+	auto hlsl_program = m_resource_pool->GetD3D12HlslProgram(m_device.get(), shader);
 
 	// TODO
 	// hlsl_program->SetRootSignature(m_command_list.get());
@@ -229,13 +229,13 @@ D3D12Renderer::VRender(
 	hlsl_program->UpdateParameters(
 		m_device.get(),
 		m_descriptor_heaps.get(),
-		m_resource_cache.get(),
+		m_resource_pool.get(),
 		shader_parameter_map);
 
-	auto pipeline_state = m_resource_cache->GetD3D12PipelineState(m_device.get(), shader, render_state, geometry.primitive_topology());
+	auto pipeline_state = m_resource_pool->GetD3D12PipelineState(m_device.get(), shader, render_state, geometry.primitive_topology());
 	pipeline_state->SetPipelineState(m_command_list.get());
 
-	auto d3d12_geometry = m_resource_cache->GetD3D12Geometry(m_device.get(), geometry);
+	auto d3d12_geometry = m_resource_pool->GetD3D12Geometry(m_device.get(), geometry);
 	d3d12_geometry->Draw(m_command_list.get());
 
 	return true;

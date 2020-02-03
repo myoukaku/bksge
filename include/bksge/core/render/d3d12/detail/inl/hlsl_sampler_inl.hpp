@@ -13,7 +13,7 @@
 #if BKSGE_CORE_RENDER_HAS_D3D12_RENDERER
 
 #include <bksge/core/render/d3d12/detail/hlsl_sampler.hpp>
-#include <bksge/core/render/d3d12/detail/resource_cache.hpp>
+#include <bksge/core/render/d3d12/detail/resource_pool.hpp>
 #include <bksge/core/render/d3d12/detail/descriptor_heaps.hpp>
 #include <bksge/core/render/d3d12/detail/sampler.hpp>
 #include <bksge/core/render/shader_parameter_map.hpp>
@@ -40,7 +40,7 @@ BKSGE_INLINE void
 HlslSampler::UpdateParameters(
 	Device* device,
 	DescriptorHeaps* descriptor_heaps,
-	ResourceCache* resource_cache,
+	ResourcePool* resource_pool,
 	bksge::ShaderParameterMap const& shader_parameter_map)
 {
 	auto param = shader_parameter_map[m_name];
@@ -61,7 +61,7 @@ HlslSampler::UpdateParameters(
 
 	auto sampler = *static_cast<bksge::Sampler const*>(param->data());
 
-	auto d3d12_sampler = resource_cache->GetD3D12Sampler(sampler);
+	auto d3d12_sampler = resource_pool->GetD3D12Sampler(sampler);
 	d3d12_sampler->CreateView(
 		device,
 		descriptor_heaps->AssignCpuDescriptorHandle(

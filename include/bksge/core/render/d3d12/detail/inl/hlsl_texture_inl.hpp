@@ -13,7 +13,7 @@
 #if BKSGE_CORE_RENDER_HAS_D3D12_RENDERER
 
 #include <bksge/core/render/d3d12/detail/hlsl_texture.hpp>
-#include <bksge/core/render/d3d12/detail/resource_cache.hpp>
+#include <bksge/core/render/d3d12/detail/resource_pool.hpp>
 #include <bksge/core/render/d3d12/detail/descriptor_heaps.hpp>
 #include <bksge/core/render/d3d12/detail/texture.hpp>
 #include <bksge/core/render/shader_parameter_map.hpp>
@@ -40,7 +40,7 @@ BKSGE_INLINE void
 HlslTexture::UpdateParameters(
 	Device* device,
 	DescriptorHeaps* descriptor_heaps,
-	ResourceCache* resource_cache,
+	ResourcePool* resource_pool,
 	bksge::ShaderParameterMap const& shader_parameter_map)
 {
 	auto param = shader_parameter_map[m_name];
@@ -61,7 +61,7 @@ HlslTexture::UpdateParameters(
 
 	auto texture = *static_cast<bksge::Texture const*>(param->data());
 
-	auto d3d12_texture = resource_cache->GetD3D12Texture(device, texture);
+	auto d3d12_texture = resource_pool->GetD3D12Texture(device, texture);
 	d3d12_texture->CreateView(
 		device,
 		descriptor_heaps->AssignCpuDescriptorHandle(

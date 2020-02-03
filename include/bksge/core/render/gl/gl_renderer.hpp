@@ -11,7 +11,7 @@
 
 #include <bksge/core/render/gl/fwd/gl_renderer_fwd.hpp>
 #include <bksge/core/render/gl/detail/fwd/context_fwd.hpp>
-#include <bksge/core/render/gl/detail/fwd/resource_cache_fwd.hpp>
+#include <bksge/core/render/gl/detail/fwd/resource_pool_fwd.hpp>
 #include <bksge/core/render/gl/detail/gl_h.hpp>
 #include <bksge/core/render/fwd/geometry_fwd.hpp>
 #include <bksge/core/render/fwd/shader_fwd.hpp>
@@ -61,7 +61,7 @@ private:
 
 private:
 	std::unique_ptr<gl::Context>		m_gl_context;
-	std::unique_ptr<gl::ResourceCache>	m_resource_cache;
+	std::unique_ptr<gl::ResourcePool>	m_resource_pool;
 	::GLuint							m_timer_queries[2];	///< 描画時間を図るためのクエリ
 	MilliSeconds						m_draw_time;		///< 描画時間
 };

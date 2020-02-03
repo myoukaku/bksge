@@ -90,12 +90,12 @@ GlslParameter::~GlslParameter()
 
 BKSGE_INLINE void
 GlslParameter::LoadParameter(
-	ResourceCache* resource_cache,
+	ResourcePool* resource_pool,
 	ShaderParameterMap const& shader_parameter_map)
 {
 	if (m_setter)
 	{
-		m_setter->SetParameter(resource_cache, shader_parameter_map[m_name], m_location);
+		m_setter->SetParameter(resource_pool, shader_parameter_map[m_name], m_location);
 	}
 }
 

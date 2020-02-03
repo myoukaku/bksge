@@ -15,7 +15,7 @@
 #include <bksge/core/render/d3d11/detail/hlsl_texture.hpp>
 #include <bksge/core/render/d3d11/detail/hlsl_shader.hpp>
 #include <bksge/core/render/d3d11/detail/device_context.hpp>
-#include <bksge/core/render/d3d11/detail/resource_cache.hpp>
+#include <bksge/core/render/d3d11/detail/resource_pool.hpp>
 #include <bksge/core/render/d3d11/detail/texture.hpp>
 #include <bksge/core/render/d3d_common/d3d11shader.hpp>
 #include <bksge/core/render/detail/shader_parameter.hpp>
@@ -45,7 +45,7 @@ HlslTexture::~HlslTexture()
 
 BKSGE_INLINE void
 HlslTexture::Load(
-	ResourceCache* resource_cache,
+	ResourcePool* resource_pool,
 	Device* device,
 	DeviceContext* device_context,
 	bksge::ShaderParameterMap const& shader_parameter_map,
@@ -71,7 +71,7 @@ HlslTexture::Load(
 	auto texture = *static_cast<bksge::Texture const*>(param->data());
 
 	auto d3d11_texture =
-		resource_cache->GetD3D11Texture(device, texture);
+		resource_pool->GetD3D11Texture(device, texture);
 
 	auto srv = d3d11_texture->shader_resource_view();
 

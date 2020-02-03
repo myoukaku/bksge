@@ -86,7 +86,7 @@ HlslProgram::~HlslProgram()
 
 BKSGE_INLINE void
 HlslProgram::Render(
-	ResourceCache* resource_cache,
+	ResourcePool* resource_pool,
 	Device* device,
 	DeviceContext* device_context,
 	bksge::ShaderParameterMap const& shader_parameter_map)
@@ -97,7 +97,7 @@ HlslProgram::Render(
 	{
 		shader->SetEnable(device_context);
 		shader->LoadParameters(
-			resource_cache,
+			resource_pool,
 			device,
 			device_context,
 			shader_parameter_map);

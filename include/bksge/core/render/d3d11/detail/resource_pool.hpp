@@ -1,15 +1,15 @@
 ﻿/**
- *	@file	resource_cache.hpp
+ *	@file	resource_pool.hpp
  *
- *	@brief	ResourceCache クラスの定義
+ *	@brief	ResourcePool クラスの定義
  *
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_CORE_RENDER_D3D11_DETAIL_RESOURCE_CACHE_HPP
-#define BKSGE_CORE_RENDER_D3D11_DETAIL_RESOURCE_CACHE_HPP
+#ifndef BKSGE_CORE_RENDER_D3D11_DETAIL_RESOURCE_POOL_HPP
+#define BKSGE_CORE_RENDER_D3D11_DETAIL_RESOURCE_POOL_HPP
 
-#include <bksge/core/render/d3d11/detail/fwd/resource_cache_fwd.hpp>
+#include <bksge/core/render/d3d11/detail/fwd/resource_pool_fwd.hpp>
 #include <bksge/core/render/d3d11/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/d3d11/detail/fwd/hlsl_program_fwd.hpp>
 #include <bksge/core/render/d3d11/detail/fwd/geometry_fwd.hpp>
@@ -32,12 +32,12 @@ namespace d3d11
 /**
  *	@brief
  */
-class ResourceCache
+class ResourcePool
 {
 public:
-	explicit ResourceCache(void);
+	explicit ResourcePool(void);
 
-	~ResourceCache();
+	~ResourcePool();
 
 	HlslProgramShared GetD3D11HlslProgram(Device* device, bksge::Shader const& shader);
 	GeometryShared    GetD3D11Geometry(Device* device, bksge::Geometry const& geometry);
@@ -59,7 +59,7 @@ private:
 
 #include <bksge/fnd/config.hpp>
 #if defined(BKSGE_HEADER_ONLY)
-#include <bksge/core/render/d3d11/detail/inl/resource_cache_inl.hpp>
+#include <bksge/core/render/d3d11/detail/inl/resource_pool_inl.hpp>
 #endif
 
-#endif // BKSGE_CORE_RENDER_D3D11_DETAIL_RESOURCE_CACHE_HPP
+#endif // BKSGE_CORE_RENDER_D3D11_DETAIL_RESOURCE_POOL_HPP

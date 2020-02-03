@@ -11,7 +11,7 @@
 
 #include <bksge/core/render/gl/detail/fwd/glsl_parameter_fwd.hpp>
 #include <bksge/core/render/gl/detail/fwd/glsl_parameter_setter_fwd.hpp>
-#include <bksge/core/render/gl/detail/fwd/resource_cache_fwd.hpp>
+#include <bksge/core/render/gl/detail/fwd/resource_pool_fwd.hpp>
 #include <bksge/core/render/gl/detail/gl_h.hpp>
 #include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
 #include <string>
@@ -37,7 +37,7 @@ public:
 	~GlslParameter();
 
 	void LoadParameter(
-		ResourceCache* resource_cache,
+		ResourcePool* resource_pool,
 		bksge::ShaderParameterMap const& shader_parameter_map);
 
 	void LoadUniformBuffer(

@@ -114,7 +114,7 @@ BKSGE_INLINE void
 HlslProgram::UpdateParameters(
 	Device* device,
 	DescriptorHeaps* descriptor_heaps,
-	ResourceCache* resource_cache,
+	ResourcePool* resource_pool,
 	bksge::ShaderParameterMap const& shader_parameter_map)
 {
 	for (auto&& hlsl_constant_buffer : m_hlsl_constant_buffers)
@@ -122,7 +122,7 @@ HlslProgram::UpdateParameters(
 		hlsl_constant_buffer->UpdateParameters(
 			device,
 			descriptor_heaps,
-			resource_cache,
+			resource_pool,
 			shader_parameter_map);
 	}
 
@@ -131,7 +131,7 @@ HlslProgram::UpdateParameters(
 		hlsl_texture->UpdateParameters(
 			device,
 			descriptor_heaps,
-			resource_cache,
+			resource_pool,
 			shader_parameter_map);
 	}
 
@@ -140,7 +140,7 @@ HlslProgram::UpdateParameters(
 		hlsl_sampler->UpdateParameters(
 			device,
 			descriptor_heaps,
-			resource_cache,
+			resource_pool,
 			shader_parameter_map);
 	}
 }
