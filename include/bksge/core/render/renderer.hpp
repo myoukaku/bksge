@@ -14,10 +14,10 @@
 #include <bksge/core/render/fwd/shader_fwd.hpp>
 #include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
 #include <bksge/core/render/fwd/render_state_fwd.hpp>
-#include <bksge/core/render/clear_flag.hpp>
-#include <bksge/core/window/fwd/window_fwd.hpp>
-#include <bksge/core/math/color4.hpp>
-#include <bksge/core/math/rect.hpp>
+#include <bksge/core/render/fwd/render_pass_info_fwd.hpp>
+//#include <bksge/core/render/clear_flag.hpp>
+//#include <bksge/core/math/color4.hpp>
+//#include <bksge/core/math/rect.hpp>
 #include <vector>
 
 namespace bksge
@@ -36,24 +36,19 @@ public:
 
 	virtual ~Renderer();
 
-	/**
-	 *	@brief	ビューポート矩形を設定します
-	 */
-	void SetViewport(Rectf const& viewport);
+	///**
+	// *	@brief	レンダリングターゲットのクリアフラグを設定します。
+	// *
+	// *	@param	clear_flag	ClearFlagの論理和を設定します
+	// */
+	//void SetClearFlag(ClearFlag clear_flag);
 
-	/**
-	 *	@brief	レンダリングターゲットのクリアフラグを設定します。
-	 *
-	 *	@param	clear_flag	ClearFlagの論理和を設定します
-	 */
-	void SetClearFlag(ClearFlag clear_flag);
-
-	/**
-	 *	@brief	レンダリングターゲットをクリアする色を設定します。
-	 *
-	 *	@param	clear_color	クリアする色
-	 */
-	void SetClearColor(Color4f const& clear_color);
+	///**
+	// *	@brief	レンダリングターゲットをクリアする色を設定します。
+	// *
+	// *	@param	clear_color	クリアする色
+	// */
+	//void SetClearColor(Color4f const& clear_color);
 
 	/**
 	 *	@brief	レンダリングを開始します
@@ -64,6 +59,16 @@ public:
 	 *	@brief	レンダリングを終了します
 	 */
 	void End(void);
+
+	/**
+	 *	@brief	レンダリングパスを開始します
+	 */
+	void BeginRenderPass(RenderPassInfo const& render_pass_info);
+
+	/**
+	 *	@brief	レンダリングパスを終了します
+	 */
+	void EndRenderPass(void);
 
 	/**
 	 *	@brief	Geometryを1つ描画します
@@ -84,6 +89,10 @@ private:
 
 	virtual void VEnd(void) = 0;
 
+	virtual void VBeginRenderPass(RenderPassInfo const& render_pass_info) = 0;
+
+	virtual void VEndRenderPass(void) = 0;
+
 	virtual bool VRender(
 		Geometry const& geometry,
 		Shader const& shader,
@@ -91,9 +100,8 @@ private:
 		RenderState const& render_state) = 0;
 
 protected:
-	ClearFlag	m_clear_flag;
-	Color4f		m_clear_color;
-	Rectf		m_viewport;
+	//ClearFlag	m_clear_flag;
+	//Color4f		m_clear_color;
 };
 
 }	// namespace render

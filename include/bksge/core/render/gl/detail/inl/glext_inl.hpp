@@ -751,7 +751,12 @@ BKSGE_INLINE void APIENTRY glUniform4dv(GLint location, GLsizei count, const GLd
 //BKSGE_INLINE void APIENTRY glReleaseShaderCompiler(void);
 //BKSGE_INLINE void APIENTRY glShaderBinary(GLsizei count, const GLuint *shaders, GLenum binaryformat, const void *binary, GLsizei length);
 //BKSGE_INLINE void APIENTRY glGetShaderPrecisionFormat(GLenum shadertype, GLenum precisiontype, GLint *range, GLint *precision);
-//BKSGE_INLINE void APIENTRY glDepthRangef(GLfloat n, GLfloat f);
+
+BKSGE_INLINE void APIENTRY glDepthRangef(GLfloat n, GLfloat f)
+{
+	BKSGE_GLEXT_FUNC(PFNGLDEPTHRANGEFPROC, glDepthRangef, n, f);
+}
+
 //BKSGE_INLINE void APIENTRY glClearDepthf(GLfloat d);
 //BKSGE_INLINE void APIENTRY glGetProgramBinary(GLuint program, GLsizei bufSize, GLsizei *length, GLenum *binaryFormat, void *binary);
 //BKSGE_INLINE void APIENTRY glProgramBinary(GLuint program, GLenum binaryFormat, const void *binary, GLsizei length);

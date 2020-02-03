@@ -87,7 +87,7 @@ static bksge::Shader const* GetHLSLShader(void)
 
 int main()
 {
-	bksge::Extent2f extent{800, 600};
+	bksge::Extent2f const extent{800, 600};
 	bksge::Rectf viewport({bksge::Vector2f{0, 0}, extent});
 
 	std::vector<std::shared_ptr<bksge::Renderer>>	renderers;
@@ -135,15 +135,8 @@ int main()
 		std::shared_ptr<bksge::VulkanRenderer> renderer(
 			new bksge::VulkanRenderer(*window));
 		renderers.push_back(renderer);
-		renderer->SetClearColor({0.5f, 0.0f, 0.5f, 1});
 	}
 #endif
-
-	for (auto& renderer : renderers)
-	{
-		renderer->SetViewport(viewport);
-		renderer->SetClearColor({0.5f, 0.0f, 0.5f, 1});
-	}
 
 	const bksge::Vertex<bksge::VPosition> vertices[] =
 	{
@@ -164,6 +157,9 @@ int main()
 
 	bksge::RenderState render_state;
 
+	bksge::RenderPassInfo render_pass_info;
+	render_pass_info.clear_state().SetColor({0.5f, 0.0f, 0.5f, 1.0f});
+
 	bksge::KeyboardManager keyboard;
 
 	for (;;)
@@ -174,18 +170,6 @@ int main()
 			{
 				return 0;
 			}
-		}
-
-		for (auto& renderer : renderers)
-		{
-			renderer->SetViewport(viewport);
-			renderer->Begin();
-			renderer->Render(
-				geometry,
-				shader_list,
-				shader_parameter,
-				render_state);
-			renderer->End();
 		}
 
 		keyboard.Update();
@@ -216,6 +200,20 @@ int main()
 			}
 
 			viewport = bksge::Rectf(p1, p2);
+			render_pass_info.viewport().SetRect(viewport);
+		}
+
+		for (auto& renderer : renderers)
+		{
+			renderer->Begin();
+			renderer->BeginRenderPass(render_pass_info);
+			renderer->Render(
+				geometry,
+				shader_list,
+				shader_parameter,
+				render_state);
+			renderer->EndRenderPass();
+			renderer->End();
 		}
 	}
 

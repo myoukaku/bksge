@@ -19,6 +19,10 @@
 #include <bksge/core/render/fwd/render_state_fwd.hpp>
 #include <bksge/core/render/fwd/blend_state_fwd.hpp>
 #include <bksge/core/render/fwd/depth_state_fwd.hpp>
+#include <bksge/core/render/fwd/rasterizer_state_fwd.hpp>
+#include <bksge/core/render/fwd/viewport_fwd.hpp>
+#include <bksge/core/render/fwd/scissor_state_fwd.hpp>
+#include <bksge/core/render/fwd/clear_state_fwd.hpp>
 #include <bksge/core/render/renderer.hpp>
 #include <bksge/core/window/fwd/window_fwd.hpp>
 #include <bksge/fnd/units/time.hpp>
@@ -41,18 +45,20 @@ public:
 	virtual ~GlRenderer();
 
 private:
-	void Clear(void);
-
 	void VBegin(void) override;
 	void VEnd(void) override;
+	void VBeginRenderPass(RenderPassInfo const& render_pass_info) override;
+	void VEndRenderPass(void) override;
 	bool VRender(
 		Geometry const& geometry,
 		Shader const& shader,
 		ShaderParameterMap const& shader_parameter_map,
 		RenderState const& render_state) override;
 
-	void ApplyScissorState(RenderState const& render_state);
-	void ApplyRasterizerState(RenderState const& render_state);
+	void ApplyClearState(ClearState const& clear_state);
+	void ApplyViewport(Viewport const& viewport);
+	void ApplyScissorState(ScissorState const& scissor_state);
+	void ApplyRasterizerState(RasterizerState const& rasterizer_state);
 	void ApplyBlendState(BlendState const& blend_state);
 	void ApplyDepthState(DepthState const& depth_state);
 

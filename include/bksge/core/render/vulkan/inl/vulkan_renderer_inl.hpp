@@ -41,6 +41,7 @@
 #include <bksge/core/render/vulkan/detail/resource_pool.hpp>
 #include <bksge/core/render/shader.hpp>
 #include <bksge/core/render/render_state.hpp>
+#include <bksge/core/render/render_pass_info.hpp>
 #include <bksge/core/math/matrix4x4.hpp>
 #include <bksge/core/math/vector3.hpp>
 #include <bksge/core/math/vector4.hpp>
@@ -231,7 +232,7 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 		m_device,
 		65536);	// TODO
 
-	SetViewport(Rectf(Vector2f(0,0), Extent2f(window.client_size())));
+	//SetViewport(Rectf(Vector2f(0,0), Extent2f(window.client_size())));
 }
 
 BKSGE_INLINE
@@ -264,45 +265,11 @@ VulkanRenderer::VBegin(void)
 
 		vk::BeginCommandBuffer(*m_command_buffer, &cmd_buf_info);
 	}
-
-	::VkClearValue clear_values[2];
-	clear_values[0].color.float32[0]     = m_clear_color[0];
-	clear_values[0].color.float32[1]     = m_clear_color[1];
-	clear_values[0].color.float32[2]     = m_clear_color[2];
-	clear_values[0].color.float32[3]     = m_clear_color[3];
-	clear_values[1].depthStencil.depth   = 1.0f;
-	clear_values[1].depthStencil.stencil = 0;
-
-	vk::RenderPassBeginInfo rp_begin;
-	rp_begin.renderPass          = *m_render_pass;
-	rp_begin.framebuffer         = *m_framebuffers[m_frame_index];
-	rp_begin.renderArea.offset.x = 0;
-	rp_begin.renderArea.offset.y = 0;
-	rp_begin.renderArea.extent   = m_swapchain->extent();
-	rp_begin.SetClearValues(clear_values);
-
-	vk::CmdBeginRenderPass(
-		*m_command_buffer,
-		&rp_begin,
-		VK_SUBPASS_CONTENTS_INLINE);
-
-	// init_viewports
-	{
-		::VkViewport viewport;
-		viewport.x        = m_viewport.left();
-		viewport.y        = m_viewport.top() + m_viewport.height();
-		viewport.width    = m_viewport.width();
-		viewport.height   = -m_viewport.height();
-		viewport.minDepth = 0.0f;
-		viewport.maxDepth = 1.0f;
-		vk::CmdSetViewport(*m_command_buffer, 0, NUM_VIEWPORTS, &viewport);
-	}
 }
 
 BKSGE_INLINE void
 VulkanRenderer::VEnd(void)
 {
-	vk::CmdEndRenderPass(*m_command_buffer);
 	vk::EndCommandBuffer(*m_command_buffer);
 
 	::VkPipelineStageFlags pipe_stage_flags =
@@ -341,6 +308,73 @@ VulkanRenderer::VEnd(void)
 	vk::QueuePresentKHR(m_present_queue, &present);
 }
 
+BKSGE_INLINE void
+VulkanRenderer::VBeginRenderPass(RenderPassInfo const& render_pass_info)
+{
+	{
+		auto const& clear_state = render_pass_info.clear_state();
+		auto const clear_flag    = clear_state.flag();
+		auto const clear_color   = clear_state.color();
+		auto const clear_depth   = clear_state.depth();
+		auto const clear_stencil = clear_state.stencil();
+
+		::VkClearValue clear_values[2];
+		clear_values[0].color.float32[0]     = clear_color[0];
+		clear_values[0].color.float32[1]     = clear_color[1];
+		clear_values[0].color.float32[2]     = clear_color[2];
+		clear_values[0].color.float32[3]     = clear_color[3];
+		clear_values[1].depthStencil.depth   = clear_depth;
+		clear_values[1].depthStencil.stencil = clear_stencil;
+
+		vk::RenderPassBeginInfo rp_begin;
+		rp_begin.renderPass          = *m_render_pass;
+		rp_begin.framebuffer         = *m_framebuffers[m_frame_index];
+		rp_begin.renderArea.offset.x = 0;
+		rp_begin.renderArea.offset.y = 0;
+		rp_begin.renderArea.extent   = m_swapchain->extent();
+		rp_begin.SetClearValues(clear_values);
+
+		vk::CmdBeginRenderPass(
+			*m_command_buffer,
+			&rp_begin,
+			VK_SUBPASS_CONTENTS_INLINE);
+	}
+	{
+		auto const& viewport = render_pass_info.viewport();
+
+		::VkViewport vp;
+		vp.x        = viewport.rect().left();
+		vp.y        = viewport.rect().top() + viewport.rect().height();
+		vp.width    = viewport.rect().width();
+		vp.height   = -viewport.rect().height();
+		vp.minDepth = viewport.min_depth();
+		vp.maxDepth = viewport.max_depth();
+		vk::CmdSetViewport(*m_command_buffer, 0, NUM_VIEWPORTS, &vp);
+	}
+	{
+
+		auto const& scissor_state = render_pass_info.scissor_state();
+		auto const rect =
+			scissor_state.enable() ?
+			scissor_state.rect() :
+			render_pass_info.viewport().rect();
+
+		vk::Rect2D scissor_rect;
+		scissor_rect.offset.x = static_cast<std::int32_t>(rect.left());
+		scissor_rect.offset.y = static_cast<std::int32_t>(rect.top());
+		scissor_rect.extent.width  = static_cast<std::uint32_t>(rect.width());
+		scissor_rect.extent.height = static_cast<std::uint32_t>(rect.height());
+
+		vk::CmdSetScissor(*m_command_buffer, 0, NUM_SCISSORS, &scissor_rect);
+	}
+}
+
+BKSGE_INLINE void
+VulkanRenderer::VEndRenderPass(void)
+{
+	vk::CmdEndRenderPass(*m_command_buffer);
+}
+
 BKSGE_INLINE bool
 VulkanRenderer::VRender(
 	Geometry const& geometry,
@@ -351,27 +385,6 @@ VulkanRenderer::VRender(
 	if (shader.type() != ShaderType::kGLSL)
 	{
 		return false;
-	}
-
-	{
-		vk::Rect2D scissor_rect;
-
-		auto const& scissor_state = render_state.scissor_state();
-		if (scissor_state.enable())
-		{
-			scissor_rect.offset.x = static_cast<std::int32_t>(scissor_state.rect().left());
-			scissor_rect.offset.y = static_cast<std::int32_t>(scissor_state.rect().top());
-			scissor_rect.extent.width  = static_cast<std::uint32_t>(scissor_state.rect().width());
-			scissor_rect.extent.height = static_cast<std::uint32_t>(scissor_state.rect().height());
-		}
-		else
-		{
-			scissor_rect.offset.x = 0;
-			scissor_rect.offset.y = 0;
-			scissor_rect.extent   = m_swapchain->extent();
-		}
-
-		vk::CmdSetScissor(*m_command_buffer, 0, NUM_SCISSORS, &scissor_rect);
 	}
 
 	auto vk_shader =
@@ -401,14 +414,17 @@ VulkanRenderer::VRender(
 		*graphics_pipeline);
 
 	auto const writes = vk_shader->GetWriteDescriptorSets();
-	vk::CmdPushDescriptorSetKHR(
-		*m_device,
-		*m_command_buffer,
-		VK_PIPELINE_BIND_POINT_GRAPHICS,
-		graphics_pipeline->GetLayout(),
-		0,	// TODO set
-		static_cast<std::uint32_t>(writes.size()),
-		writes.data());
+	if (!writes.empty())
+	{
+		vk::CmdPushDescriptorSetKHR(
+			*m_device,
+			*m_command_buffer,
+			VK_PIPELINE_BIND_POINT_GRAPHICS,
+			graphics_pipeline->GetLayout(),
+			0,	// TODO set
+			static_cast<std::uint32_t>(writes.size()),
+			writes.data());
+	}
 
 	auto vk_geometry = m_resource_pool->GetGeometry(m_device, geometry);
 

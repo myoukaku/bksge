@@ -30,6 +30,7 @@
 #include <bksge/core/render/geometry.hpp>
 #include <bksge/core/render/shader.hpp>
 #include <bksge/core/render/render_state.hpp>
+#include <bksge/core/render/render_pass_info.hpp>
 #include <bksge/core/render/texture.hpp>
 #include <bksge/core/window/window.hpp>
 #include <bksge/fnd/assert.hpp>
@@ -101,8 +102,6 @@ GlRenderer::GlRenderer(Window const& window)
 	::glDebugMessageCallback(gl::detail::DebugCallback, nullptr);
 //	::glEnable(GL_DEBUG_OUTPUT);
 	::glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-
-	SetViewport(Rectf(Vector2f(0,0), Extent2f(window.client_size())));
 }
 
 BKSGE_INLINE
@@ -114,20 +113,9 @@ GlRenderer::~GlRenderer()
 BKSGE_INLINE void
 GlRenderer::VBegin(void)
 {
-//	int const width  = 800;	// TODO
-	int const height = 600;	// TODO
-
 	::glQueryCounter(m_timer_queries[0], GL_TIMESTAMP);
 
 //	::glClipControl(GL_UPPER_LEFT, GL_ZERO_TO_ONE);
-
-	::glViewport(
-		static_cast<::GLint>(m_viewport.left()),
-		static_cast<::GLint>(height - m_viewport.bottom()),//m_viewport.top()),
-		static_cast<::GLsizei>(m_viewport.width()),
-		static_cast<::GLsizei>(m_viewport.height()));
-
-	Clear();
 }
 
 BKSGE_INLINE void
@@ -146,37 +134,70 @@ GlRenderer::VEnd(void)
 }
 
 BKSGE_INLINE void
-GlRenderer::Clear(void)
+GlRenderer::VBeginRenderPass(RenderPassInfo const& render_pass_info)
 {
+	ApplyClearState(render_pass_info.clear_state());
+	ApplyViewport(render_pass_info.viewport());
+	ApplyScissorState(render_pass_info.scissor_state());
+}
+
+BKSGE_INLINE void
+GlRenderer::VEndRenderPass(void)
+{
+}
+
+BKSGE_INLINE void
+GlRenderer::ApplyViewport(Viewport const& viewport)
+{
+//	int const width  = 800;	// TODO
+	int const height = 600;	// TODO
+
+	::glViewport(
+		static_cast<::GLint>(viewport.rect().left()),
+		static_cast<::GLint>(height - viewport.rect().bottom()),
+		static_cast<::GLsizei>(viewport.rect().width()),
+		static_cast<::GLsizei>(viewport.rect().height()));
+
+	::glDepthRangef(viewport.min_depth(), viewport.max_depth());
+}
+
+BKSGE_INLINE void
+GlRenderer::ApplyClearState(ClearState const& clear_state)
+{
+	auto const clear_flag    = clear_state.flag();
+	auto const clear_color   = clear_state.color();
+	auto const clear_depth   = clear_state.depth();
+	auto const clear_stencil = clear_state.stencil();
+
 	::GLbitfield mask = 0;
 
 	// カラーバッファをクリアするときは
 	// glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE)を呼ぶ必要がある
-	if ((m_clear_flag & ClearFlag::kColor) != ClearFlag::kNone)
+	if ((clear_flag & ClearFlag::kColor) != ClearFlag::kNone)
 	{
 		::glClearColor(
-			m_clear_color.r(),
-			m_clear_color.g(),
-			m_clear_color.b(),
-			m_clear_color.a());
+			clear_color.r(),
+			clear_color.g(),
+			clear_color.b(),
+			clear_color.a());
 		::glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 		mask |= GL_COLOR_BUFFER_BIT;
 	}
 
 	// デプスバッファをクリアするときは
 	// glDepthMask(GL_TRUE)を呼ぶ必要がある
-	if ((m_clear_flag & ClearFlag::kDepth) != ClearFlag::kNone)
+	if ((clear_flag & ClearFlag::kDepth) != ClearFlag::kNone)
 	{
-		::glClearDepth(1);
+		::glClearDepth(clear_depth);
 		::glDepthMask(GL_TRUE);
 		mask |= GL_DEPTH_BUFFER_BIT;
 	}
 
 	// ステンシルバッファをクリアするときは
 	// glStencilMask(0xFFFFFFFF)を呼ぶ必要がある
-	if ((m_clear_flag & ClearFlag::kStencil) != ClearFlag::kNone)
+	if ((clear_flag & ClearFlag::kStencil) != ClearFlag::kNone)
 	{
-		::glClearStencil(0);
+		::glClearStencil(clear_stencil);
 		::glStencilMask(~0u);
 		mask |= GL_STENCIL_BUFFER_BIT;
 	}
@@ -197,8 +218,7 @@ GlRenderer::VRender(
 		return false;
 	}
 
-	ApplyScissorState(render_state);
-	ApplyRasterizerState(render_state);
+	ApplyRasterizerState(render_state.rasterizer_state());
 	ApplyBlendState(render_state.blend_state());
 	ApplyDepthState(render_state.depth_state());
 
@@ -212,15 +232,14 @@ GlRenderer::VRender(
 }
 
 BKSGE_INLINE void
-GlRenderer::ApplyScissorState(RenderState const& render_state)
+GlRenderer::ApplyScissorState(ScissorState const& scissor_state)
 {
 //	int const width  = 800;	// TODO
 	int const height = 600;	// TODO
 
-	auto const& scissor = render_state.scissor_state();
-	if (scissor.enable())
+	if (scissor_state.enable())
 	{
-		auto const& rect = scissor.rect();
+		auto const& rect = scissor_state.rect();
 		::glEnable(GL_SCISSOR_TEST);
 		::glScissor(
 			static_cast<::GLint>(rect.left()),
@@ -235,9 +254,8 @@ GlRenderer::ApplyScissorState(RenderState const& render_state)
 }
 
 BKSGE_INLINE void
-GlRenderer::ApplyRasterizerState(RenderState const& render_state)
+GlRenderer::ApplyRasterizerState(RasterizerState const& rasterizer_state)
 {
-	auto const& rasterizer_state = render_state.rasterizer_state();
 	auto const& cull_mode  = rasterizer_state.cull_mode();
 	auto const& front_face = rasterizer_state.front_face();
 	auto const& fill_mode  = rasterizer_state.fill_mode();

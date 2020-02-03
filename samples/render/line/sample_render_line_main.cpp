@@ -85,55 +85,52 @@ static bksge::Shader const* GetHLSLShader(void)
 
 int main()
 {
+	bksge::Extent2f const extent{800, 600};
 	std::vector<std::shared_ptr<bksge::Renderer>>	renderers;
 	std::vector<std::shared_ptr<bksge::Window>>		windows;
 
 #if BKSGE_CORE_RENDER_HAS_D3D11_RENDERER
 	{
 		std::shared_ptr<bksge::Window> window(
-			new bksge::Window({800, 600}, "sample_render_line - D3D11"));
+			new bksge::Window(extent, "sample_render_line - D3D11"));
 		windows.push_back(window);
 
 		std::shared_ptr<bksge::D3D11Renderer> renderer(
 			new bksge::D3D11Renderer(*window));
 		renderers.push_back(renderer);
-		renderer->SetClearColor({0.5f, 0.0f, 0.5f, 1});
 	}
 #endif
 #if BKSGE_CORE_RENDER_HAS_D3D12_RENDERER
 	{
 		std::shared_ptr<bksge::Window> window(
-			new bksge::Window({800, 600}, "sample_render_line - D3D12"));
+			new bksge::Window(extent, "sample_render_line - D3D12"));
 		windows.push_back(window);
 
 		std::shared_ptr<bksge::D3D12Renderer> renderer(
 			new bksge::D3D12Renderer(*window));
 		renderers.push_back(renderer);
-		renderer->SetClearColor({0.5f, 0.0f, 0.5f, 1});
 	}
 #endif
 #if BKSGE_CORE_RENDER_HAS_GL_RENDERER
 	{
 		std::shared_ptr<bksge::Window> window(
-			new bksge::Window({800, 600}, "sample_render_line - GL"));
+			new bksge::Window(extent, "sample_render_line - GL"));
 		windows.push_back(window);
 
 		std::shared_ptr<bksge::GlRenderer> renderer(
 			new bksge::GlRenderer(*window));
 		renderers.push_back(renderer);
-		renderer->SetClearColor({0.5f, 0.0f, 0.5f, 1});
 	}
 #endif
 #if BKSGE_CORE_RENDER_HAS_VULKAN_RENDERER
 	{
 		std::shared_ptr<bksge::Window> window(
-			new bksge::Window({800, 600}, "sample_render_line - Vulkan"));
+			new bksge::Window(extent, "sample_render_line - Vulkan"));
 		windows.push_back(window);
 
 		std::shared_ptr<bksge::VulkanRenderer> renderer(
 			new bksge::VulkanRenderer(*window));
 		renderers.push_back(renderer);
-		renderer->SetClearColor({0.5f, 0.0f, 0.5f, 1});
 	}
 #endif
 
@@ -157,6 +154,10 @@ int main()
 
 	bksge::RenderState render_state;
 
+	bksge::RenderPassInfo render_pass_info;
+	render_pass_info.viewport().SetRect({bksge::Vector2f{0, 0}, extent});
+	render_pass_info.clear_state().SetColor({0.5f, 0.0f, 0.5f, 1.0f});
+
 	for (;;)
 	{
 		for (auto& window : windows)
@@ -170,8 +171,10 @@ int main()
 		for (auto& renderer : renderers)
 		{
 			renderer->Begin();
+			renderer->BeginRenderPass(render_pass_info);
 			renderer->Render(
 				geometry, shader_list, shader_parameter, render_state);
+			renderer->EndRenderPass();
 			renderer->End();
 		}
 	}

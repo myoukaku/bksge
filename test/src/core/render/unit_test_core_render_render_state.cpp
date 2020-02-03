@@ -35,6 +35,13 @@ GTEST_TEST(Render_RenderState, DefaultCtorTest)
 	EXPECT_EQ(bksge::StencilOperation::kKeep,    state.stencil_state().fail_operation());
 	EXPECT_EQ(bksge::StencilOperation::kKeep,    state.stencil_state().depth_fail_operation());
 	EXPECT_EQ(bksge::StencilOperation::kKeep,    state.stencil_state().pass_operation());
+
+	//EXPECT_EQ(false,			state.scissor_state().enable());
+	//EXPECT_EQ(bksge::Rectf(),	state.scissor_state().rect());
+
+	//EXPECT_EQ(bksge::Rectf(),	state.viewport().rect());
+	//EXPECT_EQ(0.0f,				state.viewport().min_depth());
+	//EXPECT_EQ(1.0f,				state.viewport().max_depth());
 }
 
 GTEST_TEST(Render_RenderState, SetValueTest)
@@ -65,6 +72,15 @@ GTEST_TEST(Render_RenderState, SetValueTest)
 	state.stencil_state().SetDepthFailOperation(bksge::StencilOperation::kDecr);
 	state.stencil_state().SetPassOperation(bksge::StencilOperation::kReplace);
 
+	//state.scissor_state().SetEnable(true);
+	//state.scissor_state().SetRect(
+	//	bksge::Rectf(bksge::Vector2f{1, 2}, bksge::Extent2f{30, 20}));
+
+	//state.viewport().SetRect(
+	//	bksge::Rectf(bksge::Vector2f{-10, 10}, bksge::Extent2f{5, 4}));
+	//state.viewport().SetMinDepth(10);
+	//state.viewport().SetMaxDepth(20);
+
 	EXPECT_EQ(bksge::FillMode::kWireframe,         state.rasterizer_state().fill_mode());
 	EXPECT_EQ(bksge::CullMode::kBack,              state.rasterizer_state().cull_mode());
 	EXPECT_EQ(bksge::FrontFace::kCounterClockwise, state.rasterizer_state().front_face());
@@ -88,4 +104,13 @@ GTEST_TEST(Render_RenderState, SetValueTest)
 	EXPECT_EQ(bksge::StencilOperation::kIncr,      state.stencil_state().fail_operation());
 	EXPECT_EQ(bksge::StencilOperation::kDecr,      state.stencil_state().depth_fail_operation());
 	EXPECT_EQ(bksge::StencilOperation::kReplace,   state.stencil_state().pass_operation());
+
+	//EXPECT_EQ(true, state.scissor_state().enable());
+	//EXPECT_EQ(bksge::Rectf(bksge::Vector2f{1, 2}, bksge::Extent2f{30, 20}),
+	//	state.scissor_state().rect());
+
+	//EXPECT_EQ(bksge::Rectf(bksge::Vector2f{-10, 10}, bksge::Extent2f{5, 4}),
+	//	state.viewport().rect());
+	//EXPECT_EQ(10.0f, state.viewport().min_depth());
+	//EXPECT_EQ(20.0f, state.viewport().max_depth());
 }

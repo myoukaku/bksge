@@ -14,6 +14,7 @@
 #include <bksge/core/render/blend_operation.hpp>
 #include <bksge/core/render/blend_state.hpp>
 #include <bksge/core/render/clear_flag.hpp>
+#include <bksge/core/render/clear_state.hpp>
 #include <bksge/core/render/comparison_function.hpp>
 #include <bksge/core/render/config.hpp>
 #include <bksge/core/render/cull_mode.hpp>
@@ -29,6 +30,7 @@
 #include <bksge/core/render/primitive_topology.hpp>
 #include <bksge/core/render/rasterizer_state.hpp>
 #include <bksge/core/render/renderer.hpp>
+#include <bksge/core/render/render_pass_info.hpp>
 #include <bksge/core/render/render_state.hpp>
 #include <bksge/core/render/sampler.hpp>
 #include <bksge/core/render/scissor_state.hpp>
@@ -44,6 +46,7 @@
 #include <bksge/core/render/vertex.hpp>
 #include <bksge/core/render/vertex_element.hpp>
 #include <bksge/core/render/vertex_layout.hpp>
+#include <bksge/core/render/viewport.hpp>
 #include <bksge/core/render/vulkan_renderer.hpp>
 
 #endif // BKSGE_CORE_RENDER_HPP

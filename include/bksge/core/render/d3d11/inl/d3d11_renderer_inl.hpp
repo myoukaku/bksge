@@ -36,6 +36,7 @@
 #include <bksge/core/render/shader.hpp>
 #include <bksge/core/render/shader_type.hpp>
 #include <bksge/core/render/render_state.hpp>
+#include <bksge/core/render/render_pass_info.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/core/window/window.hpp>
 #include <bksge/fnd/assert.hpp>
@@ -87,8 +88,6 @@ D3D11Renderer::D3D11Renderer(Window const& window)
 			&rtv,
 			m_depth_stencil->GetView());
 	}
-
-	SetViewport(Rectf(Vector2f(0,0), Extent2f(window.client_size())));
 }
 
 BKSGE_INLINE
@@ -103,18 +102,6 @@ D3D11Renderer::~D3D11Renderer()
 BKSGE_INLINE void
 D3D11Renderer::VBegin(void)
 {
-	// Setup the viewport
-	{
-		::D3D11_VIEWPORT vp;
-		vp.TopLeftX = m_viewport.left();
-		vp.TopLeftY = m_viewport.top();
-		vp.Width    = m_viewport.width();
-		vp.Height   = m_viewport.height();
-		vp.MinDepth = D3D11_MIN_DEPTH;
-		vp.MaxDepth = D3D11_MAX_DEPTH;
-		m_device_context->RSSetViewports(1, &vp);
-	}
-
 	{
 		auto rtv = m_render_target->GetView();
 		m_device_context->OMSetRenderTargets(
@@ -122,39 +109,86 @@ D3D11Renderer::VBegin(void)
 			&rtv,
 			m_depth_stencil->GetView());
 	}
-
-	// Clear Color
-	if ((m_clear_flag & ClearFlag::kColor) != ClearFlag::kNone)
-	{
-		m_device_context->ClearRenderTargetView(
-			m_render_target->GetView(),
-			m_clear_color.data());
-	}
-
-	// Clear Depth Stencil
-	{
-		::UINT mask = 0u;
-		if ((m_clear_flag & ClearFlag::kDepth) != ClearFlag::kNone)
-		{
-			mask |= D3D11_CLEAR_DEPTH;
-		}
-		if ((m_clear_flag & ClearFlag::kStencil) != ClearFlag::kNone)
-		{
-			mask |= D3D11_CLEAR_STENCIL;
-		}
-
-		m_device_context->ClearDepthStencilView(
-			m_depth_stencil->GetView(),
-			mask,
-			1.0f,
-			0);
-	}
 }
 
 BKSGE_INLINE void
 D3D11Renderer::VEnd(void)
 {
 	m_swap_chain->Present(1, 0);
+}
+
+BKSGE_INLINE void
+D3D11Renderer::VBeginRenderPass(RenderPassInfo const& render_pass_info)
+{
+	{
+		auto const& clear_state = render_pass_info.clear_state();
+		auto const clear_flag    = clear_state.flag();
+		auto const clear_color   = clear_state.color();
+		auto const clear_depth   = clear_state.depth();
+		auto const clear_stencil = clear_state.stencil();
+
+		// Clear Color
+		if ((clear_flag & ClearFlag::kColor) != ClearFlag::kNone)
+		{
+			m_device_context->ClearRenderTargetView(
+				m_render_target->GetView(),
+				clear_color.data());
+		}
+
+		// Clear Depth Stencil
+		{
+			::UINT mask = 0u;
+			if ((clear_flag & ClearFlag::kDepth) != ClearFlag::kNone)
+			{
+				mask |= D3D11_CLEAR_DEPTH;
+			}
+			if ((clear_flag & ClearFlag::kStencil) != ClearFlag::kNone)
+			{
+				mask |= D3D11_CLEAR_STENCIL;
+			}
+
+			m_device_context->ClearDepthStencilView(
+				m_depth_stencil->GetView(),
+				mask,
+				clear_depth,
+				clear_stencil);
+		}
+	}
+
+	// Setup the viewport
+	{
+		auto const& viewport = render_pass_info.viewport();
+
+		::D3D11_VIEWPORT vp;
+		vp.TopLeftX = viewport.rect().left();
+		vp.TopLeftY = viewport.rect().top();
+		vp.Width    = viewport.rect().width();
+		vp.Height   = viewport.rect().height();
+		vp.MinDepth = viewport.min_depth();
+		vp.MaxDepth = viewport.max_depth();
+		m_device_context->RSSetViewports(1, &vp);
+	}
+
+	//
+	{
+		auto const& scissor_state = render_pass_info.scissor_state();
+		auto const rect =
+			scissor_state.enable() ?
+			scissor_state.rect() :
+			render_pass_info.viewport().rect();
+
+		::D3D11_RECT scissor_rect;
+		scissor_rect.left   = static_cast<::LONG>(rect.left());
+		scissor_rect.top    = static_cast<::LONG>(rect.top());
+		scissor_rect.right  = static_cast<::LONG>(rect.right());
+		scissor_rect.bottom = static_cast<::LONG>(rect.bottom());
+		m_device_context->RSSetScissorRects(1, &scissor_rect);
+	}
+}
+
+BKSGE_INLINE void
+D3D11Renderer::VEndRenderPass(void)
+{
 }
 
 BKSGE_INLINE bool
@@ -172,7 +206,6 @@ D3D11Renderer::VRender(
 	//
 	{
 		auto const& rasterizer_state = render_state.rasterizer_state();
-		auto const& scissor_state = render_state.scissor_state();
 
 		::D3D11_RASTERIZER_DESC rd;
 		rd.FillMode              = d3d11::FillMode(rasterizer_state.fill_mode());
@@ -181,20 +214,13 @@ D3D11Renderer::VRender(
 		rd.DepthBias             = 0;
 		rd.DepthBiasClamp        = 0;
 		rd.SlopeScaledDepthBias  = 0;
-		rd.ScissorEnable         = d3d11::Bool(scissor_state.enable());
+		rd.ScissorEnable         = TRUE;//d3d11::Bool(scissor_state.enable());
 		rd.MultisampleEnable     = FALSE;
 		rd.AntialiasedLineEnable = FALSE;
 
 		// ラスタライザーステートを生成して設定
 		auto state = m_device->CreateRasterizerState(rd);
 		m_device_context->RSSetState(state.Get());
-
-		::D3D11_RECT scissor_rect;
-		scissor_rect.left   = static_cast<::LONG>(scissor_state.rect().left());
-		scissor_rect.top    = static_cast<::LONG>(scissor_state.rect().top());
-		scissor_rect.right  = static_cast<::LONG>(scissor_state.rect().right());
-		scissor_rect.bottom = static_cast<::LONG>(scissor_state.rect().bottom());
-		m_device_context->RSSetScissorRects(1, &scissor_rect);
 	}
 
 	{

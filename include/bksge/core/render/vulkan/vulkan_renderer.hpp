@@ -64,6 +64,8 @@ public:
 private:
 	void VBegin(void) override;
 	void VEnd(void) override;
+	void VBeginRenderPass(RenderPassInfo const& render_pass_info) override;
+	void VEndRenderPass(void) override;
 	bool VRender(
 		Geometry const& geometry,
 		Shader const& shader,

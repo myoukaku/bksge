@@ -27,7 +27,6 @@ RenderState::RenderState(void)
 	, m_blend_state()
 	, m_depth_state()
 	, m_stencil_state()
-	, m_scissor_state()
 {
 }
 
@@ -55,12 +54,6 @@ RenderState::stencil_state(void) const
 	return m_stencil_state;
 }
 
-BKSGE_INLINE ScissorState const&
-RenderState::scissor_state(void) const
-{
-	return m_scissor_state;
-}
-
 BKSGE_INLINE RasterizerState&
 RenderState::rasterizer_state(void)
 {
@@ -83,12 +76,6 @@ BKSGE_INLINE StencilState&
 RenderState::stencil_state(void)
 {
 	return m_stencil_state;
-}
-
-BKSGE_INLINE ScissorState&
-RenderState::scissor_state(void)
-{
-	return m_scissor_state;
 }
 
 }	// namespace render

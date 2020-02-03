@@ -32,6 +32,7 @@
 #include <bksge/core/render/shader.hpp>
 #include <bksge/core/render/shader_type.hpp>
 #include <bksge/core/render/render_state.hpp>
+#include <bksge/core/render/render_pass_info.hpp>
 #include <bksge/core/detail/win32.hpp>
 #include <bksge/core/math/rect.hpp>
 #include <bksge/core/math/extent2.hpp>
@@ -106,8 +107,6 @@ D3D12Renderer::D3D12Renderer(Window const& window)
 		m_device.get(), width, height);
 
 	m_fence->WaitForGpu(m_command_queue.get(), m_frame_index);
-
-	SetViewport(Rectf(Vector2f(0,0), Extent2f(window.client_size())));
 }
 
 BKSGE_INLINE
@@ -126,17 +125,6 @@ D3D12Renderer::VBegin(void)
 
 	m_command_list->Reset(m_frame_index);
 
-	{
-		::D3D12_VIEWPORT viewport;
-		viewport.TopLeftX = m_viewport.left();
-		viewport.TopLeftY = m_viewport.top();
-		viewport.Width    = m_viewport.width();
-		viewport.Height   = m_viewport.height();
-		viewport.MinDepth = D3D12_MIN_DEPTH;
-		viewport.MaxDepth = D3D12_MAX_DEPTH;
-		m_command_list->RSSetViewports(1, &viewport);
-	}
-
 	// Indicate that the back buffer will be used as a render target.
 	m_command_list->ResourceBarrier(
 		m_render_target->GetResource(m_frame_index),
@@ -146,27 +134,6 @@ D3D12Renderer::VBegin(void)
 	auto const rtv_handle = m_render_target->GetHandle(m_frame_index);
 	auto const dsv_handle = m_depth_stencil->GetHandle();
 	m_command_list->OMSetRenderTargets(1, &rtv_handle, FALSE, &dsv_handle);
-
-	// Clear Color
-	if ((m_clear_flag & ClearFlag::kColor) != ClearFlag::kNone)
-	{
-		m_command_list->ClearRenderTargetView(rtv_handle, m_clear_color.data(), 0, nullptr);
-	}
-
-	// Clear Depth Stencil
-	{
-		::D3D12_CLEAR_FLAGS mask{};
-		if ((m_clear_flag & ClearFlag::kDepth) != ClearFlag::kNone)
-		{
-			mask |= D3D12_CLEAR_FLAG_DEPTH;
-		}
-		if ((m_clear_flag & ClearFlag::kStencil) != ClearFlag::kNone)
-		{
-			mask |= D3D12_CLEAR_FLAG_STENCIL;
-		}
-
-		m_command_list->ClearDepthStencilView(dsv_handle, mask, 1.0f, 0, 0, nullptr);
-	}
 
 	m_descriptor_heaps->SetEnable(m_command_list.get());
 	m_descriptor_heaps->BeginFrame();
@@ -190,6 +157,77 @@ D3D12Renderer::VEnd(void)
 	m_fence->MoveToNextFrame(m_command_queue.get(), m_frame_index);
 }
 
+BKSGE_INLINE void
+D3D12Renderer::VBeginRenderPass(RenderPassInfo const& render_pass_info)
+{
+	{
+		auto const rtv_handle = m_render_target->GetHandle(m_frame_index);
+		auto const dsv_handle = m_depth_stencil->GetHandle();
+
+		auto const& clear_state = render_pass_info.clear_state();
+		auto const clear_flag    = clear_state.flag();
+		auto const clear_color   = clear_state.color();
+		auto const clear_depth   = clear_state.depth();
+		auto const clear_stencil = clear_state.stencil();
+
+		// Clear Color
+		if ((clear_flag & ClearFlag::kColor) != ClearFlag::kNone)
+		{
+			m_command_list->ClearRenderTargetView(rtv_handle, clear_color.data(), 0, nullptr);
+		}
+
+		// Clear Depth Stencil
+		{
+			::D3D12_CLEAR_FLAGS mask{};
+			if ((clear_flag & ClearFlag::kDepth) != ClearFlag::kNone)
+			{
+				mask |= D3D12_CLEAR_FLAG_DEPTH;
+			}
+			if ((clear_flag & ClearFlag::kStencil) != ClearFlag::kNone)
+			{
+				mask |= D3D12_CLEAR_FLAG_STENCIL;
+			}
+
+			m_command_list->ClearDepthStencilView(
+				dsv_handle, mask, clear_depth, clear_stencil, 0, nullptr);
+		}
+	}
+
+	{
+		auto const& viewport = render_pass_info.viewport();
+
+		::D3D12_VIEWPORT vp;
+		vp.TopLeftX = viewport.rect().left();
+		vp.TopLeftY = viewport.rect().top();
+		vp.Width    = viewport.rect().width();
+		vp.Height   = viewport.rect().height();
+		vp.MinDepth = viewport.min_depth();
+		vp.MaxDepth = viewport.max_depth();
+		m_command_list->RSSetViewports(1, &vp);
+	}
+
+	{
+		auto const& scissor_state = render_pass_info.scissor_state();
+		auto const rect =
+			scissor_state.enable() ?
+			scissor_state.rect() :
+			render_pass_info.viewport().rect();
+
+		::D3D12_RECT scissor_rect;
+		scissor_rect.left   = static_cast<::LONG>(rect.left());
+		scissor_rect.top    = static_cast<::LONG>(rect.top());
+		scissor_rect.right  = static_cast<::LONG>(rect.right());
+		scissor_rect.bottom = static_cast<::LONG>(rect.bottom());
+		m_command_list->RSSetScissorRects(1, &scissor_rect);
+	}
+
+}
+
+BKSGE_INLINE void
+D3D12Renderer::VEndRenderPass(void)
+{
+}
+
 BKSGE_INLINE bool
 D3D12Renderer::VRender(
 	Geometry const& geometry,
@@ -200,20 +238,6 @@ D3D12Renderer::VRender(
 	if (shader.type() != ShaderType::kHLSL)
 	{
 		return false;
-	}
-
-	{
-		auto const& scissor = render_state.scissor_state();
-		auto const rect =
-			scissor.enable() ?
-			scissor.rect() :
-			m_viewport;	// TODO フレームバッファの解像度にする
-		::D3D12_RECT scissor_rect;
-		scissor_rect.left   = static_cast<::LONG>(rect.left());
-		scissor_rect.top    = static_cast<::LONG>(rect.top());
-		scissor_rect.right  = static_cast<::LONG>(rect.right());
-		scissor_rect.bottom = static_cast<::LONG>(rect.bottom());
-		m_command_list->RSSetScissorRects(1, &scissor_rect);
 	}
 
 	auto hlsl_program = m_resource_pool->GetD3D12HlslProgram(m_device.get(), shader);

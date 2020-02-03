@@ -32,6 +32,12 @@ BKSGE_INLINE void NullRenderer::VBegin(void)
 BKSGE_INLINE void NullRenderer::VEnd(void)
 {}
 
+BKSGE_INLINE void NullRenderer::VBeginRenderPass(RenderPassInfo const&)
+{}
+
+BKSGE_INLINE void NullRenderer::VEndRenderPass(void)
+{}
+
 BKSGE_INLINE bool NullRenderer::VRender(
 	Geometry const& /*geometry*/,
 	Shader const& /*shader*/,
