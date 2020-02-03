@@ -20,7 +20,7 @@ namespace window
 
 BKSGE_INLINE
 NullWindow::NullWindow(
-	SizeType const& client_size,
+	ExtentType const& client_size,
 	std::string const& title)
 	: Base(client_size, title)
 {}
@@ -40,7 +40,7 @@ NullWindow::VSetTitle(std::string const& /*title*/)
 {}
 
 BKSGE_INLINE void
-NullWindow::VSetClientSize(SizeType const& /*size*/)
+NullWindow::VSetClientSize(ExtentType const& /*size*/)
 {}
 
 BKSGE_INLINE bool

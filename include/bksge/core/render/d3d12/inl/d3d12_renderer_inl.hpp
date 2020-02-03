@@ -34,7 +34,7 @@
 #include <bksge/core/render/render_state.hpp>
 #include <bksge/core/detail/win32.hpp>
 #include <bksge/core/math/rect.hpp>
-#include <bksge/core/math/size2.hpp>
+#include <bksge/core/math/extent2.hpp>
 #include <bksge/core/math/vector2.hpp>
 #include <bksge/core/window/window.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
@@ -107,7 +107,7 @@ D3D12Renderer::D3D12Renderer(Window const& window)
 
 	m_fence->WaitForGpu(m_command_queue.get(), m_frame_index);
 
-	SetViewport(Rectf(Vector2f(0,0), Size2f(window.client_size())));
+	SetViewport(Rectf(Vector2f(0,0), Extent2f(window.client_size())));
 }
 
 BKSGE_INLINE

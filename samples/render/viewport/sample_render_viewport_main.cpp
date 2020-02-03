@@ -87,8 +87,8 @@ static bksge::Shader const* GetHLSLShader(void)
 
 int main()
 {
-	bksge::Size2f size{800, 600};
-	bksge::Rectf viewport({bksge::Vector2f{0, 0}, size});
+	bksge::Extent2f extent{800, 600};
+	bksge::Rectf viewport({bksge::Vector2f{0, 0}, extent});
 
 	std::vector<std::shared_ptr<bksge::Renderer>>	renderers;
 	std::vector<std::shared_ptr<bksge::Window>>		windows;
@@ -96,7 +96,7 @@ int main()
 #if BKSGE_CORE_RENDER_HAS_D3D11_RENDERER
 	{
 		std::shared_ptr<bksge::Window> window(
-			new bksge::Window(size, "sample_render_viewport - D3D11"));
+			new bksge::Window(extent, "sample_render_viewport - D3D11"));
 		windows.push_back(window);
 
 		std::shared_ptr<bksge::D3D11Renderer> renderer(
@@ -107,7 +107,7 @@ int main()
 #if BKSGE_CORE_RENDER_HAS_D3D12_RENDERER
 	{
 		std::shared_ptr<bksge::Window> window(
-			new bksge::Window(size, "sample_render_viewport - D3D12"));
+			new bksge::Window(extent, "sample_render_viewport - D3D12"));
 		windows.push_back(window);
 
 		std::shared_ptr<bksge::D3D12Renderer> renderer(
@@ -118,7 +118,7 @@ int main()
 #if BKSGE_CORE_RENDER_HAS_GL_RENDERER
 	{
 		std::shared_ptr<bksge::Window> window(
-			new bksge::Window(size, "sample_render_viewport - GL"));
+			new bksge::Window(extent, "sample_render_viewport - GL"));
 		windows.push_back(window);
 
 		std::shared_ptr<bksge::GlRenderer> renderer(
@@ -129,7 +129,7 @@ int main()
 #if BKSGE_CORE_RENDER_HAS_VULKAN_RENDERER
 	{
 		std::shared_ptr<bksge::Window> window(
-			new bksge::Window(size, "sample_render_viewport - Vulkan"));
+			new bksge::Window(extent, "sample_render_viewport - Vulkan"));
 		windows.push_back(window);
 
 		std::shared_ptr<bksge::VulkanRenderer> renderer(

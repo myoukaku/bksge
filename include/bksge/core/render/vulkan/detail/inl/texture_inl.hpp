@@ -216,7 +216,7 @@ Texture::Texture(
 		VK_IMAGE_LAYOUT_UNDEFINED :
 		VK_IMAGE_LAYOUT_PREINITIALIZED;
 
-	::VkExtent2D extent = vulkan::Extent2D(texture.size());
+	::VkExtent2D extent = vulkan::Extent2D(texture.extent());
 	m_image = bksge::make_unique<vulkan::Image>(
 		device,
 		format,

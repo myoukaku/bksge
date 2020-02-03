@@ -231,7 +231,7 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 		m_device,
 		65536);	// TODO
 
-	SetViewport(Rectf(Vector2f(0,0), Size2f(window.client_size())));
+	SetViewport(Rectf(Vector2f(0,0), Extent2f(window.client_size())));
 }
 
 BKSGE_INLINE

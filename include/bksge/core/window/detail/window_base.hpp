@@ -9,7 +9,7 @@
 #ifndef BKSGE_CORE_WINDOW_DETAIL_WINDOW_BASE_HPP
 #define BKSGE_CORE_WINDOW_DETAIL_WINDOW_BASE_HPP
 
-#include <bksge/core/math/size2.hpp>
+#include <bksge/core/math/extent2.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstdint>
 #include <string>
@@ -29,7 +29,7 @@ public:
 	/**
 	 *	@brief	幅と高さを表す型
 	 */
-	using SizeType = Size2<std::int32_t>;
+	using ExtentType = Extent2<std::int32_t>;
 
 	/**
 	 *	@brief	ウィンドウを作成します
@@ -37,7 +37,7 @@ public:
 	 *	@param	client_size	ウィンドウのクライアント領域の大きさ
 	 *	@param	title		ウィンドウのタイトル
 	 */
-	WindowBase(SizeType const& client_size, std::string const& title);
+	WindowBase(ExtentType const& client_size, std::string const& title);
 
 	/**
 	 *	@brief	デストラクタ
@@ -64,7 +64,7 @@ public:
 	/**
 	 *	@brief	ウィンドウのクライアント領域のサイズを設定します
 	 */
-	void SetClientSize(SizeType const& size);
+	void SetClientSize(ExtentType const& size);
 
 	/**
 	 *	@brief	ウィンドウタイトルを取得します
@@ -74,7 +74,7 @@ public:
 	/**
 	 *	@brief	ウィンドウのクライアント領域のサイズを取得します
 	 */
-	SizeType client_size(void) const;
+	ExtentType client_size(void) const;
 
 private:
 	virtual void VDestroy(void) = 0;
@@ -83,10 +83,10 @@ private:
 
 	virtual void VSetTitle(std::string const& title) = 0;
 
-	virtual void VSetClientSize(SizeType const& size) = 0;
+	virtual void VSetClientSize(ExtentType const& size) = 0;
 
 private:
-	SizeType		m_client_size;
+	ExtentType		m_client_size;
 	std::string		m_title;
 };
 

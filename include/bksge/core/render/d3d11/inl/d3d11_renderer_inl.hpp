@@ -88,7 +88,7 @@ D3D11Renderer::D3D11Renderer(Window const& window)
 			m_depth_stencil->GetView());
 	}
 
-	SetViewport(Rectf(Vector2f(0,0), Size2f(window.client_size())));
+	SetViewport(Rectf(Vector2f(0,0), Extent2f(window.client_size())));
 }
 
 BKSGE_INLINE

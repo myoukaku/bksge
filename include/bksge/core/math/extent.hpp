@@ -1,15 +1,15 @@
 ﻿/**
- *	@file	size.hpp
+ *	@file	extent.hpp
  *
- *	@brief	Size の定義
+ *	@brief	Extent の定義
  *
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_CORE_MATH_SIZE_HPP
-#define BKSGE_CORE_MATH_SIZE_HPP
+#ifndef BKSGE_CORE_MATH_EXTENT_HPP
+#define BKSGE_CORE_MATH_EXTENT_HPP
 
-#include <bksge/core/math/fwd/size_fwd.hpp>
+#include <bksge/core/math/fwd/extent_fwd.hpp>
 #include <bksge/core/math/fwd/scale_fwd.hpp>
 #include <bksge/core/math/detail/vector_whd.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
@@ -25,7 +25,7 @@ namespace math
 {
 
 template <typename T, std::size_t N>
-class Size
+class Extent
 	: public detail::VectorWHD<T, N>
 {
 private:
@@ -39,7 +39,7 @@ public:
 	 *	@brief	デフォルトコンストラクタ
 	 */
 	BKSGE_CONSTEXPR
-	Size() BKSGE_NOEXCEPT_OR_NOTHROW
+	Extent() BKSGE_NOEXCEPT_OR_NOTHROW
 		: BaseType()
 	{}
 
@@ -53,13 +53,13 @@ public:
 		>
 	>
 	BKSGE_CONSTEXPR
-	Size(Size<U, N> const& rhs)
+	Extent(Extent<U, N> const& rhs)
 		BKSGE_NOEXCEPT_OR_NOTHROW;
 
 	/**
-	 *	@brief	ゼロ初期化されたSizeを作成します
+	 *	@brief	ゼロ初期化されたExtentを作成します
 	 */
-	static BKSGE_CONSTEXPR Size
+	static BKSGE_CONSTEXPR Extent
 	Zero() BKSGE_NOEXCEPT;
 };
 
@@ -67,46 +67,46 @@ public:
  *	@brief	unary operator+
  */
 template <typename T, std::size_t N>
-BKSGE_CONSTEXPR Size<T, N>
-operator+(Size<T, N> const& v) BKSGE_NOEXCEPT;
+BKSGE_CONSTEXPR Extent<T, N>
+operator+(Extent<T, N> const& v) BKSGE_NOEXCEPT;
 
 /**
  *	@brief	unary operator-
  */
 template <typename T, std::size_t N>
-BKSGE_CONSTEXPR Size<T, N>
-operator-(Size<T, N> const& v) BKSGE_NOEXCEPT;
+BKSGE_CONSTEXPR Extent<T, N>
+operator-(Extent<T, N> const& v) BKSGE_NOEXCEPT;
 
 /**
- *	@brief	Size += Size
+ *	@brief	Extent += Extent
  */
 template <typename T, std::size_t N>
-BKSGE_CXX14_CONSTEXPR Size<T, N>&
-operator+=(Size<T, N>& lhs, Size<T, N> const& rhs) BKSGE_NOEXCEPT;
+BKSGE_CXX14_CONSTEXPR Extent<T, N>&
+operator+=(Extent<T, N>& lhs, Extent<T, N> const& rhs) BKSGE_NOEXCEPT;
 
 /**
- *	@brief	Size + Size -> Size
+ *	@brief	Extent + Extent -> Extent
  */
 template <typename T, std::size_t N>
-BKSGE_CONSTEXPR Size<T, N>
-operator+(Size<T, N> const& lhs, Size<T, N> const& rhs) BKSGE_NOEXCEPT;
+BKSGE_CONSTEXPR Extent<T, N>
+operator+(Extent<T, N> const& lhs, Extent<T, N> const& rhs) BKSGE_NOEXCEPT;
 
 /**
- *	@brief	Size -= Size
+ *	@brief	Extent -= Extent
  */
 template <typename T, std::size_t N>
-BKSGE_CXX14_CONSTEXPR Size<T, N>&
-operator-=(Size<T, N>& lhs, Size<T, N> const& rhs) BKSGE_NOEXCEPT;
+BKSGE_CXX14_CONSTEXPR Extent<T, N>&
+operator-=(Extent<T, N>& lhs, Extent<T, N> const& rhs) BKSGE_NOEXCEPT;
 
 /**
- *	@brief	Size - Size -> Size
+ *	@brief	Extent - Extent -> Extent
  */
 template <typename T, std::size_t N>
-BKSGE_CONSTEXPR Size<T, N>
-operator-(Size<T, N> const& lhs, Size<T, N> const& rhs) BKSGE_NOEXCEPT;
+BKSGE_CONSTEXPR Extent<T, N>
+operator-(Extent<T, N> const& lhs, Extent<T, N> const& rhs) BKSGE_NOEXCEPT;
 
 /**
- *	@brief	Size *= scalar
+ *	@brief	Extent *= scalar
  */
 template <
 	typename T, std::size_t N,
@@ -115,18 +115,18 @@ template <
 		std::is_arithmetic<ArithmeticType>::value
 	>
 >
-BKSGE_CXX14_CONSTEXPR Size<T, N>&
-operator*=(Size<T, N>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
+BKSGE_CXX14_CONSTEXPR Extent<T, N>&
+operator*=(Extent<T, N>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
 
 /**
- *	@brief	Size *= Scale
+ *	@brief	Extent *= Scale
  */
 template <typename T, std::size_t N>
-BKSGE_CXX14_CONSTEXPR Size<T, N>&
-operator*=(Size<T, N>& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT;
+BKSGE_CXX14_CONSTEXPR Extent<T, N>&
+operator*=(Extent<T, N>& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT;
 
 /**
- *	@brief	Size * scalar
+ *	@brief	Extent * scalar
  */
 template <
 	typename T, std::size_t N,
@@ -135,11 +135,11 @@ template <
 		std::is_arithmetic<ArithmeticType>::value
 	>
 >
-BKSGE_CONSTEXPR Size<T, N>
-operator*(Size<T, N> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
+BKSGE_CONSTEXPR Extent<T, N>
+operator*(Extent<T, N> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
 
 /**
- *	@brief	scalar * Size
+ *	@brief	scalar * Extent
  */
 template <
 	typename T, std::size_t N,
@@ -148,18 +148,18 @@ template <
 		std::is_arithmetic<ArithmeticType>::value
 	>
 >
-BKSGE_CONSTEXPR Size<T, N>
-operator*(ArithmeticType lhs, Size<T, N> const& rhs) BKSGE_NOEXCEPT;
+BKSGE_CONSTEXPR Extent<T, N>
+operator*(ArithmeticType lhs, Extent<T, N> const& rhs) BKSGE_NOEXCEPT;
 
 /**
- *	@brief	Size * Scale -> Size
+ *	@brief	Extent * Scale -> Extent
  */
 template <typename T, std::size_t N>
-BKSGE_CONSTEXPR Size<T, N> const
-operator*(Size<T, N> const& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT;
+BKSGE_CONSTEXPR Extent<T, N> const
+operator*(Extent<T, N> const& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT;
 
 /**
- *	@brief	Size /= scalar
+ *	@brief	Extent /= scalar
  */
 template <
 	typename T, std::size_t N,
@@ -168,11 +168,11 @@ template <
 		std::is_arithmetic<ArithmeticType>::value
 	>
 >
-BKSGE_CXX14_CONSTEXPR Size<T, N>&
-operator/=(Size<T, N>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
+BKSGE_CXX14_CONSTEXPR Extent<T, N>&
+operator/=(Extent<T, N>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
 
 /**
- *	@brief	Size / scalar
+ *	@brief	Extent / scalar
  */
 template <
 	typename T, std::size_t N,
@@ -181,8 +181,8 @@ template <
 		std::is_arithmetic<ArithmeticType>::value
 	>
 >
-BKSGE_CONSTEXPR Size<T, N>
-operator/(Size<T, N> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
+BKSGE_CONSTEXPR Extent<T, N>
+operator/(Extent<T, N> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
 
 }	// namespace math
 
@@ -195,7 +195,7 @@ namespace std
  *	@brief	tuple_size
  */
 template <typename T, std::size_t N>
-struct tuple_size<bksge::math::Size<T, N>>
+struct tuple_size<bksge::math::Extent<T, N>>
 	: public std::integral_constant<std::size_t, N>
 {};
 
@@ -203,14 +203,14 @@ struct tuple_size<bksge::math::Size<T, N>>
  *	@brief	tuple_element
  */
 template <std::size_t I, typename T, std::size_t N>
-struct tuple_element<I, bksge::math::Size<T, N>>
+struct tuple_element<I, bksge::math::Extent<T, N>>
 {
-	static_assert(I < N, "Size index out of bounds");
+	static_assert(I < N, "Extent index out of bounds");
 	using type = T;
 };
 
 }	// namespace std
 
-#include <bksge/core/math/inl/size_inl.hpp>
+#include <bksge/core/math/inl/extent_inl.hpp>
 
-#endif // BKSGE_CORE_MATH_SIZE_HPP
+#endif // BKSGE_CORE_MATH_EXTENT_HPP

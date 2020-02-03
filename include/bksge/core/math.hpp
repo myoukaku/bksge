@@ -13,6 +13,9 @@
 #include <bksge/core/math/color3.hpp>
 #include <bksge/core/math/color4.hpp>
 #include <bksge/core/math/color_hsv.hpp>
+#include <bksge/core/math/extent.hpp>
+#include <bksge/core/math/extent2.hpp>
+#include <bksge/core/math/extent3.hpp>
 #include <bksge/core/math/matrix.hpp>
 #include <bksge/core/math/matrix3x3.hpp>
 #include <bksge/core/math/matrix3x4.hpp>
@@ -23,9 +26,6 @@
 #include <bksge/core/math/scale.hpp>
 #include <bksge/core/math/scale2.hpp>
 #include <bksge/core/math/scale3.hpp>
-#include <bksge/core/math/size.hpp>
-#include <bksge/core/math/size2.hpp>
-#include <bksge/core/math/size3.hpp>
 #include <bksge/core/math/vector.hpp>
 #include <bksge/core/math/vector2.hpp>
 #include <bksge/core/math/vector3.hpp>

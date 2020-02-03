@@ -87,7 +87,7 @@ static bksge::Shader const* GetHLSLShader(void)
 
 int main()
 {
-	bksge::Size2f size{800, 600};
+	bksge::Extent2f extent{800, 600};
 
 	std::vector<std::shared_ptr<bksge::Renderer>>	renderers;
 	std::vector<std::shared_ptr<bksge::Window>>		windows;
@@ -95,7 +95,7 @@ int main()
 #if BKSGE_CORE_RENDER_HAS_D3D11_RENDERER
 	{
 		std::shared_ptr<bksge::Window> window(
-			new bksge::Window(size, "sample_render_scissor - D3D11"));
+			new bksge::Window(extent, "sample_render_scissor - D3D11"));
 		windows.push_back(window);
 
 		std::shared_ptr<bksge::D3D11Renderer> renderer(
@@ -107,7 +107,7 @@ int main()
 #if BKSGE_CORE_RENDER_HAS_D3D12_RENDERER
 	{
 		std::shared_ptr<bksge::Window> window(
-			new bksge::Window(size, "sample_render_scissor - D3D12"));
+			new bksge::Window(extent, "sample_render_scissor - D3D12"));
 		windows.push_back(window);
 
 		std::shared_ptr<bksge::D3D12Renderer> renderer(
@@ -119,7 +119,7 @@ int main()
 #if BKSGE_CORE_RENDER_HAS_GL_RENDERER
 	{
 		std::shared_ptr<bksge::Window> window(
-			new bksge::Window(size, "sample_render_scissor - GL"));
+			new bksge::Window(extent, "sample_render_scissor - GL"));
 		windows.push_back(window);
 
 		std::shared_ptr<bksge::GlRenderer> renderer(
@@ -160,7 +160,7 @@ int main()
 
 	bksge::RenderState render_state;
 	render_state.scissor_state().SetEnable(true);
-	render_state.scissor_state().SetRect({bksge::Vector2f{0, 0}, size});
+	render_state.scissor_state().SetRect({bksge::Vector2f{0, 0}, extent});
 
 	bksge::KeyboardManager keyboard;
 

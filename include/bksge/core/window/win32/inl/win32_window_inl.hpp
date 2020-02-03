@@ -121,8 +121,8 @@ inline int Height(::RECT const& r)
 }
 
 // クライアントサイズからウィンドウサイズを計算します
-inline Win32Window::SizeType CalcWindowSize(
-	Win32Window::SizeType const& client_size,
+inline Win32Window::ExtentType CalcWindowSize(
+	Win32Window::ExtentType const& client_size,
 	DWORD window_style,
 	bool has_menu,
 	DWORD window_style_ex)
@@ -133,11 +133,11 @@ inline Win32Window::SizeType CalcWindowSize(
 	::SetRect(&r, 0, 0, width, height);
 	::AdjustWindowRectEx(&r, window_style, has_menu, window_style_ex);
 
-	return Win32Window::SizeType{ Width(r), Height(r) };
+	return Win32Window::ExtentType{ Width(r), Height(r) };
 }
 
 template <typename CharT> inline
-HWND Create(Win32Window::SizeType const& client_size, CharT const* title, Win32Window* this_)
+HWND Create(Win32Window::ExtentType const& client_size, CharT const* title, Win32Window* this_)
 {
 	auto const class_name = GetUniqueClassName<CharT>();
 
@@ -166,7 +166,7 @@ HWND Create(Win32Window::SizeType const& client_size, CharT const* title, Win32W
 			   this_);
 }
 
-inline void SetClientSize(HWND hwnd, Win32Window::SizeType const& size)
+inline void SetClientSize(HWND hwnd, Win32Window::ExtentType const& size)
 {
 	::RECT window_rect;
 	::GetWindowRect(hwnd, &window_rect);
@@ -185,7 +185,7 @@ inline void SetClientSize(HWND hwnd, Win32Window::SizeType const& size)
 }	// namespace win32_window_detail
 
 BKSGE_INLINE
-Win32Window::Win32Window(SizeType const& client_size, std::string const& title)
+Win32Window::Win32Window(ExtentType const& client_size, std::string const& title)
 	: Base(client_size, title)
 	, m_hwnd(nullptr)
 {
@@ -217,7 +217,7 @@ Win32Window::VSetTitle(std::string const& title)
 }
 
 BKSGE_INLINE void
-Win32Window::VSetClientSize(SizeType const& size)
+Win32Window::VSetClientSize(ExtentType const& size)
 {
 	win32_window_detail::SetClientSize(m_hwnd, size);
 }

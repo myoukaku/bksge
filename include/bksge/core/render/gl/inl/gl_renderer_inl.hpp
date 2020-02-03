@@ -102,7 +102,7 @@ GlRenderer::GlRenderer(Window const& window)
 //	::glEnable(GL_DEBUG_OUTPUT);
 	::glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 
-	SetViewport(Rectf(Vector2f(0,0), Size2f(window.client_size())));
+	SetViewport(Rectf(Vector2f(0,0), Extent2f(window.client_size())));
 }
 
 BKSGE_INLINE

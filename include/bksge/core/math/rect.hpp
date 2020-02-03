@@ -11,7 +11,7 @@
 
 #include <bksge/core/math/fwd/rect_fwd.hpp>
 #include <bksge/core/math/fwd/vector2_fwd.hpp>
-#include <bksge/core/math/fwd/size2_fwd.hpp>
+#include <bksge/core/math/fwd/extent2_fwd.hpp>
 #include <bksge/fnd/serialization/access.hpp>
 #include <bksge/fnd/serialization/nvp.hpp>
 #include <bksge/fnd/serialization/version.hpp>
@@ -46,7 +46,7 @@ public:
 	/**
 	 *	@brief	左上の座標と幅と高さを指定するコンストラクタです
 	 */
-	BKSGE_CXX14_CONSTEXPR Rect(Vector2<T> const& pos, Size2<T> const& size)
+	BKSGE_CXX14_CONSTEXPR Rect(Vector2<T> const& pos, Extent2<T> const& extent)
 		BKSGE_NOEXCEPT_OR_NOTHROW;
 
 	template <typename U>

@@ -11,7 +11,7 @@
 
 #include <bksge/core/math/rect.hpp>
 #include <bksge/core/math/vector2.hpp>
-#include <bksge/core/math/size2.hpp>
+#include <bksge/core/math/extent2.hpp>
 #include <algorithm>
 
 namespace bksge
@@ -46,14 +46,14 @@ Rect<T>::Rect(Vector2<T> const& p1, Vector2<T> const& p2)
 
 template <typename T>
 inline BKSGE_CXX14_CONSTEXPR
-Rect<T>::Rect(Vector2<T> const& pos, Size2<T> const& size)
+Rect<T>::Rect(Vector2<T> const& pos, Extent2<T> const& extent)
 	BKSGE_NOEXCEPT_OR_NOTHROW
 	: Rect(
 		inter_ctor_tag(),
 		pos.x(),
 		pos.y(),
-		pos.x() + size.width(),
-		pos.y() + size.height())
+		pos.x() + extent.width(),
+		pos.y() + extent.height())
 {}
 
 template <typename T>

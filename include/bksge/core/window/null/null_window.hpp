@@ -11,7 +11,7 @@
 
 #include <bksge/core/window/null/fwd/null_window_fwd.hpp>
 #include <bksge/core/window/detail/window_base.hpp>
-#include <bksge/core/math/size2.hpp>
+#include <bksge/core/math/extent2.hpp>
 #include <string>
 
 namespace bksge
@@ -40,7 +40,7 @@ public:
 	 *	@param	client_size	ウィンドウのクライアント領域の大きさ
 	 *	@param	title		ウィンドウのタイトル
 	 */
-	NullWindow(SizeType const& client_size, std::string const& title);
+	NullWindow(ExtentType const& client_size, std::string const& title);
 
 	/**
 	 *	@brief	デストラクタ
@@ -57,7 +57,7 @@ private:
 
 	void VSetTitle(std::string const& title) override;
 
-	void VSetClientSize(SizeType const& size) override;
+	void VSetClientSize(ExtentType const& size) override;
 
 	bool VUpdate(void) override;
 };

@@ -8,7 +8,7 @@
 
 #include <bksge/core/math/rect.hpp>
 #include <bksge/core/math/vector2.hpp>
-#include <bksge/core/math/size2.hpp>
+#include <bksge/core/math/extent2.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
 #include <bksge/fnd/config.hpp>
@@ -120,25 +120,25 @@ TYPED_TEST(MathRectTest, Vector2Vector2ConstructTest)
 	}
 }
 
-TYPED_TEST(MathRectTest, Vector2Size2ConstructTest)
+TYPED_TEST(MathRectTest, Vector2Extent2ConstructTest)
 {
 	using T = TypeParam;
 	using Rect = bksge::math::Rect<T>;
 	using Vector2 = bksge::math::Vector2<T>;
-	using Size2 = bksge::math::Size2<T>;
+	using Extent2 = bksge::math::Extent2<T>;
 
-	static_assert(!std::is_constructible<Rect, Vector2, Size2, Vector2>::value, "");
-	static_assert( std::is_constructible<Rect, Vector2, Size2>::value, "");
+	static_assert(!std::is_constructible<Rect, Vector2, Extent2, Vector2>::value, "");
+	static_assert( std::is_constructible<Rect, Vector2, Extent2>::value, "");
 	static_assert(!std::is_constructible<Rect, Vector2>::value, "");
-	static_assert(!std::is_nothrow_constructible<Rect, Vector2, Size2, Vector2>::value, "");
-	static_assert( std::is_nothrow_constructible<Rect, Vector2, Size2>::value, "");
+	static_assert(!std::is_nothrow_constructible<Rect, Vector2, Extent2, Vector2>::value, "");
+	static_assert( std::is_nothrow_constructible<Rect, Vector2, Extent2>::value, "");
 	static_assert(!std::is_nothrow_constructible<Rect, Vector2>::value, "");
-	static_assert(!bksge::is_implicitly_constructible<Rect, Vector2, Size2, Vector2>::value, "");
-	static_assert( bksge::is_implicitly_constructible<Rect, Vector2, Size2>::value, "");
+	static_assert(!bksge::is_implicitly_constructible<Rect, Vector2, Extent2, Vector2>::value, "");
+	static_assert( bksge::is_implicitly_constructible<Rect, Vector2, Extent2>::value, "");
 	static_assert(!bksge::is_implicitly_constructible<Rect, Vector2>::value, "");
 
 	{
-		BKSGE_CXX14_CONSTEXPR_OR_CONST Rect r(Vector2{1, 2}, Size2{3, 4});
+		BKSGE_CXX14_CONSTEXPR_OR_CONST Rect r(Vector2{1, 2}, Extent2{3, 4});
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ( 1, r.left());
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ( 2, r.top());
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ( 4, r.right());
@@ -147,7 +147,7 @@ TYPED_TEST(MathRectTest, Vector2Size2ConstructTest)
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ( 4, r.height());
 	}
 	{
-		BKSGE_CXX14_CONSTEXPR_OR_CONST Rect r{Vector2{4, 5}, Size2{6, 7}};
+		BKSGE_CXX14_CONSTEXPR_OR_CONST Rect r{Vector2{4, 5}, Extent2{6, 7}};
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ( 4, r.left());
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ( 5, r.top());
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(10, r.right());
@@ -156,7 +156,7 @@ TYPED_TEST(MathRectTest, Vector2Size2ConstructTest)
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ( 7, r.height());
 	}
 	{
-		BKSGE_CXX14_CONSTEXPR_OR_CONST Rect r = {Vector2{7, 8}, Size2{9, 10}};
+		BKSGE_CXX14_CONSTEXPR_OR_CONST Rect r = {Vector2{7, 8}, Extent2{9, 10}};
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ( 7, r.left());
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ( 8, r.top());
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(16, r.right());
@@ -365,7 +365,7 @@ TYPED_TEST(MathRectTest, OutputStreamTest)
 	using T = TypeParam;
 	using Rect = bksge::math::Rect<T>;
 	using Vector2 = bksge::math::Vector2<T>;
-	using Size2 = bksge::math::Size2<T>;
+	using Extent2 = bksge::math::Extent2<T>;
 
 	{
 		Rect const r{Vector2{1, -2}, Vector2{3, 4}};
@@ -374,7 +374,7 @@ TYPED_TEST(MathRectTest, OutputStreamTest)
 		EXPECT_EQ("{ 1, -2, 3, 4 }", ss.str());
 	}
 	{
-		Rect const r{Vector2{-10, 9}, Size2{10, 15}};
+		Rect const r{Vector2{-10, 9}, Extent2{10, 15}};
 		std::wstringstream ss;
 		ss << r;
 		EXPECT_EQ(L"{ -10, 9, 0, 24 }", ss.str());

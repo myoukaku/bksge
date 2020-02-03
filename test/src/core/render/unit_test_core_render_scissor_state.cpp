@@ -32,8 +32,8 @@ GTEST_TEST(Render_ScissorState, SetRectTest)
 	bksge::ScissorState state;
 	EXPECT_EQ(bksge::Rectf(), state.rect());
 
-	state.SetRect({bksge::Vector2f(2, 3), bksge::Size2f(20, 10)});
-	EXPECT_EQ(bksge::Rectf(bksge::Vector2f(2, 3), bksge::Size2f(20, 10)), state.rect());
+	state.SetRect({bksge::Vector2f(2, 3), bksge::Extent2f(20, 10)});
+	EXPECT_EQ(bksge::Rectf(bksge::Vector2f(2, 3), bksge::Extent2f(20, 10)), state.rect());
 }
 
 GTEST_TEST(Render_ScissorState, CompareTest)
@@ -44,7 +44,7 @@ GTEST_TEST(Render_ScissorState, CompareTest)
 	bksge::ScissorState v4;
 
 	v3.SetEnable(true);
-	v4.SetRect({bksge::Vector2f(2, 3), bksge::Size2f(20, 10)});
+	v4.SetRect({bksge::Vector2f(2, 3), bksge::Extent2f(20, 10)});
 
 	EXPECT_TRUE (v1 == v1);
 	EXPECT_TRUE (v1 == v2);
@@ -68,7 +68,7 @@ GTEST_TEST(Render_ScissorState, OutputStreamTest)
 	{
 		bksge::ScissorState v;
 		v.SetEnable(true);
-		v.SetRect({bksge::Vector2f(2, 3), bksge::Size2f(20, 10)});
+		v.SetRect({bksge::Vector2f(2, 3), bksge::Extent2f(20, 10)});
 		std::wstringstream ss;
 		ss << v;
 		EXPECT_EQ(L"{ true, { 2, 3, 22, 13 } }", ss.str());
@@ -81,7 +81,7 @@ GTEST_TEST(Render_ScissorState, SerializeTest)
 
 	bksge::ScissorState v;
 	v.SetEnable(true);
-	v.SetRect({bksge::Vector2f(-5, 4), bksge::Size2f(20, 30)});
+	v.SetRect({bksge::Vector2f(-5, 4), bksge::Extent2f(20, 30)});
 
 	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
 //	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);

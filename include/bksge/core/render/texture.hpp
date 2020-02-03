@@ -13,7 +13,7 @@
 #include <bksge/core/render/detail/identifiable.hpp>
 #include <bksge/core/render/detail/pixels.hpp>
 #include <bksge/core/render/texture_format.hpp>
-#include <bksge/core/math/size2.hpp>
+#include <bksge/core/math/extent2.hpp>
 //#include <bksge/fnd/serialization/access.hpp>
 //#include <bksge/fnd/serialization/nvp.hpp>
 //#include <bksge/fnd/serialization/version.hpp>
@@ -32,7 +32,7 @@ namespace render
 class Texture : public Identifiable
 {
 public:
-	using SizeType = Size2<std::uint32_t>;
+	using ExtentType = Extent2<std::uint32_t>;
 
 	/**
 	 *	@brief	デフォルトコンストラクタ
@@ -49,33 +49,33 @@ public:
 	/**
 	 *	@brief	コンストラクタ
 	 *
-	 *	format,size,mipmap_countの情報を元に必要なメモリを確保し、
+	 *	format,extent,mipmap_countの情報を元に必要なメモリを確保し、
 	 *	dataがnullptrでなければdataの指す先からコピーします。
 	 *	dataの指す先のサイズやフォーマットが正しいかどうかは、呼び出す側が保証する必要があります。
 	 *	dataがnullptrのときは確保したメモリ領域を初期化しません。必要に応じてFill関数などを使用してください。
 	 */
-	Texture(TextureFormat format, SizeType const& size, std::size_t mipmap_count, std::uint8_t const* data);
+	Texture(TextureFormat format, ExtentType const& extent, std::size_t mipmap_count, std::uint8_t const* data);
 
 	/**
 	 *	@brief	コンストラクタ
 	 *
-	 *	Texture(format, size, mipmap_count, nullptr)	と同じです
+	 *	Texture(format, extent, mipmap_count, nullptr)	と同じです
 	 */
-	Texture(TextureFormat format, SizeType const& size, std::size_t mipmap_count);
+	Texture(TextureFormat format, ExtentType const& extent, std::size_t mipmap_count);
 
 	/**
 	 *	@brief	コンストラクタ
 	 *
-	 *	Texture(format, size, 1, data)	と同じです
+	 *	Texture(format, extent, 1, data)	と同じです
 	 */
-	Texture(TextureFormat format, SizeType const& size, std::uint8_t const* data);
+	Texture(TextureFormat format, ExtentType const& extent, std::uint8_t const* data);
 
 	/**
 	 *	@brief	コンストラクタ
 	 *
-	 *	Texture(format, size, 1, nullptr)	と同じです
+	 *	Texture(format, extent, 1, nullptr)	と同じです
 	 */
-	Texture(TextureFormat format, SizeType const& size);
+	Texture(TextureFormat format, ExtentType const& extent);
 
 	/**
 	 *	@brief	フォーマットを取得します
@@ -85,7 +85,7 @@ public:
 	/**
 	 *	@brief	幅と高さを取得します
 	 */
-	SizeType const& size(void) const;
+	ExtentType const& extent(void) const;
 
 	/**
 	 *	@brief	横幅を取得します
@@ -124,7 +124,7 @@ public:
 
 private:
 	TextureFormat			m_format;       ///< フォーマット
-	SizeType				m_size;         ///< 幅と高さ
+	ExtentType				m_extent;         ///< 幅と高さ
 	std::size_t				m_mipmap_count; ///< ミップマップの数。オリジナル画像を含みます。
 	std::shared_ptr<Pixels>	m_pixels;       ///< 画像データ
 
@@ -138,7 +138,7 @@ private:
 	void serialize(Archive& ar, bksge::serialization::version_t /*version*/)
 	{
 		ar & BKSGE_SERIALIZATION_NVP(m_format);
-		ar & BKSGE_SERIALIZATION_NVP(m_size);
+		ar & BKSGE_SERIALIZATION_NVP(m_extent);
 		ar & BKSGE_SERIALIZATION_NVP(m_mipmap_count);
 		ar & BKSGE_SERIALIZATION_NVP(m_pixels);
 	}
@@ -157,7 +157,7 @@ operator<<(std::basic_ostream<CharT, Traits>& os, Texture const& rhs)
 {
 	os	<< "{ "
 		<< rhs.format() << ", "
-		<< rhs.size() << ", "
+		<< rhs.extent() << ", "
 		<< rhs.mipmap_count() << ", "
 		<< rhs.pixels()
 		<< " }";
