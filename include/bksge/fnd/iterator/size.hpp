@@ -23,6 +23,7 @@ using std::size;
 #else
 
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {

@@ -23,6 +23,8 @@ using std::empty;
 #else
 
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
+#include <initializer_list>
 
 namespace bksge
 {
