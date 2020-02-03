@@ -8,6 +8,7 @@
 
 #include <bksge/core/window.hpp>
 #include <bksge/core/render.hpp>
+#include <bksge/fnd/iterator/size.hpp>
 #include <vector>
 #include <memory>
 #include <utility>
@@ -231,7 +232,7 @@ int main()
 	};
 
 	int frame_count = 0;
-	int setting_index = 0;
+	std::size_t setting_index = 0;
 
 	for (;;)
 	{
@@ -249,7 +250,7 @@ int main()
 			frame_count = 0;
 
 			setting_index++;
-			if (setting_index >= (sizeof(setting_tbl) / sizeof(setting_tbl[0])))
+			if (setting_index >= bksge::size(setting_tbl))
 			{
 				setting_index = 0;
 			}
