@@ -34,4 +34,7 @@ GTEST_TEST(IteratorTest, SizeTest)
 		BKSGE_CONSTEXPR std::array<char, 5> a {};
 		BKSGE_CONSTEXPR_EXPECT_EQ(5u, bksge::size(a));
 	}
+	{
+		BKSGE_CONSTEXPR_EXPECT_EQ(3u, bksge::size({1,2,3}));
+	}
 }

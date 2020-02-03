@@ -28,13 +28,13 @@ namespace bksge
 {
 
 template <typename Container>
-BKSGE_CONSTEXPR auto size(Container const& c) -> decltype(c.size())
+BKSGE_NODISCARD BKSGE_CONSTEXPR auto size(Container const& c) -> decltype(c.size())
 {
 	return c.size();
 }
 
 template <typename T, std::size_t N>
-BKSGE_CONSTEXPR std::size_t size(T const (&)[N]) BKSGE_NOEXCEPT
+BKSGE_NODISCARD BKSGE_CONSTEXPR std::size_t size(T const (&)[N]) BKSGE_NOEXCEPT
 {
 	return N;
 }
