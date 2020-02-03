@@ -86,6 +86,9 @@ Shader::Shader(
 			m_combined_image_sampler_setter.push_back(
 				bksge::make_unique<vulkan::CombinedImageSamplerSetter>(info));
 			break;
+		default:
+			// TODO
+			break;
 		}
 	}
 

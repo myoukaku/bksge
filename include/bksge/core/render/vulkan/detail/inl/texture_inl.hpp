@@ -26,6 +26,7 @@
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/texture.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
+#include <cstring>
 
 namespace bksge
 {
