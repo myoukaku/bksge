@@ -41,6 +41,11 @@ public:
 	bool enable(void) const;
 
 private:
+	// noncopyable
+	IndexBuffer(IndexBuffer const&) = delete;
+	IndexBuffer& operator=(IndexBuffer const&) = delete;
+
+private:
 	ComPtr<::ID3D11Buffer> m_buffer;
 	::DXGI_FORMAT          m_format = DXGI_FORMAT_UNKNOWN;
 	bool                   m_enable = false;

@@ -105,6 +105,11 @@ public:
 	ID3D11DeviceN* Get(void) { return m_device.Get(); }
 
 private:
+	// noncopyable
+	Device(Device const&) = delete;
+	Device& operator=(Device const&) = delete;
+
+private:
 	ComPtr<ID3D11DeviceN>  m_device;
 	::D3D_DRIVER_TYPE      m_driver_type   = ::D3D_DRIVER_TYPE_NULL;
 	::D3D_FEATURE_LEVEL    m_feature_level = ::D3D_FEATURE_LEVEL_11_0;

@@ -54,6 +54,11 @@ public:
 	void BeginFrame(void);
 
 private:
+	// noncopyable
+	DescriptorHeaps(DescriptorHeaps const&) = delete;
+	DescriptorHeaps& operator=(DescriptorHeaps const&) = delete;
+
+private:
 	std::unique_ptr<DescriptorHeap> m_descriptor_heaps[D3D12_DESCRIPTOR_HEAP_TYPE_NUM_TYPES];
 };
 

@@ -35,6 +35,11 @@ public:
 	operator ::VkSampler() const;
 
 private:
+	// noncopyable
+	Sampler(Sampler const&) = delete;
+	Sampler& operator=(Sampler const&) = delete;
+
+private:
 	vulkan::DeviceSharedPtr		m_device;
 	::VkSampler					m_sampler = VK_NULL_HANDLE;
 };

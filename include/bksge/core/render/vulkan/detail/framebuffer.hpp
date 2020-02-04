@@ -38,6 +38,11 @@ public:
 	operator ::VkFramebuffer() const;
 
 private:
+	// noncopyable
+	Framebuffer(Framebuffer const&) = delete;
+	Framebuffer& operator=(Framebuffer const&) = delete;
+
+private:
 	vulkan::DeviceSharedPtr	m_device;
 	::VkFramebuffer			m_framebuffer;
 };

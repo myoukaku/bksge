@@ -44,6 +44,11 @@ public:
 	operator ::VkImage() const;
 
 private:
+	// noncopyable
+	Image(Image const&) = delete;
+	Image& operator=(Image const&) = delete;
+
+private:
 	vulkan::DeviceSharedPtr		m_device;
 	::VkImage					m_image;
 	::VkFormat					m_format;

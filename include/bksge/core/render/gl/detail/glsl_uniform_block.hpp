@@ -41,6 +41,11 @@ public:
 		std::vector<GlslParameterUnique> const& parameters);
 
 private:
+	// noncopyable
+	GlslUniformBlock(GlslUniformBlock const&) = delete;
+	GlslUniformBlock& operator=(GlslUniformBlock const&) = delete;
+
+private:
 	std::string		m_name;
 	::GLint			m_size = 0;
 	::GLint			m_binding = 0;

@@ -40,6 +40,11 @@ public:
 	void FreeCommandBuffer(::VkCommandBuffer buffer);
 
 private:
+	// noncopyable
+	CommandPool(CommandPool const&) = delete;
+	CommandPool& operator=(CommandPool const&) = delete;
+
+private:
 	vulkan::DeviceSharedPtr		m_device;
 	::VkCommandPool				m_command_pool = VK_NULL_HANDLE;
 	std::uint32_t				m_queue_family_index = 0;

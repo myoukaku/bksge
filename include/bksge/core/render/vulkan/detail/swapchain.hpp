@@ -57,6 +57,11 @@ public:
 	void Present(std::uint32_t const& image_index);
 
 private:
+	// noncopyable
+	Swapchain(Swapchain const&) = delete;
+	Swapchain& operator=(Swapchain const&) = delete;
+
+private:
 	vulkan::DeviceSharedPtr			m_device;
 	vk::SwapchainCreateInfoKHR		m_info;
 	::VkSwapchainKHR				m_swapchain;

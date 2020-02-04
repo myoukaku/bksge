@@ -69,6 +69,11 @@ private:
 	void CreateDescriptorRanges(void);
 
 private:
+	// noncopyable
+	HlslShaderBase(HlslShaderBase const&) = delete;
+	HlslShaderBase& operator=(HlslShaderBase const&) = delete;
+
+private:
 	ComPtr<::ID3DBlob>					m_micro_code;
 	ComPtr<::ID3D12ShaderReflection>	m_reflection;
 	std::vector<::D3D12_DESCRIPTOR_RANGE1> m_descriptor_ranges;

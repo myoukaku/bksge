@@ -82,6 +82,11 @@ public:
 		::ID3D11ShaderResourceView* const* shader_resource_views) = 0;
 
 private:
+	// noncopyable
+	HlslShaderBase(HlslShaderBase const&) = delete;
+	HlslShaderBase& operator=(HlslShaderBase const&) = delete;
+
+private:
 	using ConstantBuffers = std::vector<std::unique_ptr<ConstantBuffer>>;
 	using HlslSamplers = std::vector<std::unique_ptr<HlslSampler>>;
 	using HlslTextures = std::vector<std::unique_ptr<HlslTexture>>;

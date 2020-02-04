@@ -35,6 +35,11 @@ public:
 	::VkSemaphore const* GetAddressOf() const;
 
 private:
+	// noncopyable
+	Semaphore(Semaphore const&) = delete;
+	Semaphore& operator=(Semaphore const&) = delete;
+
+private:
 	vulkan::DeviceSharedPtr		m_device;
 	::VkSemaphore				m_semaphore;
 };

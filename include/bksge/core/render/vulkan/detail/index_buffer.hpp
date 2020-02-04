@@ -42,6 +42,11 @@ public:
 	bool enable(void) const;
 
 private:
+	// noncopyable
+	IndexBuffer(IndexBuffer const&) = delete;
+	IndexBuffer& operator=(IndexBuffer const&) = delete;
+
+private:
 	std::unique_ptr<vulkan::BufferObject>	m_buffer;
 	std::uint32_t							m_count = 0;
 	::VkIndexType							m_type;

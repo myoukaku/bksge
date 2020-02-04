@@ -39,6 +39,11 @@ public:
 	::VkDescriptorImageInfo	GetImageInfo(void) const;
 
 private:
+	// noncopyable
+	CombinedImageSampler(CombinedImageSampler const&) = delete;
+	CombinedImageSampler& operator=(CombinedImageSampler const&) = delete;
+
+private:
 	vulkan::SamplerUniquePtr		m_sampler;
 	vulkan::TextureUniquePtr		m_texture;
 };

@@ -41,6 +41,11 @@ public:
 	void SetPipelineState(CommandList* command_list);
 
 private:
+	// noncopyable
+	PipelineState(PipelineState const&) = delete;
+	PipelineState& operator=(PipelineState const&) = delete;
+
+private:
 	ComPtr<::ID3D12PipelineState> m_pipeline_state;
 };
 

@@ -38,6 +38,11 @@ public:
 	operator ::VkFence() const;
 
 private:
+	// noncopyable
+	Fence(Fence const&) = delete;
+	Fence& operator=(Fence const&) = delete;
+
+private:
 	vulkan::DeviceSharedPtr		m_device;
 	::VkFence					m_fence;
 };

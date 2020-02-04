@@ -60,6 +60,11 @@ public:
 	::VkCommandBuffer const* GetAddressOf(void) const;
 
 private:
+	// noncopyable
+	CommandBuffer(CommandBuffer const&) = delete;
+	CommandBuffer& operator=(CommandBuffer const&) = delete;
+
+private:
 	vulkan::DeviceSharedPtr			m_device;
 	vulkan::CommandPoolSharedPtr	m_command_pool;
 	::VkCommandBuffer				m_command_buffer;

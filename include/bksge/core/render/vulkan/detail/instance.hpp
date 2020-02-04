@@ -36,6 +36,11 @@ public:
 	operator ::VkInstance() const;
 
 private:
+	// noncopyable
+	Instance(Instance const&) = delete;
+	Instance& operator=(Instance const&) = delete;
+
+private:
 	::VkInstance m_instance;
 };
 

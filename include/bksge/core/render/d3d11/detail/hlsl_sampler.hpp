@@ -48,6 +48,11 @@ public:
 		::UINT slot);
 
 private:
+	// noncopyable
+	HlslSampler(HlslSampler const&) = delete;
+	HlslSampler& operator=(HlslSampler const&) = delete;
+
+private:
 	std::string		m_name;
 };
 

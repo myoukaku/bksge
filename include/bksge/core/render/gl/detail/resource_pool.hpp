@@ -32,9 +32,18 @@ namespace gl
 class ResourcePool
 {
 public:
+	ResourcePool();
+
+	~ResourcePool();
+
 	GeometryShared    GetGlGeometry(bksge::Geometry const& geometry);
 	GlslProgramShared GetGlslProgram(bksge::Shader const& shader);
 	TextureShared     GetGlTexture(bksge::Texture const& texture);
+
+private:
+	// noncopyable
+	ResourcePool(ResourcePool const&) = delete;
+	ResourcePool& operator=(ResourcePool const&) = delete;
 
 private:
 	GeometryMap               m_geometry_map;

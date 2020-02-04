@@ -48,6 +48,11 @@ public:
 	::VkFormat const& GetFormat(void) const;
 
 private:
+	// noncopyable
+	ImageObject(ImageObject const&) = delete;
+	ImageObject& operator=(ImageObject const&) = delete;
+
+private:
 	vulkan::ImageUniquePtr			m_image;
 	vulkan::DeviceMemoryUniquePtr	m_device_memory;
 };

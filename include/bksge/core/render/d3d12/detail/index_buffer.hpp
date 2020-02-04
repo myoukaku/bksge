@@ -38,6 +38,11 @@ public:
 	bool enable(void) const;
 
 private:
+	// noncopyable
+	IndexBuffer(IndexBuffer const&) = delete;
+	IndexBuffer& operator=(IndexBuffer const&) = delete;
+
+private:
 	bool						m_enable;
 	ComPtr<ID3D12ResourceN>		m_resource;
 	::D3D12_INDEX_BUFFER_VIEW	m_view;

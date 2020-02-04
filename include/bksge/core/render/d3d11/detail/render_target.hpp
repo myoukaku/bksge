@@ -37,6 +37,11 @@ public:
 	::ID3D11RenderTargetView* GetView(void) const;
 
 private:
+	// noncopyable
+	RenderTarget(RenderTarget const&) = delete;
+	RenderTarget& operator=(RenderTarget const&) = delete;
+
+private:
 	ComPtr<ID3D11RenderTargetViewN> m_view;
 };
 

@@ -42,6 +42,11 @@ public:
 		bksge::ShaderParameterMap const& shader_parameter_map);
 
 private:
+	// noncopyable
+	HlslTexture(HlslTexture const&) = delete;
+	HlslTexture& operator=(HlslTexture const&) = delete;
+
+private:
 	std::string		m_name;
 };
 

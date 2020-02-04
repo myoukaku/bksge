@@ -37,6 +37,11 @@ public:
 	void Bind(DeviceContext* device_context) const;
 
 private:
+	// noncopyable
+	VertexBuffer(VertexBuffer const&) = delete;
+	VertexBuffer& operator=(VertexBuffer const&) = delete;
+
+private:
 	ComPtr<::ID3D11Buffer> m_buffer;
 	::UINT                 m_stride = 0;
 	::UINT                 m_offset = 0;

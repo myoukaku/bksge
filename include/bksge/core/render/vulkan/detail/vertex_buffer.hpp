@@ -40,6 +40,11 @@ public:
 	void Draw(vulkan::CommandBuffer* command_buffer);
 
 private:
+	// noncopyable
+	VertexBuffer(VertexBuffer const&) = delete;
+	VertexBuffer& operator=(VertexBuffer const&) = delete;
+
+private:
 	std::unique_ptr<vulkan::BufferObject>	m_buffer;
 	std::uint32_t							m_count = 0;
 };

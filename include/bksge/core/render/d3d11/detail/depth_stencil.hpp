@@ -39,6 +39,11 @@ public:
 	::ID3D11DepthStencilView* GetView(void) const;
 
 private:
+	// noncopyable
+	DepthStencil(DepthStencil const&) = delete;
+	DepthStencil& operator=(DepthStencil const&) = delete;
+
+private:
 	ComPtr<ID3D11Texture2DN>         m_texture;
 	ComPtr<::ID3D11DepthStencilView> m_view;
 };

@@ -48,6 +48,11 @@ public:
 	vk::WriteDescriptorSet GetWriteDescriptorSet(void) const;
 
 private:
+	// noncopyable
+	CombinedImageSamplerSetter(CombinedImageSamplerSetter const&) = delete;
+	CombinedImageSamplerSetter& operator=(CombinedImageSamplerSetter const&) = delete;
+
+private:
 	std::uint32_t					m_set = 0;
 	std::uint32_t					m_binding = 0;
 	std::string						m_name;

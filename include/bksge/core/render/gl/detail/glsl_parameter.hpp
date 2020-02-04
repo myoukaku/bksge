@@ -44,6 +44,11 @@ public:
 		bksge::ShaderParameterMap const& shader_parameter_map);
 
 private:
+	// noncopyable
+	GlslParameter(GlslParameter const&) = delete;
+	GlslParameter& operator=(GlslParameter const&) = delete;
+
+private:
 	std::string		m_name;
 	::GLint			m_size;
 	::GLenum		m_type;

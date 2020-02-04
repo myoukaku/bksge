@@ -36,6 +36,11 @@ public:
 	operator ::VkPipelineLayout() const;
 
 private:
+	// noncopyable
+	PipelineLayout(PipelineLayout const&) = delete;
+	PipelineLayout& operator=(PipelineLayout const&) = delete;
+
+private:
 	vulkan::DeviceSharedPtr		m_device;
 	::VkPipelineLayout			m_pipeline_layout;
 };

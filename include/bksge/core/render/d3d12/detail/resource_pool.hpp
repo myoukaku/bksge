@@ -64,6 +64,11 @@ public:
 	SamplerShared GetD3D12Sampler(bksge::Sampler const& sampler);
 
 private:
+	// noncopyable
+	ResourcePool(ResourcePool const&) = delete;
+	ResourcePool& operator=(ResourcePool const&) = delete;
+
+private:
 	std::unique_ptr<CommandQueue>	m_command_queue;
 	std::unique_ptr<CommandList>	m_command_list;
 	std::unique_ptr<Fence>			m_fence;

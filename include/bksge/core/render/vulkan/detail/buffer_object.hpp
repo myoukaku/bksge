@@ -42,6 +42,11 @@ public:
 	::VkBuffer GetBuffer(void) const;
 
 private:
+	// noncopyable
+	BufferObject(BufferObject const&) = delete;
+	BufferObject& operator=(BufferObject const&) = delete;
+
+private:
 	vulkan::BufferUniquePtr			m_buffer;
 	vulkan::DeviceMemoryUniquePtr	m_device_memory;
 };

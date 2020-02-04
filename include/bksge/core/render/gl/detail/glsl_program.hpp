@@ -45,6 +45,11 @@ public:
 		bksge::ShaderParameterMap const& shader_parameter_map);
 
 private:
+	// noncopyable
+	GlslProgram(GlslProgram const&) = delete;
+	GlslProgram& operator=(GlslProgram const&) = delete;
+
+private:
 	void LoadParameters(
 		ResourcePool* resource_pool,
 		bksge::ShaderParameterMap const& shader_parameter_map);

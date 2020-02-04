@@ -43,6 +43,11 @@ public:
 		bksge::ShaderParameterMap const& shader_parameter_map);
 
 private:
+	// noncopyable
+	HlslConstantBuffer(HlslConstantBuffer const&) = delete;
+	HlslConstantBuffer& operator=(HlslConstantBuffer const&) = delete;
+
+private:
 	struct Variable
 	{
 		std::string		m_name;

@@ -37,6 +37,11 @@ public:
 	operator ::VkImageView() const;
 
 private:
+	// noncopyable
+	ImageView(ImageView const&) = delete;
+	ImageView& operator=(ImageView const&) = delete;
+
+private:
 	vulkan::DeviceSharedPtr		m_device;
 	::VkImageView				m_image_view;
 };

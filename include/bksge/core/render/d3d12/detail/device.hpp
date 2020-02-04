@@ -103,6 +103,11 @@ public:
 		::D3D12_CLEAR_VALUE const*     optimized_clear_value);
 
 private:
+	// noncopyable
+	Device(Device const&) = delete;
+	Device& operator=(Device const&) = delete;
+
+private:
 	ComPtr<ID3D12DeviceN>	m_device;
 	::D3D_FEATURE_LEVEL		m_feature_level;
 };

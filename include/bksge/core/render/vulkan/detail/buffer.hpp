@@ -38,6 +38,11 @@ public:
 	operator ::VkBuffer() const;
 
 private:
+	// noncopyable
+	Buffer(Buffer const&) = delete;
+	Buffer& operator=(Buffer const&) = delete;
+
+private:
 	vulkan::DeviceSharedPtr		m_device;
 	::VkBuffer					m_buffer;
 };

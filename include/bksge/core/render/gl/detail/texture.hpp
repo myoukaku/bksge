@@ -40,6 +40,11 @@ public:
 	void Bind(GLint location) const;
 
 private:
+	// noncopyable
+	Texture(Texture const&) = delete;
+	Texture& operator=(Texture const&) = delete;
+
+private:
 	::GLuint	m_name;
 };
 

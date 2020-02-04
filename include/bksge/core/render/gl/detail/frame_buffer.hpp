@@ -46,6 +46,11 @@ private:
 	void CheckFramebufferStatus(void);
 
 private:
+	// noncopyable
+	FrameBuffer(FrameBuffer const&) = delete;
+	FrameBuffer& operator=(FrameBuffer const&) = delete;
+
+private:
 	::GLuint					m_id;
 	std::vector<TextureShared>	m_color_buffers;
 };

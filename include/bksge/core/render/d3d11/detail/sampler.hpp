@@ -37,6 +37,11 @@ public:
 	ComPtr<::ID3D11SamplerState> const& state(void) const;
 
 private:
+	// noncopyable
+	Sampler(Sampler const&) = delete;
+	Sampler& operator=(Sampler const&) = delete;
+
+private:
 	ComPtr<::ID3D11SamplerState>	m_state;
 };
 

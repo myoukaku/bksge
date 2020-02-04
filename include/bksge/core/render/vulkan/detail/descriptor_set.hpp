@@ -39,6 +39,11 @@ public:
 	std::vector<::VkDescriptorSet> const& Get(void) const;
 
 private:
+	// noncopyable
+	DescriptorSet(DescriptorSet const&) = delete;
+	DescriptorSet& operator=(DescriptorSet const&) = delete;
+
+private:
 	vulkan::DeviceSharedPtr					m_device;
 	vulkan::DescriptorPoolSharedPtr			m_descriptor_pool;
 	std::vector<::VkDescriptorSet>			m_descriptor_sets;

@@ -62,6 +62,11 @@ private:
 	::UINT GetSizeInBytes(void) const;
 
 private:
+	// noncopyable
+	ConstantBuffer(ConstantBuffer const&) = delete;
+	ConstantBuffer& operator=(ConstantBuffer const&) = delete;
+
+private:
 	ComPtr<ID3D12ResourceN>		m_resource;
 	std::uint8_t*				m_mapped_resource = nullptr;
 	std::size_t					m_offset = 0;

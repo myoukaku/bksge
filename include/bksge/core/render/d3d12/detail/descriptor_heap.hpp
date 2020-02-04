@@ -46,6 +46,11 @@ private:
 	::UINT GetNumDescriptors(void) const;
 
 private:
+	// noncopyable
+	DescriptorHeap(DescriptorHeap const&) = delete;
+	DescriptorHeap& operator=(DescriptorHeap const&) = delete;
+
+private:
 	ComPtr<::ID3D12DescriptorHeap>	m_descriptor_heap;
 	::UINT							m_descriptor_handle_increment_size;
 	::UINT							m_gpu_descriptor_handle_index;

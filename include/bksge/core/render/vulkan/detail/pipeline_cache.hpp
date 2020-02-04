@@ -33,6 +33,11 @@ public:
 	operator ::VkPipelineCache() const;
 
 private:
+	// noncopyable
+	PipelineCache(PipelineCache const&) = delete;
+	PipelineCache& operator=(PipelineCache const&) = delete;
+
+private:
 	vulkan::DeviceSharedPtr	m_device;
 	::VkPipelineCache		m_pipeline_cache;
 };

@@ -40,6 +40,11 @@ public:
 		::UINT64       value);
 
 private:
+	// noncopyable
+	CommandQueue(CommandQueue const&) = delete;
+	CommandQueue& operator=(CommandQueue const&) = delete;
+
+private:
 	ComPtr<::ID3D12CommandQueue> m_command_queue;
 };
 

@@ -36,6 +36,11 @@ public:
 	::GLuint id() const;
 
 private:
+	// noncopyable
+	GlslShader(GlslShader const&) = delete;
+	GlslShader& operator=(GlslShader const&) = delete;
+
+private:
 	::GLuint m_id;
 };
 

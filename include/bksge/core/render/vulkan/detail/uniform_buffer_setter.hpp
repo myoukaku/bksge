@@ -45,6 +45,11 @@ public:
 	vk::WriteDescriptorSet GetWriteDescriptorSet(void) const;
 
 private:
+	// noncopyable
+	UniformBufferSetter(UniformBufferSetter const&) = delete;
+	UniformBufferSetter& operator=(UniformBufferSetter const&) = delete;
+
+private:
 	struct Variable
 	{
 		std::string		name;

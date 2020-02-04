@@ -38,6 +38,11 @@ public:
 	operator ::VkRenderPass() const;
 
 private:
+	// noncopyable
+	RenderPass(RenderPass const&) = delete;
+	RenderPass& operator=(RenderPass const&) = delete;
+
+private:
 	vulkan::DeviceSharedPtr		m_device;
 	::VkRenderPass				m_render_pass;
 };

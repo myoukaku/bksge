@@ -42,6 +42,11 @@ public:
 	operator ::VkDevice() const;
 
 private:
+	// noncopyable
+	Device(Device const&) = delete;
+	Device& operator=(Device const&) = delete;
+
+private:
 	vulkan::PhysicalDeviceSharedPtr	m_physical_device;
 	::VkDevice						m_device;
 };

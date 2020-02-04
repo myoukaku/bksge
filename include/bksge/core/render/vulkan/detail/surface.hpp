@@ -36,6 +36,11 @@ public:
 	operator ::VkSurfaceKHR() const;
 
 private:
+	// noncopyable
+	Surface(Surface const&) = delete;
+	Surface& operator=(Surface const&) = delete;
+
+private:
 	vulkan::InstanceSharedPtr   m_instance;
 	::VkSurfaceKHR				m_surface;
 };

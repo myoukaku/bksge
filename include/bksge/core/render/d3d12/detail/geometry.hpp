@@ -37,6 +37,11 @@ public:
 	void Draw(CommandList* command_list);
 
 private:
+	// noncopyable
+	Geometry(Geometry const&) = delete;
+	Geometry& operator=(Geometry const&) = delete;
+
+private:
 	std::unique_ptr<VertexBuffer>		m_vertex_buffer;
 	std::unique_ptr<IndexBuffer>		m_index_buffer;
 	::D3D12_PRIMITIVE_TOPOLOGY			m_primitive_topology;

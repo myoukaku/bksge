@@ -40,6 +40,11 @@ public:
 	operator ::VkDeviceMemory() const;
 
 private:
+	// noncopyable
+	DeviceMemory(DeviceMemory const&) = delete;
+	DeviceMemory& operator=(DeviceMemory const&) = delete;
+
+private:
 	vulkan::DeviceSharedPtr		m_device;
 	::VkDeviceMemory			m_device_memory;
 };

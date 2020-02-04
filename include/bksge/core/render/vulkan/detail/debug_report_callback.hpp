@@ -34,6 +34,11 @@ public:
 	~DebugReportCallback();
 
 private:
+	// noncopyable
+	DebugReportCallback(DebugReportCallback const&) = delete;
+	DebugReportCallback& operator=(DebugReportCallback const&) = delete;
+
+private:
 	vulkan::InstanceSharedPtr	m_instance;
 	::VkDebugReportCallbackEXT	m_callback;
 };

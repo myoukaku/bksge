@@ -42,6 +42,11 @@ public:
 	void CreateView(Device* device, ::D3D12_CPU_DESCRIPTOR_HANDLE dest);
 
 private:
+	// noncopyable
+	Texture(Texture const&) = delete;
+	Texture& operator=(Texture const&) = delete;
+
+private:
 	ComPtr<ID3D12ResourceN>	m_resource;
 
 };

@@ -60,6 +60,11 @@ public:
 	Uniforms const& GetUniforms(void) const;
 
 private:
+	// noncopyable
+	ShaderReflection(ShaderReflection const&) = delete;
+	ShaderReflection& operator=(ShaderReflection const&) = delete;
+
+private:
 	std::uint32_t	m_max_sets = 0;
 	Uniforms		m_uniforms;
 };

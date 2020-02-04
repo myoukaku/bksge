@@ -71,6 +71,11 @@ private:
 		std::vector<std::unique_ptr<HlslSampler>>;
 
 private:
+	// noncopyable
+	HlslProgram(HlslProgram const&) = delete;
+	HlslProgram& operator=(HlslProgram const&) = delete;
+
+private:
 	HlslShaderMap					m_shader_map;
 	std::unique_ptr<InputLayout>	m_input_layout;
 	HlslConstantBuffers				m_hlsl_constant_buffers;

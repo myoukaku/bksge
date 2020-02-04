@@ -62,6 +62,11 @@ public:
 		bksge::Sampler const& sampler);
 
 private:
+	// noncopyable
+	ResourcePool(ResourcePool const&) = delete;
+	ResourcePool& operator=(ResourcePool const&) = delete;
+
+private:
 	vulkan::ShaderSharedPtrMap					m_shader_map;
 	vulkan::GeometrySharedPtrMap				m_geometry_map;
 	vulkan::GraphicsPipelineSharedPtrMap		m_graphics_pipeline_map;

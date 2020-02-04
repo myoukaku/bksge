@@ -39,6 +39,11 @@ public:
 	void Draw(DeviceContext* device_context) const;
 
 private:
+	// noncopyable
+	Geometry(Geometry const&) = delete;
+	Geometry& operator=(Geometry const&) = delete;
+
+private:
 	VertexBuffer               m_vertex_buffer;
 	IndexBuffer                m_index_buffer;
 	::D3D11_PRIMITIVE_TOPOLOGY m_primitive_topology;

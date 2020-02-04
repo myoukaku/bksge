@@ -44,6 +44,11 @@ public:
 	void BeginFrame(void);
 
 private:
+	// noncopyable
+	UniformBuffer(UniformBuffer const&) = delete;
+	UniformBuffer& operator=(UniformBuffer const&) = delete;
+
+private:
 	std::unique_ptr<vulkan::BufferObject>	m_buffer;
 	std::uint8_t*							m_mapped_buffer = nullptr;
 	std::size_t								m_offset = 0;

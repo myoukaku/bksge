@@ -62,6 +62,11 @@ private:
 		std::vector<unsigned int> const& spv);
 
 private:
+	// noncopyable
+	Shader(Shader const&) = delete;
+	Shader& operator=(Shader const&) = delete;
+
+private:
 	vulkan::DeviceSharedPtr						m_device;
 	std::vector<::VkPipelineShaderStageCreateInfo>		m_shader_stages;
 	std::vector<vulkan::UniformBufferSetterUniquePtr>	m_uniform_buffer_setter;

@@ -38,6 +38,11 @@ public:
 	void MoveToNextFrame(CommandQueue* command_queue, ::UINT frame_index);
 
 private:
+	// noncopyable
+	Fence(Fence const&) = delete;
+	Fence& operator=(Fence const&) = delete;
+
+private:
 	ComPtr<ID3D12FenceN>	m_fence;
 	std::vector<::UINT64>	m_values;
 	::HANDLE				m_event;

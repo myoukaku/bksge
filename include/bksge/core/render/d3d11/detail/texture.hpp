@@ -38,6 +38,11 @@ public:
 	::ID3D11ShaderResourceView* shader_resource_view() const;
 
 private:
+	// noncopyable
+	Texture(Texture const&) = delete;
+	Texture& operator=(Texture const&) = delete;
+
+private:
 	ComPtr<ID3D11Texture2DN>			m_texture;
 	ComPtr<ID3D11ShaderResourceViewN>	m_shader_resource_view;
 };

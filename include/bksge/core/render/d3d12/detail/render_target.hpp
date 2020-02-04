@@ -37,6 +37,11 @@ public:
 	::D3D12_CPU_DESCRIPTOR_HANDLE GetHandle(::UINT index) const;
 
 private:
+	// noncopyable
+	RenderTarget(RenderTarget const&) = delete;
+	RenderTarget& operator=(RenderTarget const&) = delete;
+
+private:
 	std::vector<ComPtr<ID3D12ResourceN>>	m_resource;
 	ComPtr<::ID3D12DescriptorHeap>			m_descriptor_heap;
 	::UINT									m_descriptor_size;

@@ -125,6 +125,11 @@ public:
 	void Execute(::ID3D12CommandQueue* command_queue);
 
 private:
+	// noncopyable
+	CommandList(CommandList const&) = delete;
+	CommandList& operator=(CommandList const&) = delete;
+
+private:
 	std::vector<ComPtr<::ID3D12CommandAllocator>>	m_command_allocators;
 	ComPtr<ID3D12GraphicsCommandListN>				m_command_list;
 };

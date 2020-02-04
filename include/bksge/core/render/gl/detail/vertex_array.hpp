@@ -37,6 +37,11 @@ public:
 	void Unbind(void) const;
 
 private:
+	// noncopyable
+	VertexArray(VertexArray const&) = delete;
+	VertexArray& operator=(VertexArray const&) = delete;
+
+private:
 	::GLuint		m_id;
 	VertexBuffer	m_vertex_buffer;
 };

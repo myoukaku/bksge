@@ -39,6 +39,11 @@ public:
 	void Apply(GLint location) const;
 
 private:
+	// noncopyable
+	Sampler(Sampler const&) = delete;
+	Sampler& operator=(Sampler const&) = delete;
+
+private:
 	TextureShared	m_source;
 	::GLint         m_min_filter;	///< 縮小フィルタの種類
 	::GLint         m_mag_filter;	///< 拡大フィルタの種類

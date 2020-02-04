@@ -38,6 +38,11 @@ public:
 	std::vector<::VkDescriptorSetLayout> const& GetLayouts(void) const;
 
 private:
+	// noncopyable
+	DescriptorSetLayout(DescriptorSetLayout const&) = delete;
+	DescriptorSetLayout& operator=(DescriptorSetLayout const&) = delete;
+
+private:
 	vulkan::DeviceSharedPtr					m_device;
 	std::vector<::VkDescriptorSetLayout>	m_descriptor_set_layout;
 };

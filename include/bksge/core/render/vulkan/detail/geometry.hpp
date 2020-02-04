@@ -36,6 +36,11 @@ public:
 	void Draw(CommandBuffer* command_buffer);
 
 private:
+	// noncopyable
+	Geometry(Geometry const&) = delete;
+	Geometry& operator=(Geometry const&) = delete;
+
+private:
 	std::unique_ptr<VertexBuffer>		m_vertex_buffer;
 	std::unique_ptr<IndexBuffer>		m_index_buffer;
 };

@@ -139,6 +139,11 @@ public:
 		::INT  base_vertex_location);
 
 private:
+	// noncopyable
+	DeviceContext(DeviceContext const&) = delete;
+	DeviceContext& operator=(DeviceContext const&) = delete;
+
+private:
 	ComPtr<ID3D11DeviceContextN>    m_device_context;
 };
 

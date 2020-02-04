@@ -46,6 +46,11 @@ public:
 	operator ::VkPipeline() const;
 
 private:
+	// noncopyable
+	GraphicsPipeline(GraphicsPipeline const&) = delete;
+	GraphicsPipeline& operator=(GraphicsPipeline const&) = delete;
+
+private:
 	vulkan::DeviceSharedPtr			m_device;
 	vulkan::PipelineCacheUniquePtr	m_pipeline_cache;
 	vulkan::PipelineLayoutUniquePtr	m_pipeline_layout;

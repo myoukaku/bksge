@@ -44,6 +44,11 @@ public:
 	operator ::VkPhysicalDevice() const;
 
 private:
+	// noncopyable
+	PhysicalDevice(PhysicalDevice const&) = delete;
+	PhysicalDevice& operator=(PhysicalDevice const&) = delete;
+
+private:
 	::VkPhysicalDevice					m_physical_device;
 	::VkPhysicalDeviceMemoryProperties	m_memory_properties;
 	std::uint32_t						m_queue_family_properties_count = 0;

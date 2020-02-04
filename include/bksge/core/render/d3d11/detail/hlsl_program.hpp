@@ -46,6 +46,11 @@ public:
 		bksge::ShaderParameterMap const& shader_parameter_map);
 
 private:
+	// noncopyable
+	HlslProgram(HlslProgram const&) = delete;
+	HlslProgram& operator=(HlslProgram const&) = delete;
+
+private:
 	using HlslShaders = std::vector<HlslShaderUnique>;
 
 	HlslShaders						m_shaders;

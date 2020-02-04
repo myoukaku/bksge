@@ -33,6 +33,11 @@ public:
 	void CreateView(Device* device, ::D3D12_CPU_DESCRIPTOR_HANDLE dest);
 
 private:
+	// noncopyable
+	Sampler(Sampler const&) = delete;
+	Sampler& operator=(Sampler const&) = delete;
+
+private:
 	::D3D12_SAMPLER_DESC	m_desc;
 };
 

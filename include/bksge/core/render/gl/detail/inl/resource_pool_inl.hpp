@@ -52,6 +52,16 @@ GetOrCreate(Map& map, Id const& id, Args&&... args)
 
 }	// namespace detail
 
+BKSGE_INLINE
+ResourcePool::ResourcePool()
+{
+}
+
+BKSGE_INLINE
+ResourcePool::~ResourcePool()
+{
+}
+
 BKSGE_INLINE GeometryShared
 ResourcePool::GetGlGeometry(bksge::Geometry const& geometry)
 {

@@ -39,6 +39,11 @@ public:
 		bksge::ShaderParameterMap const& shader_parameter_map);
 
 private:
+	// noncopyable
+	HlslSampler(HlslSampler const&) = delete;
+	HlslSampler& operator=(HlslSampler const&) = delete;
+
+private:
 	std::string		m_name;
 };
 

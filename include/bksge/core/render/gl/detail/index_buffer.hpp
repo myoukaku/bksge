@@ -38,6 +38,11 @@ public:
 	bool enable(void) const;
 
 private:
+	// noncopyable
+	IndexBuffer(IndexBuffer const&) = delete;
+	IndexBuffer& operator=(IndexBuffer const&) = delete;
+
+private:
 	::GLuint	m_id;
 	bool		m_enable;
 };

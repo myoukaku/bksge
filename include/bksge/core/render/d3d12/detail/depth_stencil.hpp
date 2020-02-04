@@ -33,6 +33,11 @@ public:
 	::D3D12_CPU_DESCRIPTOR_HANDLE GetHandle(void) const;
 
 private:
+	// noncopyable
+	DepthStencil(DepthStencil const&) = delete;
+	DepthStencil& operator=(DepthStencil const&) = delete;
+
+private:
 	ComPtr<ID3D12ResourceN>				m_resource;
 	ComPtr<::ID3D12DescriptorHeap>		m_descriptor_heap;
 //	::UINT								m_descriptor_size;

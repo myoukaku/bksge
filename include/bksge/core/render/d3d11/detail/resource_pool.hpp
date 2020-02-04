@@ -45,6 +45,11 @@ public:
 	SamplerShared     GetD3D11Sampler(Device* device, bksge::Sampler const& sampler);
 
 private:
+	// noncopyable
+	ResourcePool(ResourcePool const&) = delete;
+	ResourcePool& operator=(ResourcePool const&) = delete;
+
+private:
 	HlslProgramMap	m_hlsl_program_map;
 	GeometryMap		m_geometry_map;
 	TextureMap		m_texture_map;

@@ -39,6 +39,11 @@ public:
 	::D3D12_DESCRIPTOR_RANGE_TYPE GetDescriptorRangeType(::UINT index) const;
 
 private:
+	// noncopyable
+	RootParameters(RootParameters const&) = delete;
+	RootParameters& operator=(RootParameters const&) = delete;
+
+private:
 	std::vector<::D3D12_ROOT_PARAMETER1> m_root_parameters;
 };
 

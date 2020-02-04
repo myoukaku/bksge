@@ -37,6 +37,11 @@ public:
 	::ID3D12RootSignature* Get(void) const;
 
 private:
+	// noncopyable
+	RootSignature(RootSignature const&) = delete;
+	RootSignature& operator=(RootSignature const&) = delete;
+
+private:
 	ComPtr<::ID3D12RootSignature> m_root_signature;
 };
 

@@ -35,6 +35,11 @@ public:
 	void Unbind(void) const;
 
 private:
+	// noncopyable
+	RenderBuffer(RenderBuffer const&) = delete;
+	RenderBuffer& operator=(RenderBuffer const&) = delete;
+
+private:
 	::GLuint m_id;
 };
 

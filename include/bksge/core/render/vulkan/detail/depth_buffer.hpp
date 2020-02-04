@@ -40,6 +40,11 @@ public:
 	vulkan::ImageView const& GetImageView(void) const;
 
 private:
+	// noncopyable
+	DepthBuffer(DepthBuffer const&) = delete;
+	DepthBuffer& operator=(DepthBuffer const&) = delete;
+
+private:
 	vulkan::ImageObjectUniquePtr	m_image;
 	vulkan::ImageViewUniquePtr		m_image_view;
 };

@@ -48,6 +48,11 @@ public:
 	ComPtr<::ID3D11Buffer> const& buffer(void) const;
 
 private:
+	// noncopyable
+	ConstantBuffer(ConstantBuffer const&) = delete;
+	ConstantBuffer& operator=(ConstantBuffer const&) = delete;
+
+private:
 	struct Variable
 	{
 		std::string		m_name;

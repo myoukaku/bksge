@@ -34,6 +34,11 @@ public:
 	operator ::D3D12_INPUT_LAYOUT_DESC() const;
 
 private:
+	// noncopyable
+	InputLayout(InputLayout const&) = delete;
+	InputLayout& operator=(InputLayout const&) = delete;
+
+private:
 	std::vector<::D3D12_INPUT_ELEMENT_DESC>	m_descs;
 	ComPtr<::ID3D12ShaderReflection>		m_reflection;
 };

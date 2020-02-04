@@ -38,6 +38,11 @@ public:
 	vulkan::ImageViewUniquePtr const& GetImageView(void) const;
 
 private:
+	// noncopyable
+	Texture(Texture const&) = delete;
+	Texture& operator=(Texture const&) = delete;
+
+private:
 	vulkan::ImageObjectUniquePtr	m_image;
 	vulkan::ImageViewUniquePtr		m_image_view;
 };

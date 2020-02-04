@@ -40,6 +40,11 @@ public:
 	void Draw(void) const;
 
 private:
+	// noncopyable
+	Geometry(Geometry const&) = delete;
+	Geometry& operator=(Geometry const&) = delete;
+
+private:
 	VertexArray		m_vertex_array;
 	IndexBuffer		m_index_buffer;
 	::GLenum		m_primitive_topology;

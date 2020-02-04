@@ -36,6 +36,11 @@ public:
 	void Unbind(void) const;
 
 private:
+	// noncopyable
+	UniformBuffer(UniformBuffer const&) = delete;
+	UniformBuffer& operator=(UniformBuffer const&) = delete;
+
+private:
 	::GLuint m_id = 0;
 	::GLuint m_binding = 0;
 };
