@@ -13,6 +13,7 @@
 #include <bksge/core/render/blend_factor.hpp>
 #include <bksge/core/render/blend_operation.hpp>
 #include <bksge/core/render/blend_state.hpp>
+#include <bksge/core/render/border_color.hpp>
 #include <bksge/core/render/clear_flag.hpp>
 #include <bksge/core/render/clear_state.hpp>
 #include <bksge/core/render/comparison_function.hpp>

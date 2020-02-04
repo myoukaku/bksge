@@ -14,7 +14,6 @@
 #include <bksge/core/render/gl/detail/gl_h.hpp>
 #include <bksge/core/render/gl/fwd/gl_renderer_fwd.hpp>
 #include <bksge/core/render/fwd/sampler_fwd.hpp>
-#include <bksge/core/math/color4.hpp>
 #include <memory>
 
 namespace bksge
@@ -45,12 +44,12 @@ private:
 
 private:
 	TextureShared	m_source;
-	::GLint         m_min_filter;	///< 縮小フィルタの種類
-	::GLint         m_mag_filter;	///< 拡大フィルタの種類
-	::GLint         m_wrap_s;		///< テクスチャ座標sのラップモード
-	::GLint         m_wrap_t;		///< テクスチャ座標tのラップモード
-	::GLint         m_wrap_r;		///< テクスチャ座標rのラップモード
-	bksge::Color4f  m_border_color; ///< 境界色
+	::GLint         m_min_filter;		///< 縮小フィルタの種類
+	::GLint         m_mag_filter;		///< 拡大フィルタの種類
+	::GLint         m_wrap_s;			///< テクスチャ座標sのラップモード
+	::GLint         m_wrap_t;			///< テクスチャ座標tのラップモード
+	::GLint         m_wrap_r;			///< テクスチャ座標rのラップモード
+	::GLfloat		m_border_color[4];	///< 境界色
 };
 
 }	// namespace gl

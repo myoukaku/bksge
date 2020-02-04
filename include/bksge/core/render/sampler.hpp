@@ -12,8 +12,8 @@
 #include <bksge/core/render/fwd/sampler_fwd.hpp>
 #include <bksge/core/render/filter_mode.hpp>
 #include <bksge/core/render/address_mode.hpp>
+#include <bksge/core/render/border_color.hpp>
 #include <bksge/core/render/texture.hpp>
-#include <bksge/core/math/color4.hpp>
 //#include <bksge/fnd/serialization/access.hpp>
 //#include <bksge/fnd/serialization/nvp.hpp>
 //#include <bksge/fnd/serialization/version.hpp>
@@ -41,7 +41,7 @@ public:
 	void SetAddressModeU(AddressMode address_mode_u);
 	void SetAddressModeV(AddressMode address_mode_v);
 	void SetAddressModeW(AddressMode address_mode_w);
-	void SetBorderColor(Color4f const& border_color);
+	void SetBorderColor(BorderColor border_color);
 
 	Texture const&	source(void)		const;
 	FilterMode		min_filter(void)	const;
@@ -49,7 +49,7 @@ public:
 	AddressMode		address_mode_u(void)const;
 	AddressMode		address_mode_v(void)const;
 	AddressMode		address_mode_w(void)const;
-	Color4f const&	border_color(void)	const;
+	BorderColor		border_color(void)	const;
 
 private:
 	Texture			m_source;			///< テクスチャ
@@ -58,7 +58,7 @@ private:
 	AddressMode		m_address_mode_u;	///< テクスチャ座標uのラップモード
 	AddressMode		m_address_mode_v;	///< テクスチャ座標vのラップモード
 	AddressMode		m_address_mode_w;	///< テクスチャ座標wのラップモード
-	Color4f         m_border_color;		///< 境界色
+	BorderColor     m_border_color;		///< 境界色
 
 private:
 #if 0
@@ -128,12 +128,11 @@ struct hash<bksge::render::Sampler>
 			arg.mag_filter(),
 			arg.address_mode_u(),
 			arg.address_mode_v(),
-			arg.address_mode_w()/*,
-			arg.border_color()*/);	// TODO
+			arg.address_mode_w(),
+			arg.border_color());
 	}
 };
 
 }	// namespace std
-
 
 #endif // BKSGE_CORE_RENDER_SAMPLER_HPP

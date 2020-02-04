@@ -223,18 +223,28 @@ int main()
 	render_pass_info.viewport().SetRect({bksge::Vector2f{0, 0}, extent});
 	render_pass_info.clear_state().SetColor({0.5f, 0.0f, 0.5f, 1.0f});
 
-	std::pair<bksge::FilterMode, bksge::AddressMode> const setting_tbl[] =
+	bksge::FilterMode const filter_mode_tbl[] =
 	{
-		{ bksge::FilterMode::kLinear,  bksge::AddressMode::kRepeat },
-		{ bksge::FilterMode::kLinear,  bksge::AddressMode::kClamp },
-		{ bksge::FilterMode::kLinear,  bksge::AddressMode::kBorder },
-		{ bksge::FilterMode::kNearest, bksge::AddressMode::kRepeat },
-		{ bksge::FilterMode::kNearest, bksge::AddressMode::kClamp },
-		{ bksge::FilterMode::kNearest, bksge::AddressMode::kBorder },
+		bksge::FilterMode::kLinear,
+		bksge::FilterMode::kNearest,
+	};
+	bksge::AddressMode const address_mode_tbl[] =
+	{
+		bksge::AddressMode::kRepeat,
+		bksge::AddressMode::kClamp,
+		bksge::AddressMode::kBorder,
+	};
+	bksge::BorderColor const border_color_tbl[] =
+	{
+		bksge::BorderColor::kTransparentBlack,
+		bksge::BorderColor::kOpaqueBlack,
+		bksge::BorderColor::kOpaqueWhite,
 	};
 
 	int frame_count = 0;
-	std::size_t setting_index = 0;
+	std::size_t filter_mode_index = 0;
+	std::size_t address_mode_index = 0;
+	std::size_t border_color_index = 0;
 
 	for (;;)
 	{
@@ -247,22 +257,35 @@ int main()
 		}
 
 		frame_count++;
-		if (frame_count > 120)
+		if (frame_count > 60)
 		{
 			frame_count = 0;
 
-			setting_index++;
-			if (setting_index >= bksge::size(setting_tbl))
+			filter_mode_index++;
+			if (filter_mode_index >= bksge::size(filter_mode_tbl))
 			{
-				setting_index = 0;
+				filter_mode_index = 0;
+
+				address_mode_index++;
+				if (address_mode_index >= bksge::size(address_mode_tbl))
+				{
+					address_mode_index = 0;
+
+					border_color_index++;
+					if (border_color_index >= bksge::size(border_color_tbl))
+					{
+						border_color_index = 0;
+					}
+				}
 			}
 		}
 
-		sampler.SetMagFilter(setting_tbl[setting_index].first);
-		sampler.SetMinFilter(setting_tbl[setting_index].first);
-		sampler.SetAddressModeU(setting_tbl[setting_index].second);
-		sampler.SetAddressModeV(setting_tbl[setting_index].second);
-		sampler.SetAddressModeW(setting_tbl[setting_index].second);
+		sampler.SetMagFilter(filter_mode_tbl[filter_mode_index]);
+		sampler.SetMinFilter(filter_mode_tbl[filter_mode_index]);
+		sampler.SetAddressModeU(address_mode_tbl[address_mode_index]);
+		sampler.SetAddressModeV(address_mode_tbl[address_mode_index]);
+		sampler.SetAddressModeW(address_mode_tbl[address_mode_index]);
+		sampler.SetBorderColor(border_color_tbl[border_color_index]);
 
 		shader_parameter.SetParameter("uSampler", sampler);
 		shader_parameter.SetParameter("uTexture", sampler.source());

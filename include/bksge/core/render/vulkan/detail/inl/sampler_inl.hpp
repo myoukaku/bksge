@@ -16,6 +16,7 @@
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/filter_mode.hpp>
 #include <bksge/core/render/vulkan/detail/address_mode.hpp>
+#include <bksge/core/render/vulkan/detail/border_color.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/filter_mode.hpp>
@@ -51,7 +52,7 @@ Sampler::Sampler(
 	info.compareOp               = VK_COMPARE_OP_NEVER;
 	info.minLod                  = 0;
 	info.maxLod                  = 0;
-	info.borderColor             = VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;
+	info.borderColor             = vulkan::BorderColor(sampler.border_color());
 	info.unnormalizedCoordinates = VK_FALSE;
 
 	vk::CreateSampler(*m_device, &info, nullptr, &m_sampler);

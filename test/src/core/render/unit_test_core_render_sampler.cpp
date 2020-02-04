@@ -24,7 +24,7 @@ GTEST_TEST(Render_Sampler, DefaultConstructTest)
 	EXPECT_EQ(AddressMode::kRepeat, sampler.address_mode_u());
 	EXPECT_EQ(AddressMode::kRepeat, sampler.address_mode_v());
 	EXPECT_EQ(AddressMode::kRepeat, sampler.address_mode_w());
-	EXPECT_EQ(Color4f(0,0,0,0), sampler.border_color());
+	EXPECT_EQ(BorderColor::kOpaqueBlack, sampler.border_color());
 	EXPECT_EQ(0u, sampler.source().width());
 	EXPECT_EQ(0u, sampler.source().height());
 	EXPECT_EQ(TextureFormat::kNone, sampler.source().format());
@@ -42,7 +42,7 @@ GTEST_TEST(Render_Sampler, Arg1ConstructTest)
 	EXPECT_EQ(AddressMode::kRepeat, sampler.address_mode_u());
 	EXPECT_EQ(AddressMode::kRepeat, sampler.address_mode_v());
 	EXPECT_EQ(AddressMode::kRepeat, sampler.address_mode_w());
-	EXPECT_EQ(Color4f(0,0,0,0), sampler.border_color());
+	EXPECT_EQ(BorderColor::kOpaqueBlack, sampler.border_color());
 	EXPECT_NE(nullptr, sampler.source().data());
 	EXPECT_EQ(texture.data(), sampler.source().data());
 	EXPECT_EQ(16u, sampler.source().width());
@@ -148,36 +148,6 @@ GTEST_TEST(Render_Sampler, CopyTest)
 
 BKSGE_WARNING_POP()
 
-GTEST_TEST(Render_Sampler, IdTest)
-{
-	using namespace bksge;
-
-	const Texture tex1(TextureFormat::kRGBA_U8, {8, 8});
-	const Texture tex2(TextureFormat::kRGBA_U8, {8, 8});
-	const Texture tex3(TextureFormat::kRGB_F32, {32, 64});
-
-	const Sampler sampler1;
-	const Sampler sampler2;
-	const Sampler sampler3(tex1);
-	const Sampler sampler4(tex1);
-	const Sampler sampler5(tex2);
-	const Sampler sampler6(tex3);
-	const Sampler sampler7(sampler1);
-	const Sampler sampler8(sampler3);
-	Sampler sampler9;
-	sampler9 = sampler1;
-
-	EXPECT_TRUE (sampler1 == sampler1);
-	EXPECT_TRUE (sampler1 == sampler2);
-	EXPECT_FALSE(sampler1 == sampler3);
-	EXPECT_FALSE(sampler1 == sampler4);
-	EXPECT_FALSE(sampler1 == sampler5);
-	EXPECT_FALSE(sampler1 == sampler6);
-	EXPECT_TRUE (sampler1 == sampler7);
-	EXPECT_FALSE(sampler1 == sampler8);
-	EXPECT_TRUE (sampler1 == sampler9);
-}
-
 GTEST_TEST(Render_Sampler, SetParameterTest)
 {
 	using namespace bksge;
@@ -191,7 +161,7 @@ GTEST_TEST(Render_Sampler, SetParameterTest)
 	EXPECT_EQ(AddressMode::kRepeat, sampler.address_mode_u());
 	EXPECT_EQ(AddressMode::kRepeat, sampler.address_mode_v());
 	EXPECT_EQ(AddressMode::kRepeat, sampler.address_mode_w());
-	EXPECT_EQ(Color4f(0,0,0,0), sampler.border_color());
+	EXPECT_EQ(BorderColor::kOpaqueBlack, sampler.border_color());
 
 	sampler.SetSource(texture);
 	EXPECT_NE(nullptr, sampler.source().data());
@@ -212,8 +182,8 @@ GTEST_TEST(Render_Sampler, SetParameterTest)
 	sampler.SetAddressModeW(AddressMode::kBorder);
 	EXPECT_EQ(AddressMode::kBorder, sampler.address_mode_w());
 
-	sampler.SetBorderColor(Color4f{0, 1, 0, 0});
-	EXPECT_EQ(Color4f(0,1,0,0), sampler.border_color());
+	sampler.SetBorderColor(BorderColor::kOpaqueWhite);
+	EXPECT_EQ(BorderColor::kOpaqueWhite, sampler.border_color());
 }
 
 GTEST_TEST(Render_Sampler, CompareTest)
@@ -229,7 +199,7 @@ GTEST_TEST(Render_Sampler, CompareTest)
 	sampler1.SetAddressModeU(AddressMode::kRepeat);
 	sampler1.SetAddressModeV(AddressMode::kClamp);
 	sampler1.SetAddressModeW(AddressMode::kBorder);
-	sampler1.SetBorderColor(Color4f{0, 1, 0, 0});
+	sampler1.SetBorderColor(BorderColor::kOpaqueWhite);
 
 	const Sampler sampler2(sampler1);
 	Sampler sampler3(sampler1);
@@ -243,7 +213,7 @@ GTEST_TEST(Render_Sampler, CompareTest)
 	Sampler sampler7(sampler1);
 	sampler7.SetAddressModeW(AddressMode::kRepeat);
 	Sampler sampler8(sampler1);
-	sampler8.SetBorderColor(Color4f{1, 1, 0, 0});
+	sampler8.SetBorderColor(BorderColor::kOpaqueBlack);
 
 	EXPECT_TRUE (sampler1 == sampler1);
 	EXPECT_TRUE (sampler1 == sampler2);
@@ -273,7 +243,7 @@ GTEST_TEST(Render_Sampler, OutputStreamTest)
 
 		std::stringstream ss;
 		ss << sampler;
-		EXPECT_EQ("{ { TextureFormat::kNone, { 0, 0 }, 0, {  } }, FilterMode::kNearest, FilterMode::kNearest, AddressMode::kRepeat, AddressMode::kRepeat, AddressMode::kRepeat, { 0, 0, 0, 0 } }", ss.str());
+		EXPECT_EQ("{ { TextureFormat::kNone, { 0, 0 }, 0, {  } }, FilterMode::kNearest, FilterMode::kNearest, AddressMode::kRepeat, AddressMode::kRepeat, AddressMode::kRepeat, BorderColor::kOpaqueBlack }", ss.str());
 	}
 	{
 		const std::uint8_t pixels[] =
@@ -291,11 +261,11 @@ GTEST_TEST(Render_Sampler, OutputStreamTest)
 		sampler.SetAddressModeU(AddressMode::kClamp);
 		sampler.SetAddressModeV(AddressMode::kRepeat);
 		sampler.SetAddressModeW(AddressMode::kBorder);
-		sampler.SetBorderColor(Color4f{ 1, 0, 0, 1 });
+		sampler.SetBorderColor(BorderColor::kTransparentBlack);
 
 		std::wstringstream ss;
 		ss << sampler;
-		EXPECT_EQ(L"{ { TextureFormat::kRGBA_U8, { 2, 3 }, 1, { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,  } }, FilterMode::kNearest, FilterMode::kLinear, AddressMode::kClamp, AddressMode::kRepeat, AddressMode::kBorder, { 1, 0, 0, 1 } }", ss.str());
+		EXPECT_EQ(L"{ { TextureFormat::kRGBA_U8, { 2, 3 }, 1, { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,  } }, FilterMode::kNearest, FilterMode::kLinear, AddressMode::kClamp, AddressMode::kRepeat, AddressMode::kBorder, BorderColor::kTransparentBlack }", ss.str());
 	}
 }
 

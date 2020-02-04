@@ -15,6 +15,7 @@
 #include <bksge/core/render/gl/detail/sampler.hpp>
 #include <bksge/core/render/gl/detail/filter_mode.hpp>
 #include <bksge/core/render/gl/detail/address_mode.hpp>
+#include <bksge/core/render/gl/detail/border_color.hpp>
 #include <bksge/core/render/gl/detail/texture.hpp>
 #include <bksge/core/render/gl/detail/resource_pool.hpp>
 #include <bksge/core/render/filter_mode.hpp>
@@ -38,8 +39,13 @@ Sampler::Sampler(ResourcePool* resource_pool, bksge::Sampler const& sampler)
 	, m_wrap_s(gl::AddressMode(sampler.address_mode_u()))
 	, m_wrap_t(gl::AddressMode(sampler.address_mode_v()))
 	, m_wrap_r(gl::AddressMode(sampler.address_mode_w()))
-	, m_border_color(sampler.border_color())
-{}
+{
+	auto const border_color = gl::BorderColor(sampler.border_color());
+	m_border_color[0] = border_color[0];
+	m_border_color[1] = border_color[1];
+	m_border_color[2] = border_color[2];
+	m_border_color[3] = border_color[3];
+}
 
 BKSGE_INLINE TextureShared const&
 Sampler::source(void) const
@@ -56,7 +62,7 @@ Sampler::Apply(GLint location) const
 	::glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_wrap_s);
 	::glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, m_wrap_t);
 	::glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, m_wrap_r);
-	::glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, m_border_color.data());
+	::glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, m_border_color);
 }
 
 }	// namespace gl
