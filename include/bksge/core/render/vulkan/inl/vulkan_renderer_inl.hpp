@@ -273,7 +273,7 @@ VulkanRenderer::VBeginRenderPass(RenderPassInfo const& render_pass_info)
 {
 	{
 		auto const& clear_state = render_pass_info.clear_state();
-		auto const clear_flag    = clear_state.flag();
+//		auto const clear_flag    = clear_state.flag();		// TODO
 		auto const clear_color   = clear_state.color();
 		auto const clear_depth   = clear_state.depth();
 		auto const clear_stencil = clear_state.stencil();
