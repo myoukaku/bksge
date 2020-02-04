@@ -30,10 +30,12 @@ GTEST_TEST(Render_AddressMode, OutputStreamTest)
 	using bksge::AddressMode;
 
 	OutputStreamTestSub(AddressMode::kRepeat, "AddressMode::kRepeat");
+	OutputStreamTestSub(AddressMode::kMirror, "AddressMode::kMirror");
 	OutputStreamTestSub(AddressMode::kClamp,  "AddressMode::kClamp");
 	OutputStreamTestSub(AddressMode::kBorder, "AddressMode::kBorder");
 
 	OutputStreamTestSub(AddressMode::kRepeat, L"AddressMode::kRepeat");
+	OutputStreamTestSub(AddressMode::kMirror, L"AddressMode::kMirror");
 	OutputStreamTestSub(AddressMode::kClamp,  L"AddressMode::kClamp");
 	OutputStreamTestSub(AddressMode::kBorder, L"AddressMode::kBorder");
 }

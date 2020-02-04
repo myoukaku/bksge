@@ -27,8 +27,9 @@ std::string to_string(AddressMode const& address_mode)
 	static std::unordered_map<AddressMode, std::string> const m =
 	{
 		BKSGE_CORE_RENDER_MAKE_ADDRESS_MODE_KVP(AddressMode::kRepeat),
+		BKSGE_CORE_RENDER_MAKE_ADDRESS_MODE_KVP(AddressMode::kMirror),
 		BKSGE_CORE_RENDER_MAKE_ADDRESS_MODE_KVP(AddressMode::kClamp),
-		BKSGE_CORE_RENDER_MAKE_ADDRESS_MODE_KVP(AddressMode::kBorder)
+		BKSGE_CORE_RENDER_MAKE_ADDRESS_MODE_KVP(AddressMode::kBorder),
 	};
 
 	return m.at(address_mode);

@@ -231,6 +231,7 @@ int main()
 	bksge::AddressMode const address_mode_tbl[] =
 	{
 		bksge::AddressMode::kRepeat,
+		bksge::AddressMode::kMirror,
 		bksge::AddressMode::kClamp,
 		bksge::AddressMode::kBorder,
 	};

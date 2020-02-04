@@ -33,6 +33,7 @@ ToGlAddressMode(bksge::AddressMode address_mode)
 	switch (address_mode)
 	{
 	case bksge::AddressMode::kRepeat: return GL_REPEAT;
+	case bksge::AddressMode::kMirror: return GL_MIRRORED_REPEAT;
 	case bksge::AddressMode::kClamp:  return GL_CLAMP_TO_EDGE;
 	case bksge::AddressMode::kBorder: return GL_CLAMP_TO_BORDER;
 	}

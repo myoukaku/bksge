@@ -34,6 +34,7 @@ ToVulkanAddressMode(bksge::AddressMode address_mode)
 	switch (address_mode)
 	{
 	case bksge::AddressMode::kRepeat: return VK_SAMPLER_ADDRESS_MODE_REPEAT;
+	case bksge::AddressMode::kMirror: return VK_SAMPLER_ADDRESS_MODE_MIRRORED_REPEAT;
 	case bksge::AddressMode::kClamp:  return VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
 	case bksge::AddressMode::kBorder: return VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_BORDER;
 	}

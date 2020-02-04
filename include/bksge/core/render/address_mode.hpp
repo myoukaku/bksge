@@ -25,6 +25,7 @@ namespace render
 enum class AddressMode
 {
 	kRepeat, ///< 繰り返し
+	kMirror, ///< 反転しながら繰り返す
 	kClamp,	 ///< [0, 1]の範囲にクランプ
 	kBorder, ///< テクスチャの境界色として指定された色にする
 };

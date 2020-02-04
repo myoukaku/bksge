@@ -34,10 +34,11 @@ ToD3D12AddressMode(bksge::AddressMode address_mode)
 	switch (address_mode)
 	{
 	case bksge::AddressMode::kRepeat:  return D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	case bksge::AddressMode::kMirror:  return D3D12_TEXTURE_ADDRESS_MODE_MIRROR;
 	case bksge::AddressMode::kClamp:   return D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
 	case bksge::AddressMode::kBorder:  return D3D12_TEXTURE_ADDRESS_MODE_BORDER;
 	}
-	return D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+	return D3D12_TEXTURE_ADDRESS_MODE_WRAP;
 }
 
 }	// namespace detail
