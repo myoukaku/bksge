@@ -35,6 +35,6 @@ GTEST_TEST(IteratorTest, DataTest)
 		BKSGE_CXX17_CONSTEXPR_EXPECT_EQ(&a[0], bksge::data(a));
 	}
 	{
-		BKSGE_CONSTEXPR_EXPECT_EQ(1, *bksge::data({1,2,3}));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(1, *bksge::data({1,2,3}));
 	}
 }

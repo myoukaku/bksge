@@ -35,6 +35,6 @@ GTEST_TEST(IteratorTest, EmptyTest)
 		BKSGE_CONSTEXPR_EXPECT_EQ(false, bksge::empty(a));
 	}
 	{
-		BKSGE_CONSTEXPR_EXPECT_EQ(false, bksge::empty({1,2,3}));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(false, bksge::empty({1,2,3}));
 	}
 }
