@@ -7,7 +7,13 @@
  */
 
 #include <bksge/core/render/render_state.hpp>
+#include <bksge/fnd/algorithm/is_unique.hpp>
 #include <gtest/gtest.h>
+#include <sstream>
+#include <functional>
+#include <vector>
+#include <algorithm>
+#include "serialize_test.hpp"
 
 GTEST_TEST(Render_RenderState, DefaultCtorTest)
 {
@@ -35,13 +41,6 @@ GTEST_TEST(Render_RenderState, DefaultCtorTest)
 	EXPECT_EQ(bksge::StencilOperation::kKeep,    state.stencil_state().fail_operation());
 	EXPECT_EQ(bksge::StencilOperation::kKeep,    state.stencil_state().depth_fail_operation());
 	EXPECT_EQ(bksge::StencilOperation::kKeep,    state.stencil_state().pass_operation());
-
-	//EXPECT_EQ(false,			state.scissor_state().enable());
-	//EXPECT_EQ(bksge::Rectf(),	state.scissor_state().rect());
-
-	//EXPECT_EQ(bksge::Rectf(),	state.viewport().rect());
-	//EXPECT_EQ(0.0f,				state.viewport().min_depth());
-	//EXPECT_EQ(1.0f,				state.viewport().max_depth());
 }
 
 GTEST_TEST(Render_RenderState, SetValueTest)
@@ -72,15 +71,6 @@ GTEST_TEST(Render_RenderState, SetValueTest)
 	state.stencil_state().SetDepthFailOperation(bksge::StencilOperation::kDecr);
 	state.stencil_state().SetPassOperation(bksge::StencilOperation::kReplace);
 
-	//state.scissor_state().SetEnable(true);
-	//state.scissor_state().SetRect(
-	//	bksge::Rectf(bksge::Vector2f{1, 2}, bksge::Extent2f{30, 20}));
-
-	//state.viewport().SetRect(
-	//	bksge::Rectf(bksge::Vector2f{-10, 10}, bksge::Extent2f{5, 4}));
-	//state.viewport().SetMinDepth(10);
-	//state.viewport().SetMaxDepth(20);
-
 	EXPECT_EQ(bksge::FillMode::kWireframe,         state.rasterizer_state().fill_mode());
 	EXPECT_EQ(bksge::CullMode::kBack,              state.rasterizer_state().cull_mode());
 	EXPECT_EQ(bksge::FrontFace::kCounterClockwise, state.rasterizer_state().front_face());
@@ -104,13 +94,116 @@ GTEST_TEST(Render_RenderState, SetValueTest)
 	EXPECT_EQ(bksge::StencilOperation::kIncr,      state.stencil_state().fail_operation());
 	EXPECT_EQ(bksge::StencilOperation::kDecr,      state.stencil_state().depth_fail_operation());
 	EXPECT_EQ(bksge::StencilOperation::kReplace,   state.stencil_state().pass_operation());
+}
 
-	//EXPECT_EQ(true, state.scissor_state().enable());
-	//EXPECT_EQ(bksge::Rectf(bksge::Vector2f{1, 2}, bksge::Extent2f{30, 20}),
-	//	state.scissor_state().rect());
+GTEST_TEST(Render_RenderState, CompareTest)
+{
+	bksge::RenderState v1;
+	bksge::RenderState v2;
+	bksge::RenderState v3;
+	bksge::RenderState v4;
+	bksge::RenderState v5;
+	bksge::RenderState v6;
 
-	//EXPECT_EQ(bksge::Rectf(bksge::Vector2f{-10, 10}, bksge::Extent2f{5, 4}),
-	//	state.viewport().rect());
-	//EXPECT_EQ(10.0f, state.viewport().min_depth());
-	//EXPECT_EQ(20.0f, state.viewport().max_depth());
+	v3.rasterizer_state().SetFillMode(bksge::FillMode::kWireframe);
+	v4.blend_state().SetEnable(true);
+	v5.depth_state().SetEnable(true);
+	v6.stencil_state().SetEnable(true);
+
+	EXPECT_TRUE (v1 == v1);
+	EXPECT_TRUE (v1 == v2);
+	EXPECT_FALSE(v1 == v3);
+	EXPECT_FALSE(v1 == v4);
+	EXPECT_FALSE(v1 == v5);
+	EXPECT_FALSE(v1 == v6);
+
+	EXPECT_FALSE(v1 != v1);
+	EXPECT_FALSE(v1 != v2);
+	EXPECT_TRUE (v1 != v3);
+	EXPECT_TRUE (v1 != v4);
+	EXPECT_TRUE (v1 != v5);
+	EXPECT_TRUE (v1 != v6);
+}
+
+GTEST_TEST(Render_RenderState, OutputStreamTest)
+{
+	{
+		bksge::RenderState v;
+		std::stringstream ss;
+		ss << v;
+		EXPECT_EQ("{ { FillMode::kSolid, CullMode::kNone, FrontFace::kClockwise }, { false, BlendOperation::kAdd, BlendFactor::kOne, BlendFactor::kZero, BlendOperation::kAdd, BlendFactor::kOne, BlendFactor::kZero }, { false, false, ComparisonFunction::kLess }, { false, 0, 0, ComparisonFunction::kNever, StencilOperation::kKeep, StencilOperation::kKeep, StencilOperation::kKeep } }", ss.str());
+	}
+	{
+		bksge::RenderState v;
+		v.rasterizer_state().SetFillMode(bksge::FillMode::kWireframe);
+		v.rasterizer_state().SetCullMode(bksge::CullMode::kBack);
+		v.rasterizer_state().SetFrontFace(bksge::FrontFace::kCounterClockwise);
+		v.blend_state().SetEnable(true);
+		v.blend_state().SetOperation(bksge::BlendOperation::kMax, bksge::BlendOperation::kMin);
+		v.blend_state().SetFactor(bksge::BlendFactor::kDestAlpha, bksge::BlendFactor::kDestColor,bksge::BlendFactor::kSrcColor,  bksge::BlendFactor::kSrcAlpha);
+		v.depth_state().SetEnable(true);
+		v.depth_state().SetWrite(true);
+		v.depth_state().SetFunc(bksge::ComparisonFunction::kGreater);
+		v.stencil_state().SetEnable(true);
+		v.stencil_state().SetReadMask(1);
+		v.stencil_state().SetWriteMask(2);
+		v.stencil_state().SetFunc(bksge::ComparisonFunction::kLess);
+		v.stencil_state().SetFailOperation(bksge::StencilOperation::kIncr);
+		v.stencil_state().SetDepthFailOperation(bksge::StencilOperation::kDecr);
+		v.stencil_state().SetPassOperation(bksge::StencilOperation::kReplace);
+		std::wstringstream ss;
+		ss << v;
+		EXPECT_EQ(L"{ { FillMode::kWireframe, CullMode::kBack, FrontFace::kCounterClockwise }, { true, BlendOperation::kMax, BlendFactor::kDestAlpha, BlendFactor::kDestColor, BlendOperation::kMin, BlendFactor::kSrcColor, BlendFactor::kSrcAlpha }, { true, true, ComparisonFunction::kGreater }, { true, 1, 2, ComparisonFunction::kLess, StencilOperation::kIncr, StencilOperation::kDecr, StencilOperation::kReplace } }", ss.str());
+	}
+}
+
+GTEST_TEST(Render_RenderState, SerializeTest)
+{
+	using namespace bksge::serialization;
+
+	bksge::RenderState v;
+	v.rasterizer_state().SetFillMode(bksge::FillMode::kWireframe);
+	v.blend_state().SetEnable(true);
+	v.depth_state().SetEnable(true);
+	v.stencil_state().SetEnable(true);
+
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v);
+
+#if !defined(BKSGE_NO_STD_WSTREAMBUF)
+	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
+#endif
+}
+
+GTEST_TEST(Render_RenderState, HashTest)
+{
+	std::hash<bksge::RenderState> h;
+
+	bksge::RenderState s1;
+	bksge::RenderState s2;
+	bksge::RenderState s3;
+	bksge::RenderState s4;
+	bksge::RenderState s5;
+	bksge::RenderState s6;
+
+	s2.rasterizer_state().SetFillMode(bksge::FillMode::kWireframe);
+	s3.blend_state().SetEnable(true);
+	s4.depth_state().SetEnable(true);
+	s5.stencil_state().SetEnable(true);
+
+	std::vector<std::size_t> v;
+	v.push_back(h(s1));
+	v.push_back(h(s2));
+	v.push_back(h(s3));
+	v.push_back(h(s4));
+	v.push_back(h(s5));
+	std::sort(v.begin(), v.end());
+	EXPECT_TRUE(bksge::is_unique(v.begin(), v.end()));
+
+	v.push_back(h(s6));
+	std::sort(v.begin(), v.end());
+	EXPECT_FALSE(bksge::is_unique(v.begin(), v.end()));
 }

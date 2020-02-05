@@ -61,6 +61,7 @@ private:
 	BorderColor     m_border_color;		///< 境界色
 
 private:
+	// TODO
 #if 0
 	/**
 	 *	@brief	シリアライズ

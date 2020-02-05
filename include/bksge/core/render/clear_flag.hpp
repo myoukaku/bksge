@@ -12,6 +12,8 @@
 #include <bksge/core/render/fwd/clear_flag_fwd.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstdint>
+#include <string>
+#include <ostream>
 
 namespace bksge
 {
@@ -58,9 +60,46 @@ operator&=(ClearFlag& lhs, ClearFlag rhs) BKSGE_NOEXCEPT;
 BKSGE_CXX14_CONSTEXPR ClearFlag&
 operator^=(ClearFlag& lhs, ClearFlag rhs) BKSGE_NOEXCEPT;
 
+/**
+ *	@brief	文字列への変換
+ */
+std::string to_string(ClearFlag const& clear_flag);
+
+/**
+ *	@brief	ストリームへの出力
+ */
+template <typename CharT, typename Traits>
+inline std::basic_ostream<CharT, Traits>&
+operator<<(std::basic_ostream<CharT, Traits>& os, ClearFlag rhs)
+{
+	return os << to_string(rhs).c_str();
+}
+
 }	// namespace render
 
 }	// namespace bksge
+
+#if BKSGE_CXX_STANDARD <= 11
+
+#include <functional>
+#include <type_traits>
+
+namespace std
+{
+
+template<>
+struct hash<bksge::render::ClearFlag>
+{
+	std::size_t operator()(bksge::render::ClearFlag const& arg) const
+	{
+		using underlying_type = typename std::underlying_type<bksge::render::ClearFlag>::type;
+		return std::hash<underlying_type>{}(static_cast<underlying_type>(arg));
+	}
+};
+
+}	// namespace std
+
+#endif // BKSGE_CXX_STANDARD <= 11
 
 #include <bksge/core/render/inl/clear_flag_inl.hpp>
 

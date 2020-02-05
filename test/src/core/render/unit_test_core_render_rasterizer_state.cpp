@@ -7,8 +7,12 @@
  */
 
 #include <bksge/core/render/rasterizer_state.hpp>
+#include <bksge/fnd/algorithm/is_unique.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
+#include <functional>
+#include <vector>
+#include <algorithm>
 #include "serialize_test.hpp"
 
 GTEST_TEST(Render_RasterizerState, DefaultCtorTest)
@@ -108,4 +112,35 @@ GTEST_TEST(Render_RasterizerState, SerializeTest)
 //	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
 //	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
 #endif
+}
+
+GTEST_TEST(Render_RasterizerState, HashTest)
+{
+	std::hash<bksge::RasterizerState> h;
+
+	bksge::RasterizerState s1;
+	bksge::RasterizerState s2;
+	bksge::RasterizerState s3;
+	bksge::RasterizerState s4;
+	bksge::RasterizerState s5;
+
+	s2.SetFillMode(bksge::FillMode::kWireframe);
+	s3.SetCullMode(bksge::CullMode::kFront);
+	s4.SetFrontFace(bksge::FrontFace::kCounterClockwise);
+	s5.SetFillMode(bksge::FillMode::kWireframe);
+	s5.SetCullMode(bksge::CullMode::kFront);
+	s5.SetFrontFace(bksge::FrontFace::kCounterClockwise);
+
+	std::vector<std::size_t> v;
+	v.push_back(h(s1));
+	v.push_back(h(s2));
+	v.push_back(h(s3));
+	v.push_back(h(s4));
+	v.push_back(h(s5));
+	std::sort(v.begin(), v.end());
+	EXPECT_TRUE(bksge::is_unique(v.begin(), v.end()));
+
+	v.push_back(h(s5));
+	std::sort(v.begin(), v.end());
+	EXPECT_FALSE(bksge::is_unique(v.begin(), v.end()));
 }

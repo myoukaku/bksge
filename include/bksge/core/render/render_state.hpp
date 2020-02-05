@@ -14,6 +14,10 @@
 #include <bksge/core/render/blend_state.hpp>
 #include <bksge/core/render/depth_state.hpp>
 #include <bksge/core/render/stencil_state.hpp>
+#include <bksge/fnd/serialization/access.hpp>
+#include <bksge/fnd/serialization/nvp.hpp>
+#include <bksge/fnd/serialization/version.hpp>
+#include <ostream>
 
 namespace bksge
 {
@@ -44,7 +48,38 @@ private:
 	BlendState			m_blend_state;
 	DepthState			m_depth_state;
 	StencilState		m_stencil_state;
+
+private:
+	/**
+	 *	@brief	シリアライズ
+	 */
+	friend class bksge::serialization::access;
+	template <typename Archive>
+	void serialize(Archive& ar, bksge::serialization::version_t /*version*/)
+	{
+		ar & BKSGE_SERIALIZATION_NVP(m_rasterizer_state);
+		ar & BKSGE_SERIALIZATION_NVP(m_blend_state);
+		ar & BKSGE_SERIALIZATION_NVP(m_depth_state);
+		ar & BKSGE_SERIALIZATION_NVP(m_stencil_state);
+	}
 };
+
+bool operator==(RenderState const& lhs, RenderState const& rhs);
+bool operator!=(RenderState const& lhs, RenderState const& rhs);
+
+/**
+ *	@brief	ストリームへの出力
+ */
+template <typename CharT, typename Traits>
+inline std::basic_ostream<CharT, Traits>&
+operator<<(std::basic_ostream<CharT, Traits>& os, RenderState const& rhs)
+{
+	return os << "{ "
+		<< rhs.rasterizer_state() << ", "
+		<< rhs.blend_state() << ", "
+		<< rhs.depth_state() << ", "
+		<< rhs.stencil_state() << " }";
+}
 
 }	// namespace render
 

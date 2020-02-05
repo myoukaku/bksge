@@ -7,8 +7,12 @@
  */
 
 #include <bksge/core/render/blend_state.hpp>
+#include <bksge/fnd/algorithm/is_unique.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
+#include <functional>
+#include <vector>
+#include <algorithm>
 #include "serialize_test.hpp"
 
 GTEST_TEST(Render_BlendState, DefaultCtorTest)
@@ -157,4 +161,42 @@ GTEST_TEST(Render_BlendState, SerializeTest)
 //	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
 //	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
 #endif
+}
+
+GTEST_TEST(Render_BlendState, HashTest)
+{
+	std::hash<bksge::BlendState> h;
+
+	bksge::BlendState s1;
+	bksge::BlendState s2;
+	bksge::BlendState s3;
+	bksge::BlendState s4;
+	bksge::BlendState s5;
+	bksge::BlendState s6;
+	bksge::BlendState s7;
+	bksge::BlendState s8;
+
+	s2.SetEnable(true);
+	s3.SetOperation(bksge::BlendOperation::kMax, bksge::BlendOperation::kAdd);
+	s4.SetOperation(bksge::BlendOperation::kAdd, bksge::BlendOperation::kSubtract);
+	s5.SetFactor(bksge::BlendFactor::kSrcColor, bksge::BlendFactor::kZero, bksge::BlendFactor::kOne, bksge::BlendFactor::kZero);
+	s6.SetFactor(bksge::BlendFactor::kOne, bksge::BlendFactor::kOne, bksge::BlendFactor::kOne, bksge::BlendFactor::kZero);
+	s7.SetFactor(bksge::BlendFactor::kOne, bksge::BlendFactor::kZero, bksge::BlendFactor::kDestAlpha, bksge::BlendFactor::kZero);
+	s8.SetFactor(bksge::BlendFactor::kOne, bksge::BlendFactor::kZero, bksge::BlendFactor::kOne, bksge::BlendFactor::kInvDestAlpha);
+
+	std::vector<std::size_t> v;
+	v.push_back(h(s1));
+	v.push_back(h(s2));
+	v.push_back(h(s3));
+	v.push_back(h(s4));
+	v.push_back(h(s5));
+	v.push_back(h(s6));
+	v.push_back(h(s7));
+	v.push_back(h(s8));
+	std::sort(v.begin(), v.end());
+	EXPECT_TRUE(bksge::is_unique(v.begin(), v.end()));
+
+	v.push_back(h(s2));
+	std::sort(v.begin(), v.end());
+	EXPECT_FALSE(bksge::is_unique(v.begin(), v.end()));
 }

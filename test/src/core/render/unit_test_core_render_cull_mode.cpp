@@ -7,8 +7,12 @@
  */
 
 #include <bksge/core/render/cull_mode.hpp>
+#include <bksge/fnd/algorithm/is_unique.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
+#include <functional>
+#include <vector>
+#include <algorithm>
 #include "serialize_test.hpp"
 
 namespace bksge_core_render_test
@@ -53,6 +57,21 @@ GTEST_TEST(Render_CullMode, SerializeTest)
 //	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
 //	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
 #endif
+}
+
+GTEST_TEST(Render_CullMode, HashTest)
+{
+	std::hash<bksge::CullMode> h;
+	std::vector<std::size_t> v;
+	v.push_back(h(bksge::CullMode::kNone));
+	v.push_back(h(bksge::CullMode::kFront));
+	v.push_back(h(bksge::CullMode::kBack));
+	std::sort(v.begin(), v.end());
+	EXPECT_TRUE(bksge::is_unique(v.begin(), v.end()));
+
+	v.push_back(h(bksge::CullMode::kNone));
+	std::sort(v.begin(), v.end());
+	EXPECT_FALSE(bksge::is_unique(v.begin(), v.end()));
 }
 
 }	// namespace cull_mode_test

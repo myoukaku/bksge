@@ -78,6 +78,22 @@ RenderState::stencil_state(void)
 	return m_stencil_state;
 }
 
+BKSGE_INLINE bool
+operator==(RenderState const& lhs, RenderState const& rhs)
+{
+	return
+		lhs.rasterizer_state() == rhs.rasterizer_state()   &&
+		lhs.blend_state()      == rhs.blend_state() &&
+		lhs.depth_state()      == rhs.depth_state() &&
+		lhs.stencil_state()    == rhs.stencil_state();
+}
+
+BKSGE_INLINE bool
+operator!=(RenderState const& lhs, RenderState const& rhs)
+{
+	return !(lhs == rhs);
+}
+
 }	// namespace render
 
 }	// namespace bksge

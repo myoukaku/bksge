@@ -7,9 +7,19 @@
  */
 
 #include <bksge/core/render/texture_format.hpp>
+#include <bksge/fnd/algorithm/is_unique.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
+#include <functional>
+#include <vector>
+#include <algorithm>
 #include "serialize_test.hpp"
+
+namespace bksge_core_render_test
+{
+
+namespace texture_format_test
+{
 
 GTEST_TEST(TextureFormatTest, GetPixelSwizzleTest)
 {
@@ -532,19 +542,226 @@ GTEST_TEST(TextureFormatTest, GetMipmappedSizeInBytesTest)
 	EXPECT_EQ(0u, GetMipmappedSizeInBytes(TextureFormat::kRGBA_U8, 4, 4, 0));
 }
 
+template <typename TChar>
+static void OutputStreamTestSub(bksge::TextureFormat texture_format, const TChar* str)
+{
+	std::basic_stringstream<TChar> ss;
+	ss << texture_format;
+	EXPECT_EQ(str, ss.str());
+}
+
+GTEST_TEST(Render_TextureFormat, OutputStreamTest)
+{
+	using bksge::TextureFormat;
+
+	OutputStreamTestSub(TextureFormat::kR_U8,		"TextureFormat::kR_U8");
+	OutputStreamTestSub(TextureFormat::kR_S8,		"TextureFormat::kR_S8");
+	OutputStreamTestSub(TextureFormat::kR_U16,		"TextureFormat::kR_U16");
+	OutputStreamTestSub(TextureFormat::kR_S16,		"TextureFormat::kR_S16");
+	OutputStreamTestSub(TextureFormat::kR_U32,		"TextureFormat::kR_U32");
+	OutputStreamTestSub(TextureFormat::kR_S32,		"TextureFormat::kR_S32");
+	OutputStreamTestSub(TextureFormat::kR_F32,		"TextureFormat::kR_F32");
+	OutputStreamTestSub(TextureFormat::kRG_U8,		"TextureFormat::kRG_U8");
+	OutputStreamTestSub(TextureFormat::kRG_S8,		"TextureFormat::kRG_S8");
+	OutputStreamTestSub(TextureFormat::kRG_U16,		"TextureFormat::kRG_U16");
+	OutputStreamTestSub(TextureFormat::kRG_S16,		"TextureFormat::kRG_S16");
+	OutputStreamTestSub(TextureFormat::kRG_U32,		"TextureFormat::kRG_U32");
+	OutputStreamTestSub(TextureFormat::kRG_S32,		"TextureFormat::kRG_S32");
+	OutputStreamTestSub(TextureFormat::kRG_F32,		"TextureFormat::kRG_F32");
+	OutputStreamTestSub(TextureFormat::kRGB_U8,		"TextureFormat::kRGB_U8");
+	OutputStreamTestSub(TextureFormat::kRGB_S8,		"TextureFormat::kRGB_S8");
+	OutputStreamTestSub(TextureFormat::kRGB_U16,	"TextureFormat::kRGB_U16");
+	OutputStreamTestSub(TextureFormat::kRGB_S16,	"TextureFormat::kRGB_S16");
+	OutputStreamTestSub(TextureFormat::kRGB_U32,	"TextureFormat::kRGB_U32");
+	OutputStreamTestSub(TextureFormat::kRGB_S32,	"TextureFormat::kRGB_S32");
+	OutputStreamTestSub(TextureFormat::kRGB_F32,	"TextureFormat::kRGB_F32");
+	OutputStreamTestSub(TextureFormat::kBGR_U8,		"TextureFormat::kBGR_U8");
+	OutputStreamTestSub(TextureFormat::kBGR_S8,		"TextureFormat::kBGR_S8");
+	OutputStreamTestSub(TextureFormat::kBGR_U16,	"TextureFormat::kBGR_U16");
+	OutputStreamTestSub(TextureFormat::kBGR_S16,	"TextureFormat::kBGR_S16");
+	OutputStreamTestSub(TextureFormat::kBGR_U32,	"TextureFormat::kBGR_U32");
+	OutputStreamTestSub(TextureFormat::kBGR_S32,	"TextureFormat::kBGR_S32");
+	OutputStreamTestSub(TextureFormat::kBGR_F32,	"TextureFormat::kBGR_F32");
+	OutputStreamTestSub(TextureFormat::kRGBA_U8,	"TextureFormat::kRGBA_U8");
+	OutputStreamTestSub(TextureFormat::kRGBA_S8,	"TextureFormat::kRGBA_S8");
+	OutputStreamTestSub(TextureFormat::kRGBA_U16,	"TextureFormat::kRGBA_U16");
+	OutputStreamTestSub(TextureFormat::kRGBA_S16,	"TextureFormat::kRGBA_S16");
+	OutputStreamTestSub(TextureFormat::kRGBA_U32,	"TextureFormat::kRGBA_U32");
+	OutputStreamTestSub(TextureFormat::kRGBA_S32,	"TextureFormat::kRGBA_S32");
+	OutputStreamTestSub(TextureFormat::kRGBA_F32,	"TextureFormat::kRGBA_F32");
+	OutputStreamTestSub(TextureFormat::kBGRA_U8,	"TextureFormat::kBGRA_U8");
+	OutputStreamTestSub(TextureFormat::kBGRA_S8,	"TextureFormat::kBGRA_S8");
+	OutputStreamTestSub(TextureFormat::kBGRA_U16,	"TextureFormat::kBGRA_U16");
+	OutputStreamTestSub(TextureFormat::kBGRA_S16,	"TextureFormat::kBGRA_S16");
+	OutputStreamTestSub(TextureFormat::kBGRA_U32,	"TextureFormat::kBGRA_U32");
+	OutputStreamTestSub(TextureFormat::kBGRA_S32,	"TextureFormat::kBGRA_S32");
+	OutputStreamTestSub(TextureFormat::kBGRA_F32,	"TextureFormat::kBGRA_F32");
+	OutputStreamTestSub(TextureFormat::kARGB_U8,	"TextureFormat::kARGB_U8");
+	OutputStreamTestSub(TextureFormat::kARGB_S8,	"TextureFormat::kARGB_S8");
+	OutputStreamTestSub(TextureFormat::kARGB_U16,	"TextureFormat::kARGB_U16");
+	OutputStreamTestSub(TextureFormat::kARGB_S16,	"TextureFormat::kARGB_S16");
+	OutputStreamTestSub(TextureFormat::kARGB_U32,	"TextureFormat::kARGB_U32");
+	OutputStreamTestSub(TextureFormat::kARGB_S32,	"TextureFormat::kARGB_S32");
+	OutputStreamTestSub(TextureFormat::kARGB_F32,	"TextureFormat::kARGB_F32");
+	OutputStreamTestSub(TextureFormat::kABGR_U8,	"TextureFormat::kABGR_U8");
+	OutputStreamTestSub(TextureFormat::kABGR_S8,	"TextureFormat::kABGR_S8");
+	OutputStreamTestSub(TextureFormat::kABGR_U16,	"TextureFormat::kABGR_U16");
+	OutputStreamTestSub(TextureFormat::kABGR_S16,	"TextureFormat::kABGR_S16");
+	OutputStreamTestSub(TextureFormat::kABGR_U32,	"TextureFormat::kABGR_U32");
+	OutputStreamTestSub(TextureFormat::kABGR_S32,	"TextureFormat::kABGR_S32");
+	OutputStreamTestSub(TextureFormat::kABGR_F32,	"TextureFormat::kABGR_F32");
+	OutputStreamTestSub(TextureFormat::kDxt1,		"TextureFormat::kDxt1");
+	OutputStreamTestSub(TextureFormat::kDxt3,		"TextureFormat::kDxt3");
+	OutputStreamTestSub(TextureFormat::kDxt5,		"TextureFormat::kDxt5");
+
+	OutputStreamTestSub(TextureFormat::kR_U8,		L"TextureFormat::kR_U8");
+	OutputStreamTestSub(TextureFormat::kR_S8,		L"TextureFormat::kR_S8");
+	OutputStreamTestSub(TextureFormat::kR_U16,		L"TextureFormat::kR_U16");
+	OutputStreamTestSub(TextureFormat::kR_S16,		L"TextureFormat::kR_S16");
+	OutputStreamTestSub(TextureFormat::kR_U32,		L"TextureFormat::kR_U32");
+	OutputStreamTestSub(TextureFormat::kR_S32,		L"TextureFormat::kR_S32");
+	OutputStreamTestSub(TextureFormat::kR_F32,		L"TextureFormat::kR_F32");
+	OutputStreamTestSub(TextureFormat::kRG_U8,		L"TextureFormat::kRG_U8");
+	OutputStreamTestSub(TextureFormat::kRG_S8,		L"TextureFormat::kRG_S8");
+	OutputStreamTestSub(TextureFormat::kRG_U16,		L"TextureFormat::kRG_U16");
+	OutputStreamTestSub(TextureFormat::kRG_S16,		L"TextureFormat::kRG_S16");
+	OutputStreamTestSub(TextureFormat::kRG_U32,		L"TextureFormat::kRG_U32");
+	OutputStreamTestSub(TextureFormat::kRG_S32,		L"TextureFormat::kRG_S32");
+	OutputStreamTestSub(TextureFormat::kRG_F32,		L"TextureFormat::kRG_F32");
+	OutputStreamTestSub(TextureFormat::kRGB_U8,		L"TextureFormat::kRGB_U8");
+	OutputStreamTestSub(TextureFormat::kRGB_S8,		L"TextureFormat::kRGB_S8");
+	OutputStreamTestSub(TextureFormat::kRGB_U16,	L"TextureFormat::kRGB_U16");
+	OutputStreamTestSub(TextureFormat::kRGB_S16,	L"TextureFormat::kRGB_S16");
+	OutputStreamTestSub(TextureFormat::kRGB_U32,	L"TextureFormat::kRGB_U32");
+	OutputStreamTestSub(TextureFormat::kRGB_S32,	L"TextureFormat::kRGB_S32");
+	OutputStreamTestSub(TextureFormat::kRGB_F32,	L"TextureFormat::kRGB_F32");
+	OutputStreamTestSub(TextureFormat::kBGR_U8,		L"TextureFormat::kBGR_U8");
+	OutputStreamTestSub(TextureFormat::kBGR_S8,		L"TextureFormat::kBGR_S8");
+	OutputStreamTestSub(TextureFormat::kBGR_U16,	L"TextureFormat::kBGR_U16");
+	OutputStreamTestSub(TextureFormat::kBGR_S16,	L"TextureFormat::kBGR_S16");
+	OutputStreamTestSub(TextureFormat::kBGR_U32,	L"TextureFormat::kBGR_U32");
+	OutputStreamTestSub(TextureFormat::kBGR_S32,	L"TextureFormat::kBGR_S32");
+	OutputStreamTestSub(TextureFormat::kBGR_F32,	L"TextureFormat::kBGR_F32");
+	OutputStreamTestSub(TextureFormat::kRGBA_U8,	L"TextureFormat::kRGBA_U8");
+	OutputStreamTestSub(TextureFormat::kRGBA_S8,	L"TextureFormat::kRGBA_S8");
+	OutputStreamTestSub(TextureFormat::kRGBA_U16,	L"TextureFormat::kRGBA_U16");
+	OutputStreamTestSub(TextureFormat::kRGBA_S16,	L"TextureFormat::kRGBA_S16");
+	OutputStreamTestSub(TextureFormat::kRGBA_U32,	L"TextureFormat::kRGBA_U32");
+	OutputStreamTestSub(TextureFormat::kRGBA_S32,	L"TextureFormat::kRGBA_S32");
+	OutputStreamTestSub(TextureFormat::kRGBA_F32,	L"TextureFormat::kRGBA_F32");
+	OutputStreamTestSub(TextureFormat::kBGRA_U8,	L"TextureFormat::kBGRA_U8");
+	OutputStreamTestSub(TextureFormat::kBGRA_S8,	L"TextureFormat::kBGRA_S8");
+	OutputStreamTestSub(TextureFormat::kBGRA_U16,	L"TextureFormat::kBGRA_U16");
+	OutputStreamTestSub(TextureFormat::kBGRA_S16,	L"TextureFormat::kBGRA_S16");
+	OutputStreamTestSub(TextureFormat::kBGRA_U32,	L"TextureFormat::kBGRA_U32");
+	OutputStreamTestSub(TextureFormat::kBGRA_S32,	L"TextureFormat::kBGRA_S32");
+	OutputStreamTestSub(TextureFormat::kBGRA_F32,	L"TextureFormat::kBGRA_F32");
+	OutputStreamTestSub(TextureFormat::kARGB_U8,	L"TextureFormat::kARGB_U8");
+	OutputStreamTestSub(TextureFormat::kARGB_S8,	L"TextureFormat::kARGB_S8");
+	OutputStreamTestSub(TextureFormat::kARGB_U16,	L"TextureFormat::kARGB_U16");
+	OutputStreamTestSub(TextureFormat::kARGB_S16,	L"TextureFormat::kARGB_S16");
+	OutputStreamTestSub(TextureFormat::kARGB_U32,	L"TextureFormat::kARGB_U32");
+	OutputStreamTestSub(TextureFormat::kARGB_S32,	L"TextureFormat::kARGB_S32");
+	OutputStreamTestSub(TextureFormat::kARGB_F32,	L"TextureFormat::kARGB_F32");
+	OutputStreamTestSub(TextureFormat::kABGR_U8,	L"TextureFormat::kABGR_U8");
+	OutputStreamTestSub(TextureFormat::kABGR_S8,	L"TextureFormat::kABGR_S8");
+	OutputStreamTestSub(TextureFormat::kABGR_U16,	L"TextureFormat::kABGR_U16");
+	OutputStreamTestSub(TextureFormat::kABGR_S16,	L"TextureFormat::kABGR_S16");
+	OutputStreamTestSub(TextureFormat::kABGR_U32,	L"TextureFormat::kABGR_U32");
+	OutputStreamTestSub(TextureFormat::kABGR_S32,	L"TextureFormat::kABGR_S32");
+	OutputStreamTestSub(TextureFormat::kABGR_F32,	L"TextureFormat::kABGR_F32");
+	OutputStreamTestSub(TextureFormat::kDxt1,		L"TextureFormat::kDxt1");
+	OutputStreamTestSub(TextureFormat::kDxt3,		L"TextureFormat::kDxt3");
+	OutputStreamTestSub(TextureFormat::kDxt5,		L"TextureFormat::kDxt5");
+}
+
 GTEST_TEST(TextureFormatTest, SerializeTest)
 {
 	using namespace bksge::serialization;
 
-	auto const v = bksge::TextureFormat::kRGBA_U8;
-
-	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
-//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v);
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(bksge::TextureFormat::kRGBA_U8);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(bksge::TextureFormat::kR_F32);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(bksge::TextureFormat::kRG_S32);
 
 #if !defined(BKSGE_NO_STD_WSTREAMBUF)
-	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
-//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
+	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(bksge::TextureFormat::kRGBA_U16);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(bksge::TextureFormat::kBGR_U32);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(bksge::TextureFormat::kDxt1);
 #endif
 }
+
+GTEST_TEST(Render_TextureFormat, HashTest)
+{
+	std::hash<bksge::TextureFormat> h;
+
+	std::vector<std::size_t> v;
+	v.push_back(h(bksge::TextureFormat::kR_U8));
+	v.push_back(h(bksge::TextureFormat::kR_S8));
+	v.push_back(h(bksge::TextureFormat::kR_U16));
+	v.push_back(h(bksge::TextureFormat::kR_S16));
+	v.push_back(h(bksge::TextureFormat::kR_U32));
+	v.push_back(h(bksge::TextureFormat::kR_S32));
+	v.push_back(h(bksge::TextureFormat::kR_F32));
+	v.push_back(h(bksge::TextureFormat::kRG_U8));
+	v.push_back(h(bksge::TextureFormat::kRG_S8));
+	v.push_back(h(bksge::TextureFormat::kRG_U16));
+	v.push_back(h(bksge::TextureFormat::kRG_S16));
+	v.push_back(h(bksge::TextureFormat::kRG_U32));
+	v.push_back(h(bksge::TextureFormat::kRG_S32));
+	v.push_back(h(bksge::TextureFormat::kRG_F32));
+	v.push_back(h(bksge::TextureFormat::kRGB_U8));
+	v.push_back(h(bksge::TextureFormat::kRGB_S8));
+	v.push_back(h(bksge::TextureFormat::kRGB_U16));
+	v.push_back(h(bksge::TextureFormat::kRGB_S16));
+	v.push_back(h(bksge::TextureFormat::kRGB_U32));
+	v.push_back(h(bksge::TextureFormat::kRGB_S32));
+	v.push_back(h(bksge::TextureFormat::kRGB_F32));
+	v.push_back(h(bksge::TextureFormat::kBGR_U8));
+	v.push_back(h(bksge::TextureFormat::kBGR_S8));
+	v.push_back(h(bksge::TextureFormat::kBGR_U16));
+	v.push_back(h(bksge::TextureFormat::kBGR_S16));
+	v.push_back(h(bksge::TextureFormat::kBGR_U32));
+	v.push_back(h(bksge::TextureFormat::kBGR_S32));
+	v.push_back(h(bksge::TextureFormat::kBGR_F32));
+	v.push_back(h(bksge::TextureFormat::kRGBA_U8));
+	v.push_back(h(bksge::TextureFormat::kRGBA_S8));
+	v.push_back(h(bksge::TextureFormat::kRGBA_U16));
+	v.push_back(h(bksge::TextureFormat::kRGBA_S16));
+	v.push_back(h(bksge::TextureFormat::kRGBA_U32));
+	v.push_back(h(bksge::TextureFormat::kRGBA_S32));
+	v.push_back(h(bksge::TextureFormat::kRGBA_F32));
+	v.push_back(h(bksge::TextureFormat::kBGRA_U8));
+	v.push_back(h(bksge::TextureFormat::kBGRA_S8));
+	v.push_back(h(bksge::TextureFormat::kBGRA_U16));
+	v.push_back(h(bksge::TextureFormat::kBGRA_S16));
+	v.push_back(h(bksge::TextureFormat::kBGRA_U32));
+	v.push_back(h(bksge::TextureFormat::kBGRA_S32));
+	v.push_back(h(bksge::TextureFormat::kBGRA_F32));
+	v.push_back(h(bksge::TextureFormat::kARGB_U8));
+	v.push_back(h(bksge::TextureFormat::kARGB_S8));
+	v.push_back(h(bksge::TextureFormat::kARGB_U16));
+	v.push_back(h(bksge::TextureFormat::kARGB_S16));
+	v.push_back(h(bksge::TextureFormat::kARGB_U32));
+	v.push_back(h(bksge::TextureFormat::kARGB_S32));
+	v.push_back(h(bksge::TextureFormat::kARGB_F32));
+	v.push_back(h(bksge::TextureFormat::kABGR_U8));
+	v.push_back(h(bksge::TextureFormat::kABGR_S8));
+	v.push_back(h(bksge::TextureFormat::kABGR_U16));
+	v.push_back(h(bksge::TextureFormat::kABGR_S16));
+	v.push_back(h(bksge::TextureFormat::kABGR_U32));
+	v.push_back(h(bksge::TextureFormat::kABGR_S32));
+	v.push_back(h(bksge::TextureFormat::kABGR_F32));
+	v.push_back(h(bksge::TextureFormat::kDxt1));
+	v.push_back(h(bksge::TextureFormat::kDxt3));
+	v.push_back(h(bksge::TextureFormat::kDxt5));
+	std::sort(v.begin(), v.end());
+	EXPECT_TRUE(bksge::is_unique(v.begin(), v.end()));
+
+	v.push_back(h(bksge::TextureFormat::kR_U8));
+	std::sort(v.begin(), v.end());
+	EXPECT_FALSE(bksge::is_unique(v.begin(), v.end()));
+}
+
+}	// namespace texture_format_test
+
+}	// namespace bksge_core_render_test

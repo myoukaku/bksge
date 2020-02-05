@@ -7,8 +7,12 @@
  */
 
 #include <bksge/core/render/depth_state.hpp>
+#include <bksge/fnd/algorithm/is_unique.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
+#include <functional>
+#include <vector>
+#include <algorithm>
 #include "serialize_test.hpp"
 
 GTEST_TEST(Render_DepthState, DefaultCtorTest)
@@ -125,4 +129,31 @@ GTEST_TEST(Render_DepthState, SerializeTest)
 //	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
 //	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
 #endif
+}
+
+GTEST_TEST(Render_DepthState, HashTest)
+{
+	std::hash<bksge::DepthState> h;
+
+	bksge::DepthState s1;
+	bksge::DepthState s2;
+	bksge::DepthState s3;
+	bksge::DepthState s4;
+	bksge::DepthState s5;
+
+	s2.SetEnable(true);
+	s3.SetWrite(true);
+	s4.SetFunc(bksge::ComparisonFunction::kGreater);
+
+	std::vector<std::size_t> v;
+	v.push_back(h(s1));
+	v.push_back(h(s2));
+	v.push_back(h(s3));
+	v.push_back(h(s4));
+	std::sort(v.begin(), v.end());
+	EXPECT_TRUE(bksge::is_unique(v.begin(), v.end()));
+
+	v.push_back(h(s5));
+	std::sort(v.begin(), v.end());
+	EXPECT_FALSE(bksge::is_unique(v.begin(), v.end()));
 }

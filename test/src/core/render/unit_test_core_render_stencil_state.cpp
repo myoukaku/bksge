@@ -7,8 +7,12 @@
  */
 
 #include <bksge/core/render/stencil_state.hpp>
+#include <bksge/fnd/algorithm/is_unique.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
+#include <functional>
+#include <vector>
+#include <algorithm>
 #include "serialize_test.hpp"
 
 GTEST_TEST(Render_StencilState, DefaultCtorTest)
@@ -172,4 +176,42 @@ GTEST_TEST(Render_StencilState, SerializeTest)
 //	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
 //	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
 #endif
+}
+
+GTEST_TEST(Render_StencilState, HashTest)
+{
+	std::hash<bksge::StencilState> h;
+
+	bksge::StencilState s1;
+	bksge::StencilState s2;
+	bksge::StencilState s3;
+	bksge::StencilState s4;
+	bksge::StencilState s5;
+	bksge::StencilState s6;
+	bksge::StencilState s7;
+	bksge::StencilState s8;
+
+	s2.SetEnable(true);
+	s3.SetReadMask(1u);
+	s4.SetWriteMask(2u);
+	s5.SetFunc(bksge::ComparisonFunction::kGreater);
+	s6.SetFailOperation(bksge::StencilOperation::kIncrSaturate);
+	s7.SetDepthFailOperation(bksge::StencilOperation::kInvert);
+	s8.SetPassOperation(bksge::StencilOperation::kIncr);
+
+	std::vector<std::size_t> v;
+	v.push_back(h(s1));
+	v.push_back(h(s2));
+	v.push_back(h(s3));
+	v.push_back(h(s4));
+	v.push_back(h(s5));
+	v.push_back(h(s6));
+	v.push_back(h(s7));
+	v.push_back(h(s8));
+	std::sort(v.begin(), v.end());
+	EXPECT_TRUE(bksge::is_unique(v.begin(), v.end()));
+
+	v.push_back(h(s1));
+	std::sort(v.begin(), v.end());
+	EXPECT_FALSE(bksge::is_unique(v.begin(), v.end()));
 }

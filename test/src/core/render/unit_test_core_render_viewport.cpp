@@ -7,8 +7,12 @@
  */
 
 #include <bksge/core/render/viewport.hpp>
+#include <bksge/fnd/algorithm/is_unique.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
+#include <functional>
+#include <vector>
+#include <algorithm>
 #include "serialize_test.hpp"
 
 GTEST_TEST(Render_Viewport, DefaultCtorTest)
@@ -108,4 +112,30 @@ GTEST_TEST(Render_Viewport, SerializeTest)
 //	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
 //	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
 #endif
+}
+
+GTEST_TEST(Render_Viewport, HashTest)
+{
+	std::hash<bksge::Viewport> h;
+
+	bksge::Viewport s1;
+	bksge::Viewport s2;
+	bksge::Viewport s3;
+	bksge::Viewport s4;
+
+	s2.SetRect({bksge::Vector2f(-5, 4), bksge::Extent2f(20, 30)});
+	s3.SetMinDepth(1.0f);
+	s4.SetMaxDepth(3.0f);
+
+	std::vector<std::size_t> v;
+	v.push_back(h(s1));
+	v.push_back(h(s2));
+	v.push_back(h(s3));
+	v.push_back(h(s4));
+	std::sort(v.begin(), v.end());
+	EXPECT_TRUE(bksge::is_unique(v.begin(), v.end()));
+
+	v.push_back(h(s1));
+	std::sort(v.begin(), v.end());
+	EXPECT_FALSE(bksge::is_unique(v.begin(), v.end()));
 }

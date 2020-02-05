@@ -7,8 +7,12 @@
  */
 
 #include <bksge/core/render/comparison_function.hpp>
+#include <bksge/fnd/algorithm/is_unique.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
+#include <functional>
+#include <vector>
+#include <algorithm>
 #include "serialize_test.hpp"
 
 namespace bksge_core_render_test
@@ -63,6 +67,26 @@ GTEST_TEST(Render_ComparisonFunction, SerializeTest)
 //	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
 //	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
 #endif
+}
+
+GTEST_TEST(Render_ComparisonFunction, HashTest)
+{
+	std::hash<bksge::ComparisonFunction> h;
+	std::vector<std::size_t> v;
+	v.push_back(h(bksge::ComparisonFunction::kNever));
+	v.push_back(h(bksge::ComparisonFunction::kLess));
+	v.push_back(h(bksge::ComparisonFunction::kEqual));
+	v.push_back(h(bksge::ComparisonFunction::kLessEqual));
+	v.push_back(h(bksge::ComparisonFunction::kGreater));
+	v.push_back(h(bksge::ComparisonFunction::kNotEqual));
+	v.push_back(h(bksge::ComparisonFunction::kGreaterEqual));
+	v.push_back(h(bksge::ComparisonFunction::kAlways));
+	std::sort(v.begin(), v.end());
+	EXPECT_TRUE(bksge::is_unique(v.begin(), v.end()));
+
+	v.push_back(h(bksge::ComparisonFunction::kAlways));
+	std::sort(v.begin(), v.end());
+	EXPECT_FALSE(bksge::is_unique(v.begin(), v.end()));
 }
 
 }	// namespace comparison_function_test

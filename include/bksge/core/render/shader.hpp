@@ -42,10 +42,12 @@ public:
 
 	Shader(ShaderType type, std::initializer_list<std::pair<ShaderStage, char const*>> il);
 
+private:
 	// コピー禁止
 	Shader(Shader const&) = delete;
 	Shader& operator=(Shader const&) = delete;
 
+public:
 	// ムーブ可能
 	Shader(Shader&& rhs);
 	Shader& operator=(Shader&& rhs);

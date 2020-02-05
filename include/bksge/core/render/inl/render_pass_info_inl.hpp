@@ -65,6 +65,21 @@ RenderPassInfo::viewport(void)
 	return m_viewport;
 }
 
+BKSGE_INLINE bool
+operator==(RenderPassInfo const& lhs, RenderPassInfo const& rhs)
+{
+	return
+		lhs.clear_state()   == rhs.clear_state()   &&
+		lhs.scissor_state() == rhs.scissor_state() &&
+		lhs.viewport()      == rhs.viewport();
+}
+
+BKSGE_INLINE bool
+operator!=(RenderPassInfo const& lhs, RenderPassInfo const& rhs)
+{
+	return !(lhs == rhs);
+}
+
 }	// namespace render
 
 }	// namespace bksge

@@ -7,8 +7,12 @@
  */
 
 #include <bksge/core/render/scissor_state.hpp>
+#include <bksge/fnd/algorithm/is_unique.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
+#include <functional>
+#include <vector>
+#include <algorithm>
 #include "serialize_test.hpp"
 
 GTEST_TEST(Render_ScissorState, DefaultCtorTest)
@@ -92,4 +96,27 @@ GTEST_TEST(Render_ScissorState, SerializeTest)
 //	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
 //	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
 #endif
+}
+
+GTEST_TEST(Render_ScissorState, HashTest)
+{
+	std::hash<bksge::ScissorState> h;
+
+	bksge::ScissorState s1;
+	bksge::ScissorState s2;
+	bksge::ScissorState s3;
+
+	s2.SetEnable(true);
+	s3.SetRect({bksge::Vector2f(-5, 4), bksge::Extent2f(20, 30)});
+
+	std::vector<std::size_t> v;
+	v.push_back(h(s1));
+	v.push_back(h(s2));
+	v.push_back(h(s3));
+	std::sort(v.begin(), v.end());
+	EXPECT_TRUE(bksge::is_unique(v.begin(), v.end()));
+
+	v.push_back(h(s1));
+	std::sort(v.begin(), v.end());
+	EXPECT_FALSE(bksge::is_unique(v.begin(), v.end()));
 }

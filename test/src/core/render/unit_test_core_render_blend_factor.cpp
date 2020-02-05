@@ -7,8 +7,12 @@
  */
 
 #include <bksge/core/render/blend_factor.hpp>
+#include <bksge/fnd/algorithm/is_unique.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
+#include <functional>
+#include <vector>
+#include <algorithm>
 #include "serialize_test.hpp"
 
 namespace bksge_core_render_test
@@ -81,6 +85,35 @@ GTEST_TEST(Render_BlendFactor, SerializeTest)
 //	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
 //	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
 #endif
+}
+
+GTEST_TEST(Render_BlendFactor, HashTest)
+{
+	std::hash<bksge::BlendFactor> h;
+	std::vector<std::size_t> v;
+	v.push_back(h(bksge::BlendFactor::kZero));
+	v.push_back(h(bksge::BlendFactor::kOne));
+	v.push_back(h(bksge::BlendFactor::kSrcColor));
+	v.push_back(h(bksge::BlendFactor::kInvSrcColor));
+	v.push_back(h(bksge::BlendFactor::kSrcAlpha));
+	v.push_back(h(bksge::BlendFactor::kInvSrcAlpha));
+	v.push_back(h(bksge::BlendFactor::kDestAlpha));
+	v.push_back(h(bksge::BlendFactor::kInvDestAlpha));
+	v.push_back(h(bksge::BlendFactor::kDestColor));
+	v.push_back(h(bksge::BlendFactor::kInvDestColor));
+	v.push_back(h(bksge::BlendFactor::kSrcAlphaSaturate));
+	v.push_back(h(bksge::BlendFactor::kBlendFactor));
+	v.push_back(h(bksge::BlendFactor::kInvBlendFactor));
+	v.push_back(h(bksge::BlendFactor::kSrc1Color));
+	v.push_back(h(bksge::BlendFactor::kInvSrc1Color));
+	v.push_back(h(bksge::BlendFactor::kSrc1Alpha));
+	v.push_back(h(bksge::BlendFactor::kInvSrc1Alpha));
+	std::sort(v.begin(), v.end());
+	EXPECT_TRUE(bksge::is_unique(v.begin(), v.end()));
+
+	v.push_back(h(bksge::BlendFactor::kZero));
+	std::sort(v.begin(), v.end());
+	EXPECT_FALSE(bksge::is_unique(v.begin(), v.end()));
 }
 
 }	// namespace blend_factor_test

@@ -77,6 +77,22 @@ ClearState::SetStencil(std::uint8_t stencil)
 	m_stencil = stencil;
 }
 
+BKSGE_INLINE bool
+operator==(ClearState const& lhs, ClearState const& rhs)
+{
+	return
+		lhs.flag()    == rhs.flag()  &&
+		lhs.color()   == rhs.color() &&
+		lhs.depth()   == rhs.depth() &&
+		lhs.stencil() == rhs.stencil();
+}
+
+BKSGE_INLINE bool
+operator!=(ClearState const& lhs, ClearState const& rhs)
+{
+	return !(lhs == rhs);
+}
+
 }	// namespace render
 
 }	// namespace bksge

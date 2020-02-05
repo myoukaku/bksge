@@ -7,10 +7,14 @@
  */
 
 #include <bksge/core/render/sampler.hpp>
+#include <bksge/fnd/algorithm/is_unique.hpp>
 #include <gtest/gtest.h>
 #include <cstdint>
 #include <sstream>
-//#include "serialize_test.hpp"
+#include <functional>
+#include <vector>
+#include <algorithm>
+#include "serialize_test.hpp"
 
 GTEST_TEST(Render_Sampler, DefaultConstructTest)
 {
@@ -269,6 +273,7 @@ GTEST_TEST(Render_Sampler, OutputStreamTest)
 	}
 }
 
+// TODO
 #if 0
 GTEST_TEST(Render_Sampler, SerializeTest)
 {
@@ -295,3 +300,38 @@ GTEST_TEST(Render_Sampler, SerializeTest)
 #endif
 }
 #endif
+
+GTEST_TEST(Render_Sampler, HashTest)
+{
+	std::hash<bksge::Sampler> h;
+
+	bksge::Sampler s1;
+	bksge::Sampler s2;
+	bksge::Sampler s3;
+	bksge::Sampler s4;
+	bksge::Sampler s5;
+	bksge::Sampler s6;
+	bksge::Sampler s7;
+
+	s2.SetMinFilter(bksge::FilterMode::kNearest);
+	s3.SetMagFilter(bksge::FilterMode::kLinear);
+	s4.SetAddressModeU(bksge::AddressMode::kClamp);
+	s5.SetAddressModeV(bksge::AddressMode::kRepeat);
+	s6.SetAddressModeW(bksge::AddressMode::kBorder);
+	s7.SetBorderColor(bksge::BorderColor::kTransparentBlack);
+
+	std::vector<std::size_t> v;
+	v.push_back(h(s1));
+	v.push_back(h(s2));
+	v.push_back(h(s3));
+	v.push_back(h(s4));
+	v.push_back(h(s5));
+	v.push_back(h(s6));
+	v.push_back(h(s7));
+	std::sort(v.begin(), v.end());
+	EXPECT_TRUE(bksge::is_unique(v.begin(), v.end()));
+
+	v.push_back(h(s1));
+	std::sort(v.begin(), v.end());
+	EXPECT_FALSE(bksge::is_unique(v.begin(), v.end()));
+}
