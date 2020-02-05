@@ -10,6 +10,7 @@
 #define BKSGE_FND_ALGORITHM_HPP
 
 #include <bksge/fnd/algorithm/adjacent_find.hpp>
+#include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/algorithm/min.hpp>
 
