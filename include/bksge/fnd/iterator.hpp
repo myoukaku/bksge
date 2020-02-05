@@ -12,5 +12,6 @@
 #include <bksge/fnd/iterator/data.hpp>
 #include <bksge/fnd/iterator/empty.hpp>
 #include <bksge/fnd/iterator/size.hpp>
+#include <bksge/fnd/iterator/type_traits.hpp>
 
 #endif // BKSGE_FND_ITERATOR_HPP
