@@ -10,6 +10,7 @@
 #define BKSGE_FND_TYPE_TRAITS_HPP
 
 #include <bksge/fnd/type_traits/arithmetic_promote.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/disjunction.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
