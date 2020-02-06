@@ -321,12 +321,10 @@ int main()
 		sprites.push_back(sprite);
 		sprite->sampler().SetSource(tex1);
 		sprite->sampler().SetMagFilter(bksge::FilterMode::kLinear);
-		sprite->render_state().blend_state().SetEnable(true);
-		sprite->render_state().blend_state().SetFactor(
-			bksge::BlendFactor::kSrcAlpha,
-			bksge::BlendFactor::kInvSrcAlpha);
-		sprite->render_state().blend_state().SetOperation(
-			bksge::BlendOperation::kAdd);
+		auto& blend_state = sprite->render_state().blend_state();
+		blend_state.SetEnable(true);
+		blend_state.SetFactor(bksge::BlendFactor::kSrcAlpha, bksge::BlendFactor::kInvSrcAlpha);
+		blend_state.SetOperation(bksge::BlendOperation::kAdd);
 	}
 	// 加算
 	{
@@ -337,14 +335,13 @@ int main()
 		sprites.push_back(sprite);
 		sprite->sampler().SetSource(tex1);
 		sprite->sampler().SetMagFilter(bksge::FilterMode::kLinear);
-		sprite->render_state().blend_state().SetEnable(true);
-		sprite->render_state().blend_state().SetFactor(
-			bksge::BlendFactor::kOne,
-			bksge::BlendFactor::kOne,
-			bksge::BlendFactor::kOne,
-			bksge::BlendFactor::kInvSrcAlpha);
-		sprite->render_state().blend_state().SetOperation(
-			bksge::BlendOperation::kAdd);
+		auto& blend_state = sprite->render_state().blend_state();
+		blend_state.SetEnable(true);
+		blend_state.SetColorSrcFactor(bksge::BlendFactor::kOne);
+		blend_state.SetColorDstFactor(bksge::BlendFactor::kOne);
+		blend_state.SetAlphaSrcFactor(bksge::BlendFactor::kOne);
+		blend_state.SetAlphaDstFactor(bksge::BlendFactor::kInvSrcAlpha);
+		blend_state.SetOperation(bksge::BlendOperation::kAdd);
 	}
 	// 乗算
 	{
@@ -355,14 +352,13 @@ int main()
 		sprites.push_back(sprite);
 		sprite->sampler().SetSource(tex1);
 		sprite->sampler().SetMagFilter(bksge::FilterMode::kLinear);
-		sprite->render_state().blend_state().SetEnable(true);
-		sprite->render_state().blend_state().SetFactor(
-			bksge::BlendFactor::kZero,
-			bksge::BlendFactor::kSrcColor,
-			bksge::BlendFactor::kZero,
-			bksge::BlendFactor::kSrcAlpha);
-		sprite->render_state().blend_state().SetOperation(
-			bksge::BlendOperation::kAdd);
+		auto& blend_state = sprite->render_state().blend_state();
+		blend_state.SetEnable(true);
+		blend_state.SetColorSrcFactor(bksge::BlendFactor::kZero);
+		blend_state.SetColorDstFactor(bksge::BlendFactor::kSrcColor);
+		blend_state.SetAlphaSrcFactor(bksge::BlendFactor::kZero);
+		blend_state.SetAlphaDstFactor(bksge::BlendFactor::kSrcAlpha);
+		blend_state.SetOperation(bksge::BlendOperation::kAdd);
 	}
 	// 減算
 	{
@@ -373,15 +369,14 @@ int main()
 		sprites.push_back(sprite);
 		sprite->sampler().SetSource(tex1);
 		sprite->sampler().SetMagFilter(bksge::FilterMode::kLinear);
-		sprite->render_state().blend_state().SetEnable(true);
-		sprite->render_state().blend_state().SetFactor(
-			bksge::BlendFactor::kSrcAlpha,
-			bksge::BlendFactor::kOne,
-			bksge::BlendFactor::kOne,
-			bksge::BlendFactor::kInvSrcAlpha);
-		sprite->render_state().blend_state().SetOperation(
-			bksge::BlendOperation::kReverseSubtract,
-			bksge::BlendOperation::kAdd);
+		auto& blend_state = sprite->render_state().blend_state();
+		blend_state.SetEnable(true);
+		blend_state.SetColorSrcFactor(bksge::BlendFactor::kSrcAlpha);
+		blend_state.SetColorDstFactor(bksge::BlendFactor::kOne);
+		blend_state.SetColorOperation(bksge::BlendOperation::kReverseSubtract);
+		blend_state.SetAlphaSrcFactor(bksge::BlendFactor::kOne);
+		blend_state.SetAlphaDstFactor(bksge::BlendFactor::kInvSrcAlpha);
+		blend_state.SetAlphaOperation(bksge::BlendOperation::kAdd);
 	}
 
 	bksge::RenderPassInfo render_pass_info;

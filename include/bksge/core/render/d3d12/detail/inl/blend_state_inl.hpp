@@ -38,9 +38,9 @@ BlendState::BlendState(bksge::BlendState const& blend_state)
 	{
 		rt.BlendEnable           = d3d12::Bool(blend_state.enable());
 		rt.LogicOpEnable         = FALSE;
-		rt.SrcBlend              = d3d12::BlendFactor(blend_state.src_factor());
-		rt.DestBlend             = d3d12::BlendFactor(blend_state.dst_factor());
-		rt.BlendOp               = d3d12::BlendOperation(blend_state.operation());
+		rt.SrcBlend              = d3d12::BlendFactor(blend_state.color_src_factor());
+		rt.DestBlend             = d3d12::BlendFactor(blend_state.color_dst_factor());
+		rt.BlendOp               = d3d12::BlendOperation(blend_state.color_operation());
 		rt.SrcBlendAlpha         = d3d12::BlendFactor(blend_state.alpha_src_factor());
 		rt.DestBlendAlpha        = d3d12::BlendFactor(blend_state.alpha_dst_factor());
 		rt.BlendOpAlpha          = d3d12::BlendOperation(blend_state.alpha_operation());

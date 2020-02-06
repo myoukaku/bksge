@@ -23,9 +23,9 @@ GTEST_TEST(Render_RenderState, DefaultCtorTest)
 	EXPECT_EQ(bksge::FrontFace::kClockwise, state.rasterizer_state().front_face());
 
 	EXPECT_EQ(false,                       state.blend_state().enable());
-	EXPECT_EQ(bksge::BlendOperation::kAdd, state.blend_state().operation());
-	EXPECT_EQ(bksge::BlendFactor::kOne,    state.blend_state().src_factor());
-	EXPECT_EQ(bksge::BlendFactor::kZero,   state.blend_state().dst_factor());
+	EXPECT_EQ(bksge::BlendOperation::kAdd, state.blend_state().color_operation());
+	EXPECT_EQ(bksge::BlendFactor::kOne,    state.blend_state().color_src_factor());
+	EXPECT_EQ(bksge::BlendFactor::kZero,   state.blend_state().color_dst_factor());
 	EXPECT_EQ(bksge::BlendOperation::kAdd, state.blend_state().alpha_operation());
 	EXPECT_EQ(bksge::BlendFactor::kOne,    state.blend_state().alpha_src_factor());
 	EXPECT_EQ(bksge::BlendFactor::kZero,   state.blend_state().alpha_dst_factor());
@@ -52,12 +52,12 @@ GTEST_TEST(Render_RenderState, SetValueTest)
 	state.rasterizer_state().SetFrontFace(bksge::FrontFace::kCounterClockwise);
 
 	state.blend_state().SetEnable(true);
-	state.blend_state().SetOperation(
-		bksge::BlendOperation::kMax,
-		bksge::BlendOperation::kMin);
-	state.blend_state().SetFactor(
-		bksge::BlendFactor::kDestAlpha, bksge::BlendFactor::kDestColor,
-		bksge::BlendFactor::kSrcColor,  bksge::BlendFactor::kSrcAlpha);
+	state.blend_state().SetColorOperation(bksge::BlendOperation::kMax);
+	state.blend_state().SetAlphaOperation(bksge::BlendOperation::kMin);
+	state.blend_state().SetColorSrcFactor(bksge::BlendFactor::kDestAlpha);
+	state.blend_state().SetColorDstFactor(bksge::BlendFactor::kDestColor);
+	state.blend_state().SetAlphaSrcFactor(bksge::BlendFactor::kSrcColor);
+	state.blend_state().SetAlphaDstFactor(bksge::BlendFactor::kSrcAlpha);
 
 	state.depth_state().SetEnable(true);
 	state.depth_state().SetWrite(true);
@@ -76,9 +76,9 @@ GTEST_TEST(Render_RenderState, SetValueTest)
 	EXPECT_EQ(bksge::FrontFace::kCounterClockwise, state.rasterizer_state().front_face());
 
 	EXPECT_EQ(true,                                state.blend_state().enable());
-	EXPECT_EQ(bksge::BlendOperation::kMax,         state.blend_state().operation());
-	EXPECT_EQ(bksge::BlendFactor::kDestAlpha,      state.blend_state().src_factor());
-	EXPECT_EQ(bksge::BlendFactor::kDestColor,      state.blend_state().dst_factor());
+	EXPECT_EQ(bksge::BlendOperation::kMax,         state.blend_state().color_operation());
+	EXPECT_EQ(bksge::BlendFactor::kDestAlpha,      state.blend_state().color_src_factor());
+	EXPECT_EQ(bksge::BlendFactor::kDestColor,      state.blend_state().color_dst_factor());
 	EXPECT_EQ(bksge::BlendOperation::kMin,         state.blend_state().alpha_operation());
 	EXPECT_EQ(bksge::BlendFactor::kSrcColor,       state.blend_state().alpha_src_factor());
 	EXPECT_EQ(bksge::BlendFactor::kSrcAlpha,       state.blend_state().alpha_dst_factor());
@@ -139,8 +139,12 @@ GTEST_TEST(Render_RenderState, OutputStreamTest)
 		v.rasterizer_state().SetCullMode(bksge::CullMode::kBack);
 		v.rasterizer_state().SetFrontFace(bksge::FrontFace::kCounterClockwise);
 		v.blend_state().SetEnable(true);
-		v.blend_state().SetOperation(bksge::BlendOperation::kMax, bksge::BlendOperation::kMin);
-		v.blend_state().SetFactor(bksge::BlendFactor::kDestAlpha, bksge::BlendFactor::kDestColor,bksge::BlendFactor::kSrcColor,  bksge::BlendFactor::kSrcAlpha);
+		v.blend_state().SetColorOperation(bksge::BlendOperation::kMax);
+		v.blend_state().SetAlphaOperation(bksge::BlendOperation::kMin);
+		v.blend_state().SetColorSrcFactor(bksge::BlendFactor::kDestAlpha);
+		v.blend_state().SetColorDstFactor(bksge::BlendFactor::kDestColor);
+		v.blend_state().SetAlphaSrcFactor(bksge::BlendFactor::kSrcColor);
+		v.blend_state().SetAlphaDstFactor(bksge::BlendFactor::kSrcAlpha);
 		v.depth_state().SetEnable(true);
 		v.depth_state().SetWrite(true);
 		v.depth_state().SetFunc(bksge::ComparisonFunction::kGreater);

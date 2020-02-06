@@ -34,26 +34,30 @@ public:
 	BlendState(void);
 
 	bool			enable(void) const;
-	BlendOperation	operation(void) const;
-	BlendFactor		src_factor(void) const;
-	BlendFactor		dst_factor(void) const;
+	BlendOperation	color_operation(void) const;
+	BlendFactor		color_src_factor(void) const;
+	BlendFactor		color_dst_factor(void) const;
 	BlendOperation	alpha_operation(void) const;
 	BlendFactor		alpha_src_factor(void) const;
 	BlendFactor		alpha_dst_factor(void) const;
 
 	void SetEnable(bool enable);
+
 	void SetOperation(BlendOperation op);
-	void SetOperation(BlendOperation rgb_op, BlendOperation alpha_op);
+	void SetColorOperation(BlendOperation op);
+	void SetAlphaOperation(BlendOperation op);
+
 	void SetFactor(BlendFactor src, BlendFactor dst);
-	void SetFactor(
-		BlendFactor rgb_src, BlendFactor rgb_dst,
-		BlendFactor alpha_src, BlendFactor alpha_dst);
+	void SetColorSrcFactor(BlendFactor factor);
+	void SetColorDstFactor(BlendFactor factor);
+	void SetAlphaSrcFactor(BlendFactor factor);
+	void SetAlphaDstFactor(BlendFactor factor);
 
 private:
 	bool			m_enable;
-	BlendOperation	m_operation;
-	BlendFactor		m_src_factor;
-	BlendFactor		m_dst_factor;
+	BlendOperation	m_color_operation;
+	BlendFactor		m_color_src_factor;
+	BlendFactor		m_color_dst_factor;
 	BlendOperation	m_alpha_operation;
 	BlendFactor		m_alpha_src_factor;
 	BlendFactor		m_alpha_dst_factor;
@@ -67,9 +71,9 @@ private:
 	void serialize(Archive& ar, bksge::serialization::version_t /*version*/)
 	{
 		ar & BKSGE_SERIALIZATION_NVP(m_enable);
-		ar & BKSGE_SERIALIZATION_NVP(m_operation);
-		ar & BKSGE_SERIALIZATION_NVP(m_src_factor);
-		ar & BKSGE_SERIALIZATION_NVP(m_dst_factor);
+		ar & BKSGE_SERIALIZATION_NVP(m_color_operation);
+		ar & BKSGE_SERIALIZATION_NVP(m_color_src_factor);
+		ar & BKSGE_SERIALIZATION_NVP(m_color_dst_factor);
 		ar & BKSGE_SERIALIZATION_NVP(m_alpha_operation);
 		ar & BKSGE_SERIALIZATION_NVP(m_alpha_src_factor);
 		ar & BKSGE_SERIALIZATION_NVP(m_alpha_dst_factor);
@@ -89,9 +93,9 @@ operator<<(std::basic_ostream<CharT, Traits>& os, BlendState const& rhs)
 	bksge::ios::flags_saver ifs(os);
 	return os << std::boolalpha << "{ "
 		<< rhs.enable() << ", "
-		<< rhs.operation() << ", "
-		<< rhs.src_factor() << ", "
-		<< rhs.dst_factor() << ", "
+		<< rhs.color_operation() << ", "
+		<< rhs.color_src_factor() << ", "
+		<< rhs.color_dst_factor() << ", "
 		<< rhs.alpha_operation() << ", "
 		<< rhs.alpha_src_factor() << ", "
 		<< rhs.alpha_dst_factor() << " }";
@@ -120,9 +124,9 @@ struct hash<bksge::render::BlendState>
 	{
 		return bksge::hash_combine(
 			arg.enable(),
-			arg.operation(),
-			arg.src_factor(),
-			arg.dst_factor(),
+			arg.color_operation(),
+			arg.color_src_factor(),
+			arg.color_dst_factor(),
 			arg.alpha_operation(),
 			arg.alpha_src_factor(),
 			arg.alpha_dst_factor());

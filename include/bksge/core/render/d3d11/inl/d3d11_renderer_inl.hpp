@@ -232,9 +232,9 @@ D3D11Renderer::VRender(
 		for (auto& rt : blend_desc.RenderTarget)
 		{
 			rt.BlendEnable           = d3d11::Bool(blend_state.enable());
-			rt.SrcBlend              = d3d11::BlendFactor(blend_state.src_factor());
-			rt.DestBlend             = d3d11::BlendFactor(blend_state.dst_factor());
-			rt.BlendOp               = d3d11::BlendOperation(blend_state.operation());
+			rt.SrcBlend              = d3d11::BlendFactor(blend_state.color_src_factor());
+			rt.DestBlend             = d3d11::BlendFactor(blend_state.color_dst_factor());
+			rt.BlendOp               = d3d11::BlendOperation(blend_state.color_operation());
 			rt.SrcBlendAlpha         = d3d11::BlendFactor(blend_state.alpha_src_factor());
 			rt.DestBlendAlpha        = d3d11::BlendFactor(blend_state.alpha_dst_factor());
 			rt.BlendOpAlpha          = d3d11::BlendOperation(blend_state.alpha_operation());

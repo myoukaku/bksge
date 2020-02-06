@@ -22,9 +22,9 @@ namespace render
 BKSGE_INLINE
 BlendState::BlendState(void)
 	: m_enable(false)
-	, m_operation(BlendOperation::kAdd)
-	, m_src_factor(BlendFactor::kOne)
-	, m_dst_factor(BlendFactor::kZero)
+	, m_color_operation(BlendOperation::kAdd)
+	, m_color_src_factor(BlendFactor::kOne)
+	, m_color_dst_factor(BlendFactor::kZero)
 	, m_alpha_operation(BlendOperation::kAdd)
 	, m_alpha_src_factor(BlendFactor::kOne)
 	, m_alpha_dst_factor(BlendFactor::kZero)
@@ -38,21 +38,21 @@ BlendState::enable(void) const
 }
 
 BKSGE_INLINE BlendOperation
-BlendState::operation(void) const
+BlendState::color_operation(void) const
 {
-	return m_operation;
+	return m_color_operation;
 }
 
 BKSGE_INLINE BlendFactor
-BlendState::src_factor(void) const
+BlendState::color_src_factor(void) const
 {
-	return m_src_factor;
+	return m_color_src_factor;
 }
 
 BKSGE_INLINE BlendFactor
-BlendState::dst_factor(void) const
+BlendState::color_dst_factor(void) const
 {
-	return m_dst_factor;
+	return m_color_dst_factor;
 }
 
 BKSGE_INLINE BlendOperation
@@ -82,42 +82,64 @@ BlendState::SetEnable(bool enable)
 BKSGE_INLINE void
 BlendState::SetOperation(BlendOperation op)
 {
-	SetOperation(op, op);
+	SetColorOperation(op);
+	SetAlphaOperation(op);
 }
 
 BKSGE_INLINE void
-BlendState::SetOperation(BlendOperation rgb_op, BlendOperation alpha_op)
+BlendState::SetColorOperation(BlendOperation op)
 {
-	m_operation = rgb_op;
-	m_alpha_operation = alpha_op;
+	m_color_operation = op;
+}
+
+BKSGE_INLINE void
+BlendState::SetAlphaOperation(BlendOperation op)
+{
+	m_alpha_operation = op;
 }
 
 BKSGE_INLINE void
 BlendState::SetFactor(BlendFactor src, BlendFactor dst)
 {
-	SetFactor(src, dst, src, dst);
+	SetColorSrcFactor(src);
+	SetColorDstFactor(dst);
+	SetAlphaSrcFactor(src);
+	SetAlphaDstFactor(dst);
 }
 
 BKSGE_INLINE void
-BlendState::SetFactor(
-	BlendFactor rgb_src, BlendFactor rgb_dst,
-	BlendFactor alpha_src, BlendFactor alpha_dst)
+BlendState::SetColorSrcFactor(BlendFactor factor)
 {
-	m_src_factor = rgb_src;
-	m_dst_factor = rgb_dst;
-	m_alpha_src_factor = alpha_src;
-	m_alpha_dst_factor = alpha_dst;
+	m_color_src_factor = factor;
+}
+
+BKSGE_INLINE void
+BlendState::SetColorDstFactor(BlendFactor factor)
+{
+	m_color_dst_factor = factor;
+}
+
+BKSGE_INLINE void
+BlendState::SetAlphaSrcFactor(BlendFactor factor)
+{
+	m_alpha_src_factor = factor;
+}
+
+BKSGE_INLINE void
+BlendState::SetAlphaDstFactor(BlendFactor factor)
+{
+	m_alpha_dst_factor = factor;
 }
 
 BKSGE_INLINE bool
 operator==(BlendState const& lhs, BlendState const& rhs)
 {
 	return
-		lhs.enable()           == rhs.enable() &&
-		lhs.operation()        == rhs.operation() &&
-		lhs.src_factor()       == rhs.src_factor() &&
-		lhs.dst_factor()       == rhs.dst_factor() &&
-		lhs.alpha_operation()  == rhs.alpha_operation() &&
+		lhs.enable()           == rhs.enable()           &&
+		lhs.color_operation()  == rhs.color_operation()  &&
+		lhs.color_src_factor() == rhs.color_src_factor() &&
+		lhs.color_dst_factor() == rhs.color_dst_factor() &&
+		lhs.alpha_operation()  == rhs.alpha_operation()  &&
 		lhs.alpha_src_factor() == rhs.alpha_src_factor() &&
 		lhs.alpha_dst_factor() == rhs.alpha_dst_factor();
 }

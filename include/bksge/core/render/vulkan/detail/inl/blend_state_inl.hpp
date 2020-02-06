@@ -32,9 +32,9 @@ BKSGE_INLINE
 BlendState::BlendState(bksge::BlendState const& blend_state)
 {
 	m_attachment_state.blendEnable         = vulkan::Bool(blend_state.enable());
-	m_attachment_state.srcColorBlendFactor = vulkan::BlendFactor(blend_state.src_factor());
-	m_attachment_state.dstColorBlendFactor = vulkan::BlendFactor(blend_state.dst_factor());
-	m_attachment_state.colorBlendOp        = vulkan::BlendOperation(blend_state.operation());
+	m_attachment_state.srcColorBlendFactor = vulkan::BlendFactor(blend_state.color_src_factor());
+	m_attachment_state.dstColorBlendFactor = vulkan::BlendFactor(blend_state.color_dst_factor());
+	m_attachment_state.colorBlendOp        = vulkan::BlendOperation(blend_state.color_operation());
 	m_attachment_state.srcAlphaBlendFactor = vulkan::BlendFactor(blend_state.alpha_src_factor());
 	m_attachment_state.dstAlphaBlendFactor = vulkan::BlendFactor(blend_state.alpha_dst_factor());
 	m_attachment_state.alphaBlendOp        = vulkan::BlendOperation(blend_state.alpha_operation());

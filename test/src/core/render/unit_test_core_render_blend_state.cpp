@@ -19,9 +19,9 @@ GTEST_TEST(Render_BlendState, DefaultCtorTest)
 {
 	bksge::BlendState const state;
 	EXPECT_EQ(false,                       state.enable());
-	EXPECT_EQ(bksge::BlendOperation::kAdd, state.operation());
-	EXPECT_EQ(bksge::BlendFactor::kOne,    state.src_factor());
-	EXPECT_EQ(bksge::BlendFactor::kZero,   state.dst_factor());
+	EXPECT_EQ(bksge::BlendOperation::kAdd, state.color_operation());
+	EXPECT_EQ(bksge::BlendFactor::kOne,    state.color_src_factor());
+	EXPECT_EQ(bksge::BlendFactor::kZero,   state.color_dst_factor());
 	EXPECT_EQ(bksge::BlendOperation::kAdd, state.alpha_operation());
 	EXPECT_EQ(bksge::BlendFactor::kOne,    state.alpha_src_factor());
 	EXPECT_EQ(bksge::BlendFactor::kZero,   state.alpha_dst_factor());
@@ -39,40 +39,39 @@ GTEST_TEST(Render_BlendState, SetEnableTest)
 GTEST_TEST(Render_BlendState, SetOperationTest)
 {
 	bksge::BlendState state;
-	EXPECT_EQ(bksge::BlendOperation::kAdd, state.operation());
+	EXPECT_EQ(bksge::BlendOperation::kAdd, state.color_operation());
 	EXPECT_EQ(bksge::BlendOperation::kAdd, state.alpha_operation());
 
 	state.SetOperation(bksge::BlendOperation::kSubtract);
-	EXPECT_EQ(bksge::BlendOperation::kSubtract, state.operation());
+	EXPECT_EQ(bksge::BlendOperation::kSubtract, state.color_operation());
 	EXPECT_EQ(bksge::BlendOperation::kSubtract, state.alpha_operation());
 
-	state.SetOperation(
-		bksge::BlendOperation::kMin,
-		bksge::BlendOperation::kMax);
-	EXPECT_EQ(bksge::BlendOperation::kMin, state.operation());
+	state.SetColorOperation(bksge::BlendOperation::kMin);
+	state.SetAlphaOperation(bksge::BlendOperation::kMax);
+	EXPECT_EQ(bksge::BlendOperation::kMin, state.color_operation());
 	EXPECT_EQ(bksge::BlendOperation::kMax, state.alpha_operation());
 }
 
 GTEST_TEST(Render_BlendState, SetFactorTest)
 {
 	bksge::BlendState state;
-	EXPECT_EQ(bksge::BlendFactor::kOne,    state.src_factor());
-	EXPECT_EQ(bksge::BlendFactor::kZero,   state.dst_factor());
+	EXPECT_EQ(bksge::BlendFactor::kOne,    state.color_src_factor());
+	EXPECT_EQ(bksge::BlendFactor::kZero,   state.color_dst_factor());
 	EXPECT_EQ(bksge::BlendFactor::kOne,    state.alpha_src_factor());
 	EXPECT_EQ(bksge::BlendFactor::kZero,   state.alpha_dst_factor());
 
-	state.SetFactor(
-		bksge::BlendFactor::kSrcColor, bksge::BlendFactor::kDestColor);
-	EXPECT_EQ(bksge::BlendFactor::kSrcColor,    state.src_factor());
-	EXPECT_EQ(bksge::BlendFactor::kDestColor,   state.dst_factor());
+	state.SetFactor(bksge::BlendFactor::kSrcColor, bksge::BlendFactor::kDestColor);
+	EXPECT_EQ(bksge::BlendFactor::kSrcColor,    state.color_src_factor());
+	EXPECT_EQ(bksge::BlendFactor::kDestColor,   state.color_dst_factor());
 	EXPECT_EQ(bksge::BlendFactor::kSrcColor,    state.alpha_src_factor());
 	EXPECT_EQ(bksge::BlendFactor::kDestColor,   state.alpha_dst_factor());
 
-	state.SetFactor(
-		bksge::BlendFactor::kInvSrcColor, bksge::BlendFactor::kInvDestColor,
-		bksge::BlendFactor::kDestAlpha, bksge::BlendFactor::kSrcAlpha);
-	EXPECT_EQ(bksge::BlendFactor::kInvSrcColor,  state.src_factor());
-	EXPECT_EQ(bksge::BlendFactor::kInvDestColor, state.dst_factor());
+	state.SetColorSrcFactor(bksge::BlendFactor::kInvSrcColor);
+	state.SetColorDstFactor(bksge::BlendFactor::kInvDestColor);
+	state.SetAlphaSrcFactor(bksge::BlendFactor::kDestAlpha);
+	state.SetAlphaDstFactor(bksge::BlendFactor::kSrcAlpha);
+	EXPECT_EQ(bksge::BlendFactor::kInvSrcColor,  state.color_src_factor());
+	EXPECT_EQ(bksge::BlendFactor::kInvDestColor, state.color_dst_factor());
 	EXPECT_EQ(bksge::BlendFactor::kDestAlpha,	 state.alpha_src_factor());
 	EXPECT_EQ(bksge::BlendFactor::kSrcAlpha,	 state.alpha_dst_factor());
 }
@@ -97,14 +96,16 @@ GTEST_TEST(Render_BlendState, CompareTest)
 	v3.SetFactor(bksge::BlendFactor::kSrcColor, bksge::BlendFactor::kDestColor);
 
 	v4.SetEnable(true);
-	v4.SetOperation(bksge::BlendOperation::kSubtract, bksge::BlendOperation::kMax);
+	v4.SetColorOperation(bksge::BlendOperation::kSubtract);
+	v4.SetAlphaOperation(bksge::BlendOperation::kMax);
 	v4.SetFactor(bksge::BlendFactor::kSrcColor, bksge::BlendFactor::kDestColor);
 
 	v5.SetEnable(true);
 	v5.SetOperation(bksge::BlendOperation::kSubtract);
-	v5.SetFactor(
-		bksge::BlendFactor::kSrcColor, bksge::BlendFactor::kDestColor,
-		bksge::BlendFactor::kDestAlpha, bksge::BlendFactor::kSrcAlpha);
+	v5.SetColorSrcFactor(bksge::BlendFactor::kSrcColor);
+	v5.SetColorDstFactor(bksge::BlendFactor::kDestColor);
+	v5.SetAlphaSrcFactor(bksge::BlendFactor::kDestAlpha);
+	v5.SetAlphaDstFactor(bksge::BlendFactor::kSrcAlpha);
 
 	EXPECT_TRUE (v1 == v1);
 	EXPECT_TRUE (v1 == v2);
@@ -130,11 +131,12 @@ GTEST_TEST(Render_BlendState, OutputStreamTest)
 	{
 		bksge::BlendState v;
 		v.SetEnable(true);
-		v.SetOperation(
-			bksge::BlendOperation::kReverseSubtract, bksge::BlendOperation::kAdd);
-		v.SetFactor(
-			bksge::BlendFactor::kBlendFactor, bksge::BlendFactor::kDestAlpha,
-			bksge::BlendFactor::kInvBlendFactor, bksge::BlendFactor::kInvSrc1Alpha);
+		v.SetColorOperation(bksge::BlendOperation::kReverseSubtract);
+		v.SetAlphaOperation(bksge::BlendOperation::kAdd);
+		v.SetColorSrcFactor(bksge::BlendFactor::kBlendFactor);
+		v.SetColorDstFactor(bksge::BlendFactor::kDestAlpha);
+		v.SetAlphaSrcFactor(bksge::BlendFactor::kInvBlendFactor);
+		v.SetAlphaDstFactor(bksge::BlendFactor::kInvSrc1Alpha);
 		std::wstringstream ss;
 		ss << v;
 		EXPECT_EQ(L"{ true, BlendOperation::kReverseSubtract, BlendFactor::kBlendFactor, BlendFactor::kDestAlpha, BlendOperation::kAdd, BlendFactor::kInvBlendFactor, BlendFactor::kInvSrc1Alpha }", ss.str());
@@ -147,10 +149,12 @@ GTEST_TEST(Render_BlendState, SerializeTest)
 
 	bksge::BlendState v;
 	v.SetEnable(true);
-	v.SetOperation(bksge::BlendOperation::kMin, bksge::BlendOperation::kMax);
-	v.SetFactor(
-		bksge::BlendFactor::kInvSrcColor, bksge::BlendFactor::kInvDestColor,
-		bksge::BlendFactor::kDestAlpha, bksge::BlendFactor::kSrcAlpha);
+	v.SetColorOperation(bksge::BlendOperation::kMin);
+	v.SetAlphaOperation(bksge::BlendOperation::kMax);
+	v.SetColorSrcFactor(bksge::BlendFactor::kInvSrcColor);
+	v.SetColorDstFactor(bksge::BlendFactor::kInvDestColor);
+	v.SetAlphaSrcFactor(bksge::BlendFactor::kDestAlpha);
+	v.SetAlphaDstFactor(bksge::BlendFactor::kSrcAlpha);
 
 	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
 //	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
@@ -177,12 +181,12 @@ GTEST_TEST(Render_BlendState, HashTest)
 	bksge::BlendState s8;
 
 	s2.SetEnable(true);
-	s3.SetOperation(bksge::BlendOperation::kMax, bksge::BlendOperation::kAdd);
-	s4.SetOperation(bksge::BlendOperation::kAdd, bksge::BlendOperation::kSubtract);
-	s5.SetFactor(bksge::BlendFactor::kSrcColor, bksge::BlendFactor::kZero, bksge::BlendFactor::kOne, bksge::BlendFactor::kZero);
-	s6.SetFactor(bksge::BlendFactor::kOne, bksge::BlendFactor::kOne, bksge::BlendFactor::kOne, bksge::BlendFactor::kZero);
-	s7.SetFactor(bksge::BlendFactor::kOne, bksge::BlendFactor::kZero, bksge::BlendFactor::kDestAlpha, bksge::BlendFactor::kZero);
-	s8.SetFactor(bksge::BlendFactor::kOne, bksge::BlendFactor::kZero, bksge::BlendFactor::kOne, bksge::BlendFactor::kInvDestAlpha);
+	s3.SetColorOperation(bksge::BlendOperation::kMax);
+	s4.SetAlphaOperation(bksge::BlendOperation::kSubtract);
+	s5.SetColorSrcFactor(bksge::BlendFactor::kSrcColor);
+	s6.SetColorDstFactor(bksge::BlendFactor::kOne);
+	s7.SetAlphaSrcFactor(bksge::BlendFactor::kDestAlpha);
+	s8.SetAlphaDstFactor(bksge::BlendFactor::kInvDestAlpha);
 
 	std::vector<std::size_t> v;
 	v.push_back(h(s1));

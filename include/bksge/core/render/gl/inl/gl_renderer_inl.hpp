@@ -287,13 +287,13 @@ GlRenderer::ApplyBlendState(BlendState const& blend_state)
 	}
 
 	::glBlendFuncSeparate(
-		gl::BlendFactor(blend_state.src_factor()),
-		gl::BlendFactor(blend_state.dst_factor()),
+		gl::BlendFactor(blend_state.color_src_factor()),
+		gl::BlendFactor(blend_state.color_dst_factor()),
 		gl::BlendFactor(blend_state.alpha_src_factor()),
 		gl::BlendFactor(blend_state.alpha_dst_factor()));
 
 	::glBlendEquationSeparate(
-		gl::BlendOperation(blend_state.operation()),
+		gl::BlendOperation(blend_state.color_operation()),
 		gl::BlendOperation(blend_state.alpha_operation()));
 }
 
