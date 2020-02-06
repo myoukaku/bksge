@@ -56,8 +56,9 @@ operator<<(std::basic_ostream<CharT, Traits>& os, StencilOperation const& rhs)
 
 #if BKSGE_CXX_STANDARD <= 11
 
+#include <bksge/fnd/type_traits/underlying_type.hpp>
 #include <functional>
-#include <type_traits>
+#include <cstddef>
 
 namespace std
 {
@@ -67,9 +68,8 @@ struct hash<bksge::render::StencilOperation>
 {
 	std::size_t operator()(bksge::render::StencilOperation const& arg) const
 	{
-		using underlying_type =
-			typename std::underlying_type<bksge::render::StencilOperation>::type;
-		return std::hash<underlying_type>{}(static_cast<underlying_type>(arg));
+		using type = bksge::underlying_type_t<bksge::render::StencilOperation>;
+		return std::hash<type>{}(static_cast<type>(arg));
 	}
 };
 

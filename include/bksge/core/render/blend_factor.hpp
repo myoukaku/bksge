@@ -65,8 +65,9 @@ operator<<(std::basic_ostream<CharT, Traits>& os, BlendFactor const& rhs)
 
 #if BKSGE_CXX_STANDARD <= 11
 
+#include <bksge/fnd/type_traits/underlying_type.hpp>
 #include <functional>
-#include <type_traits>
+#include <cstddef>
 
 namespace std
 {
@@ -76,9 +77,8 @@ struct hash<bksge::render::BlendFactor>
 {
 	std::size_t operator()(bksge::render::BlendFactor const& arg) const
 	{
-		using underlying_type =
-			typename std::underlying_type<bksge::render::BlendFactor>::type;
-		return std::hash<underlying_type>{}(static_cast<underlying_type>(arg));
+		using type = bksge::underlying_type_t<bksge::render::BlendFactor>;
+		return std::hash<type>{}(static_cast<type>(arg));
 	}
 };
 

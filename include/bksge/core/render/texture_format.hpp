@@ -271,8 +271,9 @@ operator<<(std::basic_ostream<CharT, Traits>& os, TextureFormat const& rhs)
 
 #if BKSGE_CXX_STANDARD <= 11
 
+#include <bksge/fnd/type_traits/underlying_type.hpp>
 #include <functional>
-#include <type_traits>
+#include <cstddef>
 
 namespace std
 {
@@ -282,8 +283,8 @@ struct hash<bksge::render::PixelSwizzle>
 {
 	std::size_t operator()(bksge::render::PixelSwizzle const& arg) const
 	{
-		using underlying_type = typename std::underlying_type<bksge::render::PixelSwizzle>::type;
-		return std::hash<underlying_type>{}(static_cast<underlying_type>(arg));
+		using type = bksge::underlying_type_t<bksge::render::PixelSwizzle>;
+		return std::hash<type>{}(static_cast<type>(arg));
 	}
 };
 
@@ -292,8 +293,8 @@ struct hash<bksge::render::PixelBaseFormat>
 {
 	std::size_t operator()(bksge::render::PixelBaseFormat const& arg) const
 	{
-		using underlying_type = typename std::underlying_type<bksge::render::PixelBaseFormat>::type;
-		return std::hash<underlying_type>{}(static_cast<underlying_type>(arg));
+		using type = bksge::underlying_type_t<bksge::render::PixelBaseFormat>;
+		return std::hash<type>{}(static_cast<type>(arg));
 	}
 };
 
@@ -302,8 +303,8 @@ struct hash<bksge::render::TextureFormat>
 {
 	std::size_t operator()(bksge::render::TextureFormat const& arg) const
 	{
-		using underlying_type = typename std::underlying_type<bksge::render::TextureFormat>::type;
-		return std::hash<underlying_type>{}(static_cast<underlying_type>(arg));
+		using type = bksge::underlying_type_t<bksge::render::TextureFormat>;
+		return std::hash<type>{}(static_cast<type>(arg));
 	}
 };
 

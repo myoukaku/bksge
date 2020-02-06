@@ -27,6 +27,7 @@
 #include <bksge/fnd/type_traits/negation.hpp>
 #include <bksge/fnd/type_traits/nth.hpp>
 #include <bksge/fnd/type_traits/type_identity.hpp>
+#include <bksge/fnd/type_traits/underlying_type.hpp>
 #include <bksge/fnd/type_traits/void_t.hpp>
 
 #endif // BKSGE_FND_TYPE_TRAITS_HPP

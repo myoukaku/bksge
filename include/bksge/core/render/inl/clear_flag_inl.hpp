@@ -10,8 +10,8 @@
 #define BKSGE_CORE_RENDER_INL_CLEAR_FLAG_INL_HPP
 
 #include <bksge/core/render/clear_flag.hpp>
+#include <bksge/fnd/type_traits/underlying_type.hpp>
 #include <bksge/fnd/config.hpp>
-#include <type_traits>
 #include <unordered_map>
 #include <string>
 
@@ -24,8 +24,7 @@ namespace render
 inline BKSGE_CONSTEXPR ClearFlag
 operator|(ClearFlag lhs, ClearFlag rhs) BKSGE_NOEXCEPT
 {
-	using type =
-		typename std::underlying_type<ClearFlag>::type;
+	using type = bksge::underlying_type_t<ClearFlag>;
 	return ClearFlag(
 		static_cast<type>(lhs) |
 		static_cast<type>(rhs));
@@ -34,8 +33,7 @@ operator|(ClearFlag lhs, ClearFlag rhs) BKSGE_NOEXCEPT
 inline BKSGE_CONSTEXPR ClearFlag
 operator&(ClearFlag lhs, ClearFlag rhs) BKSGE_NOEXCEPT
 {
-	using type =
-		typename std::underlying_type<ClearFlag>::type;
+	using type = bksge::underlying_type_t<ClearFlag>;
 	return ClearFlag(
 		static_cast<type>(lhs) &
 		static_cast<type>(rhs));
@@ -44,8 +42,7 @@ operator&(ClearFlag lhs, ClearFlag rhs) BKSGE_NOEXCEPT
 inline BKSGE_CONSTEXPR ClearFlag
 operator^(ClearFlag lhs, ClearFlag rhs) BKSGE_NOEXCEPT
 {
-	using type =
-		typename std::underlying_type<ClearFlag>::type;
+	using type = bksge::underlying_type_t<ClearFlag>;
 	return ClearFlag(
 		static_cast<type>(lhs) ^
 		static_cast<type>(rhs));

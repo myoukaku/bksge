@@ -122,7 +122,9 @@ operator<<(std::basic_ostream<CharT, Traits>& os, TypeEnum const& rhs)
 
 #if BKSGE_CXX_STANDARD <= 11
 
+#include <bksge/fnd/type_traits/underlying_type.hpp>
 #include <functional>
+#include <cstddef>
 
 namespace std
 {
@@ -132,8 +134,8 @@ struct hash<bksge::render::TypeEnum>
 {
 	std::size_t operator()(bksge::render::TypeEnum const& arg) const
 	{
-		using underlying_type = typename std::underlying_type<bksge::render::TypeEnum>::type;
-		return std::hash<underlying_type>{}(static_cast<underlying_type>(arg));
+		using type = bksge::underlying_type_t<bksge::render::TypeEnum>;
+		return std::hash<type>{}(static_cast<type>(arg));
 	}
 };
 
