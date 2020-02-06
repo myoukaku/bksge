@@ -103,10 +103,7 @@ struct hash<bksge::render::ClearState>
 	{
 		return bksge::hash_combine(
 			arg.flag(),
-			arg.color().r(),	// TODO
-			arg.color().g(),
-			arg.color().b(),
-			arg.color().a(),
+			arg.color(),
 			arg.depth(),
 			arg.stencil());
 	}

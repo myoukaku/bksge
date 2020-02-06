@@ -215,6 +215,10 @@ Lerp(Color<T, N> const& from, Color<T, N> const& to, ArithmeticType const& t) BK
 
 }	// namespace bksge
 
+#include <functional>
+#include <cstddef>
+#include <bksge/fnd/functional/hash_combine.hpp>
+
 namespace std
 {
 
@@ -234,6 +238,18 @@ struct tuple_element<I, bksge::math::Color<T, N>>
 {
 	static_assert(I < N, "Color index out of bounds");
 	using type = T;
+};
+
+/**
+ *	@brief	hash
+ */
+template <typename T, std::size_t N>
+struct hash<bksge::math::Color<T, N>>
+{
+	std::size_t operator()(bksge::math::Color<T, N> const& arg) const
+	{
+		return bksge::hash_combine(arg.as_array());
+	}
 };
 
 }	// namespace std

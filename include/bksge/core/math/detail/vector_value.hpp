@@ -65,4 +65,34 @@ private:
 
 }	// namespace bksge
 
+#include <functional>
+#include <cstddef>
+#include <bksge/fnd/functional/hash_combine.hpp>
+#include <bksge/fnd/utility/make_index_sequence.hpp>
+
+namespace std
+{
+
+/**
+ *	@brief	hash
+ */
+template <typename T, std::size_t N>
+struct hash<bksge::math::detail::VectorValue<T, N>>
+{
+private:
+	template <typename Vector, std::size_t... Is>
+	std::size_t hash_impl(Vector const& arg, bksge::index_sequence<Is...>) const
+	{
+		return bksge::hash_combine(arg[Is]...);
+	}
+
+public:
+	std::size_t operator()(bksge::math::detail::VectorValue<T, N> const& arg) const
+	{
+		return hash_impl(arg, bksge::make_index_sequence<N>());
+	}
+};
+
+}	// namespace std
+
 #endif // BKSGE_CORE_MATH_DETAIL_VECTOR_VALUE_HPP
