@@ -453,6 +453,7 @@ private:
 			"														\n"
 			"void main()											\n"
 			"{														\n"
+			"	gl_PointSize = 1.0;									\n"
 			"	gl_Position = vec4(aPosition + uOffset, 1.0);		\n"
 			"}														\n"
 		;

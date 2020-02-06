@@ -26,6 +26,7 @@ static bksge::Shader const* GetGLSLShader(void)
 		"														\n"
 		"void main()											\n"
 		"{														\n"
+		"	gl_PointSize = 1.0;									\n"
 		"	gl_Position = vec4(aPosition, 1.0);					\n"
 		"}														\n"
 	;
