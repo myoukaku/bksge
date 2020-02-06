@@ -295,6 +295,13 @@ GlRenderer::ApplyBlendState(BlendState const& blend_state)
 	::glBlendEquationSeparate(
 		gl::BlendOperation(blend_state.color_operation()),
 		gl::BlendOperation(blend_state.alpha_operation()));
+
+	auto const mask = blend_state.color_write_mask();
+	::glColorMask(
+		gl::Bool((mask & ColorWriteFlag::kRed)   != ColorWriteFlag::kNone),
+		gl::Bool((mask & ColorWriteFlag::kGreen) != ColorWriteFlag::kNone),
+		gl::Bool((mask & ColorWriteFlag::kBlue)  != ColorWriteFlag::kNone),
+		gl::Bool((mask & ColorWriteFlag::kAlpha) != ColorWriteFlag::kNone));
 }
 
 BKSGE_INLINE void

@@ -3,6 +3,7 @@
 add_subdirectory(alpha_blend)
 add_subdirectory(box)
 add_subdirectory(clear)
+add_subdirectory(color_write_mask)
 add_subdirectory(constant_buffer)
 add_subdirectory(cull_face)
 add_subdirectory(fill_mode)

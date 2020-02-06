@@ -12,6 +12,7 @@
 #include <bksge/core/render/blend_state.hpp>
 #include <bksge/core/render/blend_operation.hpp>
 #include <bksge/core/render/blend_factor.hpp>
+#include <bksge/core/render/color_write_flag.hpp>
 
 namespace bksge
 {
@@ -28,6 +29,7 @@ BlendState::BlendState(void)
 	, m_alpha_operation(BlendOperation::kAdd)
 	, m_alpha_src_factor(BlendFactor::kOne)
 	, m_alpha_dst_factor(BlendFactor::kZero)
+	, m_color_write_mask(ColorWriteFlag::kAll)
 {
 }
 
@@ -71,6 +73,12 @@ BKSGE_INLINE BlendFactor
 BlendState::alpha_dst_factor(void) const
 {
 	return m_alpha_dst_factor;
+}
+
+BKSGE_INLINE ColorWriteFlag
+BlendState::color_write_mask(void) const
+{
+	return m_color_write_mask;
 }
 
 BKSGE_INLINE void
@@ -131,6 +139,12 @@ BlendState::SetAlphaDstFactor(BlendFactor factor)
 	m_alpha_dst_factor = factor;
 }
 
+BKSGE_INLINE void
+BlendState::SetColorWriteFlag(ColorWriteFlag flag)
+{
+	m_color_write_mask = flag;
+}
+
 BKSGE_INLINE bool
 operator==(BlendState const& lhs, BlendState const& rhs)
 {
@@ -141,7 +155,8 @@ operator==(BlendState const& lhs, BlendState const& rhs)
 		lhs.color_dst_factor() == rhs.color_dst_factor() &&
 		lhs.alpha_operation()  == rhs.alpha_operation()  &&
 		lhs.alpha_src_factor() == rhs.alpha_src_factor() &&
-		lhs.alpha_dst_factor() == rhs.alpha_dst_factor();
+		lhs.alpha_dst_factor() == rhs.alpha_dst_factor() &&
+		lhs.color_write_mask() == rhs.color_write_mask();
 }
 
 BKSGE_INLINE bool

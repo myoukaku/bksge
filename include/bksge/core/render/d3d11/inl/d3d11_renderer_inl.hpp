@@ -23,6 +23,7 @@
 #include <bksge/core/render/d3d11/detail/cull_mode.hpp>
 #include <bksge/core/render/d3d11/detail/blend_factor.hpp>
 #include <bksge/core/render/d3d11/detail/blend_operation.hpp>
+#include <bksge/core/render/d3d11/detail/color_write_flag.hpp>
 #include <bksge/core/render/d3d11/detail/comparison_function.hpp>
 #include <bksge/core/render/d3d11/detail/bool.hpp>
 #include <bksge/core/render/d3d11/detail/depth_write_mask.hpp>
@@ -238,7 +239,7 @@ D3D11Renderer::VRender(
 			rt.SrcBlendAlpha         = d3d11::BlendFactor(blend_state.alpha_src_factor());
 			rt.DestBlendAlpha        = d3d11::BlendFactor(blend_state.alpha_dst_factor());
 			rt.BlendOpAlpha          = d3d11::BlendOperation(blend_state.alpha_operation());
-			rt.RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+			rt.RenderTargetWriteMask = d3d11::ColorWriteFlag(blend_state.color_write_mask());
 			rt.LogicOpEnable         = FALSE;
 			rt.LogicOp               = D3D11_LOGIC_OP_NOOP;
 		}

@@ -25,6 +25,7 @@ GTEST_TEST(Render_BlendState, DefaultCtorTest)
 	EXPECT_EQ(bksge::BlendOperation::kAdd, state.alpha_operation());
 	EXPECT_EQ(bksge::BlendFactor::kOne,    state.alpha_src_factor());
 	EXPECT_EQ(bksge::BlendFactor::kZero,   state.alpha_dst_factor());
+	EXPECT_EQ(bksge::ColorWriteFlag::kAll, state.color_write_mask());
 }
 
 GTEST_TEST(Render_BlendState, SetEnableTest)
@@ -76,6 +77,15 @@ GTEST_TEST(Render_BlendState, SetFactorTest)
 	EXPECT_EQ(bksge::BlendFactor::kSrcAlpha,	 state.alpha_dst_factor());
 }
 
+GTEST_TEST(Render_BlendState, SetColorWriteFlagTest)
+{
+	bksge::BlendState state;
+	EXPECT_EQ(bksge::ColorWriteFlag::kAll, state.color_write_mask());
+
+	state.SetColorWriteFlag(bksge::ColorWriteFlag::kRed);
+	EXPECT_EQ(bksge::ColorWriteFlag::kRed, state.color_write_mask());
+}
+
 GTEST_TEST(Render_BlendState, CompareTest)
 {
 	bksge::BlendState v1;
@@ -83,6 +93,7 @@ GTEST_TEST(Render_BlendState, CompareTest)
 	bksge::BlendState v3;
 	bksge::BlendState v4;
 	bksge::BlendState v5;
+	bksge::BlendState v6;
 
 	v1.SetEnable(true);
 	v1.SetOperation(bksge::BlendOperation::kSubtract);
@@ -107,17 +118,24 @@ GTEST_TEST(Render_BlendState, CompareTest)
 	v5.SetAlphaSrcFactor(bksge::BlendFactor::kDestAlpha);
 	v5.SetAlphaDstFactor(bksge::BlendFactor::kSrcAlpha);
 
+	v6.SetEnable(true);
+	v6.SetOperation(bksge::BlendOperation::kSubtract);
+	v6.SetFactor(bksge::BlendFactor::kSrcColor, bksge::BlendFactor::kDestColor);
+	v6.SetColorWriteFlag(bksge::ColorWriteFlag::kRed);
+
 	EXPECT_TRUE (v1 == v1);
 	EXPECT_TRUE (v1 == v2);
 	EXPECT_FALSE(v1 == v3);
 	EXPECT_FALSE(v1 == v4);
 	EXPECT_FALSE(v1 == v5);
+	EXPECT_FALSE(v1 == v6);
 
 	EXPECT_FALSE(v1 != v1);
 	EXPECT_FALSE(v1 != v2);
 	EXPECT_TRUE (v1 != v3);
 	EXPECT_TRUE (v1 != v4);
 	EXPECT_TRUE (v1 != v5);
+	EXPECT_TRUE (v1 != v6);
 }
 
 GTEST_TEST(Render_BlendState, OutputStreamTest)
@@ -126,7 +144,7 @@ GTEST_TEST(Render_BlendState, OutputStreamTest)
 		bksge::BlendState v;
 		std::stringstream ss;
 		ss << v;
-		EXPECT_EQ("{ false, BlendOperation::kAdd, BlendFactor::kOne, BlendFactor::kZero, BlendOperation::kAdd, BlendFactor::kOne, BlendFactor::kZero }", ss.str());
+		EXPECT_EQ("{ false, BlendOperation::kAdd, BlendFactor::kOne, BlendFactor::kZero, BlendOperation::kAdd, BlendFactor::kOne, BlendFactor::kZero, ColorWriteFlag::kAll }", ss.str());
 	}
 	{
 		bksge::BlendState v;
@@ -137,9 +155,10 @@ GTEST_TEST(Render_BlendState, OutputStreamTest)
 		v.SetColorDstFactor(bksge::BlendFactor::kDestAlpha);
 		v.SetAlphaSrcFactor(bksge::BlendFactor::kInvBlendFactor);
 		v.SetAlphaDstFactor(bksge::BlendFactor::kInvSrc1Alpha);
+		v.SetColorWriteFlag(bksge::ColorWriteFlag::kGreen);
 		std::wstringstream ss;
 		ss << v;
-		EXPECT_EQ(L"{ true, BlendOperation::kReverseSubtract, BlendFactor::kBlendFactor, BlendFactor::kDestAlpha, BlendOperation::kAdd, BlendFactor::kInvBlendFactor, BlendFactor::kInvSrc1Alpha }", ss.str());
+		EXPECT_EQ(L"{ true, BlendOperation::kReverseSubtract, BlendFactor::kBlendFactor, BlendFactor::kDestAlpha, BlendOperation::kAdd, BlendFactor::kInvBlendFactor, BlendFactor::kInvSrc1Alpha, ColorWriteFlag::kGreen }", ss.str());
 	}
 }
 
@@ -155,6 +174,7 @@ GTEST_TEST(Render_BlendState, SerializeTest)
 	v.SetColorDstFactor(bksge::BlendFactor::kInvDestColor);
 	v.SetAlphaSrcFactor(bksge::BlendFactor::kDestAlpha);
 	v.SetAlphaDstFactor(bksge::BlendFactor::kSrcAlpha);
+	v.SetColorWriteFlag(bksge::ColorWriteFlag::kBlue);
 
 	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
 //	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
@@ -179,6 +199,7 @@ GTEST_TEST(Render_BlendState, HashTest)
 	bksge::BlendState s6;
 	bksge::BlendState s7;
 	bksge::BlendState s8;
+	bksge::BlendState s9;
 
 	s2.SetEnable(true);
 	s3.SetColorOperation(bksge::BlendOperation::kMax);
@@ -187,6 +208,7 @@ GTEST_TEST(Render_BlendState, HashTest)
 	s6.SetColorDstFactor(bksge::BlendFactor::kOne);
 	s7.SetAlphaSrcFactor(bksge::BlendFactor::kDestAlpha);
 	s8.SetAlphaDstFactor(bksge::BlendFactor::kInvDestAlpha);
+	s9.SetColorWriteFlag(bksge::ColorWriteFlag::kAlpha);
 
 	std::vector<std::size_t> v;
 	v.push_back(h(s1));
@@ -197,10 +219,11 @@ GTEST_TEST(Render_BlendState, HashTest)
 	v.push_back(h(s6));
 	v.push_back(h(s7));
 	v.push_back(h(s8));
+	v.push_back(h(s9));
 	std::sort(v.begin(), v.end());
 	EXPECT_TRUE(bksge::is_unique(v.begin(), v.end()));
 
-	v.push_back(h(s2));
+	v.push_back(h(s9));
 	std::sort(v.begin(), v.end());
 	EXPECT_FALSE(bksge::is_unique(v.begin(), v.end()));
 }

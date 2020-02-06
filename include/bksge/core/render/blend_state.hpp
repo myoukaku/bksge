@@ -12,6 +12,7 @@
 #include <bksge/core/render/fwd/blend_state_fwd.hpp>
 #include <bksge/core/render/blend_operation.hpp>
 #include <bksge/core/render/blend_factor.hpp>
+#include <bksge/core/render/color_write_flag.hpp>
 #include <bksge/fnd/serialization/access.hpp>
 #include <bksge/fnd/serialization/nvp.hpp>
 #include <bksge/fnd/serialization/version.hpp>
@@ -34,12 +35,13 @@ public:
 	BlendState(void);
 
 	bool			enable(void) const;
-	BlendOperation	color_operation(void) const;
+	BlendOperation	color_operation(void)  const;
 	BlendFactor		color_src_factor(void) const;
 	BlendFactor		color_dst_factor(void) const;
-	BlendOperation	alpha_operation(void) const;
+	BlendOperation	alpha_operation(void)  const;
 	BlendFactor		alpha_src_factor(void) const;
 	BlendFactor		alpha_dst_factor(void) const;
+	ColorWriteFlag	color_write_mask(void) const;
 
 	void SetEnable(bool enable);
 
@@ -53,6 +55,8 @@ public:
 	void SetAlphaSrcFactor(BlendFactor factor);
 	void SetAlphaDstFactor(BlendFactor factor);
 
+	void SetColorWriteFlag(ColorWriteFlag flag);
+
 private:
 	bool			m_enable;
 	BlendOperation	m_color_operation;
@@ -61,6 +65,7 @@ private:
 	BlendOperation	m_alpha_operation;
 	BlendFactor		m_alpha_src_factor;
 	BlendFactor		m_alpha_dst_factor;
+	ColorWriteFlag	m_color_write_mask;
 
 private:
 	/**
@@ -77,6 +82,7 @@ private:
 		ar & BKSGE_SERIALIZATION_NVP(m_alpha_operation);
 		ar & BKSGE_SERIALIZATION_NVP(m_alpha_src_factor);
 		ar & BKSGE_SERIALIZATION_NVP(m_alpha_dst_factor);
+		ar & BKSGE_SERIALIZATION_NVP(m_color_write_mask);
 	}
 };
 
@@ -92,13 +98,14 @@ operator<<(std::basic_ostream<CharT, Traits>& os, BlendState const& rhs)
 {
 	bksge::ios::flags_saver ifs(os);
 	return os << std::boolalpha << "{ "
-		<< rhs.enable() << ", "
-		<< rhs.color_operation() << ", "
+		<< rhs.enable()           << ", "
+		<< rhs.color_operation()  << ", "
 		<< rhs.color_src_factor() << ", "
 		<< rhs.color_dst_factor() << ", "
-		<< rhs.alpha_operation() << ", "
+		<< rhs.alpha_operation()  << ", "
 		<< rhs.alpha_src_factor() << ", "
-		<< rhs.alpha_dst_factor() << " }";
+		<< rhs.alpha_dst_factor() << ", "
+		<< rhs.color_write_mask() << " }";
 }
 
 }	// namespace render
@@ -129,7 +136,8 @@ struct hash<bksge::render::BlendState>
 			arg.color_dst_factor(),
 			arg.alpha_operation(),
 			arg.alpha_src_factor(),
-			arg.alpha_dst_factor());
+			arg.alpha_dst_factor(),
+			arg.color_write_mask());
 	}
 };
 
