@@ -14,6 +14,7 @@
 
 #include <bksge/core/render/vulkan/detail/depth_stencil_state.hpp>
 #include <bksge/core/render/vulkan/detail/comparison_function.hpp>
+#include <bksge/core/render/vulkan/detail/stencil_operation.hpp>
 #include <bksge/core/render/vulkan/detail/bool.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/depth_state.hpp>
@@ -39,13 +40,13 @@ DepthStencilState::DepthStencilState(
 	ds.depthCompareOp        = vulkan::ComparisonFunction(depth_state.func());
 	ds.depthBoundsTestEnable = VK_FALSE;
 	ds.stencilTestEnable     = vulkan::Bool(stencil_state.enable());
-	ds.back.failOp           = VK_STENCIL_OP_KEEP;
-	ds.back.passOp           = VK_STENCIL_OP_KEEP;
-	ds.back.compareOp        = VK_COMPARE_OP_ALWAYS;
-	ds.back.compareMask      = 0;
-	ds.back.reference        = 0;
-	ds.back.depthFailOp      = VK_STENCIL_OP_KEEP;
-	ds.back.writeMask        = 0;
+	ds.back.failOp           = vulkan::StencilOperation(stencil_state.fail_operation());
+	ds.back.passOp           = vulkan::StencilOperation(stencil_state.pass_operation());
+	ds.back.compareOp        = vulkan::ComparisonFunction(stencil_state.func());
+	ds.back.compareMask      = stencil_state.read_mask();
+	ds.back.reference        = stencil_state.reference();
+	ds.back.depthFailOp      = vulkan::StencilOperation(stencil_state.depth_fail_operation());
+	ds.back.writeMask        = stencil_state.write_mask();
 	ds.minDepthBounds        = 0;
 	ds.maxDepthBounds        = 0;
 	ds.front                 = ds.back;

@@ -27,6 +27,7 @@ namespace d3d12
 BKSGE_INLINE
 DepthStencil::DepthStencil(Device* device, ::UINT width, ::UINT height)
 {
+	::DXGI_FORMAT format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 	{
 		// Describe and create a depth stencil view (DSV) descriptor heap.
 		::D3D12_DESCRIPTOR_HEAP_DESC desc = {};
@@ -52,13 +53,13 @@ DepthStencil::DepthStencil(Device* device, ::UINT width, ::UINT height)
 		desc.Height           = height;
 		desc.DepthOrArraySize = 1;
 		desc.MipLevels        = 0;
-		desc.Format           = DXGI_FORMAT_D32_FLOAT;
+		desc.Format           = format;
 		desc.SampleDesc       = {1, 0};
 		desc.Layout           = D3D12_TEXTURE_LAYOUT_UNKNOWN;
 		desc.Flags            = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
 
 		::D3D12_CLEAR_VALUE clear_value;
-		clear_value.Format               = DXGI_FORMAT_D32_FLOAT;
+		clear_value.Format               = format;
 		clear_value.DepthStencil.Depth   = 1.0f;
 		clear_value.DepthStencil.Stencil = 0;
 
@@ -73,7 +74,7 @@ DepthStencil::DepthStencil(Device* device, ::UINT width, ::UINT height)
 	// Create the depth stencil view.
 	{
 		::D3D12_DEPTH_STENCIL_VIEW_DESC desc = {};
-		desc.Format        = DXGI_FORMAT_D32_FLOAT;
+		desc.Format        = format;
 		desc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
 		desc.Flags         = D3D12_DSV_FLAG_NONE;
 

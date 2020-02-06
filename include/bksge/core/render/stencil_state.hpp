@@ -37,6 +37,7 @@ public:
 	bool				enable(void) const;
 	std::uint8_t		read_mask(void) const;
 	std::uint8_t		write_mask(void) const;
+	std::uint8_t		reference(void) const;
 	ComparisonFunction	func(void) const;
 	StencilOperation	fail_operation(void) const;
 	StencilOperation	depth_fail_operation(void) const;
@@ -45,6 +46,7 @@ public:
 	void SetEnable(bool enable);
 	void SetReadMask(std::uint8_t mask);
 	void SetWriteMask(std::uint8_t mask);
+	void SetReference(std::uint8_t ref);
 	void SetFunc(ComparisonFunction func);
 	void SetFailOperation(StencilOperation op);
 	void SetDepthFailOperation(StencilOperation op);
@@ -54,6 +56,7 @@ private:
 	bool				m_enable;
 	std::uint8_t		m_read_mask;
 	std::uint8_t		m_write_mask;
+	std::uint8_t		m_reference;
 	ComparisonFunction	m_func;
 	StencilOperation	m_fail_operation;
 	StencilOperation	m_depth_fail_operation;
@@ -70,6 +73,7 @@ private:
 		ar & BKSGE_SERIALIZATION_NVP(m_enable);
 		ar & BKSGE_SERIALIZATION_NVP(m_read_mask);
 		ar & BKSGE_SERIALIZATION_NVP(m_write_mask);
+		ar & BKSGE_SERIALIZATION_NVP(m_reference);
 		ar & BKSGE_SERIALIZATION_NVP(m_func);
 		ar & BKSGE_SERIALIZATION_NVP(m_fail_operation);
 		ar & BKSGE_SERIALIZATION_NVP(m_depth_fail_operation);
@@ -92,6 +96,7 @@ operator<<(std::basic_ostream<CharT, Traits>& os, StencilState const& rhs)
 		<< rhs.enable() << ", "
 		<< static_cast<std::uint32_t>(rhs.read_mask()) << ", "
 		<< static_cast<std::uint32_t>(rhs.write_mask()) << ", "
+		<< static_cast<std::uint32_t>(rhs.reference()) << ", "
 		<< rhs.func() << ", "
 		<< rhs.fail_operation() << ", "
 		<< rhs.depth_fail_operation() << ", "
@@ -123,6 +128,7 @@ struct hash<bksge::render::StencilState>
 			arg.enable(),
 			arg.read_mask(),
 			arg.write_mask(),
+			arg.reference(),
 			arg.func(),
 			arg.fail_operation(),
 			arg.depth_fail_operation(),

@@ -55,8 +55,8 @@ PipelineState::PipelineState(
 	desc.SampleMask            = UINT_MAX;
 	desc.PrimitiveTopologyType = PrimitiveTopologyType(primitive_topology);
 	desc.NumRenderTargets      = 1;
-	desc.RTVFormats[0]         = DXGI_FORMAT_R8G8B8A8_UNORM;
-	desc.DSVFormat             = DXGI_FORMAT_D32_FLOAT;
+	desc.RTVFormats[0]         = DXGI_FORMAT_R8G8B8A8_UNORM;		// TODO
+	desc.DSVFormat             = DXGI_FORMAT_D24_UNORM_S8_UINT;		// TODO
 	desc.SampleDesc.Count      = 1;
 
 	m_pipeline_state = device->CreateGraphicsPipelineState(desc);

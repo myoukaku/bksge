@@ -35,7 +35,7 @@ DepthBuffer::DepthBuffer(
 	::VkExtent2D const& extent,
 	::VkSampleCountFlagBits num_samples)
 {
-	::VkFormat format = VK_FORMAT_UNDEFINED;
+	::VkFormat format = VK_FORMAT_D24_UNORM_S8_UINT;//VK_FORMAT_UNDEFINED;
 
 	auto physical_device = device->GetPhysicalDevice();
 

@@ -14,6 +14,7 @@
 
 #include <bksge/core/render/d3d12/detail/depth_stencil_state.hpp>
 #include <bksge/core/render/d3d12/detail/comparison_function.hpp>
+#include <bksge/core/render/d3d12/detail/stencil_operation.hpp>
 #include <bksge/core/render/d3d12/detail/bool.hpp>
 #include <bksge/core/render/d3d12/detail/depth_write_mask.hpp>
 #include <bksge/core/render/d3d_common/d3d12.hpp>
@@ -39,16 +40,13 @@ DepthStencilState::DepthStencilState(
 	m_desc.DepthWriteMask               = d3d12::DepthWriteMask(depth_state.write());
 	m_desc.DepthFunc                    = d3d12::ComparisonFunction(depth_state.func());
 	m_desc.StencilEnable                = d3d12::Bool(stencil_state.enable());
-//	m_desc.StencilReadMask              = 0u;
-//	m_desc.StencilWriteMask             = 0u;
-//	m_desc.FrontFace.StencilFailOp      = D3D12_STENCIL_OP_KEEP;
-//	m_desc.FrontFace.StencilDepthFailOp = D3D12_STENCIL_OP_KEEP;
-//	m_desc.FrontFace.StencilPassOp      = D3D12_STENCIL_OP_KEEP;
-//	m_desc.FrontFace.StencilFunc        = D3D12_COMPARISON_FUNC_NEVER;
-//	m_desc.BackFace.StencilFailOp       = D3D12_STENCIL_OP_KEEP;
-//	m_desc.BackFace.StencilDepthFailOp  = D3D12_STENCIL_OP_KEEP;
-//	m_desc.BackFace.StencilPassOp       = D3D12_STENCIL_OP_KEEP;
-//	m_desc.BackFace.StencilFunc         = D3D12_COMPARISON_FUNC_NEVER;
+	m_desc.StencilReadMask              = stencil_state.read_mask();
+	m_desc.StencilWriteMask             = stencil_state.write_mask();
+	m_desc.BackFace.StencilFailOp       = d3d12::StencilOperation(stencil_state.fail_operation());
+	m_desc.BackFace.StencilDepthFailOp  = d3d12::StencilOperation(stencil_state.depth_fail_operation());
+	m_desc.BackFace.StencilPassOp       = d3d12::StencilOperation(stencil_state.pass_operation());
+	m_desc.BackFace.StencilFunc         = d3d12::ComparisonFunction(stencil_state.func());
+	m_desc.FrontFace = m_desc.BackFace;
 }
 
 BKSGE_INLINE

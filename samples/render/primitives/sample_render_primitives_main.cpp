@@ -30,10 +30,10 @@ inline T get_random_float(T min, T max)
 	return dist(get_random_engine());
 }
 
-class PrimitiveTopology
+class Primitive
 {
 public:
-	virtual ~PrimitiveTopology() {}
+	virtual ~Primitive() {}
 
 	void Update(void)
 	{
@@ -50,7 +50,7 @@ private:
 	virtual void VDraw(bksge::Renderer* renderer) = 0;
 };
 
-class Triangle : public PrimitiveTopology
+class Triangle : public Primitive
 {
 public:
 	Triangle()
@@ -238,7 +238,7 @@ private:
 	bksge::Color3f				m_color;
 };
 
-class Line : public PrimitiveTopology
+class Line : public Primitive
 {
 public:
 	Line()
@@ -411,7 +411,7 @@ private:
 	bksge::Color3f				m_color;
 };
 
-class Point : public PrimitiveTopology
+class Point : public Primitive
 {
 public:
 	Point()
@@ -620,7 +620,7 @@ int main()
 	}
 #endif
 
-	std::vector<std::shared_ptr<PrimitiveTopology>>	primitives;
+	std::vector<std::shared_ptr<Primitive>>	primitives;
 
 	static const int kTriangleNum = 5;
 	static const int kLineNum = 100;

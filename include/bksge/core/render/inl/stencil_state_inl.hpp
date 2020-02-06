@@ -22,6 +22,7 @@ StencilState::StencilState(void)
 	: m_enable(false)
 	, m_read_mask(0u)
 	, m_write_mask(0u)
+	, m_reference(0u)
 	, m_func(ComparisonFunction::kNever)
 	, m_fail_operation(StencilOperation::kKeep)
 	, m_depth_fail_operation(StencilOperation::kKeep)
@@ -45,6 +46,12 @@ BKSGE_INLINE std::uint8_t
 StencilState::write_mask(void) const
 {
 	return m_write_mask;
+}
+
+BKSGE_INLINE std::uint8_t
+StencilState::reference(void) const
+{
+	return m_reference;
 }
 
 BKSGE_INLINE ComparisonFunction
@@ -90,6 +97,12 @@ StencilState::SetWriteMask(std::uint8_t mask)
 }
 
 BKSGE_INLINE void
+StencilState::SetReference(std::uint8_t ref)
+{
+	m_reference = ref;
+}
+
+BKSGE_INLINE void
 StencilState::SetFunc(ComparisonFunction func)
 {
 	m_func = func;
@@ -117,11 +130,12 @@ BKSGE_INLINE bool
 operator==(StencilState const& lhs, StencilState const& rhs)
 {
 	return
-		lhs.enable()               == rhs.enable() &&
-		lhs.read_mask()            == rhs.read_mask() &&
-		lhs.write_mask()           == rhs.write_mask() &&
-		lhs.func()                 == rhs.func() &&
-		lhs.fail_operation()       == rhs.fail_operation() &&
+		lhs.enable()               == rhs.enable()               &&
+		lhs.read_mask()            == rhs.read_mask()            &&
+		lhs.write_mask()           == rhs.write_mask()           &&
+		lhs.reference()            == rhs.reference()            &&
+		lhs.func()                 == rhs.func()                 &&
+		lhs.fail_operation()       == rhs.fail_operation()       &&
 		lhs.depth_fail_operation() == rhs.depth_fail_operation() &&
 		lhs.pass_operation()       == rhs.pass_operation();
 }

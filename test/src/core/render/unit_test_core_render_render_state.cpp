@@ -134,7 +134,7 @@ GTEST_TEST(Render_RenderState, OutputStreamTest)
 		bksge::RenderState v;
 		std::stringstream ss;
 		ss << v;
-		EXPECT_EQ("{ { FillMode::kSolid, CullMode::kNone, FrontFace::kClockwise }, { false, BlendOperation::kAdd, BlendFactor::kOne, BlendFactor::kZero, BlendOperation::kAdd, BlendFactor::kOne, BlendFactor::kZero, ColorWriteFlag::kAll }, { false, false, ComparisonFunction::kLess }, { false, 0, 0, ComparisonFunction::kNever, StencilOperation::kKeep, StencilOperation::kKeep, StencilOperation::kKeep } }", ss.str());
+		EXPECT_EQ("{ { FillMode::kSolid, CullMode::kNone, FrontFace::kClockwise }, { false, BlendOperation::kAdd, BlendFactor::kOne, BlendFactor::kZero, BlendOperation::kAdd, BlendFactor::kOne, BlendFactor::kZero, ColorWriteFlag::kAll }, { false, false, ComparisonFunction::kLess }, { false, 0, 0, 0, ComparisonFunction::kNever, StencilOperation::kKeep, StencilOperation::kKeep, StencilOperation::kKeep } }", ss.str());
 	}
 	{
 		bksge::RenderState v;
@@ -155,13 +155,14 @@ GTEST_TEST(Render_RenderState, OutputStreamTest)
 		v.stencil_state().SetEnable(true);
 		v.stencil_state().SetReadMask(1);
 		v.stencil_state().SetWriteMask(2);
+		v.stencil_state().SetReference(3);
 		v.stencil_state().SetFunc(bksge::ComparisonFunction::kLess);
 		v.stencil_state().SetFailOperation(bksge::StencilOperation::kIncr);
 		v.stencil_state().SetDepthFailOperation(bksge::StencilOperation::kDecr);
 		v.stencil_state().SetPassOperation(bksge::StencilOperation::kReplace);
 		std::wstringstream ss;
 		ss << v;
-		EXPECT_EQ(L"{ { FillMode::kWireframe, CullMode::kBack, FrontFace::kCounterClockwise }, { true, BlendOperation::kMax, BlendFactor::kDestAlpha, BlendFactor::kDestColor, BlendOperation::kMin, BlendFactor::kSrcColor, BlendFactor::kSrcAlpha, ColorWriteFlag::kNone }, { true, true, ComparisonFunction::kGreater }, { true, 1, 2, ComparisonFunction::kLess, StencilOperation::kIncr, StencilOperation::kDecr, StencilOperation::kReplace } }", ss.str());
+		EXPECT_EQ(L"{ { FillMode::kWireframe, CullMode::kBack, FrontFace::kCounterClockwise }, { true, BlendOperation::kMax, BlendFactor::kDestAlpha, BlendFactor::kDestColor, BlendOperation::kMin, BlendFactor::kSrcColor, BlendFactor::kSrcAlpha, ColorWriteFlag::kNone }, { true, true, ComparisonFunction::kGreater }, { true, 1, 2, 3, ComparisonFunction::kLess, StencilOperation::kIncr, StencilOperation::kDecr, StencilOperation::kReplace } }", ss.str());
 	}
 }
 

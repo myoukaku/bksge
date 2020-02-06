@@ -33,10 +33,10 @@ ToD3D11AddressMode(bksge::AddressMode address_mode)
 {
 	switch (address_mode)
 	{
-	case bksge::AddressMode::kRepeat:  return D3D11_TEXTURE_ADDRESS_WRAP;
-	case bksge::AddressMode::kMirror:  return D3D11_TEXTURE_ADDRESS_MIRROR;
-	case bksge::AddressMode::kClamp:   return D3D11_TEXTURE_ADDRESS_CLAMP;
-	case bksge::AddressMode::kBorder:  return D3D11_TEXTURE_ADDRESS_BORDER;
+	case bksge::AddressMode::kRepeat: return D3D11_TEXTURE_ADDRESS_WRAP;
+	case bksge::AddressMode::kMirror: return D3D11_TEXTURE_ADDRESS_MIRROR;
+	case bksge::AddressMode::kClamp:  return D3D11_TEXTURE_ADDRESS_CLAMP;
+	case bksge::AddressMode::kBorder: return D3D11_TEXTURE_ADDRESS_BORDER;
 	}
 	return D3D11_TEXTURE_ADDRESS_WRAP;
 }

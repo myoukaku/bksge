@@ -140,6 +140,12 @@ CommandList::OMSetRenderTargets(
 }
 
 BKSGE_INLINE void
+CommandList::OMSetStencilRef(::UINT stencil_ref)
+{
+	m_command_list->OMSetStencilRef(stencil_ref);
+}
+
+BKSGE_INLINE void
 CommandList::ClearRenderTargetView(
 	::D3D12_CPU_DESCRIPTOR_HANDLE const& render_target_view,
 	::FLOAT const*                       color_rgba,

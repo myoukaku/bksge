@@ -69,6 +69,8 @@ public:
 		::BOOL                               rts_single_handle_to_descriptor_range,
 		::D3D12_CPU_DESCRIPTOR_HANDLE const* depth_stencil_descriptor);
 
+	void OMSetStencilRef(::UINT stencil_ref);
+
 	void ClearRenderTargetView(
 		::D3D12_CPU_DESCRIPTOR_HANDLE const& render_target_view,
 		::FLOAT const*                       color_rgba,

@@ -33,9 +33,9 @@ ToD3D12CullMode(bksge::CullMode cull_mode)
 {
 	switch (cull_mode)
 	{
-	case bksge::CullMode::kNone:   return D3D12_CULL_MODE_NONE;
-	case bksge::CullMode::kFront:  return D3D12_CULL_MODE_FRONT;
-	case bksge::CullMode::kBack:   return D3D12_CULL_MODE_BACK;
+	case bksge::CullMode::kNone:  return D3D12_CULL_MODE_NONE;
+	case bksge::CullMode::kFront: return D3D12_CULL_MODE_FRONT;
+	case bksge::CullMode::kBack:  return D3D12_CULL_MODE_BACK;
 	};
 	return D3D12_CULL_MODE_NONE;
 }

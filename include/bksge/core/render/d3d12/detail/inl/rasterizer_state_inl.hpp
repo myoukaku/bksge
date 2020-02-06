@@ -38,9 +38,9 @@ RasterizerState::RasterizerState(bksge::RasterizerState const& state)
 	m_desc.DepthBias             = D3D12_DEFAULT_DEPTH_BIAS;
 	m_desc.DepthBiasClamp        = D3D12_DEFAULT_DEPTH_BIAS_CLAMP;
 	m_desc.SlopeScaledDepthBias  = D3D12_DEFAULT_SLOPE_SCALED_DEPTH_BIAS;
-	m_desc.DepthClipEnable       = true;
-	m_desc.MultisampleEnable     = false;
-	m_desc.AntialiasedLineEnable = false;
+	m_desc.DepthClipEnable       = TRUE;
+	m_desc.MultisampleEnable     = FALSE;
+	m_desc.AntialiasedLineEnable = FALSE;
 	m_desc.ForcedSampleCount     = 0;
 	m_desc.ConservativeRaster    = D3D12_CONSERVATIVE_RASTERIZATION_MODE_OFF;
 }

@@ -29,6 +29,9 @@
 #include <bksge/core/render/d3d11/detail/depth_write_mask.hpp>
 #include <bksge/core/render/d3d11/detail/front_counter_clockwise.hpp>
 #include <bksge/core/render/d3d11/detail/resource_pool.hpp>
+#include <bksge/core/render/d3d11/detail/depth_stencil_state.hpp>
+#include <bksge/core/render/d3d11/detail/blend_state.hpp>
+#include <bksge/core/render/d3d11/detail/rasterizer_state.hpp>
 #include <bksge/core/render/d3d_common/d3d11.hpp>
 #include <bksge/core/render/dxgi/dxgi_factory.hpp>
 #include <bksge/core/render/dxgi/dxgi_swap_chain.hpp>
@@ -204,66 +207,31 @@ D3D11Renderer::VRender(
 		return false;
 	}
 
-	//
+	// Set RasterizerState
 	{
-		auto const& rasterizer_state = render_state.rasterizer_state();
-
-		::D3D11_RASTERIZER_DESC rd;
-		rd.FillMode              = d3d11::FillMode(rasterizer_state.fill_mode());
-		rd.CullMode              = d3d11::CullMode(rasterizer_state.cull_mode());
-		rd.FrontCounterClockwise = d3d11::FrontCounterClockwise(rasterizer_state.front_face());
-		rd.DepthBias             = 0;
-		rd.DepthBiasClamp        = 0;
-		rd.SlopeScaledDepthBias  = 0;
-		rd.ScissorEnable         = TRUE;//d3d11::Bool(scissor_state.enable());
-		rd.MultisampleEnable     = FALSE;
-		rd.AntialiasedLineEnable = FALSE;
-
-		// ラスタライザーステートを生成して設定
-		auto state = m_device->CreateRasterizerState(rd);
+		auto state = m_device->CreateRasterizerState(
+			d3d11::RasterizerState(render_state.rasterizer_state()));
 		m_device_context->RSSetState(state.Get());
 	}
 
+	// Set BlendState
 	{
-		auto const& blend_state = render_state.blend_state();
-
-		D3D11_BLEND_DESC_N blend_desc;
-		blend_desc.AlphaToCoverageEnable  = FALSE;
-		blend_desc.IndependentBlendEnable = FALSE;
-		for (auto& rt : blend_desc.RenderTarget)
-		{
-			rt.BlendEnable           = d3d11::Bool(blend_state.enable());
-			rt.SrcBlend              = d3d11::BlendFactor(blend_state.color_src_factor());
-			rt.DestBlend             = d3d11::BlendFactor(blend_state.color_dst_factor());
-			rt.BlendOp               = d3d11::BlendOperation(blend_state.color_operation());
-			rt.SrcBlendAlpha         = d3d11::BlendFactor(blend_state.alpha_src_factor());
-			rt.DestBlendAlpha        = d3d11::BlendFactor(blend_state.alpha_dst_factor());
-			rt.BlendOpAlpha          = d3d11::BlendOperation(blend_state.alpha_operation());
-			rt.RenderTargetWriteMask = d3d11::ColorWriteFlag(blend_state.color_write_mask());
-			rt.LogicOpEnable         = FALSE;
-			rt.LogicOp               = D3D11_LOGIC_OP_NOOP;
-		}
-
-		auto state = m_device->CreateBlendState(blend_desc);
+		auto state = m_device->CreateBlendState(
+			d3d11::BlendState(render_state.blend_state()));
 		float const blend_factor[4] = {};
 		::UINT const sample_mask = 0xffffffff;
 		m_device_context->OMSetBlendState(state.Get(), blend_factor, sample_mask);
 	}
+
+	// Set DepthStencilState
 	{
-		auto const& depth_state = render_state.depth_state();
-
-		::D3D11_DEPTH_STENCIL_DESC desc {};
-		desc.DepthEnable      = d3d11::Bool(depth_state.enable());
-		desc.DepthWriteMask   = d3d11::DepthWriteMask(depth_state.write());
-		desc.DepthFunc        = d3d11::ComparisonFunction(depth_state.func());
-		desc.StencilEnable    = FALSE;
-		desc.StencilReadMask  = 0;
-		desc.StencilWriteMask = 0;
-//		desc.FrontFace;
-//		desc.BackFace;
-
-		auto state = m_device->CreateDepthStencilState(desc);
-		m_device_context->OMSetDepthStencilState(state.Get(), 0);
+		auto state = m_device->CreateDepthStencilState(
+			d3d11::DepthStencilState(
+				render_state.depth_state(),
+				render_state.stencil_state()));
+		m_device_context->OMSetDepthStencilState(
+			state.Get(),
+			static_cast<::UINT>(render_state.stencil_state().reference()));
 	}
 
 	auto hlsl_program = m_resource_pool->GetD3D11HlslProgram(m_device.get(), shader);

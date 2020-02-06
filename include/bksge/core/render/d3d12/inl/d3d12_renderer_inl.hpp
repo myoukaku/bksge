@@ -240,6 +240,9 @@ D3D12Renderer::VRender(
 		return false;
 	}
 
+	m_command_list->OMSetStencilRef(
+		static_cast<UINT>(render_state.stencil_state().reference()));
+
 	auto hlsl_program = m_resource_pool->GetD3D12HlslProgram(m_device.get(), shader);
 
 	// TODO

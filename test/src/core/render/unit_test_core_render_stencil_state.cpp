@@ -21,6 +21,7 @@ GTEST_TEST(Render_StencilState, DefaultCtorTest)
 	EXPECT_EQ(false,                             state.enable());
 	EXPECT_EQ(0u,                                state.read_mask());
 	EXPECT_EQ(0u,                                state.write_mask());
+	EXPECT_EQ(0u,                                state.reference());
 	EXPECT_EQ(bksge::ComparisonFunction::kNever, state.func());
 	EXPECT_EQ(bksge::StencilOperation::kKeep,    state.fail_operation());
 	EXPECT_EQ(bksge::StencilOperation::kKeep,    state.depth_fail_operation());
@@ -52,6 +53,15 @@ GTEST_TEST(Render_StencilState, SetWriteMaskTest)
 
 	state.SetWriteMask(2u);
 	EXPECT_EQ(2u, state.write_mask());
+}
+
+GTEST_TEST(Render_StencilState, SetReferenceTest)
+{
+	bksge::StencilState state;
+	EXPECT_EQ(0u, state.reference());
+
+	state.SetReference(42u);
+	EXPECT_EQ(42u, state.reference());
 }
 
 GTEST_TEST(Render_StencilState, SetFuncTest)
@@ -101,14 +111,16 @@ GTEST_TEST(Render_StencilState, CompareTest)
 	bksge::StencilState v7;
 	bksge::StencilState v8;
 	bksge::StencilState v9;
+	bksge::StencilState v10;
 
 	v3.SetEnable(true);
 	v4.SetReadMask(1u);
 	v5.SetWriteMask(2u);
-	v6.SetFunc(bksge::ComparisonFunction::kLessEqual);
-	v7.SetFailOperation(bksge::StencilOperation::kIncr);
-	v8.SetDepthFailOperation(bksge::StencilOperation::kDecr);
-	v9.SetPassOperation(bksge::StencilOperation::kReplace);
+	v6.SetReference(2u);
+	v7.SetFunc(bksge::ComparisonFunction::kLessEqual);
+	v8.SetFailOperation(bksge::StencilOperation::kIncr);
+	v9.SetDepthFailOperation(bksge::StencilOperation::kDecr);
+	v10.SetPassOperation(bksge::StencilOperation::kReplace);
 
 	EXPECT_TRUE (v1 == v1);
 	EXPECT_TRUE (v1 == v2);
@@ -119,6 +131,7 @@ GTEST_TEST(Render_StencilState, CompareTest)
 	EXPECT_FALSE(v1 == v7);
 	EXPECT_FALSE(v1 == v8);
 	EXPECT_FALSE(v1 == v9);
+	EXPECT_FALSE(v1 == v10);
 
 	EXPECT_FALSE(v1 != v1);
 	EXPECT_FALSE(v1 != v2);
@@ -129,6 +142,7 @@ GTEST_TEST(Render_StencilState, CompareTest)
 	EXPECT_TRUE (v1 != v7);
 	EXPECT_TRUE (v1 != v8);
 	EXPECT_TRUE (v1 != v9);
+	EXPECT_TRUE (v1 != v10);
 }
 
 GTEST_TEST(Render_StencilState, OutputStreamTest)
@@ -137,20 +151,21 @@ GTEST_TEST(Render_StencilState, OutputStreamTest)
 		bksge::StencilState v;
 		std::stringstream ss;
 		ss << v;
-		EXPECT_EQ("{ false, 0, 0, ComparisonFunction::kNever, StencilOperation::kKeep, StencilOperation::kKeep, StencilOperation::kKeep }", ss.str());
+		EXPECT_EQ("{ false, 0, 0, 0, ComparisonFunction::kNever, StencilOperation::kKeep, StencilOperation::kKeep, StencilOperation::kKeep }", ss.str());
 	}
 	{
 		bksge::StencilState v;
 		v.SetEnable(true);
 		v.SetReadMask(1u);
 		v.SetWriteMask(2u);
+		v.SetReference(10u);
 		v.SetFunc(bksge::ComparisonFunction::kLessEqual);
 		v.SetFailOperation(bksge::StencilOperation::kIncr);
 		v.SetDepthFailOperation(bksge::StencilOperation::kDecr);
 		v.SetPassOperation(bksge::StencilOperation::kReplace);
 		std::wstringstream ss;
 		ss << v;
-		EXPECT_EQ(L"{ true, 1, 2, ComparisonFunction::kLessEqual, StencilOperation::kIncr, StencilOperation::kDecr, StencilOperation::kReplace }", ss.str());
+		EXPECT_EQ(L"{ true, 1, 2, 10, ComparisonFunction::kLessEqual, StencilOperation::kIncr, StencilOperation::kDecr, StencilOperation::kReplace }", ss.str());
 	}
 }
 
@@ -162,6 +177,7 @@ GTEST_TEST(Render_StencilState, SerializeTest)
 	v.SetEnable(true);
 	v.SetReadMask(1u);
 	v.SetWriteMask(2u);
+	v.SetReference(32u);
 	v.SetFunc(bksge::ComparisonFunction::kGreater);
 	v.SetFailOperation(bksge::StencilOperation::kIncrSaturate);
 	v.SetDepthFailOperation(bksge::StencilOperation::kInvert);
@@ -190,14 +206,16 @@ GTEST_TEST(Render_StencilState, HashTest)
 	bksge::StencilState s6;
 	bksge::StencilState s7;
 	bksge::StencilState s8;
+	bksge::StencilState s9;
 
 	s2.SetEnable(true);
 	s3.SetReadMask(1u);
 	s4.SetWriteMask(2u);
-	s5.SetFunc(bksge::ComparisonFunction::kGreater);
-	s6.SetFailOperation(bksge::StencilOperation::kIncrSaturate);
-	s7.SetDepthFailOperation(bksge::StencilOperation::kInvert);
-	s8.SetPassOperation(bksge::StencilOperation::kIncr);
+	s5.SetReference(4u);
+	s6.SetFunc(bksge::ComparisonFunction::kGreater);
+	s7.SetFailOperation(bksge::StencilOperation::kIncrSaturate);
+	s8.SetDepthFailOperation(bksge::StencilOperation::kInvert);
+	s9.SetPassOperation(bksge::StencilOperation::kIncr);
 
 	std::vector<std::size_t> v;
 	v.push_back(h(s1));
@@ -208,6 +226,7 @@ GTEST_TEST(Render_StencilState, HashTest)
 	v.push_back(h(s6));
 	v.push_back(h(s7));
 	v.push_back(h(s8));
+	v.push_back(h(s9));
 	std::sort(v.begin(), v.end());
 	EXPECT_TRUE(bksge::is_unique(v.begin(), v.end()));
 
