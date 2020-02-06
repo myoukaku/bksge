@@ -48,6 +48,7 @@
 #include <bksge/core/window/window.hpp>
 #include <bksge/fnd/cmath/degrees_to_radians.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
+#include <bksge/fnd/algorithm/max.hpp>
 #include <assert.h>
 #include <iostream>
 
@@ -317,8 +318,8 @@ VulkanRenderer::VBeginRenderPass(RenderPassInfo const& render_pass_info)
 			render_pass_info.viewport().rect();
 
 		vk::Rect2D scissor_rect;
-		scissor_rect.offset.x = static_cast<std::int32_t>(rect.left());
-		scissor_rect.offset.y = static_cast<std::int32_t>(rect.top());
+		scissor_rect.offset.x = static_cast<std::int32_t>(bksge::max(0.0f, rect.left()));
+		scissor_rect.offset.y = static_cast<std::int32_t>(bksge::max(0.0f, rect.top()));
 		scissor_rect.extent.width  = static_cast<std::uint32_t>(rect.width());
 		scissor_rect.extent.height = static_cast<std::uint32_t>(rect.height());
 
