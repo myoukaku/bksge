@@ -26,6 +26,7 @@
 #include <bksge/core/render/gl/detail/stencil_operation.hpp>
 #include <bksge/core/render/gl/detail/bool.hpp>
 #include <bksge/core/render/gl/detail/resource_pool.hpp>
+#include <bksge/core/render/gl/detail/query.hpp>
 #include <bksge/core/render/gl/detail/wgl/wgl_context.hpp>
 #include <bksge/core/render/gl/detail/glx/glx_context.hpp>
 #include <bksge/core/render/geometry.hpp>
@@ -34,6 +35,7 @@
 #include <bksge/core/render/render_pass_info.hpp>
 #include <bksge/core/render/texture.hpp>
 #include <bksge/core/window/window.hpp>
+#include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <memory>
 #include <cstdio>	// printf
@@ -272,24 +274,24 @@ GlRenderer::GlRenderer(Window const& window)
 	//std::printf("GL_SHADING_LANGUAGE_VERSION : %s\n", ::glGetString(GL_SHADING_LANGUAGE_VERSION));	// シェーダのバージョン情報
 	//std::printf("GL_EXTENSIONS : %s\n", ::glGetString(GL_EXTENSIONS));	// OpenGL拡張の取得
 
-	::glGenQueries(2, m_timer_queries);
-
 	::glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, nullptr, GL_FALSE); // notificationレベルの報告を無効化
 	::glDebugMessageCallback(gl::detail::DebugCallback, nullptr);
 //	::glEnable(GL_DEBUG_OUTPUT);
 	::glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+
+	m_timer_queries[0] = bksge::make_unique<gl::Query>();
+	m_timer_queries[1] = bksge::make_unique<gl::Query>();
 }
 
 BKSGE_INLINE
 GlRenderer::~GlRenderer()
 {
-	::glDeleteQueries(2, m_timer_queries);
 }
 
 BKSGE_INLINE void
 GlRenderer::VBegin(void)
 {
-	::glQueryCounter(m_timer_queries[0], GL_TIMESTAMP);
+	m_timer_queries[0]->QueryCounter(GL_TIMESTAMP);
 
 //	::glClipControl(GL_UPPER_LEFT, GL_ZERO_TO_ONE);
 }
@@ -297,14 +299,14 @@ GlRenderer::VBegin(void)
 BKSGE_INLINE void
 GlRenderer::VEnd(void)
 {
-	::glQueryCounter(m_timer_queries[1], GL_TIMESTAMP);
+	m_timer_queries[1]->QueryCounter(GL_TIMESTAMP);
 
 	m_gl_context->SwapBuffers();
 
 	::GLuint64 time_0;
 	::GLuint64 time_1;
-	::glGetQueryObjectui64v(m_timer_queries[0], GL_QUERY_RESULT, &time_0);
-	::glGetQueryObjectui64v(m_timer_queries[1], GL_QUERY_RESULT, &time_1);
+	m_timer_queries[0]->GetResult(&time_0);
+	m_timer_queries[1]->GetResult(&time_1);
 
 	m_draw_time = NanoSeconds(static_cast<float>(time_1 - time_0));
 }
