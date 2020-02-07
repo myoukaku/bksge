@@ -33,10 +33,6 @@
 #include <bksge/core/render/shader_type.hpp>
 #include <bksge/core/render/render_state.hpp>
 #include <bksge/core/render/render_pass_info.hpp>
-#include <bksge/core/detail/win32.hpp>
-#include <bksge/core/math/rect.hpp>
-#include <bksge/core/math/extent2.hpp>
-#include <bksge/core/math/vector2.hpp>
 #include <bksge/core/window/window.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 
@@ -62,6 +58,8 @@ D3D12Renderer::D3D12Renderer(Window const& window)
 #endif
 
 	::UINT const frame_buffer_count = 2;	// TODO
+	::UINT const width  = 800;	// TODO
+	::UINT const height = 600;	// TODO
 
 	m_factory        = bksge::make_unique<DXGIFactory>();
 	m_device         = bksge::make_unique<d3d12::Device>(m_factory->EnumAdapters());
@@ -86,9 +84,6 @@ D3D12Renderer::D3D12Renderer(Window const& window)
 	{
 		return;
 	}
-
-	::UINT const width  = 800;	// TODO
-	::UINT const height = 600;	// TODO
 
 	m_swap_chain = bksge::make_unique<DXGISwapChain>(
 		m_factory.get(), m_command_queue->Get(), frame_buffer_count, width, height, hwnd);
@@ -173,7 +168,8 @@ D3D12Renderer::VBeginRenderPass(RenderPassInfo const& render_pass_info)
 		// Clear Color
 		if ((clear_flag & ClearFlag::kColor) != ClearFlag::kNone)
 		{
-			m_command_list->ClearRenderTargetView(rtv_handle, clear_color.data(), 0, nullptr);
+			m_command_list->ClearRenderTargetView(
+				rtv_handle, clear_color.data(), 0, nullptr);
 		}
 
 		// Clear Depth Stencil
@@ -243,11 +239,11 @@ D3D12Renderer::VRender(
 	m_command_list->OMSetStencilRef(
 		static_cast<UINT>(render_state.stencil_state().reference()));
 
-	auto hlsl_program = m_resource_pool->GetD3D12HlslProgram(m_device.get(), shader);
+	auto hlsl_program =
+		m_resource_pool->GetD3D12HlslProgram(m_device.get(), shader);
 
-	// TODO
-	// hlsl_program->SetRootSignature(m_command_list.get());
-	m_command_list->SetGraphicsRootSignature(hlsl_program->GetRootSignature());
+	m_command_list->SetGraphicsRootSignature(
+		hlsl_program->GetRootSignature());
 
 	hlsl_program->SetDescriptorTables(
 		m_command_list.get(),
@@ -259,10 +255,12 @@ D3D12Renderer::VRender(
 		m_resource_pool.get(),
 		shader_parameter_map);
 
-	auto pipeline_state = m_resource_pool->GetD3D12PipelineState(m_device.get(), shader, render_state, geometry.primitive_topology());
+	auto pipeline_state = m_resource_pool->GetD3D12PipelineState(
+		m_device.get(), shader, render_state, geometry.primitive_topology());
 	pipeline_state->SetPipelineState(m_command_list.get());
 
-	auto d3d12_geometry = m_resource_pool->GetD3D12Geometry(m_device.get(), geometry);
+	auto d3d12_geometry = m_resource_pool->GetD3D12Geometry(
+		m_device.get(), geometry);
 	d3d12_geometry->Draw(m_command_list.get());
 
 	return true;

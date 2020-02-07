@@ -14,7 +14,6 @@
 
 #include <bksge/core/render/vulkan/vulkan_renderer.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <bksge/core/render/vulkan/detail/spirv_h.hpp>
 #include <bksge/core/render/vulkan/detail/instance.hpp>
 #include <bksge/core/render/vulkan/detail/debug_report_callback.hpp>
 #include <bksge/core/render/vulkan/detail/physical_device.hpp>
@@ -30,27 +29,20 @@
 #include <bksge/core/render/vulkan/detail/uniform_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/fence.hpp>
 #include <bksge/core/render/vulkan/detail/semaphore.hpp>
-//#include <bksge/core/render/vulkan/detail/descriptor_set_layout.hpp>
-//#include <bksge/core/render/vulkan/detail/pipeline_layout.hpp>
-//#include <bksge/core/render/vulkan/detail/pipeline_cache.hpp>
 #include <bksge/core/render/vulkan/detail/graphics_pipeline.hpp>
-#include <bksge/core/render/vulkan/detail/descriptor_pool.hpp>
-#include <bksge/core/render/vulkan/detail/descriptor_set.hpp>
 #include <bksge/core/render/vulkan/detail/geometry.hpp>
 #include <bksge/core/render/vulkan/detail/image_view.hpp>
 #include <bksge/core/render/vulkan/detail/resource_pool.hpp>
 #include <bksge/core/render/shader.hpp>
-#include <bksge/core/render/render_state.hpp>
 #include <bksge/core/render/render_pass_info.hpp>
-#include <bksge/core/math/matrix4x4.hpp>
-#include <bksge/core/math/vector3.hpp>
-#include <bksge/core/math/vector4.hpp>
-#include <bksge/core/window/window.hpp>
-#include <bksge/fnd/cmath/degrees_to_radians.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
-#include <assert.h>
-#include <iostream>
+#include <bksge/fnd/assert.hpp>
+#include <bksge/fnd/config.hpp>
+#include <cstdint>
+#include <cstddef>
+#include <memory>
+#include <vector>
 
 #if defined(BKSGE_PLATFORM_WIN32)
 #include <bksge/core/detail/win32.hpp>
@@ -85,7 +77,7 @@ inline ::VkFormat GetSurfaceFormat(
 	}
 	else
 	{
-		assert(surface_formats.size() >= 1);
+		BKSGE_ASSERT(surface_formats.size() >= 1u);
 		return surface_formats[0].format;
 	}
 }
@@ -262,7 +254,7 @@ VulkanRenderer::VEnd(void)
 	do {
 		res = m_draw_fence->Wait(VK_TRUE, FENCE_TIMEOUT);
 	} while (res == VK_TIMEOUT);
-	assert(res == VK_SUCCESS);
+	BKSGE_ASSERT(res == VK_SUCCESS);
 
 	m_draw_fence->Reset();
 

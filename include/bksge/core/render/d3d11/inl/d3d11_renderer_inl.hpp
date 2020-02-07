@@ -19,15 +19,6 @@
 #include <bksge/core/render/d3d11/detail/depth_stencil.hpp>
 #include <bksge/core/render/d3d11/detail/hlsl_program.hpp>
 #include <bksge/core/render/d3d11/detail/geometry.hpp>
-#include <bksge/core/render/d3d11/detail/fill_mode.hpp>
-#include <bksge/core/render/d3d11/detail/cull_mode.hpp>
-#include <bksge/core/render/d3d11/detail/blend_factor.hpp>
-#include <bksge/core/render/d3d11/detail/blend_operation.hpp>
-#include <bksge/core/render/d3d11/detail/color_write_flag.hpp>
-#include <bksge/core/render/d3d11/detail/comparison_function.hpp>
-#include <bksge/core/render/d3d11/detail/bool.hpp>
-#include <bksge/core/render/d3d11/detail/depth_write_mask.hpp>
-#include <bksge/core/render/d3d11/detail/front_counter_clockwise.hpp>
 #include <bksge/core/render/d3d11/detail/resource_pool.hpp>
 #include <bksge/core/render/d3d11/detail/depth_stencil_state.hpp>
 #include <bksge/core/render/d3d11/detail/blend_state.hpp>
@@ -35,14 +26,11 @@
 #include <bksge/core/render/d3d_common/d3d11.hpp>
 #include <bksge/core/render/dxgi/dxgi_factory.hpp>
 #include <bksge/core/render/dxgi/dxgi_swap_chain.hpp>
-#include <bksge/core/render/clear_flag.hpp>
-#include <bksge/core/render/front_face.hpp>
 #include <bksge/core/render/shader.hpp>
-#include <bksge/core/render/shader_type.hpp>
 #include <bksge/core/render/render_state.hpp>
 #include <bksge/core/render/render_pass_info.hpp>
-#include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/core/window/window.hpp>
+#include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/assert.hpp>
 
 namespace bksge
