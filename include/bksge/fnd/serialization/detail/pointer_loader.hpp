@@ -28,7 +28,7 @@ class pointer_loader
 {
 public:
 	template <typename T>
-	explicit pointer_loader(T*& ptr)
+	explicit pointer_loader(T** ptr)
 		: m_impl(new Impl<T>(ptr))
 	{}
 
@@ -61,11 +61,11 @@ private:
 	class Impl : public ImplBase
 	{
 	public:
-		explicit Impl(T*& ptr) : m_ptr(ptr) {}
+		explicit Impl(T** ptr) : m_ptr(ptr) {}
 
 		virtual void set_address(void const* ptr)
 		{
-			m_ptr = static_cast<T*>(const_cast<void*>(ptr));
+			*m_ptr = static_cast<T*>(const_cast<void*>(ptr));
 		}
 
 		virtual void load(Archive& ar)
@@ -73,13 +73,13 @@ private:
 			using type = bksge::remove_cv_t<T>;
 			type* ptr = new type();
 			ar & *ptr;
-			m_ptr = ptr;
+			*m_ptr = ptr;
 		}
 
 	private:
 		Impl& operator=(Impl const&) = delete;
 
-		T*&	m_ptr;
+		T**	m_ptr;
 	};
 
 	std::unique_ptr<ImplBase> m_impl;

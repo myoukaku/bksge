@@ -24,6 +24,7 @@
 #include <vector>
 #include <istream>
 #include <unordered_map>
+#include <functional>
 
 namespace bksge
 {
@@ -120,6 +121,17 @@ public:
 				ptr.load(*this);
 			}
 		}
+
+		for (auto& f : m_on_destroy)
+		{
+			f();
+		}
+	}
+
+	template <typename F>
+	void register_on_destroy(F f)
+	{
+		m_on_destroy.push_back(f);
 	}
 
 	template <typename T>
@@ -191,7 +203,7 @@ private:
 	template <typename T>
 	void load_pointer(T& t)
 	{
-		m_pointer_list.push_back(detail::pointer_loader<text_iarchive>(t));
+		m_pointer_list.push_back(detail::pointer_loader<text_iarchive>(&t));
 	}
 
 	template <typename T>
@@ -221,9 +233,10 @@ private:
 	}
 
 private:
-	std::unique_ptr<text_iarchive_impl_base>				m_impl;
-	std::unordered_map<const void*, std::size_t>			m_tracking;
+	std::unique_ptr<text_iarchive_impl_base>			m_impl;
+	std::unordered_map<const void*, std::size_t>		m_tracking;
 	std::vector<detail::pointer_loader<text_iarchive>>	m_pointer_list;
+	std::vector<std::function<void()>>					m_on_destroy;
 
 	friend class bksge::serialization::detail::load_dispatch;
 };

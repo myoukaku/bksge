@@ -182,7 +182,7 @@ private:
 	template <typename T>
 	void save_pointer(T const& t)
 	{
-		m_pointer_list.push_back(detail::pointer_saver<text_oarchive>(const_cast<T&>(t)));
+		m_pointer_list.push_back(detail::pointer_saver<text_oarchive>(t));
 	}
 
 	template <typename T>

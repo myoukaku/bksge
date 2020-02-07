@@ -27,7 +27,7 @@ class pointer_saver
 {
 public:
 	template <typename T>
-	explicit pointer_saver(T*& ptr)
+	explicit pointer_saver(T* ptr)
 		: m_impl(new Impl<T>(ptr))
 	{}
 
@@ -36,6 +36,10 @@ public:
 	pointer_saver(pointer_saver&& rhs) BKSGE_NOEXCEPT_OR_NOTHROW
 		: m_impl(bksge::move(rhs.m_impl))
 	{}
+
+	~pointer_saver()
+	{
+	}
 
 	const void* get_address() const
 	{
@@ -60,7 +64,7 @@ private:
 	class Impl : public ImplBase
 	{
 	public:
-		explicit Impl(T*& ptr) : m_ptr(ptr) {}
+		explicit Impl(T* ptr) : m_ptr(ptr) {}
 
 		virtual const void* get_address() const
 		{
@@ -75,7 +79,7 @@ private:
 	private:
 		Impl& operator=(Impl const&) = delete;
 
-		T*&	m_ptr;
+		T*	m_ptr;
 	};
 
 	std::unique_ptr<ImplBase> m_impl;

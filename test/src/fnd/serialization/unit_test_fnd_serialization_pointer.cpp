@@ -62,6 +62,7 @@ public:
 	{
 		delete b;
 		delete d;
+		delete e;
 	}
 
 	void init()
@@ -197,16 +198,10 @@ void PointerTest()
 
 GTEST_TEST(SerializationTest, PointerTest)
 {
-	PointerTest<
-		std::stringstream,
-		bksge::serialization::text_oarchive,
-		bksge::serialization::text_iarchive
-	>();
-	PointerTest<
-		std::wstringstream,
-		bksge::serialization::text_oarchive,
-		bksge::serialization::text_iarchive
-	>();
+	using namespace bksge::serialization;
+
+	PointerTest<std::stringstream,  text_oarchive, text_iarchive>();
+	PointerTest<std::wstringstream, text_oarchive, text_iarchive>();
 }
 
 }	// namespace bksge_serialization_test
