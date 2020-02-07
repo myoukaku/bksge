@@ -10,6 +10,7 @@
 #define BKSGE_FND_SERIALIZATION_HPP
 
 #include <bksge/fnd/serialization/access.hpp>
+#include <bksge/fnd/serialization/array.hpp>
 #include <bksge/fnd/serialization/base_object.hpp>
 #include <bksge/fnd/serialization/nvp.hpp>
 #include <bksge/fnd/serialization/string.hpp>

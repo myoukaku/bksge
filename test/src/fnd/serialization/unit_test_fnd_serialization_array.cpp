@@ -1,29 +1,29 @@
 ﻿/**
- *	@file	unit_test_fnd_serialization_string.cpp
+ *	@file	unit_test_fnd_serialization_array.cpp
  *
  *	@brief
  *
  *	@author	myoukaku
  */
 
-#include <bksge/fnd/serialization/string.hpp>
+#include <bksge/fnd/serialization/array.hpp>
 #include <bksge/fnd/serialization/text_oarchive.hpp>
 #include <bksge/fnd/serialization/text_iarchive.hpp>
+#include <bksge/fnd/array/array.hpp>
 #include <sstream>
-#include <string>
 #include <gtest/gtest.h>
 
 namespace bksge_serialization_test
 {
 
-namespace string_test
+namespace array_test
 {
 
 template <typename Stream, typename OArchive, typename IArchive>
-void StringTest()
+void ArrayTest()
 {
 	{
-		std::string const value = "The quick brown fox jumps over the lazy dog.";
+		bksge::array<int, 5> const value = {{1,2,3,4,5}};
 
 		Stream str;
 		{
@@ -32,7 +32,7 @@ void StringTest()
 		}
 		//EXPECT_EQ("", str.str());
 		{
-			std::string tmp;
+			bksge::array<int, 5> tmp;
 			IArchive ia(str);
 			ia >> tmp;
 
@@ -40,7 +40,7 @@ void StringTest()
 		}
 	}
 	{
-		std::wstring const value = L"Jackdaws love my big sphinx of quartz.";
+		bksge::array<float, 10> const value = {{3,1,4,1,5,9,2,6,5,3}};
 
 		Stream str;
 		{
@@ -49,7 +49,7 @@ void StringTest()
 		}
 		//EXPECT_EQ("", str.str());
 		{
-			std::wstring tmp;
+			bksge::array<float, 10> tmp;
 			IArchive ia(str);
 			ia >> tmp;
 
@@ -58,14 +58,14 @@ void StringTest()
 	}
 }
 
-GTEST_TEST(SerializationTest, StringTest)
+GTEST_TEST(SerializationTest, ArrayTest)
 {
 	using namespace bksge::serialization;
 
-	StringTest<std::stringstream,  text_oarchive, text_iarchive>();
-	StringTest<std::wstringstream, text_oarchive, text_iarchive>();
+	ArrayTest<std::stringstream,  text_oarchive, text_iarchive>();
+	ArrayTest<std::wstringstream, text_oarchive, text_iarchive>();
 }
 
-}	// namespace string_test
+}	// namespace array_test
 
 }	// namespace bksge_serialization_test

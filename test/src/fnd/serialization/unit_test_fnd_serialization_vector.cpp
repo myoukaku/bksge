@@ -86,16 +86,10 @@ void VectorTest()
 
 GTEST_TEST(SerializationTest, VectorTest)
 {
-	VectorTest<
-		std::stringstream,
-		bksge::serialization::text_oarchive,
-		bksge::serialization::text_iarchive
-	>();
-	VectorTest<
-		std::wstringstream,
-		bksge::serialization::text_oarchive,
-		bksge::serialization::text_iarchive
-	>();
+	using namespace bksge::serialization;
+
+	VectorTest<std::stringstream,  text_oarchive, text_iarchive>();
+	VectorTest<std::wstringstream, text_oarchive, text_iarchive>();
 }
 
 }	// namespace vector_test
