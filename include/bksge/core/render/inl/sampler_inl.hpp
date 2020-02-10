@@ -19,27 +19,13 @@ namespace render
 
 BKSGE_INLINE
 Sampler::Sampler(void)
-	: m_source()
-	, m_min_filter(FilterMode::kNearest)
+	: m_min_filter(FilterMode::kNearest)
 	, m_mag_filter(FilterMode::kNearest)
 	, m_address_mode_u(AddressMode::kRepeat)
 	, m_address_mode_v(AddressMode::kRepeat)
 	, m_address_mode_w(AddressMode::kRepeat)
 	, m_border_color(BorderColor::kOpaqueBlack)
 {}
-
-BKSGE_INLINE
-Sampler::Sampler(Texture const& source)
-	: Sampler()
-{
-	m_source = source;
-}
-
-BKSGE_INLINE void
-Sampler::SetSource(Texture const& source)
-{
-	m_source = source;
-}
 
 BKSGE_INLINE void
 Sampler::SetMinFilter(FilterMode min_filter)
@@ -75,12 +61,6 @@ BKSGE_INLINE void
 Sampler::SetBorderColor(BorderColor border_color)
 {
 	m_border_color = border_color;
-}
-
-BKSGE_INLINE Texture const&
-Sampler::source(void) const
-{
-	return m_source;
 }
 
 BKSGE_INLINE FilterMode
@@ -123,7 +103,6 @@ BKSGE_INLINE bool
 operator==(Sampler const& lhs, Sampler const& rhs)
 {
 	return
-		lhs.source()         == rhs.source()     &&
 		lhs.min_filter()     == rhs.min_filter() &&
 		lhs.mag_filter()     == rhs.mag_filter() &&
 		lhs.address_mode_u() == rhs.address_mode_u()     &&

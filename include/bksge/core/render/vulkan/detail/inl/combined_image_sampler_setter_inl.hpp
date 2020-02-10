@@ -18,7 +18,7 @@
 #include <bksge/core/render/vulkan/detail/resource_pool.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/shader_parameter_map.hpp>
-#include <bksge/core/render/sampler.hpp>
+#include <bksge/core/render/sampled_texture.hpp>
 
 namespace bksge
 {
@@ -67,17 +67,17 @@ CombinedImageSamplerSetter::LoadParameters(
 		return;
 	}
 
-	if (param->class_id() != ShaderParameter<bksge::Sampler>::StaticClassId())
+	if (param->class_id() != ShaderParameter<bksge::SampledTexture>::StaticClassId())
 	{
 		return;
 	}
 
-	auto sampler = *static_cast<bksge::Sampler const*>(param->data());
+	auto sampled_texture = *static_cast<bksge::SampledTexture const*>(param->data());
 
-	auto combined_image_sampler =
-		resource_pool->GetCombinedImageSampler(device, command_pool, sampler);
+	CombinedImageSampler combined_image_sampler(
+		resource_pool, device, command_pool, sampled_texture);
 
-	m_image_info = combined_image_sampler->GetImageInfo();
+	m_image_info = combined_image_sampler.GetImageInfo();
 }
 
 BKSGE_INLINE vk::WriteDescriptorSet

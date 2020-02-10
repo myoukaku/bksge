@@ -9,12 +9,9 @@
 #ifndef BKSGE_CORE_RENDER_GL_DETAIL_SAMPLER_HPP
 #define BKSGE_CORE_RENDER_GL_DETAIL_SAMPLER_HPP
 
-#include <bksge/core/render/gl/detail/fwd/texture_fwd.hpp>
-#include <bksge/core/render/gl/detail/fwd/resource_pool_fwd.hpp>
+#include <bksge/core/render/gl/detail/fwd/sampler_fwd.hpp>
 #include <bksge/core/render/gl/detail/gl_h.hpp>
-#include <bksge/core/render/gl/fwd/gl_renderer_fwd.hpp>
 #include <bksge/core/render/fwd/sampler_fwd.hpp>
-#include <memory>
 
 namespace bksge
 {
@@ -31,11 +28,9 @@ namespace gl
 class Sampler
 {
 public:
-	explicit Sampler(ResourcePool* resource_pool, bksge::Sampler const& sampler);
+	explicit Sampler(bksge::Sampler const& sampler);
 
-	TextureShared const& source(void) const;
-
-	void Apply(GLint location) const;
+	void Bind(GLint location) const;
 
 private:
 	// noncopyable
@@ -43,7 +38,6 @@ private:
 	Sampler& operator=(Sampler const&) = delete;
 
 private:
-	TextureShared	m_source;
 	::GLint         m_min_filter;		///< 縮小フィルタの種類
 	::GLint         m_mag_filter;		///< 拡大フィルタの種類
 	::GLint         m_wrap_s;			///< テクスチャ座標sのラップモード

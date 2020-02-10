@@ -73,11 +73,11 @@ private:
 			"														\n"
 			"layout (location = 0) out vec4 oColor;					\n"
 			"														\n"
-			"layout (binding = 1) uniform sampler2D uSampler;		\n"
+			"layout (binding = 1) uniform sampler2D uSampler2D;		\n"
 			"														\n"
 			"void main()											\n"
 			"{														\n"
-			"	oColor = texture(uSampler, vTexCoord);				\n"
+			"	oColor = texture(uSampler2D, vTexCoord);			\n"
 			"}														\n"
 		;
 
@@ -183,7 +183,9 @@ public:
 		m_shader_parameter.SetParameter("uMatrix", mat);
 
 		m_shader_parameter.SetParameter("uSampler", m_sampler);
-		m_shader_parameter.SetParameter("uTexture", m_sampler.source());
+		m_shader_parameter.SetParameter("uTexture", m_texture);
+		bksge::SampledTexture sampler2d(m_sampler, m_texture);
+		m_shader_parameter.SetParameter("uSampler2D", sampler2d);
 
 		renderer->Render(
 			GetGeometry(),
@@ -195,10 +197,16 @@ public:
 	bksge::RenderState& render_state(void) { return m_render_state; }
 	bksge::Sampler& sampler(void) { return m_sampler; }
 
+	void SetTexture(bksge::Texture const& texture)
+	{
+		m_texture = texture;
+	}
+
 private:
 	bksge::ShaderParameterMap	m_shader_parameter;
 	bksge::RenderState			m_render_state;
 	bksge::Sampler				m_sampler;
+	bksge::Texture				m_texture;
 	bksge::Vector3f				m_position;
 	bksge::Scale3f				m_scale;
 	float						m_rotation;
@@ -310,7 +318,7 @@ int main()
 			bksge::Scale2f { 1.0f, 1.0f }
 		);
 		sprites.push_back(sprite);
-		sprite->sampler().SetSource(tex0);
+		sprite->SetTexture(tex0);
 	}
 	// アルファブレンド
 	{
@@ -319,7 +327,7 @@ int main()
 			bksge::Scale2f { 0.5f, 0.5f }
 		);
 		sprites.push_back(sprite);
-		sprite->sampler().SetSource(tex1);
+		sprite->SetTexture(tex1);
 		sprite->sampler().SetMagFilter(bksge::FilterMode::kLinear);
 		auto& blend_state = sprite->render_state().blend_state();
 		blend_state.SetEnable(true);
@@ -333,7 +341,7 @@ int main()
 			bksge::Scale2f { 0.5f, 0.5f }
 		);
 		sprites.push_back(sprite);
-		sprite->sampler().SetSource(tex1);
+		sprite->SetTexture(tex1);
 		sprite->sampler().SetMagFilter(bksge::FilterMode::kLinear);
 		auto& blend_state = sprite->render_state().blend_state();
 		blend_state.SetEnable(true);
@@ -350,7 +358,7 @@ int main()
 			bksge::Scale2f { 0.5f, 0.5f }
 		);
 		sprites.push_back(sprite);
-		sprite->sampler().SetSource(tex1);
+		sprite->SetTexture(tex1);
 		sprite->sampler().SetMagFilter(bksge::FilterMode::kLinear);
 		auto& blend_state = sprite->render_state().blend_state();
 		blend_state.SetEnable(true);
@@ -367,7 +375,7 @@ int main()
 			bksge::Scale2f { 0.5f, 0.5f }
 		);
 		sprites.push_back(sprite);
-		sprite->sampler().SetSource(tex1);
+		sprite->SetTexture(tex1);
 		sprite->sampler().SetMagFilter(bksge::FilterMode::kLinear);
 		auto& blend_state = sprite->render_state().blend_state();
 		blend_state.SetEnable(true);

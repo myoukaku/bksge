@@ -16,8 +16,6 @@
 #include <bksge/core/render/gl/detail/filter_mode.hpp>
 #include <bksge/core/render/gl/detail/address_mode.hpp>
 #include <bksge/core/render/gl/detail/border_color.hpp>
-#include <bksge/core/render/gl/detail/texture.hpp>
-#include <bksge/core/render/gl/detail/resource_pool.hpp>
 #include <bksge/core/render/filter_mode.hpp>
 #include <bksge/core/render/address_mode.hpp>
 #include <bksge/core/render/sampler.hpp>
@@ -32,9 +30,8 @@ namespace gl
 {
 
 BKSGE_INLINE
-Sampler::Sampler(ResourcePool* resource_pool, bksge::Sampler const& sampler)
-	: m_source(resource_pool->GetGlTexture(sampler.source()))
-	, m_min_filter(gl::FilterMode(sampler.min_filter()))
+Sampler::Sampler(bksge::Sampler const& sampler)
+	: m_min_filter(gl::FilterMode(sampler.min_filter()))
 	, m_mag_filter(gl::FilterMode(sampler.mag_filter()))
 	, m_wrap_s(gl::AddressMode(sampler.address_mode_u()))
 	, m_wrap_t(gl::AddressMode(sampler.address_mode_v()))
@@ -47,16 +44,9 @@ Sampler::Sampler(ResourcePool* resource_pool, bksge::Sampler const& sampler)
 	m_border_color[3] = border_color[3];
 }
 
-BKSGE_INLINE TextureShared const&
-Sampler::source(void) const
-{
-	return m_source;
-}
-
 BKSGE_INLINE void
-Sampler::Apply(GLint location) const
+Sampler::Bind(GLint /*location*/) const
 {
-	m_source->Bind(location);
 	::glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, m_min_filter);
 	::glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, m_mag_filter);
 	::glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_wrap_s);

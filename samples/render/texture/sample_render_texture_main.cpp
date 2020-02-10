@@ -72,11 +72,11 @@ private:
 			"														\n"
 			"layout (location = 0) out vec4 oColor;					\n"
 			"														\n"
-			"layout (binding = 1) uniform sampler2D uSampler;		\n"
+			"layout (binding = 1) uniform sampler2D uSampler2D;		\n"
 			"														\n"
 			"void main()											\n"
 			"{														\n"
-			"	oColor = texture(uSampler, vTexCoord);				\n"
+			"	oColor = texture(uSampler2D, vTexCoord);			\n"
 			"}														\n"
 		;
 
@@ -162,7 +162,7 @@ private:
 
 public:
 	Sprite(bksge::Texture const& texture, float x, float y)
-		: m_sampler(texture)
+		: m_texture(texture)
 		, m_position(x, y, 0.0f)
 		, m_scale(0.5f, 0.5f, 1.0f)
 		, m_rotation(0)
@@ -180,7 +180,9 @@ public:
 	void Draw(bksge::Renderer* renderer)
 	{
 		m_shader_parameter.SetParameter("uSampler", m_sampler);
-		m_shader_parameter.SetParameter("uTexture", m_sampler.source());
+		m_shader_parameter.SetParameter("uTexture", m_texture);
+		bksge::SampledTexture sampler2d(m_sampler, m_texture);
+		m_shader_parameter.SetParameter("uSampler2D", sampler2d);
 		bksge::Matrix4x4f mat =
 			bksge::Matrix4x4f::MakeScale(m_scale) *
 			bksge::Matrix4x4f::MakeRotationZ(m_rotation) *
@@ -196,10 +198,16 @@ public:
 
 	bksge::Sampler& sampler(void) { return m_sampler; }
 
+	void SetTexture(bksge::Texture const& texture)
+	{
+		m_texture = texture;
+	}
+
 private:
 	bksge::ShaderParameterMap	m_shader_parameter;
 	bksge::RenderState			m_render_state;
 	bksge::Sampler				m_sampler;
+	bksge::Texture				m_texture;
 	bksge::Vector3f				m_position;
 	bksge::Scale3f				m_scale;
 	float						m_rotation;
@@ -337,13 +345,13 @@ int main()
 
 		if (((count / 60) % 2) == 0)
 		{
-			sprites[0]->sampler().SetSource(tex0);
-			sprites[2]->sampler().SetSource(tex0);
+			sprites[0]->SetTexture(tex0);
+			sprites[2]->SetTexture(tex0);
 		}
 		else
 		{
-			sprites[0]->sampler().SetSource(tex1);
-			sprites[2]->sampler().SetSource(tex1);
+			sprites[0]->SetTexture(tex1);
+			sprites[2]->SetTexture(tex1);
 		}
 
 		for (auto&& sprite : sprites)

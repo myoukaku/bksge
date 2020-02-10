@@ -12,9 +12,9 @@
 #include <bksge/core/render/gl/detail/fwd/glsl_parameter_setter_fwd.hpp>
 #include <bksge/core/render/gl/detail/gl_h.hpp>
 #include <bksge/core/render/gl/detail/resource_pool.hpp>
-#include <bksge/core/render/gl/detail/sampler.hpp>
+#include <bksge/core/render/gl/detail/sampled_texture.hpp>
 #include <bksge/core/render/detail/shader_parameter_base.hpp>
-#include <bksge/core/render/sampler.hpp>
+#include <bksge/core/render/sampled_texture.hpp>
 #include <memory>
 
 namespace bksge
@@ -143,10 +143,13 @@ private:
 		::glUniformMatrix4fv(location, 1, GL_FALSE, &v[0][0]);
 	}
 
-	static void SetParameterImpl(ResourcePool* resource_pool, ::GLint location, bksge::Sampler const& sampler)
+	static void SetParameterImpl(
+		ResourcePool* resource_pool,
+		::GLint location,
+		bksge::SampledTexture const& sampled_texture)
 	{
-		gl::Sampler gl_sampler(resource_pool, sampler);
-		gl_sampler.Apply(location);
+		gl::SampledTexture gl_sampled_texture(resource_pool, sampled_texture);
+		gl_sampled_texture.Bind(location);
 	}
 };
 

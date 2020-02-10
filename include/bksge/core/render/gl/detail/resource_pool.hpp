@@ -13,9 +13,11 @@
 #include <bksge/core/render/gl/detail/fwd/geometry_fwd.hpp>
 #include <bksge/core/render/gl/detail/fwd/glsl_program_fwd.hpp>
 #include <bksge/core/render/gl/detail/fwd/texture_fwd.hpp>
+#include <bksge/core/render/gl/detail/fwd/sampler_fwd.hpp>
 #include <bksge/core/render/fwd/geometry_fwd.hpp>
 #include <bksge/core/render/fwd/shader_fwd.hpp>
 #include <bksge/core/render/fwd/texture_fwd.hpp>
+#include <bksge/core/render/fwd/sampler_fwd.hpp>
 
 namespace bksge
 {
@@ -39,6 +41,7 @@ public:
 	GeometryShared    GetGlGeometry(bksge::Geometry const& geometry);
 	GlslProgramShared GetGlslProgram(bksge::Shader const& shader);
 	TextureShared     GetGlTexture(bksge::Texture const& texture);
+	SamplerShared     GetGlSampler(bksge::Sampler const& sampler);
 
 private:
 	// noncopyable
@@ -49,6 +52,7 @@ private:
 	GeometryMap               m_geometry_map;
 	GlslProgramMap            m_shader_map;
 	TextureMap                m_texture_map;
+	SamplerMap                m_sampler_map;
 };
 
 }	// namespace gl

@@ -13,10 +13,9 @@
 #include <bksge/core/render/filter_mode.hpp>
 #include <bksge/core/render/address_mode.hpp>
 #include <bksge/core/render/border_color.hpp>
-#include <bksge/core/render/texture.hpp>
-//#include <bksge/fnd/serialization/access.hpp>
-//#include <bksge/fnd/serialization/nvp.hpp>
-//#include <bksge/fnd/serialization/version.hpp>
+#include <bksge/fnd/serialization/access.hpp>
+#include <bksge/fnd/serialization/nvp.hpp>
+#include <bksge/fnd/serialization/version.hpp>
 #include <ostream>
 
 namespace bksge
@@ -33,9 +32,6 @@ class Sampler
 public:
 	Sampler(void);
 
-	explicit Sampler(Texture const& source);
-
-	void SetSource(Texture const& source);
 	void SetMinFilter(FilterMode min_filter);
 	void SetMagFilter(FilterMode mag_filter);
 	void SetAddressModeU(AddressMode address_mode_u);
@@ -43,16 +39,14 @@ public:
 	void SetAddressModeW(AddressMode address_mode_w);
 	void SetBorderColor(BorderColor border_color);
 
-	Texture const&	source(void)		const;
-	FilterMode		min_filter(void)	const;
-	FilterMode		mag_filter(void)	const;
-	AddressMode		address_mode_u(void)const;
-	AddressMode		address_mode_v(void)const;
-	AddressMode		address_mode_w(void)const;
-	BorderColor		border_color(void)	const;
+	FilterMode		min_filter(void)	 const;
+	FilterMode		mag_filter(void)	 const;
+	AddressMode		address_mode_u(void) const;
+	AddressMode		address_mode_v(void) const;
+	AddressMode		address_mode_w(void) const;
+	BorderColor		border_color(void)	 const;
 
 private:
-	Texture			m_source;			///< テクスチャ
 	FilterMode		m_min_filter;		///< 縮小フィルタの種類
 	FilterMode		m_mag_filter;		///< 拡大フィルタの種類
 	AddressMode		m_address_mode_u;	///< テクスチャ座標uのラップモード
@@ -61,8 +55,6 @@ private:
 	BorderColor     m_border_color;		///< 境界色
 
 private:
-	// TODO
-#if 0
 	/**
 	 *	@brief	シリアライズ
 	 */
@@ -70,7 +62,6 @@ private:
 	template <typename Archive>
 	void serialize(Archive& ar, bksge::serialization::version_t /*version*/)
 	{
-		ar & BKSGE_SERIALIZATION_NVP(m_source);
 		ar & BKSGE_SERIALIZATION_NVP(m_min_filter);
 		ar & BKSGE_SERIALIZATION_NVP(m_mag_filter);
 		ar & BKSGE_SERIALIZATION_NVP(m_address_mode_u);
@@ -78,9 +69,11 @@ private:
 		ar & BKSGE_SERIALIZATION_NVP(m_address_mode_w);
 		ar & BKSGE_SERIALIZATION_NVP(m_border_color);
 	}
-#endif
 };
 
+/**
+ *	@brief	比較演算子
+ */
 bool operator==(Sampler const& lhs, Sampler const& rhs);
 bool operator!=(Sampler const& lhs, Sampler const& rhs);
 
@@ -92,7 +85,6 @@ inline std::basic_ostream<CharT, Traits>&
 operator<<(std::basic_ostream<CharT, Traits>& os, Sampler const& rhs)
 {
 	return os << "{ "
-		   << rhs.source() << ", "
 		   << rhs.min_filter() << ", "
 		   << rhs.mag_filter() << ", "
 		   << rhs.address_mode_u() << ", "
@@ -124,7 +116,6 @@ struct hash<bksge::render::Sampler>
 	std::size_t operator()(bksge::render::Sampler const& arg) const
 	{
 		return bksge::hash_combine(
-			arg.source().id(),
 			arg.min_filter(),
 			arg.mag_filter(),
 			arg.address_mode_u(),

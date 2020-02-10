@@ -16,11 +16,13 @@
 #include <bksge/core/render/vulkan/detail/shader.hpp>
 #include <bksge/core/render/vulkan/detail/geometry.hpp>
 #include <bksge/core/render/vulkan/detail/graphics_pipeline.hpp>
-#include <bksge/core/render/vulkan/detail/combined_image_sampler.hpp>
+#include <bksge/core/render/vulkan/detail/sampler.hpp>
+#include <bksge/core/render/vulkan/detail/texture.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/shader.hpp>
 #include <bksge/core/render/geometry.hpp>
 #include <bksge/core/render/sampler.hpp>
+#include <bksge/core/render/texture.hpp>
 #include <bksge/core/render/render_state.hpp>
 #include <bksge/fnd/functional/hash_combine.hpp>
 #include <bksge/fnd/utility/forward.hpp>
@@ -113,15 +115,24 @@ ResourcePool::GetGraphicsPipeline(
 		*(this->GetShader(device, shader)));
 }
 
-BKSGE_INLINE vulkan::CombinedImageSamplerSharedPtr
-ResourcePool::GetCombinedImageSampler(
+BKSGE_INLINE vulkan::SamplerSharedPtr
+ResourcePool::GetSampler(
 	vulkan::DeviceSharedPtr const& device,
-	vulkan::CommandPoolSharedPtr const& command_pool,
 	bksge::Sampler const& sampler)
 {
 	auto const id = bksge::hash_combine(sampler);
-	return detail::GetOrCreate<vulkan::CombinedImageSampler>(
-		m_combined_image_sampler_map, id, device, command_pool, sampler);
+	return detail::GetOrCreate<vulkan::Sampler>(
+		m_sampler_map, id, device, sampler);
+}
+
+BKSGE_INLINE vulkan::TextureSharedPtr
+ResourcePool::GetTexture(
+	vulkan::DeviceSharedPtr const& device,
+	vulkan::CommandPoolSharedPtr const& command_pool,
+	bksge::Texture const& texture)
+{
+	return detail::GetOrCreate<vulkan::Texture>(
+		m_texture_map, texture.id(), device, command_pool, texture);
 }
 
 }	// namespace vulkan

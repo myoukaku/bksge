@@ -16,9 +16,12 @@
 #include <bksge/core/render/gl/detail/geometry.hpp>
 #include <bksge/core/render/gl/detail/glsl_program.hpp>
 #include <bksge/core/render/gl/detail/texture.hpp>
+#include <bksge/core/render/gl/detail/sampler.hpp>
 #include <bksge/core/render/geometry.hpp>
 #include <bksge/core/render/shader.hpp>
 #include <bksge/core/render/texture.hpp>
+#include <bksge/core/render/sampler.hpp>
+#include <bksge/fnd/functional/hash_combine.hpp>
 
 namespace bksge
 {
@@ -81,6 +84,14 @@ ResourcePool::GetGlTexture(bksge::Texture const& texture)
 {
 	return detail::GetOrCreate<gl::Texture>(
 		m_texture_map, texture.id(), texture);
+}
+
+BKSGE_INLINE SamplerShared
+ResourcePool::GetGlSampler(bksge::Sampler const& sampler)
+{
+	auto const id = bksge::hash_combine(sampler);
+	return detail::GetOrCreate<gl::Sampler>(
+		m_sampler_map, id, sampler);
 }
 
 }	// namespace gl

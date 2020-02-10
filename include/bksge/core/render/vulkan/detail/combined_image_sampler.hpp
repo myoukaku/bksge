@@ -14,8 +14,9 @@
 #include <bksge/core/render/vulkan/detail/fwd/command_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/sampler_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/texture_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/resource_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <bksge/core/render/fwd/sampler_fwd.hpp>
+#include <bksge/core/render/fwd/sampled_texture_fwd.hpp>
 
 namespace bksge
 {
@@ -30,9 +31,10 @@ class CombinedImageSampler
 {
 public:
 	explicit CombinedImageSampler(
+		vulkan::ResourcePool* resource_pool,
 		vulkan::DeviceSharedPtr const& device,
 		vulkan::CommandPoolSharedPtr const& command_pool,
-		bksge::Sampler const& sampler);
+		bksge::SampledTexture const& sampled_texture);
 
 	~CombinedImageSampler();
 
@@ -44,8 +46,8 @@ private:
 	CombinedImageSampler& operator=(CombinedImageSampler const&) = delete;
 
 private:
-	vulkan::SamplerUniquePtr		m_sampler;
-	vulkan::TextureUniquePtr		m_texture;
+	vulkan::SamplerSharedPtr		m_sampler;
+	vulkan::TextureSharedPtr		m_texture;
 };
 
 }	// namespace vulkan

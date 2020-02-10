@@ -9,6 +9,8 @@
 #ifndef BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_TEXTURE_FWD_HPP
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_TEXTURE_FWD_HPP
 
+#include <bksge/core/render/detail/identifier.hpp>
+#include <map>
 #include <memory>
 
 namespace bksge
@@ -21,7 +23,8 @@ namespace vulkan
 {
 
 class Texture;
-using TextureUniquePtr = std::unique_ptr<Texture>;
+using TextureSharedPtr = std::shared_ptr<Texture>;
+using TextureSharedPtrMap = std::map<Identifier, TextureSharedPtr>;
 
 }	// namespace vulkan
 

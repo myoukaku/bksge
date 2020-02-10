@@ -124,7 +124,7 @@ public:
 
 private:
 	TextureFormat			m_format;       ///< フォーマット
-	ExtentType				m_extent;         ///< 幅と高さ
+	ExtentType				m_extent;       ///< 幅と高さ
 	std::size_t				m_mipmap_count; ///< ミップマップの数。オリジナル画像を含みます。
 	std::shared_ptr<Pixels>	m_pixels;       ///< 画像データ
 
@@ -145,6 +145,9 @@ private:
 #endif
 };
 
+/**
+ *	@brief	比較演算子
+ */
 bool operator==(Texture const& lhs, Texture const& rhs);
 bool operator!=(Texture const& lhs, Texture const& rhs);
 

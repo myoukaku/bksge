@@ -44,11 +44,11 @@ static bksge::Shader const* GetGLSLShader(void)
 		"														\n"
 		"layout (location = 0) out vec4 oColor;					\n"
 		"														\n"
-		"layout (binding = 1) uniform sampler2D uSampler;		\n"
+		"layout (binding = 1) uniform sampler2D uSampler2D;		\n"
 		"														\n"
 		"void main()											\n"
 		"{														\n"
-		"	oColor = texture(uSampler, vTexCoord);				\n"
+		"	oColor = texture(uSampler2D, vTexCoord);			\n"
 		"}														\n"
 	;
 
@@ -212,7 +212,6 @@ int main()
 		bksge::TextureFormat::kRGBA_U8, {tex_width, tex_height}, pixels.data());
 
 	bksge::Sampler	sampler;
-	sampler.SetSource(tex);
 	sampler.SetAddressModeU(bksge::AddressMode::kBorder);
 
 	bksge::ShaderParameterMap shader_parameter;
@@ -289,7 +288,9 @@ int main()
 		sampler.SetBorderColor(border_color_tbl[border_color_index]);
 
 		shader_parameter.SetParameter("uSampler", sampler);
-		shader_parameter.SetParameter("uTexture", sampler.source());
+		shader_parameter.SetParameter("uTexture", tex);
+		bksge::SampledTexture sampler2d(sampler, tex);
+		shader_parameter.SetParameter("uSampler2D", sampler2d);
 
 		for (auto& renderer : renderers)
 		{

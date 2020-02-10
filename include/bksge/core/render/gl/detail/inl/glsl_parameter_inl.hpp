@@ -16,7 +16,7 @@
 #include <bksge/core/render/gl/detail/glsl_parameter_setter.hpp>
 #include <bksge/core/render/gl/detail/gl_h.hpp>
 #include <bksge/core/render/shader_parameter_map.hpp>
-#include <bksge/core/render/sampler.hpp>
+#include <bksge/core/render/sampled_texture.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <string>
 #include <vector>
@@ -78,7 +78,7 @@ GlslParameter::GlslParameter(::GLuint program, ::GLuint index)
 	case GL_FLOAT_MAT2: m_setter.reset(new GlslParameterSetter<float[2][2]>()); break;
 	case GL_FLOAT_MAT3: m_setter.reset(new GlslParameterSetter<float[3][3]>()); break;
 	case GL_FLOAT_MAT4: m_setter.reset(new GlslParameterSetter<float[4][4]>()); break;
-	case GL_SAMPLER_2D: m_setter.reset(new GlslParameterSetter<bksge::Sampler>()); break;
+	case GL_SAMPLER_2D: m_setter.reset(new GlslParameterSetter<bksge::SampledTexture>()); break;
 	default: BKSGE_ASSERT(false); break;
 	}
 }
