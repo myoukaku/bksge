@@ -12,6 +12,7 @@
 #include <bksge/fnd/serialization/detail/serialize_dispatch.hpp>
 #include <bksge/fnd/serialization/version.hpp>
 #include <bksge/fnd/serialization/nvp.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/is_null_pointer.hpp>
 #include <type_traits>
 #include <utility>	// declval
@@ -35,10 +36,10 @@ private:
 		template <typename A2, typename T2>
 		static auto test(int) -> decltype(
 			save(std::declval<A2&>(), std::declval<T2 const&>(), std::declval<bksge::serialization::version_t>()),
-			std::true_type());
+			bksge::true_type());
 
 		template <typename A2, typename T2>
-		static auto test(...)->std::false_type;
+		static auto test(...)->bksge::false_type;
 
 		using type = decltype(test<Archive, T>(0));
 
@@ -53,10 +54,10 @@ private:
 		template <typename A2, typename T2>
 		static auto test(int) -> decltype(
 			save(std::declval<A2&>(), std::declval<T2 const&>()),
-			std::true_type());
+			bksge::true_type());
 
 		template <typename A2, typename T2>
-		static auto test(...)->std::false_type;
+		static auto test(...)->bksge::false_type;
 
 		using type = decltype(test<Archive, T>(0));
 

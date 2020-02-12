@@ -9,10 +9,10 @@
 #ifndef BKSGE_FND_SERIALIZATION_DETAIL_POINTER_LOADER_HPP
 #define BKSGE_FND_SERIALIZATION_DETAIL_POINTER_LOADER_HPP
 
+#include <bksge/fnd/type_traits/remove_cv.hpp>
 #include <bksge/fnd/config.hpp>
 #include <memory>	// unique_ptr
-#include <type_traits>
-#include <utility>
+#include <utility>	// move
 
 namespace bksge
 {
@@ -70,7 +70,7 @@ private:
 
 		virtual void load(Archive& ar)
 		{
-			using type = typename std::remove_cv<T>::type;
+			using type = bksge::remove_cv_t<T>;
 			type* ptr = new type();
 			ar & *ptr;
 			m_ptr = ptr;

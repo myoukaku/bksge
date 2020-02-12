@@ -9,8 +9,8 @@
 #ifndef BKSGE_FND_UTILITY_FORWARD_HPP
 #define BKSGE_FND_UTILITY_FORWARD_HPP
 
+#include <bksge/fnd/type_traits/remove_reference.hpp>
 #include <bksge/fnd/config.hpp>
-#include <type_traits>
 
 namespace bksge
 {
@@ -26,7 +26,7 @@ namespace bksge
  */
 template <typename T>
 inline BKSGE_CONSTEXPR T&&
-forward(typename std::remove_reference<T>::type& t) BKSGE_NOEXCEPT
+forward(bksge::remove_reference_t<T>& t) BKSGE_NOEXCEPT
 {
 	return static_cast<T&&>(t);
 }
@@ -43,7 +43,7 @@ forward(typename std::remove_reference<T>::type& t) BKSGE_NOEXCEPT
  */
 template <typename T>
 inline BKSGE_CONSTEXPR T&&
-forward(typename std::remove_reference<T>::type&& t) BKSGE_NOEXCEPT = delete;
+forward(bksge::remove_reference_t<T>&& t) BKSGE_NOEXCEPT = delete;
 
 }	// namespace bksge
 

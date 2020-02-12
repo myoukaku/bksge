@@ -10,7 +10,8 @@
 #define BKSGE_FND_SERIALIZATION_ACCESS_HPP
 
 #include <bksge/fnd/serialization/version.hpp>
-#include <type_traits>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
+#include <bksge/fnd/type_traits/remove_const.hpp>
 #include <utility>	// declval
 
 namespace bksge
@@ -31,10 +32,10 @@ public:
 			std::declval<T2>().save(
 				std::declval<A2&>(),
 				std::declval<bksge::serialization::version_t>()),
-			std::true_type());
+			bksge::true_type());
 
 		template <typename A2, typename T2>
-		static auto test(...)->std::false_type;
+		static auto test(...)->bksge::false_type;
 
 		using type = decltype(test<Archive, T>(0));
 
@@ -50,10 +51,10 @@ public:
 		static auto test(int) -> decltype(
 			std::declval<T2>().save(
 				std::declval<A2&>()),
-			std::true_type());
+			bksge::true_type());
 
 		template <typename A2, typename T2>
-		static auto test(...)->std::false_type;
+		static auto test(...)->bksge::false_type;
 
 		using type = decltype(test<Archive, T>(0));
 
@@ -67,13 +68,13 @@ public:
 	private:
 		template <typename A2, typename T2>
 		static auto test(int) -> decltype(
-			std::declval<typename std::remove_const<T2>::type>().load(
+			std::declval<bksge::remove_const_t<T2>>().load(
 				std::declval<A2&>(),
 				std::declval<bksge::serialization::version_t>()),
-			std::true_type());
+			bksge::true_type());
 
 		template <typename A2, typename T2>
-		static auto test(...)->std::false_type;
+		static auto test(...)->bksge::false_type;
 
 		using type = decltype(test<Archive, T>(0));
 
@@ -87,12 +88,12 @@ public:
 	private:
 		template <typename A2, typename T2>
 		static auto test(int) -> decltype(
-			std::declval<typename std::remove_const<T2>::type>().load(
+			std::declval<bksge::remove_const_t<T2>>().load(
 				std::declval<A2&>()),
-			std::true_type());
+			bksge::true_type());
 
 		template <typename A2, typename T2>
-		static auto test(...)->std::false_type;
+		static auto test(...)->bksge::false_type;
 
 		using type = decltype(test<Archive, T>(0));
 
@@ -109,10 +110,10 @@ public:
 			std::declval<T2>().serialize(
 				std::declval<A2&>(),
 				std::declval<bksge::serialization::version_t>()),
-			std::true_type());
+			bksge::true_type());
 
 		template <typename A2, typename T2>
-		static auto test(...)->std::false_type;
+		static auto test(...)->bksge::false_type;
 
 		using type = decltype(test<Archive, T>(0));
 
@@ -128,10 +129,10 @@ public:
 		static auto test(int) -> decltype(
 			std::declval<T2>().serialize(
 				std::declval<A2&>()),
-			std::true_type());
+			bksge::true_type());
 
 		template <typename A2, typename T2>
-		static auto test(...)->std::false_type;
+		static auto test(...)->bksge::false_type;
 
 		using type = decltype(test<Archive, T>(0));
 
@@ -180,7 +181,7 @@ public:
 		template <typename Archive, typename T>
 		static void invoke(Archive& ar, T const& t, bksge::serialization::version_t version)
 		{
-			const_cast<typename std::remove_const<T>::type&>(t).serialize(ar, version);
+			const_cast<bksge::remove_const_t<T>&>(t).serialize(ar, version);
 		}
 	};
 
@@ -189,7 +190,7 @@ public:
 		template <typename Archive, typename T>
 		static void invoke(Archive& ar, T const& t, bksge::serialization::version_t)
 		{
-			const_cast<typename std::remove_const<T>::type&>(t).serialize(ar);
+			const_cast<bksge::remove_const_t<T>&>(t).serialize(ar);
 		}
 	};
 };

@@ -28,6 +28,15 @@
 #include <bksge/fnd/type_traits/make_unsigned.hpp>
 #include <bksge/fnd/type_traits/negation.hpp>
 #include <bksge/fnd/type_traits/nth.hpp>
+#include <bksge/fnd/type_traits/remove_all_extents.hpp>
+#include <bksge/fnd/type_traits/remove_const.hpp>
+#include <bksge/fnd/type_traits/remove_constref.hpp>
+#include <bksge/fnd/type_traits/remove_cv.hpp>
+#include <bksge/fnd/type_traits/remove_cvref.hpp>
+#include <bksge/fnd/type_traits/remove_extent.hpp>
+#include <bksge/fnd/type_traits/remove_pointer.hpp>
+#include <bksge/fnd/type_traits/remove_reference.hpp>
+#include <bksge/fnd/type_traits/remove_volatile.hpp>
 #include <bksge/fnd/type_traits/type_identity.hpp>
 #include <bksge/fnd/type_traits/underlying_type.hpp>
 #include <bksge/fnd/type_traits/void_t.hpp>

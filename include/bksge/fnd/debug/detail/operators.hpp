@@ -9,7 +9,7 @@
 #ifndef BKSGE_FND_DEBUG_DETAIL_OPERATORS_HPP
 #define BKSGE_FND_DEBUG_DETAIL_OPERATORS_HPP
 
-#include <type_traits>
+#include <bksge/fnd/type_traits/remove_reference.hpp>
 #include <utility>	// declval
 
 namespace bksge
@@ -52,7 +52,7 @@ template <typename Lhs, typename Rhs>				\
 struct name											\
 {													\
     using optype = decltype(std::declval<Lhs>() oper std::declval<Rhs>());	\
-    using result_type = typename std::remove_reference<optype>::type;	\
+    using result_type = bksge::remove_reference_t<optype>;	\
                                                     \
     static result_type                              \
     eval(Lhs const& lhs, Rhs const& rhs)			\

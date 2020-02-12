@@ -11,11 +11,11 @@
 
 #include <bksge/fnd/debug/detail/value_expression_fwd.hpp>
 #include <bksge/fnd/debug/detail/expression_base.hpp>
+#include <bksge/fnd/type_traits/remove_reference.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
 #include <ostream>
-#include <type_traits>
 
 namespace bksge
 {
@@ -27,7 +27,7 @@ namespace detail
 {
 
 template <typename T>
-class value_expression : public expression_base<value_expression<T>, typename std::remove_reference<T>::type>
+class value_expression : public expression_base<value_expression<T>, bksge::remove_reference_t<T>>
 {
 public:
 	BKSGE_CONSTEXPR value_expression(value_expression&& ve)

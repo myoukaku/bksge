@@ -23,6 +23,7 @@ using std::make_unique;
 #else
 
 #include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/type_traits/remove_extent.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <cstddef>
 #include <type_traits>
@@ -41,7 +42,7 @@ template <typename T> inline
 bksge::enable_if_t<std::is_array<T>::value && std::extent<T>::value == 0, std::unique_ptr<T>>
 make_unique(std::size_t size)
 {
-	using Elem = typename std::remove_extent<T>::type;
+	using Elem = bksge::remove_extent_t<T>;
 	return std::unique_ptr<T>(new Elem[size]());
 }
 
