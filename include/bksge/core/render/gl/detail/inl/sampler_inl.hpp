@@ -31,28 +31,26 @@ namespace gl
 
 BKSGE_INLINE
 Sampler::Sampler(bksge::Sampler const& sampler)
-	: m_min_filter(gl::FilterMode(sampler.min_filter()))
-	, m_mag_filter(gl::FilterMode(sampler.mag_filter()))
-	, m_wrap_s(gl::AddressMode(sampler.address_mode_u()))
-	, m_wrap_t(gl::AddressMode(sampler.address_mode_v()))
-	, m_wrap_r(gl::AddressMode(sampler.address_mode_w()))
 {
-	auto const border_color = gl::BorderColor(sampler.border_color());
-	m_border_color[0] = border_color[0];
-	m_border_color[1] = border_color[1];
-	m_border_color[2] = border_color[2];
-	m_border_color[3] = border_color[3];
+	::glGenSamplers(1, &m_id);
+	::glSamplerParameteri(m_id, GL_TEXTURE_MIN_FILTER, gl::FilterMode(sampler.min_filter()));
+	::glSamplerParameteri(m_id, GL_TEXTURE_MAG_FILTER, gl::FilterMode(sampler.mag_filter()));
+	::glSamplerParameteri(m_id, GL_TEXTURE_WRAP_S, gl::AddressMode(sampler.address_mode_u()));
+	::glSamplerParameteri(m_id, GL_TEXTURE_WRAP_T, gl::AddressMode(sampler.address_mode_v()));
+	::glSamplerParameteri(m_id, GL_TEXTURE_WRAP_R, gl::AddressMode(sampler.address_mode_w()));
+	::glSamplerParameterfv(m_id, GL_TEXTURE_BORDER_COLOR, gl::BorderColor(sampler.border_color()));
+}
+
+BKSGE_INLINE
+Sampler::~Sampler()
+{
+	::glDeleteSamplers(1, &m_id);
 }
 
 BKSGE_INLINE void
-Sampler::Bind(GLint /*location*/) const
+Sampler::Bind(GLint location) const
 {
-	::glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, m_min_filter);
-	::glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, m_mag_filter);
-	::glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_wrap_s);
-	::glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, m_wrap_t);
-	::glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, m_wrap_r);
-	::glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, m_border_color);
+	::glBindSampler(location, m_id);
 }
 
 }	// namespace gl

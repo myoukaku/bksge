@@ -14,6 +14,7 @@
 
 #include <bksge/core/render/gl/detail/border_color.hpp>
 #include <bksge/core/render/border_color.hpp>
+#include <bksge/fnd/assert.hpp>
 
 namespace bksge
 {
@@ -47,13 +48,16 @@ BorderColor::BorderColor(bksge::BorderColor border_color)
 		m_border_color[2] = 1;
 		m_border_color[3] = 1;
 		break;
+	default:
+		BKSGE_ASSERT(false);
+		break;
 	}
 }
 
-BKSGE_INLINE ::GLfloat
-BorderColor::operator[](std::size_t i) const
+BKSGE_INLINE
+BorderColor::operator ::GLfloat const*() const
 {
-	return m_border_color[i];
+	return m_border_color;
 }
 
 }	// namespace gl

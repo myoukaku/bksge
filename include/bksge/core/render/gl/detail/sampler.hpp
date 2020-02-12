@@ -30,6 +30,8 @@ class Sampler
 public:
 	explicit Sampler(bksge::Sampler const& sampler);
 
+	~Sampler();
+
 	void Bind(GLint location) const;
 
 private:
@@ -38,12 +40,7 @@ private:
 	Sampler& operator=(Sampler const&) = delete;
 
 private:
-	::GLint         m_min_filter;		///< 縮小フィルタの種類
-	::GLint         m_mag_filter;		///< 拡大フィルタの種類
-	::GLint         m_wrap_s;			///< テクスチャ座標sのラップモード
-	::GLint         m_wrap_t;			///< テクスチャ座標tのラップモード
-	::GLint         m_wrap_r;			///< テクスチャ座標rのラップモード
-	::GLfloat		m_border_color[4];	///< 境界色
+	::GLuint	m_id;
 };
 
 }	// namespace gl

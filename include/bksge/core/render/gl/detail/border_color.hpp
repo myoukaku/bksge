@@ -30,7 +30,7 @@ class BorderColor
 public:
 	explicit BorderColor(bksge::BorderColor border_color);
 
-	::GLfloat operator[](std::size_t i) const;
+	operator ::GLfloat const*() const;
 
 private:
 	::GLfloat	m_border_color[4];

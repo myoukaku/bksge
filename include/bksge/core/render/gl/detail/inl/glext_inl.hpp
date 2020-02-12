@@ -671,15 +671,67 @@ BKSGE_INLINE void APIENTRY glUniformBlockBinding(GLuint program, GLuint uniformB
 
 // GL_VERSION_3_3
 
+//BKSGE_INLINE void APIENTRY glBindFragDataLocationIndexed(GLuint program, GLuint colorNumber, GLuint index, const GLchar *name);
+//BKSGE_INLINE GLint APIENTRY glGetFragDataIndex(GLuint program, const GLchar *name);
+
+BKSGE_INLINE void APIENTRY glGenSamplers(GLsizei count, GLuint *samplers)
+{
+	BKSGE_GLEXT_FUNC(PFNGLGENSAMPLERSPROC, glGenSamplers, count, samplers);
+}
+
+BKSGE_INLINE void APIENTRY glDeleteSamplers(GLsizei count, const GLuint *samplers)
+{
+	BKSGE_GLEXT_FUNC(PFNGLDELETESAMPLERSPROC, glDeleteSamplers, count, samplers);
+}
+
+//BKSGE_INLINE GLboolean APIENTRY glIsSampler(GLuint sampler);
+
+BKSGE_INLINE void APIENTRY glBindSampler(GLuint unit, GLuint sampler)
+{
+	BKSGE_GLEXT_FUNC(PFNGLBINDSAMPLERPROC, glBindSampler, unit, sampler);
+}
+
+BKSGE_INLINE void APIENTRY glSamplerParameteri(GLuint sampler, GLenum pname, GLint param)
+{
+	BKSGE_GLEXT_FUNC(PFNGLSAMPLERPARAMETERIPROC, glSamplerParameteri, sampler, pname, param);
+}
+
+//BKSGE_INLINE void APIENTRY glSamplerParameteriv(GLuint sampler, GLenum pname, const GLint *param);
+//BKSGE_INLINE void APIENTRY glSamplerParameterf(GLuint sampler, GLenum pname, GLfloat param);
+
+BKSGE_INLINE void APIENTRY glSamplerParameterfv(GLuint sampler, GLenum pname, const GLfloat *param)
+{
+	BKSGE_GLEXT_FUNC(PFNGLSAMPLERPARAMETERFVPROC, glSamplerParameterfv, sampler, pname, param);
+}
+
+//BKSGE_INLINE void APIENTRY glSamplerParameterIiv(GLuint sampler, GLenum pname, const GLint *param);
+//BKSGE_INLINE void APIENTRY glSamplerParameterIuiv(GLuint sampler, GLenum pname, const GLuint *param);
+//BKSGE_INLINE void APIENTRY glGetSamplerParameteriv(GLuint sampler, GLenum pname, GLint *params);
+//BKSGE_INLINE void APIENTRY glGetSamplerParameterIiv(GLuint sampler, GLenum pname, GLint *params);
+//BKSGE_INLINE void APIENTRY glGetSamplerParameterfv(GLuint sampler, GLenum pname, GLfloat *params);
+//BKSGE_INLINE void APIENTRY glGetSamplerParameterIuiv(GLuint sampler, GLenum pname, GLuint *params);
+
 BKSGE_INLINE void APIENTRY glQueryCounter(GLuint id, GLenum target)
 {
 	BKSGE_GLEXT_FUNC(PFNGLQUERYCOUNTERPROC, glQueryCounter, id, target);
 }
 
+//BKSGE_INLINE void APIENTRY glGetQueryObjecti64v(GLuint id, GLenum pname, GLint64 *params);
+
 BKSGE_INLINE void APIENTRY glGetQueryObjectui64v(GLuint id, GLenum pname, GLuint64* params)
 {
 	BKSGE_GLEXT_FUNC(PFNGLGETQUERYOBJECTUI64VPROC, glGetQueryObjectui64v, id, pname, params);
 }
+
+//BKSGE_INLINE void APIENTRY glVertexAttribDivisor(GLuint index, GLuint divisor);
+//BKSGE_INLINE void APIENTRY glVertexAttribP1ui(GLuint index, GLenum type, GLboolean normalized, GLuint value);
+//BKSGE_INLINE void APIENTRY glVertexAttribP1uiv(GLuint index, GLenum type, GLboolean normalized, const GLuint *value);
+//BKSGE_INLINE void APIENTRY glVertexAttribP2ui(GLuint index, GLenum type, GLboolean normalized, GLuint value);
+//BKSGE_INLINE void APIENTRY glVertexAttribP2uiv(GLuint index, GLenum type, GLboolean normalized, const GLuint *value);
+//BKSGE_INLINE void APIENTRY glVertexAttribP3ui(GLuint index, GLenum type, GLboolean normalized, GLuint value);
+//BKSGE_INLINE void APIENTRY glVertexAttribP3uiv(GLuint index, GLenum type, GLboolean normalized, const GLuint *value);
+//BKSGE_INLINE void APIENTRY glVertexAttribP4ui(GLuint index, GLenum type, GLboolean normalized, GLuint value);
+//BKSGE_INLINE void APIENTRY glVertexAttribP4uiv(GLuint index, GLenum type, GLboolean normalized, const GLuint *value);
 
 // GL_VERSION_4_0
 //BKSGE_INLINE void APIENTRY glMinSampleShading(GLfloat value);
