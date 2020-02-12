@@ -12,6 +12,8 @@
 #include <bksge/fnd/units/detail/derived_dimension_fwd.hpp>
 #include <bksge/fnd/units/detail/base_dimension_traits.hpp>
 #include <bksge/fnd/tuple/tuple_sort_type.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
+#include <bksge/fnd/type_traits/conditional.hpp>
 #include <tuple>
 
 namespace bksge
@@ -39,7 +41,7 @@ namespace detail
 struct dimension_order_less
 {
 	template <typename T1, typename T2>
-	using type = std::integral_constant<bool, (
+	using type = bksge::bool_constant<(
 		base_dimension_traits<typename T1::type>::order <
 		base_dimension_traits<typename T2::type>::order
 	)>;
@@ -63,7 +65,7 @@ template <typename... Heads, typename Middle, typename... Tails, typename Dimens
 struct append_dimension_impl<std::tuple<Heads...>, std::tuple<Middle, Tails...>, DimensionHolder>
 {
 	using type =
-		typename std::conditional<
+		bksge::conditional_t<
 			std::is_same<typename Middle::type, typename DimensionHolder::type>::value,
 			std::tuple<
 				Heads...,
@@ -75,7 +77,7 @@ struct append_dimension_impl<std::tuple<Heads...>, std::tuple<Middle, Tails...>,
 				std::tuple<Tails...>,
 				DimensionHolder
 			>::type
-		>::type;
+		>;
 };
 
 template <typename... Heads, typename DimensionHolder>
@@ -98,11 +100,11 @@ template <typename... Heads, typename Middle, typename... Tails>
 struct remove_power0_impl<std::tuple<Heads...>, std::tuple<Middle, Tails...>>
 {
 	using type = typename remove_power0_impl<
-		typename std::conditional<
+		bksge::conditional_t<
 			Middle::power != 0,
 			std::tuple<Heads..., Middle>,
 			std::tuple<Heads...>
-		>::type,
+		>,
 		std::tuple<Tails...>
 	>::type;
 };

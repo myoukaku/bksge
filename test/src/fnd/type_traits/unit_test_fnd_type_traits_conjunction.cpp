@@ -7,6 +7,7 @@
  */
 
 #include <bksge/fnd/type_traits/conjunction.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <gtest/gtest.h>
 #include <type_traits>
 
@@ -88,8 +89,8 @@ GTEST_TEST(TypeTraitsTest, ConjunctionTest)
 		std::is_unsigned<long>
 	>::value, "");
 
-	using T = std::true_type;
-	using F = std::false_type;
+	using T = bksge::true_type;
+	using F = bksge::false_type;
 
 	static_assert( bksge::conjunction<>::value, "");
 

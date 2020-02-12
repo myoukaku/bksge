@@ -12,7 +12,7 @@
 #include <bksge/fnd/serialization/access.hpp>
 #include <bksge/fnd/serialization/version.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <type_traits>
+#include <bksge/fnd/type_traits/conditional.hpp>
 #include <utility>	// declval
 
 namespace bksge
@@ -95,24 +95,24 @@ public:
 	static void invoke(Archive& ar, T const& t, bksge::serialization::version_t version)
 	{
 		using type =
-			typename std::conditional<
+			bksge::conditional_t<
 				access::is_serialize_version_memfun_invocable<Archive, T>::value,
 				access::serialize_version_memfun,
 
-			typename std::conditional<
+			bksge::conditional_t<
 				access::is_serialize_memfun_invocable<Archive, T>::value,
 				access::serialize_memfun,
 
-			typename std::conditional<
+			bksge::conditional_t<
 				is_serialize_version_free_invocable<Archive, T>::value,
 				serialize_version_free,
 
-			typename std::conditional<
+			bksge::conditional_t<
 				is_serialize_free_invocable<Archive, T>::value,
 				serialize_free,
 
 			serialize_fallback
-		>::type>::type>::type>::type;
+		>>>>;
 
 		type::invoke(ar, t, version);
 	}

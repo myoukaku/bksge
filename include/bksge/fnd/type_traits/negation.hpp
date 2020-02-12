@@ -22,6 +22,8 @@ using std::negation;
 
 #else
 
+#include <bksge/fnd/type_traits/bool_constant.hpp>
+
 namespace bksge
 {
 
@@ -33,7 +35,7 @@ namespace bksge
  *	integral_constant<bool, !B::value> と同じ
  */
 template <typename B>
-struct negation : public std::integral_constant<bool, !B::value> {};
+struct negation : public bksge::bool_constant<!B::value> {};
 
 }	// namespace bksge
 

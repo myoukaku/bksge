@@ -14,6 +14,7 @@
 #include <bksge/fnd/serialization/nvp.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/is_null_pointer.hpp>
+#include <bksge/fnd/type_traits/conditional.hpp>
 #include <type_traits>
 #include <utility>	// declval
 
@@ -142,24 +143,24 @@ private:
 		static void invoke(Archive& ar, T const& t)
 		{
 			using type =
-				typename std::conditional<
+				bksge::conditional_t<
 					access::is_save_version_memfun_invocable<Archive, T>::value,
 					access::save_version_memfun,
 
-				typename std::conditional<
+				bksge::conditional_t<
 					access::is_save_memfun_invocable<Archive, T>::value,
 					access::save_memfun,
 
-				typename std::conditional<
+				bksge::conditional_t<
 					is_save_version_free_invocable<Archive, T>::value,
 					save_version_free,
 
-				typename std::conditional<
+				bksge::conditional_t<
 					is_save_free_invocable<Archive, T>::value,
 					save_free,
 
 				serialize_dispatch
-			>::type>::type>::type>::type;
+			>>>>;
 
 			auto const version = detail::Version<T>::value;
 			ar.save(version);
@@ -172,32 +173,32 @@ public:
 	static void invoke(Archive& ar, T const& t)
 	{
 		using type =
-			typename std::conditional<
+			bksge::conditional_t<
 				std::is_array<T>::value,
 				save_array,
 
-			typename std::conditional<
+			bksge::conditional_t<
 				std::is_arithmetic<T>::value,
 				save_arithmetic,
 
-			typename std::conditional<
+			bksge::conditional_t<
 				std::is_enum<T>::value,
 				save_enum,
 
-			typename std::conditional<
+			bksge::conditional_t<
 				std::is_pointer<T>::value,
 				save_pointer,
 
-			typename std::conditional<
+			bksge::conditional_t<
 				bksge::is_null_pointer<T>::value,
 				save_null_pointer,
 
-			typename std::conditional<
+			bksge::conditional_t<
 				is_nvp<T>::value,
 				save_nvp,
 
 			save_object
-		>::type>::type>::type>::type>::type>::type;
+		>>>>>>;
 
 		type::invoke(ar, t);
 	}

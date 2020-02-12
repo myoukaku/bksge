@@ -10,7 +10,8 @@
 #define BKSGE_FND_TYPE_TRAITS_INL_CONJUNCTION_INL_HPP
 
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <type_traits>
+#include <bksge/fnd/type_traits/conditional.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 
 namespace bksge
 {
@@ -23,7 +24,7 @@ struct conjunction_impl;
 
 template <>
 struct conjunction_impl<>
-	: public std::true_type
+	: public bksge::true_type
 {};
 
 template <typename B0>
@@ -33,11 +34,11 @@ struct conjunction_impl<B0>
 
 template <typename B0, typename... Bn>
 struct conjunction_impl<B0, Bn...>
-	: public std::conditional<
+	: public bksge::conditional_t<
 		static_cast<bool>(B0::value),
 		conjunction_impl<Bn...>,
 		B0
-	>::type
+	>
 {};
 
 }	// namespace detail

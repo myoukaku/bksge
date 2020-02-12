@@ -9,7 +9,7 @@
 #ifndef BKSGE_FND_SERIALIZATION_NVP_HPP
 #define BKSGE_FND_SERIALIZATION_NVP_HPP
 
-#include <type_traits>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <utility>
 
 namespace bksge
@@ -53,19 +53,19 @@ make_nvp(char const* name, T& t)
 }
 
 template <typename T>
-struct is_nvp : public std::false_type {};
+struct is_nvp : public bksge::false_type {};
 
 template <typename T>
-struct is_nvp<nvp<T>> : public std::true_type {};
+struct is_nvp<nvp<T>> : public bksge::true_type {};
 
 template <typename T>
-struct is_nvp<nvp<T> const> : public std::true_type {};
+struct is_nvp<nvp<T> const> : public bksge::true_type {};
 
 template <typename T>
-struct is_nvp<nvp<T> volatile> : public std::true_type {};
+struct is_nvp<nvp<T> volatile> : public bksge::true_type {};
 
 template <typename T>
-struct is_nvp<nvp<T> const volatile> : public std::true_type {};
+struct is_nvp<nvp<T> const volatile> : public bksge::true_type {};
 
 }	// namespace serialization
 

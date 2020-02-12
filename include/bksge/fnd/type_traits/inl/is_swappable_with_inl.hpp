@@ -10,8 +10,8 @@
 #define BKSGE_FND_TYPE_TRAITS_INL_IS_SWAPPABLE_WITH_INL_HPP
 
 #include <bksge/fnd/type_traits/is_swappable_with.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/utility/swap.hpp>
-#include <type_traits>
 #include <utility>
 
 namespace bksge
@@ -33,10 +33,10 @@ private:
 			swap(std::declval<T2>(), std::declval<U2>()),
 			swap(std::declval<U2>(), std::declval<T2>()))
 	>
-	static std::true_type test(int);
+	static bksge::true_type test(int);
 
 	template <typename, typename>
-	static std::false_type test(...);
+	static bksge::false_type test(...);
 
 public:
 	using type = decltype(test<T, U>(0));

@@ -10,7 +10,7 @@
 #define BKSGE_FND_TUPLE_TUPLE_SORT_TYPE_HPP
 
 #include <bksge/fnd/tuple/fwd/tuple_sort_type_fwd.hpp>
-#include <type_traits>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 
 namespace bksge
 {
@@ -30,7 +30,7 @@ struct tuple_sort_type;
 struct value_less
 {
 	template <typename T1, typename T2>
-	using type = std::integral_constant<bool, (T1::value < T2::value)>;
+	using type = bksge::bool_constant<(T1::value < T2::value)>;
 };
 
 }	// namespace bksge

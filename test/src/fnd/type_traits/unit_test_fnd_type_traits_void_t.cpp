@@ -7,8 +7,8 @@
  */
 
 #include <bksge/fnd/type_traits/void_t.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <gtest/gtest.h>
-#include <type_traits>
 #include <utility>
 
 namespace bksge_type_traits_test
@@ -19,10 +19,10 @@ namespace void_t_test
 
 // 型Tが ::type メンバを持っているかを取得する、has_type_memberを定義します
 template <typename, typename = bksge::void_t<>>
-struct has_type_member : std::false_type {};
+struct has_type_member : bksge::false_type {};
  
 template <typename T>
-struct has_type_member<T, bksge::void_t<typename T::type>> : std::true_type {};
+struct has_type_member<T, bksge::void_t<typename T::type>> : bksge::true_type {};
 
 struct A
 {
@@ -48,10 +48,10 @@ struct D
 };
 
 template <typename, typename = bksge::void_t<>>
-struct has_f1_memfun : std::false_type {};
+struct has_f1_memfun : bksge::false_type {};
 
 template <typename T>
-struct has_f1_memfun<T, bksge::void_t<decltype(std::declval<T>().f1())>> : std::true_type {};
+struct has_f1_memfun<T, bksge::void_t<decltype(std::declval<T>().f1())>> : bksge::true_type {};
 
 static_assert( has_f1_memfun<C>::value, "");
 static_assert(!has_f1_memfun<D>::value, "");
@@ -68,11 +68,11 @@ struct F
 };
 
 template <typename, typename = bksge::void_t<>>
-struct has_f_memfun : std::false_type {};
+struct has_f_memfun : bksge::false_type {};
 
 template <typename T>
 struct has_f_memfun<T, bksge::void_t<
-	decltype(std::declval<T>().f(std::declval<int>(), std::declval<float>()))>> : std::true_type {};
+	decltype(std::declval<T>().f(std::declval<int>(), std::declval<float>()))>> : bksge::true_type {};
 
 static_assert(!has_f_memfun<E>::value, "");
 static_assert( has_f_memfun<F>::value, "");
@@ -89,11 +89,11 @@ struct H
 int fun(int, const G&, char);
 
 template <typename, typename = bksge::void_t<>>
-struct fun_callable : std::false_type {};
+struct fun_callable : bksge::false_type {};
 
 template <typename T>
 struct fun_callable<T, bksge::void_t<
-	decltype(fun(std::declval<int>(), std::declval<T>(), std::declval<char>()))>> : std::true_type {};
+	decltype(fun(std::declval<int>(), std::declval<T>(), std::declval<char>()))>> : bksge::true_type {};
 
 static_assert( fun_callable<G>::value, "");
 static_assert(!fun_callable<H>::value, "");

@@ -12,7 +12,7 @@
 #include <bksge/fnd/tuple/tuple_sort_type.hpp>
 #include <bksge/fnd/tuple/tuple_init_type.hpp>
 #include <bksge/fnd/tuple/tuple_last_type.hpp>
-#include <type_traits>
+#include <bksge/fnd/type_traits/conditional.hpp>
 
 namespace bksge
 {
@@ -37,7 +37,7 @@ struct tuple_sort_type_impl_2<
 >
 {
 	using type =
-		typename std::conditional<
+		bksge::conditional_t<
 			//(T1::value < T2::value),
 			(Compare::template type<T1, T2>::value),
 			typename tuple_sort_type_impl_2<
@@ -50,7 +50,7 @@ struct tuple_sort_type_impl_2<
 				Tuple<T1, Tails...>,
 				Compare
 			>::type
-		>::type;
+		>;
 };
 
 template <

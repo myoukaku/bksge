@@ -10,7 +10,8 @@
 #define BKSGE_FND_TYPE_TRAITS_INL_DISJUNCTION_INL_HPP
 
 #include <bksge/fnd/type_traits/disjunction.hpp>
-#include <type_traits>
+#include <bksge/fnd/type_traits/conditional.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 
 namespace bksge
 {
@@ -23,7 +24,7 @@ struct disjunction_impl;
 
 template <>
 struct disjunction_impl<>
-	: public std::false_type
+	: public bksge::false_type
 {};
 
 template <typename B0>
@@ -33,11 +34,11 @@ struct disjunction_impl<B0>
 
 template <typename B0, typename... Bn>
 struct disjunction_impl<B0, Bn...>
-	: public std::conditional<
+	: public bksge::conditional_t<
 		static_cast<bool>(B0::value),
 		B0,
 		disjunction_impl<Bn...>
-	>::type
+	>
 {};
 
 }	// namespace detail

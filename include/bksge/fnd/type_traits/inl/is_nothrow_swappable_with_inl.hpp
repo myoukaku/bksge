@@ -11,9 +11,9 @@
 
 #include <bksge/fnd/type_traits/is_nothrow_swappable_with.hpp>
 #include <bksge/fnd/type_traits/is_swappable_with.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/config.hpp>
-#include <type_traits>
 #include <utility>
 
 namespace bksge
@@ -31,14 +31,14 @@ struct is_nothrow_swappable_with_impl_2
 {
 private:
 	template <typename T2, typename U2>
-	static std::integral_constant<bool,
+	static bksge::bool_constant<
 		BKSGE_NOEXCEPT_EXPR(swap(std::declval<T2>(), std::declval<U2>())) &&
 		BKSGE_NOEXCEPT_EXPR(swap(std::declval<U2>(), std::declval<T2>()))
 	>
 	test(int);
 
 	template <typename, typename>
-	static std::false_type test(...);
+	static bksge::false_type test(...);
 
 public:
 	using type = decltype(test<T, U>(0));
@@ -49,14 +49,14 @@ public:
 template <typename T, typename U>
 struct is_nothrow_swappable_with_impl_2
 {
-	using type = std::true_type;
+	using type = bksge::true_type;
 };
 
 #endif
 
 template <typename T, typename U>
 struct is_nothrow_swappable_with_impl
-	: public std::integral_constant<bool,
+	: public bksge::bool_constant<
 		bksge::is_swappable_with<T, U>::value &&
 		is_nothrow_swappable_with_impl_2<T, U>::type::value
 	>

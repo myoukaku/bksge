@@ -7,6 +7,7 @@
  */
 
 #include <bksge/fnd/tuple/tuple_sort_type.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <gtest/gtest.h>
 #include <tuple>
 #include <type_traits>
@@ -21,7 +22,7 @@ namespace tupe_sort_type_test
 struct size_greater
 {
 	template <typename T1, typename T2>
-	using type = std::integral_constant<bool, (sizeof(T1) > sizeof(T2))>;
+	using type = bksge::bool_constant<(sizeof(T1) > sizeof(T2))>;
 };
 
 template <template <typename...> class Tuple>

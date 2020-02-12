@@ -11,6 +11,7 @@
 
 #include <bksge/fnd/type_traits/is_nothrow_swappable.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_swappable_with.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <type_traits>
 
 namespace bksge
@@ -26,7 +27,7 @@ struct is_nothrow_swappable_impl
 
 template <typename T>
 struct is_nothrow_swappable_impl<T, true>
-	: public std::false_type
+	: public bksge::false_type
 {};
 
 }	// namespace detail

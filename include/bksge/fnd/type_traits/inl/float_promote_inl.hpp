@@ -10,6 +10,8 @@
 #define BKSGE_FND_TYPE_TRAITS_INL_FLOAT_PROMOTE_INL_HPP
 
 #include <bksge/fnd/type_traits/float_promote.hpp>
+#include <bksge/fnd/type_traits/conditional.hpp>
+#include <bksge/fnd/type_traits/remove_cv.hpp>
 #include <type_traits>
 
 namespace bksge
@@ -23,7 +25,7 @@ struct float_promote_impl;
 
 template <typename T>
 struct float_promote_impl<T>
-	: public std::conditional<
+	: public bksge::conditional<
 		std::is_floating_point<T>::value,
 		T,
 		double
@@ -32,16 +34,16 @@ struct float_promote_impl<T>
 
 template <typename T, typename U>
 struct float_promote_impl<T, U>
-	: public std::conditional<
+	: public bksge::conditional<
 		std::is_same<T, long double>::value ||
 		std::is_same<U, long double>::value,
 		long double,
-		typename std::conditional<
+		bksge::conditional_t<
 			std::is_same<T, float>::value &&
 			std::is_same<U, float>::value,
 			float,
 			double
-		>::type
+		>
 	>
 {};
 
@@ -58,7 +60,7 @@ struct float_promote_impl<T, U, Tail...>
 template <typename... Types>
 struct float_promote
 	: public detail::float_promote_impl<
-		typename std::remove_cv<Types>::type...
+		bksge::remove_cv_t<Types>...
 	>
 {};
 
