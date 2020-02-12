@@ -14,7 +14,7 @@
 
 #include <bksge/core/input/win32/win32_mouse_device.hpp>
 #include <bksge/core/input/win32/diproperty.hpp>
-#include <type_traits>
+#include <bksge/fnd/type_traits/make_signed.hpp>
 #include <unordered_map>
 
 #if defined(_MSC_VER)
@@ -253,7 +253,7 @@ Win32MouseDevice::Read(void)
 		case DIMOFS_Y:
 		case DIMOFS_Z:
 		{
-			using SignedDataType = typename std::make_signed<DWORD>::type;
+			using SignedDataType = bksge::make_signed_t<DWORD>;
 			auto const axis = detail::DIMOfsToMouseAxis(di_buff[i].dwOfs);
 			auto const data = static_cast<SignedDataType>(di_buff[i].dwData);
 			auto const granularity = (axis == MouseAxis::kWheel) ? m_granularity_z : 1.0f;

@@ -24,6 +24,8 @@
 #include <bksge/fnd/type_traits/is_null_pointer.hpp>
 #include <bksge/fnd/type_traits/is_swappable.hpp>
 #include <bksge/fnd/type_traits/is_swappable_with.hpp>
+#include <bksge/fnd/type_traits/make_signed.hpp>
+#include <bksge/fnd/type_traits/make_unsigned.hpp>
 #include <bksge/fnd/type_traits/negation.hpp>
 #include <bksge/fnd/type_traits/nth.hpp>
 #include <bksge/fnd/type_traits/type_identity.hpp>
