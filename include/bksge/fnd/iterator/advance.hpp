@@ -11,8 +11,8 @@
 
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/iterator/type_traits/is_input_iterator.hpp>
+#include <bksge/fnd/iterator/type_traits/iterator_difference_type.hpp>
 #include <bksge/fnd/config.hpp>
-#include <iterator>	// iterator_traits
 
 namespace bksge
 {
@@ -22,7 +22,7 @@ namespace bksge
  */
 template <
 	typename InputIterator,
-	typename Distance = typename std::iterator_traits<InputIterator>::difference_type,
+	typename Distance = bksge::iterator_difference_type<InputIterator>,
 	typename = bksge::enable_if_t<
 		bksge::is_input_iterator<InputIterator>::value
 	>

@@ -11,6 +11,7 @@
 
 #include <bksge/fnd/iterator/prev.hpp>
 #include <bksge/fnd/iterator/advance.hpp>
+#include <bksge/fnd/iterator/type_traits/iterator_category.hpp>
 #include <bksge/fnd/config.hpp>
 #include <iterator>
 
@@ -41,7 +42,7 @@ template <typename BidirectionalIterator, typename Distance, typename>
 inline BKSGE_CONSTEXPR BidirectionalIterator
 prev(BidirectionalIterator const& it, Distance n)
 {
-	using Category = typename std::iterator_traits<BidirectionalIterator>::iterator_category*;
+	using Category = bksge::iterator_category<BidirectionalIterator>*;
 	return detail::prev_impl(it, n, Category());
 }
 

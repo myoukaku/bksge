@@ -22,6 +22,7 @@
 //#include <bksge/fnd/serialization/nvp.hpp>
 //#include <bksge/fnd/serialization/shared_ptr.hpp>
 //#include <bksge/fnd/serialization/version.hpp>
+#include <bksge/fnd/iterator/type_traits/iterator_value_type.hpp>
 #include <cstddef>
 #include <iterator>
 #include <memory>
@@ -71,8 +72,8 @@ public:
 	template <
 		typename VertexIterator,
 		typename IndexIterator,
-		typename VertexType = typename std::iterator_traits<VertexIterator>::value_type,
-		typename IndexType = typename std::iterator_traits<IndexIterator>::value_type
+		typename VertexType = bksge::iterator_value_type<VertexIterator>,
+		typename IndexType = bksge::iterator_value_type<IndexIterator>
 	>
 	Geometry(
 		PrimitiveTopology primitive_topology,
@@ -87,7 +88,7 @@ public:
 
 	template <
 		typename VertexIterator,
-		typename VertexType = typename std::iterator_traits<VertexIterator>::value_type
+		typename VertexType = bksge::iterator_value_type<VertexIterator>
 	>
 	Geometry(
 		PrimitiveTopology primitive_topology,

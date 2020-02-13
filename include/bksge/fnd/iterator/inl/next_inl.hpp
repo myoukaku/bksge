@@ -11,6 +11,7 @@
 
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/iterator/advance.hpp>
+#include <bksge/fnd/iterator/type_traits/iterator_category.hpp>
 #include <bksge/fnd/config.hpp>
 #include <iterator>
 
@@ -41,7 +42,7 @@ template <typename InputIterator, typename Distance, typename>
 inline BKSGE_CONSTEXPR InputIterator
 next(InputIterator const& it, Distance n)
 {
-	using Category = typename std::iterator_traits<InputIterator>::iterator_category*;
+	using Category = bksge::iterator_category<InputIterator>*;
 	return detail::next_impl(it, n, Category());
 }
 

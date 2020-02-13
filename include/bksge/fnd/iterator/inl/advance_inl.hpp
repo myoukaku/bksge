@@ -10,6 +10,7 @@
 #define BKSGE_FND_ITERATOR_INL_ADVANCE_INL_HPP
 
 #include <bksge/fnd/iterator/advance.hpp>
+#include <bksge/fnd/iterator/type_traits/iterator_category.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <iterator>
 
@@ -63,7 +64,7 @@ template <typename InputIterator, typename Distance, typename>
 inline BKSGE_CXX14_CONSTEXPR void
 advance(InputIterator& it, Distance n)
 {
-	using Category = typename std::iterator_traits<InputIterator>::iterator_category*;
+	using Category = bksge::iterator_category<InputIterator>*;
 	bksge::detail::advance_impl(it, n, Category());
 }
 
