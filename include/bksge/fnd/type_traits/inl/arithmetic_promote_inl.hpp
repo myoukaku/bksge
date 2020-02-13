@@ -11,7 +11,8 @@
 
 #include <bksge/fnd/type_traits/arithmetic_promote.hpp>
 #include <bksge/fnd/type_traits/type_identity.hpp>
-#include <type_traits>
+#include <bksge/fnd/type_traits/remove_cv.hpp>
+#include <type_traits>	// is_arithmetic
 #include <utility>		// declval
 
 namespace bksge
@@ -47,7 +48,7 @@ struct arithmetic_promote_impl<T, U, Tail...>
 template <typename... T>
 struct arithmetic_promote
 	: public detail::arithmetic_promote_impl<
-		typename std::remove_cv<T>::type...
+		bksge::remove_cv_t<T>...
 	>
 {};
 

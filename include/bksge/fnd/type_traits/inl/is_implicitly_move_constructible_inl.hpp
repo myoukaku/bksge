@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/type_traits/is_implicitly_move_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
-#include <type_traits>
+#include <bksge/fnd/type_traits/add_rvalue_reference.hpp>
 
 namespace bksge
 {
@@ -19,7 +19,7 @@ namespace bksge
 template <typename T>
 struct is_implicitly_move_constructible
 	: public bksge::is_implicitly_constructible<
-		T, typename std::add_rvalue_reference<T>::type
+		T, bksge::add_rvalue_reference_t<T>
 	>
 {};
 

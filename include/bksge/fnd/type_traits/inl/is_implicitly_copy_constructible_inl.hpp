@@ -11,7 +11,8 @@
 
 #include <bksge/fnd/type_traits/is_implicitly_copy_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
-#include <type_traits>
+#include <bksge/fnd/type_traits/add_lvalue_reference.hpp>
+#include <bksge/fnd/type_traits/add_const.hpp>
 
 namespace bksge
 {
@@ -20,9 +21,9 @@ template <typename T>
 struct is_implicitly_copy_constructible
 	: public bksge::is_implicitly_constructible<
 		T,
-		typename std::add_lvalue_reference<
-			typename std::add_const<T>::type
-		>::type
+		bksge::add_lvalue_reference_t<
+			bksge::add_const_t<T>
+		>
 	>
 {};
 

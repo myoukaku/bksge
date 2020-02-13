@@ -9,6 +9,12 @@
 #ifndef BKSGE_FND_TYPE_TRAITS_HPP
 #define BKSGE_FND_TYPE_TRAITS_HPP
 
+#include <bksge/fnd/type_traits/add_const.hpp>
+#include <bksge/fnd/type_traits/add_cv.hpp>
+#include <bksge/fnd/type_traits/add_lvalue_reference.hpp>
+#include <bksge/fnd/type_traits/add_pointer.hpp>
+#include <bksge/fnd/type_traits/add_rvalue_reference.hpp>
+#include <bksge/fnd/type_traits/add_volatile.hpp>
 #include <bksge/fnd/type_traits/arithmetic_promote.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/common_type.hpp>
