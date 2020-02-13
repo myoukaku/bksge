@@ -11,6 +11,7 @@
 
 #include <bksge/fnd/type_traits/arithmetic_promote.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
+#include <bksge/fnd/type_traits/common_type.hpp>
 #include <bksge/fnd/type_traits/conditional.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/disjunction.hpp>

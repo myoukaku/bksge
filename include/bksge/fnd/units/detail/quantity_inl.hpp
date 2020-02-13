@@ -13,11 +13,11 @@
 #include <bksge/fnd/units/detail/dimension_multiply.hpp>
 #include <bksge/fnd/units/detail/dimension_divide.hpp>
 #include <bksge/fnd/ratio/ratio_gcd.hpp>
+#include <bksge/fnd/type_traits/common_type.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstdint>
 #include <ostream>
 #include <ratio>
-#include <type_traits>
 
 namespace bksge
 {
@@ -29,7 +29,7 @@ template <typename T1, typename D, typename S1, typename O1, typename T2, typena
 struct quantity_common_type<quantity<T1, D, S1, O1>, quantity<T2, D, S2, O2>>
 {
 	using type = quantity<
-		typename std::common_type<T1, T2>::type,
+		bksge::common_type_t<T1, T2>,
 		D,
 		bksge::ratio_gcd<S1, S2>
 	>;
@@ -39,7 +39,7 @@ template <typename T1, typename D1, typename S1, typename T2, typename D2, typen
 struct quantity_multiply_result<quantity<T1, D1, S1>, quantity<T2, D2, S2>>
 {
 	using type = quantity<
-		typename std::common_type<T1, T2>::type,
+		bksge::common_type_t<T1, T2>,
 		dimension_multiply<D1, D2>,
 		std::ratio_multiply<S1, S2>
 	>;
@@ -49,7 +49,7 @@ template <typename T1, typename D1, typename S1, typename T2, typename D2, typen
 struct quantity_divide_result<quantity<T1, D1, S1>, quantity<T2, D2, S2>>
 {
 	using type = quantity<
-		typename std::common_type<T1, T2>::type,
+		bksge::common_type_t<T1, T2>,
 		dimension_divide<D1, D2>,
 		std::ratio_divide<S1, S2>
 	>;
