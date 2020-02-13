@@ -13,7 +13,9 @@
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/image_object_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/image_view_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/command_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
+#include <bksge/core/render/fwd/clear_state_fwd.hpp>
 #include <memory>
 
 namespace bksge
@@ -30,10 +32,15 @@ class DepthBuffer
 public:
 	explicit DepthBuffer(
 		vulkan::DeviceSharedPtr const& device,
+		vulkan::CommandPoolSharedPtr const& command_pool,
 		::VkExtent2D const& extent,
 		::VkSampleCountFlagBits num_samples);
 
 	~DepthBuffer();
+
+	void Clear(
+		vulkan::CommandPoolSharedPtr const& command_pool,
+		bksge::ClearState const& clear_state);
 
 	::VkFormat const& GetFormat(void) const;
 

@@ -43,7 +43,7 @@ RenderPass::RenderPass(
 		::VkAttachmentDescription att;
 		att.format         = surface_format;
 		att.samples        = num_samples;
-		att.loadOp         = VK_ATTACHMENT_LOAD_OP_CLEAR;
+		att.loadOp         = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
 		att.storeOp        = VK_ATTACHMENT_STORE_OP_STORE;
 		att.stencilLoadOp  = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
 		att.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
@@ -58,9 +58,9 @@ RenderPass::RenderPass(
 		::VkAttachmentDescription att;
 		att.format         = depth_format;
 		att.samples        = num_samples;
-		att.loadOp         = VK_ATTACHMENT_LOAD_OP_CLEAR;
+		att.loadOp         = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
 		att.storeOp        = VK_ATTACHMENT_STORE_OP_STORE;
-		att.stencilLoadOp  = VK_ATTACHMENT_LOAD_OP_LOAD;
+		att.stencilLoadOp  = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
 		att.stencilStoreOp = VK_ATTACHMENT_STORE_OP_STORE;
 		att.initialLayout  = VK_IMAGE_LAYOUT_UNDEFINED;
 		att.finalLayout    = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;

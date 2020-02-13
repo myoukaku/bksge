@@ -67,6 +67,17 @@ ImageObject::UnmapMemory(void)
 	m_device_memory->UnmapMemory();
 }
 
+BKSGE_INLINE void
+ImageObject::TransitionLayout(
+	vulkan::CommandPoolSharedPtr const& command_pool,
+	::VkImageAspectFlags aspect_mask,
+	::VkImageLayout old_layout,
+	::VkImageLayout new_layout)
+{
+	m_image->TransitionLayout(
+		command_pool, aspect_mask, old_layout, new_layout);
+}
+
 BKSGE_INLINE ::VkImage
 ImageObject::GetImage(void) const
 {

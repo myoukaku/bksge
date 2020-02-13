@@ -168,12 +168,13 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 		m_device, graphics_queue_family_index);
 
 	m_command_buffer = bksge::make_unique<vulkan::CommandBuffer>(
-		m_device, m_command_pool);
+		m_command_pool);
 
 	vk::GetDeviceQueue(*m_device, graphics_queue_family_index, 0, &m_graphics_queue);
 
 	m_swapchain = bksge::make_unique<vulkan::Swapchain>(
 		m_device,
+		m_command_pool,
 		*m_surface,
 		surface_format,
 		graphics_queue_family_index,
@@ -181,6 +182,7 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 
 	m_depth_buffer = bksge::make_unique<vulkan::DepthBuffer>(
 		m_device,
+		m_command_pool,
 		m_swapchain->extent(),
 		NUM_SAMPLES);
 
@@ -264,28 +266,22 @@ VulkanRenderer::VEnd(void)
 BKSGE_INLINE void
 VulkanRenderer::VBeginRenderPass(RenderPassInfo const& render_pass_info)
 {
+	m_depth_buffer->Clear(
+		m_command_pool,
+		render_pass_info.clear_state());
+
+	m_swapchain->ClearColor(
+		m_command_pool,
+		m_frame_index,
+		render_pass_info.clear_state());
+
 	{
-		auto const& clear_state = render_pass_info.clear_state();
-//		auto const clear_flag    = clear_state.flag();		// TODO
-		auto const clear_color   = clear_state.color();
-		auto const clear_depth   = clear_state.depth();
-		auto const clear_stencil = clear_state.stencil();
-
-		::VkClearValue clear_values[2];
-		clear_values[0].color.float32[0]     = clear_color[0];
-		clear_values[0].color.float32[1]     = clear_color[1];
-		clear_values[0].color.float32[2]     = clear_color[2];
-		clear_values[0].color.float32[3]     = clear_color[3];
-		clear_values[1].depthStencil.depth   = clear_depth;
-		clear_values[1].depthStencil.stencil = clear_stencil;
-
 		vk::RenderPassBeginInfo rp_begin;
 		rp_begin.renderPass          = *m_render_pass;
 		rp_begin.framebuffer         = *m_framebuffers[m_frame_index];
 		rp_begin.renderArea.offset.x = 0;
 		rp_begin.renderArea.offset.y = 0;
 		rp_begin.renderArea.extent   = m_swapchain->extent();
-		rp_begin.SetClearValues(clear_values);
 
 		m_command_buffer->BeginRenderPass(rp_begin);
 	}
@@ -363,6 +359,7 @@ VulkanRenderer::VRender(
 		*graphics_pipeline);
 
 	m_command_buffer->PushDescriptorSet(
+		*m_device,
 		VK_PIPELINE_BIND_POINT_GRAPHICS,
 		graphics_pipeline->GetLayout(),
 		0,	// TODO set

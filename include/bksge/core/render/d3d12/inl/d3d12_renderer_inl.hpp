@@ -184,8 +184,11 @@ D3D12Renderer::VBeginRenderPass(RenderPassInfo const& render_pass_info)
 				mask |= D3D12_CLEAR_FLAG_STENCIL;
 			}
 
-			m_command_list->ClearDepthStencilView(
-				dsv_handle, mask, clear_depth, clear_stencil, 0, nullptr);
+			if (mask != 0)
+			{
+				m_command_list->ClearDepthStencilView(
+					dsv_handle, mask, clear_depth, clear_stencil, 0, nullptr);
+			}
 		}
 	}
 

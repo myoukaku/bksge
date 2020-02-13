@@ -16,7 +16,11 @@
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/physical_device.hpp>
 #include <bksge/core/render/vulkan/detail/surface.hpp>
+#include <bksge/core/render/vulkan/detail/command_pool.hpp>
+#include <bksge/core/render/vulkan/detail/command_buffer.hpp>
+#include <bksge/core/render/vulkan/detail/image.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
+#include <bksge/core/render/clear_state.hpp>
 #include <cstdint>
 #include <memory>
 #include <vector>
@@ -33,6 +37,7 @@ namespace vulkan
 BKSGE_INLINE
 Swapchain::Swapchain(
 	vulkan::DeviceSharedPtr const& device,
+	vulkan::CommandPoolSharedPtr const& command_pool,
 	vulkan::Surface const& surface,
 	::VkFormat surface_format,
 	std::uint32_t graphics_queue_family_index,
@@ -103,7 +108,8 @@ Swapchain::Swapchain(
 	m_info.imageExtent      = swapchain_extent;
 	m_info.imageArrayLayers = 1;
 	m_info.imageUsage       = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT |
-		                      VK_IMAGE_USAGE_TRANSFER_SRC_BIT;
+		                      VK_IMAGE_USAGE_TRANSFER_SRC_BIT |
+							  VK_IMAGE_USAGE_TRANSFER_DST_BIT;
 	m_info.preTransform     = pre_transform;
 	m_info.compositeAlpha   = composite_alpha;
 	m_info.presentMode      = VK_PRESENT_MODE_FIFO_KHR;
@@ -154,6 +160,13 @@ Swapchain::Swapchain(
 		::VkImageView view;
 		vk::CreateImageView(*m_device, &info, nullptr, &view);
 		m_image_views.push_back(view);
+
+		TransitionImageLayout(
+			command_pool,
+			image,
+			VK_IMAGE_ASPECT_COLOR_BIT,
+			VK_IMAGE_LAYOUT_UNDEFINED,
+			VK_IMAGE_LAYOUT_PRESENT_SRC_KHR);
 	}
 
 	vk::GetDeviceQueue(*m_device, present_queue_family_index, 0, &m_present_queue);
@@ -185,6 +198,59 @@ Swapchain::AcquireNextImage(
 		fence,
 		&image_index);
 	return image_index;
+}
+
+BKSGE_INLINE void
+Swapchain::ClearColor(
+	vulkan::CommandPoolSharedPtr const& command_pool,
+	std::uint32_t index,
+	bksge::ClearState const& clear_state)
+{
+	if ((clear_state.flag() & bksge::ClearFlag::kColor) == bksge::ClearFlag::kNone)
+	{
+		return;
+	}
+
+	auto images = vk::GetSwapchainImagesKHR(*m_device, m_swapchain);
+	auto image = images[index];
+
+	TransitionImageLayout(
+		command_pool,
+		image,
+		VK_IMAGE_ASPECT_COLOR_BIT,
+		VK_IMAGE_LAYOUT_PRESENT_SRC_KHR,
+		VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
+
+	auto const clear_color = clear_state.color();
+
+	::VkClearColorValue clear_value;
+	clear_value.float32[0] = clear_color[0];
+	clear_value.float32[1] = clear_color[1];
+	clear_value.float32[2] = clear_color[2];
+	clear_value.float32[3] = clear_color[3];
+
+	::VkImageSubresourceRange range;
+	range.aspectMask     = VK_IMAGE_ASPECT_COLOR_BIT;
+	range.baseMipLevel   = 0;
+	range.levelCount     = 1;
+	range.baseArrayLayer = 0;
+	range.layerCount     = 1;
+
+	auto command_buffer = BeginSingleTimeCommands(command_pool);
+	::vkCmdClearColorImage(
+		*command_buffer,
+		image,
+		VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+		&clear_value,
+		1, &range);
+	EndSingleTimeCommands(command_pool, command_buffer);
+
+	TransitionImageLayout(
+		command_pool,
+		image,
+		VK_IMAGE_ASPECT_COLOR_BIT,
+		VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+		VK_IMAGE_LAYOUT_PRESENT_SRC_KHR);
 }
 
 //BKSGE_INLINE std::vector<VkImage>

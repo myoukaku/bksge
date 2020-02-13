@@ -30,7 +30,6 @@ class CommandBuffer
 {
 public:
 	explicit CommandBuffer(
-		vulkan::DeviceSharedPtr const& device,
 		vulkan::CommandPoolSharedPtr const& command_pool);
 
 	~CommandBuffer();
@@ -49,10 +48,11 @@ public:
 		::VkPipeline          pipeline);
 
 	void PushDescriptorSet(
-		::VkPipelineBindPoint                    pipeline_bind_point,
-		::VkPipelineLayout                       layout,
-		std::uint32_t                            set,
-		std::vector<VkWriteDescriptorSet> const& descriptor_writes);
+		::VkDevice                                 device,
+		::VkPipelineBindPoint                      pipeline_bind_point,
+		::VkPipelineLayout                         layout,
+		std::uint32_t                              set,
+		std::vector<::VkWriteDescriptorSet> const& descriptor_writes);
 
 public:
 	operator ::VkCommandBuffer() const;
@@ -65,10 +65,18 @@ private:
 	CommandBuffer& operator=(CommandBuffer const&) = delete;
 
 private:
-	vulkan::DeviceSharedPtr			m_device;
 	vulkan::CommandPoolSharedPtr	m_command_pool;
 	::VkCommandBuffer				m_command_buffer;
 };
+
+std::unique_ptr<vulkan::CommandBuffer>
+BeginSingleTimeCommands(
+	vulkan::CommandPoolSharedPtr const& command_pool);
+
+void
+EndSingleTimeCommands(
+	vulkan::CommandPoolSharedPtr const& command_pool,
+	std::unique_ptr<vulkan::CommandBuffer> const& command_buffer);
 
 }	// namespace vulkan
 

@@ -36,126 +36,14 @@ namespace render
 namespace vulkan
 {
 
-inline std::unique_ptr<vulkan::CommandBuffer>
-beginSingleTimeCommands(
-	vulkan::DeviceSharedPtr const& device,
-	vulkan::CommandPoolSharedPtr const& command_pool)
-{
-	auto command_buffer = bksge::make_unique<vulkan::CommandBuffer>(
-		device, command_pool);
-
-	command_buffer->Begin(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
-
-	return command_buffer;
-}
-
 inline void
-endSingleTimeCommands(
-	std::unique_ptr<vulkan::CommandBuffer> const& command_buffer,
-	::VkQueue graphics_queue)
-{
-	command_buffer->End();
-
-	vk::SubmitInfo submit_info;
-	submit_info.SetCommandBuffers(command_buffer->GetAddressOf());
-
-	vk::QueueSubmit(graphics_queue, 1, &submit_info, VK_NULL_HANDLE);
-	vk::QueueWaitIdle(graphics_queue);
-}
-
-inline void
-transitionImageLayout(
-	vulkan::DeviceSharedPtr const& device,
+CopyBufferToImage(
 	vulkan::CommandPoolSharedPtr const& command_pool,
-	::VkQueue graphics_queue,
-	::VkImage image,
-	::VkImageLayout old_layout,
-	::VkImageLayout new_layout,
-	::VkPipelineStageFlags src_stage,
-	::VkPipelineStageFlags dst_stage)
-{
-	auto command_buffer = beginSingleTimeCommands(device, command_pool);
-
-	vk::ImageMemoryBarrier barrier;
-    barrier.srcAccessMask                   = 0;
-    barrier.dstAccessMask                   = 0;
-	barrier.oldLayout                       = old_layout;
-	barrier.newLayout                       = new_layout;
-	barrier.srcQueueFamilyIndex             = VK_QUEUE_FAMILY_IGNORED;
-	barrier.dstQueueFamilyIndex             = VK_QUEUE_FAMILY_IGNORED;
-	barrier.image                           = image;
-	barrier.subresourceRange.aspectMask     = VK_IMAGE_ASPECT_COLOR_BIT;
-	barrier.subresourceRange.baseMipLevel   = 0;
-	barrier.subresourceRange.levelCount     = 1;
-	barrier.subresourceRange.baseArrayLayer = 0;
-	barrier.subresourceRange.layerCount     = 1;
-
-	switch (old_layout)
-	{
-	case VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL:
-		barrier.srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
-		break;
-
-	case VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL:
-		barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
-		break;
-
-	case VK_IMAGE_LAYOUT_PREINITIALIZED:
-		barrier.srcAccessMask = VK_ACCESS_HOST_WRITE_BIT;
-		break;
-
-	default:
-		break;
-	}
-
-    switch (new_layout)
-	{
-	case VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL:
-		barrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
-		break;
-
-	case VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL:
-		barrier.dstAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
-		break;
-
-	case VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL:
-		barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
-		break;
-
-	case VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL:
-		barrier.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
-		break;
-
-	case VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL:
-		barrier.dstAccessMask = VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
-		break;
-
-	default:
-		break;
-	}
-
-	vk::CmdPipelineBarrier(
-		*command_buffer,
-		src_stage,
-		dst_stage,
-		0,
-		0, nullptr,
-		0, nullptr,
-		1, &barrier
-	);
-
-	endSingleTimeCommands(command_buffer, graphics_queue);
-}
-
-inline void copyBufferToImage(
-	vulkan::DeviceSharedPtr const& device,
-	vulkan::CommandPoolSharedPtr const& command_pool,
-	::VkQueue graphics_queue,
 	::VkBuffer buffer,
 	::VkImage image,
 	::VkExtent2D extent)
 {
-	auto command_buffer = beginSingleTimeCommands(device, command_pool);
+	auto command_buffer = BeginSingleTimeCommands(command_pool);
 
 	::VkBufferImageCopy region {};
 	region.bufferOffset                    = 0;
@@ -176,7 +64,7 @@ inline void copyBufferToImage(
 		1,
 		&region);
 
-	endSingleTimeCommands(command_buffer, graphics_queue);
+	EndSingleTimeCommands(command_pool, command_buffer);
 }
 
 BKSGE_INLINE
@@ -265,47 +153,32 @@ Texture::Texture(
 
 	if (!needs_staging)
 	{
-		transitionImageLayout(
-			device,
+		m_image->TransitionLayout(
 			command_pool,
-			command_pool->GetQueue(),
-			m_image->GetImage(),
+			VK_IMAGE_ASPECT_COLOR_BIT,
 			initial_layout,
-			VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL,
-			VK_PIPELINE_STAGE_HOST_BIT,
-			VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT);
+			VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 	}
 	else
 	{
-		transitionImageLayout(
-			device,
+		m_image->TransitionLayout(
 			command_pool,
-			command_pool->GetQueue(),
-			m_image->GetImage(),
+			VK_IMAGE_ASPECT_COLOR_BIT,
 			initial_layout,
-			VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-			VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
-			VK_PIPELINE_STAGE_TRANSFER_BIT);
+			VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
 
-		copyBufferToImage(
-			device,
+		CopyBufferToImage(
 			command_pool,
-			command_pool->GetQueue(),
 			staging_buffer->GetBuffer(),
 			m_image->GetImage(),
 			extent);
 
-		transitionImageLayout(
-			device,
+		m_image->TransitionLayout(
 			command_pool,
-			command_pool->GetQueue(),
-			m_image->GetImage(),
+			VK_IMAGE_ASPECT_COLOR_BIT,
 			VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-			VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL,
-			VK_PIPELINE_STAGE_TRANSFER_BIT,
-			VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT);
+			VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 	}
-
 
 	m_image_view = bksge::make_unique<vulkan::ImageView>(
 		device, m_image->GetImage(), format, VK_IMAGE_ASPECT_COLOR_BIT);

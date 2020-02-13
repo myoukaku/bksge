@@ -16,6 +16,7 @@
 #include <bksge/core/render/vulkan/detail/command_pool.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
+#include <bksge/fnd/memory/make_unique.hpp>
 #include <memory>
 
 namespace bksge
@@ -29,10 +30,8 @@ namespace vulkan
 
 BKSGE_INLINE
 CommandBuffer::CommandBuffer(
-	vulkan::DeviceSharedPtr const& device,
 	vulkan::CommandPoolSharedPtr const& command_pool)
-	: m_device(device)
-	, m_command_pool(command_pool)
+	: m_command_pool(command_pool)
 	, m_command_buffer(VK_NULL_HANDLE)
 {
 	m_command_buffer =
@@ -113,15 +112,16 @@ CommandBuffer::BindPipeline(
 
 BKSGE_INLINE void
 CommandBuffer::PushDescriptorSet(
-	::VkPipelineBindPoint                    pipeline_bind_point,
-	::VkPipelineLayout                       layout,
-	std::uint32_t                            set,
-	std::vector<VkWriteDescriptorSet> const& descriptor_writes)
+	::VkDevice                                 device,
+	::VkPipelineBindPoint                      pipeline_bind_point,
+	::VkPipelineLayout                         layout,
+	std::uint32_t                              set,
+	std::vector<::VkWriteDescriptorSet> const& descriptor_writes)
 {
 	if (!descriptor_writes.empty())
 	{
 		vk::CmdPushDescriptorSetKHR(
-			*m_device,
+			device,
 			m_command_buffer,
 			pipeline_bind_point,
 			layout,
@@ -130,6 +130,33 @@ CommandBuffer::PushDescriptorSet(
 			descriptor_writes.data());
 	}
 }
+
+BKSGE_INLINE std::unique_ptr<vulkan::CommandBuffer>
+BeginSingleTimeCommands(
+	vulkan::CommandPoolSharedPtr const& command_pool)
+{
+	auto command_buffer = bksge::make_unique<vulkan::CommandBuffer>(command_pool);
+
+	command_buffer->Begin(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
+
+	return command_buffer;
+}
+
+BKSGE_INLINE void
+EndSingleTimeCommands(
+	vulkan::CommandPoolSharedPtr const& command_pool,
+	std::unique_ptr<vulkan::CommandBuffer> const& command_buffer)
+{
+	command_buffer->End();
+
+	vk::SubmitInfo submit_info;
+	submit_info.SetCommandBuffers(command_buffer->GetAddressOf());
+
+	auto graphics_queue = command_pool->GetQueue();
+	vk::QueueSubmit(graphics_queue, 1, &submit_info, VK_NULL_HANDLE);
+	vk::QueueWaitIdle(graphics_queue);
+}
+
 
 }	// namespace vulkan
 

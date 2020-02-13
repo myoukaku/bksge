@@ -5654,13 +5654,22 @@ void vkCmdClearColorImage(
     uint32_t                                    rangeCount,
     const VkImageSubresourceRange*              pRanges);
 
-void vkCmdClearDepthStencilImage(
+inline void CmdClearDepthStencilImage(
     VkCommandBuffer                             commandBuffer,
     VkImage                                     image,
     VkImageLayout                               imageLayout,
     const VkClearDepthStencilValue*             pDepthStencil,
     uint32_t                                    rangeCount,
-    const VkImageSubresourceRange*              pRanges);
+    const VkImageSubresourceRange*              pRanges)
+{
+	::vkCmdClearDepthStencilImage(
+		commandBuffer,
+		image,
+		imageLayout,
+		pDepthStencil,
+		rangeCount,
+		pRanges);
+}
 
 void vkCmdClearAttachments(
     VkCommandBuffer                             commandBuffer,
@@ -5949,7 +5958,8 @@ inline VkResult GetPhysicalDeviceSurfaceSupportKHR(
     VkSurfaceKHR                                surface,
     VkBool32*                                   pSupported)
 {
-	return vk::CheckError(::vkGetPhysicalDeviceSurfaceSupportKHR(physicalDevice, queueFamilyIndex, surface, pSupported));
+	return vk::CheckError(::vkGetPhysicalDeviceSurfaceSupportKHR(
+		physicalDevice, queueFamilyIndex, surface, pSupported));
 }
 
 inline VkResult GetPhysicalDeviceSurfaceCapabilitiesKHR(
@@ -5957,7 +5967,8 @@ inline VkResult GetPhysicalDeviceSurfaceCapabilitiesKHR(
     VkSurfaceKHR                                surface,
     VkSurfaceCapabilitiesKHR*                   pSurfaceCapabilities)
 {
-	return vk::CheckError(::vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physicalDevice, surface, pSurfaceCapabilities));
+	return vk::CheckError(::vkGetPhysicalDeviceSurfaceCapabilitiesKHR(
+		physicalDevice, surface, pSurfaceCapabilities));
 }
 
 inline std::vector<VkSurfaceFormatKHR>
@@ -5968,7 +5979,8 @@ GetPhysicalDeviceSurfaceFormatsKHR(
 	for (;;)
 	{
 		uint32_t count;
-		vk::CheckError(::vkGetPhysicalDeviceSurfaceFormatsKHR(physicalDevice, surface, &count, nullptr));
+		vk::CheckError(::vkGetPhysicalDeviceSurfaceFormatsKHR(
+			physicalDevice, surface, &count, nullptr));
 
 		if (count == 0)
 		{
@@ -5976,7 +5988,8 @@ GetPhysicalDeviceSurfaceFormatsKHR(
 		}
 
 		std::vector<VkSurfaceFormatKHR> surface_formats(count);
-		auto res = ::vkGetPhysicalDeviceSurfaceFormatsKHR(physicalDevice, surface, &count, surface_formats.data());
+		auto res = ::vkGetPhysicalDeviceSurfaceFormatsKHR(
+			physicalDevice, surface, &count, surface_formats.data());
 		if (res == VK_INCOMPLETE)
 		{
 			continue;
@@ -5999,7 +6012,8 @@ inline VkResult CreateSwapchainKHR(
     const VkAllocationCallbacks*                pAllocator,
     VkSwapchainKHR*                             pSwapchain)
 {
-	return vk::CheckError(::vkCreateSwapchainKHR(device, pCreateInfo, pAllocator, pSwapchain));
+	return vk::CheckError(::vkCreateSwapchainKHR(
+		device, pCreateInfo, pAllocator, pSwapchain));
 }
 
 inline void DestroySwapchainKHR(
@@ -6014,10 +6028,12 @@ inline std::vector<::VkImage>
 GetSwapchainImagesKHR(VkDevice device, VkSwapchainKHR swapchain)
 {
 	std::uint32_t count = 0;
-	vk::CheckError(::vkGetSwapchainImagesKHR(device, swapchain, &count, nullptr));
+	vk::CheckError(::vkGetSwapchainImagesKHR(
+		device, swapchain, &count, nullptr));
 
 	std::vector<::VkImage> images(count);
-	vk::CheckError(::vkGetSwapchainImagesKHR(device, swapchain, &count, images.data()));
+	vk::CheckError(::vkGetSwapchainImagesKHR(
+		device, swapchain, &count, images.data()));
 
 	return images;
 }
@@ -6030,7 +6046,8 @@ inline VkResult AcquireNextImageKHR(
     VkFence                                     fence,
     uint32_t*                                   pImageIndex)
 {
-	return vk::CheckError(::vkAcquireNextImageKHR(device, swapchain, timeout, semaphore, fence, pImageIndex));
+	return vk::CheckError(::vkAcquireNextImageKHR(
+		device, swapchain, timeout, semaphore, fence, pImageIndex));
 }
 
 inline VkResult QueuePresentKHR(

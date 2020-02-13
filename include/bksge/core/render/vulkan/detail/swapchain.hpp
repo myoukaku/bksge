@@ -12,7 +12,9 @@
 #include <bksge/core/render/vulkan/detail/fwd/swapchain_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/surface_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/command_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
+#include <bksge/core/render/fwd/clear_state_fwd.hpp>
 #include <cstdint>
 #include <memory>
 #include <vector>
@@ -31,6 +33,7 @@ class Swapchain
 public:
 	explicit Swapchain(
 		vulkan::DeviceSharedPtr const& device,
+		vulkan::CommandPoolSharedPtr const& command_pool,
 		vulkan::Surface const& surface,
 		::VkFormat surface_format,
 		std::uint32_t graphics_queue_family_index,
@@ -42,6 +45,11 @@ public:
 		std::uint64_t timeout,
 		::VkSemaphore semaphore,
 		::VkFence     fence);
+
+	void ClearColor(
+		vulkan::CommandPoolSharedPtr const& command_pool,
+		std::uint32_t index,
+		bksge::ClearState const& clear_state);
 
 	//std::vector<VkImage> GetImages(void) const;
 

@@ -17,7 +17,10 @@
 #include <bksge/core/render/vulkan/detail/physical_device.hpp>
 #include <bksge/core/render/vulkan/detail/image_object.hpp>
 #include <bksge/core/render/vulkan/detail/image_view.hpp>
+#include <bksge/core/render/vulkan/detail/command_pool.hpp>
+#include <bksge/core/render/vulkan/detail/command_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
+#include <bksge/core/render/clear_state.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 
 namespace bksge
@@ -32,6 +35,7 @@ namespace vulkan
 BKSGE_INLINE
 DepthBuffer::DepthBuffer(
 	vulkan::DeviceSharedPtr const& device,
+	vulkan::CommandPoolSharedPtr const& command_pool,
 	::VkExtent2D const& extent,
 	::VkSampleCountFlagBits num_samples)
 {
@@ -89,28 +93,90 @@ DepthBuffer::DepthBuffer(
 		extent,
 		num_samples,
 		tiling,
-		VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT,
+		VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT |
+		VK_IMAGE_USAGE_TRANSFER_DST_BIT,
 		VK_IMAGE_LAYOUT_UNDEFINED,
 		VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 
-	::VkImageAspectFlags aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT;
+	::VkImageAspectFlags aspect_mask = VK_IMAGE_ASPECT_DEPTH_BIT;
 	if (format == VK_FORMAT_D16_UNORM_S8_UINT ||
 		format == VK_FORMAT_D24_UNORM_S8_UINT ||
 		format == VK_FORMAT_D32_SFLOAT_S8_UINT)
 	{
-		aspectMask |= VK_IMAGE_ASPECT_STENCIL_BIT;
+		aspect_mask |= VK_IMAGE_ASPECT_STENCIL_BIT;
 	}
+
+	m_image->TransitionLayout(
+		command_pool,
+		aspect_mask,
+		VK_IMAGE_LAYOUT_UNDEFINED,
+		VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
 
 	m_image_view = bksge::make_unique<vulkan::ImageView>(
 		device,
 		m_image->GetImage(),
 		format,
-		aspectMask);
+		aspect_mask);
 }
 
 BKSGE_INLINE
 DepthBuffer::~DepthBuffer()
 {
+}
+
+BKSGE_INLINE void
+DepthBuffer::Clear(
+	vulkan::CommandPoolSharedPtr const& command_pool,
+	bksge::ClearState const& clear_state)
+{
+	::VkImageAspectFlags clear_mask = 0;
+	if ((clear_state.flag() & bksge::ClearFlag::kDepth) != bksge::ClearFlag::kNone)
+	{
+		clear_mask |= VK_IMAGE_ASPECT_DEPTH_BIT;
+	}
+	if ((clear_state.flag() & bksge::ClearFlag::kStencil) != bksge::ClearFlag::kNone)
+	{
+		clear_mask |= VK_IMAGE_ASPECT_STENCIL_BIT;
+	}
+
+	if (clear_mask == 0)
+	{
+		return;
+	}
+
+	m_image->TransitionLayout(
+		command_pool,
+		VK_IMAGE_ASPECT_DEPTH_BIT |
+		VK_IMAGE_ASPECT_STENCIL_BIT,
+		VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
+		VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
+
+	::VkClearDepthStencilValue clear_value;
+	clear_value.depth   = clear_state.depth();
+	clear_value.stencil = clear_state.stencil();
+
+	::VkImageSubresourceRange range;
+	range.aspectMask     = clear_mask;
+	range.baseMipLevel   = 0;
+	range.levelCount     = 1;
+	range.baseArrayLayer = 0;
+	range.layerCount     = 1;
+
+	auto command_buffer = BeginSingleTimeCommands(command_pool);
+	vk::CmdClearDepthStencilImage(
+		*command_buffer,
+		m_image->GetImage(),
+		VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+		&clear_value,
+		1, &range);
+	EndSingleTimeCommands(command_pool, command_buffer);
+
+	m_image->TransitionLayout(
+		command_pool,
+		VK_IMAGE_ASPECT_DEPTH_BIT |
+		VK_IMAGE_ASPECT_STENCIL_BIT,
+		VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+		VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
 }
 
 BKSGE_INLINE ::VkFormat const&

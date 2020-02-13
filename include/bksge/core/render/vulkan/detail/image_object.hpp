@@ -13,6 +13,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/image_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_memory_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/command_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 
 namespace bksge
@@ -42,6 +43,12 @@ public:
 	void* MapMemory(::VkDeviceSize size);
 
 	void UnmapMemory(void);
+
+	void TransitionLayout(
+		vulkan::CommandPoolSharedPtr const& command_pool,
+		::VkImageAspectFlags aspect_mask,
+		::VkImageLayout old_layout,
+		::VkImageLayout new_layout);
 
 	::VkImage GetImage(void) const;
 
