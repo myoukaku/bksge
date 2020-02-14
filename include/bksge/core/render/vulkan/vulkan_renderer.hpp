@@ -18,7 +18,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/command_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/command_buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/swapchain_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/depth_buffer_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/depth_stencil_buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/render_pass_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/framebuffer_fwd.hpp>
 //#include <bksge/core/render/vulkan/detail/fwd/shader_fwd.hpp>
@@ -82,7 +82,7 @@ private:
 	std::unique_ptr<vulkan::CommandBuffer>				m_command_buffer;
 	::VkQueue											m_graphics_queue;
 	std::unique_ptr<vulkan::Swapchain>					m_swapchain;
-	std::unique_ptr<vulkan::DepthBuffer>				m_depth_buffer;
+	std::unique_ptr<vulkan::DepthStencilBuffer>			m_depth_stencil_buffer;
 	std::unique_ptr<vulkan::RenderPass>					m_render_pass;
 	std::vector<std::unique_ptr<vulkan::Framebuffer>>	m_framebuffers;
 	std::unique_ptr<vulkan::Fence>						m_draw_fence;

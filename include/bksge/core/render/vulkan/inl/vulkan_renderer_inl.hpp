@@ -22,7 +22,7 @@
 #include <bksge/core/render/vulkan/detail/command_pool.hpp>
 #include <bksge/core/render/vulkan/detail/command_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/swapchain.hpp>
-#include <bksge/core/render/vulkan/detail/depth_buffer.hpp>
+#include <bksge/core/render/vulkan/detail/depth_stencil_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/render_pass.hpp>
 #include <bksge/core/render/vulkan/detail/framebuffer.hpp>
 #include <bksge/core/render/vulkan/detail/shader.hpp>
@@ -180,7 +180,7 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 		graphics_queue_family_index,
 		present_queue_family_index);
 
-	m_depth_buffer = bksge::make_unique<vulkan::DepthBuffer>(
+	m_depth_stencil_buffer = bksge::make_unique<vulkan::DepthStencilBuffer>(
 		m_device,
 		m_command_pool,
 		m_swapchain->extent(),
@@ -190,7 +190,7 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 		m_device,
 		NUM_SAMPLES,
 		surface_format,
-		m_depth_buffer->GetFormat(),
+		m_depth_stencil_buffer->GetFormat(),
 		depthPresent);
 
 	// init_framebuffers
@@ -202,7 +202,7 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 			attachments.push_back(swap_chain_view);
 			if (depthPresent)
 			{
-				attachments.push_back(m_depth_buffer->GetImageView());
+				attachments.push_back(m_depth_stencil_buffer->GetImageView());
 			}
 
 			m_framebuffers.push_back(
@@ -266,7 +266,7 @@ VulkanRenderer::VEnd(void)
 BKSGE_INLINE void
 VulkanRenderer::VBeginRenderPass(RenderPassInfo const& render_pass_info)
 {
-	m_depth_buffer->Clear(
+	m_depth_stencil_buffer->Clear(
 		m_command_pool,
 		render_pass_info.clear_state());
 

@@ -1,18 +1,18 @@
 ﻿/**
- *	@file	depth_buffer_inl.hpp
+ *	@file	depth_stencil_buffer_inl.hpp
  *
- *	@brief	DepthBuffer クラスの実装
+ *	@brief	DepthStencilBuffer クラスの実装
  *
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_CORE_RENDER_VULKAN_DETAIL_INL_DEPTH_BUFFER_INL_HPP
-#define BKSGE_CORE_RENDER_VULKAN_DETAIL_INL_DEPTH_BUFFER_INL_HPP
+#ifndef BKSGE_CORE_RENDER_VULKAN_DETAIL_INL_DEPTH_STENCIL_BUFFER_INL_HPP
+#define BKSGE_CORE_RENDER_VULKAN_DETAIL_INL_DEPTH_STENCIL_BUFFER_INL_HPP
 
 #include <bksge/core/render/config.hpp>
 #if BKSGE_CORE_RENDER_HAS_VULKAN_RENDERER
 
-#include <bksge/core/render/vulkan/detail/depth_buffer.hpp>
+#include <bksge/core/render/vulkan/detail/depth_stencil_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/physical_device.hpp>
 #include <bksge/core/render/vulkan/detail/image_object.hpp>
@@ -33,7 +33,7 @@ namespace vulkan
 {
 
 BKSGE_INLINE
-DepthBuffer::DepthBuffer(
+DepthStencilBuffer::DepthStencilBuffer(
 	vulkan::DeviceSharedPtr const& device,
 	vulkan::CommandPoolSharedPtr const& command_pool,
 	::VkExtent2D const& extent,
@@ -120,12 +120,12 @@ DepthBuffer::DepthBuffer(
 }
 
 BKSGE_INLINE
-DepthBuffer::~DepthBuffer()
+DepthStencilBuffer::~DepthStencilBuffer()
 {
 }
 
 BKSGE_INLINE void
-DepthBuffer::Clear(
+DepthStencilBuffer::Clear(
 	vulkan::CommandPoolSharedPtr const& command_pool,
 	bksge::ClearState const& clear_state)
 {
@@ -180,13 +180,13 @@ DepthBuffer::Clear(
 }
 
 BKSGE_INLINE ::VkFormat const&
-DepthBuffer::GetFormat(void) const
+DepthStencilBuffer::GetFormat(void) const
 {
 	return m_image->GetFormat();
 }
 
 BKSGE_INLINE vulkan::ImageView const&
-DepthBuffer::GetImageView(void) const
+DepthStencilBuffer::GetImageView(void) const
 {
 	return *m_image_view;
 }
@@ -199,4 +199,4 @@ DepthBuffer::GetImageView(void) const
 
 #endif // BKSGE_CORE_RENDER_HAS_VULKAN_RENDERER
 
-#endif // BKSGE_CORE_RENDER_VULKAN_DETAIL_INL_DEPTH_BUFFER_INL_HPP
+#endif // BKSGE_CORE_RENDER_VULKAN_DETAIL_INL_DEPTH_STENCIL_BUFFER_INL_HPP

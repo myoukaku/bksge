@@ -1,15 +1,15 @@
 ﻿/**
- *	@file	depth_buffer.hpp
+ *	@file	depth_stencil_buffer.hpp
  *
- *	@brief	DepthBuffer クラスの定義
+ *	@brief	DepthStencilBuffer クラスの定義
  *
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_CORE_RENDER_VULKAN_DETAIL_DEPTH_BUFFER_HPP
-#define BKSGE_CORE_RENDER_VULKAN_DETAIL_DEPTH_BUFFER_HPP
+#ifndef BKSGE_CORE_RENDER_VULKAN_DETAIL_DEPTH_STENCIL_BUFFER_HPP
+#define BKSGE_CORE_RENDER_VULKAN_DETAIL_DEPTH_STENCIL_BUFFER_HPP
 
-#include <bksge/core/render/vulkan/detail/fwd/depth_buffer_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/depth_stencil_buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/image_object_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/image_view_fwd.hpp>
@@ -27,16 +27,16 @@ namespace render
 namespace vulkan
 {
 
-class DepthBuffer
+class DepthStencilBuffer
 {
 public:
-	explicit DepthBuffer(
+	explicit DepthStencilBuffer(
 		vulkan::DeviceSharedPtr const& device,
 		vulkan::CommandPoolSharedPtr const& command_pool,
 		::VkExtent2D const& extent,
 		::VkSampleCountFlagBits num_samples);
 
-	~DepthBuffer();
+	~DepthStencilBuffer();
 
 	void Clear(
 		vulkan::CommandPoolSharedPtr const& command_pool,
@@ -48,8 +48,8 @@ public:
 
 private:
 	// noncopyable
-	DepthBuffer(DepthBuffer const&) = delete;
-	DepthBuffer& operator=(DepthBuffer const&) = delete;
+	DepthStencilBuffer(DepthStencilBuffer const&) = delete;
+	DepthStencilBuffer& operator=(DepthStencilBuffer const&) = delete;
 
 private:
 	vulkan::ImageObjectUniquePtr	m_image;
@@ -64,7 +64,7 @@ private:
 
 #include <bksge/fnd/config.hpp>
 #if defined(BKSGE_HEADER_ONLY)
-#include <bksge/core/render/vulkan/detail/inl/depth_buffer_inl.hpp>
+#include <bksge/core/render/vulkan/detail/inl/depth_stencil_buffer_inl.hpp>
 #endif
 
-#endif // BKSGE_CORE_RENDER_VULKAN_DETAIL_DEPTH_BUFFER_HPP
+#endif // BKSGE_CORE_RENDER_VULKAN_DETAIL_DEPTH_STENCIL_BUFFER_HPP
