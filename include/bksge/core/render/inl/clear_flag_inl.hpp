@@ -66,6 +66,12 @@ operator^=(ClearFlag& lhs, ClearFlag rhs) BKSGE_NOEXCEPT
 	return lhs = lhs ^ rhs;
 }
 
+inline BKSGE_CONSTEXPR bool
+Test(ClearFlag lhs, ClearFlag rhs) BKSGE_NOEXCEPT
+{
+	return (lhs & rhs) != ClearFlag::kNone;
+}
+
 inline std::string
 to_string(ClearFlag const& clear_flag)
 {

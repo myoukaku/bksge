@@ -130,11 +130,11 @@ DepthBuffer::Clear(
 	bksge::ClearState const& clear_state)
 {
 	::VkImageAspectFlags clear_mask = 0;
-	if ((clear_state.flag() & bksge::ClearFlag::kDepth) != bksge::ClearFlag::kNone)
+	if (Test(clear_state.flag(), bksge::ClearFlag::kDepth))
 	{
 		clear_mask |= VK_IMAGE_ASPECT_DEPTH_BIT;
 	}
-	if ((clear_state.flag() & bksge::ClearFlag::kStencil) != bksge::ClearFlag::kNone)
+	if (Test(clear_state.flag(), bksge::ClearFlag::kStencil))
 	{
 		clear_mask |= VK_IMAGE_ASPECT_STENCIL_BIT;
 	}

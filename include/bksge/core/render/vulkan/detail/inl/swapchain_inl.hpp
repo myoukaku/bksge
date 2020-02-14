@@ -206,7 +206,7 @@ Swapchain::ClearColor(
 	std::uint32_t index,
 	bksge::ClearState const& clear_state)
 {
-	if ((clear_state.flag() & bksge::ClearFlag::kColor) == bksge::ClearFlag::kNone)
+	if (!Test(clear_state.flag(), bksge::ClearFlag::kColor))
 	{
 		return;
 	}

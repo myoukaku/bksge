@@ -120,7 +120,7 @@ D3D11Renderer::VBeginRenderPass(RenderPassInfo const& render_pass_info)
 		auto const clear_stencil = clear_state.stencil();
 
 		// Clear Color
-		if ((clear_flag & ClearFlag::kColor) != ClearFlag::kNone)
+		if (Test(clear_flag, ClearFlag::kColor))
 		{
 			m_device_context->ClearRenderTargetView(
 				m_render_target->GetView(),
@@ -130,11 +130,11 @@ D3D11Renderer::VBeginRenderPass(RenderPassInfo const& render_pass_info)
 		// Clear Depth Stencil
 		{
 			::UINT mask = 0u;
-			if ((clear_flag & ClearFlag::kDepth) != ClearFlag::kNone)
+			if (Test(clear_flag, ClearFlag::kDepth))
 			{
 				mask |= D3D11_CLEAR_DEPTH;
 			}
-			if ((clear_flag & ClearFlag::kStencil) != ClearFlag::kNone)
+			if (Test(clear_flag, ClearFlag::kStencil))
 			{
 				mask |= D3D11_CLEAR_STENCIL;
 			}

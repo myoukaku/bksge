@@ -13,6 +13,7 @@
 #include <functional>
 #include <vector>
 #include <algorithm>
+#include "constexpr_test.hpp"
 #include "serialize_test.hpp"
 
 namespace bksge_core_render_test
@@ -25,20 +26,121 @@ GTEST_TEST(Render_ClearFlag, BasicTest)
 {
 	using bksge::ClearFlag;
 
-	ClearFlag f0 = ClearFlag::kNone;
-	EXPECT_FALSE(bool(f0 & ClearFlag::kColor));
-	EXPECT_FALSE(bool(f0 & ClearFlag::kDepth));
-	EXPECT_FALSE(bool(f0 & ClearFlag::kStencil));
+	{
+		BKSGE_CONSTEXPR_OR_CONST ClearFlag f = ClearFlag::kNone;
+		BKSGE_CONSTEXPR_EXPECT_EQ(ClearFlag::kNone,    f & ClearFlag::kColor);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ClearFlag::kNone,    f & ClearFlag::kDepth);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ClearFlag::kNone,    f & ClearFlag::kStencil);
+	}
+	{
+		BKSGE_CONSTEXPR_OR_CONST ClearFlag f = ClearFlag::kColor;
+		BKSGE_CONSTEXPR_EXPECT_EQ(ClearFlag::kColor,   f & ClearFlag::kColor);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ClearFlag::kNone,    f & ClearFlag::kDepth);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ClearFlag::kNone,    f & ClearFlag::kStencil);
+	}
+	{
+		BKSGE_CONSTEXPR_OR_CONST ClearFlag f = ClearFlag::kColor | ClearFlag::kStencil;
+		BKSGE_CONSTEXPR_EXPECT_EQ(ClearFlag::kColor,   f & ClearFlag::kColor);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ClearFlag::kNone,    f & ClearFlag::kDepth);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ClearFlag::kStencil, f & ClearFlag::kStencil);
+	}
+	{
+		BKSGE_CONSTEXPR_OR_CONST ClearFlag f = ClearFlag::kNone;
+		BKSGE_CONSTEXPR_EXPECT_EQ(ClearFlag::kColor,   f ^ ClearFlag::kColor);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ClearFlag::kDepth,   f ^ ClearFlag::kDepth);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ClearFlag::kStencil, f ^ ClearFlag::kStencil);
+	}
+	{
+		BKSGE_CONSTEXPR_OR_CONST ClearFlag f = ClearFlag::kAll;
+		BKSGE_CONSTEXPR_EXPECT_EQ(ClearFlag::kDepth | ClearFlag::kStencil, f ^ ClearFlag::kColor);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ClearFlag::kColor | ClearFlag::kStencil, f ^ ClearFlag::kDepth);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ClearFlag::kColor | ClearFlag::kDepth,   f ^ ClearFlag::kStencil);
+	}
+	{
+		ClearFlag f = ClearFlag::kNone;
+		EXPECT_EQ(ClearFlag::kNone,    f & ClearFlag::kColor);
+		EXPECT_EQ(ClearFlag::kNone,    f & ClearFlag::kDepth);
+		EXPECT_EQ(ClearFlag::kNone,    f & ClearFlag::kStencil);
 
-	ClearFlag f1 = ClearFlag::kColor;
-	EXPECT_TRUE (bool(f1 & ClearFlag::kColor));
-	EXPECT_FALSE(bool(f1 & ClearFlag::kDepth));
-	EXPECT_FALSE(bool(f1 & ClearFlag::kStencil));
+		f |= ClearFlag::kDepth;
+		EXPECT_EQ(ClearFlag::kNone,    f & ClearFlag::kColor);
+		EXPECT_EQ(ClearFlag::kDepth,   f & ClearFlag::kDepth);
+		EXPECT_EQ(ClearFlag::kNone,    f & ClearFlag::kStencil);
 
-	ClearFlag f2 = ClearFlag::kColor | ClearFlag::kStencil;
-	EXPECT_TRUE (bool(f2 & ClearFlag::kColor));
-	EXPECT_FALSE(bool(f2 & ClearFlag::kDepth));
-	EXPECT_TRUE (bool(f2 & ClearFlag::kStencil));
+		f |= ClearFlag::kStencil;
+		EXPECT_EQ(ClearFlag::kNone,    f & ClearFlag::kColor);
+		EXPECT_EQ(ClearFlag::kDepth,   f & ClearFlag::kDepth);
+		EXPECT_EQ(ClearFlag::kStencil, f & ClearFlag::kStencil);
+
+		f ^= ClearFlag::kAll;
+		EXPECT_EQ(ClearFlag::kColor,   f & ClearFlag::kColor);
+		EXPECT_EQ(ClearFlag::kNone,    f & ClearFlag::kDepth);
+		EXPECT_EQ(ClearFlag::kNone,    f & ClearFlag::kStencil);
+
+		f ^= ClearFlag::kDepth;
+		EXPECT_EQ(ClearFlag::kColor,   f & ClearFlag::kColor);
+		EXPECT_EQ(ClearFlag::kDepth,   f & ClearFlag::kDepth);
+		EXPECT_EQ(ClearFlag::kNone,    f & ClearFlag::kStencil);
+
+		f &= ClearFlag::kColor;
+		EXPECT_EQ(ClearFlag::kColor,   f & ClearFlag::kColor);
+		EXPECT_EQ(ClearFlag::kNone,    f & ClearFlag::kDepth);
+		EXPECT_EQ(ClearFlag::kNone,    f & ClearFlag::kStencil);
+	}
+}
+
+GTEST_TEST(Render_ClearFlag, TestTest)
+{
+	using bksge::ClearFlag;
+
+	{
+		BKSGE_CONSTEXPR_OR_CONST ClearFlag f = ClearFlag::kNone;
+		BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::render::Test(f, ClearFlag::kColor));
+		BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::render::Test(f, ClearFlag::kDepth));
+		BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::render::Test(f, ClearFlag::kStencil));
+	}
+	{
+		BKSGE_CONSTEXPR_OR_CONST ClearFlag f = ClearFlag::kColor;
+		BKSGE_CONSTEXPR_EXPECT_TRUE (bksge::render::Test(f, ClearFlag::kColor));
+		BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::render::Test(f, ClearFlag::kDepth));
+		BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::render::Test(f, ClearFlag::kStencil));
+	}
+	{
+		BKSGE_CONSTEXPR_OR_CONST ClearFlag f = ClearFlag::kDepth;
+		BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::render::Test(f, ClearFlag::kColor));
+		BKSGE_CONSTEXPR_EXPECT_TRUE (bksge::render::Test(f, ClearFlag::kDepth));
+		BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::render::Test(f, ClearFlag::kStencil));
+	}
+	{
+		BKSGE_CONSTEXPR_OR_CONST ClearFlag f = ClearFlag::kStencil;
+		BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::render::Test(f, ClearFlag::kColor));
+		BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::render::Test(f, ClearFlag::kDepth));
+		BKSGE_CONSTEXPR_EXPECT_TRUE (bksge::render::Test(f, ClearFlag::kStencil));
+	}
+	{
+		BKSGE_CONSTEXPR_OR_CONST ClearFlag f = ClearFlag::kColor | ClearFlag::kDepth;
+		BKSGE_CONSTEXPR_EXPECT_TRUE (bksge::render::Test(f, ClearFlag::kColor));
+		BKSGE_CONSTEXPR_EXPECT_TRUE (bksge::render::Test(f, ClearFlag::kDepth));
+		BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::render::Test(f, ClearFlag::kStencil));
+	}
+	{
+		BKSGE_CONSTEXPR_OR_CONST ClearFlag f = ClearFlag::kDepth | ClearFlag::kStencil;
+		BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::render::Test(f, ClearFlag::kColor));
+		BKSGE_CONSTEXPR_EXPECT_TRUE (bksge::render::Test(f, ClearFlag::kDepth));
+		BKSGE_CONSTEXPR_EXPECT_TRUE (bksge::render::Test(f, ClearFlag::kStencil));
+	}
+	{
+		BKSGE_CONSTEXPR_OR_CONST ClearFlag f = ClearFlag::kColor | ClearFlag::kStencil;
+		BKSGE_CONSTEXPR_EXPECT_TRUE (bksge::render::Test(f, ClearFlag::kColor));
+		BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::render::Test(f, ClearFlag::kDepth));
+		BKSGE_CONSTEXPR_EXPECT_TRUE (bksge::render::Test(f, ClearFlag::kStencil));
+	}
+	{
+		BKSGE_CONSTEXPR_OR_CONST ClearFlag f = ClearFlag::kAll;
+		BKSGE_CONSTEXPR_EXPECT_TRUE (bksge::render::Test(f, ClearFlag::kColor));
+		BKSGE_CONSTEXPR_EXPECT_TRUE (bksge::render::Test(f, ClearFlag::kDepth));
+		BKSGE_CONSTEXPR_EXPECT_TRUE (bksge::render::Test(f, ClearFlag::kStencil));
+	}
 }
 
 template <typename TChar>

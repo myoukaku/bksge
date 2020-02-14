@@ -60,6 +60,9 @@ operator&=(ClearFlag& lhs, ClearFlag rhs) BKSGE_NOEXCEPT;
 BKSGE_CXX14_CONSTEXPR ClearFlag&
 operator^=(ClearFlag& lhs, ClearFlag rhs) BKSGE_NOEXCEPT;
 
+BKSGE_CONSTEXPR bool
+Test(ClearFlag lhs, ClearFlag rhs) BKSGE_NOEXCEPT;
+
 /**
  *	@brief	文字列への変換
  */

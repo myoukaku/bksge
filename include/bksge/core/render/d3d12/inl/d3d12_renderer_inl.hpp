@@ -166,7 +166,7 @@ D3D12Renderer::VBeginRenderPass(RenderPassInfo const& render_pass_info)
 		auto const clear_stencil = clear_state.stencil();
 
 		// Clear Color
-		if ((clear_flag & ClearFlag::kColor) != ClearFlag::kNone)
+		if (Test(clear_flag, ClearFlag::kColor))
 		{
 			m_command_list->ClearRenderTargetView(
 				rtv_handle, clear_color.data(), 0, nullptr);
@@ -175,11 +175,11 @@ D3D12Renderer::VBeginRenderPass(RenderPassInfo const& render_pass_info)
 		// Clear Depth Stencil
 		{
 			::D3D12_CLEAR_FLAGS mask{};
-			if ((clear_flag & ClearFlag::kDepth) != ClearFlag::kNone)
+			if (Test(clear_flag, ClearFlag::kDepth))
 			{
 				mask |= D3D12_CLEAR_FLAG_DEPTH;
 			}
-			if ((clear_flag & ClearFlag::kStencil) != ClearFlag::kNone)
+			if (Test(clear_flag, ClearFlag::kStencil))
 			{
 				mask |= D3D12_CLEAR_FLAG_STENCIL;
 			}

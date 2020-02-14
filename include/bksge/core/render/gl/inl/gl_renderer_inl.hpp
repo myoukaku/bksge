@@ -224,7 +224,7 @@ ApplyClearState(bksge::ClearState const& clear_state)
 
 	// カラーバッファをクリアするときは
 	// glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE)を呼ぶ必要がある
-	if ((clear_flag & ClearFlag::kColor) != ClearFlag::kNone)
+	if (Test(clear_flag, ClearFlag::kColor))
 	{
 		::glClearColor(
 			clear_color.r(),
@@ -237,7 +237,7 @@ ApplyClearState(bksge::ClearState const& clear_state)
 
 	// デプスバッファをクリアするときは
 	// glDepthMask(GL_TRUE)を呼ぶ必要がある
-	if ((clear_flag & ClearFlag::kDepth) != ClearFlag::kNone)
+	if (Test(clear_flag, ClearFlag::kDepth))
 	{
 		::glClearDepth(clear_depth);
 		::glDepthMask(GL_TRUE);
@@ -246,7 +246,7 @@ ApplyClearState(bksge::ClearState const& clear_state)
 
 	// ステンシルバッファをクリアするときは
 	// glStencilMask(0xFFFFFFFF)を呼ぶ必要がある
-	if ((clear_flag & ClearFlag::kStencil) != ClearFlag::kNone)
+	if (Test(clear_flag, ClearFlag::kStencil))
 	{
 		::glClearStencil(clear_stencil);
 		::glStencilMask(~0u);
