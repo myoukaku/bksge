@@ -33,19 +33,19 @@ ToVulkanColorWriteFlag(bksge::ColorWriteFlag color_write_flag)
 {
 	::VkColorComponentFlags result = 0;
 
-	if ((color_write_flag & bksge::ColorWriteFlag::kRed) != bksge::ColorWriteFlag::kNone)
+	if (Test(color_write_flag, bksge::ColorWriteFlag::kRed))
 	{
 		result |= VK_COLOR_COMPONENT_R_BIT;
 	}
-	if ((color_write_flag & bksge::ColorWriteFlag::kGreen) != bksge::ColorWriteFlag::kNone)
+	if (Test(color_write_flag, bksge::ColorWriteFlag::kGreen))
 	{
 		result |= VK_COLOR_COMPONENT_G_BIT;
 	}
-	if ((color_write_flag & bksge::ColorWriteFlag::kBlue) != bksge::ColorWriteFlag::kNone)
+	if (Test(color_write_flag, bksge::ColorWriteFlag::kBlue))
 	{
 		result |= VK_COLOR_COMPONENT_B_BIT;
 	}
-	if ((color_write_flag & bksge::ColorWriteFlag::kAlpha) != bksge::ColorWriteFlag::kNone)
+	if (Test(color_write_flag, bksge::ColorWriteFlag::kAlpha))
 	{
 		result |= VK_COLOR_COMPONENT_A_BIT;
 	}

@@ -149,10 +149,10 @@ ApplyBlendState(bksge::BlendState const& blend_state)
 
 	auto const mask = blend_state.color_write_mask();
 	::glColorMask(
-		gl::Bool((mask & ColorWriteFlag::kRed)   != ColorWriteFlag::kNone),
-		gl::Bool((mask & ColorWriteFlag::kGreen) != ColorWriteFlag::kNone),
-		gl::Bool((mask & ColorWriteFlag::kBlue)  != ColorWriteFlag::kNone),
-		gl::Bool((mask & ColorWriteFlag::kAlpha) != ColorWriteFlag::kNone));
+		gl::Bool(Test(mask, ColorWriteFlag::kRed)),
+		gl::Bool(Test(mask, ColorWriteFlag::kGreen)),
+		gl::Bool(Test(mask, ColorWriteFlag::kBlue)),
+		gl::Bool(Test(mask, ColorWriteFlag::kAlpha)));
 }
 
 inline void

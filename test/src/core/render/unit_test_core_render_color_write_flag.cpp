@@ -13,6 +13,7 @@
 #include <functional>
 #include <vector>
 #include <algorithm>
+#include "constexpr_test.hpp"
 #include "serialize_test.hpp"
 
 namespace bksge_core_render_test
@@ -26,60 +27,159 @@ GTEST_TEST(Render_ColorWriteFlag, BasicTest)
 	using bksge::ColorWriteFlag;
 
 	{
-		ColorWriteFlag const f = ColorWriteFlag::kNone;
-		EXPECT_FALSE(bool(f & ColorWriteFlag::kRed));
-		EXPECT_FALSE(bool(f & ColorWriteFlag::kGreen));
-		EXPECT_FALSE(bool(f & ColorWriteFlag::kBlue));
-		EXPECT_FALSE(bool(f & ColorWriteFlag::kAlpha));
+		BKSGE_CONSTEXPR_OR_CONST auto f = ColorWriteFlag::kNone;
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kNone,  f & ColorWriteFlag::kRed);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kNone,  f & ColorWriteFlag::kGreen);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kNone,  f & ColorWriteFlag::kBlue);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kNone,  f & ColorWriteFlag::kAlpha);
 	}
 	{
-		ColorWriteFlag const f = ColorWriteFlag::kRed;
-		EXPECT_TRUE (bool(f & ColorWriteFlag::kRed));
-		EXPECT_FALSE(bool(f & ColorWriteFlag::kGreen));
-		EXPECT_FALSE(bool(f & ColorWriteFlag::kBlue));
-		EXPECT_FALSE(bool(f & ColorWriteFlag::kAlpha));
+		BKSGE_CONSTEXPR_OR_CONST auto f = ColorWriteFlag::kRed;
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kRed,   f & ColorWriteFlag::kRed);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kNone,  f & ColorWriteFlag::kGreen);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kNone,  f & ColorWriteFlag::kBlue);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kNone,  f & ColorWriteFlag::kAlpha);
 	}
 	{
-		ColorWriteFlag const f = ColorWriteFlag::kGreen;
-		EXPECT_FALSE(bool(f & ColorWriteFlag::kRed));
-		EXPECT_TRUE (bool(f & ColorWriteFlag::kGreen));
-		EXPECT_FALSE(bool(f & ColorWriteFlag::kBlue));
-		EXPECT_FALSE(bool(f & ColorWriteFlag::kAlpha));
+		BKSGE_CONSTEXPR_OR_CONST auto f = ColorWriteFlag::kGreen;
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kNone,  f & ColorWriteFlag::kRed);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kGreen, f & ColorWriteFlag::kGreen);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kNone,  f & ColorWriteFlag::kBlue);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kNone,  f & ColorWriteFlag::kAlpha);
 	}
 	{
-		ColorWriteFlag const f = ColorWriteFlag::kBlue;
-		EXPECT_FALSE(bool(f & ColorWriteFlag::kRed));
-		EXPECT_FALSE(bool(f & ColorWriteFlag::kGreen));
-		EXPECT_TRUE (bool(f & ColorWriteFlag::kBlue));
-		EXPECT_FALSE(bool(f & ColorWriteFlag::kAlpha));
+		BKSGE_CONSTEXPR_OR_CONST auto f = ColorWriteFlag::kBlue;
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kNone,  f & ColorWriteFlag::kRed);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kNone,  f & ColorWriteFlag::kGreen);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kBlue,  f & ColorWriteFlag::kBlue);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kNone,  f & ColorWriteFlag::kAlpha);
 	}
 	{
-		ColorWriteFlag const f = ColorWriteFlag::kAlpha;
-		EXPECT_FALSE(bool(f & ColorWriteFlag::kRed));
-		EXPECT_FALSE(bool(f & ColorWriteFlag::kGreen));
-		EXPECT_FALSE(bool(f & ColorWriteFlag::kBlue));
-		EXPECT_TRUE (bool(f & ColorWriteFlag::kAlpha));
+		BKSGE_CONSTEXPR_OR_CONST auto f = ColorWriteFlag::kAlpha;
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kNone,  f & ColorWriteFlag::kRed);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kNone,  f & ColorWriteFlag::kGreen);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kNone,  f & ColorWriteFlag::kBlue);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kAlpha, f & ColorWriteFlag::kAlpha);
 	}
 	{
-		ColorWriteFlag const f = ColorWriteFlag::kRed | ColorWriteFlag::kBlue;
-		EXPECT_TRUE (bool(f & ColorWriteFlag::kRed));
-		EXPECT_FALSE(bool(f & ColorWriteFlag::kGreen));
-		EXPECT_TRUE (bool(f & ColorWriteFlag::kBlue));
-		EXPECT_FALSE(bool(f & ColorWriteFlag::kAlpha));
+		BKSGE_CONSTEXPR_OR_CONST auto f = ColorWriteFlag::kRed | ColorWriteFlag::kBlue;
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kRed,   f & ColorWriteFlag::kRed);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kNone,  f & ColorWriteFlag::kGreen);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kBlue,  f & ColorWriteFlag::kBlue);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kNone,  f & ColorWriteFlag::kAlpha);
 	}
 	{
-		ColorWriteFlag const f = ColorWriteFlag::kGreen | ColorWriteFlag::kAlpha;
-		EXPECT_FALSE(bool(f & ColorWriteFlag::kRed));
-		EXPECT_TRUE (bool(f & ColorWriteFlag::kGreen));
-		EXPECT_FALSE(bool(f & ColorWriteFlag::kBlue));
-		EXPECT_TRUE (bool(f & ColorWriteFlag::kAlpha));
+		BKSGE_CONSTEXPR_OR_CONST auto f = ColorWriteFlag::kGreen | ColorWriteFlag::kAlpha;
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kNone,  f & ColorWriteFlag::kRed);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kGreen, f & ColorWriteFlag::kGreen);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kNone,  f & ColorWriteFlag::kBlue);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kAlpha, f & ColorWriteFlag::kAlpha);
 	}
 	{
-		ColorWriteFlag const f = ColorWriteFlag::kAll;
-		EXPECT_TRUE (bool(f & ColorWriteFlag::kRed));
-		EXPECT_TRUE (bool(f & ColorWriteFlag::kGreen));
-		EXPECT_TRUE (bool(f & ColorWriteFlag::kBlue));
-		EXPECT_TRUE (bool(f & ColorWriteFlag::kAlpha));
+		BKSGE_CONSTEXPR_OR_CONST auto f = ColorWriteFlag::kAll;
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kRed,   f & ColorWriteFlag::kRed);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kGreen, f & ColorWriteFlag::kGreen);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kBlue,  f & ColorWriteFlag::kBlue);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kAlpha, f & ColorWriteFlag::kAlpha);
+	}
+	{
+		BKSGE_CONSTEXPR_OR_CONST auto f = ColorWriteFlag::kNone;
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kRed,   f ^ ColorWriteFlag::kRed);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kGreen, f ^ ColorWriteFlag::kGreen);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kBlue,  f ^ ColorWriteFlag::kBlue);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kAlpha, f ^ ColorWriteFlag::kAlpha);
+	}
+	{
+		BKSGE_CONSTEXPR_OR_CONST auto f = ColorWriteFlag::kRed | ColorWriteFlag::kGreen | ColorWriteFlag::kBlue;
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kGreen | ColorWriteFlag::kBlue,  f ^ ColorWriteFlag::kRed);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kRed   | ColorWriteFlag::kBlue,  f ^ ColorWriteFlag::kGreen);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kRed   | ColorWriteFlag::kGreen, f ^ ColorWriteFlag::kBlue);
+		BKSGE_CONSTEXPR_EXPECT_EQ(ColorWriteFlag::kAll,                            f ^ ColorWriteFlag::kAlpha);
+	}
+	{
+		auto f = ColorWriteFlag::kNone;
+		EXPECT_EQ(ColorWriteFlag::kNone,  f & ColorWriteFlag::kRed);
+		EXPECT_EQ(ColorWriteFlag::kNone,  f & ColorWriteFlag::kGreen);
+		EXPECT_EQ(ColorWriteFlag::kNone,  f & ColorWriteFlag::kBlue);
+		EXPECT_EQ(ColorWriteFlag::kNone,  f & ColorWriteFlag::kAlpha);
+
+		f |= ColorWriteFlag::kRed;
+		EXPECT_EQ(ColorWriteFlag::kRed,   f & ColorWriteFlag::kRed);
+		EXPECT_EQ(ColorWriteFlag::kNone,  f & ColorWriteFlag::kGreen);
+		EXPECT_EQ(ColorWriteFlag::kNone,  f & ColorWriteFlag::kBlue);
+		EXPECT_EQ(ColorWriteFlag::kNone,  f & ColorWriteFlag::kAlpha);
+
+		f |= ColorWriteFlag::kBlue;
+		EXPECT_EQ(ColorWriteFlag::kRed,   f & ColorWriteFlag::kRed);
+		EXPECT_EQ(ColorWriteFlag::kNone,  f & ColorWriteFlag::kGreen);
+		EXPECT_EQ(ColorWriteFlag::kBlue,  f & ColorWriteFlag::kBlue);
+		EXPECT_EQ(ColorWriteFlag::kNone,  f & ColorWriteFlag::kAlpha);
+
+		f ^= ColorWriteFlag::kAll;
+		EXPECT_EQ(ColorWriteFlag::kNone,  f & ColorWriteFlag::kRed);
+		EXPECT_EQ(ColorWriteFlag::kGreen, f & ColorWriteFlag::kGreen);
+		EXPECT_EQ(ColorWriteFlag::kNone,  f & ColorWriteFlag::kBlue);
+		EXPECT_EQ(ColorWriteFlag::kAlpha, f & ColorWriteFlag::kAlpha);
+
+		f ^= ColorWriteFlag::kBlue;
+		EXPECT_EQ(ColorWriteFlag::kNone,  f & ColorWriteFlag::kRed);
+		EXPECT_EQ(ColorWriteFlag::kGreen, f & ColorWriteFlag::kGreen);
+		EXPECT_EQ(ColorWriteFlag::kBlue,  f & ColorWriteFlag::kBlue);
+		EXPECT_EQ(ColorWriteFlag::kAlpha, f & ColorWriteFlag::kAlpha);
+
+		f &= ColorWriteFlag::kRed | ColorWriteFlag::kGreen | ColorWriteFlag::kBlue;
+		EXPECT_EQ(ColorWriteFlag::kNone,  f & ColorWriteFlag::kRed);
+		EXPECT_EQ(ColorWriteFlag::kGreen, f & ColorWriteFlag::kGreen);
+		EXPECT_EQ(ColorWriteFlag::kBlue,  f & ColorWriteFlag::kBlue);
+		EXPECT_EQ(ColorWriteFlag::kNone,  f & ColorWriteFlag::kAlpha);
+	}
+}
+
+GTEST_TEST(Render_ColorWriteFlag, TestTest)
+{
+	using bksge::ColorWriteFlag;
+
+	{
+		BKSGE_CONSTEXPR_OR_CONST auto f = ColorWriteFlag::kNone;
+		BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::render::Test(f, ColorWriteFlag::kRed));
+		BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::render::Test(f, ColorWriteFlag::kGreen));
+		BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::render::Test(f, ColorWriteFlag::kBlue));
+		BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::render::Test(f, ColorWriteFlag::kAlpha));
+	}
+	{
+		BKSGE_CONSTEXPR_OR_CONST auto f = ColorWriteFlag::kRed;
+		BKSGE_CONSTEXPR_EXPECT_TRUE (bksge::render::Test(f, ColorWriteFlag::kRed));
+		BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::render::Test(f, ColorWriteFlag::kGreen));
+		BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::render::Test(f, ColorWriteFlag::kBlue));
+		BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::render::Test(f, ColorWriteFlag::kAlpha));
+	}
+	{
+		BKSGE_CONSTEXPR_OR_CONST auto f = ColorWriteFlag::kGreen;
+		BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::render::Test(f, ColorWriteFlag::kRed));
+		BKSGE_CONSTEXPR_EXPECT_TRUE (bksge::render::Test(f, ColorWriteFlag::kGreen));
+		BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::render::Test(f, ColorWriteFlag::kBlue));
+		BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::render::Test(f, ColorWriteFlag::kAlpha));
+	}
+	{
+		BKSGE_CONSTEXPR_OR_CONST auto f = ColorWriteFlag::kBlue;
+		BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::render::Test(f, ColorWriteFlag::kRed));
+		BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::render::Test(f, ColorWriteFlag::kGreen));
+		BKSGE_CONSTEXPR_EXPECT_TRUE (bksge::render::Test(f, ColorWriteFlag::kBlue));
+		BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::render::Test(f, ColorWriteFlag::kAlpha));
+	}
+	{
+		BKSGE_CONSTEXPR_OR_CONST auto f = ColorWriteFlag::kAlpha;
+		BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::render::Test(f, ColorWriteFlag::kRed));
+		BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::render::Test(f, ColorWriteFlag::kGreen));
+		BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::render::Test(f, ColorWriteFlag::kBlue));
+		BKSGE_CONSTEXPR_EXPECT_TRUE (bksge::render::Test(f, ColorWriteFlag::kAlpha));
+	}
+	{
+		BKSGE_CONSTEXPR_OR_CONST auto f = ColorWriteFlag::kAll;
+		BKSGE_CONSTEXPR_EXPECT_TRUE (bksge::render::Test(f, ColorWriteFlag::kRed));
+		BKSGE_CONSTEXPR_EXPECT_TRUE (bksge::render::Test(f, ColorWriteFlag::kGreen));
+		BKSGE_CONSTEXPR_EXPECT_TRUE (bksge::render::Test(f, ColorWriteFlag::kBlue));
+		BKSGE_CONSTEXPR_EXPECT_TRUE (bksge::render::Test(f, ColorWriteFlag::kAlpha));
 	}
 }
 

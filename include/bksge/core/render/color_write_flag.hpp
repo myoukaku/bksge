@@ -54,6 +54,9 @@ operator&=(ColorWriteFlag& lhs, ColorWriteFlag rhs) BKSGE_NOEXCEPT;
 BKSGE_CXX14_CONSTEXPR ColorWriteFlag&
 operator^=(ColorWriteFlag& lhs, ColorWriteFlag rhs) BKSGE_NOEXCEPT;
 
+BKSGE_CONSTEXPR bool
+Test(ColorWriteFlag lhs, ColorWriteFlag rhs) BKSGE_NOEXCEPT;
+
 /**
  *	@brief	文字列への変換
  */

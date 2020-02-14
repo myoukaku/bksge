@@ -65,6 +65,12 @@ operator^=(ColorWriteFlag& lhs, ColorWriteFlag rhs) BKSGE_NOEXCEPT
 	return lhs = lhs ^ rhs;
 }
 
+inline BKSGE_CONSTEXPR bool
+Test(ColorWriteFlag lhs, ColorWriteFlag rhs) BKSGE_NOEXCEPT
+{
+	return (lhs & rhs) != ColorWriteFlag::kNone;
+}
+
 inline std::string
 to_string(ColorWriteFlag const& color_write_flag)
 {

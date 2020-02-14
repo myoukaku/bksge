@@ -23,11 +23,11 @@
 	EXPECT_NE(x, y)
 
 #  define BKSGE_CONSTEXPR_EXPECT_TRUE(x)	\
-	static_assert((x), "");	\
+	static_assert((x), #x);	\
 	EXPECT_TRUE(x)
 
 #  define BKSGE_CONSTEXPR_EXPECT_FALSE(x)	\
-	static_assert(!(x), "");	\
+	static_assert(!(x), #x);	\
 	EXPECT_FALSE(x)
 
 #  define BKSGE_CONSTEXPR_EXPECT_NEAR(val1, val2, abs_error)	\
@@ -61,11 +61,11 @@
 	EXPECT_EQ(x, y)
 
 #  define BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(x)	\
-	static_assert((x), "");	\
+	static_assert((x), #x);	\
 	EXPECT_TRUE(x)
 
 #  define BKSGE_CXX14_CONSTEXPR_EXPECT_FALSE(x)	\
-	static_assert(!(x), "");	\
+	static_assert(!(x), #x);	\
 	EXPECT_FALSE(x)
 
 #  define BKSGE_CXX14_CONSTEXPR_EXPECT_NEAR(val1, val2, abs_error)	\
@@ -96,11 +96,11 @@
 	EXPECT_EQ(x, y)
 
 #  define BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE(x)	\
-	static_assert((x), "");	\
+	static_assert((x), #x);	\
 	EXPECT_TRUE(x)
 
 #  define BKSGE_CXX17_CONSTEXPR_EXPECT_FALSE(x)	\
-	static_assert(!(x), "");	\
+	static_assert(!(x), #x);	\
 	EXPECT_FALSE(x)
 
 #  define BKSGE_CXX17_CONSTEXPR_EXPECT_NEAR(val1, val2, abs_error)	\

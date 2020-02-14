@@ -33,19 +33,19 @@ ToD3D11ColorWriteFlag(bksge::ColorWriteFlag color_write_flag)
 {
 	::UINT8 result = 0;
 
-	if ((color_write_flag & bksge::ColorWriteFlag::kRed) != bksge::ColorWriteFlag::kNone)
+	if (Test(color_write_flag, bksge::ColorWriteFlag::kRed))
 	{
 		result |= D3D11_COLOR_WRITE_ENABLE_RED;
 	}
-	if ((color_write_flag & bksge::ColorWriteFlag::kGreen) != bksge::ColorWriteFlag::kNone)
+	if (Test(color_write_flag, bksge::ColorWriteFlag::kGreen))
 	{
 		result |= D3D11_COLOR_WRITE_ENABLE_GREEN;
 	}
-	if ((color_write_flag & bksge::ColorWriteFlag::kBlue) != bksge::ColorWriteFlag::kNone)
+	if (Test(color_write_flag, bksge::ColorWriteFlag::kBlue))
 	{
 		result |= D3D11_COLOR_WRITE_ENABLE_BLUE;
 	}
-	if ((color_write_flag & bksge::ColorWriteFlag::kAlpha) != bksge::ColorWriteFlag::kNone)
+	if (Test(color_write_flag, bksge::ColorWriteFlag::kAlpha))
 	{
 		result |= D3D11_COLOR_WRITE_ENABLE_ALPHA;
 	}
