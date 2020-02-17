@@ -15,6 +15,7 @@
 #include <bksge/core/render/gl/detail/texture.hpp>
 #include <bksge/core/render/gl/detail/pixel_format.hpp>
 #include <bksge/core/render/texture.hpp>
+#include <bksge/fnd/algorithm/max.hpp>
 
 namespace bksge
 {
@@ -31,38 +32,43 @@ Texture::Texture(bksge::Texture const& texture)
 		texture.format(),
 		texture.width(),
 		texture.height(),
+		texture.mipmap_count(),
 		texture.data())
 {}
 
 BKSGE_INLINE
 Texture::Texture(
 	bksge::TextureFormat texture_format,
-	int width,
-	int height,
-	void const* data)
+	std::uint32_t width,
+	std::uint32_t height,
+	std::size_t mipmap_count,
+	std::uint8_t const* data)
 {
 	::glGenTextures(1, &m_name);
 
 	::glBindTexture(GL_TEXTURE_2D , m_name);
 
-	::GLint	  const  level = 0;
 	::GLint	  const  internal_format = ToGlInternalPixelFormat(texture_format);
-	::GLsizei const  w = width;
-	::GLsizei const  h = height;
-	::GLint	  const  border = 0;
 	::GLenum  const  format = ToGlPixelFormat(texture_format);
 	::GLenum  const  type = ToGlPixelType(texture_format);
-	::GLvoid  const* p = data;
-	::glTexImage2D(
-		GL_TEXTURE_2D,
-		level,
-		internal_format,
-		w,
-		h,
-		border,
-		format,
-		type,
-		p);
+
+	for (std::size_t level = 0; level < mipmap_count; ++level)
+	{
+		::glTexImage2D(
+			GL_TEXTURE_2D,
+			static_cast<::GLint>(level),
+			internal_format,
+			static_cast<::GLsizei>(width),
+			static_cast<::GLsizei>(height),
+			0,	// must be 0
+			format,
+			type,
+			static_cast<const void*>(data));
+
+		data += GetSizeInBytes(texture_format, width, height);
+		width  = bksge::max(width  / 2, 1u);
+		height = bksge::max(height / 2, 1u);
+	}
 
 	::glBindTexture(GL_TEXTURE_2D , 0);
 }

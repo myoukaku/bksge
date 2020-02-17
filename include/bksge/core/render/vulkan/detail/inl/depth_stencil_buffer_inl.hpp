@@ -91,6 +91,7 @@ DepthStencilBuffer::DepthStencilBuffer(
 		device,
 		format,
 		extent,
+		1,
 		num_samples,
 		tiling,
 		VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT |
@@ -109,6 +110,7 @@ DepthStencilBuffer::DepthStencilBuffer(
 	m_image->TransitionLayout(
 		command_pool,
 		aspect_mask,
+		1,
 		VK_IMAGE_LAYOUT_UNDEFINED,
 		VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
 
@@ -116,7 +118,8 @@ DepthStencilBuffer::DepthStencilBuffer(
 		device,
 		m_image->GetImage(),
 		format,
-		aspect_mask);
+		aspect_mask,
+		1);
 }
 
 BKSGE_INLINE
@@ -148,6 +151,7 @@ DepthStencilBuffer::Clear(
 		command_pool,
 		VK_IMAGE_ASPECT_DEPTH_BIT |
 		VK_IMAGE_ASPECT_STENCIL_BIT,
+		1,
 		VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
 		VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
 
@@ -175,6 +179,7 @@ DepthStencilBuffer::Clear(
 		command_pool,
 		VK_IMAGE_ASPECT_DEPTH_BIT |
 		VK_IMAGE_ASPECT_STENCIL_BIT,
+		1,
 		VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
 		VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
 }

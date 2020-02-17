@@ -20,6 +20,8 @@
 #include <bksge/core/render/d3d_common/d3d12.hpp>
 #include <bksge/core/render/d3d_common/throw_if_failed.hpp>
 #include <bksge/core/render/texture.hpp>
+#include <bksge/fnd/algorithm/max.hpp>
+#include <vector>
 
 namespace bksge
 {
@@ -72,12 +74,25 @@ inline void UpdateSubresource(
 	ID3D12ResourceN* destination_resource,
 	bksge::Texture const& src_texture)
 {
+	auto const mipmap_count = src_texture.mipmap_count();
+	auto const num_subresources = mipmap_count;
 	auto const destination_desc = destination_resource->GetDesc();
-	::D3D12_PLACED_SUBRESOURCE_FOOTPRINT layout;
-	::UINT num_row;
-	::UINT64 row_size_in_bytes;
+	std::vector<::D3D12_PLACED_SUBRESOURCE_FOOTPRINT> footprints;
+	std::vector<::UINT> num_rows;
+	std::vector<::UINT64> row_size_in_bytes;
 	::UINT64 required_size = 0;
-	device->GetCopyableFootprints(&destination_desc, 0, 1, 0, &layout, &num_row, &row_size_in_bytes, &required_size);
+	footprints.resize(num_subresources);
+	num_rows.resize(num_subresources);
+	row_size_in_bytes.resize(num_subresources);
+	device->GetCopyableFootprints(
+		&destination_desc,
+		0,	// first_subresource
+		static_cast<::UINT>(num_subresources),
+		0,
+		footprints.data(),
+		num_rows.data(),
+		row_size_in_bytes.data(),
+		&required_size);
 
 	::D3D12_HEAP_PROPERTIES prop = {};
 	prop.Type                 = D3D12_HEAP_TYPE_UPLOAD;
@@ -107,64 +122,76 @@ inline void UpdateSubresource(
 			D3D12_RESOURCE_STATE_GENERIC_READ,
 			nullptr);
 
-	::D3D12_SUBRESOURCE_DATA texture_data ={};
-	texture_data.pData = src_texture.data();
-	texture_data.RowPitch = src_texture.stride();
-	texture_data.SlicePitch = texture_data.RowPitch * src_texture.height();
-
 	::BYTE* data;
 	auto hr = intermediate_resource->Map(0, nullptr, reinterpret_cast<void**>(&data));
 	if (FAILED(hr))
 	{
 		return;
 	}
-	{
-		if (row_size_in_bytes > ::SIZE_T(-1))
-		{
-			return;
-		}
 
-		::D3D12_MEMCPY_DEST dest_data =
-		{
-			data + layout.Offset,
-			layout.Footprint.RowPitch,
-			::SIZE_T(layout.Footprint.RowPitch) * ::SIZE_T(num_row)
-		};
+	auto const format = src_texture.format();
+	auto src_ptr = src_texture.data();
+	auto src_width  = src_texture.width();
+	auto src_height = src_texture.height();
+
+	for (std::size_t i = 0; i < num_subresources; ++i)
+	{
+		//if (row_size_in_bytes > ::SIZE_T(-1))
+		//{
+		//	return;
+		//}
+
+		::D3D12_SUBRESOURCE_DATA src_data{};
+		src_data.pData = src_ptr;
+		src_data.RowPitch = static_cast<::UINT>(GetStrideInBytes(format, src_width));
+		src_data.SlicePitch = src_data.RowPitch * src_height;
+
+		::D3D12_MEMCPY_DEST dst_data{};
+		dst_data.pData      = data + footprints[i].Offset;
+		dst_data.RowPitch   = footprints[i].Footprint.RowPitch;
+		dst_data.SlicePitch = dst_data.RowPitch * ::SIZE_T(num_rows[i]);
 
 		MemcpySubresource(
-			&dest_data,
-			&texture_data,
-			static_cast<::SIZE_T>(row_size_in_bytes),
-			num_row,
-			layout.Footprint.Depth);
+			&dst_data,
+			&src_data,
+			static_cast<::SIZE_T>(row_size_in_bytes[i]),
+			num_rows[i],
+			footprints[i].Footprint.Depth);
+
+		src_ptr += GetSizeInBytes(format, src_width, src_height);
+		src_width  = bksge::max(src_width  / 2, 1u);
+		src_height = bksge::max(src_height / 2, 1u);
 	}
 	intermediate_resource->Unmap(0, nullptr);
 
 	command_list->Reset(0);
 
-	if (destination_desc.Dimension == D3D12_RESOURCE_DIMENSION_BUFFER)
+	//if (destination_desc.Dimension == D3D12_RESOURCE_DIMENSION_BUFFER)
+	//{
+	//	command_list->CopyBufferRegion(
+	//		destination_resource,
+	//		0,
+	//		intermediate_resource.Get(),
+	//		footprints[0].Offset,
+	//		footprints[0].Footprint.Width);
+	//}
+	//else
 	{
-		command_list->CopyBufferRegion(
-			destination_resource,
-			0,
-			intermediate_resource.Get(),
-			layout.Offset,
-			layout.Footprint.Width);
-	}
-	else
-	{
-		::D3D12_TEXTURE_COPY_LOCATION dst;
-		::D3D12_TEXTURE_COPY_LOCATION src;
+		for (std::size_t i = 0; i < num_subresources; ++i)
+		{
+			::D3D12_TEXTURE_COPY_LOCATION dst;
+			::D3D12_TEXTURE_COPY_LOCATION src;
 
-		dst.pResource        = destination_resource;
-		dst.Type             = D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
-		dst.SubresourceIndex = 0;
+			dst.pResource        = destination_resource;
+			dst.Type             = D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
+			dst.SubresourceIndex = static_cast<::UINT>(i);
 
-		src.pResource       = intermediate_resource.Get();
-		src.Type            = D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT;
-		src.PlacedFootprint = layout;
+			src.pResource       = intermediate_resource.Get();
+			src.Type            = D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT;
+			src.PlacedFootprint = footprints[i];
 
-		command_list->CopyTextureRegion(&dst, 0, 0, 0, &src, nullptr);
+			command_list->CopyTextureRegion(&dst, 0, 0, 0, &src, nullptr);
+		}
 	}
 
 	command_list->ResourceBarrier(
@@ -198,7 +225,7 @@ Texture::Texture(
 	desc.Width              = texture.width();
 	desc.Height             = texture.height();
 	desc.DepthOrArraySize   = 1;
-	desc.MipLevels          = 1;
+	desc.MipLevels          = static_cast<::UINT16>(texture.mipmap_count());
 	desc.Format             = detail::ToDXGIPixelFormat(texture.format());
 	desc.SampleDesc.Count   = 1;
 	desc.SampleDesc.Quality = 0;
@@ -230,7 +257,7 @@ Texture::CreateView(Device* device, ::D3D12_CPU_DESCRIPTOR_HANDLE dest)
 	srv_desc.ViewDimension                 = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srv_desc.Shader4ComponentMapping       = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srv_desc.Texture2D.MostDetailedMip     = 0;
-	srv_desc.Texture2D.MipLevels           = 1;
+	srv_desc.Texture2D.MipLevels           = desc.MipLevels;
 	srv_desc.Texture2D.PlaneSlice          = 0;
 	srv_desc.Texture2D.ResourceMinLODClamp = 0;
 

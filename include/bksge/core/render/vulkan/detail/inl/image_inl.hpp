@@ -33,6 +33,7 @@ Image::Image(
 	vulkan::DeviceSharedPtr const& device,
 	::VkFormat format,
 	::VkExtent2D const& extent,
+	std::uint32_t mipmap_count,
 	::VkSampleCountFlagBits num_samples,
 	::VkImageTiling tiling,
 	::VkImageUsageFlags usage,
@@ -47,7 +48,7 @@ Image::Image(
 	info.extent.width  = extent.width;
 	info.extent.height = extent.height;
 	info.extent.depth  = 1;
-	info.mipLevels     = 1;
+	info.mipLevels     = mipmap_count;
 	info.arrayLayers   = 1;
 	info.samples       = num_samples;
 	info.tiling        = tiling;
@@ -69,11 +70,12 @@ BKSGE_INLINE void
 Image::TransitionLayout(
 	vulkan::CommandPoolSharedPtr const& command_pool,
 	::VkImageAspectFlags aspect_mask,
+	std::uint32_t mipmap_count,
 	::VkImageLayout old_layout,
 	::VkImageLayout new_layout)
 {
 	TransitionImageLayout(
-		command_pool, m_image, aspect_mask, old_layout, new_layout);
+		command_pool, m_image, aspect_mask, mipmap_count, old_layout, new_layout);
 }
 
 BKSGE_INLINE void
@@ -81,6 +83,7 @@ TransitionImageLayout(
 	vulkan::CommandPoolSharedPtr const& command_pool,
 	::VkImage image,
 	::VkImageAspectFlags aspect_mask,
+	std::uint32_t mipmap_count,
 	::VkImageLayout old_layout,
 	::VkImageLayout new_layout)
 {
@@ -96,7 +99,7 @@ TransitionImageLayout(
 	barrier.image                           = image;
 	barrier.subresourceRange.aspectMask     = aspect_mask;
 	barrier.subresourceRange.baseMipLevel   = 0;
-	barrier.subresourceRange.levelCount     = 1;
+	barrier.subresourceRange.levelCount     = mipmap_count;
 	barrier.subresourceRange.baseArrayLayer = 0;
 	barrier.subresourceRange.layerCount     = 1;
 

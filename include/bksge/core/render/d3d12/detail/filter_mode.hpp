@@ -11,6 +11,7 @@
 
 #include <bksge/core/render/d3d_common/d3d12.hpp>
 #include <bksge/core/render/filter_mode.hpp>
+#include <bksge/core/render/mipmap_mode.hpp>
 
 namespace bksge
 {
@@ -27,7 +28,10 @@ namespace d3d12
 class FilterMode
 {
 public:
-	explicit FilterMode(bksge::FilterMode min_filter, bksge::FilterMode mag_filter);
+	explicit FilterMode(
+		bksge::FilterMode min_filter,
+		bksge::FilterMode mag_filter,
+		bksge::MipmapMode mip_filter);
 
 	operator ::D3D12_FILTER() const;
 

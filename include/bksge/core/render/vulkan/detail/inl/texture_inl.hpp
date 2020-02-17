@@ -25,6 +25,7 @@
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/texture.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
+#include <bksge/fnd/algorithm/max.hpp>
 #include <cstring>
 
 namespace bksge
@@ -41,28 +42,41 @@ CopyBufferToImage(
 	vulkan::CommandPoolSharedPtr const& command_pool,
 	::VkBuffer buffer,
 	::VkImage image,
-	::VkExtent2D extent)
+	bksge::TextureFormat format,
+	::VkExtent2D extent,
+	std::uint32_t mipmap_count)
 {
 	auto command_buffer = BeginSingleTimeCommands(command_pool);
 
-	::VkBufferImageCopy region {};
-	region.bufferOffset                    = 0;
-	region.bufferRowLength                 = 0;
-	region.bufferImageHeight               = 0;
-	region.imageSubresource.aspectMask     = VK_IMAGE_ASPECT_COLOR_BIT;
-	region.imageSubresource.mipLevel       = 0;
-	region.imageSubresource.baseArrayLayer = 0;
-	region.imageSubresource.layerCount     = 1;
-	region.imageOffset                     = {0, 0, 0};
-	region.imageExtent = {extent.width,extent.height,1};
+	::VkDeviceSize src_offset = 0;
+	auto width  = extent.width;
+	auto height = extent.height;
 
-	vk::CmdCopyBufferToImage(
-		*command_buffer,
-		buffer,
-		image,
-		VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-		1,
-		&region);
+	for (std::uint32_t i = 0; i < mipmap_count; ++i)
+	{
+		::VkBufferImageCopy region {};
+		region.bufferOffset                    = src_offset;
+		region.bufferRowLength                 = 0;
+		region.bufferImageHeight               = 0;
+		region.imageSubresource.aspectMask     = VK_IMAGE_ASPECT_COLOR_BIT;
+		region.imageSubresource.mipLevel       = i;
+		region.imageSubresource.baseArrayLayer = 0;
+		region.imageSubresource.layerCount     = 1;
+		region.imageOffset                     = {0, 0, 0};
+		region.imageExtent = {width, height, 1};
+
+		vk::CmdCopyBufferToImage(
+			*command_buffer,
+			buffer,
+			image,
+			VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+			1,
+			&region);
+
+		src_offset += GetSizeInBytes(format, width, height);
+		width  = bksge::max(width  / 2, 1u);
+		height = bksge::max(height / 2, 1u);
+	}
 
 	EndSingleTimeCommands(command_pool, command_buffer);
 }
@@ -73,115 +87,78 @@ Texture::Texture(
 	vulkan::CommandPoolSharedPtr const& command_pool,
 	bksge::Texture const& texture)
 {
-	auto const& physical_device = device->GetPhysicalDevice();
+	::VkFormat const format = vulkan::TextureFormat(texture.format());
 
-	::VkFormat format = vulkan::TextureFormat(texture.format());
+	::VkExtent2D const extent = vulkan::Extent2D(texture.extent());
 
-	::VkFormatProperties format_props;
-	vk::GetPhysicalDeviceFormatProperties(
-		*physical_device, format, &format_props);
+	auto const mipmap_count = static_cast<std::uint32_t>(texture.mipmap_count());
 
-	::VkFormatFeatureFlags const features = VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT;
+	::VkImageTiling const tiling = VK_IMAGE_TILING_OPTIMAL;
 
-	bool const needs_staging =
-		((format_props.linearTilingFeatures & features) != features);
+	::VkImageUsageFlags const usage =
+		VK_IMAGE_USAGE_SAMPLED_BIT |
+		VK_IMAGE_USAGE_TRANSFER_DST_BIT;
 
-	::VkImageTiling const tiling = needs_staging ?
-		VK_IMAGE_TILING_OPTIMAL :
-		VK_IMAGE_TILING_LINEAR;
+	::VkImageLayout const initial_layout =
+		VK_IMAGE_LAYOUT_UNDEFINED;
 
-	::VkImageUsageFlags usage = VK_IMAGE_USAGE_SAMPLED_BIT;
-	if (needs_staging)
-	{
-		usage |= VK_IMAGE_USAGE_TRANSFER_DST_BIT;
-	}
-
-	::VkImageLayout const initial_layout = needs_staging ?
-		VK_IMAGE_LAYOUT_UNDEFINED :
-		VK_IMAGE_LAYOUT_PREINITIALIZED;
-
-	::VkExtent2D extent = vulkan::Extent2D(texture.extent());
-
-	::VkFlags requirements_mask = needs_staging ?
-		VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT :
-		(VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
-			VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
+	::VkFlags const requirements_mask =
+		VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
 
 	m_image = bksge::make_unique<vulkan::ImageObject>(
 		device,
 		format,
 		extent,
+		mipmap_count,
 		VK_SAMPLE_COUNT_1_BIT,
 		tiling,
 		usage,
 		initial_layout,
 		requirements_mask);
 
-	auto image_size = texture.stride() * texture.height();
+	auto image_size = GetMipmappedSizeInBytes(texture.format(), texture.width(), texture.height(), texture.mipmap_count());//texture.stride() * texture.height();
 
-	std::unique_ptr<vulkan::BufferObject> staging_buffer;
-	if (needs_staging)
-	{
-		staging_buffer = bksge::make_unique<vulkan::BufferObject>(
-			device,
-			image_size,
-			VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
-			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
-			VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
-	}
+	auto staging_buffer = bksge::make_unique<vulkan::BufferObject>(
+		device,
+		image_size,
+		VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
+		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
+		VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
 
-	void* dst;
-	if (needs_staging)
 	{
-		dst = staging_buffer->MapMemory(VK_WHOLE_SIZE);
-	}
-	else
-	{
-		dst = m_image->MapMemory(VK_WHOLE_SIZE);
-	}
-
-	std::memcpy(dst, texture.data(), image_size);
-
-	if (needs_staging)
-	{
+		void* dst = staging_buffer->MapMemory(VK_WHOLE_SIZE);
+		std::memcpy(dst, texture.data(), image_size);
 		staging_buffer->UnmapMemory();
 	}
-	else
-	{
-		m_image->UnmapMemory();
-	}
 
-	if (!needs_staging)
-	{
-		m_image->TransitionLayout(
-			command_pool,
-			VK_IMAGE_ASPECT_COLOR_BIT,
-			initial_layout,
-			VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
-	}
-	else
-	{
-		m_image->TransitionLayout(
-			command_pool,
-			VK_IMAGE_ASPECT_COLOR_BIT,
-			initial_layout,
-			VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
+	m_image->TransitionLayout(
+		command_pool,
+		VK_IMAGE_ASPECT_COLOR_BIT,
+		mipmap_count,
+		initial_layout,
+		VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
 
-		CopyBufferToImage(
-			command_pool,
-			staging_buffer->GetBuffer(),
-			m_image->GetImage(),
-			extent);
+	CopyBufferToImage(
+		command_pool,
+		staging_buffer->GetBuffer(),
+		m_image->GetImage(),
+		texture.format(),
+		extent,
+		mipmap_count);
 
-		m_image->TransitionLayout(
-			command_pool,
-			VK_IMAGE_ASPECT_COLOR_BIT,
-			VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-			VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
-	}
+	m_image->TransitionLayout(
+		command_pool,
+		VK_IMAGE_ASPECT_COLOR_BIT,
+		mipmap_count,
+		VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+		VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 
 	m_image_view = bksge::make_unique<vulkan::ImageView>(
-		device, m_image->GetImage(), format, VK_IMAGE_ASPECT_COLOR_BIT);
+		device,
+		m_image->GetImage(),
+		format,
+		VK_IMAGE_ASPECT_COLOR_BIT,
+		mipmap_count);
 }
 
 BKSGE_INLINE

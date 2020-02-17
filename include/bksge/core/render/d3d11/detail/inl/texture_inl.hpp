@@ -15,6 +15,7 @@
 #include <bksge/core/render/d3d11/detail/texture.hpp>
 #include <bksge/core/render/d3d11/detail/device.hpp>
 #include <bksge/core/render/texture.hpp>
+#include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/assert.hpp>
 
 namespace bksge
@@ -45,7 +46,7 @@ Texture::Texture(Device* device, bksge::Texture const& texture)
 	D3D11_TEXTURE2D_DESC_N desc {};
 	desc.Width              = texture.width();
 	desc.Height             = texture.height();
-	desc.MipLevels          = 1;
+	desc.MipLevels          = static_cast<::UINT>(texture.mipmap_count());
 	desc.ArraySize          = 1;
 	desc.Format             = detail::ToDXGIPixelFormat(texture.format());
 	desc.SampleDesc.Count   = 1;
@@ -55,12 +56,27 @@ Texture::Texture(Device* device, bksge::Texture const& texture)
 	desc.CPUAccessFlags     = 0;
 	desc.MiscFlags          = 0;
 
-	::D3D11_SUBRESOURCE_DATA init_data {};
-	init_data.pSysMem          = texture.data();
-	init_data.SysMemPitch      = static_cast<::UINT>(texture.stride());
-	init_data.SysMemSlicePitch = static_cast<::UINT>(texture.stride());
+	auto const format = texture.format();
+	auto width  = texture.width();
+	auto height = texture.height();
+	std::uint8_t const* data = texture.data();
 
-	m_texture = device->CreateTexture2D(desc, &init_data);
+	std::vector<::D3D11_SUBRESOURCE_DATA> init_data_list;
+	for (std::size_t level = 0; level < texture.mipmap_count(); ++level)
+	{
+		::D3D11_SUBRESOURCE_DATA init_data{};
+		init_data.pSysMem          = data;
+		init_data.SysMemPitch      = static_cast<::UINT>(GetStrideInBytes(format, width));
+		init_data.SysMemSlicePitch = 0;
+
+		init_data_list.push_back(init_data);
+
+		data += GetSizeInBytes(format, width, height);
+		width  = bksge::max(width  / 2, 1u);
+		height = bksge::max(height / 2, 1u);
+	}
+
+	m_texture = device->CreateTexture2D(desc, init_data_list.data());
 
 	{
 		D3D11_SHADER_RESOURCE_VIEW_DESC_N srv_desc {};

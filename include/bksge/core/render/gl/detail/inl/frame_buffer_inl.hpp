@@ -69,7 +69,7 @@ FrameBuffer::CreateColorBuffers(void)
 	{
 		auto gl_texture =
 			bksge::make_unique<Texture>(
-				bksge::TextureFormat::kRGBA_U8, width, height, nullptr);
+				bksge::TextureFormat::kRGBA_U8, width, height, 1, nullptr);
 
 		::glFramebufferTexture2D(
 			GL_FRAMEBUFFER_EXT,

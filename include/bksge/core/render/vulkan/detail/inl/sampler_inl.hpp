@@ -15,6 +15,7 @@
 #include <bksge/core/render/vulkan/detail/sampler.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/filter_mode.hpp>
+#include <bksge/core/render/vulkan/detail/mipmap_mode.hpp>
 #include <bksge/core/render/vulkan/detail/address_mode.hpp>
 #include <bksge/core/render/vulkan/detail/border_color.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
@@ -41,7 +42,7 @@ Sampler::Sampler(
 	vk::SamplerCreateInfo info;
 	info.magFilter               = vulkan::FilterMode(sampler.mag_filter());
 	info.minFilter               = vulkan::FilterMode(sampler.min_filter());
-	info.mipmapMode              = VK_SAMPLER_MIPMAP_MODE_NEAREST;
+	info.mipmapMode              = vulkan::MipmapMode(sampler.mip_filter());
 	info.addressModeU            = vulkan::AddressMode(sampler.address_mode_u());
 	info.addressModeV            = vulkan::AddressMode(sampler.address_mode_v());
 	info.addressModeW            = vulkan::AddressMode(sampler.address_mode_w());
@@ -50,8 +51,8 @@ Sampler::Sampler(
 	info.maxAnisotropy           = 1;
 	info.compareEnable           = VK_FALSE;
 	info.compareOp               = VK_COMPARE_OP_NEVER;
-	info.minLod                  = 0;
-	info.maxLod                  = 0;
+	info.minLod                  = sampler.enable_mipmap() ? sampler.min_lod() : 0.0f;
+	info.maxLod                  = sampler.enable_mipmap() ? sampler.max_lod() : 0.0f;
 	info.borderColor             = vulkan::BorderColor(sampler.border_color());
 	info.unnormalizedCoordinates = VK_FALSE;
 

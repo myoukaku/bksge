@@ -30,7 +30,8 @@ public:
 		vulkan::DeviceSharedPtr const& device,
 		::VkImage image,
 		::VkFormat format,
-		::VkImageAspectFlags aspect_mask);
+		::VkImageAspectFlags aspect_mask,
+		std::uint32_t mipmap_count);
 
 	~ImageView();
 

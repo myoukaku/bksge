@@ -14,6 +14,7 @@
 
 #include <bksge/core/render/gl/detail/filter_mode.hpp>
 #include <bksge/core/render/filter_mode.hpp>
+#include <bksge/core/render/mipmap_mode.hpp>
 
 namespace bksge
 {
@@ -28,22 +29,56 @@ namespace detail
 {
 
 inline ::GLint
-ToGlFilterMode(bksge::FilterMode filter_mode)
+ToGlFilterMode(bksge::FilterMode mag_filter)
 {
-	switch (filter_mode)
+	switch (mag_filter)
 	{
-	case bksge::FilterMode::kLinear:  return GL_LINEAR;
 	case bksge::FilterMode::kNearest: return GL_NEAREST;
+	case bksge::FilterMode::kLinear:  return GL_LINEAR;
+	default: return GL_NEAREST;
 	}
-	return GL_LINEAR;
+}
+
+inline ::GLint
+ToGlFilterMode(bksge::FilterMode min_filter, bksge::MipmapMode mip_filter)
+{
+	switch (min_filter)
+	{
+	case bksge::FilterMode::kNearest:
+		switch (mip_filter)
+		{
+		case bksge::MipmapMode::kDisable: return GL_NEAREST;
+		case bksge::MipmapMode::kNearest: return GL_NEAREST_MIPMAP_NEAREST;
+		case bksge::MipmapMode::kLinear:  return GL_NEAREST_MIPMAP_LINEAR;
+		}
+		break;
+	case bksge::FilterMode::kLinear:
+		switch (mip_filter)
+		{
+		case bksge::MipmapMode::kDisable: return GL_LINEAR;
+		case bksge::MipmapMode::kNearest: return GL_LINEAR_MIPMAP_NEAREST;
+		case bksge::MipmapMode::kLinear:  return GL_LINEAR_MIPMAP_LINEAR;
+		}
+		break;
+	}
+	return GL_NEAREST;
 }
 
 }	// namespace detail
 
 BKSGE_INLINE
-FilterMode::FilterMode(bksge::FilterMode filter_mode)
-	: m_mode(detail::ToGlFilterMode(filter_mode))
-{}
+FilterMode::FilterMode(bksge::FilterMode mag_filter)
+	: m_mode(detail::ToGlFilterMode(mag_filter))
+{
+}
+
+BKSGE_INLINE
+FilterMode::FilterMode(
+	bksge::FilterMode min_filter,
+	bksge::MipmapMode mip_filter)
+	: m_mode(detail::ToGlFilterMode(min_filter, mip_filter))
+{
+}
 
 BKSGE_INLINE
 FilterMode::operator ::GLint() const

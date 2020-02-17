@@ -38,7 +38,7 @@ Sampler::Sampler(Device* device, bksge::Sampler const& sampler)
 	auto const border_color = d3d11::BorderColor(sampler.border_color());
 
 	::D3D11_SAMPLER_DESC desc;
-	desc.Filter         = d3d11::FilterMode(sampler.min_filter(), sampler.mag_filter());
+	desc.Filter         = d3d11::FilterMode(sampler.min_filter(), sampler.mag_filter(), sampler.mip_filter());
 	desc.AddressU       = d3d11::AddressMode(sampler.address_mode_u());
 	desc.AddressV       = d3d11::AddressMode(sampler.address_mode_v());
 	desc.AddressW       = d3d11::AddressMode(sampler.address_mode_w());
@@ -49,8 +49,8 @@ Sampler::Sampler(Device* device, bksge::Sampler const& sampler)
 	desc.BorderColor[1] = border_color[1];
 	desc.BorderColor[2] = border_color[2];
 	desc.BorderColor[3] = border_color[3];
-	desc.MinLOD         = -D3D11_FLOAT32_MAX;
-	desc.MaxLOD         =  D3D11_FLOAT32_MAX;
+	desc.MinLOD         = sampler.enable_mipmap() ? sampler.min_lod() : 0.0f;
+	desc.MaxLOD         = sampler.enable_mipmap() ? sampler.max_lod() : 0.0f;
 
 	m_state = device->CreateSamplerState(desc);
 }

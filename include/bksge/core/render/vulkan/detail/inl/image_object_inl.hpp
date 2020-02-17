@@ -33,6 +33,7 @@ ImageObject::ImageObject(
 	vulkan::DeviceSharedPtr const& device,
 	::VkFormat                     format,
 	::VkExtent2D const&            extent,
+	std::uint32_t                  mipmap_count,
 	::VkSampleCountFlagBits        num_samples,
 	::VkImageTiling                tiling,
 	::VkImageUsageFlags            usage,
@@ -40,7 +41,7 @@ ImageObject::ImageObject(
 	::VkFlags                      requirements_mask)
 {
 	m_image = bksge::make_unique<vulkan::Image>(
-		device, format, extent, num_samples, tiling, usage, initial_layout);
+		device, format, extent, mipmap_count, num_samples, tiling, usage, initial_layout);
 
 	auto const mem_reqs = m_image->requirements();
 
@@ -71,11 +72,12 @@ BKSGE_INLINE void
 ImageObject::TransitionLayout(
 	vulkan::CommandPoolSharedPtr const& command_pool,
 	::VkImageAspectFlags aspect_mask,
+	std::uint32_t mipmap_count,
 	::VkImageLayout old_layout,
 	::VkImageLayout new_layout)
 {
 	m_image->TransitionLayout(
-		command_pool, aspect_mask, old_layout, new_layout);
+		command_pool, aspect_mask, mipmap_count, old_layout, new_layout);
 }
 
 BKSGE_INLINE ::VkImage

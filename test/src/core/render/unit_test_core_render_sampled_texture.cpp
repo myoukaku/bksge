@@ -22,6 +22,7 @@ GTEST_TEST(Render_SampledTexture, DefaultConstructTest)
 
 	EXPECT_EQ(bksge::FilterMode::kNearest,      st.sampler().min_filter());
 	EXPECT_EQ(bksge::FilterMode::kNearest,      st.sampler().mag_filter());
+	EXPECT_EQ(bksge::MipmapMode::kDisable,      st.sampler().mip_filter());
 	EXPECT_EQ(bksge::AddressMode::kRepeat,      st.sampler().address_mode_u());
 	EXPECT_EQ(bksge::AddressMode::kRepeat,      st.sampler().address_mode_v());
 	EXPECT_EQ(bksge::AddressMode::kRepeat,      st.sampler().address_mode_w());
@@ -40,6 +41,7 @@ GTEST_TEST(Render_SampledTexture, SetParameterTest)
 
 	st.sampler().SetMinFilter(bksge::FilterMode::kLinear);
 	st.sampler().SetMagFilter(bksge::FilterMode::kLinear);
+	st.sampler().SetMipFilter(bksge::MipmapMode::kLinear);
 	st.sampler().SetAddressModeU(bksge::AddressMode::kBorder);
 	st.sampler().SetAddressModeV(bksge::AddressMode::kClamp);
 	st.sampler().SetAddressModeW(bksge::AddressMode::kBorder);
@@ -48,6 +50,7 @@ GTEST_TEST(Render_SampledTexture, SetParameterTest)
 
 	EXPECT_EQ(bksge::FilterMode::kLinear,       st.sampler().min_filter());
 	EXPECT_EQ(bksge::FilterMode::kLinear,       st.sampler().mag_filter());
+	EXPECT_EQ(bksge::MipmapMode::kLinear,       st.sampler().mip_filter());
 	EXPECT_EQ(bksge::AddressMode::kBorder,      st.sampler().address_mode_u());
 	EXPECT_EQ(bksge::AddressMode::kClamp,       st.sampler().address_mode_v());
 	EXPECT_EQ(bksge::AddressMode::kBorder,      st.sampler().address_mode_w());
@@ -71,14 +74,16 @@ GTEST_TEST(Render_SampledTexture, CompareTest)
 	bksge::SampledTexture s7;
 	bksge::SampledTexture s8;
 	bksge::SampledTexture s9;
+	bksge::SampledTexture s10;
 
 	s3.sampler().SetMinFilter(bksge::FilterMode::kLinear);
 	s4.sampler().SetMagFilter(bksge::FilterMode::kLinear);
-	s5.sampler().SetAddressModeU(bksge::AddressMode::kClamp);
-	s6.sampler().SetAddressModeV(bksge::AddressMode::kClamp);
-	s7.sampler().SetAddressModeW(bksge::AddressMode::kBorder);
-	s8.sampler().SetBorderColor(bksge::BorderColor::kTransparentBlack);
-	s9.texture() = bksge::Texture(bksge::TextureFormat::kRGBA_U8, {32, 24}, 3);
+	s5.sampler().SetMipFilter(bksge::MipmapMode::kLinear);
+	s6.sampler().SetAddressModeU(bksge::AddressMode::kClamp);
+	s7.sampler().SetAddressModeV(bksge::AddressMode::kClamp);
+	s8.sampler().SetAddressModeW(bksge::AddressMode::kBorder);
+	s9.sampler().SetBorderColor(bksge::BorderColor::kTransparentBlack);
+	s10.texture() = bksge::Texture(bksge::TextureFormat::kRGBA_U8, {32, 24}, 3);
 
 	EXPECT_TRUE (s1 == s1);
 	EXPECT_TRUE (s1 == s2);
@@ -89,6 +94,7 @@ GTEST_TEST(Render_SampledTexture, CompareTest)
 	EXPECT_FALSE(s1 == s7);
 	EXPECT_FALSE(s1 == s8);
 	EXPECT_FALSE(s1 == s9);
+	EXPECT_FALSE(s1 == s10);
 
 	EXPECT_FALSE(s1 != s1);
 	EXPECT_FALSE(s1 != s2);
@@ -99,30 +105,36 @@ GTEST_TEST(Render_SampledTexture, CompareTest)
 	EXPECT_TRUE (s1 != s7);
 	EXPECT_TRUE (s1 != s8);
 	EXPECT_TRUE (s1 != s9);
+	EXPECT_TRUE (s1 != s10);
 }
 
 GTEST_TEST(Render_SampledTexture, OutputStreamTest)
 {
 	{
 		bksge::SampledTexture st;
+		st.sampler().SetMinLod(0.0f);
+		st.sampler().SetMaxLod(0.0f);
 
 		std::stringstream ss;
 		ss << st;
-		EXPECT_EQ("{ { FilterMode::kNearest, FilterMode::kNearest, AddressMode::kRepeat, AddressMode::kRepeat, AddressMode::kRepeat, BorderColor::kOpaqueBlack }, { TextureFormat::kNone, { 0, 0 }, 0, {  } } }", ss.str());
+		EXPECT_EQ("{ { FilterMode::kNearest, FilterMode::kNearest, MipmapMode::kDisable, AddressMode::kRepeat, AddressMode::kRepeat, AddressMode::kRepeat, BorderColor::kOpaqueBlack, 0, 0 }, { TextureFormat::kNone, { 0, 0 }, 0, {  } } }", ss.str());
 	}
 	{
 		bksge::SampledTexture st;
 		st.sampler().SetMinFilter(bksge::FilterMode::kNearest);
 		st.sampler().SetMagFilter(bksge::FilterMode::kLinear);
+		st.sampler().SetMipFilter(bksge::MipmapMode::kLinear);
 		st.sampler().SetAddressModeU(bksge::AddressMode::kClamp);
 		st.sampler().SetAddressModeV(bksge::AddressMode::kRepeat);
 		st.sampler().SetAddressModeW(bksge::AddressMode::kBorder);
 		st.sampler().SetBorderColor(bksge::BorderColor::kTransparentBlack);
+		st.sampler().SetMinLod(-1.0f);
+		st.sampler().SetMaxLod( 1.0f);
 		st.texture() = bksge::Texture(bksge::TextureFormat::kRGBA_U16, {1, 2}, 4);
 
 		std::wstringstream ss;
 		ss << st;
-		EXPECT_EQ(L"{ { FilterMode::kNearest, FilterMode::kLinear, AddressMode::kClamp, AddressMode::kRepeat, AddressMode::kBorder, BorderColor::kTransparentBlack }, { TextureFormat::kRGBA_U16, { 1, 2 }, 4, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  } } }", ss.str());
+		EXPECT_EQ(L"{ { FilterMode::kNearest, FilterMode::kLinear, MipmapMode::kLinear, AddressMode::kClamp, AddressMode::kRepeat, AddressMode::kBorder, BorderColor::kTransparentBlack, -1, 1 }, { TextureFormat::kRGBA_U16, { 1, 2 }, 4, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  } } }", ss.str());
 	}
 }
 
@@ -144,14 +156,16 @@ GTEST_TEST(Render_SampledTexture, HashTest)
 	bksge::SampledTexture s6;
 	bksge::SampledTexture s7;
 	bksge::SampledTexture s8;
+	bksge::SampledTexture s9;
 
 	s2.sampler().SetMinFilter(bksge::FilterMode::kLinear);
 	s3.sampler().SetMagFilter(bksge::FilterMode::kLinear);
-	s4.sampler().SetAddressModeU(bksge::AddressMode::kClamp);
-	s5.sampler().SetAddressModeV(bksge::AddressMode::kClamp);
-	s6.sampler().SetAddressModeW(bksge::AddressMode::kBorder);
-	s7.sampler().SetBorderColor(bksge::BorderColor::kTransparentBlack);
-	s8.texture() = bksge::Texture(bksge::TextureFormat::kRGBA_U8, {32, 24}, 3);
+	s4.sampler().SetMipFilter(bksge::MipmapMode::kLinear);
+	s5.sampler().SetAddressModeU(bksge::AddressMode::kClamp);
+	s6.sampler().SetAddressModeV(bksge::AddressMode::kClamp);
+	s7.sampler().SetAddressModeW(bksge::AddressMode::kBorder);
+	s8.sampler().SetBorderColor(bksge::BorderColor::kTransparentBlack);
+	s9.texture() = bksge::Texture(bksge::TextureFormat::kRGBA_U8, {32, 24}, 3);
 
 	std::vector<std::size_t> v;
 	v.push_back(h(s1));
@@ -162,6 +176,7 @@ GTEST_TEST(Render_SampledTexture, HashTest)
 	v.push_back(h(s6));
 	v.push_back(h(s7));
 	v.push_back(h(s8));
+	v.push_back(h(s9));
 	std::sort(v.begin(), v.end());
 	EXPECT_TRUE(bksge::is_unique(v.begin(), v.end()));
 

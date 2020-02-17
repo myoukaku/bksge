@@ -32,7 +32,8 @@ ImageView::ImageView(
 	vulkan::DeviceSharedPtr const& device,
 	::VkImage image,
 	::VkFormat format,
-	::VkImageAspectFlags aspect_mask)
+	::VkImageAspectFlags aspect_mask,
+	std::uint32_t mipmap_count)
 	: m_device(device)
 	, m_image_view(VK_NULL_HANDLE)
 {
@@ -46,7 +47,7 @@ ImageView::ImageView(
 	info.components.a                    = VK_COMPONENT_SWIZZLE_A;
 	info.subresourceRange.aspectMask     = aspect_mask;
 	info.subresourceRange.baseMipLevel   = 0;
-	info.subresourceRange.levelCount     = 1;
+	info.subresourceRange.levelCount     = mipmap_count;
 	info.subresourceRange.baseArrayLayer = 0;
 	info.subresourceRange.layerCount     = 1;
 

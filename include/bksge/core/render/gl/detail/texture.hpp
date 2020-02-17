@@ -31,7 +31,12 @@ class Texture
 public:
 	explicit Texture(bksge::Texture const& texture);
 
-	Texture(bksge::TextureFormat format, int width, int height, void const* data);
+	Texture(
+		bksge::TextureFormat format,
+		std::uint32_t width,
+		std::uint32_t height,
+		std::size_t mipmap_count,
+		std::uint8_t const* data);
 
 	~Texture();
 

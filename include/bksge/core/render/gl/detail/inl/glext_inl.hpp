@@ -697,7 +697,11 @@ BKSGE_INLINE void APIENTRY glSamplerParameteri(GLuint sampler, GLenum pname, GLi
 }
 
 //BKSGE_INLINE void APIENTRY glSamplerParameteriv(GLuint sampler, GLenum pname, const GLint *param);
-//BKSGE_INLINE void APIENTRY glSamplerParameterf(GLuint sampler, GLenum pname, GLfloat param);
+
+BKSGE_INLINE void APIENTRY glSamplerParameterf(GLuint sampler, GLenum pname, GLfloat param)
+{
+	BKSGE_GLEXT_FUNC(PFNGLSAMPLERPARAMETERFPROC, glSamplerParameterf, sampler, pname, param);
+}
 
 BKSGE_INLINE void APIENTRY glSamplerParameterfv(GLuint sampler, GLenum pname, const GLfloat *param)
 {

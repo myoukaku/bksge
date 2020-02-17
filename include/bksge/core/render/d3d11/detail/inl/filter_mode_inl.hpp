@@ -35,17 +35,33 @@ ToD3D11FilterType(bksge::FilterMode filter)
 	{
 	case bksge::FilterMode::kNearest: return D3D11_FILTER_TYPE_POINT;
 	case bksge::FilterMode::kLinear:  return D3D11_FILTER_TYPE_LINEAR;
+	default:                          return D3D11_FILTER_TYPE_POINT;
 	}
-	return D3D11_FILTER_TYPE_POINT;
+}
+
+inline ::D3D11_FILTER_TYPE
+ToD3D11FilterType(bksge::MipmapMode filter)
+{
+	switch (filter)
+	{
+	case bksge::MipmapMode::kNearest: return D3D11_FILTER_TYPE_POINT;
+	case bksge::MipmapMode::kLinear:  return D3D11_FILTER_TYPE_LINEAR;
+	default:                          return D3D11_FILTER_TYPE_POINT;
+	}
 }
 
 }	// namespace detail
 
 BKSGE_INLINE
-FilterMode::FilterMode(bksge::FilterMode min_filter, bksge::FilterMode mag_filter)
-	: m_filter(static_cast<::D3D11_FILTER>(
-		(detail::ToD3D11FilterType(min_filter) << D3D11_MIN_FILTER_SHIFT) |
-		(detail::ToD3D11FilterType(mag_filter) << D3D11_MAG_FILTER_SHIFT)))
+FilterMode::FilterMode(
+	bksge::FilterMode min_filter,
+	bksge::FilterMode mag_filter,
+	bksge::MipmapMode mip_filter)
+	: m_filter(D3D11_ENCODE_BASIC_FILTER(
+		detail::ToD3D11FilterType(min_filter),
+		detail::ToD3D11FilterType(mag_filter),
+		detail::ToD3D11FilterType(mip_filter),
+		D3D11_FILTER_REDUCTION_TYPE_STANDARD))
 {}
 
 BKSGE_INLINE

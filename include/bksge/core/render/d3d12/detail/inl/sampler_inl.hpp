@@ -36,7 +36,7 @@ Sampler::Sampler(bksge::Sampler const& sampler)
 {
 	auto const border_color = d3d12::BorderColor(sampler.border_color());
 
-	m_desc.Filter         = d3d12::FilterMode(sampler.min_filter(), sampler.mag_filter());
+	m_desc.Filter         = d3d12::FilterMode(sampler.min_filter(), sampler.mag_filter(), sampler.mip_filter());
 	m_desc.AddressU       = d3d12::AddressMode(sampler.address_mode_u());
 	m_desc.AddressV       = d3d12::AddressMode(sampler.address_mode_v());
 	m_desc.AddressW       = d3d12::AddressMode(sampler.address_mode_w());
@@ -47,8 +47,8 @@ Sampler::Sampler(bksge::Sampler const& sampler)
 	m_desc.BorderColor[1] = border_color[1];
 	m_desc.BorderColor[2] = border_color[2];
 	m_desc.BorderColor[3] = border_color[3];
-	m_desc.MinLOD         = -D3D12_FLOAT32_MAX;
-	m_desc.MaxLOD         =  D3D12_FLOAT32_MAX;
+	m_desc.MinLOD         = sampler.enable_mipmap() ? sampler.min_lod() : 0.0f;
+	m_desc.MaxLOD         = sampler.enable_mipmap() ? sampler.max_lod() : 0.0f;
 }
 
 BKSGE_INLINE

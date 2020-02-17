@@ -33,8 +33,10 @@ BKSGE_INLINE
 Sampler::Sampler(bksge::Sampler const& sampler)
 {
 	::glGenSamplers(1, &m_id);
-	::glSamplerParameteri(m_id, GL_TEXTURE_MIN_FILTER, gl::FilterMode(sampler.min_filter()));
+	::glSamplerParameteri(m_id, GL_TEXTURE_MIN_FILTER, gl::FilterMode(sampler.min_filter(), sampler.mip_filter()));
 	::glSamplerParameteri(m_id, GL_TEXTURE_MAG_FILTER, gl::FilterMode(sampler.mag_filter()));
+	::glSamplerParameterf(m_id, GL_TEXTURE_MIN_LOD, sampler.min_lod());
+	::glSamplerParameterf(m_id, GL_TEXTURE_MAX_LOD, sampler.max_lod());
 	::glSamplerParameteri(m_id, GL_TEXTURE_WRAP_S, gl::AddressMode(sampler.address_mode_u()));
 	::glSamplerParameteri(m_id, GL_TEXTURE_WRAP_T, gl::AddressMode(sampler.address_mode_v()));
 	::glSamplerParameteri(m_id, GL_TEXTURE_WRAP_R, gl::AddressMode(sampler.address_mode_w()));

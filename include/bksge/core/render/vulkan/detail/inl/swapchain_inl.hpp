@@ -165,6 +165,7 @@ Swapchain::Swapchain(
 			command_pool,
 			image,
 			VK_IMAGE_ASPECT_COLOR_BIT,
+			1,
 			VK_IMAGE_LAYOUT_UNDEFINED,
 			VK_IMAGE_LAYOUT_PRESENT_SRC_KHR);
 	}
@@ -218,6 +219,7 @@ Swapchain::ClearColor(
 		command_pool,
 		image,
 		VK_IMAGE_ASPECT_COLOR_BIT,
+		1,
 		VK_IMAGE_LAYOUT_PRESENT_SRC_KHR,
 		VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
 
@@ -249,6 +251,7 @@ Swapchain::ClearColor(
 		command_pool,
 		image,
 		VK_IMAGE_ASPECT_COLOR_BIT,
+		1,
 		VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
 		VK_IMAGE_LAYOUT_PRESENT_SRC_KHR);
 }

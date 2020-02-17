@@ -10,6 +10,7 @@
 #define BKSGE_CORE_RENDER_GL_DETAIL_FILTER_MODE_HPP
 
 #include <bksge/core/render/fwd/filter_mode_fwd.hpp>
+#include <bksge/core/render/fwd/mipmap_mode_fwd.hpp>
 #include <bksge/core/render/gl/detail/gl_h.hpp>
 
 namespace bksge
@@ -27,7 +28,11 @@ namespace gl
 class FilterMode
 {
 public:
-	explicit FilterMode(bksge::FilterMode filter_mode);
+	explicit FilterMode(bksge::FilterMode mag_filter);
+
+	explicit FilterMode(
+		bksge::FilterMode min_filter,
+		bksge::MipmapMode mip_filter);
 
 	operator ::GLint() const;
 

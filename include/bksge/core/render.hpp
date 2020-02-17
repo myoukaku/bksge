@@ -28,6 +28,7 @@
 #include <bksge/core/render/front_face.hpp>
 #include <bksge/core/render/geometry.hpp>
 #include <bksge/core/render/gl_renderer.hpp>
+#include <bksge/core/render/mipmap_mode.hpp>
 #include <bksge/core/render/null_renderer.hpp>
 #include <bksge/core/render/primitive_topology.hpp>
 #include <bksge/core/render/rasterizer_state.hpp>

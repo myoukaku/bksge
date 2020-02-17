@@ -14,6 +14,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/command_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <memory>
+#include <cstdint>
 
 namespace bksge
 {
@@ -31,6 +32,7 @@ public:
 		vulkan::DeviceSharedPtr const& device,
 		::VkFormat format,
 		::VkExtent2D const& extent,
+		std::uint32_t mipmap_count,
 		::VkSampleCountFlagBits num_samples,
 		::VkImageTiling tiling,
 		::VkImageUsageFlags usage,
@@ -41,6 +43,7 @@ public:
 	void TransitionLayout(
 		vulkan::CommandPoolSharedPtr const& command_pool,
 		::VkImageAspectFlags aspect_mask,
+		std::uint32_t mipmap_count,
 		::VkImageLayout old_layout,
 		::VkImageLayout new_layout);
 
@@ -65,6 +68,7 @@ void TransitionImageLayout(
 	vulkan::CommandPoolSharedPtr const& command_pool,
 	::VkImage image,
 	::VkImageAspectFlags aspect_mask,
+	std::uint32_t mipmap_count,
 	::VkImageLayout old_layout,
 	::VkImageLayout new_layout);
 
