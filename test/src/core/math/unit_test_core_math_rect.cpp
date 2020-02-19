@@ -11,9 +11,13 @@
 #include <bksge/core/math/extent2.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
+#include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/config.hpp>
 #include <sstream>
 #include <type_traits>
+#include <functional>
+#include <vector>
+#include <algorithm>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 #include "serialize_test.hpp"
@@ -400,6 +404,32 @@ TYPED_TEST(MathRectTest, SerializeTest)
 //	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
 //	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
 #endif
+}
+
+TYPED_TEST(MathRectTest, HashTest)
+{
+	using T = TypeParam;
+	using Rect = bksge::math::Rect<T>;
+	using Vector2 = bksge::math::Vector2<T>;
+
+	std::hash<Rect> h;
+
+	Rect const r1(Vector2{1,2}, Vector2{3,4});
+	Rect const r2(Vector2{2,1}, Vector2{3,4});
+	Rect const r3(Vector2{1,2}, Vector2{4,3});
+	Rect const r4(Vector2{-1,-2}, Vector2{3,4});
+
+	std::vector<std::size_t> v;
+	v.push_back(h(r1));
+	v.push_back(h(r2));
+	v.push_back(h(r3));
+	v.push_back(h(r4));
+	std::sort(v.begin(), v.end());
+	EXPECT_TRUE(bksge::is_unique(v.begin(), v.end()));
+
+	v.push_back(h(r1));
+	std::sort(v.begin(), v.end());
+	EXPECT_FALSE(bksge::is_unique(v.begin(), v.end()));
 }
 
 }	// namespace rect_test

@@ -26,6 +26,7 @@
 #include <bksge/core/math/scale.hpp>
 #include <bksge/core/math/scale2.hpp>
 #include <bksge/core/math/scale3.hpp>
+#include <bksge/core/math/transform3.hpp>
 #include <bksge/core/math/vector.hpp>
 #include <bksge/core/math/vector2.hpp>
 #include <bksge/core/math/vector3.hpp>

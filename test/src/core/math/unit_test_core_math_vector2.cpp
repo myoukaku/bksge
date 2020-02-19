@@ -11,11 +11,15 @@
 #include <bksge/core/math/vector2.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
+#include <bksge/fnd/algorithm/is_unique.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
 #include <stdexcept>
 #include <tuple>
 #include <type_traits>
+#include <functional>
+#include <vector>
+#include <algorithm>
 #include "constexpr_test.hpp"
 #include "serialize_test.hpp"
 
@@ -915,6 +919,31 @@ TYPED_TEST(MathVector2Test, SerializeTest)
 //	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
 //	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
 #endif
+}
+
+TYPED_TEST(MathVector2Test, HashTest)
+{
+	using T = TypeParam;
+	using Vector2 = bksge::math::Vector2<T>;
+
+	std::hash<Vector2> h;
+
+	Vector2 const c1( 1, 2);
+	Vector2 const c2(-1, 2);
+	Vector2 const c3( 1,-2);
+	Vector2 const c4( 2, 1);
+
+	std::vector<std::size_t> v;
+	v.push_back(h(c1));
+	v.push_back(h(c2));
+	v.push_back(h(c3));
+	v.push_back(h(c4));
+	std::sort(v.begin(), v.end());
+	EXPECT_TRUE(bksge::is_unique(v.begin(), v.end()));
+
+	v.push_back(h(c1));
+	std::sort(v.begin(), v.end());
+	EXPECT_FALSE(bksge::is_unique(v.begin(), v.end()));
 }
 
 }	// namespace vector2_test

@@ -216,7 +216,6 @@ Lerp(Color<T, N> const& from, Color<T, N> const& to, ArithmeticType const& t) BK
 }	// namespace bksge
 
 #include <functional>
-#include <cstddef>
 #include <bksge/fnd/functional/hash_combine.hpp>
 
 namespace std

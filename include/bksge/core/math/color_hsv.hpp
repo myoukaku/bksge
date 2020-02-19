@@ -98,6 +98,9 @@ HSVtoRGB(ColorHSV<T> const& hsv);
 
 }	// namespace bksge
 
+#include <functional>
+#include <bksge/fnd/functional/hash_combine.hpp>
+
 namespace std
 {
 
@@ -117,6 +120,18 @@ struct tuple_element<I, bksge::math::ColorHSV<T>>
 {
 	static_assert(I < 3, "ColorHSV index out of bounds");
 	using type = T;
+};
+
+/**
+ *	@brief	hash
+ */
+template <typename T>
+struct hash<bksge::math::ColorHSV<T>>
+{
+	std::size_t operator()(bksge::math::ColorHSV<T> const& arg) const
+	{
+		return bksge::hash_combine(arg.as_array());
+	}
 };
 
 }	// namespace std

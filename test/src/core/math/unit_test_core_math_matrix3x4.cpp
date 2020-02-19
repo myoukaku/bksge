@@ -15,11 +15,15 @@
 #include <bksge/fnd/cmath/degrees_to_radians.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
+#include <bksge/fnd/algorithm/is_unique.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
 #include <stdexcept>
 #include <tuple>
 #include <type_traits>
+#include <functional>
+#include <vector>
+#include <algorithm>
 #include "constexpr_test.hpp"
 #include "serialize_test.hpp"
 
@@ -1521,6 +1525,63 @@ TYPED_TEST(MathMatrix3x4Test, SerializeTest)
 //	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
 //	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
 #endif
+}
+
+TYPED_TEST(MathMatrix3x4Test, HashTest)
+{
+	using T = TypeParam;
+	using Matrix3x4 = bksge::math::Matrix3x4<T>;
+	using Vector4 = bksge::math::Vector4<T>;
+
+	std::hash<Matrix3x4> h;
+
+	Matrix3x4 const m1
+	{
+		Vector4{11, 12, 13, 14},
+		Vector4{21, 22, 23, 24},
+		Vector4{31, 32, 33, 34},
+	};
+
+	Matrix3x4 const m2
+	{
+		Vector4{12, 12, 13, 14},
+		Vector4{21, 22, 23, 24},
+		Vector4{31, 32, 33, 34},
+	};
+
+	Matrix3x4 const m3
+	{
+		Vector4{11, 12, 13, 14},
+		Vector4{21, 21, 23, 24},
+		Vector4{31, 32, 33, 34},
+	};
+
+	Matrix3x4 const m4
+	{
+		Vector4{11, 12, 13, 14},
+		Vector4{21, 22, 23, 24},
+		Vector4{31, 32, 33, 30},
+	};
+
+	Matrix3x4 const m5
+	{
+		Vector4{31, 32, 33, 34},
+		Vector4{21, 22, 23, 24},
+		Vector4{11, 12, 13, 14},
+	};
+
+	std::vector<std::size_t> v;
+	v.push_back(h(m1));
+	v.push_back(h(m2));
+	v.push_back(h(m3));
+	v.push_back(h(m4));
+	v.push_back(h(m5));
+	std::sort(v.begin(), v.end());
+	EXPECT_TRUE(bksge::is_unique(v.begin(), v.end()));
+
+	v.push_back(h(m1));
+	std::sort(v.begin(), v.end());
+	EXPECT_FALSE(bksge::is_unique(v.begin(), v.end()));
 }
 
 }	// namespace matrix3x4_test

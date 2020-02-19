@@ -224,6 +224,9 @@ Determinant(Matrix<T, N, N> const& m) BKSGE_NOEXCEPT;
 
 }	// namespace bksge
 
+#include <functional>
+#include <bksge/fnd/functional/hash_combine.hpp>
+
 namespace std
 {
 
@@ -243,6 +246,18 @@ struct tuple_element<I, bksge::math::Matrix<T, N, M>>
 {
 	static_assert(I < N, "Vector index out of bounds");
 	using type = bksge::math::Vector<T, M>;
+};
+
+/**
+ *	@brief	hash
+ */
+template <typename T, std::size_t N, std::size_t M>
+struct hash<bksge::math::Matrix<T, N, M>>
+{
+	std::size_t operator()(bksge::math::Matrix<T, N, M> const& arg) const
+	{
+		return bksge::hash_combine(arg.as_array());
+	}
 };
 
 }	// namespace std

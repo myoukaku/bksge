@@ -235,6 +235,9 @@ Lerp(Scale<T, N> const& from, Scale<T, N> const& to, ArithmeticType const& t) BK
 
 }	// namespace bksge
 
+#include <functional>
+#include <bksge/fnd/functional/hash_combine.hpp>
+
 namespace std
 {
 
@@ -254,6 +257,18 @@ struct tuple_element<I, bksge::math::Scale<T, N>>
 {
 	static_assert(I < N, "Scale index out of bounds");
 	using type = T;
+};
+
+/**
+ *	@brief	hash
+ */
+template <typename T, std::size_t N>
+struct hash<bksge::math::Scale<T, N>>
+{
+	std::size_t operator()(bksge::math::Scale<T, N> const& arg) const
+	{
+		return bksge::hash_combine(arg.as_array());
+	}
 };
 
 }	// namespace std

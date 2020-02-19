@@ -232,6 +232,9 @@ Lerp(Vector<T, N> const& from, Vector<T, N> const& to, ArithmeticType const& t) 
 
 }	// namespace bksge
 
+#include <functional>
+#include <bksge/fnd/functional/hash_combine.hpp>
+
 namespace std
 {
 
@@ -251,6 +254,18 @@ struct tuple_element<I, bksge::math::Vector<T, N>>
 {
 	static_assert(I < N, "Vector index out of bounds");
 	using type = T;
+};
+
+/**
+ *	@brief	hash
+ */
+template <typename T, std::size_t N>
+struct hash<bksge::math::Vector<T, N>>
+{
+	std::size_t operator()(bksge::math::Vector<T, N> const& arg) const
+	{
+		return bksge::hash_combine(arg.as_array());
+	}
 };
 
 }	// namespace std

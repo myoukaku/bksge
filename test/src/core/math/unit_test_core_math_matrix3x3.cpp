@@ -19,11 +19,15 @@
 #include <bksge/fnd/cmath/degrees_to_radians.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
+#include <bksge/fnd/algorithm/is_unique.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
 #include <stdexcept>
 #include <tuple>
 #include <type_traits>
+#include <functional>
+#include <vector>
+#include <algorithm>
 #include "constexpr_test.hpp"
 #include "serialize_test.hpp"
 
@@ -1943,6 +1947,44 @@ TYPED_TEST(MathMatrix3x3Test, SerializeTest)
 //	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
 //	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
 #endif
+}
+
+TYPED_TEST(MathMatrix3x3Test, HashTest)
+{
+	using T = TypeParam;
+	using Matrix3x3 = bksge::math::Matrix3x3<T>;
+	using Vector3 = bksge::math::Vector3<T>;
+
+	std::hash<Matrix3x3> h;
+
+	Matrix3x3 const m01{Vector3{1,2,3},Vector3{4,5,6},Vector3{7,8,9}};
+	Matrix3x3 const m02{Vector3{0,2,3},Vector3{4,5,6},Vector3{7,8,9}};
+	Matrix3x3 const m03{Vector3{1,1,3},Vector3{4,5,6},Vector3{7,8,9}};
+	Matrix3x3 const m04{Vector3{1,2,4},Vector3{4,5,6},Vector3{7,8,9}};
+	Matrix3x3 const m05{Vector3{1,2,3},Vector3{3,5,6},Vector3{7,8,9}};
+	Matrix3x3 const m06{Vector3{1,2,3},Vector3{4,0,6},Vector3{7,8,9}};
+	Matrix3x3 const m07{Vector3{1,2,3},Vector3{4,5,1},Vector3{7,8,9}};
+	Matrix3x3 const m08{Vector3{1,2,3},Vector3{4,5,6},Vector3{9,8,9}};
+	Matrix3x3 const m09{Vector3{1,2,3},Vector3{4,5,6},Vector3{7,7,9}};
+	Matrix3x3 const m10{Vector3{1,2,3},Vector3{4,5,6},Vector3{7,8,1}};
+
+	std::vector<std::size_t> v;
+	v.push_back(h(m01));
+	v.push_back(h(m02));
+	v.push_back(h(m03));
+	v.push_back(h(m04));
+	v.push_back(h(m05));
+	v.push_back(h(m06));
+	v.push_back(h(m07));
+	v.push_back(h(m08));
+	v.push_back(h(m09));
+	v.push_back(h(m10));
+	std::sort(v.begin(), v.end());
+	EXPECT_TRUE(bksge::is_unique(v.begin(), v.end()));
+
+	v.push_back(h(m10));
+	std::sort(v.begin(), v.end());
+	EXPECT_FALSE(bksge::is_unique(v.begin(), v.end()));
 }
 
 }	// namespace matrix3x3_test

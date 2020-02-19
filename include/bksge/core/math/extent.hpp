@@ -188,6 +188,9 @@ operator/(Extent<T, N> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
 
 }	// namespace bksge
 
+#include <functional>
+#include <bksge/fnd/functional/hash_combine.hpp>
+
 namespace std
 {
 
@@ -207,6 +210,18 @@ struct tuple_element<I, bksge::math::Extent<T, N>>
 {
 	static_assert(I < N, "Extent index out of bounds");
 	using type = T;
+};
+
+/**
+ *	@brief	hash
+ */
+template <typename T, std::size_t N>
+struct hash<bksge::math::Extent<T, N>>
+{
+	std::size_t operator()(bksge::math::Extent<T, N> const& arg) const
+	{
+		return bksge::hash_combine(arg.as_array());
+	}
 };
 
 }	// namespace std

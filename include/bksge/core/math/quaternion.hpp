@@ -399,6 +399,9 @@ Slerp(Quaternion<T> const& from, Quaternion<T> const& to, T t) BKSGE_NOEXCEPT;
 
 }	// namespace bksge
 
+#include <functional>
+#include <bksge/fnd/functional/hash_combine.hpp>
+
 namespace std
 {
 
@@ -418,6 +421,18 @@ struct tuple_element<I, bksge::math::Quaternion<T>>
 {
 	static_assert(I < 4, "Quaternion index out of bounds");
 	using type = T;
+};
+
+/**
+ *	@brief	hash
+ */
+template <typename T>
+struct hash<bksge::math::Quaternion<T>>
+{
+	std::size_t operator()(bksge::math::Quaternion<T> const& arg) const
+	{
+		return bksge::hash_combine(arg.as_array());
+	}
 };
 
 }	// namespace std
