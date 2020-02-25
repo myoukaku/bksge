@@ -13,6 +13,9 @@
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/utility/index_sequence_for.hpp>
 #include <bksge/fnd/utility/integer_sequence.hpp>
+#include <bksge/fnd/utility/in_place.hpp>
+#include <bksge/fnd/utility/in_place_index.hpp>
+#include <bksge/fnd/utility/in_place_type.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
 #include <bksge/fnd/utility/make_integer_sequence.hpp>
 #include <bksge/fnd/utility/swap.hpp>
