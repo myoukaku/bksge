@@ -8,11 +8,11 @@
 
 #include <bksge/core/render/viewport.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
+#include <bksge/fnd/algorithm/sort.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
 #include <functional>
 #include <vector>
-#include <algorithm>
 #include "serialize_test.hpp"
 
 GTEST_TEST(Render_Viewport, DefaultCtorTest)
@@ -132,10 +132,10 @@ GTEST_TEST(Render_Viewport, HashTest)
 	v.push_back(h(s2));
 	v.push_back(h(s3));
 	v.push_back(h(s4));
-	std::sort(v.begin(), v.end());
+	bksge::sort(v.begin(), v.end());
 	EXPECT_TRUE(bksge::is_unique(v.begin(), v.end()));
 
 	v.push_back(h(s1));
-	std::sort(v.begin(), v.end());
+	bksge::sort(v.begin(), v.end());
 	EXPECT_FALSE(bksge::is_unique(v.begin(), v.end()));
 }

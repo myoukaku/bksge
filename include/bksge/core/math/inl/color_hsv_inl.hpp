@@ -13,8 +13,9 @@
 #include <bksge/core/math/color3.hpp>
 #include <bksge/fnd/cmath/clamp.hpp>
 #include <bksge/fnd/cmath/fmod.hpp>
+#include <bksge/fnd/algorithm/max.hpp>
+#include <bksge/fnd/algorithm/min.hpp>
 #include <bksge/fnd/config.hpp>
-#include <algorithm>
 
 namespace bksge
 {
@@ -75,8 +76,8 @@ RGBtoHSV(Color3<T> const& rgb)
 	T const r = rgb.r();
 	T const g = rgb.g();
 	T const b = rgb.b();
-	T const max = std::max({r, g, b});
-	T const min = std::min({r, g, b});
+	T const max = bksge::max({r, g, b});
+	T const min = bksge::min({r, g, b});
 	T const d = max - min;
 
 	T h = 0;

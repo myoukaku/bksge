@@ -10,12 +10,11 @@
 #define BKSGE_FND_ALGORITHM_INL_MIN_INL_HPP
 
 #include <bksge/fnd/algorithm/min.hpp>
+#include <bksge/fnd/algorithm/min_element.hpp>
 #include <bksge/fnd/functional/less.hpp>
+#include <initializer_list>
 
 namespace bksge
-{
-
-namespace algorithm
 {
 
 template <typename T>
@@ -32,7 +31,19 @@ min(T const& a, T const& b, Compare comp)
 	return comp(a, b) ? a : b;
 }
 
-}	// namespace algorithm
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR T
+min(std::initializer_list<T> t)
+{
+	return *bksge::min_element(t.begin(), t.end(), bksge::less<>());
+}
+
+template <typename T, typename Compare>
+inline BKSGE_CXX14_CONSTEXPR T
+min(std::initializer_list<T> t, Compare comp)
+{
+	return *bksge::min_element(t.begin(), t.end(), comp);
+}
 
 }	// namespace bksge
 

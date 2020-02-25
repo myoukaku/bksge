@@ -8,8 +8,9 @@
 
 #include <bksge/fnd/serialization/text_oarchive.hpp>
 #include <bksge/fnd/serialization/text_iarchive.hpp>
-#include <algorithm>
-#include <iterator>
+#include <bksge/fnd/algorithm/equal.hpp>
+#include <bksge/fnd/iterator/begin.hpp>
+#include <bksge/fnd/iterator/end.hpp>
 #include <sstream>
 #include <gtest/gtest.h>
 #include "serialization_test_utility.hpp"
@@ -65,18 +66,18 @@ inline bool
 operator==(NativeArrayNonIntrusiveSplit const& lhs, NativeArrayNonIntrusiveSplit const& rhs)
 {
 	return
-		std::equal(std::begin(lhs.a), std::end(lhs.a), std::begin(rhs.a)) &&
-		std::equal(std::begin(lhs.b), std::end(lhs.b), std::begin(rhs.b)) &&
-		std::equal(std::begin(lhs.c[0]), std::end(lhs.c[0]), std::begin(rhs.c[0])) &&
-		std::equal(std::begin(lhs.c[1]), std::end(lhs.c[1]), std::begin(rhs.c[1])) &&
-		std::equal(std::begin(lhs.c[2]), std::end(lhs.c[2]), std::begin(rhs.c[2])) &&
-		std::equal(std::begin(lhs.d[0][0]), std::end(lhs.d[0][0]), std::begin(rhs.d[0][0])) &&
-		std::equal(std::begin(lhs.d[0][1]), std::end(lhs.d[0][1]), std::begin(rhs.d[0][1])) &&
-		std::equal(std::begin(lhs.d[0][2]), std::end(lhs.d[0][2]), std::begin(rhs.d[0][2])) &&
-		std::equal(std::begin(lhs.d[1][0]), std::end(lhs.d[1][0]), std::begin(rhs.d[1][0])) &&
-		std::equal(std::begin(lhs.d[1][1]), std::end(lhs.d[1][1]), std::begin(rhs.d[1][1])) &&
-		std::equal(std::begin(lhs.d[1][2]), std::end(lhs.d[1][2]), std::begin(rhs.d[1][2])) &&
-		std::equal(std::begin(lhs.e), std::end(lhs.e), std::begin(rhs.e));
+		bksge::equal(bksge::begin(lhs.a),       bksge::end(lhs.a),       bksge::begin(rhs.a)) &&
+		bksge::equal(bksge::begin(lhs.b),       bksge::end(lhs.b),       bksge::begin(rhs.b)) &&
+		bksge::equal(bksge::begin(lhs.c[0]),    bksge::end(lhs.c[0]),    bksge::begin(rhs.c[0])) &&
+		bksge::equal(bksge::begin(lhs.c[1]),    bksge::end(lhs.c[1]),    bksge::begin(rhs.c[1])) &&
+		bksge::equal(bksge::begin(lhs.c[2]),    bksge::end(lhs.c[2]),    bksge::begin(rhs.c[2])) &&
+		bksge::equal(bksge::begin(lhs.d[0][0]), bksge::end(lhs.d[0][0]), bksge::begin(rhs.d[0][0])) &&
+		bksge::equal(bksge::begin(lhs.d[0][1]), bksge::end(lhs.d[0][1]), bksge::begin(rhs.d[0][1])) &&
+		bksge::equal(bksge::begin(lhs.d[0][2]), bksge::end(lhs.d[0][2]), bksge::begin(rhs.d[0][2])) &&
+		bksge::equal(bksge::begin(lhs.d[1][0]), bksge::end(lhs.d[1][0]), bksge::begin(rhs.d[1][0])) &&
+		bksge::equal(bksge::begin(lhs.d[1][1]), bksge::end(lhs.d[1][1]), bksge::begin(rhs.d[1][1])) &&
+		bksge::equal(bksge::begin(lhs.d[1][2]), bksge::end(lhs.d[1][2]), bksge::begin(rhs.d[1][2])) &&
+		bksge::equal(bksge::begin(lhs.e),       bksge::end(lhs.e),       bksge::begin(rhs.e));
 }
 
 inline bool

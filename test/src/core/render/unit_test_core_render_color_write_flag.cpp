@@ -8,11 +8,11 @@
 
 #include <bksge/core/render/color_write_flag.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
+#include <bksge/fnd/algorithm/sort.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
 #include <functional>
 #include <vector>
-#include <algorithm>
 #include "constexpr_test.hpp"
 #include "serialize_test.hpp"
 
@@ -255,17 +255,17 @@ GTEST_TEST(Render_ColorWriteFlag, HashTest)
 	v.push_back(h(bksge::ColorWriteFlag::kBlue));
 	v.push_back(h(bksge::ColorWriteFlag::kAlpha));
 	v.push_back(h(bksge::ColorWriteFlag::kAll));
-	std::sort(v.begin(), v.end());
+	bksge::sort(v.begin(), v.end());
 	EXPECT_TRUE(bksge::is_unique(v.begin(), v.end()));
 
 	v.push_back(h(bksge::ColorWriteFlag::kRed   | bksge::ColorWriteFlag::kGreen));
 	v.push_back(h(bksge::ColorWriteFlag::kGreen | bksge::ColorWriteFlag::kBlue));
 	v.push_back(h(bksge::ColorWriteFlag::kBlue  | bksge::ColorWriteFlag::kAlpha));
-	std::sort(v.begin(), v.end());
+	bksge::sort(v.begin(), v.end());
 	EXPECT_TRUE(bksge::is_unique(v.begin(), v.end()));
 
 	v.push_back(h(bksge::ColorWriteFlag::kNone));
-	std::sort(v.begin(), v.end());
+	bksge::sort(v.begin(), v.end());
 	EXPECT_FALSE(bksge::is_unique(v.begin(), v.end()));
 }
 

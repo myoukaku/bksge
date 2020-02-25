@@ -14,8 +14,8 @@
 #include <bksge/fnd/stdexcept/throw_out_of_range.hpp>
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
+#include <bksge/fnd/algorithm/swap_ranges.hpp>
 #include <bksge/fnd/config.hpp>
-#include <algorithm>	// swap_ranges
 #include <cstddef>
 #include <ostream>		// basic_ostream
 #include <utility>		// move
@@ -246,7 +246,7 @@ inline BKSGE_CXX14_CONSTEXPR void
 VectorBase<T, N>::swap(VectorBase& other)
 	BKSGE_NOEXCEPT_IF(bksge::is_nothrow_swappable<T>::value)
 {
-	std::swap_ranges(begin(), begin() + N, other.begin());
+	bksge::swap_ranges(begin(), begin() + N, other.begin());
 }
 
 template <typename T, std::size_t N>

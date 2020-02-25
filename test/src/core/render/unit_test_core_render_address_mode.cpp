@@ -8,11 +8,11 @@
 
 #include <bksge/core/render/address_mode.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
+#include <bksge/fnd/algorithm/sort.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
 #include <functional>
 #include <vector>
-#include <algorithm>
 #include "serialize_test.hpp"
 
 namespace bksge_core_render_test
@@ -69,11 +69,11 @@ GTEST_TEST(Render_AddressMode, HashTest)
 	v.push_back(h(bksge::AddressMode::kMirror));
 	v.push_back(h(bksge::AddressMode::kClamp));
 	v.push_back(h(bksge::AddressMode::kBorder));
-	std::sort(v.begin(), v.end());
+	bksge::sort(v.begin(), v.end());
 	EXPECT_TRUE(bksge::is_unique(v.begin(), v.end()));
 
 	v.push_back(h(bksge::AddressMode::kRepeat));
-	std::sort(v.begin(), v.end());
+	bksge::sort(v.begin(), v.end());
 	EXPECT_FALSE(bksge::is_unique(v.begin(), v.end()));
 }
 

@@ -12,7 +12,8 @@
 #include <bksge/core/math/rect.hpp>
 #include <bksge/core/math/vector2.hpp>
 #include <bksge/core/math/extent2.hpp>
-#include <algorithm>
+#include <bksge/fnd/algorithm/max.hpp>
+#include <bksge/fnd/algorithm/min.hpp>
 
 namespace bksge
 {
@@ -72,10 +73,10 @@ template <typename T>
 inline BKSGE_CXX14_CONSTEXPR
 Rect<T>::Rect(inter_ctor_tag, T l, T t, T r, T b)
 	BKSGE_NOEXCEPT_OR_NOTHROW
-	: m_left  (std::min(l, r))
-	, m_top   (std::min(t, b))
-	, m_right (std::max(l, r))
-	, m_bottom(std::max(t, b))
+	: m_left  (bksge::min(l, r))
+	, m_top   (bksge::min(t, b))
+	, m_right (bksge::max(l, r))
+	, m_bottom(bksge::max(t, b))
 {
 }
 

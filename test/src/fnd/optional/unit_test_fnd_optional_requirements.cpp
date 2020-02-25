@@ -15,9 +15,7 @@
 //#include <bksge/fnd/type_traits/is_copy_assignable.hpp>
 //#include <bksge/fnd/type_traits/is_move_constructible.hpp>
 //#include <bksge/fnd/type_traits/is_move_assignable.hpp>
-//#include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
-//#include <bksge/fnd/utility/move.hpp>
 #include <gtest/gtest.h>
 #include <tuple>
 #include <type_traits>

@@ -8,12 +8,12 @@
 
 #include <bksge/core/render/sampled_texture.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
+#include <bksge/fnd/algorithm/sort.hpp>
 #include <gtest/gtest.h>
 #include <cstdint>
 #include <sstream>
 #include <functional>
 #include <vector>
-#include <algorithm>
 #include "serialize_test.hpp"
 
 GTEST_TEST(Render_SampledTexture, DefaultConstructTest)
@@ -177,10 +177,10 @@ GTEST_TEST(Render_SampledTexture, HashTest)
 	v.push_back(h(s7));
 	v.push_back(h(s8));
 	v.push_back(h(s9));
-	std::sort(v.begin(), v.end());
+	bksge::sort(v.begin(), v.end());
 	EXPECT_TRUE(bksge::is_unique(v.begin(), v.end()));
 
 	v.push_back(h(s1));
-	std::sort(v.begin(), v.end());
+	bksge::sort(v.begin(), v.end());
 	EXPECT_FALSE(bksge::is_unique(v.begin(), v.end()));
 }

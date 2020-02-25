@@ -13,7 +13,10 @@
 #include <string>
 #include "constexpr_test.hpp"
 
-namespace bksge_algorithm_min_test
+namespace bksge_algorithm_test
+{
+
+namespace min_test
 {
 
 template <typename T>
@@ -31,6 +34,14 @@ void MinTestUnsigned(void)
 	BKSGE_CONSTEXPR_EXPECT_EQ((T)2, bksge::min((T)2, (T)3));
 	BKSGE_CONSTEXPR_EXPECT_EQ((T)2, bksge::min((T)2, (T)3, bksge::less<>()));
 	BKSGE_CONSTEXPR_EXPECT_EQ((T)3, bksge::min((T)2, (T)3, bksge::greater<>()));
+
+	EXPECT_EQ((T)3, bksge::min({(T)3}));
+	EXPECT_EQ((T)1, bksge::min({(T)3, (T)1}));
+	EXPECT_EQ((T)1, bksge::min({(T)3, (T)1, (T)4}));
+	EXPECT_EQ((T)1, bksge::min({(T)3, (T)1, (T)4, (T)1}));
+	EXPECT_EQ((T)1, bksge::min({(T)3, (T)1, (T)4, (T)1, (T)5}));
+	EXPECT_EQ((T)1, bksge::min({(T)3, (T)1, (T)4, (T)1, (T)5}, bksge::less<>()));
+	EXPECT_EQ((T)5, bksge::min({(T)3, (T)1, (T)4, (T)1, (T)5}, bksge::greater<>()));
 }
 
 template <typename T>
@@ -49,6 +60,14 @@ void MinTestSigned(void)
 	BKSGE_CONSTEXPR_EXPECT_EQ((T)-3, bksge::min((T)-2, (T)-3));
 	BKSGE_CONSTEXPR_EXPECT_EQ((T)-3, bksge::min((T)-2, (T)-3, bksge::less<>()));
 	BKSGE_CONSTEXPR_EXPECT_EQ((T)-2, bksge::min((T)-2, (T)-3, bksge::greater<>()));
+
+	EXPECT_EQ((T)-3, bksge::min({(T)-3}));
+	EXPECT_EQ((T)-3, bksge::min({(T)-3, (T)-1}));
+	EXPECT_EQ((T)-4, bksge::min({(T)-3, (T)-1, (T)-4}));
+	EXPECT_EQ((T)-4, bksge::min({(T)-3, (T)-1, (T)-4, (T)-1}));
+	EXPECT_EQ((T)-5, bksge::min({(T)-3, (T)-1, (T)-4, (T)-1, (T)-5}));
+	EXPECT_EQ((T)-5, bksge::min({(T)-3, (T)-1, (T)-4, (T)-1, (T)-5}, bksge::less<>()));
+	EXPECT_EQ((T)-1, bksge::min({(T)-3, (T)-1, (T)-4, (T)-1, (T)-5}, bksge::greater<>()));
 }
 
 template <typename T>
@@ -65,6 +84,14 @@ void MinTestFloat(void)
 	BKSGE_CONSTEXPR_EXPECT_EQ((T)-2.5, bksge::min((T)-1.5, (T)-2.5, bksge::less<>()));
 	BKSGE_CONSTEXPR_EXPECT_EQ((T) 2.5, bksge::min((T) 1.5, (T) 2.5, bksge::greater<>()));
 	BKSGE_CONSTEXPR_EXPECT_EQ((T)-1.5, bksge::min((T)-1.5, (T)-2.5, bksge::greater<>()));
+
+	EXPECT_EQ((T)-3.5, bksge::min({(T)-3.5}));
+	EXPECT_EQ((T)-3.5, bksge::min({(T)-3.5, (T)1.5}));
+	EXPECT_EQ((T)-4.5, bksge::min({(T)-3.5, (T)1.5, (T)-4.5}));
+	EXPECT_EQ((T)-4.5, bksge::min({(T)-3.5, (T)1.5, (T)-4.5, (T)-1.5}));
+	EXPECT_EQ((T)-5.5, bksge::min({(T)-3.5, (T)1.5, (T)-4.5, (T)-1.5, (T)-5.5}));
+	EXPECT_EQ((T)-5.5, bksge::min({(T)-3.5, (T)1.5, (T)-4.5, (T)-1.5, (T)-5.5}, bksge::less<>()));
+	EXPECT_EQ((T) 1.5, bksge::min({(T)-3.5, (T)1.5, (T)-4.5, (T)-1.5, (T)-5.5}, bksge::greater<>()));
 }
 
 GTEST_TEST(AlgorithmTest, MinTest)
@@ -85,8 +112,13 @@ GTEST_TEST(AlgorithmTest, MinTest)
 	MinTestFloat<double>();
 	MinTestFloat<long double>();
 
-	EXPECT_EQ('x', bksge::min('x', 'y'));
+	EXPECT_EQ('a', bksge::min({'a'}));
+	EXPECT_EQ('x', bksge::min({'x', 'y'}));
+	EXPECT_EQ('a', bksge::min({'c', 'b', 'a'}));
 	EXPECT_EQ("foo", bksge::min(std::string("foo"), std::string("hoge")));
+	EXPECT_EQ("ABC", bksge::min({std::string("abc"), std::string("ABC"), std::string("zzzz")}));
 }
 
-}	// namespace bksge_algorithm_min_test
+}	// namespace min_test
+
+}	// namespace bksge_algorithm_test

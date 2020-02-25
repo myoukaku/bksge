@@ -10,11 +10,9 @@
 #define BKSGE_FND_ALGORITHM_MAX_HPP
 
 #include <bksge/fnd/config.hpp>
+#include <initializer_list>
 
 namespace bksge
-{
-
-namespace algorithm
 {
 
 /**
@@ -53,9 +51,44 @@ template <typename T, typename Compare>
 BKSGE_CONSTEXPR T const&
 max(T const& a, T const& b, Compare comp);
 
-}	// namespace algorithm
+/**
+ *	@brief		initializer_listによるN個の値のうち、最大値を取得する。
+ *
+ *	@tparam		T
+ *
+ *	@param		a
+ *	@param		b
+ *
+ *	@require	型Tがoperator<による比較が可能であること。
+ *				要素数が1以上であり、Tがコピーコンストラクト可能であること。
+ *
+ *	@return		最大値
+ *
+ *	@complexity	正確に t.size() - 1 回の比較
+ */
+template <typename T>
+BKSGE_CXX14_CONSTEXPR T
+max(std::initializer_list<T> t);
 
-using algorithm::max;
+/**
+ *	@brief		initializer_listによるN個の値のうち、最大値を取得する。
+ *
+ *	@tparam		T
+ *	@tparam		Compare
+ *
+ *	@param		a
+ *	@param		b
+ *	@param		comp
+ *
+ *	@require	要素数が1以上であり、Tがコピーコンストラクト可能であること。
+ *
+ *	@return		最大値
+ *
+ *	@complexity	正確に t.size() - 1 回の述語適用
+ */
+template <typename T, typename Compare>
+BKSGE_CXX14_CONSTEXPR T
+max(std::initializer_list<T> t, Compare comp);
 
 }	// namespace bksge
 

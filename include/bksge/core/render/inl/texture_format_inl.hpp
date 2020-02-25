@@ -11,7 +11,8 @@
 
 #include <bksge/core/render/texture_format.hpp>
 #include <bksge/fnd/cmath/round_up.hpp>
-#include <algorithm>
+#include <bksge/fnd/algorithm/max.hpp>
+#include <bksge/fnd/algorithm/min.hpp>
 #include <cstddef>
 #include <string>
 #include <unordered_map>
@@ -119,8 +120,8 @@ std::size_t GetMipmappedSizeInBytes(
 			break;
 		}
 
-		w = (std::max)(w, 1u);
-		h = (std::max)(h, 1u);
+		w = (bksge::max)(w, 1u);
+		h = (bksge::max)(h, 1u);
 		--mipmap_level;
 	}
 

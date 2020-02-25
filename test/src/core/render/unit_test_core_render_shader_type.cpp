@@ -8,11 +8,11 @@
 
 #include <bksge/core/render/shader_type.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
+#include <bksge/fnd/algorithm/sort.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
 #include <functional>
 #include <vector>
-#include <algorithm>
 #include "serialize_test.hpp"
 
 namespace bksge_core_render_test
@@ -70,11 +70,11 @@ GTEST_TEST(Render_ShaderType, HashTest)
 	std::vector<std::size_t> v;
 	v.push_back(h(bksge::ShaderType::kHLSL));
 	v.push_back(h(bksge::ShaderType::kGLSL));
-	std::sort(v.begin(), v.end());
+	bksge::sort(v.begin(), v.end());
 	EXPECT_TRUE(bksge::is_unique(v.begin(), v.end()));
 
 	v.push_back(h(bksge::ShaderType::kGLSL));
-	std::sort(v.begin(), v.end());
+	bksge::sort(v.begin(), v.end());
 	EXPECT_FALSE(bksge::is_unique(v.begin(), v.end()));
 }
 

@@ -13,6 +13,7 @@
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
+#include <bksge/fnd/algorithm/sort.hpp>
 #include <bksge/fnd/config.hpp>
 #include <sstream>
 #include <stdexcept>
@@ -20,7 +21,6 @@
 #include <type_traits>
 #include <functional>
 #include <vector>
-#include <algorithm>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 #include "serialize_test.hpp"
@@ -1070,11 +1070,11 @@ TYPED_TEST(MathColor3Test, HashTest)
 	v.push_back(h(c2));
 	v.push_back(h(c3));
 	v.push_back(h(c4));
-	std::sort(v.begin(), v.end());
+	bksge::sort(v.begin(), v.end());
 	EXPECT_TRUE(bksge::is_unique(v.begin(), v.end()));
 
 	v.push_back(h(c1));
-	std::sort(v.begin(), v.end());
+	bksge::sort(v.begin(), v.end());
 	EXPECT_FALSE(bksge::is_unique(v.begin(), v.end()));
 }
 

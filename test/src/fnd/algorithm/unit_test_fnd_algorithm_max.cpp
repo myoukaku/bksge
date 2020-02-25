@@ -13,7 +13,10 @@
 #include <string>
 #include "constexpr_test.hpp"
 
-namespace bksge_algorithm_max_test
+namespace bksge_algorithm_test
+{
+
+namespace max_test
 {
 
 template <typename T>
@@ -31,6 +34,14 @@ void MaxTestUnsigned(void)
 	BKSGE_CONSTEXPR_EXPECT_EQ((T)3, bksge::max((T)2, (T)3));
 	BKSGE_CONSTEXPR_EXPECT_EQ((T)3, bksge::max((T)2, (T)3, bksge::less<>()));
 	BKSGE_CONSTEXPR_EXPECT_EQ((T)2, bksge::max((T)2, (T)3, bksge::greater<>()));
+
+	EXPECT_EQ((T)3, bksge::max({(T)3}));
+	EXPECT_EQ((T)3, bksge::max({(T)3, (T)1}));
+	EXPECT_EQ((T)4, bksge::max({(T)3, (T)1, (T)4}));
+	EXPECT_EQ((T)4, bksge::max({(T)3, (T)1, (T)4, (T)1}));
+	EXPECT_EQ((T)5, bksge::max({(T)3, (T)1, (T)4, (T)1, (T)5}));
+	EXPECT_EQ((T)5, bksge::max({(T)3, (T)1, (T)4, (T)1, (T)5}, bksge::less<>()));
+	EXPECT_EQ((T)1, bksge::max({(T)3, (T)1, (T)4, (T)1, (T)5}, bksge::greater<>()));
 }
 
 template <typename T>
@@ -49,6 +60,14 @@ void MaxTestSigned(void)
 	BKSGE_CONSTEXPR_EXPECT_EQ((T)-2, bksge::max((T)-2, (T)-3));
 	BKSGE_CONSTEXPR_EXPECT_EQ((T)-2, bksge::max((T)-2, (T)-3, bksge::less<>()));
 	BKSGE_CONSTEXPR_EXPECT_EQ((T)-3, bksge::max((T)-2, (T)-3, bksge::greater<>()));
+
+	EXPECT_EQ((T)-3, bksge::max({(T)-3}));
+	EXPECT_EQ((T)-1, bksge::max({(T)-3, (T)-1}));
+	EXPECT_EQ((T)-1, bksge::max({(T)-3, (T)-1, (T)-4}));
+	EXPECT_EQ((T)-1, bksge::max({(T)-3, (T)-1, (T)-4, (T)-1}));
+	EXPECT_EQ((T)-1, bksge::max({(T)-3, (T)-1, (T)-4, (T)-1, (T)-5}));
+	EXPECT_EQ((T)-1, bksge::max({(T)-3, (T)-1, (T)-4, (T)-1, (T)-5}, bksge::less<>()));
+	EXPECT_EQ((T)-5, bksge::max({(T)-3, (T)-1, (T)-4, (T)-1, (T)-5}, bksge::greater<>()));
 }
 
 template <typename T>
@@ -65,6 +84,14 @@ void MaxTestFloat(void)
 	BKSGE_CONSTEXPR_EXPECT_EQ((T)-1.5, bksge::max((T)-1.5, (T)-2.5, bksge::less<>()));
 	BKSGE_CONSTEXPR_EXPECT_EQ((T) 1.5, bksge::max((T) 1.5, (T) 2.5, bksge::greater<>()));
 	BKSGE_CONSTEXPR_EXPECT_EQ((T)-2.5, bksge::max((T)-1.5, (T)-2.5, bksge::greater<>()));
+
+	EXPECT_EQ((T)-3.5, bksge::max({(T)-3.5}));
+	EXPECT_EQ((T) 1.5, bksge::max({(T)-3.5, (T)1.5}));
+	EXPECT_EQ((T) 4.5, bksge::max({(T)-3.5, (T)1.5, (T)4.5}));
+	EXPECT_EQ((T) 4.5, bksge::max({(T)-3.5, (T)1.5, (T)4.5, (T)-1.5}));
+	EXPECT_EQ((T) 5.5, bksge::max({(T)-3.5, (T)1.5, (T)4.5, (T)-1.5, (T)5.5}));
+	EXPECT_EQ((T) 5.5, bksge::max({(T)-3.5, (T)1.5, (T)4.5, (T)-1.5, (T)5.5}, bksge::less<>()));
+	EXPECT_EQ((T)-3.5, bksge::max({(T)-3.5, (T)1.5, (T)4.5, (T)-1.5, (T)5.5}, bksge::greater<>()));
 }
 
 GTEST_TEST(AlgorithmTest, MaxTest)
@@ -85,8 +112,13 @@ GTEST_TEST(AlgorithmTest, MaxTest)
 	MaxTestFloat<double>();
 	MaxTestFloat<long double>();
 
-	EXPECT_EQ('z', bksge::max('a', 'z'));
+	EXPECT_EQ('a', bksge::max({'a'}));
+	EXPECT_EQ('z', bksge::max({'a', 'z'}));
+	EXPECT_EQ('c', bksge::max({'a', 'c', 'b'}));
 	EXPECT_EQ("hoge", bksge::max(std::string("foo"), std::string("hoge")));
+	EXPECT_EQ("zzzz", bksge::max({std::string("abc"), std::string("ABC"), std::string("zzzz")}));
 }
 
-}	// namespace bksge_algorithm_max_test
+}	// namespace max_test
+
+}	// namespace bksge_algorithm_test

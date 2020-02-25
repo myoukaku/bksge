@@ -13,10 +13,12 @@
 #include <bksge/core/math/vector3.hpp>
 #include <bksge/core/math/matrix3x3.hpp>
 #include <bksge/core/math/detail/vector_functions.hpp>
+#include <bksge/fnd/algorithm/max_element.hpp>
+#include <bksge/fnd/iterator/begin.hpp>
+#include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/iterator/distance.hpp>
 #include <bksge/fnd/config.hpp>
-#include <algorithm>
 #include <cmath>
-#include <iterator>
 
 namespace bksge
 {
@@ -40,7 +42,7 @@ make_quaternion_from_matrix(Matrix3x3<T> const& m) BKSGE_NOEXCEPT
 		 m[0][0] + m[1][1] + m[2][2] + T(1),	// w
 	};
 
-	auto const max_it = std::max_element(std::begin(elem), std::end(elem));
+	auto const max_it = bksge::max_element(bksge::begin(elem), bksge::end(elem));
 
 	if (*max_it < 0)
 	{
@@ -52,7 +54,7 @@ make_quaternion_from_matrix(Matrix3x3<T> const& m) BKSGE_NOEXCEPT
 	auto const v = std::sqrt(*max_it) * 0.5f;
 	auto const mult = 0.25f / v;
 
-	switch (std::distance(elem, max_it))
+	switch (bksge::distance(elem, max_it))
 	{
 	case 0: // x
 		return Quaternion<T>

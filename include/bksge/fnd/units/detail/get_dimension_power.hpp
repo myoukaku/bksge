@@ -10,7 +10,7 @@
 #define BKSGE_FND_UNITS_DETAIL_GET_DIMENSION_POWER_HPP
 
 #include <bksge/fnd/units/detail/derived_dimension_fwd.hpp>
-#include <bksge/fnd/type_traits/is_same.hpp>
+#include <type_traits>
 
 namespace bksge
 {
