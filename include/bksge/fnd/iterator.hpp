@@ -16,6 +16,7 @@
 #include <bksge/fnd/iterator/crbegin.hpp>
 #include <bksge/fnd/iterator/crend.hpp>
 #include <bksge/fnd/iterator/data.hpp>
+#include <bksge/fnd/iterator/distance.hpp>
 #include <bksge/fnd/iterator/empty.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
