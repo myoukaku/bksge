@@ -9,6 +9,7 @@
 #ifndef BKSGE_FND_CMATH_HPP
 #define BKSGE_FND_CMATH_HPP
 
+#include <bksge/fnd/cmath/abs.hpp>
 #include <bksge/fnd/cmath/almost_equal.hpp>
 #include <bksge/fnd/cmath/ceil.hpp>
 #include <bksge/fnd/cmath/clamp.hpp>

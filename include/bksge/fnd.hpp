@@ -18,6 +18,7 @@
 #include <bksge/fnd/ios.hpp>
 #include <bksge/fnd/iterator.hpp>
 #include <bksge/fnd/memory.hpp>
+#include <bksge/fnd/numeric.hpp>
 #include <bksge/fnd/optional.hpp>
 #include <bksge/fnd/random.hpp>
 #include <bksge/fnd/ratio.hpp>
