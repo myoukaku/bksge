@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	is_bidirectional_iterator.hpp
  *
- *	@brief	is_bidirectional_iteratorの定義
+ *	@brief	is_bidirectional_iterator の定義
  *
  *	@author	myoukaku
  */

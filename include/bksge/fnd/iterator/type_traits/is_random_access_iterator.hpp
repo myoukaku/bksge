@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	is_random_access_iterator.hpp
  *
- *	@brief	is_random_access_iteratorの定義
+ *	@brief	is_random_access_iterator の定義
  *
  *	@author	myoukaku
  */

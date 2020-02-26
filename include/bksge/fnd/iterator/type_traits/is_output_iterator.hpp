@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	is_output_iterator.hpp
  *
- *	@brief	is_output_iteratorの定義
+ *	@brief	is_output_iterator の定義
  *
  *	@author	myoukaku
  */

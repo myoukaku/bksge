@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	is_input_iterator.hpp
  *
- *	@brief	is_input_iteratorの定義
+ *	@brief	is_input_iterator の定義
  *
  *	@author	myoukaku
  */

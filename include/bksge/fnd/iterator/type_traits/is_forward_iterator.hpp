@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	is_forward_iterator.hpp
  *
- *	@brief	is_forward_iteratorの定義
+ *	@brief	is_forward_iterator の定義
  *
  *	@author	myoukaku
  */
