@@ -3259,7 +3259,7 @@ TYPED_TEST(MathMatrix4x4Test, HashTest)
 		Vector4{0, 0, 0, 1},
 	};
 
-	std::vector<std::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(m1));
 	v.push_back(h(m2));
 	v.push_back(h(m3));

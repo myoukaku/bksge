@@ -7,9 +7,9 @@
  */
 
 #include <bksge/fnd/type_traits/underlying_type.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <gtest/gtest.h>
 #include <type_traits>
-#include <cstddef>
 #include <cstdint>
 #include "type_traits_test_utility.hpp"
 
@@ -35,7 +35,7 @@ enum       E9 : unsigned int {};
 enum class E10 : unsigned short {};
 enum       E11 : unsigned long {};
 enum class E12 : unsigned long long {};
-enum       E13 : std::size_t {};
+enum       E13 : bksge::size_t {};
 
 //BKSGE_UNDERLYING_TYPE_TEST(enum_UDT, unsigned int);	// 実装依存
 BKSGE_UNDERLYING_TYPE_TEST(enum_uint32_t_UDT, std::uint32_t);
@@ -64,7 +64,7 @@ BKSGE_UNDERLYING_TYPE_TEST(E9, unsigned int);
 BKSGE_UNDERLYING_TYPE_TEST(E10, unsigned short);
 BKSGE_UNDERLYING_TYPE_TEST(E11, unsigned long);
 BKSGE_UNDERLYING_TYPE_TEST(E12, unsigned long long);
-BKSGE_UNDERLYING_TYPE_TEST(E13, std::size_t);
+BKSGE_UNDERLYING_TYPE_TEST(E13, bksge::size_t);
 
 #undef BKSGE_UNDERLYING_TYPE_TEST
 

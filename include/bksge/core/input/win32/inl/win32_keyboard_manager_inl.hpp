@@ -15,7 +15,7 @@
 #include <bksge/core/input/win32/win32_keyboard_manager.hpp>
 #include <bksge/core/input/win32/win32_keyboard_device.hpp>
 #include <bksge/core/input/win32/win32_input_manager_impl.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 
 namespace bksge
 {
@@ -46,7 +46,7 @@ Win32KeyboardManager::VUpdate(void)
 }
 
 BKSGE_INLINE KeyboardState const&
-Win32KeyboardManager::VGetState(std::size_t index) const
+Win32KeyboardManager::VGetState(bksge::size_t index) const
 {
 	return m_impl->GetState(index);
 }

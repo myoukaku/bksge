@@ -85,7 +85,7 @@ operator<<(std::basic_ostream<CharT, Traits>& os, DepthState const& rhs)
 #endif
 
 #include <functional>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/functional/hash_combine.hpp>
 
 namespace std
@@ -94,7 +94,7 @@ namespace std
 template<>
 struct hash<bksge::render::DepthState>
 {
-	std::size_t operator()(bksge::render::DepthState const& arg) const
+	bksge::size_t operator()(bksge::render::DepthState const& arg) const
 	{
 		return bksge::hash_combine(
 			arg.enable(),

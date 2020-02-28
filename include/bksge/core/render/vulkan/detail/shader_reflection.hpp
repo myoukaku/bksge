@@ -11,10 +11,10 @@
 
 #include <bksge/core/render/vulkan/detail/fwd/shader_reflection_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <vector>
 #include <string>
 #include <cstdint>
-#include <cstddef>
 
 namespace bksge
 {
@@ -30,7 +30,7 @@ struct ShaderReflectionUniform
 	struct Member
 	{
 		std::string          name;
-		std::size_t          bytes;
+		bksge::size_t        bytes;
 		std::uint32_t        offset;
 	};
 
@@ -38,7 +38,7 @@ struct ShaderReflectionUniform
 	std::uint32_t			binding;
 	std::string				name;
 	::VkDescriptorType		descriptor_type;
-	std::size_t				bytes;
+	bksge::size_t			bytes;
 	::VkShaderStageFlags	stage_flags;
 	std::vector<Member>		members;
 };

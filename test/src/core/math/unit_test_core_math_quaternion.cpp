@@ -2006,7 +2006,7 @@ TYPED_TEST(MathQuaternionTest, HashTest)
 	Quaternion const c4(1, 2, 2, 4);
 	Quaternion const c5(1, 2, 3, 0);
 
-	std::vector<std::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(c1));
 	v.push_back(h(c2));
 	v.push_back(h(c3));

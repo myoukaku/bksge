@@ -11,7 +11,6 @@
 
 #include <bksge/core/render/detail/index_array_base.hpp>
 #include <bksge/core/render/detail/type_enum.hpp>
-#include <cstddef>
 #include <cstring>	// memcmp
 
 namespace bksge

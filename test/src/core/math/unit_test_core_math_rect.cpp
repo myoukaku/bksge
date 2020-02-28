@@ -419,7 +419,7 @@ TYPED_TEST(MathRectTest, HashTest)
 	Rect const r3(Vector2{1,2}, Vector2{4,3});
 	Rect const r4(Vector2{-1,-2}, Vector2{3,4});
 
-	std::vector<std::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(r1));
 	v.push_back(h(r2));
 	v.push_back(h(r3));

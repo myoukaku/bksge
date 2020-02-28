@@ -106,7 +106,7 @@ GTEST_TEST(AlgorithmTest, PrevPermutationTest)
 			{ 4, 5, 6, 7 },
 		};
 
-		std::size_t i = 0;
+		bksge::size_t i = 0;
 
 		do
 		{

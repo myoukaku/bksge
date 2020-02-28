@@ -11,7 +11,7 @@
 
 #include <bksge/core/input/mouse_state.hpp>
 #include <bksge/core/input/win32/dinput.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 
 namespace bksge
 {
@@ -50,7 +50,7 @@ public:
 private:
 	void Read(void);
 
-	static const std::size_t kBufferSize = 128;
+	static const bksge::size_t kBufferSize = 128;
 
 	MouseState				m_state;
 	IDirectInputDevice8*	m_device;

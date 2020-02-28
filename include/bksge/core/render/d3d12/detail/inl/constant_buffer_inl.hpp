@@ -17,6 +17,7 @@
 #include <bksge/core/render/d3d_common/d3d12.hpp>
 #include <bksge/core/render/d3d_common/throw_if_failed.hpp>
 #include <bksge/fnd/cmath/round_up.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <cstdint>
 #include <vector>
 #include <cstring>	// memcpy
@@ -77,7 +78,7 @@ ConstantBuffer::~ConstantBuffer()
 }
 
 BKSGE_INLINE ConstantBuffer::Subresource
-ConstantBuffer::AssignSubresource(std::size_t size)
+ConstantBuffer::AssignSubresource(bksge::size_t size)
 {
 	size = bksge::round_up(size, D3D12_CONSTANT_BUFFER_DATA_PLACEMENT_ALIGNMENT);
 

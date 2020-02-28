@@ -86,8 +86,8 @@ operator<<(std::basic_ostream<CharT, Traits>& os, SampledTexture const& rhs)
 #include <bksge/core/render/inl/sampled_texture_inl.hpp>
 #endif
 
-#include <cstddef>
 #include <functional>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/functional/hash_combine.hpp>
 
 namespace std
@@ -96,7 +96,7 @@ namespace std
 template<>
 struct hash<bksge::render::SampledTexture>
 {
-	std::size_t operator()(bksge::render::SampledTexture const& arg) const
+	bksge::size_t operator()(bksge::render::SampledTexture const& arg) const
 	{
 		return bksge::hash_combine(
 			arg.sampler(),

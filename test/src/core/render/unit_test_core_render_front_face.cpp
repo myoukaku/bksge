@@ -60,7 +60,7 @@ GTEST_TEST(Render_FrontFace, SerializeTest)
 GTEST_TEST(Render_FrontFace, HashTest)
 {
 	std::hash<bksge::FrontFace> h;
-	std::vector<std::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(bksge::FrontFace::kClockwise));
 	v.push_back(h(bksge::FrontFace::kCounterClockwise));
 	bksge::sort(v.begin(), v.end());

@@ -17,7 +17,6 @@
 //#include <bksge/fnd/serialization/vector.hpp>
 //#include <bksge/fnd/serialization/polymorphic_serializable.hpp>
 //#include <bksge/fnd/serialization/version.hpp>
-#include <cstddef>
 #include <vector>
 
 namespace bksge

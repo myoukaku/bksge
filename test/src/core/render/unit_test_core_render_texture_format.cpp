@@ -694,7 +694,7 @@ GTEST_TEST(Render_TextureFormat, HashTest)
 {
 	std::hash<bksge::TextureFormat> h;
 
-	std::vector<std::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(bksge::TextureFormat::kR_U8));
 	v.push_back(h(bksge::TextureFormat::kR_S8));
 	v.push_back(h(bksge::TextureFormat::kR_U16));

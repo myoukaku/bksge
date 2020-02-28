@@ -248,7 +248,7 @@ GTEST_TEST(Render_ColorWriteFlag, SerializeTest)
 GTEST_TEST(Render_ColorWriteFlag, HashTest)
 {
 	std::hash<bksge::ColorWriteFlag> h;
-	std::vector<std::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(bksge::ColorWriteFlag::kNone));
 	v.push_back(h(bksge::ColorWriteFlag::kRed));
 	v.push_back(h(bksge::ColorWriteFlag::kGreen));

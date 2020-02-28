@@ -12,8 +12,8 @@
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/utility/index_sequence_for.hpp>
 #include <bksge/fnd/utility/forward.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstddef>
 
 namespace bksge
 {
@@ -24,7 +24,7 @@ namespace tpp
 namespace detail
 {
 
-template <std::size_t I, typename T>
+template <bksge::size_t I, typename T>
 struct element_holder
 {
 public:
@@ -41,7 +41,7 @@ private:
 template <typename IndexSequence, typename... Types>
 class type_tuple_impl;
 
-template <std::size_t... Indices, typename... Types>
+template <bksge::size_t... Indices, typename... Types>
 class type_tuple_impl<bksge::index_sequence<Indices...>, Types...>
 	: public element_holder<Indices, Types>...
 {
@@ -58,7 +58,7 @@ template <typename... Types>
 using type_tuple =
 	type_tuple_impl<bksge::index_sequence_for<Types...>, Types...>;
 
-template <std::size_t N, typename T>
+template <bksge::size_t N, typename T>
 static BKSGE_CONSTEXPR element_holder<N, T> const&
 select(element_holder<N, T> const& t)
 {

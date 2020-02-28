@@ -10,11 +10,11 @@
 #define BKSGE_FND_ALGORITHM_INL_SHUFFLE_INL_HPP
 
 #include <bksge/fnd/algorithm/shuffle.hpp>
+#include <bksge/fnd/cstddef/ptrdiff_t.hpp>
 #include <bksge/fnd/iterator/type_traits/iterator_difference_type.hpp>
 //#include <bksge/fnd/random/uniform_int_distribution.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/swap.hpp>
-#include <cstddef>
 #include <random>
 
 namespace bksge
@@ -35,7 +35,7 @@ shuffle(
 	UniformRandomNumberGenerator&& g)
 {
 	using difference_type = bksge::iterator_difference_type<RandomAccessIterator>;
-	using D = std::uniform_int_distribution<std::ptrdiff_t>;
+	using D = std::uniform_int_distribution<bksge::ptrdiff_t>;
 	using P = typename D::param_type;
 	
 	auto d = last - first;

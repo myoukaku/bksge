@@ -217,7 +217,7 @@ GTEST_TEST(Render_StencilState, HashTest)
 	s8.SetDepthFailOperation(bksge::StencilOperation::kInvert);
 	s9.SetPassOperation(bksge::StencilOperation::kIncr);
 
-	std::vector<std::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(s1));
 	v.push_back(h(s2));
 	v.push_back(h(s3));

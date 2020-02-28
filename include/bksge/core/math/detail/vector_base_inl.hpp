@@ -11,12 +11,12 @@
 
 #include <bksge/core/math/detail/vector_base.hpp>
 #include <bksge/core/math/detail/vector_functions.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/stdexcept/throw_out_of_range.hpp>
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
 #include <bksge/fnd/algorithm/swap_ranges.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstddef>
 #include <ostream>		// basic_ostream
 #include <utility>		// move
 
@@ -29,14 +29,14 @@ namespace math
 namespace detail
 {
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 inline BKSGE_CONSTEXPR
 VectorBase<T, N>::VectorBase()
 	BKSGE_NOEXCEPT_OR_NOTHROW
 	: m_value{}
 {}
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 template <typename... UTypes, typename>
 inline BKSGE_CONSTEXPR
 VectorBase<T, N>::VectorBase(UTypes const&... args)
@@ -44,7 +44,7 @@ VectorBase<T, N>::VectorBase(UTypes const&... args)
 	: m_value{{static_cast<T>(args)...}}
 {}
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 template <typename U, typename>
 inline BKSGE_CONSTEXPR
 VectorBase<T, N>::VectorBase(VectorValue<U, N> const& a)
@@ -52,8 +52,8 @@ VectorBase<T, N>::VectorBase(VectorValue<U, N> const& a)
 	: VectorBase(a, bksge::make_index_sequence<N>())
 {}
 
-template <typename T, std::size_t N>
-template <typename U, std::size_t... Is>
+template <typename T, bksge::size_t N>
+template <typename U, bksge::size_t... Is>
 inline BKSGE_CONSTEXPR
 VectorBase<T, N>::VectorBase(
 	VectorValue<U, N> const& a,
@@ -62,7 +62,7 @@ VectorBase<T, N>::VectorBase(
 	: VectorBase(a[Is]...)
 {}
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_NODISCARD inline BKSGE_CXX14_CONSTEXPR auto
 VectorBase<T, N>::operator[](size_type pos)
 	BKSGE_NOEXCEPT_OR_NOTHROW
@@ -71,7 +71,7 @@ VectorBase<T, N>::operator[](size_type pos)
 	return m_value[pos];
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_NODISCARD inline BKSGE_CONSTEXPR auto
 VectorBase<T, N>::operator[](size_type pos) const
 	BKSGE_NOEXCEPT_OR_NOTHROW
@@ -83,7 +83,7 @@ VectorBase<T, N>::operator[](size_type pos) const
 BKSGE_WARNING_PUSH();
 BKSGE_WARNING_DISABLE_MSVC(4702);	// 制御が渡らないコードです。
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_NODISCARD inline BKSGE_CXX14_CONSTEXPR auto
 VectorBase<T, N>::at(size_type pos)
 -> reference
@@ -93,7 +93,7 @@ VectorBase<T, N>::at(size_type pos)
 		m_value[pos];
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_NODISCARD inline BKSGE_CONSTEXPR auto
 VectorBase<T, N>::at(size_type pos) const
 -> const_reference
@@ -105,7 +105,7 @@ VectorBase<T, N>::at(size_type pos) const
 
 BKSGE_WARNING_POP();
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_NODISCARD inline BKSGE_CXX14_CONSTEXPR auto
 VectorBase<T, N>::data() BKSGE_NOEXCEPT_OR_NOTHROW
 -> pointer
@@ -113,7 +113,7 @@ VectorBase<T, N>::data() BKSGE_NOEXCEPT_OR_NOTHROW
 	return &m_value[0];
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_NODISCARD inline BKSGE_CONSTEXPR auto
 VectorBase<T, N>::data() const BKSGE_NOEXCEPT_OR_NOTHROW
 -> const_pointer
@@ -121,7 +121,7 @@ VectorBase<T, N>::data() const BKSGE_NOEXCEPT_OR_NOTHROW
 	return &m_value[0];
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_NODISCARD inline BKSGE_CXX14_CONSTEXPR auto
 VectorBase<T, N>::begin() BKSGE_NOEXCEPT_OR_NOTHROW
 -> iterator
@@ -129,7 +129,7 @@ VectorBase<T, N>::begin() BKSGE_NOEXCEPT_OR_NOTHROW
 	return iterator(data());
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_NODISCARD inline BKSGE_CONSTEXPR auto
 VectorBase<T, N>::begin() const BKSGE_NOEXCEPT_OR_NOTHROW
 -> const_iterator
@@ -137,7 +137,7 @@ VectorBase<T, N>::begin() const BKSGE_NOEXCEPT_OR_NOTHROW
 	return const_iterator(data());
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_NODISCARD inline BKSGE_CXX14_CONSTEXPR auto
 VectorBase<T, N>::end() BKSGE_NOEXCEPT_OR_NOTHROW
 -> iterator
@@ -145,7 +145,7 @@ VectorBase<T, N>::end() BKSGE_NOEXCEPT_OR_NOTHROW
 	return iterator(data() + N);
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_NODISCARD inline BKSGE_CONSTEXPR auto
 VectorBase<T, N>::end() const BKSGE_NOEXCEPT_OR_NOTHROW
 -> const_iterator
@@ -153,7 +153,7 @@ VectorBase<T, N>::end() const BKSGE_NOEXCEPT_OR_NOTHROW
 	return const_iterator(data() + N);
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_NODISCARD inline BKSGE_CXX14_CONSTEXPR auto
 VectorBase<T, N>::rbegin() BKSGE_NOEXCEPT_OR_NOTHROW
 -> reverse_iterator
@@ -161,7 +161,7 @@ VectorBase<T, N>::rbegin() BKSGE_NOEXCEPT_OR_NOTHROW
 	return reverse_iterator(end());
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_NODISCARD inline BKSGE_CONSTEXPR auto
 VectorBase<T, N>::rbegin() const BKSGE_NOEXCEPT_OR_NOTHROW
 -> const_reverse_iterator
@@ -169,7 +169,7 @@ VectorBase<T, N>::rbegin() const BKSGE_NOEXCEPT_OR_NOTHROW
 	return const_reverse_iterator(end());
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_NODISCARD inline BKSGE_CXX14_CONSTEXPR auto
 VectorBase<T, N>::rend() BKSGE_NOEXCEPT_OR_NOTHROW
 -> reverse_iterator
@@ -177,7 +177,7 @@ VectorBase<T, N>::rend() BKSGE_NOEXCEPT_OR_NOTHROW
 	return reverse_iterator(begin());
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_NODISCARD inline BKSGE_CONSTEXPR auto
 VectorBase<T, N>::rend() const BKSGE_NOEXCEPT_OR_NOTHROW
 -> const_reverse_iterator
@@ -185,7 +185,7 @@ VectorBase<T, N>::rend() const BKSGE_NOEXCEPT_OR_NOTHROW
 	return const_reverse_iterator(begin());
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_NODISCARD inline BKSGE_CONSTEXPR auto
 VectorBase<T, N>::cbegin() const BKSGE_NOEXCEPT_OR_NOTHROW
 -> const_iterator
@@ -193,7 +193,7 @@ VectorBase<T, N>::cbegin() const BKSGE_NOEXCEPT_OR_NOTHROW
 	return begin();
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_NODISCARD inline BKSGE_CONSTEXPR auto
 VectorBase<T, N>::cend() const BKSGE_NOEXCEPT_OR_NOTHROW
 -> const_iterator
@@ -201,7 +201,7 @@ VectorBase<T, N>::cend() const BKSGE_NOEXCEPT_OR_NOTHROW
 	return end();
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_NODISCARD inline BKSGE_CONSTEXPR auto
 VectorBase<T, N>::crbegin() const BKSGE_NOEXCEPT_OR_NOTHROW
 -> const_reverse_iterator
@@ -209,7 +209,7 @@ VectorBase<T, N>::crbegin() const BKSGE_NOEXCEPT_OR_NOTHROW
 	return rbegin();
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_NODISCARD inline BKSGE_CONSTEXPR auto
 VectorBase<T, N>::crend() const BKSGE_NOEXCEPT_OR_NOTHROW
 -> const_reverse_iterator
@@ -217,7 +217,7 @@ VectorBase<T, N>::crend() const BKSGE_NOEXCEPT_OR_NOTHROW
 	return rend();
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_NODISCARD inline BKSGE_CONSTEXPR auto
 VectorBase<T, N>::empty() const BKSGE_NOEXCEPT_OR_NOTHROW
 -> bool
@@ -225,7 +225,7 @@ VectorBase<T, N>::empty() const BKSGE_NOEXCEPT_OR_NOTHROW
 	return false;
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_NODISCARD inline BKSGE_CONSTEXPR auto
 VectorBase<T, N>::size() const BKSGE_NOEXCEPT_OR_NOTHROW
 -> size_type
@@ -233,7 +233,7 @@ VectorBase<T, N>::size() const BKSGE_NOEXCEPT_OR_NOTHROW
 	return N;
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_NODISCARD inline BKSGE_CONSTEXPR auto
 VectorBase<T, N>::max_size() const BKSGE_NOEXCEPT_OR_NOTHROW
 -> size_type
@@ -241,7 +241,7 @@ VectorBase<T, N>::max_size() const BKSGE_NOEXCEPT_OR_NOTHROW
 	return N;
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR void
 VectorBase<T, N>::swap(VectorBase& other)
 	BKSGE_NOEXCEPT_IF(bksge::is_nothrow_swappable<T>::value)
@@ -249,7 +249,7 @@ VectorBase<T, N>::swap(VectorBase& other)
 	bksge::swap_ranges(begin(), begin() + N, other.begin());
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 inline BKSGE_CONSTEXPR VectorValue<T, N>
 VectorBase<T, N>::as_array(void) const
 {
@@ -262,7 +262,7 @@ VectorBase<T, N>::as_array(void) const
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR void
 swap(VectorBase<T, N>& lhs, VectorBase<T, N>& rhs)
 BKSGE_NOEXCEPT_IF_EXPR(lhs.swap(rhs))
@@ -270,7 +270,7 @@ BKSGE_NOEXCEPT_IF_EXPR(lhs.swap(rhs))
 	lhs.swap(rhs);
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 inline BKSGE_CONSTEXPR bool
 operator==(VectorBase<T, N> const& lhs, VectorBase<T, N> const& rhs)
 BKSGE_NOEXCEPT_OR_NOTHROW
@@ -278,7 +278,7 @@ BKSGE_NOEXCEPT_OR_NOTHROW
 	return bksge::math::detail::equal_per_elem(lhs, rhs);
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 inline BKSGE_CONSTEXPR bool
 operator==(VectorBase<T, N> const& lhs, VectorValue<T, N> const& rhs)
 BKSGE_NOEXCEPT_OR_NOTHROW
@@ -286,7 +286,7 @@ BKSGE_NOEXCEPT_OR_NOTHROW
 	return lhs == VectorBase<T, N>(rhs);
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 inline BKSGE_CONSTEXPR bool
 operator!=(VectorBase<T, N> const& lhs, VectorBase<T, N> const& rhs)
 BKSGE_NOEXCEPT_OR_NOTHROW
@@ -294,7 +294,7 @@ BKSGE_NOEXCEPT_OR_NOTHROW
 	return !(lhs == rhs);
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 inline BKSGE_CONSTEXPR bool
 operator!=(VectorBase<T, N> const& lhs, VectorValue<T, N> const& rhs)
 BKSGE_NOEXCEPT_OR_NOTHROW
@@ -302,7 +302,7 @@ BKSGE_NOEXCEPT_OR_NOTHROW
 	return !(lhs == rhs);
 }
 
-template <typename CharT, typename Traits, typename T, std::size_t N>
+template <typename CharT, typename Traits, typename T, bksge::size_t N>
 inline std::basic_ostream<CharT, Traits>&
 operator<<(
 	std::basic_ostream<CharT, Traits>& os,
@@ -310,7 +310,7 @@ operator<<(
 {
 	os << "{ ";
 
-	for (std::size_t i = 0; i < N; ++i)
+	for (bksge::size_t i = 0; i < N; ++i)
 	{
 		os << rhs[i];
 
@@ -329,7 +329,7 @@ operator<<(
 
 }	// namespace math
 
-template <std::size_t I, typename T, std::size_t N>
+template <bksge::size_t I, typename T, bksge::size_t N>
 BKSGE_NODISCARD inline BKSGE_CXX14_CONSTEXPR T&
 get(bksge::math::detail::VectorBase<T, N>& v) BKSGE_NOEXCEPT
 {
@@ -337,7 +337,7 @@ get(bksge::math::detail::VectorBase<T, N>& v) BKSGE_NOEXCEPT
 	return v[I];
 }
 
-template <std::size_t I, typename T, std::size_t N>
+template <bksge::size_t I, typename T, bksge::size_t N>
 BKSGE_NODISCARD inline BKSGE_CONSTEXPR T const&
 get(bksge::math::detail::VectorBase<T, N> const& v) BKSGE_NOEXCEPT
 {
@@ -345,7 +345,7 @@ get(bksge::math::detail::VectorBase<T, N> const& v) BKSGE_NOEXCEPT
 	return v[I];
 }
 
-template <std::size_t I, typename T, std::size_t N>
+template <bksge::size_t I, typename T, bksge::size_t N>
 BKSGE_NODISCARD inline BKSGE_CXX14_CONSTEXPR T&&
 get(bksge::math::detail::VectorBase<T, N>&& v) BKSGE_NOEXCEPT
 {
@@ -353,7 +353,7 @@ get(bksge::math::detail::VectorBase<T, N>&& v) BKSGE_NOEXCEPT
 	return std::move(v[I]);
 }
 
-template <std::size_t I, typename T, std::size_t N>
+template <bksge::size_t I, typename T, bksge::size_t N>
 BKSGE_NODISCARD inline BKSGE_CONSTEXPR T const&&
 get(bksge::math::detail::VectorBase<T, N> const&& v) BKSGE_NOEXCEPT
 {

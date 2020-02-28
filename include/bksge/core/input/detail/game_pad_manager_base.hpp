@@ -10,7 +10,7 @@
 #define BKSGE_CORE_INPUT_DETAIL_GAME_PAD_MANAGER_BASE_HPP
 
 #include <bksge/core/input/game_pad_state.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 
 namespace bksge
 {
@@ -41,7 +41,7 @@ public:
 	/**
 	 *	@brief	ゲームパッドの状態を取得します
 	 */
-	GamePadState const& state(std::size_t index) const
+	GamePadState const& state(bksge::size_t index) const
 	{
 		return VGetState(index);
 	}
@@ -49,7 +49,7 @@ public:
 private:
 	virtual void VUpdate(void) = 0;
 
-	virtual GamePadState const& VGetState(std::size_t index) const = 0;
+	virtual GamePadState const& VGetState(bksge::size_t index) const = 0;
 };
 
 }	// namespace input

@@ -9,8 +9,8 @@
 #ifndef BKSGE_FND_ITERATOR_REND_HPP
 #define BKSGE_FND_ITERATOR_REND_HPP
 
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstddef>	// size_t
 #include <iterator>	// reverse_iterator
 
 namespace bksge
@@ -30,7 +30,7 @@ rend(Container const& c) -> decltype(c.rend())
 	return c.rend();
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 inline BKSGE_CONSTEXPR std::reverse_iterator<T*>
 rend(T (&a)[N]) BKSGE_NOEXCEPT
 {

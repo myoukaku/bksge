@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_DETAIL_INL_PIXELS_INL_HPP
 
 #include <bksge/core/render/detail/pixels.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <cstring>
 #include <vector>
 
@@ -21,13 +21,13 @@ namespace render
 {
 
 BKSGE_INLINE
-void Pixels::resize(std::size_t size)
+void Pixels::resize(bksge::size_t size)
 {
 	m_value.resize(size);
 }
 
 BKSGE_INLINE
-void Pixels::copy(void const* src, std::size_t size)
+void Pixels::copy(void const* src, bksge::size_t size)
 {
 	if (m_value.empty())
 	{

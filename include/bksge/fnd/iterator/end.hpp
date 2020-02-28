@@ -9,8 +9,8 @@
 #ifndef BKSGE_FND_ITERATOR_END_HPP
 #define BKSGE_FND_ITERATOR_END_HPP
 
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstddef>	// size_t
 
 namespace bksge
 {
@@ -29,7 +29,7 @@ end(Container const& c) -> decltype(c.end())
 	return c.end();
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 inline BKSGE_CONSTEXPR T*
 end(T (&a)[N]) BKSGE_NOEXCEPT
 {

@@ -10,7 +10,7 @@
 #define BKSGE_CORE_INPUT_INL_KEYBOARD_STATE_INL_HPP
 
 #include <bksge/core/input/keyboard_state.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 
 namespace bksge
 {
@@ -28,14 +28,14 @@ BKSGE_INLINE auto
 KeyboardState::pressed(KeyCode key_code) const
 -> bool
 {
-	return m_keys[static_cast<std::size_t>(key_code)];
+	return m_keys[static_cast<bksge::size_t>(key_code)];
 }
 
 BKSGE_INLINE auto
 KeyboardState::pressed(KeyCode key_code)
 -> Keys::reference
 {
-	return m_keys[static_cast<std::size_t>(key_code)];
+	return m_keys[static_cast<bksge::size_t>(key_code)];
 }
 
 BKSGE_INLINE bool

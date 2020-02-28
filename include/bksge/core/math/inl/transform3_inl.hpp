@@ -10,7 +10,7 @@
 #define BKSGE_CORE_MATH_INL_TRANSFORM3_INL_HPP
 
 #include <bksge/core/math/transform3.hpp>
-//#include <bksge/foundation/serialization/nvp.hpp>
+//#include <bksge/fnd/serialization/nvp.hpp>
 
 namespace bksge
 {

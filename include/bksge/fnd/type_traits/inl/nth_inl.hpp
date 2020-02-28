@@ -13,7 +13,7 @@
 #include <bksge/fnd/type_traits/type_identity.hpp>
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/utility/index_sequence_for.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <utility>	// declval
 
 namespace bksge
@@ -28,7 +28,7 @@ struct nth<0, Head, Tail...>
 	using type = Head;
 };
 
-template <std::size_t N, typename Head, typename... Tail>
+template <bksge::size_t N, typename Head, typename... Tail>
 struct nth<N, Head, Tail...>
 	: public nth<N - 1, Tail...>
 {};
@@ -43,10 +43,10 @@ namespace nth_detail
 template <typename Seq>
 struct nth_impl;
 
-template <std::size_t... Indices>
+template <bksge::size_t... Indices>
 struct nth_impl<bksge::index_sequence<Indices...>>
 {
-	template <std::size_t>
+	template <bksge::size_t>
 	struct void_ptr
 	{
 		using type = void*;
@@ -58,7 +58,7 @@ struct nth_impl<bksge::index_sequence<Indices...>>
 
 }	// namespace nth_detail
 
-template <std::size_t I, typename... Types>
+template <bksge::size_t I, typename... Types>
 struct nth
 {
 private:
@@ -79,7 +79,7 @@ public:
 namespace nth_detail
 {
 
-template <std::size_t N, typename T>
+template <bksge::size_t N, typename T>
 struct element_holder
 	: public bksge::type_identity<T>
 {};
@@ -87,15 +87,15 @@ struct element_holder
 template <typename Sequence, typename... Types>
 struct type_tuple;
 
-template <std::size_t... Indices, typename... Types>
+template <bksge::size_t... Indices, typename... Types>
 struct type_tuple<bksge::index_sequence<Indices...>, Types...>
 	: public element_holder<Indices, Types>...
 {};
 
-template <std::size_t N, typename T>
+template <bksge::size_t N, typename T>
 static element_holder<N, T> select(element_holder<N, T>);
 
-template <std::size_t N, typename... Types>
+template <bksge::size_t N, typename... Types>
 struct nth
 {
 private:
@@ -108,7 +108,7 @@ public:
 
 }	// namespace nth_detail
 
-template <std::size_t N, typename... Types>
+template <bksge::size_t N, typename... Types>
 struct nth
 {
 	using type = typename nth_detail::nth<N, Types...>::type;

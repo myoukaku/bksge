@@ -15,7 +15,7 @@
 #include <bksge/core/input/win32/win32_game_pad_manager.hpp>
 #include <bksge/core/input/win32/win32_game_pad_device.hpp>
 #include <bksge/core/input/win32/win32_input_manager_impl.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 
 namespace bksge
 {
@@ -46,7 +46,7 @@ Win32GamePadManager::VUpdate(void)
 }
 
 BKSGE_INLINE GamePadState const&
-Win32GamePadManager::VGetState(std::size_t index) const
+Win32GamePadManager::VGetState(bksge::size_t index) const
 {
 	return m_impl->GetState(index);
 }

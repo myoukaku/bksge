@@ -73,7 +73,7 @@ GTEST_TEST(Render_StencilOperation, HashTest)
 {
 	std::hash<bksge::StencilOperation> h;
 
-	std::vector<std::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(bksge::StencilOperation::kKeep));
 	v.push_back(h(bksge::StencilOperation::kZero));
 	v.push_back(h(bksge::StencilOperation::kReplace));

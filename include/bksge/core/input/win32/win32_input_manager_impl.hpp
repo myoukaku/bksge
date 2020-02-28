@@ -10,7 +10,7 @@
 #define BKSGE_CORE_INPUT_WIN32_WIN32_INPUT_MANAGER_IMPL_HPP
 
 #include <bksge/core/input/win32/dinput.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <memory>
 #include <vector>
 
@@ -38,7 +38,7 @@ public:
 
 	void Update(void);
 
-	State const& GetState(std::size_t index) const;
+	State const& GetState(bksge::size_t index) const;
 
 private:
 	static BOOL CALLBACK EnumDevicesCallback(LPCDIDEVICEINSTANCE lpddi, LPVOID pvRef);

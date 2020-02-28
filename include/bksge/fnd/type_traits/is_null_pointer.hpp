@@ -23,7 +23,7 @@ using std::is_null_pointer;
 #else
 
 #include <bksge/fnd/type_traits/remove_cv.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/nullptr_t.hpp>
 
 namespace bksge
 {
@@ -39,7 +39,7 @@ namespace bksge
 template <typename T>
 struct is_null_pointer
 	: public std::is_same<
-		bksge::remove_cv_t<T>, std::nullptr_t
+		bksge::remove_cv_t<T>, bksge::nullptr_t
 	>
 {};
 

@@ -12,11 +12,11 @@
 #include <bksge/core/math/scale.hpp>
 #include <bksge/core/math/vector.hpp>
 #include <bksge/core/math/detail/vector_functions.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
-#include <cstddef>
 
 namespace bksge
 {
@@ -24,7 +24,7 @@ namespace bksge
 namespace math
 {
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 template <typename U, typename>
 inline BKSGE_CONSTEXPR
 Scale<T, N>::Scale(Scale<U, N> const& rhs)
@@ -32,7 +32,7 @@ Scale<T, N>::Scale(Scale<U, N> const& rhs)
 	: BaseType(rhs.as_array())
 {}
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 inline BKSGE_CONSTEXPR auto
 Scale<T, N>::Zero() BKSGE_NOEXCEPT
 -> Scale
@@ -43,7 +43,7 @@ Scale<T, N>::Zero() BKSGE_NOEXCEPT
 namespace detail
 {
 
-template <typename T, std::size_t N, std::size_t... Is>
+template <typename T, bksge::size_t N, bksge::size_t... Is>
 inline BKSGE_CONSTEXPR Scale<T, N>
 identity_impl(bksge::index_sequence<Is...>) BKSGE_NOEXCEPT_OR_NOTHROW
 {
@@ -52,7 +52,7 @@ identity_impl(bksge::index_sequence<Is...>) BKSGE_NOEXCEPT_OR_NOTHROW
 
 }	// namespace detail
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 inline BKSGE_CONSTEXPR auto
 Scale<T, N>::Identity() BKSGE_NOEXCEPT
 -> Scale
@@ -60,21 +60,21 @@ Scale<T, N>::Identity() BKSGE_NOEXCEPT
 	return detail::identity_impl<T, N>(bksge::make_index_sequence<N>());
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 inline BKSGE_CONSTEXPR Scale<T, N>
 operator+(Scale<T, N> const& v) BKSGE_NOEXCEPT
 {
 	return v;
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 inline BKSGE_CONSTEXPR Scale<T, N>
 operator-(Scale<T, N> const& v) BKSGE_NOEXCEPT
 {
 	return bksge::math::detail::negate_per_elem(v);
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR Scale<T, N>&
 operator+=(Scale<T, N>& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
 {
@@ -82,14 +82,14 @@ operator+=(Scale<T, N>& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
 	return lhs;
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 inline BKSGE_CONSTEXPR Scale<T, N>
 operator+(Scale<T, N> const& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
 {
 	return bksge::math::detail::add_per_elem(lhs, rhs);
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR Scale<T, N>&
 operator-=(Scale<T, N>& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
 {
@@ -97,14 +97,14 @@ operator-=(Scale<T, N>& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
 	return lhs;
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 inline BKSGE_CONSTEXPR Scale<T, N>
 operator-(Scale<T, N> const& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
 {
 	return bksge::math::detail::sub_per_elem(lhs, rhs);
 }
 
-template <typename T, std::size_t N, typename ArithmeticType, typename>
+template <typename T, bksge::size_t N, typename ArithmeticType, typename>
 inline BKSGE_CXX14_CONSTEXPR Scale<T, N>&
 operator*=(Scale<T, N>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT
 {
@@ -112,21 +112,21 @@ operator*=(Scale<T, N>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT
 	return lhs;
 }
 
-template <typename T, std::size_t N, typename ArithmeticType, typename>
+template <typename T, bksge::size_t N, typename ArithmeticType, typename>
 inline BKSGE_CONSTEXPR Scale<T, N>
 operator*(Scale<T, N> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT
 {
 	return bksge::math::detail::mul_per_elem(lhs, rhs);
 }
 
-template <typename T, std::size_t N, typename ArithmeticType, typename>
+template <typename T, bksge::size_t N, typename ArithmeticType, typename>
 inline BKSGE_CONSTEXPR Scale<T, N>
 operator*(ArithmeticType lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
 {
 	return rhs * lhs;
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR Scale<T, N>&
 operator*=(Scale<T, N>& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
 {
@@ -134,14 +134,14 @@ operator*=(Scale<T, N>& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
 	return lhs;
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 inline BKSGE_CONSTEXPR Scale<T, N> const
 operator*(Scale<T, N> const& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
 {
 	return bksge::math::detail::mul_per_elem(lhs, rhs);
 }
 
-template <typename T, std::size_t N, typename ArithmeticType, typename>
+template <typename T, bksge::size_t N, typename ArithmeticType, typename>
 inline BKSGE_CXX14_CONSTEXPR Scale<T, N>&
 operator/=(Scale<T, N>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT
 {
@@ -149,14 +149,14 @@ operator/=(Scale<T, N>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT
 	return lhs;
 }
 
-template <typename T, std::size_t N, typename ArithmeticType, typename>
+template <typename T, bksge::size_t N, typename ArithmeticType, typename>
 inline BKSGE_CONSTEXPR Scale<T, N>
 operator/(Scale<T, N> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT
 {
 	return bksge::math::detail::div_per_elem(lhs, rhs);
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR Scale<T, N>&
 operator/=(Scale<T, N>& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
 {
@@ -164,14 +164,14 @@ operator/=(Scale<T, N>& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
 	return lhs;
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 inline BKSGE_CONSTEXPR Scale<T, N> const
 operator/(Scale<T, N> const& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
 {
 	return bksge::math::detail::div_per_elem(lhs, rhs);
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR Vector<T, N>&
 operator*=(Vector<T, N>& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
 {
@@ -179,14 +179,14 @@ operator*=(Vector<T, N>& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
 	return lhs;
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 inline BKSGE_CONSTEXPR Vector<T, N> const
 operator*(Vector<T, N> const& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
 {
 	return bksge::math::detail::mul_per_elem(lhs, rhs);
 }
 
-template <typename T, std::size_t N, typename ArithmeticType, typename>
+template <typename T, bksge::size_t N, typename ArithmeticType, typename>
 inline BKSGE_CONSTEXPR Scale<T, N>
 Lerp(
 	Scale<T, N> const& from,

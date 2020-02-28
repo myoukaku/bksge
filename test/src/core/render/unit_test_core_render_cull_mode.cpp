@@ -62,7 +62,7 @@ GTEST_TEST(Render_CullMode, SerializeTest)
 GTEST_TEST(Render_CullMode, HashTest)
 {
 	std::hash<bksge::CullMode> h;
-	std::vector<std::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(bksge::CullMode::kNone));
 	v.push_back(h(bksge::CullMode::kFront));
 	v.push_back(h(bksge::CullMode::kBack));

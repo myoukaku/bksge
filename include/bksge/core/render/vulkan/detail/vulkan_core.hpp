@@ -12,6 +12,7 @@
 #include <vulkan/vulkan_core.h>
 #include <vector>
 #include <bksge/core/render/vulkan/detail/check_error.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 
 namespace bksge
 {
@@ -1506,7 +1507,7 @@ struct RenderPassBeginInfo : public ::VkRenderPassBeginInfo
 		pClearValues    = nullptr;
 	}
 
-	template <std::size_t N>
+	template <bksge::size_t N>
 	void SetClearValues(::VkClearValue const (&clear_values)[N])
 	{
 		clearValueCount     = N;
@@ -2152,7 +2153,7 @@ struct SwapchainCreateInfoKHR : public ::VkSwapchainCreateInfoKHR
 		pQueueFamilyIndices   = queue_family_index;
 	}
 
-	template <std::size_t N>
+	template <bksge::size_t N>
 	void SetQueueFamilyIndices(std::uint32_t const (&queue_family_indices)[N])
 	{
 		queueFamilyIndexCount = N;

@@ -12,7 +12,7 @@
 //#include <bksge/fnd/serialization/access.hpp>
 //#include <bksge/fnd/serialization/vector.hpp>
 //#include <bksge/fnd/serialization/version.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <cstdint>
 #include <ostream>
 #include <vector>
@@ -26,9 +26,9 @@ namespace render
 class Pixels
 {
 public:
-	void resize(std::size_t size);
+	void resize(bksge::size_t size);
 
-	void copy(void const* src, std::size_t size);
+	void copy(void const* src, bksge::size_t size);
 
 	std::uint8_t const* data(void) const;
 

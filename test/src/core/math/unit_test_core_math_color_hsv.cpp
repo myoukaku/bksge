@@ -1022,7 +1022,7 @@ TYPED_TEST(MathColorHSVTest, HashTest)
 	ColorHSV const c3(1, 0, 3);
 	ColorHSV const c4(1, 2, 2);
 
-	std::vector<std::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(c1));
 	v.push_back(h(c2));
 	v.push_back(h(c3));

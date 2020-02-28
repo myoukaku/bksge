@@ -17,6 +17,7 @@
 #include <bksge/core/render/vulkan/detail/shader_reflection.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <cstdint>
 #include <memory>
 #include <vector>
@@ -59,7 +60,7 @@ DescriptorSetLayout::DescriptorSetLayout(
 	vulkan::ShaderReflection const& reflection)
 	: m_device(device)
 {
-	std::size_t const descriptor_set_count = reflection.GetMaxSets() + 1;
+	bksge::size_t const descriptor_set_count = reflection.GetMaxSets() + 1;
 
 	std::vector<std::vector<::VkDescriptorSetLayoutBinding>>
 		descriptor_set_layout_bindings_list(descriptor_set_count);
@@ -71,7 +72,7 @@ DescriptorSetLayout::DescriptorSetLayout(
 	std::vector<vk::DescriptorSetLayoutCreateInfo> info;
 	info.resize(descriptor_set_count);
 
-	for (std::size_t i = 0; i < descriptor_set_count; ++i)
+	for (bksge::size_t i = 0; i < descriptor_set_count; ++i)
 	{
 		info[i].flags = VK_DESCRIPTOR_SET_LAYOUT_CREATE_PUSH_DESCRIPTOR_BIT_KHR;
 		info[i].SetBindings(descriptor_set_layout_bindings_list[i]);
@@ -79,7 +80,7 @@ DescriptorSetLayout::DescriptorSetLayout(
 
 	m_descriptor_set_layout.resize(descriptor_set_count);
 
-	for (std::size_t i = 0; i < descriptor_set_count; ++i)
+	for (bksge::size_t i = 0; i < descriptor_set_count; ++i)
 	{
 		vk::CreateDescriptorSetLayout(
 			*m_device, &info[i], nullptr, &m_descriptor_set_layout[i]);

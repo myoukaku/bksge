@@ -60,7 +60,7 @@ GTEST_TEST(Render_FilterMode, SerializeTest)
 GTEST_TEST(Render_FilterMode, HashTest)
 {
 	std::hash<bksge::FilterMode> h;
-	std::vector<std::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(bksge::FilterMode::kNearest));
 	v.push_back(h(bksge::FilterMode::kLinear));
 	bksge::sort(v.begin(), v.end());

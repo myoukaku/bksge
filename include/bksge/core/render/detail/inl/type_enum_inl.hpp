@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_DETAIL_INL_TYPE_ENUM_INL_HPP
 
 #include <bksge/core/render/detail/type_enum.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <string>
 #include <unordered_map>
 
@@ -30,11 +30,11 @@ namespace render
 	F(TypeEnum::kFloat)
 
 BKSGE_INLINE
-std::size_t GetSizeOf(TypeEnum type_enum)
+bksge::size_t GetSizeOf(TypeEnum type_enum)
 {
 #define BKSGE_MAKE_TYPEENUM_PAIR(x)	{ x, sizeof(EnumToType<x>::type) }
 
-	static std::unordered_map<TypeEnum, std::size_t> const m =
+	static std::unordered_map<TypeEnum, bksge::size_t> const m =
 	{
 		BKSGE_FOREACH_TYPEENUM(BKSGE_MAKE_TYPEENUM_PAIR)
 	};

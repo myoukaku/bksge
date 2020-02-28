@@ -133,7 +133,7 @@ operator<<(std::basic_ostream<CharT, Traits>& os, Rect<T> const& rhs);
 #include <bksge/core/math/inl/rect_inl.hpp>
 
 #include <functional>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/functional/hash_combine.hpp>
 
 namespace std
@@ -142,7 +142,7 @@ namespace std
 template <typename T>
 struct hash<bksge::math::Rect<T>>
 {
-	std::size_t operator()(bksge::math::Rect<T> const& arg) const
+	bksge::size_t operator()(bksge::math::Rect<T> const& arg) const
 	{
 		return bksge::hash_combine(
 			arg.left(),

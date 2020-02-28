@@ -22,8 +22,8 @@ using std::size;
 
 #else
 
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstddef>
 
 namespace bksge
 {
@@ -34,8 +34,8 @@ BKSGE_NODISCARD BKSGE_CONSTEXPR auto size(Container const& c) -> decltype(c.size
 	return c.size();
 }
 
-template <typename T, std::size_t N>
-BKSGE_NODISCARD BKSGE_CONSTEXPR std::size_t size(T const (&)[N]) BKSGE_NOEXCEPT
+template <typename T, bksge::size_t N>
+BKSGE_NODISCARD BKSGE_CONSTEXPR bksge::size_t size(T const (&)[N]) BKSGE_NOEXCEPT
 {
 	return N;
 }

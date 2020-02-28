@@ -67,7 +67,7 @@ GTEST_TEST(Render_ShaderType, HashTest)
 {
 	std::hash<bksge::ShaderType> h;
 
-	std::vector<std::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(bksge::ShaderType::kHLSL));
 	v.push_back(h(bksge::ShaderType::kGLSL));
 	bksge::sort(v.begin(), v.end());

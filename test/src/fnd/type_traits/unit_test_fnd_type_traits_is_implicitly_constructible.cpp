@@ -7,8 +7,8 @@
  */
 
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
+#include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <gtest/gtest.h>
-#include <cstddef>
 #include "type_traits_test_utility.hpp"
 
 #define BKSGE_IS_IMPLICITLY_CONSTRUCTIBLE_TEST(b, ...)	\
@@ -144,7 +144,7 @@ GTEST_TEST(TypeTraitsTest, IsImplicitlyConstructibleTest)
 	BKSGE_IS_IMPLICITLY_CONSTRUCTIBLE_TEST(false, const volatile void);
 
 	BKSGE_IS_IMPLICITLY_CONSTRUCTIBLE_TEST(true,  void*);
-	BKSGE_IS_IMPLICITLY_CONSTRUCTIBLE_TEST(true,  std::nullptr_t);
+	BKSGE_IS_IMPLICITLY_CONSTRUCTIBLE_TEST(true,  bksge::nullptr_t);
 	BKSGE_IS_IMPLICITLY_CONSTRUCTIBLE_TEST(true,  enum_UDT);
 	BKSGE_IS_IMPLICITLY_CONSTRUCTIBLE_TEST(true,  enum_class_UDT);
 	BKSGE_IS_IMPLICITLY_CONSTRUCTIBLE_TEST(true,  UDT);

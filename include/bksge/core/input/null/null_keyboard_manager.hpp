@@ -10,7 +10,7 @@
 #define BKSGE_CORE_INPUT_NULL_NULL_KEYBOARD_MANAGER_HPP
 
 #include <bksge/core/input/detail/keyboard_manager_base.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 
 namespace bksge
 {
@@ -34,7 +34,7 @@ private:
 	{
 	}
 
-	KeyboardState const& VGetState(std::size_t /*index*/) const override
+	KeyboardState const& VGetState(bksge::size_t /*index*/) const override
 	{
 		static KeyboardState const s;
 		return s;

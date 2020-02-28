@@ -12,8 +12,8 @@
 #include <bksge/fnd/serialization/access.hpp>
 #include <bksge/fnd/serialization/nvp.hpp>
 #include <bksge/fnd/serialization/version.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstddef>
 
 namespace bksge
 {
@@ -24,11 +24,11 @@ namespace math
 namespace detail
 {
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 class VectorValue
 {
 public:
-	using size_type              = std::size_t;
+	using size_type              = bksge::size_t;
 	using reference              = T&;
 	using const_reference        = T const&;
 
@@ -66,7 +66,7 @@ private:
 }	// namespace bksge
 
 #include <functional>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/functional/hash_combine.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
 
@@ -76,18 +76,18 @@ namespace std
 /**
  *	@brief	hash
  */
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 struct hash<bksge::math::detail::VectorValue<T, N>>
 {
 private:
-	template <typename Vector, std::size_t... Is>
-	std::size_t hash_impl(Vector const& arg, bksge::index_sequence<Is...>) const
+	template <typename Vector, bksge::size_t... Is>
+	bksge::size_t hash_impl(Vector const& arg, bksge::index_sequence<Is...>) const
 	{
 		return bksge::hash_combine(arg[Is]...);
 	}
 
 public:
-	std::size_t operator()(bksge::math::detail::VectorValue<T, N> const& arg) const
+	bksge::size_t operator()(bksge::math::detail::VectorValue<T, N> const& arg) const
 	{
 		return hash_impl(arg, bksge::make_index_sequence<N>());
 	}

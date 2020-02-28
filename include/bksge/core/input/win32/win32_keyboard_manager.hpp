@@ -10,7 +10,7 @@
 #define BKSGE_CORE_INPUT_WIN32_WIN32_KEYBOARD_MANAGER_HPP
 
 #include <bksge/core/input/detail/keyboard_manager_base.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <memory>
 
 namespace bksge
@@ -35,7 +35,7 @@ public:
 private:
 	void VUpdate(void) override;
 
-	KeyboardState const& VGetState(std::size_t index) const override;
+	KeyboardState const& VGetState(bksge::size_t index) const override;
 
 	class Impl;
 	std::unique_ptr<Impl>	m_impl;

@@ -11,7 +11,6 @@
 
 #include <bksge/core/render/fwd/border_color_fwd.hpp>
 #include <bksge/core/render/gl/detail/gl_h.hpp>
-#include <cstddef>
 
 namespace bksge
 {

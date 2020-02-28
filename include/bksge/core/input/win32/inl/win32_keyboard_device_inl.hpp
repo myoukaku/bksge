@@ -15,7 +15,7 @@
 #include <bksge/core/input/win32/win32_keyboard_device.hpp>
 #include <bksge/core/input/win32/diproperty.hpp>
 #include <array>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <cstdint>
 #include <unordered_map>
 
@@ -367,7 +367,7 @@ Win32KeyboardDevice::ReadNonBuffered(void)
 		return;
 	}
 
-	for (std::size_t i = 0; i < buffer.size(); ++i)
+	for (bksge::size_t i = 0; i < buffer.size(); ++i)
 	{
 		if ((buffer[i] & 0x80) != 0)
 		{

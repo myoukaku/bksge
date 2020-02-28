@@ -11,8 +11,8 @@
 
 #include <bksge/fnd/units/detail/derived_dimension_fwd.hpp>
 #include <bksge/fnd/type_traits/nth.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstddef>
 #include <tuple>
 #include <type_traits>
 
@@ -47,13 +47,13 @@ namespace std
  */
 template <typename... Types>
 struct tuple_size<bksge::units::derived_dimension<Types...>>
-	: public std::integral_constant<std::size_t, sizeof...(Types)>
+	: public std::integral_constant<bksge::size_t, sizeof...(Types)>
 {};
 
 /**
  *	@brief	tuple_element
  */
-template <std::size_t I, typename... Types>
+template <bksge::size_t I, typename... Types>
 struct tuple_element<I, bksge::units::derived_dimension<Types...>>
 {
 public:

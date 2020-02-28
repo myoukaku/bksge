@@ -11,10 +11,10 @@
 
 #include <bksge/core/input/mouse_button.hpp>
 #include <bksge/core/input/mouse_axis.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <array>
 #include <bitset>
-#include <cstddef>
 
 namespace bksge
 {
@@ -28,8 +28,8 @@ namespace input
 class MouseState
 {
 public:
-	BKSGE_STATIC_CONSTEXPR auto kButtonMax	= static_cast<std::size_t>(MouseButton::kMax);
-	BKSGE_STATIC_CONSTEXPR auto kAxisMax	= static_cast<std::size_t>(MouseAxis::kMax);
+	BKSGE_STATIC_CONSTEXPR auto kButtonMax	= static_cast<bksge::size_t>(MouseButton::kMax);
+	BKSGE_STATIC_CONSTEXPR auto kAxisMax	= static_cast<bksge::size_t>(MouseAxis::kMax);
 
 	using Buttons		= std::bitset<kButtonMax>;
 	using Velocities	= std::array<float, kAxisMax>;

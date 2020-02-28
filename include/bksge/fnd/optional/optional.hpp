@@ -33,8 +33,8 @@ using std::optional;
 #include <bksge/fnd/type_traits/remove_cv.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <type_traits>
-#include <cstddef>
 #include <initializer_list>
 
 namespace bksge
@@ -219,7 +219,7 @@ namespace std
 template <typename T>
 struct hash<bksge::optional<T>>
 {
-	std::size_t operator()(bksge::optional<T> const& opt) const BKSGE_NOEXCEPT
+	bksge::size_t operator()(bksge::optional<T> const& opt) const BKSGE_NOEXCEPT
 	{
         return static_cast<bool>(opt) ? hash<bksge::remove_const_t<T>>()(*opt) : 0;
 	}

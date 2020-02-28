@@ -7,8 +7,9 @@
  */
 
 #include <bksge/fnd/type_traits/is_null_pointer.hpp>
+#include <bksge/fnd/cstddef/nullptr_t.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <gtest/gtest.h>
-#include <cstddef>
 #include "type_traits_test_utility.hpp"
 
 #define BKSGE_IS_NULL_POINTER_TEST(b, T)	\
@@ -16,24 +17,24 @@
 
 GTEST_TEST(TypeTraitsTest, IsNullPointerTest)
 {
-	IntegralConstantTest<bksge::is_null_pointer<std::nullptr_t>, true>();
+	IntegralConstantTest<bksge::is_null_pointer<bksge::nullptr_t>, true>();
 	IntegralConstantTest<bksge::is_null_pointer<void*>, false>();
 
-	BKSGE_IS_NULL_POINTER_TEST(true,                 std::nullptr_t);
-	BKSGE_IS_NULL_POINTER_TEST(true,  const          std::nullptr_t);
-	BKSGE_IS_NULL_POINTER_TEST(true,        volatile std::nullptr_t);
-	BKSGE_IS_NULL_POINTER_TEST(true,  const volatile std::nullptr_t);
-	BKSGE_IS_NULL_POINTER_TEST(false, std::nullptr_t*);
-	BKSGE_IS_NULL_POINTER_TEST(false, std::nullptr_t&);
-	BKSGE_IS_NULL_POINTER_TEST(false, std::nullptr_t&&);
-	BKSGE_IS_NULL_POINTER_TEST(false, std::nullptr_t[2]);
-	BKSGE_IS_NULL_POINTER_TEST(false, std::nullptr_t[]);
-	BKSGE_IS_NULL_POINTER_TEST(false, std::nullptr_t(*)[2]);
-	BKSGE_IS_NULL_POINTER_TEST(false, std::nullptr_t(*)[]);
-	BKSGE_IS_NULL_POINTER_TEST(false, std::nullptr_t(&)[2]);
-	BKSGE_IS_NULL_POINTER_TEST(false, std::nullptr_t(&)[]);
-	BKSGE_IS_NULL_POINTER_TEST(false, std::nullptr_t(&&)[2]);
-	BKSGE_IS_NULL_POINTER_TEST(false, std::nullptr_t(&&)[]);
+	BKSGE_IS_NULL_POINTER_TEST(true,                 bksge::nullptr_t);
+	BKSGE_IS_NULL_POINTER_TEST(true,  const          bksge::nullptr_t);
+	BKSGE_IS_NULL_POINTER_TEST(true,        volatile bksge::nullptr_t);
+	BKSGE_IS_NULL_POINTER_TEST(true,  const volatile bksge::nullptr_t);
+	BKSGE_IS_NULL_POINTER_TEST(false, bksge::nullptr_t*);
+	BKSGE_IS_NULL_POINTER_TEST(false, bksge::nullptr_t&);
+	BKSGE_IS_NULL_POINTER_TEST(false, bksge::nullptr_t&&);
+	BKSGE_IS_NULL_POINTER_TEST(false, bksge::nullptr_t[2]);
+	BKSGE_IS_NULL_POINTER_TEST(false, bksge::nullptr_t[]);
+	BKSGE_IS_NULL_POINTER_TEST(false, bksge::nullptr_t(*)[2]);
+	BKSGE_IS_NULL_POINTER_TEST(false, bksge::nullptr_t(*)[]);
+	BKSGE_IS_NULL_POINTER_TEST(false, bksge::nullptr_t(&)[2]);
+	BKSGE_IS_NULL_POINTER_TEST(false, bksge::nullptr_t(&)[]);
+	BKSGE_IS_NULL_POINTER_TEST(false, bksge::nullptr_t(&&)[2]);
+	BKSGE_IS_NULL_POINTER_TEST(false, bksge::nullptr_t(&&)[]);
 
 	BKSGE_IS_NULL_POINTER_TEST(true,  decltype(nullptr));
 
@@ -55,7 +56,7 @@ GTEST_TEST(TypeTraitsTest, IsNullPointerTest)
 	BKSGE_IS_NULL_POINTER_TEST(false, unsigned short);
 	BKSGE_IS_NULL_POINTER_TEST(false, unsigned long);
 	BKSGE_IS_NULL_POINTER_TEST(false, unsigned long long);
-	BKSGE_IS_NULL_POINTER_TEST(false, std::size_t);
+	BKSGE_IS_NULL_POINTER_TEST(false, bksge::size_t);
 	BKSGE_IS_NULL_POINTER_TEST(false, float);
 	BKSGE_IS_NULL_POINTER_TEST(false, double);
 	BKSGE_IS_NULL_POINTER_TEST(false, long double);

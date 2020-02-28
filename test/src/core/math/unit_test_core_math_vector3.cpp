@@ -1193,7 +1193,7 @@ TYPED_TEST(MathVector3Test, HashTest)
 	Vector3 const c3(1, 0, 3);
 	Vector3 const c4(1, 2, 2);
 
-	std::vector<std::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(c1));
 	v.push_back(h(c2));
 	v.push_back(h(c3));

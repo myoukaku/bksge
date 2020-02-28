@@ -37,10 +37,10 @@
 #include <bksge/core/render/render_pass_info.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstdint>
-#include <cstddef>
 #include <memory>
 #include <vector>
 
@@ -87,7 +87,7 @@ DebugCallback(
 	::VkDebugReportFlagsEXT flags,
 	::VkDebugReportObjectTypeEXT,
 	std::uint64_t /*object*/,
-	std::size_t /*location*/,
+	bksge::size_t /*location*/,
 	std::int32_t /*messageCode*/,
 	const char* /*pLayerPrefix*/,
 	const char* pMessage,

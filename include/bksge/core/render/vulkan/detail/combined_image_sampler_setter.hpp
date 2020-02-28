@@ -17,7 +17,6 @@
 #include <bksge/core/render/vulkan/detail/fwd/shader_reflection_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
-#include <cstddef>
 #include <cstdint>
 #include <string>
 

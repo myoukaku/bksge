@@ -10,8 +10,8 @@
 #define BKSGE_FND_UTILITY_SWAP_HPP
 
 #include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstddef>
 #include <type_traits>
 #include <utility>
 
@@ -43,13 +43,13 @@ BKSGE_NOEXCEPT_IF(
 
 BKSGE_WARNING_POP()
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR
 bksge::enable_if_t<bksge::is_swappable<T>::value>
 swap(T(&a)[N], T(&b)[N])
 BKSGE_NOEXCEPT_IF(bksge::is_nothrow_swappable<T>::value)
 {
-	for (std::size_t i = 0; i < N; ++i)
+	for (bksge::size_t i = 0; i < N; ++i)
 	{
 		swap(a[i], b[i]);
 	}

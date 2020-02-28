@@ -7,8 +7,8 @@
  */
 
 #include <bksge/fnd/utility/index_sequence_for.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <gtest/gtest.h>
-#include <cstddef>
 #include "constexpr_test.hpp"
 
 namespace bksge_utility_test
@@ -17,7 +17,7 @@ namespace bksge_utility_test
 namespace index_sequence_for_test
 {
 
-template <std::size_t N, typename... Types>
+template <bksge::size_t N, typename... Types>
 void IndexSequenceForTest(Types...)
 {
 	using seq = bksge::index_sequence_for<Types...>;

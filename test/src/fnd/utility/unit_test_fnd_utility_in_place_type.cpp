@@ -7,9 +7,9 @@
  */
 
 #include <bksge/fnd/utility/in_place_type.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
-#include <cstddef>
 #include "constexpr_test.hpp"
 
 namespace bksge_utility_test
@@ -20,7 +20,7 @@ namespace in_place_type_test
 
 struct Foo
 {
-	BKSGE_CONSTEXPR Foo(std::size_t i)
+	BKSGE_CONSTEXPR Foo(bksge::size_t i)
 		: m_in_place_initialized(false)
 		, m_value(i)
 	{}
@@ -31,8 +31,8 @@ struct Foo
 		, m_value(sizeof(T))
 	{}
 
-	bool         m_in_place_initialized;
-	std::size_t  m_value;
+	bool           m_in_place_initialized;
+	bksge::size_t  m_value;
 };
 
 GTEST_TEST(UtilityTest, InPlaceTypeTest)

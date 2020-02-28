@@ -10,10 +10,10 @@
 #define BKSGE_FND_ALGORITHM_INL_MOVE_INL_HPP
 
 #include <bksge/fnd/algorithm/move.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/iterator/unwrap_iterator.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/remove_const.hpp>
-#include <cstddef>
 #include <cstring>
 #include <type_traits>
 #include <utility>
@@ -51,7 +51,7 @@ bksge::enable_if_t<
 >
 move(T* first, T* last, U* result)
 {
-	auto const n = static_cast<std::size_t>(last - first);
+	auto const n = static_cast<bksge::size_t>(last - first);
 
 	if (n > 0)
 	{
