@@ -59,7 +59,7 @@ BKSGE_WARNING_DISABLE_MSVC(4702);	// 制御が渡らないコードです。
 	void construct(Args&&... args)
 	BKSGE_NOEXCEPT_IF((std::is_nothrow_constructible<T, Args...>::value))
 	{
-		::new (std::addressof(this->get())) T (bksge::forward<Args>(args)...);
+		::new (bksge::addressof(this->get())) T (bksge::forward<Args>(args)...);
 		this->m_engaged = true;
 	}
 
@@ -127,7 +127,7 @@ protected:
 	void construct(Args&&... args)
 	BKSGE_NOEXCEPT_IF((std::is_nothrow_constructible<T, Args...>::value))
 	{
-		::new (std::addressof(this->get())) T (bksge::forward<Args>(args)...);
+		::new (bksge::addressof(this->get())) T (bksge::forward<Args>(args)...);
 		this->m_engaged = true;
 	}
 

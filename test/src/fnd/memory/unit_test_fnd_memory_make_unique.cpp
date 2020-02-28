@@ -10,7 +10,10 @@
 #include <gtest/gtest.h>
 #include <memory>
 
-namespace bksge_memory_make_unique_test
+namespace bksge_memory_test
+{
+
+namespace make_unique_test
 {
 
 class Foo
@@ -196,4 +199,6 @@ GTEST_TEST(MemoryTest, MakeUniqueArrayTest)
 	EXPECT_EQ(0u, Foo::instances);
 }
 
-}	// namespace bksge_memory_make_unique_test
+}	// namespace make_unique_test
+
+}	// namespace bksge_memory_test

@@ -12,12 +12,12 @@
 #include <bksge/fnd/optional/optional.hpp>
 #include <bksge/fnd/optional/nullopt.hpp>
 #include <bksge/fnd/optional/bad_optional_access.hpp>
+#include <bksge/fnd/memory/addressof.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>	// declval, move
 #include <type_traits>
-#include <memory>	// addressof
 #include <initializer_list>
 
 namespace bksge
@@ -205,14 +205,14 @@ template <typename T>
 inline BKSGE_CONSTEXPR T const*
 optional<T>::operator->() const
 {
-	return std::addressof(this->get());
+	return bksge::addressof(this->get());
 }
 
 template <typename T>
 inline BKSGE_CXX14_CONSTEXPR T*
 optional<T>::operator->()
 {
-	return std::addressof(this->get());
+	return bksge::addressof(this->get());
 }
 
 #if defined(BKSGE_HAS_CXX11_REF_QUALIFIERS)

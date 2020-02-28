@@ -9,13 +9,13 @@
 #ifndef BKSGE_FND_OPTIONAL_DETAIL_OPTIONAL_BASE_HPP
 #define BKSGE_FND_OPTIONAL_DETAIL_OPTIONAL_BASE_HPP
 
+#include <bksge/fnd/memory/addressof.hpp>
 #include <bksge/fnd/type_traits/remove_const.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
 #include <bksge/fnd/config.hpp>
 #include <type_traits>
 #include <utility>		// move
-#include <memory>		// addressof
 #include <initializer_list>
 
 #if !defined(BKSGE_HAS_CXX11_UNRESTRICTED_UNIONS)
