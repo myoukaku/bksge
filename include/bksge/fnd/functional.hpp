@@ -33,5 +33,7 @@
 #include <bksge/fnd/functional/plus.hpp>
 #include <bksge/fnd/functional/ref.hpp>
 #include <bksge/fnd/functional/reference_wrapper.hpp>
+#include <bksge/fnd/functional/unwrap_reference.hpp>
+#include <bksge/fnd/functional/unwrap_ref_decay.hpp>
 
 #endif // BKSGE_FND_FUNCTIONAL_HPP
