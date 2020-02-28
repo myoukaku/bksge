@@ -37,39 +37,39 @@ struct pred2
 GTEST_TEST(AlgorithmTest, MinmaxTest)
 {
 	{
-		BKSGE_STATIC_CONSTEXPR int a = 2;
-		BKSGE_STATIC_CONSTEXPR int b = 3;
-		BKSGE_STATIC_CONSTEXPR auto ret = bksge::minmax(a, b);
-		BKSGE_CONSTEXPR_EXPECT_EQ(2, ret.first);
-		BKSGE_CONSTEXPR_EXPECT_EQ(3, ret.second);
+		BKSGE_CXX14_STATIC_CONSTEXPR int a = 2;
+		BKSGE_CXX14_STATIC_CONSTEXPR int b = 3;
+		BKSGE_CXX14_STATIC_CONSTEXPR auto ret = bksge::minmax(a, b);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(2, ret.first);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(3, ret.second);
 	}
 	{
-		BKSGE_STATIC_CONSTEXPR int a = 4;
-		BKSGE_STATIC_CONSTEXPR int b = 3;
-		BKSGE_STATIC_CONSTEXPR auto ret = bksge::minmax(a, b);
-		BKSGE_CONSTEXPR_EXPECT_EQ(3, ret.first);
-		BKSGE_CONSTEXPR_EXPECT_EQ(4, ret.second);
+		BKSGE_CXX14_STATIC_CONSTEXPR int a = 4;
+		BKSGE_CXX14_STATIC_CONSTEXPR int b = 3;
+		BKSGE_CXX14_STATIC_CONSTEXPR auto ret = bksge::minmax(a, b);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(3, ret.first);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(4, ret.second);
 	}
 	{
-		BKSGE_STATIC_CONSTEXPR int a = 2;
-		BKSGE_STATIC_CONSTEXPR int b = 3;
-		BKSGE_STATIC_CONSTEXPR auto ret = bksge::minmax(a, b, pred1);
-		BKSGE_CONSTEXPR_EXPECT_EQ(3, ret.first);
-		BKSGE_CONSTEXPR_EXPECT_EQ(2, ret.second);
+		BKSGE_CXX14_STATIC_CONSTEXPR int a = 2;
+		BKSGE_CXX14_STATIC_CONSTEXPR int b = 3;
+		BKSGE_CXX14_STATIC_CONSTEXPR auto ret = bksge::minmax(a, b, pred1);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(3, ret.first);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(2, ret.second);
 	}
 	{
-		BKSGE_STATIC_CONSTEXPR int a = 2;
-		BKSGE_STATIC_CONSTEXPR int b = -3;
-		BKSGE_STATIC_CONSTEXPR auto ret = bksge::minmax(a, b);
-		BKSGE_CONSTEXPR_EXPECT_EQ(-3, ret.first);
-		BKSGE_CONSTEXPR_EXPECT_EQ( 2, ret.second);
+		BKSGE_CXX14_STATIC_CONSTEXPR int a = 2;
+		BKSGE_CXX14_STATIC_CONSTEXPR int b = -3;
+		BKSGE_CXX14_STATIC_CONSTEXPR auto ret = bksge::minmax(a, b);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(-3, ret.first);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ( 2, ret.second);
 	}
 	{
-		BKSGE_STATIC_CONSTEXPR int a = 2;
-		BKSGE_STATIC_CONSTEXPR int b = -3;
-		BKSGE_STATIC_CONSTEXPR auto ret = bksge::minmax(a, b, pred2());
-		BKSGE_CONSTEXPR_EXPECT_EQ( 2, ret.first);
-		BKSGE_CONSTEXPR_EXPECT_EQ(-3, ret.second);
+		BKSGE_CXX14_STATIC_CONSTEXPR int a = 2;
+		BKSGE_CXX14_STATIC_CONSTEXPR int b = -3;
+		BKSGE_CXX14_STATIC_CONSTEXPR auto ret = bksge::minmax(a, b, pred2());
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ( 2, ret.first);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(-3, ret.second);
 	}
 
 	{

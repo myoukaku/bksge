@@ -34,7 +34,7 @@ namespace algorithm
  *	@complexity	正確に1回の比較
  */
 template <typename T>
-BKSGE_CONSTEXPR std::pair<T const&, T const&>
+BKSGE_CXX14_CONSTEXPR std::pair<T const&, T const&>
 minmax(T const& a, T const& b);
 
 /**
@@ -52,7 +52,7 @@ minmax(T const& a, T const& b);
  *	@complexity	正確に1回の述語適用
  */
 template <typename T, typename Compare>
-BKSGE_CONSTEXPR std::pair<T const&, T const&>
+BKSGE_CXX14_CONSTEXPR std::pair<T const&, T const&>
 minmax(T const& a, T const& b, Compare comp);
 
 /**

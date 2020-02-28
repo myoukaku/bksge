@@ -21,14 +21,14 @@ namespace algorithm
 {
 
 template <typename T>
-inline BKSGE_CONSTEXPR std::pair<T const&, T const&>
+inline BKSGE_CXX14_CONSTEXPR std::pair<T const&, T const&>
 minmax(T const& a, T const& b)
 {
 	return bksge::minmax(a, b, bksge::less<>());
 }
 
 template <typename T, typename Compare>
-inline BKSGE_CONSTEXPR std::pair<T const&, T const&>
+inline BKSGE_CXX14_CONSTEXPR std::pair<T const&, T const&>
 minmax(T const& a, T const& b, Compare comp)
 {
 	return comp(a, b) ?
