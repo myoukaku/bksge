@@ -7,15 +7,15 @@
  */
 
 #include <bksge/fnd/type_traits/type_identity.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <gtest/gtest.h>
-#include <type_traits>
 #include "type_traits_test_utility.hpp"
 
 GTEST_TEST(TypeTraitsTest, TypeIdentityTest)
 {
 #define BKSGE_TYPE_IDENTITY_TEST_IMPL(T)	\
-	static_assert(std::is_same<bksge::type_identity<T>::type, T>::value, "");	\
-	static_assert(std::is_same<bksge::type_identity_t<T>, T>::value, "");	\
+	static_assert(bksge::is_same<bksge::type_identity<T>::type, T>::value, "");	\
+	static_assert(bksge::is_same<bksge::type_identity_t<T>, T>::value, "");	\
 	/**/
 
 #define BKSGE_TYPE_IDENTITY_TEST_IMPL_CV(T)	\

@@ -7,7 +7,7 @@
  */
 
 #include <bksge/fnd/type_traits/add_cv.hpp>
-#include <type_traits>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
@@ -46,8 +46,8 @@ GTEST_TEST(TypeTraitsTest, AddCvTest)
 	BKSGE_TRANSFORM_TEST(bksge::add_cv, const volatile (&&)[2], const volatile (&&)[2]);
 
 #define BKSGE_ADD_CV_TEST(T1, T2)	\
-	static_assert(std::is_same<bksge::add_cv_t<T1>, T2>::value, "");	\
-	static_assert(std::is_same<bksge::add_cv<T1>::type, T2>::value, "")
+	static_assert(bksge::is_same<bksge::add_cv_t<T1>, T2>::value, "");	\
+	static_assert(bksge::is_same<bksge::add_cv<T1>::type, T2>::value, "")
 
 	BKSGE_ADD_CV_TEST(               void, const volatile void);
 	BKSGE_ADD_CV_TEST(const          void, const volatile void);

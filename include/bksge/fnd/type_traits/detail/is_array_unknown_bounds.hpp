@@ -10,7 +10,8 @@
 #define BKSGE_FND_TYPE_TRAITS_DETAIL_IS_ARRAY_UNKNOWN_BOUNDS_HPP
 
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <type_traits>
+#include <bksge/fnd/type_traits/is_array.hpp>
+#include <bksge/fnd/type_traits/extent.hpp>
 
 namespace bksge
 {
@@ -24,8 +25,8 @@ namespace detail
 template <typename T>
 struct is_array_unknown_bounds
 	: public bksge::bool_constant<
-		std::is_array<T>::value &&
-		std::extent<T>::value == 0
+		bksge::is_array<T>::value &&
+		bksge::extent<T>::value == 0
 	>
 {};
 

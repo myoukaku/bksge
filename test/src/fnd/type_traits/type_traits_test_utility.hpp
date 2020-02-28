@@ -12,8 +12,10 @@
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/cstdint.hpp>
 #include <gtest/gtest.h>
-#include <type_traits>
 
 namespace
 {
@@ -376,22 +378,18 @@ void IntegralConstantTest()
 
 #if defined(BKSGE_HAS_CXX11_CONSTEXPR)
 	static_assert(T() == b, "");
-#if defined(__cpp_lib_integral_constant_callable) && (__cpp_lib_integral_constant_callable >= 201304L)
 	static_assert(T()() == b, "");
-#endif
 #endif
 
 	EXPECT_EQ(b, T());
-#if defined(__cpp_lib_integral_constant_callable) && (__cpp_lib_integral_constant_callable >= 201304L)
 	EXPECT_EQ(b, T()());
-#endif
 }
 
 }	// namespace
 
 #define BKSGE_TRANSFORM_TEST_SUB(t, name, from_suffix, to_suffix)	\
-	static_assert(std::is_same<t to_suffix, name<t from_suffix>::type>::value, "");	\
-	static_assert(std::is_same<t to_suffix, name##_t<t from_suffix>>::value, "")
+	static_assert(bksge::is_same<t to_suffix, name<t from_suffix>::type>::value, "");	\
+	static_assert(bksge::is_same<t to_suffix, name##_t<t from_suffix>>::value, "")
 
 #define BKSGE_TRANSFORM_TEST(name, from, to)	\
 	BKSGE_TRANSFORM_TEST_SUB(bool, name, from, to);	\

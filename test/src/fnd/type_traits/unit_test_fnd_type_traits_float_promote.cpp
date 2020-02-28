@@ -7,12 +7,12 @@
  */
 
 #include <bksge/fnd/type_traits/float_promote.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <gtest/gtest.h>
-#include <type_traits>
 
 #define BKSGE_FLOAT_PROMOTE_TEST(T, ...)	\
-	static_assert(std::is_same<T, bksge::float_promote<__VA_ARGS__>::type>::value, "");	\
-	static_assert(std::is_same<T, bksge::float_promote_t<__VA_ARGS__>>::value, "")
+	static_assert(bksge::is_same<T, bksge::float_promote<__VA_ARGS__>::type>::value, "");	\
+	static_assert(bksge::is_same<T, bksge::float_promote_t<__VA_ARGS__>>::value, "")
 
 GTEST_TEST(TypeTraitsTest, FloatPromoteTest)
 {

@@ -7,20 +7,22 @@
  */
 
 #include <bksge/fnd/type_traits/make_unsigned.hpp>
-#include <type_traits>
+#include <bksge/fnd/type_traits/is_same.hpp>
+#include <bksge/fnd/type_traits/is_integral.hpp>
+#include <bksge/fnd/type_traits/is_unsigned.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
 GTEST_TEST(TypeTraitsTest, MakeUnsignedTest)
 {
 #define BKSGE_MAKE_UNSIGNED_TEST_1(T)	\
-	static_assert(std::is_integral<bksge::make_unsigned<T>::type>::value, "");	\
-	static_assert(std::is_unsigned<bksge::make_unsigned<T>::type>::value, "");	\
+	static_assert(bksge::is_integral<bksge::make_unsigned<T>::type>::value, "");	\
+	static_assert(bksge::is_unsigned<bksge::make_unsigned<T>::type>::value, "");	\
 	static_assert(sizeof(bksge::make_unsigned<T>::type) == sizeof(T), "")
 
 #define BKSGE_MAKE_UNSIGNED_TEST_2(T1, T2)	\
-	static_assert(std::is_same<bksge::make_unsigned<T1>::type, T2>::value, #T1 ", " #T2);	\
-	static_assert(std::is_same<bksge::make_unsigned_t<T1>,     T2>::value, #T1 ", " #T2)
+	static_assert(bksge::is_same<bksge::make_unsigned<T1>::type, T2>::value, #T1 ", " #T2);	\
+	static_assert(bksge::is_same<bksge::make_unsigned_t<T1>,     T2>::value, #T1 ", " #T2)
 
 #define BKSGE_MAKE_UNSIGNED_TEST(T1, T2)	\
 	BKSGE_MAKE_UNSIGNED_TEST_1(T1);	\

@@ -7,6 +7,7 @@
  */
 
 #include <bksge/fnd/type_traits/remove_all_extents.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 

@@ -7,14 +7,14 @@
  */
 
 #include <bksge/fnd/type_traits/arithmetic_promote.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <gtest/gtest.h>
-#include <type_traits>
 
 GTEST_TEST(TypeTraitsTest, ArithmeticPromoteTest)
 {
 #define BKSGE_ARITHMETIC_PROMOTE_TEST(T, ...)	\
-	static_assert(std::is_same<T, bksge::arithmetic_promote<__VA_ARGS__>::type>::value, "");	\
-	static_assert(std::is_same<T, bksge::arithmetic_promote_t<__VA_ARGS__>>::value, "")
+	static_assert(bksge::is_same<T, bksge::arithmetic_promote<__VA_ARGS__>::type>::value, "");	\
+	static_assert(bksge::is_same<T, bksge::arithmetic_promote_t<__VA_ARGS__>>::value, "")
 
 	BKSGE_ARITHMETIC_PROMOTE_TEST(float,				float);
 	BKSGE_ARITHMETIC_PROMOTE_TEST(double,				double);

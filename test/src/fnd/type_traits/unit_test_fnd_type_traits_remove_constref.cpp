@@ -7,15 +7,15 @@
  */
 
 #include <bksge/fnd/type_traits/remove_constref.hpp>
-#include <type_traits>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
 GTEST_TEST(TypeTraitsTest, RemoveConstrefTest)
 {
 #define BKSGE_REMOVE_CONSTREF_TEST_IMPL(T1, T2)	\
-	static_assert(std::is_same<bksge::remove_constref<T1>::type, T2>::value, #T1 ", " #T2);	\
-	static_assert(std::is_same<bksge::remove_constref_t<T1>,     T2>::value, #T1 ", " #T2)
+	static_assert(bksge::is_same<bksge::remove_constref<T1>::type, T2>::value, #T1 ", " #T2);	\
+	static_assert(bksge::is_same<bksge::remove_constref_t<T1>,     T2>::value, #T1 ", " #T2)
 
 #define BKSGE_REMOVE_CONSTREF_TEST(T)	\
 	BKSGE_REMOVE_CONSTREF_TEST_IMPL(               T, T);	\

@@ -7,10 +7,10 @@
  */
 
 #include <bksge/fnd/type_traits/underlying_type.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint.hpp>
 #include <gtest/gtest.h>
-#include <type_traits>
 #include "type_traits_test_utility.hpp"
 
 namespace bksge_type_traits_test
@@ -20,8 +20,8 @@ namespace underlying_type_test
 {
 
 #define BKSGE_UNDERLYING_TYPE_TEST(T1, T2)	\
-	static_assert(std::is_same<bksge::underlying_type<T1>::type, T2>::value, "");	\
-	static_assert(std::is_same<bksge::underlying_type_t<T1>, T2>::value, "")
+	static_assert(bksge::is_same<bksge::underlying_type<T1>::type, T2>::value, "");	\
+	static_assert(bksge::is_same<bksge::underlying_type_t<T1>, T2>::value, "")
 
 enum       E1 : char {};
 enum class E2 : signed char {};

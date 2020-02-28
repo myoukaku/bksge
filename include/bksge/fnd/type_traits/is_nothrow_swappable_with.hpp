@@ -13,12 +13,16 @@
 
 #if defined(__cpp_lib_is_swappable) && (__cpp_lib_is_swappable >= 201603)
 
+#include <bksge/fnd/type_traits/detail/constant_wrapper.hpp>
+
 namespace bksge
 {
 
 template <typename T, typename U>
 struct is_nothrow_swappable_with
-	: public std::is_nothrow_swappable_with<T, U>
+	: public detail::constant_wrapper<
+		std::is_nothrow_swappable_with<T, U>
+	>
 {};
 
 }	// namespace bksge

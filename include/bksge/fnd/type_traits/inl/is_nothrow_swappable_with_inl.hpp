@@ -10,8 +10,8 @@
 #define BKSGE_FND_TYPE_TRAITS_INL_IS_NOTHROW_SWAPPABLE_WITH_INL_HPP
 
 #include <bksge/fnd/type_traits/is_nothrow_swappable_with.hpp>
-#include <bksge/fnd/type_traits/is_swappable_with.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
+#include <bksge/fnd/type_traits/is_swappable_with.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>

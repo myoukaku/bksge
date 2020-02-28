@@ -7,7 +7,7 @@
  */
 
 #include <bksge/fnd/type_traits/add_lvalue_reference.hpp>
-#include <type_traits>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
@@ -50,8 +50,8 @@ GTEST_TEST(TypeTraitsTest, AddLvalueReferenceTest)
 	BKSGE_TRANSFORM_TEST(bksge::add_lvalue_reference, const volatile (&&)[2], const volatile (&)[2]);
 
 #define BKSGE_ADD_LVALUE_REFERENCE_TEST(T1, T2)	\
-	static_assert(std::is_same<bksge::add_lvalue_reference_t<T1>, T2>::value, "");	\
-	static_assert(std::is_same<bksge::add_lvalue_reference<T1>::type, T2>::value, "")
+	static_assert(bksge::is_same<bksge::add_lvalue_reference_t<T1>, T2>::value, "");	\
+	static_assert(bksge::is_same<bksge::add_lvalue_reference<T1>::type, T2>::value, "")
 
 	BKSGE_ADD_LVALUE_REFERENCE_TEST(void(void), void(&)(void));
 	BKSGE_ADD_LVALUE_REFERENCE_TEST(int(void), int(&)(void));

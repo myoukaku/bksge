@@ -7,15 +7,15 @@
  */
 
 #include <bksge/fnd/type_traits/decay.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <gtest/gtest.h>
-#include <type_traits>
 #include "type_traits_test_utility.hpp"
 
 GTEST_TEST(TypeTraitsTest, DecayTest)
 {
 #define BKSGE_DECAY_TEST_IMPL(T1, T2)	\
-	static_assert(std::is_same<bksge::decay<T1>::type, T2>::value, #T1 ", " #T2);	\
-	static_assert(std::is_same<bksge::decay_t<T1>,     T2>::value, #T1 ", " #T2)
+	static_assert(bksge::is_same<bksge::decay<T1>::type, T2>::value, #T1 ", " #T2);	\
+	static_assert(bksge::is_same<bksge::decay_t<T1>,     T2>::value, #T1 ", " #T2)
 
 #define BKSGE_DECAY_TEST(T)	\
 	BKSGE_DECAY_TEST_IMPL(               T, T);	\

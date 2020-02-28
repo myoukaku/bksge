@@ -7,8 +7,9 @@
  */
 
 #include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/type_traits/is_unsigned.hpp>
+#include <bksge/fnd/type_traits/is_signed.hpp>
 #include <gtest/gtest.h>
-#include <type_traits>
 #include <string>
 #include <vector>
 
@@ -19,25 +20,25 @@ namespace enable_if_test
 {
 
 template <typename T>
-int func1(T, typename bksge::enable_if<std::is_signed<T>::value>::type* = 0)
+int func1(T, typename bksge::enable_if<bksge::is_signed<T>::value>::type* = 0)
 {
 	return 0;
 }
 
 template <typename T>
-int func1(T, typename bksge::enable_if<!std::is_signed<T>::value>::type* = 0)
+int func1(T, typename bksge::enable_if<!bksge::is_signed<T>::value>::type* = 0)
 {
 	return 1;
 }
 
 template <typename T>
-int func2(T, bksge::enable_if_t<std::is_unsigned<T>::value>* = 0)
+int func2(T, bksge::enable_if_t<bksge::is_unsigned<T>::value>* = 0)
 {
 	return 0;
 }
 
 template <typename T>
-int func2(T, bksge::enable_if_t<!std::is_unsigned<T>::value>* = 0)
+int func2(T, bksge::enable_if_t<!bksge::is_unsigned<T>::value>* = 0)
 {
 	return 1;
 }

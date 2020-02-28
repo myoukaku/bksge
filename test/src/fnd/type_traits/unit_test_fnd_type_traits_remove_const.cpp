@@ -7,7 +7,7 @@
  */
 
 #include <bksge/fnd/type_traits/remove_const.hpp>
-#include <type_traits>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
@@ -66,8 +66,8 @@ GTEST_TEST(TypeTraitsTest, RemoveConstTest)
 	BKSGE_TRANSFORM_TEST(bksge::remove_const, const volatile (*)[], const volatile (*)[]);
 
 #define BKSGE_REMOVE_CONST_TEST(T1, T2)	\
-	static_assert(std::is_same<bksge::remove_const_t<T1>, T2>::value, "");	\
-	static_assert(std::is_same<bksge::remove_const<T1>::type, T2>::value, "")
+	static_assert(bksge::is_same<bksge::remove_const_t<T1>, T2>::value, "");	\
+	static_assert(bksge::is_same<bksge::remove_const<T1>::type, T2>::value, "")
 
 	BKSGE_REMOVE_CONST_TEST(               void,          void);
 	BKSGE_REMOVE_CONST_TEST(const          void,          void);

@@ -49,15 +49,10 @@ BKSGE_STATIC_CONSTEXPR none_t none = nullopt;
 
 #if defined(_MSC_VER) && (_MSC_VER <= 1900)
 
-namespace type_traits
-{
-
 template <>
 struct is_literal_type<bksge::nullopt_t>
 	: public bksge::true_type
 {};
-
-}	// namespace type_traits
 
 #endif
 

@@ -8,85 +8,85 @@
 
 #include <bksge/fnd/type_traits/disjunction.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
+#include <bksge/fnd/type_traits/is_unsigned.hpp>
 #include <gtest/gtest.h>
-#include <type_traits>
 
 GTEST_TEST(TypeTraitsTest, DisjunctionTest)
 {
 	static_assert(!bksge::disjunction<>::value, "");
 
-	static_assert( bksge::disjunction<std::is_unsigned<unsigned>>::value, "");
-	static_assert(!bksge::disjunction<std::is_unsigned<float>>::value, "");
+	static_assert( bksge::disjunction<bksge::is_unsigned<unsigned>>::value, "");
+	static_assert(!bksge::disjunction<bksge::is_unsigned<float>>::value, "");
 
 	static_assert(bksge::disjunction<
-		std::is_unsigned<unsigned char>,
-		std::is_unsigned<unsigned int>
+		bksge::is_unsigned<unsigned char>,
+		bksge::is_unsigned<unsigned int>
 	>::value, "");
 
 	static_assert(bksge::disjunction<
-		std::is_unsigned<float>,
-		std::is_unsigned<unsigned int>
+		bksge::is_unsigned<float>,
+		bksge::is_unsigned<unsigned int>
 	>::value, "");
 
 	static_assert(bksge::disjunction<
-		std::is_unsigned<unsigned char>,
-		std::is_unsigned<int>
+		bksge::is_unsigned<unsigned char>,
+		bksge::is_unsigned<int>
 	>::value, "");
 
 	static_assert(!bksge::disjunction<
-		std::is_unsigned<char>,
-		std::is_unsigned<int>
+		bksge::is_unsigned<char>,
+		bksge::is_unsigned<int>
 	>::value, "");
 
 	static_assert(bksge::disjunction<
-		std::is_unsigned<unsigned char>,
-		std::is_unsigned<unsigned short>,
-		std::is_unsigned<unsigned int>
+		bksge::is_unsigned<unsigned char>,
+		bksge::is_unsigned<unsigned short>,
+		bksge::is_unsigned<unsigned int>
 	>::value, "");
 
 	static_assert(bksge::disjunction<
-		std::is_unsigned<char>,
-		std::is_unsigned<unsigned short>,
-		std::is_unsigned<unsigned int>
+		bksge::is_unsigned<char>,
+		bksge::is_unsigned<unsigned short>,
+		bksge::is_unsigned<unsigned int>
 	>::value, "");
 
 	static_assert(bksge::disjunction<
-		std::is_unsigned<unsigned char>,
-		std::is_unsigned<short>,
-		std::is_unsigned<unsigned int>
+		bksge::is_unsigned<unsigned char>,
+		bksge::is_unsigned<short>,
+		bksge::is_unsigned<unsigned int>
 	>::value, "");
 
 	static_assert(bksge::disjunction<
-		std::is_unsigned<unsigned char>,
-		std::is_unsigned<unsigned short>,
-		std::is_unsigned<int>
+		bksge::is_unsigned<unsigned char>,
+		bksge::is_unsigned<unsigned short>,
+		bksge::is_unsigned<int>
 	>::value, "");
 
 	static_assert(!bksge::disjunction<
-		std::is_unsigned<char>,
-		std::is_unsigned<short>,
-		std::is_unsigned<int>
+		bksge::is_unsigned<char>,
+		bksge::is_unsigned<short>,
+		bksge::is_unsigned<int>
 	>::value, "");
 
 	static_assert(bksge::disjunction<
-		std::is_unsigned<unsigned char>,
-		std::is_unsigned<unsigned short>,
-		std::is_unsigned<unsigned int>,
-		std::is_unsigned<unsigned long>
+		bksge::is_unsigned<unsigned char>,
+		bksge::is_unsigned<unsigned short>,
+		bksge::is_unsigned<unsigned int>,
+		bksge::is_unsigned<unsigned long>
 	>::value, "");
 
 	static_assert(bksge::disjunction<
-		std::is_unsigned<unsigned char>,
-		std::is_unsigned<unsigned short>,
-		std::is_unsigned<unsigned int>,
-		std::is_unsigned<long>
+		bksge::is_unsigned<unsigned char>,
+		bksge::is_unsigned<unsigned short>,
+		bksge::is_unsigned<unsigned int>,
+		bksge::is_unsigned<long>
 	>::value, "");
 
 	static_assert(!bksge::disjunction<
-		std::is_unsigned<char>,
-		std::is_unsigned<short>,
-		std::is_unsigned<int>,
-		std::is_unsigned<long>
+		bksge::is_unsigned<char>,
+		bksge::is_unsigned<short>,
+		bksge::is_unsigned<int>,
+		bksge::is_unsigned<long>
 	>::value, "");
 
 	using T = bksge::true_type;

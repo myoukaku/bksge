@@ -13,15 +13,23 @@
 
 #if defined(__cpp_lib_is_null_pointer) && (__cpp_lib_is_null_pointer >= 201309)
 
+#include <bksge/fnd/type_traits/detail/constant_wrapper.hpp>
+
 namespace bksge
 {
 
-using std::is_null_pointer;
+template <typename T>
+struct is_null_pointer
+	: public detail::constant_wrapper<
+		std::is_null_pointer<T>
+	>
+{};
 
 }	// namespace bksge
 
 #else
 
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/type_traits/remove_cv.hpp>
 #include <bksge/fnd/cstddef/nullptr_t.hpp>
 
@@ -38,7 +46,7 @@ namespace bksge
  */
 template <typename T>
 struct is_null_pointer
-	: public std::is_same<
+	: public bksge::is_same<
 		bksge::remove_cv_t<T>, bksge::nullptr_t
 	>
 {};

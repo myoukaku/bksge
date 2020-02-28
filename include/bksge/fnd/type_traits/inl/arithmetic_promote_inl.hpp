@@ -12,7 +12,8 @@
 #include <bksge/fnd/type_traits/arithmetic_promote.hpp>
 #include <bksge/fnd/type_traits/type_identity.hpp>
 #include <bksge/fnd/type_traits/remove_cv.hpp>
-#include <type_traits>	// is_arithmetic
+#include <bksge/fnd/type_traits/is_arithmetic.hpp>
+#include <bksge/fnd/type_traits/decay.hpp>
 #include <utility>		// declval
 
 namespace bksge
@@ -28,14 +29,14 @@ template <typename T>
 struct arithmetic_promote_impl<T>
 	: public bksge::type_identity<T>
 {
-	static_assert(std::is_arithmetic<T>::value, "");
+	static_assert(bksge::is_arithmetic<T>::value, "");
 };
 
 template <typename T, typename U>
 struct arithmetic_promote_impl<T, U>
-	: public std::decay<decltype(std::declval<T>() + std::declval<U>())>
+	: public bksge::decay<decltype(std::declval<T>() + std::declval<U>())>
 {
-	static_assert(std::is_arithmetic<T>::value, "");
+	static_assert(bksge::is_arithmetic<T>::value, "");
 };
 
 template <typename T, typename U, typename... Tail>

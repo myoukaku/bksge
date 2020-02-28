@@ -11,8 +11,9 @@
 
 #include <bksge/fnd/type_traits/float_promote.hpp>
 #include <bksge/fnd/type_traits/conditional.hpp>
+#include <bksge/fnd/type_traits/is_floating_point.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/type_traits/remove_cv.hpp>
-#include <type_traits>
 
 namespace bksge
 {
@@ -26,7 +27,7 @@ struct float_promote_impl;
 template <typename T>
 struct float_promote_impl<T>
 	: public bksge::conditional<
-		std::is_floating_point<T>::value,
+		bksge::is_floating_point<T>::value,
 		T,
 		double
 	>
@@ -35,12 +36,12 @@ struct float_promote_impl<T>
 template <typename T, typename U>
 struct float_promote_impl<T, U>
 	: public bksge::conditional<
-		std::is_same<T, long double>::value ||
-		std::is_same<U, long double>::value,
+		bksge::is_same<T, long double>::value ||
+		bksge::is_same<U, long double>::value,
 		long double,
 		bksge::conditional_t<
-			std::is_same<T, float>::value &&
-			std::is_same<U, float>::value,
+			bksge::is_same<T, float>::value &&
+			bksge::is_same<U, float>::value,
 			float,
 			double
 		>

@@ -10,8 +10,8 @@
 #define BKSGE_FND_TYPE_TRAITS_INL_DISJUNCTION_INL_HPP
 
 #include <bksge/fnd/type_traits/disjunction.hpp>
-#include <bksge/fnd/type_traits/conditional.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
+#include <bksge/fnd/type_traits/conditional.hpp>
 
 namespace bksge
 {

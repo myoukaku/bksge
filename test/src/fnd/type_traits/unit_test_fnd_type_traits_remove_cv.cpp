@@ -7,7 +7,7 @@
  */
 
 #include <bksge/fnd/type_traits/remove_cv.hpp>
-#include <type_traits>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
@@ -66,8 +66,8 @@ GTEST_TEST(TypeTraitsTest, RemoveCvTest)
 	BKSGE_TRANSFORM_TEST(bksge::remove_cv, const volatile (*)[], const volatile (*)[]);
 
 #define BKSGE_REMOVE_CV_TEST(T1, T2)	\
-	static_assert(std::is_same<bksge::remove_cv_t<T1>, T2>::value, "");	\
-	static_assert(std::is_same<bksge::remove_cv<T1>::type, T2>::value, "")
+	static_assert(bksge::is_same<bksge::remove_cv_t<T1>, T2>::value, "");	\
+	static_assert(bksge::is_same<bksge::remove_cv<T1>::type, T2>::value, "")
 
 	BKSGE_REMOVE_CV_TEST(               void, void);
 	BKSGE_REMOVE_CV_TEST(const          void, void);

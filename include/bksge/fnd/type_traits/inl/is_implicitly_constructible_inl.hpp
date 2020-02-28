@@ -11,11 +11,9 @@
 
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/type_traits/negation.hpp>
-#include <bksge/fnd/type_traits/detail/is_array_unknown_bounds.hpp>
+#include <bksge/fnd/type_traits/is_constructible.hpp>
+#include <bksge/fnd/type_traits/is_trivially_constructible.hpp>
 #include <utility>	// declval
-#include <type_traits>
 
 namespace bksge
 {
@@ -49,7 +47,7 @@ struct is_implicitly_constructible_impl<true, T, Args...>
 template <bool, typename T, typename... Args>
 struct is_implicitly_constructible
 	: public is_implicitly_constructible_impl<
-		std::is_trivially_constructible<T, Args...>::value,
+		bksge::is_trivially_constructible<T, Args...>::value,
 		T, Args...
 	>::type
 {};
@@ -64,11 +62,7 @@ struct is_implicitly_constructible<false, T, Args...>
 template <typename T, typename... Args>
 struct is_implicitly_constructible
 	: public detail::is_implicitly_constructible<
-		bksge::conjunction<
-			bksge::negation<detail::is_array_unknown_bounds<T>>,
-			bksge::negation<std::is_function<T>>,
-			std::is_constructible<T, Args...>
-		>::value,
+		bksge::is_constructible<T, Args...>::value,
 		T, Args...
 	>
 {};

@@ -7,20 +7,22 @@
  */
 
 #include <bksge/fnd/type_traits/make_signed.hpp>
-#include <type_traits>
+#include <bksge/fnd/type_traits/is_same.hpp>
+#include <bksge/fnd/type_traits/is_integral.hpp>
+#include <bksge/fnd/type_traits/is_signed.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
 GTEST_TEST(TypeTraitsTest, MakeSignedTest)
 {
 #define BKSGE_MAKE_SIGNED_TEST_1(T)	\
-	static_assert(std::is_integral<bksge::make_signed<T>::type>::value, "");	\
-	static_assert(std::is_signed<bksge::make_signed<T>::type>::value, "");	\
+	static_assert(bksge::is_integral<bksge::make_signed<T>::type>::value, "");	\
+	static_assert(bksge::is_signed<bksge::make_signed<T>::type>::value, "");	\
 	static_assert(sizeof(bksge::make_signed<T>::type) == sizeof(T), "")
 
 #define BKSGE_MAKE_SIGNED_TEST_2(T1, T2)	\
-	static_assert(std::is_same<bksge::make_signed<T1>::type, T2>::value, #T1 ", " #T2);	\
-	static_assert(std::is_same<bksge::make_signed_t<T1>,     T2>::value, #T1 ", " #T2)
+	static_assert(bksge::is_same<bksge::make_signed<T1>::type, T2>::value, #T1 ", " #T2);	\
+	static_assert(bksge::is_same<bksge::make_signed_t<T1>,     T2>::value, #T1 ", " #T2)
 
 #define BKSGE_MAKE_SIGNED_TEST(T1, T2)	\
 	BKSGE_MAKE_SIGNED_TEST_1(T1);	\

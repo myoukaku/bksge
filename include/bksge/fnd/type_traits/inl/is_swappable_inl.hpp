@@ -11,8 +11,8 @@
 
 #include <bksge/fnd/type_traits/is_swappable.hpp>
 #include <bksge/fnd/type_traits/is_swappable_with.hpp>
-#include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <type_traits>
+#include <bksge/fnd/type_traits/is_void.hpp>
+#include <bksge/fnd/type_traits/conditional.hpp>
 
 namespace bksge
 {
@@ -34,7 +34,7 @@ struct is_swappable_impl<T, true>
 
 template <typename T>
 struct is_swappable
-	: public detail::is_swappable_impl<T, std::is_void<T>::value>
+	: public detail::is_swappable_impl<T, bksge::is_void<T>::value>
 {};
 
 }	// namespace bksge

@@ -33,18 +33,18 @@
 
 #if !defined(BKSGE_BIG_ENDIAN) && !defined(BKSGE_LITTLE_ENDIAN)
 #  include <bksge/fnd/config/architecture.hpp>
-#  if defined(BKSGE_ARCH_M68K)   || \
-      defined(BKSGE_ARCH_PARISC) || \
-      defined(BKSGE_ARCH_SPARC)  || \
-      defined(BKSGE_ARCH_SYS370) || \
-      defined(BKSGE_ARCH_SYS390) || \
-      defined(BKSGE_ARCH_Z)
+#  if defined(BKSGE_ARCHITECTURE_M68K)   || \
+      defined(BKSGE_ARCHITECTURE_PARISC) || \
+      defined(BKSGE_ARCHITECTURE_SPARC)  || \
+      defined(BKSGE_ARCHITECTURE_SYS370) || \
+      defined(BKSGE_ARCHITECTURE_SYS390) || \
+      defined(BKSGE_ARCHITECTURE_Z)
 #    define BKSGE_BIG_ENDIAN
 #  endif
-#  if defined(BKSGE_ARCH_AMD64) || \
-      defined(BKSGE_ARCH_IA64)  || \
-      defined(BKSGE_ARCH_X86)   || \
-      defined(BKSGE_ARCH_BLACKFIN)
+#  if defined(BKSGE_ARCHITECTURE_AMD64) || \
+      defined(BKSGE_ARCHITECTURE_IA64)  || \
+      defined(BKSGE_ARCHITECTURE_X86)   || \
+      defined(BKSGE_ARCHITECTURE_BLACKFIN)
 #    define BKSGE_LITTLE_ENDIAN
 #  endif
 #endif

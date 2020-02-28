@@ -7,14 +7,14 @@
  */
 
 #include <bksge/fnd/type_traits/nth.hpp>
-#include <type_traits>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <gtest/gtest.h>
 
 GTEST_TEST(TypeTraitsTest, NthTest)
 {
 #define BKSGE_TT_NTH_TEST(N, T, ...)	\
-	static_assert(std::is_same<T,	bksge::nth<N, __VA_ARGS__>::type>::value, "");	\
-	static_assert(std::is_same<T,	bksge::nth_t<N, __VA_ARGS__>>::value, "")
+	static_assert(bksge::is_same<T,	bksge::nth<N, __VA_ARGS__>::type>::value, "");	\
+	static_assert(bksge::is_same<T,	bksge::nth_t<N, __VA_ARGS__>>::value, "")
 
 	BKSGE_TT_NTH_TEST(0, char,   char, int, float, double);
 	BKSGE_TT_NTH_TEST(1, int,    char, int, float, double);
