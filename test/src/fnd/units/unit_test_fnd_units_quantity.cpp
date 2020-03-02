@@ -10,8 +10,8 @@
 #include <bksge/fnd/units/base_dimensions/length.hpp>
 #include <bksge/fnd/units/base_dimensions/mass.hpp>
 #include <bksge/fnd/units/base_dimensions/time.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <sstream>
-#include <type_traits>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -375,7 +375,7 @@ TYPED_TEST(QuantityTest, MulRatioTest)
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto x =
 			bksge::units::quantity<T, D>(2) * std::ratio<100>();
-		static_assert(std::is_same<
+		static_assert(bksge::is_same<
 			const bksge::units::quantity<T, D, std::ratio<100>>,
 			decltype(x)>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(2, x.value());
@@ -383,7 +383,7 @@ TYPED_TEST(QuantityTest, MulRatioTest)
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto x =
 			bksge::units::quantity<T, D, std::ratio<2, 5>>(3) * std::ratio<7, 3>();
-		static_assert(std::is_same<
+		static_assert(bksge::is_same<
 			const bksge::units::quantity<T, D, std::ratio<14, 15>>,
 			decltype(x)>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(3, x.value());
@@ -391,7 +391,7 @@ TYPED_TEST(QuantityTest, MulRatioTest)
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto x =
 			bksge::units::quantity<T, D, std::ratio<3, 100>>(4) * std::ratio<5>();
-		static_assert(std::is_same<
+		static_assert(bksge::is_same<
 			const bksge::units::quantity<T, D, std::ratio<3, 20>>,
 			decltype(x)>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(4, x.value());
@@ -414,7 +414,7 @@ TYPED_TEST(QuantityTest, MulQuantityTest)
 		BKSGE_CONSTEXPR_OR_CONST auto x =
 			bksge::units::quantity<T, D1>(2) *
 			bksge::units::quantity<T, D1>(3);
-		static_assert(std::is_same<
+		static_assert(bksge::is_same<
 			const bksge::units::quantity<T, D2>,
 			decltype(x)>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(6, x.value());
@@ -434,7 +434,7 @@ TYPED_TEST(QuantityTest, MulQuantityTest)
 		BKSGE_CONSTEXPR_OR_CONST auto x =
 			bksge::units::quantity<T, D1>(2) *
 			bksge::units::quantity<T, D2>(3);
-		static_assert(std::is_same<
+		static_assert(bksge::is_same<
 			const bksge::units::quantity<T, D3>,
 			decltype(x)>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(6, x.value());
@@ -450,7 +450,7 @@ TYPED_TEST(QuantityTest, MulQuantityTest)
 		using Q2 = bksge::units::quantity<T, D1, std::ratio<1000>>;
 		using Q3 = bksge::units::quantity<T, D2, std::ratio<1000>>;
 		BKSGE_CONSTEXPR_OR_CONST auto x = Q1(4) * Q2(5);
-		static_assert(std::is_same<const Q3, decltype(x)>::value, "");
+		static_assert(bksge::is_same<const Q3, decltype(x)>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(20, x.value());
 	}
 }
@@ -490,7 +490,7 @@ TYPED_TEST(QuantityTest, DivScalarTest)
 			>
 		>;
 		using Q2 = bksge::units::quantity<T, D2>;
-		static_assert(std::is_same<const Q2, decltype(x)>::value, "");
+		static_assert(bksge::is_same<const Q2, decltype(x)>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(5, x.value());
 	}
 }
@@ -506,7 +506,7 @@ TYPED_TEST(QuantityTest, DivQuantityTest)
 		BKSGE_CONSTEXPR_OR_CONST auto x =
 			bksge::units::quantity<T, D1>(9) /
 			bksge::units::quantity<T, D1>(3);
-		static_assert(std::is_same<
+		static_assert(bksge::is_same<
 			const bksge::units::dimensionless<T>,
 			decltype(x)>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(3, x.value());
@@ -526,7 +526,7 @@ TYPED_TEST(QuantityTest, DivQuantityTest)
 		BKSGE_CONSTEXPR_OR_CONST auto x =
 			bksge::units::quantity<T, D1>(10) /
 			bksge::units::quantity<T, D2>(2);
-		static_assert(std::is_same<
+		static_assert(bksge::is_same<
 			const bksge::units::quantity<T, D3>,
 			decltype(x)>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(5, x.value());
@@ -537,7 +537,7 @@ TYPED_TEST(QuantityTest, DivQuantityTest)
 		using Q2 = bksge::units::quantity<T, D1, std::ratio<1000>>;
 		using Q3 = bksge::units::dimensionless<T, std::ratio<1, 1000>>;
 		BKSGE_CONSTEXPR_OR_CONST auto x = Q1(12) / Q2(3);
-		static_assert(std::is_same<const Q3, decltype(x)>::value, "");
+		static_assert(bksge::is_same<const Q3, decltype(x)>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_NEAR(4, (double)x.value(), 0.0000000001);
 	}
 }

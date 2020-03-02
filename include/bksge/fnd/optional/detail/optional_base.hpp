@@ -11,10 +11,12 @@
 
 #include <bksge/fnd/memory/addressof.hpp>
 #include <bksge/fnd/type_traits/remove_const.hpp>
+#include <bksge/fnd/type_traits/is_trivially_destructible.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_move_constructible.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_move_assignable.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
 #include <bksge/fnd/config.hpp>
-#include <type_traits>
 #include <utility>		// move
 #include <initializer_list>
 
@@ -29,7 +31,7 @@ namespace bksge
 namespace detail
 {
 
-template <typename T, bool = std::is_trivially_destructible<T>::value>
+template <typename T, bool = bksge::is_trivially_destructible<T>::value>
 class optional_base_impl
 {
 #include <bksge/fnd/optional/detail/optional_base_impl_common.hpp>
@@ -92,7 +94,7 @@ public:
 	}
 
 	optional_base(optional_base&& other)
-		BKSGE_NOEXCEPT_IF(std::is_nothrow_move_constructible<T>::value)
+		BKSGE_NOEXCEPT_IF(bksge::is_nothrow_move_constructible<T>::value)
 	{
 		if (other.engaged())
 		{
@@ -124,8 +126,8 @@ public:
 
 	optional_base& operator=(optional_base&& other)
 		BKSGE_NOEXCEPT_IF(
-			std::is_nothrow_move_constructible<T>::value &&
-			std::is_nothrow_move_assignable<T>::value)
+			bksge::is_nothrow_move_constructible<T>::value &&
+			bksge::is_nothrow_move_assignable<T>::value)
 	{
 		if (this->engaged() && other.engaged())
 		{

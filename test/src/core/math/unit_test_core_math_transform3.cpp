@@ -7,6 +7,10 @@
  */
 
 #include <bksge/core/math/transform3.hpp>
+#include <bksge/fnd/type_traits/is_constructible.hpp>
+#include <bksge/fnd/type_traits/is_default_constructible.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_default_constructible.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
@@ -16,7 +20,6 @@
 #include <sstream>
 #include <stdexcept>
 #include <tuple>
-#include <type_traits>
 #include <functional>
 #include <vector>
 #include "constexpr_test.hpp"
@@ -57,8 +60,8 @@ TYPED_TEST(MathTransform3Test, DefaultConstructTest)
 	using ScaleType    = typename Transform3::ScaleType;
 
 	static_assert(sizeof(Transform3) == sizeof(T) * 10, "");
-	static_assert(std::is_default_constructible<Transform3>::value, "");
-	static_assert(std::is_nothrow_default_constructible<Transform3>::value, "");
+	static_assert(bksge::is_default_constructible<Transform3>::value, "");
+	static_assert(bksge::is_nothrow_default_constructible<Transform3>::value, "");
 	static_assert(bksge::is_implicitly_default_constructible<Transform3>::value, "");
 
 	{
@@ -89,8 +92,8 @@ TYPED_TEST(MathTransform3Test, ValueConstructTest)
 	using RotationType = typename Transform3::RotationType;
 	using ScaleType    = typename Transform3::ScaleType;
 
-	static_assert(std::is_constructible<Transform3, PositionType, RotationType, ScaleType>::value, "");
-	static_assert(std::is_nothrow_constructible<Transform3, PositionType, RotationType, ScaleType>::value, "");
+	static_assert(bksge::is_constructible<Transform3, PositionType, RotationType, ScaleType>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Transform3, PositionType, RotationType, ScaleType>::value, "");
 	static_assert(bksge::is_implicitly_constructible<Transform3, PositionType, RotationType, ScaleType>::value, "");
 
 	{
@@ -121,25 +124,25 @@ TYPED_TEST(MathTransform3Test, CopyConstructTest)
 	using RotationType = typename Transform3::RotationType;
 	using ScaleType    = typename Transform3::ScaleType;
 
-	static_assert(std::is_constructible<Transform3,  Transform3  const&>::value, "");
-	static_assert(std::is_constructible<Transform3,  Transform3i const&>::value, "");
-	static_assert(std::is_constructible<Transform3,  Transform3f const&>::value, "");
-	static_assert(std::is_constructible<Transform3i, Transform3  const&>::value, "");
-	static_assert(std::is_constructible<Transform3i, Transform3i const&>::value, "");
-	static_assert(std::is_constructible<Transform3i, Transform3f const&>::value, "");
-	static_assert(std::is_constructible<Transform3f, Transform3  const&>::value, "");
-	static_assert(std::is_constructible<Transform3f, Transform3i const&>::value, "");
-	static_assert(std::is_constructible<Transform3f, Transform3f const&>::value, "");
+	static_assert(bksge::is_constructible<Transform3,  Transform3  const&>::value, "");
+	static_assert(bksge::is_constructible<Transform3,  Transform3i const&>::value, "");
+	static_assert(bksge::is_constructible<Transform3,  Transform3f const&>::value, "");
+	static_assert(bksge::is_constructible<Transform3i, Transform3  const&>::value, "");
+	static_assert(bksge::is_constructible<Transform3i, Transform3i const&>::value, "");
+	static_assert(bksge::is_constructible<Transform3i, Transform3f const&>::value, "");
+	static_assert(bksge::is_constructible<Transform3f, Transform3  const&>::value, "");
+	static_assert(bksge::is_constructible<Transform3f, Transform3i const&>::value, "");
+	static_assert(bksge::is_constructible<Transform3f, Transform3f const&>::value, "");
 
-	static_assert(std::is_nothrow_constructible<Transform3,  Transform3  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Transform3,  Transform3i const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Transform3,  Transform3f const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Transform3i, Transform3  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Transform3i, Transform3i const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Transform3i, Transform3f const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Transform3f, Transform3  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Transform3f, Transform3i const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Transform3f, Transform3f const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Transform3,  Transform3  const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Transform3,  Transform3i const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Transform3,  Transform3f const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Transform3i, Transform3  const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Transform3i, Transform3i const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Transform3i, Transform3f const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Transform3f, Transform3  const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Transform3f, Transform3i const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Transform3f, Transform3f const&>::value, "");
 
 	static_assert(bksge::is_implicitly_constructible<Transform3,  Transform3  const&>::value, "");
 	static_assert(bksge::is_implicitly_constructible<Transform3,  Transform3i const&>::value, "");

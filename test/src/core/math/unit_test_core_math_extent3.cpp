@@ -11,15 +11,19 @@
 #include <bksge/core/math/vector3.hpp>
 #include <bksge/core/math/vector2.hpp>
 #include <bksge/core/math/scale3.hpp>
+#include <bksge/fnd/type_traits/is_constructible.hpp>
+#include <bksge/fnd/type_traits/is_default_constructible.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_default_constructible.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
 #include <bksge/fnd/config.hpp>
 #include <sstream>
 #include <stdexcept>
 #include <tuple>
-#include <type_traits>
 #include <functional>
 #include <vector>
 #include <gtest/gtest.h>
@@ -48,8 +52,8 @@ TYPED_TEST(MathExtent3Test, DefaultConstructTest)
 	using Extent3 = bksge::math::Extent3<T>;
 
 	static_assert(sizeof(Extent3) == sizeof(T) * 3, "");
-	static_assert(std::is_default_constructible<Extent3>::value, "");
-	static_assert(std::is_nothrow_default_constructible<Extent3>::value, "");
+	static_assert(bksge::is_default_constructible<Extent3>::value, "");
+	static_assert(bksge::is_nothrow_default_constructible<Extent3>::value, "");
 	static_assert(bksge::is_implicitly_default_constructible<Extent3>::value, "");
 
 	{
@@ -77,16 +81,16 @@ TYPED_TEST(MathExtent3Test, ValueConstructTest)
 	using T = TypeParam;
 	using Extent3 = bksge::math::Extent3<T>;
 
-	static_assert(!std::is_constructible<Extent3, T, T, T, T, T>::value, "");
-	static_assert(!std::is_constructible<Extent3, T, T, T, T>::value, "");
-	static_assert( std::is_constructible<Extent3, T, T, T>::value, "");
-	static_assert(!std::is_constructible<Extent3, T, T>::value, "");
-	static_assert(!std::is_constructible<Extent3, T>::value, "");
-	static_assert(!std::is_nothrow_constructible<Extent3, T, T, T, T, T>::value, "");
-	static_assert(!std::is_nothrow_constructible<Extent3, T, T, T, T>::value, "");
-	static_assert( std::is_nothrow_constructible<Extent3, T, T, T>::value, "");
-	static_assert(!std::is_nothrow_constructible<Extent3, T, T>::value, "");
-	static_assert(!std::is_nothrow_constructible<Extent3, T>::value, "");
+	static_assert(!bksge::is_constructible<Extent3, T, T, T, T, T>::value, "");
+	static_assert(!bksge::is_constructible<Extent3, T, T, T, T>::value, "");
+	static_assert( bksge::is_constructible<Extent3, T, T, T>::value, "");
+	static_assert(!bksge::is_constructible<Extent3, T, T>::value, "");
+	static_assert(!bksge::is_constructible<Extent3, T>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Extent3, T, T, T, T, T>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Extent3, T, T, T, T>::value, "");
+	static_assert( bksge::is_nothrow_constructible<Extent3, T, T, T>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Extent3, T, T>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Extent3, T>::value, "");
 	static_assert(!bksge::is_implicitly_constructible<Extent3, T, T, T, T, T>::value, "");
 	static_assert(!bksge::is_implicitly_constructible<Extent3, T, T, T, T>::value, "");
 	static_assert( bksge::is_implicitly_constructible<Extent3, T, T, T>::value, "");
@@ -118,25 +122,25 @@ TYPED_TEST(MathExtent3Test, CopyConstructTest)
 	using T = TypeParam;
 	using Extent3 = bksge::math::Extent3<T>;
 
-	static_assert(std::is_constructible<Extent3,  Extent3  const&>::value, "");
-	static_assert(std::is_constructible<Extent3,  Extent3i const&>::value, "");
-	static_assert(std::is_constructible<Extent3,  Extent3f const&>::value, "");
-	static_assert(std::is_constructible<Extent3i, Extent3  const&>::value, "");
-	static_assert(std::is_constructible<Extent3i, Extent3i const&>::value, "");
-	static_assert(std::is_constructible<Extent3i, Extent3f const&>::value, "");
-	static_assert(std::is_constructible<Extent3f, Extent3  const&>::value, "");
-	static_assert(std::is_constructible<Extent3f, Extent3i const&>::value, "");
-	static_assert(std::is_constructible<Extent3f, Extent3f const&>::value, "");
+	static_assert(bksge::is_constructible<Extent3,  Extent3  const&>::value, "");
+	static_assert(bksge::is_constructible<Extent3,  Extent3i const&>::value, "");
+	static_assert(bksge::is_constructible<Extent3,  Extent3f const&>::value, "");
+	static_assert(bksge::is_constructible<Extent3i, Extent3  const&>::value, "");
+	static_assert(bksge::is_constructible<Extent3i, Extent3i const&>::value, "");
+	static_assert(bksge::is_constructible<Extent3i, Extent3f const&>::value, "");
+	static_assert(bksge::is_constructible<Extent3f, Extent3  const&>::value, "");
+	static_assert(bksge::is_constructible<Extent3f, Extent3i const&>::value, "");
+	static_assert(bksge::is_constructible<Extent3f, Extent3f const&>::value, "");
 
-	static_assert(std::is_nothrow_constructible<Extent3,  Extent3  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Extent3,  Extent3i const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Extent3,  Extent3f const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Extent3i, Extent3  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Extent3i, Extent3i const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Extent3i, Extent3f const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Extent3f, Extent3  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Extent3f, Extent3i const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Extent3f, Extent3f const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Extent3,  Extent3  const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Extent3,  Extent3i const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Extent3,  Extent3f const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Extent3i, Extent3  const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Extent3i, Extent3i const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Extent3i, Extent3f const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Extent3f, Extent3  const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Extent3f, Extent3i const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Extent3f, Extent3f const&>::value, "");
 
 	static_assert(bksge::is_implicitly_constructible<Extent3,  Extent3  const&>::value, "");
 	static_assert(bksge::is_implicitly_constructible<Extent3,  Extent3i const&>::value, "");
@@ -946,9 +950,9 @@ TYPED_TEST(MathExtent3Test, TupleElementTest)
 	using T = TypeParam;
 	using Extent3 = bksge::math::Extent3<T>;
 
-	static_assert(std::is_same<typename std::tuple_element<0, Extent3>::type, T>::value, "");
-	static_assert(std::is_same<typename std::tuple_element<1, Extent3>::type, T>::value, "");
-	static_assert(std::is_same<typename std::tuple_element<2, Extent3>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<0, Extent3>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<1, Extent3>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<2, Extent3>::type, T>::value, "");
 }
 
 TYPED_TEST(MathExtent3Test, TupleGetTest)
@@ -994,12 +998,12 @@ TYPED_TEST(MathExtent3Test, ZeroTest)
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = Extent3::Zero();
-		static_assert(std::is_same<decltype(v), const Extent3>::value, "");
+		static_assert(bksge::is_same<decltype(v), const Extent3>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(Extent3(0, 0, 0), v);
 	}
 	{
 		const auto v = Extent3::Zero();
-		static_assert(std::is_same<decltype(v), const Extent3>::value, "");
+		static_assert(bksge::is_same<decltype(v), const Extent3>::value, "");
 		EXPECT_EQ(Extent3(0, 0, 0), v);
 	}
 }

@@ -9,16 +9,16 @@
 #include <bksge/fnd/optional/optional.hpp>
 #include <bksge/fnd/optional/nullopt.hpp>
 #include <bksge/fnd/optional/bad_optional_access.hpp>
-//#include <bksge/fnd/type_traits/is_default_constructible.hpp>
-//#include <bksge/fnd/type_traits/is_trivially_destructible.hpp>
-//#include <bksge/fnd/type_traits/is_copy_constructible.hpp>
-//#include <bksge/fnd/type_traits/is_copy_assignable.hpp>
-//#include <bksge/fnd/type_traits/is_move_constructible.hpp>
-//#include <bksge/fnd/type_traits/is_move_assignable.hpp>
+#include <bksge/fnd/type_traits/is_default_constructible.hpp>
+#include <bksge/fnd/type_traits/is_trivially_destructible.hpp>
+#include <bksge/fnd/type_traits/is_copy_constructible.hpp>
+#include <bksge/fnd/type_traits/is_copy_assignable.hpp>
+#include <bksge/fnd/type_traits/is_move_constructible.hpp>
+#include <bksge/fnd/type_traits/is_move_assignable.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
 #include <gtest/gtest.h>
 #include <tuple>
-#include <type_traits>
 #include <utility>
 #include "constexpr_test.hpp"
 
@@ -106,76 +106,76 @@ using X  = std::tuple<A, B, C1, C2, C3, C4, D1, D2, D3, D4>;
 GTEST_TEST(OptionalTest, RequirememtsTest)
 {
 	{
-		static_assert(std::is_default_constructible<bksge::bad_optional_access>::value, "");
+		static_assert(bksge::is_default_constructible<bksge::bad_optional_access>::value, "");
 	}
 	{
-		static_assert(std::is_trivially_destructible<trivially_destructible>::value, "");
-		static_assert(std::is_trivially_destructible<bksge::optional<trivially_destructible>>::value, "");
+		static_assert(bksge::is_trivially_destructible<trivially_destructible>::value, "");
+		static_assert(bksge::is_trivially_destructible<bksge::optional<trivially_destructible>>::value, "");
 	}
 	{
 		using T = no_default_constructor;
 		using O = bksge::optional<T>;
-		static_assert(std::is_same<O::value_type, T>::value, "");
-		static_assert(std::is_default_constructible<O>::value, "");
+		static_assert(bksge::is_same<O::value_type, T>::value, "");
+		static_assert(bksge::is_default_constructible<O>::value, "");
 		{ O o; (void)o; }
-		static_assert(std::is_copy_constructible<O>::value, "");
+		static_assert(bksge::is_copy_constructible<O>::value, "");
 		{ O o; auto copy = o; (void)copy; }
-		static_assert(std::is_copy_assignable<O>::value, "");
+		static_assert(bksge::is_copy_assignable<O>::value, "");
 		{ O o, p; p = o; }
-		static_assert(std::is_move_constructible<O>::value, "");
+		static_assert(bksge::is_move_constructible<O>::value, "");
 		{ O o; auto moved_to = std::move(o); (void)moved_to; }
-		static_assert(std::is_move_assignable<O>::value, "");
+		static_assert(bksge::is_move_assignable<O>::value, "");
 		{ O o, p; p = std::move(o); }
 	}
 #if !(defined(_MSC_VER) && _MSC_VER <= 1900)
 	{
 		using T = no_copy_constructor;
 		using O = bksge::optional<T>;
-		static_assert(std::is_same<O::value_type, T>::value, "");
-		static_assert(std::is_default_constructible<O>::value, "");
+		static_assert(bksge::is_same<O::value_type, T>::value, "");
+		static_assert(bksge::is_default_constructible<O>::value, "");
 		{ O o; (void)o; }
-		static_assert(!std::is_copy_constructible<O>::value, "");
-		static_assert(!std::is_copy_assignable<O>::value, "");
-		static_assert(std::is_move_constructible<O>::value, "");
+		static_assert(!bksge::is_copy_constructible<O>::value, "");
+		static_assert(!bksge::is_copy_assignable<O>::value, "");
+		static_assert(bksge::is_move_constructible<O>::value, "");
 		{ O o; auto moved_to = std::move(o); (void)moved_to; }
-		static_assert(std::is_move_assignable<O>::value, "");
+		static_assert(bksge::is_move_assignable<O>::value, "");
 		{ O o, p; p = std::move(o); }
 	}
 	{
 		using T = no_copy_assignment;
 		using O = bksge::optional<T>;
-		static_assert(std::is_default_constructible<O>::value, "");
+		static_assert(bksge::is_default_constructible<O>::value, "");
 		{ O o; (void)o; }
-		static_assert(std::is_copy_constructible<O>::value, "");
+		static_assert(bksge::is_copy_constructible<O>::value, "");
 		{ O o; auto copy = o; (void)copy; }
-		static_assert(!std::is_copy_assignable<O>::value, "");
-		static_assert(std::is_move_constructible<O>::value, "");
+		static_assert(!bksge::is_copy_assignable<O>::value, "");
+		static_assert(bksge::is_move_constructible<O>::value, "");
 		{ O o; auto moved_to = std::move(o); (void)moved_to; }
-		static_assert(std::is_move_assignable<O>::value, "");
+		static_assert(bksge::is_move_assignable<O>::value, "");
 		{ O o, p; p = std::move(o); }
 	}
 	{
 		using T = no_copy;
 		using O = bksge::optional<T>;
-		static_assert(std::is_same<O::value_type, T>::value, "");
-		static_assert(std::is_default_constructible<O>::value, "");
+		static_assert(bksge::is_same<O::value_type, T>::value, "");
+		static_assert(bksge::is_default_constructible<O>::value, "");
 		{ O o; (void)o; }
-		static_assert(!std::is_copy_constructible<O>::value, "");
-		static_assert(!std::is_copy_assignable<O>::value, "");
-		static_assert(std::is_move_constructible<O>::value, "");
+		static_assert(!bksge::is_copy_constructible<O>::value, "");
+		static_assert(!bksge::is_copy_assignable<O>::value, "");
+		static_assert(bksge::is_move_constructible<O>::value, "");
 		{ O o; auto moved_to = std::move(o); (void)moved_to; }
-		static_assert(std::is_move_assignable<O>::value, "");
+		static_assert(bksge::is_move_assignable<O>::value, "");
 		{ O o, p; p = std::move(o); }
 	}
 	{
 		using T = no_move_constructor;
 		using O = bksge::optional<T>;
-		static_assert(std::is_same<O::value_type, T>::value, "");
-		static_assert(std::is_default_constructible<O>::value, "");
+		static_assert(bksge::is_same<O::value_type, T>::value, "");
+		static_assert(bksge::is_default_constructible<O>::value, "");
 		{ O o; (void)o; }
-		static_assert(std::is_copy_constructible<O>::value, "");
+		static_assert(bksge::is_copy_constructible<O>::value, "");
 		{ O o; auto copy = o; (void)copy; }
-		static_assert(std::is_copy_assignable<O>::value, "");
+		static_assert(bksge::is_copy_assignable<O>::value, "");
 		/*
 		 * T should be move constructible due to [12.8/11], which is a new rule in C++1y
 		 * not yet implemented by GCC. Because there is already a special exception in C++11
@@ -184,68 +184,68 @@ GTEST_TEST(OptionalTest, RequirememtsTest)
 		 * for T should be changed (or removed altogether) when the time comes, but the rest
 		 * should however remain correct and unchanged.
 		 */
-		static_assert(!std::is_move_constructible<T>::value, "");
-		static_assert(std::is_move_constructible<O>::value, "");
+		static_assert(!bksge::is_move_constructible<T>::value, "");
+		static_assert(bksge::is_move_constructible<O>::value, "");
 		{ O o; auto moved_to = std::move(o); (void)moved_to; }
-		static_assert(std::is_move_assignable<O>::value, "");
+		static_assert(bksge::is_move_assignable<O>::value, "");
 		{ O o, p; p = std::move(o); }
 	}
 	{
 		using T = no_move_assignment;
 		using O = bksge::optional<T>;
-		static_assert(std::is_same<O::value_type, T>::value, "");
-		static_assert(std::is_default_constructible<O>::value, "");
+		static_assert(bksge::is_same<O::value_type, T>::value, "");
+		static_assert(bksge::is_default_constructible<O>::value, "");
 		{ O o; (void)o; }
-		static_assert(std::is_copy_constructible<O>::value, "");
+		static_assert(bksge::is_copy_constructible<O>::value, "");
 		{ O o; auto copy = o; (void)copy; }
-		static_assert(std::is_copy_assignable<O>::value, "");
+		static_assert(bksge::is_copy_assignable<O>::value, "");
 		{ O o, p; p = o; }
-		static_assert(std::is_move_constructible<O>::value, "");
+		static_assert(bksge::is_move_constructible<O>::value, "");
 		{ O o; auto moved_to = std::move(o); (void)moved_to; }
 		/*
 		 * Paragraph 23 of same leads to a similar situation but with respect to move
 		 * assignment.
 		 */
-		static_assert(!std::is_move_assignable<T>::value, "");
-		static_assert(std::is_move_assignable<O>::value, "");
+		static_assert(!bksge::is_move_assignable<T>::value, "");
+		static_assert(bksge::is_move_assignable<O>::value, "");
 		{ O o, p; p = std::move(o); }
 	}
 	{
 		using T = no_move;
 		using O = bksge::optional<T>;
-		static_assert(std::is_same<O::value_type, T>::value, "");
-		static_assert(std::is_default_constructible<O>::value, "");
+		static_assert(bksge::is_same<O::value_type, T>::value, "");
+		static_assert(bksge::is_default_constructible<O>::value, "");
 		{ O o; (void)o; }
-		static_assert(std::is_copy_constructible<O>::value, "");
+		static_assert(bksge::is_copy_constructible<O>::value, "");
 		{ O o; auto copy = o; (void)copy; }
-		static_assert(std::is_copy_assignable<O>::value, "");
+		static_assert(bksge::is_copy_assignable<O>::value, "");
 		{ O o, p; p = o; }
-		static_assert(std::is_move_constructible<O>::value, "");
+		static_assert(bksge::is_move_constructible<O>::value, "");
 		{ O o; auto moved_to = std::move(o); (void)moved_to; }
-		static_assert(std::is_move_assignable<O>::value, "");
+		static_assert(bksge::is_move_assignable<O>::value, "");
 		{ O o, p; p = std::move(o); }
 	}
 	{
 		using T = only_destructible;
 		using O = bksge::optional<T>;
-		static_assert(std::is_same<O::value_type, T>::value, "");
-		static_assert(std::is_default_constructible<O>::value, "");
+		static_assert(bksge::is_same<O::value_type, T>::value, "");
+		static_assert(bksge::is_default_constructible<O>::value, "");
 		{ O o; (void)o; }
-		static_assert(!std::is_copy_constructible<O>::value, "");
-		static_assert(!std::is_copy_assignable<O>::value, "");
-		static_assert(!std::is_move_constructible<O>::value, "");
-		static_assert(!std::is_move_assignable<O>::value, "");
+		static_assert(!bksge::is_copy_constructible<O>::value, "");
+		static_assert(!bksge::is_copy_assignable<O>::value, "");
+		static_assert(!bksge::is_move_constructible<O>::value, "");
+		static_assert(!bksge::is_move_assignable<O>::value, "");
 	}
 
 	{
 		bksge::optional<const int> o{ 42 };
-		static_assert(std::is_same<decltype(o)::value_type, const int>::value, "");
+		static_assert(bksge::is_same<decltype(o)::value_type, const int>::value, "");
 		EXPECT_TRUE((bool)o);
 		EXPECT_TRUE(*o == 42);
 	}
 	{
 		BKSGE_CONSTEXPR bksge::optional<const int> o{ 33 };
-		static_assert(std::is_same<decltype(o)::value_type, const int>::value, "");
+		static_assert(bksge::is_same<decltype(o)::value_type, const int>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_TRUE((bool)o);
 		BKSGE_CONSTEXPR_EXPECT_TRUE(*o == 33);
 	}

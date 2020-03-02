@@ -8,8 +8,13 @@
 
 #include <bksge/core/math/color_hsv.hpp>
 #include <bksge/core/math/color3.hpp>
+#include <bksge/fnd/type_traits/is_constructible.hpp>
+#include <bksge/fnd/type_traits/is_default_constructible.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_default_constructible.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
 #include <bksge/fnd/config.hpp>
@@ -17,7 +22,6 @@
 #include <sstream>
 #include <stdexcept>
 #include <tuple>
-#include <type_traits>
 #include <functional>
 #include <vector>
 #include "constexpr_test.hpp"
@@ -49,8 +53,8 @@ TYPED_TEST(MathColorHSVTest, DefaultConstructTest)
 	using ColorHSV = bksge::math::ColorHSV<T>;
 
 	static_assert(sizeof(ColorHSV) == sizeof(T) * 3, "");
-	static_assert(std::is_default_constructible<ColorHSV>::value, "");
-	static_assert(std::is_nothrow_default_constructible<ColorHSV>::value, "");
+	static_assert(bksge::is_default_constructible<ColorHSV>::value, "");
+	static_assert(bksge::is_nothrow_default_constructible<ColorHSV>::value, "");
 	static_assert(bksge::is_implicitly_default_constructible<ColorHSV>::value, "");
 
 	{
@@ -78,16 +82,16 @@ TYPED_TEST(MathColorHSVTest, ValueConstructTest)
 	using T = TypeParam;
 	using ColorHSV = bksge::math::ColorHSV<T>;
 
-	static_assert(!std::is_constructible<ColorHSV, T, T, T, T, T>::value, "");
-	static_assert(!std::is_constructible<ColorHSV, T, T, T, T>::value, "");
-	static_assert( std::is_constructible<ColorHSV, T, T, T>::value, "");
-	static_assert(!std::is_constructible<ColorHSV, T, T>::value, "");
-	static_assert(!std::is_constructible<ColorHSV, T>::value, "");
-	static_assert(!std::is_nothrow_constructible<ColorHSV, T, T, T, T, T>::value, "");
-	static_assert(!std::is_nothrow_constructible<ColorHSV, T, T, T, T>::value, "");
-	static_assert( std::is_nothrow_constructible<ColorHSV, T, T, T>::value, "");
-	static_assert(!std::is_nothrow_constructible<ColorHSV, T, T>::value, "");
-	static_assert(!std::is_nothrow_constructible<ColorHSV, T>::value, "");
+	static_assert(!bksge::is_constructible<ColorHSV, T, T, T, T, T>::value, "");
+	static_assert(!bksge::is_constructible<ColorHSV, T, T, T, T>::value, "");
+	static_assert( bksge::is_constructible<ColorHSV, T, T, T>::value, "");
+	static_assert(!bksge::is_constructible<ColorHSV, T, T>::value, "");
+	static_assert(!bksge::is_constructible<ColorHSV, T>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<ColorHSV, T, T, T, T, T>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<ColorHSV, T, T, T, T>::value, "");
+	static_assert( bksge::is_nothrow_constructible<ColorHSV, T, T, T>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<ColorHSV, T, T>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<ColorHSV, T>::value, "");
 	static_assert(!bksge::is_implicitly_constructible<ColorHSV, T, T, T, T, T>::value, "");
 	static_assert(!bksge::is_implicitly_constructible<ColorHSV, T, T, T, T>::value, "");
 	static_assert( bksge::is_implicitly_constructible<ColorHSV, T, T, T>::value, "");
@@ -119,25 +123,25 @@ TYPED_TEST(MathColorHSVTest, CopyConstructTest)
 	using T = TypeParam;
 	using ColorHSV = bksge::math::ColorHSV<T>;
 
-	static_assert(std::is_constructible<ColorHSV,  ColorHSV  const&>::value, "");
-	static_assert(std::is_constructible<ColorHSV,  ColorHSVi const&>::value, "");
-	static_assert(std::is_constructible<ColorHSV,  ColorHSVf const&>::value, "");
-	static_assert(std::is_constructible<ColorHSVi, ColorHSV  const&>::value, "");
-	static_assert(std::is_constructible<ColorHSVi, ColorHSVi const&>::value, "");
-	static_assert(std::is_constructible<ColorHSVi, ColorHSVf const&>::value, "");
-	static_assert(std::is_constructible<ColorHSVf, ColorHSV  const&>::value, "");
-	static_assert(std::is_constructible<ColorHSVf, ColorHSVi const&>::value, "");
-	static_assert(std::is_constructible<ColorHSVf, ColorHSVf const&>::value, "");
+	static_assert(bksge::is_constructible<ColorHSV,  ColorHSV  const&>::value, "");
+	static_assert(bksge::is_constructible<ColorHSV,  ColorHSVi const&>::value, "");
+	static_assert(bksge::is_constructible<ColorHSV,  ColorHSVf const&>::value, "");
+	static_assert(bksge::is_constructible<ColorHSVi, ColorHSV  const&>::value, "");
+	static_assert(bksge::is_constructible<ColorHSVi, ColorHSVi const&>::value, "");
+	static_assert(bksge::is_constructible<ColorHSVi, ColorHSVf const&>::value, "");
+	static_assert(bksge::is_constructible<ColorHSVf, ColorHSV  const&>::value, "");
+	static_assert(bksge::is_constructible<ColorHSVf, ColorHSVi const&>::value, "");
+	static_assert(bksge::is_constructible<ColorHSVf, ColorHSVf const&>::value, "");
 
-	static_assert(std::is_nothrow_constructible<ColorHSV,  ColorHSV  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<ColorHSV,  ColorHSVi const&>::value, "");
-	static_assert(std::is_nothrow_constructible<ColorHSV,  ColorHSVf const&>::value, "");
-	static_assert(std::is_nothrow_constructible<ColorHSVi, ColorHSV  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<ColorHSVi, ColorHSVi const&>::value, "");
-	static_assert(std::is_nothrow_constructible<ColorHSVi, ColorHSVf const&>::value, "");
-	static_assert(std::is_nothrow_constructible<ColorHSVf, ColorHSV  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<ColorHSVf, ColorHSVi const&>::value, "");
-	static_assert(std::is_nothrow_constructible<ColorHSVf, ColorHSVf const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<ColorHSV,  ColorHSV  const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<ColorHSV,  ColorHSVi const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<ColorHSV,  ColorHSVf const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<ColorHSVi, ColorHSV  const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<ColorHSVi, ColorHSVi const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<ColorHSVi, ColorHSVf const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<ColorHSVf, ColorHSV  const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<ColorHSVf, ColorHSVi const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<ColorHSVf, ColorHSVf const&>::value, "");
 
 	static_assert(bksge::is_implicitly_constructible<ColorHSV,  ColorHSV  const&>::value, "");
 	static_assert(bksge::is_implicitly_constructible<ColorHSV,  ColorHSVi const&>::value, "");
@@ -934,9 +938,9 @@ TYPED_TEST(MathColorHSVTest, TupleElementTest)
 	using T = TypeParam;
 	using ColorHSV = bksge::math::ColorHSV<T>;
 
-	static_assert(std::is_same<typename std::tuple_element<0, ColorHSV>::type, T>::value, "");
-	static_assert(std::is_same<typename std::tuple_element<1, ColorHSV>::type, T>::value, "");
-	static_assert(std::is_same<typename std::tuple_element<2, ColorHSV>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<0, ColorHSV>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<1, ColorHSV>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<2, ColorHSV>::type, T>::value, "");
 }
 
 TYPED_TEST(MathColorHSVTest, TupleGetTest)
@@ -982,12 +986,12 @@ TYPED_TEST(MathColorHSVTest, ZeroTest)
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = ColorHSV::Zero();
-		static_assert(std::is_same<decltype(v), const ColorHSV>::value, "");
+		static_assert(bksge::is_same<decltype(v), const ColorHSV>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(ColorHSV(0, 0, 0), v);
 	}
 	{
 		const auto v = ColorHSV::Zero();
-		static_assert(std::is_same<decltype(v), const ColorHSV>::value, "");
+		static_assert(bksge::is_same<decltype(v), const ColorHSV>::value, "");
 		EXPECT_EQ(ColorHSV(0, 0, 0), v);
 	}
 }

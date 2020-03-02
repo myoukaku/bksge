@@ -24,7 +24,6 @@ using std::make_integer_sequence;
 #else
 
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <type_traits>
 
 namespace bksge
 {

@@ -12,9 +12,9 @@
 #include <bksge/core/math/fwd/matrix_fwd.hpp>
 #include <bksge/core/math/vector.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/type_traits/is_arithmetic.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
-#include <type_traits>
 #include <tuple>
 
 namespace bksge
@@ -104,7 +104,7 @@ template <
 	typename T, bksge::size_t N, bksge::size_t M,
 	typename ArithmeticType,
 	typename = bksge::enable_if_t<
-		std::is_arithmetic<ArithmeticType>::value
+		bksge::is_arithmetic<ArithmeticType>::value
 	>
 >
 BKSGE_CXX14_CONSTEXPR Matrix<T, N, M>&
@@ -117,7 +117,7 @@ template <
 	typename T, bksge::size_t N, bksge::size_t M,
 	typename ArithmeticType,
 	typename = bksge::enable_if_t<
-		std::is_arithmetic<ArithmeticType>::value
+		bksge::is_arithmetic<ArithmeticType>::value
 	>
 >
 BKSGE_CONSTEXPR Matrix<T, N, M>
@@ -130,7 +130,7 @@ template <
 	typename T, bksge::size_t N, bksge::size_t M,
 	typename ArithmeticType,
 	typename = bksge::enable_if_t<
-		std::is_arithmetic<ArithmeticType>::value
+		bksge::is_arithmetic<ArithmeticType>::value
 	>
 >
 BKSGE_CONSTEXPR Matrix<T, N, M>
@@ -171,7 +171,7 @@ template <
 	typename T, bksge::size_t N, bksge::size_t M,
 	typename ArithmeticType,
 	typename = bksge::enable_if_t<
-		std::is_arithmetic<ArithmeticType>::value
+		bksge::is_arithmetic<ArithmeticType>::value
 	>
 >
 BKSGE_CXX14_CONSTEXPR Matrix<T, N, M>&
@@ -184,7 +184,7 @@ template <
 	typename T, bksge::size_t N, bksge::size_t M,
 	typename ArithmeticType,
 	typename = bksge::enable_if_t<
-		std::is_arithmetic<ArithmeticType>::value
+		bksge::is_arithmetic<ArithmeticType>::value
 	>
 >
 BKSGE_CONSTEXPR Matrix<T, N, M>
@@ -226,6 +226,7 @@ Determinant(Matrix<T, N, N> const& m) BKSGE_NOEXCEPT;
 
 #include <functional>
 #include <bksge/fnd/functional/hash_combine.hpp>
+#include <bksge/fnd/type_traits/integral_constant.hpp>
 
 namespace std
 {
@@ -235,7 +236,7 @@ namespace std
  */
 template <typename T, bksge::size_t N, bksge::size_t M>
 struct tuple_size<bksge::math::Matrix<T, N, M>>
-	: public std::integral_constant<bksge::size_t, N>
+	: public bksge::integral_constant<bksge::size_t, N>
 {};
 
 /**

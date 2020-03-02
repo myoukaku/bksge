@@ -10,7 +10,7 @@
 #define BKSGE_FND_UNITS_DETAIL_GET_DIMENSION_POWER_HPP
 
 #include <bksge/fnd/units/detail/derived_dimension_fwd.hpp>
-#include <type_traits>
+#include <bksge/fnd/type_traits/is_same.hpp>
 
 namespace bksge
 {
@@ -28,7 +28,7 @@ template <typename B0, typename... Bs, typename BaseDimension>
 struct get_dimension_power<derived_dimension<B0, Bs...>, BaseDimension>
 {
 	BKSGE_STATIC_CONSTEXPR int value =
-		std::is_same<typename B0::type, BaseDimension>::value ?
+		bksge::is_same<typename B0::type, BaseDimension>::value ?
 			B0::power :
 		get_dimension_power<derived_dimension<Bs...>, BaseDimension>::value;
 };

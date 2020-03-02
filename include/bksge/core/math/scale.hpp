@@ -13,10 +13,11 @@
 #include <bksge/core/math/fwd/vector_fwd.hpp>
 #include <bksge/core/math/detail/vector_xyzw.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/type_traits/is_arithmetic.hpp>
+#include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <tuple>
-#include <type_traits>
 
 namespace bksge
 {
@@ -49,7 +50,7 @@ public:
 	template <
 		typename U,
 		typename = bksge::enable_if_t<
-			std::is_constructible<T, U>::value
+			bksge::is_constructible<T, U>::value
 		>
 	>
 	BKSGE_CONSTEXPR
@@ -118,7 +119,7 @@ template <
 	typename T, bksge::size_t N,
 	typename ArithmeticType,
 	typename = bksge::enable_if_t<
-		std::is_arithmetic<ArithmeticType>::value
+		bksge::is_arithmetic<ArithmeticType>::value
 	>
 >
 BKSGE_CXX14_CONSTEXPR Scale<T, N>&
@@ -131,7 +132,7 @@ template <
 	typename T, bksge::size_t N,
 	typename ArithmeticType,
 	typename = bksge::enable_if_t<
-		std::is_arithmetic<ArithmeticType>::value
+		bksge::is_arithmetic<ArithmeticType>::value
 	>
 >
 BKSGE_CONSTEXPR Scale<T, N>
@@ -144,7 +145,7 @@ template <
 	typename T, bksge::size_t N,
 	typename ArithmeticType,
 	typename = bksge::enable_if_t<
-		std::is_arithmetic<ArithmeticType>::value
+		bksge::is_arithmetic<ArithmeticType>::value
 	>
 >
 BKSGE_CONSTEXPR Scale<T, N>
@@ -171,7 +172,7 @@ template <
 	typename T, bksge::size_t N,
 	typename ArithmeticType,
 	typename = bksge::enable_if_t<
-		std::is_arithmetic<ArithmeticType>::value
+		bksge::is_arithmetic<ArithmeticType>::value
 	>
 >
 BKSGE_CXX14_CONSTEXPR Scale<T, N>&
@@ -184,7 +185,7 @@ template <
 	typename T, bksge::size_t N,
 	typename ArithmeticType,
 	typename = bksge::enable_if_t<
-		std::is_arithmetic<ArithmeticType>::value
+		bksge::is_arithmetic<ArithmeticType>::value
 	>
 >
 BKSGE_CONSTEXPR Scale<T, N>
@@ -225,7 +226,7 @@ template <
 	typename T, bksge::size_t N,
 	typename ArithmeticType,
 	typename = bksge::enable_if_t<
-		std::is_arithmetic<ArithmeticType>::value
+		bksge::is_arithmetic<ArithmeticType>::value
 	>
 >
 BKSGE_CONSTEXPR Scale<T, N>
@@ -237,6 +238,7 @@ Lerp(Scale<T, N> const& from, Scale<T, N> const& to, ArithmeticType const& t) BK
 
 #include <functional>
 #include <bksge/fnd/functional/hash_combine.hpp>
+#include <bksge/fnd/type_traits/integral_constant.hpp>
 
 namespace std
 {
@@ -246,7 +248,7 @@ namespace std
  */
 template <typename T, bksge::size_t N>
 struct tuple_size<bksge::math::Scale<T, N>>
-	: public std::integral_constant<bksge::size_t, N>
+	: public bksge::integral_constant<bksge::size_t, N>
 {};
 
 /**

@@ -24,8 +24,7 @@ using std::to_integer;
 #else
 
 #include <bksge/fnd/type_traits/enable_if.hpp>
-//#include <bksge/fnd/type_traits/is_integral.hpp>
-#include <type_traits>
+#include <bksge/fnd/type_traits/is_integral.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -34,7 +33,7 @@ namespace bksge
 enum class byte : unsigned char {};
 
 template <typename IntegerType>
-inline BKSGE_CONSTEXPR bksge::enable_if_t<std::is_integral<IntegerType>::value, IntegerType>
+inline BKSGE_CONSTEXPR bksge::enable_if_t<bksge::is_integral<IntegerType>::value, IntegerType>
 to_integer(byte b) BKSGE_NOEXCEPT
 {
 	return IntegerType(b);
@@ -76,28 +75,28 @@ inline BKSGE_CXX14_CONSTEXPR byte& operator^=(byte& lhs, byte rhs) BKSGE_NOEXCEP
 }
 
 template <typename IntegerType>
-inline BKSGE_CONSTEXPR bksge::enable_if_t<std::is_integral<IntegerType>::value, byte>
+inline BKSGE_CONSTEXPR bksge::enable_if_t<bksge::is_integral<IntegerType>::value, byte>
 operator<<(byte lhs, IntegerType shift) BKSGE_NOEXCEPT
 {
 	return byte(static_cast<unsigned char>(lhs) << shift);
 }
 
 template <typename IntegerType>
-inline BKSGE_CONSTEXPR bksge::enable_if_t<std::is_integral<IntegerType>::value, byte>
+inline BKSGE_CONSTEXPR bksge::enable_if_t<bksge::is_integral<IntegerType>::value, byte>
 operator>>(byte lhs, IntegerType shift) BKSGE_NOEXCEPT
 {
 	return byte(static_cast<unsigned char>(lhs) >> shift);
 }
 
 template <typename IntegerType>
-inline BKSGE_CXX14_CONSTEXPR bksge::enable_if_t<std::is_integral<IntegerType>::value, byte>&
+inline BKSGE_CXX14_CONSTEXPR bksge::enable_if_t<bksge::is_integral<IntegerType>::value, byte>&
 operator<<=(byte& lhs, IntegerType shift) BKSGE_NOEXCEPT
 {
 	return lhs = lhs << shift;
 }
 
 template <typename IntegerType>
-inline BKSGE_CXX14_CONSTEXPR bksge::enable_if_t<std::is_integral<IntegerType>::value, byte>&
+inline BKSGE_CXX14_CONSTEXPR bksge::enable_if_t<bksge::is_integral<IntegerType>::value, byte>&
 operator>>=(byte& lhs, IntegerType shift) BKSGE_NOEXCEPT
 {
 	return lhs = lhs >> shift;

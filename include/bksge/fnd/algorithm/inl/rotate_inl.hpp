@@ -19,12 +19,11 @@
 #include <bksge/fnd/iterator/type_traits/iterator_category.hpp>
 #include <bksge/fnd/iterator/type_traits/iterator_value_type.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-//#include <bksge/fnd/type_traits/is_trivially_move_assignable.hpp>
+#include <bksge/fnd/type_traits/is_trivially_move_assignable.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/config.hpp>
 #include <iterator>
 #include <utility>
-#include <type_traits>
 
 namespace bksge
 {
@@ -256,7 +255,7 @@ rotate(ForwardIterator first, ForwardIterator middle, ForwardIterator last)
 
 	return bksge::algorithm::detail::rotate(
 		first, middle, last, Category(),
-		std::is_trivially_move_assignable<ValueType>());
+		bksge::is_trivially_move_assignable<ValueType>());
 }
 
 }	// namespace algorithm

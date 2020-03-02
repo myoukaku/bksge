@@ -17,12 +17,11 @@
 //#include <bksge/fnd/memory/unique_ptr.hpp>
 //#include <bksge/fnd/memory/detail/destruct_n.hpp>
 #include <bksge/fnd/type_traits/add_lvalue_reference.hpp>
-//#include <bksge/fnd/type_traits/is_trivially_copy_constructible.hpp>
-//#include <bksge/fnd/type_traits/is_trivially_copy_assignable.hpp>
+#include <bksge/fnd/type_traits/is_trivially_copy_constructible.hpp>
+#include <bksge/fnd/type_traits/is_trivially_copy_assignable.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
-#include <type_traits>
 
 namespace bksge
 {
@@ -263,8 +262,8 @@ sort(RandomAccessIterator first, RandomAccessIterator last, Compare comp)
 	using value_type      = bksge::iterator_value_type<RandomAccessIterator>;
 
 	const difference_type limit =
-		std::is_trivially_copy_constructible<value_type>::value &&
-		std::is_trivially_copy_assignable<value_type>::value ? 30 : 6;
+		bksge::is_trivially_copy_constructible<value_type>::value &&
+		bksge::is_trivially_copy_assignable<value_type>::value ? 30 : 6;
 
 	for (;;)
 	{

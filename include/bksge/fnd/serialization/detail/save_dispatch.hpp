@@ -14,8 +14,11 @@
 #include <bksge/fnd/serialization/nvp.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/is_null_pointer.hpp>
+#include <bksge/fnd/type_traits/is_array.hpp>
+#include <bksge/fnd/type_traits/is_arithmetic.hpp>
+#include <bksge/fnd/type_traits/is_enum.hpp>
+#include <bksge/fnd/type_traits/is_pointer.hpp>
 #include <bksge/fnd/type_traits/conditional.hpp>
-#include <type_traits>
 #include <utility>	// declval
 
 namespace bksge
@@ -174,19 +177,19 @@ public:
 	{
 		using type =
 			bksge::conditional_t<
-				std::is_array<T>::value,
+				bksge::is_array<T>::value,
 				save_array,
 
 			bksge::conditional_t<
-				std::is_arithmetic<T>::value,
+				bksge::is_arithmetic<T>::value,
 				save_arithmetic,
 
 			bksge::conditional_t<
-				std::is_enum<T>::value,
+				bksge::is_enum<T>::value,
 				save_enum,
 
 			bksge::conditional_t<
-				std::is_pointer<T>::value,
+				bksge::is_pointer<T>::value,
 				save_pointer,
 
 			bksge::conditional_t<

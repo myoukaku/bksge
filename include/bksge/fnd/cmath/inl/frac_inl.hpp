@@ -15,8 +15,9 @@
 #include <bksge/fnd/cmath/isinf.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
+#include <bksge/fnd/type_traits/is_floating_point.hpp>
+#include <bksge/fnd/type_traits/is_integral.hpp>
 #include <limits>
-#include <type_traits>
 
 namespace bksge
 {
@@ -37,7 +38,7 @@ frac_unchecked(T x) BKSGE_NOEXCEPT
 template <
 	typename FloatType,
 	typename = bksge::enable_if_t<
-		std::is_floating_point<FloatType>::value
+		bksge::is_floating_point<FloatType>::value
 	>
 >
 inline BKSGE_CONSTEXPR FloatType
@@ -55,7 +56,7 @@ template <
 	typename IntegralType,
 	typename Promoted = bksge::float_promote_t<IntegralType>,
 	typename = bksge::enable_if_t<
-		std::is_integral<IntegralType>::value
+		bksge::is_integral<IntegralType>::value
 	>
 >
 inline BKSGE_CONSTEXPR Promoted

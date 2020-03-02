@@ -12,15 +12,19 @@
 #include <bksge/core/math/vector2.hpp>
 #include <bksge/core/math/matrix3x3.hpp>
 #include <bksge/fnd/cmath/degrees_to_radians.hpp>
+#include <bksge/fnd/type_traits/is_constructible.hpp>
+#include <bksge/fnd/type_traits/is_default_constructible.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_default_constructible.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
 #include <stdexcept>
 #include <tuple>
-#include <type_traits>
 #include <functional>
 #include <vector>
 #include "constexpr_test.hpp"
@@ -52,8 +56,8 @@ TYPED_TEST(MathQuaternionTest, DefaultConstructTest)
 	using Quaternion = bksge::math::Quaternion<T>;
 
 	static_assert(sizeof(Quaternion) == sizeof(T) * 4, "");
-	static_assert(std::is_default_constructible<Quaternion>::value, "");
-	static_assert(std::is_nothrow_default_constructible<Quaternion>::value, "");
+	static_assert(bksge::is_default_constructible<Quaternion>::value, "");
+	static_assert(bksge::is_nothrow_default_constructible<Quaternion>::value, "");
 	static_assert(bksge::is_implicitly_default_constructible<Quaternion>::value, "");
 
 	{
@@ -84,16 +88,16 @@ TYPED_TEST(MathQuaternionTest, ValueConstructTest)
 	using T = TypeParam;
 	using Quaternion = bksge::math::Quaternion<T>;
 
-	static_assert(!std::is_constructible<Quaternion, T, T, T, T, T>::value, "");
-	static_assert( std::is_constructible<Quaternion, T, T, T, T>::value, "");
-	static_assert(!std::is_constructible<Quaternion, T, T, T>::value, "");
-	static_assert(!std::is_constructible<Quaternion, T, T>::value, "");
-	static_assert(!std::is_constructible<Quaternion, T>::value, "");
-	static_assert(!std::is_nothrow_constructible<Quaternion, T, T, T, T, T>::value, "");
-	static_assert( std::is_nothrow_constructible<Quaternion, T, T, T, T>::value, "");
-	static_assert(!std::is_nothrow_constructible<Quaternion, T, T, T>::value, "");
-	static_assert(!std::is_nothrow_constructible<Quaternion, T, T>::value, "");
-	static_assert(!std::is_nothrow_constructible<Quaternion, T>::value, "");
+	static_assert(!bksge::is_constructible<Quaternion, T, T, T, T, T>::value, "");
+	static_assert( bksge::is_constructible<Quaternion, T, T, T, T>::value, "");
+	static_assert(!bksge::is_constructible<Quaternion, T, T, T>::value, "");
+	static_assert(!bksge::is_constructible<Quaternion, T, T>::value, "");
+	static_assert(!bksge::is_constructible<Quaternion, T>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Quaternion, T, T, T, T, T>::value, "");
+	static_assert( bksge::is_nothrow_constructible<Quaternion, T, T, T, T>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Quaternion, T, T, T>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Quaternion, T, T>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Quaternion, T>::value, "");
 	static_assert(!bksge::is_implicitly_constructible<Quaternion, T, T, T, T, T>::value, "");
 	static_assert( bksge::is_implicitly_constructible<Quaternion, T, T, T, T>::value, "");
 	static_assert(!bksge::is_implicitly_constructible<Quaternion, T, T, T>::value, "");
@@ -128,25 +132,25 @@ TYPED_TEST(MathQuaternionTest, CopyConstructTest)
 	using T = TypeParam;
 	using Quaternion = bksge::math::Quaternion<T>;
 
-	static_assert(std::is_constructible<Quaternion,  Quaternion  const&>::value, "");
-	static_assert(std::is_constructible<Quaternion,  Quaternioni const&>::value, "");
-	static_assert(std::is_constructible<Quaternion,  Quaternionf const&>::value, "");
-	static_assert(std::is_constructible<Quaternioni, Quaternion  const&>::value, "");
-	static_assert(std::is_constructible<Quaternioni, Quaternioni const&>::value, "");
-	static_assert(std::is_constructible<Quaternioni, Quaternionf const&>::value, "");
-	static_assert(std::is_constructible<Quaternionf, Quaternion  const&>::value, "");
-	static_assert(std::is_constructible<Quaternionf, Quaternioni const&>::value, "");
-	static_assert(std::is_constructible<Quaternionf, Quaternionf const&>::value, "");
+	static_assert(bksge::is_constructible<Quaternion,  Quaternion  const&>::value, "");
+	static_assert(bksge::is_constructible<Quaternion,  Quaternioni const&>::value, "");
+	static_assert(bksge::is_constructible<Quaternion,  Quaternionf const&>::value, "");
+	static_assert(bksge::is_constructible<Quaternioni, Quaternion  const&>::value, "");
+	static_assert(bksge::is_constructible<Quaternioni, Quaternioni const&>::value, "");
+	static_assert(bksge::is_constructible<Quaternioni, Quaternionf const&>::value, "");
+	static_assert(bksge::is_constructible<Quaternionf, Quaternion  const&>::value, "");
+	static_assert(bksge::is_constructible<Quaternionf, Quaternioni const&>::value, "");
+	static_assert(bksge::is_constructible<Quaternionf, Quaternionf const&>::value, "");
 
-	static_assert(std::is_nothrow_constructible<Quaternion,  Quaternion  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Quaternion,  Quaternioni const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Quaternion,  Quaternionf const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Quaternioni, Quaternion  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Quaternioni, Quaternioni const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Quaternioni, Quaternionf const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Quaternionf, Quaternion  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Quaternionf, Quaternioni const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Quaternionf, Quaternionf const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Quaternion,  Quaternion  const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Quaternion,  Quaternioni const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Quaternion,  Quaternionf const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Quaternioni, Quaternion  const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Quaternioni, Quaternioni const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Quaternioni, Quaternionf const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Quaternionf, Quaternion  const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Quaternionf, Quaternioni const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Quaternionf, Quaternionf const&>::value, "");
 
 	static_assert(bksge::is_implicitly_constructible<Quaternion,  Quaternion  const&>::value, "");
 	static_assert(bksge::is_implicitly_constructible<Quaternion,  Quaternioni const&>::value, "");
@@ -1166,7 +1170,7 @@ TYPED_TEST(MathQuaternionTest, MulQuaternionTest)
 	{
 		Quaternion q(2, 3, 4, 5);
 		auto t = (q *= Quaternion(3, 4, 5, 6));
-		static_assert(std::is_same<decltype(t), Quaternion>::value, "");
+		static_assert(bksge::is_same<decltype(t), Quaternion>::value, "");
 		EXPECT_EQ(Quaternion(26, 40, 48, -8), q);
 		EXPECT_EQ(t, q);
 	}
@@ -1174,12 +1178,12 @@ TYPED_TEST(MathQuaternionTest, MulQuaternionTest)
 	// Quaternion * Quaternion -> Quaternion
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto t = Quaternion(1, 2, 3, 4) * Quaternion(5, -6, 7, 8);
-		static_assert(std::is_same<decltype(t), const Quaternion>::value, "");
+		static_assert(bksge::is_same<decltype(t), const Quaternion>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(Quaternion(60, 0, 36, 18), t);
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto t = Quaternion(1, 2, 3, 4) * Quaternion(5, 6, -7, 8) * Quaternion(9, 10, 11, -12);
-		static_assert(std::is_same<decltype(t), const Quaternion>::value, "");
+		static_assert(bksge::is_same<decltype(t), const Quaternion>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(Quaternion(1134, -412, -106, -928), t);
 	}
 
@@ -1415,10 +1419,10 @@ TYPED_TEST(MathQuaternionTest, TupleElementTest)
 	using T = TypeParam;
 	using Quaternion = bksge::math::Quaternion<T>;
 
-	static_assert(std::is_same<typename std::tuple_element<0, Quaternion>::type, T>::value, "");
-	static_assert(std::is_same<typename std::tuple_element<1, Quaternion>::type, T>::value, "");
-	static_assert(std::is_same<typename std::tuple_element<2, Quaternion>::type, T>::value, "");
-	static_assert(std::is_same<typename std::tuple_element<3, Quaternion>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<0, Quaternion>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<1, Quaternion>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<2, Quaternion>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<3, Quaternion>::type, T>::value, "");
 }
 
 TYPED_TEST(MathQuaternionTest, TupleGetTest)
@@ -1497,12 +1501,12 @@ TYPED_TEST(MathQuaternionTest, ZeroTest)
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = Quaternion::Zero();
-		static_assert(std::is_same<decltype(v), const Quaternion>::value, "");
+		static_assert(bksge::is_same<decltype(v), const Quaternion>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(Quaternion(0, 0, 0, 0), v);
 	}
 	{
 		const auto v = Quaternion::Zero();
-		static_assert(std::is_same<decltype(v), const Quaternion>::value, "");
+		static_assert(bksge::is_same<decltype(v), const Quaternion>::value, "");
 		EXPECT_EQ(Quaternion(0, 0, 0, 0), v);
 	}
 }
@@ -1514,12 +1518,12 @@ TYPED_TEST(MathQuaternionTest, IdentityTest)
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto q = Quaternion::Identity();
-		static_assert(std::is_same<decltype(q), const Quaternion>::value, "");
+		static_assert(bksge::is_same<decltype(q), const Quaternion>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(Quaternion(0, 0, 0, 1), q);
 	}
 	{
 		const auto q = Quaternion::Identity();
-		static_assert(std::is_same<decltype(q), const Quaternion>::value, "");
+		static_assert(bksge::is_same<decltype(q), const Quaternion>::value, "");
 		EXPECT_EQ(Quaternion(0, 0, 0, 1), q);
 	}
 }
@@ -1532,8 +1536,8 @@ TYPED_TEST(MathQuaternionTest, ConjugateTest)
 	BKSGE_CONSTEXPR_OR_CONST Quaternion q1(1, 2, 3, 4);
 	BKSGE_CONSTEXPR_OR_CONST auto q2 = Conjugate(q1);
 	BKSGE_CONSTEXPR_OR_CONST auto q3 = Conjugate(q2);
-	static_assert(std::is_same<decltype(q2), const Quaternion>::value, "");
-	static_assert(std::is_same<decltype(q3), const Quaternion>::value, "");
+	static_assert(bksge::is_same<decltype(q2), const Quaternion>::value, "");
+	static_assert(bksge::is_same<decltype(q3), const Quaternion>::value, "");
 
 	BKSGE_CONSTEXPR_EXPECT_EQ(q1, q3);
 	BKSGE_CONSTEXPR_EXPECT_EQ(Quaternion( 1,  2,  3, 4), q1);
@@ -1560,8 +1564,8 @@ TYPED_TEST(MathQuaternionFloatTest, InversedTest)
 
 	BKSGE_CONSTEXPR_OR_CONST auto q1_inv = Inversed(q1);
 	                   const auto q2_inv = Inversed(q2);
-	static_assert(std::is_same<decltype(q1_inv), const Quaternion>::value, "");
-	static_assert(std::is_same<decltype(q2_inv), const Quaternion>::value, "");
+	static_assert(bksge::is_same<decltype(q1_inv), const Quaternion>::value, "");
+	static_assert(bksge::is_same<decltype(q2_inv), const Quaternion>::value, "");
 
 	BKSGE_CONSTEXPR_OR_CONST double error = 0.000001;
 	BKSGE_CONSTEXPR_EXPECT_NEAR(-0.03333333333333333, (double)q1_inv.x(), error);
@@ -1593,7 +1597,7 @@ TYPED_TEST(MathQuaternionFloatTest, NormalizedTest)
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto t = Normalized(Quaternion(0,  0,  0, 0));
-		static_assert(std::is_same<decltype(t), const Quaternion>::value, "");
+		static_assert(bksge::is_same<decltype(t), const Quaternion>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(Quaternion( 0, 0, 0, 1), t);
 	}
 	EXPECT_EQ(Quaternion( 1, 0, 0, 0), Normalized(Quaternion(  1,  0,  0, 0)));
@@ -1735,7 +1739,7 @@ void SlerpTest(Quaternion const& q1, Quaternion const& q2, T t, Quaternion const
 	EXPECT_EQ(q2, Slerp(q1, q2, T( 2.0)));
 
 	const auto q = Slerp(q1, q2, t);
-	static_assert(std::is_same<decltype(q), const Quaternion>::value, "");
+	static_assert(bksge::is_same<decltype(q), const Quaternion>::value, "");
 	EXPECT_NEAR((double)expected[0], (double)q[0], error);
 	EXPECT_NEAR((double)expected[1], (double)q[1], error);
 	EXPECT_NEAR((double)expected[2], (double)q[2], error);
@@ -1788,12 +1792,12 @@ TYPED_TEST(MathQuaternionFloatTest, MakeRotationXTest)
 
 	{
 		const auto q = Quaternion::MakeRotationX(bksge::degrees_to_radians(0));
-		static_assert(std::is_same<decltype(q), const Quaternion>::value, "");
+		static_assert(bksge::is_same<decltype(q), const Quaternion>::value, "");
 		EXPECT_EQ(Quaternion::Identity(), q);
 	}
 	{
 		const auto q = Quaternion::MakeRotationX(bksge::degrees_to_radians(30));
-		static_assert(std::is_same<decltype(q), const Quaternion>::value, "");
+		static_assert(bksge::is_same<decltype(q), const Quaternion>::value, "");
 		EXPECT_NEAR( 0.25881904510, (double)q[0], error);
 		EXPECT_NEAR( 0.00000000000, (double)q[1], error);
 		EXPECT_NEAR( 0.00000000000, (double)q[2], error);
@@ -1801,7 +1805,7 @@ TYPED_TEST(MathQuaternionFloatTest, MakeRotationXTest)
 	}
 	{
 		const auto q = Quaternion::MakeRotationX(bksge::degrees_to_radians(90));
-		static_assert(std::is_same<decltype(q), const Quaternion>::value, "");
+		static_assert(bksge::is_same<decltype(q), const Quaternion>::value, "");
 		EXPECT_NEAR( 0.70710678118, (double)q[0], error);
 		EXPECT_NEAR( 0.00000000000, (double)q[1], error);
 		EXPECT_NEAR( 0.00000000000, (double)q[2], error);
@@ -1809,7 +1813,7 @@ TYPED_TEST(MathQuaternionFloatTest, MakeRotationXTest)
 	}
 	{
 		const auto q = Quaternion::MakeRotationX(bksge::degrees_to_radians(180));
-		static_assert(std::is_same<decltype(q), const Quaternion>::value, "");
+		static_assert(bksge::is_same<decltype(q), const Quaternion>::value, "");
 		EXPECT_NEAR( 1.00000000000, (double)q[0], error);
 		EXPECT_NEAR( 0.00000000000, (double)q[1], error);
 		EXPECT_NEAR( 0.00000000000, (double)q[2], error);
@@ -1817,7 +1821,7 @@ TYPED_TEST(MathQuaternionFloatTest, MakeRotationXTest)
 	}
 	{
 		const auto q = Quaternion::MakeRotationX(bksge::degrees_to_radians(270));
-		static_assert(std::is_same<decltype(q), const Quaternion>::value, "");
+		static_assert(bksge::is_same<decltype(q), const Quaternion>::value, "");
 		EXPECT_NEAR( 0.70710678118, (double)q[0], error);
 		EXPECT_NEAR( 0.00000000000, (double)q[1], error);
 		EXPECT_NEAR( 0.00000000000, (double)q[2], error);
@@ -1834,12 +1838,12 @@ TYPED_TEST(MathQuaternionFloatTest, MakeRotationYTest)
 
 	{
 		const auto q = Quaternion::MakeRotationY(bksge::degrees_to_radians(0));
-		static_assert(std::is_same<decltype(q), const Quaternion>::value, "");
+		static_assert(bksge::is_same<decltype(q), const Quaternion>::value, "");
 		EXPECT_EQ(Quaternion::Identity(), q);
 	}
 	{
 		const auto q = Quaternion::MakeRotationY(bksge::degrees_to_radians(45));
-		static_assert(std::is_same<decltype(q), const Quaternion>::value, "");
+		static_assert(bksge::is_same<decltype(q), const Quaternion>::value, "");
 		EXPECT_NEAR( 0.00000000000, (double)q[0], error);
 		EXPECT_NEAR( 0.38268343236, (double)q[1], error);
 		EXPECT_NEAR( 0.00000000000, (double)q[2], error);
@@ -1847,7 +1851,7 @@ TYPED_TEST(MathQuaternionFloatTest, MakeRotationYTest)
 	}
 	{
 		const auto q = Quaternion::MakeRotationY(bksge::degrees_to_radians(90));
-		static_assert(std::is_same<decltype(q), const Quaternion>::value, "");
+		static_assert(bksge::is_same<decltype(q), const Quaternion>::value, "");
 		EXPECT_NEAR( 0.00000000000, (double)q[0], error);
 		EXPECT_NEAR( 0.70710678118, (double)q[1], error);
 		EXPECT_NEAR( 0.00000000000, (double)q[2], error);
@@ -1864,12 +1868,12 @@ TYPED_TEST(MathQuaternionFloatTest, MakeRotationZTest)
 
 	{
 		const auto q = Quaternion::MakeRotationZ(bksge::degrees_to_radians(0));
-		static_assert(std::is_same<decltype(q), const Quaternion>::value, "");
+		static_assert(bksge::is_same<decltype(q), const Quaternion>::value, "");
 		EXPECT_EQ(Quaternion::Identity(), q);
 	}
 	{
 		const auto q = Quaternion::MakeRotationZ(bksge::degrees_to_radians(60));
-		static_assert(std::is_same<decltype(q), const Quaternion>::value, "");
+		static_assert(bksge::is_same<decltype(q), const Quaternion>::value, "");
 		EXPECT_NEAR( 0.00000000000, (double)q[0], error);
 		EXPECT_NEAR( 0.00000000000, (double)q[1], error);
 		EXPECT_NEAR( 0.50000000000, (double)q[2], error);
@@ -1877,7 +1881,7 @@ TYPED_TEST(MathQuaternionFloatTest, MakeRotationZTest)
 	}
 	{
 		const auto q = Quaternion::MakeRotationZ(bksge::degrees_to_radians(90));
-		static_assert(std::is_same<decltype(q), const Quaternion>::value, "");
+		static_assert(bksge::is_same<decltype(q), const Quaternion>::value, "");
 		EXPECT_NEAR( 0.00000000000, (double)q[0], error);
 		EXPECT_NEAR( 0.00000000000, (double)q[1], error);
 		EXPECT_NEAR( 0.70710678118, (double)q[2], error);
@@ -1895,12 +1899,12 @@ TYPED_TEST(MathQuaternionFloatTest, MakeRotationTest)
 
 	{
 		const auto q = Quaternion::MakeRotation(Vector3(1, 0, 0), bksge::degrees_to_radians(0));
-		static_assert(std::is_same<decltype(q), const Quaternion>::value, "");
+		static_assert(bksge::is_same<decltype(q), const Quaternion>::value, "");
 		EXPECT_EQ(Quaternion::Identity(), q);
 	}
 	{
 		const auto q = Quaternion::MakeRotation(Vector3(1, 0, 0), bksge::degrees_to_radians(60));
-		static_assert(std::is_same<decltype(q), const Quaternion>::value, "");
+		static_assert(bksge::is_same<decltype(q), const Quaternion>::value, "");
 		EXPECT_NEAR( 0.50000000000, (double)q[0], error);
 		EXPECT_NEAR( 0.00000000000, (double)q[1], error);
 		EXPECT_NEAR( 0.00000000000, (double)q[2], error);
@@ -1908,7 +1912,7 @@ TYPED_TEST(MathQuaternionFloatTest, MakeRotationTest)
 	}
 	{
 		const auto q = Quaternion::MakeRotation(Vector3(0, 2, 0), bksge::degrees_to_radians(60));
-		static_assert(std::is_same<decltype(q), const Quaternion>::value, "");
+		static_assert(bksge::is_same<decltype(q), const Quaternion>::value, "");
 		EXPECT_NEAR( 0.00000000000, (double)q[0], error);
 		EXPECT_NEAR( 0.50000000000, (double)q[1], error);
 		EXPECT_NEAR( 0.00000000000, (double)q[2], error);
@@ -1916,7 +1920,7 @@ TYPED_TEST(MathQuaternionFloatTest, MakeRotationTest)
 	}
 	{
 		const auto q = Quaternion::MakeRotation(Vector3(0, 0, -3), bksge::degrees_to_radians(60));
-		static_assert(std::is_same<decltype(q), const Quaternion>::value, "");
+		static_assert(bksge::is_same<decltype(q), const Quaternion>::value, "");
 		EXPECT_NEAR( 0.00000000000, (double)q[0], error);
 		EXPECT_NEAR( 0.00000000000, (double)q[1], error);
 		EXPECT_NEAR(-0.50000000000, (double)q[2], error);
@@ -1924,7 +1928,7 @@ TYPED_TEST(MathQuaternionFloatTest, MakeRotationTest)
 	}
 	{
 		const auto q = Quaternion::MakeRotation(Vector3(3, -4, 5), bksge::degrees_to_radians(90));
-		static_assert(std::is_same<decltype(q), const Quaternion>::value, "");
+		static_assert(bksge::is_same<decltype(q), const Quaternion>::value, "");
 		EXPECT_NEAR( 0.30000000000, (double)q[0], error);
 		EXPECT_NEAR(-0.40000000000, (double)q[1], error);
 		EXPECT_NEAR( 0.50000000000, (double)q[2], error);
@@ -1945,7 +1949,7 @@ TYPED_TEST(MathQuaternionFloatTest, MakeLookAtTest)
 			Vector3{10, 10, 10},
 			Vector3{30, 10, 10},
 			Vector3{ 0,  1,  0});
-		static_assert(std::is_same<decltype(q), const Quaternion>::value, "");
+		static_assert(bksge::is_same<decltype(q), const Quaternion>::value, "");
 		EXPECT_NEAR( 0.000000, (double)q.x(), error);
 		EXPECT_NEAR(-0.707107, (double)q.y(), error);
 		EXPECT_NEAR( 0.000000, (double)q.z(), error);
@@ -1956,7 +1960,7 @@ TYPED_TEST(MathQuaternionFloatTest, MakeLookAtTest)
 			Vector3{10, 10, 10},
 			Vector3{10,  0, 10},
 			Vector3{ 0,  1,  0});
-		static_assert(std::is_same<decltype(q), const Quaternion>::value, "");
+		static_assert(bksge::is_same<decltype(q), const Quaternion>::value, "");
 		EXPECT_NEAR(-0.707107, (double)q.x(), error);
 		EXPECT_NEAR( 0.000000, (double)q.y(), error);
 		EXPECT_NEAR( 0.000000, (double)q.z(), error);
@@ -1967,7 +1971,7 @@ TYPED_TEST(MathQuaternionFloatTest, MakeLookAtTest)
 			Vector3{10, 10, 10},
 			Vector3{ 0,  0,  0},
 			Vector3{ 0,  1,  0});
-		static_assert(std::is_same<decltype(q), const Quaternion>::value, "");
+		static_assert(bksge::is_same<decltype(q), const Quaternion>::value, "");
 		EXPECT_NEAR(-0.279848, (double)q.x(), error);
 		EXPECT_NEAR( 0.364705, (double)q.y(), error);
 		EXPECT_NEAR( 0.115917, (double)q.z(), error);

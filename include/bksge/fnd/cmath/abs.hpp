@@ -10,8 +10,8 @@
 #define BKSGE_FND_CMATH_ABS_HPP
 
 #include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/type_traits/is_arithmetic.hpp>
 #include <bksge/fnd/config.hpp>
-#include <type_traits>
 
 namespace bksge
 {
@@ -51,7 +51,7 @@ namespace cmath
 template <
 	typename ArithmeticType,
 	typename = bksge::enable_if_t<
-		std::is_arithmetic<ArithmeticType>::value
+		bksge::is_arithmetic<ArithmeticType>::value
 	>
 >
 BKSGE_CONSTEXPR ArithmeticType

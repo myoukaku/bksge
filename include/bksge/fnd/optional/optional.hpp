@@ -30,11 +30,17 @@ using std::optional;
 #include <bksge/fnd/detail/enable_copy_move.hpp>
 #include <bksge/fnd/type_traits/decay.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/type_traits/is_constructible.hpp>
+#include <bksge/fnd/type_traits/is_copy_constructible.hpp>
+#include <bksge/fnd/type_traits/is_copy_assignable.hpp>
+#include <bksge/fnd/type_traits/is_move_constructible.hpp>
+#include <bksge/fnd/type_traits/is_move_assignable.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
+#include <bksge/fnd/type_traits/is_reference.hpp>
 #include <bksge/fnd/type_traits/remove_cv.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <type_traits>
 #include <initializer_list>
 
 namespace bksge
@@ -47,16 +53,16 @@ template <typename T>
 class optional
 	: private detail::optional_base<T>
 	, private detail::enable_copy_move<
-		std::is_copy_constructible<T>::value,
-		std::is_copy_constructible<T>::value && std::is_copy_assignable<T>::value,
-		std::is_move_constructible<T>::value,
-		std::is_move_constructible<T>::value && std::is_move_assignable<T>::value,
+		bksge::is_copy_constructible<T>::value,
+		bksge::is_copy_constructible<T>::value && bksge::is_copy_assignable<T>::value,
+		bksge::is_move_constructible<T>::value,
+		bksge::is_move_constructible<T>::value && bksge::is_move_assignable<T>::value,
 		optional<T>>
 {
 	static_assert(
-		!std::is_same<bksge::remove_cv_t<T>, nullopt_t>::value &&
-		!std::is_same<bksge::remove_cv_t<T>, in_place_t>::value &&
-		!std::is_reference<T>::value,
+		!bksge::is_same<bksge::remove_cv_t<T>, nullopt_t>::value &&
+		!bksge::is_same<bksge::remove_cv_t<T>, in_place_t>::value &&
+		!bksge::is_reference<T>::value,
 		"Invalid instantiation of optional<T>");
 
 private:
@@ -84,7 +90,7 @@ public:
 	template <
 		typename U, typename... Args,
 		typename = bksge::enable_if_t<
-			std::is_constructible<T, std::initializer_list<U>&, Args&&...>::value
+			bksge::is_constructible<T, std::initializer_list<U>&, Args&&...>::value
 		>
 	>
 	BKSGE_CONSTEXPR explicit
@@ -105,7 +111,7 @@ public:
 	template <
 		typename U,
 		typename = bksge::enable_if_t<
-			std::is_same<T, bksge::decay_t<U>>::value
+			bksge::is_same<T, bksge::decay_t<U>>::value
 		>
 	>
 	optional& operator=(U&& u);
@@ -116,7 +122,7 @@ public:
 	template <
 		typename U, typename... Args,
 		typename = bksge::enable_if_t<
-			std::is_constructible<T, std::initializer_list<U>&, Args&&...>::value
+			bksge::is_constructible<T, std::initializer_list<U>&, Args&&...>::value
 		>
 	>
 	void emplace(std::initializer_list<U> il, Args&&... args);

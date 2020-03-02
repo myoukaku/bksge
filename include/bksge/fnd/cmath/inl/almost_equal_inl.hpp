@@ -14,8 +14,8 @@
 #include <bksge/fnd/cmath/isinf.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/type_traits/arithmetic_promote.hpp>
+#include <bksge/fnd/type_traits/is_floating_point.hpp>
 #include <limits>
-#include <type_traits>
 
 namespace bksge
 {
@@ -33,7 +33,7 @@ tmax(T const& a, T const& b)
 	return b < a ? a : b;
 }
 
-template <typename T, bool = std::is_floating_point<T>::value>
+template <typename T, bool = bksge::is_floating_point<T>::value>
 struct almost_equal_impl;
 
 template <typename FloatType>

@@ -15,10 +15,10 @@
 #include <bksge/fnd/tpp/accumulate.hpp>
 #include <bksge/fnd/tpp/all_of.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/type_traits/is_arithmetic.hpp>
 #include <bksge/fnd/cmath/lerp.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
-#include <type_traits>
 
 namespace bksge
 {
@@ -82,7 +82,7 @@ BKSGE_NOEXCEPT_OR_NOTHROW
 
 template <typename Vec, typename U, bksge::size_t... Is,
 	bksge::enable_if_t<
-		std::is_arithmetic<U>::value
+		bksge::is_arithmetic<U>::value
 	>* = nullptr
 >
 inline BKSGE_CONSTEXPR Vec
@@ -94,7 +94,7 @@ BKSGE_NOEXCEPT_OR_NOTHROW
 
 template <typename Vec1, typename Vec2, bksge::size_t... Is,
 	bksge::enable_if_t<
-		!std::is_arithmetic<Vec2>::value
+		!bksge::is_arithmetic<Vec2>::value
 	>* = nullptr
 >
 inline BKSGE_CONSTEXPR Vec1
@@ -115,7 +115,7 @@ BKSGE_NOEXCEPT_OR_NOTHROW
 
 template <typename Vec, typename U, bksge::size_t... Is,
 	bksge::enable_if_t<
-		std::is_arithmetic<U>::value
+		bksge::is_arithmetic<U>::value
 	>* = nullptr
 >
 inline BKSGE_CONSTEXPR Vec
@@ -127,7 +127,7 @@ BKSGE_NOEXCEPT_OR_NOTHROW
 
 template <typename Vec1, typename Vec2, bksge::size_t... Is,
 	bksge::enable_if_t<
-		!std::is_arithmetic<Vec2>::value
+		!bksge::is_arithmetic<Vec2>::value
 	>* = nullptr
 >
 inline BKSGE_CONSTEXPR Vec1

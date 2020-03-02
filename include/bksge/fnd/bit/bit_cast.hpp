@@ -27,8 +27,8 @@ using std::bit_cast;
 #else
 
 #include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/type_traits/is_trivially_copyable.hpp>
 #include <cstring>		// memcpy
-#include <type_traits>	// is_trivially_copyable
 
 namespace bksge
 {
@@ -60,8 +60,8 @@ template <
 	typename From,
 	typename = bksge::enable_if_t<
 		sizeof(To) == sizeof(From) &&
-		std::is_trivially_copyable<To>::value &&
-		std::is_trivially_copyable<From>::value
+		bksge::is_trivially_copyable<To>::value &&
+		bksge::is_trivially_copyable<From>::value
 	>
 >
 inline To bit_cast(From const& src) BKSGE_NOEXCEPT

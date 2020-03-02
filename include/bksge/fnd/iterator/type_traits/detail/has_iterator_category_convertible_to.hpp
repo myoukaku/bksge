@@ -12,8 +12,8 @@
 #include <bksge/fnd/iterator/type_traits/detail/has_iterator_category.hpp>
 #include <bksge/fnd/iterator/type_traits/iterator_category.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
+#include <bksge/fnd/type_traits/is_convertible.hpp>
 #include <iterator>		// iterator_traits
-#include <type_traits>	// is_convertible
 
 namespace bksge
 {
@@ -28,7 +28,7 @@ template <
 >
 struct has_iterator_category_convertible_to
 	: public bksge::bool_constant<
-		std::is_convertible<
+		bksge::is_convertible<
 			bksge::iterator_category<Iterator>,
 			Category
 		>::value

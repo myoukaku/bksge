@@ -7,9 +7,9 @@
  */
 
 #include <bksge/core/render/vertex_element.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
-#include <type_traits>
 #include "serialize_test.hpp"
 
 GTEST_TEST(Render_VertexElement, BasicTest)
@@ -17,7 +17,7 @@ GTEST_TEST(Render_VertexElement, BasicTest)
 	using namespace bksge;
 
 	const VPosition v {{1,2,3}};
-	static_assert(std::is_same<float, VPosition::value_type>::value, "");
+	static_assert(bksge::is_same<float, VPosition::value_type>::value, "");
 	static_assert(VPosition::element_num == 3, "");
 	static_assert(VPosition::semantic    == Semantic::kPosition, "");
 	static_assert(VPosition::type_enum   == TypeEnum::kFloat, "");
@@ -26,7 +26,7 @@ GTEST_TEST(Render_VertexElement, BasicTest)
 	EXPECT_EQ(3, v[2]);
 
 	const VNormal n {{4,5,6}};
-	static_assert(std::is_same<float, VNormal::value_type>::value, "");
+	static_assert(bksge::is_same<float, VNormal::value_type>::value, "");
 	static_assert(VNormal::element_num == 3, "");
 	static_assert(VNormal::semantic    == Semantic::kNormal, "");
 	static_assert(VNormal::type_enum   == TypeEnum::kFloat, "");
@@ -35,7 +35,7 @@ GTEST_TEST(Render_VertexElement, BasicTest)
 	EXPECT_EQ(6, n[2]);
 
 	const VColor c {{2,3,4,5}};
-	static_assert(std::is_same<float, VColor::value_type>::value, "");
+	static_assert(bksge::is_same<float, VColor::value_type>::value, "");
 	static_assert(VColor::element_num == 4, "");
 	static_assert(VColor::semantic    == Semantic::kColor, "");
 	static_assert(VColor::type_enum   == TypeEnum::kFloat, "");
@@ -45,7 +45,7 @@ GTEST_TEST(Render_VertexElement, BasicTest)
 	EXPECT_EQ(5, c[3]);
 
 	const VTexCoord t {{0, 1}};
-	static_assert(std::is_same<float, VTexCoord::value_type>::value, "");
+	static_assert(bksge::is_same<float, VTexCoord::value_type>::value, "");
 	static_assert(VTexCoord::element_num == 2, "");
 	static_assert(VTexCoord::semantic    == Semantic::kTexCoord, "");
 	static_assert(VTexCoord::type_enum   == TypeEnum::kFloat, "");

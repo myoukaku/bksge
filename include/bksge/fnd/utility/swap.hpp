@@ -10,9 +10,12 @@
 #define BKSGE_FND_UTILITY_SWAP_HPP
 
 #include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/type_traits/is_move_constructible.hpp>
+#include <bksge/fnd/type_traits/is_move_assignable.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_move_constructible.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_move_assignable.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
-#include <type_traits>
 #include <utility>
 
 namespace bksge
@@ -30,11 +33,11 @@ template <typename T>
 inline BKSGE_CXX14_CONSTEXPR void
 swap(T& a, T& b,
 	 bksge::enable_if_t<
-	 std::is_move_constructible<T>::value &&
-	 std::is_move_assignable<T>::value>* = nullptr)
+	 bksge::is_move_constructible<T>::value &&
+	 bksge::is_move_assignable<T>::value>* = nullptr)
 BKSGE_NOEXCEPT_IF(
-	std::is_nothrow_move_constructible<T>::value &&
-	std::is_nothrow_move_assignable<T>::value)
+	bksge::is_nothrow_move_constructible<T>::value &&
+	bksge::is_nothrow_move_assignable<T>::value)
 {
 	T temp = std::move(a);
 	a = std::move(b);

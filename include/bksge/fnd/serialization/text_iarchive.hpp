@@ -14,6 +14,10 @@
 #include <bksge/fnd/serialization/nvp.hpp>
 #include <bksge/fnd/serialization/base_object.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/type_traits/is_floating_point.hpp>
+#include <bksge/fnd/type_traits/is_integral.hpp>
+#include <bksge/fnd/type_traits/is_unsigned.hpp>
+#include <bksge/fnd/type_traits/is_signed.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/intmax_t.hpp>
 #include <bksge/fnd/cstdint/uintmax_t.hpp>
@@ -21,7 +25,6 @@
 #include <memory>
 #include <unordered_map>
 #include <vector>
-#include <type_traits>
 
 namespace bksge
 {
@@ -150,19 +153,19 @@ private:
 		}
 	}
 
-	template <typename T, bksge::enable_if_t<std::is_floating_point<T>::value>* = nullptr>
+	template <typename T, bksge::enable_if_t<bksge::is_floating_point<T>::value>* = nullptr>
 	void load_arithmetic(T& t)
 	{
 		m_impl->load_arithmetic(t);
 	}
 
-	template <typename T, bksge::enable_if_t<std::is_integral<T>::value>* = nullptr>
+	template <typename T, bksge::enable_if_t<bksge::is_integral<T>::value>* = nullptr>
 	void load_arithmetic(T& t)
 	{
 		load_integral(t);
 	}
 
-	template <typename T, bksge::enable_if_t<std::is_unsigned<T>::value>* = nullptr>
+	template <typename T, bksge::enable_if_t<bksge::is_unsigned<T>::value>* = nullptr>
 	void load_integral(T& t)
 	{
 		bksge::uintmax_t i;
@@ -170,7 +173,7 @@ private:
 		t = static_cast<T>(i);
 	}
 
-	template <typename T, bksge::enable_if_t<std::is_signed<T>::value>* = nullptr>
+	template <typename T, bksge::enable_if_t<bksge::is_signed<T>::value>* = nullptr>
 	void load_integral(T& t)
 	{
 		bksge::intmax_t i;

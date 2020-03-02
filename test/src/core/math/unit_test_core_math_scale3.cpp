@@ -10,15 +10,19 @@
 #include <bksge/core/math/vector4.hpp>
 #include <bksge/core/math/vector3.hpp>
 #include <bksge/core/math/vector2.hpp>
+#include <bksge/fnd/type_traits/is_constructible.hpp>
+#include <bksge/fnd/type_traits/is_default_constructible.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_default_constructible.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
 #include <stdexcept>
 #include <tuple>
-#include <type_traits>
 #include <functional>
 #include <vector>
 #include "constexpr_test.hpp"
@@ -50,8 +54,8 @@ TYPED_TEST(MathScale3Test, DefaultConstructTest)
 	using Scale3 = bksge::math::Scale3<T>;
 
 	static_assert(sizeof(Scale3) == sizeof(T) * 3, "");
-	static_assert(std::is_default_constructible<Scale3>::value, "");
-	static_assert(std::is_nothrow_default_constructible<Scale3>::value, "");
+	static_assert(bksge::is_default_constructible<Scale3>::value, "");
+	static_assert(bksge::is_nothrow_default_constructible<Scale3>::value, "");
 	static_assert(bksge::is_implicitly_default_constructible<Scale3>::value, "");
 
 	{
@@ -79,16 +83,16 @@ TYPED_TEST(MathScale3Test, ValueConstructTest)
 	using T = TypeParam;
 	using Scale3 = bksge::math::Scale3<T>;
 
-	static_assert(!std::is_constructible<Scale3, T, T, T, T, T>::value, "");
-	static_assert(!std::is_constructible<Scale3, T, T, T, T>::value, "");
-	static_assert( std::is_constructible<Scale3, T, T, T>::value, "");
-	static_assert(!std::is_constructible<Scale3, T, T>::value, "");
-	static_assert(!std::is_constructible<Scale3, T>::value, "");
-	static_assert(!std::is_nothrow_constructible<Scale3, T, T, T, T, T>::value, "");
-	static_assert(!std::is_nothrow_constructible<Scale3, T, T, T, T>::value, "");
-	static_assert( std::is_nothrow_constructible<Scale3, T, T, T>::value, "");
-	static_assert(!std::is_nothrow_constructible<Scale3, T, T>::value, "");
-	static_assert(!std::is_nothrow_constructible<Scale3, T>::value, "");
+	static_assert(!bksge::is_constructible<Scale3, T, T, T, T, T>::value, "");
+	static_assert(!bksge::is_constructible<Scale3, T, T, T, T>::value, "");
+	static_assert( bksge::is_constructible<Scale3, T, T, T>::value, "");
+	static_assert(!bksge::is_constructible<Scale3, T, T>::value, "");
+	static_assert(!bksge::is_constructible<Scale3, T>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Scale3, T, T, T, T, T>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Scale3, T, T, T, T>::value, "");
+	static_assert( bksge::is_nothrow_constructible<Scale3, T, T, T>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Scale3, T, T>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Scale3, T>::value, "");
 	static_assert(!bksge::is_implicitly_constructible<Scale3, T, T, T, T, T>::value, "");
 	static_assert(!bksge::is_implicitly_constructible<Scale3, T, T, T, T>::value, "");
 	static_assert( bksge::is_implicitly_constructible<Scale3, T, T, T>::value, "");
@@ -120,25 +124,25 @@ TYPED_TEST(MathScale3Test, CopyConstructTest)
 	using T = TypeParam;
 	using Scale3 = bksge::math::Scale3<T>;
 
-	static_assert(std::is_constructible<Scale3,  Scale3  const&>::value, "");
-	static_assert(std::is_constructible<Scale3,  Scale3i const&>::value, "");
-	static_assert(std::is_constructible<Scale3,  Scale3f const&>::value, "");
-	static_assert(std::is_constructible<Scale3i, Scale3  const&>::value, "");
-	static_assert(std::is_constructible<Scale3i, Scale3i const&>::value, "");
-	static_assert(std::is_constructible<Scale3i, Scale3f const&>::value, "");
-	static_assert(std::is_constructible<Scale3f, Scale3  const&>::value, "");
-	static_assert(std::is_constructible<Scale3f, Scale3i const&>::value, "");
-	static_assert(std::is_constructible<Scale3f, Scale3f const&>::value, "");
+	static_assert(bksge::is_constructible<Scale3,  Scale3  const&>::value, "");
+	static_assert(bksge::is_constructible<Scale3,  Scale3i const&>::value, "");
+	static_assert(bksge::is_constructible<Scale3,  Scale3f const&>::value, "");
+	static_assert(bksge::is_constructible<Scale3i, Scale3  const&>::value, "");
+	static_assert(bksge::is_constructible<Scale3i, Scale3i const&>::value, "");
+	static_assert(bksge::is_constructible<Scale3i, Scale3f const&>::value, "");
+	static_assert(bksge::is_constructible<Scale3f, Scale3  const&>::value, "");
+	static_assert(bksge::is_constructible<Scale3f, Scale3i const&>::value, "");
+	static_assert(bksge::is_constructible<Scale3f, Scale3f const&>::value, "");
 
-	static_assert(std::is_nothrow_constructible<Scale3,  Scale3  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Scale3,  Scale3i const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Scale3,  Scale3f const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Scale3i, Scale3  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Scale3i, Scale3i const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Scale3i, Scale3f const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Scale3f, Scale3  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Scale3f, Scale3i const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Scale3f, Scale3f const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Scale3,  Scale3  const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Scale3,  Scale3i const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Scale3,  Scale3f const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Scale3i, Scale3  const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Scale3i, Scale3i const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Scale3i, Scale3f const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Scale3f, Scale3  const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Scale3f, Scale3i const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Scale3f, Scale3f const&>::value, "");
 
 	static_assert(bksge::is_implicitly_constructible<Scale3,  Scale3  const&>::value, "");
 	static_assert(bksge::is_implicitly_constructible<Scale3,  Scale3i const&>::value, "");
@@ -836,7 +840,7 @@ TYPED_TEST(MathScale3Test, MulScale3Test)
 		Scale3 v(2, 3, 4);
 
 		auto t = (v *= Scale3(-1, 2, -3));
-		static_assert(std::is_same<decltype(t), Scale3>::value, "");
+		static_assert(bksge::is_same<decltype(t), Scale3>::value, "");
 		EXPECT_EQ(Scale3(-2, 6, -12), v);
 		EXPECT_EQ(t, v);
 	}
@@ -844,7 +848,7 @@ TYPED_TEST(MathScale3Test, MulScale3Test)
 	// Scale3 * Scale3 -> Scale3
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto t = Scale3(-3, 4, 5) * Scale3(0, 2, -1);
-		static_assert(std::is_same<decltype(t), const Scale3>::value, "");
+		static_assert(bksge::is_same<decltype(t), const Scale3>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(Scale3(0, 8, -5), t);
 	}
 }
@@ -860,7 +864,7 @@ TYPED_TEST(MathScale3Test, MulVector3Test)
 		Vector3 v {1, 2, 3};
 
 		auto t = (v *= Scale3{2, -3, 4});
-		static_assert(std::is_same<decltype(t), Vector3>::value, "");
+		static_assert(bksge::is_same<decltype(t), Vector3>::value, "");
 		EXPECT_EQ(Vector3(2, -6, 12), v);
 		EXPECT_EQ(t, v);
 	}
@@ -868,7 +872,7 @@ TYPED_TEST(MathScale3Test, MulVector3Test)
 	// Vector3 * Scale3 -> Vector3
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto t = Vector3{-5, 6, 7} * Scale3{2, -2, 3};
-		static_assert(std::is_same<decltype(t), const Vector3>::value, "");
+		static_assert(bksge::is_same<decltype(t), const Vector3>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(-10, -12, 21), t);
 	}
 }
@@ -914,7 +918,7 @@ TYPED_TEST(MathScale3Test, DivScale3Test)
 		Scale3 v(8, 12, 16);
 
 		auto t = (v /= Scale3(-1, 2, -4));
-		static_assert(std::is_same<decltype(t), Scale3>::value, "");
+		static_assert(bksge::is_same<decltype(t), Scale3>::value, "");
 		EXPECT_EQ(Scale3(-8, 6, -4), v);
 		EXPECT_EQ(t, v);
 	}
@@ -922,7 +926,7 @@ TYPED_TEST(MathScale3Test, DivScale3Test)
 	// Scale3 / Scale3 -> Scale3
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto t = Scale3(-3, 4, 5) / Scale3(1, 2, -1);
-		static_assert(std::is_same<decltype(t), const Scale3>::value, "");
+		static_assert(bksge::is_same<decltype(t), const Scale3>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(Scale3(-3, 2, -5), t);
 	}
 }
@@ -975,9 +979,9 @@ TYPED_TEST(MathScale3Test, TupleElementTest)
 	using T = TypeParam;
 	using Scale3 = bksge::math::Scale3<T>;
 
-	static_assert(std::is_same<typename std::tuple_element<0, Scale3>::type, T>::value, "");
-	static_assert(std::is_same<typename std::tuple_element<1, Scale3>::type, T>::value, "");
-	static_assert(std::is_same<typename std::tuple_element<2, Scale3>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<0, Scale3>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<1, Scale3>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<2, Scale3>::type, T>::value, "");
 }
 
 TYPED_TEST(MathScale3Test, TupleGetTest)
@@ -1023,12 +1027,12 @@ TYPED_TEST(MathScale3Test, ZeroTest)
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = Scale3::Zero();
-		static_assert(std::is_same<decltype(v), const Scale3>::value, "");
+		static_assert(bksge::is_same<decltype(v), const Scale3>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(Scale3(0, 0, 0), v);
 	}
 	{
 		const auto v = Scale3::Zero();
-		static_assert(std::is_same<decltype(v), const Scale3>::value, "");
+		static_assert(bksge::is_same<decltype(v), const Scale3>::value, "");
 		EXPECT_EQ(Scale3(0, 0, 0), v);
 	}
 }
@@ -1040,12 +1044,12 @@ TYPED_TEST(MathScale3Test, IdentityTest)
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = Scale3::Identity();
-		static_assert(std::is_same<decltype(v), const Scale3>::value, "");
+		static_assert(bksge::is_same<decltype(v), const Scale3>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(Scale3(1, 1, 1), v);
 	}
 	{
 		const auto v = Scale3::Identity();
-		static_assert(std::is_same<decltype(v), const Scale3>::value, "");
+		static_assert(bksge::is_same<decltype(v), const Scale3>::value, "");
 		EXPECT_EQ(Scale3(1, 1, 1), v);
 	}
 }

@@ -23,23 +23,25 @@ using std::make_unique;
 #else
 
 #include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/type_traits/extent.hpp>
 #include <bksge/fnd/type_traits/remove_extent.hpp>
+#include <bksge/fnd/type_traits/is_array.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <type_traits>
 
 namespace bksge
 {
 
 template <typename T, typename... Types> inline
-bksge::enable_if_t<!std::is_array<T>::value, std::unique_ptr<T>>
+bksge::enable_if_t<!bksge::is_array<T>::value, std::unique_ptr<T>>
 make_unique(Types&&... args)
 {
 	return std::unique_ptr<T>(new T(bksge::forward<Types>(args)...));
 }
 
 template <typename T> inline
-bksge::enable_if_t<std::is_array<T>::value && std::extent<T>::value == 0, std::unique_ptr<T>>
+bksge::enable_if_t<bksge::is_array<T>::value && bksge::extent<T>::value == 0, std::unique_ptr<T>>
 make_unique(bksge::size_t size)
 {
 	using Elem = bksge::remove_extent_t<T>;
@@ -47,7 +49,7 @@ make_unique(bksge::size_t size)
 }
 
 template <typename T, typename... Types>
-bksge::enable_if_t<std::extent<T>::value != 0, void>
+bksge::enable_if_t<bksge::extent<T>::value != 0, void>
 make_unique(Types&&...) = delete;
 
 }	// namespace bksge

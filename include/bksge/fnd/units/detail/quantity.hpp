@@ -14,10 +14,10 @@
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_swappable.hpp>
+#include <bksge/fnd/type_traits/is_arithmetic.hpp>
 #include <bksge/fnd/cstdint/intmax_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <ratio>
-#include <type_traits>
 #include <iosfwd>
 
 namespace bksge
@@ -150,7 +150,7 @@ template <
 	typename... T,
 	typename ArithmeticType,
 	typename = bksge::enable_if_t<
-		std::is_arithmetic<ArithmeticType>::value
+		bksge::is_arithmetic<ArithmeticType>::value
 	>
 >
 BKSGE_CONSTEXPR quantity<T...>
@@ -163,7 +163,7 @@ template <
 	typename... T,
 	typename ArithmeticType,
 	typename = bksge::enable_if_t<
-		std::is_arithmetic<ArithmeticType>::value
+		bksge::is_arithmetic<ArithmeticType>::value
 	>
 >
 BKSGE_CONSTEXPR quantity<T...>
@@ -184,7 +184,7 @@ template <
 	typename... T,
 	typename ArithmeticType,
 	typename = bksge::enable_if_t<
-		std::is_arithmetic<ArithmeticType>::value
+		bksge::is_arithmetic<ArithmeticType>::value
 	>
 >
 BKSGE_CXX14_CONSTEXPR quantity<T...>&
@@ -205,7 +205,7 @@ template <
 	typename... T,
 	typename ArithmeticType,
 	typename = bksge::enable_if_t<
-		std::is_arithmetic<ArithmeticType>::value
+		bksge::is_arithmetic<ArithmeticType>::value
 	>
 >
 BKSGE_CONSTEXPR quantity<T...>
@@ -218,7 +218,7 @@ template <
 	typename... T,
 	typename ArithmeticType,
 	typename = bksge::enable_if_t<
-		std::is_arithmetic<ArithmeticType>::value
+		bksge::is_arithmetic<ArithmeticType>::value
 	>
 >
 BKSGE_CONSTEXPR quantity_divide_result_t<dimensionless<ArithmeticType>, quantity<T...>>
@@ -231,7 +231,7 @@ template <
 	typename... T,
 	typename ArithmeticType,
 	typename = bksge::enable_if_t<
-		std::is_arithmetic<ArithmeticType>::value
+		bksge::is_arithmetic<ArithmeticType>::value
 	>
 >
 BKSGE_CXX14_CONSTEXPR quantity<T...>&

@@ -15,12 +15,12 @@
 #include <bksge/core/math/scale3.hpp>
 #include <bksge/core/math/matrix4x4.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/serialization/access.hpp>
 #include <bksge/fnd/serialization/nvp.hpp>
 #include <bksge/fnd/serialization/version.hpp>
 #include <bksge/fnd/config.hpp>
 #include <iosfwd>		// basic_ostream
-#include <type_traits>
 
 namespace bksge
 {
@@ -52,7 +52,7 @@ public:
 	template <
 		typename U,
 		typename = bksge::enable_if_t<
-			std::is_constructible<T, U>::value
+			bksge::is_constructible<T, U>::value
 		>
 	>
 	BKSGE_CONSTEXPR

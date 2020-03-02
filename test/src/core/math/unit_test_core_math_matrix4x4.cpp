@@ -15,15 +15,19 @@
 #include <bksge/core/math/scale3.hpp>
 #include <bksge/core/math/quaternion.hpp>
 #include <bksge/fnd/cmath/degrees_to_radians.hpp>
+#include <bksge/fnd/type_traits/is_constructible.hpp>
+#include <bksge/fnd/type_traits/is_default_constructible.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_default_constructible.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
 #include <stdexcept>
 #include <tuple>
-#include <type_traits>
 #include <functional>
 #include <vector>
 #include "constexpr_test.hpp"
@@ -133,8 +137,8 @@ TYPED_TEST(MathMatrix4x4Test, DefaultConstructTest)
 	using Matrix4x4 = bksge::math::Matrix4x4<T>;
 
 	static_assert(sizeof(Matrix4x4) == sizeof(T) * 16, "");
-	static_assert(std::is_default_constructible<Matrix4x4>::value, "");
-	static_assert(std::is_nothrow_default_constructible<Matrix4x4>::value, "");
+	static_assert(bksge::is_default_constructible<Matrix4x4>::value, "");
+	static_assert(bksge::is_nothrow_default_constructible<Matrix4x4>::value, "");
 	static_assert(bksge::is_implicitly_default_constructible<Matrix4x4>::value, "");
 
 	{
@@ -202,36 +206,36 @@ TYPED_TEST(MathMatrix4x4Test, VectorConstructTest)
 	using Matrix4x4 = bksge::math::Matrix4x4<T>;
 	using Vector4 = bksge::math::Vector4<T>;
 
-	static_assert(!std::is_constructible<Matrix4x4, Vector4, Vector4, Vector4, Vector4, Vector4>::value, "");
-	static_assert( std::is_constructible<Matrix4x4, Vector4, Vector4, Vector4, Vector4>::value, "");
-	static_assert(!std::is_constructible<Matrix4x4, Vector4, Vector4, Vector4>::value, "");
-	static_assert(!std::is_constructible<Matrix4x4, Vector4, Vector4>::value, "");
-	static_assert(!std::is_constructible<Matrix4x4, Vector4>::value, "");
-	static_assert(!std::is_constructible<Matrix4x4, Vector4i, Vector4i, Vector4i, Vector4i, Vector4i>::value, "");
-	static_assert( std::is_constructible<Matrix4x4, Vector4i, Vector4i, Vector4i, Vector4i>::value, "");
-	static_assert(!std::is_constructible<Matrix4x4, Vector4i, Vector4i, Vector4i>::value, "");
-	static_assert(!std::is_constructible<Matrix4x4, Vector4i, Vector4i>::value, "");
-	static_assert(!std::is_constructible<Matrix4x4, Vector4i>::value, "");
-	static_assert(!std::is_constructible<Matrix4x4, Vector4f, Vector4f, Vector4f, Vector4f, Vector4f>::value, "");
-	static_assert( std::is_constructible<Matrix4x4, Vector4f, Vector4f, Vector4f, Vector4f>::value, "");
-	static_assert(!std::is_constructible<Matrix4x4, Vector4f, Vector4f, Vector4f>::value, "");
-	static_assert(!std::is_constructible<Matrix4x4, Vector4f, Vector4f>::value, "");
-	static_assert(!std::is_constructible<Matrix4x4, Vector4f>::value, "");
-	static_assert(!std::is_nothrow_constructible<Matrix4x4, Vector4, Vector4, Vector4, Vector4, Vector4>::value, "");
-	static_assert( std::is_nothrow_constructible<Matrix4x4, Vector4, Vector4, Vector4, Vector4>::value, "");
-	static_assert(!std::is_nothrow_constructible<Matrix4x4, Vector4, Vector4, Vector4>::value, "");
-	static_assert(!std::is_nothrow_constructible<Matrix4x4, Vector4, Vector4>::value, "");
-	static_assert(!std::is_nothrow_constructible<Matrix4x4, Vector4>::value, "");
-	static_assert(!std::is_nothrow_constructible<Matrix4x4, Vector4i, Vector4i, Vector4i, Vector4i, Vector4i>::value, "");
-	static_assert( std::is_nothrow_constructible<Matrix4x4, Vector4i, Vector4i, Vector4i, Vector4i>::value, "");
-	static_assert(!std::is_nothrow_constructible<Matrix4x4, Vector4i, Vector4i, Vector4i>::value, "");
-	static_assert(!std::is_nothrow_constructible<Matrix4x4, Vector4i, Vector4i>::value, "");
-	static_assert(!std::is_nothrow_constructible<Matrix4x4, Vector4i>::value, "");
-	static_assert(!std::is_nothrow_constructible<Matrix4x4, Vector4f, Vector4f, Vector4f, Vector4f, Vector4f>::value, "");
-	static_assert( std::is_nothrow_constructible<Matrix4x4, Vector4f, Vector4f, Vector4f, Vector4f>::value, "");
-	static_assert(!std::is_nothrow_constructible<Matrix4x4, Vector4f, Vector4f, Vector4f>::value, "");
-	static_assert(!std::is_nothrow_constructible<Matrix4x4, Vector4f, Vector4f>::value, "");
-	static_assert(!std::is_nothrow_constructible<Matrix4x4, Vector4f>::value, "");
+	static_assert(!bksge::is_constructible<Matrix4x4, Vector4, Vector4, Vector4, Vector4, Vector4>::value, "");
+	static_assert( bksge::is_constructible<Matrix4x4, Vector4, Vector4, Vector4, Vector4>::value, "");
+	static_assert(!bksge::is_constructible<Matrix4x4, Vector4, Vector4, Vector4>::value, "");
+	static_assert(!bksge::is_constructible<Matrix4x4, Vector4, Vector4>::value, "");
+	static_assert(!bksge::is_constructible<Matrix4x4, Vector4>::value, "");
+	static_assert(!bksge::is_constructible<Matrix4x4, Vector4i, Vector4i, Vector4i, Vector4i, Vector4i>::value, "");
+	static_assert( bksge::is_constructible<Matrix4x4, Vector4i, Vector4i, Vector4i, Vector4i>::value, "");
+	static_assert(!bksge::is_constructible<Matrix4x4, Vector4i, Vector4i, Vector4i>::value, "");
+	static_assert(!bksge::is_constructible<Matrix4x4, Vector4i, Vector4i>::value, "");
+	static_assert(!bksge::is_constructible<Matrix4x4, Vector4i>::value, "");
+	static_assert(!bksge::is_constructible<Matrix4x4, Vector4f, Vector4f, Vector4f, Vector4f, Vector4f>::value, "");
+	static_assert( bksge::is_constructible<Matrix4x4, Vector4f, Vector4f, Vector4f, Vector4f>::value, "");
+	static_assert(!bksge::is_constructible<Matrix4x4, Vector4f, Vector4f, Vector4f>::value, "");
+	static_assert(!bksge::is_constructible<Matrix4x4, Vector4f, Vector4f>::value, "");
+	static_assert(!bksge::is_constructible<Matrix4x4, Vector4f>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Matrix4x4, Vector4, Vector4, Vector4, Vector4, Vector4>::value, "");
+	static_assert( bksge::is_nothrow_constructible<Matrix4x4, Vector4, Vector4, Vector4, Vector4>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Matrix4x4, Vector4, Vector4, Vector4>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Matrix4x4, Vector4, Vector4>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Matrix4x4, Vector4>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Matrix4x4, Vector4i, Vector4i, Vector4i, Vector4i, Vector4i>::value, "");
+	static_assert( bksge::is_nothrow_constructible<Matrix4x4, Vector4i, Vector4i, Vector4i, Vector4i>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Matrix4x4, Vector4i, Vector4i, Vector4i>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Matrix4x4, Vector4i, Vector4i>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Matrix4x4, Vector4i>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Matrix4x4, Vector4f, Vector4f, Vector4f, Vector4f, Vector4f>::value, "");
+	static_assert( bksge::is_nothrow_constructible<Matrix4x4, Vector4f, Vector4f, Vector4f, Vector4f>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Matrix4x4, Vector4f, Vector4f, Vector4f>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Matrix4x4, Vector4f, Vector4f>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Matrix4x4, Vector4f>::value, "");
 	static_assert(!bksge::is_implicitly_constructible<Matrix4x4, Vector4, Vector4, Vector4, Vector4, Vector4>::value, "");
 	static_assert( bksge::is_implicitly_constructible<Matrix4x4, Vector4, Vector4, Vector4, Vector4>::value, "");
 	static_assert(!bksge::is_implicitly_constructible<Matrix4x4, Vector4, Vector4, Vector4>::value, "");
@@ -329,25 +333,25 @@ TYPED_TEST(MathMatrix4x4Test, CopyConstructTest)
 	using Matrix4x4 = bksge::math::Matrix4x4<T>;
 	using Vector4 = bksge::math::Vector4<T>;
 
-	static_assert(std::is_constructible<Matrix4x4,  Matrix4x4  const&>::value, "");
-	static_assert(std::is_constructible<Matrix4x4,  Matrix4x4i const&>::value, "");
-	static_assert(std::is_constructible<Matrix4x4,  Matrix4x4f const&>::value, "");
-	static_assert(std::is_constructible<Matrix4x4i, Matrix4x4  const&>::value, "");
-	static_assert(std::is_constructible<Matrix4x4i, Matrix4x4i const&>::value, "");
-	static_assert(std::is_constructible<Matrix4x4i, Matrix4x4f const&>::value, "");
-	static_assert(std::is_constructible<Matrix4x4f, Matrix4x4  const&>::value, "");
-	static_assert(std::is_constructible<Matrix4x4f, Matrix4x4i const&>::value, "");
-	static_assert(std::is_constructible<Matrix4x4f, Matrix4x4f const&>::value, "");
+	static_assert(bksge::is_constructible<Matrix4x4,  Matrix4x4  const&>::value, "");
+	static_assert(bksge::is_constructible<Matrix4x4,  Matrix4x4i const&>::value, "");
+	static_assert(bksge::is_constructible<Matrix4x4,  Matrix4x4f const&>::value, "");
+	static_assert(bksge::is_constructible<Matrix4x4i, Matrix4x4  const&>::value, "");
+	static_assert(bksge::is_constructible<Matrix4x4i, Matrix4x4i const&>::value, "");
+	static_assert(bksge::is_constructible<Matrix4x4i, Matrix4x4f const&>::value, "");
+	static_assert(bksge::is_constructible<Matrix4x4f, Matrix4x4  const&>::value, "");
+	static_assert(bksge::is_constructible<Matrix4x4f, Matrix4x4i const&>::value, "");
+	static_assert(bksge::is_constructible<Matrix4x4f, Matrix4x4f const&>::value, "");
 
-	static_assert(std::is_nothrow_constructible<Matrix4x4,  Matrix4x4  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Matrix4x4,  Matrix4x4i const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Matrix4x4,  Matrix4x4f const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Matrix4x4i, Matrix4x4  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Matrix4x4i, Matrix4x4i const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Matrix4x4i, Matrix4x4f const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Matrix4x4f, Matrix4x4  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Matrix4x4f, Matrix4x4i const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Matrix4x4f, Matrix4x4f const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Matrix4x4,  Matrix4x4  const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Matrix4x4,  Matrix4x4i const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Matrix4x4,  Matrix4x4f const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Matrix4x4i, Matrix4x4  const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Matrix4x4i, Matrix4x4i const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Matrix4x4i, Matrix4x4f const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Matrix4x4f, Matrix4x4  const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Matrix4x4f, Matrix4x4i const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Matrix4x4f, Matrix4x4f const&>::value, "");
 
 	static_assert(bksge::is_implicitly_constructible<Matrix4x4,  Matrix4x4  const&>::value, "");
 	static_assert(bksge::is_implicitly_constructible<Matrix4x4,  Matrix4x4i const&>::value, "");
@@ -1319,7 +1323,7 @@ TYPED_TEST(MathMatrix4x4Test, MulMatrixTest)
 		};
 
 		auto t = m *= m1;
-		static_assert(std::is_same<decltype(t), Matrix4x4>::value, "");
+		static_assert(bksge::is_same<decltype(t), Matrix4x4>::value, "");
 		EXPECT_EQ(Vector4( 248,  592,  476, -24), m[0]);
 		EXPECT_EQ(Vector4( 584, 1264, 1004, 200), m[1]);
 		EXPECT_EQ(Vector4( 920, 1936, 1532, 424), m[2]);
@@ -1345,14 +1349,14 @@ TYPED_TEST(MathMatrix4x4Test, MulMatrixTest)
 		};
 
 		BKSGE_CONSTEXPR_OR_CONST auto t1 = m1 * m2;
-		static_assert(std::is_same<decltype(t1), Matrix4x4 const>::value, "");
+		static_assert(bksge::is_same<decltype(t1), Matrix4x4 const>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(  19,  -78,  203,  232), t1[0]);
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(  35,  278, -191, -196), t1[1]);
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector4( 279,   30,   55,   60), t1[2]);
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector4( 217,  106,   77,   88), t1[3]);
 
 		BKSGE_CONSTEXPR_OR_CONST auto t2 = m2 * m1;
-		static_assert(std::is_same<decltype(t2), Matrix4x4 const>::value, "");
+		static_assert(bksge::is_same<decltype(t2), Matrix4x4 const>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(  47,   85,   92,   38), t2[0]);
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector4( 163,  193,  200,   82), t2[1]);
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector4( 211, -167, -194, -214), t2[2]);
@@ -1377,7 +1381,7 @@ TYPED_TEST(MathMatrix4x4Test, MulMatrixTest)
 		};
 
 		BKSGE_CONSTEXPR_OR_CONST auto t1 = m1 * m2;
-		static_assert(std::is_same<decltype(t1), const Matrix4x3>::value, "");
+		static_assert(bksge::is_same<decltype(t1), const Matrix4x3>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3( 310, 320, 330), t1[0]);
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3( 726, 752, 778), t1[1]);
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(1142,1184,1226), t1[2]);
@@ -1401,7 +1405,7 @@ TYPED_TEST(MathMatrix4x4Test, MulMatrixTest)
 		};
 
 		BKSGE_CONSTEXPR_OR_CONST auto t1 = m1 * m2;
-		static_assert(std::is_same<decltype(t1), const Matrix3x4>::value, "");
+		static_assert(bksge::is_same<decltype(t1), const Matrix3x4>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector4( 370, 420, 470, 520), t1[0]);
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector4( 650, 740, 830, 920), t1[1]);
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector4( 930,1060,1190,1320), t1[2]);
@@ -1426,7 +1430,7 @@ TYPED_TEST(MathMatrix4x4Test, MulVectorTest)
 		};
 
 		auto t = v *= m;
-		static_assert(std::is_same<decltype(t), Vector4>::value, "");
+		static_assert(bksge::is_same<decltype(t), Vector4>::value, "");
 		EXPECT_EQ(Vector4(310, 320, 330, 340), v);
 		EXPECT_EQ(t, v);
 	}
@@ -1443,7 +1447,7 @@ TYPED_TEST(MathMatrix4x4Test, MulVectorTest)
 		};
 
 		BKSGE_CONSTEXPR_OR_CONST auto t = v2 * m;
-		static_assert(std::is_same<decltype(t), const Vector4>::value, "");
+		static_assert(bksge::is_same<decltype(t), const Vector4>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(192, 4, 70, 72), t);
 	}
 }
@@ -1611,10 +1615,10 @@ TYPED_TEST(MathMatrix4x4Test, TupleElementTest)
 	using Matrix4x4 = bksge::math::Matrix4x4<T>;
 	using Vector4 = bksge::math::Vector4<T>;
 
-	static_assert(std::is_same<typename std::tuple_element<0, Matrix4x4>::type, Vector4>::value, "");
-	static_assert(std::is_same<typename std::tuple_element<1, Matrix4x4>::type, Vector4>::value, "");
-	static_assert(std::is_same<typename std::tuple_element<2, Matrix4x4>::type, Vector4>::value, "");
-	static_assert(std::is_same<typename std::tuple_element<3, Matrix4x4>::type, Vector4>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<0, Matrix4x4>::type, Vector4>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<1, Matrix4x4>::type, Vector4>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<2, Matrix4x4>::type, Vector4>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<3, Matrix4x4>::type, Vector4>::value, "");
 }
 
 TYPED_TEST(MathMatrix4x4Test, TupleGetTest)
@@ -1677,7 +1681,7 @@ TYPED_TEST(MathMatrix4x4Test, ZeroTest)
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto m = Matrix4x4::Zero();
-		static_assert(std::is_same<decltype(m), Matrix4x4 const>::value, "");
+		static_assert(bksge::is_same<decltype(m), Matrix4x4 const>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(0, 0, 0, 0), m[0]);
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(0, 0, 0, 0), m[1]);
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(0, 0, 0, 0), m[2]);
@@ -1685,7 +1689,7 @@ TYPED_TEST(MathMatrix4x4Test, ZeroTest)
 	}
 	{
 		const auto m = Matrix4x4::Zero();
-		static_assert(std::is_same<decltype(m), Matrix4x4 const>::value, "");
+		static_assert(bksge::is_same<decltype(m), Matrix4x4 const>::value, "");
 		EXPECT_EQ(Vector4(0, 0, 0, 0), m[0]);
 		EXPECT_EQ(Vector4(0, 0, 0, 0), m[1]);
 		EXPECT_EQ(Vector4(0, 0, 0, 0), m[2]);
@@ -1701,7 +1705,7 @@ TYPED_TEST(MathMatrix4x4Test, IdentityTest)
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto m = Matrix4x4::Identity();
-		static_assert(std::is_same<decltype(m), Matrix4x4 const>::value, "");
+		static_assert(bksge::is_same<decltype(m), Matrix4x4 const>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(1, 0, 0, 0), m[0]);
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(0, 1, 0, 0), m[1]);
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(0, 0, 1, 0), m[2]);
@@ -1709,7 +1713,7 @@ TYPED_TEST(MathMatrix4x4Test, IdentityTest)
 	}
 	{
 		const auto m = Matrix4x4::Identity();
-		static_assert(std::is_same<decltype(m), Matrix4x4 const>::value, "");
+		static_assert(bksge::is_same<decltype(m), Matrix4x4 const>::value, "");
 		EXPECT_EQ(Vector4(1, 0, 0, 0), m[0]);
 		EXPECT_EQ(Vector4(0, 1, 0, 0), m[1]);
 		EXPECT_EQ(Vector4(0, 0, 1, 0), m[2]);
@@ -1732,14 +1736,14 @@ TYPED_TEST(MathMatrix4x4Test, TransposedTest)
 	};
 
 	BKSGE_CONSTEXPR_OR_CONST auto m2 = Transposed(m1);
-	static_assert(std::is_same<decltype(m2), Matrix4x4 const>::value, "");
+	static_assert(bksge::is_same<decltype(m2), Matrix4x4 const>::value, "");
 	BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(11, 21, 31, 41), m2[0]);
 	BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(12, 22, 32, 42), m2[1]);
 	BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(13, 23, 33, 43), m2[2]);
 	BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(14, 24, 34, 44), m2[3]);
 
 	BKSGE_CONSTEXPR_OR_CONST auto m3 = Transposed(m2);
-	static_assert(std::is_same<decltype(m3), Matrix4x4 const>::value, "");
+	static_assert(bksge::is_same<decltype(m3), Matrix4x4 const>::value, "");
 	BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(11, 12, 13, 14), m3[0]);
 	BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(21, 22, 23, 24), m3[1]);
 	BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(31, 32, 33, 34), m3[2]);
@@ -1856,7 +1860,7 @@ TYPED_TEST(MathMatrix4x4Test, InversedTest)
 		};
 
 		BKSGE_CXX14_CONSTEXPR_OR_CONST auto m_inv = Inversed(m);
-		static_assert(std::is_same<decltype(m_inv), Matrix4x4 const>::value, "");
+		static_assert(bksge::is_same<decltype(m_inv), Matrix4x4 const>::value, "");
 
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(Vector4( 1, -1, -1,  0), m_inv[0]);
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(Vector4(-1,  2,  2,  1), m_inv[1]);
@@ -1865,7 +1869,7 @@ TYPED_TEST(MathMatrix4x4Test, InversedTest)
 
 		// 逆行列の逆行列はもとの行列にもどる
 		BKSGE_CXX14_CONSTEXPR_OR_CONST auto m_inv_inv = Inversed(m_inv);
-		static_assert(std::is_same<decltype(m_inv_inv), Matrix4x4 const>::value, "");
+		static_assert(bksge::is_same<decltype(m_inv_inv), Matrix4x4 const>::value, "");
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(m, m_inv_inv);
 
 		// 行列とその逆行列をかけると単位行列になる
@@ -1931,7 +1935,7 @@ TYPED_TEST(MathMatrix4x4Test, MakeTranslationTest)
 	{
 		BKSGE_CONSTEXPR_OR_CONST Vector3 trans(3, 4, 5);
 		BKSGE_CONSTEXPR_OR_CONST auto m = Matrix4x4::MakeTranslation(trans);
-		static_assert(std::is_same<decltype(m), Matrix4x4 const>::value, "");
+		static_assert(bksge::is_same<decltype(m), Matrix4x4 const>::value, "");
 
 		BKSGE_CONSTEXPR_OR_CONST Matrix4x4 expected
 		{
@@ -1949,7 +1953,7 @@ TYPED_TEST(MathMatrix4x4Test, MakeTranslationTest)
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto m = Matrix4x4::MakeTranslation(Vector3{-4, 5, -6});
-		static_assert(std::is_same<decltype(m), Matrix4x4 const>::value, "");
+		static_assert(bksge::is_same<decltype(m), Matrix4x4 const>::value, "");
 
 		BKSGE_CONSTEXPR_OR_CONST Matrix4x4 expected
 		{
@@ -1967,7 +1971,7 @@ TYPED_TEST(MathMatrix4x4Test, MakeTranslationTest)
 	}
 	{
 		const auto m = Matrix4x4::MakeTranslation(1, 2, 3);
-		static_assert(std::is_same<decltype(m), Matrix4x4 const>::value, "");
+		static_assert(bksge::is_same<decltype(m), Matrix4x4 const>::value, "");
 
 		const Matrix4x4 expected
 		{
@@ -1997,7 +2001,7 @@ TYPED_TEST(MathMatrix4x4Test, MakeScaleTest)
 	{
 		BKSGE_CONSTEXPR_OR_CONST Scale3 scale(2, 3, 4);
 		BKSGE_CONSTEXPR_OR_CONST auto m = Matrix4x4::MakeScale(scale);
-		static_assert(std::is_same<decltype(m), Matrix4x4 const>::value, "");
+		static_assert(bksge::is_same<decltype(m), Matrix4x4 const>::value, "");
 
 		BKSGE_CONSTEXPR_OR_CONST Matrix4x4 expected
 		{
@@ -2015,7 +2019,7 @@ TYPED_TEST(MathMatrix4x4Test, MakeScaleTest)
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto m = Matrix4x4::MakeScale(Scale3{ 5, -4, 3 });
-		static_assert(std::is_same<decltype(m), Matrix4x4 const>::value, "");
+		static_assert(bksge::is_same<decltype(m), Matrix4x4 const>::value, "");
 
 		BKSGE_CONSTEXPR_OR_CONST Matrix4x4 expected
 		{
@@ -2033,7 +2037,7 @@ TYPED_TEST(MathMatrix4x4Test, MakeScaleTest)
 	}
 	{
 		const auto m = Matrix4x4::MakeScale(1, 2, 3);
-		static_assert(std::is_same<decltype(m), Matrix4x4 const>::value, "");
+		static_assert(bksge::is_same<decltype(m), Matrix4x4 const>::value, "");
 
 		const Matrix4x4 expected
 		{
@@ -2063,7 +2067,7 @@ TYPED_TEST(MathMatrix4x4FloatTest, MakeRotationXTest)
 
 	{
 		auto const m = Matrix4x4::MakeRotationX(bksge::degrees_to_radians(0));
-		static_assert(std::is_same<decltype(m), Matrix4x4 const>::value, "");
+		static_assert(bksge::is_same<decltype(m), Matrix4x4 const>::value, "");
 		EXPECT_EQ(Matrix4x4::Identity(), m);
 #if defined(BKSGE_DXMATH_TEST)
 		EXPECT_EQ(ToMatrix4x4<T>(XMMatrixRotationX((float)bksge::degrees_to_radians(0))), m);
@@ -2145,7 +2149,7 @@ TYPED_TEST(MathMatrix4x4FloatTest, MakeRotationYTest)
 
 	{
 		auto const m = Matrix4x4::MakeRotationY(bksge::degrees_to_radians(0));
-		static_assert(std::is_same<decltype(m), Matrix4x4 const>::value, "");
+		static_assert(bksge::is_same<decltype(m), Matrix4x4 const>::value, "");
 		EXPECT_EQ(Matrix4x4::Identity(), m);
 #if defined(BKSGE_DXMATH_TEST)
 		EXPECT_EQ(ToMatrix4x4<T>(XMMatrixRotationY((float)bksge::degrees_to_radians(0))), m);
@@ -2227,7 +2231,7 @@ TYPED_TEST(MathMatrix4x4FloatTest, MakeRotationZTest)
 
 	{
 		auto const m = Matrix4x4::MakeRotationZ(bksge::degrees_to_radians(0));
-		static_assert(std::is_same<decltype(m), Matrix4x4 const>::value, "");
+		static_assert(bksge::is_same<decltype(m), Matrix4x4 const>::value, "");
 		EXPECT_EQ(Matrix4x4::Identity(), m);
 #if defined(BKSGE_DXMATH_TEST)
 		EXPECT_EQ(ToMatrix4x4<T>(XMMatrixRotationZ((float)bksge::degrees_to_radians(0))), m);
@@ -2312,7 +2316,7 @@ TYPED_TEST(MathMatrix4x4FloatTest, MakeRotationTest)
 		auto const axis = Vector3(1, 2, 3);
 		auto const r = bksge::degrees_to_radians(90);
 		auto const m = Matrix4x4::MakeRotation(axis, r);
-		static_assert(std::is_same<decltype(m), Matrix4x4 const>::value, "");
+		static_assert(bksge::is_same<decltype(m), Matrix4x4 const>::value, "");
 
 #if defined(BKSGE_DXMATH_TEST)
 		Matrix4x4 const expected = ToMatrix4x4<T>(XMMatrixRotationAxis(ToXMVECTOR(axis), (float)r));
@@ -2386,7 +2390,7 @@ TYPED_TEST(MathMatrix4x4Test, MakeShearTest)
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto m = Matrix4x4::MakeShear(4, 5, 6);
-		static_assert(std::is_same<decltype(m), Matrix4x4 const>::value, "");
+		static_assert(bksge::is_same<decltype(m), Matrix4x4 const>::value, "");
 
 		BKSGE_CONSTEXPR_OR_CONST Matrix4x4 expected
 		{
@@ -2400,7 +2404,7 @@ TYPED_TEST(MathMatrix4x4Test, MakeShearTest)
 	}
 	{
 		const auto m = Matrix4x4::MakeShear(-1, 2, -3);
-		static_assert(std::is_same<decltype(m), Matrix4x4 const>::value, "");
+		static_assert(bksge::is_same<decltype(m), Matrix4x4 const>::value, "");
 
 		const Matrix4x4 expected
 		{

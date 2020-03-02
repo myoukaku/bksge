@@ -7,17 +7,17 @@
  */
 
 #include <bksge/fnd/functional/logical_or.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <gtest/gtest.h>
-#include <type_traits>
 #include "constexpr_test.hpp"
 
 GTEST_TEST(FunctionalTest, LogicalOrTest)
 {
 	{
 		using type = bksge::logical_or<int>;
-		static_assert(std::is_same<type::result_type,          bool>::value, "");
-		static_assert(std::is_same<type::first_argument_type,  int>::value, "");
-		static_assert(std::is_same<type::second_argument_type, int>::value, "");
+		static_assert(bksge::is_same<type::result_type,          bool>::value, "");
+		static_assert(bksge::is_same<type::first_argument_type,  int>::value, "");
+		static_assert(bksge::is_same<type::second_argument_type, int>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_FALSE(type()(0, 0));
 		BKSGE_CONSTEXPR_EXPECT_TRUE (type()(1, 0));
 		BKSGE_CONSTEXPR_EXPECT_TRUE (type()(0, 1));

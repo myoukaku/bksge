@@ -10,8 +10,13 @@
 #include <bksge/core/math/vector4.hpp>
 #include <bksge/core/math/vector3.hpp>
 #include <bksge/core/math/vector2.hpp>
+#include <bksge/fnd/type_traits/is_constructible.hpp>
+#include <bksge/fnd/type_traits/is_default_constructible.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_default_constructible.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
 #include <bksge/fnd/cstdint.hpp>
@@ -19,7 +24,6 @@
 #include <sstream>
 #include <stdexcept>
 #include <tuple>
-#include <type_traits>
 #include <functional>
 #include <vector>
 #include <gtest/gtest.h>
@@ -52,8 +56,8 @@ TYPED_TEST(MathColor4Test, DefaultConstructTest)
 	using Color4 = bksge::math::Color4<T>;
 
 	static_assert(sizeof(Color4) == sizeof(T) * 4, "");
-	static_assert(std::is_default_constructible<Color4>::value, "");
-	static_assert(std::is_nothrow_default_constructible<Color4>::value, "");
+	static_assert(bksge::is_default_constructible<Color4>::value, "");
+	static_assert(bksge::is_nothrow_default_constructible<Color4>::value, "");
 	static_assert(bksge::is_implicitly_default_constructible<Color4>::value, "");
 
 	{
@@ -84,16 +88,16 @@ TYPED_TEST(MathColor4Test, ValueConstructTest)
 	using T = TypeParam;
 	using Color4 = bksge::math::Color4<T>;
 
-	static_assert(!std::is_constructible<Color4, T, T, T, T, T>::value, "");
-	static_assert( std::is_constructible<Color4, T, T, T, T>::value, "");
-	static_assert(!std::is_constructible<Color4, T, T, T>::value, "");
-	static_assert(!std::is_constructible<Color4, T, T>::value, "");
-	static_assert(!std::is_constructible<Color4, T>::value, "");
-	static_assert(!std::is_nothrow_constructible<Color4, T, T, T, T, T>::value, "");
-	static_assert( std::is_nothrow_constructible<Color4, T, T, T, T>::value, "");
-	static_assert(!std::is_nothrow_constructible<Color4, T, T, T>::value, "");
-	static_assert(!std::is_nothrow_constructible<Color4, T, T>::value, "");
-	static_assert(!std::is_nothrow_constructible<Color4, T>::value, "");
+	static_assert(!bksge::is_constructible<Color4, T, T, T, T, T>::value, "");
+	static_assert( bksge::is_constructible<Color4, T, T, T, T>::value, "");
+	static_assert(!bksge::is_constructible<Color4, T, T, T>::value, "");
+	static_assert(!bksge::is_constructible<Color4, T, T>::value, "");
+	static_assert(!bksge::is_constructible<Color4, T>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Color4, T, T, T, T, T>::value, "");
+	static_assert( bksge::is_nothrow_constructible<Color4, T, T, T, T>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Color4, T, T, T>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Color4, T, T>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Color4, T>::value, "");
 	static_assert(!bksge::is_implicitly_constructible<Color4, T, T, T, T, T>::value, "");
 	static_assert( bksge::is_implicitly_constructible<Color4, T, T, T, T>::value, "");
 	static_assert(!bksge::is_implicitly_constructible<Color4, T, T, T>::value, "");
@@ -128,8 +132,8 @@ TYPED_TEST(MathColor4Test, CopyConstructTest)
 	using T = TypeParam;
 	using Color4 = bksge::math::Color4<T>;
 
-	static_assert(std::is_constructible<Color4, Color4 const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Color4, Color4 const&>::value, "");
+	static_assert(bksge::is_constructible<Color4, Color4 const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Color4, Color4 const&>::value, "");
 	static_assert(bksge::is_implicitly_constructible<Color4, Color4 const&>::value, "");
 
 	BKSGE_CONSTEXPR_OR_CONST Color4  v1{1, 2, 3, 4};
@@ -151,10 +155,10 @@ TYPED_TEST(MathColor4FloatTest, ConvertConstructTest)
 	using Color4 = bksge::math::Color4<T>;
 	using Color4u8 = bksge::math::Color4<bksge::uint8_t>;
 
-	static_assert(std::is_constructible<Color4,   Color4u8 const&>::value, "");
-	static_assert(std::is_constructible<Color4u8, Color4   const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Color4,   Color4u8 const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Color4u8, Color4   const&>::value, "");
+	static_assert(bksge::is_constructible<Color4,   Color4u8 const&>::value, "");
+	static_assert(bksge::is_constructible<Color4u8, Color4   const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Color4,   Color4u8 const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Color4u8, Color4   const&>::value, "");
 	static_assert(bksge::is_implicitly_constructible<Color4,   Color4u8 const&>::value, "");
 	static_assert(bksge::is_implicitly_constructible<Color4u8, Color4   const&>::value, "");
 
@@ -1138,7 +1142,7 @@ TYPED_TEST(MathColor4Test, MulColor4Test)
 		Color4 v(2, 3, 4, 5);
 
 		auto t = (v *= Color4(-1, 2, -3, 4));
-		static_assert(std::is_same<decltype(t), Color4>::value, "");
+		static_assert(bksge::is_same<decltype(t), Color4>::value, "");
 		EXPECT_EQ(Color4(-2, 6, -12, 20), v);
 		EXPECT_EQ(t, v);
 	}
@@ -1146,11 +1150,10 @@ TYPED_TEST(MathColor4Test, MulColor4Test)
 	// Color4 * Color4 -> Color4
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto t = Color4(-3, 4, 5, 6) * Color4(0, 2, -1, -2);
-		static_assert(std::is_same<decltype(t), const Color4>::value, "");
+		static_assert(bksge::is_same<decltype(t), const Color4>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(Color4(0, 8, -5, -12), t);
 	}
 }
-
 
 TYPED_TEST(MathColor4Test, DivScalarTest)
 {
@@ -1193,7 +1196,7 @@ TYPED_TEST(MathColor4Test, DivColor4Test)
 		Color4 v(8, 12, 16, 15);
 
 		auto t = (v /= Color4(-1, 2, -4, 5));
-		static_assert(std::is_same<decltype(t), Color4>::value, "");
+		static_assert(bksge::is_same<decltype(t), Color4>::value, "");
 		EXPECT_EQ(Color4(-8, 6, -4, 3), v);
 		EXPECT_EQ(t, v);
 	}
@@ -1201,7 +1204,7 @@ TYPED_TEST(MathColor4Test, DivColor4Test)
 	// Color4 / Color4 -> Color4
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto t = Color4(-3, 4, 5, 6) / Color4(1, 2, -1, 3);
-		static_assert(std::is_same<decltype(t), const Color4>::value, "");
+		static_assert(bksge::is_same<decltype(t), const Color4>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(Color4(-3, 2, -5, 2), t);
 	}
 }
@@ -1257,10 +1260,10 @@ TYPED_TEST(MathColor4Test, TupleElementTest)
 	using T = TypeParam;
 	using Color4 = bksge::math::Color4<T>;
 
-	static_assert(std::is_same<typename std::tuple_element<0, Color4>::type, T>::value, "");
-	static_assert(std::is_same<typename std::tuple_element<1, Color4>::type, T>::value, "");
-	static_assert(std::is_same<typename std::tuple_element<2, Color4>::type, T>::value, "");
-	static_assert(std::is_same<typename std::tuple_element<3, Color4>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<0, Color4>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<1, Color4>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<2, Color4>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<3, Color4>::type, T>::value, "");
 }
 
 TYPED_TEST(MathColor4Test, TupleGetTest)
@@ -1310,12 +1313,12 @@ TYPED_TEST(MathColor4Test, ZeroTest)
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = Color4::Zero();
-		static_assert(std::is_same<decltype(v), const Color4>::value, "");
+		static_assert(bksge::is_same<decltype(v), const Color4>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(Color4(0, 0, 0, 0), v);
 	}
 	{
 		const auto v = Color4::Zero();
-		static_assert(std::is_same<decltype(v), const Color4>::value, "");
+		static_assert(bksge::is_same<decltype(v), const Color4>::value, "");
 		EXPECT_EQ(Color4(0, 0, 0, 0), v);
 	}
 }

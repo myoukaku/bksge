@@ -7,10 +7,9 @@
  */
 
 #include <bksge/fnd/cstdint.hpp>
-//#include <bksge/fnd/type_traits/is_signed.hpp>
-//#include <bksge/fnd/type_traits/is_unsigned.hpp>
-//#include <bksge/fnd/type_traits/is_integral.hpp>
-#include <type_traits>
+#include <bksge/fnd/type_traits/is_signed.hpp>
+#include <bksge/fnd/type_traits/is_unsigned.hpp>
+#include <bksge/fnd/type_traits/is_integral.hpp>
 
 static_assert(sizeof(bksge::intmax_t)		>= 8, "");
 static_assert(sizeof(bksge::int8_t)			== 1, "");
@@ -41,60 +40,60 @@ static_assert(sizeof(bksge::uint_fast32_t)	>= 4, "");
 static_assert(sizeof(bksge::uint_fast64_t)	>= 8, "");
 static_assert(sizeof(bksge::uintptr_t)		>= sizeof(void*), "");
 
-static_assert(std::is_signed<bksge::intmax_t        >::value, "");
-static_assert(std::is_signed<bksge::int8_t          >::value, "");
-static_assert(std::is_signed<bksge::int16_t         >::value, "");
-static_assert(std::is_signed<bksge::int32_t         >::value, "");
-static_assert(std::is_signed<bksge::int64_t         >::value, "");
-static_assert(std::is_signed<bksge::int_least8_t    >::value, "");
-static_assert(std::is_signed<bksge::int_least16_t   >::value, "");
-static_assert(std::is_signed<bksge::int_least32_t   >::value, "");
-static_assert(std::is_signed<bksge::int_least64_t   >::value, "");
-static_assert(std::is_signed<bksge::int_fast8_t     >::value, "");
-static_assert(std::is_signed<bksge::int_fast16_t    >::value, "");
-static_assert(std::is_signed<bksge::int_fast32_t    >::value, "");
-static_assert(std::is_signed<bksge::int_fast64_t    >::value, "");
-static_assert(std::is_signed<bksge::intptr_t        >::value, "");
-static_assert(std::is_unsigned<bksge::uintmax_t     >::value, "");
-static_assert(std::is_unsigned<bksge::uint8_t       >::value, "");
-static_assert(std::is_unsigned<bksge::uint16_t      >::value, "");
-static_assert(std::is_unsigned<bksge::uint32_t      >::value, "");
-static_assert(std::is_unsigned<bksge::uint64_t      >::value, "");
-static_assert(std::is_unsigned<bksge::uint_least8_t >::value, "");
-static_assert(std::is_unsigned<bksge::uint_least16_t>::value, "");
-static_assert(std::is_unsigned<bksge::uint_least32_t>::value, "");
-static_assert(std::is_unsigned<bksge::uint_least64_t>::value, "");
-static_assert(std::is_unsigned<bksge::uint_fast8_t  >::value, "");
-static_assert(std::is_unsigned<bksge::uint_fast16_t >::value, "");
-static_assert(std::is_unsigned<bksge::uint_fast32_t >::value, "");
-static_assert(std::is_unsigned<bksge::uint_fast64_t >::value, "");
-static_assert(std::is_unsigned<bksge::uintptr_t     >::value, "");
+static_assert(bksge::is_signed<bksge::intmax_t        >::value, "");
+static_assert(bksge::is_signed<bksge::int8_t          >::value, "");
+static_assert(bksge::is_signed<bksge::int16_t         >::value, "");
+static_assert(bksge::is_signed<bksge::int32_t         >::value, "");
+static_assert(bksge::is_signed<bksge::int64_t         >::value, "");
+static_assert(bksge::is_signed<bksge::int_least8_t    >::value, "");
+static_assert(bksge::is_signed<bksge::int_least16_t   >::value, "");
+static_assert(bksge::is_signed<bksge::int_least32_t   >::value, "");
+static_assert(bksge::is_signed<bksge::int_least64_t   >::value, "");
+static_assert(bksge::is_signed<bksge::int_fast8_t     >::value, "");
+static_assert(bksge::is_signed<bksge::int_fast16_t    >::value, "");
+static_assert(bksge::is_signed<bksge::int_fast32_t    >::value, "");
+static_assert(bksge::is_signed<bksge::int_fast64_t    >::value, "");
+static_assert(bksge::is_signed<bksge::intptr_t        >::value, "");
+static_assert(bksge::is_unsigned<bksge::uintmax_t     >::value, "");
+static_assert(bksge::is_unsigned<bksge::uint8_t       >::value, "");
+static_assert(bksge::is_unsigned<bksge::uint16_t      >::value, "");
+static_assert(bksge::is_unsigned<bksge::uint32_t      >::value, "");
+static_assert(bksge::is_unsigned<bksge::uint64_t      >::value, "");
+static_assert(bksge::is_unsigned<bksge::uint_least8_t >::value, "");
+static_assert(bksge::is_unsigned<bksge::uint_least16_t>::value, "");
+static_assert(bksge::is_unsigned<bksge::uint_least32_t>::value, "");
+static_assert(bksge::is_unsigned<bksge::uint_least64_t>::value, "");
+static_assert(bksge::is_unsigned<bksge::uint_fast8_t  >::value, "");
+static_assert(bksge::is_unsigned<bksge::uint_fast16_t >::value, "");
+static_assert(bksge::is_unsigned<bksge::uint_fast32_t >::value, "");
+static_assert(bksge::is_unsigned<bksge::uint_fast64_t >::value, "");
+static_assert(bksge::is_unsigned<bksge::uintptr_t     >::value, "");
 
-static_assert(std::is_integral<bksge::intmax_t      >::value, "");
-static_assert(std::is_integral<bksge::int8_t        >::value, "");
-static_assert(std::is_integral<bksge::int16_t       >::value, "");
-static_assert(std::is_integral<bksge::int32_t       >::value, "");
-static_assert(std::is_integral<bksge::int64_t       >::value, "");
-static_assert(std::is_integral<bksge::int_least8_t  >::value, "");
-static_assert(std::is_integral<bksge::int_least16_t >::value, "");
-static_assert(std::is_integral<bksge::int_least32_t >::value, "");
-static_assert(std::is_integral<bksge::int_least64_t >::value, "");
-static_assert(std::is_integral<bksge::int_fast8_t   >::value, "");
-static_assert(std::is_integral<bksge::int_fast16_t  >::value, "");
-static_assert(std::is_integral<bksge::int_fast32_t  >::value, "");
-static_assert(std::is_integral<bksge::int_fast64_t  >::value, "");
-static_assert(std::is_integral<bksge::intptr_t      >::value, "");
-static_assert(std::is_integral<bksge::uintmax_t     >::value, "");
-static_assert(std::is_integral<bksge::uint8_t       >::value, "");
-static_assert(std::is_integral<bksge::uint16_t      >::value, "");
-static_assert(std::is_integral<bksge::uint32_t      >::value, "");
-static_assert(std::is_integral<bksge::uint64_t      >::value, "");
-static_assert(std::is_integral<bksge::uint_least8_t >::value, "");
-static_assert(std::is_integral<bksge::uint_least16_t>::value, "");
-static_assert(std::is_integral<bksge::uint_least32_t>::value, "");
-static_assert(std::is_integral<bksge::uint_least64_t>::value, "");
-static_assert(std::is_integral<bksge::uint_fast8_t  >::value, "");
-static_assert(std::is_integral<bksge::uint_fast16_t >::value, "");
-static_assert(std::is_integral<bksge::uint_fast32_t >::value, "");
-static_assert(std::is_integral<bksge::uint_fast64_t >::value, "");
-static_assert(std::is_integral<bksge::uintptr_t     >::value, "");
+static_assert(bksge::is_integral<bksge::intmax_t      >::value, "");
+static_assert(bksge::is_integral<bksge::int8_t        >::value, "");
+static_assert(bksge::is_integral<bksge::int16_t       >::value, "");
+static_assert(bksge::is_integral<bksge::int32_t       >::value, "");
+static_assert(bksge::is_integral<bksge::int64_t       >::value, "");
+static_assert(bksge::is_integral<bksge::int_least8_t  >::value, "");
+static_assert(bksge::is_integral<bksge::int_least16_t >::value, "");
+static_assert(bksge::is_integral<bksge::int_least32_t >::value, "");
+static_assert(bksge::is_integral<bksge::int_least64_t >::value, "");
+static_assert(bksge::is_integral<bksge::int_fast8_t   >::value, "");
+static_assert(bksge::is_integral<bksge::int_fast16_t  >::value, "");
+static_assert(bksge::is_integral<bksge::int_fast32_t  >::value, "");
+static_assert(bksge::is_integral<bksge::int_fast64_t  >::value, "");
+static_assert(bksge::is_integral<bksge::intptr_t      >::value, "");
+static_assert(bksge::is_integral<bksge::uintmax_t     >::value, "");
+static_assert(bksge::is_integral<bksge::uint8_t       >::value, "");
+static_assert(bksge::is_integral<bksge::uint16_t      >::value, "");
+static_assert(bksge::is_integral<bksge::uint32_t      >::value, "");
+static_assert(bksge::is_integral<bksge::uint64_t      >::value, "");
+static_assert(bksge::is_integral<bksge::uint_least8_t >::value, "");
+static_assert(bksge::is_integral<bksge::uint_least16_t>::value, "");
+static_assert(bksge::is_integral<bksge::uint_least32_t>::value, "");
+static_assert(bksge::is_integral<bksge::uint_least64_t>::value, "");
+static_assert(bksge::is_integral<bksge::uint_fast8_t  >::value, "");
+static_assert(bksge::is_integral<bksge::uint_fast16_t >::value, "");
+static_assert(bksge::is_integral<bksge::uint_fast32_t >::value, "");
+static_assert(bksge::is_integral<bksge::uint_fast64_t >::value, "");
+static_assert(bksge::is_integral<bksge::uintptr_t     >::value, "");

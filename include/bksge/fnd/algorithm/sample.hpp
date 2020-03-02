@@ -12,8 +12,8 @@
 #include <bksge/fnd/iterator/type_traits/is_forward_iterator.hpp>
 #include <bksge/fnd/iterator/type_traits/is_random_access_iterator.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/type_traits/is_integral.hpp>
 #include <bksge/fnd/config.hpp>
-#include <type_traits>
 
 namespace bksge
 {
@@ -58,7 +58,7 @@ template <
 		bksge::is_random_access_iterator<SampleIterator>::value
 	>,
 	typename = bksge::enable_if_t<
-		std::is_integral<Distance>::value
+		bksge::is_integral<Distance>::value
 	>
 >
 SampleIterator

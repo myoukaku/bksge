@@ -7,9 +7,9 @@
  */
 
 #include <bksge/fnd/functional/logical_not.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
-#include <type_traits>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH()
@@ -19,15 +19,15 @@ GTEST_TEST(FunctionalTest, LogicalNotTest)
 {
 	{
 		using type = bksge::logical_not<bool>;
-		static_assert(std::is_same<type::result_type,   bool>::value, "");
-		static_assert(std::is_same<type::argument_type, bool>::value, "");
+		static_assert(bksge::is_same<type::result_type,   bool>::value, "");
+		static_assert(bksge::is_same<type::argument_type, bool>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_FALSE(type()(true));
 		BKSGE_CONSTEXPR_EXPECT_TRUE (type()(false));
 	}
 	{
 		using type = bksge::logical_not<int>;
-		static_assert(std::is_same<type::result_type,   bool>::value, "");
-		static_assert(std::is_same<type::argument_type, int>::value, "");
+		static_assert(bksge::is_same<type::result_type,   bool>::value, "");
+		static_assert(bksge::is_same<type::argument_type, int>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_TRUE (type()(0));
 		BKSGE_CONSTEXPR_EXPECT_FALSE(type()(1));
 	}

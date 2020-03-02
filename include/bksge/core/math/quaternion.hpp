@@ -14,10 +14,11 @@
 #include <bksge/core/math/fwd/matrix3x3_fwd.hpp>
 #include <bksge/core/math/detail/vector_xyzw.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/type_traits/is_arithmetic.hpp>
+#include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <tuple>
-#include <type_traits>
 
 namespace bksge
 {
@@ -50,7 +51,7 @@ public:
 	template <
 		typename U,
 		typename = bksge::enable_if_t<
-			std::is_constructible<T, U>::value
+			bksge::is_constructible<T, U>::value
 		>
 	>
 	BKSGE_CONSTEXPR
@@ -202,7 +203,7 @@ template <
 	typename T,
 	typename ArithmeticType,
 	typename = bksge::enable_if_t<
-		std::is_arithmetic<ArithmeticType>::value
+		bksge::is_arithmetic<ArithmeticType>::value
 	>
 >
 BKSGE_CXX14_CONSTEXPR Quaternion<T>&
@@ -215,7 +216,7 @@ template <
 	typename T,
 	typename ArithmeticType,
 	typename = bksge::enable_if_t<
-		std::is_arithmetic<ArithmeticType>::value
+		bksge::is_arithmetic<ArithmeticType>::value
 	>
 >
 BKSGE_CONSTEXPR Quaternion<T>
@@ -228,7 +229,7 @@ template <
 	typename T,
 	typename ArithmeticType,
 	typename = bksge::enable_if_t<
-		std::is_arithmetic<ArithmeticType>::value
+		bksge::is_arithmetic<ArithmeticType>::value
 	>
 >
 BKSGE_CONSTEXPR Quaternion<T>
@@ -279,7 +280,7 @@ template <
 	typename T,
 	typename ArithmeticType,
 	typename = bksge::enable_if_t<
-		std::is_arithmetic<ArithmeticType>::value
+		bksge::is_arithmetic<ArithmeticType>::value
 	>
 >
 BKSGE_CXX14_CONSTEXPR Quaternion<T>&
@@ -292,7 +293,7 @@ template <
 	typename T,
 	typename ArithmeticType,
 	typename = bksge::enable_if_t<
-		std::is_arithmetic<ArithmeticType>::value
+		bksge::is_arithmetic<ArithmeticType>::value
 	>
 >
 BKSGE_CONSTEXPR Quaternion<T>
@@ -376,7 +377,7 @@ template <
 	typename T,
 	typename ArithmeticType,
 	typename = bksge::enable_if_t<
-		std::is_arithmetic<ArithmeticType>::value
+		bksge::is_arithmetic<ArithmeticType>::value
 	>
 >
 BKSGE_CONSTEXPR Quaternion<T>
@@ -401,6 +402,7 @@ Slerp(Quaternion<T> const& from, Quaternion<T> const& to, T t) BKSGE_NOEXCEPT;
 
 #include <functional>
 #include <bksge/fnd/functional/hash_combine.hpp>
+#include <bksge/fnd/type_traits/integral_constant.hpp>
 
 namespace std
 {
@@ -410,7 +412,7 @@ namespace std
  */
 template <typename T>
 struct tuple_size<bksge::math::Quaternion<T>>
-	: public std::integral_constant<bksge::size_t, 4>
+	: public bksge::integral_constant<bksge::size_t, 4>
 {};
 
 /**

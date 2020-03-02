@@ -8,9 +8,10 @@
 
 #include <bksge/fnd/tuple/tuple_sort_type.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
+#include <bksge/fnd/type_traits/integral_constant.hpp>
 #include <gtest/gtest.h>
 #include <tuple>
-#include <type_traits>
 #include "my_tuple.hpp"
 
 namespace bksge_tuple_test
@@ -30,49 +31,49 @@ void TupleSortTypeTest()
 {
 	{
 		using t = Tuple<
-			std::integral_constant<int, 3>,
-			std::integral_constant<int, 1>,
-			std::integral_constant<int, 4>,
-			std::integral_constant<int, 1>,
-			std::integral_constant<int, 5>,
-			std::integral_constant<int, 9>,
-			std::integral_constant<int, 2>,
-			std::integral_constant<int, 6>,
-			std::integral_constant<int, 5>,
-			std::integral_constant<int, 3>,
-			std::integral_constant<int, 5>
+			bksge::integral_constant<int, 3>,
+			bksge::integral_constant<int, 1>,
+			bksge::integral_constant<int, 4>,
+			bksge::integral_constant<int, 1>,
+			bksge::integral_constant<int, 5>,
+			bksge::integral_constant<int, 9>,
+			bksge::integral_constant<int, 2>,
+			bksge::integral_constant<int, 6>,
+			bksge::integral_constant<int, 5>,
+			bksge::integral_constant<int, 3>,
+			bksge::integral_constant<int, 5>
 		>;
 
 		using t2 = bksge::tuple_sort_type_t<t>;
 
 		using expected = Tuple<
-			std::integral_constant<int, 1>,
-			std::integral_constant<int, 1>,
-			std::integral_constant<int, 2>,
-			std::integral_constant<int, 3>,
-			std::integral_constant<int, 3>,
-			std::integral_constant<int, 4>,
-			std::integral_constant<int, 5>,
-			std::integral_constant<int, 5>,
-			std::integral_constant<int, 5>,
-			std::integral_constant<int, 6>,
-			std::integral_constant<int, 9>
+			bksge::integral_constant<int, 1>,
+			bksge::integral_constant<int, 1>,
+			bksge::integral_constant<int, 2>,
+			bksge::integral_constant<int, 3>,
+			bksge::integral_constant<int, 3>,
+			bksge::integral_constant<int, 4>,
+			bksge::integral_constant<int, 5>,
+			bksge::integral_constant<int, 5>,
+			bksge::integral_constant<int, 5>,
+			bksge::integral_constant<int, 6>,
+			bksge::integral_constant<int, 9>
 		>;
 
-		static_assert(std::is_same<t2, expected>::value, "");
+		static_assert(bksge::is_same<t2, expected>::value, "");
 	}
 	{
 		using t = Tuple<
-			std::integral_constant<int, 3>
+			bksge::integral_constant<int, 3>
 		>;
 
 		using t2 = bksge::tuple_sort_type_t<t>;
 
 		using expected = Tuple<
-			std::integral_constant<int, 3>
+			bksge::integral_constant<int, 3>
 		>;
 
-		static_assert(std::is_same<t2, expected>::value, "");
+		static_assert(bksge::is_same<t2, expected>::value, "");
 	}
 	{
 		using t = Tuple<>;
@@ -81,7 +82,7 @@ void TupleSortTypeTest()
 
 		using expected = Tuple<>;
 
-		static_assert(std::is_same<t2, expected>::value, "");
+		static_assert(bksge::is_same<t2, expected>::value, "");
 	}
 	{
 		using t = Tuple<
@@ -102,7 +103,7 @@ void TupleSortTypeTest()
 			char[1]
 		>;
 
-		static_assert(std::is_same<t2, expected>::value, "");
+		static_assert(bksge::is_same<t2, expected>::value, "");
 	}
 }
 

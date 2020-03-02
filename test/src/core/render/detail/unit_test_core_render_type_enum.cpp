@@ -7,9 +7,9 @@
  */
 
 #include <bksge/core/render/detail/type_enum.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/cstdint.hpp>
 #include <sstream>
-#include <type_traits>
 #include <gtest/gtest.h>
 
 namespace bksge_core_render_test
@@ -36,13 +36,13 @@ GTEST_TEST(Render_TypeEnum, EnumToTypeTest)
 	using namespace bksge;
 	using namespace bksge::render;
 
-	static_assert(std::is_same<EnumToType<TypeEnum::kSInt8>::type,  bksge::int8_t>::value, "");
-	static_assert(std::is_same<EnumToType<TypeEnum::kUInt8>::type,  bksge::uint8_t>::value, "");
-	static_assert(std::is_same<EnumToType<TypeEnum::kSInt16>::type, bksge::int16_t>::value, "");
-	static_assert(std::is_same<EnumToType<TypeEnum::kUInt16>::type, bksge::uint16_t>::value, "");
-	static_assert(std::is_same<EnumToType<TypeEnum::kSInt32>::type, bksge::int32_t>::value, "");
-	static_assert(std::is_same<EnumToType<TypeEnum::kUInt32>::type, bksge::uint32_t>::value, "");
-	static_assert(std::is_same<EnumToType<TypeEnum::kFloat>::type,  float>::value, "");
+	static_assert(bksge::is_same<EnumToType<TypeEnum::kSInt8>::type,  bksge::int8_t>::value, "");
+	static_assert(bksge::is_same<EnumToType<TypeEnum::kUInt8>::type,  bksge::uint8_t>::value, "");
+	static_assert(bksge::is_same<EnumToType<TypeEnum::kSInt16>::type, bksge::int16_t>::value, "");
+	static_assert(bksge::is_same<EnumToType<TypeEnum::kUInt16>::type, bksge::uint16_t>::value, "");
+	static_assert(bksge::is_same<EnumToType<TypeEnum::kSInt32>::type, bksge::int32_t>::value, "");
+	static_assert(bksge::is_same<EnumToType<TypeEnum::kUInt32>::type, bksge::uint32_t>::value, "");
+	static_assert(bksge::is_same<EnumToType<TypeEnum::kFloat>::type,  float>::value, "");
 }
 
 GTEST_TEST(Render_TypeEnum, GetSizeOfTest)

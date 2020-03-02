@@ -14,9 +14,9 @@
 #include <bksge/core/math/detail/vector_base.hpp>
 #include <bksge/core/math/detail/def_helper_macros.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/config.hpp>
 #include <tuple>
-#include <type_traits>
 
 namespace bksge
 {
@@ -47,7 +47,7 @@ public:
 	template <
 		typename U,
 		typename = bksge::enable_if_t<
-			std::is_constructible<T, U>::value
+			bksge::is_constructible<T, U>::value
 		>
 	>
 	BKSGE_CONSTEXPR
@@ -99,6 +99,7 @@ HSVtoRGB(ColorHSV<T> const& hsv);
 
 #include <functional>
 #include <bksge/fnd/functional/hash_combine.hpp>
+#include <bksge/fnd/type_traits/integral_constant.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 
 namespace std
@@ -109,7 +110,7 @@ namespace std
  */
 template <typename T>
 struct tuple_size<bksge::math::ColorHSV<T>>
-	: public std::integral_constant<bksge::size_t, 3>
+	: public bksge::integral_constant<bksge::size_t, 3>
 {};
 
 /**

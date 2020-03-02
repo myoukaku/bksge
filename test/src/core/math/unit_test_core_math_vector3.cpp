@@ -9,15 +9,19 @@
 #include <bksge/core/math/vector4.hpp>
 #include <bksge/core/math/vector3.hpp>
 #include <bksge/core/math/vector2.hpp>
+#include <bksge/fnd/type_traits/is_constructible.hpp>
+#include <bksge/fnd/type_traits/is_default_constructible.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_default_constructible.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
 #include <stdexcept>
 #include <tuple>
-#include <type_traits>
 #include <functional>
 #include <vector>
 #include "constexpr_test.hpp"
@@ -49,8 +53,8 @@ TYPED_TEST(MathVector3Test, DefaultConstructTest)
 	using Vector3 = bksge::math::Vector3<T>;
 
 	static_assert(sizeof(Vector3) == sizeof(T) * 3, "");
-	static_assert(std::is_default_constructible<Vector3>::value, "");
-	static_assert(std::is_nothrow_default_constructible<Vector3>::value, "");
+	static_assert(bksge::is_default_constructible<Vector3>::value, "");
+	static_assert(bksge::is_nothrow_default_constructible<Vector3>::value, "");
 	static_assert(bksge::is_implicitly_default_constructible<Vector3>::value, "");
 
 	{
@@ -78,16 +82,16 @@ TYPED_TEST(MathVector3Test, ValueConstructTest)
 	using T = TypeParam;
 	using Vector3 = bksge::math::Vector3<T>;
 
-	static_assert(!std::is_constructible<Vector3, T, T, T, T, T>::value, "");
-	static_assert(!std::is_constructible<Vector3, T, T, T, T>::value, "");
-	static_assert( std::is_constructible<Vector3, T, T, T>::value, "");
-	static_assert(!std::is_constructible<Vector3, T, T>::value, "");
-	static_assert(!std::is_constructible<Vector3, T>::value, "");
-	static_assert(!std::is_nothrow_constructible<Vector3, T, T, T, T, T>::value, "");
-	static_assert(!std::is_nothrow_constructible<Vector3, T, T, T, T>::value, "");
-	static_assert( std::is_nothrow_constructible<Vector3, T, T, T>::value, "");
-	static_assert(!std::is_nothrow_constructible<Vector3, T, T>::value, "");
-	static_assert(!std::is_nothrow_constructible<Vector3, T>::value, "");
+	static_assert(!bksge::is_constructible<Vector3, T, T, T, T, T>::value, "");
+	static_assert(!bksge::is_constructible<Vector3, T, T, T, T>::value, "");
+	static_assert( bksge::is_constructible<Vector3, T, T, T>::value, "");
+	static_assert(!bksge::is_constructible<Vector3, T, T>::value, "");
+	static_assert(!bksge::is_constructible<Vector3, T>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Vector3, T, T, T, T, T>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Vector3, T, T, T, T>::value, "");
+	static_assert( bksge::is_nothrow_constructible<Vector3, T, T, T>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Vector3, T, T>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Vector3, T>::value, "");
 	static_assert(!bksge::is_implicitly_constructible<Vector3, T, T, T, T, T>::value, "");
 	static_assert(!bksge::is_implicitly_constructible<Vector3, T, T, T, T>::value, "");
 	static_assert( bksge::is_implicitly_constructible<Vector3, T, T, T>::value, "");
@@ -119,25 +123,25 @@ TYPED_TEST(MathVector3Test, CopyConstructTest)
 	using T = TypeParam;
 	using Vector3 = bksge::math::Vector3<T>;
 
-	static_assert(std::is_constructible<Vector3,  Vector3  const&>::value, "");
-	static_assert(std::is_constructible<Vector3,  Vector3i const&>::value, "");
-	static_assert(std::is_constructible<Vector3,  Vector3f const&>::value, "");
-	static_assert(std::is_constructible<Vector3i, Vector3  const&>::value, "");
-	static_assert(std::is_constructible<Vector3i, Vector3i const&>::value, "");
-	static_assert(std::is_constructible<Vector3i, Vector3f const&>::value, "");
-	static_assert(std::is_constructible<Vector3f, Vector3  const&>::value, "");
-	static_assert(std::is_constructible<Vector3f, Vector3i const&>::value, "");
-	static_assert(std::is_constructible<Vector3f, Vector3f const&>::value, "");
+	static_assert(bksge::is_constructible<Vector3,  Vector3  const&>::value, "");
+	static_assert(bksge::is_constructible<Vector3,  Vector3i const&>::value, "");
+	static_assert(bksge::is_constructible<Vector3,  Vector3f const&>::value, "");
+	static_assert(bksge::is_constructible<Vector3i, Vector3  const&>::value, "");
+	static_assert(bksge::is_constructible<Vector3i, Vector3i const&>::value, "");
+	static_assert(bksge::is_constructible<Vector3i, Vector3f const&>::value, "");
+	static_assert(bksge::is_constructible<Vector3f, Vector3  const&>::value, "");
+	static_assert(bksge::is_constructible<Vector3f, Vector3i const&>::value, "");
+	static_assert(bksge::is_constructible<Vector3f, Vector3f const&>::value, "");
 
-	static_assert(std::is_nothrow_constructible<Vector3,  Vector3  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Vector3,  Vector3i const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Vector3,  Vector3f const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Vector3i, Vector3  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Vector3i, Vector3i const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Vector3i, Vector3f const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Vector3f, Vector3  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Vector3f, Vector3i const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Vector3f, Vector3f const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Vector3,  Vector3  const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Vector3,  Vector3i const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Vector3,  Vector3f const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Vector3i, Vector3  const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Vector3i, Vector3i const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Vector3i, Vector3f const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Vector3f, Vector3  const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Vector3f, Vector3i const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Vector3f, Vector3f const&>::value, "");
 
 	static_assert(bksge::is_implicitly_constructible<Vector3,  Vector3  const&>::value, "");
 	static_assert(bksge::is_implicitly_constructible<Vector3,  Vector3i const&>::value, "");
@@ -696,12 +700,12 @@ TYPED_TEST(MathVector3Test, ZeroTest)
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = Vector3::Zero();
-		static_assert(std::is_same<decltype(v), const Vector3>::value, "");
+		static_assert(bksge::is_same<decltype(v), const Vector3>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 0, 0), v);
 	}
 	{
 		const auto v = Vector3::Zero();
-		static_assert(std::is_same<decltype(v), const Vector3>::value, "");
+		static_assert(bksge::is_same<decltype(v), const Vector3>::value, "");
 		EXPECT_EQ(Vector3(0, 0, 0), v);
 	}
 }
@@ -920,9 +924,9 @@ TYPED_TEST(MathVector3Test, TupleElementTest)
 	using T = TypeParam;
 	using Vector3 = bksge::math::Vector3<T>;
 
-	static_assert(std::is_same<typename std::tuple_element<0, Vector3>::type, T>::value, "");
-	static_assert(std::is_same<typename std::tuple_element<1, Vector3>::type, T>::value, "");
-	static_assert(std::is_same<typename std::tuple_element<2, Vector3>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<0, Vector3>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<1, Vector3>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<2, Vector3>::type, T>::value, "");
 }
 
 TYPED_TEST(MathVector3Test, TupleGetTest)
@@ -1029,7 +1033,7 @@ TYPED_TEST(MathVector3Test, CrossTest)
 	using Vector3 = bksge::math::Vector3<T>;
 
 	BKSGE_CONSTEXPR_OR_CONST auto t = Cross(Vector3(0, 0, 0), Vector3(0, 0, 0));
-	static_assert(std::is_same<decltype(t), const Vector3>::value, "");
+	static_assert(bksge::is_same<decltype(t), const Vector3>::value, "");
 	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3( 0, 0, 0), t);
 	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3( 0, 0, 0), Cross(Vector3( 0, 0, 0), Vector3( 1, 0, 0)));
 	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3( 0, 0, 0), Cross(Vector3( 0, 0, 0), Vector3(-1, 0, 0)));

@@ -17,15 +17,19 @@
 #include <bksge/core/math/scale2.hpp>
 #include <bksge/core/math/quaternion.hpp>
 #include <bksge/fnd/cmath/degrees_to_radians.hpp>
+#include <bksge/fnd/type_traits/is_constructible.hpp>
+#include <bksge/fnd/type_traits/is_default_constructible.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_default_constructible.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
 #include <stdexcept>
 #include <tuple>
-#include <type_traits>
 #include <functional>
 #include <vector>
 #include "constexpr_test.hpp"
@@ -57,8 +61,8 @@ TYPED_TEST(MathMatrix3x3Test, DefaultConstructTest)
 	using Matrix3x3 = bksge::math::Matrix3x3<T>;
 
 	static_assert(sizeof(Matrix3x3) == sizeof(T) * 9, "");
-	static_assert(std::is_default_constructible<Matrix3x3>::value, "");
-	static_assert(std::is_nothrow_default_constructible<Matrix3x3>::value, "");
+	static_assert(bksge::is_default_constructible<Matrix3x3>::value, "");
+	static_assert(bksge::is_nothrow_default_constructible<Matrix3x3>::value, "");
 	static_assert(bksge::is_implicitly_default_constructible<Matrix3x3>::value, "");
 
 	{
@@ -105,14 +109,14 @@ TYPED_TEST(MathMatrix3x3Test, VectorConstructTest)
 	using Matrix3x3 = bksge::math::Matrix3x3<T>;
 	using Vector3 = bksge::math::Vector3<T>;
 
-	static_assert(!std::is_constructible<Matrix3x3, Vector3, Vector3, Vector3, Vector3>::value, "");
-	static_assert( std::is_constructible<Matrix3x3, Vector3, Vector3, Vector3>::value, "");
-	static_assert(!std::is_constructible<Matrix3x3, Vector3, Vector3>::value, "");
-	static_assert(!std::is_constructible<Matrix3x3, Vector3>::value, "");
-	static_assert(!std::is_nothrow_constructible<Matrix3x3, Vector3, Vector3, Vector3, Vector3>::value, "");
-	static_assert( std::is_nothrow_constructible<Matrix3x3, Vector3, Vector3, Vector3>::value, "");
-	static_assert(!std::is_nothrow_constructible<Matrix3x3, Vector3, Vector3>::value, "");
-	static_assert(!std::is_nothrow_constructible<Matrix3x3, Vector3>::value, "");
+	static_assert(!bksge::is_constructible<Matrix3x3, Vector3, Vector3, Vector3, Vector3>::value, "");
+	static_assert( bksge::is_constructible<Matrix3x3, Vector3, Vector3, Vector3>::value, "");
+	static_assert(!bksge::is_constructible<Matrix3x3, Vector3, Vector3>::value, "");
+	static_assert(!bksge::is_constructible<Matrix3x3, Vector3>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Matrix3x3, Vector3, Vector3, Vector3, Vector3>::value, "");
+	static_assert( bksge::is_nothrow_constructible<Matrix3x3, Vector3, Vector3, Vector3>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Matrix3x3, Vector3, Vector3>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Matrix3x3, Vector3>::value, "");
 	static_assert(!bksge::is_implicitly_constructible<Matrix3x3, Vector3, Vector3, Vector3, Vector3>::value, "");
 	static_assert( bksge::is_implicitly_constructible<Matrix3x3, Vector3, Vector3, Vector3>::value, "");
 	static_assert(!bksge::is_implicitly_constructible<Matrix3x3, Vector3, Vector3>::value, "");
@@ -175,25 +179,25 @@ TYPED_TEST(MathMatrix3x3Test, CopyConstructTest)
 	using Matrix3x3 = bksge::math::Matrix3x3<T>;
 	using Vector3 = bksge::math::Vector3<T>;
 
-	static_assert(std::is_constructible<Matrix3x3,  Matrix3x3  const&>::value, "");
-	static_assert(std::is_constructible<Matrix3x3,  Matrix3x3i const&>::value, "");
-	static_assert(std::is_constructible<Matrix3x3,  Matrix3x3f const&>::value, "");
-	static_assert(std::is_constructible<Matrix3x3i, Matrix3x3  const&>::value, "");
-	static_assert(std::is_constructible<Matrix3x3i, Matrix3x3i const&>::value, "");
-	static_assert(std::is_constructible<Matrix3x3i, Matrix3x3f const&>::value, "");
-	static_assert(std::is_constructible<Matrix3x3f, Matrix3x3  const&>::value, "");
-	static_assert(std::is_constructible<Matrix3x3f, Matrix3x3i const&>::value, "");
-	static_assert(std::is_constructible<Matrix3x3f, Matrix3x3f const&>::value, "");
+	static_assert(bksge::is_constructible<Matrix3x3,  Matrix3x3  const&>::value, "");
+	static_assert(bksge::is_constructible<Matrix3x3,  Matrix3x3i const&>::value, "");
+	static_assert(bksge::is_constructible<Matrix3x3,  Matrix3x3f const&>::value, "");
+	static_assert(bksge::is_constructible<Matrix3x3i, Matrix3x3  const&>::value, "");
+	static_assert(bksge::is_constructible<Matrix3x3i, Matrix3x3i const&>::value, "");
+	static_assert(bksge::is_constructible<Matrix3x3i, Matrix3x3f const&>::value, "");
+	static_assert(bksge::is_constructible<Matrix3x3f, Matrix3x3  const&>::value, "");
+	static_assert(bksge::is_constructible<Matrix3x3f, Matrix3x3i const&>::value, "");
+	static_assert(bksge::is_constructible<Matrix3x3f, Matrix3x3f const&>::value, "");
 
-	static_assert(std::is_nothrow_constructible<Matrix3x3,  Matrix3x3  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Matrix3x3,  Matrix3x3i const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Matrix3x3,  Matrix3x3f const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Matrix3x3i, Matrix3x3  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Matrix3x3i, Matrix3x3i const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Matrix3x3i, Matrix3x3f const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Matrix3x3f, Matrix3x3  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Matrix3x3f, Matrix3x3i const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Matrix3x3f, Matrix3x3f const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Matrix3x3,  Matrix3x3  const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Matrix3x3,  Matrix3x3i const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Matrix3x3,  Matrix3x3f const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Matrix3x3i, Matrix3x3  const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Matrix3x3i, Matrix3x3i const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Matrix3x3i, Matrix3x3f const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Matrix3x3f, Matrix3x3  const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Matrix3x3f, Matrix3x3i const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Matrix3x3f, Matrix3x3f const&>::value, "");
 
 	static_assert(bksge::is_implicitly_constructible<Matrix3x3,  Matrix3x3  const&>::value, "");
 	static_assert(bksge::is_implicitly_constructible<Matrix3x3,  Matrix3x3i const&>::value, "");
@@ -1122,7 +1126,7 @@ TYPED_TEST(MathMatrix3x3Test, MulMatrixTest)
 		};
 
 		auto t = m *= m1;
-		static_assert(std::is_same<decltype(t), Matrix3x3>::value, "");
+		static_assert(bksge::is_same<decltype(t), Matrix3x3>::value, "");
 		EXPECT_EQ(Vector3(-80, 256, 132), m[0]);
 		EXPECT_EQ(Vector3(-72, 592, 316), m[1]);
 		EXPECT_EQ(Vector3(-64, 928, 500), m[2]);
@@ -1145,13 +1149,13 @@ TYPED_TEST(MathMatrix3x3Test, MulMatrixTest)
 		};
 
 		BKSGE_CONSTEXPR_OR_CONST auto t1 = m1 * m2;
-		static_assert(std::is_same<decltype(t1), const Matrix3x3>::value, "");
+		static_assert(bksge::is_same<decltype(t1), const Matrix3x3>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(-33, -22, 143), t1[0]);
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(139, 166, -71), t1[1]);
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(149, 170, -95), t1[2]);
 
 		BKSGE_CONSTEXPR_OR_CONST auto t2 = m2 * m1;
-		static_assert(std::is_same<decltype(t2), const Matrix3x3>::value, "");
+		static_assert(bksge::is_same<decltype(t2), const Matrix3x3>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3( 43, 29,  56), t2[0]);
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(155, 81, 128), t2[1]);
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(223,  1, -86), t2[2]);
@@ -1173,7 +1177,7 @@ TYPED_TEST(MathMatrix3x3Test, MulMatrixTest)
 		};
 
 		BKSGE_CONSTEXPR_OR_CONST auto t1 = m1 * m2;
-		static_assert(std::is_same<decltype(t1), const Matrix3x4>::value, "");
+		static_assert(bksge::is_same<decltype(t1), const Matrix3x4>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(146, 152, 158, 164), t1[0]);
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(398, 416, 434, 452), t1[1]);
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(650, 680, 710, 740), t1[2]);
@@ -1196,7 +1200,7 @@ TYPED_TEST(MathMatrix3x3Test, MulMatrixTest)
 		};
 
 		BKSGE_CONSTEXPR_OR_CONST auto t1 = m1 * m2;
-		static_assert(std::is_same<decltype(t1), const Matrix4x3>::value, "");
+		static_assert(bksge::is_same<decltype(t1), const Matrix4x3>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(188, 224, 260), t1[0]);
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(338, 404, 470), t1[1]);
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(488, 584, 680), t1[2]);
@@ -1221,7 +1225,7 @@ TYPED_TEST(MathMatrix3x3Test, MulVectorTest)
 		};
 
 		auto t = v *= m;
-		static_assert(std::is_same<decltype(t), Vector3>::value, "");
+		static_assert(bksge::is_same<decltype(t), Vector3>::value, "");
 		EXPECT_EQ(Vector3(146, 152, 158), v);
 		EXPECT_EQ(t, v);
 	}
@@ -1237,7 +1241,7 @@ TYPED_TEST(MathMatrix3x3Test, MulVectorTest)
 		};
 
 		BKSGE_CONSTEXPR_OR_CONST auto t = v2 * m;
-		static_assert(std::is_same<decltype(t), const Vector3>::value, "");
+		static_assert(bksge::is_same<decltype(t), const Vector3>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(88, 116, -50), t);
 	}
 }
@@ -1383,9 +1387,9 @@ TYPED_TEST(MathMatrix3x3Test, TupleElementTest)
 	using Matrix3x3 = bksge::math::Matrix3x3<T>;
 	using Vector3 = bksge::math::Vector3<T>;
 
-	static_assert(std::is_same<typename std::tuple_element<0, Matrix3x3>::type, Vector3>::value, "");
-	static_assert(std::is_same<typename std::tuple_element<1, Matrix3x3>::type, Vector3>::value, "");
-	static_assert(std::is_same<typename std::tuple_element<2, Matrix3x3>::type, Vector3>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<0, Matrix3x3>::type, Vector3>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<1, Matrix3x3>::type, Vector3>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<2, Matrix3x3>::type, Vector3>::value, "");
 }
 
 TYPED_TEST(MathMatrix3x3Test, TupleGetTest)
@@ -1442,14 +1446,14 @@ TYPED_TEST(MathMatrix3x3Test, ZeroTest)
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto m = Matrix3x3::Zero();
-		static_assert(std::is_same<decltype(m), const Matrix3x3>::value, "");
+		static_assert(bksge::is_same<decltype(m), const Matrix3x3>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 0, 0), m[0]);
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 0, 0), m[1]);
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 0, 0), m[2]);
 	}
 	{
 		const auto m = Matrix3x3::Zero();
-		static_assert(std::is_same<decltype(m), const Matrix3x3>::value, "");
+		static_assert(bksge::is_same<decltype(m), const Matrix3x3>::value, "");
 		EXPECT_EQ(Vector3(0, 0, 0), m[0]);
 		EXPECT_EQ(Vector3(0, 0, 0), m[1]);
 		EXPECT_EQ(Vector3(0, 0, 0), m[2]);
@@ -1464,14 +1468,14 @@ TYPED_TEST(MathMatrix3x3Test, IdentityTest)
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto m = Matrix3x3::Identity();
-		static_assert(std::is_same<decltype(m), const Matrix3x3>::value, "");
+		static_assert(bksge::is_same<decltype(m), const Matrix3x3>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(1, 0, 0), m[0]);
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 1, 0), m[1]);
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 0, 1), m[2]);
 	}
 	{
 		const auto m = Matrix3x3::Identity();
-		static_assert(std::is_same<decltype(m), const Matrix3x3>::value, "");
+		static_assert(bksge::is_same<decltype(m), const Matrix3x3>::value, "");
 		EXPECT_EQ(Vector3(1, 0, 0), m[0]);
 		EXPECT_EQ(Vector3(0, 1, 0), m[1]);
 		EXPECT_EQ(Vector3(0, 0, 1), m[2]);
@@ -1492,13 +1496,13 @@ TYPED_TEST(MathMatrix3x3Test, TransposedTest)
 	};
 
 	BKSGE_CONSTEXPR_OR_CONST auto m2 = Transposed(m1);
-	static_assert(std::is_same<decltype(m2), const Matrix3x3>::value, "");
+	static_assert(bksge::is_same<decltype(m2), const Matrix3x3>::value, "");
 	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(11, 21, 31), m2[0]);
 	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(12, 22, 32), m2[1]);
 	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(13, 23, 33), m2[2]);
 
 	BKSGE_CONSTEXPR_OR_CONST auto m3 = Transposed(m2);
-	static_assert(std::is_same<decltype(m3), const Matrix3x3>::value, "");
+	static_assert(bksge::is_same<decltype(m3), const Matrix3x3>::value, "");
 	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(11, 12, 13), m3[0]);
 	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(21, 22, 23), m3[1]);
 	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(31, 32, 33), m3[2]);
@@ -1609,7 +1613,7 @@ TYPED_TEST(MathMatrix3x3Test, InversedTest)
 		};
 
 		BKSGE_CXX14_CONSTEXPR_OR_CONST auto m_inv = Inversed(m);
-		static_assert(std::is_same<decltype(m_inv), const Matrix3x3>::value, "");
+		static_assert(bksge::is_same<decltype(m_inv), const Matrix3x3>::value, "");
 
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(Vector3( 1,  0, -1), m_inv[0]);
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(Vector3( 1,  1, -2), m_inv[1]);
@@ -1617,7 +1621,7 @@ TYPED_TEST(MathMatrix3x3Test, InversedTest)
 
 		// 逆行列の逆行列はもとの行列にもどる
 		BKSGE_CXX14_CONSTEXPR_OR_CONST auto m_inv_inv = Inversed(m_inv);
-		static_assert(std::is_same<decltype(m_inv_inv), const Matrix3x3>::value, "");
+		static_assert(bksge::is_same<decltype(m_inv_inv), const Matrix3x3>::value, "");
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(m, m_inv_inv);
 
 		// 行列とその逆行列をかけると単位行列になる
@@ -1671,7 +1675,7 @@ TYPED_TEST(MathMatrix3x3Test, MakeTranslationTest)
 	{
 		BKSGE_CONSTEXPR_OR_CONST Vector2 trans(3, 4);
 		BKSGE_CONSTEXPR_OR_CONST auto m = Matrix3x3::MakeTranslation(trans);
-		static_assert(std::is_same<decltype(m), const Matrix3x3>::value, "");
+		static_assert(bksge::is_same<decltype(m), const Matrix3x3>::value, "");
 
 		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 expected
 		{
@@ -1684,7 +1688,7 @@ TYPED_TEST(MathMatrix3x3Test, MakeTranslationTest)
 	}
 	{
 		const auto m = Matrix3x3::MakeTranslation(Vector2{-4, 5});
-		static_assert(std::is_same<decltype(m), const Matrix3x3>::value, "");
+		static_assert(bksge::is_same<decltype(m), const Matrix3x3>::value, "");
 
 		const Matrix3x3 expected
 		{
@@ -1697,7 +1701,7 @@ TYPED_TEST(MathMatrix3x3Test, MakeTranslationTest)
 	}
 	{
 		const auto m = Matrix3x3::MakeTranslation(1, 2);
-		static_assert(std::is_same<decltype(m), const Matrix3x3>::value, "");
+		static_assert(bksge::is_same<decltype(m), const Matrix3x3>::value, "");
 
 		const Matrix3x3 expected
 		{
@@ -1719,7 +1723,7 @@ TYPED_TEST(MathMatrix3x3Test, MakeScaleTest)
 	{
 		BKSGE_CONSTEXPR_OR_CONST Scale3 s(2, 3, 4);
 		BKSGE_CONSTEXPR_OR_CONST auto m = Matrix3x3::MakeScale(s);
-		static_assert(std::is_same<decltype(m), const Matrix3x3>::value, "");
+		static_assert(bksge::is_same<decltype(m), const Matrix3x3>::value, "");
 
 		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 expected
 		{
@@ -1732,7 +1736,7 @@ TYPED_TEST(MathMatrix3x3Test, MakeScaleTest)
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto m = Matrix3x3::MakeScale(Scale3{ 5, -4, 3 });
-		static_assert(std::is_same<decltype(m), const Matrix3x3>::value, "");
+		static_assert(bksge::is_same<decltype(m), const Matrix3x3>::value, "");
 
 		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 expected
 		{
@@ -1753,7 +1757,7 @@ TYPED_TEST(MathMatrix3x3FloatTest, MakeRotationXTest)
 
 	{
 		auto const m = Matrix3x3::MakeRotationX(bksge::degrees_to_radians(0));
-		static_assert(std::is_same<decltype(m), const Matrix3x3>::value, "");
+		static_assert(bksge::is_same<decltype(m), const Matrix3x3>::value, "");
 		EXPECT_EQ(Matrix3x3::Identity(), m);
 	}
 	{
@@ -1790,7 +1794,7 @@ TYPED_TEST(MathMatrix3x3FloatTest, MakeRotationYTest)
 
 	{
 		auto const m = Matrix3x3::MakeRotationY(bksge::degrees_to_radians(0));
-		static_assert(std::is_same<decltype(m), const Matrix3x3>::value, "");
+		static_assert(bksge::is_same<decltype(m), const Matrix3x3>::value, "");
 		EXPECT_EQ(Matrix3x3::Identity(), m);
 	}
 	{
@@ -1827,7 +1831,7 @@ TYPED_TEST(MathMatrix3x3FloatTest, MakeRotationZTest)
 
 	{
 		auto const m = Matrix3x3::MakeRotationZ(bksge::degrees_to_radians(0));
-		static_assert(std::is_same<decltype(m), const Matrix3x3>::value, "");
+		static_assert(bksge::is_same<decltype(m), const Matrix3x3>::value, "");
 		EXPECT_EQ(Matrix3x3::Identity(), m);
 	}
 	{
@@ -1865,7 +1869,7 @@ TYPED_TEST(MathMatrix3x3FloatTest, MakeRotationTest)
 
 	{
 		auto const m = Matrix3x3::MakeRotation(Vector3(1, 2, 3), bksge::degrees_to_radians(90));
-		static_assert(std::is_same<decltype(m), const Matrix3x3>::value, "");
+		static_assert(bksge::is_same<decltype(m), const Matrix3x3>::value, "");
 		EXPECT_NEAR( 0.07142856717109680, (double)m[0][0], error);
 		EXPECT_NEAR( 0.94464081525802612, (double)m[0][1], error);
 		EXPECT_NEAR(-0.32023677229881287, (double)m[0][2], error);
@@ -1897,7 +1901,7 @@ TYPED_TEST(MathMatrix3x3Test, MakeShearTest)
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto m = Matrix3x3::MakeShear(4, 5, 6);
-		static_assert(std::is_same<decltype(m), const Matrix3x3>::value, "");
+		static_assert(bksge::is_same<decltype(m), const Matrix3x3>::value, "");
 
 		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 expected
 		{
@@ -1910,7 +1914,7 @@ TYPED_TEST(MathMatrix3x3Test, MakeShearTest)
 	}
 	{
 		const auto m = Matrix3x3::MakeShear(-1, 2, -3);
-		static_assert(std::is_same<decltype(m), const Matrix3x3>::value, "");
+		static_assert(bksge::is_same<decltype(m), const Matrix3x3>::value, "");
 
 		const Matrix3x3 expected
 		{

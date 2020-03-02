@@ -10,11 +10,11 @@
 #define BKSGE_CORE_RENDER_DETAIL_TYPE_ENUM_HPP
 
 #include <bksge/core/render/detail/fwd/type_enum_fwd.hpp>
+#include <bksge/fnd/type_traits/is_signed.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint.hpp>
 #include <ostream>
 #include <string>
-#include <type_traits>
 
 namespace bksge
 {
@@ -54,7 +54,7 @@ private:
 	template <typename U> struct Helper<U, false, 4> { static TypeEnum const value = TypeEnum::kUInt32; };
 
 public:
-	static TypeEnum const value = Helper<T, std::is_signed<T>::value, sizeof(T)>::value;
+	static TypeEnum const value = Helper<T, bksge::is_signed<T>::value, sizeof(T)>::value;
 };
 
 template <>

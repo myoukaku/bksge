@@ -14,9 +14,10 @@
 #include <bksge/fnd/iterator/unwrap_iterator.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/remove_const.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
+#include <bksge/fnd/type_traits/is_trivially_copy_assignable.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstring>
-#include <type_traits>
 
 namespace bksge
 {
@@ -45,8 +46,8 @@ copy_backward(
 template <typename T, typename U>
 inline
 bksge::enable_if_t<
-	std::is_same<bksge::remove_const_t<T>, U>::value &&
-	std::is_trivially_copy_assignable<U>::value,
+	bksge::is_same<bksge::remove_const_t<T>, U>::value &&
+	bksge::is_trivially_copy_assignable<U>::value,
 	U*
 >
 copy_backward(T* first, T* last, U* result)

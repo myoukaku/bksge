@@ -11,8 +11,9 @@
 
 #include <bksge/fnd/cmath/abs.hpp>
 #include <bksge/fnd/cmath/fabs.hpp>
+#include <bksge/fnd/type_traits/is_floating_point.hpp>
+#include <bksge/fnd/type_traits/is_unsigned.hpp>
 #include <bksge/fnd/config.hpp>
-#include <type_traits>
 
 namespace bksge
 {
@@ -25,8 +26,8 @@ namespace detail
 
 template <
 	typename T,
-	bool = std::is_floating_point<T>::value,
-	bool = std::is_unsigned<T>::value
+	bool = bksge::is_floating_point<T>::value,
+	bool = bksge::is_unsigned<T>::value
 >
 struct abs_impl;
 

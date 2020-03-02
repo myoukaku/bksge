@@ -11,8 +11,8 @@
 
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
+#include <bksge/fnd/type_traits/is_arithmetic.hpp>
 #include <bksge/fnd/config.hpp>
-#include <type_traits>
 
 namespace bksge
 {
@@ -47,9 +47,9 @@ template <
 	typename ArithmeticType2,
 	typename ArithmeticType3,
 	typename = bksge::enable_if_t<
-		std::is_arithmetic<ArithmeticType1>::value &&
-		std::is_arithmetic<ArithmeticType2>::value &&
-		std::is_arithmetic<ArithmeticType3>::value
+		bksge::is_arithmetic<ArithmeticType1>::value &&
+		bksge::is_arithmetic<ArithmeticType2>::value &&
+		bksge::is_arithmetic<ArithmeticType3>::value
 	>
 >
 BKSGE_CONSTEXPR bksge::float_promote_t<ArithmeticType1, ArithmeticType2, ArithmeticType3>

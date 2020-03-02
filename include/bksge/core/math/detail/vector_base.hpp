@@ -16,13 +16,14 @@
 #include <bksge/fnd/serialization/nvp.hpp>
 #include <bksge/fnd/serialization/version.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/type_traits/integral_constant.hpp>
+#include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_swappable.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/config.hpp>
 #include <iterator>		// reverse_iterator
 #include <iosfwd>		// basic_ostream
-#include <type_traits>	// is_constructible, integral_constant
 #include <tuple>
 
 namespace bksge
@@ -52,7 +53,7 @@ private:
 	struct CheckArgsCtorImpl<true, UTypes...>
 	{
 		static constexpr bool value =
-			bksge::conjunction<std::is_constructible<T, UTypes>...>::value;
+			bksge::conjunction<bksge::is_constructible<T, UTypes>...>::value;
 	};
 
 	template <typename... UTypes>
@@ -94,7 +95,7 @@ public:
 	template <
 		typename U,
 		typename = bksge::enable_if_t<
-			std::is_constructible<T, U>::value
+			bksge::is_constructible<T, U>::value
 		>
 	>
 	BKSGE_CONSTEXPR
@@ -268,7 +269,7 @@ namespace std
  */
 template <typename T, bksge::size_t N>
 struct tuple_size<bksge::math::detail::VectorBase<T, N>>
-	: public std::integral_constant<bksge::size_t, N>
+	: public bksge::integral_constant<bksge::size_t, N>
 {};
 
 /**

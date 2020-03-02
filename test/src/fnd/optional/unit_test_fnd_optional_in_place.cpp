@@ -7,10 +7,12 @@
  */
 
 #include <bksge/fnd/optional/optional.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
+#include <bksge/fnd/type_traits/is_empty.hpp>
+#include <bksge/fnd/type_traits/is_convertible.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
 #include <gtest/gtest.h>
 #include <vector>
-#include <type_traits>
 #include "constexpr_test.hpp"
 
 #if defined(_MSC_VER)
@@ -26,15 +28,15 @@
 GTEST_TEST(OptionalTest, InPlaceTest)
 {
 	// [20.5.5] In-place construction
-	static_assert(std::is_same<decltype(bksge::in_place), const bksge::in_place_t>::value, "");
-	static_assert(std::is_empty<bksge::in_place_t>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::in_place), const bksge::in_place_t>::value, "");
+	static_assert(bksge::is_empty<bksge::in_place_t>::value, "");
 
 	{
 		BKSGE_OPTIONAL_CONSTEXPR bksge::optional<int> o{ bksge::in_place };
 		BKSGE_OPTIONAL_CONSTEXPR_EXPECT_TRUE((bool)o);
 		BKSGE_OPTIONAL_CONSTEXPR_EXPECT_TRUE(*o == int());
 
-		static_assert(!std::is_convertible<bksge::in_place_t, bksge::optional<int>>::value, "");
+		static_assert(!bksge::is_convertible<bksge::in_place_t, bksge::optional<int>>::value, "");
 	}
 
 	{

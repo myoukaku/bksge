@@ -7,18 +7,18 @@
  */
 
 #include <bksge/fnd/functional/bit_and.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/cstdint.hpp>
 #include <gtest/gtest.h>
-#include <type_traits>
 #include "constexpr_test.hpp"
 
 GTEST_TEST(FunctionalTest, BitAndTest)
 {
 	{
 		using type = bksge::bit_and<int>;
-		static_assert(std::is_same<type::result_type,          int>::value, "");
-		static_assert(std::is_same<type::first_argument_type,  int>::value, "");
-		static_assert(std::is_same<type::second_argument_type, int>::value, "");
+		static_assert(bksge::is_same<type::result_type,          int>::value, "");
+		static_assert(bksge::is_same<type::first_argument_type,  int>::value, "");
+		static_assert(bksge::is_same<type::second_argument_type, int>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(0x05, type()(0x0F, 0x35));
 		BKSGE_CONSTEXPR_EXPECT_EQ(0x30, type()(0x35, 0xf0));
 	}

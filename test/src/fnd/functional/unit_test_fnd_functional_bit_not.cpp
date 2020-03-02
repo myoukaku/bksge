@@ -7,23 +7,23 @@
  */
 
 #include <bksge/fnd/functional/bit_not.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/cstdint.hpp>
 #include <gtest/gtest.h>
-#include <type_traits>
 #include "constexpr_test.hpp"
 
 GTEST_TEST(FunctionalTest, BitNotTest)
 {
 	{
 		using type = bksge::bit_not<bksge::uint8_t>;
-		static_assert(std::is_same<type::result_type,   bksge::uint8_t>::value, "");
-		static_assert(std::is_same<type::argument_type, bksge::uint8_t>::value, "");
+		static_assert(bksge::is_same<type::result_type,   bksge::uint8_t>::value, "");
+		static_assert(bksge::is_same<type::argument_type, bksge::uint8_t>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(0x05, type()(0xFA));
 	}
 	{
 		using type = bksge::bit_not<bksge::uint16_t>;
-		static_assert(std::is_same<type::result_type,   bksge::uint16_t>::value, "");
-		static_assert(std::is_same<type::argument_type, bksge::uint16_t>::value, "");
+		static_assert(bksge::is_same<type::result_type,   bksge::uint16_t>::value, "");
+		static_assert(bksge::is_same<type::argument_type, bksge::uint16_t>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(0xFF05, type()(0xFA));
 	}
 	{

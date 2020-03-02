@@ -10,15 +10,19 @@
 #include <bksge/core/math/vector4.hpp>
 #include <bksge/core/math/vector3.hpp>
 #include <bksge/core/math/vector2.hpp>
+#include <bksge/fnd/type_traits/is_constructible.hpp>
+#include <bksge/fnd/type_traits/is_default_constructible.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_default_constructible.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
 #include <stdexcept>
 #include <tuple>
-#include <type_traits>
 #include <functional>
 #include <vector>
 #include "constexpr_test.hpp"
@@ -50,8 +54,8 @@ TYPED_TEST(MathScale2Test, DefaultConstructTest)
 	using Scale2 = bksge::math::Scale2<T>;
 
 	static_assert(sizeof(Scale2) == sizeof(T) * 2, "");
-	static_assert(std::is_default_constructible<Scale2>::value, "");
-	static_assert(std::is_nothrow_default_constructible<Scale2>::value, "");
+	static_assert(bksge::is_default_constructible<Scale2>::value, "");
+	static_assert(bksge::is_nothrow_default_constructible<Scale2>::value, "");
 	static_assert(bksge::is_implicitly_default_constructible<Scale2>::value, "");
 
 	{
@@ -76,16 +80,16 @@ TYPED_TEST(MathScale2Test, ValueConstructTest)
 	using T = TypeParam;
 	using Scale2 = bksge::math::Scale2<T>;
 
-	static_assert(!std::is_constructible<Scale2, T, T, T, T, T>::value, "");
-	static_assert(!std::is_constructible<Scale2, T, T, T, T>::value, "");
-	static_assert(!std::is_constructible<Scale2, T, T, T>::value, "");
-	static_assert( std::is_constructible<Scale2, T, T>::value, "");
-	static_assert(!std::is_constructible<Scale2, T>::value, "");
-	static_assert(!std::is_nothrow_constructible<Scale2, T, T, T, T, T>::value, "");
-	static_assert(!std::is_nothrow_constructible<Scale2, T, T, T, T>::value, "");
-	static_assert(!std::is_nothrow_constructible<Scale2, T, T, T>::value, "");
-	static_assert( std::is_nothrow_constructible<Scale2, T, T>::value, "");
-	static_assert(!std::is_nothrow_constructible<Scale2, T>::value, "");
+	static_assert(!bksge::is_constructible<Scale2, T, T, T, T, T>::value, "");
+	static_assert(!bksge::is_constructible<Scale2, T, T, T, T>::value, "");
+	static_assert(!bksge::is_constructible<Scale2, T, T, T>::value, "");
+	static_assert( bksge::is_constructible<Scale2, T, T>::value, "");
+	static_assert(!bksge::is_constructible<Scale2, T>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Scale2, T, T, T, T, T>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Scale2, T, T, T, T>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Scale2, T, T, T>::value, "");
+	static_assert( bksge::is_nothrow_constructible<Scale2, T, T>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Scale2, T>::value, "");
 	static_assert(!bksge::is_implicitly_constructible<Scale2, T, T, T, T, T>::value, "");
 	static_assert(!bksge::is_implicitly_constructible<Scale2, T, T, T, T>::value, "");
 	static_assert(!bksge::is_implicitly_constructible<Scale2, T, T, T>::value, "");
@@ -114,25 +118,25 @@ TYPED_TEST(MathScale2Test, CopyConstructTest)
 	using T = TypeParam;
 	using Scale2 = bksge::math::Scale2<T>;
 
-	static_assert(std::is_constructible<Scale2,  Scale2  const&>::value, "");
-	static_assert(std::is_constructible<Scale2,  Scale2i const&>::value, "");
-	static_assert(std::is_constructible<Scale2,  Scale2f const&>::value, "");
-	static_assert(std::is_constructible<Scale2i, Scale2  const&>::value, "");
-	static_assert(std::is_constructible<Scale2i, Scale2i const&>::value, "");
-	static_assert(std::is_constructible<Scale2i, Scale2f const&>::value, "");
-	static_assert(std::is_constructible<Scale2f, Scale2  const&>::value, "");
-	static_assert(std::is_constructible<Scale2f, Scale2i const&>::value, "");
-	static_assert(std::is_constructible<Scale2f, Scale2f const&>::value, "");
+	static_assert(bksge::is_constructible<Scale2,  Scale2  const&>::value, "");
+	static_assert(bksge::is_constructible<Scale2,  Scale2i const&>::value, "");
+	static_assert(bksge::is_constructible<Scale2,  Scale2f const&>::value, "");
+	static_assert(bksge::is_constructible<Scale2i, Scale2  const&>::value, "");
+	static_assert(bksge::is_constructible<Scale2i, Scale2i const&>::value, "");
+	static_assert(bksge::is_constructible<Scale2i, Scale2f const&>::value, "");
+	static_assert(bksge::is_constructible<Scale2f, Scale2  const&>::value, "");
+	static_assert(bksge::is_constructible<Scale2f, Scale2i const&>::value, "");
+	static_assert(bksge::is_constructible<Scale2f, Scale2f const&>::value, "");
 
-	static_assert(std::is_nothrow_constructible<Scale2,  Scale2  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Scale2,  Scale2i const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Scale2,  Scale2f const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Scale2i, Scale2  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Scale2i, Scale2i const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Scale2i, Scale2f const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Scale2f, Scale2  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Scale2f, Scale2i const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Scale2f, Scale2f const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Scale2,  Scale2  const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Scale2,  Scale2i const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Scale2,  Scale2f const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Scale2i, Scale2  const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Scale2i, Scale2i const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Scale2i, Scale2f const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Scale2f, Scale2  const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Scale2f, Scale2i const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Scale2f, Scale2f const&>::value, "");
 
 	static_assert(bksge::is_implicitly_constructible<Scale2,  Scale2  const&>::value, "");
 	static_assert(bksge::is_implicitly_constructible<Scale2,  Scale2i const&>::value, "");
@@ -666,7 +670,7 @@ TYPED_TEST(MathScale2Test, MulScale2Test)
 		Scale2 s(2, 3);
 
 		auto t = (s *= Scale2(-1, 2));
-		static_assert(std::is_same<decltype(t), Scale2>::value, "");
+		static_assert(bksge::is_same<decltype(t), Scale2>::value, "");
 		EXPECT_EQ(Scale2(-2, 6), s);
 		EXPECT_EQ(t, s);
 	}
@@ -674,7 +678,7 @@ TYPED_TEST(MathScale2Test, MulScale2Test)
 	// Scale2 * Scale2 -> Scale2
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto t = Scale2(-3, 4) * Scale2(0, 2);
-		static_assert(std::is_same<decltype(t), const Scale2>::value, "");
+		static_assert(bksge::is_same<decltype(t), const Scale2>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(Scale2(0, 8), t);
 	}
 }
@@ -689,7 +693,7 @@ TYPED_TEST(MathScale2Test, MulVector2Test)
 		Vector2 v {1, 2};
 
 		auto t = (v *= Scale2{2, -3});
-		static_assert(std::is_same<decltype(t), Vector2>::value, "");
+		static_assert(bksge::is_same<decltype(t), Vector2>::value, "");
 		EXPECT_EQ(Vector2(2, -6), v);
 		EXPECT_EQ(t, v);
 	}
@@ -697,7 +701,7 @@ TYPED_TEST(MathScale2Test, MulVector2Test)
 	// Vector2 * Scale2 -> Vector2
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto t = Vector2{-5, 6} * Scale2{2, -2};
-		static_assert(std::is_same<decltype(t), const Vector2>::value, "");
+		static_assert(bksge::is_same<decltype(t), const Vector2>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector2(-10, -12), t);
 	}
 }
@@ -742,7 +746,7 @@ TYPED_TEST(MathScale2Test, DivScale2Test)
 		Scale2 s(8, 12);
 
 		auto t = (s /= Scale2(-1, 2));
-		static_assert(std::is_same<decltype(t), Scale2>::value, "");
+		static_assert(bksge::is_same<decltype(t), Scale2>::value, "");
 		EXPECT_EQ(Scale2(-8, 6), s);
 		EXPECT_EQ(t, s);
 	}
@@ -750,7 +754,7 @@ TYPED_TEST(MathScale2Test, DivScale2Test)
 	// Scale2 / Scale2 -> Scale2
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto t = Scale2(-3, 4) / Scale2(1, 2);
-		static_assert(std::is_same<decltype(t), const Scale2>::value, "");
+		static_assert(bksge::is_same<decltype(t), const Scale2>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(Scale2(-3, 2), t);
 	}
 }
@@ -800,8 +804,8 @@ TYPED_TEST(MathScale2Test, TupleElementTest)
 	using T = TypeParam;
 	using Scale2 = bksge::math::Scale2<T>;
 
-	static_assert(std::is_same<typename std::tuple_element<0, Scale2>::type, T>::value, "");
-	static_assert(std::is_same<typename std::tuple_element<1, Scale2>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<0, Scale2>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<1, Scale2>::type, T>::value, "");
 }
 
 TYPED_TEST(MathScale2Test, TupleGetTest)
@@ -844,12 +848,12 @@ TYPED_TEST(MathScale2Test, ZeroTest)
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto s = Scale2::Zero();
-		static_assert(std::is_same<decltype(s), const Scale2>::value, "");
+		static_assert(bksge::is_same<decltype(s), const Scale2>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(Scale2(0, 0), s);
 	}
 	{
 		const auto s = Scale2::Zero();
-		static_assert(std::is_same<decltype(s), const Scale2>::value, "");
+		static_assert(bksge::is_same<decltype(s), const Scale2>::value, "");
 		EXPECT_EQ(Scale2(0, 0), s);
 	}
 }
@@ -860,12 +864,12 @@ TYPED_TEST(MathScale2Test, IdentityTest)
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto s = Scale2::Identity();
-		static_assert(std::is_same<decltype(s), const Scale2>::value, "");
+		static_assert(bksge::is_same<decltype(s), const Scale2>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(Scale2(1, 1), s);
 	}
 	{
 		const auto s = Scale2::Identity();
-		static_assert(std::is_same<decltype(s), const Scale2>::value, "");
+		static_assert(bksge::is_same<decltype(s), const Scale2>::value, "");
 		EXPECT_EQ(Scale2(1, 1), s);
 	}
 }

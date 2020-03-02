@@ -8,7 +8,7 @@
 
 #include <bksge/fnd/units.hpp>
 #include <bksge/fnd/cmath/constants.hpp>
-#include <type_traits>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -33,13 +33,13 @@ TYPED_TEST(UnitsTest, AbsorbedDoseTest)
 	{
 		// J/kg
 		BKSGE_CONSTEXPR_OR_CONST auto Gy = joules(20) / kilograms(2);
-		static_assert(std::is_same<decltype(Gy), const grays>::value, "");
+		static_assert(bksge::is_same<decltype(Gy), const grays>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(10, Gy.value());
 	}
 	{
 		// m^2・s^-2
 		BKSGE_CONSTEXPR_OR_CONST auto Gy = (metres(3) * metres(4)) / (seconds(2) * seconds(3));
-		static_assert(std::is_same<decltype(Gy), const grays>::value, "");
+		static_assert(bksge::is_same<decltype(Gy), const grays>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(2, Gy.value());
 	}
 }
@@ -53,22 +53,22 @@ TYPED_TEST(UnitsTest, AccelerationTest)
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto x = metres_per_second_squared(10) * seconds(2);
-		static_assert(std::is_same<decltype(x), const metres_per_second>::value, "");
+		static_assert(bksge::is_same<decltype(x), const metres_per_second>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(20, x.value());
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto x = metres_per_second_squared(10) * seconds(2) * seconds(3);
-		static_assert(std::is_same<decltype(x), const metres>::value, "");
+		static_assert(bksge::is_same<decltype(x), const metres>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(60, x.value());
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto x = metres_per_second(10) / seconds(2);
-		static_assert(std::is_same<decltype(x), const metres_per_second_squared>::value, "");
+		static_assert(bksge::is_same<decltype(x), const metres_per_second_squared>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(5, x.value());
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto x = metres(60) / seconds(3) / seconds(2);
-		static_assert(std::is_same<decltype(x), const metres_per_second_squared>::value, "");
+		static_assert(bksge::is_same<decltype(x), const metres_per_second_squared>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(10, x.value());
 	}
 }
@@ -84,13 +84,13 @@ TYPED_TEST(UnitsTest, ActionTest)
 	{
 		// J・s
 		BKSGE_CONSTEXPR_OR_CONST auto js = joules(4) * seconds(5);
-		static_assert(std::is_same<decltype(js), const joule_seconds>::value, "");
+		static_assert(bksge::is_same<decltype(js), const joule_seconds>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(20, js.value());
 	}
 	{
 		// kg・m^2・s^-1
 		BKSGE_CONSTEXPR_OR_CONST auto js = kilograms(2) * metres(3) * metres(4) / seconds(6);
-		static_assert(std::is_same<decltype(js), const joule_seconds>::value, "");
+		static_assert(bksge::is_same<decltype(js), const joule_seconds>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(4, js.value());
 	}
 }
@@ -152,7 +152,7 @@ TYPED_TEST(UnitsTest, AngularAccelerationTest)
 	{
 		// rad・s^-2
 		BKSGE_CONSTEXPR_OR_CONST auto a = radians(60) / seconds(3) / seconds(4);
-		static_assert(std::is_same<decltype(a), const radians_per_second_squared>::value, "");
+		static_assert(bksge::is_same<decltype(a), const radians_per_second_squared>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(5, a.value());
 	}
 }
@@ -168,13 +168,13 @@ TYPED_TEST(UnitsTest, AngularMomentumTest)
 	{
 		// N・m・s
 		BKSGE_CONSTEXPR_OR_CONST auto a = newtons(3) * metres(4) * seconds(5);
-		static_assert(std::is_same<decltype(a), const newton_metre_seconds>::value, "");
+		static_assert(bksge::is_same<decltype(a), const newton_metre_seconds>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(60, a.value());
 	}
 	{
 		// m^2・kg・s^-1
 		BKSGE_CONSTEXPR_OR_CONST auto a = metres(3) * metres(4) * kilograms(5) / seconds(6);
-		static_assert(std::is_same<decltype(a), const newton_metre_seconds>::value, "");
+		static_assert(bksge::is_same<decltype(a), const newton_metre_seconds>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(10, a.value());
 	}
 }
@@ -188,7 +188,7 @@ TYPED_TEST(UnitsTest, AngularVelocityTest)
 	{
 		// rad・s^-1
 		BKSGE_CONSTEXPR_OR_CONST auto a = radians(60) / seconds(3);
-		static_assert(std::is_same<decltype(a), const radians_per_second>::value, "");
+		static_assert(bksge::is_same<decltype(a), const radians_per_second>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(20, a.value());
 	}
 }
@@ -202,7 +202,7 @@ TYPED_TEST(UnitsTest, AreaTest)
 	{
 		// m・m
 		BKSGE_CONSTEXPR_OR_CONST auto a = metres(3) * metres(4);
-		static_assert(std::is_same<decltype(a), const square_metres>::value, "");
+		static_assert(bksge::is_same<decltype(a), const square_metres>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(12, a.value());
 	}
 	{
@@ -220,7 +220,7 @@ TYPED_TEST(UnitsTest, CatalyticActivityTest)
 	{
 		// mol/s
 		BKSGE_CONSTEXPR_OR_CONST auto kat = moles(20) / seconds(2);
-		static_assert(std::is_same<decltype(kat), const katals>::value, "");
+		static_assert(bksge::is_same<decltype(kat), const katals>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(10, kat.value());
 	}
 }
@@ -267,13 +267,13 @@ TYPED_TEST(UnitsTest, DynamicViscosityTest)
 	{
 		// Pa・s
 		BKSGE_CONSTEXPR_OR_CONST auto v = pascals(3) * seconds(4);
-		static_assert(std::is_same<decltype(v), const pascal_seconds>::value, "");
+		static_assert(bksge::is_same<decltype(v), const pascal_seconds>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(12, v.value());
 	}
 	{
 		// m^-1・kg・s^-1
 		BKSGE_CONSTEXPR_OR_CONST auto v = kilograms(60) / metres(2) / seconds(3);
-		static_assert(std::is_same<decltype(v), const pascal_seconds>::value, "");
+		static_assert(bksge::is_same<decltype(v), const pascal_seconds>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(10, v.value());
 	}
 }
@@ -288,12 +288,12 @@ TYPED_TEST(UnitsTest, ElectricChargeTest)
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = amperes(3) * seconds(4);
-		static_assert(std::is_same<decltype(v), const coulomb>::value, "");
+		static_assert(bksge::is_same<decltype(v), const coulomb>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(12, v.value());
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = kiloamperes(4) * seconds(5);
-		static_assert(std::is_same<decltype(v), const kilocoulomb>::value, "");
+		static_assert(bksge::is_same<decltype(v), const kilocoulomb>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(20, v.value());
 	}
 }
@@ -314,27 +314,27 @@ TYPED_TEST(UnitsTest, ElectricPotentialTest)
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = watts(20) / amperes(4);
-		static_assert(std::is_same<decltype(v), const volts>::value, "");
+		static_assert(bksge::is_same<decltype(v), const volts>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(5, v.value());
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = kilowatts(30) / amperes(2);
-		static_assert(std::is_same<decltype(v), const kilovolts>::value, "");
+		static_assert(bksge::is_same<decltype(v), const kilovolts>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(15, v.value());
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = watts(40) / milliamperes(5);
-		static_assert(std::is_same<decltype(v), const kilovolts>::value, "");
+		static_assert(bksge::is_same<decltype(v), const kilovolts>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(8, v.value());
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = joules(60) / coulombs(5);
-		static_assert(std::is_same<decltype(v), const volts>::value, "");
+		static_assert(bksge::is_same<decltype(v), const volts>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(12, v.value());
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = metres(4) * metres(5) * kilograms(6) / seconds(1) / seconds(2) / seconds(3) / amperes(4);
-		static_assert(std::is_same<decltype(v), const volts>::value, "");
+		static_assert(bksge::is_same<decltype(v), const volts>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(5, v.value());
 	}
 }
@@ -353,19 +353,19 @@ TYPED_TEST(UnitsTest, ElectricalCapacitanceTest)
 	{
 		// C/V
 		BKSGE_CONSTEXPR_OR_CONST auto F = coulombs(20) / volts(4);
-		static_assert(std::is_same<decltype(F), const farads>::value, "");
+		static_assert(bksge::is_same<decltype(F), const farads>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(5, F.value());
 	}
 	{
 		// J/V^2
 		BKSGE_CONSTEXPR_OR_CONST auto F = joules(60) / volts(2) / volts(3);
-		static_assert(std::is_same<decltype(F), const farads>::value, "");
+		static_assert(bksge::is_same<decltype(F), const farads>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(10, F.value());
 	}
 	{
 		// C^2/J
 		BKSGE_CONSTEXPR_OR_CONST auto F = coulombs(20) * coulombs(10) / joules(4);
-		static_assert(std::is_same<decltype(F), const farads>::value, "");
+		static_assert(bksge::is_same<decltype(F), const farads>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(50, F.value());
 	}
 	{
@@ -375,7 +375,7 @@ TYPED_TEST(UnitsTest, ElectricalCapacitanceTest)
 		BKSGE_CONSTEXPR_OR_CONST auto m  = metres(4);
 		BKSGE_CONSTEXPR_OR_CONST auto kg = kilograms(3);
 		BKSGE_CONSTEXPR_OR_CONST auto F  = s * s * s * s * A * A / m / m / kg;
-		static_assert(std::is_same<decltype(F), const farads>::value, "");
+		static_assert(bksge::is_same<decltype(F), const farads>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(3, F.value());
 	}
 }
@@ -394,13 +394,13 @@ TYPED_TEST(UnitsTest, ElectricalConductanceTest)
 	{
 		// Ω^-1
 		BKSGE_CONSTEXPR_OR_CONST auto S = TypeParam(10) / ohms(2);
-		static_assert(std::is_same<decltype(S), const siemens>::value, "");
+		static_assert(bksge::is_same<decltype(S), const siemens>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(5, S.value());
 	}
 	{
 		// A V^-1
 		BKSGE_CONSTEXPR_OR_CONST auto S = amperes(30) / volts(3);
-		static_assert(std::is_same<decltype(S), const siemens>::value, "");
+		static_assert(bksge::is_same<decltype(S), const siemens>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(10, S.value());
 	}
 	{
@@ -410,7 +410,7 @@ TYPED_TEST(UnitsTest, ElectricalConductanceTest)
 		BKSGE_CONSTEXPR_OR_CONST auto kg = kilograms(2);
 		BKSGE_CONSTEXPR_OR_CONST auto m = metre(3);
 		BKSGE_CONSTEXPR_OR_CONST auto S = C * C * s / (kg * m * m);
-		static_assert(std::is_same<decltype(S), const siemens>::value, "");
+		static_assert(bksge::is_same<decltype(S), const siemens>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(3, S.value());
 	}
 }
@@ -428,13 +428,13 @@ TYPED_TEST(UnitsTest, ElectricalConductivityTest)
 	{
 		// S/m
 		BKSGE_CONSTEXPR_OR_CONST auto a = siemens(60) / metres(3);
-		static_assert(std::is_same<decltype(a), const siemens_per_metre>::value, "");
+		static_assert(bksge::is_same<decltype(a), const siemens_per_metre>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(20, a.value());
 	}
 	{
 		// A・V^-1・m^-1
 		BKSGE_CONSTEXPR_OR_CONST auto a = amperes(60) / volts(4) / metres(5);
-		static_assert(std::is_same<decltype(a), const siemens_per_metre>::value, "");
+		static_assert(bksge::is_same<decltype(a), const siemens_per_metre>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(3, a.value());
 	}
 	{
@@ -444,7 +444,7 @@ TYPED_TEST(UnitsTest, ElectricalConductivityTest)
 		BKSGE_CONSTEXPR_OR_CONST auto s = seconds(4);
 		BKSGE_CONSTEXPR_OR_CONST auto A = amperes(6);
 		BKSGE_CONSTEXPR_OR_CONST auto a = s * s * s * A * A / (m * m * m * kg);
-		static_assert(std::is_same<decltype(a), const siemens_per_metre>::value, "");
+		static_assert(bksge::is_same<decltype(a), const siemens_per_metre>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(96, a.value());
 	}
 }
@@ -464,25 +464,25 @@ TYPED_TEST(UnitsTest, ElectricalResistanceTest)
 	{
 		// V/A
 		BKSGE_CONSTEXPR_OR_CONST auto O = volts(10) / ampere(2);
-		static_assert(std::is_same<decltype(O), const ohms>::value, "");
+		static_assert(bksge::is_same<decltype(O), const ohms>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(5, O.value());
 	}
 	{
 		// W/A^2
 		BKSGE_CONSTEXPR_OR_CONST auto O = watts(60) / ampere(2) / ampere(3);
-		static_assert(std::is_same<decltype(O), const ohms>::value, "");
+		static_assert(bksge::is_same<decltype(O), const ohms>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(10, O.value());
 	}
 	{
 		// V^2/W
 		BKSGE_CONSTEXPR_OR_CONST auto O = volts(4) * volts(5) / watts(10);
-		static_assert(std::is_same<decltype(O), const ohms>::value, "");
+		static_assert(bksge::is_same<decltype(O), const ohms>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(2, O.value());
 	}
 	{
 		// s/F
 		BKSGE_CONSTEXPR_OR_CONST auto O = seconds(30) / farads(5);
-		static_assert(std::is_same<decltype(O), const ohms>::value, "");
+		static_assert(bksge::is_same<decltype(O), const ohms>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(6, O.value());
 	}
 	{
@@ -492,7 +492,7 @@ TYPED_TEST(UnitsTest, ElectricalResistanceTest)
 		BKSGE_CONSTEXPR_OR_CONST auto s = seconds(3);
 		BKSGE_CONSTEXPR_OR_CONST auto C = coulombs(2);
 		BKSGE_CONSTEXPR_OR_CONST auto O = (kg * m * m) / (s * C * C);
-		static_assert(std::is_same<decltype(O), const ohms>::value, "");
+		static_assert(bksge::is_same<decltype(O), const ohms>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(8, O.value());
 	}
 }
@@ -509,7 +509,7 @@ TYPED_TEST(UnitsTest, ElectricalResistivityTest)
 	{
 		// Ω・m
 		BKSGE_CONSTEXPR_OR_CONST auto v = ohms(3) * metres(4);
-		static_assert(std::is_same<decltype(v), const ohm_metre>::value, "");
+		static_assert(bksge::is_same<decltype(v), const ohm_metre>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(12, v.value());
 	}
 	{
@@ -519,7 +519,7 @@ TYPED_TEST(UnitsTest, ElectricalResistivityTest)
 		BKSGE_CONSTEXPR_OR_CONST auto s = seconds(2);
 		BKSGE_CONSTEXPR_OR_CONST auto A = amperes(1);
 		BKSGE_CONSTEXPR_OR_CONST auto v = m * m * m * kg / (s * s * s * A * A);
-		static_assert(std::is_same<decltype(v), const ohm_metre>::value, "");
+		static_assert(bksge::is_same<decltype(v), const ohm_metre>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(24, v.value());
 	}
 }
@@ -535,17 +535,17 @@ TYPED_TEST(UnitsTest, EnergyTest)
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = kilograms(120) * metres(1) * metres(2) / seconds(3) / seconds(4);
-		static_assert(std::is_same<decltype(v), const joule>::value, "");
+		static_assert(bksge::is_same<decltype(v), const joule>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(20, v.value());
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = newtons(5) * metres(6);
-		static_assert(std::is_same<decltype(v), const joule>::value, "");
+		static_assert(bksge::is_same<decltype(v), const joule>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(30, v.value());
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = watts(7) * seconds(8);
-		static_assert(std::is_same<decltype(v), const joule>::value, "");
+		static_assert(bksge::is_same<decltype(v), const joule>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(56, v.value());
 	}
 }
@@ -561,13 +561,13 @@ TYPED_TEST(UnitsTest, EnergyDensityTest)
 	{
 		// J/m^3
 		BKSGE_CONSTEXPR_OR_CONST auto a = joules(60) / metres(1) / metres(2) / metres(3);
-		static_assert(std::is_same<decltype(a), const joules_per_cubic_metre>::value, "");
+		static_assert(bksge::is_same<decltype(a), const joules_per_cubic_metre>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(10, a.value());
 	}
 	{
 		// m^-1・kg・s^-2
 		BKSGE_CONSTEXPR_OR_CONST auto a = kilograms(60) / (metres(2) * seconds(3) * seconds(5));
-		static_assert(std::is_same<decltype(a), const joules_per_cubic_metre>::value, "");
+		static_assert(bksge::is_same<decltype(a), const joules_per_cubic_metre>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(2, a.value());
 	}
 }
@@ -583,13 +583,13 @@ TYPED_TEST(UnitsTest, EquivalentDoseTest)
 	{
 		// J/kg
 		BKSGE_CONSTEXPR_OR_CONST auto Sv = joules(20) / kilograms(2);
-		static_assert(std::is_same<decltype(Sv), const sieverts>::value, "");
+		static_assert(bksge::is_same<decltype(Sv), const sieverts>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(10, Sv.value());
 	}
 	{
 		// m^2・s^-2
 		BKSGE_CONSTEXPR_OR_CONST auto Sv = (metres(3) * metres(4)) / (seconds(2) * seconds(3));
-		static_assert(std::is_same<decltype(Sv), const sieverts>::value, "");
+		static_assert(bksge::is_same<decltype(Sv), const sieverts>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(2, Sv.value());
 	}
 }
@@ -609,17 +609,17 @@ TYPED_TEST(UnitsTest, ForceTest)
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = kilograms(120) * metres(2) / seconds(3) / seconds(4);
-		static_assert(std::is_same<decltype(v), const newtons>::value, "");
+		static_assert(bksge::is_same<decltype(v), const newtons>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(20, v.value());
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = grams(40) * centimetres(3) / seconds(4) / seconds(5);
-		static_assert(std::is_same<decltype(v), const dynes>::value, "");
+		static_assert(bksge::is_same<decltype(v), const dynes>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_NEAR(6.0, (double)v.value(), 0.000001);
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = pounds(60) * feet(4) / seconds(5) / seconds(6);
-		static_assert(std::is_same<decltype(v), const poundals>::value, "");
+		static_assert(bksge::is_same<decltype(v), const poundals>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(8, v.value());
 	}
 }
@@ -632,7 +632,7 @@ TYPED_TEST(UnitsTest, FrequencyTest)
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = T(120) / seconds(3);
-		static_assert(std::is_same<decltype(v), const hertz>::value, "");
+		static_assert(bksge::is_same<decltype(v), const hertz>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(40, v.value());
 	}
 	{
@@ -675,13 +675,13 @@ TYPED_TEST(UnitsTest, HeatCapacityTest)
 	{
 		// J/K
 		BKSGE_CONSTEXPR_OR_CONST auto a = joules(60) / kelvins(3);
-		static_assert(std::is_same<decltype(a), const joules_per_kelvin>::value, "");
+		static_assert(bksge::is_same<decltype(a), const joules_per_kelvin>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(20, a.value());
 	}
 	{
 		// m^2・kg・s^-2・K^-1
 		BKSGE_CONSTEXPR_OR_CONST auto a = metres(3) * metres(4) * kilograms(5) / (seconds(2) * seconds(3) * kelvins(1));
-		static_assert(std::is_same<decltype(a), const joules_per_kelvin>::value, "");
+		static_assert(bksge::is_same<decltype(a), const joules_per_kelvin>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(10, a.value());
 	}
 }
@@ -695,7 +695,7 @@ TYPED_TEST(UnitsTest, IlluminanceTest)
 	{
 		// lm・m^-2
 		BKSGE_CONSTEXPR_OR_CONST auto lx = lumens(60) / (metres(4) * metres(5));
-		static_assert(std::is_same<decltype(lx), const lux>::value, "");
+		static_assert(bksge::is_same<decltype(lx), const lux>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(3, lx.value());
 	}
 }
@@ -713,19 +713,19 @@ TYPED_TEST(UnitsTest, InductanceTest)
 	{
 		// V/(A/s)
 		BKSGE_CONSTEXPR_OR_CONST auto H = volts(30) / (amperes(4) / seconds(2));
-		static_assert(std::is_same<decltype(H), const henries>::value, "");
+		static_assert(bksge::is_same<decltype(H), const henries>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(15, H.value());
 	}
 	{
 		// J・A^-2
 		BKSGE_CONSTEXPR_OR_CONST auto H = joules(30) / (amperes(2) * amperes(3));
-		static_assert(std::is_same<decltype(H), const henries>::value, "");
+		static_assert(bksge::is_same<decltype(H), const henries>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(5, H.value());
 	}
 	{
 		// kg・m^2・s^-2・A^-2
 		BKSGE_CONSTEXPR_OR_CONST auto H = (kilograms(30) * metres(6) * metres(8)) / (seconds(2) * seconds(3) * amperes(4) * amperes(5));
-		static_assert(std::is_same<decltype(H), const henries>::value, "");
+		static_assert(bksge::is_same<decltype(H), const henries>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(12, H.value());
 	}
 }
@@ -819,7 +819,7 @@ TYPED_TEST(UnitsTest, KinematicViscosityTest)
 	{
 		// m^2/s
 		BKSGE_CONSTEXPR_OR_CONST auto v = metres(10) * metres(6) / seconds(2);
-		static_assert(std::is_same<decltype(v), const square_metres_per_second>::value, "");
+		static_assert(bksge::is_same<decltype(v), const square_metres_per_second>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(30, v.value());
 	}
 }
@@ -915,7 +915,7 @@ TYPED_TEST(UnitsTest, LuminanceTest)
 	{
 		// cd/m^2
 		BKSGE_CONSTEXPR_OR_CONST auto a = candelas(60) / (metres(3) * metres(4));
-		static_assert(std::is_same<decltype(a), const candelas_per_square_metre>::value, "");
+		static_assert(bksge::is_same<decltype(a), const candelas_per_square_metre>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(5, a.value());
 	}
 }
@@ -929,7 +929,7 @@ TYPED_TEST(UnitsTest, LuminousFluxTest)
 	{
 		// cd・sr
 		BKSGE_CONSTEXPR_OR_CONST auto lm = candelas(3) * steradians(4);
-		static_assert(std::is_same<decltype(lm), const lumens>::value, "");
+		static_assert(bksge::is_same<decltype(lm), const lumens>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(12, lm.value());
 	}
 }
@@ -974,7 +974,7 @@ TYPED_TEST(UnitsTest, MagneticFieldIntensityTest)
 	{
 		// A/m
 		BKSGE_CONSTEXPR_OR_CONST auto a = amperes(10) / metres(2);
-		static_assert(std::is_same<decltype(a), const amperes_per_metre>::value, "");
+		static_assert(bksge::is_same<decltype(a), const amperes_per_metre>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(5, a.value());
 	}
 }
@@ -992,13 +992,13 @@ TYPED_TEST(UnitsTest, MagneticFluxTest)
 	{
 		// V・s
 		BKSGE_CONSTEXPR_OR_CONST auto Wb = volts(3) * seconds(4);
-		static_assert(std::is_same<decltype(Wb), const webers>::value, "");
+		static_assert(bksge::is_same<decltype(Wb), const webers>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(12, Wb.value());
 	}
 	{
 		// J/A
 		BKSGE_CONSTEXPR_OR_CONST auto Wb = joules(60) / amperes(4);
-		static_assert(std::is_same<decltype(Wb), const webers>::value, "");
+		static_assert(bksge::is_same<decltype(Wb), const webers>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(15, Wb.value());
 	}
 	{
@@ -1008,7 +1008,7 @@ TYPED_TEST(UnitsTest, MagneticFluxTest)
 		BKSGE_CONSTEXPR_OR_CONST auto s = seconds(3);
 		BKSGE_CONSTEXPR_OR_CONST auto A = amperes(2);
 		BKSGE_CONSTEXPR_OR_CONST auto Wb = (kg * m * m) / (s * s * A);
-		static_assert(std::is_same<decltype(Wb), const webers>::value, "");
+		static_assert(bksge::is_same<decltype(Wb), const webers>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(80, Wb.value());
 	}
 }
@@ -1028,25 +1028,25 @@ TYPED_TEST(UnitsTest, MagneticFluxDensityTest)
 	{
 		// Wb・m^-2
 		BKSGE_CONSTEXPR_OR_CONST auto T = webers(30) / square_metres(3);
-		static_assert(std::is_same<decltype(T), const teslas>::value, "");
+		static_assert(bksge::is_same<decltype(T), const teslas>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(10, T.value());
 	}
 	{
 		// V・s・m^-2
 		BKSGE_CONSTEXPR_OR_CONST auto T = volts(10) * seconds(3) / (metres(2) * metres(3));
-		static_assert(std::is_same<decltype(T), const teslas>::value, "");
+		static_assert(bksge::is_same<decltype(T), const teslas>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(5, T.value());
 	}
 	{
 		// N・A^-1・m^-1
 		BKSGE_CONSTEXPR_OR_CONST auto T = newtons(18) / amperes(3) / metres(2);
-		static_assert(std::is_same<decltype(T), const teslas>::value, "");
+		static_assert(bksge::is_same<decltype(T), const teslas>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(3, T.value());
 	}
 	{
 		// kg・A^-1・s^-2
 		BKSGE_CONSTEXPR_OR_CONST auto T = kilograms(120) / amperes(3) / seconds(2) / seconds(5);
-		static_assert(std::is_same<decltype(T), const teslas>::value, "");
+		static_assert(bksge::is_same<decltype(T), const teslas>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(4, T.value());
 	}
 }
@@ -1063,13 +1063,13 @@ TYPED_TEST(UnitsTest, MagneticPermeabilityTest)
 	{
 		// H/m
 		BKSGE_CONSTEXPR_OR_CONST auto a = henries(10) / metres(2);
-		static_assert(std::is_same<decltype(a), const henries_per_metre>::value, "");
+		static_assert(bksge::is_same<decltype(a), const henries_per_metre>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(5, a.value());
 	}
 	{
 		// m・kg・s^-2・A^-2
 		BKSGE_CONSTEXPR_OR_CONST auto a = metres(6) * kilograms(10) / (seconds(1) * seconds(2) * amperes(3) * amperes(5));
-		static_assert(std::is_same<decltype(a), const henries_per_metre>::value, "");
+		static_assert(bksge::is_same<decltype(a), const henries_per_metre>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(2, a.value());
 	}
 }
@@ -1088,22 +1088,22 @@ TYPED_TEST(UnitsTest, MagneticReluctanceTest)
 	{
 		// A/Wb
 		BKSGE_CONSTEXPR_OR_CONST auto a = amperes(60) / webers(2);
-		static_assert(std::is_same<decltype(a), const amperes_per_weber>::value, "");
-		static_assert(std::is_same<decltype(a), const reciprocal_henries>::value, "");
+		static_assert(bksge::is_same<decltype(a), const amperes_per_weber>::value, "");
+		static_assert(bksge::is_same<decltype(a), const reciprocal_henries>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(30, a.value());
 	}
 	{
 		// H^-1
 		BKSGE_CONSTEXPR_OR_CONST auto a = TypeParam(10) / henries(2);
-		static_assert(std::is_same<decltype(a), const amperes_per_weber>::value, "");
-		static_assert(std::is_same<decltype(a), const reciprocal_henries>::value, "");
+		static_assert(bksge::is_same<decltype(a), const amperes_per_weber>::value, "");
+		static_assert(bksge::is_same<decltype(a), const reciprocal_henries>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(5, a.value());
 	}
 	{
 		// m^-2・kg^-1・s^2・A^2
 		BKSGE_CONSTEXPR_OR_CONST auto a = seconds(2) * seconds(3) * amperes(4) * amperes(5) / (metres(2) * metres(3) * kilograms(4));
-		static_assert(std::is_same<decltype(a), const amperes_per_weber>::value, "");
-		static_assert(std::is_same<decltype(a), const reciprocal_henries>::value, "");
+		static_assert(bksge::is_same<decltype(a), const amperes_per_weber>::value, "");
+		static_assert(bksge::is_same<decltype(a), const reciprocal_henries>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(5, a.value());
 	}
 }
@@ -1247,17 +1247,17 @@ TYPED_TEST(UnitsTest, MassDensityTest)
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = kilograms(120) / metres(2) / metres(3) / metres(4);
-		static_assert(std::is_same<decltype(v), const kilograms_per_cubic_metre>::value, "");
+		static_assert(bksge::is_same<decltype(v), const kilograms_per_cubic_metre>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(5, v.value());
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = grams(120) / centimetres(1) / centimetres(2) / centimetres(3);
-		static_assert(std::is_same<decltype(v), const grams_per_cubic_centimetre>::value, "");
+		static_assert(bksge::is_same<decltype(v), const grams_per_cubic_centimetre>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(20, v.value());
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = pounds(120) / feet(3) / feet(4) / feet(5);
-		static_assert(std::is_same<decltype(v), const pounds_per_cubic_foot>::value, "");
+		static_assert(bksge::is_same<decltype(v), const pounds_per_cubic_foot>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_NEAR(2.0, (double)v.value(), 0.000001);
 	}
 }
@@ -1274,13 +1274,13 @@ TYPED_TEST(UnitsTest, MolarEnergyTest)
 	{
 		// J/mol
 		BKSGE_CONSTEXPR_OR_CONST auto a = joules(60) / mole(2);
-		static_assert(std::is_same<decltype(a), const joules_per_mole>::value, "");
+		static_assert(bksge::is_same<decltype(a), const joules_per_mole>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(30, a.value());
 	}
 	{
 		// m^2・kg・s^-2・mol^-1
 		BKSGE_CONSTEXPR_OR_CONST auto a = metres(2) * metres(3) * kilograms(4) / (seconds(1) * seconds(2) * mole(3));
-		static_assert(std::is_same<decltype(a), const joules_per_mole>::value, "");
+		static_assert(bksge::is_same<decltype(a), const joules_per_mole>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(4, a.value());
 	}
 }
@@ -1298,13 +1298,13 @@ TYPED_TEST(UnitsTest, MolarHeatCapacityTest)
 	{
 		// J/(K・mol)
 		BKSGE_CONSTEXPR_OR_CONST auto a = joules(60) / (kelvins(3) * mole(2));
-		static_assert(std::is_same<decltype(a), const joules_per_kelvin_mole>::value, "");
+		static_assert(bksge::is_same<decltype(a), const joules_per_kelvin_mole>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(10, a.value());
 	}
 	{
 		// m^2・kg・s^-2・K^-1・mol^-1
 		BKSGE_CONSTEXPR_OR_CONST auto a = metres(2) * metres(3) * kilograms(4) / (seconds(1) * seconds(2) * kelvins(2) * mole(3));
-		static_assert(std::is_same<decltype(a), const joules_per_kelvin_mole>::value, "");
+		static_assert(bksge::is_same<decltype(a), const joules_per_kelvin_mole>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(2, a.value());
 	}
 }
@@ -1318,7 +1318,7 @@ TYPED_TEST(UnitsTest, MomentOfInertiaTest)
 	{
 		// kg・m^2
 		BKSGE_CONSTEXPR_OR_CONST auto a = kilograms(2) * metres(3) * metres(4);
-		static_assert(std::is_same<decltype(a), const kilograms_square_metre>::value, "");
+		static_assert(bksge::is_same<decltype(a), const kilograms_square_metre>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(24, a.value());
 	}
 }
@@ -1334,13 +1334,13 @@ TYPED_TEST(UnitsTest, MomentumTest)
 	{
 		// N・s
 		BKSGE_CONSTEXPR_OR_CONST auto a = newtons(4) * seconds(5);
-		static_assert(std::is_same<decltype(a), const newton_seconds>::value, "");
+		static_assert(bksge::is_same<decltype(a), const newton_seconds>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(20, a.value());
 	}
 	{
 		// m・kg・s^-1
 		BKSGE_CONSTEXPR_OR_CONST auto a = metres(4) * kilograms(3) / seconds(2);
-		static_assert(std::is_same<decltype(a), const newton_seconds>::value, "");
+		static_assert(bksge::is_same<decltype(a), const newton_seconds>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(6, a.value());
 	}
 }
@@ -1357,7 +1357,7 @@ TYPED_TEST(UnitsTest, PermittivityTest)
 	{
 		// F/m
 		BKSGE_CONSTEXPR_OR_CONST auto a = farads(60) / metres(3);
-		static_assert(std::is_same<decltype(a), const farads_per_metre>::value, "");
+		static_assert(bksge::is_same<decltype(a), const farads_per_metre>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(20, a.value());
 	}
 	{
@@ -1367,7 +1367,7 @@ TYPED_TEST(UnitsTest, PermittivityTest)
 		BKSGE_CONSTEXPR_OR_CONST auto s = seconds(2);
 		BKSGE_CONSTEXPR_OR_CONST auto A = amperes(3);
 		BKSGE_CONSTEXPR_OR_CONST auto a = s * s * s * s * A * A / (m * m * m * kg);
-		static_assert(std::is_same<decltype(a), const farads_per_metre>::value, "");
+		static_assert(bksge::is_same<decltype(a), const farads_per_metre>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(6, a.value());
 	}
 }
@@ -1383,17 +1383,17 @@ TYPED_TEST(UnitsTest, PowerTest)
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = joules(60) / seconds(4);
-		static_assert(std::is_same<decltype(v), const watts>::value, "");
+		static_assert(bksge::is_same<decltype(v), const watts>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(15, v.value());
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = newtons(10) * metres(6) / seconds(5);
-		static_assert(std::is_same<decltype(v), const watts>::value, "");
+		static_assert(bksge::is_same<decltype(v), const watts>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(12, v.value());
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = metres(10) * metres(6) * kilograms(8) / seconds(2) / seconds(3) / seconds(4);
-		static_assert(std::is_same<decltype(v), const watts>::value, "");
+		static_assert(bksge::is_same<decltype(v), const watts>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(20, v.value());
 	}
 }
@@ -1409,17 +1409,17 @@ TYPED_TEST(UnitsTest, PressureTest)
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = newtons(10) / square_metre(2);
-		static_assert(std::is_same<decltype(v), const pascals>::value, "");
+		static_assert(bksge::is_same<decltype(v), const pascals>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(5, v.value());
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = newtons(60) / metre(2) / metre(3);
-		static_assert(std::is_same<decltype(v), const pascals>::value, "");
+		static_assert(bksge::is_same<decltype(v), const pascals>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(10, v.value());
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = kilograms(120) / metre(2) / seconds(3) / seconds(4);
-		static_assert(std::is_same<decltype(v), const pascals>::value, "");
+		static_assert(bksge::is_same<decltype(v), const pascals>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(5, v.value());
 	}
 }
@@ -1432,7 +1432,7 @@ TYPED_TEST(UnitsTest, RadioactivityTest)
 	{
 		// s^-1
 		BKSGE_CONSTEXPR_OR_CONST auto Bq = TypeParam(10) / seconds(2);
-		static_assert(std::is_same<decltype(Bq), const becquerels>::value, "");
+		static_assert(bksge::is_same<decltype(Bq), const becquerels>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(5, Bq.value());
 	}
 }
@@ -1454,13 +1454,13 @@ TYPED_TEST(UnitsTest, SpecificEnergyTest)
 	{
 		// J/kg
 		BKSGE_CONSTEXPR_OR_CONST auto a = joules(60) / kilograms(2);
-		static_assert(std::is_same<decltype(a), const joules_per_kilogram>::value, "");
+		static_assert(bksge::is_same<decltype(a), const joules_per_kilogram>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(30, a.value());
 	}
 	{
 		// m^2・s^-2
 		BKSGE_CONSTEXPR_OR_CONST auto a = metres(6) * metres(50) / (seconds(2) * seconds(3));
-		static_assert(std::is_same<decltype(a), const joules_per_kilogram>::value, "");
+		static_assert(bksge::is_same<decltype(a), const joules_per_kilogram>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(50, a.value());
 	}
 }
@@ -1477,13 +1477,13 @@ TYPED_TEST(UnitsTest, SpecificHeatCapacityTest)
 	{
 		// J/(K・kg)
 		BKSGE_CONSTEXPR_OR_CONST auto a = joules(60) / (kelvins(3) * kilograms(2));
-		static_assert(std::is_same<decltype(a), const joules_per_kilogram_kelvin>::value, "");
+		static_assert(bksge::is_same<decltype(a), const joules_per_kilogram_kelvin>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(10, a.value());
 	}
 	{
 		// m^2・s^-2・K^-1
 		BKSGE_CONSTEXPR_OR_CONST auto a = metres(6) * metres(50) / (seconds(2) * seconds(3) * kelvins(10));
-		static_assert(std::is_same<decltype(a), const joules_per_kilogram_kelvin>::value, "");
+		static_assert(bksge::is_same<decltype(a), const joules_per_kilogram_kelvin>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(5, a.value());
 	}
 }
@@ -1497,7 +1497,7 @@ TYPED_TEST(UnitsTest, SpecificVolumeTest)
 	{
 		// m^3/kg
 		BKSGE_CONSTEXPR_OR_CONST auto a = metres(2) * metres(3) * metres(4) / kilograms(2);
-		static_assert(std::is_same<decltype(a), const cubic_metres_per_kilogram>::value, "");
+		static_assert(bksge::is_same<decltype(a), const cubic_metres_per_kilogram>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(12, a.value());
 	}
 }
@@ -1518,17 +1518,17 @@ TYPED_TEST(UnitsTest, SurfaceDensityTest)
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = kilograms(120) / metres(2) / metres(3);
-		static_assert(std::is_same<decltype(v), const kilograms_per_square_metre>::value, "");
+		static_assert(bksge::is_same<decltype(v), const kilograms_per_square_metre>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(20, v.value());
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = grams(120) / centimetres(1) / centimetres(2);
-		static_assert(std::is_same<decltype(v), const grams_per_square_centimetre>::value, "");
+		static_assert(bksge::is_same<decltype(v), const grams_per_square_centimetre>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(60, v.value());
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = pounds(120) / feet(3) / feet(4);
-		static_assert(std::is_same<decltype(v), const pounds_per_square_foot>::value, "");
+		static_assert(bksge::is_same<decltype(v), const pounds_per_square_foot>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_NEAR(10.0, (double)v.value(), 0.000001);
 	}
 }
@@ -1545,19 +1545,19 @@ TYPED_TEST(UnitsTest, SurfaceTensionTest)
 	{
 		// N / m
 		BKSGE_CONSTEXPR_OR_CONST auto a = newtons(60) / metres(2);
-		static_assert(std::is_same<decltype(a), const newtons_per_metre>::value, "");
+		static_assert(bksge::is_same<decltype(a), const newtons_per_metre>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(30, a.value());
 	}
 	{
 		// J / m^2
 		BKSGE_CONSTEXPR_OR_CONST auto a = joules(60) / (metres(2) * metres(3));
-		static_assert(std::is_same<decltype(a), const newtons_per_metre>::value, "");
+		static_assert(bksge::is_same<decltype(a), const newtons_per_metre>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(10, a.value());
 	}
 	{
 		// kg・s^-2
 		BKSGE_CONSTEXPR_OR_CONST auto a = kilograms(30) / (seconds(2) * seconds(3));
-		static_assert(std::is_same<decltype(a), const newtons_per_metre>::value, "");
+		static_assert(bksge::is_same<decltype(a), const newtons_per_metre>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(5, a.value());
 	}
 }
@@ -1649,13 +1649,13 @@ TYPED_TEST(UnitsTest, ThermalConductivityTest)
 	{
 		// W/(m・K)
 		BKSGE_CONSTEXPR_OR_CONST auto a = watts(60) / (metres(2) * kelvins(3));
-		static_assert(std::is_same<decltype(a), const watts_per_metre_kelvin>::value, "");
+		static_assert(bksge::is_same<decltype(a), const watts_per_metre_kelvin>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(10, a.value());
 	}
 	{
 		// m・kg・s^-3・K^-1
 		BKSGE_CONSTEXPR_OR_CONST auto a = metres(8) * kilograms(6) / (seconds(1) * seconds(2) * seconds(3) * kelvins(4));
-		static_assert(std::is_same<decltype(a), const watts_per_metre_kelvin>::value, "");
+		static_assert(bksge::is_same<decltype(a), const watts_per_metre_kelvin>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(2, a.value());
 	}
 }
@@ -1746,13 +1746,13 @@ TYPED_TEST(UnitsTest, TorqueTest)
 	{
 		// N・m
 		BKSGE_CONSTEXPR_OR_CONST auto a = newtons(4) * metres(5);
-		static_assert(std::is_same<decltype(a), const newton_metres>::value, "");
+		static_assert(bksge::is_same<decltype(a), const newton_metres>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(20, a.value());
 	}
 	{
 		// m^2・kg・s^-2
 		BKSGE_CONSTEXPR_OR_CONST auto a = metres(2) * metres(3) * kilograms(4) / (seconds(2) * seconds(3));
-		static_assert(std::is_same<decltype(a), const newton_metres>::value, "");
+		static_assert(bksge::is_same<decltype(a), const newton_metres>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(4, a.value());
 	}
 }
@@ -1776,27 +1776,27 @@ TYPED_TEST(UnitsTest, VelocityTest)
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = metres(10) / seconds(2);
-		static_assert(std::is_same<decltype(v), const metres_per_second>::value, "");
+		static_assert(bksge::is_same<decltype(v), const metres_per_second>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(5, v.value());
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = centimetres(10) / seconds(5);
-		static_assert(std::is_same<decltype(v), const centimetres_per_second>::value, "");
+		static_assert(bksge::is_same<decltype(v), const centimetres_per_second>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(2, v.value());
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = kilometres(120) / hours(2);
-		static_assert(std::is_same<decltype(v), const kilometres_per_hour>::value, "");
+		static_assert(bksge::is_same<decltype(v), const kilometres_per_hour>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_NEAR(60, (double)v.value(), 0.00001);
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = feet(12) / seconds(4);
-		static_assert(std::is_same<decltype(v), const feet_per_second>::value, "");
+		static_assert(bksge::is_same<decltype(v), const feet_per_second>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(3, v.value());
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = miles(60) / hours(3);
-		static_assert(std::is_same<decltype(v), const miles_per_hour>::value, "");
+		static_assert(bksge::is_same<decltype(v), const miles_per_hour>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_NEAR(20, (double)v.value(), 0.00000000000001);
 	}
 }
@@ -1812,17 +1812,17 @@ TYPED_TEST(UnitsTest, VolumeTest)
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = metres(2) * metres(3) * metres(4);
-		static_assert(std::is_same<decltype(v), const cubic_metres>::value, "");
+		static_assert(bksge::is_same<decltype(v), const cubic_metres>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(24, v.value());
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = inches(3) * inches(4) * inches(5);
-		static_assert(std::is_same<decltype(v), const cubic_inches>::value, "");
+		static_assert(bksge::is_same<decltype(v), const cubic_inches>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_NEAR(60, (double)v.value(), 0.0001);
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = decimetre(7) * decimetre(4) * decimetre(2);
-		static_assert(std::is_same<decltype(v), const litres>::value, "");
+		static_assert(bksge::is_same<decltype(v), const litres>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_NEAR(56, (double)v.value(), 0.00000000000001);
 	}
 }
@@ -1839,17 +1839,17 @@ TYPED_TEST(UnitsTest, WavenumberTest)
 
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = TypeParam(50) / metres(10);
-		static_assert(std::is_same<decltype(v), const reciprocal_metres>::value, "");
+		static_assert(bksge::is_same<decltype(v), const reciprocal_metres>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(5, v.value());
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = 100 / kilometres(2);
-		static_assert(std::is_same<decltype(v), const reciprocal_kilometres>::value, "");
+		static_assert(bksge::is_same<decltype(v), const reciprocal_kilometres>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(50, v.value());
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto v = 22.5f / centimetres(5);
-		static_assert(std::is_same<decltype(v), const kaysers>::value, "");
+		static_assert(bksge::is_same<decltype(v), const kaysers>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(4.5, v.value());
 	}
 }

@@ -15,9 +15,15 @@
 #include <bksge/fnd/memory/addressof.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
+#include <bksge/fnd/type_traits/is_assignable.hpp>
+#include <bksge/fnd/type_traits/is_constructible.hpp>
+#include <bksge/fnd/type_traits/is_copy_constructible.hpp>
+#include <bksge/fnd/type_traits/is_convertible.hpp>
+#include <bksge/fnd/type_traits/is_move_constructible.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_move_constructible.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_move_assignable.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>	// declval, move
-#include <type_traits>
 #include <initializer_list>
 
 namespace bksge
@@ -27,7 +33,7 @@ template <typename T>
 struct optional<T>::IsNothrowSwappable
 {
 	BKSGE_STATIC_CONSTEXPR bool value =
-		std::is_nothrow_move_constructible<T>::value &&
+		bksge::is_nothrow_move_constructible<T>::value &&
 		BKSGE_NOEXCEPT_EXPR(bksge::swap(std::declval<T&>(), std::declval<T&>()));
 };
 
@@ -35,15 +41,15 @@ template <typename T>
 struct optional<T>::IsNothrowMoveConstructible
 {
 	BKSGE_STATIC_CONSTEXPR bool value =
-		std::is_nothrow_move_constructible<T>::value;
+		bksge::is_nothrow_move_constructible<T>::value;
 };
 
 template <typename T>
 struct optional<T>::IsNothrowMoveAssignable
 {
 	BKSGE_STATIC_CONSTEXPR bool value =
-		std::is_nothrow_move_constructible<T>::value &&
-		std::is_nothrow_move_assignable<T>::value;
+		bksge::is_nothrow_move_constructible<T>::value &&
+		bksge::is_nothrow_move_assignable<T>::value;
 };
 
 template <typename T>
@@ -140,8 +146,8 @@ optional<T>::operator=(U&& u)
 -> optional&
 {
 	static_assert(
-		std::is_constructible<T, U>::value &&
-		std::is_assignable<T&, U>::value,
+		bksge::is_constructible<T, U>::value &&
+		bksge::is_assignable<T&, U>::value,
 		"Cannot assign to value type from argument");
 
 	if (this->engaged())
@@ -162,7 +168,7 @@ inline void
 optional<T>::emplace(Args&&... args)
 {
 	static_assert(
-		std::is_constructible<T, Args&&...>::value,
+		bksge::is_constructible<T, Args&&...>::value,
 		"Cannot emplace value type from arguments");
 
 	this->destroy();
@@ -326,8 +332,8 @@ inline BKSGE_CONSTEXPR T
 optional<T>::value_or(U&& u) const&
 {
 	static_assert(
-		std::is_copy_constructible<T>::value &&
-		std::is_convertible<U&&, T>::value,
+		bksge::is_copy_constructible<T>::value &&
+		bksge::is_convertible<U&&, T>::value,
 		"Cannot return value");
 
 	return this->engaged() ?
@@ -341,8 +347,8 @@ inline BKSGE_CXX14_CONSTEXPR T
 optional<T>::value_or(U&& u) &&
 {
 	static_assert(
-		std::is_move_constructible<T>::value &&
-		std::is_convertible<U&&, T>::value,
+		bksge::is_move_constructible<T>::value &&
+		bksge::is_convertible<U&&, T>::value,
 		"Cannot return value");
 
 	return this->engaged() ?
@@ -358,8 +364,8 @@ inline BKSGE_CONSTEXPR T
 optional<T>::value_or(U&& u) const
 {
 	static_assert(
-		std::is_copy_constructible<T>::value &&
-		std::is_convertible<U&&, T>::value,
+		bksge::is_copy_constructible<T>::value &&
+		bksge::is_convertible<U&&, T>::value,
 		"Cannot return value");
 
 	return this->engaged() ?

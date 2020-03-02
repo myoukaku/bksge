@@ -9,13 +9,16 @@
 #include <bksge/core/math/rect.hpp>
 #include <bksge/core/math/vector2.hpp>
 #include <bksge/core/math/extent2.hpp>
+#include <bksge/fnd/type_traits/is_constructible.hpp>
+#include <bksge/fnd/type_traits/is_default_constructible.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_default_constructible.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
 #include <bksge/fnd/config.hpp>
 #include <sstream>
-#include <type_traits>
 #include <functional>
 #include <vector>
 #include <gtest/gtest.h>
@@ -46,8 +49,8 @@ TYPED_TEST(MathRectTest, DefaultConstructTest)
 	using Rect = bksge::math::Rect<T>;
 
 	static_assert(sizeof(Rect) == sizeof(T) * 4, "");
-	static_assert(std::is_default_constructible<Rect>::value, "");
-	static_assert(std::is_nothrow_default_constructible<Rect>::value, "");
+	static_assert(bksge::is_default_constructible<Rect>::value, "");
+	static_assert(bksge::is_nothrow_default_constructible<Rect>::value, "");
 	static_assert(bksge::is_implicitly_default_constructible<Rect>::value, "");
 
 	{
@@ -85,12 +88,12 @@ TYPED_TEST(MathRectTest, Vector2Vector2ConstructTest)
 	using Rect = bksge::math::Rect<T>;
 	using Vector2 = bksge::math::Vector2<T>;
 
-	static_assert(!std::is_constructible<Rect, Vector2, Vector2, Vector2>::value, "");
-	static_assert( std::is_constructible<Rect, Vector2, Vector2>::value, "");
-	static_assert(!std::is_constructible<Rect, Vector2>::value, "");
-	static_assert(!std::is_nothrow_constructible<Rect, Vector2, Vector2, Vector2>::value, "");
-	static_assert( std::is_nothrow_constructible<Rect, Vector2, Vector2>::value, "");
-	static_assert(!std::is_nothrow_constructible<Rect, Vector2>::value, "");
+	static_assert(!bksge::is_constructible<Rect, Vector2, Vector2, Vector2>::value, "");
+	static_assert( bksge::is_constructible<Rect, Vector2, Vector2>::value, "");
+	static_assert(!bksge::is_constructible<Rect, Vector2>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Rect, Vector2, Vector2, Vector2>::value, "");
+	static_assert( bksge::is_nothrow_constructible<Rect, Vector2, Vector2>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Rect, Vector2>::value, "");
 	static_assert(!bksge::is_implicitly_constructible<Rect, Vector2, Vector2, Vector2>::value, "");
 	static_assert( bksge::is_implicitly_constructible<Rect, Vector2, Vector2>::value, "");
 	static_assert(!bksge::is_implicitly_constructible<Rect, Vector2>::value, "");
@@ -131,12 +134,12 @@ TYPED_TEST(MathRectTest, Vector2Extent2ConstructTest)
 	using Vector2 = bksge::math::Vector2<T>;
 	using Extent2 = bksge::math::Extent2<T>;
 
-	static_assert(!std::is_constructible<Rect, Vector2, Extent2, Vector2>::value, "");
-	static_assert( std::is_constructible<Rect, Vector2, Extent2>::value, "");
-	static_assert(!std::is_constructible<Rect, Vector2>::value, "");
-	static_assert(!std::is_nothrow_constructible<Rect, Vector2, Extent2, Vector2>::value, "");
-	static_assert( std::is_nothrow_constructible<Rect, Vector2, Extent2>::value, "");
-	static_assert(!std::is_nothrow_constructible<Rect, Vector2>::value, "");
+	static_assert(!bksge::is_constructible<Rect, Vector2, Extent2, Vector2>::value, "");
+	static_assert( bksge::is_constructible<Rect, Vector2, Extent2>::value, "");
+	static_assert(!bksge::is_constructible<Rect, Vector2>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Rect, Vector2, Extent2, Vector2>::value, "");
+	static_assert( bksge::is_nothrow_constructible<Rect, Vector2, Extent2>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Rect, Vector2>::value, "");
 	static_assert(!bksge::is_implicitly_constructible<Rect, Vector2, Extent2, Vector2>::value, "");
 	static_assert( bksge::is_implicitly_constructible<Rect, Vector2, Extent2>::value, "");
 	static_assert(!bksge::is_implicitly_constructible<Rect, Vector2>::value, "");
@@ -176,25 +179,25 @@ TYPED_TEST(MathRectTest, CopyConstructTest)
 	using Rect = bksge::math::Rect<T>;
 	using Vector2 = bksge::math::Vector2<T>;
 
-	static_assert(std::is_constructible<Rect,  Rect  const&>::value, "");
-	static_assert(std::is_constructible<Rect,  Recti const&>::value, "");
-	static_assert(std::is_constructible<Rect,  Rectf const&>::value, "");
-	static_assert(std::is_constructible<Recti, Rect  const&>::value, "");
-	static_assert(std::is_constructible<Recti, Recti const&>::value, "");
-	static_assert(std::is_constructible<Recti, Rectf const&>::value, "");
-	static_assert(std::is_constructible<Rectf, Rect  const&>::value, "");
-	static_assert(std::is_constructible<Rectf, Recti const&>::value, "");
-	static_assert(std::is_constructible<Rectf, Rectf const&>::value, "");
+	static_assert(bksge::is_constructible<Rect,  Rect  const&>::value, "");
+	static_assert(bksge::is_constructible<Rect,  Recti const&>::value, "");
+	static_assert(bksge::is_constructible<Rect,  Rectf const&>::value, "");
+	static_assert(bksge::is_constructible<Recti, Rect  const&>::value, "");
+	static_assert(bksge::is_constructible<Recti, Recti const&>::value, "");
+	static_assert(bksge::is_constructible<Recti, Rectf const&>::value, "");
+	static_assert(bksge::is_constructible<Rectf, Rect  const&>::value, "");
+	static_assert(bksge::is_constructible<Rectf, Recti const&>::value, "");
+	static_assert(bksge::is_constructible<Rectf, Rectf const&>::value, "");
 
-	static_assert(std::is_nothrow_constructible<Rect,  Rect  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Rect,  Recti const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Rect,  Rectf const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Recti, Rect  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Recti, Recti const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Recti, Rectf const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Rectf, Rect  const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Rectf, Recti const&>::value, "");
-	static_assert(std::is_nothrow_constructible<Rectf, Rectf const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Rect,  Rect  const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Rect,  Recti const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Rect,  Rectf const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Recti, Rect  const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Recti, Recti const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Recti, Rectf const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Rectf, Rect  const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Rectf, Recti const&>::value, "");
+	static_assert(bksge::is_nothrow_constructible<Rectf, Rectf const&>::value, "");
 
 	static_assert(bksge::is_implicitly_constructible<Rect,  Rect  const&>::value, "");
 	static_assert(bksge::is_implicitly_constructible<Rect,  Recti const&>::value, "");

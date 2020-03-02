@@ -24,7 +24,7 @@ using std::ceil2;
 #else
 
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <type_traits>
+#include <bksge/fnd/type_traits/is_unsigned.hpp>
 
 namespace bksge
 {
@@ -42,7 +42,7 @@ namespace bksge
 template <
 	typename T,
 	typename = bksge::enable_if_t<
-		std::is_unsigned<T>::value
+		bksge::is_unsigned<T>::value
 	>
 >
 BKSGE_CONSTEXPR T
