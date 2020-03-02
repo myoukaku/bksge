@@ -19,6 +19,7 @@
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/shader_parameter_map.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
+#include <bksge/fnd/cstdint/uint8_t.hpp>
 #include <cstring>
 
 namespace bksge
@@ -64,7 +65,7 @@ UniformBufferSetter::LoadParameters(
 	bksge::ShaderParameterMap const& shader_parameter_map,
 	vulkan::UniformBuffer* uniform_buffer)
 {
-	std::uint8_t* dst = uniform_buffer->GetMappedBuffer();
+	bksge::uint8_t* dst = uniform_buffer->GetMappedBuffer();
 	auto const offset = uniform_buffer->Allocate(m_bytes);
 
 	dst += offset;

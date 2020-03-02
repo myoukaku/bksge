@@ -12,8 +12,8 @@
 #include <bksge/core/render/vulkan/detail/fwd/fence_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
+#include <bksge/fnd/cstdint/uint64_t.hpp>
 #include <memory>
-#include <cstdint>
 
 namespace bksge
 {
@@ -31,7 +31,7 @@ public:
 
 	~Fence();
 
-	::VkResult Wait(::VkBool32 waitAll, std::uint64_t timeout);
+	::VkResult Wait(::VkBool32 waitAll, bksge::uint64_t timeout);
 
 	::VkResult Reset(void);
 

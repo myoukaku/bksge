@@ -9,8 +9,8 @@
 #include <bksge/core/render/geometry.hpp>
 #include <bksge/core/render/vertex.hpp>
 #include <bksge/core/render/vertex_element.hpp>
+#include <bksge/fnd/cstdint.hpp>
 #include <gtest/gtest.h>
-#include <cstdint>
 #include <sstream>
 #include "serialize_test.hpp"
 
@@ -41,7 +41,7 @@ GTEST_TEST(Render_Geometry, BasicTest)
 			{{{20, 21, 22}}, {{23, 24, 25, 26}}, {{27, 28, 29}}},
 		};
 
-		const std::uint16_t index_array[] =
+		const bksge::uint16_t index_array[] =
 		{
 			0, 1,
 		};
@@ -91,7 +91,7 @@ GTEST_TEST(Render_Geometry, BasicTest)
 			{{{30, 31, 32}}, {{33, 34, 35}}, {{36, 37, 38, 39}}, {{40, 41}}},
 		};
 
-		const std::uint32_t index_array[] =
+		const bksge::uint32_t index_array[] =
 		{
 			0, 1, 2,
 		};
@@ -146,7 +146,7 @@ GTEST_TEST(Render_Geometry, CopyTest)
 			{{{20, 21, 22}}, {{23, 24, 25, 26}}, {{27, 28, 29}}},
 		};
 
-		const std::uint16_t index_array[] =
+		const bksge::uint16_t index_array[] =
 		{
 			0, 1,
 		};
@@ -178,7 +178,7 @@ GTEST_TEST(Render_Geometry, CopyTest)
 			{{{30, 31, 32}}, {{33, 34, 35}}, {{36, 37, 38, 39}}, {{40, 41}}},
 		};
 
-		const std::uint32_t index_array[] =
+		const bksge::uint32_t index_array[] =
 		{
 			0, 1, 2,
 		};
@@ -234,23 +234,23 @@ GTEST_TEST(Render_Geometry, CompareTest)
 		{{{10, 11, 12}},{{10, 11, 12}}},
 	};
 
-	const std::uint16_t index_array_1[] =
+	const bksge::uint16_t index_array_1[] =
 	{
 		0, 1, 2,
 	};
-	const std::uint16_t index_array_2[] =
+	const bksge::uint16_t index_array_2[] =
 	{
 		0, 1, 2,
 	};
-	const std::uint16_t index_array_3[] =
+	const bksge::uint16_t index_array_3[] =
 	{
 		2, 1, 0,
 	};
-	const std::uint32_t index_array_4[] =
+	const bksge::uint32_t index_array_4[] =
 	{
 		0, 1, 2,
 	};
-	const std::uint32_t index_array_5[] =
+	const bksge::uint32_t index_array_5[] =
 	{
 		2, 1, 0,
 	};
@@ -314,7 +314,7 @@ GTEST_TEST(Render_Geometry, SerializeTest)
 		{{{20, 21, 22}}, {{23, 24, 25, 26}}, {{27, 28, 29}}},
 	};
 
-	const std::uint16_t index_array[] =
+	const bksge::uint16_t index_array[] =
 	{
 		0, 1,
 	};

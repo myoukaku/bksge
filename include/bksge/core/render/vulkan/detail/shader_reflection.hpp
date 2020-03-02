@@ -12,9 +12,9 @@
 #include <bksge/core/render/vulkan/detail/fwd/shader_reflection_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <vector>
 #include <string>
-#include <cstdint>
 
 namespace bksge
 {
@@ -31,11 +31,11 @@ struct ShaderReflectionUniform
 	{
 		std::string          name;
 		bksge::size_t        bytes;
-		std::uint32_t        offset;
+		bksge::uint32_t      offset;
 	};
 
-	std::uint32_t			set;
-	std::uint32_t			binding;
+	bksge::uint32_t			set;
+	bksge::uint32_t			binding;
 	std::string				name;
 	::VkDescriptorType		descriptor_type;
 	bksge::size_t			bytes;
@@ -51,9 +51,9 @@ public:
 
 	~ShaderReflection();
 
-	std::uint32_t GetMaxSets(void) const;
+	bksge::uint32_t GetMaxSets(void) const;
 
-	std::uint32_t GetUniformCount(::VkDescriptorType descriptor_type) const;
+	bksge::uint32_t GetUniformCount(::VkDescriptorType descriptor_type) const;
 
 	using Uniforms = std::vector<ShaderReflectionUniform>;
 
@@ -65,7 +65,7 @@ private:
 	ShaderReflection& operator=(ShaderReflection const&) = delete;
 
 private:
-	std::uint32_t	m_max_sets = 0;
+	bksge::uint32_t	m_max_sets = 0;
 	Uniforms		m_uniforms;
 };
 

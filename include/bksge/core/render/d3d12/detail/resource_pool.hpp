@@ -29,7 +29,6 @@
 #include <bksge/core/render/fwd/sampler_fwd.hpp>
 #include <memory>
 #include <vector>
-#include <cstdint>
 
 namespace bksge
 {

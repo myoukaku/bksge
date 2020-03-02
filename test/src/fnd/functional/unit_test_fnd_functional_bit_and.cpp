@@ -7,8 +7,8 @@
  */
 
 #include <bksge/fnd/functional/bit_and.hpp>
+#include <bksge/fnd/cstdint.hpp>
 #include <gtest/gtest.h>
-#include <cstdint>
 #include <type_traits>
 #include "constexpr_test.hpp"
 
@@ -24,7 +24,7 @@ GTEST_TEST(FunctionalTest, BitAndTest)
 	}
 	{
 		using type = bksge::bit_and<>;
-		BKSGE_CONSTEXPR_EXPECT_EQ(std::uint16_t(0x02), type()(std::uint8_t (0x0F), std::uint16_t(0x12)));
-		BKSGE_CONSTEXPR_EXPECT_EQ(std::uint32_t(0x20), type()(std::uint32_t(0x77), std::uint16_t(0x20)));
+		BKSGE_CONSTEXPR_EXPECT_EQ(bksge::uint16_t(0x02), type()(bksge::uint8_t (0x0F), bksge::uint16_t(0x12)));
+		BKSGE_CONSTEXPR_EXPECT_EQ(bksge::uint32_t(0x20), type()(bksge::uint32_t(0x77), bksge::uint16_t(0x20)));
 	}
 }

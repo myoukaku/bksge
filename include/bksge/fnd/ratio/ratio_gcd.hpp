@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/tmp/gcd.hpp>
 #include <bksge/fnd/tmp/lcm.hpp>
-#include <cstdint>
+#include <bksge/fnd/cstdint/intmax_t.hpp>
 #include <ratio>
 
 namespace bksge
@@ -22,8 +22,8 @@ namespace bksge
  */
 template <typename R1, typename R2>
 using ratio_gcd = typename std::ratio<
-	bksge::tmp::gcd<std::intmax_t, R1::num, R2::num>::value,
-	bksge::tmp::lcm<std::intmax_t, R1::den, R2::den>::value
+	bksge::tmp::gcd<bksge::intmax_t, R1::num, R2::num>::value,
+	bksge::tmp::lcm<bksge::intmax_t, R1::den, R2::den>::value
 >::type;
 
 }	// namespace bksge

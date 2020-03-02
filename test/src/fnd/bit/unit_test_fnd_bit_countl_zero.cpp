@@ -7,8 +7,8 @@
  */
 
 #include <bksge/fnd/bit/countl_zero.hpp>
+#include <bksge/fnd/cstdint.hpp>
 #include <gtest/gtest.h>
-#include <cstdint>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -282,10 +282,10 @@ void CountlZeroTestU64(void)
 
 GTEST_TEST(BitTest, CountlZeroTest)
 {
-	CountlZeroTestU8<std::uint8_t>();
-	CountlZeroTestU16<std::uint16_t>();
-	CountlZeroTestU32<std::uint32_t>();
-	CountlZeroTestU64<std::uint64_t>();
+	CountlZeroTestU8<bksge::uint8_t>();
+	CountlZeroTestU16<bksge::uint16_t>();
+	CountlZeroTestU32<bksge::uint32_t>();
+	CountlZeroTestU64<bksge::uint64_t>();
 }
 
 }	// namespace countl_zero_test

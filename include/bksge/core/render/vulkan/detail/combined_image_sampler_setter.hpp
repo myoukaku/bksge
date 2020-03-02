@@ -17,7 +17,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/shader_reflection_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
-#include <cstdint>
+#include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <string>
 
 namespace bksge
@@ -52,8 +52,8 @@ private:
 	CombinedImageSamplerSetter& operator=(CombinedImageSamplerSetter const&) = delete;
 
 private:
-	std::uint32_t					m_set = 0;
-	std::uint32_t					m_binding = 0;
+	bksge::uint32_t					m_set = 0;
+	bksge::uint32_t					m_binding = 0;
 	std::string						m_name;
 	::VkDescriptorType				m_descriptor_type;
 	::VkDescriptorImageInfo			m_image_info;

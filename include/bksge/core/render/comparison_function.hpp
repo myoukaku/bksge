@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_COMPARISON_FUNCTION_HPP
 
 #include <bksge/core/render/fwd/comparison_function_fwd.hpp>
-#include <cstdint>
+#include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <string>
 #include <ostream>
 
@@ -23,7 +23,7 @@ namespace render
 /**
  *	@brief	比較関数
  */
-enum class ComparisonFunction : std::uint32_t
+enum class ComparisonFunction : bksge::uint32_t
 {
 	kNever,
 	kLess,

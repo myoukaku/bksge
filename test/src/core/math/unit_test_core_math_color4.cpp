@@ -14,6 +14,7 @@
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
+#include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
 #include <sstream>
 #include <stdexcept>
@@ -148,7 +149,7 @@ TYPED_TEST(MathColor4FloatTest, ConvertConstructTest)
 {
 	using T = TypeParam;
 	using Color4 = bksge::math::Color4<T>;
-	using Color4u8 = bksge::math::Color4<std::uint8_t>;
+	using Color4u8 = bksge::math::Color4<bksge::uint8_t>;
 
 	static_assert(std::is_constructible<Color4,   Color4u8 const&>::value, "");
 	static_assert(std::is_constructible<Color4u8, Color4   const&>::value, "");

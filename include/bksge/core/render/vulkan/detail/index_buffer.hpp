@@ -15,6 +15,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/buffer_object_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/fwd/geometry_fwd.hpp>
+#include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <memory>
 
 namespace bksge
@@ -48,7 +49,7 @@ private:
 
 private:
 	std::unique_ptr<vulkan::BufferObject>	m_buffer;
-	std::uint32_t							m_count = 0;
+	bksge::uint32_t							m_count = 0;
 	::VkIndexType							m_type;
 };
 

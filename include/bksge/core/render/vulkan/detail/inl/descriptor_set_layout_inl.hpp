@@ -18,7 +18,6 @@
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <cstdint>
 #include <memory>
 #include <vector>
 

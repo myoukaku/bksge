@@ -10,7 +10,6 @@
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
 #include <gtest/gtest.h>
-#include <cstdint>
 #include <sstream>
 #include <functional>
 #include <vector>

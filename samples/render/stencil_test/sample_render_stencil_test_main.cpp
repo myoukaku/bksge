@@ -227,7 +227,7 @@ private:
 
 		};
 
-		static std::uint16_t const indices[] =
+		static bksge::uint16_t const indices[] =
 		{
 			0+0, 0+2, 0+1,
 			0+1, 0+2, 0+3,
@@ -309,7 +309,7 @@ private:
 			{{{ 2.0f, -1.5f,  0.0f}}, {{ 0.0f, 0.0f, 1.0f, 1.0f }}},
 		};
 
-		static std::uint16_t const indices[] =
+		static bksge::uint16_t const indices[] =
 		{
 			0, 1, 2,
 		};

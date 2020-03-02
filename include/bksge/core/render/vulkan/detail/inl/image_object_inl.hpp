@@ -18,6 +18,7 @@
 #include <bksge/core/render/vulkan/detail/device_memory.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
+#include <bksge/fnd/cstdint/uint32_t.hpp>
 
 namespace bksge
 {
@@ -33,7 +34,7 @@ ImageObject::ImageObject(
 	vulkan::DeviceSharedPtr const& device,
 	::VkFormat                     format,
 	::VkExtent2D const&            extent,
-	std::uint32_t                  mipmap_count,
+	bksge::uint32_t                mipmap_count,
 	::VkSampleCountFlagBits        num_samples,
 	::VkImageTiling                tiling,
 	::VkImageUsageFlags            usage,
@@ -72,7 +73,7 @@ BKSGE_INLINE void
 ImageObject::TransitionLayout(
 	vulkan::CommandPoolSharedPtr const& command_pool,
 	::VkImageAspectFlags aspect_mask,
-	std::uint32_t mipmap_count,
+	bksge::uint32_t mipmap_count,
 	::VkImageLayout old_layout,
 	::VkImageLayout new_layout)
 {

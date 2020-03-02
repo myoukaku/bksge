@@ -7,8 +7,8 @@
  */
 
 #include <bksge/fnd/bit/ispow2.hpp>
+#include <bksge/fnd/cstdint.hpp>
 #include <gtest/gtest.h>
-#include <cstdint>
 #include "constexpr_test.hpp"
 
 namespace bksge_bit_test
@@ -158,19 +158,19 @@ void IsPow2TestU64(void)
 
 GTEST_TEST(BitTest, IsPow2Test)
 {
-	IsPow2TestU8<std::uint8_t>();
-	IsPow2TestU8<std::uint16_t>();
-	IsPow2TestU8<std::uint32_t>();
-	IsPow2TestU8<std::uint64_t>();
+	IsPow2TestU8<bksge::uint8_t>();
+	IsPow2TestU8<bksge::uint16_t>();
+	IsPow2TestU8<bksge::uint32_t>();
+	IsPow2TestU8<bksge::uint64_t>();
 
-	IsPow2TestU16<std::uint16_t>();
-	IsPow2TestU16<std::uint32_t>();
-	IsPow2TestU16<std::uint64_t>();
+	IsPow2TestU16<bksge::uint16_t>();
+	IsPow2TestU16<bksge::uint32_t>();
+	IsPow2TestU16<bksge::uint64_t>();
 
-	IsPow2TestU32<std::uint32_t>();
-	IsPow2TestU32<std::uint64_t>();
+	IsPow2TestU32<bksge::uint32_t>();
+	IsPow2TestU32<bksge::uint64_t>();
 
-	IsPow2TestU64<std::uint64_t>();
+	IsPow2TestU64<bksge::uint64_t>();
 }
 
 }	// namespace ispow2_test

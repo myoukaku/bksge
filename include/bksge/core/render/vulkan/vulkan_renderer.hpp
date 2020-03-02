@@ -42,6 +42,7 @@
 #include <bksge/core/render/fwd/shader_fwd.hpp>
 #include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
 #include <bksge/core/window/fwd/window_fwd.hpp>
+#include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <memory>
 #include <vector>
 
@@ -89,7 +90,7 @@ private:
 	std::unique_ptr<vulkan::Semaphore>					m_image_acquired_semaphore;
 	std::unique_ptr<vulkan::ResourcePool>				m_resource_pool;
 	std::unique_ptr<vulkan::UniformBuffer>				m_uniform_buffer;
-	std::uint32_t										m_frame_index = 0;
+	bksge::uint32_t										m_frame_index = 0;
 };
 
 }	// namespace render

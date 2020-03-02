@@ -10,7 +10,8 @@
 #define BKSGE_FND_RANDOM_ENGINES_XORSHIFT_HPP
 
 #include <bksge/fnd/random/engines/detail/xorshift_base.hpp>
-#include <cstdint>	// uint32_t, uint64_t
+#include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <bksge/fnd/cstdint/uint64_t.hpp>
 
 namespace bksge
 {
@@ -18,9 +19,9 @@ namespace bksge
 /**
  *	@brief	xorshift32
  */
-class xorshift32 : public xorshift_base<std::uint32_t, 1, xorshift32>
+class xorshift32 : public xorshift_base<bksge::uint32_t, 1, xorshift32>
 {
-	using base_type = xorshift_base<std::uint32_t, 1, xorshift32>;
+	using base_type = xorshift_base<bksge::uint32_t, 1, xorshift32>;
 public:
 	// 継承コンストラクタ
 	using base_type::base_type;
@@ -43,9 +44,9 @@ public:
 /**
  *	@brief	xorshift64
  */
-class xorshift64 : public xorshift_base<std::uint64_t, 1, xorshift64>
+class xorshift64 : public xorshift_base<bksge::uint64_t, 1, xorshift64>
 {
-	using base_type = xorshift_base<std::uint64_t, 1, xorshift64>;
+	using base_type = xorshift_base<bksge::uint64_t, 1, xorshift64>;
 public:
 	// 継承コンストラクタ
 	using base_type::base_type;
@@ -68,9 +69,9 @@ public:
 /**
  *	@brief	xorshift128
  */
-class xorshift128 : public xorshift_base<std::uint32_t, 4, xorshift128>
+class xorshift128 : public xorshift_base<bksge::uint32_t, 4, xorshift128>
 {
-	using base_type = xorshift_base<std::uint32_t, 4, xorshift128>;
+	using base_type = xorshift_base<bksge::uint32_t, 4, xorshift128>;
 public:
 	// 継承コンストラクタ
 	using base_type::base_type;
@@ -98,9 +99,9 @@ public:
 /**
  *	@brief	xorwow
  */
-class xorwow : public xorshift_base<std::uint32_t, 5, xorwow>
+class xorwow : public xorshift_base<bksge::uint32_t, 5, xorwow>
 {
-	using base_type = xorshift_base<std::uint32_t, 5, xorwow>;
+	using base_type = xorshift_base<bksge::uint32_t, 5, xorwow>;
 public:
 	// 継承コンストラクタ
 	using base_type::base_type;
@@ -129,9 +130,9 @@ public:
 /**
  *	@brief	xorshift64star
  */
-class xorshift64star : public xorshift_base<std::uint64_t, 1, xorshift64star>
+class xorshift64star : public xorshift_base<bksge::uint64_t, 1, xorshift64star>
 {
-	using base_type = xorshift_base<std::uint64_t, 1, xorshift64star>;
+	using base_type = xorshift_base<bksge::uint64_t, 1, xorshift64star>;
 public:
 	// 継承コンストラクタ
 	using base_type::base_type;
@@ -155,9 +156,9 @@ public:
 /**
  *	@brief	xorshift1024star
  */
-class xorshift1024star : public xorshift_base<std::uint64_t, 16, xorshift1024star>
+class xorshift1024star : public xorshift_base<bksge::uint64_t, 16, xorshift1024star>
 {
-	using base_type = xorshift_base<std::uint64_t, 16, xorshift1024star>;
+	using base_type = xorshift_base<bksge::uint64_t, 16, xorshift1024star>;
 public:
 	// 継承コンストラクタ
 	using base_type::base_type;
@@ -186,9 +187,9 @@ private:
 /**
  *	@brief	xorshift128plus
  */
-class xorshift128plus : public xorshift_base<std::uint64_t, 2, xorshift128plus>
+class xorshift128plus : public xorshift_base<bksge::uint64_t, 2, xorshift128plus>
 {
-	using base_type = xorshift_base<std::uint64_t, 2, xorshift128plus>;
+	using base_type = xorshift_base<bksge::uint64_t, 2, xorshift128plus>;
 public:
 	// 継承コンストラクタ
 	using base_type::base_type;

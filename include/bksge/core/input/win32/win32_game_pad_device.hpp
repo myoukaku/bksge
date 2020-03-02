@@ -12,7 +12,7 @@
 #include <bksge/core/input/game_pad_state.hpp>
 #include <bksge/core/input/win32/dinput.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <cstdint>
+#include <bksge/fnd/cstdint/int32_t.hpp>
 
 namespace bksge
 {
@@ -55,8 +55,8 @@ private:
 	static BOOL CALLBACK EnumObjectsCallback(LPCDIDEVICEOBJECTINSTANCE lpddoi, LPVOID pvRef);
 
 	static const bksge::size_t  kBufferSize  = 129;
-	static const std::int32_t kAnalogRange = 0x7fffffff;
-	static const std::int32_t kDeadZone    = 1000;
+	static const bksge::int32_t kAnalogRange = 0x7fffffff;
+	static const bksge::int32_t kDeadZone    = 1000;
 
 	GamePadState			m_state;
 	IDirectInputDevice8*	m_device;

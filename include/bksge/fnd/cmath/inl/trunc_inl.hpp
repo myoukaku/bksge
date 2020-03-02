@@ -14,7 +14,7 @@
 #include <bksge/fnd/cmath/isinf.hpp>
 #include <bksge/fnd/cmath/iszero.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
-#include <cstdint>
+#include <bksge/fnd/cstdint/uintmax_t.hpp>
 
 namespace bksge
 {
@@ -52,8 +52,8 @@ inline BKSGE_CONSTEXPR T
 trunc_unchecked(T x) BKSGE_NOEXCEPT
 {
 	return x < 0 ?
-		-static_cast<T>(static_cast<std::uintmax_t>(-x)) :
-		 static_cast<T>(static_cast<std::uintmax_t>( x));
+		-static_cast<T>(static_cast<bksge::uintmax_t>(-x)) :
+		 static_cast<T>(static_cast<bksge::uintmax_t>( x));
 }
 
 #endif

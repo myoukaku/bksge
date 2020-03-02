@@ -7,8 +7,8 @@
  */
 
 #include <bksge/fnd/bit/floor2.hpp>
+#include <bksge/fnd/cstdint.hpp>
 #include <gtest/gtest.h>
-#include <cstdint>
 #include "constexpr_test.hpp"
 
 namespace bksge_bit_test
@@ -233,19 +233,19 @@ void Floor2TestU64(void)
 
 GTEST_TEST(BitTest, Floor2Test)
 {
-	Floor2TestU8<std::uint8_t>();
-	Floor2TestU8<std::uint16_t>();
-	Floor2TestU8<std::uint32_t>();
-	Floor2TestU8<std::uint64_t>();
+	Floor2TestU8<bksge::uint8_t>();
+	Floor2TestU8<bksge::uint16_t>();
+	Floor2TestU8<bksge::uint32_t>();
+	Floor2TestU8<bksge::uint64_t>();
 
-	Floor2TestU16<std::uint16_t>();
-	Floor2TestU16<std::uint32_t>();
-	Floor2TestU16<std::uint64_t>();
+	Floor2TestU16<bksge::uint16_t>();
+	Floor2TestU16<bksge::uint32_t>();
+	Floor2TestU16<bksge::uint64_t>();
 
-	Floor2TestU32<std::uint32_t>();
-	Floor2TestU32<std::uint64_t>();
+	Floor2TestU32<bksge::uint32_t>();
+	Floor2TestU32<bksge::uint64_t>();
 
-	Floor2TestU64<std::uint64_t>();
+	Floor2TestU64<bksge::uint64_t>();
 }
 
 }	// namespace floor2_test

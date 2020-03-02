@@ -27,6 +27,7 @@
 #include <bksge/core/render/geometry.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
+#include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <memory>
 #include <vector>
 
@@ -136,7 +137,7 @@ GraphicsPipeline::GraphicsPipeline(
 	::VkVertexInputBindingDescription vi_binding;
 	vi_binding.binding   = 0;
 	vi_binding.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-	vi_binding.stride    = static_cast<std::uint32_t>(stride);
+	vi_binding.stride    = static_cast<bksge::uint32_t>(stride);
 
 	std::vector<::VkVertexInputAttributeDescription> vi_attribs;
 
@@ -144,9 +145,9 @@ GraphicsPipeline::GraphicsPipeline(
 	{
 		::VkVertexInputAttributeDescription a;
 		a.binding  = 0;
-		a.location = static_cast<std::uint32_t>(vi_attribs.size());
+		a.location = static_cast<bksge::uint32_t>(vi_attribs.size());
 		a.format   = ToVkFormat(attribute.type(), attribute.element_num());
-		a.offset   = static_cast<std::uint32_t>(attribute.offset());
+		a.offset   = static_cast<bksge::uint32_t>(attribute.offset());
 		vi_attribs.push_back(a);
 	}
 

@@ -16,9 +16,9 @@
 #include <bksge/core/render/d3d_common/d3d11shader.hpp>
 #include <bksge/core/render/d3d_common/com_ptr.hpp>
 #include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
+#include <bksge/fnd/cstdint/uint8_t.hpp>
 #include <string>
 #include <vector>
-#include <cstdint>
 
 namespace bksge
 {
@@ -63,7 +63,7 @@ private:
 	std::string					m_name;
 	::UINT						m_size;
 	ComPtr<::ID3D11Buffer>		m_buffer;
-	std::vector<std::uint8_t>	m_buffer_data;
+	std::vector<bksge::uint8_t>	m_buffer_data;
 	std::vector<Variable>		m_variables;
 };
 

@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_FRONT_FACE_HPP
 
 #include <bksge/core/render/fwd/front_face_fwd.hpp>
-#include <cstdint>
+#include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <string>
 #include <ostream>
 
@@ -23,7 +23,7 @@ namespace render
 /**
  *	@brief	ポリゴンの表面
  */
-enum class FrontFace : std::uint32_t
+enum class FrontFace : bksge::uint32_t
 {
 	kClockwise,
 	kCounterClockwise,

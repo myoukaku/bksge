@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_STENCIL_OPERATION_HPP
 
 #include <bksge/core/render/fwd/stencil_operation_fwd.hpp>
-#include <cstdint>
+#include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <string>
 #include <ostream>
 
@@ -23,7 +23,7 @@ namespace render
 /**
  *	@brief
  */
-enum class StencilOperation : std::uint32_t
+enum class StencilOperation : bksge::uint32_t
 {
 	kKeep,
 	kZero,

@@ -17,6 +17,7 @@
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
+#include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <memory>
 
 namespace bksge
@@ -115,7 +116,7 @@ CommandBuffer::PushDescriptorSet(
 	::VkDevice                                 device,
 	::VkPipelineBindPoint                      pipeline_bind_point,
 	::VkPipelineLayout                         layout,
-	std::uint32_t                              set,
+	bksge::uint32_t                            set,
 	std::vector<::VkWriteDescriptorSet> const& descriptor_writes)
 {
 	if (!descriptor_writes.empty())
@@ -126,7 +127,7 @@ CommandBuffer::PushDescriptorSet(
 			pipeline_bind_point,
 			layout,
 			set,
-			static_cast<std::uint32_t>(descriptor_writes.size()),
+			static_cast<bksge::uint32_t>(descriptor_writes.size()),
 			descriptor_writes.data());
 	}
 }

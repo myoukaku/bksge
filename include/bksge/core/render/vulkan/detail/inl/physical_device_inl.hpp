@@ -14,6 +14,7 @@
 
 #include <bksge/core/render/vulkan/detail/physical_device.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
+#include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <vector>
 
 namespace bksge
@@ -35,7 +36,7 @@ PhysicalDevice::PhysicalDevice(::VkPhysicalDevice const& physical_device)
 	std::vector<VkQueueFamilyProperties> props(m_queue_family_properties_count);
 	vk::GetPhysicalDeviceQueueFamilyProperties(physical_device, &m_queue_family_properties_count, props.data());
 
-	for (std::uint32_t i = 0; i < m_queue_family_properties_count; ++i)
+	for (bksge::uint32_t i = 0; i < m_queue_family_properties_count; ++i)
 	{
 		if (props[i].queueFlags & VK_QUEUE_GRAPHICS_BIT)
 		{
@@ -56,16 +57,16 @@ PhysicalDevice::GetMemoryProperties(void) const
 	return m_memory_properties;
 }
 
-BKSGE_INLINE std::uint32_t
+BKSGE_INLINE bksge::uint32_t
 PhysicalDevice::GetGraphicsQueueFamilyIndex(void) const
 {
 	return m_graphics_queue_family_index;
 }
 
-BKSGE_INLINE std::uint32_t
+BKSGE_INLINE bksge::uint32_t
 PhysicalDevice::GetPresentQueueFamilyIndex(::VkSurfaceKHR surface) const
 {
-	for (std::uint32_t i = 0; i < m_queue_family_properties_count; i++)
+	for (bksge::uint32_t i = 0; i < m_queue_family_properties_count; i++)
 	{
 		::VkBool32 supports_present;
 		vk::GetPhysicalDeviceSurfaceSupportKHR(
@@ -83,7 +84,7 @@ PhysicalDevice::GetPresentQueueFamilyIndex(::VkSurfaceKHR surface) const
 BKSGE_INLINE std::vector<::VkQueueFamilyProperties>
 PhysicalDevice::GetQueueFamilyProperties()
 {
-	std::uint32_t queue_family_count = 0;
+	bksge::uint32_t queue_family_count = 0;
 	vk::GetPhysicalDeviceQueueFamilyProperties(
 		m_physical_device,
 		&queue_family_count,
@@ -102,7 +103,7 @@ PhysicalDevice::GetQueueFamilyProperties()
 BKSGE_INLINE std::vector<::VkSurfaceFormatKHR>
 PhysicalDevice::GetSurfaceFormats(::VkSurfaceKHR surface)
 {
-	std::uint32_t count;
+	bksge::uint32_t count;
 	vk::GetPhysicalDeviceSurfaceFormatsKHR(m_physical_device, surface, &count, nullptr);
 
 	std::vector<::VkSurfaceFormatKHR> formats;

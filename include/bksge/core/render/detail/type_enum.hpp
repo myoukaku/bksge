@@ -11,7 +11,7 @@
 
 #include <bksge/core/render/detail/fwd/type_enum_fwd.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <cstdint>
+#include <bksge/fnd/cstdint.hpp>
 #include <ostream>
 #include <string>
 #include <type_traits>
@@ -69,27 +69,27 @@ struct TypeToEnum<float>
 template <TypeEnum type> struct EnumToType;
 template <> struct EnumToType<TypeEnum::kSInt8>
 {
-	using type = std::int8_t;
+	using type = bksge::int8_t;
 };
 template <> struct EnumToType<TypeEnum::kUInt8>
 {
-	using type = std::uint8_t;
+	using type = bksge::uint8_t;
 };
 template <> struct EnumToType<TypeEnum::kSInt16>
 {
-	using type = std::int16_t;
+	using type = bksge::int16_t;
 };
 template <> struct EnumToType<TypeEnum::kUInt16>
 {
-	using type = std::uint16_t;
+	using type = bksge::uint16_t;
 };
 template <> struct EnumToType<TypeEnum::kSInt32>
 {
-	using type = std::int32_t;
+	using type = bksge::int32_t;
 };
 template <> struct EnumToType<TypeEnum::kUInt32>
 {
-	using type = std::uint32_t;
+	using type = bksge::uint32_t;
 };
 template <> struct EnumToType<TypeEnum::kFloat>
 {
