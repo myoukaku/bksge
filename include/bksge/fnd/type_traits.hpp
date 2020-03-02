@@ -60,6 +60,8 @@
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_move_constructible.hpp>
 #include <bksge/fnd/type_traits/is_integral.hpp>
+#include <bksge/fnd/type_traits/is_invocable.hpp>
+#include <bksge/fnd/type_traits/is_invocable_r.hpp>
 #include <bksge/fnd/type_traits/is_literal_type.hpp>
 #include <bksge/fnd/type_traits/is_lvalue_reference.hpp>
 #include <bksge/fnd/type_traits/is_member_function_pointer.hpp>
@@ -73,6 +75,8 @@
 #include <bksge/fnd/type_traits/is_nothrow_copy_constructible.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_default_constructible.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_destructible.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_invocable.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_invocable_r.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_move_assignable.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_move_constructible.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_swappable.hpp>
