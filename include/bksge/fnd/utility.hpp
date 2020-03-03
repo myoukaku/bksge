@@ -10,6 +10,7 @@
 #define BKSGE_FND_UTILITY_HPP
 
 #include <bksge/fnd/utility/as_const.hpp>
+#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/utility/exchange.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/index_sequence.hpp>
