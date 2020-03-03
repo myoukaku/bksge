@@ -16,8 +16,8 @@
 #include <bksge/core/render/d3d_common/dxgi.hpp>
 #include <bksge/core/render/d3d_common/com_ptr.hpp>
 #include <bksge/core/render/d3d_common/throw_if_failed.hpp>
+#include <bksge/fnd/utility/move.hpp>
 #include <vector>
-#include <utility>
 
 namespace bksge
 {
@@ -95,7 +95,7 @@ DXGIFactory::CreateSwapChainForHwnd(
 
 	ComPtr<IDXGISwapChainN> swap_chain_n;
 	ThrowIfFailed(swap_chain.As(&swap_chain_n));
-	return std::move(swap_chain_n);
+	return bksge::move(swap_chain_n);
 }
 
 BKSGE_INLINE void

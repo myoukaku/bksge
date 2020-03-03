@@ -25,14 +25,12 @@ using std::not_fn;
  #include <bksge/fnd/functional/invoke.hpp>
  #include <bksge/fnd/type_traits/decay.hpp>
  #include <bksge/fnd/type_traits/enable_if.hpp>
- //#include <bksge/fnd/type_traits/is_same.hpp>
- //#include <bksge/fnd/type_traits/is_constructible.hpp>
- //#include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
+ #include <bksge/fnd/type_traits/is_same.hpp>
+ #include <bksge/fnd/type_traits/is_constructible.hpp>
+ #include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
  #include <bksge/fnd/utility/forward.hpp>
- //#include <bksge/fnd/utility/move.hpp>
+ #include <bksge/fnd/utility/move.hpp>
  #include <bksge/fnd/config.hpp>
- #include <type_traits>
- #include <utility>
 
 namespace bksge
 {
@@ -62,7 +60,7 @@ public:
 	template <typename... Args>
 	auto operator()(Args&&... args) &&
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
-			!bksge::invoke(std::move(m_fd), bksge::forward<Args>(args)...))
+			!bksge::invoke(bksge::move(m_fd), bksge::forward<Args>(args)...))
 
 	template <typename... Args>
 	auto operator()(Args&&... args) const&
@@ -72,12 +70,12 @@ public:
 	template <typename... Args>
 	auto operator()(Args&&... args) const&&
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
-			!bksge::invoke(std::move(m_fd), bksge::forward<Args>(args)...))
+			!bksge::invoke(bksge::move(m_fd), bksge::forward<Args>(args)...))
 
 	template <
 		typename F2,
 		typename = bksge::enable_if_t<
-			!std::is_same<bksge::decay_t<F2>, not_fn_imp>::value
+			!bksge::is_same<bksge::decay_t<F2>, not_fn_imp>::value
 		>
 	>
 	explicit not_fn_imp(F2&& fn)
@@ -91,13 +89,13 @@ public:
 template <
 	typename F,
 	typename = bksge::enable_if_t<
-		std::is_constructible<bksge::decay_t<F>, F>::value
+		bksge::is_constructible<bksge::decay_t<F>, F>::value
 	>
 >
 inline detail::not_fn_imp<F>
 not_fn(F&& fn)
 BKSGE_NOEXCEPT_IF((
-	std::is_nothrow_constructible<bksge::decay_t<F>, F&&>::value))
+	bksge::is_nothrow_constructible<bksge::decay_t<F>, F&&>::value))
 {
 	return detail::not_fn_imp<F>(bksge::forward<F>(fn));
 }

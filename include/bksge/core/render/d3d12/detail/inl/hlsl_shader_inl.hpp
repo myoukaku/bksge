@@ -22,9 +22,9 @@
 #include <bksge/core/render/d3d_common/d3dcompiler.hpp>
 #include <bksge/core/render/d3d_common/throw_if_failed.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
+#include <bksge/fnd/utility/move.hpp>
 #include <memory>
 #include <string>
-#include <utility>
 #include <iostream>
 
 namespace bksge
@@ -176,7 +176,7 @@ HlslShaderBase::CreateHlslConstantBuffers(/*Device* device, */HlslConstantBuffer
 		auto cb = bksge::make_unique<HlslConstantBuffer>(
 //			device,
 			m_reflection->GetConstantBufferByIndex(i));
-		hlsl_constant_buffers->push_back(std::move(cb));
+		hlsl_constant_buffers->push_back(bksge::move(cb));
 	}
 }
 

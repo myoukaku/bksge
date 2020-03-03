@@ -7,6 +7,7 @@
  */
 
 #include <bksge/fnd/config.hpp>
+#include <bksge/fnd/utility/move.hpp>
 #include <gtest/gtest.h>
 #include <cstddef>
 #include <vector>
@@ -672,11 +673,11 @@ GTEST_TEST(ConfigTest, Cxx11RvalueReferencesTest)
 
 	Foo f1;
 //	Foo f2(f1);
-	Foo f3(std::move(f1));
+	Foo f3(bksge::move(f1));
 
 	Foo f4;
 //	f4 = f3;
-	f4 = std::move(f3);
+	f4 = bksge::move(f3);
 #endif
 }
 

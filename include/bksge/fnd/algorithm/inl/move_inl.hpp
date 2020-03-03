@@ -16,8 +16,8 @@
 #include <bksge/fnd/type_traits/remove_const.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/type_traits/is_trivially_copy_assignable.hpp>
+#include <bksge/fnd/utility/move.hpp>
 #include <cstring>
-#include <utility>
 
 namespace bksge
 {
@@ -37,7 +37,7 @@ move(
 {
 	while (first != last)
 	{
-		*result++ = std::move(*first++);
+		*result++ = bksge::move(*first++);
 	}
 
 	return result;

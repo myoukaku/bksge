@@ -10,8 +10,8 @@
 #define BKSGE_FND_SERIALIZATION_DETAIL_POINTER_SAVER_HPP
 
 #include <bksge/fnd/config.hpp>
+#include <bksge/fnd/utility/move.hpp>
 #include <memory>	// unique_ptr
-#include <utility>
 
 namespace bksge
 {
@@ -34,7 +34,7 @@ public:
 	pointer_saver(pointer_saver const&) = delete;
 
 	pointer_saver(pointer_saver&& rhs) BKSGE_NOEXCEPT_OR_NOTHROW
-		: m_impl(std::move(rhs.m_impl))
+		: m_impl(bksge::move(rhs.m_impl))
 	{}
 
 	const void* get_address() const

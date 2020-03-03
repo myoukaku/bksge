@@ -15,10 +15,10 @@
 #include <bksge/fnd/stdexcept/throw_out_of_range.hpp>
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
+#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/algorithm/swap_ranges.hpp>
 #include <bksge/fnd/config.hpp>
 #include <ostream>		// basic_ostream
-#include <utility>		// move
 
 namespace bksge
 {
@@ -350,7 +350,7 @@ BKSGE_NODISCARD inline BKSGE_CXX14_CONSTEXPR T&&
 get(bksge::math::detail::VectorBase<T, N>&& v) BKSGE_NOEXCEPT
 {
 	static_assert(I < N, "vector index out of bounds");
-	return std::move(v[I]);
+	return bksge::move(v[I]);
 }
 
 template <bksge::size_t I, typename T, bksge::size_t N>
@@ -358,7 +358,7 @@ BKSGE_NODISCARD inline BKSGE_CONSTEXPR T const&&
 get(bksge::math::detail::VectorBase<T, N> const&& v) BKSGE_NOEXCEPT
 {
 	static_assert(I < N, "vector index out of bounds");
-	return std::move(v[I]);
+	return bksge::move(v[I]);
 }
 
 }	// namespace bksge

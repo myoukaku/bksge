@@ -7,6 +7,7 @@
  */
 
 #include <bksge/fnd/config.hpp>
+#include <bksge/fnd/utility/move.hpp>
 #include <gtest/gtest.h>
 #include <utility>
 #include <vector>
@@ -77,7 +78,7 @@ GTEST_TEST(ConfigTest, Cxx14InitCapturesTest)
 	}
 	{
 		std::vector<int> v;
-		auto f = [x = std::move(v)]{};
+		auto f = [x = bksge::move(v)]{};
 	}
 	{
 		int a = 3;

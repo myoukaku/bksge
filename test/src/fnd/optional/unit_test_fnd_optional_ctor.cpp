@@ -8,9 +8,9 @@
 
 #include <bksge/fnd/optional/optional.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
+#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
 #include <vector>
-#include <utility>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -168,7 +168,7 @@ GTEST_TEST(OptionalTest, MoveCtorTest)
 {
 	{
 		bksge::optional<long> o;
-		auto moved_to = std::move(o);
+		auto moved_to = bksge::move(o);
 		EXPECT_TRUE(!moved_to);
 		EXPECT_TRUE(!o);
 	}
@@ -176,7 +176,7 @@ GTEST_TEST(OptionalTest, MoveCtorTest)
 	{
 		const long val = 0x1234ABCD;
 		bksge::optional<long> o{ bksge::in_place, val };
-		auto moved_to = std::move(o);
+		auto moved_to = bksge::move(o);
 		EXPECT_TRUE((bool)moved_to);
 		EXPECT_TRUE(*moved_to == val);
 		EXPECT_TRUE(o && *o == val);
@@ -184,7 +184,7 @@ GTEST_TEST(OptionalTest, MoveCtorTest)
 
 	{
 		bksge::optional<tracker> o;
-		auto moved_to = std::move(o);
+		auto moved_to = bksge::move(o);
 		EXPECT_TRUE(!moved_to);
 		EXPECT_TRUE(tracker::count == 0);
 		EXPECT_TRUE(!o);
@@ -192,7 +192,7 @@ GTEST_TEST(OptionalTest, MoveCtorTest)
 
 	{
 		bksge::optional<tracker> o{ bksge::in_place, 333 };
-		auto moved_to = std::move(o);
+		auto moved_to = bksge::move(o);
 		EXPECT_TRUE((bool)moved_to);
 		EXPECT_TRUE(moved_to->value == 333);
 		EXPECT_TRUE(tracker::count == 2);
@@ -201,11 +201,11 @@ GTEST_TEST(OptionalTest, MoveCtorTest)
 
 	{
 		bksge::optional<throwing_move> o;
-		EXPECT_NO_THROW(auto moved_to = std::move(o));
+		EXPECT_NO_THROW(auto moved_to = bksge::move(o));
 	}
 	{
 		bksge::optional<throwing_move> o{ bksge::in_place };
-		EXPECT_THROW(auto moved_to = std::move(o), exception);
+		EXPECT_THROW(auto moved_to = bksge::move(o), exception);
 	}
 
 	EXPECT_TRUE(tracker::count == 0);
@@ -247,7 +247,7 @@ GTEST_TEST(OptionalTest, ValueCtorTest)
 
 	{
 		BKSGE_CONSTEXPR auto i = 0x1234ABCD;
-		BKSGE_CONSTEXPR bksge::optional<long> o{ std::move(i) };
+		BKSGE_CONSTEXPR bksge::optional<long> o{ bksge::move(i) };
 		BKSGE_CONSTEXPR_EXPECT_TRUE((bool)o);
 		BKSGE_CONSTEXPR_EXPECT_TRUE(*o == 0x1234ABCD);
 		BKSGE_CONSTEXPR_EXPECT_TRUE(i == 0x1234ABCD);
@@ -255,7 +255,7 @@ GTEST_TEST(OptionalTest, ValueCtorTest)
 
 	{
 		BKSGE_CONSTEXPR auto i = 0x1234ABCD;
-		BKSGE_CONSTEXPR bksge::optional<long> o( std::move(i) );
+		BKSGE_CONSTEXPR bksge::optional<long> o( bksge::move(i) );
 		BKSGE_CONSTEXPR_EXPECT_TRUE((bool)o);
 		BKSGE_CONSTEXPR_EXPECT_TRUE(*o == 0x1234ABCD);
 		BKSGE_CONSTEXPR_EXPECT_TRUE(i == 0x1234ABCD);
@@ -263,7 +263,7 @@ GTEST_TEST(OptionalTest, ValueCtorTest)
 
 	{
 		BKSGE_CONSTEXPR auto i = 0x1234ABCD;
-		bksge::optional<long> o = std::move(i);	// TODO 何故かconstexprにできない
+		bksge::optional<long> o = bksge::move(i);	// TODO 何故かconstexprにできない
 		EXPECT_TRUE((bool)o);
 		EXPECT_TRUE(*o == 0x1234ABCD);
 		EXPECT_TRUE(i == 0x1234ABCD);
@@ -271,7 +271,7 @@ GTEST_TEST(OptionalTest, ValueCtorTest)
 
 	{
 		BKSGE_CONSTEXPR auto i = 0x1234ABCD;
-		BKSGE_CONSTEXPR bksge::optional<long> o = { std::move(i) };
+		BKSGE_CONSTEXPR bksge::optional<long> o = { bksge::move(i) };
 		BKSGE_CONSTEXPR_EXPECT_TRUE((bool)o);
 		BKSGE_CONSTEXPR_EXPECT_TRUE(*o == 0x1234ABCD);
 		BKSGE_CONSTEXPR_EXPECT_TRUE(i == 0x1234ABCD);
@@ -300,21 +300,21 @@ GTEST_TEST(OptionalTest, ValueCtorTest)
 
 	{
 		std::vector<int> v = { 0, 1, 2, 3, 4, 5 };
-		bksge::optional<std::vector<int>> o{ std::move(v) };
+		bksge::optional<std::vector<int>> o{ bksge::move(v) };
 		EXPECT_TRUE(v.empty());
 		EXPECT_TRUE(o->size() == 6);
 	}
 
 	{
 		std::vector<int> v = { 0, 1, 2, 3, 4, 5 };
-		bksge::optional<std::vector<int>> o = std::move(v);
+		bksge::optional<std::vector<int>> o = bksge::move(v);
 		EXPECT_TRUE(v.empty());
 		EXPECT_TRUE(o->size() == 6);
 	}
 
 	{
 		std::vector<int> v = { 0, 1, 2, 3, 4, 5 };
-		bksge::optional<std::vector<int>> o{ std::move(v) };
+		bksge::optional<std::vector<int>> o{ bksge::move(v) };
 		EXPECT_TRUE(v.empty());
 		EXPECT_TRUE(o->size() == 6);
 	}
@@ -329,7 +329,7 @@ GTEST_TEST(OptionalTest, ValueCtorTest)
 
 	{
 		tracker t{ 333 };
-		bksge::optional<tracker> o = std::move(t);
+		bksge::optional<tracker> o = bksge::move(t);
 		EXPECT_TRUE(o->value == 333);
 		EXPECT_TRUE(tracker::count == 2);
 		EXPECT_TRUE(t.value == -1);
@@ -345,11 +345,11 @@ GTEST_TEST(OptionalTest, ValueCtorTest)
 	}
 	{
 		throwing_construction t{ false };
-		EXPECT_NO_THROW(bksge::optional<throwing_construction> o{ std::move(t) });
+		EXPECT_NO_THROW(bksge::optional<throwing_construction> o{ bksge::move(t) });
 	}
 	{
 		throwing_construction t{ true };
-		EXPECT_THROW(bksge::optional<throwing_construction> o{ std::move(t) }, exception);
+		EXPECT_THROW(bksge::optional<throwing_construction> o{ bksge::move(t) }, exception);
 	}
 }
 

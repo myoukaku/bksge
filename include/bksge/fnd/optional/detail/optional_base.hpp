@@ -16,8 +16,8 @@
 #include <bksge/fnd/type_traits/is_nothrow_move_assignable.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
+#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
-#include <utility>		// move
 #include <initializer_list>
 
 #if !defined(BKSGE_HAS_CXX11_UNRESTRICTED_UNIONS)
@@ -65,7 +65,7 @@ public:
 	{}
 
 	BKSGE_CONSTEXPR optional_base(T&& t)
-		: base{std::move(t)}
+		: base{bksge::move(t)}
 	{}
 
 	template <typename... Args>
@@ -98,7 +98,7 @@ public:
 	{
 		if (other.engaged())
 		{
-			this->construct(std::move(other.get()));
+			this->construct(bksge::move(other.get()));
 		}
 	}
 
@@ -131,13 +131,13 @@ public:
 	{
 		if (this->engaged() && other.engaged())
 		{
-			this->get() = std::move(other.get());
+			this->get() = bksge::move(other.get());
 		}
 		else
 		{
 			if (other.engaged())
 			{
-				this->construct(std::move(other.get()));
+				this->construct(bksge::move(other.get()));
 			}
 			else
 			{

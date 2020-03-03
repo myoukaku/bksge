@@ -11,7 +11,7 @@
 
 #include <bksge/core/render/vertex_layout.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <utility>
+#include <bksge/fnd/utility/move.hpp>
 
 namespace bksge
 {
@@ -26,15 +26,15 @@ VertexLayout::VertexLayout(void)
 
 BKSGE_INLINE
 VertexLayout::VertexLayout(VertexLayout&& rhs)
-	: m_vertex_attribute_array(std::move(rhs.m_vertex_attribute_array))
-	, m_total_bytes(std::move(rhs.m_total_bytes))
+	: m_vertex_attribute_array(bksge::move(rhs.m_vertex_attribute_array))
+	, m_total_bytes(bksge::move(rhs.m_total_bytes))
 {}
 
 BKSGE_INLINE VertexLayout&
 VertexLayout::operator=(VertexLayout&& rhs)
 {
-	m_vertex_attribute_array = std::move(rhs.m_vertex_attribute_array);
-	m_total_bytes            = std::move(rhs.m_total_bytes);
+	m_vertex_attribute_array = bksge::move(rhs.m_vertex_attribute_array);
+	m_total_bytes            = bksge::move(rhs.m_total_bytes);
 	return *this;
 }
 

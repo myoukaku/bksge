@@ -17,9 +17,9 @@
 #include <bksge/fnd/type_traits/is_move_assignable.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
+#include <bksge/fnd/utility/move.hpp>
 #include <gtest/gtest.h>
 #include <tuple>
-#include <utility>
 #include "constexpr_test.hpp"
 
 namespace bksge_optional_test
@@ -123,9 +123,9 @@ GTEST_TEST(OptionalTest, RequirememtsTest)
 		static_assert(bksge::is_copy_assignable<O>::value, "");
 		{ O o, p; p = o; }
 		static_assert(bksge::is_move_constructible<O>::value, "");
-		{ O o; auto moved_to = std::move(o); (void)moved_to; }
+		{ O o; auto moved_to = bksge::move(o); (void)moved_to; }
 		static_assert(bksge::is_move_assignable<O>::value, "");
-		{ O o, p; p = std::move(o); }
+		{ O o, p; p = bksge::move(o); }
 	}
 #if !(defined(_MSC_VER) && _MSC_VER <= 1900)
 	{
@@ -137,9 +137,9 @@ GTEST_TEST(OptionalTest, RequirememtsTest)
 		static_assert(!bksge::is_copy_constructible<O>::value, "");
 		static_assert(!bksge::is_copy_assignable<O>::value, "");
 		static_assert(bksge::is_move_constructible<O>::value, "");
-		{ O o; auto moved_to = std::move(o); (void)moved_to; }
+		{ O o; auto moved_to = bksge::move(o); (void)moved_to; }
 		static_assert(bksge::is_move_assignable<O>::value, "");
-		{ O o, p; p = std::move(o); }
+		{ O o, p; p = bksge::move(o); }
 	}
 	{
 		using T = no_copy_assignment;
@@ -150,9 +150,9 @@ GTEST_TEST(OptionalTest, RequirememtsTest)
 		{ O o; auto copy = o; (void)copy; }
 		static_assert(!bksge::is_copy_assignable<O>::value, "");
 		static_assert(bksge::is_move_constructible<O>::value, "");
-		{ O o; auto moved_to = std::move(o); (void)moved_to; }
+		{ O o; auto moved_to = bksge::move(o); (void)moved_to; }
 		static_assert(bksge::is_move_assignable<O>::value, "");
-		{ O o, p; p = std::move(o); }
+		{ O o, p; p = bksge::move(o); }
 	}
 	{
 		using T = no_copy;
@@ -163,9 +163,9 @@ GTEST_TEST(OptionalTest, RequirememtsTest)
 		static_assert(!bksge::is_copy_constructible<O>::value, "");
 		static_assert(!bksge::is_copy_assignable<O>::value, "");
 		static_assert(bksge::is_move_constructible<O>::value, "");
-		{ O o; auto moved_to = std::move(o); (void)moved_to; }
+		{ O o; auto moved_to = bksge::move(o); (void)moved_to; }
 		static_assert(bksge::is_move_assignable<O>::value, "");
-		{ O o, p; p = std::move(o); }
+		{ O o, p; p = bksge::move(o); }
 	}
 	{
 		using T = no_move_constructor;
@@ -186,9 +186,9 @@ GTEST_TEST(OptionalTest, RequirememtsTest)
 		 */
 		static_assert(!bksge::is_move_constructible<T>::value, "");
 		static_assert(bksge::is_move_constructible<O>::value, "");
-		{ O o; auto moved_to = std::move(o); (void)moved_to; }
+		{ O o; auto moved_to = bksge::move(o); (void)moved_to; }
 		static_assert(bksge::is_move_assignable<O>::value, "");
-		{ O o, p; p = std::move(o); }
+		{ O o, p; p = bksge::move(o); }
 	}
 	{
 		using T = no_move_assignment;
@@ -201,14 +201,14 @@ GTEST_TEST(OptionalTest, RequirememtsTest)
 		static_assert(bksge::is_copy_assignable<O>::value, "");
 		{ O o, p; p = o; }
 		static_assert(bksge::is_move_constructible<O>::value, "");
-		{ O o; auto moved_to = std::move(o); (void)moved_to; }
+		{ O o; auto moved_to = bksge::move(o); (void)moved_to; }
 		/*
 		 * Paragraph 23 of same leads to a similar situation but with respect to move
 		 * assignment.
 		 */
 		static_assert(!bksge::is_move_assignable<T>::value, "");
 		static_assert(bksge::is_move_assignable<O>::value, "");
-		{ O o, p; p = std::move(o); }
+		{ O o, p; p = bksge::move(o); }
 	}
 	{
 		using T = no_move;
@@ -221,9 +221,9 @@ GTEST_TEST(OptionalTest, RequirememtsTest)
 		static_assert(bksge::is_copy_assignable<O>::value, "");
 		{ O o, p; p = o; }
 		static_assert(bksge::is_move_constructible<O>::value, "");
-		{ O o; auto moved_to = std::move(o); (void)moved_to; }
+		{ O o; auto moved_to = bksge::move(o); (void)moved_to; }
 		static_assert(bksge::is_move_assignable<O>::value, "");
-		{ O o, p; p = std::move(o); }
+		{ O o, p; p = bksge::move(o); }
 	}
 	{
 		using T = only_destructible;

@@ -23,7 +23,7 @@ public:
 
 	BKSGE_CONSTEXPR optional_base_impl(T&& t)
 		: m_engaged(true)
-		, m_storage(std::move(t))
+		, m_storage(bksge::move(t))
 	{}
 
 #if defined(_MSC_VER)
@@ -101,7 +101,7 @@ public:
 	optional_base_impl(T&& t)
 		: m_engaged(false)
 	{
-		this->construct(std::move(t));
+		this->construct(bksge::move(t));
 	}
 
 	template <typename... Args>

@@ -14,11 +14,10 @@
 #include <bksge/fnd/type_traits/is_copy_assignable.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/type_traits/is_invocable.hpp>
-//#include <bksge/fnd/utility/move.hpp>
+#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include <string>
-#include <utility>
 #include "constexpr_test.hpp"
 #include "fnd/tuple/tuple_test_utility.hpp"
 
@@ -292,12 +291,12 @@ void constructor_tests()
 	{
 		using T = MoveOnlyCallable<bool>;
 		T value(true);
-		using RetT = decltype(bksge::not_fn(std::move(value)));
+		using RetT = decltype(bksge::not_fn(bksge::move(value)));
 		static_assert( bksge::is_move_constructible<RetT>::value, "");
 		static_assert(!bksge::is_copy_constructible<RetT>::value, "");
 		static_assert(!bksge::is_move_assignable<RetT>::value, "");
 		static_assert(!bksge::is_copy_assignable<RetT>::value, "");
-		auto ret = bksge::not_fn(std::move(value));
+		auto ret = bksge::not_fn(bksge::move(value));
 		// test it was moved from
 		EXPECT_FALSE(value.value);
 		// test that ret() negates the original value 'true'
@@ -305,7 +304,7 @@ void constructor_tests()
 		EXPECT_FALSE(ret(0, 0.0, "blah"));
 		// Move ret and test that it was moved from and that ret2 got the
 		// original value.
-		auto ret2 = std::move(ret);
+		auto ret2 = bksge::move(ret);
 		EXPECT_TRUE (ret());
 		EXPECT_FALSE(ret2());
 		EXPECT_FALSE(ret2(42));
@@ -325,7 +324,7 @@ void constructor_tests()
 		EXPECT_TRUE(ret());
 		EXPECT_TRUE(ret(42, 100));
 		// move from 'ret' and check that 'ret2' has the original value.
-		auto ret2 = std::move(ret);
+		auto ret2 = bksge::move(ret);
 		EXPECT_FALSE(ret());
 		EXPECT_TRUE(ret2());
 		EXPECT_TRUE(ret2("abc"));
@@ -353,17 +352,17 @@ void constructor_tests()
 		using T = MoveAssignableWrapper;
 		T value(true);
 		T value2(false);
-		using RetT = decltype(bksge::not_fn(std::move(value)));
+		using RetT = decltype(bksge::not_fn(bksge::move(value)));
 		static_assert( bksge::is_move_constructible<RetT>::value, "");
 		static_assert(!bksge::is_copy_constructible<RetT>::value, "");
 //		static_assert( bksge::is_move_assignable<RetT>::value, "");
 //		static_assert(!bksge::is_copy_assignable<RetT>::value, "");
-		auto ret = bksge::not_fn(std::move(value));
+		auto ret = bksge::not_fn(bksge::move(value));
 		EXPECT_FALSE(ret());
-		auto ret2 = bksge::not_fn(std::move(value2));
+		auto ret2 = bksge::not_fn(bksge::move(value2));
 		EXPECT_TRUE(ret2());
 #if 0
-		ret = std::move(ret2);
+		ret = bksge::move(ret2);
 		EXPECT_TRUE(ret());
 #endif
 	}
@@ -511,11 +510,11 @@ void call_operator_forwarding_test()
 	{ // test zero args
 		obj();
 		EXPECT_TRUE(Fn::check_call<>(CT_NonConst | CT_LValue));
-		std::move(obj)();
+		bksge::move(obj)();
 		EXPECT_TRUE(Fn::check_call<>(CT_NonConst | CT_RValue));
 		c_obj();
 		EXPECT_TRUE(Fn::check_call<>(CT_Const | CT_LValue));
-		std::move(c_obj)();
+		bksge::move(c_obj)();
 		EXPECT_TRUE(Fn::check_call<>(CT_Const | CT_RValue));
 	}
 	{ // test value categories
@@ -525,9 +524,9 @@ void call_operator_forwarding_test()
 		EXPECT_TRUE(Fn::check_call<int&>(CT_NonConst | CT_LValue));
 		obj(cx);
 		EXPECT_TRUE(Fn::check_call<const int&>(CT_NonConst | CT_LValue));
-		obj(std::move(x));
+		obj(bksge::move(x));
 		EXPECT_TRUE(Fn::check_call<int&&>(CT_NonConst | CT_LValue));
-		obj(std::move(cx));
+		obj(bksge::move(cx));
 		EXPECT_TRUE(Fn::check_call<const int&&>(CT_NonConst | CT_LValue));
 		obj(42);
 		EXPECT_TRUE(Fn::check_call<int&&>(CT_NonConst | CT_LValue));
@@ -535,15 +534,15 @@ void call_operator_forwarding_test()
 	{ // test value categories - rvalue
 		int x = 42;
 		const int cx = 42;
-		std::move(obj)(x);
+		bksge::move(obj)(x);
 		EXPECT_TRUE(Fn::check_call<int&>(CT_NonConst | CT_RValue));
-		std::move(obj)(cx);
+		bksge::move(obj)(cx);
 		EXPECT_TRUE(Fn::check_call<const int&>(CT_NonConst | CT_RValue));
-		std::move(obj)(std::move(x));
+		bksge::move(obj)(bksge::move(x));
 		EXPECT_TRUE(Fn::check_call<int&&>(CT_NonConst | CT_RValue));
-		std::move(obj)(std::move(cx));
+		bksge::move(obj)(bksge::move(cx));
 		EXPECT_TRUE(Fn::check_call<const int&&>(CT_NonConst | CT_RValue));
-		std::move(obj)(42);
+		bksge::move(obj)(42);
 		EXPECT_TRUE(Fn::check_call<int&&>(CT_NonConst | CT_RValue));
 	}
 	{ // test value categories - const call
@@ -553,9 +552,9 @@ void call_operator_forwarding_test()
 		EXPECT_TRUE(Fn::check_call<int&>(CT_Const | CT_LValue));
 		c_obj(cx);
 		EXPECT_TRUE(Fn::check_call<const int&>(CT_Const | CT_LValue));
-		c_obj(std::move(x));
+		c_obj(bksge::move(x));
 		EXPECT_TRUE(Fn::check_call<int&&>(CT_Const | CT_LValue));
-		c_obj(std::move(cx));
+		c_obj(bksge::move(cx));
 		EXPECT_TRUE(Fn::check_call<const int&&>(CT_Const | CT_LValue));
 		c_obj(42);
 		EXPECT_TRUE(Fn::check_call<int&&>(CT_Const | CT_LValue));
@@ -563,27 +562,27 @@ void call_operator_forwarding_test()
 	{ // test value categories - const call rvalue
 		int x = 42;
 		const int cx = 42;
-		std::move(c_obj)(x);
+		bksge::move(c_obj)(x);
 		EXPECT_TRUE(Fn::check_call<int&>(CT_Const | CT_RValue));
-		std::move(c_obj)(cx);
+		bksge::move(c_obj)(cx);
 		EXPECT_TRUE(Fn::check_call<const int&>(CT_Const | CT_RValue));
-		std::move(c_obj)(std::move(x));
+		bksge::move(c_obj)(bksge::move(x));
 		EXPECT_TRUE(Fn::check_call<int&&>(CT_Const | CT_RValue));
-		std::move(c_obj)(std::move(cx));
+		bksge::move(c_obj)(bksge::move(cx));
 		EXPECT_TRUE(Fn::check_call<const int&&>(CT_Const | CT_RValue));
-		std::move(c_obj)(42);
+		bksge::move(c_obj)(42);
 		EXPECT_TRUE(Fn::check_call<int&&>(CT_Const | CT_RValue));
 	}
 	{ // test multi arg
 		const double y = 3.14;
 		std::string s = "abc";
-		obj(42, std::move(y), s, std::string{"foo"});
+		obj(42, bksge::move(y), s, std::string{"foo"});
 		Fn::check_call<int&&, const double&&, std::string&, std::string&&>(CT_NonConst | CT_LValue);
-		std::move(obj)(42, std::move(y), s, std::string{"foo"});
+		bksge::move(obj)(42, bksge::move(y), s, std::string{"foo"});
 		Fn::check_call<int&&, const double&&, std::string&, std::string&&>(CT_NonConst | CT_RValue);
-		c_obj(42, std::move(y), s, std::string{"foo"});
+		c_obj(42, bksge::move(y), s, std::string{"foo"});
 		Fn::check_call<int&&, const double&&, std::string&, std::string&&>(CT_Const  | CT_LValue);
-		std::move(c_obj)(42, std::move(y), s, std::string{"foo"});
+		bksge::move(c_obj)(42, bksge::move(y), s, std::string{"foo"});
 		Fn::check_call<int&&, const double&&, std::string&, std::string&&>(CT_Const  | CT_RValue);
 	}
 }
@@ -636,7 +635,7 @@ void test_lwg2767()
 	{
 		Derived d;
 		Abstract &a = d;
-		bool b = bksge::not_fn(F{})(std::move(a));
+		bool b = bksge::not_fn(F{})(bksge::move(a));
 		EXPECT_TRUE(b);
 	}
 }

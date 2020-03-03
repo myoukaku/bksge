@@ -12,9 +12,9 @@
 #include <bksge/core/math/vector4.hpp>
 #include <bksge/core/math/color4.hpp>
 #include <bksge/core/math/matrix4x4.hpp>
+#include <bksge/fnd/utility/move.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
-#include <utility>
 //#include "serialize_test.hpp"
 
 GTEST_TEST(Render_ShaderParameterMap, BasicTest)
@@ -112,7 +112,7 @@ GTEST_TEST(Render_ShaderParameterMap, MoveTest)
 	m.SetParameter("mat", bksge::Matrix4x4<float>::Identity());
 
 	//ShaderParameterMap const m2 = m;	// コピー禁止
-	ShaderParameterMap const m2 = std::move(m);
+	ShaderParameterMap const m2 = bksge::move(m);
 	{
 		auto const& param = m2["COLOR"];
 		EXPECT_NE(nullptr, param);

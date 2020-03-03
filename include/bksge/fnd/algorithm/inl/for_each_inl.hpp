@@ -10,7 +10,7 @@
 #define BKSGE_FND_ALGORITHM_INL_FOR_EACH_INL_HPP
 
 #include <bksge/fnd/algorithm/for_each.hpp>
-#include <utility>
+#include <bksge/fnd/utility/move.hpp>
 
 namespace bksge
 {
@@ -30,7 +30,7 @@ for_each(
 		f(*first);
 	}
 
-	return std::move(f);
+	return bksge::move(f);
 }
 
 }	// namespace algorithm

@@ -13,7 +13,7 @@
 #include <bksge/fnd/algorithm/adjacent_find.hpp>
 #include <bksge/fnd/functional/equal_to.hpp>
 #include <bksge/fnd/type_traits/add_lvalue_reference.hpp>
-#include <utility>
+#include <bksge/fnd/utility/move.hpp>
 
 namespace bksge
 {
@@ -54,7 +54,7 @@ unique(
 		{
 			if (!pred(*first, *i))
 			{
-				*++first = std::move(*i);
+				*++first = bksge::move(*i);
 			}
 		}
 

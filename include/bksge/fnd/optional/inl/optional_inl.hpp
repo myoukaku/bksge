@@ -22,8 +22,9 @@
 #include <bksge/fnd/type_traits/is_move_constructible.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_move_constructible.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_move_assignable.hpp>
+#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
-#include <utility>	// declval, move
+#include <utility>	// declval
 #include <initializer_list>
 
 namespace bksge
@@ -73,7 +74,7 @@ optional<T>::optional(T const& t)
 template <typename T>
 inline BKSGE_CONSTEXPR
 optional<T>::optional(T&& t)
-	: base{std::move(t)}
+	: base{bksge::move(t)}
 {}
 
 template <typename T>
@@ -197,12 +198,12 @@ BKSGE_NOEXCEPT_IF(IsNothrowSwappable::value)
 	}
 	else if (this->engaged())
 	{
-		other.construct(std::move(this->get()));
+		other.construct(bksge::move(this->get()));
 		this->destroy();
 	}
 	else if (other.engaged())
 	{
-		this->construct(std::move(other.get()));
+		this->construct(bksge::move(other.get()));
 		other.destroy();
 	}
 }
@@ -241,14 +242,14 @@ template <typename T>
 inline BKSGE_CONSTEXPR T const&&
 optional<T>::operator*() const&&
 {
-	return std::move(this->get());
+	return bksge::move(this->get());
 }
 
 template <typename T>
 inline BKSGE_CXX14_CONSTEXPR T&&
 optional<T>::operator*() &&
 {
-	return std::move(this->get());
+	return bksge::move(this->get());
 }
 
 #else
@@ -296,14 +297,14 @@ template <typename T>
 inline BKSGE_CONSTEXPR T const&&
 optional<T>::value() const&&
 {
-	return engaged_check(), std::move(this->get());
+	return engaged_check(), bksge::move(this->get());
 }
 
 template <typename T>
 inline BKSGE_CXX14_CONSTEXPR T&&
 optional<T>::value() &&
 {
-	return engaged_check(), std::move(this->get());
+	return engaged_check(), bksge::move(this->get());
 }
 
 #else
@@ -352,7 +353,7 @@ optional<T>::value_or(U&& u) &&
 		"Cannot return value");
 
 	return this->engaged() ?
-		std::move(this->get()) :
+		bksge::move(this->get()) :
 		static_cast<T>(bksge::forward<U>(u));
 }
 

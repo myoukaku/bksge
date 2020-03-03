@@ -27,9 +27,9 @@
 #include <bksge/core/render/shader.hpp>
 #include <bksge/core/render/shader_stage.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
+#include <bksge/fnd/utility/move.hpp>
 #include <string>
 #include <memory>
-#include <utility>
 
 namespace bksge
 {
@@ -87,7 +87,7 @@ HlslProgram::HlslProgram(Device* device, bksge::Shader const& shader)
 		hlsl_shader->CreateHlslTextures(&m_hlsl_textures);
 		hlsl_shader->CreateHlslSamplers(&m_hlsl_samplers);
 
-		m_shader_map[stage] = std::move(hlsl_shader);
+		m_shader_map[stage] = bksge::move(hlsl_shader);
 	}
 
 	m_root_parameters =

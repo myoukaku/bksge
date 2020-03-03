@@ -13,7 +13,7 @@
 #include <bksge/fnd/functional/less.hpp>
 #include <bksge/fnd/iterator/type_traits/iterator_value_type.hpp>
 #include <bksge/fnd/type_traits/add_lvalue_reference.hpp>
-#include <utility>
+#include <bksge/fnd/utility/move.hpp>
 
 namespace bksge
 {
@@ -41,11 +41,11 @@ sift_up(
 
 		if (comp(*ptr, *--last))
 		{
-			value_type t(std::move(*last));
+			value_type t(bksge::move(*last));
 
 			do
 			{
-				*last = std::move(*ptr);
+				*last = bksge::move(*ptr);
 				last = ptr;
 
 				if (len == 0)
@@ -58,7 +58,7 @@ sift_up(
 			}
 			while (comp(*ptr, t));
 
-			*last = std::move(t);
+			*last = bksge::move(t);
 		}
 	}
 }

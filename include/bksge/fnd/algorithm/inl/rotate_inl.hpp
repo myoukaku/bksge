@@ -21,9 +21,9 @@
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/is_trivially_move_assignable.hpp>
 #include <bksge/fnd/utility/swap.hpp>
+#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
 #include <iterator>
-#include <utility>
 
 namespace bksge
 {
@@ -40,9 +40,9 @@ rotate_left(
 	ForwardIterator first,
 	ForwardIterator last)
 {
-	auto tmp = std::move(*first);
+	auto tmp = bksge::move(*first);
 	auto lm1 = bksge::move(bksge::next(first), last, first);
-	*lm1 = std::move(tmp);
+	*lm1 = bksge::move(tmp);
 	return lm1;
 }
 
@@ -53,9 +53,9 @@ rotate_right(
 	BidirectionalIterator last)
 {
 	auto lm1 = bksge::prev(last);
-	auto tmp = std::move(*lm1);
+	auto tmp = bksge::move(*lm1);
 	auto fp1 = bksge::move_backward(first, lm1, last);
-	*first = std::move(tmp);
+	*first = bksge::move(tmp);
 	return fp1;
 }
 
@@ -134,13 +134,13 @@ rotate_gcd(
 
 	for (auto p = first + g; p != first;)
 	{
-		auto t = std::move(*--p);
+		auto t = bksge::move(*--p);
 		auto p1 = p;
 		auto p2 = p1 + m1;
 
 		do
 		{
-			*p1 = std::move(*p2);
+			*p1 = bksge::move(*p2);
 			p1 = p2;
 			auto const d = last - p2;
 
@@ -155,7 +155,7 @@ rotate_gcd(
 		}
 		while (p2 != p);
 		
-		*p1 = std::move(t);
+		*p1 = bksge::move(t);
 	}
 
 	return first + m2;

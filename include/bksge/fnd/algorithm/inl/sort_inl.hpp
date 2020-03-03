@@ -20,8 +20,8 @@
 #include <bksge/fnd/type_traits/is_trivially_copy_constructible.hpp>
 #include <bksge/fnd/type_traits/is_trivially_copy_assignable.hpp>
 #include <bksge/fnd/utility/swap.hpp>
+#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
-#include <utility>
 
 namespace bksge
 {
@@ -171,18 +171,18 @@ insertion_sort_3(RandomAccessIterator first, RandomAccessIterator last, Compare 
 	{
 		if (comp(*i, *j))
 		{
-			value_type t(std::move(*i));
+			value_type t(bksge::move(*i));
 			auto k = j;
 			j = i;
 
 			do
 			{
-				*j = std::move(*k);
+				*j = bksge::move(*k);
 				j = k;
 			}
 			while (j != first && comp(t, *--k));
 
-			*j = std::move(t);
+			*j = bksge::move(t);
 		}
 
 		j = i;
@@ -228,18 +228,18 @@ insertion_sort_incomplete(
 	{
 		if (comp(*i, *j))
 		{
-			value_type t(std::move(*i));
+			value_type t(bksge::move(*i));
 			auto k = j;
 			j = i;
 
 			do
 			{
-				*j = std::move(*k);
+				*j = bksge::move(*k);
 				j = k;
 			}
 			while (j != first && comp(t, *--k));
 
-			*j = std::move(t);
+			*j = bksge::move(t);
 			
 			if (++count == limit)
 			{

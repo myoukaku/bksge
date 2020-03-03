@@ -16,7 +16,7 @@
 #include <bksge/core/render/gl/detail/texture.hpp>
 #include <bksge/core/render/texture_format.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
-#include <utility>
+#include <bksge/fnd/utility/move.hpp>
 
 namespace bksge
 {
@@ -78,7 +78,7 @@ FrameBuffer::CreateColorBuffers(void)
 			gl_texture->name(),
 			0);
 
-		m_color_buffers.push_back(std::move(gl_texture));
+		m_color_buffers.push_back(bksge::move(gl_texture));
 	}
 }
 

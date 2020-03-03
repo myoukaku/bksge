@@ -9,8 +9,8 @@
 #include <bksge/fnd/optional/optional.hpp>
 #include <bksge/fnd/optional/nullopt.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
+#include <bksge/fnd/utility/move.hpp>
 #include <gtest/gtest.h>
-#include <utility>
 #include "constexpr_test.hpp"
 
 namespace bksge_optional_test
@@ -116,7 +116,7 @@ GTEST_TEST(OptionalTest, AssignmentForDisengagedOptionalTest)
 		O o;
 		EXPECT_TRUE(!o);
 		O p;
-		o = std::move(p);
+		o = bksge::move(p);
 		EXPECT_TRUE(!o);
 		EXPECT_TRUE(!p);
 	}
@@ -140,7 +140,7 @@ GTEST_TEST(OptionalTest, AssignmentForDisengagedOptionalTest)
 		O o;
 		EXPECT_TRUE(!o);
 		O p = make(S::throwing_move_assignment);
-		o = std::move(p);
+		o = bksge::move(p);
 		EXPECT_TRUE(o && o->state == S::throwing_move_assignment);
 		EXPECT_TRUE(p && p->state == S::moved_from);
 	}
@@ -158,7 +158,7 @@ GTEST_TEST(OptionalTest, AssignmentForDisengagedOptionalTest)
 		EXPECT_TRUE(!o);
 		O p = make(S::throwing_move);
 
-		EXPECT_THROW(o = std::move(p), exception);
+		EXPECT_THROW(o = bksge::move(p), exception);
 		EXPECT_TRUE(!o);
 		EXPECT_TRUE(p && p->state == S::moved_from);
 	}
@@ -188,7 +188,7 @@ GTEST_TEST(OptionalTest, AssignmentForEngagedOptionalTest)
 		O o = make(S::zero);
 		EXPECT_TRUE((bool)o);
 		O p;
-		o = std::move(p);
+		o = bksge::move(p);
 		EXPECT_TRUE(!o);
 		EXPECT_TRUE(!p);
 	}
@@ -214,7 +214,7 @@ GTEST_TEST(OptionalTest, AssignmentForEngagedOptionalTest)
 		O o = make(S::zero);
 		EXPECT_TRUE((bool)o);
 		O p = make(S::throwing_move);
-		o = std::move(p);
+		o = bksge::move(p);
 		EXPECT_TRUE(o && o->state == S::throwing_move);
 		EXPECT_TRUE(p && p->state == S::moved_from);
 	}
@@ -234,7 +234,7 @@ GTEST_TEST(OptionalTest, AssignmentForEngagedOptionalTest)
 		EXPECT_TRUE((bool)o);
 		O p = make(S::throwing_move_assignment);
 
-		EXPECT_THROW(o = std::move(p), exception);
+		EXPECT_THROW(o = bksge::move(p), exception);
 		EXPECT_TRUE(o && o->state == S::threw);
 		EXPECT_TRUE(p && p->state == S::moved_from);
 	}
@@ -260,7 +260,7 @@ GTEST_TEST(OptionalTest, ValueAssignmentForDisengagedOptionalTest)
 	{
 		O o;
 		value_type v = make(S::throwing_move_assignment);
-		o = std::move(v);
+		o = bksge::move(v);
 		EXPECT_TRUE(o && o->state == S::throwing_move_assignment);
 	}
 
@@ -276,7 +276,7 @@ GTEST_TEST(OptionalTest, ValueAssignmentForDisengagedOptionalTest)
 		O o;
 		value_type v = make(S::throwing_move);
 
-		EXPECT_THROW(o = std::move(v), exception);
+		EXPECT_THROW(o = bksge::move(v), exception);
 		EXPECT_TRUE(!o);
 	}
 
@@ -301,7 +301,7 @@ GTEST_TEST(OptionalTest, ValueAssignmentForEngagedOptionalTest)
 	{
 		O o = make(S::zero);
 		value_type v = make(S::throwing_move);
-		o = std::move(v);
+		o = bksge::move(v);
 		EXPECT_TRUE(o && o->state == S::throwing_move);
 	}
 
@@ -317,7 +317,7 @@ GTEST_TEST(OptionalTest, ValueAssignmentForEngagedOptionalTest)
 		O o = make(S::zero);
 		value_type v = make(S::throwing_move_assignment);
 
-		EXPECT_THROW(o = std::move(v), exception);
+		EXPECT_THROW(o = bksge::move(v), exception);
 		EXPECT_TRUE(o && o->state == S::threw);
 	}
 

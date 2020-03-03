@@ -29,9 +29,8 @@
 #include <bksge/core/render/shader_parameter_map.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
+#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/assert.hpp>
-#include <memory>
-#include <string>
 #include <vector>
 
 namespace bksge
@@ -60,7 +59,7 @@ Shader::Shader(
 		::VkShaderStageFlagBits const vk_stage = vulkan::ShaderStage(stage);
 
 		auto spv = GlslToSpv(vk_stage, source.c_str());
-		spv_list.push_back(std::move(spv));
+		spv_list.push_back(bksge::move(spv));
 	}
 
 	// Create ShaderStages

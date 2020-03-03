@@ -10,6 +10,7 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/utility/move.hpp>
 #include <gtest/gtest.h>
 #include <array>
 #include <list>
@@ -34,14 +35,14 @@ public:
 	}
 
 	noncopyable(noncopyable&& rhs)
-		: value(std::move(rhs.value))
+		: value(bksge::move(rhs.value))
 	{
 		rhs.value = -1;
 	}
 	
 	noncopyable& operator=(noncopyable&& rhs)
 	{
-		value = std::move(rhs.value);
+		value = bksge::move(rhs.value);
 		rhs.value = -1;
 		return *this;
 	}

@@ -14,7 +14,7 @@
 #include <bksge/fnd/iterator/type_traits/iterator_value_type.hpp>
 #include <bksge/fnd/type_traits/add_lvalue_reference.hpp>
 #include <bksge/fnd/utility/swap.hpp>
-#include <utility>
+#include <bksge/fnd/utility/move.hpp>
 
 namespace bksge
 {
@@ -62,12 +62,12 @@ sift_down(
 		return;
 	}
 
-	value_type top(std::move(*start));
+	value_type top(bksge::move(*start));
 
 	do
 	{
 		// we are not in heap-order, swap the parent with it's largest child
-		*start = std::move(*child_i);
+		*start = bksge::move(*child_i);
 		start = child_i;
 
 		if ((len - 2) / 2 < child)
@@ -90,7 +90,7 @@ sift_down(
 	}
 	while (!comp(*child_i, top));
 
-	*start = std::move(top);
+	*start = bksge::move(top);
 }
 
 template <typename Compare, typename RandomAccessIterator, typename DifferenceType>
