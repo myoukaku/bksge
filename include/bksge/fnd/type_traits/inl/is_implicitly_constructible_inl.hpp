@@ -13,7 +13,7 @@
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/type_traits/is_trivially_constructible.hpp>
-#include <utility>	// declval
+#include <bksge/fnd/utility/declval.hpp>
 
 namespace bksge
 {
@@ -30,7 +30,7 @@ private:
 
 	template <typename T1, typename... Args1>
 	static auto test(int)
-		-> decltype(test_helper<T1>({std::declval<Args1>()...}), bksge::true_type());
+		-> decltype(test_helper<T1>({bksge::declval<Args1>()...}), bksge::true_type());
 
 	template <typename T1, typename... Args1>
 	static auto test(...) -> bksge::false_type;

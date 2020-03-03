@@ -23,8 +23,8 @@
 #include <bksge/fnd/type_traits/is_nothrow_move_constructible.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_move_assignable.hpp>
 #include <bksge/fnd/utility/move.hpp>
+#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
-#include <utility>	// declval
 #include <initializer_list>
 
 namespace bksge
@@ -35,7 +35,7 @@ struct optional<T>::IsNothrowSwappable
 {
 	BKSGE_STATIC_CONSTEXPR bool value =
 		bksge::is_nothrow_move_constructible<T>::value &&
-		BKSGE_NOEXCEPT_EXPR(bksge::swap(std::declval<T&>(), std::declval<T&>()));
+		BKSGE_NOEXCEPT_EXPR(bksge::swap(bksge::declval<T&>(), bksge::declval<T&>()));
 };
 
 template <typename T>

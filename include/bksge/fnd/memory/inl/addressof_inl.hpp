@@ -13,7 +13,7 @@
 #include <bksge/fnd/type_traits/remove_cv.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/type_identity.hpp>
-#include <utility>
+#include <bksge/fnd/utility/declval.hpp>
 
 namespace bksge
 {
@@ -25,7 +25,7 @@ template <typename T>
 struct is_member_address_op_overloaded
 {
 	template <typename U>
-	static auto test(int, bksge::type_identity<decltype(std::declval<U>().operator&())>* = nullptr) -> bksge::true_type;
+	static auto test(int, bksge::type_identity<decltype(bksge::declval<U>().operator&())>* = nullptr) -> bksge::true_type;
 	template <typename...>
 	static auto test(...) -> bksge::false_type;
 
@@ -36,7 +36,7 @@ template <typename T>
 struct is_nonmember_address_op_overloaded
 {
 	template <typename U>
-	static auto test(int, bksge::type_identity<decltype(operator&(std::declval<U>()))>* = nullptr) -> bksge::true_type;
+	static auto test(int, bksge::type_identity<decltype(operator&(bksge::declval<U>()))>* = nullptr) -> bksge::true_type;
 	template <typename...>
 	static auto test(...) -> bksge::false_type;
 

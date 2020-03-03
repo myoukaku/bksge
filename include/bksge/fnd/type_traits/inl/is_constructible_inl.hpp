@@ -16,8 +16,8 @@
 
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/detail/is_constructible_helper.hpp>
+#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
-#include <utility>	// declval
 
 namespace bksge
 {
@@ -41,7 +41,7 @@ template <typename T, typename... Args>
 struct is_constructible_impl
 {
 	template <typename T1, typename... Args1>
-	static auto test(int) -> decltype(::new T1(std::declval<Args1>()...), bksge::true_type());
+	static auto test(int) -> decltype(::new T1(bksge::declval<Args1>()...), bksge::true_type());
 	template <typename T1, typename... Args1>
 	static auto test(...) -> bksge::false_type;
 

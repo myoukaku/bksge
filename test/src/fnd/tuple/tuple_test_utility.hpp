@@ -12,11 +12,11 @@
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/utility/forward.hpp>
+#include <bksge/fnd/utility/declval.hpp>
 //#include <bksge/fnd/memory/allocator_arg.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <memory>
-#include <utility>
 
 
 #define ASSERT_NOEXCEPT(...) \
@@ -417,7 +417,7 @@ template <typename Tp> void eat_type(Tp);
 
 template <typename Tp, typename... Args>
 constexpr auto test_convertible_imp(int)
--> decltype(eat_type<Tp>({std::declval<Args>()...}), true)
+-> decltype(eat_type<Tp>({bksge::declval<Args>()...}), true)
 {
 	return true;
 }

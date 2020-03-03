@@ -13,8 +13,8 @@
 #include <bksge/fnd/type_traits/type_identity.hpp>
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/utility/index_sequence_for.hpp>
+#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <utility>	// declval
 
 namespace bksge
 {
@@ -101,7 +101,7 @@ struct nth
 private:
 	using Seq = bksge::index_sequence_for<Types...>;
 	using Tmp = decltype(select<N>(
-		std::declval<type_tuple<Seq, Types...>>()));
+		bksge::declval<type_tuple<Seq, Types...>>()));
 public:
 	using type = typename Tmp::type;
 };

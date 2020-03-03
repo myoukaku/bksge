@@ -13,7 +13,7 @@
 #include <bksge/fnd/serialization/version.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conditional.hpp>
-#include <utility>	// declval
+#include <bksge/fnd/utility/declval.hpp>
 
 namespace bksge
 {
@@ -33,7 +33,7 @@ private:
 	private:
 		template <typename A2, typename T2>
 		static auto test(int) -> decltype(
-			serialize(std::declval<A2&>(), std::declval<T2&>(), std::declval<bksge::serialization::version_t>()),
+			serialize(bksge::declval<A2&>(), bksge::declval<T2&>(), bksge::declval<bksge::serialization::version_t>()),
 			bksge::true_type());
 
 		template <typename A2, typename T2>
@@ -51,7 +51,7 @@ private:
 	private:
 		template <typename A2, typename T2>
 		static auto test(int) -> decltype(
-			serialize(std::declval<A2&>(), std::declval<T2&>()),
+			serialize(bksge::declval<A2&>(), bksge::declval<T2&>()),
 			bksge::true_type());
 
 		template <typename A2, typename T2>

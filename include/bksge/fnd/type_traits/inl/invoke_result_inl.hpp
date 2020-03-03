@@ -46,8 +46,8 @@ struct invoke_result
 #include <bksge/fnd/type_traits/detail/is_same_or_base_of.hpp>
 #include <bksge/fnd/type_traits/detail/member_object_pointer_traits.hpp>
 #include <bksge/fnd/type_traits/detail/member_function_pointer_traits.hpp>
+#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
-#include <utility>	// declval
 
 namespace bksge
 {
@@ -78,7 +78,7 @@ template <typename T>
 struct is_dereferenceable
 {
 	template <typename U>
-	static auto test(int) -> decltype(*std::declval<U>(), bksge::true_type());
+	static auto test(int) -> decltype(*bksge::declval<U>(), bksge::true_type());
 	template <typename...>
 	static auto test(...) -> bksge::false_type;
 
@@ -93,7 +93,7 @@ template <typename F, typename Arg0, typename... Args>
 struct invoke_result_memfun_ref
 {
 	template <typename U, typename UArg0, typename... UArgs>
-	static auto test(int) -> bksge::type_identity<decltype((std::declval<UArg0>().*std::declval<U>())(std::declval<UArgs>()...))>;
+	static auto test(int) -> bksge::type_identity<decltype((bksge::declval<UArg0>().*bksge::declval<U>())(bksge::declval<UArgs>()...))>;
 	template <typename...>
 	static auto test(...) -> invoke_result_failure;
 
@@ -107,7 +107,7 @@ struct invoke_result_memfun_ref
 // invoke_result_memfun_deref
 template <typename F, typename Arg0, typename... Args>
 struct invoke_result_memfun_deref
-	: public invoke_result_memfun_ref<F, decltype(*std::declval<Arg0>()), Args...>
+	: public invoke_result_memfun_ref<F, decltype(*bksge::declval<Arg0>()), Args...>
 {};
 
 // invoke_result_memfun
@@ -172,7 +172,7 @@ template <typename F, typename... Args>
 struct invoke_result_other
 {
 	template <typename U, typename... UArgs>
-	static auto test(int) -> bksge::type_identity<decltype(std::declval<U>()(std::declval<UArgs>()...))>;
+	static auto test(int) -> bksge::type_identity<decltype(bksge::declval<U>()(bksge::declval<UArgs>()...))>;
 	template <typename...>
 	static auto test(...) -> invoke_result_failure;
 
