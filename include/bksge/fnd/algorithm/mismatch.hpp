@@ -11,8 +11,8 @@
 
 #include <bksge/fnd/iterator/type_traits/is_input_iterator.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/utility/pair.hpp>
 #include <bksge/fnd/config.hpp>
-#include <utility>
 
 namespace bksge
 {
@@ -51,7 +51,7 @@ template <
 		bksge::is_input_iterator<InputIterator2>::value
 	>
 >
-BKSGE_CXX14_CONSTEXPR std::pair<InputIterator1, InputIterator2>
+BKSGE_CXX14_CONSTEXPR bksge::pair<InputIterator1, InputIterator2>
 mismatch(
 	InputIterator1 first1, InputIterator1 last1,
 	InputIterator2 first2);
@@ -68,7 +68,7 @@ template <
 		bksge::is_input_iterator<InputIterator2>::value
 	>
 >
-BKSGE_CXX14_CONSTEXPR std::pair<InputIterator1, InputIterator2>
+BKSGE_CXX14_CONSTEXPR bksge::pair<InputIterator1, InputIterator2>
 mismatch(
 	InputIterator1 first1, InputIterator1 last1,
 	InputIterator2 first2,
@@ -85,7 +85,7 @@ template <
 		bksge::is_input_iterator<InputIterator2>::value
 	>
 >
-BKSGE_CXX14_CONSTEXPR std::pair<InputIterator1, InputIterator2>
+BKSGE_CXX14_CONSTEXPR bksge::pair<InputIterator1, InputIterator2>
 mismatch(
 	InputIterator1 first1, InputIterator1 last1,
 	InputIterator2 first2, InputIterator2 last2);
@@ -102,7 +102,7 @@ template <
 		bksge::is_input_iterator<InputIterator2>::value
 	>
 >
-BKSGE_CXX14_CONSTEXPR std::pair<InputIterator1, InputIterator2>
+BKSGE_CXX14_CONSTEXPR bksge::pair<InputIterator1, InputIterator2>
 mismatch(
 	InputIterator1 first1, InputIterator1 last1,
 	InputIterator2 first2, InputIterator2 last2,

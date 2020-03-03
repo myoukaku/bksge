@@ -16,8 +16,9 @@
 #include <bksge/fnd/iterator/advance.hpp>
 #include <bksge/fnd/iterator/distance.hpp>
 #include <bksge/fnd/type_traits/add_lvalue_reference.hpp>
+#include <bksge/fnd/utility/pair.hpp>
+#include <bksge/fnd/utility/make_pair.hpp>
 #include <bksge/fnd/config.hpp>
-#include <utility>	// make_pair
 
 namespace bksge
 {
@@ -30,7 +31,7 @@ namespace detail
 
 template <typename Compare, typename ForwardIterator, typename T>
 inline BKSGE_CXX14_CONSTEXPR
-std::pair<ForwardIterator, ForwardIterator>
+bksge::pair<ForwardIterator, ForwardIterator>
 equal_range(
 	ForwardIterator first,
 	ForwardIterator last,
@@ -58,20 +59,20 @@ equal_range(
 		else
 		{
 			auto mp1 = m;
-			return std::make_pair(
+			return bksge::make_pair(
 				detail::lower_bound<Compare>(first, m, value, comp),
 				detail::upper_bound<Compare>(++mp1, last, value, comp));
 		}
 	}
 
-	return std::make_pair(first, first);
+	return bksge::make_pair(first, first);
 }
 
 }	// namespace detail
 
 template <typename ForwardIterator, typename T, typename>
 inline BKSGE_CXX14_CONSTEXPR
-std::pair<ForwardIterator, ForwardIterator>
+bksge::pair<ForwardIterator, ForwardIterator>
 equal_range(
 	ForwardIterator first,
 	ForwardIterator last,
@@ -83,7 +84,7 @@ equal_range(
 
 template <typename ForwardIterator, typename T, typename Compare, typename>
 inline BKSGE_CXX14_CONSTEXPR
-std::pair<ForwardIterator, ForwardIterator>
+bksge::pair<ForwardIterator, ForwardIterator>
 equal_range(
 	ForwardIterator first,
 	ForwardIterator last,

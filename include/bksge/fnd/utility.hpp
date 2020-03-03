@@ -21,8 +21,10 @@
 #include <bksge/fnd/utility/in_place_type.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
 #include <bksge/fnd/utility/make_integer_sequence.hpp>
+#include <bksge/fnd/utility/make_pair.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/move_if_noexcept.hpp>
+#include <bksge/fnd/utility/pair.hpp>
 #include <bksge/fnd/utility/piecewise_construct.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 

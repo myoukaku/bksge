@@ -11,6 +11,7 @@
 
 #include <bksge/fnd/algorithm/minmax_element.hpp>
 #include <bksge/fnd/functional/less.hpp>
+#include <bksge/fnd/utility/pair.hpp>
 
 namespace bksge
 {
@@ -19,7 +20,7 @@ namespace algorithm
 {
 
 template <typename ForwardIterator, typename>
-inline BKSGE_CXX14_CONSTEXPR std::pair<ForwardIterator, ForwardIterator>
+inline BKSGE_CXX14_CONSTEXPR bksge::pair<ForwardIterator, ForwardIterator>
 minmax_element(
 	ForwardIterator first,
 	ForwardIterator last)
@@ -28,13 +29,13 @@ minmax_element(
 }
 
 template <typename ForwardIterator, typename Compare, typename>
-inline BKSGE_CXX14_CONSTEXPR std::pair<ForwardIterator, ForwardIterator>
+inline BKSGE_CXX14_CONSTEXPR bksge::pair<ForwardIterator, ForwardIterator>
 minmax_element(
 	ForwardIterator first,
 	ForwardIterator last,
 	Compare comp)
 {
-	std::pair<ForwardIterator, ForwardIterator> result(first, first);
+	bksge::pair<ForwardIterator, ForwardIterator> result(first, first);
 
 	if (first == last)
 	{

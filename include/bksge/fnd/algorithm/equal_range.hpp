@@ -11,8 +11,8 @@
 
 #include <bksge/fnd/iterator/type_traits/is_forward_iterator.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/utility/pair.hpp>
 #include <bksge/fnd/config.hpp>
-#include <utility>
 
 namespace bksge
 {
@@ -44,7 +44,7 @@ template <
 		bksge::is_forward_iterator<ForwardIterator>::value
 	>
 >
-BKSGE_CXX14_CONSTEXPR std::pair<ForwardIterator, ForwardIterator>
+BKSGE_CXX14_CONSTEXPR bksge::pair<ForwardIterator, ForwardIterator>
 equal_range(ForwardIterator first, ForwardIterator last, T const& value);
 
 /**
@@ -74,7 +74,7 @@ template <
 		bksge::is_forward_iterator<ForwardIterator>::value
 	>
 >
-BKSGE_CXX14_CONSTEXPR std::pair<ForwardIterator, ForwardIterator>
+BKSGE_CXX14_CONSTEXPR bksge::pair<ForwardIterator, ForwardIterator>
 equal_range(ForwardIterator first, ForwardIterator last, T const& value, Compare comp);
 
 }	// namespace algorithm
