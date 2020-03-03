@@ -16,7 +16,6 @@
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/vulkan/detail/spirv_h.hpp>
 #include <vector>
-#include <utility>
 
 namespace bksge
 {

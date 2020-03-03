@@ -13,7 +13,6 @@
 #include <bksge/fnd/algorithm/pop_heap.hpp>
 #include <bksge/fnd/functional/less.hpp>
 #include <bksge/fnd/type_traits/add_lvalue_reference.hpp>
-#include <utility>
 
 namespace bksge
 {

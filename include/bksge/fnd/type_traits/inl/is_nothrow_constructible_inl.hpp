@@ -17,7 +17,7 @@
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/detail/is_constructible_helper.hpp>
-#include <utility>	// declval
+#include <bksge/fnd/utility/declval.hpp>
 
 namespace bksge
 {
