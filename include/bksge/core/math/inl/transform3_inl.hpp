@@ -11,6 +11,7 @@
 
 #include <bksge/core/math/transform3.hpp>
 //#include <bksge/fnd/serialization/nvp.hpp>
+#include <bksge/fnd/utility/swap.hpp>
 
 namespace bksge
 {
@@ -106,7 +107,7 @@ inline BKSGE_CXX14_CONSTEXPR void
 Transform3<T>::swap(Transform3& other)
 	BKSGE_NOEXCEPT_IF(bksge::is_nothrow_swappable<T>::value)
 {
-	using std::swap;
+	using bksge::swap;
 	swap(m_position, other.m_position);
 	swap(m_scale,    other.m_scale);
 	swap(m_rotation, other.m_rotation);

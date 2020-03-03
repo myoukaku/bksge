@@ -14,6 +14,7 @@
 #include <bksge/core/math/extent2.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/algorithm/min.hpp>
+#include <bksge/fnd/utility/swap.hpp>
 
 namespace bksge
 {
@@ -134,7 +135,7 @@ inline BKSGE_CXX14_CONSTEXPR void
 Rect<T>::swap(Rect& other)
 	BKSGE_NOEXCEPT_IF(bksge::is_nothrow_swappable<T>::value)
 {
-	using std::swap;
+	using bksge::swap;
 	swap(m_left,   other.m_left);
 	swap(m_top,    other.m_top);
 	swap(m_right,  other.m_right);
