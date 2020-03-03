@@ -8,9 +8,10 @@
 
 #include <bksge/core/render/detail/index_array.hpp>
 //#include <bksge/fnd/serialization/shared_ptr.hpp>
+#include <bksge/fnd/iterator/begin.hpp>
+#include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/cstdint.hpp>
 #include <gtest/gtest.h>
-#include <iterator>
 #include <memory>
 #include <sstream>
 //#include "serialize_test.hpp"
@@ -78,7 +79,7 @@ GTEST_TEST(Render_IndexArray, ConstructTest)
 
 	{
 		const bksge::uint8_t t[] = { 0, 1, 2 };
-		IndexArray<bksge::uint8_t> a(std::begin(t), std::end(t));
+		IndexArray<bksge::uint8_t> a(bksge::begin(t), bksge::end(t));
 		EXPECT_EQ(TypeEnum::kUInt8, a.type());
 		EXPECT_NE(nullptr, a.data());
 		EXPECT_EQ(0, a[0]);
@@ -89,7 +90,7 @@ GTEST_TEST(Render_IndexArray, ConstructTest)
 	}
 	{
 		const bksge::uint16_t t[] = { 3 };
-		IndexArray<bksge::uint16_t> a(std::begin(t), std::end(t));
+		IndexArray<bksge::uint16_t> a(bksge::begin(t), bksge::end(t));
 		EXPECT_EQ(TypeEnum::kUInt16, a.type());
 		EXPECT_NE(nullptr, a.data());
 		EXPECT_EQ(3, a[0]);
@@ -98,7 +99,7 @@ GTEST_TEST(Render_IndexArray, ConstructTest)
 	}
 	{
 		const bksge::uint32_t t[] = { 4, 5 };
-		IndexArray<bksge::uint32_t> a(std::begin(t), std::end(t));
+		IndexArray<bksge::uint32_t> a(bksge::begin(t), bksge::end(t));
 		EXPECT_EQ(TypeEnum::kUInt32, a.type());
 		EXPECT_NE(nullptr, a.data());
 		EXPECT_EQ(bksge::uint32_t(4), a[0]);
@@ -108,7 +109,7 @@ GTEST_TEST(Render_IndexArray, ConstructTest)
 	}
 	{
 		const bksge::int8_t t[] = { 6, 7, 8, 9 };
-		IndexArray<bksge::int8_t> a(std::begin(t), std::end(t));
+		IndexArray<bksge::int8_t> a(bksge::begin(t), bksge::end(t));
 		EXPECT_EQ(TypeEnum::kSInt8, a.type());
 		EXPECT_NE(nullptr, a.data());
 		EXPECT_EQ(6, a[0]);
@@ -120,7 +121,7 @@ GTEST_TEST(Render_IndexArray, ConstructTest)
 	}
 	{
 		const bksge::int16_t t[] = { 10, 11, 12, 13, 14 };
-		IndexArray<bksge::int16_t> a(std::begin(t), std::end(t));
+		IndexArray<bksge::int16_t> a(bksge::begin(t), bksge::end(t));
 		EXPECT_EQ(TypeEnum::kSInt16, a.type());
 		EXPECT_NE(nullptr, a.data());
 		EXPECT_EQ(10, a[0]);
@@ -130,7 +131,7 @@ GTEST_TEST(Render_IndexArray, ConstructTest)
 	}
 	{
 		const bksge::int32_t t[] = { 15, 16, 17, 18, 19, 20 };
-		IndexArray<bksge::int32_t> a(std::begin(t), std::end(t));
+		IndexArray<bksge::int32_t> a(bksge::begin(t), bksge::end(t));
 		EXPECT_EQ(TypeEnum::kSInt32, a.type());
 		EXPECT_NE(nullptr, a.data());
 		EXPECT_EQ(15, a[0]);
@@ -140,7 +141,7 @@ GTEST_TEST(Render_IndexArray, ConstructTest)
 	}
 	{
 		const float t[] = { 21, 22 };
-		IndexArray<float> a(std::begin(t), std::end(t));
+		IndexArray<float> a(bksge::begin(t), bksge::end(t));
 		EXPECT_EQ(TypeEnum::kFloat, a.type());
 		EXPECT_NE(nullptr, a.data());
 		EXPECT_EQ(21, a[0]);
@@ -162,13 +163,13 @@ GTEST_TEST(Render_IndexArray, CompareTest)
 	const bksge::int16_t  t5[] = { 10, 11, 12, };
 	const bksge::uint32_t t6[] = { 10, 11, 12, };
 
-	IndexArray<bksge::uint16_t> a1(std::begin(t1), std::end(t1));
-	IndexArray<bksge::uint16_t> a2(std::begin(t1), std::end(t1));
-	IndexArray<bksge::uint16_t> a3(std::begin(t2), std::end(t2));
-	IndexArray<bksge::uint16_t> a4(std::begin(t3), std::end(t3));
-	IndexArray<bksge::uint16_t> a5(std::begin(t4), std::end(t4));
-	IndexArray<bksge::int16_t>  a6(std::begin(t5), std::end(t5));
-	IndexArray<bksge::uint32_t> a7(std::begin(t6), std::end(t6));
+	IndexArray<bksge::uint16_t> a1(bksge::begin(t1), bksge::end(t1));
+	IndexArray<bksge::uint16_t> a2(bksge::begin(t1), bksge::end(t1));
+	IndexArray<bksge::uint16_t> a3(bksge::begin(t2), bksge::end(t2));
+	IndexArray<bksge::uint16_t> a4(bksge::begin(t3), bksge::end(t3));
+	IndexArray<bksge::uint16_t> a5(bksge::begin(t4), bksge::end(t4));
+	IndexArray<bksge::int16_t>  a6(bksge::begin(t5), bksge::end(t5));
+	IndexArray<bksge::uint32_t> a7(bksge::begin(t6), bksge::end(t6));
 
 	EXPECT_TRUE(a1 == a1);
 	EXPECT_TRUE(a1 == a2);
@@ -195,7 +196,7 @@ GTEST_TEST(Render_IndexArray, SerializeTest)
 	using namespace bksge::archive;
 
 	const bksge::uint16_t t[] = { 10, 11, 12, };
-	IndexArray<bksge::uint16_t> a(std::begin(t), std::end(t));
+	IndexArray<bksge::uint16_t> a(bksge::begin(t), bksge::end(t));
 
 	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream> (a);
 	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream> (a);
@@ -221,9 +222,9 @@ void SerializeBasePtrTest(void)
 		const bksge::uint16_t t2[] = { 11, 12, };
 		const bksge::uint32_t t3[] = { 13, 14, 15, };
 
-		std::shared_ptr<IndexArrayBase> a1 = std::make_shared<IndexArray<bksge::uint8_t>>(std::begin(t1), std::end(t1));
-		std::shared_ptr<IndexArrayBase> a2 = std::make_shared<IndexArray<bksge::uint16_t>>(std::begin(t2), std::end(t2));
-		std::shared_ptr<IndexArrayBase> a3 = std::make_shared<IndexArray<bksge::uint32_t>>(std::begin(t3), std::end(t3));
+		std::shared_ptr<IndexArrayBase> a1 = std::make_shared<IndexArray<bksge::uint8_t>>(bksge::begin(t1), bksge::end(t1));
+		std::shared_ptr<IndexArrayBase> a2 = std::make_shared<IndexArray<bksge::uint16_t>>(bksge::begin(t2), bksge::end(t2));
+		std::shared_ptr<IndexArrayBase> a3 = std::make_shared<IndexArray<bksge::uint32_t>>(bksge::begin(t3), bksge::end(t3));
 
 		OArchive oa(s);
 		oa << BKSGE_SERIALIZATION_NVP(a1);

@@ -24,7 +24,8 @@
 //#include <bksge/fnd/serialization/shared_ptr.hpp>
 //#include <bksge/fnd/serialization/version.hpp>
 #include <bksge/fnd/iterator/type_traits/iterator_value_type.hpp>
-#include <iterator>
+#include <bksge/fnd/iterator/begin.hpp>
+#include <bksge/fnd/iterator/end.hpp>
 #include <memory>
 
 namespace bksge
@@ -53,10 +54,10 @@ public:
 		IndexRange const& index_range)
 		: Geometry(
 			primitive_topology,
-			std::begin(vertex_range),
-			std::end(vertex_range),
-			std::begin(index_range),
-			std::end(index_range))
+			bksge::begin(vertex_range),
+			bksge::end(vertex_range),
+			bksge::begin(index_range),
+			bksge::end(index_range))
 	{}
 
 	template <typename VertexRange>
@@ -65,8 +66,8 @@ public:
 		VertexRange const& vertex_range)
 		: Geometry(
 			primitive_topology,
-			std::begin(vertex_range),
-			std::end(vertex_range))
+			bksge::begin(vertex_range),
+			bksge::end(vertex_range))
 	{}
 
 	template <

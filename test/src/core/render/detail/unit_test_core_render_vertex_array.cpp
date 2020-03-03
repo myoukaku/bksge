@@ -10,8 +10,9 @@
 #include <bksge/core/render/vertex.hpp>
 #include <bksge/core/render/vertex_element.hpp>
 //#include <bksge/fnd/serialization/shared_ptr.hpp>
+#include <bksge/fnd/iterator/begin.hpp>
+#include <bksge/fnd/iterator/end.hpp>
 #include <gtest/gtest.h>
-#include <iterator>
 #include <memory>
 #include <sstream>
 //#include "serialize_test.hpp"
@@ -63,7 +64,7 @@ GTEST_TEST(Render_VertexArray, ConstructTest)
 			{{{20, 21, 22}}},
 			{{{30, 31, 32}}},
 		};
-		VertexArray<VertexType> a(std::begin(t), std::end(t));
+		VertexArray<VertexType> a(bksge::begin(t), bksge::end(t));
 		EXPECT_EQ(VertexType::vertex_layout(), a.vertex_layout());
 		EXPECT_NE(nullptr, a.data());
 		EXPECT_EQ(36u, a.bytes());
@@ -82,7 +83,7 @@ GTEST_TEST(Render_VertexArray, ConstructTest)
 	{
 		using VertexType = Vertex<VPosition, VColor, VNormal>;
 		const VertexType t[] = {{{{10, 11, 12}}, {{13, 14, 15, 16}}, {{17, 18, 19}}}};
-		VertexArray<VertexType> a(std::begin(t), std::end(t));
+		VertexArray<VertexType> a(bksge::begin(t), bksge::end(t));
 		EXPECT_EQ(VertexType::vertex_layout(), a.vertex_layout());
 		EXPECT_NE(nullptr, a.data());
 		EXPECT_EQ(40u, a.bytes());
@@ -107,7 +108,7 @@ GTEST_TEST(Render_VertexArray, ConstructTest)
 			{{{20, 21, 22}}, {{23, 24, 25, 26}}, {{27, 28, 29}}},
 			{{{30, 31, 32}}, {{33, 34, 35, 36}}, {{37, 38, 39}}},
 		};
-		VertexArray<VertexType> a(std::begin(t), std::end(t));
+		VertexArray<VertexType> a(bksge::begin(t), bksge::end(t));
 		EXPECT_EQ(VertexType::vertex_layout(), a.vertex_layout());
 		EXPECT_NE(nullptr, a.data());
 		EXPECT_EQ(120u, a.bytes());
@@ -170,14 +171,14 @@ GTEST_TEST(Render_VertexArray, CompareTest)
 		{{{20, 21, 22}}, {{23, 24, 25, 26}}, {{27, 28, 29}}},
 	};
 
-	VertexArray<VertexType1> a1(std::begin(t1), std::end(t1));
-	VertexArray<VertexType1> a2(std::begin(t2), std::end(t2));
-	VertexArray<VertexType1> a3(std::begin(t3), std::end(t3));
-	VertexArray<VertexType1> a4(std::begin(t4), std::end(t4));
-	VertexArray<VertexType1> a5(std::begin(t5), std::end(t5));
-	VertexArray<VertexType2> a6(std::begin(t6), std::end(t6));
-	VertexArray<VertexType3> a7(std::begin(t7), std::end(t7));
-	VertexArray<VertexType1> a8(std::begin(t8), std::end(t8));
+	VertexArray<VertexType1> a1(bksge::begin(t1), bksge::end(t1));
+	VertexArray<VertexType1> a2(bksge::begin(t2), bksge::end(t2));
+	VertexArray<VertexType1> a3(bksge::begin(t3), bksge::end(t3));
+	VertexArray<VertexType1> a4(bksge::begin(t4), bksge::end(t4));
+	VertexArray<VertexType1> a5(bksge::begin(t5), bksge::end(t5));
+	VertexArray<VertexType2> a6(bksge::begin(t6), bksge::end(t6));
+	VertexArray<VertexType3> a7(bksge::begin(t7), bksge::end(t7));
+	VertexArray<VertexType1> a8(bksge::begin(t8), bksge::end(t8));
 
 	EXPECT_TRUE(a1 == a1);
 	EXPECT_TRUE(a1 == a2);
@@ -213,7 +214,7 @@ GTEST_TEST(Render_VertexArray, SerializeTest)
 		{{{30, 31, 32}}, {{33, 34, 35, 36}}, {{37, 38, 39}}},
 	};
 
-	VertexArray<VertexType> a(std::begin(t), std::end(t));
+	VertexArray<VertexType> a(bksge::begin(t), bksge::end(t));
 
 	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream> (a);
 	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream> (a);
@@ -247,9 +248,9 @@ void SerializeBasePtrTest(void)
 		};
 		const VertexType3 t3[] = {{{{20, 21, 22}}, {{23, 24, 25, 26}}, {{27, 28, 29}}, {{30, 31, 32}}}};
 
-		std::shared_ptr<VertexArrayBase> a1 = std::make_shared<VertexArray<VertexType1>>(std::begin(t1), std::end(t1));
-		std::shared_ptr<VertexArrayBase> a2 = std::make_shared<VertexArray<VertexType2>>(std::begin(t2), std::end(t2));
-		std::shared_ptr<VertexArrayBase> a3 = std::make_shared<VertexArray<VertexType3>>(std::begin(t3), std::end(t3));
+		std::shared_ptr<VertexArrayBase> a1 = std::make_shared<VertexArray<VertexType1>>(bksge::begin(t1), bksge::end(t1));
+		std::shared_ptr<VertexArrayBase> a2 = std::make_shared<VertexArray<VertexType2>>(bksge::begin(t2), bksge::end(t2));
+		std::shared_ptr<VertexArrayBase> a3 = std::make_shared<VertexArray<VertexType3>>(bksge::begin(t3), bksge::end(t3));
 
 		OArchive oa(s);
 		oa << BKSGE_SERIALIZATION_NVP(a1);
