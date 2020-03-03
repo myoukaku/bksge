@@ -9,9 +9,9 @@
 #include <bksge/fnd/type_traits/is_unsigned.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstddef/nullptr_t.hpp>
+#include <bksge/fnd/cstdint.hpp>	// WCHAR_MIN
 #include <gtest/gtest.h>
 #include <climits>	// CHAR_MIN
-#include <cstdint>	// WCHAR_MIN
 #include "type_traits_test_utility.hpp"
 
 #define BKSGE_IS_UNSIGNED_TEST(b, T)	\

@@ -9,7 +9,7 @@
 #ifndef BKSGE_FND_UNITS_DETAIL_SI_PREFIX_HPP
 #define BKSGE_FND_UNITS_DETAIL_SI_PREFIX_HPP
 
-#include <cstdint>
+#include <bksge/fnd/cstdint.hpp>
 #include <ratio>
 
 #define BKSGE_UNITS_SI_PREFIX_2(Name, Ratio) \

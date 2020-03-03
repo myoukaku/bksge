@@ -8,10 +8,9 @@
 
 #include <bksge/fnd/functional/unwrap_reference.hpp>
 #include <bksge/fnd/functional/reference_wrapper.hpp>
-//#include <bksge/fnd/type_traits/is_same.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/type_traits/add_lvalue_reference.hpp>
 #include <gtest/gtest.h>
-#include <type_traits>
 
 namespace bksge_functional_test
 {
@@ -26,8 +25,8 @@ template <typename> class T{};
 GTEST_TEST(FunctionalTest, UnwrapReferenceTest)
 {
 #define BKSGE_UNWRAP_REFERENCE_TEST_1(T1, T2)										\
-	static_assert(std::is_same<bksge::unwrap_reference<T1>::type, T2>::value, "");	\
-	static_assert(std::is_same<bksge::unwrap_reference_t<T1>,     T2>::value, "")
+	static_assert(bksge::is_same<bksge::unwrap_reference<T1>::type, T2>::value, "");	\
+	static_assert(bksge::is_same<bksge::unwrap_reference_t<T1>,     T2>::value, "")
 
 #define BKSGE_UNWRAP_REFERENCE_TEST_2(T)	\
 	BKSGE_UNWRAP_REFERENCE_TEST_1(T, T);	\

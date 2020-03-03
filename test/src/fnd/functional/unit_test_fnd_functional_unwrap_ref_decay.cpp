@@ -8,9 +8,8 @@
 
 #include <bksge/fnd/functional/unwrap_ref_decay.hpp>
 #include <bksge/fnd/functional/reference_wrapper.hpp>
-//#include <bksge/fnd/type_traits/is_same.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <gtest/gtest.h>
-#include <type_traits>
 
 namespace bksge_functional_test
 {
@@ -25,8 +24,8 @@ template <typename> class T{};
 GTEST_TEST(FunctionalTest, DecayUnwrapTest)
 {
 #define BKSGE_UNWRAP_REF_DECAY_TEST_1(T1, T2)										\
-	static_assert(std::is_same<bksge::unwrap_ref_decay<T1>::type, T2>::value, "");	\
-	static_assert(std::is_same<bksge::unwrap_ref_decay_t<T1>,     T2>::value, "")
+	static_assert(bksge::is_same<bksge::unwrap_ref_decay<T1>::type, T2>::value, "");	\
+	static_assert(bksge::is_same<bksge::unwrap_ref_decay_t<T1>,     T2>::value, "")
 
 #define BKSGE_UNWRAP_REF_DECAY_TEST_2(T1, T2)	                                    \
 	BKSGE_UNWRAP_REF_DECAY_TEST_1(T1,        T2);	                                \

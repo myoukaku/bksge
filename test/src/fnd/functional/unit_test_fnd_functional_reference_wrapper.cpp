@@ -9,12 +9,11 @@
 #include <bksge/fnd/functional/reference_wrapper.hpp>
 #include <bksge/fnd/functional/ref.hpp>
 #include <bksge/fnd/functional/cref.hpp>
-//#include <bksge/fnd/type_traits/is_same.hpp>
-//#include <bksge/fnd/type_traits/is_copy_constructible.hpp>
-//#include <bksge/fnd/type_traits/is_copy_assignable.hpp>
-//#include <bksge/fnd/type_traits/is_trivially_copyable.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
+#include <bksge/fnd/type_traits/is_copy_constructible.hpp>
+#include <bksge/fnd/type_traits/is_copy_assignable.hpp>
+#include <bksge/fnd/type_traits/is_trivially_copyable.hpp>
 #include <gtest/gtest.h>
-#include <type_traits>
 
 namespace bksge_functional_test
 {
@@ -118,7 +117,7 @@ GTEST_TEST(FunctionalTest, ReferenceWrapperTest)
 		bksge::reference_wrapper<functor2>* pr5b(0);
 
 #define BKSGE_REFERENCE_WRAPPER_TEST(F, T)	\
-	static_assert(std::is_same<decltype(F), T>::value, "")
+	static_assert(bksge::is_same<decltype(F), T>::value, "")
 
 		BKSGE_REFERENCE_WRAPPER_TEST((*pr1)(0), double);
 		BKSGE_REFERENCE_WRAPPER_TEST((*pr2)(0), float);
@@ -205,13 +204,13 @@ GTEST_TEST(FunctionalTest, ReferenceWrapperTest)
 	{
 		using R = bksge::reference_wrapper<NonTrivial>;
 
-		static_assert(std::is_copy_constructible<R>::value, "copy constructible");
-		static_assert(std::is_copy_assignable<R>::value, "copy assignable");
-		static_assert(std::is_trivially_copyable<R>::value, "trivially copyable");
+		static_assert(bksge::is_copy_constructible<R>::value, "copy constructible");
+		static_assert(bksge::is_copy_assignable<R>::value, "copy assignable");
+		static_assert(bksge::is_trivially_copyable<R>::value, "trivially copyable");
 	}
 	{
 		#define BKSGE_REFERENCE_WRAPPER_TYPE_TEST(T)	\
-			static_assert(std::is_same<bksge::reference_wrapper<T>::type, T>::value, "")
+			static_assert(bksge::is_same<bksge::reference_wrapper<T>::type, T>::value, "")
 
 		BKSGE_REFERENCE_WRAPPER_TYPE_TEST(int);
 		BKSGE_REFERENCE_WRAPPER_TYPE_TEST(int(float));

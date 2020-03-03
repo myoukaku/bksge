@@ -12,14 +12,13 @@
 #include <bksge/fnd/functional/invoke.hpp>
 #include <bksge/fnd/functional/detail/is_reference_wrapper.hpp>
 #include <bksge/fnd/type_traits/decay.hpp>
-//#include <bksge/fnd/type_traits/is_base_of.hpp>
-//#include <bksge/fnd/type_traits/is_member_function_pointer.hpp>
-//#include <bksge/fnd/type_traits/is_member_object_pointer.hpp>
+#include <bksge/fnd/type_traits/is_base_of.hpp>
+#include <bksge/fnd/type_traits/is_member_function_pointer.hpp>
+#include <bksge/fnd/type_traits/is_member_object_pointer.hpp>
 #include <bksge/fnd/type_traits/detail/member_object_pointer_traits.hpp>
 #include <bksge/fnd/type_traits/detail/member_function_pointer_traits.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
-#include <type_traits>
 
 BKSGE_WARNING_PUSH()
 BKSGE_WARNING_DISABLE_MSVC(4244)	// '...' から '...' への変換です。データが失われる可能性があります。
@@ -78,7 +77,7 @@ struct invoke_memfun_impl<false, false>
 template <typename ClassT, typename A0>
 struct invoke_memfun
 	: public invoke_memfun_impl<
-		std::is_base_of<ClassT, A0>::value,
+		bksge::is_base_of<ClassT, A0>::value,
 		is_reference_wrapper<A0>::value
 	>
 {};
@@ -117,7 +116,7 @@ struct invoke_memobj_impl<false, false>
 template <typename ClassT, typename A0>
 struct invoke_memobj
 	: public invoke_memobj_impl<
-		std::is_base_of<ClassT, A0>::value,
+		bksge::is_base_of<ClassT, A0>::value,
 		is_reference_wrapper<A0>::value
 	>
 {};
@@ -155,8 +154,8 @@ template <typename F, typename... Args>
 inline BKSGE_CONSTEXPR auto
 invoke(F&& f, Args&&... args)
 BKSGE_INVOKE_RETURN((invoke_impl<
-		std::is_member_function_pointer<bksge::decay_t<F>>::value,
-		std::is_member_object_pointer<bksge::decay_t<F>>::value,
+		bksge::is_member_function_pointer<bksge::decay_t<F>>::value,
+		bksge::is_member_object_pointer<bksge::decay_t<F>>::value,
 		bksge::decay_t<F>,
 		bksge::decay_t<Args>...
 	>::invoke(bksge::forward<F>(f), bksge::forward<Args>(args)...)))
