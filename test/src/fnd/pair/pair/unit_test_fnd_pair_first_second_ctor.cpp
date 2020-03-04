@@ -82,46 +82,46 @@ GTEST_TEST(PairTest, FirstSecondCtorTest)
 		//static_assert(!bksge::is_nothrow_constructible<bksge::pair<NothrowT,  float>, ExplicitT const&, float const&>::value, "");
 	}
 	{
-		BKSGE_CONSTEXPR int n = 2;
-		BKSGE_CONSTEXPR double d = 2.5;
-		BKSGE_CONSTEXPR bksge::pair<int, double> p(n, d);
-		BKSGE_CONSTEXPR_EXPECT_EQ(2,   p.first);
-		BKSGE_CONSTEXPR_EXPECT_EQ(2.5, p.second);
+		BKSGE_CXX14_CONSTEXPR int n = 2;
+		BKSGE_CXX14_CONSTEXPR double d = 2.5;
+		BKSGE_CXX14_CONSTEXPR bksge::pair<int, double> p(n, d);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(2,   p.first);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(2.5, p.second);
 	}
 	{
-		BKSGE_CONSTEXPR float f = 0.5f;
-		BKSGE_CONSTEXPR short* sp = nullptr;
-		BKSGE_CONSTEXPR bksge::pair<float, short*> p = { f, sp };
-		BKSGE_CONSTEXPR_EXPECT_EQ(0.5f,    p.first);
-		BKSGE_CONSTEXPR_EXPECT_EQ(nullptr, p.second);
+		BKSGE_CXX14_CONSTEXPR float f = 0.5f;
+		BKSGE_CXX14_CONSTEXPR short* sp = nullptr;
+		BKSGE_CXX14_CONSTEXPR bksge::pair<float, short*> p = { f, sp };
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(0.5f,    p.first);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(nullptr, p.second);
 	}
 	{
-		BKSGE_CONSTEXPR ImplicitT e(42);
-		BKSGE_CONSTEXPR int x = 10;
-		BKSGE_CONSTEXPR bksge::pair<ImplicitT, int> p { e, x };
-		BKSGE_CONSTEXPR_EXPECT_EQ(42, p.first.value);
-		BKSGE_CONSTEXPR_EXPECT_EQ(10, p.second);
+		BKSGE_CXX14_CONSTEXPR ImplicitT e(42);
+		BKSGE_CXX14_CONSTEXPR int x = 10;
+		BKSGE_CXX14_CONSTEXPR bksge::pair<ImplicitT, int> p { e, x };
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(42, p.first.value);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(10, p.second);
 	}
 	{
-		BKSGE_CONSTEXPR ImplicitT e(42);
-		BKSGE_CONSTEXPR int x = 10;
-		BKSGE_CONSTEXPR bksge::pair<ImplicitT, int> p = { e, x };
-		BKSGE_CONSTEXPR_EXPECT_EQ(42, p.first.value);
-		BKSGE_CONSTEXPR_EXPECT_EQ(10, p.second);
+		BKSGE_CXX14_CONSTEXPR ImplicitT e(42);
+		BKSGE_CXX14_CONSTEXPR int x = 10;
+		BKSGE_CXX14_CONSTEXPR bksge::pair<ImplicitT, int> p = { e, x };
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(42, p.first.value);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(10, p.second);
 	}
 	{
-		BKSGE_CONSTEXPR ExplicitT e(42);
-		BKSGE_CONSTEXPR int x = 10;
-		BKSGE_CONSTEXPR bksge::pair<ExplicitT, int> p { e, x };
-		BKSGE_CONSTEXPR_EXPECT_EQ(42, p.first.value);
-		BKSGE_CONSTEXPR_EXPECT_EQ(10, p.second);
+		BKSGE_CXX14_CONSTEXPR ExplicitT e(42);
+		BKSGE_CXX14_CONSTEXPR int x = 10;
+		BKSGE_CXX14_CONSTEXPR bksge::pair<ExplicitT, int> p { e, x };
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(42, p.first.value);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(10, p.second);
 	}
 	//{
-	//	BKSGE_CONSTEXPR ExplicitT e(42);
-	//	BKSGE_CONSTEXPR int x = 10;
-	//	BKSGE_CONSTEXPR bksge::pair<ExplicitT, int> p = { e, x };
-	//	BKSGE_CONSTEXPR_EXPECT_EQ(42, p.first.value);
-	//	BKSGE_CONSTEXPR_EXPECT_EQ(10, p.second);
+	//	BKSGE_CXX14_CONSTEXPR ExplicitT e(42);
+	//	BKSGE_CXX14_CONSTEXPR int x = 10;
+	//	BKSGE_CXX14_CONSTEXPR bksge::pair<ExplicitT, int> p = { e, x };
+	//	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(42, p.first.value);
+	//	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(10, p.second);
 	//}
 }
 

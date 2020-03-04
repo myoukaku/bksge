@@ -28,13 +28,13 @@ GTEST_TEST(PairTest, GetTest)
 	//	EXPECT_EQ("Foo", bksge::get<1>(p));
 	//}
 	{
-		BKSGE_CONSTEXPR bksge::pair<double, int> p(3.5, 4);
-		BKSGE_CONSTEXPR_EXPECT_EQ(3.5, bksge::get<0>(p));
-		BKSGE_CONSTEXPR_EXPECT_EQ(4,   bksge::get<1>(p));
+		BKSGE_CXX14_CONSTEXPR bksge::pair<double, int> p(3.5, 4);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(3.5, bksge::get<0>(p));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(4,   bksge::get<1>(p));
 	}
 	{
-		BKSGE_CONSTEXPR_EXPECT_EQ(1,   bksge::get<0>(bksge::make_pair(1, 0.5)));
-		BKSGE_CONSTEXPR_EXPECT_EQ(0.5, bksge::get<1>(bksge::make_pair(1, 0.5)));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(1,   bksge::get<0>(bksge::make_pair(1, 0.5)));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(0.5, bksge::get<1>(bksge::make_pair(1, 0.5)));
 	}
 	{
 		bksge::pair<int, float> p;

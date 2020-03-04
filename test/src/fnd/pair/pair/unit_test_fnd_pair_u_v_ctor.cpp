@@ -55,24 +55,24 @@ GTEST_TEST(PairTest, UVCtorTest)
 		//static_assert( bksge::is_nothrow_constructible<bksge::pair<char, NothrowT>, char, int>::value, "");
 	}
 	{
-		BKSGE_CONSTEXPR bksge::pair<ImplicitT, int> p { 42, 43 };
-		BKSGE_CONSTEXPR_EXPECT_EQ(42, p.first.value);
-		BKSGE_CONSTEXPR_EXPECT_EQ(43, p.second);
+		BKSGE_CXX14_CONSTEXPR bksge::pair<ImplicitT, int> p { 42, 43 };
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(42, p.first.value);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(43, p.second);
 	}
 	{
-		BKSGE_CONSTEXPR bksge::pair<ImplicitT, int> p = { 42, 43 };
-		BKSGE_CONSTEXPR_EXPECT_EQ(42, p.first.value);
-		BKSGE_CONSTEXPR_EXPECT_EQ(43, p.second);
+		BKSGE_CXX14_CONSTEXPR bksge::pair<ImplicitT, int> p = { 42, 43 };
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(42, p.first.value);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(43, p.second);
 	}
 	{
-		BKSGE_CONSTEXPR bksge::pair<ExplicitT, int> p { 42, 43 };
-		BKSGE_CONSTEXPR_EXPECT_EQ(42, p.first.value);
-		BKSGE_CONSTEXPR_EXPECT_EQ(43, p.second);
+		BKSGE_CXX14_CONSTEXPR bksge::pair<ExplicitT, int> p { 42, 43 };
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(42, p.first.value);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(43, p.second);
 	}
 	//{
-	//	BKSGE_CONSTEXPR bksge::pair<ExplicitT, int> p = { 42, 43 };
-	//	BKSGE_CONSTEXPR_EXPECT_EQ(42, p.first.value);
-	//	BKSGE_CONSTEXPR_EXPECT_EQ(43, p.second);
+	//	BKSGE_CXX14_CONSTEXPR bksge::pair<ExplicitT, int> p = { 42, 43 };
+	//	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(42, p.first.value);
+	//	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(43, p.second);
 	//}
 }
 

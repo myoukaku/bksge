@@ -77,10 +77,10 @@ GTEST_TEST(PairTest, MoveCtorTest)
 		EXPECT_EQ(4.5f, p2.second);
 	}
 	{
-		BKSGE_CONSTEXPR bksge::pair<int, float> p1 { 3, 4.5f };
-		BKSGE_CONSTEXPR bksge::pair<int, float> p2 { bksge::move(p1) };
-		BKSGE_CONSTEXPR_EXPECT_EQ(3,    p2.first);
-		BKSGE_CONSTEXPR_EXPECT_EQ(4.5f, p2.second);
+		BKSGE_CXX14_CONSTEXPR bksge::pair<int, float> p1 { 3, 4.5f };
+		BKSGE_CXX14_CONSTEXPR bksge::pair<int, float> p2 { bksge::move(p1) };
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(3,    p2.first);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(4.5f, p2.second);
 	}
 }
 
