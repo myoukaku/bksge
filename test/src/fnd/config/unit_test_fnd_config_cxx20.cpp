@@ -140,7 +140,7 @@ GTEST_TEST(ConfigTest, Cxx20RangeBasedForInitializerTest)
 
 GTEST_TEST(ConfigTest, Cxx20ThreeWayComparisonTest)
 {
-#if defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
+#if defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON) && BKSGE_HAS_INCLUDE(<compare>)
 	struct X
 	{
 		int x;
