@@ -6,9 +6,9 @@
  *	@author	myoukaku
  */
 
-#if defined(_MSC_VER)
-#define _ENABLE_EXTENDED_ALIGNED_STORAGE
-#endif
+//#if defined(_MSC_VER)
+//#define _ENABLE_EXTENDED_ALIGNED_STORAGE
+//#endif
 
 #include <bksge/fnd/type_traits/aligned_storage.hpp>
 #include <bksge/fnd/type_traits/alignment_of.hpp>
@@ -36,15 +36,17 @@ GTEST_TEST(TypeTraitsTest, AlignedStorageTest)
 	BKSGE_ALIGNED_STORAGE_TEST(2);
 	BKSGE_ALIGNED_STORAGE_TEST(4);
 	BKSGE_ALIGNED_STORAGE_TEST(8);
+#if !defined(_MSC_VER)
 	BKSGE_ALIGNED_STORAGE_TEST(16);
 	BKSGE_ALIGNED_STORAGE_TEST(32);
 	BKSGE_ALIGNED_STORAGE_TEST(64);
 	BKSGE_ALIGNED_STORAGE_TEST(128);
+#endif
 
 #undef BKSGE_ALIGNED_STORAGE_TEST
 #undef BKSGE_ALIGNED_STORAGE_TEST_IMPL
 }
 
-#if defined(_MSC_VER)
-#undef _ENABLE_EXTENDED_ALIGNED_STORAGE
-#endif
+//#if defined(_MSC_VER)
+//#undef _ENABLE_EXTENDED_ALIGNED_STORAGE
+//#endif
