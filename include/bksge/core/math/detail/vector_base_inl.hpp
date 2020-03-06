@@ -12,7 +12,7 @@
 #include <bksge/core/math/detail/vector_base.hpp>
 #include <bksge/core/math/detail/vector_functions.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <bksge/fnd/stdexcept/throw_out_of_range.hpp>
+#include <bksge/fnd/stdexcept/out_of_range.hpp>
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
 #include <bksge/fnd/utility/move.hpp>
