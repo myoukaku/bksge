@@ -18,6 +18,7 @@
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <memory>
+#include <cassert>
 
 
 #define ASSERT_NOEXCEPT(...) \
