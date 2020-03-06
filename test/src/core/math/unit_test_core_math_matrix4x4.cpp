@@ -22,12 +22,15 @@
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
+#include <bksge/fnd/tuple/tie.hpp>
+#include <bksge/fnd/tuple/get.hpp>
+#include <bksge/fnd/tuple/tuple_element.hpp>
+#include <bksge/fnd/tuple/tuple_size.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
 #include <stdexcept>
-#include <tuple>
 #include <functional>
 #include <vector>
 #include "constexpr_test.hpp"
@@ -1615,10 +1618,10 @@ TYPED_TEST(MathMatrix4x4Test, TupleElementTest)
 	using Matrix4x4 = bksge::math::Matrix4x4<T>;
 	using Vector4 = bksge::math::Vector4<T>;
 
-	static_assert(bksge::is_same<typename std::tuple_element<0, Matrix4x4>::type, Vector4>::value, "");
-	static_assert(bksge::is_same<typename std::tuple_element<1, Matrix4x4>::type, Vector4>::value, "");
-	static_assert(bksge::is_same<typename std::tuple_element<2, Matrix4x4>::type, Vector4>::value, "");
-	static_assert(bksge::is_same<typename std::tuple_element<3, Matrix4x4>::type, Vector4>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<0, Matrix4x4>::type, Vector4>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<1, Matrix4x4>::type, Vector4>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<2, Matrix4x4>::type, Vector4>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<3, Matrix4x4>::type, Vector4>::value, "");
 }
 
 TYPED_TEST(MathMatrix4x4Test, TupleGetTest)
@@ -1670,7 +1673,7 @@ TYPED_TEST(MathMatrix4x4Test, TupleSizeTest)
 	using T = TypeParam;
 	using Matrix4x4 = bksge::math::Matrix4x4<T>;
 
-	static_assert(std::tuple_size<Matrix4x4>::value == 4, "");
+	static_assert(bksge::tuple_size<Matrix4x4>::value == 4, "");
 }
 
 TYPED_TEST(MathMatrix4x4Test, ZeroTest)
@@ -3160,9 +3163,9 @@ TYPED_TEST(MathMatrix4x4FloatTest, DecomposeTest)
 		const Matrix4x4 m = Matrix4x4::Compose(trans_expected, scale_expected, rotation_expected);
 
 		auto const t = Matrix4x4::Decompose(m);
-		auto const trans    = std::get<0>(t);
-		auto const scale    = std::get<1>(t);
-		auto const rotation = std::get<2>(t);
+		auto const trans    = bksge::get<0>(t);
+		auto const scale    = bksge::get<1>(t);
+		auto const rotation = bksge::get<2>(t);
 
 		EXPECT_EQ(trans_expected,    trans);
 		EXPECT_EQ(scale_expected,    scale);
@@ -3180,7 +3183,7 @@ TYPED_TEST(MathMatrix4x4FloatTest, DecomposeTest)
 		Vector3 trans;
 		Scale3 scale;
 		Matrix3x3 rotation;
-		std::tie(trans, scale, rotation) = Matrix4x4::Decompose(m);
+		bksge::tie(trans, scale, rotation) = Matrix4x4::Decompose(m);
 
 		EXPECT_EQ(trans_expected,    trans);
 		EXPECT_EQ(scale_expected,    scale);

@@ -10,7 +10,6 @@
 #include <bksge/fnd/tuple/tuple.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
-#include <tuple>
 
 namespace bksge_tuple_test
 {
@@ -38,7 +37,6 @@ void TupleHeadTypeTest()
 GTEST_TEST(TupleTest, TupleHeadTypeTest)
 {
 	TupleHeadTypeTest<bksge::tuple>();
-	TupleHeadTypeTest<std::tuple>();
 	TupleHeadTypeTest<MyTuple>();
 }
 

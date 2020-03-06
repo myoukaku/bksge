@@ -13,9 +13,10 @@
 #include <bksge/core/math/matrix3x3.hpp>
 #include <bksge/core/math/vector.hpp>
 #include <bksge/core/math/scale.hpp>
+#include <bksge/fnd/tuple/tuple.hpp>
+#include <bksge/fnd/tuple/make_tuple.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cmath>
-#include <tuple>
 
 namespace bksge
 {
@@ -260,9 +261,9 @@ decompose_impl_2(
 	Vector<T, 3> const& m2,
 	Vector<T, 3> const& t,
 	Scale<T, 3> const& s) BKSGE_NOEXCEPT
--> std::tuple<Vector<T, 3>, Scale<T, 3>, Matrix<T, 3, 3>>
+-> bksge::tuple<Vector<T, 3>, Scale<T, 3>, Matrix<T, 3, 3>>
 {
-	return std::make_tuple(
+	return bksge::make_tuple(
 		t,
 		s,
 		Matrix<T, 3, 3>
@@ -282,7 +283,7 @@ decompose_impl(
 	Vector<T, 3> const& m1,
 	Vector<T, 3> const& m2,
 	Vector<T, 3> const& m3) BKSGE_NOEXCEPT
--> std::tuple<Vector<T, 3>, Scale<T, 3>, Matrix<T, 3, 3>>
+-> bksge::tuple<Vector<T, 3>, Scale<T, 3>, Matrix<T, 3, 3>>
 {
 	return decompose_impl_2(
 		m0,
@@ -301,7 +302,7 @@ decompose_impl(
 template <typename T>
 inline BKSGE_CONSTEXPR auto
 Matrix<T, 4, 4>::Decompose(Matrix<T, 4, 4> const& mat) BKSGE_NOEXCEPT
--> std::tuple<Vector<T, 3>, Scale<T, 3>, Matrix<T, 3, 3>>
+-> bksge::tuple<Vector<T, 3>, Scale<T, 3>, Matrix<T, 3, 3>>
 {
 	return detail::decompose_impl(
 		Determinant(mat),

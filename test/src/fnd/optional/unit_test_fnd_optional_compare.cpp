@@ -8,10 +8,10 @@
 
 #include <bksge/fnd/optional/optional.hpp>
 #include <bksge/fnd/optional/nullopt.hpp>
+#include <bksge/fnd/tuple/tie.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
-#include <tuple>
 #include "constexpr_test.hpp"
 
 #if defined(_MSC_VER)
@@ -39,7 +39,7 @@ struct value_type
 inline BKSGE_CXX14_CONSTEXPR bool
 operator==(value_type const& lhs, value_type const& rhs)
 {
-	return std::tie(lhs.i, lhs.f) == std::tie(rhs.i, rhs.f);
+	return bksge::tie(lhs.i, lhs.f) == bksge::tie(rhs.i, rhs.f);
 }
 
 inline BKSGE_CXX14_CONSTEXPR bool
@@ -51,7 +51,7 @@ operator!=(value_type const& lhs, value_type const& rhs)
 inline BKSGE_CXX14_CONSTEXPR bool
 operator<(value_type const& lhs, value_type const& rhs)
 {
-	return std::tie(lhs.i, lhs.f) < std::tie(rhs.i, rhs.f);
+	return bksge::tie(lhs.i, lhs.f) < bksge::tie(rhs.i, rhs.f);
 }
 
 inline BKSGE_CXX14_CONSTEXPR bool

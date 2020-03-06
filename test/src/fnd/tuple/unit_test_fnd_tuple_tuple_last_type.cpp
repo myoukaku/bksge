@@ -7,9 +7,9 @@
  */
 
 #include <bksge/fnd/tuple/tuple_last_type.hpp>
+#include <bksge/fnd/tuple/tuple.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <gtest/gtest.h>
-#include <tuple>
 #include "my_tuple.hpp"
 
 namespace bksge_tuple_test
@@ -33,7 +33,7 @@ void TupleLastTypeTest()
 
 GTEST_TEST(TupleTest, TupleLastTypeTest)
 {
-	TupleLastTypeTest<std::tuple>();
+	TupleLastTypeTest<bksge::tuple>();
 	TupleLastTypeTest<MyTuple>();
 }
 

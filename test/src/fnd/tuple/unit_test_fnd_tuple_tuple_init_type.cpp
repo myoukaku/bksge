@@ -7,9 +7,9 @@
  */
 
 #include <bksge/fnd/tuple/tuple_init_type.hpp>
+#include <bksge/fnd/tuple/tuple.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <gtest/gtest.h>
-#include <tuple>
 #include "my_tuple.hpp"
 
 namespace bksge_tuple_test
@@ -62,7 +62,7 @@ void TupleInitTypeTest()
 
 GTEST_TEST(TupleTest, TupleInitTypeTest)
 {
-	TupleInitTypeTest<std::tuple>();
+	TupleInitTypeTest<bksge::tuple>();
 	TupleInitTypeTest<MyTuple>();
 }
 

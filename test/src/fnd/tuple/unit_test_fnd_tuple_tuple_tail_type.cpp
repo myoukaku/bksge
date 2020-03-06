@@ -8,9 +8,9 @@
 
 #include <bksge/fnd/tuple/tuple_tail_type.hpp>
 #include <bksge/fnd/tuple/tuple.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
-#include <tuple>
 
 namespace bksge_tuple_test
 {
@@ -68,7 +68,6 @@ void TupleTailTypeTest()
 GTEST_TEST(TupleTest, TupleTailTypeTest)
 {
 	TupleTailTypeTest<bksge::tuple>();
-	TupleTailTypeTest<std::tuple>();
 	TupleTailTypeTest<MyTuple>();
 }
 
