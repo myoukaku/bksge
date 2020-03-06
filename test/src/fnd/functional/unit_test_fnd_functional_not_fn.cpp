@@ -23,6 +23,7 @@
 
 BKSGE_WARNING_PUSH()
 BKSGE_WARNING_DISABLE_CLANG("-Wunneeded-internal-declaration")
+BKSGE_WARNING_DISABLE_MSVC(4702)	// 制御が渡らないコードです。
 
 namespace bksge_functional_not_fn_test
 {
