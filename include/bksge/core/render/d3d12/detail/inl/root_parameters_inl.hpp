@@ -15,7 +15,7 @@
 #include <bksge/core/render/d3d12/detail/root_parameters.hpp>
 #include <bksge/core/render/d3d12/detail/hlsl_shader.hpp>
 #include <bksge/core/render/d3d_common/d3d12.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {

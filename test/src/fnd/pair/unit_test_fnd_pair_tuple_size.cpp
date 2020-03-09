@@ -8,7 +8,7 @@
 
 #include <bksge/fnd/pair/pair.hpp>
 #include <bksge/fnd/pair/tuple_size.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 #include <string>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -23,7 +23,7 @@ GTEST_TEST(PairTest, TupleSizeTest)
 	BKSGE_PAIR_TUPLE_SIZE_TEST(float, int);
 	BKSGE_PAIR_TUPLE_SIZE_TEST(double, double);
 	BKSGE_PAIR_TUPLE_SIZE_TEST(int, std::string);
-	BKSGE_PAIR_TUPLE_SIZE_TEST(std::string, std::vector<float>);
+	BKSGE_PAIR_TUPLE_SIZE_TEST(std::string, bksge::vector<float>);
 
 #undef BKSGE_PAIR_TUPLE_SIZE_TEST
 }

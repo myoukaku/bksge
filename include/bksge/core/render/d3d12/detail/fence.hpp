@@ -14,7 +14,7 @@
 #include <bksge/core/render/d3d12/detail/fwd/command_queue_fwd.hpp>
 #include <bksge/core/render/d3d_common/d3d12.hpp>
 #include <bksge/core/render/d3d_common/com_ptr.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -44,7 +44,7 @@ private:
 
 private:
 	ComPtr<ID3D12FenceN>	m_fence;
-	std::vector<::UINT64>	m_values;
+	bksge::vector<::UINT64>	m_values;
 	::HANDLE				m_event;
 };
 

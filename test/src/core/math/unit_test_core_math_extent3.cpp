@@ -1039,7 +1039,7 @@ TYPED_TEST(MathExtent3Test, HashTest)
 	Extent3 const c4(1, 2, 2);
 	Extent3 const c5(3, 2, 1);
 
-	std::vector<bksge::size_t> v;
+	bksge::vector<bksge::size_t> v;
 	v.push_back(h(c1));
 	v.push_back(h(c2));
 	v.push_back(h(c3));

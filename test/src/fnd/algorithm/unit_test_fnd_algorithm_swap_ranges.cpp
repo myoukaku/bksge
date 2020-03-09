@@ -12,7 +12,7 @@
 #include <gtest/gtest.h>
 #include <array>
 #include <list>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge_algorithm_test
 {
@@ -26,8 +26,8 @@ GTEST_TEST(AlgorithmTest, SwapRangesTest)
 	int a2[] = {4, 5, 6};
 	std::array<int, 3> a3 {{ 7, 8, 9}};
 	std::array<int, 3> a4 {{10,11,12}};
-	std::vector<int> v1{13,14,15};
-	std::vector<int> v2{16,17,18};
+	bksge::vector<int> v1{13,14,15};
+	bksge::vector<int> v2{16,17,18};
 	std::list<int> l1{19,20,21};
 	std::list<int> l2{22,23,24};
 

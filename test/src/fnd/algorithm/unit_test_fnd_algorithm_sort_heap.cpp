@@ -13,7 +13,7 @@
 #include <bksge/fnd/iterator/end.hpp>
 #include <gtest/gtest.h>
 #include <array>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge_algorithm_test
 {
@@ -62,7 +62,7 @@ GTEST_TEST(AlgorithmTest, SortHeapTest)
 		EXPECT_EQ(1, a[5]);
 	}
 	{
-		std::vector<int> a { 5, 4, 1, 1, 3 };
+		bksge::vector<int> a { 5, 4, 1, 1, 3 };
 		bksge::make_heap(bksge::begin(a), bksge::end(a));
 		bksge::sort_heap(bksge::begin(a), bksge::end(a));
 		EXPECT_EQ(1, a[0]);
@@ -72,7 +72,7 @@ GTEST_TEST(AlgorithmTest, SortHeapTest)
 		EXPECT_EQ(5, a[4]);
 	}
 	{
-		std::vector<int> a { 5, 4, 1, 1, 3 };
+		bksge::vector<int> a { 5, 4, 1, 1, 3 };
 		bksge::make_heap(bksge::begin(a), bksge::end(a), bksge::greater<>());
 		bksge::sort_heap(bksge::begin(a), bksge::end(a), bksge::greater<>());
 		EXPECT_EQ(5, a[0]);
@@ -82,7 +82,7 @@ GTEST_TEST(AlgorithmTest, SortHeapTest)
 		EXPECT_EQ(1, a[4]);
 	}
 	{
-		std::vector<int> a;
+		bksge::vector<int> a;
 		bksge::sort_heap(bksge::begin(a), bksge::end(a));
 		EXPECT_TRUE(a.empty());
 	}

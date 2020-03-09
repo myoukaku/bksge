@@ -12,7 +12,7 @@
 #include <gtest/gtest.h>
 #include <sstream>
 #include <functional>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 #include "serialize_test.hpp"
 
 GTEST_TEST(Render_RenderPassInfo, DefaultCtorTest)
@@ -149,7 +149,7 @@ GTEST_TEST(Render_RenderPassInfo, HashTest)
 	s3.scissor_state().SetEnable(true);
 	s4.viewport().SetMaxDepth(10);
 
-	std::vector<bksge::size_t> v;
+	bksge::vector<bksge::size_t> v;
 	v.push_back(h(s1));
 	v.push_back(h(s2));
 	v.push_back(h(s3));

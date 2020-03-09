@@ -12,7 +12,7 @@
 #include <gtest/gtest.h>
 #include <array>
 #include <list>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 #include "constexpr_test.hpp"
 
 namespace bksge_algorithm_test
@@ -86,7 +86,7 @@ GTEST_TEST(AlgorithmTest, FindTest)
 		EXPECT_EQ(20, a[2]);
 	}
 	{
-		const std::vector<int> a {7, 8, 9};
+		const bksge::vector<int> a {7, 8, 9};
 		{
 			auto it = bksge::find(bksge::begin(a), bksge::end(a), 7);
 			EXPECT_TRUE(it == bksge::begin(a));

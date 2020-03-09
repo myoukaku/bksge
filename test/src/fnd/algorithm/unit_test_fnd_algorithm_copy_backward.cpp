@@ -13,7 +13,7 @@
 #include <gtest/gtest.h>
 #include <array>
 #include <list>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge_algorithm_test
 {
@@ -48,7 +48,7 @@ GTEST_TEST(AlgorithmTest, CopyBackwardTest)
 		EXPECT_TRUE(it == bksge::begin(a2) + 2);
 	}
 	{
-		std::vector<int> v{ 1, 2, 3, 4, 5 };
+		bksge::vector<int> v{ 1, 2, 3, 4, 5 };
 
 		auto it = bksge::copy_backward(bksge::begin(v), bksge::begin(v) + 3, bksge::end(v));
 
@@ -60,7 +60,7 @@ GTEST_TEST(AlgorithmTest, CopyBackwardTest)
 		EXPECT_TRUE(it == bksge::begin(v) + 2);
 	}
 	{
-		const std::vector<int> v{ 1, 2, 3, 4, 5 };
+		const bksge::vector<int> v{ 1, 2, 3, 4, 5 };
 		std::list<int> l{ 6, 7, 8, 9 };
 
 		{

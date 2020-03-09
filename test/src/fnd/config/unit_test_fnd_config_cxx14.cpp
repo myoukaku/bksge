@@ -10,7 +10,7 @@
 #include <bksge/fnd/utility/move.hpp>
 #include <gtest/gtest.h>
 #include <utility>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 #include <array>
 
 BKSGE_WARNING_PUSH()
@@ -77,7 +77,7 @@ GTEST_TEST(ConfigTest, Cxx14InitCapturesTest)
 		EXPECT_EQ(6, result);
 	}
 	{
-		std::vector<int> v;
+		bksge::vector<int> v;
 		auto f = [x = bksge::move(v)]{};
 	}
 	{

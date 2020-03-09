@@ -12,8 +12,8 @@
 #include <bksge/core/render/gl/detail/fwd/texture_fwd.hpp>
 #include <bksge/core/render/gl/detail/fwd/render_buffer_fwd.hpp>
 #include <bksge/core/render/gl/detail/gl_h.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <memory>
-#include <vector>
 
 namespace bksge
 {
@@ -51,8 +51,8 @@ private:
 	FrameBuffer& operator=(FrameBuffer const&) = delete;
 
 private:
-	::GLuint					m_id;
-	std::vector<TextureShared>	m_color_buffers;
+	::GLuint						m_id;
+	bksge::vector<TextureShared>	m_color_buffers;
 };
 
 }	// namespace gl

@@ -28,7 +28,7 @@
 #include <bksge/core/render/fwd/texture_fwd.hpp>
 #include <bksge/core/render/fwd/sampler_fwd.hpp>
 #include <memory>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {

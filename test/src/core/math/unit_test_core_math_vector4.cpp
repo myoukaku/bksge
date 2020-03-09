@@ -1453,7 +1453,7 @@ TYPED_TEST(MathVector4Test, HashTest)
 	Vector4 const c4(1, 2, 2, 4);
 	Vector4 const c5(1, 2, 3, 0);
 
-	std::vector<bksge::size_t> v;
+	bksge::vector<bksge::size_t> v;
 	v.push_back(h(c1));
 	v.push_back(h(c2));
 	v.push_back(h(c3));

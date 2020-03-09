@@ -15,7 +15,7 @@
 #include <array>
 #include <iterator>
 #include <list>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge_algorithm_test
 {
@@ -45,7 +45,7 @@ GTEST_TEST(AlgorithmTest, SetUnionTest)
 	}
 	{
 		const std::array<int, 4> a {{ 6, 4, 2, 0 }};
-		const std::vector<int> b { 5, 3, 1 };
+		const bksge::vector<int> b { 5, 3, 1 };
 		std::list<int> c;
 		auto ret = bksge::set_union(
 			bksge::begin(a), bksge::end(a),
@@ -68,7 +68,7 @@ GTEST_TEST(AlgorithmTest, SetUnionTest)
 	{
 		const std::list<int> a { 5, 6, 7 };
 		const int b[] { 1, 2, 3 };
-		std::vector<int> c;
+		bksge::vector<int> c;
 		auto ret = bksge::set_union(
 			bksge::begin(a), bksge::end(a),
 			bksge::begin(b), bksge::end(b),
@@ -85,9 +85,9 @@ GTEST_TEST(AlgorithmTest, SetUnionTest)
 		EXPECT_EQ(7, c[5]);
 	}
 	{
-		const std::vector<int> a;
+		const bksge::vector<int> a;
 		const std::list<int> b;
-		std::vector<int> c;
+		bksge::vector<int> c;
 		auto ret = bksge::set_union(
 			bksge::begin(a), bksge::end(a),
 			bksge::begin(b), bksge::end(b),

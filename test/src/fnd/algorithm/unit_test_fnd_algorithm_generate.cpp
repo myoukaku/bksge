@@ -12,7 +12,7 @@
 #include <gtest/gtest.h>
 #include <array>
 #include <list>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 #include "constexpr_test.hpp"
 
 namespace bksge_algorithm_test
@@ -69,7 +69,7 @@ GTEST_TEST(AlgorithmTest, GenerateTest)
 		EXPECT_EQ(13, a[5]);
 	}
 	{
-		std::vector<int> a(3);
+		bksge::vector<int> a(3);
 		bksge::generate(bksge::begin(a), bksge::end(a), pred3);
 		EXPECT_EQ(42, a[0]);
 		EXPECT_EQ(42, a[1]);

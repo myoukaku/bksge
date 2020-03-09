@@ -20,9 +20,9 @@
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/fwd/shader_fwd.hpp>
 #include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <memory>
 #include <string>
-#include <vector>
 
 namespace bksge
 {
@@ -42,7 +42,7 @@ public:
 
 	~Shader();
 
-	std::vector<::VkPipelineShaderStageCreateInfo> const& GetStages(void) const;
+	bksge::vector<::VkPipelineShaderStageCreateInfo> const& GetStages(void) const;
 
 	vulkan::DescriptorSetLayout const& GetDescriptorSetLayout(void) const;
 
@@ -53,13 +53,13 @@ public:
 		vulkan::UniformBuffer* uniform_buffer,
 		vulkan::ResourcePool* resource_pool);
 
-	std::vector<::VkWriteDescriptorSet> GetWriteDescriptorSets(void) const;
+	bksge::vector<::VkWriteDescriptorSet> GetWriteDescriptorSets(void) const;
 
 private:
 	void AddShaderStage(
 		::VkShaderStageFlagBits stage,
 		char const* name,
-		std::vector<unsigned int> const& spv);
+		bksge::vector<unsigned int> const& spv);
 
 private:
 	// noncopyable
@@ -67,11 +67,11 @@ private:
 	Shader& operator=(Shader const&) = delete;
 
 private:
-	vulkan::DeviceSharedPtr						m_device;
-	std::vector<::VkPipelineShaderStageCreateInfo>		m_shader_stages;
-	std::vector<vulkan::UniformBufferSetterUniquePtr>	m_uniform_buffer_setter;
-	std::vector<vulkan::CombinedImageSamplerSetterUniquePtr>	m_combined_image_sampler_setter;
-	vulkan::DescriptorSetLayoutUniquePtr		m_descriptor_set_layout;
+	vulkan::DeviceSharedPtr										m_device;
+	bksge::vector<::VkPipelineShaderStageCreateInfo>			m_shader_stages;
+	bksge::vector<vulkan::UniformBufferSetterUniquePtr>			m_uniform_buffer_setter;
+	bksge::vector<vulkan::CombinedImageSamplerSetterUniquePtr>	m_combined_image_sampler_setter;
+	vulkan::DescriptorSetLayoutUniquePtr						m_descriptor_set_layout;
 };
 
 }	// namespace vulkan

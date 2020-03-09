@@ -12,7 +12,7 @@
 #include <gtest/gtest.h>
 #include <sstream>
 #include <functional>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 #include "serialize_test.hpp"
 
 GTEST_TEST(Render_DepthState, DefaultCtorTest)
@@ -145,7 +145,7 @@ GTEST_TEST(Render_DepthState, HashTest)
 	s3.SetWrite(true);
 	s4.SetFunc(bksge::ComparisonFunction::kGreater);
 
-	std::vector<bksge::size_t> v;
+	bksge::vector<bksge::size_t> v;
 	v.push_back(h(s1));
 	v.push_back(h(s2));
 	v.push_back(h(s3));

@@ -17,7 +17,7 @@
 #include <bksge/core/render/d3d_common/com_ptr.hpp>
 #include <bksge/core/render/d3d_common/throw_if_failed.hpp>
 #include <bksge/fnd/utility/move.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -40,10 +40,10 @@ DXGIFactory::~DXGIFactory()
 {
 }
 
-BKSGE_INLINE std::vector<ComPtr<IDXGIAdapterN>>
+BKSGE_INLINE bksge::vector<ComPtr<IDXGIAdapterN>>
 DXGIFactory::EnumAdapters(void)
 {
-	std::vector<ComPtr<IDXGIAdapterN>> result;
+	bksge::vector<ComPtr<IDXGIAdapterN>> result;
 
 	ComPtr<IDXGIAdapter1> adapter;
 

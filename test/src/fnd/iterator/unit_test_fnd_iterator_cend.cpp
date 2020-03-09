@@ -9,14 +9,14 @@
 #include <bksge/fnd/iterator/cend.hpp>
 #include <bksge/fnd/iterator/cbegin.hpp>
 #include <array>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
 GTEST_TEST(IteratorTest, CEndTest)
 {
 	BKSGE_STATIC_CONSTEXPR int a[] = {0,1,2};
-	std::vector<float> v {3,1,4,1,5};
+	bksge::vector<float> v {3,1,4,1,5};
 	std::array<float, 2> a2{{0.5f, 1.5f}};
 
 	{

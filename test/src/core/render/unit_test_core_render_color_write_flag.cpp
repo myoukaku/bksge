@@ -12,7 +12,7 @@
 #include <gtest/gtest.h>
 #include <sstream>
 #include <functional>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 #include "constexpr_test.hpp"
 #include "serialize_test.hpp"
 
@@ -248,7 +248,7 @@ GTEST_TEST(Render_ColorWriteFlag, SerializeTest)
 GTEST_TEST(Render_ColorWriteFlag, HashTest)
 {
 	std::hash<bksge::ColorWriteFlag> h;
-	std::vector<bksge::size_t> v;
+	bksge::vector<bksge::size_t> v;
 	v.push_back(h(bksge::ColorWriteFlag::kNone));
 	v.push_back(h(bksge::ColorWriteFlag::kRed));
 	v.push_back(h(bksge::ColorWriteFlag::kGreen));

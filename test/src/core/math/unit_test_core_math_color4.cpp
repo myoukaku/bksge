@@ -21,11 +21,11 @@
 #include <bksge/fnd/algorithm/sort.hpp>
 #include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <sstream>
 #include <stdexcept>
 #include <tuple>
 #include <functional>
-#include <vector>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 #include "serialize_test.hpp"
@@ -1381,7 +1381,7 @@ TYPED_TEST(MathColor4Test, HashTest)
 	Color4 const c4(1, 2, 2, 4);
 	Color4 const c5(1, 2, 3, 0);
 
-	std::vector<bksge::size_t> v;
+	bksge::vector<bksge::size_t> v;
 	v.push_back(h(c1));
 	v.push_back(h(c2));
 	v.push_back(h(c3));

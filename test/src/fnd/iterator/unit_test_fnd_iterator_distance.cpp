@@ -10,7 +10,7 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/config.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 #include <list>
 #include <array>
 #include <gtest/gtest.h>
@@ -32,11 +32,11 @@ GTEST_TEST(IteratorTest, DistanceTest)
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(3, d);
 	}
 	{
-		std::vector<float> v {3,1,4,1,5};
+		bksge::vector<float> v {3,1,4,1,5};
 		EXPECT_EQ(5, bksge::distance(bksge::begin(v), bksge::end(v)));
 	}
 	{
-		const std::vector<float> v {3,1,4,1,5};
+		const bksge::vector<float> v {3,1,4,1,5};
 		EXPECT_EQ(5, bksge::distance(bksge::begin(v), bksge::end(v)));
 	}
 	{

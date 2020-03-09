@@ -13,7 +13,7 @@
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 #include <string>
 
 namespace bksge
@@ -40,14 +40,14 @@ struct ShaderReflectionUniform
 	::VkDescriptorType		descriptor_type;
 	bksge::size_t			bytes;
 	::VkShaderStageFlags	stage_flags;
-	std::vector<Member>		members;
+	bksge::vector<Member>	members;
 };
 
 class ShaderReflection
 {
 public:
 	explicit ShaderReflection(
-		std::vector<std::vector<unsigned int>> const& spv_list);
+		bksge::vector<bksge::vector<unsigned int>> const& spv_list);
 
 	~ShaderReflection();
 
@@ -55,7 +55,7 @@ public:
 
 	bksge::uint32_t GetUniformCount(::VkDescriptorType descriptor_type) const;
 
-	using Uniforms = std::vector<ShaderReflectionUniform>;
+	using Uniforms = bksge::vector<ShaderReflectionUniform>;
 
 	Uniforms const& GetUniforms(void) const;
 

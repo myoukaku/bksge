@@ -14,7 +14,7 @@
 #include <gtest/gtest.h>
 #include <array>
 #include <list>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 #include "constexpr_test.hpp"
 
 namespace bksge_algorithm_test
@@ -74,7 +74,7 @@ GTEST_TEST(AlgorithmTest, ForEachNTest)
 		EXPECT_TRUE(i == bksge::next(bksge::begin(a), 4));
 	}
 	{
-		std::vector<int> v { 1, 2, 3 };
+		bksge::vector<int> v { 1, 2, 3 };
 		auto i = bksge::for_each_n(bksge::begin(v), v.size(), [](int& x) { x *= 2; });
 		EXPECT_EQ(2, v[0]);
 		EXPECT_EQ(4, v[1]);
@@ -82,7 +82,7 @@ GTEST_TEST(AlgorithmTest, ForEachNTest)
 		EXPECT_TRUE(i == bksge::end(v));
 	}
 	{
-		std::vector<int> v { 1, 2, 3 };
+		bksge::vector<int> v { 1, 2, 3 };
 		auto i = bksge::for_each_n(bksge::begin(v), 1, [](int& x) { x *= 2; });
 		EXPECT_EQ(2, v[0]);
 		EXPECT_EQ(2, v[1]);

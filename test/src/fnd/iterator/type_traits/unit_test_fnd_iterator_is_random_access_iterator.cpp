@@ -9,7 +9,7 @@
 #include <bksge/fnd/iterator/type_traits/is_random_access_iterator.hpp>
 #include <iterator>
 #include <array>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 #include <list>
 #include <deque>
 #include <string>
@@ -48,10 +48,10 @@ GTEST_TEST(IteratorTest, IsRandomAccessIteratorTest)
 	static_assert(bksge::is_random_access_iterator<const          UDT*>::value                          == true, "");
 	static_assert(bksge::is_random_access_iterator<      volatile UDT*>::value                          == true, "");
 	static_assert(bksge::is_random_access_iterator<const volatile UDT*>::value                          == true, "");
-	static_assert(bksge::is_random_access_iterator<std::vector<int>::iterator>::value                   == true, "");
-	static_assert(bksge::is_random_access_iterator<std::vector<int>::const_iterator>::value             == true, "");
-	static_assert(bksge::is_random_access_iterator<std::vector<int>::reverse_iterator>::value           == true, "");
-	static_assert(bksge::is_random_access_iterator<std::vector<int>::const_reverse_iterator>::value     == true, "");
+	static_assert(bksge::is_random_access_iterator<bksge::vector<int>::iterator>::value                   == true, "");
+	static_assert(bksge::is_random_access_iterator<bksge::vector<int>::const_iterator>::value             == true, "");
+	static_assert(bksge::is_random_access_iterator<bksge::vector<int>::reverse_iterator>::value           == true, "");
+	static_assert(bksge::is_random_access_iterator<bksge::vector<int>::const_reverse_iterator>::value     == true, "");
 	static_assert(bksge::is_random_access_iterator<std::deque<UDT>::iterator>::value                    == true, "");
 	static_assert(bksge::is_random_access_iterator<std::deque<UDT>::const_iterator>::value              == true, "");
 	static_assert(bksge::is_random_access_iterator<std::deque<UDT>::reverse_iterator>::value            == true, "");
@@ -70,9 +70,9 @@ GTEST_TEST(IteratorTest, IsRandomAccessIteratorTest)
 	static_assert(bksge::is_random_access_iterator<std::array<int, 3>::const_reverse_iterator>::value   == true, "");
 	static_assert(bksge::is_random_access_iterator<std::istream_iterator<int>>::value                   == false, "");
 	static_assert(bksge::is_random_access_iterator<std::ostream_iterator<int>>::value                   == false, "");
-	static_assert(bksge::is_random_access_iterator<std::back_insert_iterator<std::vector<int>>>::value  == false, "");
-	static_assert(bksge::is_random_access_iterator<std::front_insert_iterator<std::vector<int>>>::value == false, "");
-	static_assert(bksge::is_random_access_iterator<std::insert_iterator<std::vector<int>>>::value       == false, "");
+	static_assert(bksge::is_random_access_iterator<std::back_insert_iterator<bksge::vector<int>>>::value  == false, "");
+	static_assert(bksge::is_random_access_iterator<std::front_insert_iterator<bksge::vector<int>>>::value == false, "");
+	static_assert(bksge::is_random_access_iterator<std::insert_iterator<bksge::vector<int>>>::value       == false, "");
 	static_assert(bksge::is_random_access_iterator<std::regex_iterator<std::string::iterator>>::value   == false, "");
 }
 

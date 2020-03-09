@@ -14,7 +14,7 @@
 #include <array>
 #include <iterator>
 #include <list>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge_algorithm_test
 {
@@ -80,7 +80,7 @@ GTEST_TEST(AlgorithmTest, TransformTest)
 	}
 	// vector => array
 	{
-		const std::vector<int> v1 { 1, 2, 3 };
+		const bksge::vector<int> v1 { 1, 2, 3 };
 		std::array<int, 3> a1;
 		auto const it = bksge::transform(
 			bksge::begin(v1), bksge::end(v1), bksge::begin(a1), Doubling());
@@ -93,7 +93,7 @@ GTEST_TEST(AlgorithmTest, TransformTest)
 	}
 	// vector => int[4]
 	{
-		const std::vector<int> v1 { 1, 2, 3 };
+		const bksge::vector<int> v1 { 1, 2, 3 };
 		int a1[4]{};
 		auto const it = bksge::transform(
 			bksge::begin(v1), bksge::end(v1), bksge::begin(a1), Doubling());
@@ -107,8 +107,8 @@ GTEST_TEST(AlgorithmTest, TransformTest)
 	}
 	// vector => vector
 	{
-		const std::vector<int> v1 { 1, 2, 3 };
-		std::vector<int> v2 { 10, 11, 12, 13, 14 };
+		const bksge::vector<int> v1 { 1, 2, 3 };
+		bksge::vector<int> v2 { 10, 11, 12, 13, 14 };
 		auto const it = bksge::transform(
 			bksge::begin(v1), bksge::end(v1), bksge::begin(v2), Doubling());
 
@@ -122,8 +122,8 @@ GTEST_TEST(AlgorithmTest, TransformTest)
 	}
 	// vector => vector (back_inserter)
 	{
-		const std::vector<int> v1 { 1, 2, 3 };
-		std::vector<int> v2;
+		const bksge::vector<int> v1 { 1, 2, 3 };
+		bksge::vector<int> v2;
 		auto const it = bksge::transform(
 			bksge::begin(v1), bksge::end(v1), std::back_inserter(v2), Doubling());
 
@@ -136,7 +136,7 @@ GTEST_TEST(AlgorithmTest, TransformTest)
 	}
 	// vector => list (back_inserter)
 	{
-		const std::vector<int> v1 { 1, 2, 3 };
+		const bksge::vector<int> v1 { 1, 2, 3 };
 		std::list<int> l1;
 		bksge::transform(
 			bksge::begin(v1), bksge::end(v1), std::back_inserter(l1), Doubling());
@@ -150,7 +150,7 @@ GTEST_TEST(AlgorithmTest, TransformTest)
 	// float[] => vector<int> (back_inserter)
 	{
 		const float a1[] {1.5, 2.5};
-		std::vector<int> v1;
+		bksge::vector<int> v1;
 		auto const it = bksge::transform(
 			bksge::begin(a1), bksge::end(a1), std::back_inserter(v1), to_int);
 
@@ -178,9 +178,9 @@ GTEST_TEST(AlgorithmTest, TransformTest)
 
 	// vector, vector => vector
 	{
-		const std::vector<int> v1 { 1, 2, 3 };
-		const std::vector<int> v2 { 4, 5, 6 };
-		std::vector<int> v3 (3);
+		const bksge::vector<int> v1 { 1, 2, 3 };
+		const bksge::vector<int> v2 { 4, 5, 6 };
+		bksge::vector<int> v3 (3);
 		auto const it = bksge::transform(
 			bksge::begin(v1), bksge::end(v1),
 			bksge::begin(v2), bksge::end(v2),
@@ -195,8 +195,8 @@ GTEST_TEST(AlgorithmTest, TransformTest)
 
 	// vector, vector => vector (self assign)
 	{
-		std::vector<int> v1 { 1, 2, 3 };
-		const std::vector<int> v2 { 4, 5, 6 };
+		bksge::vector<int> v1 { 1, 2, 3 };
+		const bksge::vector<int> v2 { 4, 5, 6 };
 		auto const it = bksge::transform(
 			bksge::begin(v1), bksge::end(v1),
 			bksge::begin(v2), bksge::end(v2),
@@ -211,8 +211,8 @@ GTEST_TEST(AlgorithmTest, TransformTest)
 
 	// vector, vector => array
 	{
-		const std::vector<int> v1 { 1, 2, 3, 4 };
-		const std::vector<int> v2 { 4, 5, 6 };
+		const bksge::vector<int> v1 { 1, 2, 3, 4 };
+		const bksge::vector<int> v2 { 4, 5, 6 };
 		std::array<int, 4> a1{{}};
 		auto const it = bksge::transform(
 			bksge::begin(v1), bksge::end(v1),
@@ -229,8 +229,8 @@ GTEST_TEST(AlgorithmTest, TransformTest)
 
 	// vector, vector => int[]
 	{
-		const std::vector<int> v1 { 1, 2, 3 };
-		const std::vector<int> v2 { 4, 5, 6, 7 };
+		const bksge::vector<int> v1 { 1, 2, 3 };
+		const bksge::vector<int> v2 { 4, 5, 6, 7 };
 		int a1[5] {};
 		auto const it = bksge::transform(
 			bksge::begin(v1), bksge::end(v1),
@@ -248,8 +248,8 @@ GTEST_TEST(AlgorithmTest, TransformTest)
 
 	// vector, vector => list
 	{
-		const std::vector<int> v1 { 1, 2, 3, 4 };
-		const std::vector<int> v2 { 4, 5, 6, 7 };
+		const bksge::vector<int> v1 { 1, 2, 3, 4 };
+		const bksge::vector<int> v2 { 4, 5, 6, 7 };
 		std::list<int> l1;
 		bksge::transform(
 			bksge::begin(v1), bksge::end(v1),
@@ -267,7 +267,7 @@ GTEST_TEST(AlgorithmTest, TransformTest)
 
 	// vector, array  => int[]
 	{
-		const std::vector<int> v1 { 1, 2, 3, 4 };
+		const bksge::vector<int> v1 { 1, 2, 3, 4 };
 		const std::array<int, 3> a1 {{ 4, 5, 6 }};
 		int a2[3];
 		auto const it = bksge::transform(
@@ -284,7 +284,7 @@ GTEST_TEST(AlgorithmTest, TransformTest)
 	// list,   vector => array
 	{
 		const std::list<int>   l1 { 10, 11, 12 };
-		const std::vector<int> v1 { 13, 14, 15, 16 };
+		const bksge::vector<int> v1 { 13, 14, 15, 16 };
 		std::array<int, 3> a1;
 		auto const it = bksge::transform(
 			bksge::begin(l1), bksge::end(l1),
@@ -301,7 +301,7 @@ GTEST_TEST(AlgorithmTest, TransformTest)
 	// int[],  vector => list
 	{
 		const int a1[] = { 17, 18, 19 };
-		const std::vector<int> v1 { 20, 21, 22 };
+		const bksge::vector<int> v1 { 20, 21, 22 };
 		std::list<int> l1;
 		bksge::transform(
 			bksge::begin(a1), bksge::end(a1),
@@ -319,7 +319,7 @@ GTEST_TEST(AlgorithmTest, TransformTest)
 	// int[],  vector => int[] (self assign)
 	{
 		int a1[] = { 17, 18, 19, 20 };
-		const std::vector<int> v1 { 20, 21, 22 };
+		const bksge::vector<int> v1 { 20, 21, 22 };
 		auto const it = bksge::transform(
 			bksge::begin(a1), bksge::end(a1),
 			bksge::begin(v1), bksge::end(v1),
@@ -335,7 +335,7 @@ GTEST_TEST(AlgorithmTest, TransformTest)
 
 	// vector, array  => array (self assign)
 	{
-		const std::vector<int> v1 { 20, 21, 22 };
+		const bksge::vector<int> v1 { 20, 21, 22 };
 		std::array<int, 3> a1 {{23, 24, 25}};
 		auto const it = bksge::transform(
 			bksge::begin(v1), bksge::end(v1),

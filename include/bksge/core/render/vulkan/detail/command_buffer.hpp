@@ -14,8 +14,8 @@
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <memory>
-#include <vector>
 
 namespace bksge
 {
@@ -52,7 +52,7 @@ public:
 		::VkPipelineBindPoint                      pipeline_bind_point,
 		::VkPipelineLayout                         layout,
 		bksge::uint32_t                            set,
-		std::vector<::VkWriteDescriptorSet> const& descriptor_writes);
+		bksge::vector<::VkWriteDescriptorSet> const& descriptor_writes);
 
 public:
 	operator ::VkCommandBuffer() const;

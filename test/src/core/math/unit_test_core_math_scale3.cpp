@@ -1096,7 +1096,7 @@ TYPED_TEST(MathScale3Test, HashTest)
 	Scale3 const c3(1, 0, 3);
 	Scale3 const c4(1, 2, 2);
 
-	std::vector<bksge::size_t> v;
+	bksge::vector<bksge::size_t> v;
 	v.push_back(h(c1));
 	v.push_back(h(c2));
 	v.push_back(h(c3));

@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	vector.hpp
  *
- *	@brief	std::vector のシリアライズ
+ *	@brief	bksge::vector のシリアライズ
  *
  *	@author	myoukaku
  */
@@ -10,7 +10,7 @@
 #define BKSGE_FND_SERIALIZATION_VECTOR_HPP
 
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -20,7 +20,7 @@ namespace serialization
 
 template <typename Archive, typename T>
 inline void
-save(Archive& ar, std::vector<T> const& t)
+save(Archive& ar, bksge::vector<T> const& t)
 {
 	bksge::size_t const size = t.size();
 	ar << size;
@@ -32,7 +32,7 @@ save(Archive& ar, std::vector<T> const& t)
 
 template <typename Archive, typename T>
 inline void
-load(Archive& ar, std::vector<T>& t)
+load(Archive& ar, bksge::vector<T>& t)
 {
 	bksge::size_t size;
 	ar >> size;

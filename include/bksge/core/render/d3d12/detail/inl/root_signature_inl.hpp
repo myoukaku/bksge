@@ -21,7 +21,7 @@
 #include <bksge/core/render/d3d_common/throw_if_failed.hpp>
 #include <map>
 #include <memory>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 #include <iostream>
 

@@ -15,7 +15,7 @@
 #include <bksge/core/render/vulkan/detail/physical_device.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -33,7 +33,7 @@ PhysicalDevice::PhysicalDevice(::VkPhysicalDevice const& physical_device)
 	vk::GetPhysicalDeviceMemoryProperties(physical_device, &m_memory_properties);
 
 	vk::GetPhysicalDeviceQueueFamilyProperties(physical_device, &m_queue_family_properties_count, nullptr);
-	std::vector<VkQueueFamilyProperties> props(m_queue_family_properties_count);
+	bksge::vector<VkQueueFamilyProperties> props(m_queue_family_properties_count);
 	vk::GetPhysicalDeviceQueueFamilyProperties(physical_device, &m_queue_family_properties_count, props.data());
 
 	for (bksge::uint32_t i = 0; i < m_queue_family_properties_count; ++i)
@@ -81,7 +81,7 @@ PhysicalDevice::GetPresentQueueFamilyIndex(::VkSurfaceKHR surface) const
 }
 
 #if 0
-BKSGE_INLINE std::vector<::VkQueueFamilyProperties>
+BKSGE_INLINE bksge::vector<::VkQueueFamilyProperties>
 PhysicalDevice::GetQueueFamilyProperties()
 {
 	bksge::uint32_t queue_family_count = 0;
@@ -90,7 +90,7 @@ PhysicalDevice::GetQueueFamilyProperties()
 		&queue_family_count,
 		nullptr);
 
-	std::vector<::VkQueueFamilyProperties> queue_family_properties;
+	bksge::vector<::VkQueueFamilyProperties> queue_family_properties;
 	queue_family_properties.resize(queue_family_count);
 	vk::GetPhysicalDeviceQueueFamilyProperties(
 		m_physical_device,
@@ -100,13 +100,13 @@ PhysicalDevice::GetQueueFamilyProperties()
 	return queue_family_properties;
 }
 
-BKSGE_INLINE std::vector<::VkSurfaceFormatKHR>
+BKSGE_INLINE bksge::vector<::VkSurfaceFormatKHR>
 PhysicalDevice::GetSurfaceFormats(::VkSurfaceKHR surface)
 {
 	bksge::uint32_t count;
 	vk::GetPhysicalDeviceSurfaceFormatsKHR(m_physical_device, surface, &count, nullptr);
 
-	std::vector<::VkSurfaceFormatKHR> formats;
+	bksge::vector<::VkSurfaceFormatKHR> formats;
 	formats.resize(count);
 	vk::GetPhysicalDeviceSurfaceFormatsKHR(m_physical_device, surface, &count, formats.data());
 

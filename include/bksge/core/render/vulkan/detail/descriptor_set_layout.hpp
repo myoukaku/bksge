@@ -13,8 +13,8 @@
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/shader_reflection_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <memory>
-#include <vector>
 
 namespace bksge
 {
@@ -34,7 +34,7 @@ public:
 
 	~DescriptorSetLayout();
 
-	std::vector<::VkDescriptorSetLayout> const& GetLayouts(void) const;
+	bksge::vector<::VkDescriptorSetLayout> const& GetLayouts(void) const;
 
 private:
 	// noncopyable
@@ -43,7 +43,7 @@ private:
 
 private:
 	vulkan::DeviceSharedPtr					m_device;
-	std::vector<::VkDescriptorSetLayout>	m_descriptor_set_layout;
+	bksge::vector<::VkDescriptorSetLayout>	m_descriptor_set_layout;
 };
 
 }	// namespace vulkan

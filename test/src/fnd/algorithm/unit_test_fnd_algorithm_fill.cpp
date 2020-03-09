@@ -12,7 +12,7 @@
 #include <gtest/gtest.h>
 #include <array>
 #include <list>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge_algorithm_test
 {
@@ -38,7 +38,7 @@ GTEST_TEST(AlgorithmTest, FillTest)
 		EXPECT_EQ(-1, a[3]);
 	}
 	{
-		std::vector<int> a(5);
+		bksge::vector<int> a(5);
 		bksge::fill(bksge::begin(a), bksge::end(a), 3);
 		EXPECT_EQ(3, a[0]);
 		EXPECT_EQ(3, a[1]);
@@ -47,7 +47,7 @@ GTEST_TEST(AlgorithmTest, FillTest)
 		EXPECT_EQ(3, a[4]);
 	}
 	{
-		std::vector<int> a;
+		bksge::vector<int> a;
 		bksge::fill(bksge::begin(a), bksge::end(a), 3);
 		EXPECT_TRUE(a.empty());
 	}

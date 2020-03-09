@@ -13,7 +13,7 @@
 #include <bksge/fnd/random/engines/xorshift.hpp>
 #include <gtest/gtest.h>
 #include <array>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge_algorithm_test
 {
@@ -38,7 +38,7 @@ GTEST_TEST(AlgorithmTest, ShuffleTest)
 		EXPECT_FALSE(bksge::is_sorted(bksge::begin(a), bksge::end(a)));
 	}
 	{
-		std::vector<int> a{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+		bksge::vector<int> a{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 		EXPECT_TRUE (bksge::is_sorted(bksge::begin(a), bksge::end(a)));
 		bksge::shuffle(bksge::begin(a), bksge::end(a), g);
 		EXPECT_FALSE(bksge::is_sorted(bksge::begin(a), bksge::end(a)));

@@ -13,6 +13,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/shader_reflection_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <memory>
 
 namespace bksge
@@ -34,11 +35,11 @@ public:
 	~DescriptorPool();
 
 	void AllocateDescriptorSets(
-		std::vector<::VkDescriptorSetLayout> const& descriptor_set_layouts,
-		VkDescriptorSet*                            descriptor_sets);
+		bksge::vector<::VkDescriptorSetLayout> const& descriptor_set_layouts,
+		VkDescriptorSet*                              descriptor_sets);
 
 	void FreeDescriptorSets(
-		std::vector<::VkDescriptorSet> const& descriptor_sets);
+		bksge::vector<::VkDescriptorSet> const& descriptor_sets);
 
 private:
 	// noncopyable

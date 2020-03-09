@@ -13,7 +13,7 @@
 #include <bksge/core/render/d3d_common/d3d11.hpp>
 #include <bksge/core/render/d3d_common/com_ptr.hpp>
 #include <bksge/core/render/d3d_common/dxgi.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -30,7 +30,7 @@ namespace d3d11
 class Device
 {
 public:
-	explicit Device(std::vector<ComPtr<IDXGIAdapterN>> const& adapters);
+	explicit Device(bksge::vector<ComPtr<IDXGIAdapterN>> const& adapters);
 
 	~Device();
 

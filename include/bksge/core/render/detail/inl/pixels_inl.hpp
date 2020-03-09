@@ -13,7 +13,7 @@
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint8_t.hpp>
 #include <bksge/fnd/cstring/memcpy.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -50,7 +50,7 @@ bksge::uint8_t const* Pixels::data(void) const
 }
 
 BKSGE_INLINE
-std::vector<bksge::uint8_t> const& Pixels::value(void) const
+bksge::vector<bksge::uint8_t> const& Pixels::value(void) const
 {
 	return m_value;
 }

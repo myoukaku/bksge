@@ -8,7 +8,7 @@
 
 #include <bksge/fnd/iterator/empty.hpp>
 #include <gtest/gtest.h>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 #include <array>
 #include "constexpr_test.hpp"
 
@@ -23,7 +23,7 @@ GTEST_TEST(IteratorTest, EmptyTest)
 		BKSGE_CONSTEXPR_EXPECT_EQ(false, bksge::empty(a));
 	}
 	{
-		std::vector<int> a{};
+		bksge::vector<int> a{};
 		EXPECT_EQ(true, bksge::empty(a));
 		a.push_back(10);
 		EXPECT_EQ(false, bksge::empty(a));

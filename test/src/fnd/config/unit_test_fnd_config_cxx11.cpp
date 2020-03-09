@@ -10,7 +10,7 @@
 #include <bksge/fnd/utility/move.hpp>
 #include <gtest/gtest.h>
 #include <cstddef>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 #include <iostream>
 #include <string>
 #include <utility>
@@ -106,7 +106,7 @@ void func()
 	int* dp = new auto(i);
 	delete dp;
 
-	std::vector<int> v(10);
+	bksge::vector<int> v(10);
 	for (auto it = v.begin(); it != v.end(); ++it)
 	{
 		if (auto x = *it)
@@ -634,7 +634,7 @@ GTEST_TEST(ConfigTest, Cxx11NullptrTest)
 GTEST_TEST(ConfigTest, Cxx11RightAngleBracketsTest)
 {
 #if defined(BKSGE_HAS_CXX11_RIGHT_ANGLE_BRACKETS)
-	std::vector<std::vector<int>> v;
+	bksge::vector<bksge::vector<int>> v;
 #endif
 }
 
@@ -717,7 +717,7 @@ namespace alias_templates_test
 #if defined(BKSGE_HAS_CXX11_ALIAS_TEMPLATES)
 
 template <typename T>
-using Vec = std::vector<T>;
+using Vec = bksge::vector<T>;
 
 using Integer = int;
 
@@ -761,7 +761,7 @@ void f(Args... args);
 GTEST_TEST(ConfigTest, Cxx11RangeBasedForTest)
 {
 #if defined(BKSGE_HAS_CXX11_RANGE_BASED_FOR)
-	std::vector<int> v;
+	bksge::vector<int> v;
 
 	for (auto e : v)
 	{
@@ -932,7 +932,7 @@ namespace initializer_lists_test
 	template <typename T>
 	class MyVector1
 	{
-		std::vector<T> data_;
+		bksge::vector<T> data_;
 	public:
 		MyVector1(std::initializer_list<T> init)
 			: data_(init.begin(), init.end()) {}
@@ -941,7 +941,7 @@ namespace initializer_lists_test
 	template <typename T>
 	class MyVector2
 	{
-		std::vector<T> data_;
+		bksge::vector<T> data_;
 	public:
 		explicit MyVector2(std::initializer_list<T> init)
 			: data_(init.begin(), init.end()) {}
@@ -954,8 +954,8 @@ GTEST_TEST(ConfigTest, Cxx11InitializerListsTest)
 #if defined(BKSGE_HAS_CXX11_INITIALIZER_LISTS)
 	using namespace initializer_lists_test;
 	{
-		std::vector<int> v1 = {1, 2, 3};
-		std::vector<int> v2 {1, 2, 3};
+		bksge::vector<int> v1 = {1, 2, 3};
+		bksge::vector<int> v2 {1, 2, 3};
 		v2 = {4, 5, 6};
 	}
 	{

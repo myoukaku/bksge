@@ -18,6 +18,7 @@
 #include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/tuple/make_tuple.hpp>
 #include <bksge/fnd/assert.hpp>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -36,7 +37,7 @@ inline void AddUniformBuffer(
 	spirv_cross::SmallVector<spirv_cross::Resource> const& resource_vector,
 	::VkShaderStageFlagBits stage,
 	::VkDescriptorType descriptor_type,
-	std::vector<ShaderReflectionUniform>* uniforms,
+	bksge::vector<ShaderReflectionUniform>* uniforms,
 	bksge::uint32_t* max_sets)
 {
 	for (auto const& resource : resource_vector)
@@ -95,7 +96,7 @@ inline void AddUniformBuffer(
 
 BKSGE_INLINE
 ShaderReflection::ShaderReflection(
-	std::vector<std::vector<unsigned int>> const& spv_list)
+	bksge::vector<bksge::vector<unsigned int>> const& spv_list)
 {
 	for (auto&& spv : spv_list)
 	{

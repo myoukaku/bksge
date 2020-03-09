@@ -22,7 +22,7 @@
 #include <bksge/core/render/texture.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -78,9 +78,9 @@ inline void UpdateSubresource(
 	auto const mipmap_count = src_texture.mipmap_count();
 	auto const num_subresources = mipmap_count;
 	auto const destination_desc = destination_resource->GetDesc();
-	std::vector<::D3D12_PLACED_SUBRESOURCE_FOOTPRINT> footprints;
-	std::vector<::UINT> num_rows;
-	std::vector<::UINT64> row_size_in_bytes;
+	bksge::vector<::D3D12_PLACED_SUBRESOURCE_FOOTPRINT> footprints;
+	bksge::vector<::UINT> num_rows;
+	bksge::vector<::UINT64> row_size_in_bytes;
 	::UINT64 required_size = 0;
 	footprints.resize(num_subresources);
 	num_rows.resize(num_subresources);

@@ -13,7 +13,7 @@
 #include <gtest/gtest.h>
 #include <array>
 #include <list>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 #include "constexpr_test.hpp"
 
 namespace bksge_algorithm_test
@@ -98,22 +98,22 @@ GTEST_TEST(AlgorithmTest, IsSortedUntilTest)
 		BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE(it == bksge::end(a));
 	}
 	{
-		const std::vector<int> a {3,4,5};
+		const bksge::vector<int> a {3,4,5};
 		auto const it = bksge::is_sorted_until(bksge::begin(a), bksge::end(a));
 		EXPECT_TRUE(it == bksge::end(a));
 	}
 	{
-		const std::vector<int> a {3,3,4,4,5,5};
+		const bksge::vector<int> a {3,3,4,4,5,5};
 		auto const it = bksge::is_sorted_until(bksge::begin(a), bksge::end(a), [] (int x, int y) { return x < y; });
 		EXPECT_TRUE(it == bksge::end(a));
 	}
 	{
-		const std::vector<int> a {3,3,4,4,5,5};
+		const bksge::vector<int> a {3,3,4,4,5,5};
 		auto const it = bksge::is_sorted_until(bksge::begin(a), bksge::end(a), [] (int x, int y) { return x > y; });
 		EXPECT_TRUE(it == bksge::next(bksge::begin(a), 2));
 	}
 	{
-		const std::vector<int> a;
+		const bksge::vector<int> a;
 		auto const it = bksge::is_sorted_until(bksge::begin(a), bksge::end(a));
 		EXPECT_TRUE(it == bksge::end(a));
 	}

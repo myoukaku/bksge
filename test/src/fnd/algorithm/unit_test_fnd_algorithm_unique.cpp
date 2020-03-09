@@ -14,7 +14,7 @@
 #include <array>
 #include <list>
 #include <memory>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge_algorithm_test
 {
@@ -65,7 +65,7 @@ GTEST_TEST(AlgorithmTest, UniqueTest)
 		EXPECT_EQ(5, a[4]);
 	}
 	{
-		std::vector<std::shared_ptr<int>> a;
+		bksge::vector<std::shared_ptr<int>> a;
 		a.emplace_back(new int(1));
 		a.emplace_back(new int(4));
 		a.emplace_back(new int(4));
@@ -85,7 +85,7 @@ GTEST_TEST(AlgorithmTest, UniqueTest)
 		EXPECT_EQ(3, *a[4]);
 	}
 	{
-		std::vector<int> a;
+		bksge::vector<int> a;
 		auto ret = bksge::unique(bksge::begin(a), bksge::end(a), [](int, int){ return true; });
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 0));
 		EXPECT_TRUE(a.empty());

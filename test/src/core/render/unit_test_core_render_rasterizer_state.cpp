@@ -12,7 +12,7 @@
 #include <gtest/gtest.h>
 #include <sstream>
 #include <functional>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 #include "serialize_test.hpp"
 
 GTEST_TEST(Render_RasterizerState, DefaultCtorTest)
@@ -131,7 +131,7 @@ GTEST_TEST(Render_RasterizerState, HashTest)
 	s5.SetCullMode(bksge::CullMode::kFront);
 	s5.SetFrontFace(bksge::FrontFace::kCounterClockwise);
 
-	std::vector<bksge::size_t> v;
+	bksge::vector<bksge::size_t> v;
 	v.push_back(h(s1));
 	v.push_back(h(s2));
 	v.push_back(h(s3));

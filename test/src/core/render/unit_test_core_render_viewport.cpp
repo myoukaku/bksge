@@ -12,7 +12,7 @@
 #include <gtest/gtest.h>
 #include <sstream>
 #include <functional>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 #include "serialize_test.hpp"
 
 GTEST_TEST(Render_Viewport, DefaultCtorTest)
@@ -127,7 +127,7 @@ GTEST_TEST(Render_Viewport, HashTest)
 	s3.SetMinDepth(1.0f);
 	s4.SetMaxDepth(3.0f);
 
-	std::vector<bksge::size_t> v;
+	bksge::vector<bksge::size_t> v;
 	v.push_back(h(s1));
 	v.push_back(h(s2));
 	v.push_back(h(s3));

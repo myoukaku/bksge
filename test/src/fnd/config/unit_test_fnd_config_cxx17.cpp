@@ -14,7 +14,7 @@
 #include <new>
 #include <sstream>
 #include <functional>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 #include <utility>
 #include <tuple>
 #include <type_traits>
@@ -358,7 +358,7 @@ BKSGE_WARNING_POP()
 GTEST_TEST(ConfigTest, Cxx17DeductionGuidesTest)
 {
 #if defined(BKSGE_HAS_CXX17_DEDUCTION_GUIDES)
-	std::vector v = {1, 2, 3};
+	bksge::vector v = {1, 2, 3};
 	EXPECT_EQ(1, v[0]);
 	EXPECT_EQ(2, v[1]);
 	EXPECT_EQ(3, v[2]);

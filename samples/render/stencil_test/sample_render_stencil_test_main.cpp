@@ -10,7 +10,7 @@
 #include <bksge/core/render.hpp>
 #include <bksge/core/math.hpp>
 #include <bksge/fnd/cmath.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 #include <memory>
 #include <utility>
 
@@ -254,9 +254,9 @@ private:
 		return geometry;
 	}
 
-	static std::vector<bksge::Shader const*> const& GetShaderList(void)
+	static bksge::vector<bksge::Shader const*> const& GetShaderList(void)
 	{
-		static std::vector<bksge::Shader const*> const shader_list
+		static bksge::vector<bksge::Shader const*> const shader_list
 		{
 			GetGLSLShader(),
 			GetHLSLShader(),
@@ -320,9 +320,9 @@ private:
 		return geometry;
 	}
 
-	static std::vector<bksge::Shader const*> const& GetShaderList(void)
+	static bksge::vector<bksge::Shader const*> const& GetShaderList(void)
 	{
-		static std::vector<bksge::Shader const*> const shader_list
+		static bksge::vector<bksge::Shader const*> const shader_list
 		{
 			GetGLSLShader(),
 			GetHLSLShader(),
@@ -340,8 +340,8 @@ private:
 int main()
 {
 	bksge::Extent2f const extent{800, 600};
-	std::vector<std::shared_ptr<bksge::Renderer>>	renderers;
-	std::vector<std::shared_ptr<bksge::Window>>		windows;
+	bksge::vector<std::shared_ptr<bksge::Renderer>>	renderers;
+	bksge::vector<std::shared_ptr<bksge::Window>>		windows;
 
 #if BKSGE_CORE_RENDER_HAS_D3D11_RENDERER
 	{

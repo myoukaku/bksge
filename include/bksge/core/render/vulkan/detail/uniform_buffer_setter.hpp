@@ -17,8 +17,8 @@
 #include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <string>
-#include <vector>
 #include <memory>
 
 namespace bksge
@@ -62,7 +62,7 @@ private:
 	std::string						m_name;
 	::VkDescriptorType				m_descriptor_type;
 	bksge::size_t					m_bytes = 0;
-	std::vector<Variable>			m_variables;
+	bksge::vector<Variable>			m_variables;
 	::VkDescriptorBufferInfo		m_buffer_info;
 };
 

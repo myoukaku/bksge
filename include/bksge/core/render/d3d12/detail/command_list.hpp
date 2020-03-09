@@ -13,7 +13,7 @@
 #include <bksge/core/render/d3d12/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/d3d_common/d3d12.hpp>
 #include <bksge/core/render/d3d_common/com_ptr.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -132,7 +132,7 @@ private:
 	CommandList& operator=(CommandList const&) = delete;
 
 private:
-	std::vector<ComPtr<::ID3D12CommandAllocator>>	m_command_allocators;
+	bksge::vector<ComPtr<::ID3D12CommandAllocator>>	m_command_allocators;
 	ComPtr<ID3D12GraphicsCommandListN>				m_command_list;
 };
 

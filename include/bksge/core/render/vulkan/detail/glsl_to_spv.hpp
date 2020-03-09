@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_GLSL_TO_SPV_HPP
 
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -21,7 +21,7 @@ namespace render
 namespace vulkan
 {
 
-std::vector<unsigned int>
+bksge::vector<unsigned int>
 GlslToSpv(::VkShaderStageFlagBits shader_type, const char* source);
 
 }	// namespace vulkan

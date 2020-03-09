@@ -10,7 +10,7 @@
 #include <bksge/core/render.hpp>
 #include <bksge/core/math.hpp>
 #include <bksge/core/input.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 #include <memory>
 #include <utility>
 
@@ -90,8 +90,8 @@ int main()
 	bksge::Extent2f const extent{800, 600};
 	bksge::Rectf viewport({bksge::Vector2f{0, 0}, extent});
 
-	std::vector<std::shared_ptr<bksge::Renderer>>	renderers;
-	std::vector<std::shared_ptr<bksge::Window>>		windows;
+	bksge::vector<std::shared_ptr<bksge::Renderer>>	renderers;
+	bksge::vector<std::shared_ptr<bksge::Window>>		windows;
 
 #if BKSGE_CORE_RENDER_HAS_D3D11_RENDERER
 	{
@@ -147,7 +147,7 @@ int main()
 
 	const bksge::Geometry geometry(bksge::PrimitiveTopology::kTriangles, vertices);
 
-	std::vector<bksge::Shader const*> const shader_list
+	bksge::vector<bksge::Shader const*> const shader_list
 	{
 		GetGLSLShader(),
 		GetHLSLShader(),

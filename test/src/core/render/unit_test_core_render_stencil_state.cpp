@@ -12,7 +12,7 @@
 #include <gtest/gtest.h>
 #include <sstream>
 #include <functional>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 #include "serialize_test.hpp"
 
 GTEST_TEST(Render_StencilState, DefaultCtorTest)
@@ -217,7 +217,7 @@ GTEST_TEST(Render_StencilState, HashTest)
 	s8.SetDepthFailOperation(bksge::StencilOperation::kInvert);
 	s9.SetPassOperation(bksge::StencilOperation::kIncr);
 
-	std::vector<bksge::size_t> v;
+	bksge::vector<bksge::size_t> v;
 	v.push_back(h(s1));
 	v.push_back(h(s2));
 	v.push_back(h(s3));

@@ -23,6 +23,7 @@
 #include <bksge/core/render/d3d_common/throw_if_failed.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/utility/move.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <memory>
 #include <string>
 #include <iostream>
@@ -230,13 +231,13 @@ HlslShaderBase::GetBytecode(void) const
 	};
 }
 
-BKSGE_INLINE std::vector<::D3D12_DESCRIPTOR_RANGE1> const&
+BKSGE_INLINE bksge::vector<::D3D12_DESCRIPTOR_RANGE1> const&
 HlslShaderBase::GetDescriptorRanges(void) const
 {
 	return m_descriptor_ranges;
 }
 
-BKSGE_INLINE std::vector<::D3D12_DESCRIPTOR_RANGE1> const&
+BKSGE_INLINE bksge::vector<::D3D12_DESCRIPTOR_RANGE1> const&
 HlslShaderBase::GetSamplerDescriptorRanges(void) const
 {
 	return m_sampler_descriptor_ranges;

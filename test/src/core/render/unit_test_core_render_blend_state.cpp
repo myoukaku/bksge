@@ -210,7 +210,7 @@ GTEST_TEST(Render_BlendState, HashTest)
 	s8.SetAlphaDstFactor(bksge::BlendFactor::kInvDestAlpha);
 	s9.SetColorWriteFlag(bksge::ColorWriteFlag::kAlpha);
 
-	std::vector<bksge::size_t> v;
+	bksge::vector<bksge::size_t> v;
 	v.push_back(h(s1));
 	v.push_back(h(s2));
 	v.push_back(h(s3));

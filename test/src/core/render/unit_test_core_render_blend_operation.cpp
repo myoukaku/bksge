@@ -66,7 +66,7 @@ GTEST_TEST(Render_BlendOperation, SerializeTest)
 GTEST_TEST(Render_BlendOperation, HashTest)
 {
 	std::hash<bksge::BlendOperation> h;
-	std::vector<bksge::size_t> v;
+	bksge::vector<bksge::size_t> v;
 	v.push_back(h(bksge::BlendOperation::kAdd));
 	v.push_back(h(bksge::BlendOperation::kSubtract));
 	v.push_back(h(bksge::BlendOperation::kReverseSubtract));

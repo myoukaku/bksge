@@ -18,8 +18,8 @@
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <memory>
-#include <vector>
 
 namespace bksge
 {
@@ -34,8 +34,8 @@ namespace detail
 {
 
 inline void CreateDescriptorSetLayoutBindingList(
-	std::vector<ShaderReflectionUniform> const& reflection_list,
-	std::vector<std::vector<::VkDescriptorSetLayoutBinding>>* layout_bindings_list)
+	bksge::vector<ShaderReflectionUniform> const& reflection_list,
+	bksge::vector<bksge::vector<::VkDescriptorSetLayoutBinding>>* layout_bindings_list)
 {
 	for (auto const& reflection : reflection_list)
 	{
@@ -61,14 +61,14 @@ DescriptorSetLayout::DescriptorSetLayout(
 {
 	bksge::size_t const descriptor_set_count = reflection.GetMaxSets() + 1;
 
-	std::vector<std::vector<::VkDescriptorSetLayoutBinding>>
+	bksge::vector<bksge::vector<::VkDescriptorSetLayoutBinding>>
 		descriptor_set_layout_bindings_list(descriptor_set_count);
 
 	detail::CreateDescriptorSetLayoutBindingList(
 		reflection.GetUniforms(),
 		&descriptor_set_layout_bindings_list);
 
-	std::vector<vk::DescriptorSetLayoutCreateInfo> info;
+	bksge::vector<vk::DescriptorSetLayoutCreateInfo> info;
 	info.resize(descriptor_set_count);
 
 	for (bksge::size_t i = 0; i < descriptor_set_count; ++i)
@@ -95,7 +95,7 @@ DescriptorSetLayout::~DescriptorSetLayout()
 	}
 }
 
-BKSGE_INLINE std::vector<::VkDescriptorSetLayout> const&
+BKSGE_INLINE bksge::vector<::VkDescriptorSetLayout> const&
 DescriptorSetLayout::GetLayouts(void) const
 {
 	return m_descriptor_set_layout;

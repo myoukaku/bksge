@@ -22,8 +22,8 @@
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/clear_state.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <memory>
-#include <vector>
 
 namespace bksge
 {
@@ -256,20 +256,20 @@ Swapchain::ClearColor(
 		VK_IMAGE_LAYOUT_PRESENT_SRC_KHR);
 }
 
-//BKSGE_INLINE std::vector<VkImage>
+//BKSGE_INLINE bksge::vector<VkImage>
 //Swapchain::GetImages(void) const
 //{
 //	bksge::uint32_t count = 0;
 //	vk::GetSwapchainImagesKHR(*m_device, m_swapchain, &count, nullptr);
 //
-//	std::vector<VkImage> images;
+//	bksge::vector<VkImage> images;
 //	images.resize(count);
 //	vk::GetSwapchainImagesKHR(*m_device, m_swapchain, &count, images.data());
 //
 //	return images;
 //}
 
-BKSGE_INLINE std::vector<::VkImageView> const&
+BKSGE_INLINE bksge::vector<::VkImageView> const&
 Swapchain::GetImageViews(void) const
 {
 	return m_image_views;

@@ -17,12 +17,12 @@
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/intmax_t.hpp>
 #include <bksge/fnd/cstdint/uintmax_t.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <iomanip>
 #include <limits>
 #include <memory>
 #include <ostream>
 #include <unordered_map>
-#include <vector>
 
 namespace bksge
 {
@@ -213,9 +213,9 @@ private:
 	}
 
 private:
-	std::unique_ptr<text_oarchive_impl_base>	      m_impl;
-	std::unordered_map<const void*, bksge::size_t>	  m_tracking;
-	std::vector<detail::pointer_saver<text_oarchive>> m_pointer_list;
+	std::unique_ptr<text_oarchive_impl_base>			m_impl;
+	std::unordered_map<const void*, bksge::size_t>		m_tracking;
+	bksge::vector<detail::pointer_saver<text_oarchive>>	m_pointer_list;
 
 	friend class bksge::serialization::detail::save_dispatch;
 };

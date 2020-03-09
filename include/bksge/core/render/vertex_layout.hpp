@@ -13,7 +13,7 @@
 #include <bksge/core/render/detail/vertex_attribute.hpp>
 #include <bksge/core/render/semantic.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -27,7 +27,7 @@ namespace render
 class VertexLayout
 {
 private:
-	using VertexAttributeArray = std::vector<VertexAttribute>;
+	using VertexAttributeArray = bksge::vector<VertexAttribute>;
 
 public:
 	VertexLayout(void);

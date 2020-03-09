@@ -14,7 +14,7 @@
 #include <array>
 #include <iterator>
 #include <list>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge_algorithm_test
 {
@@ -96,7 +96,7 @@ GTEST_TEST(AlgorithmTest, MoveTest)
 		EXPECT_TRUE(it == bksge::begin(a2) + 4);
 	}
 	{
-		std::vector<noncopyable> v;
+		bksge::vector<noncopyable> v;
 		v.emplace_back(noncopyable(5));
 		v.emplace_back(noncopyable(6));
 		v.emplace_back(noncopyable(7));

@@ -8,7 +8,7 @@
 
 #include <bksge/fnd/pair/pair.hpp>
 #include <bksge/fnd/pair/tuple_element.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 #include <string>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -40,9 +40,9 @@ GTEST_TEST(PairTest, TupleElementTest)
 		BKSGE_PAIR_TUPLE_ELEMENT_TEST(type, 1, std::string);
 	}
 	{
-		using type = bksge::pair<std::string, std::vector<int>>;
+		using type = bksge::pair<std::string, bksge::vector<int>>;
 		BKSGE_PAIR_TUPLE_ELEMENT_TEST(type, 0, std::string);
-		BKSGE_PAIR_TUPLE_ELEMENT_TEST(type, 1, std::vector<int>);
+		BKSGE_PAIR_TUPLE_ELEMENT_TEST(type, 1, bksge::vector<int>);
 	}
 
 #undef BKSGE_PAIR_TUPLE_ELEMENT_TEST

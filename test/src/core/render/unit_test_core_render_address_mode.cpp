@@ -64,7 +64,7 @@ GTEST_TEST(Render_AddressMode, SerializeTest)
 GTEST_TEST(Render_AddressMode, HashTest)
 {
 	std::hash<bksge::AddressMode> h;
-	std::vector<bksge::size_t> v;
+	bksge::vector<bksge::size_t> v;
 	v.push_back(h(bksge::AddressMode::kRepeat));
 	v.push_back(h(bksge::AddressMode::kMirror));
 	v.push_back(h(bksge::AddressMode::kClamp));

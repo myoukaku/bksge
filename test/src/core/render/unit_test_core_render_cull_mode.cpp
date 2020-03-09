@@ -12,7 +12,7 @@
 #include <gtest/gtest.h>
 #include <sstream>
 #include <functional>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 #include "serialize_test.hpp"
 
 namespace bksge_core_render_test
@@ -62,7 +62,7 @@ GTEST_TEST(Render_CullMode, SerializeTest)
 GTEST_TEST(Render_CullMode, HashTest)
 {
 	std::hash<bksge::CullMode> h;
-	std::vector<bksge::size_t> v;
+	bksge::vector<bksge::size_t> v;
 	v.push_back(h(bksge::CullMode::kNone));
 	v.push_back(h(bksge::CullMode::kFront));
 	v.push_back(h(bksge::CullMode::kBack));

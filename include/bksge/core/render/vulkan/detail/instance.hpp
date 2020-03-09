@@ -12,7 +12,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/instance_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/physical_device.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -30,7 +30,7 @@ public:
 
 	~Instance();
 
-	std::vector<::VkPhysicalDevice> EnumeratePhysicalDevices(void) const;
+	bksge::vector<::VkPhysicalDevice> EnumeratePhysicalDevices(void) const;
 
 	operator ::VkInstance() const;
 

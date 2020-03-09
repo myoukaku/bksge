@@ -18,7 +18,7 @@
 #include <bksge/core/render/d3d12/detail/root_parameters.hpp>
 #include <bksge/core/render/d3d_common/d3d12.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -74,7 +74,7 @@ DescriptorHeaps::~DescriptorHeaps()
 BKSGE_INLINE void
 DescriptorHeaps::SetEnable(CommandList* command_list)
 {
-	std::vector<::ID3D12DescriptorHeap*> heaps;
+	bksge::vector<::ID3D12DescriptorHeap*> heaps;
 	for (auto&& descriptor_heap : m_descriptor_heaps)
 	{
 		if (descriptor_heap->Get())

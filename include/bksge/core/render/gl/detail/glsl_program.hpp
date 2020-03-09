@@ -18,7 +18,7 @@
 #include <bksge/core/render/gl/detail/gl_h.hpp>
 #include <bksge/core/render/fwd/shader_fwd.hpp>
 #include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -54,9 +54,9 @@ private:
 		ResourcePool* resource_pool,
 		bksge::ShaderParameterMap const& shader_parameter_map);
 
-	using GlslShaders    = std::vector<GlslShaderUnique>;
-	using GlslParameters = std::vector<GlslParameterUnique>;
-	using GlslUniformBlocks = std::vector<GlslUniformBlockUnique>;
+	using GlslShaders    = bksge::vector<GlslShaderUnique>;
+	using GlslParameters = bksge::vector<GlslParameterUnique>;
+	using GlslUniformBlocks = bksge::vector<GlslUniformBlockUnique>;
 
 	::GLuint		m_id;
 	GlslShaders		m_shaders;

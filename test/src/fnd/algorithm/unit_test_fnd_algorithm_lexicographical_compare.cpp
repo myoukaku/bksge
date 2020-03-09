@@ -13,7 +13,7 @@
 #include <gtest/gtest.h>
 #include <array>
 #include <list>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 #include "constexpr_test.hpp"
 
 namespace bksge_algorithm_test
@@ -36,9 +36,9 @@ GTEST_TEST(AlgorithmTest, LexicographicalCompareTest)
 	BKSGE_CONSTEXPR_OR_CONST std::array<float, 2> a9{{0, 1}};
 	BKSGE_CONSTEXPR_OR_CONST std::array<float, 4> a10{{0, 1, 2, 3}};
 
-	const std::vector<int> v1 {0,1,2};
-	const std::vector<int> v2 {0,1,2,3};
-	const std::vector<int> v3 {0,1,2,3};
+	const bksge::vector<int> v1 {0,1,2};
+	const bksge::vector<int> v2 {0,1,2,3};
+	const bksge::vector<int> v3 {0,1,2,3};
 
 	const std::list<int> l1 {0,1,2};
 	const std::list<int> l2 {0,1,2,3};

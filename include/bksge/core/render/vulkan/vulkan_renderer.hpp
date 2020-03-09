@@ -43,8 +43,8 @@
 #include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
 #include <bksge/core/window/fwd/window_fwd.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <memory>
-#include <vector>
 
 namespace bksge
 {
@@ -85,7 +85,7 @@ private:
 	std::unique_ptr<vulkan::Swapchain>					m_swapchain;
 	std::unique_ptr<vulkan::DepthStencilBuffer>			m_depth_stencil_buffer;
 	std::unique_ptr<vulkan::RenderPass>					m_render_pass;
-	std::vector<std::unique_ptr<vulkan::Framebuffer>>	m_framebuffers;
+	bksge::vector<std::unique_ptr<vulkan::Framebuffer>>	m_framebuffers;
 	std::unique_ptr<vulkan::Fence>						m_draw_fence;
 	std::unique_ptr<vulkan::Semaphore>					m_image_acquired_semaphore;
 	std::unique_ptr<vulkan::ResourcePool>				m_resource_pool;

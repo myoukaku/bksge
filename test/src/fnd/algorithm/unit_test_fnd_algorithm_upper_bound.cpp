@@ -13,7 +13,7 @@
 #include <gtest/gtest.h>
 #include <array>
 #include <list>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 #include "constexpr_test.hpp"
 
 namespace bksge_algorithm_test
@@ -70,12 +70,12 @@ GTEST_TEST(AlgorithmTest, UpperBoundTest)
 		BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 1));
 	}
 	{
-		const std::vector<int> a { 1,3,5,8,13,17,25 };
+		const bksge::vector<int> a { 1,3,5,8,13,17,25 };
 		auto ret = bksge::upper_bound(bksge::begin(a), bksge::end(a), 10);
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 4));
 	}
 	{
-		const std::vector<int> a { 1,3,5,8,13,17,25 };
+		const bksge::vector<int> a { 1,3,5,8,13,17,25 };
 		auto ret = bksge::upper_bound(bksge::begin(a), bksge::end(a), 1, [](int x, int y) { return x <= y; });
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 0));
 	}
@@ -85,7 +85,7 @@ GTEST_TEST(AlgorithmTest, UpperBoundTest)
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 2));
 	}
 	{
-		const std::vector<int> a;
+		const bksge::vector<int> a;
 		auto ret = bksge::upper_bound(bksge::begin(a), bksge::end(a), 0);
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 0));
 	}

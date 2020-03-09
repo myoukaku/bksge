@@ -14,7 +14,7 @@
 #include <gtest/gtest.h>
 #include <array>
 #include <list>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 #include "constexpr_test.hpp"
 
 namespace bksge_algorithm_test
@@ -71,7 +71,7 @@ GTEST_TEST(AlgorithmTest, MaxElementTest)
 		}
 	}
 	{
-		const std::vector<int> a { 9, 3, 2, 3, 8, 4, 6 };
+		const bksge::vector<int> a { 9, 3, 2, 3, 8, 4, 6 };
 
 		{
 			auto ret = bksge::max_element(bksge::begin(a), bksge::end(a));

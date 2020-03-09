@@ -15,6 +15,7 @@
 #include <bksge/core/render/vulkan/detail/framebuffer.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <memory>
 
 namespace bksge
@@ -30,7 +31,7 @@ BKSGE_INLINE
 Framebuffer::Framebuffer(
 	vulkan::DeviceSharedPtr const& device,
 	::VkRenderPass const& render_pass,
-	std::vector<::VkImageView> const& attachments,
+	bksge::vector<::VkImageView> const& attachments,
 	::VkExtent2D const& extent)
 	: m_device(device)
 	, m_framebuffer(VK_NULL_HANDLE)

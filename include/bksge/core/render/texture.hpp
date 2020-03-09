@@ -22,7 +22,7 @@
 #include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <memory>
 #include <ostream>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {

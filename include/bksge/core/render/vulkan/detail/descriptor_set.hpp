@@ -14,7 +14,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/descriptor_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/shader_reflection_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 #include <memory>
 
 namespace bksge
@@ -32,11 +32,11 @@ public:
 	explicit DescriptorSet(
 		vulkan::DeviceSharedPtr const& device,
 		vulkan::DescriptorPoolSharedPtr const& descriptor_pool,
-		std::vector<::VkDescriptorSetLayout> const& descriptor_set_layout);
+		bksge::vector<::VkDescriptorSetLayout> const& descriptor_set_layout);
 
 	~DescriptorSet();
 
-	std::vector<::VkDescriptorSet> const& Get(void) const;
+	bksge::vector<::VkDescriptorSet> const& Get(void) const;
 
 private:
 	// noncopyable
@@ -46,7 +46,7 @@ private:
 private:
 	vulkan::DeviceSharedPtr					m_device;
 	vulkan::DescriptorPoolSharedPtr			m_descriptor_pool;
-	std::vector<::VkDescriptorSet>			m_descriptor_sets;
+	bksge::vector<::VkDescriptorSet>			m_descriptor_sets;
 };
 
 }	// namespace vulkan

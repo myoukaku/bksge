@@ -8,7 +8,7 @@
 
 #include <bksge/fnd/utility/exchange.hpp>
 #include <gtest/gtest.h>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 #include "constexpr_test.hpp"
 
 namespace bksge_utility_test
@@ -53,7 +53,7 @@ GTEST_TEST(UtilityTest, ExchangeTest)
 		EXPECT_EQ(10, t);
 	}
 	{
-		std::vector<int> v;
+		bksge::vector<int> v;
 		auto t = bksge::exchange(v, {1, 2, 3, 4});
 
 		EXPECT_EQ(4u, v.size());

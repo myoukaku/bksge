@@ -13,7 +13,7 @@
 #include <array>
 #include <iterator>
 #include <list>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge_algorithm_test
 {
@@ -53,7 +53,7 @@ GTEST_TEST(AlgorithmTest, FillNTest)
 		EXPECT_TRUE(it == bksge::begin(a2) + 3);
 	}
 	{
-		std::vector<int> v1(5);
+		bksge::vector<int> v1(5);
 		auto it = bksge::fill_n(bksge::begin(v1), 2, 3);
 		EXPECT_EQ(3, v1[0]);
 		EXPECT_EQ(3, v1[1]);
@@ -63,7 +63,7 @@ GTEST_TEST(AlgorithmTest, FillNTest)
 		EXPECT_TRUE(it == bksge::begin(v1) + 2);
 	}
 	{
-		std::vector<int> v2;
+		bksge::vector<int> v2;
 		bksge::fill_n(std::back_inserter(v2), 3, 11);
 		EXPECT_EQ(11, v2[0]);
 		EXPECT_EQ(11, v2[1]);
