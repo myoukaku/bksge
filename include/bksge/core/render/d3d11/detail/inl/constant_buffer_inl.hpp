@@ -18,9 +18,9 @@
 #include <bksge/core/render/d3d_common/d3d11shader.hpp>
 #include <bksge/core/render/d3d_common/d3d11.hpp>
 #include <bksge/core/render/shader_parameter_map.hpp>
+#include <bksge/fnd/cstring/memcpy.hpp>
 #include <string>
 #include <vector>
-#include <cstring>	// memcpy
 
 namespace bksge
 {
@@ -85,7 +85,7 @@ ConstantBuffer::LoadParameters(
 		auto param = shader_parameter_map[m_name];
 		if (param)
 		{
-			std::memcpy(dst, param->data(), m_size);
+			bksge::memcpy(dst, param->data(), m_size);
 		}
 	}
 
@@ -95,7 +95,7 @@ ConstantBuffer::LoadParameters(
 		auto param = shader_parameter_map[variable.m_name];
 		if (param)
 		{
-			std::memcpy(
+			bksge::memcpy(
 				dst + variable.m_start_offset,
 				param->data(),
 				variable.m_size);

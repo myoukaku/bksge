@@ -12,7 +12,7 @@
 #include <bksge/core/render/detail/pixels.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint8_t.hpp>
-#include <cstring>
+#include <bksge/fnd/cstring/memcpy.hpp>
 #include <vector>
 
 namespace bksge
@@ -35,7 +35,7 @@ void Pixels::copy(void const* src, bksge::size_t size)
 		return;
 	}
 
-	std::memcpy(m_value.data(), src, size);
+	bksge::memcpy(m_value.data(), src, size);
 }
 
 BKSGE_INLINE

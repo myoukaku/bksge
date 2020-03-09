@@ -11,7 +11,7 @@
 
 #include <bksge/core/render/detail/vertex_array_base.hpp>
 #include <bksge/core/render/vertex_layout.hpp>
-#include <cstring>	// memcmp
+#include <bksge/fnd/cstring/memcmp.hpp>
 
 namespace bksge
 {
@@ -31,7 +31,7 @@ operator==(VertexArrayBase const& lhs, VertexArrayBase const& rhs)
 		lhs.vertex_layout() == rhs.vertex_layout() &&
 		lhs.bytes()         == rhs.bytes()         &&
 		lhs.count()         == rhs.count()         &&
-		(std::memcmp(lhs.data(), rhs.data(), lhs.bytes()) == 0);
+		(bksge::memcmp(lhs.data(), rhs.data(), lhs.bytes()) == 0);
 }
 
 BKSGE_INLINE bool

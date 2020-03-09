@@ -20,7 +20,7 @@
 #include <bksge/core/render/shader_parameter_map.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/cstdint/uint8_t.hpp>
-#include <cstring>
+#include <bksge/fnd/cstring/memcpy.hpp>
 
 namespace bksge
 {
@@ -75,7 +75,7 @@ UniformBufferSetter::LoadParameters(
 		auto param = shader_parameter_map[m_name];
 		if (param)
 		{
-			std::memcpy(dst, param->data(), m_bytes);
+			bksge::memcpy(dst, param->data(), m_bytes);
 		}
 	}
 
@@ -85,7 +85,7 @@ UniformBufferSetter::LoadParameters(
 		auto param = shader_parameter_map[variable.name];
 		if (param)
 		{
-			std::memcpy(
+			bksge::memcpy(
 				dst + variable.offset,
 				param->data(),
 				variable.bytes);

@@ -27,7 +27,7 @@
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
-#include <cstring>
+#include <bksge/fnd/cstring/memcpy.hpp>
 
 namespace bksge
 {
@@ -128,7 +128,7 @@ Texture::Texture(
 
 	{
 		void* dst = staging_buffer->MapMemory(VK_WHOLE_SIZE);
-		std::memcpy(dst, texture.data(), image_size);
+		bksge::memcpy(dst, texture.data(), image_size);
 		staging_buffer->UnmapMemory();
 	}
 

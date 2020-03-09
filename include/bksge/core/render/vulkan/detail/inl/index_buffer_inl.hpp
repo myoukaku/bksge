@@ -21,7 +21,7 @@
 #include <bksge/core/render/geometry.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
-#include <cstring>
+#include <bksge/fnd/cstring/memcpy.hpp>
 
 namespace bksge
 {
@@ -57,7 +57,7 @@ IndexBuffer::IndexBuffer(
 
 	{
 		void* dst = m_buffer->MapMemory(size);
-		std::memcpy(dst, src, size);
+		bksge::memcpy(dst, src, size);
 		m_buffer->UnmapMemory();
 	}
 }

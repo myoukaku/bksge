@@ -28,7 +28,7 @@ using std::bit_cast;
 
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_trivially_copyable.hpp>
-#include <cstring>		// memcpy
+#include <bksge/fnd/cstring/memcpy.hpp>
 
 namespace bksge
 {
@@ -68,7 +68,7 @@ inline To bit_cast(From const& src) BKSGE_NOEXCEPT
 {
 	// TODO constexpr対応
 	To dst;
-	std::memcpy(&dst, &src, sizeof(To));
+	bksge::memcpy(&dst, &src, sizeof(To));
 	return dst;
 }
 

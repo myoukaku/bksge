@@ -18,7 +18,7 @@
 #include <bksge/core/render/d3d_common/d3d12.hpp>
 #include <bksge/core/render/d3d_common/throw_if_failed.hpp>
 #include <bksge/core/render/geometry.hpp>
-#include <cstring>	// memcpy
+#include <bksge/fnd/cstring/memcpy.hpp>
 
 namespace bksge
 {
@@ -65,7 +65,7 @@ VertexBuffer::VertexBuffer(Device* device, bksge::Geometry const& geometry)
 	// バッファにコピー
 	::UINT8* p;
 	ThrowIfFailed(m_resource->Map(0, nullptr, reinterpret_cast<void**>(&p)));
-	std::memcpy(p, src, size);
+	bksge::memcpy(p, src, size);
 	m_resource->Unmap(0, nullptr);
 
 	// Viewの初期化

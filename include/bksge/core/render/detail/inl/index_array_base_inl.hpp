@@ -11,7 +11,7 @@
 
 #include <bksge/core/render/detail/index_array_base.hpp>
 #include <bksge/core/render/detail/type_enum.hpp>
-#include <cstring>	// memcmp
+#include <bksge/fnd/cstring/memcmp.hpp>
 
 namespace bksge
 {
@@ -30,7 +30,7 @@ operator==(IndexArrayBase const& lhs, IndexArrayBase const& rhs)
 		lhs.type()	== rhs.type()	&&
 		lhs.bytes()	== rhs.bytes()	&&
 		lhs.count()	== rhs.count()	&&
-		(std::memcmp(lhs.data(), rhs.data(), lhs.bytes()) == 0);
+		(bksge::memcmp(lhs.data(), rhs.data(), lhs.bytes()) == 0);
 }
 
 BKSGE_INLINE bool

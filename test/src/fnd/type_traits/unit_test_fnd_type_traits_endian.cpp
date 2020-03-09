@@ -10,9 +10,9 @@
 #include <bksge/fnd/type_traits/is_enum.hpp>
 #include <bksge/fnd/type_traits/is_convertible.hpp>
 #include <bksge/fnd/type_traits/underlying_type.hpp>
+#include <bksge/fnd/cstring/memcpy.hpp>
 #include <bksge/fnd/cstdint.hpp>
 #include <gtest/gtest.h>
-#include <cstring>
 #include "type_traits_test_utility.hpp"
 
 BKSGE_WARNING_PUSH()
@@ -40,7 +40,7 @@ GTEST_TEST(TypeTraitsTest, EndianTest)
 	{
 		bksge::uint32_t i = 0x01020304;
 		bksge::uint8_t c[4];
-		std::memcpy(c, &i, sizeof(c));
+		bksge::memcpy(c, &i, sizeof(c));
 
 		if (bksge::endian::native == bksge::endian::big)
 		{

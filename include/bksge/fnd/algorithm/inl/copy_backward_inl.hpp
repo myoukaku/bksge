@@ -16,8 +16,8 @@
 #include <bksge/fnd/type_traits/remove_const.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/type_traits/is_trivially_copy_assignable.hpp>
+#include <bksge/fnd/cstring/memmove.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstring>
 
 namespace bksge
 {
@@ -57,7 +57,7 @@ copy_backward(T* first, T* last, U* result)
 	if (n > 0)
 	{
 		result -= n;
-		std::memmove(result, first, n * sizeof(U));
+		bksge::memmove(result, first, n * sizeof(U));
 	}
 
 	return result;
