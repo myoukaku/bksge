@@ -18,10 +18,11 @@
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
+#include <bksge/fnd/tuple/tuple_element.hpp>
+#include <bksge/fnd/tuple/tuple_size.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
-#include <tuple>
 #include <functional>
 #include <vector>
 #include "constexpr_test.hpp"
@@ -938,9 +939,9 @@ TYPED_TEST(MathColorHSVTest, TupleElementTest)
 	using T = TypeParam;
 	using ColorHSV = bksge::math::ColorHSV<T>;
 
-	static_assert(bksge::is_same<typename std::tuple_element<0, ColorHSV>::type, T>::value, "");
-	static_assert(bksge::is_same<typename std::tuple_element<1, ColorHSV>::type, T>::value, "");
-	static_assert(bksge::is_same<typename std::tuple_element<2, ColorHSV>::type, T>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<0, ColorHSV>::type, T>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<1, ColorHSV>::type, T>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<2, ColorHSV>::type, T>::value, "");
 }
 
 TYPED_TEST(MathColorHSVTest, TupleGetTest)
@@ -976,7 +977,7 @@ TYPED_TEST(MathColorHSVTest, TupleSizeTest)
 	using T = TypeParam;
 	using ColorHSV = bksge::math::ColorHSV<T>;
 
-	static_assert(std::tuple_size<ColorHSV>::value == 3, "");
+	static_assert(bksge::tuple_size<ColorHSV>::value == 3, "");
 }
 
 TYPED_TEST(MathColorHSVTest, ZeroTest)

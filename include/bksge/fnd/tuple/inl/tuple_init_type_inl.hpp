@@ -10,9 +10,9 @@
 #define BKSGE_FND_TUPLE_INL_TUPLE_INIT_TYPE_INL_HPP
 
 #include <bksge/fnd/tuple/tuple_init_type.hpp>
+#include <bksge/fnd/tuple/tuple_element.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <tuple>
 
 namespace bksge
 {
@@ -34,9 +34,9 @@ struct tuple_init_type_impl_2<
 {
 	using type =
 		Tuple<
-			typename std::tuple_element<
+			bksge::tuple_element_t<
 				Indices, Tuple<Types...>
-			>::type...
+			>...
 		>;
 };
 

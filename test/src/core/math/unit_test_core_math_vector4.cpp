@@ -19,9 +19,10 @@
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
+#include <bksge/fnd/tuple/tuple_element.hpp>
+#include <bksge/fnd/tuple/tuple_size.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
-#include <tuple>
 #include <functional>
 #include <vector>
 #include "constexpr_test.hpp"
@@ -1212,10 +1213,10 @@ TYPED_TEST(MathVector4Test, TupleElementTest)
 	using T = TypeParam;
 	using Vector4 = bksge::Vector4<T>;
 
-	static_assert(bksge::is_same<typename std::tuple_element<0, Vector4>::type, T>::value, "");
-	static_assert(bksge::is_same<typename std::tuple_element<1, Vector4>::type, T>::value, "");
-	static_assert(bksge::is_same<typename std::tuple_element<2, Vector4>::type, T>::value, "");
-	static_assert(bksge::is_same<typename std::tuple_element<3, Vector4>::type, T>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<0, Vector4>::type, T>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<1, Vector4>::type, T>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<2, Vector4>::type, T>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<3, Vector4>::type, T>::value, "");
 }
 
 TYPED_TEST(MathVector4Test, TupleGetTest)
@@ -1255,7 +1256,7 @@ TYPED_TEST(MathVector4Test, TupleSizeTest)
 	using T = TypeParam;
 	using Vector4 = bksge::Vector4<T>;
 
-	static_assert(std::tuple_size<Vector4>::value == 4, "");
+	static_assert(bksge::tuple_size<Vector4>::value == 4, "");
 }
 
 TYPED_TEST(MathVector4Test, DotTest)

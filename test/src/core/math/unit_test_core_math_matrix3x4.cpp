@@ -23,9 +23,10 @@
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
+#include <bksge/fnd/tuple/tuple_element.hpp>
+#include <bksge/fnd/tuple/tuple_size.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
-#include <tuple>
 #include <functional>
 #include <vector>
 #include "constexpr_test.hpp"
@@ -1291,9 +1292,9 @@ TYPED_TEST(MathMatrix3x4Test, TupleElementTest)
 	using Matrix3x4 = bksge::math::Matrix3x4<T>;
 	using Vector4 = bksge::math::Vector4<T>;
 
-	static_assert(bksge::is_same<typename std::tuple_element<0, Matrix3x4>::type, Vector4>::value, "");
-	static_assert(bksge::is_same<typename std::tuple_element<1, Matrix3x4>::type, Vector4>::value, "");
-	static_assert(bksge::is_same<typename std::tuple_element<2, Matrix3x4>::type, Vector4>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<0, Matrix3x4>::type, Vector4>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<1, Matrix3x4>::type, Vector4>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<2, Matrix3x4>::type, Vector4>::value, "");
 }
 
 TYPED_TEST(MathMatrix3x4Test, TupleGetTest)
@@ -1339,7 +1340,7 @@ TYPED_TEST(MathMatrix3x4Test, TupleSizeTest)
 	using T = TypeParam;
 	using Matrix3x4 = bksge::math::Matrix3x4<T>;
 
-	static_assert(std::tuple_size<Matrix3x4>::value == 3, "");
+	static_assert(bksge::tuple_size<Matrix3x4>::value == 3, "");
 }
 
 TYPED_TEST(MathMatrix3x4Test, ZeroTest)

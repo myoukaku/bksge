@@ -10,8 +10,8 @@
 #define BKSGE_FND_TUPLE_INL_TUPLE_LAST_TYPE_INL_HPP
 
 #include <bksge/fnd/tuple/tuple_last_type.hpp>
+#include <bksge/fnd/tuple/tuple_element.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <tuple>
 
 namespace bksge
 {
@@ -24,7 +24,7 @@ template <typename Tuple, bksge::size_t N>
 struct tuple_last_type_impl
 {
 	using type =
-		typename std::tuple_element<N - 1, Tuple>::type;
+		bksge::tuple_element_t<N - 1, Tuple>;
 };
 
 template <typename Tuple>
