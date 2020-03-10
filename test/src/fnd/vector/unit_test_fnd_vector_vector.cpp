@@ -17,8 +17,7 @@
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/memory/allocator.hpp>
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
-//#include <bksge/fnd/sstream/stringstream.hpp>
-#include <sstream>
+#include <bksge/fnd/sstream/stringstream.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <gtest/gtest.h>
 
@@ -95,7 +94,7 @@ GTEST_TEST(VectorTest, ConstructTest)
 		EXPECT_EQ(4, v[3]);
 	}
 	{
-		std::stringstream ss("1 2 3");
+		bksge::stringstream ss("1 2 3");
 		std::istream_iterator<int> ii_first(ss);
 		std::istream_iterator<int> ii_last;
 		bksge::vector<int> v(ii_first, ii_last);
@@ -105,7 +104,7 @@ GTEST_TEST(VectorTest, ConstructTest)
 		EXPECT_EQ(3, v[2]);
 	}
 	{
-		std::stringstream ss("1 2 3");
+		bksge::stringstream ss("1 2 3");
 		std::istream_iterator<int> ii_first(ss);
 		std::istream_iterator<int> ii_last;
 		bksge::vector<int> v(ii_first, ii_last, bksge::allocator<int>());
@@ -557,7 +556,7 @@ GTEST_TEST(VectorTest, AssignTest)
 	EXPECT_EQ(3, v[2]);
 
 	{
-		std::stringstream ss("4 5 6 7");
+		bksge::stringstream ss("4 5 6 7");
 		std::istream_iterator<int> ii_first(ss);
 		std::istream_iterator<int> ii_last;
 		v.assign(ii_first, ii_last);
@@ -778,7 +777,7 @@ GTEST_TEST(VectorTest, InsertTest)
 		EXPECT_EQ( 6, v[5]);
 
 		{
-			std::stringstream ss("7 8");
+			bksge::stringstream ss("7 8");
 			std::istream_iterator<int> ii_first(ss);
 			std::istream_iterator<int> ii_last;
 			auto it = v.insert(v.begin() + 1, ii_first, ii_last);

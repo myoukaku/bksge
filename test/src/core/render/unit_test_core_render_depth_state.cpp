@@ -9,10 +9,11 @@
 #include <bksge/core/render/depth_state.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
-#include <gtest/gtest.h>
-#include <sstream>
-#include <functional>
+#include <bksge/fnd/sstream/stringstream.hpp>
+#include <bksge/fnd/sstream/wstringstream.hpp>
 #include <bksge/fnd/vector.hpp>
+#include <gtest/gtest.h>
+#include <functional>
 #include "serialize_test.hpp"
 
 GTEST_TEST(Render_DepthState, DefaultCtorTest)
@@ -96,7 +97,7 @@ GTEST_TEST(Render_DepthState, OutputStreamTest)
 {
 	{
 		bksge::DepthState v;
-		std::stringstream ss;
+		bksge::stringstream ss;
 		ss << v;
 		EXPECT_EQ("{ false, false, ComparisonFunction::kLess }", ss.str());
 	}
@@ -105,7 +106,7 @@ GTEST_TEST(Render_DepthState, OutputStreamTest)
 		v.SetEnable(true);
 		v.SetWrite(true);
 		v.SetFunc(bksge::ComparisonFunction::kNotEqual);
-		std::wstringstream ss;
+		bksge::wstringstream ss;
 		ss << v;
 		EXPECT_EQ(L"{ true, true, ComparisonFunction::kNotEqual }", ss.str());
 	}
@@ -120,14 +121,14 @@ GTEST_TEST(Render_DepthState, SerializeTest)
 	v.SetWrite(true);
 	v.SetFunc(bksge::ComparisonFunction::kGreater);
 
-	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
-//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v);
+	SerializeTest<text_oarchive,   text_iarchive,   bksge::stringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::stringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, bksge::stringstream>(v);
 
 #if !defined(BKSGE_NO_STD_WSTREAMBUF)
-	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
-//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
+	SerializeTest<text_oarchive,   text_iarchive,   bksge::wstringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::wstringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, bksge::wstringstream>(v);
 #endif
 }
 

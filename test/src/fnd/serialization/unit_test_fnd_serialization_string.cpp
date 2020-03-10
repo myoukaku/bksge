@@ -9,7 +9,8 @@
 #include <bksge/fnd/serialization/string.hpp>
 #include <bksge/fnd/serialization/text_oarchive.hpp>
 #include <bksge/fnd/serialization/text_iarchive.hpp>
-#include <sstream>
+#include <bksge/fnd/sstream/stringstream.hpp>
+#include <bksge/fnd/sstream/wstringstream.hpp>
 #include <string>
 #include <gtest/gtest.h>
 
@@ -61,12 +62,12 @@ void StringTest()
 GTEST_TEST(SerializationTest, StringTest)
 {
 	StringTest<
-		std::stringstream,
+		bksge::stringstream,
 		bksge::serialization::text_oarchive,
 		bksge::serialization::text_iarchive
 	>();
 	StringTest<
-		std::wstringstream,
+		bksge::wstringstream,
 		bksge::serialization::text_oarchive,
 		bksge::serialization::text_iarchive
 	>();

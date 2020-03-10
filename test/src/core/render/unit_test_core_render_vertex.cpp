@@ -9,8 +9,9 @@
 #include <bksge/core/render/vertex.hpp>
 #include <bksge/core/render/vertex_element.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/sstream/stringstream.hpp>
+#include <bksge/fnd/sstream/wstringstream.hpp>
 #include <gtest/gtest.h>
-#include <sstream>
 #include "serialize_test.hpp"
 
 namespace bksge_core_render_test
@@ -246,20 +247,20 @@ GTEST_TEST(Render_Vertex, SerializeTest)
 	VertexType1 v1 = {{{10, 11, 12}}, {{13, 14, 15, 16}}, {{17, 18, 19}}};
 	VertexType2 v2 = {{{ 0,  1}},{{ 2,  3,  4,  5}},{{ 6}},{{ 7, 8, 9}},{{10,11,12}}};
 
-	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v1);
-	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v2);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v1);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v2);
-//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v1);
-//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v2);
+	SerializeTest<text_oarchive,   text_iarchive,   bksge::stringstream>(v1);
+	SerializeTest<text_oarchive,   text_iarchive,   bksge::stringstream>(v2);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::stringstream>(v1);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::stringstream>(v2);
+//	SerializeTest<binary_oarchive, binary_iarchive, bksge::stringstream>(v1);
+//	SerializeTest<binary_oarchive, binary_iarchive, bksge::stringstream>(v2);
 
 #if !defined(BKSGE_NO_STD_WSTREAMBUF)
-	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v1);
-	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v2);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v1);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v2);
-//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v1);
-//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v2);
+	SerializeTest<text_oarchive,   text_iarchive,   bksge::wstringstream>(v1);
+	SerializeTest<text_oarchive,   text_iarchive,   bksge::wstringstream>(v2);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::wstringstream>(v1);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::wstringstream>(v2);
+//	SerializeTest<binary_oarchive, binary_iarchive, bksge::wstringstream>(v1);
+//	SerializeTest<binary_oarchive, binary_iarchive, bksge::wstringstream>(v2);
 #endif
 }
 

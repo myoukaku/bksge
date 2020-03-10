@@ -10,7 +10,8 @@
 #include <bksge/fnd/serialization/base_object.hpp>
 #include <bksge/fnd/serialization/text_oarchive.hpp>
 #include <bksge/fnd/serialization/text_iarchive.hpp>
-#include <sstream>
+#include <bksge/fnd/sstream/stringstream.hpp>
+#include <bksge/fnd/sstream/wstringstream.hpp>
 #include <gtest/gtest.h>
 #include "serialization_test_utility.hpp"
 
@@ -104,12 +105,12 @@ void DerivedTest()
 GTEST_TEST(SerializationTest, DerivedTest)
 {
 	DerivedTest<
-		std::stringstream,
+		bksge::stringstream,
 		bksge::serialization::text_oarchive,
 		bksge::serialization::text_iarchive
 	>();
 	DerivedTest<
-		std::wstringstream,
+		bksge::wstringstream,
 		bksge::serialization::text_oarchive,
 		bksge::serialization::text_iarchive
 	>();

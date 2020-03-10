@@ -10,7 +10,7 @@
 #define BKSGE_FND_DEBUG_DETAIL_ASSERTION_FAILED_HPP
 
 #include <bksge/fnd/debug/assertion_handler.hpp>
-#include <sstream>
+#include <bksge/fnd/sstream/stringstream.hpp>
 
 namespace bksge
 {
@@ -31,7 +31,7 @@ assertion_failed(
 	Expr const& expr,
 	char const* msg)
 {
-	std::stringstream ss;
+	bksge::stringstream ss;
 	ss << expr;
 
 	bksge::debug::get_assertion_handler()(

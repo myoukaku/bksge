@@ -10,7 +10,8 @@
 #include <bksge/fnd/serialization/access.hpp>
 #include <bksge/fnd/serialization/text_oarchive.hpp>
 #include <bksge/fnd/serialization/text_iarchive.hpp>
-#include <sstream>
+#include <bksge/fnd/sstream/stringstream.hpp>
+#include <bksge/fnd/sstream/wstringstream.hpp>
 #include <gtest/gtest.h>
 #include "serialization_test_utility.hpp"
 
@@ -106,25 +107,25 @@ GTEST_TEST(SerializationTest, VersionNonIntrusiveTest)
 {
 	VersionNonIntrusiveTest<
 		VersionNonIntrusiveObject1,
-		std::stringstream,
+		bksge::stringstream,
 		bksge::serialization::text_oarchive,
 		bksge::serialization::text_iarchive
 	>();
 	VersionNonIntrusiveTest<
 		VersionNonIntrusiveObject2,
-		std::stringstream,
+		bksge::stringstream,
 		bksge::serialization::text_oarchive,
 		bksge::serialization::text_iarchive
 	>();
 	VersionNonIntrusiveTest<
 		VersionNonIntrusiveObject1,
-		std::wstringstream,
+		bksge::wstringstream,
 		bksge::serialization::text_oarchive,
 		bksge::serialization::text_iarchive
 	>();
 	VersionNonIntrusiveTest<
 		VersionNonIntrusiveObject2,
-		std::wstringstream,
+		bksge::wstringstream,
 		bksge::serialization::text_oarchive,
 		bksge::serialization::text_iarchive
 	>();

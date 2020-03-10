@@ -19,10 +19,11 @@
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
+#include <bksge/fnd/sstream/stringstream.hpp>
+#include <bksge/fnd/sstream/wstringstream.hpp>
 #include <bksge/fnd/tuple/tuple_element.hpp>
 #include <bksge/fnd/tuple/tuple_size.hpp>
 #include <gtest/gtest.h>
-#include <sstream>
 #include <functional>
 #include <vector>
 #include "constexpr_test.hpp"
@@ -736,13 +737,13 @@ TYPED_TEST(MathVector2Test, OutputStreamTest)
 
 	{
 		Vector2 const v{1, -2};
-		std::stringstream ss;
+		bksge::stringstream ss;
 		ss << v;
 		EXPECT_EQ("{ 1, -2 }", ss.str());
 	}
 	{
 		Vector2 const v{-10, 9};
-		std::wstringstream ss;
+		bksge::wstringstream ss;
 		ss << v;
 		EXPECT_EQ(L"{ -10, 9 }", ss.str());
 	}
@@ -915,14 +916,14 @@ TYPED_TEST(MathVector2Test, SerializeTest)
 	using T = TypeParam;
 	bksge::Vector2<T> const v { 4, 5 };
 
-	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
-//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v);
+	SerializeTest<text_oarchive,   text_iarchive,   bksge::stringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::stringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, bksge::stringstream>(v);
 
 #if !defined(BKSGE_NO_STD_WSTREAMBUF)
-	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
-//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
+	SerializeTest<text_oarchive,   text_iarchive,   bksge::wstringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::wstringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, bksge::wstringstream>(v);
 #endif
 }
 

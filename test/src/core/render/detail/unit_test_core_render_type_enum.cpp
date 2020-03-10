@@ -8,8 +8,8 @@
 
 #include <bksge/core/render/detail/type_enum.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
+#include <bksge/fnd/sstream/basic_stringstream.hpp>
 #include <bksge/fnd/cstdint.hpp>
-#include <sstream>
 #include <gtest/gtest.h>
 
 namespace bksge_core_render_test
@@ -74,7 +74,7 @@ GTEST_TEST(Render_TypeEnum, ToStringTest)
 template <typename TChar>
 static void OutputStreamTestSub(bksge::TypeEnum t, const TChar* str)
 {
-	std::basic_stringstream<TChar> ss;
+	bksge::basic_stringstream<TChar> ss;
 	ss << t;
 	EXPECT_EQ(str, ss.str());
 }

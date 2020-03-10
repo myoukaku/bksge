@@ -14,8 +14,9 @@
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
 #include <bksge/fnd/memory/make_shared.hpp>
+#include <bksge/fnd/sstream/stringstream.hpp>
+#include <bksge/fnd/sstream/wstringstream.hpp>
 #include <gtest/gtest.h>
-#include <sstream>
 //#include "serialize_test.hpp"
 
 namespace bksge_core_render_test
@@ -217,13 +218,13 @@ GTEST_TEST(Render_VertexArray, SerializeTest)
 
 	VertexArray<VertexType> a(bksge::begin(t), bksge::end(t));
 
-	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream> (a);
-	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream> (a);
-	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream> (a);
+	SerializeTest<text_oarchive,   text_iarchive,   bksge::stringstream> (a);
+	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::stringstream> (a);
+	SerializeTest<binary_oarchive, binary_iarchive, bksge::stringstream> (a);
 
 #if !defined(BKSGE_NO_STD_WSTREAMBUF)
-	SerializeTest<text_woarchive,  text_wiarchive,  std::wstringstream>(a);
-	SerializeTest<xml_woarchive,   xml_wiarchive,   std::wstringstream>(a);
+	SerializeTest<text_woarchive,  text_wiarchive,  bksge::wstringstream>(a);
+	SerializeTest<xml_woarchive,   xml_wiarchive,   bksge::wstringstream>(a);
 #endif
 #endif
 }
@@ -337,13 +338,13 @@ GTEST_TEST(Render_VertexArray, SerializeBasePtrTest)
 #if 0
 	using namespace bksge::archive;
 
-	SerializeBasePtrTest<text_oarchive,   text_iarchive,   std::stringstream> ();
-	SerializeBasePtrTest<xml_oarchive,    xml_iarchive,    std::stringstream> ();
-	SerializeBasePtrTest<binary_oarchive, binary_iarchive, std::stringstream> ();
+	SerializeBasePtrTest<text_oarchive,   text_iarchive,   bksge::stringstream> ();
+	SerializeBasePtrTest<xml_oarchive,    xml_iarchive,    bksge::stringstream> ();
+	SerializeBasePtrTest<binary_oarchive, binary_iarchive, bksge::stringstream> ();
 
 #if !defined(BKSGE_NO_STD_WSTREAMBUF)
-	SerializeBasePtrTest<text_woarchive,  text_wiarchive,  std::wstringstream>();
-	SerializeBasePtrTest<xml_woarchive,   xml_wiarchive,   std::wstringstream>();
+	SerializeBasePtrTest<text_woarchive,  text_wiarchive,  bksge::wstringstream>();
+	SerializeBasePtrTest<xml_woarchive,   xml_wiarchive,   bksge::wstringstream>();
 #endif
 #endif
 }
