@@ -11,10 +11,10 @@
 #include <bksge/fnd/tuple/make_tuple.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/utility/move.hpp>
+#include <bksge/fnd/memory/unique_ptr.hpp>
 #include <gtest/gtest.h>
 #include <string>
 #include <complex>
-#include <memory>	// unique_ptr
 #include "constexpr_test.hpp"
 
 namespace bksge_tuple_test
@@ -177,9 +177,9 @@ GTEST_TEST(TupleTest, GetNonConstTest)
 
 GTEST_TEST(TupleTest, GetRVTest)
 {
-	typedef bksge::tuple<std::unique_ptr<int> > T;
-	T t(std::unique_ptr<int>(new int(3)));
-	std::unique_ptr<int> p = bksge::get<0>(bksge::move(t));
+	typedef bksge::tuple<bksge::unique_ptr<int> > T;
+	T t(bksge::unique_ptr<int>(new int(3)));
+	bksge::unique_ptr<int> p = bksge::get<0>(bksge::move(t));
 	EXPECT_EQ(*p, 3);
 }
 
@@ -216,7 +216,7 @@ GTEST_TEST(TupleTest, GetByTypeTest)
 	}
 
 	{
-		typedef std::unique_ptr<int> upint;
+		typedef bksge::unique_ptr<int> upint;
 		bksge::tuple<upint> t(upint(new int(4)));
 		upint p = bksge::get<upint>(bksge::move(t)); // get rvalue
 		EXPECT_EQ(*p, 4);
@@ -224,7 +224,7 @@ GTEST_TEST(TupleTest, GetByTypeTest)
 	}
 
 	{
-		typedef std::unique_ptr<int> upint;
+		typedef bksge::unique_ptr<int> upint;
 		const bksge::tuple<upint> t(upint(new int(4)));
 		const upint&& p = bksge::get<upint>(bksge::move(t)); // get const rvalue
 		EXPECT_EQ(*p, 4);

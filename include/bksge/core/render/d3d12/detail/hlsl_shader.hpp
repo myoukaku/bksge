@@ -21,9 +21,9 @@
 #include <bksge/core/render/d3d_common/d3d12shader.hpp>
 #include <bksge/core/render/d3d_common/com_ptr.hpp>
 #include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
+#include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <string>
-#include <memory>
 
 namespace bksge
 {
@@ -41,11 +41,11 @@ class HlslShaderBase
 {
 private:
 	using HlslConstantBuffers =
-		bksge::vector<std::unique_ptr<HlslConstantBuffer>>;
+		bksge::vector<bksge::unique_ptr<HlslConstantBuffer>>;
 	using HlslTextures =
-		bksge::vector<std::unique_ptr<HlslTexture>>;
+		bksge::vector<bksge::unique_ptr<HlslTexture>>;
 	using HlslSamplers =
-		bksge::vector<std::unique_ptr<HlslSampler>>;
+		bksge::vector<bksge::unique_ptr<HlslSampler>>;
 
 public:
 	HlslShaderBase();
@@ -53,7 +53,7 @@ public:
 	virtual ~HlslShaderBase() = 0;
 
 	bool Compile(Device* device, std::string const& source);
-	std::unique_ptr<InputLayout> CreateInputLayout(void);
+	bksge::unique_ptr<InputLayout> CreateInputLayout(void);
 	void CreateHlslConstantBuffers(/*Device* device, */HlslConstantBuffers* hlsl_constant_buffers);
 	void CreateHlslTextures(HlslTextures* hlsl_textures);
 	void CreateHlslSamplers(HlslSamplers* hlsl_samplers);

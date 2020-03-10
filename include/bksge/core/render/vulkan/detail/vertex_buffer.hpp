@@ -16,7 +16,7 @@
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/fwd/geometry_fwd.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
-#include <memory>
+#include <bksge/fnd/memory/unique_ptr.hpp>
 
 namespace bksge
 {
@@ -46,7 +46,7 @@ private:
 	VertexBuffer& operator=(VertexBuffer const&) = delete;
 
 private:
-	std::unique_ptr<vulkan::BufferObject>	m_buffer;
+	bksge::unique_ptr<vulkan::BufferObject>	m_buffer;
 	bksge::uint32_t							m_count = 0;
 };
 

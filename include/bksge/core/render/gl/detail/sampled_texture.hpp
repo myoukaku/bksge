@@ -14,7 +14,6 @@
 #include <bksge/core/render/gl/detail/fwd/resource_pool_fwd.hpp>
 #include <bksge/core/render/gl/detail/gl_h.hpp>
 #include <bksge/core/render/fwd/sampled_texture_fwd.hpp>
-#include <memory>
 
 namespace bksge
 {

@@ -16,7 +16,6 @@
 #include <bksge/core/render/vulkan/detail/descriptor_set_layout.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <memory>
 
 namespace bksge
 {

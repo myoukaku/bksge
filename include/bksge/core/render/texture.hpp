@@ -20,9 +20,9 @@
 //#include <bksge/fnd/serialization/version.hpp>
 #include <bksge/fnd/cstdint/uint8_t.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
-#include <memory>
-#include <ostream>
+#include <bksge/fnd/memory/shared_ptr.hpp>
 #include <bksge/fnd/vector.hpp>
+#include <ostream>
 
 namespace bksge
 {
@@ -124,10 +124,10 @@ public:
 	Pixels const& pixels(void) const;
 
 private:
-	TextureFormat			m_format;       ///< フォーマット
-	ExtentType				m_extent;       ///< 幅と高さ
-	bksge::size_t			m_mipmap_count; ///< ミップマップの数。オリジナル画像を含みます。
-	std::shared_ptr<Pixels>	m_pixels;       ///< 画像データ
+	TextureFormat				m_format;       ///< フォーマット
+	ExtentType					m_extent;       ///< 幅と高さ
+	bksge::size_t				m_mipmap_count; ///< ミップマップの数。オリジナル画像を含みます。
+	bksge::shared_ptr<Pixels>	m_pixels;       ///< 画像データ
 
 private:
 #if 0

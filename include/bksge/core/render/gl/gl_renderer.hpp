@@ -21,7 +21,7 @@
 #include <bksge/core/render/renderer.hpp>
 #include <bksge/core/window/fwd/window_fwd.hpp>
 #include <bksge/fnd/units/time.hpp>
-#include <memory>
+#include <bksge/fnd/memory/unique_ptr.hpp>
 
 namespace bksge
 {
@@ -54,9 +54,9 @@ private:
 	using NanoSeconds  = bksge::units::nanoseconds<float>;
 
 private:
-	std::unique_ptr<gl::Context>		m_gl_context;
-	std::unique_ptr<gl::ResourcePool>	m_resource_pool;
-	std::unique_ptr<gl::Query>			m_timer_queries[2];	///< 描画時間を図るためのクエリ
+	bksge::unique_ptr<gl::Context>		m_gl_context;
+	bksge::unique_ptr<gl::ResourcePool>	m_resource_pool;
+	bksge::unique_ptr<gl::Query>		m_timer_queries[2];	///< 描画時間を図るためのクエリ
 	MilliSeconds						m_draw_time;		///< 描画時間
 };
 

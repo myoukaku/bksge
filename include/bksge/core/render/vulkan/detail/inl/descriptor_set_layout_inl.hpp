@@ -19,7 +19,6 @@
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <memory>
 
 namespace bksge
 {

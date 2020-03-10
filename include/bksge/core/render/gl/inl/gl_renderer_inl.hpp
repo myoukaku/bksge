@@ -40,7 +40,6 @@
 #include <bksge/core/render/viewport.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/assert.hpp>
-#include <memory>
 #include <cstdio>	// printf
 
 namespace bksge

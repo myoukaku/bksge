@@ -12,8 +12,9 @@
 //#include <bksge/fnd/serialization/shared_ptr.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/memory/shared_ptr.hpp>
+#include <bksge/fnd/memory/make_shared.hpp>
 #include <gtest/gtest.h>
-#include <memory>
 #include <sstream>
 //#include "serialize_test.hpp"
 
@@ -248,9 +249,9 @@ void SerializeBasePtrTest(void)
 		};
 		const VertexType3 t3[] = {{{{20, 21, 22}}, {{23, 24, 25, 26}}, {{27, 28, 29}}, {{30, 31, 32}}}};
 
-		std::shared_ptr<VertexArrayBase> a1 = std::make_shared<VertexArray<VertexType1>>(bksge::begin(t1), bksge::end(t1));
-		std::shared_ptr<VertexArrayBase> a2 = std::make_shared<VertexArray<VertexType2>>(bksge::begin(t2), bksge::end(t2));
-		std::shared_ptr<VertexArrayBase> a3 = std::make_shared<VertexArray<VertexType3>>(bksge::begin(t3), bksge::end(t3));
+		bksge::shared_ptr<VertexArrayBase> a1 = bksge::make_shared<VertexArray<VertexType1>>(bksge::begin(t1), bksge::end(t1));
+		bksge::shared_ptr<VertexArrayBase> a2 = bksge::make_shared<VertexArray<VertexType2>>(bksge::begin(t2), bksge::end(t2));
+		bksge::shared_ptr<VertexArrayBase> a3 = bksge::make_shared<VertexArray<VertexType3>>(bksge::begin(t3), bksge::end(t3));
 
 		OArchive oa(s);
 		oa << BKSGE_SERIALIZATION_NVP(a1);
@@ -258,9 +259,9 @@ void SerializeBasePtrTest(void)
 		oa << BKSGE_SERIALIZATION_NVP(a3);
 	}
 	{
-		std::shared_ptr<VertexArrayBase> a1;
-		std::shared_ptr<VertexArrayBase> a2;
-		std::shared_ptr<VertexArrayBase> a3;
+		bksge::shared_ptr<VertexArrayBase> a1;
+		bksge::shared_ptr<VertexArrayBase> a2;
+		bksge::shared_ptr<VertexArrayBase> a3;
 
 		IArchive ia(s);
 		ia >> BKSGE_SERIALIZATION_NVP(a1);

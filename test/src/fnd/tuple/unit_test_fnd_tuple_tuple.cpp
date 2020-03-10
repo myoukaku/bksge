@@ -12,6 +12,7 @@
 #include <bksge/fnd/pair/get.hpp>
 //#include <bksge/fnd/memory/allocator_arg.hpp>
 //#include <bksge/fnd/memory/allocator.hpp>
+#include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/type_traits/is_default_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_default_constructible.hpp>
@@ -34,7 +35,6 @@
 #include <utility>
 #include <string>
 #include <array>
-#include <memory>	// unique_ptr
 #include "tuple_test_utility.hpp"
 #include "constexpr_test.hpp"
 
@@ -1103,16 +1103,16 @@ GTEST_TEST(TupleTest, AllocConvertMoveCtorTest)
 		EXPECT_EQ(bksge::get<0>(t1), 2);
 	}
 	{
-		typedef bksge::tuple<std::unique_ptr<D>> T0;
-		typedef bksge::tuple<std::unique_ptr<B>> T1;
-		T0 t0(std::unique_ptr<D>(new D(3)));
+		typedef bksge::tuple<bksge::unique_ptr<D>> T0;
+		typedef bksge::tuple<bksge::unique_ptr<B>> T1;
+		T0 t0(bksge::unique_ptr<D>(new D(3)));
 		T1 t1(std::allocator_arg, A1<int>(5), bksge::move(t0));
 		EXPECT_EQ(bksge::get<0>(t1)->id_, 3);
 	}
 	{
-		typedef bksge::tuple<int, std::unique_ptr<D>> T0;
-		typedef bksge::tuple<alloc_first, std::unique_ptr<B>> T1;
-		T0 t0(2, std::unique_ptr<D>(new D(3)));
+		typedef bksge::tuple<int, bksge::unique_ptr<D>> T0;
+		typedef bksge::tuple<alloc_first, bksge::unique_ptr<B>> T1;
+		T0 t0(2, bksge::unique_ptr<D>(new D(3)));
 		alloc_first::allocator_constructed = false;
 		T1 t1(std::allocator_arg, A1<int>(5), bksge::move(t0));
 		EXPECT_TRUE(alloc_first::allocator_constructed);
@@ -1120,9 +1120,9 @@ GTEST_TEST(TupleTest, AllocConvertMoveCtorTest)
 		EXPECT_EQ(bksge::get<1>(t1)->id_, 3);
 	}
 	{
-		typedef bksge::tuple<int, int, std::unique_ptr<D>> T0;
-		typedef bksge::tuple<alloc_last, alloc_first, std::unique_ptr<B>> T1;
-		T0 t0(1, 2, std::unique_ptr<D>(new D(3)));
+		typedef bksge::tuple<int, int, bksge::unique_ptr<D>> T0;
+		typedef bksge::tuple<alloc_last, alloc_first, bksge::unique_ptr<B>> T1;
+		T0 t0(1, 2, bksge::unique_ptr<D>(new D(3)));
 		alloc_first::allocator_constructed = false;
 		alloc_last::allocator_constructed = false;
 		T1 t1(std::allocator_arg, A1<int>(5), bksge::move(t0));
@@ -1399,9 +1399,9 @@ GTEST_TEST(TupleTest, AllocMovePairCtorTest)
 			bksge::pair<int, int>&&>(), "");
 	}
 	{
-		typedef bksge::pair<int, std::unique_ptr<D>> T0;
-		typedef bksge::tuple<alloc_first, std::unique_ptr<B>> T1;
-		T0 t0(2, std::unique_ptr<D>(new D(3)));
+		typedef bksge::pair<int, bksge::unique_ptr<D>> T0;
+		typedef bksge::tuple<alloc_first, bksge::unique_ptr<B>> T1;
+		T0 t0(2, bksge::unique_ptr<D>(new D(3)));
 		alloc_first::allocator_constructed = false;
 		T1 t1(std::allocator_arg, A1<int>(5), bksge::move(t0));
 		EXPECT_TRUE(alloc_first::allocator_constructed);
@@ -2008,9 +2008,9 @@ GTEST_TEST(TupleTest, ConvertMoveCtorTest)
 	//    EXPECT_EQ(bksge::get<2>(t1).id_, 2);
 	//}
 	{
-		typedef bksge::tuple<long, char, std::unique_ptr<D>> T0;
-		typedef bksge::tuple<long long, int, std::unique_ptr<B>> T1;
-		T0 t0(2, 'a', std::unique_ptr<D>(new D(3)));
+		typedef bksge::tuple<long, char, bksge::unique_ptr<D>> T0;
+		typedef bksge::tuple<long long, int, bksge::unique_ptr<B>> T1;
+		T0 t0(2, 'a', bksge::unique_ptr<D>(new D(3)));
 		T1 t1 = bksge::move(t0);
 		EXPECT_EQ(bksge::get<0>(t1), 2);
 		EXPECT_EQ(bksge::get<1>(t1), int('a'));
@@ -2324,9 +2324,9 @@ GTEST_TEST(TupleTest, MovePairCtorTest)
 #endif
 	}
 	{
-		typedef bksge::pair<long, std::unique_ptr<D>> T0;
-		typedef bksge::tuple<long long, std::unique_ptr<B>> T1;
-		T0 t0(2, std::unique_ptr<D>(new D(3)));
+		typedef bksge::pair<long, bksge::unique_ptr<D>> T0;
+		typedef bksge::tuple<long long, bksge::unique_ptr<B>> T1;
+		T0 t0(2, bksge::unique_ptr<D>(new D(3)));
 		T1 t1 = bksge::move(t0);
 		EXPECT_EQ(bksge::get<0>(t1), 2);
 		EXPECT_EQ(bksge::get<1>(t1)->id_, 3);
@@ -2759,9 +2759,9 @@ GTEST_TEST(TupleTest, ConvertMoveAssignTest)
 	//	EXPECT_EQ(bksge::get<2>(t1).id_, 2);
 	//}
 	{
-		typedef bksge::tuple<long, char, std::unique_ptr<D>> T0;
-		typedef bksge::tuple<long long, int, std::unique_ptr<B>> T1;
-		T0 t0(2, 'a', std::unique_ptr<D>(new D(3)));
+		typedef bksge::tuple<long, char, bksge::unique_ptr<D>> T0;
+		typedef bksge::tuple<long long, int, bksge::unique_ptr<B>> T1;
+		T0 t0(2, 'a', bksge::unique_ptr<D>(new D(3)));
 		T1 t1;
 		t1 = bksge::move(t0);
 		EXPECT_EQ(bksge::get<0>(t1), 2);
@@ -2858,7 +2858,7 @@ GTEST_TEST(TupleTest, CopyAssignTest)
 	{
 		// test that the implicitly generated copy assignment operator
 		// is properly deleted
-		using T = bksge::tuple<std::unique_ptr<int>>;
+		using T = bksge::tuple<bksge::unique_ptr<int>>;
 		static_assert(!bksge::is_copy_assignable<T>::value, "");
 	}
 	{
@@ -2966,7 +2966,7 @@ GTEST_TEST(TupleTest, MoveAssignTest)
 	{
 		// test that the implicitly generated move assignment operator
 		// is properly deleted
-		using T = bksge::tuple<std::unique_ptr<int>>;
+		using T = bksge::tuple<bksge::unique_ptr<int>>;
 		static_assert(bksge::is_move_assignable<T>::value, "");
 		static_assert(!bksge::is_copy_assignable<T>::value, "");
 
@@ -3015,9 +3015,9 @@ struct D : B
 GTEST_TEST(TupleTest, MovePairAssignTest)
 {
 	{
-		typedef bksge::pair<long, std::unique_ptr<D>> T0;
-		typedef bksge::tuple<long long, std::unique_ptr<B>> T1;
-		T0 t0(2, std::unique_ptr<D>(new D(3)));
+		typedef bksge::pair<long, bksge::unique_ptr<D>> T0;
+		typedef bksge::tuple<long long, bksge::unique_ptr<B>> T1;
+		T0 t0(2, bksge::unique_ptr<D>(new D(3)));
 		T1 t1;
 		t1 = bksge::move(t0);
 		EXPECT_EQ(bksge::get<0>(t1), 2);

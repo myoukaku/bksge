@@ -9,7 +9,7 @@
 #ifndef BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_DEVICE_MEMORY_FWD_HPP
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_DEVICE_MEMORY_FWD_HPP
 
-#include <memory>
+#include <bksge/fnd/memory/unique_ptr.hpp>
 
 namespace bksge
 {
@@ -21,7 +21,7 @@ namespace vulkan
 {
 
 class DeviceMemory;
-using DeviceMemoryUniquePtr = std::unique_ptr<DeviceMemory>;
+using DeviceMemoryUniquePtr = bksge::unique_ptr<DeviceMemory>;
 
 }	// namespace vulkan
 

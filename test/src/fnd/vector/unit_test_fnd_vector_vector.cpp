@@ -15,8 +15,7 @@
 //#include <bksge/fnd/iterator/istream_iterator.hpp>
 #include <iterator>
 #include <bksge/fnd/utility/move.hpp>
-//#include <bksge/fnd/memory/allocator.hpp>
-#include <memory>
+#include <bksge/fnd/memory/allocator.hpp>
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
 //#include <bksge/fnd/sstream/stringstream.hpp>
 #include <sstream>
@@ -29,7 +28,7 @@ namespace bksge_vector_test
 #if 0
 template <typename T>
 struct NonPropagateAllocator
-	: public std::allocator<T>
+	: public bksge::allocator<T>
 {
 	using propagate_on_container_move_assignment = bksge::false_type;
 };
@@ -47,7 +46,7 @@ GTEST_TEST(VectorTest, ConstructTest)
 		EXPECT_EQ(0u, v.size());
 	}
 	{
-		bksge::vector<int> v{ std::allocator<int>() };
+		bksge::vector<int> v{ bksge::allocator<int>() };
 		EXPECT_EQ(0u, v.size());
 	}
 	// (2)
@@ -58,7 +57,7 @@ GTEST_TEST(VectorTest, ConstructTest)
 		EXPECT_EQ(42, v[4]);
 	}
 	{
-		bksge::vector<int> v(5, 42, std::allocator<int>());
+		bksge::vector<int> v(5, 42, bksge::allocator<int>());
 		EXPECT_EQ(5u, v.size());
 		EXPECT_EQ(42, v[0]);
 		EXPECT_EQ(42, v[4]);
@@ -71,7 +70,7 @@ GTEST_TEST(VectorTest, ConstructTest)
 		EXPECT_EQ(0, v[9]);
 	}
 	{
-		std::allocator<int> a;
+		bksge::allocator<int> a;
 		bksge::vector<int> v(10, a);
 		EXPECT_EQ(10u, v.size());
 		EXPECT_EQ(0, v[0]);
@@ -88,7 +87,7 @@ GTEST_TEST(VectorTest, ConstructTest)
 	}
 	{
 		int a[] { 1, 2, 3, 4 };
-		bksge::vector<int> v(bksge::begin(a), bksge::end(a), std::allocator<int>());
+		bksge::vector<int> v(bksge::begin(a), bksge::end(a), bksge::allocator<int>());
 		EXPECT_EQ(4u, v.size());
 		EXPECT_EQ(1, v[0]);
 		EXPECT_EQ(2, v[1]);
@@ -109,7 +108,7 @@ GTEST_TEST(VectorTest, ConstructTest)
 		std::stringstream ss("1 2 3");
 		std::istream_iterator<int> ii_first(ss);
 		std::istream_iterator<int> ii_last;
-		bksge::vector<int> v(ii_first, ii_last, std::allocator<int>());
+		bksge::vector<int> v(ii_first, ii_last, bksge::allocator<int>());
 		EXPECT_EQ(3u, v.size());
 		EXPECT_EQ(1, v[0]);
 		EXPECT_EQ(2, v[1]);
@@ -125,7 +124,7 @@ GTEST_TEST(VectorTest, ConstructTest)
 	}
 	{
 		const bksge::vector<int> v1(3, 10);
-		const bksge::vector<int> v2(v1, std::allocator<int>());
+		const bksge::vector<int> v2(v1, bksge::allocator<int>());
 		EXPECT_EQ(3u, v2.size());
 		EXPECT_EQ(10, v2[0]);
 		EXPECT_EQ(10, v2[2]);
@@ -141,7 +140,7 @@ GTEST_TEST(VectorTest, ConstructTest)
 	// (7)
 	{
 		bksge::vector<int> v1(3, 10);
-		const bksge::vector<int> v2(bksge::move(v1), std::allocator<int>());
+		const bksge::vector<int> v2(bksge::move(v1), bksge::allocator<int>());
 		EXPECT_EQ(3u, v2.size());
 		EXPECT_EQ(10, v2[0]);
 		EXPECT_EQ(10, v2[2]);
@@ -157,7 +156,7 @@ GTEST_TEST(VectorTest, ConstructTest)
 		EXPECT_EQ(7, v[4]);
 	}
 	{
-		const bksge::vector<int> v({ 3, 4, 5, 6, 7 }, std::allocator<int>());
+		const bksge::vector<int> v({ 3, 4, 5, 6, 7 }, bksge::allocator<int>());
 		EXPECT_EQ(5u, v.size());
 		EXPECT_EQ(3, v[0]);
 		EXPECT_EQ(4, v[1]);
@@ -946,7 +945,7 @@ GTEST_TEST(VectorTest, ClearTest)
 
 GTEST_TEST(VectorTest, GetAllocatorTest)
 {
-	std::allocator<int> a;
+	bksge::allocator<int> a;
 	bksge::vector<int> v(a);
 
 	auto r = v.get_allocator();

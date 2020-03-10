@@ -16,7 +16,6 @@
 #include <bksge/core/render/vulkan/detail/fwd/command_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/fwd/clear_state_fwd.hpp>
-#include <memory>
 
 namespace bksge
 {

@@ -17,7 +17,6 @@
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/window/window.hpp>
 #include <bksge/fnd/config.hpp>
-#include <memory>
 
 #if defined(BKSGE_PLATFORM_WIN32)
 #include <bksge/core/detail/win32.hpp>

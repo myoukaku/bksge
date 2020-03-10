@@ -14,8 +14,8 @@
 #include <bksge/core/render/gl/detail/fwd/resource_pool_fwd.hpp>
 #include <bksge/core/render/gl/detail/gl_h.hpp>
 #include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
+#include <bksge/fnd/memory/unique_ptr.hpp>
 #include <string>
-#include <memory>
 
 namespace bksge
 {
@@ -54,7 +54,7 @@ private:
 	::GLenum		m_type;
 	::GLint			m_location;
 	::GLint			m_offset;
-	std::unique_ptr<GlslParameterSetterBase>	m_setter;
+	bksge::unique_ptr<GlslParameterSetterBase>	m_setter;
 };
 
 }	// namespace gl

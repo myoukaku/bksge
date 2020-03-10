@@ -18,7 +18,6 @@
 #include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/cstdint/uint64_t.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <memory>
 
 namespace bksge
 {

@@ -15,7 +15,6 @@
 #include <bksge/core/render/vulkan/detail/debug_report_callback.hpp>
 #include <bksge/core/render/vulkan/detail/instance.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <memory>
 
 namespace bksge
 {

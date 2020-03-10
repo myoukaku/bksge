@@ -20,7 +20,6 @@
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <memory>
 
 namespace bksge
 {

@@ -10,7 +10,7 @@
 #include <bksge/core/render.hpp>
 #include <bksge/core/math.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <memory>
+#include <bksge/fnd/memory.hpp>
 #include <utility>
 
 namespace
@@ -180,55 +180,55 @@ private:
 int main()
 {
 	bksge::Extent2f const extent{800, 600};
-	bksge::vector<std::shared_ptr<bksge::Renderer>>	renderers;
-	bksge::vector<std::shared_ptr<bksge::Window>>		windows;
+	bksge::vector<bksge::shared_ptr<bksge::Renderer>>	renderers;
+	bksge::vector<bksge::shared_ptr<bksge::Window>>		windows;
 
 #if BKSGE_CORE_RENDER_HAS_D3D11_RENDERER
 	{
-		std::shared_ptr<bksge::Window> window(
+		bksge::shared_ptr<bksge::Window> window(
 			new bksge::Window(extent, "sample_render_fill_mode - D3D11"));
 		windows.push_back(window);
 
-		std::shared_ptr<bksge::D3D11Renderer> renderer(new bksge::D3D11Renderer(*window));
+		bksge::shared_ptr<bksge::D3D11Renderer> renderer(new bksge::D3D11Renderer(*window));
 		renderers.push_back(renderer);
 	}
 #endif
 #if BKSGE_CORE_RENDER_HAS_D3D12_RENDERER
 	{
-		std::shared_ptr<bksge::Window> window(
+		bksge::shared_ptr<bksge::Window> window(
 			new bksge::Window(extent, "sample_render_fill_mode - D3D12"));
 		windows.push_back(window);
 
-		std::shared_ptr<bksge::D3D12Renderer> renderer(new bksge::D3D12Renderer(*window));
+		bksge::shared_ptr<bksge::D3D12Renderer> renderer(new bksge::D3D12Renderer(*window));
 		renderers.push_back(renderer);
 	}
 #endif
 #if BKSGE_CORE_RENDER_HAS_GL_RENDERER
 	{
-		std::shared_ptr<bksge::Window> window(
+		bksge::shared_ptr<bksge::Window> window(
 			new bksge::Window(extent, "sample_render_fill_mode - GL"));
 		windows.push_back(window);
 
-		std::shared_ptr<bksge::GlRenderer> renderer(new bksge::GlRenderer(*window));
+		bksge::shared_ptr<bksge::GlRenderer> renderer(new bksge::GlRenderer(*window));
 		renderers.push_back(renderer);
 	}
 #endif
 #if BKSGE_CORE_RENDER_HAS_VULKAN_RENDERER
 	{
-		std::shared_ptr<bksge::Window> window(
+		bksge::shared_ptr<bksge::Window> window(
 			new bksge::Window(extent, "sample_render_fill_mode - Vulkan"));
 		windows.push_back(window);
 
-		std::shared_ptr<bksge::VulkanRenderer> renderer(
+		bksge::shared_ptr<bksge::VulkanRenderer> renderer(
 			new bksge::VulkanRenderer(*window));
 		renderers.push_back(renderer);
 	}
 #endif
 
-	bksge::vector<std::shared_ptr<Triangle>>	triangles;
+	bksge::vector<bksge::shared_ptr<Triangle>>	triangles;
 
-	triangles.push_back(std::make_shared<Triangle>(-0.5f,  0.0f, bksge::FillMode::kSolid));
-	triangles.push_back(std::make_shared<Triangle>( 0.5f,  0.0f, bksge::FillMode::kWireframe));
+	triangles.push_back(bksge::make_shared<Triangle>(-0.5f,  0.0f, bksge::FillMode::kSolid));
+	triangles.push_back(bksge::make_shared<Triangle>( 0.5f,  0.0f, bksge::FillMode::kWireframe));
 
 	bksge::RenderPassInfo render_pass_info;
 	render_pass_info.viewport().SetRect({bksge::Vector2f{0, 0}, extent});

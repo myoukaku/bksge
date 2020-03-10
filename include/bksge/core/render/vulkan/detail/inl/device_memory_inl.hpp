@@ -17,7 +17,6 @@
 #include <bksge/core/render/vulkan/detail/physical_device.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
-#include <memory>
 
 namespace bksge
 {

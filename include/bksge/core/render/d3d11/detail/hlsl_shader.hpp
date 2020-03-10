@@ -22,8 +22,8 @@
 #include <bksge/core/render/d3d_common/com_ptr.hpp>
 #include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
 #include <bksge/fnd/vector.hpp>
+#include <bksge/fnd/memory/unique_ptr.hpp>
 #include <string>
-#include <memory>
 
 namespace bksge
 {
@@ -87,9 +87,9 @@ private:
 	HlslShaderBase& operator=(HlslShaderBase const&) = delete;
 
 private:
-	using ConstantBuffers = bksge::vector<std::unique_ptr<ConstantBuffer>>;
-	using HlslSamplers = bksge::vector<std::unique_ptr<HlslSampler>>;
-	using HlslTextures = bksge::vector<std::unique_ptr<HlslTexture>>;
+	using ConstantBuffers = bksge::vector<bksge::unique_ptr<ConstantBuffer>>;
+	using HlslSamplers = bksge::vector<bksge::unique_ptr<HlslSampler>>;
+	using HlslTextures = bksge::vector<bksge::unique_ptr<HlslTexture>>;
 
 	ComPtr<::ID3DBlob>					m_micro_code;
 	ComPtr<::ID3D11ShaderReflection>	m_reflection;

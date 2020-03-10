@@ -30,7 +30,6 @@
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <string>
-#include <memory>
 
 #include <iostream>		// TODO
 

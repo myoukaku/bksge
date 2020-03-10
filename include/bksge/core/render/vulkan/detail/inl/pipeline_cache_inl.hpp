@@ -15,7 +15,6 @@
 #include <bksge/core/render/vulkan/detail/pipeline_cache.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <memory>
 
 namespace bksge
 {

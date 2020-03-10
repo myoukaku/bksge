@@ -10,8 +10,8 @@
 #define BKSGE_CORE_RENDER_GL_DETAIL_FWD_TEXTURE_FWD_HPP
 
 #include <bksge/core/render/detail/identifier.hpp>
+#include <bksge/fnd/memory/shared_ptr.hpp>
 #include <map>
-#include <memory>
 
 namespace bksge
 {
@@ -23,7 +23,7 @@ namespace gl
 {
 
 class Texture;
-using TextureShared = std::shared_ptr<Texture>;
+using TextureShared = bksge::shared_ptr<Texture>;
 using TextureMap    = std::map<Identifier, TextureShared>;
 
 }	// namespace gl

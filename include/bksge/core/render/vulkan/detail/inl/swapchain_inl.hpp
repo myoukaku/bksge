@@ -23,7 +23,6 @@
 #include <bksge/core/render/clear_state.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <memory>
 
 namespace bksge
 {

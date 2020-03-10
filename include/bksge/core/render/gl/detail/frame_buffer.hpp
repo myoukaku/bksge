@@ -13,7 +13,6 @@
 #include <bksge/core/render/gl/detail/fwd/render_buffer_fwd.hpp>
 #include <bksge/core/render/gl/detail/gl_h.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <memory>
 
 namespace bksge
 {

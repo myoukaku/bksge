@@ -10,8 +10,8 @@
 #define BKSGE_CORE_RENDER_GL_DETAIL_FWD_SAMPLER_FWD_HPP
 
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/memory/shared_ptr.hpp>
 #include <map>
-#include <memory>
 
 namespace bksge
 {
@@ -23,7 +23,7 @@ namespace gl
 {
 
 class Sampler;
-using SamplerShared = std::shared_ptr<Sampler>;
+using SamplerShared = bksge::shared_ptr<Sampler>;
 using SamplerMap = std::map<bksge::size_t, SamplerShared>;
 
 }	// namespace gl

@@ -12,7 +12,6 @@
 #include <bksge/core/render/vulkan/detail/fwd/semaphore_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <memory>
 
 namespace bksge
 {

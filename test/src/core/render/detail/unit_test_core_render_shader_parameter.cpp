@@ -11,8 +11,9 @@
 #include <bksge/core/math/color4.hpp>
 #include <bksge/core/math/color3.hpp>
 //#include <bksge/fnd/serialization/shared_ptr.hpp>
+#include <bksge/fnd/memory/shared_ptr.hpp>
+#include <bksge/fnd/memory/make_shared.hpp>
 #include <gtest/gtest.h>
-#include <memory>
 #include <sstream>
 //#include "serialize_test.hpp"
 
@@ -124,9 +125,9 @@ void SerializeBasePtrTest(void)
 
 	Stream s;
 	{
-		std::shared_ptr<ShaderParameterBase> p1 = std::make_shared<ShaderParameter<float>>(12.0f);
-		std::shared_ptr<ShaderParameterBase> p2 = std::make_shared<ShaderParameter<bksge::Vector3<float>>>(bksge::Vector3<float>{1,2,3});
-		std::shared_ptr<ShaderParameterBase> p3 = std::make_shared<ShaderParameter<bksge::Color4<float>>>(bksge::Color4<float>{4,5,6,7});
+		bksge::shared_ptr<ShaderParameterBase> p1 = bksge::make_shared<ShaderParameter<float>>(12.0f);
+		bksge::shared_ptr<ShaderParameterBase> p2 = bksge::make_shared<ShaderParameter<bksge::Vector3<float>>>(bksge::Vector3<float>{1,2,3});
+		bksge::shared_ptr<ShaderParameterBase> p3 = bksge::make_shared<ShaderParameter<bksge::Color4<float>>>(bksge::Color4<float>{4,5,6,7});
 
 		OArchive oa(s);
 		oa << BKSGE_SERIALIZATION_NVP(p1);
@@ -134,9 +135,9 @@ void SerializeBasePtrTest(void)
 		oa << BKSGE_SERIALIZATION_NVP(p3);
 	}
 	{
-		std::shared_ptr<ShaderParameterBase> p1;
-		std::shared_ptr<ShaderParameterBase> p2;
-		std::shared_ptr<ShaderParameterBase> p3;
+		bksge::shared_ptr<ShaderParameterBase> p1;
+		bksge::shared_ptr<ShaderParameterBase> p2;
+		bksge::shared_ptr<ShaderParameterBase> p3;
 
 		IArchive ia(s);
 		ia >> BKSGE_SERIALIZATION_NVP(p1);

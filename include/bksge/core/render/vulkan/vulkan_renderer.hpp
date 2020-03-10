@@ -43,8 +43,9 @@
 #include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
 #include <bksge/core/window/fwd/window_fwd.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <bksge/fnd/memory/shared_ptr.hpp>
+#include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <memory>
 
 namespace bksge
 {
@@ -74,23 +75,23 @@ private:
 		RenderState const& render_state) override;
 
 private:
-	std::shared_ptr<vulkan::Instance>					m_instance;
-	std::unique_ptr<vulkan::DebugReportCallback>		m_callback;
-	std::shared_ptr<vulkan::PhysicalDevice>				m_physical_device;
-	std::shared_ptr<vulkan::Device>						m_device;
-	std::unique_ptr<vulkan::Surface>					m_surface;
-	std::shared_ptr<vulkan::CommandPool>				m_command_pool;
-	std::unique_ptr<vulkan::CommandBuffer>				m_command_buffer;
-	::VkQueue											m_graphics_queue;
-	std::unique_ptr<vulkan::Swapchain>					m_swapchain;
-	std::unique_ptr<vulkan::DepthStencilBuffer>			m_depth_stencil_buffer;
-	std::unique_ptr<vulkan::RenderPass>					m_render_pass;
-	bksge::vector<std::unique_ptr<vulkan::Framebuffer>>	m_framebuffers;
-	std::unique_ptr<vulkan::Fence>						m_draw_fence;
-	std::unique_ptr<vulkan::Semaphore>					m_image_acquired_semaphore;
-	std::unique_ptr<vulkan::ResourcePool>				m_resource_pool;
-	std::unique_ptr<vulkan::UniformBuffer>				m_uniform_buffer;
-	bksge::uint32_t										m_frame_index = 0;
+	bksge::shared_ptr<vulkan::Instance>						m_instance;
+	bksge::unique_ptr<vulkan::DebugReportCallback>			m_callback;
+	bksge::shared_ptr<vulkan::PhysicalDevice>				m_physical_device;
+	bksge::shared_ptr<vulkan::Device>						m_device;
+	bksge::unique_ptr<vulkan::Surface>						m_surface;
+	bksge::shared_ptr<vulkan::CommandPool>					m_command_pool;
+	bksge::unique_ptr<vulkan::CommandBuffer>				m_command_buffer;
+	::VkQueue												m_graphics_queue;
+	bksge::unique_ptr<vulkan::Swapchain>					m_swapchain;
+	bksge::unique_ptr<vulkan::DepthStencilBuffer>			m_depth_stencil_buffer;
+	bksge::unique_ptr<vulkan::RenderPass>					m_render_pass;
+	bksge::vector<bksge::unique_ptr<vulkan::Framebuffer>>	m_framebuffers;
+	bksge::unique_ptr<vulkan::Fence>						m_draw_fence;
+	bksge::unique_ptr<vulkan::Semaphore>					m_image_acquired_semaphore;
+	bksge::unique_ptr<vulkan::ResourcePool>					m_resource_pool;
+	bksge::unique_ptr<vulkan::UniformBuffer>				m_uniform_buffer;
+	bksge::uint32_t											m_frame_index = 0;
 };
 
 }	// namespace render

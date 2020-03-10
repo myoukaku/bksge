@@ -9,7 +9,7 @@
 #ifndef BKSGE_CORE_RENDER_GL_DETAIL_FWD_GLSL_SHADER_FWD_HPP
 #define BKSGE_CORE_RENDER_GL_DETAIL_FWD_GLSL_SHADER_FWD_HPP
 
-#include <memory>
+#include <bksge/fnd/memory/unique_ptr.hpp>
 
 namespace bksge
 {
@@ -21,7 +21,7 @@ namespace gl
 {
 
 class GlslShader;
-using GlslShaderUnique = std::unique_ptr<GlslShader>;
+using GlslShaderUnique = bksge::unique_ptr<GlslShader>;
 
 }	// namespace gl
 

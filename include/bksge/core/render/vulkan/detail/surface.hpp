@@ -13,7 +13,6 @@
 #include <bksge/core/render/vulkan/detail/fwd/instance_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/window/fwd/window_fwd.hpp>
-#include <memory>
 
 namespace bksge
 {

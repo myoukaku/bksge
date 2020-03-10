@@ -10,8 +10,8 @@
 #define BKSGE_CORE_RENDER_D3D12_DETAIL_FWD_PIPELINE_STATE_FWD_HPP
 
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/memory/shared_ptr.hpp>
 #include <map>
-#include <memory>
 
 namespace bksge
 {
@@ -24,7 +24,7 @@ namespace d3d12
 
 class PipelineState;
 
-using PipelineStateShared = std::shared_ptr<PipelineState>;
+using PipelineStateShared = bksge::shared_ptr<PipelineState>;
 using PipelineStateMap = std::map<bksge::size_t, PipelineStateShared>;
 
 }	// namespace d3d12

@@ -9,7 +9,7 @@
 #ifndef BKSGE_CORE_RENDER_FWD_GEOMETRY_FWD_HPP
 #define BKSGE_CORE_RENDER_FWD_GEOMETRY_FWD_HPP
 
-#include <memory>
+#include <bksge/fnd/memory/shared_ptr.hpp>
 
 namespace bksge
 {
@@ -18,7 +18,7 @@ namespace render
 {
 
 class Geometry;
-using GeometryPtr = std::shared_ptr<Geometry>;
+using GeometryPtr = bksge::shared_ptr<Geometry>;
 
 }	// namespace render
 

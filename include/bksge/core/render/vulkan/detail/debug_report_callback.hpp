@@ -12,7 +12,6 @@
 #include <bksge/core/render/vulkan/detail/fwd/debug_report_callback_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/instance_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <memory>
 
 namespace bksge
 {

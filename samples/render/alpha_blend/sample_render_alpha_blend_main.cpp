@@ -12,7 +12,7 @@
 #include <bksge/fnd/cmath.hpp>
 #include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <memory>
+#include <bksge/fnd/memory.hpp>
 #include <utility>
 
 namespace
@@ -218,49 +218,49 @@ private:
 int main()
 {
 	bksge::Extent2f const extent{800, 600};
-	bksge::vector<std::shared_ptr<bksge::Renderer>>	renderers;
-	bksge::vector<std::shared_ptr<bksge::Window>>		windows;
+	bksge::vector<bksge::shared_ptr<bksge::Renderer>>	renderers;
+	bksge::vector<bksge::shared_ptr<bksge::Window>>		windows;
 
 #if BKSGE_CORE_RENDER_HAS_D3D11_RENDERER
 	{
-		std::shared_ptr<bksge::Window> window(
+		bksge::shared_ptr<bksge::Window> window(
 			new bksge::Window(extent, "sample_render_alpha_blend - D3D11"));
 		windows.push_back(window);
 
-		std::shared_ptr<bksge::D3D11Renderer> renderer(
+		bksge::shared_ptr<bksge::D3D11Renderer> renderer(
 			new bksge::D3D11Renderer(*window));
 		renderers.push_back(renderer);
 	}
 #endif
 #if BKSGE_CORE_RENDER_HAS_D3D12_RENDERER
 	{
-		std::shared_ptr<bksge::Window> window(
+		bksge::shared_ptr<bksge::Window> window(
 			new bksge::Window(extent, "sample_render_alpha_blend - D3D12"));
 		windows.push_back(window);
 
-		std::shared_ptr<bksge::D3D12Renderer> renderer(
+		bksge::shared_ptr<bksge::D3D12Renderer> renderer(
 			new bksge::D3D12Renderer(*window));
 		renderers.push_back(renderer);
 	}
 #endif
 #if BKSGE_CORE_RENDER_HAS_GL_RENDERER
 	{
-		std::shared_ptr<bksge::Window> window(
+		bksge::shared_ptr<bksge::Window> window(
 			new bksge::Window(extent, "sample_render_alpha_blend - GL"));
 		windows.push_back(window);
 
-		std::shared_ptr<bksge::GlRenderer> renderer(
+		bksge::shared_ptr<bksge::GlRenderer> renderer(
 			new bksge::GlRenderer(*window));
 		renderers.push_back(renderer);
 	}
 #endif
 #if BKSGE_CORE_RENDER_HAS_VULKAN_RENDERER
 	{
-		std::shared_ptr<bksge::Window> window(
+		bksge::shared_ptr<bksge::Window> window(
 			new bksge::Window(extent, "sample_render_alpha_blend - Vulkan"));
 		windows.push_back(window);
 
-		std::shared_ptr<bksge::VulkanRenderer> renderer(
+		bksge::shared_ptr<bksge::VulkanRenderer> renderer(
 			new bksge::VulkanRenderer(*window));
 		renderers.push_back(renderer);
 	}
@@ -311,10 +311,10 @@ int main()
 	bksge::Texture const tex1(
 		bksge::TextureFormat::kRGBA_U8, {tex1_width, tex1_height}, pixels1.data());
 
-	bksge::vector<std::shared_ptr<Sprite>>	sprites;
+	bksge::vector<bksge::shared_ptr<Sprite>>	sprites;
 
 	{
-		auto sprite = std::make_shared<Sprite>(
+		auto sprite = bksge::make_shared<Sprite>(
 			bksge::Vector2f{ 0.0f, 0.0f },
 			bksge::Scale2f { 1.0f, 1.0f }
 		);
@@ -323,7 +323,7 @@ int main()
 	}
 	// アルファブレンド
 	{
-		auto sprite = std::make_shared<Sprite>(
+		auto sprite = bksge::make_shared<Sprite>(
 			bksge::Vector2f{-0.5f, 0.5f },
 			bksge::Scale2f { 0.5f, 0.5f }
 		);
@@ -337,7 +337,7 @@ int main()
 	}
 	// 加算
 	{
-		auto sprite = std::make_shared<Sprite>(
+		auto sprite = bksge::make_shared<Sprite>(
 			bksge::Vector2f{ 0.5f, 0.5f },
 			bksge::Scale2f { 0.5f, 0.5f }
 		);
@@ -354,7 +354,7 @@ int main()
 	}
 	// 乗算
 	{
-		auto sprite = std::make_shared<Sprite>(
+		auto sprite = bksge::make_shared<Sprite>(
 			bksge::Vector2f{-0.5f,-0.5f },
 			bksge::Scale2f { 0.5f, 0.5f }
 		);
@@ -371,7 +371,7 @@ int main()
 	}
 	// 減算
 	{
-		auto sprite = std::make_shared<Sprite>(
+		auto sprite = bksge::make_shared<Sprite>(
 			bksge::Vector2f{ 0.5f,-0.5f },
 			bksge::Scale2f { 0.5f, 0.5f }
 		);
