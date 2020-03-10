@@ -10,10 +10,10 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/list.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
 #include <array>
-#include <list>
-#include <bksge/fnd/vector.hpp>
 #include "constexpr_test.hpp"
 
 namespace bksge_algorithm_test
@@ -93,7 +93,7 @@ GTEST_TEST(AlgorithmTest, EqualRangeTest)
 		}
 	}
 	{
-		const std::list<int> a { 8, 6, 6, 7, 5, 5, 5, 3, 4, 2, 2 };
+		const bksge::list<int> a { 8, 6, 6, 7, 5, 5, 5, 3, 4, 2, 2 };
 		{
 			auto ret = bksge::equal_range(bksge::begin(a), bksge::end(a), 5, [] (int x, int y) { return x > y; });
 			EXPECT_TRUE(ret.first  == bksge::next(bksge::begin(a), 4));
@@ -109,7 +109,7 @@ GTEST_TEST(AlgorithmTest, EqualRangeTest)
 		}
 	}
 	{
-		const std::list<int> a;
+		const bksge::list<int> a;
 		{
 			auto ret = bksge::equal_range(bksge::begin(a), bksge::end(a), 0, pred1);
 			EXPECT_TRUE(ret.first  == bksge::begin(a));

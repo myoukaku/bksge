@@ -10,7 +10,7 @@
 #include <iterator>
 #include <array>
 #include <bksge/fnd/vector.hpp>
-#include <list>
+#include <bksge/fnd/list.hpp>
 #include <deque>
 #include <string>
 #include <regex>
@@ -56,10 +56,10 @@ GTEST_TEST(IteratorTest, IsBidirectionalIteratorTest)
 	static_assert(bksge::is_bidirectional_iterator<std::deque<UDT>::const_iterator>::value              == true, "");
 	static_assert(bksge::is_bidirectional_iterator<std::deque<UDT>::reverse_iterator>::value            == true, "");
 	static_assert(bksge::is_bidirectional_iterator<std::deque<UDT>::const_reverse_iterator>::value      == true, "");
-	static_assert(bksge::is_bidirectional_iterator<std::list<float>::iterator>::value                   == true, "");
-	static_assert(bksge::is_bidirectional_iterator<std::list<float>::const_iterator>::value             == true, "");
-	static_assert(bksge::is_bidirectional_iterator<std::list<float>::reverse_iterator>::value           == true, "");
-	static_assert(bksge::is_bidirectional_iterator<std::list<float>::const_reverse_iterator>::value     == true, "");
+	static_assert(bksge::is_bidirectional_iterator<bksge::list<float>::iterator>::value                   == true, "");
+	static_assert(bksge::is_bidirectional_iterator<bksge::list<float>::const_iterator>::value             == true, "");
+	static_assert(bksge::is_bidirectional_iterator<bksge::list<float>::reverse_iterator>::value           == true, "");
+	static_assert(bksge::is_bidirectional_iterator<bksge::list<float>::const_reverse_iterator>::value     == true, "");
 	static_assert(bksge::is_bidirectional_iterator<std::string::iterator>::value                        == true, "");
 	static_assert(bksge::is_bidirectional_iterator<std::string::const_iterator>::value                  == true, "");
 	static_assert(bksge::is_bidirectional_iterator<std::string::reverse_iterator>::value                == true, "");

@@ -10,10 +10,10 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/list.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
 #include <array>
-#include <list>
-#include <bksge/fnd/vector.hpp>
 
 namespace bksge_algorithm_test
 {
@@ -89,7 +89,7 @@ GTEST_TEST(AlgorithmTest, GenerateNTest)
 	}
 	{
 		int n = 1;
-		std::list<int> a(4);
+		bksge::list<int> a(4);
 		auto ret = bksge::generate_n(bksge::begin(a), 4, [&]() { auto t = n; n *= 2; return t;});
 		EXPECT_TRUE(ret == bksge::end(a));
 
@@ -104,7 +104,7 @@ GTEST_TEST(AlgorithmTest, GenerateNTest)
 	}
 	{
 		int n = 1;
-		std::list<int> a;
+		bksge::list<int> a;
 		auto ret = bksge::generate_n(bksge::begin(a), 0, [&]() { auto t = n; n *= 2; return t;});
 		EXPECT_TRUE(ret == bksge::end(a));
 		EXPECT_TRUE(a.empty());

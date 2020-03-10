@@ -10,10 +10,10 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/functional/greater.hpp>
+#include <bksge/fnd/list.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
 #include <array>
-#include <list>
-#include <bksge/fnd/vector.hpp>
 #include "constexpr_test.hpp"
 
 namespace bksge_algorithm_test
@@ -40,9 +40,9 @@ GTEST_TEST(AlgorithmTest, LexicographicalCompareTest)
 	const bksge::vector<int> v2 {0,1,2,3};
 	const bksge::vector<int> v3 {0,1,2,3};
 
-	const std::list<int> l1 {0,1,2};
-	const std::list<int> l2 {0,1,2,3};
-	const std::list<int> l3 {0,1,2,3};
+	const bksge::list<int> l1 {0,1,2};
+	const bksge::list<int> l2 {0,1,2,3};
+	const bksge::list<int> l3 {0,1,2,3};
 
 	BKSGE_CXX14_CONSTEXPR_EXPECT_FALSE(bksge::lexicographical_compare(
 		bksge::begin(a1), bksge::end(a1), bksge::begin(a1), bksge::end(a1)));

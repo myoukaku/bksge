@@ -10,11 +10,11 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/list.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
 #include <array>
 #include <iterator>
-#include <list>
-#include <bksge/fnd/vector.hpp>
 
 namespace bksge_algorithm_test
 {
@@ -51,7 +51,7 @@ GTEST_TEST(AlgorithmTest, ReplaceCopyTest)
 	}
 	{
 		const std::array<int, 6> a {{ 3,1,2,1,2,3 }};
-		std::list<int> b;
+		bksge::list<int> b;
 		auto ret = bksge::replace_copy(bksge::begin(a), bksge::end(a), std::back_inserter(b), 3, 5);
 		(void)ret;
 		auto it = b.begin();
@@ -88,7 +88,7 @@ GTEST_TEST(AlgorithmTest, ReplaceCopyTest)
 		EXPECT_EQ(0, b[4]);
 	}
 	{
-		const std::list<int> a { 1,1,2,3,5,8,13 };
+		const bksge::list<int> a { 1,1,2,3,5,8,13 };
 		int b[9] {};
 		auto ret = bksge::replace_copy(bksge::begin(a), bksge::end(a), bksge::begin(b), 9, 0);
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(b), 7));
@@ -103,7 +103,7 @@ GTEST_TEST(AlgorithmTest, ReplaceCopyTest)
 		EXPECT_EQ( 0, b[8]);
 	}
 	{
-		std::list<int> a;
+		bksge::list<int> a;
 		bksge::vector<int> b;
 		auto ret = bksge::replace_copy(bksge::begin(a), bksge::end(a), std::back_inserter(b), 0, 1);
 		(void)ret;

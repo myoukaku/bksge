@@ -10,11 +10,11 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/functional/plus.hpp>
+#include <bksge/fnd/list.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
 #include <array>
 #include <iterator>
-#include <list>
-#include <bksge/fnd/vector.hpp>
 
 namespace bksge_algorithm_test
 {
@@ -137,7 +137,7 @@ GTEST_TEST(AlgorithmTest, TransformTest)
 	// vector => list (back_inserter)
 	{
 		const bksge::vector<int> v1 { 1, 2, 3 };
-		std::list<int> l1;
+		bksge::list<int> l1;
 		bksge::transform(
 			bksge::begin(v1), bksge::end(v1), std::back_inserter(l1), Doubling());
 
@@ -163,7 +163,7 @@ GTEST_TEST(AlgorithmTest, TransformTest)
 	// float[] => list<int> (back_inserter)
 	{
 		const float a1[] {1.5, 2.5, 3.5};
-		std::list<int> l1;
+		bksge::list<int> l1;
 		bksge::transform(
 			bksge::begin(a1), bksge::end(a1), std::back_inserter(l1), to_int);
 
@@ -250,7 +250,7 @@ GTEST_TEST(AlgorithmTest, TransformTest)
 	{
 		const bksge::vector<int> v1 { 1, 2, 3, 4 };
 		const bksge::vector<int> v2 { 4, 5, 6, 7 };
-		std::list<int> l1;
+		bksge::list<int> l1;
 		bksge::transform(
 			bksge::begin(v1), bksge::end(v1),
 			bksge::begin(v2), bksge::end(v2),
@@ -283,7 +283,7 @@ GTEST_TEST(AlgorithmTest, TransformTest)
 	}
 	// list,   vector => array
 	{
-		const std::list<int>   l1 { 10, 11, 12 };
+		const bksge::list<int>   l1 { 10, 11, 12 };
 		const bksge::vector<int> v1 { 13, 14, 15, 16 };
 		std::array<int, 3> a1;
 		auto const it = bksge::transform(
@@ -302,7 +302,7 @@ GTEST_TEST(AlgorithmTest, TransformTest)
 	{
 		const int a1[] = { 17, 18, 19 };
 		const bksge::vector<int> v1 { 20, 21, 22 };
-		std::list<int> l1;
+		bksge::list<int> l1;
 		bksge::transform(
 			bksge::begin(a1), bksge::end(a1),
 			bksge::begin(v1), bksge::end(v1),

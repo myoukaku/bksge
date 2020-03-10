@@ -22,6 +22,7 @@
 #include <bksge/fnd/functional.hpp>
 #include <bksge/fnd/ios.hpp>
 #include <bksge/fnd/iterator.hpp>
+#include <bksge/fnd/list.hpp>
 #include <bksge/fnd/memory.hpp>
 #include <bksge/fnd/numeric.hpp>
 #include <bksge/fnd/optional.hpp>

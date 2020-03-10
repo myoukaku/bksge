@@ -11,10 +11,10 @@
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/utility/move.hpp>
+#include <bksge/fnd/list.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
 #include <array>
-#include <list>
-#include <bksge/fnd/vector.hpp>
 
 namespace bksge_algorithm_test
 {
@@ -125,7 +125,7 @@ GTEST_TEST(AlgorithmTest, MoveBackwardTest)
 		EXPECT_EQ( 7, v[4].get());
 	}
 	{
-		std::list<noncopyable> l;
+		bksge::list<noncopyable> l;
 		l.emplace_back(noncopyable(0));
 		l.emplace_back(noncopyable(1));
 		l.emplace_back(noncopyable(2));

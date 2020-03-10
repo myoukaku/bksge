@@ -10,11 +10,11 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/list.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
 #include <array>
 #include <iterator>
-#include <list>
-#include <bksge/fnd/vector.hpp>
 
 namespace bksge_algorithm_test
 {
@@ -166,7 +166,7 @@ GTEST_TEST(AlgorithmTest, CopyTest)
 	}
 	{
 		const bksge::vector<int> a { 5, 6, 7, 8, 9 };
-		std::list<int> b;
+		bksge::list<int> b;
 
 		bksge::copy(bksge::begin(a), bksge::end(a), std::back_inserter(b));
 
@@ -180,7 +180,7 @@ GTEST_TEST(AlgorithmTest, CopyTest)
 	}
 	{
 		const bksge::vector<int> a { 5, 6, 7, 8, 9 };
-		std::list<int> b { 1, 2, 3 };
+		bksge::list<int> b { 1, 2, 3 };
 
 		auto ret = bksge::copy(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b));
 		EXPECT_TRUE(ret == bksge::end(b));
@@ -193,7 +193,7 @@ GTEST_TEST(AlgorithmTest, CopyTest)
 	}
 	{
 		const bksge::vector<int> a { 5, 6, 7, 8, 9 };
-		std::list<int> b { 1, 2, 3, 4, 5, 6, 7 };
+		bksge::list<int> b { 1, 2, 3, 4, 5, 6, 7 };
 
 		auto ret = bksge::copy(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b));
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(b), 5));
@@ -209,7 +209,7 @@ GTEST_TEST(AlgorithmTest, CopyTest)
 		EXPECT_TRUE(it == b.end());
 	}
 	{
-		const std::list<int> a { 1, 2, 3, 4 };
+		const bksge::list<int> a { 1, 2, 3, 4 };
 		int b[5] {};
 
 		auto ret = bksge::copy(bksge::begin(a), bksge::end(a), bksge::begin(b));
@@ -222,7 +222,7 @@ GTEST_TEST(AlgorithmTest, CopyTest)
 		EXPECT_EQ(0, b[4]);
 	}
 	{
-		const std::list<int> a { 1, 2, 3, 4 };
+		const bksge::list<int> a { 1, 2, 3, 4 };
 		int b[3] {};
 
 		auto ret = bksge::copy(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b));
@@ -234,14 +234,14 @@ GTEST_TEST(AlgorithmTest, CopyTest)
 	}
 	{
 		const bksge::vector<int> a;
-		std::list<int> b;
+		bksge::list<int> b;
 
 		bksge::copy(bksge::begin(a), bksge::end(a), std::back_inserter(b));
 
 		EXPECT_TRUE(b.empty());
 	}
 	{
-		const std::list<int> a;
+		const bksge::list<int> a;
 		int b[3] {};
 
 		auto ret = bksge::copy(bksge::begin(a), bksge::end(a), bksge::begin(b));

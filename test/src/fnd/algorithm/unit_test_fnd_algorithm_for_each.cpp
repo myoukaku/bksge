@@ -10,10 +10,10 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/utility/move.hpp>
+#include <bksge/fnd/list.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
 #include <array>
-#include <list>
-#include <bksge/fnd/vector.hpp>
 #include "constexpr_test.hpp"
 
 namespace bksge_algorithm_test
@@ -69,7 +69,7 @@ GTEST_TEST(AlgorithmTest, ForEachTest)
 		EXPECT_EQ(4, n);
 	}
 	{
-		const std::list<int> l { 5, 6, 7, 8 };
+		const bksge::list<int> l { 5, 6, 7, 8 };
 		auto s = bksge::for_each(bksge::begin(l), bksge::end(l), Sum());
 		EXPECT_EQ(26, s.get());
 	}

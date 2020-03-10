@@ -9,10 +9,10 @@
 #include <bksge/fnd/algorithm/count.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/list.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
 #include <array>
-#include <list>
-#include <bksge/fnd/vector.hpp>
 #include "constexpr_test.hpp"
 
 namespace bksge_algorithm_test
@@ -61,7 +61,7 @@ GTEST_TEST(AlgorithmTest, CountTest)
 		EXPECT_EQ(0, bksge::count(bksge::begin(v), bksge::end(v), 40));
 	}
 	{
-		const std::list<int> l{10, 20, 40, 40, 10};
+		const bksge::list<int> l{10, 20, 40, 40, 10};
 		EXPECT_EQ(0, bksge::count(bksge::begin(l), bksge::end(l),  0));
 		EXPECT_EQ(2, bksge::count(bksge::begin(l), bksge::end(l), 10));
 		EXPECT_EQ(1, bksge::count(bksge::begin(l), bksge::end(l), 20));
@@ -69,7 +69,7 @@ GTEST_TEST(AlgorithmTest, CountTest)
 		EXPECT_EQ(2, bksge::count(bksge::begin(l), bksge::end(l), 40));
 	}
 	{
-		const std::list<int> l;
+		const bksge::list<int> l;
 		EXPECT_EQ(0, bksge::count(bksge::begin(l), bksge::end(l),  0));
 		EXPECT_EQ(0, bksge::count(bksge::begin(l), bksge::end(l), 10));
 		EXPECT_EQ(0, bksge::count(bksge::begin(l), bksge::end(l), 20));

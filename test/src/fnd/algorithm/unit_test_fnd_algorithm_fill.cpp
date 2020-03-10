@@ -9,10 +9,10 @@
 #include <bksge/fnd/algorithm/fill.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/list.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
 #include <array>
-#include <list>
-#include <bksge/fnd/vector.hpp>
 
 namespace bksge_algorithm_test
 {
@@ -52,7 +52,7 @@ GTEST_TEST(AlgorithmTest, FillTest)
 		EXPECT_TRUE(a.empty());
 	}
 	{
-		std::list<int> a(3);
+		bksge::list<int> a(3);
 		bksge::fill(bksge::begin(a), bksge::end(a), 4);
 		auto it = a.begin();
 		EXPECT_EQ(4, *it++);
@@ -61,7 +61,7 @@ GTEST_TEST(AlgorithmTest, FillTest)
 		EXPECT_TRUE(it == a.end());
 	}
 	{
-		std::list<int> a;
+		bksge::list<int> a;
 		bksge::fill(bksge::begin(a), bksge::end(a), 0);
 		EXPECT_TRUE(a.empty());
 	}

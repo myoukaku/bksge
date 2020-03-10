@@ -9,10 +9,10 @@
 #include <bksge/fnd/algorithm/find.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/list.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
 #include <array>
-#include <list>
-#include <bksge/fnd/vector.hpp>
 #include "constexpr_test.hpp"
 
 namespace bksge_algorithm_test
@@ -105,7 +105,7 @@ GTEST_TEST(AlgorithmTest, FindTest)
 		}
 	}
 	{
-		const std::list<int> a {0,1,2};
+		const bksge::list<int> a {0,1,2};
 		{
 			auto it = bksge::find(bksge::begin(a), bksge::end(a), 0);
 			EXPECT_TRUE(it == bksge::begin(a));
@@ -124,7 +124,7 @@ GTEST_TEST(AlgorithmTest, FindTest)
 		}
 	}
 	{
-		std::list<int> a {0,1,2};
+		bksge::list<int> a {0,1,2};
 		{
 			auto it = bksge::find(bksge::begin(a), bksge::end(a), 1);
 			EXPECT_TRUE(it == ++bksge::begin(a));

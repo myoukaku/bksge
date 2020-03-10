@@ -9,10 +9,10 @@
 #include <bksge/fnd/algorithm/swap_ranges.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/list.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
 #include <array>
-#include <list>
-#include <bksge/fnd/vector.hpp>
 
 namespace bksge_algorithm_test
 {
@@ -28,8 +28,8 @@ GTEST_TEST(AlgorithmTest, SwapRangesTest)
 	std::array<int, 3> a4 {{10,11,12}};
 	bksge::vector<int> v1{13,14,15};
 	bksge::vector<int> v2{16,17,18};
-	std::list<int> l1{19,20,21};
-	std::list<int> l2{22,23,24};
+	bksge::list<int> l1{19,20,21};
+	bksge::list<int> l2{22,23,24};
 
 	{
 		auto it = bksge::swap_ranges(bksge::begin(a1), bksge::end(a1), bksge::begin(a2));

@@ -12,7 +12,7 @@
 #include <bksge/fnd/functional/multiplies.hpp>
 #include <array>
 #include <bksge/fnd/vector.hpp>
-#include <list>
+#include <bksge/fnd/list.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -46,7 +46,7 @@ GTEST_TEST(NumericTest, AccumulateTest)
 		EXPECT_EQ(-1200, x3);
 	}
 	{
-		const std::list<int> l = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
+		const bksge::list<int> l = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
 		auto x1 = bksge::accumulate(bksge::begin(l), bksge::end(l), 0);
 		EXPECT_EQ(55, x1);
 		auto x2 = bksge::accumulate(bksge::begin(l), bksge::end(l), 30);
