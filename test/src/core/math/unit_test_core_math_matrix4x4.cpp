@@ -28,9 +28,9 @@
 #include <bksge/fnd/tuple/tuple_size.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
+#include <bksge/fnd/stdexcept/out_of_range.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
-#include <stdexcept>
 #include <functional>
 #include <vector>
 #include "constexpr_test.hpp"
@@ -547,8 +547,8 @@ TYPED_TEST(MathMatrix4x4Test, AtTest)
 		EXPECT_EQ(Vector4(51, 52, 53, 54), m.at(1));
 		EXPECT_EQ(Vector4(31, 55, 33, 34), m.at(2));
 		EXPECT_EQ(Vector4(41, 42, 43, 56), m.at(3));
-		EXPECT_THROW((void)m.at(0).at(4), std::out_of_range);
-		EXPECT_THROW((void)m.at(4), std::out_of_range);
+		EXPECT_THROW((void)m.at(0).at(4), bksge::out_of_range);
+		EXPECT_THROW((void)m.at(4), bksge::out_of_range);
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST Matrix4x4 m
@@ -563,8 +563,8 @@ TYPED_TEST(MathMatrix4x4Test, AtTest)
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(21, 22, 23, 24), m.at(1));
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(31, 32, 33, 34), m.at(2));
 		BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(41, 42, 43, 44), m.at(3));
-		EXPECT_THROW((void)m.at(0).at(4), std::out_of_range);
-		EXPECT_THROW((void)m.at(4), std::out_of_range);
+		EXPECT_THROW((void)m.at(0).at(4), bksge::out_of_range);
+		EXPECT_THROW((void)m.at(4), bksge::out_of_range);
 	}
 }
 

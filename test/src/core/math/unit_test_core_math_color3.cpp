@@ -19,11 +19,11 @@
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
+#include <bksge/fnd/stdexcept/out_of_range.hpp>
 #include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <sstream>
-#include <stdexcept>
 #include <tuple>
 #include <functional>
 #include <gtest/gtest.h>
@@ -275,7 +275,7 @@ TYPED_TEST(MathColor3Test, AtTest)
 		EXPECT_EQ(1, v.at(0));
 		EXPECT_EQ(2, v.at(1));
 		EXPECT_EQ(3, v.at(2));
-		EXPECT_THROW((void)v.at(3), std::out_of_range);
+		EXPECT_THROW((void)v.at(3), bksge::out_of_range);
 
 		v.at(0) = -3;
 		v.at(1) =  4;
@@ -290,7 +290,7 @@ TYPED_TEST(MathColor3Test, AtTest)
 		BKSGE_CONSTEXPR_EXPECT_EQ(5, v.at(0));
 		BKSGE_CONSTEXPR_EXPECT_EQ(6, v.at(1));
 		BKSGE_CONSTEXPR_EXPECT_EQ(7, v.at(2));
-		EXPECT_THROW((void)v.at(3), std::out_of_range);
+		EXPECT_THROW((void)v.at(3), bksge::out_of_range);
 	}
 }
 

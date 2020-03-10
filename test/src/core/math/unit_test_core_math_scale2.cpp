@@ -19,9 +19,9 @@
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
+#include <bksge/fnd/stdexcept/out_of_range.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
-#include <stdexcept>
 #include <tuple>
 #include <functional>
 #include <vector>
@@ -237,7 +237,7 @@ TYPED_TEST(MathScale2Test, AtTest)
 		Scale2 s{1, 2};
 		EXPECT_EQ(1, s.at(0));
 		EXPECT_EQ(2, s.at(1));
-		EXPECT_THROW((void)s.at(2), std::out_of_range);
+		EXPECT_THROW((void)s.at(2), bksge::out_of_range);
 
 		s.at(0) = -3;
 		s.at(1) =  4;
@@ -249,7 +249,7 @@ TYPED_TEST(MathScale2Test, AtTest)
 		BKSGE_CONSTEXPR_OR_CONST Scale2 s{5, 6};
 		BKSGE_CONSTEXPR_EXPECT_EQ(5, s.at(0));
 		BKSGE_CONSTEXPR_EXPECT_EQ(6, s.at(1));
-		EXPECT_THROW((void)s.at(2), std::out_of_range);
+		EXPECT_THROW((void)s.at(2), bksge::out_of_range);
 	}
 }
 
