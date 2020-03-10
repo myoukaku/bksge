@@ -9,11 +9,9 @@
 #ifndef BKSGE_FND_MEMORY_ADDRESSOF_HPP
 #define BKSGE_FND_MEMORY_ADDRESSOF_HPP
 
-#include <bksge/fnd/config.hpp>
-
-#if BKSGE_CXX_STANDARD >= 17
-
 #include <memory>
+
+#if defined(__cpp_lib_addressof_constexpr) && (__cpp_lib_addressof_constexpr >= 201603)
 
 namespace bksge
 {
@@ -23,6 +21,8 @@ using std::addressof;
 }	// namespace bksge
 
 #else
+
+#include <bksge/fnd/config.hpp>
 
 namespace bksge
 {
@@ -38,12 +38,6 @@ namespace bksge
  */
 template <typename T>
 BKSGE_CONSTEXPR T* addressof(T& r) BKSGE_NOEXCEPT;
-
-/**
- *	@brief	右辺値を取るオーバーロードは削除
- */
-template <typename T>
-T const* addressof(T const&&) = delete;
 
 }	// namespace bksge
 

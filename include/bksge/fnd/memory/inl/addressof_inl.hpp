@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	addressof_inl.hpp
  *
- *	@brief	addressofの実装
+ *	@brief	addressof の実装
  *
  *	@author	myoukaku
  */

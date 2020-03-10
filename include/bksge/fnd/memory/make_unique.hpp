@@ -23,12 +23,12 @@ using std::make_unique;
 #else
 
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/extent.hpp>
-#include <bksge/fnd/type_traits/remove_extent.hpp>
 #include <bksge/fnd/type_traits/is_array.hpp>
+#include <bksge/fnd/type_traits/remove_extent.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <memory>		// unique_ptr
 
 namespace bksge
 {
