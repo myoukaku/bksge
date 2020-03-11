@@ -9,12 +9,12 @@
 #include <bksge/fnd/algorithm/move.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/iterator/back_inserter.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
 #include <array>
-#include <iterator>
 
 namespace bksge_algorithm_test
 {
@@ -105,7 +105,7 @@ GTEST_TEST(AlgorithmTest, MoveTest)
 
 		bksge::list<noncopyable> l;
 
-		bksge::move(bksge::begin(v), bksge::end(v), std::back_inserter(l));
+		bksge::move(bksge::begin(v), bksge::end(v), bksge::back_inserter(l));
 
 		auto it = l.begin();
 		EXPECT_EQ(5, (*it++).get());

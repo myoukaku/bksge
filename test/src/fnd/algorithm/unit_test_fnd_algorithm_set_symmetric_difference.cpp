@@ -11,11 +11,11 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/iterator/back_inserter.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
 #include <array>
-#include <iterator>
 
 namespace bksge_algorithm_test
 {
@@ -48,7 +48,7 @@ GTEST_TEST(AlgorithmTest, SetSymmetricDifferenceTest)
 		auto ret = bksge::set_symmetric_difference(
 			bksge::begin(a), bksge::end(a),
 			bksge::begin(b), bksge::end(b),
-			std::back_inserter(c),
+			bksge::back_inserter(c),
 			bksge::greater<>());
 
 		(void)ret;
@@ -66,7 +66,7 @@ GTEST_TEST(AlgorithmTest, SetSymmetricDifferenceTest)
 		auto ret = bksge::set_symmetric_difference(
 			bksge::begin(a), bksge::end(a),
 			bksge::begin(b), bksge::end(b),
-			std::back_inserter(c));
+			bksge::back_inserter(c));
 
 		(void)ret;
 
@@ -79,7 +79,7 @@ GTEST_TEST(AlgorithmTest, SetSymmetricDifferenceTest)
 		auto ret = bksge::set_symmetric_difference(
 			bksge::begin(a), bksge::end(a),
 			bksge::begin(b), bksge::end(b),
-			std::back_inserter(c));
+			bksge::back_inserter(c));
 
 		(void)ret;
 
@@ -98,7 +98,7 @@ GTEST_TEST(AlgorithmTest, SetSymmetricDifferenceTest)
 		auto ret = bksge::set_symmetric_difference(
 			bksge::begin(a), bksge::end(a),
 			bksge::begin(b), bksge::end(b),
-			std::back_inserter(c));
+			bksge::back_inserter(c));
 
 		(void)ret;
 
