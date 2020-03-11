@@ -372,6 +372,10 @@
 #if (_MSC_FULL_VER >= 191627035)
 #endif
 
+// Visual Studio 2017 Update 9 (15.9.21) (Visual C++ 14.16)
+#if (_MSC_FULL_VER >= 191627038)
+#endif
+
 // Visual Studio 2019 (16.0.Prev(1-4)) (Visual C++ 14.20)
 #if (_MSC_FULL_VER >= 192027027)
 # if (BKSGE_CXX_STANDARD >= 20)
@@ -413,16 +417,20 @@
 #if (_MSC_FULL_VER >= 192328107)
 #endif
 
-// Visual Studio 2019 Update 4 (16.4.(0-2)) (Visual C++ 14.23)
+// Visual Studio 2019 Update 4 (16.4.(0-2)) (Visual C++ 14.24)
 #if (_MSC_FULL_VER >= 192428314)
 #endif
 
-// Visual Studio 2019 Update 4 (16.4.3) (Visual C++ 14.23)
+// Visual Studio 2019 Update 4 (16.4.3) (Visual C++ 14.24)
 #if (_MSC_FULL_VER >= 192428315)
 #endif
 
-// Visual Studio 2019 Update 4 (16.4.(4-5)) (Visual C++ 14.23)
+// Visual Studio 2019 Update 4 (16.4.(4-5)) (Visual C++ 14.24)
 #if (_MSC_FULL_VER >= 192428316)
+#endif
+
+// Visual Studio 2019 Update 4 (16.4.6) (Visual C++ 14.24)
+#if (_MSC_FULL_VER >= 192428319)
 #endif
 
 #if (BKSGE_CXX_STANDARD >= 17)
