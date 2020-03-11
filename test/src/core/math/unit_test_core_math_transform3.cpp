@@ -18,11 +18,11 @@
 #include <bksge/fnd/sstream/stringstream.hpp>
 #include <bksge/fnd/sstream/wstringstream.hpp>
 #include <bksge/fnd/units/degree.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
 #include <stdexcept>
 #include <tuple>
 #include <functional>
-#include <vector>
 #include "constexpr_test.hpp"
 #include "serialize_test.hpp"
 

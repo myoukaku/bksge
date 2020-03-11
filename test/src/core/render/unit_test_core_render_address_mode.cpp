@@ -12,9 +12,9 @@
 #include <bksge/fnd/sstream/stringstream.hpp>
 #include <bksge/fnd/sstream/wstringstream.hpp>
 #include <bksge/fnd/sstream/basic_stringstream.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
 #include <functional>
-#include <vector>
 #include "serialize_test.hpp"
 
 namespace bksge_core_render_test

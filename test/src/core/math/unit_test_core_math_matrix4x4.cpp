@@ -31,9 +31,9 @@
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
 #include <bksge/fnd/sstream/stringstream.hpp>
 #include <bksge/fnd/sstream/wstringstream.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
 #include <functional>
-#include <vector>
 #include "constexpr_test.hpp"
 #include "serialize_test.hpp"
 

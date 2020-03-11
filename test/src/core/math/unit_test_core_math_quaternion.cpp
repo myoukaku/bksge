@@ -26,9 +26,9 @@
 #include <bksge/fnd/sstream/wstringstream.hpp>
 #include <bksge/fnd/tuple/tuple_element.hpp>
 #include <bksge/fnd/tuple/tuple_size.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
 #include <functional>
-#include <vector>
 #include "constexpr_test.hpp"
 #include "serialize_test.hpp"
 
