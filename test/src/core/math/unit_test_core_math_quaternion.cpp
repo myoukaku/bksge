@@ -24,11 +24,10 @@
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
 #include <bksge/fnd/sstream/stringstream.hpp>
 #include <bksge/fnd/sstream/wstringstream.hpp>
-#include <bksge/fnd/tuple/tuple_element.hpp>
-#include <bksge/fnd/tuple/tuple_size.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
 #include <functional>
+#include <tuple>
 #include "constexpr_test.hpp"
 #include "serialize_test.hpp"
 
@@ -1421,10 +1420,10 @@ TYPED_TEST(MathQuaternionTest, TupleElementTest)
 	using T = TypeParam;
 	using Quaternion = bksge::math::Quaternion<T>;
 
-	static_assert(bksge::is_same<typename bksge::tuple_element<0, Quaternion>::type, T>::value, "");
-	static_assert(bksge::is_same<typename bksge::tuple_element<1, Quaternion>::type, T>::value, "");
-	static_assert(bksge::is_same<typename bksge::tuple_element<2, Quaternion>::type, T>::value, "");
-	static_assert(bksge::is_same<typename bksge::tuple_element<3, Quaternion>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<0, Quaternion>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<1, Quaternion>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<2, Quaternion>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<3, Quaternion>::type, T>::value, "");
 }
 
 TYPED_TEST(MathQuaternionTest, TupleGetTest)
@@ -1464,7 +1463,7 @@ TYPED_TEST(MathQuaternionTest, TupleSizeTest)
 	using T = TypeParam;
 	using Quaternion = bksge::math::Quaternion<T>;
 
-	static_assert(bksge::tuple_size<Quaternion>::value == 4, "");
+	static_assert(std::tuple_size<Quaternion>::value == 4, "");
 }
 
 TYPED_TEST(MathQuaternionTest, RealTest)

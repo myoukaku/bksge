@@ -21,11 +21,10 @@
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
 #include <bksge/fnd/sstream/stringstream.hpp>
 #include <bksge/fnd/sstream/wstringstream.hpp>
-#include <bksge/fnd/tuple/tuple_element.hpp>
-#include <bksge/fnd/tuple/tuple_size.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
 #include <functional>
+#include <tuple>
 #include "constexpr_test.hpp"
 #include "serialize_test.hpp"
 
@@ -926,9 +925,9 @@ TYPED_TEST(MathVector3Test, TupleElementTest)
 	using T = TypeParam;
 	using Vector3 = bksge::math::Vector3<T>;
 
-	static_assert(bksge::is_same<typename bksge::tuple_element<0, Vector3>::type, T>::value, "");
-	static_assert(bksge::is_same<typename bksge::tuple_element<1, Vector3>::type, T>::value, "");
-	static_assert(bksge::is_same<typename bksge::tuple_element<2, Vector3>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<0, Vector3>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<1, Vector3>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<2, Vector3>::type, T>::value, "");
 }
 
 TYPED_TEST(MathVector3Test, TupleGetTest)
@@ -964,7 +963,7 @@ TYPED_TEST(MathVector3Test, TupleSizeTest)
 	using T = TypeParam;
 	using Vector3 = bksge::math::Vector3<T>;
 
-	static_assert(bksge::tuple_size<Vector3>::value == 3, "");
+	static_assert(std::tuple_size<Vector3>::value == 3, "");
 }
 
 TYPED_TEST(MathVector3Test, DotTest)

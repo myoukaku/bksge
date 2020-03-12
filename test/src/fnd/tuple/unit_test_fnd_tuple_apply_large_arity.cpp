@@ -7,12 +7,12 @@
  */
 
 #include <bksge/fnd/tuple/apply.hpp>
-#include <bksge/fnd/tuple/tuple.hpp>
 //#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/utility/integer_sequence.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <tuple>
 #include <gtest/gtest.h>
 
 namespace bksge_tuple_test
@@ -52,7 +52,7 @@ struct make_tuple_imp;
 template <typename Tp, bksge::size_t ...Idx>
 struct make_tuple_imp<Tp, bksge::integer_sequence<bksge::size_t, Idx...>>
 {
-	using type = bksge::tuple<always_t<Tp, Idx>...>;
+	using type = std::tuple<always_t<Tp, Idx>...>;
 };
 
 template <typename Tp, bksge::size_t Size>

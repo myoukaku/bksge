@@ -22,11 +22,10 @@
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
 #include <bksge/fnd/sstream/stringstream.hpp>
 #include <bksge/fnd/sstream/wstringstream.hpp>
-#include <bksge/fnd/tuple/tuple_element.hpp>
-#include <bksge/fnd/tuple/tuple_size.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
 #include <functional>
+#include <tuple>
 #include "constexpr_test.hpp"
 #include "serialize_test.hpp"
 
@@ -806,8 +805,8 @@ TYPED_TEST(MathScale2Test, TupleElementTest)
 	using T = TypeParam;
 	using Scale2 = bksge::math::Scale2<T>;
 
-	static_assert(bksge::is_same<typename bksge::tuple_element<0, Scale2>::type, T>::value, "");
-	static_assert(bksge::is_same<typename bksge::tuple_element<1, Scale2>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<0, Scale2>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<1, Scale2>::type, T>::value, "");
 }
 
 TYPED_TEST(MathScale2Test, TupleGetTest)
@@ -840,7 +839,7 @@ TYPED_TEST(MathScale2Test, TupleSizeTest)
 	using T = TypeParam;
 	using Scale2 = bksge::math::Scale2<T>;
 
-	static_assert(bksge::tuple_size<Scale2>::value == 2, "");
+	static_assert(std::tuple_size<Scale2>::value == 2, "");
 }
 
 TYPED_TEST(MathScale2Test, ZeroTest)

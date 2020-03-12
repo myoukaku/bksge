@@ -16,9 +16,9 @@
 #include <bksge/fnd/tpp/all_of.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_arithmetic.hpp>
-#include <bksge/fnd/tuple/tuple_size.hpp>
 #include <bksge/fnd/cmath/lerp.hpp>
 #include <bksge/fnd/config.hpp>
+#include <tuple>
 
 namespace bksge
 {
@@ -43,7 +43,7 @@ negate_per_elem(Vec const& v)
 BKSGE_NOEXCEPT_OR_NOTHROW
 {
 	return negate_per_elem_impl(v,
-		bksge::make_index_sequence<bksge::tuple_size<Vec>::value>());
+		bksge::make_index_sequence<std::tuple_size<Vec>::value>());
 }
 
 template <typename Vec, bksge::size_t... Is>
@@ -60,7 +60,7 @@ add_per_elem(Vec const& lhs, Vec const& rhs)
 BKSGE_NOEXCEPT_OR_NOTHROW
 {
 	return add_per_elem_impl(lhs, rhs,
-		bksge::make_index_sequence<bksge::tuple_size<Vec>::value>());
+		bksge::make_index_sequence<std::tuple_size<Vec>::value>());
 }
 
 template <typename Vec, bksge::size_t... Is>
@@ -77,7 +77,7 @@ sub_per_elem(Vec const& lhs, Vec const& rhs)
 BKSGE_NOEXCEPT_OR_NOTHROW
 {
 	return sub_per_elem_impl(lhs, rhs,
-		bksge::make_index_sequence<bksge::tuple_size<Vec>::value>());
+		bksge::make_index_sequence<std::tuple_size<Vec>::value>());
 }
 
 template <typename Vec, typename U, bksge::size_t... Is,
@@ -110,7 +110,7 @@ mul_per_elem(Vec const& lhs, U const& rhs)
 BKSGE_NOEXCEPT_OR_NOTHROW
 {
 	return mul_per_elem_impl(lhs, rhs,
-		bksge::make_index_sequence<bksge::tuple_size<Vec>::value>());
+		bksge::make_index_sequence<std::tuple_size<Vec>::value>());
 }
 
 template <typename Vec, typename U, bksge::size_t... Is,
@@ -143,7 +143,7 @@ div_per_elem(Vec const& lhs, U const& rhs)
 BKSGE_NOEXCEPT_OR_NOTHROW
 {
 	return div_per_elem_impl(lhs, rhs,
-		bksge::make_index_sequence<bksge::tuple_size<Vec>::value>());
+		bksge::make_index_sequence<std::tuple_size<Vec>::value>());
 }
 
 template <typename R, typename Vec, bksge::size_t... Is>
@@ -159,7 +159,7 @@ inline BKSGE_CONSTEXPR typename Vec::value_type
 accumulate(Vec const& lhs) BKSGE_NOEXCEPT_OR_NOTHROW
 {
 	return accumulate_impl<typename Vec::value_type>(lhs,
-		bksge::make_index_sequence<bksge::tuple_size<Vec>::value>());
+		bksge::make_index_sequence<std::tuple_size<Vec>::value>());
 }
 
 template <typename Vec, bksge::size_t... Is>
@@ -176,7 +176,7 @@ equal_per_elem(Vec const& lhs, Vec const& rhs)
 BKSGE_NOEXCEPT_OR_NOTHROW
 {
 	return equal_per_elem_impl(lhs, rhs,
-		bksge::make_index_sequence<bksge::tuple_size<Vec>::value>());
+		bksge::make_index_sequence<std::tuple_size<Vec>::value>());
 }
 
 template <typename Vec, typename U, bksge::size_t... Is>
@@ -193,7 +193,7 @@ lerp_per_elem(Vec const& from, Vec const& to, U const& t)
 BKSGE_NOEXCEPT_OR_NOTHROW
 {
 	return lerp_per_elem_impl(from, to, t,
-		bksge::make_index_sequence<bksge::tuple_size<Vec>::value>());
+		bksge::make_index_sequence<std::tuple_size<Vec>::value>());
 }
 
 }	// namespace detail

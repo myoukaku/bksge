@@ -7,7 +7,8 @@
  */
 
 #include <bksge/fnd/pair/pair.hpp>
-#include <bksge/fnd/tuple/tuple.hpp>
+#include <tuple>
+#include <utility>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -19,8 +20,8 @@ GTEST_TEST(PairTest, PiecewiseCtorTest)
 		typedef bksge::pair<P1, P2> P3;
 		P3 p3(
 			std::piecewise_construct,
-			bksge::tuple<int, int*>(3, nullptr),
-			bksge::tuple<int*, int>(nullptr, 4));
+			std::tuple<int, int*>(3, nullptr),
+			std::tuple<int*, int>(nullptr, 4));
 		EXPECT_TRUE(p3.first == P1(3, nullptr));
 		EXPECT_TRUE(p3.second == P2(nullptr, 4));
 	}
@@ -31,8 +32,8 @@ GTEST_TEST(PairTest, PiecewiseCtorTest)
 		typedef bksge::pair<P1, P2> P3;
 		/*BKSGE_CXX20_CONSTEXPR*/ P3 p3(
 			std::piecewise_construct,
-			bksge::tuple<int, float>(3, 0.5f),
-			bksge::tuple<float, int>(2.5f, 4));
+			std::tuple<int, float>(3, 0.5f),
+			std::tuple<float, int>(2.5f, 4));
 		/*BKSGE_CXX20_CONSTEXPR_*/EXPECT_TRUE(p3.first == P1(3, 0.5f));
 		/*BKSGE_CXX20_CONSTEXPR_*/EXPECT_TRUE(p3.second == P2(2.5f, 4));
 	}

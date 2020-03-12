@@ -14,8 +14,8 @@
 #include <bksge/core/math/fwd/quaternion_fwd.hpp>
 #include <bksge/core/math/matrix.hpp>
 #include <bksge/core/math/vector.hpp>
-#include <bksge/fnd/tuple/tuple.hpp>
 #include <bksge/fnd/config.hpp>
+#include <tuple>
 
 namespace bksge
 {
@@ -263,7 +263,7 @@ public:
 	 */
 	static BKSGE_CONSTEXPR auto
 	Decompose(Matrix<T, 4, 4> const& mat) BKSGE_NOEXCEPT
-		-> bksge::tuple<Vector<T, 3>, Scale<T, 3>, Matrix<T, 3, 3>>;
+		-> std::tuple<Vector<T, 3>, Scale<T, 3>, Matrix<T, 3, 3>>;
 };
 
 }	// namespace math

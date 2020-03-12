@@ -7,7 +7,7 @@
  */
 
 #include <bksge/fnd/tuple/tuple_count.hpp>
-#include <bksge/fnd/tuple/tuple.hpp>
+#include <tuple>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -56,7 +56,7 @@ void TupleCountTest()
 
 GTEST_TEST(TupleTest, TupleCountTest)
 {
-	TupleCountTest<bksge::tuple>();
+	TupleCountTest<std::tuple>();
 	TupleCountTest<MyTuple>();
 }
 

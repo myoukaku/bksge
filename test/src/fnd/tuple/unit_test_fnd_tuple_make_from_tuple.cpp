@@ -7,13 +7,13 @@
  */
 
 #include <bksge/fnd/tuple/make_from_tuple.hpp>
-#include <bksge/fnd/tuple/tuple.hpp>
 #include <bksge/fnd/pair/pair.hpp>
 #include <bksge/fnd/pair/get.hpp>
 //#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/type_traits/decay.hpp>
+#include <tuple>
 #include <gtest/gtest.h>
 #include "tuple_test_utility.hpp"
 #include "constexpr_test.hpp"
@@ -97,15 +97,15 @@ bool do_forwarding_test(Tuple&& tup)
 void test_constexpr_construction()
 {
 	{
-		BKSGE_CXX14_CONSTEXPR bksge::tuple<> tup{};
+		BKSGE_CXX14_CONSTEXPR std::tuple<> tup{};
 		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_constexpr_test(tup));
 	}
 	{
-		BKSGE_CXX14_CONSTEXPR bksge::tuple<int> tup(42);
+		BKSGE_CXX14_CONSTEXPR std::tuple<int> tup(42);
 		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_constexpr_test(tup));
 	}
 	{
-		BKSGE_CXX14_CONSTEXPR bksge::tuple<int, long, void*> tup(42, 101, nullptr);
+		BKSGE_CXX14_CONSTEXPR std::tuple<int, long, void*> tup(42, 101, nullptr);
 		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_constexpr_test(tup));
 	}
 	{
@@ -129,14 +129,14 @@ void test_constexpr_construction()
 void test_perfect_forwarding()
 {
 	{
-		using Tup = bksge::tuple<>;
+		using Tup = std::tuple<>;
 		Tup tup;
 		Tup const& ctup = tup;
 		EXPECT_TRUE(do_forwarding_test<>(tup));
 		EXPECT_TRUE(do_forwarding_test<>(ctup));
 	}
 	{
-		using Tup = bksge::tuple<int>;
+		using Tup = std::tuple<int>;
 		Tup tup(42);
 		Tup const& ctup = tup;
 		EXPECT_TRUE(do_forwarding_test<int&>(tup));
@@ -145,7 +145,7 @@ void test_perfect_forwarding()
 		EXPECT_TRUE(do_forwarding_test<int const&&>(bksge::move(ctup)));
 	}
 	{
-		using Tup = bksge::tuple<int&, const char*, unsigned&&>;
+		using Tup = std::tuple<int&, const char*, unsigned&&>;
 		int x = 42;
 		unsigned y = 101;
 		Tup tup(x, "hello world", bksge::move(y));
@@ -198,7 +198,7 @@ void test_noexcept()
 	};
 
 	{
-		using Tuple = bksge::tuple<int, NothrowMoveable>;
+		using Tuple = std::tuple<int, NothrowMoveable>;
 		Tuple tup; ((void)tup);
 		Tuple const& ctup = tup; ((void)ctup);
 		ASSERT_NOT_NOEXCEPT(bksge::make_from_tuple<TestType>(ctup));
@@ -212,12 +212,12 @@ void test_noexcept()
 		ASSERT_NOEXCEPT(bksge::make_from_tuple<TestType>(bksge::move(tup)));
 	}
 	{
-		using Tuple = bksge::tuple<int, int, int>;
+		using Tuple = std::tuple<int, int, int>;
 		Tuple tup; ((void)tup);
 		ASSERT_NOT_NOEXCEPT(bksge::make_from_tuple<TestType>(tup));
 	}
 	{
-		using Tuple = bksge::tuple<long, long, long>;
+		using Tuple = std::tuple<long, long, long>;
 		Tuple tup; ((void)tup);
 		ASSERT_NOEXCEPT(bksge::make_from_tuple<TestType>(tup));
 	}

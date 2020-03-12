@@ -22,12 +22,11 @@
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
 #include <bksge/fnd/sstream/stringstream.hpp>
 #include <bksge/fnd/sstream/wstringstream.hpp>
-#include <bksge/fnd/tuple/tuple_element.hpp>
-#include <bksge/fnd/tuple/tuple_size.hpp>
 #include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <functional>
+#include <tuple>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 #include "serialize_test.hpp"
@@ -972,9 +971,9 @@ TYPED_TEST(MathColor3Test, TupleElementTest)
 	using T = TypeParam;
 	using Color3 = bksge::math::Color3<T>;
 
-	static_assert(bksge::is_same<typename bksge::tuple_element<0, Color3>::type, T>::value, "");
-	static_assert(bksge::is_same<typename bksge::tuple_element<1, Color3>::type, T>::value, "");
-	static_assert(bksge::is_same<typename bksge::tuple_element<2, Color3>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<0, Color3>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<1, Color3>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<2, Color3>::type, T>::value, "");
 }
 
 TYPED_TEST(MathColor3Test, TupleGetTest)
@@ -1010,7 +1009,7 @@ TYPED_TEST(MathColor3Test, TupleSizeTest)
 	using T = TypeParam;
 	using Color3 = bksge::math::Color3<T>;
 
-	static_assert(bksge::tuple_size<Color3>::value == 3, "");
+	static_assert(std::tuple_size<Color3>::value == 3, "");
 }
 
 TYPED_TEST(MathColor3Test, ZeroTest)

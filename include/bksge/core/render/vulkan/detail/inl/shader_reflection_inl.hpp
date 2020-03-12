@@ -16,9 +16,9 @@
 #include <bksge/core/render/vulkan/detail/spirv_cross.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
-#include <bksge/fnd/tuple/make_tuple.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/vector.hpp>
+#include <tuple>
 
 namespace bksge
 {
@@ -117,8 +117,8 @@ ShaderReflection::ShaderReflection(
 		   ShaderReflectionUniform const& rhs)
 		{
 			return
-				bksge::make_tuple(lhs.set, lhs.binding) <
-				bksge::make_tuple(rhs.set, rhs.binding);
+				std::make_tuple(lhs.set, lhs.binding) <
+				std::make_tuple(rhs.set, rhs.binding);
 		}
 	);
 }

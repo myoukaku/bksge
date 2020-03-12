@@ -11,10 +11,10 @@
 
 #include <bksge/fnd/tuple/tuple_head.hpp>
 #include <bksge/fnd/tuple/tuple_head_type.hpp>
-#include <bksge/fnd/tuple/get.hpp>
 #include <bksge/fnd/type_traits/decay.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <tuple>
 
 namespace bksge
 {
@@ -23,7 +23,7 @@ template <typename Tuple>
 inline BKSGE_CONSTEXPR tuple_head_type_t<bksge::decay_t<Tuple>>
 tuple_head(Tuple&& t)
 {
-	return bksge::get<0>(bksge::forward<Tuple>(t));
+	return std::get<0>(bksge::forward<Tuple>(t));
 }
 
 }	// namespace bksge
