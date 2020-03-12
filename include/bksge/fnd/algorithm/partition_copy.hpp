@@ -12,8 +12,8 @@
 #include <bksge/fnd/iterator/type_traits/is_input_iterator.hpp>
 #include <bksge/fnd/iterator/type_traits/is_iterator.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/pair.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -60,7 +60,7 @@ template <
 		bksge::is_iterator<OutputIterator2>::value
 	>
 >
-BKSGE_CXX14_CONSTEXPR bksge::pair<OutputIterator1, OutputIterator2>
+BKSGE_CXX14_CONSTEXPR std::pair<OutputIterator1, OutputIterator2>
 partition_copy(
 	InputIterator first,
 	InputIterator last,

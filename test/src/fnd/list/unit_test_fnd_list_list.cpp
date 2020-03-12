@@ -8,14 +8,12 @@
 
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/pair.hpp>
-//#include <bksge/fnd/string.hpp>
 #include <string>
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/memory/allocator.hpp>
-//#include <bksge/fnd/iosfwd.hpp>
 #include <iosfwd>
+#include <utility>
 #include <gtest/gtest.h>
 
 namespace bksge_container_list_test
@@ -735,7 +733,7 @@ GTEST_TEST(ListTest, InsertTest)
 
 GTEST_TEST(ListTest, EmplaceTest)
 {
-	bksge::list<bksge::pair<int, std::string>> l;
+	bksge::list<std::pair<int, std::string>> l;
 	{
 		auto it = l.emplace(l.begin(), 1, std::string("world"));
 		EXPECT_EQ(1, it->first);
@@ -803,7 +801,7 @@ GTEST_TEST(ListTest, PushBackTest)
 
 GTEST_TEST(ListTest, EmplaceBackTest)
 {
-	bksge::list<bksge::pair<int, std::string>> l;
+	bksge::list<std::pair<int, std::string>> l;
 	l.emplace_back(1, std::string("world"));
 	l.emplace_back(3, std::string("hello"));
 
@@ -846,7 +844,7 @@ GTEST_TEST(ListTest, PushFrontTest)
 
 GTEST_TEST(ListTest, EmplaceFrontTest)
 {
-	bksge::list<bksge::pair<int, std::string>> l;
+	bksge::list<std::pair<int, std::string>> l;
 	l.emplace_front(1, std::string("world"));
 	l.emplace_front(3, std::string("hello"));
 

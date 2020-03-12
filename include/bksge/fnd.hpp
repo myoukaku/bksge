@@ -26,7 +26,6 @@
 #include <bksge/fnd/memory.hpp>
 #include <bksge/fnd/numeric.hpp>
 #include <bksge/fnd/optional.hpp>
-#include <bksge/fnd/pair.hpp>
 #include <bksge/fnd/random.hpp>
 #include <bksge/fnd/ratio.hpp>
 #include <bksge/fnd/serialization.hpp>

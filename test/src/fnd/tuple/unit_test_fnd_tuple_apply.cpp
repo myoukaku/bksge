@@ -8,11 +8,9 @@
 
 #include <bksge/fnd/tuple/apply.hpp>
 //#include <bksge/fnd/array.hpp>
-#include <bksge/fnd/pair/pair.hpp>
-#include <bksge/fnd/pair/get.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <tuple>
-#include <utility>	// declval
+#include <utility>
 #include <gtest/gtest.h>
 #include "tuple_test_utility.hpp"
 #include "constexpr_test.hpp"
@@ -67,7 +65,7 @@ void test_constexpr_evaluation()
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(bksge::apply(sum_obj, t), 143);
 	}
 	{
-		using Tup = bksge::pair<int, long>;
+		using Tup = std::pair<int, long>;
 		using Fn = int(&)(int, int);
 		BKSGE_CXX14_CONSTEXPR Tup t(42, 101);
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(bksge::apply(static_cast<Fn>(constexpr_sum_fn), t), 143);

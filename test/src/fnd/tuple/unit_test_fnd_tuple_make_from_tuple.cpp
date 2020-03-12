@@ -7,13 +7,12 @@
  */
 
 #include <bksge/fnd/tuple/make_from_tuple.hpp>
-#include <bksge/fnd/pair/pair.hpp>
-#include <bksge/fnd/pair/get.hpp>
 //#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/type_traits/decay.hpp>
 #include <tuple>
+#include <utility>
 #include <gtest/gtest.h>
 #include "tuple_test_utility.hpp"
 #include "constexpr_test.hpp"
@@ -79,7 +78,7 @@ constexpr bool do_constexpr_test(Tuple&& tup)
 
 // Needed by do_forwarding_test() since it compares pairs of different types.
 template <typename T1, typename T2, typename U1, typename U2>
-inline bool operator==(const bksge::pair<T1, T2>& lhs, const bksge::pair<U1, U2>& rhs)
+inline bool operator==(const std::pair<T1, T2>& lhs, const std::pair<U1, U2>& rhs)
 {
 	return lhs.first == rhs.first && lhs.second == rhs.second;
 }
@@ -109,7 +108,7 @@ void test_constexpr_construction()
 		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_constexpr_test(tup));
 	}
 	{
-		BKSGE_CXX14_CONSTEXPR bksge::pair<int, const char*> p(42, "hello world");
+		BKSGE_CXX14_CONSTEXPR std::pair<int, const char*> p(42, "hello world");
 		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_constexpr_test(p));
 	}
 #if 0	// TODO
@@ -157,7 +156,7 @@ void test_perfect_forwarding()
 	}
 	// test with pair<T, U>
 	{
-		using Tup = bksge::pair<int&, const char*>;
+		using Tup = std::pair<int&, const char*>;
 		int x = 42;
 		Tup tup(x, "hello world");
 		Tup const& ctup = tup;
@@ -205,7 +204,7 @@ void test_noexcept()
 		ASSERT_NOEXCEPT(bksge::make_from_tuple<TestType>(bksge::move(tup)));
 	}
 	{
-		using Tuple = bksge::pair<int, NothrowMoveable>;
+		using Tuple = std::pair<int, NothrowMoveable>;
 		Tuple tup; ((void)tup);
 		Tuple const& ctup = tup; ((void)ctup);
 		ASSERT_NOT_NOEXCEPT(bksge::make_from_tuple<TestType>(ctup));

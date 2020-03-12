@@ -8,9 +8,8 @@
 
 #include <bksge/fnd/tuple/apply.hpp>
 //#include <bksge/fnd/array.hpp>
-#include <bksge/fnd/pair/pair.hpp>
-#include <bksge/fnd/pair/get.hpp>
 #include <tuple>
+#include <utility>
 #include <gtest/gtest.h>
 
 namespace bksge_tuple_test
@@ -392,16 +391,16 @@ GTEST_TEST(TupleTest, ApplyExtendedTypesTest)
 			std::tuple<A_base_1, int>,  std::tuple<A_base_1 const, int>
 		>();
 		test_ext_int_1<
-			bksge::pair<A_int_1 &, int>,  bksge::pair<A_int_1 const &, int>,
-			bksge::pair<A_int_1 *, int>,  bksge::pair<A_int_1 const *, int>,
-			bksge::pair<A_wrap_1 &, int>, bksge::pair<A_wrap_1 const &, int>,
-			bksge::pair<A_base_1 &, int>, bksge::pair<A_base_1 const &, int>
+			std::pair<A_int_1 &, int>,  std::pair<A_int_1 const &, int>,
+			std::pair<A_int_1 *, int>,  std::pair<A_int_1 const *, int>,
+			std::pair<A_wrap_1 &, int>, std::pair<A_wrap_1 const &, int>,
+			std::pair<A_base_1 &, int>, std::pair<A_base_1 const &, int>
 		>();
 		test_ext_int_1<
-			bksge::pair<A_int_1, int>,   bksge::pair<A_int_1 const, int>,
-			bksge::pair<A_int_1 *, int>, bksge::pair<A_int_1 const *, int>,
-			bksge::pair<A_wrap_1, int>,  bksge::pair<A_wrap_1 const, int>,
-			bksge::pair<A_base_1, int>,  bksge::pair<A_base_1 const, int>
+			std::pair<A_int_1, int>,   std::pair<A_int_1 const, int>,
+			std::pair<A_int_1 *, int>, std::pair<A_int_1 const *, int>,
+			std::pair<A_wrap_1, int>,  std::pair<A_wrap_1 const, int>,
+			std::pair<A_base_1, int>,  std::pair<A_base_1 const, int>
 		>();
 	}
 	{

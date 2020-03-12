@@ -7,18 +7,16 @@
  */
 
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/pair.hpp>
-//#include <bksge/fnd/string.hpp>
 #include <string>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
-//#include <bksge/fnd/iterator/istream_iterator.hpp>
 #include <iterator>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/memory/allocator.hpp>
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
 #include <bksge/fnd/sstream/stringstream.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
+#include <utility>
 #include <gtest/gtest.h>
 
 namespace bksge_vector_test
@@ -614,7 +612,7 @@ GTEST_TEST(VectorTest, PushBackTest)
 
 GTEST_TEST(VectorTest, EmplaceBackTest)
 {
-	bksge::vector<bksge::pair<int, std::string>> v;
+	bksge::vector<std::pair<int, std::string>> v;
 
 	v.emplace_back(3, "hoge");
 
@@ -820,7 +818,7 @@ GTEST_TEST(VectorTest, InsertTest)
 
 GTEST_TEST(VectorTest, EmplaceTest)
 {
-	bksge::vector<bksge::pair<int, std::string>> v;
+	bksge::vector<std::pair<int, std::string>> v;
 
 	v.emplace(v.begin(), 3, "hoge");
 

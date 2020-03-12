@@ -6,13 +6,7 @@
  *	@author	myoukaku
  */
 
-#include <bksge/core/window.hpp>
-#include <bksge/core/render.hpp>
-#include <bksge/core/math.hpp>
-#include <bksge/fnd/cmath.hpp>
-#include <bksge/fnd/cstdint.hpp>
-#include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/memory.hpp>
+#include <bksge/bksge.hpp>
 #include <utility>
 
 namespace

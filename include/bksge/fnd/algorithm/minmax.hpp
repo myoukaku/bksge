@@ -9,9 +9,9 @@
 #ifndef BKSGE_FND_ALGORITHM_MINMAX_HPP
 #define BKSGE_FND_ALGORITHM_MINMAX_HPP
 
-#include <bksge/fnd/utility/pair.hpp>
 #include <bksge/fnd/config.hpp>
 #include <initializer_list>
+#include <utility>
 
 namespace bksge
 {
@@ -34,7 +34,7 @@ namespace algorithm
  *	@complexity	正確に1回の比較
  */
 template <typename T>
-BKSGE_CXX14_CONSTEXPR bksge::pair<T const&, T const&>
+BKSGE_CXX14_CONSTEXPR std::pair<T const&, T const&>
 minmax(T const& a, T const& b);
 
 /**
@@ -52,7 +52,7 @@ minmax(T const& a, T const& b);
  *	@complexity	正確に1回の述語適用
  */
 template <typename T, typename Compare>
-BKSGE_CXX14_CONSTEXPR bksge::pair<T const&, T const&>
+BKSGE_CXX14_CONSTEXPR std::pair<T const&, T const&>
 minmax(T const& a, T const& b, Compare comp);
 
 /**
@@ -71,7 +71,7 @@ minmax(T const& a, T const& b, Compare comp);
  *	@complexity	高々(3/2) * t.size()回の比較
  */
 template <typename T>
-BKSGE_CXX14_CONSTEXPR bksge::pair<T, T>
+BKSGE_CXX14_CONSTEXPR std::pair<T, T>
 minmax(std::initializer_list<T> t);
 
 /**
@@ -91,7 +91,7 @@ minmax(std::initializer_list<T> t);
  *	@complexity	高々(3/2) * t.size()回の述語適用
  */
 template <typename T, typename Compare>
-BKSGE_CXX14_CONSTEXPR bksge::pair<T, T>
+BKSGE_CXX14_CONSTEXPR std::pair<T, T>
 minmax(std::initializer_list<T> t, Compare comp);
 
 }	// namespace algorithm
