@@ -7,9 +7,8 @@
  */
 
 #include <bksge/core/render/texture.hpp>
-#include <bksge/fnd/sstream/stringstream.hpp>
-#include <bksge/fnd/sstream/wstringstream.hpp>
 #include <bksge/fnd/cstdint.hpp>
+#include <sstream>
 #include <gtest/gtest.h>
 //#include "serialize_test.hpp"
 
@@ -155,13 +154,13 @@ GTEST_TEST(Render_Texture, SerializeTest)
 
 	Texture tex(TextureFormat::kRGBA_U8, {4, 3}, pixels);
 
-	SerializeTest<text_oarchive,   text_iarchive,   bksge::stringstream> (tex);
-	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::stringstream> (tex);
-	SerializeTest<binary_oarchive, binary_iarchive, bksge::stringstream> (tex);
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream> (tex);
+	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream> (tex);
+	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream> (tex);
 
 #if !defined(BKSGE_NO_STD_WSTREAMBUF)
-	SerializeTest<text_woarchive,  text_wiarchive,  bksge::wstringstream>(tex);
-	SerializeTest<xml_woarchive,   xml_wiarchive,   bksge::wstringstream>(tex);
+	SerializeTest<text_woarchive,  text_wiarchive,  std::wstringstream>(tex);
+	SerializeTest<xml_woarchive,   xml_wiarchive,   std::wstringstream>(tex);
 #endif
 }
 #endif

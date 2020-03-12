@@ -13,9 +13,7 @@
 #include <bksge/fnd/memory/default_delete.hpp>
 #include <bksge/fnd/memory/get_deleter.hpp>
 #include <bksge/fnd/utility/move.hpp>
-#include <bksge/fnd/sstream/stringstream.hpp>
-#include <bksge/fnd/sstream/wstringstream.hpp>
-//#include <bksge/fnd/functional/hash.hpp>
+#include <sstream>
 #include <functional>	// hash
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -629,17 +627,17 @@ GTEST_TEST(SharedPtrTest, OutputStreamTest)
 {
 	{
 		bksge::shared_ptr<int> p(new int(3));
-		bksge::stringstream ss1;
+		std::stringstream ss1;
 		ss1 << p;
-		bksge::stringstream ss2;
+		std::stringstream ss2;
 		ss2 << p.get();
 		EXPECT_EQ(ss2.str(), ss1.str());
 	}
 	{
 		bksge::shared_ptr<int> p(new int(3));
-		bksge::wstringstream ss1;
+		std::wstringstream ss1;
 		ss1 << p;
-		bksge::wstringstream ss2;
+		std::wstringstream ss2;
 		ss2 << p.get();
 		EXPECT_EQ(ss2.str(), ss1.str());
 	}

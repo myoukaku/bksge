@@ -11,8 +11,7 @@
 #include <bksge/fnd/units/base_dimensions/mass.hpp>
 #include <bksge/fnd/units/base_dimensions/time.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/sstream/stringstream.hpp>
-#include <bksge/fnd/sstream/wstringstream.hpp>
+#include <sstream>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -609,13 +608,13 @@ TYPED_TEST(QuantityTest, OutputStreamTest)
 
 	{
 		const Q1 x(321);
-		bksge::stringstream ss;
+		std::stringstream ss;
 		ss << x;
 		EXPECT_EQ("321", ss.str());
 	}
 	{
 		const Q2 x(54321);
-		bksge::wstringstream ss;
+		std::wstringstream ss;
 		ss << x;
 		EXPECT_EQ(L"54321", ss.str());
 	}

@@ -11,8 +11,7 @@
 #include <bksge/core/math/vector3.hpp>
 #include <bksge/core/math/matrix3x3.hpp>
 #include <bksge/fnd/utility/move.hpp>
-#include <bksge/fnd/sstream/stringstream.hpp>
-#include <bksge/fnd/sstream/wstringstream.hpp>
+#include <sstream>
 #include <gtest/gtest.h>
 //#include "serialize_test.hpp"
 
@@ -96,13 +95,13 @@ GTEST_TEST(Render_Shader, SerializeTest)
 		{ ShaderStage::kFragment, fs_source },
 	};
 
-	SerializeTest<text_oarchive,   text_iarchive,   bksge::stringstream> (shader);
-	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::stringstream> (shader);
-	SerializeTest<binary_oarchive, binary_iarchive, bksge::stringstream> (shader);
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream> (shader);
+	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream> (shader);
+	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream> (shader);
 
 #if !defined(BKSGE_NO_STD_WSTREAMBUF)
-	SerializeTest<text_woarchive,  text_wiarchive,  bksge::wstringstream>(shader);
-	SerializeTest<xml_woarchive,   xml_wiarchive,   bksge::wstringstream>(shader);
+	SerializeTest<text_woarchive,  text_wiarchive,  std::wstringstream>(shader);
+	SerializeTest<xml_woarchive,   xml_wiarchive,   std::wstringstream>(shader);
 #endif
 }
 #endif

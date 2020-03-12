@@ -9,11 +9,10 @@
 #include <bksge/core/render/render_state.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
-#include <bksge/fnd/sstream/stringstream.hpp>
-#include <bksge/fnd/sstream/wstringstream.hpp>
+#include <functional>
+#include <sstream>
 #include <vector>
 #include <gtest/gtest.h>
-#include <functional>
 #include "serialize_test.hpp"
 
 GTEST_TEST(Render_RenderState, DefaultCtorTest)
@@ -133,7 +132,7 @@ GTEST_TEST(Render_RenderState, OutputStreamTest)
 {
 	{
 		bksge::RenderState v;
-		bksge::stringstream ss;
+		std::stringstream ss;
 		ss << v;
 		EXPECT_EQ("{ { FillMode::kSolid, CullMode::kNone, FrontFace::kClockwise }, { false, BlendOperation::kAdd, BlendFactor::kOne, BlendFactor::kZero, BlendOperation::kAdd, BlendFactor::kOne, BlendFactor::kZero, ColorWriteFlag::kAll }, { false, false, ComparisonFunction::kLess }, { false, 0, 0, 0, ComparisonFunction::kNever, StencilOperation::kKeep, StencilOperation::kKeep, StencilOperation::kKeep } }", ss.str());
 	}
@@ -161,7 +160,7 @@ GTEST_TEST(Render_RenderState, OutputStreamTest)
 		v.stencil_state().SetFailOperation(bksge::StencilOperation::kIncr);
 		v.stencil_state().SetDepthFailOperation(bksge::StencilOperation::kDecr);
 		v.stencil_state().SetPassOperation(bksge::StencilOperation::kReplace);
-		bksge::wstringstream ss;
+		std::wstringstream ss;
 		ss << v;
 		EXPECT_EQ(L"{ { FillMode::kWireframe, CullMode::kBack, FrontFace::kCounterClockwise }, { true, BlendOperation::kMax, BlendFactor::kDestAlpha, BlendFactor::kDestColor, BlendOperation::kMin, BlendFactor::kSrcColor, BlendFactor::kSrcAlpha, ColorWriteFlag::kNone }, { true, true, ComparisonFunction::kGreater }, { true, 1, 2, 3, ComparisonFunction::kLess, StencilOperation::kIncr, StencilOperation::kDecr, StencilOperation::kReplace } }", ss.str());
 	}
@@ -177,14 +176,14 @@ GTEST_TEST(Render_RenderState, SerializeTest)
 	v.depth_state().SetEnable(true);
 	v.stencil_state().SetEnable(true);
 
-	SerializeTest<text_oarchive,   text_iarchive,   bksge::stringstream>(v);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::stringstream>(v);
-//	SerializeTest<binary_oarchive, binary_iarchive, bksge::stringstream>(v);
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v);
 
 #if !defined(BKSGE_NO_STD_WSTREAMBUF)
-	SerializeTest<text_oarchive,   text_iarchive,   bksge::wstringstream>(v);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::wstringstream>(v);
-//	SerializeTest<binary_oarchive, binary_iarchive, bksge::wstringstream>(v);
+	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
 #endif
 }
 

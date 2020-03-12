@@ -12,7 +12,7 @@
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/iterator/back_inserter.hpp>
 #include <bksge/fnd/random/engines/xorshift.hpp>
-#include <bksge/fnd/sstream/stringstream.hpp>
+#include <sstream>
 #include <list>
 #include <vector>
 #include <array>
@@ -73,7 +73,7 @@ GTEST_TEST(AlgorithmTest, SampleTest)
 		EXPECT_TRUE(it == bksge::end(out));
 	}
 	{
-		bksge::stringstream ss("0 1 2 3 4 5 6 7 8 9");
+		std::stringstream ss("0 1 2 3 4 5 6 7 8 9");
 		std::istream_iterator<int> ii_first(ss);
 		std::istream_iterator<int> ii_last;
 		int out[4] {};

@@ -11,8 +11,7 @@
 #include <bksge/fnd/serialization/text_iarchive.hpp>
 #include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <bksge/fnd/sstream/stringstream.hpp>
-#include <bksge/fnd/sstream/wstringstream.hpp>
+#include <sstream>
 #include <gtest/gtest.h>
 #include "serialization_test_utility.hpp"
 
@@ -127,12 +126,12 @@ void ObjectIntrusiveTest()
 GTEST_TEST(SerializationTest, ObjectIntrusiveTest)
 {
 	ObjectIntrusiveTest<
-		bksge::stringstream,
+		std::stringstream,
 		bksge::serialization::text_oarchive,
 		bksge::serialization::text_iarchive
 	>();
 	ObjectIntrusiveTest<
-		bksge::wstringstream,
+		std::wstringstream,
 		bksge::serialization::text_oarchive,
 		bksge::serialization::text_iarchive
 	>();

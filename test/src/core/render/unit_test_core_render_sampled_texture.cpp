@@ -9,11 +9,10 @@
 #include <bksge/core/render/sampled_texture.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
-#include <bksge/fnd/sstream/stringstream.hpp>
-#include <bksge/fnd/sstream/wstringstream.hpp>
+#include <functional>
+#include <sstream>
 #include <vector>
 #include <gtest/gtest.h>
-#include <functional>
 #include "serialize_test.hpp"
 
 GTEST_TEST(Render_SampledTexture, DefaultConstructTest)
@@ -115,7 +114,7 @@ GTEST_TEST(Render_SampledTexture, OutputStreamTest)
 		st.sampler().SetMinLod(0.0f);
 		st.sampler().SetMaxLod(0.0f);
 
-		bksge::stringstream ss;
+		std::stringstream ss;
 		ss << st;
 		EXPECT_EQ("{ { FilterMode::kNearest, FilterMode::kNearest, MipmapMode::kDisable, AddressMode::kRepeat, AddressMode::kRepeat, AddressMode::kRepeat, BorderColor::kOpaqueBlack, 0, 0 }, { TextureFormat::kNone, { 0, 0 }, 0, {  } } }", ss.str());
 	}
@@ -132,7 +131,7 @@ GTEST_TEST(Render_SampledTexture, OutputStreamTest)
 		st.sampler().SetMaxLod( 1.0f);
 		st.texture() = bksge::Texture(bksge::TextureFormat::kRGBA_U16, {1, 2}, 4);
 
-		bksge::wstringstream ss;
+		std::wstringstream ss;
 		ss << st;
 		EXPECT_EQ(L"{ { FilterMode::kNearest, FilterMode::kLinear, MipmapMode::kLinear, AddressMode::kClamp, AddressMode::kRepeat, AddressMode::kBorder, BorderColor::kTransparentBlack, -1, 1 }, { TextureFormat::kRGBA_U16, { 1, 2 }, 4, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  } } }", ss.str());
 	}

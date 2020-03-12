@@ -10,8 +10,7 @@
 #include <bksge/fnd/serialization/nvp.hpp>
 #include <bksge/fnd/serialization/text_oarchive.hpp>
 #include <bksge/fnd/serialization/text_iarchive.hpp>
-#include <bksge/fnd/sstream/stringstream.hpp>
-#include <bksge/fnd/sstream/wstringstream.hpp>
+#include <sstream>
 #include <gtest/gtest.h>
 #include "serialization_test_utility.hpp"
 
@@ -199,12 +198,12 @@ void PointerTest()
 GTEST_TEST(SerializationTest, PointerTest)
 {
 	PointerTest<
-		bksge::stringstream,
+		std::stringstream,
 		bksge::serialization::text_oarchive,
 		bksge::serialization::text_iarchive
 	>();
 	PointerTest<
-		bksge::wstringstream,
+		std::wstringstream,
 		bksge::serialization::text_oarchive,
 		bksge::serialization::text_iarchive
 	>();

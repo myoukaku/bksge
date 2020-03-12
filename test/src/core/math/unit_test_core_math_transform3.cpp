@@ -15,13 +15,12 @@
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
-#include <bksge/fnd/sstream/stringstream.hpp>
-#include <bksge/fnd/sstream/wstringstream.hpp>
 #include <bksge/fnd/units/degree.hpp>
 #include <vector>
 #include <stdexcept>
 #include <tuple>
 #include <functional>
+#include <sstream>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 #include "serialize_test.hpp"
@@ -358,13 +357,13 @@ TYPED_TEST(MathTransform3Test, OutputStreamTest)
 
 	{
 		Transform3 const v;
-		bksge::stringstream ss;
+		std::stringstream ss;
 		ss << v;
 		EXPECT_EQ("{ { 0, 0, 0 }, { 0, 0, 0, 1 }, { 1, 1, 1 } }", ss.str());
 	}
 	{
 		Transform3 const v{{1,2,3},{1,0,0,1},{4,5,6}};
-		bksge::wstringstream ss;
+		std::wstringstream ss;
 		ss << v;
 		EXPECT_EQ(L"{ { 1, 2, 3 }, { 1, 0, 0, 1 }, { 4, 5, 6 } }", ss.str());
 	}
@@ -379,14 +378,14 @@ TYPED_TEST(MathTransform3Test, SerializeTest)
 
 	Transform3 const v{{1,2,3},{1,0,0,1},{4,5,6}};
 
-	SerializeTest<text_oarchive,   text_iarchive,   bksge::stringstream>(v);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::stringstream>(v);
-//	SerializeTest<binary_oarchive, binary_iarchive, bksge::stringstream>(v);
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v);
 
 #if !defined(BKSGE_NO_STD_WSTREAMBUF)
-	SerializeTest<text_oarchive,   text_iarchive,   bksge::wstringstream>(v);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::wstringstream>(v);
-//	SerializeTest<binary_oarchive, binary_iarchive, bksge::wstringstream>(v);
+	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
 #endif
 }
 
