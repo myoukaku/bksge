@@ -15,6 +15,7 @@
 #include <bksge/fnd/cmath/clamp.hpp>
 #include <bksge/fnd/cmath/constants.hpp>
 #include <bksge/fnd/cmath/copysign.hpp>
+#include <bksge/fnd/cmath/cos.hpp>
 #include <bksge/fnd/cmath/degrees_to_radians.hpp>
 #include <bksge/fnd/cmath/fabs.hpp>
 #include <bksge/fnd/cmath/floor.hpp>
@@ -32,9 +33,11 @@
 #include <bksge/fnd/cmath/rsqrt.hpp>
 #include <bksge/fnd/cmath/saturate.hpp>
 #include <bksge/fnd/cmath/signbit.hpp>
+#include <bksge/fnd/cmath/sin.hpp>
 #include <bksge/fnd/cmath/smoothstep.hpp>
 #include <bksge/fnd/cmath/sqrt.hpp>
 #include <bksge/fnd/cmath/step.hpp>
+#include <bksge/fnd/cmath/tan.hpp>
 #include <bksge/fnd/cmath/trunc.hpp>
 
 #endif // BKSGE_FND_CMATH_HPP

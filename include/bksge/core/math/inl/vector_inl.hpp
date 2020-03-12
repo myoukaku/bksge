@@ -12,9 +12,9 @@
 #include <bksge/core/math/vector.hpp>
 #include <bksge/core/math/detail/vector_functions.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/cmath/sqrt.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cmath>
 
 namespace bksge
 {
@@ -138,7 +138,7 @@ template <typename T, bksge::size_t N>
 inline BKSGE_CONSTEXPR bksge::float_promote_t<T>
 Length(Vector<T, N> const& v)
 {
-	return std::sqrt(SquaredLength(v));
+	return bksge::sqrt(SquaredLength(v));
 }
 
 template <typename T, bksge::size_t N>

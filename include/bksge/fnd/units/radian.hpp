@@ -11,7 +11,9 @@
 
 #include <bksge/fnd/units/base_dimensions/angle.hpp>
 #include <bksge/fnd/units/detail/quantity.hpp>
-#include <cmath>
+#include <bksge/fnd/cmath/sin.hpp>
+#include <bksge/fnd/cmath/cos.hpp>
+#include <bksge/fnd/cmath/tan.hpp>
 
 namespace bksge
 {
@@ -29,7 +31,7 @@ template <typename T> using radians = radian<T>;
 template <typename T>
 inline T sin(radians<T> const& r)
 {
-	return std::sin(r.value());
+	return bksge::sin(r.value());
 }
 
 /**
@@ -38,7 +40,7 @@ inline T sin(radians<T> const& r)
 template <typename T>
 inline T cos(radians<T> const& r)
 {
-	return std::cos(r.value());
+	return bksge::cos(r.value());
 }
 
 /**
@@ -47,7 +49,7 @@ inline T cos(radians<T> const& r)
 template <typename T>
 inline T tan(radians<T> const& r)
 {
-	return std::tan(r.value());
+	return bksge::tan(r.value());
 }
 
 }	// namespace units

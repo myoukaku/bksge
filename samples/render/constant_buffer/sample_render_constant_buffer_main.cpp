@@ -11,8 +11,7 @@
 #include <bksge/core/math.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/memory.hpp>
-#include <utility>
-#include <cmath>
+#include <bksge/fnd/cmath.hpp>
 
 namespace
 {
@@ -227,7 +226,7 @@ int main()
 			b = 0.0f;
 		}
 		t += 0.01f;
-		position_offset.x() = std::sin(t);
+		position_offset.x() = bksge::sin(t);
 	}
 
 	return 0;

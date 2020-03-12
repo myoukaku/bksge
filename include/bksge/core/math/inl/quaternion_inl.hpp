@@ -17,6 +17,8 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/distance.hpp>
+#include <bksge/fnd/cmath/sin.hpp>
+#include <bksge/fnd/cmath/sqrt.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cmath>
 
@@ -51,7 +53,7 @@ make_quaternion_from_matrix(Matrix3x3<T> const& m) BKSGE_NOEXCEPT
 	}
 
 	// 最大要素の値を算出
-	auto const v = std::sqrt(*max_it) * 0.5f;
+	auto const v = bksge::sqrt(*max_it) * 0.5f;
 	auto const mult = 0.25f / v;
 
 	switch (bksge::distance(elem, max_it))
@@ -372,7 +374,7 @@ template <typename T>
 inline BKSGE_CONSTEXPR bksge::float_promote_t<T>
 Length(Quaternion<T> const& q) BKSGE_NOEXCEPT
 {
-	return std::sqrt(SquaredLength(q));
+	return bksge::sqrt(SquaredLength(q));
 }
 
 template <typename T>
@@ -413,9 +415,9 @@ Slerp(Quaternion<T> const& from, Quaternion<T> const& to, T t) BKSGE_NOEXCEPT
 	}
 
 	auto const half_theta = std::acos(cos_half_theta);
-	auto const inv_sin_half_theta = one / std::sin(half_theta);
-	auto const ratio_a = std::sin(half_theta * (one - t)) * inv_sin_half_theta;
-	auto const ratio_b = std::sin(half_theta * t) * inv_sin_half_theta;
+	auto const inv_sin_half_theta = one / bksge::sin(half_theta);
+	auto const ratio_a = bksge::sin(half_theta * (one - t)) * inv_sin_half_theta;
+	auto const ratio_b = bksge::sin(half_theta * t) * inv_sin_half_theta;
 
 	return (from * ratio_a) + (to * ratio_b);
 }

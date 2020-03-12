@@ -13,7 +13,6 @@
 #include <bksge/fnd/cmath.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/memory.hpp>
-#include <utility>
 
 namespace
 {
@@ -182,7 +181,7 @@ public:
 	void Draw(bksge::Renderer* renderer)
 	{
 		auto const model =
-			bksge::Matrix4x4f::MakeTranslation(m_x, 0, 5.0f + std::sin(m_t) * 4.0f);
+			bksge::Matrix4x4f::MakeTranslation(m_x, 0, 5.0f + bksge::sin(m_t) * 4.0f);
 
 		m_shader_parameter.SetParameter("uProjection", m_projection);
 		m_shader_parameter.SetParameter("uView", m_view);

@@ -12,8 +12,9 @@
 #include <bksge/core/math/matrix3x3.hpp>
 #include <bksge/core/math/vector.hpp>
 #include <bksge/core/math/scale.hpp>
+#include <bksge/fnd/cmath/cos.hpp>
+#include <bksge/fnd/cmath/sin.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cmath>
 
 namespace bksge
 {

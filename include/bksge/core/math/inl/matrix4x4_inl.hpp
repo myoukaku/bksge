@@ -15,8 +15,8 @@
 #include <bksge/core/math/scale.hpp>
 #include <bksge/fnd/tuple/tuple.hpp>
 #include <bksge/fnd/tuple/make_tuple.hpp>
+#include <bksge/fnd/cmath/tan.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cmath>
 
 namespace bksge
 {
