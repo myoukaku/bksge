@@ -19,7 +19,7 @@
 #include <bksge/core/render/d3d_common/d3d12shader.hpp>
 #include <bksge/core/render/shader_parameter_map.hpp>
 #include <bksge/fnd/cstdint/uint8_t.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 
 namespace bksge
 {
@@ -77,7 +77,7 @@ HlslConstantBuffer::UpdateParameters(
 	ResourcePool* resource_pool,
 	bksge::ShaderParameterMap const& shader_parameter_map)
 {
-	bksge::vector<bksge::uint8_t> buf(m_size);
+	std::vector<bksge::uint8_t> buf(m_size);
 
 	// ConstantBuffer をまとめて更新
 	{

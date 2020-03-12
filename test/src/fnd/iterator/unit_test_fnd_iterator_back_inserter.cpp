@@ -8,15 +8,15 @@
 
 #include <bksge/fnd/iterator/back_inserter.hpp>
 #include <bksge/fnd/algorithm/copy.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <bksge/fnd/list.hpp>
 #include <gtest/gtest.h>
 
 GTEST_TEST(IteratorTest, BackInserterTest)
 {
 	{
-		bksge::vector<int> src = {1, 2, 3};
-		bksge::vector<int> dst;
+		std::vector<int> src = {1, 2, 3};
+		std::vector<int> dst;
 
 		bksge::copy(src.begin(), src.end(), bksge::back_inserter(dst));
 

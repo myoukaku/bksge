@@ -20,7 +20,7 @@
 #include <bksge/core/render/shader_parameter_map.hpp>
 #include <bksge/fnd/cstring/memcpy.hpp>
 #include <string>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 
 namespace bksge
 {

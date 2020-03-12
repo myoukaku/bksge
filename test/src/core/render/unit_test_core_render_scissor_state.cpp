@@ -11,7 +11,7 @@
 #include <bksge/fnd/algorithm/sort.hpp>
 #include <bksge/fnd/sstream/stringstream.hpp>
 #include <bksge/fnd/sstream/wstringstream.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <gtest/gtest.h>
 #include <functional>
 #include "serialize_test.hpp"
@@ -110,7 +110,7 @@ GTEST_TEST(Render_ScissorState, HashTest)
 	s2.SetEnable(true);
 	s3.SetRect({bksge::Vector2f(-5, 4), bksge::Extent2f(20, 30)});
 
-	bksge::vector<bksge::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(s1));
 	v.push_back(h(s2));
 	v.push_back(h(s3));

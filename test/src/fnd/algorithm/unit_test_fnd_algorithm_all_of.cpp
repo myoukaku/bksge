@@ -10,7 +10,7 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/list.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <gtest/gtest.h>
 #include <array>
 #include "constexpr_test.hpp"
@@ -60,14 +60,14 @@ GTEST_TEST(AlgorithmTest, AllOfTest)
 	BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE (bksge::all_of(bksge::begin(a2), bksge::end(a2), pred3()));
 	BKSGE_CXX17_CONSTEXPR_EXPECT_FALSE(bksge::all_of(bksge::begin(a2), bksge::end(a2), pred4()));
 
-	const bksge::vector<int> v1 {7, 8, 9};
+	const std::vector<int> v1 {7, 8, 9};
 	EXPECT_FALSE(bksge::all_of(bksge::begin(v1), bksge::end(v1), pred1));
 	EXPECT_TRUE (bksge::all_of(bksge::begin(v1), bksge::end(v1), pred2));
 	EXPECT_TRUE (bksge::all_of(bksge::begin(v1), bksge::end(v1), [](int x) { return x >= 7; }));
 	EXPECT_FALSE(bksge::all_of(bksge::begin(v1), bksge::end(v1), [](int x) { return x > 8; }));
 	EXPECT_FALSE(bksge::all_of(bksge::begin(v1), bksge::end(v1), [](int x) { return x < 9; }));
 
-	const bksge::vector<int> v2;
+	const std::vector<int> v2;
 	EXPECT_TRUE (bksge::all_of(bksge::begin(v2), bksge::end(v2), pred1));
 	EXPECT_TRUE (bksge::all_of(bksge::begin(v2), bksge::end(v2), [](int) { return true; }));
 	EXPECT_TRUE (bksge::all_of(bksge::begin(v2), bksge::end(v2), [](int) { return false; }));

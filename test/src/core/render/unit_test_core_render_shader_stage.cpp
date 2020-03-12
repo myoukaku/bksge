@@ -12,7 +12,7 @@
 #include <bksge/fnd/sstream/stringstream.hpp>
 #include <bksge/fnd/sstream/wstringstream.hpp>
 #include <bksge/fnd/sstream/basic_stringstream.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <gtest/gtest.h>
 #include <functional>
 #include "serialize_test.hpp"
@@ -78,7 +78,7 @@ GTEST_TEST(Render_ShaderStage, HashTest)
 {
 	std::hash<bksge::ShaderStage> h;
 
-	bksge::vector<bksge::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(bksge::ShaderStage::kVertex));
 	v.push_back(h(bksge::ShaderStage::kGeometry));
 	v.push_back(h(bksge::ShaderStage::kFragment));

@@ -11,9 +11,9 @@
 #include <bksge/fnd/algorithm/sort.hpp>
 #include <bksge/fnd/sstream/stringstream.hpp>
 #include <bksge/fnd/sstream/wstringstream.hpp>
-#include <bksge/fnd/vector.hpp>
-#include <gtest/gtest.h>
+#include <vector>
 #include <functional>
+#include <gtest/gtest.h>
 #include "serialize_test.hpp"
 
 GTEST_TEST(Render_BlendState, DefaultCtorTest)
@@ -211,7 +211,7 @@ GTEST_TEST(Render_BlendState, HashTest)
 	s8.SetAlphaDstFactor(bksge::BlendFactor::kInvDestAlpha);
 	s9.SetColorWriteFlag(bksge::ColorWriteFlag::kAlpha);
 
-	bksge::vector<bksge::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(s1));
 	v.push_back(h(s2));
 	v.push_back(h(s3));

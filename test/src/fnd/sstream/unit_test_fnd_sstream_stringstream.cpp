@@ -10,7 +10,7 @@
 //#include <bksge/fnd/istream.hpp>
 #include <istream>
 #include <bksge/fnd/ios.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 //#include <bksge/fnd/string.hpp>
 #include <string>
 #include <bksge/fnd/memory/allocator.hpp>
@@ -85,7 +85,7 @@ GTEST_TEST(StringStreamTest, CtorMoveTest)
 		EXPECT_TRUE(ss.str() == L"456 1236 ");
 	}
 	{
-		bksge::vector<bksge::istringstream> vecis;
+		std::vector<bksge::istringstream> vecis;
 		vecis.push_back(bksge::istringstream());
 		vecis.back().str("hub started at [00 6b 8b 45 69]");
 		vecis.push_back(bksge::istringstream());

@@ -11,7 +11,7 @@
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/back_inserter.hpp>
 #include <bksge/fnd/list.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <gtest/gtest.h>
 #include <array>
 
@@ -70,7 +70,7 @@ GTEST_TEST(AlgorithmTest, CopyNTest)
 		EXPECT_TRUE(it == bksge::begin(a2) + 1);
 	}
 	{
-		const bksge::vector<int> v { 5, 6, 7, 8, 9 };
+		const std::vector<int> v { 5, 6, 7, 8, 9 };
 		bksge::list<int> l;
 
 		bksge::copy_n(bksge::begin(v), 5, bksge::back_inserter(l));

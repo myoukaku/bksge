@@ -12,7 +12,7 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <gtest/gtest.h>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 
 namespace bksge_algorithm_test
 {
@@ -23,7 +23,7 @@ namespace push_heap_test
 GTEST_TEST(AlgorithmTest, PushHeapTest)
 {
 	{
-		bksge::vector<int> a { 3, 1, 4 };
+		std::vector<int> a { 3, 1, 4 };
 
 		bksge::make_heap(bksge::begin(a), bksge::end(a));
 		EXPECT_EQ(4, a[0]);
@@ -65,7 +65,7 @@ GTEST_TEST(AlgorithmTest, PushHeapTest)
 		EXPECT_EQ(3, a[6]);
 	}
 	{
-		bksge::vector<int> a { 3, 2, 1 };
+		std::vector<int> a { 3, 2, 1 };
 
 		bksge::make_heap(bksge::begin(a), bksge::end(a), bksge::greater<>());
 		EXPECT_EQ(1, a[0]);

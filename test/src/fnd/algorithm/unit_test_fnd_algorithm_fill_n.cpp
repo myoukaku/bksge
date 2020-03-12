@@ -11,7 +11,7 @@
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/back_inserter.hpp>
 #include <bksge/fnd/list.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <gtest/gtest.h>
 #include <array>
 
@@ -53,7 +53,7 @@ GTEST_TEST(AlgorithmTest, FillNTest)
 		EXPECT_TRUE(it == bksge::begin(a2) + 3);
 	}
 	{
-		bksge::vector<int> v1(5);
+		std::vector<int> v1(5);
 		auto it = bksge::fill_n(bksge::begin(v1), 2, 3);
 		EXPECT_EQ(3, v1[0]);
 		EXPECT_EQ(3, v1[1]);
@@ -63,7 +63,7 @@ GTEST_TEST(AlgorithmTest, FillNTest)
 		EXPECT_TRUE(it == bksge::begin(v1) + 2);
 	}
 	{
-		bksge::vector<int> v2;
+		std::vector<int> v2;
 		bksge::fill_n(bksge::back_inserter(v2), 3, 11);
 		EXPECT_EQ(11, v2[0]);
 		EXPECT_EQ(11, v2[1]);

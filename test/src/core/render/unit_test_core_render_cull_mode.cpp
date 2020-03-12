@@ -12,7 +12,7 @@
 #include <bksge/fnd/sstream/stringstream.hpp>
 #include <bksge/fnd/sstream/wstringstream.hpp>
 #include <bksge/fnd/sstream/basic_stringstream.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <gtest/gtest.h>
 #include <functional>
 #include "serialize_test.hpp"
@@ -64,7 +64,7 @@ GTEST_TEST(Render_CullMode, SerializeTest)
 GTEST_TEST(Render_CullMode, HashTest)
 {
 	std::hash<bksge::CullMode> h;
-	bksge::vector<bksge::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(bksge::CullMode::kNone));
 	v.push_back(h(bksge::CullMode::kFront));
 	v.push_back(h(bksge::CullMode::kBack));

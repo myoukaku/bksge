@@ -11,7 +11,7 @@
 #include <bksge/fnd/type_traits/is_signed.hpp>
 #include <gtest/gtest.h>
 #include <string>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 
 namespace bksge_type_traits_test
 {
@@ -63,7 +63,7 @@ GTEST_TEST(TypeTraitsTest, EnableIfTest)
 	double d = 0;
 	void* vp = 0;
 	std::string str;
-	bksge::vector<int> vec;
+	std::vector<int> vec;
 	A a;
 
 	EXPECT_EQ(0, func1(sc));

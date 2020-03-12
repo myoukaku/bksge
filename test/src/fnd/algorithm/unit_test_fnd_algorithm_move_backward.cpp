@@ -12,7 +12,7 @@
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/list.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <gtest/gtest.h>
 #include <array>
 
@@ -103,7 +103,7 @@ GTEST_TEST(AlgorithmTest, MoveBackwardTest)
 	}
 
 	{
-		bksge::vector<noncopyable> v;
+		std::vector<noncopyable> v;
 		v.emplace_back(noncopyable(5));
 		v.emplace_back(noncopyable(6));
 		v.emplace_back(noncopyable(7));

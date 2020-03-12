@@ -12,7 +12,7 @@
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/iterator/back_inserter.hpp>
 #include <bksge/fnd/list.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <gtest/gtest.h>
 #include <array>
 
@@ -36,7 +36,7 @@ GTEST_TEST(AlgorithmTest, RemoveCopyTest)
 	}
 	{
 		const int a[] = {1,2,3,1,3,1,2};
-		bksge::vector<int> b;
+		std::vector<int> b;
 		auto ret = bksge::remove_copy(bksge::begin(a), bksge::end(a), bksge::back_inserter(b), 1);
 		(void)ret;
 		EXPECT_EQ(4u, b.size());
@@ -90,13 +90,13 @@ GTEST_TEST(AlgorithmTest, RemoveCopyTest)
 	}
 	{
 		const std::array<int, 4> a = {{1,1,1,1}};
-		bksge::vector<int> b;
+		std::vector<int> b;
 		auto ret = bksge::remove_copy(bksge::begin(a), bksge::end(a), bksge::back_inserter(b), 1);
 		(void)ret;
 		EXPECT_TRUE(b.empty());
 	}
 	{
-		const bksge::vector<int> a = {1,2,3,1,3,1,2,2};
+		const std::vector<int> a = {1,2,3,1,3,1,2,2};
 		std::array<int, 10> b {{}};
 		auto ret = bksge::remove_copy(bksge::begin(a), bksge::end(a), bksge::begin(b), 2);
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(b), 5));
@@ -107,7 +107,7 @@ GTEST_TEST(AlgorithmTest, RemoveCopyTest)
 		EXPECT_EQ(1, b[4]);
 	}
 	{
-		const bksge::vector<int> a;
+		const std::vector<int> a;
 		int b[10] {};
 		auto ret = bksge::remove_copy(bksge::begin(a), bksge::end(a), bksge::begin(b), 2);
 		EXPECT_TRUE(ret == bksge::begin(b));

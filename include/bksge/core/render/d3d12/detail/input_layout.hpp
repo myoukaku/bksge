@@ -14,7 +14,7 @@
 #include <bksge/core/render/d3d_common/d3d12shader.hpp>
 #include <bksge/core/render/d3d_common/com_ptr.hpp>
 //#include <bksge/core/render/fwd/geometry_fwd.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 
 namespace bksge
 {
@@ -39,7 +39,7 @@ private:
 	InputLayout& operator=(InputLayout const&) = delete;
 
 private:
-	bksge::vector<::D3D12_INPUT_ELEMENT_DESC>	m_descs;
+	std::vector<::D3D12_INPUT_ELEMENT_DESC>	m_descs;
 	ComPtr<::ID3D12ShaderReflection>			m_reflection;
 };
 

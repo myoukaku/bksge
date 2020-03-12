@@ -10,7 +10,7 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/list.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <gtest/gtest.h>
 #include <array>
 #include "constexpr_test.hpp"
@@ -56,51 +56,51 @@ GTEST_TEST(AlgorithmTest, IsUniqueTest)
 		BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE(bksge::is_unique(bksge::begin(a), bksge::end(a)));
 	}
 	{
-		bksge::vector<int> a;
+		std::vector<int> a;
 		EXPECT_TRUE(bksge::is_unique(bksge::begin(a), bksge::end(a)));
 	}
 	{
-		bksge::vector<int> a { 1 };
+		std::vector<int> a { 1 };
 		EXPECT_TRUE(bksge::is_unique(bksge::begin(a), bksge::end(a)));
 	}
 	{
-		bksge::vector<int> a { 1, 1 };
+		std::vector<int> a { 1, 1 };
 		EXPECT_FALSE(bksge::is_unique(bksge::begin(a), bksge::end(a)));
 	}
 	{
-		bksge::vector<int> a { 1, 2 };
+		std::vector<int> a { 1, 2 };
 		EXPECT_TRUE(bksge::is_unique(bksge::begin(a), bksge::end(a)));
 	}
 	{
-		bksge::vector<int> a { 1, 2, 1 };
+		std::vector<int> a { 1, 2, 1 };
 		EXPECT_TRUE(bksge::is_unique(bksge::begin(a), bksge::end(a)));
 	}
 	{
-		bksge::vector<int> a { 1, 1, 2 };
+		std::vector<int> a { 1, 1, 2 };
 		EXPECT_FALSE(bksge::is_unique(bksge::begin(a), bksge::end(a)));
 	}
 	{
-		bksge::vector<int> a { 1, 2, 2 };
+		std::vector<int> a { 1, 2, 2 };
 		EXPECT_FALSE(bksge::is_unique(bksge::begin(a), bksge::end(a)));
 	}
 	{
-		bksge::vector<int> a { 1, 2, 3, 4 };
+		std::vector<int> a { 1, 2, 3, 4 };
 		EXPECT_TRUE(bksge::is_unique(bksge::begin(a), bksge::end(a)));
 	}
 	{
-		bksge::vector<int> a { 1, 2, 3, 3 };
+		std::vector<int> a { 1, 2, 3, 3 };
 		EXPECT_FALSE(bksge::is_unique(bksge::begin(a), bksge::end(a)));
 	}
 	{
-		bksge::vector<int> a { 1, 2, 3, 1 };
+		std::vector<int> a { 1, 2, 3, 1 };
 		EXPECT_TRUE(bksge::is_unique(bksge::begin(a), bksge::end(a)));
 	}
 	{
-		bksge::vector<int> a { 3,1,4,1,5,9,2,6,5,3,5,8,9,7,9,3,2,3,8,4,6,2,6,4,3,3,8,3,2,7,9,5,0,2,8,8 };
+		std::vector<int> a { 3,1,4,1,5,9,2,6,5,3,5,8,9,7,9,3,2,3,8,4,6,2,6,4,3,3,8,3,2,7,9,5,0,2,8,8 };
 		EXPECT_FALSE(bksge::is_unique(bksge::begin(a), bksge::end(a)));
 	}
 	{
-		bksge::vector<int> a { 3,1,4,1,5,9,2,6,5,3,5,8,9,7,9,3,2,3,8,4,6,2,6,4,3,3,8,3,2,7,9,5,0,2,8,8 };
+		std::vector<int> a { 3,1,4,1,5,9,2,6,5,3,5,8,9,7,9,3,2,3,8,4,6,2,6,4,3,3,8,3,2,7,9,5,0,2,8,8 };
 		EXPECT_FALSE(bksge::is_unique(bksge::begin(a), bksge::end(a), [](int x, int y){return x == y; }));
 	}
 	{

@@ -28,7 +28,7 @@
 #include <bksge/core/render/d3d_common/throw_if_failed.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/utility/move.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <string>
 
 #include <iostream>		// TODO
@@ -264,7 +264,7 @@ HlslShaderBase::CreateInputLayout(Device* device)
 	::D3D11_SHADER_DESC shader_desc;
 	ThrowIfFailed(m_reflection->GetDesc(&shader_desc));
 
-	bksge::vector<::D3D11_INPUT_ELEMENT_DESC> input_layout_desc;
+	std::vector<::D3D11_INPUT_ELEMENT_DESC> input_layout_desc;
 	for (::UINT i = 0; i < shader_desc.InputParameters; i++)
 	{
 		::D3D11_SIGNATURE_PARAMETER_DESC param_desc;

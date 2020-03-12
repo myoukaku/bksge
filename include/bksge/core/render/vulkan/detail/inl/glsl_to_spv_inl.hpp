@@ -15,7 +15,7 @@
 #include <bksge/core/render/vulkan/detail/glsl_to_spv.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/vulkan/detail/spirv_h.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 
 namespace bksge
 {
@@ -152,7 +152,7 @@ InitResources(TBuiltInResource& resources)
 
 }	// namespace detail
 
-BKSGE_INLINE bksge::vector<unsigned int>
+BKSGE_INLINE std::vector<unsigned int>
 GlslToSpv(::VkShaderStageFlagBits shader_type, const char* source)
 {
 	glslang::InitializeProcess();
@@ -185,7 +185,7 @@ GlslToSpv(::VkShaderStageFlagBits shader_type, const char* source)
 		return {};
 	}
 
-	bksge::vector<unsigned int> spirv;
+	std::vector<unsigned int> spirv;
 	glslang::GlslangToSpv(*program.getIntermediate(stage), spirv);
 
 	glslang::FinalizeProcess();

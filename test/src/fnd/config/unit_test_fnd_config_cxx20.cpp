@@ -9,7 +9,7 @@
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <string>
 #include <map>
 #include <type_traits>
@@ -102,7 +102,7 @@ GTEST_TEST(ConfigTest, Cxx20DesignatedInitializersTest)
 GTEST_TEST(ConfigTest, Cxx20TemplateLambdaTest)
 {
 #if defined(BKSGE_HAS_CXX20_TEMPLATE_LAMBDA)
-	auto f =[]<class T>(const bksge::vector<T>& v)
+	auto f =[]<class T>(const std::vector<T>& v)
 	{
 		if (v.empty())
 		{
@@ -114,8 +114,8 @@ GTEST_TEST(ConfigTest, Cxx20TemplateLambdaTest)
 		}
 	};
 
-	bksge::vector<int> v = {1, 2, 3};
-	bksge::vector<std::string> w;
+	std::vector<int> v = {1, 2, 3};
+	std::vector<std::string> w;
 
 	EXPECT_EQ(1,  f(v)); // Tの型はint
 	EXPECT_EQ("", f(w)); // Tの型はstd::string
@@ -125,7 +125,7 @@ GTEST_TEST(ConfigTest, Cxx20TemplateLambdaTest)
 GTEST_TEST(ConfigTest, Cxx20RangeBasedForInitializerTest)
 {
 #if defined(BKSGE_HAS_CXX20_RANGE_BASED_FOR_INITIALIZER)
-	bksge::vector<int> v {10, 20, 30};
+	std::vector<int> v {10, 20, 30};
 	for (int i = 0; auto& x : v)
 	{
 		x += i;

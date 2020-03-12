@@ -7,7 +7,7 @@
  */
 
 #include <bksge/fnd/list.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <string>
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/utility/move.hpp>
@@ -123,7 +123,7 @@ GTEST_TEST(ListTest, ConstructTest)
 #endif
 	{
 		// 範囲から構築
-		bksge::vector<int> v { 1, 2, 3, 4, 5 };
+		std::vector<int> v { 1, 2, 3, 4, 5 };
 		bksge::list<int> l(v.begin(), v.end());
 		EXPECT_FALSE(l.empty());
 		EXPECT_LE(0u, l.max_size());
@@ -180,7 +180,7 @@ GTEST_TEST(ListTest, ConstructTest)
 		bksge::allocator<int> alloc;
 
 		// 範囲から構築(アロケータ指定)
-		bksge::vector<int> v { 1, 2, 3, 4, 5 };
+		std::vector<int> v { 1, 2, 3, 4, 5 };
 		bksge::list<int> l(v.begin(), v.end(), alloc);
 		EXPECT_FALSE(l.empty());
 		EXPECT_LE(0u, l.max_size());
@@ -306,7 +306,7 @@ GTEST_TEST(ListTest, AssignTest)
 {
 	// 範囲を代入
 	{
-		bksge::vector<int> v = { 1, 2, 3 };
+		std::vector<int> v = { 1, 2, 3 };
 		bksge::list<int> l;
 		l.assign(v.begin(), v.end());
 		bksge::list<int> expected = {1, 2, 3};
@@ -712,7 +712,7 @@ GTEST_TEST(ListTest, InsertTest)
 		bksge::list<int> ls ={1, 2, 6};
 
 		// vの全ての要素をlsに挿入する
-		const bksge::vector<int> v ={3, 4, 5};
+		const std::vector<int> v ={3, 4, 5};
 		auto it = ls.insert(bksge::next(ls.begin(), 2), v.begin(), v.end());
 		EXPECT_TRUE(it == bksge::next(ls.begin(), 2));
 

@@ -10,7 +10,7 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/list.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <gtest/gtest.h>
 #include <array>
 #include "constexpr_test.hpp"
@@ -63,10 +63,10 @@ GTEST_TEST(AlgorithmTest, IncludesTest)
 		BKSGE_CXX17_CONSTEXPR_EXPECT_FALSE(bksge::includes(bksge::begin(a), bksge::end(a), bksge::begin(e), bksge::end(e)));
 	}
 	{
-		const bksge::vector<int>   a   {9,8,7,6,5};
+		const std::vector<int>   a   {9,8,7,6,5};
 		const int                  b[] {9,7,5};
 		const std::array<int, 3> c {{10,9,8}};
-		const bksge::vector<int>   d   {9,5,4};
+		const std::vector<int>   d   {9,5,4};
 		const bksge::list<int>     e   {8,7,6};
 		EXPECT_TRUE (bksge::includes(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b), pred2()));
 		EXPECT_FALSE(bksge::includes(bksge::begin(a), bksge::end(a), bksge::begin(c), bksge::end(c), pred2()));
@@ -77,7 +77,7 @@ GTEST_TEST(AlgorithmTest, IncludesTest)
 		const bksge::list<int>     a   {90,80,70,60,50};
 		const int                  b[] {90,70,50};
 		const std::array<int, 3> c  {{91,90,88}};
-		const bksge::vector<int>   d   {80,75,70};
+		const std::vector<int>   d   {80,75,70};
 		const bksge::list<int>     e   {80,70,50};
 		EXPECT_TRUE (bksge::includes(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b), [](int x, int y){ return x > y; }));
 		EXPECT_FALSE(bksge::includes(bksge::begin(a), bksge::end(a), bksge::begin(c), bksge::end(c), [](int x, int y){ return x > y; }));

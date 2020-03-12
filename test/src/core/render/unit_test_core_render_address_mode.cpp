@@ -12,9 +12,9 @@
 #include <bksge/fnd/sstream/stringstream.hpp>
 #include <bksge/fnd/sstream/wstringstream.hpp>
 #include <bksge/fnd/sstream/basic_stringstream.hpp>
-#include <bksge/fnd/vector.hpp>
-#include <gtest/gtest.h>
+#include <vector>
 #include <functional>
+#include <gtest/gtest.h>
 #include "serialize_test.hpp"
 
 namespace bksge_core_render_test
@@ -66,7 +66,7 @@ GTEST_TEST(Render_AddressMode, SerializeTest)
 GTEST_TEST(Render_AddressMode, HashTest)
 {
 	std::hash<bksge::AddressMode> h;
-	bksge::vector<bksge::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(bksge::AddressMode::kRepeat));
 	v.push_back(h(bksge::AddressMode::kMirror));
 	v.push_back(h(bksge::AddressMode::kClamp));

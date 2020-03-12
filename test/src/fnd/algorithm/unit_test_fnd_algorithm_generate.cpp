@@ -10,7 +10,7 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/list.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <gtest/gtest.h>
 #include <array>
 #include "constexpr_test.hpp"
@@ -69,7 +69,7 @@ GTEST_TEST(AlgorithmTest, GenerateTest)
 		EXPECT_EQ(13, a[5]);
 	}
 	{
-		bksge::vector<int> a(3);
+		std::vector<int> a(3);
 		bksge::generate(bksge::begin(a), bksge::end(a), pred3);
 		EXPECT_EQ(42, a[0]);
 		EXPECT_EQ(42, a[1]);

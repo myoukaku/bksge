@@ -22,7 +22,7 @@
 #include <bksge/core/render/d3d_common/com_ptr.hpp>
 #include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <string>
 
 namespace bksge
@@ -41,11 +41,11 @@ class HlslShaderBase
 {
 private:
 	using HlslConstantBuffers =
-		bksge::vector<bksge::unique_ptr<HlslConstantBuffer>>;
+		std::vector<bksge::unique_ptr<HlslConstantBuffer>>;
 	using HlslTextures =
-		bksge::vector<bksge::unique_ptr<HlslTexture>>;
+		std::vector<bksge::unique_ptr<HlslTexture>>;
 	using HlslSamplers =
-		bksge::vector<bksge::unique_ptr<HlslSampler>>;
+		std::vector<bksge::unique_ptr<HlslSampler>>;
 
 public:
 	HlslShaderBase();
@@ -60,8 +60,8 @@ public:
 
 	::D3D12_SHADER_BYTECODE GetBytecode(void) const;
 
-	bksge::vector<::D3D12_DESCRIPTOR_RANGE1> const& GetDescriptorRanges(void) const;
-	bksge::vector<::D3D12_DESCRIPTOR_RANGE1> const& GetSamplerDescriptorRanges(void) const;
+	std::vector<::D3D12_DESCRIPTOR_RANGE1> const& GetDescriptorRanges(void) const;
+	std::vector<::D3D12_DESCRIPTOR_RANGE1> const& GetSamplerDescriptorRanges(void) const;
 
 private:
 	virtual const char* VGetTargetString() = 0;
@@ -76,8 +76,8 @@ private:
 private:
 	ComPtr<::ID3DBlob>							m_micro_code;
 	ComPtr<::ID3D12ShaderReflection>			m_reflection;
-	bksge::vector<::D3D12_DESCRIPTOR_RANGE1>	m_descriptor_ranges;
-	bksge::vector<::D3D12_DESCRIPTOR_RANGE1>	m_sampler_descriptor_ranges;
+	std::vector<::D3D12_DESCRIPTOR_RANGE1>	m_descriptor_ranges;
+	std::vector<::D3D12_DESCRIPTOR_RANGE1>	m_sampler_descriptor_ranges;
 };
 
 /**

@@ -24,10 +24,10 @@
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
 #include <bksge/fnd/sstream/stringstream.hpp>
 #include <bksge/fnd/sstream/wstringstream.hpp>
-#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
 #include <functional>
 #include <tuple>
+#include <vector>
 #include "constexpr_test.hpp"
 #include "serialize_test.hpp"
 
@@ -2011,7 +2011,7 @@ TYPED_TEST(MathQuaternionTest, HashTest)
 	Quaternion const c4(1, 2, 2, 4);
 	Quaternion const c5(1, 2, 3, 0);
 
-	bksge::vector<bksge::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(c1));
 	v.push_back(h(c2));
 	v.push_back(h(c3));

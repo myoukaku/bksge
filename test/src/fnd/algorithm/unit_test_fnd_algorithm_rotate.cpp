@@ -12,7 +12,7 @@
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/list.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <gtest/gtest.h>
 #include <array>
 #include <forward_list>
@@ -138,7 +138,7 @@ GTEST_TEST(AlgorithmTest, RotateTest)
 		EXPECT_EQ(4, a[3]);
 	}
 	{
-		bksge::vector<int> a { 1,2,3,4,5 };
+		std::vector<int> a { 1,2,3,4,5 };
 		auto ret = bksge::rotate(bksge::begin(a), bksge::next(bksge::begin(a), 4), bksge::end(a));
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 1));
 		EXPECT_EQ(5, a[0]);
@@ -148,7 +148,7 @@ GTEST_TEST(AlgorithmTest, RotateTest)
 		EXPECT_EQ(4, a[4]);
 	}
 	{
-		bksge::vector<int> a;
+		std::vector<int> a;
 		auto ret = bksge::rotate(bksge::begin(a), bksge::next(bksge::begin(a), 0), bksge::end(a));
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 0));
 		EXPECT_TRUE(a.empty());

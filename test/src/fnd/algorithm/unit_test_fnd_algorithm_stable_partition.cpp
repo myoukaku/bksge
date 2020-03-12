@@ -12,7 +12,7 @@
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/list.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <gtest/gtest.h>
 #include <array>
 
@@ -75,7 +75,7 @@ GTEST_TEST(AlgorithmTest, StablePartitionTest)
 		EXPECT_EQ(2, a[4]);
 	}
 	{
-		bksge::vector<int> a {1,2,3,4,5};
+		std::vector<int> a {1,2,3,4,5};
 		auto ret = bksge::stable_partition(bksge::begin(a), bksge::end(a), [](int x) { return (x % 2) == 1; });
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 3));
 		EXPECT_EQ(1, a[0]);
@@ -97,7 +97,7 @@ GTEST_TEST(AlgorithmTest, StablePartitionTest)
 		EXPECT_TRUE(it == a.end());
 	}
 	{
-		bksge::vector<int> a;
+		std::vector<int> a;
 		auto ret = bksge::stable_partition(bksge::begin(a), bksge::end(a), pred1);
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 0));
 	}

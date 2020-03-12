@@ -12,7 +12,7 @@
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/iterator/back_inserter.hpp>
 #include <bksge/fnd/list.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <gtest/gtest.h>
 #include <array>
 
@@ -129,7 +129,7 @@ GTEST_TEST(AlgorithmTest, CopyTest)
 	}
 	{
 		const std::array<int, 4> a {{ 4, 5, 6, 7 }};
-		bksge::vector<int> b(5);
+		std::vector<int> b(5);
 
 		auto ret = bksge::copy(bksge::begin(a), bksge::end(a), bksge::begin(b));
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(b), 4));
@@ -142,7 +142,7 @@ GTEST_TEST(AlgorithmTest, CopyTest)
 	}
 	{
 		const std::array<int, 4> a {{ 4, 5, 6, 7 }};
-		bksge::vector<int> b(5);
+		std::vector<int> b(5);
 
 		auto ret = bksge::copy(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b));
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(b), 4));
@@ -155,7 +155,7 @@ GTEST_TEST(AlgorithmTest, CopyTest)
 	}
 	{
 		const std::array<int, 4> a {{ 4, 5, 6, 7 }};
-		bksge::vector<int> b(3);
+		std::vector<int> b(3);
 
 		auto ret = bksge::copy(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b));
 		EXPECT_TRUE(ret == bksge::end(b));
@@ -165,7 +165,7 @@ GTEST_TEST(AlgorithmTest, CopyTest)
 		EXPECT_EQ(6, b[2]);
 	}
 	{
-		const bksge::vector<int> a { 5, 6, 7, 8, 9 };
+		const std::vector<int> a { 5, 6, 7, 8, 9 };
 		bksge::list<int> b;
 
 		bksge::copy(bksge::begin(a), bksge::end(a), bksge::back_inserter(b));
@@ -179,7 +179,7 @@ GTEST_TEST(AlgorithmTest, CopyTest)
 		EXPECT_TRUE(it == b.end());
 	}
 	{
-		const bksge::vector<int> a { 5, 6, 7, 8, 9 };
+		const std::vector<int> a { 5, 6, 7, 8, 9 };
 		bksge::list<int> b { 1, 2, 3 };
 
 		auto ret = bksge::copy(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b));
@@ -192,7 +192,7 @@ GTEST_TEST(AlgorithmTest, CopyTest)
 		EXPECT_TRUE(it == b.end());
 	}
 	{
-		const bksge::vector<int> a { 5, 6, 7, 8, 9 };
+		const std::vector<int> a { 5, 6, 7, 8, 9 };
 		bksge::list<int> b { 1, 2, 3, 4, 5, 6, 7 };
 
 		auto ret = bksge::copy(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b));
@@ -233,7 +233,7 @@ GTEST_TEST(AlgorithmTest, CopyTest)
 		EXPECT_EQ(3, b[2]);
 	}
 	{
-		const bksge::vector<int> a;
+		const std::vector<int> a;
 		bksge::list<int> b;
 
 		bksge::copy(bksge::begin(a), bksge::end(a), bksge::back_inserter(b));

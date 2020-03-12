@@ -13,7 +13,7 @@
 #include <bksge/fnd/iterator/next.hpp>
 #include <gtest/gtest.h>
 #include <array>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 
 namespace bksge_algorithm_test
 {
@@ -80,13 +80,13 @@ GTEST_TEST(AlgorithmTest, NthElementTest)
 	}
 	{
 		const int nth = 6;
-		bksge::vector<int> a { 3, 1, 4, 1, 5, 9, 2, 6, 5, 3 };
+		std::vector<int> a { 3, 1, 4, 1, 5, 9, 2, 6, 5, 3 };
 		bksge::nth_element(bksge::begin(a), bksge::next(bksge::begin(a), nth), bksge::end(a));
 		NthElementTest(bksge::begin(a), bksge::next(bksge::begin(a), nth), bksge::end(a));
 	}
 	{
 		const int nth = 8;
-		bksge::vector<int> a { 3, 1, 4, 1, 5, 9, 2, 6, 5, 3 };
+		std::vector<int> a { 3, 1, 4, 1, 5, 9, 2, 6, 5, 3 };
 		bksge::nth_element(bksge::begin(a), bksge::next(bksge::begin(a), nth), bksge::end(a), bksge::greater<>());
 		NthElementTest(bksge::begin(a), bksge::next(bksge::begin(a), nth), bksge::end(a), bksge::greater<>());
 	}

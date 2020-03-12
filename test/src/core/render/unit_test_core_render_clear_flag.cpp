@@ -12,7 +12,7 @@
 #include <bksge/fnd/sstream/stringstream.hpp>
 #include <bksge/fnd/sstream/wstringstream.hpp>
 #include <bksge/fnd/sstream/basic_stringstream.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <gtest/gtest.h>
 #include <functional>
 #include "constexpr_test.hpp"
@@ -196,7 +196,7 @@ GTEST_TEST(Render_ClearFlag, SerializeTest)
 GTEST_TEST(Render_ClearFlag, HashTest)
 {
 	std::hash<bksge::ClearFlag> h;
-	bksge::vector<bksge::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(bksge::ClearFlag::kNone));
 	v.push_back(h(bksge::ClearFlag::kColor));
 	v.push_back(h(bksge::ClearFlag::kDepth));

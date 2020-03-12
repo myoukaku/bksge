@@ -12,9 +12,9 @@
 #include <bksge/fnd/sstream/stringstream.hpp>
 #include <bksge/fnd/sstream/wstringstream.hpp>
 #include <bksge/fnd/sstream/basic_stringstream.hpp>
-#include <bksge/fnd/vector.hpp>
-#include <gtest/gtest.h>
+#include <vector>
 #include <functional>
+#include <gtest/gtest.h>
 #include "serialize_test.hpp"
 
 namespace bksge_core_render_test
@@ -68,7 +68,7 @@ GTEST_TEST(Render_BlendOperation, SerializeTest)
 GTEST_TEST(Render_BlendOperation, HashTest)
 {
 	std::hash<bksge::BlendOperation> h;
-	bksge::vector<bksge::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(bksge::BlendOperation::kAdd));
 	v.push_back(h(bksge::BlendOperation::kSubtract));
 	v.push_back(h(bksge::BlendOperation::kReverseSubtract));

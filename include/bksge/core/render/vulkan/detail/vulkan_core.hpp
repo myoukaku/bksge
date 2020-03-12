@@ -13,7 +13,7 @@
 #include <bksge/core/render/vulkan/detail/check_error.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 
 namespace bksge
 {
@@ -68,13 +68,13 @@ struct InstanceCreateInfo : public ::VkInstanceCreateInfo
 		ppEnabledExtensionNames = nullptr;
 	}
 
-	void SetEnabledLayerNames(bksge::vector<char const*> const& layer_names)
+	void SetEnabledLayerNames(std::vector<char const*> const& layer_names)
 	{
 		enabledLayerCount       = static_cast<bksge::uint32_t>(layer_names.size());
 		ppEnabledLayerNames     = layer_names.data();
 	}
 
-	void SetEnabledExtensionNames(bksge::vector<char const*> const& extension_names)
+	void SetEnabledExtensionNames(std::vector<char const*> const& extension_names)
 	{
 		enabledExtensionCount   = static_cast<bksge::uint32_t>(extension_names.size());
 		ppEnabledExtensionNames = extension_names.data();
@@ -368,13 +368,13 @@ struct DeviceCreateInfo : public ::VkDeviceCreateInfo
 		pQueueCreateInfos      = queue_create_info;
 	}
 
-	void SetEnabledLayerNames(bksge::vector<char const*> const& layer_names)
+	void SetEnabledLayerNames(std::vector<char const*> const& layer_names)
 	{
 		enabledLayerCount       = static_cast<bksge::uint32_t>(layer_names.size());
 		ppEnabledLayerNames     = layer_names.data();
 	}
 
-	void SetEnabledExtensionNames(bksge::vector<char const*> const& extension_names)
+	void SetEnabledExtensionNames(std::vector<char const*> const& extension_names)
 	{
 		enabledExtensionCount   = static_cast<bksge::uint32_t>(extension_names.size());
 		ppEnabledExtensionNames = extension_names.data();
@@ -776,7 +776,7 @@ struct PipelineVertexInputStateCreateInfo : public ::VkPipelineVertexInputStateC
 	}
 
 	void SetVertexAttributeDescriptions(
-		bksge::vector<::VkVertexInputAttributeDescription> const& vi_attribs)
+		std::vector<::VkVertexInputAttributeDescription> const& vi_attribs)
 	{
 		vertexAttributeDescriptionCount = static_cast<bksge::uint32_t>(vi_attribs.size());
 		pVertexAttributeDescriptions    = vi_attribs.data();
@@ -978,7 +978,7 @@ struct PipelineDynamicStateCreateInfo : public ::VkPipelineDynamicStateCreateInf
 		pDynamicStates    = nullptr;
 	}
 
-	void SetDynamicStates(bksge::vector<::VkDynamicState> const& dynamic_states)
+	void SetDynamicStates(std::vector<::VkDynamicState> const& dynamic_states)
 	{
 		dynamicStateCount = static_cast<bksge::uint32_t>(dynamic_states.size());
 		pDynamicStates    = dynamic_states.data();
@@ -1010,7 +1010,7 @@ struct GraphicsPipelineCreateInfo : public ::VkGraphicsPipelineCreateInfo
 		basePipelineIndex   = 0;
 	}
 
-	void SetStages(bksge::vector<::VkPipelineShaderStageCreateInfo> const& stages)
+	void SetStages(std::vector<::VkPipelineShaderStageCreateInfo> const& stages)
 	{
 		stageCount = static_cast<bksge::uint32_t>(stages.size());
 		pStages    = stages.data();
@@ -1048,7 +1048,7 @@ struct PipelineLayoutCreateInfo : public ::VkPipelineLayoutCreateInfo
 		pPushConstantRanges    = nullptr;
 	}
 
-	void SetSetLayouts(bksge::vector<::VkDescriptorSetLayout> const& set_layouts)
+	void SetSetLayouts(std::vector<::VkDescriptorSetLayout> const& set_layouts)
 	{
 		setLayoutCount = static_cast<bksge::uint32_t>(set_layouts.size());
 		pSetLayouts    = set_layouts.data();
@@ -1106,7 +1106,7 @@ struct DescriptorSetLayoutCreateInfo : public ::VkDescriptorSetLayoutCreateInfo
 		pBindings    = nullptr;
 	}
 
-	void SetBindings(bksge::vector<::VkDescriptorSetLayoutBinding> const& bindings)
+	void SetBindings(std::vector<::VkDescriptorSetLayoutBinding> const& bindings)
 	{
 		bindingCount = static_cast<bksge::uint32_t>(bindings.size());
 		pBindings    = bindings.data();
@@ -1131,7 +1131,7 @@ struct DescriptorPoolCreateInfo : public ::VkDescriptorPoolCreateInfo
 		pPoolSizes    = nullptr;
 	}
 
-	void SetPoolSizes(bksge::vector<::VkDescriptorPoolSize> const& pool_sizes)
+	void SetPoolSizes(std::vector<::VkDescriptorPoolSize> const& pool_sizes)
 	{
 		poolSizeCount = static_cast<bksge::uint32_t>(pool_sizes.size());
 		pPoolSizes    = pool_sizes.data();
@@ -1149,7 +1149,7 @@ struct DescriptorSetAllocateInfo : public ::VkDescriptorSetAllocateInfo
 		pSetLayouts        = nullptr;
 	}
 
-	void SetSetLayouts(bksge::vector<::VkDescriptorSetLayout> const& set_layouts)
+	void SetSetLayouts(std::vector<::VkDescriptorSetLayout> const& set_layouts)
 	{
 		descriptorSetCount = static_cast<bksge::uint32_t>(set_layouts.size());
 		pSetLayouts        = set_layouts.data();
@@ -1215,7 +1215,7 @@ struct FramebufferCreateInfo : public ::VkFramebufferCreateInfo
 		layers          = 0;
 	}
 
-	void SetAttachments(bksge::vector<::VkImageView> const& attachments)
+	void SetAttachments(std::vector<::VkImageView> const& attachments)
 	{
 		attachmentCount = static_cast<bksge::uint32_t>(attachments.size());
 		pAttachments    = attachments.data();
@@ -1321,7 +1321,7 @@ struct RenderPassCreateInfo : public ::VkRenderPassCreateInfo
 		pDependencies   = nullptr;
 	}
 
-	void SetAttachments(bksge::vector<::VkAttachmentDescription> const& attachments)
+	void SetAttachments(std::vector<::VkAttachmentDescription> const& attachments)
 	{
 		attachmentCount = static_cast<bksge::uint32_t>(attachments.size());
 		pAttachments    = attachments.data();
@@ -4639,7 +4639,7 @@ inline void DestroyInstance(
 	::vkDestroyInstance(instance, pAllocator);
 }
 
-inline bksge::vector<VkPhysicalDevice>
+inline std::vector<VkPhysicalDevice>
 EnumeratePhysicalDevices(VkInstance instance)
 {
 	for (;;)
@@ -4652,7 +4652,7 @@ EnumeratePhysicalDevices(VkInstance instance)
 			return {};
 		}
 
-		bksge::vector<VkPhysicalDevice> physical_devices(count);
+		std::vector<VkPhysicalDevice> physical_devices(count);
 		auto res = ::vkEnumeratePhysicalDevices(instance, &count, physical_devices.data());
 		if (res == VK_INCOMPLETE)
 		{
@@ -4734,7 +4734,7 @@ inline void DestroyDevice(
 	::vkDestroyDevice(device, pAllocator);
 }
 
-inline bksge::vector<VkExtensionProperties>
+inline std::vector<VkExtensionProperties>
 EnumerateInstanceExtensionProperties(const char* pLayerName)
 {
 	for (;;)
@@ -4747,7 +4747,7 @@ EnumerateInstanceExtensionProperties(const char* pLayerName)
 			return {};
 		}
 
-		bksge::vector<VkExtensionProperties> extension_properties(count);
+		std::vector<VkExtensionProperties> extension_properties(count);
 		auto res = ::vkEnumerateInstanceExtensionProperties(pLayerName, &count, extension_properties.data());
 		if (res == VK_INCOMPLETE)
 		{
@@ -4759,7 +4759,7 @@ EnumerateInstanceExtensionProperties(const char* pLayerName)
 	}
 }
 
-inline bksge::vector<VkExtensionProperties>
+inline std::vector<VkExtensionProperties>
 EnumerateDeviceExtensionProperties(VkPhysicalDevice physicalDevice, const char* pLayerName)
 {
 	for (;;)
@@ -4772,7 +4772,7 @@ EnumerateDeviceExtensionProperties(VkPhysicalDevice physicalDevice, const char* 
 			return {};
 		}
 
-		bksge::vector<VkExtensionProperties> extension_properties(count);
+		std::vector<VkExtensionProperties> extension_properties(count);
 		auto res = ::vkEnumerateDeviceExtensionProperties(physicalDevice, pLayerName, &count, extension_properties.data());
 		if (res == VK_INCOMPLETE)
 		{
@@ -4784,7 +4784,7 @@ EnumerateDeviceExtensionProperties(VkPhysicalDevice physicalDevice, const char* 
 	}
 }
 
-inline bksge::vector<VkLayerProperties>
+inline std::vector<VkLayerProperties>
 EnumerateInstanceLayerProperties(void)
 {
 	/*
@@ -4810,7 +4810,7 @@ EnumerateInstanceLayerProperties(void)
 			return {};
 		}
 
-		bksge::vector<VkLayerProperties> layer_properties(count);
+		std::vector<VkLayerProperties> layer_properties(count);
 		auto res = ::vkEnumerateInstanceLayerProperties(&count, layer_properties.data());
 		if (res == VK_INCOMPLETE)
 		{
@@ -4822,7 +4822,7 @@ EnumerateInstanceLayerProperties(void)
 	}
 }
 
-inline bksge::vector<VkLayerProperties>
+inline std::vector<VkLayerProperties>
 EnumerateDeviceLayerProperties(VkPhysicalDevice physicalDevice)
 {
 	for (;;)
@@ -4835,7 +4835,7 @@ EnumerateDeviceLayerProperties(VkPhysicalDevice physicalDevice)
 			return {};
 		}
 
-		bksge::vector<VkLayerProperties> layer_properties(count);
+		std::vector<VkLayerProperties> layer_properties(count);
 		auto res = ::vkEnumerateDeviceLayerProperties(physicalDevice, &count, layer_properties.data());
 		if (res == VK_INCOMPLETE)
 		{
@@ -5973,7 +5973,7 @@ inline VkResult GetPhysicalDeviceSurfaceCapabilitiesKHR(
 		physicalDevice, surface, pSurfaceCapabilities));
 }
 
-inline bksge::vector<VkSurfaceFormatKHR>
+inline std::vector<VkSurfaceFormatKHR>
 GetPhysicalDeviceSurfaceFormatsKHR(
     VkPhysicalDevice physicalDevice,
     VkSurfaceKHR     surface)
@@ -5989,7 +5989,7 @@ GetPhysicalDeviceSurfaceFormatsKHR(
 			return {};
 		}
 
-		bksge::vector<VkSurfaceFormatKHR> surface_formats(count);
+		std::vector<VkSurfaceFormatKHR> surface_formats(count);
 		auto res = ::vkGetPhysicalDeviceSurfaceFormatsKHR(
 			physicalDevice, surface, &count, surface_formats.data());
 		if (res == VK_INCOMPLETE)
@@ -6026,14 +6026,14 @@ inline void DestroySwapchainKHR(
 	::vkDestroySwapchainKHR(device, swapchain, pAllocator);
 }
 
-inline bksge::vector<::VkImage>
+inline std::vector<::VkImage>
 GetSwapchainImagesKHR(VkDevice device, VkSwapchainKHR swapchain)
 {
 	bksge::uint32_t count = 0;
 	vk::CheckError(::vkGetSwapchainImagesKHR(
 		device, swapchain, &count, nullptr));
 
-	bksge::vector<::VkImage> images(count);
+	std::vector<::VkImage> images(count);
 	vk::CheckError(::vkGetSwapchainImagesKHR(
 		device, swapchain, &count, images.data()));
 

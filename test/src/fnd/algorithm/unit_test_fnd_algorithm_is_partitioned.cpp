@@ -10,7 +10,7 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/list.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <gtest/gtest.h>
 #include <array>
 #include "constexpr_test.hpp"
@@ -65,19 +65,19 @@ GTEST_TEST(AlgorithmTest, IsPartitionedTest)
 		BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE(bksge::is_partitioned(bksge::begin(a), bksge::end(a), pred2()));
 	}
 	{
-		const bksge::vector<int> a {1,2,3};
+		const std::vector<int> a {1,2,3};
 		EXPECT_FALSE(bksge::is_partitioned(bksge::begin(a), bksge::end(a), pred1));
 	}
 	{
-		const bksge::vector<int> a {1,3,2};
+		const std::vector<int> a {1,3,2};
 		EXPECT_TRUE(bksge::is_partitioned(bksge::begin(a), bksge::end(a), [](int x) { return (x % 2) == 1; }));
 	}
 	{
-		const bksge::vector<int> a {1,2,3};
+		const std::vector<int> a {1,2,3};
 		EXPECT_TRUE(bksge::is_partitioned(bksge::begin(a), bksge::end(a), pred2()));
 	}
 	{
-		const bksge::vector<int> a {1,3,2};
+		const std::vector<int> a {1,3,2};
 		EXPECT_FALSE(bksge::is_partitioned(bksge::begin(a), bksge::end(a), [](int x) { return x > 2; }));
 	}
 	{

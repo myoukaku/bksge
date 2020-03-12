@@ -12,7 +12,7 @@
 #include <bksge/fnd/sstream/stringstream.hpp>
 #include <bksge/fnd/sstream/wstringstream.hpp>
 #include <bksge/fnd/sstream/basic_stringstream.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <gtest/gtest.h>
 #include <functional>
 #include "serialize_test.hpp"
@@ -64,7 +64,7 @@ GTEST_TEST(Render_BorderColor, SerializeTest)
 GTEST_TEST(Render_BorderColor, HashTest)
 {
 	std::hash<bksge::BorderColor> h;
-	bksge::vector<bksge::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(bksge::BorderColor::kTransparentBlack));
 	v.push_back(h(bksge::BorderColor::kOpaqueBlack));
 	v.push_back(h(bksge::BorderColor::kOpaqueWhite));

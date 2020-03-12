@@ -12,7 +12,7 @@
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/list.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <gtest/gtest.h>
 #include <array>
 
@@ -41,7 +41,7 @@ GTEST_TEST(AlgorithmTest, PartialSortCopyTest)
 	}
 	{
 		const int a[] { 5, 7, 4, 2, 8, 6, 1, 9, 0, 3 };
-		bksge::vector<int> b(5);
+		std::vector<int> b(5);
 		auto ret = bksge::partial_sort_copy(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b));
 		EXPECT_TRUE(ret == bksge::end(b));
 		EXPECT_EQ(0, b[0]);
@@ -52,7 +52,7 @@ GTEST_TEST(AlgorithmTest, PartialSortCopyTest)
 	}
 	{
 		const int a[] { 5, 7, 4, 2, 8, 6, 1, 9, 0, 3 };
-		bksge::vector<int> b(5);
+		std::vector<int> b(5);
 		auto ret = bksge::partial_sort_copy(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b), bksge::greater<>());
 		EXPECT_TRUE(ret == bksge::end(b));
 		EXPECT_EQ(9, b[0]);
@@ -98,7 +98,7 @@ GTEST_TEST(AlgorithmTest, PartialSortCopyTest)
 	}
 	{
 		const std::array<int, 10> a {{ 5, 7, 4, 2, 8, 6, 1, 9, 0, 3 }};
-		bksge::vector<int> b(10);
+		std::vector<int> b(10);
 		auto ret = bksge::partial_sort_copy(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b), bksge::greater<>());
 		EXPECT_TRUE(ret == bksge::end(b));
 		EXPECT_EQ(9, b[0]);
@@ -113,7 +113,7 @@ GTEST_TEST(AlgorithmTest, PartialSortCopyTest)
 		EXPECT_EQ(0, b[9]);
 	}
 	{
-		const bksge::vector<int> a { 3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5 };
+		const std::vector<int> a { 3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5 };
 		int b[5];
 		auto ret = bksge::partial_sort_copy(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b));
 		EXPECT_TRUE(ret == bksge::end(b));
@@ -124,7 +124,7 @@ GTEST_TEST(AlgorithmTest, PartialSortCopyTest)
 		EXPECT_EQ(3, b[4]);
 	}
 	{
-		const bksge::vector<int> a { 3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5 };
+		const std::vector<int> a { 3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5 };
 		std::array<int, 6> b;
 		auto ret = bksge::partial_sort_copy(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b), bksge::greater<>());
 		EXPECT_TRUE(ret == bksge::end(b));
@@ -136,8 +136,8 @@ GTEST_TEST(AlgorithmTest, PartialSortCopyTest)
 		EXPECT_EQ(4, b[5]);
 	}
 	{
-		const bksge::vector<int> a { 3, 1, 4 };
-		bksge::vector<int> b(5);
+		const std::vector<int> a { 3, 1, 4 };
+		std::vector<int> b(5);
 		auto ret = bksge::partial_sort_copy(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b));
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(b), 3));
 		EXPECT_EQ(1, b[0]);
@@ -147,7 +147,7 @@ GTEST_TEST(AlgorithmTest, PartialSortCopyTest)
 		EXPECT_EQ(0, b[4]);
 	}
 	{
-		const bksge::vector<int> a { 3, 1, 4 };
+		const std::vector<int> a { 3, 1, 4 };
 		int b[5] {};
 		auto ret = bksge::partial_sort_copy(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b), bksge::greater<>());
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(b), 3));
@@ -182,7 +182,7 @@ GTEST_TEST(AlgorithmTest, PartialSortCopyTest)
 	}
 	{
 		const bksge::list<int> a { 3, 1, 4 };
-		bksge::vector<int> b(5);
+		std::vector<int> b(5);
 		auto ret = bksge::partial_sort_copy(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b));
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(b), 3));
 		EXPECT_EQ(1, b[0]);

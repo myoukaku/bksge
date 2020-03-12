@@ -13,7 +13,7 @@
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
 #include <bksge/fnd/list.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <gtest/gtest.h>
 #include <array>
 
@@ -66,7 +66,7 @@ GTEST_TEST(AlgorithmTest, UniqueTest)
 		EXPECT_EQ(5, a[4]);
 	}
 	{
-		bksge::vector<bksge::shared_ptr<int>> a;
+		std::vector<bksge::shared_ptr<int>> a;
 		a.emplace_back(new int(1));
 		a.emplace_back(new int(4));
 		a.emplace_back(new int(4));
@@ -86,7 +86,7 @@ GTEST_TEST(AlgorithmTest, UniqueTest)
 		EXPECT_EQ(3, *a[4]);
 	}
 	{
-		bksge::vector<int> a;
+		std::vector<int> a;
 		auto ret = bksge::unique(bksge::begin(a), bksge::end(a), [](int, int){ return true; });
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 0));
 		EXPECT_TRUE(a.empty());

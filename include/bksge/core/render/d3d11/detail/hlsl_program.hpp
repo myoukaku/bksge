@@ -18,7 +18,7 @@
 #include <bksge/core/render/d3d_common/com_ptr.hpp>
 #include <bksge/core/render/fwd/shader_fwd.hpp>
 #include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 
 namespace bksge
 {
@@ -51,7 +51,7 @@ private:
 	HlslProgram& operator=(HlslProgram const&) = delete;
 
 private:
-	using HlslShaders = bksge::vector<HlslShaderUnique>;
+	using HlslShaders = std::vector<HlslShaderUnique>;
 
 	HlslShaders						m_shaders;
 	ComPtr<::ID3D11InputLayout>		m_input_layout;

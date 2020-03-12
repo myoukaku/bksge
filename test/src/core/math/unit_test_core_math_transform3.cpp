@@ -18,11 +18,11 @@
 #include <bksge/fnd/sstream/stringstream.hpp>
 #include <bksge/fnd/sstream/wstringstream.hpp>
 #include <bksge/fnd/units/degree.hpp>
-#include <bksge/fnd/vector.hpp>
-#include <gtest/gtest.h>
+#include <vector>
 #include <stdexcept>
 #include <tuple>
 #include <functional>
+#include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 #include "serialize_test.hpp"
 
@@ -402,7 +402,7 @@ TYPED_TEST(MathTransform3Test, HashTest)
 	Transform3 const t3({1,2,3},{1,1,0,1},{4,5,6});
 	Transform3 const t4({1,2,3},{1,0,0,1},{4,3,6});
 
-	bksge::vector<bksge::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(t1));
 	v.push_back(h(t2));
 	v.push_back(h(t3));

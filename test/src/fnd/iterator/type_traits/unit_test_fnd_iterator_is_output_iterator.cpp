@@ -9,7 +9,7 @@
 #include <bksge/fnd/iterator/type_traits/is_output_iterator.hpp>
 #include <iterator>
 #include <array>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <bksge/fnd/list.hpp>
 #include <deque>
 #include <string>
@@ -50,10 +50,10 @@ GTEST_TEST(IteratorTest, IsOutputIteratorTest)
 	static_assert(bksge::is_output_iterator<const          UDT*>::value                        == true, "");
 	static_assert(bksge::is_output_iterator<      volatile UDT*>::value                        == true, "");
 	static_assert(bksge::is_output_iterator<const volatile UDT*>::value                        == true, "");
-	static_assert(bksge::is_output_iterator<bksge::vector<int>::iterator>::value                 == true, "");
-	static_assert(bksge::is_output_iterator<bksge::vector<int>::const_iterator>::value           == true, "");
-	static_assert(bksge::is_output_iterator<bksge::vector<int>::reverse_iterator>::value         == true, "");
-	static_assert(bksge::is_output_iterator<bksge::vector<int>::const_reverse_iterator>::value   == true, "");
+	static_assert(bksge::is_output_iterator<std::vector<int>::iterator>::value                 == true, "");
+	static_assert(bksge::is_output_iterator<std::vector<int>::const_iterator>::value           == true, "");
+	static_assert(bksge::is_output_iterator<std::vector<int>::reverse_iterator>::value         == true, "");
+	static_assert(bksge::is_output_iterator<std::vector<int>::const_reverse_iterator>::value   == true, "");
 	static_assert(bksge::is_output_iterator<std::deque<UDT>::iterator>::value                  == true, "");
 	static_assert(bksge::is_output_iterator<std::deque<UDT>::const_iterator>::value            == true, "");
 	static_assert(bksge::is_output_iterator<std::deque<UDT>::reverse_iterator>::value          == true, "");
@@ -75,9 +75,9 @@ GTEST_TEST(IteratorTest, IsOutputIteratorTest)
 
 	static_assert(bksge::is_output_iterator<std::istream_iterator<int>>::value                   == false, "");
 	static_assert(bksge::is_output_iterator<std::ostream_iterator<int>>::value                   == true, "");
-	static_assert(bksge::is_output_iterator<std::back_insert_iterator<bksge::vector<int>>>::value  == true, "");
-	static_assert(bksge::is_output_iterator<std::front_insert_iterator<bksge::vector<int>>>::value == true, "");
-	static_assert(bksge::is_output_iterator<std::insert_iterator<bksge::vector<int>>>::value       == true, "");
+	static_assert(bksge::is_output_iterator<std::back_insert_iterator<std::vector<int>>>::value  == true, "");
+	static_assert(bksge::is_output_iterator<std::front_insert_iterator<std::vector<int>>>::value == true, "");
+	static_assert(bksge::is_output_iterator<std::insert_iterator<std::vector<int>>>::value       == true, "");
 }
 
 }	// namespace is_output_iterator_test

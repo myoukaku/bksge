@@ -13,7 +13,7 @@
 #include <bksge/fnd/sstream/wstringstream.hpp>
 #include <gtest/gtest.h>
 #include <functional>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include "serialize_test.hpp"
 
 GTEST_TEST(Render_ClearState, DefaultCtorTest)
@@ -146,7 +146,7 @@ GTEST_TEST(Render_ClearState, HashTest)
 	s4.SetDepth(0.5f);
 	s5.SetStencil(2);
 
-	bksge::vector<bksge::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(s1));
 	v.push_back(h(s2));
 	v.push_back(h(s3));

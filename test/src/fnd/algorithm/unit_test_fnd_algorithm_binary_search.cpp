@@ -10,7 +10,7 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/list.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <gtest/gtest.h>
 #include <array>
 #include "constexpr_test.hpp"
@@ -71,7 +71,7 @@ GTEST_TEST(AlgorithmTest, BinarySearchTest)
 		BKSGE_CXX17_CONSTEXPR_EXPECT_FALSE(bksge::binary_search(bksge::begin(a), bksge::end(a), 6, pred2()));
 	}
 	{
-		const bksge::vector<int> a { 1,2,3,4,5 };
+		const std::vector<int> a { 1,2,3,4,5 };
 		EXPECT_TRUE (bksge::binary_search(bksge::begin(a), bksge::end(a), 1, [](int x, int y) { return x < y; }));
 		EXPECT_TRUE (bksge::binary_search(bksge::begin(a), bksge::end(a), 2, [](int x, int y) { return x < y; }));
 		EXPECT_TRUE (bksge::binary_search(bksge::begin(a), bksge::end(a), 3, [](int x, int y) { return x < y; }));
@@ -90,7 +90,7 @@ GTEST_TEST(AlgorithmTest, BinarySearchTest)
 		EXPECT_FALSE(bksge::binary_search(bksge::begin(a), bksge::end(a), 4, [](int x, int y) { return x > y; }));
 	}
 	{
-		const bksge::vector<int> a;
+		const std::vector<int> a;
 		EXPECT_FALSE(bksge::binary_search(bksge::begin(a), bksge::end(a), 0));
 		EXPECT_FALSE(bksge::binary_search(bksge::begin(a), bksge::end(a), 1));
 		EXPECT_FALSE(bksge::binary_search(bksge::begin(a), bksge::end(a), 2));

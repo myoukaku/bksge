@@ -11,7 +11,7 @@
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/functional/multiplies.hpp>
 #include <array>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <bksge/fnd/list.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -37,7 +37,7 @@ GTEST_TEST(NumericTest, AccumulateTest)
 		EXPECT_EQ(200, x3);
 	}
 	{
-		const bksge::vector<int> v = { 3, 1, 4, 1, 5 };
+		const std::vector<int> v = { 3, 1, 4, 1, 5 };
 		auto x1 = bksge::accumulate(bksge::begin(v), bksge::end(v), 0);
 		EXPECT_EQ(14, x1);
 		auto x2 = bksge::accumulate(bksge::begin(v), bksge::end(v), 20);

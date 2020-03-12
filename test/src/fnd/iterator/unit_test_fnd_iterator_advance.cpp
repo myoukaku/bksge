@@ -10,7 +10,7 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/list.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -42,7 +42,7 @@ GTEST_TEST(IteratorTest, AdvanceTest)
 		EXPECT_TRUE(it == bksge::end(a));
 	}
 	{
-		bksge::vector<float> v {3,1,4,1,5};
+		std::vector<float> v {3,1,4,1,5};
 
 		auto it = bksge::begin(v);
 		EXPECT_EQ(3, *it);
@@ -58,7 +58,7 @@ GTEST_TEST(IteratorTest, AdvanceTest)
 		EXPECT_TRUE(it == bksge::end(v));
 	}
 	{
-		bksge::vector<float> v {3,1,4,1,5};
+		std::vector<float> v {3,1,4,1,5};
 
 		auto it = bksge::begin(v);
 		EXPECT_EQ(3, *it);

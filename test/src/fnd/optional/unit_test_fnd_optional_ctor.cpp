@@ -10,7 +10,7 @@
 #include <bksge/fnd/utility/in_place.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -278,43 +278,43 @@ GTEST_TEST(OptionalTest, ValueCtorTest)
 	}
 
 	{
-		bksge::vector<int> v = { 0, 1, 2, 3, 4, 5 };
-		bksge::optional<bksge::vector<int>> o{ v };
+		std::vector<int> v = { 0, 1, 2, 3, 4, 5 };
+		bksge::optional<std::vector<int>> o{ v };
 		EXPECT_TRUE(!v.empty());
 		EXPECT_TRUE(o->size() == 6);
 	}
 
 	{
-		bksge::vector<int> v = { 0, 1, 2, 3, 4, 5 };
-		bksge::optional<bksge::vector<int>> o = v;
+		std::vector<int> v = { 0, 1, 2, 3, 4, 5 };
+		bksge::optional<std::vector<int>> o = v;
 		EXPECT_TRUE(!v.empty());
 		EXPECT_TRUE(o->size() == 6);
 	}
 
 	{
-		bksge::vector<int> v = { 0, 1, 2, 3, 4, 5 };
-		bksge::optional<bksge::vector<int>> o{ v };
+		std::vector<int> v = { 0, 1, 2, 3, 4, 5 };
+		bksge::optional<std::vector<int>> o{ v };
 		EXPECT_TRUE(!v.empty());
 		EXPECT_TRUE(o->size() == 6);
 	}
 
 	{
-		bksge::vector<int> v = { 0, 1, 2, 3, 4, 5 };
-		bksge::optional<bksge::vector<int>> o{ bksge::move(v) };
+		std::vector<int> v = { 0, 1, 2, 3, 4, 5 };
+		bksge::optional<std::vector<int>> o{ bksge::move(v) };
 		EXPECT_TRUE(v.empty());
 		EXPECT_TRUE(o->size() == 6);
 	}
 
 	{
-		bksge::vector<int> v = { 0, 1, 2, 3, 4, 5 };
-		bksge::optional<bksge::vector<int>> o = bksge::move(v);
+		std::vector<int> v = { 0, 1, 2, 3, 4, 5 };
+		bksge::optional<std::vector<int>> o = bksge::move(v);
 		EXPECT_TRUE(v.empty());
 		EXPECT_TRUE(o->size() == 6);
 	}
 
 	{
-		bksge::vector<int> v = { 0, 1, 2, 3, 4, 5 };
-		bksge::optional<bksge::vector<int>> o{ bksge::move(v) };
+		std::vector<int> v = { 0, 1, 2, 3, 4, 5 };
+		bksge::optional<std::vector<int>> o{ bksge::move(v) };
 		EXPECT_TRUE(v.empty());
 		EXPECT_TRUE(o->size() == 6);
 	}

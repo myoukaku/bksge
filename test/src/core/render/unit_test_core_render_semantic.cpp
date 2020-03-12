@@ -12,7 +12,7 @@
 #include <bksge/fnd/sstream/stringstream.hpp>
 #include <bksge/fnd/sstream/wstringstream.hpp>
 #include <bksge/fnd/sstream/basic_stringstream.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <gtest/gtest.h>
 #include <functional>
 #include "serialize_test.hpp"
@@ -129,7 +129,7 @@ GTEST_TEST(Render_Semantic, HashTest)
 {
 	std::hash<bksge::Semantic> h;
 
-	bksge::vector<bksge::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(bksge::Semantic::kPosition));
 	v.push_back(h(bksge::Semantic::kNormal));
 	v.push_back(h(bksge::Semantic::kColor));

@@ -16,7 +16,7 @@
 #include <bksge/core/render/d3d_common/throw_if_failed.hpp>
 #include <bksge/core/render/d3d_common/dxgi.hpp>
 #include <bksge/fnd/utility/move.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 
 namespace bksge
 {
@@ -28,7 +28,7 @@ namespace d3d12
 {
 
 BKSGE_INLINE
-Device::Device(bksge::vector<ComPtr<IDXGIAdapterN>> const& adapters)
+Device::Device(std::vector<ComPtr<IDXGIAdapterN>> const& adapters)
 {
 	::HRESULT hr = S_OK;
 

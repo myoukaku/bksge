@@ -19,9 +19,9 @@
 #include <bksge/fnd/sstream/wstringstream.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
-#include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
 #include <functional>
+#include <vector>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 #include "serialize_test.hpp"
@@ -423,7 +423,7 @@ TYPED_TEST(MathRectTest, HashTest)
 	Rect const r3(Vector2{1,2}, Vector2{4,3});
 	Rect const r4(Vector2{-1,-2}, Vector2{3,4});
 
-	bksge::vector<bksge::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(r1));
 	v.push_back(h(r2));
 	v.push_back(h(r3));

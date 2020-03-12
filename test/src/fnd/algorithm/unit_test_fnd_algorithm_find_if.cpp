@@ -10,7 +10,7 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/list.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <gtest/gtest.h>
 #include <array>
 #include "constexpr_test.hpp"
@@ -103,7 +103,7 @@ GTEST_TEST(AlgorithmTest, FindIfTest)
 	EXPECT_EQ( 1, a3[1]);
 	EXPECT_EQ(20, a3[2]);
 
-	const bksge::vector<int> v1 {7, 8, 9};
+	const std::vector<int> v1 {7, 8, 9};
 	{
 		auto it = bksge::find_if(bksge::begin(v1), bksge::end(v1), [](int x) { return x == 7; });
 		EXPECT_TRUE(it == bksge::begin(v1));

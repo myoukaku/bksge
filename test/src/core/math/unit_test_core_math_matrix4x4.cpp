@@ -27,10 +27,10 @@
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
 #include <bksge/fnd/sstream/stringstream.hpp>
 #include <bksge/fnd/sstream/wstringstream.hpp>
-#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
 #include <functional>
 #include <tuple>
+#include <vector>
 #include "constexpr_test.hpp"
 #include "serialize_test.hpp"
 
@@ -3264,7 +3264,7 @@ TYPED_TEST(MathMatrix4x4Test, HashTest)
 		Vector4{0, 0, 0, 1},
 	};
 
-	bksge::vector<bksge::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(m1));
 	v.push_back(h(m2));
 	v.push_back(h(m3));

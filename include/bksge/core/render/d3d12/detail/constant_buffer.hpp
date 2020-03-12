@@ -16,7 +16,7 @@
 //#include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint8_t.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 
 namespace bksge
 {
@@ -46,7 +46,7 @@ public:
 
 		~Subresource();
 
-		void Update(bksge::vector<bksge::uint8_t> const& buffer);
+		void Update(std::vector<bksge::uint8_t> const& buffer);
 
 		void CreateView(Device* device, ::D3D12_CPU_DESCRIPTOR_HANDLE dest);
 

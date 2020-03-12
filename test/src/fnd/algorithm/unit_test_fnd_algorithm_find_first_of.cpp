@@ -11,7 +11,7 @@
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/list.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <gtest/gtest.h>
 #include <array>
 #include "constexpr_test.hpp"
@@ -72,7 +72,7 @@ GTEST_TEST(AlgorithmTest, FindFirstOfTest)
 		BKSGE_CXX17_CONSTEXPR_EXPECT_EQ(1, *it);
 	}
 	{
-		const bksge::vector<int> a { 1, 3, 7, 4, 2 };
+		const std::vector<int> a { 1, 3, 7, 4, 2 };
 		const bksge::list<int> b { 2, 4, 6, 8 };
 		auto it = bksge::find_first_of(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b));
 		EXPECT_EQ(it, bksge::next(bksge::begin(a), 3));
@@ -87,7 +87,7 @@ GTEST_TEST(AlgorithmTest, FindFirstOfTest)
 	}
 	{
 		const int a[] { 1, 3, 7, 4, 2 };
-		const bksge::vector<int> b { 2, 4, 6, 8 };
+		const std::vector<int> b { 2, 4, 6, 8 };
 		auto it = bksge::find_first_of(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b), pred2());
 		EXPECT_EQ(it, bksge::next(bksge::begin(a), 1));
 		EXPECT_EQ(3, *it);
@@ -101,12 +101,12 @@ GTEST_TEST(AlgorithmTest, FindFirstOfTest)
 	}
 	{
 		const bksge::list<int> a { 1, 3, 7, 4, 2 };
-		const bksge::vector<int> b;
+		const std::vector<int> b;
 		auto it = bksge::find_first_of(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b));
 		EXPECT_EQ(it, bksge::end(a));
 	}
 	{
-		const bksge::vector<int> a;
+		const std::vector<int> a;
 		const bksge::list<int> b { 2, 4, 6, 8 };
 		auto it = bksge::find_first_of(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b));
 		EXPECT_EQ(it, bksge::end(a));

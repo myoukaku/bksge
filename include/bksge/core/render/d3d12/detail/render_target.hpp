@@ -14,7 +14,7 @@
 #include <bksge/core/render/d3d_common/d3d12.hpp>
 #include <bksge/core/render/d3d_common/com_ptr.hpp>
 #include <bksge/core/render/dxgi/fwd/dxgi_swap_chain_fwd.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 
 namespace bksge
 {
@@ -42,7 +42,7 @@ private:
 	RenderTarget& operator=(RenderTarget const&) = delete;
 
 private:
-	bksge::vector<ComPtr<ID3D12ResourceN>>	m_resource;
+	std::vector<ComPtr<ID3D12ResourceN>>	m_resource;
 	ComPtr<::ID3D12DescriptorHeap>			m_descriptor_heap;
 	::UINT									m_descriptor_size;
 };

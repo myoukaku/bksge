@@ -14,7 +14,7 @@
 #include <bksge/fnd/random/engines/xorshift.hpp>
 #include <bksge/fnd/sstream/stringstream.hpp>
 #include <bksge/fnd/list.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <gtest/gtest.h>
 #include <array>
 #include <forward_list>
@@ -32,7 +32,7 @@ GTEST_TEST(AlgorithmTest, SampleTest)
 
 	{
 		int const a[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-		bksge::vector<int> out;
+		std::vector<int> out;
 		auto i = bksge::sample(
 			bksge::begin(a), bksge::end(a),
 			bksge::back_inserter(out),
@@ -46,7 +46,7 @@ GTEST_TEST(AlgorithmTest, SampleTest)
 		EXPECT_TRUE(0 <= out[4] && out[4] <= 9);
 	}
 	{
-		bksge::vector<int> const a {10, 11, 12, 13, 14, 15, 16};
+		std::vector<int> const a {10, 11, 12, 13, 14, 15, 16};
 		int out[4] {};
 		auto i = bksge::sample(
 			bksge::begin(a), bksge::end(a),
@@ -89,7 +89,7 @@ GTEST_TEST(AlgorithmTest, SampleTest)
 	}
 	{
 		int const a[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-		bksge::vector<int> out;
+		std::vector<int> out;
 		auto i = bksge::sample(
 			bksge::begin(a), bksge::end(a),
 			bksge::back_inserter(out),
@@ -109,7 +109,7 @@ GTEST_TEST(AlgorithmTest, SampleTest)
 	}
 	{
 		int const a[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-		bksge::vector<int> out;
+		std::vector<int> out;
 		auto i = bksge::sample(
 			bksge::begin(a), bksge::end(a),
 			bksge::back_inserter(out),
@@ -129,7 +129,7 @@ GTEST_TEST(AlgorithmTest, SampleTest)
 	}
 	{
 		bksge::list<int> a {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-		bksge::vector<int> out;
+		std::vector<int> out;
 		auto i = bksge::sample(
 			bksge::begin(a), bksge::end(a),
 			bksge::back_inserter(out),

@@ -14,7 +14,7 @@
 //#include <bksge/fnd/serialization/version.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint8_t.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <ostream>
 
 namespace bksge
@@ -32,10 +32,10 @@ public:
 
 	bksge::uint8_t const* data(void) const;
 
-	bksge::vector<bksge::uint8_t> const& value(void) const;
+	std::vector<bksge::uint8_t> const& value(void) const;
 
 private:
-	bksge::vector<bksge::uint8_t>	m_value;
+	std::vector<bksge::uint8_t>	m_value;
 
 private:
 #if 0

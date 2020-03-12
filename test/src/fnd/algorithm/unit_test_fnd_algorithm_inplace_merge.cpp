@@ -12,7 +12,7 @@
 #include <bksge/fnd/iterator/end.hpp>
 #include <gtest/gtest.h>
 #include <array>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 
 namespace bksge_algorithm_test
 {
@@ -113,7 +113,7 @@ GTEST_TEST(AlgorithmTest, InplaceMergeTest)
 		EXPECT_EQ(1, a[1]);
 	}
 	{
-		bksge::vector<int> a { 1,2,4,5,6,  3 };
+		std::vector<int> a { 1,2,4,5,6,  3 };
 
 		bksge::inplace_merge(bksge::begin(a), bksge::begin(a) + 5, bksge::end(a));
 
@@ -125,7 +125,7 @@ GTEST_TEST(AlgorithmTest, InplaceMergeTest)
 		EXPECT_EQ(6, a[5]);
 	}
 	{
-		bksge::vector<int> a { 6,5,4,2,1,  3 };
+		std::vector<int> a { 6,5,4,2,1,  3 };
 
 		bksge::inplace_merge(bksge::begin(a), bksge::begin(a) + 5, bksge::end(a), bksge::greater<>());
 
@@ -137,7 +137,7 @@ GTEST_TEST(AlgorithmTest, InplaceMergeTest)
 		EXPECT_EQ(1, a[5]);
 	}
 	{
-		bksge::vector<int> a;
+		std::vector<int> a;
 
 		bksge::inplace_merge(bksge::begin(a), bksge::begin(a), bksge::end(a));
 

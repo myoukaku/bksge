@@ -21,7 +21,7 @@
 #include <bksge/fnd/cstdint/uint8_t.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <ostream>
 
 namespace bksge

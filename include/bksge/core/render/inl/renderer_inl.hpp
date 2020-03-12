@@ -11,7 +11,7 @@
 
 #include <bksge/core/render/renderer.hpp>
 #include <bksge/core/render/shader.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 
 namespace bksge
 {
@@ -54,7 +54,7 @@ void Renderer::EndRenderPass(void)
 BKSGE_INLINE
 void Renderer::Render(
 	Geometry const& geometry,
-	bksge::vector<Shader const*> const& shader_list,
+	std::vector<Shader const*> const& shader_list,
 	ShaderParameterMap const& shader_parameter_map,
 	RenderState const& render_state)
 {

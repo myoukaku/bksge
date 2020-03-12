@@ -12,7 +12,7 @@
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/list.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <gtest/gtest.h>
 #include <array>
 #include "constexpr_test.hpp"
@@ -74,7 +74,7 @@ GTEST_TEST(AlgorithmTest, ForEachNTest)
 		EXPECT_TRUE(i == bksge::next(bksge::begin(a), 4));
 	}
 	{
-		bksge::vector<int> v { 1, 2, 3 };
+		std::vector<int> v { 1, 2, 3 };
 		auto i = bksge::for_each_n(bksge::begin(v), v.size(), [](int& x) { x *= 2; });
 		EXPECT_EQ(2, v[0]);
 		EXPECT_EQ(4, v[1]);
@@ -82,7 +82,7 @@ GTEST_TEST(AlgorithmTest, ForEachNTest)
 		EXPECT_TRUE(i == bksge::end(v));
 	}
 	{
-		bksge::vector<int> v { 1, 2, 3 };
+		std::vector<int> v { 1, 2, 3 };
 		auto i = bksge::for_each_n(bksge::begin(v), 1, [](int& x) { x *= 2; });
 		EXPECT_EQ(2, v[0]);
 		EXPECT_EQ(2, v[1]);

@@ -10,7 +10,7 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <array>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <bksge/fnd/list.hpp>
 #include <gtest/gtest.h>
 
@@ -34,7 +34,7 @@ GTEST_TEST(NumericTest, IotaTest)
 		EXPECT_EQ( 1, a[3]);
 	}
 	{
-		bksge::vector<int> a(6);
+		std::vector<int> a(6);
 		bksge::iota(bksge::begin(a), bksge::end(a), -1);
 		EXPECT_EQ(-1, a[0]);
 		EXPECT_EQ( 0, a[1]);

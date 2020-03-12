@@ -10,7 +10,7 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/list.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <gtest/gtest.h>
 #include <array>
 #include "constexpr_test.hpp"
@@ -35,9 +35,9 @@ GTEST_TEST(AlgorithmTest, EqualTest)
 	BKSGE_CONSTEXPR_OR_CONST std::array<float, 2> a9{{0, 1}};
 	BKSGE_CONSTEXPR_OR_CONST std::array<float, 4> a10{{0, 1, 2, 3}};
 
-	const bksge::vector<int> v1 {0,1,2};
-	const bksge::vector<int> v2 {0,1,2,3};
-	const bksge::vector<int> v3 {0,1,2,3};
+	const std::vector<int> v1 {0,1,2};
+	const std::vector<int> v2 {0,1,2,3};
+	const std::vector<int> v3 {0,1,2,3};
 
 	const bksge::list<int> l1 {0,1,2};
 	const bksge::list<int> l2 {0,1,2,3};

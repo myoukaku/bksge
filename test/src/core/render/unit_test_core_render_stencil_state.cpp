@@ -11,7 +11,7 @@
 #include <bksge/fnd/algorithm/sort.hpp>
 #include <bksge/fnd/sstream/stringstream.hpp>
 #include <bksge/fnd/sstream/wstringstream.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <gtest/gtest.h>
 #include <functional>
 #include "serialize_test.hpp"
@@ -218,7 +218,7 @@ GTEST_TEST(Render_StencilState, HashTest)
 	s8.SetDepthFailOperation(bksge::StencilOperation::kInvert);
 	s9.SetPassOperation(bksge::StencilOperation::kIncr);
 
-	bksge::vector<bksge::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(s1));
 	v.push_back(h(s2));
 	v.push_back(h(s3));

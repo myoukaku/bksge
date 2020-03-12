@@ -11,7 +11,7 @@
 #include <bksge/fnd/algorithm/sort.hpp>
 #include <bksge/fnd/sstream/stringstream.hpp>
 #include <bksge/fnd/sstream/wstringstream.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <gtest/gtest.h>
 #include <functional>
 #include <limits>
@@ -359,7 +359,7 @@ GTEST_TEST(Render_Sampler, HashTest)
 	s9.SetMinLod(-0.5f);
 	s10.SetMaxLod(0.5f);
 
-	bksge::vector<bksge::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(s1));
 	v.push_back(h(s2));
 	v.push_back(h(s3));

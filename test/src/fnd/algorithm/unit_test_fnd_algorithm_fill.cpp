@@ -10,7 +10,7 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/list.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <gtest/gtest.h>
 #include <array>
 
@@ -38,7 +38,7 @@ GTEST_TEST(AlgorithmTest, FillTest)
 		EXPECT_EQ(-1, a[3]);
 	}
 	{
-		bksge::vector<int> a(5);
+		std::vector<int> a(5);
 		bksge::fill(bksge::begin(a), bksge::end(a), 3);
 		EXPECT_EQ(3, a[0]);
 		EXPECT_EQ(3, a[1]);
@@ -47,7 +47,7 @@ GTEST_TEST(AlgorithmTest, FillTest)
 		EXPECT_EQ(3, a[4]);
 	}
 	{
-		bksge::vector<int> a;
+		std::vector<int> a;
 		bksge::fill(bksge::begin(a), bksge::end(a), 3);
 		EXPECT_TRUE(a.empty());
 	}

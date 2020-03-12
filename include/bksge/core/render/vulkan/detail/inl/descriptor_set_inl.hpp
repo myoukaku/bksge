@@ -19,7 +19,7 @@
 #include <bksge/core/render/vulkan/detail/shader_reflection.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 
 namespace bksge
 {
@@ -34,7 +34,7 @@ BKSGE_INLINE
 DescriptorSet::DescriptorSet(
 	vulkan::DeviceSharedPtr const& device,
 	vulkan::DescriptorPoolSharedPtr const& descriptor_pool,
-	bksge::vector<::VkDescriptorSetLayout> const& descriptor_set_layouts)
+	std::vector<::VkDescriptorSetLayout> const& descriptor_set_layouts)
 	: m_device(device)
 	, m_descriptor_pool(descriptor_pool)
 {
@@ -50,7 +50,7 @@ DescriptorSet::~DescriptorSet()
 	m_descriptor_pool->FreeDescriptorSets(m_descriptor_sets);
 }
 
-BKSGE_INLINE bksge::vector<::VkDescriptorSet> const&
+BKSGE_INLINE std::vector<::VkDescriptorSet> const&
 DescriptorSet::Get(void) const
 {
 	return m_descriptor_sets;

@@ -16,7 +16,7 @@
 #include <bksge/core/render/vulkan/detail/physical_device.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 
 namespace bksge
 {
@@ -32,8 +32,8 @@ Device::Device(vulkan::PhysicalDeviceSharedPtr const& physical_device)
 	: m_physical_device(physical_device)
 	, m_device(VK_NULL_HANDLE)
 {
-	bksge::vector<char const*> layer_names;
-	bksge::vector<char const*> extension_names;
+	std::vector<char const*> layer_names;
+	std::vector<char const*> extension_names;
 
 #if 0	// 可能なレイヤーと拡張を全て追加
 

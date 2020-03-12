@@ -16,7 +16,7 @@
 #include <bksge/fnd/iterator/distance.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 #include <array>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <bksge/fnd/list.hpp>
 #include <string>
 #include <gtest/gtest.h>
@@ -39,7 +39,7 @@ GTEST_TEST(IteratorTest, ReverseIteratorTest)
 {
 	{
 		bksge::reverse_iterator<std::string::iterator>      i1;
-		bksge::reverse_iterator<bksge::vector<int>::iterator> i2;
+		bksge::reverse_iterator<std::vector<int>::iterator> i2;
 		bksge::reverse_iterator<bksge::list<float>::iterator> i3;
 		bksge::reverse_iterator<int*>                       i4;
 		(void)i1;
@@ -66,8 +66,8 @@ GTEST_TEST(IteratorTest, ReverseIteratorTest)
 		EXPECT_EQ("abZde", s);
 	}
 	{
-		bksge::vector<int> v {1, 2, 3, 4, 5};
-		bksge::reverse_iterator<bksge::vector<int>::iterator> i = v.rbegin();
+		std::vector<int> v {1, 2, 3, 4, 5};
+		bksge::reverse_iterator<std::vector<int>::iterator> i = v.rbegin();
 
 		EXPECT_FALSE(i == v.rend());
 		EXPECT_TRUE (i != v.rend());
@@ -205,7 +205,7 @@ GTEST_TEST(IteratorTest, ReverseIteratorTest)
 		EXPECT_EQ(42, i->get());
 	}
 	{
-		bksge::vector<int> v{1, 2, 3};
+		std::vector<int> v{1, 2, 3};
 		auto i1 = bksge::make_reverse_iterator(v.begin());
 		auto i2 = bksge::make_reverse_iterator(v.end());
 		bksge::swap(i1, i2);

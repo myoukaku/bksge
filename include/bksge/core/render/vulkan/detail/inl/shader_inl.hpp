@@ -31,7 +31,7 @@
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/assert.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 
 namespace bksge
 {
@@ -49,7 +49,7 @@ Shader::Shader(
 	: m_device(device)
 {
 	// Create Spv List
-	bksge::vector<bksge::vector<unsigned int>> spv_list;
+	std::vector<std::vector<unsigned int>> spv_list;
 
 	for (auto&& it : shader)
 	{
@@ -104,7 +104,7 @@ Shader::~Shader()
 	}
 }
 
-BKSGE_INLINE bksge::vector<::VkPipelineShaderStageCreateInfo> const&
+BKSGE_INLINE std::vector<::VkPipelineShaderStageCreateInfo> const&
 Shader::GetStages(void) const
 {
 	return m_shader_stages;
@@ -139,10 +139,10 @@ Shader::LoadParameters(
 	}
 }
 
-BKSGE_INLINE bksge::vector<::VkWriteDescriptorSet>
+BKSGE_INLINE std::vector<::VkWriteDescriptorSet>
 Shader::GetWriteDescriptorSets(void) const
 {
-	bksge::vector<::VkWriteDescriptorSet> writes;
+	std::vector<::VkWriteDescriptorSet> writes;
 
 	for (auto&& setter : m_uniform_buffer_setter)
 	{
@@ -162,7 +162,7 @@ BKSGE_INLINE void
 Shader::AddShaderStage(
 	::VkShaderStageFlagBits stage,
 	char const* name,
-	bksge::vector<unsigned int> const& spv)
+	std::vector<unsigned int> const& spv)
 {
 	vk::PipelineShaderStageCreateInfo shader_stage_create_info;
 	shader_stage_create_info.stage               = stage;

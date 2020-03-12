@@ -12,7 +12,7 @@
 #include <bksge/core/render/dxgi/fwd/dxgi_factory_fwd.hpp>
 #include <bksge/core/render/d3d_common/com_ptr.hpp>
 #include <bksge/core/render/d3d_common/dxgi.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 
 namespace bksge
 {
@@ -30,7 +30,7 @@ public:
 
 	~DXGIFactory();
 
-	bksge::vector<ComPtr<IDXGIAdapterN>> EnumAdapters(void);
+	std::vector<ComPtr<IDXGIAdapterN>> EnumAdapters(void);
 
 	ComPtr<IDXGISwapChainN> CreateSwapChainForHwnd(
 		::IUnknown*                              device,

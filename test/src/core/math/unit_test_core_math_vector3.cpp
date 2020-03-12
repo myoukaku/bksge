@@ -21,10 +21,10 @@
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
 #include <bksge/fnd/sstream/stringstream.hpp>
 #include <bksge/fnd/sstream/wstringstream.hpp>
-#include <bksge/fnd/vector.hpp>
-#include <gtest/gtest.h>
+#include <vector>
 #include <functional>
 #include <tuple>
+#include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 #include "serialize_test.hpp"
 
@@ -1198,7 +1198,7 @@ TYPED_TEST(MathVector3Test, HashTest)
 	Vector3 const c3(1, 0, 3);
 	Vector3 const c4(1, 2, 2);
 
-	bksge::vector<bksge::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(c1));
 	v.push_back(h(c2));
 	v.push_back(h(c3));

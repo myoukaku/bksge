@@ -15,7 +15,7 @@
 #include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
 #include <bksge/core/render/fwd/render_state_fwd.hpp>
 #include <bksge/core/render/fwd/render_pass_info_fwd.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 
 namespace bksge
 {
@@ -63,7 +63,7 @@ public:
 	 */
 	void Render(
 		Geometry const& geometry,
-		bksge::vector<Shader const*> const& shader_list,
+		std::vector<Shader const*> const& shader_list,
 		ShaderParameterMap const& shader_parameter_map,
 		RenderState const& render_state);
 

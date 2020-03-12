@@ -17,7 +17,7 @@
 #include <bksge/core/render/fwd/clear_state_fwd.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/cstdint/uint64_t.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 
 namespace bksge
 {
@@ -51,9 +51,9 @@ public:
 		bksge::uint32_t index,
 		bksge::ClearState const& clear_state);
 
-	//bksge::vector<VkImage> GetImages(void) const;
+	//std::vector<VkImage> GetImages(void) const;
 
-	bksge::vector<::VkImageView> const& GetImageViews(void) const;
+	std::vector<::VkImageView> const& GetImageViews(void) const;
 
 	::VkExtent2D extent(void) const;
 
@@ -73,7 +73,7 @@ private:
 	vulkan::DeviceSharedPtr			m_device;
 	vk::SwapchainCreateInfoKHR		m_info;
 	::VkSwapchainKHR				m_swapchain;
-	bksge::vector<::VkImageView>	m_image_views;
+	std::vector<::VkImageView>	m_image_views;
 	::VkQueue						m_present_queue;
 };
 

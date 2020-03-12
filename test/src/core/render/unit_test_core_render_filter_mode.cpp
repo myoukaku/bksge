@@ -12,7 +12,7 @@
 #include <bksge/fnd/sstream/stringstream.hpp>
 #include <bksge/fnd/sstream/wstringstream.hpp>
 #include <bksge/fnd/sstream/basic_stringstream.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <vector>
 #include <gtest/gtest.h>
 #include <functional>
 #include "serialize_test.hpp"
@@ -62,7 +62,7 @@ GTEST_TEST(Render_FilterMode, SerializeTest)
 GTEST_TEST(Render_FilterMode, HashTest)
 {
 	std::hash<bksge::FilterMode> h;
-	bksge::vector<bksge::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(bksge::FilterMode::kNearest));
 	v.push_back(h(bksge::FilterMode::kLinear));
 	bksge::sort(v.begin(), v.end());
