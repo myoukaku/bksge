@@ -19,6 +19,9 @@
 #include "tuple_test_utility.hpp"
 #include "constexpr_test.hpp"
 
+namespace bksge_tuple_test
+{
+
 GTEST_TEST(TupleTest, TupleCatTest)
 {
 	{
@@ -237,3 +240,5 @@ GTEST_TEST(TupleTest, TupleCatTest)
 		EXPECT_TRUE(t2 == bksge::make_tuple(bksge::make_tuple(1), bksge::make_tuple(2)));
 	}
 }
+
+}	// namespace bksge_tuple_test

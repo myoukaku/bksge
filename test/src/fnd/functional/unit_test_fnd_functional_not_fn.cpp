@@ -195,7 +195,7 @@ struct ForwardingCallObject
 		assert(last_call_type == CT_None);
 		assert(last_call_args == nullptr);
 		last_call_type = type;
-		last_call_args = &makeArgumentID<Args...>();
+		last_call_args = &bksge_tuple_test::makeArgumentID<Args...>();
 	}
 
 	template <typename... Args>
@@ -204,18 +204,18 @@ struct ForwardingCallObject
 		bool result =
 			last_call_type == type
 			&& last_call_args
-			&& *last_call_args == makeArgumentID<Args...>();
+			&& *last_call_args == bksge_tuple_test::makeArgumentID<Args...>();
 		last_call_type = CT_None;
 		last_call_args = nullptr;
 		return result;
 	}
 
 	static CallType      last_call_type;
-	static TypeID const* last_call_args;
+	static bksge_tuple_test::TypeID const* last_call_args;
 };
 
 CallType ForwardingCallObject::last_call_type = CT_None;
-TypeID const* ForwardingCallObject::last_call_args = nullptr;
+bksge_tuple_test::TypeID const* ForwardingCallObject::last_call_args = nullptr;
 
 
 

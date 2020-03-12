@@ -27,7 +27,7 @@
     static_assert(!noexcept(__VA_ARGS__), "Operation must NOT be noexcept")
 
 
-namespace
+namespace bksge_tuple_test
 {
 
 // TypeID - Represent a unique identifier for a type. TypeID allows equality
@@ -263,29 +263,33 @@ inline bool operator!=(A3<T> const& x, A3<U> const& y)
 	return !(x == y);
 }
 
-class DefaultOnly
+template <typename T>
+class TDefaultOnly
 {
 	int data_;
 
-	DefaultOnly(DefaultOnly const&);
-	DefaultOnly& operator=(DefaultOnly const&);
+	TDefaultOnly(TDefaultOnly const&);
+	TDefaultOnly& operator=(TDefaultOnly const&);
 public:
 	static int count;
 
-	DefaultOnly() : data_(-1) { ++count; }
-	~DefaultOnly() { data_ = 0; --count; }
+	TDefaultOnly() : data_(-1) { ++count; }
+	~TDefaultOnly() { data_ = 0; --count; }
 
-	friend bool operator==(DefaultOnly const& x, DefaultOnly const& y)
+	friend bool operator==(TDefaultOnly const& x, TDefaultOnly const& y)
 	{
 		return x.data_ == y.data_;
 	}
-	friend bool operator< (DefaultOnly const& x, DefaultOnly const& y)
+	friend bool operator< (TDefaultOnly const& x, TDefaultOnly const& y)
 	{
 		return x.data_ < y.data_;
 	}
 };
 
-int DefaultOnly::count = 0;
+template <typename T>
+int TDefaultOnly<T>::count = 0;
+
+using DefaultOnly = TDefaultOnly<void>;
 
 class MoveOnly
 {
@@ -314,7 +318,8 @@ public:
 	MoveOnly operator*(MoveOnly const& x) const { return MoveOnly{data_ * x.data_}; }
 };
 
-struct alloc_first
+template <typename T>
+struct t_alloc_first
 {
 	static bool allocator_constructed;
 
@@ -322,9 +327,9 @@ struct alloc_first
 
 	int data_;
 
-	alloc_first() : data_(0) {}
-	alloc_first(int d) : data_(d) {}
-	alloc_first(bksge::allocator_arg_t, A1<int> const& a)
+	t_alloc_first() : data_(0) {}
+	t_alloc_first(int d) : data_(d) {}
+	t_alloc_first(bksge::allocator_arg_t, A1<int> const& a)
 		: data_(0)
 	{
 		assert(a.id() == 5);
@@ -332,7 +337,7 @@ struct alloc_first
 		allocator_constructed = true;
 	}
 
-	alloc_first(bksge::allocator_arg_t, A1<int> const& a, int d)
+	t_alloc_first(bksge::allocator_arg_t, A1<int> const& a, int d)
 		: data_(d)
 	{
 		assert(a.id() == 5);
@@ -340,7 +345,7 @@ struct alloc_first
 		allocator_constructed = true;
 	}
 
-	alloc_first(bksge::allocator_arg_t, A1<int> const& a, alloc_first const& d)
+	t_alloc_first(bksge::allocator_arg_t, A1<int> const& a, t_alloc_first const& d)
 		: data_(d.data_)
 	{
 		assert(a.id() == 5);
@@ -348,21 +353,25 @@ struct alloc_first
 		allocator_constructed = true;
 	}
 
-	~alloc_first() { data_ = -1; }
+	~t_alloc_first() { data_ = -1; }
 
-	friend bool operator==(alloc_first const& x, alloc_first const& y)
+	friend bool operator==(t_alloc_first const& x, t_alloc_first const& y)
 	{
 		return x.data_ == y.data_;
 	}
-	friend bool operator< (alloc_first const& x, alloc_first const& y)
+	friend bool operator< (t_alloc_first const& x, t_alloc_first const& y)
 	{
 		return x.data_ < y.data_;
 	}
 };
 
-bool alloc_first::allocator_constructed = false;
+template <typename T>
+bool t_alloc_first<T>::allocator_constructed = false;
 
-struct alloc_last
+using alloc_first = t_alloc_first<void>;
+
+template <typename T>
+struct t_alloc_last
 {
 	static bool allocator_constructed;
 
@@ -370,9 +379,9 @@ struct alloc_last
 
 	int data_;
 
-	alloc_last() : data_(0) {}
-	alloc_last(int d) : data_(d) {}
-	alloc_last(A1<int> const& a)
+	t_alloc_last() : data_(0) {}
+	t_alloc_last(int d) : data_(d) {}
+	t_alloc_last(A1<int> const& a)
 		: data_(0)
 	{
 		assert(a.id() == 5);
@@ -380,7 +389,7 @@ struct alloc_last
 		allocator_constructed = true;
 	}
 
-	alloc_last(int d, A1<int> const& a)
+	t_alloc_last(int d, A1<int> const& a)
 		: data_(d)
 	{
 		assert(a.id() == 5);
@@ -388,7 +397,7 @@ struct alloc_last
 		allocator_constructed = true;
 	}
 
-	alloc_last(alloc_last const& d, A1<int> const& a)
+	t_alloc_last(t_alloc_last const& d, A1<int> const& a)
 		: data_(d.data_)
 	{
 		assert(a.id() == 5);
@@ -396,19 +405,22 @@ struct alloc_last
 		allocator_constructed = true;
 	}
 
-	~alloc_last() { data_ = -1; }
+	~t_alloc_last() { data_ = -1; }
 
-	friend bool operator==(alloc_last const& x, alloc_last const& y)
+	friend bool operator==(t_alloc_last const& x, t_alloc_last const& y)
 	{
 		return x.data_ == y.data_;
 	}
-	friend bool operator< (alloc_last const& x, alloc_last const& y)
+	friend bool operator< (t_alloc_last const& x, t_alloc_last const& y)
 	{
 		return x.data_ < y.data_;
 	}
 };
 
-bool alloc_last::allocator_constructed = false;
+template <typename T>
+bool t_alloc_last<T>::allocator_constructed = false;
+
+using alloc_last = t_alloc_last<void>;
 
 // test_convertible
 namespace detail
@@ -434,6 +446,6 @@ constexpr bool test_convertible()
 	return detail::test_convertible_imp<Tp, Args...>(0);
 }
 
-}	// namespace
+}	// namespace bksge_tuple_test
 
 #endif // UNIT_TEST_FND_TUPLE_TUPLE_TEST_UTILITY_HPP
