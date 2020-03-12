@@ -15,7 +15,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/index_buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/command_buffer_fwd.hpp>
 #include <bksge/core/render/fwd/geometry_fwd.hpp>
-#include <bksge/fnd/memory/unique_ptr.hpp>
+#include <memory>
 
 namespace bksge
 {
@@ -41,8 +41,8 @@ private:
 	Geometry& operator=(Geometry const&) = delete;
 
 private:
-	bksge::unique_ptr<VertexBuffer>		m_vertex_buffer;
-	bksge::unique_ptr<IndexBuffer>		m_index_buffer;
+	std::unique_ptr<VertexBuffer>		m_vertex_buffer;
+	std::unique_ptr<IndexBuffer>		m_index_buffer;
 };
 
 }	// namespace vulkan

@@ -90,49 +90,49 @@ int main()
 	bksge::Extent2f const extent{800, 600};
 	bksge::Rectf viewport({bksge::Vector2f{0, 0}, extent});
 
-	std::vector<bksge::shared_ptr<bksge::Renderer>>	renderers;
-	std::vector<bksge::shared_ptr<bksge::Window>>		windows;
+	std::vector<std::shared_ptr<bksge::Renderer>>	renderers;
+	std::vector<std::shared_ptr<bksge::Window>>		windows;
 
 #if BKSGE_CORE_RENDER_HAS_D3D11_RENDERER
 	{
-		bksge::shared_ptr<bksge::Window> window(
+		std::shared_ptr<bksge::Window> window(
 			new bksge::Window(extent, "sample_render_viewport - D3D11"));
 		windows.push_back(window);
 
-		bksge::shared_ptr<bksge::D3D11Renderer> renderer(
+		std::shared_ptr<bksge::D3D11Renderer> renderer(
 			new bksge::D3D11Renderer(*window));
 		renderers.push_back(renderer);
 	}
 #endif
 #if BKSGE_CORE_RENDER_HAS_D3D12_RENDERER
 	{
-		bksge::shared_ptr<bksge::Window> window(
+		std::shared_ptr<bksge::Window> window(
 			new bksge::Window(extent, "sample_render_viewport - D3D12"));
 		windows.push_back(window);
 
-		bksge::shared_ptr<bksge::D3D12Renderer> renderer(
+		std::shared_ptr<bksge::D3D12Renderer> renderer(
 			new bksge::D3D12Renderer(*window));
 		renderers.push_back(renderer);
 	}
 #endif
 #if BKSGE_CORE_RENDER_HAS_GL_RENDERER
 	{
-		bksge::shared_ptr<bksge::Window> window(
+		std::shared_ptr<bksge::Window> window(
 			new bksge::Window(extent, "sample_render_viewport - GL"));
 		windows.push_back(window);
 
-		bksge::shared_ptr<bksge::GlRenderer> renderer(
+		std::shared_ptr<bksge::GlRenderer> renderer(
 			new bksge::GlRenderer(*window));
 		renderers.push_back(renderer);
 	}
 #endif
 #if BKSGE_CORE_RENDER_HAS_VULKAN_RENDERER
 	{
-		bksge::shared_ptr<bksge::Window> window(
+		std::shared_ptr<bksge::Window> window(
 			new bksge::Window(extent, "sample_render_viewport - Vulkan"));
 		windows.push_back(window);
 
-		bksge::shared_ptr<bksge::VulkanRenderer> renderer(
+		std::shared_ptr<bksge::VulkanRenderer> renderer(
 			new bksge::VulkanRenderer(*window));
 		renderers.push_back(renderer);
 	}

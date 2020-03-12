@@ -14,7 +14,7 @@
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint8_t.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
-#include <bksge/fnd/memory/make_shared.hpp>
+#include <memory>
 
 namespace bksge
 {
@@ -27,7 +27,7 @@ Texture::Texture(void)
 	: m_format(TextureFormat::kNone)
 	, m_extent(0, 0)
 	, m_mipmap_count(0)
-	, m_pixels(bksge::make_shared<Pixels>())
+	, m_pixels(std::make_shared<Pixels>())
 {}
 
 BKSGE_INLINE
@@ -39,7 +39,7 @@ Texture::Texture(
 	: m_format(format)
 	, m_extent(extent)
 	, m_mipmap_count(mipmap_count)
-	, m_pixels(bksge::make_shared<Pixels>())
+	, m_pixels(std::make_shared<Pixels>())
 {
 	BKSGE_ASSERT(format != TextureFormat::kNone);
 	BKSGE_ASSERT(extent.width() >= 1u);

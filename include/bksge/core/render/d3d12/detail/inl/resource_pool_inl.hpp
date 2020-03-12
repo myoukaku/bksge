@@ -30,8 +30,8 @@
 #include <bksge/core/render/sampler.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
-#include <bksge/fnd/memory/make_shared.hpp>
 #include <bksge/fnd/functional/hash_combine.hpp>
+#include <memory>
 
 namespace bksge
 {
@@ -58,7 +58,7 @@ GetOrCreate(Map& map, Id const& id, Args&&... args)
 		}
 	}
 
-	auto p = bksge::make_shared<Ret>(bksge::forward<Args>(args)...);
+	auto p = std::make_shared<Ret>(bksge::forward<Args>(args)...);
 	map[id] = p;
 	return p;
 }
@@ -73,7 +73,7 @@ ResourcePool::ResourcePool(Device* device)
 	m_fence         = bksge::make_unique<Fence>(device, 1);
 	m_command_list->Close();
 
-	m_constant_buffer = bksge::make_shared<ConstantBuffer>(device, 256 * 1024);
+	m_constant_buffer = std::make_shared<ConstantBuffer>(device, 256 * 1024);
 }
 
 BKSGE_INLINE

@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_D3D12_DETAIL_FWD_TEXTURE_FWD_HPP
 
 #include <bksge/core/render/detail/identifier.hpp>
-#include <bksge/fnd/memory/shared_ptr.hpp>
+#include <memory>
 #include <map>
 
 namespace bksge
@@ -24,7 +24,7 @@ namespace d3d12
 
 class Texture;
 
-using TextureShared = bksge::shared_ptr<Texture>;
+using TextureShared = std::shared_ptr<Texture>;
 using TextureMap = std::map<Identifier, TextureShared>;
 
 }	// namespace d3d12

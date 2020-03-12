@@ -9,7 +9,7 @@
 #ifndef BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_DESCRIPTOR_SET_FWD_HPP
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_DESCRIPTOR_SET_FWD_HPP
 
-#include <bksge/fnd/memory/unique_ptr.hpp>
+#include <memory>
 
 namespace bksge
 {
@@ -21,7 +21,7 @@ namespace vulkan
 {
 
 class DescriptorSet;
-using DescriptorSetUniquePtr = bksge::unique_ptr<DescriptorSet>;
+using DescriptorSetUniquePtr = std::unique_ptr<DescriptorSet>;
 
 }	// namespace vulkan
 

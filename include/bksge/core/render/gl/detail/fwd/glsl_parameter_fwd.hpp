@@ -9,7 +9,7 @@
 #ifndef BKSGE_CORE_RENDER_GL_DETAIL_FWD_GLSL_PARAMETER_FWD_HPP
 #define BKSGE_CORE_RENDER_GL_DETAIL_FWD_GLSL_PARAMETER_FWD_HPP
 
-#include <bksge/fnd/memory/unique_ptr.hpp>
+#include <memory>
 
 namespace bksge
 {
@@ -21,7 +21,7 @@ namespace gl
 {
 
 class GlslParameter;
-using GlslParameterUnique = bksge::unique_ptr<GlslParameter>;
+using GlslParameterUnique = std::unique_ptr<GlslParameter>;
 
 }	// namespace gl
 

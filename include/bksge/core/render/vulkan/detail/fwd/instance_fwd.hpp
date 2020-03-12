@@ -9,7 +9,7 @@
 #ifndef BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_INSTANCE_FWD_HPP
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_INSTANCE_FWD_HPP
 
-#include <bksge/fnd/memory/shared_ptr.hpp>
+#include <memory>
 
 namespace bksge
 {
@@ -21,7 +21,7 @@ namespace vulkan
 {
 
 class Instance;
-using InstanceSharedPtr = bksge::shared_ptr<Instance>;
+using InstanceSharedPtr = std::shared_ptr<Instance>;
 
 }	// namespace vulkan
 

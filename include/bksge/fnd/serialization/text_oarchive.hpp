@@ -17,7 +17,7 @@
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/intmax_t.hpp>
 #include <bksge/fnd/cstdint/uintmax_t.hpp>
-#include <bksge/fnd/memory/unique_ptr.hpp>
+#include <memory>
 #include <vector>
 #include <iomanip>
 #include <limits>
@@ -213,7 +213,7 @@ private:
 	}
 
 private:
-	bksge::unique_ptr<text_oarchive_impl_base>			m_impl;
+	std::unique_ptr<text_oarchive_impl_base>			m_impl;
 	std::unordered_map<const void*, bksge::size_t>		m_tracking;
 	std::vector<detail::pointer_saver<text_oarchive>>	m_pointer_list;
 

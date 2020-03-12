@@ -15,7 +15,7 @@
 #include <bksge/core/render/gl/detail/sampled_texture.hpp>
 #include <bksge/core/render/detail/shader_parameter_base.hpp>
 #include <bksge/core/render/sampled_texture.hpp>
-#include <bksge/fnd/memory/shared_ptr.hpp>
+#include <memory>
 
 namespace bksge
 {
@@ -38,21 +38,21 @@ public:
 
 	void SetParameter(
 		ResourcePool* resource_pool,
-		bksge::shared_ptr<ShaderParameterBase> const& src,
+		std::shared_ptr<ShaderParameterBase> const& src,
 		::GLint location) const;
 
 	void LoadUniformBuffer(
-		bksge::shared_ptr<ShaderParameterBase> const& src,
+		std::shared_ptr<ShaderParameterBase> const& src,
 		::GLint offset) const;
 
 private:
 	virtual void VSetParameter(
 		ResourcePool* resource_pool,
-		bksge::shared_ptr<ShaderParameterBase> const& src,
+		std::shared_ptr<ShaderParameterBase> const& src,
 		::GLint location) const = 0;
 
 	virtual void VLoadUniformBuffer(
-		bksge::shared_ptr<ShaderParameterBase> const& src,
+		std::shared_ptr<ShaderParameterBase> const& src,
 		::GLint offset) const = 0;
 };
 
@@ -68,7 +68,7 @@ public:
 private:
 	void VSetParameter(
 		ResourcePool* resource_pool,
-		bksge::shared_ptr<ShaderParameterBase> const& src,
+		std::shared_ptr<ShaderParameterBase> const& src,
 		::GLint location) const override
 	{
 		if (src)
@@ -79,7 +79,7 @@ private:
 	}
 
 	void VLoadUniformBuffer(
-		bksge::shared_ptr<ShaderParameterBase> const& src,
+		std::shared_ptr<ShaderParameterBase> const& src,
 		::GLint offset) const override
 	{
 		if (src)

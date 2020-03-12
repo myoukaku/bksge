@@ -27,7 +27,7 @@
 #include <bksge/core/render/fwd/shader_fwd.hpp>
 #include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
 #include <bksge/core/render/shader_stage.hpp>
-#include <bksge/fnd/memory/unique_ptr.hpp>
+#include <memory>
 #include <vector>
 #include <map>
 
@@ -64,11 +64,11 @@ public:
 
 private:
 	using HlslConstantBuffers =
-		std::vector<bksge::unique_ptr<HlslConstantBuffer>>;
+		std::vector<std::unique_ptr<HlslConstantBuffer>>;
 	using HlslTextures =
-		std::vector<bksge::unique_ptr<HlslTexture>>;
+		std::vector<std::unique_ptr<HlslTexture>>;
 	using HlslSamplers =
-		std::vector<bksge::unique_ptr<HlslSampler>>;
+		std::vector<std::unique_ptr<HlslSampler>>;
 
 private:
 	// noncopyable
@@ -77,13 +77,13 @@ private:
 
 private:
 	HlslShaderMap						m_shader_map;
-	bksge::unique_ptr<InputLayout>		m_input_layout;
+	std::unique_ptr<InputLayout>		m_input_layout;
 	HlslConstantBuffers					m_hlsl_constant_buffers;
 	HlslTextures						m_hlsl_textures;
 	HlslSamplers						m_hlsl_samplers;
-	bksge::unique_ptr<RootParameters>	m_root_parameters;
-//	bksge::unique_ptr<DescriptorHeap>	m_descriptor_heap;
-	bksge::unique_ptr<RootSignature>	m_root_signature;
+	std::unique_ptr<RootParameters>	m_root_parameters;
+//	std::unique_ptr<DescriptorHeap>	m_descriptor_heap;
+	std::unique_ptr<RootSignature>	m_root_signature;
 };
 
 }	// namespace d3d12

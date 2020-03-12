@@ -14,7 +14,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
-#include <bksge/fnd/memory/unique_ptr.hpp>
+#include <memory>
 #include <vector>
 
 namespace bksge
@@ -69,14 +69,14 @@ private:
 	::VkCommandBuffer				m_command_buffer;
 };
 
-bksge::unique_ptr<vulkan::CommandBuffer>
+std::unique_ptr<vulkan::CommandBuffer>
 BeginSingleTimeCommands(
 	vulkan::CommandPoolSharedPtr const& command_pool);
 
 void
 EndSingleTimeCommands(
 	vulkan::CommandPoolSharedPtr const& command_pool,
-	bksge::unique_ptr<vulkan::CommandBuffer> const& command_buffer);
+	std::unique_ptr<vulkan::CommandBuffer> const& command_buffer);
 
 }	// namespace vulkan
 

@@ -15,7 +15,7 @@
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint8_t.hpp>
-#include <bksge/fnd/memory/unique_ptr.hpp>
+#include <memory>
 
 namespace bksge
 {
@@ -49,7 +49,7 @@ private:
 	UniformBuffer& operator=(UniformBuffer const&) = delete;
 
 private:
-	bksge::unique_ptr<vulkan::BufferObject>	m_buffer;
+	std::unique_ptr<vulkan::BufferObject>	m_buffer;
 	bksge::uint8_t*							m_mapped_buffer = nullptr;
 	bksge::size_t							m_offset = 0;
 	bksge::size_t							m_offset_alignment = 0;

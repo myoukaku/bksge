@@ -9,7 +9,7 @@
 #ifndef BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_IMAGE_VIEW_FWD_HPP
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_IMAGE_VIEW_FWD_HPP
 
-#include <bksge/fnd/memory/unique_ptr.hpp>
+#include <memory>
 
 namespace bksge
 {
@@ -21,7 +21,7 @@ namespace vulkan
 {
 
 class ImageView;
-using ImageViewUniquePtr = bksge::unique_ptr<ImageView>;
+using ImageViewUniquePtr = std::unique_ptr<ImageView>;
 
 }	// namespace vulkan
 

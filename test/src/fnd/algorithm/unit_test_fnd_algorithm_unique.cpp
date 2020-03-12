@@ -10,8 +10,7 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
-#include <bksge/fnd/memory/unique_ptr.hpp>
-#include <bksge/fnd/memory/shared_ptr.hpp>
+#include <memory>
 #include <list>
 #include <vector>
 #include <array>
@@ -23,14 +22,14 @@ namespace bksge_algorithm_test
 namespace unique_test
 {
 
-bool pred1(const bksge::shared_ptr<int>& x, const bksge::shared_ptr<int>& y)
+bool pred1(const std::shared_ptr<int>& x, const std::shared_ptr<int>& y)
 {
 	return *x == *y;
 }
 
 struct pred2
 {
-	bool operator()(const bksge::unique_ptr<int>& x, const bksge::unique_ptr<int>& y) const
+	bool operator()(const std::unique_ptr<int>& x, const std::unique_ptr<int>& y) const
 	{
 		return *x == *y;
 	}
@@ -66,7 +65,7 @@ GTEST_TEST(AlgorithmTest, UniqueTest)
 		EXPECT_EQ(5, a[4]);
 	}
 	{
-		std::vector<bksge::shared_ptr<int>> a;
+		std::vector<std::shared_ptr<int>> a;
 		a.emplace_back(new int(1));
 		a.emplace_back(new int(4));
 		a.emplace_back(new int(4));
@@ -92,7 +91,7 @@ GTEST_TEST(AlgorithmTest, UniqueTest)
 		EXPECT_TRUE(a.empty());
 	}
 	{
-		std::list<bksge::unique_ptr<int>> a;
+		std::list<std::unique_ptr<int>> a;
 		a.emplace_back(new int(1));
 		a.emplace_back(new int(1));
 		a.emplace_back(new int(1));

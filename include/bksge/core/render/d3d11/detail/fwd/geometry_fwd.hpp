@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_D3D11_DETAIL_FWD_GEOMETRY_FWD_HPP
 
 #include <bksge/core/render/detail/identifier.hpp>
-#include <bksge/fnd/memory/shared_ptr.hpp>
+#include <memory>
 #include <map>
 
 namespace bksge
@@ -24,7 +24,7 @@ namespace d3d11
 
 class Geometry;
 
-using GeometryShared = bksge::shared_ptr<Geometry>;
+using GeometryShared = std::shared_ptr<Geometry>;
 using GeometryMap = std::map<Identifier, GeometryShared>;
 
 }	// namespace d3d11

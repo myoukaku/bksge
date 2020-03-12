@@ -17,8 +17,8 @@
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
-#include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <memory>
 #include <vector>
 
 namespace bksge
@@ -133,7 +133,7 @@ CommandBuffer::PushDescriptorSet(
 	}
 }
 
-BKSGE_INLINE bksge::unique_ptr<vulkan::CommandBuffer>
+BKSGE_INLINE std::unique_ptr<vulkan::CommandBuffer>
 BeginSingleTimeCommands(
 	vulkan::CommandPoolSharedPtr const& command_pool)
 {
@@ -147,7 +147,7 @@ BeginSingleTimeCommands(
 BKSGE_INLINE void
 EndSingleTimeCommands(
 	vulkan::CommandPoolSharedPtr const& command_pool,
-	bksge::unique_ptr<vulkan::CommandBuffer> const& command_buffer)
+	std::unique_ptr<vulkan::CommandBuffer> const& command_buffer)
 {
 	command_buffer->End();
 

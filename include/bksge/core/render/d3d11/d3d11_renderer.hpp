@@ -23,7 +23,7 @@
 #include <bksge/core/render/fwd/render_state_fwd.hpp>
 #include <bksge/core/render/renderer.hpp>
 #include <bksge/core/window/fwd/window_fwd.hpp>
-#include <bksge/fnd/memory/unique_ptr.hpp>
+#include <memory>
 
 namespace bksge
 {
@@ -53,13 +53,13 @@ private:
 		RenderState const& render_state) override;
 
 private:
-	bksge::unique_ptr<DXGIFactory>          m_factory;
-	bksge::unique_ptr<DXGISwapChain>        m_swap_chain;
-	bksge::unique_ptr<d3d11::Device>        m_device;
-	bksge::unique_ptr<d3d11::DeviceContext> m_device_context;
-	bksge::unique_ptr<d3d11::RenderTarget>  m_render_target;
-	bksge::unique_ptr<d3d11::DepthStencil>  m_depth_stencil;
-	bksge::unique_ptr<d3d11::ResourcePool>  m_resource_pool;
+	std::unique_ptr<DXGIFactory>          m_factory;
+	std::unique_ptr<DXGISwapChain>        m_swap_chain;
+	std::unique_ptr<d3d11::Device>        m_device;
+	std::unique_ptr<d3d11::DeviceContext> m_device_context;
+	std::unique_ptr<d3d11::RenderTarget>  m_render_target;
+	std::unique_ptr<d3d11::DepthStencil>  m_depth_stencil;
+	std::unique_ptr<d3d11::ResourcePool>  m_resource_pool;
 };
 
 }	// namespace render

@@ -13,7 +13,7 @@
 #if BKSGE_CORE_RENDER_HAS_GL_RENDERER
 
 #include <bksge/core/render/gl/detail/glsl_parameter_setter.hpp>
-#include <bksge/fnd/memory/shared_ptr.hpp>
+#include <memory>
 
 namespace bksge
 {
@@ -37,7 +37,7 @@ GlslParameterSetterBase::~GlslParameterSetterBase()
 BKSGE_INLINE void
 GlslParameterSetterBase::SetParameter(
 	ResourcePool* resource_pool,
-	bksge::shared_ptr<ShaderParameterBase> const& src,
+	std::shared_ptr<ShaderParameterBase> const& src,
 	::GLint location) const
 {
 	VSetParameter(resource_pool, src, location);
@@ -45,7 +45,7 @@ GlslParameterSetterBase::SetParameter(
 
 BKSGE_INLINE void
 GlslParameterSetterBase::LoadUniformBuffer(
-	bksge::shared_ptr<ShaderParameterBase> const& src,
+	std::shared_ptr<ShaderParameterBase> const& src,
 	::GLint offset) const
 {
 	VLoadUniformBuffer(src, offset);

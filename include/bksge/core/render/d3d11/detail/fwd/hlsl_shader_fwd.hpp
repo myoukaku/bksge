@@ -9,7 +9,7 @@
 #ifndef BKSGE_CORE_RENDER_D3D11_DETAIL_FWD_HLSL_SHADER_FWD_HPP
 #define BKSGE_CORE_RENDER_D3D11_DETAIL_FWD_HLSL_SHADER_FWD_HPP
 
-#include <bksge/fnd/memory/unique_ptr.hpp>
+#include <memory>
 
 namespace bksge
 {
@@ -22,7 +22,7 @@ namespace d3d11
 
 class HlslShaderBase;
 
-using HlslShaderUnique = bksge::unique_ptr<HlslShaderBase>;
+using HlslShaderUnique = std::unique_ptr<HlslShaderBase>;
 
 }	// namespace d3d11
 

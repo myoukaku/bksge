@@ -19,7 +19,7 @@
 //#include <bksge/fnd/serialization/shared_ptr.hpp>
 //#include <bksge/fnd/serialization/version.hpp>
 #include <map>
-#include <bksge/fnd/memory/shared_ptr.hpp>
+#include <memory>
 #include <string>
 
 namespace bksge
@@ -35,7 +35,7 @@ class ShaderParameterMap : public Identifiable
 {
 public:
 	using key_type = std::string;
-	using mapped_type = bksge::shared_ptr<ShaderParameterBase>;
+	using mapped_type = std::shared_ptr<ShaderParameterBase>;
 
 	ShaderParameterMap(void);
 
@@ -79,7 +79,7 @@ private:
 #endif
 
 #include <bksge/core/render/detail/shader_parameter.hpp>
-#include <bksge/fnd/memory/make_shared.hpp>
+#include <memory>
 
 namespace bksge
 {
@@ -101,7 +101,7 @@ inline void ShaderParameterMap::SetParameter(key_type const& key, T const& value
 		}
 	}
 
-	m_parameters[key] = bksge::make_shared<ParamType>(value);
+	m_parameters[key] = std::make_shared<ParamType>(value);
 }
 
 }	// namespace render

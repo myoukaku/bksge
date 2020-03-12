@@ -27,7 +27,7 @@
 #include <bksge/core/render/fwd/geometry_fwd.hpp>
 #include <bksge/core/render/fwd/texture_fwd.hpp>
 #include <bksge/core/render/fwd/sampler_fwd.hpp>
-#include <bksge/fnd/memory/unique_ptr.hpp>
+#include <memory>
 #include <vector>
 
 namespace bksge
@@ -68,9 +68,9 @@ private:
 	ResourcePool& operator=(ResourcePool const&) = delete;
 
 private:
-	bksge::unique_ptr<CommandQueue>	m_command_queue;
-	bksge::unique_ptr<CommandList>	m_command_list;
-	bksge::unique_ptr<Fence>		m_fence;
+	std::unique_ptr<CommandQueue>	m_command_queue;
+	std::unique_ptr<CommandList>	m_command_list;
+	std::unique_ptr<Fence>		m_fence;
 	ConstantBufferShared			m_constant_buffer;
 	PipelineStateMap				m_pipeline_state;
 	HlslProgramMap					m_hlsl_program_map;

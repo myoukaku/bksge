@@ -14,8 +14,6 @@
 #include <bksge/fnd/functional/less.hpp>
 #include <bksge/fnd/iterator/type_traits/iterator_value_type.hpp>
 #include <bksge/fnd/iterator/type_traits/iterator_difference_type.hpp>
-//#include <bksge/fnd/memory/unique_ptr.hpp>
-//#include <bksge/fnd/memory/detail/destruct_n.hpp>
 #include <bksge/fnd/type_traits/add_lvalue_reference.hpp>
 #include <bksge/fnd/type_traits/is_trivially_copy_constructible.hpp>
 #include <bksge/fnd/type_traits/is_trivially_copy_assignable.hpp>

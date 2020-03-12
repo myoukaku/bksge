@@ -9,7 +9,7 @@
 #ifndef BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_PIPELINE_LAYOUT_FWD_HPP
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_PIPELINE_LAYOUT_FWD_HPP
 
-#include <bksge/fnd/memory/unique_ptr.hpp>
+#include <memory>
 
 namespace bksge
 {
@@ -21,7 +21,7 @@ namespace vulkan
 {
 
 class PipelineLayout;
-using PipelineLayoutUniquePtr = bksge::unique_ptr<PipelineLayout>;
+using PipelineLayoutUniquePtr = std::unique_ptr<PipelineLayout>;
 
 }	// namespace vulkan
 

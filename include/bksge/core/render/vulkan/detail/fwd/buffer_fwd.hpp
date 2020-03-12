@@ -9,7 +9,7 @@
 #ifndef BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_BUFFER_FWD_HPP
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_BUFFER_FWD_HPP
 
-#include <bksge/fnd/memory/unique_ptr.hpp>
+#include <memory>
 
 namespace bksge
 {
@@ -21,7 +21,7 @@ namespace vulkan
 {
 
 class Buffer;
-using BufferUniquePtr = bksge::unique_ptr<Buffer>;
+using BufferUniquePtr = std::unique_ptr<Buffer>;
 
 }	// namespace vulkan
 

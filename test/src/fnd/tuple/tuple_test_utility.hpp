@@ -13,9 +13,9 @@
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/declval.hpp>
-#include <bksge/fnd/memory/allocator_arg.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <memory>
 #include <cassert>
 #include <utility>
 
@@ -329,7 +329,7 @@ struct t_alloc_first
 
 	t_alloc_first() : data_(0) {}
 	t_alloc_first(int d) : data_(d) {}
-	t_alloc_first(bksge::allocator_arg_t, A1<int> const& a)
+	t_alloc_first(std::allocator_arg_t, A1<int> const& a)
 		: data_(0)
 	{
 		assert(a.id() == 5);
@@ -337,7 +337,7 @@ struct t_alloc_first
 		allocator_constructed = true;
 	}
 
-	t_alloc_first(bksge::allocator_arg_t, A1<int> const& a, int d)
+	t_alloc_first(std::allocator_arg_t, A1<int> const& a, int d)
 		: data_(d)
 	{
 		assert(a.id() == 5);
@@ -345,7 +345,7 @@ struct t_alloc_first
 		allocator_constructed = true;
 	}
 
-	t_alloc_first(bksge::allocator_arg_t, A1<int> const& a, t_alloc_first const& d)
+	t_alloc_first(std::allocator_arg_t, A1<int> const& a, t_alloc_first const& d)
 		: data_(d.data_)
 	{
 		assert(a.id() == 5);

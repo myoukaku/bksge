@@ -16,7 +16,7 @@
 #include <bksge/core/render/d3d12/detail/fwd/command_list_fwd.hpp>
 #include <bksge/core/render/d3d_common/d3d12.hpp>
 #include <bksge/core/render/fwd/geometry_fwd.hpp>
-#include <bksge/fnd/memory/unique_ptr.hpp>
+#include <memory>
 
 namespace bksge
 {
@@ -42,8 +42,8 @@ private:
 	Geometry& operator=(Geometry const&) = delete;
 
 private:
-	bksge::unique_ptr<VertexBuffer>		m_vertex_buffer;
-	bksge::unique_ptr<IndexBuffer>		m_index_buffer;
+	std::unique_ptr<VertexBuffer>		m_vertex_buffer;
+	std::unique_ptr<IndexBuffer>		m_index_buffer;
 	::D3D12_PRIMITIVE_TOPOLOGY			m_primitive_topology;
 };
 

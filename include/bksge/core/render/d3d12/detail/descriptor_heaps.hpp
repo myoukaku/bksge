@@ -16,7 +16,7 @@
 #include <bksge/core/render/d3d12/detail/fwd/root_parameters_fwd.hpp>
 #include <bksge/core/render/d3d_common/d3d12.hpp>
 #include <bksge/core/render/d3d_common/com_ptr.hpp>
-#include <bksge/fnd/memory/unique_ptr.hpp>
+#include <memory>
 
 namespace bksge
 {
@@ -59,7 +59,7 @@ private:
 	DescriptorHeaps& operator=(DescriptorHeaps const&) = delete;
 
 private:
-	bksge::unique_ptr<DescriptorHeap> m_descriptor_heaps[D3D12_DESCRIPTOR_HEAP_TYPE_NUM_TYPES];
+	std::unique_ptr<DescriptorHeap> m_descriptor_heaps[D3D12_DESCRIPTOR_HEAP_TYPE_NUM_TYPES];
 };
 
 }	// namespace d3d12

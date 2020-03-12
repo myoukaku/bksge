@@ -7,7 +7,7 @@
  */
 
 #include <bksge/fnd/memory/make_unique.hpp>
-#include <bksge/fnd/memory/unique_ptr.hpp>
+#include <memory>
 #include <gtest/gtest.h>
 
 namespace bksge_memory_test
@@ -53,7 +53,7 @@ unsigned int Foo::instances = 0;
 GTEST_TEST(MemoryTest, MakeUniqueArgsTest)
 {
 	using bksge::make_unique;
-	using bksge::unique_ptr;
+	using std::unique_ptr;
 
 	EXPECT_EQ(0u, Foo::instances);
 	{
@@ -131,7 +131,7 @@ GTEST_TEST(MemoryTest, MakeUniqueArgsTest)
 GTEST_TEST(MemoryTest, MakeUniqueArrayTest)
 {
 	using bksge::make_unique;
-	using bksge::unique_ptr;
+	using std::unique_ptr;
 
     {
         unique_ptr<int[]> a1 = make_unique<int[]>(3);
