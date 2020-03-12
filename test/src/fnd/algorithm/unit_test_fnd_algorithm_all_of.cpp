@@ -9,10 +9,10 @@
 #include <bksge/fnd/algorithm/all_of.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
-#include <bksge/fnd/list.hpp>
+#include <list>
 #include <vector>
-#include <gtest/gtest.h>
 #include <array>
+#include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
 namespace bksge_algorithm_test
@@ -72,7 +72,7 @@ GTEST_TEST(AlgorithmTest, AllOfTest)
 	EXPECT_TRUE (bksge::all_of(bksge::begin(v2), bksge::end(v2), [](int) { return true; }));
 	EXPECT_TRUE (bksge::all_of(bksge::begin(v2), bksge::end(v2), [](int) { return false; }));
 
-	const bksge::list<int> l1 {0,1,2};
+	const std::list<int> l1 {0,1,2};
 	EXPECT_FALSE(bksge::all_of(bksge::begin(l1), bksge::end(l1), pred1));
 	EXPECT_TRUE (bksge::all_of(bksge::begin(l1), bksge::end(l1), pred2));
 	EXPECT_FALSE(bksge::all_of(bksge::begin(l1), bksge::end(l1), pred3()));

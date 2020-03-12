@@ -10,7 +10,7 @@
 #include <bksge/fnd/iterator/rbegin.hpp>
 #include <array>
 #include <vector>
-#include <bksge/fnd/list.hpp>
+#include <list>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -25,7 +25,7 @@ GTEST_TEST(IteratorTest, REndTest)
 		}
 	}
 	{
-		bksge::list<int> l;
+		std::list<int> l;
 		{
 			auto it1 = bksge::rbegin(l);
 			auto it2 = bksge::rend(l);
@@ -36,7 +36,7 @@ GTEST_TEST(IteratorTest, REndTest)
 	BKSGE_STATIC_CONSTEXPR int a[] = {0,1,2};
 	BKSGE_STATIC_CONSTEXPR std::array<float, 2> a2{{0.5f, 1.5f}};
 	std::vector<float> v {3,1,4,1,5};
-	bksge::list<int> l {6, 7, 8};
+	std::list<int> l {6, 7, 8};
 
 //	EXPECT_TRUE(&*bksge::rend(a) == &a[-1]);
 	EXPECT_TRUE(bksge::rend(a2) == a2.rend());

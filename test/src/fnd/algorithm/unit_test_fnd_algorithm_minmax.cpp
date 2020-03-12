@@ -11,8 +11,8 @@
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/cmath/abs.hpp>
-#include <gtest/gtest.h>
 #include <array>
+#include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
 namespace bksge_algorithm_test

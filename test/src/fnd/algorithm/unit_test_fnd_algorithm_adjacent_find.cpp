@@ -11,10 +11,10 @@
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/functional/greater.hpp>
-#include <bksge/fnd/list.hpp>
+#include <list>
 #include <vector>
-#include <gtest/gtest.h>
 #include <array>
+#include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
 namespace bksge_algorithm_test
@@ -74,12 +74,12 @@ GTEST_TEST(AlgorithmTest, AdjacentFindTest)
 		EXPECT_TRUE(it == bksge::next(bksge::begin(a), 1));
 	}
 	{
-		const bksge::list<int> a;
+		const std::list<int> a;
 		auto const it = bksge::adjacent_find(bksge::begin(a), bksge::end(a));
 		EXPECT_TRUE(it == bksge::end(a));
 	}
 	{
-		const bksge::list<int> a {1,2,2,3,7,7,5,4,3};
+		const std::list<int> a {1,2,2,3,7,7,5,4,3};
 		auto const it = bksge::adjacent_find(bksge::begin(a), bksge::end(a), bksge::greater<>());
 		EXPECT_TRUE(it == bksge::next(bksge::begin(a), 5));
 	}

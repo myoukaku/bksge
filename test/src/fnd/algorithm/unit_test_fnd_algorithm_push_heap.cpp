@@ -11,8 +11,8 @@
 #include <bksge/fnd/functional/greater.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
-#include <gtest/gtest.h>
 #include <vector>
+#include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
 {

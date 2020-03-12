@@ -17,7 +17,7 @@
 #include <bksge/fnd/utility/swap.hpp>
 #include <array>
 #include <vector>
-#include <bksge/fnd/list.hpp>
+#include <list>
 #include <string>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -40,7 +40,7 @@ GTEST_TEST(IteratorTest, ReverseIteratorTest)
 	{
 		bksge::reverse_iterator<std::string::iterator>      i1;
 		bksge::reverse_iterator<std::vector<int>::iterator> i2;
-		bksge::reverse_iterator<bksge::list<float>::iterator> i3;
+		bksge::reverse_iterator<std::list<float>::iterator> i3;
 		bksge::reverse_iterator<int*>                       i4;
 		(void)i1;
 		(void)i2;

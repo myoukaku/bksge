@@ -10,10 +10,10 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/back_inserter.hpp>
-#include <bksge/fnd/list.hpp>
+#include <list>
 #include <vector>
-#include <gtest/gtest.h>
 #include <array>
+#include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
 {
@@ -49,7 +49,7 @@ GTEST_TEST(AlgorithmTest, CopyIfTest)
 	}
 	{
 		const std::vector<int> v { 5, 6, 7, 8, 9 };
-		bksge::list<int> l;
+		std::list<int> l;
 
 		bksge::copy_if(bksge::begin(v), bksge::end(v), bksge::back_inserter(l), [](int x) { return (x % 2) == 1; });
 

@@ -9,10 +9,10 @@
 #include <bksge/fnd/algorithm/iter_swap.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
-#include <bksge/fnd/list.hpp>
+#include <list>
 #include <vector>
-#include <gtest/gtest.h>
 #include <array>
+#include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
 namespace bksge_algorithm_test
@@ -29,8 +29,8 @@ GTEST_TEST(AlgorithmTest, IterSwapTest)
 	std::array<int, 3> a4 {{10,11,12}};
 	std::vector<int> v1{13,14,15};
 	std::vector<int> v2{16,17,18};
-	bksge::list<int> l1{19,20,21};
-	bksge::list<int> l2{22,23,24};
+	std::list<int> l1{19,20,21};
+	std::list<int> l2{22,23,24};
 
 	bksge::iter_swap(bksge::begin(a1), bksge::begin(a2));
 	EXPECT_EQ( 4, a1[0]);

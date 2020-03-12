@@ -9,10 +9,10 @@
 #include <bksge/fnd/algorithm/replace_if.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
-#include <bksge/fnd/list.hpp>
+#include <list>
 #include <vector>
-#include <gtest/gtest.h>
 #include <array>
+#include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
 {
@@ -71,7 +71,7 @@ GTEST_TEST(AlgorithmTest, ReplaceIfTest)
 		EXPECT_TRUE(a.empty());
 	}
 	{
-		bksge::list<int> a { 1,2,3,4,5,6 };
+		std::list<int> a { 1,2,3,4,5,6 };
 		bksge::replace_if(bksge::begin(a), bksge::end(a), [](int a) { return a % 2 == 0; }, 0);
 		auto it = a.begin();
 		EXPECT_EQ(1, *it++);
@@ -83,7 +83,7 @@ GTEST_TEST(AlgorithmTest, ReplaceIfTest)
 		EXPECT_TRUE(it == a.end());
 	}
 	{
-		bksge::list<int> a;
+		std::list<int> a;
 		bksge::replace_if(bksge::begin(a), bksge::end(a), [](int) { return false; }, 1);
 		EXPECT_TRUE(a.empty());
 	}

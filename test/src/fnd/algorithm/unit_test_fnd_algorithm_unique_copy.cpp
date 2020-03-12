@@ -12,11 +12,11 @@
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/iterator/back_inserter.hpp>
 #include <bksge/fnd/sstream/stringstream.hpp>
-#include <bksge/fnd/list.hpp>
+#include <list>
 #include <vector>
-#include <gtest/gtest.h>
 #include <array>
 #include <iterator>
+#include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
 {
@@ -77,7 +77,7 @@ GTEST_TEST(AlgorithmTest, UniqueCopyTest)
 	}
 	{
 		const std::vector<int> a { 1,4,4,2,1,1,3,3,3 };
-		bksge::list<int> b;
+		std::list<int> b;
 		auto ret = bksge::unique_copy(bksge::begin(a), bksge::end(a), bksge::back_inserter(b), pred1);
 		(void)ret;
 
@@ -99,7 +99,7 @@ GTEST_TEST(AlgorithmTest, UniqueCopyTest)
 		EXPECT_EQ(0, b[2]);
 	}
 	{
-		const bksge::list<int> a { 1,1,1,4,4,2,3,3,2 };
+		const std::list<int> a { 1,1,1,4,4,2,3,3,2 };
 		std::vector<int> b;
 		auto ret = bksge::unique_copy(bksge::begin(a), bksge::end(a), bksge::back_inserter(b), pred2());
 		(void)ret;
@@ -111,7 +111,7 @@ GTEST_TEST(AlgorithmTest, UniqueCopyTest)
 		EXPECT_EQ(2, b[4]);
 	}
 	{
-		const bksge::list<int> a;
+		const std::list<int> a;
 		std::vector<int> b;
 		auto ret = bksge::unique_copy(bksge::begin(a), bksge::end(a), bksge::back_inserter(b), [](int, int){ return false; });
 		(void)ret;

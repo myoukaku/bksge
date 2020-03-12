@@ -9,7 +9,7 @@
 #include <bksge/fnd/iterator/back_inserter.hpp>
 #include <bksge/fnd/algorithm/copy.hpp>
 #include <vector>
-#include <bksge/fnd/list.hpp>
+#include <list>
 #include <gtest/gtest.h>
 
 GTEST_TEST(IteratorTest, BackInserterTest)
@@ -27,7 +27,7 @@ GTEST_TEST(IteratorTest, BackInserterTest)
 	}
 	{
 		const int src[] = {10, 20, 30, 40, 50};
-		bksge::list<int> dst;
+		std::list<int> dst;
 
 		bksge::copy(src, src + 5, bksge::back_inserter(dst));
 

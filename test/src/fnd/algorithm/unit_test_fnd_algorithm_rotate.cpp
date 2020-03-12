@@ -11,11 +11,11 @@
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/utility/move.hpp>
-#include <bksge/fnd/list.hpp>
+#include <list>
 #include <vector>
-#include <gtest/gtest.h>
 #include <array>
 #include <forward_list>
+#include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
 {
@@ -154,7 +154,7 @@ GTEST_TEST(AlgorithmTest, RotateTest)
 		EXPECT_TRUE(a.empty());
 	}
 	{
-		bksge::list<int> a { 1, 2 };
+		std::list<int> a { 1, 2 };
 		auto ret = bksge::rotate(bksge::begin(a), bksge::next(bksge::begin(a), 1), bksge::end(a));
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 1));
 		auto it = a.begin();
@@ -163,7 +163,7 @@ GTEST_TEST(AlgorithmTest, RotateTest)
 		EXPECT_TRUE(it == a.end());
 	}
 	{
-		bksge::list<int> a { 1, 2, 3, 4 };
+		std::list<int> a { 1, 2, 3, 4 };
 		auto ret = bksge::rotate(bksge::begin(a), bksge::next(bksge::begin(a), 3), bksge::end(a));
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 1));
 		auto it = a.begin();
@@ -174,7 +174,7 @@ GTEST_TEST(AlgorithmTest, RotateTest)
 		EXPECT_TRUE(it == a.end());
 	}
 	{
-		bksge::list<int> a { 1, 2, 3, 4 };
+		std::list<int> a { 1, 2, 3, 4 };
 		auto ret = bksge::rotate(bksge::begin(a), bksge::next(bksge::begin(a), 2), bksge::end(a));
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 2));
 		auto it = a.begin();
@@ -185,7 +185,7 @@ GTEST_TEST(AlgorithmTest, RotateTest)
 		EXPECT_TRUE(it == a.end());
 	}
 	{
-		bksge::list<int> a;
+		std::list<int> a;
 		auto ret = bksge::rotate(bksge::begin(a), bksge::next(bksge::begin(a), 0), bksge::end(a));
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 0));
 		EXPECT_TRUE(a.empty());

@@ -13,12 +13,12 @@
 #include <bksge/fnd/iterator/back_inserter.hpp>
 #include <bksge/fnd/random/engines/xorshift.hpp>
 #include <bksge/fnd/sstream/stringstream.hpp>
-#include <bksge/fnd/list.hpp>
+#include <list>
 #include <vector>
-#include <gtest/gtest.h>
 #include <array>
 #include <forward_list>
 #include <iterator>
+#include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
 {
@@ -60,7 +60,7 @@ GTEST_TEST(AlgorithmTest, SampleTest)
 	}
 	{
 		std::forward_list<int> const a {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-		bksge::list<int> out;
+		std::list<int> out;
 		auto i = bksge::sample(
 			bksge::begin(a), bksge::end(a),
 			bksge::back_inserter(out),
@@ -128,7 +128,7 @@ GTEST_TEST(AlgorithmTest, SampleTest)
 		EXPECT_EQ(9, out[9]);
 	}
 	{
-		bksge::list<int> a {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+		std::list<int> a {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 		std::vector<int> out;
 		auto i = bksge::sample(
 			bksge::begin(a), bksge::end(a),

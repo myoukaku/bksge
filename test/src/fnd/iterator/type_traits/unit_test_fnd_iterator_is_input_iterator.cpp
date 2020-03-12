@@ -10,7 +10,7 @@
 #include <iterator>
 #include <array>
 #include <vector>
-#include <bksge/fnd/list.hpp>
+#include <list>
 #include <deque>
 #include <string>
 #include <regex>
@@ -56,10 +56,10 @@ GTEST_TEST(IteratorTest, IsInputIteratorTest)
 	static_assert(bksge::is_input_iterator<std::deque<UDT>::const_iterator>::value              == true, "");
 	static_assert(bksge::is_input_iterator<std::deque<UDT>::reverse_iterator>::value            == true, "");
 	static_assert(bksge::is_input_iterator<std::deque<UDT>::const_reverse_iterator>::value      == true, "");
-	static_assert(bksge::is_input_iterator<bksge::list<float>::iterator>::value                   == true, "");
-	static_assert(bksge::is_input_iterator<bksge::list<float>::const_iterator>::value             == true, "");
-	static_assert(bksge::is_input_iterator<bksge::list<float>::reverse_iterator>::value           == true, "");
-	static_assert(bksge::is_input_iterator<bksge::list<float>::const_reverse_iterator>::value     == true, "");
+	static_assert(bksge::is_input_iterator<std::list<float>::iterator>::value                   == true, "");
+	static_assert(bksge::is_input_iterator<std::list<float>::const_iterator>::value             == true, "");
+	static_assert(bksge::is_input_iterator<std::list<float>::reverse_iterator>::value           == true, "");
+	static_assert(bksge::is_input_iterator<std::list<float>::const_reverse_iterator>::value     == true, "");
 	static_assert(bksge::is_input_iterator<std::string::iterator>::value                        == true, "");
 	static_assert(bksge::is_input_iterator<std::string::const_iterator>::value                  == true, "");
 	static_assert(bksge::is_input_iterator<std::string::reverse_iterator>::value                == true, "");

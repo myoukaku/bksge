@@ -10,10 +10,10 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
-#include <bksge/fnd/list.hpp>
+#include <list>
 #include <vector>
-#include <gtest/gtest.h>
 #include <array>
+#include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
 {
@@ -95,7 +95,7 @@ GTEST_TEST(AlgorithmTest, RemoveIfTest)
 		EXPECT_EQ(0u, a.size());
 	}
 	{
-		bksge::list<int> a = {1,2,3,1,3,1,2,1,1};
+		std::list<int> a = {1,2,3,1,3,1,2,1,1};
 		auto ret = bksge::remove_if(bksge::begin(a), bksge::end(a), [](int x) { return (x % 2) == 1; });
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 2));
 		auto it = a.begin();
@@ -104,7 +104,7 @@ GTEST_TEST(AlgorithmTest, RemoveIfTest)
 		EXPECT_TRUE(it != a.end());	// remove_ifしてもコンテナのサイズは変わらない
 	}
 	{
-		bksge::list<int> a;
+		std::list<int> a;
 		auto ret = bksge::remove_if(bksge::begin(a), bksge::end(a), [](int x) { return (x % 2) == 1; });
 		EXPECT_TRUE(ret == bksge::end(a));
 		EXPECT_EQ(0u, a.size());

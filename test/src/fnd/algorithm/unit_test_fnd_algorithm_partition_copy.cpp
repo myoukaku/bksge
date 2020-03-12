@@ -11,10 +11,10 @@
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/iterator/back_inserter.hpp>
-#include <bksge/fnd/list.hpp>
+#include <list>
 #include <vector>
-#include <gtest/gtest.h>
 #include <array>
+#include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
 namespace bksge_algorithm_test
@@ -60,7 +60,7 @@ GTEST_TEST(AlgorithmTest, PartitionCopyTest)
 	{
 		const std::array<int, 5> a {{1,2,3,4,5}};
 		std::vector<int> b(5);
-		bksge::list<int> c(5);
+		std::list<int> c(5);
 		auto ret = bksge::partition_copy(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::begin(c), pred2());
 		EXPECT_TRUE(ret.first  == bksge::next(bksge::begin(b), 3));
 		EXPECT_TRUE(ret.second == bksge::next(bksge::begin(c), 2));
@@ -79,7 +79,7 @@ GTEST_TEST(AlgorithmTest, PartitionCopyTest)
 		EXPECT_TRUE(it == c.end());
 	}
 	{
-		const bksge::list<int> a {1,2,3,4,5};
+		const std::list<int> a {1,2,3,4,5};
 		std::vector<int> b;
 		std::array<int, 5> c{{}};
 		auto ret = bksge::partition_copy(
@@ -104,7 +104,7 @@ GTEST_TEST(AlgorithmTest, PartitionCopyTest)
 	{
 		const std::vector<int> a;
 		std::vector<int> b;
-		bksge::list<int> c;
+		std::list<int> c;
 		auto ret = bksge::partition_copy(
 			bksge::begin(a),
 			bksge::end(a),

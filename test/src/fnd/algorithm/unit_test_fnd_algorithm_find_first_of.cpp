@@ -10,10 +10,10 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
-#include <bksge/fnd/list.hpp>
+#include <list>
 #include <vector>
-#include <gtest/gtest.h>
 #include <array>
+#include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
 namespace bksge_algorithm_test
@@ -73,13 +73,13 @@ GTEST_TEST(AlgorithmTest, FindFirstOfTest)
 	}
 	{
 		const std::vector<int> a { 1, 3, 7, 4, 2 };
-		const bksge::list<int> b { 2, 4, 6, 8 };
+		const std::list<int> b { 2, 4, 6, 8 };
 		auto it = bksge::find_first_of(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b));
 		EXPECT_EQ(it, bksge::next(bksge::begin(a), 3));
 		EXPECT_EQ(4, *it);
 	}
 	{
-		const bksge::list<int> a { 1, 3, 7, 4, 2 };
+		const std::list<int> a { 1, 3, 7, 4, 2 };
 		const int b[] { 2, 4, 6, 8 };
 		auto it = bksge::find_first_of(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b), pred1);
 		EXPECT_EQ(it, bksge::next(bksge::begin(a), 0));
@@ -93,33 +93,33 @@ GTEST_TEST(AlgorithmTest, FindFirstOfTest)
 		EXPECT_EQ(3, *it);
 	}
 	{
-		const bksge::list<int> a {1,2,3,4,5,6,7};
-		const bksge::list<int> b {5};
+		const std::list<int> a {1,2,3,4,5,6,7};
+		const std::list<int> b {5};
 		auto it = bksge::find_first_of(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b), [](int x, int y) { return x > y; });
 		EXPECT_EQ(it, bksge::next(bksge::begin(a), 5));
 		EXPECT_EQ(6, *it);
 	}
 	{
-		const bksge::list<int> a { 1, 3, 7, 4, 2 };
+		const std::list<int> a { 1, 3, 7, 4, 2 };
 		const std::vector<int> b;
 		auto it = bksge::find_first_of(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b));
 		EXPECT_EQ(it, bksge::end(a));
 	}
 	{
 		const std::vector<int> a;
-		const bksge::list<int> b { 2, 4, 6, 8 };
+		const std::list<int> b { 2, 4, 6, 8 };
 		auto it = bksge::find_first_of(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b));
 		EXPECT_EQ(it, bksge::end(a));
 	}
 	{
-		const bksge::list<int> a;
-		const bksge::list<int> b;
+		const std::list<int> a;
+		const std::list<int> b;
 		auto it = bksge::find_first_of(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b));
 		EXPECT_EQ(it, bksge::end(a));
 	}
 	{
-		const bksge::list<int> a;
-		const bksge::list<int> b;
+		const std::list<int> a;
+		const std::list<int> b;
 		auto it = bksge::find_first_of(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b), [](int , int ){ return true; });
 		EXPECT_EQ(it, bksge::end(a));
 	}

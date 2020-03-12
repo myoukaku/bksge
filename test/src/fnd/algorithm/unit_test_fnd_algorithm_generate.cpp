@@ -9,10 +9,10 @@
 #include <bksge/fnd/algorithm/generate.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
-#include <bksge/fnd/list.hpp>
+#include <list>
 #include <vector>
-#include <gtest/gtest.h>
 #include <array>
+#include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
 namespace bksge_algorithm_test
@@ -77,7 +77,7 @@ GTEST_TEST(AlgorithmTest, GenerateTest)
 	}
 	{
 		int n = 1;
-		bksge::list<int> a(4);
+		std::list<int> a(4);
 		bksge::generate(bksge::begin(a), bksge::end(a), [&]() { auto t = n; n *= 2; return t;});
 
 		auto it = a.begin();
@@ -91,7 +91,7 @@ GTEST_TEST(AlgorithmTest, GenerateTest)
 	}
 	{
 		int n = 1;
-		bksge::list<int> a;
+		std::list<int> a;
 		bksge::generate(bksge::begin(a), bksge::end(a), [&]() { auto t = n; n *= 2; return t;});
 		EXPECT_TRUE(a.empty());
 

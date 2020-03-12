@@ -9,8 +9,8 @@
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/functional/less.hpp>
 #include <bksge/fnd/functional/greater.hpp>
-#include <gtest/gtest.h>
 #include <string>
+#include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
 namespace bksge_algorithm_test

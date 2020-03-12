@@ -10,10 +10,10 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
-#include <bksge/fnd/list.hpp>
+#include <list>
 #include <vector>
-#include <gtest/gtest.h>
 #include <array>
+#include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
 namespace bksge_algorithm_test
@@ -80,7 +80,7 @@ GTEST_TEST(AlgorithmTest, LowerBoundTest)
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 0));
 	}
 	{
-		const bksge::list<int> a { 5,1,25,13,17 };
+		const std::list<int> a { 5,1,25,13,17 };
 		auto ret = bksge::lower_bound(bksge::begin(a), bksge::end(a), 10);
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 2));
 	}
@@ -90,7 +90,7 @@ GTEST_TEST(AlgorithmTest, LowerBoundTest)
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 0));
 	}
 	{
-		const bksge::list<int> a;
+		const std::list<int> a;
 		auto ret = bksge::lower_bound(bksge::begin(a), bksge::end(a), 0, [](int x, int y) { return x < y; });
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 0));
 	}

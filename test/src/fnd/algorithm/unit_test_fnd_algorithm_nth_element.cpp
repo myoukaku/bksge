@@ -11,9 +11,9 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
-#include <gtest/gtest.h>
 #include <array>
 #include <vector>
+#include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
 {

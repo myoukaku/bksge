@@ -12,10 +12,10 @@
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
-#include <bksge/fnd/list.hpp>
+#include <list>
 #include <vector>
-#include <gtest/gtest.h>
 #include <array>
+#include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
 {
@@ -92,7 +92,7 @@ GTEST_TEST(AlgorithmTest, UniqueTest)
 		EXPECT_TRUE(a.empty());
 	}
 	{
-		bksge::list<bksge::unique_ptr<int>> a;
+		std::list<bksge::unique_ptr<int>> a;
 		a.emplace_back(new int(1));
 		a.emplace_back(new int(1));
 		a.emplace_back(new int(1));
@@ -113,7 +113,7 @@ GTEST_TEST(AlgorithmTest, UniqueTest)
 		EXPECT_TRUE(it == ret);
 	}
 	{
-		bksge::list<int> a;
+		std::list<int> a;
 		auto ret = bksge::unique(bksge::begin(a), bksge::end(a), [](int, int){ return false; });
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 0));
 		EXPECT_TRUE(a.empty());

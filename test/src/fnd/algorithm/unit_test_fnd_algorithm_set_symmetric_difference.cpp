@@ -12,10 +12,10 @@
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/iterator/back_inserter.hpp>
-#include <bksge/fnd/list.hpp>
+#include <list>
 #include <vector>
-#include <gtest/gtest.h>
 #include <array>
+#include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
 {
@@ -44,7 +44,7 @@ GTEST_TEST(AlgorithmTest, SetSymmetricDifferenceTest)
 	{
 		const std::array<int, 4> a {{ 6, 5, 2, 1 }};
 		const std::vector<int> b { 5, 3, 1 };
-		bksge::list<int> c;
+		std::list<int> c;
 		auto ret = bksge::set_symmetric_difference(
 			bksge::begin(a), bksge::end(a),
 			bksge::begin(b), bksge::end(b),
@@ -61,7 +61,7 @@ GTEST_TEST(AlgorithmTest, SetSymmetricDifferenceTest)
 	}
 	{
 		const int a[] { 1, 2, 3 };
-		const bksge::list<int> b { 1, 2, 3 };
+		const std::list<int> b { 1, 2, 3 };
 		std::vector<int> c;
 		auto ret = bksge::set_symmetric_difference(
 			bksge::begin(a), bksge::end(a),
@@ -73,7 +73,7 @@ GTEST_TEST(AlgorithmTest, SetSymmetricDifferenceTest)
 		EXPECT_TRUE(c.empty());
 	}
 	{
-		const bksge::list<int> a { 5, 6, 7 };
+		const std::list<int> a { 5, 6, 7 };
 		const int b[] { 1, 2, 3 };
 		std::vector<int> c;
 		auto ret = bksge::set_symmetric_difference(
@@ -93,7 +93,7 @@ GTEST_TEST(AlgorithmTest, SetSymmetricDifferenceTest)
 	}
 	{
 		const std::vector<int> a;
-		const bksge::list<int> b;
+		const std::list<int> b;
 		std::vector<int> c;
 		auto ret = bksge::set_symmetric_difference(
 			bksge::begin(a), bksge::end(a),
