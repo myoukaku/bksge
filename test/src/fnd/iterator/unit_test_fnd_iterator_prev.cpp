@@ -10,6 +10,7 @@
 
 BKSGE_WARNING_PUSH();
 BKSGE_WARNING_DISABLE_MSVC(4146); // 符号付きの値を代入する変数は、符号付き型にキャストしなければなりません。
+BKSGE_WARNING_DISABLE_MSVC(4307); // '+': 整数定数がオーバーフローしました。
 BKSGE_WARNING_DISABLE_MSVC(4308); // 負の整数定数が符号なしの型に変換されました。
 
 #include <bksge/fnd/iterator/prev.hpp>
