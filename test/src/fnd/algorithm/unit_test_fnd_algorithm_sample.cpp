@@ -7,17 +7,16 @@
  */
 
 #include <bksge/fnd/algorithm/sample.hpp>
+#include <bksge/fnd/random/engines/xorshift.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
-#include <bksge/fnd/iterator/back_inserter.hpp>
-#include <bksge/fnd/random/engines/xorshift.hpp>
+#include <iterator>
 #include <sstream>
 #include <list>
 #include <vector>
 #include <array>
 #include <forward_list>
-#include <iterator>
 #include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
@@ -35,7 +34,7 @@ GTEST_TEST(AlgorithmTest, SampleTest)
 		std::vector<int> out;
 		auto i = bksge::sample(
 			bksge::begin(a), bksge::end(a),
-			bksge::back_inserter(out),
+			std::back_inserter(out),
 			5, g);
 		(void)i;
 		EXPECT_EQ(5u, out.size());
@@ -63,7 +62,7 @@ GTEST_TEST(AlgorithmTest, SampleTest)
 		std::list<int> out;
 		auto i = bksge::sample(
 			bksge::begin(a), bksge::end(a),
-			bksge::back_inserter(out),
+			std::back_inserter(out),
 			3, g);
 		(void)i;
 		auto it = bksge::begin(out);
@@ -92,7 +91,7 @@ GTEST_TEST(AlgorithmTest, SampleTest)
 		std::vector<int> out;
 		auto i = bksge::sample(
 			bksge::begin(a), bksge::end(a),
-			bksge::back_inserter(out),
+			std::back_inserter(out),
 			10, g);
 		(void)i;
 		EXPECT_EQ(10u, out.size());
@@ -112,7 +111,7 @@ GTEST_TEST(AlgorithmTest, SampleTest)
 		std::vector<int> out;
 		auto i = bksge::sample(
 			bksge::begin(a), bksge::end(a),
-			bksge::back_inserter(out),
+			std::back_inserter(out),
 			20, g);
 		(void)i;
 		EXPECT_EQ(10u, out.size());
@@ -132,7 +131,7 @@ GTEST_TEST(AlgorithmTest, SampleTest)
 		std::vector<int> out;
 		auto i = bksge::sample(
 			bksge::begin(a), bksge::end(a),
-			bksge::back_inserter(out),
+			std::back_inserter(out),
 			0, g);
 		(void)i;
 		EXPECT_EQ(0u, out.size());

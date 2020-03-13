@@ -22,17 +22,18 @@ using std::make_reverse_iterator;
 
 #else
 
-#include <bksge/fnd/iterator/reverse_iterator.hpp>
+#include <bksge/fnd/config.hpp>
+#include <iterator>
 
 namespace bksge
 {
 
 // make_reverse_iterator
 template <typename Iterator>
-inline BKSGE_CONSTEXPR bksge::reverse_iterator<Iterator>
+inline BKSGE_CONSTEXPR std::reverse_iterator<Iterator>
 make_reverse_iterator(Iterator it)
 {
-	return bksge::reverse_iterator<Iterator>(it);
+	return std::reverse_iterator<Iterator>(it);
 }
 
 }	// namespace bksge

@@ -10,7 +10,7 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
-#include <bksge/fnd/iterator/back_inserter.hpp>
+#include <iterator>
 #include <list>
 #include <vector>
 #include <array>
@@ -85,7 +85,7 @@ GTEST_TEST(AlgorithmTest, PartitionCopyTest)
 		auto ret = bksge::partition_copy(
 			bksge::begin(a),
 			bksge::end(a),
-			bksge::back_inserter(b),
+			std::back_inserter(b),
 			bksge::begin(c),
 			[](int x) { return (x % 2) == 1; });
 		//EXPECT_TRUE(ret.first  == bksge::next(bksge::begin(b), 3));
@@ -108,8 +108,8 @@ GTEST_TEST(AlgorithmTest, PartitionCopyTest)
 		auto ret = bksge::partition_copy(
 			bksge::begin(a),
 			bksge::end(a),
-			bksge::back_inserter(b),
-			bksge::back_inserter(c),
+			std::back_inserter(b),
+			std::back_inserter(c),
 			[](int x) { return (x % 2) == 1; });
 		(void)ret;
 		//EXPECT_TRUE(ret.first  == bksge::next(bksge::begin(b), 3));

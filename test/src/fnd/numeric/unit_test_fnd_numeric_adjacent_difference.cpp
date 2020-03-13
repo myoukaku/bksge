@@ -11,7 +11,7 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
-#include <bksge/fnd/iterator/back_inserter.hpp>
+#include <iterator>
 #include <array>
 #include <vector>
 #include <list>
@@ -44,7 +44,7 @@ GTEST_TEST(NumericTest, AdjacentDifferenceTest)
 	{
 		const std::array<int, 4> a {{ 3, 1, 4, 1 }};
 		std::list<int> b;
-		auto ret = bksge::adjacent_difference(bksge::begin(a), bksge::end(a), bksge::back_inserter(b));
+		auto ret = bksge::adjacent_difference(bksge::begin(a), bksge::end(a), std::back_inserter(b));
 		(void)ret;
 		auto it = b.begin();
 		EXPECT_EQ( 3, *it++);
@@ -56,7 +56,7 @@ GTEST_TEST(NumericTest, AdjacentDifferenceTest)
 	{
 		const std::array<int, 4> a {{ 3, 1, 4, 1 }};
 		std::list<int> b;
-		auto ret = bksge::adjacent_difference(bksge::begin(a), bksge::end(a), bksge::back_inserter(b), bksge::plus<>());
+		auto ret = bksge::adjacent_difference(bksge::begin(a), bksge::end(a), std::back_inserter(b), bksge::plus<>());
 		(void)ret;
 		auto it = b.begin();
 		EXPECT_EQ( 3, *it++);
@@ -78,7 +78,7 @@ GTEST_TEST(NumericTest, AdjacentDifferenceTest)
 	{
 		const std::list<int> a { 2, 2, 2, 2, 2 };
 		std::vector<int> b;
-		auto ret = bksge::adjacent_difference(bksge::begin(a), bksge::end(a), bksge::back_inserter(b));
+		auto ret = bksge::adjacent_difference(bksge::begin(a), bksge::end(a), std::back_inserter(b));
 		(void)ret;
 		EXPECT_EQ( 2, b[0]);
 		EXPECT_EQ( 0, b[1]);

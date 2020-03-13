@@ -10,7 +10,7 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
-#include <bksge/fnd/iterator/back_inserter.hpp>
+#include <iterator>
 #include <list>
 #include <vector>
 #include <array>
@@ -66,7 +66,7 @@ GTEST_TEST(AlgorithmTest, ReverseCopyTest)
 	{
 		const std::array<int, 4> a {{ 1,2,3,4 }};
 		std::list<int> b;
-		bksge::reverse_copy(bksge::begin(a), bksge::end(a), bksge::back_inserter(b));
+		bksge::reverse_copy(bksge::begin(a), bksge::end(a), std::back_inserter(b));
 		auto it = b.begin();
 		EXPECT_EQ(4, *it++);
 		EXPECT_EQ(3, *it++);
@@ -77,7 +77,7 @@ GTEST_TEST(AlgorithmTest, ReverseCopyTest)
 	{
 		const std::vector<int> a { 1,2,3,4,5 };
 		std::vector<int> b;
-		bksge::reverse_copy(bksge::begin(a), bksge::end(a), bksge::back_inserter(b));
+		bksge::reverse_copy(bksge::begin(a), bksge::end(a), std::back_inserter(b));
 		EXPECT_EQ(5, b[0]);
 		EXPECT_EQ(4, b[1]);
 		EXPECT_EQ(3, b[2]);
@@ -97,13 +97,13 @@ GTEST_TEST(AlgorithmTest, ReverseCopyTest)
 	{
 		const std::vector<int> a;
 		std::vector<int> b;
-		bksge::reverse_copy(bksge::begin(a), bksge::end(a), bksge::back_inserter(b));
+		bksge::reverse_copy(bksge::begin(a), bksge::end(a), std::back_inserter(b));
 		EXPECT_TRUE(b.empty());
 	}
 	{
 		const std::list<int> a { 1,2 };
 		std::list<int> b;
-		bksge::reverse_copy(bksge::begin(a), bksge::end(a), bksge::back_inserter(b));
+		bksge::reverse_copy(bksge::begin(a), bksge::end(a), std::back_inserter(b));
 		auto it = b.begin();
 		EXPECT_EQ(2, *it++);
 		EXPECT_EQ(1, *it++);
@@ -122,7 +122,7 @@ GTEST_TEST(AlgorithmTest, ReverseCopyTest)
 	{
 		const std::list<int> a;
 		std::list<int> b;
-		bksge::reverse_copy(bksge::begin(a), bksge::end(a), bksge::back_inserter(b));
+		bksge::reverse_copy(bksge::begin(a), bksge::end(a), std::back_inserter(b));
 		EXPECT_TRUE(b.empty());
 	}
 }

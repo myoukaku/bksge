@@ -7,10 +7,10 @@
  */
 
 #include <bksge/fnd/algorithm/transform.hpp>
+#include <bksge/fnd/functional/plus.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
-#include <bksge/fnd/iterator/back_inserter.hpp>
-#include <bksge/fnd/functional/plus.hpp>
+#include <iterator>
 #include <list>
 #include <vector>
 #include <array>
@@ -125,7 +125,7 @@ GTEST_TEST(AlgorithmTest, TransformTest)
 		const std::vector<int> v1 { 1, 2, 3 };
 		std::vector<int> v2;
 		auto const it = bksge::transform(
-			bksge::begin(v1), bksge::end(v1), bksge::back_inserter(v2), Doubling());
+			bksge::begin(v1), bksge::end(v1), std::back_inserter(v2), Doubling());
 
 		EXPECT_EQ( 3u, v2.size());
 		EXPECT_EQ( 2, v2[0]);
@@ -139,7 +139,7 @@ GTEST_TEST(AlgorithmTest, TransformTest)
 		const std::vector<int> v1 { 1, 2, 3 };
 		std::list<int> l1;
 		bksge::transform(
-			bksge::begin(v1), bksge::end(v1), bksge::back_inserter(l1), Doubling());
+			bksge::begin(v1), bksge::end(v1), std::back_inserter(l1), Doubling());
 
 		auto it = l1.begin();
 		EXPECT_EQ(2, *it++);
@@ -152,7 +152,7 @@ GTEST_TEST(AlgorithmTest, TransformTest)
 		const float a1[] {1.5, 2.5};
 		std::vector<int> v1;
 		auto const it = bksge::transform(
-			bksge::begin(a1), bksge::end(a1), bksge::back_inserter(v1), to_int);
+			bksge::begin(a1), bksge::end(a1), std::back_inserter(v1), to_int);
 
 		EXPECT_EQ(2u, v1.size());
 		EXPECT_EQ(1, v1[0]);
@@ -165,7 +165,7 @@ GTEST_TEST(AlgorithmTest, TransformTest)
 		const float a1[] {1.5, 2.5, 3.5};
 		std::list<int> l1;
 		bksge::transform(
-			bksge::begin(a1), bksge::end(a1), bksge::back_inserter(l1), to_int);
+			bksge::begin(a1), bksge::end(a1), std::back_inserter(l1), to_int);
 
 		auto it = l1.begin();
 		EXPECT_EQ(1, *it++);
@@ -254,7 +254,7 @@ GTEST_TEST(AlgorithmTest, TransformTest)
 		bksge::transform(
 			bksge::begin(v1), bksge::end(v1),
 			bksge::begin(v2), bksge::end(v2),
-			bksge::back_inserter(l1),
+			std::back_inserter(l1),
 			bksge::plus<>());
 
 		auto it = l1.begin();
@@ -306,7 +306,7 @@ GTEST_TEST(AlgorithmTest, TransformTest)
 		bksge::transform(
 			bksge::begin(a1), bksge::end(a1),
 			bksge::begin(v1), bksge::end(v1),
-			bksge::back_inserter(l1),
+			std::back_inserter(l1),
 			bksge::plus<>());
 
 		auto it = l1.begin();
