@@ -166,7 +166,7 @@ GTEST_TEST(Render_SampledTexture, HashTest)
 	s8.sampler().SetBorderColor(bksge::BorderColor::kTransparentBlack);
 	s9.texture() = bksge::Texture(bksge::TextureFormat::kRGBA_U8, {32, 24}, 3);
 
-	std::vector<bksge::size_t> v;
+	std::vector<std::size_t> v;
 	v.push_back(h(s1));
 	v.push_back(h(s2));
 	v.push_back(h(s3));

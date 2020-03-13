@@ -25,9 +25,9 @@
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/render_state.hpp>
 #include <bksge/core/render/geometry.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <cstddef>
 #include <vector>
 
 namespace bksge
@@ -40,7 +40,7 @@ namespace vulkan
 {
 
 inline ::VkFormat
-ToVkFormat(bksge::TypeEnum type, bksge::size_t num)
+ToVkFormat(bksge::TypeEnum type, std::size_t num)
 {
 	switch (type)
 	{

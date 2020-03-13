@@ -97,10 +97,10 @@ HSVtoRGB(ColorHSV<T> const& hsv);
 
 }	// namespace bksge
 
-#include <functional>
 #include <bksge/fnd/functional/hash_combine.hpp>
 #include <bksge/fnd/type_traits/integral_constant.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
+#include <functional>
+#include <cstddef>
 
 namespace std
 {
@@ -110,13 +110,13 @@ namespace std
  */
 template <typename T>
 struct tuple_size<bksge::math::ColorHSV<T>>
-	: public bksge::integral_constant<bksge::size_t, 3>
+	: public bksge::integral_constant<std::size_t, 3>
 {};
 
 /**
  *	@brief	tuple_element
  */
-template <bksge::size_t I, typename T>
+template <std::size_t I, typename T>
 struct tuple_element<I, bksge::math::ColorHSV<T>>
 {
 	static_assert(I < 3, "ColorHSV index out of bounds");
@@ -129,7 +129,7 @@ struct tuple_element<I, bksge::math::ColorHSV<T>>
 template <typename T>
 struct hash<bksge::math::ColorHSV<T>>
 {
-	bksge::size_t operator()(bksge::math::ColorHSV<T> const& arg) const
+	std::size_t operator()(bksge::math::ColorHSV<T> const& arg) const
 	{
 		return bksge::hash_combine(arg.as_array());
 	}

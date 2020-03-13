@@ -7,8 +7,7 @@
  */
 
 #include <bksge/fnd/type_traits/is_scalar.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
-#include <bksge/fnd/cstddef/nullptr_t.hpp>
+#include <cstddef>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
@@ -55,11 +54,11 @@ GTEST_TEST(TypeTraitsTest, IsScalarTest)
 	BKSGE_IS_SCALAR_TEST(true,  unsigned short);
 	BKSGE_IS_SCALAR_TEST(true,  unsigned long);
 	BKSGE_IS_SCALAR_TEST(true,  unsigned long long);
-	BKSGE_IS_SCALAR_TEST(true,  bksge::size_t);
+	BKSGE_IS_SCALAR_TEST(true,  std::size_t);
 	BKSGE_IS_SCALAR_TEST(true,  float);
 	BKSGE_IS_SCALAR_TEST(true,  double);
 	BKSGE_IS_SCALAR_TEST(true,  long double);
-	BKSGE_IS_SCALAR_TEST(true,  bksge::nullptr_t);
+	BKSGE_IS_SCALAR_TEST(true,  std::nullptr_t);
 	BKSGE_IS_SCALAR_TEST(true,  decltype(nullptr));
 	BKSGE_IS_SCALAR_TEST(true,  void*);
 	BKSGE_IS_SCALAR_TEST(true,  enum_UDT);

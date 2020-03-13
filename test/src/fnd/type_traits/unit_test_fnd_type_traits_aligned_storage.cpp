@@ -13,13 +13,13 @@
 #include <bksge/fnd/type_traits/aligned_storage.hpp>
 #include <bksge/fnd/type_traits/alignment_of.hpp>
 #include <bksge/fnd/type_traits/is_pod.hpp>
-#include <bksge/fnd/cstddef/max_align_t.hpp>
+#include <cstddef>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
 GTEST_TEST(TypeTraitsTest, AlignedStorageTest)
 {
-	static auto const default_alignment = bksge::alignment_of<bksge::max_align_t>::value;
+	static auto const default_alignment = bksge::alignment_of<std::max_align_t>::value;
 
 #define BKSGE_ALIGNED_STORAGE_TEST_IMPL(T, Len, Align)	\
 	static_assert(bksge::is_pod<T>::value, "bksge::is_pod<" #T ">");	\

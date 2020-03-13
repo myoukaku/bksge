@@ -15,7 +15,7 @@
 #include <bksge/core/input/win32/win32_game_pad_device.hpp>
 #include <bksge/core/input/win32/diproperty.hpp>
 #include <bksge/core/math/vector2.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
+#include <cstddef>
 
 #if defined(_MSC_VER)
 #	pragma comment (lib, "dinput8.lib")
@@ -269,7 +269,7 @@ Win32GamePadDevice::Read(void)
 
 	ChangePOV(joystate.rgdwPOV[0]);
 
-	for (bksge::size_t i = 0; i < m_state.kButtonMax - detail::kWin32GamePad_Direction_Max; i++)
+	for (std::size_t i = 0; i < m_state.kButtonMax - detail::kWin32GamePad_Direction_Max; i++)
 	{
 		if ((joystate.rgbButtons[i] & 0x80) != 0)
 		{

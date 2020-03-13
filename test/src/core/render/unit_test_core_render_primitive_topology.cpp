@@ -62,7 +62,7 @@ GTEST_TEST(Render_PrimitiveTopology, SerializeTest)
 GTEST_TEST(Render_PrimitiveTopology, HashTest)
 {
 	std::hash<bksge::PrimitiveTopology> h;
-	std::vector<bksge::size_t> v;
+	std::vector<std::size_t> v;
 	v.push_back(h(bksge::PrimitiveTopology::kPoints));
 	v.push_back(h(bksge::PrimitiveTopology::kLines));
 	v.push_back(h(bksge::PrimitiveTopology::kTriangles));

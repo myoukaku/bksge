@@ -54,7 +54,7 @@ operator<<(std::basic_ostream<CharT, Traits>& os, BlendOperation const& rhs)
 #if BKSGE_CXX_STANDARD <= 11
 
 #include <bksge/fnd/type_traits/underlying_type.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
+#include <cstddef>
 #include <functional>
 
 namespace std
@@ -63,7 +63,7 @@ namespace std
 template<>
 struct hash<bksge::render::BlendOperation>
 {
-	bksge::size_t operator()(bksge::render::BlendOperation const& arg) const
+	std::size_t operator()(bksge::render::BlendOperation const& arg) const
 	{
 		using type = bksge::underlying_type_t<bksge::render::BlendOperation>;
 		return std::hash<type>{}(static_cast<type>(arg));

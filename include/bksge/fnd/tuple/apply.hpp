@@ -27,8 +27,8 @@ using std::apply;
 #include <bksge/fnd/utility/make_index_sequence.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/type_traits/remove_reference.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 #include <tuple>
 
 BKSGE_WARNING_PUSH()
@@ -45,7 +45,7 @@ namespace bksge
 namespace detail
 {
 
-template <typename Function, typename Tuple, bksge::size_t... Indices>
+template <typename Function, typename Tuple, std::size_t... Indices>
 inline BKSGE_CXX14_CONSTEXPR auto
 apply_tuple_impl(Function&& func, Tuple&& t, bksge::index_sequence<Indices...>)
 BKSGE_NOEXCEPT_DECLTYPE_RETURN(

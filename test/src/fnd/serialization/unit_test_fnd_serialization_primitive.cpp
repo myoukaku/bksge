@@ -8,8 +8,7 @@
 
 #include <bksge/fnd/serialization/text_oarchive.hpp>
 #include <bksge/fnd/serialization/text_iarchive.hpp>
-#include <bksge/fnd/cstddef/nullptr_t.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
+#include <cstddef>
 #include <sstream>
 #include <gtest/gtest.h>
 #include "serialization_test_utility.hpp"
@@ -39,8 +38,8 @@ void PrimitiveTest()
 	double             o = get_random_float<double>();
 	long double        p = get_random_float<long double>();
 	Enum               q = Enum(get_random_int<unsigned int>() % 3);
-	bksge::size_t      r = get_random_int<bksge::size_t>();
-	bksge::nullptr_t   s = nullptr;
+	std::size_t      r = get_random_int<std::size_t>();
+	std::nullptr_t   s = nullptr;
 
 	Stream str;
 	{
@@ -83,8 +82,8 @@ void PrimitiveTest()
 		double             o_2;
 		long double        p_2;
 		Enum               q_2;
-		bksge::size_t      r_2;
-		bksge::nullptr_t   s_2;
+		std::size_t      r_2;
+		std::nullptr_t   s_2;
 
 		IArchive ia(str);
 		

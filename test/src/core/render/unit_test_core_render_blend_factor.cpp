@@ -90,7 +90,7 @@ GTEST_TEST(Render_BlendFactor, SerializeTest)
 GTEST_TEST(Render_BlendFactor, HashTest)
 {
 	std::hash<bksge::BlendFactor> h;
-	std::vector<bksge::size_t> v;
+	std::vector<std::size_t> v;
 	v.push_back(h(bksge::BlendFactor::kZero));
 	v.push_back(h(bksge::BlendFactor::kOne));
 	v.push_back(h(bksge::BlendFactor::kSrcColor));

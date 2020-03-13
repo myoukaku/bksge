@@ -14,12 +14,12 @@
 #include <bksge/core/render/detail/pixels.hpp>
 #include <bksge/core/render/texture_format.hpp>
 #include <bksge/core/math/extent2.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 //#include <bksge/fnd/serialization/access.hpp>
 //#include <bksge/fnd/serialization/nvp.hpp>
 //#include <bksge/fnd/serialization/version.hpp>
 #include <bksge/fnd/cstdint/uint8_t.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <cstddef>
 #include <memory>
 #include <vector>
 #include <ostream>
@@ -55,14 +55,14 @@ public:
 	 *	dataの指す先のサイズやフォーマットが正しいかどうかは、呼び出す側が保証する必要があります。
 	 *	dataがnullptrのときは確保したメモリ領域を初期化しません。必要に応じてFill関数などを使用してください。
 	 */
-	Texture(TextureFormat format, ExtentType const& extent, bksge::size_t mipmap_count, bksge::uint8_t const* data);
+	Texture(TextureFormat format, ExtentType const& extent, std::size_t mipmap_count, bksge::uint8_t const* data);
 
 	/**
 	 *	@brief	コンストラクタ
 	 *
 	 *	Texture(format, extent, mipmap_count, nullptr)	と同じです
 	 */
-	Texture(TextureFormat format, ExtentType const& extent, bksge::size_t mipmap_count);
+	Texture(TextureFormat format, ExtentType const& extent, std::size_t mipmap_count);
 
 	/**
 	 *	@brief	コンストラクタ
@@ -101,17 +101,17 @@ public:
 	/**
 	 *	@brief	ミップマップの数を取得します
 	 */
-	bksge::size_t mipmap_count(void) const;
+	std::size_t mipmap_count(void) const;
 
 	/**
 	 *	@brief	画像データのバイト数を取得します
 	 */
-//	bksge::size_t bytes(void) const;
+//	std::size_t bytes(void) const;
 
 	/**
 	 *	@brief	画像データの１行のバイト数を取得します
 	 */
-	bksge::size_t stride(void) const;
+	std::size_t stride(void) const;
 
 	/**
 	 *	@brief	画像データへのポインタを取得します
@@ -126,7 +126,7 @@ public:
 private:
 	TextureFormat				m_format;       ///< フォーマット
 	ExtentType					m_extent;       ///< 幅と高さ
-	bksge::size_t				m_mipmap_count; ///< ミップマップの数。オリジナル画像を含みます。
+	std::size_t				m_mipmap_count; ///< ミップマップの数。オリジナル画像を含みます。
 	std::shared_ptr<Pixels>	m_pixels;       ///< 画像データ
 
 private:

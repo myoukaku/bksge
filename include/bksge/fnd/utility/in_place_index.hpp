@@ -9,8 +9,8 @@
 #ifndef BKSGE_FND_UTILITY_IN_PLACE_INDEX_HPP
 #define BKSGE_FND_UTILITY_IN_PLACE_INDEX_HPP
 
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 #if BKSGE_CXX_STANDARD >= 17
 
@@ -30,7 +30,7 @@ namespace bksge
 {
 
 // in_place_index_t
-template <bksge::size_t I>
+template <std::size_t I>
 struct in_place_index_t
 {
 	explicit in_place_index_t() = default;
@@ -38,7 +38,7 @@ struct in_place_index_t
 
 #if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
 
-template <bksge::size_t I>
+template <std::size_t I>
 BKSGE_STATIC_CONSTEXPR bksge::in_place_index_t<I> in_place_index{};
 
 #endif	// defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
@@ -63,7 +63,7 @@ struct is_in_place_index_impl
 	: public bksge::false_type
 {};
 
-template <bksge::size_t I>
+template <std::size_t I>
 struct is_in_place_index_impl<bksge::in_place_index_t<I>>
 	: public bksge::true_type
 {};

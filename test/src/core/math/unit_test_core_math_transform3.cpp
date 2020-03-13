@@ -401,7 +401,7 @@ TYPED_TEST(MathTransform3Test, HashTest)
 	Transform3 const t3({1,2,3},{1,1,0,1},{4,5,6});
 	Transform3 const t4({1,2,3},{1,0,0,1},{4,3,6});
 
-	std::vector<bksge::size_t> v;
+	std::vector<std::size_t> v;
 	v.push_back(h(t1));
 	v.push_back(h(t2));
 	v.push_back(h(t3));

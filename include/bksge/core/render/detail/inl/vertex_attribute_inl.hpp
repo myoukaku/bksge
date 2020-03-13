@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_DETAIL_INL_VERTEX_ATTRIBUTE_INL_HPP
 
 #include <bksge/core/render/detail/vertex_attribute.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -22,8 +22,8 @@ BKSGE_INLINE
 VertexAttribute::VertexAttribute(
 	Semantic semantic,
 	TypeEnum type,
-	bksge::size_t element_num,
-	bksge::size_t offset)
+	std::size_t element_num,
+	std::size_t offset)
 	: m_semantic(semantic)
 	, m_type(type)
 	, m_element_num(element_num)
@@ -42,19 +42,19 @@ VertexAttribute::type(void) const
 	return m_type;
 }
 
-BKSGE_INLINE bksge::size_t
+BKSGE_INLINE std::size_t
 VertexAttribute::element_num(void) const
 {
 	return m_element_num;
 }
 
-BKSGE_INLINE bksge::size_t
+BKSGE_INLINE std::size_t
 VertexAttribute::offset(void) const
 {
 	return m_offset;
 }
 
-BKSGE_INLINE bksge::size_t
+BKSGE_INLINE std::size_t
 VertexAttribute::bytes(void) const
 {
 	return element_num() * GetSizeOf(type());

@@ -13,8 +13,8 @@
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/buffer_object_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint8_t.hpp>
+#include <cstddef>
 #include <memory>
 
 namespace bksge
@@ -39,7 +39,7 @@ public:
 
 	bksge::uint8_t* GetMappedBuffer(void) const;
 
-	bksge::size_t Allocate(bksge::size_t size);
+	std::size_t Allocate(std::size_t size);
 
 	void BeginFrame(void);
 
@@ -51,8 +51,8 @@ private:
 private:
 	std::unique_ptr<vulkan::BufferObject>	m_buffer;
 	bksge::uint8_t*							m_mapped_buffer = nullptr;
-	bksge::size_t							m_offset = 0;
-	bksge::size_t							m_offset_alignment = 0;
+	std::size_t							m_offset = 0;
+	std::size_t							m_offset_alignment = 0;
 };
 
 }	// namespace vulkan

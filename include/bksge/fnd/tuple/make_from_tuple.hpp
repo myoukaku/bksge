@@ -26,8 +26,8 @@ using std::make_from_tuple;
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 #include <tuple>
 
 BKSGE_WARNING_PUSH()
@@ -41,7 +41,7 @@ namespace bksge
 namespace detail
 {
 
-template <typename T, typename Tuple, bksge::size_t... Indices>
+template <typename T, typename Tuple, std::size_t... Indices>
 inline BKSGE_CXX14_CONSTEXPR T
 make_from_tuple_impl(Tuple&& t, bksge::index_sequence<Indices...>)
 BKSGE_NOEXCEPT_RETURN(

@@ -9,7 +9,7 @@
 #ifndef BKSGE_CORE_MATH_FWD_MATRIX_FWD_HPP
 #define BKSGE_CORE_MATH_FWD_MATRIX_FWD_HPP
 
-#include <bksge/fnd/cstddef/size_t.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -17,7 +17,7 @@ namespace bksge
 namespace math
 {
 
-template <typename T, bksge::size_t N, bksge::size_t M>
+template <typename T, std::size_t N, std::size_t M>
 class Matrix;
 
 }	// namespace math

@@ -11,7 +11,7 @@
 
 #include <bksge/core/math/detail/vector_base.hpp>
 #include <bksge/core/math/detail/def_helper_macros.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -22,7 +22,7 @@ namespace math
 namespace detail
 {
 
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 class VectorWHD;
 
 template <typename T>

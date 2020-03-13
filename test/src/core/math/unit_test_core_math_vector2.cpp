@@ -937,7 +937,7 @@ TYPED_TEST(MathVector2Test, HashTest)
 	Vector2 const c3( 1,-2);
 	Vector2 const c4( 2, 1);
 
-	std::vector<bksge::size_t> v;
+	std::vector<std::size_t> v;
 	v.push_back(h(c1));
 	v.push_back(h(c2));
 	v.push_back(h(c3));

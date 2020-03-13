@@ -15,8 +15,8 @@
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_arithmetic.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 #include <tuple>
 
 namespace bksge
@@ -25,7 +25,7 @@ namespace bksge
 namespace math
 {
 
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 class Extent
 	: public detail::VectorWHD<T, N>
 {
@@ -67,42 +67,42 @@ public:
 /**
  *	@brief	unary operator+
  */
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 BKSGE_CONSTEXPR Extent<T, N>
 operator+(Extent<T, N> const& v) BKSGE_NOEXCEPT;
 
 /**
  *	@brief	unary operator-
  */
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 BKSGE_CONSTEXPR Extent<T, N>
 operator-(Extent<T, N> const& v) BKSGE_NOEXCEPT;
 
 /**
  *	@brief	Extent += Extent
  */
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 BKSGE_CXX14_CONSTEXPR Extent<T, N>&
 operator+=(Extent<T, N>& lhs, Extent<T, N> const& rhs) BKSGE_NOEXCEPT;
 
 /**
  *	@brief	Extent + Extent -> Extent
  */
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 BKSGE_CONSTEXPR Extent<T, N>
 operator+(Extent<T, N> const& lhs, Extent<T, N> const& rhs) BKSGE_NOEXCEPT;
 
 /**
  *	@brief	Extent -= Extent
  */
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 BKSGE_CXX14_CONSTEXPR Extent<T, N>&
 operator-=(Extent<T, N>& lhs, Extent<T, N> const& rhs) BKSGE_NOEXCEPT;
 
 /**
  *	@brief	Extent - Extent -> Extent
  */
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 BKSGE_CONSTEXPR Extent<T, N>
 operator-(Extent<T, N> const& lhs, Extent<T, N> const& rhs) BKSGE_NOEXCEPT;
 
@@ -110,7 +110,7 @@ operator-(Extent<T, N> const& lhs, Extent<T, N> const& rhs) BKSGE_NOEXCEPT;
  *	@brief	Extent *= scalar
  */
 template <
-	typename T, bksge::size_t N,
+	typename T, std::size_t N,
 	typename ArithmeticType,
 	typename = bksge::enable_if_t<
 		bksge::is_arithmetic<ArithmeticType>::value
@@ -122,7 +122,7 @@ operator*=(Extent<T, N>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
 /**
  *	@brief	Extent *= Scale
  */
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 BKSGE_CXX14_CONSTEXPR Extent<T, N>&
 operator*=(Extent<T, N>& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT;
 
@@ -130,7 +130,7 @@ operator*=(Extent<T, N>& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT;
  *	@brief	Extent * scalar
  */
 template <
-	typename T, bksge::size_t N,
+	typename T, std::size_t N,
 	typename ArithmeticType,
 	typename = bksge::enable_if_t<
 		bksge::is_arithmetic<ArithmeticType>::value
@@ -143,7 +143,7 @@ operator*(Extent<T, N> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
  *	@brief	scalar * Extent
  */
 template <
-	typename T, bksge::size_t N,
+	typename T, std::size_t N,
 	typename ArithmeticType,
 	typename = bksge::enable_if_t<
 		bksge::is_arithmetic<ArithmeticType>::value
@@ -155,7 +155,7 @@ operator*(ArithmeticType lhs, Extent<T, N> const& rhs) BKSGE_NOEXCEPT;
 /**
  *	@brief	Extent * Scale -> Extent
  */
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 BKSGE_CONSTEXPR Extent<T, N> const
 operator*(Extent<T, N> const& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT;
 
@@ -163,7 +163,7 @@ operator*(Extent<T, N> const& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT;
  *	@brief	Extent /= scalar
  */
 template <
-	typename T, bksge::size_t N,
+	typename T, std::size_t N,
 	typename ArithmeticType,
 	typename = bksge::enable_if_t<
 		bksge::is_arithmetic<ArithmeticType>::value
@@ -176,7 +176,7 @@ operator/=(Extent<T, N>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
  *	@brief	Extent / scalar
  */
 template <
-	typename T, bksge::size_t N,
+	typename T, std::size_t N,
 	typename ArithmeticType,
 	typename = bksge::enable_if_t<
 		bksge::is_arithmetic<ArithmeticType>::value
@@ -199,15 +199,15 @@ namespace std
 /**
  *	@brief	tuple_size
  */
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 struct tuple_size<bksge::math::Extent<T, N>>
-	: public bksge::integral_constant<bksge::size_t, N>
+	: public bksge::integral_constant<std::size_t, N>
 {};
 
 /**
  *	@brief	tuple_element
  */
-template <bksge::size_t I, typename T, bksge::size_t N>
+template <std::size_t I, typename T, std::size_t N>
 struct tuple_element<I, bksge::math::Extent<T, N>>
 {
 	static_assert(I < N, "Extent index out of bounds");
@@ -217,10 +217,10 @@ struct tuple_element<I, bksge::math::Extent<T, N>>
 /**
  *	@brief	hash
  */
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 struct hash<bksge::math::Extent<T, N>>
 {
-	bksge::size_t operator()(bksge::math::Extent<T, N> const& arg) const
+	std::size_t operator()(bksge::math::Extent<T, N> const& arg) const
 	{
 		return bksge::hash_combine(arg.as_array());
 	}

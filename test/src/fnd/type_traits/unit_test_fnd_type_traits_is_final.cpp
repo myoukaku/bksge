@@ -7,9 +7,8 @@
  */
 
 #include <bksge/fnd/type_traits/is_final.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
-#include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
@@ -38,7 +37,7 @@ GTEST_TEST(TypeTraitsTest, IsFinalTest)
 	BKSGE_IS_FINAL_TEST(false, unsigned short);
 	BKSGE_IS_FINAL_TEST(false, unsigned long);
 	BKSGE_IS_FINAL_TEST(false, unsigned long long);
-	BKSGE_IS_FINAL_TEST(false, bksge::size_t);
+	BKSGE_IS_FINAL_TEST(false, std::size_t);
 	BKSGE_IS_FINAL_TEST(false, float);
 	BKSGE_IS_FINAL_TEST(false, double);
 	BKSGE_IS_FINAL_TEST(false, long double);
@@ -47,7 +46,7 @@ GTEST_TEST(TypeTraitsTest, IsFinalTest)
 	BKSGE_IS_FINAL_TEST(false,       volatile void);
 	BKSGE_IS_FINAL_TEST(false, const volatile void);
 	BKSGE_IS_FINAL_TEST(false, void*);
-	BKSGE_IS_FINAL_TEST(false, bksge::nullptr_t);
+	BKSGE_IS_FINAL_TEST(false, std::nullptr_t);
 	BKSGE_IS_FINAL_TEST(false, decltype(nullptr));
 	BKSGE_IS_FINAL_TEST(false, enum_UDT);
 	BKSGE_IS_FINAL_TEST(false, enum_uint32_t_UDT);

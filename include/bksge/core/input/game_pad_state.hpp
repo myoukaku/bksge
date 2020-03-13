@@ -10,8 +10,8 @@
 #define BKSGE_CORE_INPUT_GAME_PAD_STATE_HPP
 
 #include <bksge/core/math/vector2.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 #include <array>
 #include <bitset>
 
@@ -27,9 +27,9 @@ namespace input
 class GamePadState
 {
 public:
-	BKSGE_STATIC_CONSTEXPR bksge::size_t kButtonMax		= 32;
-	BKSGE_STATIC_CONSTEXPR bksge::size_t kAnalogButtonMax	=  2;
-	BKSGE_STATIC_CONSTEXPR bksge::size_t kAnalogStickMax	=  2;
+	BKSGE_STATIC_CONSTEXPR std::size_t kButtonMax		= 32;
+	BKSGE_STATIC_CONSTEXPR std::size_t kAnalogButtonMax	=  2;
+	BKSGE_STATIC_CONSTEXPR std::size_t kAnalogStickMax	=  2;
 
 	using Buttons		= std::bitset<kButtonMax>;
 	using AnalogButtons	= std::array<float, kAnalogButtonMax>;
@@ -42,42 +42,42 @@ public:
 	 *
 	 *	@param	button	取得するボタン
 	 */
-	bool pressed(bksge::size_t button) const;
+	bool pressed(std::size_t button) const;
 
 	/**
 	 *	@brief	ボタンの押下状態への参照を取得(非const)
 	 *
 	 *	@param	button	取得するボタン
 	 */
-	Buttons::reference pressed(bksge::size_t button);
+	Buttons::reference pressed(std::size_t button);
 
 	/**
 	 *	@brief	アナログボタンの押下状態を取得(const)
 	 *
 	 *	@param	button	取得するボタン
 	 */
-	AnalogButtons::const_reference analog_button(bksge::size_t button) const;
+	AnalogButtons::const_reference analog_button(std::size_t button) const;
 
 	/**
 	 *	@brief	アナログボタンの押下状態への参照を取得(非const)
 	 *
 	 *	@param	button	取得するボタン
 	 */
-	AnalogButtons::reference analog_button(bksge::size_t button);
+	AnalogButtons::reference analog_button(std::size_t button);
 
 	/**
 	 *	@brief	アナログスティックの値を取得(const)
 	 *
 	 *	@param	button	取得するボタン
 	 */
-	AnalogSticks::const_reference analog_stick(bksge::size_t stick) const;
+	AnalogSticks::const_reference analog_stick(std::size_t stick) const;
 
 	/**
 	 *	@brief	アナログスティックの値への参照を取得(非const)
 	 *
 	 *	@param	button	取得するボタン
 	 */
-	AnalogSticks::reference analog_stick(bksge::size_t stick);
+	AnalogSticks::reference analog_stick(std::size_t stick);
 
 private:
 	Buttons				m_buttons;			///< デジタルボタンデータ

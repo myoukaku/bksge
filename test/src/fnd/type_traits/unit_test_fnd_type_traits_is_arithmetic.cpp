@@ -7,8 +7,7 @@
  */
 
 #include <bksge/fnd/type_traits/is_arithmetic.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
-#include <bksge/fnd/cstddef/nullptr_t.hpp>
+#include <cstddef>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
@@ -53,12 +52,12 @@ GTEST_TEST(TypeTraitsTest, IsArithmeticTest)
 	BKSGE_IS_ARITHMETIC_TEST(true, unsigned short);
 	BKSGE_IS_ARITHMETIC_TEST(true, unsigned long);
 	BKSGE_IS_ARITHMETIC_TEST(true, unsigned long long);
-	BKSGE_IS_ARITHMETIC_TEST(true, bksge::size_t);
+	BKSGE_IS_ARITHMETIC_TEST(true, std::size_t);
 	BKSGE_IS_ARITHMETIC_TEST(true, float);
 	BKSGE_IS_ARITHMETIC_TEST(true, double);
 	BKSGE_IS_ARITHMETIC_TEST(true, long double);
 	BKSGE_IS_ARITHMETIC_TEST(false, void*);
-	BKSGE_IS_ARITHMETIC_TEST(false, bksge::nullptr_t);
+	BKSGE_IS_ARITHMETIC_TEST(false, std::nullptr_t);
 	BKSGE_IS_ARITHMETIC_TEST(false, decltype(nullptr));
 	BKSGE_IS_ARITHMETIC_TEST(false, enum_UDT);
 	BKSGE_IS_ARITHMETIC_TEST(false, enum_uint32_t_UDT);

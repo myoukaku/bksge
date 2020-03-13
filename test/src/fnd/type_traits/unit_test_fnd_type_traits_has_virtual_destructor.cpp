@@ -7,8 +7,7 @@
  */
 
 #include <bksge/fnd/type_traits/has_virtual_destructor.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
-#include <bksge/fnd/cstddef/nullptr_t.hpp>
+#include <cstddef>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
@@ -70,12 +69,12 @@ GTEST_TEST(TypeTraitsTest, HasVirtualDestructorTest)
 	BKSGE_HAS_VIRTUAL_DESTRUCTOR_TEST(false, unsigned short);
 	BKSGE_HAS_VIRTUAL_DESTRUCTOR_TEST(false, unsigned long);
 	BKSGE_HAS_VIRTUAL_DESTRUCTOR_TEST(false, unsigned long long);
-	BKSGE_HAS_VIRTUAL_DESTRUCTOR_TEST(false, bksge::size_t);
+	BKSGE_HAS_VIRTUAL_DESTRUCTOR_TEST(false, std::size_t);
 	BKSGE_HAS_VIRTUAL_DESTRUCTOR_TEST(false, float);
 	BKSGE_HAS_VIRTUAL_DESTRUCTOR_TEST(false, double);
 	BKSGE_HAS_VIRTUAL_DESTRUCTOR_TEST(false, long double);
 	BKSGE_HAS_VIRTUAL_DESTRUCTOR_TEST(false, void*);
-	BKSGE_HAS_VIRTUAL_DESTRUCTOR_TEST(false, bksge::nullptr_t);
+	BKSGE_HAS_VIRTUAL_DESTRUCTOR_TEST(false, std::nullptr_t);
 	BKSGE_HAS_VIRTUAL_DESTRUCTOR_TEST(false, decltype(nullptr));
 	BKSGE_HAS_VIRTUAL_DESTRUCTOR_TEST(false, enum_UDT);
 	BKSGE_HAS_VIRTUAL_DESTRUCTOR_TEST(false, enum_uint32_t_UDT);

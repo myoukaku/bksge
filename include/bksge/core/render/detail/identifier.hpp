@@ -59,7 +59,7 @@ bool operator< (Identifier const& lhs, Identifier const& rhs);
 
 }	// namespace bksge
 
-#include <bksge/fnd/cstddef/size_t.hpp>
+#include <cstddef>
 #include <functional>
 
 namespace std
@@ -68,7 +68,7 @@ namespace std
 template<>
 struct hash<bksge::render::Identifier>
 {
-	bksge::size_t operator()(bksge::render::Identifier const& arg) const
+	std::size_t operator()(bksge::render::Identifier const& arg) const
 	{
 		using type = bksge::render::Identifier::ValueType;
 		return std::hash<type>{}(arg.value());

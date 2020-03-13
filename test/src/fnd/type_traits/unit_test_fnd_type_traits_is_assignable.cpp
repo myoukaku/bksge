@@ -7,7 +7,7 @@
  */
 
 #include <bksge/fnd/type_traits/is_assignable.hpp>
-#include <bksge/fnd/cstddef/nullptr_t.hpp>
+#include <cstddef>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
@@ -143,7 +143,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1, bool);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1, enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1, void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, S1, bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, S1, std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST_1(true,  S1&, S1);
 	BKSGE_IS_ASSIGNABLE_TEST_1(true,  S1&, S1&);
 	BKSGE_IS_ASSIGNABLE_TEST_1(true,  S1&, S1&&);
@@ -162,7 +162,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1&, bool);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1&, enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1&, void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, S1&, bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, S1&, std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST_1(true,  S1&&, S1);
 	BKSGE_IS_ASSIGNABLE_TEST_1(true,  S1&&, S1&);
 	BKSGE_IS_ASSIGNABLE_TEST_1(true,  S1&&, S1&&);
@@ -181,7 +181,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1&&, bool);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1&&, enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1&&, void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, S1&&, bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, S1&&, std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1[2], S1);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1[2], S1&);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1[2], S1&&);
@@ -200,7 +200,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1[2], bool);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1[2], enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1[2], void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, S1[2], bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, S1[2], std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1[], S1);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1[], S1&);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1[], S1&&);
@@ -219,7 +219,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1[], bool);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1[], enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1[], void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, S1[], bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, S1[], std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(&)[2], S1);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(&)[2], S1&);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(&)[2], S1&&);
@@ -238,7 +238,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(&)[2], bool);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(&)[2], enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(&)[2], void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(&)[2], bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(&)[2], std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(&)[], S1);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(&)[], S1&);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(&)[], S1&&);
@@ -257,7 +257,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(&)[], bool);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(&)[], enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(&)[], void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(&)[], bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(&)[], std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(&&)[2], S1);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(&&)[2], S1&);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(&&)[2], S1&&);
@@ -276,7 +276,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(&&)[2], bool);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(&&)[2], enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(&&)[2], void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(&&)[2], bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(&&)[2], std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(&&)[], S1);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(&&)[], S1&);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(&&)[], S1&&);
@@ -295,7 +295,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(&&)[], bool);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(&&)[], enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(&&)[], void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(&&)[], bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(&&)[], std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(*)[2], S1);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(*)[2], S1&);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(*)[2], S1&&);
@@ -314,7 +314,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(*)[2], bool);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(*)[2], enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(*)[2], void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(*)[2], bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(*)[2], std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(*)[], S1);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(*)[], S1&);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(*)[], S1&&);
@@ -333,7 +333,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(*)[], bool);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(*)[], enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(*)[], void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(*)[], bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, S1(*)[], std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1*, S1);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1*, S1&);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1*, S1&&);
@@ -352,7 +352,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1*, bool*);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1*, enum_class_UDT*);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S1*, void*);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, S1*, bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, S1*, std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST    (false, S1*&, S1);
 	BKSGE_IS_ASSIGNABLE_TEST    (false, S1*&, S1&);
 	BKSGE_IS_ASSIGNABLE_TEST    (false, S1*&, S1&&);
@@ -371,7 +371,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST    (false, S1*&, bool*);
 	BKSGE_IS_ASSIGNABLE_TEST    (false, S1*&, enum_class_UDT*);
 	BKSGE_IS_ASSIGNABLE_TEST    (false, S1*&, void*);
-	BKSGE_IS_ASSIGNABLE_TEST_0  (true,  S1*&, bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST_0  (true,  S1*&, std::nullptr_t);
 
 	BKSGE_IS_ASSIGNABLE_TEST_1(true,  S2, S2);
 	BKSGE_IS_ASSIGNABLE_TEST_1(true,  S2, S2&);
@@ -391,7 +391,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST_3(true,  S2, bool);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S2, enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S2, void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, S2, bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, S2, std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST_1(true,  S2&, S2);
 	BKSGE_IS_ASSIGNABLE_TEST_1(true,  S2&, S2&);
 	BKSGE_IS_ASSIGNABLE_TEST_1(true,  S2&, S2&&);
@@ -410,7 +410,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST_3(true,  S2&, bool);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S2&, enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S2&, void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, S2&, bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, S2&, std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST_1(true,  S2&&, S2);
 	BKSGE_IS_ASSIGNABLE_TEST_1(true,  S2&&, S2&);
 	BKSGE_IS_ASSIGNABLE_TEST_1(true,  S2&&, S2&&);
@@ -429,7 +429,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST_3(true,  S2&&, bool);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S2&&, enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S2&&, void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, S2&&, bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, S2&&, std::nullptr_t);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2[2], S2);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2[2], S2&);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2[2], S2&&);
@@ -448,7 +448,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2[2], bool);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2[2], enum_class_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2[2], void);
-//	BKSGE_IS_ASSIGNABLE_TEST  (false, S2[2], bksge::nullptr_t);
+//	BKSGE_IS_ASSIGNABLE_TEST  (false, S2[2], std::nullptr_t);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2[], S2);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2[], S2&);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2[], S2&&);
@@ -467,7 +467,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2[], bool);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2[], enum_class_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2[], void);
-//	BKSGE_IS_ASSIGNABLE_TEST  (false, S2[], bksge::nullptr_t);
+//	BKSGE_IS_ASSIGNABLE_TEST  (false, S2[], std::nullptr_t);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(&)[2], S2);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(&)[2], S2&);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(&)[2], S2&&);
@@ -486,7 +486,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(&)[2], bool);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(&)[2], enum_class_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(&)[2], void);
-//	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(&)[2], bksge::nullptr_t);
+//	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(&)[2], std::nullptr_t);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(&)[], S2);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(&)[], S2&);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(&)[], S2&&);
@@ -505,7 +505,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(&)[], bool);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(&)[], enum_class_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(&)[], void);
-//	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(&)[], bksge::nullptr_t);
+//	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(&)[], std::nullptr_t);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(&&)[2], S2);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(&&)[2], S2&);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(&&)[2], S2&&);
@@ -524,7 +524,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(&&)[2], bool);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(&&)[2], enum_class_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(&&)[2], void);
-//	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(&&)[2], bksge::nullptr_t);
+//	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(&&)[2], std::nullptr_t);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(&&)[], S2);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(&&)[], S2&);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(&&)[], S2&&);
@@ -543,7 +543,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(&&)[], bool);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(&&)[], enum_class_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(&&)[], void);
-//	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(&&)[], bksge::nullptr_t);
+//	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(&&)[], std::nullptr_t);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(*)[2], S2);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(*)[2], S2&);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(*)[2], S2&&);
@@ -562,7 +562,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(*)[2], bool);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(*)[2], enum_class_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(*)[2], void);
-//	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(*)[2], bksge::nullptr_t);
+//	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(*)[2], std::nullptr_t);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(*)[], S2);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(*)[], S2&);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(*)[], S2&&);
@@ -581,7 +581,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(*)[], bool);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(*)[], enum_class_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(*)[], void);
-//	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(*)[], bksge::nullptr_t);
+//	BKSGE_IS_ASSIGNABLE_TEST  (false, S2(*)[], std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S2*, S2);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S2*, S2&);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S2*, S2&&);
@@ -600,7 +600,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S2*, bool*);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S2*, enum_class_UDT*);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, S2*, void*);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, S2*, bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, S2*, std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST    (false, S2*&, S2);
 	BKSGE_IS_ASSIGNABLE_TEST    (false, S2*&, S2&);
 	BKSGE_IS_ASSIGNABLE_TEST    (false, S2*&, S2&&);
@@ -619,7 +619,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST    (false, S2*&, bool*);
 	BKSGE_IS_ASSIGNABLE_TEST    (false, S2*&, enum_class_UDT*);
 	BKSGE_IS_ASSIGNABLE_TEST    (false, S2*&, void*);
-	BKSGE_IS_ASSIGNABLE_TEST_0  (true,  S2*&, bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST_0  (true,  S2*&, std::nullptr_t);
 
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int, int);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int, int&);
@@ -638,7 +638,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int, enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int, enum_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int, void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, int, bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, int, std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST_2(true,  int&, int);				//
 	BKSGE_IS_ASSIGNABLE_TEST_2(true,  int&, int&);				//
 	BKSGE_IS_ASSIGNABLE_TEST_2(true,  int&, int&&);				//
@@ -656,7 +656,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST_2(false, int&, enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST_2(true,  int&, enum_UDT);			//
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int&, void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, int&, bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, int&, std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int&&, int);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int&&, int&);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int&&, int&&);
@@ -674,7 +674,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int&&, enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int&&, enum_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int&&, void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, int&&, bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, int&&, std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int[2], int);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int[2], int&);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int[2], int&&);
@@ -692,7 +692,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int[2], enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int[2], enum_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int[2], void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, int[2], bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, int[2], std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int[], int);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int[], int&);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int[], int&&);
@@ -710,7 +710,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int[], enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int[], enum_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int[], void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, int[], bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, int[], std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(&)[2], int);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(&)[2], int&);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(&)[2], int&&);
@@ -728,7 +728,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(&)[2], enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(&)[2], enum_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(&)[2], void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, int(&)[2], bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, int(&)[2], std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(&)[], int);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(&)[], int&);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(&)[], int&&);
@@ -746,7 +746,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(&)[], enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(&)[], enum_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(&)[], void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, int(&)[], bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, int(&)[], std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(&&)[2], int);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(&&)[2], int&);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(&&)[2], int&&);
@@ -764,7 +764,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(&&)[2], enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(&&)[2], enum_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(&&)[2], void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, int(&&)[2], bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, int(&&)[2], std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(&&)[], int);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(&&)[], int&);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(&&)[], int&&);
@@ -782,7 +782,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(&&)[], enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(&&)[], enum_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(&&)[], void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, int(&&)[], bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, int(&&)[], std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(*)[2], int);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(*)[2], int&);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(*)[2], int&&);
@@ -800,7 +800,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(*)[2], enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(*)[2], enum_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(*)[2], void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, int(*)[2], bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, int(*)[2], std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(*)[], int);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(*)[], int&);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(*)[], int&&);
@@ -818,7 +818,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(*)[], enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(*)[], enum_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int(*)[], void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, int(*)[], bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, int(*)[], std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int*, int);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int*, int&);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int*, int&&);
@@ -837,7 +837,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int*, enum_UDT*);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int*, void);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, int*, void*);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, int*, bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, int*, std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST    (false, int*&, int);
 	BKSGE_IS_ASSIGNABLE_TEST    (false, int*&, int&);
 	BKSGE_IS_ASSIGNABLE_TEST    (false, int*&, int&&);
@@ -856,7 +856,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST    (false, int*&, enum_UDT*);
 	BKSGE_IS_ASSIGNABLE_TEST    (false, int*&, void);
 	BKSGE_IS_ASSIGNABLE_TEST    (false, int*&, void*);
-	BKSGE_IS_ASSIGNABLE_TEST_0  (true,  int*&, bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST_0  (true,  int*&, std::nullptr_t);
 
 	BKSGE_IS_ASSIGNABLE_TEST_2(false, float, float);				//
 	BKSGE_IS_ASSIGNABLE_TEST_2(false, float, float&);				//
@@ -875,7 +875,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST_2(false, float, enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST_2(false, float, enum_UDT);				//
 	BKSGE_IS_ASSIGNABLE_TEST  (false, float, void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, float, bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, float, std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST_2(true,  float&, float);				//
 	BKSGE_IS_ASSIGNABLE_TEST_2(true,  float&, float&);				//
 	BKSGE_IS_ASSIGNABLE_TEST_2(true,  float&, float&&);				//
@@ -893,7 +893,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST_2(false, float&, enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST_2(true,  float&, enum_UDT);			//
 	BKSGE_IS_ASSIGNABLE_TEST  (false, float&, void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, float&, bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, float&, std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST_2(false, float&&, float);				//
 	BKSGE_IS_ASSIGNABLE_TEST_2(false, float&&, float&);				//
 	BKSGE_IS_ASSIGNABLE_TEST_2(false, float&&, float&&);			//
@@ -911,7 +911,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST  (false, float&&, enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST_2(false, float&&, enum_UDT);			//
 	BKSGE_IS_ASSIGNABLE_TEST  (false, float&&, void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, float&&, bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, float&&, std::nullptr_t);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float[2], float);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float[2], float&);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float[2], float&&);
@@ -929,7 +929,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float[2], enum_class_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float[2], enum_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float[2], void);
-//	BKSGE_IS_ASSIGNABLE_TEST  (false, float[2], bksge::nullptr_t);
+//	BKSGE_IS_ASSIGNABLE_TEST  (false, float[2], std::nullptr_t);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float[], float);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float[], float&);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float[], float&&);
@@ -947,7 +947,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float[], enum_class_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float[], enum_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float[], void);
-//	BKSGE_IS_ASSIGNABLE_TEST  (false, float[], bksge::nullptr_t);
+//	BKSGE_IS_ASSIGNABLE_TEST  (false, float[], std::nullptr_t);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(&)[2], float);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(&)[2], float&);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(&)[2], float&&);
@@ -965,7 +965,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(&)[2], enum_class_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(&)[2], enum_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(&)[2], void);
-//	BKSGE_IS_ASSIGNABLE_TEST  (false, float(&)[2], bksge::nullptr_t);
+//	BKSGE_IS_ASSIGNABLE_TEST  (false, float(&)[2], std::nullptr_t);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(&)[], float);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(&)[], float&);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(&)[], float&&);
@@ -983,7 +983,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(&)[], enum_class_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(&)[], enum_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(&)[], void);
-//	BKSGE_IS_ASSIGNABLE_TEST  (false, float(&)[], bksge::nullptr_t);
+//	BKSGE_IS_ASSIGNABLE_TEST  (false, float(&)[], std::nullptr_t);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(&&)[2], float);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(&&)[2], float&);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(&&)[2], float&&);
@@ -1001,7 +1001,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(&&)[2], enum_class_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(&&)[2], enum_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(&&)[2], void);
-//	BKSGE_IS_ASSIGNABLE_TEST  (false, float(&&)[2], bksge::nullptr_t);
+//	BKSGE_IS_ASSIGNABLE_TEST  (false, float(&&)[2], std::nullptr_t);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(&&)[], float);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(&&)[], float&);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(&&)[], float&&);
@@ -1019,7 +1019,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(&&)[], enum_class_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(&&)[], enum_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(&&)[], void);
-//	BKSGE_IS_ASSIGNABLE_TEST  (false, float(&&)[], bksge::nullptr_t);
+//	BKSGE_IS_ASSIGNABLE_TEST  (false, float(&&)[], std::nullptr_t);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(*)[2], float);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(*)[2], float&);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(*)[2], float&&);
@@ -1037,7 +1037,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(*)[2], enum_class_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(*)[2], enum_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(*)[2], void);
-//	BKSGE_IS_ASSIGNABLE_TEST  (false, float(*)[2], bksge::nullptr_t);
+//	BKSGE_IS_ASSIGNABLE_TEST  (false, float(*)[2], std::nullptr_t);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(*)[], float);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(*)[], float&);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(*)[], float&&);
@@ -1055,7 +1055,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(*)[], enum_class_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(*)[], enum_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, float(*)[], void);
-//	BKSGE_IS_ASSIGNABLE_TEST  (false, float(*)[], bksge::nullptr_t);
+//	BKSGE_IS_ASSIGNABLE_TEST  (false, float(*)[], std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, float*, float);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, float*, float&);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, float*, float&&);
@@ -1074,7 +1074,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST  (false, float*, enum_UDT*);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, float*, void);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, float*, void*);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, float*, bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, float*, std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST    (false, float*&, float);
 	BKSGE_IS_ASSIGNABLE_TEST    (false, float*&, float&);
 	BKSGE_IS_ASSIGNABLE_TEST    (false, float*&, float&&);
@@ -1093,7 +1093,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST    (false, float*&, enum_UDT*);
 	BKSGE_IS_ASSIGNABLE_TEST    (false, float*&, void);
 	BKSGE_IS_ASSIGNABLE_TEST    (false, float*&, void*);
-	BKSGE_IS_ASSIGNABLE_TEST_0  (true,  float*&, bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST_0  (true,  float*&, std::nullptr_t);
 
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT, enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT, enum_class_UDT&);
@@ -1112,7 +1112,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT, int);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT, enum_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT, void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT, bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT, std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST_2(true,  enum_class_UDT&, enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST_2(true,  enum_class_UDT&, enum_class_UDT&);
 	BKSGE_IS_ASSIGNABLE_TEST_2(true,  enum_class_UDT&, enum_class_UDT&&);
@@ -1130,7 +1130,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT&, int);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT&, enum_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT&, void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT&, bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT&, std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT&&, enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT&&, enum_class_UDT&);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT&&, enum_class_UDT&&);
@@ -1148,7 +1148,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT&&, int);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT&&, enum_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT&&, void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT&&, bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT&&, std::nullptr_t);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT[2], enum_class_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT[2], enum_class_UDT&);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT[2], enum_class_UDT&&);
@@ -1166,7 +1166,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT[2], int);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT[2], enum_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT[2], void);
-//	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT[2], bksge::nullptr_t);
+//	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT[2], std::nullptr_t);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT[], enum_class_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT[], enum_class_UDT&);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT[], enum_class_UDT&&);
@@ -1184,7 +1184,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT[], int);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT[], enum_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT[], void);
-//	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT[], bksge::nullptr_t);
+//	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT[], std::nullptr_t);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(&)[2], enum_class_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(&)[2], enum_class_UDT&);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(&)[2], enum_class_UDT&&);
@@ -1202,7 +1202,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(&)[2], int);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(&)[2], enum_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(&)[2], void);
-//	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(&)[2], bksge::nullptr_t);
+//	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(&)[2], std::nullptr_t);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(&)[], enum_class_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(&)[], enum_class_UDT&);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(&)[], enum_class_UDT&&);
@@ -1220,7 +1220,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(&)[], int);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(&)[], enum_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(&)[], void);
-//	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(&)[], bksge::nullptr_t);
+//	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(&)[], std::nullptr_t);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(&&)[2], enum_class_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(&&)[2], enum_class_UDT&);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(&&)[2], enum_class_UDT&&);
@@ -1238,7 +1238,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(&&)[2], int);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(&&)[2], enum_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(&&)[2], void);
-//	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(&&)[2], bksge::nullptr_t);
+//	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(&&)[2], std::nullptr_t);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(&&)[], enum_class_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(&&)[], enum_class_UDT&);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(&&)[], enum_class_UDT&&);
@@ -1256,7 +1256,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(&&)[], enum_class_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(&&)[], enum_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(&&)[], void);
-//	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(&&)[], bksge::nullptr_t);
+//	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(&&)[], std::nullptr_t);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(*)[2], enum_class_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(*)[2], enum_class_UDT&);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(*)[2], enum_class_UDT&&);
@@ -1274,7 +1274,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(*)[2], int);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(*)[2], enum_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(*)[2], void);
-//	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(*)[2], bksge::nullptr_t);
+//	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(*)[2], std::nullptr_t);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(*)[], enum_class_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(*)[], enum_class_UDT&);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(*)[], enum_class_UDT&&);
@@ -1292,7 +1292,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(*)[], int);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(*)[], enum_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(*)[], void);
-//	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(*)[], bksge::nullptr_t);
+//	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT(*)[], std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT*, enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT*, enum_class_UDT&);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT*, enum_class_UDT&&);
@@ -1311,7 +1311,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT*, enum_UDT*);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT*, void);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT*, void*);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT*, bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_class_UDT*, std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST    (false, enum_class_UDT*&, enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST    (false, enum_class_UDT*&, enum_class_UDT&);
 	BKSGE_IS_ASSIGNABLE_TEST    (false, enum_class_UDT*&, enum_class_UDT&&);
@@ -1330,7 +1330,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST    (false, enum_class_UDT*&, enum_UDT*);
 	BKSGE_IS_ASSIGNABLE_TEST    (false, enum_class_UDT*&, void);
 	BKSGE_IS_ASSIGNABLE_TEST    (false, enum_class_UDT*&, void*);
-	BKSGE_IS_ASSIGNABLE_TEST_0  (true,  enum_class_UDT*&, bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST_0  (true,  enum_class_UDT*&, std::nullptr_t);
 
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT, enum_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT, enum_UDT&);
@@ -1349,7 +1349,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT, int);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT, enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT, void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT, bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT, std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST_2(true,  enum_UDT&, enum_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST_2(true,  enum_UDT&, enum_UDT&);
 	BKSGE_IS_ASSIGNABLE_TEST_2(true,  enum_UDT&, enum_UDT&&);
@@ -1367,7 +1367,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT&, int);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT&, enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT&, void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT&, bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT&, std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT&&, enum_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT&&, enum_UDT&);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT&&, enum_UDT&&);
@@ -1385,7 +1385,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT&&, int);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT&&, enum_class_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT&&, void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT&&, bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT&&, std::nullptr_t);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT[2], enum_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT[2], enum_UDT&);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT[2], enum_UDT&&);
@@ -1403,7 +1403,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT[2], int);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT[2], enum_class_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT[2], void);
-//	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT[2], bksge::nullptr_t);
+//	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT[2], std::nullptr_t);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT[], enum_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT[], enum_UDT&);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT[], enum_UDT&&);
@@ -1421,7 +1421,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT[], int);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT[], enum_class_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT[], void);
-//	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT[], bksge::nullptr_t);
+//	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT[], std::nullptr_t);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(&)[2], enum_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(&)[2], enum_UDT&);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(&)[2], enum_UDT&&);
@@ -1439,7 +1439,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(&)[2], int);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(&)[2], enum_class_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(&)[2], void);
-//	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(&)[2], bksge::nullptr_t);
+//	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(&)[2], std::nullptr_t);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(&)[], enum_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(&)[], enum_UDT&);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(&)[], enum_UDT&&);
@@ -1457,7 +1457,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(&)[], int);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(&)[], enum_class_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(&)[], void);
-//	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(&)[], bksge::nullptr_t);
+//	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(&)[], std::nullptr_t);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(&&)[2], enum_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(&&)[2], enum_UDT&);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(&&)[2], enum_UDT&&);
@@ -1475,7 +1475,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(&&)[2], int);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(&&)[2], enum_class_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(&&)[2], void);
-//	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(&&)[2], bksge::nullptr_t);
+//	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(&&)[2], std::nullptr_t);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(&&)[], enum_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(&&)[], enum_UDT&);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(&&)[], enum_UDT&&);
@@ -1492,7 +1492,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(&&)[], bool);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(&&)[], enum_class_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(&&)[], void);
-//	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(&&)[], bksge::nullptr_t);
+//	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(&&)[], std::nullptr_t);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(*)[2], enum_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(*)[2], enum_UDT&);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(*)[2], enum_UDT&&);
@@ -1510,7 +1510,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(*)[2], int);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(*)[2], enum_class_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(*)[2], void);
-//	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(*)[2], bksge::nullptr_t);
+//	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(*)[2], std::nullptr_t);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(*)[], enum_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(*)[], enum_UDT&);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(*)[], enum_UDT&&);
@@ -1528,7 +1528,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(*)[], int);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(*)[], enum_class_UDT);
 //	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(*)[], void);
-//	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(*)[], bksge::nullptr_t);
+//	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT(*)[], std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT*, enum_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT*, enum_UDT&);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT*, enum_UDT&&);
@@ -1547,7 +1547,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT*, enum_class_UDT*);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT*, void);
 	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT*, void*);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT*, bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, enum_UDT*, std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST    (false, enum_UDT*&, enum_UDT);
 	BKSGE_IS_ASSIGNABLE_TEST    (false, enum_UDT*&, enum_UDT&);
 	BKSGE_IS_ASSIGNABLE_TEST    (false, enum_UDT*&, enum_UDT&&);
@@ -1566,7 +1566,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST    (false, enum_UDT*&, enum_class_UDT*);
 	BKSGE_IS_ASSIGNABLE_TEST    (false, enum_UDT*&, void);
 	BKSGE_IS_ASSIGNABLE_TEST    (false, enum_UDT*&, void*);
-	BKSGE_IS_ASSIGNABLE_TEST_0  (true,  enum_UDT*&, bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST_0  (true,  enum_UDT*&, std::nullptr_t);
 
 	BKSGE_IS_ASSIGNABLE_TEST(false, void*, int);
 	BKSGE_IS_ASSIGNABLE_TEST(false, void*, int&);
@@ -1586,7 +1586,7 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST(false, void*, enum_UDT*);
 	BKSGE_IS_ASSIGNABLE_TEST(false, void*, void);
 	BKSGE_IS_ASSIGNABLE_TEST(false, void*, void*);
-	BKSGE_IS_ASSIGNABLE_TEST(false, void*, bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST(false, void*, std::nullptr_t);
 	BKSGE_IS_ASSIGNABLE_TEST    (false, void*&, int);
 	BKSGE_IS_ASSIGNABLE_TEST    (false, void*&, int&);
 	BKSGE_IS_ASSIGNABLE_TEST    (false, void*&, int&&);
@@ -1605,49 +1605,49 @@ GTEST_TEST(TypeTraitsTest, IsAssignableTest)
 	BKSGE_IS_ASSIGNABLE_TEST_PTR(true,  void*&, enum_UDT*);
 	BKSGE_IS_ASSIGNABLE_TEST_PTR(false, void*&, void);
 	BKSGE_IS_ASSIGNABLE_TEST_PTR(true,  void*&, void*);
-	BKSGE_IS_ASSIGNABLE_TEST_0  (true,  void*&, bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST_0  (true,  void*&, std::nullptr_t);
 
 	BKSGE_IS_ASSIGNABLE_TEST(false, void, void);
 	BKSGE_IS_ASSIGNABLE_TEST(false, void, int);
 	BKSGE_IS_ASSIGNABLE_TEST(false, void, void*);
-	BKSGE_IS_ASSIGNABLE_TEST(false, void, bksge::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST(false, void, std::nullptr_t);
 
-	BKSGE_IS_ASSIGNABLE_TEST  (false, bksge::nullptr_t, bksge::nullptr_t);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, bksge::nullptr_t, bksge::nullptr_t&);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, bksge::nullptr_t, bksge::nullptr_t&&);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, bksge::nullptr_t, bksge::nullptr_t*);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, bksge::nullptr_t, bksge::nullptr_t[2]);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, bksge::nullptr_t, bksge::nullptr_t[]);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, bksge::nullptr_t, bksge::nullptr_t(&)[2]);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, bksge::nullptr_t, bksge::nullptr_t(&)[]);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, bksge::nullptr_t, bksge::nullptr_t(&&)[2]);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, bksge::nullptr_t, bksge::nullptr_t(&&)[]);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, bksge::nullptr_t, bksge::nullptr_t(*)[2]);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, bksge::nullptr_t, bksge::nullptr_t(*)[]);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, bksge::nullptr_t, float*);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, bksge::nullptr_t, bool*);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, bksge::nullptr_t, enum_class_UDT*);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, bksge::nullptr_t, enum_UDT*);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, bksge::nullptr_t, void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, bksge::nullptr_t, void*);
-	BKSGE_IS_ASSIGNABLE_TEST_2(true,  bksge::nullptr_t&, bksge::nullptr_t);
-	BKSGE_IS_ASSIGNABLE_TEST_2(true,  bksge::nullptr_t&, bksge::nullptr_t&);
-	BKSGE_IS_ASSIGNABLE_TEST_2(true,  bksge::nullptr_t&, bksge::nullptr_t&&);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, bksge::nullptr_t&, bksge::nullptr_t*);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, bksge::nullptr_t&, bksge::nullptr_t[2]);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, bksge::nullptr_t&, bksge::nullptr_t[]);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, bksge::nullptr_t&, bksge::nullptr_t(&)[2]);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, bksge::nullptr_t&, bksge::nullptr_t(&)[]);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, bksge::nullptr_t&, bksge::nullptr_t(&&)[2]);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, bksge::nullptr_t&, bksge::nullptr_t(&&)[]);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, bksge::nullptr_t&, bksge::nullptr_t(*)[2]);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, bksge::nullptr_t&, bksge::nullptr_t(*)[]);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, bksge::nullptr_t&, float*);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, bksge::nullptr_t&, bool*);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, bksge::nullptr_t&, enum_class_UDT*);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, bksge::nullptr_t&, enum_UDT*);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, bksge::nullptr_t&, void);
-	BKSGE_IS_ASSIGNABLE_TEST  (false, bksge::nullptr_t&, void*);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, std::nullptr_t, std::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, std::nullptr_t, std::nullptr_t&);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, std::nullptr_t, std::nullptr_t&&);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, std::nullptr_t, std::nullptr_t*);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, std::nullptr_t, std::nullptr_t[2]);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, std::nullptr_t, std::nullptr_t[]);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, std::nullptr_t, std::nullptr_t(&)[2]);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, std::nullptr_t, std::nullptr_t(&)[]);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, std::nullptr_t, std::nullptr_t(&&)[2]);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, std::nullptr_t, std::nullptr_t(&&)[]);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, std::nullptr_t, std::nullptr_t(*)[2]);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, std::nullptr_t, std::nullptr_t(*)[]);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, std::nullptr_t, float*);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, std::nullptr_t, bool*);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, std::nullptr_t, enum_class_UDT*);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, std::nullptr_t, enum_UDT*);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, std::nullptr_t, void);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, std::nullptr_t, void*);
+	BKSGE_IS_ASSIGNABLE_TEST_2(true,  std::nullptr_t&, std::nullptr_t);
+	BKSGE_IS_ASSIGNABLE_TEST_2(true,  std::nullptr_t&, std::nullptr_t&);
+	BKSGE_IS_ASSIGNABLE_TEST_2(true,  std::nullptr_t&, std::nullptr_t&&);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, std::nullptr_t&, std::nullptr_t*);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, std::nullptr_t&, std::nullptr_t[2]);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, std::nullptr_t&, std::nullptr_t[]);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, std::nullptr_t&, std::nullptr_t(&)[2]);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, std::nullptr_t&, std::nullptr_t(&)[]);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, std::nullptr_t&, std::nullptr_t(&&)[2]);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, std::nullptr_t&, std::nullptr_t(&&)[]);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, std::nullptr_t&, std::nullptr_t(*)[2]);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, std::nullptr_t&, std::nullptr_t(*)[]);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, std::nullptr_t&, float*);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, std::nullptr_t&, bool*);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, std::nullptr_t&, enum_class_UDT*);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, std::nullptr_t&, enum_UDT*);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, std::nullptr_t&, void);
+	BKSGE_IS_ASSIGNABLE_TEST  (false, std::nullptr_t&, void*);
 }
 
 }	// namespace is_assignable_test

@@ -14,7 +14,7 @@
 
 #include <bksge/core/input/win32/win32_input_manager_impl.hpp>
 #include <bksge/core/input/win32/win32_direct_input.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
+#include <cstddef>
 #include <memory>
 
 #if defined(_MSC_VER)
@@ -64,7 +64,7 @@ void Win32InputManagerImpl<Device>::Update(void)
 }
 
 template <typename Device> inline
-auto Win32InputManagerImpl<Device>::GetState(bksge::size_t index) const
+auto Win32InputManagerImpl<Device>::GetState(std::size_t index) const
 -> State const&
 {
 	if (index >= m_device_list.size())

@@ -10,8 +10,6 @@
 #define BKSGE_CORE_MATH_DETAIL_VECTOR_BASE_HPP
 
 #include <bksge/core/math/detail/vector_value.hpp>
-#include <bksge/fnd/cstddef/ptrdiff_t.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/serialization/access.hpp>
 #include <bksge/fnd/serialization/nvp.hpp>
 #include <bksge/fnd/serialization/version.hpp>
@@ -23,6 +21,7 @@
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/iterator/reverse_iterator.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 #include <iosfwd>		// basic_ostream
 #include <tuple>
 
@@ -35,7 +34,7 @@ namespace math
 namespace detail
 {
 
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 class VectorBase
 {
 #if defined(_MSC_VER)
@@ -66,8 +65,8 @@ private:
 
 public:
 	using value_type             = T;
-	using size_type              = bksge::size_t;
-	using difference_type        = bksge::ptrdiff_t;
+	using size_type              = std::size_t;
+	using difference_type        = std::ptrdiff_t;
 	using reference              = T&;
 	using const_reference        = T const&;
 	using pointer                = T*;
@@ -103,7 +102,7 @@ public:
 		BKSGE_NOEXCEPT_OR_NOTHROW;
 
 private:
-	template <typename U, bksge::size_t... Is>
+	template <typename U, std::size_t... Is>
 	explicit BKSGE_CONSTEXPR
 	VectorBase(
 		VectorValue<U, N> const& a,
@@ -199,7 +198,7 @@ private:
 /**
  *	@brief	swap
  */
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 BKSGE_CXX14_CONSTEXPR void
 swap(VectorBase<T, N>& lhs, VectorBase<T, N>& rhs)
 BKSGE_NOEXCEPT_IF_EXPR(lhs.swap(rhs));
@@ -207,12 +206,12 @@ BKSGE_NOEXCEPT_IF_EXPR(lhs.swap(rhs));
 /**
  *	@brief	operator==
  */
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 BKSGE_CONSTEXPR bool
 operator==(VectorBase<T, N> const& lhs, VectorBase<T, N> const& rhs)
 BKSGE_NOEXCEPT_OR_NOTHROW;
 
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 BKSGE_CONSTEXPR bool
 operator==(VectorBase<T, N> const& lhs, VectorValue<T, N> const& rhs)
 BKSGE_NOEXCEPT_OR_NOTHROW;
@@ -220,12 +219,12 @@ BKSGE_NOEXCEPT_OR_NOTHROW;
 /**
  *	@brief	operator!=
  */
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 BKSGE_CONSTEXPR bool
 operator!=(VectorBase<T, N> const& lhs, VectorBase<T, N> const& rhs)
 BKSGE_NOEXCEPT_OR_NOTHROW;
 
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 BKSGE_CONSTEXPR bool
 operator!=(VectorBase<T, N> const& lhs, VectorValue<T, N> const& rhs)
 BKSGE_NOEXCEPT_OR_NOTHROW;
@@ -233,7 +232,7 @@ BKSGE_NOEXCEPT_OR_NOTHROW;
 /**
  *	@brief	ストリームへの出力
  */
-template <typename CharT, typename Traits, typename T, bksge::size_t N>
+template <typename CharT, typename Traits, typename T, std::size_t N>
 std::basic_ostream<CharT, Traits>&
 operator<<(
 	std::basic_ostream<CharT, Traits>& os,
@@ -243,19 +242,19 @@ operator<<(
 
 }	// namespace math
 
-template <bksge::size_t I, typename T, bksge::size_t N>
+template <std::size_t I, typename T, std::size_t N>
 BKSGE_NODISCARD BKSGE_CXX14_CONSTEXPR T&
 get(bksge::math::detail::VectorBase<T, N>& v) BKSGE_NOEXCEPT;
 
-template <bksge::size_t I, typename T, bksge::size_t N>
+template <std::size_t I, typename T, std::size_t N>
 BKSGE_NODISCARD BKSGE_CONSTEXPR T const&
 get(bksge::math::detail::VectorBase<T, N> const& v) BKSGE_NOEXCEPT;
 
-template <bksge::size_t I, typename T, bksge::size_t N>
+template <std::size_t I, typename T, std::size_t N>
 BKSGE_NODISCARD BKSGE_CXX14_CONSTEXPR T&&
 get(bksge::math::detail::VectorBase<T, N>&& v) BKSGE_NOEXCEPT;
 
-template <bksge::size_t I, typename T, bksge::size_t N>
+template <std::size_t I, typename T, std::size_t N>
 BKSGE_NODISCARD BKSGE_CONSTEXPR T const&&
 get(bksge::math::detail::VectorBase<T, N> const&& v) BKSGE_NOEXCEPT;
 
@@ -267,15 +266,15 @@ namespace std
 /**
  *	@brief	tuple_size
  */
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 struct tuple_size<bksge::math::detail::VectorBase<T, N>>
-	: public bksge::integral_constant<bksge::size_t, N>
+	: public bksge::integral_constant<std::size_t, N>
 {};
 
 /**
  *	@brief	tuple_element
  */
-template <bksge::size_t I, typename T, bksge::size_t N>
+template <std::size_t I, typename T, std::size_t N>
 struct tuple_element<I, bksge::math::detail::VectorBase<T, N>>
 {
 	static_assert(I < N, "VectorBase index out of bounds");

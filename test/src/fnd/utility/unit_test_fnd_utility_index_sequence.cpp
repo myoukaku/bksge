@@ -7,7 +7,7 @@
  */
 
 #include <bksge/fnd/utility/index_sequence.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
+#include <cstddef>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -21,18 +21,18 @@ void IndexSequenceTestSub()
 {
 }
 
-void IndexSequenceTestSub(bksge::size_t a)
+void IndexSequenceTestSub(std::size_t a)
 {
 	EXPECT_EQ(20u, a);
 }
 
 void IndexSequenceTestSub(
-	bksge::size_t a,
-	bksge::size_t b,
-	bksge::size_t c,
-	bksge::size_t d,
-	bksge::size_t e,
-	bksge::size_t f)
+	std::size_t a,
+	std::size_t b,
+	std::size_t c,
+	std::size_t d,
+	std::size_t e,
+	std::size_t f)
 {
 	EXPECT_EQ(1u, a);
 	EXPECT_EQ(1u, b);
@@ -42,7 +42,7 @@ void IndexSequenceTestSub(
 	EXPECT_EQ(8u, f);
 }
 
-template <bksge::size_t ... Seq>
+template <std::size_t ... Seq>
 void IndexSequenceTest(bksge::index_sequence<Seq ...>)
 {
 	IndexSequenceTestSub(Seq...);

@@ -7,8 +7,7 @@
  */
 
 #include <bksge/fnd/type_traits/is_floating_point.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
-#include <bksge/fnd/cstddef/nullptr_t.hpp>
+#include <cstddef>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
@@ -57,9 +56,9 @@ GTEST_TEST(TypeTraitsTest, IsFloatingPointTest)
 	BKSGE_IS_FLOATING_POINT_TEST(false, unsigned short);
 	BKSGE_IS_FLOATING_POINT_TEST(false, unsigned long);
 	BKSGE_IS_FLOATING_POINT_TEST(false, unsigned long long);
-	BKSGE_IS_FLOATING_POINT_TEST(false, bksge::size_t);
+	BKSGE_IS_FLOATING_POINT_TEST(false, std::size_t);
 	BKSGE_IS_FLOATING_POINT_TEST(false, void*);
-	BKSGE_IS_FLOATING_POINT_TEST(false, bksge::nullptr_t);
+	BKSGE_IS_FLOATING_POINT_TEST(false, std::nullptr_t);
 	BKSGE_IS_FLOATING_POINT_TEST(false, decltype(nullptr));
 	BKSGE_IS_FLOATING_POINT_TEST(false, enum_UDT);
 	BKSGE_IS_FLOATING_POINT_TEST(false, enum_uint32_t_UDT);

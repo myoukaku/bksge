@@ -18,7 +18,6 @@
 #include <bksge/core/render/detail/identifiable.hpp>
 #include <bksge/core/render/detail/vertex_array.hpp>
 #include <bksge/core/render/detail/index_array.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 //#include <bksge/fnd/serialization/access.hpp>
 //#include <bksge/fnd/serialization/nvp.hpp>
 //#include <bksge/fnd/serialization/shared_ptr.hpp>
@@ -26,6 +25,7 @@
 #include <bksge/fnd/iterator/type_traits/iterator_value_type.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <cstddef>
 #include <memory>
 
 namespace bksge
@@ -104,12 +104,12 @@ public:
 	VertexLayout const& vertex_layout(void) const;
 
 	void const*   vertex_array_data(void) const;
-	bksge::size_t vertex_array_bytes(void) const;
-	bksge::size_t vertex_array_count(void) const;
+	std::size_t vertex_array_bytes(void) const;
+	std::size_t vertex_array_count(void) const;
 
 	void const*   index_array_data(void) const;
-	bksge::size_t index_array_bytes(void) const;
-	bksge::size_t index_array_count(void) const;
+	std::size_t index_array_bytes(void) const;
+	std::size_t index_array_count(void) const;
 	TypeEnum index_array_type(void) const;
 
 private:

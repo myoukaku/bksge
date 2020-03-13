@@ -145,7 +145,7 @@ GTEST_TEST(Render_DepthState, HashTest)
 	s3.SetWrite(true);
 	s4.SetFunc(bksge::ComparisonFunction::kGreater);
 
-	std::vector<bksge::size_t> v;
+	std::vector<std::size_t> v;
 	v.push_back(h(s1));
 	v.push_back(h(s2));
 	v.push_back(h(s3));

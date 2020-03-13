@@ -7,7 +7,7 @@
  */
 
 #include <bksge/fnd/type_traits/is_pointer.hpp>
-#include <bksge/fnd/cstddef/nullptr_t.hpp>
+#include <cstddef>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
@@ -96,7 +96,7 @@ GTEST_TEST(TypeTraitsTest, IsPointerTest)
 	BKSGE_IS_POINTER_TEST_IMPL(true,        volatile void*);
 	BKSGE_IS_POINTER_TEST_IMPL(true,  const volatile void*);
 
-	BKSGE_IS_POINTER_TEST_IMPL(false, bksge::nullptr_t);
+	BKSGE_IS_POINTER_TEST_IMPL(false, std::nullptr_t);
 	BKSGE_IS_POINTER_TEST_IMPL(false, decltype(nullptr));
 	BKSGE_IS_POINTER_TEST_IMPL(true,  f1);
 	BKSGE_IS_POINTER_TEST_IMPL(true,  f2);

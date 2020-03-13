@@ -16,9 +16,9 @@
 #include <bksge/core/render/gl/detail/pixel_format.hpp>
 #include <bksge/core/render/texture.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint8_t.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -44,7 +44,7 @@ Texture::Texture(
 	bksge::TextureFormat texture_format,
 	bksge::uint32_t width,
 	bksge::uint32_t height,
-	bksge::size_t mipmap_count,
+	std::size_t mipmap_count,
 	bksge::uint8_t const* data)
 {
 	::glGenTextures(1, &m_name);
@@ -55,7 +55,7 @@ Texture::Texture(
 	::GLenum  const  format = ToGlPixelFormat(texture_format);
 	::GLenum  const  type = ToGlPixelType(texture_format);
 
-	for (bksge::size_t level = 0; level < mipmap_count; ++level)
+	for (std::size_t level = 0; level < mipmap_count; ++level)
 	{
 		::glTexImage2D(
 			GL_TEXTURE_2D,

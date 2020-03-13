@@ -127,7 +127,7 @@ GTEST_TEST(Render_Semantic, HashTest)
 {
 	std::hash<bksge::Semantic> h;
 
-	std::vector<bksge::size_t> v;
+	std::vector<std::size_t> v;
 	v.push_back(h(bksge::Semantic::kPosition));
 	v.push_back(h(bksge::Semantic::kNormal));
 	v.push_back(h(bksge::Semantic::kColor));

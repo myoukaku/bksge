@@ -16,8 +16,8 @@
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_arithmetic.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 #include <tuple>
 
 namespace bksge
@@ -412,13 +412,13 @@ namespace std
  */
 template <typename T>
 struct tuple_size<bksge::math::Quaternion<T>>
-	: public bksge::integral_constant<bksge::size_t, 4>
+	: public bksge::integral_constant<std::size_t, 4>
 {};
 
 /**
  *	@brief	tuple_element
  */
-template <bksge::size_t I, typename T>
+template <std::size_t I, typename T>
 struct tuple_element<I, bksge::math::Quaternion<T>>
 {
 	static_assert(I < 4, "Quaternion index out of bounds");
@@ -431,7 +431,7 @@ struct tuple_element<I, bksge::math::Quaternion<T>>
 template <typename T>
 struct hash<bksge::math::Quaternion<T>>
 {
-	bksge::size_t operator()(bksge::math::Quaternion<T> const& arg) const
+	std::size_t operator()(bksge::math::Quaternion<T> const& arg) const
 	{
 		return bksge::hash_combine(arg.as_array());
 	}

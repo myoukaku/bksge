@@ -9,7 +9,7 @@
 #ifndef BKSGE_FND_TUPLE_TUPLE_ELEMENT_HPP
 #define BKSGE_FND_TUPLE_TUPLE_ELEMENT_HPP
 
-#include <bksge/fnd/cstddef/size_t.hpp>
+#include <cstddef>
 #include <tuple>
 
 namespace bksge
@@ -17,7 +17,7 @@ namespace bksge
 
 using std::tuple_element;
 
-template <bksge::size_t I, typename T>
+template <std::size_t I, typename T>
 using tuple_element_t = typename tuple_element<I, T>::type;
 
 }	// namespace bksge

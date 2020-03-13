@@ -11,7 +11,7 @@
 
 #include <bksge/core/render/detail/index_array.hpp>
 #include <bksge/core/render/detail/type_enum.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -54,7 +54,7 @@ inline auto IndexArray<T>::count(void) const -> size_type
 }
 
 template <typename T>
-inline T const& IndexArray<T>::operator[](bksge::size_t i) const
+inline T const& IndexArray<T>::operator[](std::size_t i) const
 {
 	return m_value[i];
 }

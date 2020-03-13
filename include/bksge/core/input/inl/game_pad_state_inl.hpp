@@ -10,7 +10,7 @@
 #define BKSGE_CORE_INPUT_INL_GAME_PAD_STATE_INL_HPP
 
 #include <bksge/core/input/game_pad_state.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -31,42 +31,42 @@ GamePadState::GamePadState(void)
 }
 
 BKSGE_INLINE auto
-GamePadState::pressed(bksge::size_t button) const
+GamePadState::pressed(std::size_t button) const
 -> bool
 {
 	return m_buttons[button];
 }
 
 BKSGE_INLINE auto
-GamePadState::pressed(bksge::size_t button)
+GamePadState::pressed(std::size_t button)
 -> Buttons::reference
 {
 	return m_buttons[button];
 }
 
 BKSGE_INLINE auto
-GamePadState::analog_button(bksge::size_t button) const
+GamePadState::analog_button(std::size_t button) const
 -> AnalogButtons::const_reference
 {
 	return m_analog_buttons[button];
 }
 
 BKSGE_INLINE auto
-GamePadState::analog_button(bksge::size_t button)
+GamePadState::analog_button(std::size_t button)
 -> AnalogButtons::reference
 {
 	return m_analog_buttons[button];
 }
 
 BKSGE_INLINE auto
-GamePadState::analog_stick(bksge::size_t stick) const
+GamePadState::analog_stick(std::size_t stick) const
 -> AnalogSticks::const_reference
 {
 	return m_analog_sticks[stick];
 }
 
 BKSGE_INLINE auto
-GamePadState::analog_stick(bksge::size_t stick)
+GamePadState::analog_stick(std::size_t stick)
 -> AnalogSticks::reference
 {
 	return m_analog_sticks[stick];

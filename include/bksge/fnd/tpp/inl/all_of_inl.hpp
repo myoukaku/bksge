@@ -12,8 +12,8 @@
 #include <bksge/fnd/tpp/all_of.hpp>
 #include <bksge/fnd/tpp/detail/type_tuple.hpp>
 #include <bksge/fnd/utility/forward.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -24,7 +24,7 @@ namespace tpp
 namespace detail
 {
 
-template <bksge::size_t First, bksge::size_t Last, bool = (Last - First == 1)>
+template <std::size_t First, std::size_t Last, bool = (Last - First == 1)>
 struct all_of_impl
 {
 	template <typename Tuple>
@@ -34,7 +34,7 @@ struct all_of_impl
 	}
 };
 
-template <bksge::size_t First, bksge::size_t Last>
+template <std::size_t First, std::size_t Last>
 struct all_of_impl<First, Last, false>
 {
 	template <typename Tuple>

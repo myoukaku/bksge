@@ -10,7 +10,7 @@
 #define BKSGE_CORE_INPUT_NULL_NULL_GAME_PAD_MANAGER_HPP
 
 #include <bksge/core/input/detail/game_pad_manager_base.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -34,7 +34,7 @@ private:
 	{
 	}
 
-	GamePadState const& VGetState(bksge::size_t /*index*/) const override
+	GamePadState const& VGetState(std::size_t /*index*/) const override
 	{
 		static GamePadState const s;
 		return s;

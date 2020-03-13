@@ -10,7 +10,7 @@
 #define BKSGE_CORE_INPUT_NULL_NULL_MOUSE_MANAGER_HPP
 
 #include <bksge/core/input/detail/mouse_manager_base.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -34,7 +34,7 @@ private:
 	{
 	}
 
-	MouseState const& VGetState(bksge::size_t /*index*/) const override
+	MouseState const& VGetState(std::size_t /*index*/) const override
 	{
 		static MouseState const s;
 		return s;

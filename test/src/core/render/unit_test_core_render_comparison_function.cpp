@@ -72,7 +72,7 @@ GTEST_TEST(Render_ComparisonFunction, SerializeTest)
 GTEST_TEST(Render_ComparisonFunction, HashTest)
 {
 	std::hash<bksge::ComparisonFunction> h;
-	std::vector<bksge::size_t> v;
+	std::vector<std::size_t> v;
 	v.push_back(h(bksge::ComparisonFunction::kNever));
 	v.push_back(h(bksge::ComparisonFunction::kLess));
 	v.push_back(h(bksge::ComparisonFunction::kEqual));

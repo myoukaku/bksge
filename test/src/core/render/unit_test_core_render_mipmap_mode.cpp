@@ -62,7 +62,7 @@ GTEST_TEST(Render_MipmapMode, SerializeTest)
 GTEST_TEST(Render_MipmapMode, HashTest)
 {
 	std::hash<bksge::MipmapMode> h;
-	std::vector<bksge::size_t> v;
+	std::vector<std::size_t> v;
 	v.push_back(h(bksge::MipmapMode::kDisable));
 	v.push_back(h(bksge::MipmapMode::kNearest));
 	v.push_back(h(bksge::MipmapMode::kLinear));

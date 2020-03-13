@@ -11,8 +11,8 @@
 
 #include <bksge/fnd/bit/ceil2.hpp>
 #include <bksge/fnd/bit/bitsof.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -40,7 +40,7 @@ namespace detail
 //
 //	これを任意のビット数に拡張しています。
 
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 struct ceil2_impl2
 {
 	static BKSGE_CONSTEXPR T invoke(T x) BKSGE_NOEXCEPT

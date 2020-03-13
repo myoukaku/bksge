@@ -7,8 +7,7 @@
  */
 
 #include <bksge/fnd/type_traits/is_abstract.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
-#include <bksge/fnd/cstddef/nullptr_t.hpp>
+#include <cstddef>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
@@ -62,12 +61,12 @@ GTEST_TEST(TypeTraitsTest, IsAbstractTest)
 	BKSGE_IS_ABSTRACT_TEST(false, unsigned short);
 	BKSGE_IS_ABSTRACT_TEST(false, unsigned long);
 	BKSGE_IS_ABSTRACT_TEST(false, unsigned long long);
-	BKSGE_IS_ABSTRACT_TEST(false, bksge::size_t);
+	BKSGE_IS_ABSTRACT_TEST(false, std::size_t);
 	BKSGE_IS_ABSTRACT_TEST(false, float);
 	BKSGE_IS_ABSTRACT_TEST(false, double);
 	BKSGE_IS_ABSTRACT_TEST(false, long double);
 	BKSGE_IS_ABSTRACT_TEST(false, void*);
-	BKSGE_IS_ABSTRACT_TEST(false, bksge::nullptr_t);
+	BKSGE_IS_ABSTRACT_TEST(false, std::nullptr_t);
 	BKSGE_IS_ABSTRACT_TEST(false, decltype(nullptr));
 	BKSGE_IS_ABSTRACT_TEST(false, enum_UDT);
 	BKSGE_IS_ABSTRACT_TEST(false, enum_uint32_t_UDT);

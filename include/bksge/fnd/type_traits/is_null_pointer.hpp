@@ -31,7 +31,7 @@ struct is_null_pointer
 
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/type_traits/remove_cv.hpp>
-#include <bksge/fnd/cstddef/nullptr_t.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -47,7 +47,7 @@ namespace bksge
 template <typename T>
 struct is_null_pointer
 	: public bksge::is_same<
-		bksge::remove_cv_t<T>, bksge::nullptr_t
+		bksge::remove_cv_t<T>, std::nullptr_t
 	>
 {};
 

@@ -7,7 +7,7 @@
  */
 
 #include <bksge/fnd/type_traits/is_function.hpp>
-#include <bksge/fnd/cstddef/nullptr_t.hpp>
+#include <cstddef>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
@@ -121,7 +121,7 @@ GTEST_TEST(TypeTraitsTest, IsFunctionTest)
 	BKSGE_IS_FUNCTION_TEST(false, char);
 	BKSGE_IS_FUNCTION_TEST(false, float);
 	BKSGE_IS_FUNCTION_TEST(false, void*);
-	BKSGE_IS_FUNCTION_TEST(false, bksge::nullptr_t);
+	BKSGE_IS_FUNCTION_TEST(false, std::nullptr_t);
 	BKSGE_IS_FUNCTION_TEST(false, decltype(nullptr));
 	BKSGE_IS_FUNCTION_TEST(false, enum_UDT);
 	BKSGE_IS_FUNCTION_TEST(false, enum_class_UDT);

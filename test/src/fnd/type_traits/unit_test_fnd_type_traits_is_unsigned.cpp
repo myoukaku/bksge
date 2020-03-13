@@ -7,11 +7,10 @@
  */
 
 #include <bksge/fnd/type_traits/is_unsigned.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
-#include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <bksge/fnd/cstdint.hpp>	// WCHAR_MIN
-#include <gtest/gtest.h>
+#include <cstddef>
 #include <climits>	// CHAR_MIN
+#include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
 #define BKSGE_IS_UNSIGNED_TEST(b, T)	\
@@ -59,13 +58,13 @@ GTEST_TEST(TypeTraitsTest, IsUnsignedTest)
 	BKSGE_IS_UNSIGNED_TEST(true, unsigned short);
 	BKSGE_IS_UNSIGNED_TEST(true, unsigned long);
 	BKSGE_IS_UNSIGNED_TEST(true, unsigned long long);
-	BKSGE_IS_UNSIGNED_TEST(true, bksge::size_t);
+	BKSGE_IS_UNSIGNED_TEST(true, std::size_t);
 	BKSGE_IS_UNSIGNED_TEST(false, float);
 	BKSGE_IS_UNSIGNED_TEST(false, double);
 	BKSGE_IS_UNSIGNED_TEST(false, long double);
 	BKSGE_IS_UNSIGNED_TEST(false, void);
 	BKSGE_IS_UNSIGNED_TEST(false, void*);
-	BKSGE_IS_UNSIGNED_TEST(false, bksge::nullptr_t);
+	BKSGE_IS_UNSIGNED_TEST(false, std::nullptr_t);
 	BKSGE_IS_UNSIGNED_TEST(false, decltype(nullptr));
 	BKSGE_IS_UNSIGNED_TEST(false, enum_UDT);
 	BKSGE_IS_UNSIGNED_TEST(false, enum_uint32_t_UDT);

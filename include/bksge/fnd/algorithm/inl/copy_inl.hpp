@@ -11,7 +11,6 @@
 
 #include <bksge/fnd/algorithm/copy.hpp>
 #include <bksge/fnd/algorithm/min.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/iterator/unwrap_iterator.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/remove_const.hpp>
@@ -19,6 +18,7 @@
 #include <bksge/fnd/type_traits/is_trivially_copy_assignable.hpp>
 #include <bksge/fnd/cstring/memmove.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -50,7 +50,7 @@ bksge::enable_if_t<
 >
 copy(T* first, T* last, U* result)
 {
-	auto const n = static_cast<bksge::size_t>(last - first);
+	auto const n = static_cast<std::size_t>(last - first);
 
 	if (n > 0)
 	{
@@ -86,8 +86,8 @@ bksge::enable_if_t<
 copy(T* first, T* last, U* result_first, U* result_last)
 {
 	auto const n = bksge::min(
-		static_cast<bksge::size_t>(last - first),
-		static_cast<bksge::size_t>(result_last - result_first));
+		static_cast<std::size_t>(last - first),
+		static_cast<std::size_t>(result_last - result_first));
 
 	if (n > 0)
 	{

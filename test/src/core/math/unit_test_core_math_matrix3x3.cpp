@@ -1972,7 +1972,7 @@ TYPED_TEST(MathMatrix3x3Test, HashTest)
 	Matrix3x3 const m09{Vector3{1,2,3},Vector3{4,5,6},Vector3{7,7,9}};
 	Matrix3x3 const m10{Vector3{1,2,3},Vector3{4,5,6},Vector3{7,8,1}};
 
-	std::vector<bksge::size_t> v;
+	std::vector<std::size_t> v;
 	v.push_back(h(m01));
 	v.push_back(h(m02));
 	v.push_back(h(m03));

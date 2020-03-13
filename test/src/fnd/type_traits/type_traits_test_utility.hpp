@@ -9,13 +9,11 @@
 #ifndef UNIT_TEST_FND_TYPE_TRAITS_TYPE_TRAITS_TEST_UTILITY_HPP
 #define UNIT_TEST_FND_TYPE_TRAITS_TYPE_TRAITS_TEST_UTILITY_HPP
 
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <gtest/gtest.h>
+#include <cstddef>
 
 namespace
 {
@@ -403,7 +401,7 @@ void IntegralConstantTest()
 	BKSGE_TRANSFORM_TEST_SUB(unsigned int, name, from, to);	\
 	BKSGE_TRANSFORM_TEST_SUB(long, name, from, to);	\
 	BKSGE_TRANSFORM_TEST_SUB(unsigned long, name, from, to);	\
-	BKSGE_TRANSFORM_TEST_SUB(bksge::size_t, name, from, to);	\
+	BKSGE_TRANSFORM_TEST_SUB(std::size_t, name, from, to);	\
 	BKSGE_TRANSFORM_TEST_SUB(float, name, from, to);	\
 	BKSGE_TRANSFORM_TEST_SUB(double, name, from, to);	\
 	BKSGE_TRANSFORM_TEST_SUB(long double, name, from, to);	\

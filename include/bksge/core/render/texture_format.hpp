@@ -10,8 +10,8 @@
 #define BKSGE_CORE_RENDER_TEXTURE_FORMAT_HPP
 
 #include <bksge/core/render/fwd/texture_format_fwd.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <cstddef>
 #include <ostream>
 #include <string>
 
@@ -196,12 +196,12 @@ PixelBaseFormat GetPixelBaseFormat(TextureFormat format);
 /**
  *	@brief	TextureFormatからチャンネル数を得る
  */
-bksge::size_t GetChannelCount(TextureFormat format);
+std::size_t GetChannelCount(TextureFormat format);
 
 /**
  *	@brief	TextureFormatから1チャンネルあたりのビット数を得る
  */
-bksge::size_t GetBitsPerChannel(TextureFormat format);
+std::size_t GetBitsPerChannel(TextureFormat format);
 
 /**
  *	@brief	TextureFormatからDXT圧縮されているかどうかを得る
@@ -211,7 +211,7 @@ bool IsDxtCompressed(TextureFormat format);
 /**
  *	@brief	TextureFormatから1ピクセルあたりのビット数を得る
  */
-bksge::size_t GetBitsPerPixel(TextureFormat format);
+std::size_t GetBitsPerPixel(TextureFormat format);
 
 /**
  *	@brief	画像のバイト数を得る
@@ -222,7 +222,7 @@ bksge::size_t GetBitsPerPixel(TextureFormat format);
  *
  *	@return	format,width,heightに設定された画像のバイト数
  */
-bksge::size_t GetSizeInBytes(TextureFormat format, bksge::uint32_t width, bksge::uint32_t height);
+std::size_t GetSizeInBytes(TextureFormat format, bksge::uint32_t width, bksge::uint32_t height);
 
 /**
  *	@brief	画像の１行のバイト数を得る
@@ -232,7 +232,7 @@ bksge::size_t GetSizeInBytes(TextureFormat format, bksge::uint32_t width, bksge:
  *
  *	@return	format,widthに設定された画像の１行のバイト数
  */
-bksge::size_t GetStrideInBytes(TextureFormat format, bksge::uint32_t width);
+std::size_t GetStrideInBytes(TextureFormat format, bksge::uint32_t width);
 
 /**
  *	@brief	ミップマップレベルを考慮した画像のバイト数を得る
@@ -244,11 +244,11 @@ bksge::size_t GetStrideInBytes(TextureFormat format, bksge::uint32_t width);
  *
  *	@return	format,width,height,mipmap_levelに設定された画像のバイト数
  */
-bksge::size_t GetMipmappedSizeInBytes(
+std::size_t GetMipmappedSizeInBytes(
 	TextureFormat format,
 	bksge::uint32_t width,
 	bksge::uint32_t height,
-	bksge::size_t mipmap_level);
+	std::size_t mipmap_level);
 
 /**
  *	@brief	文字列への変換
@@ -272,7 +272,7 @@ operator<<(std::basic_ostream<CharT, Traits>& os, TextureFormat const& rhs)
 #if BKSGE_CXX_STANDARD <= 11
 
 #include <bksge/fnd/type_traits/underlying_type.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
+#include <cstddef>
 #include <functional>
 
 namespace std
@@ -281,7 +281,7 @@ namespace std
 template<>
 struct hash<bksge::render::PixelSwizzle>
 {
-	bksge::size_t operator()(bksge::render::PixelSwizzle const& arg) const
+	std::size_t operator()(bksge::render::PixelSwizzle const& arg) const
 	{
 		using type = bksge::underlying_type_t<bksge::render::PixelSwizzle>;
 		return std::hash<type>{}(static_cast<type>(arg));
@@ -291,7 +291,7 @@ struct hash<bksge::render::PixelSwizzle>
 template<>
 struct hash<bksge::render::PixelBaseFormat>
 {
-	bksge::size_t operator()(bksge::render::PixelBaseFormat const& arg) const
+	std::size_t operator()(bksge::render::PixelBaseFormat const& arg) const
 	{
 		using type = bksge::underlying_type_t<bksge::render::PixelBaseFormat>;
 		return std::hash<type>{}(static_cast<type>(arg));
@@ -301,7 +301,7 @@ struct hash<bksge::render::PixelBaseFormat>
 template<>
 struct hash<bksge::render::TextureFormat>
 {
-	bksge::size_t operator()(bksge::render::TextureFormat const& arg) const
+	std::size_t operator()(bksge::render::TextureFormat const& arg) const
 	{
 		using type = bksge::underlying_type_t<bksge::render::TextureFormat>;
 		return std::hash<type>{}(static_cast<type>(arg));

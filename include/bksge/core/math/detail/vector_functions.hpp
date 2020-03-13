@@ -9,7 +9,6 @@
 #ifndef BKSGE_CORE_MATH_DETAIL_VECTOR_FUNCTIONS_HPP
 #define BKSGE_CORE_MATH_DETAIL_VECTOR_FUNCTIONS_HPP
 
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
 #include <bksge/fnd/tpp/accumulate.hpp>
@@ -18,6 +17,7 @@
 #include <bksge/fnd/type_traits/is_arithmetic.hpp>
 #include <bksge/fnd/cmath/lerp.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 #include <tuple>
 
 namespace bksge
@@ -29,7 +29,7 @@ namespace math
 namespace detail
 {
 
-template <typename Vec, bksge::size_t... Is>
+template <typename Vec, std::size_t... Is>
 inline BKSGE_CONSTEXPR Vec
 negate_per_elem_impl(Vec const& v, bksge::index_sequence<Is...>)
 BKSGE_NOEXCEPT_OR_NOTHROW
@@ -46,7 +46,7 @@ BKSGE_NOEXCEPT_OR_NOTHROW
 		bksge::make_index_sequence<std::tuple_size<Vec>::value>());
 }
 
-template <typename Vec, bksge::size_t... Is>
+template <typename Vec, std::size_t... Is>
 inline BKSGE_CONSTEXPR Vec
 add_per_elem_impl(Vec const& lhs, Vec const& rhs, bksge::index_sequence<Is...>)
 BKSGE_NOEXCEPT_OR_NOTHROW
@@ -63,7 +63,7 @@ BKSGE_NOEXCEPT_OR_NOTHROW
 		bksge::make_index_sequence<std::tuple_size<Vec>::value>());
 }
 
-template <typename Vec, bksge::size_t... Is>
+template <typename Vec, std::size_t... Is>
 inline BKSGE_CONSTEXPR Vec
 sub_per_elem_impl(Vec const& lhs, Vec const& rhs, bksge::index_sequence<Is...>)
 BKSGE_NOEXCEPT_OR_NOTHROW
@@ -80,7 +80,7 @@ BKSGE_NOEXCEPT_OR_NOTHROW
 		bksge::make_index_sequence<std::tuple_size<Vec>::value>());
 }
 
-template <typename Vec, typename U, bksge::size_t... Is,
+template <typename Vec, typename U, std::size_t... Is,
 	bksge::enable_if_t<
 		bksge::is_arithmetic<U>::value
 	>* = nullptr
@@ -92,7 +92,7 @@ BKSGE_NOEXCEPT_OR_NOTHROW
 	return {(lhs[Is] * rhs)...};
 }
 
-template <typename Vec1, typename Vec2, bksge::size_t... Is,
+template <typename Vec1, typename Vec2, std::size_t... Is,
 	bksge::enable_if_t<
 		!bksge::is_arithmetic<Vec2>::value
 	>* = nullptr
@@ -113,7 +113,7 @@ BKSGE_NOEXCEPT_OR_NOTHROW
 		bksge::make_index_sequence<std::tuple_size<Vec>::value>());
 }
 
-template <typename Vec, typename U, bksge::size_t... Is,
+template <typename Vec, typename U, std::size_t... Is,
 	bksge::enable_if_t<
 		bksge::is_arithmetic<U>::value
 	>* = nullptr
@@ -125,7 +125,7 @@ BKSGE_NOEXCEPT_OR_NOTHROW
 	return {(lhs[Is] / rhs)...};
 }
 
-template <typename Vec1, typename Vec2, bksge::size_t... Is,
+template <typename Vec1, typename Vec2, std::size_t... Is,
 	bksge::enable_if_t<
 		!bksge::is_arithmetic<Vec2>::value
 	>* = nullptr
@@ -146,7 +146,7 @@ BKSGE_NOEXCEPT_OR_NOTHROW
 		bksge::make_index_sequence<std::tuple_size<Vec>::value>());
 }
 
-template <typename R, typename Vec, bksge::size_t... Is>
+template <typename R, typename Vec, std::size_t... Is>
 inline BKSGE_CONSTEXPR R
 accumulate_impl(Vec const& lhs, bksge::index_sequence<Is...>)
 BKSGE_NOEXCEPT_OR_NOTHROW
@@ -162,7 +162,7 @@ accumulate(Vec const& lhs) BKSGE_NOEXCEPT_OR_NOTHROW
 		bksge::make_index_sequence<std::tuple_size<Vec>::value>());
 }
 
-template <typename Vec, bksge::size_t... Is>
+template <typename Vec, std::size_t... Is>
 inline BKSGE_CONSTEXPR bool
 equal_per_elem_impl(Vec const& lhs, Vec const& rhs, bksge::index_sequence<Is...>)
 BKSGE_NOEXCEPT_OR_NOTHROW
@@ -179,7 +179,7 @@ BKSGE_NOEXCEPT_OR_NOTHROW
 		bksge::make_index_sequence<std::tuple_size<Vec>::value>());
 }
 
-template <typename Vec, typename U, bksge::size_t... Is>
+template <typename Vec, typename U, std::size_t... Is>
 inline BKSGE_CONSTEXPR Vec
 lerp_per_elem_impl(Vec const& from, Vec const& to, U const& t, bksge::index_sequence<Is...>)
 BKSGE_NOEXCEPT_OR_NOTHROW

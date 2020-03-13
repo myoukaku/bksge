@@ -9,7 +9,7 @@
 #ifndef BKSGE_CORE_INPUT_DETAIL_BUTTONS_HPP
 #define BKSGE_CORE_INPUT_DETAIL_BUTTONS_HPP
 
-#include <bksge/fnd/cstddef/size_t.hpp>
+#include <cstddef>
 #include <bitset>
 
 namespace bksge
@@ -24,7 +24,7 @@ namespace detail
 /**
  *	@brief	ボタン入力のOn,Off,Repeatを処理するクラステンプレート
  */
-template <bksge::size_t N>
+template <std::size_t N>
 class Buttons
 {
 public:
@@ -35,7 +35,7 @@ public:
 	 *
 	 *	@return	押されていたらtrue
 	 */
-	bool IsPressed(bksge::size_t index) const
+	bool IsPressed(std::size_t index) const
 	{
 		return m_press[index];
 	}
@@ -47,7 +47,7 @@ public:
 	 *
 	 *	@return	新たに押されていたらtrue
 	 */
-	bool IsTriggered(bksge::size_t index) const
+	bool IsTriggered(std::size_t index) const
 	{
 		return m_trigger[index];
 	}
@@ -59,7 +59,7 @@ public:
 	 *
 	 *	@return	離されていたらtrue
 	 */
-	bool IsReleased(bksge::size_t index) const
+	bool IsReleased(std::size_t index) const
 	{
 		return m_release[index];
 	}
@@ -70,7 +70,7 @@ public:
 	 *	@param	index	ボタン番号(0 <= index < N)
 	 *	@param	pressed	trueなら押されている
 	 */
-	void SetPressed(bksge::size_t index, bool pressed)
+	void SetPressed(std::size_t index, bool pressed)
 	{
 		m_press[index] = pressed;
 	}

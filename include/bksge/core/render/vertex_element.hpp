@@ -11,10 +11,10 @@
 
 #include <bksge/core/render/semantic.hpp>
 #include <bksge/core/render/detail/type_enum.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/serialization/access.hpp>
 #include <bksge/fnd/serialization/nvp.hpp>
 #include <bksge/fnd/serialization/version.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -25,19 +25,19 @@ namespace render
 /**
  *	@brief	頂点要素を宣言するための型
  */
-template <typename T, bksge::size_t N, Semantic S>
+template <typename T, std::size_t N, Semantic S>
 struct VertexElement
 {
 	using value_type = T;
 	using const_iterator = T const*;
 
-	static bksge::size_t const element_num = N;
+	static std::size_t const element_num = N;
 	static Semantic	     const semantic    = S;
 	static TypeEnum      const type_enum   = TypeToEnum<T>::value;
 
 	value_type m_data[N];
 
-	value_type const& operator[](bksge::size_t index) const;
+	value_type const& operator[](std::size_t index) const;
 
 	const_iterator begin(void) const;
 
@@ -55,10 +55,10 @@ private:
 	}
 };
 
-template <typename T, bksge::size_t N, Semantic S>
+template <typename T, std::size_t N, Semantic S>
 bool operator==(VertexElement<T, N, S> const& lhs, VertexElement<T, N, S> const& rhs);
 
-template <typename T, bksge::size_t N, Semantic S>
+template <typename T, std::size_t N, Semantic S>
 bool operator!=(VertexElement<T, N, S> const& lhs, VertexElement<T, N, S> const& rhs);
 
 // よく使う頂点要素

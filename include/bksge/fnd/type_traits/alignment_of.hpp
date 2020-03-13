@@ -22,7 +22,7 @@ namespace bksge
  *
  *	@require	型Tに対してalignof(T)が有効であること。
  *
- *	alignof(T)で得られたbksge::size_t型の値を、メンバ定数valueとして定義する。
+ *	alignof(T)で得られたstd::size_t型の値を、メンバ定数valueとして定義する。
  *	Tが配列型の場合、要素の型のアラインメントを取得します。
  *	Tが参照型の場合、参照している型のアラインメントを取得します。
  */

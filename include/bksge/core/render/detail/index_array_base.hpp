@@ -11,10 +11,10 @@
 
 #include <bksge/core/render/detail/fwd/index_array_base_fwd.hpp>
 #include <bksge/core/render/detail/fwd/type_enum_fwd.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 //#include <bksge/fnd/serialization/access.hpp>
 //#include <bksge/fnd/serialization/nvp.hpp>
 //#include <bksge/fnd/serialization/version.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -29,7 +29,7 @@ class IndexArrayBase
 {
 public:
 	using const_pointer = void const*;
-	using size_type = bksge::size_t;
+	using size_type = std::size_t;
 
 	virtual ~IndexArrayBase();
 

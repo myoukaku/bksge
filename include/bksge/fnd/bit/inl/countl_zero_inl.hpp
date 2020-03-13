@@ -12,8 +12,8 @@
 #include <bksge/fnd/bit/countl_zero.hpp>
 #include <bksge/fnd/bit/popcount.hpp>
 #include <bksge/fnd/bit/bitsof.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -40,7 +40,7 @@ namespace detail
 //
 //	これを任意のビット数に拡張しています。
 
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 struct countl_zero_impl
 {
 	static BKSGE_CONSTEXPR int invoke(T x) BKSGE_NOEXCEPT

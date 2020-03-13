@@ -7,7 +7,7 @@
  */
 
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/cstddef/nullptr_t.hpp>
+#include <cstddef>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
@@ -161,7 +161,7 @@ GTEST_TEST(TypeTraitsTest, IsSameTest)
 	BKSGE_IS_SAME_TEST(false, const volatile void,       volatile void);
 	BKSGE_IS_SAME_TEST(true,  const volatile void, const volatile void);
 
-	BKSGE_IS_SAME_TEST(true, decltype(nullptr), bksge::nullptr_t);
+	BKSGE_IS_SAME_TEST(true, decltype(nullptr), std::nullptr_t);
 	BKSGE_IS_SAME_TEST(false, int, char);
 	BKSGE_IS_SAME_TEST(false, int, unsigned int);
 	BKSGE_IS_SAME_TEST(false, int[2], int[3]);

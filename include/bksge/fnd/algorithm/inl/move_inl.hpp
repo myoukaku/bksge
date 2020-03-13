@@ -10,7 +10,6 @@
 #define BKSGE_FND_ALGORITHM_INL_MOVE_INL_HPP
 
 #include <bksge/fnd/algorithm/move.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/iterator/unwrap_iterator.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/remove_const.hpp>
@@ -18,6 +17,7 @@
 #include <bksge/fnd/type_traits/is_trivially_copy_assignable.hpp>
 #include <bksge/fnd/cstring/memmove.hpp>
 #include <bksge/fnd/utility/move.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -52,7 +52,7 @@ bksge::enable_if_t<
 >
 move(T* first, T* last, U* result)
 {
-	auto const n = static_cast<bksge::size_t>(last - first);
+	auto const n = static_cast<std::size_t>(last - first);
 
 	if (n > 0)
 	{

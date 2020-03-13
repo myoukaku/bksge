@@ -90,9 +90,9 @@ operator<<(std::basic_ostream<CharT, Traits>& os, ClearState const& rhs)
 #include <bksge/core/render/inl/clear_state_inl.hpp>
 #endif
 
-#include <functional>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/functional/hash_combine.hpp>
+#include <functional>
+#include <cstddef>
 
 namespace std
 {
@@ -100,7 +100,7 @@ namespace std
 template<>
 struct hash<bksge::render::ClearState>
 {
-	bksge::size_t operator()(bksge::render::ClearState const& arg) const
+	std::size_t operator()(bksge::render::ClearState const& arg) const
 	{
 		return bksge::hash_combine(
 			arg.flag(),

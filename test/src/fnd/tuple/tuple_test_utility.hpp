@@ -13,8 +13,8 @@
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/declval.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 #include <memory>
 #include <cassert>
 #include <utility>
@@ -114,7 +114,7 @@ public:
 	static bool copy_called;
 	static bool move_called;
 	static bool allocate_called;
-	static std::pair<T*, bksge::size_t> deallocate_called;
+	static std::pair<T*, std::size_t> deallocate_called;
 
 	A1(A1 const& a) BKSGE_NOEXCEPT : id_(a.id()) { copy_called = true; }
 	A1(A1&& a)      BKSGE_NOEXCEPT : id_(a.id()) { move_called = true; }
@@ -126,24 +126,24 @@ public:
 	template <typename U>
 	A1(A1<U>&& a) BKSGE_NOEXCEPT : id_(a.id()) { move_called = true; }
 
-	T* allocate(bksge::size_t n)
+	T* allocate(std::size_t n)
 	{
 		allocate_called = true;
 		return (T*)n;
 	}
 
-	void deallocate(T* p, bksge::size_t n)
+	void deallocate(T* p, std::size_t n)
 	{
-		deallocate_called = std::pair<T*, bksge::size_t>(p, n);
+		deallocate_called = std::pair<T*, std::size_t>(p, n);
 	}
 
-	bksge::size_t max_size() const { return id_; }
+	std::size_t max_size() const { return id_; }
 };
 
 template <typename T> bool A1<T>::copy_called = false;
 template <typename T> bool A1<T>::move_called = false;
 template <typename T> bool A1<T>::allocate_called = false;
-template <typename T> std::pair<T*, bksge::size_t> A1<T>::deallocate_called;
+template <typename T> std::pair<T*, std::size_t> A1<T>::deallocate_called;
 
 template <typename T, typename U>
 inline bool operator==(A1<T> const& x, A1<U> const& y)
@@ -182,7 +182,7 @@ public:
 	A2& operator=(A2 const& a) BKSGE_NOEXCEPT { id_ = a.id(); copy_called = true; return *this; }
 	A2& operator=(A2&& a)      BKSGE_NOEXCEPT { id_ = a.id(); move_called = true; return *this; }
 
-	T* allocate(bksge::size_t, const void* hint)
+	T* allocate(std::size_t, const void* hint)
 	{
 		allocate_called = true;
 		return (T*) const_cast<void *>(hint);

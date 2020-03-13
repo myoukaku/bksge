@@ -82,9 +82,9 @@ operator<<(std::basic_ostream<CharT, Traits>& os, Viewport const& rhs)
 #include <bksge/core/render/inl/viewport_inl.hpp>
 #endif
 
-#include <functional>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/functional/hash_combine.hpp>
+#include <functional>
+#include <cstddef>
 
 namespace std
 {
@@ -92,7 +92,7 @@ namespace std
 template<>
 struct hash<bksge::render::Viewport>
 {
-	bksge::size_t operator()(bksge::render::Viewport const& arg) const
+	std::size_t operator()(bksge::render::Viewport const& arg) const
 	{
 		return bksge::hash_combine(
 			arg.rect(),

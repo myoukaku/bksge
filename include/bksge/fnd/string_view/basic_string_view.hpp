@@ -29,9 +29,8 @@ using std::basic_string_view;
 #include <bksge/fnd/type_traits/is_trivial.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/iterator/reverse_iterator.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
-#include <bksge/fnd/cstddef/ptrdiff_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 #include <iosfwd>	// basic_ostream
 #include <string>	// char_traits
 
@@ -52,8 +51,8 @@ public:
 	using iterator               = const_iterator;
 	using const_reverse_iterator = bksge::reverse_iterator<const_iterator>;
 	using reverse_iterator       = const_reverse_iterator;
-	using size_type              = bksge::size_t;
-	using difference_type        = bksge::ptrdiff_t;
+	using size_type              = std::size_t;
+	using difference_type        = std::ptrdiff_t;
 
 	BKSGE_STATIC_CONSTEXPR size_type npos = size_type(-1);
 

@@ -9,8 +9,8 @@
 #ifndef BKSGE_FND_CSTRING_STRLEN_HPP
 #define BKSGE_FND_CSTRING_STRLEN_HPP
 
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -22,13 +22,13 @@ namespace bksge
  *
  *	@return		文字列 str の長さ
  */
-BKSGE_CXX14_CONSTEXPR bksge::size_t
+BKSGE_CXX14_CONSTEXPR std::size_t
 strlen(char const* str);
 
 /**
  *	@overload
  */
-BKSGE_CXX14_CONSTEXPR bksge::size_t
+BKSGE_CXX14_CONSTEXPR std::size_t
 strlen(wchar_t const* str);
 
 }	// namespace bksge
