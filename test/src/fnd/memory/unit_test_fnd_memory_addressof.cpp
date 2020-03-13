@@ -7,6 +7,7 @@
  */
 
 #include <bksge/fnd/memory/addressof.hpp>
+#include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -82,12 +83,20 @@ GTEST_TEST(MemoryTest, AddressofTest)
 	{
 		BKSGE_CONSTEXPR B b {};
 		BKSGE_CXX17_CONSTEXPR_EXPECT_EQ(0, func(&b));
+#if defined(BKSGE_APPLE_CLANG)
+		                      EXPECT_EQ(2, func(bksge::addressof(b)));
+#else
 		BKSGE_CXX17_CONSTEXPR_EXPECT_EQ(2, func(bksge::addressof(b)));
+#endif
 	}
 	{
 		BKSGE_CONSTEXPR C c {};
 		BKSGE_CXX17_CONSTEXPR_EXPECT_EQ(0, func(&c));
+#if defined(BKSGE_APPLE_CLANG)
+		                      EXPECT_EQ(3, func(bksge::addressof(c)));
+#else
 		BKSGE_CXX17_CONSTEXPR_EXPECT_EQ(3, func(bksge::addressof(c)));
+#endif
 	}
 }
 
