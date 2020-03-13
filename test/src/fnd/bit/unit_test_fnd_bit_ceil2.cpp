@@ -7,7 +7,7 @@
  */
 
 #include <bksge/fnd/bit/ceil2.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -229,19 +229,19 @@ void Ceil2TestU64(void)
 
 GTEST_TEST(BitTest, Ceil2Test)
 {
-	Ceil2TestU8<bksge::uint8_t>();
-	Ceil2TestU8<bksge::uint16_t>();
-	Ceil2TestU8<bksge::uint32_t>();
-	Ceil2TestU8<bksge::uint64_t>();
+	Ceil2TestU8<std::uint8_t>();
+	Ceil2TestU8<std::uint16_t>();
+	Ceil2TestU8<std::uint32_t>();
+	Ceil2TestU8<std::uint64_t>();
 
-	Ceil2TestU16<bksge::uint16_t>();
-	Ceil2TestU16<bksge::uint32_t>();
-	Ceil2TestU16<bksge::uint64_t>();
+	Ceil2TestU16<std::uint16_t>();
+	Ceil2TestU16<std::uint32_t>();
+	Ceil2TestU16<std::uint64_t>();
 
-	Ceil2TestU32<bksge::uint32_t>();
-	Ceil2TestU32<bksge::uint64_t>();
+	Ceil2TestU32<std::uint32_t>();
+	Ceil2TestU32<std::uint64_t>();
 
-	Ceil2TestU64<bksge::uint64_t>();
+	Ceil2TestU64<std::uint64_t>();
 }
 
 }	// namespace ceil2_test

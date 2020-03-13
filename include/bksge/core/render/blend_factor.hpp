@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_BLEND_FACTOR_HPP
 
 #include <bksge/core/render/fwd/blend_factor_fwd.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <cstdint>
 #include <string>
 #include <ostream>
 
@@ -23,7 +23,7 @@ namespace render
 /**
  *	@brief	ブレンド時の係数
  */
-enum class BlendFactor : bksge::uint32_t
+enum class BlendFactor : std::uint32_t
 {
 	kZero,
 	kOne,

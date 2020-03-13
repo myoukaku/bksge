@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_BLEND_OPERATION_HPP
 
 #include <bksge/core/render/fwd/blend_operation_fwd.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <cstdint>
 #include <string>
 #include <ostream>
 
@@ -23,7 +23,7 @@ namespace render
 /**
  *	@brief	ブレンド方法
  */
-enum class BlendOperation : bksge::uint32_t
+enum class BlendOperation : std::uint32_t
 {
 	kAdd,
 	kSubtract,

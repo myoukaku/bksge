@@ -16,7 +16,7 @@
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/shader_reflection.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <cstdint>
 #include <vector>
 
 namespace bksge
@@ -85,7 +85,7 @@ DescriptorPool::FreeDescriptorSets(
 	vk::FreeDescriptorSets(
 		*m_device,
 		m_descriptor_pool,
-		static_cast<bksge::uint32_t>(descriptor_sets.size()),
+		static_cast<std::uint32_t>(descriptor_sets.size()),
 		descriptor_sets.data());
 }
 

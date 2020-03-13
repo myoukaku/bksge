@@ -8,7 +8,7 @@
 
 #include <bksge/fnd/type_traits/underlying_type.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 #include <cstddef>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
@@ -38,19 +38,19 @@ enum class E12 : unsigned long long {};
 enum       E13 : std::size_t {};
 
 //BKSGE_UNDERLYING_TYPE_TEST(enum_UDT, unsigned int);	// 実装依存
-BKSGE_UNDERLYING_TYPE_TEST(enum_uint32_t_UDT, bksge::uint32_t);
-BKSGE_UNDERLYING_TYPE_TEST(enum_uint16_t_UDT, bksge::uint16_t);
-BKSGE_UNDERLYING_TYPE_TEST(enum_uint8_t_UDT,  bksge::uint8_t);
-BKSGE_UNDERLYING_TYPE_TEST(enum_int32_t_UDT,  bksge::int32_t);
-BKSGE_UNDERLYING_TYPE_TEST(enum_int16_t_UDT,  bksge::int16_t);
-BKSGE_UNDERLYING_TYPE_TEST(enum_int8_t_UDT,   bksge::int8_t);
+BKSGE_UNDERLYING_TYPE_TEST(enum_uint32_t_UDT, std::uint32_t);
+BKSGE_UNDERLYING_TYPE_TEST(enum_uint16_t_UDT, std::uint16_t);
+BKSGE_UNDERLYING_TYPE_TEST(enum_uint8_t_UDT,  std::uint8_t);
+BKSGE_UNDERLYING_TYPE_TEST(enum_int32_t_UDT,  std::int32_t);
+BKSGE_UNDERLYING_TYPE_TEST(enum_int16_t_UDT,  std::int16_t);
+BKSGE_UNDERLYING_TYPE_TEST(enum_int8_t_UDT,   std::int8_t);
 BKSGE_UNDERLYING_TYPE_TEST(enum_class_UDT, int);
-BKSGE_UNDERLYING_TYPE_TEST(enum_class_uint32_t_UDT, bksge::uint32_t);
-BKSGE_UNDERLYING_TYPE_TEST(enum_class_uint16_t_UDT, bksge::uint16_t);
-BKSGE_UNDERLYING_TYPE_TEST(enum_class_uint8_t_UDT,  bksge::uint8_t);
-BKSGE_UNDERLYING_TYPE_TEST(enum_class_int32_t_UDT,  bksge::int32_t);
-BKSGE_UNDERLYING_TYPE_TEST(enum_class_int16_t_UDT,  bksge::int16_t);
-BKSGE_UNDERLYING_TYPE_TEST(enum_class_int8_t_UDT,   bksge::int8_t);
+BKSGE_UNDERLYING_TYPE_TEST(enum_class_uint32_t_UDT, std::uint32_t);
+BKSGE_UNDERLYING_TYPE_TEST(enum_class_uint16_t_UDT, std::uint16_t);
+BKSGE_UNDERLYING_TYPE_TEST(enum_class_uint8_t_UDT,  std::uint8_t);
+BKSGE_UNDERLYING_TYPE_TEST(enum_class_int32_t_UDT,  std::int32_t);
+BKSGE_UNDERLYING_TYPE_TEST(enum_class_int16_t_UDT,  std::int16_t);
+BKSGE_UNDERLYING_TYPE_TEST(enum_class_int8_t_UDT,   std::int8_t);
 
 BKSGE_UNDERLYING_TYPE_TEST(E1, char);
 BKSGE_UNDERLYING_TYPE_TEST(E2, signed char);

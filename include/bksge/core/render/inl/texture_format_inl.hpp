@@ -13,7 +13,7 @@
 #include <bksge/fnd/cmath/round_up.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/algorithm/min.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <cstdint>
 #include <cstddef>
 #include <string>
 #include <unordered_map>
@@ -28,26 +28,26 @@ BKSGE_INLINE PixelSwizzle
 GetPixelSwizzle(TextureFormat format)
 {
 	return static_cast<PixelSwizzle>(
-		(static_cast<bksge::uint32_t>(format) & kPixelSwizzleMask) >> kPixelSwizzleShift);
+		(static_cast<std::uint32_t>(format) & kPixelSwizzleMask) >> kPixelSwizzleShift);
 }
 
 BKSGE_INLINE PixelBaseFormat
 GetPixelBaseFormat(TextureFormat format)
 {
 	return static_cast<PixelBaseFormat>(
-		(static_cast<bksge::uint32_t>(format) & kPixelBaseFormatMask) >> kPixelBaseFormatShift);
+		(static_cast<std::uint32_t>(format) & kPixelBaseFormatMask) >> kPixelBaseFormatShift);
 }
 
 BKSGE_INLINE std::size_t
 GetChannelCount(TextureFormat format)
 {
-	return (static_cast<bksge::uint32_t>(format) & kChannelCountMask) >> kChannelCountShift;
+	return (static_cast<std::uint32_t>(format) & kChannelCountMask) >> kChannelCountShift;
 }
 
 BKSGE_INLINE std::size_t
 GetBitsPerChannel(TextureFormat format)
 {
-	return (static_cast<bksge::uint32_t>(format) & kBitsPerChannelMask) >> kBitsPerChannelShift;
+	return (static_cast<std::uint32_t>(format) & kBitsPerChannelMask) >> kBitsPerChannelShift;
 }
 
 BKSGE_INLINE bool
@@ -68,8 +68,8 @@ GetBitsPerPixel(TextureFormat format)
 BKSGE_INLINE std::size_t
 GetSizeInBytes(
 	TextureFormat format,
-	bksge::uint32_t width,
-	bksge::uint32_t height)
+	std::uint32_t width,
+	std::uint32_t height)
 {
 	if (IsDxtCompressed(format))
 	{
@@ -81,7 +81,7 @@ GetSizeInBytes(
 }
 
 BKSGE_INLINE std::size_t
-GetStrideInBytes(TextureFormat format, bksge::uint32_t width)
+GetStrideInBytes(TextureFormat format, std::uint32_t width)
 {
 	if (IsDxtCompressed(format))
 	{
@@ -94,8 +94,8 @@ GetStrideInBytes(TextureFormat format, bksge::uint32_t width)
 BKSGE_INLINE std::size_t
 GetMipmappedSizeInBytes(
 	TextureFormat format,
-	bksge::uint32_t width,
-	bksge::uint32_t height,
+	std::uint32_t width,
+	std::uint32_t height,
 	std::size_t mipmap_level)
 {
 	if (format == TextureFormat::kNone ||

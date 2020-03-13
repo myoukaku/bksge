@@ -11,7 +11,7 @@
 #include <bksge/fnd/type_traits/is_convertible.hpp>
 #include <bksge/fnd/type_traits/underlying_type.hpp>
 #include <bksge/fnd/cstring/memcpy.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
@@ -38,8 +38,8 @@ GTEST_TEST(TypeTraitsTest, EndianTest)
 
 	//  Try to check at runtime
 	{
-		bksge::uint32_t i = 0x01020304;
-		bksge::uint8_t c[4];
+		std::uint32_t i = 0x01020304;
+		std::uint8_t c[4];
 		bksge::memcpy(c, &i, sizeof(c));
 
 		if (bksge::endian::native == bksge::endian::big)

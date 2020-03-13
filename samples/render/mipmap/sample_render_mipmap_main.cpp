@@ -12,9 +12,9 @@
 #include <bksge/fnd/cmath.hpp>
 #include <bksge/fnd/iterator/size.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
-#include <bksge/fnd/cstdint.hpp>
-#include <vector>
 #include <bksge/fnd/memory.hpp>
+#include <cstdint>
+#include <vector>
 #include <utility>
 
 namespace
@@ -76,7 +76,7 @@ private:
 			{{{ 5.0,  5.0, 0.0}}, {{1, 0}}},
 			{{{ 5.0, -5.0, 0.0}}, {{1, 1}}},
 		};
-		static bksge::uint16_t const indices[] =
+		static std::uint16_t const indices[] =
 		{
 			0, 1, 2,
 			2, 1, 3,
@@ -227,24 +227,24 @@ private:
 };
 
 static bksge::Texture
-MakeTexture(bksge::uint32_t width, bksge::uint32_t height, std::size_t mipmap_count)
+MakeTexture(std::uint32_t width, std::uint32_t height, std::size_t mipmap_count)
 {
 	auto const bytes = bksge::render::GetMipmappedSizeInBytes(
 		bksge::TextureFormat::kRGBA_U8,
 		width, height,
 		mipmap_count);
-	std::vector<bksge::uint8_t> pixels(bytes);
+	std::vector<std::uint8_t> pixels(bytes);
 	auto* p = pixels.data();
 
-	bksge::uint32_t w = width;
-	bksge::uint32_t h = height;
+	std::uint32_t w = width;
+	std::uint32_t h = height;
 	for (std::size_t level = 0; level < mipmap_count; ++level)
 	{
-		for (bksge::uint32_t y = 0; y < h; ++y)
+		for (std::uint32_t y = 0; y < h; ++y)
 		{
-			for (bksge::uint32_t x = 0; x < w; ++x)
+			for (std::uint32_t x = 0; x < w; ++x)
 			{
-				bksge::uint8_t const c = ((y/1) % 2) == ((x/1) % 2) ? 255 : 128;
+				std::uint8_t const c = ((y/1) % 2) == ((x/1) % 2) ? 255 : 128;
 				auto index = level % 6 + 1;
 				*p++ = (((index / 1) % 2) == 0) ? 0 : c;
 				*p++ = (((index / 2) % 2) == 0) ? 0 : c;

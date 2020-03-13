@@ -14,8 +14,7 @@
 #include <bksge/fnd/serialization/nvp.hpp>
 #include <bksge/fnd/serialization/base_object.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/cstdint/intmax_t.hpp>
-#include <bksge/fnd/cstdint/uintmax_t.hpp>
+#include <cstdint>
 #include <cstddef>
 #include <memory>
 #include <vector>
@@ -36,8 +35,8 @@ public:
 	virtual ~text_oarchive_impl_base()
 	{}
 
-	virtual void save_arithmetic(bksge::intmax_t) = 0;
-	virtual void save_arithmetic(bksge::uintmax_t) = 0;
+	virtual void save_arithmetic(std::intmax_t) = 0;
+	virtual void save_arithmetic(std::uintmax_t) = 0;
 	virtual void save_arithmetic(float) = 0;
 	virtual void save_arithmetic(double) = 0;
 	virtual void save_arithmetic(long double) = 0;
@@ -52,11 +51,11 @@ public:
 		: m_os(os)
 	{}
 
-	void save_arithmetic(bksge::intmax_t t) override
+	void save_arithmetic(std::intmax_t t) override
 	{
 		m_os << t << " ";
 	}
-	void save_arithmetic(bksge::uintmax_t t) override
+	void save_arithmetic(std::uintmax_t t) override
 	{
 		m_os << t << " ";
 	}
@@ -165,19 +164,19 @@ private:
 	template <typename T, bksge::enable_if_t<std::is_unsigned<T>::value>* = nullptr>
 	void save_integral(T const& t)
 	{
-		m_impl->save_arithmetic(static_cast<bksge::uintmax_t>(t));
+		m_impl->save_arithmetic(static_cast<std::uintmax_t>(t));
 	}
 
 	template <typename T, bksge::enable_if_t<std::is_signed<T>::value>* = nullptr>
 	void save_integral(T const& t)
 	{
-		m_impl->save_arithmetic(static_cast<bksge::intmax_t>(t));
+		m_impl->save_arithmetic(static_cast<std::intmax_t>(t));
 	}
 
 	template <typename T>
 	void save_enum(T const& t)
 	{
-		m_impl->save_arithmetic(static_cast<bksge::uintmax_t>(t));
+		m_impl->save_arithmetic(static_cast<std::uintmax_t>(t));
 	}
 
 	template <typename T>

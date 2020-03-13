@@ -17,8 +17,8 @@
 #include <bksge/core/render/d3d_common/d3d12.hpp>
 #include <bksge/core/render/d3d_common/throw_if_failed.hpp>
 #include <bksge/fnd/cmath/round_up.hpp>
-#include <bksge/fnd/cstdint/uint8_t.hpp>
 #include <bksge/fnd/cstring/memcpy.hpp>
+#include <cstdint>
 #include <cstddef>
 #include <vector>
 
@@ -105,7 +105,7 @@ BKSGE_INLINE
 ConstantBuffer::Subresource::Subresource(
 	::UINT						  size,
 	::D3D12_GPU_VIRTUAL_ADDRESS	  gpu_virtual_address,
-	bksge::uint8_t*				  mapped_resource)
+	std::uint8_t*				  mapped_resource)
 	: m_size(size)
 	, m_gpu_virtual_address(gpu_virtual_address)
 	, m_mapped_resource(mapped_resource)
@@ -118,7 +118,7 @@ ConstantBuffer::Subresource::~Subresource()
 }
 
 BKSGE_INLINE void
-ConstantBuffer::Subresource::Update(std::vector<bksge::uint8_t> const& buffer)
+ConstantBuffer::Subresource::Update(std::vector<std::uint8_t> const& buffer)
 {
 	bksge::memcpy(
 		m_mapped_resource,

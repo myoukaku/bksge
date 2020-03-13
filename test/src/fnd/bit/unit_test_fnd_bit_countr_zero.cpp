@@ -7,7 +7,7 @@
  */
 
 #include <bksge/fnd/bit/countr_zero.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -234,10 +234,10 @@ void CountrZeroTestU64(void)
 
 GTEST_TEST(BitTest, CountrZeroTest)
 {
-	CountrZeroTestU8<bksge::uint8_t>();
-	CountrZeroTestU16<bksge::uint16_t>();
-	CountrZeroTestU32<bksge::uint32_t>();
-	CountrZeroTestU64<bksge::uint64_t>();
+	CountrZeroTestU8<std::uint8_t>();
+	CountrZeroTestU16<std::uint16_t>();
+	CountrZeroTestU32<std::uint32_t>();
+	CountrZeroTestU64<std::uint64_t>();
 }
 
 }	// namespace countr_zero_test

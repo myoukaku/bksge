@@ -13,7 +13,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/command_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <cstdint>
 #include <memory>
 #include <vector>
 
@@ -51,7 +51,7 @@ public:
 		::VkDevice                                 device,
 		::VkPipelineBindPoint                      pipeline_bind_point,
 		::VkPipelineLayout                         layout,
-		bksge::uint32_t                            set,
+		std::uint32_t                            set,
 		std::vector<::VkWriteDescriptorSet> const& descriptor_writes);
 
 public:

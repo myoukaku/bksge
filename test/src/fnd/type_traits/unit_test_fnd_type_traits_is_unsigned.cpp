@@ -7,7 +7,7 @@
  */
 
 #include <bksge/fnd/type_traits/is_unsigned.hpp>
-#include <bksge/fnd/cstdint.hpp>	// WCHAR_MIN
+#include <cstdint>	// WCHAR_MIN
 #include <cstddef>
 #include <climits>	// CHAR_MIN
 #include <gtest/gtest.h>

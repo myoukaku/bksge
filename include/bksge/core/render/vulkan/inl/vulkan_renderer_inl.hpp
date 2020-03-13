@@ -37,10 +37,9 @@
 #include <bksge/core/render/render_pass_info.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
-#include <bksge/fnd/cstdint/int32_t.hpp>
-#include <bksge/fnd/cstdint/uint64_t.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstdint>
 #include <cstddef>
 #include <memory>
 #include <vector>
@@ -87,9 +86,9 @@ VKAPI_ATTR::VkBool32 VKAPI_CALL
 DebugCallback(
 	::VkDebugReportFlagsEXT flags,
 	::VkDebugReportObjectTypeEXT,
-	bksge::uint64_t /*object*/,
+	std::uint64_t /*object*/,
 	std::size_t /*location*/,
-	bksge::int32_t /*messageCode*/,
+	std::int32_t /*messageCode*/,
 	const char* /*pLayerPrefix*/,
 	const char* pMessage,
 	void* /*pUserData*/)
@@ -307,10 +306,10 @@ VulkanRenderer::VBeginRenderPass(RenderPassInfo const& render_pass_info)
 			render_pass_info.viewport().rect();
 
 		vk::Rect2D scissor_rect;
-		scissor_rect.offset.x = static_cast<bksge::int32_t>(bksge::max(0.0f, rect.left()));
-		scissor_rect.offset.y = static_cast<bksge::int32_t>(bksge::max(0.0f, rect.top()));
-		scissor_rect.extent.width  = static_cast<bksge::uint32_t>(rect.width());
-		scissor_rect.extent.height = static_cast<bksge::uint32_t>(rect.height());
+		scissor_rect.offset.x = static_cast<std::int32_t>(bksge::max(0.0f, rect.left()));
+		scissor_rect.offset.y = static_cast<std::int32_t>(bksge::max(0.0f, rect.top()));
+		scissor_rect.extent.width  = static_cast<std::uint32_t>(rect.width());
+		scissor_rect.extent.height = static_cast<std::uint32_t>(rect.height());
 
 		m_command_buffer->SetScissor(scissor_rect);
 	}

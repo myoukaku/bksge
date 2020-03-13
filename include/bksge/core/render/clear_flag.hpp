@@ -10,8 +10,8 @@
 #define BKSGE_CORE_RENDER_CLEAR_FLAG_HPP
 
 #include <bksge/core/render/fwd/clear_flag_fwd.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstdint>
 #include <string>
 #include <ostream>
 
@@ -24,7 +24,7 @@ namespace render
 /**
  *	@brief	バッファのクリアに指定するフラグ
  */
-enum class ClearFlag : bksge::uint32_t
+enum class ClearFlag : std::uint32_t
 {
 	/// クリアしない
 	kNone    = 0,

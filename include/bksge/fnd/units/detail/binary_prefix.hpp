@@ -9,7 +9,7 @@
 #ifndef BKSGE_FND_UNITS_DETAIL_BINARY_PREFIX_HPP
 #define BKSGE_FND_UNITS_DETAIL_BINARY_PREFIX_HPP
 
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 #include <ratio>
 
 namespace bksge

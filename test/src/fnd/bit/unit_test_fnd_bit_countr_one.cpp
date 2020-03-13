@@ -7,7 +7,7 @@
  */
 
 #include <bksge/fnd/bit/countr_one.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -220,10 +220,10 @@ void CountrOneTestU64(void)
 
 GTEST_TEST(BitTest, CountrOneTest)
 {
-	CountrOneTestU8<bksge::uint8_t>();
-	CountrOneTestU16<bksge::uint16_t>();
-	CountrOneTestU32<bksge::uint32_t>();
-	CountrOneTestU64<bksge::uint64_t>();
+	CountrOneTestU8<std::uint8_t>();
+	CountrOneTestU16<std::uint16_t>();
+	CountrOneTestU32<std::uint32_t>();
+	CountrOneTestU64<std::uint64_t>();
 }
 
 }	// namespace countr_one_test

@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_FILL_MODE_HPP
 
 #include <bksge/core/render/fwd/fill_mode_fwd.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <cstdint>
 #include <string>
 #include <ostream>
 
@@ -23,7 +23,7 @@ namespace render
 /**
  *	@brief	ポリゴンの塗りつぶしモード
  */
-enum class FillMode : bksge::uint32_t
+enum class FillMode : std::uint32_t
 {
 	kSolid,
 	kWireframe,

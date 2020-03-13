@@ -7,7 +7,7 @@
  */
 
 #include <bksge/fnd/bit/log2p1.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -172,19 +172,19 @@ void Log2p1TestU64(void)
 
 GTEST_TEST(BitTest, Log2p1Test)
 {
-	Log2p1TestU8<bksge::uint8_t>();
-	Log2p1TestU8<bksge::uint16_t>();
-	Log2p1TestU8<bksge::uint32_t>();
-	Log2p1TestU8<bksge::uint64_t>();
+	Log2p1TestU8<std::uint8_t>();
+	Log2p1TestU8<std::uint16_t>();
+	Log2p1TestU8<std::uint32_t>();
+	Log2p1TestU8<std::uint64_t>();
 
-	Log2p1TestU16<bksge::uint16_t>();
-	Log2p1TestU16<bksge::uint32_t>();
-	Log2p1TestU16<bksge::uint64_t>();
+	Log2p1TestU16<std::uint16_t>();
+	Log2p1TestU16<std::uint32_t>();
+	Log2p1TestU16<std::uint64_t>();
 
-	Log2p1TestU32<bksge::uint32_t>();
-	Log2p1TestU32<bksge::uint64_t>();
+	Log2p1TestU32<std::uint32_t>();
+	Log2p1TestU32<std::uint64_t>();
 
-	Log2p1TestU64<bksge::uint64_t>();
+	Log2p1TestU64<std::uint64_t>();
 }
 
 }	// namespace log2p1_test

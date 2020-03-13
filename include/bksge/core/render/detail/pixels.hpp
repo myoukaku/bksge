@@ -12,7 +12,7 @@
 //#include <bksge/fnd/serialization/access.hpp>
 //#include <bksge/fnd/serialization/vector.hpp>
 //#include <bksge/fnd/serialization/version.hpp>
-#include <bksge/fnd/cstdint/uint8_t.hpp>
+#include <cstdint>
 #include <cstddef>
 #include <vector>
 #include <ostream>
@@ -30,12 +30,12 @@ public:
 
 	void copy(void const* src, std::size_t size);
 
-	bksge::uint8_t const* data(void) const;
+	std::uint8_t const* data(void) const;
 
-	std::vector<bksge::uint8_t> const& value(void) const;
+	std::vector<std::uint8_t> const& value(void) const;
 
 private:
-	std::vector<bksge::uint8_t>	m_value;
+	std::vector<std::uint8_t>	m_value;
 
 private:
 #if 0

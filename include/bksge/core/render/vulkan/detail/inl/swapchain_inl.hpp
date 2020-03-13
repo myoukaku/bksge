@@ -21,7 +21,7 @@
 #include <bksge/core/render/vulkan/detail/image.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/clear_state.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <cstdint>
 #include <vector>
 
 namespace bksge
@@ -39,8 +39,8 @@ Swapchain::Swapchain(
 	vulkan::CommandPoolSharedPtr const& command_pool,
 	vulkan::Surface const& surface,
 	::VkFormat surface_format,
-	bksge::uint32_t graphics_queue_family_index,
-	bksge::uint32_t present_queue_family_index)
+	std::uint32_t graphics_queue_family_index,
+	std::uint32_t present_queue_family_index)
 	: m_device(device)
 	, m_info()
 	, m_swapchain(VK_NULL_HANDLE)
@@ -119,7 +119,7 @@ Swapchain::Swapchain(
 #endif
 	m_info.oldSwapchain     = VK_NULL_HANDLE;
 
-	bksge::uint32_t const queue_family_indices[] =
+	std::uint32_t const queue_family_indices[] =
 	{
 		graphics_queue_family_index,
 		present_queue_family_index,
@@ -183,13 +183,13 @@ Swapchain::~Swapchain()
 	vk::DestroySwapchainKHR(*m_device, m_swapchain, nullptr);
 }
 
-BKSGE_INLINE bksge::uint32_t
+BKSGE_INLINE std::uint32_t
 Swapchain::AcquireNextImage(
-	bksge::uint64_t timeout,
+	std::uint64_t timeout,
 	::VkSemaphore semaphore,
 	::VkFence     fence)
 {
-	bksge::uint32_t image_index;
+	std::uint32_t image_index;
 	vk::AcquireNextImageKHR(
 		*m_device,
 		m_swapchain,
@@ -203,7 +203,7 @@ Swapchain::AcquireNextImage(
 BKSGE_INLINE void
 Swapchain::ClearColor(
 	vulkan::CommandPoolSharedPtr const& command_pool,
-	bksge::uint32_t index,
+	std::uint32_t index,
 	bksge::ClearState const& clear_state)
 {
 	if (!Test(clear_state.flag(), bksge::ClearFlag::kColor))
@@ -258,7 +258,7 @@ Swapchain::ClearColor(
 //BKSGE_INLINE std::vector<VkImage>
 //Swapchain::GetImages(void) const
 //{
-//	bksge::uint32_t count = 0;
+//	std::uint32_t count = 0;
 //	vk::GetSwapchainImagesKHR(*m_device, m_swapchain, &count, nullptr);
 //
 //	std::vector<VkImage> images;
@@ -280,13 +280,13 @@ Swapchain::extent(void) const
 	return m_info.imageExtent;
 }
 
-BKSGE_INLINE bksge::uint32_t
+BKSGE_INLINE std::uint32_t
 Swapchain::width(void) const
 {
 	return m_info.imageExtent.width;
 }
 
-BKSGE_INLINE bksge::uint32_t
+BKSGE_INLINE std::uint32_t
 Swapchain::height(void) const
 {
 	return m_info.imageExtent.height;
@@ -299,7 +299,7 @@ Swapchain::format(void) const
 }
 
 BKSGE_INLINE void
-Swapchain::Present(bksge::uint32_t const& image_index)
+Swapchain::Present(std::uint32_t const& image_index)
 {
 	vk::PresentInfoKHR present;
 	present.SetSwapchains(&m_swapchain);

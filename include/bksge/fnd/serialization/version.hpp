@@ -9,7 +9,7 @@
 #ifndef BKSGE_FND_SERIALIZATION_VERSION_HPP
 #define BKSGE_FND_SERIALIZATION_VERSION_HPP
 
-#include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -17,7 +17,7 @@ namespace bksge
 namespace serialization
 {
 
-using version_t = bksge::uint32_t;
+using version_t = std::uint32_t;
 
 namespace detail
 {

@@ -15,8 +15,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/command_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/fwd/clear_state_fwd.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
-#include <bksge/fnd/cstdint/uint64_t.hpp>
+#include <cstdint>
 #include <vector>
 
 namespace bksge
@@ -36,19 +35,19 @@ public:
 		vulkan::CommandPoolSharedPtr const& command_pool,
 		vulkan::Surface const& surface,
 		::VkFormat surface_format,
-		bksge::uint32_t graphics_queue_family_index,
-		bksge::uint32_t present_queue_family_index);
+		std::uint32_t graphics_queue_family_index,
+		std::uint32_t present_queue_family_index);
 
 	~Swapchain();
 
-	bksge::uint32_t AcquireNextImage(
-		bksge::uint64_t timeout,
+	std::uint32_t AcquireNextImage(
+		std::uint64_t timeout,
 		::VkSemaphore semaphore,
 		::VkFence     fence);
 
 	void ClearColor(
 		vulkan::CommandPoolSharedPtr const& command_pool,
-		bksge::uint32_t index,
+		std::uint32_t index,
 		bksge::ClearState const& clear_state);
 
 	//std::vector<VkImage> GetImages(void) const;
@@ -57,12 +56,12 @@ public:
 
 	::VkExtent2D extent(void) const;
 
-	bksge::uint32_t width(void) const;
-	bksge::uint32_t height(void) const;
+	std::uint32_t width(void) const;
+	std::uint32_t height(void) const;
 
 	::VkFormat format(void) const;
 
-	void Present(bksge::uint32_t const& image_index);
+	void Present(std::uint32_t const& image_index);
 
 private:
 	// noncopyable

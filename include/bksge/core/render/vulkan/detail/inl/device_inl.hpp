@@ -15,7 +15,7 @@
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/physical_device.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <cstdint>
 #include <vector>
 
 namespace bksge
@@ -108,7 +108,7 @@ Device::GetPhysicalDevice(void) const
 BKSGE_INLINE ::VkCommandPool
 Device::CreateCommandPool(
 	::VkCommandPoolCreateFlags flags,
-	bksge::uint32_t queue_family_index)
+	std::uint32_t queue_family_index)
 {
 	vk::CommandPoolCreateInfo info;
 	info.flags            = flags;

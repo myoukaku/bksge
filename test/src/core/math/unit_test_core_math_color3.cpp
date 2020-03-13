@@ -20,8 +20,8 @@
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstdint>
 #include <vector>
 #include <functional>
 #include <tuple>
@@ -145,7 +145,7 @@ TYPED_TEST(MathColor3FloatTest, ConvertConstructTest)
 {
 	using T = TypeParam;
 	using Color3 = bksge::math::Color3<T>;
-	using Color3u8 = bksge::math::Color3<bksge::uint8_t>;
+	using Color3u8 = bksge::math::Color3<std::uint8_t>;
 
 	static_assert(bksge::is_constructible<Color3,   Color3u8 const&>::value, "");
 	static_assert(bksge::is_constructible<Color3u8, Color3   const&>::value, "");

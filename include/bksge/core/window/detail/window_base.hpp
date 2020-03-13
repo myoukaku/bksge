@@ -10,8 +10,8 @@
 #define BKSGE_CORE_WINDOW_DETAIL_WINDOW_BASE_HPP
 
 #include <bksge/core/math/extent2.hpp>
-#include <bksge/fnd/cstdint/int32_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstdint>
 #include <string>
 
 namespace bksge
@@ -29,7 +29,7 @@ public:
 	/**
 	 *	@brief	幅と高さを表す型
 	 */
-	using ExtentType = Extent2<bksge::int32_t>;
+	using ExtentType = Extent2<std::int32_t>;
 
 	/**
 	 *	@brief	ウィンドウを作成します
