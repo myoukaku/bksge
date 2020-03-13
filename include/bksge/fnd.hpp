@@ -16,7 +16,6 @@
 #include <bksge/fnd/config.hpp>
 #include <bksge/fnd/cstddef.hpp>
 #include <bksge/fnd/cstdint.hpp>
-#include <bksge/fnd/cstdlib.hpp>
 #include <bksge/fnd/cstring.hpp>
 #include <bksge/fnd/exception.hpp>
 #include <bksge/fnd/functional.hpp>

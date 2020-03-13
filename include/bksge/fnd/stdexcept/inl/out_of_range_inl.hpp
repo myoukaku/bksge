@@ -10,8 +10,8 @@
 #define BKSGE_FND_STDEXCEPT_INL_OUT_OF_RANGE_INL_HPP
 
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
-#include <bksge/fnd/cstdlib/abort.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstdlib>
 
 namespace bksge
 {
@@ -23,7 +23,7 @@ void throw_out_of_range(char const* msg)
 	throw bksge::out_of_range(msg);
 #else
 	(void)msg;
-	bksge::abort();
+	std::abort();
 #endif
 }
 

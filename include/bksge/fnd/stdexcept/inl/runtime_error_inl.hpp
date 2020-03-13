@@ -10,9 +10,9 @@
 #define BKSGE_FND_STDEXCEPT_INL_RUNTIME_ERROR_INL_HPP
 
 #include <bksge/fnd/stdexcept/runtime_error.hpp>
-#include <bksge/fnd/cstdlib/abort.hpp>
 #include <bksge/fnd/config.hpp>
 #include <string>
+#include <cstdlib>
 
 namespace bksge
 {
@@ -24,7 +24,7 @@ void throw_runtime_error(char const* msg)
 	throw bksge::runtime_error(msg);
 #else
 	(void)msg;
-	bksge::abort();
+	std::abort();
 #endif
 }
 
@@ -35,7 +35,7 @@ void throw_runtime_error(std::string const& msg)
 	throw bksge::runtime_error(msg);
 #else
 	(void)msg;
-	bksge::abort();
+	std::abort();
 #endif
 }
 
