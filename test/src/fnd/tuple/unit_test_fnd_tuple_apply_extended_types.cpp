@@ -370,10 +370,10 @@ GTEST_TEST(TupleTest, ApplyExtendedTypesTest)
 		>();
 #if 0	// TODO
 		test_ext_int_0<
-			bksge::array<A_int_0, 1>,  bksge::array<A_int_0 const, 1>,
-			bksge::array<A_int_0*, 1>, bksge::array<A_int_0 const*, 1>,
-			bksge::array<A_wrap_0, 1>, bksge::array<A_wrap_0 const, 1>,
-			bksge::array<A_base_0, 1>, bksge::array<A_base_0 const, 1>
+			std::array<A_int_0, 1>,  std::array<A_int_0 const, 1>,
+			std::array<A_int_0*, 1>, std::array<A_int_0 const*, 1>,
+			std::array<A_wrap_0, 1>, std::array<A_wrap_0 const, 1>,
+			std::array<A_base_0, 1>, std::array<A_base_0 const, 1>
 		>();
 #endif
 	}

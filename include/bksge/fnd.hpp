@@ -35,5 +35,6 @@
 #include <bksge/fnd/type_traits.hpp>
 #include <bksge/fnd/units.hpp>
 #include <bksge/fnd/utility.hpp>
+#include <bksge/fnd/variant.hpp>
 
 #endif // BKSGE_FND_HPP

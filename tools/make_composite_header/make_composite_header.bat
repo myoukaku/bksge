@@ -27,6 +27,7 @@ call :func bksge/fnd/tuple                "Tuple library"
 call :func bksge/fnd/type_traits          "Type Traits library"
 call :func bksge/fnd/units                "Units library"
 call :func bksge/fnd/utility              "Utility library"
+call :func bksge/fnd/variant              "Variant library"
 call :func bksge/fnd                      "Foundation library"
 
 call :func bksge/core/input               "Input library"

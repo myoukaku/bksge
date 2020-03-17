@@ -65,8 +65,8 @@ template <std::size_t Size>
 void test_all()
 {
 #if 0	// TODO
-	using A = bksge::array<int, Size>;
-	using ConstA = bksge::array<int const, Size>;
+	using A = std::array<int, Size>;
+	using ConstA = std::array<int const, Size>;
 #endif
 
 	using Tuple = make_tuple_t<int, Size>;
@@ -115,7 +115,7 @@ void test_all()
 template <std::size_t Size>
 void test_one()
 {
-//	using A = bksge::array<int, Size>;
+//	using A = std::array<int, Size>;
 	using Tuple = make_tuple_t<int, Size>;
 
 	using ValFn  = make_function_t<int, Size>;

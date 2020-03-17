@@ -55,7 +55,7 @@ struct ConstructibleFromTuple<Tuple<Types...>>
 
 #if 0	// TODO
 template <typename Tp, size_t N>
-struct ConstructibleFromTuple<bksge::array<Tp, N>>
+struct ConstructibleFromTuple<std::array<Tp, N>>
 {
 	template <typename ...Args>
 	explicit ConstructibleFromTuple(Args&&... xargs)
@@ -63,7 +63,7 @@ struct ConstructibleFromTuple<bksge::array<Tp, N>>
 		, arg_types(&makeArgumentID<Args&&...>())
 	{}
 
-	bksge::array<Tp, N> args;
+	std::array<Tp, N> args;
 	TypeID const* arg_types;
 };
 #endif
@@ -113,7 +113,7 @@ GTEST_TEST(MakeFromTupleTest, ConstexprConstructionTest)
 	}
 #if 0	// TODO
 	{
-		using Tuple = bksge::array<int, 3>;
+		using Tuple = std::array<int, 3>;
 		using ValueTp = ConstexprConstructibleFromTuple<Tuple>;
 		BKSGE_CXX14_CONSTEXPR Tuple arr ={{42, 101, -1}};
 		BKSGE_CXX14_CONSTEXPR ValueTp value = bksge::make_from_tuple<ValueTp>(arr);
@@ -168,7 +168,7 @@ GTEST_TEST(MakeFromTupleTest, PerfectForwardingTest)
 #if 0	// TODO
 	// test with array<T, I>
 	{
-		using Tup = bksge::array<int, 3>;
+		using Tup = std::array<int, 3>;
 		Tup tup ={{42, 101, -1}};
 		Tup const& ctup = tup;
 		EXPECT_TRUE((do_forwarding_test<int&, int&, int&>(tup)));
@@ -222,12 +222,12 @@ GTEST_TEST(MakeFromTupleTest, NoexceptTest)
 	}
 #if 0	// TODO
 	{
-		using Tuple = bksge::array<int, 3>;
+		using Tuple = std::array<int, 3>;
 		Tuple tup; ((void)tup);
 		ASSERT_NOT_NOEXCEPT(bksge::make_from_tuple<TestType>(tup));
 	}
 	{
-		using Tuple = bksge::array<long, 3>;
+		using Tuple = std::array<long, 3>;
 		Tuple tup; ((void)tup);
 		ASSERT_NOEXCEPT(bksge::make_from_tuple<TestType>(tup));
 	}

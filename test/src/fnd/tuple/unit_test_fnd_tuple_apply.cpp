@@ -80,7 +80,7 @@ GTEST_TEST(TupleApplyTest, ConstexprEvaluationTest)
 	}
 #if 0	// TODO
 	{
-		using Tup = bksge::array<int, 3>;
+		using Tup = std::array<int, 3>;
 		using Fn = int(&)(int, int, int);
 		BKSGE_CXX14_CONSTEXPR Tup t ={{42, 101, -1}};
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(bksge::apply(static_cast<Fn>(constexpr_sum_fn), t), 142);
