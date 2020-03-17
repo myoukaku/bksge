@@ -9,9 +9,10 @@
 #ifndef BKSGE_FND_BIT_ROTR_HPP
 #define BKSGE_FND_BIT_ROTR_HPP
 
-#include <bksge/fnd/config.hpp>
+#include <bksge/fnd/bit/config.hpp>
 
-#if (BKSGE_CXX_STANDARD >= 20) && BKSGE_HAS_INCLUDE(<bit>) && !defined(BKSGE_APPLE_CLANG)
+#if defined(BKSGE_HAS_CXX_LIB_BITOPS)
+
 #include <bit>
 
 namespace bksge

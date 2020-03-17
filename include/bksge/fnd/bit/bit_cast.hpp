@@ -9,13 +9,11 @@
 #ifndef BKSGE_FND_BIT_BIT_CAST_HPP
 #define BKSGE_FND_BIT_BIT_CAST_HPP
 
-#include <bksge/fnd/config.hpp>
+#include <bksge/fnd/bit/config.hpp>
 
-#if (BKSGE_CXX_STANDARD >= 20) && BKSGE_HAS_INCLUDE(<bit>)
+#if defined(BKSGE_HAS_CXX_LIB_BIT_CAST)
+
 #include <bit>
-#endif
-
-#if defined(__cpp_lib_bit_cast) && (__cpp_lib_bit_cast >= 201806)
 
 namespace bksge
 {

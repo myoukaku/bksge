@@ -12,6 +12,7 @@
 #include <bksge/fnd/bit/bitsof.hpp>
 #include <bksge/fnd/bit/bit_cast.hpp>
 #include <bksge/fnd/bit/ceil2.hpp>
+#include <bksge/fnd/bit/config.hpp>
 #include <bksge/fnd/bit/countl_one.hpp>
 #include <bksge/fnd/bit/countl_zero.hpp>
 #include <bksge/fnd/bit/countr_one.hpp>
