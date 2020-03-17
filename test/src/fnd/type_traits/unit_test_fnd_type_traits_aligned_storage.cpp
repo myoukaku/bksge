@@ -12,7 +12,8 @@
 
 #include <bksge/fnd/type_traits/aligned_storage.hpp>
 #include <bksge/fnd/type_traits/alignment_of.hpp>
-#include <bksge/fnd/type_traits/is_pod.hpp>
+#include <bksge/fnd/type_traits/is_standard_layout.hpp>
+#include <bksge/fnd/type_traits/is_trivial.hpp>
 #include <cstddef>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
@@ -22,7 +23,8 @@ GTEST_TEST(TypeTraitsTest, AlignedStorageTest)
 	static auto const default_alignment = bksge::alignment_of<std::max_align_t>::value;
 
 #define BKSGE_ALIGNED_STORAGE_TEST_IMPL(T, Len, Align)	\
-	static_assert(bksge::is_pod<T>::value, "bksge::is_pod<" #T ">");	\
+	static_assert(bksge::is_standard_layout<T>::value, "bksge::is_standard_layout<" #T ">");	\
+	static_assert(bksge::is_trivial<T>::value, "bksge::is_trivial<" #T ">");	\
 	static_assert(sizeof(T) >= Len, "sizeof(" #T ")");	\
 	static_assert(bksge::alignment_of<T>::value <= Align, "alignment_of<" #T ">")
 

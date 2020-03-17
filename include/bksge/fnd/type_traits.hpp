@@ -83,7 +83,6 @@
 #include <bksge/fnd/type_traits/is_nothrow_swappable_with.hpp>
 #include <bksge/fnd/type_traits/is_null_pointer.hpp>
 #include <bksge/fnd/type_traits/is_object.hpp>
-#include <bksge/fnd/type_traits/is_pod.hpp>
 #include <bksge/fnd/type_traits/is_pointer.hpp>
 #include <bksge/fnd/type_traits/is_polymorphic.hpp>
 #include <bksge/fnd/type_traits/is_reference.hpp>
