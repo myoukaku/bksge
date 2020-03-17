@@ -10,6 +10,7 @@
 #include <bksge/fnd/any/any_cast.hpp>
 #include <bksge/fnd/any/bad_any_cast.hpp>
 #include <bksge/fnd/utility/move.hpp>
+#include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include <string>
 
@@ -105,9 +106,17 @@ GTEST_TEST(AnyTest, AnyCastTest)
 		MoveEnabled m2 = any_cast<MoveEnabled>(any(m));
 		(void)m2;
 		EXPECT_EQ(1, move_count);
+
+BKSGE_WARNING_PUSH()
+#if defined(__clang_major__) && (__clang_major__ >= 10) && !defined(__APPLE__)
+BKSGE_WARNING_DISABLE_CLANG("-Wdangling-gsl")
+#endif
+
 		MoveEnabled&& m3 = any_cast<MoveEnabled&&>(any(m));
 		(void)m3;
 		EXPECT_EQ(1, move_count);
+
+BKSGE_WARNING_POP()
 
 #if 0
 		MoveDeleted md;
