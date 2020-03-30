@@ -10,6 +10,7 @@
 #define BKSGE_FND_TMP_HPP
 
 #include <bksge/fnd/tmp/abs.hpp>
+#include <bksge/fnd/tmp/all_of.hpp>
 #include <bksge/fnd/tmp/gcd.hpp>
 #include <bksge/fnd/tmp/lcm.hpp>
 
