@@ -11,6 +11,7 @@
 
 #include <bksge/fnd/tmp/abs.hpp>
 #include <bksge/fnd/tmp/all_of.hpp>
+#include <bksge/fnd/tmp/any_of.hpp>
 #include <bksge/fnd/tmp/gcd.hpp>
 #include <bksge/fnd/tmp/lcm.hpp>
 
