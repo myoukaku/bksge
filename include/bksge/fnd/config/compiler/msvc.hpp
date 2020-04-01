@@ -437,6 +437,14 @@
 #if (_MSC_FULL_VER >= 192528610)
 #endif
 
+// Visual Studio 2019 Update 5 (16.5.1) (Visual C++ 14.25)
+#if (_MSC_FULL_VER >= 192528611)
+#endif
+
+// Visual Studio 2019 Update 5 (16.5.2) (Visual C++ 14.25)
+#if (_MSC_FULL_VER >= 192528612)
+#endif
+
 #if (BKSGE_CXX_STANDARD >= 17)
 #  define BKSGE_HAS_CXX17_CONSTEXPR
 #endif
