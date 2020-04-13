@@ -70,7 +70,7 @@ struct is_constructible
 
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/is_function.hpp>
-#include <bksge/fnd/type_traits/detail/is_array_unknown_bounds.hpp>
+#include <bksge/fnd/type_traits/is_unbounded_array.hpp>
 #include <type_traits>
 
 namespace bksge
@@ -79,7 +79,7 @@ namespace bksge
 template <typename T, typename... Args>
 struct is_constructible
 	: public bksge::bool_constant<
-		!detail::is_array_unknown_bounds<T>::value &&
+		!bksge::is_unbounded_array<T>::value &&
 		!bksge::is_function<T>::value &&
 		std::is_constructible<T, Args...>::value
 	>

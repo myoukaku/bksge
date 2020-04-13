@@ -13,7 +13,7 @@
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/negation.hpp>
 #include <bksge/fnd/type_traits/is_function.hpp>
-#include <bksge/fnd/type_traits/detail/is_array_unknown_bounds.hpp>
+#include <bksge/fnd/type_traits/is_unbounded_array.hpp>
 #include <bksge/fnd/type_traits/detail/constant_wrapper.hpp>
 #include <type_traits>
 
@@ -23,7 +23,7 @@ namespace bksge
 template <typename T>
 struct is_trivially_default_constructible
 	: public bksge::conjunction<
-		bksge::negation<detail::is_array_unknown_bounds<T>>,
+		bksge::negation<bksge::is_unbounded_array<T>>,
 		bksge::negation<bksge::is_function<T>>,
 		detail::constant_wrapper<std::is_trivially_default_constructible<T>>
 	>

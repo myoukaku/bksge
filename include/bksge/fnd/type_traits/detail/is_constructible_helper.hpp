@@ -16,12 +16,12 @@
 #include <bksge/fnd/type_traits/is_lvalue_reference.hpp>
 #include <bksge/fnd/type_traits/is_rvalue_reference.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
+#include <bksge/fnd/type_traits/is_unbounded_array.hpp>
 #include <bksge/fnd/type_traits/is_volatile.hpp>
 #include <bksge/fnd/type_traits/remove_cv.hpp>
 #include <bksge/fnd/type_traits/remove_reference.hpp>
 #include <bksge/fnd/type_traits/remove_all_extents.hpp>
 #include <bksge/fnd/type_traits/remove_pointer.hpp>
-#include <bksge/fnd/type_traits/detail/is_array_unknown_bounds.hpp>
 #include <bksge/fnd/type_traits/detail/is_same_or_base_of.hpp>
 #include <bksge/fnd/type_traits/detail/cv_traits.hpp>
 #include <bksge/fnd/type_traits/detail/constant_wrapper.hpp>
@@ -112,7 +112,7 @@ struct is_constructible_helper_2
 template <template <typename...> class F, typename T>
 struct is_constructible_helper_2<F, T>
 	: public bksge::conditional_t<
-		detail::is_array_unknown_bounds<T>::value,
+		bksge::is_unbounded_array<T>::value,
 		bksge::false_type,
 		F<remove_all_extents_t<T>>
 	>

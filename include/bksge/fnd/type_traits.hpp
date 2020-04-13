@@ -40,6 +40,7 @@
 #include <bksge/fnd/type_traits/is_array.hpp>
 #include <bksge/fnd/type_traits/is_assignable.hpp>
 #include <bksge/fnd/type_traits/is_base_of.hpp>
+#include <bksge/fnd/type_traits/is_bounded_array.hpp>
 #include <bksge/fnd/type_traits/is_class.hpp>
 #include <bksge/fnd/type_traits/is_compound.hpp>
 #include <bksge/fnd/type_traits/is_const.hpp>
@@ -103,6 +104,7 @@
 #include <bksge/fnd/type_traits/is_trivially_destructible.hpp>
 #include <bksge/fnd/type_traits/is_trivially_move_assignable.hpp>
 #include <bksge/fnd/type_traits/is_trivially_move_constructible.hpp>
+#include <bksge/fnd/type_traits/is_unbounded_array.hpp>
 #include <bksge/fnd/type_traits/is_union.hpp>
 #include <bksge/fnd/type_traits/is_unsigned.hpp>
 #include <bksge/fnd/type_traits/is_void.hpp>
