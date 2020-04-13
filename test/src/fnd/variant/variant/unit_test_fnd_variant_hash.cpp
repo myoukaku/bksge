@@ -36,7 +36,8 @@
 namespace std
 {
 
-template <> struct hash<bksge_variant_test::MakeEmptyT>
+template <>
+struct hash<bksge_variant_test::MakeEmptyT>
 {
 	size_t operator()(const bksge_variant_test::MakeEmptyT&) const
 	{

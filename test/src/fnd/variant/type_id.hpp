@@ -45,32 +45,32 @@ private:
 	TypeID& operator=(TypeID const&) = delete;
 
 	const char* const m_id;
-	template <class T> friend TypeID const& makeTypeIDImp();
+	template <typename T> friend TypeID const& makeTypeIDImp();
 };
 
 // makeTypeID - Return the TypeID for the specified type 'T'.
-template <class T>
+template <typename T>
 inline TypeID const& makeTypeIDImp()
 {
 	static const TypeID id(typeid(T).name());
 	return id;
 }
 
-template <class T>
+template <typename T>
 struct TypeWrapper {};
 
-template <class T>
+template <typename T>
 inline TypeID const& makeTypeID()
 {
 	return makeTypeIDImp<TypeWrapper<T>>();
 }
 
-template <class ...Args>
+template <typename ...Args>
 struct ArgumentListID {};
 
 // makeArgumentID - Create and return a unique identifier for a given set
 // of arguments.
-template <class ...Args>
+template <typename ...Args>
 inline TypeID const& makeArgumentID()
 {
 	return makeTypeIDImp<ArgumentListID<Args...>>();

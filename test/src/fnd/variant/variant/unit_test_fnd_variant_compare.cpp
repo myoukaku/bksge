@@ -59,7 +59,7 @@ inline bool operator>=(const MakeEmptyT&, const MakeEmptyT&)
 	return false;
 }
 
-template <class Variant>
+template <typename Variant>
 void makeEmpty(Variant& v)
 {
 	Variant v2(bksge::in_place_type_t<MakeEmptyT>{});
@@ -122,7 +122,7 @@ operator>=(const ComparesToMyBool& LHS, const ComparesToMyBool& RHS) noexcept
 	return MyBool(LHS.value >= RHS.value);
 }
 
-template <class T1, class T2>
+template <typename T1, typename T2>
 void test_equality_basic()
 {
 	{
@@ -204,7 +204,7 @@ void test_equality()
 #endif
 }
 
-template <class Var>
+template <typename Var>
 constexpr bool test_less(const Var& l, const Var& r, bool expect_less,
 	bool expect_greater)
 {
@@ -217,7 +217,7 @@ constexpr bool test_less(const Var& l, const Var& r, bool expect_less,
 		((l > r) == expect_greater) && (!(l <= r) == expect_greater);
 }
 
-template <class T1, class T2>
+template <typename T1, typename T2>
 void test_relational_basic()
 {
 	{

@@ -26,20 +26,20 @@ namespace bksge_variant_test
 namespace emplace_type_args_test
 {
 
-template <class Var, class T, class... Args>
+template <typename Var, typename T, typename... Args>
 constexpr auto test_emplace_exists_imp(int) -> decltype(
 	bksge::declval<Var>().template emplace<T>(bksge::declval<Args>()...), true)
 {
 	return true;
 }
 
-template <class, class, class...>
+template <typename, typename, typename...>
 constexpr auto test_emplace_exists_imp(long) -> bool
 {
 	return false;
 }
 
-template <class... Args>
+template <typename... Args>
 constexpr bool emplace_exists()
 {
 	return test_emplace_exists_imp<Args...>(0);

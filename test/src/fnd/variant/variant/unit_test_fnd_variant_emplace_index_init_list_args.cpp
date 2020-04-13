@@ -42,20 +42,20 @@ struct InitListArg
 		: size(il.size()), value(v) {}
 };
 
-template <class Var, std::size_t I, class... Args>
+template <typename Var, std::size_t I, typename... Args>
 constexpr auto test_emplace_exists_imp(int) -> decltype(
 	bksge::declval<Var>().template emplace<I>(bksge::declval<Args>()...), true)
 {
 	return true;
 }
 
-template <class, std::size_t, class...>
+template <typename, std::size_t, typename...>
 constexpr auto test_emplace_exists_imp(long) -> bool
 {
 	return false;
 }
 
-template <class Var, std::size_t I, class... Args>
+template <typename Var, std::size_t I, typename... Args>
 constexpr bool emplace_exists()
 {
 	return test_emplace_exists_imp<Var, I, Args...>(0);

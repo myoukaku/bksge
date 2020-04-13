@@ -9,8 +9,9 @@
 #include <bksge/fnd/variant/variant.hpp>
 #include <bksge/fnd/variant/get.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-//#include <bksge/fnd/utility/declval.hpp>
+#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/utility/in_place_index.hpp>
+#include <cstddef>
 #include <string>
 #include <gtest/gtest.h>
 #include "fnd/variant/archetypes.hpp"
@@ -24,20 +25,20 @@ namespace bksge_variant_test
 namespace emplace_index_args_test
 {
 
-template <class Var, size_t I, class... Args>
+template <typename Var, std::size_t I, typename... Args>
 constexpr auto test_emplace_exists_imp(int) -> decltype(
-	std::declval<Var>().template emplace<I>(std::declval<Args>()...), true)
+	bksge::declval<Var>().template emplace<I>(bksge::declval<Args>()...), true)
 {
 	return true;
 }
 
-template <class, size_t, class...>
+template <typename, std::size_t, typename...>
 constexpr auto test_emplace_exists_imp(long) -> bool
 {
 	return false;
 }
 
-template <class Var, size_t I, class... Args>
+template <typename Var, std::size_t I, typename... Args>
 constexpr bool emplace_exists()
 {
 	return test_emplace_exists_imp<Var, I, Args...>(0);

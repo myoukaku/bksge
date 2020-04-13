@@ -35,39 +35,40 @@ enum CallType : unsigned
 
 inline constexpr CallType operator|(CallType LHS, CallType RHS)
 {
-	return static_cast<CallType>(static_cast<unsigned>(LHS) |
+	return static_cast<CallType>(
+		static_cast<unsigned>(LHS) |
 		static_cast<unsigned>(RHS));
 }
 
 struct ForwardingCallObject
 {
 
-	template <class... Args> bool operator()(Args&&...)&
+	template <typename... Args> bool operator()(Args&&...)&
 	{
 		set_call<Args&&...>(CT_NonConst | CT_LValue);
 		return true;
 	}
 
-	template <class... Args> bool operator()(Args&&...) const&
+	template <typename... Args> bool operator()(Args&&...) const&
 	{
 		set_call<Args&&...>(CT_Const | CT_LValue);
 		return true;
 	}
 
 	// Don't allow the call operator to be invoked as an rvalue.
-	template <class... Args> bool operator()(Args&&...)&&
+	template <typename... Args> bool operator()(Args&&...)&&
 	{
 		set_call<Args&&...>(CT_NonConst | CT_RValue);
 		return true;
 	}
 
-	template <class... Args> bool operator()(Args&&...) const&&
+	template <typename... Args> bool operator()(Args&&...) const&&
 	{
 		set_call<Args&&...>(CT_Const | CT_RValue);
 		return true;
 	}
 
-	template <class... Args> static void set_call(CallType type)
+	template <typename... Args> static void set_call(CallType type)
 	{
 		EXPECT_EQ(last_call_type, CT_None);
 		EXPECT_EQ(last_call_args, nullptr);
@@ -75,7 +76,7 @@ struct ForwardingCallObject
 		last_call_args = bksge::addressof(makeArgumentID<Args...>());
 	}
 
-	template <class... Args> static bool check_call(CallType type)
+	template <typename... Args> static bool check_call(CallType type)
 	{
 		bool result = last_call_type == type && last_call_args &&
 			*last_call_args == makeArgumentID<Args...>();
@@ -222,7 +223,8 @@ void test_argument_forwarding()
 
 struct ReturnFirst
 {
-	template <class... Args> constexpr int operator()(int f, Args&&...) const
+	template <typename... Args>
+	constexpr int operator()(int f, Args&&...) const
 	{
 		return f;
 	}
@@ -230,7 +232,8 @@ struct ReturnFirst
 
 struct ReturnArity
 {
-	template <class... Args> constexpr int operator()(Args&&...) const
+	template <typename... Args>
+	constexpr int operator()(Args&&...) const
 	{
 		return sizeof...(Args);
 	}
