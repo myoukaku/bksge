@@ -14,7 +14,7 @@
 #include <map>
 #include <type_traits>
 
-#if BKSGE_HAS_INCLUDE(<compare>)
+#if BKSGE_HAS_INCLUDE(<compare>) && (BKSGE_CXX_STANDARD >= 20)
 #include <compare>
 #endif
 

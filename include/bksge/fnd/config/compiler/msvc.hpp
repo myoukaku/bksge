@@ -609,12 +609,12 @@
 // P1073R3		Immediate functions (consteval)
 // P0595R2		std::is_constant_evaluated
 // P1094R2		Nested inline namespaces
-// P1002R1		Relaxations of constexpr restrictions
-// P1327R1
-// P1330R0
-// P1331R2	__cpp_constexpr >= 201907	
-// P1668R1
-// P0784R7
+															// P1002R1		Relaxations of constexpr restrictions
+															// P1327R1
+															// P1330R0
+#define BKSGE_HAS_CXX20_CONSTEXPR							// P1331R2	__cpp_constexpr >= 201907	
+															// P1668R1
+															// P0784R7
 // P0941R2		Feature test macros
 // P1103R3		Modules
 // P1766R1

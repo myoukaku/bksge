@@ -363,6 +363,9 @@
 #  if defined(__cpp_impl_three_way_comparison) && (__cpp_impl_three_way_comparison >= 201711L)
 #    define BKSGE_HAS_CXX20_THREE_WAY_COMPARISON
 #  endif
+#  if defined(__cpp_constexpr) && (__cpp_constexpr >= 201907)
+#    define BKSGE_HAS_CXX20_CONSTEXPR
+#  endif
 #endif
 
 #endif // BKSGE_FND_CONFIG_COMPILER_CLANG_HPP
