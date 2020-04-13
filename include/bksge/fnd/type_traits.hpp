@@ -72,6 +72,7 @@
 #include <bksge/fnd/type_traits/is_move_constructible.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_assignable.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_convertible.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_copy_assignable.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_copy_constructible.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_default_constructible.hpp>
