@@ -27,6 +27,7 @@
 #include <bksge/fnd/random.hpp>
 #include <bksge/fnd/ratio.hpp>
 #include <bksge/fnd/serialization.hpp>
+#include <bksge/fnd/span.hpp>
 #include <bksge/fnd/stdexcept.hpp>
 #include <bksge/fnd/string_view.hpp>
 #include <bksge/fnd/tmp.hpp>
