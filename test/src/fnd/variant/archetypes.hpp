@@ -10,6 +10,9 @@
 #define UNIT_TEST_FND_VARIANT_ARCHETYPES_HPP
 
 #include <bksge/fnd/config.hpp>
+#include <cassert>
+#include <initializer_list>
+#include <type_traits>
 #include "test_macros.hpp"
 #include "test_workarounds.hpp"
 
