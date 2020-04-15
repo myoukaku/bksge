@@ -376,6 +376,10 @@
 #if (_MSC_FULL_VER >= 191627038)
 #endif
 
+// Visual Studio 2017 Update 9 (15.9.22) (Visual C++ 14.16)
+#if (_MSC_FULL_VER >= 191627039)
+#endif
+
 // Visual Studio 2019 (16.0.Prev(1-4)) (Visual C++ 14.20)
 #if (_MSC_FULL_VER >= 192027027)
 # if (BKSGE_CXX_STANDARD >= 20)
@@ -443,6 +447,10 @@
 
 // Visual Studio 2019 Update 5 (16.5.(2-3)) (Visual C++ 14.25)
 #if (_MSC_FULL_VER >= 192528612)
+#endif
+
+// Visual Studio 2019 Update 5 (16.5.4) (Visual C++ 14.25)
+#if (_MSC_FULL_VER >= 192528614)
 #endif
 
 #if (BKSGE_CXX_STANDARD >= 17)
