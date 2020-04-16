@@ -9,6 +9,22 @@
 #ifndef BKSGE_FND_SPAN_SPAN_HPP
 #define BKSGE_FND_SPAN_SPAN_HPP
 
+#include <bksge/fnd/config.hpp>
+#if (BKSGE_CXX_STANDARD >= 20) && BKSGE_HAS_INCLUDE(<span>)
+#include <span>
+#endif
+
+#if defined(__cpp_lib_span) && (__cpp_lib_span >= 202002)
+
+namespace bksge
+{
+
+using std::span;
+
+}	// namespace bksge
+
+#else
+
 #include <bksge/fnd/span/fwd/span_fwd.hpp>
 #include <bksge/fnd/span/dynamic_extent.hpp>
 #include <bksge/fnd/span/detail/is_span_compatible_container.hpp>
@@ -490,5 +506,7 @@ span(Container const&)->span<typename Container::value_type const>;
 #endif
 
 }	// namespace bksge
+
+#endif
 
 #endif // BKSGE_FND_SPAN_SPAN_HPP

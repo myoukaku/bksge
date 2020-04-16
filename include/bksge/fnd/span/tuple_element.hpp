@@ -9,6 +9,15 @@
 #ifndef BKSGE_FND_SPAN_TUPLE_ELEMENT_HPP
 #define BKSGE_FND_SPAN_TUPLE_ELEMENT_HPP
 
+#include <bksge/fnd/config.hpp>
+#if (BKSGE_CXX_STANDARD >= 20) && BKSGE_HAS_INCLUDE(<span>)
+#include <span>
+#endif
+
+#if defined(__cpp_lib_span) && (__cpp_lib_span >= 202002)
+
+#else
+
 #include <bksge/fnd/span/fwd/span_fwd.hpp>
 #include <bksge/fnd/span/dynamic_extent.hpp>
 #include <cstddef>
@@ -26,5 +35,7 @@ struct tuple_element<I, bksge::span<T, N>>
 };
 
 }	// namespace std
+
+#endif
 
 #endif // BKSGE_FND_SPAN_TUPLE_ELEMENT_HPP
