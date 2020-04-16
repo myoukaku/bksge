@@ -267,4 +267,31 @@ GTEST_TEST(ConfigTest, Cxx20Char8TTest)
 
 }	// namespace char8_t_test
 
+namespace constexpr_try_catch_test
+{
+
+#if defined(BKSGE_HAS_CXX20_CONSTEXPR_TRY_CATCH)
+constexpr int f(int x)
+{
+	try
+	{
+		return x + 1;
+	}
+	catch (...)
+	{
+		return 0;
+	}
+}
+#endif
+
+GTEST_TEST(ConfigTest, Cxx20ConstexprTryCatchTest)
+{
+#if defined(BKSGE_HAS_CXX20_CONSTEXPR_TRY_CATCH)
+	static_assert(f(1) == 2, "");
+	static_assert(f(2) == 3, "");
+#endif
+}
+
+}	// namespace constexpr_try_catch_test
+
 }	// namespace bksge_config_cxx20_test

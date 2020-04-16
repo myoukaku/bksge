@@ -439,6 +439,11 @@
 
 // Visual Studio 2019 Update 5 (16.5.0) (Visual C++ 14.25)
 #if (_MSC_FULL_VER >= 192528610)
+#  if (BKSGE_CXX_STANDARD >= 20)
+#    define BKSGE_HAS_CXX20_BITFIELD_DEFAULT_MEMBER_INITIALIZER
+#    define BKSGE_HAS_CXX20_RANGE_BASED_FOR_INITIALIZER
+#    define BKSGE_HAS_CXX20_CONSTEXPR_TRY_CATCH
+#  endif
 #endif
 
 // Visual Studio 2019 Update 5 (16.5.1) (Visual C++ 14.25)
@@ -617,7 +622,7 @@
 // P1073R3		Immediate functions (consteval)
 // P0595R2		std::is_constant_evaluated
 // P1094R2		Nested inline namespaces
-															// P1002R1		Relaxations of constexpr restrictions
+#define BKSGE_HAS_CXX20_CONSTEXPR_TRY_CATCH					// P1002R1	constexpr関数内でtry-catchブロックを書けるようにする
 															// P1327R1
 															// P1330R0
 #define BKSGE_HAS_CXX20_CONSTEXPR							// P1331R2	__cpp_constexpr >= 201907	
