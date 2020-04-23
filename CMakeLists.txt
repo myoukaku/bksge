@@ -49,64 +49,7 @@ foreach(compiler_flag ${compiler_flags})
   endif()
 endforeach()
 
-include(${PROJECT_SOURCE_DIR}/cmake/DownloadProject/DownloadProject.cmake)
-
-download_project(
-  PROJ Vulkan-Headers
-  GIT_REPOSITORY https://github.com/KhronosGroup/Vulkan-Headers.git
-  GIT_TAG master
-  UPDATE_DISCONNECTED 1
-  QUIET)
-message(STATUS "Vulkan-Headers_SOURCE_DIR: ${Vulkan-Headers_SOURCE_DIR}")
-message(STATUS "Vulkan-Headers_BINARY_DIR: ${Vulkan-Headers_BINARY_DIR}")
-set(ENABLE_STATIC_LOADER ON CACHE BOOL "")
-add_subdirectory(${Vulkan-Headers_SOURCE_DIR} ${Vulkan-Headers_BINARY_DIR})
-
-if (DEFINED Vulkan-Headers_SOURCE_DIR)
-    message(STATUS "Using Vulkan headers from ${Vulkan-Headers_SOURCE_DIR}")
-    set(VulkanHeaders_INCLUDE_DIR "${Vulkan-Headers_SOURCE_DIR}/include")
-    set(VulkanHeaders_INCLUDE_DIRS "${VulkanHeaders_INCLUDE_DIR}")
-    set(VulkanRegistry_DIR "${Vulkan-Headers_SOURCE_DIR}/registry")
-    set(VulkanRegistry_DIRS "${VulkanRegistry_DIR}")
-else()
-    find_package(VulkanHeaders)
-endif()
-message(STATUS "VulkanHeaders_INCLUDE_DIR: ${VulkanHeaders_INCLUDE_DIR}")
-#message(STATUS "VulkanHeaders_LIBRARIES: ${VulkanHeaders_LIBRARIES}")
-message(STATUS "VulkanRegistry_DIR: ${VulkanRegistry_DIR}")
-
-download_project(
-  PROJ Vulkan-Loader
-  GIT_REPOSITORY https://github.com/KhronosGroup/Vulkan-Loader.git
-  GIT_TAG master
-  UPDATE_DISCONNECTED 1
-  QUIET)
-message(STATUS "Vulkan-Loader_SOURCE_DIR: ${Vulkan-Loader_SOURCE_DIR}")
-message(STATUS "Vulkan-Loader_BINARY_DIR: ${Vulkan-Loader_BINARY_DIR}")
-add_subdirectory(${Vulkan-Loader_SOURCE_DIR} ${Vulkan-Loader_BINARY_DIR})
-
-set(BUILD_TESTING OFF CACHE BOOL "" FORCE)
-download_project(
-  PROJ glslang
-  GIT_REPOSITORY https://github.com/KhronosGroup/glslang.git
-  GIT_TAG master
-  UPDATE_DISCONNECTED 1
-  QUIET)
-message(STATUS "glslang_SOURCE_DIR: ${glslang_SOURCE_DIR}")
-message(STATUS "glslang_BINARY_DIR: ${glslang_BINARY_DIR}")
-add_subdirectory(${glslang_SOURCE_DIR} ${glslang_BINARY_DIR})
-set(glslang_INCLUDE_DIR "${glslang_SOURCE_DIR}")
-
-download_project(
-  PROJ SPIRV-Cross
-  GIT_REPOSITORY https://github.com/KhronosGroup/SPIRV-Cross.git
-  GIT_TAG master
-  UPDATE_DISCONNECTED 1
-  QUIET)
-message(STATUS "SPIRV-Cross_SOURCE_DIR: ${SPIRV-Cross_SOURCE_DIR}")
-message(STATUS "SPIRV-Cross_BINARY_DIR: ${SPIRV-Cross_BINARY_DIR}")
-add_subdirectory(${SPIRV-Cross_SOURCE_DIR} ${SPIRV-Cross_BINARY_DIR})
-set(SPIRV-Cross_INCLUDE_DIR "${SPIRV-Cross_SOURCE_DIR}")
+add_subdirectory(externals)
 
 foreach(compiler_flag ${compiler_flags})
   if (MSVC)
@@ -176,6 +119,17 @@ message(STATUS "CMAKE_CXX_FLAGS_RELWITHDEBINFO: ${CMAKE_CXX_FLAGS_RELWITHDEBINFO
 message(STATUS "CMAKE_CXX_COMPILER: ${CMAKE_CXX_COMPILER}")
 message(STATUS "CMAKE_C_COMPILER: ${CMAKE_C_COMPILER}")
 
+message(STATUS "OPENGL_INCLUDE_DIR:        ${OPENGL_INCLUDE_DIR}")
+message(STATUS "VulkanHeaders_INCLUDE_DIR: ${VulkanHeaders_INCLUDE_DIR}")
+message(STATUS "glslang_INCLUDE_DIR:       ${glslang_INCLUDE_DIR}")
+message(STATUS "SPIRV-Cross_INCLUDE_DIR:   ${SPIRV-Cross_INCLUDE_DIR}")
+
+include_directories(${PROJECT_SOURCE_DIR}/include)
+include_directories(${OPENGL_INCLUDE_DIR})
+include_directories(${VulkanHeaders_INCLUDE_DIR})
+include_directories(${glslang_INCLUDE_DIR})
+include_directories(${SPIRV-Cross_INCLUDE_DIR})
+
 include(${PROJECT_SOURCE_DIR}/cmake/UnityBuild.cmake)
 
 file(GLOB_RECURSE bksge_sources src/bksge/*)
@@ -183,11 +137,6 @@ if(BKSGE_UNITY_BUILD)
   ENABLE_UNITY_BUILD(bksge bksge_sources 10 cpp)
 endif()
 add_library(bksge STATIC ${bksge_sources})
-include_directories(${PROJECT_SOURCE_DIR}/include)
-include_directories(${OPENGL_INCLUDE_DIR})
-include_directories(${VulkanHeaders_INCLUDE_DIR})
-include_directories(${glslang_INCLUDE_DIR})
-include_directories(${SPIRV-Cross_INCLUDE_DIR})
 
 target_link_libraries(bksge ${OPENGL_LIBRARIES})
 link_directories("${Vulkan-Loader_BINARY_DIR}/loader")

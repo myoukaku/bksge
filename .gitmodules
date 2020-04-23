@@ -1,3 +1,15 @@
 [submodule "test/googletest"]
 	path = test/googletest
 	url = https://github.com/google/googletest.git
+[submodule "externals/SPIRV-Cross"]
+	path = externals/SPIRV-Cross
+	url = https://github.com/KhronosGroup/SPIRV-Cross.git
+[submodule "externals/glslang"]
+	path = externals/glslang
+	url = https://github.com/KhronosGroup/glslang.git
+[submodule "externals/Vulkan-Loader"]
+	path = externals/Vulkan-Loader
+	url = https://github.com/KhronosGroup/Vulkan-Loader.git
+[submodule "externals/Vulkan-Headers"]
+	path = externals/Vulkan-Headers
+	url = https://github.com/KhronosGroup/Vulkan-Headers.git
