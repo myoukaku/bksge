@@ -49,7 +49,10 @@ foreach(compiler_flag ${compiler_flags})
   endif()
 endforeach()
 
-add_subdirectory(externals)
+include(externals/glslang.cmake)
+include(externals/spirv-cross.cmake)
+include(externals/vulkan-loader.cmake)
+include(externals/vulkan-headers.cmake)
 
 foreach(compiler_flag ${compiler_flags})
   if (MSVC)
