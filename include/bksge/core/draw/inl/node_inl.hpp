@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	node_inl.hpp
  *
- *	@brief	Nodeの実装
+ *	@brief	Node クラスの実装
  *
  *	@author	myoukaku
  */

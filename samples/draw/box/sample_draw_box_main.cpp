@@ -9,6 +9,7 @@
 #include <bksge/core/window.hpp>
 #include <bksge/core/draw.hpp>
 #include <bksge/core/render.hpp>
+#include <bksge/core/math.hpp>
 #include <bksge/fnd/units/degree.hpp>
 #include <memory>
 
@@ -38,6 +39,7 @@ int main()
 
 	bksge::Scene scene;
 
+	// setup cameras
 	{
 		auto const fovy = Degreesf(45);
 		auto const aspect = 4.0f / 3.0f;
@@ -49,6 +51,35 @@ int main()
 		camera->LookAt({0, 0, 0});
 
 		scene.Add(camera);
+	}
+	// setup lights
+	{
+		{
+			auto light = std::make_shared<bksge::AmbientLight>();
+			scene.Add(light);
+			light->SetColor(bksge::Color3f{1, 1, 0});
+			light->SetIntensity(1);
+		}
+		{
+			auto light = std::make_shared<bksge::DirectionalLight>();
+			scene.Add(light);
+			light->SetColor({1, 1, 0});
+			light->SetIntensity(1);
+			light->SetPosition({1, 1, 0});
+			light->LookAt({0, 0, 0});
+		}
+	}
+	// setup meshes
+	{
+		auto box_geometry = std::make_shared<bksge::BoxGeometry>(
+			bksge::Vector3f{-1.5,-0.5,-1.5}, bksge::Vector3f{0.5,2.5,1.5});
+
+		auto simple_material = std::make_shared<bksge::SimpleMaterial>();
+		simple_material->SetDiffuseColor(bksge::Color3f{1, 1, 0});
+		simple_material->SetOpacity(1);
+
+		auto mesh = std::make_shared<bksge::Mesh>(box_geometry, simple_material);
+		scene.Add(mesh);
 	}
 
 	while (window.Update())

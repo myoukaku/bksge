@@ -1,13 +1,13 @@
 ﻿/**
  *	@file	node.hpp
  *
- *	@brief	Nodeクラスの定義
+ *	@brief	Node クラスの定義
  *
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_CORE_draw_NODE_HPP
-#define BKSGE_CORE_draw_NODE_HPP
+#ifndef BKSGE_CORE_DRAW_NODE_HPP
+#define BKSGE_CORE_DRAW_NODE_HPP
 
 #include <bksge/core/draw/fwd/node_fwd.hpp>
 #include <bksge/core/math/transform3.hpp>
@@ -189,4 +189,4 @@ private:
 #include <bksge/core/draw/inl/node_inl.hpp>
 #endif
 
-#endif // BKSGE_CORE_draw_NODE_HPP
+#endif // BKSGE_CORE_DRAW_NODE_HPP
