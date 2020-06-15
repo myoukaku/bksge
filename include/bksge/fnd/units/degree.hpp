@@ -21,7 +21,7 @@ namespace units
 {
 
 // 度数法
-template <typename T> using degree  = quantity<T, angle_dimension, std::ratio<31415926535897932LL, 1800000000000000000LL>>;
+template <typename T> using degree  = quantity<T, angle_dimension, std::ratio<2646693125139304345LL / 180, 842468587426513207LL>>;
 template <typename T> using degrees = degree<T>;
 
 /**
