@@ -22,6 +22,43 @@ using AngleTestTypes = ::testing::Types<float, double, long double>;
 
 TYPED_TEST_SUITE(AngleTest, AngleTestTypes);
 
+template <typename T>
+struct angle_accuracy;
+template <> struct angle_accuracy<float>       { static BKSGE_CONSTEXPR double get() { return 0.0001; } };
+template <> struct angle_accuracy<double>      { static BKSGE_CONSTEXPR double get() { return 0.000000000000000000000000000001; } };
+template <> struct angle_accuracy<long double> { static BKSGE_CONSTEXPR double get() { return 0.000000000000000000000000000001; } };
+
+TYPED_TEST(AngleTest, AccuracyTest)
+{
+	using T = TypeParam;
+	using radians = bksge::units::radians<T>;
+	using degrees = bksge::units::degrees<T>;
+
+	BKSGE_CONSTEXPR auto p = bksge::pi<T>();
+
+	BKSGE_CONSTEXPR double error = angle_accuracy<T>::get();
+
+	BKSGE_CONSTEXPR_EXPECT_NEAR(  0.0, (double)degrees(radians(p * T(0.00))).value(), error);
+	BKSGE_CONSTEXPR_EXPECT_NEAR( 45.0, (double)degrees(radians(p * T(0.25))).value(), error);
+	BKSGE_CONSTEXPR_EXPECT_NEAR( 90.0, (double)degrees(radians(p * T(0.50))).value(), error);
+	BKSGE_CONSTEXPR_EXPECT_NEAR(135.0, (double)degrees(radians(p * T(0.75))).value(), error);
+	BKSGE_CONSTEXPR_EXPECT_NEAR(180.0, (double)degrees(radians(p * T(1.00))).value(), error);
+	BKSGE_CONSTEXPR_EXPECT_NEAR(225.0, (double)degrees(radians(p * T(1.25))).value(), error);
+	BKSGE_CONSTEXPR_EXPECT_NEAR(270.0, (double)degrees(radians(p * T(1.50))).value(), error);
+	BKSGE_CONSTEXPR_EXPECT_NEAR(315.0, (double)degrees(radians(p * T(1.75))).value(), error);
+	BKSGE_CONSTEXPR_EXPECT_NEAR(360.0, (double)degrees(radians(p * T(2.00))).value(), error);
+
+	/*BKSGE_CONSTEXPR_*/EXPECT_NEAR(p * 0.00, (double)radians(degrees(  0.0)).value(), error);
+	/*BKSGE_CONSTEXPR_*/EXPECT_NEAR(p * 0.25, (double)radians(degrees( 45.0)).value(), error);
+	/*BKSGE_CONSTEXPR_*/EXPECT_NEAR(p * 0.50, (double)radians(degrees( 90.0)).value(), error);
+	/*BKSGE_CONSTEXPR_*/EXPECT_NEAR(p * 0.75, (double)radians(degrees(135.0)).value(), error);
+	/*BKSGE_CONSTEXPR_*/EXPECT_NEAR(p * 1.00, (double)radians(degrees(180.0)).value(), error);
+	/*BKSGE_CONSTEXPR_*/EXPECT_NEAR(p * 1.25, (double)radians(degrees(225.0)).value(), error);
+	/*BKSGE_CONSTEXPR_*/EXPECT_NEAR(p * 1.50, (double)radians(degrees(270.0)).value(), error);
+	/*BKSGE_CONSTEXPR_*/EXPECT_NEAR(p * 1.75, (double)radians(degrees(315.0)).value(), error);
+	/*BKSGE_CONSTEXPR_*/EXPECT_NEAR(p * 2.00, (double)radians(degrees(360.0)).value(), error);
+}
+
 TYPED_TEST(AngleTest, SinTest)
 {
 	using radians = bksge::units::radians<TypeParam>;
