@@ -10,6 +10,7 @@
 #define UNIT_TEST_FND_VARIANT_POISONED_HASH_HELPER_HPP
 
 #include <bksge/fnd/variant/variant.hpp>
+#include <bksge/fnd/type_traits/is_invocable_r.hpp>
 #include <bksge/fnd/config.hpp>
 #include <functional>
 #include <type_traits>
@@ -127,14 +128,20 @@ struct ConvertibleTo
 	operator To const&& () const&& { return std::move(to); }
 };
 
-template <class HashExpr,
-	class Res = typename std::result_of<HashExpr>::type>
-constexpr bool can_hash(int)
+template <typename HashExpr>
+struct can_hash_impl;
+
+template <typename F, typename... ArgTypes>
+struct can_hash_impl<F(ArgTypes...)>
 {
-	return std::is_same<Res, size_t>::value;
+	static const bool value = bksge::is_invocable_r<std::size_t, F, ArgTypes...>::value;
+};
+
+template <class HashExpr>
+constexpr bool can_hash()
+{
+	return can_hash_impl<HashExpr>::value;
 }
-template <class> constexpr bool can_hash(long) { return false; }
-template <class T> constexpr bool can_hash() { return can_hash<T>(0); }
 
 } // namespace PoisonedHashDetail
 
