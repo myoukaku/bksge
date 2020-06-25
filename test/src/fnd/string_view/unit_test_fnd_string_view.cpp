@@ -102,7 +102,7 @@ TYPED_TEST(StringViewTest, CtorTest)
 		BKSGE_CONSTEXPR_OR_CONST string_view sv;
 		BKSGE_CONSTEXPR_EXPECT_EQ(0u, sv.length());
 		BKSGE_CONSTEXPR_EXPECT_EQ(0u, sv.size());
-		BKSGE_CONSTEXPR_EXPECT_EQ(nullptr, sv.data());
+		BKSGE_CONSTEXPR_EXPECT_TRUE(nullptr == sv.data());
 		BKSGE_CONSTEXPR_EXPECT_TRUE(sv.empty());
 		BKSGE_CONSTEXPR_EXPECT_TRUE(sv.max_size() >= sv.size());
 	}
@@ -110,7 +110,7 @@ TYPED_TEST(StringViewTest, CtorTest)
 		BKSGE_CONSTEXPR_OR_CONST string_view sv{};
 		BKSGE_CONSTEXPR_EXPECT_EQ(0u, sv.length());
 		BKSGE_CONSTEXPR_EXPECT_EQ(0u, sv.size());
-		BKSGE_CONSTEXPR_EXPECT_EQ(nullptr, sv.data());
+		BKSGE_CONSTEXPR_EXPECT_TRUE(nullptr == sv.data());
 		BKSGE_CONSTEXPR_EXPECT_TRUE(sv.empty());
 		BKSGE_CONSTEXPR_EXPECT_TRUE(sv.max_size() >= sv.size());
 	}
@@ -122,7 +122,7 @@ TYPED_TEST(StringViewTest, CtorTest)
 		const string_view sv2{sv1};
 		EXPECT_EQ(7u, sv2.length());
 		EXPECT_EQ(7u, sv2.size());
-		EXPECT_EQ(str, sv2.data());
+		EXPECT_TRUE(str == sv2.data());
 		EXPECT_FALSE(sv2.empty());
 		EXPECT_TRUE(sv2.max_size() >= sv2.size());
 	}
@@ -133,7 +133,7 @@ TYPED_TEST(StringViewTest, CtorTest)
 		const string_view sv{str};
 		EXPECT_EQ(7u, sv.length());
 		EXPECT_EQ(7u, sv.size());
-		EXPECT_EQ(str, sv.data());
+		EXPECT_TRUE(str == sv.data());
 		EXPECT_FALSE(sv.empty());
 		EXPECT_TRUE(sv.max_size() >= sv.size());
 	}
@@ -141,7 +141,7 @@ TYPED_TEST(StringViewTest, CtorTest)
 	//	const string_view sv{nullptr};
 	//	EXPECT_EQ(0u, sv.length());
 	//	EXPECT_EQ(0u, sv.size());
-	//	EXPECT_EQ(nullptr, sv.data());
+	//	EXPECT_TRUE(nullptr == sv.data());
 	//	EXPECT_TRUE(sv.empty());
 	//	EXPECT_TRUE(sv.max_size() >= sv.size());
 	//}
@@ -150,7 +150,7 @@ TYPED_TEST(StringViewTest, CtorTest)
 		const string_view sv{str};
 		EXPECT_EQ(14u, sv.length());
 		EXPECT_EQ(14u, sv.size());
-		EXPECT_EQ(str, sv.data());
+		EXPECT_TRUE(str == sv.data());
 		EXPECT_FALSE(sv.empty());
 		EXPECT_TRUE(sv.max_size() >= sv.size());
 	}
@@ -161,7 +161,7 @@ TYPED_TEST(StringViewTest, CtorTest)
 		const string_view sv{str, 7};
 		EXPECT_EQ(7u, sv.length());
 		EXPECT_EQ(7u, sv.size());
-		EXPECT_EQ(str, sv.data());
+		EXPECT_TRUE(str == sv.data());
 		EXPECT_FALSE(sv.empty());
 		EXPECT_TRUE(sv.max_size() >= sv.size());
 	}
@@ -169,7 +169,7 @@ TYPED_TEST(StringViewTest, CtorTest)
 		BKSGE_CONSTEXPR_OR_CONST string_view sv{nullptr, 0};
 		BKSGE_CONSTEXPR_EXPECT_EQ(0u, sv.length());
 		BKSGE_CONSTEXPR_EXPECT_EQ(0u, sv.size());
-		BKSGE_CONSTEXPR_EXPECT_EQ(nullptr, sv.data());
+		BKSGE_CONSTEXPR_EXPECT_TRUE(nullptr == sv.data());
 		BKSGE_CONSTEXPR_EXPECT_TRUE(sv.empty());
 		BKSGE_CONSTEXPR_EXPECT_TRUE(sv.max_size() >= sv.size());
 	}
@@ -178,7 +178,7 @@ TYPED_TEST(StringViewTest, CtorTest)
 		BKSGE_CONSTEXPR_OR_CONST string_view sv{str, 28};
 		BKSGE_CONSTEXPR_EXPECT_EQ(28u, sv.length());
 		BKSGE_CONSTEXPR_EXPECT_EQ(28u, sv.size());
-//		BKSGE_CONSTEXPR_EXPECT_EQ(str, sv.data());
+//		BKSGE_CONSTEXPR_EXPECT_TRUE(str == sv.data());
 		BKSGE_CONSTEXPR_EXPECT_FALSE(sv.empty());
 		BKSGE_CONSTEXPR_EXPECT_TRUE(sv.max_size() >= sv.size());
 	}
@@ -194,12 +194,12 @@ TYPED_TEST(StringViewTest, AssignTest)
 	
 	string_view sv1;
 	EXPECT_EQ(0u, sv1.length());
-	EXPECT_EQ(nullptr, sv1.data());
+	EXPECT_TRUE(nullptr == sv1.data());
 	EXPECT_TRUE(sv1.empty());
 
 	sv1 = sv2;
 	EXPECT_EQ(7u, sv1.length());
-	EXPECT_EQ(str, sv1.data());
+	EXPECT_TRUE(str == sv1.data());
 	EXPECT_FALSE(sv1.empty());
 }
 
@@ -215,36 +215,36 @@ TYPED_TEST(StringViewTest, BeginEndTest)
 		const iterator first = sv.begin();
 		const iterator last = sv.end();
 		const iterator it0 = first;
-		EXPECT_EQ(str[0], *it0);
+		EXPECT_TRUE(str[0] == *it0);
 		EXPECT_FALSE(it0 == last);
 		const iterator it1 = bksge::next(it0);
-		EXPECT_EQ(str[1], *it1);
+		EXPECT_TRUE(str[1] == *it1);
 		EXPECT_FALSE(it1 == last);
 		const iterator it2 = bksge::next(it1);
-		EXPECT_EQ(str[2], *it2);
+		EXPECT_TRUE(str[2] == *it2);
 		EXPECT_FALSE(it2 == last);
 		const iterator it3 = bksge::next(it2);
-		EXPECT_EQ(str[3], *it3);
+		EXPECT_TRUE(str[3] == *it3);
 		EXPECT_FALSE(it3 == last);
 		const iterator it4 = bksge::next(it3);
-		EXPECT_EQ(str[4], *it4);
+		EXPECT_TRUE(str[4] == *it4);
 		EXPECT_FALSE(it4 == last);
 		const iterator it5 = bksge::next(it4);
-		EXPECT_EQ(str[5], *it5);
+		EXPECT_TRUE(str[5] == *it5);
 		EXPECT_FALSE(it5 == last);
 		const iterator it6 = bksge::next(it5);
-		EXPECT_EQ(str[6], *it6);
+		EXPECT_TRUE(str[6] == *it6);
 		EXPECT_FALSE(it6 == last);
 		const iterator it7 = bksge::next(it6);
 		EXPECT_TRUE (it7 == last);
 
-		EXPECT_EQ(str[0], first[0]);
-		EXPECT_EQ(str[1], first[1]);
-		EXPECT_EQ(str[2], first[2]);
-		EXPECT_EQ(str[3], first[3]);
-		EXPECT_EQ(str[4], first[4]);
-		EXPECT_EQ(str[5], first[5]);
-		EXPECT_EQ(str[6], first[6]);
+		EXPECT_TRUE(str[0] == first[0]);
+		EXPECT_TRUE(str[1] == first[1]);
+		EXPECT_TRUE(str[2] == first[2]);
+		EXPECT_TRUE(str[3] == first[3]);
+		EXPECT_TRUE(str[4] == first[4]);
+		EXPECT_TRUE(str[5] == first[5]);
+		EXPECT_TRUE(str[6] == first[6]);
 	}
 }
 
@@ -260,36 +260,36 @@ TYPED_TEST(StringViewTest, CBeginCEndTest)
 		const const_iterator first = sv.cbegin();
 		const const_iterator last = sv.cend();
 		const const_iterator it0 = first;
-		EXPECT_EQ(str[0], *it0);
+		EXPECT_TRUE(str[0] == *it0);
 		EXPECT_FALSE(it0 == last);
 		const const_iterator it1 = bksge::next(it0);
-		EXPECT_EQ(str[1], *it1);
+		EXPECT_TRUE(str[1] == *it1);
 		EXPECT_FALSE(it1 == last);
 		const const_iterator it2 = bksge::next(it1);
-		EXPECT_EQ(str[2], *it2);
+		EXPECT_TRUE(str[2] == *it2);
 		EXPECT_FALSE(it2 == last);
 		const const_iterator it3 = bksge::next(it2);
-		EXPECT_EQ(str[3], *it3);
+		EXPECT_TRUE(str[3] == *it3);
 		EXPECT_FALSE(it3 == last);
 		const const_iterator it4 = bksge::next(it3);
-		EXPECT_EQ(str[4], *it4);
+		EXPECT_TRUE(str[4] == *it4);
 		EXPECT_FALSE(it4 == last);
 		const const_iterator it5 = bksge::next(it4);
-		EXPECT_EQ(str[5], *it5);
+		EXPECT_TRUE(str[5] == *it5);
 		EXPECT_FALSE(it5 == last);
 		const const_iterator it6 = bksge::next(it5);
-		EXPECT_EQ(str[6], *it6);
+		EXPECT_TRUE(str[6] == *it6);
 		EXPECT_FALSE(it6 == last);
 		const const_iterator it7 = bksge::next(it6);
 		EXPECT_TRUE (it7 == last);
 
-		EXPECT_EQ(str[0], first[0]);
-		EXPECT_EQ(str[1], first[1]);
-		EXPECT_EQ(str[2], first[2]);
-		EXPECT_EQ(str[3], first[3]);
-		EXPECT_EQ(str[4], first[4]);
-		EXPECT_EQ(str[5], first[5]);
-		EXPECT_EQ(str[6], first[6]);
+		EXPECT_TRUE(str[0] == first[0]);
+		EXPECT_TRUE(str[1] == first[1]);
+		EXPECT_TRUE(str[2] == first[2]);
+		EXPECT_TRUE(str[3] == first[3]);
+		EXPECT_TRUE(str[4] == first[4]);
+		EXPECT_TRUE(str[5] == first[5]);
+		EXPECT_TRUE(str[6] == first[6]);
 	}
 }
 
@@ -305,36 +305,36 @@ TYPED_TEST(StringViewTest, RBeginREndTest)
 		const reverse_iterator first = sv.rbegin();
 		const reverse_iterator last = sv.rend();
 		const reverse_iterator it0 = first;
-		EXPECT_EQ(str[6], *it0);
+		EXPECT_TRUE(str[6] == *it0);
 		EXPECT_FALSE(it0 == last);
 		const reverse_iterator it1 = bksge::next(it0);
-		EXPECT_EQ(str[5], *it1);
+		EXPECT_TRUE(str[5] == *it1);
 		EXPECT_FALSE(it1 == last);
 		const reverse_iterator it2 = bksge::next(it1);
-		EXPECT_EQ(str[4], *it2);
+		EXPECT_TRUE(str[4] == *it2);
 		EXPECT_FALSE(it2 == last);
 		const reverse_iterator it3 = bksge::next(it2);
-		EXPECT_EQ(str[3], *it3);
+		EXPECT_TRUE(str[3] == *it3);
 		EXPECT_FALSE(it3 == last);
 		const reverse_iterator it4 = bksge::next(it3);
-		EXPECT_EQ(str[2], *it4);
+		EXPECT_TRUE(str[2] == *it4);
 		EXPECT_FALSE(it4 == last);
 		const reverse_iterator it5 = bksge::next(it4);
-		EXPECT_EQ(str[1], *it5);
+		EXPECT_TRUE(str[1] == *it5);
 		EXPECT_FALSE(it5 == last);
 		const reverse_iterator it6 = bksge::next(it5);
-		EXPECT_EQ(str[0], *it6);
+		EXPECT_TRUE(str[0] == *it6);
 		EXPECT_FALSE(it6 == last);
 		const reverse_iterator it7 = bksge::next(it6);
 		EXPECT_TRUE(it7 == last);
 
-		EXPECT_EQ(str[6], first[0]);
-		EXPECT_EQ(str[5], first[1]);
-		EXPECT_EQ(str[4], first[2]);
-		EXPECT_EQ(str[3], first[3]);
-		EXPECT_EQ(str[2], first[4]);
-		EXPECT_EQ(str[1], first[5]);
-		EXPECT_EQ(str[0], first[6]);
+		EXPECT_TRUE(str[6] == first[0]);
+		EXPECT_TRUE(str[5] == first[1]);
+		EXPECT_TRUE(str[4] == first[2]);
+		EXPECT_TRUE(str[3] == first[3]);
+		EXPECT_TRUE(str[2] == first[4]);
+		EXPECT_TRUE(str[1] == first[5]);
+		EXPECT_TRUE(str[0] == first[6]);
 	}
 }
 
@@ -350,36 +350,36 @@ TYPED_TEST(StringViewTest, CRBeginCREndTest)
 		const const_reverse_iterator first = sv.crbegin();
 		const const_reverse_iterator last = sv.crend();
 		const const_reverse_iterator it0 = first;
-		EXPECT_EQ(str[6], *it0);
+		EXPECT_TRUE(str[6] == *it0);
 		EXPECT_FALSE(it0 == last);
 		const const_reverse_iterator it1 = bksge::next(it0);
-		EXPECT_EQ(str[5], *it1);
+		EXPECT_TRUE(str[5] == *it1);
 		EXPECT_FALSE(it1 == last);
 		const const_reverse_iterator it2 = bksge::next(it1);
-		EXPECT_EQ(str[4], *it2);
+		EXPECT_TRUE(str[4] == *it2);
 		EXPECT_FALSE(it2 == last);
 		const const_reverse_iterator it3 = bksge::next(it2);
-		EXPECT_EQ(str[3], *it3);
+		EXPECT_TRUE(str[3] == *it3);
 		EXPECT_FALSE(it3 == last);
 		const const_reverse_iterator it4 = bksge::next(it3);
-		EXPECT_EQ(str[2], *it4);
+		EXPECT_TRUE(str[2] == *it4);
 		EXPECT_FALSE(it4 == last);
 		const const_reverse_iterator it5 = bksge::next(it4);
-		EXPECT_EQ(str[1], *it5);
+		EXPECT_TRUE(str[1] == *it5);
 		EXPECT_FALSE(it5 == last);
 		const const_reverse_iterator it6 = bksge::next(it5);
-		EXPECT_EQ(str[0], *it6);
+		EXPECT_TRUE(str[0] == *it6);
 		EXPECT_FALSE(it6 == last);
 		const const_reverse_iterator it7 = bksge::next(it6);
 		EXPECT_TRUE(it7 == last);
 
-		EXPECT_EQ(str[6], first[0]);
-		EXPECT_EQ(str[5], first[1]);
-		EXPECT_EQ(str[4], first[2]);
-		EXPECT_EQ(str[3], first[3]);
-		EXPECT_EQ(str[2], first[4]);
-		EXPECT_EQ(str[1], first[5]);
-		EXPECT_EQ(str[0], first[6]);
+		EXPECT_TRUE(str[6] == first[0]);
+		EXPECT_TRUE(str[5] == first[1]);
+		EXPECT_TRUE(str[4] == first[2]);
+		EXPECT_TRUE(str[3] == first[3]);
+		EXPECT_TRUE(str[2] == first[4]);
+		EXPECT_TRUE(str[1] == first[5]);
+		EXPECT_TRUE(str[0] == first[6]);
 	}
 }
 
@@ -399,13 +399,13 @@ TYPED_TEST(StringViewTest, OperatorBracketTest)
 		const const_reference r4 = sv[4];
 		const const_reference r5 = sv[5];
 		const const_reference r6 = sv[6];
-		EXPECT_EQ(str[0], r0);
-		EXPECT_EQ(str[1], r1);
-		EXPECT_EQ(str[2], r2);
-		EXPECT_EQ(str[3], r3);
-		EXPECT_EQ(str[4], r4);
-		EXPECT_EQ(str[5], r5);
-		EXPECT_EQ(str[6], r6);
+		EXPECT_TRUE(str[0] == r0);
+		EXPECT_TRUE(str[1] == r1);
+		EXPECT_TRUE(str[2] == r2);
+		EXPECT_TRUE(str[3] == r3);
+		EXPECT_TRUE(str[4] == r4);
+		EXPECT_TRUE(str[5] == r5);
+		EXPECT_TRUE(str[6] == r6);
 		//const reference r7 = sv[7];
 		//(void)r7;
 	}
@@ -427,13 +427,13 @@ TYPED_TEST(StringViewTest, AtTest)
 		const const_reference r4 = sv.at(4);
 		const const_reference r5 = sv.at(5);
 		const const_reference r6 = sv.at(6);
-		EXPECT_EQ(str[0], r0);
-		EXPECT_EQ(str[1], r1);
-		EXPECT_EQ(str[2], r2);
-		EXPECT_EQ(str[3], r3);
-		EXPECT_EQ(str[4], r4);
-		EXPECT_EQ(str[5], r5);
-		EXPECT_EQ(str[6], r6);
+		EXPECT_TRUE(str[0] == r0);
+		EXPECT_TRUE(str[1] == r1);
+		EXPECT_TRUE(str[2] == r2);
+		EXPECT_TRUE(str[3] == r3);
+		EXPECT_TRUE(str[4] == r4);
+		EXPECT_TRUE(str[5] == r5);
+		EXPECT_TRUE(str[6] == r6);
 		EXPECT_THROW((void)sv.at(7), bksge::out_of_range);
 	}
 	{
@@ -460,7 +460,7 @@ TYPED_TEST(StringViewTest, FrontTest)
 		BKSGE_STATIC_CONSTEXPR auto str = StringViewTestHelper<CharT>::foo_bar();
 		BKSGE_CONSTEXPR_OR_CONST string_view sv{str, 7};
 		const const_reference r = sv.front();
-		EXPECT_EQ(str[0], r);
+		EXPECT_TRUE(str[0] == r);
 	}
 }
 
@@ -474,7 +474,7 @@ TYPED_TEST(StringViewTest, BackTest)
 		BKSGE_STATIC_CONSTEXPR auto str = StringViewTestHelper<CharT>::foo_bar();
 		BKSGE_CONSTEXPR_OR_CONST string_view sv{str, 7};
 		const const_reference r = sv.back();
-		EXPECT_EQ(str[6], r);
+		EXPECT_TRUE(str[6] == r);
 	}
 }
 
@@ -486,19 +486,19 @@ TYPED_TEST(StringViewTest, DataTest)
 
 	{
 		string_view sv{Helper::foo_bar()};
-		EXPECT_EQ(Helper::foo_bar(), sv.data());
+		EXPECT_TRUE(Helper::foo_bar() == sv.data());
 	}
 	{
 		string_view sv{Helper::aababc()};
-		EXPECT_EQ(Helper::aababc(), sv.data());
+		EXPECT_TRUE(Helper::aababc() == sv.data());
 	}
 	{
 		string_view sv{Helper::abcd()};
-		EXPECT_EQ(Helper::abcd(), sv.data());
+		EXPECT_TRUE(Helper::abcd() == sv.data());
 	}
 	{
 		string_view sv;
-		EXPECT_EQ(nullptr, sv.data());
+		EXPECT_TRUE(nullptr == sv.data());
 	}
 }
 
@@ -607,17 +607,17 @@ TYPED_TEST(StringViewTest, RemovePrefixTest)
 		auto str = StringViewTestHelper<CharT>::foo_bar();
 		string_view sv{str, 7};
 
-		EXPECT_EQ(str, sv.data());
+		EXPECT_TRUE(str == sv.data());
 		EXPECT_EQ(7u, sv.length());
 
 		sv.remove_prefix(1);
 
-		EXPECT_EQ(str + 1, sv.data());
+		EXPECT_TRUE(str + 1 == sv.data());
 		EXPECT_EQ(6u, sv.length());
 
 		sv.remove_prefix(2);
 
-		EXPECT_EQ(str + 3, sv.data());
+		EXPECT_TRUE(str + 3 == sv.data());
 		EXPECT_EQ(4u, sv.length());
 	}
 }
@@ -631,17 +631,17 @@ TYPED_TEST(StringViewTest, RemoveSuffixTest)
 		auto str = StringViewTestHelper<CharT>::foo_bar();
 		string_view sv{str, 7};
 
-		EXPECT_EQ(str, sv.data());
+		EXPECT_TRUE(str == sv.data());
 		EXPECT_EQ(7u, sv.length());
 
 		sv.remove_suffix(1);
 
-		EXPECT_EQ(str, sv.data());
+		EXPECT_TRUE(str == sv.data());
 		EXPECT_EQ(6u, sv.length());
 
 		sv.remove_suffix(2);
 
-		EXPECT_EQ(str, sv.data());
+		EXPECT_TRUE(str == sv.data());
 		EXPECT_EQ(4u, sv.length());
 	}
 }
@@ -655,23 +655,23 @@ TYPED_TEST(StringViewTest, SwapTest)
 	string_view sv1{Helper::aababc(), 6};
 	string_view sv2{Helper::foo_bar(), 7};
 
-	EXPECT_EQ(Helper::aababc(), sv1.data());
+	EXPECT_TRUE(Helper::aababc() == sv1.data());
 	EXPECT_EQ(6u, sv1.length());
-	EXPECT_EQ(Helper::foo_bar(), sv2.data());
+	EXPECT_TRUE(Helper::foo_bar() == sv2.data());
 	EXPECT_EQ(7u, sv2.length());
 
 	sv1.swap(sv2);
 
-	EXPECT_EQ(Helper::foo_bar(), sv1.data());
+	EXPECT_TRUE(Helper::foo_bar() == sv1.data());
 	EXPECT_EQ(7u, sv1.length());
-	EXPECT_EQ(Helper::aababc(), sv2.data());
+	EXPECT_TRUE(Helper::aababc() == sv2.data());
 	EXPECT_EQ(6u, sv2.length());
 
 	bksge::swap(sv1, sv2);
 
-	EXPECT_EQ(Helper::aababc(), sv1.data());
+	EXPECT_TRUE(Helper::aababc() == sv1.data());
 	EXPECT_EQ(6u, sv1.length());
-	EXPECT_EQ(Helper::foo_bar(), sv2.data());
+	EXPECT_TRUE(Helper::foo_bar() == sv2.data());
 	EXPECT_EQ(7u, sv2.length());
 }
 
@@ -686,31 +686,31 @@ TYPED_TEST(StringViewTest, CopyTest)
 	{
 		CharT buffer[16] {};
 		auto len = sv.copy(buffer, 7);
-		EXPECT_EQ(str[0], buffer[0]);
+		EXPECT_TRUE(str[0] == buffer[0]);
 		EXPECT_EQ(7u, len);
 	}
 	{
 		CharT buffer[16] {};
 		auto len = sv.copy(buffer, 7, 1);
-		EXPECT_EQ(str[1], buffer[0]);
+		EXPECT_TRUE(str[1] == buffer[0]);
 		EXPECT_EQ(6u, len);
 	}
 	{
 		CharT buffer[16] {};
 		auto len = sv.copy(buffer, 3, 1);
-		EXPECT_EQ(str[1], buffer[0]);
+		EXPECT_TRUE(str[1] == buffer[0]);
 		EXPECT_EQ(3u, len);
 	}
 	{
 		CharT buffer[16] {};
 		auto len = sv.copy(buffer, 7, 6);
-		EXPECT_EQ(str[6], buffer[0]);
+		EXPECT_TRUE(str[6] == buffer[0]);
 		EXPECT_EQ(1u, len);
 	}
 	{
 		CharT buffer[16] {};
 		auto len = sv.copy(buffer, 7, 7);
-		EXPECT_EQ(str[7], buffer[0]);
+		EXPECT_TRUE(str[7] == buffer[0]);
 		EXPECT_EQ(0u, len);
 	}
 	{
@@ -728,22 +728,22 @@ TYPED_TEST(StringViewTest, SubStrTest)
 	const string_view sv1{str, 7};
 	{
 		const string_view sv2 = sv1.substr();
-		EXPECT_EQ(str, sv2.data());
+		EXPECT_TRUE(str == sv2.data());
 		EXPECT_EQ(7u, sv2.length());
 	}
 	{
 		const string_view sv2 = sv1.substr(2);
-		EXPECT_EQ(str + 2, sv2.data());
+		EXPECT_TRUE(str + 2 == sv2.data());
 		EXPECT_EQ(5u, sv2.length());
 	}
 	{
 		const string_view sv2 = sv1.substr(2, 3);
-		EXPECT_EQ(str + 2, sv2.data());
+		EXPECT_TRUE(str + 2 == sv2.data());
 		EXPECT_EQ(3u, sv2.length());
 	}
 	{
 		const string_view sv2 = sv1.substr(7, 10);
-		EXPECT_EQ(str + 7, sv2.data());
+		EXPECT_TRUE(str + 7 == sv2.data());
 		EXPECT_EQ(0u, sv2.length());
 	}
 	{
@@ -1482,7 +1482,7 @@ TYPED_TEST(StringViewTest, OutputStreamTest)
 	{
 		stringstream ss;
 		ss << sv;
-		EXPECT_EQ(Helper::aababc(), ss.str());
+		EXPECT_TRUE(Helper::aababc() == ss.str());
 	}
 }
 
