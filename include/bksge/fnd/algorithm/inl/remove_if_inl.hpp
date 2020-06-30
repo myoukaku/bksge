@@ -10,6 +10,7 @@
 #define BKSGE_FND_ALGORITHM_INL_REMOVE_IF_INL_HPP
 
 #include <bksge/fnd/algorithm/remove_if.hpp>
+#include <bksge/fnd/algorithm/find_if.hpp>
 #include <bksge/fnd/utility/move.hpp>
 
 namespace bksge
@@ -25,13 +26,16 @@ remove_if(
 	ForwardIterator last,
 	Predicate pred)
 {
+	first = bksge::find_if(first, last, pred);
+
 	auto result = first;
 
 	for (; first != last; ++first)
 	{
 		if (!pred(*first))
 		{
-			*result++ = bksge::move(*first);
+			*result = bksge::move(*first);
+			++result;
 		}
 	}
 

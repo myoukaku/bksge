@@ -34,8 +34,52 @@ struct pred2
 	}
 };
 
+struct movable_int
+{
+public:
+	movable_int(int v) : m_value(v) {}
+	movable_int(movable_int const&) = delete;
+	movable_int& operator=(movable_int const&) = delete;
+	movable_int(movable_int&& other) : m_value(other.m_value) { other.m_value = 0; }
+	movable_int& operator=(movable_int&& other) {m_value = other.m_value; other.m_value = 0; return *this;}
+	bool operator==(movable_int const& v) const { return m_value == v.m_value; }
+	bool operator<(movable_int const& v) const { return m_value < v.m_value; }
+private:
+	int		m_value;
+};
+
 GTEST_TEST(AlgorithmTest, RemoveIfTest)
 {
+	{
+		using T = movable_int;
+		T a[] = {1,2,3,1,3,1,2};
+		auto ret = bksge::remove_if(bksge::begin(a), bksge::end(a), [](T const& x) { return x == 1; });
+		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 4));
+		EXPECT_EQ(T(2), a[0]);
+		EXPECT_EQ(T(3), a[1]);
+		EXPECT_EQ(T(3), a[2]);
+		EXPECT_EQ(T(2), a[3]);
+	}
+	{
+		using T = movable_int;
+		T a[] = {3,1,4,1,5,9,2,6};
+		auto ret = bksge::remove_if(bksge::begin(a), bksge::end(a), [](T const& x) { return x < 5; });
+		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 3));
+		EXPECT_EQ(T(5), a[0]);
+		EXPECT_EQ(T(9), a[1]);
+		EXPECT_EQ(T(6), a[2]);
+	}
+	{
+		using T = movable_int;
+		T a[] = {3,1,4,1,5,9,2,6};
+		auto ret = bksge::remove_if(bksge::begin(a), bksge::end(a), [](T const& x) { return !(x < 5); });
+		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 5));
+		EXPECT_EQ(T(3), a[0]);
+		EXPECT_EQ(T(1), a[1]);
+		EXPECT_EQ(T(4), a[2]);
+		EXPECT_EQ(T(1), a[3]);
+		EXPECT_EQ(T(2), a[4]);
+	}
 	{
 		int a[] = {1,2,3,1,3,1,2};
 		auto ret = bksge::remove_if(bksge::begin(a), bksge::end(a), pred1);
