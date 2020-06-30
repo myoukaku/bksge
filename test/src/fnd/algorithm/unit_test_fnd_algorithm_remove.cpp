@@ -21,8 +21,56 @@ namespace bksge_algorithm_test
 namespace remove_test
 {
 
+struct movable_int
+{
+public:
+	movable_int(int v) : m_value(v) {}
+	movable_int(movable_int const&) = delete;
+	movable_int& operator=(movable_int const&) = delete;
+	movable_int(movable_int&& other) : m_value(other.m_value) { other.m_value = 0; }
+	movable_int& operator=(movable_int&& other) {m_value = other.m_value; other.m_value = 0; return *this;}
+	bool operator==(movable_int const& v) const { return m_value == v.m_value; }
+	bool operator<(movable_int const& v) const { return m_value < v.m_value; }
+private:
+	int		m_value;
+};
+
 GTEST_TEST(AlgorithmTest, RemoveTest)
 {
+	{
+		using T = movable_int;
+		T a[] = {1,2,3,1,3,1,2};
+		auto ret = bksge::remove(bksge::begin(a), bksge::end(a), 1);
+		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 4));
+		EXPECT_EQ(T(2), a[0]);
+		EXPECT_EQ(T(3), a[1]);
+		EXPECT_EQ(T(3), a[2]);
+		EXPECT_EQ(T(2), a[3]);
+	}
+	{
+		using T = movable_int;
+		T a[] = {1,2,3,1,3,1,2};
+		auto ret = bksge::remove(bksge::begin(a), bksge::end(a), 2);
+		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 5));
+		EXPECT_EQ(T(1), a[0]);
+		EXPECT_EQ(T(3), a[1]);
+		EXPECT_EQ(T(1), a[2]);
+		EXPECT_EQ(T(3), a[3]);
+		EXPECT_EQ(T(1), a[4]);
+	}
+	{
+		using T = movable_int;
+		T a[] = {1,2,3,1,3,1,2};
+		auto ret = bksge::remove(bksge::begin(a), bksge::end(a), 0);
+		EXPECT_TRUE(ret == bksge::end(a));
+		EXPECT_EQ(T(1), a[0]);
+		EXPECT_EQ(T(2), a[1]);
+		EXPECT_EQ(T(3), a[2]);
+		EXPECT_EQ(T(1), a[3]);
+		EXPECT_EQ(T(3), a[4]);
+		EXPECT_EQ(T(1), a[5]);
+		EXPECT_EQ(T(2), a[6]);
+	}
 	{
 		int a[] = {1,2,3,1,3,1,2};
 		auto ret = bksge::remove(bksge::begin(a), bksge::end(a), 1);

@@ -10,6 +10,7 @@
 #define BKSGE_FND_ALGORITHM_INL_REMOVE_INL_HPP
 
 #include <bksge/fnd/algorithm/remove.hpp>
+#include <bksge/fnd/algorithm/find.hpp>
 #include <bksge/fnd/utility/move.hpp>
 
 namespace bksge
@@ -25,13 +26,16 @@ remove(
 	ForwardIterator last,
 	T const& value)
 {
+	first = bksge::find(first, last, value);
+
 	auto result = first;
 
 	for (; first != last; ++first)
 	{
 		if (!(*first == value))
 		{
-			*result++ = bksge::move(*first);
+			*result = bksge::move(*first);
+			++result;
 		}
 	}
 
