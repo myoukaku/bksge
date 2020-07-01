@@ -19,7 +19,9 @@
 #include <bksge/fnd/iterator/distance.hpp>
 #include <bksge/fnd/iterator/empty.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/iterator/make_move_iterator.hpp>
 #include <bksge/fnd/iterator/make_reverse_iterator.hpp>
+#include <bksge/fnd/iterator/move_iterator.hpp>
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/iterator/prev.hpp>
 #include <bksge/fnd/iterator/rbegin.hpp>
