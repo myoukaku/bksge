@@ -12,6 +12,10 @@
 #include <bksge/fnd/config.hpp>
 
 #if (BKSGE_CXX_STANDARD >= 17)
+#    define BKSGE_USE_STD_MOVE_ITERATOR
+#endif
+
+#if defined(BKSGE_USE_STD_MOVE_ITERATOR)
 
 #include <iterator>
 
@@ -25,12 +29,9 @@ using std::move_iterator;
 #else
 
 #include <bksge/fnd/iterator/type_traits/iterator_category.hpp>
-#include <bksge/fnd/iterator/type_traits/iterator_value_type.hpp>
-#include <bksge/fnd/iterator/type_traits/iterator_difference_type.hpp>
-#include <bksge/fnd/iterator/type_traits/iterator_reference.hpp>
-#include <bksge/fnd/type_traits/conditional.hpp>
-#include <bksge/fnd/type_traits/is_reference.hpp>
-#include <bksge/fnd/type_traits/remove_reference.hpp>
+#include <bksge/fnd/iterator/iter_value_t.hpp>
+#include <bksge/fnd/iterator/iter_difference_t.hpp>
+#include <bksge/fnd/iterator/iter_rvalue_reference_t.hpp>
 
 namespace bksge
 {
@@ -43,17 +44,10 @@ private:
 public:
 	using iterator_type     = Iter;
 	using iterator_category = bksge::iterator_category<iterator_type>;
-	using value_type        = bksge::iterator_value_type<iterator_type>;
-	using difference_type   = bksge::iterator_difference_type<iterator_type>;
+	using value_type        = bksge::iter_value_t<iterator_type>;
+	using difference_type   = bksge::iter_difference_t<iterator_type>;
 	using pointer           = iterator_type;
-private:
-	using raw_reference     = bksge::iterator_reference<iterator_type>;
-public:
-	using reference         = bksge::conditional_t<
-		bksge::is_reference<raw_reference>::value,
-		bksge::remove_reference_t<raw_reference>&&,
-		raw_reference
-	>;
+	using reference         = bksge::iter_rvalue_reference_t<iterator_type>;
 
 	BKSGE_CXX14_CONSTEXPR move_iterator(): m_i() {}
 	BKSGE_CXX14_CONSTEXPR explicit move_iterator(Iter x): m_i(x) {}
@@ -61,7 +55,7 @@ public:
 	BKSGE_CXX14_CONSTEXPR move_iterator(move_iterator<U> const& other) : m_i(other.base()) {}
 	BKSGE_CXX14_CONSTEXPR Iter base() const { return m_i; }
 	BKSGE_CXX14_CONSTEXPR reference operator*() const { return static_cast<reference>(*m_i); }
-	BKSGE_CXX14_CONSTEXPR pointer  operator->() const { return m_i; }
+//	BKSGE_CXX14_CONSTEXPR pointer  operator->() const { return m_i; }
 	BKSGE_CXX14_CONSTEXPR move_iterator& operator++() { ++m_i; return *this; }
 	BKSGE_CXX14_CONSTEXPR move_iterator  operator++(int) { move_iterator tmp(*this); ++m_i; return tmp; }
 	BKSGE_CXX14_CONSTEXPR move_iterator& operator--() { --m_i; return *this; }

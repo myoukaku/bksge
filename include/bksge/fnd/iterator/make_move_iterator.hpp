@@ -12,7 +12,7 @@
 #include <bksge/fnd/iterator/move_iterator.hpp>
 #include <bksge/fnd/config.hpp>
 
-#if (BKSGE_CXX_STANDARD >= 17)
+#if defined(BKSGE_USE_STD_MOVE_ITERATOR)
 
 #include <iterator>
 

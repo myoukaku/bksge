@@ -58,7 +58,7 @@ GTEST_TEST(MoveIteratorTest, IterCtorTest)
 
 inline BKSGE_CXX14_CONSTEXPR bool convert_ctor_test()
 {
-	Derived d;
+	Derived d{};
 	bksge::move_iterator<Derived*> const it1(&d);
 	bksge::move_iterator<Base*> it2(it1);
 	return it2.base() == &d;
@@ -71,7 +71,7 @@ GTEST_TEST(MoveIteratorTest, ConvertCtorTest)
 
 inline BKSGE_CXX14_CONSTEXPR bool assign_test()
 {
-	Derived d;
+	Derived d{};
 	bksge::move_iterator<Derived*> const it1(&d);
 	bksge::move_iterator<Base*> it2;
 	bksge::move_iterator<Base*>& r = it2 = it1;
