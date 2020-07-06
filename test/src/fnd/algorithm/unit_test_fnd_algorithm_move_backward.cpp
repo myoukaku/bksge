@@ -15,6 +15,7 @@
 #include <vector>
 #include <array>
 #include <gtest/gtest.h>
+#include "constexpr_test.hpp"
 
 namespace bksge_algorithm_test
 {
@@ -25,29 +26,29 @@ namespace move_backward_test
 struct noncopyable
 {
 public:
-	noncopyable()
+	BKSGE_CXX14_CONSTEXPR noncopyable()
 		: value(0)
 	{}
 
-	noncopyable(int v)
+	BKSGE_CXX14_CONSTEXPR noncopyable(int v)
 		: value(v)
 	{
 	}
 
-	noncopyable(noncopyable&& rhs)
+	BKSGE_CXX14_CONSTEXPR noncopyable(noncopyable&& rhs)
 		: value(bksge::move(rhs.value))
 	{
 		rhs.value = -1;
 	}
 	
-	noncopyable& operator=(noncopyable&& rhs)
+	BKSGE_CXX14_CONSTEXPR noncopyable& operator=(noncopyable&& rhs)
 	{
 		value = bksge::move(rhs.value);
 		rhs.value = -1;
 		return *this;
 	}
 
-	int get() const { return value; }
+	BKSGE_CXX14_CONSTEXPR int get() const { return value; }
 
 private:
 	noncopyable(noncopyable const&) = delete;
@@ -56,8 +57,18 @@ private:
 	int value;
 };
 
-GTEST_TEST(AlgorithmTest, MoveBackwardTest)
+inline BKSGE_CXX14_CONSTEXPR bool move_backward_test()
 {
+	{
+		int a[] = { 10, 20, 30, 40, 50 };
+
+		auto it = bksge::move_backward(a, a + 3, a + 5);
+
+		if (!(10 == a[2])) { return false; }
+		if (!(20 == a[3])) { return false; }
+		if (!(30 == a[4])) { return false; }
+		if (!(it == a + 2)) { return false; }
+	}
 	{
 		noncopyable a[] =
 		{
@@ -71,13 +82,19 @@ GTEST_TEST(AlgorithmTest, MoveBackwardTest)
 				bksge::begin(a),
 				bksge::next(bksge::begin(a), 2),
 				bksge::end(a));
-			EXPECT_TRUE(it == bksge::next(bksge::begin(a), 1));
+			if (!(it == bksge::next(bksge::begin(a), 1))) { return false; }
 		}
 
-		EXPECT_EQ(-1, a[0].get());
-		EXPECT_EQ( 1, a[1].get());
-		EXPECT_EQ( 2, a[2].get());
+		if (!(-1 == a[0].get())) { return false; }
+		if (!( 1 == a[1].get())) { return false; }
+		if (!( 2 == a[2].get())) { return false; }
 	}
+	return true;
+}
+
+GTEST_TEST(AlgorithmTest, MoveBackwardTest)
+{
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(move_backward_test());
 
 	{
 		std::array<noncopyable, 4> a =

@@ -50,7 +50,7 @@ template <
 		bksge::is_bidirectional_iterator<BidirectionalIterator2>::value
 	>
 >
-BidirectionalIterator2
+BKSGE_CXX14_CONSTEXPR BidirectionalIterator2
 move_backward(
 	BidirectionalIterator1 first,
 	BidirectionalIterator1 last,
