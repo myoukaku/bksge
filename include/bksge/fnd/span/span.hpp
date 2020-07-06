@@ -32,6 +32,7 @@ using std::span;
 #include <bksge/fnd/iterator/data.hpp>
 #include <bksge/fnd/iterator/distance.hpp>
 #include <bksge/fnd/iterator/size.hpp>
+#include <bksge/fnd/iterator/reverse_iterator.hpp>
 //#include <bksge/fnd/iterator/wrap_iterator.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_convertible.hpp>
@@ -40,7 +41,6 @@ using std::span;
 #include <bksge/fnd/config.hpp>
 #include <array>
 #include <cstddef>
-#include <iterator>
 
 #if BKSGE_CXX_STANDARD >= 14
 #  define BKSGE_CXX11_CONSTEXPR_IF_NODEBUG constexpr
@@ -66,8 +66,8 @@ public:
 	using const_reference        = T const&;
 	using iterator               = pointer;//bksge::wrap_iterator<pointer>;
 	using const_iterator         = const_pointer;//bksge::wrap_iterator<const_pointer>;
-	using reverse_iterator       = std::reverse_iterator<iterator>;
-	using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+	using reverse_iterator       = bksge::reverse_iterator<iterator>;
+	using const_reverse_iterator = bksge::reverse_iterator<const_iterator>;
 
 	BKSGE_STATIC_CONSTEXPR index_type extent = Extent;
 
@@ -263,8 +263,8 @@ public:
 	using const_reference        = T const&;
 	using iterator               = pointer;//bksge::wrap_iterator<pointer>;
 	using const_iterator         = const_pointer;//bksge::wrap_iterator<const_pointer>;
-	using reverse_iterator       = std::reverse_iterator<iterator>;
-	using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+	using reverse_iterator       = bksge::reverse_iterator<iterator>;
+	using const_reverse_iterator = bksge::reverse_iterator<const_iterator>;
 
 	BKSGE_STATIC_CONSTEXPR index_type extent = bksge::dynamic_extent;
 

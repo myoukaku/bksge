@@ -33,6 +33,7 @@
 #include <bksge/fnd/iterator/prev.hpp>
 #include <bksge/fnd/iterator/rbegin.hpp>
 #include <bksge/fnd/iterator/rend.hpp>
+#include <bksge/fnd/iterator/reverse_iterator.hpp>
 #include <bksge/fnd/iterator/size.hpp>
 #include <bksge/fnd/iterator/type_traits.hpp>
 #include <bksge/fnd/iterator/unwrap_iterator.hpp>

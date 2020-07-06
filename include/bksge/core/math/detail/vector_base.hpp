@@ -18,9 +18,9 @@
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_swappable.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
+#include <bksge/fnd/iterator/reverse_iterator.hpp>
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/config.hpp>
-#include <iterator>
 #include <cstddef>
 #include <iosfwd>		// basic_ostream
 #include <tuple>
@@ -73,8 +73,8 @@ public:
 	using const_pointer          = T const*;
 	using iterator               = T*;
 	using const_iterator         = T const*;
-	using reverse_iterator       = std::reverse_iterator<iterator>;
-	using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+	using reverse_iterator       = bksge::reverse_iterator<iterator>;
+	using const_reverse_iterator = bksge::reverse_iterator<const_iterator>;
 
 	// Default ctor
 	explicit BKSGE_CONSTEXPR

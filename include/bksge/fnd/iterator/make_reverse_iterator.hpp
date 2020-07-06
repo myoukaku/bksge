@@ -9,9 +9,11 @@
 #ifndef BKSGE_FND_ITERATOR_MAKE_REVERSE_ITERATOR_HPP
 #define BKSGE_FND_ITERATOR_MAKE_REVERSE_ITERATOR_HPP
 
+#include <bksge/fnd/iterator/reverse_iterator.hpp>
 #include <iterator>
 
-#if defined(__cpp_lib_make_reverse_iterator) && (__cpp_lib_make_reverse_iterator >= 201402)
+#if defined(BKSGE_USE_STD_REVERSE_ITERATOR) && \
+    defined(__cpp_lib_make_reverse_iterator) && (__cpp_lib_make_reverse_iterator >= 201402)
 
 namespace bksge
 {
@@ -30,10 +32,10 @@ namespace bksge
 
 // make_reverse_iterator
 template <typename Iterator>
-inline BKSGE_CONSTEXPR std::reverse_iterator<Iterator>
+inline BKSGE_CONSTEXPR bksge::reverse_iterator<Iterator>
 make_reverse_iterator(Iterator it)
 {
-	return std::reverse_iterator<Iterator>(it);
+	return bksge::reverse_iterator<Iterator>(it);
 }
 
 }	// namespace bksge
