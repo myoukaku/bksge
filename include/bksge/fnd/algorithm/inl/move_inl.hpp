@@ -29,7 +29,7 @@ namespace detail
 {
 
 template <typename InputIterator, typename OutputIterator>
-inline OutputIterator
+inline BKSGE_CXX14_CONSTEXPR OutputIterator
 move(
 	InputIterator first,
 	InputIterator last,
@@ -43,6 +43,7 @@ move(
 	return result;
 }
 
+#if 0
 template <typename T, typename U>
 inline
 bksge::enable_if_t<
@@ -61,6 +62,7 @@ move(T* first, T* last, U* result)
 
 	return result + n;
 }
+#endif
 
 }	// namespace detail
 
@@ -69,7 +71,7 @@ template <
 	typename OutputIterator,
 	typename
 >
-inline OutputIterator
+inline BKSGE_CXX14_CONSTEXPR OutputIterator
 move(
 	InputIterator first,
 	InputIterator last,

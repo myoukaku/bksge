@@ -15,6 +15,7 @@
 #include <vector>
 #include <array>
 #include <gtest/gtest.h>
+#include "constexpr_test.hpp"
 
 namespace bksge_algorithm_test
 {
@@ -25,29 +26,29 @@ namespace move_test
 struct noncopyable
 {
 public:
-	noncopyable()
+	BKSGE_CXX14_CONSTEXPR noncopyable()
 		: value(0)
 	{}
 
-	noncopyable(int v)
+	BKSGE_CXX14_CONSTEXPR noncopyable(int v)
 		: value(v)
 	{
 	}
 
-	noncopyable(noncopyable&& rhs)
+	BKSGE_CXX14_CONSTEXPR noncopyable(noncopyable&& rhs)
 		: value(bksge::move(rhs.value))
 	{
 		rhs.value = -1;
 	}
 	
-	noncopyable& operator=(noncopyable&& rhs)
+	BKSGE_CXX14_CONSTEXPR noncopyable& operator=(noncopyable&& rhs)
 	{
 		value = bksge::move(rhs.value);
 		rhs.value = -1;
 		return *this;
 	}
 
-	int get() const { return value; }
+	BKSGE_CXX14_CONSTEXPR int get() const { return value; }
 
 private:
 	noncopyable(noncopyable const&) = delete;
@@ -56,8 +57,22 @@ private:
 	int value;
 };
 
-GTEST_TEST(AlgorithmTest, MoveTest)
+inline BKSGE_CXX14_CONSTEXPR bool move_test()
 {
+	{
+		int a1[] = { 10, 20, 30, 40, 50 };
+
+		int a2[5] {};
+
+		auto it = bksge::move(bksge::begin(a1), bksge::end(a1), bksge::begin(a2));
+
+		if (!(10 == a2[0])) { return false; }
+		if (!(20 == a2[1])) { return false; }
+		if (!(30 == a2[2])) { return false; }
+		if (!(40 == a2[3])) { return false; }
+		if (!(50 == a2[4])) { return false; }
+		if (!(it == bksge::end(a2))) { return false; }
+	}
 	{
 		noncopyable a1[] =
 		{
@@ -66,15 +81,25 @@ GTEST_TEST(AlgorithmTest, MoveTest)
 			noncopyable(3),
 		};
 
-		noncopyable a2[3];
+		noncopyable a2[3] {};
 
 		auto it = bksge::move(bksge::begin(a1), bksge::end(a1), bksge::begin(a2));
 
-		EXPECT_EQ(1, a2[0].get());
-		EXPECT_EQ(2, a2[1].get());
-		EXPECT_EQ(3, a2[2].get());
-		EXPECT_TRUE(it == bksge::end(a2));
+		if (!(-1 == a1[0].get())) { return false; }
+		if (!(-1 == a1[1].get())) { return false; }
+		if (!(-1 == a1[2].get())) { return false; }
+		if (!( 1 == a2[0].get())) { return false; }
+		if (!( 2 == a2[1].get())) { return false; }
+		if (!( 3 == a2[2].get())) { return false; }
+		if (!(it == bksge::end(a2))) { return false; }
 	}
+	return true;
+}
+
+GTEST_TEST(AlgorithmTest, MoveTest)
+{
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(move_test());
+
 	{
 		std::array<noncopyable, 4> a1 =
 		{{

@@ -48,7 +48,7 @@ template <
 		bksge::is_iterator<OutputIterator>::value
 	>
 >
-OutputIterator
+BKSGE_CXX14_CONSTEXPR OutputIterator
 move(InputIterator first, InputIterator last, OutputIterator result);
 
 }	// namespace algorithm
