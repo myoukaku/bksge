@@ -312,19 +312,18 @@
 #    define BKSGE_HAS_CXX20_CAPTURE_COPY_THIS
 #  endif
 #  if (BKSGE_CLANG_VERSION >= 110000)
+#    define BKSGE_HAS_CXX20_CHAR8_T
+#    define BKSGE_HAS_CXX20_DEFAULT_CONSTRUCTIBLE_AND_ASSIGNABLE_STATELESS_LAMBDAS
 #    define BKSGE_HAS_CXX20_RANGE_BASED_FOR_INITIALIZER
 #    define BKSGE_HAS_CXX20_CONSTEXPR_TRY_CATCH
 #  endif
 #  if (BKSGE_CLANG_VERSION >= 110003)
-#    define BKSGE_HAS_CXX20_VA_OPT
-#    define BKSGE_HAS_CXX20_NODISCARD_WITH_MESSAGE
-#  endif
-#  if 0
 #    define BKSGE_HAS_CXX20_TEMPLATE_LAMBDA
-#    define BKSGE_HAS_CXX20_DESIGNATED_INITIALIZERS
-#    define BKSGE_HAS_CXX20_DEFAULT_CONSTRUCTIBLE_AND_ASSIGNABLE_STATELESS_LAMBDAS
+#    define BKSGE_HAS_CXX20_VA_OPT
 #    define BKSGE_HAS_CXX20_CONDITIONAL_EXPLICIT
-#    define BKSGE_HAS_CXX20_CHAR8_T
+#    if (BKSGE_HAS_CPP_ATTRIBUTE(nodiscard) >= 201907)
+#      define BKSGE_HAS_CXX20_NODISCARD_WITH_MESSAGE
+#    endif
 #  endif
 #  if defined(__cpp_impl_three_way_comparison) && (__cpp_impl_three_way_comparison >= 201711L)
 #    define BKSGE_HAS_CXX20_THREE_WAY_COMPARISON
@@ -334,6 +333,15 @@
 #  endif
 #  if defined(__cpp_concepts) && (__cpp_concepts >= 201907)
 #    define BKSGE_HAS_CXX20_CONCEPTS
+#  endif
+#  if 0
+#    define BKSGE_HAS_CXX20_DESIGNATED_INITIALIZERS
+#    if (BKSGE_HAS_CPP_ATTRIBUTE(likely) >= 201803)
+#      define BKSGE_HAS_CXX20_LIKELY
+#    endif
+#    if (BKSGE_HAS_CPP_ATTRIBUTE(unlikely) >= 201803)
+#      define BKSGE_HAS_CXX20_UNLIKELY
+#    endif
 #  endif
 #endif
 

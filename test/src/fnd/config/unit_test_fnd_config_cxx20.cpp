@@ -446,4 +446,41 @@ BKSGE_WARNING_POP()
 
 }	// namespace nodiscard_with_message_test
 
+namespace likely_unlikely_test
+{
+
+GTEST_TEST(ConfigTest, Cxx20LikelyUnlikelyTest)
+{
+#if defined(BKSGE_HAS_CXX20_LIKELY) && defined(BKSGE_HAS_CXX20_UNLIKELY)
+
+#if !(defined(BKSGE_GCC_VERSION) && (BKSGE_GCC_VERSION < 100000))
+	bool f1 = true;
+	bool f2 = false;
+
+	if (f1) [[likely]]
+	{
+		EXPECT_TRUE(f1);
+	}
+	if (f2) [[unlikely]]
+	{
+		EXPECT_TRUE(f1);
+	}
+#endif
+
+	int n = 10;
+	switch (n)
+	{
+	case 0:
+		break;
+	[[unlikely]] case 1:
+		break;
+	[[likely]] default:
+		break;
+	}
+
+#endif
+}
+
+}	// namespace likely_unlikely_test
+
 }	// namespace bksge_config_cxx20_test

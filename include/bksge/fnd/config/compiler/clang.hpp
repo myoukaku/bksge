@@ -352,7 +352,9 @@
 #  if (BKSGE_CLANG_VERSION >= 90000)
 #    define BKSGE_HAS_CXX20_TEMPLATE_LAMBDA
 #    define BKSGE_HAS_CXX20_VA_OPT
-#    define BKSGE_HAS_CXX20_NODISCARD_WITH_MESSAGE
+#    if (BKSGE_HAS_CPP_ATTRIBUTE(nodiscard) >= 201907)
+#      define BKSGE_HAS_CXX20_NODISCARD_WITH_MESSAGE
+#    endif
 #  endif
 #  if (BKSGE_CLANG_VERSION >= 100000)
 #    define BKSGE_HAS_CXX20_DESIGNATED_INITIALIZERS
@@ -371,6 +373,14 @@
 #  endif
 #  if defined(__cpp_concepts) && (__cpp_concepts >= 201907)
 #    define BKSGE_HAS_CXX20_CONCEPTS
+#  endif
+#  if 0
+#    if (BKSGE_HAS_CPP_ATTRIBUTE(likely) >= 201803)
+#      define BKSGE_HAS_CXX20_LIKELY
+#    endif
+#    if (BKSGE_HAS_CPP_ATTRIBUTE(unlikely) >= 201803)
+#      define BKSGE_HAS_CXX20_UNLIKELY
+#    endif
 #  endif
 #endif
 

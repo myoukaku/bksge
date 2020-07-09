@@ -477,6 +477,10 @@
 
 // Visual Studio 2019 version 16.6.0
 #if (_MSC_FULL_VER >= 192628805)
+#  if (BKSGE_CXX_STANDARD >= 20)
+#    define BKSGE_HAS_CXX20_LIKELY
+#    define BKSGE_HAS_CXX20_UNLIKELY
+#  endif
 #endif
 
 // Visual Studio 2019 version 16.6.(1-3)
@@ -634,7 +638,8 @@
 // P0961R1		Relaxing the structured bindings customization point finding rules
 // P0634R3		Down with typename!
 // P0780R2		Allow pack expansion in lambda init-capture
-// P0479R5		Proposed wording for likelyand unlikely attributes
+#define BKSGE_HAS_CXX20_LIKELY								// P0479R5		Proposed wording for likely and unlikely attributes
+#define BKSGE_HAS_CXX20_UNLIKELY
 // P0806R2		[=]によるthisの暗黙のキャプチャを非推奨化
 // P0732R2	__cpp_nontype_template_parameter_class >= 201806	Class Types in Non-Type Template Parameters
 // P0528R3		Atomic Compare-and-Exchange with Padding Bits

@@ -405,10 +405,18 @@
 #    define BKSGE_HAS_CXX20_RANGE_BASED_FOR_INITIALIZER
 #    define BKSGE_HAS_CXX20_DEFAULT_CONSTRUCTIBLE_AND_ASSIGNABLE_STATELESS_LAMBDAS
 #    define BKSGE_HAS_CXX20_CONSTEXPR_TRY_CATCH
+#    if (BKSGE_HAS_CPP_ATTRIBUTE(likely) >= 201803)
+#      define BKSGE_HAS_CXX20_LIKELY
+#    endif
+#    if (BKSGE_HAS_CPP_ATTRIBUTE(unlikely) >= 201803)
+#      define BKSGE_HAS_CXX20_UNLIKELY
+#    endif
 #  endif
 #  if (BKSGE_GCC_VERSION >= 100000)
 #    define BKSGE_HAS_CXX20_VA_OPT
-#    define BKSGE_HAS_CXX20_NODISCARD_WITH_MESSAGE
+#    if (BKSGE_HAS_CPP_ATTRIBUTE(nodiscard) >= 201907)
+#      define BKSGE_HAS_CXX20_NODISCARD_WITH_MESSAGE
+#    endif
 #  endif
 #  if defined(__cpp_conditional_explicit) && (__cpp_conditional_explicit >= 201806)
 #    define BKSGE_HAS_CXX20_CONDITIONAL_EXPLICIT
