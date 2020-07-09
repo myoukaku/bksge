@@ -480,6 +480,7 @@
 #  if (BKSGE_CXX_STANDARD >= 20)
 #    define BKSGE_HAS_CXX20_LIKELY
 #    define BKSGE_HAS_CXX20_UNLIKELY
+#    define BKSGE_HAS_CXX20_NONTYPE_TEMPLATE_PARAMETER_CLASS
 #  endif
 #endif
 
@@ -641,7 +642,7 @@
 #define BKSGE_HAS_CXX20_LIKELY								// P0479R5		Proposed wording for likely and unlikely attributes
 #define BKSGE_HAS_CXX20_UNLIKELY
 // P0806R2		[=]によるthisの暗黙のキャプチャを非推奨化
-// P0732R2	__cpp_nontype_template_parameter_class >= 201806	Class Types in Non-Type Template Parameters
+#define BKSGE_HAS_CXX20_NONTYPE_TEMPLATE_PARAMETER_CLASS	// P0732R2	__cpp_nontype_template_parameter_class >= 201806	Class Types in Non-Type Template Parameters
 // P0528R3		Atomic Compare-and-Exchange with Padding Bits
 // P0722R3	__cpp_impl_destroying_delete >= 201806	Efficient sized delete for variable sized classes
 // P1064R0		Allowing Virtual Function Calls in Constant Expressions

@@ -483,4 +483,33 @@ GTEST_TEST(ConfigTest, Cxx20LikelyUnlikelyTest)
 
 }	// namespace likely_unlikely_test
 
+namespace nontype_template_parameter_class_test
+{
+
+#if defined(BKSGE_HAS_CXX20_NONTYPE_TEMPLATE_PARAMETER_CLASS)
+
+struct A
+{
+	friend bool operator==(const A&, const A&)
+	{
+		return true;
+	}
+};
+
+template<A a> bool f()
+{
+	const A& ra = a, & rb = a;
+	return &ra == &rb;
+}
+
+#endif
+
+//GTEST_TEST(ConfigTest, Cxx20NontypeTemplateParameterClassTest)
+//{
+//	constexpr A a;
+//	EXPECT_TRUE(f<a>());
+//}
+
+}	// namespace nontype_template_parameter_class_test
+
 }	// namespace bksge_config_cxx20_test

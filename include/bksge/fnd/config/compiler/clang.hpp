@@ -375,6 +375,7 @@
 #    define BKSGE_HAS_CXX20_CONCEPTS
 #  endif
 #  if 0
+#    define BKSGE_HAS_CXX20_NONTYPE_TEMPLATE_PARAMETER_CLASS
 #    if (BKSGE_HAS_CPP_ATTRIBUTE(likely) >= 201803)
 #      define BKSGE_HAS_CXX20_LIKELY
 #    endif

@@ -411,6 +411,9 @@
 #    if (BKSGE_HAS_CPP_ATTRIBUTE(unlikely) >= 201803)
 #      define BKSGE_HAS_CXX20_UNLIKELY
 #    endif
+#    if defined(__cpp_nontype_template_parameter_class) && (__cpp_nontype_template_parameter_class >= 201806)
+#      define BKSGE_HAS_CXX20_NONTYPE_TEMPLATE_PARAMETER_CLASS
+#    endif
 #  endif
 #  if (BKSGE_GCC_VERSION >= 100000)
 #    define BKSGE_HAS_CXX20_VA_OPT
