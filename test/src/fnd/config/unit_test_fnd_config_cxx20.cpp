@@ -382,4 +382,36 @@ static_assert(!func2("0"), "");
 
 }	// namespace concepts_test
 
+namespace va_opt_test
+{
+
+template <typename... Args>
+constexpr int func(Args... args)
+{
+	return sizeof...(args);
+}
+
+GTEST_TEST(ConfigTest, Cxx20VaOptTest)
+{
+#if defined(BKSGE_HAS_CXX20_VA_OPT)
+
+#define F(X, ...) func(X __VA_OPT__(,) __VA_ARGS__)
+	static_assert(F(3) == 1, "");
+	static_assert(F(3, "Hello") == 2, "");
+	static_assert(F(3, "Hello", 'A') == 3, "");
+#undef F
+
+#define F(name, ...) std::vector<int> name __VA_OPT__(= { __VA_ARGS__ })
+	F(v1);
+	F(v2, 1, 2, 3);
+
+	EXPECT_TRUE(v1.size() == 0);
+	EXPECT_TRUE(v2.size() == 3);
+#undef F
+
+#endif
+}
+
+}	// namespace va_opt_test
+
 }	// namespace bksge_config_cxx20_test

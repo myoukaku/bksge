@@ -456,6 +456,9 @@
 #    define BKSGE_HAS_CXX20_BITFIELD_DEFAULT_MEMBER_INITIALIZER
 #    define BKSGE_HAS_CXX20_RANGE_BASED_FOR_INITIALIZER
 #    define BKSGE_HAS_CXX20_CONSTEXPR_TRY_CATCH
+#    if !(defined(_MSVC_TRADITIONAL) && _MSVC_TRADITIONAL)
+#      define BKSGE_HAS_CXX20_VA_OPT
+#    endif
 #  endif
 #endif
 
@@ -598,7 +601,7 @@
 #define BKSGE_HAS_CXX20_BITFIELD_DEFAULT_MEMBER_INITIALIZER	// P0683R1	ビットフィールドのメンバ変数初期化
 #define BKSGE_HAS_CXX20_CONST_QUALIFIED_POINTERS_TO_MEMBERS	// P0704R1	const修飾されたメンバポインタの制限を修正
 #define BKSGE_HAS_CXX20_CAPTURE_COPY_THIS					// P0409R2	ラムダ式のキャプチャとして[=, this]を許可する
-// P0306R4		__VA_OPT__ for preprocessor comma elision
+#define BKSGE_HAS_CXX20_VA_OPT								// P0306R4		__VA_OPT__ for preprocessor comma elision
 // P1042R1
 #define BKSGE_HAS_CXX20_DESIGNATED_INITIALIZERS				// P0329R4	指示付き初期化子
 #define BKSGE_HAS_CXX20_TEMPLATE_LAMBDA						// P0428R2	ジェネリックラムダのテンプレート構文

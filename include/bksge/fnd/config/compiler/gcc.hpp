@@ -406,6 +406,9 @@
 #    define BKSGE_HAS_CXX20_DEFAULT_CONSTRUCTIBLE_AND_ASSIGNABLE_STATELESS_LAMBDAS
 #    define BKSGE_HAS_CXX20_CONSTEXPR_TRY_CATCH
 #  endif
+#  if (BKSGE_GCC_VERSION >= 100000)
+#    define BKSGE_HAS_CXX20_VA_OPT
+#  endif
 #  if defined(__cpp_conditional_explicit) && (__cpp_conditional_explicit >= 201806)
 #    define BKSGE_HAS_CXX20_CONDITIONAL_EXPLICIT
 #  endif

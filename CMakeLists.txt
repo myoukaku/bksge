@@ -88,6 +88,9 @@ foreach(compiler_flag ${compiler_flags})
 	# /d1reportTime (compiler frontend spends time)
     #set(${compiler_flag} "${${compiler_flag}} /d1reportTime")
 
+	# /Zc:preprocessor
+    #set(${compiler_flag} "${${compiler_flag}} /Zc:preprocessor /Wv:18")
+
   elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     set(${compiler_flag} "${${compiler_flag}} -Wall -Wextra -Werror -Wno-mismatched-tags")
 
