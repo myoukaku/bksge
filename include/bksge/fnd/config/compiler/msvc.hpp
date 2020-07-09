@@ -456,6 +456,7 @@
 #    define BKSGE_HAS_CXX20_BITFIELD_DEFAULT_MEMBER_INITIALIZER
 #    define BKSGE_HAS_CXX20_RANGE_BASED_FOR_INITIALIZER
 #    define BKSGE_HAS_CXX20_CONSTEXPR_TRY_CATCH
+#    define BKSGE_HAS_CXX20_NODISCARD_WITH_MESSAGE
 #    if !(defined(_MSVC_TRADITIONAL) && _MSVC_TRADITIONAL)
 #      define BKSGE_HAS_CXX20_VA_OPT
 #    endif
@@ -665,7 +666,7 @@
 // P1381R1
 // P1161R3		Deprecate a[b,c]
 // P1152R4		Deprecating some uses of volatile
-// P1301R4		[[nodiscard("with reason")]]
+#define BKSGE_HAS_CXX20_NODISCARD_WITH_MESSAGE				// P1301R4		[[nodiscard("with reason")]]
 // P1099R5		using enum
 // P1816R0		Class template argument deduction for aggregates
 // P1814R0		Class template argument deduction for alias templates

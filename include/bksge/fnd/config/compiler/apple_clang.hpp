@@ -317,6 +317,7 @@
 #  endif
 #  if (BKSGE_CLANG_VERSION >= 110003)
 #    define BKSGE_HAS_CXX20_VA_OPT
+#    define BKSGE_HAS_CXX20_NODISCARD_WITH_MESSAGE
 #  endif
 #  if 0
 #    define BKSGE_HAS_CXX20_TEMPLATE_LAMBDA

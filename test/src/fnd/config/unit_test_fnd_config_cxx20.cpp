@@ -414,4 +414,36 @@ GTEST_TEST(ConfigTest, Cxx20VaOptTest)
 
 }	// namespace va_opt_test
 
+namespace nodiscard_with_message_test
+{
+
+#if defined(BKSGE_HAS_CXX20_NODISCARD_WITH_MESSAGE)
+
+struct [[nodiscard("with reason 1")]]  error_info {};
+
+error_info f() { return error_info{}; }
+
+[[nodiscard("with reason 2")]]  int g() { return 0; }
+
+#endif
+
+GTEST_TEST(ConfigTest, Cxx20NodiscardWithMessageTest)
+{
+#if defined(BKSGE_HAS_CXX20_NODISCARD_WITH_MESSAGE)
+
+BKSGE_WARNING_PUSH()
+BKSGE_WARNING_DISABLE_MSVC(4858)	// 戻り値 "..." を破棄しています 
+BKSGE_WARNING_DISABLE_CLANG("-Wunused-result")
+BKSGE_WARNING_DISABLE_GCC("-Wunused-result")
+
+	f();
+	g();
+
+BKSGE_WARNING_POP()
+
+#endif
+}
+
+}	// namespace nodiscard_with_message_test
+
 }	// namespace bksge_config_cxx20_test

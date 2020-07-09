@@ -408,6 +408,7 @@
 #  endif
 #  if (BKSGE_GCC_VERSION >= 100000)
 #    define BKSGE_HAS_CXX20_VA_OPT
+#    define BKSGE_HAS_CXX20_NODISCARD_WITH_MESSAGE
 #  endif
 #  if defined(__cpp_conditional_explicit) && (__cpp_conditional_explicit >= 201806)
 #    define BKSGE_HAS_CXX20_CONDITIONAL_EXPLICIT
