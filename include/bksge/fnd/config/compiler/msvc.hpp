@@ -403,22 +403,24 @@
 #if (_MSC_FULL_VER >= 192127702)
 # if (BKSGE_CXX_STANDARD >= 20)
 #  define BKSGE_HAS_CXX20_DESIGNATED_INITIALIZERS	// 指示付き初期化子
-#  define BKSGE_HAS_CXX20_CAPTURE_COPY_THIS			// ラムダ式のキャプチャとして[=, this]を許可する
 # endif
 #endif
 
 // Visual Studio 2019 Update 2 (16.2.(0-5)) (Visual C++ 14.22)
 #if (_MSC_FULL_VER >= 192227905)
 # if (BKSGE_CXX_STANDARD >= 20)
+#  define BKSGE_HAS_CXX20_CAPTURE_COPY_THIS			// ラムダ式のキャプチャとして[=, this]を許可する
 #  define BKSGE_HAS_CXX20_TEMPLATE_LAMBDA			// ジェネリックラムダのテンプレート構文
 #  define BKSGE_HAS_CXX20_DEFAULT_CONSTRUCTIBLE_AND_ASSIGNABLE_STATELESS_LAMBDAS
 #  define BKSGE_HAS_CXX20_CHAR8_T
-#  define BKSGE_HAS_CXX20_CONDITIONAL_EXPLICIT
 # endif
 #endif
 
 // Visual Studio 2019 Update 3 (16.3.(0-2)) (Visual C++ 14.23)
 #if (_MSC_FULL_VER >= 192328105)
+# if (BKSGE_CXX_STANDARD >= 20)
+#  define BKSGE_HAS_CXX20_CONCEPTS					// コンセプト
+# endif
 #endif
 
 // Visual Studio 2019 Update 3 (16.3.(3-8)) (Visual C++ 14.23)
@@ -431,6 +433,9 @@
 
 // Visual Studio 2019 Update 4 (16.4.(0-2)) (Visual C++ 14.24)
 #if (_MSC_FULL_VER >= 192428314)
+# if (BKSGE_CXX_STANDARD >= 20)
+#  define BKSGE_HAS_CXX20_CONDITIONAL_EXPLICIT
+# endif
 #endif
 
 // Visual Studio 2019 Update 4 (16.4.3) (Visual C++ 14.24)
@@ -598,7 +603,7 @@
 #define BKSGE_HAS_CXX20_DESIGNATED_INITIALIZERS				// P0329R4	指示付き初期化子
 #define BKSGE_HAS_CXX20_TEMPLATE_LAMBDA						// P0428R2	ジェネリックラムダのテンプレート構文
 // P0702R1		List deduction of vector
-// P0734R0		Concepts
+#define BKSGE_HAS_CXX20_CONCEPTS							// P0734R0	コンセプト	Concepts
 // P0857R0
 // P1084R2
 // P0848R3

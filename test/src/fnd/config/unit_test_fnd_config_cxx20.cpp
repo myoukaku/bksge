@@ -294,4 +294,92 @@ GTEST_TEST(ConfigTest, Cxx20ConstexprTryCatchTest)
 
 }	// namespace constexpr_try_catch_test
 
+namespace concepts_test
+{
+
+#if defined(BKSGE_HAS_CXX20_CONCEPTS)
+
+template <typename From, typename To>
+concept ConvertibleTo =
+	std::is_convertible_v<From, To> &&
+	requires(std::add_rvalue_reference_t<From> (&f)())
+	{
+		static_cast<To>(f());
+	};
+
+template <typename T>
+concept Integral = std::is_integral_v<T>;
+
+template <typename T>
+concept FloatingPoint = std::is_floating_point_v<T>;
+
+template <typename T, typename U>
+concept EqualityComparable =
+	requires (T a, U b)
+	{
+		{a == b} -> ConvertibleTo<bool>;
+	};
+
+template <typename T>
+concept SequenceContainer =
+	requires (T c)
+	{
+		typename T::size_type; // 型Tがメンバ型としてsize_typeを持っていること
+		{c.size()} -> ConvertibleTo<typename T::size_type>;     // 型Tのオブジェクトに対して特定のメンバ関数が呼び出せることを要求
+		{std::size(c)} -> ConvertibleTo<typename T::size_type>; // 非メンバ関数の呼び出しも要求できる
+
+		typename T::value_type;
+		c.push_back(std::declval<typename T::value_type>());
+	};
+
+static_assert( Integral<int>, "");
+static_assert(!Integral<float>, "");
+static_assert(!Integral<std::string>, "");
+static_assert(!FloatingPoint<int>, "");
+static_assert( FloatingPoint<float>, "");
+static_assert(!FloatingPoint<std::string>, "");
+static_assert( EqualityComparable<int, int>, "");
+static_assert( EqualityComparable<int, float>, "");
+static_assert(!EqualityComparable<int, std::string>, "");
+static_assert( SequenceContainer<std::vector<int>>, "");
+static_assert( SequenceContainer<std::string>, "");
+static_assert(!SequenceContainer<int>, "");
+
+template <Integral T>
+constexpr int func(T)
+{
+  return 1;
+}
+
+template <FloatingPoint T>
+constexpr int func(T)
+{
+  return 2;
+}
+
+static_assert(func(0) == 1, "");
+static_assert(func(0.0f) == 2, "");
+
+template <typename T>
+requires Integral<T> || FloatingPoint<T>
+constexpr bool func2(T)
+{
+	return true;
+}
+
+template <typename T>
+requires (!Integral<T>) && (!FloatingPoint<T>)
+constexpr bool func2(T)
+{
+	return false;
+}
+
+static_assert( func2(0), "");
+static_assert( func2(0.0f), "");
+static_assert(!func2("0"), "");
+
+#endif
+
+}	// namespace concepts_test
+
 }	// namespace bksge_config_cxx20_test

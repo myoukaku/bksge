@@ -328,6 +328,9 @@
 #  if defined(__cpp_constexpr) && (__cpp_constexpr >= 201907)
 #    define BKSGE_HAS_CXX20_CONSTEXPR
 #  endif
+#  if defined(__cpp_concepts) && (__cpp_concepts >= 201907)
+#    define BKSGE_HAS_CXX20_CONCEPTS
+#  endif
 #endif
 
 #endif // BKSGE_FND_CONFIG_COMPILER_APPLE_CLANG_HPP

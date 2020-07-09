@@ -418,6 +418,9 @@
 #  if defined(__cpp_constexpr) && (__cpp_constexpr >= 201907)
 #    define BKSGE_HAS_CXX20_CONSTEXPR
 #  endif
+#  if defined(__cpp_concepts) && (__cpp_concepts >= 201907)
+#    define BKSGE_HAS_CXX20_CONCEPTS
+#  endif
 #endif
 
 #if defined(__MINGW32__)
