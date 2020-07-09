@@ -46,6 +46,10 @@ foreach(compiler_flag ${compiler_flags})
     else()
 	  set(${compiler_flag} "${${compiler_flag}} /Zi")
     endif()
+
+  elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    set(${compiler_flag} "${${compiler_flag}} -Wno-type-limits")
+
   endif()
 endforeach()
 

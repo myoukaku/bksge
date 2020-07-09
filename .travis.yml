@@ -16,6 +16,9 @@ before_install:
     if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
       sudo apt-get -qq update
       sudo apt-get -y install libgl1-mesa-dev libxkbcommon-dev libwayland-dev libxrandr-dev libx11-xcb-dev
+      if [[ "${USE_COVERALLS}" == "1" ]]; then
+        pip install --user cpp-coveralls
+      fi
     elif [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then
       travis_retry brew update -v
       travis_retry brew unlink python@2
@@ -44,13 +47,8 @@ anchors:
   clang-8:  &clang-8  { apt: { config: { retries: true }, packages: [ "clang-8",   "libstdc++-8-dev"  ], sources: [ "ubuntu-toolchain-r-test", "llvm-toolchain-xenial-8"   ] } }
   clang-7:  &clang-7  { apt: { config: { retries: true }, packages: [ "clang-7",   "libstdc++-7-dev"  ], sources: [ "ubuntu-toolchain-r-test", "llvm-toolchain-xenial-7"   ] } }
   clang-6:  &clang-6  { apt: { config: { retries: true }, packages: [ "clang-6.0", "libstdc++-7-dev"  ], sources: [ "ubuntu-toolchain-r-test", "llvm-toolchain-xenial-6.0" ] } }
-  gcc-9: &gcc-9
-    apt:
-      config:
-        retries: true
-      packages: [ "g++-9" ]
-      sources:
-        - sourceline: 'ppa:ubuntu-toolchain-r/test'
+  gcc-10: &gcc-10 { apt: { config: { retries: true }, packages: [ "g++-10" ], sources: [ "ubuntu-toolchain-r-test" ] } }
+  gcc-9: &gcc-9 { apt: { config: { retries: true }, packages: [ "g++-9" ], sources: [ "ubuntu-toolchain-r-test" ] } }
   gcc-8: &gcc-8 { apt: { config: { retries: true }, packages: [ "g++-8" ], sources: [ "ubuntu-toolchain-r-test" ] } }
   gcc-7: &gcc-7 { apt: { config: { retries: true }, packages: [ "g++-7" ], sources: [ "ubuntu-toolchain-r-test" ] } }
   gcc-6: &gcc-6 { apt: { config: { retries: true }, packages: [ "g++-6" ], sources: [ "ubuntu-toolchain-r-test" ] } }
@@ -77,6 +75,10 @@ matrix:
     - { os: "linux", compiler: clang, env: CXX_COMPILER=clang++-6.0 C_COMPILER=clang-6.0 CXX_STANDARD=14, addons: *clang-6  }
     - { os: "linux", compiler: clang, env: CXX_COMPILER=clang++-6.0 C_COMPILER=clang-6.0 CXX_STANDARD=17, addons: *clang-6  }
     - { os: "linux", compiler: clang, env: CXX_COMPILER=clang++-6.0 C_COMPILER=clang-6.0 CXX_STANDARD=20, addons: *clang-6  }
+    - { os: "linux", compiler: gcc,   env: CXX_COMPILER=g++-10      C_COMPILER=gcc-10    CXX_STANDARD=11, addons: *gcc-10, dist: bionic   }
+    - { os: "linux", compiler: gcc,   env: CXX_COMPILER=g++-10      C_COMPILER=gcc-10    CXX_STANDARD=14, addons: *gcc-10, dist: bionic   }
+    - { os: "linux", compiler: gcc,   env: CXX_COMPILER=g++-10      C_COMPILER=gcc-10    CXX_STANDARD=17, addons: *gcc-10, dist: bionic   }
+    - { os: "linux", compiler: gcc,   env: CXX_COMPILER=g++-10      C_COMPILER=gcc-10    CXX_STANDARD=20, addons: *gcc-10, dist: bionic   }
     - { os: "linux", compiler: gcc,   env: CXX_COMPILER=g++-9       C_COMPILER=gcc-9     CXX_STANDARD=11, addons: *gcc-9    }
     - { os: "linux", compiler: gcc,   env: CXX_COMPILER=g++-9       C_COMPILER=gcc-9     CXX_STANDARD=14, addons: *gcc-9    }
     - { os: "linux", compiler: gcc,   env: CXX_COMPILER=g++-9       C_COMPILER=gcc-9     CXX_STANDARD=17, addons: *gcc-9    }
@@ -91,6 +93,22 @@ matrix:
     - { os: "linux", compiler: gcc,   env: CXX_COMPILER=g++-6       C_COMPILER=gcc-6     CXX_STANDARD=11, addons: *gcc-6    }
     - { os: "linux", compiler: gcc,   env: CXX_COMPILER=g++-6       C_COMPILER=gcc-6     CXX_STANDARD=14, addons: *gcc-6    }
 #   - { os: "linux", compiler: gcc,   env: CXX_COMPILER=g++-6       C_COMPILER=gcc-6     CXX_STANDARD=17, addons: *gcc-6    }
+    - { os: "osx",   compiler: clang, osx_image: xcode12,   env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=11  }
+    - { os: "osx",   compiler: clang, osx_image: xcode12,   env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=14  }
+    - { os: "osx",   compiler: clang, osx_image: xcode12,   env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=17  }
+    - { os: "osx",   compiler: clang, osx_image: xcode12,   env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=20  }
+    - { os: "osx",   compiler: clang, osx_image: xcode11.6, env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=11  }
+    - { os: "osx",   compiler: clang, osx_image: xcode11.6, env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=14  }
+    - { os: "osx",   compiler: clang, osx_image: xcode11.6, env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=17  }
+    - { os: "osx",   compiler: clang, osx_image: xcode11.6, env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=20  }
+    - { os: "osx",   compiler: clang, osx_image: xcode11.5, env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=11  }
+    - { os: "osx",   compiler: clang, osx_image: xcode11.5, env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=14  }
+    - { os: "osx",   compiler: clang, osx_image: xcode11.5, env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=17  }
+    - { os: "osx",   compiler: clang, osx_image: xcode11.5, env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=20  }
+    - { os: "osx",   compiler: clang, osx_image: xcode11.4, env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=11  }
+    - { os: "osx",   compiler: clang, osx_image: xcode11.4, env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=14  }
+    - { os: "osx",   compiler: clang, osx_image: xcode11.4, env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=17  }
+    - { os: "osx",   compiler: clang, osx_image: xcode11.4, env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=20  }
     - { os: "osx",   compiler: clang, osx_image: xcode11.3, env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=11  }
     - { os: "osx",   compiler: clang, osx_image: xcode11.3, env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=14  }
     - { os: "osx",   compiler: clang, osx_image: xcode11.3, env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=17  }
@@ -133,12 +151,12 @@ matrix:
     - name: "CodeCov"
       os: "linux"
       compiler: gcc
-      env: CXX_COMPILER=g++-7 C_COMPILER=gcc-7 CXX_STANDARD=11
+      env: CXX_COMPILER=g++-8 C_COMPILER=gcc-8 CXX_STANDARD=11
       addons:
         apt:
           sources: "ubuntu-toolchain-r-test"
           packages:
-            - g++-7
+            - g++-8
             - lcov
       script:
         - mkdir build && cd build
@@ -146,7 +164,7 @@ matrix:
         - cmake --build . -j 4
         - ctest -j 4
       after_success:
-        - lcov --capture --directory ./test --gcov-tool /usr/bin/gcov-7 --output-file coverage.info
+        - lcov --capture --directory ./test --gcov-tool /usr/bin/gcov-8 --output-file coverage.info
         - lcov --remove coverage.info '/usr/*' --output-file coverage.info
         - lcov --remove coverage.info '*/googletest/*' --output-file coverage.info
         - lcov --remove coverage.info '*/test/*' --output-file coverage.info
@@ -157,17 +175,15 @@ matrix:
     - name: "Coveralls"
       os: "linux"
       compiler: gcc
-      env: CXX_COMPILER=g++-7 C_COMPILER=gcc-7 CXX_STANDARD=11
-      addons: *gcc-7
-      install:
-        - pip install --user cpp-coveralls
+      env: USE_COVERALLS=1 CXX_COMPILER=g++-8 C_COMPILER=gcc-8 CXX_STANDARD=11
+      addons: *gcc-8
       script:
         - mkdir build && cd build
         - cmake -DCOVERAGE=1 -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=$CXX_COMPILER -DCMAKE_C_COMPILER=$C_COMPILER -DCMAKE_CXX_STANDARD=$CXX_STANDARD ..
         - cmake --build . -j 4
         - ctest -j 4
       after_success:
-        - coveralls --root ../ --build-root ./ --include include --exclude build --gcov /usr/bin/gcov-7 --gcov-options '\-lp'
+        - coveralls --root ../ --build-root ./ --include include --exclude build --gcov /usr/bin/gcov-8 --gcov-options '\-lp'
 
 before_script:
   - $CXX --version
