@@ -481,6 +481,7 @@
 #    define BKSGE_HAS_CXX20_LIKELY
 #    define BKSGE_HAS_CXX20_UNLIKELY
 #    define BKSGE_HAS_CXX20_NONTYPE_TEMPLATE_PARAMETER_CLASS
+#    define BKSGE_HAS_CXX20_NONTYPE_TEMPLATE_PARAMETER_FLOAT
 #  endif
 #endif
 
@@ -643,6 +644,7 @@
 #define BKSGE_HAS_CXX20_UNLIKELY
 // P0806R2		[=]によるthisの暗黙のキャプチャを非推奨化
 #define BKSGE_HAS_CXX20_NONTYPE_TEMPLATE_PARAMETER_CLASS	// P0732R2	__cpp_nontype_template_parameter_class >= 201806	Class Types in Non-Type Template Parameters
+#define BKSGE_HAS_CXX20_NONTYPE_TEMPLATE_PARAMETER_FLOAT	// P1907R1	__cpp_nontype_template_args >= 201911
 // P0528R3		Atomic Compare-and-Exchange with Padding Bits
 // P0722R3	__cpp_impl_destroying_delete >= 201806	Efficient sized delete for variable sized classes
 // P1064R0		Allowing Virtual Function Calls in Constant Expressions

@@ -512,4 +512,22 @@ template<A a> bool f()
 
 }	// namespace nontype_template_parameter_class_test
 
+namespace nontype_template_parameter_float_test
+{
+
+#if defined(BKSGE_HAS_CXX20_NONTYPE_TEMPLATE_PARAMETER_FLOAT)
+
+template <float f>
+constexpr float func()
+{
+	return f * 2;
+}
+
+static_assert(func<1.0f>() == 2.0f, "");
+static_assert(func<1.5f>() == 3.0f, "");
+
+#endif
+
+}	// namespace nontype_template_parameter_float_test
+
 }	// namespace bksge_config_cxx20_test
