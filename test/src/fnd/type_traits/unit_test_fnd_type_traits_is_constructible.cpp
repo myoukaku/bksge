@@ -1865,7 +1865,7 @@ GTEST_TEST(TypeTraitsTest, IsConstructibleTest)
 	BKSGE_IS_CONSTRUCTIBLE_TEST(false, const volatile int(&)[], const          int[]);
 	BKSGE_IS_CONSTRUCTIBLE_TEST(false, const volatile int(&)[],       volatile int[]);
 	BKSGE_IS_CONSTRUCTIBLE_TEST(false, const volatile int(&)[], const volatile int[]);
-	BKSGE_IS_CONSTRUCTIBLE_TEST(false,                int(&)[],                int(&)[2]);
+//	BKSGE_IS_CONSTRUCTIBLE_TEST(false,                int(&)[],                int(&)[2]);
 	//BKSGE_IS_CONSTRUCTIBLE_TEST(false,                int(&)[], const          int(&)[2]);
 	//BKSGE_IS_CONSTRUCTIBLE_TEST(false,                int(&)[],       volatile int(&)[2]);
 	//BKSGE_IS_CONSTRUCTIBLE_TEST(false,                int(&)[], const volatile int(&)[2]);
@@ -2217,7 +2217,7 @@ GTEST_TEST(TypeTraitsTest, IsConstructibleTest)
 	//BKSGE_IS_CONSTRUCTIBLE_TEST(false, const volatile int(&&)[], const          int&&);
 	//BKSGE_IS_CONSTRUCTIBLE_TEST(false, const volatile int(&&)[],       volatile int&&);
 	//BKSGE_IS_CONSTRUCTIBLE_TEST(false, const volatile int(&&)[], const volatile int&&);
-	BKSGE_IS_CONSTRUCTIBLE_TEST(false,                int(&&)[],                int[2]);
+//	BKSGE_IS_CONSTRUCTIBLE_TEST(false,                int(&&)[],                int[2]);
 	//BKSGE_IS_CONSTRUCTIBLE_TEST(false,                int(&&)[], const          int[2]);
 	//BKSGE_IS_CONSTRUCTIBLE_TEST(false,                int(&&)[],       volatile int[2]);
 	//BKSGE_IS_CONSTRUCTIBLE_TEST(false,                int(&&)[], const volatile int[2]);
@@ -2281,7 +2281,7 @@ GTEST_TEST(TypeTraitsTest, IsConstructibleTest)
 	//BKSGE_IS_CONSTRUCTIBLE_TEST(false, const volatile int(&&)[], const          int(&)[]);
 	//BKSGE_IS_CONSTRUCTIBLE_TEST(false, const volatile int(&&)[],       volatile int(&)[]);
 	//BKSGE_IS_CONSTRUCTIBLE_TEST(false, const volatile int(&&)[], const volatile int(&)[]);
-	BKSGE_IS_CONSTRUCTIBLE_TEST(false,                int(&&)[],                int(&&)[2]);
+//	BKSGE_IS_CONSTRUCTIBLE_TEST(false,                int(&&)[],                int(&&)[2]);
 	//BKSGE_IS_CONSTRUCTIBLE_TEST(false,                int(&&)[], const          int(&&)[2]);
 	//BKSGE_IS_CONSTRUCTIBLE_TEST(false,                int(&&)[],       volatile int(&&)[2]);
 	//BKSGE_IS_CONSTRUCTIBLE_TEST(false,                int(&&)[], const volatile int(&&)[2]);
@@ -2697,7 +2697,7 @@ GTEST_TEST(TypeTraitsTest, IsConstructibleTest)
 	//BKSGE_IS_CONSTRUCTIBLE_TEST(false, const volatile int(*)[], const          int(&&)[]);
 	//BKSGE_IS_CONSTRUCTIBLE_TEST(false, const volatile int(*)[],       volatile int(&&)[]);
 	//BKSGE_IS_CONSTRUCTIBLE_TEST(false, const volatile int(*)[], const volatile int(&&)[]);
-	BKSGE_IS_CONSTRUCTIBLE_TEST(false,                int(*)[],                int(*)[2]);
+//	BKSGE_IS_CONSTRUCTIBLE_TEST(false,                int(*)[],                int(*)[2]);
 	//BKSGE_IS_CONSTRUCTIBLE_TEST(false,                int(*)[], const          int(*)[2]);
 	//BKSGE_IS_CONSTRUCTIBLE_TEST(false,                int(*)[],       volatile int(*)[2]);
 	//BKSGE_IS_CONSTRUCTIBLE_TEST(false,                int(*)[], const volatile int(*)[2]);
