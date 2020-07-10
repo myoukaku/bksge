@@ -1,13 +1,13 @@
 ﻿/**
- *	@file	floor2.hpp
+ *	@file	bit_ceil.hpp
  *
- *	@brief	floor2 関数テンプレートの定義
+ *	@brief	bit_ceil 関数テンプレートの定義
  *
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_FND_BIT_FLOOR2_HPP
-#define BKSGE_FND_BIT_FLOOR2_HPP
+#ifndef BKSGE_FND_BIT_BIT_CEIL_HPP
+#define BKSGE_FND_BIT_BIT_CEIL_HPP
 
 #include <bksge/fnd/bit/config.hpp>
 
@@ -18,7 +18,7 @@
 namespace bksge
 {
 
-using std::floor2;
+using std::bit_ceil;
 
 }	// namespace bksge
 
@@ -31,14 +31,14 @@ namespace bksge
 {
 
 /**
- *	@brief	2の累乗への切り下げ
+ *	@brief	2の累乗への切り上げ
  *
  *	@tparam	T	xの型(符号なし整数型)
  *
  *	@param	x	対象の整数
  *
- *	@return xが0のときは0を返す。
- *          そうでない場合、x 以下の最大の2の累乗を返す。
+ *	@return x以上で最小の2の累乗を返す。
+ *          戻り値をTとして表現できない場合、0を返す。
  */
 template <
 	typename T,
@@ -47,12 +47,12 @@ template <
 	>
 >
 BKSGE_CONSTEXPR T
-floor2(T x) BKSGE_NOEXCEPT;
+bit_ceil(T x) BKSGE_NOEXCEPT;
 
 }	// namespace bksge
 
-#include <bksge/fnd/bit/inl/floor2_inl.hpp>
+#include <bksge/fnd/bit/inl/bit_ceil_inl.hpp>
 
 #endif
 
-#endif // BKSGE_FND_BIT_FLOOR2_HPP
+#endif // BKSGE_FND_BIT_BIT_CEIL_HPP

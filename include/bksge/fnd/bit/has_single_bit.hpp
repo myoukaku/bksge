@@ -1,13 +1,13 @@
 ﻿/**
- *	@file	ceil2.hpp
+ *	@file	has_single_bit.hpp
  *
- *	@brief	ceil2 関数テンプレートの定義
+ *	@brief	has_single_bit 関数テンプレートの定義
  *
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_FND_BIT_CEIL2_HPP
-#define BKSGE_FND_BIT_CEIL2_HPP
+#ifndef BKSGE_FND_BIT_HAS_SINGLE_BIT_HPP
+#define BKSGE_FND_BIT_HAS_SINGLE_BIT_HPP
 
 #include <bksge/fnd/bit/config.hpp>
 
@@ -18,7 +18,7 @@
 namespace bksge
 {
 
-using std::ceil2;
+using std::has_single_bit;
 
 }	// namespace bksge
 
@@ -31,14 +31,13 @@ namespace bksge
 {
 
 /**
- *	@brief	2の累乗への切り上げ
+ *	@brief	2の累乗かどうか取得する.
  *
  *	@tparam	T	xの型(符号なし整数型)
  *
- *	@param	x	対象の整数
+ *	@param	x	取得する対象となる値
  *
- *	@return x以上で最小の2の累乗を返す。
- *          戻り値をTとして表現できない場合、0を返す。
+ *	@return	xが2の累乗ならtrueを返す。
  */
 template <
 	typename T,
@@ -46,13 +45,13 @@ template <
 		bksge::is_unsigned<T>::value
 	>
 >
-BKSGE_CONSTEXPR T
-ceil2(T x) BKSGE_NOEXCEPT;
+BKSGE_CONSTEXPR bool
+has_single_bit(T x) BKSGE_NOEXCEPT;
 
 }	// namespace bksge
 
-#include <bksge/fnd/bit/inl/ceil2_inl.hpp>
+#include <bksge/fnd/bit/inl/has_single_bit_inl.hpp>
 
 #endif
 
-#endif // BKSGE_FND_BIT_CEIL2_HPP
+#endif // BKSGE_FND_BIT_HAS_SINGLE_BIT_HPP

@@ -1,13 +1,13 @@
 ﻿/**
- *	@file	log2p1.hpp
+ *	@file	bit_width.hpp
  *
- *	@brief	log2p1 関数テンプレートの定義
+ *	@brief	bit_width 関数テンプレートの定義
  *
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_FND_BIT_LOG2P1_HPP
-#define BKSGE_FND_BIT_LOG2P1_HPP
+#ifndef BKSGE_FND_BIT_BIT_WIDTH_HPP
+#define BKSGE_FND_BIT_BIT_WIDTH_HPP
 
 #include <bksge/fnd/bit/config.hpp>
 
@@ -18,7 +18,7 @@
 namespace bksge
 {
 
-using std::log2p1;
+using std::bit_width;
 
 }	// namespace bksge
 
@@ -43,7 +43,7 @@ namespace bksge
  *
  *	戻り値に1を足す理由は、対数を求められない0を引数として許容することでnoexceptとし、
  *	かつx == 1である場合と区別するためである。
- *	関数名log2p1のp1は1を足す (plus one) ことを示している。
+ *	関数名bit_widthのp1は1を足す (plus one) ことを示している。
  */
 template <
 	typename T,
@@ -52,12 +52,12 @@ template <
 	>
 >
 BKSGE_CONSTEXPR T
-log2p1(T x) BKSGE_NOEXCEPT;
+bit_width(T x) BKSGE_NOEXCEPT;
 
 }	// namespace bksge
 
-#include <bksge/fnd/bit/inl/log2p1_inl.hpp>
+#include <bksge/fnd/bit/inl/bit_width_inl.hpp>
 
 #endif
 
-#endif // BKSGE_FND_BIT_LOG2P1_HPP
+#endif // BKSGE_FND_BIT_BIT_WIDTH_HPP

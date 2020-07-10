@@ -1,13 +1,13 @@
 ﻿/**
- *	@file	ispow2.hpp
+ *	@file	bit_floor.hpp
  *
- *	@brief	ispow2 関数テンプレートの定義
+ *	@brief	bit_floor 関数テンプレートの定義
  *
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_FND_BIT_ISPOW2_HPP
-#define BKSGE_FND_BIT_ISPOW2_HPP
+#ifndef BKSGE_FND_BIT_BIT_FLOOR_HPP
+#define BKSGE_FND_BIT_BIT_FLOOR_HPP
 
 #include <bksge/fnd/bit/config.hpp>
 
@@ -18,7 +18,7 @@
 namespace bksge
 {
 
-using std::ispow2;
+using std::bit_floor;
 
 }	// namespace bksge
 
@@ -31,13 +31,14 @@ namespace bksge
 {
 
 /**
- *	@brief	2の累乗かどうか取得する.
+ *	@brief	2の累乗への切り下げ
  *
  *	@tparam	T	xの型(符号なし整数型)
  *
- *	@param	x	取得する対象となる値
+ *	@param	x	対象の整数
  *
- *	@return	xが2の累乗ならtrueを返す。
+ *	@return xが0のときは0を返す。
+ *          そうでない場合、x 以下の最大の2の累乗を返す。
  */
 template <
 	typename T,
@@ -45,13 +46,13 @@ template <
 		bksge::is_unsigned<T>::value
 	>
 >
-BKSGE_CONSTEXPR bool
-ispow2(T x) BKSGE_NOEXCEPT;
+BKSGE_CONSTEXPR T
+bit_floor(T x) BKSGE_NOEXCEPT;
 
 }	// namespace bksge
 
-#include <bksge/fnd/bit/inl/ispow2_inl.hpp>
+#include <bksge/fnd/bit/inl/bit_floor_inl.hpp>
 
 #endif
 
-#endif // BKSGE_FND_BIT_ISPOW2_HPP
+#endif // BKSGE_FND_BIT_BIT_FLOOR_HPP
