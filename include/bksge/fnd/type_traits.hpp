@@ -19,7 +19,9 @@
 #include <bksge/fnd/type_traits/aligned_union.hpp>
 #include <bksge/fnd/type_traits/alignment_of.hpp>
 #include <bksge/fnd/type_traits/arithmetic_promote.hpp>
+#include <bksge/fnd/type_traits/basic_common_reference.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
+#include <bksge/fnd/type_traits/common_reference.hpp>
 #include <bksge/fnd/type_traits/common_type.hpp>
 #include <bksge/fnd/type_traits/conditional.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>

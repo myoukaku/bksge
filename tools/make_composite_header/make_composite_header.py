@@ -19,8 +19,8 @@ args = parser.parse_args()
 root_path = args.root_path
 file_path = args.file_path
 search_directory = args.search_directory
-brief = unicode(args.brief, "'shift-jis'")
-author = unicode(args.author, "'shift-jis'")
+brief  = args.brief  #unicode(args.brief, "'shift-jis'")
+author = args.author #unicode(args.author, "'shift-jis'")
 
 file_path = os.path.join(root_path, file_path)
 f = codecs.open(file_path, "w", "utf-8-sig");
