@@ -1,0 +1,58 @@
+﻿/**
+ *	@file	unit_test_fnd_concepts_relation.cpp
+ *
+ *	@brief	relation のテスト
+ *
+ *	@author	myoukaku
+ */
+
+#include <bksge/fnd/concepts/relation.hpp>
+#include <bksge/fnd/config.hpp>
+
+#if defined(BKSGE_HAS_CXX20_CONCEPTS)
+#  define BKSGE_RELATION_TEST(B, ...)	\
+	static_assert(B == bksge::relation<__VA_ARGS__>, " ");	\
+	static_assert(B == bksge::relation_t<__VA_ARGS__>::value, " ")
+#else
+#  define BKSGE_RELATION_TEST(B, ...) \
+	static_assert(B == bksge::relation_t<__VA_ARGS__>::value, " ")
+#endif
+
+namespace bksge_concepts_test
+{
+
+namespace relation_test
+{
+
+BKSGE_RELATION_TEST(false, bool, void, void);
+BKSGE_RELATION_TEST(false, bool(), void, void);
+BKSGE_RELATION_TEST(false, bool(*)(), void, void);
+BKSGE_RELATION_TEST(false, bool(&)(int, int), void, void);
+BKSGE_RELATION_TEST(false, bool(), int, int);
+BKSGE_RELATION_TEST(false, bool() const, int, int);
+
+BKSGE_RELATION_TEST(true,  bool(*)(int, int), short, long);
+BKSGE_RELATION_TEST(true,  bool(&)(const void*, const void*), char[2], int*);
+
+BKSGE_RELATION_TEST(false, bool& (const long*, short), long*, char);
+
+struct A;
+BKSGE_RELATION_TEST(false, int A::*, const A&, const A&);
+BKSGE_RELATION_TEST(false, void (A::*)(long&), const A*, long&);
+BKSGE_RELATION_TEST(false, void (A::*)(long&) const, A*, long&);
+BKSGE_RELATION_TEST(true,  long (A::*)(A*) const, A*, A*);
+
+struct F
+{
+	void operator()(long, long) const;
+	bool& operator()(int, const int&) const;
+};
+BKSGE_RELATION_TEST(false, F, long, long);
+BKSGE_RELATION_TEST(true,  F&, int, int);
+BKSGE_RELATION_TEST(true,  const F&, const int, const int);
+
+}	// namespace relation_test
+
+}	// namespace bksge_concepts_test
+
+#undef BKSGE_RELATION_TEST
