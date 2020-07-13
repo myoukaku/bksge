@@ -22,11 +22,7 @@
 namespace bksge
 {
 
-namespace detail
-{
-
-#if (defined(_MSC_VER) && (_MSC_VER >= 1500)) || \
-	BKSGE_HAS_FEATURE(is_constructible)
+#if (defined(_MSC_VER) && (_MSC_VER >= 1920))
 
 template <typename T, typename... Args>
 struct is_constructible
@@ -36,6 +32,9 @@ struct is_constructible
 {};
 
 #else
+
+namespace detail
+{
 
 template <typename T, typename... Args>
 struct is_constructible_impl
@@ -53,8 +52,6 @@ struct is_constructible
 	: public is_constructible_impl<T, Args...>::type
 {};
 
-#endif
-
 }	// namespace detail
 
 template <typename T, typename... Args>
@@ -63,6 +60,8 @@ struct is_constructible
 		detail::is_constructible, T, Args...
 	>
 {};
+
+#endif
 
 }	// namespace bksge
 
