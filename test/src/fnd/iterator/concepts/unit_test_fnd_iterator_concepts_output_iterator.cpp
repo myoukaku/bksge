@@ -1,0 +1,102 @@
+﻿/**
+ *	@file	unit_test_fnd_iterator_concepts_output_iterator.cpp
+ *
+ *	@brief	output_iterator のテスト
+ *
+ *	@author	myoukaku
+ */
+
+#include <bksge/fnd/iterator/concepts/output_iterator.hpp>
+#include <bksge/fnd/string_view.hpp>
+#include <bksge/fnd/config.hpp>
+#include <iterator>
+#include <array>
+#include <deque>
+#include <forward_list>
+#include <list>
+#include <set>
+#include <string>
+#include <vector>
+
+#if defined(BKSGE_HAS_CXX20_CONCEPTS)
+#  define BKSGE_OUTPUT_ITERATOR_TEST(B, ...)	\
+	static_assert(B == bksge::output_iterator<__VA_ARGS__>, " ");	\
+	static_assert(B == bksge::output_iterator_t<__VA_ARGS__>::value, " ")
+#else
+#  define BKSGE_OUTPUT_ITERATOR_TEST(B, ...)	\
+	static_assert(B == bksge::output_iterator_t<__VA_ARGS__>::value, " ")
+#endif
+
+namespace bksge_iterator_test
+{
+
+namespace output_iterator_test
+{
+
+struct A {};
+
+BKSGE_OUTPUT_ITERATOR_TEST(true,  int*, int);
+BKSGE_OUTPUT_ITERATOR_TEST(true,  int*, const int);
+BKSGE_OUTPUT_ITERATOR_TEST(true,  int*, long);
+BKSGE_OUTPUT_ITERATOR_TEST(true,  void**, void*);
+BKSGE_OUTPUT_ITERATOR_TEST(true,  void**, long*);
+BKSGE_OUTPUT_ITERATOR_TEST(false, const int*, int);
+
+BKSGE_OUTPUT_ITERATOR_TEST(false, int* const, int);
+BKSGE_OUTPUT_ITERATOR_TEST(false, const int* const, int);
+BKSGE_OUTPUT_ITERATOR_TEST(false, void** const, void*);
+
+BKSGE_OUTPUT_ITERATOR_TEST(false, void*, void);
+BKSGE_OUTPUT_ITERATOR_TEST(false, const void*, void);
+BKSGE_OUTPUT_ITERATOR_TEST(false, const void*, void*);
+BKSGE_OUTPUT_ITERATOR_TEST(false, volatile void*, void);
+BKSGE_OUTPUT_ITERATOR_TEST(false, volatile void*, void*);
+
+BKSGE_OUTPUT_ITERATOR_TEST(false, void(*)(), void(&)());
+BKSGE_OUTPUT_ITERATOR_TEST(false, void(&)(), void(&)());
+BKSGE_OUTPUT_ITERATOR_TEST(true,  void(**)(), void(*)());
+BKSGE_OUTPUT_ITERATOR_TEST(true,  void(**)(), void(&)());
+
+BKSGE_OUTPUT_ITERATOR_TEST(false, void(A::*)(), A*);
+BKSGE_OUTPUT_ITERATOR_TEST(false, void(A::*)(), void(A::*)());
+BKSGE_OUTPUT_ITERATOR_TEST(false, int A::*, int);
+BKSGE_OUTPUT_ITERATOR_TEST(false, int A::*, int A::*);
+
+BKSGE_OUTPUT_ITERATOR_TEST(true,  std::array<int, 1>::iterator, int);
+BKSGE_OUTPUT_ITERATOR_TEST(true,  std::array<A, 1>::iterator, A);
+BKSGE_OUTPUT_ITERATOR_TEST(false, std::array<int, 1>::const_iterator, int);
+BKSGE_OUTPUT_ITERATOR_TEST(false, std::array<A, 1>::const_iterator, A);
+BKSGE_OUTPUT_ITERATOR_TEST(true,  std::deque<int>::iterator, int);
+BKSGE_OUTPUT_ITERATOR_TEST(true,  std::deque<A>::iterator, A);
+BKSGE_OUTPUT_ITERATOR_TEST(false, std::deque<int>::const_iterator, int);
+BKSGE_OUTPUT_ITERATOR_TEST(false, std::deque<A>::const_iterator, A);
+BKSGE_OUTPUT_ITERATOR_TEST(true,  std::forward_list<int>::iterator, int);
+BKSGE_OUTPUT_ITERATOR_TEST(true,  std::forward_list<A>::iterator, A);
+BKSGE_OUTPUT_ITERATOR_TEST(false, std::forward_list<int>::const_iterator, int);
+BKSGE_OUTPUT_ITERATOR_TEST(false, std::forward_list<A>::const_iterator, A);
+BKSGE_OUTPUT_ITERATOR_TEST(true,  std::list<int>::iterator, int);
+BKSGE_OUTPUT_ITERATOR_TEST(true,  std::list<A>::iterator, A);
+BKSGE_OUTPUT_ITERATOR_TEST(false, std::list<int>::const_iterator, int);
+BKSGE_OUTPUT_ITERATOR_TEST(false, std::list<A>::const_iterator, A);
+BKSGE_OUTPUT_ITERATOR_TEST(false, std::set<int>::iterator, int);
+BKSGE_OUTPUT_ITERATOR_TEST(false, std::set<A>::iterator, A);
+BKSGE_OUTPUT_ITERATOR_TEST(false, std::set<int>::const_iterator, int);
+BKSGE_OUTPUT_ITERATOR_TEST(false, std::set<A>::const_iterator, A);
+BKSGE_OUTPUT_ITERATOR_TEST(true,  std::string::iterator, char);
+BKSGE_OUTPUT_ITERATOR_TEST(true,  std::string::iterator, int);
+BKSGE_OUTPUT_ITERATOR_TEST(false, std::string::const_iterator, char);
+BKSGE_OUTPUT_ITERATOR_TEST(false, std::string::const_iterator, int);
+BKSGE_OUTPUT_ITERATOR_TEST(false, bksge::string_view::iterator, char);
+BKSGE_OUTPUT_ITERATOR_TEST(false, bksge::string_view::iterator, int);
+BKSGE_OUTPUT_ITERATOR_TEST(false, bksge::string_view::const_iterator, char);
+BKSGE_OUTPUT_ITERATOR_TEST(false, bksge::string_view::const_iterator, int);
+BKSGE_OUTPUT_ITERATOR_TEST(true,  std::vector<int>::iterator, int);
+BKSGE_OUTPUT_ITERATOR_TEST(true,  std::vector<A>::iterator, A);
+BKSGE_OUTPUT_ITERATOR_TEST(false, std::vector<int>::const_iterator, int);
+BKSGE_OUTPUT_ITERATOR_TEST(false, std::vector<A>::const_iterator, A);
+
+}	// namespace output_iterator_test
+
+}	// namespace bksge_iterator_test
+
+#undef BKSGE_OUTPUT_ITERATOR_TEST

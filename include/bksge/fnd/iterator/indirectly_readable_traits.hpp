@@ -9,6 +9,8 @@
 #ifndef BKSGE_FND_ITERATOR_INDIRECTLY_READABLE_TRAITS_HPP
 #define BKSGE_FND_ITERATOR_INDIRECTLY_READABLE_TRAITS_HPP
 
+#include <bksge/fnd/iterator/concepts/detail/has_value_type.hpp>
+#include <bksge/fnd/iterator/concepts/detail/has_element_type.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_array.hpp>
@@ -32,22 +34,6 @@ struct cond_value_type<T, true>
 {
 	using value_type = bksge::remove_cv_t<T>;
 };
-
-template <typename, typename = bksge::void_t<>>
-struct has_value_type
-	: public bksge::false_type {};
- 
-template <typename T>
-struct has_value_type<T, bksge::void_t<typename T::value_type>>
-	: public bksge::true_type {};
-
-template <typename, typename = bksge::void_t<>>
-struct has_element_type
-	: public bksge::false_type {};
- 
-template <typename T>
-struct has_element_type<T, bksge::void_t<typename T::element_type>>
-	: public bksge::true_type {};
 
 }	// namespace detail
 

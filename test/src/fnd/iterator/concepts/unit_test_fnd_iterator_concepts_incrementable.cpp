@@ -1,0 +1,77 @@
+﻿/**
+ *	@file	unit_test_fnd_iterator_concepts_incrementable.cpp
+ *
+ *	@brief	incrementable のテスト
+ *
+ *	@author	myoukaku
+ */
+
+#include <bksge/fnd/iterator/concepts/incrementable.hpp>
+#include <bksge/fnd/config.hpp>
+#include <iterator>
+#include <memory>
+#include <vector>
+
+#if defined(BKSGE_HAS_CXX20_CONCEPTS)
+#  define BKSGE_INCREMENTABLE_TEST(B, ...)	\
+	static_assert(B == bksge::incrementable<__VA_ARGS__>, " ");	\
+	static_assert(B == bksge::incrementable_t<__VA_ARGS__>::value, " ")
+#else
+#  define BKSGE_INCREMENTABLE_TEST(B, ...)	\
+	static_assert(B == bksge::incrementable_t<__VA_ARGS__>::value, " ")
+#endif
+
+namespace bksge_iterator_test
+{
+
+namespace incrementable_test
+{
+
+BKSGE_INCREMENTABLE_TEST(true,  int      *);
+BKSGE_INCREMENTABLE_TEST(true,  int const*);
+BKSGE_INCREMENTABLE_TEST(false, int      * const);
+BKSGE_INCREMENTABLE_TEST(false, int const* const);
+BKSGE_INCREMENTABLE_TEST(false, void*);
+BKSGE_INCREMENTABLE_TEST(false, std::unique_ptr<int>);
+BKSGE_INCREMENTABLE_TEST(false, std::shared_ptr<int>);
+BKSGE_INCREMENTABLE_TEST(false, std::vector<int>);
+BKSGE_INCREMENTABLE_TEST(true,  std::vector<int>::iterator);
+BKSGE_INCREMENTABLE_TEST(true,  std::vector<int>::const_iterator);
+BKSGE_INCREMENTABLE_TEST(true,  std::istream_iterator<int>);
+BKSGE_INCREMENTABLE_TEST(false, std::ostream_iterator<int>);
+
+BKSGE_INCREMENTABLE_TEST(false, int[]);
+BKSGE_INCREMENTABLE_TEST(false, int[2]);
+BKSGE_INCREMENTABLE_TEST(false, int&);
+BKSGE_INCREMENTABLE_TEST(false, int&&);
+
+struct X
+{
+	friend auto operator++(X&)->X&;
+	friend auto operator++(X&, int)->X&;
+	using difference_type = int;
+};
+
+struct Y
+{
+	friend auto operator++(Y&)->Y&;
+	friend auto operator++(Y&, int)->Y; // prvalueを返す必要がある
+	friend bool operator==(const Y&, const Y&);
+	friend bool operator!=(const Y&, const Y&);
+	using difference_type = int;
+};
+
+BKSGE_INCREMENTABLE_TEST(false, X);
+BKSGE_INCREMENTABLE_TEST(false, X&);
+BKSGE_INCREMENTABLE_TEST(false, X const);
+BKSGE_INCREMENTABLE_TEST(false, X const&);
+BKSGE_INCREMENTABLE_TEST(true,  Y);
+BKSGE_INCREMENTABLE_TEST(false, Y&);
+BKSGE_INCREMENTABLE_TEST(false, Y const);
+BKSGE_INCREMENTABLE_TEST(false, Y const&);
+
+}	// namespace incrementable_test
+
+}	// namespace bksge_iterator_test
+
+#undef BKSGE_INCREMENTABLE_TEST

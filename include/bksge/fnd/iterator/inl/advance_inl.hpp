@@ -11,8 +11,8 @@
 
 #include <bksge/fnd/iterator/advance.hpp>
 #include <bksge/fnd/iterator/type_traits/iterator_category.hpp>
+#include <bksge/fnd/iterator/tag.hpp>
 #include <bksge/fnd/assert.hpp>
-#include <iterator>
 
 namespace bksge
 {
@@ -22,7 +22,7 @@ namespace detail
 
 template <typename InputIterator, typename Distance>
 inline BKSGE_CXX14_CONSTEXPR void
-advance_impl(InputIterator& it, Distance n, std::input_iterator_tag*)
+advance_impl(InputIterator& it, Distance n, bksge::input_iterator_tag*)
 {
 	BKSGE_ASSERT(n >= 0);
 	for (; 0 < n; --n)
@@ -33,7 +33,7 @@ advance_impl(InputIterator& it, Distance n, std::input_iterator_tag*)
 
 template <typename BidirectionalIterator, typename Distance>
 inline BKSGE_CXX14_CONSTEXPR void
-advance_impl(BidirectionalIterator& it, Distance n, std::bidirectional_iterator_tag*)
+advance_impl(BidirectionalIterator& it, Distance n, bksge::bidirectional_iterator_tag*)
 {
 	if (n > 0)
 	{
@@ -53,7 +53,7 @@ advance_impl(BidirectionalIterator& it, Distance n, std::bidirectional_iterator_
 
 template <typename RandomAccessIterator, typename Distance>
 inline BKSGE_CXX14_CONSTEXPR void
-advance_impl(RandomAccessIterator& it, Distance n, std::random_access_iterator_tag*)
+advance_impl(RandomAccessIterator& it, Distance n, bksge::random_access_iterator_tag*)
 {
 	it += n;
 }

@@ -6,8 +6,8 @@
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_FND_ITERATOR_TYPE_TRAITS_DETAIL_HAS_ITERATOR_CATEGORY_HPP
-#define BKSGE_FND_ITERATOR_TYPE_TRAITS_DETAIL_HAS_ITERATOR_CATEGORY_HPP
+#ifndef BKSGE_FND_ITERATOR_CONCEPTS_DETAIL_HAS_ITERATOR_CATEGORY_HPP
+#define BKSGE_FND_ITERATOR_CONCEPTS_DETAIL_HAS_ITERATOR_CATEGORY_HPP
 
 #include <bksge/fnd/type_traits/void_t.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
@@ -18,7 +18,7 @@ namespace bksge
 namespace detail
 {
 
-template <typename, typename = bksge::void_t<>>
+template <typename, typename = void>
 struct has_iterator_category
 	: public bksge::false_type {};
  
@@ -30,4 +30,4 @@ struct has_iterator_category<T, bksge::void_t<typename T::iterator_category>>
 
 }	// namespace bksge
 
-#endif // BKSGE_FND_ITERATOR_TYPE_TRAITS_DETAIL_HAS_ITERATOR_CATEGORY_HPP
+#endif // BKSGE_FND_ITERATOR_CONCEPTS_DETAIL_HAS_ITERATOR_CATEGORY_HPP

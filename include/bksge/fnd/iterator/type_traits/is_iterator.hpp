@@ -9,7 +9,7 @@
 #ifndef BKSGE_FND_ITERATOR_TYPE_TRAITS_IS_ITERATOR_HPP
 #define BKSGE_FND_ITERATOR_TYPE_TRAITS_IS_ITERATOR_HPP
 
-#include <bksge/fnd/iterator/type_traits/detail/has_iterator_category.hpp>
+#include <bksge/fnd/iterator/concepts/detail/has_iterator_category.hpp>
 #include <iterator>
 
 namespace bksge

@@ -10,7 +10,7 @@
 #define BKSGE_FND_ITERATOR_TYPE_TRAITS_IS_OUTPUT_ITERATOR_HPP
 
 #include <bksge/fnd/iterator/type_traits/detail/has_iterator_category_convertible_to.hpp>
-#include <iterator>
+#include <bksge/fnd/iterator/tag.hpp>
 
 namespace bksge
 {
@@ -18,7 +18,7 @@ namespace bksge
 template <typename Iterator>
 struct is_output_iterator
 	: public detail::has_iterator_category_convertible_to<
-		Iterator, std::output_iterator_tag
+		Iterator, bksge::output_iterator_tag
 	>
 {};
 

@@ -10,9 +10,8 @@
 #define BKSGE_FND_ITERATOR_ITER_DIFFERENCE_T_HPP
 
 #include <bksge/fnd/type_traits/remove_cvref.hpp>
-#include <bksge/fnd/type_traits/void_t.hpp>
 #include <bksge/fnd/iterator/incrementable_traits.hpp>
-#include <iterator>
+#include <bksge/fnd/iterator/concepts/detail/iter_traits.hpp>
 
 namespace bksge
 {
@@ -20,23 +19,14 @@ namespace bksge
 namespace detail
 {
 
-template <typename T, typename = bksge::void_t<>>
-struct iter_difference_impl
-{
-	using type = typename bksge::incrementable_traits<T>::difference_type;
-};
- 
 template <typename T>
-struct iter_difference_impl<T, bksge::void_t<typename std::iterator_traits<T>::difference_type>>
-{
-	using type = typename std::iterator_traits<T>::difference_type;
-};
+using iter_diff_t_impl =
+	typename detail::iter_traits<T, bksge::incrementable_traits<T>>::difference_type;
 
 }	// namespace detail
 
 template <typename T>
-using iter_difference_t =
-	typename detail::iter_difference_impl<bksge::remove_cvref_t<T>>::type;
+using iter_difference_t = detail::iter_diff_t_impl<bksge::remove_cvref_t<T>>;
 
 }	// namespace bksge
 

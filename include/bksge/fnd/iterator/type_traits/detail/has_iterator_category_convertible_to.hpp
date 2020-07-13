@@ -9,7 +9,7 @@
 #ifndef BKSGE_FND_ITERATOR_TYPE_TRAITS_DETAIL_HAS_ITERATOR_CATEGORY_CONVERTIBLE_TO_HPP
 #define BKSGE_FND_ITERATOR_TYPE_TRAITS_DETAIL_HAS_ITERATOR_CATEGORY_CONVERTIBLE_TO_HPP
 
-#include <bksge/fnd/iterator/type_traits/detail/has_iterator_category.hpp>
+#include <bksge/fnd/iterator/concepts/detail/has_iterator_category.hpp>
 #include <bksge/fnd/iterator/type_traits/iterator_category.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/is_convertible.hpp>

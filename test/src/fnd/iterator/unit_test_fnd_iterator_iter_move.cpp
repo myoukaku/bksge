@@ -50,6 +50,7 @@ struct CustomIterator2
 {
 	X* m_p;
 	BKSGE_CXX14_CONSTEXPR CustomIterator2(X* p): m_p(p) {}
+	BKSGE_CXX14_CONSTEXPR X&& operator*() const;
 };
 
 inline BKSGE_CXX14_CONSTEXPR X&&
