@@ -264,7 +264,7 @@ GTEST_TEST(TypeTraitsTest, IsNothrowConstructibleTest)
 	BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, int(&)[],   int&&);
 	BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, int(&)[],   int[2]);
 	BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, int(&)[],   int[]);
-	BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, int(&)[],   int(&)[2]);
+//	BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, int(&)[],   int(&)[2]);
 	BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(true,  int(&)[],   int(&)[]);
 	BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, int(&)[],   int(&&)[2]);
 	BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, int(&)[],   int(&&)[]);
@@ -282,11 +282,11 @@ GTEST_TEST(TypeTraitsTest, IsNothrowConstructibleTest)
 	BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, int(&&)[],  int*);
 	BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, int(&&)[],  int&);
 	BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, int(&&)[],  int&&);
-	BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, int(&&)[],  int[2]);
+//	BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, int(&&)[],  int[2]);
 	BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(true,  int(&&)[],  int[]);
 	BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, int(&&)[],  int(&)[2]);
 	BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, int(&&)[],  int(&)[]);
-	BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, int(&&)[],  int(&&)[2]);
+//	BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, int(&&)[],  int(&&)[2]);
 	BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(true,  int(&&)[],  int(&&)[]);
 	BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, int,        UDT);
 	BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, int, int, int);
