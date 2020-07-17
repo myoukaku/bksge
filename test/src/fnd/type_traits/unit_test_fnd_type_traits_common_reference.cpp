@@ -85,8 +85,8 @@ BKSGE_COMMON_REFERENCE_TEST(int, int);
 BKSGE_COMMON_REFERENCE_TEST(int&, int&);
 BKSGE_COMMON_REFERENCE_TEST(void, void);
 BKSGE_COMMON_REFERENCE_TEST(const void, const void);
-BKSGE_COMMON_REFERENCE_TEST(void, const void, void);
-BKSGE_COMMON_REFERENCE_TEST(void(*)(), void(* const)(), void(*)());
+BKSGE_COMMON_REFERENCE_TEST(void, void, const void);
+BKSGE_COMMON_REFERENCE_TEST(void(*)(), void(*)(), void(* const)());
 BKSGE_COMMON_REFERENCE_TEST(int, int, int);
 BKSGE_COMMON_REFERENCE_TEST(int, int&, int);
 BKSGE_COMMON_REFERENCE_TEST(int, int&, int);
@@ -100,6 +100,15 @@ BKSGE_COMMON_REFERENCE_TEST(const int&, int&, int&, int&&);
 BKSGE_COMMON_REFERENCE_TEST(const int&, int&&, int&, int&);
 BKSGE_COMMON_REFERENCE_TEST(int, char&, int&);
 BKSGE_COMMON_REFERENCE_TEST(long, long&, int&);
+
+BKSGE_COMMON_REFERENCE_TEST(int*, int*, int*);
+BKSGE_COMMON_REFERENCE_TEST(void*,       int      *       , void      *       );
+BKSGE_COMMON_REFERENCE_TEST(void*,       int      *      &, void      *      &);
+BKSGE_COMMON_REFERENCE_TEST(void const*, int const*      &, void      *      &);
+BKSGE_COMMON_REFERENCE_TEST(void const*, int      *      &, void const*      &);
+BKSGE_COMMON_REFERENCE_TEST(void*,       int      * const&, void      *      &);
+BKSGE_COMMON_REFERENCE_TEST(void*,       int      *      &, void      * const&);
+BKSGE_COMMON_REFERENCE_TEST(void const*, int const* const&, void      *      &);
 
 BKSGE_COMMON_REFERENCE_TEST(C, A, B);
 BKSGE_COMMON_REFERENCE_TEST(C&, A&, B);

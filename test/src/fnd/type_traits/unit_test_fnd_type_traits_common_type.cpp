@@ -19,6 +19,9 @@ struct X{};
 struct Y{};
 struct Z{};
 
+struct Base {};
+struct Derived : Base {};
+
 }	// namespace common_type_test
 }	// namespace bksge_type_traits_test
 
@@ -38,6 +41,19 @@ struct common_type<
 GTEST_TEST(TypeTraitsTest, CommonTypeTest)
 {
 	using namespace bksge_type_traits_test::common_type_test;
+
+	static_assert(bksge::is_same<bksge::common_type<Base,        Derived       >::type, Base>::value, "");
+	static_assert(bksge::is_same<bksge::common_type<Base const,  Derived const >::type, Base>::value, "");
+	static_assert(bksge::is_same<bksge::common_type<Base      *, Derived      *>::type, Base      *>::value, "");
+	static_assert(bksge::is_same<bksge::common_type<Base const*, Derived const*>::type, Base const*>::value, "");
+	static_assert(bksge::is_same<bksge::common_type<Base      &, Derived      &>::type, Base>::value, "");
+	static_assert(bksge::is_same<bksge::common_type<Base const&, Derived const&>::type, Base>::value, "");
+	static_assert(bksge::is_same<bksge::common_type<Derived,        Base       >::type, Base>::value, "");
+	static_assert(bksge::is_same<bksge::common_type<Derived const,  Base const >::type, Base>::value, "");
+	static_assert(bksge::is_same<bksge::common_type<Derived      *, Base      *>::type, Base      *>::value, "");
+	static_assert(bksge::is_same<bksge::common_type<Derived const*, Base const*>::type, Base const*>::value, "");
+	static_assert(bksge::is_same<bksge::common_type<Derived      &, Base      &>::type, Base>::value, "");
+	static_assert(bksge::is_same<bksge::common_type<Derived const&, Base const&>::type, Base>::value, "");
 
 	struct A{};
 

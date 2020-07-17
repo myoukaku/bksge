@@ -25,12 +25,44 @@ namespace common_reference_with_test
 {
 
 BKSGE_COMMON_REFERENCE_WITH_TEST(true,  int, int);
-BKSGE_COMMON_REFERENCE_WITH_TEST(true,  int, const int);
-BKSGE_COMMON_REFERENCE_WITH_TEST(true,  int&&, const int&);
-BKSGE_COMMON_REFERENCE_WITH_TEST(true,  int&, const int&&);
-BKSGE_COMMON_REFERENCE_WITH_TEST(false, int, void);
+BKSGE_COMMON_REFERENCE_WITH_TEST(true,  int, int const);
 BKSGE_COMMON_REFERENCE_WITH_TEST(false, int, int*);
+BKSGE_COMMON_REFERENCE_WITH_TEST(false, int, int const*);
+BKSGE_COMMON_REFERENCE_WITH_TEST(true,  int, int&);
+BKSGE_COMMON_REFERENCE_WITH_TEST(true,  int, int const&);
+BKSGE_COMMON_REFERENCE_WITH_TEST(true,  int, int&&);
+BKSGE_COMMON_REFERENCE_WITH_TEST(true,  int, int const&&);
+
+BKSGE_COMMON_REFERENCE_WITH_TEST(true,  int&&, int const&);
+BKSGE_COMMON_REFERENCE_WITH_TEST(true,  int&, int const&&);
+
+BKSGE_COMMON_REFERENCE_WITH_TEST(false, int, void);
 BKSGE_COMMON_REFERENCE_WITH_TEST(false, int, int());
+
+BKSGE_COMMON_REFERENCE_WITH_TEST(true,  int      *, int      *);
+BKSGE_COMMON_REFERENCE_WITH_TEST(true,  int      *, int const*);
+BKSGE_COMMON_REFERENCE_WITH_TEST(true,  int const*, int      *);
+BKSGE_COMMON_REFERENCE_WITH_TEST(true,  int const*, int const*);
+
+BKSGE_COMMON_REFERENCE_WITH_TEST(true,  int      *, void      *);
+BKSGE_COMMON_REFERENCE_WITH_TEST(true,  int      *, void const*);
+BKSGE_COMMON_REFERENCE_WITH_TEST(true,  int const*, void      *);
+BKSGE_COMMON_REFERENCE_WITH_TEST(true,  int const*, void const*);
+
+BKSGE_COMMON_REFERENCE_WITH_TEST(true,  void      *, int      *);
+BKSGE_COMMON_REFERENCE_WITH_TEST(true,  void      *, int const*);
+BKSGE_COMMON_REFERENCE_WITH_TEST(true,  void const*, int      *);
+BKSGE_COMMON_REFERENCE_WITH_TEST(true,  void const*, int const*);
+
+BKSGE_COMMON_REFERENCE_WITH_TEST(true,  void      *, void      *);
+BKSGE_COMMON_REFERENCE_WITH_TEST(true,  void      *, void const*);
+BKSGE_COMMON_REFERENCE_WITH_TEST(true,  void const*, void      *);
+BKSGE_COMMON_REFERENCE_WITH_TEST(true,  void const*, void const*);
+
+BKSGE_COMMON_REFERENCE_WITH_TEST(true,  int      *&, void      *&);
+BKSGE_COMMON_REFERENCE_WITH_TEST(true,  int      *&, void const*&);
+BKSGE_COMMON_REFERENCE_WITH_TEST(true,  int const*&, void      *&);
+BKSGE_COMMON_REFERENCE_WITH_TEST(true,  int const*&, void const*&);
 
 struct A { A(int) { } };
 BKSGE_COMMON_REFERENCE_WITH_TEST(true,  A, int);

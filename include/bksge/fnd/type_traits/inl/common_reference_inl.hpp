@@ -30,11 +30,22 @@ namespace bksge
 namespace detail
 {
 
+//template <typename X, typename Y>
+//using cond_res = decltype(false ? bksge::declval<X(&)()>()() : bksge::declval<Y(&)()>()());
+
+template <typename X, typename Y, typename = void>
+struct cond_res {};
+
 template <typename X, typename Y>
-using cond_res = decltype(false ? bksge::declval<X(&)()>()() : bksge::declval<Y(&)()>()());
+struct cond_res<X, Y, bksge::void_t<decltype(false ? bksge::declval<X(&)()>()() : bksge::declval<Y(&)()>()())>>
+{
+	using type = decltype(false ? bksge::declval<X(&)()>()() : bksge::declval<Y(&)()>()());
+};
 
 template <
 	typename A, typename B,
+	typename X = bksge::remove_reference_t<A>,
+	typename Y = bksge::remove_reference_t<B>,
 	bool = bksge::is_lvalue_reference<A>::value,
 	bool = bksge::is_lvalue_reference<B>::value,
 	typename = bksge::void_t<>
@@ -47,11 +58,12 @@ template <typename A, typename B>
 using common_ref = typename detail::common_ref_impl<A, B>::type;
 
 // If A and B are both lvalue reference types, ...
-template <typename X, typename Y>
-struct common_ref_impl<X, Y, true, true,
-	bksge::void_t<detail::cond_res<bksge::copy_cv_t<bksge::remove_reference_t<X>, bksge::remove_reference_t<Y>>&, bksge::copy_cv_t<bksge::remove_reference_t<Y>, bksge::remove_reference_t<X>>&>>>
+template <typename A, typename B, typename X, typename Y>
+struct common_ref_impl<A, B, X, Y, true, true,
+	bksge::void_t<typename detail::cond_res<bksge::copy_cv_t<X, Y>&, bksge::copy_cv_t<Y, X>&>::type>
+>
 {
-	using type = detail::cond_res<bksge::copy_cv_t<bksge::remove_reference_t<X>, bksge::remove_reference_t<Y>>&, bksge::copy_cv_t<bksge::remove_reference_t<Y>, bksge::remove_reference_t<X>>&>;
+	using type = typename detail::cond_res<bksge::copy_cv_t<X, Y>&, bksge::copy_cv_t<Y, X>&>::type;
 };
 
 // let C be remove_reference_t<COMMON-REF(X&, Y&)>&&
@@ -59,11 +71,11 @@ template <typename X, typename Y>
 using common_ref_C = bksge::remove_reference_t<detail::common_ref<X&, Y&>>&&;
 
 // If A and B are both rvalue reference types, ...
-template <typename X, typename Y>
-struct common_ref_impl<X, Y, false, false,
+template <typename A, typename B, typename X, typename Y>
+struct common_ref_impl<A, B, X, Y, false, false,
 	bksge::enable_if_t<
-		bksge::is_convertible<X, detail::common_ref_C<X, Y>>::value &&
-		bksge::is_convertible<Y, detail::common_ref_C<X, Y>>::value
+		bksge::is_convertible<A, detail::common_ref_C<X, Y>>::value &&
+		bksge::is_convertible<B, detail::common_ref_C<X, Y>>::value
 	>
 >
 {
@@ -72,13 +84,13 @@ struct common_ref_impl<X, Y, false, false,
 
 // let D be COMMON-REF(const X&, Y&)
 template <typename X, typename Y>
-using common_ref_D = detail::common_ref<const bksge::remove_reference_t<X>&, Y&>;
+using common_ref_D = detail::common_ref<const X&, Y&>;
 
 // If A is an rvalue reference and B is an lvalue reference, ...
-template <typename X, typename Y>
-struct common_ref_impl<X, Y, false, true,
+template <typename A, typename B, typename X, typename Y>
+struct common_ref_impl<A, B, X, Y, false, true,
 	bksge::enable_if_t<
-		bksge::is_convertible<X, detail::common_ref_D<X, Y>>::value
+		bksge::is_convertible<A, detail::common_ref_D<X, Y>>::value
 	>
 >
 {
@@ -86,9 +98,9 @@ struct common_ref_impl<X, Y, false, true,
 };
 
 // If A is an lvalue reference and B is an rvalue reference, ...
-template <typename X, typename Y>
-struct common_ref_impl<X, Y, true, false>
-	: public common_ref_impl<Y, X>
+template <typename A, typename B, typename X, typename Y>
+struct common_ref_impl<A, B, X, Y, true, false>
+	: public common_ref_impl<B, A>
 {};
 
 template <typename T>
@@ -142,9 +154,9 @@ struct common_reference_impl<T1, T2, 2, B,
 // Otherwise, if COND-RES(T1, T2) is well-formed, ...
 template <typename T1, typename T2, bool B>
 struct common_reference_impl<T1, T2, 3, B,
-	bksge::void_t<detail::cond_res<T1, T2>>>
+	bksge::void_t<typename detail::cond_res<T1, T2>::type>>
 {
-	using type = detail::cond_res<T1, T2>;
+	using type = typename detail::cond_res<T1, T2>::type;
 };
 
 // Otherwise, if bksge::common_type_t<T1, T2> is well-formed, ...
