@@ -33,7 +33,11 @@ BKSGE_SWAPPABLE_WITH_TEST(false, int&, long&);
 BKSGE_SWAPPABLE_WITH_TEST(true,  int(&)[2], int(&)[2]);
 BKSGE_SWAPPABLE_WITH_TEST(false, int(&)[2], int(&)[3]);
 BKSGE_SWAPPABLE_WITH_TEST(false, const int(&)[2], const int(&)[2]);
+#if (defined(_MSC_VER) && (_MSC_VER < 1920))
+BKSGE_SWAPPABLE_WITH_TEST(true,  int[2], int[2]);	// TODO
+#else
 BKSGE_SWAPPABLE_WITH_TEST(false, int[2], int[2]);
+#endif
 
 namespace N1
 {
