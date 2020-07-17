@@ -90,8 +90,8 @@ matrix:
     - { os: "linux", compiler: gcc,   env: CXX_COMPILER=g++-7       C_COMPILER=gcc-7     CXX_STANDARD=11, addons: *gcc-7    }
     - { os: "linux", compiler: gcc,   env: CXX_COMPILER=g++-7       C_COMPILER=gcc-7     CXX_STANDARD=14, addons: *gcc-7    }
     - { os: "linux", compiler: gcc,   env: CXX_COMPILER=g++-7       C_COMPILER=gcc-7     CXX_STANDARD=17, addons: *gcc-7    }
-    - { os: "linux", compiler: gcc,   env: CXX_COMPILER=g++-6       C_COMPILER=gcc-6     CXX_STANDARD=11, addons: *gcc-6    }
-    - { os: "linux", compiler: gcc,   env: CXX_COMPILER=g++-6       C_COMPILER=gcc-6     CXX_STANDARD=14, addons: *gcc-6    }
+#   - { os: "linux", compiler: gcc,   env: CXX_COMPILER=g++-6       C_COMPILER=gcc-6     CXX_STANDARD=11, addons: *gcc-6    }
+#   - { os: "linux", compiler: gcc,   env: CXX_COMPILER=g++-6       C_COMPILER=gcc-6     CXX_STANDARD=14, addons: *gcc-6    }
 #   - { os: "linux", compiler: gcc,   env: CXX_COMPILER=g++-6       C_COMPILER=gcc-6     CXX_STANDARD=17, addons: *gcc-6    }
     - { os: "osx",   compiler: clang, osx_image: xcode12,   env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=11  }
     - { os: "osx",   compiler: clang, osx_image: xcode12,   env: CXX_COMPILER=clang++ C_COMPILER=clang CXX_STANDARD=14  }
