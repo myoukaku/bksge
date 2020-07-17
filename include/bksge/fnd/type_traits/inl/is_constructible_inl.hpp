@@ -31,6 +31,27 @@ struct is_constructible
 	>
 {};
 
+#elif (defined(_MSC_VER) && (_MSC_VER >= 1910))
+
+namespace detail
+{
+
+template <typename T, typename... Args>
+struct is_constructible
+	: public bksge::bool_constant<
+		__is_constructible(T, Args...)
+	>
+{};
+
+}	// namespace detail
+
+template <typename T, typename... Args>
+struct is_constructible
+	: public detail::is_constructible_helper<
+		detail::is_constructible, T, Args...
+	>
+{};
+
 #else
 
 namespace detail

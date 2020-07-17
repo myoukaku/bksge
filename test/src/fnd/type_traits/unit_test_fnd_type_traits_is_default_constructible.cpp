@@ -122,6 +122,7 @@ GTEST_TEST(TypeTraitsTest, IsDefaultConstructibleTest)
 	BKSGE_IS_DEFAULT_CONSTRUCTIBLE_TEST(false, foo2_t);
 	BKSGE_IS_DEFAULT_CONSTRUCTIBLE_TEST(false, foo3_t);
 	BKSGE_IS_DEFAULT_CONSTRUCTIBLE_TEST(false, foo4_t);
+	BKSGE_IS_DEFAULT_CONSTRUCTIBLE_TEST(false, int(&)());
 }
 
 }	// namespace is_default_constructible_test

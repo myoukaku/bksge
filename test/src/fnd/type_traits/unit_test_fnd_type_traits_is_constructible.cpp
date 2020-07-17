@@ -2757,6 +2757,8 @@ GTEST_TEST(TypeTraitsTest, IsConstructibleTest)
 	BKSGE_IS_CONSTRUCTIBLE_TEST(false,  foo2_t,  foo2_t);
 	BKSGE_IS_CONSTRUCTIBLE_TEST(false,  foo3_t,  foo3_t);
 	BKSGE_IS_CONSTRUCTIBLE_TEST(false,  foo4_t,  foo4_t);
+
+	BKSGE_IS_CONSTRUCTIBLE_TEST(false, int(&)());
 }
 
 }	// namespace is_constructible_test

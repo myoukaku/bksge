@@ -10,6 +10,7 @@
 #define BKSGE_FND_TYPE_TRAITS_DETAIL_IS_CONSTRUCTIBLE_HELPER_HPP
 
 #include <bksge/fnd/type_traits/conditional.hpp>
+#include <bksge/fnd/type_traits/is_array.hpp>
 #include <bksge/fnd/type_traits/is_abstract.hpp>
 #include <bksge/fnd/type_traits/is_const.hpp>
 #include <bksge/fnd/type_traits/is_function.hpp>
@@ -46,34 +47,14 @@ struct is_constructible_helper_0
 	>;
 };
 
-// is_constructible_helper_rvalue_reference
+// is_constructible_helper_reference_to_array
 template <typename T, typename... Args>
-struct is_constructible_helper_rvalue_reference
+struct is_constructible_helper_reference_to_array
 	: public bksge::false_type
 {};
 
 template <typename T, typename Arg>
-struct is_constructible_helper_rvalue_reference<T, Arg>
-{
-	using T0 = bksge::remove_reference_t<T>;
-	using A0 = bksge::remove_reference_t<Arg>;
-
-	using type =
-		bksge::conditional_t<
-			!bksge::is_lvalue_reference<Arg>::value && bksge::is_same<bksge::remove_cv_t<T0>, bksge::remove_cv_t<A0>>::value,
-			typename is_constructible_helper_0<T, Arg>::type,
-			bksge::false_type
-		>;
-};
-
-// is_constructible_helper_lvalue_reference
-template <typename T, typename... Args>
-struct is_constructible_helper_lvalue_reference
-	: public bksge::false_type
-{};
-
-template <typename T, typename Arg>
-struct is_constructible_helper_lvalue_reference<T, Arg>
+struct is_constructible_helper_reference_to_array<T, Arg>
 {
 	using T0 = bksge::remove_reference_t<T>;
 	using A0 = bksge::remove_reference_t<Arg>;
@@ -93,38 +74,16 @@ struct is_constructible_helper_lvalue_reference<T, Arg>
 		>;
 };
 
-// is_constructible_helper_2
-template <template <typename...> class F, typename T, typename... Args>
-struct is_constructible_helper_2
-	: public detail::constant_wrapper<
-		bksge::conditional_t<
-			bksge::is_lvalue_reference<T>::value,
-			typename is_constructible_helper_lvalue_reference<T, Args...>::type,
-			bksge::conditional_t<
-				bksge::is_rvalue_reference<T>::value,
-				typename is_constructible_helper_rvalue_reference<T, Args...>::type,
-				F<T, Args...>
-			>
-		>
-	>
-{};
-
-template <template <typename...> class F, typename T>
-struct is_constructible_helper_2<F, T>
-	: public bksge::conditional_t<
-		bksge::is_unbounded_array<T>::value,
-		bksge::false_type,
-		F<remove_all_extents_t<T>>
-	>
-{};
-
 // is_constructible_helper
 template <template <typename...> class F, typename T, typename... Args>
 struct is_constructible_helper
-	: public bksge::conditional_t<
-		bksge::is_abstract<T>::value || bksge::is_function<T>::value,
-		bksge::false_type,
-		is_constructible_helper_2<F, T, Args...>
+	: public detail::constant_wrapper<
+		bksge::conditional_t<
+			bksge::is_lvalue_reference<T>::value &&
+			bksge::is_array<bksge::remove_reference_t<T>>::value,
+			typename is_constructible_helper_reference_to_array<T, Args...>::type,
+			F<T, Args...>
+		>
 	>
 {};
 
