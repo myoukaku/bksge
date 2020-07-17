@@ -51,10 +51,16 @@ BKSGE_CONSTRUCTIBLE_FROM_TEST(true,  int[2]);
 BKSGE_CONSTRUCTIBLE_FROM_TEST(false, int());
 BKSGE_CONSTRUCTIBLE_FROM_TEST(true,  int(*)());
 BKSGE_CONSTRUCTIBLE_FROM_TEST(true,  int(*)(), std::nullptr_t);
+#if defined(BKSGE_HAS_CXX17_NOEXCEPT_FUNCTION_TYPE)
 BKSGE_CONSTRUCTIBLE_FROM_TEST(true,  int(*)(), int(*)() noexcept);
 BKSGE_CONSTRUCTIBLE_FROM_TEST(true,  int(*)(), int(&)() noexcept);
-BKSGE_CONSTRUCTIBLE_FROM_TEST(false, int(&)());
 BKSGE_CONSTRUCTIBLE_FROM_TEST(true,  int(&)(), int(&)() noexcept);
+#else
+BKSGE_CONSTRUCTIBLE_FROM_TEST(true,  int(*)(), int(*)());
+BKSGE_CONSTRUCTIBLE_FROM_TEST(true,  int(*)(), int(&)());
+BKSGE_CONSTRUCTIBLE_FROM_TEST(true,  int(&)(), int(&)());
+#endif
+BKSGE_CONSTRUCTIBLE_FROM_TEST(false, int(&)());
 
 enum E { };
 BKSGE_CONSTRUCTIBLE_FROM_TEST(true,  E);
