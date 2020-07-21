@@ -9,6 +9,7 @@
 #include <bksge/fnd/type_traits/common_type.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <gtest/gtest.h>
+#include "type_traits_test_utility.hpp"
 
 namespace bksge_type_traits_test
 {
@@ -18,9 +19,6 @@ namespace common_type_test
 struct X{};
 struct Y{};
 struct Z{};
-
-struct Base {};
-struct Derived : Base {};
 
 }	// namespace common_type_test
 }	// namespace bksge_type_traits_test
@@ -38,10 +36,13 @@ struct common_type<
 
 }	// namespace bksge
 
+namespace bksge_type_traits_test
+{
+namespace common_type_test
+{
+
 GTEST_TEST(TypeTraitsTest, CommonTypeTest)
 {
-	using namespace bksge_type_traits_test::common_type_test;
-
 	static_assert(bksge::is_same<bksge::common_type<Base,        Derived       >::type, Base>::value, "");
 	static_assert(bksge::is_same<bksge::common_type<Base const,  Derived const >::type, Base>::value, "");
 	static_assert(bksge::is_same<bksge::common_type<Base      *, Derived      *>::type, Base      *>::value, "");
@@ -241,3 +242,6 @@ GTEST_TEST(TypeTraitsTest, CommonTypeTest)
 	static_assert(bksge::is_same<bksge::common_type_t<A>, A>::value, "");
 	static_assert(bksge::is_same<bksge::common_type_t<A, A>, A>::value, "");
 }
+
+}	// namespace common_type_test
+}	// namespace bksge_type_traits_test
