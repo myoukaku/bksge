@@ -18,6 +18,7 @@
 #include <bksge/fnd/functional/greater.hpp>
 #include <bksge/fnd/functional/greater_equal.hpp>
 #include <bksge/fnd/functional/hash_combine.hpp>
+#include <bksge/fnd/functional/identity.hpp>
 #include <bksge/fnd/functional/invoke.hpp>
 #include <bksge/fnd/functional/less.hpp>
 #include <bksge/fnd/functional/less_equal.hpp>
