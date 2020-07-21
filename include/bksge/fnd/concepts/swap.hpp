@@ -49,7 +49,7 @@ private:
 	>
 //	requires has_adl_swap<T, U>
 	static BKSGE_CXX14_CONSTEXPR auto
-	impl(detail::overload_priority<2>, T&& t, U&& u)
+	impl(bksge::detail::overload_priority<2>, T&& t, U&& u)
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(swap(bksge::forward<T>(t), bksge::forward<U>(u)))
 
 	template <
@@ -61,7 +61,7 @@ private:
 //		fn(t, u);
 //	}
 	static BKSGE_CXX14_CONSTEXPR void
-	impl(detail::overload_priority<1>, T (&t)[N], U (&u)[N])
+	impl(bksge::detail::overload_priority<1>, T (&t)[N], U (&u)[N])
 		BKSGE_NOEXCEPT_IF_EXPR(bksge::declval<swap_fn const&>()(*t, *u))
 	{
 		for (std::size_t i = 0; i < N; ++i)
@@ -85,7 +85,7 @@ private:
 //		move_constructible<bksge::remove_reference_t<T>> &&
 //		assignable_from<T, bksge::remove_reference_t<T>>
 	static BKSGE_CXX14_CONSTEXPR void
-	impl(detail::overload_priority<0>, T&& t, U&& u)
+	impl(bksge::detail::overload_priority<0>, T&& t, U&& u)
 		BKSGE_NOEXCEPT_IF(
 			bksge::is_nothrow_move_constructible<bksge::remove_reference_t<T>>::value &&
 			bksge::is_nothrow_move_assignable<bksge::remove_reference_t<T>>::value)
@@ -99,7 +99,7 @@ public:
 	template <typename T, typename U>
 	BKSGE_CXX14_CONSTEXPR auto operator()(T&& t, U&& u) const
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
-			impl(detail::overload_priority<2>{}, bksge::forward<T>(t), bksge::forward<U>(u)))
+			impl(bksge::detail::overload_priority<2>{}, bksge::forward<T>(t), bksge::forward<U>(u)))
 };
 
 }	// namespace swap_detail

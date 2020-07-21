@@ -33,8 +33,8 @@ template <typename T, std::size_t N> void swap(T(&)[N], T(&)[N]) = delete;
 
 template <typename T, typename U>
 concept has_adl_swap =
-	(detail::class_or_enum<bksge::remove_reference_t<T>> ||
-	 detail::class_or_enum<bksge::remove_reference_t<U>>) &&
+	(bksge::detail::class_or_enum<bksge::remove_reference_t<T>> ||
+	 bksge::detail::class_or_enum<bksge::remove_reference_t<U>>) &&
 	requires(T&& t, U&& u)
 	{
 		swap(bksge::forward<T>(t), bksge::forward<U>(u));
@@ -50,8 +50,8 @@ private:
 		typename = decltype(swap(bksge::declval<T2>(), bksge::declval<U2>()))
 	>
 	static auto test(int) -> bksge::disjunction<
-		detail::class_or_enum_t<bksge::remove_reference_t<T2>>,
-		detail::class_or_enum_t<bksge::remove_reference_t<U2>>
+		bksge::detail::class_or_enum_t<bksge::remove_reference_t<T2>>,
+		bksge::detail::class_or_enum_t<bksge::remove_reference_t<U2>>
 	>;
 
 	template <typename T2, typename U2>
