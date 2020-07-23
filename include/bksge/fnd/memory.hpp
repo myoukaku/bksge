@@ -11,5 +11,6 @@
 
 #include <bksge/fnd/memory/addressof.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
+#include <bksge/fnd/memory/to_address.hpp>
 
 #endif // BKSGE_FND_MEMORY_HPP
