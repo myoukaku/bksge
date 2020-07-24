@@ -489,7 +489,7 @@
 #  endif
 #endif
 
-// Visual Studio 2019 version 16.6.(1-4)
+// Visual Studio 2019 version 16.6.(1-5)
 #if (_MSC_FULL_VER >= 192628806)
 #endif
 
