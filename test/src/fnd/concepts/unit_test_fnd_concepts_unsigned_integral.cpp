@@ -58,7 +58,7 @@ BKSGE_UNSIGNED_INTEGRAL_TEST(true,  char16_t);
 #if defined(BKSGE_HAS_CXX11_CHAR32_T)
 BKSGE_UNSIGNED_INTEGRAL_TEST(true,  char32_t);
 #endif
-#if defined(BKSGE_HAS_CXX20_CHAR8_T)
+#if 0//defined(BKSGE_HAS_CXX20_CHAR8_T)
 BKSGE_UNSIGNED_INTEGRAL_TEST(true,  char8_t);
 #endif
 
