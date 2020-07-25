@@ -37,19 +37,29 @@ template <typename...>
 struct type_pack
 {};
 
+// Visual Studio 2017 のバグに対応するため、2段階で解決する
+template <typename, typename, typename = void>
+struct indirect_result_t_impl_2;
+
+template <typename F, typename... Is>
+struct indirect_result_t_impl_2<F, type_pack<Is...>,
+	bksge::enable_if_t<
+		bksge::invocable_t<F, Is...>::value
+	>
+>
+{
+	using type = bksge::invoke_result_t<F, Is...>;
+};
+
 template <typename, typename, typename = void>
 struct indirect_result_t_impl;
 
 template <typename F, typename... Is>
 struct indirect_result_t_impl<F, type_pack<Is...>,
 	bksge::enable_if_t<
-		bksge::conjunction<bksge::indirectly_readable_t<Is>...>::value &&
-		bksge::invocable_t<F, bksge::iter_reference_t<Is>...>::value
+		bksge::conjunction<bksge::indirectly_readable_t<Is>...>::value
 	>
->
-{
-	using type = bksge::invoke_result_t<F, bksge::iter_reference_t<Is>...>;
-};
+> : public indirect_result_t_impl_2<F, type_pack<bksge::iter_reference_t<Is>...>> {};
 
 }	// namespace detail
 

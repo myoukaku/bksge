@@ -19,6 +19,7 @@
 #include <bksge/fnd/concepts/swappable_with.hpp>
 #include <bksge/fnd/type_traits/remove_reference.hpp>
 #include <bksge/fnd/utility/declval.hpp>
+#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 
 #define BKSGE_NOEXCEPT_DECLTYPE_RETURN(...) \
@@ -35,7 +36,9 @@ namespace ranges
 namespace iter_swap_detail
 {
 
-#if 0
+#if defined(_MSC_VER) && (_MSC_VER < 1920)
+void iter_swap();
+#elif 0
 void iter_swap(auto, auto) = delete;
 #else
 template <typename It1, typename It2>
@@ -73,7 +76,7 @@ private:
 #endif
 	static BKSGE_CXX14_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<2>, I1&& i1, I2&& i2)
-		BKSGE_NOEXCEPT_DECLTYPE_RETURN(iter_swap(static_cast<I1&&>(i1), static_cast<I2&&>(i2)))
+		BKSGE_NOEXCEPT_DECLTYPE_RETURN(iter_swap(bksge::forward<I1>(i1), bksge::forward<I2>(i2)))
 
 	template <typename I1, typename I2
 #if !defined(BKSGE_HAS_CXX20_CONCEPTS)
