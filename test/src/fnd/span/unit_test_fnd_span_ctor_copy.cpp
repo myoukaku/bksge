@@ -7,6 +7,9 @@
  */
 
 #include <bksge/fnd/span.hpp>
+#include <bksge/fnd/type_traits/conditional.hpp>
+#include <bksge/fnd/type_traits/is_class.hpp>
+#include <bksge/fnd/type_traits/remove_volatile.hpp>
 #include <string>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -19,52 +22,55 @@ namespace ctor_copy_test
 {
 
 template <typename T>
-BKSGE_CXX14_CONSTEXPR bool do_copy(const T& rhs)
+BKSGE_CXX14_CONSTEXPR bool do_copy(T const& rhs)
 {
-	BKSGE_ASSERT_NOEXCEPT(T{rhs});
-	T lhs{rhs};
-	return lhs.data() == rhs.data() && lhs.size() == rhs.size();
+	BKSGE_ASSERT_NOEXCEPT(T{ rhs });
+	T lhs{ rhs };
+	return
+		lhs.data() == rhs.data() &&
+		lhs.size() == rhs.size();
 }
 
 template <typename T>
-void test_cv ()
+inline BKSGE_CXX14_CONSTEXPR bool test2()
 {
-	int  arr[] ={1, 2, 3};
-	EXPECT_TRUE((do_copy(bksge::span<T>  ())));
-	EXPECT_TRUE((do_copy(bksge::span<T, 0>())));
-	EXPECT_TRUE((do_copy(bksge::span<T>   (&arr[0], 1))));
-	EXPECT_TRUE((do_copy(bksge::span<T, 1>(&arr[0], 1))));
-	EXPECT_TRUE((do_copy(bksge::span<T>   (&arr[0], 2))));
-	EXPECT_TRUE((do_copy(bksge::span<T, 2>(&arr[0], 2))));
+	using U = bksge::conditional_t<
+		bksge::is_class<T>::value,
+		bksge::remove_volatile_t<T>,
+		T
+	>;
+	U a[3]{};
+	return
+		do_copy(bksge::span<T   >()) &&
+		do_copy(bksge::span<T, 0>()) &&
+		do_copy(bksge::span<T   >(a, 1)) &&
+		do_copy(bksge::span<T, 1>(a, 1)) &&
+		do_copy(bksge::span<T   >(a, 2)) &&
+		do_copy(bksge::span<T, 2>(a, 2)) &&
+		do_copy(bksge::span<T   >(a, 3)) &&
+		do_copy(bksge::span<T, 3>(a, 3));
 }
 
-struct A {};
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool
+test()
+{
+	return
+		test2<T               >() &&
+		test2<T const         >() &&
+		test2<T       volatile>() &&
+		test2<T const volatile>();
+}
+
+struct A{};
 
 GTEST_TEST(SpanTest, CtorCopyTest)
 {
-	constexpr int carr[] ={1, 2, 3};
-
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_copy(bksge::span<      int>  ()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_copy(bksge::span<      int, 0>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_copy(bksge::span<const int>   (&carr[0], 1)));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_copy(bksge::span<const int, 1>(&carr[0], 1)));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_copy(bksge::span<const int>   (&carr[0], 2)));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_copy(bksge::span<const int, 2>(&carr[0], 2)));
-
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_copy(bksge::span<long>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_copy(bksge::span<double>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_copy(bksge::span<A>()));
-
-	std::string s;
-	EXPECT_TRUE(do_copy(bksge::span<std::string>   ()));
-	EXPECT_TRUE(do_copy(bksge::span<std::string, 0>()));
-	EXPECT_TRUE(do_copy(bksge::span<std::string>   (&s, 1)));
-	EXPECT_TRUE(do_copy(bksge::span<std::string, 1>(&s, 1)));
-
-	test_cv<               int>();
-	test_cv<const          int>();
-	test_cv<      volatile int>();
-	test_cv<const volatile int>();
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<int>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<long>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<double>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<A>()));
+	                      EXPECT_TRUE((test<std::string>()));
 }
 
 }	// namespace ctor_copy_test

@@ -31,28 +31,18 @@ BKSGE_CXX14_CONSTEXPR bool do_assign(T lhs, T rhs)
 		lhs.size() == rhs.size();
 }
 
-GTEST_TEST(SpanTest, AssignTest)
-{
-	static constexpr int carr1[] = {1, 2, 3, 4};
-	static constexpr int carr2[] = {3, 4, 5};
-	static constexpr int carr3[] = {7, 8};
-	                 int   arr[] = {5, 6, 7, 9};
-	std::string strs[] = {"ABC", "DEF", "GHI"};
+#define VERIFY(...)	if (!(__VA_ARGS__)) { return false; }
 
-	//  constexpr dynamically sized assignment
+inline BKSGE_CXX14_CONSTEXPR bool
+test1()
+{
+	int carr1[] ={1, 2, 3, 4};
+	int carr2[] ={3, 4, 5};
+	int carr3[] ={7, 8};
+
+	// dynamically sized assignment
 	{
-		//  On systems where 'ptrdiff_t' is a synonym for 'int',
-		//  the call span(ptr, 0) selects the (pointer, index_type) constructor.
-		//  On systems where 'ptrdiff_t' is NOT a synonym for 'int',
-		//  it is ambiguous, because of 0 also being convertible to a null pointer
-		//  and so the compiler can't choose between:
-		//      span(pointer, index_type)
-		//  and span(pointer, pointer)
-		//  We cast zero to std::ptrdiff_t to remove that ambiguity.
-		//  Example:
-		//      On darwin x86_64, ptrdiff_t is the same as long int.
-		//      On darwin i386, ptrdiff_t is the same as int.
-		constexpr bksge::span<const int> spans[] =
+		bksge::span<const int> spans[] =
 		{
 			{},
 			{carr1, static_cast<std::size_t>(0)},
@@ -69,205 +59,43 @@ GTEST_TEST(SpanTest, AssignTest)
 			{carr3, 2U},
 		};
 
-		static_assert(bksge::size(spans) == 13, "");
-
-		//  No for loops in constexpr land :-(
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[0], spans[0]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[0], spans[1]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[0], spans[2]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[0], spans[3]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[0], spans[4]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[0], spans[5]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[0], spans[6]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[0], spans[7]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[0], spans[8]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[0], spans[9]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[0], spans[10]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[0], spans[11]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[0], spans[12]));
-
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[1], spans[1]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[1], spans[2]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[1], spans[3]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[1], spans[4]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[1], spans[5]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[1], spans[6]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[1], spans[7]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[1], spans[8]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[1], spans[9]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[1], spans[10]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[1], spans[11]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[1], spans[12]));
-
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[2], spans[2]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[2], spans[3]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[2], spans[4]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[2], spans[5]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[2], spans[6]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[2], spans[7]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[2], spans[8]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[2], spans[9]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[2], spans[10]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[2], spans[11]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[2], spans[12]));
-
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[3], spans[3]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[3], spans[4]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[3], spans[4]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[3], spans[4]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[3], spans[4]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[3], spans[4]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[3], spans[4]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[3], spans[4]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[3], spans[4]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[3], spans[10]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[3], spans[11]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[3], spans[12]));
-
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[4], spans[4]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[4], spans[5]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[4], spans[6]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[4], spans[7]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[4], spans[8]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[4], spans[9]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[4], spans[10]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[4], spans[11]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[4], spans[12]));
-
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[5], spans[5]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[5], spans[6]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[5], spans[7]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[5], spans[8]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[5], spans[9]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[5], spans[10]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[5], spans[11]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[5], spans[12]));
-
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[6], spans[6]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[6], spans[7]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[6], spans[8]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[6], spans[9]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[6], spans[10]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[6], spans[11]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[6], spans[12]));
-
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[7], spans[7]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[7], spans[8]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[7], spans[9]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[7], spans[10]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[7], spans[11]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[7], spans[12]));
-
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[8], spans[8]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[8], spans[9]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[8], spans[10]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[8], spans[11]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[8], spans[12]));
-
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[9], spans[9]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[9], spans[10]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[9], spans[11]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[9], spans[12]));
-
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[10], spans[10]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[10], spans[11]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[10], spans[12]));
-
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[11], spans[11]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[11], spans[12]));
-
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[12], spans[12]));
-
-//      for (std::size_t i = 0; i < bksge::size(spans); ++i)
-//          for (std::size_t j = i; j < bksge::size(spans); ++j)
-//              static_assert(do_assign(spans[i], spans[j]), "");
+		for (std::size_t i = 0; i < bksge::size(spans); ++i)
+		{
+			for (std::size_t j = i; j < bksge::size(spans); ++j)
+			{
+				VERIFY(do_assign(spans[i], spans[j]));
+			}
+		}
 	}
 
-	//  constexpr statically sized assignment
+	// statically sized assignment
 	{
-		BKSGE_CXX14_CONSTEXPR bksge::span<const int, 2> spans[] =
+		using spanType = bksge::span<const int, 2>;
+		spanType spans[] =
 		{
-			{carr1, 2},
-			{carr1 + 1, 2},
-			{carr1 + 2, 2},
-			{carr2, 2},
-			{carr2 + 1, 2},
-			{carr3, 2},
-		};
-
-		static_assert(bksge::size(spans) == 6, "");
-
-		//  No for loops in constexpr land :-(
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[0], spans[0]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[0], spans[1]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[0], spans[2]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[0], spans[3]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[0], spans[4]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[0], spans[5]));
-
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[1], spans[1]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[1], spans[2]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[1], spans[3]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[1], spans[4]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[1], spans[5]));
-
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[2], spans[2]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[2], spans[3]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[2], spans[4]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[2], spans[5]));
-
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[3], spans[3]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[3], spans[4]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[3], spans[5]));
-
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[4], spans[4]));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[4], spans[5]));
-
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(do_assign(spans[5], spans[5]));
-
-//      for (std::size_t i = 0; i < bksge::size(spans); ++i)
-//          for (std::size_t j = i; j < bksge::size(spans); ++j)
-//              static_assert(do_assign(spans[i], spans[j]), "");
-	}
-
-
-	//  dynamically sized assignment
-	{
-		bksge::span<int> spans[] =
-		{
-			{},
-			{arr, arr + 1},
-			{arr, arr + 2},
-			{arr, arr + 3},
-			{arr + 1, arr + 3}, // same size as s2
+			spanType{carr1, 2},
+			spanType{carr1 + 1, 2},
+			spanType{carr1 + 2, 2},
+			spanType{carr2, 2},
+			spanType{carr2 + 1, 2},
+			spanType{carr3, 2},
 		};
 
 		for (std::size_t i = 0; i < bksge::size(spans); ++i)
 		{
 			for (std::size_t j = i; j < bksge::size(spans); ++j)
 			{
-				EXPECT_TRUE((do_assign(spans[i], spans[j])));
+				VERIFY(do_assign(spans[i], spans[j]));
 			}
 		}
 	}
 
-	//  statically sized assignment
-	{
-		bksge::span<int, 2> spans[] =
-		{
-			{arr,     arr + 2},
-			{arr + 1, arr + 3},
-			{arr + 2, arr + 4},
-		};
+	return true;
+}
 
-		for (std::size_t i = 0; i < bksge::size(spans); ++i)
-		{
-			for (std::size_t j = i; j < bksge::size(spans); ++j)
-			{
-				EXPECT_TRUE((do_assign(spans[i], spans[j])));
-			}
-		}
-	}
+inline bool test2()
+{
+	std::string strs[] = {"ABC", "DEF", "GHI"};
 
 	//  dynamically sized assignment
 	{
@@ -289,27 +117,39 @@ GTEST_TEST(SpanTest, AssignTest)
 		{
 			for (std::size_t j = i; j < bksge::size(spans); ++j)
 			{
-				EXPECT_TRUE((do_assign(spans[i], spans[j])));
+				VERIFY((do_assign(spans[i], spans[j])));
 			}
 		}
 	}
 
+	// statically sized assignment
 	{
-		bksge::span<std::string, 1> spans[] =
+		using spanType = bksge::span<std::string, 1>;
+		spanType spans[] =
 		{
-			{strs,     strs + 1},
-			{strs + 1, strs + 2},
-			{strs + 2, strs + 3},
+			spanType{strs, strs + 1},
+			spanType{strs + 1, strs + 2},
+			spanType{strs + 2, strs + 3},
 		};
 
 		for (std::size_t i = 0; i < bksge::size(spans); ++i)
 		{
 			for (std::size_t j = i; j < bksge::size(spans); ++j)
 			{
-				EXPECT_TRUE((do_assign(spans[i], spans[j])));
+				VERIFY((do_assign(spans[i], spans[j])));
 			}
 		}
 	}
+
+	return true;
+}
+
+#undef VERIFY
+
+GTEST_TEST(SpanTest, AssignTest)
+{
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test1()));
+	EXPECT_TRUE((test2()));
 }
 
 }	// namespace assign_test

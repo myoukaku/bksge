@@ -45,74 +45,28 @@ BKSGE_CXX14_CONSTEXPR bool test(Span sp)
 
 GTEST_TEST(SpanTest, LastTest)
 {
-	constexpr int carr[] = {1, 2, 3, 4};
-	          int  arr[] = {5, 6, 7};
-	std::string   sarr[] = {"ABC", "DEF", "GHI", "JKL", "MNO"};
-
+	BKSGE_CXX14_CONSTEXPR int carr1[] = {1, 2, 3, 4};
 	{
 		using Sp = bksge::span<const int>;
 		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<Sp, 0>(Sp{})));
-
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<Sp, 0>(Sp{carr})));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<Sp, 1>(Sp{carr})));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<Sp, 2>(Sp{carr})));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<Sp, 3>(Sp{carr})));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<Sp, 4>(Sp{carr})));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<Sp, 0>(Sp{carr1})));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<Sp, 1>(Sp{carr1})));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<Sp, 2>(Sp{carr1})));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<Sp, 3>(Sp{carr1})));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<Sp, 4>(Sp{carr1})));
 	}
-
 	{
 		using Sp = bksge::span<const int, 4>;
-
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<Sp, 0>(Sp{carr})));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<Sp, 1>(Sp{carr})));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<Sp, 2>(Sp{carr})));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<Sp, 3>(Sp{carr})));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<Sp, 4>(Sp{carr})));
-	}
-
-	{
-		using Sp = bksge::span<int>;
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<Sp, 0>(Sp{})));
-
-		EXPECT_TRUE((test<Sp, 0>(Sp{arr})));
-		EXPECT_TRUE((test<Sp, 1>(Sp{arr})));
-		EXPECT_TRUE((test<Sp, 2>(Sp{arr})));
-		EXPECT_TRUE((test<Sp, 3>(Sp{arr})));
-	}
-
-	{
-		using Sp = bksge::span<int, 3>;
-
-		EXPECT_TRUE((test<Sp, 0>(Sp{arr})));
-		EXPECT_TRUE((test<Sp, 1>(Sp{arr})));
-		EXPECT_TRUE((test<Sp, 2>(Sp{arr})));
-		EXPECT_TRUE((test<Sp, 3>(Sp{arr})));
-	}
-
-	{
-		using Sp = bksge::span<std::string>;
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<Sp, 0>(Sp{})));
-
-		EXPECT_TRUE((test<Sp, 0>(Sp{sarr})));
-		EXPECT_TRUE((test<Sp, 1>(Sp{sarr})));
-		EXPECT_TRUE((test<Sp, 2>(Sp{sarr})));
-		EXPECT_TRUE((test<Sp, 3>(Sp{sarr})));
-		EXPECT_TRUE((test<Sp, 4>(Sp{sarr})));
-		EXPECT_TRUE((test<Sp, 5>(Sp{sarr})));
-	}
-
-	{
-		using Sp = bksge::span<std::string, 5>;
-
-		EXPECT_TRUE((test<Sp, 0>(Sp{sarr})));
-		EXPECT_TRUE((test<Sp, 1>(Sp{sarr})));
-		EXPECT_TRUE((test<Sp, 2>(Sp{sarr})));
-		EXPECT_TRUE((test<Sp, 3>(Sp{sarr})));
-		EXPECT_TRUE((test<Sp, 4>(Sp{sarr})));
-		EXPECT_TRUE((test<Sp, 5>(Sp{sarr})));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<Sp, 0>(Sp{carr1})));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<Sp, 1>(Sp{carr1})));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<Sp, 2>(Sp{carr1})));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<Sp, 3>(Sp{carr1})));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<Sp, 4>(Sp{carr1})));
 	}
 }
 
 }	// namespace last_test
 
 }	// namespace bksge_span_test
+
+#undef ASSERT_SAME_TYPE

@@ -9,6 +9,7 @@
 #include <bksge/fnd/ranges/concepts/borrowed_range.hpp>
 #include <bksge/fnd/ranges/concepts/enable_borrowed_range.hpp>
 #include <bksge/fnd/ranges/subrange.hpp>
+#include <bksge/fnd/span.hpp>
 #include "ranges_test.hpp"
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
@@ -62,6 +63,9 @@ BKSGE_RANGES_BORROWED_RANGE_TEST(true,  bksge::ranges::subrange<random_access_it
 BKSGE_RANGES_BORROWED_RANGE_TEST(true,  bksge::ranges::subrange<bidirectional_iterator_wrapper<int>>);
 BKSGE_RANGES_BORROWED_RANGE_TEST(true,  bksge::ranges::subrange<forward_iterator_wrapper<int>>);
 BKSGE_RANGES_BORROWED_RANGE_TEST(true,  bksge::ranges::subrange<input_iterator_wrapper<int>>);
+
+BKSGE_RANGES_BORROWED_RANGE_TEST(true, bksge::span<int>);
+BKSGE_RANGES_BORROWED_RANGE_TEST(true, bksge::span<int, 99>);
 
 BKSGE_RANGES_BORROWED_RANGE_TEST(true,  test_contiguous_range<bksge_ranges_test::borrowed_range_test::A>);
 BKSGE_RANGES_BORROWED_RANGE_TEST(false, test_contiguous_range<bksge_ranges_test::borrowed_range_test::B>);

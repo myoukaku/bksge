@@ -19,35 +19,41 @@ namespace bksge_span_test
 namespace empty_test
 {
 
+template <typename Span>
+BKSGE_CXX14_CONSTEXPR bool test(Span sp)
+{
+	BKSGE_ASSERT_NOEXCEPT(sp.empty());
+	return sp.empty();
+}
+
 struct A {};
 
 GTEST_TEST(SpanTest, EmptyTest)
 {
-	BKSGE_ASSERT_NOEXCEPT(bksge::span<int>   ().empty());
-	BKSGE_ASSERT_NOEXCEPT(bksge::span<int, 0>().empty());
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(test(bksge::span<int>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(test(bksge::span<long>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(test(bksge::span<double>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(test(bksge::span<A>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(test(bksge::span<std::string>()));
 
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::span<int>().empty());
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::span<long>().empty());
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::span<double>().empty());
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::span<A>().empty());
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::span<std::string>().empty());
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(test(bksge::span<int,         0>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(test(bksge::span<long,        0>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(test(bksge::span<double,      0>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(test(bksge::span<A,           0>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(test(bksge::span<std::string, 0>()));
 
-	BKSGE_CONSTEXPR_EXPECT_TRUE((bksge::span<int, 0>().empty()));
-	BKSGE_CONSTEXPR_EXPECT_TRUE((bksge::span<long, 0>().empty()));
-	BKSGE_CONSTEXPR_EXPECT_TRUE((bksge::span<double, 0>().empty()));
-	BKSGE_CONSTEXPR_EXPECT_TRUE((bksge::span<A, 0>().empty()));
-	BKSGE_CONSTEXPR_EXPECT_TRUE((bksge::span<std::string, 0>().empty()));
+	BKSGE_CXX14_CONSTEXPR int arr[] = {10, 11, 12, 13, 14, 15, 16, 17, 18, 19};
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(!test(bksge::span<int const>(arr, 1)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(!test(bksge::span<int const>(arr, 2)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(!test(bksge::span<int const>(arr, 3)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(!test(bksge::span<int const>(arr, 4)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(!test(bksge::span<int const>(arr, 5)));
 
-	constexpr int arr1[] ={0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-	BKSGE_CONSTEXPR_EXPECT_TRUE(!bksge::span<const int>(arr1, 1).empty());
-	BKSGE_CONSTEXPR_EXPECT_TRUE(!bksge::span<const int>(arr1, 2).empty());
-	BKSGE_CONSTEXPR_EXPECT_TRUE(!bksge::span<const int>(arr1, 3).empty());
-	BKSGE_CONSTEXPR_EXPECT_TRUE(!bksge::span<const int>(arr1, 4).empty());
-	BKSGE_CONSTEXPR_EXPECT_TRUE(!bksge::span<const int>(arr1, 5).empty());
-
-	std::string s;
-	EXPECT_TRUE( ((bksge::span<std::string>(&s, static_cast<std::size_t>(0))).empty()));
-	EXPECT_TRUE(!((bksge::span<std::string>(&s, 1).empty())));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(!test(bksge::span<int const, 1>(arr, 1)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(!test(bksge::span<int const, 2>(arr, 2)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(!test(bksge::span<int const, 3>(arr, 3)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(!test(bksge::span<int const, 4>(arr, 4)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(!test(bksge::span<int const, 5>(arr, 5)));
 }
 
 }	// namespace empty_test

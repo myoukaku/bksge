@@ -14,7 +14,8 @@
 #include <span>
 #endif
 
-#if defined(__cpp_lib_span) && (__cpp_lib_span >= 202002)
+#if defined(__cpp_lib_span) && (__cpp_lib_span >= 202002) && \
+	defined(__cpp_lib_concepts) && (__cpp_lib_concepts >= 202002)
 
 namespace bksge
 {
@@ -28,17 +29,19 @@ using std::as_bytes;
 #include <bksge/fnd/span/span.hpp>
 #include <bksge/fnd/span/detail/as_bytes_extent.hpp>
 #include <bksge/fnd/cstddef/byte.hpp>
-#include <bksge/fnd/config.hpp>
 #include <cstddef>
 
 namespace bksge
 {
 
 template <typename T, std::size_t Extent>
-auto as_bytes(span<T, Extent> s) BKSGE_NOEXCEPT
--> span<bksge::byte const, span_detail::as_bytes_extent<T, Extent>::value>
+inline span<bksge::byte const, detail::as_bytes_extent<T, Extent>::value>
+as_bytes(span<T, Extent> s) BKSGE_NOEXCEPT
 {
-	return {reinterpret_cast<bksge::byte const*>(s.data()), s.size_bytes()};
+	return span<bksge::byte const, detail::as_bytes_extent<T, Extent>::value>
+	{
+		reinterpret_cast<bksge::byte const*>(s.data()), s.size_bytes()
+	};
 }
 
 }	// namespace bksge

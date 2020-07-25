@@ -14,7 +14,8 @@
 #include <span>
 #endif
 
-#if defined(__cpp_lib_span) && (__cpp_lib_span >= 202002)
+#if defined(__cpp_lib_span) && (__cpp_lib_span >= 202002) && \
+	defined(__cpp_lib_concepts) && (__cpp_lib_concepts >= 202002)
 
 namespace bksge
 {
@@ -28,22 +29,19 @@ using std::as_writable_bytes;
 #include <bksge/fnd/span/span.hpp>
 #include <bksge/fnd/span/detail/as_bytes_extent.hpp>
 #include <bksge/fnd/cstddef/byte.hpp>
-#include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/type_traits/is_const.hpp>
-#include <bksge/fnd/config.hpp>
 #include <cstddef>
 
 namespace bksge
 {
 
-template <
-	typename T, std::size_t Extent,
-	typename = bksge::enable_if_t<!bksge::is_const<T>::value>
->
-auto as_writable_bytes(span<T, Extent> s) BKSGE_NOEXCEPT
--> span<bksge::byte, span_detail::as_bytes_extent<T, Extent>::value>
+template <typename T, std::size_t Extent>
+inline span<bksge::byte, detail::as_bytes_extent<T, Extent>::value>
+as_writable_bytes(span<T, Extent> s) BKSGE_NOEXCEPT
 {
-	return {reinterpret_cast<bksge::byte*>(s.data()), s.size_bytes()};
+	return span<bksge::byte, detail::as_bytes_extent<T, Extent>::value>
+	{
+		reinterpret_cast<bksge::byte*>(s.data()), s.size_bytes()
+	};
 }
 
 }	// namespace bksge

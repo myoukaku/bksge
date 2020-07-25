@@ -86,10 +86,10 @@ BKSGE_RANGES_VIEW_TEST(false, std::unordered_multiset<int>);
 BKSGE_RANGES_VIEW_TEST(false, std::string);
 #if 0	// TODO
 BKSGE_RANGES_VIEW_TEST(true,  bksge::string_view);
+#endif
 BKSGE_RANGES_VIEW_TEST(true,  bksge::span<int>);
 BKSGE_RANGES_VIEW_TEST(true,  bksge::span<int, 0>);
 BKSGE_RANGES_VIEW_TEST(false, bksge::span<int, 1>);
-#endif
 
 BKSGE_RANGES_VIEW_TEST(false, test_contiguous_range<int>);
 BKSGE_RANGES_VIEW_TEST(false, test_contiguous_range<int>&);

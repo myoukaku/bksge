@@ -19,15 +19,14 @@
     static_assert((bksge::is_same<__VA_ARGS__>::value), \
                  "Types differ unexpectedly")
 
-BKSGE_WARNING_PUSH();
-BKSGE_WARNING_DISABLE_MSVC(4127);	// 条件式が定数です。
-BKSGE_WARNING_DISABLE_MSVC(4307);	// '*': 整数定数がオーバーフローしました。
-
 namespace bksge_span_test
 {
 
 namespace as_bytes_test
 {
+
+BKSGE_WARNING_PUSH();
+BKSGE_WARNING_DISABLE_MSVC(4307);	// 整数定数がオーバーフローしました。
 
 template <typename Span>
 void test(Span sp)
@@ -38,18 +37,17 @@ void test(Span sp)
 	using SB = decltype(sp_bytes);
 	ASSERT_SAME_TYPE(bksge::byte const, typename SB::element_type);
 
-	if /*constexpr*/ (sp.extent == bksge::dynamic_extent)
-	{
-		EXPECT_TRUE(sp_bytes.extent == bksge::dynamic_extent);
-	}
-	else
-	{
-		EXPECT_TRUE(sp_bytes.extent == sizeof(typename Span::element_type) * sp.extent);
-	}
+	auto const e =
+		(sp.extent == bksge::dynamic_extent) ?
+		bksge::dynamic_extent :
+		sizeof(typename Span::element_type) * sp.extent;
+	EXPECT_TRUE(sp_bytes.extent == e);
 
 	EXPECT_TRUE(static_cast<void const*>(sp_bytes.data()) == static_cast<void const*>(sp.data()));
 	EXPECT_TRUE(sp_bytes.size() == sp.size_bytes());
 }
+
+BKSGE_WARNING_POP();
 
 struct A {};
 
@@ -89,4 +87,4 @@ GTEST_TEST(SpanTest, AsBytesTest)
 
 }	// namespace bksge_span_test
 
-BKSGE_WARNING_POP();
+#undef ASSERT_SAME_TYPE

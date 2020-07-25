@@ -15,7 +15,7 @@
 namespace bksge
 {
 
-namespace span_detail
+namespace detail
 {
 
 template <typename T, std::size_t Extent>
@@ -30,7 +30,7 @@ struct as_bytes_extent<T, bksge::dynamic_extent>
 	static const std::size_t value = bksge::dynamic_extent;
 };
 
-}	// namespace span_detail
+}	// namespace detail
 
 }	// namespace bksge
 

@@ -7,6 +7,9 @@
  */
 
 #include <bksge/fnd/span.hpp>
+#include <bksge/fnd/type_traits/is_constructible.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
+#include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <string>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -17,93 +20,90 @@ namespace bksge_span_test
 namespace ctor_ptr_ptr_test
 {
 
-void check_cv()
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool
+cv_test()
 {
-	               int   arr[] = {1, 2, 3};
-	const          int  carr[] = {4, 5, 6};
-	      volatile int  varr[] = {7, 8, 9};
-	const volatile int cvarr[] = {1, 3, 5};
+	constexpr bool b = !bksge::is_class<T>::value;
+	static_assert(     bksge::is_constructible<bksge::span<T               >, T               *, T               *>::value, "");
+	static_assert(    !bksge::is_constructible<bksge::span<T               >, T const         *, T const         *>::value, "");
+	static_assert(    !bksge::is_constructible<bksge::span<T               >, T       volatile*, T       volatile*>::value, "");
+	static_assert(    !bksge::is_constructible<bksge::span<T               >, T const volatile*, T const volatile*>::value, "");
+	static_assert(     bksge::is_constructible<bksge::span<T const         >, T               *, T               *>::value, "");
+	static_assert(     bksge::is_constructible<bksge::span<T const         >, T const         *, T const         *>::value, "");
+	static_assert(    !bksge::is_constructible<bksge::span<T const         >, T       volatile*, T       volatile*>::value, "");
+	static_assert(    !bksge::is_constructible<bksge::span<T const         >, T const volatile*, T const volatile*>::value, "");
+	static_assert(     bksge::is_constructible<bksge::span<T       volatile>, T               *, T               *>::value, "");
+	static_assert(    !bksge::is_constructible<bksge::span<T       volatile>, T const         *, T const         *>::value, "");
+	static_assert(b == bksge::is_constructible<bksge::span<T       volatile>, T       volatile*, T       volatile*>::value, "");
+	static_assert(    !bksge::is_constructible<bksge::span<T       volatile>, T const volatile*, T const volatile*>::value, "");
+	static_assert(     bksge::is_constructible<bksge::span<T const volatile>, T               *, T               *>::value, "");
+	static_assert(     bksge::is_constructible<bksge::span<T const volatile>, T const         *, T const         *>::value, "");
+	static_assert(b == bksge::is_constructible<bksge::span<T const volatile>, T       volatile*, T       volatile*>::value, "");
+	static_assert(b == bksge::is_constructible<bksge::span<T const volatile>, T const volatile*, T const volatile*>::value, "");
+	static_assert(     bksge::is_constructible<bksge::span<T               , 0>, T               *, T               *>::value, "");
+	static_assert(    !bksge::is_constructible<bksge::span<T               , 0>, T const         *, T const         *>::value, "");
+	static_assert(    !bksge::is_constructible<bksge::span<T               , 0>, T       volatile*, T       volatile*>::value, "");
+	static_assert(    !bksge::is_constructible<bksge::span<T               , 0>, T const volatile*, T const volatile*>::value, "");
+	static_assert(     bksge::is_constructible<bksge::span<T const         , 0>, T               *, T               *>::value, "");
+	static_assert(     bksge::is_constructible<bksge::span<T const         , 0>, T const         *, T const         *>::value, "");
+	static_assert(    !bksge::is_constructible<bksge::span<T const         , 0>, T       volatile*, T       volatile*>::value, "");
+	static_assert(    !bksge::is_constructible<bksge::span<T const         , 0>, T const volatile*, T const volatile*>::value, "");
+	static_assert(     bksge::is_constructible<bksge::span<T       volatile, 0>, T               *, T               *>::value, "");
+	static_assert(    !bksge::is_constructible<bksge::span<T       volatile, 0>, T const         *, T const         *>::value, "");
+	static_assert(b == bksge::is_constructible<bksge::span<T       volatile, 0>, T       volatile*, T       volatile*>::value, "");
+	static_assert(    !bksge::is_constructible<bksge::span<T       volatile, 0>, T const volatile*, T const volatile*>::value, "");
+	static_assert(     bksge::is_constructible<bksge::span<T const volatile, 0>, T               *, T               *>::value, "");
+	static_assert(     bksge::is_constructible<bksge::span<T const volatile, 0>, T const         *, T const         *>::value, "");
+	static_assert(b == bksge::is_constructible<bksge::span<T const volatile, 0>, T       volatile*, T       volatile*>::value, "");
+	static_assert(b == bksge::is_constructible<bksge::span<T const volatile, 0>, T const volatile*, T const volatile*>::value, "");
 
-	//  Types the same (dynamic sized)
-	{
-		bksge::span<               int> s1{  arr,   arr + 3}; // a span<               int> pointing at int.
-		bksge::span<const          int> s2{ carr,  carr + 3}; // a span<const          int> pointing at const int.
-		bksge::span<      volatile int> s3{ varr,  varr + 3}; // a span<      volatile int> pointing at volatile int.
-		bksge::span<const volatile int> s4{cvarr, cvarr + 3}; // a span<const volatile int> pointing at const volatile int.
-		EXPECT_EQ(s1.size(), 3u);
-		EXPECT_EQ(s2.size(), 3u);
-		EXPECT_EQ(s3.size(), 3u);
-		EXPECT_EQ(s4.size(), 3u);
-	}
-
-	//  Types the same (static sized)
-	{
-		bksge::span<               int, 3> s1{  arr,   arr + 3};   // a span<               int> pointing at int.
-		bksge::span<const          int, 3> s2{ carr,  carr + 3};   // a span<const          int> pointing at const int.
-		bksge::span<      volatile int, 3> s3{ varr,  varr + 3};   // a span<      volatile int> pointing at volatile int.
-		bksge::span<const volatile int, 3> s4{cvarr, cvarr + 3};   // a span<const volatile int> pointing at const volatile int.
-		EXPECT_EQ(s1.size(), 3u);
-		EXPECT_EQ(s2.size(), 3u);
-		EXPECT_EQ(s3.size(), 3u);
-		EXPECT_EQ(s4.size(), 3u);
-	}
-
-
-	//  types different (dynamic sized)
-	{
-		bksge::span<const          int> s1{ arr,  arr + 3};       // a span<const          int> pointing at int.
-		bksge::span<      volatile int> s2{ arr,  arr + 3};       // a span<      volatile int> pointing at int.
-		bksge::span<      volatile int> s3{ arr,  arr + 3};       // a span<      volatile int> pointing at const int.
-		bksge::span<const volatile int> s4{ arr,  arr + 3};       // a span<const volatile int> pointing at int.
-		bksge::span<const volatile int> s5{carr, carr + 3};       // a span<const volatile int> pointing at const int.
-		bksge::span<const volatile int> s6{varr, varr + 3};       // a span<const volatile int> pointing at volatile int.
-		EXPECT_EQ(s1.size(), 3u);
-		EXPECT_EQ(s2.size(), 3u);
-		EXPECT_EQ(s3.size(), 3u);
-		EXPECT_EQ(s4.size(), 3u);
-		EXPECT_EQ(s5.size(), 3u);
-		EXPECT_EQ(s6.size(), 3u);
-	}
-
-	//  types different (static sized)
-	{
-		bksge::span<const          int, 3> s1{ arr,  arr + 3}; // a span<const          int> pointing at int.
-		bksge::span<      volatile int, 3> s2{ arr,  arr + 3}; // a span<      volatile int> pointing at int.
-		bksge::span<      volatile int, 3> s3{ arr,  arr + 3}; // a span<      volatile int> pointing at const int.
-		bksge::span<const volatile int, 3> s4{ arr,  arr + 3}; // a span<const volatile int> pointing at int.
-		bksge::span<const volatile int, 3> s5{carr, carr + 3}; // a span<const volatile int> pointing at const int.
-		bksge::span<const volatile int, 3> s6{varr, varr + 3}; // a span<const volatile int> pointing at volatile int.
-		EXPECT_EQ(s1.size(), 3u);
-		EXPECT_EQ(s2.size(), 3u);
-		EXPECT_EQ(s3.size(), 3u);
-		EXPECT_EQ(s4.size(), 3u);
-		EXPECT_EQ(s5.size(), 3u);
-		EXPECT_EQ(s6.size(), 3u);
-	}
+	return true;
 }
 
 template <typename T>
-BKSGE_CXX14_CONSTEXPR bool test()
+inline BKSGE_CXX14_CONSTEXPR bool
+test2()
 {
-	T val[2] = {};
-	bksge::span<const T>    s1{val, val+2};
-	bksge::span<const T, 2> s2{val, val+2};
+	static_assert( bksge::is_constructible<bksge::span<T>   , T*, T*>::value, "");
+	static_assert( bksge::is_constructible<bksge::span<T, 0>, T*, T*>::value, "");
+	static_assert( bksge::is_constructible<bksge::span<T, 1>, T*, T*>::value, "");
+	static_assert( bksge::is_constructible<bksge::span<T, 2>, T*, T*>::value, "");
+	static_assert( bksge::is_nothrow_constructible<bksge::span<T>   , T*, T*>::value, "");
+	static_assert( bksge::is_nothrow_constructible<bksge::span<T, 0>, T*, T*>::value, "");
+	static_assert( bksge::is_nothrow_constructible<bksge::span<T, 1>, T*, T*>::value, "");
+	static_assert( bksge::is_nothrow_constructible<bksge::span<T, 2>, T*, T*>::value, "");
+	static_assert( bksge::is_implicitly_constructible<bksge::span<T>   , T*, T*>::value, "");
+	static_assert(!bksge::is_implicitly_constructible<bksge::span<T, 0>, T*, T*>::value, "");
+	static_assert(!bksge::is_implicitly_constructible<bksge::span<T, 1>, T*, T*>::value, "");
+	static_assert(!bksge::is_implicitly_constructible<bksge::span<T, 2>, T*, T*>::value, "");
+	T arr[3] {};
+	bksge::span<T>    s1{arr, arr + 2};
+	bksge::span<T, 3> s2{arr, arr + 3};
 	return
-		s1.data() == &val[0] && s1.size() == 2 &&
-		s2.data() == &val[0] && s2.size() == 2;
+		s1.data() == &arr[0] && s1.size() == 2 &&
+		s2.data() == &arr[0] && s2.size() == 3;
 }
 
-struct A {};
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool
+test()
+{
+	return
+		test2<T      >() &&
+		test2<T const>() &&
+		cv_test<T>();
+}
+
+struct A{};
 
 GTEST_TEST(SpanTest, CtorPtrPtrTest)
 {
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(test<int>());
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(test<long>());
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(test<double>());
-	                      EXPECT_TRUE(test<std::string>());
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(test<A>());
-
-	check_cv();
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<int>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<long>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<double>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<A>()));
+	                      EXPECT_TRUE((test<std::string>()));
 }
 
 }	// namespace ctor_ptr_ptr_test

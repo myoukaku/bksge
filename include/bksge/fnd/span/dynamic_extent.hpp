@@ -14,7 +14,8 @@
 #include <span>
 #endif
 
-#if defined(__cpp_lib_span) && (__cpp_lib_span >= 202002)
+#if defined(__cpp_lib_span) && (__cpp_lib_span >= 202002) && \
+	defined(__cpp_lib_concepts) && (__cpp_lib_concepts >= 202002)
 
 namespace bksge
 {
@@ -25,15 +26,13 @@ using std::dynamic_extent;
 
 #else
 
-#include <bksge/fnd/config.hpp>
 #include <cstddef>
-#include <limits>
 
 namespace bksge
 {
 
-BKSGE_INLINE_VAR constexpr std::size_t
-	dynamic_extent = std::numeric_limits<std::size_t>::max();
+BKSGE_INLINE_VAR BKSGE_CONSTEXPR std::size_t
+	dynamic_extent = static_cast<std::size_t>(-1);
 
 }	// namespace bksge
 
