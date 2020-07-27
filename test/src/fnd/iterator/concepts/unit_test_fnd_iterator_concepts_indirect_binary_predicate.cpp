@@ -14,11 +14,11 @@
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_INDIRECT_BINARY_PREDICATE_TEST(B, ...)	\
-	static_assert(B == bksge::indirect_binary_predicate<__VA_ARGS__>, " ");	\
-	static_assert(B == bksge::indirect_binary_predicate_t<__VA_ARGS__>::value, " ")
+	static_assert(B == bksge::indirect_binary_predicate<__VA_ARGS__>, "indirect_binary_predicate");	\
+	static_assert(B == bksge::indirect_binary_predicate_t<__VA_ARGS__>::value, "indirect_binary_predicate_t")
 #else
 #  define BKSGE_INDIRECT_BINARY_PREDICATE_TEST(B, ...)	\
-	static_assert(B == bksge::indirect_binary_predicate_t<__VA_ARGS__>::value, " ")
+	static_assert(B == bksge::indirect_binary_predicate_t<__VA_ARGS__>::value, "indirect_binary_predicate_t")
 #endif
 
 namespace bksge_iterator_test

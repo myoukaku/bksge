@@ -14,8 +14,8 @@
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(B, ...)	\
-	static_assert(B == bksge::input_or_output_iterator<__VA_ARGS__>, " ");	\
-	static_assert(B == bksge::input_or_output_iterator_t<__VA_ARGS__>::value, " ")
+	static_assert(B == bksge::input_or_output_iterator<__VA_ARGS__>, "input_or_output_iterator");	\
+	static_assert(B == bksge::input_or_output_iterator_t<__VA_ARGS__>::value, "input_or_output_iterator_t")
 #else
 #  define BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(B, ...)	\
 	static_assert(B == bksge::input_or_output_iterator_t<__VA_ARGS__>::value, " ")
@@ -27,11 +27,33 @@ namespace bksge_iterator_test
 namespace input_or_output_iterator_test
 {
 
-BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(true,  int      *);
-BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(true,  int const*);
-BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, int      * const);
-BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, int const* const);
-BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, void*);
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(true,  int               *);
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(true,  int const         *);
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(true,  int       volatile*);
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(true,  int const volatile*);
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, int               * const);
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, int const         * const);
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, int       volatile* const);
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, int const volatile* const);
+
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, void               *);
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, void const         *);
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, void       volatile*);
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, void const volatile*);
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, void               * const);
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, void const         * const);
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, void       volatile* const);
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, void const volatile* const);
+
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(true,  void               **);
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(true,  void const         **);
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(true,  void       volatile**);
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(true,  void const volatile**);
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, void               ** const);
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, void const         ** const);
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, void       volatile** const);
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, void const volatile** const);
+
 BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, std::unique_ptr<int>);
 BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, std::shared_ptr<int>);
 BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, std::vector<int>);

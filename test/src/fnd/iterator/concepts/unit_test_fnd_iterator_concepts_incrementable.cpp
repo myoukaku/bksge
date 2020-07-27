@@ -14,11 +14,11 @@
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_INCREMENTABLE_TEST(B, ...)	\
-	static_assert(B == bksge::incrementable<__VA_ARGS__>, " ");	\
-	static_assert(B == bksge::incrementable_t<__VA_ARGS__>::value, " ")
+	static_assert(B == bksge::incrementable<__VA_ARGS__>, "incrementable");	\
+	static_assert(B == bksge::incrementable_t<__VA_ARGS__>::value, "incrementable_t")
 #else
 #  define BKSGE_INCREMENTABLE_TEST(B, ...)	\
-	static_assert(B == bksge::incrementable_t<__VA_ARGS__>::value, " ")
+	static_assert(B == bksge::incrementable_t<__VA_ARGS__>::value, "incrementable_t")
 #endif
 
 namespace bksge_iterator_test
@@ -27,11 +27,24 @@ namespace bksge_iterator_test
 namespace incrementable_test
 {
 
-BKSGE_INCREMENTABLE_TEST(true,  int      *);
-BKSGE_INCREMENTABLE_TEST(true,  int const*);
-BKSGE_INCREMENTABLE_TEST(false, int      * const);
-BKSGE_INCREMENTABLE_TEST(false, int const* const);
-BKSGE_INCREMENTABLE_TEST(false, void*);
+BKSGE_INCREMENTABLE_TEST(true,  int               *);
+BKSGE_INCREMENTABLE_TEST(true,  int const         *);
+BKSGE_INCREMENTABLE_TEST(true,  int       volatile*);
+BKSGE_INCREMENTABLE_TEST(true,  int const volatile*);
+BKSGE_INCREMENTABLE_TEST(false, int               * const);
+BKSGE_INCREMENTABLE_TEST(false, int const         * const);
+BKSGE_INCREMENTABLE_TEST(false, int       volatile* const);
+BKSGE_INCREMENTABLE_TEST(false, int const volatile* const);
+
+BKSGE_INCREMENTABLE_TEST(false, void               *);
+BKSGE_INCREMENTABLE_TEST(false, void const         *);
+BKSGE_INCREMENTABLE_TEST(false, void       volatile*);
+BKSGE_INCREMENTABLE_TEST(false, void const volatile*);
+BKSGE_INCREMENTABLE_TEST(false, void               * const);
+BKSGE_INCREMENTABLE_TEST(false, void const         * const);
+BKSGE_INCREMENTABLE_TEST(false, void       volatile* const);
+BKSGE_INCREMENTABLE_TEST(false, void const volatile* const);
+
 BKSGE_INCREMENTABLE_TEST(false, std::unique_ptr<int>);
 BKSGE_INCREMENTABLE_TEST(false, std::shared_ptr<int>);
 BKSGE_INCREMENTABLE_TEST(false, std::vector<int>);

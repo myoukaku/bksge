@@ -27,11 +27,42 @@ namespace bksge_iterator_test
 namespace weakly_incrementable_test
 {
 
-BKSGE_WEAKLY_INCREMENTABLE_TEST(true,  int      *);
-BKSGE_WEAKLY_INCREMENTABLE_TEST(true,  int const*);
-BKSGE_WEAKLY_INCREMENTABLE_TEST(false, int      * const);
-BKSGE_WEAKLY_INCREMENTABLE_TEST(false, int const* const);
-BKSGE_WEAKLY_INCREMENTABLE_TEST(false, void*);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(true,  int               *);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(true,  int const         *);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(true,  int       volatile*);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(true,  int const volatile*);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(false, int               * const);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(false, int const         * const);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(false, int       volatile* const);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(false, int const volatile* const);
+
+BKSGE_WEAKLY_INCREMENTABLE_TEST(true,  int               **);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(true,  int const         **);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(true,  int       volatile**);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(true,  int const volatile**);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(false, int               ** const);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(false, int const         ** const);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(false, int       volatile** const);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(false, int const volatile** const);
+
+BKSGE_WEAKLY_INCREMENTABLE_TEST(false, void               *);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(false, void const         *);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(false, void       volatile*);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(false, void const volatile*);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(false, void               * const);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(false, void const         * const);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(false, void       volatile* const);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(false, void const volatile* const);
+
+BKSGE_WEAKLY_INCREMENTABLE_TEST(true,  void               **);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(true,  void const         **);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(true,  void       volatile**);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(true,  void const volatile**);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(false, void               ** const);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(false, void const         ** const);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(false, void       volatile** const);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(false, void const volatile** const);
+
 BKSGE_WEAKLY_INCREMENTABLE_TEST(false, std::unique_ptr<int>);
 BKSGE_WEAKLY_INCREMENTABLE_TEST(false, std::shared_ptr<int>);
 BKSGE_WEAKLY_INCREMENTABLE_TEST(false, std::vector<int>);

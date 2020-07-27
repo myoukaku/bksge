@@ -22,19 +22,33 @@ namespace bksge_iterator_test
 namespace iterator_traits_test
 {
 
-static_assert(bksge::is_same<bksge::iterator_traits<int*>::iterator_concept,  bksge::contiguous_iterator_tag>::value, "");
-static_assert(bksge::is_same<bksge::iterator_traits<int*>::iterator_category, bksge::random_access_iterator_tag>::value, "");
-static_assert(bksge::is_same<bksge::iterator_traits<int*>::value_type,        int>::value, "");
-static_assert(bksge::is_same<bksge::iterator_traits<int*>::difference_type,   std::ptrdiff_t>::value, "");
-static_assert(bksge::is_same<bksge::iterator_traits<int*>::pointer,           int*>::value, "");
-static_assert(bksge::is_same<bksge::iterator_traits<int*>::reference,         int&>::value, "");
+static_assert(bksge::is_same<bksge::iterator_traits<int               *>::iterator_concept,  bksge::contiguous_iterator_tag>::value, "");
+static_assert(bksge::is_same<bksge::iterator_traits<int               *>::iterator_category, bksge::random_access_iterator_tag>::value, "");
+static_assert(bksge::is_same<bksge::iterator_traits<int               *>::value_type,        int>::value, "");
+static_assert(bksge::is_same<bksge::iterator_traits<int               *>::difference_type,   std::ptrdiff_t>::value, "");
+static_assert(bksge::is_same<bksge::iterator_traits<int               *>::pointer,           int*>::value, "");
+static_assert(bksge::is_same<bksge::iterator_traits<int               *>::reference,         int&>::value, "");
 
-static_assert(bksge::is_same<bksge::iterator_traits<int const*>::iterator_concept,  bksge::contiguous_iterator_tag>::value, "");
-static_assert(bksge::is_same<bksge::iterator_traits<int const*>::iterator_category, bksge::random_access_iterator_tag>::value, "");
-static_assert(bksge::is_same<bksge::iterator_traits<int const*>::value_type,        int>::value, "");
-static_assert(bksge::is_same<bksge::iterator_traits<int const*>::difference_type,   std::ptrdiff_t>::value, "");
-static_assert(bksge::is_same<bksge::iterator_traits<int const*>::pointer,           int const*>::value, "");
-static_assert(bksge::is_same<bksge::iterator_traits<int const*>::reference,         int const&>::value, "");
+static_assert(bksge::is_same<bksge::iterator_traits<int const         *>::iterator_concept,  bksge::contiguous_iterator_tag>::value, "");
+static_assert(bksge::is_same<bksge::iterator_traits<int const         *>::iterator_category, bksge::random_access_iterator_tag>::value, "");
+static_assert(bksge::is_same<bksge::iterator_traits<int const         *>::value_type,        int>::value, "");
+static_assert(bksge::is_same<bksge::iterator_traits<int const         *>::difference_type,   std::ptrdiff_t>::value, "");
+static_assert(bksge::is_same<bksge::iterator_traits<int const         *>::pointer,           int const*>::value, "");
+static_assert(bksge::is_same<bksge::iterator_traits<int const         *>::reference,         int const&>::value, "");
+
+static_assert(bksge::is_same<bksge::iterator_traits<int       volatile*>::iterator_concept,  bksge::contiguous_iterator_tag>::value, "");
+static_assert(bksge::is_same<bksge::iterator_traits<int       volatile*>::iterator_category, bksge::random_access_iterator_tag>::value, "");
+static_assert(bksge::is_same<bksge::iterator_traits<int       volatile*>::value_type,        int>::value, "");
+static_assert(bksge::is_same<bksge::iterator_traits<int       volatile*>::difference_type,   std::ptrdiff_t>::value, "");
+static_assert(bksge::is_same<bksge::iterator_traits<int       volatile*>::pointer,           int volatile*>::value, "");
+static_assert(bksge::is_same<bksge::iterator_traits<int       volatile*>::reference,         int volatile&>::value, "");
+
+static_assert(bksge::is_same<bksge::iterator_traits<int const volatile*>::iterator_concept,  bksge::contiguous_iterator_tag>::value, "");
+static_assert(bksge::is_same<bksge::iterator_traits<int const volatile*>::iterator_category, bksge::random_access_iterator_tag>::value, "");
+static_assert(bksge::is_same<bksge::iterator_traits<int const volatile*>::value_type,        int>::value, "");
+static_assert(bksge::is_same<bksge::iterator_traits<int const volatile*>::difference_type,   std::ptrdiff_t>::value, "");
+static_assert(bksge::is_same<bksge::iterator_traits<int const volatile*>::pointer,           int const volatile*>::value, "");
+static_assert(bksge::is_same<bksge::iterator_traits<int const volatile*>::reference,         int const volatile&>::value, "");
 
 using it1 = std::vector<float>::iterator;
 //static_assert(bksge::is_same<bksge::iterator_traits<it1>::iterator_concept,  bksge::contiguous_iterator_tag>::value, "");

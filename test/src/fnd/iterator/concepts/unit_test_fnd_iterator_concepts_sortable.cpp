@@ -34,12 +34,41 @@ namespace bksge_iterator_test
 namespace sortable_test
 {
 
-BKSGE_SORTABLE_TEST(true,  int      *);
-BKSGE_SORTABLE_TEST(false, int const*);
-BKSGE_SORTABLE_TEST(false, int      * const);
-BKSGE_SORTABLE_TEST(false, int const* const);
-BKSGE_SORTABLE_TEST(false, void*);
-BKSGE_SORTABLE_TEST(false, void* const);
+BKSGE_SORTABLE_TEST(true,  int               *);
+BKSGE_SORTABLE_TEST(false, int const         *);
+BKSGE_SORTABLE_TEST(true,  int       volatile*);
+BKSGE_SORTABLE_TEST(false, int const volatile*);
+BKSGE_SORTABLE_TEST(false, int               * const);
+BKSGE_SORTABLE_TEST(false, int const         * const);
+BKSGE_SORTABLE_TEST(false, int       volatile* const);
+BKSGE_SORTABLE_TEST(false, int const volatile* const);
+
+BKSGE_SORTABLE_TEST(true,  int               **);
+BKSGE_SORTABLE_TEST(true,  int const         **);
+BKSGE_SORTABLE_TEST(true,  int       volatile**);
+BKSGE_SORTABLE_TEST(true,  int const volatile**);
+BKSGE_SORTABLE_TEST(false, int               ** const);
+BKSGE_SORTABLE_TEST(false, int const         ** const);
+BKSGE_SORTABLE_TEST(false, int       volatile** const);
+BKSGE_SORTABLE_TEST(false, int const volatile** const);
+
+BKSGE_SORTABLE_TEST(false, void               *);
+BKSGE_SORTABLE_TEST(false, void const         *);
+BKSGE_SORTABLE_TEST(false, void       volatile*);
+BKSGE_SORTABLE_TEST(false, void const volatile*);
+BKSGE_SORTABLE_TEST(false, void               * const);
+BKSGE_SORTABLE_TEST(false, void const         * const);
+BKSGE_SORTABLE_TEST(false, void       volatile* const);
+BKSGE_SORTABLE_TEST(false, void const volatile* const);
+
+BKSGE_SORTABLE_TEST(true,  void               **);
+BKSGE_SORTABLE_TEST(true,  void const         **);
+BKSGE_SORTABLE_TEST(true,  void       volatile**);
+BKSGE_SORTABLE_TEST(true,  void const volatile**);
+BKSGE_SORTABLE_TEST(false, void               ** const);
+BKSGE_SORTABLE_TEST(false, void const         ** const);
+BKSGE_SORTABLE_TEST(false, void       volatile** const);
+BKSGE_SORTABLE_TEST(false, void const volatile** const);
 
 BKSGE_SORTABLE_TEST(true,  std::array<int, 1>::iterator);
 BKSGE_SORTABLE_TEST(false, std::array<int, 1>::const_iterator);

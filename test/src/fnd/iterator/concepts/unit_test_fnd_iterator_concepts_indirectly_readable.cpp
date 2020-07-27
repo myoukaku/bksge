@@ -15,11 +15,11 @@
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_INDIRECTLY_READABLE_TEST(B, ...)	\
-	static_assert(B == bksge::indirectly_readable<__VA_ARGS__>, " ");	\
-	static_assert(B == bksge::indirectly_readable_t<__VA_ARGS__>::value, " ")
+	static_assert(B == bksge::indirectly_readable<__VA_ARGS__>, "indirectly_readable");	\
+	static_assert(B == bksge::indirectly_readable_t<__VA_ARGS__>::value, "indirectly_readable_t")
 #else
 #  define BKSGE_INDIRECTLY_READABLE_TEST(B, ...)	\
-	static_assert(B == bksge::indirectly_readable_t<__VA_ARGS__>::value, " ")
+	static_assert(B == bksge::indirectly_readable_t<__VA_ARGS__>::value, "indirectly_readable_t")
 #endif
 
 namespace bksge_iterator_test
@@ -28,11 +28,33 @@ namespace bksge_iterator_test
 namespace indirectly_readable_test
 {
 
-BKSGE_INDIRECTLY_READABLE_TEST(true,  int      *);
-BKSGE_INDIRECTLY_READABLE_TEST(true,  int const*);
-BKSGE_INDIRECTLY_READABLE_TEST(true,  int      * const);
-BKSGE_INDIRECTLY_READABLE_TEST(true,  int const* const);
-BKSGE_INDIRECTLY_READABLE_TEST(false, void*);
+BKSGE_INDIRECTLY_READABLE_TEST(true,  int               *);
+BKSGE_INDIRECTLY_READABLE_TEST(true,  int const         *);
+BKSGE_INDIRECTLY_READABLE_TEST(true,  int       volatile*);
+BKSGE_INDIRECTLY_READABLE_TEST(true,  int const volatile*);
+BKSGE_INDIRECTLY_READABLE_TEST(true,  int               * const);
+BKSGE_INDIRECTLY_READABLE_TEST(true,  int const         * const);
+BKSGE_INDIRECTLY_READABLE_TEST(true,  int       volatile* const);
+BKSGE_INDIRECTLY_READABLE_TEST(true,  int const volatile* const);
+
+BKSGE_INDIRECTLY_READABLE_TEST(false, void               *);
+BKSGE_INDIRECTLY_READABLE_TEST(false, void const         *);
+BKSGE_INDIRECTLY_READABLE_TEST(false, void       volatile*);
+BKSGE_INDIRECTLY_READABLE_TEST(false, void const volatile*);
+BKSGE_INDIRECTLY_READABLE_TEST(false, void               * const);
+BKSGE_INDIRECTLY_READABLE_TEST(false, void const         * const);
+BKSGE_INDIRECTLY_READABLE_TEST(false, void       volatile* const);
+BKSGE_INDIRECTLY_READABLE_TEST(false, void const volatile* const);
+
+BKSGE_INDIRECTLY_READABLE_TEST(true,  void               **);
+BKSGE_INDIRECTLY_READABLE_TEST(true,  void const         **);
+BKSGE_INDIRECTLY_READABLE_TEST(true,  void       volatile**);
+BKSGE_INDIRECTLY_READABLE_TEST(true,  void const volatile**);
+BKSGE_INDIRECTLY_READABLE_TEST(true,  void               ** const);
+BKSGE_INDIRECTLY_READABLE_TEST(true,  void const         ** const);
+BKSGE_INDIRECTLY_READABLE_TEST(true,  void       volatile** const);
+BKSGE_INDIRECTLY_READABLE_TEST(true,  void const volatile** const);
+
 BKSGE_INDIRECTLY_READABLE_TEST(true,  std::unique_ptr<int>);
 BKSGE_INDIRECTLY_READABLE_TEST(true,  std::shared_ptr<int>);
 BKSGE_INDIRECTLY_READABLE_TEST(false, std::vector<int>);

@@ -20,11 +20,11 @@
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_FORWARD_ITERATOR_TEST(B, ...)	\
-	static_assert(B == bksge::forward_iterator<__VA_ARGS__>, " ");	\
-	static_assert(B == bksge::forward_iterator_t<__VA_ARGS__>::value, " ")
+	static_assert(B == bksge::forward_iterator<__VA_ARGS__>, "forward_iterator");	\
+	static_assert(B == bksge::forward_iterator_t<__VA_ARGS__>::value, "forward_iterator_t")
 #else
 #  define BKSGE_FORWARD_ITERATOR_TEST(B, ...)	\
-	static_assert(B == bksge::forward_iterator_t<__VA_ARGS__>::value, " ")
+	static_assert(B == bksge::forward_iterator_t<__VA_ARGS__>::value, "forward_iterator_t")
 #endif
 
 namespace bksge_iterator_test
@@ -35,17 +35,32 @@ namespace forward_iterator_test
 
 struct A {};
 
-BKSGE_FORWARD_ITERATOR_TEST(true,  int*);
-BKSGE_FORWARD_ITERATOR_TEST(true,  const int*);
-BKSGE_FORWARD_ITERATOR_TEST(true,  void**);
+BKSGE_FORWARD_ITERATOR_TEST(true,  int               *);
+BKSGE_FORWARD_ITERATOR_TEST(true,  int const         *);
+BKSGE_FORWARD_ITERATOR_TEST(true,  int       volatile*);
+BKSGE_FORWARD_ITERATOR_TEST(true,  int const volatile*);
+BKSGE_FORWARD_ITERATOR_TEST(false, int               * const);
+BKSGE_FORWARD_ITERATOR_TEST(false, int const         * const);
+BKSGE_FORWARD_ITERATOR_TEST(false, int       volatile* const);
+BKSGE_FORWARD_ITERATOR_TEST(false, int const volatile* const);
 
-BKSGE_FORWARD_ITERATOR_TEST(false, int* const);
-BKSGE_FORWARD_ITERATOR_TEST(false, const int* const);
-BKSGE_FORWARD_ITERATOR_TEST(false, void** const);
+BKSGE_FORWARD_ITERATOR_TEST(false, void               *);
+BKSGE_FORWARD_ITERATOR_TEST(false, void const         *);
+BKSGE_FORWARD_ITERATOR_TEST(false, void       volatile*);
+BKSGE_FORWARD_ITERATOR_TEST(false, void const volatile*);
+BKSGE_FORWARD_ITERATOR_TEST(false, void               * const);
+BKSGE_FORWARD_ITERATOR_TEST(false, void const         * const);
+BKSGE_FORWARD_ITERATOR_TEST(false, void       volatile* const);
+BKSGE_FORWARD_ITERATOR_TEST(false, void const volatile* const);
 
-BKSGE_FORWARD_ITERATOR_TEST(false, void*);
-BKSGE_FORWARD_ITERATOR_TEST(false, const void*);
-BKSGE_FORWARD_ITERATOR_TEST(false, volatile void*);
+BKSGE_FORWARD_ITERATOR_TEST(true,  void               **);
+BKSGE_FORWARD_ITERATOR_TEST(true,  void const         **);
+BKSGE_FORWARD_ITERATOR_TEST(true,  void       volatile**);
+BKSGE_FORWARD_ITERATOR_TEST(true,  void const volatile**);
+BKSGE_FORWARD_ITERATOR_TEST(false, void               ** const);
+BKSGE_FORWARD_ITERATOR_TEST(false, void const         ** const);
+BKSGE_FORWARD_ITERATOR_TEST(false, void       volatile** const);
+BKSGE_FORWARD_ITERATOR_TEST(false, void const volatile** const);
 
 BKSGE_FORWARD_ITERATOR_TEST(false, void(*)());
 BKSGE_FORWARD_ITERATOR_TEST(false, void(&)());
