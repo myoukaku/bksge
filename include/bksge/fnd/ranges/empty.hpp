@@ -1,0 +1,103 @@
+﻿/**
+ *	@file	empty.hpp
+ *
+ *	@brief	ranges::empty の定義
+ *
+ *	@author	myoukaku
+ */
+
+#ifndef BKSGE_FND_RANGES_EMPTY_HPP
+#define BKSGE_FND_RANGES_EMPTY_HPP
+
+#include <bksge/fnd/ranges/detail/has_member_empty.hpp>
+#include <bksge/fnd/ranges/detail/size0_empty.hpp>
+#include <bksge/fnd/ranges/detail/eq_iter_empty.hpp>
+#include <bksge/fnd/ranges/size.hpp>
+#include <bksge/fnd/ranges/begin.hpp>
+#include <bksge/fnd/ranges/end.hpp>
+#include <bksge/fnd/concepts/detail/overload_priority.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/utility/declval.hpp>
+#include <bksge/fnd/utility/forward.hpp>
+#include <bksge/fnd/config.hpp>
+
+#define BKSGE_NOEXCEPT_DECLTYPE_RETURN(...) \
+	BKSGE_NOEXCEPT_IF_EXPR(__VA_ARGS__)     \
+	-> decltype(__VA_ARGS__)                \
+	{ return __VA_ARGS__; }
+
+namespace bksge
+{
+
+namespace ranges
+{
+
+namespace detail
+{
+
+struct empty_fn
+{
+private:
+	template <
+#if defined(BKSGE_HAS_CXX20_CONCEPTS)
+		has_member_empty T
+#else
+		typename T,
+		typename = bksge::enable_if_t<has_member_empty<T>::value>
+#endif
+	>
+	static BKSGE_CONSTEXPR auto
+	impl(bksge::detail::overload_priority<2>, T&& t)
+		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
+			bool(bksge::forward<T>(t).empty()))
+
+	template <
+#if defined(BKSGE_HAS_CXX20_CONCEPTS)
+		size0_empty T
+#else
+		typename T,
+		typename = bksge::enable_if_t<size0_empty<T>::value>
+#endif
+	>
+	static BKSGE_CONSTEXPR auto
+	impl(bksge::detail::overload_priority<1>, T&& t)
+		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
+			ranges::size(bksge::forward<T>(t)) == 0)
+
+	template <
+#if defined(BKSGE_HAS_CXX20_CONCEPTS)
+		eq_iter_empty T
+#else
+		typename T,
+		typename = bksge::enable_if_t<eq_iter_empty<T>::value>
+#endif
+	>
+	static BKSGE_CONSTEXPR auto
+	impl(bksge::detail::overload_priority<0>, T&& t)
+		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
+			bool(ranges::begin(bksge::forward<T>(t)) == ranges::end(bksge::forward<T>(t))))
+
+public:
+	template <typename T>
+	BKSGE_CONSTEXPR auto operator()(T&& t) const
+		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
+			impl(bksge::detail::overload_priority<2>{}, bksge::forward<T>(t)))
+};
+
+}	// namespace detail
+
+inline namespace cpo
+{
+
+BKSGE_INLINE_VAR BKSGE_CONSTEXPR
+detail::empty_fn empty{};
+
+}	// inline namespace cpo
+
+}	// namespace ranges
+
+}	// namespace bksge
+
+#undef BKSGE_NOEXCEPT_DECLTYPE_RETURN
+
+#endif // BKSGE_FND_RANGES_EMPTY_HPP

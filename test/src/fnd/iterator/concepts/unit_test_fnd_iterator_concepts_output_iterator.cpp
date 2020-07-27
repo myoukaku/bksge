@@ -103,10 +103,10 @@ BKSGE_OUTPUT_ITERATOR_TEST(false, indirectly_writable_wrapper<int>,      int);
 BKSGE_OUTPUT_ITERATOR_TEST(false, input_or_output_iterator_wrapper<int>, int);
 BKSGE_OUTPUT_ITERATOR_TEST(false, input_iterator_wrapper<int>,           int);
 BKSGE_OUTPUT_ITERATOR_TEST(true,  output_iterator_wrapper<int>,          int);
-BKSGE_OUTPUT_ITERATOR_TEST(false, forward_iterator_wrapper<int>,         int);
-BKSGE_OUTPUT_ITERATOR_TEST(false, bidirectional_iterator_wrapper<int>,   int);
-BKSGE_OUTPUT_ITERATOR_TEST(false, random_access_iterator_wrapper<int>,   int);
-BKSGE_OUTPUT_ITERATOR_TEST(false, contiguous_iterator_wrapper<int>,      int);
+BKSGE_OUTPUT_ITERATOR_TEST(true,  forward_iterator_wrapper<int>,         int);
+BKSGE_OUTPUT_ITERATOR_TEST(true,  bidirectional_iterator_wrapper<int>,   int);
+BKSGE_OUTPUT_ITERATOR_TEST(true,  random_access_iterator_wrapper<int>,   int);
+BKSGE_OUTPUT_ITERATOR_TEST(true,  contiguous_iterator_wrapper<int>,      int);
 
 }	// namespace output_iterator_test
 

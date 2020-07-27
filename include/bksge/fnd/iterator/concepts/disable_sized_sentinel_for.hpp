@@ -17,7 +17,8 @@ namespace bksge
 #if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
 
 template <typename Sent, typename Iter>
-BKSGE_INLINE_VAR BKSGE_CONSTEXPR bool disable_sized_sentinel_for = false;
+BKSGE_INLINE_VAR BKSGE_CONSTEXPR
+bool disable_sized_sentinel_for = false;
 
 #else
 

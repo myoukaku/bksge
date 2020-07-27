@@ -81,12 +81,12 @@ BKSGE_INDIRECTLY_WRITABLE_TEST(false, incrementable_wrapper<int>,            int
 BKSGE_INDIRECTLY_WRITABLE_TEST(false, indirectly_readable_wrapper<int>,      int);
 BKSGE_INDIRECTLY_WRITABLE_TEST(true,  indirectly_writable_wrapper<int>,      int);
 BKSGE_INDIRECTLY_WRITABLE_TEST(false, input_or_output_iterator_wrapper<int>, int);
-BKSGE_INDIRECTLY_WRITABLE_TEST(false, input_iterator_wrapper<int>,           int);
+BKSGE_INDIRECTLY_WRITABLE_TEST(true,  input_iterator_wrapper<int>,           int);
 BKSGE_INDIRECTLY_WRITABLE_TEST(true,  output_iterator_wrapper<int>,          int);
-BKSGE_INDIRECTLY_WRITABLE_TEST(false, forward_iterator_wrapper<int>,         int);
-BKSGE_INDIRECTLY_WRITABLE_TEST(false, bidirectional_iterator_wrapper<int>,   int);
-BKSGE_INDIRECTLY_WRITABLE_TEST(false, random_access_iterator_wrapper<int>,   int);
-BKSGE_INDIRECTLY_WRITABLE_TEST(false, contiguous_iterator_wrapper<int>,      int);
+BKSGE_INDIRECTLY_WRITABLE_TEST(true,  forward_iterator_wrapper<int>,         int);
+BKSGE_INDIRECTLY_WRITABLE_TEST(true,  bidirectional_iterator_wrapper<int>,   int);
+BKSGE_INDIRECTLY_WRITABLE_TEST(true,  random_access_iterator_wrapper<int>,   int);
+BKSGE_INDIRECTLY_WRITABLE_TEST(true,  contiguous_iterator_wrapper<int>,      int);
 
 }	// namespace indirectly_writable_test
 
