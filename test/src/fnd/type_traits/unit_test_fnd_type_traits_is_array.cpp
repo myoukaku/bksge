@@ -22,7 +22,8 @@ struct convertible_to_pointer
 };
 
 #define BKSGE_IS_ARRAY_TEST_IMPL(b, T)	\
-	static_assert(bksge::is_array<T>::value == b, #T)
+	static_assert(bksge::is_array<T>::value == b, #T);	\
+	static_assert(bksge::is_array<T>()      == b, #T)
 
 #define BKSGE_IS_ARRAY_TEST(T)	\
 	BKSGE_IS_ARRAY_TEST_IMPL(false,                T);	\
@@ -52,43 +53,35 @@ struct convertible_to_pointer
 	BKSGE_IS_ARRAY_TEST_IMPL(false, T&);		\
 	BKSGE_IS_ARRAY_TEST_IMPL(false, T&&)
 
-GTEST_TEST(TypeTraitsTest, IsArrayTest)
-{
-	IntegralConstantTest<bksge::is_array<int>, false>();
-	IntegralConstantTest<bksge::is_array<int[]>, true>();
-	IntegralConstantTest<bksge::is_array<int[2]>, true>();
-	IntegralConstantTest<bksge::is_array<int[3][4][5]>, true>();
+BKSGE_IS_ARRAY_TEST(int);
+BKSGE_IS_ARRAY_TEST(char);
+BKSGE_IS_ARRAY_TEST(float);
+BKSGE_IS_ARRAY_TEST(void*);
+BKSGE_IS_ARRAY_TEST(enum_UDT);
+BKSGE_IS_ARRAY_TEST(enum_class_UDT);
+BKSGE_IS_ARRAY_TEST(UDT);
+BKSGE_IS_ARRAY_TEST(empty_UDT);
+BKSGE_IS_ARRAY_TEST(union_UDT);
 
-	BKSGE_IS_ARRAY_TEST(int);
-	BKSGE_IS_ARRAY_TEST(char);
-	BKSGE_IS_ARRAY_TEST(float);
-	BKSGE_IS_ARRAY_TEST(void*);
-	BKSGE_IS_ARRAY_TEST(enum_UDT);
-	BKSGE_IS_ARRAY_TEST(enum_class_UDT);
-	BKSGE_IS_ARRAY_TEST(UDT);
-	BKSGE_IS_ARRAY_TEST(empty_UDT);
-	BKSGE_IS_ARRAY_TEST(union_UDT);
-
-	BKSGE_IS_ARRAY_TEST_IMPL(false, f1);
-	BKSGE_IS_ARRAY_TEST_IMPL(false, f2);
-	BKSGE_IS_ARRAY_TEST_IMPL(false, f3);
-	BKSGE_IS_ARRAY_TEST_IMPL(false, mf1);
-	BKSGE_IS_ARRAY_TEST_IMPL(false, mf2);
-	BKSGE_IS_ARRAY_TEST_IMPL(false, mf3);
-	BKSGE_IS_ARRAY_TEST_IMPL(false, mf4);
-	BKSGE_IS_ARRAY_TEST_IMPL(false, mp);
-	BKSGE_IS_ARRAY_TEST_IMPL(false, cmf);
-	BKSGE_IS_ARRAY_TEST_IMPL(false, void);
-	BKSGE_IS_ARRAY_TEST_IMPL(false, test_abc1);
-	BKSGE_IS_ARRAY_TEST_IMPL(false, test_abc3);
-	BKSGE_IS_ARRAY_TEST_IMPL(false, test_abc3);
-	BKSGE_IS_ARRAY_TEST_IMPL(false, convertible_to_pointer);
-	BKSGE_IS_ARRAY_TEST_IMPL(false, foo0_t);
-	BKSGE_IS_ARRAY_TEST_IMPL(false, foo1_t);
-	BKSGE_IS_ARRAY_TEST_IMPL(false, foo2_t);
-	BKSGE_IS_ARRAY_TEST_IMPL(false, foo3_t);
-	BKSGE_IS_ARRAY_TEST_IMPL(false, foo4_t);
-}
+BKSGE_IS_ARRAY_TEST_IMPL(false, f1);
+BKSGE_IS_ARRAY_TEST_IMPL(false, f2);
+BKSGE_IS_ARRAY_TEST_IMPL(false, f3);
+BKSGE_IS_ARRAY_TEST_IMPL(false, mf1);
+BKSGE_IS_ARRAY_TEST_IMPL(false, mf2);
+BKSGE_IS_ARRAY_TEST_IMPL(false, mf3);
+BKSGE_IS_ARRAY_TEST_IMPL(false, mf4);
+BKSGE_IS_ARRAY_TEST_IMPL(false, mp);
+BKSGE_IS_ARRAY_TEST_IMPL(false, cmf);
+BKSGE_IS_ARRAY_TEST_IMPL(false, void);
+BKSGE_IS_ARRAY_TEST_IMPL(false, test_abc1);
+BKSGE_IS_ARRAY_TEST_IMPL(false, test_abc3);
+BKSGE_IS_ARRAY_TEST_IMPL(false, test_abc3);
+BKSGE_IS_ARRAY_TEST_IMPL(false, convertible_to_pointer);
+BKSGE_IS_ARRAY_TEST_IMPL(false, foo0_t);
+BKSGE_IS_ARRAY_TEST_IMPL(false, foo1_t);
+BKSGE_IS_ARRAY_TEST_IMPL(false, foo2_t);
+BKSGE_IS_ARRAY_TEST_IMPL(false, foo3_t);
+BKSGE_IS_ARRAY_TEST_IMPL(false, foo4_t);
 
 #undef BKSGE_IS_ARRAY_TEST
 #undef BKSGE_IS_ARRAY_TEST_IMPL

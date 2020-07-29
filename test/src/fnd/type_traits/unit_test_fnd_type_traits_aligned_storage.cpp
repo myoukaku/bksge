@@ -6,10 +6,6 @@
  *	@author	myoukaku
  */
 
-//#if defined(_MSC_VER)
-//#define _ENABLE_EXTENDED_ALIGNED_STORAGE
-//#endif
-
 #include <bksge/fnd/type_traits/aligned_storage.hpp>
 #include <bksge/fnd/type_traits/alignment_of.hpp>
 #include <bksge/fnd/type_traits/is_standard_layout.hpp>
@@ -18,9 +14,13 @@
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
-GTEST_TEST(TypeTraitsTest, AlignedStorageTest)
+namespace type_traits_test
 {
-	static auto const default_alignment = bksge::alignment_of<std::max_align_t>::value;
+
+namespace aligned_storage_test
+{
+
+static auto const default_alignment = bksge::alignment_of<std::max_align_t>::value;
 
 #define BKSGE_ALIGNED_STORAGE_TEST_IMPL(T, Len, Align)	\
 	static_assert(bksge::is_standard_layout<T>::value, "bksge::is_standard_layout<" #T ">");	\
@@ -34,21 +34,20 @@ GTEST_TEST(TypeTraitsTest, AlignedStorageTest)
 	using storage_ ## Len = bksge::aligned_storage<Len, Len>::type;	\
 	BKSGE_ALIGNED_STORAGE_TEST_IMPL(storage_ ## Len, Len, Len)
 
-	BKSGE_ALIGNED_STORAGE_TEST(1);
-	BKSGE_ALIGNED_STORAGE_TEST(2);
-	BKSGE_ALIGNED_STORAGE_TEST(4);
-	BKSGE_ALIGNED_STORAGE_TEST(8);
+BKSGE_ALIGNED_STORAGE_TEST(1);
+BKSGE_ALIGNED_STORAGE_TEST(2);
+BKSGE_ALIGNED_STORAGE_TEST(4);
+BKSGE_ALIGNED_STORAGE_TEST(8);
 #if !defined(_MSC_VER)
-	BKSGE_ALIGNED_STORAGE_TEST(16);
-	BKSGE_ALIGNED_STORAGE_TEST(32);
-	BKSGE_ALIGNED_STORAGE_TEST(64);
-	BKSGE_ALIGNED_STORAGE_TEST(128);
+BKSGE_ALIGNED_STORAGE_TEST(16);
+BKSGE_ALIGNED_STORAGE_TEST(32);
+BKSGE_ALIGNED_STORAGE_TEST(64);
+BKSGE_ALIGNED_STORAGE_TEST(128);
 #endif
 
 #undef BKSGE_ALIGNED_STORAGE_TEST
 #undef BKSGE_ALIGNED_STORAGE_TEST_IMPL
-}
 
-//#if defined(_MSC_VER)
-//#undef _ENABLE_EXTENDED_ALIGNED_STORAGE
-//#endif
+}	// namespace aligned_storage_test
+
+}	// namespace type_traits_test

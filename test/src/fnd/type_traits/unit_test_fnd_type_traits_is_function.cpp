@@ -18,7 +18,8 @@ namespace is_function_test
 {
 
 #define BKSGE_IS_FUNCTION_TEST(b, T)	\
-	static_assert(bksge::is_function<T>::value == b, #T)
+	static_assert(bksge::is_function<T>::value == b, #T);	\
+	static_assert(bksge::is_function<T>()      == b, #T)
 
 typedef void  func1()                                       ;
 typedef int   func2()                        const          ;
@@ -45,106 +46,100 @@ typedef int   func22(...)                    const          &&;
 typedef int   func23(float, ...)                   volatile &&;
 typedef int   func24(...)                    const volatile &&;
 
-GTEST_TEST(TypeTraitsTest, IsFunctionTest)
-{
-	IntegralConstantTest<bksge::is_function<int>, false>();
-	IntegralConstantTest<bksge::is_function<foo0_t>, true>();
+BKSGE_IS_FUNCTION_TEST(true,  func1);
+BKSGE_IS_FUNCTION_TEST(false, func1*);
+BKSGE_IS_FUNCTION_TEST(false, func1&);
+BKSGE_IS_FUNCTION_TEST(false, func1&&);
+BKSGE_IS_FUNCTION_TEST(true, func2);
+BKSGE_IS_FUNCTION_TEST(true, func3);
+BKSGE_IS_FUNCTION_TEST(true, func4);
+BKSGE_IS_FUNCTION_TEST(true, func5);
+BKSGE_IS_FUNCTION_TEST(true, func6);
+BKSGE_IS_FUNCTION_TEST(true, func7);
+BKSGE_IS_FUNCTION_TEST(true, func8);
+BKSGE_IS_FUNCTION_TEST(true, func9);
+BKSGE_IS_FUNCTION_TEST(true, func10);
+BKSGE_IS_FUNCTION_TEST(true, func11);
+BKSGE_IS_FUNCTION_TEST(true, func12);
+BKSGE_IS_FUNCTION_TEST(true, func13);
+BKSGE_IS_FUNCTION_TEST(true, func14);
+BKSGE_IS_FUNCTION_TEST(true, func15);
+BKSGE_IS_FUNCTION_TEST(true, func16);
+BKSGE_IS_FUNCTION_TEST(true, func17);
+BKSGE_IS_FUNCTION_TEST(true, func18);
+BKSGE_IS_FUNCTION_TEST(true, func19);
+BKSGE_IS_FUNCTION_TEST(true, func20);
+BKSGE_IS_FUNCTION_TEST(true, func21);
+BKSGE_IS_FUNCTION_TEST(true, func22);
+BKSGE_IS_FUNCTION_TEST(true, func23);
+BKSGE_IS_FUNCTION_TEST(true, func24);
 
-	BKSGE_IS_FUNCTION_TEST(true,  func1);
-	BKSGE_IS_FUNCTION_TEST(false, func1*);
-	BKSGE_IS_FUNCTION_TEST(false, func1&);
-	BKSGE_IS_FUNCTION_TEST(false, func1&&);
-	BKSGE_IS_FUNCTION_TEST(true, func2);
-	BKSGE_IS_FUNCTION_TEST(true, func3);
-	BKSGE_IS_FUNCTION_TEST(true, func4);
-	BKSGE_IS_FUNCTION_TEST(true, func5);
-	BKSGE_IS_FUNCTION_TEST(true, func6);
-	BKSGE_IS_FUNCTION_TEST(true, func7);
-	BKSGE_IS_FUNCTION_TEST(true, func8);
-	BKSGE_IS_FUNCTION_TEST(true, func9);
-	BKSGE_IS_FUNCTION_TEST(true, func10);
-	BKSGE_IS_FUNCTION_TEST(true, func11);
-	BKSGE_IS_FUNCTION_TEST(true, func12);
-	BKSGE_IS_FUNCTION_TEST(true, func13);
-	BKSGE_IS_FUNCTION_TEST(true, func14);
-	BKSGE_IS_FUNCTION_TEST(true, func15);
-	BKSGE_IS_FUNCTION_TEST(true, func16);
-	BKSGE_IS_FUNCTION_TEST(true, func17);
-	BKSGE_IS_FUNCTION_TEST(true, func18);
-	BKSGE_IS_FUNCTION_TEST(true, func19);
-	BKSGE_IS_FUNCTION_TEST(true, func20);
-	BKSGE_IS_FUNCTION_TEST(true, func21);
-	BKSGE_IS_FUNCTION_TEST(true, func22);
-	BKSGE_IS_FUNCTION_TEST(true, func23);
-	BKSGE_IS_FUNCTION_TEST(true, func24);
+BKSGE_IS_FUNCTION_TEST(true, int(int));
+BKSGE_IS_FUNCTION_TEST(true, int(int, int));
+BKSGE_IS_FUNCTION_TEST(true, int(int, int, int));
+BKSGE_IS_FUNCTION_TEST(true, int(int, int, int, int));
+BKSGE_IS_FUNCTION_TEST(true, int(int, ...));
+BKSGE_IS_FUNCTION_TEST(true, int(int, int, ...));
+BKSGE_IS_FUNCTION_TEST(true, int(int, int, int, ...));
+BKSGE_IS_FUNCTION_TEST(true, int(int, int, int, int, ...));
 
-	BKSGE_IS_FUNCTION_TEST(true, int(int));
-	BKSGE_IS_FUNCTION_TEST(true, int(int, int));
-	BKSGE_IS_FUNCTION_TEST(true, int(int, int, int));
-	BKSGE_IS_FUNCTION_TEST(true, int(int, int, int, int));
-	BKSGE_IS_FUNCTION_TEST(true, int(int, ...));
-	BKSGE_IS_FUNCTION_TEST(true, int(int, int, ...));
-	BKSGE_IS_FUNCTION_TEST(true, int(int, int, int, ...));
-	BKSGE_IS_FUNCTION_TEST(true, int(int, int, int, int, ...));
+BKSGE_IS_FUNCTION_TEST(false,                int);
+BKSGE_IS_FUNCTION_TEST(false, const          int);
+BKSGE_IS_FUNCTION_TEST(false,       volatile int);
+BKSGE_IS_FUNCTION_TEST(false, const volatile int);
+BKSGE_IS_FUNCTION_TEST(false, int*);
+BKSGE_IS_FUNCTION_TEST(false, int&);
+BKSGE_IS_FUNCTION_TEST(false, int&&);
+BKSGE_IS_FUNCTION_TEST(false, int[2]);
+BKSGE_IS_FUNCTION_TEST(false, int[]);
+BKSGE_IS_FUNCTION_TEST(false, int(*)[2]);
+BKSGE_IS_FUNCTION_TEST(false, int(*)[]);
+BKSGE_IS_FUNCTION_TEST(false, int(&)[2]);
+BKSGE_IS_FUNCTION_TEST(false, int(&)[]);
+BKSGE_IS_FUNCTION_TEST(false, int(&&)[2]);
+BKSGE_IS_FUNCTION_TEST(false, int(&&)[]);
+BKSGE_IS_FUNCTION_TEST(false, int(*)());
+BKSGE_IS_FUNCTION_TEST(false, int(*)(int));
+BKSGE_IS_FUNCTION_TEST(false, int(&)());
+BKSGE_IS_FUNCTION_TEST(false, int(&)(int));
+BKSGE_IS_FUNCTION_TEST(false, int(&&)());
+BKSGE_IS_FUNCTION_TEST(false, int(&&)(int));
+BKSGE_IS_FUNCTION_TEST(false, int(*)(...));
+BKSGE_IS_FUNCTION_TEST(false, int(&)(...));
+BKSGE_IS_FUNCTION_TEST(false, int(&&)(...));
 
-	BKSGE_IS_FUNCTION_TEST(false,                int);
-	BKSGE_IS_FUNCTION_TEST(false, const          int);
-	BKSGE_IS_FUNCTION_TEST(false,       volatile int);
-	BKSGE_IS_FUNCTION_TEST(false, const volatile int);
-	BKSGE_IS_FUNCTION_TEST(false, int*);
-	BKSGE_IS_FUNCTION_TEST(false, int&);
-	BKSGE_IS_FUNCTION_TEST(false, int&&);
-	BKSGE_IS_FUNCTION_TEST(false, int[2]);
-	BKSGE_IS_FUNCTION_TEST(false, int[]);
-	BKSGE_IS_FUNCTION_TEST(false, int(*)[2]);
-	BKSGE_IS_FUNCTION_TEST(false, int(*)[]);
-	BKSGE_IS_FUNCTION_TEST(false, int(&)[2]);
-	BKSGE_IS_FUNCTION_TEST(false, int(&)[]);
-	BKSGE_IS_FUNCTION_TEST(false, int(&&)[2]);
-	BKSGE_IS_FUNCTION_TEST(false, int(&&)[]);
-	BKSGE_IS_FUNCTION_TEST(false, int(*)());
-	BKSGE_IS_FUNCTION_TEST(false, int(*)(int));
-	BKSGE_IS_FUNCTION_TEST(false, int(&)());
-	BKSGE_IS_FUNCTION_TEST(false, int(&)(int));
-	BKSGE_IS_FUNCTION_TEST(false, int(&&)());
-	BKSGE_IS_FUNCTION_TEST(false, int(&&)(int));
-	BKSGE_IS_FUNCTION_TEST(false, int(*)(...));
-	BKSGE_IS_FUNCTION_TEST(false, int(&)(...));
-	BKSGE_IS_FUNCTION_TEST(false, int(&&)(...));
+BKSGE_IS_FUNCTION_TEST(false,                void);
+BKSGE_IS_FUNCTION_TEST(false, const          void);
+BKSGE_IS_FUNCTION_TEST(false,       volatile void);
+BKSGE_IS_FUNCTION_TEST(false, const volatile void);
 
-	BKSGE_IS_FUNCTION_TEST(false,                void);
-	BKSGE_IS_FUNCTION_TEST(false, const          void);
-	BKSGE_IS_FUNCTION_TEST(false,       volatile void);
-	BKSGE_IS_FUNCTION_TEST(false, const volatile void);
-
-	BKSGE_IS_FUNCTION_TEST(false, bool);
-	BKSGE_IS_FUNCTION_TEST(false, char);
-	BKSGE_IS_FUNCTION_TEST(false, float);
-	BKSGE_IS_FUNCTION_TEST(false, void*);
-	BKSGE_IS_FUNCTION_TEST(false, std::nullptr_t);
-	BKSGE_IS_FUNCTION_TEST(false, decltype(nullptr));
-	BKSGE_IS_FUNCTION_TEST(false, enum_UDT);
-	BKSGE_IS_FUNCTION_TEST(false, enum_class_UDT);
-	BKSGE_IS_FUNCTION_TEST(false, UDT);
-	BKSGE_IS_FUNCTION_TEST(false, POD_UDT);
-	BKSGE_IS_FUNCTION_TEST(false, f1);
-	BKSGE_IS_FUNCTION_TEST(false, f2);
-	BKSGE_IS_FUNCTION_TEST(false, f3);
-	BKSGE_IS_FUNCTION_TEST(false, mf1);
-	BKSGE_IS_FUNCTION_TEST(false, mf2);
-	BKSGE_IS_FUNCTION_TEST(false, mf3);
-	BKSGE_IS_FUNCTION_TEST(false, mf4);
-	BKSGE_IS_FUNCTION_TEST(false, mp);
-	BKSGE_IS_FUNCTION_TEST(false, cmf);
-	BKSGE_IS_FUNCTION_TEST(true,  foo0_t);
-	BKSGE_IS_FUNCTION_TEST(false, foo0_t*);
-	BKSGE_IS_FUNCTION_TEST(false, foo0_t&);
-	BKSGE_IS_FUNCTION_TEST(false, foo0_t&&);
-	BKSGE_IS_FUNCTION_TEST(true,  foo1_t);
-	BKSGE_IS_FUNCTION_TEST(true,  foo2_t);
-	BKSGE_IS_FUNCTION_TEST(true,  foo3_t);
-	BKSGE_IS_FUNCTION_TEST(true,  foo4_t);
-}
+BKSGE_IS_FUNCTION_TEST(false, bool);
+BKSGE_IS_FUNCTION_TEST(false, char);
+BKSGE_IS_FUNCTION_TEST(false, float);
+BKSGE_IS_FUNCTION_TEST(false, void*);
+BKSGE_IS_FUNCTION_TEST(false, std::nullptr_t);
+BKSGE_IS_FUNCTION_TEST(false, decltype(nullptr));
+BKSGE_IS_FUNCTION_TEST(false, enum_UDT);
+BKSGE_IS_FUNCTION_TEST(false, enum_class_UDT);
+BKSGE_IS_FUNCTION_TEST(false, UDT);
+BKSGE_IS_FUNCTION_TEST(false, POD_UDT);
+BKSGE_IS_FUNCTION_TEST(false, f1);
+BKSGE_IS_FUNCTION_TEST(false, f2);
+BKSGE_IS_FUNCTION_TEST(false, f3);
+BKSGE_IS_FUNCTION_TEST(false, mf1);
+BKSGE_IS_FUNCTION_TEST(false, mf2);
+BKSGE_IS_FUNCTION_TEST(false, mf3);
+BKSGE_IS_FUNCTION_TEST(false, mf4);
+BKSGE_IS_FUNCTION_TEST(false, mp);
+BKSGE_IS_FUNCTION_TEST(false, cmf);
+BKSGE_IS_FUNCTION_TEST(true,  foo0_t);
+BKSGE_IS_FUNCTION_TEST(false, foo0_t*);
+BKSGE_IS_FUNCTION_TEST(false, foo0_t&);
+BKSGE_IS_FUNCTION_TEST(false, foo0_t&&);
+BKSGE_IS_FUNCTION_TEST(true,  foo1_t);
+BKSGE_IS_FUNCTION_TEST(true,  foo2_t);
+BKSGE_IS_FUNCTION_TEST(true,  foo3_t);
+BKSGE_IS_FUNCTION_TEST(true,  foo4_t);
 
 #undef BKSGE_IS_FUNCTION_TEST
 

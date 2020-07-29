@@ -12,7 +12,8 @@
 #include "type_traits_test_utility.hpp"
 
 #define BKSGE_RANK_TEST_IMPL(T, N)	\
-	static_assert(bksge::rank<T>::value == N, "")
+	static_assert(bksge::rank<T>::value == N, "");	\
+	static_assert(bksge::rank<T>()      == N, "")
 
 #define BKSGE_RANK_TEST_CV(T, N)	\
 	BKSGE_RANK_TEST_IMPL(T, N);	\
@@ -31,36 +32,29 @@
 	BKSGE_RANK_TEST_CV(T[1][2][3][4], 4);	\
 	BKSGE_RANK_TEST_CV(T[][2][3][4][6], 5)
 
-GTEST_TEST(TypeTraitsTest, RankTest)
-{
-	IntegralConstantTest<bksge::rank<int>, 0>();
-	IntegralConstantTest<bksge::rank<int[2]>, 1>();
-	IntegralConstantTest<bksge::rank<int[10][20]>, 2>();
-
-	BKSGE_RANK_TEST(bool);
-	BKSGE_RANK_TEST(char);
-	BKSGE_RANK_TEST(int);
-	BKSGE_RANK_TEST(float);
-	BKSGE_RANK_TEST(double);
-	BKSGE_RANK_TEST(void*);
-	BKSGE_RANK_TEST(std::nullptr_t);
-	BKSGE_RANK_TEST(decltype(nullptr));
-	BKSGE_RANK_TEST(enum_UDT);
-	BKSGE_RANK_TEST(enum_class_UDT);
-	BKSGE_RANK_TEST(UDT);
-	BKSGE_RANK_TEST(POD_UDT);
-	BKSGE_RANK_TEST(union_UDT);
-	BKSGE_RANK_TEST(POD_union_UDT);
-	BKSGE_RANK_TEST(f1);
-	BKSGE_RANK_TEST(f2);
-	BKSGE_RANK_TEST(f3);
-	BKSGE_RANK_TEST(mf1);
-	BKSGE_RANK_TEST(mf2);
-	BKSGE_RANK_TEST(mf3);
-	BKSGE_RANK_TEST(mf4);
-	BKSGE_RANK_TEST(mp);
-	BKSGE_RANK_TEST(cmf);
-}
+BKSGE_RANK_TEST(bool);
+BKSGE_RANK_TEST(char);
+BKSGE_RANK_TEST(int);
+BKSGE_RANK_TEST(float);
+BKSGE_RANK_TEST(double);
+BKSGE_RANK_TEST(void*);
+BKSGE_RANK_TEST(std::nullptr_t);
+BKSGE_RANK_TEST(decltype(nullptr));
+BKSGE_RANK_TEST(enum_UDT);
+BKSGE_RANK_TEST(enum_class_UDT);
+BKSGE_RANK_TEST(UDT);
+BKSGE_RANK_TEST(POD_UDT);
+BKSGE_RANK_TEST(union_UDT);
+BKSGE_RANK_TEST(POD_union_UDT);
+BKSGE_RANK_TEST(f1);
+BKSGE_RANK_TEST(f2);
+BKSGE_RANK_TEST(f3);
+BKSGE_RANK_TEST(mf1);
+BKSGE_RANK_TEST(mf2);
+BKSGE_RANK_TEST(mf3);
+BKSGE_RANK_TEST(mf4);
+BKSGE_RANK_TEST(mp);
+BKSGE_RANK_TEST(cmf);
 
 #undef BKSGE_RANK_TEST
 #undef BKSGE_RANK_TEST_CV

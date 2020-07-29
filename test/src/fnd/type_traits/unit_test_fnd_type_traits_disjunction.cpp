@@ -11,262 +11,269 @@
 #include <bksge/fnd/type_traits/is_unsigned.hpp>
 #include <gtest/gtest.h>
 
-GTEST_TEST(TypeTraitsTest, DisjunctionTest)
+namespace bksge_type_traits_test
 {
-	static_assert(!bksge::disjunction<>::value, "");
 
-	static_assert( bksge::disjunction<bksge::is_unsigned<unsigned>>::value, "");
-	static_assert(!bksge::disjunction<bksge::is_unsigned<float>>::value, "");
+namespace disjunction_test
+{
 
-	static_assert(bksge::disjunction<
-		bksge::is_unsigned<unsigned char>,
-		bksge::is_unsigned<unsigned int>
-	>::value, "");
+static_assert(!bksge::disjunction<>::value, "");
 
-	static_assert(bksge::disjunction<
-		bksge::is_unsigned<float>,
-		bksge::is_unsigned<unsigned int>
-	>::value, "");
+static_assert( bksge::disjunction<bksge::is_unsigned<unsigned>>::value, "");
+static_assert(!bksge::disjunction<bksge::is_unsigned<float>>::value, "");
 
-	static_assert(bksge::disjunction<
-		bksge::is_unsigned<unsigned char>,
-		bksge::is_unsigned<int>
-	>::value, "");
+static_assert(bksge::disjunction<
+	bksge::is_unsigned<unsigned char>,
+	bksge::is_unsigned<unsigned int>
+>::value, "");
 
-	static_assert(!bksge::disjunction<
-		bksge::is_unsigned<char>,
-		bksge::is_unsigned<int>
-	>::value, "");
+static_assert(bksge::disjunction<
+	bksge::is_unsigned<float>,
+	bksge::is_unsigned<unsigned int>
+>::value, "");
 
-	static_assert(bksge::disjunction<
-		bksge::is_unsigned<unsigned char>,
-		bksge::is_unsigned<unsigned short>,
-		bksge::is_unsigned<unsigned int>
-	>::value, "");
+static_assert(bksge::disjunction<
+	bksge::is_unsigned<unsigned char>,
+	bksge::is_unsigned<int>
+>::value, "");
 
-	static_assert(bksge::disjunction<
-		bksge::is_unsigned<char>,
-		bksge::is_unsigned<unsigned short>,
-		bksge::is_unsigned<unsigned int>
-	>::value, "");
+static_assert(!bksge::disjunction<
+	bksge::is_unsigned<char>,
+	bksge::is_unsigned<int>
+>::value, "");
 
-	static_assert(bksge::disjunction<
-		bksge::is_unsigned<unsigned char>,
-		bksge::is_unsigned<short>,
-		bksge::is_unsigned<unsigned int>
-	>::value, "");
+static_assert(bksge::disjunction<
+	bksge::is_unsigned<unsigned char>,
+	bksge::is_unsigned<unsigned short>,
+	bksge::is_unsigned<unsigned int>
+>::value, "");
 
-	static_assert(bksge::disjunction<
-		bksge::is_unsigned<unsigned char>,
-		bksge::is_unsigned<unsigned short>,
-		bksge::is_unsigned<int>
-	>::value, "");
+static_assert(bksge::disjunction<
+	bksge::is_unsigned<char>,
+	bksge::is_unsigned<unsigned short>,
+	bksge::is_unsigned<unsigned int>
+>::value, "");
 
-	static_assert(!bksge::disjunction<
-		bksge::is_unsigned<char>,
-		bksge::is_unsigned<short>,
-		bksge::is_unsigned<int>
-	>::value, "");
+static_assert(bksge::disjunction<
+	bksge::is_unsigned<unsigned char>,
+	bksge::is_unsigned<short>,
+	bksge::is_unsigned<unsigned int>
+>::value, "");
 
-	static_assert(bksge::disjunction<
-		bksge::is_unsigned<unsigned char>,
-		bksge::is_unsigned<unsigned short>,
-		bksge::is_unsigned<unsigned int>,
-		bksge::is_unsigned<unsigned long>
-	>::value, "");
+static_assert(bksge::disjunction<
+	bksge::is_unsigned<unsigned char>,
+	bksge::is_unsigned<unsigned short>,
+	bksge::is_unsigned<int>
+>::value, "");
 
-	static_assert(bksge::disjunction<
-		bksge::is_unsigned<unsigned char>,
-		bksge::is_unsigned<unsigned short>,
-		bksge::is_unsigned<unsigned int>,
-		bksge::is_unsigned<long>
-	>::value, "");
+static_assert(!bksge::disjunction<
+	bksge::is_unsigned<char>,
+	bksge::is_unsigned<short>,
+	bksge::is_unsigned<int>
+>::value, "");
 
-	static_assert(!bksge::disjunction<
-		bksge::is_unsigned<char>,
-		bksge::is_unsigned<short>,
-		bksge::is_unsigned<int>,
-		bksge::is_unsigned<long>
-	>::value, "");
+static_assert(bksge::disjunction<
+	bksge::is_unsigned<unsigned char>,
+	bksge::is_unsigned<unsigned short>,
+	bksge::is_unsigned<unsigned int>,
+	bksge::is_unsigned<unsigned long>
+>::value, "");
 
-	using T = bksge::true_type;
-	using F = bksge::false_type;
+static_assert(bksge::disjunction<
+	bksge::is_unsigned<unsigned char>,
+	bksge::is_unsigned<unsigned short>,
+	bksge::is_unsigned<unsigned int>,
+	bksge::is_unsigned<long>
+>::value, "");
 
-	static_assert(!bksge::disjunction<>::value, "");
+static_assert(!bksge::disjunction<
+	bksge::is_unsigned<char>,
+	bksge::is_unsigned<short>,
+	bksge::is_unsigned<int>,
+	bksge::is_unsigned<long>
+>::value, "");
 
-	static_assert( bksge::disjunction<T>::value, "");
-	static_assert(!bksge::disjunction<F>::value, "");
+using T = bksge::true_type;
+using F = bksge::false_type;
 
-	static_assert( bksge::disjunction<T, T>::value, "");
-	static_assert( bksge::disjunction<T, F>::value, "");
-	static_assert( bksge::disjunction<F, T>::value, "");
-	static_assert(!bksge::disjunction<F, F>::value, "");
+static_assert(!bksge::disjunction<>::value, "");
 
-	static_assert( bksge::disjunction<T, T, T>::value, "");
-	static_assert( bksge::disjunction<T, T, F>::value, "");
-	static_assert( bksge::disjunction<T, F, T>::value, "");
-	static_assert( bksge::disjunction<T, F, F>::value, "");
-	static_assert( bksge::disjunction<F, T, T>::value, "");
-	static_assert( bksge::disjunction<F, T, F>::value, "");
-	static_assert( bksge::disjunction<F, F, T>::value, "");
-	static_assert(!bksge::disjunction<F, F, F>::value, "");
+static_assert( bksge::disjunction<T>::value, "");
+static_assert(!bksge::disjunction<F>::value, "");
 
-	static_assert( bksge::disjunction<T, T, T, T, T, T, T, T, T, T>::value, "");
-	static_assert( bksge::disjunction<F, T, T, T, T, T, T, T, T, T>::value, "");
-	static_assert( bksge::disjunction<T, F, T, T, T, T, T, T, T, T>::value, "");
-	static_assert( bksge::disjunction<T, T, F, T, T, T, T, T, T, T>::value, "");
-	static_assert( bksge::disjunction<T, T, T, F, T, T, T, T, T, T>::value, "");
-	static_assert( bksge::disjunction<T, T, T, T, F, T, T, T, T, T>::value, "");
-	static_assert( bksge::disjunction<T, T, T, T, T, F, T, T, T, T>::value, "");
-	static_assert( bksge::disjunction<T, T, T, T, T, T, F, T, T, T>::value, "");
-	static_assert( bksge::disjunction<T, T, T, T, T, T, T, F, T, T>::value, "");
-	static_assert( bksge::disjunction<T, T, T, T, T, T, T, T, F, T>::value, "");
-	static_assert( bksge::disjunction<T, T, T, T, T, T, T, T, T, F>::value, "");
-	static_assert( bksge::disjunction<T, F, F, F, F, F, F, F, F, F>::value, "");
-	static_assert( bksge::disjunction<F, T, F, F, F, F, F, F, F, F>::value, "");
-	static_assert( bksge::disjunction<F, F, T, F, F, F, F, F, F, F>::value, "");
-	static_assert( bksge::disjunction<F, F, F, T, F, F, F, F, F, F>::value, "");
-	static_assert( bksge::disjunction<F, F, F, F, T, F, F, F, F, F>::value, "");
-	static_assert( bksge::disjunction<F, F, F, F, F, T, F, F, F, F>::value, "");
-	static_assert( bksge::disjunction<F, F, F, F, F, F, T, F, F, F>::value, "");
-	static_assert( bksge::disjunction<F, F, F, F, F, F, F, T, F, F>::value, "");
-	static_assert( bksge::disjunction<F, F, F, F, F, F, F, F, T, F>::value, "");
-	static_assert( bksge::disjunction<F, F, F, F, F, F, F, F, F, T>::value, "");
-	static_assert(!bksge::disjunction<F, F, F, F, F, F, F, F, F, F>::value, "");
+static_assert( bksge::disjunction<T, T>::value, "");
+static_assert( bksge::disjunction<T, F>::value, "");
+static_assert( bksge::disjunction<F, T>::value, "");
+static_assert(!bksge::disjunction<F, F>::value, "");
 
-	static_assert(
-		bksge::disjunction<
-			// 0
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			// 100
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+static_assert( bksge::disjunction<T, T, T>::value, "");
+static_assert( bksge::disjunction<T, T, F>::value, "");
+static_assert( bksge::disjunction<T, F, T>::value, "");
+static_assert( bksge::disjunction<T, F, F>::value, "");
+static_assert( bksge::disjunction<F, T, T>::value, "");
+static_assert( bksge::disjunction<F, T, F>::value, "");
+static_assert( bksge::disjunction<F, F, T>::value, "");
+static_assert(!bksge::disjunction<F, F, F>::value, "");
+
+static_assert( bksge::disjunction<T, T, T, T, T, T, T, T, T, T>::value, "");
+static_assert( bksge::disjunction<F, T, T, T, T, T, T, T, T, T>::value, "");
+static_assert( bksge::disjunction<T, F, T, T, T, T, T, T, T, T>::value, "");
+static_assert( bksge::disjunction<T, T, F, T, T, T, T, T, T, T>::value, "");
+static_assert( bksge::disjunction<T, T, T, F, T, T, T, T, T, T>::value, "");
+static_assert( bksge::disjunction<T, T, T, T, F, T, T, T, T, T>::value, "");
+static_assert( bksge::disjunction<T, T, T, T, T, F, T, T, T, T>::value, "");
+static_assert( bksge::disjunction<T, T, T, T, T, T, F, T, T, T>::value, "");
+static_assert( bksge::disjunction<T, T, T, T, T, T, T, F, T, T>::value, "");
+static_assert( bksge::disjunction<T, T, T, T, T, T, T, T, F, T>::value, "");
+static_assert( bksge::disjunction<T, T, T, T, T, T, T, T, T, F>::value, "");
+static_assert( bksge::disjunction<T, F, F, F, F, F, F, F, F, F>::value, "");
+static_assert( bksge::disjunction<F, T, F, F, F, F, F, F, F, F>::value, "");
+static_assert( bksge::disjunction<F, F, T, F, F, F, F, F, F, F>::value, "");
+static_assert( bksge::disjunction<F, F, F, T, F, F, F, F, F, F>::value, "");
+static_assert( bksge::disjunction<F, F, F, F, T, F, F, F, F, F>::value, "");
+static_assert( bksge::disjunction<F, F, F, F, F, T, F, F, F, F>::value, "");
+static_assert( bksge::disjunction<F, F, F, F, F, F, T, F, F, F>::value, "");
+static_assert( bksge::disjunction<F, F, F, F, F, F, F, T, F, F>::value, "");
+static_assert( bksge::disjunction<F, F, F, F, F, F, F, F, T, F>::value, "");
+static_assert( bksge::disjunction<F, F, F, F, F, F, F, F, F, T>::value, "");
+static_assert(!bksge::disjunction<F, F, F, F, F, F, F, F, F, F>::value, "");
+
+static_assert(
+	bksge::disjunction<
+		// 0
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		// 100
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
 #if 0
-			// 200
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			// 300
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			// 400
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			// 500
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			// 600
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			// 700
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			// 800
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			// 900
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		// 200
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		// 300
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		// 400
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		// 500
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		// 600
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		// 700
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		// 800
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		// 900
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
 #endif
 
-			T
-		>::value, "");
+		T
+	>::value, "");
 
-	static_assert(
-		!bksge::disjunction<
-			// 0
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			// 100
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+static_assert(
+	!bksge::disjunction<
+		// 0
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		// 100
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
 #if 0
-			// 200
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			// 300
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			// 400
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			// 500
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			// 600
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			// 700
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			// 800
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			// 900
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-			F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		// 200
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		// 300
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		// 400
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		// 500
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		// 600
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		// 700
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		// 800
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		// 900
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+		F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
 #endif
 
-			F
-		>::value, "");
-}
+		F
+	>::value, "");
+
+}	// namespace disjunction_test
+
+}	// namespace bksge_type_traits_test

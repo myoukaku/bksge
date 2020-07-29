@@ -369,20 +369,6 @@ protected:
    wrap& operator=(const wrap&);
 };
 
-template <typename T, typename T::value_type b>
-void IntegralConstantTest()
-{
-	static_assert(T::value == b, "");
-
-#if defined(BKSGE_HAS_CXX11_CONSTEXPR)
-	static_assert(T() == b, "");
-	static_assert(T()() == b, "");
-#endif
-
-	EXPECT_EQ(b, T());
-	EXPECT_EQ(b, T()());
-}
-
 }	// namespace
 
 #define BKSGE_TRANSFORM_TEST_SUB(t, name, from_suffix, to_suffix)	\

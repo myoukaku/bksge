@@ -16,11 +16,15 @@ namespace bksge_type_traits_test
 namespace has_unique_object_representations_test
 {
 
+#define BKSGE_HAS_UNIQUE_OBJECT_REPRESENTATIONS_TEST_IMPL(b, T)	\
+	static_assert(bksge::has_unique_object_representations<T>::value == b, #T);	\
+	static_assert(bksge::has_unique_object_representations<T>()      == b, #T)
+
 #define BKSGE_HAS_UNIQUE_OBJECT_REPRESENTATIONS_TEST(b, T)	\
-	static_assert(bksge::has_unique_object_representations<               T>::value == b, #T);	\
-	static_assert(bksge::has_unique_object_representations<const          T>::value == b, #T);	\
-	static_assert(bksge::has_unique_object_representations<      volatile T>::value == b, #T);	\
-	static_assert(bksge::has_unique_object_representations<const volatile T>::value == b, #T)
+	BKSGE_HAS_UNIQUE_OBJECT_REPRESENTATIONS_TEST_IMPL(b,                T);	\
+	BKSGE_HAS_UNIQUE_OBJECT_REPRESENTATIONS_TEST_IMPL(b, const          T);	\
+	BKSGE_HAS_UNIQUE_OBJECT_REPRESENTATIONS_TEST_IMPL(b,       volatile T);	\
+	BKSGE_HAS_UNIQUE_OBJECT_REPRESENTATIONS_TEST_IMPL(b, const volatile T)
 
 class Empty
 {
@@ -57,30 +61,24 @@ struct B
 	int foo;
 };
 
-
-GTEST_TEST(TypeTraitsTest, HasUniqueObjectRepresentationsTest)
-{
 #if defined(BKSGE_HAS_CXX17_HAS_UNIQUE_OBJECT_REPRESENTATIONS)
 
-	IntegralConstantTest<bksge::has_unique_object_representations<NonEmptyUnion>, true>();
-	IntegralConstantTest<bksge::has_unique_object_representations<Empty>, false>();
+BKSGE_HAS_UNIQUE_OBJECT_REPRESENTATIONS_TEST(false, void);
+BKSGE_HAS_UNIQUE_OBJECT_REPRESENTATIONS_TEST(false, Empty);
+BKSGE_HAS_UNIQUE_OBJECT_REPRESENTATIONS_TEST(false, EmptyUnion);
+BKSGE_HAS_UNIQUE_OBJECT_REPRESENTATIONS_TEST(false, NotEmpty);
+BKSGE_HAS_UNIQUE_OBJECT_REPRESENTATIONS_TEST(false, bit_zero);
+BKSGE_HAS_UNIQUE_OBJECT_REPRESENTATIONS_TEST(false, Abstract);
+BKSGE_HAS_UNIQUE_OBJECT_REPRESENTATIONS_TEST(false, B);
 
-	BKSGE_HAS_UNIQUE_OBJECT_REPRESENTATIONS_TEST(false, void);
-	BKSGE_HAS_UNIQUE_OBJECT_REPRESENTATIONS_TEST(false, Empty);
-	BKSGE_HAS_UNIQUE_OBJECT_REPRESENTATIONS_TEST(false, EmptyUnion);
-	BKSGE_HAS_UNIQUE_OBJECT_REPRESENTATIONS_TEST(false, NotEmpty);
-	BKSGE_HAS_UNIQUE_OBJECT_REPRESENTATIONS_TEST(false, bit_zero);
-	BKSGE_HAS_UNIQUE_OBJECT_REPRESENTATIONS_TEST(false, Abstract);
-	BKSGE_HAS_UNIQUE_OBJECT_REPRESENTATIONS_TEST(false, B);
-
-	BKSGE_HAS_UNIQUE_OBJECT_REPRESENTATIONS_TEST(true, unsigned);
-	BKSGE_HAS_UNIQUE_OBJECT_REPRESENTATIONS_TEST(true, NonEmptyUnion);
-	BKSGE_HAS_UNIQUE_OBJECT_REPRESENTATIONS_TEST(true, char[3]);
-	BKSGE_HAS_UNIQUE_OBJECT_REPRESENTATIONS_TEST(true, char[]);
+BKSGE_HAS_UNIQUE_OBJECT_REPRESENTATIONS_TEST(true, unsigned);
+BKSGE_HAS_UNIQUE_OBJECT_REPRESENTATIONS_TEST(true, NonEmptyUnion);
+BKSGE_HAS_UNIQUE_OBJECT_REPRESENTATIONS_TEST(true, char[3]);
+BKSGE_HAS_UNIQUE_OBJECT_REPRESENTATIONS_TEST(true, char[]);
 
 #endif
-}
 
+#undef BKSGE_HAS_UNIQUE_OBJECT_REPRESENTATIONS_TEST_IMPL
 #undef BKSGE_HAS_UNIQUE_OBJECT_REPRESENTATIONS_TEST
 
 }	// namespace has_unique_object_representations_test

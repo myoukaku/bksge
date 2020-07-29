@@ -19,7 +19,8 @@ namespace is_aggregate_test
 {
 
 #define BKSGE_IS_AGGREGATE_TEST(b, T)	\
-	static_assert(bksge::is_aggregate<T>::value == b, #T)	\
+	static_assert(bksge::is_aggregate<T>::value == b, #T);	\
+	static_assert(bksge::is_aggregate<T>()      == b, #T)
 
 #define BKSGE_IS_AGGREGATE_TEST_CV(b, T)	\
 	BKSGE_IS_AGGREGATE_TEST(b,                T);	\
@@ -75,42 +76,36 @@ private:
 
 BKSGE_WARNING_POP()
 
-GTEST_TEST(TypeTraitsTest, IsAggregateTest)
-{
 #if defined(BKSGE_HAS_CXX17_IS_AGGREGATE)
 
-	IntegralConstantTest<bksge::is_aggregate<Aggregate1>, true>();
-	IntegralConstantTest<bksge::is_aggregate<HasCtor>,   false>();
-
-	BKSGE_IS_AGGREGATE_TEST_CV(true,  Aggregate1);
-	BKSGE_IS_AGGREGATE_TEST_CV(true,  Aggregate1[]);
-	BKSGE_IS_AGGREGATE_TEST_CV(true,  Aggregate1[2][3]);
-	BKSGE_IS_AGGREGATE_TEST_CV(false, Aggregate1&);
-	BKSGE_IS_AGGREGATE_TEST_CV(false, Aggregate1&&);
-	BKSGE_IS_AGGREGATE_TEST_CV(false, Aggregate1*);
-	BKSGE_IS_AGGREGATE_TEST   (false, void(Aggregate1::*)(int) const);
-	BKSGE_IS_AGGREGATE_TEST_CV(true,  Aggregate2);
-	BKSGE_IS_AGGREGATE_TEST_CV(true,  Aggregate2);
-	BKSGE_IS_AGGREGATE_TEST_CV(true,  Aggregate2[3]);
-	BKSGE_IS_AGGREGATE_TEST_CV(false, Aggregate2&);
-	BKSGE_IS_AGGREGATE_TEST_CV(false, Aggregate2&&);
-	BKSGE_IS_AGGREGATE_TEST_CV(false, Aggregate2*);
-	BKSGE_IS_AGGREGATE_TEST_CV(true,  Aggregate3);
-	BKSGE_IS_AGGREGATE_TEST_CV(false, HasCtor);
-	BKSGE_IS_AGGREGATE_TEST_CV(true,  HasCtor[3]);
-	BKSGE_IS_AGGREGATE_TEST_CV(false, HasPrivateMember);
-	BKSGE_IS_AGGREGATE_TEST_CV(false, int);
-	BKSGE_IS_AGGREGATE_TEST_CV(false, int*);
-	BKSGE_IS_AGGREGATE_TEST_CV(false, int&);
-	BKSGE_IS_AGGREGATE_TEST_CV(true,  int[3]);
-	BKSGE_IS_AGGREGATE_TEST_CV(false, void);
-	BKSGE_IS_AGGREGATE_TEST_CV(false, void*);
-	BKSGE_IS_AGGREGATE_TEST   (false, void());
-	using ArrayType = std::array<Aggregate1, 4>;
-	BKSGE_IS_AGGREGATE_TEST_CV(true,  ArrayType);
+BKSGE_IS_AGGREGATE_TEST_CV(true,  Aggregate1);
+BKSGE_IS_AGGREGATE_TEST_CV(true,  Aggregate1[]);
+BKSGE_IS_AGGREGATE_TEST_CV(true,  Aggregate1[2][3]);
+BKSGE_IS_AGGREGATE_TEST_CV(false, Aggregate1&);
+BKSGE_IS_AGGREGATE_TEST_CV(false, Aggregate1&&);
+BKSGE_IS_AGGREGATE_TEST_CV(false, Aggregate1*);
+BKSGE_IS_AGGREGATE_TEST   (false, void(Aggregate1::*)(int) const);
+BKSGE_IS_AGGREGATE_TEST_CV(true,  Aggregate2);
+BKSGE_IS_AGGREGATE_TEST_CV(true,  Aggregate2);
+BKSGE_IS_AGGREGATE_TEST_CV(true,  Aggregate2[3]);
+BKSGE_IS_AGGREGATE_TEST_CV(false, Aggregate2&);
+BKSGE_IS_AGGREGATE_TEST_CV(false, Aggregate2&&);
+BKSGE_IS_AGGREGATE_TEST_CV(false, Aggregate2*);
+BKSGE_IS_AGGREGATE_TEST_CV(true,  Aggregate3);
+BKSGE_IS_AGGREGATE_TEST_CV(false, HasCtor);
+BKSGE_IS_AGGREGATE_TEST_CV(true,  HasCtor[3]);
+BKSGE_IS_AGGREGATE_TEST_CV(false, HasPrivateMember);
+BKSGE_IS_AGGREGATE_TEST_CV(false, int);
+BKSGE_IS_AGGREGATE_TEST_CV(false, int*);
+BKSGE_IS_AGGREGATE_TEST_CV(false, int&);
+BKSGE_IS_AGGREGATE_TEST_CV(true,  int[3]);
+BKSGE_IS_AGGREGATE_TEST_CV(false, void);
+BKSGE_IS_AGGREGATE_TEST_CV(false, void*);
+BKSGE_IS_AGGREGATE_TEST   (false, void());
+using ArrayType = std::array<Aggregate1, 4>;
+BKSGE_IS_AGGREGATE_TEST_CV(true,  ArrayType);
 
 #endif
-}
 
 #undef BKSGE_IS_AGGREGATE_TEST
 #undef BKSGE_IS_AGGREGATE_TEST_CV

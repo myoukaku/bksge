@@ -11,7 +11,8 @@
 #include "type_traits_test_utility.hpp"
 
 #define BKSGE_IS_DESTRUCTIBLE_TEST(b, T)	\
-	static_assert(bksge::is_destructible<T>::value == b, #T)
+	static_assert(bksge::is_destructible<T>::value == b, #T);	\
+	static_assert(bksge::is_destructible<T>()      == b, #T)
 
 namespace bksge_type_traits_test
 {
@@ -66,84 +67,81 @@ struct S7
 
 BKSGE_WARNING_POP()
 
-GTEST_TEST(TypeTraitsTest, IsDestructibleTest)
-{
-	IntegralConstantTest<bksge::is_destructible<S1>, true>();
-	IntegralConstantTest<bksge::is_destructible<S2>, true>();
-	IntegralConstantTest<bksge::is_destructible<S3>, true>();
-	IntegralConstantTest<bksge::is_destructible<S4>, true>();
-	IntegralConstantTest<bksge::is_destructible<S5>, true>();
-	IntegralConstantTest<bksge::is_destructible<S6>, false>();
-	IntegralConstantTest<bksge::is_destructible<S7>, false>();
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  S1);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  S2);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  S3);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  S4);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  S5);
+BKSGE_IS_DESTRUCTIBLE_TEST(false, S6);
+BKSGE_IS_DESTRUCTIBLE_TEST(false, S7);
 
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,                 int);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  const          int);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,        volatile int);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  const volatile int);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  int*);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  int&);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  int&&);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  int[2]);
-	BKSGE_IS_DESTRUCTIBLE_TEST(false, int[]);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  int(&)[2]);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  int(&)[]);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  int(&&)[2]);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  int(&&)[]);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,                 int);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  const          int);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,        volatile int);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  const volatile int);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  int*);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  int&);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  int&&);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  int[2]);
+BKSGE_IS_DESTRUCTIBLE_TEST(false, int[]);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  int(&)[2]);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  int(&)[]);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  int(&&)[2]);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  int(&&)[]);
 
-	BKSGE_IS_DESTRUCTIBLE_TEST(false,                void);
-	BKSGE_IS_DESTRUCTIBLE_TEST(false, const          void);
-	BKSGE_IS_DESTRUCTIBLE_TEST(false,       volatile void);
-	BKSGE_IS_DESTRUCTIBLE_TEST(false, const volatile void);
+BKSGE_IS_DESTRUCTIBLE_TEST(false,                void);
+BKSGE_IS_DESTRUCTIBLE_TEST(false, const          void);
+BKSGE_IS_DESTRUCTIBLE_TEST(false,       volatile void);
+BKSGE_IS_DESTRUCTIBLE_TEST(false, const volatile void);
 
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,                 UDT);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  const          UDT);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,        volatile UDT);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  const volatile UDT);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  UDT*);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  UDT&);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  UDT&&);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  UDT[2]);
-	BKSGE_IS_DESTRUCTIBLE_TEST(false, UDT[]);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  UDT(&)[2]);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  UDT(&)[]);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  UDT(&&)[2]);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  UDT(&&)[]);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,                 UDT);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  const          UDT);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,        volatile UDT);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  const volatile UDT);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  UDT*);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  UDT&);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  UDT&&);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  UDT[2]);
+BKSGE_IS_DESTRUCTIBLE_TEST(false, UDT[]);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  UDT(&)[2]);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  UDT(&)[]);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  UDT(&&)[2]);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  UDT(&&)[]);
 
-	BKSGE_IS_DESTRUCTIBLE_TEST(false,                S6);
-	BKSGE_IS_DESTRUCTIBLE_TEST(false, const          S6);
-	BKSGE_IS_DESTRUCTIBLE_TEST(false,       volatile S6);
-	BKSGE_IS_DESTRUCTIBLE_TEST(false, const volatile S6);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  S6*);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  S6&);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  S6&&);
-	BKSGE_IS_DESTRUCTIBLE_TEST(false, S6[2]);
-	BKSGE_IS_DESTRUCTIBLE_TEST(false, S6[]);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  S6(&)[2]);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  S6(&)[]);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  S6(&&)[2]);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  S6(&&)[]);
+BKSGE_IS_DESTRUCTIBLE_TEST(false,                S6);
+BKSGE_IS_DESTRUCTIBLE_TEST(false, const          S6);
+BKSGE_IS_DESTRUCTIBLE_TEST(false,       volatile S6);
+BKSGE_IS_DESTRUCTIBLE_TEST(false, const volatile S6);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  S6*);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  S6&);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  S6&&);
+BKSGE_IS_DESTRUCTIBLE_TEST(false, S6[2]);
+BKSGE_IS_DESTRUCTIBLE_TEST(false, S6[]);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  S6(&)[2]);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  S6(&)[]);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  S6(&&)[2]);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  S6(&&)[]);
 
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  test_abc1);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  test_abc2);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  test_abc3);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  test_concrete1);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  test_concrete2);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  test_abc1);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  test_abc2);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  test_abc3);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  test_concrete1);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  test_concrete2);
 
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  f1);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  f2);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  f3);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  mf1);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  mf2);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  mf3);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  mf4);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  mp);
-	BKSGE_IS_DESTRUCTIBLE_TEST(true,  cmf);
-	BKSGE_IS_DESTRUCTIBLE_TEST(false, foo0_t);
-	BKSGE_IS_DESTRUCTIBLE_TEST(false, foo1_t);
-	BKSGE_IS_DESTRUCTIBLE_TEST(false, foo2_t);
-	BKSGE_IS_DESTRUCTIBLE_TEST(false, foo3_t);
-	BKSGE_IS_DESTRUCTIBLE_TEST(false, foo4_t);
-}
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  f1);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  f2);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  f3);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  mf1);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  mf2);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  mf3);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  mf4);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  mp);
+BKSGE_IS_DESTRUCTIBLE_TEST(true,  cmf);
+BKSGE_IS_DESTRUCTIBLE_TEST(false, foo0_t);
+BKSGE_IS_DESTRUCTIBLE_TEST(false, foo1_t);
+BKSGE_IS_DESTRUCTIBLE_TEST(false, foo2_t);
+BKSGE_IS_DESTRUCTIBLE_TEST(false, foo3_t);
+BKSGE_IS_DESTRUCTIBLE_TEST(false, foo4_t);
 
 }	// namespace is_destructible_test
 

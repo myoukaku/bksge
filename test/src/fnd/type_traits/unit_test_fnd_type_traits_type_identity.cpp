@@ -11,8 +11,6 @@
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
-GTEST_TEST(TypeTraitsTest, TypeIdentityTest)
-{
 #define BKSGE_TYPE_IDENTITY_TEST_IMPL(T)	\
 	static_assert(bksge::is_same<bksge::type_identity<T>::type, T>::value, "");	\
 	static_assert(bksge::is_same<bksge::type_identity_t<T>, T>::value, "");	\
@@ -36,15 +34,14 @@ GTEST_TEST(TypeTraitsTest, TypeIdentityTest)
 	BKSGE_TYPE_IDENTITY_TEST_IMPL_CV(T(&&)[2]);	\
 	/**/
 
-	BKSGE_TYPE_IDENTITY_TEST(int);
-	BKSGE_TYPE_IDENTITY_TEST(char);
-	BKSGE_TYPE_IDENTITY_TEST(float);
-	BKSGE_TYPE_IDENTITY_TEST(UDT);
-	BKSGE_TYPE_IDENTITY_TEST(enum_UDT);
-	BKSGE_TYPE_IDENTITY_TEST(void*);
-	BKSGE_TYPE_IDENTITY_TEST_IMPL_CV(void);
+BKSGE_TYPE_IDENTITY_TEST(int);
+BKSGE_TYPE_IDENTITY_TEST(char);
+BKSGE_TYPE_IDENTITY_TEST(float);
+BKSGE_TYPE_IDENTITY_TEST(UDT);
+BKSGE_TYPE_IDENTITY_TEST(enum_UDT);
+BKSGE_TYPE_IDENTITY_TEST(void*);
+BKSGE_TYPE_IDENTITY_TEST_IMPL_CV(void);
 
 #undef BKSGE_TYPE_IDENTITY_TEST_IMPL
 #undef BKSGE_TYPE_IDENTITY_TEST_IMPL_CV
 #undef BKSGE_TYPE_IDENTITY_TEST
-}
