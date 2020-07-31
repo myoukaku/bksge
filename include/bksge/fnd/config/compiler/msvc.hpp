@@ -175,7 +175,7 @@
 #  define BKSGE_HAS_CXX14_DEPRECATED						// [[deprecated]]属性
 #  define BKSGE_HAS_CXX14_SIZED_DEALLOCATION				// サイズ付きデアロケーション
 #  define BKSGE_HAS_CXX14_DIGIT_SEPARATORS					// 数値リテラルの桁区切り文字
-# if (BKSGE_CXX_STANDARD >= 14)
+# if (BKSGE_CXX_STANDARD >= 14)	// この 14 は間違いではない。(https://docs.microsoft.com/en-us/cpp/overview/visual-cpp-language-conformance?view=vs-2019#note_14)
 #  define BKSGE_HAS_CXX17_AUTO_DEDUCTION_BRACED_INIT_LIST	// 波括弧初期化の型推論の新規則
 #  define BKSGE_HAS_CXX17_TEMPLATE_TEMPLATE_TYPENAME		// テンプレートテンプレートパラメータにtypenameを許可
 #  define BKSGE_HAS_CXX17_ENUMERATOR_ATTRIBUTES				// 列挙子に属性の付加を許可
@@ -192,7 +192,8 @@
 
 // Visual Studio 2015 Update 2	(Visual C++ 14.0)
 #if (_MSC_FULL_VER >= 190023918)
-#  define BKSGE_HAS_CXX14_VARIABLE_TEMPLATES				// 変数テンプレート
+//#  define BKSGE_HAS_CXX14_VARIABLE_TEMPLATES				// 変数テンプレート
+// VS 2015.2 で Variable templates に対応したのだが、実際にはバグっていて VS 2019 まで使い物にならない
 #endif
 
 // Visual Studio 2015 Update 3	(Visual C++ 14.0)
@@ -394,6 +395,7 @@
 
 // Visual Studio 2019 (16.0.Prev(1-4)) (Visual C++ 14.20)
 #if (_MSC_FULL_VER >= 192027027)
+#  define BKSGE_HAS_CXX14_VARIABLE_TEMPLATES				// 変数テンプレート
 # if (BKSGE_CXX_STANDARD >= 20)
 #  define BKSGE_HAS_CXX20_THREE_WAY_COMPARISON		// 三方比較演算子
 # endif
