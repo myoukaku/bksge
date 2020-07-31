@@ -16,6 +16,7 @@
 #include <list>
 #include <string>
 #include <vector>
+#include "iterator_test.hpp"
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_BIDIRECTIONAL_ITERATOR_TEST(B, ...)	\
@@ -81,6 +82,18 @@ BKSGE_BIDIRECTIONAL_ITERATOR_TEST(true,  bksge::string_view::iterator);
 BKSGE_BIDIRECTIONAL_ITERATOR_TEST(true,  bksge::string_view::const_iterator);
 BKSGE_BIDIRECTIONAL_ITERATOR_TEST(true,  std::vector<int>::iterator);
 BKSGE_BIDIRECTIONAL_ITERATOR_TEST(true,  std::vector<A>::const_iterator);
+
+BKSGE_BIDIRECTIONAL_ITERATOR_TEST(false, weakly_incrementable_wrapper<int>);
+BKSGE_BIDIRECTIONAL_ITERATOR_TEST(false, incrementable_wrapper<int>);
+BKSGE_BIDIRECTIONAL_ITERATOR_TEST(false, indirectly_readable_wrapper<int>);
+BKSGE_BIDIRECTIONAL_ITERATOR_TEST(false, indirectly_writable_wrapper<int>);
+BKSGE_BIDIRECTIONAL_ITERATOR_TEST(false, input_or_output_iterator_wrapper<int>);
+BKSGE_BIDIRECTIONAL_ITERATOR_TEST(false, input_iterator_wrapper<int>);
+BKSGE_BIDIRECTIONAL_ITERATOR_TEST(false, output_iterator_wrapper<int>);
+BKSGE_BIDIRECTIONAL_ITERATOR_TEST(false, forward_iterator_wrapper<int>);
+BKSGE_BIDIRECTIONAL_ITERATOR_TEST(true,  bidirectional_iterator_wrapper<int>);
+BKSGE_BIDIRECTIONAL_ITERATOR_TEST(true,  random_access_iterator_wrapper<int>);
+BKSGE_BIDIRECTIONAL_ITERATOR_TEST(true,  contiguous_iterator_wrapper<int>);
 
 }	// namespace bidirectional_iterator_test
 

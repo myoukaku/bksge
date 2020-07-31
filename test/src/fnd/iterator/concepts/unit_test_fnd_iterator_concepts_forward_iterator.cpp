@@ -17,6 +17,7 @@
 #include <string>
 #include <vector>
 #include <streambuf>
+#include "iterator_test.hpp"
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_FORWARD_ITERATOR_TEST(B, ...)	\
@@ -84,6 +85,18 @@ BKSGE_FORWARD_ITERATOR_TEST(true,  std::vector<int>::iterator);
 BKSGE_FORWARD_ITERATOR_TEST(true,  std::vector<A>::const_iterator);
 BKSGE_FORWARD_ITERATOR_TEST(false, std::istreambuf_iterator<char>);
 BKSGE_FORWARD_ITERATOR_TEST(false, std::ostreambuf_iterator<char>);
+
+BKSGE_FORWARD_ITERATOR_TEST(false, weakly_incrementable_wrapper<int>);
+BKSGE_FORWARD_ITERATOR_TEST(false, incrementable_wrapper<int>);
+BKSGE_FORWARD_ITERATOR_TEST(false, indirectly_readable_wrapper<int>);
+BKSGE_FORWARD_ITERATOR_TEST(false, indirectly_writable_wrapper<int>);
+BKSGE_FORWARD_ITERATOR_TEST(false, input_or_output_iterator_wrapper<int>);
+BKSGE_FORWARD_ITERATOR_TEST(false, input_iterator_wrapper<int>);
+BKSGE_FORWARD_ITERATOR_TEST(false, output_iterator_wrapper<int>);
+BKSGE_FORWARD_ITERATOR_TEST(true,  forward_iterator_wrapper<int>);
+BKSGE_FORWARD_ITERATOR_TEST(true,  bidirectional_iterator_wrapper<int>);
+BKSGE_FORWARD_ITERATOR_TEST(true,  random_access_iterator_wrapper<int>);
+BKSGE_FORWARD_ITERATOR_TEST(true,  contiguous_iterator_wrapper<int>);
 
 }	// namespace forward_iterator_test
 

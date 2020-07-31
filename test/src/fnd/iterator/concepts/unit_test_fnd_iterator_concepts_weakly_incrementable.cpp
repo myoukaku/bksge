@@ -11,6 +11,7 @@
 #include <iterator>
 #include <memory>
 #include <vector>
+#include "iterator_test.hpp"
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_WEAKLY_INCREMENTABLE_TEST(B, ...)	\
@@ -115,6 +116,18 @@ BKSGE_WEAKLY_INCREMENTABLE_TEST(false, W);
 BKSGE_WEAKLY_INCREMENTABLE_TEST(false, W&);
 BKSGE_WEAKLY_INCREMENTABLE_TEST(false, W const);
 BKSGE_WEAKLY_INCREMENTABLE_TEST(false, W const&);
+
+BKSGE_WEAKLY_INCREMENTABLE_TEST(true,  weakly_incrementable_wrapper<int>);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(true,  incrementable_wrapper<int>);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(false, indirectly_readable_wrapper<int>);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(false, indirectly_writable_wrapper<int>);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(true,  input_or_output_iterator_wrapper<int>);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(true,  input_iterator_wrapper<int>);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(true,  output_iterator_wrapper<int>);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(true,  forward_iterator_wrapper<int>);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(true,  bidirectional_iterator_wrapper<int>);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(true,  random_access_iterator_wrapper<int>);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(true,  contiguous_iterator_wrapper<int>);
 
 }	// namespace weakly_incrementable_test
 

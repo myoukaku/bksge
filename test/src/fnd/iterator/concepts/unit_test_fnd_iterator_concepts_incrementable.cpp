@@ -11,6 +11,7 @@
 #include <iterator>
 #include <memory>
 #include <vector>
+#include "iterator_test.hpp"
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_INCREMENTABLE_TEST(B, ...)	\
@@ -82,6 +83,18 @@ BKSGE_INCREMENTABLE_TEST(true,  Y);
 BKSGE_INCREMENTABLE_TEST(false, Y&);
 BKSGE_INCREMENTABLE_TEST(false, Y const);
 BKSGE_INCREMENTABLE_TEST(false, Y const&);
+
+BKSGE_INCREMENTABLE_TEST(false, weakly_incrementable_wrapper<int>);
+BKSGE_INCREMENTABLE_TEST(true,  incrementable_wrapper<int>);
+BKSGE_INCREMENTABLE_TEST(false, indirectly_readable_wrapper<int>);
+BKSGE_INCREMENTABLE_TEST(false, indirectly_writable_wrapper<int>);
+BKSGE_INCREMENTABLE_TEST(false, input_or_output_iterator_wrapper<int>);
+BKSGE_INCREMENTABLE_TEST(false, input_iterator_wrapper<int>);
+BKSGE_INCREMENTABLE_TEST(false, output_iterator_wrapper<int>);
+BKSGE_INCREMENTABLE_TEST(true,  forward_iterator_wrapper<int>);
+BKSGE_INCREMENTABLE_TEST(true,  bidirectional_iterator_wrapper<int>);
+BKSGE_INCREMENTABLE_TEST(true,  random_access_iterator_wrapper<int>);
+BKSGE_INCREMENTABLE_TEST(true,  contiguous_iterator_wrapper<int>);
 
 }	// namespace incrementable_test
 

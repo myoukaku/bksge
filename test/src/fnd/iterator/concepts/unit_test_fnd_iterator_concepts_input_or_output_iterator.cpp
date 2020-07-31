@@ -11,6 +11,7 @@
 #include <iterator>
 #include <memory>
 #include <vector>
+#include "iterator_test.hpp"
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(B, ...)	\
@@ -88,6 +89,18 @@ BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(true,  Y);
 BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, Y&);
 BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, Y const);
 BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, Y const&);
+
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, weakly_incrementable_wrapper<int>);
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, incrementable_wrapper<int>);
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, indirectly_readable_wrapper<int>);
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, indirectly_writable_wrapper<int>);
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(true,  input_or_output_iterator_wrapper<int>);
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(true,  input_iterator_wrapper<int>);
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(true,  output_iterator_wrapper<int>);
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(true,  forward_iterator_wrapper<int>);
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(true,  bidirectional_iterator_wrapper<int>);
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(true,  random_access_iterator_wrapper<int>);
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(true,  contiguous_iterator_wrapper<int>);
 
 }	// namespace input_or_output_iterator_test
 

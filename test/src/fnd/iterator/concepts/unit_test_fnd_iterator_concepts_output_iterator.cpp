@@ -17,6 +17,7 @@
 #include <set>
 #include <string>
 #include <vector>
+#include "iterator_test.hpp"
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_OUTPUT_ITERATOR_TEST(B, ...)	\
@@ -94,6 +95,18 @@ BKSGE_OUTPUT_ITERATOR_TEST(true,  std::vector<int>::iterator, int);
 BKSGE_OUTPUT_ITERATOR_TEST(true,  std::vector<A>::iterator, A);
 BKSGE_OUTPUT_ITERATOR_TEST(false, std::vector<int>::const_iterator, int);
 BKSGE_OUTPUT_ITERATOR_TEST(false, std::vector<A>::const_iterator, A);
+
+BKSGE_OUTPUT_ITERATOR_TEST(false, weakly_incrementable_wrapper<int>,     int);
+BKSGE_OUTPUT_ITERATOR_TEST(false, incrementable_wrapper<int>,            int);
+BKSGE_OUTPUT_ITERATOR_TEST(false, indirectly_readable_wrapper<int>,      int);
+BKSGE_OUTPUT_ITERATOR_TEST(false, indirectly_writable_wrapper<int>,      int);
+BKSGE_OUTPUT_ITERATOR_TEST(false, input_or_output_iterator_wrapper<int>, int);
+BKSGE_OUTPUT_ITERATOR_TEST(false, input_iterator_wrapper<int>,           int);
+BKSGE_OUTPUT_ITERATOR_TEST(true,  output_iterator_wrapper<int>,          int);
+BKSGE_OUTPUT_ITERATOR_TEST(false, forward_iterator_wrapper<int>,         int);
+BKSGE_OUTPUT_ITERATOR_TEST(false, bidirectional_iterator_wrapper<int>,   int);
+BKSGE_OUTPUT_ITERATOR_TEST(false, random_access_iterator_wrapper<int>,   int);
+BKSGE_OUTPUT_ITERATOR_TEST(false, contiguous_iterator_wrapper<int>,      int);
 
 }	// namespace output_iterator_test
 

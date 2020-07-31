@@ -12,6 +12,7 @@
 #include <memory>
 #include <vector>
 #include <streambuf>
+#include "iterator_test.hpp"
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_INDIRECTLY_READABLE_TEST(B, ...)	\
@@ -96,6 +97,18 @@ BKSGE_INDIRECTLY_READABLE_TEST(true,  Z);
 BKSGE_INDIRECTLY_READABLE_TEST(true,  Z&);
 BKSGE_INDIRECTLY_READABLE_TEST(true,  Z const);
 BKSGE_INDIRECTLY_READABLE_TEST(true,  Z const&);
+
+BKSGE_INDIRECTLY_READABLE_TEST(false, weakly_incrementable_wrapper<int>);
+BKSGE_INDIRECTLY_READABLE_TEST(false, incrementable_wrapper<int>);
+BKSGE_INDIRECTLY_READABLE_TEST(true,  indirectly_readable_wrapper<int>);
+BKSGE_INDIRECTLY_READABLE_TEST(false, indirectly_writable_wrapper<int>);
+BKSGE_INDIRECTLY_READABLE_TEST(false, input_or_output_iterator_wrapper<int>);
+BKSGE_INDIRECTLY_READABLE_TEST(true,  input_iterator_wrapper<int>);
+BKSGE_INDIRECTLY_READABLE_TEST(false, output_iterator_wrapper<int>);
+BKSGE_INDIRECTLY_READABLE_TEST(true,  forward_iterator_wrapper<int>);
+BKSGE_INDIRECTLY_READABLE_TEST(true,  bidirectional_iterator_wrapper<int>);
+BKSGE_INDIRECTLY_READABLE_TEST(true,  random_access_iterator_wrapper<int>);
+BKSGE_INDIRECTLY_READABLE_TEST(true,  contiguous_iterator_wrapper<int>);
 
 }	// namespace indirectly_readable_test
 

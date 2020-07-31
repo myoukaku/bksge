@@ -11,6 +11,7 @@
 #include <iterator>
 #include <memory>
 #include <vector>
+#include "iterator_test.hpp"
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_INDIRECTLY_WRITABLE_TEST(B, ...)	\
@@ -74,6 +75,18 @@ BKSGE_INDIRECTLY_WRITABLE_TEST(false, Y,        int);
 BKSGE_INDIRECTLY_WRITABLE_TEST(false, Y&,       int);
 BKSGE_INDIRECTLY_WRITABLE_TEST(false, Y const,  int);
 BKSGE_INDIRECTLY_WRITABLE_TEST(false, Y const&, int);
+
+BKSGE_INDIRECTLY_WRITABLE_TEST(false, weakly_incrementable_wrapper<int>,     int);
+BKSGE_INDIRECTLY_WRITABLE_TEST(false, incrementable_wrapper<int>,            int);
+BKSGE_INDIRECTLY_WRITABLE_TEST(false, indirectly_readable_wrapper<int>,      int);
+BKSGE_INDIRECTLY_WRITABLE_TEST(true,  indirectly_writable_wrapper<int>,      int);
+BKSGE_INDIRECTLY_WRITABLE_TEST(false, input_or_output_iterator_wrapper<int>, int);
+BKSGE_INDIRECTLY_WRITABLE_TEST(false, input_iterator_wrapper<int>,           int);
+BKSGE_INDIRECTLY_WRITABLE_TEST(true,  output_iterator_wrapper<int>,          int);
+BKSGE_INDIRECTLY_WRITABLE_TEST(false, forward_iterator_wrapper<int>,         int);
+BKSGE_INDIRECTLY_WRITABLE_TEST(false, bidirectional_iterator_wrapper<int>,   int);
+BKSGE_INDIRECTLY_WRITABLE_TEST(false, random_access_iterator_wrapper<int>,   int);
+BKSGE_INDIRECTLY_WRITABLE_TEST(false, contiguous_iterator_wrapper<int>,      int);
 
 }	// namespace indirectly_writable_test
 
