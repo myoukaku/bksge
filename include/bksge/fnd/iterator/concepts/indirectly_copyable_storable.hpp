@@ -35,22 +35,22 @@ concept indirectly_copyable_storable =
 	bksge::constructible_from<bksge::iter_value_t<In>, bksge::iter_reference_t<In>> &&
 	bksge::assignable_from<bksge::iter_value_t<In>&, bksge::iter_reference_t<In>>;
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename In, typename Out>
-struct indirectly_copyable_storable_t_impl
+struct indirectly_copyable_storable_impl
 {
 private:
 	template <typename I, typename O>
 	static auto test(int) -> bksge::conjunction<
-		bksge::indirectly_copyable_t<I, O>,
-		bksge::indirectly_writable_t<O, bksge::iter_value_t<I>&>,
-		bksge::indirectly_writable_t<O, bksge::iter_value_t<I> const&>,
-		bksge::indirectly_writable_t<O, bksge::iter_value_t<I>&&>,
-		bksge::indirectly_writable_t<O, bksge::iter_value_t<I> const&&>,
+		bksge::indirectly_copyable<I, O>,
+		bksge::indirectly_writable<O, bksge::iter_value_t<I>&>,
+		bksge::indirectly_writable<O, bksge::iter_value_t<I> const&>,
+		bksge::indirectly_writable<O, bksge::iter_value_t<I>&&>,
+		bksge::indirectly_writable<O, bksge::iter_value_t<I> const&&>,
 		bksge::copyable_t<bksge::iter_value_t<I>>,
 		bksge::constructible_from_t<bksge::iter_value_t<I>, bksge::iter_reference_t<I>>,
 		bksge::assignable_from_t<bksge::iter_value_t<I>&, bksge::iter_reference_t<I>>
@@ -66,8 +66,10 @@ public:
 }	// namespace detail
 
 template <typename In, typename Out>
-using indirectly_copyable_storable_t =
-	typename detail::indirectly_copyable_storable_t_impl<In, Out>::type;
+using indirectly_copyable_storable =
+	typename detail::indirectly_copyable_storable_impl<In, Out>::type;
+
+#endif
 
 }	// namespace bksge
 

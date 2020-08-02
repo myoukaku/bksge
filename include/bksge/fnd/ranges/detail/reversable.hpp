@@ -45,7 +45,7 @@ struct reversable_impl
 private:
 	template <typename U>
 	static auto test(int) -> bksge::conjunction<
-		bksge::bidirectional_iterator_t<
+		bksge::bidirectional_iterator<
 			decltype(ranges::begin(bksge::declval<U&>()))
 		>,
 		bksge::same_as_t<

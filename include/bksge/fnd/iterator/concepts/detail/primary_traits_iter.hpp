@@ -25,11 +25,13 @@ template <typename Iter>
 concept primary_traits_iter =
 	!bksge::is_pointer<Iter>::value;	// TODO
 
-#endif
+#else
 
 template <typename Iter>
-struct primary_traits_iter_t
+struct primary_traits_iter
 	: public bksge::negation<bksge::is_pointer<Iter>> {};
+
+#endif
 
 }	// namespace detail
 

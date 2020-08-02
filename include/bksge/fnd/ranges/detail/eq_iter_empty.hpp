@@ -44,7 +44,7 @@ private:
 	static auto test(int) ->
 		decltype(
 			bool(ranges::begin(bksge::declval<U&&>()) == ranges::end(bksge::declval<U&&>())),
-			bksge::forward_iterator_t<decltype(ranges::begin(bksge::declval<U&&>()))>{}
+			bksge::forward_iterator<decltype(ranges::begin(bksge::declval<U&&>()))>{}
 		);
 
 	template <typename U>

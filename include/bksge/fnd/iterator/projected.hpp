@@ -29,8 +29,8 @@ template <
 	typename I,
 	typename Proj,
 	typename = bksge::enable_if_t<
-		bksge::indirectly_readable_t<I>::value &&
-		bksge::indirectly_regular_unary_invocable_t<Proj, I>::value
+		bksge::indirectly_readable<I>::value &&
+		bksge::indirectly_regular_unary_invocable<Proj, I>::value
 	>
 #endif
 >

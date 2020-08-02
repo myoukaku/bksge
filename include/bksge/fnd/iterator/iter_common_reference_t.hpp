@@ -24,7 +24,7 @@ template <
 	bksge::indirectly_readable T
 #else
 	typename T,
-	typename = bksge::enable_if_t<bksge::indirectly_readable_t<T>::value>
+	typename = bksge::enable_if_t<bksge::indirectly_readable<T>::value>
 #endif
 >
 using iter_common_reference_t =

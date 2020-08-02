@@ -22,7 +22,7 @@ template <
 	detail::dereferenceable I
 #else
 	typename I,
-	typename = bksge::enable_if_t<detail::dereferenceable_t<I>::value>
+	typename = bksge::enable_if_t<detail::dereferenceable<I>::value>
 #endif
 >
 using iter_reference_t = decltype(*bksge::declval<I&>());

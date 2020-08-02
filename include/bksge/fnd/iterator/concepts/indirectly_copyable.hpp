@@ -25,19 +25,19 @@ concept indirectly_copyable =
 	bksge::indirectly_readable<In> &&
 	bksge::indirectly_writable<Out, bksge::iter_reference_t<In>>;
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename In, typename Out>
-struct indirectly_copyable_t_impl
+struct indirectly_copyable_impl
 {
 private:
 	template <typename I, typename O>
 	static auto test(int) -> bksge::conjunction<
-		bksge::indirectly_readable_t<I>,
-		bksge::indirectly_writable_t<O, bksge::iter_reference_t<I>>
+		bksge::indirectly_readable<I>,
+		bksge::indirectly_writable<O, bksge::iter_reference_t<I>>
 	>;
 
 	template <typename I, typename O>
@@ -50,8 +50,10 @@ public:
 }	// namespace detail
 
 template <typename In, typename Out>
-using indirectly_copyable_t =
-	typename detail::indirectly_copyable_t_impl<In, Out>::type;
+using indirectly_copyable =
+	typename detail::indirectly_copyable_impl<In, Out>::type;
+
+#endif
 
 }	// namespace bksge
 

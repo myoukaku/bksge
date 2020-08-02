@@ -27,21 +27,21 @@ concept output_iterator =
 	bksge::indirectly_writable<Iter, T> &&
 	requires(Iter i, T&& t) { *i++ = bksge::forward<T>(t); };
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename Iter, typename T>
-struct output_iterator_t_impl
+struct output_iterator_impl
 {
 private:
 	template <typename I2, typename T2,
 		typename = decltype(*bksge::declval<I2&>()++ = bksge::declval<T2&&>())
 	>
 	static auto test(int) -> bksge::conjunction<
-		bksge::input_or_output_iterator_t<I2>,
-		bksge::indirectly_writable_t<I2, T2>
+		bksge::input_or_output_iterator<I2>,
+		bksge::indirectly_writable<I2, T2>
 	>;
 
 	template <typename I2, typename T2>
@@ -54,8 +54,10 @@ public:
 }	// namespace detail
 
 template <typename Iter, typename T>
-using output_iterator_t =
-	typename detail::output_iterator_t_impl<Iter, T>::type;
+using output_iterator =
+	typename detail::output_iterator_impl<Iter, T>::type;
+
+#endif
 
 }	// namespace bksge
 

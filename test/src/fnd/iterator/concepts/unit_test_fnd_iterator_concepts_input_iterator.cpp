@@ -21,11 +21,10 @@
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_INPUT_ITERATOR_TEST(B, ...)	\
-	static_assert(B == bksge::input_iterator<__VA_ARGS__>, "input_iterator");	\
-	static_assert(B == bksge::input_iterator_t<__VA_ARGS__>::value, "input_iterator_t")
+	static_assert(B == bksge::input_iterator<__VA_ARGS__>, "")
 #else
 #  define BKSGE_INPUT_ITERATOR_TEST(B, ...)	\
-	static_assert(B == bksge::input_iterator_t<__VA_ARGS__>::value, "input_iterator_t")
+	static_assert(B == bksge::input_iterator<__VA_ARGS__>::value, "")
 #endif
 
 namespace bksge_iterator_test

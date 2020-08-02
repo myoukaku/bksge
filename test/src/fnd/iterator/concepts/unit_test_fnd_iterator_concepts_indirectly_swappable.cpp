@@ -14,11 +14,10 @@
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_INDIRECTLY_SWAPPABLE_TEST(B, ...)	\
-	static_assert(B == bksge::indirectly_swappable<__VA_ARGS__>, "bksge::indirectly_swappable");	\
-	static_assert(B == bksge::indirectly_swappable_t<__VA_ARGS__>::value, "bksge::indirectly_swappable_t")
+	static_assert(B == bksge::indirectly_swappable<__VA_ARGS__>, "")
 #else
 #  define BKSGE_INDIRECTLY_SWAPPABLE_TEST(B, ...)	\
-	static_assert(B == bksge::indirectly_swappable_t<__VA_ARGS__>::value, " ")
+	static_assert(B == bksge::indirectly_swappable<__VA_ARGS__>::value, "")
 #endif
 
 namespace bksge_iterator_test

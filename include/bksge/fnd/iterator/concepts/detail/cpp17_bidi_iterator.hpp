@@ -35,18 +35,18 @@ concept cpp17_bidi_iterator =
 		{ *it-- } -> bksge::same_as<bksge::iter_reference_t<Iter>>;
 	};
 
-#endif
+#else
 
-namespace cpp17_bidi_iterator_t_detail
+namespace cpp17_bidi_iterator_detail
 {
 
 template <typename Iter>
-struct cpp17_bidi_iterator_t_impl
+struct cpp17_bidi_iterator_impl
 {
 private:
 	template <typename I2>
 	static auto test(int) -> bksge::conjunction<
-		cpp17_fwd_iterator_t<I2>,
+		cpp17_fwd_iterator<I2>,
 		bksge::same_as_t       <decltype(--bksge::declval<I2&>()),   I2&>,
 		bksge::convertible_to_t<decltype(  bksge::declval<I2&>()--), I2 const&>,
 		bksge::same_as_t       <decltype( *bksge::declval<I2&>()--), bksge::iter_reference_t<I2>>
@@ -59,11 +59,13 @@ public:
 	using type = decltype(test<Iter>(0));
 };
 
-}	// namespace cpp17_bidi_iterator_t_detail
+}	// namespace cpp17_bidi_iterator_detail
 
 template <typename Iter>
-using cpp17_bidi_iterator_t =
-	typename cpp17_bidi_iterator_t_detail::cpp17_bidi_iterator_t_impl<Iter>::type;
+using cpp17_bidi_iterator =
+	typename cpp17_bidi_iterator_detail::cpp17_bidi_iterator_impl<Iter>::type;
+
+#endif
 
 }	// namespace detail
 

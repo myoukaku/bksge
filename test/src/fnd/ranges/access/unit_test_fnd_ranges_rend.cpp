@@ -94,7 +94,11 @@ BKSGE_CXX14_CONSTEXPR bool test02()
 
 	auto i1 = bksge::ranges::rbegin(r);
 	auto i2 = rend(r);
-	static_assert(bksge::sentinel_for_t<decltype(i2), decltype(i1)>::value, "");
+#if defined(BKSGE_HAS_CXX20_CONCEPTS)
+	static_assert(bksge::sentinel_for<decltype(i2), decltype(i1)>, "");
+#else
+	static_assert(bksge::sentinel_for<decltype(i2), decltype(i1)>::value, "");
+#endif
 
 #if !(defined(BKSGE_GCC_VERSION) && (BKSGE_GCC_VERSION < 90000))
 	static_assert(!noexcept(bksge::ranges::rend(bksge::declval<R2&>())), "");

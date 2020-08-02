@@ -37,7 +37,7 @@ private:
 	template <typename U>
 	static auto test(int) -> bksge::conjunction<
 		ranges::forward_range<U>,
-		bksge::bidirectional_iterator_t<ranges::iterator_t<U>>
+		bksge::bidirectional_iterator<ranges::iterator_t<U>>
 	>;
 
 	template <typename U>

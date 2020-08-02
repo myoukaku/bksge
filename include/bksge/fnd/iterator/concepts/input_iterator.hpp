@@ -29,19 +29,19 @@ concept input_iterator =
 	requires { typename bksge::detail::iter_concept<Iter>; } &&
 	bksge::derived_from<bksge::detail::iter_concept<Iter>, bksge::input_iterator_tag>;
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename Iter>
-struct input_iterator_t_impl
+struct input_iterator_impl
 {
 private:
 	template <typename I2>
 	static auto test(int) -> bksge::conjunction<
-		bksge::input_or_output_iterator_t<I2>,
-		bksge::indirectly_readable_t<I2>,
+		bksge::input_or_output_iterator<I2>,
+		bksge::indirectly_readable<I2>,
 		bksge::derived_from_t<bksge::detail::iter_concept<I2>, bksge::input_iterator_tag>
 	>;
 
@@ -55,8 +55,10 @@ public:
 }	// namespace detail
 
 template <typename Iter>
-using input_iterator_t =
-	typename detail::input_iterator_t_impl<Iter>::type;
+using input_iterator =
+	typename detail::input_iterator_impl<Iter>::type;
+
+#endif
 
 }	// namespace bksge
 

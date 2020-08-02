@@ -24,10 +24,12 @@ namespace detail
 template <typename Iter>
 concept iter_without_nested_types = !iter_with_nested_types<Iter>;
 
-#endif
+#else
 
 template <typename Iter>
-using iter_without_nested_types_t = bksge::negation<iter_with_nested_types_t<Iter>>;
+using iter_without_nested_types = bksge::negation<iter_with_nested_types<Iter>>;
+
+#endif
 
 }	// namespace detail
 

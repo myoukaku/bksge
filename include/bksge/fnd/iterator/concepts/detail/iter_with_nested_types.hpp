@@ -30,13 +30,13 @@ concept iter_with_nested_types =
 		typename Iter::reference;
 	};
 
-#endif
+#else
 
 namespace iter_with_nested_types_detail
 {
 
 template <typename Iter>
-struct iter_with_nested_types_t_impl
+struct iter_with_nested_types_impl
 {
 private:
 	template <typename I2,
@@ -57,8 +57,10 @@ public:
 }	// namespace iter_with_nested_types_detail
 
 template <typename Iter>
-using iter_with_nested_types_t =
-	typename iter_with_nested_types_detail::iter_with_nested_types_t_impl<Iter>::type;
+using iter_with_nested_types =
+	typename iter_with_nested_types_detail::iter_with_nested_types_impl<Iter>::type;
+
+#endif
 
 }	// namespace detail
 

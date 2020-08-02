@@ -26,19 +26,19 @@ concept input_or_output_iterator =
 	requires(Iter i) { { *i } -> bksge::detail::can_reference; } &&
 	bksge::weakly_incrementable<Iter>;
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename Iter>
-struct input_or_output_iterator_t_impl
+struct input_or_output_iterator_impl
 {
 private:
 	template <typename I2, typename = bksge::enable_if_t<!bksge::detail::is_void_pointer<I2>::value>>
 	static auto test(int) -> bksge::conjunction<
-		bksge::detail::can_reference_t<decltype(*bksge::declval<I2&>())>,
-		bksge::weakly_incrementable_t<I2>
+		bksge::detail::can_reference<decltype(*bksge::declval<I2&>())>,
+		bksge::weakly_incrementable<I2>
 	>;
 
 	template <typename I2>
@@ -51,8 +51,10 @@ public:
 }	// namespace detail
 
 template <typename Iter>
-using input_or_output_iterator_t =
-	typename detail::input_or_output_iterator_t_impl<Iter>::type;
+using input_or_output_iterator =
+	typename detail::input_or_output_iterator_impl<Iter>::type;
+
+#endif
 
 }	// namespace bksge
 

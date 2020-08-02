@@ -17,7 +17,13 @@
 namespace
 {
 
-template <typename Iterator, bool = bksge::random_access_iterator_t<Iterator>::value>
+template <typename Iterator,
+#if defined(BKSGE_HAS_CXX20_CONCEPTS)
+	bool = bksge::random_access_iterator<Iterator>
+#else
+	bool = bksge::random_access_iterator<Iterator>::value
+#endif
+>
 struct test_sentinel
 {
 	Iterator m_it;

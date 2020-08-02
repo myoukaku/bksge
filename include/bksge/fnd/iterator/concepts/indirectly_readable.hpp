@@ -47,13 +47,13 @@ template <typename In>
 concept indirectly_readable =
 	detail::indirectly_readable_impl<bksge::remove_cvref_t<In>>;
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename In>
-struct indirectly_readable_t_impl
+struct indirectly_readable_impl
 {
 private:
 	template <typename U,
@@ -79,8 +79,10 @@ public:
 }	// namespace detail
 
 template <typename In>
-using indirectly_readable_t =
-	typename detail::indirectly_readable_t_impl<bksge::remove_cvref_t<In>>::type;
+using indirectly_readable =
+	typename detail::indirectly_readable_impl<bksge::remove_cvref_t<In>>::type;
+
+#endif
 
 }	// namespace bksge
 

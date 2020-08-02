@@ -32,14 +32,14 @@ concept dereferenceable =
 		{ *t } -> can_reference;
 	};
 
-#endif
+#else
 
 template <typename T>
-struct dereferenceable_t_impl
+struct dereferenceable_impl
 {
 private:
 	template <typename U, typename = bksge::enable_if_t<!bksge::detail::is_void_pointer<U>::value>>
-	static auto test(int) -> detail::can_reference_t<decltype(*bksge::declval<U>())>;
+	static auto test(int) -> detail::can_reference<decltype(*bksge::declval<U>())>;
 
 	template <typename U>
 	static auto test(...) -> bksge::false_type;
@@ -49,9 +49,11 @@ public:
 };
 
 template <typename T>
-struct dereferenceable_t
-	: public detail::dereferenceable_t_impl<T>::type
+struct dereferenceable
+	: public detail::dereferenceable_impl<T>::type
 {};
+
+#endif
 
 }	// namespace detail
 

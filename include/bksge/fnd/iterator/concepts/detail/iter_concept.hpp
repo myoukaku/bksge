@@ -79,7 +79,7 @@ struct iter_concept_impl<Iter
 	, bksge::enable_if_t<
 		!has_iterator_concept<detail::iter_traits<Iter>>::value &&
 		!has_iterator_category<detail::iter_traits<Iter>>::value &&
-		detail::primary_traits_iter_t<Iter>::value
+		detail::primary_traits_iter<Iter>::value
 	>
 #endif
 >

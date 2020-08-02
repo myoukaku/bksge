@@ -26,19 +26,19 @@ concept sentinel_for =
 	bksge::input_or_output_iterator<Iter> &&
 	bksge::detail::weakly_eq_cmp_with<Sent, Iter>;
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename Sent, typename Iter>
-struct sentinel_for_t_impl
+struct sentinel_for_impl
 {
 private:
 	template <typename S2, typename I2>
 	static auto test(int) -> bksge::conjunction<
 		bksge::semiregular_t<Sent>,
-		bksge::input_or_output_iterator_t<Iter>,
+		bksge::input_or_output_iterator<Iter>,
 		bksge::detail::weakly_eq_cmp_with_t<Sent, Iter>
 	>;
 
@@ -52,8 +52,10 @@ public:
 }	// namespace detail
 
 template <typename Sent, typename Iter>
-using sentinel_for_t =
-	typename detail::sentinel_for_t_impl<Sent, Iter>::type;
+using sentinel_for =
+	typename detail::sentinel_for_impl<Sent, Iter>::type;
+
+#endif
 
 }	// namespace bksge
 

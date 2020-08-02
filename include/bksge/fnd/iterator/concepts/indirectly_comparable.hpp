@@ -29,17 +29,17 @@ template <
 concept indirectly_comparable =
 	bksge::indirect_binary_predicate<Rel, bksge::projected<I1, P1>, bksge::projected<I2, P2>>;
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename I1, typename I2, typename Rel, typename P1, typename P2>
-struct indirectly_comparable_t_impl
+struct indirectly_comparable_impl
 {
 private:
 	template <typename J1, typename J2, typename R2, typename Q1, typename Q2>
-	static auto test(int) -> bksge::indirect_binary_predicate_t<
+	static auto test(int) -> bksge::indirect_binary_predicate<
 		R2, bksge::projected<J1, Q1>, bksge::projected<J2, Q2>>;
 
 	template <typename J1, typename J2, typename R2, typename Q1, typename Q2>
@@ -58,8 +58,10 @@ template <
 	typename P1 = bksge::identity,
 	typename P2 = bksge::identity
 >
-using indirectly_comparable_t =
-	typename detail::indirectly_comparable_t_impl<I1, I2, Rel, P1, P2>::type;
+using indirectly_comparable =
+	typename detail::indirectly_comparable_impl<I1, I2, Rel, P1, P2>::type;
+
+#endif
 
 }	// namespace bksge
 

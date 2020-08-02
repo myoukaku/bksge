@@ -33,7 +33,7 @@ requires detail::primary_traits_iter<Iter>
 #endif
 struct iter_traits_impl<Iter, T
 #if !defined(BKSGE_HAS_CXX20_CONCEPTS)
-	, bksge::enable_if_t<detail::primary_traits_iter_t<Iter>::value>
+	, bksge::enable_if_t<detail::primary_traits_iter<Iter>::value>
 #endif
 >
 {

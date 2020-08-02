@@ -81,8 +81,8 @@ private:
 	template <typename I1, typename I2
 #if !defined(BKSGE_HAS_CXX20_CONCEPTS)
 		, typename = bksge::enable_if_t<
-			bksge::indirectly_readable_t<I1>::value &&
-			bksge::indirectly_readable_t<I2>::value &&
+			bksge::indirectly_readable<I1>::value &&
+			bksge::indirectly_readable<I2>::value &&
 			bksge::swappable_with_t<bksge::iter_reference_t<I1>, bksge::iter_reference_t<I2>>::value
 		>
 #endif
@@ -100,8 +100,8 @@ private:
 	template <typename I1, typename I2
 #if !defined(BKSGE_HAS_CXX20_CONCEPTS)
 		, typename = bksge::enable_if_t<
-			bksge::indirectly_movable_storable_t<I1, I2>::value &&
-			bksge::indirectly_movable_storable_t<I2, I1>::value
+			bksge::indirectly_movable_storable<I1, I2>::value &&
+			bksge::indirectly_movable_storable<I2, I1>::value
 		>
 #endif
 	>

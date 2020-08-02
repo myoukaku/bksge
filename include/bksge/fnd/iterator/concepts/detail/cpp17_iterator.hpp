@@ -35,20 +35,20 @@ concept cpp17_iterator =
 	} &&
 	bksge::copyable<Iter>;
 
-#endif
+#else
 
-namespace cpp17_iterator_t_detail
+namespace cpp17_iterator_detail
 {
 
 template <typename Iter>
-struct cpp17_iterator_t_impl
+struct cpp17_iterator_impl
 {
 private:
 	template <typename I2>
 	static auto test(int) -> bksge::conjunction<
-		bksge::detail::can_reference_t<decltype( *bksge::declval<I2&>())>,
-		bksge::same_as_t              <decltype(++bksge::declval<I2&>()), I2&>,
-		bksge::detail::can_reference_t<decltype( *bksge::declval<I2&>()++)>,
+		bksge::detail::can_reference<decltype( *bksge::declval<I2&>())>,
+		bksge::same_as_t            <decltype(++bksge::declval<I2&>()), I2&>,
+		bksge::detail::can_reference<decltype( *bksge::declval<I2&>()++)>,
 		bksge::copyable_t<I2>
 	>;
 
@@ -59,11 +59,13 @@ public:
 	using type = decltype(test<Iter>(0));
 };
 
-}	// namespace cpp17_iterator_t_detail
+}	// namespace cpp17_iterator_detail
 
 template <typename Iter>
-using cpp17_iterator_t =
-	typename cpp17_iterator_t_detail::cpp17_iterator_t_impl<Iter>::type;
+using cpp17_iterator =
+	typename cpp17_iterator_detail::cpp17_iterator_impl<Iter>::type;
+
+#endif
 
 }	// namespace detail
 

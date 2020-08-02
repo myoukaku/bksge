@@ -54,7 +54,7 @@ private:
 	template <typename U>
 	static auto test(int) -> bksge::conjunction<
 		bksge::detail::class_or_enum_t<bksge::remove_reference_t<T>>,
-		bksge::input_or_output_iterator_t<
+		bksge::input_or_output_iterator<
 			decltype(decay_copy(begin(bksge::declval<U&>())))
 		>
 	>;

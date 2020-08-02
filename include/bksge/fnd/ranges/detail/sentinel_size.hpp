@@ -48,8 +48,8 @@ struct sentinel_size_impl
 private:
 	template <typename U>
 	static auto test(int) -> bksge::conjunction<
-		bksge::forward_iterator_t<decltype(ranges::begin(bksge::declval<U&&>()))>,
-		bksge::sized_sentinel_for_t<
+		bksge::forward_iterator<decltype(ranges::begin(bksge::declval<U&&>()))>,
+		bksge::sized_sentinel_for<
 			decltype(ranges::end(bksge::declval<U&&>())),
 			decltype(ranges::begin(bksge::declval<U&&>()))
 		>

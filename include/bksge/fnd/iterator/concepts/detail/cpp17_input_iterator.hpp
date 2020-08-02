@@ -48,13 +48,13 @@ concept cpp17_input_iterator =
 		requires bksge::signed_integral<typename bksge::incrementable_traits<Iter>::difference_type>;
 	};
 
-#endif
+#else
 
-namespace cpp17_input_iterator_t_detail
+namespace cpp17_input_iterator_detail
 {
 
 template <typename Iter>
-struct cpp17_input_iterator_t_impl
+struct cpp17_input_iterator_impl
 {
 private:
 	template <typename I2,
@@ -73,14 +73,16 @@ public:
 	using type = decltype(test<Iter>(0));
 };
 
-}	// namespace cpp17_input_iterator_t_detail
+}	// namespace cpp17_input_iterator_detail
 
 template <typename Iter>
-using cpp17_input_iterator_t = bksge::conjunction<
-	cpp17_iterator_t<Iter>,
+using cpp17_input_iterator = bksge::conjunction<
+	cpp17_iterator<Iter>,
 	bksge::equality_comparable_t<Iter>,
-	typename cpp17_input_iterator_t_detail::cpp17_input_iterator_t_impl<Iter>::type
+	typename cpp17_input_iterator_detail::cpp17_input_iterator_impl<Iter>::type
 >;
+
+#endif
 
 }	// namespace detail
 

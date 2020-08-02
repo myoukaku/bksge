@@ -40,7 +40,7 @@ struct begin_data_impl
 {
 private:
 	template <typename U>
-	static auto test(int) -> bksge::contiguous_iterator_t<
+	static auto test(int) -> bksge::contiguous_iterator<
 		decltype(ranges::begin(bksge::declval<U>()))
 	>;
 

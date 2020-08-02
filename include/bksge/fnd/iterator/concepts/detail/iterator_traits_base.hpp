@@ -32,20 +32,18 @@ namespace bksge
 namespace detail
 {
 
-#define USE_CONCEPTS	0
-
-template <typename T> struct always_false { static const bool value = false; };
+//template <typename T> struct always_false { static const bool value = false; };
 
 template <typename Iterator, typename = void>
 struct iterator_traits_base {};
 
 template <typename Iterator>
-#if USE_CONCEPTS
+#if defined(BKSGE_HAS_CXX20_CONCEPTS)
 requires bksge::detail::iter_with_nested_types<Iterator>
 #endif
 struct iterator_traits_base<Iterator
-#if !USE_CONCEPTS
-	, bksge::enable_if_t<bksge::detail::iter_with_nested_types_t<Iterator>::value>
+#if !defined(BKSGE_HAS_CXX20_CONCEPTS)
+	, bksge::enable_if_t<bksge::detail::iter_with_nested_types<Iterator>::value>
 #endif
 >
 {
@@ -60,11 +58,11 @@ private:
 	};
 
 	template <typename Iter>
-#if USE_CONCEPTS
+#if defined(BKSGE_HAS_CXX20_CONCEPTS)
 	requires requires { typename Iter::pointer; }
 #endif
 	struct ptr<Iter
-#if !USE_CONCEPTS
+#if !defined(BKSGE_HAS_CXX20_CONCEPTS)
 		, bksge::void_t<typename Iter::pointer>
 #endif
 	>
@@ -82,16 +80,16 @@ public:
 };
 
 template <typename Iterator>
-#if USE_CONCEPTS
+#if defined(BKSGE_HAS_CXX20_CONCEPTS)
 requires
 	bksge::detail::iter_without_nested_types<Iterator> &&
 	bksge::detail::cpp17_input_iterator<Iterator>
 #endif
 struct iterator_traits_base<Iterator
-#if !USE_CONCEPTS
+#if !defined(BKSGE_HAS_CXX20_CONCEPTS)
 	, bksge::enable_if_t<
-		bksge::detail::iter_without_nested_types_t<Iterator>::value &&
-		bksge::detail::cpp17_input_iterator_t<Iterator>::value
+		bksge::detail::iter_without_nested_types<Iterator>::value &&
+		bksge::detail::cpp17_input_iterator<Iterator>::value
 	>
 #endif
 >
@@ -107,11 +105,11 @@ private:
 	};
 
 	template <typename Iter>
-#if USE_CONCEPTS
+#if defined(BKSGE_HAS_CXX20_CONCEPTS)
 	requires requires { typename Iter::iterator_category; }
 #endif
 	struct cat<Iter
-#if !USE_CONCEPTS
+#if !defined(BKSGE_HAS_CXX20_CONCEPTS)
 		, bksge::enable_if_t<bksge::detail::has_iterator_category<Iter>::value>
 #endif
 	>
@@ -121,17 +119,17 @@ private:
 	};
 
 	template <typename Iter>
-#if USE_CONCEPTS
+#if defined(BKSGE_HAS_CXX20_CONCEPTS)
 	requires (
 		!requires { typename Iter::iterator_category; } &&
 		bksge::detail::cpp17_randacc_iterator<Iter>
 	)
 #endif
 	struct cat<Iter
-#if !USE_CONCEPTS
+#if !defined(BKSGE_HAS_CXX20_CONCEPTS)
 		, bksge::enable_if_t<
 			!bksge::detail::has_iterator_category<Iter>::value &&
-			bksge::detail::cpp17_randacc_iterator_t<Iter>::value
+			bksge::detail::cpp17_randacc_iterator<Iter>::value
 		>
 #endif
 	>
@@ -141,7 +139,7 @@ private:
 	};
 
 	template <typename Iter>
-#if USE_CONCEPTS
+#if defined(BKSGE_HAS_CXX20_CONCEPTS)
 	requires (
 		!requires { typename Iter::iterator_category; } &&
 		!bksge::detail::cpp17_randacc_iterator<Iter> &&
@@ -149,11 +147,11 @@ private:
 	)
 #endif
 	struct cat<Iter
-#if !USE_CONCEPTS
+#if !defined(BKSGE_HAS_CXX20_CONCEPTS)
 		, bksge::enable_if_t<
 			!bksge::detail::has_iterator_category<Iter>::value &&
-			!bksge::detail::cpp17_randacc_iterator_t<Iter>::value &&
-			bksge::detail::cpp17_bidi_iterator_t<Iter>::value
+			!bksge::detail::cpp17_randacc_iterator<Iter>::value &&
+			bksge::detail::cpp17_bidi_iterator<Iter>::value
 		>
 #endif
 	>
@@ -163,7 +161,7 @@ private:
 	};
 
 	template <typename Iter>
-#if USE_CONCEPTS
+#if defined(BKSGE_HAS_CXX20_CONCEPTS)
 	requires (
 		!requires { typename Iter::iterator_category; } &&
 		!bksge::detail::cpp17_bidi_iterator<Iter> &&
@@ -171,11 +169,11 @@ private:
 	)
 #endif
 	struct cat<Iter
-#if !USE_CONCEPTS
+#if !defined(BKSGE_HAS_CXX20_CONCEPTS)
 		, bksge::enable_if_t<
 			!bksge::detail::has_iterator_category<Iter>::value &&
-			!bksge::detail::cpp17_bidi_iterator_t<Iter>::value &&
-			bksge::detail::cpp17_fwd_iterator_t<Iter>::value
+			!bksge::detail::cpp17_bidi_iterator<Iter>::value &&
+			bksge::detail::cpp17_fwd_iterator<Iter>::value
 		>
 #endif
 	>
@@ -192,11 +190,11 @@ private:
 	};
 
 	template <typename Iter>
-#if USE_CONCEPTS
+#if defined(BKSGE_HAS_CXX20_CONCEPTS)
 	requires requires { typename Iter::pointer; }
 #endif
 	struct ptr<Iter
-#if !USE_CONCEPTS
+#if !defined(BKSGE_HAS_CXX20_CONCEPTS)
 		, bksge::enable_if_t<
 			bksge::detail::has_pointer<Iter>::value
 		>
@@ -208,14 +206,14 @@ private:
 	};
 
 	template <typename Iter>
-#if USE_CONCEPTS
+#if defined(BKSGE_HAS_CXX20_CONCEPTS)
 	requires (
 		!requires { typename Iter::pointer; } &&
 		requires(Iter& it) { it.operator->(); }
 	)
 #endif
 	struct ptr<Iter
-#if !USE_CONCEPTS
+#if !defined(BKSGE_HAS_CXX20_CONCEPTS)
 		, bksge::enable_if_t<
 			!bksge::detail::has_pointer<Iter>::value
 		>,
@@ -235,11 +233,11 @@ private:
 	};
 
 	template <typename Iter>
-#if USE_CONCEPTS
+#if defined(BKSGE_HAS_CXX20_CONCEPTS)
 	requires requires { typename Iter::reference; }
 #endif
 	struct ref<Iter
-#if !USE_CONCEPTS
+#if !defined(BKSGE_HAS_CXX20_CONCEPTS)
 		, bksge::void_t<typename Iter::reference>
 #endif
 	>
@@ -257,17 +255,17 @@ public:
 };
 
 template <typename Iterator>
-#if USE_CONCEPTS
+#if defined(BKSGE_HAS_CXX20_CONCEPTS)
 requires
 	bksge::detail::iter_without_nested_types<Iterator> &&
 	bksge::detail::cpp17_iterator<Iterator>
 #endif
 struct iterator_traits_base<Iterator
-#if !USE_CONCEPTS
+#if !defined(BKSGE_HAS_CXX20_CONCEPTS)
 	, bksge::enable_if_t<
-		bksge::detail::iter_without_nested_types_t<Iterator>::value &&
-		!bksge::detail::cpp17_input_iterator_t<Iterator>::value &&
-		bksge::detail::cpp17_iterator_t<Iterator>::value
+		bksge::detail::iter_without_nested_types<Iterator>::value &&
+		!bksge::detail::cpp17_input_iterator<Iterator>::value &&
+		bksge::detail::cpp17_iterator<Iterator>::value
 	>
 #endif
 >
@@ -283,11 +281,11 @@ private:
 	};
 
 	template <typename Iter>
-#if USE_CONCEPTS
+#if defined(BKSGE_HAS_CXX20_CONCEPTS)
 	requires requires { typename bksge::incrementable_traits<Iter>::difference_type; }
 #endif
 	struct diff<Iter
-#if !USE_CONCEPTS
+#if !defined(BKSGE_HAS_CXX20_CONCEPTS)
 		, bksge::void_t<typename bksge::incrementable_traits<Iter>::difference_type>
 #endif
 	>

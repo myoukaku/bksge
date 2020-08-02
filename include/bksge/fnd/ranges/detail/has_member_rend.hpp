@@ -42,7 +42,7 @@ struct has_member_rend_impl
 private:
 	template <typename U>
 	static auto test(int)
-		-> bksge::sentinel_for_t<
+		-> bksge::sentinel_for<
 			decltype(decay_copy(bksge::declval<U&>().rend())),
 			decltype(ranges::rbegin(bksge::declval<U&>()))
 		>;

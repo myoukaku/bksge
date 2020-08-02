@@ -16,11 +16,10 @@
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_INDIRECTLY_READABLE_TEST(B, ...)	\
-	static_assert(B == bksge::indirectly_readable<__VA_ARGS__>, "indirectly_readable");	\
-	static_assert(B == bksge::indirectly_readable_t<__VA_ARGS__>::value, "indirectly_readable_t")
+	static_assert(B == bksge::indirectly_readable<__VA_ARGS__>, "")
 #else
 #  define BKSGE_INDIRECTLY_READABLE_TEST(B, ...)	\
-	static_assert(B == bksge::indirectly_readable_t<__VA_ARGS__>::value, "indirectly_readable_t")
+	static_assert(B == bksge::indirectly_readable<__VA_ARGS__>::value, "")
 #endif
 
 namespace bksge_iterator_test

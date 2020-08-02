@@ -30,19 +30,19 @@ concept sortable =
 	bksge::permutable<Iter> &&
 	bksge::indirect_strict_weak_order<Rel, bksge::projected<Iter, Proj>>;
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename Iter, typename Rel, typename Proj>
-struct sortable_t_impl
+struct sortable_impl
 {
 private:
 	template <typename I, typename R, typename P>
 	static auto test(int) -> bksge::conjunction<
-		bksge::permutable_t<I>,
-		bksge::indirect_strict_weak_order_t<R, bksge::projected<I, P>>
+		bksge::permutable<I>,
+		bksge::indirect_strict_weak_order<R, bksge::projected<I, P>>
 	>;
 
 	template <typename I, typename R, typename P>
@@ -59,8 +59,10 @@ template <
 	typename Rel = bksge::ranges::less,
 	typename Proj = bksge::identity
 >
-using sortable_t =
-	typename detail::sortable_t_impl<Iter, Rel, Proj>::type;
+using sortable =
+	typename detail::sortable_impl<Iter, Rel, Proj>::type;
+
+#endif
 
 }	// namespace bksge
 

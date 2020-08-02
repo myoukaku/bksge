@@ -32,19 +32,19 @@ concept indirect_equivalence_relation =
 	bksge::equivalence_relation<F&, bksge::iter_reference_t<I1>, bksge::iter_reference_t<I2>> &&
 	bksge::equivalence_relation<F&, bksge::iter_common_reference_t<I1>, bksge::iter_common_reference_t<I2>>;
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename F, typename I1, typename I2>
-struct indirect_equivalence_relation_t_impl
+struct indirect_equivalence_relation_impl
 {
 private:
 	template <typename F2, typename J1, typename J2>
 	static auto test(int) -> bksge::conjunction<
-		bksge::indirectly_readable_t<J1>,
-		bksge::indirectly_readable_t<J2>,
+		bksge::indirectly_readable<J1>,
+		bksge::indirectly_readable<J2>,
 		bksge::copy_constructible_t<F2>,
 		bksge::equivalence_relation_t<F2&, bksge::iter_value_t<J1>&, bksge::iter_value_t<J2>&>,
 		bksge::equivalence_relation_t<F2&, bksge::iter_value_t<J1>&, bksge::iter_reference_t<J2>>,
@@ -63,8 +63,10 @@ public:
 }	// namespace detail
 
 template <typename F, typename I1, typename I2 = I1>
-using indirect_equivalence_relation_t =
-	typename detail::indirect_equivalence_relation_t_impl<F, I1, I2>::type;
+using indirect_equivalence_relation =
+	typename detail::indirect_equivalence_relation_impl<F, I1, I2>::type;
+
+#endif
 
 }	// namespace bksge
 

@@ -31,18 +31,18 @@ concept indirect_unary_predicate =
 	bksge::predicate<F&, bksge::iter_reference_t<I>> &&
 	bksge::predicate<F&, bksge::iter_common_reference_t<I>>;
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename F, typename I>
-struct indirect_unary_predicate_t_impl
+struct indirect_unary_predicate_impl
 {
 private:
 	template <typename F2, typename I2>
 	static auto test(int) -> bksge::conjunction<
-		bksge::indirectly_readable_t<I2>,
+		bksge::indirectly_readable<I2>,
 		bksge::copy_constructible_t<F2>,
 		bksge::predicate_t<F2&, bksge::iter_value_t<I2>&>,
 		bksge::predicate_t<F2&, bksge::iter_reference_t<I2>>,
@@ -59,8 +59,10 @@ public:
 }	// namespace detail
 
 template <typename F, typename I>
-using indirect_unary_predicate_t =
-	typename detail::indirect_unary_predicate_t_impl<F, I>::type;
+using indirect_unary_predicate =
+	typename detail::indirect_unary_predicate_impl<F, I>::type;
+
+#endif
 
 }	// namespace bksge
 

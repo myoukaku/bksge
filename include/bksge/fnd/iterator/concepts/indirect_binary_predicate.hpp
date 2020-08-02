@@ -34,19 +34,19 @@ concept indirect_binary_predicate =
 	bksge::predicate<F&, bksge::iter_reference_t<I1>, bksge::iter_reference_t<I2>> &&
 	bksge::predicate<F&, bksge::iter_common_reference_t<I1>, bksge::iter_common_reference_t<I2>>;
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename F, typename I1, typename I2>
-struct indirect_binary_predicate_t_impl
+struct indirect_binary_predicate_impl
 {
 private:
 	template <typename F2, typename J1, typename J2>
 	static auto test(int) -> bksge::conjunction<
-		bksge::indirectly_readable_t<J1>,
-		bksge::indirectly_readable_t<J2>,
+		bksge::indirectly_readable<J1>,
+		bksge::indirectly_readable<J2>,
 		bksge::copy_constructible_t<F2>,
 		bksge::predicate_t<F2&, bksge::iter_value_t<J1>&, bksge::iter_value_t<J2>&>,
 		bksge::predicate_t<F2&, bksge::iter_value_t<J1>&, bksge::iter_reference_t<J2>>,
@@ -65,8 +65,10 @@ public:
 }	// namespace detail
 
 template <typename F, typename I1, typename I2>
-using indirect_binary_predicate_t =
-	typename detail::indirect_binary_predicate_t_impl<F, I1, I2>::type;
+using indirect_binary_predicate =
+	typename detail::indirect_binary_predicate_impl<F, I1, I2>::type;
+
+#endif
 
 }	// namespace bksge
 

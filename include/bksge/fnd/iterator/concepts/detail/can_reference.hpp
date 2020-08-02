@@ -26,10 +26,10 @@ using with_ref = T&;
 template <typename T>
 concept can_reference = requires { typename with_ref<T>; };
 
-#endif
+#else
 
 template <typename T>
-struct can_reference_t_impl
+struct can_reference_impl
 {
 private:
 	template <typename U, typename = with_ref<U>>
@@ -43,9 +43,11 @@ public:
 };
 
 template <typename T>
-struct can_reference_t
-	: public detail::can_reference_t_impl<T>::type
+struct can_reference
+	: public detail::can_reference_impl<T>::type
 {};
+
+#endif
 
 }	// namespace detail
 

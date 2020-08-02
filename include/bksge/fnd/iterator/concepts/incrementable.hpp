@@ -27,19 +27,19 @@ concept incrementable =
 	bksge::weakly_incrementable<Iter> &&
 	requires(Iter i) { { i++ } -> bksge::same_as<Iter>; };
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename Iter>
-struct incrementable_t_impl
+struct incrementable_impl
 {
 private:
 	template <typename I2>
 	static auto test(int) -> bksge::conjunction<
 		bksge::regular_t<I2>,
-		bksge::weakly_incrementable_t<I2>,
+		bksge::weakly_incrementable<I2>,
 		bksge::same_as_t<decltype(bksge::declval<I2&>()++), I2>
 	>;
 
@@ -53,8 +53,10 @@ public:
 }	// namespace detail
 
 template <typename Iter>
-using incrementable_t =
-	typename detail::incrementable_t_impl<Iter>::type;
+using incrementable =
+	typename detail::incrementable_impl<Iter>::type;
+
+#endif
 
 }	// namespace bksge
 

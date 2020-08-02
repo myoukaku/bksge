@@ -33,18 +33,18 @@ concept bidirectional_iterator =
 		{ i-- } -> bksge::same_as<Iter>;
 	};
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename Iter>
-struct bidirectional_iterator_t_impl
+struct bidirectional_iterator_impl
 {
 private:
 	template <typename I2>
 	static auto test(int) -> bksge::conjunction<
-		bksge::forward_iterator_t<I2>,
+		bksge::forward_iterator<I2>,
 		bksge::derived_from_t<bksge::detail::iter_concept<I2>, bksge::bidirectional_iterator_tag>,
 		bksge::same_as_t<decltype(--bksge::declval<I2&>()),   I2&>,
 		bksge::same_as_t<decltype(  bksge::declval<I2&>()--), I2>
@@ -60,8 +60,10 @@ public:
 }	// namespace detail
 
 template <typename Iter>
-using bidirectional_iterator_t =
-	typename detail::bidirectional_iterator_t_impl<Iter>::type;
+using bidirectional_iterator =
+	typename detail::bidirectional_iterator_impl<Iter>::type;
+
+#endif
 
 }	// namespace bksge
 

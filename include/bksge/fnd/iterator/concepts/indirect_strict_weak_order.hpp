@@ -34,19 +34,19 @@ concept indirect_strict_weak_order =
 	bksge::strict_weak_order<F&, bksge::iter_reference_t<I1>, bksge::iter_reference_t<I2>> &&
 	bksge::strict_weak_order<F&, bksge::iter_common_reference_t<I1>, bksge::iter_common_reference_t<I2>>;
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename F, typename I1, typename I2>
-struct indirect_strict_weak_order_t_impl
+struct indirect_strict_weak_order_impl
 {
 private:
 	template <typename F2, typename J1, typename J2>
 	static auto test(int) -> bksge::conjunction<
-		bksge::indirectly_readable_t<J1>,
-		bksge::indirectly_readable_t<J2>,
+		bksge::indirectly_readable<J1>,
+		bksge::indirectly_readable<J2>,
 		bksge::copy_constructible_t<F2>,
 		bksge::strict_weak_order_t<F2&, bksge::iter_value_t<J1>&, bksge::iter_value_t<J2>&>,
 		bksge::strict_weak_order_t<F2&, bksge::iter_value_t<J1>&, bksge::iter_reference_t<J2>>,
@@ -65,8 +65,10 @@ public:
 }	// namespace detail
 
 template <typename F, typename I1, typename I2 = I1>
-using indirect_strict_weak_order_t =
-	typename detail::indirect_strict_weak_order_t_impl<F, I1, I2>::type;
+using indirect_strict_weak_order =
+	typename detail::indirect_strict_weak_order_impl<F, I1, I2>::type;
+
+#endif
 
 }	// namespace bksge
 

@@ -29,13 +29,13 @@ concept indirectly_writable =
 		const_cast<const bksge::iter_reference_t<Out>&&>(*bksge::forward<Out>(o)) = bksge::forward<T>(t);
 	};
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename Out, typename T>
-struct indirectly_writable_t_impl
+struct indirectly_writable_impl
 {
 private:
 	template <typename Out2, typename T2,
@@ -57,8 +57,10 @@ public:
 }	// namespace detail
 
 template <typename Out, typename T>
-using indirectly_writable_t =
-	typename detail::indirectly_writable_t_impl<Out, T>::type;
+using indirectly_writable =
+	typename detail::indirectly_writable_impl<Out, T>::type;
+
+#endif
 
 }	// namespace bksge
 

@@ -18,11 +18,10 @@
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_CONTIGUOUS_ITERATOR_TEST(B, ...)	\
-	static_assert(B == bksge::contiguous_iterator<__VA_ARGS__>, "contiguous_iterator");	\
-	static_assert(B == bksge::contiguous_iterator_t<__VA_ARGS__>::value, "contiguous_iterator_t")
+	static_assert(B == bksge::contiguous_iterator<__VA_ARGS__>, "")
 #else
 #  define BKSGE_CONTIGUOUS_ITERATOR_TEST(B, ...)	\
-	static_assert(B == bksge::contiguous_iterator_t<__VA_ARGS__>::value, "contiguous_iterator_t")
+	static_assert(B == bksge::contiguous_iterator<__VA_ARGS__>::value, "")
 #endif
 
 namespace bksge_iterator_test

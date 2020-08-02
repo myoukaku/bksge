@@ -15,11 +15,10 @@
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_WEAKLY_INCREMENTABLE_TEST(B, ...)	\
-	static_assert(B == bksge::weakly_incrementable<__VA_ARGS__>, " ");	\
-	static_assert(B == bksge::weakly_incrementable_t<__VA_ARGS__>::value, " ")
+	static_assert(B == bksge::weakly_incrementable<__VA_ARGS__>, "")
 #else
 #  define BKSGE_WEAKLY_INCREMENTABLE_TEST(B, ...)	\
-	static_assert(B == bksge::weakly_incrementable_t<__VA_ARGS__>::value, " ")
+	static_assert(B == bksge::weakly_incrementable<__VA_ARGS__>::value, "")
 #endif
 
 namespace bksge_iterator_test

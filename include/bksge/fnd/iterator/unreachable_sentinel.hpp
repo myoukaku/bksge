@@ -23,7 +23,7 @@ struct unreachable_sentinel_t
 		bksge::weakly_incrementable It
 #else
 		typename It,
-		typename = bksge::enable_if_t<bksge::weakly_incrementable_t<It>::value>
+		typename = bksge::enable_if_t<bksge::weakly_incrementable<It>::value>
 #endif
 	>
 	friend BKSGE_CONSTEXPR bool

@@ -44,18 +44,18 @@ concept cpp17_fwd_iterator =
 		{ *it++ } -> bksge::same_as<bksge::iter_reference_t<Iter>>;
 	};
 
-#endif
+#else
 
-namespace cpp17_fwd_iterator_t_detail
+namespace cpp17_fwd_iterator_detail
 {
 
 template <typename Iter>
-struct cpp17_fwd_iterator_t_impl
+struct cpp17_fwd_iterator_impl
 {
 private:
 	template <typename I2>
 	static auto test(int) -> bksge::conjunction<
-		cpp17_input_iterator_t<I2>,
+		cpp17_input_iterator<I2>,
 		bksge::constructible_from_t<I2>,
 		bksge::is_lvalue_reference<bksge::iter_reference_t<I2>>,
 		bksge::same_as_t<
@@ -73,11 +73,13 @@ public:
 	using type = decltype(test<Iter>(0));
 };
 
-}	// namespace cpp17_fwd_iterator_t_detail
+}	// namespace cpp17_fwd_iterator_detail
 
 template <typename Iter>
-using cpp17_fwd_iterator_t =
-	typename cpp17_fwd_iterator_t_detail::cpp17_fwd_iterator_t_impl<Iter>::type;
+using cpp17_fwd_iterator =
+	typename cpp17_fwd_iterator_detail::cpp17_fwd_iterator_impl<Iter>::type;
+
+#endif
 
 }	// namespace detail
 

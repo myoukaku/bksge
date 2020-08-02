@@ -30,21 +30,21 @@ concept forward_iterator =
 	bksge::incrementable<Iter> &&
 	bksge::sentinel_for<Iter, Iter>;
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename Iter>
-struct forward_iterator_t_impl
+struct forward_iterator_impl
 {
 private:
 	template <typename I2>
 	static auto test(int) -> bksge::conjunction<
-		bksge::input_iterator_t<I2>,
+		bksge::input_iterator<I2>,
 		bksge::derived_from_t<bksge::detail::iter_concept<I2>, bksge::forward_iterator_tag>,
-		bksge::incrementable_t<I2>,
-		bksge::sentinel_for_t<I2, I2>
+		bksge::incrementable<I2>,
+		bksge::sentinel_for<I2, I2>
 	>;
 
 	template <typename I2>
@@ -57,8 +57,10 @@ public:
 }	// namespace detail
 
 template <typename Iter>
-using forward_iterator_t =
-	typename detail::forward_iterator_t_impl<Iter>::type;
+using forward_iterator =
+	typename detail::forward_iterator_impl<Iter>::type;
+
+#endif
 
 }	// namespace bksge
 

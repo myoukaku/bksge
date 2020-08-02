@@ -35,13 +35,13 @@ concept sized_sentinel_for =
 		{ i - s } -> bksge::same_as<bksge::iter_difference_t<Iter>>;
 	};
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename Sent, typename Iter>
-struct sized_sentinel_for_t_impl
+struct sized_sentinel_for_impl
 {
 private:
 	template <typename S2, typename I2,
@@ -56,7 +56,7 @@ private:
 		>
 	>
 	static auto test(int) -> bksge::conjunction<
-		bksge::sentinel_for_t<S2, I2>,
+		bksge::sentinel_for<S2, I2>,
 		bksge::same_as_t<D1, bksge::iter_difference_t<I2>>,
 		bksge::same_as_t<D2, bksge::iter_difference_t<I2>>
 	>;
@@ -71,8 +71,10 @@ public:
 }	// namespace detail
 
 template <typename Sent, typename Iter>
-using sized_sentinel_for_t =
-	typename detail::sized_sentinel_for_t_impl<Sent, Iter>::type;
+using sized_sentinel_for =
+	typename detail::sized_sentinel_for_impl<Sent, Iter>::type;
+
+#endif
 
 }	// namespace bksge
 

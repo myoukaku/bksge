@@ -33,20 +33,20 @@ concept indirectly_swappable =
 		bksge::ranges::iter_swap(i2, i1);
 	};
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename I1, typename I2>
-struct indirectly_swappable_t_impl
+struct indirectly_swappable_impl
 {
 private:
 	template <typename J1, typename J2,
 		typename = bksge::enable_if_t<
 			bksge::conjunction<
-				bksge::indirectly_readable_t<J1>,
-				bksge::indirectly_readable_t<J2>
+				bksge::indirectly_readable<J1>,
+				bksge::indirectly_readable<J2>
 			>::value
 		>
 	>
@@ -68,8 +68,10 @@ public:
 }	// namespace detail
 
 template <typename I1, typename I2 = I1>
-using indirectly_swappable_t =
-	typename detail::indirectly_swappable_t_impl<I1, I2>::type;
+using indirectly_swappable =
+	typename detail::indirectly_swappable_impl<I1, I2>::type;
+
+#endif
 
 }	// namespace bksge
 

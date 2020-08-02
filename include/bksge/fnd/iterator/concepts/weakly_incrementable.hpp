@@ -34,20 +34,20 @@ concept weakly_incrementable =
 		i++;
 	};
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename Iter>
-struct weakly_incrementable_t_impl
+struct weakly_incrementable_impl
 {
 private:
 	template <typename I2, typename = decltype(bksge::declval<I2&>()++)>
 	static auto test(int) -> bksge::conjunction<
 		bksge::default_initializable_t<I2>,
 		bksge::movable_t<I2>,
-		bksge::detail::is_signed_integer_like_t<bksge::iter_difference_t<I2>>,
+		bksge::detail::is_signed_integer_like<bksge::iter_difference_t<I2>>,
 		bksge::same_as_t<decltype(++bksge::declval<I2&>()), I2&>
 	>;
 
@@ -61,8 +61,10 @@ public:
 }	// namespace detail
 
 template <typename Iter>
-using weakly_incrementable_t =
-	typename detail::weakly_incrementable_t_impl<Iter>::type;
+using weakly_incrementable =
+	typename detail::weakly_incrementable_impl<Iter>::type;
+
+#endif
 
 }	// namespace bksge
 

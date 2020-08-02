@@ -26,20 +26,20 @@ concept permutable =
 	bksge::indirectly_movable_storable<Iter, Iter> &&
 	bksge::indirectly_swappable<Iter, Iter>;
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename Iter>
-struct permutable_t_impl
+struct permutable_impl
 {
 private:
 	template <typename I2>
 	static auto test(int) -> bksge::conjunction<
-		bksge::forward_iterator_t<I2>,
-		bksge::indirectly_movable_storable_t<I2, I2>,
-		bksge::indirectly_swappable_t<I2, I2>
+		bksge::forward_iterator<I2>,
+		bksge::indirectly_movable_storable<I2, I2>,
+		bksge::indirectly_swappable<I2, I2>
 	>;
 
 	template <typename I2>
@@ -52,8 +52,10 @@ public:
 }	// namespace detail
 
 template <typename Iter>
-using permutable_t =
-	typename detail::permutable_t_impl<Iter>::type;
+using permutable =
+	typename detail::permutable_impl<Iter>::type;
+
+#endif
 
 }	// namespace bksge
 

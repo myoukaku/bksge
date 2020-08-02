@@ -42,20 +42,20 @@ concept cpp17_randacc_iterator =
 		{  it[n]  } -> bksge::convertible_to<bksge::iter_reference_t<Iter>>;
 	};
 
-#endif
+#else
 
-namespace cpp17_randacc_iterator_t_detail
+namespace cpp17_randacc_iterator_detail
 {
 
 template <typename Iter>
-struct cpp17_randacc_iterator_t_impl
+struct cpp17_randacc_iterator_impl
 {
 private:
 	template <typename I2,
 		typename D = typename bksge::incrementable_traits<I2>::difference_type
 	>
 	static auto test(int) -> bksge::conjunction<
-		cpp17_bidi_iterator_t<I2>,
+		cpp17_bidi_iterator<I2>,
 		bksge::totally_ordered_t<I2>,
 		bksge::same_as_t<decltype(bksge::declval<I2&>() += bksge::declval<D&>()), I2&>,
 		bksge::same_as_t<decltype(bksge::declval<I2&>() -= bksge::declval<D&>()), I2&>,
@@ -73,11 +73,13 @@ public:
 	using type = decltype(test<Iter>(0));
 };
 
-}	// namespace cpp17_randacc_iterator_t_detail
+}	// namespace cpp17_randacc_iterator_detail
 
 template <typename Iter>
-using cpp17_randacc_iterator_t =
-	typename cpp17_randacc_iterator_t_detail::cpp17_randacc_iterator_t_impl<Iter>::type;
+using cpp17_randacc_iterator =
+	typename cpp17_randacc_iterator_detail::cpp17_randacc_iterator_impl<Iter>::type;
+
+#endif
 
 }	// namespace detail
 

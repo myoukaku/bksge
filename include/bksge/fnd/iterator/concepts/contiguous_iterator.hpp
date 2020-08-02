@@ -42,13 +42,13 @@ concept contiguous_iterator =
 		{ bksge::to_address(i) } -> bksge::same_as<bksge::add_pointer_t<bksge::iter_reference_t<Iter>>>;
 	};
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename Iter>
-struct contiguous_iterator_t_impl
+struct contiguous_iterator_impl
 {
 private:
 	template <typename I2,
@@ -61,7 +61,7 @@ private:
 		>
 	>
 	static auto test(int) -> bksge::conjunction<
-		bksge::random_access_iterator_t<I2>,
+		bksge::random_access_iterator<I2>,
 		bksge::is_lvalue_reference<R>,
 		bksge::same_as_t<bksge::iter_value_t<I2>, bksge::remove_cvref_t<R>>,
 		bksge::same_as_t<
@@ -80,8 +80,10 @@ public:
 }	// namespace detail
 
 template <typename Iter>
-using contiguous_iterator_t =
-	typename detail::contiguous_iterator_t_impl<Iter>::type;
+using contiguous_iterator =
+	typename detail::contiguous_iterator_impl<Iter>::type;
+
+#endif
 
 }	// namespace bksge
 

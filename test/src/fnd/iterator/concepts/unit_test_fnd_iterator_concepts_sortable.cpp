@@ -21,11 +21,10 @@
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_SORTABLE_TEST(B, ...)	\
-	static_assert(B == bksge::sortable<__VA_ARGS__>, " ");	\
-	static_assert(B == bksge::sortable_t<__VA_ARGS__>::value, " ")
+	static_assert(B == bksge::sortable<__VA_ARGS__>, "")
 #else
 #  define BKSGE_SORTABLE_TEST(B, ...)	\
-	static_assert(B == bksge::sortable_t<__VA_ARGS__>::value, " ")
+	static_assert(B == bksge::sortable<__VA_ARGS__>::value, "")
 #endif
 
 namespace bksge_iterator_test
