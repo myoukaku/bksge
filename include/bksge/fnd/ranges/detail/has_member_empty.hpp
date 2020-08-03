@@ -40,7 +40,7 @@ struct has_member_empty_impl
 private:
 	template <typename U>
 	static auto test(int)
-		-> decltype(bksge::declval<U&&>().empty(), bksge::true_type{});
+		-> decltype(bool(bksge::declval<U&&>().empty()), bksge::true_type{});
 
 	template <typename U>
 	static auto test(...) -> bksge::false_type;
