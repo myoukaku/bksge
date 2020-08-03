@@ -10,6 +10,7 @@
 #define BKSGE_FND_CONCEPTS_DETAIL_REQUIRE_HPP
 
 #include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/config.hpp>
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 
