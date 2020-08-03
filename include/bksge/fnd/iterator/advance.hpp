@@ -33,5 +33,6 @@ advance(InputIterator& it, Distance n = 1);
 }	// namespace bksge
 
 #include <bksge/fnd/iterator/inl/advance_inl.hpp>
+#include <bksge/fnd/iterator/ranges/advance.hpp>
 
 #endif // BKSGE_FND_ITERATOR_ADVANCE_HPP

@@ -34,4 +34,6 @@ next(InputIterator const& it, Distance n = 1);
 
 #include <bksge/fnd/iterator/inl/next_inl.hpp>
 
+#include <bksge/fnd/iterator/ranges/next.hpp>
+
 #endif // BKSGE_FND_ITERATOR_NEXT_HPP

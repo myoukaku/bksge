@@ -62,9 +62,11 @@ struct input_iterator_wrapper
 	T*	m_ptr;
 	using value_type      = T;
 	using difference_type = std::ptrdiff_t;
-	BKSGE_CXX14_CONSTEXPR input_iterator_wrapper& operator++();
+	BKSGE_CXX14_CONSTEXPR input_iterator_wrapper& operator++() { ++m_ptr; return *this; }
 	BKSGE_CXX14_CONSTEXPR void                    operator++(int);
-	BKSGE_CXX14_CONSTEXPR T&                      operator*() const;
+	BKSGE_CXX14_CONSTEXPR T&                      operator*() const { return *m_ptr; }
+	BKSGE_CXX14_CONSTEXPR bool operator==(const input_iterator_wrapper& rhs) const { return m_ptr == rhs.m_ptr; }
+	BKSGE_CXX14_CONSTEXPR bool operator!=(const input_iterator_wrapper& rhs) const { return !(*this == rhs); }
 };
 
 template <typename T>
@@ -72,9 +74,9 @@ struct output_iterator_wrapper
 {
 	T*	m_ptr;
 	using difference_type = std::ptrdiff_t;
-	BKSGE_CXX14_CONSTEXPR output_iterator_wrapper& operator++();
+	BKSGE_CXX14_CONSTEXPR output_iterator_wrapper& operator++() { ++m_ptr; return *this; }
 	BKSGE_CXX14_CONSTEXPR output_iterator_wrapper  operator++(int);
-	BKSGE_CXX14_CONSTEXPR T&                       operator*() const;
+	BKSGE_CXX14_CONSTEXPR T&                       operator*() const { return *m_ptr; }
 };
 
 template <typename T>
@@ -83,9 +85,9 @@ struct forward_iterator_wrapper
 	T*	m_ptr;
 	using value_type      = T;
 	using difference_type = std::ptrdiff_t;
-	BKSGE_CXX14_CONSTEXPR forward_iterator_wrapper& operator++();
-	BKSGE_CXX14_CONSTEXPR forward_iterator_wrapper  operator++(int);
-	BKSGE_CXX14_CONSTEXPR T&                        operator*() const;
+	BKSGE_CXX14_CONSTEXPR forward_iterator_wrapper& operator++() { ++m_ptr; return *this; }
+	BKSGE_CXX14_CONSTEXPR forward_iterator_wrapper  operator++(int) { auto t = *this; ++m_ptr; return t; }
+	BKSGE_CXX14_CONSTEXPR T&                        operator*() const { return *m_ptr; }
 	BKSGE_CXX14_CONSTEXPR bool operator==(const forward_iterator_wrapper& rhs) const { return m_ptr == rhs.m_ptr; }
 	BKSGE_CXX14_CONSTEXPR bool operator!=(const forward_iterator_wrapper& rhs) const { return !(*this == rhs); }
 };
@@ -96,11 +98,11 @@ struct bidirectional_iterator_wrapper
 	T*	m_ptr;
 	using value_type      = T;
 	using difference_type = std::ptrdiff_t;
-	BKSGE_CXX14_CONSTEXPR bidirectional_iterator_wrapper& operator++();
+	BKSGE_CXX14_CONSTEXPR bidirectional_iterator_wrapper& operator++() { ++m_ptr; return *this; }
 	BKSGE_CXX14_CONSTEXPR bidirectional_iterator_wrapper  operator++(int);
-	BKSGE_CXX14_CONSTEXPR bidirectional_iterator_wrapper& operator--();
+	BKSGE_CXX14_CONSTEXPR bidirectional_iterator_wrapper& operator--() { --m_ptr; return *this; }
 	BKSGE_CXX14_CONSTEXPR bidirectional_iterator_wrapper  operator--(int);
-	BKSGE_CXX14_CONSTEXPR T&                              operator*() const;
+	BKSGE_CXX14_CONSTEXPR T&                              operator*() const { return *m_ptr; }
 	BKSGE_CXX14_CONSTEXPR bool operator==(const bidirectional_iterator_wrapper& rhs) const { return m_ptr == rhs.m_ptr; }
 	BKSGE_CXX14_CONSTEXPR bool operator!=(const bidirectional_iterator_wrapper& rhs) const { return !(*this == rhs); }
 };
@@ -111,23 +113,23 @@ struct random_access_iterator_wrapper
 	T*	m_ptr;
 	using value_type      = T;
 	using difference_type = std::ptrdiff_t;
-	BKSGE_CXX14_CONSTEXPR random_access_iterator_wrapper& operator++();
+	BKSGE_CXX14_CONSTEXPR random_access_iterator_wrapper& operator++() { ++m_ptr; return *this; }
 	BKSGE_CXX14_CONSTEXPR random_access_iterator_wrapper  operator++(int);
-	BKSGE_CXX14_CONSTEXPR random_access_iterator_wrapper& operator+=(difference_type);
-	BKSGE_CXX14_CONSTEXPR random_access_iterator_wrapper  operator+(difference_type) const;
-	BKSGE_CXX14_CONSTEXPR random_access_iterator_wrapper& operator--();
+	BKSGE_CXX14_CONSTEXPR random_access_iterator_wrapper& operator+=(difference_type n) { m_ptr += n; return *this; }
+	BKSGE_CXX14_CONSTEXPR random_access_iterator_wrapper  operator+(difference_type n) const { return {m_ptr + n}; }
+	BKSGE_CXX14_CONSTEXPR random_access_iterator_wrapper& operator--() { --m_ptr; return *this; }
 	BKSGE_CXX14_CONSTEXPR random_access_iterator_wrapper  operator--(int);
 	BKSGE_CXX14_CONSTEXPR random_access_iterator_wrapper& operator-=(difference_type);
 	BKSGE_CXX14_CONSTEXPR random_access_iterator_wrapper  operator-(difference_type) const;
 	BKSGE_CXX14_CONSTEXPR difference_type                 operator-(random_access_iterator_wrapper const& rhs) const { return m_ptr - rhs.m_ptr; }
-	BKSGE_CXX14_CONSTEXPR T&                              operator*() const;
+	BKSGE_CXX14_CONSTEXPR T&                              operator*() const { return *m_ptr; }
 	BKSGE_CXX14_CONSTEXPR T&                              operator[](difference_type) const;
-	BKSGE_CXX14_CONSTEXPR bool operator==(const random_access_iterator_wrapper&) const;
-	BKSGE_CXX14_CONSTEXPR bool operator!=(const random_access_iterator_wrapper&) const;
-	BKSGE_CXX14_CONSTEXPR bool operator< (const random_access_iterator_wrapper&) const;
-	BKSGE_CXX14_CONSTEXPR bool operator> (const random_access_iterator_wrapper&) const;
-	BKSGE_CXX14_CONSTEXPR bool operator<=(const random_access_iterator_wrapper&) const;
-	BKSGE_CXX14_CONSTEXPR bool operator>=(const random_access_iterator_wrapper&) const;
+	BKSGE_CXX14_CONSTEXPR bool operator==(const random_access_iterator_wrapper& rhs) const { return m_ptr == rhs.m_ptr; }
+	BKSGE_CXX14_CONSTEXPR bool operator!=(const random_access_iterator_wrapper& rhs) const { return !(*this == rhs); }
+	BKSGE_CXX14_CONSTEXPR bool operator< (const random_access_iterator_wrapper& rhs) const;
+	BKSGE_CXX14_CONSTEXPR bool operator> (const random_access_iterator_wrapper& rhs) const;
+	BKSGE_CXX14_CONSTEXPR bool operator<=(const random_access_iterator_wrapper& rhs) const;
+	BKSGE_CXX14_CONSTEXPR bool operator>=(const random_access_iterator_wrapper& rhs) const;
 };
 
 template <typename T>

@@ -77,6 +77,10 @@ struct test_range
 
 	BKSGE_CXX14_CONSTEXPR test_range(): m_first(nullptr), m_last(nullptr) {}
 	BKSGE_CXX14_CONSTEXPR test_range(T* first, T* last) : m_first(first), m_last(last) {}
+
+	template <std::size_t N>
+	explicit BKSGE_CXX14_CONSTEXPR test_range(T (&arr)[N]) : test_range(arr, arr+N) {}
+
 	BKSGE_CXX14_CONSTEXPR iterator begin() const { return iterator{m_first}; }
 	BKSGE_CXX14_CONSTEXPR sentinel end()   const { return sentinel{iterator{m_last}}; }
 };

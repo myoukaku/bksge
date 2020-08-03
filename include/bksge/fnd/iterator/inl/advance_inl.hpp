@@ -13,6 +13,7 @@
 #include <bksge/fnd/iterator/type_traits/iterator_category.hpp>
 #include <bksge/fnd/iterator/tag.hpp>
 #include <bksge/fnd/assert.hpp>
+#include <bksge/fnd/config.hpp>
 
 namespace bksge
 {

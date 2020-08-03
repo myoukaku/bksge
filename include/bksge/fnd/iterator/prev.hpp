@@ -34,4 +34,6 @@ prev(BidirectionalIterator const& it, Distance n = 1);
 
 #include <bksge/fnd/iterator/inl/prev_inl.hpp>
 
+#include <bksge/fnd/iterator/ranges/prev.hpp>
+
 #endif // BKSGE_FND_ITERATOR_PREV_HPP

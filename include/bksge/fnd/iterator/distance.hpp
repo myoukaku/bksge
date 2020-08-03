@@ -10,6 +10,7 @@
 #define BKSGE_FND_ITERATOR_DISTANCE_HPP
 
 #include <bksge/fnd/config.hpp>
+
 #if (BKSGE_CXX_STANDARD >= 17)
 
 #include <iterator>
@@ -48,5 +49,7 @@ distance(InputIterator first, InputIterator last);
 #include <bksge/fnd/iterator/inl/distance_inl.hpp>
 
 #endif
+
+#include <bksge/fnd/iterator/ranges/distance.hpp>
 
 #endif // BKSGE_FND_ITERATOR_DISTANCE_HPP
