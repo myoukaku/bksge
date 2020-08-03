@@ -66,7 +66,7 @@ struct less_equal
 #if !defined(BKSGE_HAS_CXX20_CONCEPTS)
 		, typename = bksge::enable_if_t<
 			bksge::totally_ordered_with<T, U>::value ||
-			detail::less_builtin_ptr_cmp_t<U, T>::value
+			detail::less_builtin_ptr_cmp<U, T>::value
 		>
 #endif
 	>

@@ -66,7 +66,7 @@ struct not_equal_to
 #if !defined(BKSGE_HAS_CXX20_CONCEPTS)
 		, typename = bksge::enable_if_t<
 			bksge::equality_comparable_with<T, U>::value ||
-			detail::eq_builtin_ptr_cmp_t<T, U>::value
+			detail::eq_builtin_ptr_cmp<T, U>::value
 		>
 #endif
 	>

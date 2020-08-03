@@ -45,8 +45,8 @@ BKSGE_RANGES_BIDIRECTIONAL_RANGE_TEST(true,  std::list<int>);
 BKSGE_RANGES_BIDIRECTIONAL_RANGE_TEST(false, std::forward_list<int>);
 BKSGE_RANGES_BIDIRECTIONAL_RANGE_TEST(true,  std::set<int>);
 BKSGE_RANGES_BIDIRECTIONAL_RANGE_TEST(true,  std::multiset<int>);
-BKSGE_RANGES_BIDIRECTIONAL_RANGE_TEST(true,  std::unordered_set<int>);
-BKSGE_RANGES_BIDIRECTIONAL_RANGE_TEST(true,  std::unordered_multiset<int>);
+//BKSGE_RANGES_BIDIRECTIONAL_RANGE_TEST(true,  std::unordered_set<int>);
+//BKSGE_RANGES_BIDIRECTIONAL_RANGE_TEST(true,  std::unordered_multiset<int>);
 BKSGE_RANGES_BIDIRECTIONAL_RANGE_TEST(true,  std::string);
 
 BKSGE_RANGES_BIDIRECTIONAL_RANGE_TEST(true,  test_contiguous_range<int>);

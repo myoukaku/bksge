@@ -44,9 +44,9 @@ concept less_builtin_ptr_cmp =
 		}
 	);
 
-#endif
+#else
 
-namespace less_builtin_ptr_cmp_t_detail
+namespace less_builtin_ptr_cmp_detail
 {
 
 template <typename T, typename U, typename = void>
@@ -66,7 +66,7 @@ struct has_member_less<T, U, bksge::void_t<decltype(bksge::declval<T>().operator
 	: public bksge::true_type {};
 
 template <typename T, typename U>
-struct less_builtin_ptr_cmp_t_impl
+struct less_builtin_ptr_cmp_impl
 {
 private:
 	template <typename T2, typename U2,
@@ -87,11 +87,13 @@ public:
 	using type = decltype(test<T, U>(0));
 };
 
-}	// namespace less_builtin_ptr_cmp_t_detail
+}	// namespace less_builtin_ptr_cmp_detail
 
 template <typename T, typename U>
-using less_builtin_ptr_cmp_t =
-	typename less_builtin_ptr_cmp_t_detail::less_builtin_ptr_cmp_t_impl<T, U>::type;
+using less_builtin_ptr_cmp =
+	typename less_builtin_ptr_cmp_detail::less_builtin_ptr_cmp_impl<T, U>::type;
+
+#endif
 
 }	// namespace detail
 

@@ -44,9 +44,9 @@ concept eq_builtin_ptr_cmp =
 		}
 	);
 
-#endif
+#else
 
-namespace eq_builtin_ptr_cmp_t_detail
+namespace eq_builtin_ptr_cmp_detail
 {
 
 template <typename T, typename U, typename = void>
@@ -66,7 +66,7 @@ struct has_member_eq<T, U, bksge::void_t<decltype(bksge::declval<T>().operator==
 	: public bksge::true_type {};
 
 template <typename T, typename U>
-struct eq_builtin_ptr_cmp_t_impl
+struct eq_builtin_ptr_cmp_impl
 {
 private:
 	template <typename T2, typename U2,
@@ -87,11 +87,13 @@ public:
 	using type = decltype(test<T, U>(0));
 };
 
-}	// namespace eq_builtin_ptr_cmp_t_detail
+}	// namespace eq_builtin_ptr_cmp_detail
 
 template <typename T, typename U>
-using eq_builtin_ptr_cmp_t =
-	typename eq_builtin_ptr_cmp_t_detail::eq_builtin_ptr_cmp_t_impl<T, U>::type;
+using eq_builtin_ptr_cmp =
+	typename eq_builtin_ptr_cmp_detail::eq_builtin_ptr_cmp_impl<T, U>::type;
+
+#endif
 
 }	// namespace detail
 
