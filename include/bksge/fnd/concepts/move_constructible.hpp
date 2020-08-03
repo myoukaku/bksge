@@ -24,15 +24,16 @@ concept move_constructible =
 	bksge::constructible_from<T, T> &&
 	bksge::convertible_to<T, T>;
 
-#endif
+#else
 
 template <typename T>
-struct move_constructible_t
-	: public bksge::conjunction<
-		bksge::constructible_from_t<T, T>,
-		bksge::convertible_to_t<T, T>
-	>
-{};
+using move_constructible =
+	bksge::conjunction<
+		bksge::constructible_from<T, T>,
+		bksge::convertible_to<T, T>
+	>;
+
+#endif
 
 }	// namespace bksge
 

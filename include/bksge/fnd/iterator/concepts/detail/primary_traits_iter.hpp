@@ -28,8 +28,8 @@ concept primary_traits_iter =
 #else
 
 template <typename Iter>
-struct primary_traits_iter
-	: public bksge::negation<bksge::is_pointer<Iter>> {};
+using primary_traits_iter =
+	bksge::negation<bksge::is_pointer<Iter>>;
 
 #endif
 

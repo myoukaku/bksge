@@ -47,9 +47,9 @@ private:
 	template <typename I2>
 	static auto test(int) -> bksge::conjunction<
 		cpp17_fwd_iterator<I2>,
-		bksge::same_as_t       <decltype(--bksge::declval<I2&>()),   I2&>,
-		bksge::convertible_to_t<decltype(  bksge::declval<I2&>()--), I2 const&>,
-		bksge::same_as_t       <decltype( *bksge::declval<I2&>()--), bksge::iter_reference_t<I2>>
+		bksge::same_as       <decltype(--bksge::declval<I2&>()),   I2&>,
+		bksge::convertible_to<decltype(  bksge::declval<I2&>()--), I2 const&>,
+		bksge::same_as       <decltype( *bksge::declval<I2&>()--), bksge::iter_reference_t<I2>>
 	>;
 
 	template <typename I2>

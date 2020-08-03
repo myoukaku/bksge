@@ -11,11 +11,10 @@
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_TOTALLY_ORDERED_WITH_TEST(B, ...)	\
-	static_assert(B == bksge::totally_ordered_with<__VA_ARGS__>, " ");	\
-	static_assert(B == bksge::totally_ordered_with_t<__VA_ARGS__>::value, " ")
+	static_assert(B == bksge::totally_ordered_with<__VA_ARGS__>, "")
 #else
 #  define BKSGE_TOTALLY_ORDERED_WITH_TEST(B, ...) \
-	static_assert(B == bksge::totally_ordered_with_t<__VA_ARGS__>::value, " ")
+	static_assert(B == bksge::totally_ordered_with<__VA_ARGS__>::value, "")
 #endif
 
 namespace bksge_concepts_test

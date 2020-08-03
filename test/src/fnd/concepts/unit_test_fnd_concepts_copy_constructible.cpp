@@ -11,11 +11,10 @@
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_COPY_CONSTRUCTIBLE_TEST(B, T)	\
-	static_assert(B == bksge::copy_constructible<T>, " ");	\
-	static_assert(B == bksge::copy_constructible_t<T>::value, " ")
+	static_assert(B == bksge::copy_constructible<T>, "")
 #else
 #  define BKSGE_COPY_CONSTRUCTIBLE_TEST(B, T)	\
-	static_assert(B == bksge::copy_constructible_t<T>::value, " ")
+	static_assert(B == bksge::copy_constructible<T>::value, "")
 #endif
 
 namespace bksge_concepts_test

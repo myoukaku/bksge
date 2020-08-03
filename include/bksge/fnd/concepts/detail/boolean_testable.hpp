@@ -33,16 +33,16 @@ concept boolean_testable =
 		{ !bksge::forward<T>(t) } -> boolean_testable_impl;
 	};
 
-#endif
+#else
 
 template <typename T>
-struct boolean_testable_t_impl
+struct boolean_testable_impl
 {
 private:
 	template <typename U>
 	static auto test(int) -> bksge::conjunction<
-		bksge::convertible_to_t<U, bool>,
-		bksge::convertible_to_t<decltype(!bksge::declval<U>()), bool>
+		bksge::convertible_to<U, bool>,
+		bksge::convertible_to<decltype(!bksge::declval<U&&>()), bool>
 	>;
 
 	template <typename U>
@@ -53,9 +53,9 @@ public:
 };
 
 template <typename T>
-struct boolean_testable_t
-	: public boolean_testable_t_impl<T>::type
-{};
+using boolean_testable = typename boolean_testable_impl<T>::type;
+
+#endif
 
 }	// namespace detail
 

@@ -45,10 +45,10 @@ struct weakly_incrementable_impl
 private:
 	template <typename I2, typename = decltype(bksge::declval<I2&>()++)>
 	static auto test(int) -> bksge::conjunction<
-		bksge::default_initializable_t<I2>,
-		bksge::movable_t<I2>,
+		bksge::default_initializable<I2>,
+		bksge::movable<I2>,
 		bksge::detail::is_signed_integer_like<bksge::iter_difference_t<I2>>,
-		bksge::same_as_t<decltype(++bksge::declval<I2&>()), I2&>
+		bksge::same_as<decltype(++bksge::declval<I2&>()), I2&>
 	>;
 
 	template <typename I2>

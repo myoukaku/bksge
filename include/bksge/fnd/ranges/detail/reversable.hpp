@@ -48,7 +48,7 @@ private:
 		bksge::bidirectional_iterator<
 			decltype(ranges::begin(bksge::declval<U&>()))
 		>,
-		bksge::same_as_t<
+		bksge::same_as<
 			decltype(ranges::end(bksge::declval<U&>())),
 			decltype(ranges::begin(bksge::declval<U&>()))
 		>

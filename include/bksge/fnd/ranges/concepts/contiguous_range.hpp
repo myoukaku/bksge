@@ -47,7 +47,7 @@ private:
 	static auto test(int) -> bksge::conjunction<
 		ranges::random_access_range<U>,
 		bksge::contiguous_iterator<ranges::iterator_t<U>>,
-		bksge::same_as_t<decltype(ranges::data(bksge::declval<U&>())), bksge::add_pointer_t<ranges::range_reference_t<U>>>
+		bksge::same_as<decltype(ranges::data(bksge::declval<U&>())), bksge::add_pointer_t<ranges::range_reference_t<U>>>
 	>;
 
 	template <typename U>

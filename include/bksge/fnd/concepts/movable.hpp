@@ -28,21 +28,21 @@ concept movable =
 	bksge::assignable_from<T&, T> &&
 	bksge::swappable<T>;
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename T>
-struct movable_t_impl
+struct movable_impl
 {
 private:
 	template <typename U>
 	static auto test(int) -> bksge::conjunction<
 		bksge::is_object<U>,
-		bksge::move_constructible_t<U>,
-		bksge::assignable_from_t<U&, U>,
-		bksge::swappable_t<U>>;
+		bksge::move_constructible<U>,
+		bksge::assignable_from<U&, U>,
+		bksge::swappable<U>>;
 
 	template <typename U>
 	static auto test(...) -> bksge::false_type;
@@ -54,9 +54,9 @@ public:
 }	// namespace detail
 
 template <typename T>
-struct movable_t
-	: public detail::movable_t_impl<T>::type
-{};
+using movable = typename detail::movable_impl<T>::type;
+
+#endif
 
 }	// namespace bksge
 

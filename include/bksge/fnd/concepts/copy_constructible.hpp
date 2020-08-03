@@ -24,24 +24,24 @@ template <typename T>
 concept copy_constructible =
 	bksge::move_constructible<T> &&
 	bksge::constructible_from<T, T&>       && bksge::convertible_to<T&, T> &&
-	bksge::constructible_from<T, const T&> && bksge::convertible_to<const T&, T> &&
-	bksge::constructible_from<T, const T>  && bksge::convertible_to<const T, T>;
+	bksge::constructible_from<T, T const&> && bksge::convertible_to<T const&, T> &&
+	bksge::constructible_from<T, T const>  && bksge::convertible_to<T const, T>;
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename T>
-struct copy_constructible_t_impl
+struct copy_constructible_impl
 {
 private:
 	template <typename U>
 	static auto test(int) -> bksge::conjunction<
-		bksge::move_constructible_t<U>,
-		bksge::constructible_from_t<U, U&>,       bksge::convertible_to_t<U&, U>,
-		bksge::constructible_from_t<U, const U&>, bksge::convertible_to_t<const U&, U>,
-		bksge::constructible_from_t<U, const U>,  bksge::convertible_to_t<const U, U>>;
+		bksge::move_constructible<U>,
+		bksge::constructible_from<U, U&>,       bksge::convertible_to<U&, U>,
+		bksge::constructible_from<U, U const&>, bksge::convertible_to<U const&, U>,
+		bksge::constructible_from<U, U const>,  bksge::convertible_to<U const, U>>;
 
 	template <typename U>
 	static auto test(...) -> bksge::false_type;
@@ -53,9 +53,10 @@ public:
 }	// namespace detail
 
 template <typename T>
-struct copy_constructible_t
-	: public detail::copy_constructible_t_impl<T>::type
-{};
+using copy_constructible =
+	typename detail::copy_constructible_impl<T>::type;
+
+#endif
 
 }	// namespace bksge
 

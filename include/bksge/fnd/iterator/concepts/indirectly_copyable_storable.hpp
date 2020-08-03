@@ -51,9 +51,9 @@ private:
 		bksge::indirectly_writable<O, bksge::iter_value_t<I> const&>,
 		bksge::indirectly_writable<O, bksge::iter_value_t<I>&&>,
 		bksge::indirectly_writable<O, bksge::iter_value_t<I> const&&>,
-		bksge::copyable_t<bksge::iter_value_t<I>>,
-		bksge::constructible_from_t<bksge::iter_value_t<I>, bksge::iter_reference_t<I>>,
-		bksge::assignable_from_t<bksge::iter_value_t<I>&, bksge::iter_reference_t<I>>
+		bksge::copyable<bksge::iter_value_t<I>>,
+		bksge::constructible_from<bksge::iter_value_t<I>, bksge::iter_reference_t<I>>,
+		bksge::assignable_from<bksge::iter_value_t<I>&, bksge::iter_reference_t<I>>
 	>;
 
 	template <typename I, typename O>

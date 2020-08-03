@@ -31,13 +31,13 @@ concept swappable_with =
 		ranges::swap(static_cast<U&&>(u), static_cast<T&&>(t));
 	};
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename T, typename U>
-struct swappable_with_t_impl
+struct swappable_with_impl
 {
 private:
 	template <typename T2, typename U2,
@@ -47,7 +47,7 @@ private:
 			ranges::swap(bksge::declval<T2>(), bksge::declval<U2>()),
 			ranges::swap(bksge::declval<U2>(), bksge::declval<T2>()))
 	>
-	static auto test(int) -> bksge::common_reference_with_t<T2, U2>;
+	static auto test(int) -> bksge::common_reference_with<T2, U2>;
 
 	template <typename T2, typename U2>
 	static auto test(...) -> bksge::false_type;
@@ -59,8 +59,10 @@ public:
 }	// namespace detail
 
 template <typename T, typename U>
-struct swappable_with_t
-	: public detail::swappable_with_t_impl<T, U>::type {};
+using swappable_with =
+	typename detail::swappable_with_impl<T, U>::type;
+
+#endif
 
 }	// namespace bksge
 

@@ -65,7 +65,7 @@ struct not_equal_to
 	template <typename T, typename U
 #if !defined(BKSGE_HAS_CXX20_CONCEPTS)
 		, typename = bksge::enable_if_t<
-			bksge::equality_comparable_with_t<T, U>::value ||
+			bksge::equality_comparable_with<T, U>::value ||
 			detail::eq_builtin_ptr_cmp_t<T, U>::value
 		>
 #endif

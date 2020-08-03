@@ -36,7 +36,7 @@ private:
 		using iter_type = decltype(ranges::begin(bksge::declval<T&&>()));
 		using diff_type = bksge::iter_difference_t<iter_type>;
 		using type = bksge::conditional_t<
-			bksge::integral_t<diff_type>::value &&
+			BKSGE_CONCEPTS_INTEGRAL(diff_type) &&
 			std::numeric_limits<diff_type>::digits < std::numeric_limits<std::ptrdiff_t>::digits,
 			std::ptrdiff_t,
 			diff_type

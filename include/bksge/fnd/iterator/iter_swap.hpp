@@ -64,8 +64,8 @@ private:
 	template <typename I1, typename I2
 #if !defined(BKSGE_HAS_CXX20_CONCEPTS)
 		, typename = bksge::enable_if_t<
-			bksge::detail::class_or_enum_t<bksge::remove_cvref_t<I1>>::value ||
-			bksge::detail::class_or_enum_t<bksge::remove_cvref_t<I2>>::value
+			bksge::detail::class_or_enum<bksge::remove_cvref_t<I1>>::value ||
+			bksge::detail::class_or_enum<bksge::remove_cvref_t<I2>>::value
 		>
 #endif
 	>
@@ -83,7 +83,7 @@ private:
 		, typename = bksge::enable_if_t<
 			bksge::indirectly_readable<I1>::value &&
 			bksge::indirectly_readable<I2>::value &&
-			bksge::swappable_with_t<bksge::iter_reference_t<I1>, bksge::iter_reference_t<I2>>::value
+			bksge::swappable_with<bksge::iter_reference_t<I1>, bksge::iter_reference_t<I2>>::value
 		>
 #endif
 	>

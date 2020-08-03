@@ -23,13 +23,13 @@ template <typename T>
 concept swappable =
 	requires(T& a, T& b) { ranges::swap(a, b); };
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename T>
-struct swappable_t_impl
+struct swappable_impl
 {
 private:
 	template <typename U,
@@ -48,8 +48,10 @@ public:
 }	// namespace detail
 
 template <typename T>
-struct swappable_t
-	: public detail::swappable_t_impl<T>::type {};
+using swappable =
+	typename detail::swappable_impl<T>::type;
+
+#endif
 
 }	// namespace bksge
 

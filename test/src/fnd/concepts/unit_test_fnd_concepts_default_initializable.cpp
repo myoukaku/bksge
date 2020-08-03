@@ -11,11 +11,10 @@
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_DEFAULT_INITIALIZABLE_TEST(B, T)	\
-	static_assert(B == bksge::default_initializable<T>, "default_initializable");	\
-	static_assert(B == bksge::default_initializable_t<T>::value, "default_initializable_t")
+	static_assert(B == bksge::default_initializable<T>, "")
 #else
 #  define BKSGE_DEFAULT_INITIALIZABLE_TEST(B, T)	\
-	static_assert(B == bksge::default_initializable_t<T>::value, " ")
+	static_assert(B == bksge::default_initializable<T>::value, "")
 #endif
 
 namespace bksge_concepts_test

@@ -45,12 +45,12 @@ private:
 	static auto test(int) -> bksge::conjunction<
 		bksge::indirectly_readable<J1>,
 		bksge::indirectly_readable<J2>,
-		bksge::copy_constructible_t<F2>,
-		bksge::equivalence_relation_t<F2&, bksge::iter_value_t<J1>&, bksge::iter_value_t<J2>&>,
-		bksge::equivalence_relation_t<F2&, bksge::iter_value_t<J1>&, bksge::iter_reference_t<J2>>,
-		bksge::equivalence_relation_t<F2&, bksge::iter_reference_t<J1>, bksge::iter_value_t<J2>&>,
-		bksge::equivalence_relation_t<F2&, bksge::iter_reference_t<J1>, bksge::iter_reference_t<J2>>,
-		bksge::equivalence_relation_t<F2&, bksge::iter_common_reference_t<J1>, bksge::iter_common_reference_t<J2>>
+		bksge::copy_constructible<F2>,
+		bksge::equivalence_relation<F2&, bksge::iter_value_t<J1>&, bksge::iter_value_t<J2>&>,
+		bksge::equivalence_relation<F2&, bksge::iter_value_t<J1>&, bksge::iter_reference_t<J2>>,
+		bksge::equivalence_relation<F2&, bksge::iter_reference_t<J1>, bksge::iter_value_t<J2>&>,
+		bksge::equivalence_relation<F2&, bksge::iter_reference_t<J1>, bksge::iter_reference_t<J2>>,
+		bksge::equivalence_relation<F2&, bksge::iter_common_reference_t<J1>, bksge::iter_common_reference_t<J2>>
 	>;
 
 	template <typename F2, typename J1, typename J2>

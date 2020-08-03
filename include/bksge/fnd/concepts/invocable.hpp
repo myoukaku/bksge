@@ -20,10 +20,12 @@ namespace bksge
 template <typename Fn, typename... Args>
 concept invocable = bksge::is_invocable<Fn, Args...>::value;
 
-#endif
+#else
 
 template <typename Fn, typename... Args>
-struct invocable_t : public bksge::is_invocable<Fn, Args...> {};
+using invocable = bksge::is_invocable<Fn, Args...>;
+
+#endif
 
 }	// namespace bksge
 

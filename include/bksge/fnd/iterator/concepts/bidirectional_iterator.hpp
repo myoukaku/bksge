@@ -45,9 +45,9 @@ private:
 	template <typename I2>
 	static auto test(int) -> bksge::conjunction<
 		bksge::forward_iterator<I2>,
-		bksge::derived_from_t<bksge::detail::iter_concept<I2>, bksge::bidirectional_iterator_tag>,
-		bksge::same_as_t<decltype(--bksge::declval<I2&>()),   I2&>,
-		bksge::same_as_t<decltype(  bksge::declval<I2&>()--), I2>
+		bksge::derived_from<bksge::detail::iter_concept<I2>, bksge::bidirectional_iterator_tag>,
+		bksge::same_as<decltype(--bksge::declval<I2&>()),   I2&>,
+		bksge::same_as<decltype(  bksge::declval<I2&>()--), I2>
 	>;
 
 	template <typename I2>

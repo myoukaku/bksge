@@ -44,7 +44,7 @@ struct indirect_result_t_impl_2;
 template <typename F, typename... Is>
 struct indirect_result_t_impl_2<F, type_pack<Is...>,
 	bksge::enable_if_t<
-		bksge::invocable_t<F, Is...>::value
+		bksge::invocable<F, Is...>::value
 	>
 >
 {

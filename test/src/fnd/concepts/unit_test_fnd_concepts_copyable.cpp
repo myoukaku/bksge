@@ -11,11 +11,10 @@
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_COPYABLE_TEST(B, T)	\
-	static_assert(B == bksge::copyable<T>, " ");	\
-	static_assert(B == bksge::copyable_t<T>::value, " ")
+	static_assert(B == bksge::copyable<T>, "")
 #else
 #  define BKSGE_COPYABLE_TEST(B, T)	\
-	static_assert(B == bksge::copyable_t<T>::value, " ")
+	static_assert(B == bksge::copyable<T>::value, "")
 #endif
 
 namespace bksge_concepts_test

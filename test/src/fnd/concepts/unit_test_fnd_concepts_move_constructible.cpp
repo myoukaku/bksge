@@ -11,11 +11,10 @@
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_MOVE_CONSTRUCTIBLE_TEST(B, T)	\
-	static_assert(B == bksge::move_constructible<T>, " ");	\
-	static_assert(B == bksge::move_constructible_t<T>::value, " ")
+	static_assert(B == bksge::move_constructible<T>, "")
 #else
 #  define BKSGE_MOVE_CONSTRUCTIBLE_TEST(B, T)	\
-	static_assert(B == bksge::move_constructible_t<T>::value, " ")
+	static_assert(B == bksge::move_constructible<T>::value, "")
 #endif
 
 namespace bksge_concepts_test

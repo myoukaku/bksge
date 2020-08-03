@@ -36,12 +36,12 @@ bool test02()
 	std::forward_list<int> fl1 ={1,2,3};
 	std::forward_list<int> fl2;
 
-	static_assert(bksge::same_as_t<decltype(bksge::ranges::empty(v1)), bool>::value, "");
-	static_assert(bksge::same_as_t<decltype(bksge::ranges::empty(v2)), bool>::value, "");
-	static_assert(bksge::same_as_t<decltype(bksge::ranges::empty(l1)), bool>::value, "");
-	static_assert(bksge::same_as_t<decltype(bksge::ranges::empty(l2)), bool>::value, "");
-	static_assert(bksge::same_as_t<decltype(bksge::ranges::empty(fl1)), bool>::value, "");
-	static_assert(bksge::same_as_t<decltype(bksge::ranges::empty(fl2)), bool>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::ranges::empty(v1)), bool>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::ranges::empty(v2)), bool>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::ranges::empty(l1)), bool>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::ranges::empty(l2)), bool>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::ranges::empty(fl1)), bool>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::ranges::empty(fl2)), bool>::value, "");
 
 	return
 		!bksge::ranges::empty(v1) &&
@@ -66,8 +66,8 @@ BKSGE_CXX14_CONSTEXPR bool test03()
 	R1 r1;
 	R2 r2;
 
-	static_assert(bksge::same_as_t<decltype(bksge::ranges::empty(r1)), bool>::value, "");
-	static_assert(bksge::same_as_t<decltype(bksge::ranges::empty(r2)), bool>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::ranges::empty(r1)), bool>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::ranges::empty(r2)), bool>::value, "");
 
 #if !(defined(BKSGE_GCC_VERSION) && (BKSGE_GCC_VERSION < 90000))
 	static_assert( noexcept(bksge::ranges::empty(bksge::declval<R1 const&>())), "");
@@ -93,8 +93,8 @@ BKSGE_CXX14_CONSTEXPR bool test04()
 	R3 r3;
 	R4 r4;
 
-	static_assert(bksge::same_as_t<decltype(bksge::ranges::empty(r3)), bool>::value, "");
-	static_assert(bksge::same_as_t<decltype(bksge::ranges::empty(r4)), bool>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::ranges::empty(r3)), bool>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::ranges::empty(r4)), bool>::value, "");
 
 #if !(defined(BKSGE_GCC_VERSION) && (BKSGE_GCC_VERSION < 90000))
 	static_assert( noexcept(bksge::ranges::empty(bksge::declval<R3 const&>())), "");
@@ -115,11 +115,11 @@ BKSGE_CXX14_CONSTEXPR bool test05()
 	test_bidirectional_range<int> r4;
 	test_bidirectional_range<int> r5(a, a+2);
 
-	static_assert(bksge::same_as_t<decltype(bksge::ranges::empty(r1)), bool>::value, "");
-	static_assert(bksge::same_as_t<decltype(bksge::ranges::empty(r2)), bool>::value, "");
-	static_assert(bksge::same_as_t<decltype(bksge::ranges::empty(r3)), bool>::value, "");
-	static_assert(bksge::same_as_t<decltype(bksge::ranges::empty(r4)), bool>::value, "");
-	static_assert(bksge::same_as_t<decltype(bksge::ranges::empty(r5)), bool>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::ranges::empty(r1)), bool>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::ranges::empty(r2)), bool>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::ranges::empty(r3)), bool>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::ranges::empty(r4)), bool>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::ranges::empty(r5)), bool>::value, "");
 
 	return
 		 bksge::ranges::empty(r1) &&

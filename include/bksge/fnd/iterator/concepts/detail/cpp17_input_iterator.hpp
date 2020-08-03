@@ -62,7 +62,7 @@ private:
 		typename V = typename bksge::indirectly_readable_traits<I2>::value_type,
 		typename = bksge::common_reference_t<bksge::iter_reference_t<I2>&&, V&>,
 		typename = bksge::common_reference_t<decltype(*bksge::declval<I2&>()++)&&, V&>,
-		typename = bksge::enable_if_t<bksge::signed_integral_t<D>::value>
+		typename = bksge::enable_if_t<bksge::signed_integral<D>::value>
 	>
 	static auto test(int) -> bksge::true_type;
 
@@ -78,7 +78,7 @@ public:
 template <typename Iter>
 using cpp17_input_iterator = bksge::conjunction<
 	cpp17_iterator<Iter>,
-	bksge::equality_comparable_t<Iter>,
+	bksge::equality_comparable<Iter>,
 	typename cpp17_input_iterator_detail::cpp17_input_iterator_impl<Iter>::type
 >;
 

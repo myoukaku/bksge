@@ -37,10 +37,10 @@ concept partially_ordered_with =
 		{ u >= t } -> detail::boolean_testable;
 	};
 
-#endif
+#else
 
 template <typename T, typename U>
-struct partially_ordered_with_t_impl
+struct partially_ordered_with_impl
 {
 private:
 	template <
@@ -49,14 +49,14 @@ private:
 		typename UR = detail::cref<U2>
 	>
 	static auto test(int) -> bksge::conjunction<
-		boolean_testable_t<decltype(bksge::declval<TR>() <  bksge::declval<UR>())>,
-		boolean_testable_t<decltype(bksge::declval<TR>() >  bksge::declval<UR>())>,
-		boolean_testable_t<decltype(bksge::declval<TR>() <= bksge::declval<UR>())>,
-		boolean_testable_t<decltype(bksge::declval<TR>() >= bksge::declval<UR>())>,
-		boolean_testable_t<decltype(bksge::declval<UR>() <  bksge::declval<TR>())>,
-		boolean_testable_t<decltype(bksge::declval<UR>() >  bksge::declval<TR>())>,
-		boolean_testable_t<decltype(bksge::declval<UR>() <= bksge::declval<TR>())>,
-		boolean_testable_t<decltype(bksge::declval<UR>() >= bksge::declval<TR>())>
+		boolean_testable<decltype(bksge::declval<TR>() <  bksge::declval<UR>())>,
+		boolean_testable<decltype(bksge::declval<TR>() >  bksge::declval<UR>())>,
+		boolean_testable<decltype(bksge::declval<TR>() <= bksge::declval<UR>())>,
+		boolean_testable<decltype(bksge::declval<TR>() >= bksge::declval<UR>())>,
+		boolean_testable<decltype(bksge::declval<UR>() <  bksge::declval<TR>())>,
+		boolean_testable<decltype(bksge::declval<UR>() >  bksge::declval<TR>())>,
+		boolean_testable<decltype(bksge::declval<UR>() <= bksge::declval<TR>())>,
+		boolean_testable<decltype(bksge::declval<UR>() >= bksge::declval<TR>())>
 	>;
 
 	template <typename T2, typename U2>
@@ -67,9 +67,10 @@ public:
 };
 
 template <typename T, typename U>
-struct partially_ordered_with_t
-	: public partially_ordered_with_t_impl<T, U>::type
-{};
+using partially_ordered_with =
+	typename partially_ordered_with_impl<T, U>::type;
+
+#endif
 
 }	// namespace detail
 

@@ -11,11 +11,10 @@
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_SWAPPABLE_WITH_TEST(B, T1, T2)	\
-	static_assert(B == bksge::swappable_with<T1, T2>, " ");	\
-	static_assert(B == bksge::swappable_with_t<T1, T2>::value, " ")
+	static_assert(B == bksge::swappable_with<T1, T2>, "")
 #else
 #  define BKSGE_SWAPPABLE_WITH_TEST(B, T1, T2)	\
-	static_assert(B == bksge::swappable_with_t<T1, T2>::value, " ")
+	static_assert(B == bksge::swappable_with<T1, T2>::value, "")
 #endif
 
 namespace bksge_concepts_test

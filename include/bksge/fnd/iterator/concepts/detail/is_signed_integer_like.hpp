@@ -26,7 +26,7 @@ concept is_signed_integer_like = bksge::signed_integral<T>;
 #else
 
 template <typename T>
-using is_signed_integer_like = bksge::signed_integral_t<T>;
+using is_signed_integer_like = bksge::signed_integral<T>;
 
 #endif
 

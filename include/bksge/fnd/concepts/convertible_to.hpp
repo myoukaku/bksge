@@ -28,13 +28,13 @@ concept convertible_to =
 		static_cast<To>(f());
 	};
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename From, typename To>
-struct convertible_to_t_impl
+struct convertible_to_impl
 {
 private:
 	template <typename F, typename T,
@@ -53,9 +53,10 @@ public:
 }	// namespace detail
 
 template <typename From, typename To>
-struct convertible_to_t
-	: public detail::convertible_to_t_impl<From, To>::type
-{};
+using convertible_to =
+	typename detail::convertible_to_impl<From, To>::type;
+
+#endif
 
 }	// namespace bksge
 

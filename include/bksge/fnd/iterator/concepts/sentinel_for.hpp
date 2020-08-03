@@ -37,9 +37,9 @@ struct sentinel_for_impl
 private:
 	template <typename S2, typename I2>
 	static auto test(int) -> bksge::conjunction<
-		bksge::semiregular_t<Sent>,
+		bksge::semiregular<Sent>,
 		bksge::input_or_output_iterator<Iter>,
-		bksge::detail::weakly_eq_cmp_with_t<Sent, Iter>
+		bksge::detail::weakly_eq_cmp_with<Sent, Iter>
 	>;
 
 	template <typename S2, typename I2>

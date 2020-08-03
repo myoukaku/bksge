@@ -56,14 +56,14 @@ private:
 	template <typename I2>
 	static auto test(int) -> bksge::conjunction<
 		cpp17_input_iterator<I2>,
-		bksge::constructible_from_t<I2>,
+		bksge::constructible_from<I2>,
 		bksge::is_lvalue_reference<bksge::iter_reference_t<I2>>,
-		bksge::same_as_t<
+		bksge::same_as<
 			bksge::remove_cvref_t<bksge::iter_reference_t<I2>>,
 			typename bksge::indirectly_readable_traits<I2>::value_type
 		>,
-		bksge::convertible_to_t<decltype( bksge::declval<I2&>()++), I2 const&>,
-		bksge::same_as_t       <decltype(*bksge::declval<I2&>()++), bksge::iter_reference_t<I2>>
+		bksge::convertible_to<decltype( bksge::declval<I2&>()++), I2 const&>,
+		bksge::same_as       <decltype(*bksge::declval<I2&>()++), bksge::iter_reference_t<I2>>
 	>;
 
 	template <typename I2>

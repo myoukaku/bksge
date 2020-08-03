@@ -11,11 +11,10 @@
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_MOVABLE_TEST(B, T)	\
-	static_assert(B == bksge::movable<T>, " ");	\
-	static_assert(B == bksge::movable_t<T>::value, " ")
+	static_assert(B == bksge::movable<T>, "")
 #else
 #  define BKSGE_MOVABLE_TEST(B, T)	\
-	static_assert(B == bksge::movable_t<T>::value, " ")
+	static_assert(B == bksge::movable<T>::value, "")
 #endif
 
 namespace bksge_concepts_test

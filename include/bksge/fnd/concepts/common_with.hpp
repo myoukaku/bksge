@@ -44,13 +44,13 @@ concept common_with =
 		>
 	>;
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename T, typename U>
-struct common_with_t_impl
+struct common_with_impl
 {
 private:
 	template <typename T2, typename U2,
@@ -59,15 +59,15 @@ private:
 		typename = decltype(static_cast<C>(bksge::declval<U2>()))
 	>
 	static auto test(int) -> bksge::conjunction<
-		bksge::same_as_t<
+		bksge::same_as<
 			bksge::common_type_t<T2, U2>,
 			bksge::common_type_t<U2, T2>
 		>,
-		bksge::common_reference_with_t<
+		bksge::common_reference_with<
 			bksge::add_lvalue_reference_t<const T2>,
 			bksge::add_lvalue_reference_t<const U2>
 		>,
-		bksge::common_reference_with_t<
+		bksge::common_reference_with<
 			bksge::add_lvalue_reference_t<C>,
 			bksge::common_reference_t<
 				bksge::add_lvalue_reference_t<const T2>,
@@ -86,9 +86,10 @@ public:
 }	// namespace detail
 
 template <typename T, typename U>
-struct common_with_t
-	: public detail::common_with_t_impl<T, U>::type
-{};
+using common_with =
+	typename detail::common_with_impl<T, U>::type;
+
+#endif
 
 }	// namespace bksge
 

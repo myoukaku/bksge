@@ -11,11 +11,10 @@
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_INTEGRAL_TEST(B, T)	\
-	static_assert(B == bksge::integral<T>, " ");	\
-	static_assert(B == bksge::integral_t<T>::value, " ")
+	static_assert(B == bksge::integral<T>, "")
 #else
 #  define BKSGE_INTEGRAL_TEST(B, T) \
-	static_assert(B == bksge::integral_t<T>::value, " ")
+	static_assert(B == bksge::integral<T>::value, "")
 #endif
 
 namespace bksge_concepts_test

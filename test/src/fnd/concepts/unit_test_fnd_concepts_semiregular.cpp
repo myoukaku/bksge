@@ -11,11 +11,10 @@
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_SEMIREGULAR_TEST(B, T)	\
-	static_assert(B == bksge::semiregular<T>, " ");	\
-	static_assert(B == bksge::semiregular_t<T>::value, " ")
+	static_assert(B == bksge::semiregular<T>, "")
 #else
 #  define BKSGE_SEMIREGULAR_TEST(B, T)	\
-	static_assert(B == bksge::semiregular_t<T>::value, " ")
+	static_assert(B == bksge::semiregular<T>::value, "")
 #endif
 
 namespace bksge_concepts_test

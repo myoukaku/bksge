@@ -49,11 +49,11 @@ private:
 	template <typename F2, typename I2>
 	static auto test(int) -> bksge::conjunction<
 		bksge::indirectly_readable<I2>,
-		bksge::copy_constructible_t<F2>,
-		bksge::invocable_t<F2&, bksge::iter_value_t<I2>&>,
-		bksge::invocable_t<F2&, bksge::iter_reference_t<I2>>,
-		bksge::invocable_t<F2&, bksge::iter_common_reference_t<I2>>,
-		bksge::common_reference_with_t<
+		bksge::copy_constructible<F2>,
+		bksge::invocable<F2&, bksge::iter_value_t<I2>&>,
+		bksge::invocable<F2&, bksge::iter_reference_t<I2>>,
+		bksge::invocable<F2&, bksge::iter_common_reference_t<I2>>,
+		bksge::common_reference_with<
 			bksge::invoke_result_t<F2&, bksge::iter_value_t<I2>&>,
 			bksge::invoke_result_t<F2&, bksge::iter_reference_t<I2>>
 		>

@@ -24,11 +24,7 @@ namespace bksge
 template <typename Sent, typename Iter>
 concept sized_sentinel_for =
 	bksge::sentinel_for<Sent, Iter> &&
-#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
-	!bksge::disable_sized_sentinel_for<bksge::remove_cv_t<Sent>, bksge::remove_cv_t<Iter>> &&
-#else
-	!bksge::disable_sized_sentinel_for<bksge::remove_cv_t<Sent>, bksge::remove_cv_t<Iter>>::value &&
-#endif
+	!BKSGE_DISABLE_SIZED_SENTINEL_FOR(bksge::remove_cv_t<Sent>, bksge::remove_cv_t<Iter>) &&
 	requires(const Iter& i, const Sent& s)
 	{
 		{ s - i } -> bksge::same_as<bksge::iter_difference_t<Iter>>;
@@ -48,17 +44,13 @@ private:
 		typename D1 = decltype(bksge::declval<const S2&>() - bksge::declval<const I2&>()),
 		typename D2 = decltype(bksge::declval<const I2&>() - bksge::declval<const S2&>()),
 		typename = bksge::enable_if_t<
-#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
-			!bksge::disable_sized_sentinel_for<bksge::remove_cv_t<S2>, bksge::remove_cv_t<I2>>
-#else
-			!bksge::disable_sized_sentinel_for<bksge::remove_cv_t<S2>, bksge::remove_cv_t<I2>>::value
-#endif
+			!BKSGE_DISABLE_SIZED_SENTINEL_FOR(bksge::remove_cv_t<S2>, bksge::remove_cv_t<I2>)
 		>
 	>
 	static auto test(int) -> bksge::conjunction<
 		bksge::sentinel_for<S2, I2>,
-		bksge::same_as_t<D1, bksge::iter_difference_t<I2>>,
-		bksge::same_as_t<D2, bksge::iter_difference_t<I2>>
+		bksge::same_as<D1, bksge::iter_difference_t<I2>>,
+		bksge::same_as<D2, bksge::iter_difference_t<I2>>
 	>;
 
 	template <typename S2, typename I2>

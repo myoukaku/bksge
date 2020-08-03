@@ -27,20 +27,20 @@ concept default_initializable =
 		(void) ::new T;
 	};
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename T>
-struct default_initializable_t_impl
+struct default_initializable_impl
 {
 private:
 	template <typename U,
 		typename = decltype(U{}),
 		typename = decltype((void) ::new U)
 	>
-	static auto test(int) -> bksge::constructible_from_t<U>;
+	static auto test(int) -> bksge::constructible_from<U>;
 
 	template <typename U>
 	static auto test(...) -> bksge::false_type;
@@ -52,9 +52,10 @@ public:
 }	// namespace detail
 
 template <typename T>
-struct default_initializable_t
-	: public detail::default_initializable_t_impl<T>::type
-{};
+using default_initializable =
+	typename detail::default_initializable_impl<T>::type;
+
+#endif
 
 }	// namespace bksge
 

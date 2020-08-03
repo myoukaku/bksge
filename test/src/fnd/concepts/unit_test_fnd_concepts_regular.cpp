@@ -11,11 +11,10 @@
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_REGULAR_TEST(B, T)	\
-	static_assert(B == bksge::regular<T>, " ");	\
-	static_assert(B == bksge::regular_t<T>::value, " ")
+	static_assert(B == bksge::regular<T>, "")
 #else
 #  define BKSGE_REGULAR_TEST(B, T)	\
-	static_assert(B == bksge::regular_t<T>::value, " ")
+	static_assert(B == bksge::regular<T>::value, "")
 #endif
 
 namespace bksge_concepts_test

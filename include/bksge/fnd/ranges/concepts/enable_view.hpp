@@ -24,7 +24,7 @@ namespace ranges
 template <typename T>
 BKSGE_INLINE_VAR BKSGE_CONSTEXPR
 bool enable_view =
-	bksge::derived_from_t<T, bksge::ranges::view_base>::value;
+	BKSGE_CONCEPTS_DERIVED_FROM(T, bksge::ranges::view_base);
 
 #define BKSGE_RANGES_ENABLE_VIEW(...)	\
 	::bksge::ranges::enable_view<__VA_ARGS__>
@@ -39,7 +39,7 @@ template <typename T>
 struct enable_view
 {
 	BKSGE_STATIC_CONSTEXPR bool value =
-		bksge::derived_from_t<T, bksge::ranges::view_base>::value;
+		BKSGE_CONCEPTS_DERIVED_FROM(T, bksge::ranges::view_base);
 };
 
 #define BKSGE_RANGES_ENABLE_VIEW(...)	\

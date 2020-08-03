@@ -20,10 +20,12 @@ namespace bksge
 template <typename Rel, typename T, typename U>
 concept strict_weak_order = bksge::relation<Rel, T, U>;
 
-#endif
+#else
 
 template <typename Rel, typename T, typename U>
-struct strict_weak_order_t : public bksge::relation_t<Rel, T, U> {};
+using strict_weak_order = bksge::relation<Rel, T, U>;
+
+#endif
 
 }	// namespace bksge
 

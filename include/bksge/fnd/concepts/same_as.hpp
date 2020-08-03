@@ -31,15 +31,16 @@ concept same_as =
 	detail::SameHelper<T, U> &&
 	detail::SameHelper<U, T>;
 
-#endif
+#else
 
 template <typename T, typename U>
-struct same_as_t
-	: public bksge::conjunction<
+using same_as =
+	bksge::conjunction<
 		bksge::is_same<T, U>,
 		bksge::is_same<U, T>
-	>
-{};
+	>;
+
+#endif
 
 }	// namespace bksge
 

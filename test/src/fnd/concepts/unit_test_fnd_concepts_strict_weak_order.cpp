@@ -11,11 +11,10 @@
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_STRICT_WEAK_ORDER_TEST(B, ...)	\
-	static_assert(B == bksge::strict_weak_order<__VA_ARGS__>, " ");	\
-	static_assert(B == bksge::strict_weak_order_t<__VA_ARGS__>::value, " ")
+	static_assert(B == bksge::strict_weak_order<__VA_ARGS__>, "")
 #else
 #  define BKSGE_STRICT_WEAK_ORDER_TEST(B, ...) \
-	static_assert(B == bksge::strict_weak_order_t<__VA_ARGS__>::value, " ")
+	static_assert(B == bksge::strict_weak_order<__VA_ARGS__>::value, "")
 #endif
 
 namespace bksge_concepts_test

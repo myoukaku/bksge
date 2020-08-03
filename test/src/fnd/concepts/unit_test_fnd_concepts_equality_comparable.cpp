@@ -11,11 +11,10 @@
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_EQUALITY_COMPARABLE_TEST(B, T)	\
-	static_assert(B == bksge::equality_comparable<T>, "equality_comparable");	\
-	static_assert(B == bksge::equality_comparable_t<T>::value, "equality_comparable_t")
+	static_assert(B == bksge::equality_comparable<T>, "")
 #else
 #  define BKSGE_EQUALITY_COMPARABLE_TEST(B, T)	\
-	static_assert(B == bksge::equality_comparable_t<T>::value, " ")
+	static_assert(B == bksge::equality_comparable<T>::value, "")
 #endif
 
 namespace bksge_concepts_test

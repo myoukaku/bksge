@@ -20,10 +20,16 @@ namespace bksge
 template <typename T>
 concept integral = bksge::is_integral<T>::value;
 
-#endif
+#define BKSGE_CONCEPTS_INTEGRAL(T)	bksge::integral<T>
+
+#else
 
 template <typename T>
-struct integral_t : public bksge::is_integral<T> {};
+using integral = bksge::is_integral<T>;
+
+#define BKSGE_CONCEPTS_INTEGRAL(T)	bksge::integral<T>::value
+
+#endif
 
 }	// namespace bksge
 

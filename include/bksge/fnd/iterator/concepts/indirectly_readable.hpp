@@ -62,11 +62,11 @@ private:
 		typename IterRVRef = bksge::iter_rvalue_reference_t<U>
 	>
 	static auto test(int) -> bksge::conjunction<
-		bksge::same_as_t<bksge::iter_reference_t<U const>, IterRef>,
-		bksge::same_as_t<bksge::iter_rvalue_reference_t<U const>, IterRVRef>,
-		bksge::common_reference_with_t<IterRef&&, IterValue&>,
-		bksge::common_reference_with_t<IterRef&&, IterRVRef&&>,
-		bksge::common_reference_with_t<IterRVRef&&, IterValue const&>
+		bksge::same_as<bksge::iter_reference_t<U const>, IterRef>,
+		bksge::same_as<bksge::iter_rvalue_reference_t<U const>, IterRVRef>,
+		bksge::common_reference_with<IterRef&&, IterValue&>,
+		bksge::common_reference_with<IterRef&&, IterRVRef&&>,
+		bksge::common_reference_with<IterRVRef&&, IterValue const&>
 	>;
 
 	template <typename U>

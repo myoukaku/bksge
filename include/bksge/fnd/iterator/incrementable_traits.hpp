@@ -69,7 +69,7 @@ struct incrementable_traits<T
 // (5) Specialization for types that do not define a public and accessible member type difference_type
 //     but do support subtraction
 template <typename T>
-#if 0//defined(BKSGE_HAS_CXX20_CONCEPTS)	// VisualStudio2019 で内部コンパイラエラーになってしまう
+#if defined(BKSGE_HAS_CXX20_CONCEPTS)
 requires (
 	!requires { typename T::difference_type; } &&
 	requires(T const& a, T const& b)
@@ -78,14 +78,14 @@ requires (
 	})
 #endif
 struct incrementable_traits<T
-#if 1//!defined(BKSGE_HAS_CXX20_CONCEPTS)
+#if !defined(BKSGE_HAS_CXX20_CONCEPTS)
 	, bksge::enable_if_t<
 		!bksge::is_const<T>::value &&
 		!bksge::is_pointer<T>::value &&
 		!detail::has_difference_type<T>::value
 	>
 	, bksge::enable_if_t<
-		bksge::integral_t<decltype(bksge::declval<T>() - bksge::declval<T>())>::value
+		bksge::integral<decltype(bksge::declval<T>() - bksge::declval<T>())>::value
 	>
 #endif
 >

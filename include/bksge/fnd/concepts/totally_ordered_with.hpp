@@ -29,22 +29,22 @@ concept totally_ordered_with =
 	bksge::totally_ordered<bksge::common_reference_t<detail::cref<T>, detail::cref<U>>> &&
 	detail::partially_ordered_with<T, U>;
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename T, typename U>
-struct totally_ordered_with_t_impl
+struct totally_ordered_with_impl
 {
 private:
 	template <typename T2, typename U2>
 	static auto test(int) -> bksge::conjunction<
-		bksge::totally_ordered_t<T2>,
-		bksge::totally_ordered_t<U2>,
-		bksge::equality_comparable_with_t<T2, U2>,
-		bksge::totally_ordered_t<bksge::common_reference_t<detail::cref<T2>, detail::cref<U2>>>,
-		detail::partially_ordered_with_t<T2, U2>>;
+		bksge::totally_ordered<T2>,
+		bksge::totally_ordered<U2>,
+		bksge::equality_comparable_with<T2, U2>,
+		bksge::totally_ordered<bksge::common_reference_t<detail::cref<T2>, detail::cref<U2>>>,
+		detail::partially_ordered_with<T2, U2>>;
 
 	template <typename T2, typename U2>
 	static auto test(...) -> bksge::false_type;
@@ -56,9 +56,10 @@ public:
 }	// namespace detail
 
 template <typename T, typename U>
-struct totally_ordered_with_t
-	: public detail::totally_ordered_with_t_impl<T, U>::type
-{};
+using totally_ordered_with =
+	typename detail::totally_ordered_with_impl<T, U>::type;
+
+#endif
 
 }	// namespace bksge
 

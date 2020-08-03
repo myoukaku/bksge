@@ -13,11 +13,10 @@
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_SIGNED_INTEGRAL_TEST(B, T)	\
-	static_assert(B == bksge::signed_integral<T>, " ");	\
-	static_assert(B == bksge::signed_integral_t<T>::value, " ")
+	static_assert(B == bksge::signed_integral<T>, "")
 #else
 #  define BKSGE_SIGNED_INTEGRAL_TEST(B, T)	\
-	static_assert(B == bksge::signed_integral_t<T>::value, " ")
+	static_assert(B == bksge::signed_integral<T>::value, "")
 #endif
 
 namespace bksge_concepts_test

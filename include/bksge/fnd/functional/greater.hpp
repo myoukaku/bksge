@@ -64,7 +64,7 @@ struct greater
 	template <typename T, typename U
 #if !defined(BKSGE_HAS_CXX20_CONCEPTS)
 		, typename = bksge::enable_if_t<
-			bksge::totally_ordered_with_t<T, U>::value ||
+			bksge::totally_ordered_with<T, U>::value ||
 			detail::less_builtin_ptr_cmp_t<U, T>::value
 		>
 #endif

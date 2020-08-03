@@ -109,31 +109,9 @@ struct Z
 
 }	// namespace bksge_iterator_test
 
-namespace bksge
-{
-
-#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
-
-template <>
-BKSGE_INLINE_VAR BKSGE_CONSTEXPR bool disable_sized_sentinel_for<
+BKSGE_SPECIALIZE_DISABLE_SIZED_SENTINEL_FOR(true,
 	bksge_iterator_test::sized_sentinel_for_test::Sentinel,
-	bksge_iterator_test::sized_sentinel_for_test::Z
-> = true;
-
-#else
-
-template <>
-struct disable_sized_sentinel_for<
-	bksge_iterator_test::sized_sentinel_for_test::Sentinel,
-	bksge_iterator_test::sized_sentinel_for_test::Z
->
-{
-	BKSGE_STATIC_CONSTEXPR bool value = true;
-};
-
-#endif
-
-}	// namespace bksge
+	bksge_iterator_test::sized_sentinel_for_test::Z);
 
 namespace bksge_iterator_test
 {

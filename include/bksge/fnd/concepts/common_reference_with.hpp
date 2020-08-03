@@ -26,22 +26,22 @@ concept common_reference_with =
 	bksge::convertible_to<T, bksge::common_reference_t<T, U>> &&
 	bksge::convertible_to<U, bksge::common_reference_t<T, U>>;
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename T, typename U>
-struct common_reference_with_t_impl
+struct common_reference_with_impl
 {
 private:
 	template <typename T2, typename U2,
 		typename C = bksge::common_reference_t<T2, U2>
 	>
 	static auto test(int) -> bksge::conjunction<
-		bksge::same_as_t<C, bksge::common_reference_t<U2, T2>>,
-		bksge::convertible_to_t<T2, C>,
-		bksge::convertible_to_t<U2, C>
+		bksge::same_as<C, bksge::common_reference_t<U2, T2>>,
+		bksge::convertible_to<T2, C>,
+		bksge::convertible_to<U2, C>
 	>;
 
 	template <typename T2, typename U2>
@@ -54,9 +54,10 @@ public:
 }	// namespace detail
 
 template <typename T, typename U>
-struct common_reference_with_t
-	: public detail::common_reference_with_t_impl<T, U>::type
-{};
+using common_reference_with =
+	typename detail::common_reference_with_impl<T, U>::type;
+
+#endif
 
 }	// namespace bksge
 

@@ -15,11 +15,10 @@
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_TOTALLY_ORDERED_TEST(B, T)	\
-	static_assert(B == bksge::totally_ordered<T>, "totally_ordered");	\
-	static_assert(B == bksge::totally_ordered_t<T>::value, "totally_ordered_t")
+	static_assert(B == bksge::totally_ordered<T>, "")
 #else
 #  define BKSGE_TOTALLY_ORDERED_TEST(B, T)	\
-	static_assert(B == bksge::totally_ordered_t<T>::value, " ")
+	static_assert(B == bksge::totally_ordered<T>::value, "")
 #endif
 
 namespace bksge_concepts_test

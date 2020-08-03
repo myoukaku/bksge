@@ -30,22 +30,22 @@ concept equality_comparable_with =
 	bksge::equality_comparable<bksge::common_reference_t<detail::cref<T>, detail::cref<U>>> &&
 	detail::weakly_eq_cmp_with<T, U>;
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename T, typename U>
-struct equality_comparable_with_t_impl
+struct equality_comparable_with_impl
 {
 private:
 	template <typename T2, typename U2>
 	static auto test(int) -> bksge::conjunction<
-		bksge::equality_comparable_t<T2>,
-		bksge::equality_comparable_t<U2>,
-		bksge::common_reference_with_t<detail::cref<T2>, detail::cref<U2>>,
-		bksge::equality_comparable_t<bksge::common_reference_t<detail::cref<T2>, detail::cref<U2>>>,
-		detail::weakly_eq_cmp_with_t<T2, U2>>;
+		bksge::equality_comparable<T2>,
+		bksge::equality_comparable<U2>,
+		bksge::common_reference_with<detail::cref<T2>, detail::cref<U2>>,
+		bksge::equality_comparable<bksge::common_reference_t<detail::cref<T2>, detail::cref<U2>>>,
+		detail::weakly_eq_cmp_with<T2, U2>>;
 
 	template <typename T2, typename U2>
 	static auto test(...) -> bksge::false_type;
@@ -57,9 +57,10 @@ public:
 }	// namespace detail
 
 template <typename T, typename U>
-struct equality_comparable_with_t
-	: public detail::equality_comparable_with_t_impl<T, U>::type
-{};
+using equality_comparable_with =
+	typename detail::equality_comparable_with_impl<T, U>::type;
+
+#endif
 
 }	// namespace bksge
 

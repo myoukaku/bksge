@@ -56,9 +56,9 @@ struct has_adl_size_impl
 private:
 	template <typename U>
 	static auto test(int) -> bksge::bool_constant<
-		bksge::detail::class_or_enum_t<bksge::remove_reference_t<U>>::value &&
+		bksge::detail::class_or_enum<bksge::remove_reference_t<U>>::value &&
 		!BKSGE_RANGES_DISABLE_SIZED_RANGE(bksge::remove_cvref_t<U>) &&
-		bksge::integral_t<decltype(decay_copy(size(bksge::declval<U&&>())))>::value
+		bksge::integral<decltype(decay_copy(size(bksge::declval<U&&>())))>::value
 	>;
 
 	template <typename U>

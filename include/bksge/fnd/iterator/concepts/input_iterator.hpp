@@ -42,7 +42,7 @@ private:
 	static auto test(int) -> bksge::conjunction<
 		bksge::input_or_output_iterator<I2>,
 		bksge::indirectly_readable<I2>,
-		bksge::derived_from_t<bksge::detail::iter_concept<I2>, bksge::input_iterator_tag>
+		bksge::derived_from<bksge::detail::iter_concept<I2>, bksge::input_iterator_tag>
 	>;
 
 	template <typename I2>

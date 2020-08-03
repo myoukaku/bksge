@@ -74,7 +74,7 @@ BKSGE_CXX14_CONSTEXPR bool test01()
 {
 	int a[2] ={};
 
-	static_assert(bksge::same_as_t<decltype(bksge::ranges::begin(a)), decltype(a + 0)>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::ranges::begin(a)), decltype(a + 0)>::value, "");
 	static_assert(noexcept(bksge::ranges::begin(a)), "");
 	return bksge::ranges::begin(a) == (a + 0);
 }
@@ -83,7 +83,7 @@ bool test02()
 {
 	std::vector<int> v ={1,2,3};
 
-	static_assert(bksge::same_as_t<decltype(bksge::ranges::begin(v)), decltype(v.begin())>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::ranges::begin(v)), decltype(v.begin())>::value, "");
 	return bksge::ranges::begin(v) == v.begin();
 }
 
@@ -96,10 +96,10 @@ BKSGE_CXX14_CONSTEXPR bool test03()
 	// but it will call v.begin() or begin(v) on an lvalue:
 	const RV cv{r};
 
-	static_assert(bksge::same_as_t<decltype(bksge::ranges::begin(r)), decltype(begin(r))>::value, "");
-	static_assert(bksge::same_as_t<decltype(bksge::ranges::begin(c)), decltype(begin(c))>::value, "");
-	static_assert(bksge::same_as_t<decltype(bksge::ranges::begin(bksge::move(v))), decltype(begin(v))>::value, "");
-	static_assert(bksge::same_as_t<decltype(bksge::ranges::begin(bksge::move(cv))), decltype(begin(cv))>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::ranges::begin(r)), decltype(begin(r))>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::ranges::begin(c)), decltype(begin(c))>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::ranges::begin(bksge::move(v))), decltype(begin(v))>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::ranges::begin(bksge::move(cv))), decltype(begin(cv))>::value, "");
 
 #if !(defined(BKSGE_GCC_VERSION) && (BKSGE_GCC_VERSION < 90000))
 	static_assert(!noexcept(bksge::ranges::begin(bksge::declval<R&>())), "");

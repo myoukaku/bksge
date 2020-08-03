@@ -24,15 +24,16 @@ concept totally_ordered =
 	bksge::equality_comparable<T> &&
 	detail::partially_ordered_with<T, T>;
 
-#endif
+#else
 
 template <typename T>
-struct totally_ordered_t
-	: public bksge::conjunction<
-		bksge::equality_comparable_t<T>,
-		detail::partially_ordered_with_t<T, T>
-	>
-{};
+using totally_ordered =
+	bksge::conjunction<
+		bksge::equality_comparable<T>,
+		detail::partially_ordered_with<T, T>
+	>;
+
+#endif
 
 }	// namespace bksge
 

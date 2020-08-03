@@ -43,9 +43,8 @@ public:
 };
 
 template <typename T>
-struct can_reference
-	: public detail::can_reference_impl<T>::type
-{};
+using can_reference =
+	typename detail::can_reference_impl<T>::type;
 
 #endif
 

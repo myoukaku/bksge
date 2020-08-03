@@ -32,20 +32,20 @@ concept assignable_from =
 		{ lhs = bksge::forward<Rhs>(rhs) } -> bksge::same_as<Lhs>;
 	};
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename Lhs, typename Rhs>
-struct assignable_from_t_impl
+struct assignable_from_impl
 {
 private:
 	template <typename L, typename R>
 	static auto test(int) -> bksge::bool_constant<
 		bksge::is_lvalue_reference<L>::value &&
-		bksge::common_reference_with_t<detail::cref<L>, detail::cref<R>>::value &&
-		bksge::same_as_t<L, decltype(bksge::declval<L>() = bksge::declval<R&&>())>::value
+		bksge::common_reference_with<detail::cref<L>, detail::cref<R>>::value &&
+		bksge::same_as<L, decltype(bksge::declval<L>() = bksge::declval<R&&>())>::value
 	>;
 
 	template <typename L, typename R>
@@ -58,9 +58,10 @@ public:
 }	// namespace detail
 
 template <typename Lhs, typename Rhs>
-struct assignable_from_t
-	: public detail::assignable_from_t_impl<Lhs, Rhs>::type
-{};
+using assignable_from =
+	typename detail::assignable_from_impl<Lhs, Rhs>::type;
+
+#endif
 
 }	// namespace bksge
 

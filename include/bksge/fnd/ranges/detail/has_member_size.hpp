@@ -45,7 +45,7 @@ private:
 	template <typename U>
 	static auto test(int) -> bksge::bool_constant<
 		!BKSGE_RANGES_DISABLE_SIZED_RANGE(bksge::remove_cvref_t<U>) &&
-		bksge::integral_t<decltype(decay_copy(bksge::declval<U&&>().size()))>::value
+		bksge::integral<decltype(decay_copy(bksge::declval<U&&>().size()))>::value
 	>;
 
 	template <typename U>

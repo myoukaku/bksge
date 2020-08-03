@@ -11,11 +11,10 @@
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_PREDICATE_TEST(B, ...)	\
-	static_assert(B == bksge::predicate<__VA_ARGS__>, "predicate ");	\
-	static_assert(B == bksge::predicate_t<__VA_ARGS__>::value, "predicate_t ")
+	static_assert(B == bksge::predicate<__VA_ARGS__>, "")
 #else
 #  define BKSGE_PREDICATE_TEST(B, ...) \
-	static_assert(B == bksge::predicate_t<__VA_ARGS__>::value, " ")
+	static_assert(B == bksge::predicate<__VA_ARGS__>::value, "")
 #endif
 
 namespace bksge_concepts_test

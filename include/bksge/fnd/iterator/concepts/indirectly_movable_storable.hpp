@@ -45,9 +45,9 @@ private:
 	static auto test(int) -> bksge::conjunction<
 		bksge::indirectly_movable<I, O>,
 		bksge::indirectly_writable<O, bksge::iter_value_t<I>>,
-		bksge::movable_t<bksge::iter_value_t<I>>,
-		bksge::constructible_from_t<bksge::iter_value_t<I>, bksge::iter_rvalue_reference_t<I>>,
-		bksge::assignable_from_t<bksge::iter_value_t<I>&, bksge::iter_rvalue_reference_t<I>>
+		bksge::movable<bksge::iter_value_t<I>>,
+		bksge::constructible_from<bksge::iter_value_t<I>, bksge::iter_rvalue_reference_t<I>>,
+		bksge::assignable_from<bksge::iter_value_t<I>&, bksge::iter_rvalue_reference_t<I>>
 	>;
 
 	template <typename I, typename O>

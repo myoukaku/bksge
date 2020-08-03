@@ -28,22 +28,22 @@ concept copyable =
 	bksge::assignable_from<T&, const T&> &&
 	bksge::assignable_from<T&, const T>;
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename T>
-struct copyable_t_impl
+struct copyable_impl
 {
 private:
 	template <typename U>
 	static auto test(int) -> bksge::conjunction<
-		bksge::copy_constructible_t<U>,
-		bksge::movable_t<U>,
-		bksge::assignable_from_t<U&, U&>,
-		bksge::assignable_from_t<U&, const U&>,
-		bksge::assignable_from_t<U&, const U>>;
+		bksge::copy_constructible<U>,
+		bksge::movable<U>,
+		bksge::assignable_from<U&, U&>,
+		bksge::assignable_from<U&, const U&>,
+		bksge::assignable_from<U&, const U>>;
 
 	template <typename U>
 	static auto test(...) -> bksge::false_type;
@@ -55,9 +55,10 @@ public:
 }	// namespace detail
 
 template <typename T>
-struct copyable_t
-	: public detail::copyable_t_impl<T>::type
-{};
+using copyable =
+	typename detail::copyable_impl<T>::type;
+
+#endif
 
 }	// namespace bksge
 

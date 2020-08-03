@@ -11,11 +11,10 @@
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_CONVERTIBLE_TO_TEST(B, T1, T2)	\
-	static_assert(B == bksge::convertible_to<T1, T2>, "convertible_to");	\
-	static_assert(B == bksge::convertible_to_t<T1, T2>::value, "convertible_to_t")
+	static_assert(B == bksge::convertible_to<T1, T2>, "")
 #else
 #  define BKSGE_CONVERTIBLE_TO_TEST(B, T1, T2)	\
-	static_assert(B == bksge::convertible_to_t<T1, T2>::value, "convertible_to_t")
+	static_assert(B == bksge::convertible_to<T1, T2>::value, "")
 #endif
 
 namespace bksge_concepts_test

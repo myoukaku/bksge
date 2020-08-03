@@ -20,10 +20,12 @@ namespace bksge
 template <typename Rel, typename T, typename U>
 concept equivalence_relation = bksge::relation<Rel, T, U>;
 
-#endif
+#else
 
 template <typename Rel, typename T, typename U>
-struct equivalence_relation_t : public bksge::relation_t<Rel, T, U> {};
+using equivalence_relation = bksge::relation<Rel, T, U>;
+
+#endif
 
 }	// namespace bksge
 

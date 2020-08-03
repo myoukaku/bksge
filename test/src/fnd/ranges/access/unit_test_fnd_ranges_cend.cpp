@@ -89,7 +89,7 @@ BKSGE_CXX14_CONSTEXPR bool test01()
 {
 	int a[2] ={};
 
-	static_assert(bksge::same_as_t<decltype(bksge::ranges::cend(a)), const int*>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::ranges::cend(a)), const int*>::value, "");
 	static_assert(noexcept(bksge::ranges::cend(a)), "");
 	return bksge::ranges::cend(a) == (a + 2);
 }
@@ -98,7 +98,7 @@ bool test02()
 {
 	std::vector<int> v ={1,2,3};
 
-	static_assert(bksge::same_as_t<decltype(bksge::ranges::cend(v)), decltype(v.cend())>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::ranges::cend(v)), decltype(v.cend())>::value, "");
 	return bksge::ranges::cend(v) == v.cend();
 }
 

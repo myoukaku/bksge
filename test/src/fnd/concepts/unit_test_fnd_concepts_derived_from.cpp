@@ -11,11 +11,10 @@
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_DERIVED_FROM_TEST(B, T1, T2)	\
-	static_assert(B == bksge::derived_from<T1, T2>, " ");	\
-	static_assert(B == bksge::derived_from_t<T1, T2>::value, " ")
+	static_assert(B == bksge::derived_from<T1, T2>, "")
 #else
 #  define BKSGE_DERIVED_FROM_TEST(B, T1, T2)	\
-	static_assert(B == bksge::derived_from_t<T1, T2>::value, " ")
+	static_assert(B == bksge::derived_from<T1, T2>::value, "")
 #endif
 
 namespace bksge_concepts_test

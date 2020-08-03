@@ -42,24 +42,32 @@ struct swap_fn
 {
 private:
 	template <
-		typename T, typename U,
-		typename = bksge::enable_if_t<
-			has_adl_swap_t<T, U>::value
+		typename T, typename U
+#if !defined(BKSGE_HAS_CXX20_CONCEPTS)
+		, typename = bksge::enable_if_t<
+			has_adl_swap<T, U>::value
 		>
+#endif
 	>
-//	requires has_adl_swap<T, U>
+#if defined(BKSGE_HAS_CXX20_CONCEPTS)
+	requires has_adl_swap<T, U>
+#endif
 	static BKSGE_CXX14_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<2>, T&& t, U&& u)
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(swap(bksge::forward<T>(t), bksge::forward<U>(u)))
 
 	template <
-		typename T, typename U, std::size_t N,
-		typename = decltype(bksge::declval<swap_fn const&>()(bksge::declval<T&>(), bksge::declval<U&>()))
+		typename T, typename U, std::size_t N
+#if !defined(BKSGE_HAS_CXX20_CONCEPTS)
+		, typename = decltype(bksge::declval<swap_fn const&>()(bksge::declval<T&>(), bksge::declval<U&>()))
+#endif
 	>
-//	requires requires(const swap_fn& fn, T& t, U& u)
-//	{
-//		fn(t, u);
-//	}
+#if defined(BKSGE_HAS_CXX20_CONCEPTS)
+	requires requires(const swap_fn& fn, T& t, U& u)
+	{
+		fn(t, u);
+	}
+#endif
 	static BKSGE_CXX14_CONSTEXPR void
 	impl(bksge::detail::overload_priority<1>, T (&t)[N], U (&u)[N])
 		BKSGE_NOEXCEPT_IF_EXPR(bksge::declval<swap_fn const&>()(*t, *u))
@@ -71,19 +79,23 @@ private:
 	}
 
 	template <
-		typename T, typename U,
-		typename = bksge::enable_if_t<
-			bksge::same_as_t<T, U>::value &&
+		typename T, typename U
+#if !defined(BKSGE_HAS_CXX20_CONCEPTS)
+		, typename = bksge::enable_if_t<
+			bksge::same_as<T, U>::value &&
 			bksge::is_lvalue_reference<T>::value &&
-			bksge::move_constructible_t<bksge::remove_reference_t<T>>::value &&
-			bksge::assignable_from_t<T, bksge::remove_reference_t<T>>::value
+			bksge::move_constructible<bksge::remove_reference_t<T>>::value &&
+			bksge::assignable_from<T, bksge::remove_reference_t<T>>::value
 		>
+#endif
 	>
-//	requires
-//		same_as<T, U> &&
-//		bksge::is_lvalue_reference<T>::value &&
-//		move_constructible<bksge::remove_reference_t<T>> &&
-//		assignable_from<T, bksge::remove_reference_t<T>>
+#if defined(BKSGE_HAS_CXX20_CONCEPTS)
+	requires
+		same_as<T, U> &&
+		bksge::is_lvalue_reference<T>::value &&
+		move_constructible<bksge::remove_reference_t<T>> &&
+		assignable_from<T, bksge::remove_reference_t<T>>
+#endif
 	static BKSGE_CXX14_CONSTEXPR void
 	impl(bksge::detail::overload_priority<0>, T&& t, U&& u)
 		BKSGE_NOEXCEPT_IF(

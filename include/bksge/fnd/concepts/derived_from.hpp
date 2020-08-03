@@ -26,18 +26,23 @@ concept derived_from =
 	bksge::is_base_of<Base, Derived>::value &&
 	bksge::is_convertible<const volatile Derived*, const volatile Base*>::value;
 
-#endif
+#define BKSGE_CONCEPTS_DERIVED_FROM(T, U)	bksge::derived_from<T, U>
+
+#else
 
 template <typename Derived, typename Base>
-struct derived_from_t
-	: public bksge::conjunction<
+using derived_from =
+	bksge::conjunction<
 		bksge::is_base_of<Base, Derived>,
 		bksge::is_convertible<
 			bksge::add_pointer_t<bksge::add_cv_t<Derived>>,
 			bksge::add_pointer_t<bksge::add_cv_t<Base>>
 		>
-	>
-{};
+	>;
+
+#define BKSGE_CONCEPTS_DERIVED_FROM(T, U)	bksge::derived_from<T, U>::value
+
+#endif
 
 }	// namespace bksge
 

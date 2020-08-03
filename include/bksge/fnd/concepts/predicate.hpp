@@ -25,19 +25,19 @@ concept predicate =
 	bksge::regular_invocable<Fn, Args...> &&
 	detail::boolean_testable<bksge::invoke_result_t<Fn, Args...>>;
 
-#endif
+#else
 
 namespace detail
 {
 
 template <typename Fn, typename... Args>
-struct predicate_t_impl
+struct predicate_impl
 {
 private:
 	template <typename U, typename... As>
 	static auto test(int) -> bksge::conjunction<
-		bksge::regular_invocable_t<U, As...>,
-		detail::boolean_testable_t<bksge::invoke_result_t<U, As...>>
+		bksge::regular_invocable<U, As...>,
+		detail::boolean_testable<bksge::invoke_result_t<U, As...>>
 	>;
 
 	template <typename U, typename... As>
@@ -50,9 +50,9 @@ public:
 }	// namespace detail
 
 template <typename Fn, typename... Args>
-struct predicate_t
-	: public detail::predicate_t_impl<Fn, Args...>::type
-{};
+using predicate = typename detail::predicate_impl<Fn, Args...>::type;
+
+#endif
 
 }	// namespace bksge
 

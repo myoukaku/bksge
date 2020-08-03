@@ -20,10 +20,12 @@ namespace bksge
 template <typename T>
 concept floating_point = bksge::is_floating_point<T>::value;
 
-#endif
+#else
 
 template <typename T>
-struct floating_point_t : public bksge::is_floating_point<T> {};
+using floating_point = bksge::is_floating_point<T>;
+
+#endif
 
 }	// namespace bksge
 

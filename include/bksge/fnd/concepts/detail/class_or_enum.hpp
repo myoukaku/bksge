@@ -12,7 +12,7 @@
 #include <bksge/fnd/type_traits/is_class.hpp>
 #include <bksge/fnd/type_traits/is_union.hpp>
 #include <bksge/fnd/type_traits/is_enum.hpp>
-#include <bksge/fnd/type_traits/bool_constant.hpp>
+#include <bksge/fnd/type_traits/disjunction.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -29,16 +29,16 @@ concept class_or_enum =
 	bksge::is_union<T>::value ||
 	bksge::is_enum<T>::value;
 
-#endif
+#else
 
 template <typename T>
-struct class_or_enum_t
-	: public bksge::bool_constant<
-		bksge::is_class<T>::value ||
-		bksge::is_union<T>::value ||
-		bksge::is_enum<T>::value
-	>
-{};
+using class_or_enum = bksge::disjunction<
+	bksge::is_class<T>,
+	bksge::is_union<T>,
+	bksge::is_enum<T>
+>;
+
+#endif
 
 }	// namespace detail
 

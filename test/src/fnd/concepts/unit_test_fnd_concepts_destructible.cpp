@@ -11,11 +11,10 @@
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_DESTRUCTIBLE_TEST(B, T)	\
-	static_assert(B == bksge::destructible<T>, " ");	\
-	static_assert(B == bksge::destructible_t<T>::value, " ")
+	static_assert(B == bksge::destructible<T>, "")
 #else
 #  define BKSGE_DESTRUCTIBLE_TEST(B, T) \
-	static_assert(B == bksge::destructible_t<T>::value, " ")
+	static_assert(B == bksge::destructible<T>::value, "")
 #endif
 
 namespace bksge_concepts_test

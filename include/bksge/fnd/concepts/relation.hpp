@@ -25,17 +25,18 @@ concept relation =
 	bksge::predicate<Rel, T, U> &&
 	bksge::predicate<Rel, U, T>;
 
-#endif
+#else
 
 template <typename Rel, typename T, typename U>
-struct relation_t
-	: public bksge::conjunction<
-		bksge::predicate_t<Rel, T, T>,
-		bksge::predicate_t<Rel, U, U>,
-		bksge::predicate_t<Rel, T, U>,
-		bksge::predicate_t<Rel, U, T>
-	>
-{};
+using relation =
+	bksge::conjunction<
+		bksge::predicate<Rel, T, T>,
+		bksge::predicate<Rel, U, U>,
+		bksge::predicate<Rel, T, U>,
+		bksge::predicate<Rel, U, T>
+	>;
+
+#endif
 
 }	// namespace bksge
 

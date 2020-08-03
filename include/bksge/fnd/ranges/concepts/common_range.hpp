@@ -38,7 +38,7 @@ private:
 	template <typename U>
 	static auto test(int) -> bksge::conjunction<
 		ranges::range<U>,
-		bksge::same_as_t<ranges::iterator_t<U>, ranges::sentinel_t<U>>
+		bksge::same_as<ranges::iterator_t<U>, ranges::sentinel_t<U>>
 	>;
 
 	template <typename U>

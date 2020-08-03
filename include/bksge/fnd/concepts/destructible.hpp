@@ -20,10 +20,12 @@ namespace bksge
 template <typename T>
 concept destructible = bksge::is_nothrow_destructible<T>::value;
 
-#endif
+#else
 
 template <typename T>
-struct destructible_t : public bksge::is_nothrow_destructible<T> {};
+using destructible = bksge::is_nothrow_destructible<T>;
+
+#endif
 
 }	// namespace bksge
 

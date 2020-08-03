@@ -49,9 +49,8 @@ public:
 };
 
 template <typename T>
-struct dereferenceable
-	: public detail::dereferenceable_impl<T>::type
-{};
+using dereferenceable =
+	typename detail::dereferenceable_impl<T>::type;
 
 #endif
 

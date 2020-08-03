@@ -95,7 +95,7 @@ BKSGE_CXX14_CONSTEXPR bool test01()
 
 	// t + extent_v<T> if E is of array type T.
 
-	static_assert(bksge::same_as_t<decltype(bksge::ranges::end(a)), decltype(a + 2)>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::ranges::end(a)), decltype(a + 2)>::value, "");
 	static_assert(noexcept(bksge::ranges::end(a)), "");
 	return bksge::ranges::end(a) == (a + 2);
 }
@@ -104,7 +104,7 @@ bool test02()
 {
 	std::vector<int> v ={1,2,3};
 
-	static_assert(bksge::same_as_t<decltype(bksge::ranges::end(v)), decltype(v.end())>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::ranges::end(v)), decltype(v.end())>::value, "");
 	return bksge::ranges::end(v) == v.end();
 }
 
@@ -115,10 +115,10 @@ BKSGE_CXX14_CONSTEXPR bool test03()
 	RV v{r};
 	const RV cv{r};
 
-	static_assert(bksge::same_as_t<decltype(bksge::ranges::end(r)), decltype(end(r))>::value, "");
-	static_assert(bksge::same_as_t<decltype(bksge::ranges::end(c)), decltype(end(c))>::value, "");
-	static_assert(bksge::same_as_t<decltype(bksge::ranges::end(bksge::move(v))), decltype(end(r))>::value, "");
-	static_assert(bksge::same_as_t<decltype(bksge::ranges::end(bksge::move(cv))), decltype(end(c))>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::ranges::end(r)), decltype(end(r))>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::ranges::end(c)), decltype(end(c))>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::ranges::end(bksge::move(v))), decltype(end(r))>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::ranges::end(bksge::move(cv))), decltype(end(c))>::value, "");
 
 #if !(defined(BKSGE_GCC_VERSION) && (BKSGE_GCC_VERSION < 90000))
 	static_assert(!noexcept(bksge::ranges::end(bksge::declval<R&>())), "");

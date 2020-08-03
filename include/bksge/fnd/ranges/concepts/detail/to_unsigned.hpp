@@ -28,7 +28,7 @@ template <
 	bksge::integral T
 #else
 	typename T,
-	typename = bksge::enable_if_t<bksge::integral_t<T>::value>
+	typename = bksge::enable_if_t<bksge::integral<T>::value>
 #endif
 >
 BKSGE_CONSTEXPR bksge::make_unsigned_t<T>

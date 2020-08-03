@@ -24,15 +24,16 @@ concept semiregular =
 	bksge::copyable<T> &&
 	bksge::default_initializable<T>;
 
-#endif
+#else
 
 template <typename T>
-struct semiregular_t
-	: public bksge::conjunction<
-		bksge::copyable_t<T>,
-		bksge::default_initializable_t<T>
-	>
-{};
+using semiregular =
+	bksge::conjunction<
+		bksge::copyable<T>,
+		bksge::default_initializable<T>
+	>;
+
+#endif
 
 }	// namespace bksge
 

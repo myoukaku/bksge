@@ -22,14 +22,19 @@ namespace bksge
 template <typename T>
 concept signed_integral = bksge::integral<T> && bksge::is_signed<T>::value;
 
-#endif
+#define BKSGE_CONCEPTS_SIGNED_INTEGRAL(T)	bksge::signed_integral<T>
+
+#else
 
 template <typename T>
-struct signed_integral_t
-	: public bksge::conjunction<
-		bksge::integral_t<T>, bksge::is_signed<T>
-	>
-{};
+using signed_integral =
+	bksge::conjunction<
+		bksge::integral<T>, bksge::is_signed<T>
+	>;
+
+#define BKSGE_CONCEPTS_SIGNED_INTEGRAL(T)	bksge::signed_integral<T>::value
+
+#endif
 
 }	// namespace bksge
 

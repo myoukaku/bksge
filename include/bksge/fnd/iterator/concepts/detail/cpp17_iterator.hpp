@@ -47,9 +47,9 @@ private:
 	template <typename I2>
 	static auto test(int) -> bksge::conjunction<
 		bksge::detail::can_reference<decltype( *bksge::declval<I2&>())>,
-		bksge::same_as_t            <decltype(++bksge::declval<I2&>()), I2&>,
+		bksge::same_as              <decltype(++bksge::declval<I2&>()), I2&>,
 		bksge::detail::can_reference<decltype( *bksge::declval<I2&>()++)>,
-		bksge::copyable_t<I2>
+		bksge::copyable<I2>
 	>;
 
 	template <typename I2>

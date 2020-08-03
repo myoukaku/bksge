@@ -20,10 +20,12 @@ namespace bksge
 template <typename T>
 concept equality_comparable = detail::weakly_eq_cmp_with<T, T>;
 
-#endif
+#else
 
 template <typename T>
-struct equality_comparable_t : public detail::weakly_eq_cmp_with_t<T, T> {};
+using equality_comparable = detail::weakly_eq_cmp_with<T, T>;
+
+#endif
 
 }	// namespace bksge
 

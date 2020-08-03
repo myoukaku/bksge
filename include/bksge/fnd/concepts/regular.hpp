@@ -24,15 +24,16 @@ concept regular =
 	bksge::semiregular<T> &&
 	bksge::equality_comparable<T>;
 
-#endif
+#else
 
 template <typename T>
-struct regular_t
-	: public bksge::conjunction<
-		bksge::semiregular_t<T>,
-		bksge::equality_comparable_t<T>
-	>
-{};
+using regular =
+	bksge::conjunction<
+		bksge::semiregular<T>,
+		bksge::equality_comparable<T>
+	>;
+
+#endif
 
 }	// namespace bksge
 

@@ -40,18 +40,18 @@ concept has_adl_swap =
 		swap(bksge::forward<T>(t), bksge::forward<U>(u));
 	};
 
-#endif
+#else
 
 template <typename T, typename U>
-struct has_adl_swap_t_impl
+struct has_adl_swap_impl
 {
 private:
 	template <typename T2, typename U2,
 		typename = decltype(swap(bksge::declval<T2>(), bksge::declval<U2>()))
 	>
 	static auto test(int) -> bksge::disjunction<
-		bksge::detail::class_or_enum_t<bksge::remove_reference_t<T2>>,
-		bksge::detail::class_or_enum_t<bksge::remove_reference_t<U2>>
+		bksge::detail::class_or_enum<bksge::remove_reference_t<T2>>,
+		bksge::detail::class_or_enum<bksge::remove_reference_t<U2>>
 	>;
 
 	template <typename T2, typename U2>
@@ -62,9 +62,9 @@ public:
 };
 
 template <typename T, typename U>
-struct has_adl_swap_t
-	: public has_adl_swap_t_impl<T, U>::type
-{};
+using has_adl_swap = typename has_adl_swap_impl<T, U>::type;
+
+#endif
 
 }	// namespace swap_detail
 

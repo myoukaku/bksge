@@ -54,7 +54,7 @@ private:
 	template <typename I2,
 		typename R = bksge::iter_reference_t<I2>,
 		typename = bksge::enable_if_t<
-			bksge::derived_from_t<
+			bksge::derived_from<
 				bksge::detail::iter_concept<I2>,
 				bksge::contiguous_iterator_tag
 			>::value
@@ -63,8 +63,8 @@ private:
 	static auto test(int) -> bksge::conjunction<
 		bksge::random_access_iterator<I2>,
 		bksge::is_lvalue_reference<R>,
-		bksge::same_as_t<bksge::iter_value_t<I2>, bksge::remove_cvref_t<R>>,
-		bksge::same_as_t<
+		bksge::same_as<bksge::iter_value_t<I2>, bksge::remove_cvref_t<R>>,
+		bksge::same_as<
 			decltype(bksge::to_address(bksge::declval<I2 const&>())),
 			bksge::add_pointer_t<R>
 		>

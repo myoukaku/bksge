@@ -71,9 +71,9 @@ struct eq_builtin_ptr_cmp_t_impl
 private:
 	template <typename T2, typename U2,
 		typename = bksge::enable_if_t<
-			bksge::same_as_t<decltype(bksge::declval<T2>() == bksge::declval<U2>()), bool>::value &&
-			bksge::convertible_to_t<T2, const volatile void*>::value &&
-			bksge::convertible_to_t<U2, const volatile void*>::value &&
+			bksge::same_as<decltype(bksge::declval<T2>() == bksge::declval<U2>()), bool>::value &&
+			bksge::convertible_to<T2, const volatile void*>::value &&
+			bksge::convertible_to<U2, const volatile void*>::value &&
 			!has_operator_eq<T2, U2>::value &&
 			!has_member_eq<T2, U2>::value
 		>

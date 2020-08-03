@@ -24,15 +24,16 @@ concept constructible_from =
 	bksge::destructible<T> &&
 	bksge::is_constructible<T, Args...>::value;
 
-#endif
+#else
 
 template <typename T, typename... Args>
-struct constructible_from_t
-	: public bksge::conjunction<
-		bksge::destructible_t<T>,
+using constructible_from =
+	bksge::conjunction<
+		bksge::destructible<T>,
 		bksge::is_constructible<T, Args...>
-	>
-{};
+	>;
+
+#endif
 
 }	// namespace bksge
 

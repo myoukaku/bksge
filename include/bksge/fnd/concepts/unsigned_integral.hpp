@@ -22,14 +22,15 @@ namespace bksge
 template <typename T>
 concept unsigned_integral = bksge::integral<T> && !bksge::signed_integral<T>;
 
-#endif
+#else
 
 template <typename T>
-struct unsigned_integral_t
-	: public bksge::bool_constant<
-		bksge::integral_t<T>::value && !bksge::signed_integral_t<T>::value
-	>
-{};
+using unsigned_integral =
+	bksge::bool_constant<
+		bksge::integral<T>::value && !bksge::signed_integral<T>::value
+	>;
+
+#endif
 
 }	// namespace bksge
 

@@ -54,7 +54,7 @@ struct has_adl_end_impl
 private:
 	template <typename U>
 	static auto test(int) -> bksge::conjunction<
-		bksge::detail::class_or_enum_t<bksge::remove_reference_t<T>>,
+		bksge::detail::class_or_enum<bksge::remove_reference_t<T>>,
 		bksge::sentinel_for<
 			decltype(decay_copy(end(bksge::declval<U&>()))),
 			decltype(ranges::begin(bksge::declval<U&>()))

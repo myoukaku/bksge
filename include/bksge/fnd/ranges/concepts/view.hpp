@@ -34,7 +34,7 @@ concept view =
 template <typename T>
 using view = bksge::conjunction<
 	ranges::range<T>,
-	bksge::semiregular_t<T>,
+	bksge::semiregular<T>,
 	bksge::bool_constant<BKSGE_RANGES_ENABLE_VIEW(T)>
 >;
 
