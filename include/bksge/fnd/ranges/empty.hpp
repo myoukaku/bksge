@@ -16,6 +16,7 @@
 #include <bksge/fnd/ranges/begin.hpp>
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/concepts/detail/overload_priority.hpp>
+#include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/utility/forward.hpp>
@@ -38,40 +39,19 @@ namespace detail
 struct empty_fn
 {
 private:
-	template <
-#if defined(BKSGE_HAS_CXX20_CONCEPTS)
-		has_member_empty T
-#else
-		typename T,
-		typename = bksge::enable_if_t<has_member_empty<T>::value>
-#endif
-	>
+	template <BKSGE_REQUIRE(has_member_empty, T)>
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<2>, T&& t)
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
 			bool(bksge::forward<T>(t).empty()))
 
-	template <
-#if defined(BKSGE_HAS_CXX20_CONCEPTS)
-		size0_empty T
-#else
-		typename T,
-		typename = bksge::enable_if_t<size0_empty<T>::value>
-#endif
-	>
+	template <BKSGE_REQUIRE(size0_empty, T)>
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<1>, T&& t)
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
 			ranges::size(bksge::forward<T>(t)) == 0)
 
-	template <
-#if defined(BKSGE_HAS_CXX20_CONCEPTS)
-		eq_iter_empty T
-#else
-		typename T,
-		typename = bksge::enable_if_t<eq_iter_empty<T>::value>
-#endif
-	>
+	template <BKSGE_REQUIRE(eq_iter_empty, T)>
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<0>, T&& t)
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(

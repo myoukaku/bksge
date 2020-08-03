@@ -14,6 +14,7 @@
 #include <bksge/fnd/ranges/detail/has_member_end.hpp>
 #include <bksge/fnd/ranges/detail/has_adl_end.hpp>
 #include <bksge/fnd/concepts/detail/overload_priority.hpp>
+#include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/extent.hpp>
 #include <bksge/fnd/type_traits/is_bounded_array.hpp>
@@ -56,14 +57,7 @@ private:
 		return t + bksge::extent<bksge::remove_reference_t<T>>::value;
 	}
 
-	template <
-#if defined(BKSGE_HAS_CXX20_CONCEPTS)
-		has_member_end T
-#else
-		typename T,
-		typename = bksge::enable_if_t<has_member_end<T>::value>
-#endif
-	>
+	template <BKSGE_REQUIRE(has_member_end, T)>
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<1>, T&& t)
 		BKSGE_NOEXCEPT_IF_EXPR(decay_copy(t.end()))
@@ -72,14 +66,7 @@ private:
 		return t.end();
 	}
 
-	template <
-#if defined(BKSGE_HAS_CXX20_CONCEPTS)
-		has_adl_end T
-#else
-		typename T,
-		typename = bksge::enable_if_t<has_adl_end<T>::value>
-#endif
-	>
+	template <BKSGE_REQUIRE(has_adl_end, T)>
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<0>, T&& t)
 		BKSGE_NOEXCEPT_IF_EXPR(decay_copy(end(t)))
@@ -89,16 +76,7 @@ private:
 	}
 
 public:
-	template <
-#if defined(BKSGE_HAS_CXX20_CONCEPTS)
-		maybe_borrowed_range T
-#else
-		typename T,
-		typename = bksge::enable_if_t<
-			maybe_borrowed_range<T>::value
-		>
-#endif
-	>
+	template <BKSGE_REQUIRE(maybe_borrowed_range, T)>
 	BKSGE_CONSTEXPR auto operator()(T&& t) const
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
 			impl(bksge::detail::overload_priority<2>{}, bksge::forward<T>(t)))

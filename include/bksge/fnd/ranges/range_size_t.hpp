@@ -11,6 +11,7 @@
 
 #include <bksge/fnd/ranges/concepts/sized_range.hpp>
 #include <bksge/fnd/ranges/size.hpp>
+#include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
@@ -21,14 +22,7 @@ namespace bksge
 namespace ranges
 {
 
-template <
-#if defined(BKSGE_HAS_CXX20_CONCEPTS)
-	ranges::sized_range Range
-#else
-	typename Range,
-	typename = bksge::enable_if_t<ranges::sized_range<Range>::value>
-#endif
->
+template <BKSGE_REQUIRE(ranges::sized_range, Range)>
 using range_size_t = decltype(ranges::size(bksge::declval<Range&>()));
 
 }	// namespace ranges

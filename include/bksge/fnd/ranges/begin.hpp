@@ -13,12 +13,13 @@
 #include <bksge/fnd/ranges/detail/decay_copy.hpp>
 #include <bksge/fnd/ranges/detail/has_member_begin.hpp>
 #include <bksge/fnd/ranges/detail/has_adl_begin.hpp>
+#include <bksge/fnd/concepts/detail/overload_priority.hpp>
+#include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_array.hpp>
 #include <bksge/fnd/type_traits/is_lvalue_reference.hpp>
 #include <bksge/fnd/type_traits/remove_all_extents.hpp>
 #include <bksge/fnd/type_traits/remove_reference.hpp>
-#include <bksge/fnd/concepts/detail/overload_priority.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 
@@ -58,14 +59,7 @@ private:
 		return t + 0;
 	}
 
-	template <
-#if defined(BKSGE_HAS_CXX20_CONCEPTS)
-		has_member_begin T
-#else
-		typename T,
-		typename = bksge::enable_if_t<has_member_begin<T>::value>
-#endif
-	>
+	template <BKSGE_REQUIRE(has_member_begin, T)>
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<1>, T&& t)
 		BKSGE_NOEXCEPT_IF_EXPR(decay_copy(t.begin()))
@@ -74,14 +68,7 @@ private:
 		return t.begin();
 	}
 
-	template <
-#if defined(BKSGE_HAS_CXX20_CONCEPTS)
-		has_adl_begin T
-#else
-		typename T,
-		typename = bksge::enable_if_t<has_adl_begin<T>::value>
-#endif
-	>
+	template <BKSGE_REQUIRE(has_adl_begin, T)>
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<0>, T&& t)
 		BKSGE_NOEXCEPT_IF_EXPR(decay_copy(begin(t)))
@@ -91,16 +78,7 @@ private:
 	}
 
 public:
-	template <
-#if defined(BKSGE_HAS_CXX20_CONCEPTS)
-		maybe_borrowed_range T
-#else
-		typename T,
-		typename = bksge::enable_if_t<
-			maybe_borrowed_range<T>::value
-		>
-#endif
-	>
+	template <BKSGE_REQUIRE(maybe_borrowed_range, T)>
 	BKSGE_CONSTEXPR auto operator()(T&& t) const
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
 			impl(bksge::detail::overload_priority<2>{}, bksge::forward<T>(t)))

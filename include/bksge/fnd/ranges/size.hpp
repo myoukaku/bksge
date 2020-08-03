@@ -17,6 +17,7 @@
 #include <bksge/fnd/ranges/begin.hpp>
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/concepts/detail/overload_priority.hpp>
+#include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/type_traits/extent.hpp>
 #include <bksge/fnd/type_traits/is_bounded_array.hpp>
 #include <bksge/fnd/type_traits/remove_reference.hpp>
@@ -59,14 +60,7 @@ private:
 		return bksge::extent<bksge::remove_reference_t<T>>::value;
 	}
 
-	template <
-#if defined(BKSGE_HAS_CXX20_CONCEPTS)
-		has_member_size T
-#else
-		typename T,
-		typename = bksge::enable_if_t<has_member_size<T>::value>
-#endif
-	>
+	template <BKSGE_REQUIRE(has_member_size, T)>
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<2>, T&& t)
 		BKSGE_NOEXCEPT_IF_EXPR(decay_copy(bksge::forward<T>(t).size()))
@@ -75,14 +69,7 @@ private:
 		return bksge::forward<T>(t).size();
 	}
 
-	template <
-#if defined(BKSGE_HAS_CXX20_CONCEPTS)
-		has_adl_size T
-#else
-		typename T,
-		typename = bksge::enable_if_t<has_adl_size<T>::value>
-#endif
-	>
+	template <BKSGE_REQUIRE(has_adl_size, T)>
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<1>, T&& t)
 		BKSGE_NOEXCEPT_IF_EXPR(decay_copy(size(bksge::forward<T>(t))))
@@ -91,14 +78,7 @@ private:
 		return size(bksge::forward<T>(t));
 	}
 
-	template <
-#if defined(BKSGE_HAS_CXX20_CONCEPTS)
-		sentinel_size T
-#else
-		typename T,
-		typename = bksge::enable_if_t<sentinel_size<T>::value>
-#endif
-	>
+	template <BKSGE_REQUIRE(sentinel_size, T)>
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<0>, T&& t)
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(

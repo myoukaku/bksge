@@ -9,6 +9,7 @@
 #ifndef UNIT_TEST_RANGES_TEST_HPP
 #define UNIT_TEST_RANGES_TEST_HPP
 
+#include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/iterator/concepts/random_access_iterator.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
@@ -17,13 +18,7 @@
 namespace
 {
 
-template <typename Iterator,
-#if defined(BKSGE_HAS_CXX20_CONCEPTS)
-	bool = bksge::random_access_iterator<Iterator>
-#else
-	bool = bksge::random_access_iterator<Iterator>::value
-#endif
->
+template <typename Iterator>
 struct test_sentinel
 {
 	Iterator m_it;
@@ -39,38 +34,37 @@ struct test_sentinel
 	{
 		return !(*this == i);
 	}
-
-	friend BKSGE_CXX14_CONSTEXPR bool
-	operator==(Iterator const& i, test_sentinel const& s) noexcept
-	{
-		return s == i;
-	}
-
-	friend BKSGE_CXX14_CONSTEXPR bool
-	operator!=(Iterator const& i, test_sentinel const& s) noexcept
-	{
-		return !(i == s);
-	}
 };
 
 template <typename Iterator>
-struct test_sentinel<Iterator, true>
-	: test_sentinel<Iterator, false>
+BKSGE_CXX14_CONSTEXPR bool
+operator==(Iterator const& i, test_sentinel<Iterator> const& s) noexcept
 {
-	friend BKSGE_CXX14_CONSTEXPR auto
-	operator-(test_sentinel const& s, Iterator const& i) noexcept
-	->decltype(s.m_it.m_ptr - i.m_ptr)
-	{
-		return s.m_it.m_ptr - i.m_ptr;
-	}
+	return s == i;
+}
 
-	friend BKSGE_CXX14_CONSTEXPR auto
-	operator-(Iterator const& i, test_sentinel const& s) noexcept
-	->decltype(i.m_ptr - s.m_it.m_ptr)
-	{
-		return i.m_ptr - s.m_it.m_ptr;
-	}
-};
+template <typename Iterator>
+BKSGE_CXX14_CONSTEXPR bool
+operator!=(Iterator const& i, test_sentinel<Iterator> const& s) noexcept
+{
+	return !(i == s);
+}
+
+template <BKSGE_REQUIRE(bksge::random_access_iterator, Iterator)>
+BKSGE_CXX14_CONSTEXPR auto
+operator-(test_sentinel<Iterator> const& s, Iterator const& i) noexcept
+->decltype(s.m_it.m_ptr - i.m_ptr)
+{
+	return s.m_it.m_ptr - i.m_ptr;
+}
+
+template <BKSGE_REQUIRE(bksge::random_access_iterator, Iterator)>
+BKSGE_CXX14_CONSTEXPR auto
+operator-(Iterator const& i, test_sentinel<Iterator> const& s) noexcept
+->decltype(i.m_ptr - s.m_it.m_ptr)
+{
+	return i.m_ptr - s.m_it.m_ptr;
+}
 
 template <typename T, template <typename> class Iterator>
 struct test_range
@@ -97,11 +91,12 @@ template <typename T> using test_output_range        = test_range<T, output_iter
 template <typename T, template <typename> class Iterator>
 struct test_sized_range : public test_range<T, Iterator>
 {
+	using base_t = test_range<T, Iterator>;
 	using test_range<T, Iterator>::test_range;
 
 	BKSGE_CXX14_CONSTEXPR std::size_t size() const noexcept
 	{
-		return m_last - m_first;
+		return base_t::m_last - base_t::m_first;
 	}
 };
 

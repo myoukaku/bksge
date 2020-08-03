@@ -15,6 +15,7 @@
 #include <bksge/fnd/ranges/detail/begin_data.hpp>
 #include <bksge/fnd/ranges/concepts/detail/maybe_borrowed_range.hpp>
 #include <bksge/fnd/concepts/detail/overload_priority.hpp>
+#include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/memory/to_address.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/utility/declval.hpp>
@@ -38,14 +39,7 @@ namespace detail
 struct data_fn
 {
 private:
-	template <
-#if defined(BKSGE_HAS_CXX20_CONCEPTS)
-		has_member_data T
-#else
-		typename T,
-		typename = bksge::enable_if_t<has_member_data<T>::value>
-#endif
-	>
+	template <BKSGE_REQUIRE(has_member_data, T)>
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<1>, T&& t)
 		BKSGE_NOEXCEPT_IF_EXPR(decay_copy(bksge::declval<T>().data()))
@@ -54,30 +48,14 @@ private:
 		return t.data();
 	}
 
-	template <
-#if defined(BKSGE_HAS_CXX20_CONCEPTS)
-		begin_data T
-#else
-		typename T,
-		typename = bksge::enable_if_t<begin_data<T>::value>
-#endif
-	>
+	template <BKSGE_REQUIRE(begin_data, T)>
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<0>, T&& t)
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
 			bksge::to_address(ranges::begin(bksge::forward<T>(t))))
 
 public:
-	template <
-#if defined(BKSGE_HAS_CXX20_CONCEPTS)
-		maybe_borrowed_range T
-#else
-		typename T,
-		typename = bksge::enable_if_t<
-			maybe_borrowed_range<T>::value
-		>
-#endif
-	>
+	template <BKSGE_REQUIRE(maybe_borrowed_range, T)>
 	BKSGE_CONSTEXPR auto operator()(T&& t) const
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
 			impl(bksge::detail::overload_priority<1>{}, bksge::forward<T>(t)))

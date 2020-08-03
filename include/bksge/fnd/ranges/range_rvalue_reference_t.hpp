@@ -11,6 +11,7 @@
 
 #include <bksge/fnd/ranges/concepts/range.hpp>
 #include <bksge/fnd/ranges/iterator_t.hpp>
+#include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/iterator/iter_rvalue_reference_t.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
@@ -21,14 +22,7 @@ namespace bksge
 namespace ranges
 {
 
-template <
-#if defined(BKSGE_HAS_CXX20_CONCEPTS)
-	ranges::range Range
-#else
-	typename Range,
-	typename = bksge::enable_if_t<ranges::range<Range>::value>
-#endif
->
+template <BKSGE_REQUIRE(ranges::range, Range)>
 using range_rvalue_reference_t = bksge::iter_rvalue_reference_t<ranges::iterator_t<Range>>;
 
 }	// namespace ranges
