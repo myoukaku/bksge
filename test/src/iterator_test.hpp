@@ -10,6 +10,7 @@
 #define UNIT_TEST_ITERATOR_TEST_HPP
 
 #include <bksge/fnd/iterator/tag.hpp>
+#include <bksge/fnd/config.hpp>
 #include <cstddef>
 
 namespace

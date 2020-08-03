@@ -24,6 +24,5 @@
 #include <bksge/fnd/ranges/concepts/sized_range.hpp>
 #include <bksge/fnd/ranges/concepts/view.hpp>
 #include <bksge/fnd/ranges/concepts/viewable_range.hpp>
-#include <bksge/fnd/ranges/concepts/view_base.hpp>
 
 #endif // BKSGE_FND_RANGES_CONCEPTS_HPP

@@ -40,7 +40,7 @@ namespace bksge
 namespace ranges
 {
 
-template <BKSGE_REQUIRE(bksge::input_or_output_iterator, It)>
+template <BKSGE_REQUIRES_PARAM(bksge::input_or_output_iterator, It)>
 inline BKSGE_CXX14_CONSTEXPR It
 next(It x)
 {
@@ -48,7 +48,7 @@ next(It x)
 	return x;
 }
 
-template <BKSGE_REQUIRE(bksge::input_or_output_iterator, It)>
+template <BKSGE_REQUIRES_PARAM(bksge::input_or_output_iterator, It)>
 inline BKSGE_CXX14_CONSTEXPR It
 next(It x, bksge::iter_difference_t<It> n)
 {

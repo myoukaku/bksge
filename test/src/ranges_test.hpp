@@ -13,6 +13,7 @@
 #include <bksge/fnd/iterator/concepts/random_access_iterator.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 #include "iterator_test.hpp"
 
 namespace bksge_ranges_test
@@ -50,7 +51,7 @@ operator!=(Iterator const& i, test_sentinel<Iterator> const& s) noexcept
 	return !(i == s);
 }
 
-template <BKSGE_REQUIRE(bksge::random_access_iterator, Iterator)>
+template <BKSGE_REQUIRES_PARAM(bksge::random_access_iterator, Iterator)>
 BKSGE_CXX14_CONSTEXPR auto
 operator-(test_sentinel<Iterator> const& s, Iterator const& i) noexcept
 ->decltype(s.m_it.m_ptr - i.m_ptr)
@@ -58,7 +59,7 @@ operator-(test_sentinel<Iterator> const& s, Iterator const& i) noexcept
 	return s.m_it.m_ptr - i.m_ptr;
 }
 
-template <BKSGE_REQUIRE(bksge::random_access_iterator, Iterator)>
+template <BKSGE_REQUIRES_PARAM(bksge::random_access_iterator, Iterator)>
 BKSGE_CXX14_CONSTEXPR auto
 operator-(Iterator const& i, test_sentinel<Iterator> const& s) noexcept
 ->decltype(i.m_ptr - s.m_it.m_ptr)

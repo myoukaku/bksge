@@ -29,6 +29,9 @@ concept view =
 	bksge::semiregular<T> &&
 	BKSGE_RANGES_ENABLE_VIEW(T);
 
+template <typename T>
+using is_view = bksge::bool_constant<view<T>>;
+
 #else
 
 template <typename T>
@@ -37,6 +40,9 @@ using view = bksge::conjunction<
 	bksge::semiregular<T>,
 	bksge::bool_constant<BKSGE_RANGES_ENABLE_VIEW(T)>
 >;
+
+template <typename T>
+using is_view = bksge::bool_constant<view<T>::value>;
 
 #endif
 

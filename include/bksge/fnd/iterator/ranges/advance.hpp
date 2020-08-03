@@ -50,14 +50,14 @@ namespace ranges
 namespace detail
 {
 
-template <BKSGE_REQUIRE(bksge::random_access_iterator, It)>
+template <BKSGE_REQUIRES_PARAM(bksge::random_access_iterator, It)>
 inline BKSGE_CXX14_CONSTEXPR void
 advance_impl_1(bksge::detail::overload_priority<2>, It& it, bksge::iter_difference_t<It> n)
 {
 	it += n;
 }
 
-template <BKSGE_REQUIRE(bksge::bidirectional_iterator, It)>
+template <BKSGE_REQUIRES_PARAM(bksge::bidirectional_iterator, It)>
 inline BKSGE_CXX14_CONSTEXPR void
 advance_impl_1(bksge::detail::overload_priority<1>, It& it, bksge::iter_difference_t<It> n)
 {
@@ -96,7 +96,7 @@ advance_impl_1(bksge::detail::overload_priority<0>, It& it, bksge::iter_differen
 
 }	// namespace detail
 
-template <BKSGE_REQUIRE(bksge::input_or_output_iterator, It)>
+template <BKSGE_REQUIRES_PARAM(bksge::input_or_output_iterator, It)>
 inline BKSGE_CXX14_CONSTEXPR void
 advance(It& it, bksge::iter_difference_t<It> n)
 {

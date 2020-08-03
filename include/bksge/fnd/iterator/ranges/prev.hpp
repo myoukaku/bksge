@@ -38,7 +38,7 @@ namespace bksge
 namespace ranges
 {
 
-template <BKSGE_REQUIRE(bksge::bidirectional_iterator, It)>
+template <BKSGE_REQUIRES_PARAM(bksge::bidirectional_iterator, It)>
 inline BKSGE_CXX14_CONSTEXPR It
 prev(It x)
 {
@@ -46,7 +46,7 @@ prev(It x)
 	return x;
 }
 
-template <BKSGE_REQUIRE(bksge::bidirectional_iterator, It)>
+template <BKSGE_REQUIRES_PARAM(bksge::bidirectional_iterator, It)>
 inline BKSGE_CXX14_CONSTEXPR It
 prev(It x, bksge::iter_difference_t<It> n)
 {
@@ -54,7 +54,7 @@ prev(It x, bksge::iter_difference_t<It> n)
 	return x;
 }
 
-template <BKSGE_REQUIRE(bksge::bidirectional_iterator, It)>
+template <BKSGE_REQUIRES_PARAM(bksge::bidirectional_iterator, It)>
 inline BKSGE_CXX14_CONSTEXPR It
 prev(It x, bksge::iter_difference_t<It> n, It bound)
 {

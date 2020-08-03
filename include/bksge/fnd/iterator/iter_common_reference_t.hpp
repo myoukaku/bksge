@@ -20,7 +20,7 @@
 namespace bksge
 {
 
-template <BKSGE_REQUIRE(bksge::indirectly_readable, T)>
+template <BKSGE_REQUIRES_PARAM(bksge::indirectly_readable, T)>
 using iter_common_reference_t =
 	bksge::common_reference_t<bksge::iter_reference_t<T>, bksge::iter_value_t<T>&>;
 

@@ -47,8 +47,8 @@ BKSGE_CXX14_CONSTEXPR bool test01()
 	static_assert(bksge::is_same<decltype(bksge::ranges::ssize(a1)), std::ptrdiff_t>::value, "");
 	static_assert(bksge::is_same<decltype(bksge::ranges::ssize(a2)), std::ptrdiff_t>::value, "");
 
-	static_assert(BKSGE_CONCEPTS_SIGNED_INTEGRAL(decltype(bksge::ranges::ssize(a1))), "");
-	static_assert(BKSGE_CONCEPTS_SIGNED_INTEGRAL(decltype(bksge::ranges::ssize(a2))), "");
+	static_assert(bksge::is_signed_integral<decltype(bksge::ranges::ssize(a1))>::value, "");
+	static_assert(bksge::is_signed_integral<decltype(bksge::ranges::ssize(a2))>::value, "");
 
 #if !(defined(BKSGE_GCC_VERSION) && (BKSGE_GCC_VERSION < 90000))
 	static_assert(noexcept(bksge::ranges::ssize(a1)), "");
@@ -63,14 +63,14 @@ BKSGE_CXX14_CONSTEXPR bool test01()
 bool test02()
 {
 	std::vector<int> v ={1,2,3,4};
-	static_assert(BKSGE_CONCEPTS_SIGNED_INTEGRAL(decltype(bksge::ranges::ssize(v))), "");
+	static_assert(bksge::is_signed_integral<decltype(bksge::ranges::ssize(v))>::value, "");
 	return bksge::ranges::size(v) == 4;
 }
 
 BKSGE_CXX14_CONSTEXPR bool test03()
 {
 	R r;
-	static_assert(BKSGE_CONCEPTS_SIGNED_INTEGRAL(decltype(bksge::ranges::ssize(r))), "");
+	static_assert(bksge::is_signed_integral<decltype(bksge::ranges::ssize(r))>::value, "");
 	return bksge::ranges::ssize(r) == 1;
 }
 

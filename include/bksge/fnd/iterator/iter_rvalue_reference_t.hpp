@@ -19,7 +19,7 @@
 namespace bksge
 {
 
-template <BKSGE_REQUIRE(detail::dereferenceable, I)>
+template <BKSGE_REQUIRES_PARAM(detail::dereferenceable, I)>
 using iter_rvalue_reference_t = decltype(ranges::iter_move(bksge::declval<I&>()));
 
 }	// namespace bksge

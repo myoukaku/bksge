@@ -6,8 +6,8 @@
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_FND_RANGES_CONCEPTS_DETAIL_TO_UNSIGNED_HPP
-#define BKSGE_FND_RANGES_CONCEPTS_DETAIL_TO_UNSIGNED_HPP
+#ifndef BKSGE_FND_RANGES_DETAIL_TO_UNSIGNED_HPP
+#define BKSGE_FND_RANGES_DETAIL_TO_UNSIGNED_HPP
 
 #include <bksge/fnd/concepts/integral.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
@@ -24,7 +24,7 @@ namespace ranges
 namespace detail
 {
 
-template <BKSGE_REQUIRE(bksge::integral, T)>
+template <BKSGE_REQUIRES_PARAM(bksge::integral, T)>
 BKSGE_CONSTEXPR bksge::make_unsigned_t<T>
 to_unsigned(T t) BKSGE_NOEXCEPT
 {
@@ -37,4 +37,4 @@ to_unsigned(T t) BKSGE_NOEXCEPT
 
 }	// namespace bksge
 
-#endif // BKSGE_FND_RANGES_CONCEPTS_DETAIL_TO_UNSIGNED_HPP
+#endif // BKSGE_FND_RANGES_DETAIL_TO_UNSIGNED_HPP

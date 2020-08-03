@@ -7,8 +7,8 @@
  */
 
 #include <bksge/fnd/ranges/concepts/view.hpp>
-#include <bksge/fnd/ranges/concepts/view_base.hpp>
 #include <bksge/fnd/ranges/concepts/enable_view.hpp>
+#include <bksge/fnd/ranges/view_base.hpp>
 #include <bksge/fnd/string_view.hpp>
 #include <bksge/fnd/span.hpp>
 #include <array>

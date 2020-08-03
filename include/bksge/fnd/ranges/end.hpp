@@ -57,7 +57,7 @@ private:
 		return t + bksge::extent<bksge::remove_reference_t<T>>::value;
 	}
 
-	template <BKSGE_REQUIRE(has_member_end, T)>
+	template <BKSGE_REQUIRES_PARAM(has_member_end, T)>
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<1>, T&& t)
 		BKSGE_NOEXCEPT_IF_EXPR(decay_copy(t.end()))
@@ -66,7 +66,7 @@ private:
 		return t.end();
 	}
 
-	template <BKSGE_REQUIRE(has_adl_end, T)>
+	template <BKSGE_REQUIRES_PARAM(has_adl_end, T)>
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<0>, T&& t)
 		BKSGE_NOEXCEPT_IF_EXPR(decay_copy(end(t)))
@@ -76,7 +76,7 @@ private:
 	}
 
 public:
-	template <BKSGE_REQUIRE(maybe_borrowed_range, T)>
+	template <BKSGE_REQUIRES_PARAM(maybe_borrowed_range, T)>
 	BKSGE_CONSTEXPR auto operator()(T&& t) const
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
 			impl(bksge::detail::overload_priority<2>{}, bksge::forward<T>(t)))

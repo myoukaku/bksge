@@ -39,7 +39,7 @@ namespace detail
 struct data_fn
 {
 private:
-	template <BKSGE_REQUIRE(has_member_data, T)>
+	template <BKSGE_REQUIRES_PARAM(has_member_data, T)>
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<1>, T&& t)
 		BKSGE_NOEXCEPT_IF_EXPR(decay_copy(bksge::declval<T>().data()))
@@ -48,14 +48,14 @@ private:
 		return t.data();
 	}
 
-	template <BKSGE_REQUIRE(begin_data, T)>
+	template <BKSGE_REQUIRES_PARAM(begin_data, T)>
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<0>, T&& t)
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
 			bksge::to_address(ranges::begin(bksge::forward<T>(t))))
 
 public:
-	template <BKSGE_REQUIRE(maybe_borrowed_range, T)>
+	template <BKSGE_REQUIRES_PARAM(maybe_borrowed_range, T)>
 	BKSGE_CONSTEXPR auto operator()(T&& t) const
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
 			impl(bksge::detail::overload_priority<1>{}, bksge::forward<T>(t)))

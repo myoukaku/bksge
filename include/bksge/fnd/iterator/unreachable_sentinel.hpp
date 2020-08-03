@@ -19,7 +19,7 @@ namespace bksge
 
 struct unreachable_sentinel_t
 {
-	template <BKSGE_REQUIRE(bksge::weakly_incrementable, It)>
+	template <BKSGE_REQUIRES_PARAM(bksge::weakly_incrementable, It)>
 	friend BKSGE_CONSTEXPR bool
 	operator==(unreachable_sentinel_t, It const&) BKSGE_NOEXCEPT
 	{

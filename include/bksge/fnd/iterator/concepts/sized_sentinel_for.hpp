@@ -31,6 +31,9 @@ concept sized_sentinel_for =
 		{ i - s } -> bksge::same_as<bksge::iter_difference_t<Iter>>;
 	};
 
+template <typename Sent, typename Iter>
+using is_sized_sentinel_for = bksge::bool_constant<sized_sentinel_for<Sent, Iter>>;
+
 #else
 
 namespace detail
@@ -65,6 +68,9 @@ public:
 template <typename Sent, typename Iter>
 using sized_sentinel_for =
 	typename detail::sized_sentinel_for_impl<Sent, Iter>::type;
+
+template <typename Sent, typename Iter>
+using is_sized_sentinel_for = bksge::bool_constant<sized_sentinel_for<Sent, Iter>::value>;
 
 #endif
 

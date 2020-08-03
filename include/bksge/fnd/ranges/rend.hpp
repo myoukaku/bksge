@@ -40,7 +40,7 @@ namespace detail
 struct rend_fn
 {
 private:
-	template <BKSGE_REQUIRE(has_member_rend, T)>
+	template <BKSGE_REQUIRES_PARAM(has_member_rend, T)>
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<2>, T&& t)
 		BKSGE_NOEXCEPT_IF_EXPR(decay_copy(t.rend()))
@@ -49,7 +49,7 @@ private:
 		return t.rend();
 	}
 
-	template <BKSGE_REQUIRE(has_adl_rend, T)>
+	template <BKSGE_REQUIRES_PARAM(has_adl_rend, T)>
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<1>, T&& t)
 		BKSGE_NOEXCEPT_IF_EXPR(decay_copy(rend(t)))
@@ -58,7 +58,7 @@ private:
 		return rend(t);
 	}
 
-	template <BKSGE_REQUIRE(reversable, T)>
+	template <BKSGE_REQUIRES_PARAM(reversable, T)>
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<0>, T&& t)
 		noexcept(
@@ -71,7 +71,7 @@ private:
 	}
 
 public:
-	template <BKSGE_REQUIRE(maybe_borrowed_range, T)>
+	template <BKSGE_REQUIRES_PARAM(maybe_borrowed_range, T)>
 	BKSGE_CONSTEXPR auto operator()(T&& t) const
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
 			impl(bksge::detail::overload_priority<2>{}, bksge::forward<T>(t)))

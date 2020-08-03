@@ -40,7 +40,7 @@ namespace detail
 struct rbegin_fn
 {
 private:
-	template <BKSGE_REQUIRE(has_member_rbegin, T)>
+	template <BKSGE_REQUIRES_PARAM(has_member_rbegin, T)>
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<2>, T&& t)
 		BKSGE_NOEXCEPT_IF_EXPR(decay_copy(t.rbegin()))
@@ -49,7 +49,7 @@ private:
 		return t.rbegin();
 	}
 
-	template <BKSGE_REQUIRE(has_adl_rbegin, T)>
+	template <BKSGE_REQUIRES_PARAM(has_adl_rbegin, T)>
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<1>, T&& t)
 		BKSGE_NOEXCEPT_IF_EXPR(decay_copy(rbegin(t)))
@@ -58,7 +58,7 @@ private:
 		return rbegin(t);
 	}
 
-	template <BKSGE_REQUIRE(reversable, T)>
+	template <BKSGE_REQUIRES_PARAM(reversable, T)>
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<0>, T&& t)
 		noexcept(
@@ -71,7 +71,7 @@ private:
 	}
 
 public:
-	template <BKSGE_REQUIRE(maybe_borrowed_range, T)>
+	template <BKSGE_REQUIRES_PARAM(maybe_borrowed_range, T)>
 	BKSGE_CONSTEXPR auto operator()(T&& t) const
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
 			impl(bksge::detail::overload_priority<2>{}, bksge::forward<T>(t)))

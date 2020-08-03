@@ -101,7 +101,7 @@ distance(It first, Sent last)
 namespace detail
 {
 
-template <BKSGE_REQUIRE(ranges::sized_range, Range)>
+template <BKSGE_REQUIRES_PARAM(ranges::sized_range, Range)>
 inline BKSGE_CXX14_CONSTEXPR ranges::range_difference_t<Range>
 distance_impl_2(bksge::detail::overload_priority<1>, Range&& r)
 {
@@ -117,7 +117,7 @@ distance_impl_2(bksge::detail::overload_priority<0>, Range&& r)
 
 }	// namespace detail
 
-template <BKSGE_REQUIRE(ranges::range, Range)>
+template <BKSGE_REQUIRES_PARAM(ranges::range, Range)>
 inline BKSGE_CXX14_CONSTEXPR ranges::range_difference_t<Range>
 distance(Range&& r)
 {

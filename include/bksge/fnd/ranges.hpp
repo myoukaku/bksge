@@ -30,5 +30,9 @@
 #include <bksge/fnd/ranges/sentinel_t.hpp>
 #include <bksge/fnd/ranges/size.hpp>
 #include <bksge/fnd/ranges/ssize.hpp>
+#include <bksge/fnd/ranges/subrange.hpp>
+#include <bksge/fnd/ranges/subrange_kind.hpp>
+#include <bksge/fnd/ranges/view_base.hpp>
+#include <bksge/fnd/ranges/view_interface.hpp>
 
 #endif // BKSGE_FND_RANGES_HPP

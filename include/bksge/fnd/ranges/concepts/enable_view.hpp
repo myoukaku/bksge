@@ -9,7 +9,7 @@
 #ifndef BKSGE_FND_RANGES_CONCEPTS_ENABLE_VIEW_HPP
 #define BKSGE_FND_RANGES_CONCEPTS_ENABLE_VIEW_HPP
 
-#include <bksge/fnd/ranges/concepts/view_base.hpp>
+#include <bksge/fnd/ranges/view_base.hpp>
 #include <bksge/fnd/concepts/derived_from.hpp>
 #include <bksge/fnd/config.hpp>
 
@@ -24,7 +24,7 @@ namespace ranges
 template <typename T>
 BKSGE_INLINE_VAR BKSGE_CONSTEXPR
 bool enable_view =
-	BKSGE_CONCEPTS_DERIVED_FROM(T, bksge::ranges::view_base);
+	is_derived_from<T, bksge::ranges::view_base>::value;
 
 #define BKSGE_RANGES_ENABLE_VIEW(...)	\
 	::bksge::ranges::enable_view<__VA_ARGS__>
@@ -39,7 +39,7 @@ template <typename T>
 struct enable_view
 {
 	BKSGE_STATIC_CONSTEXPR bool value =
-		BKSGE_CONCEPTS_DERIVED_FROM(T, bksge::ranges::view_base);
+		is_derived_from<T, bksge::ranges::view_base>::value;
 };
 
 #define BKSGE_RANGES_ENABLE_VIEW(...)	\

@@ -10,6 +10,7 @@
 #define BKSGE_FND_CONCEPTS_SIGNED_INTEGRAL_HPP
 
 #include <bksge/fnd/concepts/integral.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/is_signed.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/config.hpp>
@@ -22,7 +23,8 @@ namespace bksge
 template <typename T>
 concept signed_integral = bksge::integral<T> && bksge::is_signed<T>::value;
 
-#define BKSGE_CONCEPTS_SIGNED_INTEGRAL(T)	bksge::signed_integral<T>
+template <typename T>
+using is_signed_integral = bksge::bool_constant<signed_integral<T>>;
 
 #else
 
@@ -32,7 +34,8 @@ using signed_integral =
 		bksge::integral<T>, bksge::is_signed<T>
 	>;
 
-#define BKSGE_CONCEPTS_SIGNED_INTEGRAL(T)	bksge::signed_integral<T>::value
+template <typename T>
+using is_signed_integral = bksge::bool_constant<signed_integral<T>::value>;
 
 #endif
 

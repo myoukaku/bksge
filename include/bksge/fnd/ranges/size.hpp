@@ -13,7 +13,7 @@
 #include <bksge/fnd/ranges/detail/has_adl_size.hpp>
 #include <bksge/fnd/ranges/detail/sentinel_size.hpp>
 #include <bksge/fnd/ranges/detail/decay_copy.hpp>
-#include <bksge/fnd/ranges/concepts/detail/to_unsigned.hpp>
+#include <bksge/fnd/ranges/detail/to_unsigned.hpp>
 #include <bksge/fnd/ranges/begin.hpp>
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/concepts/detail/overload_priority.hpp>
@@ -60,7 +60,7 @@ private:
 		return bksge::extent<bksge::remove_reference_t<T>>::value;
 	}
 
-	template <BKSGE_REQUIRE(has_member_size, T)>
+	template <BKSGE_REQUIRES_PARAM(has_member_size, T)>
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<2>, T&& t)
 		BKSGE_NOEXCEPT_IF_EXPR(decay_copy(bksge::forward<T>(t).size()))
@@ -69,7 +69,7 @@ private:
 		return bksge::forward<T>(t).size();
 	}
 
-	template <BKSGE_REQUIRE(has_adl_size, T)>
+	template <BKSGE_REQUIRES_PARAM(has_adl_size, T)>
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<1>, T&& t)
 		BKSGE_NOEXCEPT_IF_EXPR(decay_copy(size(bksge::forward<T>(t))))
@@ -78,7 +78,7 @@ private:
 		return size(bksge::forward<T>(t));
 	}
 
-	template <BKSGE_REQUIRE(sentinel_size, T)>
+	template <BKSGE_REQUIRES_PARAM(sentinel_size, T)>
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<0>, T&& t)
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(

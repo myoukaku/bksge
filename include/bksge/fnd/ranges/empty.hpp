@@ -39,19 +39,19 @@ namespace detail
 struct empty_fn
 {
 private:
-	template <BKSGE_REQUIRE(has_member_empty, T)>
+	template <BKSGE_REQUIRES_PARAM(has_member_empty, T)>
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<2>, T&& t)
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
 			bool(bksge::forward<T>(t).empty()))
 
-	template <BKSGE_REQUIRE(size0_empty, T)>
+	template <BKSGE_REQUIRES_PARAM(size0_empty, T)>
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<1>, T&& t)
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
 			ranges::size(bksge::forward<T>(t)) == 0)
 
-	template <BKSGE_REQUIRE(eq_iter_empty, T)>
+	template <BKSGE_REQUIRES_PARAM(eq_iter_empty, T)>
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<0>, T&& t)
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(

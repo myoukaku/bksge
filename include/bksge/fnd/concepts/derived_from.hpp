@@ -26,7 +26,8 @@ concept derived_from =
 	bksge::is_base_of<Base, Derived>::value &&
 	bksge::is_convertible<const volatile Derived*, const volatile Base*>::value;
 
-#define BKSGE_CONCEPTS_DERIVED_FROM(T, U)	bksge::derived_from<T, U>
+template <typename Derived, typename Base>
+using is_derived_from = bksge::bool_constant<derived_from<Derived, Base>>;
 
 #else
 
@@ -40,7 +41,8 @@ using derived_from =
 		>
 	>;
 
-#define BKSGE_CONCEPTS_DERIVED_FROM(T, U)	bksge::derived_from<T, U>::value
+template <typename Derived, typename Base>
+using is_derived_from = bksge::bool_constant<derived_from<Derived, Base>::value>;
 
 #endif
 

@@ -22,7 +22,7 @@ namespace bksge
 namespace ranges
 {
 
-template <BKSGE_REQUIRE(ranges::range, Range)>
+template <BKSGE_REQUIRES_PARAM(ranges::range, Range)>
 using sentinel_t = decltype(ranges::end(bksge::declval<Range&>()));
 
 }	// namespace ranges

@@ -6,8 +6,8 @@
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_FND_RANGES_CONCEPTS_VIEW_BASE_HPP
-#define BKSGE_FND_RANGES_CONCEPTS_VIEW_BASE_HPP
+#ifndef BKSGE_FND_RANGES_VIEW_BASE_HPP
+#define BKSGE_FND_RANGES_VIEW_BASE_HPP
 
 namespace bksge
 {
@@ -21,4 +21,4 @@ struct view_base {};
 
 }	// namespace bksge
 
-#endif // BKSGE_FND_RANGES_CONCEPTS_VIEW_BASE_HPP
+#endif // BKSGE_FND_RANGES_VIEW_BASE_HPP

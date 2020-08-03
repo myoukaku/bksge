@@ -22,7 +22,7 @@ namespace bksge
 namespace ranges
 {
 
-template <BKSGE_REQUIRE(ranges::range, Range)>
+template <BKSGE_REQUIRES_PARAM(ranges::range, Range)>
 using range_value_t = bksge::iter_value_t<ranges::iterator_t<Range>>;
 
 }	// namespace ranges
