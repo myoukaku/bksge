@@ -15,7 +15,7 @@
 #include <bksge/fnd/config.hpp>
 #include "iterator_test.hpp"
 
-namespace
+namespace bksge_ranges_test
 {
 
 template <typename Iterator>
@@ -107,6 +107,8 @@ template <typename T> using test_forward_sized_range       = test_sized_range<T,
 template <typename T> using test_input_sized_range         = test_sized_range<T, input_iterator_wrapper>;
 template <typename T> using test_output_sized_range        = test_sized_range<T, output_iterator_wrapper>;
 
-}	// namespace
+}	// namespace bksge_ranges_test
+
+using namespace bksge_ranges_test;
 
 #endif // UNIT_TEST_RANGES_TEST_HPP
