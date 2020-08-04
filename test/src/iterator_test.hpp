@@ -36,14 +36,16 @@ struct incrementable_wrapper
 template <typename T>
 struct indirectly_readable_wrapper
 {
+	T*	m_ptr;
 	using value_type = T;
-	BKSGE_CXX14_CONSTEXPR T const& operator*() const;
+	BKSGE_CXX14_CONSTEXPR T const& operator*() const { return *m_ptr; }
 };
 
 template <typename T>
 struct indirectly_writable_wrapper
 {
-	BKSGE_CXX14_CONSTEXPR T& operator*() const;
+	T*	m_ptr;
+	BKSGE_CXX14_CONSTEXPR T& operator*() const { return *m_ptr; }
 };
 
 template <typename T>
