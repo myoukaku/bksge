@@ -3,303 +3,177 @@
 		{
 			"BUILD_DIR": "${projectDir}\\build",
 			"INSTALL_DIR": "${projectDir}\\install",
-		},
-		{
-			"environment": "visual_studio_2019_win64",
-			"GENERATOR": "Visual Studio 16 2019 Win64",
-			"BUILD_COMMAND_ARGS": ""
-		},
-		{
-			"environment": "visual_studio_2019",
-			"GENERATOR": "Visual Studio 16 2019",
-			"BUILD_COMMAND_ARGS": ""
-		},
-		{
-			"environment": "ninja",
 			"GENERATOR": "Ninja",
-			"BUILD_COMMAND_ARGS": "-v"
-		},
-		{
-			"environment": "std_11",
-			"CMAKE_CXX_STANDARD": "11"
-		},
-		{
-			"environment": "std_14",
-			"CMAKE_CXX_STANDARD": "14"
-		},
-		{
-			"environment": "std_17",
-			"CMAKE_CXX_STANDARD": "17"
-		},
-		{
-			"environment": "std_20",
-			"CMAKE_CXX_STANDARD": "20"
-		},
-		{
-			"environment": "mingw_64",
-			"MINGW64_ROOT": "C:\\msys64\\mingw64",
-			"FLAVOR": "x86_64-w64-mingw32",
-			"TOOLSET_VERSION": "7.3.0",
-			"PATH": "${env.MINGW64_ROOT}\\bin;${env.MINGW64_ROOT}\\..\\usr\\local\\bin;${env.MINGW64_ROOT}\\..\\usr\\bin;${env.MINGW64_ROOT}\\..\\bin;${env.PATH}",
-			"INCLUDE": "${env.INCLUDE};${env.MINGW64_ROOT}\\include\\c++\\${env.TOOLSET_VERSION};${env.MINGW64_ROOT}\\include\\c++\\${env.TOOLSET_VERSION}\\tr1;${env.MINGW64_ROOT}\\include\\c++\\${env.TOOLSET_VERSION}\\${env.FLAVOR}",
-			"CMAKE_CXX_FLAGS": "-static -lstdc++ -lgcc -lwinpthread"
+			"BUILD_COMMAND_ARGS": ""
 		}
 	],
 
 	"configurations": [
-//		// x64 C++11 Debug
-//		{
-//			"inheritEnvironments": [
-//				"visual_studio_2019_win64",
-//				"msvc_x64_x64",
-//				"std_11"
-//			],
-//			"configurationType": "Debug",
-//			"name": "x64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
-//			"generator": "${env.GENERATOR}",
-//			"buildRoot": "${env.BUILD_DIR}\\${name}",
-//			"installRoot": "${env.INSTALL_DIR}\\${name}",
-//			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_BUILD_TYPE=${configurationType}",
-//			"buildCommandArgs": "${env.BUILD_COMMAND_ARGS}",
-//			"ctestCommandArgs": ""
-//		},
-//		// x64 C++11 Release
-//		{
-//			"inheritEnvironments": [
-//				"visual_studio_2019_win64",
-//				"msvc_x64_x64",
-//				"std_11"
-//			],
-//			"configurationType": "Release",
-//			"name": "x64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
-//			"generator": "${env.GENERATOR}",
-//			"buildRoot": "${env.BUILD_DIR}\\${name}",
-//			"installRoot": "${env.INSTALL_DIR}\\${name}",
-//			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_BUILD_TYPE=${configurationType}",
-//			"buildCommandArgs": "${env.BUILD_COMMAND_ARGS}",
-//			"ctestCommandArgs": ""
-//		},
 		// x64 C++14 Debug
 		{
+			"name": "x64 C++14 Debug",
 			"inheritEnvironments": [
-				"visual_studio_2019_win64",
-				"msvc_x64_x64",
-				"std_14"
+				"msvc_x64_x64"
 			],
 			"configurationType": "Debug",
-			"name": "x64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
 			"generator": "${env.GENERATOR}",
 			"buildRoot": "${env.BUILD_DIR}\\${name}",
 			"installRoot": "${env.INSTALL_DIR}\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_BUILD_TYPE=${configurationType}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=14 -DCMAKE_BUILD_TYPE=${configurationType}",
 			"buildCommandArgs": "${env.BUILD_COMMAND_ARGS}",
 			"ctestCommandArgs": ""
 		},
 		// x64 C++14 Release
 		{
+			"name": "x64 C++14 Release",
 			"inheritEnvironments": [
-				"visual_studio_2019_win64",
-				"msvc_x64_x64",
-				"std_14"
+				"msvc_x64_x64"
 			],
 			"configurationType": "Release",
-			"name": "x64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
 			"generator": "${env.GENERATOR}",
 			"buildRoot": "${env.BUILD_DIR}\\${name}",
 			"installRoot": "${env.INSTALL_DIR}\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_BUILD_TYPE=${configurationType}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=14 -DCMAKE_BUILD_TYPE=${configurationType}",
 			"buildCommandArgs": "${env.BUILD_COMMAND_ARGS}",
 			"ctestCommandArgs": ""
 		},
 		// x64 C++17 Debug
 		{
+			"name": "x64 C++17 Debug",
 			"inheritEnvironments": [
-				"visual_studio_2019_win64",
-				"msvc_x64_x64",
-				"std_17"
+				"msvc_x64_x64"
 			],
 			"configurationType": "Debug",
-			"name": "x64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
 			"generator": "${env.GENERATOR}",
 			"buildRoot": "${env.BUILD_DIR}\\${name}",
 			"installRoot": "${env.INSTALL_DIR}\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_BUILD_TYPE=${configurationType}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=17 -DCMAKE_BUILD_TYPE=${configurationType}",
 			"buildCommandArgs": "${env.BUILD_COMMAND_ARGS}",
 			"ctestCommandArgs": ""
 		},
 		// x64 C++17 Release
 		{
+			"name": "x64 C++17 Release",
 			"inheritEnvironments": [
-				"visual_studio_2019_win64",
-				"msvc_x64_x64",
-				"std_17"
+				"msvc_x64_x64"
 			],
 			"configurationType": "Release",
-			"name": "x64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
 			"generator": "${env.GENERATOR}",
 			"buildRoot": "${env.BUILD_DIR}\\${name}",
 			"installRoot": "${env.INSTALL_DIR}\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_BUILD_TYPE=${configurationType}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=17 -DCMAKE_BUILD_TYPE=${configurationType}",
 			"buildCommandArgs": "${env.BUILD_COMMAND_ARGS}",
 			"ctestCommandArgs": ""
 		},
 		// x64 C++20 Debug
 		{
+			"name": "x64 C++20 Debug",
 			"inheritEnvironments": [
-				"visual_studio_2019_win64",
-				"msvc_x64_x64",
-				"std_20"
+				"msvc_x64_x64"
 			],
 			"configurationType": "Debug",
-			"name": "x64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
 			"generator": "${env.GENERATOR}",
 			"buildRoot": "${env.BUILD_DIR}\\${name}",
 			"installRoot": "${env.INSTALL_DIR}\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_BUILD_TYPE=${configurationType}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=20 -DCMAKE_BUILD_TYPE=${configurationType}",
 			"buildCommandArgs": "${env.BUILD_COMMAND_ARGS}",
 			"ctestCommandArgs": ""
 		},
 		// x64 C++20 Release
 		{
+			"name": "x64 C++20 Release",
 			"inheritEnvironments": [
-				"visual_studio_2019_win64",
-				"msvc_x64_x64",
-				"std_20"
+				"msvc_x64_x64"
 			],
 			"configurationType": "Release",
-			"name": "x64-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
 			"generator": "${env.GENERATOR}",
 			"buildRoot": "${env.BUILD_DIR}\\${name}",
 			"installRoot": "${env.INSTALL_DIR}\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_BUILD_TYPE=${configurationType}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=20 -DCMAKE_BUILD_TYPE=${configurationType}",
 			"buildCommandArgs": "${env.BUILD_COMMAND_ARGS}",
 			"ctestCommandArgs": ""
 		},
-//		// x86 C++11 Debug
-//		{
-//			"inheritEnvironments": [
-//				"visual_studio_2019",
-//				"msvc_x86",
-//				"std_11"
-//			],
-//			"configurationType": "Debug",
-//			"name": "x86-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
-//			"generator": "${env.GENERATOR}",
-//			"buildRoot": "${env.BUILD_DIR}\\${name}",
-//			"installRoot": "${env.INSTALL_DIR}\\${name}",
-//			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_BUILD_TYPE=${configurationType}",
-//			"buildCommandArgs": "${env.BUILD_COMMAND_ARGS}",
-//			"ctestCommandArgs": ""
-//		},
-//		// x86 C++11 Release
-//		{
-//			"inheritEnvironments": [
-//				"visual_studio_2019",
-//				"msvc_x86",
-//				"std_11"
-//			],
-//			"configurationType": "Release",
-//			"name": "x86-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
-//			"generator": "${env.GENERATOR}",
-//			"buildRoot": "${env.BUILD_DIR}\\${name}",
-//			"installRoot": "${env.INSTALL_DIR}\\${name}",
-//			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_BUILD_TYPE=${configurationType}",
-//			"buildCommandArgs": "${env.BUILD_COMMAND_ARGS}",
-//			"ctestCommandArgs": ""
-//		},
 		// x86 C++14 Debug
 		{
+			"name": "x86 C++14 Debug",
 			"inheritEnvironments": [
-				"visual_studio_2019",
-				"msvc_x86",
-				"std_14"
+				"msvc_x86"
 			],
 			"configurationType": "Debug",
-			"name": "x86-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
 			"generator": "${env.GENERATOR}",
 			"buildRoot": "${env.BUILD_DIR}\\${name}",
 			"installRoot": "${env.INSTALL_DIR}\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_BUILD_TYPE=${configurationType}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=14 -DCMAKE_BUILD_TYPE=${configurationType}",
 			"buildCommandArgs": "${env.BUILD_COMMAND_ARGS}",
 			"ctestCommandArgs": ""
 		},
 		// x86 C++14 Release
 		{
+			"name": "x86 C++14 Release",
 			"inheritEnvironments": [
-				"visual_studio_2019",
-				"msvc_x86",
-				"std_14"
+				"msvc_x86"
 			],
 			"configurationType": "Release",
-			"name": "x86-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
 			"generator": "${env.GENERATOR}",
 			"buildRoot": "${env.BUILD_DIR}\\${name}",
 			"installRoot": "${env.INSTALL_DIR}\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_BUILD_TYPE=${configurationType}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=14 -DCMAKE_BUILD_TYPE=${configurationType}",
 			"buildCommandArgs": "${env.BUILD_COMMAND_ARGS}",
 			"ctestCommandArgs": ""
 		},
 		// x86 C++17 Debug
 		{
+			"name": "x86 C++17 Debug",
 			"inheritEnvironments": [
-				"visual_studio_2019",
-				"msvc_x86",
-				"std_17"
+				"msvc_x86"
 			],
 			"configurationType": "Debug",
-			"name": "x86-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
 			"generator": "${env.GENERATOR}",
 			"buildRoot": "${env.BUILD_DIR}\\${name}",
 			"installRoot": "${env.INSTALL_DIR}\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_BUILD_TYPE=${configurationType}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=17 -DCMAKE_BUILD_TYPE=${configurationType}",
 			"buildCommandArgs": "${env.BUILD_COMMAND_ARGS}",
 			"ctestCommandArgs": ""
 		},
 		// x86 C++17 Release
 		{
+			"name": "x86 C++17 Release",
 			"inheritEnvironments": [
-				"visual_studio_2019",
-				"msvc_x86",
-				"std_17"
+				"msvc_x86"
 			],
 			"configurationType": "Release",
-			"name": "x86-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
 			"generator": "${env.GENERATOR}",
 			"buildRoot": "${env.BUILD_DIR}\\${name}",
 			"installRoot": "${env.INSTALL_DIR}\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_BUILD_TYPE=${configurationType}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=17 -DCMAKE_BUILD_TYPE=${configurationType}",
 			"buildCommandArgs": "${env.BUILD_COMMAND_ARGS}",
 			"ctestCommandArgs": ""
 		},
 		// x86 C++20 Debug
 		{
+			"name": "x86 C++20 Debug",
 			"inheritEnvironments": [
-				"visual_studio_2019",
-				"msvc_x86",
-				"std_20"
+				"msvc_x86"
 			],
 			"configurationType": "Debug",
-			"name": "x86-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
 			"generator": "${env.GENERATOR}",
 			"buildRoot": "${env.BUILD_DIR}\\${name}",
 			"installRoot": "${env.INSTALL_DIR}\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_BUILD_TYPE=${configurationType}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=20 -DCMAKE_BUILD_TYPE=${configurationType}",
 			"buildCommandArgs": "${env.BUILD_COMMAND_ARGS}",
 			"ctestCommandArgs": ""
 		},
 		// x86 C++20 Release
 		{
+			"name": "x86 C++20 Release",
 			"inheritEnvironments": [
-				"visual_studio_2019",
-				"msvc_x86",
-				"std_20"
+				"msvc_x86"
 			],
 			"configurationType": "Release",
-			"name": "x86-CXX${env.CMAKE_CXX_STANDARD}-${configurationType}",
 			"generator": "${env.GENERATOR}",
 			"buildRoot": "${env.BUILD_DIR}\\${name}",
 			"installRoot": "${env.INSTALL_DIR}\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=${env.CMAKE_CXX_STANDARD} -DCMAKE_BUILD_TYPE=${configurationType}",
+			"cmakeCommandArgs": "-DCMAKE_CXX_STANDARD=20 -DCMAKE_BUILD_TYPE=${configurationType}",
 			"buildCommandArgs": "${env.BUILD_COMMAND_ARGS}",
 			"ctestCommandArgs": ""
 		}
