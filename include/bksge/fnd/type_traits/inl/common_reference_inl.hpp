@@ -31,7 +31,15 @@ namespace bksge
 namespace detail
 {
 
-template <typename A, typename B, typename = bksge::void_t<>>
+template <
+	typename A,
+	typename B,
+	typename X = bksge::remove_reference_t<A>,
+	typename Y = bksge::remove_reference_t<B>,
+	bool = bksge::is_lvalue_reference<A>::value,
+	bool = bksge::is_lvalue_reference<B>::value,
+	typename = bksge::void_t<>
+>
 struct common_ref_impl
 {};
 
@@ -40,12 +48,12 @@ template <typename A, typename B>
 using common_ref = typename detail::common_ref_impl<A, B>::type;
 
 // If A and B are both lvalue reference types, ...
-template <typename A, typename B>
-struct common_ref_impl<A&, B&,
-	bksge::void_t<detail::cond_res<bksge::copy_cv_t<A, B>&, bksge::copy_cv_t<B, A>&>>
+template <typename A, typename B, typename X, typename Y>
+struct common_ref_impl<A, B, X, Y, true, true,
+	bksge::void_t<detail::cond_res<bksge::copy_cv_t<X, Y>&, bksge::copy_cv_t<Y, X>&>>
 >
 {
-	using type = detail::cond_res<bksge::copy_cv_t<A, B>&, bksge::copy_cv_t<B, A>&>;
+	using type = detail::cond_res<bksge::copy_cv_t<X, Y>&, bksge::copy_cv_t<Y, X>&>;
 };
 
 // let C be remove_reference_t<COMMON-REF(X&, Y&)>&&
@@ -53,15 +61,15 @@ template <typename X, typename Y>
 using common_ref_C = bksge::remove_reference_t<detail::common_ref<X&, Y&>>&&;
 
 // If A and B are both rvalue reference types, ...
-template <typename A, typename B>
-struct common_ref_impl<A&&, B&&,
+template <typename A, typename B, typename X, typename Y>
+struct common_ref_impl<A, B, X, Y, false, false,
 	bksge::enable_if_t<
-		bksge::is_convertible<A&&, detail::common_ref_C<A, B>>::value &&
-		bksge::is_convertible<B&&, detail::common_ref_C<A, B>>::value
+		bksge::is_convertible<A, detail::common_ref_C<X, Y>>::value &&
+		bksge::is_convertible<B, detail::common_ref_C<X, Y>>::value
 	>
 >
 {
-	using type = detail::common_ref_C<A, B>;
+	using type = detail::common_ref_C<X, Y>;
 };
 
 // let D be COMMON-REF(const X&, Y&)
@@ -69,20 +77,20 @@ template <typename X, typename Y>
 using common_ref_D = detail::common_ref<const X&, Y&>;
 
 // If A is an rvalue reference and B is an lvalue reference, ...
-template <typename A, typename B>
-struct common_ref_impl<A&&, B&,
+template <typename A, typename B, typename X, typename Y>
+struct common_ref_impl<A, B, X, Y, false, true,
 	bksge::enable_if_t<
-		bksge::is_convertible<A&&, detail::common_ref_D<A, B>>::value
+		bksge::is_convertible<A, detail::common_ref_D<X, Y>>::value
 	>
 >
 {
-	using type = detail::common_ref_D<A, B>;
+	using type = detail::common_ref_D<X, Y>;
 };
 
 // If A is an lvalue reference and B is an rvalue reference, ...
-template <typename A, typename B>
-struct common_ref_impl<A&, B&&>
-	: public common_ref_impl<B&&, A&>
+template <typename A, typename B, typename X, typename Y>
+struct common_ref_impl<A, B, X, Y, true, false>
+	: public common_ref_impl<B, A>
 {};
 
 template <typename T>
