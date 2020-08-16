@@ -14,6 +14,7 @@
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/add_cv.hpp>
 #include <bksge/fnd/type_traits/add_pointer.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
