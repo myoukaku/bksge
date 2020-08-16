@@ -13,6 +13,7 @@
 #include <bksge/fnd/ranges/size.hpp>
 #include <bksge/fnd/concepts/integral.hpp>
 #include <bksge/fnd/iterator/iter_difference_t.hpp>
+#include <bksge/fnd/type_traits/conditional.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <cstddef>
