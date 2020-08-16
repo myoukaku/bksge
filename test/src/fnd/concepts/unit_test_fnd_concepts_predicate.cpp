@@ -17,6 +17,9 @@
 	static_assert(B == bksge::predicate<__VA_ARGS__>::value, "")
 #endif
 
+BKSGE_WARNING_PUSH();
+BKSGE_WARNING_DISABLE_CLANG("-Wunneeded-internal-declaration");
+
 namespace bksge_concepts_test
 {
 
@@ -136,5 +139,7 @@ BKSGE_PREDICATE_TEST(false, NotPredicate, int, int);
 }	// namespace predicate_test
 
 }	// namespace bksge_concepts_test
+
+BKSGE_WARNING_POP();
 
 #undef BKSGE_PREDICATE_TEST
