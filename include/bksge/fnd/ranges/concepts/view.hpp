@@ -42,7 +42,7 @@ using view = bksge::conjunction<
 >;
 
 template <typename T>
-using is_view = bksge::bool_constant<view<T>::value>;
+using is_view = view<T>;
 
 #endif
 

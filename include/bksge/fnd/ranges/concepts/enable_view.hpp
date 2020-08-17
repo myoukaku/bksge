@@ -9,7 +9,7 @@
 #ifndef BKSGE_FND_RANGES_CONCEPTS_ENABLE_VIEW_HPP
 #define BKSGE_FND_RANGES_CONCEPTS_ENABLE_VIEW_HPP
 
-#include <bksge/fnd/ranges/view_base.hpp>
+#include <bksge/fnd/ranges/views/view_base.hpp>
 #include <bksge/fnd/concepts/derived_from.hpp>
 #include <bksge/fnd/config.hpp>
 

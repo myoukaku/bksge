@@ -6,8 +6,8 @@
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_FND_RANGES_SUBRANGE_KIND_HPP
-#define BKSGE_FND_RANGES_SUBRANGE_KIND_HPP
+#ifndef BKSGE_FND_RANGES_VIEWS_SUBRANGE_KIND_HPP
+#define BKSGE_FND_RANGES_VIEWS_SUBRANGE_KIND_HPP
 
 namespace bksge
 {
@@ -21,4 +21,4 @@ enum class subrange_kind : bool { unsized, sized };
 
 }	// namespace bksge
 
-#endif // BKSGE_FND_RANGES_SUBRANGE_KIND_HPP
+#endif // BKSGE_FND_RANGES_VIEWS_SUBRANGE_KIND_HPP

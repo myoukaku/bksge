@@ -6,11 +6,11 @@
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_FND_RANGES_SUBRANGE_HPP
-#define BKSGE_FND_RANGES_SUBRANGE_HPP
+#ifndef BKSGE_FND_RANGES_VIEWS_SUBRANGE_HPP
+#define BKSGE_FND_RANGES_VIEWS_SUBRANGE_HPP
 
-#include <bksge/fnd/ranges/subrange_kind.hpp>
-#include <bksge/fnd/ranges/view_interface.hpp>
+#include <bksge/fnd/ranges/views/subrange_kind.hpp>
+#include <bksge/fnd/ranges/views/view_interface.hpp>
 #include <bksge/fnd/ranges/iterator_t.hpp>
 #include <bksge/fnd/ranges/sentinel_t.hpp>
 #include <bksge/fnd/ranges/range_difference_t.hpp>
@@ -514,4 +514,4 @@ struct tuple_element<1, const bksge::ranges::subrange<Iter, Sent, Kind>>
 
 }	// namespace std
 
-#endif // BKSGE_FND_RANGES_SUBRANGE_HPP
+#endif // BKSGE_FND_RANGES_VIEWS_SUBRANGE_HPP

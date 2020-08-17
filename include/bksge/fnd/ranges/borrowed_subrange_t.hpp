@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/ranges/concepts/range.hpp>
 #include <bksge/fnd/ranges/concepts/borrowed_range.hpp>
-#include <bksge/fnd/ranges/subrange.hpp>
+#include <bksge/fnd/ranges/views/subrange.hpp>
 #include <bksge/fnd/ranges/iterator_t.hpp>
 #include <bksge/fnd/ranges/dangling.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>

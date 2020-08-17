@@ -6,16 +6,16 @@
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_FND_RANGES_VIEW_INTERFACE_HPP
-#define BKSGE_FND_RANGES_VIEW_INTERFACE_HPP
+#ifndef BKSGE_FND_RANGES_VIEWS_VIEW_INTERFACE_HPP
+#define BKSGE_FND_RANGES_VIEWS_VIEW_INTERFACE_HPP
 
+#include <bksge/fnd/ranges/views/view_base.hpp>
 #include <bksge/fnd/ranges/begin.hpp>
 #include <bksge/fnd/ranges/empty.hpp>
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/ranges/iterator_t.hpp>
 #include <bksge/fnd/ranges/range_difference_t.hpp>
 #include <bksge/fnd/ranges/sentinel_t.hpp>
-#include <bksge/fnd/ranges/view_base.hpp>
 #include <bksge/fnd/ranges/concepts/bidirectional_range.hpp>
 #include <bksge/fnd/ranges/concepts/common_range.hpp>
 #include <bksge/fnd/ranges/concepts/forward_range.hpp>
@@ -189,4 +189,4 @@ public:
 
 }	// namespace bksge
 
-#endif // BKSGE_FND_RANGES_VIEW_INTERFACE_HPP
+#endif // BKSGE_FND_RANGES_VIEWS_VIEW_INTERFACE_HPP

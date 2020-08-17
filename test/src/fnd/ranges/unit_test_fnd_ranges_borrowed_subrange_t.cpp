@@ -7,7 +7,7 @@
  */
 
 #include <bksge/fnd/ranges/borrowed_subrange_t.hpp>
-#include <bksge/fnd/ranges/subrange.hpp>
+#include <bksge/fnd/ranges/views/subrange.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/span.hpp>
 #include <bksge/fnd/preprocessor/punctuation/comma.hpp>
