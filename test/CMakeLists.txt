@@ -10,7 +10,7 @@ set_target_properties(gtest_main PROPERTIES FOLDER "externals")
 
 include(${PROJECT_SOURCE_DIR}/cmake/UnityBuild.cmake)
 
-file(GLOB_RECURSE test_sources src/*)
+file(GLOB_RECURSE test_sources src/*.cpp)
 if(BKSGE_UNITY_BUILD)
   ENABLE_UNITY_BUILD(unit_test test_sources 10 cpp)
 endif()
