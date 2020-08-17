@@ -393,6 +393,10 @@
 #if (_MSC_FULL_VER >= 191627042)
 #endif
 
+// Visual Studio 2017 Update 9 (15.9.26) (Visual C++ 14.16)
+#if (_MSC_FULL_VER >= 191627043)
+#endif
+
 // Visual Studio 2019 (16.0.Prev(1-4)) (Visual C++ 14.20)
 #if (_MSC_FULL_VER >= 192027027)
 #  define BKSGE_HAS_CXX14_VARIABLE_TEMPLATES				// 変数テンプレート
@@ -497,6 +501,10 @@
 
 // Visual Studio 2019 version 16.7.0
 #if (_MSC_FULL_VER >= 192729110)
+#endif
+
+// Visual Studio 2019 version 16.7.1
+#if (_MSC_FULL_VER >= 192729111)
 #endif
 
 #if (BKSGE_CXX_STANDARD >= 17)
