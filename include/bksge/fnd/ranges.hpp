@@ -10,12 +10,15 @@
 #define BKSGE_FND_RANGES_HPP
 
 #include <bksge/fnd/ranges/begin.hpp>
+#include <bksge/fnd/ranges/borrowed_iterator_t.hpp>
+#include <bksge/fnd/ranges/borrowed_subrange_t.hpp>
 #include <bksge/fnd/ranges/cbegin.hpp>
 #include <bksge/fnd/ranges/cdata.hpp>
 #include <bksge/fnd/ranges/cend.hpp>
 #include <bksge/fnd/ranges/concepts.hpp>
 #include <bksge/fnd/ranges/crbegin.hpp>
 #include <bksge/fnd/ranges/crend.hpp>
+#include <bksge/fnd/ranges/dangling.hpp>
 #include <bksge/fnd/ranges/data.hpp>
 #include <bksge/fnd/ranges/empty.hpp>
 #include <bksge/fnd/ranges/end.hpp>
