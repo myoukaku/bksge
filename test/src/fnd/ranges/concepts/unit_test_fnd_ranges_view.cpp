@@ -52,7 +52,12 @@ using test_view_B = test_view<B>;
 
 }	// namespace bksge_ranges_test
 
+namespace bksge { namespace ranges {
+
+template <>
 BKSGE_RANGES_SPECIALIZE_ENABLE_VIEW(false, bksge_ranges_test::view_test::test_view_B);
+
+}}	// bksge::ranges
 
 BKSGE_RANGES_VIEW_TEST(true,  bksge_ranges_test::view_test::test_view_A);
 BKSGE_RANGES_VIEW_TEST(false, bksge_ranges_test::view_test::test_view_A&);

@@ -30,8 +30,8 @@ bool enable_view =
 	::bksge::ranges::enable_view<__VA_ARGS__>
 
 #define BKSGE_RANGES_SPECIALIZE_ENABLE_VIEW(Value, ...)		\
-	template<> BKSGE_INLINE_VAR BKSGE_CONSTEXPR				\
-	bool ::bksge::ranges::enable_view<__VA_ARGS__> = Value
+	BKSGE_INLINE_VAR BKSGE_CONSTEXPR						\
+	bool enable_view<__VA_ARGS__> = Value
 
 #else
 
@@ -46,13 +46,10 @@ struct enable_view
 	::bksge::ranges::enable_view<__VA_ARGS__>::value
 
 #define BKSGE_RANGES_SPECIALIZE_ENABLE_VIEW(Value, ...)	\
-	namespace bksge { namespace ranges {	            \
-	template <>	                                        \
 	struct enable_view<__VA_ARGS__>	                    \
 	{	                                                \
 		BKSGE_STATIC_CONSTEXPR bool value = Value;	    \
-	};	                                                \
-	}}
+	}
 
 #endif
 
