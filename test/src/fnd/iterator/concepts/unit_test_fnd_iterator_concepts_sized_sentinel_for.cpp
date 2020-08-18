@@ -109,9 +109,14 @@ struct Z
 
 }	// namespace bksge_iterator_test
 
+namespace bksge {
+
+template <>
 BKSGE_SPECIALIZE_DISABLE_SIZED_SENTINEL_FOR(true,
 	bksge_iterator_test::sized_sentinel_for_test::Sentinel,
 	bksge_iterator_test::sized_sentinel_for_test::Z);
+
+}	// namespace bksge
 
 namespace bksge_iterator_test
 {
