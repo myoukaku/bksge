@@ -15,6 +15,7 @@
 #include <bksge/fnd/iterator/iter_move.hpp>
 #include <bksge/fnd/concepts/same_as.hpp>
 #include <bksge/fnd/concepts/common_reference_with.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/remove_cvref.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/config.hpp>
@@ -46,6 +47,9 @@ concept indirectly_readable_impl =
 template <typename In>
 concept indirectly_readable =
 	detail::indirectly_readable_impl<bksge::remove_cvref_t<In>>;
+
+template <typename In>
+using is_indirectly_readable = bksge::bool_constant<indirectly_readable<In>>;
 
 #else
 
@@ -81,6 +85,9 @@ public:
 template <typename In>
 using indirectly_readable =
 	typename detail::indirectly_readable_impl<bksge::remove_cvref_t<In>>::type;
+
+template <typename In>
+using is_indirectly_readable = indirectly_readable<In>;
 
 #endif
 

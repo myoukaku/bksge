@@ -27,11 +27,7 @@ namespace projected_test
 using vec_iterator = std::vector<int>::iterator;
 using vecitr_proj = bksge::projected<vec_iterator, bksge::identity>;
 
-#if defined(BKSGE_HAS_CXX20_CONCEPTS)
-static_assert(bksge::indirectly_readable<vecitr_proj>, "");
-#else
-static_assert(bksge::indirectly_readable<vecitr_proj>::value, "");
-#endif
+static_assert(bksge::is_indirectly_readable<vecitr_proj>::value, "");
 static_assert(bksge::is_same<vecitr_proj::value_type, int>::value, "");
 static_assert(bksge::is_same<bksge::iter_difference_t<vecitr_proj>, std::ptrdiff_t>::value, "");
 static_assert(bksge::is_same<bksge::iter_value_t<vecitr_proj>, int>::value, "");
@@ -45,11 +41,7 @@ struct Proj
 };
 using vecitr_proj2 = bksge::projected<vec_iterator, Proj>;
 
-#if defined(BKSGE_HAS_CXX20_CONCEPTS)
-static_assert(bksge::indirectly_readable<vecitr_proj2>, "");
-#else
-static_assert(bksge::indirectly_readable<vecitr_proj2>::value, "");
-#endif
+static_assert(bksge::is_indirectly_readable<vecitr_proj2>::value, "");
 static_assert(bksge::is_same<vecitr_proj2::value_type, double>::value, "");
 static_assert(bksge::is_same<bksge::iter_difference_t<vecitr_proj2>, std::ptrdiff_t>::value, "");
 static_assert(bksge::is_same<bksge::iter_value_t<vecitr_proj2>, double>::value, "");
