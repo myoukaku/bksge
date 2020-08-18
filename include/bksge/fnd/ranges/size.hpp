@@ -13,7 +13,7 @@
 #include <bksge/fnd/ranges/detail/has_adl_size.hpp>
 #include <bksge/fnd/ranges/detail/sentinel_size.hpp>
 #include <bksge/fnd/ranges/detail/decay_copy.hpp>
-#include <bksge/fnd/ranges/detail/to_unsigned.hpp>
+#include <bksge/fnd/ranges/detail/to_unsigned_like.hpp>
 #include <bksge/fnd/ranges/begin.hpp>
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/concepts/detail/overload_priority.hpp>
@@ -82,7 +82,7 @@ private:
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<0>, T&& t)
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
-			to_unsigned(ranges::end(bksge::forward<T>(t)) - ranges::begin(bksge::forward<T>(t))))
+			detail::to_unsigned_like(ranges::end(bksge::forward<T>(t)) - ranges::begin(bksge::forward<T>(t))))
 
 public:
 	template <typename T>

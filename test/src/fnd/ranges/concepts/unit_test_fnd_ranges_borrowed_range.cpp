@@ -10,6 +10,7 @@
 #include <bksge/fnd/ranges/concepts/enable_borrowed_range.hpp>
 #include <bksge/fnd/ranges/views/subrange.hpp>
 #include <bksge/fnd/ranges/views/empty_view.hpp>
+#include <bksge/fnd/ranges/views/iota_view.hpp>
 #include <bksge/fnd/span.hpp>
 #include "ranges_test.hpp"
 
@@ -73,6 +74,8 @@ BKSGE_RANGES_BORROWED_RANGE_TEST(true,  bksge::ranges::subrange<forward_iterator
 BKSGE_RANGES_BORROWED_RANGE_TEST(true,  bksge::ranges::subrange<input_iterator_wrapper<int>>);
 
 BKSGE_RANGES_BORROWED_RANGE_TEST(true, bksge::ranges::empty_view<int>);
+BKSGE_RANGES_BORROWED_RANGE_TEST(true, bksge::ranges::iota_view<int>);
+BKSGE_RANGES_BORROWED_RANGE_TEST(true, bksge::ranges::iota_view<int, int>);
 
 BKSGE_RANGES_BORROWED_RANGE_TEST(true, bksge::span<int>);
 BKSGE_RANGES_BORROWED_RANGE_TEST(true, bksge::span<int, 99>);

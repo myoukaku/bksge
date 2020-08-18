@@ -25,6 +25,27 @@ struct unreachable_sentinel_t
 	{
 		return false;
 	}
+
+	template <BKSGE_REQUIRES_PARAM(bksge::weakly_incrementable, It)>
+	friend BKSGE_CONSTEXPR bool
+	operator!=(unreachable_sentinel_t, It const&) BKSGE_NOEXCEPT
+	{
+		return true;
+	}
+
+	template <BKSGE_REQUIRES_PARAM(bksge::weakly_incrementable, It)>
+	friend BKSGE_CONSTEXPR bool
+	operator==(It const&, unreachable_sentinel_t) BKSGE_NOEXCEPT
+	{
+		return false;
+	}
+
+	template <BKSGE_REQUIRES_PARAM(bksge::weakly_incrementable, It)>
+	friend BKSGE_CONSTEXPR bool
+	operator!=(It const&, unreachable_sentinel_t) BKSGE_NOEXCEPT
+	{
+		return true;
+	}
 };
 
 BKSGE_INLINE_VAR BKSGE_CONSTEXPR

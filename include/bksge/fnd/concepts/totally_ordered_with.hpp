@@ -29,6 +29,9 @@ concept totally_ordered_with =
 	bksge::totally_ordered<bksge::common_reference_t<detail::cref<T>, detail::cref<U>>> &&
 	detail::partially_ordered_with<T, U>;
 
+template <typename T, typename U>
+using is_totally_ordered_with = bksge::bool_constant<totally_ordered_with<T, U>>;
+
 #else
 
 namespace detail
@@ -58,6 +61,9 @@ public:
 template <typename T, typename U>
 using totally_ordered_with =
 	typename detail::totally_ordered_with_impl<T, U>::type;
+
+template <typename T, typename U>
+using is_totally_ordered_with = totally_ordered_with<T, U>;
 
 #endif
 

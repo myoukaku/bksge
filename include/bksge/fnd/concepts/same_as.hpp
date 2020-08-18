@@ -11,6 +11,7 @@
 
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -31,6 +32,9 @@ concept same_as =
 	detail::SameHelper<T, U> &&
 	detail::SameHelper<U, T>;
 
+template <typename T, typename U>
+using is_same_as = bksge::bool_constant<same_as<T, U>>;
+
 #else
 
 template <typename T, typename U>
@@ -39,6 +43,9 @@ using same_as =
 		bksge::is_same<T, U>,
 		bksge::is_same<U, T>
 	>;
+
+template <typename T, typename U>
+using is_same_as = same_as<T, U>;
 
 #endif
 

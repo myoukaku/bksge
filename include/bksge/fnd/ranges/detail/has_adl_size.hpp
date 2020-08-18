@@ -11,8 +11,8 @@
 
 #include <bksge/fnd/ranges/detail/decay_copy.hpp>
 #include <bksge/fnd/ranges/concepts/disable_sized_range.hpp>
+#include <bksge/fnd/ranges/detail/integer_like.hpp>
 #include <bksge/fnd/concepts/detail/class_or_enum.hpp>
-#include <bksge/fnd/concepts/integral.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/remove_reference.hpp>
 #include <bksge/fnd/type_traits/remove_cvref.hpp>
@@ -45,7 +45,7 @@ concept has_adl_size =
 	!BKSGE_RANGES_DISABLE_SIZED_RANGE(bksge::remove_cvref_t<T>) &&
 	requires(T&& t)
 	{
-		{ decay_copy(size(bksge::forward<T>(t))) } -> bksge::integral;
+		{ decay_copy(size(bksge::forward<T>(t))) } -> detail::integer_like;
 	};
 
 #else
@@ -58,7 +58,7 @@ private:
 	static auto test(int) -> bksge::bool_constant<
 		bksge::detail::class_or_enum<bksge::remove_reference_t<U>>::value &&
 		!BKSGE_RANGES_DISABLE_SIZED_RANGE(bksge::remove_cvref_t<U>) &&
-		bksge::integral<decltype(decay_copy(size(bksge::declval<U&&>())))>::value
+		detail::integer_like<decltype(decay_copy(size(bksge::declval<U&&>())))>::value
 	>;
 
 	template <typename U>

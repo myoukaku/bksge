@@ -19,9 +19,10 @@
 #include <bksge/fnd/ranges/concepts/sized_range.hpp>
 #include <bksge/fnd/ranges/detail/convertible_to_non_slicing.hpp>
 #include <bksge/fnd/ranges/detail/not_same_as.hpp>
-#include <bksge/fnd/ranges/detail/to_unsigned.hpp>
+#include <bksge/fnd/ranges/detail/to_unsigned_like.hpp>
 #include <bksge/fnd/ranges/detail/pair_like_convertible_from.hpp>
 #include <bksge/fnd/ranges/detail/iterator_sentinel_pair.hpp>
+#include <bksge/fnd/ranges/detail/make_unsigned_like_t.hpp>
 #include <bksge/fnd/concepts/convertible_to.hpp>
 #include <bksge/fnd/concepts/copyable.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
@@ -34,7 +35,6 @@
 #include <bksge/fnd/iterator/ranges/advance.hpp>
 #include <bksge/fnd/iterator/ranges/distance.hpp>
 #include <bksge/fnd/tuple/tuple_element.hpp>
-#include <bksge/fnd/type_traits/make_unsigned.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/utility/move.hpp>
@@ -82,7 +82,7 @@ private:
 		Kind == ranges::subrange_kind::sized &&
 		!bksge::is_sized_sentinel_for<Sent, It>::value;
 
-	using size_type = bksge::make_unsigned_t<bksge::iter_difference_t<It>>;
+	using size_type = detail::make_unsigned_like_t<bksge::iter_difference_t<It>>;
 
 	template <typename I, typename S, bool>
 	struct subrange_base
@@ -115,7 +115,7 @@ private:
 
 		BKSGE_CXX14_CONSTEXPR size_type get_size() const
 		{
-			return ranges::detail::to_unsigned(m_end - m_begin);
+			return ranges::detail::to_unsigned_like(m_end - m_begin);
 		}
 	};
 
@@ -131,7 +131,7 @@ private:
 		BKSGE_CXX14_CONSTEXPR subrange_base(It&& begin, S end, size_type n)
 			: m_begin(bksge::move(begin)), m_end(end), m_size(n)
 		{
-			BKSGE_ASSERT(n == ranges::detail::to_unsigned(ranges::distance(begin, end)));
+			BKSGE_ASSERT(n == ranges::detail::to_unsigned_like(ranges::distance(begin, end)));
 		}
 
 		template <typename Rng>
@@ -142,13 +142,13 @@ private:
 		BKSGE_CXX14_CONSTEXPR void move_forward(bksge::iter_difference_t<I> n)
 		{
 			auto d = n - ranges::advance(m_begin, n, m_end);
-			m_size -= ranges::detail::to_unsigned(d);
+			m_size -= ranges::detail::to_unsigned_like(d);
 		}
 
 		BKSGE_CXX14_CONSTEXPR void move_backward(bksge::iter_difference_t<I> n)
 		{
 			ranges::advance(m_begin, n);
-			m_size += ranges::detail::to_unsigned(-n);
+			m_size += ranges::detail::to_unsigned_like(-n);
 		}
 
 		BKSGE_CXX14_CONSTEXPR size_type get_size() const
@@ -175,7 +175,7 @@ public:
 		BKSGE_REQUIRES(Kind == ranges::subrange_kind::sized)
 		: m_value{bksge::move(i), s, n}
 	{
-		BKSGE_ASSERT(n == ranges::detail::to_unsigned(ranges::distance(i, s)));
+		BKSGE_ASSERT(n == ranges::detail::to_unsigned_like(ranges::distance(i, s)));
 	}
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
@@ -376,7 +376,7 @@ template <
 	>::value>
 #endif
 >
-subrange(It, Sent, bksge::make_unsigned_t<bksge::iter_difference_t<It>>)
+subrange(It, Sent, detail::make_unsigned_like_t<bksge::iter_difference_t<It>>)
 	-> subrange<It, Sent, ranges::subrange_kind::sized>;
 
 #if 0
@@ -389,7 +389,7 @@ subrange(Pair)
 	->subrange<bksge::tuple_element_t<0, Pair>, bksge::tuple_element_t<1, Pair>>;
 
 template <ranges::detail::iterator_sentinel_pair Pair>
-subrange(Pair, bksge::make_unsigned_t<bksge::iter_difference_t<bksge::tuple_element_t<0, Pair>>>)
+subrange(Pair, detail::make_unsigned_like_t<bksge::iter_difference_t<bksge::tuple_element_t<0, Pair>>>)
 	->subrange<bksge::tuple_element_t<0, Pair>, bksge::tuple_element_t<1, Pair>, ranges::subrange_kind::sized>;
 
 #endif
@@ -404,7 +404,7 @@ subrange(Rng&&)
 	>;
 
 template <BKSGE_REQUIRES_PARAM(ranges::borrowed_range, Rng)>
-subrange(Rng&&, bksge::make_unsigned_t<ranges::range_difference_t<Rng>>)
+subrange(Rng&&, detail::make_unsigned_like_t<ranges::range_difference_t<Rng>>)
 	->subrange<ranges::iterator_t<Rng>, ranges::sentinel_t<Rng>, ranges::subrange_kind::sized>;
 
 #endif	// #if defined(BKSGE_HAS_CXX17_DEDUCTION_GUIDES)

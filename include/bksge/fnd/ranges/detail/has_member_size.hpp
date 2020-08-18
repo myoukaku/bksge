@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/ranges/concepts/disable_sized_range.hpp>
 #include <bksge/fnd/ranges/detail/decay_copy.hpp>
-#include <bksge/fnd/concepts/integral.hpp>
+#include <bksge/fnd/ranges/detail/integer_like.hpp>
 #include <bksge/fnd/type_traits/remove_cvref.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/declval.hpp>
@@ -33,7 +33,7 @@ concept has_member_size =
 	!BKSGE_RANGES_DISABLE_SIZED_RANGE(bksge::remove_cvref_t<T>) &&
 	requires(T&& t)
 	{
-		{ decay_copy(bksge::forward<T>(t).size()) } -> bksge::integral;
+		{ decay_copy(bksge::forward<T>(t).size()) } -> detail::integer_like;
 	};
 
 #else
@@ -45,7 +45,7 @@ private:
 	template <typename U>
 	static auto test(int) -> bksge::bool_constant<
 		!BKSGE_RANGES_DISABLE_SIZED_RANGE(bksge::remove_cvref_t<U>) &&
-		bksge::integral<decltype(decay_copy(bksge::declval<U&&>().size()))>::value
+		detail::integer_like<decltype(decay_copy(bksge::declval<U&&>().size()))>::value
 	>;
 
 	template <typename U>

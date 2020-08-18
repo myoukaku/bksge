@@ -12,6 +12,7 @@
 #include <bksge/fnd/iterator/concepts/weakly_incrementable.hpp>
 #include <bksge/fnd/concepts/regular.hpp>
 #include <bksge/fnd/concepts/same_as.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
@@ -26,6 +27,9 @@ concept incrementable =
 	bksge::regular<Iter> &&
 	bksge::weakly_incrementable<Iter> &&
 	requires(Iter i) { { i++ } -> bksge::same_as<Iter>; };
+
+template <typename Iter>
+using is_incrementable = bksge::bool_constant<incrementable<Iter>>;
 
 #else
 
@@ -55,6 +59,9 @@ public:
 template <typename Iter>
 using incrementable =
 	typename detail::incrementable_impl<Iter>::type;
+
+template <typename Iter>
+using is_incrementable = incrementable<Iter>;
 
 #endif
 

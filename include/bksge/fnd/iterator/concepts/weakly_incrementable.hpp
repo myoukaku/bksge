@@ -10,10 +10,10 @@
 #define BKSGE_FND_ITERATOR_CONCEPTS_WEAKLY_INCREMENTABLE_HPP
 
 #include <bksge/fnd/iterator/iter_difference_t.hpp>
-#include <bksge/fnd/iterator/concepts/detail/is_signed_integer_like.hpp>
 #include <bksge/fnd/concepts/default_initializable.hpp>
 #include <bksge/fnd/concepts/movable.hpp>
 #include <bksge/fnd/concepts/same_as.hpp>
+#include <bksge/fnd/ranges/detail/signed_integer_like.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
 
@@ -29,7 +29,7 @@ concept weakly_incrementable =
 	requires(Iter i)
 	{
 		typename bksge::iter_difference_t<Iter>;
-		requires bksge::detail::is_signed_integer_like<bksge::iter_difference_t<Iter>>;
+		requires bksge::ranges::detail::signed_integer_like<bksge::iter_difference_t<Iter>>;
 		{ ++i } -> bksge::same_as<Iter&>;
 		i++;
 	};
@@ -47,7 +47,7 @@ private:
 	static auto test(int) -> bksge::conjunction<
 		bksge::default_initializable<I2>,
 		bksge::movable<I2>,
-		bksge::detail::is_signed_integer_like<bksge::iter_difference_t<I2>>,
+		bksge::ranges::detail::signed_integer_like<bksge::iter_difference_t<I2>>,
 		bksge::same_as<decltype(++bksge::declval<I2&>()), I2&>
 	>;
 
