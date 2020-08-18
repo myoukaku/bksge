@@ -42,8 +42,13 @@ struct R3
 
 }	// namespace bksge_ranges_test
 
+namespace bksge { namespace ranges {
+
 // N.B. this is a lie, begin on an R3 rvalue will return a dangling pointer.
+template <>
 BKSGE_RANGES_SPECIALIZE_ENABLE_BORROWED_RANGE(true, bksge_ranges_test::data_test::R3);
+
+}}	// bksge::ranges
 
 namespace bksge_ranges_test
 {

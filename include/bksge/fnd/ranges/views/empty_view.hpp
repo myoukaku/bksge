@@ -39,21 +39,8 @@ public:
 	}
 };
 
-#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
-
 template <typename T>
-BKSGE_INLINE_VAR BKSGE_CONSTEXPR
-bool enable_borrowed_range<empty_view<T>> = true;
-
-#else
-
-template <typename T>
-struct enable_borrowed_range<empty_view<T>>
-{
-	BKSGE_STATIC_CONSTEXPR bool value = true;
-};
-
-#endif
+BKSGE_RANGES_SPECIALIZE_ENABLE_BORROWED_RANGE(true, empty_view<T>);
 
 namespace views
 {

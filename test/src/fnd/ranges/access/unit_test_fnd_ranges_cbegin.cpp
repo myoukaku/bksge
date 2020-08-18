@@ -58,11 +58,17 @@ struct RR
 
 }	// namespace bksge_ranges_test
 
+namespace bksge { namespace ranges {
+
 // Allow ranges::begin to work with RV&&
+template <>
 BKSGE_RANGES_SPECIALIZE_ENABLE_BORROWED_RANGE(true, bksge_ranges_test::cbegin_test::RV);
 
 // N.B. this is a lie, cbegin on an RR rvalue will return a dangling pointer.
+template <>
 BKSGE_RANGES_SPECIALIZE_ENABLE_BORROWED_RANGE(true, bksge_ranges_test::cbegin_test::RR);
+
+}}	// bksge::ranges
 
 namespace bksge_ranges_test
 {

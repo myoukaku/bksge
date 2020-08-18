@@ -27,8 +27,8 @@ bool enable_borrowed_range = false;
 	::bksge::ranges::enable_borrowed_range<__VA_ARGS__>
 
 #define BKSGE_RANGES_SPECIALIZE_ENABLE_BORROWED_RANGE(Value, ...)	\
-	template<> BKSGE_INLINE_VAR BKSGE_CONSTEXPR						\
-	bool ::bksge::ranges::enable_borrowed_range<__VA_ARGS__> = Value
+	BKSGE_INLINE_VAR BKSGE_CONSTEXPR								\
+	bool enable_borrowed_range<__VA_ARGS__> = Value
 
 #else
 
@@ -42,13 +42,10 @@ struct enable_borrowed_range
 	::bksge::ranges::enable_borrowed_range<__VA_ARGS__>::value
 
 #define BKSGE_RANGES_SPECIALIZE_ENABLE_BORROWED_RANGE(Value, ...)	\
-	namespace bksge { namespace ranges {	                        \
-	template <>	                                                    \
 	struct enable_borrowed_range<__VA_ARGS__>	                    \
 	{	                                                            \
 		BKSGE_STATIC_CONSTEXPR bool value = Value;	                \
-	};	                                                            \
-	}}
+	}
 
 #endif
 

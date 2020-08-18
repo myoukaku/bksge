@@ -42,8 +42,15 @@ struct B {};
 
 }	// namespace bksge_ranges_test
 
+namespace bksge { namespace ranges {
+
+template <>
 BKSGE_RANGES_SPECIALIZE_ENABLE_BORROWED_RANGE(true, test_contiguous_range<bksge_ranges_test::borrowed_range_test::A>);
+
+template <>
 BKSGE_RANGES_SPECIALIZE_ENABLE_BORROWED_RANGE(true, test_random_access_range<bksge_ranges_test::borrowed_range_test::B>);
+
+}}	// bksge::ranges
 
 BKSGE_RANGES_BORROWED_RANGE_TEST_IMPL(false, int      [2]);
 BKSGE_RANGES_BORROWED_RANGE_TEST_IMPL(false, int const[2]);

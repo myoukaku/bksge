@@ -42,8 +42,13 @@ struct R3
 
 }	// namespace bksge_ranges_test
 
+namespace bksge { namespace ranges {
+
 // This is a lie, ranges::begin(R3&&) returns a dangling iterator.
+template <>
 BKSGE_RANGES_SPECIALIZE_ENABLE_BORROWED_RANGE(true, bksge_ranges_test::cdata_test::R3);
+
+}}	// bksge::ranges
 
 namespace bksge_ranges_test
 {

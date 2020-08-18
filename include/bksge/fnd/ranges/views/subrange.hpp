@@ -14,6 +14,7 @@
 #include <bksge/fnd/ranges/iterator_t.hpp>
 #include <bksge/fnd/ranges/sentinel_t.hpp>
 #include <bksge/fnd/ranges/range_difference_t.hpp>
+#include <bksge/fnd/ranges/concepts/enable_borrowed_range.hpp>
 #include <bksge/fnd/ranges/concepts/borrowed_range.hpp>
 #include <bksge/fnd/ranges/concepts/sized_range.hpp>
 #include <bksge/fnd/ranges/detail/convertible_to_non_slicing.hpp>
@@ -463,15 +464,7 @@ template <
 #endif
 	ranges::subrange_kind Kind
 >
-#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
-BKSGE_INLINE_VAR BKSGE_CONSTEXPR bool
-enable_borrowed_range<subrange<It, Sent, Kind>> = true;
-#else
-struct enable_borrowed_range<subrange<It, Sent, Kind>>
-{
-	BKSGE_STATIC_CONSTEXPR bool value = true;
-};
-#endif
+BKSGE_RANGES_SPECIALIZE_ENABLE_BORROWED_RANGE(true, subrange<It, Sent, Kind>);
 
 }	// namespace ranges
 

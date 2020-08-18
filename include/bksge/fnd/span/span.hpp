@@ -726,23 +726,16 @@ namespace bksge
 namespace ranges
 {
 
-#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
-
 template <typename T, std::size_t Extent>
-BKSGE_INLINE_VAR BKSGE_CONSTEXPR bool
-	enable_borrowed_range<bksge::span<T, Extent>> = true;
+BKSGE_RANGES_SPECIALIZE_ENABLE_BORROWED_RANGE(true, bksge::span<T, Extent>);
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
 
 template <typename T, std::size_t Extent>
 BKSGE_INLINE_VAR BKSGE_CONSTEXPR bool
 	enable_view<bksge::span<T, Extent>> = Extent == 0 || Extent == bksge::dynamic_extent;
 
 #else
-
-template <typename T, std::size_t Extent>
-struct enable_borrowed_range<bksge::span<T, Extent>>
-{
-	BKSGE_STATIC_CONSTEXPR bool value = true;
-};
 
 template <typename T, std::size_t Extent>
 struct enable_view<bksge::span<T, Extent>>

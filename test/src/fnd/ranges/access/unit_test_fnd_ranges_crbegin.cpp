@@ -54,11 +54,17 @@ struct R2
 
 }	// namespace bksge_ranges_test
 
+namespace bksge { namespace ranges {
+
 // Allow ranges::end to work with R1V&&
+template <>
 BKSGE_RANGES_SPECIALIZE_ENABLE_BORROWED_RANGE(true, bksge_ranges_test::crbegin_test::R1V);
 
 // N.B. this is a lie, rbegin on an R2 rvalue will return a dangling pointer.
+template <>
 BKSGE_RANGES_SPECIALIZE_ENABLE_BORROWED_RANGE(true, bksge_ranges_test::crbegin_test::R2);
+
+}}	// bksge::ranges
 
 namespace bksge_ranges_test
 {
