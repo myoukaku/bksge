@@ -31,6 +31,9 @@ concept range =
 		ranges::end(t);
 	};
 
+template <typename T>
+using is_range = bksge::bool_constant<range<T>>;
+
 #else
 
 template <typename T>
@@ -52,6 +55,9 @@ public:
 
 template <typename T>
 using range = typename range_impl<T>::type;
+
+template <typename T>
+using is_range = range<T>;
 
 #endif
 

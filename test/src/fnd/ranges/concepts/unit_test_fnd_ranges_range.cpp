@@ -19,10 +19,12 @@
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_RANGES_RANGE_TEST(B, ...)	\
-	static_assert(B == bksge::ranges::range<__VA_ARGS__>, "")
+	static_assert(B == bksge::ranges::range<__VA_ARGS__>, "");	\
+	static_assert(B == bksge::ranges::is_range<__VA_ARGS__>::value, "")
 #else
 #  define BKSGE_RANGES_RANGE_TEST(B, ...)	\
-	static_assert(B == bksge::ranges::range<__VA_ARGS__>::value, "")
+	static_assert(B == bksge::ranges::range<__VA_ARGS__>::value, "");	\
+	static_assert(B == bksge::ranges::is_range<__VA_ARGS__>::value, "")
 #endif
 
 BKSGE_RANGES_RANGE_TEST(true,  int      [2]);

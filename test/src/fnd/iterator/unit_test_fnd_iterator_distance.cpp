@@ -145,11 +145,7 @@ BKSGE_CXX14_CONSTEXPR bool test04()
 {
 	int a[4] ={};
 	test_input_range<int> c(a);
-#if defined(BKSGE_HAS_CXX20_CONCEPTS)
-	static_assert(bksge::ranges::range<decltype(c)>, "");
-#else
-	static_assert(bksge::ranges::range<decltype(c)>::value, "");
-#endif
+	static_assert(bksge::ranges::is_range<decltype(c)>::value, "");
 
 	VERIFY(bksge::ranges::distance(c) == 4);
 
