@@ -27,7 +27,7 @@ public:
 	{}
 
 #if defined(_MSC_VER)
-	explicit
+	BKSGE_CONSTEXPR explicit
 	optional_base_impl(in_place_t)
 		: m_engaged(true)
 		, m_storage()
