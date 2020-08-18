@@ -45,7 +45,12 @@ struct R5
 
 }	// namespace bksge_ranges_test
 
+namespace bksge { namespace ranges {
+
+template <>
 BKSGE_RANGES_SPECIALIZE_DISABLE_SIZED_RANGE(true, bksge_ranges_test::size_test::R5);
+
+}}	// bksge::ranges
 
 namespace bksge_ranges_test
 {

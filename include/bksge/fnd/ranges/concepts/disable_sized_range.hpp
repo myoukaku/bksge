@@ -27,8 +27,8 @@ bool disable_sized_range = false;
 	::bksge::ranges::disable_sized_range<__VA_ARGS__>
 
 #define BKSGE_RANGES_SPECIALIZE_DISABLE_SIZED_RANGE(Value, ...)		\
-	template<> BKSGE_INLINE_VAR BKSGE_CONSTEXPR						\
-	bool ::bksge::ranges::disable_sized_range<__VA_ARGS__> = Value
+	BKSGE_INLINE_VAR BKSGE_CONSTEXPR								\
+	bool disable_sized_range<__VA_ARGS__> = Value
 
 #else
 
@@ -42,13 +42,10 @@ struct disable_sized_range
 	::bksge::ranges::disable_sized_range<__VA_ARGS__>::value
 
 #define BKSGE_RANGES_SPECIALIZE_DISABLE_SIZED_RANGE(Value, ...)		\
-	namespace bksge { namespace ranges {	                        \
-	template <>	                                                    \
 	struct disable_sized_range<__VA_ARGS__>							\
 	{	                                                            \
 		BKSGE_STATIC_CONSTEXPR bool value = Value;	                \
-	};	                                                            \
-	}}
+	}
 
 #endif
 

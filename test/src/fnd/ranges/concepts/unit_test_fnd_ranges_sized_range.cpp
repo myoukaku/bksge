@@ -39,8 +39,17 @@ struct B {};
 
 }	// namespace bksge_ranges_test
 
-BKSGE_RANGES_SPECIALIZE_DISABLE_SIZED_RANGE(true, test_random_access_sized_range<bksge_ranges_test::sized_range_test::A>);
-BKSGE_RANGES_SPECIALIZE_DISABLE_SIZED_RANGE(true, test_bidirectional_sized_range<bksge_ranges_test::sized_range_test::B>);
+namespace bksge { namespace ranges {
+
+template <>
+BKSGE_RANGES_SPECIALIZE_DISABLE_SIZED_RANGE(true,
+	test_random_access_sized_range<bksge_ranges_test::sized_range_test::A>);
+
+template <>
+BKSGE_RANGES_SPECIALIZE_DISABLE_SIZED_RANGE(true,
+	test_bidirectional_sized_range<bksge_ranges_test::sized_range_test::B>);
+
+}}	// bksge::ranges
 
 BKSGE_RANGES_SIZED_RANGE_TEST(true,  int      [2]);
 BKSGE_RANGES_SIZED_RANGE_TEST(true,  int const[2]);
