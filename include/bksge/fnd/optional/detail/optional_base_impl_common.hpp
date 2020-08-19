@@ -56,7 +56,7 @@ BKSGE_WARNING_PUSH();
 BKSGE_WARNING_DISABLE_MSVC(4702);	// 制御が渡らないコードです。
 
 	template <typename... Args>
-	void construct(Args&&... args)
+	BKSGE_CXX14_CONSTEXPR void construct(Args&&... args)
 	BKSGE_NOEXCEPT_IF((std::is_nothrow_constructible<T, Args...>::value))
 	{
 		::new (bksge::addressof(this->get())) T (bksge::forward<Args>(args)...);
@@ -92,20 +92,20 @@ public:
 		: m_engaged(false)
 	{}
 
-	optional_base_impl(T const& t)
+	BKSGE_CXX14_CONSTEXPR optional_base_impl(T const& t)
 		: m_engaged(false)
 	{
 		this->construct(t);
 	}
 
-	optional_base_impl(T&& t)
+	BKSGE_CXX14_CONSTEXPR optional_base_impl(T&& t)
 		: m_engaged(false)
 	{
 		this->construct(bksge::move(t));
 	}
 
 	template <typename... Args>
-	explicit
+	explicit BKSGE_CXX14_CONSTEXPR
 	optional_base_impl(in_place_t, Args&&... args)
 		: m_engaged(false)
 	{

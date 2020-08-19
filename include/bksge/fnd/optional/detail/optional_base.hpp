@@ -84,6 +84,7 @@ public:
 	{}
 
 	// Copy and move constructors.
+	BKSGE_CXX14_CONSTEXPR
 	optional_base(optional_base const& other)
 		: base{}
 	{
@@ -93,6 +94,7 @@ public:
 		}
 	}
 
+	BKSGE_CXX14_CONSTEXPR
 	optional_base(optional_base&& other)
 		BKSGE_NOEXCEPT_IF(bksge::is_nothrow_move_constructible<T>::value)
 	{

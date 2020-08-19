@@ -94,13 +94,13 @@ optional<T>::optional(in_place_t t, std::initializer_list<U> il, Args&&... args)
 #if defined(_MSC_VER) && (_MSC_VER <= 1900)
 
 template <typename T>
-inline
+inline BKSGE_CXX14_CONSTEXPR
 optional<T>::optional(optional const& other)
 	: base{static_cast<base const&>(other)}
 {}
 
 template <typename T>
-inline
+inline BKSGE_CXX14_CONSTEXPR
 optional<T>::optional(optional&& other)
 	BKSGE_NOEXCEPT_IF(IsNothrowMoveConstructible::value)
 	: base{static_cast<base&&>(other)}
