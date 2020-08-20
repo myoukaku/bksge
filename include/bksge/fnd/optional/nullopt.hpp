@@ -9,12 +9,11 @@
 #ifndef BKSGE_FND_OPTIONAL_NULLOPT_HPP
 #define BKSGE_FND_OPTIONAL_NULLOPT_HPP
 
-#include <bksge/fnd/config.hpp>
-#if (BKSGE_CXX_STANDARD >= 17) && BKSGE_HAS_INCLUDE(<optional>)
-#include <optional>
-#endif
+#include <bksge/fnd/optional/config.hpp>
 
-#if defined(__cpp_lib_optional) && (__cpp_lib_optional >= 201606)
+#if defined(BKSGE_USE_STD_OPTIONAL)
+
+#include <optional>
 
 namespace bksge
 {

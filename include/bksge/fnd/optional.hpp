@@ -10,6 +10,7 @@
 #define BKSGE_FND_OPTIONAL_HPP
 
 #include <bksge/fnd/optional/bad_optional_access.hpp>
+#include <bksge/fnd/optional/config.hpp>
 #include <bksge/fnd/optional/make_optional.hpp>
 #include <bksge/fnd/optional/nullopt.hpp>
 #include <bksge/fnd/optional/optional.hpp>
