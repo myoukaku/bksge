@@ -13,6 +13,7 @@
 #include <bksge/fnd/ranges/views/empty_view.hpp>
 #include <bksge/fnd/ranges/views/iota_view.hpp>
 #include <bksge/fnd/ranges/views/istream_view.hpp>
+#include <bksge/fnd/ranges/views/ref_view.hpp>
 #include <bksge/fnd/ranges/views/single_view.hpp>
 #include <bksge/fnd/ranges/views/subrange.hpp>
 #include <bksge/fnd/ranges/views/subrange_kind.hpp>
