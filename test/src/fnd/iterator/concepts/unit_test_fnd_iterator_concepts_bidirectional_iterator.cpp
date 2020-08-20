@@ -64,7 +64,10 @@ BKSGE_BIDIRECTIONAL_ITERATOR_TEST(false, void const volatile** const);
 BKSGE_BIDIRECTIONAL_ITERATOR_TEST(false, void(*)());
 BKSGE_BIDIRECTIONAL_ITERATOR_TEST(false, void(&)());
 
+// Avoid gcc 7 internal compiler error
+#if !(defined(BKSGE_GCC_VERSION) && (BKSGE_GCC_VERSION < 80000))
 BKSGE_BIDIRECTIONAL_ITERATOR_TEST(false, void(A::*)());
+#endif
 BKSGE_BIDIRECTIONAL_ITERATOR_TEST(false, int A::*);
 
 BKSGE_BIDIRECTIONAL_ITERATOR_TEST(true,  std::array<int, 1>::iterator);

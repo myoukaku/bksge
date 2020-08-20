@@ -57,8 +57,11 @@ BKSGE_OUTPUT_ITERATOR_TEST(false, void(&)(), void(&)());
 BKSGE_OUTPUT_ITERATOR_TEST(true,  void(**)(), void(*)());
 BKSGE_OUTPUT_ITERATOR_TEST(true,  void(**)(), void(&)());
 
+// Avoid gcc 7 internal compiler error
+#if !(defined(BKSGE_GCC_VERSION) && (BKSGE_GCC_VERSION < 80000))
 BKSGE_OUTPUT_ITERATOR_TEST(false, void(A::*)(), A*);
 BKSGE_OUTPUT_ITERATOR_TEST(false, void(A::*)(), void(A::*)());
+#endif
 BKSGE_OUTPUT_ITERATOR_TEST(false, int A::*, int);
 BKSGE_OUTPUT_ITERATOR_TEST(false, int A::*, int A::*);
 

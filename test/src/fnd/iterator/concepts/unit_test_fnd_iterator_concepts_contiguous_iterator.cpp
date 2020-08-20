@@ -63,7 +63,10 @@ BKSGE_CONTIGUOUS_ITERATOR_TEST(false, void(*)());
 BKSGE_CONTIGUOUS_ITERATOR_TEST(false, void(&)());
 BKSGE_CONTIGUOUS_ITERATOR_TEST(true,  void(**)());
 
+// Avoid gcc 7 internal compiler error
+#if !(defined(BKSGE_GCC_VERSION) && (BKSGE_GCC_VERSION < 80000))
 BKSGE_CONTIGUOUS_ITERATOR_TEST(false, void(A::*)());
+#endif
 BKSGE_CONTIGUOUS_ITERATOR_TEST(false, int A::*);
 
 #if 0

@@ -74,7 +74,10 @@ BKSGE_INPUT_ITERATOR_TEST(false, void const volatile** const);
 BKSGE_INPUT_ITERATOR_TEST(false, void(*)());
 BKSGE_INPUT_ITERATOR_TEST(false, void(&)());
 
+// Avoid gcc 7 internal compiler error
+#if !(defined(BKSGE_GCC_VERSION) && (BKSGE_GCC_VERSION < 80000))
 BKSGE_INPUT_ITERATOR_TEST(false, void(A::*)());
+#endif
 BKSGE_INPUT_ITERATOR_TEST(false, int A::*);
 
 BKSGE_INPUT_ITERATOR_TEST(true,  std::array<int, 1>::iterator);

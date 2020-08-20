@@ -65,7 +65,10 @@ BKSGE_FORWARD_ITERATOR_TEST(false, void const volatile** const);
 BKSGE_FORWARD_ITERATOR_TEST(false, void(*)());
 BKSGE_FORWARD_ITERATOR_TEST(false, void(&)());
 
+// Avoid gcc 7 internal compiler error
+#if !(defined(BKSGE_GCC_VERSION) && (BKSGE_GCC_VERSION < 80000))
 BKSGE_FORWARD_ITERATOR_TEST(false, void(A::*)());
+#endif
 BKSGE_FORWARD_ITERATOR_TEST(false, int A::*);
 
 BKSGE_FORWARD_ITERATOR_TEST(true,  std::array<int, 1>::iterator);
