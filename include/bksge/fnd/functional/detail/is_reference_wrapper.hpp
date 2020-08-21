@@ -10,7 +10,7 @@
 #define BKSGE_FND_FUNCTIONAL_DETAIL_IS_REFERENCE_WRAPPER_HPP
 
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <functional>
+#include <bksge/fnd/functional/fwd/reference_wrapper_fwd.hpp>
 
 namespace bksge
 {
@@ -24,7 +24,7 @@ struct is_reference_wrapper
 {};
 
 template <typename T>
-struct is_reference_wrapper<std::reference_wrapper<T>>
+struct is_reference_wrapper<bksge::reference_wrapper<T>>
 	: public bksge::true_type
 {};
 

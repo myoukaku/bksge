@@ -13,6 +13,7 @@
 #include <bksge/fnd/functional/bit_not.hpp>
 #include <bksge/fnd/functional/bit_or.hpp>
 #include <bksge/fnd/functional/bit_xor.hpp>
+#include <bksge/fnd/functional/cref.hpp>
 #include <bksge/fnd/functional/divides.hpp>
 #include <bksge/fnd/functional/equal_to.hpp>
 #include <bksge/fnd/functional/greater.hpp>
@@ -32,5 +33,7 @@
 #include <bksge/fnd/functional/not_equal_to.hpp>
 #include <bksge/fnd/functional/not_fn.hpp>
 #include <bksge/fnd/functional/plus.hpp>
+#include <bksge/fnd/functional/ref.hpp>
+#include <bksge/fnd/functional/reference_wrapper.hpp>
 
 #endif // BKSGE_FND_FUNCTIONAL_HPP

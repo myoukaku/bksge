@@ -8,7 +8,7 @@
 
 #include <bksge/fnd/type_traits/unwrap_reference.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <functional>
+#include <bksge/fnd/functional/reference_wrapper.hpp>
 
 #define BKSGE_UNWRAP_REFERENCE_TEST(T1, T2)	\
 	static_assert(bksge::is_same<bksge::unwrap_reference_t<T1>, T2>::value, "");	\
@@ -36,42 +36,42 @@ BKSGE_UNWRAP_REFERENCE_TEST(int       volatile*&, int       volatile*&);
 BKSGE_UNWRAP_REFERENCE_TEST(int const volatile*&, int const volatile*&);
 
 // reference_wrapper types should get unwrapped:
-BKSGE_UNWRAP_REFERENCE_TEST(std::reference_wrapper<int               >, int               &);
-BKSGE_UNWRAP_REFERENCE_TEST(std::reference_wrapper<int const         >, int const         &);
-BKSGE_UNWRAP_REFERENCE_TEST(std::reference_wrapper<int       volatile>, int       volatile&);
-BKSGE_UNWRAP_REFERENCE_TEST(std::reference_wrapper<int const volatile>, int const volatile&);
-BKSGE_UNWRAP_REFERENCE_TEST(std::reference_wrapper<int               *>, int               *&);
-BKSGE_UNWRAP_REFERENCE_TEST(std::reference_wrapper<int const         *>, int const         *&);
-BKSGE_UNWRAP_REFERENCE_TEST(std::reference_wrapper<int       volatile*>, int       volatile*&);
-BKSGE_UNWRAP_REFERENCE_TEST(std::reference_wrapper<int const volatile*>, int const volatile*&);
-BKSGE_UNWRAP_REFERENCE_TEST(std::reference_wrapper<int               &>, int               &);
-BKSGE_UNWRAP_REFERENCE_TEST(std::reference_wrapper<int const         &>, int const         &);
-BKSGE_UNWRAP_REFERENCE_TEST(std::reference_wrapper<int       volatile&>, int       volatile&);
-BKSGE_UNWRAP_REFERENCE_TEST(std::reference_wrapper<int const volatile&>, int const volatile&);
-BKSGE_UNWRAP_REFERENCE_TEST(std::reference_wrapper<int               &&>, int               &);
-BKSGE_UNWRAP_REFERENCE_TEST(std::reference_wrapper<int const         &&>, int const         &);
-BKSGE_UNWRAP_REFERENCE_TEST(std::reference_wrapper<int       volatile&&>, int       volatile&);
-BKSGE_UNWRAP_REFERENCE_TEST(std::reference_wrapper<int const volatile&&>, int const volatile&);
+BKSGE_UNWRAP_REFERENCE_TEST(bksge::reference_wrapper<int               >, int               &);
+BKSGE_UNWRAP_REFERENCE_TEST(bksge::reference_wrapper<int const         >, int const         &);
+BKSGE_UNWRAP_REFERENCE_TEST(bksge::reference_wrapper<int       volatile>, int       volatile&);
+BKSGE_UNWRAP_REFERENCE_TEST(bksge::reference_wrapper<int const volatile>, int const volatile&);
+BKSGE_UNWRAP_REFERENCE_TEST(bksge::reference_wrapper<int               *>, int               *&);
+BKSGE_UNWRAP_REFERENCE_TEST(bksge::reference_wrapper<int const         *>, int const         *&);
+BKSGE_UNWRAP_REFERENCE_TEST(bksge::reference_wrapper<int       volatile*>, int       volatile*&);
+BKSGE_UNWRAP_REFERENCE_TEST(bksge::reference_wrapper<int const volatile*>, int const volatile*&);
+BKSGE_UNWRAP_REFERENCE_TEST(bksge::reference_wrapper<int               &>, int               &);
+BKSGE_UNWRAP_REFERENCE_TEST(bksge::reference_wrapper<int const         &>, int const         &);
+BKSGE_UNWRAP_REFERENCE_TEST(bksge::reference_wrapper<int       volatile&>, int       volatile&);
+BKSGE_UNWRAP_REFERENCE_TEST(bksge::reference_wrapper<int const volatile&>, int const volatile&);
+BKSGE_UNWRAP_REFERENCE_TEST(bksge::reference_wrapper<int               &&>, int               &);
+BKSGE_UNWRAP_REFERENCE_TEST(bksge::reference_wrapper<int const         &&>, int const         &);
+BKSGE_UNWRAP_REFERENCE_TEST(bksge::reference_wrapper<int       volatile&&>, int       volatile&);
+BKSGE_UNWRAP_REFERENCE_TEST(bksge::reference_wrapper<int const volatile&&>, int const volatile&);
 
 // But not cv-qualified reference_wrapper types:
-BKSGE_UNWRAP_REFERENCE_TEST(std::reference_wrapper<int> const         , std::reference_wrapper<int> const         );
-BKSGE_UNWRAP_REFERENCE_TEST(std::reference_wrapper<int>       volatile, std::reference_wrapper<int>       volatile);
-BKSGE_UNWRAP_REFERENCE_TEST(std::reference_wrapper<int> const volatile, std::reference_wrapper<int> const volatile);
+BKSGE_UNWRAP_REFERENCE_TEST(bksge::reference_wrapper<int> const         , bksge::reference_wrapper<int> const         );
+BKSGE_UNWRAP_REFERENCE_TEST(bksge::reference_wrapper<int>       volatile, bksge::reference_wrapper<int>       volatile);
+BKSGE_UNWRAP_REFERENCE_TEST(bksge::reference_wrapper<int> const volatile, bksge::reference_wrapper<int> const volatile);
 
 // Or references to reference_wrapper types:
-BKSGE_UNWRAP_REFERENCE_TEST(std::reference_wrapper<int>               &, std::reference_wrapper<int>               &);
-BKSGE_UNWRAP_REFERENCE_TEST(std::reference_wrapper<int> const         &, std::reference_wrapper<int> const         &);
-BKSGE_UNWRAP_REFERENCE_TEST(std::reference_wrapper<int>       volatile&, std::reference_wrapper<int>       volatile&);
-BKSGE_UNWRAP_REFERENCE_TEST(std::reference_wrapper<int> const volatile&, std::reference_wrapper<int> const volatile&);
-BKSGE_UNWRAP_REFERENCE_TEST(std::reference_wrapper<int>               &&, std::reference_wrapper<int>               &&);
-BKSGE_UNWRAP_REFERENCE_TEST(std::reference_wrapper<int> const         &&, std::reference_wrapper<int> const         &&);
-BKSGE_UNWRAP_REFERENCE_TEST(std::reference_wrapper<int>       volatile&&, std::reference_wrapper<int>       volatile&&);
-BKSGE_UNWRAP_REFERENCE_TEST(std::reference_wrapper<int> const volatile&&, std::reference_wrapper<int> const volatile&&);
+BKSGE_UNWRAP_REFERENCE_TEST(bksge::reference_wrapper<int>               &, bksge::reference_wrapper<int>               &);
+BKSGE_UNWRAP_REFERENCE_TEST(bksge::reference_wrapper<int> const         &, bksge::reference_wrapper<int> const         &);
+BKSGE_UNWRAP_REFERENCE_TEST(bksge::reference_wrapper<int>       volatile&, bksge::reference_wrapper<int>       volatile&);
+BKSGE_UNWRAP_REFERENCE_TEST(bksge::reference_wrapper<int> const volatile&, bksge::reference_wrapper<int> const volatile&);
+BKSGE_UNWRAP_REFERENCE_TEST(bksge::reference_wrapper<int>               &&, bksge::reference_wrapper<int>               &&);
+BKSGE_UNWRAP_REFERENCE_TEST(bksge::reference_wrapper<int> const         &&, bksge::reference_wrapper<int> const         &&);
+BKSGE_UNWRAP_REFERENCE_TEST(bksge::reference_wrapper<int>       volatile&&, bksge::reference_wrapper<int>       volatile&&);
+BKSGE_UNWRAP_REFERENCE_TEST(bksge::reference_wrapper<int> const volatile&&, bksge::reference_wrapper<int> const volatile&&);
 
 // Or pointer to reference_wrapper types:
-BKSGE_UNWRAP_REFERENCE_TEST(std::reference_wrapper<int>               *, std::reference_wrapper<int>               *);
-BKSGE_UNWRAP_REFERENCE_TEST(std::reference_wrapper<int> const         *, std::reference_wrapper<int> const         *);
-BKSGE_UNWRAP_REFERENCE_TEST(std::reference_wrapper<int>       volatile*, std::reference_wrapper<int>       volatile*);
-BKSGE_UNWRAP_REFERENCE_TEST(std::reference_wrapper<int> const volatile*, std::reference_wrapper<int> const volatile*);
+BKSGE_UNWRAP_REFERENCE_TEST(bksge::reference_wrapper<int>               *, bksge::reference_wrapper<int>               *);
+BKSGE_UNWRAP_REFERENCE_TEST(bksge::reference_wrapper<int> const         *, bksge::reference_wrapper<int> const         *);
+BKSGE_UNWRAP_REFERENCE_TEST(bksge::reference_wrapper<int>       volatile*, bksge::reference_wrapper<int>       volatile*);
+BKSGE_UNWRAP_REFERENCE_TEST(bksge::reference_wrapper<int> const volatile*, bksge::reference_wrapper<int> const volatile*);
 
 #undef BKSGE_UNWRAP_REFERENCE_TEST

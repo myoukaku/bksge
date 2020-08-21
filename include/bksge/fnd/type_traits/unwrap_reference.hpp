@@ -11,7 +11,7 @@
 
 #include <type_traits>
 
-#if defined(__cpp_lib_unwrap_ref) && (__cpp_lib_unwrap_ref >= 201811)
+#if 0//defined(__cpp_lib_unwrap_ref) && (__cpp_lib_unwrap_ref >= 201811)
 
 namespace bksge
 {
@@ -23,7 +23,7 @@ using std::unwrap_reference_t;
 
 #else
 
-#include <functional>
+#include <bksge/fnd/functional/reference_wrapper.hpp>
 
 namespace bksge
 {
@@ -32,7 +32,7 @@ template <typename T>
 struct unwrap_reference { using type = T; };
 
 template <typename T>
-struct unwrap_reference<std::reference_wrapper<T>> { using type = T&; };
+struct unwrap_reference<bksge::reference_wrapper<T>> { using type = T&; };
 
 template <typename T>
 using unwrap_reference_t = typename unwrap_reference<T>::type;
