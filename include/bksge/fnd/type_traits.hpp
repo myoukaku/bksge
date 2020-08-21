@@ -129,6 +129,7 @@
 #include <bksge/fnd/type_traits/type_identity.hpp>
 #include <bksge/fnd/type_traits/underlying_type.hpp>
 #include <bksge/fnd/type_traits/unwrap_reference.hpp>
+#include <bksge/fnd/type_traits/unwrap_ref_decay.hpp>
 #include <bksge/fnd/type_traits/void_t.hpp>
 
 #endif // BKSGE_FND_TYPE_TRAITS_HPP
