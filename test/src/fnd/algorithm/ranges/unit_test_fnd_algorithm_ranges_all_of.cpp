@@ -8,7 +8,6 @@
 
 #include <bksge/fnd/algorithm/ranges/all_of.hpp>
 #include <gtest/gtest.h>
-#include <vector>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
 

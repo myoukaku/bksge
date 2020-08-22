@@ -1,13 +1,13 @@
 ﻿/**
- *	@file	all_of.hpp
+ *	@file	any_of.hpp
  *
- *	@brief	ranges::all_of の定義
+ *	@brief	ranges::any_of の定義
  *
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_FND_ALGORITHM_RANGES_ALL_OF_HPP
-#define BKSGE_FND_ALGORITHM_RANGES_ALL_OF_HPP
+#ifndef BKSGE_FND_ALGORITHM_RANGES_ANY_OF_HPP
+#define BKSGE_FND_ALGORITHM_RANGES_ANY_OF_HPP
 
 #include <bksge/fnd/functional/identity.hpp>
 #include <bksge/fnd/functional/invoke.hpp>
@@ -30,7 +30,7 @@ namespace bksge
 namespace ranges
 {
 
-struct all_of_fn
+struct any_of_fn
 {
 	template <
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
@@ -50,19 +50,19 @@ struct all_of_fn
 		>::value>
 #endif
 	>
-	BKSGE_CXX14_CONSTEXPR bool operator()(
+	constexpr bool operator()(
 		Iter first, Sent last,
 		Pred pred, Proj proj ={}) const
 	{
 		for (; first != last; ++first)
 		{
-			if (!(bool)bksge::invoke(pred, bksge::invoke(proj, *first)))
+			if (bksge::invoke(pred, bksge::invoke(proj, *first)))
 			{
-				return false;
+				return true;
 			}
 		}
 
-		return true;
+		return false;
 	}
 
 	template <
@@ -80,7 +80,7 @@ struct all_of_fn
 		>::value>
 #endif
 	>
-	BKSGE_CXX14_CONSTEXPR bool operator()(
+	constexpr bool operator()(
 		Range&& r, Pred pred, Proj proj ={}) const
 	{
 		return (*this)(
@@ -92,7 +92,7 @@ struct all_of_fn
 inline namespace cpo
 {
 
-BKSGE_INLINE_VAR BKSGE_CONSTEXPR all_of_fn all_of{};
+BKSGE_INLINE_VAR BKSGE_CONSTEXPR any_of_fn any_of{};
 
 }	// inline namespace cpo
 
@@ -100,4 +100,4 @@ BKSGE_INLINE_VAR BKSGE_CONSTEXPR all_of_fn all_of{};
 
 }	// namespace bksge
 
-#endif // BKSGE_FND_ALGORITHM_RANGES_ALL_OF_HPP
+#endif // BKSGE_FND_ALGORITHM_RANGES_ANY_OF_HPP
