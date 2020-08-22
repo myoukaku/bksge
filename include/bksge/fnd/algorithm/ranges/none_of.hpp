@@ -1,13 +1,13 @@
 ﻿/**
- *	@file	any_of.hpp
+ *	@file	none_of.hpp
  *
- *	@brief	ranges::any_of の定義
+ *	@brief	ranges::none_of の定義
  *
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_FND_ALGORITHM_RANGES_ANY_OF_HPP
-#define BKSGE_FND_ALGORITHM_RANGES_ANY_OF_HPP
+#ifndef BKSGE_FND_ALGORITHM_RANGES_NONE_OF_HPP
+#define BKSGE_FND_ALGORITHM_RANGES_NONE_OF_HPP
 
 #include <bksge/fnd/functional/identity.hpp>
 #include <bksge/fnd/functional/invoke.hpp>
@@ -30,7 +30,7 @@ namespace bksge
 namespace ranges
 {
 
-struct any_of_fn
+struct none_of_fn
 {
 	template <
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
@@ -58,11 +58,11 @@ struct any_of_fn
 		{
 			if (bksge::invoke(pred, bksge::invoke(proj, *first)))
 			{
-				return true;
+				return false;
 			}
 		}
 
-		return false;
+		return true;
 	}
 
 	template <
@@ -92,7 +92,7 @@ struct any_of_fn
 inline namespace cpo
 {
 
-BKSGE_INLINE_VAR BKSGE_CONSTEXPR any_of_fn any_of{};
+BKSGE_INLINE_VAR BKSGE_CONSTEXPR none_of_fn none_of{};
 
 }	// inline namespace cpo
 
@@ -100,4 +100,4 @@ BKSGE_INLINE_VAR BKSGE_CONSTEXPR any_of_fn any_of{};
 
 }	// namespace bksge
 
-#endif // BKSGE_FND_ALGORITHM_RANGES_ANY_OF_HPP
+#endif // BKSGE_FND_ALGORITHM_RANGES_NONE_OF_HPP
