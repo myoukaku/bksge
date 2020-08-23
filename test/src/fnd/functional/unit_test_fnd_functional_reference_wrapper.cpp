@@ -98,7 +98,7 @@ struct Foo
 
 inline BKSGE_CXX14_CONSTEXPR bool test_invoke()
 {
-	Foo f;
+	Foo f{};
 	bksge::reference_wrapper<Foo> rw(f);
 	VERIFY(rw() == 1);
 	VERIFY(rw(0) == 2);
