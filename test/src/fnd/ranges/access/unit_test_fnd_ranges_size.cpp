@@ -60,8 +60,8 @@ namespace size_test
 
 BKSGE_CXX14_CONSTEXPR bool test01()
 {
-	int a1[10] ={};
-	int a2[2] ={};
+	int a1[10] = {};
+	int a2[2]  = {};
 
 	static_assert(noexcept(bksge::ranges::size(a1)), "");
 	static_assert(noexcept(bksge::ranges::size(a2)), "");
@@ -73,7 +73,7 @@ BKSGE_CXX14_CONSTEXPR bool test01()
 
 BKSGE_CXX14_CONSTEXPR bool test02()
 {
-	R r;
+	R r{};
 	const R& c = r;
 
 #if !(defined(BKSGE_GCC_VERSION) && (BKSGE_GCC_VERSION < 90000))
@@ -88,7 +88,7 @@ BKSGE_CXX14_CONSTEXPR bool test02()
 
 BKSGE_CXX14_CONSTEXPR bool test03()
 {
-	R3 r;
+	R3 r{};
 	const R3& c = r;
 
 #if !(defined(BKSGE_GCC_VERSION) && (BKSGE_GCC_VERSION < 90000))
@@ -107,14 +107,14 @@ BKSGE_CXX14_CONSTEXPR bool test03()
 
 bool test04()
 {
-	std::vector<int> v ={1,2,3};
+	std::vector<int> v = {1,2,3};
 
 	return bksge::ranges::size(v) == 3;
 }
 
 BKSGE_CXX14_CONSTEXPR bool test05()
 {
-	R5 r;
+	R5 r{};
 	return bksge::ranges::size(r) == 1;
 }
 

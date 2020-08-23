@@ -46,8 +46,8 @@ namespace ssize_test
 
 BKSGE_CXX14_CONSTEXPR bool test01()
 {
-	int a1[10] ={};
-	int a2[2] ={};
+	int a1[10] = {};
+	int a2[2]  = {};
 
 	static_assert(bksge::is_same<decltype(bksge::ranges::ssize(a1)), std::ptrdiff_t>::value, "");
 	static_assert(bksge::is_same<decltype(bksge::ranges::ssize(a2)), std::ptrdiff_t>::value, "");
@@ -67,14 +67,14 @@ BKSGE_CXX14_CONSTEXPR bool test01()
 
 bool test02()
 {
-	std::vector<int> v ={1,2,3,4};
+	std::vector<int> v = {1,2,3,4};
 	static_assert(bksge::is_signed_integral<decltype(bksge::ranges::ssize(v))>::value, "");
 	return bksge::ranges::size(v) == 4;
 }
 
 BKSGE_CXX14_CONSTEXPR bool test03()
 {
-	R r;
+	R r{};
 	static_assert(bksge::is_signed_integral<decltype(bksge::ranges::ssize(r))>::value, "");
 	return bksge::ranges::ssize(r) == 1;
 }

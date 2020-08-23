@@ -63,8 +63,8 @@ struct R2
 
 BKSGE_CXX14_CONSTEXPR bool test03()
 {
-	R1 r1;
-	R2 r2;
+	R1 r1{};
+	R2 r2{};
 
 	static_assert(bksge::is_same<decltype(bksge::ranges::empty(r1)), bool>::value, "");
 	static_assert(bksge::is_same<decltype(bksge::ranges::empty(r2)), bool>::value, "");
@@ -90,8 +90,8 @@ struct R4
 
 BKSGE_CXX14_CONSTEXPR bool test04()
 {
-	R3 r3;
-	R4 r4;
+	R3 r3{};
+	R4 r4{};
 
 	static_assert(bksge::is_same<decltype(bksge::ranges::empty(r3)), bool>::value, "");
 	static_assert(bksge::is_same<decltype(bksge::ranges::empty(r4)), bool>::value, "");
@@ -109,10 +109,10 @@ BKSGE_CXX14_CONSTEXPR bool test04()
 BKSGE_CXX14_CONSTEXPR bool test05()
 {
 	int a[2] {};
-	test_forward_range<int>       r1;
+	test_forward_range<int>       r1{};
 	test_forward_range<int>       r2(a, a);
 	test_forward_range<int>       r3(a, a+1);
-	test_bidirectional_range<int> r4;
+	test_bidirectional_range<int> r4{};
 	test_bidirectional_range<int> r5(a, a+2);
 
 	static_assert(bksge::is_same<decltype(bksge::ranges::empty(r1)), bool>::value, "");
