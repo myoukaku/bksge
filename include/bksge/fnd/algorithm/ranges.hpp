@@ -13,6 +13,7 @@
 #include <bksge/fnd/algorithm/ranges/any_of.hpp>
 #include <bksge/fnd/algorithm/ranges/equal.hpp>
 #include <bksge/fnd/algorithm/ranges/for_each.hpp>
+#include <bksge/fnd/algorithm/ranges/for_each_n.hpp>
 #include <bksge/fnd/algorithm/ranges/in_fun_result.hpp>
 #include <bksge/fnd/algorithm/ranges/none_of.hpp>
 
