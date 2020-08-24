@@ -30,7 +30,7 @@ inline BKSGE_CXX14_CONSTEXPR bool test()
 {
 	static_assert(bksge::ranges::is_view<bksge::ranges::empty_view<T>>::value, "");
 
-	bksge::ranges::empty_view<T> e;
+	bksge::ranges::empty_view<T> e{};
 
 	VERIFY(e.begin() == nullptr);
 	VERIFY(e.end()   == nullptr);
