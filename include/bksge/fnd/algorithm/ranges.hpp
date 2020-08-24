@@ -24,6 +24,7 @@
 #include <bksge/fnd/algorithm/ranges/for_each_n.hpp>
 #include <bksge/fnd/algorithm/ranges/in_fun_result.hpp>
 #include <bksge/fnd/algorithm/ranges/in_in_result.hpp>
+#include <bksge/fnd/algorithm/ranges/is_permutation.hpp>
 #include <bksge/fnd/algorithm/ranges/mismatch.hpp>
 #include <bksge/fnd/algorithm/ranges/none_of.hpp>
 #include <bksge/fnd/algorithm/ranges/search.hpp>
