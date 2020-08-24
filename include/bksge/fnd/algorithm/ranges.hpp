@@ -11,6 +11,7 @@
 
 #include <bksge/fnd/algorithm/ranges/all_of.hpp>
 #include <bksge/fnd/algorithm/ranges/any_of.hpp>
+#include <bksge/fnd/algorithm/ranges/count.hpp>
 #include <bksge/fnd/algorithm/ranges/equal.hpp>
 #include <bksge/fnd/algorithm/ranges/find.hpp>
 #include <bksge/fnd/algorithm/ranges/find_first_of.hpp>
