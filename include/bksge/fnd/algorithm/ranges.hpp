@@ -15,6 +15,7 @@
 #include <bksge/fnd/algorithm/ranges/count_if.hpp>
 #include <bksge/fnd/algorithm/ranges/equal.hpp>
 #include <bksge/fnd/algorithm/ranges/find.hpp>
+#include <bksge/fnd/algorithm/ranges/find_end.hpp>
 #include <bksge/fnd/algorithm/ranges/find_first_of.hpp>
 #include <bksge/fnd/algorithm/ranges/find_if.hpp>
 #include <bksge/fnd/algorithm/ranges/find_if_not.hpp>
