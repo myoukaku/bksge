@@ -24,8 +24,8 @@ namespace ranges
 template <typename Iter1, typename Iter2>
 struct in_in_result
 {
-	/*[[no_unique_address]]*/ Iter1 in1;
-	/*[[no_unique_address]]*/ Iter2 in2;
+	BKSGE_NO_UNIQUE_ADDRESS Iter1 in1;
+	BKSGE_NO_UNIQUE_ADDRESS Iter2 in2;
 
 	template <typename IIter1, typename IIter2
 #if !defined(BKSGE_HAS_CXX20_CONCEPTS)

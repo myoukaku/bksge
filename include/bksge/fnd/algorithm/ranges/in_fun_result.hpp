@@ -25,8 +25,8 @@ namespace ranges
 template <typename Iter, typename F>
 struct in_fun_result
 {
-	/*[[no_unique_address]]*/ Iter in;
-	/*[[no_unique_address]]*/ F    fun;
+	BKSGE_NO_UNIQUE_ADDRESS Iter in;
+	BKSGE_NO_UNIQUE_ADDRESS F    fun;
 
 	template <typename Iter2, typename F2
 #if !defined(BKSGE_HAS_CXX20_CONCEPTS)

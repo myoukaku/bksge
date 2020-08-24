@@ -324,6 +324,9 @@
 #    if (BKSGE_HAS_CPP_ATTRIBUTE(nodiscard) >= 201907)
 #      define BKSGE_HAS_CXX20_NODISCARD_WITH_MESSAGE
 #    endif
+#    if (BKSGE_HAS_CPP_ATTRIBUTE(no_unique_address) >= 201803)
+#      define BKSGE_HAS_CXX20_NO_UNIQUE_ADDRESS
+#    endif
 #  endif
 #  if defined(__cpp_impl_three_way_comparison) && (__cpp_impl_three_way_comparison >= 201711L)
 #    define BKSGE_HAS_CXX20_THREE_WAY_COMPARISON

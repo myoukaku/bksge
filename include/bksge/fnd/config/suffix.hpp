@@ -21,6 +21,7 @@
 #include <bksge/fnd/config/suffix/final.hpp>
 #include <bksge/fnd/config/suffix/inline_var.hpp>
 #include <bksge/fnd/config/suffix/likely.hpp>
+#include <bksge/fnd/config/suffix/no_unique_address.hpp>
 #include <bksge/fnd/config/suffix/nodiscard.hpp>
 #include <bksge/fnd/config/suffix/noexcept.hpp>
 #include <bksge/fnd/config/suffix/noreturn.hpp>

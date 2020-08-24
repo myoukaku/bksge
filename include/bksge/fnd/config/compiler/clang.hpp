@@ -355,6 +355,9 @@
 #    if (BKSGE_HAS_CPP_ATTRIBUTE(nodiscard) >= 201907)
 #      define BKSGE_HAS_CXX20_NODISCARD_WITH_MESSAGE
 #    endif
+#    if (BKSGE_HAS_CPP_ATTRIBUTE(no_unique_address) >= 201803)
+#      define BKSGE_HAS_CXX20_NO_UNIQUE_ADDRESS
+#    endif
 #  endif
 #  if (BKSGE_CLANG_VERSION >= 100000)
 #    define BKSGE_HAS_CXX20_DESIGNATED_INITIALIZERS

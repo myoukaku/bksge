@@ -652,7 +652,7 @@
 // P0692R1		Access checking on specializations
 #define BKSGE_HAS_CXX20_DEFAULT_CONSTRUCTIBLE_AND_ASSIGNABLE_STATELESS_LAMBDAS			// P0624R2		Default constructible and assignable stateless lambdas
 // P0315R4		Lambdas in unevaluated contexts
-// P0840R2		Language support for empty objects
+#define BKSGE_HAS_CXX20_NO_UNIQUE_ADDRESS					// P0840R2		Language support for empty objects
 // P0962R1		Relaxing the range-for loop customization point finding rules
 // P0969R0		Allow structured bindings to accessible members
 // P0961R1		Relaxing the structured bindings customization point finding rules

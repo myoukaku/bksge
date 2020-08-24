@@ -512,10 +512,9 @@ template<A a> bool f()
 
 }	// namespace nontype_template_parameter_class_test
 
+#if defined(BKSGE_HAS_CXX20_NONTYPE_TEMPLATE_PARAMETER_FLOAT)
 namespace nontype_template_parameter_float_test
 {
-
-#if defined(BKSGE_HAS_CXX20_NONTYPE_TEMPLATE_PARAMETER_FLOAT)
 
 template <float f>
 constexpr float func()
@@ -526,8 +525,32 @@ constexpr float func()
 static_assert(func<1.0f>() == 2.0f, "");
 static_assert(func<1.5f>() == 3.0f, "");
 
+}	// namespace nontype_template_parameter_float_test
 #endif
 
-}	// namespace nontype_template_parameter_float_test
+#if defined(BKSGE_HAS_CXX20_NO_UNIQUE_ADDRESS)
+namespace no_unique_address_test
+{
+
+struct Empty{};
+struct NotEmpty{int i;};
+
+struct A
+{
+	Empty e;
+	NotEmpty ne;
+	char c;
+};
+struct B
+{
+	[[no_unique_address]] Empty e;
+	[[no_unique_address]] NotEmpty ne;
+	char c;
+};
+
+static_assert(sizeof(A) >= sizeof(B), "");
+
+}	// namespace no_unique_address_test
+#endif
 
 }	// namespace bksge_config_cxx20_test

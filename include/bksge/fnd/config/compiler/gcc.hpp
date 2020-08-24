@@ -411,6 +411,9 @@
 #    if (BKSGE_HAS_CPP_ATTRIBUTE(unlikely) >= 201803)
 #      define BKSGE_HAS_CXX20_UNLIKELY
 #    endif
+#    if (BKSGE_HAS_CPP_ATTRIBUTE(no_unique_address) >= 201803)
+#      define BKSGE_HAS_CXX20_NO_UNIQUE_ADDRESS
+#    endif
 #    if defined(__cpp_nontype_template_parameter_class) && (__cpp_nontype_template_parameter_class >= 201806)
 #      define BKSGE_HAS_CXX20_NONTYPE_TEMPLATE_PARAMETER_CLASS
 #    endif
