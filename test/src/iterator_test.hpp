@@ -63,8 +63,10 @@ template <typename T>
 struct input_iterator_wrapper
 {
 	T*	m_ptr;
-	using value_type      = T;
-	using difference_type = std::ptrdiff_t;
+	using iterator_category = bksge::input_iterator_tag;
+	using value_type        = T;
+	using difference_type   = std::ptrdiff_t;
+	using reference         = T&;
 	BKSGE_CXX14_CONSTEXPR input_iterator_wrapper& operator++() { ++m_ptr; return *this; }
 	BKSGE_CXX14_CONSTEXPR void                    operator++(int);
 	BKSGE_CXX14_CONSTEXPR T&                      operator*() const { return *m_ptr; }
@@ -76,7 +78,8 @@ template <typename T>
 struct output_iterator_wrapper
 {
 	T*	m_ptr;
-	using difference_type = std::ptrdiff_t;
+	using iterator_category = bksge::output_iterator_tag;
+	using difference_type   = std::ptrdiff_t;
 	BKSGE_CXX14_CONSTEXPR output_iterator_wrapper& operator++() { ++m_ptr; return *this; }
 	BKSGE_CXX14_CONSTEXPR output_iterator_wrapper  operator++(int);
 	BKSGE_CXX14_CONSTEXPR T&                       operator*() const { return *m_ptr; }
@@ -86,8 +89,10 @@ template <typename T>
 struct forward_iterator_wrapper
 {
 	T*	m_ptr;
-	using value_type      = T;
-	using difference_type = std::ptrdiff_t;
+	using iterator_category = bksge::forward_iterator_tag;
+	using value_type        = T;
+	using difference_type   = std::ptrdiff_t;
+	using reference         = T&;
 	BKSGE_CXX14_CONSTEXPR forward_iterator_wrapper& operator++() { ++m_ptr; return *this; }
 	BKSGE_CXX14_CONSTEXPR forward_iterator_wrapper  operator++(int) { auto t = *this; ++m_ptr; return t; }
 	BKSGE_CXX14_CONSTEXPR T&                        operator*() const { return *m_ptr; }
@@ -99,8 +104,10 @@ template <typename T>
 struct bidirectional_iterator_wrapper
 {
 	T*	m_ptr;
-	using value_type      = T;
-	using difference_type = std::ptrdiff_t;
+	using iterator_category = bksge::bidirectional_iterator_tag;
+	using value_type        = T;
+	using difference_type   = std::ptrdiff_t;
+	using reference         = T&;
 	BKSGE_CXX14_CONSTEXPR bidirectional_iterator_wrapper& operator++() { ++m_ptr; return *this; }
 	BKSGE_CXX14_CONSTEXPR bidirectional_iterator_wrapper  operator++(int);
 	BKSGE_CXX14_CONSTEXPR bidirectional_iterator_wrapper& operator--() { --m_ptr; return *this; }
@@ -114,8 +121,10 @@ template <typename T>
 struct random_access_iterator_wrapper
 {
 	T*	m_ptr;
-	using value_type      = T;
-	using difference_type = std::ptrdiff_t;
+	using iterator_category = bksge::random_access_iterator_tag;
+	using value_type        = T;
+	using difference_type   = std::ptrdiff_t;
+	using reference         = T&;
 	BKSGE_CXX14_CONSTEXPR random_access_iterator_wrapper& operator++() { ++m_ptr; return *this; }
 	BKSGE_CXX14_CONSTEXPR random_access_iterator_wrapper  operator++(int);
 	BKSGE_CXX14_CONSTEXPR random_access_iterator_wrapper& operator+=(difference_type n) { m_ptr += n; return *this; }
@@ -143,9 +152,11 @@ template <typename T>
 struct contiguous_iterator_wrapper
 {
 	T*	m_ptr;
-	using iterator_concept = bksge::contiguous_iterator_tag;
-	using value_type      = T;
-	using difference_type = std::ptrdiff_t;
+	using iterator_concept  = bksge::contiguous_iterator_tag;
+	using iterator_category = bksge::random_access_iterator_tag;
+	using value_type        = T;
+	using difference_type   = std::ptrdiff_t;
+	using reference         = T&;
 	BKSGE_CXX14_CONSTEXPR contiguous_iterator_wrapper& operator++();
 	BKSGE_CXX14_CONSTEXPR contiguous_iterator_wrapper  operator++(int);
 	BKSGE_CXX14_CONSTEXPR contiguous_iterator_wrapper& operator+=(difference_type);
