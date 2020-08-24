@@ -24,5 +24,6 @@
 #include <bksge/fnd/algorithm/ranges/in_in_result.hpp>
 #include <bksge/fnd/algorithm/ranges/mismatch.hpp>
 #include <bksge/fnd/algorithm/ranges/none_of.hpp>
+#include <bksge/fnd/algorithm/ranges/search.hpp>
 
 #endif // BKSGE_FND_ALGORITHM_RANGES_HPP
