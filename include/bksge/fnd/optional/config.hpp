@@ -17,7 +17,10 @@
 #if defined(__cpp_lib_optional) && (__cpp_lib_optional >= 201606)
 
 // clang 8 より前のバージョンだとconstexpr対応が不十分なので、自前のoptionalを使う
-#  if !(defined(BKSGE_CLANG_VERSION) && (BKSGE_CLANG_VERSION < 80000))
+// gcc 8 より前のバージョンだとconstexpr対応が不十分なので、自前のoptionalを使う
+
+#  if !(defined(BKSGE_CLANG_VERSION) && (BKSGE_CLANG_VERSION < 80000)) &&	\
+      !(defined(BKSGE_GCC_VERSION) && (BKSGE_GCC_VERSION < 80000))
 
 #    define	BKSGE_USE_STD_OPTIONAL
 
