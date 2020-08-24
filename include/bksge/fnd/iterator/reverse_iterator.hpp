@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/config.hpp>
 
-#if (BKSGE_CXX_STANDARD >= 17)
+#if (BKSGE_CXX_STANDARD >= 17) && defined(__cpp_lib_concepts)
 #    define BKSGE_USE_STD_REVERSE_ITERATOR
 #endif
 
@@ -31,6 +31,7 @@ using std::reverse_iterator;
 #include <bksge/fnd/iterator/iter_value_t.hpp>
 #include <bksge/fnd/iterator/iter_difference_t.hpp>
 #include <bksge/fnd/iterator/iter_reference_t.hpp>
+#include <bksge/fnd/iterator/iterator_traits.hpp>
 #include <bksge/fnd/memory/addressof.hpp>
 #include <iterator>
 
@@ -42,10 +43,10 @@ class reverse_iterator
 {
 public:
 	using iterator_type     = Iter;
-	using iterator_category = typename std::iterator_traits<Iter>::iterator_category;
+	using iterator_category = typename bksge::iterator_traits<Iter>::iterator_category;
 	using value_type        = bksge::iter_value_t<Iter>;
 	using difference_type   = bksge::iter_difference_t<Iter>;
-	using pointer           = typename std::iterator_traits<Iter>::pointer;
+	using pointer           = typename bksge::iterator_traits<Iter>::pointer;
 	using reference         = bksge::iter_reference_t<Iter>;
 
 	BKSGE_CXX14_CONSTEXPR reverse_iterator(): current() {}
