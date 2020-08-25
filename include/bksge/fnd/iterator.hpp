@@ -38,6 +38,7 @@
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/iterator/prev.hpp>
 #include <bksge/fnd/iterator/projected.hpp>
+#include <bksge/fnd/iterator/ranges.hpp>
 #include <bksge/fnd/iterator/rbegin.hpp>
 #include <bksge/fnd/iterator/rend.hpp>
 #include <bksge/fnd/iterator/reverse_iterator.hpp>

@@ -25,7 +25,7 @@
 #include <bksge/fnd/concepts/derived_from.hpp>
 #include <bksge/fnd/concepts/same_as.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
-#include <bksge/fnd/iterator/prev.hpp>
+#include <bksge/fnd/iterator/ranges/prev.hpp>
 #include <bksge/fnd/iterator/concepts/contiguous_iterator.hpp>
 #include <bksge/fnd/iterator/concepts/sized_sentinel_for.hpp>
 #include <bksge/fnd/memory/to_address.hpp>

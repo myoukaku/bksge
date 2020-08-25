@@ -25,8 +25,7 @@ using std::ranges::prev;
 
 #else
 
-#include <bksge/fnd/iterator/prev.hpp>
-#include <bksge/fnd/iterator/advance.hpp>
+#include <bksge/fnd/iterator/ranges/advance.hpp>
 #include <bksge/fnd/iterator/iter_difference_t.hpp>
 #include <bksge/fnd/iterator/concepts/bidirectional_iterator.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>

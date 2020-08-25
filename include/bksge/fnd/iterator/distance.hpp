@@ -50,6 +50,4 @@ distance(InputIterator first, InputIterator last);
 
 #endif
 
-#include <bksge/fnd/iterator/ranges/distance.hpp>
-
 #endif // BKSGE_FND_ITERATOR_DISTANCE_HPP

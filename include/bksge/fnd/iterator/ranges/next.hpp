@@ -25,7 +25,7 @@ using std::ranges::next;
 
 #else
 
-#include <bksge/fnd/iterator/advance.hpp>
+#include <bksge/fnd/iterator/ranges/advance.hpp>
 #include <bksge/fnd/iterator/iter_difference_t.hpp>
 #include <bksge/fnd/iterator/concepts/input_or_output_iterator.hpp>
 #include <bksge/fnd/iterator/concepts/sentinel_for.hpp>
