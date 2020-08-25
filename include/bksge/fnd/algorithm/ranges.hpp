@@ -24,6 +24,7 @@
 #include <bksge/fnd/algorithm/ranges/for_each.hpp>
 #include <bksge/fnd/algorithm/ranges/for_each_n.hpp>
 #include <bksge/fnd/algorithm/ranges/in_fun_result.hpp>
+#include <bksge/fnd/algorithm/ranges/in_in_out_result.hpp>
 #include <bksge/fnd/algorithm/ranges/in_in_result.hpp>
 #include <bksge/fnd/algorithm/ranges/in_out_result.hpp>
 #include <bksge/fnd/algorithm/ranges/is_permutation.hpp>
@@ -32,5 +33,6 @@
 #include <bksge/fnd/algorithm/ranges/search.hpp>
 #include <bksge/fnd/algorithm/ranges/search_n.hpp>
 #include <bksge/fnd/algorithm/ranges/swap_ranges.hpp>
+#include <bksge/fnd/algorithm/ranges/transform.hpp>
 
 #endif // BKSGE_FND_ALGORITHM_RANGES_HPP
