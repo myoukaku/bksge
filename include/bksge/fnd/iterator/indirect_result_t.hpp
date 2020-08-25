@@ -39,7 +39,7 @@ struct type_pack
 
 // Visual Studio 2017 のバグに対応するため、2段階で解決する
 template <typename, typename, typename = void>
-struct indirect_result_t_impl_2;
+struct indirect_result_t_impl_2{};
 
 template <typename F, typename... Is>
 struct indirect_result_t_impl_2<F, type_pack<Is...>,
