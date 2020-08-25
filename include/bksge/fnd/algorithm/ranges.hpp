@@ -31,6 +31,7 @@
 #include <bksge/fnd/algorithm/ranges/mismatch.hpp>
 #include <bksge/fnd/algorithm/ranges/none_of.hpp>
 #include <bksge/fnd/algorithm/ranges/replace.hpp>
+#include <bksge/fnd/algorithm/ranges/replace_if.hpp>
 #include <bksge/fnd/algorithm/ranges/search.hpp>
 #include <bksge/fnd/algorithm/ranges/search_n.hpp>
 #include <bksge/fnd/algorithm/ranges/swap_ranges.hpp>
