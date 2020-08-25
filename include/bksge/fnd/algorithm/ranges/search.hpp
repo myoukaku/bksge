@@ -9,7 +9,7 @@
 #ifndef BKSGE_FND_ALGORITHM_RANGES_SEARCH_HPP
 #define BKSGE_FND_ALGORITHM_RANGES_SEARCH_HPP
 
-#include <bksge/fnd/functional/equal_to.hpp>
+#include <bksge/fnd/functional/ranges/equal_to.hpp>
 #include <bksge/fnd/functional/identity.hpp>
 #include <bksge/fnd/functional/invoke.hpp>
 #include <bksge/fnd/iterator/concepts/forward_iterator.hpp>

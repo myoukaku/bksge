@@ -7,8 +7,8 @@
  */
 
 #include <bksge/fnd/algorithm/ranges/equal.hpp>
-#include <bksge/fnd/functional/greater.hpp>
-#include <bksge/fnd/functional/less.hpp>
+#include <bksge/fnd/functional/ranges/greater.hpp>
+#include <bksge/fnd/functional/ranges/less.hpp>
 #include <gtest/gtest.h>
 #include <vector>
 #include "constexpr_test.hpp"

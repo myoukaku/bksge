@@ -12,7 +12,7 @@
 #include <bksge/fnd/algorithm/ranges/search.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/concepts/detail/overload_priority.hpp>
-#include <bksge/fnd/functional/equal_to.hpp>
+#include <bksge/fnd/functional/ranges/equal_to.hpp>
 #include <bksge/fnd/functional/identity.hpp>
 #include <bksge/fnd/iterator/concepts/forward_iterator.hpp>
 #include <bksge/fnd/iterator/concepts/bidirectional_iterator.hpp>

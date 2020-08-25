@@ -10,7 +10,7 @@
 #define BKSGE_FND_ALGORITHM_RANGES_MISMATCH_HPP
 
 #include <bksge/fnd/algorithm/ranges/in_in_result.hpp>
-#include <bksge/fnd/functional/equal_to.hpp>
+#include <bksge/fnd/functional/ranges/equal_to.hpp>
 #include <bksge/fnd/functional/identity.hpp>
 #include <bksge/fnd/functional/invoke.hpp>
 #include <bksge/fnd/iterator/concepts/input_iterator.hpp>

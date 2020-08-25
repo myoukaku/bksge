@@ -33,6 +33,7 @@
 #include <bksge/fnd/functional/not_equal_to.hpp>
 #include <bksge/fnd/functional/not_fn.hpp>
 #include <bksge/fnd/functional/plus.hpp>
+#include <bksge/fnd/functional/ranges.hpp>
 #include <bksge/fnd/functional/ref.hpp>
 #include <bksge/fnd/functional/reference_wrapper.hpp>
 

@@ -15,7 +15,7 @@
 #include <bksge/fnd/iterator/concepts/indirect_strict_weak_order.hpp>
 #include <bksge/fnd/iterator/projected.hpp>
 #include <bksge/fnd/functional/identity.hpp>
-#include <bksge/fnd/functional/less.hpp>
+#include <bksge/fnd/functional/ranges/less.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/config.hpp>
 

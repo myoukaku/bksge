@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/algorithm/ranges/find_if.hpp>
 #include <bksge/fnd/algorithm/ranges/count_if.hpp>
-#include <bksge/fnd/functional/equal_to.hpp>
+#include <bksge/fnd/functional/ranges/equal_to.hpp>
 #include <bksge/fnd/functional/identity.hpp>
 #include <bksge/fnd/functional/invoke.hpp>
 #include <bksge/fnd/iterator/concepts/forward_iterator.hpp>

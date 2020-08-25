@@ -9,9 +9,9 @@
 #ifndef BKSGE_FND_ALGORITHM_RANGES_FIND_HPP
 #define BKSGE_FND_ALGORITHM_RANGES_FIND_HPP
 
+#include <bksge/fnd/functional/ranges/equal_to.hpp>
 #include <bksge/fnd/functional/identity.hpp>
 #include <bksge/fnd/functional/invoke.hpp>
-#include <bksge/fnd/functional/equal_to.hpp>
 #include <bksge/fnd/iterator/concepts/input_iterator.hpp>
 #include <bksge/fnd/iterator/concepts/sentinel_for.hpp>
 #include <bksge/fnd/iterator/concepts/indirect_binary_predicate.hpp>
