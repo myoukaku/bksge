@@ -27,36 +27,36 @@ struct in_in_result
 	BKSGE_NO_UNIQUE_ADDRESS Iter1 in1;
 	BKSGE_NO_UNIQUE_ADDRESS Iter2 in2;
 
-	template <typename IIter1, typename IIter2
-#if !defined(BKSGE_HAS_CXX20_CONCEPTS)
-		, typename = bksge::enable_if_t<bksge::conjunction<
+#if defined(BKSGE_HAS_CXX20_CONCEPTS)
+	template <typename IIter1, typename IIter2>
+	requires
+		bksge::convertible_to<Iter1 const&, IIter1> &&
+		bksge::convertible_to<Iter2 const&, IIter2>
+#else
+	template <typename IIter1, typename IIter2,
+		typename = bksge::enable_if_t<bksge::conjunction<
 			bksge::convertible_to<Iter1 const&, IIter1>,
 			bksge::convertible_to<Iter2 const&, IIter2>
 		>::value>
 	>
-#else
-	>
-	requires
-		bksge::convertible_to<Iter1 const&, IIter1> &&
-		bksge::convertible_to<Iter2 const&, IIter2>
 #endif
 	BKSGE_CXX14_CONSTEXPR operator in_in_result<IIter1, IIter2>() const&
 	{
 		return { in1, in2 };
 	}
 
-	template <typename IIter1, typename IIter2
-#if !defined(BKSGE_HAS_CXX20_CONCEPTS)
-		, typename = bksge::enable_if_t<bksge::conjunction<
+#if defined(BKSGE_HAS_CXX20_CONCEPTS)
+	template <typename IIter1, typename IIter2>
+	requires
+		bksge::convertible_to<Iter1, IIter1> &&
+		bksge::convertible_to<Iter2, IIter2>
+#else
+	template <typename IIter1, typename IIter2,
+		typename = bksge::enable_if_t<bksge::conjunction<
 			bksge::convertible_to<Iter1, IIter1>,
 			bksge::convertible_to<Iter2, IIter2>
 		>::value>
 	>
-#else
-	>
-	requires
-		bksge::convertible_to<Iter1, IIter1> &&
-		bksge::convertible_to<Iter2, IIter2>
 #endif
 	BKSGE_CXX14_CONSTEXPR operator in_in_result<IIter1, IIter2>() &&
 	{

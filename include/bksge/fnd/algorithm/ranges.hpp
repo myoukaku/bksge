@@ -12,6 +12,7 @@
 #include <bksge/fnd/algorithm/ranges/adjacent_find.hpp>
 #include <bksge/fnd/algorithm/ranges/all_of.hpp>
 #include <bksge/fnd/algorithm/ranges/any_of.hpp>
+#include <bksge/fnd/algorithm/ranges/copy_if.hpp>
 #include <bksge/fnd/algorithm/ranges/count.hpp>
 #include <bksge/fnd/algorithm/ranges/count_if.hpp>
 #include <bksge/fnd/algorithm/ranges/equal.hpp>
@@ -24,6 +25,7 @@
 #include <bksge/fnd/algorithm/ranges/for_each_n.hpp>
 #include <bksge/fnd/algorithm/ranges/in_fun_result.hpp>
 #include <bksge/fnd/algorithm/ranges/in_in_result.hpp>
+#include <bksge/fnd/algorithm/ranges/in_out_result.hpp>
 #include <bksge/fnd/algorithm/ranges/is_permutation.hpp>
 #include <bksge/fnd/algorithm/ranges/mismatch.hpp>
 #include <bksge/fnd/algorithm/ranges/none_of.hpp>
