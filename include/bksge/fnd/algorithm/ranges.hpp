@@ -28,6 +28,7 @@
 #include <bksge/fnd/algorithm/ranges/find_if_not.hpp>
 #include <bksge/fnd/algorithm/ranges/for_each.hpp>
 #include <bksge/fnd/algorithm/ranges/for_each_n.hpp>
+#include <bksge/fnd/algorithm/ranges/generate_n.hpp>
 #include <bksge/fnd/algorithm/ranges/in_fun_result.hpp>
 #include <bksge/fnd/algorithm/ranges/in_in_out_result.hpp>
 #include <bksge/fnd/algorithm/ranges/in_in_result.hpp>
