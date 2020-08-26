@@ -30,6 +30,7 @@
 #include <bksge/fnd/algorithm/ranges/in_out_result.hpp>
 #include <bksge/fnd/algorithm/ranges/is_permutation.hpp>
 #include <bksge/fnd/algorithm/ranges/mismatch.hpp>
+#include <bksge/fnd/algorithm/ranges/move.hpp>
 #include <bksge/fnd/algorithm/ranges/none_of.hpp>
 #include <bksge/fnd/algorithm/ranges/replace.hpp>
 #include <bksge/fnd/algorithm/ranges/replace_copy.hpp>
