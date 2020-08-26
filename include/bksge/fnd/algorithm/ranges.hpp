@@ -32,6 +32,7 @@
 #include <bksge/fnd/algorithm/ranges/none_of.hpp>
 #include <bksge/fnd/algorithm/ranges/replace.hpp>
 #include <bksge/fnd/algorithm/ranges/replace_copy.hpp>
+#include <bksge/fnd/algorithm/ranges/replace_copy_if.hpp>
 #include <bksge/fnd/algorithm/ranges/replace_if.hpp>
 #include <bksge/fnd/algorithm/ranges/search.hpp>
 #include <bksge/fnd/algorithm/ranges/search_n.hpp>
