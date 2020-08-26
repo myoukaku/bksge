@@ -19,6 +19,7 @@
 #include <bksge/fnd/algorithm/ranges/count.hpp>
 #include <bksge/fnd/algorithm/ranges/count_if.hpp>
 #include <bksge/fnd/algorithm/ranges/equal.hpp>
+#include <bksge/fnd/algorithm/ranges/fill.hpp>
 #include <bksge/fnd/algorithm/ranges/fill_n.hpp>
 #include <bksge/fnd/algorithm/ranges/find.hpp>
 #include <bksge/fnd/algorithm/ranges/find_end.hpp>
