@@ -12,6 +12,7 @@
 #include <bksge/fnd/algorithm/ranges/adjacent_find.hpp>
 #include <bksge/fnd/algorithm/ranges/all_of.hpp>
 #include <bksge/fnd/algorithm/ranges/any_of.hpp>
+#include <bksge/fnd/algorithm/ranges/copy.hpp>
 #include <bksge/fnd/algorithm/ranges/copy_if.hpp>
 #include <bksge/fnd/algorithm/ranges/count.hpp>
 #include <bksge/fnd/algorithm/ranges/count_if.hpp>
