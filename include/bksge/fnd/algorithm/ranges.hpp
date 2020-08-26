@@ -15,6 +15,7 @@
 #include <bksge/fnd/algorithm/ranges/copy.hpp>
 #include <bksge/fnd/algorithm/ranges/copy_backward.hpp>
 #include <bksge/fnd/algorithm/ranges/copy_if.hpp>
+#include <bksge/fnd/algorithm/ranges/copy_n.hpp>
 #include <bksge/fnd/algorithm/ranges/count.hpp>
 #include <bksge/fnd/algorithm/ranges/count_if.hpp>
 #include <bksge/fnd/algorithm/ranges/equal.hpp>
