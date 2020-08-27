@@ -52,5 +52,6 @@
 #include <bksge/fnd/algorithm/ranges/swap_ranges.hpp>
 #include <bksge/fnd/algorithm/ranges/transform.hpp>
 #include <bksge/fnd/algorithm/ranges/unique.hpp>
+#include <bksge/fnd/algorithm/ranges/unique_copy.hpp>
 
 #endif // BKSGE_FND_ALGORITHM_RANGES_HPP

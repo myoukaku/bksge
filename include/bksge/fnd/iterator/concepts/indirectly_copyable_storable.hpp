@@ -17,6 +17,7 @@
 #include <bksge/fnd/concepts/constructible_from.hpp>
 #include <bksge/fnd/concepts/assignable_from.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -34,6 +35,10 @@ concept indirectly_copyable_storable =
 	bksge::copyable<bksge::iter_value_t<In>>                                        &&
 	bksge::constructible_from<bksge::iter_value_t<In>, bksge::iter_reference_t<In>> &&
 	bksge::assignable_from<bksge::iter_value_t<In>&, bksge::iter_reference_t<In>>;
+
+template <typename In, typename Out>
+using is_indirectly_copyable_storable =
+	bksge::bool_constant<indirectly_copyable_storable<In, Out>>;
 
 #else
 
@@ -68,6 +73,10 @@ public:
 template <typename In, typename Out>
 using indirectly_copyable_storable =
 	typename detail::indirectly_copyable_storable_impl<In, Out>::type;
+
+template <typename In, typename Out>
+using is_indirectly_copyable_storable =
+	indirectly_copyable_storable<In, Out>;
 
 #endif
 
