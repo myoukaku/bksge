@@ -132,7 +132,7 @@ struct random_access_iterator_wrapper
 	BKSGE_CXX14_CONSTEXPR random_access_iterator_wrapper& operator--() { --m_ptr; return *this; }
 	BKSGE_CXX14_CONSTEXPR random_access_iterator_wrapper  operator--(int);
 	BKSGE_CXX14_CONSTEXPR random_access_iterator_wrapper& operator-=(difference_type);
-	BKSGE_CXX14_CONSTEXPR random_access_iterator_wrapper  operator-(difference_type) const;
+	BKSGE_CXX14_CONSTEXPR random_access_iterator_wrapper  operator-(difference_type n) const { return {m_ptr - n}; }
 	BKSGE_CXX14_CONSTEXPR difference_type                 operator-(random_access_iterator_wrapper const& rhs) const { return m_ptr - rhs.m_ptr; }
 	BKSGE_CXX14_CONSTEXPR T&                              operator*() const { return *m_ptr; }
 	BKSGE_CXX14_CONSTEXPR T&                              operator[](difference_type) const;
