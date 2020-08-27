@@ -138,7 +138,7 @@ struct random_access_iterator_wrapper
 	BKSGE_CXX14_CONSTEXPR T&                              operator[](difference_type) const;
 	BKSGE_CXX14_CONSTEXPR bool operator==(const random_access_iterator_wrapper& rhs) const { return m_ptr == rhs.m_ptr; }
 	BKSGE_CXX14_CONSTEXPR bool operator!=(const random_access_iterator_wrapper& rhs) const { return !(*this == rhs); }
-	BKSGE_CXX14_CONSTEXPR bool operator< (const random_access_iterator_wrapper& rhs) const;
+	BKSGE_CXX14_CONSTEXPR bool operator< (const random_access_iterator_wrapper& rhs) const { return m_ptr < rhs.m_ptr; }
 	BKSGE_CXX14_CONSTEXPR bool operator> (const random_access_iterator_wrapper& rhs) const;
 	BKSGE_CXX14_CONSTEXPR bool operator<=(const random_access_iterator_wrapper& rhs) const;
 	BKSGE_CXX14_CONSTEXPR bool operator>=(const random_access_iterator_wrapper& rhs) const;
