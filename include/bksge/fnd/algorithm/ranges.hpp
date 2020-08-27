@@ -39,6 +39,7 @@
 #include <bksge/fnd/algorithm/ranges/move.hpp>
 #include <bksge/fnd/algorithm/ranges/move_backward.hpp>
 #include <bksge/fnd/algorithm/ranges/none_of.hpp>
+#include <bksge/fnd/algorithm/ranges/remove.hpp>
 #include <bksge/fnd/algorithm/ranges/remove_if.hpp>
 #include <bksge/fnd/algorithm/ranges/replace.hpp>
 #include <bksge/fnd/algorithm/ranges/replace_copy.hpp>
