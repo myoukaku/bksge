@@ -24,7 +24,7 @@ namespace detail
 {
 
 template <typename Compare, typename RandomAccessIterator>
-inline void
+inline BKSGE_CXX14_CONSTEXPR void
 make_heap(
 	RandomAccessIterator first,
 	RandomAccessIterator last,
@@ -44,8 +44,8 @@ make_heap(
 
 }	// namespace detail
 
-template <typename RandomAccessIterator, typename>
-inline void
+template <typename RandomAccessIterator>
+inline BKSGE_CXX14_CONSTEXPR void
 make_heap(
 	RandomAccessIterator first,
 	RandomAccessIterator last)
@@ -53,8 +53,8 @@ make_heap(
 	bksge::algorithm::make_heap(first, last, bksge::less<>());
 }
 
-template <typename RandomAccessIterator, typename Compare, typename>
-inline void
+template <typename RandomAccessIterator, typename Compare>
+inline BKSGE_CXX14_CONSTEXPR void
 make_heap(
 	RandomAccessIterator first,
 	RandomAccessIterator last,

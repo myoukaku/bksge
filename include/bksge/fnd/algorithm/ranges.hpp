@@ -35,10 +35,13 @@
 #include <bksge/fnd/algorithm/ranges/in_in_result.hpp>
 #include <bksge/fnd/algorithm/ranges/in_out_result.hpp>
 #include <bksge/fnd/algorithm/ranges/is_permutation.hpp>
+#include <bksge/fnd/algorithm/ranges/make_heap.hpp>
 #include <bksge/fnd/algorithm/ranges/mismatch.hpp>
 #include <bksge/fnd/algorithm/ranges/move.hpp>
 #include <bksge/fnd/algorithm/ranges/move_backward.hpp>
 #include <bksge/fnd/algorithm/ranges/none_of.hpp>
+#include <bksge/fnd/algorithm/ranges/pop_heap.hpp>
+#include <bksge/fnd/algorithm/ranges/push_heap.hpp>
 #include <bksge/fnd/algorithm/ranges/remove.hpp>
 #include <bksge/fnd/algorithm/ranges/remove_copy.hpp>
 #include <bksge/fnd/algorithm/ranges/remove_copy_if.hpp>

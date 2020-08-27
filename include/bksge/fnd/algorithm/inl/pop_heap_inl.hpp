@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/algorithm/pop_heap.hpp>
 #include <bksge/fnd/functional/less.hpp>
-#include <bksge/fnd/iterator/type_traits/iterator_value_type.hpp>
+#include <bksge/fnd/iterator/iter_value_t.hpp>
 #include <bksge/fnd/type_traits/add_lvalue_reference.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/utility/move.hpp>
@@ -26,7 +26,7 @@ namespace detail
 {
 
 template <typename Compare, typename RandomAccessIterator, typename DifferenceType>
-inline void
+inline BKSGE_CXX14_CONSTEXPR void
 sift_down(
 	RandomAccessIterator first,
 	RandomAccessIterator /*last*/,
@@ -34,7 +34,7 @@ sift_down(
 	DifferenceType len,
 	RandomAccessIterator start)
 {
-	using value_type = bksge::iterator_value_type<RandomAccessIterator>;
+	using value_type = bksge::iter_value_t<RandomAccessIterator>;
 
 	// left-child of start is at 2 * start + 1
 	// right-child of start is at 2 * start + 2
@@ -94,7 +94,7 @@ sift_down(
 }
 
 template <typename Compare, typename RandomAccessIterator, typename DifferenceType>
-inline void
+inline BKSGE_CXX14_CONSTEXPR void
 pop_heap(
 	RandomAccessIterator first,
 	RandomAccessIterator last,
@@ -110,8 +110,8 @@ pop_heap(
 
 }	// namespace detail
 
-template <typename RandomAccessIterator, typename>
-inline void
+template <typename RandomAccessIterator>
+inline BKSGE_CXX14_CONSTEXPR void
 pop_heap(
 	RandomAccessIterator first,
 	RandomAccessIterator last)
@@ -119,8 +119,8 @@ pop_heap(
 	bksge::algorithm::pop_heap(first, last, bksge::less<>());
 }
 
-template <typename RandomAccessIterator, typename Compare, typename>
-inline void
+template <typename RandomAccessIterator, typename Compare>
+inline BKSGE_CXX14_CONSTEXPR void
 pop_heap(
 	RandomAccessIterator first,
 	RandomAccessIterator last,
