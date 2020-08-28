@@ -9,8 +9,6 @@
 #ifndef BKSGE_FND_ALGORITHM_NTH_ELEMENT_HPP
 #define BKSGE_FND_ALGORITHM_NTH_ELEMENT_HPP
 
-#include <bksge/fnd/iterator/type_traits/is_random_access_iterator.hpp>
-#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -38,13 +36,8 @@ namespace algorithm
  *
  *	@complexity	平均で線形時間
  */
-template <
-	typename RandomAccessIterator,
-	typename = bksge::enable_if_t<
-		bksge::is_random_access_iterator<RandomAccessIterator>::value
-	>
->
-void
+template <typename RandomAccessIterator>
+BKSGE_CXX14_CONSTEXPR void
 nth_element(
 	RandomAccessIterator first,
 	RandomAccessIterator nth,
@@ -71,14 +64,8 @@ nth_element(
  *
  *	@complexity	平均で線形時間
  */
-template <
-	typename RandomAccessIterator,
-	typename Compare,
-	typename = bksge::enable_if_t<
-		bksge::is_random_access_iterator<RandomAccessIterator>::value
-	>
->
-void
+template <typename RandomAccessIterator, typename Compare>
+BKSGE_CXX14_CONSTEXPR void
 nth_element(
 	RandomAccessIterator first,
 	RandomAccessIterator nth,

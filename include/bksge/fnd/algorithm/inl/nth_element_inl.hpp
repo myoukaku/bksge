@@ -12,7 +12,7 @@
 #include <bksge/fnd/algorithm/nth_element.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
 #include <bksge/fnd/functional/less.hpp>
-#include <bksge/fnd/iterator/type_traits/iterator_difference_type.hpp>
+#include <bksge/fnd/iterator/iter_difference_t.hpp>
 #include <bksge/fnd/type_traits/add_lvalue_reference.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 
@@ -26,7 +26,7 @@ namespace detail
 {
 
 template <typename Compare, typename BirdirectionalIterator>
-inline void
+inline BKSGE_CXX14_CONSTEXPR void
 selection_sort(
 	BirdirectionalIterator first,
 	BirdirectionalIterator last,
@@ -49,7 +49,7 @@ selection_sort(
 }
 
 template <typename Compare, typename RandomAccessIterator>
-inline void
+inline BKSGE_CXX14_CONSTEXPR void
 nth_element(
 	RandomAccessIterator first,
 	RandomAccessIterator nth,
@@ -57,13 +57,13 @@ nth_element(
 	Compare comp)
 {
 	// Compare is known to be a reference type
-	using difference_type = bksge::iterator_difference_type<RandomAccessIterator>;
+	using difference_type = bksge::iter_difference_t<RandomAccessIterator>;
 
 	const difference_type limit = 7;
 
 	for (;;)
 	{
-RESTART:
+//RESTART:
 		if (nth == last)
 		{
 			return;
@@ -95,6 +95,8 @@ RESTART:
 			detail::selection_sort<Compare>(first, last, comp);
 			return;
 		}
+
+		bool restart = false;
 
 		// len > limit >= 3
 		auto m = first + len/2;
@@ -181,7 +183,13 @@ RESTART:
 					// nth_element the secod part
 					// nth_element<Compare>(i, nth, last, comp);
 					first = i;
-					goto RESTART;
+					//goto RESTART;
+					restart = true;
+				}
+
+				if (restart)
+				{
+					break;
 				}
 
 				if (comp(*j, *m))
@@ -191,6 +199,11 @@ RESTART:
 					break;  // found guard for downward moving j, now use unguarded partition
 				}
 			}
+		}
+
+		if (restart)
+		{
+			continue;
 		}
 
 		++i;
@@ -245,6 +258,8 @@ RESTART:
 			return;
 		}
 
+		bool sorted = true;
+
 		if (n_swaps == 0)
 		{
 			// We were given a perfectly partitioned sequence.  Coincidence?
@@ -258,14 +273,19 @@ RESTART:
 					if (comp(*j, *m))
 					{
 						// not yet sorted, so sort
-						goto NOT_SORTED;
+						//goto NOT_SORTED;
+						sorted = false;
+						break;
 					}
 
 					m = j;
 				}
 
 				// [first, i) sorted
-				return;
+				if (sorted)
+				{
+					return;
+				}
 			}
 			else
 			{
@@ -277,18 +297,23 @@ RESTART:
 					if (comp(*j, *m))
 					{
 						// not yet sorted, so sort
-						goto NOT_SORTED;
+						//goto NOT_SORTED;
+						sorted = false;
+						break;
 					}
 
 					m = j;
 				}
 
 				// [i, last) sorted
-				return;
+				if (sorted)
+				{
+					return;
+				}
 			}
 		}
 
-NOT_SORTED:
+//NOT_SORTED:
 		// nth_element on range containing nth
 		if (nth < i)
 		{
@@ -305,8 +330,8 @@ NOT_SORTED:
 
 }	// namespace detail
 
-template <typename RandomAccessIterator, typename>
-inline void
+template <typename RandomAccessIterator>
+inline BKSGE_CXX14_CONSTEXPR void
 nth_element(
 	RandomAccessIterator first,
 	RandomAccessIterator nth,
@@ -316,8 +341,8 @@ nth_element(
 		first, nth, last, bksge::less<>());
 }
 
-template <typename RandomAccessIterator, typename Compare, typename>
-inline void
+template <typename RandomAccessIterator, typename Compare>
+inline BKSGE_CXX14_CONSTEXPR void
 nth_element(
 	RandomAccessIterator first,
 	RandomAccessIterator nth,
