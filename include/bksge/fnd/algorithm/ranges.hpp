@@ -39,6 +39,7 @@
 #include <bksge/fnd/algorithm/ranges/is_permutation.hpp>
 #include <bksge/fnd/algorithm/ranges/is_sorted.hpp>
 #include <bksge/fnd/algorithm/ranges/is_sorted_until.hpp>
+#include <bksge/fnd/algorithm/ranges/lower_bound.hpp>
 #include <bksge/fnd/algorithm/ranges/make_heap.hpp>
 #include <bksge/fnd/algorithm/ranges/mismatch.hpp>
 #include <bksge/fnd/algorithm/ranges/move.hpp>
