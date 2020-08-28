@@ -10,6 +10,7 @@
 #include <bksge/fnd/iterator/ranges/next.hpp>
 #include <bksge/fnd/functional/ranges/greater.hpp>
 #include <gtest/gtest.h>
+#include <forward_list>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
 
@@ -37,6 +38,21 @@ inline BKSGE_CXX14_CONSTEXPR bool test01()
 		test_range<int, forward_iterator_wrapper> r(x);
 		auto res = ranges::lower_bound(r, i, ranges::greater{});
 		VERIFY(res == ranges::next(r.begin(), 7-i));
+	}
+	{
+		int x[] = {0,0,1,1,1,2,2,2,2};
+		auto res = ranges::lower_bound(x, 0);
+		VERIFY(res == ranges::next(x, 0));
+	}
+	{
+		int x[] = {0,0,1,1,1,2,2,2,2};
+		auto res = ranges::lower_bound(x, 1);
+		VERIFY(res == ranges::next(x, 2));
+	}
+	{
+		int x[] = {0,0,1,1,1,2,2,2,2};
+		auto res = ranges::lower_bound(x, 2);
+		VERIFY(res == ranges::next(x, 5));
 	}
 	{
 		int x[] = {0,1,2,3,4,5,6,7};
@@ -88,6 +104,10 @@ inline bool test02()
 		VERIFY(ranges::lower_bound(x, 2, pred, &X::i) == ranges::next(x, 5));
 		VERIFY(ranges::lower_bound(x, 1, pred, &X::i) == ranges::next(x, 6));
 		VERIFY(ranges::lower_bound(x, 0, pred, &X::i) == ranges::next(x, 7));
+	}
+	{
+		std::forward_list<int> x {};
+		VERIFY(ranges::lower_bound(x, 0) == x.end());
 	}
 	return true;
 }

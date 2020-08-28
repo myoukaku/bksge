@@ -70,5 +70,6 @@
 #include <bksge/fnd/algorithm/ranges/transform.hpp>
 #include <bksge/fnd/algorithm/ranges/unique.hpp>
 #include <bksge/fnd/algorithm/ranges/unique_copy.hpp>
+#include <bksge/fnd/algorithm/ranges/upper_bound.hpp>
 
 #endif // BKSGE_FND_ALGORITHM_RANGES_HPP
