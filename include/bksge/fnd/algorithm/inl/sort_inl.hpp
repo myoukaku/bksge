@@ -12,8 +12,8 @@
 #include <bksge/fnd/algorithm/sort.hpp>
 #include <bksge/fnd/algorithm/min_element.hpp>
 #include <bksge/fnd/functional/less.hpp>
-#include <bksge/fnd/iterator/type_traits/iterator_value_type.hpp>
-#include <bksge/fnd/iterator/type_traits/iterator_difference_type.hpp>
+#include <bksge/fnd/iterator/iter_value_t.hpp>
+#include <bksge/fnd/iterator/iter_difference_t.hpp>
 #include <bksge/fnd/type_traits/add_lvalue_reference.hpp>
 #include <bksge/fnd/type_traits/is_trivially_copy_constructible.hpp>
 #include <bksge/fnd/type_traits/is_trivially_copy_assignable.hpp>
@@ -33,7 +33,7 @@ namespace detail
 // stable, 2-3 compares, 0-2 swaps
 
 template <typename Compare, typename ForwardIterator>
-inline unsigned
+inline BKSGE_CXX14_CONSTEXPR unsigned
 sort3(
 	ForwardIterator x,
 	ForwardIterator y,
@@ -84,7 +84,7 @@ sort3(
 // stable, 3-6 compares, 0-5 swaps
 
 template <typename Compare, typename ForwardIterator>
-inline unsigned
+inline BKSGE_CXX14_CONSTEXPR unsigned
 sort4(
 	ForwardIterator x1,
 	ForwardIterator x2,
@@ -118,7 +118,7 @@ sort4(
 // stable, 4-10 compares, 0-9 swaps
 
 template <typename Compare, typename ForwardIterator>
-inline unsigned
+inline BKSGE_CXX14_CONSTEXPR unsigned
 sort5(
 	ForwardIterator x1,
 	ForwardIterator x2,
@@ -157,10 +157,10 @@ sort5(
 }
 
 template <typename Compare, typename RandomAccessIterator>
-inline void
+inline BKSGE_CXX14_CONSTEXPR void
 insertion_sort_3(RandomAccessIterator first, RandomAccessIterator last, Compare comp)
 {
-	using value_type = bksge::iterator_value_type<RandomAccessIterator>;
+	using value_type = bksge::iter_value_t<RandomAccessIterator>;
 
 	auto j = first+2;
 	detail::sort3<Compare>(first, first+1, j, comp);
@@ -188,7 +188,7 @@ insertion_sort_3(RandomAccessIterator first, RandomAccessIterator last, Compare 
 }
 
 template <typename Compare, typename RandomAccessIterator>
-inline bool
+inline BKSGE_CXX14_CONSTEXPR bool
 insertion_sort_incomplete(
 	RandomAccessIterator first,
 	RandomAccessIterator last,
@@ -216,7 +216,7 @@ insertion_sort_incomplete(
 		return true;
 	}
 
-	using value_type = bksge::iterator_value_type<RandomAccessIterator>;
+	using value_type = bksge::iter_value_t<RandomAccessIterator>;
 	auto j = first+2;
 	detail::sort3<Compare>(first, first+1, j, comp);
 	unsigned const limit = 8;
@@ -252,12 +252,12 @@ insertion_sort_incomplete(
 }
 
 template <typename Compare, typename RandomAccessIterator>
-inline void
+inline BKSGE_CXX14_CONSTEXPR void
 sort(RandomAccessIterator first, RandomAccessIterator last, Compare comp)
 {
 	// Compare is known to be a reference type
-	using difference_type = bksge::iterator_difference_type<RandomAccessIterator>;
-	using value_type      = bksge::iterator_value_type<RandomAccessIterator>;
+	using difference_type = bksge::iter_difference_t<RandomAccessIterator>;
+	using value_type      = bksge::iter_value_t<RandomAccessIterator>;
 
 	const difference_type limit =
 		bksge::is_trivially_copy_constructible<value_type>::value &&
@@ -265,7 +265,9 @@ sort(RandomAccessIterator first, RandomAccessIterator last, Compare comp)
 
 	for (;;)
 	{
-RESTART:
+//RESTART:
+		bool restart = false;
+
 		auto len = last - first;
 
 		switch (len)
@@ -393,7 +395,14 @@ RESTART:
 					// The first part is sorted, sort the secod part
 					// detail::sort<Compare>(i, last, comp);
 					first = i;
-					goto RESTART;
+
+					//goto RESTART;
+					restart = true;
+				}
+
+				if (restart)
+				{
+					break;
 				}
 
 				if (comp(*j, *m))
@@ -403,6 +412,11 @@ RESTART:
 					break;  // found guard for downward moving j, now use unguarded partition
 				}
 			}
+		}
+
+		if (restart)
+		{
+			continue;
 		}
 
 		// It is known that *i < *m
@@ -494,16 +508,16 @@ RESTART:
 
 }	// namespace detail
 
-template <typename RandomAccessIterator, typename>
-inline void
+template <typename RandomAccessIterator>
+inline BKSGE_CXX14_CONSTEXPR void
 sort(RandomAccessIterator first, RandomAccessIterator last)
 {
 	return bksge::algorithm::sort(
 		first, last, bksge::less<>());
 }
 
-template <typename RandomAccessIterator, typename Compare, typename>
-inline void
+template <typename RandomAccessIterator, typename Compare>
+inline BKSGE_CXX14_CONSTEXPR void
 sort(RandomAccessIterator first, RandomAccessIterator last, Compare comp)
 {
 	using CompRef = bksge::add_lvalue_reference_t<Compare>;
