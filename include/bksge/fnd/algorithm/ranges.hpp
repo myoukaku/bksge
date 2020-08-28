@@ -34,6 +34,7 @@
 #include <bksge/fnd/algorithm/ranges/in_in_out_result.hpp>
 #include <bksge/fnd/algorithm/ranges/in_in_result.hpp>
 #include <bksge/fnd/algorithm/ranges/in_out_result.hpp>
+#include <bksge/fnd/algorithm/ranges/is_heap_until.hpp>
 #include <bksge/fnd/algorithm/ranges/is_permutation.hpp>
 #include <bksge/fnd/algorithm/ranges/make_heap.hpp>
 #include <bksge/fnd/algorithm/ranges/mismatch.hpp>
