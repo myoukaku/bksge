@@ -43,6 +43,7 @@
 #include <bksge/fnd/algorithm/ranges/move_backward.hpp>
 #include <bksge/fnd/algorithm/ranges/none_of.hpp>
 #include <bksge/fnd/algorithm/ranges/partial_sort.hpp>
+#include <bksge/fnd/algorithm/ranges/partial_sort_copy.hpp>
 #include <bksge/fnd/algorithm/ranges/pop_heap.hpp>
 #include <bksge/fnd/algorithm/ranges/push_heap.hpp>
 #include <bksge/fnd/algorithm/ranges/remove.hpp>
