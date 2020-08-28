@@ -56,6 +56,7 @@
 #include <bksge/fnd/algorithm/ranges/rotate_copy.hpp>
 #include <bksge/fnd/algorithm/ranges/search.hpp>
 #include <bksge/fnd/algorithm/ranges/search_n.hpp>
+#include <bksge/fnd/algorithm/ranges/sort_heap.hpp>
 #include <bksge/fnd/algorithm/ranges/swap_ranges.hpp>
 #include <bksge/fnd/algorithm/ranges/transform.hpp>
 #include <bksge/fnd/algorithm/ranges/unique.hpp>

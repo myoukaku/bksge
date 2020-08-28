@@ -24,7 +24,7 @@ namespace detail
 {
 
 template <typename Compare, typename RandomAccessIterator>
-inline void
+inline BKSGE_CXX14_CONSTEXPR void
 sort_heap(
 	RandomAccessIterator first,
 	RandomAccessIterator last,
@@ -38,8 +38,8 @@ sort_heap(
 
 }	// namespace detail
 
-template <typename RandomAccessIterator, typename>
-inline void
+template <typename RandomAccessIterator>
+inline BKSGE_CXX14_CONSTEXPR void
 sort_heap(
 	RandomAccessIterator first,
 	RandomAccessIterator last)
@@ -47,8 +47,8 @@ sort_heap(
 	bksge::algorithm::sort_heap(first, last, bksge::less<>());
 }
 
-template <typename RandomAccessIterator, typename Compare, typename>
-inline void
+template <typename RandomAccessIterator, typename Compare>
+inline BKSGE_CXX14_CONSTEXPR void
 sort_heap(
 	RandomAccessIterator first,
 	RandomAccessIterator last,
