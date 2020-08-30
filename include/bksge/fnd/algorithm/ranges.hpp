@@ -38,6 +38,7 @@
 #include <bksge/fnd/algorithm/ranges/in_out_result.hpp>
 #include <bksge/fnd/algorithm/ranges/is_heap.hpp>
 #include <bksge/fnd/algorithm/ranges/is_heap_until.hpp>
+#include <bksge/fnd/algorithm/ranges/is_partitioned.hpp>
 #include <bksge/fnd/algorithm/ranges/is_permutation.hpp>
 #include <bksge/fnd/algorithm/ranges/is_sorted.hpp>
 #include <bksge/fnd/algorithm/ranges/is_sorted_until.hpp>
