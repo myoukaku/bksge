@@ -32,6 +32,7 @@
 #include <bksge/fnd/algorithm/ranges/for_each_n.hpp>
 #include <bksge/fnd/algorithm/ranges/generate.hpp>
 #include <bksge/fnd/algorithm/ranges/generate_n.hpp>
+#include <bksge/fnd/algorithm/ranges/includes.hpp>
 #include <bksge/fnd/algorithm/ranges/in_fun_result.hpp>
 #include <bksge/fnd/algorithm/ranges/in_in_out_result.hpp>
 #include <bksge/fnd/algorithm/ranges/in_in_result.hpp>
