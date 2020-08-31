@@ -35,6 +35,7 @@
 #include <bksge/fnd/algorithm/ranges/in_fun_result.hpp>
 #include <bksge/fnd/algorithm/ranges/in_in_out_result.hpp>
 #include <bksge/fnd/algorithm/ranges/in_in_result.hpp>
+#include <bksge/fnd/algorithm/ranges/in_out_out_result.hpp>
 #include <bksge/fnd/algorithm/ranges/in_out_result.hpp>
 #include <bksge/fnd/algorithm/ranges/is_heap.hpp>
 #include <bksge/fnd/algorithm/ranges/is_heap_until.hpp>
@@ -52,6 +53,7 @@
 #include <bksge/fnd/algorithm/ranges/partial_sort.hpp>
 #include <bksge/fnd/algorithm/ranges/partial_sort_copy.hpp>
 #include <bksge/fnd/algorithm/ranges/partition.hpp>
+#include <bksge/fnd/algorithm/ranges/partition_copy.hpp>
 #include <bksge/fnd/algorithm/ranges/pop_heap.hpp>
 #include <bksge/fnd/algorithm/ranges/push_heap.hpp>
 #include <bksge/fnd/algorithm/ranges/remove.hpp>
