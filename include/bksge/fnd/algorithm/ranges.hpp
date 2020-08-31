@@ -54,6 +54,7 @@
 #include <bksge/fnd/algorithm/ranges/partial_sort_copy.hpp>
 #include <bksge/fnd/algorithm/ranges/partition.hpp>
 #include <bksge/fnd/algorithm/ranges/partition_copy.hpp>
+#include <bksge/fnd/algorithm/ranges/partition_point.hpp>
 #include <bksge/fnd/algorithm/ranges/pop_heap.hpp>
 #include <bksge/fnd/algorithm/ranges/push_heap.hpp>
 #include <bksge/fnd/algorithm/ranges/remove.hpp>
