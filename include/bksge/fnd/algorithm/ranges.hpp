@@ -73,6 +73,7 @@
 #include <bksge/fnd/algorithm/ranges/rotate_copy.hpp>
 #include <bksge/fnd/algorithm/ranges/search.hpp>
 #include <bksge/fnd/algorithm/ranges/search_n.hpp>
+#include <bksge/fnd/algorithm/ranges/set_difference.hpp>
 #include <bksge/fnd/algorithm/ranges/set_intersection.hpp>
 #include <bksge/fnd/algorithm/ranges/set_union.hpp>
 #include <bksge/fnd/algorithm/ranges/sort.hpp>
