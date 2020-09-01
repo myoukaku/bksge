@@ -75,6 +75,7 @@
 #include <bksge/fnd/algorithm/ranges/search_n.hpp>
 #include <bksge/fnd/algorithm/ranges/set_difference.hpp>
 #include <bksge/fnd/algorithm/ranges/set_intersection.hpp>
+#include <bksge/fnd/algorithm/ranges/set_symmetric_difference.hpp>
 #include <bksge/fnd/algorithm/ranges/set_union.hpp>
 #include <bksge/fnd/algorithm/ranges/sort.hpp>
 #include <bksge/fnd/algorithm/ranges/sort_heap.hpp>
