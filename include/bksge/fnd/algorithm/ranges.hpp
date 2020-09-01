@@ -47,6 +47,7 @@
 #include <bksge/fnd/algorithm/ranges/lower_bound.hpp>
 #include <bksge/fnd/algorithm/ranges/make_heap.hpp>
 #include <bksge/fnd/algorithm/ranges/merge.hpp>
+#include <bksge/fnd/algorithm/ranges/min.hpp>
 #include <bksge/fnd/algorithm/ranges/mismatch.hpp>
 #include <bksge/fnd/algorithm/ranges/move.hpp>
 #include <bksge/fnd/algorithm/ranges/move_backward.hpp>
