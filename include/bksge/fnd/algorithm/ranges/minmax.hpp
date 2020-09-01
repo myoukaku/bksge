@@ -1,14 +1,15 @@
 ﻿/**
- *	@file	max.hpp
+ *	@file	minmax.hpp
  *
- *	@brief	ranges::max の定義
+ *	@brief	ranges::minmax の定義
  *
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_FND_ALGORITHM_RANGES_MAX_HPP
-#define BKSGE_FND_ALGORITHM_RANGES_MAX_HPP
+#ifndef BKSGE_FND_ALGORITHM_RANGES_MINMAX_HPP
+#define BKSGE_FND_ALGORITHM_RANGES_MINMAX_HPP
 
+#include <bksge/fnd/algorithm/ranges/min_max_result.hpp>
 #include <bksge/fnd/concepts/copyable.hpp>
 #include <bksge/fnd/functional/ranges/less.hpp>
 #include <bksge/fnd/functional/identity.hpp>
@@ -35,7 +36,10 @@ namespace bksge
 namespace ranges
 {
 
-struct max_fn
+template <typename T>
+using minmax_result = min_max_result<T>;
+
+struct minmax_fn
 {
 	template <
 		typename T,
@@ -53,18 +57,19 @@ struct max_fn
 		>
 #endif
 	>
-	BKSGE_CXX14_CONSTEXPR T const&
-	operator()(T const& a, T const& b, Comp comp = {}, Proj proj = {}) const
+	BKSGE_CXX14_CONSTEXPR minmax_result<T const&>
+	operator()(T const& a, T const& b,
+		Comp comp = {}, Proj proj = {}) const
 	{
 		if (bksge::invoke(bksge::move(comp),
-			bksge::invoke(proj, a),
-			bksge::invoke(proj, b)))
+			bksge::invoke(proj, b),
+			bksge::invoke(proj, a)))
 		{
-			return b;
+			return { b, a };
 		}
 		else
 		{
-			return a;
+			return { a, b };
 		}
 	}
 
@@ -76,10 +81,9 @@ struct max_fn
 			bksge::projected<ranges::iterator_t<Range>, Proj>
 		> Comp = ranges::less
 	>
-	requires
-		bksge::indirectly_copyable_storable<
-			ranges::iterator_t<Range>,
-			ranges::range_value_t<Range>*>
+	requires bksge::indirectly_copyable_storable<
+		ranges::iterator_t<Range>,
+		ranges::range_value_t<Range>*>
 #else
 	template <
 		typename Range,
@@ -88,29 +92,35 @@ struct max_fn
 		typename = bksge::enable_if_t<bksge::conjunction<
 			ranges::input_range<Range>,
 			bksge::indirect_strict_weak_order<Comp,
-				bksge::projected<ranges::iterator_t<Range>, Proj>
-			>,
+				bksge::projected<ranges::iterator_t<Range>, Proj>>,
 			bksge::indirectly_copyable_storable<
 				ranges::iterator_t<Range>,
 				ranges::range_value_t<Range>*>
 		>::value>
 	>
 #endif
-	BKSGE_CXX14_CONSTEXPR ranges::range_value_t<Range>
+	BKSGE_CXX14_CONSTEXPR minmax_result<ranges::range_value_t<Range>>
 	operator()(Range&& r, Comp comp = {}, Proj proj = {}) const
 	{
 		auto first = ranges::begin(r);
 		auto last = ranges::end(r);
 		BKSGE_ASSERT(bool(first != last));
-		auto result = *first;
+		minmax_result<ranges::range_value_t<Range>> result = { *first, *first };
 		while (++first != last)
 		{
 			auto tmp = *first;
 			if (bksge::invoke(comp,
-				bksge::invoke(proj, result),
-				bksge::invoke(proj, tmp)))
+				bksge::invoke(proj, tmp),
+				bksge::invoke(proj, result.min)))
 			{
-				result = bksge::move(tmp);
+				result.min = bksge::move(tmp);
+			}
+
+			if (!(bool)bksge::invoke(comp,
+				bksge::invoke(proj, tmp),
+				bksge::invoke(proj, result.max)))
+			{
+				result.max = bksge::move(tmp);
 			}
 		}
 
@@ -131,16 +141,15 @@ struct max_fn
 		typename = bksge::enable_if_t<bksge::conjunction<
 			bksge::copyable<T>,
 			bksge::indirect_strict_weak_order<Comp,
-				bksge::projected<T const*, Proj>
-			>
+				bksge::projected<T const*, Proj>>
 		>::value>
 #endif
 	>
-	BKSGE_CXX14_CONSTEXPR T
-	operator()(std::initializer_list<T> r, Comp comp = {}, Proj proj = {}) const
+	BKSGE_CXX14_CONSTEXPR minmax_result<T>
+	operator()(std::initializer_list<T> r,
+		Comp comp = {}, Proj proj = {}) const
 	{
-		return (*this)(
-			ranges::subrange<T const*>(r),
+		return (*this)(ranges::subrange<T const*>(r),
 			bksge::move(comp), bksge::move(proj));
 	}
 };
@@ -148,7 +157,7 @@ struct max_fn
 inline namespace cpo
 {
 
-BKSGE_INLINE_VAR BKSGE_CONSTEXPR max_fn max{};
+BKSGE_INLINE_VAR BKSGE_CONSTEXPR minmax_fn minmax{};
 
 }	// inline namespace cpo
 
@@ -156,4 +165,4 @@ BKSGE_INLINE_VAR BKSGE_CONSTEXPR max_fn max{};
 
 }	// namespace bksge
 
-#endif // BKSGE_FND_ALGORITHM_RANGES_MAX_HPP
+#endif // BKSGE_FND_ALGORITHM_RANGES_MINMAX_HPP

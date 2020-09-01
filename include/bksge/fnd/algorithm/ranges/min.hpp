@@ -101,7 +101,7 @@ struct min_fn
 	{
 		auto first = ranges::begin(r);
 		auto last = ranges::end(r);
-		//BKSGE_ASSERT(first != last);	// TODO
+		BKSGE_ASSERT(bool(first != last));
 		auto result = *first;
 		while (++first != last)
 		{

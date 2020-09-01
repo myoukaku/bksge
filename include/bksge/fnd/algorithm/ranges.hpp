@@ -50,6 +50,8 @@
 #include <bksge/fnd/algorithm/ranges/max.hpp>
 #include <bksge/fnd/algorithm/ranges/merge.hpp>
 #include <bksge/fnd/algorithm/ranges/min.hpp>
+#include <bksge/fnd/algorithm/ranges/minmax.hpp>
+#include <bksge/fnd/algorithm/ranges/min_max_result.hpp>
 #include <bksge/fnd/algorithm/ranges/mismatch.hpp>
 #include <bksge/fnd/algorithm/ranges/move.hpp>
 #include <bksge/fnd/algorithm/ranges/move_backward.hpp>

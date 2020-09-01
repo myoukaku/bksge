@@ -25,6 +25,8 @@ inline BKSGE_CXX14_CONSTEXPR bool test01()
 	namespace ranges = bksge::ranges;
 	VERIFY(ranges::max(2,3) == 3);
 	VERIFY(ranges::max(2,3, ranges::greater{}) == 2);
+	VERIFY(ranges::max(3,2) == 3);
+	VERIFY(ranges::max(3,2, ranges::greater{}) == 2);
 	{
 		int const x[] = { 1, 2, 3, 4 };
 		test_range<int const, input_iterator_wrapper> rx(x);
