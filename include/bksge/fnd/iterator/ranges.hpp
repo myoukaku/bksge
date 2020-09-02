@@ -11,6 +11,8 @@
 
 #include <bksge/fnd/iterator/ranges/advance.hpp>
 #include <bksge/fnd/iterator/ranges/distance.hpp>
+#include <bksge/fnd/iterator/ranges/iter_move.hpp>
+#include <bksge/fnd/iterator/ranges/iter_swap.hpp>
 #include <bksge/fnd/iterator/ranges/next.hpp>
 #include <bksge/fnd/iterator/ranges/prev.hpp>
 

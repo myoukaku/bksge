@@ -12,7 +12,7 @@
 #include <bksge/fnd/iterator/iter_value_t.hpp>
 #include <bksge/fnd/iterator/iter_reference_t.hpp>
 #include <bksge/fnd/iterator/iter_rvalue_reference_t.hpp>
-#include <bksge/fnd/iterator/iter_move.hpp>
+#include <bksge/fnd/iterator/ranges/iter_move.hpp>
 #include <bksge/fnd/concepts/same_as.hpp>
 #include <bksge/fnd/concepts/common_reference_with.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>

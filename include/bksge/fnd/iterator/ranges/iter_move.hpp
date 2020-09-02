@@ -6,8 +6,8 @@
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_FND_ITERATOR_ITER_MOVE_HPP
-#define BKSGE_FND_ITERATOR_ITER_MOVE_HPP
+#ifndef BKSGE_FND_ITERATOR_RANGES_ITER_MOVE_HPP
+#define BKSGE_FND_ITERATOR_RANGES_ITER_MOVE_HPP
 
 #include <bksge/fnd/iterator/iter_reference_t.hpp>
 #include <bksge/fnd/iterator/concepts/detail/dereferenceable.hpp>
@@ -99,4 +99,4 @@ iter_move_detail::iter_move_fn iter_move{};
 
 #undef BKSGE_NOEXCEPT_DECLTYPE_RETURN
 
-#endif // BKSGE_FND_ITERATOR_ITER_MOVE_HPP
+#endif // BKSGE_FND_ITERATOR_RANGES_ITER_MOVE_HPP

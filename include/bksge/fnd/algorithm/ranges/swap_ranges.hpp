@@ -13,7 +13,7 @@
 #include <bksge/fnd/iterator/concepts/input_iterator.hpp>
 #include <bksge/fnd/iterator/concepts/sentinel_for.hpp>
 #include <bksge/fnd/iterator/concepts/indirectly_swappable.hpp>
-#include <bksge/fnd/iterator/iter_swap.hpp>
+#include <bksge/fnd/iterator/ranges/iter_swap.hpp>
 #include <bksge/fnd/ranges/concepts/input_range.hpp>
 #include <bksge/fnd/ranges/iterator_t.hpp>
 #include <bksge/fnd/ranges/borrowed_iterator_t.hpp>

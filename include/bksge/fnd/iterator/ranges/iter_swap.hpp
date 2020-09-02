@@ -6,12 +6,12 @@
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_FND_ITERATOR_ITER_SWAP_HPP
-#define BKSGE_FND_ITERATOR_ITER_SWAP_HPP
+#ifndef BKSGE_FND_ITERATOR_RANGES_ITER_SWAP_HPP
+#define BKSGE_FND_ITERATOR_RANGES_ITER_SWAP_HPP
 
 #include <bksge/fnd/iterator/iter_value_t.hpp>
 #include <bksge/fnd/iterator/iter_reference_t.hpp>
-#include <bksge/fnd/iterator/iter_move.hpp>
+#include <bksge/fnd/iterator/ranges/iter_move.hpp>
 #include <bksge/fnd/iterator/concepts/indirectly_readable.hpp>
 #include <bksge/fnd/iterator/concepts/indirectly_movable_storable.hpp>
 #include <bksge/fnd/concepts/detail/class_or_enum.hpp>
@@ -143,4 +143,4 @@ iter_swap_detail::iter_swap_fn iter_swap{};
 
 #undef BKSGE_NOEXCEPT_DECLTYPE_RETURN
 
-#endif // BKSGE_FND_ITERATOR_ITER_SWAP_HPP
+#endif // BKSGE_FND_ITERATOR_RANGES_ITER_SWAP_HPP

@@ -1,12 +1,12 @@
 ﻿/**
- *	@file	unit_test_fnd_iterator_iter_swap.cpp
+ *	@file	unit_test_fnd_iterator_ranges_iter_swap.cpp
  *
  *	@brief	iter_swap のテスト
  *
  *	@author	myoukaku
  */
 
-#include <bksge/fnd/iterator/iter_swap.hpp>
+#include <bksge/fnd/iterator/ranges/iter_swap.hpp>
 #include <bksge/fnd/concepts/swap.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -14,7 +14,7 @@
 namespace bksge_iterator_test
 {
 
-namespace iter_swap_test
+namespace ranges_iter_swap_test
 {
 
 struct X
@@ -88,6 +88,6 @@ GTEST_TEST(IteratorTest, IterSwapTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<CustomIterator2>(3, 4)));
 }
 
-}	// namespace iter_swap_test
+}	// namespace ranges_iter_swap_test
 
 }	// namespace bksge_iterator_test

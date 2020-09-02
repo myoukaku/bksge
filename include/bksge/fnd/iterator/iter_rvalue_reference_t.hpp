@@ -12,7 +12,7 @@
 #include <bksge/fnd/iterator/concepts/detail/dereferenceable.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/iterator/iter_move.hpp>
+#include <bksge/fnd/iterator/ranges/iter_move.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
 

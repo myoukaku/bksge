@@ -19,8 +19,8 @@
 #include <bksge/fnd/iterator/concepts/random_access_iterator.hpp>
 #include <bksge/fnd/iterator/concepts/bidirectional_iterator.hpp>
 #include <bksge/fnd/iterator/ranges/next.hpp>
+#include <bksge/fnd/iterator/ranges/iter_swap.hpp>
 #include <bksge/fnd/iterator/iter_value_t.hpp>
-#include <bksge/fnd/iterator/iter_swap.hpp>
 #include <bksge/fnd/ranges/concepts/forward_range.hpp>
 #include <bksge/fnd/ranges/views/subrange.hpp>
 #include <bksge/fnd/ranges/iterator_t.hpp>
