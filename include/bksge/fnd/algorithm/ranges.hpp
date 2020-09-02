@@ -48,6 +48,7 @@
 #include <bksge/fnd/algorithm/ranges/lower_bound.hpp>
 #include <bksge/fnd/algorithm/ranges/make_heap.hpp>
 #include <bksge/fnd/algorithm/ranges/max.hpp>
+#include <bksge/fnd/algorithm/ranges/max_element.hpp>
 #include <bksge/fnd/algorithm/ranges/merge.hpp>
 #include <bksge/fnd/algorithm/ranges/min.hpp>
 #include <bksge/fnd/algorithm/ranges/minmax.hpp>
