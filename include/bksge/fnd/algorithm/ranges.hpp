@@ -34,6 +34,7 @@
 #include <bksge/fnd/algorithm/ranges/generate.hpp>
 #include <bksge/fnd/algorithm/ranges/generate_n.hpp>
 #include <bksge/fnd/algorithm/ranges/includes.hpp>
+#include <bksge/fnd/algorithm/ranges/in_found_result.hpp>
 #include <bksge/fnd/algorithm/ranges/in_fun_result.hpp>
 #include <bksge/fnd/algorithm/ranges/in_in_out_result.hpp>
 #include <bksge/fnd/algorithm/ranges/in_in_result.hpp>
@@ -59,6 +60,7 @@
 #include <bksge/fnd/algorithm/ranges/mismatch.hpp>
 #include <bksge/fnd/algorithm/ranges/move.hpp>
 #include <bksge/fnd/algorithm/ranges/move_backward.hpp>
+#include <bksge/fnd/algorithm/ranges/next_permutation.hpp>
 #include <bksge/fnd/algorithm/ranges/none_of.hpp>
 #include <bksge/fnd/algorithm/ranges/nth_element.hpp>
 #include <bksge/fnd/algorithm/ranges/partial_sort.hpp>
