@@ -7,6 +7,7 @@
  */
 
 #include <bksge/fnd/algorithm/ranges/make_heap.hpp>
+#include <bksge/fnd/algorithm/ranges/is_heap.hpp>
 #include <bksge/fnd/functional/ranges/greater.hpp>
 #include <gtest/gtest.h>
 #include <vector>
@@ -28,41 +29,27 @@ inline BKSGE_CXX14_CONSTEXPR bool test01()
 		int a[] = { 3, 1, 4 };
 		auto it = ranges::make_heap(a);
 		VERIFY(it == a+3);
-		VERIFY(4 == a[0]);
-		VERIFY(1 == a[1]);
-		VERIFY(3 == a[2]);
+		VERIFY(ranges::is_heap(a));
 	}
 	{
 		int a[] = { 3, 1, 4 };
 		auto it = ranges::make_heap(a, ranges::greater{});
 		VERIFY(it == a+3);
-		VERIFY(1 == a[0]);
-		VERIFY(3 == a[1]);
-		VERIFY(4 == a[2]);
+		VERIFY(ranges::is_heap(a, ranges::greater{}));
 	}
 	{
 		int a[] = { 3, 1, 4, 1, 5, 9 };
 		test_range<int, random_access_iterator_wrapper> r(a);
 		auto it = ranges::make_heap(r);
 		VERIFY(it == r.end());
-		VERIFY(9 == a[0]);
-		VERIFY(5 == a[1]);
-		VERIFY(4 == a[2]);
-		VERIFY(1 == a[3]);
-		VERIFY(1 == a[4]);
-		VERIFY(3 == a[5]);
+		VERIFY(ranges::is_heap(r));
 	}
 	{
 		int a[] = { 3, 1, 4, 1, 5, 9 };
 		test_range<int, random_access_iterator_wrapper> r(a);
 		auto it = ranges::make_heap(r, ranges::greater{});
 		VERIFY(it == r.end());
-		VERIFY(1 == a[0]);
-		VERIFY(1 == a[1]);
-		VERIFY(4 == a[2]);
-		VERIFY(3 == a[3]);
-		VERIFY(5 == a[4]);
-		VERIFY(9 == a[5]);
+		VERIFY(ranges::is_heap(r, ranges::greater{}));
 	}
 	return true;
 }
@@ -74,21 +61,13 @@ inline bool test02()
 		std::vector<int> a { 5, 4, 1, 1, 3 };
 		auto it = ranges::make_heap(a);
 		VERIFY(it == a.end());
-		VERIFY(5 == a[0]);
-		VERIFY(4 == a[1]);
-		VERIFY(1 == a[2]);
-		VERIFY(1 == a[3]);
-		VERIFY(3 == a[4]);
+		VERIFY(ranges::is_heap(a));
 	}
 	{
 		std::vector<int> a { 5, 4, 1, 1, 3 };
 		auto it = ranges::make_heap(a, ranges::greater{});
 		VERIFY(it == a.end());
-		VERIFY(1 == a[0]);
-		VERIFY(3 == a[1]);
-		VERIFY(1 == a[2]);
-		VERIFY(4 == a[3]);
-		VERIFY(5 == a[4]);
+		VERIFY(ranges::is_heap(a, ranges::greater{}));
 	}
 	{
 		std::vector<int> a;

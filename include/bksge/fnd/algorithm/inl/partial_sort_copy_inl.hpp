@@ -10,10 +10,12 @@
 #define BKSGE_FND_ALGORITHM_INL_PARTIAL_SORT_COPY_INL_HPP
 
 #include <bksge/fnd/algorithm/partial_sort_copy.hpp>
-#include <bksge/fnd/algorithm/make_heap.hpp>
-#include <bksge/fnd/algorithm/pop_heap.hpp>
-#include <bksge/fnd/algorithm/sort_heap.hpp>
-#include <bksge/fnd/type_traits/add_lvalue_reference.hpp>
+#include <bksge/fnd/algorithm/detail/make_heap.hpp>
+#include <bksge/fnd/algorithm/detail/adjust_heap.hpp>
+#include <bksge/fnd/algorithm/detail/sort_heap.hpp>
+#include <bksge/fnd/functional/less.hpp>
+#include <bksge/fnd/iterator/iter_value_t.hpp>
+#include <bksge/fnd/iterator/iter_difference_t.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -25,12 +27,8 @@ namespace algorithm
 namespace detail
 {
 
-template <
-	typename Compare,
-	typename InputIterator,
-	typename RandomAccessIterator
->
-inline RandomAccessIterator
+template <typename InputIterator, typename RandomAccessIterator, typename Compare>
+inline BKSGE_CXX14_CONSTEXPR RandomAccessIterator
 partial_sort_copy(
 	InputIterator first,
 	InputIterator last,
@@ -38,43 +36,47 @@ partial_sort_copy(
 	RandomAccessIterator result_last,
 	Compare comp)
 {
-	auto r = result_first;
+	using input_value_t = bksge::iter_value_t<InputIterator>;
+	using difference_t = bksge::iter_difference_t<RandomAccessIterator>;
 
-	if (r != result_last)
+	if (result_first == result_last)
 	{
-		for (; first != last && r != result_last; ++first, ++r)
-		{
-			*r = *first;
-		}
-
-		detail::make_heap<Compare>(result_first, r, comp);
-		
-		auto const len = r - result_first;
-		
-		for (; first != last; ++first)
-		{
-			if (comp(*first, *result_first))
-			{
-				*result_first = *first;
-				detail::sift_down<Compare>(
-					result_first, r, comp, len, result_first);
-			}
-		}
-
-		detail::sort_heap<Compare>(result_first, r, comp);
+		return result_last;
 	}
 
-	return r;
+	auto result_real_last = result_first;
+	while (first != last && result_real_last != result_last)
+	{
+		*result_real_last = *first;
+		++result_real_last;
+		++first;
+	}
+
+	detail::make_heap(result_first, result_real_last, comp);
+
+	while (first != last)
+	{
+		if (comp(*first, *result_first))
+		{
+			detail::adjust_heap(
+				result_first,
+				difference_t(0),
+				difference_t(result_real_last - result_first),
+				input_value_t(*first),
+				comp);
+		}
+
+		++first;
+	}
+
+	detail::sort_heap(result_first, result_real_last, comp);
+	return result_real_last;
 }
 
 }	// namespace detail
 
-template <
-	typename InputIterator,
-	typename RandomAccessIterator,
-	typename
->
-inline RandomAccessIterator
+template <typename InputIterator, typename RandomAccessIterator>
+inline BKSGE_CXX14_CONSTEXPR RandomAccessIterator
 partial_sort_copy(
 	InputIterator first,
 	InputIterator last,
@@ -88,10 +90,9 @@ partial_sort_copy(
 template <
 	typename InputIterator,
 	typename RandomAccessIterator,
-	typename Compare,
-	typename
+	typename Compare
 >
-inline RandomAccessIterator
+inline BKSGE_CXX14_CONSTEXPR RandomAccessIterator
 partial_sort_copy(
 	InputIterator first,
 	InputIterator last,
@@ -99,8 +100,7 @@ partial_sort_copy(
 	RandomAccessIterator result_last,
 	Compare comp)
 {
-	using CompRef = bksge::add_lvalue_reference_t<Compare>;
-	return detail::partial_sort_copy<CompRef>(
+	return detail::partial_sort_copy(
 		first, last, result_first, result_last, comp);
 }
 

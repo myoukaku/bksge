@@ -18,11 +18,7 @@ namespace bksge
 namespace algorithm
 {
 
-template <
-	typename ForwardIterator1,
-	typename ForwardIterator2,
-	typename
->
+template <typename ForwardIterator1, typename ForwardIterator2>
 inline BKSGE_CXX14_CONSTEXPR void
 iter_swap(ForwardIterator1 a, ForwardIterator2 b)
 {

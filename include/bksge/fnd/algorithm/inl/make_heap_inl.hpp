@@ -10,39 +10,15 @@
 #define BKSGE_FND_ALGORITHM_INL_MAKE_HEAP_INL_HPP
 
 #include <bksge/fnd/algorithm/make_heap.hpp>
-#include <bksge/fnd/algorithm/pop_heap.hpp>
+#include <bksge/fnd/algorithm/detail/make_heap.hpp>
 #include <bksge/fnd/functional/less.hpp>
-#include <bksge/fnd/type_traits/add_lvalue_reference.hpp>
+#include <bksge/fnd/config.hpp>
 
 namespace bksge
 {
 
 namespace algorithm
 {
-
-namespace detail
-{
-
-template <typename Compare, typename RandomAccessIterator>
-inline BKSGE_CXX14_CONSTEXPR void
-make_heap(
-	RandomAccessIterator first,
-	RandomAccessIterator last,
-	Compare comp)
-{
-	auto n = last - first;
-	
-	if (n > 1)
-	{
-		// start from the first parent, there is no need to consider children
-		for (auto start = (n - 2) / 2; start >= 0; --start)
-		{
-			detail::sift_down<Compare>(first, last, comp, n, first + start);
-		}
-	}
-}
-
-}	// namespace detail
 
 template <typename RandomAccessIterator>
 inline BKSGE_CXX14_CONSTEXPR void
@@ -60,8 +36,7 @@ make_heap(
 	RandomAccessIterator last,
 	Compare comp)
 {
-	using CompRef = bksge::add_lvalue_reference_t<Compare>;
-	detail::make_heap<CompRef>(first, last, comp);
+	detail::make_heap(first, last, comp);
 }
 
 }	// namespace algorithm

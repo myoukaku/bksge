@@ -8,6 +8,7 @@
 
 #include <bksge/fnd/algorithm/ranges/pop_heap.hpp>
 #include <bksge/fnd/algorithm/ranges/make_heap.hpp>
+#include <bksge/fnd/algorithm/ranges/is_heap.hpp>
 #include <bksge/fnd/functional/ranges/greater.hpp>
 #include <gtest/gtest.h>
 #include <vector>
@@ -32,46 +33,31 @@ inline BKSGE_CXX14_CONSTEXPR bool test01()
 		test_range<int, random_access_iterator_wrapper> r0(a, a+n);
 		auto it = ranges::make_heap(r0);
 		VERIFY(it == r0.end());
-		VERIFY(9 == a[0]);
-		VERIFY(5 == a[1]);
-		VERIFY(4 == a[2]);
-		VERIFY(1 == a[3]);
-		VERIFY(1 == a[4]);
-		VERIFY(3 == a[5]);
+		VERIFY(ranges::is_heap(a, a+n));
 
 		test_range<int, random_access_iterator_wrapper> r1(a, a+n);
 		it = ranges::pop_heap(r1);
 		VERIFY(it == r1.end());
 		--n;
-		VERIFY(5 == a[0]);
-		VERIFY(3 == a[1]);
-		VERIFY(4 == a[2]);
-		VERIFY(1 == a[3]);
-		VERIFY(1 == a[4]);
+		VERIFY(ranges::is_heap(a, a+n));
 
 		test_range<int, random_access_iterator_wrapper> r2(a, a+n);
 		it = ranges::pop_heap(r2);
 		VERIFY(it == r2.end());
 		--n;
-		VERIFY(4 == a[0]);
-		VERIFY(3 == a[1]);
-		VERIFY(1 == a[2]);
-		VERIFY(1 == a[3]);
+		VERIFY(ranges::is_heap(a, a+n));
 
 		test_range<int, random_access_iterator_wrapper> r3(a, a+n);
 		it = ranges::pop_heap(r3);
 		VERIFY(it == r3.end());
 		--n;
-		VERIFY(3 == a[0]);
-		VERIFY(1 == a[1]);
-		VERIFY(1 == a[2]);
+		VERIFY(ranges::is_heap(a, a+n));
 
 		test_range<int, random_access_iterator_wrapper> r4(a, a+n);
 		it = ranges::pop_heap(r4);
 		VERIFY(it == r4.end());
 		--n;
-		VERIFY(1 == a[0]);
-		VERIFY(1 == a[1]);
+		VERIFY(ranges::is_heap(a, a+n));
 	}
 	return true;
 }
@@ -84,42 +70,27 @@ inline bool test02()
 
 		auto it = ranges::make_heap(a);
 		VERIFY(it == a.end());
-		VERIFY(9 == a[0]);
-		VERIFY(5 == a[1]);
-		VERIFY(4 == a[2]);
-		VERIFY(1 == a[3]);
-		VERIFY(1 == a[4]);
-		VERIFY(3 == a[5]);
+		VERIFY(ranges::is_heap(a));
 
 		it = ranges::pop_heap(a);
 		VERIFY(it == a.end());
 		a.pop_back();
-		VERIFY(5 == a[0]);
-		VERIFY(3 == a[1]);
-		VERIFY(4 == a[2]);
-		VERIFY(1 == a[3]);
-		VERIFY(1 == a[4]);
+		VERIFY(ranges::is_heap(a));
 
 		it = ranges::pop_heap(a);
 		VERIFY(it == a.end());
 		a.pop_back();
-		VERIFY(4 == a[0]);
-		VERIFY(3 == a[1]);
-		VERIFY(1 == a[2]);
-		VERIFY(1 == a[3]);
+		VERIFY(ranges::is_heap(a));
 
 		it = ranges::pop_heap(a);
 		VERIFY(it == a.end());
 		a.pop_back();
-		VERIFY(3 == a[0]);
-		VERIFY(1 == a[1]);
-		VERIFY(1 == a[2]);
+		VERIFY(ranges::is_heap(a));
 
 		it = ranges::pop_heap(a);
 		VERIFY(it == a.end());
 		a.pop_back();
-		VERIFY(1 == a[0]);
-		VERIFY(1 == a[1]);
+		VERIFY(ranges::is_heap(a));
 	}
 	{
 		std::vector<int> a { 1, 1, 2, 2, 2, 3, 5, 9 };
@@ -127,59 +98,32 @@ inline bool test02()
 
 		auto it = ranges::make_heap(a, pred);
 		VERIFY(it == a.end());
-		VERIFY(1 == a[0]);
-		VERIFY(1 == a[1]);
-		VERIFY(2 == a[2]);
-		VERIFY(2 == a[3]);
-		VERIFY(2 == a[4]);
-		VERIFY(3 == a[5]);
-		VERIFY(5 == a[6]);
-		VERIFY(9 == a[7]);
+		VERIFY(ranges::is_heap(a, pred));
 
 		it = ranges::pop_heap(a, pred);
 		VERIFY(it == a.end());
 		a.pop_back();
-		VERIFY(1 == a[0]);
-		VERIFY(2 == a[1]);
-		VERIFY(2 == a[2]);
-		VERIFY(9 == a[3]);
-		VERIFY(2 == a[4]);
-		VERIFY(3 == a[5]);
-		VERIFY(5 == a[6]);
+		VERIFY(ranges::is_heap(a, pred));
 
 		it = ranges::pop_heap(a, pred);
 		VERIFY(it == a.end());
 		a.pop_back();
-		VERIFY(2 == a[0]);
-		VERIFY(2 == a[1]);
-		VERIFY(2 == a[2]);
-		VERIFY(9 == a[3]);
-		VERIFY(5 == a[4]);
-		VERIFY(3 == a[5]);
+		VERIFY(ranges::is_heap(a, pred));
 
 		it = ranges::pop_heap(a, pred);
 		VERIFY(it == a.end());
 		a.pop_back();
-		VERIFY(2 == a[0]);
-		VERIFY(3 == a[1]);
-		VERIFY(2 == a[2]);
-		VERIFY(9 == a[3]);
-		VERIFY(5 == a[4]);
+		VERIFY(ranges::is_heap(a, pred));
 
 		it = ranges::pop_heap(a, pred);
 		VERIFY(it == a.end());
 		a.pop_back();
-		VERIFY(2 == a[0]);
-		VERIFY(3 == a[1]);
-		VERIFY(5 == a[2]);
-		VERIFY(9 == a[3]);
+		VERIFY(ranges::is_heap(a, pred));
 
 		it = ranges::pop_heap(a, pred);
 		VERIFY(it == a.end());
 		a.pop_back();
-		VERIFY(3 == a[0]);
-		VERIFY(9 == a[1]);
-		VERIFY(5 == a[2]);
+		VERIFY(ranges::is_heap(a, pred));
 	}
 	return true;
 }

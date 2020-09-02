@@ -8,6 +8,7 @@
 
 #include <bksge/fnd/algorithm/pop_heap.hpp>
 #include <bksge/fnd/algorithm/make_heap.hpp>
+#include <bksge/fnd/algorithm/is_heap.hpp>
 #include <bksge/fnd/functional/greater.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
@@ -26,91 +27,49 @@ GTEST_TEST(AlgorithmTest, PopHeapTest)
 		std::vector<int> a { 3, 1, 4, 1, 5, 9 };
 
 		bksge::make_heap(bksge::begin(a), bksge::end(a));
-		EXPECT_EQ(9, a[0]);
-		EXPECT_EQ(5, a[1]);
-		EXPECT_EQ(4, a[2]);
-		EXPECT_EQ(1, a[3]);
-		EXPECT_EQ(1, a[4]);
-		EXPECT_EQ(3, a[5]);
+		EXPECT_TRUE(bksge::is_heap(bksge::begin(a), bksge::end(a)));
 
 		bksge::pop_heap(bksge::begin(a), bksge::end(a));
 		a.pop_back();
-		EXPECT_EQ(5, a[0]);
-		EXPECT_EQ(3, a[1]);
-		EXPECT_EQ(4, a[2]);
-		EXPECT_EQ(1, a[3]);
-		EXPECT_EQ(1, a[4]);
+		EXPECT_TRUE(bksge::is_heap(bksge::begin(a), bksge::end(a)));
 
 		bksge::pop_heap(bksge::begin(a), bksge::end(a));
 		a.pop_back();
-		EXPECT_EQ(4, a[0]);
-		EXPECT_EQ(3, a[1]);
-		EXPECT_EQ(1, a[2]);
-		EXPECT_EQ(1, a[3]);
+		EXPECT_TRUE(bksge::is_heap(bksge::begin(a), bksge::end(a)));
 
 		bksge::pop_heap(bksge::begin(a), bksge::end(a));
 		a.pop_back();
-		EXPECT_EQ(3, a[0]);
-		EXPECT_EQ(1, a[1]);
-		EXPECT_EQ(1, a[2]);
+		EXPECT_TRUE(bksge::is_heap(bksge::begin(a), bksge::end(a)));
 
 		bksge::pop_heap(bksge::begin(a), bksge::end(a));
 		a.pop_back();
-		EXPECT_EQ(1, a[0]);
-		EXPECT_EQ(1, a[1]);
+		EXPECT_TRUE(bksge::is_heap(bksge::begin(a), bksge::end(a)));
 	}
 	{
 		std::vector<int> a { 1, 1, 2, 2, 2, 3, 5, 9 };
 
 		bksge::make_heap(bksge::begin(a), bksge::end(a), bksge::greater<>());
-		EXPECT_EQ(1, a[0]);
-		EXPECT_EQ(1, a[1]);
-		EXPECT_EQ(2, a[2]);
-		EXPECT_EQ(2, a[3]);
-		EXPECT_EQ(2, a[4]);
-		EXPECT_EQ(3, a[5]);
-		EXPECT_EQ(5, a[6]);
-		EXPECT_EQ(9, a[7]);
+		EXPECT_TRUE(bksge::is_heap(bksge::begin(a), bksge::end(a), bksge::greater<>()));
 
 		bksge::pop_heap(bksge::begin(a), bksge::end(a), bksge::greater<>());
 		a.pop_back();
-		EXPECT_EQ(1, a[0]);
-		EXPECT_EQ(2, a[1]);
-		EXPECT_EQ(2, a[2]);
-		EXPECT_EQ(9, a[3]);
-		EXPECT_EQ(2, a[4]);
-		EXPECT_EQ(3, a[5]);
-		EXPECT_EQ(5, a[6]);
+		EXPECT_TRUE(bksge::is_heap(bksge::begin(a), bksge::end(a), bksge::greater<>()));
 
 		bksge::pop_heap(bksge::begin(a), bksge::end(a), bksge::greater<>());
 		a.pop_back();
-		EXPECT_EQ(2, a[0]);
-		EXPECT_EQ(2, a[1]);
-		EXPECT_EQ(2, a[2]);
-		EXPECT_EQ(9, a[3]);
-		EXPECT_EQ(5, a[4]);
-		EXPECT_EQ(3, a[5]);
+		EXPECT_TRUE(bksge::is_heap(bksge::begin(a), bksge::end(a), bksge::greater<>()));
 
 		bksge::pop_heap(bksge::begin(a), bksge::end(a), bksge::greater<>());
 		a.pop_back();
-		EXPECT_EQ(2, a[0]);
-		EXPECT_EQ(3, a[1]);
-		EXPECT_EQ(2, a[2]);
-		EXPECT_EQ(9, a[3]);
-		EXPECT_EQ(5, a[4]);
+		EXPECT_TRUE(bksge::is_heap(bksge::begin(a), bksge::end(a), bksge::greater<>()));
 
 		bksge::pop_heap(bksge::begin(a), bksge::end(a), bksge::greater<>());
 		a.pop_back();
-		EXPECT_EQ(2, a[0]);
-		EXPECT_EQ(3, a[1]);
-		EXPECT_EQ(5, a[2]);
-		EXPECT_EQ(9, a[3]);
+		EXPECT_TRUE(bksge::is_heap(bksge::begin(a), bksge::end(a), bksge::greater<>()));
 
 		bksge::pop_heap(bksge::begin(a), bksge::end(a), bksge::greater<>());
 		a.pop_back();
-		EXPECT_EQ(3, a[0]);
-		EXPECT_EQ(9, a[1]);
-		EXPECT_EQ(5, a[2]);
+		EXPECT_TRUE(bksge::is_heap(bksge::begin(a), bksge::end(a), bksge::greater<>()));
 	}
 }
 

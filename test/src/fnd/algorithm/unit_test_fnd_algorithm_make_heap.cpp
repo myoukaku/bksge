@@ -7,6 +7,7 @@
  */
 
 #include <bksge/fnd/algorithm/make_heap.hpp>
+#include <bksge/fnd/algorithm/is_heap.hpp>
 #include <bksge/fnd/functional/greater.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
@@ -25,54 +26,38 @@ GTEST_TEST(AlgorithmTest, MakeHeapTest)
 	{
 		int a[] { 3, 1, 4 };
 		bksge::make_heap(bksge::begin(a), bksge::end(a));
-		EXPECT_EQ(4, a[0]);
-		EXPECT_EQ(1, a[1]);
-		EXPECT_EQ(3, a[2]);
+		EXPECT_TRUE (bksge::is_heap(bksge::begin(a), bksge::end(a)));
+		EXPECT_FALSE(bksge::is_heap(bksge::begin(a), bksge::end(a), bksge::greater<>()));
 	}
 	{
 		int a[] { 3, 1, 4 };
 		bksge::make_heap(bksge::begin(a), bksge::end(a), bksge::greater<>());
-		EXPECT_EQ(1, a[0]);
-		EXPECT_EQ(3, a[1]);
-		EXPECT_EQ(4, a[2]);
+		EXPECT_FALSE(bksge::is_heap(bksge::begin(a), bksge::end(a)));
+		EXPECT_TRUE (bksge::is_heap(bksge::begin(a), bksge::end(a), bksge::greater<>()));
 	}
 	{
 		std::array<int, 6> a {{ 3, 1, 4, 1, 5, 9 }};
 		bksge::make_heap(bksge::begin(a), bksge::end(a));
-		EXPECT_EQ(9, a[0]);
-		EXPECT_EQ(5, a[1]);
-		EXPECT_EQ(4, a[2]);
-		EXPECT_EQ(1, a[3]);
-		EXPECT_EQ(1, a[4]);
-		EXPECT_EQ(3, a[5]);
+		EXPECT_TRUE (bksge::is_heap(bksge::begin(a), bksge::end(a)));
+		EXPECT_FALSE(bksge::is_heap(bksge::begin(a), bksge::end(a), bksge::greater<>()));
 	}
 	{
 		std::array<int, 6> a {{ 3, 1, 4, 1, 5, 9 }};
 		bksge::make_heap(bksge::begin(a), bksge::end(a), bksge::greater<>());
-		EXPECT_EQ(1, a[0]);
-		EXPECT_EQ(1, a[1]);
-		EXPECT_EQ(4, a[2]);
-		EXPECT_EQ(3, a[3]);
-		EXPECT_EQ(5, a[4]);
-		EXPECT_EQ(9, a[5]);
+		EXPECT_FALSE(bksge::is_heap(bksge::begin(a), bksge::end(a)));
+		EXPECT_TRUE (bksge::is_heap(bksge::begin(a), bksge::end(a), bksge::greater<>()));
 	}
 	{
 		std::vector<int> a { 5, 4, 1, 1, 3 };
 		bksge::make_heap(bksge::begin(a), bksge::end(a));
-		EXPECT_EQ(5, a[0]);
-		EXPECT_EQ(4, a[1]);
-		EXPECT_EQ(1, a[2]);
-		EXPECT_EQ(1, a[3]);
-		EXPECT_EQ(3, a[4]);
+		EXPECT_TRUE (bksge::is_heap(bksge::begin(a), bksge::end(a)));
+		EXPECT_FALSE(bksge::is_heap(bksge::begin(a), bksge::end(a), bksge::greater<>()));
 	}
 	{
 		std::vector<int> a { 5, 4, 1, 1, 3 };
 		bksge::make_heap(bksge::begin(a), bksge::end(a), bksge::greater<>());
-		EXPECT_EQ(1, a[0]);
-		EXPECT_EQ(3, a[1]);
-		EXPECT_EQ(1, a[2]);
-		EXPECT_EQ(4, a[3]);
-		EXPECT_EQ(5, a[4]);
+		EXPECT_FALSE(bksge::is_heap(bksge::begin(a), bksge::end(a)));
+		EXPECT_TRUE (bksge::is_heap(bksge::begin(a), bksge::end(a), bksge::greater<>()));
 	}
 	{
 		std::vector<int> a;

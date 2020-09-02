@@ -9,9 +9,6 @@
 #ifndef BKSGE_FND_ALGORITHM_PARTIAL_SORT_COPY_HPP
 #define BKSGE_FND_ALGORITHM_PARTIAL_SORT_COPY_HPP
 
-#include <bksge/fnd/iterator/type_traits/is_input_iterator.hpp>
-#include <bksge/fnd/iterator/type_traits/is_random_access_iterator.hpp>
-#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -44,13 +41,9 @@ namespace algorithm
  */
 template <
 	typename InputIterator,
-	typename RandomAccessIterator,
-	typename = bksge::enable_if_t<
-		bksge::is_input_iterator<InputIterator>::value &&
-		bksge::is_random_access_iterator<RandomAccessIterator>::value
-	>
+	typename RandomAccessIterator
 >
-RandomAccessIterator
+BKSGE_CXX14_CONSTEXPR RandomAccessIterator
 partial_sort_copy(
 	InputIterator        first,        InputIterator        last,
 	RandomAccessIterator result_first, RandomAccessIterator result_last);
@@ -82,13 +75,9 @@ partial_sort_copy(
 template <
 	typename InputIterator,
 	typename RandomAccessIterator,
-	typename Compare,
-	typename = bksge::enable_if_t<
-		bksge::is_input_iterator<InputIterator>::value &&
-		bksge::is_random_access_iterator<RandomAccessIterator>::value
-	>
+	typename Compare
 >
-RandomAccessIterator
+BKSGE_CXX14_CONSTEXPR RandomAccessIterator
 partial_sort_copy(
 	InputIterator        first,        InputIterator        last,
 	RandomAccessIterator result_first, RandomAccessIterator result_last,

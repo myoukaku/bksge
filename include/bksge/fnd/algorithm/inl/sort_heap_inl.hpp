@@ -10,33 +10,15 @@
 #define BKSGE_FND_ALGORITHM_INL_SORT_HEAP_INL_HPP
 
 #include <bksge/fnd/algorithm/sort_heap.hpp>
-#include <bksge/fnd/algorithm/pop_heap.hpp>
+#include <bksge/fnd/algorithm/detail/sort_heap.hpp>
 #include <bksge/fnd/functional/less.hpp>
-#include <bksge/fnd/type_traits/add_lvalue_reference.hpp>
+#include <bksge/fnd/config.hpp>
 
 namespace bksge
 {
 
 namespace algorithm
 {
-
-namespace detail
-{
-
-template <typename Compare, typename RandomAccessIterator>
-inline BKSGE_CXX14_CONSTEXPR void
-sort_heap(
-	RandomAccessIterator first,
-	RandomAccessIterator last,
-	Compare comp)
-{
-    while (first != last)
-	{
-		bksge::algorithm::pop_heap(first, last--, comp);
-	}
-}
-
-}	// namespace detail
 
 template <typename RandomAccessIterator>
 inline BKSGE_CXX14_CONSTEXPR void
@@ -54,8 +36,7 @@ sort_heap(
 	RandomAccessIterator last,
 	Compare comp)
 {
-    using CompRef = bksge::add_lvalue_reference_t<Compare>;
-    detail::sort_heap<CompRef>(first, last, comp);
+    detail::sort_heap(first, last, comp);
 }
 
 }	// namespace algorithm

@@ -66,11 +66,7 @@ move_backward(T* first, T* last, U* result)
 
 }	// namespace detail
 
-template <
-	typename BidirectionalIterator1,
-	typename BidirectionalIterator2,
-	typename
->
+template <typename BidirectionalIterator1, typename BidirectionalIterator2>
 inline BKSGE_CXX14_CONSTEXPR BidirectionalIterator2
 move_backward(
 	BidirectionalIterator1 first,
