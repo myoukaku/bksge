@@ -33,11 +33,12 @@ inline BKSGE_CXX14_CONSTEXPR bool test01()
 {
 	namespace ranges = bksge::ranges;
 	{
-		int a[] = { 3, 1, -4, 1, 5, -9 };
-		VERIFY(ranges::max_element(a) == ranges::next(a, 4));
-		VERIFY(ranges::max_element(a, ranges::greater{}) == ranges::next(a, 5));
-		VERIFY(ranges::max_element(a, {}, Abs{}) == ranges::next(a, 5));
-		VERIFY(ranges::max_element(a, a) == a);
+		int const x[] = { 3, 1, -4, 1, 5, -9 };
+		test_range<int const, forward_iterator_wrapper> rx(x);
+		VERIFY(ranges::max_element(rx) == ranges::next(rx.begin(), 4));
+		VERIFY(ranges::max_element(rx, ranges::greater{}) == ranges::next(rx.begin(), 5));
+		VERIFY(ranges::max_element(rx, {}, Abs{}) == ranges::next(rx.begin(), 5));
+		VERIFY(ranges::max_element(rx.begin(), rx.begin()) == rx.begin());
 	}
 	return true;
 }
