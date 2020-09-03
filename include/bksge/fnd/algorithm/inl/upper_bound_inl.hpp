@@ -56,7 +56,7 @@ upper_bound(
 
 }	// namespace detail
 
-template <typename ForwardIterator, typename T, typename>
+template <typename ForwardIterator, typename T>
 inline BKSGE_CXX14_CONSTEXPR ForwardIterator
 upper_bound(
 	ForwardIterator first,
@@ -70,8 +70,7 @@ upper_bound(
 template <
 	typename ForwardIterator,
 	typename T,
-	typename Compare,
-	typename
+	typename Compare
 >
 inline BKSGE_CXX14_CONSTEXPR ForwardIterator
 upper_bound(

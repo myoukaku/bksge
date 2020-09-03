@@ -9,8 +9,6 @@
 #ifndef BKSGE_FND_NUMERIC_INNER_PRODUCT_HPP
 #define BKSGE_FND_NUMERIC_INNER_PRODUCT_HPP
 
-#include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/iterator/type_traits/is_input_iterator.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -39,11 +37,7 @@ namespace numeric
 template <
 	typename InputIterator1,
 	typename InputIterator2,
-	typename T,
-	typename = bksge::enable_if_t<
-		bksge::is_input_iterator<InputIterator1>::value &&
-		bksge::is_input_iterator<InputIterator2>::value
-	>
+	typename T
 >
 BKSGE_CONSTEXPR T
 inner_product(
@@ -82,11 +76,7 @@ template <
 	typename InputIterator2,
 	typename T,
 	typename BinaryOperation1,
-	typename BinaryOperation2,
-	typename = bksge::enable_if_t<
-		bksge::is_input_iterator<InputIterator1>::value &&
-		bksge::is_input_iterator<InputIterator2>::value
-	>
+	typename BinaryOperation2
 >
 BKSGE_CONSTEXPR T
 inner_product(

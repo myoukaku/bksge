@@ -11,8 +11,8 @@
 
 #include <bksge/fnd/algorithm/unique_copy.hpp>
 #include <bksge/fnd/functional/equal_to.hpp>
-#include <bksge/fnd/iterator/type_traits/iterator_category.hpp>
-#include <bksge/fnd/iterator/type_traits/iterator_value_type.hpp>
+#include <bksge/fnd/iterator/iterator_category.hpp>
+#include <bksge/fnd/iterator/iter_value_t.hpp>
 #include <bksge/fnd/type_traits/add_lvalue_reference.hpp>
 #include <bksge/fnd/config.hpp>
 #include <iterator>
@@ -42,7 +42,7 @@ unique_copy(
 {
 	if (first != last)
 	{
-		bksge::iterator_value_type<InputIterator> t(*first);
+		bksge::iter_value_t<InputIterator> t(*first);
 		*result = t;
 		++result;
 
@@ -130,8 +130,7 @@ unique_copy(
 
 template <
 	typename InputIterator,
-	typename OutputIterator,
-	typename
+	typename OutputIterator
 >
 inline BKSGE_CXX14_CONSTEXPR OutputIterator
 unique_copy(
@@ -146,8 +145,7 @@ unique_copy(
 template <
 	typename InputIterator,
 	typename OutputIterator,
-	typename BinaryPredicate,
-	typename
+	typename BinaryPredicate
 >
 inline BKSGE_CXX14_CONSTEXPR OutputIterator
 unique_copy(

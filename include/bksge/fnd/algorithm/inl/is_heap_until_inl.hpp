@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/algorithm/is_heap_until.hpp>
 #include <bksge/fnd/functional/less.hpp>
-#include <bksge/fnd/iterator/type_traits/iterator_difference_type.hpp>
+#include <bksge/fnd/iterator/iter_difference_t.hpp>
 
 namespace bksge
 {
@@ -19,7 +19,7 @@ namespace bksge
 namespace algorithm
 {
 
-template <typename RandomAccessIterator, typename>
+template <typename RandomAccessIterator>
 inline BKSGE_CXX14_CONSTEXPR RandomAccessIterator
 is_heap_until(
 	RandomAccessIterator first,
@@ -28,7 +28,7 @@ is_heap_until(
 	return bksge::algorithm::is_heap_until(first, last, bksge::less<>());
 }
 
-template <typename RandomAccessIterator, typename Compare, typename>
+template <typename RandomAccessIterator, typename Compare>
 inline BKSGE_CXX14_CONSTEXPR RandomAccessIterator
 is_heap_until(
 	RandomAccessIterator first,
@@ -36,7 +36,7 @@ is_heap_until(
 	Compare comp)
 {
 	using difference_type =
-		bksge::iterator_difference_type<RandomAccessIterator>;
+		bksge::iter_difference_t<RandomAccessIterator>;
 
 	difference_type const len = last - first;
 	difference_type p = 0;

@@ -20,8 +20,7 @@ namespace algorithm
 template <
 	typename InputIterator,
 	typename OutputIterator,
-	typename T,
-	typename
+	typename T
 >
 inline BKSGE_CXX14_CONSTEXPR OutputIterator 
 replace_copy(

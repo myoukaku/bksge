@@ -9,8 +9,6 @@
 #ifndef BKSGE_FND_ALGORITHM_LOWER_BOUND_HPP
 #define BKSGE_FND_ALGORITHM_LOWER_BOUND_HPP
 
-#include <bksge/fnd/iterator/type_traits/is_forward_iterator.hpp>
-#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -39,13 +37,7 @@ namespace algorithm
  *
  *	@complexity	最大で log2(last - first) + O(1) 回の比較を行う
  */
-template <
-	typename ForwardIterator,
-	typename T,
-	typename = bksge::enable_if_t<
-		bksge::is_forward_iterator<ForwardIterator>::value
-	>
->
+template <typename ForwardIterator, typename T>
 BKSGE_CXX14_CONSTEXPR ForwardIterator
 lower_bound(ForwardIterator first, ForwardIterator last, T const& value);
 
@@ -73,14 +65,7 @@ lower_bound(ForwardIterator first, ForwardIterator last, T const& value);
  *
  *	@complexity	最大で log2(last - first) + O(1) 回の比較を行う
  */
-template <
-	typename ForwardIterator,
-	typename T,
-	typename Compare,
-	typename = bksge::enable_if_t<
-		bksge::is_forward_iterator<ForwardIterator>::value
-	>
->
+template <typename ForwardIterator, typename T, typename Compare>
 BKSGE_CXX14_CONSTEXPR ForwardIterator
 lower_bound(ForwardIterator first, ForwardIterator last, T const& value, Compare comp);
 

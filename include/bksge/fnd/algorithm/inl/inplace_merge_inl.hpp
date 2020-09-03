@@ -19,7 +19,7 @@ namespace bksge
 namespace algorithm
 {
 
-template <typename BidirectionalIterator, typename>
+template <typename BidirectionalIterator>
 inline void
 inplace_merge(
 	BidirectionalIterator first,
@@ -30,7 +30,7 @@ inplace_merge(
 		first, middle, last, bksge::less<>());
 }
 
-template <typename BidirectionalIterator, typename Compare, typename>
+template <typename BidirectionalIterator, typename Compare>
 inline void
 inplace_merge(
 	BidirectionalIterator first,

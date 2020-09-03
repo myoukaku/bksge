@@ -38,7 +38,7 @@ binary_search(
 
 }	// namespace detail
 
-template <typename ForwardIterator, typename T, typename>
+template <typename ForwardIterator, typename T>
 inline BKSGE_CXX14_CONSTEXPR bool
 binary_search(
 	ForwardIterator first,
@@ -49,7 +49,7 @@ binary_search(
 		first, last, value, bksge::less<>());
 }
 
-template <typename ForwardIterator, typename T, typename Compare, typename>
+template <typename ForwardIterator, typename T, typename Compare>
 inline BKSGE_CXX14_CONSTEXPR bool
 binary_search(
 	ForwardIterator first,

@@ -21,7 +21,7 @@ namespace bksge
 namespace algorithm
 {
 
-template <typename ForwardIterator, typename>
+template <typename ForwardIterator>
 inline BKSGE_CXX14_CONSTEXPR ForwardIterator
 unique(ForwardIterator first, ForwardIterator last)
 {
@@ -31,8 +31,7 @@ unique(ForwardIterator first, ForwardIterator last)
 
 template <
 	typename ForwardIterator,
-	typename BinaryPredicate,
-	typename
+	typename BinaryPredicate
 >
 inline BKSGE_CXX14_CONSTEXPR ForwardIterator
 unique(

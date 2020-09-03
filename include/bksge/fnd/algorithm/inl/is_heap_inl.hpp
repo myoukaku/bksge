@@ -19,7 +19,7 @@ namespace bksge
 namespace algorithm
 {
 
-template <typename RandomAccessIterator, typename>
+template <typename RandomAccessIterator>
 inline BKSGE_CXX14_CONSTEXPR bool
 is_heap(
 	RandomAccessIterator first,
@@ -28,7 +28,7 @@ is_heap(
 	return bksge::algorithm::is_heap(first, last, bksge::less<>());
 }
 
-template <typename RandomAccessIterator, typename Compare, typename>
+template <typename RandomAccessIterator, typename Compare>
 inline BKSGE_CXX14_CONSTEXPR bool
 is_heap(
 	RandomAccessIterator first,

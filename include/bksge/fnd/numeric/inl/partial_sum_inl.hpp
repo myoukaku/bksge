@@ -18,7 +18,7 @@ namespace bksge
 namespace numeric
 {
 
-template <typename InputIterator, typename OutputIterator, typename>
+template <typename InputIterator, typename OutputIterator>
 inline BKSGE_CXX14_CONSTEXPR OutputIterator
 partial_sum(
 	InputIterator first,
@@ -28,7 +28,7 @@ partial_sum(
 	return bksge::numeric::partial_sum(first, last, result, bksge::plus<>());
 }
 
-template <typename InputIterator, typename OutputIterator, typename BinaryOperation, typename>
+template <typename InputIterator, typename OutputIterator, typename BinaryOperation>
 inline BKSGE_CXX14_CONSTEXPR OutputIterator
 partial_sum(
 	InputIterator first,

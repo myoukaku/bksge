@@ -10,7 +10,7 @@
 #define BKSGE_FND_ALGORITHM_INL_COUNT_IF_INL_HPP
 
 #include <bksge/fnd/algorithm/count_if.hpp>
-#include <bksge/fnd/iterator/type_traits/iterator_difference_type.hpp>
+#include <bksge/fnd/iterator/iter_difference_t.hpp>
 
 namespace bksge
 {
@@ -18,11 +18,11 @@ namespace bksge
 namespace algorithm
 {
 
-template <typename InputIterator, typename Predicate, typename>
-inline BKSGE_CXX14_CONSTEXPR bksge::iterator_difference_type<InputIterator>
+template <typename InputIterator, typename Predicate>
+inline BKSGE_CXX14_CONSTEXPR bksge::iter_difference_t<InputIterator>
 count_if(InputIterator first, InputIterator last, Predicate pred)
 {
-	bksge::iterator_difference_type<InputIterator> ret = 0;
+	bksge::iter_difference_t<InputIterator> ret = 0;
 
 	for (; first != last; ++first)
 	{

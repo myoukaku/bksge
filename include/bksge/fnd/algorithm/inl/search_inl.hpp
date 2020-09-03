@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/algorithm/search.hpp>
 #include <bksge/fnd/functional/equal_to.hpp>
-#include <bksge/fnd/iterator/type_traits/iterator_category.hpp>
+#include <bksge/fnd/iterator/iterator_category.hpp>
 #include <bksge/fnd/config.hpp>
 #include <iterator>
 
@@ -159,11 +159,7 @@ search(
 
 }	// namespace detail
 
-template <
-	typename ForwardIterator1,
-	typename ForwardIterator2,
-	typename
->
+template <typename ForwardIterator1, typename ForwardIterator2>
 inline BKSGE_CXX14_CONSTEXPR ForwardIterator1
 search(
 	ForwardIterator1 first1,
@@ -178,8 +174,7 @@ search(
 template <
 	typename ForwardIterator1,
 	typename ForwardIterator2,
-	typename BinaryPredicate,
-	typename
+	typename BinaryPredicate
 >
 inline BKSGE_CXX14_CONSTEXPR ForwardIterator1
 search(

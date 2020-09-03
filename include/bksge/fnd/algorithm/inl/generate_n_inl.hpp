@@ -20,8 +20,7 @@ namespace algorithm
 template <
 	typename OutputIterator,
 	typename Size,
-	typename Generator,
-	typename
+	typename Generator
 >
 inline BKSGE_CXX14_CONSTEXPR OutputIterator
 generate_n(OutputIterator first, Size n, Generator gen)

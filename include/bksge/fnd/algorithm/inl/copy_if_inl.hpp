@@ -20,8 +20,7 @@ namespace algorithm
 template <
 	typename InputIterator,
 	typename OutputIterator,
-	typename Predicate,
-	typename
+	typename Predicate
 >
 inline OutputIterator
 copy_if(

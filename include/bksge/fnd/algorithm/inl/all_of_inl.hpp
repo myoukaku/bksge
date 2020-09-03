@@ -18,7 +18,7 @@ namespace bksge
 namespace algorithm
 {
 
-template <typename InputIterator, typename Predicate, typename>
+template <typename InputIterator, typename Predicate>
 inline BKSGE_CXX14_CONSTEXPR bool
 all_of(InputIterator first, InputIterator last, Predicate pred)
 {

@@ -18,7 +18,7 @@ namespace bksge
 namespace algorithm
 {
 
-template <typename ForwardIterator, typename>
+template <typename ForwardIterator>
 inline BKSGE_CXX14_CONSTEXPR ForwardIterator
 is_sorted_until(
 	ForwardIterator first,
@@ -27,7 +27,7 @@ is_sorted_until(
 	return bksge::algorithm::is_sorted_until(first, last, bksge::less<>());
 }
 
-template <typename ForwardIterator, typename Compare, typename>
+template <typename ForwardIterator, typename Compare>
 inline BKSGE_CXX14_CONSTEXPR ForwardIterator
 is_sorted_until(
 	ForwardIterator first,

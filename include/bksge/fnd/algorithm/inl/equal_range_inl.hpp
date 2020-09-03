@@ -69,7 +69,7 @@ equal_range(
 
 }	// namespace detail
 
-template <typename ForwardIterator, typename T, typename>
+template <typename ForwardIterator, typename T>
 inline BKSGE_CXX14_CONSTEXPR
 std::pair<ForwardIterator, ForwardIterator>
 equal_range(
@@ -81,7 +81,7 @@ equal_range(
 		first, last, value, bksge::less<>());
 }
 
-template <typename ForwardIterator, typename T, typename Compare, typename>
+template <typename ForwardIterator, typename T, typename Compare>
 inline BKSGE_CXX14_CONSTEXPR
 std::pair<ForwardIterator, ForwardIterator>
 equal_range(

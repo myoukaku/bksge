@@ -10,8 +10,8 @@
 #define BKSGE_FND_ITERATOR_INL_DISTANCE_INL_HPP
 
 #include <bksge/fnd/iterator/distance.hpp>
-#include <bksge/fnd/iterator/type_traits/iterator_category.hpp>
-#include <bksge/fnd/iterator/type_traits/iterator_difference_type.hpp>
+#include <bksge/fnd/iterator/iterator_category.hpp>
+#include <bksge/fnd/iterator/iter_difference_t.hpp>
 #include <bksge/fnd/iterator/tag.hpp>
 #include <bksge/fnd/config.hpp>
 
@@ -42,11 +42,11 @@ distance_impl(RandomAccessIterator first, RandomAccessIterator last, bksge::rand
 
 }	// namespace detail
 
-template <typename InputIterator, typename>
-inline BKSGE_CONSTEXPR bksge::iterator_difference_type<InputIterator>
+template <typename InputIterator>
+inline BKSGE_CONSTEXPR bksge::iter_difference_t<InputIterator>
 distance(InputIterator first, InputIterator last)
 {
-	using Distance = bksge::iterator_difference_type<InputIterator>;
+	using Distance = bksge::iter_difference_t<InputIterator>;
 	using Category = bksge::iterator_category<InputIterator>*;
 	return bksge::detail::distance_impl<Distance>(first, last, Category());
 }

@@ -9,8 +9,6 @@
 #ifndef BKSGE_FND_ALGORITHM_INCLUDES_HPP
 #define BKSGE_FND_ALGORITHM_INCLUDES_HPP
 
-#include <bksge/fnd/iterator/type_traits/is_input_iterator.hpp>
-#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -38,11 +36,7 @@ namespace algorithm
  */
 template <
 	typename InputIterator1,
-	typename InputIterator2,
-	typename = bksge::enable_if_t<
-		bksge::is_input_iterator<InputIterator1>::value &&
-		bksge::is_input_iterator<InputIterator2>::value
-	>
+	typename InputIterator2
 >
 BKSGE_CXX14_CONSTEXPR bool
 includes(
@@ -71,11 +65,7 @@ includes(
 template <
 	typename InputIterator1,
 	typename InputIterator2,
-	typename Compare,
-	typename = bksge::enable_if_t<
-		bksge::is_input_iterator<InputIterator1>::value &&
-		bksge::is_input_iterator<InputIterator2>::value
-	>
+	typename Compare
 >
 BKSGE_CXX14_CONSTEXPR bool
 includes(

@@ -21,8 +21,7 @@ template <
 	typename InputIterator,
 	typename OutputIterator,
 	typename Predicate,
-	typename T,
-	typename
+	typename T
 >
 inline BKSGE_CXX14_CONSTEXPR OutputIterator
 replace_copy_if(

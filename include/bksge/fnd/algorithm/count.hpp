@@ -9,9 +9,7 @@
 #ifndef BKSGE_FND_ALGORITHM_COUNT_HPP
 #define BKSGE_FND_ALGORITHM_COUNT_HPP
 
-#include <bksge/fnd/iterator/type_traits/is_input_iterator.hpp>
-#include <bksge/fnd/iterator/type_traits/iterator_difference_type.hpp>
-#include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/iterator/iter_difference_t.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -34,14 +32,8 @@ namespace algorithm
  *
  *	@complexity	正確に last - first 回の比較を行う
  */
-template <
-	typename InputIterator,
-	typename T,
-	typename = bksge::enable_if_t<
-		bksge::is_input_iterator<InputIterator>::value
-	>
->
-BKSGE_CXX14_CONSTEXPR bksge::iterator_difference_type<InputIterator>
+template <typename InputIterator, typename T>
+BKSGE_CXX14_CONSTEXPR bksge::iter_difference_t<InputIterator>
 count(InputIterator first, InputIterator last, T const& value);
 
 }	// namespace algorithm

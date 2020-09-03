@@ -19,11 +19,7 @@ namespace bksge
 namespace algorithm
 {
 
-template <
-	typename InputIterator1,
-	typename InputIterator2,
-	typename
->
+template <typename InputIterator1, typename InputIterator2>
 inline BKSGE_CXX14_CONSTEXPR std::pair<InputIterator1, InputIterator2>
 mismatch(
 	InputIterator1 first1,
@@ -34,12 +30,7 @@ mismatch(
 		first1, last1, first2, bksge::equal_to<>());
 }
 
-template <
-	typename InputIterator1,
-	typename InputIterator2,
-	typename BinaryPredicate,
-	typename
->
+template <typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
 inline BKSGE_CXX14_CONSTEXPR std::pair<InputIterator1, InputIterator2>
 mismatch(
 	InputIterator1 first1,
@@ -55,11 +46,7 @@ mismatch(
 	return std::make_pair(first1, first2);
 }
 
-template <
-	typename InputIterator1,
-	typename InputIterator2,
-	typename
->
+template <typename InputIterator1, typename InputIterator2>
 inline BKSGE_CXX14_CONSTEXPR std::pair<InputIterator1, InputIterator2>
 mismatch(
 	InputIterator1 first1,
@@ -71,12 +58,7 @@ mismatch(
 		first1, last1, first2, last2, bksge::equal_to<>());
 }
 
-template <
-	typename InputIterator1,
-	typename InputIterator2,
-	typename BinaryPredicate,
-	typename
->
+template <typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
 inline BKSGE_CXX14_CONSTEXPR std::pair<InputIterator1, InputIterator2>
 mismatch(
 	InputIterator1 first1,

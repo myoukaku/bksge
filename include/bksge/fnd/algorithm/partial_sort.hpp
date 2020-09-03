@@ -9,8 +9,6 @@
 #ifndef BKSGE_FND_ALGORITHM_PARTIAL_SORT_HPP
 #define BKSGE_FND_ALGORITHM_PARTIAL_SORT_HPP
 
-#include <bksge/fnd/iterator/type_traits/is_random_access_iterator.hpp>
-#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -37,12 +35,7 @@ namespace algorithm
  *
  *	@complexity	ほぼ (last - first) * log(middle - first) 回の比較を行う
  */
-template <
-	typename RandomAccessIterator,
-	typename = bksge::enable_if_t<
-		bksge::is_random_access_iterator<RandomAccessIterator>::value
-	>
->
+template <typename RandomAccessIterator>
 void
 partial_sort(
 	RandomAccessIterator first,
@@ -69,13 +62,7 @@ partial_sort(
  *
  *	@complexity	ほぼ (last - first) * log(middle - first) 回の比較を行う
  */
-template <
-	typename RandomAccessIterator,
-	typename Compare,
-	typename = bksge::enable_if_t<
-		bksge::is_random_access_iterator<RandomAccessIterator>::value
-	>
->
+template <typename RandomAccessIterator, typename Compare>
 void
 partial_sort(
 	RandomAccessIterator first,

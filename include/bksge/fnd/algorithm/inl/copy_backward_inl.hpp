@@ -67,8 +67,7 @@ copy_backward(T* first, T* last, U* result)
 
 template <
 	typename BidirectionalIterator1,
-	typename BidirectionalIterator2,
-	typename
+	typename BidirectionalIterator2
 >
 inline BidirectionalIterator2
 copy_backward(

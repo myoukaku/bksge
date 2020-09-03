@@ -19,7 +19,7 @@ namespace bksge
 namespace algorithm
 {
 
-template <typename RandomAccessIterator, typename>
+template <typename RandomAccessIterator>
 inline void
 stable_sort(
 	RandomAccessIterator first,
@@ -28,7 +28,7 @@ stable_sort(
 	bksge::algorithm::stable_sort(first, last, bksge::less<>());
 }
 
-template <typename RandomAccessIterator, typename Compare, typename>
+template <typename RandomAccessIterator, typename Compare>
 inline void
 stable_sort(
 	RandomAccessIterator first,

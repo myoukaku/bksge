@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/algorithm/search_n.hpp>
 #include <bksge/fnd/functional/equal_to.hpp>
-#include <bksge/fnd/iterator/type_traits/iterator_category.hpp>
+#include <bksge/fnd/iterator/iterator_category.hpp>
 #include <bksge/fnd/config.hpp>
 #include <iterator>
 
@@ -168,8 +168,7 @@ search_n(
 template <
 	typename ForwardIterator,
 	typename Size,
-	typename T,
-	typename
+	typename T
 >
 inline BKSGE_CXX14_CONSTEXPR ForwardIterator
 search_n(
@@ -186,8 +185,7 @@ template <
 	typename ForwardIterator,
 	typename Size,
 	typename T,
-	typename BinaryPredicate,
-	typename
+	typename BinaryPredicate
 >
 inline BKSGE_CXX14_CONSTEXPR ForwardIterator
 search_n(

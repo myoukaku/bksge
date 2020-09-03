@@ -14,6 +14,7 @@
 #include <bksge/fnd/iterator/concepts/detail/iter_concept.hpp>
 #include <bksge/fnd/iterator/tag.hpp>
 #include <bksge/fnd/concepts/derived_from.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/config.hpp>
 
@@ -28,6 +29,9 @@ concept input_iterator =
 	bksge::indirectly_readable<Iter> &&
 	requires { typename bksge::detail::iter_concept<Iter>; } &&
 	bksge::derived_from<bksge::detail::iter_concept<Iter>, bksge::input_iterator_tag>;
+
+template <typename Iter>
+using is_input_iterator = bksge::bool_constant<input_iterator<Iter>>;
 
 #else
 
@@ -57,6 +61,9 @@ public:
 template <typename Iter>
 using input_iterator =
 	typename detail::input_iterator_impl<Iter>::type;
+
+template <typename Iter>
+using is_input_iterator = input_iterator<Iter>;
 
 #endif
 

@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/algorithm/copy_n.hpp>
 #include <bksge/fnd/algorithm/copy.hpp>
-#include <bksge/fnd/iterator/type_traits/iterator_category.hpp>
+#include <bksge/fnd/iterator/iterator_category.hpp>
 #include <iterator>
 
 namespace bksge
@@ -63,8 +63,7 @@ copy_n(
 template <
 	typename InputIterator,
 	typename Size,
-	typename OutputIterator,
-	typename
+	typename OutputIterator
 >
 inline OutputIterator
 copy_n(InputIterator first, Size n, OutputIterator result)

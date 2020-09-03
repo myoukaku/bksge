@@ -17,7 +17,7 @@ namespace bksge
 namespace algorithm
 {
 
-template <typename InputIterator, typename Predicate, typename>
+template <typename InputIterator, typename Predicate>
 inline BKSGE_CXX14_CONSTEXPR bool
 is_partitioned(
 	InputIterator first,

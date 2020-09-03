@@ -12,8 +12,8 @@
 #include <bksge/fnd/algorithm/sample.hpp>
 #include <bksge/fnd/algorithm/min.hpp>
 #include <bksge/fnd/iterator/distance.hpp>
-#include <bksge/fnd/iterator/type_traits/iterator_category.hpp>
-#include <bksge/fnd/iterator/type_traits/iterator_difference_type.hpp>
+#include <bksge/fnd/iterator/iterator_category.hpp>
+#include <bksge/fnd/iterator/iter_difference_t.hpp>
 #include <bksge/fnd/type_traits/common_type.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/config.hpp>
@@ -104,7 +104,7 @@ template <
 	typename SampleIterator,
 	typename Distance,
 	typename UniformRandomBitGenerator,
-	typename, typename
+	typename
 >
 inline SampleIterator
 sample(
@@ -115,7 +115,7 @@ sample(
 	UniformRandomBitGenerator&& g)
 {
 	using Category = bksge::iterator_category<PopulationIterator>*;
-	using Difference = bksge::iterator_difference_type<PopulationIterator>;
+	using Difference = bksge::iter_difference_t<PopulationIterator>;
 	using CommonType = bksge::common_type_t<Distance, Difference>;
 
 	BKSGE_ASSERT(n >= 0);

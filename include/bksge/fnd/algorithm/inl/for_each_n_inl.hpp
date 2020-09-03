@@ -17,7 +17,7 @@ namespace bksge
 namespace algorithm
 {
 
-template <typename InputIterator, typename Size, typename Function, typename>
+template <typename InputIterator, typename Size, typename Function>
 inline BKSGE_CXX14_CONSTEXPR InputIterator
 for_each_n(InputIterator first, Size n, Function f)
 {

@@ -10,7 +10,7 @@
 #define BKSGE_FND_ALGORITHM_INL_SHUFFLE_INL_HPP
 
 #include <bksge/fnd/algorithm/shuffle.hpp>
-#include <bksge/fnd/iterator/type_traits/iterator_difference_type.hpp>
+#include <bksge/fnd/iterator/iter_difference_t.hpp>
 //#include <bksge/fnd/random/uniform_int_distribution.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/swap.hpp>
@@ -25,8 +25,7 @@ namespace algorithm
 
 template <
 	typename RandomAccessIterator,
-	typename UniformRandomNumberGenerator,
-	typename
+	typename UniformRandomNumberGenerator
 >
 inline void
 shuffle(
@@ -34,7 +33,7 @@ shuffle(
 	RandomAccessIterator last,
 	UniformRandomNumberGenerator&& g)
 {
-	using difference_type = bksge::iterator_difference_type<RandomAccessIterator>;
+	using difference_type = bksge::iter_difference_t<RandomAccessIterator>;
 	using D = std::uniform_int_distribution<std::ptrdiff_t>;
 	using P = typename D::param_type;
 	

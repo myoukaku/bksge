@@ -9,8 +9,6 @@
 #ifndef BKSGE_FND_ALGORITHM_SAMPLE_HPP
 #define BKSGE_FND_ALGORITHM_SAMPLE_HPP
 
-#include <bksge/fnd/iterator/type_traits/is_forward_iterator.hpp>
-#include <bksge/fnd/iterator/type_traits/is_random_access_iterator.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_integral.hpp>
 #include <bksge/fnd/config.hpp>
@@ -53,10 +51,6 @@ template <
 	typename SampleIterator,
 	typename Distance,
 	typename UniformRandomBitGenerator,
-	typename = bksge::enable_if_t<
-		bksge::is_forward_iterator<PopulationIterator>::value ||
-		bksge::is_random_access_iterator<SampleIterator>::value
-	>,
 	typename = bksge::enable_if_t<
 		bksge::is_integral<Distance>::value
 	>

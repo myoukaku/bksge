@@ -20,8 +20,7 @@ namespace algorithm
 template <
 	typename InputIterator,
 	typename OutputIterator,
-	typename UnaryOperation,
-	typename
+	typename UnaryOperation
 >
 inline BKSGE_CXX14_CONSTEXPR OutputIterator
 transform(
@@ -42,8 +41,7 @@ template <
 	typename InputIterator1,
 	typename InputIterator2,
 	typename OutputIterator,
-	typename BinaryOperation,
-	typename
+	typename BinaryOperation
 >
 inline BKSGE_CXX14_CONSTEXPR OutputIterator
 transform(

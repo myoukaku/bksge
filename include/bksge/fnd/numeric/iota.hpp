@@ -9,8 +9,6 @@
 #ifndef BKSGE_FND_NUMERIC_IOTA_HPP
 #define BKSGE_FND_NUMERIC_IOTA_HPP
 
-#include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/iterator/type_traits/is_forward_iterator.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -36,13 +34,7 @@ namespace numeric
  *
  *	@complexity	範囲[first, last)の要素数をnとして、n回のインクリメントと代入が行われる。
  */
-template <
-	typename ForwardIterator,
-	typename T,
-	typename = bksge::enable_if_t<
-		bksge::is_forward_iterator<ForwardIterator>::value
-	>
->
+template <typename ForwardIterator, typename T>
 BKSGE_CXX14_CONSTEXPR void
 iota(ForwardIterator first, ForwardIterator last, T value);
 

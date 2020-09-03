@@ -66,11 +66,7 @@ move(T* first, T* last, U* result)
 
 }	// namespace detail
 
-template <
-	typename InputIterator,
-	typename OutputIterator,
-	typename
->
+template <typename InputIterator, typename OutputIterator>
 inline BKSGE_CXX14_CONSTEXPR OutputIterator
 move(
 	InputIterator first,

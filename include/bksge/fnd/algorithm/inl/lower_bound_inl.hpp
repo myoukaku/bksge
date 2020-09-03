@@ -60,11 +60,7 @@ lower_bound(
 
 }	// namespace detail
 
-template <
-	typename ForwardIterator,
-	typename T,
-	typename
->
+template <typename ForwardIterator, typename T>
 inline BKSGE_CXX14_CONSTEXPR ForwardIterator
 lower_bound(
 	ForwardIterator first,
@@ -75,12 +71,7 @@ lower_bound(
 		first, last, value, bksge::less<>());
 }
 
-template <
-	typename ForwardIterator,
-	typename T,
-	typename Compare,
-	typename
->
+template <typename ForwardIterator, typename T, typename Compare>
 inline BKSGE_CXX14_CONSTEXPR ForwardIterator
 lower_bound(
 	ForwardIterator first,

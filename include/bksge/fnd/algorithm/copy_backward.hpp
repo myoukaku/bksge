@@ -9,8 +9,6 @@
 #ifndef BKSGE_FND_ALGORITHM_COPY_BACKWARD_HPP
 #define BKSGE_FND_ALGORITHM_COPY_BACKWARD_HPP
 
-#include <bksge/fnd/iterator/type_traits/is_bidirectional_iterator.hpp>
-#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -44,11 +42,7 @@ namespace algorithm
  */
 template <
 	typename BidirectionalIterator1,
-	typename BidirectionalIterator2,
-	typename = bksge::enable_if_t<
-		bksge::is_bidirectional_iterator<BidirectionalIterator1>::value &&
-		bksge::is_bidirectional_iterator<BidirectionalIterator2>::value
-	>
+	typename BidirectionalIterator2
 >
 BidirectionalIterator2
 copy_backward(

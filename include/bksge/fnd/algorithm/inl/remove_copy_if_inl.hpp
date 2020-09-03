@@ -20,8 +20,7 @@ namespace algorithm
 template <
 	typename InputIterator,
 	typename OutputIterator,
-	typename Predicate,
-	typename
+	typename Predicate
 >
 inline BKSGE_CXX14_CONSTEXPR OutputIterator
 remove_copy_if(

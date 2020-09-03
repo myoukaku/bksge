@@ -13,8 +13,8 @@
 #include <bksge/fnd/functional/equal_to.hpp>
 #include <bksge/fnd/iterator/distance.hpp>
 #include <bksge/fnd/iterator/next.hpp>
-#include <bksge/fnd/iterator/type_traits/iterator_category.hpp>
-#include <bksge/fnd/iterator/type_traits/iterator_difference_type.hpp>
+#include <bksge/fnd/iterator/iterator_category.hpp>
+#include <bksge/fnd/iterator/iter_difference_t.hpp>
 #include <iterator>
 
 namespace bksge
@@ -37,7 +37,7 @@ is_permutation_impl(
 	ForwardIterator2 first2, ForwardIterator2 last2,
 	BinaryPredicate pred)
 {
-	using D1 = bksge::iterator_difference_type<ForwardIterator1>;
+	using D1 = bksge::iter_difference_t<ForwardIterator1>;
 
 	// For each element in [f1, l1) see if there are the same number of
 	//    equal elements in [f2, l2)
@@ -195,8 +195,7 @@ is_permutation(
 
 template <
 	typename ForwardIterator1,
-	typename ForwardIterator2,
-	typename
+	typename ForwardIterator2
 >
 inline BKSGE_CXX14_CONSTEXPR bool
 is_permutation(
@@ -211,8 +210,7 @@ is_permutation(
 template <
 	typename ForwardIterator1,
 	typename ForwardIterator2,
-	typename BinaryPredicate,
-	typename
+	typename BinaryPredicate
 >
 inline BKSGE_CXX14_CONSTEXPR bool
 is_permutation(
@@ -227,8 +225,7 @@ is_permutation(
 
 template <
 	typename ForwardIterator1,
-	typename ForwardIterator2,
-	typename
+	typename ForwardIterator2
 >
 inline BKSGE_CXX14_CONSTEXPR bool
 is_permutation(
@@ -244,8 +241,7 @@ is_permutation(
 template <
 	typename ForwardIterator1,
 	typename ForwardIterator2,
-	typename BinaryPredicate,
-	typename
+	typename BinaryPredicate
 >
 inline BKSGE_CXX14_CONSTEXPR bool
 is_permutation(

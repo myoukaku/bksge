@@ -9,9 +9,6 @@
 #ifndef BKSGE_FND_ALGORITHM_FIND_FIRST_OF_HPP
 #define BKSGE_FND_ALGORITHM_FIND_FIRST_OF_HPP
 
-#include <bksge/fnd/iterator/type_traits/is_input_iterator.hpp>
-#include <bksge/fnd/iterator/type_traits/is_forward_iterator.hpp>
-#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -40,11 +37,7 @@ namespace algorithm
  */
 template <
 	typename InputIterator,
-	typename ForwardIterator,
-	typename = bksge::enable_if_t<
-		bksge::is_input_iterator<InputIterator>::value &&
-		bksge::is_forward_iterator<ForwardIterator>::value
-	>
+	typename ForwardIterator
 >
 BKSGE_CXX14_CONSTEXPR InputIterator
 find_first_of(
@@ -74,11 +67,7 @@ find_first_of(
 template <
 	typename InputIterator,
 	typename ForwardIterator,
-	typename BinaryPredicate,
-	typename = bksge::enable_if_t<
-		bksge::is_input_iterator<InputIterator>::value &&
-		bksge::is_forward_iterator<ForwardIterator>::value
-	>
+	typename BinaryPredicate
 >
 BKSGE_CXX14_CONSTEXPR InputIterator
 find_first_of(

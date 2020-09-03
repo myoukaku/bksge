@@ -18,7 +18,7 @@ namespace bksge
 namespace algorithm
 {
 
-template <typename BidirectionalIterator, typename Predicate, typename>
+template <typename BidirectionalIterator, typename Predicate>
 inline BidirectionalIterator
 stable_partition(
 	BidirectionalIterator first,

@@ -19,7 +19,7 @@ namespace bksge
 namespace algorithm
 {
 
-template <typename ForwardIterator, typename>
+template <typename ForwardIterator>
 inline BKSGE_CXX14_CONSTEXPR std::pair<ForwardIterator, ForwardIterator>
 minmax_element(
 	ForwardIterator first,
@@ -28,7 +28,7 @@ minmax_element(
 	return bksge::algorithm::minmax_element(first, last, bksge::less<>());
 }
 
-template <typename ForwardIterator, typename Compare, typename>
+template <typename ForwardIterator, typename Compare>
 inline BKSGE_CXX14_CONSTEXPR std::pair<ForwardIterator, ForwardIterator>
 minmax_element(
 	ForwardIterator first,

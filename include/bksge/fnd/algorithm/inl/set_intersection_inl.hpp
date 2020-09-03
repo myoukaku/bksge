@@ -63,8 +63,7 @@ set_intersection(
 template <
 	typename InputIterator1,
 	typename InputIterator2,
-	typename OutputIterator,
-	typename
+	typename OutputIterator
 >
 inline BKSGE_CXX14_CONSTEXPR OutputIterator
 set_intersection(
@@ -82,8 +81,7 @@ template <
 	typename InputIterator1,
 	typename InputIterator2,
 	typename OutputIterator,
-	typename Compare,
-	typename
+	typename Compare
 >
 inline BKSGE_CXX14_CONSTEXPR OutputIterator
 set_intersection(

@@ -9,9 +9,6 @@
 #ifndef BKSGE_FND_ALGORITHM_COPY_N_HPP
 #define BKSGE_FND_ALGORITHM_COPY_N_HPP
 
-#include <bksge/fnd/iterator/type_traits/is_input_iterator.hpp>
-#include <bksge/fnd/iterator/type_traits/is_iterator.hpp>
-#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -37,13 +34,7 @@ namespace algorithm
  *
  *	@complexity	正確に n 回代入が行われる。
  */
-template <
-	typename InputIterator, typename Size, typename OutputIterator,
-	typename = bksge::enable_if_t<
-		bksge::is_input_iterator<InputIterator>::value &&
-		bksge::is_iterator<OutputIterator>::value
-	>
->
+template <typename InputIterator, typename Size, typename OutputIterator>
 OutputIterator
 copy_n(InputIterator first, Size n, OutputIterator result);
 

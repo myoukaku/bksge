@@ -19,7 +19,7 @@ namespace bksge
 namespace numeric
 {
 
-template <typename InputIterator, typename OutputIterator, typename>
+template <typename InputIterator, typename OutputIterator>
 inline BKSGE_CXX14_CONSTEXPR OutputIterator
 adjacent_difference(
 	InputIterator first,
@@ -29,7 +29,7 @@ adjacent_difference(
 	return bksge::numeric::adjacent_difference(first, last, result, bksge::minus<>());
 }
 
-template <typename InputIterator, typename OutputIterator, typename BinaryOperation, typename>
+template <typename InputIterator, typename OutputIterator, typename BinaryOperation>
 inline BKSGE_CXX14_CONSTEXPR OutputIterator
 adjacent_difference(
 	InputIterator first,

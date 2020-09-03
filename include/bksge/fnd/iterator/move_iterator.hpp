@@ -28,7 +28,7 @@ using std::move_iterator;
 
 #else
 
-#include <bksge/fnd/iterator/type_traits/iterator_category.hpp>
+#include <bksge/fnd/iterator/iterator_category.hpp>
 #include <bksge/fnd/iterator/iter_value_t.hpp>
 #include <bksge/fnd/iterator/iter_difference_t.hpp>
 #include <bksge/fnd/iterator/iter_rvalue_reference_t.hpp>

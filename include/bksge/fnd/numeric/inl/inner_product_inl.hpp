@@ -53,8 +53,7 @@ inner_product(
 template <
 	typename InputIterator1,
 	typename InputIterator2,
-	typename T,
-	typename
+	typename T
 >
 inline BKSGE_CONSTEXPR T
 inner_product(
@@ -72,8 +71,7 @@ template <
 	typename InputIterator2,
 	typename T,
 	typename BinaryOperation1,
-	typename BinaryOperation2,
-	typename
+	typename BinaryOperation2
 >
 inline BKSGE_CONSTEXPR T
 inner_product(

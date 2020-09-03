@@ -18,7 +18,7 @@ namespace bksge
 namespace algorithm
 {
 
-template <typename BidirectionalIterator, typename>
+template <typename BidirectionalIterator>
 inline void
 reverse(
 	BidirectionalIterator first,

@@ -18,11 +18,7 @@ namespace bksge
 namespace algorithm
 {
 
-template <
-	typename ForwardIterator,
-	typename OutputIterator,
-	typename
->
+template <typename ForwardIterator, typename OutputIterator>
 inline OutputIterator
 rotate_copy(
 	ForwardIterator first,

@@ -19,7 +19,7 @@ namespace bksge
 namespace algorithm
 {
 
-template <typename ForwardIterator, typename>
+template <typename ForwardIterator>
 inline BKSGE_CONSTEXPR bool
 is_unique(
 	ForwardIterator first,
@@ -28,7 +28,7 @@ is_unique(
 	return bksge::adjacent_find(first, last) == last;
 }
 
-template <typename ForwardIterator, typename Compare, typename>
+template <typename ForwardIterator, typename Compare>
 inline BKSGE_CONSTEXPR bool
 is_unique(
 	ForwardIterator first,

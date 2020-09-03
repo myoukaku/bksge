@@ -19,7 +19,7 @@ namespace bksge
 namespace algorithm
 {
 
-template <typename ForwardIterator, typename T, typename>
+template <typename ForwardIterator, typename T>
 inline BKSGE_CXX14_CONSTEXPR ForwardIterator
 remove(
 	ForwardIterator first,

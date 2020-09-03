@@ -20,8 +20,7 @@ namespace algorithm
 
 template <
 	typename ForwardIterator1,
-	typename ForwardIterator2,
-	typename
+	typename ForwardIterator2
 >
 inline BKSGE_CXX14_CONSTEXPR ForwardIterator2
 swap_ranges(
@@ -38,8 +37,7 @@ swap_ranges(
 
 template <
 	typename ForwardIterator1,
-	typename ForwardIterator2,
-	typename
+	typename ForwardIterator2
 >
 inline BKSGE_CXX14_CONSTEXPR ForwardIterator2
 swap_ranges(

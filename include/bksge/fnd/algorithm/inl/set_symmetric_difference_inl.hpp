@@ -74,8 +74,7 @@ set_symmetric_difference(
 template <
 	typename InputIterator1,
 	typename InputIterator2,
-	typename OutputIterator,
-	typename
+	typename OutputIterator
 >
 inline OutputIterator
 set_symmetric_difference(
@@ -93,8 +92,7 @@ template <
 	typename InputIterator1,
 	typename InputIterator2,
 	typename OutputIterator,
-	typename Compare,
-	typename
+	typename Compare
 >
 inline OutputIterator
 set_symmetric_difference(

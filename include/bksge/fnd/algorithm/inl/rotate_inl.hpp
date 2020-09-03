@@ -16,8 +16,8 @@
 #include <bksge/fnd/numeric/gcd.hpp>
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/iterator/prev.hpp>
-#include <bksge/fnd/iterator/type_traits/iterator_category.hpp>
-#include <bksge/fnd/iterator/type_traits/iterator_value_type.hpp>
+#include <bksge/fnd/iterator/iterator_category.hpp>
+#include <bksge/fnd/iterator/iter_value_t.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/is_trivially_move_assignable.hpp>
 #include <bksge/fnd/utility/swap.hpp>
@@ -236,7 +236,7 @@ rotate(
 
 }	// namespace detail
 
-template <typename ForwardIterator, typename>
+template <typename ForwardIterator>
 inline ForwardIterator
 rotate(ForwardIterator first, ForwardIterator middle, ForwardIterator last)
 {
@@ -251,7 +251,7 @@ rotate(ForwardIterator first, ForwardIterator middle, ForwardIterator last)
 	}
 
 	using Category = bksge::iterator_category<ForwardIterator>*;
-	using ValueType = bksge::iterator_value_type<ForwardIterator>;
+	using ValueType = bksge::iter_value_t<ForwardIterator>;
 
 	return bksge::algorithm::detail::rotate(
 		first, middle, last, Category(),

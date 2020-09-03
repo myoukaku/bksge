@@ -19,7 +19,7 @@ namespace bksge
 namespace algorithm
 {
 
-template <typename ForwardIterator, typename Predicate, typename>
+template <typename ForwardIterator, typename Predicate>
 inline BKSGE_CXX14_CONSTEXPR ForwardIterator
 partition_point(
 	ForwardIterator first,

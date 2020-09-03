@@ -39,13 +39,13 @@ accumulate(
 
 }	// namespace detail
 
-template <typename InputIterator, typename T, typename>
+template <typename InputIterator, typename T>
 inline BKSGE_CONSTEXPR T accumulate(InputIterator first, InputIterator last, T init)
 {
 	return bksge::numeric::accumulate(first, last, init, bksge::plus<>());
 }
 
-template <typename InputIterator, typename T, typename BinaryOperation, typename>
+template <typename InputIterator, typename T, typename BinaryOperation>
 inline BKSGE_CONSTEXPR T accumulate(InputIterator first, InputIterator last, T init, BinaryOperation binary_op)
 {
 	return detail::accumulate(first, last, init, binary_op);

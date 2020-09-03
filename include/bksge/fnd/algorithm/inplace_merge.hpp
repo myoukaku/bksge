@@ -9,8 +9,6 @@
 #ifndef BKSGE_FND_ALGORITHM_INPLACE_MERGE_HPP
 #define BKSGE_FND_ALGORITHM_INPLACE_MERGE_HPP
 
-#include <bksge/fnd/iterator/type_traits/is_bidirectional_iterator.hpp>
-#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -39,12 +37,7 @@ namespace algorithm
  *
  *	@complexity	N log(N) （N は last - first）回程度比較する
  */
-template <
-	typename BidirectionalIterator,
-	typename = bksge::enable_if_t<
-		bksge::is_bidirectional_iterator<BidirectionalIterator>::value
-	>
->
+template <typename BidirectionalIterator>
 void
 inplace_merge(
 	BidirectionalIterator first,
@@ -71,13 +64,7 @@ inplace_merge(
  *
  *	@complexity	N log(N) （N は last - first）回程度比較する
  */
-template <
-	typename BidirectionalIterator,
-	typename Compare,
-	typename = bksge::enable_if_t<
-		bksge::is_bidirectional_iterator<BidirectionalIterator>::value
-	>
->
+template <typename BidirectionalIterator, typename Compare>
 void
 inplace_merge(
 	BidirectionalIterator first,

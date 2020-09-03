@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/algorithm/fill.hpp>
 #include <bksge/fnd/algorithm/fill_n.hpp>
-#include <bksge/fnd/iterator/type_traits/iterator_category.hpp>
+#include <bksge/fnd/iterator/iterator_category.hpp>
 #include <iterator>
 
 namespace bksge
@@ -50,7 +50,7 @@ fill(
 
 }	// namespace detail
 
-template <typename ForwardIterator, typename T, typename>
+template <typename ForwardIterator, typename T>
 inline BKSGE_CXX14_CONSTEXPR void
 fill(ForwardIterator first, ForwardIterator last, T const& value)
 {

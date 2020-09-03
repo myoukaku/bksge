@@ -9,9 +9,6 @@
 #ifndef BKSGE_FND_NUMERIC_PARTIAL_SUM_HPP
 #define BKSGE_FND_NUMERIC_PARTIAL_SUM_HPP
 
-#include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/iterator/type_traits/is_input_iterator.hpp>
-#include <bksge/fnd/iterator/type_traits/is_iterator.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -50,11 +47,7 @@ namespace numeric
  */
 template <
 	typename InputIterator,
-	typename OutputIterator,
-	typename = bksge::enable_if_t<
-		bksge::is_input_iterator<InputIterator>::value &&
-		bksge::is_iterator<OutputIterator>::value
-	>
+	typename OutputIterator
 >
 BKSGE_CXX14_CONSTEXPR OutputIterator
 partial_sum(
@@ -68,11 +61,7 @@ partial_sum(
 template <
 	typename InputIterator,
 	typename OutputIterator,
-	typename BinaryOperation,
-	typename = bksge::enable_if_t<
-		bksge::is_input_iterator<InputIterator>::value &&
-		bksge::is_iterator<OutputIterator>::value
-	>
+	typename BinaryOperation
 >
 BKSGE_CXX14_CONSTEXPR OutputIterator
 partial_sum(

@@ -22,8 +22,7 @@ template <
 	typename InputIterator,
 	typename OutputIterator1,
 	typename OutputIterator2,
-	typename Predicate,
-	typename
+	typename Predicate
 >
 inline BKSGE_CXX14_CONSTEXPR
 std::pair<OutputIterator1, OutputIterator2>

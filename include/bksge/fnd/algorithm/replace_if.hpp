@@ -9,8 +9,6 @@
 #ifndef BKSGE_FND_ALGORITHM_REPLACE_IF_HPP
 #define BKSGE_FND_ALGORITHM_REPLACE_IF_HPP
 
-#include <bksge/fnd/iterator/type_traits/is_forward_iterator.hpp>
-#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -41,10 +39,7 @@ namespace algorithm
 template <
 	typename ForwardIterator,
 	typename Predicate,
-	typename T,
-	typename = bksge::enable_if_t<
-		bksge::is_forward_iterator<ForwardIterator>::value
-	>
+	typename T
 >
 BKSGE_CXX14_CONSTEXPR void
 replace_if(ForwardIterator first, ForwardIterator last, Predicate pred, T const& new_value);

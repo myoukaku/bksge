@@ -17,7 +17,7 @@ namespace bksge
 namespace algorithm
 {
 
-template <typename InputIterator, typename T, typename>
+template <typename InputIterator, typename T>
 inline BKSGE_CXX14_CONSTEXPR InputIterator
 find(
 	InputIterator first,

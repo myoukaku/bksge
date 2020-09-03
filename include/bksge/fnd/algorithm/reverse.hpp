@@ -9,8 +9,6 @@
 #ifndef BKSGE_FND_ALGORITHM_REVERSE_HPP
 #define BKSGE_FND_ALGORITHM_REVERSE_HPP
 
-#include <bksge/fnd/iterator/type_traits/is_bidirectional_iterator.hpp>
-#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -34,12 +32,7 @@ namespace algorithm
  *
  *	@complexity	正確に (last - first) / 2 回 swap する
  */
-template <
-	typename BidirectionalIterator,
-	typename = bksge::enable_if_t<
-		bksge::is_bidirectional_iterator<BidirectionalIterator>::value
-	>
->
+template <typename BidirectionalIterator>
 void
 reverse(BidirectionalIterator first, BidirectionalIterator last);
 

@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/static_vector/detail/static_vector_base.hpp>
 #include <bksge/fnd/iterator/reverse_iterator.hpp>
-#include <bksge/fnd/iterator/type_traits/is_input_iterator.hpp>
+#include <bksge/fnd/iterator/concepts/input_iterator.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_move_assignable.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_move_constructible.hpp>

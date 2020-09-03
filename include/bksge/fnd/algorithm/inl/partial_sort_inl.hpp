@@ -20,7 +20,7 @@ namespace bksge
 namespace algorithm
 {
 
-template <typename RandomAccessIterator, typename>
+template <typename RandomAccessIterator>
 inline void
 partial_sort(
 	RandomAccessIterator first,
@@ -31,7 +31,7 @@ partial_sort(
 		first, middle, last, bksge::less<>());
 }
 
-template <typename RandomAccessIterator, typename Compare, typename>
+template <typename RandomAccessIterator, typename Compare>
 inline void
 partial_sort(
 	RandomAccessIterator first,

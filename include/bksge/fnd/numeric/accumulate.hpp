@@ -9,8 +9,6 @@
 #ifndef BKSGE_FND_NUMERIC_ACCUMULATE_HPP
 #define BKSGE_FND_NUMERIC_ACCUMULATE_HPP
 
-#include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/iterator/type_traits/is_input_iterator.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -31,13 +29,7 @@ namespace numeric
  *
  *	@return	集計結果の値
  */
-template <
-	typename InputIterator,
-	typename T,
-	typename = bksge::enable_if_t<
-		bksge::is_input_iterator<InputIterator>::value
-	>
->
+template <typename InputIterator, typename T>
 BKSGE_CONSTEXPR T
 accumulate(
 	InputIterator first,
@@ -65,10 +57,7 @@ accumulate(
 template <
 	typename InputIterator,
 	typename T,
-	typename BinaryOperation,
-	typename = bksge::enable_if_t<
-		bksge::is_input_iterator<InputIterator>::value
-	>
+	typename BinaryOperation
 >
 BKSGE_CONSTEXPR T
 accumulate(

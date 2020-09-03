@@ -17,7 +17,7 @@ namespace bksge
 namespace algorithm
 {
 
-template <typename ForwardIterator, typename Generator, typename>
+template <typename ForwardIterator, typename Generator>
 inline BKSGE_CXX14_CONSTEXPR void
 generate(ForwardIterator first, ForwardIterator last, Generator gen)
 {

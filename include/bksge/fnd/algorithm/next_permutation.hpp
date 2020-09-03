@@ -9,8 +9,6 @@
 #ifndef BKSGE_FND_ALGORITHM_NEXT_PERMUTATION_HPP
 #define BKSGE_FND_ALGORITHM_NEXT_PERMUTATION_HPP
 
-#include <bksge/fnd/iterator/type_traits/is_bidirectional_iterator.hpp>
-#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -37,12 +35,7 @@ namespace algorithm
  *
  *	@complexity	高々(last - first)/2回の要素の交換
  */
-template <
-	typename BidirectionalIterator,
-	typename = bksge::enable_if_t<
-		bksge::is_bidirectional_iterator<BidirectionalIterator>::value
-	>
->
+template <typename BidirectionalIterator>
 bool
 next_permutation(BidirectionalIterator first, BidirectionalIterator last);
 
@@ -66,13 +59,7 @@ next_permutation(BidirectionalIterator first, BidirectionalIterator last);
  *
  *	@complexity	高々(last - first)/2回の要素の交換
  */
-template <
-	typename BidirectionalIterator,
-	typename Compare,
-	typename = bksge::enable_if_t<
-		bksge::is_bidirectional_iterator<BidirectionalIterator>::value
-	>
->
+template <typename BidirectionalIterator, typename Compare>
 bool
 next_permutation(
 	BidirectionalIterator first,

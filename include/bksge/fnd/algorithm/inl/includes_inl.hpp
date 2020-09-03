@@ -56,8 +56,7 @@ includes(
 
 template <
 	typename InputIterator1,
-	typename InputIterator2,
-	typename
+	typename InputIterator2
 >
 inline BKSGE_CXX14_CONSTEXPR bool
 includes(
@@ -71,8 +70,7 @@ includes(
 template <
 	typename InputIterator1,
 	typename InputIterator2,
-	typename Compare,
-	typename
+	typename Compare
 >
 inline BKSGE_CXX14_CONSTEXPR bool
 includes(

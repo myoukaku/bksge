@@ -9,8 +9,6 @@
 #ifndef BKSGE_FND_ALGORITHM_IS_UNIQUE_HPP
 #define BKSGE_FND_ALGORITHM_IS_UNIQUE_HPP
 
-#include <bksge/fnd/iterator/type_traits/is_forward_iterator.hpp>
-#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -31,12 +29,7 @@ namespace algorithm
  *
  *	@complexity
  */
-template <
-	typename ForwardIterator,
-	typename = bksge::enable_if_t<
-		bksge::is_forward_iterator<ForwardIterator>::value
-	>
->
+template <typename ForwardIterator>
 BKSGE_CONSTEXPR bool
 is_unique(ForwardIterator first, ForwardIterator last);
 
@@ -54,13 +47,7 @@ is_unique(ForwardIterator first, ForwardIterator last);
  *
  *	@complexity
  */
-template <
-	typename ForwardIterator,
-	typename Compare, 
-	typename = bksge::enable_if_t<
-		bksge::is_forward_iterator<ForwardIterator>::value
-	>
->
+template <typename ForwardIterator, typename Compare>
 BKSGE_CONSTEXPR bool
 is_unique(ForwardIterator first, ForwardIterator last, Compare comp);
 

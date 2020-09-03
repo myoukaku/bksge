@@ -9,8 +9,6 @@
 #ifndef BKSGE_FND_ALGORITHM_IS_HEAP_HPP
 #define BKSGE_FND_ALGORITHM_IS_HEAP_HPP
 
-#include <bksge/fnd/iterator/type_traits/is_random_access_iterator.hpp>
-#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -31,12 +29,7 @@ namespace algorithm
  *
  *	@complexity	線形時間
  */
-template <
-	typename RandomAccessIterator,
-	typename = bksge::enable_if_t<
-		bksge::is_random_access_iterator<RandomAccessIterator>::value
-	>
->
+template <typename RandomAccessIterator>
 BKSGE_CXX14_CONSTEXPR bool
 is_heap(RandomAccessIterator first, RandomAccessIterator last);
 
@@ -54,13 +47,7 @@ is_heap(RandomAccessIterator first, RandomAccessIterator last);
  *
  *	@complexity	線形時間
  */
-template <
-	typename RandomAccessIterator,
-	typename Compare,
-	typename = bksge::enable_if_t<
-		bksge::is_random_access_iterator<RandomAccessIterator>::value
-	>
->
+template <typename RandomAccessIterator, typename Compare>
 BKSGE_CXX14_CONSTEXPR bool
 is_heap(RandomAccessIterator first, RandomAccessIterator last, Compare comp);
 

@@ -12,7 +12,7 @@
 #include <bksge/fnd/algorithm/equal.hpp>
 #include <bksge/fnd/functional/equal_to.hpp>
 #include <bksge/fnd/iterator/distance.hpp>
-#include <bksge/fnd/iterator/type_traits/iterator_category.hpp>
+#include <bksge/fnd/iterator/iterator_category.hpp>
 #include <iterator>
 
 namespace bksge
@@ -74,8 +74,7 @@ equal(
 template <
 	typename InputIterator1,
 	typename InputIterator2,
-	typename BinaryPredicate,
-	typename
+	typename BinaryPredicate
 >
 inline BKSGE_CXX14_CONSTEXPR bool
 equal(
@@ -96,8 +95,7 @@ equal(
 
 template <
 	typename InputIterator1,
-	typename InputIterator2,
-	typename
+	typename InputIterator2
 >
 inline BKSGE_CXX14_CONSTEXPR bool
 equal(
@@ -111,8 +109,7 @@ equal(
 template <
 	typename InputIterator1,
 	typename InputIterator2,
-	typename BinaryPredicate,
-	typename
+	typename BinaryPredicate
 >
 inline BKSGE_CXX14_CONSTEXPR bool
 equal(
@@ -130,8 +127,7 @@ equal(
 
 template <
 	typename InputIterator1,
-	typename InputIterator2,
-	typename
+	typename InputIterator2
 >
 inline BKSGE_CXX14_CONSTEXPR bool
 equal(

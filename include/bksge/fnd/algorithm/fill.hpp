@@ -9,8 +9,6 @@
 #ifndef BKSGE_FND_ALGORITHM_FILL_HPP
 #define BKSGE_FND_ALGORITHM_FILL_HPP
 
-#include <bksge/fnd/iterator/type_traits/is_forward_iterator.hpp>
-#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -35,13 +33,7 @@ namespace algorithm
  *
  *	@complexity	正確に last - first 回の代入を行う
  */
-template <
-	typename ForwardIterator,
-	typename T,
-	typename = bksge::enable_if_t<
-		bksge::is_forward_iterator<ForwardIterator>::value
-	>
->
+template <typename ForwardIterator, typename T>
 BKSGE_CXX14_CONSTEXPR void
 fill(ForwardIterator first, ForwardIterator last, T const& value);
 

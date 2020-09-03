@@ -67,7 +67,7 @@ prev_permutation(
 
 }	// namespace detail
 
-template <typename BidirectionalIterator, typename>
+template <typename BidirectionalIterator>
 inline bool
 prev_permutation(
 	BidirectionalIterator first,
@@ -77,7 +77,7 @@ prev_permutation(
 		first, last, bksge::less<>());
 }
 
-template <typename BidirectionalIterator, typename Compare, typename>
+template <typename BidirectionalIterator, typename Compare>
 inline bool
 prev_permutation(
 	BidirectionalIterator first,

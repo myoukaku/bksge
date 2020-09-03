@@ -9,8 +9,6 @@
 #ifndef BKSGE_FND_ALGORITHM_SHUFFLE_HPP
 #define BKSGE_FND_ALGORITHM_SHUFFLE_HPP
 
-#include <bksge/fnd/iterator/type_traits/is_random_access_iterator.hpp>
-#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -37,10 +35,7 @@ namespace algorithm
  */
 template <
 	typename RandomAccessIterator,
-	typename UniformRandomNumberGenerator,
-	typename = bksge::enable_if_t<
-		bksge::is_random_access_iterator<RandomAccessIterator>::value
-	>
+	typename UniformRandomNumberGenerator
 >
 void
 shuffle(

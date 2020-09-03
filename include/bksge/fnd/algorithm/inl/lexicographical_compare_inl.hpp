@@ -55,8 +55,7 @@ lexicographical_compare(
 template <
 	typename InputIterator1,
 	typename InputIterator2,
-	typename Compare,
-	typename
+	typename Compare
 >
 inline BKSGE_CXX14_CONSTEXPR bool
 lexicographical_compare(
@@ -73,8 +72,7 @@ lexicographical_compare(
 
 template <
 	typename InputIterator1,
-	typename InputIterator2,
-	typename
+	typename InputIterator2
 >
 inline BKSGE_CXX14_CONSTEXPR bool
 lexicographical_compare(

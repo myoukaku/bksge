@@ -10,7 +10,7 @@
 #define BKSGE_FND_ALGORITHM_INL_PARTITION_INL_HPP
 
 #include <bksge/fnd/algorithm/partition.hpp>
-#include <bksge/fnd/iterator/type_traits/iterator_category.hpp>
+#include <bksge/fnd/iterator/iterator_category.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/config.hpp>
 #include <iterator>
@@ -99,7 +99,7 @@ partition(
 
 }	// namespace detail
 
-template <typename ForwardIterator, typename Predicate, typename>
+template <typename ForwardIterator, typename Predicate>
 inline BKSGE_CXX14_CONSTEXPR ForwardIterator
 partition(
 	ForwardIterator first,

@@ -101,8 +101,7 @@ copy(T* first, T* last, U* result_first, U* result_last)
 
 template <
 	typename InputIterator,
-	typename OutputIterator,
-	typename
+	typename OutputIterator
 >
 inline OutputIterator
 copy(
@@ -118,8 +117,7 @@ copy(
 
 template <
 	typename InputIterator,
-	typename OutputIterator,
-	typename
+	typename OutputIterator
 >
 inline OutputIterator
 copy(

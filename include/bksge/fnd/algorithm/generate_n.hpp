@@ -9,8 +9,6 @@
 #ifndef BKSGE_FND_ALGORITHM_GENERATE_N_HPP
 #define BKSGE_FND_ALGORITHM_GENERATE_N_HPP
 
-#include <bksge/fnd/iterator/type_traits/is_iterator.hpp>
-#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -46,10 +44,7 @@ namespace algorithm
 template <
 	typename OutputIterator,
 	typename Size,
-	typename Generator,
-	typename = bksge::enable_if_t<
-		bksge::is_iterator<OutputIterator>::value
-	>
+	typename Generator
 >
 BKSGE_CXX14_CONSTEXPR OutputIterator
 generate_n(OutputIterator first, Size n, Generator gen);

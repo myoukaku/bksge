@@ -19,8 +19,7 @@ namespace algorithm
 
 template <
 	typename BidirectionalIterator,
-	typename OutputIterator,
-	typename
+	typename OutputIterator
 >
 inline BKSGE_CXX14_CONSTEXPR OutputIterator
 reverse_copy(

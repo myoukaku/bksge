@@ -9,8 +9,6 @@
 #ifndef BKSGE_FND_ALGORITHM_FIND_END_HPP
 #define BKSGE_FND_ALGORITHM_FIND_END_HPP
 
-#include <bksge/fnd/iterator/type_traits/is_forward_iterator.hpp>
-#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -46,11 +44,7 @@ namespace algorithm
  */
 template <
 	typename ForwardIterator1,
-	typename ForwardIterator2,
-	typename = bksge::enable_if_t<
-		bksge::is_forward_iterator<ForwardIterator1>::value &&
-		bksge::is_forward_iterator<ForwardIterator2>::value
-	>
+	typename ForwardIterator2
 >
 BKSGE_CXX14_CONSTEXPR ForwardIterator1
 find_end(
@@ -87,11 +81,7 @@ find_end(
 template <
 	typename ForwardIterator1,
 	typename ForwardIterator2,
-	typename BinaryPredicate,
-	typename = bksge::enable_if_t<
-		bksge::is_forward_iterator<ForwardIterator1>::value &&
-		bksge::is_forward_iterator<ForwardIterator2>::value
-	>
+	typename BinaryPredicate
 >
 BKSGE_CXX14_CONSTEXPR ForwardIterator1
 find_end(

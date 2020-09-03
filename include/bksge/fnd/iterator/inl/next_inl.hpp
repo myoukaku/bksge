@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/iterator/advance.hpp>
-#include <bksge/fnd/iterator/type_traits/iterator_category.hpp>
+#include <bksge/fnd/iterator/iterator_category.hpp>
 #include <bksge/fnd/iterator/tag.hpp>
 #include <bksge/fnd/config.hpp>
 
@@ -38,7 +38,7 @@ next_impl(RandomAccessIterator const& it, Distance n, bksge::random_access_itera
 
 }	// namespace detail
 
-template <typename InputIterator, typename Distance, typename>
+template <typename InputIterator, typename Distance>
 inline BKSGE_CONSTEXPR InputIterator
 next(InputIterator const& it, Distance n)
 {

@@ -16,7 +16,7 @@
 namespace bksge
 {
 
-template <typename ForwardIterator, typename>
+template <typename ForwardIterator>
 inline BKSGE_CXX14_CONSTEXPR ForwardIterator
 adjacent_find(ForwardIterator first, ForwardIterator last)
 {
@@ -24,11 +24,7 @@ adjacent_find(ForwardIterator first, ForwardIterator last)
 		first, last, bksge::equal_to<>());
 }
 
-template <
-	typename ForwardIterator,
-	typename BinaryPredicate,
-	typename
->
+template <typename ForwardIterator, typename BinaryPredicate>
 inline BKSGE_CXX14_CONSTEXPR ForwardIterator
 adjacent_find(
 	ForwardIterator first,

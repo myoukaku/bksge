@@ -24,9 +24,7 @@ using std::distance;
 
 #else
 
-#include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/iterator/type_traits/is_input_iterator.hpp>
-#include <bksge/fnd/iterator/type_traits/iterator_difference_type.hpp>
+#include <bksge/fnd/iterator/iter_difference_t.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -35,13 +33,8 @@ namespace bksge
 /**
  *	@brief	
  */
-template <
-	typename InputIterator,
-	typename = bksge::enable_if_t<
-		bksge::is_input_iterator<InputIterator>::value
-	>
->
-BKSGE_CONSTEXPR bksge::iterator_difference_type<InputIterator>
+template <typename InputIterator>
+BKSGE_CONSTEXPR bksge::iter_difference_t<InputIterator>
 distance(InputIterator first, InputIterator last);
 
 }	// namespace bksge

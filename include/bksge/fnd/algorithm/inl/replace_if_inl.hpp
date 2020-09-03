@@ -20,8 +20,7 @@ namespace algorithm
 template <
 	typename ForwardIterator,
 	typename Predicate,
-	typename T,
-	typename
+	typename T
 >
 inline BKSGE_CXX14_CONSTEXPR void
 replace_if(

@@ -20,8 +20,7 @@ namespace algorithm
 
 template <
 	typename InputIterator,
-	typename ForwardIterator,
-	typename
+	typename ForwardIterator
 >
 inline BKSGE_CXX14_CONSTEXPR InputIterator
 find_first_of(
@@ -37,8 +36,7 @@ find_first_of(
 template <
 	typename InputIterator,
 	typename ForwardIterator,
-	typename BinaryPredicate,
-	typename
+	typename BinaryPredicate
 >
 inline BKSGE_CXX14_CONSTEXPR InputIterator
 find_first_of(
