@@ -10,6 +10,10 @@
 #define BKSGE_FND_MEMORY_HPP
 
 #include <bksge/fnd/memory/addressof.hpp>
+#include <bksge/fnd/memory/construct_at.hpp>
+#include <bksge/fnd/memory/destroy.hpp>
+#include <bksge/fnd/memory/destroy_at.hpp>
+#include <bksge/fnd/memory/destroy_n.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/memory/to_address.hpp>
 
