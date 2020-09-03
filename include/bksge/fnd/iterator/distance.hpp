@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/config.hpp>
 
-#if (BKSGE_CXX_STANDARD >= 17)
+#if (BKSGE_CXX_STANDARD >= 20)
 
 #include <iterator>
 

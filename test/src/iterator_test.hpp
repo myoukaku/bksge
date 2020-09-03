@@ -109,7 +109,7 @@ struct bidirectional_iterator_wrapper
 	using difference_type   = std::ptrdiff_t;
 	using reference         = T&;
 	BKSGE_CXX14_CONSTEXPR bidirectional_iterator_wrapper& operator++() { ++m_ptr; return *this; }
-	BKSGE_CXX14_CONSTEXPR bidirectional_iterator_wrapper  operator++(int);
+	BKSGE_CXX14_CONSTEXPR bidirectional_iterator_wrapper  operator++(int) { auto t = *this; ++m_ptr; return t; }
 	BKSGE_CXX14_CONSTEXPR bidirectional_iterator_wrapper& operator--() { --m_ptr; return *this; }
 	BKSGE_CXX14_CONSTEXPR bidirectional_iterator_wrapper  operator--(int);
 	BKSGE_CXX14_CONSTEXPR T&                              operator*() const { return *m_ptr; }
