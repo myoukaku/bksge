@@ -95,16 +95,24 @@ public:
 		return ranges::empty(*m_r);
 	}
 
+	template <typename R2 = Range,
+		typename = bksge::enable_if_t<
+			ranges::is_sized_range<R2>::value
+		>
+	>
 	BKSGE_CONSTEXPR auto size() const
-	->decltype(ranges::size(*m_r))
-		BKSGE_REQUIRES(ranges::sized_range<Range>)
+	->decltype(ranges::size(bksge::declval<R2 const&>()))
 	{
 		return ranges::size(*m_r);
 	}
 
+	template <typename R2 = Range,
+		typename = bksge::enable_if_t<
+			ranges::is_contiguous_range<R2>::value
+		>
+	>
 	BKSGE_CONSTEXPR auto data() const
-	->decltype(ranges::data(*m_r))
-		BKSGE_REQUIRES(ranges::contiguous_range<Range>)
+	->decltype(ranges::data(bksge::declval<R2 const&>()))
 	{
 		return ranges::data(*m_r);
 	}
