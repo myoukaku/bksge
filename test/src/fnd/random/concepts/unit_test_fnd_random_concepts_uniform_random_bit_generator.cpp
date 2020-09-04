@@ -7,6 +7,7 @@
  */
 
 #include <bksge/fnd/random/concepts/uniform_random_bit_generator.hpp>
+#include <bksge/fnd/random/engines/xorshift.hpp>
 #include <bksge/fnd/config.hpp>
 
 BKSGE_WARNING_PUSH();
@@ -25,6 +26,14 @@ namespace bksge_random_test
 
 namespace uniform_random_bit_generator_test
 {
+
+BKSGE_UNIFORM_RANDOM_BIT_GENERATOR_TEST(true, bksge::xorshift32);
+BKSGE_UNIFORM_RANDOM_BIT_GENERATOR_TEST(true, bksge::xorshift64);
+BKSGE_UNIFORM_RANDOM_BIT_GENERATOR_TEST(true, bksge::xorshift128);
+BKSGE_UNIFORM_RANDOM_BIT_GENERATOR_TEST(true, bksge::xorwow);
+BKSGE_UNIFORM_RANDOM_BIT_GENERATOR_TEST(true, bksge::xorshift64star);
+BKSGE_UNIFORM_RANDOM_BIT_GENERATOR_TEST(true, bksge::xorshift1024star);
+BKSGE_UNIFORM_RANDOM_BIT_GENERATOR_TEST(true, bksge::xorshift128plus);
 
 struct G1
 {

@@ -90,6 +90,7 @@
 #include <bksge/fnd/algorithm/ranges/set_intersection.hpp>
 #include <bksge/fnd/algorithm/ranges/set_symmetric_difference.hpp>
 #include <bksge/fnd/algorithm/ranges/set_union.hpp>
+#include <bksge/fnd/algorithm/ranges/shuffle.hpp>
 #include <bksge/fnd/algorithm/ranges/sort.hpp>
 #include <bksge/fnd/algorithm/ranges/sort_heap.hpp>
 #include <bksge/fnd/algorithm/ranges/stable_partition.hpp>
