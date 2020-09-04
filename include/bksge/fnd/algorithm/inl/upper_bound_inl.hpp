@@ -10,51 +10,15 @@
 #define BKSGE_FND_ALGORITHM_INL_UPPER_BOUND_INL_HPP
 
 #include <bksge/fnd/algorithm/upper_bound.hpp>
-#include <bksge/fnd/iterator/distance.hpp>
-#include <bksge/fnd/iterator/advance.hpp>
+#include <bksge/fnd/algorithm/detail/upper_bound.hpp>
 #include <bksge/fnd/functional/less.hpp>
-#include <bksge/fnd/type_traits/add_lvalue_reference.hpp>
+#include <bksge/fnd/config.hpp>
 
 namespace bksge
 {
 
 namespace algorithm
 {
-
-namespace detail
-{
-
-template <typename Compare, typename ForwardIterator, typename T>
-inline BKSGE_CXX14_CONSTEXPR ForwardIterator
-upper_bound(
-	ForwardIterator first,
-	ForwardIterator last,
-	T const& value,
-	Compare comp)
-{
-	auto len = bksge::distance(first, last);
-
-	while (len != 0)
-	{
-		auto l2 = len / 2;
-		auto m = first;
-		bksge::advance(m, l2);
-
-		if (comp(value, *m))
-		{
-			len = l2;
-		}
-		else
-		{
-			first = ++m;
-			len -= l2 + 1;
-		}
-	}
-
-	return first;
-}
-
-}	// namespace detail
 
 template <typename ForwardIterator, typename T>
 inline BKSGE_CXX14_CONSTEXPR ForwardIterator
@@ -79,8 +43,7 @@ upper_bound(
 	T const& value,
 	Compare comp)
 {
-	using CompRef = bksge::add_lvalue_reference_t<Compare>;
-	return detail::upper_bound<CompRef>(first, last, value, comp);
+	return detail::upper_bound(first, last, value, comp);
 }
 
 }	// namespace algorithm

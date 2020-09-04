@@ -59,8 +59,8 @@ equal_range(
 		{
 			auto mp1 = m;
 			return std::make_pair(
-				detail::lower_bound<Compare>(first, m, value, comp),
-				detail::upper_bound<Compare>(++mp1, last, value, comp));
+				detail::lower_bound(first, m, value, comp),
+				detail::upper_bound(++mp1, last, value, comp));
 		}
 	}
 

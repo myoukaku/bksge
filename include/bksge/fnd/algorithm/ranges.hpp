@@ -92,6 +92,7 @@
 #include <bksge/fnd/algorithm/ranges/set_union.hpp>
 #include <bksge/fnd/algorithm/ranges/sort.hpp>
 #include <bksge/fnd/algorithm/ranges/sort_heap.hpp>
+#include <bksge/fnd/algorithm/ranges/stable_sort.hpp>
 #include <bksge/fnd/algorithm/ranges/swap_ranges.hpp>
 #include <bksge/fnd/algorithm/ranges/transform.hpp>
 #include <bksge/fnd/algorithm/ranges/unique.hpp>

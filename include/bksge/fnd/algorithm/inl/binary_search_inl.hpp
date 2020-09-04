@@ -32,7 +32,7 @@ binary_search(
 	T const& value,
 	Compare comp)
 {
-	first = detail::lower_bound<Compare>(first, last, value, comp);
+	first = detail::lower_bound(first, last, value, comp);
 	return first != last && !comp(value, *first);
 }
 
