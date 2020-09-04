@@ -11,6 +11,7 @@
 
 #include <bksge/fnd/functional/invoke.hpp>
 #include <bksge/fnd/utility/forward.hpp>
+#include <bksge/fnd/config.hpp>
 
 namespace bksge
 {
