@@ -43,7 +43,7 @@ using derived_from =
 	>;
 
 template <typename Derived, typename Base>
-using is_derived_from = bksge::bool_constant<derived_from<Derived, Base>::value>;
+using is_derived_from = derived_from<Derived, Base>;
 
 #endif
 
