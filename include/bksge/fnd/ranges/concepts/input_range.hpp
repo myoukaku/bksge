@@ -13,6 +13,7 @@
 #include <bksge/fnd/ranges/iterator_t.hpp>
 #include <bksge/fnd/iterator/concepts/input_iterator.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -27,6 +28,9 @@ template <typename T>
 concept input_range =
 	ranges::range<T> &&
 	bksge::input_iterator<ranges::iterator_t<T>>;
+
+template <typename T>
+using is_input_range = bksge::bool_constant<input_range<T>>;
 
 #else
 
@@ -49,6 +53,9 @@ public:
 
 template <typename T>
 using input_range = typename input_range_impl<T>::type;
+
+template <typename T>
+using is_input_range = input_range<T>;
 
 #endif
 
