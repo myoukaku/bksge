@@ -28,6 +28,9 @@ concept random_access_range =
 	ranges::bidirectional_range<T> &&
 	bksge::random_access_iterator<ranges::iterator_t<T>>;
 
+template <typename T>
+using is_random_access_range = bksge::bool_constant<random_access_range<T>>;
+
 #else
 
 template <typename T>
@@ -49,6 +52,9 @@ public:
 
 template <typename T>
 using random_access_range = typename random_access_range_impl<T>::type;
+
+template <typename T>
+using is_random_access_range = random_access_range<T>;
 
 #endif
 
