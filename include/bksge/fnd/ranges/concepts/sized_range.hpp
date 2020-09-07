@@ -54,7 +54,7 @@ template <typename T>
 using sized_range = typename sized_range_impl<T>::type;
 
 template <typename T>
-using is_sized_range = bksge::bool_constant<sized_range<T>::value>;
+using is_sized_range = sized_range<T>;
 
 #endif
 
