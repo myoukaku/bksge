@@ -14,6 +14,7 @@
 #include <bksge/fnd/ranges/sentinel_t.hpp>
 #include <bksge/fnd/concepts/same_as.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -28,6 +29,9 @@ template <typename T>
 concept common_range =
 	ranges::range<T> &&
 	bksge::same_as<ranges::iterator_t<T>, ranges::sentinel_t<T>>;
+
+template <typename T>
+using is_common_range = bksge::bool_constant<common_range<T>>;
 
 #else
 
@@ -50,6 +54,9 @@ public:
 
 template <typename T>
 using common_range = typename common_range_impl<T>::type;
+
+template <typename T>
+using is_common_range = common_range<T>;
 
 #endif
 
