@@ -13,6 +13,7 @@
 #include <bksge/fnd/ranges/iterator_t.hpp>
 #include <bksge/fnd/iterator/concepts/bidirectional_iterator.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -27,6 +28,9 @@ template <typename T>
 concept bidirectional_range =
 	ranges::forward_range<T> &&
 	bksge::bidirectional_iterator<ranges::iterator_t<T>>;
+
+template <typename T>
+using is_bidirectional_range = bksge::bool_constant<bidirectional_range<T>>;
 
 #else
 
@@ -49,6 +53,9 @@ public:
 
 template <typename T>
 using bidirectional_range = typename bidirectional_range_impl<T>::type;
+
+template <typename T>
+using is_bidirectional_range = bidirectional_range<T>;
 
 #endif
 
