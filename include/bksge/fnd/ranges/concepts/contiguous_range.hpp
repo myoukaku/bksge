@@ -16,6 +16,7 @@
 #include <bksge/fnd/concepts/same_as.hpp>
 #include <bksge/fnd/iterator/concepts/contiguous_iterator.hpp>
 #include <bksge/fnd/type_traits/add_pointer.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
@@ -36,6 +37,9 @@ concept contiguous_range =
 	{
 		{ ranges::data(t) } -> bksge::same_as<bksge::add_pointer_t<ranges::range_reference_t<T>>>;
 	};
+
+template <typename T>
+using is_contiguous_range = bksge::bool_constant<contiguous_range<T>>;
 
 #else
 
@@ -59,6 +63,9 @@ public:
 
 template <typename T>
 using contiguous_range = typename contiguous_range_impl<T>::type;
+
+template <typename T>
+using is_contiguous_range = contiguous_range<T>;
 
 #endif
 
