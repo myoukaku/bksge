@@ -10,6 +10,7 @@
 #define BKSGE_FND_CONCEPTS_REGULAR_INVOCABLE_HPP
 
 #include <bksge/fnd/concepts/invocable.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -20,10 +21,16 @@ namespace bksge
 template <typename Fn, typename... Args>
 concept regular_invocable = bksge::invocable<Fn, Args...>;
 
+template <typename Fn, typename... Args>
+using is_regular_invocable = bksge::bool_constant<regular_invocable<Fn, Args...>>;
+
 #else
 
 template <typename Fn, typename... Args>
 using regular_invocable = bksge::invocable<Fn, Args...>;
+
+template <typename Fn, typename... Args>
+using is_regular_invocable = regular_invocable<Fn, Args...>;
 
 #endif
 
