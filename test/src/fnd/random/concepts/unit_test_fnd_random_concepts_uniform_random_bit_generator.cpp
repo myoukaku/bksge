@@ -134,7 +134,7 @@ BKSGE_UNIFORM_RANDOM_BIT_GENERATOR_TEST(false, unsigned(*)());
 struct N1
 {
   unsigned operator()();
-  constexpr unsigned min() { return 0; } // non-static
+  constexpr unsigned min() const { return 0; } // non-static
   static constexpr unsigned max() { return 1; }
 };
 
@@ -144,7 +144,7 @@ struct N2
 {
   unsigned operator()();
   static constexpr unsigned min() { return 0; }
-  constexpr unsigned max() { return 1; } // non-static
+  constexpr unsigned max() const { return 1; } // non-static
 };
 
 BKSGE_UNIFORM_RANDOM_BIT_GENERATOR_TEST(false, N2);
