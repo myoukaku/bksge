@@ -13,6 +13,7 @@
 #include <bksge/fnd/concepts/detail/weakly_eq_cmp_with.hpp>
 #include <bksge/fnd/iterator/concepts/input_or_output_iterator.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -25,6 +26,9 @@ concept sentinel_for =
 	bksge::semiregular<Sent> &&
 	bksge::input_or_output_iterator<Iter> &&
 	bksge::detail::weakly_eq_cmp_with<Sent, Iter>;
+
+template <typename Sent, typename Iter>
+using is_sentinel_for = bksge::bool_constant<sentinel_for<Sent, Iter>>;
 
 #else
 
@@ -54,6 +58,9 @@ public:
 template <typename Sent, typename Iter>
 using sentinel_for =
 	typename detail::sentinel_for_impl<Sent, Iter>::type;
+
+template <typename Sent, typename Iter>
+using is_sentinel_for = sentinel_for<Sent, Iter>;
 
 #endif
 
