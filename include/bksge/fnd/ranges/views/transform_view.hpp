@@ -239,12 +239,14 @@ private:
 			return lhs.m_current == rhs.m_current;
 		}
 
+#if !defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
 		template <BKSGE_REQUIRES_PARAM_D(bksge::equality_comparable, B2, BaseIter)>
 		friend BKSGE_CONSTEXPR bool
 		operator!=(Iterator const& lhs, Iterator const& rhs)
 		{
 			return !(lhs == rhs);
 		}
+#endif
 
 		template <BKSGE_REQUIRES_PARAM_D(ranges::random_access_range, B2, Base)>
 		friend BKSGE_CONSTEXPR bool
@@ -403,6 +405,7 @@ private:
 			return lhs.equal(rhs);
 		}
 
+#if !defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
 		template <bool Const2, typename = bksge::enable_if_t<IsSentinelFor<Const2>::value>>
 		friend BKSGE_CONSTEXPR bool
 		operator!=(Sentinel const& lhs, Iterator<Const2> const& rhs)
@@ -423,6 +426,7 @@ private:
 		{
 			return !(lhs == rhs);
 		}
+#endif
 
 	private:
 		template <typename Base2>

@@ -210,12 +210,14 @@ private:
 			return lhs.m_current == rhs.m_current;
 		}
 
+#if !defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
 		friend BKSGE_CONSTEXPR bool
 		operator!=(Iterator const& lhs, Iterator const& rhs)
 			BKSGE_REQUIRES(bksge::equality_comparable<v_iter>)
 		{
 			return !(lhs == rhs);
 		}
+#endif
 
 #if 0
 		friend BKSGE_CONSTEXPR ranges::range_rvalue_reference_t<V>
@@ -264,6 +266,7 @@ private:
 			return rhs.equal(lhs);
 		}
 
+#if !defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
 		friend BKSGE_CONSTEXPR bool
 		operator!=(Iterator const& lhs, const Sentinel& rhs)
 		{
@@ -281,6 +284,7 @@ private:
 		{
 			return !(lhs == rhs);
 		}
+#endif
 	};
 
 	V m_base = {};

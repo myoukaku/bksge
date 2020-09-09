@@ -48,8 +48,8 @@ private:
 	template <typename U>
 	static auto test(int) -> bksge::conjunction<
 		bksge::incrementable<U>,
-		bksge::same_as<decltype(--bksge::declval<U>()), U&>,
-		bksge::same_as<decltype(bksge::declval<U>()--), U>
+		bksge::same_as<decltype(--bksge::declval<U&>()), U&>,
+		bksge::same_as<decltype(bksge::declval<U&>()--), U>
 	>;
 
 	template <typename U>

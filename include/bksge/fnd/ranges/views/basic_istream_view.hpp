@@ -121,11 +121,13 @@ private:
 			return lhs.at_end();
 		}
 
+#if !defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
 		friend bool
 		operator!=(Iterator const& lhs, bksge::default_sentinel_t rhs)
 		{
 			return !(lhs == rhs);
 		}
+#endif
 
 	private:
 		basic_istream_view* m_parent = nullptr;

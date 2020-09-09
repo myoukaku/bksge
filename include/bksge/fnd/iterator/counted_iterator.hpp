@@ -268,6 +268,13 @@ public:
 		return lhs.m_length == rhs.m_length;
 	}
 
+	friend BKSGE_CONSTEXPR bool
+	operator==(counted_iterator const& lhs, bksge::default_sentinel_t)
+	{
+		return lhs.m_length == 0;
+	}
+
+#if !defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
 	template <BKSGE_REQUIRES_PARAM_2(bksge::common_with, It, It2)>
 	friend BKSGE_CONSTEXPR bool
 	operator!=(counted_iterator const& lhs, counted_iterator<It2> const& rhs)
@@ -276,20 +283,27 @@ public:
 	}
 
 	friend BKSGE_CONSTEXPR bool
-	operator==(counted_iterator const& lhs, bksge::default_sentinel_t)
-	{
-		return lhs.m_length == 0;
-	}
-
-	friend BKSGE_CONSTEXPR bool
 	operator!=(counted_iterator const& lhs, bksge::default_sentinel_t rhs)
 	{
 		return !(lhs == rhs);
 	}
 
+	friend BKSGE_CONSTEXPR bool
+	operator==(bksge::default_sentinel_t lhs, counted_iterator const& rhs)
+	{
+		return rhs == lhs;
+	}
+
+	friend BKSGE_CONSTEXPR bool
+	operator!=(bksge::default_sentinel_t lhs, counted_iterator const& rhs)
+	{
+		return !(lhs == rhs);
+	}
+#endif
+
 #if 0
 	template <bksge::common_with<It> It2>
-	friend BKSGE_CONSTEXPR strong_ordering
+	friend BKSGE_CONSTEXPR std::strong_ordering
 	operator<=>(counted_iterator const& x, counted_iterator<It2> const& y)
 	{
 		return y.m_length <=> x.m_length;

@@ -67,6 +67,7 @@ template <
 class iota_view : public view_interface<iota_view<W, Bound>>
 {
 private:
+public:	// TODO
 	struct Sentinel;
 
 	struct Iterator
@@ -191,11 +192,13 @@ private:
 			return lhs.m_value == rhs.m_value;
 		}
 
+#if !defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
 		friend BKSGE_CONSTEXPR bool operator!=(Iterator const& lhs, Iterator const& rhs)
 			BKSGE_REQUIRES(bksge::equality_comparable<W>)
 		{
 			return !(lhs == rhs);
 		}
+#endif
 
 		friend BKSGE_CONSTEXPR bool operator<(Iterator const& lhs, Iterator const& rhs)
 			BKSGE_REQUIRES(bksge::totally_ordered<W>)
@@ -321,11 +324,25 @@ private:
 			return rhs.equal(lhs);
 		}
 
+#if !defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
 		friend BKSGE_CONSTEXPR bool
 		operator!=(Iterator const& lhs, Sentinel const& rhs)
 		{
 			return !(lhs == rhs);
 		}
+
+		friend BKSGE_CONSTEXPR bool
+		operator==(Sentinel const& lhs, Iterator const& rhs)
+		{
+			return rhs == lhs;
+		}
+
+		friend BKSGE_CONSTEXPR bool
+		operator!=(Sentinel const& lhs, Iterator const& rhs)
+		{
+			return !(lhs == rhs);
+		}
+#endif
 
 		friend BKSGE_CONSTEXPR bksge::iter_difference_t<W>
 		operator-(Iterator const& lhs, Sentinel const& rhs)

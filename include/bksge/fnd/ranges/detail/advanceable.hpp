@@ -57,8 +57,8 @@ private:
 	static auto test(int) -> bksge::conjunction<
 		detail::decrementable<U>,
 		bksge::totally_ordered<U>,
-		bksge::same_as<decltype(bksge::declval<U>() += bksge::declval<D const>()), U&>,
-		bksge::same_as<decltype(bksge::declval<U>() -= bksge::declval<D const>()), U&>,
+		bksge::same_as<decltype(bksge::declval<U&>() += bksge::declval<D const>()), U&>,
+		bksge::same_as<decltype(bksge::declval<U&>() -= bksge::declval<D const>()), U&>,
 		//U(bksge::declval<U const>() + bksge::declval<D const>()),
 		//U(bksge::declval<D const>() + bksge::declval<U const>()),
 		//U(bksge::declval<U const>() - bksge::declval<D const>()),

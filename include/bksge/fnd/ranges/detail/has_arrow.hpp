@@ -39,7 +39,7 @@ template <typename It>
 struct has_arrow_impl
 {
 private:
-	template <typename U, typename = decltype(bksge::declval<U>().operator->())>
+	template <typename U, typename = decltype(bksge::declval<U&>().operator->())>
 	static auto test(int) -> bksge::true_type;
 
 	template <typename U>

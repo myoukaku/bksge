@@ -13,6 +13,7 @@
 #include <bksge/fnd/ranges/size.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/type_traits/negation.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
 
@@ -28,6 +29,9 @@ template <typename T>
 concept sized_range =
 	ranges::range<T> &&
 	requires(T& t) { ranges::size(t); };
+
+template <typename T>
+concept not_sized_range = !sized_range<T>;
 
 template <typename T>
 using is_sized_range = bksge::bool_constant<sized_range<T>>;
@@ -52,6 +56,9 @@ public:
 
 template <typename T>
 using sized_range = typename sized_range_impl<T>::type;
+
+template <typename T>
+using not_sized_range = bksge::negation<sized_range<T>>;
 
 template <typename T>
 using is_sized_range = sized_range<T>;

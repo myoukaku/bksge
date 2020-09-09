@@ -12,6 +12,7 @@
 #include <bksge/fnd/iterator/concepts/weakly_incrementable.hpp>
 #include <bksge/fnd/iterator/concepts/detail/can_reference.hpp>
 #include <bksge/fnd/iterator/concepts/detail/is_void_pointer.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
@@ -25,6 +26,9 @@ template <typename Iter>
 concept input_or_output_iterator =
 	requires(Iter i) { { *i } -> bksge::detail::can_reference; } &&
 	bksge::weakly_incrementable<Iter>;
+
+template <typename Iter>
+using is_input_or_output_iterator = bksge::bool_constant<input_or_output_iterator<Iter>>;
 
 #else
 
@@ -53,6 +57,9 @@ public:
 template <typename Iter>
 using input_or_output_iterator =
 	typename detail::input_or_output_iterator_impl<Iter>::type;
+
+template <typename Iter>
+using is_input_or_output_iterator = input_or_output_iterator<Iter>;
 
 #endif
 

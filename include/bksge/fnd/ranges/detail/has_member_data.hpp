@@ -44,7 +44,7 @@ template <typename T>
 struct has_member_data_impl
 {
 private:
-	template <typename U, typename P = decltype(bksge::declval<U>().data())>
+	template <typename U, typename P = decltype(bksge::declval<U&>().data())>
 	static auto test(int) -> bksge::conjunction<
 		bksge::is_lvalue_reference<U>,
 		bksge::is_pointer<P>,
