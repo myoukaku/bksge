@@ -15,6 +15,7 @@
 #include <bksge/fnd/iterator/concepts/detail/iter_concept.hpp>
 #include <bksge/fnd/iterator/tag.hpp>
 #include <bksge/fnd/concepts/derived_from.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/config.hpp>
 
@@ -29,6 +30,9 @@ concept forward_iterator =
 	bksge::derived_from<bksge::detail::iter_concept<Iter>, bksge::forward_iterator_tag> &&
 	bksge::incrementable<Iter> &&
 	bksge::sentinel_for<Iter, Iter>;
+
+template <typename Iter>
+using is_forward_iterator = bksge::bool_constant<forward_iterator<Iter>>;
 
 #else
 
@@ -59,6 +63,9 @@ public:
 template <typename Iter>
 using forward_iterator =
 	typename detail::forward_iterator_impl<Iter>::type;
+
+template <typename Iter>
+using is_forward_iterator = forward_iterator<Iter>;
 
 #endif
 
