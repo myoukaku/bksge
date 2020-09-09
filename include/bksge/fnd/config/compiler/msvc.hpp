@@ -393,7 +393,7 @@
 #if (_MSC_FULL_VER >= 191627042)
 #endif
 
-// Visual Studio 2017 Update 9 (15.9.26) (Visual C++ 14.16)
+// Visual Studio 2017 Update 9 (15.9.(26-27)) (Visual C++ 14.16)
 #if (_MSC_FULL_VER >= 191627043)
 #endif
 
@@ -503,7 +503,7 @@
 #if (_MSC_FULL_VER >= 192729110)
 #endif
 
-// Visual Studio 2019 version 16.7.(1-2)
+// Visual Studio 2019 version 16.7.(1-3)
 #if (_MSC_FULL_VER >= 192729111)
 #endif
 
