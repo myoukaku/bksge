@@ -14,6 +14,7 @@
 #include <bksge/fnd/concepts/movable.hpp>
 #include <bksge/fnd/concepts/same_as.hpp>
 #include <bksge/fnd/ranges/detail/signed_integer_like.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
 
@@ -33,6 +34,9 @@ concept weakly_incrementable =
 		{ ++i } -> bksge::same_as<Iter&>;
 		i++;
 	};
+
+template <typename Iter>
+using is_weakly_incrementable = bksge::bool_constant<weakly_incrementable<Iter>>;
 
 #else
 
@@ -63,6 +67,9 @@ public:
 template <typename Iter>
 using weakly_incrementable =
 	typename detail::weakly_incrementable_impl<Iter>::type;
+
+template <typename Iter>
+using is_weakly_incrementable = weakly_incrementable<Iter>;
 
 #endif
 

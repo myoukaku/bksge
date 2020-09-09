@@ -68,7 +68,7 @@ struct input_iterator_wrapper
 	using difference_type   = std::ptrdiff_t;
 	using reference         = T&;
 	BKSGE_CXX14_CONSTEXPR input_iterator_wrapper& operator++() { ++m_ptr; return *this; }
-	BKSGE_CXX14_CONSTEXPR void                    operator++(int);
+	BKSGE_CXX14_CONSTEXPR void                    operator++(int) { ++m_ptr; }
 	BKSGE_CXX14_CONSTEXPR T&                      operator*() const { return *m_ptr; }
 	BKSGE_CXX14_CONSTEXPR bool operator==(const input_iterator_wrapper& rhs) const { return m_ptr == rhs.m_ptr; }
 	BKSGE_CXX14_CONSTEXPR bool operator!=(const input_iterator_wrapper& rhs) const { return !(*this == rhs); }

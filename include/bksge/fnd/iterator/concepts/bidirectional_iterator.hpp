@@ -14,6 +14,7 @@
 #include <bksge/fnd/iterator/tag.hpp>
 #include <bksge/fnd/concepts/derived_from.hpp>
 #include <bksge/fnd/concepts/same_as.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
@@ -32,6 +33,9 @@ concept bidirectional_iterator =
 		{ --i } -> bksge::same_as<Iter&>;
 		{ i-- } -> bksge::same_as<Iter>;
 	};
+
+template <typename Iter>
+using is_bidirectional_iterator = bksge::bool_constant<bidirectional_iterator<Iter>>;
 
 #else
 
@@ -62,6 +66,9 @@ public:
 template <typename Iter>
 using bidirectional_iterator =
 	typename detail::bidirectional_iterator_impl<Iter>::type;
+
+template <typename Iter>
+using is_bidirectional_iterator = bidirectional_iterator<Iter>;
 
 #endif
 

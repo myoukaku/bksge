@@ -32,8 +32,6 @@ namespace bksge
 namespace detail
 {
 
-//template <typename T> struct always_false { static const bool value = false; };
-
 template <typename Iterator, typename = void>
 struct iterator_traits_base {};
 
@@ -48,12 +46,9 @@ struct iterator_traits_base<Iterator
 >
 {
 private:
-	//static_assert(always_false<Iterator>::value, "iter_with_nested_types");
-
 	template <typename Iter, typename = void>
 	struct ptr
 	{
-		//static_assert(always_false<Iter>::value, "iter_with_nested_types::pointer = void");
 		using type = void;
 	};
 
@@ -67,7 +62,6 @@ private:
 #endif
 	>
 	{
-		//static_assert(always_false<Iter>::value, "iter_with_nested_types::pointer = Iter::pointer");
 		using type = typename Iter::pointer;
 	};
 
@@ -95,12 +89,9 @@ struct iterator_traits_base<Iterator
 >
 {
 private:
-	//static_assert(always_false<Iterator>::value, "cpp17_input_iterator");
-
 	template <typename Iter, typename = void>
 	struct cat
 	{
-		//static_assert(always_false<Iter>::value, "cpp17_input_iterator::category = input_iterator_tag");
 		using type = bksge::input_iterator_tag;
 	};
 
@@ -114,7 +105,6 @@ private:
 #endif
 	>
 	{
-		//static_assert(always_false<Iter>::value, "cpp17_input_iterator::category = Iter::iterator_category");
 		using type = typename Iter::iterator_category;
 	};
 
@@ -134,7 +124,6 @@ private:
 #endif
 	>
 	{
-		//static_assert(always_false<Iter>::value, "cpp17_input_iterator::category = random_access_iterator_tag");
 		using type = bksge::random_access_iterator_tag;
 	};
 
@@ -156,7 +145,6 @@ private:
 #endif
 	>
 	{
-		//static_assert(always_false<Iter>::value, "cpp17_input_iterator::category = bidirectional_iterator_tag");
 		using type = bksge::bidirectional_iterator_tag;
 	};
 
@@ -178,14 +166,12 @@ private:
 #endif
 	>
 	{
-		//static_assert(always_false<Iter>::value, "cpp17_input_iterator::category = forward_iterator_tag");
 		using type = bksge::forward_iterator_tag;
 	};
 
 	template <typename Iter, typename = void, typename = void>
 	struct ptr
 	{
-		//static_assert(always_false<Iter>::value, "cpp17_input_iterator::pointer = void");
 		using type = void;
 	};
 
@@ -201,7 +187,6 @@ private:
 #endif
 	>
 	{
-		//static_assert(always_false<Iter>::value, "cpp17_input_iterator::pointer = Iter::pointer");
 		using type = typename Iter::pointer;
 	};
 
@@ -221,14 +206,12 @@ private:
 #endif
 	>
 	{
-		//static_assert(always_false<Iter>::value, "cpp17_input_iterator::pointer = decltype(operator->())");
 		using type = decltype(bksge::declval<Iter&>().operator->());
 	};
 
 	template <typename Iter, typename = void>
 	struct ref
 	{
-		//static_assert(always_false<Iter>::value, "cpp17_input_iterator::reference = iter_reference_t<Iter>");
 		using type = bksge::iter_reference_t<Iter>;
 	};
 
@@ -242,7 +225,6 @@ private:
 #endif
 	>
 	{
-		//static_assert(always_false<Iter>::value, "cpp17_input_iterator::reference = Iter::reference");
 		using type = typename Iter::reference;
 	};
 
@@ -271,12 +253,9 @@ struct iterator_traits_base<Iterator
 >
 {
 private:
-	//static_assert(always_false<Iterator>::value, "cpp17_iterator");
-
 	template <typename Iter, typename = void>
 	struct diff
 	{
-		//static_assert(always_false<Iter>::value, "cpp17_iterator::difference_type = void");
 		using type = void;
 	};
 
@@ -290,7 +269,6 @@ private:
 #endif
 	>
 	{
-		//static_assert(always_false<Iter>::value, "cpp17_iterator::difference_type = incrementable_traits::difference_type");
 		using type = typename bksge::incrementable_traits<Iter>::difference_type;
 	};
 

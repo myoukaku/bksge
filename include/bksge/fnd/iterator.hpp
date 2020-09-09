@@ -14,6 +14,7 @@
 #include <bksge/fnd/iterator/cbegin.hpp>
 #include <bksge/fnd/iterator/cend.hpp>
 #include <bksge/fnd/iterator/concepts.hpp>
+#include <bksge/fnd/iterator/counted_iterator.hpp>
 #include <bksge/fnd/iterator/crbegin.hpp>
 #include <bksge/fnd/iterator/crend.hpp>
 #include <bksge/fnd/iterator/data.hpp>
