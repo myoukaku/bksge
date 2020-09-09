@@ -28,6 +28,9 @@ concept convertible_to =
 		static_cast<To>(f());
 	};
 
+template <typename From, typename To>
+using is_convertible_to = bksge::bool_constant<convertible_to<From, To>>;
+
 #else
 
 namespace detail
@@ -55,6 +58,9 @@ public:
 template <typename From, typename To>
 using convertible_to =
 	typename detail::convertible_to_impl<From, To>::type;
+
+template <typename From, typename To>
+using is_convertible_to = convertible_to<From, To>;
 
 #endif
 
