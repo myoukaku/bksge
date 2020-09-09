@@ -13,7 +13,7 @@
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
 
-namespace
+namespace bksge_iterator_test
 {
 
 template <typename T>
@@ -181,6 +181,8 @@ template <typename T>
 BKSGE_CXX14_CONSTEXPR contiguous_iterator_wrapper<T>
 operator+(std::ptrdiff_t, contiguous_iterator_wrapper<T> const&);
 
-}	// namespace
+}	// namespace bksge_iterator_test
+
+using namespace bksge_iterator_test;
 
 #endif // UNIT_TEST_ITERATOR_TEST_HPP
