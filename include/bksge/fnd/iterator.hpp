@@ -42,6 +42,7 @@
 #include <bksge/fnd/iterator/rend.hpp>
 #include <bksge/fnd/iterator/reverse_iterator.hpp>
 #include <bksge/fnd/iterator/size.hpp>
+#include <bksge/fnd/iterator/ssize.hpp>
 #include <bksge/fnd/iterator/tag.hpp>
 #include <bksge/fnd/iterator/unreachable_sentinel.hpp>
 #include <bksge/fnd/iterator/unwrap_iterator.hpp>
