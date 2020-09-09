@@ -18,6 +18,7 @@
 #include <bksge/fnd/concepts/derived_from.hpp>
 #include <bksge/fnd/concepts/totally_ordered.hpp>
 #include <bksge/fnd/concepts/same_as.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
@@ -42,6 +43,9 @@ concept random_access_iterator =
 		{ j -  n } -> bksge::same_as<Iter>;
 		{  j[n]  } -> bksge::same_as<bksge::iter_reference_t<Iter>>;
 	};
+
+template <typename Iter>
+using is_random_access_iterator = bksge::bool_constant<random_access_iterator<Iter>>;
 
 #else
 
@@ -78,6 +82,9 @@ public:
 template <typename Iter>
 using random_access_iterator =
 	typename detail::random_access_iterator_impl<Iter>::type;
+
+template <typename Iter>
+using is_random_access_iterator = random_access_iterator<Iter>;
 
 #endif
 
