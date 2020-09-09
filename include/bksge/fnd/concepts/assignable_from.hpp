@@ -32,6 +32,9 @@ concept assignable_from =
 		{ lhs = bksge::forward<Rhs>(rhs) } -> bksge::same_as<Lhs>;
 	};
 
+template <typename Lhs, typename Rhs>
+using is_assignable_from = bksge::bool_constant<assignable_from<Lhs, Rhs>>;
+
 #else
 
 namespace detail
@@ -60,6 +63,9 @@ public:
 template <typename Lhs, typename Rhs>
 using assignable_from =
 	typename detail::assignable_from_impl<Lhs, Rhs>::type;
+
+template <typename Lhs, typename Rhs>
+using is_assignable_from = assignable_from<Lhs, Rhs>;
 
 #endif
 
