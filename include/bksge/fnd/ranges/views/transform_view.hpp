@@ -143,10 +143,14 @@ private:
 			, m_parent(bksge::addressof(parent))
 		{}
 
+		template <bool C2 = Const,
+			typename = bksge::enable_if_t<
+				C2 &&
+				bksge::is_convertible_to<ranges::iterator_t<V>, BaseIter>::value>>
 		BKSGE_CONSTEXPR
 		Iterator(Iterator<!Const> i)
-			BKSGE_REQUIRES(Const &&
-				bksge::convertible_to<ranges::iterator_t<V>, BaseIter>)
+			//BKSGE_REQUIRES(Const &&
+			//	bksge::convertible_to<ranges::iterator_t<V>, BaseIter>)
 			: m_current(bksge::move(i.m_current))
 			, m_parent(i.m_parent)
 		{}
@@ -375,12 +379,18 @@ private:
 			: m_end(end)
 		{}
 
+		template <bool C2 = Const,
+			typename = bksge::enable_if_t<
+				C2 &&
+				bksge::is_convertible_to<
+					ranges::sentinel_t<V>,
+					ranges::sentinel_t<Base>>::value>>
 		BKSGE_CONSTEXPR
 		Sentinel(Sentinel<!Const> i)
-			BKSGE_REQUIRES(Const &&
-				bksge::convertible_to<
-					ranges::sentinel_t<V>,
-					ranges::sentinel_t<Base>>)
+			//BKSGE_REQUIRES(Const &&
+			//	bksge::convertible_to<
+			//		ranges::sentinel_t<V>,
+			//		ranges::sentinel_t<Base>>)
 			: m_end(bksge::move(i.m_end))
 		{}
 
@@ -495,10 +505,16 @@ public:
 		return Iterator<false>{*this, ranges::begin(m_base)};
 	}
 
+	template <typename V2 = V,
+		typename = bksge::enable_if_t<
+			ranges::is_range<V2 const>::value &&
+			bksge::is_regular_invocable<F const&, ranges::range_reference_t<V2 const>>::value
+		>
+	>
 	BKSGE_CONSTEXPR Iterator<true> begin() const
-		BKSGE_REQUIRES(
-			ranges::range<V const> &&
-			bksge::regular_invocable<F const&, ranges::range_reference_t<V const>>)
+		//BKSGE_REQUIRES(
+		//	ranges::range<V const> &&
+		//	bksge::regular_invocable<F const&, ranges::range_reference_t<V const>>)
 	{
 		return Iterator<true>{*this, ranges::begin(m_base)};
 	}

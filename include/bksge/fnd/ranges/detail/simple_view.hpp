@@ -38,6 +38,9 @@ concept simple_view =
 	bksge::same_as<ranges::sentinel_t<Range>, ranges::sentinel_t<Range const>>;
 
 template <typename Range>
+using is_simple_view = bksge::bool_constant<simple_view<Range>>;
+
+template <typename Range>
 concept not_simple_view = !simple_view<Range>;
 
 #else
@@ -63,6 +66,9 @@ public:
 
 template <typename Range>
 using simple_view = typename simple_view_impl<Range>::type;
+
+template <typename Range>
+using is_simple_view = simple_view<Range>;
 
 template <typename Range>
 using not_simple_view = bksge::negation<simple_view<Range>>;
