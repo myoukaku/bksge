@@ -119,7 +119,7 @@ private:
 		using value_type        = ranges::range_value_t<V>;
 		using difference_type   = ranges::range_difference_t<V>;
 
-		Iterator() = default;
+		BKSGE_CONSTEXPR Iterator() = default;
 
 		BKSGE_CONSTEXPR
 		Iterator(filter_view& parent, v_iter current)
@@ -248,7 +248,7 @@ private:
 		}
 
 	public:
-		Sentinel() = default;
+		BKSGE_CONSTEXPR Sentinel() = default;
 
 		BKSGE_CONSTEXPR explicit
 		Sentinel(filter_view& parent)
@@ -293,7 +293,7 @@ private:
 	BKSGE_NO_UNIQUE_ADDRESS ranges::detail::cached_position<V> m_cached_begin;
 
 public:
-	filter_view() = default;
+	BKSGE_CONSTEXPR filter_view() = default;
 
 	BKSGE_CONSTEXPR
 	filter_view(V base, Pred pred)

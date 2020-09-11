@@ -20,6 +20,7 @@
 #include <bksge/fnd/ranges/views/subrange.hpp>
 #include <bksge/fnd/ranges/views/subrange_kind.hpp>
 #include <bksge/fnd/ranges/views/take_view.hpp>
+#include <bksge/fnd/ranges/views/take_while_view.hpp>
 #include <bksge/fnd/ranges/views/transform_view.hpp>
 #include <bksge/fnd/ranges/views/view_base.hpp>
 #include <bksge/fnd/ranges/views/view_interface.hpp>

@@ -16,6 +16,7 @@
 #include <bksge/fnd/ranges/range_difference_t.hpp>
 #include <bksge/fnd/ranges/begin.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/type_traits/conditional.hpp>
 #include <bksge/fnd/assert.hpp>
 
 namespace bksge
@@ -27,23 +28,18 @@ namespace ranges
 namespace detail
 {
 
-template <typename Range, typename = void>
-struct cached_position;
+template <typename Range>
+struct cached_position_impl_0;
 
 template <typename Range>
-struct cached_position<Range,
-	bksge::enable_if_t<
-		!ranges::is_forward_range<Range>::value &&
-		ranges::is_range<Range>::value
-	>
->
+struct cached_position_impl_1
 {
-	constexpr bool has_value() const
+	BKSGE_CONSTEXPR bool has_value() const
 	{
 		return false;
 	}
 
-	constexpr ranges::iterator_t<Range>
+	BKSGE_CONSTEXPR ranges::iterator_t<Range>
 	get(Range const&) const
 	{
 		return
@@ -57,23 +53,18 @@ struct cached_position<Range,
 };
 
 template <typename Range>
-struct cached_position<Range,
-	bksge::enable_if_t<
-		!ranges::is_random_access_range<Range>::value &&
-		ranges::is_forward_range<Range>::value
-	>
->
+struct cached_position_impl_2
 {
 private:
 	ranges::iterator_t<Range> m_iter{};
 
 public:
-	constexpr bool has_value() const
+	BKSGE_CONSTEXPR bool has_value() const
 	{
 		return m_iter != ranges::iterator_t<Range>{};
 	}
 
-	constexpr ranges::iterator_t<Range>
+	BKSGE_CONSTEXPR ranges::iterator_t<Range>
 	get(Range const&) const
 	{
 		return
@@ -90,23 +81,18 @@ public:
 };
 
 template <typename Range>
-struct cached_position<Range,
-	bksge::enable_if_t<
-		ranges::is_random_access_range<Range>::value &&
-		sizeof(ranges::range_difference_t<Range>) <= sizeof(ranges::iterator_t<Range>)
-	>
->
+struct cached_position_impl_3
 {
 private:
 	ranges::range_difference_t<Range> m_offset = -1;
 
 public:
-	constexpr bool has_value() const
+	BKSGE_CONSTEXPR bool has_value() const
 	{
 		return m_offset >= 0;
 	}
 
-	constexpr ranges::iterator_t<Range>
+	BKSGE_CONSTEXPR ranges::iterator_t<Range>
 	get(Range& r) const
 	{
 		return
@@ -121,6 +107,21 @@ public:
 		m_offset = it - ranges::begin(r);
 	}
 };
+
+template <typename Range>
+using cached_position =
+	bksge::conditional_t<
+		ranges::is_random_access_range<Range>::value &&
+		sizeof(ranges::range_difference_t<Range>) <= sizeof(ranges::iterator_t<Range>),
+		cached_position_impl_3<Range>,
+	bksge::conditional_t<
+		ranges::is_forward_range<Range>::value,
+		cached_position_impl_2<Range>,
+	bksge::conditional_t<
+		ranges::is_range<Range>::value,
+		cached_position_impl_1<Range>,
+		cached_position_impl_0<Range>
+	>>>;
 
 }	// namespace detail
 

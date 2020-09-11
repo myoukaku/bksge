@@ -7,6 +7,14 @@
  */
 
 #include <bksge/fnd/ranges/views/iota_view.hpp>
+#include <bksge/fnd/ranges/concepts/view.hpp>
+#include <bksge/fnd/ranges/concepts/range.hpp>
+#include <bksge/fnd/ranges/concepts/sized_range.hpp>
+#include <bksge/fnd/ranges/concepts/common_range.hpp>
+#include <bksge/fnd/ranges/concepts/forward_range.hpp>
+#include <bksge/fnd/ranges/concepts/bidirectional_range.hpp>
+#include <bksge/fnd/ranges/concepts/random_access_range.hpp>
+#include <bksge/fnd/ranges/concepts/contiguous_range.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -46,7 +54,19 @@ inline BKSGE_CXX14_CONSTEXPR bool test01()
 
 inline BKSGE_CXX14_CONSTEXPR bool test02()
 {
-	auto v = bksge::ranges::views::iota(4);
+	namespace ranges = bksge::ranges;
+	namespace views  = ranges::views;
+
+	auto v = views::iota(4);
+
+	using R = decltype(v);
+	static_assert( ranges::is_view<R>::value, "");
+	static_assert( ranges::is_range<R>::value, "");
+	static_assert(!ranges::is_sized_range<R>::value, "");
+	static_assert(!ranges::is_common_range<R>::value, "");
+	static_assert( ranges::is_random_access_range<R>::value, "");
+	static_assert(!ranges::is_contiguous_range<R>::value, "");
+
 	auto it = v.begin();
 	VERIFY(*it == 4);
 	++it;
