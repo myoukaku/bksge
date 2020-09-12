@@ -31,6 +31,7 @@
 #include <bksge/fnd/memory/addressof.hpp>
 #include <bksge/fnd/type_traits/is_object.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
