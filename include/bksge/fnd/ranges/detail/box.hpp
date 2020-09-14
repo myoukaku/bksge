@@ -12,6 +12,8 @@
 #include <bksge/fnd/concepts/copy_constructible.hpp>
 #include <bksge/fnd/concepts/default_initializable.hpp>
 #include <bksge/fnd/concepts/assignable_from.hpp>
+#include <bksge/fnd/concepts/copyable.hpp>
+#include <bksge/fnd/concepts/movable.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/type_traits/is_object.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_default_constructible.hpp>
@@ -60,7 +62,7 @@ struct box : bksge::optional<T>
 
 	BKSGE_CXX14_CONSTEXPR box& operator=(box const& that)
 		BKSGE_NOEXCEPT_IF(bksge::is_nothrow_copy_constructible<T>::value)
-		BKSGE_REQUIRES(!bksge::assignable_from<T&, T const&>)
+		BKSGE_REQUIRES(!bksge::copyable<T>)
 	{
 		if ((bool)that)
 		{
@@ -76,7 +78,7 @@ struct box : bksge::optional<T>
 
 	BKSGE_CXX14_CONSTEXPR box& operator=(box&& that)
 		BKSGE_NOEXCEPT_IF(bksge::is_nothrow_move_constructible<T>::value)
-		BKSGE_REQUIRES(!bksge::assignable_from<T&, T>)
+		BKSGE_REQUIRES(!bksge::movable<T>)
 	{
 		if ((bool)that)
 		{
