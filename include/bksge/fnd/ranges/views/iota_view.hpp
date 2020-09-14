@@ -36,6 +36,7 @@
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_copy_constructible.hpp>
 #include <bksge/fnd/type_traits/type_identity.hpp>
+#include <bksge/fnd/type_traits/make_unsigned.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/config.hpp>
@@ -427,31 +428,29 @@ public:
 	}
 
 private:
-BKSGE_WARNING_PUSH();
-BKSGE_WARNING_DISABLE_MSVC(4146);	// unary minus operator applied to unsigned type, result still unsigned
+	template <
+		typename W2, typename B2,
+		typename = bksge::enable_if_t<
+			bksge::is_integral<W2>::value &&
+			bksge::is_integral<B2>::value>>
+	static BKSGE_CONSTEXPR auto
+	size_impl(bksge::detail::overload_priority<2>, W2 const& w, B2 const& b)
+	-> bksge::make_unsigned_t<decltype(b - w)>
+	{
+	    using U = bksge::make_unsigned_t<decltype(b - w)>;
+	    return U(b) - U(w);
+	}
 
 	template <
 		typename W2, typename B2,
 		typename = bksge::enable_if_t<
-			detail::is_integer_like<W2>::value &&
-			detail::is_integer_like<B2>::value
-		>
-	>
+			detail::is_integer_like<W2>::value>>
 	static BKSGE_CONSTEXPR auto
 	size_impl(bksge::detail::overload_priority<1>, W2 const& w, B2 const& b)
-	->decltype(
-		false ? (detail::to_unsigned_like(b) - detail::to_unsigned_like(w)) :
-		false ? (detail::to_unsigned_like(w) - detail::to_unsigned_like(b)) :
-		        (detail::to_unsigned_like(b) + detail::to_unsigned_like(w)))
+	->decltype(detail::to_unsigned_like(b) - detail::to_unsigned_like(w))
 	{
-		using detail::to_unsigned_like;
-		return
-			!(w < 0) ? (to_unsigned_like( b) - to_unsigned_like( w)) :
-			 (b < 0) ? (to_unsigned_like(-w) - to_unsigned_like(-b)) :
-					   (to_unsigned_like( b) + to_unsigned_like(-w));
+	    return detail::to_unsigned_like(b) - detail::to_unsigned_like(w);
 	}
-
-BKSGE_WARNING_POP();
 
 	template <typename W2, typename B2>
 	static BKSGE_CONSTEXPR auto
@@ -461,18 +460,19 @@ BKSGE_WARNING_POP();
 		return detail::to_unsigned_like(b - w);
 	}
 
-	static BKSGE_CONSTEXPR void
-	size_impl(...);
-
 public:
+	template <
+		typename W2 = W, typename B2 = Bound,
+		typename = bksge::enable_if_t<
+			(bksge::is_same_as<W2, B2>::value && detail::is_advanceable<W2>::value) ||
+			(bksge::is_integral<W2>::value && bksge::is_integral<B2>::value) ||
+			bksge::is_sized_sentinel_for<B2, W2>::value
+		>
+	>
 	BKSGE_CONSTEXPR auto size() const
-	->decltype(size_impl(bksge::detail::overload_priority<1>{}, m_value, m_bound))
-		BKSGE_REQUIRES(
-			(bksge::same_as<W, Bound> && detail::advanceable<W>) ||
-			(bksge::integral<W> && bksge::integral<Bound>) ||
-			bksge::sized_sentinel_for<Bound, W>)
+	->decltype(size_impl(bksge::detail::overload_priority<2>{}, bksge::declval<W2>(), bksge::declval<B2>()))
 	{
-		return size_impl(bksge::detail::overload_priority<1>{}, m_value, m_bound);
+		return size_impl(bksge::detail::overload_priority<2>{}, m_value, m_bound);
 	}
 };
 
@@ -507,15 +507,15 @@ namespace detail
 struct iota_fn
 {
 	template <typename T>
-	BKSGE_CONSTEXPR iota_view<T> operator()(T&& t) const
+	BKSGE_CONSTEXPR iota_view<T> operator()(T t) const
 	{
-		return iota_view<T>{bksge::forward<T>(t)};
+		return iota_view<T>{bksge::move(t)};
 	}
 
 	template <typename T, typename U>
-	BKSGE_CONSTEXPR iota_view<T, U> operator()(T&& t, U&& f) const
+	BKSGE_CONSTEXPR iota_view<T, U> operator()(T t, U f) const
 	{
-		return iota_view<T, U>{bksge::forward<T>(t), bksge::forward<U>(f)};
+		return iota_view<T, U>{bksge::move(t), bksge::move(f)};
 	}
 };
 
