@@ -63,61 +63,8 @@ template <typename Callable>
 struct range_adaptor_closure;
 
 template <typename Callable>
-struct range_adaptor
+struct range_adaptor_base
 {
-private:
-	BKSGE_NO_UNIQUE_ADDRESS
-	bksge::conditional_t<
-		bksge::is_default_constructible<Callable>::value,
-		Empty,
-		Callable
-	> m_callable;
-
-protected:
-	template <typename C2 = Callable,
-		typename = bksge::enable_if_t<
-			bksge::is_default_constructible<C2>::value
-		>
-	>
-	constexpr C2 get_callable() const
-	{
-		return C2{};
-	}
-
-	template <typename C2 = Callable,
-		typename = bksge::enable_if_t<
-			!bksge::is_default_constructible<C2>::value
-		>
-	>
-	constexpr C2 const& get_callable() const
-	{
-		return m_callable;
-	}
-
-public:
-#if 1//!defined(BKSGE_HAS_CXX20_CONCEPTS)
-	template <typename C2 = Callable,
-		typename = bksge::enable_if_t<
-			bksge::is_default_constructible<C2>::value
-		>
-	>
-#endif
-	constexpr range_adaptor(C2 const& = {})
-		//BKSGE_REQUIRES(bksge::is_default_constructible<Callable>::value)
-	{}
-
-#if 1//!defined(BKSGE_HAS_CXX20_CONCEPTS)
-	template <typename C2 = Callable,
-		bksge::enable_if_t<
-			!bksge::is_default_constructible<C2>::value
-		>* = nullptr
-	>
-#endif
-	constexpr range_adaptor(C2 callable)
-		//BKSGE_REQUIRES(!bksge::is_default_constructible<Callable>::value)
-		: m_callable(bksge::move(callable))
-	{}
-
 private:
 	template <typename C, typename... Args>
 	struct ClosureT;
@@ -213,6 +160,40 @@ public:
 			bksge::forward<Arg0>(arg0),
 			bksge::forward<Args>(args)...);
 	}
+};
+
+template <typename Callable, bool = bksge::is_default_constructible<Callable>::value>
+struct range_adaptor
+	: public range_adaptor_base<Callable>
+{
+private:
+	Callable	m_callable;
+
+protected:
+	constexpr Callable const& get_callable() const
+	{
+		return m_callable;
+	}
+
+public:
+	constexpr range_adaptor(Callable callable)
+		: m_callable(bksge::move(callable))
+	{}
+};
+
+template <typename Callable>
+struct range_adaptor<Callable, true>
+	: public range_adaptor_base<Callable>
+{
+protected:
+	constexpr Callable get_callable() const
+	{
+		return Callable{};
+	}
+
+public:
+	constexpr range_adaptor(Callable const& = {})
+	{}
 };
 
 #if defined(BKSGE_HAS_CXX17_DEDUCTION_GUIDES)

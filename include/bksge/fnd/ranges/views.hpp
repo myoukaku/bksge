@@ -17,6 +17,7 @@
 #include <bksge/fnd/ranges/views/filter_view.hpp>
 #include <bksge/fnd/ranges/views/iota_view.hpp>
 #include <bksge/fnd/ranges/views/istream_view.hpp>
+#include <bksge/fnd/ranges/views/join_view.hpp>
 #include <bksge/fnd/ranges/views/ref_view.hpp>
 #include <bksge/fnd/ranges/views/single_view.hpp>
 #include <bksge/fnd/ranges/views/subrange.hpp>
