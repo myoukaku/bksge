@@ -47,6 +47,9 @@ public:
 	BKSGE_CONSTEXPR single_view(single_view const&) = default;
 	BKSGE_CONSTEXPR single_view(single_view&&) = default;
 
+	BKSGE_CXX14_CONSTEXPR single_view& operator=(single_view const&) = default;
+	BKSGE_CXX14_CONSTEXPR single_view& operator=(single_view&&) = default;
+
 	BKSGE_CONSTEXPR explicit single_view(T const& t)
 		: m_value(t)
 	{}
