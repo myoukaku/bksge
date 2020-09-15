@@ -76,7 +76,7 @@ struct test_range
 	using iterator = Iterator<T>;
 	using sentinel = test_sentinel<iterator>;
 
-	BKSGE_CXX14_CONSTEXPR test_range(): m_first(nullptr), m_last(nullptr) {}
+	BKSGE_CXX14_CONSTEXPR test_range() : m_first(nullptr), m_last(nullptr) {}
 	BKSGE_CXX14_CONSTEXPR test_range(T* first, T* last) : m_first(first), m_last(last) {}
 
 	template <std::size_t N>
@@ -111,6 +111,37 @@ template <typename T> using test_bidirectional_sized_range = test_sized_range<T,
 template <typename T> using test_forward_sized_range       = test_sized_range<T, forward_iterator_wrapper>;
 template <typename T> using test_input_sized_range         = test_sized_range<T, input_iterator_wrapper>;
 template <typename T> using test_output_sized_range        = test_sized_range<T, output_iterator_wrapper>;
+
+template <typename T, std::size_t N, template <typename> class Iterator>
+struct test_static_sized_range : public test_range<T, Iterator>
+{
+	using test_range<T, Iterator>::test_range;
+
+	static BKSGE_CXX14_CONSTEXPR std::size_t size() noexcept
+	{
+		return N;
+	}
+};
+
+template <typename T, std::size_t N> using test_contiguous_static_sized_range    = test_static_sized_range<T, N, contiguous_iterator_wrapper>;
+template <typename T, std::size_t N> using test_random_access_static_sized_range = test_static_sized_range<T, N, random_access_iterator_wrapper>;
+template <typename T, std::size_t N> using test_bidirectional_static_sized_range = test_static_sized_range<T, N, bidirectional_iterator_wrapper>;
+template <typename T, std::size_t N> using test_forward_static_sized_range       = test_static_sized_range<T, N, forward_iterator_wrapper>;
+template <typename T, std::size_t N> using test_input_static_sized_range         = test_static_sized_range<T, N, input_iterator_wrapper>;
+template <typename T, std::size_t N> using test_output_static_sized_range        = test_static_sized_range<T, N, output_iterator_wrapper>;
+
+template <typename T, std::size_t N, template <typename> class Iterator>
+struct test_static_sized_view : public test_static_sized_range<T, N, Iterator>, bksge::ranges::view_base
+{
+	using test_static_sized_range<T, N, Iterator>::test_static_sized_range;
+};
+
+template <typename T, std::size_t N> using test_contiguous_static_sized_view    = test_static_sized_view<T, N, contiguous_iterator_wrapper>;
+template <typename T, std::size_t N> using test_random_access_static_sized_view = test_static_sized_view<T, N, random_access_iterator_wrapper>;
+template <typename T, std::size_t N> using test_bidirectional_static_sized_view = test_static_sized_view<T, N, bidirectional_iterator_wrapper>;
+template <typename T, std::size_t N> using test_forward_static_sized_view       = test_static_sized_view<T, N, forward_iterator_wrapper>;
+template <typename T, std::size_t N> using test_input_static_sized_view         = test_static_sized_view<T, N, input_iterator_wrapper>;
+template <typename T, std::size_t N> using test_output_static_sized_view        = test_static_sized_view<T, N, output_iterator_wrapper>;
 
 }	// namespace bksge_ranges_test
 

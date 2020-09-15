@@ -12,7 +12,9 @@
 #include <bksge/fnd/concepts/copy_constructible.hpp>
 #include <bksge/fnd/concepts/movable.hpp>
 #include <bksge/fnd/concepts/assignable_from.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
+#include <bksge/fnd/type_traits/negation.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -27,6 +29,9 @@ concept copyable =
 	bksge::assignable_from<T&, T&> &&
 	bksge::assignable_from<T&, const T&> &&
 	bksge::assignable_from<T&, const T>;
+
+template <typename T>
+concept not_copyable = !copyable<T>;
 
 #else
 
@@ -57,6 +62,9 @@ public:
 template <typename T>
 using copyable =
 	typename detail::copyable_impl<T>::type;
+
+template <typename T>
+using not_copyable = bksge::negation<copyable<T>>;
 
 #endif
 

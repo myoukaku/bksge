@@ -14,6 +14,7 @@
 #include <bksge/fnd/iterator/concepts/forward_iterator.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
+#include <bksge/fnd/type_traits/negation.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -28,6 +29,9 @@ template <typename T>
 concept forward_range =
 	ranges::input_range<T> &&
 	bksge::forward_iterator<ranges::iterator_t<T>>;
+
+template <typename T>
+concept not_forward_range = !forward_range<T>;
 
 template <typename T>
 using is_forward_range = bksge::bool_constant<forward_range<T>>;
@@ -53,6 +57,9 @@ public:
 
 template <typename T>
 using forward_range = typename forward_range_impl<T>::type;
+
+template <typename T>
+using not_forward_range = bksge::negation<forward_range<T>>;
 
 template <typename T>
 using is_forward_range = forward_range<T>;

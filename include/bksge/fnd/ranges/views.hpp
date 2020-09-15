@@ -20,6 +20,7 @@
 #include <bksge/fnd/ranges/views/join_view.hpp>
 #include <bksge/fnd/ranges/views/ref_view.hpp>
 #include <bksge/fnd/ranges/views/single_view.hpp>
+#include <bksge/fnd/ranges/views/split_view.hpp>
 #include <bksge/fnd/ranges/views/subrange.hpp>
 #include <bksge/fnd/ranges/views/subrange_kind.hpp>
 #include <bksge/fnd/ranges/views/take_view.hpp>

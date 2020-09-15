@@ -12,6 +12,7 @@
 #include <bksge/fnd/concepts/destructible.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -24,6 +25,9 @@ concept constructible_from =
 	bksge::destructible<T> &&
 	bksge::is_constructible<T, Args...>::value;
 
+template <typename T, typename... Args>
+using is_constructible_from = bksge::bool_constant<constructible_from<T, Args...>>;
+
 #else
 
 template <typename T, typename... Args>
@@ -32,6 +36,9 @@ using constructible_from =
 		bksge::destructible<T>,
 		bksge::is_constructible<T, Args...>
 	>;
+
+template <typename T, typename... Args>
+using is_constructible_from = constructible_from<T, Args...>;
 
 #endif
 
