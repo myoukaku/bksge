@@ -13,6 +13,7 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/cbegin.hpp>
 #include <bksge/fnd/iterator/cend.hpp>
+#include <bksge/fnd/iterator/common_iterator.hpp>
 #include <bksge/fnd/iterator/concepts.hpp>
 #include <bksge/fnd/iterator/counted_iterator.hpp>
 #include <bksge/fnd/iterator/crbegin.hpp>

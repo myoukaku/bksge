@@ -15,6 +15,7 @@
 #include <bksge/fnd/concepts/detail/weakly_eq_cmp_with.hpp>
 #include <bksge/fnd/type_traits/common_reference.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -29,6 +30,9 @@ concept equality_comparable_with =
 	bksge::common_reference_with<detail::cref<T>, detail::cref<U>> &&
 	bksge::equality_comparable<bksge::common_reference_t<detail::cref<T>, detail::cref<U>>> &&
 	detail::weakly_eq_cmp_with<T, U>;
+
+template <typename T, typename U>
+using is_equality_comparable_with = bksge::bool_constant<equality_comparable_with<T, U>>;
 
 #else
 
@@ -59,6 +63,9 @@ public:
 template <typename T, typename U>
 using equality_comparable_with =
 	typename detail::equality_comparable_with_impl<T, U>::type;
+
+template <typename T, typename U>
+using is_equality_comparable_with = equality_comparable_with<T, U>;
 
 #endif
 
