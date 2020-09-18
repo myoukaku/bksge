@@ -11,6 +11,7 @@
 
 #include <bksge/fnd/ranges/views/all.hpp>
 #include <bksge/fnd/ranges/views/basic_istream_view.hpp>
+#include <bksge/fnd/ranges/views/common_view.hpp>
 #include <bksge/fnd/ranges/views/counted.hpp>
 #include <bksge/fnd/ranges/views/drop_view.hpp>
 #include <bksge/fnd/ranges/views/drop_while_view.hpp>
