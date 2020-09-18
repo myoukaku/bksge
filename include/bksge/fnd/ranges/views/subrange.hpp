@@ -38,6 +38,7 @@
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/utility/move.hpp>
+#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
@@ -408,6 +409,20 @@ subrange(Rng&&, detail::make_unsigned_like_t<ranges::range_difference_t<Rng>>)
 	->subrange<ranges::iterator_t<Rng>, ranges::sentinel_t<Rng>, ranges::subrange_kind::sized>;
 
 #endif	// #if defined(BKSGE_HAS_CXX17_DEDUCTION_GUIDES)
+
+// deduction guides が使えない環境のための拡張 
+template <BKSGE_REQUIRES_PARAM(ranges::borrowed_range, Rng)>
+BKSGE_CONSTEXPR auto make_subrange(Rng&& r)
+	-> subrange<ranges::iterator_t<Rng>, ranges::sentinel_t<Rng>,
+		((ranges::is_sized_range<Rng>::value ||
+		 bksge::is_sized_sentinel_for<ranges::sentinel_t<Rng>, ranges::iterator_t<Rng>>::value) ?
+			ranges::subrange_kind::sized :
+			ranges::subrange_kind::unsized)
+	>
+{
+	return {bksge::forward<Rng>(r)};
+}
+// 拡張ここまで
 
 namespace detail
 {
