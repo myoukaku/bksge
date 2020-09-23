@@ -21,6 +21,7 @@
 #include <bksge/fnd/ranges/views/istream_view.hpp>
 #include <bksge/fnd/ranges/views/join_view.hpp>
 #include <bksge/fnd/ranges/views/ref_view.hpp>
+#include <bksge/fnd/ranges/views/reverse_view.hpp>
 #include <bksge/fnd/ranges/views/single_view.hpp>
 #include <bksge/fnd/ranges/views/split_view.hpp>
 #include <bksge/fnd/ranges/views/subrange.hpp>
