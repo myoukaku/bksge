@@ -33,6 +33,9 @@ concept copyable =
 template <typename T>
 concept not_copyable = !copyable<T>;
 
+template <typename T>
+using is_copyable = bksge::bool_constant<copyable<T>>;
+
 #else
 
 namespace detail
@@ -65,6 +68,9 @@ using copyable =
 
 template <typename T>
 using not_copyable = bksge::negation<copyable<T>>;
+
+template <typename T>
+using is_copyable = copyable<T>;
 
 #endif
 

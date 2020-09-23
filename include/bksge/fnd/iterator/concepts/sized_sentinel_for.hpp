@@ -44,6 +44,7 @@ struct sized_sentinel_for_impl
 {
 private:
 	template <typename S2, typename I2,
+		typename = bksge::enable_if_t<bksge::sentinel_for<S2, I2>::value>,
 		typename D1 = decltype(bksge::declval<const S2&>() - bksge::declval<const I2&>()),
 		typename D2 = decltype(bksge::declval<const I2&>() - bksge::declval<const S2&>()),
 		typename = bksge::enable_if_t<
@@ -51,7 +52,6 @@ private:
 		>
 	>
 	static auto test(int) -> bksge::conjunction<
-		bksge::sentinel_for<S2, I2>,
 		bksge::same_as<D1, bksge::iter_difference_t<I2>>,
 		bksge::same_as<D2, bksge::iter_difference_t<I2>>
 	>;

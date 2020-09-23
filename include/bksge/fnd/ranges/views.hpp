@@ -15,6 +15,7 @@
 #include <bksge/fnd/ranges/views/counted.hpp>
 #include <bksge/fnd/ranges/views/drop_view.hpp>
 #include <bksge/fnd/ranges/views/drop_while_view.hpp>
+#include <bksge/fnd/ranges/views/elements_view.hpp>
 #include <bksge/fnd/ranges/views/empty_view.hpp>
 #include <bksge/fnd/ranges/views/filter_view.hpp>
 #include <bksge/fnd/ranges/views/iota_view.hpp>
