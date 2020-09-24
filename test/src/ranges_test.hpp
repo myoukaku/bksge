@@ -9,6 +9,7 @@
 #ifndef UNIT_TEST_RANGES_TEST_HPP
 #define UNIT_TEST_RANGES_TEST_HPP
 
+#include <bksge/fnd/ranges/views/view_base.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/iterator/concepts/random_access_iterator.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
@@ -24,13 +25,13 @@ struct test_sentinel
 {
 	Iterator m_it;
 
-	BKSGE_CXX14_CONSTEXPR bool
+	BKSGE_CONSTEXPR bool
 	operator==(Iterator const& i) const noexcept
 	{
 		return m_it.m_ptr == i.m_ptr;
 	}
 
-	BKSGE_CXX14_CONSTEXPR bool
+	BKSGE_CONSTEXPR bool
 	operator!=(Iterator const& i) const noexcept
 	{
 		return !(*this == i);
@@ -38,21 +39,21 @@ struct test_sentinel
 };
 
 template <typename Iterator>
-BKSGE_CXX14_CONSTEXPR bool
+BKSGE_CONSTEXPR bool
 operator==(Iterator const& i, test_sentinel<Iterator> const& s) noexcept
 {
 	return s == i;
 }
 
 template <typename Iterator>
-BKSGE_CXX14_CONSTEXPR bool
+BKSGE_CONSTEXPR bool
 operator!=(Iterator const& i, test_sentinel<Iterator> const& s) noexcept
 {
 	return !(i == s);
 }
 
 template <BKSGE_REQUIRES_PARAM(bksge::random_access_iterator, Iterator)>
-BKSGE_CXX14_CONSTEXPR auto
+BKSGE_CONSTEXPR auto
 operator-(test_sentinel<Iterator> const& s, Iterator const& i) noexcept
 ->decltype(s.m_it.m_ptr - i.m_ptr)
 {
@@ -60,7 +61,7 @@ operator-(test_sentinel<Iterator> const& s, Iterator const& i) noexcept
 }
 
 template <BKSGE_REQUIRES_PARAM(bksge::random_access_iterator, Iterator)>
-BKSGE_CXX14_CONSTEXPR auto
+BKSGE_CONSTEXPR auto
 operator-(Iterator const& i, test_sentinel<Iterator> const& s) noexcept
 ->decltype(i.m_ptr - s.m_it.m_ptr)
 {
@@ -76,14 +77,20 @@ struct test_range
 	using iterator = Iterator<T>;
 	using sentinel = test_sentinel<iterator>;
 
-	BKSGE_CXX14_CONSTEXPR test_range() : m_first(nullptr), m_last(nullptr) {}
-	BKSGE_CXX14_CONSTEXPR test_range(T* first, T* last) : m_first(first), m_last(last) {}
+	BKSGE_CONSTEXPR test_range() : m_first(nullptr), m_last(nullptr) {}
+	BKSGE_CONSTEXPR test_range(T* first, T* last) : m_first(first), m_last(last) {}
+
+	BKSGE_CONSTEXPR test_range(test_range const&) = default;
+	BKSGE_CONSTEXPR test_range(test_range &&) = default;
+
+	BKSGE_CXX14_CONSTEXPR test_range& operator=(test_range const&) = default;
+	BKSGE_CXX14_CONSTEXPR test_range& operator=(test_range &&) = default;
 
 	template <std::size_t N>
-	explicit BKSGE_CXX14_CONSTEXPR test_range(T (&arr)[N]) : test_range(arr, arr+N) {}
+	explicit BKSGE_CONSTEXPR test_range(T (&arr)[N]) : test_range(arr, arr+N) {}
 
-	BKSGE_CXX14_CONSTEXPR iterator begin() const { return iterator{m_first}; }
-	BKSGE_CXX14_CONSTEXPR sentinel end()   const { return sentinel{iterator{m_last}}; }
+	BKSGE_CONSTEXPR iterator begin() const { return iterator{m_first}; }
+	BKSGE_CONSTEXPR sentinel end()   const { return sentinel{iterator{m_last}}; }
 };
 
 template <typename T> using test_contiguous_range    = test_range<T, contiguous_iterator_wrapper>;
@@ -99,7 +106,7 @@ struct test_sized_range : public test_range<T, Iterator>
 	using base_t = test_range<T, Iterator>;
 	using test_range<T, Iterator>::test_range;
 
-	BKSGE_CXX14_CONSTEXPR std::size_t size() const noexcept
+	BKSGE_CONSTEXPR std::size_t size() const noexcept
 	{
 		return base_t::m_last - base_t::m_first;
 	}
@@ -117,7 +124,7 @@ struct test_static_sized_range : public test_range<T, Iterator>
 {
 	using test_range<T, Iterator>::test_range;
 
-	static BKSGE_CXX14_CONSTEXPR std::size_t size() noexcept
+	static BKSGE_CONSTEXPR std::size_t size() noexcept
 	{
 		return N;
 	}
