@@ -11,7 +11,9 @@
 
 #include <bksge/fnd/iterator/concepts/input_or_output_iterator.hpp>
 #include <bksge/fnd/iterator/concepts/indirectly_writable.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
@@ -37,12 +39,13 @@ struct output_iterator_impl
 {
 private:
 	template <typename I2, typename T2,
+		typename = bksge::enable_if_t<bksge::conjunction<
+			bksge::input_or_output_iterator<I2>,
+			bksge::indirectly_writable<I2, T2>
+		>::value>,
 		typename = decltype(*bksge::declval<I2&>()++ = bksge::declval<T2&&>())
 	>
-	static auto test(int) -> bksge::conjunction<
-		bksge::input_or_output_iterator<I2>,
-		bksge::indirectly_writable<I2, T2>
-	>;
+	static auto test(int) -> bksge::true_type;
 
 	template <typename I2, typename T2>
 	static auto test(...) -> bksge::false_type;

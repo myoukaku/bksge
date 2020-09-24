@@ -15,7 +15,9 @@
 #include <bksge/fnd/iterator/iter_common_reference_t.hpp>
 #include <bksge/fnd/concepts/copy_constructible.hpp>
 #include <bksge/fnd/concepts/predicate.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -40,14 +42,16 @@ template <typename F, typename I>
 struct indirect_unary_predicate_impl
 {
 private:
-	template <typename F2, typename I2>
-	static auto test(int) -> bksge::conjunction<
-		bksge::indirectly_readable<I2>,
-		bksge::copy_constructible<F2>,
-		bksge::predicate<F2&, bksge::iter_value_t<I2>&>,
-		bksge::predicate<F2&, bksge::iter_reference_t<I2>>,
-		bksge::predicate<F2&, bksge::iter_common_reference_t<I2>>
-	>;
+	template <typename F2, typename I2,
+		typename = bksge::enable_if_t<bksge::conjunction<
+			bksge::indirectly_readable<I2>,
+			bksge::copy_constructible<F2>,
+			bksge::predicate<F2&, bksge::iter_value_t<I2>&>,
+			bksge::predicate<F2&, bksge::iter_reference_t<I2>>,
+			bksge::predicate<F2&, bksge::iter_common_reference_t<I2>>
+		>::value>
+	>
+	static auto test(int) -> bksge::true_type;
 
 	template <typename F2, typename I2>
 	static auto test(...) -> bksge::false_type;

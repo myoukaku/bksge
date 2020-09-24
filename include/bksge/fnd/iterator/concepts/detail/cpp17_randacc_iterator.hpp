@@ -15,7 +15,9 @@
 #include <bksge/fnd/concepts/totally_ordered.hpp>
 #include <bksge/fnd/concepts/same_as.hpp>
 #include <bksge/fnd/concepts/convertible_to.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
 
@@ -52,18 +54,27 @@ struct cpp17_randacc_iterator_impl
 {
 private:
 	template <typename I2,
-		typename D = typename bksge::incrementable_traits<I2>::difference_type
+		typename = bksge::enable_if_t<bksge::conjunction<
+			cpp17_bidi_iterator<I2>,
+			bksge::totally_ordered<I2>
+		>::value>,
+		typename D = typename bksge::incrementable_traits<I2>::difference_type,
+		typename T1 = decltype(bksge::declval<I2&>() += bksge::declval<D& >()),
+		typename T2 = decltype(bksge::declval<I2&>() -= bksge::declval<D& >()),
+		typename T3 = decltype(bksge::declval<I2&>() +  bksge::declval<D& >()),
+		typename T4 = decltype(bksge::declval<D& >() +  bksge::declval<I2&>()),
+		typename T5 = decltype(bksge::declval<I2&>() -  bksge::declval<D& >()),
+		typename T6 = decltype(bksge::declval<I2&>() -  bksge::declval<I2&>()),
+		typename T7 = decltype(bksge::declval<I2&>()[bksge::declval<D&>()])
 	>
 	static auto test(int) -> bksge::conjunction<
-		cpp17_bidi_iterator<I2>,
-		bksge::totally_ordered<I2>,
-		bksge::same_as<decltype(bksge::declval<I2&>() += bksge::declval<D&>()), I2&>,
-		bksge::same_as<decltype(bksge::declval<I2&>() -= bksge::declval<D&>()), I2&>,
-		bksge::same_as<decltype(bksge::declval<I2&>() +  bksge::declval<D&>()), I2>,
-		bksge::same_as<decltype(bksge::declval<D&>()  +  bksge::declval<I2&>()),I2>,
-		bksge::same_as<decltype(bksge::declval<I2&>() -  bksge::declval<D&>()), I2>,
-		bksge::same_as<decltype(bksge::declval<I2&>() -  bksge::declval<I2&>()), D>,
-		bksge::convertible_to<decltype(bksge::declval<I2&>()[bksge::declval<D&>()]), bksge::iter_reference_t<I2>>
+		bksge::same_as<T1, I2&>,
+		bksge::same_as<T2, I2&>,
+		bksge::same_as<T3, I2>,
+		bksge::same_as<T4, I2>,
+		bksge::same_as<T5, I2>,
+		bksge::same_as<T6, D>,
+		bksge::convertible_to<T7, bksge::iter_reference_t<I2>>
 	>;
 
 	template <typename I2>

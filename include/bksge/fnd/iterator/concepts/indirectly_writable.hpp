@@ -25,8 +25,8 @@ concept indirectly_writable =
 	{
 		*o = bksge::forward<T>(t);
 		*bksge::forward<Out>(o) = bksge::forward<T>(t);
-		const_cast<const bksge::iter_reference_t<Out>&&>(*o) = bksge::forward<T>(t);
-		const_cast<const bksge::iter_reference_t<Out>&&>(*bksge::forward<Out>(o)) = bksge::forward<T>(t);
+		const_cast<bksge::iter_reference_t<Out> const&&>(*o) = bksge::forward<T>(t);
+		const_cast<bksge::iter_reference_t<Out> const&&>(*bksge::forward<Out>(o)) = bksge::forward<T>(t);
 	};
 
 #else
@@ -39,7 +39,7 @@ struct indirectly_writable_impl
 {
 private:
 	template <typename Out2, typename T2,
-		typename R = const bksge::iter_reference_t<Out2>&&,
+		typename R = bksge::iter_reference_t<Out2> const&&,
 		typename = decltype(*bksge::declval<Out2&>()  = bksge::declval<T2&&>()),
 		typename = decltype(*bksge::declval<Out2&&>() = bksge::declval<T2&&>()),
 		typename = decltype(const_cast<R>(*bksge::declval<Out2&>())  = bksge::declval<T2&&>()),

@@ -35,7 +35,7 @@ using signed_integral =
 	>;
 
 template <typename T>
-using is_signed_integral = bksge::bool_constant<signed_integral<T>::value>;
+using is_signed_integral = signed_integral<T>;
 
 #endif
 

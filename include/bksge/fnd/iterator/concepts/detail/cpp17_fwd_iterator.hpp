@@ -17,7 +17,9 @@
 #include <bksge/fnd/concepts/convertible_to.hpp>
 #include <bksge/fnd/type_traits/is_lvalue_reference.hpp>
 #include <bksge/fnd/type_traits/remove_cvref.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
 
@@ -53,17 +55,22 @@ template <typename Iter>
 struct cpp17_fwd_iterator_impl
 {
 private:
-	template <typename I2>
+	template <typename I2,
+		typename = bksge::enable_if_t<bksge::conjunction<
+			cpp17_input_iterator<I2>,
+			bksge::constructible_from<I2>,
+			bksge::is_lvalue_reference<bksge::iter_reference_t<I2>>,
+			bksge::same_as<
+				bksge::remove_cvref_t<bksge::iter_reference_t<I2>>,
+				typename bksge::indirectly_readable_traits<I2>::value_type
+			>
+		>::value>,
+		typename T1 = decltype( bksge::declval<I2&>()++),
+		typename T2 = decltype(*bksge::declval<I2&>()++)
+	>
 	static auto test(int) -> bksge::conjunction<
-		cpp17_input_iterator<I2>,
-		bksge::constructible_from<I2>,
-		bksge::is_lvalue_reference<bksge::iter_reference_t<I2>>,
-		bksge::same_as<
-			bksge::remove_cvref_t<bksge::iter_reference_t<I2>>,
-			typename bksge::indirectly_readable_traits<I2>::value_type
-		>,
-		bksge::convertible_to<decltype( bksge::declval<I2&>()++), I2 const&>,
-		bksge::same_as       <decltype(*bksge::declval<I2&>()++), bksge::iter_reference_t<I2>>
+		bksge::convertible_to<T1, I2 const&>,
+		bksge::same_as<T2, bksge::iter_reference_t<I2>>
 	>;
 
 	template <typename I2>

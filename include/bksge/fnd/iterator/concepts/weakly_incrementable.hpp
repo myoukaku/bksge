@@ -15,6 +15,8 @@
 #include <bksge/fnd/concepts/same_as.hpp>
 #include <bksge/fnd/ranges/detail/signed_integer_like.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
+#include <bksge/fnd/type_traits/conjunction.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
 
@@ -47,13 +49,18 @@ template <typename Iter>
 struct weakly_incrementable_impl
 {
 private:
-	template <typename I2, typename = decltype(bksge::declval<I2&>()++)>
-	static auto test(int) -> bksge::conjunction<
-		bksge::default_initializable<I2>,
-		bksge::movable<I2>,
-		bksge::ranges::detail::signed_integer_like<bksge::iter_difference_t<I2>>,
-		bksge::same_as<decltype(++bksge::declval<I2&>()), I2&>
-	>;
+	template <typename I2,
+		typename = bksge::enable_if_t<bksge::conjunction<
+			bksge::default_initializable<I2>,
+			bksge::movable<I2>
+		>::value>,
+		typename D = bksge::iter_difference_t<I2>,
+		typename = bksge::enable_if_t<bksge::ranges::detail::signed_integer_like<D>::value>,
+		typename T = decltype(++bksge::declval<I2&>()),
+		typename = bksge::enable_if_t<bksge::same_as<T, I2&>::value>,
+		typename = decltype(bksge::declval<I2&>()++)
+	>
+	static auto test(int) -> bksge::true_type;
 
 	template <typename I2>
 	static auto test(...) -> bksge::false_type;

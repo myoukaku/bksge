@@ -22,6 +22,9 @@ namespace bksge
 template <typename T>
 concept unsigned_integral = bksge::integral<T> && !bksge::signed_integral<T>;
 
+template <typename T>
+using is_unsigned_integral = bksge::bool_constant<unsigned_integral<T>>;
+
 #else
 
 template <typename T>
@@ -29,6 +32,9 @@ using unsigned_integral =
 	bksge::bool_constant<
 		bksge::integral<T>::value && !bksge::signed_integral<T>::value
 	>;
+
+template <typename T>
+using is_unsigned_integral = unsigned_integral<T>;
 
 #endif
 

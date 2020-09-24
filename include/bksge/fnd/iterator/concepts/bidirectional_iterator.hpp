@@ -14,8 +14,10 @@
 #include <bksge/fnd/iterator/tag.hpp>
 #include <bksge/fnd/concepts/derived_from.hpp>
 #include <bksge/fnd/concepts/same_as.hpp>
+#include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
 
@@ -46,12 +48,17 @@ template <typename Iter>
 struct bidirectional_iterator_impl
 {
 private:
-	template <typename I2>
+	template <typename I2,
+		typename = bksge::enable_if_t<bksge::conjunction<
+			bksge::forward_iterator<I2>,
+			bksge::derived_from<bksge::detail::iter_concept<I2>, bksge::bidirectional_iterator_tag>
+		>::value>,
+		typename T1 = decltype(--bksge::declval<I2&>()),
+		typename T2 = decltype(  bksge::declval<I2&>()--)
+	>
 	static auto test(int) -> bksge::conjunction<
-		bksge::forward_iterator<I2>,
-		bksge::derived_from<bksge::detail::iter_concept<I2>, bksge::bidirectional_iterator_tag>,
-		bksge::same_as<decltype(--bksge::declval<I2&>()),   I2&>,
-		bksge::same_as<decltype(  bksge::declval<I2&>()--), I2>
+		bksge::same_as<T1, I2&>,
+		bksge::same_as<T2, I2>
 	>;
 
 	template <typename I2>

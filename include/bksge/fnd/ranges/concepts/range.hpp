@@ -40,11 +40,11 @@ template <typename T>
 struct range_impl
 {
 private:
-	template <typename U>
-	static auto test(int) -> decltype(
-		ranges::begin(bksge::declval<U&>()),
-		ranges::end(bksge::declval<U&>()),
-		bksge::true_type{});
+	template <typename U,
+		typename = decltype(ranges::begin(bksge::declval<U&>())),
+		typename = decltype(ranges::end(bksge::declval<U&>()))
+	>
+	static auto test(int) -> bksge::true_type;
 
 	template <typename U>
 	static auto test(...) -> bksge::false_type;

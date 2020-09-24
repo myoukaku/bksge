@@ -11,6 +11,7 @@
 
 #include <bksge/fnd/concepts/detail/cref.hpp>
 #include <bksge/fnd/concepts/detail/boolean_testable.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
@@ -46,17 +47,25 @@ private:
 	template <
 		typename T2, typename U2,
 		typename TR = detail::cref<T2>,
-		typename UR = detail::cref<U2>
+		typename UR = detail::cref<U2>,
+		typename B1 = decltype(bksge::declval<TR>() <  bksge::declval<UR>()),
+		typename B2 = decltype(bksge::declval<TR>() >  bksge::declval<UR>()),
+		typename B3 = decltype(bksge::declval<TR>() <= bksge::declval<UR>()),
+		typename B4 = decltype(bksge::declval<TR>() >= bksge::declval<UR>()),
+		typename B5 = decltype(bksge::declval<UR>() <  bksge::declval<TR>()),
+		typename B6 = decltype(bksge::declval<UR>() >  bksge::declval<TR>()),
+		typename B7 = decltype(bksge::declval<UR>() <= bksge::declval<TR>()),
+		typename B8 = decltype(bksge::declval<UR>() >= bksge::declval<TR>())
 	>
 	static auto test(int) -> bksge::conjunction<
-		boolean_testable<decltype(bksge::declval<TR>() <  bksge::declval<UR>())>,
-		boolean_testable<decltype(bksge::declval<TR>() >  bksge::declval<UR>())>,
-		boolean_testable<decltype(bksge::declval<TR>() <= bksge::declval<UR>())>,
-		boolean_testable<decltype(bksge::declval<TR>() >= bksge::declval<UR>())>,
-		boolean_testable<decltype(bksge::declval<UR>() <  bksge::declval<TR>())>,
-		boolean_testable<decltype(bksge::declval<UR>() >  bksge::declval<TR>())>,
-		boolean_testable<decltype(bksge::declval<UR>() <= bksge::declval<TR>())>,
-		boolean_testable<decltype(bksge::declval<UR>() >= bksge::declval<TR>())>
+		boolean_testable<B1>,
+		boolean_testable<B2>,
+		boolean_testable<B3>,
+		boolean_testable<B4>,
+		boolean_testable<B5>,
+		boolean_testable<B6>,
+		boolean_testable<B7>,
+		boolean_testable<B8>
 	>;
 
 	template <typename T2, typename U2>

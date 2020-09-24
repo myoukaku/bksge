@@ -12,6 +12,7 @@
 #include <bksge/fnd/iterator/concepts/indirect_binary_predicate.hpp>
 #include <bksge/fnd/iterator/projected.hpp>
 #include <bksge/fnd/functional/identity.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge

@@ -12,7 +12,9 @@
 #include <bksge/fnd/iterator/concepts/indirectly_readable.hpp>
 #include <bksge/fnd/iterator/concepts/indirectly_writable.hpp>
 #include <bksge/fnd/iterator/iter_reference_t.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -34,11 +36,13 @@ template <typename In, typename Out>
 struct indirectly_copyable_impl
 {
 private:
-	template <typename I, typename O>
-	static auto test(int) -> bksge::conjunction<
-		bksge::indirectly_readable<I>,
-		bksge::indirectly_writable<O, bksge::iter_reference_t<I>>
-	>;
+	template <typename I, typename O,
+		typename = bksge::enable_if_t<bksge::conjunction<
+			bksge::indirectly_readable<I>,
+			bksge::indirectly_writable<O, bksge::iter_reference_t<I>>
+		>::value>
+	>
+	static auto test(int) -> bksge::true_type;
 
 	template <typename I, typename O>
 	static auto test(...) -> bksge::false_type;

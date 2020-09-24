@@ -12,6 +12,8 @@
 #include <bksge/fnd/ranges/concepts/bidirectional_range.hpp>
 #include <bksge/fnd/ranges/iterator_t.hpp>
 #include <bksge/fnd/iterator/concepts/random_access_iterator.hpp>
+#include <bksge/fnd/type_traits/conjunction.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 
@@ -38,9 +40,12 @@ struct random_access_range_impl
 {
 private:
 	template <typename U,
-		typename = bksge::enable_if_t<ranges::bidirectional_range<U>::value>
+		typename = bksge::enable_if_t<bksge::conjunction<
+			ranges::bidirectional_range<U>,
+			bksge::random_access_iterator<ranges::iterator_t<U>>
+		>::value>
 	>
-	static auto test(int) -> bksge::random_access_iterator<ranges::iterator_t<U>>;
+	static auto test(int) -> bksge::true_type;
 
 	template <typename U>
 	static auto test(...) -> bksge::false_type;

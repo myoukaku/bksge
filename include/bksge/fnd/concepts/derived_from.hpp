@@ -25,7 +25,7 @@ namespace bksge
 template <typename Derived, typename Base>
 concept derived_from =
 	bksge::is_base_of<Base, Derived>::value &&
-	bksge::is_convertible<const volatile Derived*, const volatile Base*>::value;
+	bksge::is_convertible<Derived const volatile*, Base const volatile*>::value;
 
 template <typename Derived, typename Base>
 using is_derived_from = bksge::bool_constant<derived_from<Derived, Base>>;

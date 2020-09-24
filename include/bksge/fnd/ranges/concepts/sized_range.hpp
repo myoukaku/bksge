@@ -42,10 +42,11 @@ template <typename T>
 struct sized_range_impl
 {
 private:
-	template <typename U, typename = bksge::enable_if_t<ranges::range<U>::value>>
-	static auto test(int) -> decltype(
-		ranges::size(bksge::declval<U&>()),
-		bksge::true_type{});
+	template <typename U,
+		typename = bksge::enable_if_t<ranges::range<U>::value>,
+		typename = decltype(ranges::size(bksge::declval<U&>()))
+	>
+	static auto test(int) -> bksge::true_type;
 
 	template <typename U>
 	static auto test(...) -> bksge::false_type;

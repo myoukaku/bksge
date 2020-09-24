@@ -15,7 +15,6 @@
 #include <bksge/fnd/type_traits/common_type.hpp>
 #include <bksge/fnd/type_traits/common_reference.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/type_traits/void_t.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
 
@@ -33,14 +32,14 @@ concept common_with =
 		static_cast<bksge::common_type_t<T, U>>(bksge::declval<U>());
 	} &&
 	bksge::common_reference_with<
-		bksge::add_lvalue_reference_t<const T>,
-		bksge::add_lvalue_reference_t<const U>
+		bksge::add_lvalue_reference_t<T const>,
+		bksge::add_lvalue_reference_t<U const>
 	> &&
 	bksge::common_reference_with<
 		bksge::add_lvalue_reference_t<bksge::common_type_t<T, U>>,
 		bksge::common_reference_t<
-			bksge::add_lvalue_reference_t<const T>,
-			bksge::add_lvalue_reference_t<const U>
+			bksge::add_lvalue_reference_t<T const>,
+			bksge::add_lvalue_reference_t<U const>
 		>
 	>;
 
@@ -64,14 +63,14 @@ private:
 			bksge::common_type_t<U2, T2>
 		>,
 		bksge::common_reference_with<
-			bksge::add_lvalue_reference_t<const T2>,
-			bksge::add_lvalue_reference_t<const U2>
+			bksge::add_lvalue_reference_t<T2 const>,
+			bksge::add_lvalue_reference_t<U2 const>
 		>,
 		bksge::common_reference_with<
 			bksge::add_lvalue_reference_t<C>,
 			bksge::common_reference_t<
-				bksge::add_lvalue_reference_t<const T2>,
-				bksge::add_lvalue_reference_t<const U2>
+				bksge::add_lvalue_reference_t<T2 const>,
+				bksge::add_lvalue_reference_t<U2 const>
 			>
 		>
 	>;

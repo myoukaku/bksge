@@ -38,8 +38,11 @@ template <typename T>
 struct dereferenceable_impl
 {
 private:
-	template <typename U, typename = bksge::enable_if_t<!bksge::detail::is_void_pointer<U>::value>>
-	static auto test(int) -> detail::can_reference<decltype(*bksge::declval<U>())>;
+	template <typename U,
+		typename = bksge::enable_if_t<!bksge::detail::is_void_pointer<U>::value>,
+		typename U2 = decltype(*bksge::declval<U&>())
+	>
+	static auto test(int) -> detail::can_reference<U2>;
 
 	template <typename U>
 	static auto test(...) -> bksge::false_type;

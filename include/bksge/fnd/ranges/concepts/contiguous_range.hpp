@@ -17,6 +17,7 @@
 #include <bksge/fnd/iterator/concepts/contiguous_iterator.hpp>
 #include <bksge/fnd/type_traits/add_pointer.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
+#include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
@@ -49,14 +50,14 @@ struct contiguous_range_impl
 private:
 	template <
 		typename U,
-		typename = bksge::enable_if_t<ranges::random_access_range<U>::value>,
-		typename = bksge::enable_if_t<bksge::contiguous_iterator<ranges::iterator_t<U>>::value>
+		typename = bksge::enable_if_t<bksge::conjunction<
+			ranges::random_access_range<U>,
+			bksge::contiguous_iterator<ranges::iterator_t<U>>
+		>::value>,
+		typename P1 = decltype(ranges::data(bksge::declval<U&>())),
+		typename P2 = bksge::add_pointer_t<ranges::range_reference_t<U>>
 	>
-	static auto test(int)
-		-> bksge::same_as<
-			decltype(ranges::data(bksge::declval<U&>())),
-			bksge::add_pointer_t<ranges::range_reference_t<U>>
-		>;
+	static auto test(int) -> bksge::same_as<P1, P2>;
 
 	template <typename U>
 	static auto test(...) -> bksge::false_type;

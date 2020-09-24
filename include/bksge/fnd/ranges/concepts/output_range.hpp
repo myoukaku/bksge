@@ -13,6 +13,8 @@
 #include <bksge/fnd/ranges/iterator_t.hpp>
 #include <bksge/fnd/iterator/concepts/output_iterator.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -34,11 +36,13 @@ template <typename Range, typename T>
 struct output_range_impl
 {
 private:
-	template <typename R, typename U>
-	static auto test(int) -> bksge::conjunction<
-		ranges::range<R>,
-		bksge::output_iterator<ranges::iterator_t<R>, U>
-	>;
+	template <typename R, typename U,
+		typename = bksge::enable_if_t<bksge::conjunction<
+			ranges::range<R>,
+			bksge::output_iterator<ranges::iterator_t<R>, U>
+		>::value>
+	>
+	static auto test(int) -> bksge::true_type;
 
 	template <typename R, typename U>
 	static auto test(...) -> bksge::false_type;

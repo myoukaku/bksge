@@ -20,6 +20,7 @@
 #include <bksge/fnd/concepts/same_as.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
 
@@ -34,7 +35,7 @@ concept random_access_iterator =
 	bksge::derived_from<bksge::detail::iter_concept<Iter>, bksge::random_access_iterator_tag> &&
 	bksge::totally_ordered<Iter> &&
 	bksge::sized_sentinel_for<Iter, Iter> &&
-	requires(Iter i, const Iter j, const bksge::iter_difference_t<Iter> n)
+	requires(Iter i, Iter const j, bksge::iter_difference_t<Iter> const n)
 	{
 		{ i += n } -> bksge::same_as<Iter&>;
 		{ j +  n } -> bksge::same_as<Iter>;
@@ -57,19 +58,30 @@ struct random_access_iterator_impl
 {
 private:
 	template <typename I2,
-		typename D = bksge::iter_difference_t<I2>,
-		typename = bksge::enable_if_t<bksge::bidirectional_iterator<I2>::value>, 
-		typename = bksge::enable_if_t<bksge::derived_from<bksge::detail::iter_concept<I2>, bksge::random_access_iterator_tag>::value>, 
-		typename = bksge::enable_if_t<bksge::totally_ordered<I2>::value>, 
-		typename = bksge::enable_if_t<bksge::sized_sentinel_for<I2, I2>::value> 
+		typename = bksge::enable_if_t<bksge::conjunction<
+			bksge::bidirectional_iterator<I2>,
+			bksge::derived_from<bksge::detail::iter_concept<I2>, bksge::random_access_iterator_tag>
+		>::value>,
+		typename = bksge::enable_if_t<bksge::conjunction<
+			bksge::totally_ordered<I2>,
+			bksge::sized_sentinel_for<I2, I2>
+		>::value>,
+		typename J2 = I2 const,
+		typename D = bksge::iter_difference_t<I2> const,
+		typename T1 = decltype(bksge::declval<I2&>() += bksge::declval<D >()),
+		typename T2 = decltype(bksge::declval<J2 >() +  bksge::declval<D >()),
+		typename T3 = decltype(bksge::declval<D  >() +  bksge::declval<J2>()),
+		typename T4 = decltype(bksge::declval<I2&>() -= bksge::declval<D >()),
+		typename T5 = decltype(bksge::declval<J2 >() -  bksge::declval<D >()),
+		typename T6 = decltype(bksge::declval<J2 >()[bksge::declval<D>()])
 	>
 	static auto test(int) -> bksge::conjunction<
-		bksge::same_as<decltype(bksge::declval<I2&>() += bksge::declval<D >()), I2&>,
-		bksge::same_as<decltype(bksge::declval<I2 >() +  bksge::declval<D >()), I2>,
-		bksge::same_as<decltype(bksge::declval<D  >() +  bksge::declval<I2>()), I2>,
-		bksge::same_as<decltype(bksge::declval<I2&>() -= bksge::declval<D >()), I2&>,
-		bksge::same_as<decltype(bksge::declval<I2 >() -  bksge::declval<D >()), I2>,
-		bksge::same_as<decltype(bksge::declval<I2 >()[bksge::declval<D>()]), bksge::iter_reference_t<I2>>
+		bksge::same_as<T1, I2&>,
+		bksge::same_as<T2, I2>,
+		bksge::same_as<T3, I2>,
+		bksge::same_as<T4, I2&>,
+		bksge::same_as<T5, I2>,
+		bksge::same_as<T6, bksge::iter_reference_t<I2>>
 	>;
 
 	template <typename I2>

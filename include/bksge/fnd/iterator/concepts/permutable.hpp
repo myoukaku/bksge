@@ -12,6 +12,7 @@
 #include <bksge/fnd/iterator/concepts/forward_iterator.hpp>
 #include <bksge/fnd/iterator/concepts/indirectly_movable_storable.hpp>
 #include <bksge/fnd/iterator/concepts/indirectly_swappable.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/config.hpp>
 

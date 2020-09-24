@@ -12,6 +12,7 @@
 #include <bksge/fnd/concepts/detail/class_or_enum.hpp>
 #include <bksge/fnd/type_traits/remove_reference.hpp>
 #include <bksge/fnd/type_traits/disjunction.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>

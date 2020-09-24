@@ -17,6 +17,7 @@
 #include <bksge/fnd/concepts/derived_from.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -43,13 +44,15 @@ template <typename Iter>
 struct forward_iterator_impl
 {
 private:
-	template <typename I2>
-	static auto test(int) -> bksge::conjunction<
-		bksge::input_iterator<I2>,
-		bksge::derived_from<bksge::detail::iter_concept<I2>, bksge::forward_iterator_tag>,
-		bksge::incrementable<I2>,
-		bksge::sentinel_for<I2, I2>
-	>;
+	template <typename I2,
+		typename = bksge::enable_if_t<bksge::conjunction<
+			bksge::input_iterator<I2>,
+			bksge::derived_from<bksge::detail::iter_concept<I2>, bksge::forward_iterator_tag>,
+			bksge::incrementable<I2>,
+			bksge::sentinel_for<I2, I2>
+		>::value>
+	>
+	static auto test(int) -> bksge::true_type;
 
 	template <typename I2>
 	static auto test(...) -> bksge::false_type;

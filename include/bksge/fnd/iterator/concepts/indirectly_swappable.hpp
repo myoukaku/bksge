@@ -11,8 +11,9 @@
 
 #include <bksge/fnd/iterator/concepts/indirectly_readable.hpp>
 #include <bksge/fnd/iterator/ranges/iter_swap.hpp>
-#include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
 

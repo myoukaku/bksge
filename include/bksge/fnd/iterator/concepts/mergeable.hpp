@@ -16,6 +16,7 @@
 #include <bksge/fnd/iterator/projected.hpp>
 #include <bksge/fnd/functional/identity.hpp>
 #include <bksge/fnd/functional/ranges/less.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/config.hpp>
 

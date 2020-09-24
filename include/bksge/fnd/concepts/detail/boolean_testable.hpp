@@ -10,6 +10,7 @@
 #define BKSGE_FND_CONCEPTS_DETAIL_BOOLEAN_TESTABLE_HPP
 
 #include <bksge/fnd/concepts/convertible_to.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
@@ -39,10 +40,12 @@ template <typename T>
 struct boolean_testable_impl
 {
 private:
-	template <typename U>
+	template <typename U,
+		typename V = decltype(!bksge::declval<U&&>())
+	>
 	static auto test(int) -> bksge::conjunction<
 		bksge::convertible_to<U, bool>,
-		bksge::convertible_to<decltype(!bksge::declval<U&&>()), bool>
+		bksge::convertible_to<V, bool>
 	>;
 
 	template <typename U>

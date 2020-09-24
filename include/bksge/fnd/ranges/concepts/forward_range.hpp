@@ -15,6 +15,7 @@
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/negation.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -42,11 +43,13 @@ template <typename T>
 struct forward_range_impl
 {
 private:
-	template <typename U>
-	static auto test(int) -> bksge::conjunction<
-		ranges::input_range<U>,
-		bksge::forward_iterator<ranges::iterator_t<U>>
-	>;
+	template <typename U,
+		typename = bksge::enable_if_t<bksge::conjunction<
+			ranges::input_range<U>,
+			bksge::forward_iterator<ranges::iterator_t<U>>
+		>::value>
+	>
+	static auto test(int) -> bksge::true_type;
 
 	template <typename U>
 	static auto test(...) -> bksge::false_type;

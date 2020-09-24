@@ -14,6 +14,7 @@
 #include <bksge/fnd/concepts/same_as.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
 
@@ -40,12 +41,14 @@ template <typename Iter>
 struct incrementable_impl
 {
 private:
-	template <typename I2>
-	static auto test(int) -> bksge::conjunction<
-		bksge::regular<I2>,
-		bksge::weakly_incrementable<I2>,
-		bksge::same_as<decltype(bksge::declval<I2&>()++), I2>
-	>;
+	template <typename I2,
+		typename = bksge::enable_if_t<bksge::conjunction<
+			bksge::regular<I2>,
+			bksge::weakly_incrementable<I2>
+		>::value>,
+		typename T = decltype(bksge::declval<I2&>()++)
+	>
+	static auto test(int) -> bksge::same_as<T, I2>;
 
 	template <typename I2>
 	static auto test(...) -> bksge::false_type;

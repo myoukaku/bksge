@@ -16,8 +16,9 @@
 #include <bksge/fnd/concepts/copyable.hpp>
 #include <bksge/fnd/concepts/constructible_from.hpp>
 #include <bksge/fnd/concepts/assignable_from.hpp>
-#include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
+#include <bksge/fnd/type_traits/conjunction.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -49,17 +50,19 @@ template <typename In, typename Out>
 struct indirectly_copyable_storable_impl
 {
 private:
-	template <typename I, typename O>
-	static auto test(int) -> bksge::conjunction<
-		bksge::indirectly_copyable<I, O>,
-		bksge::indirectly_writable<O, bksge::iter_value_t<I>&>,
-		bksge::indirectly_writable<O, bksge::iter_value_t<I> const&>,
-		bksge::indirectly_writable<O, bksge::iter_value_t<I>&&>,
-		bksge::indirectly_writable<O, bksge::iter_value_t<I> const&&>,
-		bksge::copyable<bksge::iter_value_t<I>>,
-		bksge::constructible_from<bksge::iter_value_t<I>, bksge::iter_reference_t<I>>,
-		bksge::assignable_from<bksge::iter_value_t<I>&, bksge::iter_reference_t<I>>
-	>;
+	template <typename I, typename O,
+		typename = bksge::enable_if_t<bksge::conjunction<
+			bksge::indirectly_copyable<I, O>,
+			bksge::indirectly_writable<O, bksge::iter_value_t<I>&>,
+			bksge::indirectly_writable<O, bksge::iter_value_t<I> const&>,
+			bksge::indirectly_writable<O, bksge::iter_value_t<I>&&>,
+			bksge::indirectly_writable<O, bksge::iter_value_t<I> const&&>,
+			bksge::copyable<bksge::iter_value_t<I>>,
+			bksge::constructible_from<bksge::iter_value_t<I>, bksge::iter_reference_t<I>>,
+			bksge::assignable_from<bksge::iter_value_t<I>&, bksge::iter_reference_t<I>>
+		>::value>
+	>
+	static auto test(int) -> bksge::true_type;
 
 	template <typename I, typename O>
 	static auto test(...) -> bksge::false_type;

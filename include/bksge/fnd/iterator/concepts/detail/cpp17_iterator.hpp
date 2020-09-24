@@ -44,11 +44,15 @@ template <typename Iter>
 struct cpp17_iterator_impl
 {
 private:
-	template <typename I2>
+	template <typename I2,
+		typename T1 = decltype( *bksge::declval<I2&>()),
+		typename T2 = decltype(++bksge::declval<I2&>()),
+		typename T3 = decltype( *bksge::declval<I2&>()++)
+	>
 	static auto test(int) -> bksge::conjunction<
-		bksge::detail::can_reference<decltype( *bksge::declval<I2&>())>,
-		bksge::same_as              <decltype(++bksge::declval<I2&>()), I2&>,
-		bksge::detail::can_reference<decltype( *bksge::declval<I2&>()++)>,
+		bksge::detail::can_reference<T1>,
+		bksge::same_as<T2, I2&>,
+		bksge::detail::can_reference<T3>,
 		bksge::copyable<I2>
 	>;
 

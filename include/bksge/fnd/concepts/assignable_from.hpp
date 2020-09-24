@@ -13,7 +13,9 @@
 #include <bksge/fnd/concepts/same_as.hpp>
 #include <bksge/fnd/concepts/detail/cref.hpp>
 #include <bksge/fnd/type_traits/is_lvalue_reference.hpp>
+#include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
@@ -44,12 +46,14 @@ template <typename Lhs, typename Rhs>
 struct assignable_from_impl
 {
 private:
-	template <typename L, typename R>
-	static auto test(int) -> bksge::bool_constant<
-		bksge::is_lvalue_reference<L>::value &&
-		bksge::common_reference_with<detail::cref<L>, detail::cref<R>>::value &&
-		bksge::same_as<L, decltype(bksge::declval<L>() = bksge::declval<R&&>())>::value
-	>;
+	template <typename L, typename R,
+		typename = bksge::enable_if_t<bksge::conjunction<
+			bksge::is_lvalue_reference<L>,
+			bksge::common_reference_with<detail::cref<L>, detail::cref<R>>
+		>::value>,
+		typename T = decltype(bksge::declval<L&>() = bksge::declval<R&&>())
+	>
+	static auto test(int) -> bksge::same_as<T, L>;
 
 	template <typename L, typename R>
 	static auto test(...) -> bksge::false_type;

@@ -15,6 +15,7 @@
 #include <bksge/fnd/concepts/same_as.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -39,11 +40,13 @@ template <typename T>
 struct common_range_impl
 {
 private:
-	template <typename U>
-	static auto test(int) -> bksge::conjunction<
-		ranges::range<U>,
-		bksge::same_as<ranges::iterator_t<U>, ranges::sentinel_t<U>>
-	>;
+	template <typename U,
+		typename = bksge::enable_if_t<bksge::conjunction<
+			ranges::range<U>,
+			bksge::same_as<ranges::iterator_t<U>, ranges::sentinel_t<U>>
+		>::value>
+	>
+	static auto test(int) -> bksge::true_type;
 
 	template <typename U>
 	static auto test(...) -> bksge::false_type;
