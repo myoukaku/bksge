@@ -36,7 +36,7 @@ namespace ranges
 namespace iter_swap_detail
 {
 
-#if defined(_MSC_VER) && (_MSC_VER < 1920)
+#if defined(BKSGE_MSVC) && (BKSGE_MSVC < 1920)
 void iter_swap();
 #elif 0
 void iter_swap(auto, auto) = delete;

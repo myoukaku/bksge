@@ -95,14 +95,14 @@ public:
 	BKSGE_CONSTEXPR explicit
 	optional(in_place_t t, std::initializer_list<U> il, Args&&... args);
 
-#if defined(_MSC_VER) && (_MSC_VER <= 1900)
+#if defined(BKSGE_MSVC) && (BKSGE_MSVC <= 1900)
 	BKSGE_CXX14_CONSTEXPR optional(optional const& other);
 	BKSGE_CXX14_CONSTEXPR optional(optional&& other) BKSGE_NOEXCEPT_IF(IsNothrowMoveConstructible::value);
 #endif
 
 	optional& operator=(nullopt_t) BKSGE_NOEXCEPT;
 
-#if defined(_MSC_VER) && (_MSC_VER <= 1900)
+#if defined(BKSGE_MSVC) && (BKSGE_MSVC <= 1900)
 	optional& operator=(optional const& other);
 	optional& operator=(optional&& other) BKSGE_NOEXCEPT_IF(IsNothrowMoveAssignable::value);
 #endif

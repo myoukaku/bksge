@@ -25,7 +25,7 @@ using std::nullopt;
 
 #else
 
-#if defined(_MSC_VER) && (_MSC_VER <= 1900)
+#if defined(BKSGE_MSVC) && (BKSGE_MSVC <= 1900)
 #include <bksge/fnd/type_traits/is_literal_type.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #endif
@@ -46,7 +46,7 @@ BKSGE_STATIC_CONSTEXPR nullopt_t nullopt{ nullopt_t::Construct::Token };
 using none_t = nullopt_t;
 BKSGE_STATIC_CONSTEXPR none_t none = nullopt;
 
-#if defined(_MSC_VER) && (_MSC_VER <= 1900)
+#if defined(BKSGE_MSVC) && (BKSGE_MSVC <= 1900)
 
 template <>
 struct is_literal_type<bksge::nullopt_t>

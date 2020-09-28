@@ -22,7 +22,7 @@ namespace bksge
 namespace detail
 {
 
-#if (defined(_MSC_VER) && (_MSC_VER >= 1500)) || \
+#if (defined(BKSGE_MSVC) && (BKSGE_MSVC >= 1500)) || \
 	BKSGE_HAS_FEATURE(is_trivially_constructible)
 
 template <bool, typename T, typename... Args>

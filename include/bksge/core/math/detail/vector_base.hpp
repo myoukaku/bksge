@@ -37,7 +37,7 @@ namespace detail
 template <typename T, std::size_t N>
 class VectorBase
 {
-#if defined(_MSC_VER)
+#if defined(BKSGE_MSVC)
 public:
 #else
 private:

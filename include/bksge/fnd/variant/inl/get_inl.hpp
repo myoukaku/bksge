@@ -32,7 +32,7 @@ template <std::size_t I, typename V>
 inline BKSGE_CONSTEXPR auto generic_get(V&& v)
 ->decltype((variant_detail::access::variant_t::get_alt<I>(bksge::forward<V>(v)).m_value))
 {
-#if !(defined(_MSC_VER) && (_MSC_VER <= 1916))
+#if !(defined(BKSGE_MSVC) && (BKSGE_MSVC <= 1916))
 	return
 		(!holds_alternative_impl<I>(v) ? throw_bad_variant_access() : (void)0),
 		variant_detail::access::variant_t::get_alt<I>(bksge::forward<V>(v)).m_value;

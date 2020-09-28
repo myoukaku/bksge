@@ -29,7 +29,7 @@ template <typename T, bool =
 	bksge::is_reference<T>::value
 >
 struct is_literal_type
-#if (defined(_MSC_VER) && (_MSC_VER >= 1500)) || \
+#if (defined(BKSGE_MSVC) && (BKSGE_MSVC >= 1500)) || \
 	BKSGE_HAS_FEATURE(is_literal_type)
 	: public bksge::bool_constant<__is_literal_type(T)>
 #elif BKSGE_HAS_FEATURE(is_literal)

@@ -24,7 +24,7 @@ template <typename T> using pascals = decltype(newton<T>() / square_metre<T>());
 BKSGE_UNITS_SI_PREFIX(pascals);
 
 // "pascal"がキーワードになっている環境では"pascal"は定義しない("pascals"を使う)
-#if defined(_MSC_VER)
+#if defined(BKSGE_MSVC)
 	#define BKSGE_UNITS_NO_PASCAL
 #elif defined(pascal)
 	#define BKSGE_UNITS_NO_PASCAL

@@ -91,7 +91,7 @@ optional<T>::optional(in_place_t t, std::initializer_list<U> il, Args&&... args)
 	: base{t, il, bksge::forward<Args>(args)...}
 {}
 
-#if defined(_MSC_VER) && (_MSC_VER <= 1900)
+#if defined(BKSGE_MSVC) && (BKSGE_MSVC <= 1900)
 
 template <typename T>
 inline BKSGE_CXX14_CONSTEXPR
@@ -117,7 +117,7 @@ optional<T>::operator=(nullopt_t) BKSGE_NOEXCEPT
 	return *this;
 }
 
-#if defined(_MSC_VER) && (_MSC_VER <= 1900)
+#if defined(BKSGE_MSVC) && (BKSGE_MSVC <= 1900)
 
 template <typename T>
 inline auto

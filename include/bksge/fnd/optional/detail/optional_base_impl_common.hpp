@@ -26,7 +26,7 @@ public:
 		, m_storage(bksge::move(t))
 	{}
 
-#if defined(_MSC_VER)
+#if defined(BKSGE_MSVC)
 	BKSGE_CONSTEXPR explicit
 	optional_base_impl(in_place_t)
 		: m_engaged(true)

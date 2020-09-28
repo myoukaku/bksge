@@ -28,7 +28,7 @@ namespace bksge
 namespace variant_detail
 {
 
-#if !(defined(_MSC_VER) && (_MSC_VER <= 1916))
+#if !(defined(BKSGE_MSVC) && (BKSGE_MSVC <= 1916))
 
 struct no_narrowing_check
 {

@@ -10,8 +10,9 @@
 #define BKSGE_FND_TYPE_TRAITS_INL_IS_CONVERTIBLE_INL_HPP
 
 #include <bksge/fnd/type_traits/is_convertible.hpp>
+#include <bksge/fnd/config.hpp>
 
-#if defined(_MSC_VER)
+#if defined(BKSGE_MSVC)
 
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conditional.hpp>
@@ -22,7 +23,6 @@
 #include <bksge/fnd/type_traits/remove_cvref.hpp>
 #include <bksge/fnd/type_traits/remove_reference.hpp>
 #include <bksge/fnd/type_traits/detail/is_same_or_base_of.hpp>
-#include <bksge/fnd/config.hpp>
 
 namespace bksge
 {
@@ -103,7 +103,7 @@ struct is_convertible
 
 }	// namespace bksge
 
-#else // defined(_MSC_VER)
+#else // defined(BKSGE_MSVC)
 
 #include <bksge/fnd/type_traits/detail/constant_wrapper.hpp>
 #include <type_traits>
@@ -120,6 +120,6 @@ struct is_convertible
 
 }	// namespace bksge
 
-#endif // defined(_MSC_VER)
+#endif // defined(BKSGE_MSVC)
 
 #endif // BKSGE_FND_TYPE_TRAITS_INL_IS_CONVERTIBLE_INL_HPP

@@ -22,7 +22,7 @@ template <typename T>
 struct is_final
 #if defined(__cpp_lib_is_final) && (__cpp_lib_is_final >= 201402)
 	: public detail::constant_wrapper<std::is_final<T>>
-#elif (defined(_MSC_VER) && (_MSC_VER >= 1500)) || \
+#elif (defined(BKSGE_MSVC) && (BKSGE_MSVC >= 1500)) || \
 	BKSGE_HAS_FEATURE(is_final)
 	: public bksge::bool_constant<__is_final(T)>
 #else

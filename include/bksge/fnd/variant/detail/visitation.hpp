@@ -131,7 +131,7 @@ static BKSGE_CONSTEXPR auto make_fdiagonal()
 	return make_fdiagonal_impl<F, V, Vs...>(bksge::make_index_sequence<N>{});
 }
 
-#if !(defined(_MSC_VER) && (_MSC_VER <= 1916))
+#if !(defined(BKSGE_MSVC) && (BKSGE_MSVC <= 1916))
 
 template <typename... IndexSequences>
 struct make_fmatrix_impl_helper;
