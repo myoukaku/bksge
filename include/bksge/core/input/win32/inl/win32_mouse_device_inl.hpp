@@ -25,6 +25,11 @@
 BKSGE_WARNING_PUSH();
 BKSGE_WARNING_DISABLE_MSVC(4644);
 
+#if defined(BKSGE_CLANG_VERSION)
+#	undef FIELD_OFFSET
+#	define FIELD_OFFSET offsetof
+#endif
+
 namespace bksge
 {
 

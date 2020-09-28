@@ -8,8 +8,13 @@
 
 #include <bksge/fnd/cstring.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
+#include <bksge/fnd/config.hpp>
 #include <cstddef>
 #include <gtest/gtest.h>
+
+BKSGE_WARNING_PUSH();
+BKSGE_WARNING_DISABLE_MSVC(4996);
+BKSGE_WARNING_DISABLE_CLANG("-Wdeprecated-declarations");
 
 GTEST_TEST(CStringTest, CStringTest)
 {
@@ -49,3 +54,5 @@ GTEST_TEST(CStringTest, CStringTest)
 	static_assert((bksge::is_same<decltype(bksge::memset(vp, 0, s)), void*>::value), "");
 	static_assert((bksge::is_same<decltype(bksge::memmove(vp, vpc, s)), void*>::value), "");
 }
+
+BKSGE_WARNING_POP();

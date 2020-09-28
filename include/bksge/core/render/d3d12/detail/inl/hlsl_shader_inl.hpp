@@ -23,6 +23,7 @@
 #include <bksge/core/render/d3d_common/throw_if_failed.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/utility/move.hpp>
+#include <bksge/fnd/assert.hpp>
 #include <memory>
 #include <vector>
 #include <string>
@@ -117,8 +118,12 @@ HlslShaderBase::CreateDescriptorRanges(void)
 		{
 		case D3D_SIT_TEXTURE:
 			++srv_count;
+			// FALLTHROUGH ? TODO
 		case D3D_SIT_SAMPLER:
 			++sampler_count;
+			break;
+		default:
+			BKSGE_ASSERT(false);
 			break;
 		}
 	}
@@ -197,6 +202,9 @@ HlslShaderBase::CreateHlslTextures(HlslTextures* hlsl_textures)
 		case D3D_SIT_TEXTURE:
 			hlsl_textures->push_back(bksge::make_unique<HlslTexture>(bind_desc));
 			break;
+		default:
+			BKSGE_ASSERT(false);
+			break;
 		}
 	}
 }
@@ -216,6 +224,9 @@ HlslShaderBase::CreateHlslSamplers(HlslSamplers* hlsl_samplers)
 		{
 		case D3D_SIT_SAMPLER:
 			hlsl_samplers->push_back(bksge::make_unique<HlslSampler>(bind_desc));
+			break;
+		default:
+			BKSGE_ASSERT(false);
 			break;
 		}
 	}

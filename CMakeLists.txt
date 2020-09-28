@@ -1,5 +1,5 @@
 ﻿cmake_minimum_required(VERSION 3.12)
-project(bksge CXX)
+project(bksge C CXX)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 include(Dart)
@@ -25,6 +25,13 @@ set(compiler_flags
 
 foreach(compiler_flag ${compiler_flags})
   if (MSVC)
+    # /Wn -> /W0 (Warning Level)
+    if(${compiler_flag} MATCHES "/W[0-4]")
+      string(REGEX REPLACE "/W[0-4]" "/W0" ${compiler_flag} "${${compiler_flag}}")
+    else()
+      set(${compiler_flag} "${${compiler_flag}} /W0")
+    endif()
+
     # /MD[d] -> /MT[d] (Run-Time Library)
     if(${compiler_flag} MATCHES "/MD")
 	  if(CMAKE_BUILD_TYPE MATCHES "Debug")
@@ -76,7 +83,9 @@ foreach(compiler_flag ${compiler_flags})
     set(${compiler_flag} "${${compiler_flag}} /WX")
 
 	# /MP (Build with Multiple Processes)
-    set(${compiler_flag} "${${compiler_flag}} /MP")
+	if (NOT CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+      set(${compiler_flag} "${${compiler_flag}} /MP")
+	endif()
 
 	# /bigobj (Increase Number of Sections in .obj file)
     set(${compiler_flag} "${${compiler_flag}} /bigobj")

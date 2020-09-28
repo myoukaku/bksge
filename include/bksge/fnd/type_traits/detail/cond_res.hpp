@@ -16,6 +16,10 @@
 
 BKSGE_WARNING_PUSH();
 
+#if defined(BKSGE_CLANG_VERSION) && (BKSGE_CLANG_VERSION >= 100000) && !defined(__APPLE__)
+BKSGE_WARNING_DISABLE_CLANG("-Wdeprecated-volatile");
+#endif
+
 namespace bksge
 {
 
@@ -23,10 +27,6 @@ namespace detail
 {
 
 #if !defined(_MSC_VER)
-
-#if defined(BKSGE_CLANG_VERSION) && (BKSGE_CLANG_VERSION >= 100000) && !defined(__APPLE__)
-BKSGE_WARNING_DISABLE_CLANG("-Wdeprecated-volatile");
-#endif
 
 template <typename X, typename Y>
 using cond_res = decltype(false ? bksge::declval<X(&)()>()() : bksge::declval<Y(&)()>()());

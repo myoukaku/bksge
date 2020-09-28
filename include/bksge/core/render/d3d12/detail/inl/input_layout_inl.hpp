@@ -20,6 +20,7 @@
 //#include <bksge/core/render/geometry.hpp>
 //#include <bksge/core/render/vertex_layout.hpp>
 //#include <bksge/core/render/semantic.hpp>
+#include <bksge/fnd/assert.hpp>
 
 namespace bksge
 {
@@ -68,6 +69,7 @@ GetElementDescFormat(::D3D12_SIGNATURE_PARAMETER_DESC const& param_desc)
 		case D3D_REGISTER_COMPONENT_UINT32:  return DXGI_FORMAT_R32_UINT;
 		case D3D_REGISTER_COMPONENT_SINT32:  return DXGI_FORMAT_R32_SINT;
 		case D3D_REGISTER_COMPONENT_FLOAT32: return DXGI_FORMAT_R32_FLOAT;
+		default: BKSGE_ASSERT(false); return DXGI_FORMAT_UNKNOWN;
 		}
 	}
 	else if (mask <= 3)
@@ -77,6 +79,7 @@ GetElementDescFormat(::D3D12_SIGNATURE_PARAMETER_DESC const& param_desc)
 		case D3D_REGISTER_COMPONENT_UINT32:  return DXGI_FORMAT_R32G32_UINT;
 		case D3D_REGISTER_COMPONENT_SINT32:  return DXGI_FORMAT_R32G32_SINT;
 		case D3D_REGISTER_COMPONENT_FLOAT32: return DXGI_FORMAT_R32G32_FLOAT;
+		default: BKSGE_ASSERT(false); return DXGI_FORMAT_UNKNOWN;
 		}
 	}
 	else if (mask <= 7)
@@ -86,6 +89,7 @@ GetElementDescFormat(::D3D12_SIGNATURE_PARAMETER_DESC const& param_desc)
 		case D3D_REGISTER_COMPONENT_UINT32:  return DXGI_FORMAT_R32G32B32_UINT;
 		case D3D_REGISTER_COMPONENT_SINT32:  return DXGI_FORMAT_R32G32B32_SINT;
 		case D3D_REGISTER_COMPONENT_FLOAT32: return DXGI_FORMAT_R32G32B32_FLOAT;
+		default: BKSGE_ASSERT(false); return DXGI_FORMAT_UNKNOWN;
 		}
 	}
 	else if (mask <= 15)
@@ -95,6 +99,7 @@ GetElementDescFormat(::D3D12_SIGNATURE_PARAMETER_DESC const& param_desc)
 		case D3D_REGISTER_COMPONENT_UINT32:  return DXGI_FORMAT_R32G32B32A32_UINT;
 		case D3D_REGISTER_COMPONENT_SINT32:  return DXGI_FORMAT_R32G32B32A32_SINT;
 		case D3D_REGISTER_COMPONENT_FLOAT32: return DXGI_FORMAT_R32G32B32A32_FLOAT;
+		default: BKSGE_ASSERT(false); return DXGI_FORMAT_UNKNOWN;
 		}
 	}
 

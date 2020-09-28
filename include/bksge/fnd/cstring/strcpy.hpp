@@ -21,6 +21,7 @@ strcpy(char* dest, char const* src)
 {
 BKSGE_WARNING_PUSH();
 BKSGE_WARNING_DISABLE_MSVC(4996);
+BKSGE_WARNING_DISABLE_CLANG("-Wdeprecated-declarations");
 	return std::strcpy(dest, src);
 BKSGE_WARNING_POP();
 }

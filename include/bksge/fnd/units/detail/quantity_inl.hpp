@@ -86,6 +86,9 @@ ratio_to_float()
 	return static_cast<long double>(R::num) / R::den;
 }
 
+BKSGE_WARNING_PUSH();
+BKSGE_WARNING_DISABLE_CLANG("-Wimplicit-int-float-conversion");
+
 template <typename ToQuantity, typename FromQuantity>
 inline BKSGE_CONSTEXPR ToQuantity
 quantity_cast(FromQuantity const& q) BKSGE_NOEXCEPT
@@ -98,6 +101,8 @@ quantity_cast(FromQuantity const& q) BKSGE_NOEXCEPT
 	using O2 = typename FromQuantity::offset_type;
 	return ToQuantity(static_cast<T1>((q.value() + ratio_to_float<O2>()) * R3::num / R3::den - ratio_to_float<O1>()));
 }
+
+BKSGE_WARNING_POP();
 
 template <typename T, typename D, typename S, typename O>
 inline BKSGE_CONSTEXPR
@@ -242,7 +247,7 @@ inline BKSGE_CONSTEXPR auto
 operator/(ArithmeticType lhs, quantity<T...> const& rhs) BKSGE_NOEXCEPT
 -> quantity_divide_result_t<dimensionless<ArithmeticType>, quantity<T...>>
 {
-#if defined(_MSC_VER) && (_MSC_VER == 1900)
+#if defined(BKSGE_MSVC) && (BKSGE_MSVC == 1900)
 	using Q1 = dimensionless<ArithmeticType>;
 	using Q2 = quantity<T...>;
 	using result_type = quantity_divide_result_t<Q1, Q2>;

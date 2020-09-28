@@ -28,6 +28,7 @@
 #include <bksge/core/render/d3d_common/throw_if_failed.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/utility/move.hpp>
+#include <bksge/fnd/assert.hpp>
 #include <vector>
 #include <string>
 
@@ -253,6 +254,9 @@ HlslShaderBase::CreateShaderResources(Device* /*device*/)
 				auto hlsl_sampler = bksge::make_unique<HlslSampler>(bind_desc);
 				m_hlsl_samplers.push_back(bksge::move(hlsl_sampler));
 			}
+			break;
+		default:
+			BKSGE_ASSERT(false);
 			break;
 		}
 	}
