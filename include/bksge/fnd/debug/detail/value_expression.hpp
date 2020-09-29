@@ -12,7 +12,11 @@
 #include <bksge/fnd/debug/detail/value_expression_fwd.hpp>
 #include <bksge/fnd/debug/detail/expression_base.hpp>
 #include <bksge/fnd/type_traits/remove_reference.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
+#include <bksge/fnd/type_traits/void_t.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/utility/forward.hpp>
+#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
 #include <ostream>
@@ -53,11 +57,30 @@ private:
 	T		m_value;
 };
 
+template <typename Stream, typename Expr, typename = void>
+struct stream_outputtable_impl
+	: public bksge::false_type {};
+
+template <typename Stream, typename Expr>
+struct stream_outputtable_impl<Stream, Expr, bksge::void_t<decltype(bksge::declval<Stream&>() << bksge::declval<Expr const&>().value())>>
+	: public bksge::true_type {};
+
 template <typename CharT, typename Traits, typename T>
+using stream_outputtable =
+	typename stream_outputtable_impl<std::basic_ostream<CharT, Traits>, value_expression<T>>::type;
+
+template <typename CharT, typename Traits, typename T, typename = bksge::enable_if_t<stream_outputtable<CharT, Traits, T>::value>>
 std::basic_ostream<CharT, Traits>&
 operator<<(std::basic_ostream<CharT, Traits>& os, value_expression<T> const& rhs)
 {
 	return os << rhs.value();
+}
+
+template <typename CharT, typename Traits, typename T, bksge::enable_if_t<!stream_outputtable<CharT, Traits, T>::value>* = nullptr>
+std::basic_ostream<CharT, Traits>&
+operator<<(std::basic_ostream<CharT, Traits>& os, value_expression<T> const& /*rhs*/)
+{
+	return os;// << rhs.value();
 }
 
 template <typename CharT, typename Traits>
