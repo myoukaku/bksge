@@ -44,7 +44,7 @@ template <
 	typename BidirectionalIterator1,
 	typename BidirectionalIterator2
 >
-BidirectionalIterator2
+BKSGE_CXX14_CONSTEXPR BidirectionalIterator2
 copy_backward(
 	BidirectionalIterator1 first,
 	BidirectionalIterator1 last,

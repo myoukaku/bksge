@@ -28,7 +28,7 @@ template <
 	typename Size,
 	typename OutputIterator
 >
-inline OutputIterator
+inline BKSGE_CXX14_CONSTEXPR OutputIterator
 copy_n(
 	InputIterator first,
 	Size n,
@@ -48,7 +48,7 @@ template <
 	typename Size,
 	typename OutputIterator
 >
-inline OutputIterator
+inline BKSGE_CXX14_CONSTEXPR OutputIterator
 copy_n(
 	RandomAccessIterator first,
 	Size n,
@@ -65,7 +65,7 @@ template <
 	typename Size,
 	typename OutputIterator
 >
-inline OutputIterator
+inline BKSGE_CXX14_CONSTEXPR OutputIterator
 copy_n(InputIterator first, Size n, OutputIterator result)
 {
 	using Category = bksge::iterator_category<InputIterator>*;

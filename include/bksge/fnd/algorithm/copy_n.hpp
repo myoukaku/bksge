@@ -35,7 +35,7 @@ namespace algorithm
  *	@complexity	正確に n 回代入が行われる。
  */
 template <typename InputIterator, typename Size, typename OutputIterator>
-OutputIterator
+BKSGE_CXX14_CONSTEXPR OutputIterator
 copy_n(InputIterator first, Size n, OutputIterator result);
 
 }	// namespace algorithm

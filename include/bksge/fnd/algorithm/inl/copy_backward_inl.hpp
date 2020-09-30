@@ -29,7 +29,7 @@ namespace detail
 {
 
 template <typename BidirectionalIterator, typename OutputIterator>
-inline OutputIterator
+inline BKSGE_CXX14_CONSTEXPR OutputIterator
 copy_backward(
 	BidirectionalIterator first,
 	BidirectionalIterator last,
@@ -43,8 +43,9 @@ copy_backward(
 	return result;
 }
 
+#if 0
 template <typename T, typename U>
-inline
+inline BKSGE_CXX14_CONSTEXPR
 bksge::enable_if_t<
 	bksge::is_same<bksge::remove_const_t<T>, U>::value &&
 	bksge::is_trivially_copy_assignable<U>::value,
@@ -62,6 +63,7 @@ copy_backward(T* first, T* last, U* result)
 
 	return result;
 }
+#endif
 
 }	// namespace detail
 
@@ -69,7 +71,7 @@ template <
 	typename BidirectionalIterator1,
 	typename BidirectionalIterator2
 >
-inline BidirectionalIterator2
+inline BKSGE_CXX14_CONSTEXPR BidirectionalIterator2
 copy_backward(
 	BidirectionalIterator1 first,
 	BidirectionalIterator1 last,

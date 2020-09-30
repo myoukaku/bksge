@@ -41,7 +41,7 @@ template <
 	typename InputIterator,
 	typename OutputIterator
 >
-OutputIterator
+BKSGE_CXX14_CONSTEXPR OutputIterator
 copy(InputIterator first, InputIterator last, OutputIterator result);
 
 /**
@@ -51,7 +51,7 @@ template <
 	typename InputIterator,
 	typename OutputIterator
 >
-OutputIterator
+BKSGE_CXX14_CONSTEXPR OutputIterator
 copy(
 	InputIterator  first,        InputIterator  last,
 	OutputIterator result_first, OutputIterator result_last);

@@ -33,6 +33,7 @@
 #include <bksge/fnd/span.hpp>
 #include <bksge/fnd/static_vector.hpp>
 #include <bksge/fnd/stdexcept.hpp>
+#include <bksge/fnd/string.hpp>
 #include <bksge/fnd/string_view.hpp>
 #include <bksge/fnd/tmp.hpp>
 #include <bksge/fnd/tpp.hpp>

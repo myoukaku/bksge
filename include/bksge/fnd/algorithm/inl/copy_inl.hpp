@@ -30,7 +30,7 @@ namespace detail
 {
 
 template <typename InputIterator, typename OutputIterator>
-inline OutputIterator
+inline BKSGE_CXX14_CONSTEXPR OutputIterator
 copy(InputIterator first, InputIterator last, OutputIterator result)
 {
 	while (first != last)
@@ -41,8 +41,9 @@ copy(InputIterator first, InputIterator last, OutputIterator result)
 	return result;
 }
 
+#if 0
 template <typename T, typename U>
-inline
+inline BKSGE_CXX14_CONSTEXPR
 bksge::enable_if_t<
 	bksge::is_same<bksge::remove_const_t<T>, U>::value &&
 	bksge::is_trivially_copy_assignable<U>::value,
@@ -59,9 +60,10 @@ copy(T* first, T* last, U* result)
 
 	return result + n;
 }
+#endif
 
 template <typename InputIterator, typename OutputIterator>
-inline OutputIterator
+inline BKSGE_CXX14_CONSTEXPR OutputIterator
 copy(
 	InputIterator first,
 	InputIterator last,
@@ -76,8 +78,9 @@ copy(
 	return result_first;
 }
 
+#if 0
 template <typename T, typename U>
-inline
+inline BKSGE_CXX14_CONSTEXPR
 bksge::enable_if_t<
 	bksge::is_same<bksge::remove_const_t<T>, U>::value &&
 	bksge::is_trivially_copy_assignable<U>::value,
@@ -96,6 +99,7 @@ copy(T* first, T* last, U* result_first, U* result_last)
 
 	return result_first + n;
 }
+#endif
 
 }	// namespace detail
 
@@ -103,7 +107,7 @@ template <
 	typename InputIterator,
 	typename OutputIterator
 >
-inline OutputIterator
+inline BKSGE_CXX14_CONSTEXPR OutputIterator
 copy(
 	InputIterator first,
 	InputIterator last,
@@ -119,7 +123,7 @@ template <
 	typename InputIterator,
 	typename OutputIterator
 >
-inline OutputIterator
+inline BKSGE_CXX14_CONSTEXPR OutputIterator
 copy(
 	InputIterator first,
 	InputIterator last,
