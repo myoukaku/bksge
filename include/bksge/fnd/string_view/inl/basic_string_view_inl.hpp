@@ -774,11 +774,11 @@ basic_string_view<CharT, Traits>::range_check(bool flag) const
 		(bksge::throw_out_of_range("basic_string_view index out of bounds"), false);
 }
 
-template <typename CharT, typename Traits>
-inline std::basic_ostream<CharT, Traits>&
+template <typename CharT, typename Traits1, typename Traits2>
+inline std::basic_ostream<CharT, Traits1>&
 operator<<(
-	std::basic_ostream<CharT, Traits>& os,
-	bksge::basic_string_view<CharT, Traits> const sv)
+	std::basic_ostream<CharT, Traits1>& os,
+	bksge::basic_string_view<CharT, Traits2> const sv)
 {
 	return os.write(sv.data(), sv.size());
 }

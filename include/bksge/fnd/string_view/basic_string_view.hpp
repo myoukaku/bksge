@@ -11,11 +11,11 @@
 
 #include <bksge/fnd/config.hpp>
 
-#if (BKSGE_CXX_STANDARD >= 17) && BKSGE_HAS_INCLUDE(<string_view>)
+#if (BKSGE_CXX_STANDARD >= 20) && BKSGE_HAS_INCLUDE(<string_view>)
 #include <string_view>
 #endif
 
-#if defined(__cpp_lib_string_view) && (__cpp_lib_string_view >= 201606)
+#if (BKSGE_CXX_STANDARD >= 20) && defined(__cpp_lib_string_view) && (__cpp_lib_string_view >= 201803L)
 
 namespace bksge
 {
@@ -26,6 +26,7 @@ using std::basic_string_view;
 
 #else
 
+#include <bksge/fnd/string/char_traits.hpp>
 #include <bksge/fnd/type_traits/is_trivial.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/iterator/reverse_iterator.hpp>
@@ -37,7 +38,7 @@ using std::basic_string_view;
 namespace bksge
 {
 
-template <typename CharT, typename Traits = std::char_traits<CharT>>
+template <typename CharT, typename Traits = bksge::char_traits<CharT>>
 class basic_string_view
 {
 public:
@@ -225,11 +226,11 @@ operator>=(
 	return lhs.compare(rhs) >= 0;
 }
 
-template <typename CharT, typename Traits>
-std::basic_ostream<CharT, Traits>&
+template <typename CharT, typename Traits1, typename Traits2>
+std::basic_ostream<CharT, Traits1>&
 operator<<(
-	std::basic_ostream<CharT, Traits>& os,
-	bksge::basic_string_view<CharT, Traits> const sv);
+	std::basic_ostream<CharT, Traits1>& os,
+	bksge::basic_string_view<CharT, Traits2> const sv);
 
 }	// namespace bksge
 
