@@ -13,6 +13,7 @@
 
 BKSGE_WARNING_PUSH()
 BKSGE_WARNING_DISABLE_MSVC(4100)
+BKSGE_WARNING_DISABLE_CLANG("-Wunused-parameter")
 
 #include <SPIRV/GlslangToSpv.h>
 
