@@ -20,6 +20,31 @@
 namespace bksge_ranges_test
 {
 
+template <typename T, template <typename> class Iterator>
+struct test_container
+{
+	T* m_first;
+	T* m_last;
+
+	using iterator = Iterator<T>;
+
+	BKSGE_CONSTEXPR test_container() : m_first(nullptr), m_last(nullptr) {}
+	BKSGE_CONSTEXPR test_container(T* first, T* last) : m_first(first), m_last(last) {}
+
+	BKSGE_CONSTEXPR test_container(test_container const&) = default;
+	BKSGE_CONSTEXPR test_container(test_container &&) = default;
+
+	BKSGE_CXX14_CONSTEXPR test_container& operator=(test_container const&) = default;
+	BKSGE_CXX14_CONSTEXPR test_container& operator=(test_container &&) = default;
+
+	template <std::size_t N>
+	explicit BKSGE_CONSTEXPR test_container(T (&arr)[N]) : test_container(arr, arr+N) {}
+
+	BKSGE_CONSTEXPR iterator begin() const { return iterator{m_first}; }
+	BKSGE_CONSTEXPR iterator end()   const { return iterator{m_last}; }
+};
+
+
 template <typename Iterator>
 struct test_sentinel
 {

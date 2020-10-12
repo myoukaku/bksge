@@ -87,6 +87,8 @@
 #include <bksge/fnd/algorithm/set_intersection.hpp>
 #include <bksge/fnd/algorithm/set_symmetric_difference.hpp>
 #include <bksge/fnd/algorithm/set_union.hpp>
+#include <bksge/fnd/algorithm/shift_left.hpp>
+#include <bksge/fnd/algorithm/shift_right.hpp>
 #include <bksge/fnd/algorithm/shuffle.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
 #include <bksge/fnd/algorithm/sort_heap.hpp>
