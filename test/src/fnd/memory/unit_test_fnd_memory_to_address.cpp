@@ -7,6 +7,7 @@
  */
 
 #include <bksge/fnd/memory/to_address.hpp>
+#include <bksge/fnd/memory/pointer_traits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -90,7 +91,7 @@ private:
 
 }	// namespace bksge_memory_test
 
-namespace std
+namespace BKSGE_POINTER_TRAITS_NAMESPACE
 {
 
 template<>
@@ -113,7 +114,7 @@ struct pointer_traits<bksge_memory_test::to_address_test::P4>
 	}
 };
 
-}	// namespace std
+}	// namespace BKSGE_POINTER_TRAITS_NAMESPACE
 
 namespace bksge_memory_test
 {
