@@ -11,6 +11,7 @@
 
 #include <bksge/fnd/algorithm.hpp>
 #include <bksge/fnd/any.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/bit.hpp>
 #include <bksge/fnd/cmath.hpp>
