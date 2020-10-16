@@ -416,7 +416,21 @@
 #undef CreateSymbolicLink
 #undef CreateSymbolicLinkTransacted
 #undef GetFinalPathNameByHandle
-
+// Console API
+#undef ReadConsoleInput
+#undef PeekConsoleInput
+#undef ReadConsole
+#undef WriteConsole
+#undef FillConsoleOutputCharacter
+#undef WriteConsoleOutputCharacter
+#undef ReadConsoleOutputCharacter
+#undef WriteConsoleInput
+#undef ScrollConsoleScreenBuffer
+#undef WriteConsoleOutput
+#undef ReadConsoleOutput
+#undef GetConsoleTitle
+#undef GetConsoleOriginalTitle
+#undef SetConsoleTitle
 
 #if 0
 typedef MENUTEMPLATEW MENUTEMPLATE;
@@ -874,6 +888,99 @@ inline int MessageBox(
 	UINT uType)
 {
 	return ::MessageBoxW(hWnd, lpText, lpCaption, uType);
+}
+
+inline DWORD
+FormatMessage(
+	DWORD dwFlags,
+	LPCVOID lpSource,
+	DWORD dwMessageId,
+	DWORD dwLanguageId,
+	char* lpBuffer,
+	DWORD nSize,
+	va_list* Arguments)
+{
+	return ::FormatMessageA(dwFlags, lpSource, dwMessageId, dwLanguageId, lpBuffer, nSize, Arguments);
+}
+
+inline DWORD
+FormatMessage(
+	DWORD dwFlags,
+	LPCVOID lpSource,
+	DWORD dwMessageId,
+	DWORD dwLanguageId,
+	wchar_t* lpBuffer,
+	DWORD nSize,
+	va_list* Arguments)
+{
+	return ::FormatMessageW(dwFlags, lpSource, dwMessageId, dwLanguageId, lpBuffer, nSize, Arguments);
+}
+
+inline BOOL
+WriteConsole(
+	HANDLE hConsoleOutput,
+	const char* lpBuffer,
+	DWORD nNumberOfCharsToWrite,
+	LPDWORD lpNumberOfCharsWritten,
+	LPVOID lpReserved)
+{
+	return WriteConsoleA(hConsoleOutput, lpBuffer, nNumberOfCharsToWrite, lpNumberOfCharsWritten, lpReserved);
+}
+
+inline BOOL
+WriteConsole(
+	HANDLE hConsoleOutput,
+	const wchar_t* lpBuffer,
+	DWORD nNumberOfCharsToWrite,
+	LPDWORD lpNumberOfCharsWritten,
+	LPVOID lpReserved)
+{
+	return WriteConsoleW(hConsoleOutput, lpBuffer, nNumberOfCharsToWrite, lpNumberOfCharsWritten, lpReserved);
+}
+
+template <typename CharT>
+inline BOOL
+WriteConsoleOutput(
+	HANDLE hConsoleOutput,
+	CONST CHAR_INFO* lpBuffer,
+	COORD dwBufferSize,
+	COORD dwBufferCoord,
+	PSMALL_RECT lpWriteRegion);
+
+template <>
+inline BOOL
+WriteConsoleOutput<char>(
+	HANDLE hConsoleOutput,
+	CONST CHAR_INFO* lpBuffer,
+	COORD dwBufferSize,
+	COORD dwBufferCoord,
+	PSMALL_RECT lpWriteRegion)
+{
+	return ::WriteConsoleOutputA(hConsoleOutput, lpBuffer, dwBufferSize, dwBufferCoord, lpWriteRegion);
+}
+
+template <>
+inline BOOL
+WriteConsoleOutput<wchar_t>(
+	HANDLE hConsoleOutput,
+	CONST CHAR_INFO* lpBuffer,
+	COORD dwBufferSize,
+	COORD dwBufferCoord,
+	PSMALL_RECT lpWriteRegion)
+{
+	return ::WriteConsoleOutputW(hConsoleOutput, lpBuffer, dwBufferSize, dwBufferCoord, lpWriteRegion);
+}
+
+inline BOOL
+SetConsoleTitle(char const* lpConsoleTitle)
+{
+	return ::SetConsoleTitleA(lpConsoleTitle);
+}
+
+inline BOOL
+SetConsoleTitle(wchar_t const* lpConsoleTitle)
+{
+	return ::SetConsoleTitleW(lpConsoleTitle);
 }
 
 }	// namespace win32
