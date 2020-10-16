@@ -15,6 +15,7 @@
 #include <bksge/fnd/numeric/inner_product.hpp>
 #include <bksge/fnd/numeric/iota.hpp>
 #include <bksge/fnd/numeric/lcm.hpp>
+#include <bksge/fnd/numeric/midpoint.hpp>
 #include <bksge/fnd/numeric/partial_sum.hpp>
 
 #endif // BKSGE_FND_NUMERIC_HPP
