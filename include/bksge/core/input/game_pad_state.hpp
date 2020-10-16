@@ -10,9 +10,9 @@
 #define BKSGE_CORE_INPUT_GAME_PAD_STATE_HPP
 
 #include <bksge/core/math/vector2.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
-#include <array>
 #include <bitset>
 
 namespace bksge
@@ -32,8 +32,8 @@ public:
 	BKSGE_STATIC_CONSTEXPR std::size_t kAnalogStickMax	=  2;
 
 	using Buttons		= std::bitset<kButtonMax>;
-	using AnalogButtons	= std::array<float, kAnalogButtonMax>;
-	using AnalogSticks	= std::array<bksge::Vector2f, kAnalogStickMax>;
+	using AnalogButtons	= bksge::array<float, kAnalogButtonMax>;
+	using AnalogSticks	= bksge::array<bksge::Vector2f, kAnalogStickMax>;
 
 	GamePadState(void);
 
