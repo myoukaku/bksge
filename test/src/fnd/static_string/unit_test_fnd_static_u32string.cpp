@@ -3366,6 +3366,7 @@ GTEST_TEST(StaticU32StringTest, AddTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(AddCharStringTest<100>());
 }
 
+#if 0
 GTEST_TEST(StaticU32StringTest, InputStreamTest)
 {
 	{
@@ -3383,6 +3384,7 @@ GTEST_TEST(StaticU32StringTest, InputStreamTest)
 		EXPECT_TRUE(s == U"World");
 	}
 }
+#endif
 
 GTEST_TEST(StaticU32StringTest, OutputStreamTest)
 {
