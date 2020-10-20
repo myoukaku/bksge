@@ -175,10 +175,9 @@ struct X
 
 	BKSGE_CXX14_CONSTEXPR X(X&& other)
 	{
-		if (this != &other)
-		{
-			*this = bksge::move(other);
-		}
+		a = other.a;
+		other.moved_from = true;
+		moved_from = false;
 	}
 
 	BKSGE_CXX14_CONSTEXPR X& operator=(X&& other)
