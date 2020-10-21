@@ -40,6 +40,9 @@
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/config.hpp>
+#if BKSGE_HAS_INCLUDE(<compare>) && (BKSGE_CXX_STANDARD >= 20)
+#include <compare>
+#endif
 
 namespace bksge
 {
@@ -193,13 +196,19 @@ public:	// TODO
 			return lhs.m_value == rhs.m_value;
 		}
 
-#if !defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
+#if 0//def __cpp_lib_three_way_comparison
+//#if !defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
+		friend BKSGE_CONSTEXPR auto operator<=>(Iterator const& lhs, Iterator const& rhs)
+			BKSGE_REQUIRES(bksge::totally_ordered<W> && std::three_way_comparable<W>)
+		{
+			return lhs.m_value <=> rhs.m_value;
+		}
+#else
 		friend BKSGE_CONSTEXPR bool operator!=(Iterator const& lhs, Iterator const& rhs)
 			BKSGE_REQUIRES(bksge::equality_comparable<W>)
 		{
 			return !(lhs == rhs);
 		}
-#endif
 
 		friend BKSGE_CONSTEXPR bool operator<(Iterator const& lhs, Iterator const& rhs)
 			BKSGE_REQUIRES(bksge::totally_ordered<W>)
@@ -224,15 +233,7 @@ public:	// TODO
 		{
 			return !(lhs < rhs);
 		}
-
-#ifdef __cpp_lib_three_way_comparison
-		friend BKSGE_CONSTEXPR auto operator<=>(Iterator const& lhs, Iterator const& rhs)
-			BKSGE_REQUIRES(bksge::totally_ordered<W>&& three_way_comparable<W>)
-		{
-			return lhs.m_value <=> rhs.m_value;
-		}
 #endif
-
 		friend BKSGE_CONSTEXPR Iterator operator+(Iterator i, difference_type n)
 			BKSGE_REQUIRES(detail::advanceable<W>)
 		{
