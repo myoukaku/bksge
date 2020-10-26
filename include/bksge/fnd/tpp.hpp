@@ -12,5 +12,6 @@
 #include <bksge/fnd/tpp/accumulate.hpp>
 #include <bksge/fnd/tpp/all_of.hpp>
 #include <bksge/fnd/tpp/any_of.hpp>
+#include <bksge/fnd/tpp/fold_left.hpp>
 
 #endif // BKSGE_FND_TPP_HPP

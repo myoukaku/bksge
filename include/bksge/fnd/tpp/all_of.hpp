@@ -9,6 +9,9 @@
 #ifndef BKSGE_FND_TPP_ALL_OF_HPP
 #define BKSGE_FND_TPP_ALL_OF_HPP
 
+#include <bksge/fnd/tpp/fold_left.hpp>
+#include <bksge/fnd/functional/logical_and.hpp>
+#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -21,12 +24,13 @@ namespace tpp
  *	@brief
  */
 template <typename... Args>
-BKSGE_CONSTEXPR bool all_of(Args&&... args);
+inline BKSGE_CONSTEXPR bool all_of(Args&&... args)
+{
+	return bksge::tpp::fold_left(bksge::logical_and<>{}, true, bksge::forward<Args>(args)...);
+}
 
 }	// namespace tpp
 
 }	// namespace bksge
-
-#include <bksge/fnd/tpp/inl/all_of_inl.hpp>
 
 #endif // BKSGE_FND_TPP_ALL_OF_HPP
