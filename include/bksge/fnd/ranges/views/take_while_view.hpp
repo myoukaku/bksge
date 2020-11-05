@@ -28,6 +28,7 @@
 #include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/functional/invoke.hpp>
 #include <bksge/fnd/iterator/concepts/indirect_unary_predicate.hpp>
+#include <bksge/fnd/iterator/concepts/sentinel_for.hpp>
 #include <bksge/fnd/memory/addressof.hpp>
 #include <bksge/fnd/type_traits/is_object.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
@@ -99,7 +100,20 @@ class take_while_view : public ranges::view_interface<take_while_view<V, Pred>>
 		}
 
 		friend BKSGE_CONSTEXPR bool
-		operator==(Iterator const& lhs, Sentinel const& rhs)
+		operator==(ranges::iterator_t<Base> const& lhs, Sentinel const& rhs)
+		{
+			return rhs.m_end == lhs || !bksge::invoke(*rhs.m_pred, *lhs);
+		}
+
+		template <bool OtherConst = !Const,
+			typename Base2 = ranges::detail::maybe_const_t<OtherConst, V>,
+			typename = bksge::enable_if_t<
+				bksge::is_sentinel_for<
+					ranges::sentinel_t<Base>,
+					ranges::iterator_t<Base2>
+				>::value>>
+		friend BKSGE_CONSTEXPR bool
+		operator==(ranges::iterator_t<Base2> const& lhs, Sentinel const& rhs)
 		{
 			return rhs.m_end == lhs || !bksge::invoke(*rhs.m_pred, *lhs);
 		}
@@ -127,16 +141,16 @@ class take_while_view : public ranges::view_interface<take_while_view<V, Pred>>
 		friend Sentinel<!Const>;
 	};
 
+	BKSGE_NO_UNIQUE_ADDRESS ranges::detail::box<Pred> m_pred;
 	V m_base = {};
-	ranges::detail::box<Pred> m_pred;
 
 public:
 	BKSGE_CONSTEXPR take_while_view() = default;
 
 	BKSGE_CONSTEXPR
 	take_while_view(V base, Pred pred)
-		: m_base(bksge::move(base))
-		, m_pred(bksge::move(pred))
+		: m_pred(bksge::move(pred))
+		, m_base(bksge::move(base))
 	{}
 
 	BKSGE_CONSTEXPR V base() const&
@@ -162,7 +176,13 @@ public:
 		return ranges::begin(m_base);
 	}
 
-	template <BKSGE_REQUIRES_PARAM_D(ranges::range, V2, V const)>
+	template <
+		typename V2 = V const,
+		typename = bksge::enable_if_t<bksge::conjunction<
+			ranges::is_range<V2>,
+			bksge::is_indirect_unary_predicate<Pred const, ranges::iterator_t<V2>>
+		>::value>
+	>
 	BKSGE_CONSTEXPR auto begin() const
 	-> ranges::iterator_t<V2>
 	{
@@ -176,7 +196,13 @@ public:
 		return Sentinel<false>(ranges::end(m_base), bksge::addressof(pred()));
 	}
 
-	template <BKSGE_REQUIRES_PARAM_D(ranges::range, V2, V const)>
+	template <
+		typename V2 = V const,
+		typename = bksge::enable_if_t<bksge::conjunction<
+			ranges::is_range<V2>,
+			bksge::is_indirect_unary_predicate<Pred const, ranges::iterator_t<V2>>
+		>::value>
+	>
 	BKSGE_CONSTEXPR auto end() const
 	-> Sentinel<true>
 	{

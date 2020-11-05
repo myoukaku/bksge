@@ -49,7 +49,7 @@ inline BKSGE_CXX14_CONSTEXPR bool test01()
 
 inline BKSGE_CXX14_CONSTEXPR bool test02()
 {
-	bksge::ranges::single_view<long> const s2;
+	bksge::ranges::single_view<long> const s2 {};
 	static_assert(bksge::is_same<bksge::ranges::range_value_t<decltype(s2)>, long>::value, "");
 	VERIFY(bksge::ranges::size(s2) == 1);
 

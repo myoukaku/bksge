@@ -362,7 +362,7 @@ public:	// TODO
 	};
 
 	W     m_value = W();
-	Bound m_bound = Bound();
+	BKSGE_NO_UNIQUE_ADDRESS Bound m_bound = Bound();
 
 public:
 	BKSGE_CONSTEXPR iota_view() = default;

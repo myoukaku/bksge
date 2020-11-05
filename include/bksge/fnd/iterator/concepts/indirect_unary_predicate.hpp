@@ -33,6 +33,9 @@ concept indirect_unary_predicate =
 	bksge::predicate<F&, bksge::iter_reference_t<I>> &&
 	bksge::predicate<F&, bksge::iter_common_reference_t<I>>;
 
+template <typename F, typename I>
+using is_indirect_unary_predicate = bksge::bool_constant<indirect_unary_predicate<F, I>>;
+
 #else
 
 namespace detail
@@ -65,6 +68,9 @@ public:
 template <typename F, typename I>
 using indirect_unary_predicate =
 	typename detail::indirect_unary_predicate_impl<F, I>::type;
+
+template <typename F, typename I>
+using is_indirect_unary_predicate = indirect_unary_predicate<F, I>;
 
 #endif
 

@@ -39,7 +39,6 @@
 #include <bksge/fnd/iterator/tag.hpp>
 #include <bksge/fnd/iterator/default_sentinel.hpp>
 #include <bksge/fnd/iterator/iterator_traits.hpp>
-#include <bksge/fnd/memory/addressof.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conditional.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
@@ -182,14 +181,14 @@ private:
 
 		template <BKSGE_REQUIRES_PARAM_D(ranges::not_forward_range, B2, Base)>
 		BKSGE_CONSTEXPR explicit
-		OuterIter(Parent& parent)
-			: m_parent(bksge::addressof(parent))
+		OuterIter(Parent* parent)
+			: m_parent(parent)
 		{}
 
 		template <BKSGE_REQUIRES_PARAM_D(ranges::forward_range, B2, Base)>
 		BKSGE_CONSTEXPR
-		OuterIter(Parent& parent, ranges::iterator_t<Base> current)
-			: m_parent(bksge::addressof(parent))
+		OuterIter(Parent* parent, ranges::iterator_t<Base> current)
+			: m_parent(parent)
 			, m_current(bksge::move(current))
 		{}
 
@@ -531,7 +530,6 @@ private:
 #endif
 	};
 
-	V       m_base    = {};
 	Pattern m_pattern = {};
 
 	BKSGE_NO_UNIQUE_ADDRESS
@@ -541,13 +539,15 @@ private:
 		views::detail::Empty
 	> m_current = {};
 
+	V       m_base    = {};
+
 public:
 	BKSGE_CONSTEXPR split_view() = default;
 
 	BKSGE_CONSTEXPR
 	split_view(V base, Pattern pattern)
-		: m_base(bksge::move(base))
-		, m_pattern(bksge::move(pattern))
+		: m_pattern(bksge::move(pattern))
+		, m_base(bksge::move(base))
 	{}
 
 	template <BKSGE_REQUIRES_PARAM(ranges::input_range, Range),
@@ -557,8 +557,8 @@ public:
 		>::value>>
 	BKSGE_CONSTEXPR
 	split_view(Range&& r, ranges::range_value_t<Range> e)
-		: m_base(views::all(bksge::forward<Range>(r)))
-		, m_pattern(bksge::move(e))
+		: m_pattern(bksge::move(e))
+		, m_base(views::all(bksge::forward<Range>(r)))
 	{}
 
 	template <BKSGE_REQUIRES_PARAM_D(bksge::copy_constructible, V2, V)>
@@ -576,14 +576,14 @@ private:
 	BKSGE_CXX14_CONSTEXPR auto begin_impl(bksge::true_type)
 	-> OuterIter<(ranges::detail::is_simple_view<V>::value)>
 	{
-		return { *this, ranges::begin(m_base) };
+		return { this, ranges::begin(m_base) };
 	}
 
 	BKSGE_CXX14_CONSTEXPR auto begin_impl(bksge::false_type)
 	-> OuterIter<false>
 	{
 		m_current = ranges::begin(m_base);
-		return OuterIter<false>{*this};
+		return OuterIter<false>{this};
 	}
 
 public:
@@ -600,7 +600,7 @@ public:
 	BKSGE_CONSTEXPR auto begin() const
 	-> OuterIter<true>
 	{
-		return {*this, ranges::begin(m_base)};
+		return {this, ranges::begin(m_base)};
 	}
 
 	template <
@@ -610,14 +610,14 @@ public:
 	BKSGE_CXX14_CONSTEXPR auto end()
 	-> OuterIter<ranges::detail::is_simple_view<V>::value>
 	{
-		return {*this, ranges::end(m_base)};
+		return {this, ranges::end(m_base)};
 	}
 
 private:
 	BKSGE_CONSTEXPR auto end_impl(bksge::true_type) const
 	-> OuterIter<true>
 	{
-		return {*this, ranges::end(m_base)};
+		return {this, ranges::end(m_base)};
 	}
 
 	BKSGE_CONSTEXPR auto end_impl(bksge::false_type) const

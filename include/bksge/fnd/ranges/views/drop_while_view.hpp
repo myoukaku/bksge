@@ -15,8 +15,9 @@
 #include <bksge/fnd/ranges/concepts/view.hpp>
 #include <bksge/fnd/ranges/concepts/input_range.hpp>
 #include <bksge/fnd/ranges/concepts/viewable_range.hpp>
+#include <bksge/fnd/ranges/concepts/enable_borrowed_range.hpp>
 #include <bksge/fnd/ranges/detail/cached_position.hpp>
-//#include <bksge/fnd/ranges/detail/box.hpp>
+#include <bksge/fnd/ranges/detail/box.hpp>
 #include <bksge/fnd/ranges/iterator_t.hpp>
 #include <bksge/fnd/ranges/sentinel_t.hpp>
 #include <bksge/fnd/ranges/begin.hpp>
@@ -58,19 +59,18 @@ template <
 class drop_while_view : public ranges::view_interface<drop_while_view<V, Pred>>
 {
 private:
-	V m_base = V();
-//	ranges::detail::box<Pred> m_pred;
-	Pred m_pred;
+	BKSGE_NO_UNIQUE_ADDRESS ranges::detail::box<Pred> m_pred;
 	BKSGE_NO_UNIQUE_ADDRESS ranges::detail::cached_position<V> m_cached_begin;
+	V m_base = {};
 
 public:
 	BKSGE_CONSTEXPR drop_while_view() = default;
 
 	BKSGE_CONSTEXPR
 	drop_while_view(V base, Pred pred)
-		: m_base(bksge::move(base))
-		, m_pred(bksge::move(pred))
-	{ }
+		: m_pred(bksge::move(pred))
+		, m_base(bksge::move(base))
+	{}
 
 	BKSGE_CONSTEXPR V base() const&
 		BKSGE_REQUIRES(bksge::copy_constructible<V>)
@@ -85,8 +85,7 @@ public:
 
 	BKSGE_CONSTEXPR Pred const& pred() const
 	{
-//		return *m_pred;
-		return m_pred;
+		return *m_pred;
 	}
 
 	BKSGE_CXX14_CONSTEXPR auto begin()
@@ -120,6 +119,11 @@ drop_while_view(Range&&, Pred)
 -> drop_while_view<views::all_t<Range>, Pred>;
 
 #endif
+
+template <typename T, typename Pred>
+BKSGE_RANGES_SPECIALIZE_ENABLE_BORROWED_RANGE(
+	BKSGE_RANGES_ENABLE_BORROWED_RANGE(T),
+	drop_while_view<T, Pred>);
 
 namespace views
 {

@@ -19,7 +19,7 @@
 #include <bksge/fnd/ranges/concepts/common_range.hpp>
 #include <bksge/fnd/ranges/concepts/viewable_range.hpp>
 #include <bksge/fnd/ranges/detail/has_arrow.hpp>
-//#include <bksge/fnd/ranges/detail/box.hpp>
+#include <bksge/fnd/ranges/detail/box.hpp>
 #include <bksge/fnd/ranges/detail/cached_position.hpp>
 #include <bksge/fnd/ranges/iterator_t.hpp>
 #include <bksge/fnd/ranges/range_value_t.hpp>
@@ -43,7 +43,6 @@
 #include <bksge/fnd/iterator/ranges/iter_swap.hpp>
 #include <bksge/fnd/iterator/tag.hpp>
 #include <bksge/fnd/iterator/iterator_traits.hpp>
-#include <bksge/fnd/memory/addressof.hpp>
 #include <bksge/fnd/type_traits/conditional.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
@@ -122,9 +121,9 @@ private:
 		BKSGE_CONSTEXPR Iterator() = default;
 
 		BKSGE_CONSTEXPR
-		Iterator(filter_view& parent, v_iter current)
+		Iterator(filter_view* parent, v_iter current)
 			: m_current(bksge::move(current))
-			, m_parent(bksge::addressof(parent))
+			, m_parent(parent)
 		{}
 
 		BKSGE_CONSTEXPR v_iter base() const&
@@ -251,8 +250,8 @@ private:
 		BKSGE_CONSTEXPR Sentinel() = default;
 
 		BKSGE_CONSTEXPR explicit
-		Sentinel(filter_view& parent)
-			: m_end(ranges::end(parent.m_base))
+		Sentinel(filter_view* parent)
+			: m_end(ranges::end(parent->m_base))
 		{}
 
 		BKSGE_CONSTEXPR ranges::sentinel_t<V> base() const
@@ -287,18 +286,17 @@ private:
 #endif
 	};
 
-	V m_base = {};
-	//ranges::detail::box<Pred> m_pred;
-	Pred m_pred;
+	BKSGE_NO_UNIQUE_ADDRESS ranges::detail::box<Pred> m_pred;
 	BKSGE_NO_UNIQUE_ADDRESS ranges::detail::cached_position<V> m_cached_begin;
+	V m_base = {};
 
 public:
 	BKSGE_CONSTEXPR filter_view() = default;
 
 	BKSGE_CONSTEXPR
 	filter_view(V base, Pred pred)
-		: m_base(bksge::move(base))
-		, m_pred(bksge::move(pred))
+		: m_pred(bksge::move(pred))
+		, m_base(bksge::move(base))
 	{}
 
 	BKSGE_CONSTEXPR V base() const&
@@ -314,19 +312,18 @@ public:
 
 	BKSGE_CONSTEXPR Pred const& pred() const
 	{
-		//return *m_pred;
-		return m_pred;
+		return *m_pred;
 	}
 
 	BKSGE_CXX14_CONSTEXPR Iterator begin()
 	{
 		if (m_cached_begin.has_value())
 		{
-			return { *this, m_cached_begin.get(m_base) };
+			return { this, m_cached_begin.get(m_base) };
 		}
 
 #if BKSGE_CXX_STANDARD >= 17
-		//BKSGE_ASSERT(m_pred.has_value());
+		BKSGE_ASSERT(m_pred.has_value());
 #endif
 
 		auto it = ranges::find_if(
@@ -334,7 +331,7 @@ public:
 			ranges::end(m_base),
 			bksge::ref(pred()));
 		m_cached_begin.set(m_base, it);
-		return { *this, bksge::move(it) };
+		return { this, bksge::move(it) };
 	}
 
 private:
@@ -342,13 +339,13 @@ private:
 	BKSGE_CXX14_CONSTEXPR Iterator
 	end_impl(bksge::detail::overload_priority<1>)
 	{
-		return Iterator{ *this, ranges::end(m_base) };
+		return Iterator{ this, ranges::end(m_base) };
 	}
 
 	BKSGE_CXX14_CONSTEXPR Sentinel
 	end_impl(bksge::detail::overload_priority<0>)
 	{
-		return Sentinel{ *this };
+		return Sentinel{ this };
 	}
 
 public:

@@ -66,7 +66,8 @@ public:
 #endif
 	>
 	BKSGE_REQUIRES(bksge::constructible_from<T, Args...>)
-	BKSGE_CONSTEXPR single_view(bksge::in_place_t, Args&&... args)
+	BKSGE_CONSTEXPR explicit
+	single_view(bksge::in_place_t, Args&&... args)
 		: m_value{bksge::in_place, bksge::forward<Args>(args)...}
 	{}
 
@@ -106,7 +107,7 @@ public:
 	}
 
 private:
-	detail::box<T> m_value;
+	BKSGE_NO_UNIQUE_ADDRESS detail::box<T> m_value;
 };
 
 namespace views

@@ -21,6 +21,7 @@
 #include <bksge/fnd/ranges/concepts/bidirectional_range.hpp>
 #include <bksge/fnd/ranges/concepts/random_access_range.hpp>
 #include <bksge/fnd/ranges/concepts/viewable_range.hpp>
+#include <bksge/fnd/ranges/concepts/enable_borrowed_range.hpp>
 #include <bksge/fnd/ranges/detail/maybe_const_t.hpp>
 #include <bksge/fnd/ranges/detail/simple_view.hpp>
 #include <bksge/fnd/ranges/range_value_t.hpp>
@@ -396,7 +397,12 @@ private:
 			return Iterator{lhs} -= rhs;
 		}
 
-		template <BKSGE_REQUIRES_PARAM_D(ranges::random_access_range, B2, Base)>
+		template <typename B2 = Base,
+			typename = bksge::enable_if_t<
+				bksge::is_sized_sentinel_for<
+					ranges::iterator_t<B2>,
+					ranges::iterator_t<B2>
+				>::value>>
 		friend BKSGE_CONSTEXPR difference_type
 		operator-(Iterator const& lhs, Iterator const& rhs)
 		{
@@ -513,6 +519,11 @@ private:
 
 	V m_base = {};
 };
+
+template <typename T, std::size_t N>
+BKSGE_RANGES_SPECIALIZE_ENABLE_BORROWED_RANGE(
+	BKSGE_RANGES_ENABLE_BORROWED_RANGE(T),
+	elements_view<T, N>);
 
 template <typename Range>
 using keys_view   = elements_view<views::all_t<Range>, 0>;

@@ -17,6 +17,7 @@
 #include <bksge/fnd/ranges/concepts/random_access_range.hpp>
 #include <bksge/fnd/ranges/concepts/range.hpp>
 #include <bksge/fnd/ranges/concepts/viewable_range.hpp>
+#include <bksge/fnd/ranges/concepts/enable_borrowed_range.hpp>
 #include <bksge/fnd/ranges/detail/maybe_const_t.hpp>
 #include <bksge/fnd/ranges/detail/simple_view.hpp>
 #include <bksge/fnd/ranges/iterator_t.hpp>
@@ -32,6 +33,7 @@
 #include <bksge/fnd/concepts/detail/overload_priority.hpp>
 #include <bksge/fnd/iterator/counted_iterator.hpp>
 #include <bksge/fnd/iterator/default_sentinel.hpp>
+#include <bksge/fnd/iterator/concepts/sentinel_for.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_const.hpp>
 #include <bksge/fnd/utility/move.hpp>
@@ -49,11 +51,14 @@ class take_view : public ranges::view_interface<take_view<V>>
 {
 private:
 	template <bool Const>
+	using CI = bksge::counted_iterator<
+		ranges::iterator_t<ranges::detail::maybe_const_t<Const, V>>>;
+
+	template <bool Const>
 	struct Sentinel
 	{
 	private:
 		using Base = ranges::detail::maybe_const_t<Const, V>;
-		using CI = bksge::counted_iterator<ranges::iterator_t<Base>>;
 
 		ranges::sentinel_t<Base> m_end = {};
 
@@ -82,26 +87,39 @@ private:
 		}
 
 		friend BKSGE_CONSTEXPR bool
-		operator==(CI const& lhs, Sentinel const& rhs)
+		operator==(CI<Const> const& lhs, Sentinel const& rhs)
+		{
+			return lhs.count() == 0 || lhs.base() == rhs.m_end;
+		}
+
+		template <bool OtherConst = !Const,
+			typename Base2 = ranges::detail::maybe_const_t<OtherConst, V>,
+			typename = bksge::enable_if_t<
+				bksge::is_sentinel_for<
+					ranges::sentinel_t<Base>,
+					ranges::iterator_t<Base2>
+				>::value>>
+		friend BKSGE_CONSTEXPR bool
+		operator==(CI<OtherConst> const& lhs, Sentinel const& rhs)
 		{
 			return lhs.count() == 0 || lhs.base() == rhs.m_end;
 		}
 
 #if !defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
 		friend BKSGE_CONSTEXPR bool
-		operator!=(CI const& lhs, Sentinel const& rhs)
+		operator!=(CI<Const> const& lhs, Sentinel const& rhs)
 		{
 			return !(lhs == rhs);
 		}
 
 		friend BKSGE_CONSTEXPR bool
-		operator==(Sentinel const& lhs, CI const& rhs)
+		operator==(Sentinel const& lhs, CI<Const> const& rhs)
 		{
 			return rhs == lhs;
 		}
 
 		friend BKSGE_CONSTEXPR bool
-		operator!=(Sentinel const& lhs, CI const& rhs)
+		operator!=(Sentinel const& lhs, CI<Const> const& rhs)
 		{
 			return !(lhs == rhs);
 		}
@@ -112,16 +130,16 @@ private:
 
 	using Difference = ranges::range_difference_t<V>;
 
-	V          m_base  = {};
 	Difference m_count = 0;
+	V          m_base  = {};
 
 public:
 	BKSGE_CONSTEXPR take_view() = default;
 
 	BKSGE_CONSTEXPR
 	take_view(V base, ranges::range_difference_t<V> count)
-		: m_base(bksge::move(base))
-		, m_count(bksge::move(count))
+		: m_count(bksge::move(count))
+		, m_base(bksge::move(base))
 	{}
 
 	BKSGE_CONSTEXPR V base() const&
@@ -234,11 +252,16 @@ public:
 
 #if defined(BKSGE_HAS_CXX17_DEDUCTION_GUIDES)
 
-template <BKSGE_REQUIRES_PARAM(ranges::range, Range)>
+template <typename Range>
 take_view(Range&&, ranges::range_difference_t<Range>)
 -> take_view<views::all_t<Range>>;
 
 #endif
+
+template <typename T>
+BKSGE_RANGES_SPECIALIZE_ENABLE_BORROWED_RANGE(
+	BKSGE_RANGES_ENABLE_BORROWED_RANGE(T),
+	take_view<T>);
 
 namespace views
 {

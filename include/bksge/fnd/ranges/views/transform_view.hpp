@@ -22,7 +22,7 @@
 #include <bksge/fnd/ranges/concepts/sized_range.hpp>
 #include <bksge/fnd/ranges/concepts/viewable_range.hpp>
 #include <bksge/fnd/ranges/detail/maybe_const_t.hpp>
-//#include <bksge/fnd/ranges/detail/box.hpp>
+#include <bksge/fnd/ranges/detail/box.hpp>
 #include <bksge/fnd/ranges/range_reference_t.hpp>
 #include <bksge/fnd/ranges/range_difference_t.hpp>
 #include <bksge/fnd/ranges/iterator_t.hpp>
@@ -44,7 +44,6 @@
 #include <bksge/fnd/iterator/concepts/sized_sentinel_for.hpp>
 #include <bksge/fnd/iterator/tag.hpp>
 #include <bksge/fnd/iterator/iterator_traits.hpp>
-#include <bksge/fnd/memory/addressof.hpp>
 #include <bksge/fnd/type_traits/is_object.hpp>
 #include <bksge/fnd/type_traits/invoke_result.hpp>
 #include <bksge/fnd/type_traits/is_lvalue_reference.hpp>
@@ -138,9 +137,9 @@ private:
 		Iterator() = default;
 
 		BKSGE_CONSTEXPR
-		Iterator(Parent& parent, BaseIter current)
+		Iterator(Parent* parent, BaseIter current)
 			: m_current(bksge::move(current))
-			, m_parent(bksge::addressof(parent))
+			, m_parent(parent)
 		{}
 
 		template <bool C2 = Const,
@@ -295,26 +294,31 @@ private:
 		friend BKSGE_CONSTEXPR Iterator
 		operator+(Iterator i, difference_type n)
 		{
-			return { *i.m_parent, i.m_current + n };
+			return { i.m_parent, i.m_current + n };
 		}
 
 		template <BKSGE_REQUIRES_PARAM_D(ranges::random_access_range, B2, Base)>
 		friend BKSGE_CONSTEXPR Iterator
 		operator+(difference_type n, Iterator i)
 		{
-			return { *i.m_parent, i.m_current + n };
+			return { i.m_parent, i.m_current + n };
 		}
 
+		template <BKSGE_REQUIRES_PARAM_D(ranges::random_access_range, B2, Base)>
 		friend BKSGE_CONSTEXPR Iterator
 		operator-(Iterator i, difference_type n)
-			BKSGE_REQUIRES(ranges::random_access_range<Base>)
 		{
-			return { *i.m_parent, i.m_current - n };
+			return { i.m_parent, i.m_current - n };
 		}
 
+		template <typename B2 = Base,
+			typename = bksge::enable_if_t<
+				bksge::is_sized_sentinel_for<
+					ranges::iterator_t<B2>,
+					ranges::iterator_t<B2>
+				>::value>>
 		friend BKSGE_CONSTEXPR difference_type
 		operator-(Iterator const& x, Iterator const& y)
-			BKSGE_REQUIRES(ranges::random_access_range<Base>)
 		{
 			return x.m_current - y.m_current;
 		}
@@ -387,10 +391,6 @@ private:
 					ranges::sentinel_t<Base>>::value>>
 		BKSGE_CONSTEXPR
 		Sentinel(Sentinel<!Const> i)
-			//BKSGE_REQUIRES(Const &&
-			//	bksge::convertible_to<
-			//		ranges::sentinel_t<V>,
-			//		ranges::sentinel_t<Base>>)
 			: m_end(bksge::move(i.m_end))
 		{}
 
@@ -470,14 +470,12 @@ private:
 		friend Sentinel<!Const>;
 	};
 
+	BKSGE_NO_UNIQUE_ADDRESS ranges::detail::box<F> m_fun;
 	V	m_base = {};
-	//ranges::detail::box<F> m_fun;
-	F	m_fun;
 
 	BKSGE_CONSTEXPR F const& fun() const
 	{
-		//return *m_fun;
-		return m_fun;
+		return *m_fun;
 	}
 
 public:
@@ -485,8 +483,8 @@ public:
 
 	BKSGE_CONSTEXPR
 	transform_view(V base, F fun)
-		: m_base(bksge::move(base))
-		, m_fun(bksge::move(fun))
+		: m_fun(bksge::move(fun))
+		, m_base(bksge::move(base))
 	{}
 
 	BKSGE_CONSTEXPR V base() const&
@@ -502,7 +500,7 @@ public:
 
 	BKSGE_CXX14_CONSTEXPR Iterator<false> begin()
 	{
-		return Iterator<false>{*this, ranges::begin(m_base)};
+		return Iterator<false>{this, ranges::begin(m_base)};
 	}
 
 	template <typename V2 = V,
@@ -512,11 +510,8 @@ public:
 		>
 	>
 	BKSGE_CONSTEXPR Iterator<true> begin() const
-		//BKSGE_REQUIRES(
-		//	ranges::range<V const> &&
-		//	bksge::regular_invocable<F const&, ranges::range_reference_t<V const>>)
 	{
-		return Iterator<true>{*this, ranges::begin(m_base)};
+		return Iterator<true>{this, ranges::begin(m_base)};
 	}
 
 private:
@@ -524,7 +519,7 @@ private:
 	BKSGE_CXX14_CONSTEXPR Iterator<false>
 	end_impl(bksge::detail::overload_priority<1>)
 	{
-		return Iterator<false>{*this, ranges::end(m_base)};
+		return Iterator<false>{this, ranges::end(m_base)};
 	}
 
 	BKSGE_CXX14_CONSTEXPR Sentinel<false>
@@ -545,7 +540,7 @@ private:
 	BKSGE_CONSTEXPR Iterator<true>
 	end_impl(bksge::detail::overload_priority<1>) const
 	{
-		return Iterator<true>{*this, ranges::end(m_base)};
+		return Iterator<true>{this, ranges::end(m_base)};
 	}
 
 	template <BKSGE_REQUIRES_PARAM_D(ranges::range, V2, V)>

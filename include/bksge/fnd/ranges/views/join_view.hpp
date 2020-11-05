@@ -38,7 +38,6 @@
 #include <bksge/fnd/iterator/ranges/iter_move.hpp>
 #include <bksge/fnd/iterator/ranges/iter_swap.hpp>
 #include <bksge/fnd/iterator/concepts/sentinel_for.hpp>
-#include <bksge/fnd/memory/addressof.hpp>
 #include <bksge/fnd/type_traits/is_reference.hpp>
 #include <bksge/fnd/type_traits/common_type.hpp>
 #include <bksge/fnd/type_traits/conditional.hpp>
@@ -198,9 +197,9 @@ private:
 		BKSGE_CONSTEXPR Iterator() = default;
 
 		BKSGE_CXX14_CONSTEXPR
-		Iterator(Parent& parent, OuterIter outer)
+		Iterator(Parent* parent, OuterIter outer)
 			: m_outer(bksge::move(outer))
-			, m_parent(bksge::addressof(parent))
+			, m_parent(parent)
 		{
 			satisfy();
 		}
@@ -408,8 +407,8 @@ private:
 		BKSGE_CONSTEXPR Sentinel() = default;
 
 		BKSGE_CONSTEXPR explicit
-		Sentinel(Parent& parent)
-			: m_end(ranges::end(parent.m_base))
+		Sentinel(Parent* parent)
+			: m_end(ranges::end(parent->m_base))
 		{}
 
 		template <bool Const2 = Const,
@@ -466,14 +465,14 @@ private:
 		friend Sentinel<!Const>;
 	};
 
-	V m_base = {};
-
 	BKSGE_NO_UNIQUE_ADDRESS
 	bksge::conditional_t<
 		!bksge::is_reference<InnerRange>::value,
 		views::all_t<InnerRange>,
 		views::detail::Empty
 	> m_inner;
+
+	V m_base = {};
 
 public:
 	BKSGE_CONSTEXPR join_view() = default;
@@ -499,7 +498,7 @@ public:
 		ranges::detail::is_simple_view<V>::value &&
 		bksge::is_reference<ranges::range_reference_t<V>>::value>
 	{
-		return {*this, ranges::begin(m_base)};
+		return {this, ranges::begin(m_base)};
 	}
 
 	template <typename V2 = V const,
@@ -510,7 +509,7 @@ public:
 	BKSGE_CONSTEXPR auto begin() const
 	-> Iterator<true>
 	{
-		return {*this, ranges::begin(m_base)};
+		return {this, ranges::begin(m_base)};
 	}
 
 private:
@@ -525,14 +524,14 @@ private:
 	BKSGE_CXX14_CONSTEXPR auto end_impl(bksge::detail::overload_priority<1>)
 	-> Iterator<ranges::detail::is_simple_view<V2>::value>
 	{
-		return {*this, ranges::end(m_base)};
+		return {this, ranges::end(m_base)};
 	}
 
 	template <typename V2 = V>
 	BKSGE_CXX14_CONSTEXPR auto end_impl(bksge::detail::overload_priority<0>)
 	-> Sentinel<ranges::detail::is_simple_view<V2>::value>
 	{
-		return Sentinel<ranges::detail::is_simple_view<V2>::value>{*this};
+		return Sentinel<ranges::detail::is_simple_view<V2>::value>{this};
 	}
 
 public:
@@ -554,13 +553,13 @@ private:
 	BKSGE_CONSTEXPR auto end_impl(bksge::detail::overload_priority<1>) const
 	-> Iterator<true>
 	{
-		return Iterator<true>{*this, ranges::end(m_base)};
+		return Iterator<true>{this, ranges::end(m_base)};
 	}
 
 	BKSGE_CONSTEXPR auto end_impl(bksge::detail::overload_priority<0>) const
 	-> Sentinel<true>
 	{
-		return Sentinel<true>{*this};
+		return Sentinel<true>{this};
 	}
 
 public:
@@ -581,9 +580,6 @@ public:
 template <typename Range>
 explicit join_view(Range&&) -> join_view<views::all_t<Range>>;
 
-template <typename View>
-explicit join_view(join_view<View>) -> join_view<join_view<View>>;
-
 #endif
 
 namespace views
@@ -599,13 +595,6 @@ struct join_fn
 	-> join_view<views::all_t<Range>>
 	{
 		return join_view<views::all_t<Range>>{bksge::forward<Range>(r)};
-	}
-
-	template <typename View>
-	BKSGE_CONSTEXPR auto operator()(join_view<View> v) const
-	-> join_view<join_view<View>>
-	{
-		return join_view<join_view<View>>{v};
 	}
 };
 

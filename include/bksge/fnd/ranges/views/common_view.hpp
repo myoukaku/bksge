@@ -18,6 +18,7 @@
 #include <bksge/fnd/ranges/concepts/sized_range.hpp>
 #include <bksge/fnd/ranges/concepts/range.hpp>
 #include <bksge/fnd/ranges/concepts/viewable_range.hpp>
+#include <bksge/fnd/ranges/concepts/enable_borrowed_range.hpp>
 #include <bksge/fnd/ranges/iterator_t.hpp>
 #include <bksge/fnd/ranges/sentinel_t.hpp>
 #include <bksge/fnd/ranges/begin.hpp>
@@ -194,6 +195,11 @@ template <typename Range>
 common_view(Range&&) -> common_view<views::all_t<Range>>;
 
 #endif
+
+template <typename T>
+BKSGE_RANGES_SPECIALIZE_ENABLE_BORROWED_RANGE(
+	BKSGE_RANGES_ENABLE_BORROWED_RANGE(T),
+	common_view<T>);
 
 namespace views
 {

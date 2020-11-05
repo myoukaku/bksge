@@ -65,7 +65,7 @@ public:
 			*m_stream >> m_object;
 		}
 
-		return Iterator{ *this };
+		return Iterator{ this };
 	}
 
 	BKSGE_CONSTEXPR bksge::default_sentinel_t
@@ -88,8 +88,8 @@ private:
 		Iterator() = default;
 
 		BKSGE_CONSTEXPR explicit
-		Iterator(basic_istream_view& parent) BKSGE_NOEXCEPT
-			: m_parent(bksge::addressof(parent))
+		Iterator(basic_istream_view* parent) BKSGE_NOEXCEPT
+			: m_parent(parent)
 		{}
 
 		Iterator(Iterator const&) = delete;

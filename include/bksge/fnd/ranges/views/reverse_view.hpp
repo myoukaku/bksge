@@ -20,6 +20,7 @@
 #include <bksge/fnd/ranges/concepts/random_access_range.hpp>
 #include <bksge/fnd/ranges/concepts/sized_range.hpp>
 #include <bksge/fnd/ranges/concepts/viewable_range.hpp>
+#include <bksge/fnd/ranges/concepts/enable_borrowed_range.hpp>
 #include <bksge/fnd/ranges/detail/maybe_present_t.hpp>
 #include <bksge/fnd/ranges/detail/cached_position.hpp>
 #include <bksge/fnd/ranges/iterator_t.hpp>
@@ -62,8 +63,6 @@ template <typename V,
 class reverse_view : public ranges::view_interface<reverse_view<V>>
 {
 private:
-	V m_base = {};
-
 	using s_needs_cached_begin = bksge::conjunction<
 		bksge::negation<ranges::is_common_range<V>>,
 		bksge::negation<ranges::is_random_access_range<V>>>;
@@ -73,6 +72,8 @@ private:
 		s_needs_cached_begin::value,
 		ranges::detail::cached_position<V>
 	> m_cached_begin;
+
+	V m_base = {};
 
 public:
 	BKSGE_CONSTEXPR reverse_view() = default;
@@ -169,6 +170,11 @@ template <typename Range>
 reverse_view(Range&&) -> reverse_view<views::all_t<Range>>;
 
 #endif
+
+template <typename T>
+BKSGE_RANGES_SPECIALIZE_ENABLE_BORROWED_RANGE(
+	BKSGE_RANGES_ENABLE_BORROWED_RANGE(T),
+	reverse_view<T>);
 
 namespace views
 {

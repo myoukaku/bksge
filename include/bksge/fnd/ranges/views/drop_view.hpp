@@ -17,6 +17,7 @@
 #include <bksge/fnd/ranges/concepts/range.hpp>
 #include <bksge/fnd/ranges/concepts/sized_range.hpp>
 #include <bksge/fnd/ranges/concepts/viewable_range.hpp>
+#include <bksge/fnd/ranges/concepts/enable_borrowed_range.hpp>
 #include <bksge/fnd/ranges/range_difference_t.hpp>
 #include <bksge/fnd/ranges/iterator_t.hpp>
 #include <bksge/fnd/ranges/sentinel_t.hpp>
@@ -46,11 +47,12 @@ template <BKSGE_REQUIRES_PARAM(ranges::view, V)>
 class drop_view : public ranges::view_interface<drop_view<V>>
 {
 private:
-	V m_base = {};
 	ranges::range_difference_t<V> m_count = 0;
+	V m_base = {};
 
 	static constexpr bool s_needs_cached_begin =
-		!ranges::is_random_access_range<V>::value;
+		!(ranges::is_random_access_range<V const>::value &&
+		  ranges::is_sized_range<V const>::value);
 
 	BKSGE_NO_UNIQUE_ADDRESS
 	bksge::conditional_t<
@@ -64,8 +66,8 @@ public:
 
 	BKSGE_CXX14_CONSTEXPR
 	drop_view(V base, ranges::range_difference_t<V> count)
-		: m_base(bksge::move(base))
-		, m_count(count)
+		: m_count(count)
+		, m_base(bksge::move(base))
 	{
 		BKSGE_ASSERT(count >= 0);
 	}
@@ -106,8 +108,9 @@ private:
 public:
 	template <typename V2 = V,
 		typename = bksge::enable_if_t<
-			!ranges::detail::is_simple_view<V2>::value ||
-			!ranges::is_random_access_range<V2>::value
+			!(ranges::detail::is_simple_view<V2>::value &&
+			  ranges::is_random_access_range<V2 const>::value &&
+			  ranges::is_sized_range<V2 const>::value)
 		>
 	>
 	BKSGE_CXX14_CONSTEXPR auto begin()
@@ -116,7 +119,12 @@ public:
 		return begin_impl(bksge::bool_constant<s_needs_cached_begin>{});
 	}
 
-	template <BKSGE_REQUIRES_PARAM_D(ranges::random_access_range, V2, V const)>
+	template <typename V2 = V const,
+		typename = bksge::enable_if_t<
+			ranges::is_random_access_range<V2>::value &&
+			ranges::is_sized_range<V2>::value
+		>
+	>
 	BKSGE_CONSTEXPR auto begin() const
 	-> ranges::iterator_t<V2>
 	{
@@ -170,6 +178,11 @@ drop_view(Range&&, ranges::range_difference_t<Range>)
 -> drop_view<views::all_t<Range>>;
 
 #endif
+
+template <typename T>
+BKSGE_RANGES_SPECIALIZE_ENABLE_BORROWED_RANGE(
+	BKSGE_RANGES_ENABLE_BORROWED_RANGE(T),
+	drop_view<T>);
 
 namespace views
 {

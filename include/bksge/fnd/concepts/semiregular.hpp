@@ -24,6 +24,9 @@ concept semiregular =
 	bksge::copyable<T> &&
 	bksge::default_initializable<T>;
 
+template <typename T>
+using is_semiregular = bksge::bool_constant<semiregular<T>>;
+
 #else
 
 template <typename T>
@@ -32,6 +35,9 @@ using semiregular =
 		bksge::copyable<T>,
 		bksge::default_initializable<T>
 	>;
+
+template <typename T>
+using is_semiregular = semiregular<T>;
 
 #endif
 
