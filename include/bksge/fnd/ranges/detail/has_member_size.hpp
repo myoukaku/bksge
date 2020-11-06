@@ -12,6 +12,8 @@
 #include <bksge/fnd/ranges/concepts/disable_sized_range.hpp>
 #include <bksge/fnd/ranges/detail/decay_copy.hpp>
 #include <bksge/fnd/ranges/detail/integer_like.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/remove_cvref.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/declval.hpp>
@@ -42,11 +44,13 @@ template <typename T>
 struct has_member_size_impl
 {
 private:
-	template <typename U>
-	static auto test(int) -> bksge::bool_constant<
-		!BKSGE_RANGES_DISABLE_SIZED_RANGE(bksge::remove_cvref_t<U>) &&
-		detail::integer_like<decltype(decay_copy(bksge::declval<U&&>().size()))>::value
-	>;
+	template <typename U,
+		typename = bksge::enable_if_t<
+			!BKSGE_RANGES_DISABLE_SIZED_RANGE(bksge::remove_cvref_t<U>)
+		>,
+		typename S = decltype(decay_copy(bksge::declval<U&&>().size()))
+	>
+	static auto test(int) -> detail::integer_like<S>;
 
 	template <typename U>
 	static auto test(...) -> bksge::false_type;

@@ -35,10 +35,10 @@ template <typename Val, typename CharT, typename Traits>
 struct stream_extractable_impl
 {
 private:
-	template <typename V2, typename Stream>
-	static auto test(int) -> decltype(
-		bksge::declval<Stream&>() >> bksge::declval<V2&>(),
-		bksge::true_type{});
+	template <typename V2, typename Stream,
+		typename = decltype(bksge::declval<Stream&>() >> bksge::declval<V2&>())
+	>
+	static auto test(int) -> bksge::true_type;
 
 	template <typename V2, typename Stream>
 	static auto test(...) -> bksge::false_type;

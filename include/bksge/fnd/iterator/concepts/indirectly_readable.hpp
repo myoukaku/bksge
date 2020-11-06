@@ -17,7 +17,6 @@
 #include <bksge/fnd/concepts/common_reference_with.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/remove_cvref.hpp>
-#include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 
@@ -62,18 +61,16 @@ struct indirectly_readable_impl
 {
 private:
 	template <typename U,
-		typename IterValue  = bksge::iter_value_t<U>,
-		typename IterRef    = bksge::iter_reference_t<U>,
-		typename IterRVRef  = bksge::iter_rvalue_reference_t<U>,
-		typename IterRefC   = bksge::iter_reference_t<U const>,
-		typename IterRVRefC = bksge::iter_rvalue_reference_t<U const>,
-		typename = bksge::enable_if_t<bksge::conjunction<
-			bksge::same_as<IterRefC, IterRef>,
-			bksge::same_as<IterRVRefC, IterRVRef>,
-			bksge::common_reference_with<IterRef&&, IterValue&>,
-			bksge::common_reference_with<IterRef&&, IterRVRef&&>,
-			bksge::common_reference_with<IterRVRef&&, IterValue const&>
-		>::value>
+		typename V   = bksge::iter_value_t<U>,
+		typename R   = bksge::iter_reference_t<U>,
+		typename RR  = bksge::iter_rvalue_reference_t<U>,
+		typename RC  = bksge::iter_reference_t<U const>,
+		typename RRC = bksge::iter_rvalue_reference_t<U const>,
+		typename = bksge::enable_if_t<bksge::same_as<RC, R>::value>,
+		typename = bksge::enable_if_t<bksge::same_as<RRC, RR>::value>,
+		typename = bksge::enable_if_t<bksge::common_reference_with<R&&, V&>::value>,
+		typename = bksge::enable_if_t<bksge::common_reference_with<R&&, RR&&>::value>,
+		typename = bksge::enable_if_t<bksge::common_reference_with<RR&&, V const&>::value>
 	>
 	static auto test(int) -> bksge::true_type;
 

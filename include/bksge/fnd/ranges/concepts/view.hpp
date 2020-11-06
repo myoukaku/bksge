@@ -34,12 +34,31 @@ using is_view = bksge::bool_constant<view<T>>;
 
 #else
 
+namespace detail
+{
+
 template <typename T>
-using view = bksge::conjunction<
-	ranges::range<T>,
-	bksge::semiregular<T>,
-	bksge::bool_constant<BKSGE_RANGES_ENABLE_VIEW(T)>
->;
+struct view_impl
+{
+private:
+	template <typename U,
+		typename = bksge::enable_if_t<ranges::range<U>::value>,
+		typename = bksge::enable_if_t<bksge::semiregular<U>::value>,
+		typename = bksge::enable_if_t<BKSGE_RANGES_ENABLE_VIEW(U)>
+	>
+	static auto test(int) -> bksge::true_type;
+
+	template <typename U>
+	static auto test(...) -> bksge::false_type;
+
+public:
+	using type = decltype(test<T>(0));
+};
+
+}	// namespace detail
+
+template <typename T>
+using view = typename ranges::detail::view_impl<T>::type;
 
 template <typename T>
 using is_view = view<T>;

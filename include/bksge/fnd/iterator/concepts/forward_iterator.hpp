@@ -45,12 +45,21 @@ struct forward_iterator_impl
 {
 private:
 	template <typename I2,
-		typename = bksge::enable_if_t<bksge::conjunction<
-			bksge::input_iterator<I2>,
-			bksge::derived_from<bksge::detail::iter_concept<I2>, bksge::forward_iterator_tag>,
-			bksge::incrementable<I2>,
-			bksge::sentinel_for<I2, I2>
-		>::value>
+		typename = bksge::enable_if_t<
+			bksge::input_iterator<I2>::value
+		>,
+		typename = bksge::enable_if_t<
+			bksge::derived_from<
+				bksge::detail::iter_concept<I2>,
+				bksge::forward_iterator_tag
+			>::value
+		>,
+		typename = bksge::enable_if_t<
+			bksge::incrementable<I2>::value
+		>,
+		typename = bksge::enable_if_t<
+			bksge::sentinel_for<I2, I2>::value
+		>
 	>
 	static auto test(int) -> bksge::true_type;
 

@@ -17,7 +17,7 @@
 #include <bksge/fnd/functional/identity.hpp>
 #include <bksge/fnd/functional/ranges/less.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <bksge/fnd/type_traits/conjunction.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -50,15 +50,16 @@ template <typename I1, typename I2, typename Out, typename Rel, typename P1, typ
 struct mergeable_impl
 {
 private:
-	template <typename J1, typename J2, typename O2, typename R2, typename Q1, typename Q2>
-	static auto test(int) -> bksge::conjunction<
-		bksge::input_iterator<J1>,
-		bksge::input_iterator<J2>,
-		bksge::weakly_incrementable<O2>,
-		bksge::indirectly_copyable<J1, O2>,
-		bksge::indirectly_copyable<J2, O2>,
-		bksge::indirect_strict_weak_order<R2, bksge::projected<J1, Q1>, bksge::projected<J2, Q2>>
-	>;
+	template <typename J1, typename J2, typename O2, typename R2, typename Q1, typename Q2,
+		typename = bksge::enable_if_t<bksge::input_iterator<J1>::value>,
+		typename = bksge::enable_if_t<bksge::input_iterator<J2>::value>,
+		typename = bksge::enable_if_t<bksge::weakly_incrementable<O2>::value>,
+		typename = bksge::enable_if_t<bksge::indirectly_copyable<J1, O2>::value>,
+		typename = bksge::enable_if_t<bksge::indirectly_copyable<J2, O2>::value>,
+		typename = bksge::enable_if_t<bksge::indirect_strict_weak_order<
+			R2, bksge::projected<J1, Q1>, bksge::projected<J2, Q2>>::value>
+	>
+	static auto test(int) -> bksge::true_type;
 
 	template <typename J1, typename J2, typename O2, typename R2, typename Q1, typename Q2>
 	static auto test(...) -> bksge::false_type;

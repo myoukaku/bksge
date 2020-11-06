@@ -43,15 +43,13 @@ template <typename T>
 struct reversable_impl
 {
 private:
-	template <typename U>
+	template <typename U,
+		typename B = decltype(ranges::begin(bksge::declval<U&>())),
+		typename E = decltype(ranges::end(bksge::declval<U&>()))
+	>
 	static auto test(int) -> bksge::conjunction<
-		bksge::bidirectional_iterator<
-			decltype(ranges::begin(bksge::declval<U&>()))
-		>,
-		bksge::same_as<
-			decltype(ranges::end(bksge::declval<U&>())),
-			decltype(ranges::begin(bksge::declval<U&>()))
-		>
+		bksge::bidirectional_iterator<B>,
+		bksge::same_as<E, B>
 	>;
 
 	template <typename U>

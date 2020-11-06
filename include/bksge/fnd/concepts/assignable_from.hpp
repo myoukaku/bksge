@@ -47,10 +47,8 @@ struct assignable_from_impl
 {
 private:
 	template <typename L, typename R,
-		typename = bksge::enable_if_t<bksge::conjunction<
-			bksge::is_lvalue_reference<L>,
-			bksge::common_reference_with<detail::cref<L>, detail::cref<R>>
-		>::value>,
+		typename = bksge::enable_if_t<bksge::is_lvalue_reference<L>::value>,
+		typename = bksge::enable_if_t<bksge::common_reference_with<detail::cref<L>, detail::cref<R>>::value>,
 		typename T = decltype(bksge::declval<L&>() = bksge::declval<R&&>())
 	>
 	static auto test(int) -> bksge::same_as<T, L>;

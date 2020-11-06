@@ -54,10 +54,8 @@ struct cpp17_randacc_iterator_impl
 {
 private:
 	template <typename I2,
-		typename = bksge::enable_if_t<bksge::conjunction<
-			cpp17_bidi_iterator<I2>,
-			bksge::totally_ordered<I2>
-		>::value>,
+		typename = bksge::enable_if_t<cpp17_bidi_iterator<I2>::value>,
+		typename = bksge::enable_if_t<bksge::totally_ordered<I2>::value>,
 		typename D = typename bksge::incrementable_traits<I2>::difference_type,
 		typename T1 = decltype(bksge::declval<I2&>() += bksge::declval<D& >()),
 		typename T2 = decltype(bksge::declval<I2&>() -= bksge::declval<D& >()),

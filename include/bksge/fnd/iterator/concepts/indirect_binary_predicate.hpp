@@ -16,7 +16,6 @@
 #include <bksge/fnd/concepts/copy_constructible.hpp>
 #include <bksge/fnd/concepts/predicate.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 
@@ -46,16 +45,20 @@ struct indirect_binary_predicate_impl
 {
 private:
 	template <typename F2, typename J1, typename J2,
-		typename = bksge::enable_if_t<bksge::conjunction<
-			bksge::indirectly_readable<J1>,
-			bksge::indirectly_readable<J2>,
-			bksge::copy_constructible<F2>,
-			bksge::predicate<F2&, bksge::iter_value_t<J1>&, bksge::iter_value_t<J2>&>,
-			bksge::predicate<F2&, bksge::iter_value_t<J1>&, bksge::iter_reference_t<J2>>,
-			bksge::predicate<F2&, bksge::iter_reference_t<J1>, bksge::iter_value_t<J2>&>,
-			bksge::predicate<F2&, bksge::iter_reference_t<J1>, bksge::iter_reference_t<J2>>,
-			bksge::predicate<F2&, bksge::iter_common_reference_t<J1>, bksge::iter_common_reference_t<J2>>
-		>::value>
+		typename = bksge::enable_if_t<bksge::indirectly_readable<J1>::value>,
+		typename = bksge::enable_if_t<bksge::indirectly_readable<J2>::value>,
+		typename = bksge::enable_if_t<bksge::copy_constructible<F2>::value>,
+		typename V1 = bksge::iter_value_t<J1>,
+		typename V2 = bksge::iter_value_t<J2>,
+		typename R1 = bksge::iter_reference_t<J1>,
+		typename R2 = bksge::iter_reference_t<J2>,
+		typename C1 = bksge::iter_common_reference_t<J1>,
+		typename C2 = bksge::iter_common_reference_t<J2>,
+		typename = bksge::enable_if_t<bksge::predicate<F2&, V1&, V2&>::value>,
+		typename = bksge::enable_if_t<bksge::predicate<F2&, V1&, R2 >::value>,
+		typename = bksge::enable_if_t<bksge::predicate<F2&, R1,  V2&>::value>,
+		typename = bksge::enable_if_t<bksge::predicate<F2&, R1,  R2 >::value>,
+		typename = bksge::enable_if_t<bksge::predicate<F2&, C1,  C2 >::value>
 	>
 	static auto test(int) -> bksge::true_type;
 

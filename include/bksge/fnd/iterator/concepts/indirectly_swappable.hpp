@@ -12,7 +12,6 @@
 #include <bksge/fnd/iterator/concepts/indirectly_readable.hpp>
 #include <bksge/fnd/iterator/ranges/iter_swap.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
@@ -44,20 +43,14 @@ struct indirectly_swappable_impl
 {
 private:
 	template <typename J1, typename J2,
-		typename = bksge::enable_if_t<
-			bksge::conjunction<
-				bksge::indirectly_readable<J1>,
-				bksge::indirectly_readable<J2>
-			>::value
-		>
+		typename = bksge::enable_if_t<bksge::indirectly_readable<J1>::value>,
+		typename = bksge::enable_if_t<bksge::indirectly_readable<J2>::value>,
+		typename = decltype(bksge::ranges::iter_swap(bksge::declval<J1 const>(), bksge::declval<J1 const>())),
+		typename = decltype(bksge::ranges::iter_swap(bksge::declval<J1 const>(), bksge::declval<J2 const>())),
+		typename = decltype(bksge::ranges::iter_swap(bksge::declval<J2 const>(), bksge::declval<J1 const>())),
+		typename = decltype(bksge::ranges::iter_swap(bksge::declval<J2 const>(), bksge::declval<J2 const>()))
 	>
-	static auto test(int) -> decltype(
-		bksge::ranges::iter_swap(bksge::declval<J1 const>(), bksge::declval<J1 const>()),
-		bksge::ranges::iter_swap(bksge::declval<J1 const>(), bksge::declval<J2 const>()),
-		bksge::ranges::iter_swap(bksge::declval<J2 const>(), bksge::declval<J1 const>()),
-		bksge::ranges::iter_swap(bksge::declval<J2 const>(), bksge::declval<J2 const>()),
-		bksge::true_type{}
-	);
+	static auto test(int) -> bksge::true_type;
 
 	template <typename J1, typename J2>
 	static auto test(...) -> bksge::false_type;

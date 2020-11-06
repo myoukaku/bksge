@@ -12,7 +12,6 @@
 #include <bksge/fnd/iterator/concepts/weakly_incrementable.hpp>
 #include <bksge/fnd/iterator/concepts/detail/can_reference.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
@@ -41,10 +40,8 @@ struct input_or_output_iterator_impl
 private:
 	template <typename I2,
 		typename T = decltype(*bksge::declval<I2&>()),
-		typename = bksge::enable_if_t<bksge::conjunction<
-			bksge::detail::can_reference<T>,
-			bksge::weakly_incrementable<I2>
-		>::value>
+		typename = bksge::enable_if_t<bksge::detail::can_reference<T>::value>,
+		typename = bksge::enable_if_t<bksge::weakly_incrementable<I2>::value>
 	>
 	static auto test(int) -> bksge::true_type;
 

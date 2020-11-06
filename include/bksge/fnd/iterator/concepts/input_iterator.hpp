@@ -15,7 +15,6 @@
 #include <bksge/fnd/iterator/tag.hpp>
 #include <bksge/fnd/concepts/derived_from.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 
@@ -44,11 +43,9 @@ struct input_iterator_impl
 {
 private:
 	template <typename I2,
-		typename = bksge::enable_if_t<bksge::conjunction<
-			bksge::input_or_output_iterator<I2>,
-			bksge::indirectly_readable<I2>,
-			bksge::derived_from<bksge::detail::iter_concept<I2>, bksge::input_iterator_tag>
-		>::value>
+		typename = bksge::enable_if_t<bksge::input_or_output_iterator<I2>::value>,
+		typename = bksge::enable_if_t<bksge::indirectly_readable<I2>::value>,
+		typename = bksge::enable_if_t<bksge::derived_from<bksge::detail::iter_concept<I2>, bksge::input_iterator_tag>::value>
 	>
 	static auto test(int) -> bksge::true_type;
 

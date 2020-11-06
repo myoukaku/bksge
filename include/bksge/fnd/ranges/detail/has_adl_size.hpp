@@ -14,6 +14,7 @@
 #include <bksge/fnd/ranges/detail/integer_like.hpp>
 #include <bksge/fnd/concepts/detail/class_or_enum.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/remove_reference.hpp>
 #include <bksge/fnd/type_traits/remove_cvref.hpp>
 #include <bksge/fnd/utility/forward.hpp>
@@ -54,12 +55,17 @@ template <typename T>
 struct has_adl_size_impl
 {
 private:
-	template <typename U>
-	static auto test(int) -> bksge::bool_constant<
-		bksge::detail::class_or_enum<bksge::remove_reference_t<U>>::value &&
-		!BKSGE_RANGES_DISABLE_SIZED_RANGE(bksge::remove_cvref_t<U>) &&
-		detail::integer_like<decltype(decay_copy(size(bksge::declval<U&&>())))>::value
-	>;
+	template <typename U,
+		typename = bksge::enable_if_t<
+			bksge::detail::class_or_enum<
+				bksge::remove_reference_t<U>
+			>::value>,
+		typename = bksge::enable_if_t<
+			!BKSGE_RANGES_DISABLE_SIZED_RANGE(bksge::remove_cvref_t<U>)
+		>,
+		typename S = decltype(decay_copy(size(bksge::declval<U&&>())))
+	>
+	static auto test(int) -> detail::integer_like<S>;
 
 	template <typename U>
 	static auto test(...) -> bksge::false_type;

@@ -13,6 +13,7 @@
 #include <bksge/fnd/iterator/concepts/incrementable.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
 
@@ -45,11 +46,14 @@ template <typename It>
 struct decrementable_impl
 {
 private:
-	template <typename U>
+	template <typename U,
+		typename = bksge::enable_if_t<bksge::incrementable<U>::value>,
+		typename T1 = decltype(--bksge::declval<U&>()),
+		typename T2 = decltype(  bksge::declval<U&>()--)
+	>
 	static auto test(int) -> bksge::conjunction<
-		bksge::incrementable<U>,
-		bksge::same_as<decltype(--bksge::declval<U&>()), U&>,
-		bksge::same_as<decltype(bksge::declval<U&>()--), U>
+		bksge::same_as<T1, U&>,
+		bksge::same_as<T2, U>
 	>;
 
 	template <typename U>

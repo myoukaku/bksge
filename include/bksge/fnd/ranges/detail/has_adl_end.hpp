@@ -14,7 +14,7 @@
 #include <bksge/fnd/concepts/detail/class_or_enum.hpp>
 #include <bksge/fnd/iterator/concepts/sentinel_for.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <bksge/fnd/type_traits/conjunction.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/remove_reference.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
@@ -52,14 +52,15 @@ template <typename T>
 struct has_adl_end_impl
 {
 private:
-	template <typename U>
-	static auto test(int) -> bksge::conjunction<
-		bksge::detail::class_or_enum<bksge::remove_reference_t<T>>,
-		bksge::sentinel_for<
-			decltype(decay_copy(end(bksge::declval<U&>()))),
-			decltype(ranges::begin(bksge::declval<U&>()))
-		>
-	>;
+	template <typename U,
+		typename = bksge::enable_if_t<
+			bksge::detail::class_or_enum<
+				bksge::remove_reference_t<U>
+			>::value>,
+		typename E = decltype(decay_copy(end(bksge::declval<U&>()))),
+		typename B = decltype(ranges::begin(bksge::declval<U&>()))
+	>
+	static auto test(int) -> bksge::sentinel_for<E, B>;
 
 	template <typename U>
 	static auto test(...) -> bksge::false_type;

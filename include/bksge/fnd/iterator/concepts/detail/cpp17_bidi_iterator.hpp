@@ -53,7 +53,6 @@ private:
 		typename T3 = decltype( *bksge::declval<I2&>()--)
 	>
 	static auto test(int) -> bksge::conjunction<
-		cpp17_fwd_iterator<I2>,
 		bksge::same_as<T1, I2&>,
 		bksge::convertible_to<T2, I2 const&>,
 		bksge::same_as<T3, bksge::iter_reference_t<I2>>

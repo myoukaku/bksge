@@ -42,10 +42,8 @@ struct incrementable_impl
 {
 private:
 	template <typename I2,
-		typename = bksge::enable_if_t<bksge::conjunction<
-			bksge::regular<I2>,
-			bksge::weakly_incrementable<I2>
-		>::value>,
+		typename = bksge::enable_if_t<bksge::regular<I2>::value>,
+		typename = bksge::enable_if_t<bksge::weakly_incrementable<I2>::value>,
 		typename T = decltype(bksge::declval<I2&>()++)
 	>
 	static auto test(int) -> bksge::same_as<T, I2>;

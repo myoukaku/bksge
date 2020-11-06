@@ -13,7 +13,6 @@
 #include <bksge/fnd/ranges/iterator_t.hpp>
 #include <bksge/fnd/ranges/sentinel_t.hpp>
 #include <bksge/fnd/concepts/same_as.hpp>
-#include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
@@ -36,15 +35,23 @@ using is_common_range = bksge::bool_constant<common_range<T>>;
 
 #else
 
+namespace detail
+{
+
 template <typename T>
 struct common_range_impl
 {
 private:
 	template <typename U,
-		typename = bksge::enable_if_t<bksge::conjunction<
-			ranges::range<U>,
-			bksge::same_as<ranges::iterator_t<U>, ranges::sentinel_t<U>>
-		>::value>
+		typename = bksge::enable_if_t<
+			ranges::range<U>::value
+		>,
+		typename = bksge::enable_if_t<
+			bksge::same_as<
+				ranges::iterator_t<U>,
+				ranges::sentinel_t<U>
+			>::value
+		>
 	>
 	static auto test(int) -> bksge::true_type;
 
@@ -55,8 +62,10 @@ public:
 	using type = decltype(test<T>(0));
 };
 
+}	// namespace detail
+
 template <typename T>
-using common_range = typename common_range_impl<T>::type;
+using common_range = typename ranges::detail::common_range_impl<T>::type;
 
 template <typename T>
 using is_common_range = common_range<T>;

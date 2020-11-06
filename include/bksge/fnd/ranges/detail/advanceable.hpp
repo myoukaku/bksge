@@ -53,19 +53,24 @@ template <typename It>
 struct advanceable_impl
 {
 private:
-	template <typename U, typename D = detail::iota_diff_t<U>>
+	template <typename I2,
+		typename = bksge::enable_if_t<detail::decrementable<I2>::value>,
+		typename = bksge::enable_if_t<bksge::totally_ordered<I2>::value>,
+		typename D = detail::iota_diff_t<I2>,
+		typename T1 = decltype(bksge::declval<I2&>() += bksge::declval<D const>()),
+		typename T2 = decltype(bksge::declval<I2&>() -= bksge::declval<D const>()),
+		typename = decltype(I2(bksge::declval<I2 const>() + bksge::declval<D  const>())),
+		typename = decltype(I2(bksge::declval<D  const>() + bksge::declval<I2 const>())),
+		typename = decltype(I2(bksge::declval<I2 const>() - bksge::declval<D  const>())),
+		typename T3 = decltype(bksge::declval<I2 const>() - bksge::declval<I2 const>())
+	>
 	static auto test(int) -> bksge::conjunction<
-		detail::decrementable<U>,
-		bksge::totally_ordered<U>,
-		bksge::same_as<decltype(bksge::declval<U&>() += bksge::declval<D const>()), U&>,
-		bksge::same_as<decltype(bksge::declval<U&>() -= bksge::declval<D const>()), U&>,
-		//U(bksge::declval<U const>() + bksge::declval<D const>()),
-		//U(bksge::declval<D const>() + bksge::declval<U const>()),
-		//U(bksge::declval<U const>() - bksge::declval<D const>()),
-		bksge::convertible_to<decltype(bksge::declval<U const>() - bksge::declval<U const>()), D>
+		bksge::same_as<T1, I2&>,
+		bksge::same_as<T2, I2&>,
+		bksge::convertible_to<T3, D>
 	>;
 
-	template <typename U>
+	template <typename I2>
 	static auto test(...) -> bksge::false_type;
 
 public:

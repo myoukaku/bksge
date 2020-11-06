@@ -39,11 +39,10 @@ template <typename T>
 struct has_member_begin_impl
 {
 private:
-	template <typename U>
-	static auto test(int)
-		-> bksge::input_or_output_iterator<
-			decltype(decay_copy(bksge::declval<U&>().begin()))
-		>;
+	template <typename U,
+		typename B = decltype(decay_copy(bksge::declval<U&>().begin()))
+	>
+	static auto test(int) -> bksge::input_or_output_iterator<B>;
 
 	template <typename U>
 	static auto test(...) -> bksge::false_type;

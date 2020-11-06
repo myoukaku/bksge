@@ -56,21 +56,20 @@ struct cpp17_fwd_iterator_impl
 {
 private:
 	template <typename I2,
-		typename = bksge::enable_if_t<bksge::conjunction<
-			cpp17_input_iterator<I2>,
-			bksge::constructible_from<I2>,
-			bksge::is_lvalue_reference<bksge::iter_reference_t<I2>>,
-			bksge::same_as<
-				bksge::remove_cvref_t<bksge::iter_reference_t<I2>>,
-				typename bksge::indirectly_readable_traits<I2>::value_type
-			>
+		typename = bksge::enable_if_t<cpp17_input_iterator<I2>::value>,
+		typename = bksge::enable_if_t<bksge::constructible_from<I2>::value>,
+		typename R = bksge::iter_reference_t<I2>,
+		typename = bksge::enable_if_t<bksge::is_lvalue_reference<R>::value>,
+		typename = bksge::enable_if_t<bksge::same_as<
+			bksge::remove_cvref_t<R>,
+			typename bksge::indirectly_readable_traits<I2>::value_type
 		>::value>,
 		typename T1 = decltype( bksge::declval<I2&>()++),
 		typename T2 = decltype(*bksge::declval<I2&>()++)
 	>
 	static auto test(int) -> bksge::conjunction<
 		bksge::convertible_to<T1, I2 const&>,
-		bksge::same_as<T2, bksge::iter_reference_t<I2>>
+		bksge::same_as<T2, R>
 	>;
 
 	template <typename I2>

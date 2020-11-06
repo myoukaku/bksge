@@ -12,6 +12,9 @@
 #include <bksge/fnd/ranges/begin.hpp>
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/iterator/concepts/forward_iterator.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 
@@ -40,12 +43,12 @@ template <typename T>
 struct eq_iter_empty_impl
 {
 private:
-	template <typename U>
-	static auto test(int) ->
-		decltype(
-			bool(ranges::begin(bksge::declval<U&&>()) == ranges::end(bksge::declval<U&&>())),
-			bksge::forward_iterator<decltype(ranges::begin(bksge::declval<U&&>()))>{}
-		);
+	template <typename U,
+		typename B = decltype(ranges::begin(bksge::declval<U&&>())),
+		typename = bksge::enable_if_t<bksge::forward_iterator<B>::value>,
+		typename = decltype(bool(ranges::begin(bksge::declval<U&&>()) == ranges::end(bksge::declval<U&&>())))
+	>
+	static auto test(int) -> bksge::true_type;
 
 	template <typename U>
 	static auto test(...) -> bksge::false_type;

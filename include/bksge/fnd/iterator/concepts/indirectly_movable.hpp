@@ -13,7 +13,6 @@
 #include <bksge/fnd/iterator/concepts/indirectly_writable.hpp>
 #include <bksge/fnd/iterator/iter_rvalue_reference_t.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 
@@ -37,10 +36,9 @@ struct indirectly_movable_impl
 {
 private:
 	template <typename I, typename O,
-		typename = bksge::enable_if_t<bksge::conjunction<
-			bksge::indirectly_readable<I>,
-			bksge::indirectly_writable<O, bksge::iter_rvalue_reference_t<I>>
-		>::value>
+		typename = bksge::enable_if_t<bksge::indirectly_readable<I>::value>,
+		typename R = bksge::iter_rvalue_reference_t<I>,
+		typename = bksge::enable_if_t<bksge::indirectly_writable<O, R>::value>
 	>
 	static auto test(int) -> bksge::true_type;
 

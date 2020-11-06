@@ -38,6 +38,9 @@ using is_sized_range = bksge::bool_constant<sized_range<T>>;
 
 #else
 
+namespace detail
+{
+
 template <typename T>
 struct sized_range_impl
 {
@@ -55,8 +58,10 @@ public:
 	using type = decltype(test<T>(0));
 };
 
+}	// namespace detail
+
 template <typename T>
-using sized_range = typename sized_range_impl<T>::type;
+using sized_range = typename ranges::detail::sized_range_impl<T>::type;
 
 template <typename T>
 using not_sized_range = bksge::negation<sized_range<T>>;

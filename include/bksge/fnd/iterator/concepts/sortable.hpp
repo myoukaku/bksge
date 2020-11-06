@@ -15,7 +15,7 @@
 #include <bksge/fnd/functional/identity.hpp>
 #include <bksge/fnd/functional/ranges/less.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <bksge/fnd/type_traits/conjunction.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -41,11 +41,12 @@ template <typename Iter, typename Rel, typename Proj>
 struct sortable_impl
 {
 private:
-	template <typename I, typename R, typename P>
-	static auto test(int) -> bksge::conjunction<
-		bksge::permutable<I>,
-		bksge::indirect_strict_weak_order<R, bksge::projected<I, P>>
-	>;
+	template <typename I, typename R, typename P,
+		typename = bksge::enable_if_t<bksge::permutable<I>::value>,
+		typename = bksge::enable_if_t<bksge::indirect_strict_weak_order<
+			R, bksge::projected<I, P>>::value>
+	>
+	static auto test(int) -> bksge::true_type;
 
 	template <typename I, typename R, typename P>
 	static auto test(...) -> bksge::false_type;

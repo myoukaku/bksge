@@ -18,7 +18,6 @@
 #include <bksge/fnd/concepts/common_reference_with.hpp>
 #include <bksge/fnd/type_traits/invoke_result.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 
@@ -49,17 +48,20 @@ struct indirectly_unary_invocable_impl
 {
 private:
 	template <typename F2, typename I2,
-		typename = bksge::enable_if_t<bksge::conjunction<
-			bksge::indirectly_readable<I2>,
-			bksge::copy_constructible<F2>,
-			bksge::invocable<F2&, bksge::iter_value_t<I2>&>,
-			bksge::invocable<F2&, bksge::iter_reference_t<I2>>,
-			bksge::invocable<F2&, bksge::iter_common_reference_t<I2>>,
+		typename = bksge::enable_if_t<bksge::indirectly_readable<I2>::value>,
+		typename = bksge::enable_if_t<bksge::copy_constructible<F2>::value>,
+		typename V = bksge::iter_value_t<I2>,
+		typename = bksge::enable_if_t<bksge::invocable<F2&, V&>::value>,
+		typename R = bksge::iter_reference_t<I2>,
+		typename = bksge::enable_if_t<bksge::invocable<F2&, R>::value>,
+		typename C = bksge::iter_common_reference_t<I2>,
+		typename = bksge::enable_if_t<bksge::invocable<F2&, C>::value>,
+		typename = bksge::enable_if_t<
 			bksge::common_reference_with<
-				bksge::invoke_result_t<F2&, bksge::iter_value_t<I2>&>,
-				bksge::invoke_result_t<F2&, bksge::iter_reference_t<I2>>
-			>
-		>::value>
+				bksge::invoke_result_t<F2&, V&>,
+				bksge::invoke_result_t<F2&, R>
+			>::value
+		>
 	>
 	static auto test(int) -> bksge::true_type;
 

@@ -55,15 +55,25 @@ struct contiguous_iterator_impl
 {
 private:
 	template <typename I2,
-		typename = bksge::enable_if_t<bksge::conjunction<
-			bksge::random_access_iterator<I2>,
-			bksge::derived_from<bksge::detail::iter_concept<I2>, bksge::contiguous_iterator_tag>
-		>::value>,
+		typename = bksge::enable_if_t<
+			bksge::random_access_iterator<I2>::value
+		>,
+		typename = bksge::enable_if_t<
+			bksge::derived_from<
+				bksge::detail::iter_concept<I2>,
+				bksge::contiguous_iterator_tag
+			>::value
+		>,
 		typename R = bksge::iter_reference_t<I2>,
-		typename = bksge::enable_if_t<bksge::conjunction<
-			bksge::is_lvalue_reference<R>,
-			bksge::same_as<bksge::iter_value_t<I2>, bksge::remove_cvref_t<R>>
-		>::value>,
+		typename = bksge::enable_if_t<
+			bksge::is_lvalue_reference<R>::value
+		>,
+		typename = bksge::enable_if_t<
+			bksge::same_as<
+				bksge::iter_value_t<I2>,
+				bksge::remove_cvref_t<R>
+			>::value
+		>,
 		typename P1 = decltype(bksge::to_address(bksge::declval<I2 const&>()))
 	>
 	static auto test(int) -> bksge::same_as<P1, bksge::add_pointer_t<R>>;

@@ -40,12 +40,11 @@ template <typename T>
 struct has_member_end_impl
 {
 private:
-	template <typename U>
-	static auto test(int)
-		-> bksge::sentinel_for<
-			decltype(decay_copy(bksge::declval<U&>().end())),
-			decltype(ranges::begin(bksge::declval<U&>()))
-		>;
+	template <typename U,
+		typename E = decltype(decay_copy(bksge::declval<U&>().end())),
+		typename B = decltype(ranges::begin(bksge::declval<U&>()))
+	>
+	static auto test(int) -> bksge::sentinel_for<E, B>;
 
 	template <typename U>
 	static auto test(...) -> bksge::false_type;

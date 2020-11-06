@@ -44,10 +44,9 @@ struct sized_sentinel_for_impl
 {
 private:
 	template <typename S2, typename I2,
+		typename = bksge::enable_if_t<bksge::sentinel_for<S2, I2>::value>,
 		typename = bksge::enable_if_t<
-			bksge::sentinel_for<S2, I2>::value &&
-			!BKSGE_DISABLE_SIZED_SENTINEL_FOR(bksge::remove_cv_t<S2>, bksge::remove_cv_t<I2>)
-		>,
+			!BKSGE_DISABLE_SIZED_SENTINEL_FOR(bksge::remove_cv_t<S2>, bksge::remove_cv_t<I2>)>,
 		typename D1 = decltype(bksge::declval<S2 const&>() - bksge::declval<I2 const&>()),
 		typename D2 = decltype(bksge::declval<I2 const&>() - bksge::declval<S2 const&>()),
 		typename D3 = bksge::iter_difference_t<I2>

@@ -14,8 +14,8 @@
 #include <bksge/fnd/ranges/iterator_t.hpp>
 #include <bksge/fnd/ranges/sentinel_t.hpp>
 #include <bksge/fnd/concepts/same_as.hpp>
-#include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/negation.hpp>
 #include <bksge/fnd/config.hpp>
 
@@ -49,13 +49,13 @@ template <typename Range>
 struct simple_view_impl
 {
 private:
-	template <typename U>
-	static auto test(int) -> bksge::conjunction<
-		ranges::view<U>,
-		ranges::range<U const>,
-		bksge::same_as<ranges::iterator_t<U>, ranges::iterator_t<U const>>,
-		bksge::same_as<ranges::sentinel_t<U>, ranges::sentinel_t<U const>>
-	>;
+	template <typename U,
+		typename = bksge::enable_if_t<ranges::view<U>::value>,
+		typename = bksge::enable_if_t<ranges::range<U const>::value>,
+		typename = bksge::enable_if_t<bksge::same_as<ranges::iterator_t<U>, ranges::iterator_t<U const>>::value>,
+		typename = bksge::enable_if_t<bksge::same_as<ranges::sentinel_t<U>, ranges::sentinel_t<U const>>::value>
+	>
+	static auto test(int) -> bksge::true_type;
 
 	template <typename U>
 	static auto test(...) -> bksge::false_type;

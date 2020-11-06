@@ -17,7 +17,6 @@
 #include <bksge/fnd/concepts/signed_integral.hpp>
 #include <bksge/fnd/type_traits/common_reference.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
@@ -59,10 +58,8 @@ struct cpp17_input_iterator_impl
 {
 private:
 	template <typename I2,
-		typename = bksge::enable_if_t<bksge::conjunction<
-			cpp17_iterator<I2>,
-			bksge::equality_comparable<I2>
-		>::value>,
+		typename = bksge::enable_if_t<cpp17_iterator<I2>::value>,
+		typename = bksge::enable_if_t<bksge::equality_comparable<I2>::value>,
 		typename D = typename bksge::incrementable_traits<I2>::difference_type,
 		typename V = typename bksge::indirectly_readable_traits<I2>::value_type,
 		typename = bksge::common_reference_t<bksge::iter_reference_t<I2>&&, V&>,

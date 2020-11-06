@@ -29,7 +29,9 @@ namespace bksge
 template <typename Iter>
 concept bidirectional_iterator =
 	bksge::forward_iterator<Iter> &&
-	bksge::derived_from<bksge::detail::iter_concept<Iter>, bksge::bidirectional_iterator_tag> &&
+	bksge::derived_from<
+		bksge::detail::iter_concept<Iter>,
+		bksge::bidirectional_iterator_tag> &&
 	requires(Iter i)
 	{
 		{ --i } -> bksge::same_as<Iter&>;
@@ -49,10 +51,15 @@ struct bidirectional_iterator_impl
 {
 private:
 	template <typename I2,
-		typename = bksge::enable_if_t<bksge::conjunction<
-			bksge::forward_iterator<I2>,
-			bksge::derived_from<bksge::detail::iter_concept<I2>, bksge::bidirectional_iterator_tag>
-		>::value>,
+		typename = bksge::enable_if_t<
+			bksge::forward_iterator<I2>::value
+		>,
+		typename = bksge::enable_if_t<
+			bksge::derived_from<
+				bksge::detail::iter_concept<I2>,
+				bksge::bidirectional_iterator_tag
+			>::value
+		>,
 		typename T1 = decltype(--bksge::declval<I2&>()),
 		typename T2 = decltype(  bksge::declval<I2&>()--)
 	>

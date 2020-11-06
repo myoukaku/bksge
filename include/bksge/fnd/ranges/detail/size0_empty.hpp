@@ -39,9 +39,10 @@ template <typename T>
 struct size0_empty_impl
 {
 private:
-	template <typename U>
-	static auto test(int)
-		-> decltype((ranges::size(bksge::declval<U&&>()) == 0), bksge::true_type{});
+	template <typename U,
+		typename = decltype(ranges::size(bksge::declval<U&&>()) == 0)
+	>
+	static auto test(int) -> bksge::true_type;
 
 	template <typename U>
 	static auto test(...) -> bksge::false_type;

@@ -13,7 +13,7 @@
 #include <bksge/fnd/iterator/concepts/indirectly_movable_storable.hpp>
 #include <bksge/fnd/iterator/concepts/indirectly_swappable.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <bksge/fnd/type_traits/conjunction.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -36,12 +36,12 @@ template <typename Iter>
 struct permutable_impl
 {
 private:
-	template <typename I2>
-	static auto test(int) -> bksge::conjunction<
-		bksge::forward_iterator<I2>,
-		bksge::indirectly_movable_storable<I2, I2>,
-		bksge::indirectly_swappable<I2, I2>
-	>;
+	template <typename I2,
+		typename = bksge::enable_if_t<bksge::forward_iterator<I2>::value>,
+		typename = bksge::enable_if_t<bksge::indirectly_movable_storable<I2, I2>::value>,
+		typename = bksge::enable_if_t<bksge::indirectly_swappable<I2, I2>::value>
+	>
+	static auto test(int) -> bksge::true_type;
 
 	template <typename I2>
 	static auto test(...) -> bksge::false_type;

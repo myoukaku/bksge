@@ -13,7 +13,7 @@
 #include <bksge/fnd/concepts/detail/class_or_enum.hpp>
 #include <bksge/fnd/iterator/concepts/input_or_output_iterator.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <bksge/fnd/type_traits/conjunction.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/remove_reference.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
@@ -51,13 +51,14 @@ template <typename T>
 struct has_adl_rbegin_impl
 {
 private:
-	template <typename U>
-	static auto test(int) -> bksge::conjunction<
-		bksge::detail::class_or_enum<bksge::remove_reference_t<T>>,
-		bksge::input_or_output_iterator<
-			decltype(decay_copy(rbegin(bksge::declval<U&>())))
-		>
-	>;
+	template <typename U,
+		typename = bksge::enable_if_t<
+			bksge::detail::class_or_enum<
+				bksge::remove_reference_t<U>
+			>::value>,
+		typename B = decltype(decay_copy(rbegin(bksge::declval<U&>())))
+	>
+	static auto test(int) -> bksge::input_or_output_iterator<B>;
 
 	template <typename U>
 	static auto test(...) -> bksge::false_type;

@@ -12,6 +12,8 @@
 #include <bksge/fnd/concepts/derived_from.hpp>
 #include <bksge/fnd/concepts/convertible_to.hpp>
 #include <bksge/fnd/tuple/tuple_element.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/is_reference.hpp>
 #include <bksge/fnd/type_traits/integral_constant.hpp>
@@ -41,8 +43,8 @@ concept pair_like =
 		requires bksge::derived_from<std::tuple_size<T>, std::integral_constant<std::size_t, 2>>;
 		typename bksge::tuple_element_t<0, bksge::remove_const_t<T>>;
 		typename bksge::tuple_element_t<1, bksge::remove_const_t<T>>;
-		{ std::get<0>(t) } -> bksge::convertible_to<const bksge::tuple_element_t<0, T>&>;
-		{ std::get<1>(t) } -> bksge::convertible_to<const bksge::tuple_element_t<1, T>&>;
+		{ std::get<0>(t) } -> bksge::convertible_to<bksge::tuple_element_t<0, T> const&>;
+		{ std::get<1>(t) } -> bksge::convertible_to<bksge::tuple_element_t<1, T> const&>;
 	};
 
 #else
@@ -52,14 +54,19 @@ struct pair_like_impl
 {
 private:
 	template <typename U,
+		typename = bksge::enable_if_t<!bksge::is_reference<T>::value>,
 		typename = typename std::tuple_size<U>::type,
+		typename = bksge::enable_if_t<bksge::derived_from<
+			std::tuple_size<U>, std::integral_constant<std::size_t, 2>
+		>::value>,
 		typename = bksge::tuple_element_t<0, bksge::remove_const_t<U>>,
-		typename = bksge::tuple_element_t<1, bksge::remove_const_t<U>>
+		typename = bksge::tuple_element_t<1, bksge::remove_const_t<U>>,
+		typename E1 = decltype(std::get<0>(bksge::declval<U>())),
+		typename E2 = decltype(std::get<1>(bksge::declval<U>()))
 	>
 	static auto test(int) -> bksge::conjunction<
-		bksge::derived_from<std::tuple_size<U>, std::integral_constant<std::size_t, 2>>,
-		bksge::convertible_to<decltype(std::get<0>(bksge::declval<U>())), const bksge::tuple_element_t<0, U>&>,
-		bksge::convertible_to<decltype(std::get<1>(bksge::declval<U>())), const bksge::tuple_element_t<1, U>&>
+		bksge::convertible_to<E1, bksge::tuple_element_t<0, U> const&>,
+		bksge::convertible_to<E2, bksge::tuple_element_t<1, U> const&>
 	>;
 
 	template <typename U>

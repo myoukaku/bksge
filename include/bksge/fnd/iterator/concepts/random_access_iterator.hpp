@@ -58,14 +58,11 @@ struct random_access_iterator_impl
 {
 private:
 	template <typename I2,
-		typename = bksge::enable_if_t<bksge::conjunction<
-			bksge::bidirectional_iterator<I2>,
-			bksge::derived_from<bksge::detail::iter_concept<I2>, bksge::random_access_iterator_tag>
-		>::value>,
-		typename = bksge::enable_if_t<bksge::conjunction<
-			bksge::totally_ordered<I2>,
-			bksge::sized_sentinel_for<I2, I2>
-		>::value>,
+		typename = bksge::enable_if_t<bksge::bidirectional_iterator<I2>::value>,
+		typename = bksge::enable_if_t<bksge::derived_from<
+			bksge::detail::iter_concept<I2>, bksge::random_access_iterator_tag>::value>,
+		typename = bksge::enable_if_t<bksge::totally_ordered<I2>::value>,
+		typename = bksge::enable_if_t<bksge::sized_sentinel_for<I2, I2>::value>,
 		typename J2 = I2 const,
 		typename D = bksge::iter_difference_t<I2> const,
 		typename T1 = decltype(bksge::declval<I2&>() += bksge::declval<D >()),

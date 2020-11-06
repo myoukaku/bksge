@@ -36,6 +36,9 @@ using is_range = bksge::bool_constant<range<T>>;
 
 #else
 
+namespace detail
+{
+
 template <typename T>
 struct range_impl
 {
@@ -53,8 +56,10 @@ public:
 	using type = decltype(test<T>(0));
 };
 
+}	// namespace detail
+
 template <typename T>
-using range = typename range_impl<T>::type;
+using range = typename ranges::detail::range_impl<T>::type;
 
 template <typename T>
 using is_range = range<T>;

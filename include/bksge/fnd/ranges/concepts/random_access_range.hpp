@@ -12,7 +12,6 @@
 #include <bksge/fnd/ranges/concepts/bidirectional_range.hpp>
 #include <bksge/fnd/ranges/iterator_t.hpp>
 #include <bksge/fnd/iterator/concepts/random_access_iterator.hpp>
-#include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
@@ -35,15 +34,16 @@ using is_random_access_range = bksge::bool_constant<random_access_range<T>>;
 
 #else
 
+namespace detail
+{
+
 template <typename T>
 struct random_access_range_impl
 {
 private:
 	template <typename U,
-		typename = bksge::enable_if_t<bksge::conjunction<
-			ranges::bidirectional_range<U>,
-			bksge::random_access_iterator<ranges::iterator_t<U>>
-		>::value>
+		typename = bksge::enable_if_t<ranges::bidirectional_range<U>::value>,
+		typename = bksge::enable_if_t<bksge::random_access_iterator<ranges::iterator_t<U>>::value>
 	>
 	static auto test(int) -> bksge::true_type;
 
@@ -54,8 +54,10 @@ public:
 	using type = decltype(test<T>(0));
 };
 
+}	// namespace detail
+
 template <typename T>
-using random_access_range = typename random_access_range_impl<T>::type;
+using random_access_range = typename ranges::detail::random_access_range_impl<T>::type;
 
 template <typename T>
 using is_random_access_range = random_access_range<T>;
