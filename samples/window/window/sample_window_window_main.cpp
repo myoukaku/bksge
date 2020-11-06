@@ -9,11 +9,7 @@
 #include <bksge/core/window.hpp>
 #include <sstream>
 
-int WINAPI WinMain(
-	HINSTANCE /*hInstance*/, 
-	HINSTANCE /*hPrevInstance*/, 
-	LPSTR /*lpCmdLine*/, 
-	int /*nCmdShow*/)
+int main()
 {
 	bksge::Window window({800, 600}, "sample_window");
 

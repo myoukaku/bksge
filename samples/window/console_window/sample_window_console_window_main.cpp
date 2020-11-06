@@ -13,6 +13,7 @@
 
 int main()
 {
+#if defined(BKSGE_PLATFORM_WIN32)
 	using ConsoleWindow = bksge::window::Win32ConsoleWindow;
 
 	int scale = 1;
@@ -43,6 +44,6 @@ int main()
 			<< std::chrono::duration<float>(1) / elapsed_time << " fps";
 		window.SetTitle(ss.str());
 	}
-
+#endif
 	return 0;
 }
