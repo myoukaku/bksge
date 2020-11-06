@@ -139,7 +139,7 @@ public:
 		return true;
 	}
 
-	BKSGE_CONSTEXPR T& operator*() BKSGE_NOEXCEPT
+	BKSGE_CXX14_CONSTEXPR T& operator*() BKSGE_NOEXCEPT
 	{
 		return m_value;
 	}
@@ -149,7 +149,7 @@ public:
 		return m_value;
 	}
 
-	BKSGE_CONSTEXPR T* operator->() BKSGE_NOEXCEPT
+	BKSGE_CXX14_CONSTEXPR T* operator->() BKSGE_NOEXCEPT
 	{
 		return &m_value;
 	}
