@@ -81,12 +81,6 @@ template <typename It>
 inline BKSGE_CXX14_CONSTEXPR void
 advance_impl_1(bksge::detail::overload_priority<0>, It& it, bksge::iter_difference_t<It> n)
 {
-#ifdef __cpp_lib_is_constant_evaluated
-	if (std::is_constant_evaluated() && n < 0)
-	{
-		throw "attempt to decrement a non-bidirectional iterator";
-	}
-#endif
 	BKSGE_ASSERT(n >= 0);
 	while (n-- > 0)
 	{
@@ -181,12 +175,6 @@ inline BKSGE_CXX14_CONSTEXPR Difference
 advance_impl_3(bksge::detail::overload_priority<1>, It& it, Difference n, Sent bound)
 {
 	const auto diff = bound - it;
-#ifdef __cpp_lib_is_constant_evaluated
-	if (std::is_constant_evaluated() && !(n == 0 || diff == 0 || ((n < 0) == (diff < 0))))
-	{
-		throw "inconsistent directions for distance and bound";
-	}
-#endif
 	// n and bound must not lead in opposite directions:
 	BKSGE_ASSERT(n == 0 || diff == 0 || ((n < 0) == (diff < 0)));
 	const auto absdiff = diff < 0 ? -diff : diff;
@@ -232,12 +220,6 @@ template <typename It, typename Difference, typename Sent>
 inline BKSGE_CXX14_CONSTEXPR Difference
 advance_impl_4(bksge::detail::overload_priority<0>, It& /*it*/, Difference n, Sent /*bound*/)
 {
-#ifdef __cpp_lib_is_constant_evaluated
-	if (std::is_constant_evaluated() && n < 0)
-	{
-		throw "attempt to decrement a non-bidirectional iterator";
-	}
-#endif
 	BKSGE_ASSERT(n >= 0);
 	return n;
 }

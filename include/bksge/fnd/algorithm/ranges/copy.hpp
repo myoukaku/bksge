@@ -49,7 +49,7 @@ private:
 		bksge::detail::overload_priority<1>)
 	{
 #if 0
-#ifdef __cpp_lib_is_constant_evaluated
+#if defined(__cpp_lib_is_constant_evaluated) && __cpp_lib_is_constant_evaluated >= 201811
 		if (!std::is_constant_evaluated())
 #endif
 		{

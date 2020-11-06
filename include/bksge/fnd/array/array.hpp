@@ -275,13 +275,15 @@ template <typename T, std::size_t N>
 BKSGE_CXX14_CONSTEXPR __detail::__synth3way_t<T>
 operator<=>(array<T, N> const& lhs, array<T, N> const& rhs)
 {
-#ifdef __cpp_lib_is_constant_evaluated
+#if defined(__cpp_lib_is_constant_evaluated) && __cpp_lib_is_constant_evaluated >= 201811
 	if constexpr (N && __is_memcmp_ordered<T>::__value)
+	{
 		if (!std::is_constant_evaluated())
 		{
 			constexpr std::size_t n = N * sizeof(T);
 			return __builtin_memcmp(lhs.data(), rhs.data(), n) <=> 0;
 		}
+	}
 #endif
 
 	for (std::size_t i = 0; i < N; ++i)

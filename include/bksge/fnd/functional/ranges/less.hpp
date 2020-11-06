@@ -16,7 +16,8 @@
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstdint>
+#include <type_traits>	// is_constant_evaluated
+#include <cstdint>		// uintptr_t
 
 namespace bksge
 {
@@ -43,7 +44,7 @@ private:
 	static BKSGE_CXX14_CONSTEXPR bool impl(bksge::detail::overload_priority<1>, T&& t, U&& u)
 		BKSGE_NOEXCEPT_IF_EXPR(bksge::declval<T>() < bksge::declval<U>())
 	{
-#ifdef __cpp_lib_is_constant_evaluated
+#if defined(__cpp_lib_is_constant_evaluated) && __cpp_lib_is_constant_evaluated >= 201811
 		if (std::is_constant_evaluated())
 		{
 			return t < u;

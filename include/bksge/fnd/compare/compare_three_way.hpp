@@ -30,7 +30,8 @@ using std::compare_three_way;
 #include <bksge/fnd/compare/concepts/three_way_comparable_with.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstdint>
+#include <type_traits>	// is_constant_evaluated
+#include <cstdint>		// uintptr_t
 
 namespace bksge
 {
@@ -47,11 +48,12 @@ struct compare_three_way
 			auto pt = static_cast<void const volatile*>(t);
 			auto pu = static_cast<void const volatile*>(u);
 
-			if (__builtin_is_constant_evaluated())
+#if defined(__cpp_lib_is_constant_evaluated) && __cpp_lib_is_constant_evaluated >= 201811
+			if (std::is_constant_evaluated())
 			{
 				return pt <=> pu;
 			}
-
+#endif
 			auto it = reinterpret_cast<std::uintptr_t>(pt);
 			auto iu = reinterpret_cast<std::uintptr_t>(pu);
 			return it <=> iu;
