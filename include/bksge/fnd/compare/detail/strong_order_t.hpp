@@ -42,7 +42,7 @@ private:
 private:
 	// strong_ordering(strong_order(e, f))
 	template <typename T, typename U>
-	static constexpr auto
+	static BKSGE_CONSTEXPR auto
 	impl(T&& e, U&& f, bksge::detail::overload_priority<2>)
 	BKSGE_NOEXCEPT_DECLTYPE_RETURN(
 		bksge::strong_ordering(strong_order(bksge::forward<T>(e), bksge::forward<U>(f))))
@@ -51,9 +51,9 @@ private:
 	// floating_point
 	template <typename T, typename U>
 	requires bksge::floating_point<bksge::decay_t<T>>
-	static constexpr bksge::strong_ordering
+	static BKSGE_CONSTEXPR bksge::strong_ordering
 	impl(T&& e, U&& f, bksge::detail::overload_priority<2>)
-		noexcept
+		BKSGE_NOEXCEPT
 	{
 		// 未実装
 		return detail::fp_strong_order(e, f);
@@ -63,7 +63,7 @@ private:
 #if defined(BKSGE_HAS_STD_COMPARE) && defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
 	// strong_ordering(e <=> f)
 	template <typename T, typename U>
-	static constexpr auto
+	static BKSGE_CONSTEXPR auto
 	impl(T&& e, U&& f, bksge::detail::overload_priority<0>)
 	BKSGE_NOEXCEPT_DECLTYPE_RETURN(
 		bksge::strong_ordering(bksge::compare_three_way()(bksge::forward<T>(e), bksge::forward<U>(f))))
@@ -71,8 +71,8 @@ private:
 
 public:
 	template <typename T, typename U>
-	constexpr auto operator()(T&& e, U&& f) const
-		noexcept(noexcept(impl(bksge::forward<T>(e), bksge::forward<U>(f), bksge::detail::overload_priority<2>{})))
+	BKSGE_CONSTEXPR auto operator()(T&& e, U&& f) const
+		BKSGE_NOEXCEPT_IF_EXPR(impl(bksge::forward<T>(e), bksge::forward<U>(f), bksge::detail::overload_priority<2>{}))
 	->decltype((impl(bksge::forward<T>(e), bksge::forward<U>(f), bksge::detail::overload_priority<2>{})))
 	{
 		static_assert(bksge::is_same_as<bksge::decay_t<T>, bksge::decay_t<U>>::value, "");

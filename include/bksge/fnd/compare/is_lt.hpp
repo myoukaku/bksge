@@ -25,12 +25,13 @@ using std::is_lt;
 #else
 
 #include <bksge/fnd/compare/partial_ordering.hpp>
+#include <bksge/fnd/config.hpp>
 
 namespace bksge
 {
 
-constexpr bool
-is_lt(bksge::partial_ordering cmp) noexcept
+BKSGE_CONSTEXPR bool
+is_lt(bksge::partial_ordering cmp) BKSGE_NOEXCEPT
 {
 	return cmp < 0;
 }

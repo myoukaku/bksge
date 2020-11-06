@@ -8,6 +8,7 @@
 
 #include <bksge/fnd/compare/compare_partial_order_fallback.hpp>
 #include <bksge/fnd/compare/partial_ordering.hpp>
+#include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include <limits>
 #include "constexpr_test.hpp"
@@ -178,10 +179,10 @@ inline BKSGE_CXX14_CONSTEXPR bool test01()
 
 GTEST_TEST(CompareTest, ComparePartialOrderFallbackTest)
 {
-#if defined(_MSC_VER)
-	EXPECT_TRUE(test01());
+#if defined(BKSGE_HAS_CXX17_INLINE_VARIABLES)
+	BKSGE_CONSTEXPR_EXPECT_TRUE(test01());
 #else
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(test01());
+	EXPECT_TRUE(test01());
 #endif
 }
 

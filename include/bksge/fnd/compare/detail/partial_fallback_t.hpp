@@ -35,7 +35,7 @@ class partial_fallback_t
 private:
 	// partial_order(e, f)
 	template <typename T, typename U>
-	static constexpr auto
+	static BKSGE_CONSTEXPR auto
 	impl(T&& e, U&& f, bksge::detail::overload_priority<1>)
 	BKSGE_NOEXCEPT_DECLTYPE_RETURN(
 		detail::partial_order_t{}(bksge::forward<T>(e), bksge::forward<U>(f)))
@@ -44,11 +44,11 @@ private:
 	template <typename T, typename U,
 		typename = bksge::enable_if_t<detail::op_eq_lt<T, U>::value>
 	>
-	static constexpr bksge::partial_ordering
+	static BKSGE_CONSTEXPR bksge::partial_ordering
 	impl(T&& e, U&& f, bksge::detail::overload_priority<0>)
-		noexcept(
-			noexcept(bool(bksge::declval<T>() == bksge::declval<U>())) &&
-			noexcept(bool(bksge::declval<T>() <  bksge::declval<U>())))
+		BKSGE_NOEXCEPT_IF(
+			BKSGE_NOEXCEPT_EXPR(bool(bksge::declval<T>() == bksge::declval<U>())) &&
+			BKSGE_NOEXCEPT_EXPR(bool(bksge::declval<T>() <  bksge::declval<U>())))
 	{
 		return
 			bksge::forward<T>(e) == bksge::forward<U>(f) ? bksge::partial_ordering::equivalent :
@@ -59,8 +59,8 @@ private:
 
 public:
 	template <typename T, typename U>
-	constexpr auto operator()(T&& e, U&& f) const
-		noexcept(noexcept(impl(bksge::forward<T>(e), bksge::forward<U>(f), bksge::detail::overload_priority<1>{})))
+	BKSGE_CONSTEXPR auto operator()(T&& e, U&& f) const
+		BKSGE_NOEXCEPT_IF_EXPR(impl(bksge::forward<T>(e), bksge::forward<U>(f), bksge::detail::overload_priority<1>{}))
 	->decltype((impl(bksge::forward<T>(e), bksge::forward<U>(f), bksge::detail::overload_priority<1>{})))
 	{
 		static_assert(bksge::is_same_as<bksge::decay_t<T>, bksge::decay_t<U>>::value, "");

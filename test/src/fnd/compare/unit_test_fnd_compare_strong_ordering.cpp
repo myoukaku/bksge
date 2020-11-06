@@ -162,7 +162,11 @@ inline BKSGE_CXX14_CONSTEXPR bool test01()
 
 GTEST_TEST(CompareTest, StrongOrderingTest)
 {
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(test01());
+#if defined(BKSGE_HAS_CXX17_INLINE_VARIABLES)
+	BKSGE_CONSTEXPR_EXPECT_TRUE(test01());
+#else
+	EXPECT_TRUE(test01());
+#endif
 }
 
 }	// namespace strong_ordering_test

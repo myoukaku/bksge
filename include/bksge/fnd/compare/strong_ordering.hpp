@@ -32,27 +32,30 @@ using std::strong_ordering;
 namespace bksge
 {
 
-class strong_ordering
+#if !defined(BKSGE_HAS_CXX17_INLINE_VARIABLES)
+template <typename>
+#endif
+class strong_ordering_t
 {
 private:
 	cmp_cat::type m_value;
 
-	constexpr explicit
-	strong_ordering(cmp_cat::Ord v) noexcept
+	BKSGE_CONSTEXPR explicit
+	strong_ordering_t(cmp_cat::Ord v) BKSGE_NOEXCEPT
 		: m_value(cmp_cat::type(v))
 	{}
 
 public:
-	static const strong_ordering less;
-	static const strong_ordering equal;
-	static const strong_ordering equivalent;
-	static const strong_ordering greater;
+	static const strong_ordering_t less;
+	static const strong_ordering_t equal;
+	static const strong_ordering_t equivalent;
+	static const strong_ordering_t greater;
 
 #if defined(BKSGE_HAS_STD_COMPARE) && defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
 	// * extension *
 	// std::strong_ordering からの変換
-	constexpr
-	strong_ordering(std::strong_ordering ord) noexcept
+	BKSGE_CONSTEXPR
+	strong_ordering_t(std::strong_ordering ord) BKSGE_NOEXCEPT
 		: m_value(cmp_cat::type(
 			ord == std::strong_ordering::less    ? cmp_cat::Ord::less    :
 			ord == std::strong_ordering::greater ? cmp_cat::Ord::greater :
@@ -60,7 +63,7 @@ public:
 	{}
 #endif
 
-	constexpr operator partial_ordering() const noexcept
+	BKSGE_CONSTEXPR operator partial_ordering() const BKSGE_NOEXCEPT
 	{
 		return
 			m_value == cmp_cat::type(cmp_cat::Ord::less) ?
@@ -70,7 +73,7 @@ public:
 			    partial_ordering::equivalent;
 	}
 
-	constexpr operator weak_ordering() const noexcept
+	BKSGE_CONSTEXPR operator weak_ordering() const BKSGE_NOEXCEPT
 	{
 		return
 			m_value == cmp_cat::type(cmp_cat::Ord::less) ?
@@ -81,109 +84,124 @@ public:
 	}
 
 	// comparisons
-	friend constexpr bool
-	operator==(strong_ordering lhs, strong_ordering rhs) noexcept
+	friend BKSGE_CONSTEXPR bool
+	operator==(strong_ordering_t lhs, strong_ordering_t rhs) BKSGE_NOEXCEPT
 	{
 		return lhs.m_value == rhs.m_value;
 	}
 
-	friend constexpr bool
-	operator==(strong_ordering v, cmp_cat::unspec) noexcept
+	friend BKSGE_CONSTEXPR bool
+	operator==(strong_ordering_t v, cmp_cat::unspec) BKSGE_NOEXCEPT
 	{
 		return v.m_value == 0;
 	}
 
-	friend constexpr bool
-	operator< (strong_ordering v, cmp_cat::unspec) noexcept
+	friend BKSGE_CONSTEXPR bool
+	operator< (strong_ordering_t v, cmp_cat::unspec) BKSGE_NOEXCEPT
 	{
 		return v.m_value < 0;
 	}
 
-	friend constexpr bool
-	operator> (strong_ordering v, cmp_cat::unspec) noexcept
+	friend BKSGE_CONSTEXPR bool
+	operator> (strong_ordering_t v, cmp_cat::unspec) BKSGE_NOEXCEPT
 	{
 		return v.m_value > 0;
 	}
 
-	friend constexpr bool
-	operator<=(strong_ordering v, cmp_cat::unspec) noexcept
+	friend BKSGE_CONSTEXPR bool
+	operator<=(strong_ordering_t v, cmp_cat::unspec) BKSGE_NOEXCEPT
 	{
 		return v.m_value <= 0;
 	}
 
-	friend constexpr bool
-	operator>=(strong_ordering v, cmp_cat::unspec) noexcept
+	friend BKSGE_CONSTEXPR bool
+	operator>=(strong_ordering_t v, cmp_cat::unspec) BKSGE_NOEXCEPT
 	{
 		return v.m_value >= 0;
 	}
 
-	friend constexpr bool
-	operator< (cmp_cat::unspec, strong_ordering v) noexcept
+	friend BKSGE_CONSTEXPR bool
+	operator< (cmp_cat::unspec, strong_ordering_t v) BKSGE_NOEXCEPT
 	{
 		return 0 < v.m_value;
 	}
 
-	friend constexpr bool
-	operator> (cmp_cat::unspec, strong_ordering v) noexcept
+	friend BKSGE_CONSTEXPR bool
+	operator> (cmp_cat::unspec, strong_ordering_t v) BKSGE_NOEXCEPT
 	{
 		return 0 > v.m_value;
 	}
 
-	friend constexpr bool
-	operator<=(cmp_cat::unspec, strong_ordering v) noexcept
+	friend BKSGE_CONSTEXPR bool
+	operator<=(cmp_cat::unspec, strong_ordering_t v) BKSGE_NOEXCEPT
 	{
 		return 0 <= v.m_value;
 	}
 
-	friend constexpr bool
-	operator>=(cmp_cat::unspec, strong_ordering v) noexcept
+	friend BKSGE_CONSTEXPR bool
+	operator>=(cmp_cat::unspec, strong_ordering_t v) BKSGE_NOEXCEPT
 	{
 		return 0 >= v.m_value;
 	}
 
 #if defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
-	friend constexpr strong_ordering
-	operator<=>(strong_ordering v, cmp_cat::unspec) noexcept
+	friend BKSGE_CONSTEXPR strong_ordering_t
+	operator<=>(strong_ordering_t v, cmp_cat::unspec) BKSGE_NOEXCEPT
 	{
 		return v;
 	}
 
-	friend constexpr strong_ordering
-	operator<=>(cmp_cat::unspec, strong_ordering v) noexcept
+	friend BKSGE_CONSTEXPR strong_ordering_t
+	operator<=>(cmp_cat::unspec, strong_ordering_t v) BKSGE_NOEXCEPT
 	{
-		return strong_ordering(cmp_cat::Ord(-v.m_value));
+		return strong_ordering_t(cmp_cat::Ord(-v.m_value));
 	}
 #else
-	friend constexpr bool
-	operator!=(strong_ordering lhs, strong_ordering rhs) noexcept
+	friend BKSGE_CONSTEXPR bool
+	operator!=(strong_ordering_t lhs, strong_ordering_t rhs) BKSGE_NOEXCEPT
 	{
 		return !(lhs == rhs);
 	}
 
-	friend constexpr bool
-	operator!=(strong_ordering lhs, cmp_cat::unspec rhs) noexcept
+	friend BKSGE_CONSTEXPR bool
+	operator!=(strong_ordering_t lhs, cmp_cat::unspec rhs) BKSGE_NOEXCEPT
 	{
 		return !(lhs == rhs);
 	}
 
-	friend constexpr bool
-	operator==(cmp_cat::unspec lhs, strong_ordering rhs) noexcept
+	friend BKSGE_CONSTEXPR bool
+	operator==(cmp_cat::unspec lhs, strong_ordering_t rhs) BKSGE_NOEXCEPT
 	{
 		return rhs == lhs;
 	}
 
-	friend constexpr bool
-	operator!=(cmp_cat::unspec lhs, strong_ordering rhs) noexcept
+	friend BKSGE_CONSTEXPR bool
+	operator!=(cmp_cat::unspec lhs, strong_ordering_t rhs) BKSGE_NOEXCEPT
 	{
 		return !(lhs == rhs);
 	}
 #endif
 };
 
-BKSGE_INLINE_VAR BKSGE_CONSTEXPR strong_ordering strong_ordering::less(cmp_cat::Ord::less);
-BKSGE_INLINE_VAR BKSGE_CONSTEXPR strong_ordering strong_ordering::equal(cmp_cat::Ord::equivalent);
-BKSGE_INLINE_VAR BKSGE_CONSTEXPR strong_ordering strong_ordering::equivalent(cmp_cat::Ord::equivalent);
-BKSGE_INLINE_VAR BKSGE_CONSTEXPR strong_ordering strong_ordering::greater(cmp_cat::Ord::greater);
+#if defined(BKSGE_HAS_CXX17_INLINE_VARIABLES)
+
+using strong_ordering = strong_ordering_t;
+
+inline BKSGE_CONSTEXPR strong_ordering strong_ordering::less(cmp_cat::Ord::less);
+inline BKSGE_CONSTEXPR strong_ordering strong_ordering::equal(cmp_cat::Ord::equivalent);
+inline BKSGE_CONSTEXPR strong_ordering strong_ordering::equivalent(cmp_cat::Ord::equivalent);
+inline BKSGE_CONSTEXPR strong_ordering strong_ordering::greater(cmp_cat::Ord::greater);
+
+#else
+
+using strong_ordering = strong_ordering_t<void>;
+
+template <typename T> BKSGE_CONSTEXPR strong_ordering_t<T> strong_ordering_t<T>::less(cmp_cat::Ord::less);
+template <typename T> BKSGE_CONSTEXPR strong_ordering_t<T> strong_ordering_t<T>::equal(cmp_cat::Ord::equivalent);
+template <typename T> BKSGE_CONSTEXPR strong_ordering_t<T> strong_ordering_t<T>::equivalent(cmp_cat::Ord::equivalent);
+template <typename T> BKSGE_CONSTEXPR strong_ordering_t<T> strong_ordering_t<T>::greater(cmp_cat::Ord::greater);
+
+#endif
 
 }	// namespace bksge
 

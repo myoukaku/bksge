@@ -25,12 +25,13 @@ using std::is_eq;
 #else
 
 #include <bksge/fnd/compare/partial_ordering.hpp>
+#include <bksge/fnd/config.hpp>
 
 namespace bksge
 {
 
-constexpr bool
-is_eq(bksge::partial_ordering cmp) noexcept
+BKSGE_CONSTEXPR bool
+is_eq(bksge::partial_ordering cmp) BKSGE_NOEXCEPT
 {
 	return cmp == 0;
 }

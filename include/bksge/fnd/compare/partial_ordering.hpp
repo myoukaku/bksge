@@ -30,32 +30,35 @@ using std::partial_ordering;
 namespace bksge
 {
 
-class partial_ordering
+#if !defined(BKSGE_HAS_CXX17_INLINE_VARIABLES)
+template <typename>
+#endif
+class partial_ordering_t
 {
 private:
 	cmp_cat::type m_value;
 
-	constexpr explicit
-	partial_ordering(cmp_cat::Ord v) noexcept
+	BKSGE_CONSTEXPR explicit
+	partial_ordering_t(cmp_cat::Ord v) BKSGE_NOEXCEPT
 		: m_value(cmp_cat::type(v))
 	{}
 
-	constexpr explicit
-	partial_ordering(cmp_cat::Ncmp v) noexcept
+	BKSGE_CONSTEXPR explicit
+	partial_ordering_t(cmp_cat::Ncmp v) BKSGE_NOEXCEPT
 		: m_value(cmp_cat::type(v))
 	{}
 
 public:
-	static const partial_ordering less;
-	static const partial_ordering equivalent;
-	static const partial_ordering greater;
-	static const partial_ordering unordered;
+	static const partial_ordering_t less;
+	static const partial_ordering_t equivalent;
+	static const partial_ordering_t greater;
+	static const partial_ordering_t unordered;
 
 #if defined(BKSGE_HAS_STD_COMPARE) && defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
 	// * extension *
 	// std::partial_ordering からの変換
-	constexpr
-	partial_ordering(std::partial_ordering ord) noexcept
+	BKSGE_CONSTEXPR
+	partial_ordering_t(std::partial_ordering ord) BKSGE_NOEXCEPT
 		: m_value(cmp_cat::type(
 			ord == std::partial_ordering::less    ? cmp_cat::Ord::less    :
 			ord == std::partial_ordering::greater ? cmp_cat::Ord::greater :
@@ -64,8 +67,8 @@ public:
 
 	// * extension *
 	// std::weak_ordering からの変換
-	constexpr
-	partial_ordering(std::weak_ordering ord) noexcept
+	BKSGE_CONSTEXPR
+	partial_ordering_t(std::weak_ordering ord) BKSGE_NOEXCEPT
 		: m_value(cmp_cat::type(
 			ord == std::weak_ordering::less    ? cmp_cat::Ord::less    :
 			ord == std::weak_ordering::greater ? cmp_cat::Ord::greater :
@@ -74,8 +77,8 @@ public:
 
 	// * extension *
 	// std::strong_ordering からの変換
-	constexpr
-	partial_ordering(std::strong_ordering ord) noexcept
+	BKSGE_CONSTEXPR
+	partial_ordering_t(std::strong_ordering ord) BKSGE_NOEXCEPT
 		: m_value(cmp_cat::type(
 			ord == std::strong_ordering::less    ? cmp_cat::Ord::less    :
 			ord == std::strong_ordering::greater ? cmp_cat::Ord::greater :
@@ -84,79 +87,79 @@ public:
 #endif
 
 	// comparisons
-	friend constexpr bool
-	operator==(partial_ordering lhs, partial_ordering rhs) noexcept
+	friend BKSGE_CONSTEXPR bool
+	operator==(partial_ordering_t lhs, partial_ordering_t rhs) BKSGE_NOEXCEPT
 	{
 		return lhs.m_value == rhs.m_value;
 	}
 
-	friend constexpr bool
-	operator==(partial_ordering v, cmp_cat::unspec) noexcept
+	friend BKSGE_CONSTEXPR bool
+	operator==(partial_ordering_t v, cmp_cat::unspec) BKSGE_NOEXCEPT
 	{
 		return v.m_value == 0;
 	}
 
-	friend constexpr bool
-	operator< (partial_ordering v, cmp_cat::unspec) noexcept
+	friend BKSGE_CONSTEXPR bool
+	operator< (partial_ordering_t v, cmp_cat::unspec) BKSGE_NOEXCEPT
 	{
 		return v.m_value == -1;
 	}
 
-	friend constexpr bool
-	operator> (partial_ordering v, cmp_cat::unspec) noexcept
+	friend BKSGE_CONSTEXPR bool
+	operator> (partial_ordering_t v, cmp_cat::unspec) BKSGE_NOEXCEPT
 	{
 		return v.m_value == 1;
 	}
 
-	friend constexpr bool
-	operator<=(partial_ordering v, cmp_cat::unspec) noexcept
+	friend BKSGE_CONSTEXPR bool
+	operator<=(partial_ordering_t v, cmp_cat::unspec) BKSGE_NOEXCEPT
 	{
 		return v.m_value <= 0;
 	}
 
-	friend constexpr bool
-	operator>=(partial_ordering v, cmp_cat::unspec) noexcept
+	friend BKSGE_CONSTEXPR bool
+	operator>=(partial_ordering_t v, cmp_cat::unspec) BKSGE_NOEXCEPT
 	{
 		return cmp_cat::type(v.m_value & 1) == v.m_value;
 	}
 
-	friend constexpr bool
-	operator< (cmp_cat::unspec, partial_ordering v) noexcept
+	friend BKSGE_CONSTEXPR bool
+	operator< (cmp_cat::unspec, partial_ordering_t v) BKSGE_NOEXCEPT
 	{
 		return v.m_value == 1;
 	}
 
-	friend constexpr bool
-	operator> (cmp_cat::unspec, partial_ordering v) noexcept
+	friend BKSGE_CONSTEXPR bool
+	operator> (cmp_cat::unspec, partial_ordering_t v) BKSGE_NOEXCEPT
 	{
 		return v.m_value == -1;
 	}
 
-	friend constexpr bool
-	operator<=(cmp_cat::unspec, partial_ordering v) noexcept
+	friend BKSGE_CONSTEXPR bool
+	operator<=(cmp_cat::unspec, partial_ordering_t v) BKSGE_NOEXCEPT
 	{
 		return cmp_cat::type(v.m_value & 1) == v.m_value;
 	}
 
-	friend constexpr bool
-	operator>=(cmp_cat::unspec, partial_ordering v) noexcept
+	friend BKSGE_CONSTEXPR bool
+	operator>=(cmp_cat::unspec, partial_ordering_t v) BKSGE_NOEXCEPT
 	{
 		return 0 >= v.m_value;
 	}
 
 #if defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
-	friend constexpr partial_ordering
-	operator<=>(partial_ordering v, cmp_cat::unspec) noexcept
+	friend BKSGE_CONSTEXPR partial_ordering_t
+	operator<=>(partial_ordering_t v, cmp_cat::unspec) BKSGE_NOEXCEPT
 	{
 		return v;
 	}
 
-	friend constexpr partial_ordering
-	operator<=>(cmp_cat::unspec, partial_ordering v) noexcept
+	friend BKSGE_CONSTEXPR partial_ordering_t
+	operator<=>(cmp_cat::unspec, partial_ordering_t v) BKSGE_NOEXCEPT
 	{
 		if (v.m_value & 1)
 		{
-			return partial_ordering(cmp_cat::Ord(-v.m_value));
+			return partial_ordering_t(cmp_cat::Ord(-v.m_value));
 		}
 		else
 		{
@@ -164,36 +167,51 @@ public:
 		}
 	}
 #else
-	friend constexpr bool
-	operator!=(partial_ordering lhs, partial_ordering rhs) noexcept
+	friend BKSGE_CONSTEXPR bool
+	operator!=(partial_ordering_t lhs, partial_ordering_t rhs) BKSGE_NOEXCEPT
 	{
 		return !(lhs == rhs);
 	}
 
-	friend constexpr bool
-	operator!=(partial_ordering lhs, cmp_cat::unspec rhs) noexcept
+	friend BKSGE_CONSTEXPR bool
+	operator!=(partial_ordering_t lhs, cmp_cat::unspec rhs) BKSGE_NOEXCEPT
 	{
 		return !(lhs == rhs);
 	}
 
-	friend constexpr bool
-	operator==(cmp_cat::unspec lhs, partial_ordering rhs) noexcept
+	friend BKSGE_CONSTEXPR bool
+	operator==(cmp_cat::unspec lhs, partial_ordering_t rhs) BKSGE_NOEXCEPT
 	{
 		return rhs == lhs;
 	}
 
-	friend constexpr bool
-	operator!=(cmp_cat::unspec lhs, partial_ordering rhs) noexcept
+	friend BKSGE_CONSTEXPR bool
+	operator!=(cmp_cat::unspec lhs, partial_ordering_t rhs) BKSGE_NOEXCEPT
 	{
 		return !(lhs == rhs);
 	}
 #endif
 };
 
-BKSGE_INLINE_VAR BKSGE_CONSTEXPR partial_ordering partial_ordering::less(cmp_cat::Ord::less);
-BKSGE_INLINE_VAR BKSGE_CONSTEXPR partial_ordering partial_ordering::equivalent(cmp_cat::Ord::equivalent);
-BKSGE_INLINE_VAR BKSGE_CONSTEXPR partial_ordering partial_ordering::greater(cmp_cat::Ord::greater);
-BKSGE_INLINE_VAR BKSGE_CONSTEXPR partial_ordering partial_ordering::unordered(cmp_cat::Ncmp::unordered);
+#if defined(BKSGE_HAS_CXX17_INLINE_VARIABLES)
+
+using partial_ordering = partial_ordering_t;
+
+inline BKSGE_CONSTEXPR partial_ordering partial_ordering::less(cmp_cat::Ord::less);
+inline BKSGE_CONSTEXPR partial_ordering partial_ordering::equivalent(cmp_cat::Ord::equivalent);
+inline BKSGE_CONSTEXPR partial_ordering partial_ordering::greater(cmp_cat::Ord::greater);
+inline BKSGE_CONSTEXPR partial_ordering partial_ordering::unordered(cmp_cat::Ncmp::unordered);
+
+#else
+
+using partial_ordering = partial_ordering_t<void>;
+
+template <typename T> BKSGE_CONSTEXPR partial_ordering_t<T> partial_ordering_t<T>::less(cmp_cat::Ord::less);
+template <typename T> BKSGE_CONSTEXPR partial_ordering_t<T> partial_ordering_t<T>::equivalent(cmp_cat::Ord::equivalent);
+template <typename T> BKSGE_CONSTEXPR partial_ordering_t<T> partial_ordering_t<T>::greater(cmp_cat::Ord::greater);
+template <typename T> BKSGE_CONSTEXPR partial_ordering_t<T> partial_ordering_t<T>::unordered(cmp_cat::Ncmp::unordered);
+
+#endif
 
 }	// namespace bksge
 
