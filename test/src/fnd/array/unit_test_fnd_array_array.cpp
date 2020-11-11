@@ -10,6 +10,7 @@
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/utility/move.hpp>
+#include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
