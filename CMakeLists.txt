@@ -54,8 +54,6 @@ foreach(compiler_flag ${compiler_flags})
 	  set(${compiler_flag} "${${compiler_flag}} /Zi")
     endif()
 
-    string(REGEX REPLACE "/GR-?" "/GR-" ${compiler_flag} "${${compiler_flag}}")
-
   elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     set(${compiler_flag} "${${compiler_flag}} -Wno-type-limits")
 
@@ -86,6 +84,9 @@ foreach(compiler_flag ${compiler_flags})
 	if (NOT CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
       set(${compiler_flag} "${${compiler_flag}} /MP")
 	endif()
+
+	# /GR- (Disable Run-Time Type Information)
+    string(REGEX REPLACE "/GR-?" "/GR-" ${compiler_flag} "${${compiler_flag}}")
 
 	# /bigobj (Increase Number of Sections in .obj file)
     set(${compiler_flag} "${${compiler_flag}} /bigobj")
