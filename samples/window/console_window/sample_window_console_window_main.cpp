@@ -7,6 +7,7 @@
  */
 
 #include <bksge/core/window/win32/win32_console_window.hpp>
+#include <bksge/bksge.hpp>
 #include <sstream>
 #include <iomanip>
 #include <chrono>
@@ -25,9 +26,11 @@ int main()
 	{
 		for (int x = 0; x < width; ++x)
 		{
-			float r = (float)x / width;
-			float g = (float)y / height;
-			float b = 1;
+			bksge::ColorHSVf hsv((float)x / width, 1.0f, (float)y / height);
+			bksge::Color3f rgb(hsv);
+			float r = rgb.r();
+			float g = rgb.g();
+			float b = rgb.b();
 			window.DrawPixel(x, y, bksge::Color4f(r,g,b,1));
 		}
 	}

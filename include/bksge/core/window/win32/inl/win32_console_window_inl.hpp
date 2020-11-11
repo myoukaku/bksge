@@ -47,6 +47,7 @@ inline void OpenLastErrorMessageBox()
 	::LocalFree(buf);
 }
 
+#if 0
 inline std::uint16_t RGB_to_U16(std::uint8_t r, std::uint8_t g, std::uint8_t b)
 {
 	return
@@ -154,6 +155,7 @@ inline ColorCodeInfo GetColorCodeInfo(std::uint8_t r, std::uint8_t g, std::uint8
 	static auto const tbl = ColorCodeInfoTable();
 	return tbl[RGB_to_U16(r, g, b)];
 }
+#endif
 
 }	// namespace detail
 
@@ -289,27 +291,96 @@ Win32ConsoleWindow::~Win32ConsoleWindow()
 	}
 }
 
+namespace detail
+{
+
+inline double ColorCompare(Color3<std::uint8_t> const& c1, Color3<std::uint8_t> const& c2)
+{
+	auto l1 = (c1.r() * 0.299 + c1.g() * 0.587 + c1.b() * 0.114);
+	auto l2 = (c2.r() * 0.299 + c2.g() * 0.587 + c2.b() * 0.114);
+	auto dl = l1 - l2;
+	auto dr = c1.r() - c2.r();
+	auto dg = c1.g() - c2.g();
+	auto db = c1.b() - c2.b();
+	return (dr*dr*0.299 + dg*dg*0.587 + db*db*0.114)*0.75 + dl*dl;
+}
+
+template <std::size_t N>
+inline std::uint8_t GetClosestIndexFrom(Color3<std::uint8_t> const (&palette)[N], Color3<std::uint8_t> const& color)
+{
+	std::uint8_t result = 0;
+	auto nearest_distance = std::numeric_limits<int>::max();
+
+	for (std::uint8_t i = 0; i < N; ++i)
+	{
+		auto d = ColorCompare(palette[i], color);
+		if (nearest_distance > d)
+		{
+			nearest_distance = d;
+			result = i;
+		}
+	}
+
+	return result;
+}
+
+inline std::uint8_t GetBGColorIndex(Color3<std::uint8_t> const& color)
+{
+	static const Color3<std::uint8_t> palette[16] =
+	{
+		{   0,  0,  0 },
+		{   0,  0,128 },
+		{   0,128,  0 },
+		{   0,128,128 },
+		{ 128,  0,  0 },
+		{ 128,  0,128 },
+		{ 128,128,  0 },
+		{ 192,192,192 },
+		{ 128,128,128 },
+		{   0,  0,255 },
+		{   0,255,  0 },
+		{   0,255,255 },
+		{ 255,  0,  0 },
+		{ 255,  0,255 },
+		{ 255,255,  0 },
+		{ 255,255,255 },
+	};
+
+	return GetClosestIndexFrom(palette, color);
+}
+
+}	// namespace detail
+
 BKSGE_INLINE
 bool Win32ConsoleWindow::Update(void)
 {
 #if 1
-	static const short char_code_tbl[] =
-	{
-		0x0000,	// 0.0 / 8.0
-		0x258F,	// 1.0 / 8.0
-		0x258E,	// 2.0 / 8.0
-		0x258D,	// 3.0 / 8.0
-		0x258C,	// 4.0 / 8.0
-		0x258B,	// 5.0 / 8.0
-		0x258A,	// 6.0 / 8.0
-		0x2589,	// 7.0 / 8.0
-	};
+	//static const short char_code_tbl[] =
+	//{
+	//	0x0000,	// 0.0 / 8.0
+	//	0x258F,	// 1.0 / 8.0
+	//	0x258E,	// 2.0 / 8.0
+	//	0x258D,	// 3.0 / 8.0
+	//	0x258C,	// 4.0 / 8.0
+	//	0x258B,	// 5.0 / 8.0
+	//	0x258A,	// 6.0 / 8.0
+	//	0x2589,	// 7.0 / 8.0
+	//};
+	//std::size_t i = 0;
+	//for (auto&& c : m_color_buf)
+	//{
+	//	auto info = detail::GetColorCodeInfo(c.r(), c.g(), c.b());
+	//	m_screen_buf[i].Char.UnicodeChar = char_code_tbl[info.ratio];
+	//	m_screen_buf[i].Attributes = (info.back_color << 4) | info.front_color;
+	//	++i;
+	//}
+
 	std::size_t i = 0;
 	for (auto&& c : m_color_buf)
 	{
-		auto info = detail::GetColorCodeInfo(c.r(), c.g(), c.b());
-		m_screen_buf[i].Char.UnicodeChar = char_code_tbl[info.ratio];
-		m_screen_buf[i].Attributes = (info.back_color << 4) | info.front_color;
+		auto bg_color = detail::GetBGColorIndex(c);
+		m_screen_buf[i].Char.UnicodeChar = 0x0000;
+		m_screen_buf[i].Attributes = (bg_color << 4);
 		++i;
 	}
 
