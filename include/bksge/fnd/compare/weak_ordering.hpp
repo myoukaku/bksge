@@ -193,9 +193,9 @@ inline BKSGE_CONSTEXPR weak_ordering weak_ordering::greater(cmp_cat::Ord::greate
 
 using weak_ordering = weak_ordering_t<void>;
 
-template <typename T> BKSGE_CONSTEXPR weak_ordering_t<T> weak_ordering_t<T>::less(cmp_cat::Ord::less);
-template <typename T> BKSGE_CONSTEXPR weak_ordering_t<T> weak_ordering_t<T>::equivalent(cmp_cat::Ord::equivalent);
-template <typename T> BKSGE_CONSTEXPR weak_ordering_t<T> weak_ordering_t<T>::greater(cmp_cat::Ord::greater);
+template <typename T> weak_ordering_t<T> const weak_ordering_t<T>::less(cmp_cat::Ord::less);
+template <typename T> weak_ordering_t<T> const weak_ordering_t<T>::equivalent(cmp_cat::Ord::equivalent);
+template <typename T> weak_ordering_t<T> const weak_ordering_t<T>::greater(cmp_cat::Ord::greater);
 
 #endif
 

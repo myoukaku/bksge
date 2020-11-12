@@ -196,10 +196,10 @@ inline BKSGE_CONSTEXPR strong_ordering strong_ordering::greater(cmp_cat::Ord::gr
 
 using strong_ordering = strong_ordering_t<void>;
 
-template <typename T> BKSGE_CONSTEXPR strong_ordering_t<T> strong_ordering_t<T>::less(cmp_cat::Ord::less);
-template <typename T> BKSGE_CONSTEXPR strong_ordering_t<T> strong_ordering_t<T>::equal(cmp_cat::Ord::equivalent);
-template <typename T> BKSGE_CONSTEXPR strong_ordering_t<T> strong_ordering_t<T>::equivalent(cmp_cat::Ord::equivalent);
-template <typename T> BKSGE_CONSTEXPR strong_ordering_t<T> strong_ordering_t<T>::greater(cmp_cat::Ord::greater);
+template <typename T> strong_ordering_t<T> const strong_ordering_t<T>::less(cmp_cat::Ord::less);
+template <typename T> strong_ordering_t<T> const strong_ordering_t<T>::equal(cmp_cat::Ord::equivalent);
+template <typename T> strong_ordering_t<T> const strong_ordering_t<T>::equivalent(cmp_cat::Ord::equivalent);
+template <typename T> strong_ordering_t<T> const strong_ordering_t<T>::greater(cmp_cat::Ord::greater);
 
 #endif
 

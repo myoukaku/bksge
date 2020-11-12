@@ -206,10 +206,10 @@ inline BKSGE_CONSTEXPR partial_ordering partial_ordering::unordered(cmp_cat::Ncm
 
 using partial_ordering = partial_ordering_t<void>;
 
-template <typename T> BKSGE_CONSTEXPR partial_ordering_t<T> partial_ordering_t<T>::less(cmp_cat::Ord::less);
-template <typename T> BKSGE_CONSTEXPR partial_ordering_t<T> partial_ordering_t<T>::equivalent(cmp_cat::Ord::equivalent);
-template <typename T> BKSGE_CONSTEXPR partial_ordering_t<T> partial_ordering_t<T>::greater(cmp_cat::Ord::greater);
-template <typename T> BKSGE_CONSTEXPR partial_ordering_t<T> partial_ordering_t<T>::unordered(cmp_cat::Ncmp::unordered);
+template <typename T> partial_ordering_t<T> const partial_ordering_t<T>::less(cmp_cat::Ord::less);
+template <typename T> partial_ordering_t<T> const partial_ordering_t<T>::equivalent(cmp_cat::Ord::equivalent);
+template <typename T> partial_ordering_t<T> const partial_ordering_t<T>::greater(cmp_cat::Ord::greater);
+template <typename T> partial_ordering_t<T> const partial_ordering_t<T>::unordered(cmp_cat::Ncmp::unordered);
 
 #endif
 
