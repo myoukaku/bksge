@@ -88,6 +88,9 @@ foreach(compiler_flag ${compiler_flags})
 	# /GR- (Disable Run-Time Type Information)
     string(REGEX REPLACE "/GR-?" "/GR-" ${compiler_flag} "${${compiler_flag}}")
 
+	# /permissive- (Standards conformance)
+    set(${compiler_flag} "${${compiler_flag}} /permissive-")
+
 	# /bigobj (Increase Number of Sections in .obj file)
     set(${compiler_flag} "${${compiler_flag}} /bigobj")
 
