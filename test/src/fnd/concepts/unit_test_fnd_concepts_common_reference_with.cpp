@@ -363,7 +363,7 @@ BKSGE_COMMON_REFERENCE_WITH_TEST(false, A, B);
 
 struct C { C(A&) { } };
 BKSGE_COMMON_REFERENCE_WITH_TEST(true,  A&, C);
-#if !(defined(_MSC_VER) && defined(BKSGE_CLANG))
+#if !defined(_MSC_VER)
 BKSGE_COMMON_REFERENCE_WITH_TEST(true,  A&, C&&);		// TODO
 #endif
 BKSGE_COMMON_REFERENCE_WITH_TEST(true,  A&, const C&);
