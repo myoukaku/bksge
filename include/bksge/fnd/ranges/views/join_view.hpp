@@ -97,18 +97,16 @@ private:
 		using ref_is_glvalue =
 			bksge::is_reference<ranges::range_reference_t<Base>>;
 
-		template <typename R>
 		BKSGE_CXX14_CONSTEXPR auto
-		update_inner_impl(R& x, bksge::true_type)
+		update_inner_impl(ranges::range_reference_t<Base> x, bksge::true_type)
 		->decltype((x))
 		{
 			return x;
 		}
 
-		template <typename R>
 		BKSGE_CXX14_CONSTEXPR auto
-		update_inner_impl(R& x, bksge::false_type)
-		->decltype((m_parent->m_inner = views::all(bksge::move(x))))
+		update_inner_impl(ranges::range_reference_t<Base> x, bksge::false_type)
+		->decltype((m_parent->m_inner))
 		{
 			return (m_parent->m_inner = views::all(bksge::move(x)));
 		}
