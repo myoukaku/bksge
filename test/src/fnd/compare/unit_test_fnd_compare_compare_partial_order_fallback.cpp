@@ -38,7 +38,7 @@ struct X
 	}
 };
 
-inline BKSGE_CXX14_CONSTEXPR bool test01()
+inline BKSGE_CXX17_CONSTEXPR bool test01()
 {
 	using bksge::compare_partial_order_fallback;
 	using bksge::partial_ordering;
