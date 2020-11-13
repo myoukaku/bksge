@@ -294,37 +294,70 @@ Win32ConsoleWindow::~Win32ConsoleWindow()
 namespace detail
 {
 
+#if 0
 inline double ColorCompare(Color3<std::uint8_t> const& c1, Color3<std::uint8_t> const& c2)
 {
-	auto l1 = (c1.r() * 0.299 + c1.g() * 0.587 + c1.b() * 0.114);
-	auto l2 = (c2.r() * 0.299 + c2.g() * 0.587 + c2.b() * 0.114);
-	auto dl = l1 - l2;
-	auto dr = c1.r() - c2.r();
-	auto dg = c1.g() - c2.g();
-	auto db = c1.b() - c2.b();
-	return (dr*dr*0.299 + dg*dg*0.587 + db*db*0.114)*0.75 + dl*dl;
+	double luma1 = (c1.r()*0.299 + c1.g()*0.587 + c1.b()*0.114) / 255.0;
+	double luma2 = (c2.r()*0.299 + c2.g()*0.587 + c2.b()*0.114) / 255.0;
+	double dl = luma1-luma2;
+	auto dr = (c1.r() - c2.r()) / 255.0;
+	auto dg = (c1.g() - c2.g()) / 255.0;
+	auto db = (c1.b() - c2.b()) / 255.0;
+	return (dr*dr*0.299 + dg*dg*0.587 + db*db*0.114) * 0.75 + dl*dl;
 }
 
-template <std::size_t N>
-inline std::uint8_t GetClosestIndexFrom(Color3<std::uint8_t> const (&palette)[N], Color3<std::uint8_t> const& color)
+inline double EvaluateMixingError(
+	Color3<std::uint8_t> const& c1,
+	Color3<std::uint8_t> const& c2,
+	Color3<std::uint8_t> const& c3,
+	Color3<std::uint8_t> const& c4,
+	double ratio)
 {
-	std::uint8_t result = 0;
-	auto nearest_distance = std::numeric_limits<int>::max();
+	return ColorCompare(c1, c2) + ColorCompare(c3, c4) * 0.1 * (fabs(ratio-0.5)+0.5);
+}
 
-	for (std::uint8_t i = 0; i < N; ++i)
+struct MixingPlan
+{
+	int index0;
+	int index1;
+	double ratio;
+};
+
+template <int N>
+inline MixingPlan DeviseBestMixingPlan(Color3<std::uint8_t> const (&palette)[N], Color3<std::uint8_t> const& color)
+{
+	int ratio_max = 64;
+	MixingPlan result;
+	double least_penalty = std::numeric_limits<double>::max();
+	for (int index0 = 0; index0 < N; ++index0)
 	{
-		auto d = ColorCompare(palette[i], color);
-		if (nearest_distance > d)
+		for (int index1 = index0; index1 < N; ++index1)
 		{
-			nearest_distance = d;
-			result = i;
+			auto c1 = palette[index0];
+			auto c2 = palette[index1];
+			for (int ratio = 0; ratio < ratio_max; ++ratio)
+			{
+				auto r = static_cast<double>(ratio) / ratio_max;
+				auto penalty = EvaluateMixingError(color, c1 * (1 - r) + c2 * r, c1, c2, r);
+				if (penalty < least_penalty)
+				{
+					least_penalty = penalty;
+					result.index0 = index0;
+					result.index1 = index1;
+					result.ratio  = r;
+				}
+
+				if (index0 == index1)
+				{
+					break;
+				}
+			}
 		}
 	}
-
 	return result;
 }
 
-inline std::uint8_t GetBGColorIndex(Color3<std::uint8_t> const& color)
+inline std::uint8_t GetBGColorIndex(Color3<std::uint8_t> const& color, int x, int y)
 {
 	static const Color3<std::uint8_t> palette[16] =
 	{
@@ -345,8 +378,55 @@ inline std::uint8_t GetBGColorIndex(Color3<std::uint8_t> const& color)
 		{ 255,255,  0 },
 		{ 255,255,255 },
 	};
+#define d(x) x/64.0
+	static const double threshold_map[8][8] =
+	{
+		{ d( 0), d(48), d(12), d(60), d( 3), d(51), d(15), d(63) },
+		{ d(32), d(16), d(44), d(28), d(35), d(19), d(47), d(31) },
+		{ d( 8), d(56), d( 4), d(52), d(11), d(59), d( 7), d(55) },
+		{ d(40), d(24), d(36), d(20), d(43), d(27), d(39), d(23) },
+		{ d( 2), d(50), d(14), d(62), d( 1), d(49), d(13), d(61) },
+		{ d(34), d(18), d(46), d(30), d(33), d(17), d(45), d(29) },
+		{ d(10), d(58), d( 6), d(54), d( 9), d(57), d( 5), d(53) },
+		{ d(42), d(26), d(38), d(22), d(41), d(25), d(37), d(21) },
+	};
+#undef d
 
-	return GetClosestIndexFrom(palette, color);
+	auto plan = DeviseBestMixingPlan(palette, color);
+	auto threshold = threshold_map[y % 8][x % 8];
+	return plan.ratio < threshold ? plan.index0 : plan.index1;
+}
+#endif
+
+inline std::uint8_t GetBGColorIndex(Color3<std::uint8_t> const& color, int x, int y)
+{
+	static const int threshold_map[8][8] =
+	{
+		{  0, 48, 12, 60,  3, 51, 15, 63 },
+		{ 32, 16, 44, 28, 35, 19, 47, 31 },
+		{  8, 56,  4, 52, 11, 59,  7, 55 },
+		{ 40, 24, 36, 20, 43, 27, 39, 23 },
+		{  2, 50, 14, 62,  1, 49, 13, 61 },
+		{ 34, 18, 46, 30, 33, 17, 45, 29 },
+		{ 10, 58,  6, 54,  9, 57,  5, 53 },
+		{ 42, 26, 38, 22, 41, 25, 37, 21 },
+	};
+	auto threshold = threshold_map[y % 8][x % 8] * 4 + 2;
+
+	std::uint8_t result = 0;
+	if (color.r() > threshold)
+	{
+		result |= (FOREGROUND_RED | FOREGROUND_INTENSITY);
+	}
+	if (color.g() > threshold)
+	{
+		result |= (FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+	}
+	if (color.b() > threshold)
+	{
+		result |= (FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+	}
+	return result;
 }
 
 }	// namespace detail
@@ -354,7 +434,7 @@ inline std::uint8_t GetBGColorIndex(Color3<std::uint8_t> const& color)
 BKSGE_INLINE
 bool Win32ConsoleWindow::Update(void)
 {
-#if 1
+#if 0
 	//static const short char_code_tbl[] =
 	//{
 	//	0x0000,	// 0.0 / 8.0
@@ -378,7 +458,7 @@ bool Win32ConsoleWindow::Update(void)
 	std::size_t i = 0;
 	for (auto&& c : m_color_buf)
 	{
-		auto bg_color = detail::GetBGColorIndex(c);
+		auto bg_color = detail::GetBGColorIndex(c, i % m_screen_size.X, i / m_screen_size.X);
 		m_screen_buf[i].Char.UnicodeChar = 0x0000;
 		m_screen_buf[i].Attributes = (bg_color << 4);
 		++i;

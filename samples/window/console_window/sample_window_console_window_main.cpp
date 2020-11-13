@@ -20,18 +20,17 @@ int main()
 	int scale = 1;
 	int width  = 640 * scale;
 	int height = 360 * scale;
-	ConsoleWindow window({width, height}, "", {4 * scale, 8 * scale});
+	int font_width  = 2 * scale;
+	int font_height = 2 * scale;
+	ConsoleWindow window({width, height}, "", {font_width, font_height});
 
 	for (int y = 0; y < height; ++y)
 	{
 		for (int x = 0; x < width; ++x)
 		{
-			bksge::ColorHSVf hsv((float)x / width, 1.0f, (float)y / height);
+			bksge::ColorHSVf hsv((float)x / width, (float)y / height, 1.0f);
 			bksge::Color3f rgb(hsv);
-			float r = rgb.r();
-			float g = rgb.g();
-			float b = rgb.b();
-			window.DrawPixel(x, y, bksge::Color4f(r,g,b,1));
+			window.DrawPixel(x, y, bksge::Color4f(rgb.r(),rgb.g(),rgb.b(),1));
 		}
 	}
 
