@@ -119,7 +119,7 @@ BKSGE_CXX14_CONSTEXPR bool test02()
 	VERIFY((ranges::end(v) == it) == false);
 	VERIFY((ranges::end(v) != it) == true);
 
- 	return true;
+	return true;
 }
 
 struct F
@@ -130,6 +130,7 @@ struct F
 
 BKSGE_CXX14_CONSTEXPR bool test03()
 {
+#if !defined(BKSGE_MSVC)
 	namespace ranges = bksge::ranges;
 	namespace views  = ranges::views;
 
@@ -152,7 +153,7 @@ BKSGE_CXX14_CONSTEXPR bool test03()
 
 	int y[] = {0,0,1,0,1,2,0,1,2,3};
 	VERIFY(ranges::equal(v, y));
-
+#endif
  	return true;
 }
 

@@ -174,6 +174,7 @@ struct F
 
 inline BKSGE_CXX14_CONSTEXPR bool test03()
 {
+#if !defined(BKSGE_MSVC)
 	namespace ranges = bksge::ranges;
 	namespace views  = ranges::views;
 
@@ -223,12 +224,13 @@ inline BKSGE_CXX14_CONSTEXPR bool test03()
 		VERIFY(v0.begin() == i);
 		VERIFY(v0.end()   != i);
 	}
-
+#endif
 	return true;
 }
 
 inline BKSGE_CXX14_CONSTEXPR bool test04()
 {
+#if !defined(BKSGE_MSVC)
 	namespace ranges = bksge::ranges;
 	namespace views  = ranges::views;
 
@@ -252,7 +254,7 @@ inline BKSGE_CXX14_CONSTEXPR bool test04()
 	static_assert(!ranges::is_sized_range<R1>::value, "");
 	static_assert( ranges::is_bidirectional_range<R1>::value, "");
 	static_assert(!ranges::is_random_access_range<R1>::value, "");
-
+#endif
 	return true;
 }
 

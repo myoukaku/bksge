@@ -129,6 +129,7 @@ inline BKSGE_CXX14_CONSTEXPR bool test03()
 
 inline BKSGE_CXX14_CONSTEXPR bool test04()
 {
+#if !defined(BKSGE_MSVC)
 	namespace ranges = bksge::ranges;
 	namespace views  = ranges::views;
 
@@ -143,7 +144,7 @@ inline BKSGE_CXX14_CONSTEXPR bool test04()
 
 	int y[] = {1,3,5,7,9};
 	VERIFY(ranges::equal(v, y));
-
+#endif
 	return true;
 }
 

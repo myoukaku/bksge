@@ -127,6 +127,7 @@ inline BKSGE_CXX14_CONSTEXPR bool test03()
 
 inline BKSGE_CXX14_CONSTEXPR bool test04()
 {
+#if !defined(BKSGE_MSVC)
 	namespace ranges = bksge::ranges;
 	namespace views  = ranges::views;
 
@@ -160,7 +161,7 @@ inline BKSGE_CXX14_CONSTEXPR bool test04()
 		VERIFY((ranges::end(v).base() == it.base()) == false);
 		VERIFY((ranges::end(v).base() != it.base()) == true);
 	}
-
+#endif
 	return true;
 }
 

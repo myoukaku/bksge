@@ -99,6 +99,7 @@ BKSGE_CXX14_CONSTEXPR bool test02()
 
 BKSGE_CXX14_CONSTEXPR bool test03()
 {
+#if !defined(BKSGE_MSVC)
 	namespace ranges = bksge::ranges;
 	namespace views  = ranges::views;
 
@@ -112,7 +113,7 @@ BKSGE_CXX14_CONSTEXPR bool test03()
 
 	int y[] = { 10,11,12 };
 	VERIFY(ranges::equal(v, y));
-
+#endif
 	return true;
 }
 
@@ -139,6 +140,7 @@ struct IsOdd
 
 BKSGE_CXX14_CONSTEXPR bool test05()
 {
+#if !defined(BKSGE_MSVC)
 	namespace ranges = bksge::ranges;
 	namespace views  = ranges::views;
 
@@ -157,7 +159,7 @@ BKSGE_CXX14_CONSTEXPR bool test05()
 
 	int y[] = { -5,-7,-9 };
 	VERIFY(ranges::equal(v, y));
-
+#endif
 	return true;
 }
 
