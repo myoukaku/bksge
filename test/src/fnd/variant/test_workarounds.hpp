@@ -21,7 +21,8 @@
 #  define TEST_WORKAROUND_C1XX_BROKEN_IS_TRIVIALLY_COPYABLE
 #endif
 
-#if defined(BKSGE_MSVC) || (defined(BKSGE_GCC) && (BKSGE_GCC < 90000))
+#if (defined(BKSGE_MSVC) && (BKSGE_MSVC < 1928))|| \
+	(defined(BKSGE_GCC) && (BKSGE_GCC < 90000))
 #  define TEST_WORKAROUND_CONSTEXPR_IMPLIES_NOEXCEPT
 #endif
 
