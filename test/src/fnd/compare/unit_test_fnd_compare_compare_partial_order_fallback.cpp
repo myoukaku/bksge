@@ -8,6 +8,7 @@
 
 #include <bksge/fnd/compare/compare_partial_order_fallback.hpp>
 #include <bksge/fnd/compare/partial_ordering.hpp>
+#include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include <limits>
@@ -34,7 +35,11 @@ struct X
 
 	friend constexpr bool operator<(const X& lhs, const X& rhs)
 	{
+#if defined(BKSGE_MSVC) && BKSGE_MSVC == 1928
+		return !bksge::isnan(lhs.v) && !bksge::isnan(rhs.v) && lhs.v < rhs.v;
+#else
 		return lhs.v < rhs.v;
+#endif
 	}
 };
 

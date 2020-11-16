@@ -34,7 +34,11 @@ struct X
 
 	friend constexpr bool operator<(const X& lhs, const X& rhs)
 	{
+#if defined(BKSGE_MSVC) && BKSGE_MSVC == 1928
+		return !bksge::isnan(lhs.v) && !bksge::isnan(rhs.v) && lhs.v < rhs.v;
+#else
 		return lhs.v < rhs.v;
+#endif
 	}
 };
 
