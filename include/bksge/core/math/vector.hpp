@@ -11,14 +11,12 @@
 
 #include <bksge/core/math/fwd/vector_fwd.hpp>
 #include <bksge/core/math/detail/vector_base.hpp>
-#include <bksge/core/math/detail/vector_xyzw.hpp>
-#include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/core/math/detail/vector_functions.hpp>
+#include <bksge/fnd/cmath/sqrt.hpp>
+#include <bksge/fnd/numeric/ranges/inner_product.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
-#include <bksge/fnd/type_traits/is_arithmetic.hpp>
-#include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
-#include <tuple>
 
 namespace bksge
 {
@@ -27,150 +25,14 @@ namespace math
 {
 
 template <typename T, std::size_t N>
-class Vector
-	: public detail::VectorXYZW<T, N>
+class Vector : public detail::VectorBase<T, N>
 {
 private:
-	using BaseType = detail::VectorXYZW<T, N>;
+	using BaseType = detail::VectorBase<T, N>;
 
 public:
-	// 継承コンストラクタ
 	using BaseType::BaseType;
-
-	/**
-	 *	@brief	デフォルトコンストラクタ
-	 */
-	BKSGE_CONSTEXPR
-	Vector() BKSGE_NOEXCEPT_OR_NOTHROW
-		: BaseType()
-	{}
-
-	/**
-	 *	@brief	変換コンストラクタ
-	 */
-	template <
-		typename U,
-		typename = bksge::enable_if_t<
-			bksge::is_constructible<T, U>::value
-		>
-	>
-	BKSGE_CONSTEXPR
-	Vector(Vector<U, N> const& rhs)
-		BKSGE_NOEXCEPT_OR_NOTHROW;
-
-	/**
-	 *	@brief	ゼロベクトルを作成します
-	 */
-	static BKSGE_CONSTEXPR Vector
-	Zero() BKSGE_NOEXCEPT;
 };
-
-/**
- *	@brief	unary operator+
- */
-template <typename T, std::size_t N>
-BKSGE_CONSTEXPR Vector<T, N>
-operator+(Vector<T, N> const& v) BKSGE_NOEXCEPT;
-
-/**
- *	@brief	unary operator-
- */
-template <typename T, std::size_t N>
-BKSGE_CONSTEXPR Vector<T, N>
-operator-(Vector<T, N> const& v) BKSGE_NOEXCEPT;
-
-/**
- *	@brief	Vector += Vector
- */
-template <typename T, std::size_t N>
-BKSGE_CXX14_CONSTEXPR Vector<T, N>&
-operator+=(Vector<T, N>& lhs, Vector<T, N> const& rhs) BKSGE_NOEXCEPT;
-
-/**
- *	@brief	Vector + Vector -> Vector
- */
-template <typename T, std::size_t N>
-BKSGE_CONSTEXPR Vector<T, N>
-operator+(Vector<T, N> const& lhs, Vector<T, N> const& rhs) BKSGE_NOEXCEPT;
-
-/**
- *	@brief	Vector -= Vector
- */
-template <typename T, std::size_t N>
-BKSGE_CXX14_CONSTEXPR Vector<T, N>&
-operator-=(Vector<T, N>& lhs, Vector<T, N> const& rhs) BKSGE_NOEXCEPT;
-
-/**
- *	@brief	Vector - Vector -> Vector
- */
-template <typename T, std::size_t N>
-BKSGE_CONSTEXPR Vector<T, N>
-operator-(Vector<T, N> const& lhs, Vector<T, N> const& rhs) BKSGE_NOEXCEPT;
-
-/**
- *	@brief	Vector *= scalar
- */
-template <
-	typename T, std::size_t N,
-	typename ArithmeticType,
-	typename = bksge::enable_if_t<
-		bksge::is_arithmetic<ArithmeticType>::value
-	>
->
-BKSGE_CXX14_CONSTEXPR Vector<T, N>&
-operator*=(Vector<T, N>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
-
-/**
- *	@brief	Vector * scalar
- */
-template <
-	typename T, std::size_t N,
-	typename ArithmeticType,
-	typename = bksge::enable_if_t<
-		bksge::is_arithmetic<ArithmeticType>::value
-	>
->
-BKSGE_CONSTEXPR Vector<T, N>
-operator*(Vector<T, N> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
-
-/**
- *	@brief	scalar * Vector
- */
-template <
-	typename T, std::size_t N,
-	typename ArithmeticType,
-	typename = bksge::enable_if_t<
-		bksge::is_arithmetic<ArithmeticType>::value
-	>
->
-BKSGE_CONSTEXPR Vector<T, N>
-operator*(ArithmeticType lhs, Vector<T, N> const& rhs) BKSGE_NOEXCEPT;
-
-/**
- *	@brief	Vector /= scalar
- */
-template <
-	typename T, std::size_t N,
-	typename ArithmeticType,
-	typename = bksge::enable_if_t<
-		bksge::is_arithmetic<ArithmeticType>::value
-	>
->
-BKSGE_CXX14_CONSTEXPR Vector<T, N>&
-operator/=(Vector<T, N>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
-
-/**
- *	@brief	Vector / scalar
- */
-template <
-	typename T, std::size_t N,
-	typename ArithmeticType,
-	typename = bksge::enable_if_t<
-		bksge::is_arithmetic<ArithmeticType>::value
-	>
->
-BKSGE_CONSTEXPR Vector<T, N>
-operator/(Vector<T, N> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
 
 /**
  *	@brief	内積
@@ -180,8 +42,11 @@ operator/(Vector<T, N> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
  *	@return	v1とv2の内積
  */
 template <typename T, std::size_t N>
-BKSGE_CONSTEXPR T
-Dot(Vector<T, N> const& v1, Vector<T, N> const& v2);
+inline BKSGE_CXX14_CONSTEXPR T
+Dot(Vector<T, N> const& v1, Vector<T, N> const& v2)
+{
+	return bksge::ranges::inner_product(v1, v2, T{});
+}
 
 /**
  *	@brief	ベクトルの長さの２乗を取得.
@@ -190,8 +55,11 @@ Dot(Vector<T, N> const& v1, Vector<T, N> const& v2);
  *	@return	vの長さの２乗
  */
 template <typename T, std::size_t N>
-BKSGE_CONSTEXPR T
-SquaredLength(Vector<T, N> const& v);
+inline BKSGE_CONSTEXPR T
+SquaredLength(Vector<T, N> const& v)
+{
+	return Dot(v, v);
+}
 
 /**
  *	@brief	ベクトルの長さを取得.
@@ -200,8 +68,11 @@ SquaredLength(Vector<T, N> const& v);
  *	@return	vの長さ
  */
 template <typename T, std::size_t N>
-BKSGE_CONSTEXPR bksge::float_promote_t<T>
-Length(Vector<T, N> const& v);
+inline BKSGE_CONSTEXPR bksge::float_promote_t<T>
+Length(Vector<T, N> const& v)
+{
+	return bksge::sqrt(SquaredLength(v));
+}
 
 /**
  *	@brief	ベクトルを正規化.
@@ -213,29 +84,21 @@ Length(Vector<T, N> const& v);
  *	@return	vを正規化したベクトル
  */
 template <typename T, std::size_t N>
-BKSGE_CONSTEXPR Vector<T, N>
-Normalized(Vector<T, N> const& v);
-
-/**
- *	@brief	Lerp
- */
-template <
-	typename T, std::size_t N,
-	typename ArithmeticType,
-	typename = bksge::enable_if_t<
-		bksge::is_arithmetic<ArithmeticType>::value
-	>
->
-BKSGE_CONSTEXPR Vector<T, N>
-Lerp(Vector<T, N> const& from, Vector<T, N> const& to, ArithmeticType const& t) BKSGE_NOEXCEPT;
+inline BKSGE_CONSTEXPR Vector<T, N>
+Normalized(Vector<T, N> const& v)
+{
+	return
+		SquaredLength(v) == 0 ?
+			Vector<T, N>{} :
+		v / Length(v);
+}
 
 }	// namespace math
 
 }	// namespace bksge
 
 #include <functional>
-#include <bksge/fnd/functional/hash_combine.hpp>
-#include <bksge/fnd/type_traits/integral_constant.hpp>
+#include <tuple>
 
 namespace std
 {
@@ -245,7 +108,7 @@ namespace std
  */
 template <typename T, std::size_t N>
 struct tuple_size<bksge::math::Vector<T, N>>
-	: public bksge::integral_constant<std::size_t, N>
+	: public tuple_size<bksge::math::detail::VectorBase<T, N>>
 {};
 
 /**
@@ -253,25 +116,17 @@ struct tuple_size<bksge::math::Vector<T, N>>
  */
 template <std::size_t I, typename T, std::size_t N>
 struct tuple_element<I, bksge::math::Vector<T, N>>
-{
-	static_assert(I < N, "Vector index out of bounds");
-	using type = T;
-};
+	: public tuple_element<I, bksge::math::detail::VectorBase<T, N>>
+{};
 
 /**
  *	@brief	hash
  */
 template <typename T, std::size_t N>
 struct hash<bksge::math::Vector<T, N>>
-{
-	std::size_t operator()(bksge::math::Vector<T, N> const& arg) const
-	{
-		return bksge::hash_combine(arg.as_array());
-	}
-};
+	: public hash<bksge::math::detail::VectorBase<T, N>>
+{};
 
 }	// namespace std
-
-#include <bksge/core/math/inl/vector_inl.hpp>
 
 #endif // BKSGE_CORE_MATH_VECTOR_HPP

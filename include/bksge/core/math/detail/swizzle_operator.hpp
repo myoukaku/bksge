@@ -1,14 +1,15 @@
 ﻿/**
- *	@file	def_helper_macros.hpp
+ *	@file	swizzle_operator.hpp
  *
  *	@brief	BKSGE_CORE_MATH_DECLARE_SWIZZLE_OPERATOR の定義
  *
  *	@author	myoukaku
  */
 
-// NO INCLUDE GUARD
+#ifndef BKSGE_CORE_MATH_DETAIL_SWIZZLE_OPERATOR_HPP
+#define BKSGE_CORE_MATH_DETAIL_SWIZZLE_OPERATOR_HPP
 
-#include <bksge/core/math/detail/vector_value.hpp>
+#include <bksge/core/math/fwd/vector_fwd.hpp>
 #include <bksge/fnd/preprocessor/seq/cat.hpp>
 #include <bksge/fnd/preprocessor/seq/elem.hpp>
 #include <bksge/fnd/preprocessor/seq/size.hpp>
@@ -34,17 +35,19 @@
 	BKSGE_PP_COMMA_IF(n) this->BKSGE_PP_SEQ_ELEM(n, data)()
 
 #define BKSGE_CORE_MATH_SWIZZLE_BODY(r, seq)	                                        \
-	BKSGE_CONSTEXPR bksge::math::detail::VectorValue<T, BKSGE_PP_SEQ_SIZE(seq)>	\
+	BKSGE_CONSTEXPR Vector<typename BaseType::value_type, BKSGE_PP_SEQ_SIZE(seq)>	\
 	BKSGE_PP_SEQ_CAT(seq)(void) const BKSGE_NOEXCEPT	                        \
 	{	                                                                        \
-		return bksge::math::detail::VectorValue<T, BKSGE_PP_SEQ_SIZE(seq)>{{	\
+		return {	\
 				BKSGE_PP_REPEAT(	                                            \
 					BKSGE_PP_SEQ_SIZE(seq),	                                    \
 					BKSGE_CORE_MATH_SWIZZLE_ELEM,	                                \
-					seq) }};	                                                \
+					seq) };	                                                \
 	}
 
 #define BKSGE_CORE_MATH_DECLARE_SWIZZLE_OPERATOR(seq)									\
 	BKSGE_PP_SEQ_FOR_EACH_PRODUCT(BKSGE_CORE_MATH_SWIZZLE_BODY, (seq)(seq)(seq)(seq))	\
 	BKSGE_PP_SEQ_FOR_EACH_PRODUCT(BKSGE_CORE_MATH_SWIZZLE_BODY, (seq)(seq)(seq))		    \
 	BKSGE_PP_SEQ_FOR_EACH_PRODUCT(BKSGE_CORE_MATH_SWIZZLE_BODY, (seq)(seq))
+
+#endif // BKSGE_CORE_MATH_DETAIL_SWIZZLE_OPERATOR_HPP

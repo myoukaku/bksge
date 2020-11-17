@@ -10,13 +10,10 @@
 #include <bksge/core/math/matrix3x4.hpp>
 #include <bksge/core/math/matrix4x3.hpp>
 #include <bksge/core/math/matrix4x4.hpp>
-#include <bksge/core/math/vector4.hpp>
 #include <bksge/core/math/vector3.hpp>
-#include <bksge/core/math/vector2.hpp>
-#include <bksge/core/math/scale3.hpp>
-#include <bksge/core/math/scale2.hpp>
-#include <bksge/core/math/quaternion.hpp>
+#include <bksge/core/math/vector4.hpp>
 #include <bksge/fnd/cmath/degrees_to_radians.hpp>
+#include <bksge/fnd/stdexcept/out_of_range.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/type_traits/is_default_constructible.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_default_constructible.hpp>
@@ -24,16 +21,11 @@
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/algorithm/is_unique.hpp>
-#include <bksge/fnd/algorithm/sort.hpp>
-#include <bksge/fnd/stdexcept/out_of_range.hpp>
-#include <functional>
-#include <tuple>
-#include <vector>
-#include <sstream>
 #include <gtest/gtest.h>
+#include <sstream>
 #include "constexpr_test.hpp"
 #include "serialize_test.hpp"
+#include "math_test_utility.hpp"
 
 namespace bksge_math_test
 {
@@ -41,135 +33,156 @@ namespace bksge_math_test
 namespace matrix3x3_test
 {
 
+#define VERIFY(...)	if (!(__VA_ARGS__)) { return false; }
+
 using Matrix3x3f = bksge::math::Matrix3x3<float>;
 using Matrix3x3i = bksge::math::Matrix3x3<int>;
 
-using MathTestTypes = ::testing::Types<int, float, double, long double>;
-using MathFloatTestTypes = ::testing::Types<float, double, long double>;
+
+using MathTestTypes = ::testing::Types<float, double, long double>;
 
 template <typename T>
 class MathMatrix3x3Test : public ::testing::Test {};
-template <typename T>
-class MathMatrix3x3FloatTest : public ::testing::Test {};
 
 TYPED_TEST_SUITE(MathMatrix3x3Test, MathTestTypes);
-TYPED_TEST_SUITE(MathMatrix3x3FloatTest, MathFloatTestTypes);
 
 TYPED_TEST(MathMatrix3x3Test, DefaultConstructTest)
 {
 	using T = TypeParam;
 	using Matrix3x3 = bksge::math::Matrix3x3<T>;
 
-	static_assert(sizeof(Matrix3x3) == sizeof(T) * 9, "");
+	static_assert(sizeof(Matrix3x3) == sizeof(T) * 3 * 3, "");
 	static_assert(bksge::is_default_constructible<Matrix3x3>::value, "");
 	static_assert(bksge::is_nothrow_default_constructible<Matrix3x3>::value, "");
 	static_assert(bksge::is_implicitly_default_constructible<Matrix3x3>::value, "");
 
 	{
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m;
-		BKSGE_CONSTEXPR_EXPECT_EQ(0, m[0][0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(0, m[0][1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(0, m[0][2]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(0, m[1][0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(0, m[1][1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(0, m[1][2]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(0, m[2][0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(0, m[2][1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(0, m[2][2]);
+		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 v;
+		BKSGE_CONSTEXPR_EXPECT_EQ(0, v[0][0]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(0, v[0][1]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(0, v[0][2]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(0, v[1][0]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(0, v[1][1]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(0, v[1][2]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(0, v[2][0]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(0, v[2][1]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(0, v[2][2]);
 	}
 	{
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m{};
-		BKSGE_CONSTEXPR_EXPECT_EQ(0, m[0][0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(0, m[0][1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(0, m[0][2]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(0, m[1][0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(0, m[1][1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(0, m[1][2]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(0, m[2][0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(0, m[2][1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(0, m[2][2]);
+		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 v{};
+		BKSGE_CONSTEXPR_EXPECT_EQ(0, v[0][0]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(0, v[0][1]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(0, v[0][2]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(0, v[1][0]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(0, v[1][1]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(0, v[1][2]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(0, v[2][0]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(0, v[2][1]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(0, v[2][2]);
 	}
 	{
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m = {};
-		BKSGE_CONSTEXPR_EXPECT_EQ(0, m[0][0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(0, m[0][1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(0, m[0][2]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(0, m[1][0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(0, m[1][1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(0, m[1][2]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(0, m[2][0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(0, m[2][1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(0, m[2][2]);
+		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 v = {};
+		BKSGE_CONSTEXPR_EXPECT_EQ(0, v[0][0]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(0, v[0][1]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(0, v[0][2]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(0, v[1][0]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(0, v[1][1]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(0, v[1][2]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(0, v[2][0]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(0, v[2][1]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(0, v[2][2]);
 	}
 }
 
-TYPED_TEST(MathMatrix3x3Test, VectorConstructTest)
+TYPED_TEST(MathMatrix3x3Test, Vector3ConstructTest)
 {
 	using T = TypeParam;
 	using Matrix3x3 = bksge::math::Matrix3x3<T>;
 	using Vector3 = bksge::math::Vector3<T>;
 
+	static_assert(!bksge::is_constructible<Matrix3x3, Vector3, Vector3, Vector3, Vector3, Vector3>::value, "");
 	static_assert(!bksge::is_constructible<Matrix3x3, Vector3, Vector3, Vector3, Vector3>::value, "");
 	static_assert( bksge::is_constructible<Matrix3x3, Vector3, Vector3, Vector3>::value, "");
 	static_assert(!bksge::is_constructible<Matrix3x3, Vector3, Vector3>::value, "");
 	static_assert(!bksge::is_constructible<Matrix3x3, Vector3>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Matrix3x3, Vector3, Vector3, Vector3, Vector3, Vector3>::value, "");
 	static_assert(!bksge::is_nothrow_constructible<Matrix3x3, Vector3, Vector3, Vector3, Vector3>::value, "");
 	static_assert( bksge::is_nothrow_constructible<Matrix3x3, Vector3, Vector3, Vector3>::value, "");
 	static_assert(!bksge::is_nothrow_constructible<Matrix3x3, Vector3, Vector3>::value, "");
 	static_assert(!bksge::is_nothrow_constructible<Matrix3x3, Vector3>::value, "");
+	static_assert(!bksge::is_implicitly_constructible<Matrix3x3, Vector3, Vector3, Vector3, Vector3, Vector3>::value, "");
 	static_assert(!bksge::is_implicitly_constructible<Matrix3x3, Vector3, Vector3, Vector3, Vector3>::value, "");
 	static_assert( bksge::is_implicitly_constructible<Matrix3x3, Vector3, Vector3, Vector3>::value, "");
 	static_assert(!bksge::is_implicitly_constructible<Matrix3x3, Vector3, Vector3>::value, "");
 	static_assert(!bksge::is_implicitly_constructible<Matrix3x3, Vector3>::value, "");
 
 	{
-		BKSGE_CONSTEXPR_OR_CONST Vector3 v1(1, 2, 3);
-		BKSGE_CONSTEXPR_OR_CONST Vector3 v2(4, 5, 6);
-		BKSGE_CONSTEXPR_OR_CONST Vector3 v3(7, 8, 9);
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m(v1, v2, v3);
-		BKSGE_CONSTEXPR_EXPECT_EQ(1, m[0][0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(2, m[0][1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(3, m[0][2]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(4, m[1][0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(5, m[1][1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(6, m[1][2]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(7, m[2][0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(8, m[2][1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(9, m[2][2]);
-	}
-	{
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m
-		{
-			Vector3{10, 11, 12},
-			Vector3{20, 21, 22},
-			Vector3{30, 31, 32},
+		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 v{
+			{ 0,  1,  2},
+			{ 4,  5,  6},
+			{ 8,  9, 10},
 		};
-		BKSGE_CONSTEXPR_EXPECT_EQ(10, m[0][0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(11, m[0][1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(12, m[0][2]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(20, m[1][0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(21, m[1][1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(22, m[1][2]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(30, m[2][0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(31, m[2][1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(32, m[2][2]);
+		BKSGE_CONSTEXPR_EXPECT_EQ( 0, v[0][0]);
+		BKSGE_CONSTEXPR_EXPECT_EQ( 1, v[0][1]);
+		BKSGE_CONSTEXPR_EXPECT_EQ( 2, v[0][2]);
+		BKSGE_CONSTEXPR_EXPECT_EQ( 4, v[1][0]);
+		BKSGE_CONSTEXPR_EXPECT_EQ( 5, v[1][1]);
+		BKSGE_CONSTEXPR_EXPECT_EQ( 6, v[1][2]);
+		BKSGE_CONSTEXPR_EXPECT_EQ( 8, v[2][0]);
+		BKSGE_CONSTEXPR_EXPECT_EQ( 9, v[2][1]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(10, v[2][2]);
 	}
+
 	{
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m =
-		{
-			Vector3{11, 12, 13},
-			Vector3{21, 22, 23},
-			Vector3{31, 32, 33},
-		};
-		BKSGE_CONSTEXPR_EXPECT_EQ(11, m[0][0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(12, m[0][1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(13, m[0][2]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(21, m[1][0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(22, m[1][1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(23, m[1][2]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(31, m[2][0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(32, m[2][1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(33, m[2][2]);
+		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 v(
+			Vector3(11, 12, 13),
+			Vector3(21, 22, 23),
+			Vector3(31, 32, 33)
+		);
+		BKSGE_CONSTEXPR_EXPECT_EQ(11, v[0][0]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(12, v[0][1]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(13, v[0][2]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(21, v[1][0]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(22, v[1][1]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(23, v[1][2]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(31, v[2][0]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(32, v[2][1]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(33, v[2][2]);
+	}
+}
+
+TYPED_TEST(MathMatrix3x3Test, Value1ConstructTest)
+{
+	using T = TypeParam;
+	using Matrix3x3 = bksge::math::Matrix3x3<T>;
+
+	static_assert(!bksge::is_constructible<Matrix3x3, T, T, T, T, T>::value, "");
+	static_assert(!bksge::is_constructible<Matrix3x3, T, T, T, T>::value, "");
+	static_assert(!bksge::is_constructible<Matrix3x3, T, T, T>::value, "");
+	static_assert(!bksge::is_constructible<Matrix3x3, T, T>::value, "");
+	static_assert( bksge::is_constructible<Matrix3x3, T>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Matrix3x3, T, T, T, T, T>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Matrix3x3, T, T, T, T>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Matrix3x3, T, T, T>::value, "");
+	static_assert(!bksge::is_nothrow_constructible<Matrix3x3, T, T>::value, "");
+	static_assert( bksge::is_nothrow_constructible<Matrix3x3, T>::value, "");
+	static_assert(!bksge::is_implicitly_constructible<Matrix3x3, T, T, T, T, T>::value, "");
+	static_assert(!bksge::is_implicitly_constructible<Matrix3x3, T, T, T, T>::value, "");
+	static_assert(!bksge::is_implicitly_constructible<Matrix3x3, T, T, T>::value, "");
+	static_assert(!bksge::is_implicitly_constructible<Matrix3x3, T, T>::value, "");
+	static_assert(!bksge::is_implicitly_constructible<Matrix3x3, T>::value, "");
+
+	{
+		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 v{7};
+		BKSGE_CONSTEXPR_EXPECT_EQ(7, v[0][0]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(7, v[0][1]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(7, v[0][2]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(7, v[1][0]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(7, v[1][1]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(7, v[1][2]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(7, v[2][0]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(7, v[2][1]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(7, v[2][2]);
 	}
 }
 
@@ -177,7 +190,6 @@ TYPED_TEST(MathMatrix3x3Test, CopyConstructTest)
 {
 	using T = TypeParam;
 	using Matrix3x3 = bksge::math::Matrix3x3<T>;
-	using Vector3 = bksge::math::Vector3<T>;
 
 	static_assert(bksge::is_constructible<Matrix3x3,  Matrix3x3  const&>::value, "");
 	static_assert(bksge::is_constructible<Matrix3x3,  Matrix3x3i const&>::value, "");
@@ -209,99 +221,82 @@ TYPED_TEST(MathMatrix3x3Test, CopyConstructTest)
 	static_assert(bksge::is_implicitly_constructible<Matrix3x3f, Matrix3x3i const&>::value, "");
 	static_assert(bksge::is_implicitly_constructible<Matrix3x3f, Matrix3x3f const&>::value, "");
 
-	BKSGE_CONSTEXPR_OR_CONST Matrix3x3  m1
-	{
-		Vector3{11, 12, 13},
-		Vector3{21, 22, 23},
-		Vector3{31, 32, 33},
+	BKSGE_CONSTEXPR_OR_CONST Matrix3x3 v1{
+		{ 0,  1,  2},
+		{ 4,  5,  6},
+		{ 8,  9, 10},
 	};
-	BKSGE_CONSTEXPR_OR_CONST Matrix3x3  m2{m1};
-	BKSGE_CONSTEXPR_OR_CONST Matrix3x3i m3{m2};
-	BKSGE_CONSTEXPR_OR_CONST Matrix3x3f m4{m2};
+	BKSGE_CONSTEXPR_OR_CONST Matrix3x3  v2{v1};
+	BKSGE_CONSTEXPR_OR_CONST Matrix3x3i v3{v2};
+	BKSGE_CONSTEXPR_OR_CONST Matrix3x3f v4{v2};
 
-	BKSGE_CONSTEXPR_EXPECT_EQ(11, m3[0][0]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(12, m3[0][1]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(13, m3[0][2]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(21, m3[1][0]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(22, m3[1][1]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(23, m3[1][2]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(31, m3[2][0]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(32, m3[2][1]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(33, m3[2][2]);
+	BKSGE_CONSTEXPR_EXPECT_EQ( 0, v2[0][0]);
+	BKSGE_CONSTEXPR_EXPECT_EQ( 1, v2[0][1]);
+	BKSGE_CONSTEXPR_EXPECT_EQ( 2, v2[0][2]);
+	BKSGE_CONSTEXPR_EXPECT_EQ( 4, v2[1][0]);
+	BKSGE_CONSTEXPR_EXPECT_EQ( 5, v2[1][1]);
+	BKSGE_CONSTEXPR_EXPECT_EQ( 6, v2[1][2]);
+	BKSGE_CONSTEXPR_EXPECT_EQ( 8, v2[2][0]);
+	BKSGE_CONSTEXPR_EXPECT_EQ( 9, v2[2][1]);
+	BKSGE_CONSTEXPR_EXPECT_EQ(10, v2[2][2]);
 
-	BKSGE_CONSTEXPR_EXPECT_EQ(11, m4[0][0]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(12, m4[0][1]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(13, m4[0][2]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(21, m4[1][0]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(22, m4[1][1]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(23, m4[1][2]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(31, m4[2][0]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(32, m4[2][1]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(33, m4[2][2]);
+	BKSGE_CONSTEXPR_EXPECT_EQ( 0, v3[0][0]);
+	BKSGE_CONSTEXPR_EXPECT_EQ( 1, v3[0][1]);
+	BKSGE_CONSTEXPR_EXPECT_EQ( 2, v3[0][2]);
+	BKSGE_CONSTEXPR_EXPECT_EQ( 4, v3[1][0]);
+	BKSGE_CONSTEXPR_EXPECT_EQ( 5, v3[1][1]);
+	BKSGE_CONSTEXPR_EXPECT_EQ( 6, v3[1][2]);
+	BKSGE_CONSTEXPR_EXPECT_EQ( 8, v3[2][0]);
+	BKSGE_CONSTEXPR_EXPECT_EQ( 9, v3[2][1]);
+	BKSGE_CONSTEXPR_EXPECT_EQ(10, v3[2][2]);
+
+	BKSGE_CONSTEXPR_EXPECT_EQ( 0, v4[0][0]);
+	BKSGE_CONSTEXPR_EXPECT_EQ( 1, v4[0][1]);
+	BKSGE_CONSTEXPR_EXPECT_EQ( 2, v4[0][2]);
+	BKSGE_CONSTEXPR_EXPECT_EQ( 4, v4[1][0]);
+	BKSGE_CONSTEXPR_EXPECT_EQ( 5, v4[1][1]);
+	BKSGE_CONSTEXPR_EXPECT_EQ( 6, v4[1][2]);
+	BKSGE_CONSTEXPR_EXPECT_EQ( 8, v4[2][0]);
+	BKSGE_CONSTEXPR_EXPECT_EQ( 9, v4[2][1]);
+	BKSGE_CONSTEXPR_EXPECT_EQ(10, v4[2][2]);
 }
 
-TYPED_TEST(MathMatrix3x3FloatTest, FromQuaternionTest)
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool FromQuaternionTest()
 {
-	using Matrix3x3 = bksge::math::Matrix3x3<TypeParam>;
-	using Quaternion = bksge::math::Quaternion<TypeParam>;
-	using Vector3 = bksge::math::Vector3<TypeParam>;
+	using Matrix3x3 = bksge::math::Matrix3x3<T>;
+	using Quaternion = bksge::math::Quaternion<T>;
+	using Vector3 = bksge::math::Vector3<T>;
 
 	const double error = 0.000001;
 
 	{
-		BKSGE_CONSTEXPR_OR_CONST auto q = Quaternion::Identity();
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m(q);
-		BKSGE_CONSTEXPR_OR_CONST auto expected = Matrix3x3::Identity();
+		auto q = Quaternion::Identity();
+		Matrix3x3 m(q);
+		auto expected = Matrix3x3::Identity();
 
-		BKSGE_CONSTEXPR_EXPECT_EQ(expected, m);
+		VERIFY(expected == m);
 	}
 	{
 		const auto angle = bksge::degrees_to_radians(30);
 		const auto q = Quaternion::MakeRotationX(angle);
 		const Matrix3x3 m(q);
 		const auto expected = Matrix3x3::MakeRotationX(angle);
-
-		EXPECT_NEAR((double)expected[0][0], (double)m[0][0], error);
-		EXPECT_NEAR((double)expected[0][1], (double)m[0][1], error);
-		EXPECT_NEAR((double)expected[0][2], (double)m[0][2], error);
-		EXPECT_NEAR((double)expected[1][0], (double)m[1][0], error);
-		EXPECT_NEAR((double)expected[1][1], (double)m[1][1], error);
-		EXPECT_NEAR((double)expected[1][2], (double)m[1][2], error);
-		EXPECT_NEAR((double)expected[2][0], (double)m[2][0], error);
-		EXPECT_NEAR((double)expected[2][1], (double)m[2][1], error);
-		EXPECT_NEAR((double)expected[2][2], (double)m[2][2], error);
+		VERIFY(IsNear(expected, m, error));
 	}
 	{
 		const auto angle = bksge::degrees_to_radians(45);
 		const auto q = Quaternion::MakeRotationY(angle);
 		const Matrix3x3 m(q);
 		const auto expected = Matrix3x3::MakeRotationY(angle);
-
-		EXPECT_NEAR((double)expected[0][0], (double)m[0][0], error);
-		EXPECT_NEAR((double)expected[0][1], (double)m[0][1], error);
-		EXPECT_NEAR((double)expected[0][2], (double)m[0][2], error);
-		EXPECT_NEAR((double)expected[1][0], (double)m[1][0], error);
-		EXPECT_NEAR((double)expected[1][1], (double)m[1][1], error);
-		EXPECT_NEAR((double)expected[1][2], (double)m[1][2], error);
-		EXPECT_NEAR((double)expected[2][0], (double)m[2][0], error);
-		EXPECT_NEAR((double)expected[2][1], (double)m[2][1], error);
-		EXPECT_NEAR((double)expected[2][2], (double)m[2][2], error);
+		VERIFY(IsNear(expected, m, error));
 	}
 	{
 		const auto angle = bksge::degrees_to_radians(60);
 		const auto q = Quaternion::MakeRotationZ(angle);
 		const Matrix3x3 m(q);
 		const auto expected = Matrix3x3::MakeRotationZ(angle);
-
-		EXPECT_NEAR((double)expected[0][0], (double)m[0][0], error);
-		EXPECT_NEAR((double)expected[0][1], (double)m[0][1], error);
-		EXPECT_NEAR((double)expected[0][2], (double)m[0][2], error);
-		EXPECT_NEAR((double)expected[1][0], (double)m[1][0], error);
-		EXPECT_NEAR((double)expected[1][1], (double)m[1][1], error);
-		EXPECT_NEAR((double)expected[1][2], (double)m[1][2], error);
-		EXPECT_NEAR((double)expected[2][0], (double)m[2][0], error);
-		EXPECT_NEAR((double)expected[2][1], (double)m[2][1], error);
-		EXPECT_NEAR((double)expected[2][2], (double)m[2][2], error);
+		VERIFY(IsNear(expected, m, error));
 	}
 	{
 		const Vector3 axis{1, 2, 3};
@@ -309,734 +304,684 @@ TYPED_TEST(MathMatrix3x3FloatTest, FromQuaternionTest)
 		const auto q = Quaternion::MakeRotation(axis, angle);
 		const Matrix3x3 m(q);
 		const auto expected = Matrix3x3::MakeRotation(axis, angle);
-
-		EXPECT_NEAR((double)expected[0][0], (double)m[0][0], error);
-		EXPECT_NEAR((double)expected[0][1], (double)m[0][1], error);
-		EXPECT_NEAR((double)expected[0][2], (double)m[0][2], error);
-		EXPECT_NEAR((double)expected[1][0], (double)m[1][0], error);
-		EXPECT_NEAR((double)expected[1][1], (double)m[1][1], error);
-		EXPECT_NEAR((double)expected[1][2], (double)m[1][2], error);
-		EXPECT_NEAR((double)expected[2][0], (double)m[2][0], error);
-		EXPECT_NEAR((double)expected[2][1], (double)m[2][1], error);
-		EXPECT_NEAR((double)expected[2][2], (double)m[2][2], error);
+		VERIFY(IsNear(expected, m, error));
 	}
+
+	return true;
 }
 
-TYPED_TEST(MathMatrix3x3Test, CopyAssignTest)
+TYPED_TEST(MathMatrix3x3Test, FromQuaternionTest)
 {
-	using T = TypeParam;
+	/*BKSGE_CXX14_CONSTEXPR_*/EXPECT_TRUE(FromQuaternionTest<TypeParam>());
+}
+
+BKSGE_WARNING_PUSH()
+#if defined(__clang_major__) && (__clang_major__ >= 7) && !defined(__APPLE__)
+BKSGE_WARNING_DISABLE_CLANG("-Wself-assign-overloaded")
+#endif
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool CopyAssignTest()
+{
 	using Matrix3x3 = bksge::math::Matrix3x3<T>;
 	using Vector3 = bksge::math::Vector3<T>;
 
-	Matrix3x3  m1
-	{
-		Vector3{11, 12, 13},
-		Vector3{21, 22, 23},
-		Vector3{31, 32, 33},
+	Matrix3x3 v{
+		{ 0,  1,  2},
+		{ 4,  5,  6},
+		{ 8,  9, 10},
 	};
-	Matrix3x3  m2;
+	VERIFY(v[0] == Vector3{ 0,  1,  2});
+	VERIFY(v[1] == Vector3{ 4,  5,  6});
+	VERIFY(v[2] == Vector3{ 8,  9, 10});
 
-	EXPECT_EQ(Vector3(11, 12, 13), m1[0]);
-	EXPECT_EQ(Vector3(21, 22, 23), m1[1]);
-	EXPECT_EQ(Vector3(31, 32, 33), m1[2]);
+	v = Matrix3x3(
+		{-2, 3, -4},
+		{-2, 3, -4},
+		{-2, 3, -4}
+	);
+	VERIFY(v[0] == Vector3{-2, 3, -4});
+	VERIFY(v[1] == Vector3{-2, 3, -4});
+	VERIFY(v[2] == Vector3{-2, 3, -4});
 
-	EXPECT_EQ(Vector3(0, 0, 0), m2[0]);
-	EXPECT_EQ(Vector3(0, 0, 0), m2[1]);
-	EXPECT_EQ(Vector3(0, 0, 0), m2[2]);
+	v = Matrix3x3i(
+		{ 3, -4,  5},
+		{ 7,  8,  9},
+		{11, 12, 13}
+	);
+	VERIFY(v[0] == Vector3{ 3, -4,  5});
+	VERIFY(v[1] == Vector3{ 7,  8,  9});
+	VERIFY(v[2] == Vector3{11, 12, 13});
 
-	m1 = Matrix3x3
+	// 自己代入
+	v = v;
+	VERIFY(v[0] == Vector3{ 3, -4,  5});
+	VERIFY(v[1] == Vector3{ 7,  8,  9});
+	VERIFY(v[2] == Vector3{11, 12, 13});
+
+	// 多重代入
+	Matrix3x3 v2;
+	v2 = v = Matrix3x3f(
+		{11,12,13},
+		{21,22,23},
+		{31,32,33}
+	);
+	VERIFY(v[0] == Vector3{11,12,13});
+	VERIFY(v[1] == Vector3{21,22,23});
+	VERIFY(v[2] == Vector3{31,32,33});
+	VERIFY(v2[0] == Vector3{11,12,13});
+	VERIFY(v2[1] == Vector3{21,22,23});
+	VERIFY(v2[2] == Vector3{31,32,33});
+
+	return true;
+}
+
+BKSGE_WARNING_POP()
+
+TYPED_TEST(MathMatrix3x3Test, CopyAssignTest)
+{
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(CopyAssignTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool IndexAccessTest()
+{
+	using Matrix3x3 = bksge::math::Matrix3x3<T>;
+	using Vector3 = bksge::math::Vector3<T>;
 	{
-		Vector3{51, 52, 53},
-		Vector3{61, 62, 63},
-		Vector3{71, 72, 73},
-	};
+		Matrix3x3 v{
+			{ 0,  1,  2},
+			{ 4,  5,  6},
+			{ 8,  9, 10},
+		};
+		VERIFY(v[0] == Vector3( 0,  1,  2));
+		VERIFY(v[1] == Vector3( 4,  5,  6));
+		VERIFY(v[2] == Vector3( 8,  9, 10));
 
-	EXPECT_EQ(Vector3(51, 52, 53), m1[0]);
-	EXPECT_EQ(Vector3(61, 62, 63), m1[1]);
-	EXPECT_EQ(Vector3(71, 72, 73), m1[2]);
+		v[0] = Vector3(21,22,23);
 
-	m2 = Matrix3x3i
+		VERIFY(v[0] == Vector3(21, 22, 23));
+		VERIFY(v[1] == Vector3( 4,  5,  6));
+		VERIFY(v[2] == Vector3( 8,  9, 10));
+	}
 	{
-		Vector3{ 1,  2,  3 },
-		Vector3{ 5,  6,  7 },
-		Vector3{ 9, 10, 11 },
-	};
-
-	EXPECT_EQ(Vector3( 1,  2,  3), m2[0]);
-	EXPECT_EQ(Vector3( 5,  6,  7), m2[1]);
-	EXPECT_EQ(Vector3( 9, 10, 11), m2[2]);
-
-	m1 = m2 = Matrix3x3f
-	{
-		Vector3{10, 11, 12},
-		Vector3{20, 21, 22},
-		Vector3{30, 31, 32},
-	};
-
-	EXPECT_EQ(Vector3(10, 11, 12), m1[0]);
-	EXPECT_EQ(Vector3(20, 21, 22), m1[1]);
-	EXPECT_EQ(Vector3(30, 31, 32), m1[2]);
-
-	EXPECT_EQ(Vector3(10, 11, 12), m2[0]);
-	EXPECT_EQ(Vector3(20, 21, 22), m2[1]);
-	EXPECT_EQ(Vector3(30, 31, 32), m2[2]);
+		Matrix3x3 const v{
+			{ 0,  1,  2},
+			{ 4,  5,  6},
+			{ 8,  9, 10},
+		};
+		VERIFY(v[0] == Vector3( 0,  1,  2));
+		VERIFY(v[1] == Vector3( 4,  5,  6));
+		VERIFY(v[2] == Vector3( 8,  9, 10));
+	}
+	return true;
 }
 
 TYPED_TEST(MathMatrix3x3Test, IndexAccessTest)
 {
-	using T = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(IndexAccessTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool AtTest()
+{
 	using Matrix3x3 = bksge::math::Matrix3x3<T>;
 	using Vector3 = bksge::math::Vector3<T>;
-
 	{
-		Matrix3x3  m
-		{
-			Vector3{11, 12, 13},
-			Vector3{21, 22, 23},
-			Vector3{31, 32, 33},
+		Matrix3x3 v{
+			{ 0,  1,  2},
+			{ 4,  5,  6},
+			{ 8,  9, 10},
 		};
+		VERIFY(v.at(0) == Vector3( 0,  1,  2));
+		VERIFY(v.at(1) == Vector3( 4,  5,  6));
+		VERIFY(v.at(2) == Vector3( 8,  9, 10));
 
-		m[0][0] = 50;
-		m[1] = Vector3(51, 52, 53);
-		m[2][1] = 55;
+		v.at(0) = Vector3(21,22,23);
 
-		EXPECT_EQ(Vector3(50, 12, 13), m[0]);
-		EXPECT_EQ(Vector3(51, 52, 53), m[1]);
-		EXPECT_EQ(Vector3(31, 55, 33), m[2]);
+		VERIFY(v.at(0) == Vector3(21, 22, 23));
+		VERIFY(v.at(1) == Vector3( 4,  5,  6));
+		VERIFY(v.at(2) == Vector3( 8,  9, 10));
 	}
 	{
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m
-		{
-			Vector3{11, 12, 13},
-			Vector3{21, 22, 23},
-			Vector3{31, 32, 33},
+		Matrix3x3 const v{
+			{ 0,  1,  2},
+			{ 4,  5,  6},
+			{ 8,  9, 10},
 		};
-
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(11, 12, 13), m[0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(21, 22, 23), m[1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(31, 32, 33), m[2]);
+		VERIFY(v.at(0) == Vector3( 0,  1,  2));
+		VERIFY(v.at(1) == Vector3( 4,  5,  6));
+		VERIFY(v.at(2) == Vector3( 8,  9, 10));
 	}
+	return true;
 }
 
 TYPED_TEST(MathMatrix3x3Test, AtTest)
 {
-	using T = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(AtTest<TypeParam>());
+
+	using Matrix3x3 = bksge::math::Matrix3x3<TypeParam>;
+	{
+		Matrix3x3 v;
+		EXPECT_THROW((void)v.at(3), bksge::out_of_range);
+	}
+	{
+		Matrix3x3 const v;
+		EXPECT_THROW((void)v.at(3), bksge::out_of_range);
+	}
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool DataTest()
+{
 	using Matrix3x3 = bksge::math::Matrix3x3<T>;
 	using Vector3 = bksge::math::Vector3<T>;
-
 	{
-		Matrix3x3  m
-		{
-			Vector3{11, 12, 13},
-			Vector3{21, 22, 23},
-			Vector3{31, 32, 33},
+		Matrix3x3 v{
+			{ 0,  1,  2},
+			{ 4,  5,  6},
+			{ 8,  9, 10},
 		};
+		auto p = v.data();
+		VERIFY(p != nullptr);
+		VERIFY(*p == Vector3( 0,  1,  2));
+		*p = Vector3(5);
+		++p;
+		VERIFY(*p == Vector3( 4,  5,  6));
+		p++;
+		VERIFY(*p == Vector3( 8,  9, 10));
+		*p = Vector3(6);
 
-		m.at(0).at(0) = 50;
-		m.at(1) = Vector3(51, 52, 53);
-		m.at(2).at(1) = 55;
-
-		EXPECT_EQ(Vector3(50, 12, 13), m.at(0));
-		EXPECT_EQ(Vector3(51, 52, 53), m.at(1));
-		EXPECT_EQ(Vector3(31, 55, 33), m.at(2));
-		EXPECT_THROW((void)m.at(0).at(3), bksge::out_of_range);
-		EXPECT_THROW((void)m.at(3), bksge::out_of_range);
+		VERIFY(v == Matrix3x3{
+			{ 5,  5,  5},
+			{ 4,  5,  6},
+			{ 6,  6,  6}});
 	}
 	{
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m
-		{
-			Vector3{11, 12, 13},
-			Vector3{21, 22, 23},
-			Vector3{31, 32, 33},
+		Matrix3x3 const v{
+			{ 0,  1,  2},
+			{ 4,  5,  6},
+			{ 8,  9, 10},
 		};
-
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(11, 12, 13), m.at(0));
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(21, 22, 23), m.at(1));
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(31, 32, 33), m.at(2));
-		EXPECT_THROW((void)m.at(0).at(3), bksge::out_of_range);
-		EXPECT_THROW((void)m.at(3), bksge::out_of_range);
+		auto p = v.data();
+		VERIFY(p != nullptr);
+		VERIFY(*p == Vector3( 0,  1,  2));
+		++p;
+		VERIFY(*p == Vector3( 4,  5,  6));
+		p++;
+		VERIFY(*p == Vector3( 8,  9, 10));
 	}
+	return true;
 }
 
 TYPED_TEST(MathMatrix3x3Test, DataTest)
 {
-	using T = TypeParam;
-	using Matrix3x3 = bksge::math::Matrix3x3<T>;
-	using Vector3 = bksge::math::Vector3<T>;
-
-	{
-		Matrix3x3 m
-		{
-			Vector3{11, 12, 13},
-			Vector3{21, 22, 23},
-			Vector3{31, 32, 33},
-		};
-		auto p = m.data();
-		EXPECT_TRUE(p != nullptr);
-		EXPECT_EQ(Vector3(11, 12, 13), *p);
-		*p = Vector3{51, 52, 53};
-		++p;
-		EXPECT_EQ(Vector3(21, 22, 23), *p);
-		++p;
-		EXPECT_EQ(Vector3(31, 32, 33), *p);
-		*p = Vector3{61, 62, 63};
-
-		EXPECT_EQ(Vector3(51, 52, 53), m[0]);
-		EXPECT_EQ(Vector3(21, 22, 23), m[1]);
-		EXPECT_EQ(Vector3(61, 62, 63), m[2]);
-	}
-#if !defined(BKSGE_GCC)
-	{
-		BKSGE_STATIC_CONSTEXPR Matrix3x3 m
-		{
-			Vector3{11, 12, 13},
-			Vector3{21, 22, 23},
-			Vector3{31, 32, 33},
-		};
-		BKSGE_STATIC_CONSTEXPR auto p = m.data();
-		BKSGE_CONSTEXPR_EXPECT_TRUE(p != nullptr);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(11, 12, 13), p[0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(21, 22, 23), p[1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(31, 32, 33), p[2]);
-	}
-#endif
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(DataTest<TypeParam>());
 }
 
-TYPED_TEST(MathMatrix3x3Test, IteratorTest)
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool IteratorTest()
 {
-	using T = TypeParam;
 	using Matrix3x3 = bksge::math::Matrix3x3<T>;
 	using Vector3 = bksge::math::Vector3<T>;
 
 	// begin, end (non const)
 	{
-		Matrix3x3 m
-		{
-			Vector3{11, 12, 13},
-			Vector3{21, 22, 23},
-			Vector3{31, 32, 33},
+		Matrix3x3 v{
+			{ 0,  1,  2},
+			{ 4,  5,  6},
+			{ 8,  9, 10},
 		};
-		auto it = m.begin();
-		EXPECT_TRUE(it != m.end());
-		EXPECT_EQ(Vector3(11, 12, 13), *it);
-		*it++ = Vector3{51, 52, 53};
-		EXPECT_TRUE(it != m.end());
-		EXPECT_EQ(Vector3(21, 22, 23), *it);
-		*++it = Vector3{61, 62, 63};
-		EXPECT_TRUE(it != m.end());
-		EXPECT_EQ(Vector3(61, 62, 63), *it);
+		auto it = v.begin();
+		VERIFY(it != v.end());
+		VERIFY(*it == Vector3{ 0,  1,  2});
+		*it++ = Vector3{5};
+		VERIFY(it != v.end());
+		VERIFY(*it == Vector3{ 4,  5,  6});
+		*++it = Vector3{6};
+		VERIFY(it != v.end());
+		VERIFY(*it == Vector3{ 6,  6,  6});
 		it++;
-		EXPECT_TRUE(it == m.end());
+		VERIFY(it == v.end());
 
-		EXPECT_EQ(Vector3(51, 52, 53), m[0]);
-		EXPECT_EQ(Vector3(21, 22, 23), m[1]);
-		EXPECT_EQ(Vector3(61, 62, 63), m[2]);
+		VERIFY(v == Matrix3x3(
+			{ 5,  5,  5},
+			{ 4,  5,  6},
+			{ 6,  6,  6}));
 	}
 	// begin, end (const)
 	{
-		const Matrix3x3 m
-		{
-			Vector3{11, 12, 13},
-			Vector3{21, 22, 23},
-			Vector3{31, 32, 33},
+		Matrix3x3 const v{
+			{ 0,  1,  2},
+			{ 4,  5,  6},
+			{ 8,  9, 10},
 		};
-		auto it = m.begin();
-		EXPECT_TRUE(it != m.end());
+		auto it = v.begin();
+		VERIFY(it != v.end());
 
-		EXPECT_EQ(Vector3(11, 12, 13), it[0]);
-		EXPECT_EQ(Vector3(21, 22, 23), it[1]);
-		EXPECT_EQ(Vector3(31, 32, 33), it[2]);
+		VERIFY(it[0] == Vector3{ 0,  1,  2});
+		VERIFY(it[1] == Vector3{ 4,  5,  6});
+		VERIFY(it[2] == Vector3{ 8,  9, 10});
 
-		EXPECT_EQ(Vector3(11, 12, 13), *it++);
-		EXPECT_TRUE(it != m.end());
-		EXPECT_EQ(Vector3(31, 32, 33), *++it);
-		EXPECT_TRUE(it != m.end());
-		EXPECT_EQ(Vector3(21, 22, 23), *--it);
-		EXPECT_TRUE(it != m.end());
-		EXPECT_EQ(Vector3(21, 22, 23), *it--);
-		EXPECT_TRUE(it != m.end());
-		it += 2;
-		EXPECT_TRUE(it != m.end());
-		EXPECT_EQ(Vector3(31, 32, 33), *it);
-		it -= 2;
-		EXPECT_TRUE(it != m.end());
-		EXPECT_EQ(Vector3(11, 12, 13), *it);
-		it += 3;
-		EXPECT_TRUE(it == m.end());
+		VERIFY(*it++ == Vector3{ 0,  1,  2});
+		VERIFY(it != v.end());
+		VERIFY(*++it == Vector3{ 8,  9, 10});
+		VERIFY(it != v.end());
+		VERIFY(*it++ == Vector3{ 8,  9, 10});
+		VERIFY(it == v.end());
 	}
 	// cbegin, cend
 	{
-		const Matrix3x3 m
-		{
-			Vector3{11, 12, 13},
-			Vector3{21, 22, 23},
-			Vector3{31, 32, 33},
+		Matrix3x3 v{
+			{ 0,  1,  2},
+			{ 4,  5,  6},
+			{ 8,  9, 10},
 		};
-		auto it = m.cbegin();
-		EXPECT_TRUE(it != m.cend());
+		auto it = v.cbegin();
+		VERIFY(it != v.cend());
 
-		EXPECT_EQ(Vector3(11, 12, 13), it[0]);
-		EXPECT_EQ(Vector3(21, 22, 23), it[1]);
-		EXPECT_EQ(Vector3(31, 32, 33), it[2]);
+		VERIFY(it[0] == Vector3{ 0,  1,  2});
+		VERIFY(it[1] == Vector3{ 4,  5,  6});
+		VERIFY(it[2] == Vector3{ 8,  9, 10});
 
-		EXPECT_EQ(Vector3(11, 12, 13), *it++);
-		EXPECT_TRUE(it != m.cend());
-		EXPECT_EQ(Vector3(31, 32, 33), *++it);
-		EXPECT_TRUE(it != m.cend());
-		EXPECT_EQ(Vector3(31, 32, 33), *it++);
-		EXPECT_TRUE(it == m.cend());
+		VERIFY(*it++ == Vector3{ 0,  1,  2});
+		VERIFY(it != v.cend());
+		VERIFY(*++it == Vector3{ 8,  9, 10});
+		VERIFY(it != v.cend());
+		VERIFY(*it++ == Vector3{ 8,  9, 10});
+		VERIFY(it == v.cend());
 	}
-#if !defined(BKSGE_GCC)
-	// begin, end (constexpr)
-	{
-		BKSGE_STATIC_CONSTEXPR Matrix3x3 m
-		{
-			Vector3{11, 12, 13},
-			Vector3{21, 22, 23},
-			Vector3{31, 32, 33},
-		};
-		BKSGE_CONSTEXPR_OR_CONST auto it = m.begin();
-		BKSGE_CONSTEXPR_EXPECT_TRUE(it != m.end());
-
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(11, 12, 13), it[0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(21, 22, 23), it[1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(31, 32, 33), it[2]);
-
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(11, 12, 13), *it);
-		BKSGE_CONSTEXPR_OR_CONST auto it2 = it + 1;
-		BKSGE_CONSTEXPR_EXPECT_TRUE(it2 != m.end());
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(21, 22, 23), *it2);
-		BKSGE_CONSTEXPR_OR_CONST auto it3 = it2 + 1;
-		BKSGE_CONSTEXPR_EXPECT_TRUE(it3 != m.end());
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(31, 32, 33), *it3);
-		BKSGE_CONSTEXPR_OR_CONST auto it4 = it3 - 1;
-		BKSGE_CONSTEXPR_EXPECT_TRUE(it4 == it2);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(21, 22, 23), *it4);
-		BKSGE_CONSTEXPR_OR_CONST auto it5 = it3 + 1;
-		BKSGE_CONSTEXPR_EXPECT_TRUE(it5 == m.end());
-	}
-#endif
+	return true;
 }
 
-TYPED_TEST(MathMatrix3x3Test, ReverseIteratorTest)
+TYPED_TEST(MathMatrix3x3Test, IteratorTest)
 {
-	using T = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(IteratorTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool ReverseIteratorTest()
+{
 	using Matrix3x3 = bksge::math::Matrix3x3<T>;
 	using Vector3 = bksge::math::Vector3<T>;
 
 	// rbegin, rend (non const)
 	{
-		Matrix3x3 m
-		{
-			Vector3{11, 12, 13},
-			Vector3{21, 22, 23},
-			Vector3{31, 32, 33},
+		Matrix3x3 v{
+			{ 4,  5,  6},
+			{ 8,  9, 10},
+			{12, 13, 14},
 		};
-		auto it = m.rbegin();
-		EXPECT_TRUE(it != m.rend());
-		EXPECT_EQ(Vector3(31, 32, 33), *it);
-		*it++ = Vector3{51, 52, 53};
-		EXPECT_TRUE(it != m.rend());
-		EXPECT_EQ(Vector3(21, 22, 23), *it);
-		*++it = Vector3{61, 62, 63};
-		EXPECT_TRUE(it != m.rend());
-		EXPECT_EQ(Vector3(61, 62, 63), *it);
+		auto it = v.rbegin();
+		VERIFY(it != v.rend());
+		VERIFY(*it == Vector3{12, 13, 14});
+		*it++ = Vector3{5};
+		VERIFY(it != v.rend());
+		VERIFY(*it == Vector3{ 8,  9, 10});
+		*++it = Vector3{6};
+		VERIFY(it != v.rend());
+		VERIFY(*it == Vector3{ 6,  6,  6});
 		it++;
-		EXPECT_TRUE(it == m.rend());
+		VERIFY(it == v.rend());
 
-		EXPECT_EQ(Vector3(61, 62, 63), m[0]);
-		EXPECT_EQ(Vector3(21, 22, 23), m[1]);
-		EXPECT_EQ(Vector3(51, 52, 53), m[2]);
+		VERIFY(v == Matrix3x3(
+			{ 6,  6,  6},
+			{ 8,  9, 10},
+			{ 5,  5,  5}));
 	}
 	// rbegin, rend (const)
 	{
-		const Matrix3x3 m
-		{
-			Vector3{11, 12, 13},
-			Vector3{21, 22, 23},
-			Vector3{31, 32, 33},
+		Matrix3x3 const v{
+			{ 4,  5,  6},
+			{ 8,  9, 10},
+			{12, 13, 14},
 		};
-		auto it = m.rbegin();
-		EXPECT_TRUE(it != m.rend());
+		auto it = v.rbegin();
+		VERIFY(it != v.rend());
 
-		EXPECT_EQ(Vector3(31, 32, 33), it[0]);
-		EXPECT_EQ(Vector3(21, 22, 23), it[1]);
-		EXPECT_EQ(Vector3(11, 12, 13), it[2]);
+		VERIFY(it[0] == Vector3{12, 13, 14});
+		VERIFY(it[1] == Vector3{ 8,  9, 10});
+		VERIFY(it[2] == Vector3{ 4,  5,  6});
 
-		EXPECT_EQ(Vector3(31, 32, 33), *it++);
-		EXPECT_TRUE(it != m.rend());
-		EXPECT_EQ(Vector3(11, 12, 13), *++it);
-		EXPECT_TRUE(it != m.rend());
-		EXPECT_EQ(Vector3(21, 22, 23), *--it);
-		EXPECT_TRUE(it != m.rend());
-		EXPECT_EQ(Vector3(21, 22, 23), *it--);
-		EXPECT_TRUE(it != m.rend());
-		it += 2;
-		EXPECT_TRUE(it != m.rend());
-		EXPECT_EQ(Vector3(11, 12, 13), *it);
-		it -= 2;
-		EXPECT_TRUE(it != m.rend());
-		EXPECT_EQ(Vector3(31, 32, 33), *it);
-		it += 3;
-		EXPECT_TRUE(it == m.rend());
+		VERIFY(*it++ == Vector3{12, 13, 14});
+		VERIFY(it != v.rend());
+		VERIFY(*++it == Vector3{ 4,  5,  6});
+		VERIFY(it != v.rend());
+		VERIFY(*it++ == Vector3{ 4,  5,  6});
+		VERIFY(it == v.rend());
 	}
 	// crbegin, crend
 	{
-		const Matrix3x3 m
-		{
-			Vector3{11, 12, 13},
-			Vector3{21, 22, 23},
-			Vector3{31, 32, 33},
+		Matrix3x3 v{
+			{ 4,  5,  6},
+			{ 8,  9, 10},
+			{12, 13, 14},
 		};
-		auto it = m.crbegin();
-		EXPECT_TRUE(it != m.crend());
+		auto it = v.crbegin();
+		VERIFY(it != v.crend());
 
-		EXPECT_EQ(Vector3(31, 32, 33), it[0]);
-		EXPECT_EQ(Vector3(21, 22, 23), it[1]);
-		EXPECT_EQ(Vector3(11, 12, 13), it[2]);
+		VERIFY(it[0] == Vector3{12, 13, 14});
+		VERIFY(it[1] == Vector3{ 8,  9, 10});
+		VERIFY(it[2] == Vector3{ 4,  5,  6});
 
-		EXPECT_EQ(Vector3(31, 32, 33), *it++);
-		EXPECT_TRUE(it != m.crend());
-		EXPECT_EQ(Vector3(11, 12, 13), *++it);
-		EXPECT_TRUE(it != m.crend());
-		EXPECT_EQ(Vector3(11, 12, 13), *it++);
-		EXPECT_TRUE(it == m.crend());
+		VERIFY(*it++ == Vector3{12, 13, 14});
+		VERIFY(it != v.crend());
+		VERIFY(*++it == Vector3{ 4,  5,  6});
+		VERIFY(it != v.crend());
+		VERIFY(*it++ == Vector3{ 4,  5,  6});
+		VERIFY(it == v.crend());
 	}
-#if defined(__cpp_lib_array_constexpr) && (__cpp_lib_array_constexpr >= 201603)
-	// rbegin, rend (constexpr)
-	{
-		BKSGE_CXX17_STATIC_CONSTEXPR Matrix3x3 m
-		{
-			Vector3{11, 12, 13},
-			Vector3{21, 22, 23},
-			Vector3{31, 32, 33},
-		};
-		BKSGE_CXX17_CONSTEXPR_OR_CONST auto it = m.rbegin();
-		BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE(it != m.rend());
+	return true;
+}
 
-		BKSGE_CXX17_CONSTEXPR_EXPECT_EQ(Vector3(31, 32, 33), it[0]);
-		BKSGE_CXX17_CONSTEXPR_EXPECT_EQ(Vector3(21, 22, 23), it[1]);
-		BKSGE_CXX17_CONSTEXPR_EXPECT_EQ(Vector3(11, 12, 13), it[2]);
+TYPED_TEST(MathMatrix3x3Test, ReverseIteratorTest)
+{
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(ReverseIteratorTest<TypeParam>());
+}
 
-		BKSGE_CXX17_CONSTEXPR_EXPECT_EQ(Vector3(31, 32, 33), *it);
-		BKSGE_CXX17_CONSTEXPR_OR_CONST auto it2 = it + 1;
-		BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE(it2 != m.rend());
-		BKSGE_CXX17_CONSTEXPR_EXPECT_EQ(Vector3(21, 22, 23), *it2);
-		BKSGE_CXX17_CONSTEXPR_OR_CONST auto it3 = it2 + 1;
-		BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE(it3 != m.rend());
-		BKSGE_CXX17_CONSTEXPR_EXPECT_EQ(Vector3(11, 12, 13), *it3);
-		BKSGE_CXX17_CONSTEXPR_OR_CONST auto it4 = it3 - 1;
-		BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE(it4 == it2);
-		BKSGE_CXX17_CONSTEXPR_EXPECT_EQ(Vector3(21, 22, 23), *it4);
-		BKSGE_CXX17_CONSTEXPR_OR_CONST auto it5 = it3 + 1;
-		BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE(it5 == m.rend());
-	}
-#endif
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool EmptyTest()
+{
+	using Matrix3x3 = bksge::math::Matrix3x3<T>;
+	Matrix3x3 v1{};
+	VERIFY(!v1.empty());
+	return true;
 }
 
 TYPED_TEST(MathMatrix3x3Test, EmptyTest)
 {
-	using T = TypeParam;
-	using Matrix3x3 = bksge::math::Matrix3x3<T>;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(EmptyTest<TypeParam>());
+}
 
-	Matrix3x3 m1{};
-	const           Matrix3x3 m2{};
-	BKSGE_CONSTEXPR Matrix3x3 m3{};
-	EXPECT_FALSE(m1.empty());
-	EXPECT_FALSE(m2.empty());
-	BKSGE_CONSTEXPR_EXPECT_FALSE(m3.empty());
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool SizeTest()
+{
+	using Matrix3x3 = bksge::math::Matrix3x3<T>;
+	Matrix3x3 v1{};
+	VERIFY(v1.size() == 3);
+	return true;
 }
 
 TYPED_TEST(MathMatrix3x3Test, SizeTest)
 {
-	using T = TypeParam;
-	using Matrix3x3 = bksge::math::Matrix3x3<T>;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(SizeTest<TypeParam>());
+}
 
-	Matrix3x3 m1{};
-	const           Matrix3x3 m2{};
-	BKSGE_CONSTEXPR Matrix3x3 m3{};
-	EXPECT_EQ(3u, m1.size());
-	EXPECT_EQ(3u, m2.size());
-	BKSGE_CONSTEXPR_EXPECT_EQ(3u, m3.size());
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool MaxSizeTest()
+{
+	using Matrix3x3 = bksge::math::Matrix3x3<T>;
+	Matrix3x3 v1{};
+	VERIFY(v1.max_size() == 3);
+	return true;
 }
 
 TYPED_TEST(MathMatrix3x3Test, MaxSizeTest)
 {
-	using T = TypeParam;
-	using Matrix3x3 = bksge::math::Matrix3x3<T>;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(MaxSizeTest<TypeParam>());
+}
 
-	Matrix3x3 m1{};
-	const           Matrix3x3 m2{};
-	BKSGE_CONSTEXPR Matrix3x3 m3{};
-	EXPECT_EQ(3u, m1.max_size());
-	EXPECT_EQ(3u, m2.max_size());
-	BKSGE_CONSTEXPR_EXPECT_EQ(3u, m3.max_size());
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool NameAccessTest()
+{
+	using Matrix3x3 = bksge::math::Matrix3x3<T>;
+	using Vector3 = bksge::math::Vector3<T>;
+	{
+		Matrix3x3 v =
+		{
+			{11,12,13},
+			{21,22,23},
+			{31,32,33},
+		};
+		VERIFY(v.x() == Vector3{11,12,13});
+		VERIFY(v.y() == Vector3{21,22,23});
+		VERIFY(v.z() == Vector3{31,32,33});
+
+		v.x() = Vector3{0,1,2};
+		v.y().x() = -1;
+
+		VERIFY(v.x() == Vector3{ 0, 1, 2});
+		VERIFY(v.y() == Vector3{-1,22,23});
+		VERIFY(v.z() == Vector3{31,32,33});
+		VERIFY(v[0] == Vector3{ 0, 1, 2});
+		VERIFY(v[1] == Vector3{-1,22,23});
+		VERIFY(v[2] == Vector3{31,32,33});
+	}
+	{
+		Matrix3x3 const v =
+		{
+			{11,12,13},
+			{21,22,23},
+			{31,32,33},
+		};
+		VERIFY(v.x() == Vector3{11,12,13});
+		VERIFY(v.y() == Vector3{21,22,23});
+		VERIFY(v.z() == Vector3{31,32,33});
+	}
+	return true;
 }
 
 TYPED_TEST(MathMatrix3x3Test, NameAccessTest)
 {
-	using T = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(NameAccessTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool SwizzleTest()
+{
 	using Matrix3x3 = bksge::math::Matrix3x3<T>;
+	//using Matrix4x3 = bksge::math::Matrix4x3<T>;
 	using Vector3 = bksge::math::Vector3<T>;
 
+	Matrix3x3 const v1 =
 	{
-		Matrix3x3 m1
-		{
-			Vector3{11, 12, 13},
-			Vector3{21, 22, 23},
-			Vector3{31, 32, 33},
-		};
-		EXPECT_EQ(Vector3(11, 12, 13), m1.x());
-		EXPECT_EQ(Vector3(21, 22, 23), m1.y());
-		EXPECT_EQ(Vector3(31, 32, 33), m1.z());
-		EXPECT_EQ(11, m1.x().x());
-		EXPECT_EQ(12, m1.x().y());
-		EXPECT_EQ(13, m1.x().z());
-		EXPECT_EQ(31, m1.z().x());
-		EXPECT_EQ(32, m1.z().y());
-		EXPECT_EQ(33, m1.z().z());
-		m1.x() = Vector3{0, 1, 2};
-		m1.z() = Vector3{4, 5, 6};
-
-		EXPECT_EQ(Vector3(0, 1, 2), m1[0]);
-		EXPECT_EQ(Vector3(21, 22, 23), m1[1]);
-		EXPECT_EQ(Vector3(4, 5, 6), m1[2]);
-
-		m1.x().y() = -1;
-		m1.y().x() = -2;
-
-		EXPECT_EQ(Vector3( 0, -1,  2), m1[0]);
-		EXPECT_EQ(Vector3(-2, 22, 23), m1[1]);
-		EXPECT_EQ(Vector3( 4,  5,  6), m1[2]);
-	}
+		{11,12,13},
+		{21,22,23},
+		{31,32,33},
+	};
 
 	{
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m2
-		{
-			Vector3{51, 52, 53},
-			Vector3{61, 62, 63},
-			Vector3{71, 72, 73},
-		};
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(51, 52, 53), m2.x());
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(61, 62, 63), m2.y());
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(71, 72, 73), m2.z());
-		BKSGE_CONSTEXPR_EXPECT_EQ(51, m2.x().x());
-		BKSGE_CONSTEXPR_EXPECT_EQ(52, m2.x().y());
-		BKSGE_CONSTEXPR_EXPECT_EQ(53, m2.x().z());
-		BKSGE_CONSTEXPR_EXPECT_EQ(71, m2.z().x());
-		BKSGE_CONSTEXPR_EXPECT_EQ(72, m2.z().y());
-		BKSGE_CONSTEXPR_EXPECT_EQ(73, m2.z().z());
+		auto const v2 = v1.yzx();
+		//static_assert(bksge::is_same<decltype(v2), Matrix3x3 const>::value, "");
+		VERIFY(v2[0] == Vector3{21, 22, 23});
+		VERIFY(v2[1] == Vector3{31, 32, 33});
+		VERIFY(v2[2] == Vector3{11, 12, 13});
 	}
+	{
+		auto const v2 = v1.zyzx();
+		//static_assert(bksge::is_same<decltype(v2), Matrix4x3 const>::value, "");
+		VERIFY(v2[0] == Vector3{31, 32, 33});
+		VERIFY(v2[1] == Vector3{21, 22, 23});
+		VERIFY(v2[2] == Vector3{31, 32, 33});
+		VERIFY(v2[3] == Vector3{11, 12, 13});
+	}
+	return true;
 }
 
 TYPED_TEST(MathMatrix3x3Test, SwizzleTest)
 {
-	using T = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(SwizzleTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool SwapTest()
+{
 	using Matrix3x3 = bksge::math::Matrix3x3<T>;
-	using Matrix4x3 = bksge::math::Matrix4x3<T>;
 	using Vector3 = bksge::math::Vector3<T>;
 
-	BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m
+	Matrix3x3 v1 =
 	{
-		Vector3{11, 12, 13},
-		Vector3{21, 22, 23},
-		Vector3{31, 32, 33},
+		{11,12,13},
+		{21,22,23},
+		{31,32,33},
 	};
 
+	Matrix3x3 v2 =
 	{
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m2{m.yzx()};
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(21, 22, 23), m2[0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(31, 32, 33), m2[1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(11, 12, 13), m2[2]);
-	}
-	{
-		BKSGE_CONSTEXPR_OR_CONST Matrix4x3 m2{m.zyzx()};
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(31, 32, 33), m2[0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(21, 22, 23), m2[1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(31, 32, 33), m2[2]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(11, 12, 13), m2[3]);
-	}
+		{51,52,53},
+		{61,62,63},
+		{71,72,73},
+	};
+
+	v1.swap(v2);
+
+	VERIFY(v1[0] == Vector3{51,52,53});
+	VERIFY(v1[1] == Vector3{61,62,63});
+	VERIFY(v1[2] == Vector3{71,72,73});
+	VERIFY(v2[0] == Vector3{11,12,13});
+	VERIFY(v2[1] == Vector3{21,22,23});
+	VERIFY(v2[2] == Vector3{31,32,33});
+
+	bksge::ranges::swap(v1, v2);
+
+	VERIFY(v1[0] == Vector3{11,12,13});
+	VERIFY(v1[1] == Vector3{21,22,23});
+	VERIFY(v1[2] == Vector3{31,32,33});
+	VERIFY(v2[0] == Vector3{51,52,53});
+	VERIFY(v2[1] == Vector3{61,62,63});
+	VERIFY(v2[2] == Vector3{71,72,73});
+
+	return true;
 }
 
 TYPED_TEST(MathMatrix3x3Test, SwapTest)
 {
-	using T = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(SwapTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool PlusMinusTest()
+{
 	using Matrix3x3 = bksge::math::Matrix3x3<T>;
 	using Vector3 = bksge::math::Vector3<T>;
-
-	Matrix3x3 m1
 	{
-		Vector3{11, 12, 13},
-		Vector3{21, 22, 23},
-		Vector3{31, 32, 33},
-	};
-	Matrix3x3 m2
-	{
-		Vector3{51, 52, 53},
-		Vector3{61, 62, 63},
-		Vector3{71, 72, 73},
-	};
+		Matrix3x3 const v1
+		{
+			{ 0, -1,  2},
+			{ 4,  5, -6},
+			{-8,  9, 10},
+		};
+		auto const v2 = +v1;
+		auto const v3 = -v1;
+		static_assert(bksge::is_same<decltype(v2), Matrix3x3 const>::value, "");
+		static_assert(bksge::is_same<decltype(v3), Matrix3x3 const>::value, "");
 
-	EXPECT_EQ(Vector3(11, 12, 13), m1[0]);
-	EXPECT_EQ(Vector3(21, 22, 23), m1[1]);
-	EXPECT_EQ(Vector3(31, 32, 33), m1[2]);
-	EXPECT_EQ(Vector3(51, 52, 53), m2[0]);
-	EXPECT_EQ(Vector3(61, 62, 63), m2[1]);
-	EXPECT_EQ(Vector3(71, 72, 73), m2[2]);
-
-	m1.swap(m2);
-
-	EXPECT_EQ(Vector3(51, 52, 53), m1[0]);
-	EXPECT_EQ(Vector3(61, 62, 63), m1[1]);
-	EXPECT_EQ(Vector3(71, 72, 73), m1[2]);
-	EXPECT_EQ(Vector3(11, 12, 13), m2[0]);
-	EXPECT_EQ(Vector3(21, 22, 23), m2[1]);
-	EXPECT_EQ(Vector3(31, 32, 33), m2[2]);
-
-	swap(m1, m2);
-
-	EXPECT_EQ(Vector3(11, 12, 13), m1[0]);
-	EXPECT_EQ(Vector3(21, 22, 23), m1[1]);
-	EXPECT_EQ(Vector3(31, 32, 33), m1[2]);
-	EXPECT_EQ(Vector3(51, 52, 53), m2[0]);
-	EXPECT_EQ(Vector3(61, 62, 63), m2[1]);
-	EXPECT_EQ(Vector3(71, 72, 73), m2[2]);
+		VERIFY(v2[0] ==  Vector3{ 0, -1,  2});
+		VERIFY(v2[1] ==  Vector3{ 4,  5, -6});
+		VERIFY(v2[2] ==  Vector3{-8,  9, 10});
+		VERIFY(v3[0] == -Vector3{ 0, -1,  2});
+		VERIFY(v3[1] == -Vector3{ 4,  5, -6});
+		VERIFY(v3[2] == -Vector3{-8,  9, 10});
+	}
+	return true;
 }
 
 TYPED_TEST(MathMatrix3x3Test, PlusMinusTest)
 {
-	using T = TypeParam;
-	using Matrix3x3 = bksge::math::Matrix3x3<T>;
-	using Vector3 = bksge::math::Vector3<T>;
-
-	{
-		Matrix3x3 m1
-		{
-			Vector3{-11,  12,  13},
-			Vector3{ 21,  22, -23},
-			Vector3{ 31, -32,  33},
-		};
-		Matrix3x3 m2 = +m1;
-		Matrix3x3 m3 = -m1;
-
-		EXPECT_EQ(Vector3(-11,  12,  13), m2[0]);
-		EXPECT_EQ(Vector3( 21,  22, -23), m2[1]);
-		EXPECT_EQ(Vector3( 31, -32,  33), m2[2]);
-		EXPECT_EQ(Vector3( 11, -12, -13), m3[0]);
-		EXPECT_EQ(Vector3(-21, -22,  23), m3[1]);
-		EXPECT_EQ(Vector3(-31,  32, -33), m3[2]);
-	}
-	{
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m1
-		{
-			Vector3{-11,  12,  13},
-			Vector3{ 21,  22, -23},
-			Vector3{ 31, -32,  33},
-		};
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m2 = +m1;
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m3 = -m1;
-
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(-11,  12,  13), m2[0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3( 21,  22, -23), m2[1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3( 31, -32,  33), m2[2]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3( 11, -12, -13), m3[0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(-21, -22,  23), m3[1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(-31,  32, -33), m3[2]);
-	}
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(PlusMinusTest<TypeParam>());
 }
 
-TYPED_TEST(MathMatrix3x3Test, AddTest)
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool AddTest()
 {
-	using T = TypeParam;
 	using Matrix3x3 = bksge::math::Matrix3x3<T>;
 	using Vector3 = bksge::math::Vector3<T>;
 
 	// Matrix3x3 += Matrix3x3
 	{
-		Matrix3x3 m1;
+		Matrix3x3 v;
 
-		Matrix3x3 t = m1 += Matrix3x3
-		{
-			Vector3{ 1,  2,  3},
-			Vector3{ 5,  6,  7},
-			Vector3{ 9, 10, 11},
-		};
-
-		EXPECT_EQ(Vector3( 1,  2,  3), m1[0]);
-		EXPECT_EQ(Vector3( 5,  6,  7), m1[1]);
-		EXPECT_EQ(Vector3( 9, 10, 11), m1[2]);
-		EXPECT_EQ(t, m1);
+		auto t = (v += Matrix3x3(
+			{ 0, -1,  2},
+			{ 4,  5, -6},
+			{-8,  9, 10}
+		));
+		static_assert(bksge::is_same<decltype(t), Matrix3x3>::value, "");
+		VERIFY(t[0] == Vector3( 0, -1,  2));
+		VERIFY(t[1] == Vector3( 4,  5, -6));
+		VERIFY(t[2] == Vector3(-8,  9, 10));
+		VERIFY(v == t);
 	}
-
 	// Matrix3x3 + Matrix3x3 -> Matrix3x3
 	{
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m1
+		Matrix3x3 const m1
 		{
-			Vector3{-21,  22,  23},
-			Vector3{ 24, -25,  26},
-			Vector3{ 27,  28, -29},
+			{-21,  22,  23},
+			{ 24, -25,  26},
+			{ 27,  28, -29},
 		};
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m2
+		Matrix3x3 const m2
 		{
-			Vector3{ 31,  32, -33},
-			Vector3{ 34, -35,  36},
-			Vector3{-37,  38,  39},
+			{ 31,  32, -33},
+			{ 34, -35,  36},
+			{-37,  38,  39},
 		};
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m3 = m1 + m2;
-
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3( 10,  54, -10), m3[0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3( 58, -60,  62), m3[1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(-10,  66,  10), m3[2]);
+		auto m3 = m1 + m2;
+		static_assert(bksge::is_same<decltype(m3), Matrix3x3>::value, "");
+		VERIFY(m3[0] == Vector3( 10,  54, -10));
+		VERIFY(m3[1] == Vector3( 58, -60,  62));
+		VERIFY(m3[2] == Vector3(-10,  66,  10));
 	}
+	return true;
 }
 
-TYPED_TEST(MathMatrix3x3Test, SubTest)
+TYPED_TEST(MathMatrix3x3Test, AddTest)
 {
-	using T = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(AddTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool SubTest()
+{
 	using Matrix3x3 = bksge::math::Matrix3x3<T>;
 	using Vector3 = bksge::math::Vector3<T>;
 
 	// Matrix3x3 -= Matrix3x3
 	{
-		Matrix3x3 m1;
-		Matrix3x3 t = m1 -= Matrix3x3
-		{
-			Vector3{ 1,  2,  3},
-			Vector3{ 5,  6,  7},
-			Vector3{ 9, 10, 11},
-		};
+		Matrix3x3 v;
 
-		EXPECT_EQ(Vector3(-1,  -2,  -3), m1[0]);
-		EXPECT_EQ(Vector3(-5,  -6,  -7), m1[1]);
-		EXPECT_EQ(Vector3(-9, -10, -11), m1[2]);
-		EXPECT_EQ(t, m1);
+		auto t = (v -= Matrix3x3(
+			{ 0, -1,  2},
+			{ 4,  5, -6},
+			{-8,  9, 10}
+		));
+		static_assert(bksge::is_same<decltype(t), Matrix3x3>::value, "");
+		VERIFY(t[0] == -Vector3( 0, -1,  2));
+		VERIFY(t[1] == -Vector3( 4,  5, -6));
+		VERIFY(t[2] == -Vector3(-8,  9, 10));
+		VERIFY(v == t);
 	}
-
 	// Matrix3x3 - Matrix3x3 -> Matrix3x3
 	{
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m1
+		Matrix3x3 const m1
 		{
-			Vector3{10, 11, 12},
-			Vector3{20, 21, 22},
-			Vector3{30, 31, 32},
+			{10, 11, 12},
+			{20, 21, 22},
+			{30, 31, 32},
 		};
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m2
+		Matrix3x3 const m2
 		{
-			Vector3{0, 9, 1},
-			Vector3{8, 4, 7},
-			Vector3{6, 5, 3},
+			{0, 9, 1},
+			{8, 4, 7},
+			{6, 5, 3},
 		};
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m3 = m1 - m2;
-
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(10,  2, 11), m3[0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(12, 17, 15), m3[1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(24, 26, 29), m3[2]);
+		auto m3 = m1 - m2;
+		static_assert(bksge::is_same<decltype(m3), Matrix3x3>::value, "");
+		VERIFY(m3[0] == Vector3(10,  2, 11));
+		VERIFY(m3[1] == Vector3(12, 17, 15));
+		VERIFY(m3[2] == Vector3(24, 26, 29));
 	}
+	return true;
 }
 
-TYPED_TEST(MathMatrix3x3Test, MulScalarTest)
+TYPED_TEST(MathMatrix3x3Test, SubTest)
 {
-	using T = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(SubTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool MulScalarTest()
+{
 	using Matrix3x3 = bksge::math::Matrix3x3<T>;
 	using Vector3 = bksge::math::Vector3<T>;
 
@@ -1044,174 +989,195 @@ TYPED_TEST(MathMatrix3x3Test, MulScalarTest)
 	{
 		Matrix3x3 m1
 		{
-			Vector3{1,  2,  3},
-			Vector3{5,  6,  7},
-			Vector3{9, 10, 11},
+			{ 1,  2,  3},
+			{ 5,  6,  7},
+			{ 9, 10, 11},
 		};
 		{
-			Matrix3x3 t = (m1 *= 2);
-			EXPECT_EQ(Vector3( 2,  4,  6), m1[0]);
-			EXPECT_EQ(Vector3(10, 12, 14), m1[1]);
-			EXPECT_EQ(Vector3(18, 20, 22), m1[2]);
-			EXPECT_EQ(t, m1);
+			auto t = (m1 *= 2);
+			static_assert(bksge::is_same<decltype(t), Matrix3x3>::value, "");
+			VERIFY(Vector3( 2,  4,  6) == m1[0]);
+			VERIFY(Vector3(10, 12, 14) == m1[1]);
+			VERIFY(Vector3(18, 20, 22) == m1[2]);
+			VERIFY(t == m1);
 		}
 		{
-			Matrix3x3 t = (m1 *= 2.5);
-			EXPECT_EQ(Vector3( 5, 10, 15), m1[0]);
-			EXPECT_EQ(Vector3(25, 30, 35), m1[1]);
-			EXPECT_EQ(Vector3(45, 50, 55), m1[2]);
-			EXPECT_EQ(t, m1);
+			auto t = (m1 *= 2.5);
+			static_assert(bksge::is_same<decltype(t), Matrix3x3>::value, "");
+			VERIFY(Vector3( 5, 10, 15) == m1[0]);
+			VERIFY(Vector3(25, 30, 35) == m1[1]);
+			VERIFY(Vector3(45, 50, 55) == m1[2]);
+			VERIFY(t == m1);
 		}
 	}
 
 	// Matrix3x3 * スカラー -> Matrix3x3
 	{
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m1
+		Matrix3x3 const m1
 		{
-			Vector3{10, 12, 14},
-			Vector3{20, 22, 24},
-			Vector3{30, 32, 34},
+			{10, 12, 14},
+			{20, 22, 24},
+			{30, 32, 34},
 		};
 		{
-			BKSGE_CONSTEXPR_OR_CONST Matrix3x3 t = m1 * 3;
-			BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(30, 36, 42), t[0]);
-			BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(60, 66, 72), t[1]);
-			BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(90, 96,102), t[2]);
+			auto t = m1 * 3;
+			static_assert(bksge::is_same<decltype(t), Matrix3x3>::value, "");
+			VERIFY(Vector3( 30,  36,  42) == t[0]);
+			VERIFY(Vector3( 60,  66,  72) == t[1]);
+			VERIFY(Vector3( 90,  96, 102) == t[2]);
 		}
 		{
-			BKSGE_CONSTEXPR_OR_CONST Matrix3x3 t = m1 * 2.5;
-			BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(25, 30, 35), t[0]);
-			BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(50, 55, 60), t[1]);
-			BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(75, 80, 85), t[2]);
+			auto t = m1 * 2.5;
+			static_assert(bksge::is_same<decltype(t), Matrix3x3>::value, "");
+			VERIFY(Vector3( 25,  30,  35) == t[0]);
+			VERIFY(Vector3( 50,  55,  60) == t[1]);
+			VERIFY(Vector3( 75,  80,  85) == t[2]);
 		}
 		// スカラー * Matrix3x3 -> Matrix3x3
 		{
-			BKSGE_CONSTEXPR_OR_CONST Matrix3x3 t = 4 * m1;
-			BKSGE_CONSTEXPR_EXPECT_EQ(Vector3( 40, 48, 56), t[0]);
-			BKSGE_CONSTEXPR_EXPECT_EQ(Vector3( 80, 88, 96), t[1]);
-			BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(120,128,136), t[2]);
+			auto t = 4 * m1;
+			static_assert(bksge::is_same<decltype(t), Matrix3x3>::value, "");
+			VERIFY(Vector3( 40,  48,  56) == t[0]);
+			VERIFY(Vector3( 80,  88,  96) == t[1]);
+			VERIFY(Vector3(120, 128, 136) == t[2]);
 		}
 		{
-			BKSGE_CONSTEXPR_OR_CONST Matrix3x3 t = -1.5 * m1;
-			BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(-15, -18, -21), t[0]);
-			BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(-30, -33, -36), t[1]);
-			BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(-45, -48, -51), t[2]);
+			auto t = -1.5 * m1;
+			static_assert(bksge::is_same<decltype(t), Matrix3x3>::value, "");
+			VERIFY(Vector3(-15, -18, -21) == t[0]);
+			VERIFY(Vector3(-30, -33, -36) == t[1]);
+			VERIFY(Vector3(-45, -48, -51) == t[2]);
 		}
 	}
+
+	return true;
 }
 
-TYPED_TEST(MathMatrix3x3Test, MulMatrixTest)
+TYPED_TEST(MathMatrix3x3Test, MulScalarTest)
 {
-	using T = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(MulScalarTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool MulMatrixTest()
+{
 	using Matrix3x3 = bksge::math::Matrix3x3<T>;
 	using Matrix4x3 = bksge::math::Matrix4x3<T>;
 	using Matrix3x4 = bksge::math::Matrix3x4<T>;
 	using Vector4 = bksge::math::Vector4<T>;
 	using Vector3 = bksge::math::Vector3<T>;
 
-	Matrix3x3 m
-	{
-		Vector3{  2,  4,  6 },
-		Vector3{ 10, 12, 14 },
-		Vector3{ 18, 20, 22 },
-	};
-
 	// Matrix3x3 *= Matrix3x3
 	{
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m1
+		Matrix3x3 m
 		{
-			Vector3{  11, -12,  13 },
-			Vector3{  21,  22, -23 },
-			Vector3{ -31,  32,  33 },
+			{  2,  4,  6 },
+			{ 10, 12, 14 },
+			{ 18, 20, 22 },
 		};
 
-		auto t = m *= m1;
+		Matrix3x3 m1
+		{
+			{  11, -12,  13 },
+			{  21,  22, -23 },
+			{ -31,  32,  33 },
+		};
+
+		auto t = (m *= m1);
 		static_assert(bksge::is_same<decltype(t), Matrix3x3>::value, "");
-		EXPECT_EQ(Vector3(-80, 256, 132), m[0]);
-		EXPECT_EQ(Vector3(-72, 592, 316), m[1]);
-		EXPECT_EQ(Vector3(-64, 928, 500), m[2]);
-		EXPECT_EQ(t, m);
+		VERIFY(Vector3(-80, 256, 132) == m[0]);
+		VERIFY(Vector3(-72, 592, 316) == m[1]);
+		VERIFY(Vector3(-64, 928, 500) == m[2]);
+		VERIFY(t == m);
 	}
 
 	// Matrix3x3 * Matrix3x3 -> Matrix3x3
 	{
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m1
+		Matrix3x3 const m1
 		{
-			Vector3{ 15, 3, -7 },
-			Vector3{ 11, 4, 12 },
-			Vector3{  2, 6, 13 },
+			{ 15, 3, -7 },
+			{ 11, 4, 12 },
+			{  2, 6, 13 },
 		};
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m2
+		Matrix3x3 const m2
 		{
-			Vector3{ 1,  2,  3 },
-			Vector3{ 5,  6,  7 },
-			Vector3{ 9, 10,-11 },
+			{ 1,  2,  3 },
+			{ 5,  6,  7 },
+			{ 9, 10,-11 },
 		};
 
-		BKSGE_CONSTEXPR_OR_CONST auto t1 = m1 * m2;
-		static_assert(bksge::is_same<decltype(t1), const Matrix3x3>::value, "");
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(-33, -22, 143), t1[0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(139, 166, -71), t1[1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(149, 170, -95), t1[2]);
+		auto t1 = m1 * m2;
+		static_assert(bksge::is_same<decltype(t1), Matrix3x3>::value, "");
+		VERIFY(Vector3(-33, -22, 143) == t1[0]);
+		VERIFY(Vector3(139, 166, -71) == t1[1]);
+		VERIFY(Vector3(149, 170, -95) == t1[2]);
 
-		BKSGE_CONSTEXPR_OR_CONST auto t2 = m2 * m1;
-		static_assert(bksge::is_same<decltype(t2), const Matrix3x3>::value, "");
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3( 43, 29,  56), t2[0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(155, 81, 128), t2[1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(223,  1, -86), t2[2]);
+		auto t2 = m2 * m1;
+		static_assert(bksge::is_same<decltype(t2), Matrix3x3>::value, "");
+		VERIFY(Vector3( 43, 29,  56) == t2[0]);
+		VERIFY(Vector3(155, 81, 128) == t2[1]);
+		VERIFY(Vector3(223,  1, -86) == t2[2]);
 	}
 
 	// Matrix3x3 * Matrix3x4 -> Matrix3x4
 	{
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m1
+		Matrix3x3 const m1
 		{
-			Vector3{  1,  2,  3 },
-			Vector3{  5,  6,  7 },
-			Vector3{  9, 10, 11 },
+			{  1,  2,  3 },
+			{  5,  6,  7 },
+			{  9, 10, 11 },
 		};
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x4 m2
+		Matrix3x4 const m2
 		{
-			Vector4{ 11, 12, 13, 14 },
-			Vector4{ 21, 22, 23, 24 },
-			Vector4{ 31, 32, 33, 34 },
+			{ 11, 12, 13, 14 },
+			{ 21, 22, 23, 24 },
+			{ 31, 32, 33, 34 },
 		};
 
-		BKSGE_CONSTEXPR_OR_CONST auto t1 = m1 * m2;
-		static_assert(bksge::is_same<decltype(t1), const Matrix3x4>::value, "");
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(146, 152, 158, 164), t1[0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(398, 416, 434, 452), t1[1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(650, 680, 710, 740), t1[2]);
+		auto t1 = m1 * m2;
+		static_assert(bksge::is_same<decltype(t1), Matrix3x4>::value, "");
+		VERIFY(Vector4(146, 152, 158, 164) == t1[0]);
+		VERIFY(Vector4(398, 416, 434, 452) == t1[1]);
+		VERIFY(Vector4(650, 680, 710, 740) == t1[2]);
 	}
 
 	// Matrix4x3 * Matrix3x3 -> Matrix4x3
 	{
-		BKSGE_CONSTEXPR_OR_CONST Matrix4x3 m1
+		Matrix4x3 const m1
 		{
-			Vector3{ 11, 12, 13 },
-			Vector3{ 21, 22, 23 },
-			Vector3{ 31, 32, 33 },
-			Vector3{ 41, 42, 43 },
+			{ 11, 12, 13 },
+			{ 21, 22, 23 },
+			{ 31, 32, 33 },
+			{ 41, 42, 43 },
 		};
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m2
+		Matrix3x3 const m2
 		{
-			Vector3{  1,  2,  3 },
-			Vector3{  5,  6,  7 },
-			Vector3{  9, 10, 11 },
+			{  1,  2,  3 },
+			{  5,  6,  7 },
+			{  9, 10, 11 },
 		};
 
-		BKSGE_CONSTEXPR_OR_CONST auto t1 = m1 * m2;
-		static_assert(bksge::is_same<decltype(t1), const Matrix4x3>::value, "");
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(188, 224, 260), t1[0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(338, 404, 470), t1[1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(488, 584, 680), t1[2]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(638, 764, 890), t1[3]);
+		auto t1 = m1 * m2;
+		static_assert(bksge::is_same<decltype(t1), Matrix4x3>::value, "");
+		VERIFY(Vector3(188, 224, 260) == t1[0]);
+		VERIFY(Vector3(338, 404, 470) == t1[1]);
+		VERIFY(Vector3(488, 584, 680) == t1[2]);
+		VERIFY(Vector3(638, 764, 890) == t1[3]);
 	}
+
+	return true;
 }
 
-TYPED_TEST(MathMatrix3x3Test, MulVectorTest)
+TYPED_TEST(MathMatrix3x3Test, MulMatrixTest)
 {
-	using Matrix3x3 = bksge::math::Matrix3x3<TypeParam>;
-	using Vector3 = bksge::math::Vector3<TypeParam>;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(MulMatrixTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool MulVectorTest()
+{
+	using Matrix3x3 = bksge::math::Matrix3x3<T>;
+	using Vector3 = bksge::math::Vector3<T>;
 
 	// Vector3 *= Matrix3x3
 	{
@@ -1219,36 +1185,43 @@ TYPED_TEST(MathMatrix3x3Test, MulVectorTest)
 
 		const Matrix3x3 m
 		{
-			Vector3{ 11, 12, 13 },
-			Vector3{ 21, 22, 23 },
-			Vector3{ 31, 32, 33 },
+			{ 11, 12, 13 },
+			{ 21, 22, 23 },
+			{ 31, 32, 33 },
 		};
 
-		auto t = v *= m;
+		auto t = (v *= m);
 		static_assert(bksge::is_same<decltype(t), Vector3>::value, "");
-		EXPECT_EQ(Vector3(146, 152, 158), v);
-		EXPECT_EQ(t, v);
+		VERIFY(Vector3(146, 152, 158) == v);
+		VERIFY(t == v);
 	}
 
 	// Vector3 * Matrix3x3 -> Vector3
 	{
-		BKSGE_CONSTEXPR_OR_CONST Vector3 v2 { -5, 6, 7 };
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m
+		Vector3 const v2 { -5, 6, 7 };
+		Matrix3x3 const m
 		{
-			Vector3{ 1, -2,  3 },
-			Vector3{ 5,  6,  7 },
-			Vector3{ 9, 10,-11 },
+			{ 1, -2,  3 },
+			{ 5,  6,  7 },
+			{ 9, 10,-11 },
 		};
 
-		BKSGE_CONSTEXPR_OR_CONST auto t = v2 * m;
-		static_assert(bksge::is_same<decltype(t), const Vector3>::value, "");
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(88, 116, -50), t);
+		auto t = v2 * m;
+		static_assert(bksge::is_same<decltype(t), Vector3>::value, "");
+		VERIFY(Vector3(88, 116, -50) == t);
 	}
+
+	return true;
 }
 
-TYPED_TEST(MathMatrix3x3Test, DivScalarTest)
+TYPED_TEST(MathMatrix3x3Test, MulVectorTest)
 {
-	using T = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(MulVectorTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool DivScalarTest()
+{
 	using Matrix3x3 = bksge::math::Matrix3x3<T>;
 	using Vector3 = bksge::math::Vector3<T>;
 
@@ -1256,30 +1229,32 @@ TYPED_TEST(MathMatrix3x3Test, DivScalarTest)
 	{
 		Matrix3x3 m1
 		{
-			Vector3{10, 12, 14},
-			Vector3{18, 20, 22},
-			Vector3{26, 28, 30},
+			{10, 12, 14},
+			{18, 20, 22},
+			{26, 28, 30},
 		};
 
 		{
-			Matrix3x3 t = (m1 /= 2);
-			EXPECT_EQ(Vector3( 5,  6,  7), m1[0]);
-			EXPECT_EQ(Vector3( 9, 10, 11), m1[1]);
-			EXPECT_EQ(Vector3(13, 14, 15), m1[2]);
-			EXPECT_EQ(t, m1);
+			auto t = (m1 /= 2);
+			static_assert(bksge::is_same<decltype(t), Matrix3x3>::value, "");
+			VERIFY(Vector3( 5,  6,  7) == m1[0]);
+			VERIFY(Vector3( 9, 10, 11) == m1[1]);
+			VERIFY(Vector3(13, 14, 15) == m1[2]);
+			VERIFY(t == m1);
 		}
 		{
-			Matrix3x3 t = (m1 /= 0.5);
-			EXPECT_EQ(Vector3(10, 12, 14), m1[0]);
-			EXPECT_EQ(Vector3(18, 20, 22), m1[1]);
-			EXPECT_EQ(Vector3(26, 28, 30), m1[2]);
-			EXPECT_EQ(t, m1);
+			auto t = (m1 /= 0.5);
+			static_assert(bksge::is_same<decltype(t), Matrix3x3>::value, "");
+			VERIFY(Vector3(10, 12, 14) == m1[0]);
+			VERIFY(Vector3(18, 20, 22) == m1[1]);
+			VERIFY(Vector3(26, 28, 30) == m1[2]);
+			VERIFY(t == m1);
 		}
 	}
 
 	// Matrix3x3 / スカラー
 	{
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m1
+		Matrix3x3 const m1
 		{
 			Vector3{10, 12, 14},
 			Vector3{20, 22, 24},
@@ -1287,82 +1262,95 @@ TYPED_TEST(MathMatrix3x3Test, DivScalarTest)
 		};
 
 		{
-			BKSGE_CONSTEXPR_OR_CONST Matrix3x3 t = m1 / 2;
-			BKSGE_CONSTEXPR_EXPECT_EQ(Vector3( 5,  6,  7), t[0]);
-			BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(10, 11, 12), t[1]);
-			BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(15, 16, 17), t[2]);
+			auto t = m1 / 2;
+			static_assert(bksge::is_same<decltype(t), Matrix3x3>::value, "");
+			VERIFY(Vector3( 5,  6,  7) == t[0]);
+			VERIFY(Vector3(10, 11, 12) == t[1]);
+			VERIFY(Vector3(15, 16, 17) == t[2]);
 		}
 		{
-			BKSGE_CONSTEXPR_OR_CONST Matrix3x3 t = m1 / 0.25;
-			BKSGE_CONSTEXPR_EXPECT_EQ(Vector3( 40,  48,  56), t[0]);
-			BKSGE_CONSTEXPR_EXPECT_EQ(Vector3( 80,  88,  96), t[1]);
-			BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(120, 128, 136), t[2]);
+			auto t = m1 / 0.25;
+			static_assert(bksge::is_same<decltype(t), Matrix3x3>::value, "");
+			VERIFY(Vector3( 40,  48,  56) == t[0]);
+			VERIFY(Vector3( 80,  88,  96) == t[1]);
+			VERIFY(Vector3(120, 128, 136) == t[2]);
 		}
 	}
+
+	return true;
+}
+
+TYPED_TEST(MathMatrix3x3Test, DivScalarTest)
+{
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(DivScalarTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool CompareTest()
+{
+	using Matrix3x3 = bksge::math::Matrix3x3<T>;
+
+	Matrix3x3 const m1
+	{
+		{11, 12, 13},
+		{21, 22, 23},
+		{31, 32, 33},
+	};
+	Matrix3x3 const m2
+	{
+		{11, 12, 13},
+		{21, 22, 23},
+		{31, 32, 33},
+	};
+	Matrix3x3 const m3
+	{
+		{10, 12, 13},
+		{21, 22, 23},
+		{31, 32, 33},
+	};
+	Matrix3x3 const m4
+	{
+		{11, 12, 13},
+		{21, 23, 23},
+		{31, 32, 33},
+	};
+	Matrix3x3 const m5
+	{
+		{11, 12, 13},
+		{21, 22, 23},
+		{31, 32,-33},
+	};
+
+	VERIFY( (m1 == m1));
+	VERIFY( (m1 == m2));
+	VERIFY(!(m1 == m3));
+	VERIFY(!(m1 == m4));
+	VERIFY(!(m1 == m5));
+
+	VERIFY(!(m1 != m1));
+	VERIFY(!(m1 != m2));
+	VERIFY( (m1 != m3));
+	VERIFY( (m1 != m4));
+	VERIFY( (m1 != m5));
+
+	return true;
 }
 
 TYPED_TEST(MathMatrix3x3Test, CompareTest)
 {
-	using T = TypeParam;
-	using Matrix3x3 = bksge::math::Matrix3x3<T>;
-	using Vector3 = bksge::math::Vector3<T>;
-
-	BKSGE_CONSTEXPR_OR_CONST Matrix3x3  m1
-	{
-		Vector3{11, 12, 13},
-		Vector3{21, 22, 23},
-		Vector3{31, 32, 33},
-	};
-	BKSGE_CONSTEXPR_OR_CONST Matrix3x3  m2
-	{
-		Vector3{11, 12, 13},
-		Vector3{21, 22, 23},
-		Vector3{31, 32, 33},
-	};
-	BKSGE_CONSTEXPR_OR_CONST Matrix3x3  m3
-	{
-		Vector3{10, 12, 13},
-		Vector3{21, 22, 23},
-		Vector3{31, 32, 33},
-	};
-	BKSGE_CONSTEXPR_OR_CONST Matrix3x3  m4
-	{
-		Vector3{11, 12, 13},
-		Vector3{21, 23, 23},
-		Vector3{31, 32, 33},
-	};
-	BKSGE_CONSTEXPR_OR_CONST Matrix3x3  m5
-	{
-		Vector3{11, 12, 13},
-		Vector3{21, 22, 23},
-		Vector3{31, 32, -33},
-	};
-
-	BKSGE_CONSTEXPR_EXPECT_TRUE (m1 == m1);
-	BKSGE_CONSTEXPR_EXPECT_TRUE (m1 == m2);
-	BKSGE_CONSTEXPR_EXPECT_FALSE(m1 == m3);
-	BKSGE_CONSTEXPR_EXPECT_FALSE(m1 == m4);
-	BKSGE_CONSTEXPR_EXPECT_FALSE(m1 == m5);
-
-	BKSGE_CONSTEXPR_EXPECT_FALSE(m1 != m1);
-	BKSGE_CONSTEXPR_EXPECT_FALSE(m1 != m2);
-	BKSGE_CONSTEXPR_EXPECT_TRUE (m1 != m3);
-	BKSGE_CONSTEXPR_EXPECT_TRUE (m1 != m4);
-	BKSGE_CONSTEXPR_EXPECT_TRUE (m1 != m5);
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(CompareTest<TypeParam>());
 }
 
 TYPED_TEST(MathMatrix3x3Test, OutputStreamTest)
 {
-	using T = TypeParam;
-	using Matrix3x3 = bksge::math::Matrix3x3<T>;
-	using Vector3 = bksge::math::Vector3<T>;
+	using Matrix3x3 = bksge::math::Matrix3x3<TypeParam>;
 
 	{
 		Matrix3x3 const m
 		{
-			Vector3{11, 12, 13},
-			Vector3{21, 22, 23},
-			Vector3{31, 32, 33},
+			{11, 12, 13},
+			{21, 22, 23},
+			{31, 32, 33},
 		};
 		std::stringstream ss;
 		ss << m;
@@ -1371,9 +1359,9 @@ TYPED_TEST(MathMatrix3x3Test, OutputStreamTest)
 	{
 		Matrix3x3 const m
 		{
-			Vector3{51, 52, 53},
-			Vector3{61, 62, 63},
-			Vector3{71, 72, 73},
+			{51, 52, 53},
+			{61, 62, 63},
+			{71, 72, 73},
 		};
 		std::wstringstream ss;
 		ss << m;
@@ -1392,44 +1380,6 @@ TYPED_TEST(MathMatrix3x3Test, TupleElementTest)
 	static_assert(bksge::is_same<typename std::tuple_element<2, Matrix3x3>::type, Vector3>::value, "");
 }
 
-TYPED_TEST(MathMatrix3x3Test, TupleGetTest)
-{
-	using T = TypeParam;
-	using Matrix3x3 = bksge::math::Matrix3x3<T>;
-	using Vector3 = bksge::math::Vector3<T>;
-
-	{
-		Matrix3x3 m
-		{
-			Vector3{11, 12, 13},
-			Vector3{21, 22, 23},
-			Vector3{31, 32, 33},
-		};
-
-		EXPECT_EQ(Vector3(11, 12, 13), bksge::get<0>(m));
-		EXPECT_EQ(Vector3(21, 22, 23), bksge::get<1>(m));
-		EXPECT_EQ(Vector3(31, 32, 33), bksge::get<2>(m));
-
-		bksge::get<0>(m) = Vector3{51, 52, 53};
-
-		EXPECT_EQ(Vector3(51, 52, 53), m[0]);
-		EXPECT_EQ(Vector3(21, 22, 23), m[1]);
-		EXPECT_EQ(Vector3(31, 32, 33), m[2]);
-	}
-	{
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m
-		{
-			Vector3{11, 12, 13},
-			Vector3{21, 22, 23},
-			Vector3{31, 32, 33},
-		};
-
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(11, 12, 13), bksge::get<0>(m));
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(21, 22, 23), bksge::get<1>(m));
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(31, 32, 33), bksge::get<2>(m));
-	}
-}
-
 TYPED_TEST(MathMatrix3x3Test, TupleSizeTest)
 {
 	using T = TypeParam;
@@ -1438,508 +1388,509 @@ TYPED_TEST(MathMatrix3x3Test, TupleSizeTest)
 	static_assert(std::tuple_size<Matrix3x3>::value == 3, "");
 }
 
-TYPED_TEST(MathMatrix3x3Test, ZeroTest)
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool TupleGetTest()
 {
-	using T = TypeParam;
 	using Matrix3x3 = bksge::math::Matrix3x3<T>;
 	using Vector3 = bksge::math::Vector3<T>;
 
 	{
-		BKSGE_CONSTEXPR_OR_CONST auto m = Matrix3x3::Zero();
-		static_assert(bksge::is_same<decltype(m), const Matrix3x3>::value, "");
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 0, 0), m[0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 0, 0), m[1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 0, 0), m[2]);
+		Matrix3x3 m
+		{
+			{11, 12, 13},
+			{21, 22, 23},
+			{31, 32, 33},
+		};
+
+		VERIFY(Vector3(11, 12, 13) == bksge::get<0>(m));
+		VERIFY(Vector3(21, 22, 23) == bksge::get<1>(m));
+		VERIFY(Vector3(31, 32, 33) == bksge::get<2>(m));
+
+		bksge::get<0>(m) = Vector3{51, 52, 53};
+
+		VERIFY(Vector3(51, 52, 53) == m[0]);
+		VERIFY(Vector3(21, 22, 23) == m[1]);
+		VERIFY(Vector3(31, 32, 33) == m[2]);
 	}
 	{
-		const auto m = Matrix3x3::Zero();
-		static_assert(bksge::is_same<decltype(m), const Matrix3x3>::value, "");
-		EXPECT_EQ(Vector3(0, 0, 0), m[0]);
-		EXPECT_EQ(Vector3(0, 0, 0), m[1]);
-		EXPECT_EQ(Vector3(0, 0, 0), m[2]);
+		Matrix3x3 const m
+		{
+			{11, 12, 13},
+			{21, 22, 23},
+			{31, 32, 33},
+		};
+
+		VERIFY(Vector3(11, 12, 13) == bksge::get<0>(m));
+		VERIFY(Vector3(21, 22, 23) == bksge::get<1>(m));
+		VERIFY(Vector3(31, 32, 33) == bksge::get<2>(m));
 	}
+
+	return true;
+}
+
+TYPED_TEST(MathMatrix3x3Test, TupleGetTest)
+{
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(TupleGetTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool ZeroTest()
+{
+	using Matrix3x3 = bksge::math::Matrix3x3<T>;
+	using Vector3 = bksge::math::Vector3<T>;
+
+	auto m = Matrix3x3::Zero();
+	static_assert(bksge::is_same<decltype(m), Matrix3x3>::value, "");
+	VERIFY(Vector3(0, 0, 0) == m[0]);
+	VERIFY(Vector3(0, 0, 0) == m[1]);
+	VERIFY(Vector3(0, 0, 0) == m[2]);
+
+	return true;
+}
+
+TYPED_TEST(MathMatrix3x3Test, ZeroTest)
+{
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(ZeroTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool IdentityTest()
+{
+	using Matrix3x3 = bksge::math::Matrix3x3<T>;
+	using Vector3 = bksge::math::Vector3<T>;
+
+	auto m = Matrix3x3::Identity();
+	static_assert(bksge::is_same<decltype(m), Matrix3x3>::value, "");
+	VERIFY(Vector3(1, 0, 0) == m[0]);
+	VERIFY(Vector3(0, 1, 0) == m[1]);
+	VERIFY(Vector3(0, 0, 1) == m[2]);
+
+	return true;
 }
 
 TYPED_TEST(MathMatrix3x3Test, IdentityTest)
 {
-	using T = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(IdentityTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool TransposedTest()
+{
 	using Matrix3x3 = bksge::math::Matrix3x3<T>;
 	using Vector3 = bksge::math::Vector3<T>;
 
+	Matrix3x3 const m1
 	{
-		BKSGE_CONSTEXPR_OR_CONST auto m = Matrix3x3::Identity();
-		static_assert(bksge::is_same<decltype(m), const Matrix3x3>::value, "");
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(1, 0, 0), m[0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 1, 0), m[1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(0, 0, 1), m[2]);
-	}
-	{
-		const auto m = Matrix3x3::Identity();
-		static_assert(bksge::is_same<decltype(m), const Matrix3x3>::value, "");
-		EXPECT_EQ(Vector3(1, 0, 0), m[0]);
-		EXPECT_EQ(Vector3(0, 1, 0), m[1]);
-		EXPECT_EQ(Vector3(0, 0, 1), m[2]);
-	}
+		{ 11, 12, 13 },
+		{ 21, 22, 23 },
+		{ 31, 32, 33 },
+	};
+
+	auto m2 = Transposed(m1);
+	static_assert(bksge::is_same<decltype(m2), Matrix3x3>::value, "");
+	VERIFY(Vector3(11, 21, 31) == m2[0]);
+	VERIFY(Vector3(12, 22, 32) == m2[1]);
+	VERIFY(Vector3(13, 23, 33) == m2[2]);
+
+	auto m3 = Transposed(m2);
+	static_assert(bksge::is_same<decltype(m3), Matrix3x3>::value, "");
+	VERIFY(Vector3(11, 12, 13) == m3[0]);
+	VERIFY(Vector3(21, 22, 23) == m3[1]);
+	VERIFY(Vector3(31, 32, 33) == m3[2]);
+
+	VERIFY(m1 == m3);
+
+	return true;
 }
 
 TYPED_TEST(MathMatrix3x3Test, TransposedTest)
 {
-	using T = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(TransposedTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool InversedTest()
+{
 	using Matrix3x3 = bksge::math::Matrix3x3<T>;
 	using Vector3 = bksge::math::Vector3<T>;
 
-	BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m1
+	Matrix3x3 const m
 	{
-		Vector3{ 11, 12, 13 },
-		Vector3{ 21, 22, 23 },
-		Vector3{ 31, 32, 33 },
+		{ 3, 2, 1 },
+		{ 1, 3, 1 },
+		{ 2, 2, 1 },
 	};
 
-	BKSGE_CONSTEXPR_OR_CONST auto m2 = Transposed(m1);
-	static_assert(bksge::is_same<decltype(m2), const Matrix3x3>::value, "");
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(11, 21, 31), m2[0]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(12, 22, 32), m2[1]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(13, 23, 33), m2[2]);
+	auto m_inv = Inversed(m);
+	static_assert(bksge::is_same<decltype(m_inv), Matrix3x3>::value, "");
 
-	BKSGE_CONSTEXPR_OR_CONST auto m3 = Transposed(m2);
-	static_assert(bksge::is_same<decltype(m3), const Matrix3x3>::value, "");
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(11, 12, 13), m3[0]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(21, 22, 23), m3[1]);
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(31, 32, 33), m3[2]);
+	VERIFY(Vector3( 1,  0, -1) == m_inv[0]);
+	VERIFY(Vector3( 1,  1, -2) == m_inv[1]);
+	VERIFY(Vector3(-4, -2,  7) == m_inv[2]);
 
-	BKSGE_CONSTEXPR_EXPECT_EQ(m1, m3);
-}
+	// 逆行列の逆行列はもとの行列にもどる
+	auto m_inv_inv = Inversed(m_inv);
+	static_assert(bksge::is_same<decltype(m_inv_inv), Matrix3x3>::value, "");
+	VERIFY(m == m_inv_inv);
 
-TYPED_TEST(MathMatrix3x3Test, ResizedTest)
-{
-	using Matrix4x4 = bksge::math::Matrix4x4<TypeParam>;
-	using Matrix4x3 = bksge::math::Matrix4x3<TypeParam>;
-	using Matrix3x4 = bksge::math::Matrix3x4<TypeParam>;
-	using Matrix3x3 = bksge::math::Matrix3x3<TypeParam>;
-	using Vector4 = bksge::math::Vector4<TypeParam>;
-	using Vector3 = bksge::math::Vector3<TypeParam>;
+	// 行列とその逆行列をかけると単位行列になる
+	auto m2 = m * m_inv;
+	VERIFY(Matrix3x3::Identity() == m2);
 
-	{
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m1
-		{
-			Vector3{ 1, 2, 3 },
-			Vector3{ 4, 5, 6 },
-			Vector3{ 7, 8, 9 },
-		};
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m2 = bksge::math::Resized<3, 3>(m1);
+	auto m3 = m_inv * m;
+	VERIFY(Matrix3x3::Identity() == m3);
 
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 expected
-		{
-			Vector3{ 1, 2, 3 },
-			Vector3{ 4, 5, 6 },
-			Vector3{ 7, 8, 9 },
-		};
-
-		BKSGE_CONSTEXPR_EXPECT_EQ(expected, m2);
-	}
-	{
-		BKSGE_CONSTEXPR_OR_CONST Matrix4x3 m1
-		{
-			Vector3{ 10, 11, 12 },
-			Vector3{ 20, 21, 22 },
-			Vector3{ 30, 31, 32 },
-			Vector3{ 40, 41, 42 },
-		};
-
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m2 = bksge::math::Resized<3, 3>(m1);
-
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 expected
-		{
-			Vector3{ 10, 11, 12 },
-			Vector3{ 20, 21, 22 },
-			Vector3{ 30, 31, 32 },
-		};
-
-		BKSGE_CONSTEXPR_EXPECT_EQ(expected, m2);
-	}
-	{
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x4 m1
-		{
-			Vector4{ 10, 11, 12, 13 },
-			Vector4{ 20, 21, 22, 23 },
-			Vector4{ 30, 31, 32, 33 },
-		};
-
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m2 = bksge::math::Resized<3, 3>(m1);
-
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 expected
-		{
-			Vector3{ 10, 11, 12 },
-			Vector3{ 20, 21, 22 },
-			Vector3{ 30, 31, 32 },
-		};
-
-		BKSGE_CONSTEXPR_EXPECT_EQ(expected, m2);
-	}
-	{
-		BKSGE_CONSTEXPR_OR_CONST Matrix4x4 m1
-		{
-			Vector4{ 11, 12, 13, 14 },
-			Vector4{ 21, 22, 23, 24 },
-			Vector4{ 31, 32, 33, 34 },
-			Vector4{ 41, 42, 43, 44 },
-		};
-
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m2 = bksge::math::Resized<3, 3>(m1);
-
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 expected
-		{
-			Vector3{ 11, 12, 13 },
-			Vector3{ 21, 22, 23 },
-			Vector3{ 31, 32, 33 },
-		};
-
-		BKSGE_CONSTEXPR_EXPECT_EQ(expected, m2);
-	}
+	return true;
 }
 
 TYPED_TEST(MathMatrix3x3Test, InversedTest)
 {
-	using T = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(InversedTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool DeterminantTest()
+{
 	using Matrix3x3 = bksge::math::Matrix3x3<T>;
-	using Vector3 = bksge::math::Vector3<T>;
 
+	Matrix3x3 const m1
 	{
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m
-		{
-			Vector3{ 3, 2, 1 },
-			Vector3{ 1, 3, 1 },
-			Vector3{ 2, 2, 1 },
-		};
+		{ 1, 0, 2 },
+		{ 3, 0, 1 },
+		{ 2, 1, 1 },
+	};
 
-		BKSGE_CXX14_CONSTEXPR_OR_CONST auto m_inv = Inversed(m);
-		static_assert(bksge::is_same<decltype(m_inv), const Matrix3x3>::value, "");
+	Matrix3x3 const m2
+	{
+		{ 1, 2, 1 },
+		{ 2, 1, 0 },
+		{ 1, 1, 2 },
+	};
 
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(Vector3( 1,  0, -1), m_inv[0]);
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(Vector3( 1,  1, -2), m_inv[1]);
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(Vector3(-4, -2,  7), m_inv[2]);
+	Matrix3x3 const m3
+	{
+		{  9, -3,  2 },
+		{  0,  8, -1 },
+		{ -2, -3,  5 },
+	};
 
-		// 逆行列の逆行列はもとの行列にもどる
-		BKSGE_CXX14_CONSTEXPR_OR_CONST auto m_inv_inv = Inversed(m_inv);
-		static_assert(bksge::is_same<decltype(m_inv_inv), const Matrix3x3>::value, "");
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(m, m_inv_inv);
+	VERIFY(T(  5) == Determinant(m1));
+	VERIFY(T( -5) == Determinant(m2));
+	VERIFY(T(359) == Determinant(m3));
 
-		// 行列とその逆行列をかけると単位行列になる
-		BKSGE_CXX14_CONSTEXPR_OR_CONST auto m2 = m * m_inv;
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(Matrix3x3::Identity(), m2);
-
-		BKSGE_CXX14_CONSTEXPR_OR_CONST auto m3 = m_inv * m;
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(Matrix3x3::Identity(), m3);
-	}
+	return true;
 }
 
 TYPED_TEST(MathMatrix3x3Test, DeterminantTest)
 {
-	using T = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(DeterminantTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool MakeTranslationTest()
+{
 	using Matrix3x3 = bksge::math::Matrix3x3<T>;
-	using Vector3 = bksge::math::Vector3<T>;
 
-	BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m1
 	{
-		Vector3{ 1, 0, 2 },
-		Vector3{ 3, 0, 1 },
-		Vector3{ 2, 1, 1 },
-	};
+		auto m = Matrix3x3::MakeTranslation(1, 2);
+		static_assert(bksge::is_same<decltype(m), Matrix3x3>::value, "");
 
-	BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m2
+		Matrix3x3 const expected
+		{
+			{  1,  0,  0 },
+			{  0,  1,  0 },
+			{  1,  2,  1 },
+		};
+
+		VERIFY(expected == m);
+	}
 	{
-		Vector3{ 1, 2, 1 },
-		Vector3{ 2, 1, 0 },
-		Vector3{ 1, 1, 2 },
-	};
+		auto m = Matrix3x3::MakeTranslation({3, 4});
+		static_assert(bksge::is_same<decltype(m), Matrix3x3>::value, "");
 
-	BKSGE_CONSTEXPR_OR_CONST Matrix3x3 m3
-	{
-		Vector3{  9, -3,  2 },
-		Vector3{  0,  8, -1 },
-		Vector3{ -2, -3,  5 },
-	};
+		Matrix3x3 const expected
+		{
+			{  1,  0,  0 },
+			{  0,  1,  0 },
+			{  3,  4,  1 },
+		};
 
-	BKSGE_CONSTEXPR_EXPECT_EQ(TypeParam(  5), Determinant(m1));
-	BKSGE_CONSTEXPR_EXPECT_EQ(TypeParam( -5), Determinant(m2));
-	BKSGE_CONSTEXPR_EXPECT_EQ(TypeParam(359), Determinant(m3));
+		VERIFY(expected == m);
+	}
+
+	return true;
 }
 
 TYPED_TEST(MathMatrix3x3Test, MakeTranslationTest)
 {
-	using T = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(MakeTranslationTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool MakeScaleTest()
+{
 	using Matrix3x3 = bksge::math::Matrix3x3<T>;
-	using Vector3 = bksge::math::Vector3<T>;
-	using Vector2 = bksge::math::Vector2<T>;
 
 	{
-		BKSGE_CONSTEXPR_OR_CONST Vector2 trans(3, 4);
-		BKSGE_CONSTEXPR_OR_CONST auto m = Matrix3x3::MakeTranslation(trans);
-		static_assert(bksge::is_same<decltype(m), const Matrix3x3>::value, "");
+		auto m = Matrix3x3::MakeScale({2, 3, 4});
+		static_assert(bksge::is_same<decltype(m), Matrix3x3>::value, "");
 
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 expected
+		Matrix3x3 const expected
 		{
-			Vector3{ 1,  0,  0 },
-			Vector3{ 0,  1,  0 },
-			Vector3{ 3,  4,  1 },
+			{ 2,  0,  0 },
+			{ 0,  3,  0 },
+			{ 0,  0,  4 },
 		};
 
-		BKSGE_CONSTEXPR_EXPECT_EQ(expected, m);
+		VERIFY(expected == m);
 	}
 	{
-		const auto m = Matrix3x3::MakeTranslation(Vector2{-4, 5});
-		static_assert(bksge::is_same<decltype(m), const Matrix3x3>::value, "");
+		auto m = Matrix3x3::MakeScale(5, -4, 3);
+		static_assert(bksge::is_same<decltype(m), Matrix3x3>::value, "");
 
-		const Matrix3x3 expected
+		Matrix3x3 const expected
 		{
-			Vector3{  1,  0,  0 },
-			Vector3{  0,  1,  0 },
-			Vector3{ -4,  5,  1 },
+			{ 5,  0,  0 },
+			{ 0, -4,  0 },
+			{ 0,  0,  3 },
 		};
 
-		EXPECT_EQ(expected, m);
+		VERIFY(expected == m);
 	}
-	{
-		const auto m = Matrix3x3::MakeTranslation(1, 2);
-		static_assert(bksge::is_same<decltype(m), const Matrix3x3>::value, "");
 
-		const Matrix3x3 expected
-		{
-			Vector3{  1,  0,  0 },
-			Vector3{  0,  1,  0 },
-			Vector3{  1,  2,  1 },
-		};
-
-		EXPECT_EQ(expected, m);
-	}
+	return true;
 }
 
 TYPED_TEST(MathMatrix3x3Test, MakeScaleTest)
 {
-	using Matrix3x3 = bksge::math::Matrix3x3<TypeParam>;
-	using Vector3 = bksge::math::Vector3<TypeParam>;
-	using Scale3 = bksge::math::Scale3<TypeParam>;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(MakeScaleTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool MakeRotationXTest()
+{
+	using Matrix3x3 = bksge::math::Matrix3x3<T>;
 
 	{
-		BKSGE_CONSTEXPR_OR_CONST Scale3 s(2, 3, 4);
-		BKSGE_CONSTEXPR_OR_CONST auto m = Matrix3x3::MakeScale(s);
-		static_assert(bksge::is_same<decltype(m), const Matrix3x3>::value, "");
+		auto m = Matrix3x3::MakeRotationX(bksge::degrees_to_radians(0));
+		static_assert(bksge::is_same<decltype(m), Matrix3x3>::value, "");
+		VERIFY(Matrix3x3::Identity() == m);
+	}
+	{
+		auto m = Matrix3x3::MakeRotationX(bksge::degrees_to_radians(30));
+		static_assert(bksge::is_same<decltype(m), Matrix3x3>::value, "");
 
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 expected
+		Matrix3x3 const expected
 		{
-			Vector3{ 2,  0,  0 },
-			Vector3{ 0,  3,  0 },
-			Vector3{ 0,  0,  4 },
+			{ T(1), T( 0),                   T( 0)                   },
+			{ T(0), T( 0.86602538824081421), T( 0.5)                 },
+			{ T(0), T(-0.5),                 T( 0.86602538824081421) },
+		};
+		double error = 0.0000001;
+		VERIFY(IsNear(expected, m, error));
+	}
+	{
+		auto m = Matrix3x3::MakeRotationX(bksge::degrees_to_radians(90));
+		static_assert(bksge::is_same<decltype(m), Matrix3x3>::value, "");
+
+		Matrix3x3 const expected
+		{
+			{ 1,  0, 0 },
+			{ 0,  0, 1 },
+			{ 0, -1, 0 },
+		};
+		double error = 0.0000000000000001;
+		VERIFY(IsNear(expected, m, error));
+	}
+
+	return true;
+}
+
+TYPED_TEST(MathMatrix3x3Test, MakeRotationXTest)
+{
+	/*BKSGE_CXX14_CONSTEXPR_*/EXPECT_TRUE(MakeRotationXTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool MakeRotationYTest()
+{
+	using Matrix3x3 = bksge::math::Matrix3x3<T>;
+
+	{
+		auto m = Matrix3x3::MakeRotationY(bksge::degrees_to_radians(0));
+		static_assert(bksge::is_same<decltype(m), Matrix3x3>::value, "");
+		VERIFY(Matrix3x3::Identity() == m);
+	}
+	{
+		auto m = Matrix3x3::MakeRotationY(bksge::degrees_to_radians(45));
+		static_assert(bksge::is_same<decltype(m), Matrix3x3>::value, "");
+
+		Matrix3x3 const expected
+		{
+			{ T(0.70710676908493042), T(0), T(-0.70710676908493042) },
+			{ T(0),                   T(1), T( 0)                   },
+			{ T(0.70710676908493042), T(0), T( 0.70710676908493042) },
+		};
+		double error = 0.0000001;
+		VERIFY(IsNear(expected, m, error));
+	}
+	{
+		auto m = Matrix3x3::MakeRotationY(bksge::degrees_to_radians(90));
+		static_assert(bksge::is_same<decltype(m), Matrix3x3>::value, "");
+
+		Matrix3x3 const expected
+		{
+			{ 0,  0, -1 },
+			{ 0,  1,  0 },
+			{ 1,  0,  0 },
+		};
+		double error = 0.0000000000000001;
+		VERIFY(IsNear(expected, m, error));
+	}
+
+	return true;
+}
+
+TYPED_TEST(MathMatrix3x3Test, MakeRotationYTest)
+{
+	/*BKSGE_CXX14_CONSTEXPR_*/EXPECT_TRUE(MakeRotationYTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool MakeRotationZTest()
+{
+	using Matrix3x3 = bksge::math::Matrix3x3<T>;
+
+	{
+		auto m = Matrix3x3::MakeRotationZ(bksge::degrees_to_radians(0));
+		static_assert(bksge::is_same<decltype(m), Matrix3x3>::value, "");
+		VERIFY(Matrix3x3::Identity() == m);
+	}
+	{
+		auto m = Matrix3x3::MakeRotationZ(bksge::degrees_to_radians(60));
+		static_assert(bksge::is_same<decltype(m), Matrix3x3>::value, "");
+
+		Matrix3x3 const expected
+		{
+			{ T( 0.5),                 T(0.86602538824081421), T(0) },
+			{ T(-0.86602538824081421), T(0.5),                 T(0) },
+			{ T( 0),                   T(0),                   T(1) },
+		};
+		double error = 0.0000001;
+		VERIFY(IsNear(expected, m, error));
+	}
+	{
+		auto m = Matrix3x3::MakeRotationZ(bksge::degrees_to_radians(90));
+		static_assert(bksge::is_same<decltype(m), Matrix3x3>::value, "");
+
+		Matrix3x3 const expected
+		{
+			{ 0,  1,  0 },
+			{-1,  0,  0 },
+			{ 0,  0,  1 },
+		};
+		double error = 0.0000000000000001;
+		VERIFY(IsNear(expected, m, error));
+	}
+
+	return true;
+}
+
+TYPED_TEST(MathMatrix3x3Test, MakeRotationZTest)
+{
+	/*BKSGE_CXX14_CONSTEXPR_*/EXPECT_TRUE(MakeRotationZTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool MakeRotationTest()
+{
+	using Matrix3x3 = bksge::math::Matrix3x3<T>;
+
+	{
+		auto m = Matrix3x3::MakeRotation({1, 2, 3}, bksge::degrees_to_radians(90));
+		static_assert(bksge::is_same<decltype(m), Matrix3x3>::value, "");
+
+		Matrix3x3 const expected
+		{
+			{ T( 0.07142856717109680), T(0.94464081525802612), T(-0.32023677229881287) },
+			{ T(-0.65892654657363892), T(0.28571426868438721), T( 0.69583261013031006) },
+			{ T( 0.74880814552307129), T(0.16131016612052917), T( 0.64285707473754883) },
+		};
+		double error = 0.000001;
+		VERIFY(IsNear(expected, m, error));
+	}
+	{
+		auto m = Matrix3x3::MakeRotation({-1, 1, 10}, bksge::degrees_to_radians(120));
+		static_assert(bksge::is_same<decltype(m), Matrix3x3>::value, "");
+
+		Matrix3x3 const expected
+		{
+			{ T(-0.48529410362243652), T( 0.84278708696365356), T(-0.23280812799930573) },
+			{ T(-0.87219887971878052), T(-0.48529410362243652), T( 0.06130953878164291) },
+			{ T(-0.06130953878164291), T( 0.23280812799930573), T( 0.97058844566345215) },
+		};
+		double error = 0.000001;
+		VERIFY(IsNear(expected, m, error));
+	}
+
+	return true;
+}
+
+TYPED_TEST(MathMatrix3x3Test, MakeRotationTest)
+{
+	/*BKSGE_CXX14_CONSTEXPR_*/EXPECT_TRUE(MakeRotationTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool MakeShearTest()
+{
+	using Matrix3x3 = bksge::math::Matrix3x3<T>;
+
+	{
+		auto const m = Matrix3x3::MakeShear(-1, 2, -3);
+		static_assert(bksge::is_same<decltype(m), Matrix3x3 const>::value, "");
+
+		Matrix3x3 const expected
+		{
+			{  1,  2, -3 },
+			{ -1,  1, -3 },
+			{ -1,  2,  1 },
 		};
 
-		BKSGE_CONSTEXPR_EXPECT_EQ(expected, m);
+		VERIFY(expected == m);
 	}
 	{
-		BKSGE_CONSTEXPR_OR_CONST auto m = Matrix3x3::MakeScale(Scale3{ 5, -4, 3 });
-		static_assert(bksge::is_same<decltype(m), const Matrix3x3>::value, "");
+		auto const m = Matrix3x3::MakeShear(4, 5, 6);
+		static_assert(bksge::is_same<decltype(m), Matrix3x3 const>::value, "");
 
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 expected
+		Matrix3x3 const expected
 		{
-			Vector3{ 5,  0,  0 },
-			Vector3{ 0, -4,  0 },
-			Vector3{ 0,  0,  3 },
+			{  1,  5,  6 },
+			{  4,  1,  6 },
+			{  4,  5,  1 },
 		};
 
-		BKSGE_CONSTEXPR_EXPECT_EQ(expected, m);
+		VERIFY(expected == m);
 	}
-}
 
-TYPED_TEST(MathMatrix3x3FloatTest, MakeRotationXTest)
-{
-	using Matrix3x3 = bksge::math::Matrix3x3<TypeParam>;
-
-	const double error = 0.0000001;
-
-	{
-		auto const m = Matrix3x3::MakeRotationX(bksge::degrees_to_radians(0));
-		static_assert(bksge::is_same<decltype(m), const Matrix3x3>::value, "");
-		EXPECT_EQ(Matrix3x3::Identity(), m);
-	}
-	{
-		auto const m = Matrix3x3::MakeRotationX(bksge::degrees_to_radians(30));
-		EXPECT_NEAR( 1.00000000000000000, (double)m[0][0], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[0][1], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[0][2], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[1][0], error);
-		EXPECT_NEAR( 0.86602538824081421, (double)m[1][1], error);
-		EXPECT_NEAR( 0.50000000000000000, (double)m[1][2], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[2][0], error);
-		EXPECT_NEAR(-0.50000000000000000, (double)m[2][1], error);
-		EXPECT_NEAR( 0.86602538824081421, (double)m[2][2], error);
-	}
-	{
-		auto const m = Matrix3x3::MakeRotationX(bksge::degrees_to_radians(90));
-		EXPECT_NEAR( 1.00000000000000000, (double)m[0][0], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[0][1], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[0][2], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[1][0], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[1][1], error);
-		EXPECT_NEAR( 1.00000000000000000, (double)m[1][2], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[2][0], error);
-		EXPECT_NEAR(-1.00000000000000000, (double)m[2][1], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[2][2], error);
-	}
-}
-
-TYPED_TEST(MathMatrix3x3FloatTest, MakeRotationYTest)
-{
-	using Matrix3x3 = bksge::math::Matrix3x3<TypeParam>;
-
-	const double error = 0.0000001;
-
-	{
-		auto const m = Matrix3x3::MakeRotationY(bksge::degrees_to_radians(0));
-		static_assert(bksge::is_same<decltype(m), const Matrix3x3>::value, "");
-		EXPECT_EQ(Matrix3x3::Identity(), m);
-	}
-	{
-		auto const m = Matrix3x3::MakeRotationY(bksge::degrees_to_radians(45));
-		EXPECT_NEAR( 0.70710676908493042, (double)m[0][0], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[0][1], error);
-		EXPECT_NEAR(-0.70710676908493042, (double)m[0][2], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[1][0], error);
-		EXPECT_NEAR( 1.00000000000000000, (double)m[1][1], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[1][2], error);
-		EXPECT_NEAR( 0.70710676908493042, (double)m[2][0], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[2][1], error);
-		EXPECT_NEAR( 0.70710676908493042, (double)m[2][2], error);
-	}
-	{
-		auto const m = Matrix3x3::MakeRotationY(bksge::degrees_to_radians(90));
-		EXPECT_NEAR( 0.00000000000000000, (double)m[0][0], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[0][1], error);
-		EXPECT_NEAR(-1.00000000000000000, (double)m[0][2], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[1][0], error);
-		EXPECT_NEAR( 1.00000000000000000, (double)m[1][1], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[1][2], error);
-		EXPECT_NEAR( 1.00000000000000000, (double)m[2][0], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[2][1], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[2][2], error);
-	}
-}
-
-TYPED_TEST(MathMatrix3x3FloatTest, MakeRotationZTest)
-{
-	using Matrix3x3 = bksge::math::Matrix3x3<TypeParam>;
-
-	const double error = 0.0000001;
-
-	{
-		auto const m = Matrix3x3::MakeRotationZ(bksge::degrees_to_radians(0));
-		static_assert(bksge::is_same<decltype(m), const Matrix3x3>::value, "");
-		EXPECT_EQ(Matrix3x3::Identity(), m);
-	}
-	{
-		auto const m = Matrix3x3::MakeRotationZ(bksge::degrees_to_radians(60));
-		EXPECT_NEAR( 0.50000000000000000, (double)m[0][0], error);
-		EXPECT_NEAR( 0.86602538824081421, (double)m[0][1], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[0][2], error);
-		EXPECT_NEAR(-0.86602538824081421, (double)m[1][0], error);
-		EXPECT_NEAR( 0.50000000000000000, (double)m[1][1], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[1][2], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[2][0], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[2][1], error);
-		EXPECT_NEAR( 1.00000000000000000, (double)m[2][2], error);
-	}
-	{
-		auto const m = Matrix3x3::MakeRotationZ(bksge::degrees_to_radians(90));
-		EXPECT_NEAR( 0.00000000000000000, (double)m[0][0], error);
-		EXPECT_NEAR( 1.00000000000000000, (double)m[0][1], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[0][2], error);
-		EXPECT_NEAR(-1.00000000000000000, (double)m[1][0], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[1][1], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[1][2], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[2][0], error);
-		EXPECT_NEAR( 0.00000000000000000, (double)m[2][1], error);
-		EXPECT_NEAR( 1.00000000000000000, (double)m[2][2], error);
-	}
-}
-
-TYPED_TEST(MathMatrix3x3FloatTest, MakeRotationTest)
-{
-	using Matrix3x3 = bksge::math::Matrix3x3<TypeParam>;
-	using Vector3 = bksge::math::Vector3<TypeParam>;
-
-	const double error = 0.000001;
-
-	{
-		auto const m = Matrix3x3::MakeRotation(Vector3(1, 2, 3), bksge::degrees_to_radians(90));
-		static_assert(bksge::is_same<decltype(m), const Matrix3x3>::value, "");
-		EXPECT_NEAR( 0.07142856717109680, (double)m[0][0], error);
-		EXPECT_NEAR( 0.94464081525802612, (double)m[0][1], error);
-		EXPECT_NEAR(-0.32023677229881287, (double)m[0][2], error);
-		EXPECT_NEAR(-0.65892654657363892, (double)m[1][0], error);
-		EXPECT_NEAR( 0.28571426868438721, (double)m[1][1], error);
-		EXPECT_NEAR( 0.69583261013031006, (double)m[1][2], error);
-		EXPECT_NEAR( 0.74880814552307129, (double)m[2][0], error);
-		EXPECT_NEAR( 0.16131016612052917, (double)m[2][1], error);
-		EXPECT_NEAR( 0.64285707473754883, (double)m[2][2], error);
-	}
-	{
-		auto const m = Matrix3x3::MakeRotation(Vector3(-1, 1, 10), bksge::degrees_to_radians(120));
-		EXPECT_NEAR(-0.48529410362243652, (double)m[0][0], error);
-		EXPECT_NEAR( 0.84278708696365356, (double)m[0][1], error);
-		EXPECT_NEAR(-0.23280812799930573, (double)m[0][2], error);
-		EXPECT_NEAR(-0.87219887971878052, (double)m[1][0], error);
-		EXPECT_NEAR(-0.48529410362243652, (double)m[1][1], error);
-		EXPECT_NEAR( 0.06130953878164291, (double)m[1][2], error);
-		EXPECT_NEAR(-0.06130953878164291, (double)m[2][0], error);
-		EXPECT_NEAR( 0.23280812799930573, (double)m[2][1], error);
-		EXPECT_NEAR( 0.97058844566345215, (double)m[2][2], error);
-	}
+	return true;
 }
 
 TYPED_TEST(MathMatrix3x3Test, MakeShearTest)
 {
-	using Matrix3x3 = bksge::math::Matrix3x3<TypeParam>;
-	using Vector3 = bksge::math::Vector3<TypeParam>;
-
-	{
-		BKSGE_CONSTEXPR_OR_CONST auto m = Matrix3x3::MakeShear(4, 5, 6);
-		static_assert(bksge::is_same<decltype(m), const Matrix3x3>::value, "");
-
-		BKSGE_CONSTEXPR_OR_CONST Matrix3x3 expected
-		{
-			Vector3{ 1,  5,  6 },
-			Vector3{ 4,  1,  6 },
-			Vector3{ 4,  5,  1 },
-		};
-
-		BKSGE_CONSTEXPR_EXPECT_EQ(expected, m);
-	}
-	{
-		const auto m = Matrix3x3::MakeShear(-1, 2, -3);
-		static_assert(bksge::is_same<decltype(m), const Matrix3x3>::value, "");
-
-		const Matrix3x3 expected
-		{
-			Vector3{  1,  2, -3 },
-			Vector3{ -1,  1, -3 },
-			Vector3{ -1,  2,  1 },
-		};
-
-		EXPECT_EQ(expected, m);
-	}
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(MakeShearTest<TypeParam>());
 }
 
 TYPED_TEST(MathMatrix3x3Test, SerializeTest)
 {
 	using namespace bksge::serialization;
-
-	using T = TypeParam;
-	using Matrix3x3 = bksge::math::Matrix3x3<T>;
-	using Vector3 = bksge::math::Vector3<T>;
+	using Matrix3x3 = bksge::math::Matrix3x3<TypeParam>;
 
 	Matrix3x3 const v
 	{
-		Vector3{11, 12, 13},
-		Vector3{21, 22, 23},
-		Vector3{31, 32, 33},
+		{11, 12, 13},
+		{21, 22, 23},
+		{31, 32, 33},
 	};
 
 	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
@@ -1953,43 +1904,68 @@ TYPED_TEST(MathMatrix3x3Test, SerializeTest)
 #endif
 }
 
-TYPED_TEST(MathMatrix3x3Test, HashTest)
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool HashTest()
 {
-	using T = TypeParam;
 	using Matrix3x3 = bksge::math::Matrix3x3<T>;
-	using Vector3 = bksge::math::Vector3<T>;
+
+	Matrix3x3 const v1
+	{
+		{11, 12, 13},
+		{21, 22, 23},
+		{31, 32, 33},
+	};
+	Matrix3x3 const v2
+	{
+		{10, 12, 13},
+		{21, 22, 23},
+		{31, 32, 33},
+	};
+	Matrix3x3 const v3
+	{
+		{11, 12, 13},
+		{21, 23, 23},
+		{31, 32, 33},
+	};
+	Matrix3x3 const v4
+	{
+		{11, 12, 13},
+		{21, 22, 23},
+		{31, 32,-33},
+	};
 
 	std::hash<Matrix3x3> h;
 
-	Matrix3x3 const m01{Vector3{1,2,3},Vector3{4,5,6},Vector3{7,8,9}};
-	Matrix3x3 const m02{Vector3{0,2,3},Vector3{4,5,6},Vector3{7,8,9}};
-	Matrix3x3 const m03{Vector3{1,1,3},Vector3{4,5,6},Vector3{7,8,9}};
-	Matrix3x3 const m04{Vector3{1,2,4},Vector3{4,5,6},Vector3{7,8,9}};
-	Matrix3x3 const m05{Vector3{1,2,3},Vector3{3,5,6},Vector3{7,8,9}};
-	Matrix3x3 const m06{Vector3{1,2,3},Vector3{4,0,6},Vector3{7,8,9}};
-	Matrix3x3 const m07{Vector3{1,2,3},Vector3{4,5,1},Vector3{7,8,9}};
-	Matrix3x3 const m08{Vector3{1,2,3},Vector3{4,5,6},Vector3{9,8,9}};
-	Matrix3x3 const m09{Vector3{1,2,3},Vector3{4,5,6},Vector3{7,7,9}};
-	Matrix3x3 const m10{Vector3{1,2,3},Vector3{4,5,6},Vector3{7,8,1}};
+	VERIFY(h(v1) == h(v1));
+	VERIFY(h(v1) != h(v2));
+	VERIFY(h(v1) != h(v3));
+	VERIFY(h(v1) != h(v4));
 
-	std::vector<std::size_t> v;
-	v.push_back(h(m01));
-	v.push_back(h(m02));
-	v.push_back(h(m03));
-	v.push_back(h(m04));
-	v.push_back(h(m05));
-	v.push_back(h(m06));
-	v.push_back(h(m07));
-	v.push_back(h(m08));
-	v.push_back(h(m09));
-	v.push_back(h(m10));
-	bksge::sort(v.begin(), v.end());
-	EXPECT_TRUE(bksge::is_unique(v.begin(), v.end()));
+	VERIFY(h(v2) != h(v1));
+	VERIFY(h(v2) == h(v2));
+	VERIFY(h(v2) != h(v3));
+	VERIFY(h(v2) != h(v4));
 
-	v.push_back(h(m10));
-	bksge::sort(v.begin(), v.end());
-	EXPECT_FALSE(bksge::is_unique(v.begin(), v.end()));
+	VERIFY(h(v3) != h(v1));
+	VERIFY(h(v3) != h(v2));
+	VERIFY(h(v3) == h(v3));
+	VERIFY(h(v3) != h(v4));
+
+	VERIFY(h(v4) != h(v1));
+	VERIFY(h(v4) != h(v2));
+	VERIFY(h(v4) != h(v3));
+	VERIFY(h(v4) == h(v4));
+
+	return true;
 }
+
+TYPED_TEST(MathMatrix3x3Test, HashTest)
+{
+	// TODO constexpr化
+	/*BKSGE_CXX14_CONSTEXPR_*/EXPECT_TRUE(HashTest<TypeParam>());
+}
+
+#undef VERIFY
 
 }	// namespace matrix3x3_test
 

@@ -18,15 +18,10 @@
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/algorithm/is_unique.hpp>
-#include <bksge/fnd/algorithm/sort.hpp>
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
 #include <bksge/fnd/config.hpp>
-#include <functional>
-#include <tuple>
-#include <vector>
-#include <sstream>
 #include <gtest/gtest.h>
+#include <sstream>
 #include "constexpr_test.hpp"
 #include "serialize_test.hpp"
 
@@ -35,6 +30,8 @@ namespace bksge_math_test
 
 namespace extent2_test
 {
+
+#define VERIFY(...)	if (!(__VA_ARGS__)) { return false; }
 
 using Extent2f = bksge::math::Extent2<float>;
 using Extent2i = bksge::math::Extent2<int>;
@@ -82,12 +79,12 @@ TYPED_TEST(MathExtent2Test, ValueConstructTest)
 	static_assert(!bksge::is_constructible<Extent2, T, T, T, T>::value, "");
 	static_assert(!bksge::is_constructible<Extent2, T, T, T>::value, "");
 	static_assert( bksge::is_constructible<Extent2, T, T>::value, "");
-	static_assert(!bksge::is_constructible<Extent2, T>::value, "");
+	static_assert( bksge::is_constructible<Extent2, T>::value, "");
 	static_assert(!bksge::is_nothrow_constructible<Extent2, T, T, T, T, T>::value, "");
 	static_assert(!bksge::is_nothrow_constructible<Extent2, T, T, T, T>::value, "");
 	static_assert(!bksge::is_nothrow_constructible<Extent2, T, T, T>::value, "");
 	static_assert( bksge::is_nothrow_constructible<Extent2, T, T>::value, "");
-	static_assert(!bksge::is_nothrow_constructible<Extent2, T>::value, "");
+	static_assert( bksge::is_nothrow_constructible<Extent2, T>::value, "");
 	static_assert(!bksge::is_implicitly_constructible<Extent2, T, T, T, T, T>::value, "");
 	static_assert(!bksge::is_implicitly_constructible<Extent2, T, T, T, T>::value, "");
 	static_assert(!bksge::is_implicitly_constructible<Extent2, T, T, T>::value, "");
@@ -108,6 +105,11 @@ TYPED_TEST(MathExtent2Test, ValueConstructTest)
 		BKSGE_CONSTEXPR_OR_CONST Extent2 v = {7, 8};
 		BKSGE_CONSTEXPR_EXPECT_EQ(7, v[0]);
 		BKSGE_CONSTEXPR_EXPECT_EQ(8, v[1]);
+	}
+	{
+		BKSGE_CONSTEXPR_OR_CONST Extent2 v{42};
+		BKSGE_CONSTEXPR_EXPECT_EQ(42, v[0]);
+		BKSGE_CONSTEXPR_EXPECT_EQ(42, v[1]);
 	}
 }
 
@@ -166,595 +168,683 @@ BKSGE_WARNING_PUSH()
 BKSGE_WARNING_DISABLE_CLANG("-Wself-assign-overloaded")
 #endif
 
-TYPED_TEST(MathExtent2Test, CopyAssignTest)
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool CopyAssignTest()
 {
-	using T = TypeParam;
 	using Extent2 = bksge::math::Extent2<T>;
 
 	Extent2 v1(0, 1);
 	Extent2 v2(3, 4);
-	EXPECT_EQ(0, v1[0]);
-	EXPECT_EQ(1, v1[1]);
-	EXPECT_EQ(3, v2[0]);
-	EXPECT_EQ(4, v2[1]);
+	VERIFY(0 == v1[0]);
+	VERIFY(1 == v1[1]);
+	VERIFY(3 == v2[0]);
+	VERIFY(4 == v2[1]);
 
 	v1 = Extent2(6, -7);
 	v2 = Extent2i(-9, 10);
-	EXPECT_EQ( 6, v1[0]);
-	EXPECT_EQ(-7, v1[1]);
-	EXPECT_EQ(-9, v2[0]);
-	EXPECT_EQ(10, v2[1]);
+	VERIFY( 6 == v1[0]);
+	VERIFY(-7 == v1[1]);
+	VERIFY(-9 == v2[0]);
+	VERIFY(10 == v2[1]);
 
 	// 自己代入
 	v1 = v1;
 	v2 = v2;
-	EXPECT_EQ( 6, v1[0]);
-	EXPECT_EQ(-7, v1[1]);
-	EXPECT_EQ(-9, v2[0]);
-	EXPECT_EQ(10, v2[1]);
+	VERIFY( 6 == v1[0]);
+	VERIFY(-7 == v1[1]);
+	VERIFY(-9 == v2[0]);
+	VERIFY(10 == v2[1]);
 
 	// 多重代入
 	v1 = v2 = Extent2f(4, 5);
-	EXPECT_EQ(4, v1[0]);
-	EXPECT_EQ(5, v1[1]);
-	EXPECT_EQ(4, v2[0]);
-	EXPECT_EQ(5, v2[1]);
+	VERIFY(4 == v1[0]);
+	VERIFY(5 == v1[1]);
+	VERIFY(4 == v2[0]);
+	VERIFY(5 == v2[1]);
+
+	return true;
 }
 
 BKSGE_WARNING_POP()
 
-TYPED_TEST(MathExtent2Test, IndexAccessTest)
+TYPED_TEST(MathExtent2Test, CopyAssignTest)
 {
-	using T = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(CopyAssignTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool IndexAccessTest()
+{
 	using Extent2 = bksge::math::Extent2<T>;
 
 	{
 		Extent2 v{1, 2};
-		EXPECT_EQ(1, v[0]);
-		EXPECT_EQ(2, v[1]);
+		VERIFY(1 == v[0]);
+		VERIFY(2 == v[1]);
 
 		v[0] = -3;
 		v[1] =  4;
 
-		EXPECT_EQ(-3, v[0]);
-		EXPECT_EQ( 4, v[1]);
+		VERIFY(-3 == v[0]);
+		VERIFY( 4 == v[1]);
 	}
 	{
-		BKSGE_CONSTEXPR_OR_CONST Extent2 v{5, 6};
-		BKSGE_CONSTEXPR_EXPECT_EQ(5, v[0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(6, v[1]);
+		Extent2 const v{5, 6};
+		VERIFY(5 == v[0]);
+		VERIFY(6 == v[1]);
 	}
+
+	return true;
 }
 
-TYPED_TEST(MathExtent2Test, AtTest)
+TYPED_TEST(MathExtent2Test, IndexAccessTest)
 {
-	using T = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(IndexAccessTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool AtTest()
+{
 	using Extent2 = bksge::math::Extent2<T>;
 
 	{
 		Extent2 v{1, 2};
-		EXPECT_EQ(1, v.at(0));
-		EXPECT_EQ(2, v.at(1));
-		EXPECT_THROW((void)v.at(2), bksge::out_of_range);
+		VERIFY(1 == v.at(0));
+		VERIFY(2 == v.at(1));
 
 		v.at(0) = -3;
 		v.at(1) =  4;
 
-		EXPECT_EQ(-3, v.at(0));
-		EXPECT_EQ( 4, v.at(1));
+		VERIFY(-3 == v.at(0));
+		VERIFY( 4 == v.at(1));
 	}
 	{
-		BKSGE_CONSTEXPR_OR_CONST Extent2 v{5, 6};
-		BKSGE_CONSTEXPR_EXPECT_EQ(5, v.at(0));
-		BKSGE_CONSTEXPR_EXPECT_EQ(6, v.at(1));
+		Extent2 const v{5, 6};
+		VERIFY(5 == v.at(0));
+		VERIFY(6 == v.at(1));
+	}
+
+	return true;
+}
+
+TYPED_TEST(MathExtent2Test, AtTest)
+{
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(AtTest<TypeParam>());
+
+	using Extent2 = bksge::math::Extent2<TypeParam>;
+	{
+		Extent2 v{1, 2};
+		EXPECT_THROW((void)v.at(2), bksge::out_of_range);
+	}
+	{
+		Extent2 const v{5, 6};
 		EXPECT_THROW((void)v.at(2), bksge::out_of_range);
 	}
 }
 
-TYPED_TEST(MathExtent2Test, DataTest)
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool DataTest()
 {
-	using T = TypeParam;
 	using Extent2 = bksge::math::Extent2<T>;
 
 	{
 		Extent2 v{1, 2};
 		auto p = v.data();
-		EXPECT_TRUE(p != nullptr);
-		EXPECT_EQ(1, *p);
+		VERIFY(p != nullptr);
+		VERIFY(1 == *p);
 		*p = 5;
 		++p;
-		EXPECT_EQ(2, *p);
+		VERIFY(2 == *p);
 		*p = 6;
 
-		EXPECT_EQ(Extent2(5, 6), v);
+		VERIFY(Extent2(5, 6) == v);
 	}
-#if !defined(BKSGE_GCC)
 	{
-		BKSGE_STATIC_CONSTEXPR Extent2 v{1, 2};
-		BKSGE_STATIC_CONSTEXPR auto p = v.data();
-		BKSGE_CONSTEXPR_EXPECT_TRUE(p != nullptr);
-		BKSGE_CONSTEXPR_EXPECT_EQ(1, p[0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(2, p[1]);
+		Extent2 const v{1, 2};
+		auto p = v.data();
+		VERIFY(p != nullptr);
+		VERIFY(1 == p[0]);
+		VERIFY(2 == p[1]);
 	}
-#endif
+
+	return true;
 }
 
-TYPED_TEST(MathExtent2Test, IteratorTest)
+TYPED_TEST(MathExtent2Test, DataTest)
 {
-	using T = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(DataTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool IteratorTest()
+{
 	using Extent2 = bksge::math::Extent2<T>;
 
 	// begin, end (non const)
 	{
 		Extent2 v{1, 2};
 		auto it = v.begin();
-		EXPECT_TRUE(it != v.end());
-		EXPECT_EQ(1, *it);
+		VERIFY(it != v.end());
+		VERIFY(1 == *it);
 		*it++ = 5;
-		EXPECT_TRUE(it != v.end());
-		EXPECT_EQ(2, *it);
+		VERIFY(it != v.end());
+		VERIFY(2 == *it);
 		++it;
-		EXPECT_TRUE(it == v.end());
+		VERIFY(it == v.end());
 
-		EXPECT_EQ(Extent2(5, 2), v);
+		VERIFY(Extent2(5, 2) == v);
 	}
 	// begin, end (const)
 	{
-		const Extent2 v{1, 2};
+		Extent2 const v{1, 2};
 		auto it = v.begin();
-		EXPECT_TRUE(it != v.end());
+		VERIFY(it != v.end());
 
-		EXPECT_EQ(1, it[0]);
-		EXPECT_EQ(2, it[1]);
+		VERIFY(1 == it[0]);
+		VERIFY(2 == it[1]);
 
-		EXPECT_EQ(1, *it++);
-		EXPECT_TRUE(it != v.end());
-		EXPECT_EQ(2, *it);
-		EXPECT_EQ(1, *--it);
-		EXPECT_TRUE(it != v.end());
+		VERIFY(1 == *it++);
+		VERIFY(it != v.end());
+		VERIFY(2 == *it);
+		VERIFY(1 == *--it);
+		VERIFY(it != v.end());
 		it += 2;
-		EXPECT_TRUE(it == v.end());
+		VERIFY(it == v.end());
 	}
 	// cbegin, cend
 	{
-		const Extent2 v{1, 2};
+		Extent2 v{1, 2};
 		auto it = v.cbegin();
-		EXPECT_TRUE(it != v.cend());
+		VERIFY(it != v.cend());
 
-		EXPECT_EQ(1, it[0]);
-		EXPECT_EQ(2, it[1]);
+		VERIFY(1 == it[0]);
+		VERIFY(2 == it[1]);
 
-		EXPECT_EQ(1, *it++);
-		EXPECT_TRUE(it != v.cend());
-		EXPECT_EQ(2, *it);
-		EXPECT_TRUE(it != v.cend());
+		VERIFY(1 == *it++);
+		VERIFY(it != v.cend());
+		VERIFY(2 == *it);
+		VERIFY(it != v.cend());
 		++it;
-		EXPECT_TRUE(it == v.cend());
+		VERIFY(it == v.cend());
 	}
-#if !defined(BKSGE_GCC)
-	// begin, end (constexpr)
-	{
-		BKSGE_STATIC_CONSTEXPR Extent2 v{1, 2};
-		BKSGE_CONSTEXPR_OR_CONST auto it = v.begin();
-		BKSGE_CONSTEXPR_EXPECT_TRUE(it != v.end());
 
-		BKSGE_CONSTEXPR_EXPECT_EQ(1, it[0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(2, it[1]);
-
-		BKSGE_CONSTEXPR_EXPECT_EQ(1, *it);
-		BKSGE_CONSTEXPR_OR_CONST auto it2 = it + 1;
-		BKSGE_CONSTEXPR_EXPECT_TRUE(it2 != v.end());
-		BKSGE_CONSTEXPR_EXPECT_EQ(2, *it2);
-		BKSGE_CONSTEXPR_OR_CONST auto it3 = it2 + 1;
-		BKSGE_CONSTEXPR_EXPECT_TRUE(it3 == v.end());
-	}
-#endif
+	return true;
 }
 
-TYPED_TEST(MathExtent2Test, ReverseIteratorTest)
+TYPED_TEST(MathExtent2Test, IteratorTest)
 {
-	using T = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(IteratorTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool ReverseIteratorTest()
+{
 	using Extent2 = bksge::math::Extent2<T>;
 
 	// rbegin, rend (non const)
 	{
 		Extent2 v{1, 2};
 		auto it = v.rbegin();
-		EXPECT_TRUE(it != v.rend());
-		EXPECT_EQ(2, *it);
+		VERIFY(it != v.rend());
+		VERIFY(2 == *it);
 		*it++ = 5;
-		EXPECT_TRUE(it != v.rend());
-		EXPECT_EQ(1, *it);
+		VERIFY(it != v.rend());
+		VERIFY(1 == *it);
 		it++;
-		EXPECT_TRUE(it == v.rend());
+		VERIFY(it == v.rend());
 
-		EXPECT_EQ(1, v[0]);
-		EXPECT_EQ(5, v[1]);
+		VERIFY(1 == v[0]);
+		VERIFY(5 == v[1]);
 	}
 	// rbegin, rend (const)
 	{
-		const Extent2 v{1, 2};
+		Extent2 const v{1, 2};
 		auto it = v.rbegin();
-		EXPECT_TRUE(it != v.rend());
+		VERIFY(it != v.rend());
 
-		EXPECT_EQ(2, it[0]);
-		EXPECT_EQ(1, it[1]);
+		VERIFY(2 == it[0]);
+		VERIFY(1 == it[1]);
 
-		EXPECT_EQ(2, *it++);
-		EXPECT_TRUE(it != v.rend());
-		EXPECT_EQ(1, *it);
-		EXPECT_TRUE(it != v.rend());
-		EXPECT_EQ(2, *--it);
-		EXPECT_TRUE(it != v.rend());
+		VERIFY(2 == *it++);
+		VERIFY(it != v.rend());
+		VERIFY(1 == *it);
+		VERIFY(it != v.rend());
+		VERIFY(2 == *--it);
+		VERIFY(it != v.rend());
 		it += 2;
-		EXPECT_TRUE(it == v.rend());
+		VERIFY(it == v.rend());
 	}
 	// crbegin, crend
 	{
-		const Extent2 v{1, 2};
+		Extent2 v{1, 2};
 		auto it = v.crbegin();
-		EXPECT_TRUE(it != v.crend());
+		VERIFY(it != v.crend());
 
-		EXPECT_EQ(2, it[0]);
-		EXPECT_EQ(1, it[1]);
+		VERIFY(2 == it[0]);
+		VERIFY(1 == it[1]);
 
-		EXPECT_EQ(2, *it++);
-		EXPECT_TRUE(it != v.crend());
-		EXPECT_EQ(1, *it);
-		EXPECT_TRUE(it != v.crend());
+		VERIFY(2 == *it++);
+		VERIFY(it != v.crend());
+		VERIFY(1 == *it);
+		VERIFY(it != v.crend());
 		++it;
-		EXPECT_TRUE(it == v.crend());
+		VERIFY(it == v.crend());
 	}
-#if defined(__cpp_lib_array_constexpr) && (__cpp_lib_array_constexpr >= 201603) && !defined(BKSGE_GCC)
-	// rbegin, rend (constexpr)
-	{
-		BKSGE_CXX17_STATIC_CONSTEXPR Extent2 v{1, 2};
-		BKSGE_CXX17_CONSTEXPR_OR_CONST auto it = v.rbegin();
-		BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE(it != v.rend());
 
-		BKSGE_CXX17_CONSTEXPR_EXPECT_EQ(2, it[0]);
-		BKSGE_CXX17_CONSTEXPR_EXPECT_EQ(1, it[1]);
+	return true;
+}
 
-		BKSGE_CXX17_CONSTEXPR_EXPECT_EQ(2, *it);
-		BKSGE_CXX17_CONSTEXPR_OR_CONST auto it2 = it + 1;
-		BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE(it2 != v.rend());
-		BKSGE_CXX17_CONSTEXPR_EXPECT_EQ(1, *it2);
-		BKSGE_CXX17_CONSTEXPR_OR_CONST auto it3 = it2 + 1;
-		BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE(it3 == v.rend());
-	}
-#endif
+TYPED_TEST(MathExtent2Test, ReverseIteratorTest)
+{
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(ReverseIteratorTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool EmptyTest()
+{
+	using Extent2 = bksge::math::Extent2<T>;
+
+	Extent2 v1{};
+	VERIFY(!v1.empty());
+	return true;
 }
 
 TYPED_TEST(MathExtent2Test, EmptyTest)
 {
-	using T = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(EmptyTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool SizeTest()
+{
 	using Extent2 = bksge::math::Extent2<T>;
 
 	Extent2 v1{};
-	const Extent2 v2{};
-	BKSGE_CONSTEXPR Extent2 v3{};
-	EXPECT_FALSE(v1.empty());
-	EXPECT_FALSE(v2.empty());
-	BKSGE_CONSTEXPR_EXPECT_FALSE(v3.empty());
+	VERIFY(2 == v1.size());
+	return true;
 }
 
 TYPED_TEST(MathExtent2Test, SizeTest)
 {
-	using T = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(SizeTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool MaxSizeTest()
+{
 	using Extent2 = bksge::math::Extent2<T>;
 
 	Extent2 v1{};
-	const Extent2 v2{};
-	BKSGE_CONSTEXPR Extent2 v3{};
-	EXPECT_EQ(2u, v1.size());
-	EXPECT_EQ(2u, v2.size());
-	BKSGE_CONSTEXPR_EXPECT_EQ(2u, v3.size());
+	VERIFY(2 == v1.max_size());
+	return true;
 }
 
 TYPED_TEST(MathExtent2Test, MaxSizeTest)
 {
-	using T = TypeParam;
-	using Extent2 = bksge::math::Extent2<T>;
-
-	Extent2 v1{};
-	const Extent2 v2{};
-	BKSGE_CONSTEXPR Extent2 v3{};
-	EXPECT_EQ(2u, v1.max_size());
-	EXPECT_EQ(2u, v2.max_size());
-	BKSGE_CONSTEXPR_EXPECT_EQ(2u, v3.max_size());
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(MaxSizeTest<TypeParam>());
 }
 
-TYPED_TEST(MathExtent2Test, NameAccessTest)
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool NameAccessTest()
 {
-	using T = TypeParam;
 	using Extent2 = bksge::math::Extent2<T>;
 
 	{
 		Extent2 v{1, 2};
-		EXPECT_EQ(1, v.w());
-		EXPECT_EQ(2, v.h());
+		VERIFY(1 == v.w());
+		VERIFY(2 == v.h());
 
 		v.w() = -3;
 		v.h() =  4;
 
-		EXPECT_EQ(-3, v.w());
-		EXPECT_EQ( 4, v.h());
+		VERIFY(-3 == v.w());
+		VERIFY( 4 == v.h());
 	}
 	{
 		Extent2 v{3, 4};
-		EXPECT_EQ(3, v.width());
-		EXPECT_EQ(4, v.height());
+		VERIFY(3 == v.width());
+		VERIFY(4 == v.height());
 
 		v.width()  = 1;
 		v.height() = 2;
 
-		EXPECT_EQ(1, v.width());
-		EXPECT_EQ(2, v.height());
+		VERIFY(1 == v.width());
+		VERIFY(2 == v.height());
 	}
 	{
-		BKSGE_CONSTEXPR_OR_CONST Extent2 v{5, 6};
-		BKSGE_CONSTEXPR_EXPECT_EQ(5, v.w());
-		BKSGE_CONSTEXPR_EXPECT_EQ(6, v.h());
+		Extent2 const v{5, 6};
+		VERIFY(5 == v.w());
+		VERIFY(6 == v.h());
 	}
 	{
-		BKSGE_CONSTEXPR_OR_CONST Extent2 v{7, 8};
-		BKSGE_CONSTEXPR_EXPECT_EQ(7, v.width());
-		BKSGE_CONSTEXPR_EXPECT_EQ(8, v.height());
+		Extent2 const v{7, 8};
+		VERIFY(7 == v.width());
+		VERIFY(8 == v.height());
 	}
+
+	return true;
 }
 
-TYPED_TEST(MathExtent2Test, SwizzleTest)
+TYPED_TEST(MathExtent2Test, NameAccessTest)
 {
-	using T = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(NameAccessTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool SwizzleTest()
+{
 	using Extent2 = bksge::math::Extent2<T>;
 	using Vector4 = bksge::math::Vector4<T>;
 	using Vector3 = bksge::math::Vector3<T>;
 	using Vector2 = bksge::math::Vector2<T>;
 
-	BKSGE_CONSTEXPR_OR_CONST Extent2 v(1, 2);
+	Extent2 v(1, 2);
 
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(1, 1, 1, 1), v.wwww());
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(1, 1, 1, 2), v.wwwh());
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(1, 1, 2, 1), v.wwhw());
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(1, 1, 2, 2), v.wwhh());
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(1, 2, 1, 1), v.whww());
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(1, 2, 1, 2), v.whwh());
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(1, 2, 2, 1), v.whhw());
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(1, 2, 2, 2), v.whhh());
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(2, 1, 1, 1), v.hwww());
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(2, 1, 1, 2), v.hwwh());
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(2, 1, 2, 1), v.hwhw());
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(2, 1, 2, 2), v.hwhh());
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(2, 2, 1, 1), v.hhww());
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(2, 2, 1, 2), v.hhwh());
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(2, 2, 2, 1), v.hhhw());
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector4(2, 2, 2, 2), v.hhhh());
+	VERIFY(Vector4(1, 1, 1, 1) == v.wwww());
+	VERIFY(Vector4(1, 1, 1, 2) == v.wwwh());
+	VERIFY(Vector4(1, 1, 2, 1) == v.wwhw());
+	VERIFY(Vector4(1, 1, 2, 2) == v.wwhh());
+	VERIFY(Vector4(1, 2, 1, 1) == v.whww());
+	VERIFY(Vector4(1, 2, 1, 2) == v.whwh());
+	VERIFY(Vector4(1, 2, 2, 1) == v.whhw());
+	VERIFY(Vector4(1, 2, 2, 2) == v.whhh());
+	VERIFY(Vector4(2, 1, 1, 1) == v.hwww());
+	VERIFY(Vector4(2, 1, 1, 2) == v.hwwh());
+	VERIFY(Vector4(2, 1, 2, 1) == v.hwhw());
+	VERIFY(Vector4(2, 1, 2, 2) == v.hwhh());
+	VERIFY(Vector4(2, 2, 1, 1) == v.hhww());
+	VERIFY(Vector4(2, 2, 1, 2) == v.hhwh());
+	VERIFY(Vector4(2, 2, 2, 1) == v.hhhw());
+	VERIFY(Vector4(2, 2, 2, 2) == v.hhhh());
 
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(1, 1, 1), v.www());
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(1, 1, 2), v.wwh());
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(1, 2, 1), v.whw());
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(1, 2, 2), v.whh());
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(2, 1, 1), v.hww());
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(2, 1, 2), v.hwh());
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(2, 2, 1), v.hhw());
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector3(2, 2, 2), v.hhh());
+	VERIFY(Vector3(1, 1, 1) == v.www());
+	VERIFY(Vector3(1, 1, 2) == v.wwh());
+	VERIFY(Vector3(1, 2, 1) == v.whw());
+	VERIFY(Vector3(1, 2, 2) == v.whh());
+	VERIFY(Vector3(2, 1, 1) == v.hww());
+	VERIFY(Vector3(2, 1, 2) == v.hwh());
+	VERIFY(Vector3(2, 2, 1) == v.hhw());
+	VERIFY(Vector3(2, 2, 2) == v.hhh());
 
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector2(1, 1), v.ww());
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector2(1, 2), v.wh());
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector2(2, 1), v.hw());
-	BKSGE_CONSTEXPR_EXPECT_EQ(Vector2(2, 2), v.hh());
+	VERIFY(Vector2(1, 1) == v.ww());
+	VERIFY(Vector2(1, 2) == v.wh());
+	VERIFY(Vector2(2, 1) == v.hw());
+	VERIFY(Vector2(2, 2) == v.hh());
+
+	return true;
 }
 
-TYPED_TEST(MathExtent2Test, SwapTest)
+TYPED_TEST(MathExtent2Test, SwizzleTest)
 {
-	using T = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(SwizzleTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool SwapTest()
+{
 	using Extent2 = bksge::math::Extent2<T>;
 
 	Extent2 v1{11, 12};
 	Extent2 v2{21, 22};
 
-	EXPECT_EQ(Extent2(11, 12), v1);
-	EXPECT_EQ(Extent2(21, 22), v2);
-
 	v1.swap(v2);
 
-	EXPECT_EQ(Extent2(21, 22), v1);
-	EXPECT_EQ(Extent2(11, 12), v2);
+	VERIFY(Extent2(21, 22) == v1);
+	VERIFY(Extent2(11, 12) == v2);
 
-	swap(v1, v2);
+	bksge::ranges::swap(v1, v2);
 
-	EXPECT_EQ(Extent2(11, 12), v1);
-	EXPECT_EQ(Extent2(21, 22), v2);
+	VERIFY(Extent2(11, 12) == v1);
+	VERIFY(Extent2(21, 22) == v2);
+
+	return true;
+}
+
+TYPED_TEST(MathExtent2Test, SwapTest)
+{
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(SwapTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool PlusMinusTest()
+{
+	using Extent2 = bksge::math::Extent2<T>;
+
+	{
+		Extent2 const v1(-1, 2);
+		auto v2 = +v1;
+		auto v3 = -v1;
+		static_assert(bksge::is_same<decltype(v2), Extent2>::value, "");
+		static_assert(bksge::is_same<decltype(v3), Extent2>::value, "");
+
+		VERIFY(-1 == v2[0]);
+		VERIFY( 2 == v2[1]);
+		VERIFY( 1 == v3[0]);
+		VERIFY(-2 == v3[1]);
+	}
+
+	return true;
 }
 
 TYPED_TEST(MathExtent2Test, PlusMinusTest)
 {
-	using T = TypeParam;
-	using Extent2 = bksge::math::Extent2<T>;
-
-	{
-		Extent2 v1(-1, 2);
-		Extent2 v3 = +v1;
-		Extent2 v4 = -v1;
-
-		EXPECT_EQ(-1, v3[0]);
-		EXPECT_EQ( 2, v3[1]);
-		EXPECT_EQ( 1, v4[0]);
-		EXPECT_EQ(-2, v4[1]);
-	}
-	{
-		BKSGE_CONSTEXPR_OR_CONST Extent2 v2(3, -4);
-		BKSGE_CONSTEXPR_OR_CONST Extent2 v5 = +v2;
-		BKSGE_CONSTEXPR_OR_CONST Extent2 v6 = -v2;
-
-		BKSGE_CONSTEXPR_EXPECT_EQ( 3, v5[0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(-4, v5[1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(-3, v6[0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ( 4, v6[1]);
-	}
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(PlusMinusTest<TypeParam>());
 }
 
-TYPED_TEST(MathExtent2Test, AddTest)
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool AddTest()
 {
-	using T = TypeParam;
 	using Extent2 = bksge::math::Extent2<T>;
 
 	// Extent2 += Extent2
 	{
 		Extent2 v;
-		Extent2 t = (v += Extent2(2, 3));
-		EXPECT_EQ(Extent2(2, 3), v);
-		EXPECT_EQ(t, v);
+		auto t = (v += Extent2(2, 3));
+		static_assert(bksge::is_same<decltype(t), Extent2>::value, "");
+		VERIFY(Extent2(2, 3) == v);
+		VERIFY(t == v);
 	}
 
 	// Extent2 + Extent2 -> Extent2
 	{
-		BKSGE_CONSTEXPR_OR_CONST Extent2 t =
-			Extent2(-3, 4) + Extent2(0, 2);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Extent2(-3, 6), t);
+		auto t = Extent2(-3, 4) + Extent2(0, 2);
+		static_assert(bksge::is_same<decltype(t), Extent2>::value, "");
+		VERIFY(Extent2(-3, 6) == t);
 	}
+
+	return true;
 }
 
-TYPED_TEST(MathExtent2Test, SubTest)
+TYPED_TEST(MathExtent2Test, AddTest)
 {
-	using T = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(AddTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool SubTest()
+{
 	using Extent2 = bksge::math::Extent2<T>;
 
 	// Extent2 -= Extent2
 	{
 		Extent2 v;
-		Extent2 t = (v -= Extent2(2, 3));
-		EXPECT_EQ(Extent2(-2, -3), v);
-		EXPECT_EQ(t, v);
+		auto t = (v -= Extent2(2, 3));
+		static_assert(bksge::is_same<decltype(t), Extent2>::value, "");
+		VERIFY(Extent2(-2, -3) == v);
+		VERIFY(t == v);
 	}
 
 	// Extent2 - Extent2 -> Extent2
 	{
-		BKSGE_CONSTEXPR_OR_CONST Extent2 t =
-			Extent2(-3, 4) - Extent2(0, 2);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Extent2(-3, 2), t);
+		auto t = Extent2(-3, 4) - Extent2(0, 2);
+		static_assert(bksge::is_same<decltype(t), Extent2>::value, "");
+		VERIFY(Extent2(-3, 2) == t);
 	}
+
+	return true;
 }
 
-TYPED_TEST(MathExtent2Test, MulScalarTest)
+TYPED_TEST(MathExtent2Test, SubTest)
 {
-	using T = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(SubTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool MulScalarTest()
+{
 	using Extent2 = bksge::math::Extent2<T>;
 
 	// Extent2 *= スカラー
 	{
 		Extent2 v(2, 3);
 		{
-			Extent2 t = (v *= 4);
-			EXPECT_EQ(Extent2(8, 12), v);
-			EXPECT_EQ(t, v);
+			auto t = (v *= 4);
+			static_assert(bksge::is_same<decltype(t), Extent2>::value, "");
+			VERIFY(Extent2(8, 12) == v);
+			VERIFY(t == v);
 		}
 		{
-			Extent2 t = (v *= 0.5);
-			EXPECT_EQ(Extent2(4, 6), v);
-			EXPECT_EQ(t, v);
+			auto t = (v *= 0.5);
+			static_assert(bksge::is_same<decltype(t), Extent2>::value, "");
+			VERIFY(Extent2(4, 6) == v);
+			VERIFY(t == v);
 		}
 	}
 
 	// Extent2 * スカラー -> Extent2
 	{
-		BKSGE_CONSTEXPR_OR_CONST Extent2 t = Extent2(-3, 42) * -4;
-		BKSGE_CONSTEXPR_EXPECT_EQ(Extent2(12, -168), t);
+		auto t = Extent2(-3, 42) * -4;
+		static_assert(bksge::is_same<decltype(t), Extent2>::value, "");
+		VERIFY(Extent2(12, -168) == t);
 	}
 	{
-		const Extent2 t = Extent2(4, 6) * 2.5;
-		EXPECT_EQ(Extent2(10, 15), t);
+		auto t = Extent2(4, 6) * 2.5;
+		static_assert(bksge::is_same<decltype(t), Extent2>::value, "");
+		VERIFY(Extent2(10, 15) == t);
 	}
 	// スカラー * Extent2 -> Extent2
 	{
-		BKSGE_CONSTEXPR_OR_CONST Extent2 t = 5 * Extent2(7, -8);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Extent2(35, -40), t);
+		auto t = 5 * Extent2(7, -8);
+		static_assert(bksge::is_same<decltype(t), Extent2>::value, "");
+		VERIFY(Extent2(35, -40) == t);
 	}
 	{
-		const Extent2 t = -1.5 * Extent2(4, -6);
-		EXPECT_EQ(Extent2(-6, 9), t);
+		auto t = -1.5 * Extent2(4, -6);
+		static_assert(bksge::is_same<decltype(t), Extent2>::value, "");
+		VERIFY(Extent2(-6, 9) == t);
 	}
+
+	return true;
 }
 
-TYPED_TEST(MathExtent2Test, MulScaleTest)
+TYPED_TEST(MathExtent2Test, MulScalarTest)
 {
-	using T = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(MulScalarTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool MulScale2Test()
+{
 	using Extent2 = bksge::math::Extent2<T>;
 	using Scale2 = bksge::math::Scale2<T>;
 
 	// Extent2 *= Scale2
 	{
 		Extent2 v(2, 3);
-		{
-			Extent2 t = (v *= Scale2(4, 5));
-			EXPECT_EQ(Extent2(8, 15), v);
-			EXPECT_EQ(t, v);
-		}
+		auto t = (v *= Scale2(4, 5));
+		static_assert(bksge::is_same<decltype(t), Extent2>::value, "");
+		VERIFY(Extent2(8, 15) == v);
+		VERIFY(t == v);
 	}
 
 	// Extent2 * Scale2 -> Extent2
 	{
-		BKSGE_CONSTEXPR_OR_CONST Extent2 t = Extent2(-3, 2) * Scale2(-4, -5);
-		BKSGE_CONSTEXPR_EXPECT_EQ(Extent2(12, -10), t);
+		auto t = Extent2(-3, 2) * Scale2(-4, -5);
+		static_assert(bksge::is_same<decltype(t), Extent2>::value, "");
+		VERIFY(Extent2(12, -10) == t);
 	}
+
+	return true;
 }
 
-TYPED_TEST(MathExtent2Test, DivScalarTest)
+TYPED_TEST(MathExtent2Test, MulScale2Test)
 {
-	using T = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(MulScale2Test<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool DivScalarTest()
+{
 	using Extent2 = bksge::math::Extent2<T>;
 
 	// Extent2 /= スカラー
 	{
 		Extent2 v(2, 4);
 		{
-			Extent2 t = (v /= 2);
-			EXPECT_EQ(Extent2(1, 2), v);
-			EXPECT_EQ(t, v);
+			auto t = (v /= 2);
+			static_assert(bksge::is_same<decltype(t), Extent2>::value, "");
+			VERIFY(Extent2(1, 2) == v);
+			VERIFY(t == v);
 		}
 		{
-			Extent2 t = (v /= 0.5);
-			EXPECT_EQ(Extent2(2, 4), v);
-			EXPECT_EQ(t, v);
+			auto t = (v /= 0.5);
+			static_assert(bksge::is_same<decltype(t), Extent2>::value, "");
+			VERIFY(Extent2(2, 4) == v);
+			VERIFY(t == v);
 		}
 	}
 
 	// Extent2 / スカラー -> Extent2
 	{
-		BKSGE_CONSTEXPR_OR_CONST Extent2 t = Extent2(-4, 8) / -4;
-		BKSGE_CONSTEXPR_EXPECT_EQ(Extent2(1, -2), t);
+		auto t = Extent2(-4, 8) / -4;
+		static_assert(bksge::is_same<decltype(t), Extent2>::value, "");
+		VERIFY(Extent2(1, -2) == t);
 	}
 	{
-		BKSGE_CONSTEXPR_OR_CONST Extent2 t = Extent2(-4, 8) / 0.25;
-		BKSGE_CONSTEXPR_EXPECT_EQ(Extent2(-16, 32), t);
+		auto t = Extent2(-4, 8) / 0.25;
+		static_assert(bksge::is_same<decltype(t), Extent2>::value, "");
+		VERIFY(Extent2(-16, 32) == t);
 	}
+
+	return true;
+}
+
+TYPED_TEST(MathExtent2Test, DivScalarTest)
+{
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(DivScalarTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool CompareTest()
+{
+	using Extent2 = bksge::math::Extent2<T>;
+
+	Extent2 const v1(1, 2);
+	Extent2 const v2(1, 2);
+	Extent2 const v3(2, 2);
+	Extent2 const v4(1, 0);
+
+	VERIFY( (v1 == v1));
+	VERIFY( (v1 == v2));
+	VERIFY(!(v1 == v3));
+	VERIFY(!(v1 == v4));
+
+	VERIFY(!(v1 != v1));
+	VERIFY(!(v1 != v2));
+	VERIFY( (v1 != v3));
+	VERIFY( (v1 != v4));
+
+	return true;
 }
 
 TYPED_TEST(MathExtent2Test, CompareTest)
 {
-	using T = TypeParam;
-	using Extent2 = bksge::math::Extent2<T>;
-
-	BKSGE_CONSTEXPR_OR_CONST Extent2 v1(1, 2);
-	BKSGE_CONSTEXPR_OR_CONST Extent2 v2(1, 2);
-	BKSGE_CONSTEXPR_OR_CONST Extent2 v3(2, 2);
-	BKSGE_CONSTEXPR_OR_CONST Extent2 v4(1, 0);
-
-	BKSGE_CONSTEXPR_EXPECT_TRUE (v1 == v1);
-	BKSGE_CONSTEXPR_EXPECT_TRUE (v1 == v2);
-	BKSGE_CONSTEXPR_EXPECT_FALSE(v1 == v3);
-	BKSGE_CONSTEXPR_EXPECT_FALSE(v1 == v4);
-
-	BKSGE_CONSTEXPR_EXPECT_FALSE(v1 != v1);
-	BKSGE_CONSTEXPR_EXPECT_FALSE(v1 != v2);
-	BKSGE_CONSTEXPR_EXPECT_TRUE (v1 != v3);
-	BKSGE_CONSTEXPR_EXPECT_TRUE (v1 != v4);
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(CompareTest<TypeParam>());
 }
 
 TYPED_TEST(MathExtent2Test, OutputStreamTest)
 {
-	using T = TypeParam;
-	using Extent2 = bksge::math::Extent2<T>;
+	using Extent2 = bksge::math::Extent2<TypeParam>;
 
 	{
 		Extent2 const v{1, -2};
@@ -770,63 +860,22 @@ TYPED_TEST(MathExtent2Test, OutputStreamTest)
 	}
 }
 
-TYPED_TEST(MathExtent2Test, TupleElementTest)
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool ZeroTest()
 {
-	using T = TypeParam;
-	using Extent2 = bksge::math::Extent2<T>;
-
-	static_assert(bksge::is_same<typename std::tuple_element<0, Extent2>::type, T>::value, "");
-	static_assert(bksge::is_same<typename std::tuple_element<1, Extent2>::type, T>::value, "");
-}
-
-TYPED_TEST(MathExtent2Test, TupleGetTest)
-{
-	using T = TypeParam;
 	using Extent2 = bksge::math::Extent2<T>;
 
 	{
-		Extent2 v{1, 2};
-
-		EXPECT_EQ(1, bksge::get<0>(v));
-		EXPECT_EQ(2, bksge::get<1>(v));
-
-		bksge::get<0>(v) = 5;
-
-		EXPECT_EQ(Extent2(5, 2), v);
-		EXPECT_EQ(5, bksge::get<0>(v));
-		EXPECT_EQ(2, bksge::get<1>(v));
+		auto v = Extent2::Zero();
+		static_assert(bksge::is_same<decltype(v), Extent2>::value, "");
+		VERIFY(Extent2(0, 0) == v);
 	}
-	{
-		BKSGE_CONSTEXPR_OR_CONST Extent2 v{1, 2};
-
-		BKSGE_CONSTEXPR_EXPECT_EQ(1, bksge::get<0>(v));
-		BKSGE_CONSTEXPR_EXPECT_EQ(2, bksge::get<1>(v));
-	}
-}
-
-TYPED_TEST(MathExtent2Test, TupleSizeTest)
-{
-	using T = TypeParam;
-	using Extent2 = bksge::math::Extent2<T>;
-
-	static_assert(std::tuple_size<Extent2>::value == 2, "");
+	return true;
 }
 
 TYPED_TEST(MathExtent2Test, ZeroTest)
 {
-	using T = TypeParam;
-	using Extent2 = bksge::math::Extent2<T>;
-
-	{
-		BKSGE_CONSTEXPR_OR_CONST auto v = Extent2::Zero();
-		static_assert(bksge::is_same<decltype(v), const Extent2>::value, "");
-		BKSGE_CONSTEXPR_EXPECT_EQ(Extent2(0, 0), v);
-	}
-	{
-		const auto v = Extent2::Zero();
-		static_assert(bksge::is_same<decltype(v), const Extent2>::value, "");
-		EXPECT_EQ(Extent2(0, 0), v);
-	}
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(ZeroTest<TypeParam>());
 }
 
 TYPED_TEST(MathExtent2Test, SerializeTest)
@@ -847,32 +896,107 @@ TYPED_TEST(MathExtent2Test, SerializeTest)
 #endif
 }
 
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool HashTest()
+{
+	using Extent2 = bksge::math::Extent2<T>;
+
+	Extent2 const v1( 1, 2);
+	Extent2 const v2(-1, 2);
+	Extent2 const v3( 1,-2);
+	Extent2 const v4(-1,-2);
+	Extent2 const v5( 2, 1);
+
+	std::hash<Extent2> h;
+
+	VERIFY(h(v1) == h(v1));
+	VERIFY(h(v1) != h(v2));
+	VERIFY(h(v1) != h(v3));
+	VERIFY(h(v1) != h(v4));
+	VERIFY(h(v1) != h(v5));
+
+	VERIFY(h(v2) != h(v1));
+	VERIFY(h(v2) == h(v2));
+	VERIFY(h(v2) != h(v3));
+	VERIFY(h(v2) != h(v4));
+	VERIFY(h(v2) != h(v5));
+
+	VERIFY(h(v3) != h(v1));
+	VERIFY(h(v3) != h(v2));
+	VERIFY(h(v3) == h(v3));
+	VERIFY(h(v3) != h(v4));
+	VERIFY(h(v3) != h(v5));
+
+	VERIFY(h(v4) != h(v1));
+	VERIFY(h(v4) != h(v2));
+	VERIFY(h(v4) != h(v3));
+	VERIFY(h(v4) == h(v4));
+	VERIFY(h(v4) != h(v5));
+
+	VERIFY(h(v5) != h(v1));
+	VERIFY(h(v5) != h(v2));
+	VERIFY(h(v5) != h(v3));
+	VERIFY(h(v5) != h(v4));
+	VERIFY(h(v5) == h(v5));
+
+	return true;
+}
+
 TYPED_TEST(MathExtent2Test, HashTest)
+{
+	/*BKSGE_CXX14_CONSTEXPR_*/EXPECT_TRUE(HashTest<TypeParam>());
+}
+
+TYPED_TEST(MathExtent2Test, TupleElementTest)
 {
 	using T = TypeParam;
 	using Extent2 = bksge::math::Extent2<T>;
 
-	std::hash<Extent2> h;
-
-	Extent2 const c1( 1, 2);
-	Extent2 const c2(-1, 2);
-	Extent2 const c3( 1,-2);
-	Extent2 const c4(-1,-2);
-	Extent2 const c5( 2, 1);
-
-	std::vector<std::size_t> v;
-	v.push_back(h(c1));
-	v.push_back(h(c2));
-	v.push_back(h(c3));
-	v.push_back(h(c4));
-	v.push_back(h(c5));
-	bksge::sort(v.begin(), v.end());
-	EXPECT_TRUE(bksge::is_unique(v.begin(), v.end()));
-
-	v.push_back(h(c1));
-	bksge::sort(v.begin(), v.end());
-	EXPECT_FALSE(bksge::is_unique(v.begin(), v.end()));
+	static_assert(bksge::is_same<typename std::tuple_element<0, Extent2>::type, T>::value, "");
+	static_assert(bksge::is_same<typename std::tuple_element<1, Extent2>::type, T>::value, "");
 }
+
+TYPED_TEST(MathExtent2Test, TupleSizeTest)
+{
+	using T = TypeParam;
+	using Extent2 = bksge::math::Extent2<T>;
+
+	static_assert(std::tuple_size<Extent2>::value == 2, "");
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool TupleGetTest()
+{
+	using Extent2 = bksge::math::Extent2<T>;
+
+	{
+		Extent2 v{1, 2};
+
+		VERIFY(1 == bksge::get<0>(v));
+		VERIFY(2 == bksge::get<1>(v));
+
+		bksge::get<0>(v) = 5;
+
+		VERIFY(Extent2(5, 2) == v);
+		VERIFY(5 == bksge::get<0>(v));
+		VERIFY(2 == bksge::get<1>(v));
+	}
+	{
+		Extent2 const v{1, 2};
+
+		VERIFY(1 == bksge::get<0>(v));
+		VERIFY(2 == bksge::get<1>(v));
+	}
+
+	return true;
+}
+
+TYPED_TEST(MathExtent2Test, TupleGetTest)
+{
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(TupleGetTest<TypeParam>());
+}
+
+#undef VERIFY
 
 }	// namespace extent2_test
 

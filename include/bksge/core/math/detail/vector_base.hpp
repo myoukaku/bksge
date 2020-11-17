@@ -9,21 +9,18 @@
 #ifndef BKSGE_CORE_MATH_DETAIL_VECTOR_BASE_HPP
 #define BKSGE_CORE_MATH_DETAIL_VECTOR_BASE_HPP
 
-#include <bksge/core/math/detail/vector_value.hpp>
-#include <bksge/fnd/serialization/access.hpp>
-#include <bksge/fnd/serialization/nvp.hpp>
-#include <bksge/fnd/serialization/version.hpp>
+#include <bksge/core/math/detail/vector_functions.hpp>
+#include <bksge/fnd/array/array.hpp>
+#include <bksge/fnd/concepts/arithmetic.hpp>
+#include <bksge/fnd/concepts/detail/require.hpp>
+#include <bksge/fnd/serialization/array.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/type_traits/integral_constant.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
-#include <bksge/fnd/type_traits/is_nothrow_swappable.hpp>
-#include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/iterator/reverse_iterator.hpp>
-#include <bksge/fnd/utility/index_sequence.hpp>
+#include <bksge/fnd/type_traits/is_base_of.hpp>
+#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
-#include <iosfwd>		// basic_ostream
-#include <tuple>
+#include <ostream>		// basic_ostream
 
 namespace bksge
 {
@@ -34,231 +31,350 @@ namespace math
 namespace detail
 {
 
+class VectorBaseTag{};
+
 template <typename T, std::size_t N>
-class VectorBase
+class VectorBase;
+
+template <typename T>
+class VectorBase<T, 4> : private VectorBaseTag, public bksge::array<T, 4>
 {
-#if defined(BKSGE_MSVC)
+private:
+	using BaseType = bksge::array<T, 4>;
+	
 public:
-#else
-private:
-#endif
-	template <bool, typename... UTypes>
-	struct CheckArgsCtorImpl
-	{
-		static constexpr bool value = false;
-	};
-
-	template <typename... UTypes>
-	struct CheckArgsCtorImpl<true, UTypes...>
-	{
-		static constexpr bool value =
-			bksge::conjunction<bksge::is_constructible<T, UTypes>...>::value;
-	};
-
-	template <typename... UTypes>
-	struct CheckArgsCtor
-		: public CheckArgsCtorImpl<
-			sizeof...(UTypes) == N,
-			UTypes...
-		>
-	{};
-
-public:
-	using value_type             = T;
-	using size_type              = std::size_t;
-	using difference_type        = std::ptrdiff_t;
-	using reference              = T&;
-	using const_reference        = T const&;
-	using pointer                = T*;
-	using const_pointer          = T const*;
-	using iterator               = T*;
-	using const_iterator         = T const*;
-	using reverse_iterator       = bksge::reverse_iterator<iterator>;
-	using const_reverse_iterator = bksge::reverse_iterator<const_iterator>;
-
-	// Default ctor
-	explicit BKSGE_CONSTEXPR
-	VectorBase() BKSGE_NOEXCEPT_OR_NOTHROW;
-
-	// Converting ctor
-	template <
-		typename... UTypes,
-		typename = bksge::enable_if_t<
-			CheckArgsCtor<UTypes const&...>::value
-		>
-	>
-	BKSGE_CONSTEXPR
-	VectorBase(UTypes const&... args)
-		BKSGE_NOEXCEPT_OR_NOTHROW;
-
-	template <
-		typename U,
-		typename = bksge::enable_if_t<
-			bksge::is_constructible<T, U>::value
-		>
-	>
-	BKSGE_CONSTEXPR
-	VectorBase(VectorValue<U, N> const& a)
-		BKSGE_NOEXCEPT_OR_NOTHROW;
-
-private:
-	template <typename U, std::size_t... Is>
-	explicit BKSGE_CONSTEXPR
-	VectorBase(
-		VectorValue<U, N> const& a,
-		bksge::index_sequence<Is...>)
-		BKSGE_NOEXCEPT_OR_NOTHROW;
-
-public:
-	BKSGE_NODISCARD BKSGE_CXX14_CONSTEXPR reference
-	operator[](size_type pos) BKSGE_NOEXCEPT_OR_NOTHROW;
-
-	BKSGE_NODISCARD BKSGE_CONSTEXPR const_reference
-	operator[](size_type pos) const BKSGE_NOEXCEPT_OR_NOTHROW;
-
-	BKSGE_NODISCARD BKSGE_CXX14_CONSTEXPR reference
-	at(size_type pos);
-
-	BKSGE_NODISCARD BKSGE_CONSTEXPR const_reference
-	at(size_type pos) const;
-
-	BKSGE_NODISCARD BKSGE_CXX14_CONSTEXPR pointer
-	data() BKSGE_NOEXCEPT_OR_NOTHROW;
-
-	BKSGE_NODISCARD BKSGE_CONSTEXPR const_pointer
-	data() const BKSGE_NOEXCEPT_OR_NOTHROW;
-
-	BKSGE_NODISCARD BKSGE_CXX14_CONSTEXPR iterator
-	begin() BKSGE_NOEXCEPT_OR_NOTHROW;
-
-	BKSGE_NODISCARD BKSGE_CONSTEXPR const_iterator
-	begin() const BKSGE_NOEXCEPT_OR_NOTHROW;
-
-	BKSGE_NODISCARD BKSGE_CXX14_CONSTEXPR iterator
-	end() BKSGE_NOEXCEPT_OR_NOTHROW;
-
-	BKSGE_NODISCARD BKSGE_CONSTEXPR const_iterator
-	end() const BKSGE_NOEXCEPT_OR_NOTHROW;
-
-	BKSGE_NODISCARD BKSGE_CXX14_CONSTEXPR reverse_iterator
-	rbegin() BKSGE_NOEXCEPT_OR_NOTHROW;
-
-	BKSGE_NODISCARD BKSGE_CONSTEXPR const_reverse_iterator
-	rbegin() const BKSGE_NOEXCEPT_OR_NOTHROW;
-
-	BKSGE_NODISCARD BKSGE_CXX14_CONSTEXPR reverse_iterator
-	rend() BKSGE_NOEXCEPT_OR_NOTHROW;
-
-	BKSGE_NODISCARD BKSGE_CONSTEXPR const_reverse_iterator
-	rend() const BKSGE_NOEXCEPT_OR_NOTHROW;
-
-	BKSGE_NODISCARD BKSGE_CONSTEXPR const_iterator
-	cbegin() const BKSGE_NOEXCEPT_OR_NOTHROW;
-
-	BKSGE_NODISCARD BKSGE_CONSTEXPR const_iterator
-	cend() const BKSGE_NOEXCEPT_OR_NOTHROW;
-
-	BKSGE_NODISCARD BKSGE_CONSTEXPR const_reverse_iterator
-	crbegin() const BKSGE_NOEXCEPT_OR_NOTHROW;
-
-	BKSGE_NODISCARD BKSGE_CONSTEXPR const_reverse_iterator
-	crend() const BKSGE_NOEXCEPT_OR_NOTHROW;
-
-	BKSGE_NODISCARD BKSGE_CONSTEXPR bool
-	empty() const BKSGE_NOEXCEPT_OR_NOTHROW;
-
-	BKSGE_NODISCARD BKSGE_CONSTEXPR size_type
-	size() const BKSGE_NOEXCEPT_OR_NOTHROW;
-
-	BKSGE_NODISCARD BKSGE_CONSTEXPR size_type
-	max_size() const BKSGE_NOEXCEPT_OR_NOTHROW;
-
-	BKSGE_CXX14_CONSTEXPR void
-	swap(VectorBase& other)
-		BKSGE_NOEXCEPT_IF(bksge::is_nothrow_swappable<T>::value);
-
-	BKSGE_CONSTEXPR VectorValue<T, N>
-	as_array(void) const;
-
-private:
-	VectorValue<T, N>	m_value;
-
-private:
 	/**
-	 *	@brief	シリアライズ
+	 *	@brief	デフォルトコンストラクタ
 	 */
-	friend class bksge::serialization::access;
-	template <typename Archive>
-	void serialize(Archive& ar, bksge::serialization::version_t /*version*/)
-	{
-		ar & BKSGE_SERIALIZATION_NVP(m_value);
-	}
+	BKSGE_CONSTEXPR
+	VectorBase() BKSGE_NOEXCEPT
+		: BaseType{}
+	{}
+
+	/**
+	 *	@brief	値1つのコンストラクタ
+	 */
+	explicit BKSGE_CONSTEXPR
+	VectorBase(T const& x) BKSGE_NOEXCEPT
+		: BaseType{{x, x, x, x}}
+	{}
+
+	/**
+	 *	@brief	値4つのコンストラクタ
+	 */
+	BKSGE_CONSTEXPR
+	VectorBase(T const& v1, T const& v2, T const& v3, T const& v4) BKSGE_NOEXCEPT
+		: BaseType{{v1, v2, v3, v4}}
+	{}
 };
 
-/**
- *	@brief	swap
- */
-template <typename T, std::size_t N>
-BKSGE_CXX14_CONSTEXPR void
-swap(VectorBase<T, N>& lhs, VectorBase<T, N>& rhs)
-BKSGE_NOEXCEPT_IF_EXPR(lhs.swap(rhs));
+template <typename T>
+class VectorBase<T, 3> : private VectorBaseTag, public bksge::array<T, 3>
+{
+private:
+	using BaseType = bksge::array<T, 3>;
+
+public:
+	/**
+	 *	@brief	デフォルトコンストラクタ
+	 */
+	BKSGE_CONSTEXPR
+	VectorBase() BKSGE_NOEXCEPT
+		: BaseType{}
+	{}
+
+	/**
+	 *	@brief	値1つのコンストラクタ
+	 */
+	explicit BKSGE_CONSTEXPR
+	VectorBase(T const& x) BKSGE_NOEXCEPT
+		: BaseType{{x, x, x}}
+	{}
+
+	/**
+	 *	@brief	値3つのコンストラクタ
+	 */
+	BKSGE_CONSTEXPR
+	VectorBase(T const& v1, T const& v2, T const& v3) BKSGE_NOEXCEPT
+		: BaseType{{v1, v2, v3}}
+	{}
+};
+
+template <typename T>
+class VectorBase<T, 2> : private VectorBaseTag, public bksge::array<T, 2>
+{
+private:
+	using BaseType = bksge::array<T, 2>;
+
+public:
+	/**
+	 *	@brief	デフォルトコンストラクタ
+	 */
+	BKSGE_CONSTEXPR
+	VectorBase() BKSGE_NOEXCEPT
+		: BaseType{}
+	{}
+
+	/**
+	 *	@brief	値1つのコンストラクタ
+	 */
+	explicit BKSGE_CONSTEXPR
+	VectorBase(T const& x) BKSGE_NOEXCEPT
+		: BaseType{{x, x}}
+	{}
+
+	/**
+	 *	@brief	値2つのコンストラクタ
+	 */
+	BKSGE_CONSTEXPR
+	VectorBase(T const& v1, T const& v2) BKSGE_NOEXCEPT
+		: BaseType{{v1, v2}}
+	{}
+};
+
+template <typename T>
+class VectorBase<T, 1> : private VectorBaseTag, public bksge::array<T, 1>
+{
+private:
+	using BaseType = bksge::array<T, 1>;
+
+public:
+	/**
+	 *	@brief	デフォルトコンストラクタ
+	 */
+	BKSGE_CONSTEXPR
+	VectorBase() BKSGE_NOEXCEPT
+		: BaseType{}
+	{}
+
+	/**
+	 *	@brief	値1つのコンストラクタ
+	 */
+	explicit BKSGE_CONSTEXPR
+	VectorBase(T const& x) BKSGE_NOEXCEPT
+		: BaseType{{x}}
+	{}
+};
+
+#if defined(BKSGE_HAS_CXX20_CONCEPTS)
+
+template <typename T>
+concept IsVectorLike = bksge::is_base_of<VectorBaseTag, T>::value;
+
+#else
+
+template <typename T>
+using IsVectorLike = bksge::is_base_of<VectorBaseTag, T>;
+
+#endif
 
 /**
- *	@brief	operator==
+ *	@brief	unary operator+
  */
-template <typename T, std::size_t N>
-BKSGE_CONSTEXPR bool
-operator==(VectorBase<T, N> const& lhs, VectorBase<T, N> const& rhs)
-BKSGE_NOEXCEPT_OR_NOTHROW;
-
-template <typename T, std::size_t N>
-BKSGE_CONSTEXPR bool
-operator==(VectorBase<T, N> const& lhs, VectorValue<T, N> const& rhs)
-BKSGE_NOEXCEPT_OR_NOTHROW;
+template <BKSGE_REQUIRES_PARAM(IsVectorLike, VectorLike)>
+inline BKSGE_CONSTEXPR VectorLike
+operator+(VectorLike const& v) BKSGE_NOEXCEPT
+{
+	return v;
+}
 
 /**
- *	@brief	operator!=
+ *	@brief	unary operator-
  */
-template <typename T, std::size_t N>
-BKSGE_CONSTEXPR bool
-operator!=(VectorBase<T, N> const& lhs, VectorBase<T, N> const& rhs)
-BKSGE_NOEXCEPT_OR_NOTHROW;
+template <BKSGE_REQUIRES_PARAM(IsVectorLike, VectorLike)>
+inline BKSGE_CONSTEXPR VectorLike
+operator-(VectorLike const& v) BKSGE_NOEXCEPT
+{
+	return bksge::math::detail::negate_per_elem(v);
+}
 
-template <typename T, std::size_t N>
-BKSGE_CONSTEXPR bool
-operator!=(VectorBase<T, N> const& lhs, VectorValue<T, N> const& rhs)
-BKSGE_NOEXCEPT_OR_NOTHROW;
+/**
+ *	@brief	Vector += Vector
+ */
+template <BKSGE_REQUIRES_PARAM(IsVectorLike, VectorLike)>
+inline BKSGE_CXX14_CONSTEXPR VectorLike&
+operator+=(VectorLike& lhs, VectorLike const& rhs) BKSGE_NOEXCEPT
+{
+	return lhs = lhs + rhs;
+}
+
+/**
+ *	@brief	Vector + Vector -> Vector
+ */
+template <BKSGE_REQUIRES_PARAM(IsVectorLike, VectorLike)>
+inline BKSGE_CONSTEXPR VectorLike
+operator+(VectorLike const& lhs, VectorLike const& rhs) BKSGE_NOEXCEPT
+{
+	return bksge::math::detail::plus_per_elem(lhs, rhs);
+}
+
+/**
+ *	@brief	Vector -= Vector
+ */
+template <BKSGE_REQUIRES_PARAM(IsVectorLike, VectorLike)>
+inline BKSGE_CXX14_CONSTEXPR VectorLike&
+operator-=(VectorLike& lhs, VectorLike const& rhs) BKSGE_NOEXCEPT
+{
+	return lhs = lhs - rhs;
+}
+
+/**
+ *	@brief	Vector - Vector -> Vector
+ */
+template <BKSGE_REQUIRES_PARAM(IsVectorLike, VectorLike)>
+inline BKSGE_CONSTEXPR VectorLike
+operator-(VectorLike const& lhs, VectorLike const& rhs) BKSGE_NOEXCEPT
+{
+	return bksge::math::detail::minus_per_elem(lhs, rhs);
+}
+
+/**
+ *	@brief	Vector *= スカラー
+ */
+template <
+	BKSGE_REQUIRES_PARAM(IsVectorLike, VectorLike),
+	BKSGE_REQUIRES_PARAM(bksge::arithmetic, U)
+>
+inline BKSGE_CXX14_CONSTEXPR VectorLike&
+operator*=(VectorLike& lhs, U rhs) BKSGE_NOEXCEPT
+{
+	return lhs = lhs * rhs;
+}
+
+/**
+ *	@brief	Vector * スカラー
+ */
+template <
+	BKSGE_REQUIRES_PARAM(IsVectorLike, VectorLike),
+	BKSGE_REQUIRES_PARAM(bksge::arithmetic, U)
+>
+inline BKSGE_CONSTEXPR VectorLike
+operator*(VectorLike const& lhs, U rhs) BKSGE_NOEXCEPT
+{
+	return bksge::math::detail::multiplies_per_elem(lhs, VectorBase<U, std::tuple_size<VectorLike>::value>{rhs});
+}
+
+/**
+ *	@brief	スカラー * Vector 
+ */
+template <
+	BKSGE_REQUIRES_PARAM(IsVectorLike, VectorLike),
+	BKSGE_REQUIRES_PARAM(bksge::arithmetic, U)
+>
+inline BKSGE_CONSTEXPR VectorLike
+operator*(U lhs, VectorLike const& rhs) BKSGE_NOEXCEPT
+{
+	return rhs * lhs;
+}
+
+/**
+ *	@brief	Vector /= スカラー
+ */
+template <
+	BKSGE_REQUIRES_PARAM(IsVectorLike, VectorLike),
+	BKSGE_REQUIRES_PARAM(bksge::arithmetic, U)
+>
+inline BKSGE_CXX14_CONSTEXPR VectorLike&
+operator/=(VectorLike& lhs, U rhs) BKSGE_NOEXCEPT
+{
+	return lhs = lhs / rhs;
+}
+
+/**
+ *	@brief	Vector / スカラー
+ */
+template <
+	BKSGE_REQUIRES_PARAM(IsVectorLike, VectorLike),
+	BKSGE_REQUIRES_PARAM(bksge::arithmetic, U)
+>
+inline BKSGE_CONSTEXPR VectorLike
+operator/(VectorLike const& lhs, U rhs) BKSGE_NOEXCEPT
+{
+	return bksge::math::detail::divides_per_elem(lhs, VectorBase<U, std::tuple_size<VectorLike>::value>{rhs});
+}
+
+/**
+ *	@brief	Lerp
+ */
+template <
+	BKSGE_REQUIRES_PARAM(IsVectorLike, VectorLike),
+	BKSGE_REQUIRES_PARAM(bksge::arithmetic, U)
+>
+inline BKSGE_CONSTEXPR VectorLike
+Lerp(VectorLike const& from, VectorLike const& to, U const& t) BKSGE_NOEXCEPT
+{
+	return bksge::math::detail::lerp_per_elem(from, to, t);
+}
 
 /**
  *	@brief	ストリームへの出力
  */
 template <typename CharT, typename Traits, typename T, std::size_t N>
-std::basic_ostream<CharT, Traits>&
+inline std::basic_ostream<CharT, Traits>&
 operator<<(
 	std::basic_ostream<CharT, Traits>& os,
-	VectorBase<T, N> const& rhs);
+	VectorBase<T, N> const& rhs)
+{
+	os << "{ ";
+
+	for (std::size_t i = 0; i < N; ++i)
+	{
+		os << rhs[i];
+
+		if (i < (N - 1))
+		{
+			os << ", ";
+		}
+	}
+
+	os << " }";
+
+	return os;
+}
 
 }	// namespace detail
 
 }	// namespace math
 
 template <std::size_t I, typename T, std::size_t N>
-BKSGE_NODISCARD BKSGE_CXX14_CONSTEXPR T&
-get(bksge::math::detail::VectorBase<T, N>& v) BKSGE_NOEXCEPT;
+BKSGE_NODISCARD inline BKSGE_CXX14_CONSTEXPR T&
+get(bksge::math::detail::VectorBase<T, N>& v) BKSGE_NOEXCEPT
+{
+	static_assert(I < N, "Vector index out of bounds");
+	return v[I];
+}
 
 template <std::size_t I, typename T, std::size_t N>
-BKSGE_NODISCARD BKSGE_CONSTEXPR T const&
-get(bksge::math::detail::VectorBase<T, N> const& v) BKSGE_NOEXCEPT;
+BKSGE_NODISCARD inline BKSGE_CONSTEXPR T const&
+get(bksge::math::detail::VectorBase<T, N> const& v) BKSGE_NOEXCEPT
+{
+	static_assert(I < N, "Vector index out of bounds");
+	return v[I];
+}
 
 template <std::size_t I, typename T, std::size_t N>
-BKSGE_NODISCARD BKSGE_CXX14_CONSTEXPR T&&
-get(bksge::math::detail::VectorBase<T, N>&& v) BKSGE_NOEXCEPT;
+BKSGE_NODISCARD inline BKSGE_CXX14_CONSTEXPR T&&
+get(bksge::math::detail::VectorBase<T, N>&& v) BKSGE_NOEXCEPT
+{
+	static_assert(I < N, "Vector index out of bounds");
+	return bksge::move(v[I]);
+}
 
 template <std::size_t I, typename T, std::size_t N>
-BKSGE_NODISCARD BKSGE_CONSTEXPR T const&&
-get(bksge::math::detail::VectorBase<T, N> const&& v) BKSGE_NOEXCEPT;
+BKSGE_NODISCARD inline BKSGE_CONSTEXPR T const&&
+get(bksge::math::detail::VectorBase<T, N> const&& v) BKSGE_NOEXCEPT
+{
+	static_assert(I < N, "Vector index out of bounds");
+	return bksge::move(v[I]);
+}
 
 }	// namespace bksge
+
+#include <bksge/fnd/functional/hash_combine.hpp>
+#include <bksge/fnd/type_traits/integral_constant.hpp>
+#include <bksge/fnd/utility/make_index_sequence.hpp>
+#include <functional>
+#include <tuple>
 
 namespace std
 {
@@ -277,12 +393,30 @@ struct tuple_size<bksge::math::detail::VectorBase<T, N>>
 template <std::size_t I, typename T, std::size_t N>
 struct tuple_element<I, bksge::math::detail::VectorBase<T, N>>
 {
-	static_assert(I < N, "VectorBase index out of bounds");
+	static_assert(I < N, "Vector index out of bounds");
 	using type = T;
 };
 
-}	// namespace std
+/**
+ *	@brief	hash
+ */
+template <typename T, std::size_t N>
+struct hash<bksge::math::detail::VectorBase<T, N>>
+{
+private:
+	template <std::size_t... Is>
+	std::size_t hash_impl(bksge::math::detail::VectorBase<T, N> const& arg, bksge::index_sequence<Is...>) const
+	{
+		return bksge::hash_combine(arg[Is]...);
+	}
 
-#include <bksge/core/math/detail/vector_base_inl.hpp>
+public:
+	std::size_t operator()(bksge::math::detail::VectorBase<T, N> const& arg) const
+	{
+		return hash_impl(arg, bksge::make_index_sequence<N>());
+	}
+};
+
+}	// namespace std
 
 #endif // BKSGE_CORE_MATH_DETAIL_VECTOR_BASE_HPP

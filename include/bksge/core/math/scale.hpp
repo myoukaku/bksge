@@ -10,14 +10,11 @@
 #define BKSGE_CORE_MATH_SCALE_HPP
 
 #include <bksge/core/math/fwd/scale_fwd.hpp>
-#include <bksge/core/math/fwd/vector_fwd.hpp>
-#include <bksge/core/math/detail/vector_xyzw.hpp>
-#include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/type_traits/is_arithmetic.hpp>
-#include <bksge/fnd/type_traits/is_constructible.hpp>
+#include <bksge/core/math/detail/vector_base.hpp>
+#include <bksge/core/math/detail/vector_functions.hpp>
+#include <bksge/core/math/vector.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
-#include <tuple>
 
 namespace bksge
 {
@@ -26,219 +23,76 @@ namespace math
 {
 
 template <typename T, std::size_t N>
-class Scale
-	: public detail::VectorXYZW<T, N>
+class Scale : public detail::VectorBase<T, N>
 {
-private:
-	using BaseType = detail::VectorXYZW<T, N>;
-
-public:
-	// 継承コンストラクタ
-	using BaseType::BaseType;
-
-	/**
-	 *	@brief	デフォルトコンストラクタ
-	 */
-	BKSGE_CONSTEXPR
-	Scale() BKSGE_NOEXCEPT_OR_NOTHROW
-		: BaseType()
-	{}
-
-	/**
-	 *	@brief	変換コンストラクタ
-	 */
-	template <
-		typename U,
-		typename = bksge::enable_if_t<
-			bksge::is_constructible<T, U>::value
-		>
-	>
-	BKSGE_CONSTEXPR
-	Scale(Scale<U, N> const& rhs)
-		BKSGE_NOEXCEPT_OR_NOTHROW;
-
-	/**
-	 *	@brief	ゼロスケールを作成します
-	 */
-	static BKSGE_CONSTEXPR Scale
-	Zero() BKSGE_NOEXCEPT;
-
-	/**
-	 *	@brief	単位スケールを作成します
-	 */
-	static BKSGE_CONSTEXPR Scale
-	Identity() BKSGE_NOEXCEPT;
 };
-
-/**
- *	@brief	unary operator+
- */
-template <typename T, std::size_t N>
-BKSGE_CONSTEXPR Scale<T, N>
-operator+(Scale<T, N> const& v) BKSGE_NOEXCEPT;
-
-/**
- *	@brief	unary operator-
- */
-template <typename T, std::size_t N>
-BKSGE_CONSTEXPR Scale<T, N>
-operator-(Scale<T, N> const& v) BKSGE_NOEXCEPT;
-
-/**
- *	@brief	Scale += Scale
- */
-template <typename T, std::size_t N>
-BKSGE_CXX14_CONSTEXPR Scale<T, N>&
-operator+=(Scale<T, N>& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT;
-
-/**
- *	@brief	Scale + Scale -> Scale
- */
-template <typename T, std::size_t N>
-BKSGE_CONSTEXPR Scale<T, N>
-operator+(Scale<T, N> const& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT;
-
-/**
- *	@brief	Scale -= Scale
- */
-template <typename T, std::size_t N>
-BKSGE_CXX14_CONSTEXPR Scale<T, N>&
-operator-=(Scale<T, N>& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT;
-
-/**
- *	@brief	Scale - Scale -> Scale
- */
-template <typename T, std::size_t N>
-BKSGE_CONSTEXPR Scale<T, N>
-operator-(Scale<T, N> const& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT;
-
-/**
- *	@brief	Scale *= scalar
- */
-template <
-	typename T, std::size_t N,
-	typename ArithmeticType,
-	typename = bksge::enable_if_t<
-		bksge::is_arithmetic<ArithmeticType>::value
-	>
->
-BKSGE_CXX14_CONSTEXPR Scale<T, N>&
-operator*=(Scale<T, N>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
-
-/**
- *	@brief	Scale * scalar
- */
-template <
-	typename T, std::size_t N,
-	typename ArithmeticType,
-	typename = bksge::enable_if_t<
-		bksge::is_arithmetic<ArithmeticType>::value
-	>
->
-BKSGE_CONSTEXPR Scale<T, N>
-operator*(Scale<T, N> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
-
-/**
- *	@brief	scalar * Scale
- */
-template <
-	typename T, std::size_t N,
-	typename ArithmeticType,
-	typename = bksge::enable_if_t<
-		bksge::is_arithmetic<ArithmeticType>::value
-	>
->
-BKSGE_CONSTEXPR Scale<T, N>
-operator*(ArithmeticType lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT;
 
 /**
  *	@brief	Scale *= Scale
  */
 template <typename T, std::size_t N>
-BKSGE_CXX14_CONSTEXPR Scale<T, N>&
-operator*=(Scale<T, N>& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT;
+inline BKSGE_CXX14_CONSTEXPR Scale<T, N>&
+operator*=(Scale<T, N>& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
+{
+	return lhs = lhs * rhs;
+}
 
 /**
  *	@brief	Scale * Scale -> Scale
  */
 template <typename T, std::size_t N>
-BKSGE_CONSTEXPR Scale<T, N> const
-operator*(Scale<T, N> const& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT;
-
-/**
- *	@brief	Scale /= scalar
- */
-template <
-	typename T, std::size_t N,
-	typename ArithmeticType,
-	typename = bksge::enable_if_t<
-		bksge::is_arithmetic<ArithmeticType>::value
-	>
->
-BKSGE_CXX14_CONSTEXPR Scale<T, N>&
-operator/=(Scale<T, N>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
-
-/**
- *	@brief	Scale / scalar
- */
-template <
-	typename T, std::size_t N,
-	typename ArithmeticType,
-	typename = bksge::enable_if_t<
-		bksge::is_arithmetic<ArithmeticType>::value
-	>
->
-BKSGE_CONSTEXPR Scale<T, N>
-operator/(Scale<T, N> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
+inline BKSGE_CONSTEXPR Scale<T, N> const
+operator*(Scale<T, N> const& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
+{
+	return bksge::math::detail::multiplies_per_elem(lhs, rhs);
+}
 
 /**
  *	@brief	Scale /= Scale
  */
 template <typename T, std::size_t N>
-BKSGE_CXX14_CONSTEXPR Scale<T, N>&
-operator/=(Scale<T, N>& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT;
+inline BKSGE_CXX14_CONSTEXPR Scale<T, N>&
+operator/=(Scale<T, N>& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
+{
+	return lhs = lhs / rhs;
+}
 
 /**
  *	@brief	Scale / Scale -> Scale
  */
 template <typename T, std::size_t N>
-BKSGE_CONSTEXPR Scale<T, N> const
-operator/(Scale<T, N> const& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT;
+inline BKSGE_CONSTEXPR Scale<T, N> const
+operator/(Scale<T, N> const& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
+{
+	return bksge::math::detail::divides_per_elem(lhs, rhs);
+}
 
 /**
  *	@brief	Vector *= Scale
  */
 template <typename T, std::size_t N>
-BKSGE_CXX14_CONSTEXPR Vector<T, N>&
-operator*=(Vector<T, N>& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT;
+inline BKSGE_CXX14_CONSTEXPR Vector<T, N>&
+operator*=(Vector<T, N>& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
+{
+	return lhs = lhs * rhs;
+}
 
 /**
  *	@brief	Vector * Scale -> Vector
  */
 template <typename T, std::size_t N>
-BKSGE_CONSTEXPR Vector<T, N> const
-operator*(Vector<T, N> const& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT;
-
-/**
- *	@brief	Lerp
- */
-template <
-	typename T, std::size_t N,
-	typename ArithmeticType,
-	typename = bksge::enable_if_t<
-		bksge::is_arithmetic<ArithmeticType>::value
-	>
->
-BKSGE_CONSTEXPR Scale<T, N>
-Lerp(Scale<T, N> const& from, Scale<T, N> const& to, ArithmeticType const& t) BKSGE_NOEXCEPT;
+inline BKSGE_CONSTEXPR Vector<T, N> const
+operator*(Vector<T, N> const& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
+{
+	return bksge::math::detail::multiplies_per_elem(lhs, rhs);
+}
 
 }	// namespace math
 
 }	// namespace bksge
 
 #include <functional>
-#include <bksge/fnd/functional/hash_combine.hpp>
-#include <bksge/fnd/type_traits/integral_constant.hpp>
+#include <tuple>
 
 namespace std
 {
@@ -248,7 +102,7 @@ namespace std
  */
 template <typename T, std::size_t N>
 struct tuple_size<bksge::math::Scale<T, N>>
-	: public bksge::integral_constant<std::size_t, N>
+	: public tuple_size<bksge::math::detail::VectorBase<T, N>>
 {};
 
 /**
@@ -256,25 +110,17 @@ struct tuple_size<bksge::math::Scale<T, N>>
  */
 template <std::size_t I, typename T, std::size_t N>
 struct tuple_element<I, bksge::math::Scale<T, N>>
-{
-	static_assert(I < N, "Scale index out of bounds");
-	using type = T;
-};
+	: public tuple_element<I, bksge::math::detail::VectorBase<T, N>>
+{};
 
 /**
  *	@brief	hash
  */
 template <typename T, std::size_t N>
 struct hash<bksge::math::Scale<T, N>>
-{
-	std::size_t operator()(bksge::math::Scale<T, N> const& arg) const
-	{
-		return bksge::hash_combine(arg.as_array());
-	}
-};
+	: public hash<bksge::math::detail::VectorBase<T, N>>
+{};
 
 }	// namespace std
-
-#include <bksge/core/math/inl/scale_inl.hpp>
 
 #endif // BKSGE_CORE_MATH_SCALE_HPP

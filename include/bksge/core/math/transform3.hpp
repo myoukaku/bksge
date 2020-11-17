@@ -14,8 +14,10 @@
 #include <bksge/core/math/quaternion.hpp>
 #include <bksge/core/math/scale3.hpp>
 #include <bksge/core/math/matrix4x4.hpp>
+#include <bksge/fnd/concepts/swap.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_swappable.hpp>
 #include <bksge/fnd/serialization/access.hpp>
 #include <bksge/fnd/serialization/nvp.hpp>
 #include <bksge/fnd/serialization/version.hpp>
@@ -44,7 +46,11 @@ public:
 	 *	@brief	デフォルトコンストラクタ
 	 */
 	BKSGE_CONSTEXPR
-	Transform3(void) BKSGE_NOEXCEPT_OR_NOTHROW;
+	Transform3(void) BKSGE_NOEXCEPT
+		: m_position()
+		, m_rotation(RotationType::Identity())
+		, m_scale(ScaleType::Identity())
+	{}
 
 	/**
 	 *	@brief	変換コンストラクタ
@@ -56,7 +62,11 @@ public:
 		>
 	>
 	BKSGE_CONSTEXPR
-	Transform3(Transform3<U> const& rhs) BKSGE_NOEXCEPT_OR_NOTHROW;
+	Transform3(Transform3<U> const& rhs) BKSGE_NOEXCEPT
+		: m_position(rhs.position())
+		, m_rotation(rhs.rotation())
+		, m_scale(rhs.scale())
+	{}
 
 	/**
 	 *	@brief
@@ -65,26 +75,63 @@ public:
 	Transform3(
 		PositionType const& position,
 		RotationType const& rotation,
-		ScaleType const& scale) BKSGE_NOEXCEPT_OR_NOTHROW;
+		ScaleType const& scale) BKSGE_NOEXCEPT
+		: m_position(position)
+		, m_rotation(rotation)
+		, m_scale(scale)
+	{}
 
 	/**
 	 *	@brief
 	 */
 	//BKSGE_CONSTEXPR Transform3(
-	//	Matrix4x4Type const& matrix) BKSGE_NOEXCEPT_OR_NOTHROW;
+	//	Matrix4x4Type const& matrix) BKSGE_NOEXCEPT;
 
-	BKSGE_CONSTEXPR PositionType const&	position(void) const;
-	BKSGE_CONSTEXPR RotationType const&	rotation(void) const;
-	BKSGE_CONSTEXPR ScaleType const&	scale(void) const;
+	BKSGE_CONSTEXPR PositionType const&	position(void) const BKSGE_NOEXCEPT
+	{
+		return m_position;
+	}
 
-	BKSGE_CXX14_CONSTEXPR PositionType&		position(void);
-	BKSGE_CXX14_CONSTEXPR RotationType&		rotation(void);
-	BKSGE_CXX14_CONSTEXPR ScaleType&		scale(void);
+	BKSGE_CONSTEXPR RotationType const&	rotation(void) const BKSGE_NOEXCEPT
+	{
+		return m_rotation;
+	}
 
-	BKSGE_CONSTEXPR Matrix4x4Type		GetMatrix4x4(void) const;
+	BKSGE_CONSTEXPR ScaleType const& scale(void) const BKSGE_NOEXCEPT
+	{
+		return m_scale;
+	}
+
+	BKSGE_CXX14_CONSTEXPR PositionType& position(void) BKSGE_NOEXCEPT
+	{
+		return m_position;
+	}
+
+	BKSGE_CXX14_CONSTEXPR RotationType& rotation(void) BKSGE_NOEXCEPT
+	{
+		return m_rotation;
+	}
+
+	BKSGE_CXX14_CONSTEXPR ScaleType& scale(void) BKSGE_NOEXCEPT
+	{
+		return m_scale;
+	}
+
+	BKSGE_CONSTEXPR Matrix4x4Type GetMatrix4x4(void) const
+	{
+		return Matrix4x4Type::Compose(
+			m_position,
+			m_scale,
+			m_rotation);
+	}
 
 	BKSGE_CXX14_CONSTEXPR void swap(Transform3& other)
-		BKSGE_NOEXCEPT_IF(bksge::is_nothrow_swappable<T>::value);
+		BKSGE_NOEXCEPT_IF(bksge::is_nothrow_swappable<T>::value)
+	{
+		bksge::ranges::swap(m_position, other.m_position);
+		bksge::ranges::swap(m_scale,    other.m_scale);
+		bksge::ranges::swap(m_rotation, other.m_rotation);
+	}
 
 private:
 	PositionType		m_position;
@@ -106,35 +153,42 @@ private:
 };
 
 /**
- *	@brief	swap
- */
-template <typename T>
-BKSGE_CXX14_CONSTEXPR void
-swap(Transform3<T>& lhs, Transform3<T>& rhs)
-BKSGE_NOEXCEPT_IF_EXPR(lhs.swap(rhs));
-
-/**
  *	@brief	operator==
  */
 template <typename T>
 BKSGE_CONSTEXPR bool
-operator==(Transform3<T> const& lhs, Transform3<T> const& rhs)
-BKSGE_NOEXCEPT_OR_NOTHROW;
+operator==(Transform3<T> const& lhs, Transform3<T> const& rhs) BKSGE_NOEXCEPT
+{
+	return
+		lhs.position() == rhs.position() &&
+		lhs.rotation() == rhs.rotation() &&
+		lhs.scale()    == rhs.scale();
+}
 
 /**
  *	@brief	operator!=
  */
 template <typename T>
 BKSGE_CONSTEXPR bool
-operator!=(Transform3<T> const& lhs, Transform3<T> const& rhs)
-BKSGE_NOEXCEPT_OR_NOTHROW;
+operator!=(Transform3<T> const& lhs, Transform3<T> const& rhs) BKSGE_NOEXCEPT
+{
+	return !(lhs == rhs);
+}
 
 /**
  *	@brief	ストリームへの出力
  */
 template <typename CharT, typename Traits, typename T>
 std::basic_ostream<CharT, Traits>&
-operator<<(std::basic_ostream<CharT, Traits>& os, Transform3<T> const& rhs);
+operator<<(std::basic_ostream<CharT, Traits>& os, Transform3<T> const& rhs)
+{
+	return
+		os << "{ "
+			<< rhs.position()  << ", "
+			<< rhs.rotation()   << ", "
+			<< rhs.scale()
+		<< " }";
+}
 
 }	// namespace math
 
@@ -163,7 +217,5 @@ struct hash<bksge::math::Transform3<T>>
 };
 
 }	// namespace std
-
-#include <bksge/core/math/inl/transform3_inl.hpp>
 
 #endif // BKSGE_CORE_MATH_TRANSFORM3_HPP

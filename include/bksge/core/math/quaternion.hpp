@@ -10,15 +10,18 @@
 #define BKSGE_CORE_MATH_QUATERNION_HPP
 
 #include <bksge/core/math/fwd/quaternion_fwd.hpp>
-#include <bksge/core/math/fwd/vector3_fwd.hpp>
-#include <bksge/core/math/fwd/matrix3x3_fwd.hpp>
-#include <bksge/core/math/detail/vector_xyzw.hpp>
+#include <bksge/core/math/detail/vector_base.hpp>
+#include <bksge/core/math/detail/swizzle_operator.hpp>
+#include <bksge/core/math/detail/quaternion_to_matrix3x3.hpp>
+#include <bksge/core/math/detail/matrix3x3_to_quaternion.hpp>
+#include <bksge/core/math/vector3.hpp>
+#include <bksge/core/math/matrix3x3.hpp>
+#include <bksge/fnd/cmath/sin.hpp>
+#include <bksge/fnd/cmath/cos.hpp>
+#include <bksge/fnd/numeric/ranges/inner_product.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/type_traits/is_arithmetic.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstddef>
-#include <tuple>
 
 namespace bksge
 {
@@ -27,22 +30,34 @@ namespace math
 {
 
 template <typename T>
-class Quaternion
-	: public detail::VectorXYZW<T, 4>
+class Quaternion : public detail::VectorBase<T, 4>
 {
 private:
-	using BaseType = detail::VectorXYZW<T, 4>;
+	using BaseType = detail::VectorBase<T, 4>;
 
 public:
-	// 継承コンストラクタ
-	using BaseType::BaseType;
-
 	/**
 	 *	@brief	デフォルトコンストラクタ
 	 */
 	BKSGE_CONSTEXPR
-	Quaternion() BKSGE_NOEXCEPT_OR_NOTHROW
-		: BaseType()
+	Quaternion() BKSGE_NOEXCEPT
+		: BaseType{}
+	{}
+
+	/**
+	 *	@brief	値4つのコンストラクタ
+	 */
+	BKSGE_CONSTEXPR
+	Quaternion(T const& v1, T const& v2, T const& v3, T const& v4) BKSGE_NOEXCEPT
+		: BaseType{v1, v2, v3, v4}
+	{}
+
+	/**
+	 *	@brief	Vector3と値1つのコンストラクタ
+	 */
+	BKSGE_CONSTEXPR
+	Quaternion(Vector<T, 3> const& v1, T const& v2) BKSGE_NOEXCEPT
+		: BaseType{v1[0], v1[1], v1[2], v2}
 	{}
 
 	/**
@@ -55,21 +70,31 @@ public:
 		>
 	>
 	BKSGE_CONSTEXPR
-	Quaternion(Quaternion<U> const& rhs)
-		BKSGE_NOEXCEPT_OR_NOTHROW;
+	Quaternion(Quaternion<U> const& rhs) BKSGE_NOEXCEPT
+		: BaseType{
+			static_cast<T>(rhs[0]),
+			static_cast<T>(rhs[1]),
+			static_cast<T>(rhs[2]),
+			static_cast<T>(rhs[3]),
+		}
+	{}
 
 	/**
-	 *	@brief	虚部と実部を指定するコンストラクタ
+	 *	@brief	Matrix3x3 からのコンストラクタ
 	 */
-	BKSGE_CONSTEXPR
-	Quaternion(Vector3<T> const& imag, T const real)
-		BKSGE_NOEXCEPT_OR_NOTHROW;
+	explicit BKSGE_CONSTEXPR
+	Quaternion(Matrix3x3<T> const& q) BKSGE_NOEXCEPT
+		: BaseType(detail::matrix3x3_to_quaternion(q))
+	{}
 
 	/**
-	 *	@brief	Matrix3x3からのコンストラクタ
+	 *	@brief	Matrix3x3 への変換
 	 */
-	explicit /*BKSGE_CONSTEXPR*/
-	Quaternion(Matrix3x3<T> const& m) BKSGE_NOEXCEPT;
+	explicit BKSGE_CXX14_CONSTEXPR
+	operator Matrix3x3<T>() const BKSGE_NOEXCEPT
+	{
+		return detail::quaternion_to_matrix3x3(*this);
+	}
 
 	/**
 	 *	@brief	クォータニオンの実部を取得します
@@ -79,7 +104,10 @@ public:
 	 *	@return	qの実部
 	 */
 	BKSGE_CONSTEXPR T
-	real() const BKSGE_NOEXCEPT;
+	real() const BKSGE_NOEXCEPT
+	{
+		return this->w();
+	}
 
 	/**
 	 *	@brief	クォータニオンの虚部を取得します
@@ -89,19 +117,28 @@ public:
 	 *	@return	qの虚部
 	 */
 	BKSGE_CONSTEXPR Vector3<T>
-	imag() const BKSGE_NOEXCEPT;
+	imag() const BKSGE_NOEXCEPT
+	{
+		return this->xyz();
+	}
 
 	/**
 	 *	@brief	ゼロクォータニオンを作成します
 	 */
 	static BKSGE_CONSTEXPR Quaternion
-	Zero() BKSGE_NOEXCEPT;
+	Zero() BKSGE_NOEXCEPT
+	{
+		return {};
+	}
 
 	/**
 	 *	@brief	単位クォータニオンを作成します
 	 */
 	static BKSGE_CONSTEXPR Quaternion
-	Identity() BKSGE_NOEXCEPT;
+	Identity() BKSGE_NOEXCEPT
+	{
+		return {0, 0, 0, 1};
+	}
 
 	/**
 	 *	@brief	X軸で回転するクォータニオンを作成します。
@@ -110,7 +147,10 @@ public:
 	 */
 	template <typename AngleType>
 	static BKSGE_CONSTEXPR Quaternion
-	MakeRotationX(AngleType const& angle) BKSGE_NOEXCEPT;
+	MakeRotationX(AngleType const& angle) BKSGE_NOEXCEPT
+	{
+		return {T(sin(angle * 0.5)), 0, 0, T(cos(angle * 0.5))};
+	}
 
 	/**
 	 *	@brief	Y軸で回転するクォータニオンを作成します。
@@ -119,7 +159,10 @@ public:
 	 */
 	template <typename AngleType>
 	static BKSGE_CONSTEXPR Quaternion
-	MakeRotationY(AngleType const& angle) BKSGE_NOEXCEPT;
+	MakeRotationY(AngleType const& angle) BKSGE_NOEXCEPT
+	{
+		return {0, T(sin(angle * 0.5)), 0, T(cos(angle * 0.5))};
+	}
 
 	/**
 	 *	@brief	Z軸で回転するクォータニオンを作成します。
@@ -128,7 +171,10 @@ public:
 	 */
 	template <typename AngleType>
 	static BKSGE_CONSTEXPR Quaternion
-	MakeRotationZ(AngleType const& angle) BKSGE_NOEXCEPT;
+	MakeRotationZ(AngleType const& angle) BKSGE_NOEXCEPT
+	{
+		return {0, 0, T(sin(angle * 0.5)), T(cos(angle * 0.5))};
+	}
 
 	/**
 	 *	@brief	任意のベクトルを回転軸にして回転するクォータニオンを作成します。
@@ -138,7 +184,14 @@ public:
 	 */
 	template <typename AngleType>
 	static BKSGE_CONSTEXPR Quaternion
-	MakeRotation(Vector3<T> const& axis, AngleType const& angle) BKSGE_NOEXCEPT;
+	MakeRotation(Vector3<T> const& axis, AngleType const& angle) BKSGE_NOEXCEPT
+	{
+		return
+		{
+			Normalized(axis) * T(sin(angle * 0.5)),
+			T(cos(angle * 0.5))
+		};
+	}
 
 	/**
 	 *	任意の方向を向くクォータニオンを取得します
@@ -151,89 +204,27 @@ public:
 	MakeLookAt(
 		Vector3<T> const& eye,
 		Vector3<T> const& lookat,
-		Vector3<T> const& up) BKSGE_NOEXCEPT;
+		Vector3<T> const& up) BKSGE_NOEXCEPT
+	{
+		auto const zaxis = Normalized(eye - lookat);
+		auto const xaxis = Normalized(Cross(up, zaxis));
+		auto const yaxis = Cross(zaxis, xaxis);
+
+		return Normalized(Quaternion
+			{
+				yaxis.z() - zaxis.y(),
+				zaxis.x() - xaxis.z(),
+				xaxis.y() - yaxis.x(),
+				xaxis.x() + yaxis.y() + zaxis.z() + 1.0f
+			});
+	}
+
+	BKSGE_CORE_MATH_NAMED_ACCESS(x, 0);
+	BKSGE_CORE_MATH_NAMED_ACCESS(y, 1);
+	BKSGE_CORE_MATH_NAMED_ACCESS(z, 2);
+	BKSGE_CORE_MATH_NAMED_ACCESS(w, 3);
+	BKSGE_CORE_MATH_DECLARE_SWIZZLE_OPERATOR((x)(y)(z)(w));
 };
-
-/**
- *	@brief	unary operator+
- */
-template <typename T>
-BKSGE_CONSTEXPR Quaternion<T>
-operator+(Quaternion<T> const& q) BKSGE_NOEXCEPT;
-
-/**
- *	@brief	unary operator-
- */
-template <typename T>
-BKSGE_CONSTEXPR Quaternion<T>
-operator-(Quaternion<T> const& q) BKSGE_NOEXCEPT;
-
-/**
- *	@brief	Quaternion += Quaternion
- */
-template <typename T>
-BKSGE_CXX14_CONSTEXPR Quaternion<T>&
-operator+=(Quaternion<T>& lhs, Quaternion<T> const& rhs) BKSGE_NOEXCEPT;
-
-/**
- *	@brief	Quaternion + Quaternion -> Quaternion
- */
-template <typename T>
-BKSGE_CONSTEXPR Quaternion<T>
-operator+(Quaternion<T> const& lhs, Quaternion<T> const& rhs) BKSGE_NOEXCEPT;
-
-/**
- *	@brief	Quaternion -= Quaternion
- */
-template <typename T>
-BKSGE_CXX14_CONSTEXPR Quaternion<T>&
-operator-=(Quaternion<T>& lhs, Quaternion<T> const& rhs) BKSGE_NOEXCEPT;
-
-/**
- *	@brief	Quaternion - Quaternion -> Quaternion
- */
-template <typename T>
-BKSGE_CONSTEXPR Quaternion<T>
-operator-(Quaternion<T> const& lhs, Quaternion<T> const& rhs) BKSGE_NOEXCEPT;
-
-/**
- *	@brief	Quaternion *= scalar
- */
-template <
-	typename T,
-	typename ArithmeticType,
-	typename = bksge::enable_if_t<
-		bksge::is_arithmetic<ArithmeticType>::value
-	>
->
-BKSGE_CXX14_CONSTEXPR Quaternion<T>&
-operator*=(Quaternion<T>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
-
-/**
- *	@brief	Quaternion * scalar
- */
-template <
-	typename T,
-	typename ArithmeticType,
-	typename = bksge::enable_if_t<
-		bksge::is_arithmetic<ArithmeticType>::value
-	>
->
-BKSGE_CONSTEXPR Quaternion<T>
-operator*(Quaternion<T> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
-
-/**
- *	@brief	scalar * Quaternion
- */
-template <
-	typename T,
-	typename ArithmeticType,
-	typename = bksge::enable_if_t<
-		bksge::is_arithmetic<ArithmeticType>::value
-	>
->
-BKSGE_CONSTEXPR Quaternion<T>
-operator*(ArithmeticType lhs, Quaternion<T> const& rhs) BKSGE_NOEXCEPT;
 
 /**
  *	@brief	２つのクォータニオンの積を計算します
@@ -244,15 +235,27 @@ operator*(ArithmeticType lhs, Quaternion<T> const& rhs) BKSGE_NOEXCEPT;
  *	@return	lhsとrhsの積
  */
 template <typename T>
-BKSGE_CONSTEXPR Quaternion<T>
-operator*(Quaternion<T> const& lhs, Quaternion<T> const& rhs) BKSGE_NOEXCEPT;
+inline BKSGE_CONSTEXPR Quaternion<T>
+operator*(Quaternion<T> const& lhs, Quaternion<T> const& rhs) BKSGE_NOEXCEPT
+{
+	return
+	{
+		(lhs.w() * rhs.x()) + (lhs.x() * rhs.w()) + (lhs.y() * rhs.z()) - (lhs.z() * rhs.y()),
+		(lhs.w() * rhs.y()) - (lhs.x() * rhs.z()) + (lhs.y() * rhs.w()) + (lhs.z() * rhs.x()),
+		(lhs.w() * rhs.z()) + (lhs.x() * rhs.y()) - (lhs.y() * rhs.x()) + (lhs.z() * rhs.w()),
+		(lhs.w() * rhs.w()) - (lhs.x() * rhs.x()) - (lhs.y() * rhs.y()) - (lhs.z() * rhs.z()),
+	};
+}
 
 /**
  *	@brief	Quaternion *= Quaternion
  */
 template <typename T>
-BKSGE_CXX14_CONSTEXPR Quaternion<T>&
-operator*=(Quaternion<T>& lhs, Quaternion<T> const& rhs) BKSGE_NOEXCEPT;
+inline BKSGE_CXX14_CONSTEXPR Quaternion<T>&
+operator*=(Quaternion<T>& lhs, Quaternion<T> const& rhs) BKSGE_NOEXCEPT
+{
+	return lhs = lhs * rhs;
+}
 
 /**
  *	@brief	三次元ベクトルとクォータニオンの積を計算します
@@ -263,41 +266,21 @@ operator*=(Quaternion<T>& lhs, Quaternion<T> const& rhs) BKSGE_NOEXCEPT;
  *	@return	lhsとrhsの積
  */
 template <typename T>
-BKSGE_CONSTEXPR Vector3<T>
-operator*(Vector3<T> const& lhs, Quaternion<T> const& rhs) BKSGE_NOEXCEPT;
+inline BKSGE_CONSTEXPR Vector3<T>
+operator*(Vector3<T> const& lhs, Quaternion<T> const& rhs) BKSGE_NOEXCEPT
+{
+	return (rhs * Quaternion<T>(lhs, 0) * Conjugate(rhs)).imag();
+}
 
 /**
  *	@brief	Vector3 *= Quaternion
  */
 template <typename T>
-BKSGE_CXX14_CONSTEXPR Vector3<T>&
-operator*=(Vector3<T>& lhs, Quaternion<T> const& rhs) BKSGE_NOEXCEPT;
-
-/**
- *	@brief	Quaternion /= scalar
- */
-template <
-	typename T,
-	typename ArithmeticType,
-	typename = bksge::enable_if_t<
-		bksge::is_arithmetic<ArithmeticType>::value
-	>
->
-BKSGE_CXX14_CONSTEXPR Quaternion<T>&
-operator/=(Quaternion<T>& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
-
-/**
- *	@brief	Quaternion / scalar
- */
-template <
-	typename T,
-	typename ArithmeticType,
-	typename = bksge::enable_if_t<
-		bksge::is_arithmetic<ArithmeticType>::value
-	>
->
-BKSGE_CONSTEXPR Quaternion<T>
-operator/(Quaternion<T> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
+inline BKSGE_CXX14_CONSTEXPR Vector3<T>&
+operator*=(Vector3<T>& lhs, Quaternion<T> const& rhs) BKSGE_NOEXCEPT
+{
+	return lhs = lhs * rhs;
+}
 
 /**
  *	@brief	クォータニオンの共役を取得します
@@ -307,8 +290,11 @@ operator/(Quaternion<T> const& lhs, ArithmeticType rhs) BKSGE_NOEXCEPT;
  *	@return	qの共役
  */
 template <typename T>
-BKSGE_CONSTEXPR Quaternion<T>
-Conjugate(Quaternion<T> const& q) BKSGE_NOEXCEPT;
+inline BKSGE_CONSTEXPR Quaternion<T>
+Conjugate(Quaternion<T> const& q) BKSGE_NOEXCEPT
+{
+	return {-q.imag(), q.real()};
+}
 
 /**
  *	@brief	クォータニオンの逆数を取得します
@@ -318,15 +304,24 @@ Conjugate(Quaternion<T> const& q) BKSGE_NOEXCEPT;
  *	@return	qの逆数
  */
 template <typename T>
-BKSGE_CONSTEXPR Quaternion<T>
-Inversed(Quaternion<T> const& q) BKSGE_NOEXCEPT;
+inline BKSGE_CONSTEXPR Quaternion<T>
+Inversed(Quaternion<T> const& q) BKSGE_NOEXCEPT
+{
+	return
+		SquaredLength(q) == 0 ?
+		Quaternion<T>::Identity() :
+		Conjugate(q) / SquaredLength(q);
+}
 
 /**
  *	@brief	内積
  */
 template <typename T>
-BKSGE_CONSTEXPR T
-Dot(Quaternion<T> const& q1, Quaternion<T> const& q2);
+inline BKSGE_CONSTEXPR T
+Dot(Quaternion<T> const& q1, Quaternion<T> const& q2)
+{
+	return bksge::ranges::inner_product(q1, q2, T{});
+}
 
 /**
  *	@brief	クォータニオンを正規化します
@@ -336,8 +331,14 @@ Dot(Quaternion<T> const& q1, Quaternion<T> const& q2);
  *	@return	qを正規化したクォータニオン
  */
 template <typename T>
-BKSGE_CONSTEXPR Quaternion<T>
-Normalized(Quaternion<T> const& q) BKSGE_NOEXCEPT;
+inline BKSGE_CONSTEXPR Quaternion<T>
+Normalized(Quaternion<T> const& q) BKSGE_NOEXCEPT
+{
+	return
+		SquaredLength(q) == 0 ?
+		Quaternion<T>::Identity() :
+		q / Length(q);
+}
 
 /**
  *	@brief	クォータニオンの長さの２乗を取得.
@@ -346,8 +347,11 @@ Normalized(Quaternion<T> const& q) BKSGE_NOEXCEPT;
  *	@return	qの長さの２乗
  */
 template <typename T>
-BKSGE_CONSTEXPR T
-SquaredLength(Quaternion<T> const& q) BKSGE_NOEXCEPT;
+inline BKSGE_CONSTEXPR T
+SquaredLength(Quaternion<T> const& q) BKSGE_NOEXCEPT
+{
+	return Dot(q, q);
+}
 
 /**
  *	@brief	クォータニオンの長さを取得.
@@ -356,8 +360,11 @@ SquaredLength(Quaternion<T> const& q) BKSGE_NOEXCEPT;
  *	@return	qの長さ
  */
 template <typename T>
-BKSGE_CONSTEXPR bksge::float_promote_t<T>
-Length(Quaternion<T> const& q) BKSGE_NOEXCEPT;
+inline BKSGE_CONSTEXPR bksge::float_promote_t<T>
+Length(Quaternion<T> const& q) BKSGE_NOEXCEPT
+{
+	return bksge::sqrt(SquaredLength(q));
+}
 
 /**
  *	@brief	クォータニオンのノルムを取得します
@@ -367,21 +374,11 @@ Length(Quaternion<T> const& q) BKSGE_NOEXCEPT;
  *	@return	qのノルム
  */
 template <typename T>
-BKSGE_CONSTEXPR bksge::float_promote_t<T>
-Norm(Quaternion<T> const& q) BKSGE_NOEXCEPT;
-
-/**
- *	@brief	Lerp
- */
-template <
-	typename T,
-	typename ArithmeticType,
-	typename = bksge::enable_if_t<
-		bksge::is_arithmetic<ArithmeticType>::value
-	>
->
-BKSGE_CONSTEXPR Quaternion<T>
-Lerp(Quaternion<T> const& from, Quaternion<T> const& to, ArithmeticType const& t) BKSGE_NOEXCEPT;
+inline BKSGE_CONSTEXPR bksge::float_promote_t<T>
+Norm(Quaternion<T> const& q) BKSGE_NOEXCEPT
+{
+	return Length(q);
+}
 
 /**
  *	@brief	球面線形補間
@@ -393,16 +390,40 @@ Lerp(Quaternion<T> const& from, Quaternion<T> const& to, ArithmeticType const& t
  *	@return	from と to を 係数t で球面線形補間したクォータニオン
  */
 template <typename T>
-/*BKSGE_CONSTEXPR*/ Quaternion<T>
-Slerp(Quaternion<T> const& from, Quaternion<T> const& to, T t) BKSGE_NOEXCEPT;
+inline BKSGE_CXX14_CONSTEXPR Quaternion<T>
+Slerp(Quaternion<T> const& from, Quaternion<T> const& to, T t) BKSGE_NOEXCEPT
+{
+	if (t <= T(0.0))
+	{
+		return from;
+	}
+
+	if (t >= T(1.0))
+	{
+		return to;
+	}
+
+	auto const cos_half_theta = Dot(from, to);
+
+	if (cos_half_theta >= T(1.0))
+	{
+		return Lerp(from, to, t);
+	}
+
+	auto const half_theta = std::acos(cos_half_theta);
+	auto const inv_sin_half_theta = T(1.0) / bksge::sin(half_theta);
+	auto const ratio_a = bksge::sin(half_theta * (T(1.0) - t)) * inv_sin_half_theta;
+	auto const ratio_b = bksge::sin(half_theta * t) * inv_sin_half_theta;
+
+	return (from * ratio_a) + (to * ratio_b);
+}
 
 }	// namespace math
 
 }	// namespace bksge
 
 #include <functional>
-#include <bksge/fnd/functional/hash_combine.hpp>
-#include <bksge/fnd/type_traits/integral_constant.hpp>
+#include <tuple>
 
 namespace std
 {
@@ -412,7 +433,7 @@ namespace std
  */
 template <typename T>
 struct tuple_size<bksge::math::Quaternion<T>>
-	: public bksge::integral_constant<std::size_t, 4>
+	: public tuple_size<bksge::math::detail::VectorBase<T, 4>>
 {};
 
 /**
@@ -420,25 +441,17 @@ struct tuple_size<bksge::math::Quaternion<T>>
  */
 template <std::size_t I, typename T>
 struct tuple_element<I, bksge::math::Quaternion<T>>
-{
-	static_assert(I < 4, "Quaternion index out of bounds");
-	using type = T;
-};
+	: public tuple_element<I, bksge::math::detail::VectorBase<T, 4>>
+{};
 
 /**
  *	@brief	hash
  */
 template <typename T>
 struct hash<bksge::math::Quaternion<T>>
-{
-	std::size_t operator()(bksge::math::Quaternion<T> const& arg) const
-	{
-		return bksge::hash_combine(arg.as_array());
-	}
-};
+	: public hash<bksge::math::detail::VectorBase<T, 4>>
+{};
 
 }	// namespace std
-
-#include <bksge/core/math/inl/quaternion_inl.hpp>
 
 #endif // BKSGE_CORE_MATH_QUATERNION_HPP

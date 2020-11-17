@@ -9,6 +9,7 @@
 #ifndef BKSGE_CORE_MATH_FWD_MATRIX_FWD_HPP
 #define BKSGE_CORE_MATH_FWD_MATRIX_FWD_HPP
 
+#include <bksge/core/math/fwd/vector_fwd.hpp>
 #include <cstddef>
 
 namespace bksge

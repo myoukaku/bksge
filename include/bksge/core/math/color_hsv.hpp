@@ -10,13 +10,16 @@
 #define BKSGE_CORE_MATH_COLOR_HSV_HPP
 
 #include <bksge/core/math/fwd/color_hsv_fwd.hpp>
-#include <bksge/core/math/fwd/color3_fwd.hpp>
 #include <bksge/core/math/detail/vector_base.hpp>
-#include <bksge/core/math/detail/def_helper_macros.hpp>
+#include <bksge/core/math/detail/swizzle_operator.hpp>
+#include <bksge/core/math/detail/rgb_to_hsv.hpp>
+#include <bksge/core/math/detail/hsv_to_rgb.hpp>
+#include <bksge/core/math/color3.hpp>
+#include <bksge/fnd/cmath/clamp.hpp>
+#include <bksge/fnd/cmath/fmod.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/config.hpp>
-#include <tuple>
 
 namespace bksge
 {
@@ -25,20 +28,26 @@ namespace math
 {
 
 template <typename T>
-class ColorHSV
-	: public detail::VectorBase<T, 3>
+class ColorHSV : public detail::VectorBase<T, 3>
 {
 private:
 	using BaseType = detail::VectorBase<T, 3>;
-
+	
 public:
-	// 継承コンストラクタ
-	using BaseType::BaseType;
-
-	// デフォルトコンストラクタ
+	/**
+	 *	@brief	デフォルトコンストラクタ
+	 */
 	BKSGE_CONSTEXPR
-	ColorHSV() BKSGE_NOEXCEPT_OR_NOTHROW
-		: BaseType()
+	ColorHSV() BKSGE_NOEXCEPT
+		: BaseType{}
+	{}
+
+	/**
+	 *	@brief	値3つのコンストラクタ
+	 */
+	BKSGE_CONSTEXPR
+	ColorHSV(T const& h, T const& s, T const& v) BKSGE_NOEXCEPT
+		: BaseType{h, s, v}
 	{}
 
 	/**
@@ -51,21 +60,39 @@ public:
 		>
 	>
 	BKSGE_CONSTEXPR
-	ColorHSV(ColorHSV<U> const& rhs)
-		BKSGE_NOEXCEPT_OR_NOTHROW;
+	ColorHSV(ColorHSV<U> const& rhs) BKSGE_NOEXCEPT
+		: BaseType{
+			static_cast<T>(rhs[0]),
+			static_cast<T>(rhs[1]),
+			static_cast<T>(rhs[2]),
+		}
+	{}
 
 	/**
 	 *	@brief	RGB から HSV への変換
 	 */
-	template <typename U>
 	BKSGE_CXX14_CONSTEXPR
-	explicit ColorHSV(Color3<U> const& rgb);
+	explicit ColorHSV(Color3<T> const& rgb)
+		: ColorHSV(detail::rgb_to_hsv(rgb))
+	{}
+
+	/**
+	 *	@brief	HSV から RGB への変換
+	 */
+	BKSGE_CXX14_CONSTEXPR
+	explicit operator Color3<T>() const
+	{
+		return detail::hsv_to_rgb(*this);
+	}
 
 	/**
 	 *	@brief	ゼロ初期化されたColorHSVを作成します
 	 */
 	static BKSGE_CONSTEXPR ColorHSV
-	Zero() BKSGE_NOEXCEPT;
+	Zero() BKSGE_NOEXCEPT
+	{
+		return {};
+	}
 
 	BKSGE_CORE_MATH_NAMED_ACCESS(h, 0);
 	BKSGE_CORE_MATH_NAMED_ACCESS(s, 1);
@@ -76,30 +103,24 @@ public:
  *	@brief	正規化されたColorHSVを作成します
  */
 template <typename T>
-BKSGE_CONSTEXPR ColorHSV<T>
-Normalized(ColorHSV<T> const& hsv);
-
-/**
- *	@brief	RGB から HSV への変換
- */
-template <typename T>
 BKSGE_CXX14_CONSTEXPR ColorHSV<T>
-RGBtoHSV(Color3<T> const& rgb);
-
-/**
- *	@brief	HSV から RGB への変換
- */
-template <typename T>
-BKSGE_CXX14_CONSTEXPR Color3<T>
-HSVtoRGB(ColorHSV<T> const& hsv);
+Normalized(ColorHSV<T> const& hsv)
+{
+	auto const h = bksge::fmod(hsv.h(), T(1));
+	return
+	{
+		h < 0 ? h + T(1) : h,
+		bksge::clamp(hsv.s(), T(0), T(1)),
+		bksge::clamp(hsv.v(), T(0), T(1)),
+	};
+}
 
 }	// namespace math
 
 }	// namespace bksge
 
-#include <bksge/fnd/functional/hash_combine.hpp>
-#include <bksge/fnd/type_traits/integral_constant.hpp>
 #include <functional>
+#include <tuple>
 #include <cstddef>
 
 namespace std
@@ -110,7 +131,7 @@ namespace std
  */
 template <typename T>
 struct tuple_size<bksge::math::ColorHSV<T>>
-	: public bksge::integral_constant<std::size_t, 3>
+	: public tuple_size<bksge::math::detail::VectorBase<T, 3>>
 {};
 
 /**
@@ -118,26 +139,17 @@ struct tuple_size<bksge::math::ColorHSV<T>>
  */
 template <std::size_t I, typename T>
 struct tuple_element<I, bksge::math::ColorHSV<T>>
-{
-	static_assert(I < 3, "ColorHSV index out of bounds");
-	using type = T;
-};
+	: public tuple_element<I, bksge::math::detail::VectorBase<T, 3>>
+{};
 
 /**
  *	@brief	hash
  */
 template <typename T>
 struct hash<bksge::math::ColorHSV<T>>
-{
-	std::size_t operator()(bksge::math::ColorHSV<T> const& arg) const
-	{
-		return bksge::hash_combine(arg.as_array());
-	}
-};
+	: public hash<bksge::math::detail::VectorBase<T, 3>>
+{};
 
 }	// namespace std
-
-#include <bksge/core/math/inl/color_hsv_inl.hpp>
-#include <bksge/core/math/detail/undef_helper_macros.hpp>
 
 #endif // BKSGE_CORE_MATH_COLOR_HSV_HPP

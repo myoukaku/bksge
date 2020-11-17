@@ -15,13 +15,9 @@
 #include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
-#include <bksge/fnd/algorithm/is_unique.hpp>
-#include <bksge/fnd/algorithm/sort.hpp>
 #include <bksge/fnd/config.hpp>
-#include <functional>
-#include <vector>
-#include <sstream>
 #include <gtest/gtest.h>
+#include <sstream>
 #include "constexpr_test.hpp"
 #include "serialize_test.hpp"
 
@@ -30,6 +26,8 @@ namespace bksge_math_test
 
 namespace rect_test
 {
+
+#define VERIFY(...)	if (!(__VA_ARGS__)) { return false; }
 
 using Rectf = bksge::math::Rect<float>;
 using Recti = bksge::math::Rect<int>;
@@ -237,91 +235,103 @@ BKSGE_WARNING_PUSH()
 BKSGE_WARNING_DISABLE_CLANG("-Wself-assign-overloaded")
 #endif
 
-TYPED_TEST(MathRectTest, CopyAssignTest)
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool CopyAssignTest()
 {
-	using T = TypeParam;
 	using Rect = bksge::math::Rect<T>;
 	using Vector2 = bksge::math::Vector2<T>;
 
 	Rect r1(Vector2{0, 1}, Vector2{2, 3});
 	Rect r2(Vector2{3, 4}, Vector2{5, 6});
-	EXPECT_EQ(0, r1.left());
-	EXPECT_EQ(1, r1.top());
-	EXPECT_EQ(2, r1.right());
-	EXPECT_EQ(3, r1.bottom());
-	EXPECT_EQ(3, r2.left());
-	EXPECT_EQ(4, r2.top());
-	EXPECT_EQ(5, r2.right());
-	EXPECT_EQ(6, r2.bottom());
+	VERIFY(0 == r1.left());
+	VERIFY(1 == r1.top());
+	VERIFY(2 == r1.right());
+	VERIFY(3 == r1.bottom());
+	VERIFY(3 == r2.left());
+	VERIFY(4 == r2.top());
+	VERIFY(5 == r2.right());
+	VERIFY(6 == r2.bottom());
 
 	r1 = Rect(Vector2(6, -7), Vector2(8, 9));
 	r2 = Recti(Vector2i(-9, 10), Vector2i(11, -12));
-	EXPECT_EQ(  6, r1.left());
-	EXPECT_EQ( -7, r1.top());
-	EXPECT_EQ(  8, r1.right());
-	EXPECT_EQ(  9, r1.bottom());
-	EXPECT_EQ( -9, r2.left());
-	EXPECT_EQ(-12, r2.top());
-	EXPECT_EQ( 11, r2.right());
-	EXPECT_EQ( 10, r2.bottom());
+	VERIFY(  6 == r1.left());
+	VERIFY( -7 == r1.top());
+	VERIFY(  8 == r1.right());
+	VERIFY(  9 == r1.bottom());
+	VERIFY( -9 == r2.left());
+	VERIFY(-12 == r2.top());
+	VERIFY( 11 == r2.right());
+	VERIFY( 10 == r2.bottom());
 
 	// 自己代入
 	r1 = r1;
 	r2 = r2;
-	EXPECT_EQ(  6, r1.left());
-	EXPECT_EQ( -7, r1.top());
-	EXPECT_EQ(  8, r1.right());
-	EXPECT_EQ(  9, r1.bottom());
-	EXPECT_EQ( -9, r2.left());
-	EXPECT_EQ(-12, r2.top());
-	EXPECT_EQ( 11, r2.right());
-	EXPECT_EQ( 10, r2.bottom());
+	VERIFY(  6 == r1.left());
+	VERIFY( -7 == r1.top());
+	VERIFY(  8 == r1.right());
+	VERIFY(  9 == r1.bottom());
+	VERIFY( -9 == r2.left());
+	VERIFY(-12 == r2.top());
+	VERIFY( 11 == r2.right());
+	VERIFY( 10 == r2.bottom());
 
 	// 多重代入
 	r1 = r2 = Rectf(Vector2f(4, 5), Vector2f(-4, -9));
-	EXPECT_EQ(-4, r1.left());
-	EXPECT_EQ(-9, r1.top());
-	EXPECT_EQ( 4, r1.right());
-	EXPECT_EQ( 5, r1.bottom());
-	EXPECT_EQ(-4, r2.left());
-	EXPECT_EQ(-9, r2.top());
-	EXPECT_EQ( 4, r2.right());
-	EXPECT_EQ( 5, r2.bottom());
+	VERIFY(-4 == r1.left());
+	VERIFY(-9 == r1.top());
+	VERIFY( 4 == r1.right());
+	VERIFY( 5 == r1.bottom());
+	VERIFY(-4 == r2.left());
+	VERIFY(-9 == r2.top());
+	VERIFY( 4 == r2.right());
+	VERIFY( 5 == r2.bottom());
+
+	return true;
 }
 
 BKSGE_WARNING_POP()
 
-TYPED_TEST(MathRectTest, DataTest)
+TYPED_TEST(MathRectTest, CopyAssignTest)
 {
-	using T = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(CopyAssignTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool DataTest()
+{
 	using Rect = bksge::math::Rect<T>;
 	using Vector2 = bksge::math::Vector2<T>;
 
 	{
 		Rect r{Vector2(1, 2), Vector2(3, 4)};
 		auto p = r.data();
-		EXPECT_TRUE(p != nullptr);
-		EXPECT_EQ(1, p[0]);
-		EXPECT_EQ(2, p[1]);
-		EXPECT_EQ(3, p[2]);
-		EXPECT_EQ(4, p[3]);
+		VERIFY(p != nullptr);
+		VERIFY(1 == p[0]);
+		VERIFY(2 == p[1]);
+		VERIFY(3 == p[2]);
+		VERIFY(4 == p[3]);
 	}
-#if 0//!defined(BKSGE_GCC)
 	{
-		BKSGE_STATIC_CONSTEXPR Rect r{Vector2{1, 2}, Vector2{3, 4}};
-		BKSGE_STATIC_CONSTEXPR auto p = r.data();
-		BKSGE_CONSTEXPR_EXPECT_TRUE(p != nullptr);
-		BKSGE_CONSTEXPR_EXPECT_EQ(1, p[0]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(2, p[1]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(3, p[2]);
-		BKSGE_CONSTEXPR_EXPECT_EQ(4, p[3]);
+		Rect const r{Vector2{1, 2}, Vector2{3, 4}};
+		auto p = r.data();
+		VERIFY(p != nullptr);
+		VERIFY(1 == p[0]);
+		VERIFY(2 == p[1]);
+		VERIFY(3 == p[2]);
+		VERIFY(4 == p[3]);
 	}
-#endif
+
+	return true;
 }
 
-TYPED_TEST(MathRectTest, SwapTest)
+TYPED_TEST(MathRectTest, DataTest)
 {
-	using T = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(DataTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool SwapTest()
+{
 	using Rect = bksge::math::Rect<T>;
 	using Vector2 = bksge::math::Vector2<T>;
 
@@ -330,41 +340,55 @@ TYPED_TEST(MathRectTest, SwapTest)
 
 	r1.swap(r2);
 
-	EXPECT_EQ(Rect(Vector2(31, 32), Vector2(41, 42)), r1);
-	EXPECT_EQ(Rect(Vector2(11, 12), Vector2(21, 22)), r2);
+	VERIFY(Rect(Vector2(31, 32), Vector2(41, 42)) ==  r1);
+	VERIFY(Rect(Vector2(11, 12), Vector2(21, 22)) ==  r2);
 
 	swap(r1, r2);
 
-	EXPECT_EQ(Rect(Vector2(11, 12), Vector2(21, 22)), r1);
-	EXPECT_EQ(Rect(Vector2(31, 32), Vector2(41, 42)), r2);
+	VERIFY(Rect(Vector2(11, 12), Vector2(21, 22)) == r1);
+	VERIFY(Rect(Vector2(31, 32), Vector2(41, 42)) == r2);
+
+	return true;
+}
+
+TYPED_TEST(MathRectTest, SwapTest)
+{
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(SwapTest<TypeParam>());
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool CompareTest()
+{
+	using Rect = bksge::math::Rect<T>;
+	using Vector2 = bksge::math::Vector2<T>;
+
+	Rect const r1(Vector2{1, 2}, Vector2{ 3, 4});
+	Rect const r2(Vector2{1, 2}, Vector2{ 3, 4});
+	Rect const r3(Vector2{2, 2}, Vector2{ 3, 4});
+	Rect const r4(Vector2{1, 0}, Vector2{ 3, 4});
+	Rect const r5(Vector2{1, 2}, Vector2{-3, 4});
+	Rect const r6(Vector2{1, 2}, Vector2{ 3, 5});
+
+	VERIFY( (r1 == r1));
+	VERIFY( (r1 == r2));
+	VERIFY(!(r1 == r3));
+	VERIFY(!(r1 == r4));
+	VERIFY(!(r1 == r5));
+	VERIFY(!(r1 == r6));
+
+	VERIFY(!(r1 != r1));
+	VERIFY(!(r1 != r2));
+	VERIFY( (r1 != r3));
+	VERIFY( (r1 != r4));
+	VERIFY( (r1 != r5));
+	VERIFY( (r1 != r6));
+
+	return true;
 }
 
 TYPED_TEST(MathRectTest, CompareTest)
 {
-	using T = TypeParam;
-	using Rect = bksge::math::Rect<T>;
-	using Vector2 = bksge::math::Vector2<T>;
-
-	BKSGE_CXX14_CONSTEXPR_OR_CONST Rect r1(Vector2{1, 2}, Vector2{ 3, 4});
-	BKSGE_CXX14_CONSTEXPR_OR_CONST Rect r2(Vector2{1, 2}, Vector2{ 3, 4});
-	BKSGE_CXX14_CONSTEXPR_OR_CONST Rect r3(Vector2{2, 2}, Vector2{ 3, 4});
-	BKSGE_CXX14_CONSTEXPR_OR_CONST Rect r4(Vector2{1, 0}, Vector2{ 3, 4});
-	BKSGE_CXX14_CONSTEXPR_OR_CONST Rect r5(Vector2{1, 2}, Vector2{-3, 4});
-	BKSGE_CXX14_CONSTEXPR_OR_CONST Rect r6(Vector2{1, 2}, Vector2{ 3, 5});
-
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE (r1 == r1);
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE (r1 == r2);
-	BKSGE_CXX14_CONSTEXPR_EXPECT_FALSE(r1 == r3);
-	BKSGE_CXX14_CONSTEXPR_EXPECT_FALSE(r1 == r4);
-	BKSGE_CXX14_CONSTEXPR_EXPECT_FALSE(r1 == r5);
-	BKSGE_CXX14_CONSTEXPR_EXPECT_FALSE(r1 == r6);
-
-	BKSGE_CXX14_CONSTEXPR_EXPECT_FALSE(r1 != r1);
-	BKSGE_CXX14_CONSTEXPR_EXPECT_FALSE(r1 != r2);
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE (r1 != r3);
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE (r1 != r4);
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE (r1 != r5);
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE (r1 != r6);
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(CompareTest<TypeParam>());
 }
 
 TYPED_TEST(MathRectTest, OutputStreamTest)
@@ -409,31 +433,48 @@ TYPED_TEST(MathRectTest, SerializeTest)
 #endif
 }
 
-TYPED_TEST(MathRectTest, HashTest)
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR bool HashTest()
 {
-	using T = TypeParam;
 	using Rect = bksge::math::Rect<T>;
 	using Vector2 = bksge::math::Vector2<T>;
 
+	Rect const v1(Vector2{1,2}, Vector2{3,4});
+	Rect const v2(Vector2{2,1}, Vector2{3,4});
+	Rect const v3(Vector2{1,2}, Vector2{4,3});
+	Rect const v4(Vector2{-1,-2}, Vector2{3,4});
+
 	std::hash<Rect> h;
 
-	Rect const r1(Vector2{1,2}, Vector2{3,4});
-	Rect const r2(Vector2{2,1}, Vector2{3,4});
-	Rect const r3(Vector2{1,2}, Vector2{4,3});
-	Rect const r4(Vector2{-1,-2}, Vector2{3,4});
+	VERIFY(h(v1) == h(v1));
+	VERIFY(h(v1) != h(v2));
+	VERIFY(h(v1) != h(v3));
+	VERIFY(h(v1) != h(v4));
 
-	std::vector<std::size_t> v;
-	v.push_back(h(r1));
-	v.push_back(h(r2));
-	v.push_back(h(r3));
-	v.push_back(h(r4));
-	bksge::sort(v.begin(), v.end());
-	EXPECT_TRUE(bksge::is_unique(v.begin(), v.end()));
+	VERIFY(h(v2) != h(v1));
+	VERIFY(h(v2) == h(v2));
+	VERIFY(h(v2) != h(v3));
+	VERIFY(h(v2) != h(v4));
 
-	v.push_back(h(r1));
-	bksge::sort(v.begin(), v.end());
-	EXPECT_FALSE(bksge::is_unique(v.begin(), v.end()));
+	VERIFY(h(v3) != h(v1));
+	VERIFY(h(v3) != h(v2));
+	VERIFY(h(v3) == h(v3));
+	VERIFY(h(v3) != h(v4));
+
+	VERIFY(h(v4) != h(v1));
+	VERIFY(h(v4) != h(v2));
+	VERIFY(h(v4) != h(v3));
+	VERIFY(h(v4) == h(v4));
+
+	return true;
 }
+
+TYPED_TEST(MathRectTest, HashTest)
+{
+	/*BKSGE_CXX14_CONSTEXPR_*/EXPECT_TRUE(HashTest<TypeParam>());
+}
+
+#undef VERIFY
 
 }	// namespace rect_test
 
