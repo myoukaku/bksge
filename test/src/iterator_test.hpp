@@ -81,7 +81,7 @@ struct output_iterator_wrapper
 	using iterator_category = bksge::output_iterator_tag;
 	using difference_type   = std::ptrdiff_t;
 	BKSGE_CXX14_CONSTEXPR output_iterator_wrapper& operator++() { ++m_ptr; return *this; }
-	BKSGE_CXX14_CONSTEXPR output_iterator_wrapper  operator++(int);
+	BKSGE_CXX14_CONSTEXPR output_iterator_wrapper  operator++(int) { auto t = *this; ++m_ptr; return t; }
 	BKSGE_CXX14_CONSTEXPR T&                       operator*() const { return *m_ptr; }
 };
 
