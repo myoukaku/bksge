@@ -503,8 +503,24 @@
 #if (_MSC_FULL_VER >= 192729110)
 #endif
 
-// Visual Studio 2019 version 16.7.(1-3)
+// Visual Studio 2019 version 16.7.(1-4)
 #if (_MSC_FULL_VER >= 192729111)
+#endif
+
+// Visual Studio 2019 version 16.7.(5-7)
+#if (_MSC_FULL_VER >= 192729112)
+#endif
+
+// Visual Studio 2019 version 16.8.0
+#if (_MSC_FULL_VER >= 192800000)
+#endif
+
+// Visual Studio 2019 version 16.8.1
+#if (_MSC_FULL_VER >= 192829333)
+#endif
+
+// Visual Studio 2019 version 16.8.2
+#if (_MSC_FULL_VER >= 192829334)
 #endif
 
 #if (BKSGE_CXX_STANDARD >= 17)
