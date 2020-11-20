@@ -19,6 +19,7 @@
 #include <bksge/fnd/numeric/lcm.hpp>
 #include <bksge/fnd/numeric/midpoint.hpp>
 #include <bksge/fnd/numeric/partial_sum.hpp>
+#include <bksge/fnd/numeric/ranges.hpp>
 #include <bksge/fnd/numeric/reduce.hpp>
 #include <bksge/fnd/numeric/transform_exclusive_scan.hpp>
 #include <bksge/fnd/numeric/transform_inclusive_scan.hpp>
