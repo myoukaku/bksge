@@ -32,12 +32,22 @@ namespace bksge
  */
 struct monostate {};
 
+inline BKSGE_CONSTEXPR bool operator==(monostate, monostate) BKSGE_NOEXCEPT { return true; }
+
+#if defined(__cpp_lib_three_way_comparison)
+
+inline BKSGE_CONSTEXPR strong_ordering
+operator<=>(monostate, monostate) BKSGE_NOEXCEPT { return strong_ordering::equal; }
+
+#else
+
 inline BKSGE_CONSTEXPR bool operator< (monostate, monostate) BKSGE_NOEXCEPT { return false; }
 inline BKSGE_CONSTEXPR bool operator> (monostate, monostate) BKSGE_NOEXCEPT { return false; }
 inline BKSGE_CONSTEXPR bool operator<=(monostate, monostate) BKSGE_NOEXCEPT { return true; }
 inline BKSGE_CONSTEXPR bool operator>=(monostate, monostate) BKSGE_NOEXCEPT { return true; }
-inline BKSGE_CONSTEXPR bool operator==(monostate, monostate) BKSGE_NOEXCEPT { return true; }
 inline BKSGE_CONSTEXPR bool operator!=(monostate, monostate) BKSGE_NOEXCEPT { return false; }
+
+#endif
 
 }	// namespace bksge
 
@@ -50,12 +60,7 @@ namespace std
 template <>
 struct hash<bksge::monostate>
 {
-private:
-	using argument_type = bksge::monostate;
-	using result_type = std::size_t;
-
-public:
-	result_type operator()(argument_type const&) const BKSGE_NOEXCEPT
+	std::size_t operator()(bksge::monostate const&) const BKSGE_NOEXCEPT
 	{
 		return 66740831; // return a fundamentally attractive random value.
 	}

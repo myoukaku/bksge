@@ -22,10 +22,23 @@ using std::visit;
 
 #else
 
-#include <bksge/fnd/variant/detail/visitation.hpp>
 #include <bksge/fnd/variant/bad_variant_access.hpp>
+#include <bksge/fnd/variant/get.hpp>
+#include <bksge/fnd/variant/variant_size.hpp>
+#include <bksge/fnd/variant/detail/deduce_visit_result.hpp>
+#include <bksge/fnd/variant/detail/do_visit.hpp>
+#include <bksge/fnd/functional/invoke.hpp>
+#include <bksge/fnd/tpp/any_of.hpp>
+#include <bksge/fnd/type_traits/conjunction.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
+#include <bksge/fnd/type_traits/invoke_result.hpp>
+#include <bksge/fnd/type_traits/remove_reference.hpp>
+#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/utility/forward.hpp>
+#include <bksge/fnd/utility/index_sequence.hpp>
+#include <bksge/fnd/utility/make_index_sequence.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -33,36 +46,87 @@ namespace bksge
 namespace variant_detail
 {
 
-inline BKSGE_CONSTEXPR bool visit_valueless_check(void)
+template <typename T, typename... Types>
+struct same_types : public bksge::conjunction<bksge::is_same<T, Types>...> {};
+
+template <std::size_t Idx, typename Visitor, typename Variant>
+decltype(auto)
+check_visitor_result(Visitor&& vis, Variant&& var)
 {
-	return true;
+	return bksge::invoke(bksge::forward<Visitor>(vis), bksge::get<Idx>(bksge::forward<Variant>(var)));
 }
 
-template <typename Variant, typename... Vs>
-inline BKSGE_CONSTEXPR bool visit_valueless_check(Variant&& v, Vs&&... vs)
+template <typename Visitor, typename Variant, std::size_t... Idxs>
+constexpr bool check_visitor_results(bksge::index_sequence<Idxs...>)
 {
-	return v.valueless_by_exception() ?
-		(throw_bad_variant_access(), false) :
-		visit_valueless_check(bksge::forward<Vs>(vs)...);
+	return same_types<decltype(check_visitor_result<Idxs>(
+		bksge::declval<Visitor>(),
+		bksge::declval<Variant>()))...>::value;
+}
+
+// sizeof...(Variants) != 1
+template <typename Visitor, typename... Variants>
+constexpr decltype(auto)
+visit_impl(bksge::false_type, Visitor&& visitor, Variants&&... variants)
+{
+	using ResultType = bksge::invoke_result_t<Visitor,
+		decltype(bksge::get<0>(bksge::declval<Variants>()))...>;
+
+	using Tag = variant_detail::DeduceVisitResult<ResultType>;
+
+	return variant_detail::do_visit<Tag>(
+		bksge::forward<Visitor>(visitor),
+		bksge::forward<Variants>(variants)...);
+}
+
+// sizeof...(Variants) == 1
+template <typename Visitor, typename... Variants>
+constexpr decltype(auto)
+visit_impl(bksge::true_type, Visitor&& visitor, Variants&&... variants)
+{
+	constexpr bool visit_rettypes_match =
+		variant_detail::check_visitor_results<Visitor, Variants...>(
+			bksge::make_index_sequence<
+			bksge::variant_size<bksge::remove_reference_t<Variants>...>::value>());
+	static_assert(visit_rettypes_match,
+		"bksge::visit requires the visitor to have the same "
+		"return type for all alternatives of a variant");
+
+	return variant_detail::visit_impl(
+		bksge::false_type{},
+		bksge::forward<Visitor>(visitor),
+		bksge::forward<Variants>(variants)...);
 }
 
 }	// namespace variant_detail
 
-/**
- *	@brief	variant に 処理を適用する
- */
-template <typename Visitor, typename... Vs>
-inline BKSGE_CONSTEXPR auto visit(Visitor&& visitor, Vs&&... vs)
-->decltype(variant_detail::visitation::variant_t::visit_value(
-			bksge::forward<Visitor>(visitor),
-			bksge::forward<Vs>(vs)...))
+template <typename Visitor, typename... Variants>
+constexpr decltype(auto)
+visit(Visitor&& visitor, Variants&&... variants)
 {
-	return
-		variant_detail::visit_valueless_check(
-			bksge::forward<Vs>(vs)...),
-		variant_detail::visitation::variant_t::visit_value(
-			bksge::forward<Visitor>(visitor),
-			bksge::forward<Vs>(vs)...);
+	if (bksge::tpp::any_of(variants.valueless_by_exception()...))
+	{
+		throw_bad_variant_access("bksge::visit: variant is valueless");
+	}
+
+	return variant_detail::visit_impl(
+		bksge::bool_constant<sizeof...(Variants) == 1>{},
+		bksge::forward<Visitor>(visitor),
+		bksge::forward<Variants>(variants)...);
+}
+
+template <typename Res, typename Visitor, typename... Variants>
+constexpr Res
+visit(Visitor&& visitor, Variants&&... variants)
+{
+	if (bksge::tpp::any_of(variants.valueless_by_exception()...))
+	{
+		throw_bad_variant_access("bksge::visit<R>: variant is valueless");
+	}
+
+	return variant_detail::do_visit<Res>(
+		bksge::forward<Visitor>(visitor),
+		bksge::forward<Variants>(variants)...);
 }
 
 }	// namespace bksge

@@ -27,10 +27,10 @@ GTEST_TEST(VariantTest, CtorConvTest)
 {
 	static_assert(!bksge::is_constructible<bksge::variant<int, int>, int>::value, "");
 	static_assert(!bksge::is_constructible<bksge::variant<long, long long>, int>::value, "");
-	static_assert( bksge::is_constructible<bksge::variant<char>, int>::value == VariantAllowsNarrowingConversions, "");
+	//static_assert( bksge::is_constructible<bksge::variant<char>, int>::value == VariantAllowsNarrowingConversions, "");
 
-	static_assert( bksge::is_constructible<bksge::variant<std::string, float>, int>::value == VariantAllowsNarrowingConversions, "");
-	static_assert( bksge::is_constructible<bksge::variant<std::string, double>, int>::value == VariantAllowsNarrowingConversions, "");
+	//static_assert( bksge::is_constructible<bksge::variant<std::string, float>, int>::value == VariantAllowsNarrowingConversions, "");
+	//static_assert( bksge::is_constructible<bksge::variant<std::string, double>, int>::value == VariantAllowsNarrowingConversions, "");
 // TODO
 //	static_assert(!bksge::is_constructible<bksge::variant<std::string, bool>, int>::value, "");
 

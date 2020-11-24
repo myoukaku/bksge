@@ -23,6 +23,10 @@ using std::bad_variant_access;
 #else
 
 #include <bksge/fnd/exception/exception.hpp>
+#include <bksge/fnd/config.hpp>
+#if defined(BKSGE_NO_EXCEPTIONS)
+#include <cstdlib>	// abort
+#endif
 
 namespace bksge
 {
@@ -37,33 +41,48 @@ namespace bksge
 class bad_variant_access : public bksge::exception
 {
 public:
-	virtual char const* what() const BKSGE_NOEXCEPT
+	bad_variant_access() BKSGE_NOEXCEPT {}
+
+	char const* what() const BKSGE_NOEXCEPT override
 	{
-		return "bad_variant_access";
+		return m_reason;
 	}
+
+private:
+	bad_variant_access(char const* reason) BKSGE_NOEXCEPT
+		: m_reason(reason) {}
+
+	// Must point to a string with static storage duration:
+	char const* m_reason = "bad variant access";
+
+	friend void throw_bad_variant_access(char const* what);
 };
 
-}	// namespace bksge
-
-#endif
-
-#if defined(BKSGE_NO_EXCEPTIONS)
-#include <cstdlib>	// abort
-#endif
-
-namespace bksge
-{
-
-BKSGE_NORETURN inline void
-throw_bad_variant_access()
+/*BKSGE_NORETURN*/ inline void
+throw_bad_variant_access(char const* what)
 {
 #if !defined(BKSGE_NO_EXCEPTIONS)
-	throw bksge::bad_variant_access();
+	throw bksge::bad_variant_access(what);
 #else
 	std::abort();
 #endif
 }
 
+/*BKSGE_NORETURN*/ inline void
+throw_bad_variant_access(bool valueless)
+{
+	if (valueless) /*[[__unlikely__]]*/
+	{
+		throw_bad_variant_access("bksge::get: variant is valueless");
+	}
+	else
+	{
+		throw_bad_variant_access("bksge::get: wrong index for variant");
+	}
+}
+
 }	// namespace bksge
+
+#endif
 
 #endif // BKSGE_FND_VARIANT_BAD_VARIANT_ACCESS_HPP

@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/config.hpp>
 
-#if 0
+#if 1
 #if (BKSGE_CXX_STANDARD >= 17) && BKSGE_HAS_INCLUDE(<variant>)
 #include <variant>
 #endif
@@ -21,6 +21,6 @@
 #endif
 #endif
 
-#define BKSGE_ENABLE_NARROWING_CONVERSIONS_IN_VARIANT
+//#define BKSGE_ENABLE_NARROWING_CONVERSIONS_IN_VARIANT
 
 #endif // BKSGE_FND_VARIANT_CONFIG_HPP

@@ -13,10 +13,68 @@
 
 #if defined(BKSGE_HAS_STD_VARIANT)
 
+#include <utility>
+
 namespace bksge
 {
 
-using std::get;
+//using std::get;
+
+template <std::size_t I, typename... Types>
+BKSGE_CONSTEXPR std::variant_alternative_t<I, std::variant<Types...>>&
+get(std::variant<Types...>& v)
+{
+	return std::get<I>(v);
+}
+
+template <std::size_t I, typename... Types>
+BKSGE_CONSTEXPR std::variant_alternative_t<I, std::variant<Types...>>&&
+get(std::variant<Types...>&& v)
+{
+	return std::get<I>(std::move(v));
+}
+
+template <std::size_t I, typename... Types>
+BKSGE_CONSTEXPR std::variant_alternative_t<I, std::variant<Types...>> const&
+get(std::variant<Types...> const& v)
+{
+	return std::get<I>(v);
+}
+
+template <std::size_t I, typename... Types>
+BKSGE_CONSTEXPR std::variant_alternative_t<I, std::variant<Types...>> const&&
+get(std::variant<Types...> const&& v)
+{
+	return std::get<I>(std::move(v));
+}
+
+template <typename T, typename... Types>
+BKSGE_CONSTEXPR T&
+get(std::variant<Types...>& v)
+{
+	return std::get<T>(v);
+}
+
+template <typename T, typename... Types>
+BKSGE_CONSTEXPR T&&
+get(std::variant<Types...>&& v)
+{
+	return std::get<T>(std::move(v));
+}
+
+template <typename T, typename... Types>
+BKSGE_CONSTEXPR T const&
+get(std::variant<Types...> const& v)
+{
+	return std::get<T>(v);
+}
+
+template <typename T, typename... Types>
+BKSGE_CONSTEXPR T const&&
+get(std::variant<Types...> const&& v)
+{
+	return std::get<T>(std::move(v));
+}
 
 }	// namespace bksge
 
