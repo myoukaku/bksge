@@ -6,6 +6,18 @@ include(Dart)
 
 option(BKSGE_UNITY_BUILD "Use Unity Builds" OFF)
 
+# git ブランチ名を得る
+find_package(Git REQUIRED)
+message("Found GIT: ${GIT_VERSION_STRING}")
+
+execute_process(
+  COMMAND ${GIT_EXECUTABLE} rev-parse --abbrev-ref HEAD
+  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+  OUTPUT_VARIABLE GIT_BRANCH_NAME
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+message(STATUS "GIT_BRANCH_NAME: ${GIT_BRANCH_NAME}")
+
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
