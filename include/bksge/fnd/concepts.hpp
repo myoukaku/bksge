@@ -9,6 +9,7 @@
 #ifndef BKSGE_FND_CONCEPTS_HPP
 #define BKSGE_FND_CONCEPTS_HPP
 
+#include <bksge/fnd/concepts/arithmetic.hpp>
 #include <bksge/fnd/concepts/assignable_from.hpp>
 #include <bksge/fnd/concepts/common_reference_with.hpp>
 #include <bksge/fnd/concepts/common_with.hpp>
