@@ -347,10 +347,10 @@ void Win32ConsoleWindow::DrawPixel(int x, int y, Color4f const& color)
 	if (0 <= x && x < m_screen_size.X &&
 		0 <= y && y < m_screen_size.Y)
 	{
-		int r = static_cast<int>(color.r() * 255);
-		int g = static_cast<int>(color.g() * 255);
-		int b = static_cast<int>(color.b() * 255);
-		auto color_u8 = Color3_u8(r, g, b);
+		auto const r = static_cast<std::uint8_t>(color.r() * 255);
+		auto const g = static_cast<std::uint8_t>(color.g() * 255);
+		auto const b = static_cast<std::uint8_t>(color.b() * 255);
+		auto const color_u8 = Color3_u8(r, g, b);
 
 		m_color_buf[y * m_screen_size.X + x] = color_u8;
 	}
