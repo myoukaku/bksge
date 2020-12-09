@@ -523,6 +523,10 @@
 #if (_MSC_FULL_VER >= 192829334)
 #endif
 
+// Visual Studio 2019 version 16.8.3
+#if (_MSC_FULL_VER >= 192829335)
+#endif
+
 #if (BKSGE_CXX_STANDARD >= 17)
 #  define BKSGE_HAS_CXX17_CONSTEXPR
 #endif
