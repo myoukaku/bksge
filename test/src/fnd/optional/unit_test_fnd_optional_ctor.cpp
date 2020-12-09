@@ -214,7 +214,7 @@ GTEST_TEST(OptionalTest, MoveCtorTest)
 GTEST_TEST(OptionalTest, ValueCtorTest)
 {
 	{
-		BKSGE_CONSTEXPR auto i = 0x1234ABCD;
+		BKSGE_CONSTEXPR long i = 0x1234ABCD;
 		BKSGE_CONSTEXPR bksge::optional<long> o{ i };
 		BKSGE_CONSTEXPR_EXPECT_TRUE((bool)o);
 		BKSGE_CONSTEXPR_EXPECT_TRUE(*o == 0x1234ABCD);
@@ -222,7 +222,7 @@ GTEST_TEST(OptionalTest, ValueCtorTest)
 	}
 
 	{
-		BKSGE_CONSTEXPR auto i = 0x1234ABCD;
+		BKSGE_CONSTEXPR long i = 0x1234ABCD;
 		BKSGE_CONSTEXPR bksge::optional<long> o( i );
 		BKSGE_CONSTEXPR_EXPECT_TRUE((bool)o);
 		BKSGE_CONSTEXPR_EXPECT_TRUE(*o == 0x1234ABCD);
@@ -230,15 +230,15 @@ GTEST_TEST(OptionalTest, ValueCtorTest)
 	}
 
 	{
-		BKSGE_CONSTEXPR auto i = 0x1234ABCD;
-		bksge::optional<long> o = i;	// TODO 何故かconstexprにできない
-		EXPECT_TRUE((bool)o);
-		EXPECT_TRUE(*o == 0x1234ABCD);
-		EXPECT_TRUE(i == 0x1234ABCD);
+		BKSGE_CONSTEXPR long i = 0x1234ABCD;
+		BKSGE_CONSTEXPR bksge::optional<long> o = i;
+		BKSGE_CONSTEXPR_EXPECT_TRUE((bool)o);
+		BKSGE_CONSTEXPR_EXPECT_TRUE(*o == 0x1234ABCD);
+		BKSGE_CONSTEXPR_EXPECT_TRUE(i == 0x1234ABCD);
 	}
 
 	{
-		BKSGE_CONSTEXPR auto i = 0x1234ABCD;
+		BKSGE_CONSTEXPR long i = 0x1234ABCD;
 		BKSGE_CONSTEXPR bksge::optional<long> o = { i };
 		BKSGE_CONSTEXPR_EXPECT_TRUE((bool)o);
 		BKSGE_CONSTEXPR_EXPECT_TRUE(*o == 0x1234ABCD);
@@ -246,7 +246,7 @@ GTEST_TEST(OptionalTest, ValueCtorTest)
 	}
 
 	{
-		BKSGE_CONSTEXPR auto i = 0x1234ABCD;
+		BKSGE_CONSTEXPR long i = 0x1234ABCD;
 		BKSGE_CONSTEXPR bksge::optional<long> o{ bksge::move(i) };
 		BKSGE_CONSTEXPR_EXPECT_TRUE((bool)o);
 		BKSGE_CONSTEXPR_EXPECT_TRUE(*o == 0x1234ABCD);
@@ -254,7 +254,7 @@ GTEST_TEST(OptionalTest, ValueCtorTest)
 	}
 
 	{
-		BKSGE_CONSTEXPR auto i = 0x1234ABCD;
+		BKSGE_CONSTEXPR long i = 0x1234ABCD;
 		BKSGE_CONSTEXPR bksge::optional<long> o( bksge::move(i) );
 		BKSGE_CONSTEXPR_EXPECT_TRUE((bool)o);
 		BKSGE_CONSTEXPR_EXPECT_TRUE(*o == 0x1234ABCD);
@@ -262,11 +262,11 @@ GTEST_TEST(OptionalTest, ValueCtorTest)
 	}
 
 	{
-		BKSGE_CONSTEXPR auto i = 0x1234ABCD;
-		bksge::optional<long> o = bksge::move(i);	// TODO 何故かconstexprにできない
-		EXPECT_TRUE((bool)o);
-		EXPECT_TRUE(*o == 0x1234ABCD);
-		EXPECT_TRUE(i == 0x1234ABCD);
+		BKSGE_CONSTEXPR long i = 0x1234ABCD;
+		BKSGE_CONSTEXPR bksge::optional<long> o = bksge::move(i);
+		BKSGE_CONSTEXPR_EXPECT_TRUE((bool)o);
+		BKSGE_CONSTEXPR_EXPECT_TRUE(*o == 0x1234ABCD);
+		BKSGE_CONSTEXPR_EXPECT_TRUE(i == 0x1234ABCD);
 	}
 
 	{
@@ -351,6 +351,35 @@ GTEST_TEST(OptionalTest, ValueCtorTest)
 		throwing_construction t{ true };
 		EXPECT_THROW(bksge::optional<throwing_construction> o{ bksge::move(t) }, exception);
 	}
+}
+
+struct MoveOnly
+{
+	MoveOnly() = default;
+	MoveOnly(MoveOnly&&) {}
+	MoveOnly& operator=(MoveOnly&&) { return *this; }
+};
+
+GTEST_TEST(OptionalTest, DeductionCtorTest)
+{
+#if defined(BKSGE_HAS_CXX17_DEDUCTION_GUIDES)
+	bksge::optional x = 5;
+	static_assert(bksge::is_same<decltype(x), bksge::optional<int>>::value, "");
+	int y = 42;
+	bksge::optional x2 = y;
+	static_assert(bksge::is_same<decltype(x2), bksge::optional<int>>::value, "");
+	const int z = 666;
+	bksge::optional x3 = z;
+	static_assert(bksge::is_same<decltype(x3), bksge::optional<int>>::value, "");
+	bksge::optional mo = MoveOnly();
+	static_assert(bksge::is_same<decltype(mo), bksge::optional<MoveOnly>>::value, "");
+	mo = MoveOnly();
+
+	bksge::optional copy = x;
+	static_assert(bksge::is_same<decltype(copy), bksge::optional<int>>::value, "");
+	bksge::optional move = bksge::move(mo);
+	static_assert(bksge::is_same<decltype(move), bksge::optional<MoveOnly>>::value, "");
+#endif
 }
 
 }	// namespace ctor_test

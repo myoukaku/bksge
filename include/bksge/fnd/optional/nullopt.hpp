@@ -33,18 +33,23 @@ using std::nullopt;
 namespace bksge
 {
 
+/// Tag type to disengage optional objects.
 struct nullopt_t
 {
+	// Do not user-declare default constructor at all for
+	// optional_value = {} syntax to work.
+	// nullopt_t() = delete;
+
+	// Used for constructing nullopt.
 	enum class Construct { Token };
 
+	// Must be constexpr for nullopt_t to be literal.
 	explicit BKSGE_CONSTEXPR nullopt_t(Construct) {}
 };
 
-BKSGE_STATIC_CONSTEXPR nullopt_t nullopt{ nullopt_t::Construct::Token };
-
-// none, none_t も使えるようにエイリアスを提供する
-using none_t = nullopt_t;
-BKSGE_STATIC_CONSTEXPR none_t none = nullopt;
+/// Tag to disengage optional objects.
+BKSGE_INLINE_VAR BKSGE_CONSTEXPR
+nullopt_t nullopt{nullopt_t::Construct::Token};
 
 #if defined(BKSGE_MSVC) && (BKSGE_MSVC <= 1900)
 

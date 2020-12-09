@@ -24,9 +24,8 @@ GTEST_TEST(OptionalTest, NulloptTest)
 	static_assert(!bksge::is_default_constructible<bksge::nullopt_t>::value, "");
 
 	{
-		// TODO constexprにする
-		bksge::optional<int> o = bksge::nullopt;
-		EXPECT_TRUE(!o);
+		BKSGE_CONSTEXPR bksge::optional<int> o = bksge::nullopt;
+		BKSGE_CONSTEXPR_EXPECT_TRUE(!o);
 	}
 
 	{

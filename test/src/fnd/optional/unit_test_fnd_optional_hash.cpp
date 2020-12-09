@@ -7,34 +7,49 @@
  */
 
 #include <bksge/fnd/optional/optional.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
+#include <bksge/fnd/type_traits/is_invocable.hpp>
 #include <gtest/gtest.h>
 #include <string>
 #include "constexpr_test.hpp"
 
+namespace bksge_optional_test
+{
+
+namespace hash_test
+{
+
+class S {}; // No hash specialization
+
+template<class T>
+auto f(int) -> decltype(std::hash<bksge::optional<T>>(), bksge::true_type());
+
+template<class T>
+auto f(...) -> decltype(bksge::false_type());
+
+static_assert(!decltype(f<S>(0))::value, "");
+
+template<typename T>
+constexpr bool hashable()
+{
+	return bksge::is_invocable<std::hash<T>&, const T&>::value;
+}
+
+static_assert(!hashable<bksge::optional<S>>(), "");
+static_assert(!hashable<bksge::optional<const S>>(), "");
+static_assert( hashable<bksge::optional<int>>(), "");
+static_assert( hashable<bksge::optional<const int>>(), "");
+
 GTEST_TEST(OptionalTest, HashTest)
 {
-#if 0	// 値を格納していないoptionalのハッシュは未規定
-	{
-		const bksge::optional<int> o;
-		EXPECT_EQ(0u, std::hash<bksge::optional<int>>()(o));
-	}
-#endif
-	{
-		const bksge::optional<int> o(1);
-		EXPECT_EQ(
-			std::hash<int>()(1),
-			std::hash<bksge::optional<int>>()(o));
-	}
-	{
-		const bksge::optional<int> o(42);
-		EXPECT_EQ(
-			std::hash<int>()(42),
-			std::hash<bksge::optional<int>>()(o));
-	}
-	{
-		const bksge::optional<std::string> o("abc");
-		EXPECT_EQ(
-			std::hash<std::string>()("abc"),
-			std::hash<bksge::optional<std::string>>()(o));
-	}
+	int x = 42;
+	bksge::optional<int> x2 = 42;
+	EXPECT_TRUE(std::hash<int>()(x) == std::hash<bksge::optional<int>>()(x2));
+
+	bksge::optional<const int> x3 = x2;
+	EXPECT_TRUE(std::hash<int>()(x) == std::hash<bksge::optional<const int>>()(x3));
 }
+
+}	// namespace hash_test
+
+}	// namespace bksge_optional_test

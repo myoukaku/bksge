@@ -29,11 +29,16 @@ using std::bad_optional_access;
 namespace bksge
 {
 
+/**
+ *  @brief Exception class thrown when a disengaged optional object is
+ *  dereferenced.
+ *  @ingroup exceptions
+ */
 class bad_optional_access : public std::exception
 {
 public:
-	bad_optional_access() BKSGE_NOEXCEPT
-	{}
+	bad_optional_access() = default;
+	virtual ~bad_optional_access() = default;
 
 	char const* what() const BKSGE_NOEXCEPT override
 	{
@@ -45,7 +50,9 @@ public:
 
 #endif
 
+#if defined(BKSGE_NO_EXCEPTIONS)
 #include <cstdlib>		// abort
+#endif
 
 namespace bksge
 {
@@ -61,5 +68,4 @@ void throw_bad_optional_access()
 }
 
 }	// namespace bksge
-
 #endif // BKSGE_FND_OPTIONAL_BAD_OPTIONAL_ACCESS_HPP

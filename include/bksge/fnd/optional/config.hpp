@@ -14,7 +14,8 @@
 #include <optional>
 #endif
 
-#if defined(__cpp_lib_optional) && (__cpp_lib_optional >= 201606)
+#if defined(__cpp_lib_optional) && (__cpp_lib_optional >= 201606) &&	\
+	defined(__cpp_lib_three_way_comparison) && (__cpp_lib_three_way_comparison >= 201907L)
 
 // clang 8 より前のバージョンだとconstexpr対応が不十分なので、自前のoptionalを使う
 // gcc 8 より前のバージョンだとconstexpr対応が不十分なので、自前のoptionalを使う

@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	optional_base.hpp
  *
- *	@brief	optional_base の定義
+ *	@brief	optional_base クラステンプレートの定義
  *
  *	@author	myoukaku
  */
@@ -9,21 +9,18 @@
 #ifndef BKSGE_FND_OPTIONAL_DETAIL_OPTIONAL_BASE_HPP
 #define BKSGE_FND_OPTIONAL_DETAIL_OPTIONAL_BASE_HPP
 
-#include <bksge/fnd/memory/addressof.hpp>
-#include <bksge/fnd/type_traits/remove_const.hpp>
-#include <bksge/fnd/type_traits/is_trivially_destructible.hpp>
+#include <bksge/fnd/optional/detail/optional_base_impl.hpp>
+#include <bksge/fnd/optional/detail/optional_payload.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_move_constructible.hpp>
-#include <bksge/fnd/type_traits/is_nothrow_move_assignable.hpp>
+#include <bksge/fnd/type_traits/is_trivially_copy_constructible.hpp>
+#include <bksge/fnd/type_traits/is_trivially_move_constructible.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
 #include <initializer_list>
-
-#if !defined(BKSGE_HAS_CXX11_UNRESTRICTED_UNIONS)
-#  include <bksge/fnd/type_traits/aligned_storage.hpp>
-#  include <bksge/fnd/type_traits/alignment_of.hpp>
-#endif
 
 namespace bksge
 {
@@ -31,130 +28,172 @@ namespace bksge
 namespace detail
 {
 
-template <typename T, bool = bksge::is_trivially_destructible<T>::value>
-class optional_base_impl
+/**
+  * @brief Class template that provides copy/move constructors of optional.
+  *
+  * Such a separate base class template is necessary in order to
+  * conditionally make copy/move constructors trivial.
+  *
+  * When the contained value is trivially copy/move constructible,
+  * the copy/move constructors of optional_base will invoke the
+  * trivial copy/move constructor of optional_payload. Otherwise,
+  * they will invoke optional_payload(bool, optional_payload const&)
+  * or optional_payload(bool, optional_payload&&) to initialize
+  * the contained value, if copying/moving an engaged optional.
+  *
+  * Whether the other special members are trivial is determined by the
+  * optional_payload<T> specialization used for the m_payload member.
+  *
+  * @see optional, _Enable_special_members
+  */
+template <typename T,
+	bool = bksge::is_trivially_copy_constructible<T>::value,
+	bool = bksge::is_trivially_move_constructible<T>::value>
+struct optional_base
+	: public optional_base_impl<T, optional_base<T>>
 {
-#include <bksge/fnd/optional/detail/optional_base_impl_common.hpp>
-};
+	// Constructors for disengaged optionals.
+	BKSGE_CONSTEXPR optional_base() = default;
 
-// T が TriviallyDestructible でないときのみ、デストラクタを提供する
-template <typename T>
-class optional_base_impl<T, false>
-{
-#include <bksge/fnd/optional/detail/optional_base_impl_common.hpp>
-public:
-	~optional_base_impl()
-	{
-		destroy();
-	}
-};
-
-template <typename T>
-class optional_base : public optional_base_impl<T>
-{
-private:
-	using base = optional_base_impl<T>;
-
-public:
-	BKSGE_CONSTEXPR optional_base()
-		: base{}
-	{}
-
-	BKSGE_CONSTEXPR optional_base(T const& t)
-		: base{t}
-	{}
-
-	BKSGE_CONSTEXPR optional_base(T&& t)
-		: base{bksge::move(t)}
-	{}
-
-	template <typename... Args>
+	// Constructors for engaged optionals.
+	template <typename... Args,
+		typename = bksge::enable_if_t<bksge::is_constructible<T, Args...>::value>>
 	BKSGE_CONSTEXPR explicit
-	optional_base(in_place_t t, Args&&... args)
-		: base{t, bksge::forward<Args>(args)...}
+	optional_base(bksge::in_place_t, Args&&... args)
+		: m_payload(bksge::in_place, bksge::forward<Args>(args)...)
 	{}
 
-	template <
-		typename U,
-		typename... Args
-	>
+	template <typename U, typename... Args,
+		typename = bksge::enable_if_t<bksge::is_constructible<T, std::initializer_list<U>&, Args...>::value>>
 	BKSGE_CONSTEXPR explicit
-	optional_base(in_place_t t, std::initializer_list<U> il, Args&&... args)
-		: base{t, il, bksge::forward<Args>(args)...}
+	optional_base(bksge::in_place_t, std::initializer_list<U> il, Args&&... args)
+		: m_payload(bksge::in_place, il, bksge::forward<Args>(args)...)
 	{}
 
 	// Copy and move constructors.
-	BKSGE_CXX14_CONSTEXPR
+	BKSGE_CONSTEXPR
 	optional_base(optional_base const& other)
-		: base{}
-	{
-		if (other.engaged())
-		{
-			this->construct(other.get());
-		}
-	}
+		: m_payload(other.m_payload.m_engaged, other.m_payload)
+	{}
 
-	BKSGE_CXX14_CONSTEXPR
+	BKSGE_CONSTEXPR
 	optional_base(optional_base&& other)
-		BKSGE_NOEXCEPT_IF(bksge::is_nothrow_move_constructible<T>::value)
-	{
-		if (other.engaged())
-		{
-			this->construct(bksge::move(other.get()));
-		}
-	}
+		BKSGE_NOEXCEPT_IF((bksge::is_nothrow_move_constructible<T>::value))
+		: m_payload(other.m_payload.m_engaged, bksge::move(other.m_payload))
+	{}
 
-	// [X.Y.4.3] (partly) Assignment.
-	optional_base& operator=(optional_base const& other)
-	{
-		if (this->engaged() && other.engaged())
-		{
-			this->get() = other.get();
-		}
-		else
-		{
-			if (other.engaged())
-			{
-				this->construct(other.get());
-			}
-			else
-			{
-				this->destroy();
-			}
-		}
+	// Assignment operators.
+	optional_base& operator=(optional_base const&) = default;
+	optional_base& operator=(optional_base&&) = default;
 
-		return *this;
-	}
+	optional_payload<T> m_payload;
+};
 
-	optional_base& operator=(optional_base&& other)
-		BKSGE_NOEXCEPT_IF(
-			bksge::is_nothrow_move_constructible<T>::value &&
-			bksge::is_nothrow_move_assignable<T>::value)
-	{
-		if (this->engaged() && other.engaged())
-		{
-			this->get() = bksge::move(other.get());
-		}
-		else
-		{
-			if (other.engaged())
-			{
-				this->construct(bksge::move(other.get()));
-			}
-			else
-			{
-				this->destroy();
-			}
-		}
+template <typename T>
+struct optional_base<T, false, true>
+	: public optional_base_impl<T, optional_base<T>>
+{
+	// Constructors for disengaged optionals.
+	BKSGE_CONSTEXPR optional_base() = default;
 
-		return *this;
-	}
+	// Constructors for engaged optionals.
+	template <typename... Args,
+		typename = bksge::enable_if_t<bksge::is_constructible<T, Args...>::value>>
+	BKSGE_CONSTEXPR explicit
+	optional_base(bksge::in_place_t, Args&&... args)
+		: m_payload(bksge::in_place, bksge::forward<Args>(args)...)
+	{}
 
-protected:
-	BKSGE_CONSTEXPR bool engaged() const BKSGE_NOEXCEPT
-	{
-		return this->m_engaged;
-	}
+	template <typename U, typename... Args,
+		typename = bksge::enable_if_t<bksge::is_constructible<T, std::initializer_list<U>&, Args...>::value>>
+	BKSGE_CONSTEXPR explicit
+	optional_base(bksge::in_place_t, std::initializer_list<U> il, Args... args)
+		: m_payload(bksge::in_place, il, bksge::forward<Args>(args)...)
+	{}
+
+	// Copy and move constructors.
+	BKSGE_CONSTEXPR optional_base(optional_base const& other)
+		: m_payload(other.m_payload.m_engaged, other.m_payload)
+	{}
+
+	BKSGE_CONSTEXPR optional_base(optional_base&& other) = default;
+
+	// Assignment operators.
+	optional_base& operator=(optional_base const&) = default;
+	optional_base& operator=(optional_base&&) = default;
+
+	optional_payload<T> m_payload;
+};
+
+template <typename T>
+struct optional_base<T, true, false>
+	: public optional_base_impl<T, optional_base<T>>
+{
+	// Constructors for disengaged optionals.
+	BKSGE_CONSTEXPR optional_base() = default;
+
+	// Constructors for engaged optionals.
+	template <typename... Args,
+		typename = bksge::enable_if_t<bksge::is_constructible<T, Args...>::value>>
+	BKSGE_CONSTEXPR explicit
+	optional_base(bksge::in_place_t, Args&&... args)
+		: m_payload(bksge::in_place, bksge::forward<Args>(args)...)
+	{}
+
+	template <typename U, typename... Args,
+		typename = bksge::enable_if_t<bksge::is_constructible<T, std::initializer_list<U>&, Args...>::value>>
+	BKSGE_CONSTEXPR explicit
+	optional_base(bksge::in_place_t, std::initializer_list<U> il, Args&&... args)
+		: m_payload(bksge::in_place, il, bksge::forward<Args>(args)...)
+	{}
+
+	// Copy and move constructors.
+	BKSGE_CONSTEXPR optional_base(optional_base const& other) = default;
+
+	BKSGE_CONSTEXPR
+	optional_base(optional_base&& other)
+		BKSGE_NOEXCEPT_IF((bksge::is_nothrow_move_constructible<T>::value))
+		: m_payload(other.m_payload.m_engaged, bksge::move(other.m_payload))
+	{}
+
+	// Assignment operators.
+	optional_base& operator=(optional_base const&) = default;
+	optional_base& operator=(optional_base&&) = default;
+
+	optional_payload<T> m_payload;
+};
+
+template <typename T>
+struct optional_base<T, true, true>
+	: public optional_base_impl<T, optional_base<T>>
+{
+	// Constructors for disengaged optionals.
+	BKSGE_CONSTEXPR optional_base() = default;
+
+	// Constructors for engaged optionals.
+	template <typename... Args,
+		typename = bksge::enable_if_t<bksge::is_constructible<T, Args...>::value>>
+	BKSGE_CONSTEXPR explicit
+	optional_base(bksge::in_place_t, Args&&... args)
+		: m_payload(bksge::in_place, bksge::forward<Args>(args)...)
+	{}
+
+	template <typename U, typename... Args,
+		typename = bksge::enable_if_t<bksge::is_constructible<T, std::initializer_list<U>&, Args...>::value>>
+	BKSGE_CONSTEXPR explicit
+	optional_base(bksge::in_place_t, std::initializer_list<U> il, Args&&... args)
+		: m_payload(bksge::in_place, il, bksge::forward<Args>(args)...)
+	{}
+
+	// Copy and move constructors.
+	BKSGE_CONSTEXPR optional_base(optional_base const& other) = default;
+	BKSGE_CONSTEXPR optional_base(optional_base&& other) = default;
+
+	// Assignment operators.
+	optional_base& operator=(optional_base const&) = default;
+	optional_base& operator=(optional_base&&) = default;
+
+	optional_payload<T> m_payload;
 };
 
 }	// namespace detail

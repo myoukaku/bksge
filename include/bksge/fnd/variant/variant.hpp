@@ -45,6 +45,7 @@ using std::variant;
 #include <bksge/fnd/concepts/detail/overload_priority.hpp>
 #include <bksge/fnd/detail/enable_copy_move.hpp>
 #include <bksge/fnd/detail/enable_default_constructor.hpp>
+#include <bksge/fnd/detail/enable_hash_call.hpp>
 #include <bksge/fnd/functional/invoke.hpp>
 #include <bksge/fnd/functional/ranges/equal_to.hpp>
 #include <bksge/fnd/functional/ranges/greater.hpp>
@@ -68,13 +69,11 @@ using std::variant;
 #include <bksge/fnd/type_traits/is_nothrow_assignable.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_swappable.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_invocable.hpp>
-#include <bksge/fnd/type_traits/is_invocable.hpp>
 #include <bksge/fnd/type_traits/is_reference.hpp>
 #include <bksge/fnd/type_traits/is_void.hpp>
 #include <bksge/fnd/type_traits/make_signed.hpp>
 #include <bksge/fnd/type_traits/negation.hpp>
 #include <bksge/fnd/type_traits/remove_cvref.hpp>
-#include <bksge/fnd/type_traits/remove_const.hpp>
 #include <bksge/fnd/type_traits/void_t.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/utility/forward.hpp>
@@ -538,9 +537,6 @@ swap(variant<Types...>&, variant<Types...>&) = delete;
 namespace variant_detail
 {
 
-template <typename T, typename U = bksge::remove_const_t<T>>
-struct enable_hash_call : public bksge::is_invocable<std::hash<U>, U> {};
-
 template <bool, typename... Types>
 struct variant_hash_call_base_impl
 {
@@ -598,7 +594,7 @@ private:
 template <typename... Types>
 using variant_hash_call_base =
 	variant_hash_call_base_impl<
-		bksge::conjunction<enable_hash_call<Types>...>::value,
+		bksge::conjunction<bksge::detail::enable_hash_call<Types>...>::value,
 		Types...>;
 
 }	// namespace variant_detail
@@ -609,7 +605,7 @@ namespace std
 {
 
 BKSGE_WARNING_PUSH();
-BKSGE_WARNING_DISABLE_MSVC(4624);
+BKSGE_WARNING_DISABLE_MSVC(4624);	// destructor was implicitly defined as deleted
 
 template <typename... Types>
 struct hash<bksge::variant<Types...>>
