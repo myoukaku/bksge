@@ -90,6 +90,78 @@ void SharedPtrTest()
 		}
 		EXPECT_EQ(0, Foo::s_count);
 	}
+	{
+		EXPECT_EQ(0, Foo::s_count);
+
+		Stream str;
+		{
+			Foo* p1(new Foo(3, 1.5f));
+			Foo* p2(p1);
+
+			EXPECT_EQ(1, Foo::s_count);
+			{
+				OArchive oa(str);
+				oa << p1;
+				oa << p2;
+			}
+			EXPECT_EQ(1, Foo::s_count);
+			delete p1;
+		}
+		EXPECT_EQ(0, Foo::s_count);
+		//EXPECT_STREQ("", str.str().c_str());
+		{
+			Foo* p1;
+			Foo* p2;
+			{
+				IArchive ia(str);
+				ia >> p1;
+				ia >> p2;
+			}
+
+			EXPECT_EQ(1, Foo::s_count);
+			EXPECT_EQ(3,    p1->value1);
+			EXPECT_EQ(1.5f, p1->value2);
+			EXPECT_EQ(3,    p2->value1);
+			EXPECT_EQ(1.5f, p2->value2);
+			delete p1;
+		}
+		EXPECT_EQ(0, Foo::s_count);
+	}
+	{
+		//EXPECT_EQ(0, Foo::s_count);
+
+		//Stream str;
+		//{
+		//	std::shared_ptr<Foo> p1(new Foo(3, 1.5f));
+		//	std::shared_ptr<Foo> p2(p1);
+
+		//	EXPECT_EQ(1, Foo::s_count);
+		//	{
+		//		OArchive oa(str);
+		//		oa << p1;
+		//		oa << p2;
+		//	}
+		//	EXPECT_EQ(1, Foo::s_count);
+		//}
+		//EXPECT_EQ(0, Foo::s_count);
+		////EXPECT_STREQ("", str.str().c_str());
+		//{
+		//	std::shared_ptr<Foo> p1;
+		//	std::shared_ptr<Foo> p2;
+		//	{
+		//		IArchive ia(str);
+		//		ia >> p1;
+		//		ia >> p2;
+		//	}
+
+		//	EXPECT_EQ(1, Foo::s_count);
+		//	EXPECT_EQ(3,    p1->value1);
+		//	EXPECT_EQ(1.5f, p1->value2);
+		//	EXPECT_EQ(3,    p2->value1);
+		//	EXPECT_EQ(1.5f, p2->value2);
+		//}
+		//EXPECT_EQ(0, Foo::s_count);
+	}
 }
 
 GTEST_TEST(SerializationTest, SharedPtrTest)

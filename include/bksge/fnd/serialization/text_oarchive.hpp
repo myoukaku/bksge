@@ -113,7 +113,7 @@ public:
 			}
 			else
 			{
-				save(m_tracking.size()+1);
+				save(m_tracking.size());
 				ptr.save(*this);
 			}
 		}
@@ -203,6 +203,11 @@ private:
 
 	template <typename T>
 	void object_tracking(nvp<T> const&)
+	{
+	}
+
+	template <typename T>
+	void object_tracking(std::shared_ptr<T> const&)
 	{
 	}
 

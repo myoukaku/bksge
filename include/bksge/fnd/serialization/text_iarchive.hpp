@@ -227,6 +227,11 @@ private:
 	{
 	}
 
+	template <typename T>
+	void object_tracking(std::shared_ptr<T> const&)
+	{
+	}
+
 	template <typename B, typename D>
 	void object_tracking(base_object<B, D> const&)
 	{

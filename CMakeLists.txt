@@ -195,4 +195,4 @@ include(${PROJECT_SOURCE_DIR}/cmake/assign_source_group.cmake)
 assign_source_group(${bksge_sources})
 
 add_subdirectory(test)
-add_subdirectory(samples)
+#add_subdirectory(samples)
