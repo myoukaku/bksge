@@ -4,7 +4,7 @@ option(BUILD_GMOCK "Builds the googlemock subproject" OFF)
 
 add_subdirectory(googletest)
 set_target_properties(gtest      PROPERTIES FOLDER "externals")
-set_target_properties(gtest_main PROPERTIES FOLDER "externals")
+#set_target_properties(gtest_main PROPERTIES FOLDER "externals")
 #set_target_properties(gmock      PROPERTIES FOLDER "externals")
 #set_target_properties(gmock_main PROPERTIES FOLDER "externals")
 
@@ -14,14 +14,14 @@ file(GLOB_RECURSE test_sources src/*.cpp)
 if(BKSGE_UNITY_BUILD)
   ENABLE_UNITY_BUILD(unit_test test_sources 10 cpp)
 endif()
-add_executable(unit_test ${test_sources})
+add_executable(unit_test ${test_sources} src/main.cpp)
 
 include_directories(src)
 
 include(${PROJECT_SOURCE_DIR}/cmake/assign_source_group.cmake)
 assign_source_group(${test_sources})
 
-target_link_libraries(unit_test bksge gtest gtest_main)
+target_link_libraries(unit_test bksge gtest)
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
 include(GoogleTest)
