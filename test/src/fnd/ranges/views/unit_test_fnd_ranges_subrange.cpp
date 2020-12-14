@@ -15,6 +15,7 @@
 #include <bksge/fnd/algorithm/ranges/equal.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/utility/move.hpp>
+#include <bksge/fnd/utility/pair.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -223,7 +224,7 @@ BKSGE_CXX14_CONSTEXPR bool test05()
 {
 	int a[] = {1,2,3,4,5};
 	bksge::ranges::subrange<int*> sr(a);
-	std::pair<int*, int*> p = sr;
+	bksge::pair<int*, int*> p = sr;
 	VERIFY(p.first  == a);
 	VERIFY(p.second == a+5);
 
@@ -235,8 +236,8 @@ BKSGE_CXX14_CONSTEXPR bool test06()
 	using S1 = bksge::ranges::subrange<int*>;
 	using S2 = bksge::ranges::subrange<long*, void*>;
 
-	static_assert(std::tuple_size<S1>::value == 2, "");
-	static_assert(std::tuple_size<S2>::value == 2, "");
+	static_assert(bksge::tuple_size<S1>::value == 2, "");
+	static_assert(bksge::tuple_size<S2>::value == 2, "");
 
 	static_assert(bksge::is_same<bksge::tuple_element_t<0, S1>, int*>::value, "");
 	static_assert(bksge::is_same<bksge::tuple_element_t<1, S1>, int*>::value, "");

@@ -11,9 +11,9 @@
 
 #include <bksge/core/render/color_write_flag.hpp>
 #include <bksge/fnd/type_traits/underlying_type.hpp>
+#include <bksge/fnd/utility/pair.hpp>
 #include <bksge/fnd/config.hpp>
 #include <string>
-#include <utility>
 
 namespace bksge
 {
@@ -86,7 +86,7 @@ to_string(ColorWriteFlag const& color_write_flag)
 
 #define BKSGE_CORE_RENDER_MAKE_COLOR_WRITE_FLAG_KVP(x)	{ x, #x }
 
-	static std::pair<ColorWriteFlag, char const*> const tbl[] =
+	static bksge::pair<ColorWriteFlag, char const*> const tbl[] =
 	{
 		BKSGE_CORE_RENDER_MAKE_COLOR_WRITE_FLAG_KVP(ColorWriteFlag::kRed),
 		BKSGE_CORE_RENDER_MAKE_COLOR_WRITE_FLAG_KVP(ColorWriteFlag::kGreen),

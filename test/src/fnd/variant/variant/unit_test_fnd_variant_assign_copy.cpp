@@ -343,6 +343,7 @@ void test_copy_assignment_non_empty_empty()
 void test_copy_assignment_empty_non_empty()
 {
 #if !defined(BKSGE_NO_EXCEPTIONS)
+	using std::get;
 	using MET = MakeEmptyT;
 	{
 		using V = bksge::variant<int, MET>;
@@ -352,7 +353,7 @@ void test_copy_assignment_empty_non_empty()
 		V& vref = (v1 = v2);
 		EXPECT_EQ(&vref, &v1);
 		EXPECT_EQ(v1.index(), 0u);
-		EXPECT_EQ(bksge::get<0>(v1), 42);
+		EXPECT_EQ(get<0>(v1), 42);
 	}
 	{
 		using V = bksge::variant<int, MET, std::string>;
@@ -362,7 +363,7 @@ void test_copy_assignment_empty_non_empty()
 		V& vref = (v1 = v2);
 		EXPECT_EQ(&vref, &v1);
 		EXPECT_EQ(v1.index(), 2u);
-		EXPECT_EQ(bksge::get<2>(v1), "hello");
+		EXPECT_EQ(get<2>(v1), "hello");
 	}
 #endif
 }
@@ -371,6 +372,7 @@ template <typename T> struct Result { size_t index; T value; };
 
 void test_copy_assignment_same_index()
 {
+	using std::get;
 	{
 		using V = bksge::variant<int>;
 		V v1(43);
@@ -378,7 +380,7 @@ void test_copy_assignment_same_index()
 		V& vref = (v1 = v2);
 		EXPECT_EQ(&vref, &v1);
 		EXPECT_EQ(v1.index(), 0u);
-		EXPECT_EQ(bksge::get<0>(v1), 42);
+		EXPECT_EQ(get<0>(v1), 42);
 	}
 	{
 		using V = bksge::variant<int, long, unsigned>;
@@ -387,7 +389,7 @@ void test_copy_assignment_same_index()
 		V& vref = (v1 = v2);
 		EXPECT_EQ(&vref, &v1);
 		EXPECT_EQ(v1.index(), 1u);
-		EXPECT_EQ(bksge::get<1>(v1), 42);
+		EXPECT_EQ(get<1>(v1), 42);
 	}
 	{
 		using V = bksge::variant<int, CopyAssign, unsigned>;
@@ -397,7 +399,7 @@ void test_copy_assignment_same_index()
 		V& vref = (v1 = v2);
 		EXPECT_EQ(&vref, &v1);
 		EXPECT_EQ(v1.index(), 1u);
-		EXPECT_EQ(bksge::get<1>(v1).value, 42);
+		EXPECT_EQ(get<1>(v1).value, 42);
 		EXPECT_EQ(CopyAssign::copy_construct, 0);
 		EXPECT_EQ(CopyAssign::move_construct, 0);
 		EXPECT_EQ(CopyAssign::copy_assign, 1);
@@ -407,7 +409,7 @@ void test_copy_assignment_same_index()
 	{
 		using V = bksge::variant<int, MET, std::string>;
 		V v1(bksge::in_place_type_t<MET>{});
-		MET& mref = bksge::get<1>(v1);
+		MET& mref = get<1>(v1);
 		V v2(bksge::in_place_type_t<MET>{});
 		try
 		{
@@ -418,7 +420,7 @@ void test_copy_assignment_same_index()
 		{
 		}
 		EXPECT_EQ(v1.index(), 1u);
-		EXPECT_EQ(&bksge::get<1>(v1), &mref);
+		EXPECT_EQ(&get<1>(v1), &mref);
 	}
 #endif
 
@@ -433,7 +435,7 @@ void test_copy_assignment_same_index()
 				V v(43);
 				V v2(42);
 				v = v2;
-				return { v.index(), bksge::get<0>(v) };
+				return { v.index(), get<0>(v) };
 			}
 		} test;
 
@@ -450,7 +452,7 @@ void test_copy_assignment_same_index()
 				V v(43l);
 				V v2(42l);
 				v = v2;
-				return { v.index(), bksge::get<1>(v) };
+				return { v.index(), get<1>(v) };
 			}
 		} test;
 
@@ -467,7 +469,7 @@ void test_copy_assignment_same_index()
 				V v(bksge::in_place_type_t<TCopyAssign>{}, 43);
 				V v2(bksge::in_place_type_t<TCopyAssign>{}, 42);
 				v = v2;
-				return { v.index(), bksge::get<1>(v).value };
+				return { v.index(), get<1>(v).value };
 			}
 		} test;
 
@@ -484,7 +486,7 @@ void test_copy_assignment_same_index()
 				V v(bksge::in_place_type_t<TCopyAssignNTMoveAssign>{}, 43);
 				V v2(bksge::in_place_type_t<TCopyAssignNTMoveAssign>{}, 42);
 				v = v2;
-				return { v.index(), bksge::get<1>(v).value };
+				return { v.index(), get<1>(v).value };
 			}
 		} test;
 
@@ -497,6 +499,7 @@ void test_copy_assignment_same_index()
 
 void test_copy_assignment_different_index()
 {
+	using std::get;
 	{
 		using V = bksge::variant<int, long, unsigned>;
 		V v1(43);
@@ -504,7 +507,7 @@ void test_copy_assignment_different_index()
 		V& vref = (v1 = v2);
 		EXPECT_EQ(&vref, &v1);
 		EXPECT_EQ(v1.index(), 1u);
-		EXPECT_EQ(bksge::get<1>(v1), 42);
+		EXPECT_EQ(get<1>(v1), 42);
 	}
 	{
 		using V = bksge::variant<int, CopyAssign, unsigned>;
@@ -517,7 +520,7 @@ void test_copy_assignment_different_index()
 		V& vref = (v1 = v2);
 		EXPECT_EQ(&vref, &v1);
 		EXPECT_EQ(v1.index(), 1u);
-		EXPECT_EQ(bksge::get<1>(v1).value, 42);
+		EXPECT_EQ(get<1>(v1).value, 42);
 		EXPECT_EQ(CopyAssign::alive, 2);
 		EXPECT_EQ(CopyAssign::copy_construct, 1);
 		EXPECT_EQ(CopyAssign::move_construct, 1);
@@ -570,9 +573,9 @@ void test_copy_assignment_different_index()
 		V& vref = (v1 = v2);
 		EXPECT_EQ(&vref, &v1);
 		EXPECT_EQ(v1.index(), 2u);
-		EXPECT_EQ(bksge::get<2>(v1), "hello");
+		EXPECT_EQ(get<2>(v1), "hello");
 		EXPECT_EQ(v2.index(), 2u);
-		EXPECT_EQ(bksge::get<2>(v2), "hello");
+		EXPECT_EQ(get<2>(v2), "hello");
 	}
 	{
 		using V = bksge::variant<int, MoveThrows, std::string>;
@@ -581,9 +584,9 @@ void test_copy_assignment_different_index()
 		V& vref = (v1 = v2);
 		EXPECT_EQ(&vref, &v1);
 		EXPECT_EQ(v1.index(), 2u);
-		EXPECT_EQ(bksge::get<2>(v1), "hello");
+		EXPECT_EQ(get<2>(v1), "hello");
 		EXPECT_EQ(v2.index(), 2u);
-		EXPECT_EQ(bksge::get<2>(v2), "hello");
+		EXPECT_EQ(get<2>(v2), "hello");
 	}
 #endif
 
@@ -598,7 +601,7 @@ void test_copy_assignment_different_index()
 				V v(43);
 				V v2(42l);
 				v = v2;
-				return { v.index(), bksge::get<1>(v) };
+				return { v.index(), get<1>(v) };
 			}
 		} test;
 
@@ -615,7 +618,7 @@ void test_copy_assignment_different_index()
 				V v(bksge::in_place_type_t<unsigned>{}, 43u);
 				V v2(bksge::in_place_type_t<TCopyAssign>{}, 42);
 				v = v2;
-				return { v.index(), bksge::get<1>(v).value };
+				return { v.index(), get<1>(v).value };
 			}
 		} test;
 
@@ -631,11 +634,12 @@ template <size_t NewIdx, class ValueType>
 constexpr bool test_constexpr_assign_imp(
 	bksge::variant<long, void*, int>&& v, ValueType&& new_value)
 {
+	using std::get;
 	const bksge::variant<long, void*, int> cp(
 		bksge::forward<ValueType>(new_value));
 	v = cp;
 	return v.index() == NewIdx &&
-		bksge::get<NewIdx>(v) == bksge::get<NewIdx>(cp);
+		get<NewIdx>(v) == get<NewIdx>(cp);
 }
 #endif
 

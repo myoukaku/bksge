@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/tuple/tuple_count.hpp>
-#include <tuple>
+#include <bksge/fnd/tuple/tuple.hpp>
 
 namespace bksge
 {
@@ -20,7 +20,7 @@ namespace variant_detail
 {
 
 template <typename T, typename... Types>
-using exactly_once = bksge::bool_constant<bksge::tuple_count<T, std::tuple<Types...>>::value == 1>;
+using exactly_once = bksge::bool_constant<bksge::tuple_count<T, bksge::tuple<Types...>>::value == 1>;
 
 }	// namespace variant_detail
 

@@ -95,7 +95,7 @@ struct type_tuple<bksge::index_sequence<Indices...>, Types...>
 template <std::size_t N, typename T>
 static element_holder<N, T> select(element_holder<N, T>);
 
-template <std::size_t N, typename... Types>
+template <bool, std::size_t N, typename... Types>
 struct nth
 {
 private:
@@ -106,13 +106,15 @@ public:
 	using type = typename Tmp::type;
 };
 
+template <std::size_t N, typename... Types>
+struct nth<false, N, Types...>
+{};
+
 }	// namespace nth_detail
 
 template <std::size_t N, typename... Types>
-struct nth
-{
-	using type = typename nth_detail::nth<N, Types...>::type;
-};
+struct nth : public nth_detail::nth<(N < sizeof...(Types)), N, Types...>
+{};
 #endif
 
 }	// namespace bksge

@@ -11,13 +11,15 @@
 
 #include <bksge/fnd/tuple/tuple_init.hpp>
 #include <bksge/fnd/tuple/tuple_init_type.hpp>
+#include <bksge/fnd/tuple/tuple_size.hpp>
+#include <bksge/fnd/tuple/get.hpp>
+#include <bksge/fnd/tuple/make_tuple.hpp>
 #include <bksge/fnd/type_traits/decay.hpp>
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
-#include <tuple>
 
 namespace bksge
 {
@@ -41,7 +43,8 @@ private:
 	static BKSGE_CONSTEXPR Result
 	do_tuple_init(Tuple&& t, bksge::index_sequence<Indices...>)
 	{
-		return std::make_tuple(std::get<Indices>(bksge::forward<Tuple>(t))...);
+		using std::get;
+		return bksge::make_tuple(get<Indices>(bksge::forward<Tuple>(t))...);
 	}
 };
 
@@ -64,7 +67,7 @@ tuple_init(Tuple&& t)
 	return detail::tuple_init_impl<
 		Tuple,
 		tuple_init_type_t<bksge::decay_t<Tuple>>,
-		std::tuple_size<bksge::decay_t<Tuple>>::value
+		bksge::tuple_size<bksge::decay_t<Tuple>>::value
 	>::invoke(bksge::forward<Tuple>(t));
 }
 

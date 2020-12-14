@@ -13,8 +13,8 @@
 #include <bksge/fnd/compare/is_gt.hpp>
 #include <bksge/fnd/compare/concepts/three_way_comparable_with.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
+#include <bksge/fnd/tuple/tie.hpp>
 #include <bksge/fnd/config.hpp>
-#include <tuple>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -33,7 +33,7 @@ struct value_type
 inline BKSGE_CXX14_CONSTEXPR bool
 operator==(value_type const& lhs, value_type const& rhs)
 {
-	return std::tie(lhs.i, lhs.f) == std::tie(rhs.i, rhs.f);
+	return bksge::tie(lhs.i, lhs.f) == bksge::tie(rhs.i, rhs.f);
 }
 
 inline BKSGE_CXX14_CONSTEXPR bool
@@ -45,7 +45,7 @@ operator!=(value_type const& lhs, value_type const& rhs)
 inline BKSGE_CXX14_CONSTEXPR bool
 operator<(value_type const& lhs, value_type const& rhs)
 {
-	return std::tie(lhs.i, lhs.f) < std::tie(rhs.i, rhs.f);
+	return bksge::tie(lhs.i, lhs.f) < bksge::tie(rhs.i, rhs.f);
 }
 
 inline BKSGE_CXX14_CONSTEXPR bool

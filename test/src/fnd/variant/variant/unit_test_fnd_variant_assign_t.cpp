@@ -192,30 +192,31 @@ void test_T_assignment_sfinae()
 
 void test_T_assignment_basic()
 {
+	using std::get;
 	{
 		bksge::variant<int> v(43);
 		v = 42;
 		EXPECT_EQ(v.index(), 0u);
-		EXPECT_EQ(bksge::get<0>(v), 42);
+		EXPECT_EQ(get<0>(v), 42);
 	}
 	{
 		bksge::variant<int, long> v(43l);
 		v = 42;
 		EXPECT_EQ(v.index(), 0u);
-		EXPECT_EQ(bksge::get<0>(v), 42);
+		EXPECT_EQ(get<0>(v), 42);
 		v = 43l;
 		EXPECT_EQ(v.index(), 1u);
-		EXPECT_EQ(bksge::get<1>(v), 43);
+		EXPECT_EQ(get<1>(v), 43);
 	}
 #if 0//ndef TEST_VARIANT_ALLOWS_NARROWING_CONVERSIONS
 	{
 		bksge::variant<unsigned, long> v;
 		v = 42;
 		EXPECT_EQ(v.index(), 1u);
-		EXPECT_EQ(bksge::get<1>(v), 42);
+		EXPECT_EQ(get<1>(v), 42);
 		v = 43u;
 		EXPECT_EQ(v.index(), 0u);
-		EXPECT_EQ(bksge::get<0>(v), 43u);
+		EXPECT_EQ(get<0>(v), 43u);
 	}
 #endif
 #if 0	// TODO
@@ -223,7 +224,7 @@ void test_T_assignment_basic()
 		bksge::variant<std::string, bool> v = true;
 		v = "bar";
 		EXPECT_EQ(v.index(), 0u);
-		EXPECT_EQ(bksge::get<0>(v), "bar");
+		EXPECT_EQ(get<0>(v), "bar");
 	}
 #endif
 #if 0	// TODO
@@ -231,7 +232,7 @@ void test_T_assignment_basic()
 		bksge::variant<bool, std::unique_ptr<int>> v;
 		v = nullptr;
 		EXPECT_EQ(v.index(), 1u);
-		EXPECT_EQ(bksge::get<1>(v), nullptr);
+		EXPECT_EQ(get<1>(v), nullptr);
 	}
 #endif
 #if !defined(BKSGE_GCC)	// TODO
@@ -239,11 +240,11 @@ void test_T_assignment_basic()
 		bksge::variant<bool volatile, int> v = 42;
 		v = false;
 		EXPECT_EQ(v.index(), 0u);
-		EXPECT_TRUE(!bksge::get<0>(v));
+		EXPECT_TRUE(!get<0>(v));
 		bool lvt = true;
 		v = lvt;
 		EXPECT_EQ(v.index(), 0u);
-		EXPECT_TRUE(bksge::get<0>(v));
+		EXPECT_TRUE(get<0>(v));
 	}
 #endif
 #if !defined(TEST_VARIANT_HAS_NO_REFERENCES)
@@ -253,22 +254,23 @@ void test_T_assignment_basic()
 		V v(43l);
 		v = x;
 		EXPECT_EQ(v.index(), 0u);
-		EXPECT_EQ(&bksge::get<0>(v), &x);
+		EXPECT_EQ(&get<0>(v), &x);
 		v = bksge::move(x);
 		EXPECT_EQ(v.index(), 1u);
-		EXPECT_EQ(&bksge::get<1>(v), &x);
+		EXPECT_EQ(&get<1>(v), &x);
 		// 'long' is selected by FUN(const int &) since 'const int &' cannot bind
 		// to 'int&'.
 		const int& cx = x;
 		v = cx;
 		EXPECT_EQ(v.index(), 2u);
-		EXPECT_EQ(bksge::get<2>(v), 42);
+		EXPECT_EQ(get<2>(v), 42);
 	}
 #endif
 }
 
 void test_T_assignment_performs_construction()
 {
+	using std::get;
 	using namespace RuntimeHelpers;
 #if !defined(BKSGE_NO_EXCEPTIONS)
 	{
@@ -284,20 +286,21 @@ void test_T_assignment_performs_construction()
 			/* ... */
 		}
 		EXPECT_EQ(v.index(), 0u);
-		EXPECT_EQ(bksge::get<0>(v), "hello");
+		EXPECT_EQ(get<0>(v), "hello");
 	}
 	{
 		using V = bksge::variant<ThrowsAssignT, std::string>;
 		V v(bksge::in_place_type_t<std::string>{}, "hello");
 		v = 42;
 		EXPECT_EQ(v.index(), 0u);
-		EXPECT_EQ(bksge::get<0>(v).value, 42);
+		EXPECT_EQ(get<0>(v).value, 42);
 	}
 #endif
 }
 
 void test_T_assignment_performs_assignment()
 {
+	using std::get;
 	using namespace RuntimeHelpers;
 #if !defined(BKSGE_NO_EXCEPTIONS)
 	{
@@ -305,14 +308,14 @@ void test_T_assignment_performs_assignment()
 		V v;
 		v = 42;
 		EXPECT_EQ(v.index(), 0u);
-		EXPECT_EQ(bksge::get<0>(v).value, 42);
+		EXPECT_EQ(get<0>(v).value, 42);
 	}
 	{
 		using V = bksge::variant<ThrowsCtorT, std::string>;
 		V v;
 		v = 42;
 		EXPECT_EQ(v.index(), 0u);
-		EXPECT_EQ(bksge::get<0>(v).value, 42);
+		EXPECT_EQ(get<0>(v).value, 42);
 	}
 	{
 		using V = bksge::variant<ThrowsAssignT>;
@@ -327,7 +330,7 @@ void test_T_assignment_performs_assignment()
 			/* ... */
 		}
 		EXPECT_EQ(v.index(), 0u);
-		EXPECT_EQ(bksge::get<0>(v).value, 100);
+		EXPECT_EQ(get<0>(v).value, 100);
 	}
 	{
 		using V = bksge::variant<std::string, ThrowsAssignT>;
@@ -342,7 +345,7 @@ void test_T_assignment_performs_assignment()
 			/* ... */
 		}
 		EXPECT_EQ(v.index(), 1u);
-		EXPECT_EQ(bksge::get<1>(v).value, 100);
+		EXPECT_EQ(get<1>(v).value, 100);
 	}
 #endif
 }

@@ -191,47 +191,48 @@ struct Result { std::size_t index; T value; };
 
 void test_move_ctor_basic()
 {
+	using std::get;
 	{
 		bksge::variant<int> v(bksge::in_place_index_t<0>{}, 42);
 		bksge::variant<int> v2 = bksge::move(v);
 		EXPECT_EQ(v2.index(), 0u);
-		EXPECT_EQ(bksge::get<0>(v2), 42);
+		EXPECT_EQ(get<0>(v2), 42);
 	}
 	{
 		bksge::variant<int, long> v(bksge::in_place_index_t<1>{}, 42);
 		bksge::variant<int, long> v2 = bksge::move(v);
 		EXPECT_EQ(v2.index(), 1u);
-		EXPECT_EQ(bksge::get<1>(v2), 42);
+		EXPECT_EQ(get<1>(v2), 42);
 	}
 	{
 		bksge::variant<MoveOnly> v(bksge::in_place_index_t<0>{}, 42);
 		EXPECT_EQ(v.index(), 0u);
 		bksge::variant<MoveOnly> v2(bksge::move(v));
 		EXPECT_EQ(v2.index(), 0u);
-		EXPECT_EQ(bksge::get<0>(v2).value, 42);
+		EXPECT_EQ(get<0>(v2).value, 42);
 	}
 	{
 		bksge::variant<int, MoveOnly> v(bksge::in_place_index_t<1>{}, 42);
 		EXPECT_EQ(v.index(), 1u);
 		bksge::variant<int, MoveOnly> v2(bksge::move(v));
 		EXPECT_EQ(v2.index(), 1u);
-		EXPECT_EQ(bksge::get<1>(v2).value, 42);
+		EXPECT_EQ(get<1>(v2).value, 42);
 	}
 	{
 		bksge::variant<MoveOnlyNT> v(bksge::in_place_index_t<0>{}, 42);
 		EXPECT_EQ(v.index(), 0u);
 		bksge::variant<MoveOnlyNT> v2(bksge::move(v));
 		EXPECT_EQ(v2.index(), 0u);
-		EXPECT_EQ(bksge::get<0>(v).value, -1);
-		EXPECT_EQ(bksge::get<0>(v2).value, 42);
+		EXPECT_EQ(get<0>(v).value, -1);
+		EXPECT_EQ(get<0>(v2).value, 42);
 	}
 	{
 		bksge::variant<int, MoveOnlyNT> v(bksge::in_place_index_t<1>{}, 42);
 		EXPECT_EQ(v.index(), 1u);
 		bksge::variant<int, MoveOnlyNT> v2(bksge::move(v));
 		EXPECT_EQ(v2.index(), 1u);
-		EXPECT_EQ(bksge::get<1>(v).value, -1);
-		EXPECT_EQ(bksge::get<1>(v2).value, 42);
+		EXPECT_EQ(get<1>(v).value, -1);
+		EXPECT_EQ(get<1>(v2).value, 42);
 	}
 
 	// Make sure we properly propagate triviality, which implies constexpr-ness (see P0602R4).
@@ -243,7 +244,7 @@ void test_move_ctor_basic()
 			{
 				bksge::variant<int> v(bksge::in_place_index_t<0>{}, 42);
 				bksge::variant<int> v2 = bksge::move(v);
-				return { v2.index(), bksge::get<0>(bksge::move(v2)) };
+				return { v2.index(), get<0>(bksge::move(v2)) };
 			}
 		} test;
 		constexpr auto result = test();
@@ -257,7 +258,7 @@ void test_move_ctor_basic()
 			{
 				bksge::variant<int, long> v(bksge::in_place_index_t<1>{}, 42);
 				bksge::variant<int, long> v2 = bksge::move(v);
-				return { v2.index(), bksge::get<1>(bksge::move(v2)) };
+				return { v2.index(), get<1>(bksge::move(v2)) };
 			}
 		} test;
 		constexpr auto result = test();
@@ -271,7 +272,7 @@ void test_move_ctor_basic()
 			{
 				bksge::variant<TMove> v(bksge::in_place_index_t<0>{}, 42);
 				bksge::variant<TMove> v2(bksge::move(v));
-				return { v2.index(), bksge::get<0>(bksge::move(v2)) };
+				return { v2.index(), get<0>(bksge::move(v2)) };
 			}
 		} test;
 		constexpr auto result = test();
@@ -285,7 +286,7 @@ void test_move_ctor_basic()
 			{
 				bksge::variant<int, TMove> v(bksge::in_place_index_t<1>{}, 42);
 				bksge::variant<int, TMove> v2(bksge::move(v));
-				return { v2.index(), bksge::get<1>(bksge::move(v2)) };
+				return { v2.index(), get<1>(bksge::move(v2)) };
 			}
 		} test;
 		constexpr auto result = test();
@@ -299,7 +300,7 @@ void test_move_ctor_basic()
 			{
 				bksge::variant<TMoveNTCopy> v(bksge::in_place_index_t<0>{}, 42);
 				bksge::variant<TMoveNTCopy> v2(bksge::move(v));
-				return { v2.index(), bksge::get<0>(bksge::move(v2)) };
+				return { v2.index(), get<0>(bksge::move(v2)) };
 			}
 		} test;
 		constexpr auto result = test();
@@ -313,7 +314,7 @@ void test_move_ctor_basic()
 			{
 				bksge::variant<int, TMoveNTCopy> v(bksge::in_place_index_t<1>{}, 42);
 				bksge::variant<int, TMoveNTCopy> v2(bksge::move(v));
-				return { v2.index(), bksge::get<1>(bksge::move(v2)) };
+				return { v2.index(), get<1>(bksge::move(v2)) };
 			}
 		} test;
 		constexpr auto result = test();
@@ -339,11 +340,12 @@ template <std::size_t Idx>
 constexpr bool
 test_constexpr_ctor_imp(bksge::variant<long, void*, const int> const& v)
 {
+	using std::get;
 	auto copy = v;
 	auto v2 = bksge::move(copy);
 	return v2.index() == v.index() &&
 		v2.index() == Idx &&
-		bksge::get<Idx>(v2) == bksge::get<Idx>(v);
+		get<Idx>(v2) == get<Idx>(v);
 }
 #endif
 

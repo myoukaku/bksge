@@ -9,8 +9,8 @@
 #ifndef BKSGE_FND_ALGORITHM_EQUAL_RANGE_HPP
 #define BKSGE_FND_ALGORITHM_EQUAL_RANGE_HPP
 
+#include <bksge/fnd/utility/pair.hpp>
 #include <bksge/fnd/config.hpp>
-#include <utility>
 
 namespace bksge
 {
@@ -36,7 +36,7 @@ namespace algorithm
  *	@complexity	最大で 2 * log2(last - first) + O(1) 回の比較を行う
  */
 template <typename ForwardIterator, typename T>
-BKSGE_CXX14_CONSTEXPR std::pair<ForwardIterator, ForwardIterator>
+BKSGE_CXX14_CONSTEXPR bksge::pair<ForwardIterator, ForwardIterator>
 equal_range(ForwardIterator first, ForwardIterator last, T const& value);
 
 /**
@@ -59,7 +59,7 @@ equal_range(ForwardIterator first, ForwardIterator last, T const& value);
  *	@complexity	最大で 2 * log2(last - first) + O(1) 回の比較を行う
  */
 template <typename ForwardIterator, typename T, typename Compare>
-BKSGE_CXX14_CONSTEXPR std::pair<ForwardIterator, ForwardIterator>
+BKSGE_CXX14_CONSTEXPR bksge::pair<ForwardIterator, ForwardIterator>
 equal_range(ForwardIterator first, ForwardIterator last, T const& value, Compare comp);
 
 }	// namespace algorithm

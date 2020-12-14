@@ -35,6 +35,8 @@
 #include <bksge/fnd/iterator/ranges/advance.hpp>
 #include <bksge/fnd/iterator/ranges/distance.hpp>
 #include <bksge/fnd/tuple/tuple_element.hpp>
+#include <bksge/fnd/tuple/tuple_size.hpp>
+#include <bksge/fnd/tuple/get.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/utility/move.hpp>
@@ -487,7 +489,7 @@ using ranges::get;
 
 }	// namespace bksge
 
-namespace std
+namespace BKSGE_TUPLE_NAMESPACE
 {
 
 template <typename Iter, typename Sent, bksge::ranges::subrange_kind Kind>
@@ -520,6 +522,6 @@ struct tuple_element<1, const bksge::ranges::subrange<Iter, Sent, Kind>>
 	using type = Sent;
 };
 
-}	// namespace std
+}	// namespace BKSGE_TUPLE_NAMESPACE
 
 #endif // BKSGE_FND_RANGES_VIEWS_SUBRANGE_HPP

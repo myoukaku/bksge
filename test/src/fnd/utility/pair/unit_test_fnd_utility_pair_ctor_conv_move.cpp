@@ -15,6 +15,9 @@
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
+BKSGE_WARNING_PUSH();
+BKSGE_WARNING_DISABLE_MSVC(4244);
+
 namespace bksge_pair_test
 {
 
@@ -98,3 +101,5 @@ GTEST_TEST(PairTest, CtorConvMoveTest)
 }	// namespace ctor_conv_move_test
 
 }	// namespace bksge_pair_test
+
+BKSGE_WARNING_POP();

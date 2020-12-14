@@ -7,12 +7,12 @@
  */
 
 #include <bksge/fnd/tuple/apply.hpp>
-//#include <bksge/fnd/array.hpp>
+#include <bksge/fnd/tuple/tuple.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/utility/integer_sequence.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <cstddef>
-#include <tuple>
 #include <gtest/gtest.h>
 
 namespace bksge_tuple_test
@@ -52,7 +52,7 @@ struct make_tuple_imp;
 template <typename Tp, std::size_t ...Idx>
 struct make_tuple_imp<Tp, bksge::integer_sequence<std::size_t, Idx...>>
 {
-	using type = std::tuple<always_t<Tp, Idx>...>;
+	using type = bksge::tuple<always_t<Tp, Idx>...>;
 };
 
 template <typename Tp, std::size_t Size>
@@ -64,10 +64,8 @@ bool test_apply_fn(Types...) { return true; }
 template <std::size_t Size>
 void test_all()
 {
-#if 0	// TODO
-	using A = std::array<int, Size>;
-	using ConstA = std::array<int const, Size>;
-#endif
+	using A = bksge::array<int, Size>;
+	using ConstA = bksge::array<int const, Size>;
 
 	using Tuple = make_tuple_t<int, Size>;
 	using CTuple = make_tuple_t<const int, Size>;
@@ -84,7 +82,6 @@ void test_all()
 	using RRefFn = make_function_t<int &&, Size>;
 	RRefFn rref_fn = &test_apply_fn;
 
-#if 0	// TODO
 	{
 		A a{};
 		EXPECT_TRUE(bksge::apply(val_fn, a));
@@ -97,7 +94,6 @@ void test_all()
 		EXPECT_TRUE(bksge::apply(val_fn, a));
 		EXPECT_TRUE(bksge::apply(cref_fn, a));
 	}
-#endif
 	{
 		Tuple a{};
 		EXPECT_TRUE(bksge::apply(val_fn, a));
@@ -115,18 +111,16 @@ void test_all()
 template <std::size_t Size>
 void test_one()
 {
-//	using A = std::array<int, Size>;
+	using A = bksge::array<int, Size>;
 	using Tuple = make_tuple_t<int, Size>;
 
 	using ValFn  = make_function_t<int, Size>;
 	ValFn val_fn = &test_apply_fn;
 
-#if 0	// TODO
 	{
 		A a{};
 		EXPECT_TRUE(bksge::apply(val_fn, a));
 	}
-#endif
 	{
 		Tuple a{};
 		EXPECT_TRUE(bksge::apply(val_fn, a));

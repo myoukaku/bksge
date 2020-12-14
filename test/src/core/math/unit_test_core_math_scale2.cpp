@@ -993,8 +993,8 @@ TYPED_TEST(MathScale2Test, TupleElementTest)
 	using T = TypeParam;
 	using Scale2 = bksge::math::Scale2<T>;
 
-	static_assert(bksge::is_same<typename std::tuple_element<0, Scale2>::type, T>::value, "");
-	static_assert(bksge::is_same<typename std::tuple_element<1, Scale2>::type, T>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<0, Scale2>::type, T>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<1, Scale2>::type, T>::value, "");
 }
 
 TYPED_TEST(MathScale2Test, TupleSizeTest)
@@ -1002,30 +1002,31 @@ TYPED_TEST(MathScale2Test, TupleSizeTest)
 	using T = TypeParam;
 	using Scale2 = bksge::math::Scale2<T>;
 
-	static_assert(std::tuple_size<Scale2>::value == 2, "");
+	static_assert(bksge::tuple_size<Scale2>::value == 2, "");
 }
 
 template <typename T>
 inline BKSGE_CXX14_CONSTEXPR bool TupleGetTest()
 {
 	using Scale2 = bksge::math::Scale2<T>;
+	using std::get;
 	{
 		Scale2 v{1, 2};
 
-		VERIFY(1 == bksge::get<0>(v));
-		VERIFY(2 == bksge::get<1>(v));
+		VERIFY(1 == get<0>(v));
+		VERIFY(2 == get<1>(v));
 
-		bksge::get<0>(v) = 5;
+		get<0>(v) = 5;
 
 		VERIFY(v == Scale2(5, 2));
-		VERIFY(5 == bksge::get<0>(v));
-		VERIFY(2 == bksge::get<1>(v));
+		VERIFY(5 == get<0>(v));
+		VERIFY(2 == get<1>(v));
 	}
 	{
 		Scale2 const v{1, 2};
 
-		VERIFY(1 == bksge::get<0>(v));
-		VERIFY(2 == bksge::get<1>(v));
+		VERIFY(1 == get<0>(v));
+		VERIFY(2 == get<1>(v));
 	}
 	return true;
 }

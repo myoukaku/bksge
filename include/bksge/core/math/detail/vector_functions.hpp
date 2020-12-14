@@ -15,11 +15,11 @@
 #include <bksge/fnd/functional/minus.hpp>
 #include <bksge/fnd/functional/multiplies.hpp>
 #include <bksge/fnd/functional/divides.hpp>
+#include <bksge/fnd/tuple/tuple_size.hpp>
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
-#include <tuple>
 
 namespace bksge
 {
@@ -53,16 +53,16 @@ inline BKSGE_CONSTEXPR Vec
 apply_per_elem(Vec const& v, F f) BKSGE_NOEXCEPT
 {
 	return apply_per_elem_impl(v, f,
-		bksge::make_index_sequence<std::tuple_size<Vec>::value>());
+		bksge::make_index_sequence<bksge::tuple_size<Vec>::value>());
 }
 
 template <typename Vec1, typename Vec2, typename F>
 inline BKSGE_CONSTEXPR Vec1
 apply_per_elem(Vec1 const& lhs, Vec2 const& rhs, F f) BKSGE_NOEXCEPT
 {
-	static_assert(std::tuple_size<Vec1>::value == std::tuple_size<Vec2>::value, "");
+	static_assert(bksge::tuple_size<Vec1>::value == bksge::tuple_size<Vec2>::value, "");
 	return apply_per_elem_impl(lhs, rhs, f,
-		bksge::make_index_sequence<std::tuple_size<Vec1>::value>());
+		bksge::make_index_sequence<bksge::tuple_size<Vec1>::value>());
 }
 
 template <typename Vec>

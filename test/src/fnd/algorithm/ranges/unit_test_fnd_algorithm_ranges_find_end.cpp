@@ -84,22 +84,23 @@ struct X { int i; };
 inline bool test03()
 {
 	namespace ranges = bksge::ranges;
+	using std::get;
 
 	X x[] = { {10}, {11}, {2}, {6}, {8}, {10}, {11} };
 	X y[] = { {10}, {11} };
 	{
 		test_range<X, forward_iterator_wrapper> r(x);
 		auto res = ranges::find_end(r, y, {}, &X::i, &X::i);
-		VERIFY((*bksge::get<0>(res)).i == 10 && bksge::get<1>(res) == ranges::end(r));
+		VERIFY((*get<0>(res)).i == 10 && get<1>(res) == ranges::end(r));
 		res = ranges::find_end(r, r, {}, &X::i, &X::i);
-		VERIFY(bksge::get<0>(res) == ranges::begin(r) && bksge::get<1>(res) == ranges::end(r));
+		VERIFY(get<0>(res) == ranges::begin(r) && get<1>(res) == ranges::end(r));
 	}
 	{
 		test_range<X, bidirectional_iterator_wrapper> r(x);
 		auto res = ranges::find_end(r, y, {}, &X::i, &X::i);
-		VERIFY((*bksge::get<0>(res)).i == 10 && bksge::get<1>(res) == ranges::end(r));
+		VERIFY((*get<0>(res)).i == 10 && get<1>(res) == ranges::end(r));
 		res = ranges::find_end(r, r, {}, &X::i, &X::i);
-		VERIFY(bksge::get<0>(res) == ranges::begin(r) && bksge::get<1>(res) == ranges::end(r));
+		VERIFY(get<0>(res) == ranges::begin(r) && get<1>(res) == ranges::end(r));
 	}
 	return true;
 }
@@ -107,26 +108,27 @@ inline bool test03()
 inline bool test04()
 {
 	namespace ranges = bksge::ranges;
+	using std::get;
 
 	X x[] = { {2}, {2}, {6}, {8}, {10}, {6}, {8}, {11} };
 	X y[] = { {6}, {8} };
 	int z[] = { 2, 8 };
 	int w[] = { 2 };
 
-	VERIFY(bksge::get<0>(ranges::find_end(x, y, {}, &X::i, &X::i)) == x+5);
-	VERIFY(bksge::get<1>(ranges::find_end(x, y, {}, &X::i, &X::i)) == x+7);
+	VERIFY(get<0>(ranges::find_end(x, y, {}, &X::i, &X::i)) == x+5);
+	VERIFY(get<1>(ranges::find_end(x, y, {}, &X::i, &X::i)) == x+7);
 
-	VERIFY(bksge::get<0>(ranges::find_end(x, z, {}, &X::i)) == x+8);
-	VERIFY(bksge::get<1>(ranges::find_end(x, z, {}, &X::i)) == x+8);
+	VERIFY(get<0>(ranges::find_end(x, z, {}, &X::i)) == x+8);
+	VERIFY(get<1>(ranges::find_end(x, z, {}, &X::i)) == x+8);
 
-	VERIFY(bksge::get<0>(ranges::find_end(x, w, {}, &X::i)) == x+1);
-	VERIFY(bksge::get<1>(ranges::find_end(x, w, {}, &X::i)) == x+2);
+	VERIFY(get<0>(ranges::find_end(x, w, {}, &X::i)) == x+1);
+	VERIFY(get<1>(ranges::find_end(x, w, {}, &X::i)) == x+2);
 
-	VERIFY(bksge::get<0>(ranges::find_end(x, x+6, w, w, {}, &X::i)) == x+6);
-	VERIFY(bksge::get<1>(ranges::find_end(x, x+6, w, w, {}, &X::i)) == x+6);
+	VERIFY(get<0>(ranges::find_end(x, x+6, w, w, {}, &X::i)) == x+6);
+	VERIFY(get<1>(ranges::find_end(x, x+6, w, w, {}, &X::i)) == x+6);
 
-	VERIFY(bksge::get<0>(ranges::find_end(x, x, w, w+1, {}, &X::i)) == x+0);
-	VERIFY(bksge::get<1>(ranges::find_end(x, x, w, w+1, {}, &X::i)) == x+0);
+	VERIFY(get<0>(ranges::find_end(x, x, w, w+1, {}, &X::i)) == x+0);
+	VERIFY(get<1>(ranges::find_end(x, x, w, w+1, {}, &X::i)) == x+0);
 
 	return true;
 }

@@ -86,17 +86,18 @@ void test_emplace_sfinae()
 
 void test_basic()
 {
+	using std::get;
 	{
 		using V = bksge::variant<int>;
 		V v(42);
 		auto& ref1 = v.emplace<int>();
 		static_assert(bksge::is_same<int&, decltype(ref1)>::value, "");
-		EXPECT_EQ(bksge::get<0>(v), 0);
-		EXPECT_EQ(&ref1, &bksge::get<0>(v));
+		EXPECT_EQ(get<0>(v), 0);
+		EXPECT_EQ(&ref1, &get<0>(v));
 		auto& ref2 = v.emplace<int>(42);
 		static_assert(bksge::is_same<int&, decltype(ref2)>::value, "");
-		EXPECT_EQ(bksge::get<0>(v), 42);
-		EXPECT_EQ(&ref2, &bksge::get<0>(v));
+		EXPECT_EQ(get<0>(v), 42);
+		EXPECT_EQ(&ref2, &get<0>(v));
 	}
 	{
 		using V = bksge::variant<int, long, const void*, TestTypes::NoCtors, std::string>;
@@ -105,17 +106,17 @@ void test_basic()
 		// default emplace a value
 		auto& ref1 = v.emplace<long>();
 		static_assert(bksge::is_same<long&, decltype(ref1)>::value, "");
-		EXPECT_EQ(bksge::get<1>(v), 0);
-		EXPECT_EQ(&ref1, &bksge::get<1>(v));
+		EXPECT_EQ(get<1>(v), 0);
+		EXPECT_EQ(&ref1, &get<1>(v));
 		auto& ref2 = v.emplace<const void*>(&x);
 		static_assert(bksge::is_same<const void*&, decltype(ref2)>::value, "");
-		EXPECT_EQ(bksge::get<2>(v), &x);
-		EXPECT_EQ(&ref2, &bksge::get<2>(v));
+		EXPECT_EQ(get<2>(v), &x);
+		EXPECT_EQ(&ref2, &get<2>(v));
 		// emplace with multiple args
 		auto& ref3 = v.emplace<std::string>(3u, 'a');
 		static_assert(bksge::is_same<std::string&, decltype(ref3)>::value, "");
-		EXPECT_EQ(bksge::get<4>(v), "aaa");
-		EXPECT_EQ(&ref3, &bksge::get<4>(v));
+		EXPECT_EQ(get<4>(v), "aaa");
+		EXPECT_EQ(&ref3, &get<4>(v));
 	}
 #if !defined(TEST_VARIANT_HAS_NO_REFERENCES)
 	{
@@ -127,28 +128,28 @@ void test_basic()
 		// default emplace a value
 		auto& ref1 = v.emplace<long>();
 		static_assert(bksge::is_same<long&, decltype(ref1)>::value, "");
-		EXPECT_EQ(bksge::get<long>(v), 0);
-		EXPECT_EQ(&ref1, &bksge::get<long>(v));
+		EXPECT_EQ(get<long>(v), 0);
+		EXPECT_EQ(&ref1, &get<long>(v));
 		// emplace a reference
 		auto& ref2 = v.emplace<const int&>(x);
 		static_assert(bksge::is_same<const int&, decltype(ref2)>::value, "");
-		EXPECT_EQ(&bksge::get<const int&>(v), &x);
-		EXPECT_EQ(&ref2, &bksge::get<const int&>(v));
+		EXPECT_EQ(&get<const int&>(v), &x);
+		EXPECT_EQ(&ref2, &get<const int&>(v));
 		// emplace an rvalue reference
 		auto& ref3 = v.emplace<int&&>(bksge::move(y));
 		static_assert(bksge::is_same<int&&, decltype(ref3)>::value, "");
-		EXPECT_EQ(&bksge::get<int&&>(v), &y);
-		EXPECT_EQ(&ref3, &bksge::get<int&&>(v));
+		EXPECT_EQ(&get<int&&>(v), &y);
+		EXPECT_EQ(&ref3, &get<int&&>(v));
 		// re-emplace a new reference over the active member
 		auto& ref4 = v.emplace<int&&>(bksge::move(z));
 		static_assert(bksge::is_same<int&, decltype(ref4)>::value, "");
-		EXPECT_EQ(&bksge::get<int&&>(v), &z);
-		EXPECT_EQ(&ref4, &bksge::get<int&&>(v));
+		EXPECT_EQ(&get<int&&>(v), &z);
+		EXPECT_EQ(&ref4, &get<int&&>(v));
 		// emplace with multiple args
 		auto& ref5 = v.emplace<std::string>(3u, 'a');
 		static_assert(bksge::is_same<std::string&, decltype(ref5)>::value, "");
-		EXPECT_EQ(bksge::get<std::string>(v), "aaa");
-		EXPECT_EQ(&ref5, &bksge::get<std::string>(v));
+		EXPECT_EQ(get<std::string>(v), "aaa");
+		EXPECT_EQ(&ref5, &get<std::string>(v));
 	}
 #endif
 }

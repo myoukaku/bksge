@@ -16,6 +16,7 @@
 #include <bksge/fnd/utility/cmp_less.hpp>
 #include <bksge/fnd/utility/cmp_less_equal.hpp>
 #include <bksge/fnd/utility/cmp_not_equal.hpp>
+#include <bksge/fnd/utility/config.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/utility/exchange.hpp>
 #include <bksge/fnd/utility/forward.hpp>

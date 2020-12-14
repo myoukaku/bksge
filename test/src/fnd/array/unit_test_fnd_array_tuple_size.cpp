@@ -16,10 +16,10 @@ namespace tuple_size_test
 
 using array_type = bksge::array<int, 3>;
 
-static_assert(std::tuple_size<array_type               >::value == 3, "");
-static_assert(std::tuple_size<array_type const         >::value == 3, "");
-static_assert(std::tuple_size<array_type       volatile>::value == 3, "");
-static_assert(std::tuple_size<array_type const volatile>::value == 3, "");
+static_assert(bksge::tuple_size<array_type               >::value == 3, "");
+static_assert(bksge::tuple_size<array_type const         >::value == 3, "");
+static_assert(bksge::tuple_size<array_type       volatile>::value == 3, "");
+static_assert(bksge::tuple_size<array_type const volatile>::value == 3, "");
 
 }	// namespace tuple_size_test
 

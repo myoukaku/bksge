@@ -12,10 +12,10 @@
 #include <bksge/fnd/units/detail/derived_dimension_fwd.hpp>
 #include <bksge/fnd/units/detail/base_dimension_traits.hpp>
 #include <bksge/fnd/tuple/tuple_sort_type.hpp>
+#include <bksge/fnd/tuple/tuple.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conditional.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <tuple>
 
 namespace bksge
 {
@@ -53,7 +53,7 @@ template <typename Tuple>
 struct tuple_to_derived_dimension;
 
 template <typename... Types>
-struct tuple_to_derived_dimension<std::tuple<Types...>>
+struct tuple_to_derived_dimension<bksge::tuple<Types...>>
 {
 	using type = derived_dimension<Types...>;
 };
@@ -63,34 +63,34 @@ template <typename Head, typename Tail, typename DimensionHolder>
 struct append_dimension_impl;
 
 template <typename... Heads, typename Middle, typename... Tails, typename DimensionHolder>
-struct append_dimension_impl<std::tuple<Heads...>, std::tuple<Middle, Tails...>, DimensionHolder>
+struct append_dimension_impl<bksge::tuple<Heads...>, bksge::tuple<Middle, Tails...>, DimensionHolder>
 {
 	using type =
 		bksge::conditional_t<
 			bksge::is_same<typename Middle::type, typename DimensionHolder::type>::value,
-			std::tuple<
+			bksge::tuple<
 				Heads...,
 				dimension_holder<typename Middle::type, Middle::power + DimensionHolder::power>,
 				Tails...
 			>,
 			typename append_dimension_impl<
-				std::tuple<Heads..., Middle>,
-				std::tuple<Tails...>,
+				bksge::tuple<Heads..., Middle>,
+				bksge::tuple<Tails...>,
 				DimensionHolder
 			>::type
 		>;
 };
 
 template <typename... Heads, typename DimensionHolder>
-struct append_dimension_impl<std::tuple<Heads...>, std::tuple<>, DimensionHolder>
+struct append_dimension_impl<bksge::tuple<Heads...>, bksge::tuple<>, DimensionHolder>
 {
-	using type = std::tuple<Heads..., DimensionHolder>;
+	using type = bksge::tuple<Heads..., DimensionHolder>;
 };
 
 // append_dimension
 template <typename Tuple, typename DimensionHolder>
 struct append_dimension
-	: public append_dimension_impl<std::tuple<>, Tuple, DimensionHolder>
+	: public append_dimension_impl<bksge::tuple<>, Tuple, DimensionHolder>
 {};
 
 // remove_power0_impl
@@ -98,20 +98,20 @@ template <typename Head, typename Tail>
 struct remove_power0_impl;
 
 template <typename... Heads, typename Middle, typename... Tails>
-struct remove_power0_impl<std::tuple<Heads...>, std::tuple<Middle, Tails...>>
+struct remove_power0_impl<bksge::tuple<Heads...>, bksge::tuple<Middle, Tails...>>
 {
 	using type = typename remove_power0_impl<
 		bksge::conditional_t<
 			Middle::power != 0,
-			std::tuple<Heads..., Middle>,
-			std::tuple<Heads...>
+			bksge::tuple<Heads..., Middle>,
+			bksge::tuple<Heads...>
 		>,
-		std::tuple<Tails...>
+		bksge::tuple<Tails...>
 	>::type;
 };
 
 template <typename Head>
-struct remove_power0_impl<Head, std::tuple<>>
+struct remove_power0_impl<Head, bksge::tuple<>>
 {
 	using type = Head;
 };
@@ -119,7 +119,7 @@ struct remove_power0_impl<Head, std::tuple<>>
 // remove_power0
 template <typename Tuple>
 struct remove_power0
-	: public remove_power0_impl<std::tuple<>, Tuple>
+	: public remove_power0_impl<bksge::tuple<>, Tuple>
 {};
 
 // make_derived_dimension_impl
@@ -127,16 +127,16 @@ template <typename Head, typename Tail>
 struct make_derived_dimension_impl;
 
 template <typename Head, typename Middle, typename... Tails>
-struct make_derived_dimension_impl<Head, std::tuple<Middle, Tails...>>
+struct make_derived_dimension_impl<Head, bksge::tuple<Middle, Tails...>>
 {
 	using type = typename make_derived_dimension_impl<
 		typename append_dimension<Head, Middle>::type,
-		std::tuple<Tails...>
+		bksge::tuple<Tails...>
 	>::type;
 };
 
 template <typename Head>
-struct make_derived_dimension_impl<Head, std::tuple<>>
+struct make_derived_dimension_impl<Head, bksge::tuple<>>
 {
 	using type = typename tuple_to_derived_dimension<
 		typename bksge::tuple_sort_type<
@@ -150,7 +150,7 @@ struct make_derived_dimension_impl<Head, std::tuple<>>
 
 template <typename... DimensionHolders>
 struct make_derived_dimension
-	: public detail::make_derived_dimension_impl<std::tuple<>, std::tuple<DimensionHolders...>>
+	: public detail::make_derived_dimension_impl<bksge::tuple<>, bksge::tuple<DimensionHolders...>>
 {};
 
 }	// namespace units

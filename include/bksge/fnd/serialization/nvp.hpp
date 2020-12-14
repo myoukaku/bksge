@@ -10,7 +10,7 @@
 #define BKSGE_FND_SERIALIZATION_NVP_HPP
 
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <utility>
+#include <bksge/fnd/utility/pair.hpp>
 
 namespace bksge
 {
@@ -42,7 +42,7 @@ public:
 	}
 
 private:
-	std::pair<char const*, T&>	m_pair;
+	bksge::pair<char const*, T&>	m_pair;
 };
 
 template <typename T>

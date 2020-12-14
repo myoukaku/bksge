@@ -957,9 +957,9 @@ TYPED_TEST(MathColorHSVTest, TupleElementTest)
 	using T = TypeParam;
 	using ColorHSV = bksge::math::ColorHSV<T>;
 
-	static_assert(bksge::is_same<typename std::tuple_element<0, ColorHSV>::type, T>::value, "");
-	static_assert(bksge::is_same<typename std::tuple_element<1, ColorHSV>::type, T>::value, "");
-	static_assert(bksge::is_same<typename std::tuple_element<2, ColorHSV>::type, T>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<0, ColorHSV>::type, T>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<1, ColorHSV>::type, T>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<2, ColorHSV>::type, T>::value, "");
 }
 
 TYPED_TEST(MathColorHSVTest, TupleSizeTest)
@@ -967,7 +967,7 @@ TYPED_TEST(MathColorHSVTest, TupleSizeTest)
 	using T = TypeParam;
 	using ColorHSV = bksge::math::ColorHSV<T>;
 
-	static_assert(std::tuple_size<ColorHSV>::value == 3, "");
+	static_assert(bksge::tuple_size<ColorHSV>::value == 3, "");
 }
 
 template <typename T>
@@ -975,26 +975,27 @@ inline BKSGE_CXX14_CONSTEXPR bool TupleGetTest()
 {
 	using ColorHSV = bksge::math::ColorHSV<T>;
 
+	using std::get;
 	{
 		ColorHSV v{1, 2, 3};
 
-		VERIFY(1 == bksge::get<0>(v));
-		VERIFY(2 == bksge::get<1>(v));
-		VERIFY(3 == bksge::get<2>(v));
+		VERIFY(1 == get<0>(v));
+		VERIFY(2 == get<1>(v));
+		VERIFY(3 == get<2>(v));
 
-		bksge::get<0>(v) = 5;
+		get<0>(v) = 5;
 
 		VERIFY(ColorHSV(5, 2, 3) == v);
-		VERIFY(5 == bksge::get<0>(v));
-		VERIFY(2 == bksge::get<1>(v));
-		VERIFY(3 == bksge::get<2>(v));
+		VERIFY(5 == get<0>(v));
+		VERIFY(2 == get<1>(v));
+		VERIFY(3 == get<2>(v));
 	}
 	{
 		ColorHSV const v{1, 2, 3};
 
-		VERIFY(1 == bksge::get<0>(v));
-		VERIFY(2 == bksge::get<1>(v));
-		VERIFY(3 == bksge::get<2>(v));
+		VERIFY(1 == get<0>(v));
+		VERIFY(2 == get<1>(v));
+		VERIFY(3 == get<2>(v));
 	}
 
 	return true;

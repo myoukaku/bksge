@@ -11,6 +11,8 @@
 #include <bksge/fnd/type_traits/is_assignable.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/type_traits/is_trivially_copyable.hpp>
+#include <bksge/fnd/tuple/tuple.hpp>
+#include <bksge/fnd/tuple/get.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/utility/in_place_type.hpp>
@@ -20,7 +22,6 @@
 #include <initializer_list>
 #include <memory>	// unique_ptr
 #include <set>
-#include <tuple>
 #include <vector>
 #include <gtest/gtest.h>
 
@@ -69,7 +70,7 @@ stored_internally(void* obj, const bksge::any& a)
 struct combined
 {
 	std::vector<int> v;
-	std::tuple<int, int> t;
+	bksge::tuple<int, int> t;
 	template <typename... Args>
 	combined(std::initializer_list<int> il, Args&&... args)
 		: v(il), t(bksge::forward<Args>(args)...)
@@ -92,6 +93,7 @@ static_assert(!bksge::is_trivially_copyable<LocationAware>::value, "");
 
 GTEST_TEST(AnyTest, CtorTest)
 {
+	using std::get;
 	{
 		bksge::any x;
 		EXPECT_TRUE(!x.has_value());
@@ -165,10 +167,10 @@ GTEST_TEST(AnyTest, CtorTest)
 		EXPECT_TRUE(i2 == 42);
 		EXPECT_TRUE(&i2 != &i);
 
-		bksge::any o2(bksge::in_place_type_t<std::tuple<int, int>>{}, 1, 2);
-		std::tuple<int, int>& t = bksge::any_cast<std::tuple<int, int>&>(o2);
-		EXPECT_EQ(std::get<0>(t), 1);
-		EXPECT_EQ(std::get<1>(t), 2);
+		bksge::any o2(bksge::in_place_type_t<bksge::tuple<int, int>>{}, 1, 2);
+		bksge::tuple<int, int>& t = bksge::any_cast<bksge::tuple<int, int>&>(o2);
+		EXPECT_EQ(get<0>(t), 1);
+		EXPECT_EQ(get<1>(t), 2);
 
 		bksge::any o3(bksge::in_place_type_t<std::vector<int>>{}, { 42, 666 });
 		std::vector<int>& v = bksge::any_cast<std::vector<int>&>(o3);
@@ -181,16 +183,16 @@ GTEST_TEST(AnyTest, CtorTest)
 		EXPECT_EQ(c.v[0], 42);
 		EXPECT_EQ(c.v[1], 666);
 		EXPECT_EQ(c.v.size(), 2u);
-		EXPECT_EQ(std::get<0>(c.t), 0);
-		EXPECT_EQ(std::get<1>(c.t), 0);
+		EXPECT_EQ(get<0>(c.t), 0);
+		EXPECT_EQ(get<1>(c.t), 0);
 
 		bksge::any o5(bksge::in_place_type_t<combined>{}, { 1, 2 }, 3, 4);
 		combined& c2 = bksge::any_cast<combined&>(o5);
 		EXPECT_EQ(c2.v[0], 1);
 		EXPECT_EQ(c2.v[1], 2);
 		EXPECT_EQ(c2.v.size(), 2u);
-		EXPECT_EQ(std::get<0>(c2.t), 3);
-		EXPECT_EQ(std::get<1>(c2.t), 4);
+		EXPECT_EQ(get<0>(c2.t), 3);
+		EXPECT_EQ(get<1>(c2.t), 4);
 
 #if !defined(BKSGE_NO_RTTI)
 		bksge::any o6(bksge::in_place_type_t<int&>{}, i);
@@ -257,7 +259,7 @@ struct X2
 struct combined
 {
 	std::vector<int> v;
-	std::tuple<int, int> t;
+	bksge::tuple<int, int> t;
 	template <typename... Args>
 	combined(std::initializer_list<int> il, Args&&... args)
 		: v(il), t(bksge::forward<Args>(args)...)
@@ -304,6 +306,7 @@ BKSGE_WARNING_DISABLE_CLANG("-Wself-assign-overloaded")
 
 GTEST_TEST(AnyTest, AssignTest)
 {
+	using std::get;
 	{
 		bksge::any x;
 		bksge::any y;
@@ -377,10 +380,10 @@ GTEST_TEST(AnyTest, AssignTest)
 		EXPECT_TRUE(&i2 != &i);
 
 		bksge::any o2;
-		o2.emplace<std::tuple<int, int>>(1, 2);
-		std::tuple<int, int>& t = bksge::any_cast<std::tuple<int, int>&>(o2);
-		EXPECT_EQ(std::get<0>(t), 1);
-		EXPECT_EQ(std::get<1>(t), 2);
+		o2.emplace<bksge::tuple<int, int>>(1, 2);
+		bksge::tuple<int, int>& t = bksge::any_cast<bksge::tuple<int, int>&>(o2);
+		EXPECT_EQ(get<0>(t), 1);
+		EXPECT_EQ(get<1>(t), 2);
 
 		bksge::any o3;
 		o3.emplace<std::vector<int>>({ 42, 666 });
@@ -395,8 +398,8 @@ GTEST_TEST(AnyTest, AssignTest)
 		EXPECT_EQ(c.v[0], 42);
 		EXPECT_EQ(c.v[1], 666);
 		EXPECT_EQ(c.v.size(), 2u);
-		EXPECT_EQ(std::get<0>(c.t), 0);
-		EXPECT_EQ(std::get<1>(c.t), 0);
+		EXPECT_EQ(get<0>(c.t), 0);
+		EXPECT_EQ(get<1>(c.t), 0);
 
 		bksge::any o5;
 		o5.emplace<combined>({ 1, 2 }, 3, 4);
@@ -404,8 +407,8 @@ GTEST_TEST(AnyTest, AssignTest)
 		EXPECT_EQ(c2.v[0], 1);
 		EXPECT_EQ(c2.v[1], 2);
 		EXPECT_EQ(c2.v.size(), 2u);
-		EXPECT_EQ(std::get<0>(c2.t), 3);
-		EXPECT_EQ(std::get<1>(c2.t), 4);
+		EXPECT_EQ(get<0>(c2.t), 3);
+		EXPECT_EQ(get<1>(c2.t), 4);
 
 #if !defined(BKSGE_NO_RTTI)
 		bksge::any o6;

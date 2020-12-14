@@ -53,41 +53,42 @@ void test_ctor_sfinae()
 
 void test_ctor_basic()
 {
+	using std::get;
 	{
 		constexpr bksge::variant<int> v(bksge::in_place_index_t<0>{}, 42);
 		static_assert(v.index() == 0, "");
-		static_assert(bksge::get<0>(v) == 42, "");
+		static_assert(get<0>(v) == 42, "");
 	}
 	{
 		constexpr bksge::variant<int, long, long> v(bksge::in_place_index_t<1>{}, 42);
 		static_assert(v.index() == 1, "");
-		static_assert(bksge::get<1>(v) == 42, "");
+		static_assert(get<1>(v) == 42, "");
 	}
 	{
 		constexpr bksge::variant<int, const int, long> v(bksge::in_place_index_t<1>{}, 42);
 		static_assert(v.index() == 1, "");
-		static_assert(bksge::get<1>(v) == 42, "");
+		static_assert(get<1>(v) == 42, "");
 	}
 	{
 		using V = bksge::variant<const int, volatile int, int>;
 		int x = 42;
 		V v(bksge::in_place_index_t<0>{}, x);
 		EXPECT_EQ(v.index(), 0u);
-		EXPECT_EQ(bksge::get<0>(v), x);
+		EXPECT_EQ(get<0>(v), x);
 	}
 	{
 		using V = bksge::variant<const int, volatile int, int>;
 		int x = 42;
 		V v(bksge::in_place_index_t<1>{}, x);
 		EXPECT_EQ(v.index(), 1u);
-		EXPECT_EQ(bksge::get<1>(v), x);
+		EXPECT_EQ(get<1>(v), x);
 	}
 	{
 		using V = bksge::variant<const int, volatile int, int>;
 		int x = 42;
 		V v(bksge::in_place_index_t<2>{}, x);
 		EXPECT_EQ(v.index(), 2u);
-		EXPECT_EQ(bksge::get<2>(v), x);
+		EXPECT_EQ(get<2>(v), x);
 	}
 }
 

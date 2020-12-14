@@ -88,24 +88,25 @@ void test_ctor_sfinae()
 
 void test_ctor_basic()
 {
+	using std::get;
 	{
 		BKSGE_CXX14_CONSTEXPR bksge::variant<InitList, InitListArg, InitList> v(
 			bksge::in_place_index_t<0>{}, {1, 2, 3});
 		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(v.index() == 0);
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::get<0>(v).size == 3);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(get<0>(v).size == 3);
 	}
 	{
 		BKSGE_CXX14_CONSTEXPR bksge::variant<InitList, InitListArg, InitList> v(
 			bksge::in_place_index_t<2>{}, {1, 2, 3});
 		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(v.index() == 2);
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::get<2>(v).size == 3);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(get<2>(v).size == 3);
 	}
 	{
 		BKSGE_CXX14_CONSTEXPR bksge::variant<InitList, InitListArg, InitListArg> v(
 			bksge::in_place_index_t<1>{}, {1, 2, 3, 4}, 42);
 		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(v.index() == 1);
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::get<1>(v).size == 4);
-		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::get<1>(v).value == 42);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(get<1>(v).size == 4);
+		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(get<1>(v).value == 42);
 	}
 }
 

@@ -166,31 +166,32 @@ void test_copy_ctor_sfinae()
 
 void test_copy_ctor_basic()
 {
+	using std::get;
 	{
 		bksge::variant<int> v(bksge::in_place_index_t<0>{}, 42);
 		bksge::variant<int> v2 = v;
 		EXPECT_EQ(v2.index(), 0u);
-		EXPECT_EQ(bksge::get<0>(v2), 42);
+		EXPECT_EQ(get<0>(v2), 42);
 	}
 	{
 		bksge::variant<int, long> v(bksge::in_place_index_t<1>{}, 42);
 		bksge::variant<int, long> v2 = v;
 		EXPECT_EQ(v2.index(), 1u);
-		EXPECT_EQ(bksge::get<1>(v2), 42);
+		EXPECT_EQ(get<1>(v2), 42);
 	}
 	{
 		bksge::variant<NonT> v(bksge::in_place_index_t<0>{}, 42);
 		EXPECT_EQ(v.index(), 0u);
 		bksge::variant<NonT> v2(v);
 		EXPECT_EQ(v2.index(), 0u);
-		EXPECT_EQ(bksge::get<0>(v2).value, 42);
+		EXPECT_EQ(get<0>(v2).value, 42);
 	}
 	{
 		bksge::variant<int, NonT> v(bksge::in_place_index_t<1>{}, 42);
 		EXPECT_EQ(v.index(), 1u);
 		bksge::variant<int, NonT> v2(v);
 		EXPECT_EQ(v2.index(), 1u);
-		EXPECT_EQ(bksge::get<1>(v2).value, 42);
+		EXPECT_EQ(get<1>(v2).value, 42);
 	}
 
 	// Make sure we properly propagate triviality, which implies constexpr-ness (see P0602R4).
@@ -200,42 +201,42 @@ void test_copy_ctor_basic()
 		static_assert(v.index() == 0, "");
 		constexpr bksge::variant<int> v2 = v;
 		static_assert(v2.index() == 0, "");
-		static_assert(bksge::get<0>(v2) == 42, "");
+		static_assert(get<0>(v2) == 42, "");
 	}
 	{
 		constexpr bksge::variant<int, long> v(bksge::in_place_index_t<1>{}, 42);
 		static_assert(v.index() == 1, "");
 		constexpr bksge::variant<int, long> v2 = v;
 		static_assert(v2.index() == 1, "");
-		static_assert(bksge::get<1>(v2) == 42, "");
+		static_assert(get<1>(v2) == 42, "");
 	}
 	{
 		constexpr bksge::variant<TCopy> v(bksge::in_place_index_t<0>{}, 42);
 		static_assert(v.index() == 0, "");
 		constexpr bksge::variant<TCopy> v2(v);
 		static_assert(v2.index() == 0, "");
-		static_assert(bksge::get<0>(v2).value == 42, "");
+		static_assert(get<0>(v2).value == 42, "");
 	}
 	{
 		constexpr bksge::variant<int, TCopy> v(bksge::in_place_index_t<1>{}, 42);
 		static_assert(v.index() == 1, "");
 		constexpr bksge::variant<int, TCopy> v2(v);
 		static_assert(v2.index() == 1, "");
-		static_assert(bksge::get<1>(v2).value == 42, "");
+		static_assert(get<1>(v2).value == 42, "");
 	}
 	{
 		constexpr bksge::variant<TCopyNTMove> v(bksge::in_place_index_t<0>{}, 42);
 		static_assert(v.index() == 0, "");
 		constexpr bksge::variant<TCopyNTMove> v2(v);
 		static_assert(v2.index() == 0, "");
-		static_assert(bksge::get<0>(v2).value == 42, "");
+		static_assert(get<0>(v2).value == 42, "");
 	}
 	{
 		constexpr bksge::variant<int, TCopyNTMove> v(bksge::in_place_index_t<1>{}, 42);
 		static_assert(v.index() == 1, "");
 		constexpr bksge::variant<int, TCopyNTMove> v2(v);
 		static_assert(v2.index() == 1, "");
-		static_assert(bksge::get<1>(v2).value == 42, "");
+		static_assert(get<1>(v2).value == 42, "");
 	}
 #endif
 }
@@ -258,10 +259,11 @@ constexpr bool
 test_constexpr_copy_ctor_imp(
 	bksge::variant<long, void*, const int> const& v)
 {
+	using std::get;
 	auto v2 = v;
 	return v2.index() == v.index() &&
 		v2.index() == Idx &&
-		bksge::get<Idx>(v2) == bksge::get<Idx>(v);
+		get<Idx>(v2) == get<Idx>(v);
 }
 #endif
 

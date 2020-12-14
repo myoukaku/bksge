@@ -7,9 +7,8 @@
  */
 
 #include <bksge/fnd/utility/pair.hpp>
-//#include <bksge/fnd/tuple/tuple_size.hpp>
+#include <bksge/fnd/tuple/tuple_size.hpp>
 #include <gtest/gtest.h>
-#include <tuple>
 #include "constexpr_test.hpp"
 
 namespace bksge_pair_test
@@ -18,10 +17,10 @@ namespace bksge_pair_test
 namespace tuple_size_test
 {
 
-static_assert(std::tuple_size<bksge::pair<int, float>>::value == 2, "");
-static_assert(std::tuple_size<bksge::pair<int, float> const>::value == 2, "");
-static_assert(std::tuple_size<bksge::pair<int, float> volatile>::value == 2, "");
-static_assert(std::tuple_size<bksge::pair<int, float> const volatile>::value == 2, "");
+static_assert(bksge::tuple_size<bksge::pair<int, float>>::value == 2, "");
+static_assert(bksge::tuple_size<bksge::pair<int, float> const>::value == 2, "");
+static_assert(bksge::tuple_size<bksge::pair<int, float> volatile>::value == 2, "");
+static_assert(bksge::tuple_size<bksge::pair<int, float> const volatile>::value == 2, "");
 
 }	// namespace tuple_size_test
 

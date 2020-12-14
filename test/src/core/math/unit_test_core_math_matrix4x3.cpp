@@ -1440,10 +1440,10 @@ TYPED_TEST(MathMatrix4x3Test, TupleElementTest)
 	using Matrix4x3 = bksge::math::Matrix4x3<T>;
 	using Vector3 = bksge::math::Vector3<T>;
 
-	static_assert(bksge::is_same<typename std::tuple_element<0, Matrix4x3>::type, Vector3>::value, "");
-	static_assert(bksge::is_same<typename std::tuple_element<1, Matrix4x3>::type, Vector3>::value, "");
-	static_assert(bksge::is_same<typename std::tuple_element<2, Matrix4x3>::type, Vector3>::value, "");
-	static_assert(bksge::is_same<typename std::tuple_element<3, Matrix4x3>::type, Vector3>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<0, Matrix4x3>::type, Vector3>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<1, Matrix4x3>::type, Vector3>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<2, Matrix4x3>::type, Vector3>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<3, Matrix4x3>::type, Vector3>::value, "");
 }
 
 TYPED_TEST(MathMatrix4x3Test, TupleSizeTest)
@@ -1451,7 +1451,7 @@ TYPED_TEST(MathMatrix4x3Test, TupleSizeTest)
 	using T = TypeParam;
 	using Matrix4x3 = bksge::math::Matrix4x3<T>;
 
-	static_assert(std::tuple_size<Matrix4x3>::value == 4, "");
+	static_assert(bksge::tuple_size<Matrix4x3>::value == 4, "");
 }
 
 template <typename T>
@@ -1459,6 +1459,7 @@ inline BKSGE_CXX14_CONSTEXPR bool TupleGetTest()
 {
 	using Matrix4x3 = bksge::math::Matrix4x3<T>;
 	using Vector3 = bksge::math::Vector3<T>;
+	using std::get;
 
 	{
 		Matrix4x3 m
@@ -1469,13 +1470,13 @@ inline BKSGE_CXX14_CONSTEXPR bool TupleGetTest()
 			{41, 42, 43},
 		};
 
-		VERIFY(Vector3(11, 12, 13) == bksge::get<0>(m));
-		VERIFY(Vector3(21, 22, 23) == bksge::get<1>(m));
-		VERIFY(Vector3(31, 32, 33) == bksge::get<2>(m));
-		VERIFY(Vector3(41, 42, 43) == bksge::get<3>(m));
+		VERIFY(Vector3(11, 12, 13) == get<0>(m));
+		VERIFY(Vector3(21, 22, 23) == get<1>(m));
+		VERIFY(Vector3(31, 32, 33) == get<2>(m));
+		VERIFY(Vector3(41, 42, 43) == get<3>(m));
 
-		bksge::get<0>(m) = Vector3{51, 52, 53};
-		bksge::get<3>(m) = Vector3{61, 62, 63};
+		get<0>(m) = Vector3{51, 52, 53};
+		get<3>(m) = Vector3{61, 62, 63};
 
 		VERIFY(Vector3(51, 52, 53) == m[0]);
 		VERIFY(Vector3(21, 22, 23) == m[1]);
@@ -1491,10 +1492,10 @@ inline BKSGE_CXX14_CONSTEXPR bool TupleGetTest()
 			{41, 42, 43},
 		};
 
-		VERIFY(Vector3(11, 12, 13) == bksge::get<0>(m));
-		VERIFY(Vector3(21, 22, 23) == bksge::get<1>(m));
-		VERIFY(Vector3(31, 32, 33) == bksge::get<2>(m));
-		VERIFY(Vector3(41, 42, 43) == bksge::get<3>(m));
+		VERIFY(Vector3(11, 12, 13) == get<0>(m));
+		VERIFY(Vector3(21, 22, 23) == get<1>(m));
+		VERIFY(Vector3(31, 32, 33) == get<2>(m));
+		VERIFY(Vector3(41, 42, 43) == get<3>(m));
 	}
 
 	return true;

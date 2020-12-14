@@ -9,8 +9,8 @@
 #ifndef BKSGE_FND_ALGORITHM_MINMAX_ELEMENT_HPP
 #define BKSGE_FND_ALGORITHM_MINMAX_ELEMENT_HPP
 
+#include <bksge/fnd/utility/pair.hpp>
 #include <bksge/fnd/config.hpp>
-#include <utility>
 
 namespace bksge
 {
@@ -44,7 +44,7 @@ namespace algorithm
  *				注意する必要がある。
  */
 template <typename ForwardIterator>
-BKSGE_CXX14_CONSTEXPR std::pair<ForwardIterator, ForwardIterator>
+BKSGE_CXX14_CONSTEXPR bksge::pair<ForwardIterator, ForwardIterator>
 minmax_element(ForwardIterator first, ForwardIterator last);
 
 /**
@@ -79,7 +79,7 @@ minmax_element(ForwardIterator first, ForwardIterator last);
  *				注意する必要がある。
  */
 template <typename ForwardIterator, typename Compare>
-BKSGE_CXX14_CONSTEXPR std::pair<ForwardIterator, ForwardIterator>
+BKSGE_CXX14_CONSTEXPR bksge::pair<ForwardIterator, ForwardIterator>
 minmax_element(ForwardIterator first, ForwardIterator last, Compare comp);
 
 }	// namespace algorithm

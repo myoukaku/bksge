@@ -23,6 +23,8 @@
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
+#include <bksge/fnd/tuple/get.hpp>
+#include <bksge/fnd/tuple/tie.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
 #include "constexpr_test.hpp"
@@ -1495,10 +1497,10 @@ TYPED_TEST(MathMatrix4x4Test, TupleElementTest)
 	using Matrix4x4 = bksge::math::Matrix4x4<T>;
 	using Vector4 = bksge::math::Vector4<T>;
 
-	static_assert(bksge::is_same<typename std::tuple_element<0, Matrix4x4>::type, Vector4>::value, "");
-	static_assert(bksge::is_same<typename std::tuple_element<1, Matrix4x4>::type, Vector4>::value, "");
-	static_assert(bksge::is_same<typename std::tuple_element<2, Matrix4x4>::type, Vector4>::value, "");
-	static_assert(bksge::is_same<typename std::tuple_element<3, Matrix4x4>::type, Vector4>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<0, Matrix4x4>::type, Vector4>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<1, Matrix4x4>::type, Vector4>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<2, Matrix4x4>::type, Vector4>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<3, Matrix4x4>::type, Vector4>::value, "");
 }
 
 TYPED_TEST(MathMatrix4x4Test, TupleSizeTest)
@@ -1506,7 +1508,7 @@ TYPED_TEST(MathMatrix4x4Test, TupleSizeTest)
 	using T = TypeParam;
 	using Matrix4x4 = bksge::math::Matrix4x4<T>;
 
-	static_assert(std::tuple_size<Matrix4x4>::value == 4, "");
+	static_assert(bksge::tuple_size<Matrix4x4>::value == 4, "");
 }
 
 template <typename T>
@@ -1514,6 +1516,7 @@ inline BKSGE_CXX14_CONSTEXPR bool TupleGetTest()
 {
 	using Matrix4x4 = bksge::math::Matrix4x4<T>;
 	using Vector4 = bksge::math::Vector4<T>;
+	using std::get;
 
 	{
 		Matrix4x4 m
@@ -1524,13 +1527,13 @@ inline BKSGE_CXX14_CONSTEXPR bool TupleGetTest()
 			{41, 42, 43, 44},
 		};
 
-		VERIFY(Vector4(11, 12, 13, 14) == bksge::get<0>(m));
-		VERIFY(Vector4(21, 22, 23, 24) == bksge::get<1>(m));
-		VERIFY(Vector4(31, 32, 33, 34) == bksge::get<2>(m));
-		VERIFY(Vector4(41, 42, 43, 44) == bksge::get<3>(m));
+		VERIFY(Vector4(11, 12, 13, 14) == get<0>(m));
+		VERIFY(Vector4(21, 22, 23, 24) == get<1>(m));
+		VERIFY(Vector4(31, 32, 33, 34) == get<2>(m));
+		VERIFY(Vector4(41, 42, 43, 44) == get<3>(m));
 
-		bksge::get<0>(m) = Vector4{51, 52, 53, 54};
-		bksge::get<3>(m) = Vector4{61, 62, 63, 64};
+		get<0>(m) = Vector4{51, 52, 53, 54};
+		get<3>(m) = Vector4{61, 62, 63, 64};
 
 		VERIFY(Vector4(51, 52, 53, 54) == m[0]);
 		VERIFY(Vector4(21, 22, 23, 24) == m[1]);
@@ -1546,10 +1549,10 @@ inline BKSGE_CXX14_CONSTEXPR bool TupleGetTest()
 			{41, 42, 43, 44},
 		};
 
-		VERIFY(Vector4(11, 12, 13, 14) == bksge::get<0>(m));
-		VERIFY(Vector4(21, 22, 23, 24) == bksge::get<1>(m));
-		VERIFY(Vector4(31, 32, 33, 34) == bksge::get<2>(m));
-		VERIFY(Vector4(41, 42, 43, 44) == bksge::get<3>(m));
+		VERIFY(Vector4(11, 12, 13, 14) == get<0>(m));
+		VERIFY(Vector4(21, 22, 23, 24) == get<1>(m));
+		VERIFY(Vector4(31, 32, 33, 34) == get<2>(m));
+		VERIFY(Vector4(41, 42, 43, 44) == get<3>(m));
 	}
 
 	return true;
@@ -2469,6 +2472,7 @@ inline BKSGE_CXX14_CONSTEXPR bool DecomposeTest()
 	using Matrix3x3 = bksge::math::Matrix3x3<T>;
 	using Vector3 = bksge::math::Vector3<T>;
 	using Scale3 = bksge::math::Scale3<T>;
+	using std::get;
 
 	{
 		const Vector3 trans_expected(-42, 0, 10.5);
@@ -2477,9 +2481,9 @@ inline BKSGE_CXX14_CONSTEXPR bool DecomposeTest()
 		const Matrix4x4 m = Matrix4x4::Compose(trans_expected, scale_expected, rotation_expected);
 
 		auto const t = Matrix4x4::Decompose(m);
-		auto const trans    = std::get<0>(t);
-		auto const scale    = std::get<1>(t);
-		auto const rotation = std::get<2>(t);
+		auto const trans    = get<0>(t);
+		auto const scale    = get<1>(t);
+		auto const rotation = get<2>(t);
 
 		VERIFY(trans_expected    == trans);
 		VERIFY(scale_expected    == scale);
@@ -2497,7 +2501,7 @@ inline BKSGE_CXX14_CONSTEXPR bool DecomposeTest()
 		Vector3 trans;
 		Scale3 scale;
 		Matrix3x3 rotation;
-		std::tie(trans, scale, rotation) = Matrix4x4::Decompose(m);
+		bksge::tie(trans, scale, rotation) = Matrix4x4::Decompose(m);
 
 		VERIFY(trans_expected    == trans);
 		VERIFY(scale_expected    == scale);

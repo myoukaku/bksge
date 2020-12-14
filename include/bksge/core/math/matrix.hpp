@@ -105,10 +105,10 @@ Transposed(Matrix<T, N, M> const& m) BKSGE_NOEXCEPT
 
 }	// namespace bksge
 
-#include <functional>
-#include <tuple>
+#include <bksge/fnd/tuple/tuple_element.hpp>
+#include <bksge/fnd/tuple/tuple_size.hpp>
 
-namespace std
+namespace BKSGE_TUPLE_NAMESPACE
 {
 
 /**
@@ -126,6 +126,13 @@ template <std::size_t I, typename T, std::size_t N, std::size_t M>
 struct tuple_element<I, bksge::math::Matrix<T, N, M>>
 	: public tuple_element<I, bksge::math::Vector<bksge::math::Vector<T, M>, N>>
 {};
+
+}	// namespace BKSGE_TUPLE_NAMESPACE
+
+#include <functional>
+
+namespace std
+{
 
 /**
  *	@brief	hash

@@ -1515,10 +1515,10 @@ TYPED_TEST(MathVector4Test, TupleElementTest)
 	using T = TypeParam;
 	using Vector4 = bksge::math::Vector4<T>;
 
-	static_assert(bksge::is_same<typename std::tuple_element<0, Vector4>::type, T>::value, "");
-	static_assert(bksge::is_same<typename std::tuple_element<1, Vector4>::type, T>::value, "");
-	static_assert(bksge::is_same<typename std::tuple_element<2, Vector4>::type, T>::value, "");
-	static_assert(bksge::is_same<typename std::tuple_element<3, Vector4>::type, T>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<0, Vector4>::type, T>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<1, Vector4>::type, T>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<2, Vector4>::type, T>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<3, Vector4>::type, T>::value, "");
 }
 
 TYPED_TEST(MathVector4Test, TupleSizeTest)
@@ -1526,37 +1526,38 @@ TYPED_TEST(MathVector4Test, TupleSizeTest)
 	using T = TypeParam;
 	using Vector4 = bksge::math::Vector4<T>;
 
-	static_assert(std::tuple_size<Vector4>::value == 4, "");
+	static_assert(bksge::tuple_size<Vector4>::value == 4, "");
 }
 
 template <typename T>
 inline BKSGE_CXX14_CONSTEXPR bool TupleGetTest()
 {
 	using Vector4 = bksge::math::Vector4<T>;
+	using std::get;
 	{
 		Vector4 v{1, 2, 3, 4};
 
-		VERIFY(1 == bksge::get<0>(v));
-		VERIFY(2 == bksge::get<1>(v));
-		VERIFY(3 == bksge::get<2>(v));
-		VERIFY(4 == bksge::get<3>(v));
+		VERIFY(1 == get<0>(v));
+		VERIFY(2 == get<1>(v));
+		VERIFY(3 == get<2>(v));
+		VERIFY(4 == get<3>(v));
 
-		bksge::get<0>(v) = 5;
-		bksge::get<3>(v) = 6;
+		get<0>(v) = 5;
+		get<3>(v) = 6;
 
 		VERIFY(v == Vector4(5, 2, 3, 6));
-		VERIFY(5 == bksge::get<0>(v));
-		VERIFY(2 == bksge::get<1>(v));
-		VERIFY(3 == bksge::get<2>(v));
-		VERIFY(6 == bksge::get<3>(v));
+		VERIFY(5 == get<0>(v));
+		VERIFY(2 == get<1>(v));
+		VERIFY(3 == get<2>(v));
+		VERIFY(6 == get<3>(v));
 	}
 	{
 		Vector4 const v{1, 2, 3, 4};
 
-		VERIFY(1 == bksge::get<0>(v));
-		VERIFY(2 == bksge::get<1>(v));
-		VERIFY(3 == bksge::get<2>(v));
-		VERIFY(4 == bksge::get<3>(v));
+		VERIFY(1 == get<0>(v));
+		VERIFY(2 == get<1>(v));
+		VERIFY(3 == get<2>(v));
+		VERIFY(4 == get<3>(v));
 	}
 	return true;
 }

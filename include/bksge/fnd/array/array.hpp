@@ -351,10 +351,17 @@ BKSGE_NOEXCEPT_IF_EXPR(lhs.swap(rhs))
 
 }	// namespace bksge
 
-#include <bksge/fnd/type_traits/integral_constant.hpp>
-#include <bksge/fnd/tuple/tuple_element.hpp>
+#endif	// defined(BKSGE_USE_STD_ARRAY)
 
-namespace std
+#include <bksge/fnd/tuple/tuple_element.hpp>
+#include <bksge/fnd/tuple/tuple_size.hpp>
+#include <bksge/fnd/tuple/config.hpp>
+
+#if !defined(BKSGE_USE_STD_TUPLE) || !defined(BKSGE_USE_STD_ARRAY)
+
+#include <bksge/fnd/type_traits/integral_constant.hpp>
+
+namespace BKSGE_TUPLE_NAMESPACE
 {
 
 template <typename T, std::size_t N>
@@ -368,7 +375,7 @@ struct tuple_element<I, bksge::array<T, N>>
 	using type = T;
 };
 
-}	// namespace std
+}	// namespace BKSGE_TUPLE_NAMESPACE
 
 #endif
 

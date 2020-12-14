@@ -9,9 +9,9 @@
 #ifndef UNIT_TEST_FND_TUPLE_MY_TUPLE_HPP
 #define UNIT_TEST_FND_TUPLE_MY_TUPLE_HPP
 
+#include <bksge/fnd/tuple/tuple_element.hpp>
 #include <bksge/fnd/type_traits/nth.hpp>
 #include <cstddef>
-#include <tuple>
 
 namespace bksge_tuple_test
 {
@@ -23,7 +23,7 @@ struct MyTuple
 
 }	// namespace bksge_tuple_test
 
-namespace std
+namespace BKSGE_TUPLE_NAMESPACE
 {
 
 template <std::size_t I, typename... Types>
@@ -34,6 +34,6 @@ public:
 	using type = bksge::nth_t<I, Types...>;
 };
 
-}	// namespace std
+}	// namespace BKSGE_TUPLE_NAMESPACE
 
 #endif // UNIT_TEST_FND_TUPLE_MY_TUPLE_HPP

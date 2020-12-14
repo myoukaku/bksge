@@ -55,6 +55,7 @@ using std::optional;
 #include <bksge/fnd/utility/in_place.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/move.hpp>
+#include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/config.hpp>
 #include <initializer_list>
 
@@ -378,7 +379,7 @@ public:
 			bksge::is_nothrow_move_constructible<T>,
 			bksge::is_nothrow_swappable<T>>::value))
 	{
-		using std::swap;
+		using bksge::swap;
 
 		if (this->is_engaged() && other.is_engaged())
 		{

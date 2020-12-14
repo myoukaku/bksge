@@ -10,7 +10,8 @@
 #define BKSGE_FND_ALGORITHM_INL_PARTITION_COPY_INL_HPP
 
 #include <bksge/fnd/algorithm/partition_copy.hpp>
-#include <utility>
+#include <bksge/fnd/utility/pair.hpp>
+#include <bksge/fnd/config.hpp>
 
 namespace bksge
 {
@@ -25,7 +26,7 @@ template <
 	typename Predicate
 >
 inline BKSGE_CXX14_CONSTEXPR
-std::pair<OutputIterator1, OutputIterator2>
+bksge::pair<OutputIterator1, OutputIterator2>
 partition_copy(
 	InputIterator first,
 	InputIterator last,
@@ -45,7 +46,7 @@ partition_copy(
 		}
 	}
 
-	return std::make_pair(out_true, out_false);
+	return bksge::make_pair(out_true, out_false);
 }
 
 }	// namespace algorithm

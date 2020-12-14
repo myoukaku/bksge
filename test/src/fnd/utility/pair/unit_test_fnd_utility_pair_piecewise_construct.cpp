@@ -7,8 +7,8 @@
  */
 
 #include <bksge/fnd/utility/pair.hpp>
+#include <bksge/fnd/tuple/forward_as_tuple.hpp>
 #include <gtest/gtest.h>
-#include <tuple>
 #include "constexpr_test.hpp"
 
 namespace bksge_pair_test
@@ -71,21 +71,21 @@ private:
 inline BKSGE_CXX14_CONSTEXPR bool test01()
 {
 	bksge::pair<type_one, type_zero> pp0(bksge::piecewise_construct,
-		std::forward_as_tuple(-3),
-		std::forward_as_tuple());
+		bksge::forward_as_tuple(-3),
+		bksge::forward_as_tuple());
 	VERIFY(pp0.first.get() == -3);
 	VERIFY(pp0.second.get() == 757);
 
 	bksge::pair<type_one, type_two> pp1(bksge::piecewise_construct,
-		std::forward_as_tuple(6),
-		std::forward_as_tuple(5, 4));
+		bksge::forward_as_tuple(6),
+		bksge::forward_as_tuple(5, 4));
 	VERIFY(pp1.first.get() == 6);
 	VERIFY(pp1.second.get1() == 5);
 	VERIFY(pp1.second.get2() == 4);
 
 	bksge::pair<type_two, type_two> pp2(bksge::piecewise_construct,
-		std::forward_as_tuple(2, 1),
-		std::forward_as_tuple(-1, -3));
+		bksge::forward_as_tuple(2, 1),
+		bksge::forward_as_tuple(-1, -3));
 	VERIFY(pp2.first.get1() == 2);
 	VERIFY(pp2.first.get2() == 1);
 	VERIFY(pp2.second.get1() == -1);

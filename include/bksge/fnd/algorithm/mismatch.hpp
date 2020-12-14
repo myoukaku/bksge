@@ -9,8 +9,8 @@
 #ifndef BKSGE_FND_ALGORITHM_MISMATCH_HPP
 #define BKSGE_FND_ALGORITHM_MISMATCH_HPP
 
+#include <bksge/fnd/utility/pair.hpp>
 #include <bksge/fnd/config.hpp>
-#include <utility>
 
 namespace bksge
 {
@@ -45,7 +45,7 @@ template <
 	typename InputIterator1,
 	typename InputIterator2
 >
-BKSGE_CXX14_CONSTEXPR std::pair<InputIterator1, InputIterator2>
+BKSGE_CXX14_CONSTEXPR bksge::pair<InputIterator1, InputIterator2>
 mismatch(
 	InputIterator1 first1, InputIterator1 last1,
 	InputIterator2 first2);
@@ -58,7 +58,7 @@ template <
 	typename InputIterator2,
 	typename BinaryPredicate
 >
-BKSGE_CXX14_CONSTEXPR std::pair<InputIterator1, InputIterator2>
+BKSGE_CXX14_CONSTEXPR bksge::pair<InputIterator1, InputIterator2>
 mismatch(
 	InputIterator1 first1, InputIterator1 last1,
 	InputIterator2 first2,
@@ -71,7 +71,7 @@ template <
 	typename InputIterator1,
 	typename InputIterator2
 >
-BKSGE_CXX14_CONSTEXPR std::pair<InputIterator1, InputIterator2>
+BKSGE_CXX14_CONSTEXPR bksge::pair<InputIterator1, InputIterator2>
 mismatch(
 	InputIterator1 first1, InputIterator1 last1,
 	InputIterator2 first2, InputIterator2 last2);
@@ -84,7 +84,7 @@ template <
 	typename InputIterator2,
 	typename BinaryPredicate
 >
-BKSGE_CXX14_CONSTEXPR std::pair<InputIterator1, InputIterator2>
+BKSGE_CXX14_CONSTEXPR bksge::pair<InputIterator1, InputIterator2>
 mismatch(
 	InputIterator1 first1, InputIterator1 last1,
 	InputIterator2 first2, InputIterator2 last2,

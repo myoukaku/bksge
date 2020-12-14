@@ -21,9 +21,11 @@
 #include <bksge/fnd/algorithm/ranges/equal.hpp>
 #include <bksge/fnd/functional/identity.hpp>
 #include <bksge/fnd/iterator/concepts/input_iterator.hpp>
+#include <bksge/fnd/tuple/tuple.hpp>
+#include <bksge/fnd/tuple/get.hpp>
 #include <bksge/fnd/utility/as_const.hpp>
+#include <bksge/fnd/utility/pair.hpp>
 #include <gtest/gtest.h>
-#include <tuple>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
 
@@ -40,7 +42,7 @@ inline BKSGE_CXX14_CONSTEXPR bool test01()
 	namespace ranges = bksge::ranges;
 	namespace views  = ranges::views;
 
-	std::tuple<int, int> x[] = {{1, 2}, {3, 4}, {5, 6}};
+	bksge::tuple<int, int> x[] = {{1, 2}, {3, 4}, {5, 6}};
 #if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
 	auto v0 = x | views::elements<0>;
 #else
@@ -112,7 +114,8 @@ struct S
 	template <BKSGE_REQUIRES_PARAM(bksge::input_iterator, I)>
 	friend constexpr bool operator==(I const& i, S)
 	{
-		return std::get<1>(*i) == 0;
+		using std::get;
+		return get<1>(*i) == 0;
 	}
 
 	template <BKSGE_REQUIRES_PARAM(bksge::input_iterator, I)>
@@ -140,15 +143,15 @@ inline BKSGE_CXX14_CONSTEXPR bool test02()
 	namespace views  = ranges::views;
 
 	// This verifies that P1994R1 (and LWG3406) is implemented.
-	std::pair<std::pair<char, int>, long> x[] =
+	bksge::pair<bksge::pair<char, int>, long> x[] =
 	{{{(char)1, 2}, 3l}, {{(char)1, 0}, 2l}, {{(char)1, 2}, 0l}};
 	ranges::subrange<decltype(ranges::begin(x)), S> r{ranges::begin(x), S{}};
 
 	auto v = r | views::keys;
-	std::pair<char, int> y[] = { {(char)1, 2}, {(char)1, 0} };
+	bksge::pair<char, int> y[] = { {(char)1, 2}, {(char)1, 0} };
 	VERIFY(ranges::equal(v, y));
 	ranges::subrange<decltype(ranges::begin(v)), S> v2{ranges::begin(v), S{}};
-	std::pair<char, int> z[] = { {(char)1, 2} };
+	bksge::pair<char, int> z[] = { {(char)1, 2} };
 	VERIFY(ranges::equal(v2, z));
 
 	{
@@ -168,7 +171,8 @@ struct F
 	template <typename Tuple>
 	constexpr bool operator()(Tuple const& t) const
 	{
-		return std::get<1>(t) < 5;
+		using std::get;
+		return get<1>(t) < 5;
 	}
 };
 
@@ -178,7 +182,7 @@ inline BKSGE_CXX14_CONSTEXPR bool test03()
 	namespace ranges = bksge::ranges;
 	namespace views  = ranges::views;
 
-	std::tuple<int, int> x[] = {{1, 2}, {3, 4}, {5, 6}, {7, 8}};
+	bksge::tuple<int, int> x[] = {{1, 2}, {3, 4}, {5, 6}, {7, 8}};
 	auto v0 = x | views::filter(F{}) | views::keys;
 	int const y[] = { 1, 3 };
 	VERIFY(ranges::equal(v0, y));
@@ -234,8 +238,8 @@ inline BKSGE_CXX14_CONSTEXPR bool test04()
 	namespace ranges = bksge::ranges;
 	namespace views  = ranges::views;
 
-	std::tuple<int, int> x[] = {{1, 2}, {3, 4}, {5, 6}, {7, 8}};
-	test_bidirectional_range<std::tuple<int, int>> rx(x);
+	bksge::tuple<int, int> x[] = {{1, 2}, {3, 4}, {5, 6}, {7, 8}};
+	test_bidirectional_range<bksge::tuple<int, int>> rx(x);
 	auto v0 = rx | views::filter(F{}) | views::keys;
 	int const y[] = { 1, 3 };
 	VERIFY(ranges::equal(v0, y));
@@ -263,8 +267,8 @@ inline BKSGE_CXX14_CONSTEXPR bool test05()
 	namespace ranges = bksge::ranges;
 	namespace views  = ranges::views;
 
-	std::tuple<int, int> x[] = {{1, 2}, {3, 4}, {5, 6}};
-	test_random_access_range<std::tuple<int, int>> rx(x);
+	bksge::tuple<int, int> x[] = {{1, 2}, {3, 4}, {5, 6}};
+	test_random_access_range<bksge::tuple<int, int>> rx(x);
 	auto v0 = rx | views::keys;
 	int const y[] = { 1, 3, 5 };
 	VERIFY(ranges::equal(v0, y));
@@ -301,8 +305,8 @@ inline BKSGE_CXX14_CONSTEXPR bool test06()
 	namespace ranges = bksge::ranges;
 	namespace views  = ranges::views;
 
-	std::tuple<int, int> x[] = {{1, 2}, {3, 4}, {5, 6}};
-	test_input_range<std::tuple<int, int>> rx(x);
+	bksge::tuple<int, int> x[] = {{1, 2}, {3, 4}, {5, 6}};
+	test_input_range<bksge::tuple<int, int>> rx(x);
 	auto v0 = rx | views::keys;
 	int const y[] = { 1, 3, 5 };
 	VERIFY(ranges::equal(v0, y));

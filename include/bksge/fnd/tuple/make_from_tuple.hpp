@@ -9,9 +9,9 @@
 #ifndef BKSGE_FND_TUPLE_MAKE_FROM_TUPLE_HPP
 #define BKSGE_FND_TUPLE_MAKE_FROM_TUPLE_HPP
 
-#include <tuple>
+#include <bksge/fnd/tuple/config.hpp>
 
-#if defined(__cpp_lib_make_from_tuple) && (__cpp_lib_make_from_tuple >= 201606)
+#if defined(BKSGE_USE_STD_TUPLE) && defined(__cpp_lib_make_from_tuple) && (__cpp_lib_make_from_tuple >= 201606)
 
 namespace bksge
 {
@@ -22,13 +22,15 @@ using std::make_from_tuple;
 
 #else
 
+#include <bksge/fnd/tuple/tuple.hpp>
+#include <bksge/fnd/tuple/tuple_size.hpp>
+#include <bksge/fnd/tuple/get.hpp>
 #include <bksge/fnd/type_traits/remove_reference.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
-#include <tuple>
 
 BKSGE_WARNING_PUSH()
 BKSGE_WARNING_DISABLE_MSVC(4100)
@@ -45,7 +47,7 @@ template <typename T, typename Tuple, std::size_t... Indices>
 inline BKSGE_CXX14_CONSTEXPR T
 make_from_tuple_impl(Tuple&& t, bksge::index_sequence<Indices...>)
 BKSGE_NOEXCEPT_RETURN(
-	T(std::get<Indices>(bksge::forward<Tuple>(t))...))
+	T(bksge::get<Indices>(bksge::forward<Tuple>(t))...))
 
 }	// namespace detail
 
@@ -59,16 +61,16 @@ BKSGE_NOEXCEPT_RETURN(
  *
  *	@return		構築されたT型のオブジェクト
  *
- *	@note		Tuple は必ずしも std::tuple 型でなくても、
- *				std::get と std::tuple_size に対応している型であれば良い。
- *				例えば std::array や std::pair など。
+ *	@note		Tuple は必ずしも bksge::tuple 型でなくても、
+ *				bksge::get と bksge::tuple_size に対応している型であれば良い。
+ *				例えば bksge::array や bksge::pair など。
  */
 template <typename T, typename Tuple>
 inline BKSGE_CXX14_CONSTEXPR T
 make_from_tuple(Tuple&& t)
 BKSGE_NOEXCEPT_RETURN(
 	detail::make_from_tuple_impl<T>(bksge::forward<Tuple>(t),
-		bksge::make_index_sequence<std::tuple_size<bksge::remove_reference_t<Tuple>>::value>{}))
+		bksge::make_index_sequence<bksge::tuple_size<bksge::remove_reference_t<Tuple>>::value>{}))
 
 #undef BKSGE_NOEXCEPT_RETURN
 

@@ -7,10 +7,12 @@
  */
 
 #include <bksge/fnd/tuple/apply.hpp>
-//#include <bksge/fnd/array.hpp>
+#include <bksge/fnd/tuple/tuple.hpp>
+#include <bksge/fnd/tuple/forward_as_tuple.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/utility/move.hpp>
-#include <tuple>
-#include <utility>
+#include <bksge/fnd/utility/declval.hpp>
+#include <bksge/fnd/utility/pair.hpp>
 #include <gtest/gtest.h>
 #include "tuple_test_utility.hpp"
 #include "constexpr_test.hpp"
@@ -44,49 +46,47 @@ GTEST_TEST(TupleApplyTest, ConstexprEvaluationTest)
 {
 	constexpr ConstexprSumT sum_obj{};
 	{
-		using Tup = std::tuple<>;
+		using Tup = bksge::tuple<>;
 		using Fn = int(&)();
 		BKSGE_CXX14_CONSTEXPR Tup t{};
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(bksge::apply(static_cast<Fn>(constexpr_sum_fn), t), 0);
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(bksge::apply(sum_obj, t), 0);
 	}
 	{
-		using Tup = std::tuple<int>;
+		using Tup = bksge::tuple<int>;
 		using Fn = int(&)(int);
 		BKSGE_CXX14_CONSTEXPR Tup t(42);
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(bksge::apply(static_cast<Fn>(constexpr_sum_fn), t), 42);
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(bksge::apply(sum_obj, t), 42);
 	}
 	{
-		using Tup = std::tuple<int, long>;
+		using Tup = bksge::tuple<int, long>;
 		using Fn = int(&)(int, int);
 		BKSGE_CXX14_CONSTEXPR Tup t(42, 101);
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(bksge::apply(static_cast<Fn>(constexpr_sum_fn), t), 143);
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(bksge::apply(sum_obj, t), 143);
 	}
 	{
-		using Tup = std::pair<int, long>;
+		using Tup = bksge::pair<int, long>;
 		using Fn = int(&)(int, int);
 		BKSGE_CXX14_CONSTEXPR Tup t(42, 101);
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(bksge::apply(static_cast<Fn>(constexpr_sum_fn), t), 143);
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(bksge::apply(sum_obj, t), 143);
 	}
 	{
-		using Tup = std::tuple<int, long, int>;
+		using Tup = bksge::tuple<int, long, int>;
 		using Fn = int(&)(int, int, int);
 		BKSGE_CXX14_CONSTEXPR Tup t(42, 101, -1);
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(bksge::apply(static_cast<Fn>(constexpr_sum_fn), t), 142);
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(bksge::apply(sum_obj, t), 142);
 	}
-#if 0	// TODO
 	{
-		using Tup = std::array<int, 3>;
+		using Tup = bksge::array<int, 3>;
 		using Fn = int(&)(int, int, int);
 		BKSGE_CXX14_CONSTEXPR Tup t ={{42, 101, -1}};
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(bksge::apply(static_cast<Fn>(constexpr_sum_fn), t), 142);
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(bksge::apply(sum_obj, t), 142);
 	}
-#endif
 }
 
 
@@ -113,7 +113,7 @@ struct CallInfo
 };
 
 template <typename ...Args>
-inline CallInfo<decltype(std::forward_as_tuple(std::declval<Args>()...))>
+inline CallInfo<decltype(bksge::forward_as_tuple(bksge::declval<Args>()...))>
 makeCallInfo(CallQuals quals, Args&&... args)
 {
 	return{quals, bksge::forward<Args>(args)...};
@@ -182,7 +182,7 @@ void check_apply_quals_and_types(Tuple&& t)
 
 GTEST_TEST(TupleApplyTest, CallQualsAndArgTypesTest)
 {
-	using Tup = std::tuple<int, int const&, unsigned&&>;
+	using Tup = bksge::tuple<int, int const&, unsigned&&>;
 	const int x = 42;
 	unsigned y = 101;
 	Tup t(-1, x, bksge::move(y));
@@ -216,14 +216,14 @@ GTEST_TEST(TupleApplyTest, NoexceptTest)
 	(void)tc;
 	{
 		// test that the functions noexcept-ness is propagated
-		using Tup = std::tuple<int, const char*, long>;
+		using Tup = bksge::tuple<int, const char*, long>;
 		Tup t;
 		ASSERT_NOEXCEPT(bksge::apply(nec, t));
 		ASSERT_NOT_NOEXCEPT(bksge::apply(tc, t));
 	}
 	{
 		// test that the noexcept-ness of the argument conversions is checked.
-		using Tup = std::tuple<NothrowMoveable, int>;
+		using Tup = bksge::tuple<NothrowMoveable, int>;
 		Tup t;
 		ASSERT_NOT_NOEXCEPT(bksge::apply(nec, t));
 		ASSERT_NOEXCEPT(bksge::apply(nec, bksge::move(t)));
@@ -264,7 +264,7 @@ void test()
 	static_assert(bksge::is_same<RawInvokeResult, Expect>::value, "");
 	using FnType = RawInvokeResult (*) (index<Func>);
 	FnType fn = f;
-	std::tuple<index<Func>> t; ((void)t);
+	bksge::tuple<index<Func>> t; ((void)t);
 	using InvokeResult = decltype(bksge::apply(fn, t));
 	static_assert(bksge::is_same<InvokeResult, Expect>::value, "");
 	(void)fn;

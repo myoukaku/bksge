@@ -12,9 +12,10 @@
 #include <bksge/fnd/units/detail/derived_dimension_fwd.hpp>
 #include <bksge/fnd/type_traits/nth.hpp>
 #include <bksge/fnd/type_traits/integral_constant.hpp>
+#include <bksge/fnd/tuple/tuple_element.hpp>
+#include <bksge/fnd/tuple/tuple_size.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
-#include <tuple>
 
 namespace bksge
 {
@@ -39,7 +40,7 @@ struct derived_dimension
 
 }	// namespace bksge
 
-namespace std
+namespace BKSGE_TUPLE_NAMESPACE
 {
 
 /**
@@ -60,6 +61,6 @@ public:
 	using type = bksge::nth_t<I, Types...>;
 };
 
-}	// namespace std
+}	// namespace BKSGE_TUPLE_NAMESPACE
 
 #endif // BKSGE_FND_UNITS_DETAIL_DERIVED_DIMENSION_HPP

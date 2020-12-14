@@ -78,21 +78,22 @@ void test_emplace_sfinae()
 
 void test_basic()
 {
+	using std::get;
 	using V = bksge::variant<int, InitList, InitListArg, TestTypes::NoCtors>;
 	V v;
 	auto& ref1 = v.emplace<InitList>({1, 2, 3});
 	static_assert(bksge::is_same<InitList&, decltype(ref1)>::value, "");
-	EXPECT_EQ(bksge::get<InitList>(v).size, 3u);
-	EXPECT_EQ(&ref1, &bksge::get<InitList>(v));
+	EXPECT_EQ(get<InitList>(v).size, 3u);
+	EXPECT_EQ(&ref1, &get<InitList>(v));
 	auto& ref2 = v.emplace<InitListArg>({1, 2, 3, 4}, 42);
 	static_assert(bksge::is_same<InitListArg&, decltype(ref2)>::value, "");
-	EXPECT_EQ(bksge::get<InitListArg>(v).size, 4u);
-	EXPECT_EQ(bksge::get<InitListArg>(v).value, 42);
-	EXPECT_EQ(&ref2, &bksge::get<InitListArg>(v));
+	EXPECT_EQ(get<InitListArg>(v).size, 4u);
+	EXPECT_EQ(get<InitListArg>(v).value, 42);
+	EXPECT_EQ(&ref2, &get<InitListArg>(v));
 	auto& ref3 = v.emplace<InitList>({1});
 	static_assert(bksge::is_same<InitList&, decltype(ref3)>::value, "");
-	EXPECT_EQ(bksge::get<InitList>(v).size, 1u);
-	EXPECT_EQ(&ref3, &bksge::get<InitList>(v));
+	EXPECT_EQ(get<InitList>(v).size, 1u);
+	EXPECT_EQ(&ref3, &get<InitList>(v));
 }
 
 GTEST_TEST(VariantTest, EmplaceTypeInitListArgsTest)

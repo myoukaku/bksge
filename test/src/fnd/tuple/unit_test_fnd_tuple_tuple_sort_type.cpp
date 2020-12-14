@@ -7,10 +7,10 @@
  */
 
 #include <bksge/fnd/tuple/tuple_sort_type.hpp>
+#include <bksge/fnd/tuple/tuple.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/type_traits/integral_constant.hpp>
-#include <tuple>
 #include <gtest/gtest.h>
 #include "my_tuple.hpp"
 
@@ -109,7 +109,7 @@ void TupleSortTypeTest()
 
 GTEST_TEST(TupleTest, TupleSortTypeTest)
 {
-	TupleSortTypeTest<std::tuple>();
+	TupleSortTypeTest<bksge::tuple>();
 	TupleSortTypeTest<MyTuple>();
 }
 

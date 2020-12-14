@@ -91,10 +91,10 @@ operator*(Vector<T, N> const& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
 
 }	// namespace bksge
 
-#include <functional>
-#include <tuple>
+#include <bksge/fnd/tuple/tuple_element.hpp>
+#include <bksge/fnd/tuple/tuple_size.hpp>
 
-namespace std
+namespace BKSGE_TUPLE_NAMESPACE
 {
 
 /**
@@ -112,6 +112,13 @@ template <std::size_t I, typename T, std::size_t N>
 struct tuple_element<I, bksge::math::Scale<T, N>>
 	: public tuple_element<I, bksge::math::detail::VectorBase<T, N>>
 {};
+
+}	// namespace BKSGE_TUPLE_NAMESPACE
+
+#include <functional>
+
+namespace std
+{
 
 /**
  *	@brief	hash

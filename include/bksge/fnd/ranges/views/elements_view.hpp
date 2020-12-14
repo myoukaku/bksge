@@ -41,6 +41,8 @@
 #include <bksge/fnd/iterator/concepts/sentinel_for.hpp>
 #include <bksge/fnd/iterator/concepts/sized_sentinel_for.hpp>
 #include <bksge/fnd/tuple/tuple_element.hpp>
+#include <bksge/fnd/tuple/tuple_size.hpp>
+#include <bksge/fnd/tuple/get.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/remove_reference.hpp>
@@ -49,7 +51,6 @@
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
-#include <tuple>
 
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
@@ -70,10 +71,10 @@ template <typename T, std::size_t N>
 concept has_tuple_element =
 	requires(T t)
 	{
-		typename std::tuple_size<T>::type;
-		requires N < std::tuple_size<T>::value;
+		typename bksge::tuple_size<T>::type;
+		requires N < bksge::tuple_size<T>::value;
 		typename bksge::tuple_element_t<N, T>;
-		{ std::get<N>(t) } -> bksge::convertible_to<bksge::tuple_element_t<N, T> const&>;
+		{ get<N>(t) } -> bksge::convertible_to<bksge::tuple_element_t<N, T> const&>;
 	};
 
 #else
@@ -83,13 +84,13 @@ struct has_tuple_element_impl
 {
 private:
 	template <typename T2, std::size_t N2,
-		typename = typename std::tuple_size<T2>::type,
+		typename = typename bksge::tuple_size<T2>::type,
 		typename = typename bksge::tuple_element_t<N2, T2>
 	>
 	static auto test(int) -> bksge::conjunction<
-		bksge::bool_constant<(N2 < std::tuple_size<T2>::value)>,
+		bksge::bool_constant<(N2 < bksge::tuple_size<T2>::value)>,
 		bksge::convertible_to<
-			decltype(std::get<N2>(bksge::declval<T2&>())),
+			decltype(get<N2>(bksge::declval<T2&>())),
 			bksge::tuple_element_t<N2, T2> const&
 		>
 	>;
@@ -261,9 +262,9 @@ private:
 		}
 
 		BKSGE_CONSTEXPR auto operator*() const
-		->decltype((std::get<N>(*m_current)))
+		->decltype((get<N>(*m_current)))
 		{
-			return std::get<N>(*m_current);
+			return get<N>(*m_current);
 		}
 
 		BKSGE_CXX14_CONSTEXPR Iterator& operator++()
@@ -317,9 +318,9 @@ private:
 
 		template <BKSGE_REQUIRES_PARAM_D(ranges::random_access_range, B2, Base)>
 		BKSGE_CONSTEXPR auto operator[](difference_type n) const
-		->decltype((std::get<N>(*m_current)))
+		->decltype((get<N>(*m_current)))
 		{
-			return std::get<N>(*(m_current + n));
+			return get<N>(*(m_current + n));
 		}
 
 		template <BKSGE_REQUIRES_PARAM_D(bksge::equality_comparable, I, ranges::iterator_t<Base>)>

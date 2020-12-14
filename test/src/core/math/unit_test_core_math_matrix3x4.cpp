@@ -1313,9 +1313,9 @@ TYPED_TEST(MathMatrix3x4Test, TupleElementTest)
 	using Matrix3x4 = bksge::math::Matrix3x4<T>;
 	using Vector4 = bksge::math::Vector4<T>;
 
-	static_assert(bksge::is_same<typename std::tuple_element<0, Matrix3x4>::type, Vector4>::value, "");
-	static_assert(bksge::is_same<typename std::tuple_element<1, Matrix3x4>::type, Vector4>::value, "");
-	static_assert(bksge::is_same<typename std::tuple_element<2, Matrix3x4>::type, Vector4>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<0, Matrix3x4>::type, Vector4>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<1, Matrix3x4>::type, Vector4>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<2, Matrix3x4>::type, Vector4>::value, "");
 }
 
 TYPED_TEST(MathMatrix3x4Test, TupleSizeTest)
@@ -1323,7 +1323,7 @@ TYPED_TEST(MathMatrix3x4Test, TupleSizeTest)
 	using T = TypeParam;
 	using Matrix3x4 = bksge::math::Matrix3x4<T>;
 
-	static_assert(std::tuple_size<Matrix3x4>::value == 3, "");
+	static_assert(bksge::tuple_size<Matrix3x4>::value == 3, "");
 }
 
 template <typename T>
@@ -1331,7 +1331,7 @@ inline BKSGE_CXX14_CONSTEXPR bool TupleGetTest()
 {
 	using Matrix3x4 = bksge::math::Matrix3x4<T>;
 	using Vector4 = bksge::math::Vector4<T>;
-
+	using std::get;
 	{
 		Matrix3x4 m
 		{
@@ -1340,11 +1340,11 @@ inline BKSGE_CXX14_CONSTEXPR bool TupleGetTest()
 			{31, 32, 33, 34},
 		};
 
-		VERIFY(Vector4(11, 12, 13, 14) == bksge::get<0>(m));
-		VERIFY(Vector4(21, 22, 23, 24) == bksge::get<1>(m));
-		VERIFY(Vector4(31, 32, 33, 34) == bksge::get<2>(m));
+		VERIFY(Vector4(11, 12, 13, 14) == get<0>(m));
+		VERIFY(Vector4(21, 22, 23, 24) == get<1>(m));
+		VERIFY(Vector4(31, 32, 33, 34) == get<2>(m));
 
-		bksge::get<0>(m) = Vector4{51, 52, 53, 54};
+		get<0>(m) = Vector4{51, 52, 53, 54};
 
 		VERIFY(Vector4(51, 52, 53, 54) == m[0]);
 		VERIFY(Vector4(21, 22, 23, 24) == m[1]);
@@ -1358,9 +1358,9 @@ inline BKSGE_CXX14_CONSTEXPR bool TupleGetTest()
 			{31, 32, 33, 34},
 		};
 
-		VERIFY(Vector4(11, 12, 13, 14) == bksge::get<0>(m));
-		VERIFY(Vector4(21, 22, 23, 24) == bksge::get<1>(m));
-		VERIFY(Vector4(31, 32, 33, 34) == bksge::get<2>(m));
+		VERIFY(Vector4(11, 12, 13, 14) == get<0>(m));
+		VERIFY(Vector4(21, 22, 23, 24) == get<1>(m));
+		VERIFY(Vector4(31, 32, 33, 34) == get<2>(m));
 	}
 
 	return true;

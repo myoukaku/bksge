@@ -27,41 +27,42 @@ namespace get_index_test
 
 void test_const_lvalue_get()
 {
+	using std::get;
 	{
 		using V = bksge::variant<int, const long>;
 		constexpr V v(42);
 #if defined(TEST_WORKAROUND_CONSTEXPR_IMPLIES_NOEXCEPT)
-		ASSERT_NOEXCEPT(bksge::get<0>(v));
+		ASSERT_NOEXCEPT(get<0>(v));
 #else
-		ASSERT_NOT_NOEXCEPT(bksge::get<0>(v));
+		ASSERT_NOT_NOEXCEPT(get<0>(v));
 #endif
-		ASSERT_SAME_TYPE(decltype(bksge::get<0>(v)), const int&);
-		static_assert(bksge::get<0>(v) == 42, "");
+		ASSERT_SAME_TYPE(decltype(get<0>(v)), const int&);
+		static_assert(get<0>(v) == 42, "");
 	}
 	{
 		using V = bksge::variant<int, const long>;
 		const V v(42);
-		ASSERT_NOT_NOEXCEPT(bksge::get<0>(v));
-		ASSERT_SAME_TYPE(decltype(bksge::get<0>(v)), const int&);
-		EXPECT_EQ(bksge::get<0>(v), 42);
+		ASSERT_NOT_NOEXCEPT(get<0>(v));
+		ASSERT_SAME_TYPE(decltype(get<0>(v)), const int&);
+		EXPECT_EQ(get<0>(v), 42);
 	}
 	{
 		using V = bksge::variant<int, const long>;
 		constexpr V v(42l);
 #if defined(TEST_WORKAROUND_CONSTEXPR_IMPLIES_NOEXCEPT)
-		ASSERT_NOEXCEPT(bksge::get<1>(v));
+		ASSERT_NOEXCEPT(get<1>(v));
 #else
-		ASSERT_NOT_NOEXCEPT(bksge::get<1>(v));
+		ASSERT_NOT_NOEXCEPT(get<1>(v));
 #endif
-		ASSERT_SAME_TYPE(decltype(bksge::get<1>(v)), const long&);
-		static_assert(bksge::get<1>(v) == 42, "");
+		ASSERT_SAME_TYPE(decltype(get<1>(v)), const long&);
+		static_assert(get<1>(v) == 42, "");
 	}
 	{
 		using V = bksge::variant<int, const long>;
 		const V v(42l);
-		ASSERT_NOT_NOEXCEPT(bksge::get<1>(v));
-		ASSERT_SAME_TYPE(decltype(bksge::get<1>(v)), const long&);
-		EXPECT_EQ(bksge::get<1>(v), 42);
+		ASSERT_NOT_NOEXCEPT(get<1>(v));
+		ASSERT_SAME_TYPE(decltype(get<1>(v)), const long&);
+		EXPECT_EQ(get<1>(v), 42);
 	}
 	// FIXME: Remove these once reference support is reinstated
 #if !defined(TEST_VARIANT_HAS_NO_REFERENCES)
@@ -69,40 +70,41 @@ void test_const_lvalue_get()
 		using V = bksge::variant<int&>;
 		int x = 42;
 		const V v(x);
-		ASSERT_SAME_TYPE(decltype(bksge::get<0>(v)), int&);
-		EXPECT_EQ(&bksge::get<0>(v), &x);
+		ASSERT_SAME_TYPE(decltype(get<0>(v)), int&);
+		EXPECT_EQ(&get<0>(v), &x);
 	}
 	{
 		using V = bksge::variant<int&&>;
 		int x = 42;
 		const V v(bksge::move(x));
-		ASSERT_SAME_TYPE(decltype(bksge::get<0>(v)), int&);
-		EXPECT_EQ(&bksge::get<0>(v), &x);
+		ASSERT_SAME_TYPE(decltype(get<0>(v)), int&);
+		EXPECT_EQ(&get<0>(v), &x);
 	}
 	{
 		using V = bksge::variant<const int&&>;
 		int x = 42;
 		const V v(bksge::move(x));
-		ASSERT_SAME_TYPE(decltype(bksge::get<0>(v)), const int&);
-		EXPECT_EQ(&bksge::get<0>(v), &x);
+		ASSERT_SAME_TYPE(decltype(get<0>(v)), const int&);
+		EXPECT_EQ(&get<0>(v), &x);
 	}
 #endif
 }
 
 void test_lvalue_get()
 {
+	using std::get;
 	{
 		using V = bksge::variant<int, const long>;
 		V v(42);
-		ASSERT_NOT_NOEXCEPT(bksge::get<0>(v));
-		ASSERT_SAME_TYPE(decltype(bksge::get<0>(v)), int&);
-		EXPECT_EQ(bksge::get<0>(v), 42);
+		ASSERT_NOT_NOEXCEPT(get<0>(v));
+		ASSERT_SAME_TYPE(decltype(get<0>(v)), int&);
+		EXPECT_EQ(get<0>(v), 42);
 	}
 	{
 		using V = bksge::variant<int, const long>;
 		V v(42l);
-		ASSERT_SAME_TYPE(decltype(bksge::get<1>(v)), const long&);
-		EXPECT_EQ(bksge::get<1>(v), 42);
+		ASSERT_SAME_TYPE(decltype(get<1>(v)), const long&);
+		EXPECT_EQ(get<1>(v), 42);
 	}
 	// FIXME: Remove these once reference support is reinstated
 #if !defined(TEST_VARIANT_HAS_NO_REFERENCES)
@@ -110,47 +112,48 @@ void test_lvalue_get()
 		using V = bksge::variant<int&>;
 		int x = 42;
 		V v(x);
-		ASSERT_SAME_TYPE(decltype(bksge::get<0>(v)), int&);
-		EXPECT_EQ(&bksge::get<0>(v), &x);
+		ASSERT_SAME_TYPE(decltype(get<0>(v)), int&);
+		EXPECT_EQ(&get<0>(v), &x);
 	}
 	{
 		using V = bksge::variant<const int&>;
 		int x = 42;
 		V v(x);
-		ASSERT_SAME_TYPE(decltype(bksge::get<0>(v)), const int&);
-		EXPECT_EQ(&bksge::get<0>(v), &x);
+		ASSERT_SAME_TYPE(decltype(get<0>(v)), const int&);
+		EXPECT_EQ(&get<0>(v), &x);
 	}
 	{
 		using V = bksge::variant<int&&>;
 		int x = 42;
 		V v(bksge::move(x));
-		ASSERT_SAME_TYPE(decltype(bksge::get<0>(v)), int&);
-		EXPECT_EQ(&bksge::get<0>(v), &x);
+		ASSERT_SAME_TYPE(decltype(get<0>(v)), int&);
+		EXPECT_EQ(&get<0>(v), &x);
 	}
 	{
 		using V = bksge::variant<const int&&>;
 		int x = 42;
 		V v(bksge::move(x));
-		ASSERT_SAME_TYPE(decltype(bksge::get<0>(v)), const int&);
-		EXPECT_EQ(&bksge::get<0>(v), &x);
+		ASSERT_SAME_TYPE(decltype(get<0>(v)), const int&);
+		EXPECT_EQ(&get<0>(v), &x);
 	}
 #endif
 }
 
 void test_rvalue_get()
 {
+	using std::get;
 	{
 		using V = bksge::variant<int, const long>;
 		V v(42);
-		ASSERT_NOT_NOEXCEPT(bksge::get<0>(bksge::move(v)));
-		ASSERT_SAME_TYPE(decltype(bksge::get<0>(bksge::move(v))), int&&);
-		EXPECT_EQ(bksge::get<0>(bksge::move(v)), 42);
+		ASSERT_NOT_NOEXCEPT(get<0>(bksge::move(v)));
+		ASSERT_SAME_TYPE(decltype(get<0>(bksge::move(v))), int&&);
+		EXPECT_EQ(get<0>(bksge::move(v)), 42);
 	}
 	{
 		using V = bksge::variant<int, const long>;
 		V v(42l);
-		ASSERT_SAME_TYPE(decltype(bksge::get<1>(bksge::move(v))), const long&&);
-		EXPECT_EQ(bksge::get<1>(bksge::move(v)), 42);
+		ASSERT_SAME_TYPE(decltype(get<1>(bksge::move(v))), const long&&);
+		EXPECT_EQ(get<1>(bksge::move(v)), 42);
 	}
 	// FIXME: Remove these once reference support is reinstated
 #if !defined(TEST_VARIANT_HAS_NO_REFERENCES)
@@ -158,30 +161,30 @@ void test_rvalue_get()
 		using V = bksge::variant<int&>;
 		int x = 42;
 		V v(x);
-		ASSERT_SAME_TYPE(decltype(bksge::get<0>(bksge::move(v))), int&);
-		EXPECT_EQ(&bksge::get<0>(bksge::move(v)), &x);
+		ASSERT_SAME_TYPE(decltype(get<0>(bksge::move(v))), int&);
+		EXPECT_EQ(&get<0>(bksge::move(v)), &x);
 	}
 	{
 		using V = bksge::variant<const int&>;
 		int x = 42;
 		V v(x);
-		ASSERT_SAME_TYPE(decltype(bksge::get<0>(bksge::move(v))), const int&);
-		EXPECT_EQ(&bksge::get<0>(bksge::move(v)), &x);
+		ASSERT_SAME_TYPE(decltype(get<0>(bksge::move(v))), const int&);
+		EXPECT_EQ(&get<0>(bksge::move(v)), &x);
 	}
 	{
 		using V = bksge::variant<int&&>;
 		int x = 42;
 		V v(bksge::move(x));
-		ASSERT_SAME_TYPE(decltype(bksge::get<0>(bksge::move(v))), int&&);
-		int&& xref = bksge::get<0>(bksge::move(v));
+		ASSERT_SAME_TYPE(decltype(get<0>(bksge::move(v))), int&&);
+		int&& xref = get<0>(bksge::move(v));
 		EXPECT_EQ(&xref, &x);
 	}
 	{
 		using V = bksge::variant<const int&&>;
 		int x = 42;
 		V v(bksge::move(x));
-		ASSERT_SAME_TYPE(decltype(bksge::get<0>(bksge::move(v))), const int&&);
-		const int&& xref = bksge::get<0>(bksge::move(v));
+		ASSERT_SAME_TYPE(decltype(get<0>(bksge::move(v))), const int&&);
+		const int&& xref = get<0>(bksge::move(v));
 		EXPECT_EQ(&xref, &x);
 	}
 #endif
@@ -189,18 +192,19 @@ void test_rvalue_get()
 
 void test_const_rvalue_get()
 {
+	using std::get;
 	{
 		using V = bksge::variant<int, const long>;
 		const V v(42);
-		ASSERT_NOT_NOEXCEPT(bksge::get<0>(bksge::move(v)));
-		ASSERT_SAME_TYPE(decltype(bksge::get<0>(bksge::move(v))), const int&&);
-		EXPECT_EQ(bksge::get<0>(bksge::move(v)), 42);
+		ASSERT_NOT_NOEXCEPT(get<0>(bksge::move(v)));
+		ASSERT_SAME_TYPE(decltype(get<0>(bksge::move(v))), const int&&);
+		EXPECT_EQ(get<0>(bksge::move(v)), 42);
 	}
 	{
 		using V = bksge::variant<int, const long>;
 		const V v(42l);
-		ASSERT_SAME_TYPE(decltype(bksge::get<1>(bksge::move(v))), const long&&);
-		EXPECT_EQ(bksge::get<1>(bksge::move(v)), 42);
+		ASSERT_SAME_TYPE(decltype(get<1>(bksge::move(v))), const long&&);
+		EXPECT_EQ(get<1>(bksge::move(v)), 42);
 	}
 	// FIXME: Remove these once reference support is reinstated
 #if !defined(TEST_VARIANT_HAS_NO_REFERENCES)
@@ -208,30 +212,30 @@ void test_const_rvalue_get()
 		using V = bksge::variant<int&>;
 		int x = 42;
 		const V v(x);
-		ASSERT_SAME_TYPE(decltype(bksge::get<0>(bksge::move(v))), int&);
-		EXPECT_EQ(&bksge::get<0>(bksge::move(v)), &x);
+		ASSERT_SAME_TYPE(decltype(get<0>(bksge::move(v))), int&);
+		EXPECT_EQ(&get<0>(bksge::move(v)), &x);
 	}
 	{
 		using V = bksge::variant<const int&>;
 		int x = 42;
 		const V v(x);
-		ASSERT_SAME_TYPE(decltype(bksge::get<0>(bksge::move(v))), const int&);
-		EXPECT_EQ(&bksge::get<0>(bksge::move(v)), &x);
+		ASSERT_SAME_TYPE(decltype(get<0>(bksge::move(v))), const int&);
+		EXPECT_EQ(&get<0>(bksge::move(v)), &x);
 	}
 	{
 		using V = bksge::variant<int&&>;
 		int x = 42;
 		const V v(bksge::move(x));
-		ASSERT_SAME_TYPE(decltype(bksge::get<0>(bksge::move(v))), int&&);
-		int&& xref = bksge::get<0>(bksge::move(v));
+		ASSERT_SAME_TYPE(decltype(get<0>(bksge::move(v))), int&&);
+		int&& xref = get<0>(bksge::move(v));
 		EXPECT_EQ(&xref, &x);
 	}
 	{
 		using V = bksge::variant<const int&&>;
 		int x = 42;
 		const V v(bksge::move(x));
-		ASSERT_SAME_TYPE(decltype(bksge::get<0>(bksge::move(v))), const int&&);
-		const int&& xref = bksge::get<0>(bksge::move(v));
+		ASSERT_SAME_TYPE(decltype(get<0>(bksge::move(v))), const int&&);
+		const int&& xref = get<0>(bksge::move(v));
 		EXPECT_EQ(&xref, &x);
 	}
 #endif
@@ -244,7 +248,8 @@ struct Test
 	{
 		try
 		{
-			TEST_IGNORE_NODISCARD bksge::get<Idx::value>(bksge::forward<V>(v));
+			using std::get;
+			TEST_IGNORE_NODISCARD get<Idx::value>(bksge::forward<V>(v));
 		}
 		catch (const bksge::bad_variant_access&)
 		{

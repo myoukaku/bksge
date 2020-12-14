@@ -1107,9 +1107,9 @@ TYPED_TEST(MathColor3Test, TupleElementTest)
 	using T = TypeParam;
 	using Color3 = bksge::math::Color3<T>;
 
-	static_assert(bksge::is_same<typename std::tuple_element<0, Color3>::type, T>::value, "");
-	static_assert(bksge::is_same<typename std::tuple_element<1, Color3>::type, T>::value, "");
-	static_assert(bksge::is_same<typename std::tuple_element<2, Color3>::type, T>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<0, Color3>::type, T>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<1, Color3>::type, T>::value, "");
+	static_assert(bksge::is_same<typename bksge::tuple_element<2, Color3>::type, T>::value, "");
 }
 
 TYPED_TEST(MathColor3Test, TupleSizeTest)
@@ -1117,34 +1117,35 @@ TYPED_TEST(MathColor3Test, TupleSizeTest)
 	using T = TypeParam;
 	using Color3 = bksge::math::Color3<T>;
 
-	static_assert(std::tuple_size<Color3>::value == 3, "");
+	static_assert(bksge::tuple_size<Color3>::value == 3, "");
 }
 
 template <typename T>
 inline BKSGE_CXX14_CONSTEXPR bool TupleGetTest()
 {
 	using Color3 = bksge::math::Color3<T>;
+	using std::get;
 	{
 		Color3 v{1, 2, 3};
 
-		VERIFY(1 == bksge::get<0>(v));
-		VERIFY(2 == bksge::get<1>(v));
-		VERIFY(3 == bksge::get<2>(v));
+		VERIFY(1 == get<0>(v));
+		VERIFY(2 == get<1>(v));
+		VERIFY(3 == get<2>(v));
 
-		bksge::get<0>(v) = 5;
-		bksge::get<2>(v) = 6;
+		get<0>(v) = 5;
+		get<2>(v) = 6;
 
 		VERIFY(v == Color3(5, 2, 6));
-		VERIFY(5 == bksge::get<0>(v));
-		VERIFY(2 == bksge::get<1>(v));
-		VERIFY(6 == bksge::get<2>(v));
+		VERIFY(5 == get<0>(v));
+		VERIFY(2 == get<1>(v));
+		VERIFY(6 == get<2>(v));
 	}
 	{
 		Color3 const v{1, 2, 3};
 
-		VERIFY(1 == bksge::get<0>(v));
-		VERIFY(2 == bksge::get<1>(v));
-		VERIFY(3 == bksge::get<2>(v));
+		VERIFY(1 == get<0>(v));
+		VERIFY(2 == get<1>(v));
+		VERIFY(3 == get<2>(v));
 	}
 	return true;
 }

@@ -9,8 +9,8 @@
 #ifndef BKSGE_FND_ALGORITHM_PARTITION_COPY_HPP
 #define BKSGE_FND_ALGORITHM_PARTITION_COPY_HPP
 
+#include <bksge/fnd/utility/pair.hpp>
 #include <bksge/fnd/config.hpp>
-#include <utility>
 
 namespace bksge
 {
@@ -52,7 +52,7 @@ template <
 	typename OutputIterator2,
 	typename Predicate
 >
-BKSGE_CXX14_CONSTEXPR std::pair<OutputIterator1, OutputIterator2>
+BKSGE_CXX14_CONSTEXPR bksge::pair<OutputIterator1, OutputIterator2>
 partition_copy(
 	InputIterator first,
 	InputIterator last,

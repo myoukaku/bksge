@@ -17,6 +17,7 @@
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/type_traits/is_base_of.hpp>
+#include <bksge/fnd/tuple/tuple_size.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
@@ -251,7 +252,7 @@ template <
 inline BKSGE_CONSTEXPR VectorLike
 operator*(VectorLike const& lhs, U rhs) BKSGE_NOEXCEPT
 {
-	return bksge::math::detail::multiplies_per_elem(lhs, VectorBase<U, std::tuple_size<VectorLike>::value>{rhs});
+	return bksge::math::detail::multiplies_per_elem(lhs, VectorBase<U, bksge::tuple_size<VectorLike>::value>{rhs});
 }
 
 /**
@@ -290,7 +291,7 @@ template <
 inline BKSGE_CONSTEXPR VectorLike
 operator/(VectorLike const& lhs, U rhs) BKSGE_NOEXCEPT
 {
-	return bksge::math::detail::divides_per_elem(lhs, VectorBase<U, std::tuple_size<VectorLike>::value>{rhs});
+	return bksge::math::detail::divides_per_elem(lhs, VectorBase<U, bksge::tuple_size<VectorLike>::value>{rhs});
 }
 
 /**
@@ -370,13 +371,11 @@ get(bksge::math::detail::VectorBase<T, N> const&& v) BKSGE_NOEXCEPT
 
 }	// namespace bksge
 
-#include <bksge/fnd/functional/hash_combine.hpp>
 #include <bksge/fnd/type_traits/integral_constant.hpp>
-#include <bksge/fnd/utility/make_index_sequence.hpp>
-#include <functional>
-#include <tuple>
+#include <bksge/fnd/tuple/tuple_element.hpp>
+#include <bksge/fnd/tuple/tuple_size.hpp>
 
-namespace std
+namespace BKSGE_TUPLE_NAMESPACE
 {
 
 /**
@@ -396,6 +395,15 @@ struct tuple_element<I, bksge::math::detail::VectorBase<T, N>>
 	static_assert(I < N, "Vector index out of bounds");
 	using type = T;
 };
+
+}	// namespace BKSGE_TUPLE_NAMESPACE
+
+#include <bksge/fnd/functional/hash_combine.hpp>
+#include <bksge/fnd/utility/make_index_sequence.hpp>
+#include <functional>
+
+namespace std
+{
 
 /**
  *	@brief	hash

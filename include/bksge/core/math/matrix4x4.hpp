@@ -22,8 +22,9 @@
 #include <bksge/fnd/type_traits/float_promote.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
+#include <bksge/fnd/tuple/tuple.hpp>
+#include <bksge/fnd/tuple/make_tuple.hpp>
 #include <bksge/fnd/config.hpp>
-#include <tuple>
 
 namespace bksge
 {
@@ -459,7 +460,7 @@ public:
 	 */
 	static BKSGE_CONSTEXPR auto
 	Decompose(Matrix<T, 4, 4> const& mat) BKSGE_NOEXCEPT
-		-> std::tuple<Vector<T, 3>, Scale<T, 3>, Matrix<T, 3, 3>>
+		-> bksge::tuple<Vector<T, 3>, Scale<T, 3>, Matrix<T, 3, 3>>
 	{
 		auto v0 = mat[0].xyz();
 		auto v1 = mat[1].xyz();
@@ -477,7 +478,7 @@ public:
 			v1 / scale.y(),
 			v2 / scale.z(),
 		};
-		return std::make_tuple(trans, scale, rot);
+		return bksge::make_tuple(trans, scale, rot);
 	}
 };
 

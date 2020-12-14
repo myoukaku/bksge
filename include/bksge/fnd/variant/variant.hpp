@@ -82,6 +82,7 @@ using std::variant;
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/utility/index_sequence_for.hpp>
 #include <bksge/fnd/utility/move.hpp>
+#include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
 #include <initializer_list>
@@ -395,7 +396,7 @@ private:
 			if (m_lhs.index() == rhs_index)
 			{
 				auto& this_mem = bksge::get<rhs_index>(m_lhs);
-				using std::swap;
+				using bksge::swap;
 				swap(this_mem, rhs_mem);
 			}
 			else

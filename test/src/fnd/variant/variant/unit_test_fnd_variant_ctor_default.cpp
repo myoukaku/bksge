@@ -94,38 +94,39 @@ void test_default_ctor_throws()
 
 void test_default_ctor_basic()
 {
+	using std::get;
 	{
 		bksge::variant<int> v;
 		EXPECT_EQ(v.index(), 0u);
-		EXPECT_EQ(bksge::get<0>(v), 0);
+		EXPECT_EQ(get<0>(v), 0);
 	}
 	{
 		bksge::variant<int, long> v;
 		EXPECT_EQ(v.index(), 0u);
-		EXPECT_EQ(bksge::get<0>(v), 0);
+		EXPECT_EQ(get<0>(v), 0);
 	}
 	{
 		bksge::variant<int, NonDefaultConstructible> v;
 		EXPECT_EQ(v.index(), 0u);
-		EXPECT_EQ(bksge::get<0>(v), 0);
+		EXPECT_EQ(get<0>(v), 0);
 	}
 	{
 		using V = bksge::variant<int, long>;
 		constexpr V v;
 		static_assert(v.index() == 0, "");
-		static_assert(bksge::get<0>(v) == 0, "");
+		static_assert(get<0>(v) == 0, "");
 	}
 	{
 		using V = bksge::variant<int, long>;
 		constexpr V v;
 		static_assert(v.index() == 0, "");
-		static_assert(bksge::get<0>(v) == 0, "");
+		static_assert(get<0>(v) == 0, "");
 	}
 	{
 		using V = bksge::variant<int, NonDefaultConstructible>;
 		constexpr V v;
 		static_assert(v.index() == 0, "");
-		static_assert(bksge::get<0>(v) == 0, "");
+		static_assert(get<0>(v) == 0, "");
 	}
 }
 

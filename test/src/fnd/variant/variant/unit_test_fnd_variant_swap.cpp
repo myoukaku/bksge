@@ -199,6 +199,7 @@ struct ThrowsOnSecondMove
 void test_swap_valueless_by_exception()
 {
 #if !defined(BKSGE_NO_EXCEPTIONS)
+	using std::get;
 	using V = bksge::variant<int, MakeEmptyT>;
 	{ // both empty
 		V v1;
@@ -226,20 +227,20 @@ void test_swap_valueless_by_exception()
 		{ // member swap
 			v1.swap(v2);
 			EXPECT_TRUE(v1.valueless_by_exception());
-			EXPECT_EQ(bksge::get<0>(v2), 42);
+			EXPECT_EQ(get<0>(v2), 42);
 			// swap again
 			v2.swap(v1);
 			EXPECT_TRUE(v2.valueless_by_exception());
-			EXPECT_EQ(bksge::get<0>(v1), 42);
+			EXPECT_EQ(get<0>(v1), 42);
 		}
 		{ // non-member swap
 			swap(v1, v2);
 			EXPECT_TRUE(v1.valueless_by_exception());
-			EXPECT_EQ(bksge::get<0>(v2), 42);
+			EXPECT_EQ(get<0>(v2), 42);
 			// swap again
 			swap(v1, v2);
 			EXPECT_TRUE(v2.valueless_by_exception());
-			EXPECT_EQ(bksge::get<0>(v1), 42);
+			EXPECT_EQ(get<0>(v1), 42);
 		}
 	}
 #endif
@@ -247,6 +248,7 @@ void test_swap_valueless_by_exception()
 
 void test_swap_same_alternative()
 {
+	using std::get;
 	{
 		using T = ThrowingTypeWithNothrowSwap;
 		using V = bksge::variant<T, int>;
@@ -255,12 +257,12 @@ void test_swap_same_alternative()
 		V v2(bksge::in_place_index_t<0>{}, 100);
 		v1.swap(v2);
 		EXPECT_EQ(T::swap_called, 1);
-		EXPECT_EQ(bksge::get<0>(v1).value, 100);
-		EXPECT_EQ(bksge::get<0>(v2).value, 42);
+		EXPECT_EQ(get<0>(v1).value, 100);
+		EXPECT_EQ(get<0>(v2).value, 42);
 		swap(v1, v2);
 		EXPECT_EQ(T::swap_called, 2);
-		EXPECT_EQ(bksge::get<0>(v1).value, 42);
-		EXPECT_EQ(bksge::get<0>(v2).value, 100);
+		EXPECT_EQ(get<0>(v1).value, 42);
+		EXPECT_EQ(get<0>(v2).value, 100);
 	}
 	{
 		using T = NothrowMoveable;
@@ -272,15 +274,15 @@ void test_swap_same_alternative()
 		EXPECT_EQ(T::swap_called, 0);
 		EXPECT_EQ(T::move_called, 1);
 		EXPECT_EQ(T::move_assign_called, 2);
-		EXPECT_EQ(bksge::get<0>(v1).value, 100);
-		EXPECT_EQ(bksge::get<0>(v2).value, 42);
+		EXPECT_EQ(get<0>(v1).value, 100);
+		EXPECT_EQ(get<0>(v2).value, 42);
 		T::reset();
 		swap(v1, v2);
 		EXPECT_EQ(T::swap_called, 0);
 		EXPECT_EQ(T::move_called, 1);
 		EXPECT_EQ(T::move_assign_called, 2);
-		EXPECT_EQ(bksge::get<0>(v1).value, 42);
-		EXPECT_EQ(bksge::get<0>(v2).value, 100);
+		EXPECT_EQ(get<0>(v1).value, 42);
+		EXPECT_EQ(get<0>(v2).value, 100);
 	}
 #if !defined(BKSGE_NO_EXCEPTIONS)
 	{
@@ -300,8 +302,8 @@ void test_swap_same_alternative()
 		EXPECT_EQ(T::swap_called, 1);
 		EXPECT_EQ(T::move_called, 0);
 		EXPECT_EQ(T::move_assign_called, 0);
-		EXPECT_EQ(bksge::get<0>(v1).value, 42);
-		EXPECT_EQ(bksge::get<0>(v2).value, 100);
+		EXPECT_EQ(get<0>(v1).value, 42);
+		EXPECT_EQ(get<0>(v2).value, 100);
 	}
 	{
 		using T = ThrowingMoveCtor;
@@ -319,8 +321,8 @@ void test_swap_same_alternative()
 		}
 		EXPECT_EQ(T::move_called, 1); // call threw
 		EXPECT_EQ(T::move_assign_called, 0);
-		EXPECT_EQ(bksge::get<0>(v1).value, 42); // throw happened before v1 was moved from
-		EXPECT_EQ(bksge::get<0>(v2).value, 100);
+		EXPECT_EQ(get<0>(v1).value, 42); // throw happened before v1 was moved from
+		EXPECT_EQ(get<0>(v2).value, 100);
 	}
 	{
 		using T = ThrowingMoveAssignNothrowMoveCtor;
@@ -338,14 +340,15 @@ void test_swap_same_alternative()
 		}
 		EXPECT_EQ(T::move_called, 1);
 		EXPECT_EQ(T::move_assign_called, 1);  // call threw and didn't complete
-		EXPECT_EQ(bksge::get<0>(v1).value, -1); // v1 was moved from
-		EXPECT_EQ(bksge::get<0>(v2).value, 100);
+		EXPECT_EQ(get<0>(v1).value, -1); // v1 was moved from
+		EXPECT_EQ(get<0>(v2).value, 100);
 	}
 #endif
 }
 
 void test_swap_different_alternatives()
 {
+	using std::get;
 	{
 		using T = NothrowMoveCtorWithThrowingSwap;
 		using V = bksge::variant<T, int>;
@@ -359,16 +362,16 @@ void test_swap_different_alternatives()
 //		LIBCPP_ASSERT(T::move_called == 1);
 		EXPECT_LE(T::move_called, 2);
 		EXPECT_EQ(T::move_assign_called, 0);
-		EXPECT_EQ(bksge::get<1>(v1), 100);
-		EXPECT_EQ(bksge::get<0>(v2).value, 42);
+		EXPECT_EQ(get<1>(v1), 100);
+		EXPECT_EQ(get<0>(v2).value, 42);
 		T::reset();
 		swap(v1, v2);
 		EXPECT_EQ(T::swap_called, 0);
 //		LIBCPP_ASSERT(T::move_called == 2);
 		EXPECT_LE(T::move_called, 2);
 		EXPECT_EQ(T::move_assign_called, 0);
-		EXPECT_EQ(bksge::get<0>(v1).value, 42);
-		EXPECT_EQ(bksge::get<1>(v2), 100);
+		EXPECT_EQ(get<0>(v1).value, 42);
+		EXPECT_EQ(get<1>(v2), 100);
 	}
 #if !defined(BKSGE_NO_EXCEPTIONS)
 	{
@@ -393,14 +396,14 @@ void test_swap_different_alternatives()
 		// FIXME: libc++ shouldn't move from T2 here.
 //		LIBCPP_ASSERT(T2::move_called == 1);
 		EXPECT_LE(T2::move_called, 1);
-		EXPECT_EQ(bksge::get<0>(v1).value, 42);
+		EXPECT_EQ(get<0>(v1).value, 42);
 		if (T2::move_called != 0)
 		{
 			EXPECT_TRUE(v2.valueless_by_exception());
 		}
 		else
 		{
-			EXPECT_EQ(bksge::get<1>(v2).value, 100);
+			EXPECT_EQ(get<1>(v2).value, 100);
 		}
 	}
 	{
@@ -430,9 +433,9 @@ void test_swap_different_alternatives()
 		}
 		else
 		{
-			EXPECT_EQ(bksge::get<0>(v1).value, 42);
+			EXPECT_EQ(get<0>(v1).value, 42);
 		}
-		EXPECT_EQ(bksge::get<1>(v2).value, 100);
+		EXPECT_EQ(get<1>(v2).value, 100);
 	}
 	// FIXME: The tests below are just very libc++ specific
 #if 0//def _LIBCPP_VERSION
@@ -445,9 +448,9 @@ void test_swap_different_alternatives()
 		V v2(bksge::in_place_index_t<1>{}, 100);
 		v1.swap(v2);
 		EXPECT_EQ(T2::move_called, 2);
-		EXPECT_EQ(bksge::get<1>(v1).value, 100);
-		EXPECT_EQ(bksge::get<0>(v2).value, 42);
-		EXPECT_EQ(bksge::get<0>(v2).move_count, 1);
+		EXPECT_EQ(get<1>(v1).value, 100);
+		EXPECT_EQ(get<0>(v2).value, 42);
+		EXPECT_EQ(get<0>(v2).move_count, 1);
 	}
 	{
 		using T1 = NonThrowingNonNoexceptType;
@@ -464,7 +467,7 @@ void test_swap_different_alternatives()
 		}
 		EXPECT_EQ(T1::move_called, 1);
 		EXPECT_TRUE(v1.valueless_by_exception());
-		EXPECT_EQ(bksge::get<0>(v2).value, 42);
+		EXPECT_EQ(get<0>(v2).value, 42);
 	}
 #endif
 	// testing libc++ extension. If either variant stores a nothrow move
@@ -492,8 +495,8 @@ void test_swap_different_alternatives()
 		EXPECT_EQ(T2::swap_called, 0);
 		EXPECT_EQ(T2::move_called, 2);
 		EXPECT_EQ(T2::move_assign_called, 0);
-		EXPECT_EQ(bksge::get<0>(v1).value, 42);
-		EXPECT_EQ(bksge::get<1>(v2).value, 100);
+		EXPECT_EQ(get<0>(v1).value, 42);
+		EXPECT_EQ(get<1>(v2).value, 100);
 		// swap again, but call v2's swap.
 		T1::reset();
 		T2::reset();
@@ -509,8 +512,8 @@ void test_swap_different_alternatives()
 		EXPECT_EQ(T2::swap_called, 0);
 		EXPECT_EQ(T2::move_called, 2);
 		EXPECT_EQ(T2::move_assign_called, 0);
-		EXPECT_EQ(bksge::get<0>(v1).value, 42);
-		EXPECT_EQ(bksge::get<1>(v2).value, 100);
+		EXPECT_EQ(get<0>(v1).value, 42);
+		EXPECT_EQ(get<1>(v2).value, 100);
 	}
 #endif
 #endif
