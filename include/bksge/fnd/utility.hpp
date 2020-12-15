@@ -30,6 +30,7 @@
 #include <bksge/fnd/utility/make_integer_sequence.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/move_if_noexcept.hpp>
+#include <bksge/fnd/utility/pair.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 
 #endif // BKSGE_FND_UTILITY_HPP
