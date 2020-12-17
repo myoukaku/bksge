@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_INL_BORDER_COLOR_INL_HPP
 
 #include <bksge/core/render/border_color.hpp>
-#include <unordered_map>
+#include <bksge/fnd/config.hpp>
 #include <string>
 
 namespace bksge
@@ -22,18 +22,18 @@ namespace render
 BKSGE_INLINE
 std::string to_string(BorderColor const& border_color)
 {
-#define BKSGE_CORE_RENDER_MAKE_BORDER_COLOR_KVP(x)	{ x, #x }
+#define BKSGE_CORE_RENDER_BORDER_COLOR_KVP(x)	case x: return #x
 
-	static std::unordered_map<BorderColor, std::string> const m =
+	switch (border_color)
 	{
-		BKSGE_CORE_RENDER_MAKE_BORDER_COLOR_KVP(BorderColor::kTransparentBlack),
-		BKSGE_CORE_RENDER_MAKE_BORDER_COLOR_KVP(BorderColor::kOpaqueBlack),
-		BKSGE_CORE_RENDER_MAKE_BORDER_COLOR_KVP(BorderColor::kOpaqueWhite)
-	};
+		BKSGE_CORE_RENDER_BORDER_COLOR_KVP(BorderColor::kTransparentBlack);
+		BKSGE_CORE_RENDER_BORDER_COLOR_KVP(BorderColor::kOpaqueBlack);
+		BKSGE_CORE_RENDER_BORDER_COLOR_KVP(BorderColor::kOpaqueWhite);
+	}
 
-	return m.at(border_color);
+	return "";
 
-#undef BKSGE_CORE_RENDER_MAKE_BORDER_COLOR_KVP
+#undef BKSGE_CORE_RENDER_BORDER_COLOR_KVP
 }
 
 }	// namespace render

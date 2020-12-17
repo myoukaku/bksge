@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_INL_FRONT_FACE_INL_HPP
 
 #include <bksge/core/render/front_face.hpp>
-#include <unordered_map>
+#include <bksge/fnd/config.hpp>
 #include <string>
 
 namespace bksge
@@ -22,17 +22,17 @@ namespace render
 BKSGE_INLINE
 std::string to_string(FrontFace const& front_face)
 {
-#define BKSGE_CORE_RENDER_MAKE_FRONT_FACE_KVP(x)	{ x, #x }
+#define BKSGE_CORE_RENDER_FRONT_FACE_KVP(x)	case x: return #x
 
-	static std::unordered_map<FrontFace, std::string> const m =
+	switch (front_face)
 	{
-		BKSGE_CORE_RENDER_MAKE_FRONT_FACE_KVP(FrontFace::kClockwise),
-		BKSGE_CORE_RENDER_MAKE_FRONT_FACE_KVP(FrontFace::kCounterClockwise),
-	};
+		BKSGE_CORE_RENDER_FRONT_FACE_KVP(FrontFace::kClockwise);
+		BKSGE_CORE_RENDER_FRONT_FACE_KVP(FrontFace::kCounterClockwise);
+	}
 
-	return m.at(front_face);
+	return "";
 
-#undef BKSGE_CORE_RENDER_MAKE_FRONT_FACE_KVP
+#undef BKSGE_CORE_RENDER_FRONT_FACE_KVP
 }
 
 }	// namespace render

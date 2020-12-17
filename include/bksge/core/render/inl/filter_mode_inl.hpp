@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_INL_FILTER_MODE_INL_HPP
 
 #include <bksge/core/render/filter_mode.hpp>
-#include <unordered_map>
+#include <bksge/fnd/config.hpp>
 #include <string>
 
 namespace bksge
@@ -22,17 +22,17 @@ namespace render
 BKSGE_INLINE
 std::string to_string(FilterMode const& filter_mode)
 {
-#define BKSGE_CORE_RENDER_MAKE_FILTER_MODE_KVP(x)	{ x, #x }
+#define BKSGE_CORE_RENDER_FILTER_MODE_KVP(x)	case x: return #x
 
-	static std::unordered_map<FilterMode, std::string> const m =
+	switch (filter_mode)
 	{
-		BKSGE_CORE_RENDER_MAKE_FILTER_MODE_KVP(FilterMode::kNearest),
-		BKSGE_CORE_RENDER_MAKE_FILTER_MODE_KVP(FilterMode::kLinear),
-	};
+		BKSGE_CORE_RENDER_FILTER_MODE_KVP(FilterMode::kNearest);
+		BKSGE_CORE_RENDER_FILTER_MODE_KVP(FilterMode::kLinear);
+	}
 
-	return m.at(filter_mode);
+	return "";
 
-#undef BKSGE_CORE_RENDER_MAKE_FILTER_MODE_KVP
+#undef BKSGE_CORE_RENDER_FILTER_MODE_KVP
 }
 
 }	// namespace render

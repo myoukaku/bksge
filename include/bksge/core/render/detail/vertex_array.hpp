@@ -10,8 +10,8 @@
 #define BKSGE_CORE_RENDER_DETAIL_VERTEX_ARRAY_HPP
 
 #include <bksge/core/render/detail/fwd/vertex_array_fwd.hpp>
-#include <bksge/core/render/fwd/vertex_layout_fwd.hpp>
 #include <bksge/core/render/detail/vertex_array_base.hpp>
+#include <bksge/core/render/vertex_layout.hpp>
 //#include <bksge/fnd/serialization/access.hpp>
 //#include <bksge/fnd/serialization/nvp.hpp>
 //#include <bksge/fnd/serialization/vector.hpp>
@@ -52,6 +52,7 @@ public:
 	size_type count(void) const override;
 
 private:
+	VertexLayout	m_layout = T::make_vertex_layout();
 	std::vector<T>	m_value;
 
 private:
@@ -64,6 +65,7 @@ private:
 	void serialize(Archive& ar, bksge::serialization::version_t /*version*/)
 	{
 		ar & BKSGE_SERIALIZATION_BASE_OBJECT_NVP(VertexArrayBase);
+		ar & BKSGE_SERIALIZATION_NVP(m_layout);
 		ar & BKSGE_SERIALIZATION_NVP(m_value);
 	}
 #endif

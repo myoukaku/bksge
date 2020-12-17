@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_INL_BLEND_OPERATION_INL_HPP
 
 #include <bksge/core/render/blend_operation.hpp>
-#include <unordered_map>
+#include <bksge/fnd/config.hpp>
 #include <string>
 
 namespace bksge
@@ -22,20 +22,20 @@ namespace render
 BKSGE_INLINE
 std::string to_string(BlendOperation const& blend_operation)
 {
-#define BKSGE_CORE_RENDER_MAKE_BLEND_OPERATION_KVP(x)	{ x, #x }
+#define BKSGE_CORE_RENDER_BLEND_OPERATION_KVP(x)	case x: return #x
 
-	static std::unordered_map<BlendOperation, std::string> const m =
+	switch (blend_operation)
 	{
-		BKSGE_CORE_RENDER_MAKE_BLEND_OPERATION_KVP(BlendOperation::kAdd),
-		BKSGE_CORE_RENDER_MAKE_BLEND_OPERATION_KVP(BlendOperation::kSubtract),
-		BKSGE_CORE_RENDER_MAKE_BLEND_OPERATION_KVP(BlendOperation::kReverseSubtract),
-		BKSGE_CORE_RENDER_MAKE_BLEND_OPERATION_KVP(BlendOperation::kMin),
-		BKSGE_CORE_RENDER_MAKE_BLEND_OPERATION_KVP(BlendOperation::kMax),
-	};
+		BKSGE_CORE_RENDER_BLEND_OPERATION_KVP(BlendOperation::kAdd);
+		BKSGE_CORE_RENDER_BLEND_OPERATION_KVP(BlendOperation::kSubtract);
+		BKSGE_CORE_RENDER_BLEND_OPERATION_KVP(BlendOperation::kReverseSubtract);
+		BKSGE_CORE_RENDER_BLEND_OPERATION_KVP(BlendOperation::kMin);
+		BKSGE_CORE_RENDER_BLEND_OPERATION_KVP(BlendOperation::kMax);
+	}
 
-	return m.at(blend_operation);
+	return "";
 
-#undef BKSGE_CORE_RENDER_MAKE_BLEND_OPERATION_KVP
+#undef BKSGE_CORE_RENDER_BLEND_OPERATION_KVP
 }
 
 }	// namespace render

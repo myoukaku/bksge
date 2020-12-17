@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_INL_SHADER_STAGE_INL_HPP
 
 #include <bksge/core/render/shader_stage.hpp>
-#include <unordered_map>
+#include <bksge/fnd/config.hpp>
 #include <string>
 
 namespace bksge
@@ -22,20 +22,20 @@ namespace render
 BKSGE_INLINE
 std::string to_string(ShaderStage const& shader_stage)
 {
-#define BKSGE_CORE_RENDER_MAKE_SHADER_STAGE_KVP(x)	{ x, #x }
+#define BKSGE_CORE_RENDER_SHADER_STAGE_KVP(x)	case x: return #x
 
-	static std::unordered_map<ShaderStage, std::string> const m =
+	switch (shader_stage)
 	{
-		BKSGE_CORE_RENDER_MAKE_SHADER_STAGE_KVP(ShaderStage::kVertex),
-		BKSGE_CORE_RENDER_MAKE_SHADER_STAGE_KVP(ShaderStage::kGeometry),
-		BKSGE_CORE_RENDER_MAKE_SHADER_STAGE_KVP(ShaderStage::kFragment),
-		BKSGE_CORE_RENDER_MAKE_SHADER_STAGE_KVP(ShaderStage::kTessellationControl),
-		BKSGE_CORE_RENDER_MAKE_SHADER_STAGE_KVP(ShaderStage::kTessellationEvaluation),
-	};
+		BKSGE_CORE_RENDER_SHADER_STAGE_KVP(ShaderStage::kVertex);
+		BKSGE_CORE_RENDER_SHADER_STAGE_KVP(ShaderStage::kGeometry);
+		BKSGE_CORE_RENDER_SHADER_STAGE_KVP(ShaderStage::kFragment);
+		BKSGE_CORE_RENDER_SHADER_STAGE_KVP(ShaderStage::kTessellationControl);
+		BKSGE_CORE_RENDER_SHADER_STAGE_KVP(ShaderStage::kTessellationEvaluation);
+	}
 
-	return m.at(shader_stage);
+	return "";
 
-#undef BKSGE_CORE_RENDER_MAKE_SHADER_STAGE_KVP
+#undef BKSGE_CORE_RENDER_SHADER_STAGE_KVP
 }
 
 }	// namespace render

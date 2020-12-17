@@ -35,12 +35,12 @@ Geometry::primitive_topology(void) const
 	return m_primitive_topology;
 }
 
+static VertexLayout const s_vertex_layout_dummy;
+
 BKSGE_INLINE VertexLayout const&
 Geometry::vertex_layout(void) const
 {
-	static VertexLayout const dummy;
-
-	return m_vertex_array ? m_vertex_array->vertex_layout() : dummy;
+	return m_vertex_array ? m_vertex_array->vertex_layout() : s_vertex_layout_dummy;
 }
 
 BKSGE_INLINE void const*

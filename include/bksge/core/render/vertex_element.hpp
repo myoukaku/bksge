@@ -32,8 +32,8 @@ struct VertexElement
 	using const_iterator = T const*;
 
 	static std::size_t const element_num = N;
-	static Semantic	     const semantic    = S;
-	static TypeEnum      const type_enum   = TypeToEnum<T>::value;
+	static Semantic	   const semantic    = S;
+	static TypeEnum    const type_enum   = TypeToEnum<T>::value;
 
 	value_type m_data[N];
 

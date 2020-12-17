@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_INL_SHADER_TYPE_INL_HPP
 
 #include <bksge/core/render/shader_type.hpp>
-#include <unordered_map>
+#include <bksge/fnd/config.hpp>
 #include <string>
 
 namespace bksge
@@ -22,17 +22,17 @@ namespace render
 BKSGE_INLINE
 std::string to_string(ShaderType const& shader_type)
 {
-#define BKSGE_CORE_RENDER_MAKE_SHADER_TYPE_KVP(x)	{ x, #x }
+#define BKSGE_CORE_RENDER_SHADER_TYPE_KVP(x)	case x: return #x
 
-	static std::unordered_map<ShaderType, std::string> const m =
+	switch (shader_type)
 	{
-		BKSGE_CORE_RENDER_MAKE_SHADER_TYPE_KVP(ShaderType::kHLSL),
-		BKSGE_CORE_RENDER_MAKE_SHADER_TYPE_KVP(ShaderType::kGLSL),
-	};
+		BKSGE_CORE_RENDER_SHADER_TYPE_KVP(ShaderType::kHLSL);
+		BKSGE_CORE_RENDER_SHADER_TYPE_KVP(ShaderType::kGLSL);
+	}
 
-	return m.at(shader_type);
+	return "";
 
-#undef BKSGE_CORE_RENDER_MAKE_SHADER_TYPE_KVP
+#undef BKSGE_CORE_RENDER_SHADER_TYPE_KVP
 }
 
 }	// namespace render

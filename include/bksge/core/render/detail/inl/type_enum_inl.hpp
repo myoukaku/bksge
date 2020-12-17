@@ -10,9 +10,9 @@
 #define BKSGE_CORE_RENDER_DETAIL_INL_TYPE_ENUM_INL_HPP
 
 #include <bksge/core/render/detail/type_enum.hpp>
+#include <bksge/fnd/config.hpp>
 #include <cstddef>
 #include <string>
-#include <unordered_map>
 
 namespace bksge
 {
@@ -20,46 +20,46 @@ namespace bksge
 namespace render
 {
 
-#define BKSGE_FOREACH_TYPEENUM(F)	\
-	F(TypeEnum::kSInt8),			\
-	F(TypeEnum::kUInt8),			\
-	F(TypeEnum::kSInt16),			\
-	F(TypeEnum::kUInt16),			\
-	F(TypeEnum::kSInt32),			\
-	F(TypeEnum::kUInt32),			\
-	F(TypeEnum::kFloat)
+#define BKSGE_CORE_RENDER_TYPEENUM_FOREACH(F)	\
+	F(TypeEnum::kSInt8);			\
+	F(TypeEnum::kUInt8);			\
+	F(TypeEnum::kSInt16);			\
+	F(TypeEnum::kUInt16);			\
+	F(TypeEnum::kSInt32);			\
+	F(TypeEnum::kUInt32);			\
+	F(TypeEnum::kFloat);
 
 BKSGE_INLINE
 std::size_t GetSizeOf(TypeEnum type_enum)
 {
-#define BKSGE_MAKE_TYPEENUM_PAIR(x)	{ x, sizeof(EnumToType<x>::type) }
+#define BKSGE_CORE_RENDER_TYPEENUM_CASE(x)	case x: return sizeof(EnumToType<x>::type)
 
-	static std::unordered_map<TypeEnum, std::size_t> const m =
+	switch (type_enum)
 	{
-		BKSGE_FOREACH_TYPEENUM(BKSGE_MAKE_TYPEENUM_PAIR)
-	};
+	BKSGE_CORE_RENDER_TYPEENUM_FOREACH(BKSGE_CORE_RENDER_TYPEENUM_CASE)
+	}
 
-	return m.at(type_enum);
+	return 0;
 
-#undef BKSGE_MAKE_TYPEENUM_PAIR
+#undef BKSGE_CORE_RENDER_TYPEENUM_CASE
 }
 
 BKSGE_INLINE
 std::string to_string(TypeEnum const& type_enum)
 {
-#define BKSGE_MAKE_TYPEENUM_PAIR(x)	{ x, #x }
+#define BKSGE_CORE_RENDER_TYPEENUM_CASE(x)	case x: return #x
 
-	static std::unordered_map<TypeEnum, std::string> const m =
+	switch (type_enum)
 	{
-		BKSGE_FOREACH_TYPEENUM(BKSGE_MAKE_TYPEENUM_PAIR)
+	BKSGE_CORE_RENDER_TYPEENUM_FOREACH(BKSGE_CORE_RENDER_TYPEENUM_CASE)
 	};
 
-	return m.at(type_enum);
+	return "";
 
-#undef BKSGE_MAKE_TYPEENUM_PAIR
+#undef BKSGE_CORE_RENDER_TYPEENUM_CASE
 }
 
-#undef BKSGE_FOREACH_TYPEENUM
+#undef BKSGE_CORE_RENDER_TYPEENUM_FOREACH
 
 }	// namespace render
 

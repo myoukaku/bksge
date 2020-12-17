@@ -53,7 +53,7 @@ GTEST_TEST(Render_Vertex, BasicTest)
 	using VCP = Vertex<VColor, VPosition>;
 
 	{
-		auto const& layout = VP::vertex_layout();
+		auto const layout = VP::make_vertex_layout();
 		EXPECT_EQ(sizeof(float) * 3, layout.total_bytes());
 		EXPECT_EQ(sizeof(float) * 3, sizeof(VP));
 		AttrTest(layout, Semantic::kPosition, 3, 0, TypeEnum::kFloat);
@@ -61,7 +61,7 @@ GTEST_TEST(Render_Vertex, BasicTest)
 		AttrNullTest(layout, Semantic::kNormal);
 	}
 	{
-		auto const& layout = VC::vertex_layout();
+		auto const layout = VC::make_vertex_layout();
 		EXPECT_EQ(sizeof(float) * 4, layout.total_bytes());
 		EXPECT_EQ(sizeof(float) * 4, sizeof(VC));
 		AttrNullTest(layout, Semantic::kPosition);
@@ -69,7 +69,7 @@ GTEST_TEST(Render_Vertex, BasicTest)
 		AttrNullTest(layout, Semantic::kNormal);
 	}
 	{
-		auto const& layout = VN::vertex_layout();
+		auto const layout = VN::make_vertex_layout();
 		EXPECT_EQ(sizeof(float) * 3, layout.total_bytes());
 		EXPECT_EQ(sizeof(float) * 3, sizeof(VN));
 		AttrNullTest(layout, Semantic::kPosition);
@@ -77,7 +77,7 @@ GTEST_TEST(Render_Vertex, BasicTest)
 		AttrTest(layout, Semantic::kNormal, 3, 0, TypeEnum::kFloat);
 	}
 	{
-		auto const& layout = VPC::vertex_layout();
+		auto const layout = VPC::make_vertex_layout();
 		EXPECT_EQ(sizeof(float) * 7, layout.total_bytes());
 		EXPECT_EQ(sizeof(float) * 7, sizeof(VPC));
 		AttrTest(layout, Semantic::kPosition, 3, 0, TypeEnum::kFloat);
@@ -109,7 +109,7 @@ GTEST_TEST(Render_Vertex, BasicTest)
 		EXPECT_EQ(14, p[13]);
 	}
 	{
-		auto const& layout = VPN::vertex_layout();
+		auto const layout = VPN::make_vertex_layout();
 		EXPECT_EQ(sizeof(float) * 6, layout.total_bytes());
 		EXPECT_EQ(sizeof(float) * 6, sizeof(VPN));
 		AttrTest(layout, Semantic::kPosition, 3, 0, TypeEnum::kFloat);
@@ -139,7 +139,7 @@ GTEST_TEST(Render_Vertex, BasicTest)
 		EXPECT_EQ(26, p[11]);
 	}
 	{
-		auto const& layout = VCP::vertex_layout();
+		auto const layout = VCP::make_vertex_layout();
 		EXPECT_EQ(sizeof(float) * 7, layout.total_bytes());
 		EXPECT_EQ(sizeof(float) * 7, sizeof(VCP));
 		AttrTest(layout, Semantic::kPosition, 3, 16, TypeEnum::kFloat);
@@ -173,7 +173,7 @@ GTEST_TEST(Render_Vertex, BasicTest)
 
 	{
 		using VertexType = Vertex<VTexCoord, VColor, VFogCoord, VPosition, VBinormal>;
-		auto const& layout = VertexType::vertex_layout();
+		auto const layout = VertexType::make_vertex_layout();
 		EXPECT_EQ(sizeof(float) * (2+4+1+3+3), layout.total_bytes());
 		EXPECT_EQ(sizeof(float) * (2+4+1+3+3), sizeof(VertexType));
 

@@ -31,7 +31,7 @@ inline VertexArray<T>::VertexArray(Iterator first, Iterator last)
 template <typename T>
 inline VertexLayout const& VertexArray<T>::vertex_layout(void) const
 {
-	return T::vertex_layout();
+	return m_layout;
 }
 
 template <typename T>

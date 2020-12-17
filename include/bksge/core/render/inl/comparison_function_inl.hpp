@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_INL_COMPARISON_FUNCTION_INL_HPP
 
 #include <bksge/core/render/comparison_function.hpp>
-#include <unordered_map>
+#include <bksge/fnd/config.hpp>
 #include <string>
 
 namespace bksge
@@ -22,23 +22,23 @@ namespace render
 BKSGE_INLINE
 std::string to_string(ComparisonFunction const& comparison_function)
 {
-#define BKSGE_CORE_RENDER_MAKE_COMPARISON_FUNCTION_KVP(x)	{ x, #x }
+#define BKSGE_CORE_RENDER_COMPARISON_FUNCTION_KVP(x)	case x: return #x
 
-	static std::unordered_map<ComparisonFunction, std::string> const m =
+	switch (comparison_function)
 	{
-		BKSGE_CORE_RENDER_MAKE_COMPARISON_FUNCTION_KVP(ComparisonFunction::kNever),
-		BKSGE_CORE_RENDER_MAKE_COMPARISON_FUNCTION_KVP(ComparisonFunction::kLess),
-		BKSGE_CORE_RENDER_MAKE_COMPARISON_FUNCTION_KVP(ComparisonFunction::kEqual),
-		BKSGE_CORE_RENDER_MAKE_COMPARISON_FUNCTION_KVP(ComparisonFunction::kLessEqual),
-		BKSGE_CORE_RENDER_MAKE_COMPARISON_FUNCTION_KVP(ComparisonFunction::kGreater),
-		BKSGE_CORE_RENDER_MAKE_COMPARISON_FUNCTION_KVP(ComparisonFunction::kNotEqual),
-		BKSGE_CORE_RENDER_MAKE_COMPARISON_FUNCTION_KVP(ComparisonFunction::kGreaterEqual),
-		BKSGE_CORE_RENDER_MAKE_COMPARISON_FUNCTION_KVP(ComparisonFunction::kAlways),
-	};
+		BKSGE_CORE_RENDER_COMPARISON_FUNCTION_KVP(ComparisonFunction::kNever);
+		BKSGE_CORE_RENDER_COMPARISON_FUNCTION_KVP(ComparisonFunction::kLess);
+		BKSGE_CORE_RENDER_COMPARISON_FUNCTION_KVP(ComparisonFunction::kEqual);
+		BKSGE_CORE_RENDER_COMPARISON_FUNCTION_KVP(ComparisonFunction::kLessEqual);
+		BKSGE_CORE_RENDER_COMPARISON_FUNCTION_KVP(ComparisonFunction::kGreater);
+		BKSGE_CORE_RENDER_COMPARISON_FUNCTION_KVP(ComparisonFunction::kNotEqual);
+		BKSGE_CORE_RENDER_COMPARISON_FUNCTION_KVP(ComparisonFunction::kGreaterEqual);
+		BKSGE_CORE_RENDER_COMPARISON_FUNCTION_KVP(ComparisonFunction::kAlways);
+	}
 
-	return m.at(comparison_function);
+	return "";
 
-#undef BKSGE_CORE_RENDER_MAKE_COMPARISON_FUNCTION_KVP
+#undef BKSGE_CORE_RENDER_COMPARISON_FUNCTION_KVP
 }
 
 }	// namespace render

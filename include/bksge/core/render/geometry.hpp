@@ -115,7 +115,7 @@ public:
 private:
 	PrimitiveTopology					m_primitive_topology;
 	std::shared_ptr<VertexArrayBase>	m_vertex_array;
-	std::shared_ptr<IndexArrayBase>	m_index_array;
+	std::shared_ptr<IndexArrayBase>		m_index_array;
 
 private:
 #if 0

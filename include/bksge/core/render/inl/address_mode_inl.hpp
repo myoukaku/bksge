@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_INL_ADDRESS_MODE_INL_HPP
 
 #include <bksge/core/render/address_mode.hpp>
-#include <unordered_map>
+#include <bksge/fnd/config.hpp>
 #include <string>
 
 namespace bksge
@@ -22,19 +22,19 @@ namespace render
 BKSGE_INLINE
 std::string to_string(AddressMode const& address_mode)
 {
-#define BKSGE_CORE_RENDER_MAKE_ADDRESS_MODE_KVP(x)	{ x, #x }
+#define BKSGE_CORE_RENDER_ADDRESS_MODE_KVP(x)	case x: return #x
 
-	static std::unordered_map<AddressMode, std::string> const m =
+	switch (address_mode)
 	{
-		BKSGE_CORE_RENDER_MAKE_ADDRESS_MODE_KVP(AddressMode::kRepeat),
-		BKSGE_CORE_RENDER_MAKE_ADDRESS_MODE_KVP(AddressMode::kMirror),
-		BKSGE_CORE_RENDER_MAKE_ADDRESS_MODE_KVP(AddressMode::kClamp),
-		BKSGE_CORE_RENDER_MAKE_ADDRESS_MODE_KVP(AddressMode::kBorder),
-	};
+		BKSGE_CORE_RENDER_ADDRESS_MODE_KVP(AddressMode::kRepeat);
+		BKSGE_CORE_RENDER_ADDRESS_MODE_KVP(AddressMode::kMirror);
+		BKSGE_CORE_RENDER_ADDRESS_MODE_KVP(AddressMode::kClamp);
+		BKSGE_CORE_RENDER_ADDRESS_MODE_KVP(AddressMode::kBorder);
+	}
 
-	return m.at(address_mode);
+	return "";
 
-#undef BKSGE_CORE_RENDER_MAKE_ADDRESS_MODE_KVP
+#undef BKSGE_CORE_RENDER_ADDRESS_MODE_KVP
 }
 
 }	// namespace render

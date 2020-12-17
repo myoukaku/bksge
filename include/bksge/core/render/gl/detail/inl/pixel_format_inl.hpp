@@ -14,7 +14,7 @@
 
 #include <bksge/core/render/gl/detail/pixel_format.hpp>
 #include <bksge/core/render/texture_format.hpp>
-#include <unordered_map>
+#include <bksge/fnd/config.hpp>
 
 namespace bksge
 {
@@ -28,62 +28,65 @@ namespace gl
 BKSGE_INLINE ::GLenum
 ToGlPixelFormat(bksge::TextureFormat format)
 {
-	static std::unordered_map<bksge::PixelSwizzle, ::GLenum> const m =
+	switch (GetPixelSwizzle(format))
 	{
-		{ bksge::PixelSwizzle::kR,    GL_RED },
-		{ bksge::PixelSwizzle::kRG,   GL_RG },
-		{ bksge::PixelSwizzle::kRGB,  GL_RGB },
-		{ bksge::PixelSwizzle::kBGR,  GL_BGR },
-		{ bksge::PixelSwizzle::kRGBA, GL_RGBA },
-		{ bksge::PixelSwizzle::kBGRA, GL_BGRA },
-		{ bksge::PixelSwizzle::kARGB, GL_BGRA },
-		{ bksge::PixelSwizzle::kABGR, GL_RGBA },
-		{ bksge::PixelSwizzle::kDxt1, GL_COMPRESSED_RGBA_S3TC_DXT1_EXT },
-		{ bksge::PixelSwizzle::kDxt3, GL_COMPRESSED_RGBA_S3TC_DXT3_EXT },
-		{ bksge::PixelSwizzle::kDxt5, GL_COMPRESSED_RGBA_S3TC_DXT5_EXT },
-	};
+	case bksge::PixelSwizzle::kR:    return GL_RED;
+	case bksge::PixelSwizzle::kRG:   return GL_RG;
+	case bksge::PixelSwizzle::kRGB:  return GL_RGB;
+	case bksge::PixelSwizzle::kBGR:  return GL_BGR;
+	case bksge::PixelSwizzle::kRGBA: return GL_RGBA;
+	case bksge::PixelSwizzle::kBGRA: return GL_BGRA;
+	case bksge::PixelSwizzle::kARGB: return GL_BGRA;
+	case bksge::PixelSwizzle::kABGR: return GL_RGBA;
+	case bksge::PixelSwizzle::kDxt1: return GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
+	case bksge::PixelSwizzle::kDxt3: return GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
+	case bksge::PixelSwizzle::kDxt5: return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
+	case bksge::PixelSwizzle::kNone: return 0;
+	}
 
-	return m.at(GetPixelSwizzle(format));
+	return 0;
 }
 
 BKSGE_INLINE ::GLint
 ToGlInternalPixelFormat(bksge::TextureFormat format)
 {
-	static std::unordered_map<bksge::PixelSwizzle, ::GLint> const m =
+	switch (GetPixelSwizzle(format))
 	{
-		{ bksge::PixelSwizzle::kR,    GL_RED },
-		{ bksge::PixelSwizzle::kRG,   GL_RG },
-		{ bksge::PixelSwizzle::kRGB,  GL_RGB },
-		{ bksge::PixelSwizzle::kBGR,  GL_RGB },
-		{ bksge::PixelSwizzle::kRGBA, GL_RGBA },
-		{ bksge::PixelSwizzle::kBGRA, GL_RGBA },
-		{ bksge::PixelSwizzle::kARGB, GL_RGBA },
-		{ bksge::PixelSwizzle::kABGR, GL_RGBA },
-		{ bksge::PixelSwizzle::kDxt1, GL_COMPRESSED_RGBA_S3TC_DXT1_EXT },
-		{ bksge::PixelSwizzle::kDxt3, GL_COMPRESSED_RGBA_S3TC_DXT3_EXT },
-		{ bksge::PixelSwizzle::kDxt5, GL_COMPRESSED_RGBA_S3TC_DXT5_EXT },
-	};
+	case bksge::PixelSwizzle::kR:    return GL_RED;
+	case bksge::PixelSwizzle::kRG:   return GL_RG;
+	case bksge::PixelSwizzle::kRGB:  return GL_RGB;
+	case bksge::PixelSwizzle::kBGR:  return GL_RGB;
+	case bksge::PixelSwizzle::kRGBA: return GL_RGBA;
+	case bksge::PixelSwizzle::kBGRA: return GL_RGBA;
+	case bksge::PixelSwizzle::kARGB: return GL_RGBA;
+	case bksge::PixelSwizzle::kABGR: return GL_RGBA;
+	case bksge::PixelSwizzle::kDxt1: return GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
+	case bksge::PixelSwizzle::kDxt3: return GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
+	case bksge::PixelSwizzle::kDxt5: return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
+	case bksge::PixelSwizzle::kNone: return 0;
+	}
 
-	return m.at(GetPixelSwizzle(format));
+	return 0;
 }
 
 BKSGE_INLINE ::GLenum
 ToGlPixelType(bksge::TextureFormat format)
 {
-	static std::unordered_map<bksge::PixelBaseFormat, ::GLenum> const m =
+	switch (GetPixelBaseFormat(format))
 	{
-		{ bksge::PixelBaseFormat::kU8,    GL_UNSIGNED_BYTE },
-		{ bksge::PixelBaseFormat::kS8,    GL_BYTE },
-		{ bksge::PixelBaseFormat::kU16,   GL_UNSIGNED_SHORT },
-		{ bksge::PixelBaseFormat::kS16,   GL_SHORT },
-		{ bksge::PixelBaseFormat::kU32,   GL_UNSIGNED_INT },
-		{ bksge::PixelBaseFormat::kS32,   GL_INT },
-		{ bksge::PixelBaseFormat::kF32,   GL_FLOAT },
-		{ bksge::PixelBaseFormat::kDxt1,  GL_UNSIGNED_BYTE },
-		{ bksge::PixelBaseFormat::kDxt35, GL_UNSIGNED_BYTE },
-	};
+	case bksge::PixelBaseFormat::kU8:    return GL_UNSIGNED_BYTE;
+	case bksge::PixelBaseFormat::kS8:    return GL_BYTE;
+	case bksge::PixelBaseFormat::kU16:   return GL_UNSIGNED_SHORT;
+	case bksge::PixelBaseFormat::kS16:   return GL_SHORT;
+	case bksge::PixelBaseFormat::kU32:   return GL_UNSIGNED_INT;
+	case bksge::PixelBaseFormat::kS32:   return GL_INT;
+	case bksge::PixelBaseFormat::kF32:   return GL_FLOAT;
+	case bksge::PixelBaseFormat::kDxt1:  return GL_UNSIGNED_BYTE;
+	case bksge::PixelBaseFormat::kDxt35: return GL_UNSIGNED_BYTE;
+	case bksge::PixelBaseFormat::kNone:  return 0;
+	}
 
-	return m.at(GetPixelBaseFormat(format));
+	return 0;
 }
 
 }	// namespace gl

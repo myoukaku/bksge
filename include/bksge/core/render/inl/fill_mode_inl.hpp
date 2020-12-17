@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_INL_FILL_MODE_INL_HPP
 
 #include <bksge/core/render/fill_mode.hpp>
-#include <unordered_map>
+#include <bksge/fnd/config.hpp>
 #include <string>
 
 namespace bksge
@@ -22,17 +22,17 @@ namespace render
 BKSGE_INLINE
 std::string to_string(FillMode const& fill_mode)
 {
-#define BKSGE_CORE_RENDER_MAKE_FILL_MODE_KVP(x)	{ x, #x }
+#define BKSGE_CORE_RENDER_FILL_MODE_KVP(x)	case x: return #x
 
-	static std::unordered_map<FillMode, std::string> const m =
+	switch (fill_mode)
 	{
-		BKSGE_CORE_RENDER_MAKE_FILL_MODE_KVP(FillMode::kSolid),
-		BKSGE_CORE_RENDER_MAKE_FILL_MODE_KVP(FillMode::kWireframe),
-	};
+		BKSGE_CORE_RENDER_FILL_MODE_KVP(FillMode::kSolid);
+		BKSGE_CORE_RENDER_FILL_MODE_KVP(FillMode::kWireframe);
+	}
 
-	return m.at(fill_mode);
+	return "";
 
-#undef BKSGE_CORE_RENDER_MAKE_FILL_MODE_KVP
+#undef BKSGE_CORE_RENDER_FILL_MODE_KVP
 }
 
 }	// namespace render

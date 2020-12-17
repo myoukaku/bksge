@@ -12,7 +12,6 @@
 #include <bksge/core/render/clear_flag.hpp>
 #include <bksge/fnd/type_traits/underlying_type.hpp>
 #include <bksge/fnd/config.hpp>
-#include <unordered_map>
 #include <string>
 
 namespace bksge
@@ -75,23 +74,20 @@ Test(ClearFlag lhs, ClearFlag rhs) BKSGE_NOEXCEPT
 inline std::string
 to_string(ClearFlag const& clear_flag)
 {
-#define BKSGE_CORE_RENDER_MAKE_CLEAR_FLAG_KVP(x)	{ x, #x }
+#define BKSGE_CORE_RENDER_CLEAR_FLAG_KVP(x)	if (clear_flag == (x)) { return #x; }
 
-	static std::unordered_map<ClearFlag, std::string> const m =
-	{
-		BKSGE_CORE_RENDER_MAKE_CLEAR_FLAG_KVP(ClearFlag::kNone),
-		BKSGE_CORE_RENDER_MAKE_CLEAR_FLAG_KVP(ClearFlag::kColor),
-		BKSGE_CORE_RENDER_MAKE_CLEAR_FLAG_KVP(ClearFlag::kDepth),
-		BKSGE_CORE_RENDER_MAKE_CLEAR_FLAG_KVP(ClearFlag::kStencil),
-		BKSGE_CORE_RENDER_MAKE_CLEAR_FLAG_KVP(ClearFlag::kColor | ClearFlag::kDepth),
-		BKSGE_CORE_RENDER_MAKE_CLEAR_FLAG_KVP(ClearFlag::kDepth | ClearFlag::kStencil),
-		BKSGE_CORE_RENDER_MAKE_CLEAR_FLAG_KVP(ClearFlag::kColor | ClearFlag::kStencil),
-		BKSGE_CORE_RENDER_MAKE_CLEAR_FLAG_KVP(ClearFlag::kAll),
-	};
+	BKSGE_CORE_RENDER_CLEAR_FLAG_KVP(ClearFlag::kNone)
+	BKSGE_CORE_RENDER_CLEAR_FLAG_KVP(ClearFlag::kColor)
+	BKSGE_CORE_RENDER_CLEAR_FLAG_KVP(ClearFlag::kDepth)
+	BKSGE_CORE_RENDER_CLEAR_FLAG_KVP(ClearFlag::kStencil)
+	BKSGE_CORE_RENDER_CLEAR_FLAG_KVP(ClearFlag::kColor | ClearFlag::kDepth)
+	BKSGE_CORE_RENDER_CLEAR_FLAG_KVP(ClearFlag::kDepth | ClearFlag::kStencil)
+	BKSGE_CORE_RENDER_CLEAR_FLAG_KVP(ClearFlag::kColor | ClearFlag::kStencil)
+	BKSGE_CORE_RENDER_CLEAR_FLAG_KVP(ClearFlag::kAll)
 
-	return m.at(clear_flag);
+	return "";
 
-#undef BKSGE_CORE_RENDER_MAKE_CLEAR_FLAG_KVP
+#undef BKSGE_CORE_RENDER_CLEAR_FLAG_KVP
 }
 
 }	// namespace render

@@ -229,7 +229,7 @@ GTEST_TEST(ConfigTest, Cxx17IfConstexprTest)
 #if defined(BKSGE_HAS_CXX17_IF_CONSTEXPR)
 	if constexpr (sizeof(int) >= sizeof(char))
 	{
-		GTEST_SUCCEED();
+		//GTEST_SUCCEED();
 	}
 	else
 	{
@@ -243,7 +243,7 @@ GTEST_TEST(ConfigTest, Cxx17SelectionWithInitTest)
 #if defined(BKSGE_HAS_CXX17_SELECTION_WITH_INIT)
 	if (int x = 1; x != 0)
 	{
-		GTEST_SUCCEED();
+		//GTEST_SUCCEED();
 	}
 	else
 	{
@@ -252,8 +252,12 @@ GTEST_TEST(ConfigTest, Cxx17SelectionWithInitTest)
 
 	switch (int x = 1; x)
 	{
-	case 1:  GTEST_SUCCEED(); break;
-	default: GTEST_FAIL();    break;
+	case 1:
+		//GTEST_SUCCEED();
+		break;
+	default:
+		GTEST_FAIL();
+		break;
 	}
 #endif
 }

@@ -31,21 +31,21 @@ GTEST_TEST(Render_VertexArray, DefaultConstructTest)
 	{
 		using VertexType = Vertex<VPosition>;
 		VertexArray<VertexType> a;
-		EXPECT_EQ(VertexType::vertex_layout(), a.vertex_layout());
+		EXPECT_EQ(VertexType::make_vertex_layout(), a.vertex_layout());
 		EXPECT_EQ(nullptr, a.data());
 		EXPECT_EQ(0u, a.bytes());
 	}
 	{
 		using VertexType = Vertex<VColor>;
 		VertexArray<VertexType> a;
-		EXPECT_EQ(VertexType::vertex_layout(), a.vertex_layout());
+		EXPECT_EQ(VertexType::make_vertex_layout(), a.vertex_layout());
 		EXPECT_EQ(nullptr, a.data());
 		EXPECT_EQ(0u, a.bytes());
 	}
 	{
 		using VertexType = Vertex<VPosition, VColor, VNormal>;
 		VertexArray<VertexType> a;
-		EXPECT_EQ(VertexType::vertex_layout(), a.vertex_layout());
+		EXPECT_EQ(VertexType::make_vertex_layout(), a.vertex_layout());
 		EXPECT_EQ(nullptr, a.data());
 		EXPECT_EQ(0u, a.bytes());
 	}
@@ -65,7 +65,7 @@ GTEST_TEST(Render_VertexArray, ConstructTest)
 			{{{30, 31, 32}}},
 		};
 		VertexArray<VertexType> a(bksge::begin(t), bksge::end(t));
-		EXPECT_EQ(VertexType::vertex_layout(), a.vertex_layout());
+		EXPECT_EQ(VertexType::make_vertex_layout(), a.vertex_layout());
 		EXPECT_NE(nullptr, a.data());
 		EXPECT_EQ(36u, a.bytes());
 
@@ -84,7 +84,7 @@ GTEST_TEST(Render_VertexArray, ConstructTest)
 		using VertexType = Vertex<VPosition, VColor, VNormal>;
 		const VertexType t[] = {{{{10, 11, 12}}, {{13, 14, 15, 16}}, {{17, 18, 19}}}};
 		VertexArray<VertexType> a(bksge::begin(t), bksge::end(t));
-		EXPECT_EQ(VertexType::vertex_layout(), a.vertex_layout());
+		EXPECT_EQ(VertexType::make_vertex_layout(), a.vertex_layout());
 		EXPECT_NE(nullptr, a.data());
 		EXPECT_EQ(40u, a.bytes());
 
@@ -109,7 +109,7 @@ GTEST_TEST(Render_VertexArray, ConstructTest)
 			{{{30, 31, 32}}, {{33, 34, 35, 36}}, {{37, 38, 39}}},
 		};
 		VertexArray<VertexType> a(bksge::begin(t), bksge::end(t));
-		EXPECT_EQ(VertexType::vertex_layout(), a.vertex_layout());
+		EXPECT_EQ(VertexType::make_vertex_layout(), a.vertex_layout());
 		EXPECT_NE(nullptr, a.data());
 		EXPECT_EQ(120u, a.bytes());
 
@@ -267,9 +267,9 @@ void SerializeBasePtrTest(void)
 		ia >> BKSGE_SERIALIZATION_NVP(a2);
 		ia >> BKSGE_SERIALIZATION_NVP(a3);
 
-		EXPECT_EQ(VertexType1::vertex_layout(), a1->vertex_layout());
-		EXPECT_EQ(VertexType2::vertex_layout(), a2->vertex_layout());
-		EXPECT_EQ(VertexType3::vertex_layout(), a3->vertex_layout());
+		EXPECT_EQ(VertexType1::make_vertex_layout(), a1->vertex_layout());
+		EXPECT_EQ(VertexType2::make_vertex_layout(), a2->vertex_layout());
+		EXPECT_EQ(VertexType3::make_vertex_layout(), a3->vertex_layout());
 		
 		{
 			auto const* p = static_cast<const float*>(a1->data());

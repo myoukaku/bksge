@@ -49,7 +49,7 @@ public:
 
 private:
 	VertexAttributeArray m_vertex_attribute_array;
-	std::size_t        m_total_bytes;
+	std::size_t          m_total_bytes;
 
 private:
 	friend bool operator==(VertexLayout const& lhs, VertexLayout const& rhs);

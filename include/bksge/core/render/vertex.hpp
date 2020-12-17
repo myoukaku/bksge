@@ -26,13 +26,7 @@ namespace detail
 template <typename T>
 struct VertexBase
 {
-	static VertexLayout const& vertex_layout(void)
-	{
-		static VertexLayout const s_layout = MakeVertexLayout();
-		return s_layout;
-	}
-
-	static VertexLayout MakeVertexLayout(void)
+	static VertexLayout make_vertex_layout(void)
 	{
 		VertexLayout layout;
 		T::AddVertexAttribute(&layout);
