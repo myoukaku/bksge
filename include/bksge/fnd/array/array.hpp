@@ -28,6 +28,8 @@ using std::array;
 #include <bksge/fnd/algorithm/swap_ranges.hpp>
 #include <bksge/fnd/algorithm/equal.hpp>
 #include <bksge/fnd/algorithm/lexicographical_compare.hpp>
+#include <bksge/fnd/compare/detail/synth3way.hpp>
+#include <bksge/fnd/compare/strong_ordering.hpp>
 #include <bksge/fnd/iterator/reverse_iterator.hpp>
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
@@ -270,13 +272,14 @@ operator==(array<T, N> const& lhs, array<T, N> const& rhs)
 	return bksge::equal(lhs.begin(), lhs.end(), rhs.begin());
 }
 
-#if 0 // TODO __cpp_lib_three_way_comparison && __cpp_lib_concepts
+#if defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
+
 template <typename T, std::size_t N>
-BKSGE_CXX14_CONSTEXPR __detail::__synth3way_t<T>
+inline BKSGE_CXX14_CONSTEXPR bksge::detail::synth3way_t<T>
 operator<=>(array<T, N> const& lhs, array<T, N> const& rhs)
 {
-#if defined(__cpp_lib_is_constant_evaluated) && __cpp_lib_is_constant_evaluated >= 201811
-	if constexpr (N && __is_memcmp_ordered<T>::__value)
+#if 0	// TODO defined(__cpp_lib_is_constant_evaluated) && __cpp_lib_is_constant_evaluated >= 201811
+	if constexpr (N != 0 && __is_memcmp_ordered<T>::__value)
 	{
 		if (!std::is_constant_evaluated())
 		{
@@ -288,16 +291,18 @@ operator<=>(array<T, N> const& lhs, array<T, N> const& rhs)
 
 	for (std::size_t i = 0; i < N; ++i)
 	{
-		auto c = __detail::__synth3way(lhs[i], rhs[i]);
+		auto c = bksge::detail::synth3way(lhs[i], rhs[i]);
 		if (c != 0)
 		{
 			return c;
 		}
 	}
 
-	return strong_ordering::equal;
+	return bksge::detail::synth3way_t<T>::equal;
 }
+
 #else
+
 template <typename T, std::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool
 operator!=(array<T, N> const& lhs, array<T, N> const& rhs)
@@ -334,7 +339,8 @@ operator>=(array<T, N> const& lhs, array<T, N> const& rhs)
 {
 	return !(lhs < rhs);
 }
-#endif // three_way_comparison && concepts
+
+#endif
 
 // Specialized algorithms.
 template <typename T, std::size_t N,

@@ -7,6 +7,9 @@
  */
 
 #include <bksge/fnd/array/array.hpp>
+#include <bksge/fnd/compare/is_eq.hpp>
+#include <bksge/fnd/compare/is_lt.hpp>
+#include <bksge/fnd/compare/is_gt.hpp>
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/utility/move.hpp>
@@ -446,6 +449,15 @@ inline BKSGE_CXX14_CONSTEXPR bool test_compare()
 		VERIFY((a1 >= a4) == true);
 		VERIFY((a1 >= a5) == false);
 		VERIFY((a1 >= a6) == true);
+
+#if defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
+		VERIFY(bksge::is_eq(a1 <=> a1));
+		VERIFY(bksge::is_eq(a1 <=> a2));
+		VERIFY(bksge::is_lt(a1 <=> a3));
+		VERIFY(bksge::is_gt(a1 <=> a4));
+		VERIFY(bksge::is_lt(a1 <=> a5));
+		VERIFY(bksge::is_gt(a1 <=> a6));
+#endif
 	}
 	return true;
 }
