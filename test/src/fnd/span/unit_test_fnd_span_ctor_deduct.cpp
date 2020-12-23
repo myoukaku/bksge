@@ -8,12 +8,12 @@
 
 #include <bksge/fnd/span.hpp>
 #include <bksge/fnd/algorithm/equal.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/config.hpp>
 #include <array>
-#include <cstddef>
 #include <string>
 #include <gtest/gtest.h>
 
@@ -31,7 +31,7 @@ template <typename T>
 struct MyRange
 {
 	BKSGE_CXX14_CONSTEXPR MyRange() : m_value{} {}
-	BKSGE_CXX14_CONSTEXPR std::size_t size() const noexcept { return 1; }
+	BKSGE_CXX14_CONSTEXPR bksge::size_t size() const noexcept { return 1; }
 	BKSGE_CXX14_CONSTEXPR T      * data()        noexcept { return &m_value; }
 	BKSGE_CXX14_CONSTEXPR T const* data()  const noexcept { return &m_value; }
 	BKSGE_CXX14_CONSTEXPR T      * begin()       noexcept { return &m_value; }
@@ -74,7 +74,7 @@ GTEST_TEST(SpanTest, CtorDeductTest)
 		bksge::span s{ r };
 		using S = decltype(s);
 		ASSERT_SAME_TYPE(S, bksge::span<int>);
-		EXPECT_TRUE(static_cast<std::size_t>(s.size()) == r.size());
+		EXPECT_TRUE(static_cast<bksge::size_t>(s.size()) == r.size());
 		EXPECT_TRUE((bksge::equal(bksge::begin(r), bksge::end(r), s.begin(), s.end())));
 	}
 
@@ -83,7 +83,7 @@ GTEST_TEST(SpanTest, CtorDeductTest)
 		bksge::span s{ r };
 		using S = decltype(s);
 		ASSERT_SAME_TYPE(S, bksge::span<char const>);
-		EXPECT_TRUE(static_cast<std::size_t>(s.size()) == r.size());
+		EXPECT_TRUE(static_cast<bksge::size_t>(s.size()) == r.size());
 		EXPECT_TRUE((bksge::equal(bksge::begin(r), bksge::end(r), s.begin(), s.end())));
 	}
 #endif

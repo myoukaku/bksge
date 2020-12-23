@@ -13,6 +13,7 @@
 #include <bksge/fnd/array/array.hpp>
 #include <bksge/fnd/concepts/arithmetic.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/serialization/array.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
@@ -20,7 +21,6 @@
 #include <bksge/fnd/tuple/tuple_size.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstddef>
 #include <ostream>		// basic_ostream
 
 namespace bksge
@@ -34,7 +34,7 @@ namespace detail
 
 class VectorBaseTag{};
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 class VectorBase;
 
 template <typename T>
@@ -310,7 +310,7 @@ Lerp(VectorLike const& from, VectorLike const& to, U const& t) BKSGE_NOEXCEPT
 /**
  *	@brief	ストリームへの出力
  */
-template <typename CharT, typename Traits, typename T, std::size_t N>
+template <typename CharT, typename Traits, typename T, bksge::size_t N>
 inline std::basic_ostream<CharT, Traits>&
 operator<<(
 	std::basic_ostream<CharT, Traits>& os,
@@ -318,7 +318,7 @@ operator<<(
 {
 	os << "{ ";
 
-	for (std::size_t i = 0; i < N; ++i)
+	for (bksge::size_t i = 0; i < N; ++i)
 	{
 		os << rhs[i];
 
@@ -337,7 +337,7 @@ operator<<(
 
 }	// namespace math
 
-template <std::size_t I, typename T, std::size_t N>
+template <bksge::size_t I, typename T, bksge::size_t N>
 BKSGE_NODISCARD inline BKSGE_CXX14_CONSTEXPR T&
 get(bksge::math::detail::VectorBase<T, N>& v) BKSGE_NOEXCEPT
 {
@@ -345,7 +345,7 @@ get(bksge::math::detail::VectorBase<T, N>& v) BKSGE_NOEXCEPT
 	return v[I];
 }
 
-template <std::size_t I, typename T, std::size_t N>
+template <bksge::size_t I, typename T, bksge::size_t N>
 BKSGE_NODISCARD inline BKSGE_CONSTEXPR T const&
 get(bksge::math::detail::VectorBase<T, N> const& v) BKSGE_NOEXCEPT
 {
@@ -353,7 +353,7 @@ get(bksge::math::detail::VectorBase<T, N> const& v) BKSGE_NOEXCEPT
 	return v[I];
 }
 
-template <std::size_t I, typename T, std::size_t N>
+template <bksge::size_t I, typename T, bksge::size_t N>
 BKSGE_NODISCARD inline BKSGE_CXX14_CONSTEXPR T&&
 get(bksge::math::detail::VectorBase<T, N>&& v) BKSGE_NOEXCEPT
 {
@@ -361,7 +361,7 @@ get(bksge::math::detail::VectorBase<T, N>&& v) BKSGE_NOEXCEPT
 	return bksge::move(v[I]);
 }
 
-template <std::size_t I, typename T, std::size_t N>
+template <bksge::size_t I, typename T, bksge::size_t N>
 BKSGE_NODISCARD inline BKSGE_CONSTEXPR T const&&
 get(bksge::math::detail::VectorBase<T, N> const&& v) BKSGE_NOEXCEPT
 {
@@ -381,15 +381,15 @@ namespace BKSGE_TUPLE_NAMESPACE
 /**
  *	@brief	tuple_size
  */
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 struct tuple_size<bksge::math::detail::VectorBase<T, N>>
-	: public bksge::integral_constant<std::size_t, N>
+	: public bksge::integral_constant<bksge::size_t, N>
 {};
 
 /**
  *	@brief	tuple_element
  */
-template <std::size_t I, typename T, std::size_t N>
+template <bksge::size_t I, typename T, bksge::size_t N>
 struct tuple_element<I, bksge::math::detail::VectorBase<T, N>>
 {
 	static_assert(I < N, "Vector index out of bounds");
@@ -408,18 +408,18 @@ namespace std
 /**
  *	@brief	hash
  */
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 struct hash<bksge::math::detail::VectorBase<T, N>>
 {
 private:
-	template <std::size_t... Is>
-	std::size_t hash_impl(bksge::math::detail::VectorBase<T, N> const& arg, bksge::index_sequence<Is...>) const
+	template <bksge::size_t... Is>
+	bksge::size_t hash_impl(bksge::math::detail::VectorBase<T, N> const& arg, bksge::index_sequence<Is...>) const
 	{
 		return bksge::hash_combine(arg[Is]...);
 	}
 
 public:
-	std::size_t operator()(bksge::math::detail::VectorBase<T, N> const& arg) const
+	bksge::size_t operator()(bksge::math::detail::VectorBase<T, N> const& arg) const
 	{
 		return hash_impl(arg, bksge::make_index_sequence<N>());
 	}

@@ -10,10 +10,10 @@
 #define BKSGE_FND_TUPLE_DETAIL_TUPLE_CMP_HPP
 
 #include <bksge/fnd/compare/detail/synth3way.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/tuple/get.hpp>
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstddef>
 
 namespace bksge
 {
@@ -29,7 +29,7 @@ tuple_cmp_eq(T const&, U const&, bksge::index_sequence<>)
 }
 
 template <typename T, typename U,
-	std::size_t I, std::size_t... Indices>
+	bksge::size_t I, bksge::size_t... Indices>
 inline BKSGE_CONSTEXPR bool
 tuple_cmp_eq(T const& t, U const& u, bksge::index_sequence<I, Indices...>)
 {
@@ -47,7 +47,7 @@ tuple_cmp_3way(T const&, U const&, bksge::index_sequence<>)
 }
 
 template <typename Cat, typename T, typename U,
-	std::size_t I, std::size_t... Indices>
+	bksge::size_t I, bksge::size_t... Indices>
 inline BKSGE_CONSTEXPR Cat
 tuple_cmp_3way(T const& t, U const& u, bksge::index_sequence<I, Indices...>)
 {
@@ -69,7 +69,7 @@ tuple_cmp_less(T const&, U const&, bksge::index_sequence<>)
 }
 
 template <typename T, typename U,
-	std::size_t I, std::size_t... Indices>
+	bksge::size_t I, bksge::size_t... Indices>
 inline BKSGE_CONSTEXPR bool
 tuple_cmp_less(T const& t, U const& u, bksge::index_sequence<I, Indices...>)
 {

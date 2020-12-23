@@ -17,13 +17,13 @@
 #include <bksge/fnd/variant/detail/variant_access.hpp>
 #include <bksge/fnd/type_traits/is_void.hpp>
 #include <bksge/fnd/utility/move.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstddef>
 
 namespace bksge
 {
 
-template <std::size_t I, typename... Types>
+template <bksge::size_t I, typename... Types>
 BKSGE_CONSTEXPR variant_alternative_t<I, variant<Types...>>&
 get(variant<Types...>& v)
 {
@@ -36,7 +36,7 @@ get(variant<Types...>& v)
 	return variant_detail::variant_access::get_impl<I>(v);
 }
 
-template <std::size_t I, typename... Types>
+template <bksge::size_t I, typename... Types>
 BKSGE_CONSTEXPR variant_alternative_t<I, variant<Types...>>&&
 get(variant<Types...>&& v)
 {
@@ -49,7 +49,7 @@ get(variant<Types...>&& v)
 	return variant_detail::variant_access::get_impl<I>(bksge::move(v));
 }
 
-template <std::size_t I, typename... Types>
+template <bksge::size_t I, typename... Types>
 BKSGE_CONSTEXPR variant_alternative_t<I, variant<Types...>> const&
 get(variant<Types...> const& v)
 {
@@ -62,7 +62,7 @@ get(variant<Types...> const& v)
 	return variant_detail::variant_access::get_impl<I>(v);
 }
 
-template <std::size_t I, typename... Types>
+template <bksge::size_t I, typename... Types>
 BKSGE_CONSTEXPR variant_alternative_t<I, variant<Types...>> const&&
 get(variant<Types...> const&& v)
 {

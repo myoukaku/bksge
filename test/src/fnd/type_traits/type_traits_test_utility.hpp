@@ -11,9 +11,9 @@
 
 #include <bksge/fnd/config.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <gtest/gtest.h>
 #include <cstdint>
-#include <cstddef>
 
 namespace
 {
@@ -387,7 +387,7 @@ protected:
 	BKSGE_TRANSFORM_TEST_SUB(unsigned int, name, from, to);	\
 	BKSGE_TRANSFORM_TEST_SUB(long, name, from, to);	\
 	BKSGE_TRANSFORM_TEST_SUB(unsigned long, name, from, to);	\
-	BKSGE_TRANSFORM_TEST_SUB(std::size_t, name, from, to);	\
+	BKSGE_TRANSFORM_TEST_SUB(bksge::size_t, name, from, to);	\
 	BKSGE_TRANSFORM_TEST_SUB(float, name, from, to);	\
 	BKSGE_TRANSFORM_TEST_SUB(double, name, from, to);	\
 	BKSGE_TRANSFORM_TEST_SUB(long double, name, from, to);	\

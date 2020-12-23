@@ -9,7 +9,7 @@
 #include <bksge/fnd/span.hpp>
 #include <bksge/fnd/iterator/size.hpp>
 #include <bksge/fnd/utility/declval.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <string>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -45,23 +45,23 @@ test1()
 		bksge::span<const int> spans[] =
 		{
 			{},
-			{carr1, static_cast<std::size_t>(0)},
+			{carr1, static_cast<bksge::size_t>(0)},
 			{carr1, 1U},
 			{carr1, 2U},
 			{carr1, 3U},
 			{carr1, 4U},
-			{carr2, static_cast<std::size_t>(0)},
+			{carr2, static_cast<bksge::size_t>(0)},
 			{carr2, 1U},
 			{carr2, 2U},
 			{carr2, 3U},
-			{carr3, static_cast<std::size_t>(0)},
+			{carr3, static_cast<bksge::size_t>(0)},
 			{carr3, 1U},
 			{carr3, 2U},
 		};
 
-		for (std::size_t i = 0; i < bksge::size(spans); ++i)
+		for (bksge::size_t i = 0; i < bksge::size(spans); ++i)
 		{
-			for (std::size_t j = i; j < bksge::size(spans); ++j)
+			for (bksge::size_t j = i; j < bksge::size(spans); ++j)
 			{
 				VERIFY(do_assign(spans[i], spans[j]));
 			}
@@ -81,9 +81,9 @@ test1()
 			spanType{carr3, 2},
 		};
 
-		for (std::size_t i = 0; i < bksge::size(spans); ++i)
+		for (bksge::size_t i = 0; i < bksge::size(spans); ++i)
 		{
-			for (std::size_t j = i; j < bksge::size(spans); ++j)
+			for (bksge::size_t j = i; j < bksge::size(spans); ++j)
 			{
 				VERIFY(do_assign(spans[i], spans[j]));
 			}
@@ -113,9 +113,9 @@ inline bool test2()
 			{strs + 3, strs + 3},
 		};
 
-		for (std::size_t i = 0; i < bksge::size(spans); ++i)
+		for (bksge::size_t i = 0; i < bksge::size(spans); ++i)
 		{
-			for (std::size_t j = i; j < bksge::size(spans); ++j)
+			for (bksge::size_t j = i; j < bksge::size(spans); ++j)
 			{
 				VERIFY((do_assign(spans[i], spans[j])));
 			}
@@ -132,9 +132,9 @@ inline bool test2()
 			spanType{strs + 2, strs + 3},
 		};
 
-		for (std::size_t i = 0; i < bksge::size(spans); ++i)
+		for (bksge::size_t i = 0; i < bksge::size(spans); ++i)
 		{
-			for (std::size_t j = i; j < bksge::size(spans); ++j)
+			for (bksge::size_t j = i; j < bksge::size(spans); ++j)
 			{
 				VERIFY((do_assign(spans[i], spans[j])));
 			}

@@ -29,12 +29,12 @@ using std::as_bytes;
 #include <bksge/fnd/span/span.hpp>
 #include <bksge/fnd/span/detail/as_bytes_extent.hpp>
 #include <bksge/fnd/cstddef/byte.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 
 namespace bksge
 {
 
-template <typename T, std::size_t Extent>
+template <typename T, bksge::size_t Extent>
 inline span<bksge::byte const, detail::as_bytes_extent<T, Extent>::value>
 as_bytes(span<T, Extent> s) BKSGE_NOEXCEPT
 {

@@ -13,7 +13,7 @@
 #include <bksge/fnd/variant/detail/deduce_visit_result.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/nth.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 
 namespace bksge
 {
@@ -22,7 +22,7 @@ namespace variant_detail
 {
 
 // Used for storing a multi-dimensional vtable.
-template <typename T, std::size_t... Dimensions>
+template <typename T, bksge::size_t... Dimensions>
 struct MultiArray;
 
 // Partial specialization with rank zero, stores a single T element.
@@ -82,11 +82,11 @@ template <
 	typename Ret,
 	typename Visitor,
 	typename... Variants,
-	std::size_t First, std::size_t... Rest>
+	bksge::size_t First, bksge::size_t... Rest>
 struct MultiArray<Ret(*)(Visitor, Variants...), First, Rest...>
 {
 private:
-	static constexpr std::size_t Index =
+	static constexpr bksge::size_t Index =
 		sizeof...(Variants) - sizeof...(Rest) - 1;
 
 	using Variant = bksge::nth_t<Index, Variants...>;
@@ -99,7 +99,7 @@ private:
 public:
 	template <typename... Args>
 	constexpr decltype(auto)
-	access(std::size_t first_index, Args... rest_indices) const
+	access(bksge::size_t first_index, Args... rest_indices) const
 	{
 		return m_arr[first_index + DoCookie].access(rest_indices...);
 	}

@@ -10,7 +10,7 @@
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/type_traits/remove_cv.hpp>
 #include <bksge/fnd/iterator/iterator_traits.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <gtest/gtest.h>
 
 #define ASSERT_SAME_TYPE(...) \
@@ -35,12 +35,12 @@ void testIterator()
 	ASSERT_SAME_TYPE(typename ItT::difference_type,   typename S::difference_type);
 }
 
-template <typename S, typename ElementType, std::size_t Size>
+template <typename S, typename ElementType, bksge::size_t Size>
 void testSpan()
 {
 	ASSERT_SAME_TYPE(typename S::element_type,    ElementType);
 	ASSERT_SAME_TYPE(typename S::value_type,      bksge::remove_cv_t<ElementType>);
-	ASSERT_SAME_TYPE(typename S::size_type,       std::size_t);
+	ASSERT_SAME_TYPE(typename S::size_type,       bksge::size_t);
 	ASSERT_SAME_TYPE(typename S::difference_type, std::ptrdiff_t);
 	ASSERT_SAME_TYPE(typename S::pointer,         ElementType*);
 	ASSERT_SAME_TYPE(typename S::const_pointer,   const ElementType*);

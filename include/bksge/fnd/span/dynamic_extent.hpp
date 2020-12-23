@@ -26,13 +26,13 @@ using std::dynamic_extent;
 
 #else
 
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 
 namespace bksge
 {
 
-BKSGE_INLINE_VAR BKSGE_CONSTEXPR std::size_t
-	dynamic_extent = static_cast<std::size_t>(-1);
+BKSGE_INLINE_VAR BKSGE_CONSTEXPR bksge::size_t
+	dynamic_extent = static_cast<bksge::size_t>(-1);
 
 }	// namespace bksge
 

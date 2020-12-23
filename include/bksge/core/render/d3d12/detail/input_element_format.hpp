@@ -11,7 +11,7 @@
 
 #include <bksge/core/render/d3d_common/dxgi.hpp>
 #include <bksge/core/render/detail/type_enum.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 
 namespace bksge
 {
@@ -22,7 +22,7 @@ namespace render
 namespace d3d12
 {
 
-::DXGI_FORMAT ToD3D12InputElementFormat(bksge::TypeEnum type, std::size_t count);
+::DXGI_FORMAT ToD3D12InputElementFormat(bksge::TypeEnum type, bksge::size_t count);
 
 }	// namespace d3d12
 

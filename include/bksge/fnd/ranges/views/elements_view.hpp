@@ -37,6 +37,7 @@
 #include <bksge/fnd/concepts/copyable.hpp>
 #include <bksge/fnd/concepts/equality_comparable.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/iterator/iterator_traits.hpp>
 #include <bksge/fnd/iterator/concepts/sentinel_for.hpp>
 #include <bksge/fnd/iterator/concepts/sized_sentinel_for.hpp>
@@ -50,7 +51,6 @@
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstddef>
 
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
@@ -67,7 +67,7 @@ namespace detail
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 concept has_tuple_element =
 	requires(T t)
 	{
@@ -79,11 +79,11 @@ concept has_tuple_element =
 
 #else
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 struct has_tuple_element_impl
 {
 private:
-	template <typename T2, std::size_t N2,
+	template <typename T2, bksge::size_t N2,
 		typename = typename bksge::tuple_size<T2>::type,
 		typename = typename bksge::tuple_element_t<N2, T2>
 	>
@@ -95,14 +95,14 @@ private:
 		>
 	>;
 
-	template <typename T2, std::size_t N2>
+	template <typename T2, bksge::size_t N2>
 	static auto test(...) -> bksge::false_type;
 
 public:
 	using type = decltype(test<T, N>(0));
 };
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 using has_tuple_element = typename has_tuple_element_impl<T, N>::type;
 
 #endif
@@ -110,12 +110,12 @@ using has_tuple_element = typename has_tuple_element_impl<T, N>::type;
 }	// namespace detail
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
-template <ranges::input_range V, std::size_t N>
+template <ranges::input_range V, bksge::size_t N>
 requires ranges::view<V> &&
 	ranges::detail::has_tuple_element<ranges::range_value_t<V>, N> &&
 	ranges::detail::has_tuple_element<bksge::remove_reference_t<ranges::range_reference_t<V>>, N>
 #else
-template <typename V, std::size_t N,
+template <typename V, bksge::size_t N,
 	typename = bksge::enable_if_t<bksge::conjunction<
 		ranges::input_range<V>,
 		ranges::view<V>,
@@ -521,7 +521,7 @@ private:
 	V m_base = {};
 };
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_RANGES_SPECIALIZE_ENABLE_BORROWED_RANGE(
 	BKSGE_RANGES_ENABLE_BORROWED_RANGE(T),
 	elements_view<T, N>);
@@ -538,7 +538,7 @@ namespace views
 namespace detail
 {
 
-template <std::size_t N>
+template <bksge::size_t N>
 struct elements_fn
 {
 	template <BKSGE_REQUIRES_PARAM(ranges::viewable_range, Range)>
@@ -551,13 +551,13 @@ struct elements_fn
 
 }	// namespace detail
 
-template <std::size_t N>
+template <bksge::size_t N>
 using elements_t =
 	views::detail::range_adaptor_closure<views::detail::elements_fn<N>>;
 
 #if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
 
-template <std::size_t N>
+template <bksge::size_t N>
 BKSGE_INLINE_VAR BKSGE_CONSTEXPR elements_t<N> elements{};
 
 #endif

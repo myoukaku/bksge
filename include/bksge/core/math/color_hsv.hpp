@@ -17,6 +17,7 @@
 #include <bksge/core/math/color3.hpp>
 #include <bksge/fnd/cmath/clamp.hpp>
 #include <bksge/fnd/cmath/fmod.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/config.hpp>
@@ -121,7 +122,6 @@ Normalized(ColorHSV<T> const& hsv)
 
 #include <bksge/fnd/tuple/tuple_element.hpp>
 #include <bksge/fnd/tuple/tuple_size.hpp>
-#include <cstddef>
 
 namespace BKSGE_TUPLE_NAMESPACE
 {
@@ -137,7 +137,7 @@ struct tuple_size<bksge::math::ColorHSV<T>>
 /**
  *	@brief	tuple_element
  */
-template <std::size_t I, typename T>
+template <bksge::size_t I, typename T>
 struct tuple_element<I, bksge::math::ColorHSV<T>>
 	: public tuple_element<I, bksge::math::detail::VectorBase<T, 3>>
 {};

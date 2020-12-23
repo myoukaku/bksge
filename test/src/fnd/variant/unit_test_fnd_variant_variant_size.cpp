@@ -10,7 +10,7 @@
 #include <bksge/fnd/variant/variant.hpp>
 #include <bksge/fnd/type_traits/is_base_of.hpp>
 #include <bksge/fnd/type_traits/integral_constant.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <gtest/gtest.h>
 #include "fnd/variant/test_macros.hpp"
 
@@ -20,7 +20,7 @@ namespace bksge_variant_test
 namespace variant_size_test
 {
 
-template <typename V, std::size_t E>
+template <typename V, bksge::size_t E>
 void test()
 {
 	static_assert(bksge::variant_size<V>::value == E, "");
@@ -33,7 +33,7 @@ void test()
 	static_assert(bksge::variant_size_v<volatile V> == E, "");
 	static_assert(bksge::variant_size_v<const volatile V> == E, "");
 #endif
-	static_assert(bksge::is_base_of<bksge::integral_constant<std::size_t, E>, bksge::variant_size<V>>::value, "");
+	static_assert(bksge::is_base_of<bksge::integral_constant<bksge::size_t, E>, bksge::variant_size<V>>::value, "");
 };
 
 GTEST_TEST(VariantTest, VariantSizeTest)

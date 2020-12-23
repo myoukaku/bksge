@@ -13,9 +13,9 @@
 #include <bksge/fnd/cmath/round_up.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/algorithm/min.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstdint>
-#include <cstddef>
 #include <string>
 
 namespace bksge
@@ -38,13 +38,13 @@ GetPixelBaseFormat(TextureFormat format)
 		(static_cast<std::uint32_t>(format) & kPixelBaseFormatMask) >> kPixelBaseFormatShift);
 }
 
-BKSGE_INLINE std::size_t
+BKSGE_INLINE bksge::size_t
 GetChannelCount(TextureFormat format)
 {
 	return (static_cast<std::uint32_t>(format) & kChannelCountMask) >> kChannelCountShift;
 }
 
-BKSGE_INLINE std::size_t
+BKSGE_INLINE bksge::size_t
 GetBitsPerChannel(TextureFormat format)
 {
 	return (static_cast<std::uint32_t>(format) & kBitsPerChannelMask) >> kBitsPerChannelShift;
@@ -59,13 +59,13 @@ IsDxtCompressed(TextureFormat format)
 		format == TextureFormat::kDxt5;
 }
 
-BKSGE_INLINE std::size_t
+BKSGE_INLINE bksge::size_t
 GetBitsPerPixel(TextureFormat format)
 {
 	return GetChannelCount(format) * GetBitsPerChannel(format);
 }
 
-BKSGE_INLINE std::size_t
+BKSGE_INLINE bksge::size_t
 GetSizeInBytes(
 	TextureFormat format,
 	std::uint32_t width,
@@ -80,7 +80,7 @@ GetSizeInBytes(
 	return (width * height * GetBitsPerPixel(format)) / 8;
 }
 
-BKSGE_INLINE std::size_t
+BKSGE_INLINE bksge::size_t
 GetStrideInBytes(TextureFormat format, std::uint32_t width)
 {
 	if (IsDxtCompressed(format))
@@ -91,12 +91,12 @@ GetStrideInBytes(TextureFormat format, std::uint32_t width)
 	return (width * GetBitsPerPixel(format)) / 8;
 }
 
-BKSGE_INLINE std::size_t
+BKSGE_INLINE bksge::size_t
 GetMipmappedSizeInBytes(
 	TextureFormat format,
 	std::uint32_t width,
 	std::uint32_t height,
-	std::size_t mipmap_level)
+	bksge::size_t mipmap_level)
 {
 	if (format == TextureFormat::kNone ||
 		width == 0 ||
@@ -108,7 +108,7 @@ GetMipmappedSizeInBytes(
 
 	auto w = width;
 	auto h = height;
-	std::size_t size = 0;
+	bksge::size_t size = 0;
 
 	while (mipmap_level != 0)
 	{

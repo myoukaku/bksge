@@ -14,7 +14,7 @@
 //#include <bksge/fnd/serialization/access.hpp>
 //#include <bksge/fnd/serialization/nvp.hpp>
 //#include <bksge/fnd/serialization/version.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 
 namespace bksge
 {
@@ -29,7 +29,7 @@ class IndexArrayBase
 {
 public:
 	using const_pointer = void const*;
-	using size_type = std::size_t;
+	using size_type = bksge::size_t;
 
 	virtual ~IndexArrayBase();
 

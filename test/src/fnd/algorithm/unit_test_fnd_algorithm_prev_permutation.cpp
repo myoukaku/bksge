@@ -12,6 +12,7 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/size.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <array>
 #include <string>
 #include <gtest/gtest.h>
@@ -106,7 +107,7 @@ GTEST_TEST(AlgorithmTest, PrevPermutationTest)
 			{ 4, 5, 6, 7 },
 		};
 
-		std::size_t i = 0;
+		bksge::size_t i = 0;
 
 		do
 		{

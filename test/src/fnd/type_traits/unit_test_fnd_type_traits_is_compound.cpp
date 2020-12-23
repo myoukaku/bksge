@@ -7,7 +7,7 @@
  */
 
 #include <bksge/fnd/type_traits/is_compound.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
@@ -46,7 +46,7 @@ BKSGE_IS_COMPOUND_TEST(false, unsigned int);
 BKSGE_IS_COMPOUND_TEST(false, unsigned short);
 BKSGE_IS_COMPOUND_TEST(false, unsigned long);
 BKSGE_IS_COMPOUND_TEST(false, unsigned long long);
-BKSGE_IS_COMPOUND_TEST(false, std::size_t);
+BKSGE_IS_COMPOUND_TEST(false, bksge::size_t);
 BKSGE_IS_COMPOUND_TEST(false, float);
 BKSGE_IS_COMPOUND_TEST(false, double);
 BKSGE_IS_COMPOUND_TEST(false, long double);

@@ -9,7 +9,7 @@
 #ifndef BKSGE_FND_TYPE_TRAITS_ALIGNED_STORAGE_HPP
 #define BKSGE_FND_TYPE_TRAITS_ALIGNED_STORAGE_HPP
 
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <type_traits>
 
 namespace bksge
@@ -18,7 +18,7 @@ namespace bksge
 namespace detail
 {
 
-template <std::size_t Len>
+template <bksge::size_t Len>
 struct default_alignment;
 
 }	// namespace detail
@@ -44,7 +44,7 @@ using std::aligned_storage;
 /**
  *	@brief	aligned_storageのエイリアステンプレート
  */
-template <std::size_t Len, std::size_t Align = detail::default_alignment<Len>::value>
+template <bksge::size_t Len, bksge::size_t Align = detail::default_alignment<Len>::value>
 using aligned_storage_t = typename aligned_storage<Len, Align>::type;
 
 }	// namespace bksge

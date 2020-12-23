@@ -9,6 +9,7 @@
 #include <bksge/core/render/sampled_texture.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <functional>
 #include <sstream>
 #include <vector>
@@ -166,7 +167,7 @@ GTEST_TEST(Render_SampledTexture, HashTest)
 	s8.sampler().SetBorderColor(bksge::BorderColor::kTransparentBlack);
 	s9.texture() = bksge::Texture(bksge::TextureFormat::kRGBA_U8, {32, 24}, 3);
 
-	std::vector<std::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(s1));
 	v.push_back(h(s2));
 	v.push_back(h(s3));

@@ -20,7 +20,7 @@
 #include <bksge/fnd/memory/destroy_at.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/in_place_index.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 
 namespace bksge
 {
@@ -41,7 +41,7 @@ struct VariantStorage<false, Types...>
 		: m_index(static_cast<index_type>(bksge::variant_npos))
 	{}
 
-	template <std::size_t N, typename... Args>
+	template <bksge::size_t N, typename... Args>
 	constexpr
 	VariantStorage(bksge::in_place_index_t<N>, Args&&... args)
 		: m_u(bksge::in_place_index<N>, bksge::forward<Args>(args)...)
@@ -90,7 +90,7 @@ struct VariantStorage<true, Types...>
 		: m_index(static_cast<index_type>(bksge::variant_npos))
 	{}
 
-	template <std::size_t N, typename... Args>
+	template <bksge::size_t N, typename... Args>
 	constexpr
 	VariantStorage(bksge::in_place_index_t<N>, Args&&... args)
 		: m_u(bksge::in_place_index<N>, bksge::forward<Args>(args)...)

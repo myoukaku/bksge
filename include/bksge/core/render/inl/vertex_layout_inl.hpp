@@ -11,7 +11,7 @@
 
 #include <bksge/core/render/vertex_layout.hpp>
 #include <bksge/fnd/utility/move.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 
 namespace bksge
 {
@@ -59,7 +59,7 @@ VertexLayout::vertex_attribute_array(void) const
 	return m_vertex_attribute_array;
 }
 
-BKSGE_INLINE std::size_t
+BKSGE_INLINE bksge::size_t
 VertexLayout::total_bytes(void) const
 {
 	return m_total_bytes;

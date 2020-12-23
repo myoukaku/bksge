@@ -10,7 +10,7 @@
 #define BKSGE_FND_SPAN_DETAIL_AS_BYTES_EXTENT_HPP
 
 #include <bksge/fnd/span/dynamic_extent.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 
 namespace bksge
 {
@@ -18,16 +18,16 @@ namespace bksge
 namespace detail
 {
 
-template <typename T, std::size_t Extent>
+template <typename T, bksge::size_t Extent>
 struct as_bytes_extent
 {
-	static const std::size_t value = Extent * sizeof(T);
+	static const bksge::size_t value = Extent * sizeof(T);
 };
 
 template <typename T>
 struct as_bytes_extent<T, bksge::dynamic_extent>
 {
-	static const std::size_t value = bksge::dynamic_extent;
+	static const bksge::size_t value = bksge::dynamic_extent;
 };
 
 }	// namespace detail

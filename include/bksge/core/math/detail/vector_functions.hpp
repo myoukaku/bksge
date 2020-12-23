@@ -10,6 +10,7 @@
 #define BKSGE_CORE_MATH_DETAIL_VECTOR_FUNCTIONS_HPP
 
 #include <bksge/fnd/cmath/lerp.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/functional/negate.hpp>
 #include <bksge/fnd/functional/plus.hpp>
 #include <bksge/fnd/functional/minus.hpp>
@@ -19,7 +20,6 @@
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstddef>
 
 namespace bksge
 {
@@ -31,7 +31,7 @@ namespace detail
 {
 
 // apply_per_elem_impl
-template <typename Vec, typename F, std::size_t... Is>
+template <typename Vec, typename F, bksge::size_t... Is>
 inline BKSGE_CONSTEXPR Vec
 apply_per_elem_impl(Vec const& v, F f, bksge::index_sequence<Is...>) BKSGE_NOEXCEPT
 {
@@ -39,7 +39,7 @@ apply_per_elem_impl(Vec const& v, F f, bksge::index_sequence<Is...>) BKSGE_NOEXC
 	return {static_cast<T>(f(v[Is]))...};
 }
 
-template <typename Vec1, typename Vec2, typename F, std::size_t... Is>
+template <typename Vec1, typename Vec2, typename F, bksge::size_t... Is>
 inline BKSGE_CONSTEXPR Vec1
 apply_per_elem_impl(Vec1 const& lhs, Vec2 const& rhs, F f, bksge::index_sequence<Is...>) BKSGE_NOEXCEPT
 {

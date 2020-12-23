@@ -9,6 +9,7 @@
 #include <bksge/core/render/fill_mode.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <functional>
 #include <sstream>
 #include <vector>
@@ -60,7 +61,7 @@ GTEST_TEST(Render_FillMode, SerializeTest)
 GTEST_TEST(Render_FillMode, HashTest)
 {
 	std::hash<bksge::FillMode> h;
-	std::vector<std::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(bksge::FillMode::kSolid));
 	v.push_back(h(bksge::FillMode::kWireframe));
 	bksge::sort(v.begin(), v.end());

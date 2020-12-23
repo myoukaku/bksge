@@ -11,7 +11,7 @@
 
 #include <bksge/core/render/semantic.hpp>
 #include <bksge/core/render/detail/type_enum.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 
 namespace bksge
 {
@@ -28,20 +28,20 @@ public:
 	VertexAttribute(
 		Semantic semantic,
 		TypeEnum type,
-		std::size_t element_num,
-		std::size_t offset);
+		bksge::size_t element_num,
+		bksge::size_t offset);
 
 	Semantic      semantic(void) const;
 	TypeEnum      type(void) const;
-	std::size_t element_num(void) const;
-	std::size_t offset(void) const;
-	std::size_t bytes(void) const;
+	bksge::size_t element_num(void) const;
+	bksge::size_t offset(void) const;
+	bksge::size_t bytes(void) const;
 
 private:
 	Semantic      m_semantic;
 	TypeEnum      m_type;
-	std::size_t m_element_num;
-	std::size_t m_offset;
+	bksge::size_t m_element_num;
+	bksge::size_t m_offset;
 };
 
 bool operator==(VertexAttribute const& lhs, VertexAttribute const& rhs);
@@ -51,7 +51,7 @@ bool operator!=(VertexAttribute const& lhs, VertexAttribute const& rhs);
  *	@brief
  */
 template <typename T>
-inline VertexAttribute MakeVertexAttribute(std::size_t offset)
+inline VertexAttribute MakeVertexAttribute(bksge::size_t offset)
 {
 	return { T::semantic, T::type_enum, T::element_num, offset };
 }

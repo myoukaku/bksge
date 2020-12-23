@@ -28,36 +28,36 @@ using std::tuple_element;
 #include <bksge/fnd/type_traits/add_const.hpp>
 #include <bksge/fnd/type_traits/add_volatile.hpp>
 #include <bksge/fnd/type_traits/add_cv.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 
 namespace bksge
 {
 
-template <std::size_t I, typename T>
+template <bksge::size_t I, typename T>
 struct tuple_element;
 
-template <std::size_t I, typename T>
+template <bksge::size_t I, typename T>
 struct tuple_element<I, T const>
 {
 	using type = bksge::add_const_t<
 		typename bksge::tuple_element<I, T>::type>;
 };
 
-template <std::size_t I, typename T>
+template <bksge::size_t I, typename T>
 struct tuple_element<I, T volatile>
 {
 	using type = bksge::add_volatile_t<
 		typename bksge::tuple_element<I, T>::type>;
 };
 
-template <std::size_t I, typename T>
+template <bksge::size_t I, typename T>
 struct tuple_element<I, T const volatile>
 {
 	using type = bksge::add_cv_t<
 		typename bksge::tuple_element<I, T>::type>;
 };
 
-template <std::size_t I, typename Head, typename... Tail>
+template <bksge::size_t I, typename Head, typename... Tail>
 struct tuple_element<I, bksge::tuple<Head, Tail...> >
 	: public tuple_element<I - 1, bksge::tuple<Tail...> > {};
 
@@ -67,7 +67,7 @@ struct tuple_element<0, bksge::tuple<Head, Tail...> >
 	using type = Head;
 };
 
-template <std::size_t I>
+template <bksge::size_t I>
 struct tuple_element<I, bksge::tuple<>>
 {
 	static_assert(I < bksge::tuple_size<bksge::tuple<>>::value, "tuple index is in range");
@@ -77,12 +77,12 @@ struct tuple_element<I, bksge::tuple<>>
 
 #endif
 
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 
 namespace bksge
 {
 
-template <std::size_t I, typename T>
+template <bksge::size_t I, typename T>
 using tuple_element_t = typename bksge::tuple_element<I, T>::type;
 
 }	// namespace bksge

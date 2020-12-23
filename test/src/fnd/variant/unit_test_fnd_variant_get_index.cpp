@@ -11,9 +11,9 @@
 #include <bksge/fnd/variant/bad_variant_access.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/forward.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <type_traits>
-#include <cstddef>
 #include <gtest/gtest.h>
 #include "fnd/variant/test_macros.hpp"
 #include "fnd/variant/test_workarounds.hpp"
@@ -273,8 +273,8 @@ void test_throws_for_all_value_categories()
 	V v1(42l);
 	const V& cv1 = v1;
 	EXPECT_EQ(v1.index(), 1u);
-	std::integral_constant<std::size_t, 0> zero;
-	std::integral_constant<std::size_t, 1> one;
+	std::integral_constant<bksge::size_t, 0> zero;
+	std::integral_constant<bksge::size_t, 1> one;
 
 	Test test;
 

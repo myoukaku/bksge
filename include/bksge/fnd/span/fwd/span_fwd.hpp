@@ -10,12 +10,12 @@
 #define BKSGE_FND_SPAN_FWD_SPAN_FWD_HPP
 
 #include <bksge/fnd/span/dynamic_extent.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 
 namespace bksge
 {
 
-template <typename T, std::size_t Extent = bksge::dynamic_extent>
+template <typename T, bksge::size_t Extent = bksge::dynamic_extent>
 class span;
 
 }	// namespace bksge

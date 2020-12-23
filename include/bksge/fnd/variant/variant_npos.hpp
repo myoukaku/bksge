@@ -22,8 +22,8 @@ using std::variant_npos;
 
 #else
 
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstddef>
 
 namespace bksge
 {
@@ -31,8 +31,8 @@ namespace bksge
 /**
  *	@brief	variantの無効なインデックスを表す
  */
-BKSGE_INLINE_VAR BKSGE_CONSTEXPR std::size_t
-	variant_npos = static_cast<std::size_t>(-1);
+BKSGE_INLINE_VAR BKSGE_CONSTEXPR bksge::size_t
+	variant_npos = static_cast<bksge::size_t>(-1);
 
 }	// namespace bksge
 

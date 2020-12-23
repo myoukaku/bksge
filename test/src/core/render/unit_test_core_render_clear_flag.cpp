@@ -9,6 +9,7 @@
 #include <bksge/core/render/clear_flag.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <functional>
 #include <vector>
 #include <sstream>
@@ -194,7 +195,7 @@ GTEST_TEST(Render_ClearFlag, SerializeTest)
 GTEST_TEST(Render_ClearFlag, HashTest)
 {
 	std::hash<bksge::ClearFlag> h;
-	std::vector<std::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(bksge::ClearFlag::kNone));
 	v.push_back(h(bksge::ClearFlag::kColor));
 	v.push_back(h(bksge::ClearFlag::kDepth));

@@ -11,7 +11,6 @@
 
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstddef>
 
 namespace bksge
 {

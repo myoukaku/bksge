@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/tuple/tuple_element.hpp>
 #include <bksge/fnd/type_traits/nth.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 
 namespace bksge_tuple_test
 {
@@ -26,7 +26,7 @@ struct MyTuple
 namespace BKSGE_TUPLE_NAMESPACE
 {
 
-template <std::size_t I, typename... Types>
+template <bksge::size_t I, typename... Types>
 struct tuple_element<I, bksge_tuple_test::MyTuple<Types...>>
 {
 public:

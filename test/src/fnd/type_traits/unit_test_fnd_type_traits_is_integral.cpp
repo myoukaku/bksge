@@ -7,8 +7,8 @@
  */
 
 #include <bksge/fnd/type_traits/is_integral.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <cstdint>
-#include <cstddef>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
@@ -37,7 +37,7 @@ BKSGE_IS_INTEGRAL_TEST_CV(true, unsigned short);
 BKSGE_IS_INTEGRAL_TEST_CV(true, unsigned int);
 BKSGE_IS_INTEGRAL_TEST_CV(true, unsigned long);
 BKSGE_IS_INTEGRAL_TEST_CV(true, unsigned long long);
-BKSGE_IS_INTEGRAL_TEST_CV(true, std::size_t);
+BKSGE_IS_INTEGRAL_TEST_CV(true, bksge::size_t);
 BKSGE_IS_INTEGRAL_TEST_CV(true, std::int8_t);
 BKSGE_IS_INTEGRAL_TEST_CV(true, std::int16_t);
 BKSGE_IS_INTEGRAL_TEST_CV(true, std::int32_t);

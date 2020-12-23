@@ -12,19 +12,19 @@
 #include <bksge/fnd/tuple/tuple_count.hpp>
 #include <bksge/fnd/type_traits/integral_constant.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 
 namespace bksge
 {
 
 template <typename T, typename Tuple>
 struct tuple_count
-	: public bksge::integral_constant<std::size_t, 0>
+	: public bksge::integral_constant<bksge::size_t, 0>
 {};
 
 template <typename T, template <typename...> class Tuple, typename Head, typename... Tail>
 struct tuple_count<T, Tuple<Head, Tail...>>
-	: public bksge::integral_constant<std::size_t,
+	: public bksge::integral_constant<bksge::size_t,
 		(bksge::is_same<T, Head>::value ? 1 : 0) +
 		tuple_count<T, Tuple<Tail...>>::value
 	>

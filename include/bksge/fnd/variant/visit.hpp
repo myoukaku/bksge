@@ -37,8 +37,8 @@ using std::visit;
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstddef>
 
 namespace bksge
 {
@@ -49,14 +49,14 @@ namespace variant_detail
 template <typename T, typename... Types>
 struct same_types : public bksge::conjunction<bksge::is_same<T, Types>...> {};
 
-template <std::size_t Idx, typename Visitor, typename Variant>
+template <bksge::size_t Idx, typename Visitor, typename Variant>
 decltype(auto)
 check_visitor_result(Visitor&& vis, Variant&& var)
 {
 	return bksge::invoke(bksge::forward<Visitor>(vis), bksge::get<Idx>(bksge::forward<Variant>(var)));
 }
 
-template <typename Visitor, typename Variant, std::size_t... Idxs>
+template <typename Visitor, typename Variant, bksge::size_t... Idxs>
 constexpr bool check_visitor_results(bksge::index_sequence<Idxs...>)
 {
 	return same_types<decltype(check_visitor_result<Idxs>(

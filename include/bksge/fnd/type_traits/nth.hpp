@@ -9,7 +9,7 @@
 #ifndef BKSGE_FND_TYPE_TRAITS_NTH_HPP
 #define BKSGE_FND_TYPE_TRAITS_NTH_HPP
 
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 
 namespace bksge
 {
@@ -20,13 +20,13 @@ namespace bksge
  *	@tparam		N
  *	@tparam		Types
  */
-template <std::size_t N, typename... Types>
+template <bksge::size_t N, typename... Types>
 struct nth;
 
 /**
  *	@brief	nthのエイリアステンプレート
  */
-template <std::size_t N, typename... Types>
+template <bksge::size_t N, typename... Types>
 using nth_t = typename nth<N, Types...>::type;
 
 }	// namespace bksge

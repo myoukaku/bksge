@@ -12,7 +12,7 @@
 #include <bksge/fnd/span/fwd/span_fwd.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/remove_cv.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 
 namespace bksge
 {
@@ -25,7 +25,7 @@ template <typename T>
 struct is_span_impl
 	: public bksge::false_type {};
 
-template <typename T, std::size_t Extent>
+template <typename T, bksge::size_t Extent>
 struct is_span_impl<span<T, Extent>>
 	: public bksge::true_type {};
 

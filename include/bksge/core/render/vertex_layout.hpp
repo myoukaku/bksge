@@ -12,7 +12,7 @@
 #include <bksge/core/render/fwd/vertex_layout_fwd.hpp>
 #include <bksge/core/render/detail/vertex_attribute.hpp>
 #include <bksge/core/render/semantic.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <vector>
 
 namespace bksge
@@ -43,13 +43,13 @@ public:
 	VertexAttribute const* FindVertexAttributeBySemantic(Semantic semantic) const;
 
 	VertexAttributeArray const& vertex_attribute_array(void) const;
-	std::size_t total_bytes(void) const;
+	bksge::size_t total_bytes(void) const;
 
 	void AddAttribute(VertexAttribute const& attribute);
 
 private:
 	VertexAttributeArray m_vertex_attribute_array;
-	std::size_t          m_total_bytes;
+	bksge::size_t        m_total_bytes;
 
 private:
 	friend bool operator==(VertexLayout const& lhs, VertexLayout const& rhs);

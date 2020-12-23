@@ -12,7 +12,7 @@
 #include <bksge/fnd/utility/integer_sequence.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
 #include <bksge/fnd/utility/move.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <gtest/gtest.h>
 
 namespace bksge_tuple_test
@@ -22,26 +22,26 @@ namespace apply_large_arity_test
 {
 
 ////////////////////////////////////////////////////////////////////////////////
-template <typename T, std::size_t Dummy = 0>
+template <typename T, bksge::size_t Dummy = 0>
 struct always_imp
 {
 	typedef T type;
 };
 
-template <typename T, std::size_t Dummy = 0>
+template <typename T, bksge::size_t Dummy = 0>
 using always_t = typename always_imp<T, Dummy>::type;
 
 ////////////////////////////////////////////////////////////////////////////////
 template <typename Tuple, typename Idx>
 struct make_function;
 
-template <typename Tp, std::size_t ...Idx>
-struct make_function<Tp, bksge::integer_sequence<std::size_t, Idx...>>
+template <typename Tp, bksge::size_t ...Idx>
+struct make_function<Tp, bksge::integer_sequence<bksge::size_t, Idx...>>
 {
 	using type = bool (*)(always_t<Tp, Idx>...);
 };
 
-template <typename Tp, std::size_t Size>
+template <typename Tp, bksge::size_t Size>
 using make_function_t = typename make_function<Tp, bksge::make_index_sequence<Size>>::type;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -49,19 +49,19 @@ template <typename Tp, typename Idx>
 struct make_tuple_imp;
 
 ////////////////////////////////////////////////////////////////////////////////
-template <typename Tp, std::size_t ...Idx>
-struct make_tuple_imp<Tp, bksge::integer_sequence<std::size_t, Idx...>>
+template <typename Tp, bksge::size_t ...Idx>
+struct make_tuple_imp<Tp, bksge::integer_sequence<bksge::size_t, Idx...>>
 {
 	using type = bksge::tuple<always_t<Tp, Idx>...>;
 };
 
-template <typename Tp, std::size_t Size>
+template <typename Tp, bksge::size_t Size>
 using make_tuple_t = typename make_tuple_imp<Tp, bksge::make_index_sequence<Size>>::type;
 
 template <typename ...Types>
 bool test_apply_fn(Types...) { return true; }
 
-template <std::size_t Size>
+template <bksge::size_t Size>
 void test_all()
 {
 	using A = bksge::array<int, Size>;
@@ -108,7 +108,7 @@ void test_all()
 	}
 }
 
-template <std::size_t Size>
+template <bksge::size_t Size>
 void test_one()
 {
 	using A = bksge::array<int, Size>;

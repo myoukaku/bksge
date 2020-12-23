@@ -9,6 +9,7 @@
 #include <bksge/core/render/stencil_state.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <functional>
 #include <sstream>
 #include <vector>
@@ -217,7 +218,7 @@ GTEST_TEST(Render_StencilState, HashTest)
 	s8.SetDepthFailOperation(bksge::StencilOperation::kInvert);
 	s9.SetPassOperation(bksge::StencilOperation::kIncr);
 
-	std::vector<std::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(s1));
 	v.push_back(h(s2));
 	v.push_back(h(s3));

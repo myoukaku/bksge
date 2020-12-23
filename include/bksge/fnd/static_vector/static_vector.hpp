@@ -10,6 +10,7 @@
 #define BKSGE_FND_STATIC_VECTOR_STATIC_VECTOR_HPP
 
 #include <bksge/fnd/static_vector/detail/static_vector_base.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/iterator/reverse_iterator.hpp>
 #include <bksge/fnd/iterator/concepts/input_iterator.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
@@ -17,13 +18,12 @@
 #include <bksge/fnd/type_traits/is_nothrow_move_constructible.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_swappable.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstddef>
 #include <initializer_list>
 
 namespace bksge
 {
 
-template <typename T, std::size_t Capacity>
+template <typename T, bksge::size_t Capacity>
 class static_vector
 	: private detail::static_vector_base<T, Capacity>
 {
@@ -175,33 +175,33 @@ public:
 		BKSGE_NOEXCEPT_IF(bksge::is_nothrow_swappable<value_type>::value);
 };
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 BKSGE_CXX14_CONSTEXPR void swap(static_vector<T, C>& lhs, static_vector<T, C>& rhs)
 	BKSGE_NOEXCEPT_IF_EXPR(lhs.swap(rhs));
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 BKSGE_CXX14_CONSTEXPR bool operator==(static_vector<T, C> const& lhs, static_vector<T, C> const& rhs);
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 BKSGE_CXX14_CONSTEXPR bool operator!=(static_vector<T, C> const& lhs, static_vector<T, C> const& rhs);
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 BKSGE_CXX14_CONSTEXPR bool operator<(static_vector<T, C> const& lhs, static_vector<T, C> const& rhs);
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 BKSGE_CXX14_CONSTEXPR bool operator<=(static_vector<T, C> const& lhs, static_vector<T, C> const& rhs);
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 BKSGE_CXX14_CONSTEXPR bool operator>(static_vector<T, C> const& lhs, static_vector<T, C> const& rhs);
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 BKSGE_CXX14_CONSTEXPR bool operator>=(static_vector<T, C> const& lhs, static_vector<T, C> const& rhs);
 
-template <typename T, std::size_t C, typename U>
+template <typename T, bksge::size_t C, typename U>
 BKSGE_CXX14_CONSTEXPR typename static_vector<T, C>::size_type
 erase(static_vector<T, C>& c, U const& value);
 
-template <typename T, std::size_t C, typename Pred>
+template <typename T, bksge::size_t C, typename Pred>
 BKSGE_CXX14_CONSTEXPR typename static_vector<T, C>::size_type
 erase_if(static_vector<T, C>& c, Pred pred);
 

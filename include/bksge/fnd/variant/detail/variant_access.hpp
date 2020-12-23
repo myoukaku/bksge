@@ -11,6 +11,7 @@
 
 #include <bksge/fnd/variant/fwd/variant_fwd.hpp>
 #include <bksge/fnd/concepts/detail/overload_priority.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/memory/addressof.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_const.hpp>
@@ -18,7 +19,6 @@
 #include <bksge/fnd/type_traits/remove_reference.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/in_place_index.hpp>
-#include <cstddef>
 
 namespace bksge
 {
@@ -65,7 +65,7 @@ public:
 		return bksge::forward<Union>(u).m_first.get();
 	}
 
-	template <std::size_t N, typename Union>
+	template <bksge::size_t N, typename Union>
 	static constexpr decltype(auto)
 	get_impl(bksge::in_place_index_t<N>, Union&& u) noexcept
 	{
@@ -73,14 +73,14 @@ public:
 	}
 
 	// Returns the typed storage for v.
-	template <std::size_t N, typename Variant>
+	template <bksge::size_t N, typename Variant>
 	static constexpr decltype(auto)
 	get_impl(Variant&& v) noexcept
 	{
 		return get_impl(bksge::in_place_index<N>, bksge::forward<Variant>(v).m_u);
 	}
 
-	template <std::size_t N, typename Variant, typename... Args>
+	template <bksge::size_t N, typename Variant, typename... Args>
 	static void
 	variant_construct_by_index(Variant& v, Args&&... args)
 	{

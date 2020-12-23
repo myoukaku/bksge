@@ -9,6 +9,7 @@
 #include <bksge/core/render/shader_type.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <functional>
 #include <sstream>
 #include <vector>
@@ -67,7 +68,7 @@ GTEST_TEST(Render_ShaderType, HashTest)
 {
 	std::hash<bksge::ShaderType> h;
 
-	std::vector<std::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(bksge::ShaderType::kHLSL));
 	v.push_back(h(bksge::ShaderType::kGLSL));
 	bksge::sort(v.begin(), v.end());

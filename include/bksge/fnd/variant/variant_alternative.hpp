@@ -28,7 +28,7 @@ using std::variant_alternative_t;
 #include <bksge/fnd/type_traits/add_volatile.hpp>
 #include <bksge/fnd/type_traits/add_cv.hpp>
 #include <bksge/fnd/type_traits/nth.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 
 namespace bksge
 {
@@ -38,26 +38,26 @@ namespace bksge
  *
  *	@brief	variant のI番目の型を取得する
  */
-template <std::size_t I, typename T>
+template <bksge::size_t I, typename T>
 struct variant_alternative;
 
-template <std::size_t I, typename T>
+template <bksge::size_t I, typename T>
 using variant_alternative_t =
 	typename variant_alternative<I, T>::type;
 
-template <std::size_t I, typename T>
+template <bksge::size_t I, typename T>
 struct variant_alternative<I, T const>
 	: public bksge::add_const<variant_alternative_t<I, T>> {};
 
-template <std::size_t I, typename T>
+template <bksge::size_t I, typename T>
 struct variant_alternative<I, T volatile>
 	: public bksge::add_volatile<variant_alternative_t<I, T>> {};
 
-template <std::size_t I, typename T>
+template <bksge::size_t I, typename T>
 struct variant_alternative<I, T const volatile>
 	: public bksge::add_cv<variant_alternative_t<I, T>> {};
 
-template <std::size_t I, typename... Types>
+template <bksge::size_t I, typename... Types>
 struct variant_alternative<I, variant<Types...>>
 {
 	static_assert(I < sizeof...(Types), "Index out of bounds in std::variant_alternative<>");

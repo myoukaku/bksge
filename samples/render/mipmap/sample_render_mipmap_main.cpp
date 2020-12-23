@@ -227,7 +227,7 @@ private:
 };
 
 static bksge::Texture
-MakeTexture(std::uint32_t width, std::uint32_t height, std::size_t mipmap_count)
+MakeTexture(std::uint32_t width, std::uint32_t height, bksge::size_t mipmap_count)
 {
 	auto const bytes = bksge::render::GetMipmappedSizeInBytes(
 		bksge::TextureFormat::kRGBA_U8,
@@ -238,7 +238,7 @@ MakeTexture(std::uint32_t width, std::uint32_t height, std::size_t mipmap_count)
 
 	std::uint32_t w = width;
 	std::uint32_t h = height;
-	for (std::size_t level = 0; level < mipmap_count; ++level)
+	for (bksge::size_t level = 0; level < mipmap_count; ++level)
 	{
 		for (std::uint32_t y = 0; y < h; ++y)
 		{

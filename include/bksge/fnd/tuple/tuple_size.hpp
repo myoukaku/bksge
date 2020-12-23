@@ -25,7 +25,7 @@ using std::tuple_size;
 #include <bksge/fnd/tuple/fwd/tuple_fwd.hpp>
 #include <bksge/fnd/tuple/config.hpp>
 #include <bksge/fnd/type_traits/integral_constant.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 
 namespace bksge
 {
@@ -35,7 +35,7 @@ struct tuple_size;
 
 template <typename... Elements>
 struct tuple_size<bksge::tuple<Elements...>>
-	: public bksge::integral_constant<std::size_t, sizeof...(Elements)> {};
+	: public bksge::integral_constant<bksge::size_t, sizeof...(Elements)> {};
 
 template <typename T>
 struct tuple_size<T const>
@@ -53,7 +53,7 @@ struct tuple_size<T const volatile>
 
 #endif
 
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 
 namespace bksge
 {
@@ -61,7 +61,7 @@ namespace bksge
 #if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
 
 template <typename T>
-BKSGE_INLINE_VAR BKSGE_CONSTEXPR std::size_t
+BKSGE_INLINE_VAR BKSGE_CONSTEXPR bksge::size_t
 tuple_size_v = bksge::tuple_size<T>::value;
 
 #endif

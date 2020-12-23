@@ -10,14 +10,14 @@
 #define BKSGE_FND_ARRAY_GET_HPP
 
 #include <bksge/fnd/array/array.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstddef>
 
 namespace bksge
 {
 
-template <std::size_t I, typename T, std::size_t N>
+template <bksge::size_t I, typename T, bksge::size_t N>
 inline BKSGE_CONSTEXPR T&
 get(array<T, N>& arr) BKSGE_NOEXCEPT
 {
@@ -25,7 +25,7 @@ get(array<T, N>& arr) BKSGE_NOEXCEPT
 	return arr[I];
 }
 
-template <std::size_t I, typename T, std::size_t N>
+template <bksge::size_t I, typename T, bksge::size_t N>
 inline BKSGE_CONSTEXPR T&&
 get(array<T, N>&& arr) BKSGE_NOEXCEPT
 {
@@ -33,7 +33,7 @@ get(array<T, N>&& arr) BKSGE_NOEXCEPT
 	return bksge::move(bksge::get<I>(arr));
 }
 
-template <std::size_t I, typename T, std::size_t N>
+template <bksge::size_t I, typename T, bksge::size_t N>
 inline BKSGE_CONSTEXPR T const&
 get(array<T, N> const& arr) BKSGE_NOEXCEPT
 {
@@ -41,7 +41,7 @@ get(array<T, N> const& arr) BKSGE_NOEXCEPT
 	return arr[I];
 }
 
-template <std::size_t I, typename T, std::size_t N>
+template <bksge::size_t I, typename T, bksge::size_t N>
 inline BKSGE_CONSTEXPR T const&&
 get(array<T, N> const&& arr) BKSGE_NOEXCEPT
 {

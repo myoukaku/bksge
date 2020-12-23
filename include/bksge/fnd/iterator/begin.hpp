@@ -9,8 +9,8 @@
 #ifndef BKSGE_FND_ITERATOR_BEGIN_HPP
 #define BKSGE_FND_ITERATOR_BEGIN_HPP
 
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstddef>
 
 namespace bksge
 {
@@ -29,7 +29,7 @@ begin(Container const& c) -> decltype(c.begin())
 	return c.begin();
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 inline BKSGE_CONSTEXPR T*
 begin(T (&a)[N]) BKSGE_NOEXCEPT
 {

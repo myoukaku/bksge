@@ -11,11 +11,11 @@
 
 #include <bksge/fnd/algorithm/copy_backward.hpp>
 #include <bksge/fnd/algorithm/copy_n.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <ios>
 #include <cwchar>
 #include <cuchar>
-#include <cstddef>
 #include <cstdio>
 #include <cstdint>
 
@@ -107,9 +107,9 @@ struct char_traits_base
 	}
 
 	static BKSGE_CXX14_CONSTEXPR int
-	compare(char_type const* s1, char_type const* s2, std::size_t n)
+	compare(char_type const* s1, char_type const* s2, bksge::size_t n)
 	{
-		for (std::size_t i = 0; i < n; ++i)
+		for (bksge::size_t i = 0; i < n; ++i)
 		{
 			if (Derived::lt(s1[i], s2[i]))
 			{
@@ -124,10 +124,10 @@ struct char_traits_base
 		return 0;
 	}
 
-	static BKSGE_CXX14_CONSTEXPR std::size_t
+	static BKSGE_CXX14_CONSTEXPR bksge::size_t
 	length(char_type const* s)
 	{
-		std::size_t i = 0;
+		bksge::size_t i = 0;
 		while (!Derived::eq(s[i], char_type()))
 		{
 			++i;
@@ -137,9 +137,9 @@ struct char_traits_base
 	}
 
 	static BKSGE_CXX14_CONSTEXPR char_type const*
-	find(char_type const* s, std::size_t n, char_type const& a)
+	find(char_type const* s, bksge::size_t n, char_type const& a)
 	{
-		for (std::size_t i = 0; i < n; ++i)
+		for (bksge::size_t i = 0; i < n; ++i)
 		{
 			if (Derived::eq(s[i], a))
 			{
@@ -151,7 +151,7 @@ struct char_traits_base
 	}
 
 	static BKSGE_CXX14_CONSTEXPR char_type*
-	move(char_type* s1, char_type const* s2, std::size_t n)
+	move(char_type* s1, char_type const* s2, bksge::size_t n)
 	{
 		if (n == 0)
 		{
@@ -171,16 +171,16 @@ struct char_traits_base
 	}
 
 	static BKSGE_CXX14_CONSTEXPR char_type*
-	copy(char_type* s1, char_type const* s2, std::size_t n)
+	copy(char_type* s1, char_type const* s2, bksge::size_t n)
 	{
 		bksge::copy_n(s2, n, s1);
 		return s1;
 	}
 
 	static BKSGE_CXX14_CONSTEXPR char_type*
-	assign(char_type* s, std::size_t n, char_type a)
+	assign(char_type* s, bksge::size_t n, char_type a)
 	{
-		for (std::size_t i = 0; i < n; ++i)
+		for (bksge::size_t i = 0; i < n; ++i)
 		{
 			Derived::assign(s[i], a);
 		}

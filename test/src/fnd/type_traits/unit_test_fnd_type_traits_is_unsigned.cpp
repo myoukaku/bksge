@@ -7,8 +7,8 @@
  */
 
 #include <bksge/fnd/type_traits/is_unsigned.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <cstdint>	// WCHAR_MIN
-#include <cstddef>
 #include <climits>	// CHAR_MIN
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
@@ -54,7 +54,7 @@ BKSGE_IS_UNSIGNED_TEST(true, unsigned int);
 BKSGE_IS_UNSIGNED_TEST(true, unsigned short);
 BKSGE_IS_UNSIGNED_TEST(true, unsigned long);
 BKSGE_IS_UNSIGNED_TEST(true, unsigned long long);
-BKSGE_IS_UNSIGNED_TEST(true, std::size_t);
+BKSGE_IS_UNSIGNED_TEST(true, bksge::size_t);
 BKSGE_IS_UNSIGNED_TEST(false, float);
 BKSGE_IS_UNSIGNED_TEST(false, double);
 BKSGE_IS_UNSIGNED_TEST(false, long double);

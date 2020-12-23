@@ -11,7 +11,7 @@
 
 #include <bksge/core/input/keyboard_state.hpp>
 #include <bksge/core/input/win32/dinput.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 
 namespace bksge
 {
@@ -51,7 +51,7 @@ private:
 	void ReadBuffered(void);
 	void ReadNonBuffered(void);
 
-	static const std::size_t kBufferSize = 17;	// バッファリングONのときのバッファサイズ
+	static const bksge::size_t kBufferSize = 17;	// バッファリングONのときのバッファサイズ
 
 	KeyboardState			m_state;
 	IDirectInputDevice8*	m_device;

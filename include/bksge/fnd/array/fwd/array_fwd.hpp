@@ -24,12 +24,12 @@ using std::array;
 
 #else
 
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 
 namespace bksge
 {
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 struct array;
 
 }	// namespace bksge

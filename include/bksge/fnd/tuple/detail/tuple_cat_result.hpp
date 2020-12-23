@@ -15,7 +15,7 @@
 #include <bksge/fnd/type_traits/remove_cvref.hpp>
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 
 namespace bksge
 {
@@ -27,7 +27,7 @@ template <typename Tuple,
 	typename = bksge::make_index_sequence<bksge::tuple_size<Tuple>::value>>
 struct to_tuple;
 
-template <typename Tuple, std::size_t... Indices>
+template <typename Tuple, bksge::size_t... Indices>
 struct to_tuple<Tuple, bksge::index_sequence<Indices...>>
 {
 	using type = bksge::tuple<bksge::tuple_element_t<Indices, Tuple>...>;

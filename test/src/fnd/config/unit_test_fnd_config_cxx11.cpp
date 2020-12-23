@@ -8,8 +8,8 @@
 
 #include <bksge/fnd/config.hpp>
 #include <bksge/fnd/utility/move.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <gtest/gtest.h>
-#include <cstddef>
 #include <vector>
 #include <iostream>
 #include <string>
@@ -67,11 +67,11 @@ struct hoge
 struct empty
 {};
 
-static const std::size_t a1 = alignof(char);
-static const std::size_t a2 = alignof(int);
-static const std::size_t a3 = alignof(hoge);
-static const std::size_t a4 = alignof(empty);
-static const std::size_t a5 = alignof(void*);
+static const bksge::size_t a1 = alignof(char);
+static const bksge::size_t a2 = alignof(int);
+static const bksge::size_t a3 = alignof(hoge);
+static const bksge::size_t a4 = alignof(empty);
+static const bksge::size_t a5 = alignof(void*);
 
 #endif	// defined(BKSGE_HAS_CXX11_ALIGNOF)
 

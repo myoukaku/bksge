@@ -9,6 +9,7 @@
 #include <bksge/core/render/render_pass_info.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <functional>
 #include <sstream>
 #include <vector>
@@ -149,7 +150,7 @@ GTEST_TEST(Render_RenderPassInfo, HashTest)
 	s3.scissor_state().SetEnable(true);
 	s4.viewport().SetMaxDepth(10);
 
-	std::vector<std::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(s1));
 	v.push_back(h(s2));
 	v.push_back(h(s3));

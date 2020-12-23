@@ -7,6 +7,7 @@
  */
 
 #include <bksge/fnd/compare/concepts/three_way_comparable_with.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
 
 #if defined(BKSGE_HAS_STD_COMPARE) && defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
@@ -36,14 +37,14 @@ struct B
 
 struct S1 : B
 {
-	std::size_t s;
+	bksge::size_t s;
 
 	friend auto operator<=>(const S1&, const S1&) = default;
 };
 
 struct S2 : B
 {
-	std::size_t s;
+	bksge::size_t s;
 
 	friend auto operator<=>(const S2&, const S2&) = default;
 	friend bool operator== (const S2&, const S2&) = default;

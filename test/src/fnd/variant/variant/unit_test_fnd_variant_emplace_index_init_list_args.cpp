@@ -9,8 +9,8 @@
 #include <bksge/fnd/variant/variant.hpp>
 #include <bksge/fnd/variant/get.hpp>
 #include <bksge/fnd/utility/declval.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstddef>
 #include <initializer_list>
 #include <gtest/gtest.h>
 #include "fnd/variant/archetypes.hpp"
@@ -25,7 +25,7 @@ namespace emplace_index_init_list_args_test
 
 struct InitList
 {
-	std::size_t size;
+	bksge::size_t size;
 
 	BKSGE_CXX14_CONSTEXPR
 	InitList(std::initializer_list<int> il)
@@ -34,7 +34,7 @@ struct InitList
 
 struct InitListArg
 {
-	std::size_t size;
+	bksge::size_t size;
 	int value;
 
 	BKSGE_CXX14_CONSTEXPR
@@ -42,20 +42,20 @@ struct InitListArg
 		: size(il.size()), value(v) {}
 };
 
-template <typename Var, std::size_t I, typename... Args>
+template <typename Var, bksge::size_t I, typename... Args>
 constexpr auto test_emplace_exists_imp(int) -> decltype(
 	bksge::declval<Var>().template emplace<I>(bksge::declval<Args>()...), true)
 {
 	return true;
 }
 
-template <typename, std::size_t, typename...>
+template <typename, bksge::size_t, typename...>
 constexpr auto test_emplace_exists_imp(long) -> bool
 {
 	return false;
 }
 
-template <typename Var, std::size_t I, typename... Args>
+template <typename Var, bksge::size_t I, typename... Args>
 constexpr bool emplace_exists()
 {
 	return test_emplace_exists_imp<Var, I, Args...>(0);

@@ -15,6 +15,7 @@
 #include <bksge/fnd/iterator/rend.hpp>
 #include <bksge/fnd/iterator/size.hpp>
 #include <bksge/fnd/algorithm/equal.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <gtest/gtest.h>
 #include <list>
 #include <vector>
@@ -108,14 +109,14 @@ public:
 	~counting_value() { --c(); }
 	bool operator==(counting_value const& v) const { return aa == v.aa && bb == v.bb; }
 	bool operator< (counting_value const& v) const { return aa < v.aa || (aa == v.aa && bb < v.bb); }
-	static std::size_t count() { return c(); }
+	static bksge::size_t count() { return c(); }
 
 private:
-	static std::size_t& c() { static std::size_t co = 0; return co; }
+	static bksge::size_t& c() { static bksge::size_t co = 0; return co; }
 	int aa, bb;
 };
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_CXX14_CONSTEXPR bool test_ctor_default()
 {
 	static_assert((bksge::static_vector<T, N>::static_capacity) == N, "");
@@ -142,14 +143,14 @@ GTEST_TEST(StaticVectorTest, CtorDefaultTest)
 	                      EXPECT_TRUE((test_ctor_default<shptr_value, 15>()));
 }
 
-template <typename T, std::size_t N>
-BKSGE_CXX14_CONSTEXPR bool test_ctor_count(std::size_t n)
+template <typename T, bksge::size_t N>
+BKSGE_CXX14_CONSTEXPR bool test_ctor_count(bksge::size_t n)
 {
 	static_assert((bksge::static_vector<T, N>::static_capacity) == N, "");
 
 	bksge::static_vector<T, N> s(n);
 
-	for (std::size_t i = 0; i < n; ++i)
+	for (bksge::size_t i = 0; i < n; ++i)
 	{
 		if (!(s[i]  == T() &&
 			s.at(i) == T()))
@@ -191,14 +192,14 @@ GTEST_TEST(StaticVectorTest, CtorCountTest)
 	                      EXPECT_TRUE((test_ctor_count<shptr_value, 14>(6)));
 }
 
-template <typename T, std::size_t N>
-BKSGE_CXX14_CONSTEXPR bool test_ctor_count_value(std::size_t n, T const& v)
+template <typename T, bksge::size_t N>
+BKSGE_CXX14_CONSTEXPR bool test_ctor_count_value(bksge::size_t n, T const& v)
 {
 	static_assert((bksge::static_vector<T, N>::static_capacity) == N, "");
 
 	bksge::static_vector<T, N> s(n, v);
 
-	for (std::size_t i = 0; i < n; ++i)
+	for (bksge::size_t i = 0; i < n; ++i)
 	{
 		if (!(s[i]  == v &&
 			s.at(i) == v))
@@ -240,17 +241,17 @@ GTEST_TEST(StaticVectorTest, CtorCountValueTest)
 	                      EXPECT_TRUE((test_ctor_count_value<shptr_value, 10>(9, shptr_value(50))));
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_CXX14_CONSTEXPR bool test_ctor_iterator()
 {
 	static_assert((bksge::static_vector<T, N>::static_capacity) == N, "");
 
 	T a[] = { T(3), T(1), T(4) };
-	std::size_t n = bksge::size(a);
+	bksge::size_t n = bksge::size(a);
 
 	bksge::static_vector<T, N> s(bksge::begin(a), bksge::end(a));
 
-	for (std::size_t i = 0; i < n; ++i)
+	for (bksge::size_t i = 0; i < n; ++i)
 	{
 		if (!(s[i]  == a[i] &&
 			s.at(i) == a[i]))
@@ -290,16 +291,16 @@ GTEST_TEST(StaticVectorTest, CtorIteratorTest)
 	                      EXPECT_TRUE((test_ctor_iterator<shptr_value, 24>()));
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_CXX14_CONSTEXPR bool test_ctor_initializer_list(std::initializer_list<T> il)
 {
-	std::size_t n = il.size();
+	bksge::size_t n = il.size();
 
 	bksge::static_vector<T, N> s(il);
 
 	{
 		auto it = il.begin();
-		for (std::size_t i = 0; i < n; ++i)
+		for (bksge::size_t i = 0; i < n; ++i)
 		{
 			if (!(s[i]  == *it &&
 				s.at(i) == *it))
@@ -344,13 +345,13 @@ GTEST_TEST(StaticVectorTest, CtorInitializerListTest)
 	EXPECT_TRUE((test_ctor_initializer_list<shptr_value, 10>({shptr_value(1), shptr_value(11), shptr_value(111)})));
 }
 
-template <typename T, std::size_t N>
-BKSGE_CXX14_CONSTEXPR bool test_ctor_copy(std::size_t n, T const& v)
+template <typename T, bksge::size_t N>
+BKSGE_CXX14_CONSTEXPR bool test_ctor_copy(bksge::size_t n, T const& v)
 {
 	bksge::static_vector<T, N> t(n, v);
 	bksge::static_vector<T, N> s(t);
 
-	for (std::size_t i = 0; i < n; ++i)
+	for (bksge::size_t i = 0; i < n; ++i)
 	{
 		if (!(s[i]  == v &&
 			s.at(i) == v))
@@ -393,11 +394,11 @@ GTEST_TEST(StaticVectorTest, CtorCopyTest)
 	                      EXPECT_TRUE((test_ctor_copy<shptr_value, 10>(1, shptr_value(7))));
 }
 
-template <typename T, std::size_t N>
-BKSGE_CXX14_CONSTEXPR bool test_ctor_move(std::size_t n)
+template <typename T, bksge::size_t N>
+BKSGE_CXX14_CONSTEXPR bool test_ctor_move(bksge::size_t n)
 {
 	bksge::static_vector<T, N> t;
-	for (std::size_t i = 0; i < n; ++i)
+	for (bksge::size_t i = 0; i < n; ++i)
 	{
 		t.emplace_back((int)i);
 	}
@@ -409,7 +410,7 @@ BKSGE_CXX14_CONSTEXPR bool test_ctor_move(std::size_t n)
 		return false;
 	}
 
-	for (std::size_t i = 0; i < n; ++i)
+	for (bksge::size_t i = 0; i < n; ++i)
 	{
 		if (!(s[i]  == T(i) &&
 			s.at(i) == T(i)))
@@ -454,8 +455,8 @@ GTEST_TEST(StaticVectorTest, CtorMoveTest)
 	                      EXPECT_TRUE((test_ctor_move<shptr_value, 10>(5)));
 }
 
-template <typename T, std::size_t N>
-BKSGE_CXX14_CONSTEXPR bool test_resize_count(std::size_t n)
+template <typename T, bksge::size_t N>
+BKSGE_CXX14_CONSTEXPR bool test_resize_count(bksge::size_t n)
 {
 	bksge::static_vector<T, N> s;
 
@@ -471,7 +472,7 @@ BKSGE_CXX14_CONSTEXPR bool test_resize_count(std::size_t n)
 			return false;
 		}
 
-		for (std::size_t i = 0; i < n; ++i)
+		for (bksge::size_t i = 0; i < n; ++i)
 		{
 			if (!(s[i]  == T() &&
 				s.at(i) == T()))
@@ -489,8 +490,8 @@ BKSGE_CXX14_CONSTEXPR bool test_resize_count(std::size_t n)
 	return true;
 }
 
-template <typename T, std::size_t N>
-BKSGE_CXX14_CONSTEXPR bool test_resize_count_value(std::size_t n, T const& v)
+template <typename T, bksge::size_t N>
+BKSGE_CXX14_CONSTEXPR bool test_resize_count_value(bksge::size_t n, T const& v)
 {
 	bksge::static_vector<T, N> s;
 
@@ -506,7 +507,7 @@ BKSGE_CXX14_CONSTEXPR bool test_resize_count_value(std::size_t n, T const& v)
 			return false;
 		}
 
-		for (std::size_t i = 0; i < n; ++i)
+		for (bksge::size_t i = 0; i < n; ++i)
 		{
 			if (!(s[i]  == v &&
 				s.at(i) == v))
@@ -545,7 +546,7 @@ GTEST_TEST(StaticVectorTest, ResizeTest)
 	                      EXPECT_TRUE((test_resize_count_value<shptr_value, 10>(7, shptr_value(1111))));
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_CXX14_CONSTEXPR bool test_push_back_copy()
 {
 	bksge::static_vector<T, N> s;
@@ -558,7 +559,7 @@ BKSGE_CXX14_CONSTEXPR bool test_push_back_copy()
 		return false;
 	}
 
-	for (std::size_t i = 0; i < N; ++i)
+	for (bksge::size_t i = 0; i < N; ++i)
 	{
 		T const t(i);
 		s.push_back(t);
@@ -577,7 +578,7 @@ BKSGE_CXX14_CONSTEXPR bool test_push_back_copy()
 	return true;
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_CXX14_CONSTEXPR bool test_push_back_move()
 {
 	bksge::static_vector<T, N> s;
@@ -590,7 +591,7 @@ BKSGE_CXX14_CONSTEXPR bool test_push_back_move()
 		return false;
 	}
 
-	for (std::size_t i = 0; i < N; ++i)
+	for (bksge::size_t i = 0; i < N; ++i)
 	{
 		T t(i);
 		s.push_back(bksge::move(t));
@@ -630,12 +631,12 @@ GTEST_TEST(StaticVectorTest, PushBackTest)
 	                      EXPECT_TRUE((test_push_back_move<shptr_value, 10>()));
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_CXX14_CONSTEXPR bool test_pop_back()
 {
 	bksge::static_vector<T, N> s;
 
-	for (std::size_t i = 0; i < N; ++i)
+	for (bksge::size_t i = 0; i < N; ++i)
 	{
 		s.push_back(T(i));
 	}
@@ -649,7 +650,7 @@ BKSGE_CXX14_CONSTEXPR bool test_pop_back()
 		return false;
 	}
 
-	for (std::size_t i = 0; i < N-1; ++i)
+	for (bksge::size_t i = 0; i < N-1; ++i)
 	{
 		s.pop_back();
 
@@ -661,7 +662,7 @@ BKSGE_CXX14_CONSTEXPR bool test_pop_back()
 			return false;
 		}
 
-		for (std::size_t j = 0; j < s.size(); ++j)
+		for (bksge::size_t j = 0; j < s.size(); ++j)
 		{
 			if (!(
 				s.at(j) == T(j)  &&
@@ -697,13 +698,13 @@ GTEST_TEST(StaticVectorTest, PopBackTest)
 	                      EXPECT_TRUE((test_pop_back<shptr_value, 10>()));
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_CXX14_CONSTEXPR bool test_op_assign_copy()
 {
 	bksge::static_vector<T, N> s1;
 	bksge::static_vector<T, N> s2;
 
-	for (std::size_t i = 0; i < N; ++i)
+	for (bksge::size_t i = 0; i < N; ++i)
 	{
 		s1.push_back(T(i));
 	}
@@ -725,14 +726,14 @@ BKSGE_CXX14_CONSTEXPR bool test_op_assign_copy()
 	return bksge::equal(s1.begin(), s1.end(), s2.begin(), s2.end());
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_CXX14_CONSTEXPR bool test_op_assign_move()
 {
 	bksge::static_vector<T, N> s1;
 	bksge::static_vector<T, N> s2;
 	bksge::static_vector<T, N> s3;
 
-	for (std::size_t i = 0; i < N; ++i)
+	for (bksge::size_t i = 0; i < N; ++i)
 	{
 		s1.push_back(T(i));
 		s2.push_back(T(i));
@@ -757,7 +758,7 @@ BKSGE_CXX14_CONSTEXPR bool test_op_assign_move()
 	return bksge::equal(s3.begin(), s3.end(), s1.begin(), s1.end());
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_CXX14_CONSTEXPR bool test_op_assign_initializer_list(std::initializer_list<T> il)
 {
 	bksge::static_vector<T, N> s;
@@ -807,12 +808,12 @@ GTEST_TEST(StaticVectorTest, OpAssignTest)
 	                      EXPECT_TRUE((test_op_assign_initializer_list<shptr_value, 10>({shptr_value(1), shptr_value(2), shptr_value(3), shptr_value(4), shptr_value(5), shptr_value(6)})));
 }
 
-template <typename T, std::size_t N>
-BKSGE_CXX14_CONSTEXPR bool test_assign_count_value(std::size_t n, T const& v)
+template <typename T, bksge::size_t N>
+BKSGE_CXX14_CONSTEXPR bool test_assign_count_value(bksge::size_t n, T const& v)
 {
 	bksge::static_vector<T, N> s;
 
-	for (std::size_t i = 0; i < N; ++i)
+	for (bksge::size_t i = 0; i < N; ++i)
 	{
 		s.push_back(T(i));
 	}
@@ -828,7 +829,7 @@ BKSGE_CXX14_CONSTEXPR bool test_assign_count_value(std::size_t n, T const& v)
 	{
 		return false;
 	}
-	for (std::size_t i = 0; i < n; ++i)
+	for (bksge::size_t i = 0; i < n; ++i)
 	{
 		if (!(s[i] == v))
 		{
@@ -839,12 +840,12 @@ BKSGE_CXX14_CONSTEXPR bool test_assign_count_value(std::size_t n, T const& v)
 	return true;
 }
 
-template <typename T, std::size_t N, typename Iterator>
+template <typename T, bksge::size_t N, typename Iterator>
 BKSGE_CXX14_CONSTEXPR bool test_assign_iterator(Iterator first, Iterator last)
 {
 	bksge::static_vector<T, N> s;
 
-	for (std::size_t i = 0; i < N; ++i)
+	for (bksge::size_t i = 0; i < N; ++i)
 	{
 		s.push_back(T(i));
 	}
@@ -859,12 +860,12 @@ BKSGE_CXX14_CONSTEXPR bool test_assign_iterator(Iterator first, Iterator last)
 	return bksge::equal(s.begin(), s.end(), first, last);
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_CXX14_CONSTEXPR bool test_assign_initializer_list(std::initializer_list<T> il)
 {
 	bksge::static_vector<T, N> s;
 
-	for (std::size_t i = 0; i < N; ++i)
+	for (bksge::size_t i = 0; i < N; ++i)
 	{
 		s.push_back(T(i));
 	}
@@ -921,7 +922,7 @@ GTEST_TEST(StaticVectorTest, AssignTest)
 	EXPECT_TRUE((test_assign_initializer_list<shptr_value, 10>({shptr_value(10), shptr_value(20), shptr_value(30), shptr_value(40), shptr_value(50)})));
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_CXX14_CONSTEXPR bool test_iterators()
 {
 	T a[] = { T(1), T(2), T(3), T(4), T(5) };
@@ -947,15 +948,15 @@ GTEST_TEST(StaticVectorTest, IteratorsTest)
 	                      EXPECT_TRUE((test_iterators<shptr_value, 10>()));
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_CXX14_CONSTEXPR bool test_erase_pos()
 {
 	typedef typename bksge::static_vector<T, N>::iterator It;
 
-	for (std::size_t i = 0; i < N; ++i)
+	for (bksge::size_t i = 0; i < N; ++i)
 	{
 		bksge::static_vector<T, N> s1;
-		for (std::size_t j = 0; j < N; ++j)
+		for (bksge::size_t j = 0; j < N; ++j)
 		{
 			s1.push_back(T(j));
 		}
@@ -963,11 +964,11 @@ BKSGE_CXX14_CONSTEXPR bool test_erase_pos()
 		It it = s1.erase(s1.begin() + i);
 		if (!(s1.begin() + i == it)) { return false; }
 		if (!(s1.size() == N - 1)) { return false; }
-		for (std::size_t j = 0; j < i; ++j)
+		for (bksge::size_t j = 0; j < i; ++j)
 		{
 			if (!(s1[j] == T(j))) { return false; }
 		}
-		for (std::size_t j = i+1; j < N; ++j)
+		for (bksge::size_t j = i+1; j < N; ++j)
 		{
 			if (!(s1[j-1] == T(j))) { return false; }
 		}
@@ -976,29 +977,29 @@ BKSGE_CXX14_CONSTEXPR bool test_erase_pos()
 	return true;
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_CXX14_CONSTEXPR bool test_erase_iter()
 {
 	typedef typename bksge::static_vector<T, N>::iterator It;
 
-	std::size_t n = N/3;
-	for (std::size_t i = 0; i <= N; ++i)
+	bksge::size_t n = N/3;
+	for (bksge::size_t i = 0; i <= N; ++i)
 	{
 		bksge::static_vector<T, N> s1;
-		for (std::size_t j = 0; j < N; ++j)
+		for (bksge::size_t j = 0; j < N; ++j)
 		{
 			s1.push_back(T(j));
 		}
 
-		std::size_t removed = i + n < N ? n : N - i;
+		bksge::size_t removed = i + n < N ? n : N - i;
 		It it = s1.erase(s1.begin() + i, s1.begin() + i + removed);
 		if (!(s1.begin() + i == it)) { return false; }
 		if (!(s1.size() == N - removed)) { return false; }
-		for (std::size_t j = 0; j < i; ++j)
+		for (bksge::size_t j = 0; j < i; ++j)
 		{
 			if (!(s1[j] == T(j))) { return false; }
 		}
-		for (std::size_t j = i+n; j < N; ++j)
+		for (bksge::size_t j = i+n; j < N; ++j)
 		{
 			if (!(s1[j-n] == T(j))) { return false; }
 		}
@@ -1028,7 +1029,7 @@ GTEST_TEST(StaticVectorTest, EraseTest)
 	                      EXPECT_TRUE((test_erase_iter<shptr_value, 10>()));
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_CXX14_CONSTEXPR bool test_reserve()
 {
 	{
@@ -1043,7 +1044,7 @@ BKSGE_CXX14_CONSTEXPR bool test_reserve()
 	return true;
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 void test_reserve_throw()
 {
 	bksge::static_vector<T, N> s;
@@ -1071,7 +1072,7 @@ GTEST_TEST(StaticVectorTest, ReserveTest)
 	test_reserve_throw<shptr_value, 23>();
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_CXX14_CONSTEXPR bool test_shrink_to_fit()
 {
 	bksge::static_vector<T, N> s;
@@ -1082,7 +1083,7 @@ BKSGE_CXX14_CONSTEXPR bool test_shrink_to_fit()
 	if (!(0 == s.size())) { return false; }
 	if (!(N == s.capacity())) { return false; }
 
-	for (std::size_t i = 0; i < N; ++i)
+	for (bksge::size_t i = 0; i < N; ++i)
 	{
 		s.push_back(T(i));
 	}
@@ -1106,7 +1107,7 @@ GTEST_TEST(StaticVectorTest, ShrinkToFitTest)
 	                      EXPECT_TRUE((test_shrink_to_fit<shptr_value, 16>()));
 }	                      
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_CXX14_CONSTEXPR bool test_clear()
 {
 	bksge::static_vector<T, N> s;
@@ -1120,7 +1121,7 @@ BKSGE_CXX14_CONSTEXPR bool test_clear()
 	if (!(0 == s.size())) { return false; }
 	if (!(N == s.capacity())) { return false; }
 
-	for (std::size_t i = 0; i < N; ++i)
+	for (bksge::size_t i = 0; i < N; ++i)
 	{
 		s.push_back(T(i));
 	}
@@ -1150,32 +1151,32 @@ GTEST_TEST(StaticVectorTest, ClearTest)
 	                      EXPECT_TRUE((test_clear<shptr_value, 26>()));
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_CXX14_CONSTEXPR bool test_insert_pos_value_copy(T const& val)
 {
-	std::size_t h = N/2;
+	bksge::size_t h = N/2;
 
 	bksge::static_vector<T, N> s;
 
 	typedef typename bksge::static_vector<T, N>::iterator It;
 
-	for (std::size_t i = 0; i < h; ++i)
+	for (bksge::size_t i = 0; i < h; ++i)
 	{
 		s.push_back(T(i));
 	}
 
-	for (std::size_t i = 0; i <= h; ++i)
+	for (bksge::size_t i = 0; i <= h; ++i)
 	{
 		bksge::static_vector<T, N> s1(s);
 		It it = s1.insert(s1.begin() + i, val);
 		if (!(s1.begin() + i == it)) { return false; }
 		if (!(s1.size() == h+1)) { return false; }
-		for (std::size_t j = 0; j < i; ++j)
+		for (bksge::size_t j = 0; j < i; ++j)
 		{
 			if (!(s1[j] == T(j))) { return false; }
 		}
 		if (!(s1[i] == val)) { return false; }
-		for (std::size_t j = 0; j < h-i; ++j)
+		for (bksge::size_t j = 0; j < h-i; ++j)
 		{
 			if (!(s1[j+i+1] == T(j+i))) { return false; }
 		}
@@ -1183,17 +1184,17 @@ BKSGE_CXX14_CONSTEXPR bool test_insert_pos_value_copy(T const& val)
 	return true;
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_CXX14_CONSTEXPR bool test_insert_pos_value_move()
 {
-	std::size_t h = N/2;
+	bksge::size_t h = N/2;
 
 	typedef typename bksge::static_vector<T, N>::iterator It;
 
-	for (std::size_t i = 0; i <= h; ++i)
+	for (bksge::size_t i = 0; i <= h; ++i)
 	{
 		bksge::static_vector<T, N> s1;
-		for (std::size_t j = 0; j < h; ++j)
+		for (bksge::size_t j = 0; j < h; ++j)
 		{
 			s1.emplace_back(T(j));
 		}
@@ -1201,12 +1202,12 @@ BKSGE_CXX14_CONSTEXPR bool test_insert_pos_value_move()
 		It it = s1.insert(s1.begin() + i, T(42));
 		if (!(s1.begin() + i == it)) { return false; }
 		if (!(s1.size() == h+1)) { return false; }
-		for (std::size_t j = 0; j < i; ++j)
+		for (bksge::size_t j = 0; j < i; ++j)
 		{
 			if (!(s1[j] == T(j))) { return false; }
 		}
 		if (!(s1[i] == T(42))) { return false; }
-		for (std::size_t j = 0; j < h-i; ++j)
+		for (bksge::size_t j = 0; j < h-i; ++j)
 		{
 			if (!(s1[j+i+1] == T(j+i))) { return false; }
 		}
@@ -1214,36 +1215,36 @@ BKSGE_CXX14_CONSTEXPR bool test_insert_pos_value_move()
 	return true;
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_CXX14_CONSTEXPR bool test_insert_pos_count_value_copy(T const& val)
 {
-	std::size_t h = N/2;
+	bksge::size_t h = N/2;
 
 	bksge::static_vector<T, N> s;
 
 	typedef typename bksge::static_vector<T, N>::iterator It;
 
-	for (std::size_t i = 0; i < h; ++i)
+	for (bksge::size_t i = 0; i < h; ++i)
 	{
 		s.push_back(T(i));
 	}
 
-	std::size_t n = std::size_t(h/1.5f);
-	for (std::size_t i = 0; i <= h; ++i)
+	bksge::size_t n = bksge::size_t(h/1.5f);
+	for (bksge::size_t i = 0; i <= h; ++i)
 	{
 		bksge::static_vector<T, N> s1(s);
 		It it = s1.insert(s1.begin() + i, n, val);
 		if (!(s1.begin() + i == it)) { return false; }
 		if (!(s1.size() == h+n)) { return false; }
-		for (std::size_t j = 0; j < i; ++j)
+		for (bksge::size_t j = 0; j < i; ++j)
 		{
 			if (!(s1[j] == T(j))) { return false; }
 		}
-		for (std::size_t j = 0; j < n; ++j)
+		for (bksge::size_t j = 0; j < n; ++j)
 		{
 			if (!(s1[j+i] == val)) { return false; }
 		}
-		for (std::size_t j = 0; j < h-i; ++j)
+		for (bksge::size_t j = 0; j < h-i; ++j)
 		{
 			if (!(s1[j+i+n] == T(j+i))) { return false; }
 		}
@@ -1251,23 +1252,23 @@ BKSGE_CXX14_CONSTEXPR bool test_insert_pos_count_value_copy(T const& val)
 	return true;
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_CXX14_CONSTEXPR bool test_insert_iter()
 {
-	std::size_t h = N/2;
-	std::size_t n = std::size_t(h/1.5f);
+	bksge::size_t h = N/2;
+	bksge::size_t n = bksge::size_t(h/1.5f);
 
 	bksge::static_vector<T, N> s, ss;
 
 	typedef typename bksge::static_vector<T, N>::iterator It;
 
-	for (std::size_t i = 0; i < h; ++i)
+	for (bksge::size_t i = 0; i < h; ++i)
 	{
 		s.push_back(T(i));
 		ss.push_back(T(100 + i));
 	}
 
-	for (std::size_t i = 0; i <= h; ++i)
+	for (bksge::size_t i = 0; i <= h; ++i)
 	{
 		bksge::static_vector<T, N> s1(s);
 
@@ -1275,15 +1276,15 @@ BKSGE_CXX14_CONSTEXPR bool test_insert_iter()
 
 		if (!(s1.begin() + i == it1)) { return false; }
 		if (!(s1.size() == h+n)) { return false; }
-		for (std::size_t j = 0; j < i; ++j)
+		for (bksge::size_t j = 0; j < i; ++j)
 		{
 			if (!(s1[j] == T(j))) { return false; }
 		}
-		for (std::size_t j = 0; j < n; ++j)
+		for (bksge::size_t j = 0; j < n; ++j)
 		{
 			if (!(s1[j+i] == T(100 + j))) { return false; }
 		}
-		for (std::size_t j = 0; j < h-i; ++j)
+		for (bksge::size_t j = 0; j < h-i; ++j)
 		{
 			if (!(s1[j+i+n] == T(j+i))) { return false; }
 		}
@@ -1291,37 +1292,37 @@ BKSGE_CXX14_CONSTEXPR bool test_insert_iter()
 	return true;
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_CXX14_CONSTEXPR bool test_insert_initializer_list()
 {
-	std::size_t h = N/2;
+	bksge::size_t h = N/2;
 
 	bksge::static_vector<T, N> s;
 
 	typedef typename bksge::static_vector<T, N>::iterator It;
 
-	for (std::size_t i = 0; i < h; ++i)
+	for (bksge::size_t i = 0; i < h; ++i)
 	{
 		s.push_back(T(i));
 	}
 
-	for (std::size_t i = 0; i <= h; ++i)
+	for (bksge::size_t i = 0; i <= h; ++i)
 	{
 		std::initializer_list<T> il = {T(3),T(1),T(4)};
-		std::size_t n = il.size();
+		bksge::size_t n = il.size();
 		bksge::static_vector<T, N> s1(s);
 		It it = s1.insert(s1.begin() + i, il);
 		if (!(s1.begin() + i == it)) { return false; }
 		if (!(s1.size() == h+n)) { return false; }
-		for (std::size_t j = 0; j < i; ++j)
+		for (bksge::size_t j = 0; j < i; ++j)
 		{
 			if (!(s1[j] == T(j))) { return false; }
 		}
-		for (std::size_t j = 0; j < n; ++j)
+		for (bksge::size_t j = 0; j < n; ++j)
 		{
 			if (!(s1[j+i] == *(il.begin() + j))) { return false; }
 		}
-		for (std::size_t j = 0; j < h-i; ++j)
+		for (bksge::size_t j = 0; j < h-i; ++j)
 		{
 			if (!(s1[j+i+n] == T(j+i))) { return false; }
 		}
@@ -1404,7 +1405,7 @@ GTEST_TEST(StaticVectorTest, Capacity0Test)
 	test_capacity_0_nd<shptr_value>();
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 void test_exceptions_nd()
 {
 	bksge::static_vector<T, N> v(N, T(0));
@@ -1436,17 +1437,17 @@ GTEST_TEST(StaticVectorTest, ExceptionsTest)
 	test_exceptions_nd<shptr_value, 10>();
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_CXX14_CONSTEXPR bool test_swap()
 {
 	{
 		bksge::static_vector<T, N> s1, s2;
 
-		for (std::size_t i = 0; i < N; ++i)
+		for (bksge::size_t i = 0; i < N; ++i)
 		{
 			s1.emplace_back(T(i));
 		}
-		for (std::size_t i = 0; i < N/2; ++i)
+		for (bksge::size_t i = 0; i < N/2; ++i)
 		{
 			s2.emplace_back(T(100 + i));
 		}
@@ -1456,11 +1457,11 @@ BKSGE_CXX14_CONSTEXPR bool test_swap()
 		if (!(s1.size() == N/2)) { return false; }
 		if (!(s2.size() == N)) { return false; }
 
-		for (std::size_t i = 0; i < N/2; ++i)
+		for (bksge::size_t i = 0; i < N/2; ++i)
 		{
 			if (!(s1[i] == T(100 + i))) { return false; }
 		}
-		for (std::size_t i = 0; i < N; ++i)
+		for (bksge::size_t i = 0; i < N; ++i)
 		{
 			if (!(s2[i] == T(i))) { return false; }
 		}
@@ -1470,11 +1471,11 @@ BKSGE_CXX14_CONSTEXPR bool test_swap()
 		if (!(s1.size() == N)) { return false; }
 		if (!(s2.size() == N/2)) { return false; }
 
-		for (std::size_t i = 0; i < N; ++i)
+		for (bksge::size_t i = 0; i < N; ++i)
 		{
 			if (!(s1[i] == T(i))) { return false; }
 		}
-		for (std::size_t i = 0; i < N/2; ++i)
+		for (bksge::size_t i = 0; i < N/2; ++i)
 		{
 			if (!(s2[i] == T(100 + i))) { return false; }
 		}
@@ -1494,51 +1495,51 @@ GTEST_TEST(StaticVectorTest, SwapTest)
 	                      EXPECT_TRUE((test_swap<shptr_value, 10>()));
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_CXX14_CONSTEXPR bool test_emplace_back_0()
 {
 	bksge::static_vector<T, N> s;
 
-	for (std::size_t i = 0; i < N; ++i)
+	for (bksge::size_t i = 0; i < N; ++i)
 	{
 		s.emplace_back();
 	}
 	if (!(s.size() == N)) { return false; }
-	for (std::size_t i = 0; i < N; ++i)
+	for (bksge::size_t i = 0; i < N; ++i)
 	{
 		if (!(s[i] == T())) { return false; }
 	}
 	return true;
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_CXX14_CONSTEXPR bool test_emplace_back_1()
 {
 	bksge::static_vector<T, N> s;
 
-	for (std::size_t i = 0; i < N; ++i)
+	for (bksge::size_t i = 0; i < N; ++i)
 	{
 		s.emplace_back((int)i);
 	}
 	if (!(s.size() == N)) { return false; }
-	for (std::size_t i = 0; i < N; ++i)
+	for (bksge::size_t i = 0; i < N; ++i)
 	{
 		if (!(s[i] == T(i))) { return false; }
 	}
 	return true;
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_CXX14_CONSTEXPR bool test_emplace_back_2()
 {
 	bksge::static_vector<T, N> s;
 
-	for (std::size_t i = 0; i < N; ++i)
+	for (bksge::size_t i = 0; i < N; ++i)
 	{
 		s.emplace_back((int)i, (int)i+100);
 	}
 	if (!(s.size() == N)) { return false; }
-	for (std::size_t i = 0; i < N; ++i)
+	for (bksge::size_t i = 0; i < N; ++i)
 	{
 		if (!(s[i] == T((int)i, (int)i+100))) { return false; }
 	}
@@ -1575,7 +1576,7 @@ GTEST_TEST(StaticVectorTest, EmplaceBackTest)
 //	                      EXPECT_TRUE((test_emplace_back_2<shptr_value, 10>()));
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_CXX14_CONSTEXPR bool test_emplace_0()
 {
 	typedef typename bksge::static_vector<T, N>::iterator It;
@@ -1592,7 +1593,7 @@ BKSGE_CXX14_CONSTEXPR bool test_emplace_0()
 
 		It it = s1.emplace(s1.begin() + i);
 		if (!(s1.begin() + i == it)) { return false; }
-		if (!(s1.size() == std::size_t(h+1))) { return false; }
+		if (!(s1.size() == bksge::size_t(h+1))) { return false; }
 		for (int j = 0; j < i; ++j)
 		{
 			if (!(s1[j] == T(j))) { return false; }
@@ -1606,7 +1607,7 @@ BKSGE_CXX14_CONSTEXPR bool test_emplace_0()
 	return true;
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_CXX14_CONSTEXPR bool test_emplace_1()
 {
 	typedef typename bksge::static_vector<T, N>::iterator It;
@@ -1623,7 +1624,7 @@ BKSGE_CXX14_CONSTEXPR bool test_emplace_1()
 
 		It it = s1.emplace(s1.begin() + i, i+100);
 		if (!(s1.begin() + i == it)) { return false; }
-		if (!(s1.size() == std::size_t(h+1))) { return false; }
+		if (!(s1.size() == bksge::size_t(h+1))) { return false; }
 		for (int j = 0; j < i; ++j)
 		{
 			if (!(s1[j] == T(j))) { return false; }
@@ -1637,7 +1638,7 @@ BKSGE_CXX14_CONSTEXPR bool test_emplace_1()
 	return true;
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_CXX14_CONSTEXPR bool test_emplace_2()
 {
 	typedef typename bksge::static_vector<T, N>::iterator It;
@@ -1654,7 +1655,7 @@ BKSGE_CXX14_CONSTEXPR bool test_emplace_2()
 
 		It it = s1.emplace(s1.begin() + i, i+100, i+200);
 		if (!(s1.begin() + i == it)) { return false; }
-		if (!(s1.size() == std::size_t(h+1))) { return false; }
+		if (!(s1.size() == bksge::size_t(h+1))) { return false; }
 		for (int j = 0; j < i; ++j)
 		{
 			if (!(s1[j] == T(j, j+100))) { return false; }
@@ -1698,7 +1699,7 @@ GTEST_TEST(StaticVectorTest, EmplaceTest)
 //	                      EXPECT_TRUE((test_emplace_2<shptr_value, 16>()));
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_CXX14_CONSTEXPR bool test_compare()
 {
 	int h = N / 2;
@@ -1784,7 +1785,7 @@ GTEST_TEST(StaticVectorTest, CompareTest)
 	                      EXPECT_TRUE((test_compare<shptr_value, 16>()));
 }
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_CXX14_CONSTEXPR bool test_nonmember_erase()
 {
 	bksge::static_vector<T, N> s;
@@ -1850,7 +1851,7 @@ struct Pred3
 	BKSGE_CXX14_CONSTEXPR bool operator()(T const& x) const { return x < T(5); }
 };
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 BKSGE_CXX14_CONSTEXPR bool test_nonmember_erase_if()
 {
 	bksge::static_vector<T, N> s;

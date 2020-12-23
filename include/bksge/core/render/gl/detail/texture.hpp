@@ -13,8 +13,8 @@
 #include <bksge/core/render/gl/detail/gl_h.hpp>
 #include <bksge/core/render/fwd/texture_fwd.hpp>
 #include <bksge/core/render/texture_format.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <cstdint>
-#include <cstddef>
 
 namespace bksge
 {
@@ -37,7 +37,7 @@ public:
 		bksge::TextureFormat format,
 		std::uint32_t width,
 		std::uint32_t height,
-		std::size_t mipmap_count,
+		bksge::size_t mipmap_count,
 		std::uint8_t const* data);
 
 	~Texture();

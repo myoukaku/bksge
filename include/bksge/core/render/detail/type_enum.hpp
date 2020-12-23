@@ -11,8 +11,8 @@
 
 #include <bksge/core/render/detail/fwd/type_enum_fwd.hpp>
 #include <bksge/fnd/type_traits/is_signed.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <cstdint>
-#include <cstddef>
 #include <ostream>
 #include <string>
 
@@ -43,7 +43,7 @@ template <typename T>
 struct TypeToEnum
 {
 private:
-	template <typename U, bool, std::size_t>
+	template <typename U, bool, bksge::size_t>
 	struct Helper;
 
 	template <typename U> struct Helper<U, true,  1> { static TypeEnum const value = TypeEnum::kSInt8; };
@@ -99,7 +99,7 @@ template <> struct EnumToType<TypeEnum::kFloat>
 /**
  *	@brief	TypeEnumから型のバイト数を取得
  */
-std::size_t GetSizeOf(TypeEnum type_enum);
+bksge::size_t GetSizeOf(TypeEnum type_enum);
 
 /**
  *	@brief	文字列への変換
@@ -123,7 +123,6 @@ operator<<(std::basic_ostream<CharT, Traits>& os, TypeEnum const& rhs)
 #if BKSGE_CXX_STANDARD <= 11
 
 #include <bksge/fnd/type_traits/underlying_type.hpp>
-#include <cstddef>
 #include <functional>
 
 namespace std
@@ -132,7 +131,7 @@ namespace std
 template<>
 struct hash<bksge::render::TypeEnum>
 {
-	std::size_t operator()(bksge::render::TypeEnum const& arg) const
+	bksge::size_t operator()(bksge::render::TypeEnum const& arg) const
 	{
 		using type = bksge::underlying_type_t<bksge::render::TypeEnum>;
 		return std::hash<type>{}(static_cast<type>(arg));

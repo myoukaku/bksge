@@ -192,15 +192,15 @@ int main()
 		GetHLSLShader(),
 	};
 
-	std::size_t const tex_width  = 16;
-	std::size_t const tex_height = 16;
+	bksge::size_t const tex_width  = 16;
+	bksge::size_t const tex_height = 16;
 
 	std::vector<std::uint8_t> pixels(tex_width * tex_height * 4);
 	{
 		auto* p = pixels.data();
-		for (std::size_t y = 0; y < tex_height; ++y)
+		for (bksge::size_t y = 0; y < tex_height; ++y)
 		{
-			for (std::size_t x = 0; x < tex_width; ++x)
+			for (bksge::size_t x = 0; x < tex_width; ++x)
 			{
 				*p++ = static_cast<std::uint8_t>(x * 16);
 				*p++ = static_cast<std::uint8_t>(y * 16);
@@ -243,9 +243,9 @@ int main()
 	};
 
 	int frame_count = 0;
-	std::size_t filter_mode_index = 0;
-	std::size_t address_mode_index = 0;
-	std::size_t border_color_index = 0;
+	bksge::size_t filter_mode_index = 0;
+	bksge::size_t address_mode_index = 0;
+	bksge::size_t border_color_index = 0;
 
 	for (;;)
 	{

@@ -7,7 +7,7 @@
  */
 
 #include <bksge/fnd/utility/make_index_sequence.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -21,22 +21,22 @@ void MakeIndexSequenceTestSub(void)
 {
 }
 
-void MakeIndexSequenceTestSub(std::size_t a)
+void MakeIndexSequenceTestSub(bksge::size_t a)
 {
 	EXPECT_EQ(0u, a);
 }
 
 void MakeIndexSequenceTestSub(
-	std::size_t a,
-	std::size_t b,
-	std::size_t c,
-	std::size_t d,
-	std::size_t e,
-	std::size_t f,
-	std::size_t g,
-	std::size_t h,
-	std::size_t i,
-	std::size_t j)
+	bksge::size_t a,
+	bksge::size_t b,
+	bksge::size_t c,
+	bksge::size_t d,
+	bksge::size_t e,
+	bksge::size_t f,
+	bksge::size_t g,
+	bksge::size_t h,
+	bksge::size_t i,
+	bksge::size_t j)
 {
 	EXPECT_EQ(0u, a);
 	EXPECT_EQ(1u, b);
@@ -50,7 +50,7 @@ void MakeIndexSequenceTestSub(
 	EXPECT_EQ(9u, j);
 }
 
-template <std::size_t ... Seq>
+template <bksge::size_t ... Seq>
 void MakeIndexSequenceTest(bksge::index_sequence<Seq ...>)
 {
 	MakeIndexSequenceTestSub(Seq...);

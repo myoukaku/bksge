@@ -10,12 +10,12 @@
 #define BKSGE_FND_STATIC_STRING_STATIC_WSTRING_HPP
 
 #include <bksge/fnd/static_string/basic_static_string.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 
 namespace bksge
 {
 
-template <std::size_t Capacity>
+template <bksge::size_t Capacity>
 using static_wstring = bksge::basic_static_string<wchar_t, Capacity>;
 
 }	// namespace bksge

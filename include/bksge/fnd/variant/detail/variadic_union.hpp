@@ -12,8 +12,8 @@
 #include <bksge/fnd/variant/detail/uninitialized.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/in_place_index.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstddef>
 
 namespace bksge
 {
@@ -36,7 +36,7 @@ union VariadicUnion<First, Rest...>
 		: m_first(bksge::in_place_index_t<0>{}, bksge::forward<Args>(args)...)
 	{}
 
-	template <std::size_t N, typename... Args>
+	template <bksge::size_t N, typename... Args>
 	BKSGE_CONSTEXPR VariadicUnion(bksge::in_place_index_t<N>, Args&&... args)
 		: m_rest(bksge::in_place_index_t<N-1>{}, bksge::forward<Args>(args)...)
 	{}

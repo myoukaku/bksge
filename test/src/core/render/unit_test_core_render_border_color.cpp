@@ -9,6 +9,7 @@
 #include <bksge/core/render/border_color.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <functional>
 #include <vector>
 #include <sstream>
@@ -62,7 +63,7 @@ GTEST_TEST(Render_BorderColor, SerializeTest)
 GTEST_TEST(Render_BorderColor, HashTest)
 {
 	std::hash<bksge::BorderColor> h;
-	std::vector<std::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(bksge::BorderColor::kTransparentBlack));
 	v.push_back(h(bksge::BorderColor::kOpaqueBlack));
 	v.push_back(h(bksge::BorderColor::kOpaqueWhite));

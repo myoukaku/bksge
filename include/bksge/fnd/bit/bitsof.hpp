@@ -9,8 +9,8 @@
 #ifndef BKSGE_FND_BIT_BITSOF_HPP
 #define BKSGE_FND_BIT_BITSOF_HPP
 
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstddef>
 #include <climits>
 
 namespace bksge
@@ -22,7 +22,8 @@ namespace bksge
  *	コンパイラがconstexprに対応していた場合、コンパイル時定数を得ることができます。
  */
 template <typename T>
-inline BKSGE_CONSTEXPR std::size_t bitsof(void) BKSGE_NOEXCEPT
+inline BKSGE_CONSTEXPR bksge::size_t
+bitsof(void) BKSGE_NOEXCEPT
 {
 	return sizeof(T) * CHAR_BIT;
 }
@@ -33,7 +34,8 @@ inline BKSGE_CONSTEXPR std::size_t bitsof(void) BKSGE_NOEXCEPT
  *	引数から型を推測するバージョン
  */
 template <typename T>
-inline BKSGE_CONSTEXPR std::size_t bitsof(T const&) BKSGE_NOEXCEPT
+inline BKSGE_CONSTEXPR bksge::size_t
+bitsof(T const&) BKSGE_NOEXCEPT
 {
 	return sizeof(T) * CHAR_BIT;
 }

@@ -8,7 +8,7 @@
 
 #include <bksge/core/render/vertex.hpp>
 #include <bksge/core/render/vertex_element.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <sstream>
 #include <gtest/gtest.h>
 #include "serialize_test.hpp"
@@ -22,8 +22,8 @@ namespace render_vertex_test
 inline void AttrTest(
 	bksge::VertexLayout const& layout,
 	bksge::Semantic semantic,
-	std::size_t element_num,
-	std::size_t offset,
+	bksge::size_t element_num,
+	bksge::size_t offset,
 	bksge::TypeEnum type)
 {
 	auto const* attr = layout.FindVertexAttributeBySemantic(semantic);
@@ -198,7 +198,7 @@ GTEST_TEST(Render_Vertex, BasicTest)
 
 		const float* p = reinterpret_cast<const float*>(vertices);
 
-		for (std::size_t i = 0; i < 39; ++i)
+		for (bksge::size_t i = 0; i < 39; ++i)
 		{
 			EXPECT_EQ(static_cast<float>(i), p[i]);
 		}

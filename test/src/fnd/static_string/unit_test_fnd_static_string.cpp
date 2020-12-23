@@ -10,8 +10,8 @@
 #include <bksge/fnd/string_view/string_view.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/concepts/swap.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <gtest/gtest.h>
-#include <cstddef>
 #include <sstream>
 #include "constexpr_test.hpp"
 
@@ -20,7 +20,7 @@ namespace bksge_static_string_test
 
 #define VERIFY(...)	if (!(__VA_ARGS__)) { return false; }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool
 c_str_test(bksge::static_string<N> const& s, char const* str)
 {
@@ -33,7 +33,7 @@ c_str_test(bksge::static_string<N> const& s, char const* str)
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool CtorDefaultTest()
 {
 	{
@@ -66,7 +66,7 @@ inline BKSGE_CXX14_CONSTEXPR bool CtorDefaultTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool CtorCountCharTest()
 {
 	{
@@ -99,7 +99,7 @@ inline BKSGE_CXX14_CONSTEXPR bool CtorCountCharTest()
 	return true;
 }
 
-template <std::size_t N1, std::size_t N2>
+template <bksge::size_t N1, bksge::size_t N2>
 inline BKSGE_CXX14_CONSTEXPR bool CtorOtherPosTest()
 {
 	{
@@ -142,7 +142,7 @@ inline BKSGE_CXX14_CONSTEXPR bool CtorOtherPosTest()
 	return true;
 }
 
-template <std::size_t N1, std::size_t N2>
+template <bksge::size_t N1, bksge::size_t N2>
 inline BKSGE_CXX14_CONSTEXPR bool CtorOtherPosCountTest()
 {
 	{
@@ -185,7 +185,7 @@ inline BKSGE_CXX14_CONSTEXPR bool CtorOtherPosCountTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool CtorCharPtrCountTest()
 {
 	{
@@ -201,7 +201,7 @@ inline BKSGE_CXX14_CONSTEXPR bool CtorCharPtrCountTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool CtorCharPtrTest()
 {
 	{
@@ -226,7 +226,7 @@ inline BKSGE_CXX14_CONSTEXPR bool CtorCharPtrTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool CtorIteratorTest()
 {
 	{
@@ -243,7 +243,7 @@ inline BKSGE_CXX14_CONSTEXPR bool CtorIteratorTest()
 	return true;
 }
 
-template <std::size_t N1, std::size_t N2>
+template <bksge::size_t N1, bksge::size_t N2>
 inline BKSGE_CXX14_CONSTEXPR bool CtorCopyTest()
 {
 	{
@@ -268,7 +268,7 @@ inline BKSGE_CXX14_CONSTEXPR bool CtorCopyTest()
 	return true;
 }
 
-template <std::size_t N1, std::size_t N2>
+template <bksge::size_t N1, bksge::size_t N2>
 inline BKSGE_CXX14_CONSTEXPR bool CtorMoveTest()
 {
 	{
@@ -285,7 +285,7 @@ inline BKSGE_CXX14_CONSTEXPR bool CtorMoveTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool CtorInitializerListTest()
 {
 	{
@@ -301,7 +301,7 @@ inline BKSGE_CXX14_CONSTEXPR bool CtorInitializerListTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool CtorStringViewTest()
 {
 	{
@@ -412,7 +412,7 @@ GTEST_TEST(StaticStringTest, CtorTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(CtorStringViewTest<100>());
 }
 
-template <std::size_t N1, std::size_t N2>
+template <bksge::size_t N1, bksge::size_t N2>
 inline BKSGE_CXX14_CONSTEXPR bool AssignStringTest()
 {
 	{
@@ -458,7 +458,7 @@ inline BKSGE_CXX14_CONSTEXPR bool AssignStringTest()
 	return true;
 }
 
-template <std::size_t N1, std::size_t N2>
+template <bksge::size_t N1, bksge::size_t N2>
 inline BKSGE_CXX14_CONSTEXPR bool AssignStringMoveTest()
 {
 	{
@@ -487,7 +487,7 @@ inline BKSGE_CXX14_CONSTEXPR bool AssignStringMoveTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool AssignCharPtrTest()
 {
 	{
@@ -527,7 +527,7 @@ inline BKSGE_CXX14_CONSTEXPR bool AssignCharPtrTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool AssignCharTest()
 {
 	{
@@ -567,7 +567,7 @@ inline BKSGE_CXX14_CONSTEXPR bool AssignCharTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool AssignIteratorTest()
 {
 	{
@@ -601,7 +601,7 @@ inline BKSGE_CXX14_CONSTEXPR bool AssignIteratorTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool AssignInitializerListTest()
 {
 	{
@@ -633,7 +633,7 @@ inline BKSGE_CXX14_CONSTEXPR bool AssignInitializerListTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool AssignStringViewTest()
 {
 	{
@@ -726,7 +726,7 @@ GTEST_TEST(StaticStringTest, AssignTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(AssignStringViewTest<100>());
 }
 
-template <std::size_t N1, std::size_t N2>
+template <bksge::size_t N1, bksge::size_t N2>
 inline BKSGE_CXX14_CONSTEXPR bool AppendStringTest()
 {
 	{
@@ -755,7 +755,7 @@ inline BKSGE_CXX14_CONSTEXPR bool AppendStringTest()
 	return true;
 }
 
-template <std::size_t N1, std::size_t N2>
+template <bksge::size_t N1, bksge::size_t N2>
 inline BKSGE_CXX14_CONSTEXPR bool AppendStringPosTest()
 {
 	{
@@ -793,7 +793,7 @@ inline BKSGE_CXX14_CONSTEXPR bool AppendStringPosTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool AppendCharPtrTest()
 {
 	{
@@ -828,7 +828,7 @@ inline BKSGE_CXX14_CONSTEXPR bool AppendCharPtrTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool AppendCharTest()
 {
 	{
@@ -855,7 +855,7 @@ inline BKSGE_CXX14_CONSTEXPR bool AppendCharTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool AppendInitializerListTest()
 {
 	{
@@ -882,7 +882,7 @@ inline BKSGE_CXX14_CONSTEXPR bool AppendInitializerListTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool AppendIteratorTest()
 {
 	{
@@ -911,7 +911,7 @@ inline BKSGE_CXX14_CONSTEXPR bool AppendIteratorTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool AppendStringViewTest()
 {
 	{
@@ -999,7 +999,7 @@ GTEST_TEST(StaticStringTest, AppendTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(AppendStringViewTest<100>());
 }
 
-template <std::size_t N1, std::size_t N2>
+template <bksge::size_t N1, bksge::size_t N2>
 inline BKSGE_CXX14_CONSTEXPR bool InsertStringTest()
 {
 	{
@@ -1012,7 +1012,7 @@ inline BKSGE_CXX14_CONSTEXPR bool InsertStringTest()
 	return true;
 }
 
-template <std::size_t N1, std::size_t N2>
+template <bksge::size_t N1, bksge::size_t N2>
 inline BKSGE_CXX14_CONSTEXPR bool InsertStringPosTest()
 {
 	{
@@ -1037,7 +1037,7 @@ inline BKSGE_CXX14_CONSTEXPR bool InsertStringPosTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool InsertCharPtrCountTest()
 {
 	{
@@ -1054,7 +1054,7 @@ inline BKSGE_CXX14_CONSTEXPR bool InsertCharPtrCountTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool InsertCharPtrTest()
 {
 	{
@@ -1066,7 +1066,7 @@ inline BKSGE_CXX14_CONSTEXPR bool InsertCharPtrTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool InsertCharTest()
 {
 	{
@@ -1110,7 +1110,7 @@ inline BKSGE_CXX14_CONSTEXPR bool InsertCharTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool InsertIteratorTest()
 {
 	{
@@ -1129,7 +1129,7 @@ inline BKSGE_CXX14_CONSTEXPR bool InsertIteratorTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool InsertInitializerListTest()
 {
 	{
@@ -1146,7 +1146,7 @@ inline BKSGE_CXX14_CONSTEXPR bool InsertInitializerListTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool InsertStringViewTest()
 {
 	{
@@ -1214,7 +1214,7 @@ GTEST_TEST(StaticStringTest, InsertTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(InsertStringViewTest<100>());
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool ErasePosCountTest()
 {
 	{
@@ -1235,7 +1235,7 @@ inline BKSGE_CXX14_CONSTEXPR bool ErasePosCountTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool EraseIteratorTest()
 {
 	{
@@ -1251,7 +1251,7 @@ inline BKSGE_CXX14_CONSTEXPR bool EraseIteratorTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool EraseFirstLastTest()
 {
 	{
@@ -1282,7 +1282,7 @@ GTEST_TEST(StaticStringTest, EraseTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(EraseFirstLastTest<100>());
 }
 
-template <std::size_t N1, std::size_t N2>
+template <bksge::size_t N1, bksge::size_t N2>
 inline BKSGE_CXX14_CONSTEXPR bool ReplacePosCountStringTest()
 {
 	{
@@ -1306,7 +1306,7 @@ inline BKSGE_CXX14_CONSTEXPR bool ReplacePosCountStringTest()
 	return true;
 }
 
-template <std::size_t N1, std::size_t N2>
+template <bksge::size_t N1, bksge::size_t N2>
 inline BKSGE_CXX14_CONSTEXPR bool ReplacePosCountStringPosCountTest()
 {
 	{
@@ -1330,7 +1330,7 @@ inline BKSGE_CXX14_CONSTEXPR bool ReplacePosCountStringPosCountTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool ReplacePosCountCharPtrCountTest()
 {
 	{
@@ -1346,7 +1346,7 @@ inline BKSGE_CXX14_CONSTEXPR bool ReplacePosCountCharPtrCountTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool ReplacePosCountCharPtrTest()
 {
 	{
@@ -1367,7 +1367,7 @@ inline BKSGE_CXX14_CONSTEXPR bool ReplacePosCountCharPtrTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool ReplacePosCountCountCharTest()
 {
 	{
@@ -1388,7 +1388,7 @@ inline BKSGE_CXX14_CONSTEXPR bool ReplacePosCountCountCharTest()
 	return true;
 }
 
-template <std::size_t N1, std::size_t N2>
+template <bksge::size_t N1, bksge::size_t N2>
 inline BKSGE_CXX14_CONSTEXPR bool ReplaceIteratorStringTest()
 {
 	{
@@ -1412,7 +1412,7 @@ inline BKSGE_CXX14_CONSTEXPR bool ReplaceIteratorStringTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool ReplaceIteratorCharPtrCountTest()
 {
 	{
@@ -1428,7 +1428,7 @@ inline BKSGE_CXX14_CONSTEXPR bool ReplaceIteratorCharPtrCountTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool ReplaceIteratorCharPtrTest()
 {
 	{
@@ -1449,7 +1449,7 @@ inline BKSGE_CXX14_CONSTEXPR bool ReplaceIteratorCharPtrTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool ReplaceIteratorCountCharTest()
 {
 	{
@@ -1465,7 +1465,7 @@ inline BKSGE_CXX14_CONSTEXPR bool ReplaceIteratorCountCharTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool ReplaceIteratorIteratorTest()
 {
 	{
@@ -1489,7 +1489,7 @@ inline BKSGE_CXX14_CONSTEXPR bool ReplaceIteratorIteratorTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool ReplaceIteratorInitializerListTest()
 {
 	{
@@ -1505,7 +1505,7 @@ inline BKSGE_CXX14_CONSTEXPR bool ReplaceIteratorInitializerListTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool ReplacePosCountStringViewTest()
 {
 	{
@@ -1526,7 +1526,7 @@ inline BKSGE_CXX14_CONSTEXPR bool ReplacePosCountStringViewTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool ReplacePosCountStringViewPosCountTest()
 {
 	{
@@ -1552,7 +1552,7 @@ inline BKSGE_CXX14_CONSTEXPR bool ReplacePosCountStringViewPosCountTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool ReplaceIteratorStringViewTest()
 {
 	{
@@ -1636,7 +1636,7 @@ GTEST_TEST(StaticStringTest, ReplaceTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(ReplaceIteratorStringViewTest<100>());
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool CopyTest()
 {
 	bksge::static_string<N> const s = "hello";
@@ -1675,7 +1675,7 @@ GTEST_TEST(StaticStringTest, CopyTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(CopyTest<100>());
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool PushBackTest()
 {
 	{
@@ -1708,7 +1708,7 @@ GTEST_TEST(StaticStringTest, PushBackTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(PushBackTest<100>());
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool PopBackTest()
 {
 	{
@@ -1747,7 +1747,7 @@ GTEST_TEST(StaticStringTest, PopBackTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(PopBackTest<100>());
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool BeginEndTest()
 {
 	{
@@ -1797,7 +1797,7 @@ GTEST_TEST(StaticStringTest, BeginEndTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(BeginEndTest<100>());
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool RBeginREndTest()
 {
 	{
@@ -1847,7 +1847,7 @@ GTEST_TEST(StaticStringTest, RBeginREndTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(RBeginREndTest<100>());
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool ResizeTest()
 {
 	{
@@ -1898,7 +1898,7 @@ GTEST_TEST(StaticStringTest, ResizeTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(ResizeTest<100>());
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool ReserveTest()
 {
 	{
@@ -1938,7 +1938,7 @@ GTEST_TEST(StaticStringTest, ReserveTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(ReserveTest<100>());
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool ClearTest()
 {
 	{
@@ -1961,7 +1961,7 @@ GTEST_TEST(StaticStringTest, ClearTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(ClearTest<100>());
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool BraceTest()
 {
 	{
@@ -1986,7 +1986,7 @@ GTEST_TEST(StaticStringTest, BraceTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(BraceTest<100>());
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool AtTest()
 {
 	{
@@ -2011,7 +2011,7 @@ GTEST_TEST(StaticStringTest, AtTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(AtTest<100>());
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool FrontBackTest()
 {
 	{
@@ -2036,7 +2036,7 @@ GTEST_TEST(StaticStringTest, FrontBackTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(FrontBackTest<100>());
 }
 
-template <std::size_t N1, std::size_t N2>
+template <bksge::size_t N1, bksge::size_t N2>
 inline BKSGE_CXX14_CONSTEXPR bool CompareStringTest()
 {
 	{
@@ -2057,7 +2057,7 @@ inline BKSGE_CXX14_CONSTEXPR bool CompareStringTest()
 	return true;
 }
 
-template <std::size_t N1, std::size_t N2>
+template <bksge::size_t N1, bksge::size_t N2>
 inline BKSGE_CXX14_CONSTEXPR bool ComparePosCountStringTest()
 {
 	{
@@ -2072,7 +2072,7 @@ inline BKSGE_CXX14_CONSTEXPR bool ComparePosCountStringTest()
 	return true;
 }
 
-template <std::size_t N1, std::size_t N2>
+template <bksge::size_t N1, bksge::size_t N2>
 inline BKSGE_CXX14_CONSTEXPR bool ComparePosCountStringPosCountTest()
 {
 	{
@@ -2090,7 +2090,7 @@ inline BKSGE_CXX14_CONSTEXPR bool ComparePosCountStringPosCountTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool CompareCharPtrTest()
 {
 	{
@@ -2111,7 +2111,7 @@ inline BKSGE_CXX14_CONSTEXPR bool CompareCharPtrTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool ComparePosCountCharPtrTest()
 {
 	{
@@ -2126,7 +2126,7 @@ inline BKSGE_CXX14_CONSTEXPR bool ComparePosCountCharPtrTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool ComparePosCountCharPtrCountTest()
 {
 	{
@@ -2142,7 +2142,7 @@ inline BKSGE_CXX14_CONSTEXPR bool ComparePosCountCharPtrCountTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool CompareStringViewTest()
 {
 	{
@@ -2163,7 +2163,7 @@ inline BKSGE_CXX14_CONSTEXPR bool CompareStringViewTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool ComparePosCountStringViewTest()
 {
 	{
@@ -2178,7 +2178,7 @@ inline BKSGE_CXX14_CONSTEXPR bool ComparePosCountStringViewTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool ComparePosCountStringViewPosCountTest()
 {
 	{
@@ -2196,7 +2196,7 @@ inline BKSGE_CXX14_CONSTEXPR bool ComparePosCountStringViewPosCountTest()
 	return true;
 }
 
-template <std::size_t N1, std::size_t N2>
+template <bksge::size_t N1, bksge::size_t N2>
 inline BKSGE_CXX14_CONSTEXPR bool CompareOperatorStringTest()
 {
 	{
@@ -2252,7 +2252,7 @@ inline BKSGE_CXX14_CONSTEXPR bool CompareOperatorStringTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool CompareOperatorCharPtrTest()
 {
 	{
@@ -2397,7 +2397,7 @@ GTEST_TEST(StaticStringTest, CompareTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(CompareOperatorCharPtrTest<100>());
 }
 
-template <std::size_t N1, std::size_t N2>
+template <bksge::size_t N1, bksge::size_t N2>
 inline BKSGE_CXX14_CONSTEXPR bool FindStringTest()
 {
 	bksge::static_string<N1> const s1 = "ab abc abcd";
@@ -2417,7 +2417,7 @@ inline BKSGE_CXX14_CONSTEXPR bool FindStringTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool FindCharPtrTest()
 {
 	bksge::static_string<N> const s1 = "ab abc abcd";
@@ -2443,7 +2443,7 @@ inline BKSGE_CXX14_CONSTEXPR bool FindCharPtrTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool FindCharTest()
 {
 	bksge::static_string<N> const s1 = "ab abc abcd";
@@ -2461,7 +2461,7 @@ inline BKSGE_CXX14_CONSTEXPR bool FindCharTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool FindStringViewTest()
 {
 	bksge::static_string<N> const s1 = "ab abc abcd";
@@ -2503,7 +2503,7 @@ GTEST_TEST(StaticStringTest, FindTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(FindStringViewTest<100>());
 }
 
-template <std::size_t N1, std::size_t N2>
+template <bksge::size_t N1, bksge::size_t N2>
 inline BKSGE_CXX14_CONSTEXPR bool RFindStringTest()
 {
 	bksge::static_string<N1> const s1 = "abcd abc ab";
@@ -2529,7 +2529,7 @@ inline BKSGE_CXX14_CONSTEXPR bool RFindStringTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool RFindCharPtrTest()
 {
 	bksge::static_string<N> const s1 = "abcd abc ab";
@@ -2555,7 +2555,7 @@ inline BKSGE_CXX14_CONSTEXPR bool RFindCharPtrTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool RFindCharTest()
 {
 	bksge::static_string<N> const s1 = "abcd abc ab";
@@ -2574,7 +2574,7 @@ inline BKSGE_CXX14_CONSTEXPR bool RFindCharTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool RFindStringViewTest()
 {
 	bksge::static_string<N> const s1 = "abcd abc ab";
@@ -2622,7 +2622,7 @@ GTEST_TEST(StaticStringTest, RFindTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(RFindStringViewTest<100>());
 }
 
-template <std::size_t N1, std::size_t N2>
+template <bksge::size_t N1, bksge::size_t N2>
 inline BKSGE_CXX14_CONSTEXPR bool FindFirstOfStringTest()
 {
 	bksge::static_string<N1> const s1 = "abcde abcde";
@@ -2649,7 +2649,7 @@ inline BKSGE_CXX14_CONSTEXPR bool FindFirstOfStringTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool FindFirstOfCharPtrTest()
 {
 	bksge::static_string<N> const s1 = "abcde abcde";
@@ -2683,7 +2683,7 @@ inline BKSGE_CXX14_CONSTEXPR bool FindFirstOfCharPtrTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool FindFirstOfCharTest()
 {
 	bksge::static_string<N> const s1 = "ab abc abcd";
@@ -2701,7 +2701,7 @@ inline BKSGE_CXX14_CONSTEXPR bool FindFirstOfCharTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool FindFirstOfStringViewTest()
 {
 	bksge::static_string<N> const s1 = "abcde abcde";
@@ -2750,7 +2750,7 @@ GTEST_TEST(StaticStringTest, FindFirstOfTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(FindFirstOfStringViewTest<100>());
 }
 
-template <std::size_t N1, std::size_t N2>
+template <bksge::size_t N1, bksge::size_t N2>
 inline BKSGE_CXX14_CONSTEXPR bool FindLastOfStringTest()
 {
 	bksge::static_string<N1> const s1 = "abcde abcde";
@@ -2777,7 +2777,7 @@ inline BKSGE_CXX14_CONSTEXPR bool FindLastOfStringTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool FindLastOfCharPtrTest()
 {
 	bksge::static_string<N> const s1 = "abcde abcde";
@@ -2811,7 +2811,7 @@ inline BKSGE_CXX14_CONSTEXPR bool FindLastOfCharPtrTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool FindLastOfCharTest()
 {
 	bksge::static_string<N> const s1 = "ab abc abcd";
@@ -2832,7 +2832,7 @@ inline BKSGE_CXX14_CONSTEXPR bool FindLastOfCharTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool FindLastOfStringViewTest()
 {
 	bksge::static_string<N> const s1 = "abcde abcde";
@@ -2881,7 +2881,7 @@ GTEST_TEST(StaticStringTest, FindLastOfTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(FindLastOfStringViewTest<100>());
 }
 
-template <std::size_t N1, std::size_t N2>
+template <bksge::size_t N1, bksge::size_t N2>
 inline BKSGE_CXX14_CONSTEXPR bool FindFirstNotOfStringTest()
 {
 	bksge::static_string<N1> const s1 = "abcde";
@@ -2904,7 +2904,7 @@ inline BKSGE_CXX14_CONSTEXPR bool FindFirstNotOfStringTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool FindFirstNotOfCharPtrTest()
 {
 	bksge::static_string<N> const s1 = "abcde";
@@ -2933,7 +2933,7 @@ inline BKSGE_CXX14_CONSTEXPR bool FindFirstNotOfCharPtrTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool FindFirstNotOfCharTest()
 {
 	bksge::static_string<N> const s1 = "aaaabbbccd";
@@ -2956,7 +2956,7 @@ inline BKSGE_CXX14_CONSTEXPR bool FindFirstNotOfCharTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool FindFirstNotOfStringViewTest()
 {
 	bksge::static_string<N> const s1 = "abcde";
@@ -3001,7 +3001,7 @@ GTEST_TEST(StaticStringTest, FindFirstNotOfTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(FindFirstNotOfStringViewTest<100>());
 }
 
-template <std::size_t N1, std::size_t N2>
+template <bksge::size_t N1, bksge::size_t N2>
 inline BKSGE_CXX14_CONSTEXPR bool FindLastNotOfStringTest()
 {
 	bksge::static_string<N1> const s1 = "ddddcccbba";
@@ -3023,7 +3023,7 @@ inline BKSGE_CXX14_CONSTEXPR bool FindLastNotOfStringTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool FindLastNotOfCharPtrTest()
 {
 	bksge::static_string<N> const s1 = "ddddcccbba";
@@ -3050,7 +3050,7 @@ inline BKSGE_CXX14_CONSTEXPR bool FindLastNotOfCharPtrTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool FindLastNotOfCharTest()
 {
 	bksge::static_string<N> const s1 = "ddddcccbba";
@@ -3068,7 +3068,7 @@ inline BKSGE_CXX14_CONSTEXPR bool FindLastNotOfCharTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool FindLastNotOfStringViewTest()
 {
 	bksge::static_string<N> const s1 = "ddddcccbba";
@@ -3112,7 +3112,7 @@ GTEST_TEST(StaticStringTest, FindLastNotOfTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(FindLastNotOfStringViewTest<100>());
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool SubstrTest()
 {
 	bksge::static_string<N> const s1 = "abcde";
@@ -3148,7 +3148,7 @@ GTEST_TEST(StaticStringTest, SubstrTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(SubstrTest<100>());
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool StartsWithTest()
 {
 	bksge::static_string<N> const s = "abcde";
@@ -3181,7 +3181,7 @@ GTEST_TEST(StaticStringTest, StartsWithTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(StartsWithTest<100>());
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool EndsWithTest()
 {
 	bksge::static_string<N> const s = "abcde";
@@ -3216,7 +3216,7 @@ GTEST_TEST(StaticStringTest, EndsWithTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(EndsWithTest<100>());
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool DataTest()
 {
 	{
@@ -3246,7 +3246,7 @@ GTEST_TEST(StaticStringTest, DataTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(DataTest<100>());
 }
 
-template <std::size_t N1, std::size_t N2>
+template <bksge::size_t N1, bksge::size_t N2>
 inline BKSGE_CXX14_CONSTEXPR bool SwapTest()
 {
 	{
@@ -3276,7 +3276,7 @@ GTEST_TEST(StaticStringTest, SwapTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((SwapTest<100, 100>()));
 }
 
-template <std::size_t N1, std::size_t N2>
+template <bksge::size_t N1, bksge::size_t N2>
 inline BKSGE_CXX14_CONSTEXPR bool AddStringStringTest()
 {
 	{
@@ -3294,7 +3294,7 @@ inline BKSGE_CXX14_CONSTEXPR bool AddStringStringTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool AddStringCharPtrTest()
 {
 	{
@@ -3305,7 +3305,7 @@ inline BKSGE_CXX14_CONSTEXPR bool AddStringCharPtrTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool AddStringCharTest()
 {
 	{
@@ -3316,7 +3316,7 @@ inline BKSGE_CXX14_CONSTEXPR bool AddStringCharTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool AddCharPtrStringTest()
 {
 	{
@@ -3327,7 +3327,7 @@ inline BKSGE_CXX14_CONSTEXPR bool AddCharPtrStringTest()
 	return true;
 }
 
-template <std::size_t N>
+template <bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool AddCharStringTest()
 {
 	{

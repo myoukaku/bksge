@@ -51,7 +51,7 @@ inline BKSGE_CONSTEXPR bool operator!=(monostate, monostate) BKSGE_NOEXCEPT { re
 
 }	// namespace bksge
 
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <functional>	// hash
 
 namespace std
@@ -60,7 +60,7 @@ namespace std
 template <>
 struct hash<bksge::monostate>
 {
-	std::size_t operator()(bksge::monostate const&) const BKSGE_NOEXCEPT
+	bksge::size_t operator()(bksge::monostate const&) const BKSGE_NOEXCEPT
 	{
 		return 66740831; // return a fundamentally attractive random value.
 	}

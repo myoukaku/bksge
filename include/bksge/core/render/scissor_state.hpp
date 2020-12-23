@@ -81,8 +81,8 @@ operator<<(std::basic_ostream<CharT, Traits>& os, ScissorState const& rhs)
 #endif
 
 #include <bksge/fnd/functional/hash_combine.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <functional>
-#include <cstddef>
 
 namespace std
 {
@@ -90,7 +90,7 @@ namespace std
 template<>
 struct hash<bksge::render::ScissorState>
 {
-	std::size_t operator()(bksge::render::ScissorState const& arg) const
+	bksge::size_t operator()(bksge::render::ScissorState const& arg) const
 	{
 		return bksge::hash_combine(
 			arg.enable(),

@@ -11,8 +11,8 @@
 
 #include <bksge/fnd/type_traits/aligned_storage.hpp>
 #include <bksge/fnd/type_traits/conditional.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstddef>
 
 namespace bksge
 {
@@ -20,24 +20,24 @@ namespace bksge
 namespace detail
 {
 
-template <std::size_t Len, typename T>
+template <bksge::size_t Len, typename T>
 union align_type
 {
 	T val;
 	char pad[Len];
 };
 
-template <std::size_t Len, typename... Types>
+template <bksge::size_t Len, typename... Types>
 struct aligned_storage_helper_impl;
 
-template <std::size_t Len, typename T>
+template <bksge::size_t Len, typename T>
 struct aligned_storage_helper_impl<Len, T>
 {
-	static const std::size_t value = BKSGE_ALIGNOF(T);
+	static const bksge::size_t value = BKSGE_ALIGNOF(T);
 	using type = align_type<Len, T>;
 };
 
-template <std::size_t Len, typename T, typename... Rest>
+template <bksge::size_t Len, typename T, typename... Rest>
 struct aligned_storage_helper_impl<Len, T, Rest...>
 	: public bksge::conditional_t<
 		BKSGE_ALIGNOF(T) <= Len,
@@ -46,7 +46,7 @@ struct aligned_storage_helper_impl<Len, T, Rest...>
 	>
 {};
 
-template <std::size_t Len>
+template <bksge::size_t Len>
 using aligned_storage_helper =
 	aligned_storage_helper_impl<
 		Len,
@@ -58,12 +58,12 @@ using aligned_storage_helper =
 		char
 	>;
 
-template <std::size_t Len>
+template <bksge::size_t Len>
 struct default_alignment
 {
 	static_assert(Len != 0, "");
 
-	static const std::size_t value =
+	static const bksge::size_t value =
 		aligned_storage_helper<Len>::value;
 };
 

@@ -17,7 +17,7 @@
 //#include <bksge/fnd/serialization/vector.hpp>
 //#include <bksge/fnd/serialization/polymorphic_serializable.hpp>
 //#include <bksge/fnd/serialization/version.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <vector>
 
 namespace bksge
@@ -52,7 +52,7 @@ public:
 
 	size_type count(void) const override;
 
-	T const& operator[](std::size_t i) const;
+	T const& operator[](bksge::size_t i) const;
 
 private:
 	std::vector<T>	m_value;

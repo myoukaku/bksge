@@ -16,6 +16,7 @@
 #include <bksge/fnd/variant/detail/variant_access.hpp>
 #include <bksge/fnd/variant/detail/variant_cookie.hpp>
 #include <bksge/fnd/concepts/detail/overload_priority.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/functional/invoke.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
@@ -27,7 +28,6 @@
 #include <bksge/fnd/utility/make_index_sequence.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/declval.hpp>
-#include <cstddef>
 
 namespace bksge
 {
@@ -63,8 +63,8 @@ struct GenVtableImpl;
 // This partial specialization builds up the index sequences by recursively
 // calling apply() on the next specialization of GenVtableImpl.
 // The base case of the recursion defines the actual function pointers.
-template <typename ResultType, typename Visitor, std::size_t... Dimensions,
-	typename... Variants, std::size_t... Indices>
+template <typename ResultType, typename Visitor, bksge::size_t... Dimensions,
+	typename... Variants, bksge::size_t... Indices>
 struct GenVtableImpl<
 	variant_detail::MultiArray<ResultType (*)(Visitor, Variants...), Dimensions...>,
 	bksge::index_sequence<Indices...>>
@@ -73,7 +73,7 @@ private:
 	using Next = bksge::remove_reference_t<bksge::nth_t<sizeof...(Indices), Variants...>>;
 	using ArrayType = variant_detail::MultiArray<ResultType (*)(Visitor, Variants...), Dimensions...>;
 
-	template <std::size_t Index, typename T>
+	template <bksge::size_t Index, typename T>
 	static constexpr void
 	apply_single_alt(T& element, T* cookie_element)
 	{
@@ -81,7 +81,7 @@ private:
 		*cookie_element = GenVtableImpl<T, bksge::index_sequence<Indices..., bksge::variant_npos>>::apply();
 	}
 
-	template <std::size_t Index, typename T>
+	template <bksge::size_t Index, typename T>
 	static constexpr void
 	apply_single_alt(T& element)
 	{
@@ -94,7 +94,7 @@ private:
 		element = tmp_element;
 	}
 
-	template <std::size_t First, std::size_t... Rest>
+	template <bksge::size_t First, bksge::size_t... Rest>
 	static constexpr void
 	apply_all_alts(ArrayType& vtable, bksge::index_sequence<First, Rest...>, bksge::true_type)
 	{
@@ -106,7 +106,7 @@ private:
 	apply_all_alts(ArrayType&, bksge::index_sequence<>, bksge::true_type)
 	{}
 
-	template <std::size_t First, std::size_t... Rest>
+	template <bksge::size_t First, bksge::size_t... Rest>
 	static constexpr void
 	apply_all_alts(ArrayType& vtable, bksge::index_sequence<First, Rest...>, bksge::false_type)
 	{
@@ -134,7 +134,7 @@ public:
 // This partial specialization is the base case for the recursion.
 // It populates a MultiArray element with the address of a function
 // that invokes the visitor with the alternatives specified by Indices.
-template <typename ResultType, typename Visitor, typename... Variants, std::size_t... Indices>
+template <typename ResultType, typename Visitor, typename... Variants, bksge::size_t... Indices>
 struct GenVtableImpl<
 	variant_detail::MultiArray<ResultType (*)(Visitor, Variants...)>,
 	bksge::index_sequence<Indices...>>
@@ -142,21 +142,21 @@ struct GenVtableImpl<
 private:
 	using ArrayType = variant_detail::MultiArray<ResultType (*)(Visitor, Variants...)>;
 
-	template <std::size_t Index, typename Variant, typename = bksge::enable_if_t<Index != bksge::variant_npos>>
+	template <bksge::size_t Index, typename Variant, typename = bksge::enable_if_t<Index != bksge::variant_npos>>
 	static constexpr decltype(auto)
 	element_by_index_or_cookie_impl(Variant&& var, bksge::detail::overload_priority<1>) noexcept
 	{
 		return variant_detail::variant_access::get_impl<Index>(bksge::forward<Variant>(var));
 	}
 
-	template <std::size_t Index, typename Variant>
+	template <bksge::size_t Index, typename Variant>
 	static constexpr decltype(auto)
 	element_by_index_or_cookie_impl(Variant&& , bksge::detail::overload_priority<0>) noexcept
 	{
 		return variant_detail::VariantCookie{};
 	}
 
-	template <std::size_t Index, typename Variant>
+	template <bksge::size_t Index, typename Variant>
 	static constexpr decltype(auto)
 	element_by_index_or_cookie(Variant&& var) noexcept
 	{
@@ -173,7 +173,7 @@ private:
 		// and discard the return value:
 		bksge::invoke(bksge::forward<Visitor>(visitor),
 			element_by_index_or_cookie<Indices>(bksge::forward<Variants>(vars))...,
-			bksge::integral_constant<std::size_t, Indices>()...);
+			bksge::integral_constant<bksge::size_t, Indices>()...);
 	}
 
 	// ResultType == VariantCookie

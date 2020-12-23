@@ -10,7 +10,7 @@
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <string>
 #include <vector>
 #include <gtest/gtest.h>
@@ -26,7 +26,7 @@ template <typename T>
 struct MyRange
 {
 	BKSGE_CXX14_CONSTEXPR MyRange() : m_value{} {}
-	BKSGE_CXX14_CONSTEXPR std::size_t size() const noexcept { return 1; }
+	BKSGE_CXX14_CONSTEXPR bksge::size_t size() const noexcept { return 1; }
 	BKSGE_CXX14_CONSTEXPR T      * data()        noexcept { return &m_value; }
 	BKSGE_CXX14_CONSTEXPR T const* data()  const noexcept { return &m_value; }
 	BKSGE_CXX14_CONSTEXPR T      * begin()       noexcept { return &m_value; }

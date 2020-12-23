@@ -131,7 +131,7 @@ private:
 
 #include <bksge/fnd/tuple/tuple_element.hpp>
 #include <bksge/fnd/tuple/tuple_size.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 
 namespace BKSGE_TUPLE_NAMESPACE
 {
@@ -147,7 +147,7 @@ struct tuple_size<bksge::math::Rect<T>>
 /**
  *	@brief	tuple_element
  */
-template <std::size_t I, typename T>
+template <bksge::size_t I, typename T>
 struct tuple_element<I, bksge::math::Rect<T>>
 	: public tuple_element<I, bksge::math::detail::VectorBase<T, 4>>
 {};

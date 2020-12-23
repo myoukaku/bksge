@@ -9,6 +9,7 @@
 #include <bksge/core/render/address_mode.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <vector>
 #include <functional>
 #include <sstream>
@@ -64,7 +65,7 @@ GTEST_TEST(Render_AddressMode, SerializeTest)
 GTEST_TEST(Render_AddressMode, HashTest)
 {
 	std::hash<bksge::AddressMode> h;
-	std::vector<std::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(bksge::AddressMode::kRepeat));
 	v.push_back(h(bksge::AddressMode::kMirror));
 	v.push_back(h(bksge::AddressMode::kClamp));

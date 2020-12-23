@@ -28,8 +28,8 @@ using std::variant_size_v;
 
 #include <bksge/fnd/variant/fwd/variant_fwd.hpp>
 #include <bksge/fnd/type_traits/integral_constant.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstddef>
 
 namespace bksge
 {
@@ -43,7 +43,7 @@ struct variant_size;
 #if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
 
 template <typename T>
-BKSGE_INLINE_VAR BKSGE_CONSTEXPR std::size_t
+BKSGE_INLINE_VAR BKSGE_CONSTEXPR bksge::size_t
 variant_size_v = variant_size<T>::value;
 
 #endif
@@ -62,7 +62,7 @@ struct variant_size<T const volatile>
 
 template <typename... Types>
 struct variant_size<variant<Types...>>
-	: public bksge::integral_constant<std::size_t, sizeof...(Types)> {};
+	: public bksge::integral_constant<bksge::size_t, sizeof...(Types)> {};
 
 }	// namespace bksge
 

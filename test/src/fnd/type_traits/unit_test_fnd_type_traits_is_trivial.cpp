@@ -7,7 +7,7 @@
  */
 
 #include <bksge/fnd/type_traits/is_trivial.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
@@ -80,7 +80,7 @@ BKSGE_IS_TRIVIAL_TEST(true, unsigned int);
 BKSGE_IS_TRIVIAL_TEST(true, unsigned short);
 BKSGE_IS_TRIVIAL_TEST(true, unsigned long);
 BKSGE_IS_TRIVIAL_TEST(true, unsigned long long);
-BKSGE_IS_TRIVIAL_TEST(true, std::size_t);
+BKSGE_IS_TRIVIAL_TEST(true, bksge::size_t);
 BKSGE_IS_TRIVIAL_TEST(true, float);
 BKSGE_IS_TRIVIAL_TEST(true, double);
 BKSGE_IS_TRIVIAL_TEST(true, long double);

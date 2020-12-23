@@ -11,6 +11,7 @@
 
 #include <bksge/fnd/tuple/detail/head_base.hpp>
 #include <bksge/fnd/tuple/detail/use_alloc.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_move_constructible.hpp>
@@ -18,7 +19,6 @@
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstddef>
 #include <memory>
 
 namespace bksge
@@ -35,7 +35,7 @@ namespace tuple_detail
  * point in the hierarchy; we use it to implement a constant-time
  * get() operation.
  */
-template <std::size_t Idx, typename... Types>
+template <bksge::size_t Idx, typename... Types>
 struct tuple_impl;
 
 /**
@@ -43,12 +43,12 @@ struct tuple_impl;
  * and derive from a @c Tuple_impl containing the remaining elements
  * (which contains the @c Tail).
  */
-template <std::size_t Idx, typename Head, typename... Tail>
+template <bksge::size_t Idx, typename Head, typename... Tail>
 struct tuple_impl<Idx, Head, Tail...>
 	: public tuple_impl<Idx + 1, Tail...>
 	, private head_base<Idx, Head>
 {
-	template <std::size_t, typename...>
+	template <bksge::size_t, typename...>
 	friend struct tuple_impl;
 
 	using Inherited = tuple_impl<Idx + 1, Tail...>;
@@ -190,11 +190,11 @@ protected:
 };
 
 // Basis case of inheritance recursion.
-template <std::size_t Idx, typename Head>
+template <bksge::size_t Idx, typename Head>
 struct tuple_impl<Idx, Head>
 	: private head_base<Idx, Head>
 {
-	template <std::size_t, typename...>
+	template <bksge::size_t, typename...>
 	friend struct tuple_impl;
 
 	using Base = head_base<Idx, Head>;

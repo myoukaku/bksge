@@ -16,8 +16,9 @@
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/type_traits/is_trivially_copy_assignable.hpp>
 #include <bksge/fnd/cstring/memmove.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/utility/move.hpp>
-#include <cstddef>
+#include <bksge/fnd/config.hpp>
 
 namespace bksge
 {
@@ -53,7 +54,7 @@ bksge::enable_if_t<
 >
 move(T* first, T* last, U* result)
 {
-	auto const n = static_cast<std::size_t>(last - first);
+	auto const n = static_cast<bksge::size_t>(last - first);
 
 	if (n > 0)
 	{

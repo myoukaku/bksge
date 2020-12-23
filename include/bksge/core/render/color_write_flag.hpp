@@ -79,7 +79,7 @@ operator<<(std::basic_ostream<CharT, Traits>& os, ColorWriteFlag rhs)
 #if BKSGE_CXX_STANDARD <= 11
 
 #include <bksge/fnd/type_traits/underlying_type.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <functional>
 
 namespace std
@@ -88,7 +88,7 @@ namespace std
 template<>
 struct hash<bksge::render::ColorWriteFlag>
 {
-	std::size_t operator()(bksge::render::ColorWriteFlag const& arg) const
+	bksge::size_t operator()(bksge::render::ColorWriteFlag const& arg) const
 	{
 		using type = bksge::underlying_type_t<bksge::render::ColorWriteFlag>;
 		return std::hash<type>{}(static_cast<type>(arg));

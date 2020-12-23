@@ -9,7 +9,7 @@
 #include <bksge/fnd/variant/variant_alternative.hpp>
 #include <bksge/fnd/variant/variant.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <gtest/gtest.h>
 #include "fnd/variant/test_macros.hpp"
 #include "fnd/variant/variant_test_helpers.hpp"
@@ -20,7 +20,7 @@ namespace bksge_variant_test
 namespace variant_alternative_test
 {
 
-template <typename V, std::size_t I, typename E>
+template <typename V, bksge::size_t I, typename E>
 void test()
 {
 	static_assert(bksge::is_same<typename bksge::variant_alternative<I, V>::type, E>::value, "");

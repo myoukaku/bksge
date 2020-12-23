@@ -8,9 +8,9 @@
 
 #include <bksge/fnd/span.hpp>
 #include <bksge/fnd/cstddef/byte.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstddef>
 #include <string>
 #include <gtest/gtest.h>
 #include "noexcept_test.hpp"
@@ -79,7 +79,7 @@ GTEST_TEST(SpanTest, AsWritableBytesTest)
 	test(bksge::span<int, 5>(arr + 1, 5));
 
 	std::string s;
-	test(bksge::span<std::string>(&s, static_cast<std::size_t>(0)));
+	test(bksge::span<std::string>(&s, static_cast<bksge::size_t>(0)));
 	test(bksge::span<std::string>(&s, 1));
 }
 

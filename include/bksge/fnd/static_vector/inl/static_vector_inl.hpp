@@ -15,6 +15,7 @@
 #include <bksge/fnd/algorithm/lexicographical_compare.hpp>
 #include <bksge/fnd/algorithm/remove.hpp>
 #include <bksge/fnd/algorithm/remove_if.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/iterator/distance.hpp>
 #include <bksge/fnd/iterator/make_move_iterator.hpp>
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
@@ -22,33 +23,32 @@
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstddef>
 #include <initializer_list>
 
 namespace bksge
 {
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR
 static_vector<T, C>::static_vector() BKSGE_NOEXCEPT
 {
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR
 static_vector<T, C>::static_vector(size_type count)
 {
 	base_t::emplace_back_n(count);
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR
 static_vector<T, C>::static_vector(size_type count, value_type const& value)
 {
 	base_t::push_back_n(count, value);
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 template <typename InputIterator, typename>
 inline BKSGE_CXX14_CONSTEXPR
 static_vector<T, C>::static_vector(InputIterator first, InputIterator last)
@@ -56,14 +56,14 @@ static_vector<T, C>::static_vector(InputIterator first, InputIterator last)
 	base_t::push_back_iter(first, last);
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR
 static_vector<T, C>::static_vector(static_vector const& other)
 {
 	base_t::push_back_iter(other.begin(), other.end());
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR
 static_vector<T, C>::static_vector(static_vector&& other)
 	BKSGE_NOEXCEPT_IF(bksge::is_nothrow_move_constructible<value_type>::value)
@@ -74,14 +74,14 @@ static_vector<T, C>::static_vector(static_vector&& other)
 	other.clear();
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR
 static_vector<T, C>::static_vector(std::initializer_list<value_type> il)
 	: static_vector(il.begin(), il.end())
 {
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::operator=(static_vector const& other) -> static_vector&
 {
@@ -93,7 +93,7 @@ static_vector<T, C>::operator=(static_vector const& other) -> static_vector&
 	return *this;
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::operator=(static_vector&& other)
 	BKSGE_NOEXCEPT_IF(bksge::is_nothrow_move_assignable<value_type>::value) -> static_vector&
@@ -109,7 +109,7 @@ static_vector<T, C>::operator=(static_vector&& other)
 	return *this;
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::operator=(std::initializer_list<value_type> il)
  -> static_vector&
@@ -118,7 +118,7 @@ static_vector<T, C>::operator=(std::initializer_list<value_type> il)
 	return *this;
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR void
 static_vector<T, C>::assign(size_type count, value_type const& value)
 {
@@ -126,7 +126,7 @@ static_vector<T, C>::assign(size_type count, value_type const& value)
 	base_t::push_back_n(count, value);
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 template <typename InputIterator, typename>
 inline BKSGE_CXX14_CONSTEXPR void
 static_vector<T, C>::assign(InputIterator first, InputIterator last)
@@ -138,7 +138,7 @@ static_vector<T, C>::assign(InputIterator first, InputIterator last)
 	}
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR void
 static_vector<T, C>::assign(std::initializer_list<value_type> il)
 {
@@ -147,7 +147,7 @@ static_vector<T, C>::assign(std::initializer_list<value_type> il)
 
 //BKSGE_CXX20_CONSTEXPR allocator_type get_allocator() const BKSGE_NOEXCEPT;
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::at(size_type pos) -> reference
 {
@@ -159,7 +159,7 @@ static_vector<T, C>::at(size_type pos) -> reference
 	return base_t::begin()[pos];
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::at(size_type pos) const -> const_reference
 {
@@ -171,7 +171,7 @@ static_vector<T, C>::at(size_type pos) const -> const_reference
 	return base_t::begin()[pos];
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::operator[](size_type pos) -> reference
 {
@@ -179,7 +179,7 @@ static_vector<T, C>::operator[](size_type pos) -> reference
 	return base_t::begin()[pos];
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::operator[](size_type pos) const -> const_reference
 {
@@ -187,7 +187,7 @@ static_vector<T, C>::operator[](size_type pos) const -> const_reference
 	return base_t::begin()[pos];
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::front() -> reference
 {
@@ -195,7 +195,7 @@ static_vector<T, C>::front() -> reference
 	return *base_t::begin();
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::front() const -> const_reference
 {
@@ -203,7 +203,7 @@ static_vector<T, C>::front() const -> const_reference
 	return *base_t::begin();
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::back() -> reference
 {
@@ -211,7 +211,7 @@ static_vector<T, C>::back() -> reference
 	return *(base_t::end() - 1);
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::back() const -> const_reference
 {
@@ -219,140 +219,140 @@ static_vector<T, C>::back() const -> const_reference
 	return *(base_t::end() - 1);
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::data() BKSGE_NOEXCEPT -> value_type*
 {
 	return base_t::begin();
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::data() const BKSGE_NOEXCEPT -> value_type const*
 {
 	return base_t::begin();
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::begin() BKSGE_NOEXCEPT -> iterator
 {
 	return iterator(base_t::begin());
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::begin() const BKSGE_NOEXCEPT -> const_iterator
 {
 	return const_iterator(base_t::begin());
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::end() BKSGE_NOEXCEPT -> iterator
 {
 	return iterator(base_t::end());
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::end() const BKSGE_NOEXCEPT -> const_iterator
 {
 	return const_iterator(base_t::end());
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::rbegin() BKSGE_NOEXCEPT -> reverse_iterator
 {
 	return reverse_iterator(end());
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::rbegin() const BKSGE_NOEXCEPT -> const_reverse_iterator
 {
 	return const_reverse_iterator(end());
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::rend() BKSGE_NOEXCEPT -> reverse_iterator
 {
 	return reverse_iterator(begin());
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::rend() const BKSGE_NOEXCEPT -> const_reverse_iterator
 {
 	return const_reverse_iterator(begin());
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::cbegin() const BKSGE_NOEXCEPT -> const_iterator
 {
 	return begin();
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::cend() const BKSGE_NOEXCEPT -> const_iterator
 {
 	return end();
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::crbegin() const BKSGE_NOEXCEPT -> const_reverse_iterator
 {
 	return rbegin();
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::crend()   const BKSGE_NOEXCEPT -> const_reverse_iterator
 {
 	return rend();
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 BKSGE_NODISCARD inline BKSGE_CXX14_CONSTEXPR bool
 static_vector<T, C>::empty() const BKSGE_NOEXCEPT
 {
 	return size() == 0;
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::size() const BKSGE_NOEXCEPT -> size_type
 {
 	return base_t::size();
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR void
 static_vector<T, C>::reserve(size_type new_cap)
 {
 	base_t::reserve(new_cap);
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR void
 static_vector<T, C>::shrink_to_fit()
 {
 	// do nothing
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR void
 static_vector<T, C>::clear() BKSGE_NOEXCEPT
 {
 	base_t::clear();
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::insert(const_iterator pos, const_reference value) -> iterator
 {
@@ -361,7 +361,7 @@ static_vector<T, C>::insert(const_iterator pos, const_reference value) -> iterat
 	return iterator(p);
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::insert(const_iterator pos, value_type&& value) -> iterator
 {
@@ -370,7 +370,7 @@ static_vector<T, C>::insert(const_iterator pos, value_type&& value) -> iterator
 	return iterator(p);
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::insert(const_iterator pos, size_type count, const_reference value)
 -> iterator
@@ -380,7 +380,7 @@ static_vector<T, C>::insert(const_iterator pos, size_type count, const_reference
 	return iterator(p);
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 template <typename InputIterator, typename>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::insert(const_iterator pos, InputIterator first, InputIterator last)
@@ -391,7 +391,7 @@ static_vector<T, C>::insert(const_iterator pos, InputIterator first, InputIterat
 	return iterator(p);
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::insert(const_iterator pos, std::initializer_list<value_type> il)
 -> iterator
@@ -399,7 +399,7 @@ static_vector<T, C>::insert(const_iterator pos, std::initializer_list<value_type
 	return insert(pos, il.begin(), il.end());
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 template <typename... Args>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::emplace(const_iterator pos, Args&&... args) -> iterator
@@ -409,7 +409,7 @@ static_vector<T, C>::emplace(const_iterator pos, Args&&... args) -> iterator
 	return iterator(p);
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::erase(const_iterator pos) -> iterator
 {
@@ -420,7 +420,7 @@ static_vector<T, C>::erase(const_iterator pos) -> iterator
 	return iterator(p);
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::erase(const_iterator first, const_iterator last) -> iterator
 {
@@ -434,21 +434,21 @@ static_vector<T, C>::erase(const_iterator first, const_iterator last) -> iterato
 	return iterator(p);
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR void
 static_vector<T, C>::push_back(const_reference value)
 {
 	base_t::push_back_n(1, value);
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR void
 static_vector<T, C>::push_back(value_type&& value)
 {
 	base_t::emplace_back_n(1, bksge::move(value));
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 template <typename... Args>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::emplace_back(Args&&... args) -> reference
@@ -457,7 +457,7 @@ static_vector<T, C>::emplace_back(Args&&... args) -> reference
 	return back();
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR void
 static_vector<T, C>::pop_back()
 {
@@ -465,7 +465,7 @@ static_vector<T, C>::pop_back()
 	base_t::pop_back_n(1);
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR void
 static_vector<T, C>::resize(size_type count)
 {
@@ -480,7 +480,7 @@ static_vector<T, C>::resize(size_type count)
 	}
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR void
 static_vector<T, C>::resize(size_type count, value_type const& value)
 {
@@ -495,7 +495,7 @@ static_vector<T, C>::resize(size_type count, value_type const& value)
 	}
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR void
 static_vector<T, C>::swap(static_vector& other)
 	BKSGE_NOEXCEPT_IF(bksge::is_nothrow_swappable<value_type>::value)
@@ -505,7 +505,7 @@ static_vector<T, C>::swap(static_vector& other)
 	*this = bksge::move(tmp);
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR void
 swap(static_vector<T, C>& lhs, static_vector<T, C>& rhs)
 	BKSGE_NOEXCEPT_IF_EXPR(lhs.swap(rhs))
@@ -513,49 +513,49 @@ swap(static_vector<T, C>& lhs, static_vector<T, C>& rhs)
 	lhs.swap(rhs);
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR bool
 operator==(static_vector<T, C> const& lhs, static_vector<T, C> const& rhs)
 {
 	return bksge::equal(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR bool
 operator!=(static_vector<T, C> const& lhs, static_vector<T, C> const& rhs)
 {
 	return !(lhs == rhs);
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR bool
 operator<(static_vector<T, C> const& lhs, static_vector<T, C> const& rhs)
 {
 	return bksge::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR bool
 operator>(static_vector<T, C> const& lhs, static_vector<T, C> const& rhs)
 {
 	return rhs < lhs;
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR bool
 operator<=(static_vector<T, C> const& lhs, static_vector<T, C> const& rhs)
 {
 	return !(rhs < lhs);
 }
 
-template <typename T, std::size_t C>
+template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR bool
 operator>=(static_vector<T, C> const& lhs, static_vector<T, C> const& rhs)
 {
 	return !(lhs < rhs);
 }
 
-template <typename T, std::size_t C, typename U>
+template <typename T, bksge::size_t C, typename U>
 inline BKSGE_CXX14_CONSTEXPR typename static_vector<T, C>::size_type
 erase(static_vector<T, C>& c, U const& value)
 {
@@ -565,7 +565,7 @@ erase(static_vector<T, C>& c, U const& value)
 	return r;
 }
 
-template <typename T, std::size_t C, typename Pred>
+template <typename T, bksge::size_t C, typename Pred>
 inline BKSGE_CXX14_CONSTEXPR typename static_vector<T, C>::size_type
 erase_if(static_vector<T, C>& c, Pred pred)
 {

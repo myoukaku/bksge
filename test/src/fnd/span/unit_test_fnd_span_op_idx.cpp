@@ -7,7 +7,7 @@
  */
 
 #include <bksge/fnd/span.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <string>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -20,7 +20,7 @@ namespace op_idx_test
 {
 
 template <typename Span>
-BKSGE_CXX14_CONSTEXPR bool test(Span sp, std::size_t idx)
+BKSGE_CXX14_CONSTEXPR bool test(Span sp, bksge::size_t idx)
 {
 	BKSGE_ASSERT_NOEXCEPT(sp[idx]);
 

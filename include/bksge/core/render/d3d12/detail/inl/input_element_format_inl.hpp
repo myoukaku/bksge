@@ -15,8 +15,8 @@
 #include <bksge/core/render/d3d12/detail/input_element_format.hpp>
 #include <bksge/core/render/d3d_common/dxgi.hpp>
 #include <bksge/core/render/detail/type_enum.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/assert.hpp>
-#include <cstddef>
 
 namespace bksge
 {
@@ -28,7 +28,7 @@ namespace d3d12
 {
 
 BKSGE_INLINE ::DXGI_FORMAT
-ToD3D12InputElementFormat(bksge::TypeEnum type, std::size_t count)
+ToD3D12InputElementFormat(bksge::TypeEnum type, bksge::size_t count)
 {
 	BKSGE_ASSERT(1u <= count && count <= 4u);
 	static const ::DXGI_FORMAT format_tbl[][4] =

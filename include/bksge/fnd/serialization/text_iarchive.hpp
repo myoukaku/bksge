@@ -13,13 +13,13 @@
 #include <bksge/fnd/serialization/detail/pointer_loader.hpp>
 #include <bksge/fnd/serialization/nvp.hpp>
 #include <bksge/fnd/serialization/base_object.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_floating_point.hpp>
 #include <bksge/fnd/type_traits/is_integral.hpp>
 #include <bksge/fnd/type_traits/is_unsigned.hpp>
 #include <bksge/fnd/type_traits/is_signed.hpp>
 #include <cstdint>
-#include <cstddef>
 #include <memory>
 #include <vector>
 #include <istream>
@@ -97,11 +97,11 @@ public:
 		// ※このループ中にm_pointer_listに要素が追加されて、
 		// 　イテレータが無効になる可能性があるので、
 		// 　Range-based For や イテレータでループはできない
-		for (std::size_t i = 0; i < m_pointer_list.size(); ++i)
+		for (bksge::size_t i = 0; i < m_pointer_list.size(); ++i)
 		{
 			auto&& ptr = m_pointer_list[i];
 
-			std::size_t id;
+			bksge::size_t id;
 			load(id);
 
 			bool found = false;
@@ -155,10 +155,10 @@ private:
 		bksge::serialization::detail::load_dispatch::invoke(*this, t);
 	}
 
-	template <typename T, std::size_t N>
+	template <typename T, bksge::size_t N>
 	void load_array(T (&t)[N])
 	{
-		for (std::size_t i = 0; i < N; ++i)
+		for (bksge::size_t i = 0; i < N; ++i)
 		{
 			*this >> t[i];
 		}
@@ -234,7 +234,7 @@ private:
 
 private:
 	std::unique_ptr<text_iarchive_impl_base>			m_impl;
-	std::unordered_map<const void*, std::size_t>		m_tracking;
+	std::unordered_map<const void*, bksge::size_t>		m_tracking;
 	std::vector<detail::pointer_loader<text_iarchive>>	m_pointer_list;
 	std::vector<std::function<void()>>					m_on_destroy;
 

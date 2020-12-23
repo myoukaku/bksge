@@ -18,8 +18,8 @@
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
 #include <bksge/fnd/utility/forward.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstddef>
 
 namespace bksge
 {
@@ -27,7 +27,7 @@ namespace bksge
 namespace detail
 {
 
-template <typename Tuple, typename Result, std::size_t N, bool = (N > 1)>
+template <typename Tuple, typename Result, bksge::size_t N, bool = (N > 1)>
 struct tuple_tail_impl
 {
 	static BKSGE_CONSTEXPR Result
@@ -39,7 +39,7 @@ struct tuple_tail_impl
 	}
 
 private:
-	template <std::size_t I, std::size_t ... Indices>
+	template <bksge::size_t I, bksge::size_t ... Indices>
 	static BKSGE_CONSTEXPR Result
 	do_tuple_tail(Tuple&& t, bksge::index_sequence<I, Indices...>)
 	{
@@ -48,7 +48,7 @@ private:
 	}
 };
 
-template <typename Tuple, typename Result, std::size_t N>
+template <typename Tuple, typename Result, bksge::size_t N>
 struct tuple_tail_impl<Tuple, Result, N, false>
 {
 	static BKSGE_CONSTEXPR Result

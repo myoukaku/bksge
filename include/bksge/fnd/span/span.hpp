@@ -32,6 +32,7 @@ using std::span;
 #include <bksge/fnd/span/detail/span_compatible_iterator.hpp>
 #include <bksge/fnd/span/detail/span_compatible_range.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/ranges/range_reference_t.hpp>
 #include <bksge/fnd/ranges/data.hpp>
 #include <bksge/fnd/ranges/size.hpp>
@@ -50,16 +51,15 @@ using std::span;
 #include <bksge/fnd/memory/to_address.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <array>
-#include <cstddef>
 
 namespace bksge
 {
 
-template <typename T, std::size_t Extent>
+template <typename T, bksge::size_t Extent>
 class span
 {
 private:
-	template <typename U, std::size_t N>
+	template <typename U, bksge::size_t N>
 	using is_compatible_array =
 		bksge::conjunction<
 			bksge::bool_constant<N == Extent>,
@@ -70,7 +70,7 @@ public:
 	// member types
 	using element_type           = T;
 	using value_type             = bksge::remove_cv_t<T>;
-	using size_type              = std::size_t;
+	using size_type              = bksge::size_t;
 	using difference_type        = std::ptrdiff_t;
 	using pointer                = T*;
 	using const_pointer          = T const*;
@@ -80,13 +80,13 @@ public:
 	using reverse_iterator       = bksge::reverse_iterator<iterator>;
 
 	// member constants
-	BKSGE_STATIC_CONSTEXPR std::size_t extent = Extent;
+	BKSGE_STATIC_CONSTEXPR bksge::size_t extent = Extent;
 
 	// constructors, copy and assignment
 
 #if !defined(BKSGE_HAS_CXX20_CONCEPTS)
 	template <
-		std::size_t E = Extent,
+		bksge::size_t E = Extent,
 		typename = bksge::enable_if_t<E == 0u>
 	>
 #endif
@@ -124,7 +124,7 @@ public:
 		BKSGE_ASSERT(static_cast<size_type>(last - first) == Extent);
 	}
 
-	template <std::size_t N
+	template <bksge::size_t N
 #if !defined(BKSGE_HAS_CXX20_CONCEPTS)
 		, typename = bksge::enable_if_t<N == Extent>
 #endif
@@ -135,7 +135,7 @@ public:
 		: span(static_cast<pointer>(arr), N)
 	{}
 
-	template <typename U, std::size_t N
+	template <typename U, bksge::size_t N
 #if !defined(BKSGE_HAS_CXX20_CONCEPTS)
 		, typename = bksge::enable_if_t<
 			is_compatible_array<U, N>::value
@@ -148,7 +148,7 @@ public:
 		: span(static_cast<pointer>(arr.data()), N)
 	{}
 
-	template <typename U, std::size_t N
+	template <typename U, bksge::size_t N
 #if !defined(BKSGE_HAS_CXX20_CONCEPTS)
 		, typename = bksge::enable_if_t<
 			is_compatible_array<U const, N>::value
@@ -175,7 +175,7 @@ public:
 	BKSGE_CONSTEXPR span(span const&) BKSGE_NOEXCEPT = default;
 
 	template <
-		typename U, std::size_t N
+		typename U, bksge::size_t N
 #if !defined(BKSGE_HAS_CXX20_CONCEPTS)
 		, typename = bksge::enable_if_t<
 			N == bksge::dynamic_extent &&
@@ -194,7 +194,7 @@ public:
 	}
 
 	template <
-		typename U, std::size_t N
+		typename U, bksge::size_t N
 #if !defined(BKSGE_HAS_CXX20_CONCEPTS)
 		, bksge::enable_if_t<
 			N == Extent &&
@@ -299,7 +299,7 @@ public:
 
 	// subviews
 
-	template <std::size_t Count>
+	template <bksge::size_t Count>
 	BKSGE_CONSTEXPR span<element_type, Count>
 	first() const BKSGE_NOEXCEPT
 	{
@@ -317,7 +317,7 @@ public:
 			Sp{this->data(), count};
 	}
 
-	template <std::size_t Count>
+	template <bksge::size_t Count>
 	BKSGE_CONSTEXPR span<element_type, Count>
 	last() const BKSGE_NOEXCEPT
 	{
@@ -336,7 +336,7 @@ public:
 	}
 
 private:
-	template <std::size_t Offset, std::size_t Count>
+	template <bksge::size_t Offset, bksge::size_t Count>
 	struct subspan_impl
 	{
 		using type = span<element_type, Count>;
@@ -349,7 +349,7 @@ private:
 		}
 	};
 
-	template <std::size_t Offset>
+	template <bksge::size_t Offset>
 	struct subspan_impl<Offset, bksge::dynamic_extent>
 	{
 		using type = span<element_type, Extent - Offset>;
@@ -361,7 +361,7 @@ private:
 	};
 
 public:
-	template <std::size_t Offset, std::size_t Count = bksge::dynamic_extent>
+	template <bksge::size_t Offset, bksge::size_t Count = bksge::dynamic_extent>
 	BKSGE_CONSTEXPR auto
 	subspan() const BKSGE_NOEXCEPT
 		-> typename subspan_impl<Offset, Count>::type
@@ -391,7 +391,7 @@ template <typename T>
 class span<T, bksge::dynamic_extent>
 {
 private:
-	template <typename U, std::size_t N>
+	template <typename U, bksge::size_t N>
 	using is_compatible_array =
 		detail::is_array_convertible<T, U>;
 
@@ -399,7 +399,7 @@ public:
 	// member types
 	using element_type           = T;
 	using value_type             = bksge::remove_cv_t<T>;
-	using size_type              = std::size_t;
+	using size_type              = bksge::size_t;
 	using difference_type        = std::ptrdiff_t;
 	using pointer                = T*;
 	using const_pointer          = T const*;
@@ -409,7 +409,7 @@ public:
 	using reverse_iterator       = bksge::reverse_iterator<iterator>;
 
 	// member constants
-	BKSGE_STATIC_CONSTEXPR std::size_t extent = bksge::dynamic_extent;
+	BKSGE_STATIC_CONSTEXPR bksge::size_t extent = bksge::dynamic_extent;
 
 	// constructors, copy and assignment
 
@@ -445,13 +445,13 @@ public:
 		, m_ptr(bksge::to_address(first))
 	{}
 
-	template <std::size_t N>
+	template <bksge::size_t N>
 	BKSGE_CONSTEXPR
 	span(bksge::type_identity_t<element_type> (&arr)[N]) BKSGE_NOEXCEPT
 		: span(static_cast<pointer>(arr), N)
 	{}
 
-	template <typename U, std::size_t N
+	template <typename U, bksge::size_t N
 #if !defined(BKSGE_HAS_CXX20_CONCEPTS)
 		, typename = bksge::enable_if_t<
 			is_compatible_array<U, N>::value
@@ -464,7 +464,7 @@ public:
 		: span(static_cast<pointer>(arr.data()), N)
 	{}
 
-	template <typename U, std::size_t N
+	template <typename U, bksge::size_t N
 #if !defined(BKSGE_HAS_CXX20_CONCEPTS)
 		, typename = bksge::enable_if_t<
 			is_compatible_array<U const, N>::value
@@ -489,7 +489,7 @@ public:
 	BKSGE_CONSTEXPR span(span const&) BKSGE_NOEXCEPT = default;
 
 	template <
-		typename U, std::size_t N
+		typename U, bksge::size_t N
 #if !defined(BKSGE_HAS_CXX20_CONCEPTS)
 		, typename = bksge::enable_if_t<
 			detail::is_array_convertible<T, U>::value
@@ -587,7 +587,7 @@ public:
 
 	// subviews
 
-	template <std::size_t Count>
+	template <bksge::size_t Count>
 	BKSGE_CONSTEXPR span<element_type, Count>
 	first() const BKSGE_NOEXCEPT
 	{
@@ -606,7 +606,7 @@ public:
 			Sp{this->data(), count};
 	}
 
-	template <std::size_t Count>
+	template <bksge::size_t Count>
 	BKSGE_CONSTEXPR span<element_type, Count>
 	last() const BKSGE_NOEXCEPT
 	{
@@ -626,12 +626,12 @@ public:
 	}
 
 private:
-	template <std::size_t Offset, std::size_t Count>
+	template <bksge::size_t Offset, bksge::size_t Count>
 	struct subspan_impl
 	{
 		using type = span<element_type, Count>;
 
-		static BKSGE_CONSTEXPR type get(pointer data, std::size_t size)
+		static BKSGE_CONSTEXPR type get(pointer data, bksge::size_t size)
 		{
 			return
 				BKSGE_ASSERT(Count <= size),
@@ -640,19 +640,19 @@ private:
 		}
 	};
 
-	template <std::size_t Offset>
+	template <bksge::size_t Offset>
 	struct subspan_impl<Offset, bksge::dynamic_extent>
 	{
 		using type = span<element_type, bksge::dynamic_extent>;
 
-		static BKSGE_CONSTEXPR type get(pointer data, std::size_t size)
+		static BKSGE_CONSTEXPR type get(pointer data, bksge::size_t size)
 		{
 			return type{data + Offset, size - Offset};
 		}
 	};
 
 public:
-	template <std::size_t Offset, std::size_t Count = bksge::dynamic_extent>
+	template <bksge::size_t Offset, bksge::size_t Count = bksge::dynamic_extent>
 	BKSGE_CONSTEXPR auto
 	subspan() const BKSGE_NOEXCEPT
 		-> typename subspan_impl<Offset, Count>::type
@@ -676,7 +676,7 @@ public:
 	}
 
 private:
-	std::size_t	m_extent;
+	bksge::size_t	m_extent;
 	pointer		m_ptr;
 };
 
@@ -684,13 +684,13 @@ private:
 
 // deduction guides
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 span(T(&)[N]) -> span<T, N>;
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 span(std::array<T, N>&) -> span<T, N>;
 
-template <typename T, std::size_t N>
+template <typename T, bksge::size_t N>
 span(std::array<T, N> const&) -> span<T const, N>;
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
@@ -718,7 +718,7 @@ span(Range&&)
 
 #include <bksge/fnd/ranges/concepts/enable_borrowed_range.hpp>
 #include <bksge/fnd/ranges/concepts/enable_view.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/size_t.hpp>
 
 namespace bksge
 {
@@ -726,10 +726,10 @@ namespace bksge
 namespace ranges
 {
 
-template <typename T, std::size_t Extent>
+template <typename T, bksge::size_t Extent>
 BKSGE_RANGES_SPECIALIZE_ENABLE_BORROWED_RANGE(true, bksge::span<T, Extent>);
 
-template <typename T, std::size_t Extent>
+template <typename T, bksge::size_t Extent>
 BKSGE_RANGES_SPECIALIZE_ENABLE_VIEW((Extent == 0 || Extent == bksge::dynamic_extent), bksge::span<T, Extent>);
 
 }	// namespace ranges

@@ -7,6 +7,7 @@
  */
 
 #include <bksge/fnd/config.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <gtest/gtest.h>
 #include <iostream>
 #include <string>
@@ -115,7 +116,7 @@ using f = void(*)() noexcept;
 GTEST_TEST(ConfigTest, Cxx17ExpressionEvaluationOrderTest)
 {
 #if defined(BKSGE_HAS_CXX17_EXPRESSION_EVALUATION_ORDER)
-	std::map<int, std::size_t> m;
+	std::map<int, bksge::size_t> m;
 	m[0] = m.size();
 	EXPECT_EQ(0u, m[0]);
 #endif	// defined(BKSGE_HAS_CXX17_EXPRESSION_EVALUATION_ORDER)

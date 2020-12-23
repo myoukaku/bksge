@@ -7,8 +7,8 @@
  */
 
 #include <bksge/fnd/type_traits/is_final.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstddef>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
@@ -31,7 +31,7 @@ BKSGE_IS_FINAL_TEST(false, unsigned int);
 BKSGE_IS_FINAL_TEST(false, unsigned short);
 BKSGE_IS_FINAL_TEST(false, unsigned long);
 BKSGE_IS_FINAL_TEST(false, unsigned long long);
-BKSGE_IS_FINAL_TEST(false, std::size_t);
+BKSGE_IS_FINAL_TEST(false, bksge::size_t);
 BKSGE_IS_FINAL_TEST(false, float);
 BKSGE_IS_FINAL_TEST(false, double);
 BKSGE_IS_FINAL_TEST(false, long double);

@@ -18,6 +18,7 @@
 #include <bksge/core/math/matrix3x3.hpp>
 #include <bksge/fnd/cmath/sin.hpp>
 #include <bksge/fnd/cmath/cos.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/numeric/ranges/inner_product.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
@@ -439,7 +440,7 @@ struct tuple_size<bksge::math::Quaternion<T>>
 /**
  *	@brief	tuple_element
  */
-template <std::size_t I, typename T>
+template <bksge::size_t I, typename T>
 struct tuple_element<I, bksge::math::Quaternion<T>>
 	: public tuple_element<I, bksge::math::detail::VectorBase<T, 4>>
 {};

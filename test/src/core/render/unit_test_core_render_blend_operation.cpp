@@ -9,6 +9,7 @@
 #include <bksge/core/render/blend_operation.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <vector>
 #include <functional>
 #include <sstream>
@@ -66,7 +67,7 @@ GTEST_TEST(Render_BlendOperation, SerializeTest)
 GTEST_TEST(Render_BlendOperation, HashTest)
 {
 	std::hash<bksge::BlendOperation> h;
-	std::vector<std::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(bksge::BlendOperation::kAdd));
 	v.push_back(h(bksge::BlendOperation::kSubtract));
 	v.push_back(h(bksge::BlendOperation::kReverseSubtract));

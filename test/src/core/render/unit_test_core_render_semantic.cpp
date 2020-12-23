@@ -9,6 +9,7 @@
 #include <bksge/core/render/semantic.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
 #include <functional>
 #include <sstream>
 #include <vector>
@@ -127,7 +128,7 @@ GTEST_TEST(Render_Semantic, HashTest)
 {
 	std::hash<bksge::Semantic> h;
 
-	std::vector<std::size_t> v;
+	std::vector<bksge::size_t> v;
 	v.push_back(h(bksge::Semantic::kPosition));
 	v.push_back(h(bksge::Semantic::kNormal));
 	v.push_back(h(bksge::Semantic::kColor));
