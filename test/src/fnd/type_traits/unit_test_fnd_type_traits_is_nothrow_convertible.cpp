@@ -7,7 +7,6 @@
  */
 
 #include <bksge/fnd/type_traits/is_nothrow_convertible.hpp>
-#include <cstddef>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 

@@ -12,6 +12,7 @@
 #include <bksge/fnd/type_traits/aligned_storage.hpp>
 #include <bksge/fnd/type_traits/conditional.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/cstddef/max_align_t.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -50,7 +51,7 @@ template <bksge::size_t Len>
 using aligned_storage_helper =
 	aligned_storage_helper_impl<
 		Len,
-		std::max_align_t,
+		bksge::max_align_t,
 		long long,
 		long,
 		int,

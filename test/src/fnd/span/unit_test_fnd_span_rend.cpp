@@ -7,7 +7,6 @@
  */
 
 #include <bksge/fnd/span.hpp>
-#include <cstddef>
 #include <string>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
