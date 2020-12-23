@@ -11,6 +11,7 @@
 
 #include <bksge/fnd/debug/detail/value_expression_fwd.hpp>
 #include <bksge/fnd/debug/detail/expression_base.hpp>
+#include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <bksge/fnd/type_traits/remove_reference.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/void_t.hpp>
@@ -18,7 +19,6 @@
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstddef>
 #include <ostream>
 
 namespace bksge
@@ -85,7 +85,7 @@ operator<<(std::basic_ostream<CharT, Traits>& os, value_expression<T> const& /*r
 
 template <typename CharT, typename Traits>
 std::basic_ostream<CharT, Traits>&
-operator<<(std::basic_ostream<CharT, Traits>& os, value_expression<std::nullptr_t> const& /*rhs*/)
+operator<<(std::basic_ostream<CharT, Traits>& os, value_expression<bksge::nullptr_t> const& /*rhs*/)
 {
 	return os << "nullptr";
 }

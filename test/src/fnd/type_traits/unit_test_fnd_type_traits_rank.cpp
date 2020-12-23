@@ -7,7 +7,7 @@
  */
 
 #include <bksge/fnd/type_traits/rank.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
@@ -38,7 +38,7 @@ BKSGE_RANK_TEST(int);
 BKSGE_RANK_TEST(float);
 BKSGE_RANK_TEST(double);
 BKSGE_RANK_TEST(void*);
-BKSGE_RANK_TEST(std::nullptr_t);
+BKSGE_RANK_TEST(bksge::nullptr_t);
 BKSGE_RANK_TEST(decltype(nullptr));
 BKSGE_RANK_TEST(enum_UDT);
 BKSGE_RANK_TEST(enum_class_UDT);

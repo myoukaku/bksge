@@ -7,7 +7,7 @@
  */
 
 #include <bksge/fnd/type_traits/is_union.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
@@ -57,7 +57,7 @@ BKSGE_IS_UNION_TEST(false, char);
 BKSGE_IS_UNION_TEST(false, int);
 BKSGE_IS_UNION_TEST(false, float);
 BKSGE_IS_UNION_TEST(false, void*);
-BKSGE_IS_UNION_TEST(false, std::nullptr_t);
+BKSGE_IS_UNION_TEST(false, bksge::nullptr_t);
 BKSGE_IS_UNION_TEST(false, decltype(nullptr));
 BKSGE_IS_UNION_TEST(false, enum_UDT);
 BKSGE_IS_UNION_TEST(false, enum_uint32_t_UDT);

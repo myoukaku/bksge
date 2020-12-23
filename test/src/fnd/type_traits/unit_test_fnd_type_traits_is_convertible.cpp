@@ -8,6 +8,7 @@
 
 #include <bksge/fnd/type_traits/is_convertible.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
@@ -50,7 +51,7 @@ BKSGE_IS_CONVERTIBLE_TEST(true,  int, double);
 BKSGE_IS_CONVERTIBLE_TEST(true,  int, long double);
 BKSGE_IS_CONVERTIBLE_TEST(true,  int, bksge::size_t);
 BKSGE_IS_CONVERTIBLE_TEST(false, int, void*);
-BKSGE_IS_CONVERTIBLE_TEST(false, int, std::nullptr_t);
+BKSGE_IS_CONVERTIBLE_TEST(false, int, bksge::nullptr_t);
 BKSGE_IS_CONVERTIBLE_TEST(false, int, enum_UDT);
 BKSGE_IS_CONVERTIBLE_TEST(false, int, enum_uint32_t_UDT);
 BKSGE_IS_CONVERTIBLE_TEST(false, int, enum_int32_t_UDT);

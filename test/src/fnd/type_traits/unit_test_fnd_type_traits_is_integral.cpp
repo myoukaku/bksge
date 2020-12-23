@@ -8,6 +8,7 @@
 
 #include <bksge/fnd/type_traits/is_integral.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <cstdint>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
@@ -64,7 +65,7 @@ BKSGE_IS_INTEGRAL_TEST_CV(false, int(&&)[2]);
 BKSGE_IS_INTEGRAL_TEST_CV(false, int(&&)[]);
 BKSGE_IS_INTEGRAL_TEST_CV(false, void);
 BKSGE_IS_INTEGRAL_TEST_CV(false, void*);
-BKSGE_IS_INTEGRAL_TEST_CV(false, std::nullptr_t);
+BKSGE_IS_INTEGRAL_TEST_CV(false, bksge::nullptr_t);
 BKSGE_IS_INTEGRAL_TEST_CV(false, decltype(nullptr));
 BKSGE_IS_INTEGRAL_TEST_CV(false, enum_UDT);
 BKSGE_IS_INTEGRAL_TEST_CV(false, enum_uint32_t_UDT);

@@ -8,6 +8,7 @@
 
 #include <bksge/fnd/type_traits/alignment_of.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
@@ -56,7 +57,7 @@ BKSGE_ALIGNMENT_OF_TEST_PRIMITIVE(double);
 BKSGE_ALIGNMENT_OF_TEST_PRIMITIVE(long double);
 //BKSGE_ALIGNMENT_OF_TEST_PRIMITIVE(void);
 BKSGE_ALIGNMENT_OF_TEST_PRIMITIVE(void*);
-//BKSGE_ALIGNMENT_OF_TEST_PRIMITIVE(std::nullptr_t);
+//BKSGE_ALIGNMENT_OF_TEST_PRIMITIVE(bksge::nullptr_t);
 //BKSGE_ALIGNMENT_OF_TEST_PRIMITIVE(decltype(nullptr));
 BKSGE_ALIGNMENT_OF_TEST_PRIMITIVE(enum_UDT);
 BKSGE_ALIGNMENT_OF_TEST_PRIMITIVE(enum_uint32_t_UDT);

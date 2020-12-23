@@ -8,6 +8,7 @@
 
 #include <bksge/fnd/type_traits/is_unsigned.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <cstdint>	// WCHAR_MIN
 #include <climits>	// CHAR_MIN
 #include <gtest/gtest.h>
@@ -60,7 +61,7 @@ BKSGE_IS_UNSIGNED_TEST(false, double);
 BKSGE_IS_UNSIGNED_TEST(false, long double);
 BKSGE_IS_UNSIGNED_TEST(false, void);
 BKSGE_IS_UNSIGNED_TEST(false, void*);
-BKSGE_IS_UNSIGNED_TEST(false, std::nullptr_t);
+BKSGE_IS_UNSIGNED_TEST(false, bksge::nullptr_t);
 BKSGE_IS_UNSIGNED_TEST(false, decltype(nullptr));
 BKSGE_IS_UNSIGNED_TEST(false, enum_UDT);
 BKSGE_IS_UNSIGNED_TEST(false, enum_uint32_t_UDT);

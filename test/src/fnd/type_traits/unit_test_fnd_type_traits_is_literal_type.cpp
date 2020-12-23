@@ -8,6 +8,7 @@
 
 #include <bksge/fnd/type_traits/is_literal_type.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
@@ -51,7 +52,7 @@ BKSGE_IS_LITERAL_TYPE_TEST(true,  const          void);
 BKSGE_IS_LITERAL_TYPE_TEST(true,        volatile void);
 BKSGE_IS_LITERAL_TYPE_TEST(true,  const volatile void);
 BKSGE_IS_LITERAL_TYPE_TEST(true,  void*);
-BKSGE_IS_LITERAL_TYPE_TEST(true,  std::nullptr_t);
+BKSGE_IS_LITERAL_TYPE_TEST(true,  bksge::nullptr_t);
 BKSGE_IS_LITERAL_TYPE_TEST(true,  decltype(nullptr));
 BKSGE_IS_LITERAL_TYPE_TEST(true,  enum_UDT);
 BKSGE_IS_LITERAL_TYPE_TEST(true,  enum_class_UDT);

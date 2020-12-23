@@ -10,6 +10,7 @@
 #define BKSGE_FND_CSTDDEF_HPP
 
 #include <bksge/fnd/cstddef/byte.hpp>
+#include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 
 #endif // BKSGE_FND_CSTDDEF_HPP
