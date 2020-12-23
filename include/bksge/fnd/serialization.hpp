@@ -13,6 +13,7 @@
 #include <bksge/fnd/serialization/array.hpp>
 #include <bksge/fnd/serialization/base_object.hpp>
 #include <bksge/fnd/serialization/nvp.hpp>
+#include <bksge/fnd/serialization/shared_ptr.hpp>
 #include <bksge/fnd/serialization/string.hpp>
 #include <bksge/fnd/serialization/text_iarchive.hpp>
 #include <bksge/fnd/serialization/text_oarchive.hpp>
