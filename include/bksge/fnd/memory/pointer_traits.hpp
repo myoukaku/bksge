@@ -32,8 +32,8 @@ using std::pointer_traits;
 #include <bksge/fnd/type_traits/void_t.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
+#include <bksge/fnd/cstddef/ptrdiff_t.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstddef>	// ptrdiff_t
 
 namespace bksge
 {
@@ -121,7 +121,7 @@ private:
 public:
 	using pointer         = Ptr;
 	using element_type    = detail::detected_or_t<detail::get_first_arg_t<Ptr>, element_type_0, Ptr>;
-	using difference_type = detail::detected_or_t<std::ptrdiff_t, difference_type_0, Ptr>;
+	using difference_type = detail::detected_or_t<bksge::ptrdiff_t, difference_type_0, Ptr>;
 
 	template <typename U>
 	using rebind = typename rebind_0<Ptr, U>::type;
@@ -140,7 +140,7 @@ struct pointer_traits<T*>
 {
 	using pointer         = T*;
 	using element_type    = T;
-	using difference_type = std::ptrdiff_t;
+	using difference_type = bksge::ptrdiff_t;
 
 	template <typename U>
 	using rebind = U*;

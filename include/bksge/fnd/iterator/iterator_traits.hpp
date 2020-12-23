@@ -16,8 +16,8 @@
 #include <bksge/fnd/type_traits/is_object.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/remove_pointer.hpp>
+#include <bksge/fnd/cstddef/ptrdiff_t.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstddef>
 
 namespace bksge
 {
@@ -47,7 +47,7 @@ struct iterator_traits<
 	using iterator_concept  = bksge::contiguous_iterator_tag;
 	using iterator_category = bksge::random_access_iterator_tag;
 	using value_type	    = bksge::remove_cv_t<T>;
-	using difference_type   = std::ptrdiff_t;
+	using difference_type   = bksge::ptrdiff_t;
 	using pointer	        = T*;
 	using reference	        = T&;
 };

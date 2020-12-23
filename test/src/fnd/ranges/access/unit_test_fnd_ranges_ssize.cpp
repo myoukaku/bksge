@@ -10,6 +10,7 @@
 #include <bksge/fnd/ranges/concepts/disable_sized_range.hpp>
 #include <bksge/fnd/concepts/same_as.hpp>
 #include <bksge/fnd/concepts/signed_integral.hpp>
+#include <bksge/fnd/cstddef/ptrdiff_t.hpp>
 #include <gtest/gtest.h>
 #include <vector>
 #include "constexpr_test.hpp"
@@ -49,8 +50,8 @@ BKSGE_CXX14_CONSTEXPR bool test01()
 	int a1[10] = {};
 	int a2[2]  = {};
 
-	static_assert(bksge::is_same<decltype(bksge::ranges::ssize(a1)), std::ptrdiff_t>::value, "");
-	static_assert(bksge::is_same<decltype(bksge::ranges::ssize(a2)), std::ptrdiff_t>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::ranges::ssize(a1)), bksge::ptrdiff_t>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::ranges::ssize(a2)), bksge::ptrdiff_t>::value, "");
 
 	static_assert(bksge::is_signed_integral<decltype(bksge::ranges::ssize(a1))>::value, "");
 	static_assert(bksge::is_signed_integral<decltype(bksge::ranges::ssize(a2))>::value, "");

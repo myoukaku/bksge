@@ -11,6 +11,7 @@
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/type_traits/make_signed.hpp>
 #include <bksge/fnd/type_traits/void_t.hpp>
+#include <bksge/fnd/cstddef/ptrdiff_t.hpp>
 #include <gtest/gtest.h>
 #include <vector>
 #include "constexpr_test.hpp"
@@ -53,20 +54,20 @@ using vec_iterator = std::vector<T>::iterator;
 using vec_const_iterator = std::vector<T>::const_iterator;
 
 static_assert(bksge::is_same<bksge::incrementable_traits<T                          >::difference_type, bksge::make_signed_t<T>>::value, "");
-static_assert(bksge::is_same<bksge::incrementable_traits<T      *                   >::difference_type, std::ptrdiff_t>::value, "");
-static_assert(bksge::is_same<bksge::incrementable_traits<T const*                   >::difference_type, std::ptrdiff_t>::value, "");
-static_assert(bksge::is_same<bksge::incrementable_traits<T      * const             >::difference_type, std::ptrdiff_t>::value, "");
-static_assert(bksge::is_same<bksge::incrementable_traits<T const* const             >::difference_type, std::ptrdiff_t>::value, "");
-static_assert(bksge::is_same<bksge::incrementable_traits<T[3]                       >::difference_type, std::ptrdiff_t>::value, "");
-static_assert(bksge::is_same<bksge::incrementable_traits<T const[3]                 >::difference_type, std::ptrdiff_t>::value, "");
-static_assert(bksge::is_same<bksge::incrementable_traits<T[]                        >::difference_type, std::ptrdiff_t>::value, "");
-static_assert(bksge::is_same<bksge::incrementable_traits<T const[]                  >::difference_type, std::ptrdiff_t>::value, "");
-static_assert(bksge::is_same<bksge::incrementable_traits<vec_iterator               >::difference_type, std::ptrdiff_t>::value, "");
-static_assert(bksge::is_same<bksge::incrementable_traits<vec_iterator const         >::difference_type, std::ptrdiff_t>::value, "");
-static_assert(bksge::is_same<bksge::incrementable_traits<vec_const_iterator         >::difference_type, std::ptrdiff_t>::value, "");
-static_assert(bksge::is_same<bksge::incrementable_traits<vec_const_iterator const   >::difference_type, std::ptrdiff_t>::value, "");
-static_assert(bksge::is_same<bksge::incrementable_traits<std::vector<T>             >::difference_type, std::ptrdiff_t>::value, "");
-static_assert(bksge::is_same<bksge::incrementable_traits<std::vector<T> const       >::difference_type, std::ptrdiff_t>::value, "");
+static_assert(bksge::is_same<bksge::incrementable_traits<T      *                   >::difference_type, bksge::ptrdiff_t>::value, "");
+static_assert(bksge::is_same<bksge::incrementable_traits<T const*                   >::difference_type, bksge::ptrdiff_t>::value, "");
+static_assert(bksge::is_same<bksge::incrementable_traits<T      * const             >::difference_type, bksge::ptrdiff_t>::value, "");
+static_assert(bksge::is_same<bksge::incrementable_traits<T const* const             >::difference_type, bksge::ptrdiff_t>::value, "");
+static_assert(bksge::is_same<bksge::incrementable_traits<T[3]                       >::difference_type, bksge::ptrdiff_t>::value, "");
+static_assert(bksge::is_same<bksge::incrementable_traits<T const[3]                 >::difference_type, bksge::ptrdiff_t>::value, "");
+static_assert(bksge::is_same<bksge::incrementable_traits<T[]                        >::difference_type, bksge::ptrdiff_t>::value, "");
+static_assert(bksge::is_same<bksge::incrementable_traits<T const[]                  >::difference_type, bksge::ptrdiff_t>::value, "");
+static_assert(bksge::is_same<bksge::incrementable_traits<vec_iterator               >::difference_type, bksge::ptrdiff_t>::value, "");
+static_assert(bksge::is_same<bksge::incrementable_traits<vec_iterator const         >::difference_type, bksge::ptrdiff_t>::value, "");
+static_assert(bksge::is_same<bksge::incrementable_traits<vec_const_iterator         >::difference_type, bksge::ptrdiff_t>::value, "");
+static_assert(bksge::is_same<bksge::incrementable_traits<vec_const_iterator const   >::difference_type, bksge::ptrdiff_t>::value, "");
+static_assert(bksge::is_same<bksge::incrementable_traits<std::vector<T>             >::difference_type, bksge::ptrdiff_t>::value, "");
+static_assert(bksge::is_same<bksge::incrementable_traits<std::vector<T> const       >::difference_type, bksge::ptrdiff_t>::value, "");
 static_assert(bksge::is_same<bksge::incrementable_traits<X<T      >      >::difference_type, T>::value, "");
 static_assert(bksge::is_same<bksge::incrementable_traits<X<T const>      >::difference_type, T const>::value, "");
 static_assert(bksge::is_same<bksge::incrementable_traits<X<T      > const>::difference_type, T>::value, "");

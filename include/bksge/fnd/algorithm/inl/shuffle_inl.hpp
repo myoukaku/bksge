@@ -14,7 +14,7 @@
 //#include <bksge/fnd/random/uniform_int_distribution.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/swap.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/ptrdiff_t.hpp>
 #include <random>
 
 namespace bksge
@@ -34,7 +34,7 @@ shuffle(
 	UniformRandomNumberGenerator&& g)
 {
 	using difference_type = bksge::iter_difference_t<RandomAccessIterator>;
-	using D = std::uniform_int_distribution<std::ptrdiff_t>;
+	using D = std::uniform_int_distribution<bksge::ptrdiff_t>;
 	using P = typename D::param_type;
 	
 	auto d = last - first;

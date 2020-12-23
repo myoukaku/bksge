@@ -22,8 +22,8 @@
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/type_traits/is_assignable.hpp>
 #include <bksge/fnd/type_traits/is_convertible.hpp>
+#include <bksge/fnd/cstddef/ptrdiff_t.hpp>
 #include <gtest/gtest.h>
-#include <cstddef>
 #include "constexpr_test.hpp"
 
 namespace bksge_iterator_test
@@ -94,7 +94,7 @@ struct Iterator3
 {
 	using iterator_category = bksge::input_iterator_tag;
 	using value_type = int;
-	using difference_type = std::ptrdiff_t;
+	using difference_type = bksge::ptrdiff_t;
 	using reference = const int&;
 
 	const int& operator*() const { return counter; }
@@ -212,7 +212,7 @@ struct Iterator4
 {
 	using iterator_category = bksge::input_iterator_tag;
 	using value_type = int;
-	using difference_type = std::ptrdiff_t;
+	using difference_type = bksge::ptrdiff_t;
 	using reference = const int&;
 
 	int count = 0;
@@ -238,7 +238,7 @@ struct Iterator5
 {
 	using iterator_category = bksge::input_iterator_tag;
 	using value_type = int;
-	using difference_type = std::ptrdiff_t;
+	using difference_type = bksge::ptrdiff_t;
 	using reference = int;
 
 	Iterator5() noexcept {}

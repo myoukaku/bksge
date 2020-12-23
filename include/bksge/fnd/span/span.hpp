@@ -33,6 +33,7 @@ using std::span;
 #include <bksge/fnd/span/detail/span_compatible_range.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/cstddef/ptrdiff_t.hpp>
 #include <bksge/fnd/ranges/range_reference_t.hpp>
 #include <bksge/fnd/ranges/data.hpp>
 #include <bksge/fnd/ranges/size.hpp>
@@ -71,7 +72,7 @@ public:
 	using element_type           = T;
 	using value_type             = bksge::remove_cv_t<T>;
 	using size_type              = bksge::size_t;
-	using difference_type        = std::ptrdiff_t;
+	using difference_type        = bksge::ptrdiff_t;
 	using pointer                = T*;
 	using const_pointer          = T const*;
 	using reference              = T&;
@@ -400,7 +401,7 @@ public:
 	using element_type           = T;
 	using value_type             = bksge::remove_cv_t<T>;
 	using size_type              = bksge::size_t;
-	using difference_type        = std::ptrdiff_t;
+	using difference_type        = bksge::ptrdiff_t;
 	using pointer                = T*;
 	using const_pointer          = T const*;
 	using reference              = T&;

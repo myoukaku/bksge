@@ -11,9 +11,9 @@
 
 #include <bksge/fnd/ranges/detail/max_diff_type.hpp>
 #include <bksge/fnd/concepts/integral.hpp>
+#include <bksge/fnd/cstddef/ptrdiff_t.hpp>
 #include <bksge/fnd/iterator/iter_difference_t.hpp>
 #include <bksge/fnd/type_traits/conditional.hpp>
-#include <cstddef>
 
 namespace bksge
 {
@@ -30,8 +30,8 @@ using iota_diff_t =
 		bksge::iter_difference_t<W>,
 	bksge::conditional_t<(sizeof(bksge::iter_difference_t<W>) > sizeof(W)),
 		bksge::iter_difference_t<W>,
-	bksge::conditional_t<(sizeof(std::ptrdiff_t) > sizeof(W)),
-		std::ptrdiff_t,
+	bksge::conditional_t<(sizeof(bksge::ptrdiff_t) > sizeof(W)),
+		bksge::ptrdiff_t,
 	bksge::conditional_t<(sizeof(long long) > sizeof(W)),
 		long long,
 #if defined(__SIZEOF_INT128__)

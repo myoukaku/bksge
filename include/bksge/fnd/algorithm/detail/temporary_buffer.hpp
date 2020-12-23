@@ -15,7 +15,7 @@
 #include <bksge/fnd/iterator/iter_value_t.hpp>
 #include <bksge/fnd/type_traits/is_trivially_constructible.hpp>
 #include <bksge/fnd/utility/move.hpp>
-#include <cstddef>
+#include <bksge/fnd/cstddef/ptrdiff_t.hpp>
 #include <cstdlib>
 
 namespace bksge
@@ -34,10 +34,10 @@ class temporary_buffer
 	//__glibcxx_class_requires(ForwardIterator, _ForwardIteratorConcept)
 
 public:
-	typedef T              value_type;
-	typedef value_type*    pointer;
-	typedef pointer        iterator;
-	typedef std::ptrdiff_t size_type;
+	typedef T                value_type;
+	typedef value_type*      pointer;
+	typedef pointer          iterator;
+	typedef bksge::ptrdiff_t size_type;
 
 protected:
 	size_type  m_original_len;
