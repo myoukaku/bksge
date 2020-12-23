@@ -12,7 +12,7 @@
 #include <bksge/core/render/detail/pixels.hpp>
 #include <bksge/fnd/cstring/memcpy.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <cstdint>
+#include <bksge/fnd/cstdint/uint8_t.hpp>
 #include <vector>
 
 namespace bksge
@@ -39,7 +39,7 @@ void Pixels::copy(void const* src, bksge::size_t size)
 }
 
 BKSGE_INLINE
-std::uint8_t const* Pixels::data(void) const
+bksge::uint8_t const* Pixels::data(void) const
 {
 	if (m_value.empty())
 	{
@@ -50,7 +50,7 @@ std::uint8_t const* Pixels::data(void) const
 }
 
 BKSGE_INLINE
-std::vector<std::uint8_t> const& Pixels::value(void) const
+std::vector<bksge::uint8_t> const& Pixels::value(void) const
 {
 	return m_value;
 }

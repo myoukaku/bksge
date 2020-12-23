@@ -26,7 +26,7 @@
 #include <bksge/core/render/render_state.hpp>
 #include <bksge/fnd/functional/hash_combine.hpp>
 #include <bksge/fnd/utility/forward.hpp>
-#include <cstdint>
+#include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <memory>
 
 namespace bksge
@@ -99,7 +99,7 @@ ResourcePool::GetGraphicsPipeline(
 	vulkan::RenderPass const& render_pass)
 {
 	auto const id = bksge::hash_combine(
-		static_cast<std::uint32_t>(num_samples),
+		static_cast<bksge::uint32_t>(num_samples),
 		geometry.id(),
 		shader.id(),
 		render_state);

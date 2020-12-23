@@ -11,7 +11,7 @@
 
 #include <bksge/core/render/vulkan/detail/fwd/physical_device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <cstdint>
+#include <bksge/fnd/cstdint/uint32_t.hpp>
 //#include <vector>
 
 namespace bksge
@@ -32,9 +32,9 @@ public:
 
 	::VkPhysicalDeviceMemoryProperties const& GetMemoryProperties(void) const;
 
-	std::uint32_t GetGraphicsQueueFamilyIndex(void) const;
+	bksge::uint32_t GetGraphicsQueueFamilyIndex(void) const;
 
-	std::uint32_t GetPresentQueueFamilyIndex(::VkSurfaceKHR surface) const;
+	bksge::uint32_t GetPresentQueueFamilyIndex(::VkSurfaceKHR surface) const;
 
 	//std::vector<::VkQueueFamilyProperties> GetQueueFamilyProperties();
 
@@ -52,8 +52,8 @@ private:
 private:
 	::VkPhysicalDevice					m_physical_device;
 	::VkPhysicalDeviceMemoryProperties	m_memory_properties;
-	std::uint32_t						m_queue_family_properties_count = 0;
-	std::uint32_t						m_graphics_queue_family_index = UINT32_MAX;
+	bksge::uint32_t						m_queue_family_properties_count = 0;
+	bksge::uint32_t						m_graphics_queue_family_index = UINT32_MAX;
 };
 
 }	// namespace vulkan

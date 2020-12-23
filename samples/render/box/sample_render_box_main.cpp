@@ -10,8 +10,8 @@
 #include <bksge/core/render.hpp>
 #include <bksge/core/math.hpp>
 #include <bksge/fnd/cmath.hpp>
-#include <vector>
 #include <bksge/fnd/memory.hpp>
+#include <vector>
 #include <utility>
 
 namespace
@@ -221,7 +221,7 @@ int main()
 
 	};
 
-	const std::uint16_t indices[] =
+	const bksge::uint16_t indices[] =
 	{
 		0+0, 0+2, 0+1,
 		0+1, 0+2, 0+3,

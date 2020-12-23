@@ -27,7 +27,7 @@
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/cstring/memcpy.hpp>
-#include <cstdint>
+#include <bksge/fnd/cstdint/uint32_t.hpp>
 
 namespace bksge
 {
@@ -45,7 +45,7 @@ CopyBufferToImage(
 	::VkImage image,
 	bksge::TextureFormat format,
 	::VkExtent2D extent,
-	std::uint32_t mipmap_count)
+	bksge::uint32_t mipmap_count)
 {
 	auto command_buffer = BeginSingleTimeCommands(command_pool);
 
@@ -53,7 +53,7 @@ CopyBufferToImage(
 	auto width  = extent.width;
 	auto height = extent.height;
 
-	for (std::uint32_t i = 0; i < mipmap_count; ++i)
+	for (bksge::uint32_t i = 0; i < mipmap_count; ++i)
 	{
 		::VkBufferImageCopy region {};
 		region.bufferOffset                    = src_offset;
@@ -92,7 +92,7 @@ Texture::Texture(
 
 	::VkExtent2D const extent = vulkan::Extent2D(texture.extent());
 
-	auto const mipmap_count = static_cast<std::uint32_t>(texture.mipmap_count());
+	auto const mipmap_count = static_cast<bksge::uint32_t>(texture.mipmap_count());
 
 	::VkImageTiling const tiling = VK_IMAGE_TILING_OPTIMAL;
 

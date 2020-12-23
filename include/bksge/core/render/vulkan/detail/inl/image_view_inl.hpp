@@ -16,7 +16,7 @@
 #include <bksge/core/render/vulkan/detail/image.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <cstdint>
+#include <bksge/fnd/cstdint/uint32_t.hpp>
 
 namespace bksge
 {
@@ -33,7 +33,7 @@ ImageView::ImageView(
 	::VkImage image,
 	::VkFormat format,
 	::VkImageAspectFlags aspect_mask,
-	std::uint32_t mipmap_count)
+	bksge::uint32_t mipmap_count)
 	: m_device(device)
 	, m_image_view(VK_NULL_HANDLE)
 {

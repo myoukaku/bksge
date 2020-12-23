@@ -9,7 +9,7 @@
 #ifndef BKSGE_CORE_RENDER_FWD_FILL_MODE_FWD_HPP
 #define BKSGE_CORE_RENDER_FWD_FILL_MODE_FWD_HPP
 
-#include <cstdint>
+#include <bksge/fnd/cstdint/uint32_t.hpp>
 
 namespace bksge
 {
@@ -17,7 +17,7 @@ namespace bksge
 namespace render
 {
 
-enum class FillMode : std::uint32_t;
+enum class FillMode : bksge::uint32_t;
 
 }	// namespace render
 

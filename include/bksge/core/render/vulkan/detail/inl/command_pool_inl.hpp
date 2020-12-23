@@ -15,7 +15,7 @@
 #include <bksge/core/render/vulkan/detail/command_pool.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <cstdint>
+#include <bksge/fnd/cstdint/uint32_t.hpp>
 
 namespace bksge
 {
@@ -29,7 +29,7 @@ namespace vulkan
 BKSGE_INLINE
 CommandPool::CommandPool(
 	vulkan::DeviceSharedPtr const& device,
-	std::uint32_t queue_family_index)
+	bksge::uint32_t queue_family_index)
 	: m_device(device)
 	, m_queue_family_index(queue_family_index)
 {

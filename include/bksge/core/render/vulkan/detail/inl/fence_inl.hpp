@@ -15,7 +15,7 @@
 #include <bksge/core/render/vulkan/detail/fence.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <cstdint>
+#include <bksge/fnd/cstdint/uint64_t.hpp>
 
 namespace bksge
 {
@@ -49,7 +49,7 @@ Fence::operator ::VkFence() const
 }
 
 BKSGE_INLINE ::VkResult
-Fence::Wait(::VkBool32 wait_all, std::uint64_t timeout)
+Fence::Wait(::VkBool32 wait_all, bksge::uint64_t timeout)
 {
 	return vk::WaitForFences(
 		*m_device, 1, &m_fence, wait_all, timeout);

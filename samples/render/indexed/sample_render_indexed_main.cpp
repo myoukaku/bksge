@@ -8,8 +8,8 @@
 
 #include <bksge/core/window.hpp>
 #include <bksge/core/render.hpp>
-#include <vector>
 #include <bksge/fnd/memory.hpp>
+#include <vector>
 
 namespace
 {
@@ -168,7 +168,7 @@ int main()
 		{{{  0.5f, -0.5f, 0.0f }}, {{ 1.0f, 1.0f, 0.0f, 1.0f }}},
 	};
 
-	const std::uint16_t indices[] =
+	const bksge::uint16_t indices[] =
 	{
 		0, 2, 1,
 		1, 2, 3,

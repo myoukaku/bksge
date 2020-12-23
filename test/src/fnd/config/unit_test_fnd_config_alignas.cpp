@@ -7,7 +7,7 @@
  */
 
 #include <bksge/fnd/config.hpp>
-#include <cstdint>
+#include <bksge/fnd/cstdint/intptr_t.hpp>
 #include <gtest/gtest.h>
 
 BKSGE_WARNING_PUSH()
@@ -41,7 +41,7 @@ struct Foo
 
 bool is_align_of(void* p, int alignment)
 {
-	return (reinterpret_cast<std::intptr_t>(p) % alignment) == 0;
+	return (reinterpret_cast<bksge::intptr_t>(p) % alignment) == 0;
 }
 
 GTEST_TEST(ConfigTest, AlignasTest)

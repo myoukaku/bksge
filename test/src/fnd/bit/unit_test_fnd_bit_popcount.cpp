@@ -7,7 +7,7 @@
  */
 
 #include <bksge/fnd/bit/popcount.hpp>
-#include <cstdint>
+#include <bksge/fnd/cstdint.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -191,19 +191,19 @@ void PopCountTestU64(void)
 
 GTEST_TEST(BitTest, PopCountTest)
 {
-	PopCountTestU8<std::uint8_t>();
-	PopCountTestU8<std::uint16_t>();
-	PopCountTestU8<std::uint32_t>();
-	PopCountTestU8<std::uint64_t>();
+	PopCountTestU8<bksge::uint8_t>();
+	PopCountTestU8<bksge::uint16_t>();
+	PopCountTestU8<bksge::uint32_t>();
+	PopCountTestU8<bksge::uint64_t>();
 
-	PopCountTestU16<std::uint16_t>();
-	PopCountTestU16<std::uint32_t>();
-	PopCountTestU16<std::uint64_t>();
+	PopCountTestU16<bksge::uint16_t>();
+	PopCountTestU16<bksge::uint32_t>();
+	PopCountTestU16<bksge::uint64_t>();
 
-	PopCountTestU32<std::uint32_t>();
-	PopCountTestU32<std::uint64_t>();
+	PopCountTestU32<bksge::uint32_t>();
+	PopCountTestU32<bksge::uint64_t>();
 
-	PopCountTestU64<std::uint64_t>();
+	PopCountTestU64<bksge::uint64_t>();
 }
 
 }	// namespace popcount_test

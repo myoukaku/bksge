@@ -17,6 +17,8 @@
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/algorithm/min.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/cstdint/uint8_t.hpp>
+#include <bksge/fnd/cstdint/uint16_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <bksge/fnd/assert.hpp>
 
@@ -48,7 +50,7 @@ inline void OpenLastErrorMessageBox()
 	::LocalFree(buf);
 }
 
-inline std::uint16_t RGB_to_U16(std::uint8_t r, std::uint8_t g, std::uint8_t b)
+inline bksge::uint16_t RGB_to_U16(bksge::uint8_t r, bksge::uint8_t g, bksge::uint8_t b)
 {
 	return
 		(r >> 4) << 8 |
@@ -56,20 +58,20 @@ inline std::uint16_t RGB_to_U16(std::uint8_t r, std::uint8_t g, std::uint8_t b)
 		(b >> 4);
 }
 
-inline std::uint8_t U16_to_R(std::uint16_t v)
+inline bksge::uint8_t U16_to_R(bksge::uint16_t v)
 {
 	return ((v & 0x0F00) >> 8) << 4;
 }
-inline std::uint8_t U16_to_G(std::uint16_t v)
+inline bksge::uint8_t U16_to_G(bksge::uint16_t v)
 {
 	return ((v & 0x00F0) >> 4) << 4;
 }
-inline std::uint8_t U16_to_B(std::uint16_t v)
+inline bksge::uint8_t U16_to_B(bksge::uint16_t v)
 {
 	return ((v & 0x000F) >> 0) << 4;
 }
 
-inline int GetSquaredDistance(Color3<std::uint8_t> const& c1, Color3<std::uint8_t> const& c2)
+inline int GetSquaredDistance(Color3<bksge::uint8_t> const& c1, Color3<bksge::uint8_t> const& c2)
 {
 	int result = 0;
 	for (bksge::size_t i = 0; i < c1.size(); ++i)
@@ -82,13 +84,13 @@ inline int GetSquaredDistance(Color3<std::uint8_t> const& c1, Color3<std::uint8_
 
 struct ColorCodeInfo
 {
-	std::uint8_t	back_color;
-	std::uint8_t	front_color;
-	std::uint8_t	ratio;
+	bksge::uint8_t	back_color;
+	bksge::uint8_t	front_color;
+	bksge::uint8_t	ratio;
 };
 
 template <bksge::size_t N>
-inline ColorCodeInfo GetColorCodeInfo(Color3<std::uint8_t> const (&palette)[N], Color3<std::uint8_t> const& color)
+inline ColorCodeInfo GetColorCodeInfo(Color3<bksge::uint8_t> const (&palette)[N], Color3<bksge::uint8_t> const& color)
 {
 	ColorCodeInfo result {};
 	auto nearest_distance = std::numeric_limits<int>::max();
@@ -107,9 +109,9 @@ inline ColorCodeInfo GetColorCodeInfo(Color3<std::uint8_t> const (&palette)[N], 
 				if (nearest_distance > d)
 				{
 					nearest_distance = d;
-					result.back_color  = static_cast<std::uint8_t>(i);
-					result.front_color = static_cast<std::uint8_t>(j);
-					result.ratio       = static_cast<std::uint8_t>(k);
+					result.back_color  = static_cast<bksge::uint8_t>(i);
+					result.front_color = static_cast<bksge::uint8_t>(j);
+					result.ratio       = static_cast<bksge::uint8_t>(k);
 				}
 			}
 		}
@@ -119,7 +121,7 @@ inline ColorCodeInfo GetColorCodeInfo(Color3<std::uint8_t> const (&palette)[N], 
 
 inline std::vector<ColorCodeInfo> ColorCodeInfoTable()
 {
-	static const Color3<std::uint8_t> palette[16] =
+	static const Color3<bksge::uint8_t> palette[16] =
 	{
 		{   0,  0,  0 },
 		{   0,  0,128 },
@@ -140,17 +142,17 @@ inline std::vector<ColorCodeInfo> ColorCodeInfoTable()
 	};
 
 	std::vector<ColorCodeInfo> result(0x1000);
-	for (std::uint16_t i = 0; i < 0x1000; ++i)
+	for (bksge::uint16_t i = 0; i < 0x1000; ++i)
 	{
 		auto r = U16_to_R(i);
 		auto g = U16_to_G(i);
 		auto b = U16_to_B(i);
-		result[i] = GetColorCodeInfo(palette, Color3<std::uint8_t>{r, g, b});
+		result[i] = GetColorCodeInfo(palette, Color3<bksge::uint8_t>{r, g, b});
 	}
 	return result;
 }
 
-inline ColorCodeInfo GetColorCodeInfo(std::uint8_t r, std::uint8_t g, std::uint8_t b)
+inline ColorCodeInfo GetColorCodeInfo(bksge::uint8_t r, bksge::uint8_t g, bksge::uint8_t b)
 {
 	static auto const tbl = ColorCodeInfoTable();
 	return tbl[RGB_to_U16(r, g, b)];
@@ -348,9 +350,9 @@ void Win32ConsoleWindow::DrawPixel(int x, int y, Color4f const& color)
 	if (0 <= x && x < m_screen_size.X &&
 		0 <= y && y < m_screen_size.Y)
 	{
-		auto const r = static_cast<std::uint8_t>(color.r() * 255);
-		auto const g = static_cast<std::uint8_t>(color.g() * 255);
-		auto const b = static_cast<std::uint8_t>(color.b() * 255);
+		auto const r = static_cast<bksge::uint8_t>(color.r() * 255);
+		auto const g = static_cast<bksge::uint8_t>(color.g() * 255);
+		auto const b = static_cast<bksge::uint8_t>(color.b() * 255);
 		auto const color_u8 = Color3_u8(r, g, b);
 
 		m_color_buf[y * m_screen_size.X + x] = color_u8;

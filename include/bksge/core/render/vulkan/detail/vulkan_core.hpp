@@ -12,7 +12,7 @@
 #include <vulkan/vulkan_core.h>
 #include <bksge/core/render/vulkan/detail/check_error.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <cstdint>
+#include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <vector>
 
 namespace bksge
@@ -70,13 +70,13 @@ struct InstanceCreateInfo : public ::VkInstanceCreateInfo
 
 	void SetEnabledLayerNames(std::vector<char const*> const& layer_names)
 	{
-		enabledLayerCount       = static_cast<std::uint32_t>(layer_names.size());
+		enabledLayerCount       = static_cast<bksge::uint32_t>(layer_names.size());
 		ppEnabledLayerNames     = layer_names.data();
 	}
 
 	void SetEnabledExtensionNames(std::vector<char const*> const& extension_names)
 	{
-		enabledExtensionCount   = static_cast<std::uint32_t>(extension_names.size());
+		enabledExtensionCount   = static_cast<bksge::uint32_t>(extension_names.size());
 		ppEnabledExtensionNames = extension_names.data();
 	}
 };
@@ -370,13 +370,13 @@ struct DeviceCreateInfo : public ::VkDeviceCreateInfo
 
 	void SetEnabledLayerNames(std::vector<char const*> const& layer_names)
 	{
-		enabledLayerCount       = static_cast<std::uint32_t>(layer_names.size());
+		enabledLayerCount       = static_cast<bksge::uint32_t>(layer_names.size());
 		ppEnabledLayerNames     = layer_names.data();
 	}
 
 	void SetEnabledExtensionNames(std::vector<char const*> const& extension_names)
 	{
-		enabledExtensionCount   = static_cast<std::uint32_t>(extension_names.size());
+		enabledExtensionCount   = static_cast<bksge::uint32_t>(extension_names.size());
 		ppEnabledExtensionNames = extension_names.data();
 	}
 };
@@ -593,7 +593,7 @@ struct BufferCreateInfo : public ::VkBufferCreateInfo
 		pQueueFamilyIndices   = nullptr;
 	}
 
-	void SetQueueFamilyIndices(std::uint32_t const* queue_family_index)
+	void SetQueueFamilyIndices(bksge::uint32_t const* queue_family_index)
 	{
 		queueFamilyIndexCount = queue_family_index ? 1 : 0;
 		pQueueFamilyIndices   = queue_family_index;
@@ -634,7 +634,7 @@ struct ImageCreateInfo : public ::VkImageCreateInfo
 		initialLayout         = VK_IMAGE_LAYOUT_UNDEFINED;
 	}
 
-	void SetQueueFamilyIndices(std::uint32_t const* queue_family_index)
+	void SetQueueFamilyIndices(bksge::uint32_t const* queue_family_index)
 	{
 		queueFamilyIndexCount = queue_family_index ? 1 : 0;
 		pQueueFamilyIndices   = queue_family_index;
@@ -778,7 +778,7 @@ struct PipelineVertexInputStateCreateInfo : public ::VkPipelineVertexInputStateC
 	void SetVertexAttributeDescriptions(
 		std::vector<::VkVertexInputAttributeDescription> const& vi_attribs)
 	{
-		vertexAttributeDescriptionCount = static_cast<std::uint32_t>(vi_attribs.size());
+		vertexAttributeDescriptionCount = static_cast<bksge::uint32_t>(vi_attribs.size());
 		pVertexAttributeDescriptions    = vi_attribs.data();
 	}
 };
@@ -980,7 +980,7 @@ struct PipelineDynamicStateCreateInfo : public ::VkPipelineDynamicStateCreateInf
 
 	void SetDynamicStates(std::vector<::VkDynamicState> const& dynamic_states)
 	{
-		dynamicStateCount = static_cast<std::uint32_t>(dynamic_states.size());
+		dynamicStateCount = static_cast<bksge::uint32_t>(dynamic_states.size());
 		pDynamicStates    = dynamic_states.data();
 	}
 };
@@ -1012,7 +1012,7 @@ struct GraphicsPipelineCreateInfo : public ::VkGraphicsPipelineCreateInfo
 
 	void SetStages(std::vector<::VkPipelineShaderStageCreateInfo> const& stages)
 	{
-		stageCount = static_cast<std::uint32_t>(stages.size());
+		stageCount = static_cast<bksge::uint32_t>(stages.size());
 		pStages    = stages.data();
 	}
 };
@@ -1050,7 +1050,7 @@ struct PipelineLayoutCreateInfo : public ::VkPipelineLayoutCreateInfo
 
 	void SetSetLayouts(std::vector<::VkDescriptorSetLayout> const& set_layouts)
 	{
-		setLayoutCount = static_cast<std::uint32_t>(set_layouts.size());
+		setLayoutCount = static_cast<bksge::uint32_t>(set_layouts.size());
 		pSetLayouts    = set_layouts.data();
 	}
 
@@ -1108,7 +1108,7 @@ struct DescriptorSetLayoutCreateInfo : public ::VkDescriptorSetLayoutCreateInfo
 
 	void SetBindings(std::vector<::VkDescriptorSetLayoutBinding> const& bindings)
 	{
-		bindingCount = static_cast<std::uint32_t>(bindings.size());
+		bindingCount = static_cast<bksge::uint32_t>(bindings.size());
 		pBindings    = bindings.data();
 	}
 };
@@ -1133,7 +1133,7 @@ struct DescriptorPoolCreateInfo : public ::VkDescriptorPoolCreateInfo
 
 	void SetPoolSizes(std::vector<::VkDescriptorPoolSize> const& pool_sizes)
 	{
-		poolSizeCount = static_cast<std::uint32_t>(pool_sizes.size());
+		poolSizeCount = static_cast<bksge::uint32_t>(pool_sizes.size());
 		pPoolSizes    = pool_sizes.data();
 	}
 };
@@ -1151,7 +1151,7 @@ struct DescriptorSetAllocateInfo : public ::VkDescriptorSetAllocateInfo
 
 	void SetSetLayouts(std::vector<::VkDescriptorSetLayout> const& set_layouts)
 	{
-		descriptorSetCount = static_cast<std::uint32_t>(set_layouts.size());
+		descriptorSetCount = static_cast<bksge::uint32_t>(set_layouts.size());
 		pSetLayouts        = set_layouts.data();
 	}
 };
@@ -1217,7 +1217,7 @@ struct FramebufferCreateInfo : public ::VkFramebufferCreateInfo
 
 	void SetAttachments(std::vector<::VkImageView> const& attachments)
 	{
-		attachmentCount = static_cast<std::uint32_t>(attachments.size());
+		attachmentCount = static_cast<bksge::uint32_t>(attachments.size());
 		pAttachments    = attachments.data();
 	}
 
@@ -1285,7 +1285,7 @@ struct SubpassDescription : public ::VkSubpassDescription
 		pDepthStencilAttachment = depth_stencil_attachment;
 	}
 
-	void SetPreserveAttachments(std::uint32_t const* preserve_attachment)
+	void SetPreserveAttachments(bksge::uint32_t const* preserve_attachment)
 	{
 		preserveAttachmentCount = preserve_attachment ? 1 : 0;
 		pPreserveAttachments    = preserve_attachment;
@@ -1323,7 +1323,7 @@ struct RenderPassCreateInfo : public ::VkRenderPassCreateInfo
 
 	void SetAttachments(std::vector<::VkAttachmentDescription> const& attachments)
 	{
-		attachmentCount = static_cast<std::uint32_t>(attachments.size());
+		attachmentCount = static_cast<bksge::uint32_t>(attachments.size());
 		pAttachments    = attachments.data();
 	}
 
@@ -2148,14 +2148,14 @@ struct SwapchainCreateInfoKHR : public ::VkSwapchainCreateInfoKHR
 		oldSwapchain          = VK_NULL_HANDLE;
 	}
 
-	void SetQueueFamilyIndices(std::uint32_t const* queue_family_index)
+	void SetQueueFamilyIndices(bksge::uint32_t const* queue_family_index)
 	{
 		queueFamilyIndexCount = queue_family_index ? 1 : 0;
 		pQueueFamilyIndices   = queue_family_index;
 	}
 
 	template <bksge::size_t N>
-	void SetQueueFamilyIndices(std::uint32_t const (&queue_family_indices)[N])
+	void SetQueueFamilyIndices(bksge::uint32_t const (&queue_family_indices)[N])
 	{
 		queueFamilyIndexCount = N;
 		pQueueFamilyIndices   = queue_family_indices;
@@ -6029,7 +6029,7 @@ inline void DestroySwapchainKHR(
 inline std::vector<::VkImage>
 GetSwapchainImagesKHR(VkDevice device, VkSwapchainKHR swapchain)
 {
-	std::uint32_t count = 0;
+	bksge::uint32_t count = 0;
 	vk::CheckError(::vkGetSwapchainImagesKHR(
 		device, swapchain, &count, nullptr));
 

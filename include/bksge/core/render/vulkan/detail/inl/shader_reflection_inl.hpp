@@ -15,8 +15,8 @@
 #include <bksge/core/render/vulkan/detail/shader_reflection.hpp>
 #include <bksge/core/render/vulkan/detail/spirv_cross.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
+#include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/assert.hpp>
-#include <cstdint>
 #include <vector>
 #include <tuple>
 
@@ -38,7 +38,7 @@ inline void AddUniformBuffer(
 	::VkShaderStageFlagBits stage,
 	::VkDescriptorType descriptor_type,
 	std::vector<ShaderReflectionUniform>* uniforms,
-	std::uint32_t* max_sets)
+	bksge::uint32_t* max_sets)
 {
 	for (auto const& resource : resource_vector)
 	{
@@ -79,7 +79,7 @@ inline void AddUniformBuffer(
 			info.stage_flags     = stage;
 			info.members.resize(member_count);
 
-			for (std::uint32_t index = 0; index < member_count; ++index)
+			for (bksge::uint32_t index = 0; index < member_count; ++index)
 			{
 				auto& member = info.members[index];
 				member.name   = glsl.get_member_name(resource.base_type_id, index);
@@ -128,16 +128,16 @@ ShaderReflection::~ShaderReflection()
 {
 }
 
-BKSGE_INLINE std::uint32_t
+BKSGE_INLINE bksge::uint32_t
 ShaderReflection::GetMaxSets(void) const
 {
 	return m_max_sets;
 }
 
-BKSGE_INLINE std::uint32_t
+BKSGE_INLINE bksge::uint32_t
 ShaderReflection::GetUniformCount(::VkDescriptorType descriptor_type) const
 {
-	std::uint32_t result = 0;
+	bksge::uint32_t result = 0;
 
 	for (auto const& uniform : m_uniforms)
 	{

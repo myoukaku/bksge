@@ -11,7 +11,7 @@
 
 #include <bksge/core/render/fwd/texture_format_fwd.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <cstdint>
+#include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <ostream>
 #include <string>
 
@@ -21,17 +21,17 @@ namespace bksge
 namespace render
 {
 
-static std::uint32_t const kChannelCountMask    = 0xF0000000;
-static std::uint32_t const kChannelCountShift   = 28;
+static bksge::uint32_t const kChannelCountMask    = 0xF0000000;
+static bksge::uint32_t const kChannelCountShift   = 28;
 
-static std::uint32_t const kPixelSwizzleMask    = 0x00FF0000;
-static std::uint32_t const kPixelSwizzleShift   = 16;
+static bksge::uint32_t const kPixelSwizzleMask    = 0x00FF0000;
+static bksge::uint32_t const kPixelSwizzleShift   = 16;
 
-static std::uint32_t const kBitsPerChannelMask  = 0x0000FF00;
-static std::uint32_t const kBitsPerChannelShift = 8;
+static bksge::uint32_t const kBitsPerChannelMask  = 0x0000FF00;
+static bksge::uint32_t const kBitsPerChannelShift = 8;
 
-static std::uint32_t const kDataTypeMask        = 0x0000000F;
-static std::uint32_t const kDataTypeShift       = 0;
+static bksge::uint32_t const kDataTypeMask        = 0x0000000F;
+static bksge::uint32_t const kDataTypeShift       = 0;
 
 /**
  *	@brief	チャンネルの型です
@@ -72,8 +72,8 @@ enum class PixelSwizzle
 enum class PixelBaseFormat
 {
 #define BKSGE_MAKE_PIXEL_DATA_TYPE(bpc, type)	\
-	(static_cast<std::uint32_t>(bpc) << kBitsPerChannelShift) |	\
-	(static_cast<std::uint32_t>(DataType::type) << kDataTypeShift)
+	(static_cast<bksge::uint32_t>(bpc) << kBitsPerChannelShift) |	\
+	(static_cast<bksge::uint32_t>(DataType::type) << kDataTypeShift)
 
 	kNone	= 0,
 	kU8		= BKSGE_MAKE_PIXEL_DATA_TYPE(8,  kUnsigned),
@@ -89,8 +89,8 @@ enum class PixelBaseFormat
 #undef BKSGE_MAKE_PIXEL_DATA_TYPE
 };
 
-static std::uint32_t const kPixelBaseFormatMask = 0x0000FFFF;
-static std::uint32_t const kPixelBaseFormatShift = 0;
+static bksge::uint32_t const kPixelBaseFormatMask = 0x0000FFFF;
+static bksge::uint32_t const kPixelBaseFormatShift = 0;
 
 /**
  *	@brief	ピクセルフォーマット
@@ -106,9 +106,9 @@ static std::uint32_t const kPixelBaseFormatShift = 0;
 enum class TextureFormat
 {
 #define BKSGE_MAKE_TEXTURE_FORMAT(channels, swizzle, base)	\
-	((static_cast<std::uint32_t>(channels) << kChannelCountShift)		 |	\
-	(static_cast<std::uint32_t>(PixelSwizzle::swizzle) << kPixelSwizzleShift) |	\
-	(static_cast<std::uint32_t>(PixelBaseFormat::base)))
+	((static_cast<bksge::uint32_t>(channels) << kChannelCountShift)		 |	\
+	(static_cast<bksge::uint32_t>(PixelSwizzle::swizzle) << kPixelSwizzleShift) |	\
+	(static_cast<bksge::uint32_t>(PixelBaseFormat::base)))
 
 	kNone		= 0,
 
@@ -222,7 +222,7 @@ bksge::size_t GetBitsPerPixel(TextureFormat format);
  *
  *	@return	format,width,heightに設定された画像のバイト数
  */
-bksge::size_t GetSizeInBytes(TextureFormat format, std::uint32_t width, std::uint32_t height);
+bksge::size_t GetSizeInBytes(TextureFormat format, bksge::uint32_t width, bksge::uint32_t height);
 
 /**
  *	@brief	画像の１行のバイト数を得る
@@ -232,7 +232,7 @@ bksge::size_t GetSizeInBytes(TextureFormat format, std::uint32_t width, std::uin
  *
  *	@return	format,widthに設定された画像の１行のバイト数
  */
-bksge::size_t GetStrideInBytes(TextureFormat format, std::uint32_t width);
+bksge::size_t GetStrideInBytes(TextureFormat format, bksge::uint32_t width);
 
 /**
  *	@brief	ミップマップレベルを考慮した画像のバイト数を得る
@@ -246,8 +246,8 @@ bksge::size_t GetStrideInBytes(TextureFormat format, std::uint32_t width);
  */
 bksge::size_t GetMipmappedSizeInBytes(
 	TextureFormat format,
-	std::uint32_t width,
-	std::uint32_t height,
+	bksge::uint32_t width,
+	bksge::uint32_t height,
 	bksge::size_t mipmap_level);
 
 /**

@@ -18,7 +18,8 @@
 //#include <bksge/fnd/serialization/nvp.hpp>
 //#include <bksge/fnd/serialization/version.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <cstdint>
+#include <bksge/fnd/cstdint/uint8_t.hpp>
+#include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <memory>
 #include <vector>
 #include <ostream>
@@ -32,7 +33,7 @@ namespace render
 class Texture : public Identifiable
 {
 public:
-	using ExtentType = Extent2<std::uint32_t>;
+	using ExtentType = Extent2<bksge::uint32_t>;
 
 	/**
 	 *	@brief	デフォルトコンストラクタ
@@ -54,7 +55,7 @@ public:
 	 *	dataの指す先のサイズやフォーマットが正しいかどうかは、呼び出す側が保証する必要があります。
 	 *	dataがnullptrのときは確保したメモリ領域を初期化しません。必要に応じてFill関数などを使用してください。
 	 */
-	Texture(TextureFormat format, ExtentType const& extent, bksge::size_t mipmap_count, std::uint8_t const* data);
+	Texture(TextureFormat format, ExtentType const& extent, bksge::size_t mipmap_count, bksge::uint8_t const* data);
 
 	/**
 	 *	@brief	コンストラクタ
@@ -68,7 +69,7 @@ public:
 	 *
 	 *	Texture(format, extent, 1, data)	と同じです
 	 */
-	Texture(TextureFormat format, ExtentType const& extent, std::uint8_t const* data);
+	Texture(TextureFormat format, ExtentType const& extent, bksge::uint8_t const* data);
 
 	/**
 	 *	@brief	コンストラクタ
@@ -90,12 +91,12 @@ public:
 	/**
 	 *	@brief	横幅を取得します
 	 */
-	std::uint32_t width(void) const;
+	bksge::uint32_t width(void) const;
 
 	/**
 	 *	@brief	高さを取得します
 	 */
-	std::uint32_t height(void) const;
+	bksge::uint32_t height(void) const;
 
 	/**
 	 *	@brief	ミップマップの数を取得します
@@ -115,7 +116,7 @@ public:
 	/**
 	 *	@brief	画像データへのポインタを取得します
 	 */
-	std::uint8_t const* data(void) const;
+	bksge::uint8_t const* data(void) const;
 
 	/**
 	 *	@brief

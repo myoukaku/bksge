@@ -7,7 +7,7 @@
  */
 
 #include <bksge/fnd/bit/bit_floor.hpp>
-#include <cstdint>
+#include <bksge/fnd/cstdint.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -233,19 +233,19 @@ void BitFloorTestU64(void)
 
 GTEST_TEST(BitTest, BitFloorTest)
 {
-	BitFloorTestU8<std::uint8_t>();
-	BitFloorTestU8<std::uint16_t>();
-	BitFloorTestU8<std::uint32_t>();
-	BitFloorTestU8<std::uint64_t>();
+	BitFloorTestU8<bksge::uint8_t>();
+	BitFloorTestU8<bksge::uint16_t>();
+	BitFloorTestU8<bksge::uint32_t>();
+	BitFloorTestU8<bksge::uint64_t>();
 
-	BitFloorTestU16<std::uint16_t>();
-	BitFloorTestU16<std::uint32_t>();
-	BitFloorTestU16<std::uint64_t>();
+	BitFloorTestU16<bksge::uint16_t>();
+	BitFloorTestU16<bksge::uint32_t>();
+	BitFloorTestU16<bksge::uint64_t>();
 
-	BitFloorTestU32<std::uint32_t>();
-	BitFloorTestU32<std::uint64_t>();
+	BitFloorTestU32<bksge::uint32_t>();
+	BitFloorTestU32<bksge::uint64_t>();
 
-	BitFloorTestU64<std::uint64_t>();
+	BitFloorTestU64<bksge::uint64_t>();
 }
 
 }	// namespace bit_floor_test

@@ -22,7 +22,7 @@
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/cmath/round_up.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <cstdint>
+#include <bksge/fnd/cstdint/uint8_t.hpp>
 
 namespace bksge
 {
@@ -46,7 +46,7 @@ UniformBuffer::UniformBuffer(
 		VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
 
 	m_mapped_buffer =
-		static_cast<std::uint8_t*>(m_buffer->MapMemory(VK_WHOLE_SIZE));
+		static_cast<bksge::uint8_t*>(m_buffer->MapMemory(VK_WHOLE_SIZE));
 
 	auto physical_device = device->GetPhysicalDevice();
 	::VkPhysicalDeviceProperties properties;
@@ -67,7 +67,7 @@ UniformBuffer::GetBuffer(void) const
 	return m_buffer->GetBuffer();
 }
 
-BKSGE_INLINE std::uint8_t*
+BKSGE_INLINE bksge::uint8_t*
 UniformBuffer::GetMappedBuffer(void) const
 {
 	return m_mapped_buffer;

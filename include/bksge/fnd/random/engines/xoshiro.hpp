@@ -11,7 +11,8 @@
 
 #include <bksge/fnd/random/engines/detail/xorshift_base.hpp>
 #include <bksge/fnd/bit/rotl.hpp>
-#include <cstdint>
+#include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <bksge/fnd/cstdint/uint64_t.hpp>
 
 namespace bksge
 {
@@ -19,9 +20,9 @@ namespace bksge
 /**
  *	@brief	xoshiro256** (XOR/shift/rotate)
  */
-class xoshiro256starstar : public xorshift_base<std::uint64_t, 4, xoshiro256starstar>
+class xoshiro256starstar : public xorshift_base<bksge::uint64_t, 4, xoshiro256starstar>
 {
-	using base_type = xorshift_base<std::uint64_t, 4, xoshiro256starstar>;
+	using base_type = xorshift_base<bksge::uint64_t, 4, xoshiro256starstar>;
 public:
 	// 継承コンストラクタ
 	using base_type::base_type;
@@ -49,9 +50,9 @@ public:
 /**
  *	@brief	xoshiro256+
  */
-class xoshiro256plus : public xorshift_base<std::uint64_t, 4, xoshiro256plus>
+class xoshiro256plus : public xorshift_base<bksge::uint64_t, 4, xoshiro256plus>
 {
-	using base_type = xorshift_base<std::uint64_t, 4, xoshiro256plus>;
+	using base_type = xorshift_base<bksge::uint64_t, 4, xoshiro256plus>;
 public:
 	// 継承コンストラクタ
 	using base_type::base_type;
@@ -76,9 +77,9 @@ public:
 /**
  *	@brief	xoshiro128**
  */
-class xoshiro128starstar : public xorshift_base<std::uint32_t, 4, xoshiro128starstar>
+class xoshiro128starstar : public xorshift_base<bksge::uint32_t, 4, xoshiro128starstar>
 {
-	using base_type = xorshift_base<std::uint32_t, 4, xoshiro128starstar>;
+	using base_type = xorshift_base<bksge::uint32_t, 4, xoshiro128starstar>;
 public:
 	// 継承コンストラクタ
 	using base_type::base_type;
@@ -106,9 +107,9 @@ public:
 /**
  *	@brief	xoshiro128+
  */
-class xoshiro128plus : public xorshift_base<std::uint32_t, 4, xoshiro128plus>
+class xoshiro128plus : public xorshift_base<bksge::uint32_t, 4, xoshiro128plus>
 {
-	using base_type = xorshift_base<std::uint32_t, 4, xoshiro128plus>;
+	using base_type = xorshift_base<bksge::uint32_t, 4, xoshiro128plus>;
 public:
 	// 継承コンストラクタ
 	using base_type::base_type;
@@ -133,9 +134,9 @@ public:
 /**
  *	@brief	xoshiro512**
  */
-class xoshiro512starstar : public xorshift_base<std::uint64_t, 8, xoshiro512starstar>
+class xoshiro512starstar : public xorshift_base<bksge::uint64_t, 8, xoshiro512starstar>
 {
-	using base_type = xorshift_base<std::uint64_t, 8, xoshiro512starstar>;
+	using base_type = xorshift_base<bksge::uint64_t, 8, xoshiro512starstar>;
 public:
 	// 継承コンストラクタ
 	using base_type::base_type;
@@ -167,9 +168,9 @@ public:
 /**
  *	@brief	xoshiro512+
  */
-class xoshiro512plus : public xorshift_base<std::uint64_t, 8, xoshiro512plus>
+class xoshiro512plus : public xorshift_base<bksge::uint64_t, 8, xoshiro512plus>
 {
-	using base_type = xorshift_base<std::uint64_t, 8, xoshiro512plus>;
+	using base_type = xorshift_base<bksge::uint64_t, 8, xoshiro512plus>;
 public:
 	// 継承コンストラクタ
 	using base_type::base_type;

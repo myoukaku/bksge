@@ -12,7 +12,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/physical_device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <cstdint>
+#include <bksge/fnd/cstdint/uint32_t.hpp>
 
 namespace bksge
 {
@@ -35,7 +35,7 @@ public:
 
 	::VkCommandPool	CreateCommandPool(
 		::VkCommandPoolCreateFlags flags,
-		std::uint32_t queue_family_index);
+		bksge::uint32_t queue_family_index);
 
 	void DestroyCommandPool(::VkCommandPool command_pool);
 

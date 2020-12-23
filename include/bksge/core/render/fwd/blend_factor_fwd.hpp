@@ -9,7 +9,7 @@
 #ifndef BKSGE_CORE_RENDER_FWD_BLEND_FACTOR_FWD_HPP
 #define BKSGE_CORE_RENDER_FWD_BLEND_FACTOR_FWD_HPP
 
-#include <cstdint>
+#include <bksge/fnd/cstdint/uint32_t.hpp>
 
 namespace bksge
 {
@@ -17,7 +17,7 @@ namespace bksge
 namespace render
 {
 
-enum class BlendFactor : std::uint32_t;
+enum class BlendFactor : bksge::uint32_t;
 
 }	// namespace render
 

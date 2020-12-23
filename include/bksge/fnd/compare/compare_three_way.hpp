@@ -29,9 +29,9 @@ using std::compare_three_way;
 #include <bksge/fnd/compare/detail/builtin_ptr_three_way.hpp>
 #include <bksge/fnd/compare/concepts/three_way_comparable_with.hpp>
 #include <bksge/fnd/utility/declval.hpp>
+#include <bksge/fnd/cstdint/uintptr_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <type_traits>	// is_constant_evaluated
-#include <cstdint>		// uintptr_t
 
 namespace bksge
 {
@@ -54,8 +54,8 @@ struct compare_three_way
 				return pt <=> pu;
 			}
 #endif
-			auto it = reinterpret_cast<std::uintptr_t>(pt);
-			auto iu = reinterpret_cast<std::uintptr_t>(pu);
+			auto it = reinterpret_cast<bksge::uintptr_t>(pt);
+			auto iu = reinterpret_cast<bksge::uintptr_t>(pu);
 			return it <=> iu;
 		}
 		else

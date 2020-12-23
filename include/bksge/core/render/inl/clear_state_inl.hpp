@@ -12,7 +12,7 @@
 #include <bksge/core/render/clear_state.hpp>
 #include <bksge/core/render/clear_flag.hpp>
 #include <bksge/core/math/color4.hpp>
-#include <cstdint>
+#include <bksge/fnd/cstdint/uint8_t.hpp>
 
 namespace bksge
 {
@@ -47,7 +47,7 @@ ClearState::depth(void) const
 	return m_depth;
 }
 
-BKSGE_INLINE std::uint8_t
+BKSGE_INLINE bksge::uint8_t
 ClearState::stencil(void) const
 {
 	return m_stencil;
@@ -72,7 +72,7 @@ ClearState::SetDepth(float depth)
 }
 
 BKSGE_INLINE void
-ClearState::SetStencil(std::uint8_t stencil)
+ClearState::SetStencil(bksge::uint8_t stencil)
 {
 	m_stencil = stencil;
 }
