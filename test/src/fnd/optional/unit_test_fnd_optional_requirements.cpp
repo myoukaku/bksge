@@ -16,9 +16,9 @@
 #include <bksge/fnd/type_traits/is_move_constructible.hpp>
 #include <bksge/fnd/type_traits/is_move_assignable.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
+#include <bksge/fnd/tuple/tuple.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
 #include <bksge/fnd/utility/move.hpp>
-#include <tuple>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -101,7 +101,7 @@ using D1 = bksge::optional<bksge::nullopt_t>;
 using D2 = bksge::optional<bksge::nullopt_t const>;
 using D3 = bksge::optional<bksge::nullopt_t volatile>;
 using D4 = bksge::optional<bksge::nullopt_t const volatile>;
-using X  = std::tuple<A, B, C1, C2, C3, C4, D1, D2, D3, D4>;
+using X  = bksge::tuple<A, B, C1, C2, C3, C4, D1, D2, D3, D4>;
 
 GTEST_TEST(OptionalTest, RequirememtsTest)
 {

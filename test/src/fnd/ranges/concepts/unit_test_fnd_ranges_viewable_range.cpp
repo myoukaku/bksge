@@ -17,8 +17,8 @@
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/set.hpp>
 #include <bksge/fnd/span.hpp>
+#include <bksge/fnd/unordered_set.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <unordered_set>
 #include "ranges_test.hpp"
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
@@ -86,8 +86,8 @@ BKSGE_RANGES_VIEWABLE_RANGE_TEST(false, bksge::list<int>);
 BKSGE_RANGES_VIEWABLE_RANGE_TEST(false, bksge::forward_list<int>);
 BKSGE_RANGES_VIEWABLE_RANGE_TEST(false, bksge::set<int>);
 BKSGE_RANGES_VIEWABLE_RANGE_TEST(false, bksge::multiset<int>);
-BKSGE_RANGES_VIEWABLE_RANGE_TEST(false, std::unordered_set<int>);
-BKSGE_RANGES_VIEWABLE_RANGE_TEST(false, std::unordered_multiset<int>);
+BKSGE_RANGES_VIEWABLE_RANGE_TEST(false, bksge::unordered_set<int>);
+BKSGE_RANGES_VIEWABLE_RANGE_TEST(false, bksge::unordered_multiset<int>);
 BKSGE_RANGES_VIEWABLE_RANGE_TEST(false, bksge::string);
 #if 0	// TODO
 BKSGE_RANGES_VIEWABLE_RANGE_TEST(true,  bksge::string_view);
