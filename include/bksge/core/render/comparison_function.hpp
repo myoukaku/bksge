@@ -11,7 +11,7 @@
 
 #include <bksge/core/render/fwd/comparison_function_fwd.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
-#include <string>
+#include <bksge/fnd/string/string.hpp>
 #include <ostream>
 
 namespace bksge
@@ -38,7 +38,7 @@ enum class ComparisonFunction : bksge::uint32_t
 /**
  *	@brief	文字列への変換
  */
-std::string to_string(ComparisonFunction const& comparison_function);
+bksge::string to_string(ComparisonFunction const& comparison_function);
 
 /**
  *	@brief	ストリームへの出力

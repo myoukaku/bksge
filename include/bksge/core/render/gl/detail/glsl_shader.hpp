@@ -12,7 +12,7 @@
 #include <bksge/core/render/gl/detail/fwd/glsl_shader_fwd.hpp>
 #include <bksge/core/render/gl/detail/gl_h.hpp>
 #include <bksge/core/render/shader_stage.hpp>
-#include <string>
+#include <bksge/fnd/string/string.hpp>
 
 namespace bksge
 {
@@ -29,7 +29,7 @@ namespace gl
 class GlslShader
 {
 public:
-	explicit GlslShader(bksge::ShaderStage stage, std::string const& source);
+	explicit GlslShader(bksge::ShaderStage stage, bksge::string const& source);
 
 	~GlslShader();
 

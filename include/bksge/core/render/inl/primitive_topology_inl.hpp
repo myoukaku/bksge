@@ -10,8 +10,8 @@
 #define BKSGE_CORE_RENDER_INL_PRIMITIVE_TOPOLOGY_INL_HPP
 
 #include <bksge/core/render/primitive_topology.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/config.hpp>
-#include <string>
 
 namespace bksge
 {
@@ -19,8 +19,8 @@ namespace bksge
 namespace render
 {
 
-BKSGE_INLINE
-std::string to_string(PrimitiveTopology const& primitive_topology)
+BKSGE_INLINE bksge::string
+to_string(PrimitiveTopology const& primitive_topology)
 {
 #define BKSGE_CORE_RENDER_PRIMITIVE_TOPOLOGY_KVP(x)	case x: return #x
 

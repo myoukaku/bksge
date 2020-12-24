@@ -9,7 +9,7 @@
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/functional/less.hpp>
 #include <bksge/fnd/functional/greater.hpp>
-#include <string>
+#include <bksge/fnd/string/string.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -115,8 +115,8 @@ GTEST_TEST(AlgorithmTest, MaxTest)
 	EXPECT_EQ('a', bksge::max({'a'}));
 	EXPECT_EQ('z', bksge::max({'a', 'z'}));
 	EXPECT_EQ('c', bksge::max({'a', 'c', 'b'}));
-	EXPECT_EQ("hoge", bksge::max(std::string("foo"), std::string("hoge")));
-	EXPECT_EQ("zzzz", bksge::max({std::string("abc"), std::string("ABC"), std::string("zzzz")}));
+	EXPECT_EQ("hoge", bksge::max(bksge::string("foo"), bksge::string("hoge")));
+	EXPECT_EQ("zzzz", bksge::max({bksge::string("abc"), bksge::string("ABC"), bksge::string("zzzz")}));
 }
 
 }	// namespace max_test

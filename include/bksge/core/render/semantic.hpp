@@ -9,8 +9,8 @@
 #ifndef BKSGE_CORE_RENDER_SEMANTIC_HPP
 #define BKSGE_CORE_RENDER_SEMANTIC_HPP
 
+#include <bksge/fnd/string/string.hpp>
 #include <ostream>
-#include <string>
 
 namespace bksge
 {
@@ -40,7 +40,7 @@ enum class Semantic
 /**
  *	@brief	文字列からの変換
  */
-Semantic ToSemantic(std::string const& semantic_str);
+Semantic ToSemantic(bksge::string const& semantic_str);
 
 /**
  *	@brief	文字列への変換
@@ -50,7 +50,7 @@ char const* ToSemanticName(Semantic const& semantic);
 /**
  *	@brief	文字列への変換
  */
-std::string to_string(Semantic const& semantic);
+bksge::string to_string(Semantic const& semantic);
 
 /**
  *	@brief	ストリームへの出力

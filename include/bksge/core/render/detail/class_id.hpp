@@ -11,7 +11,6 @@
 
 #include <bksge/core/render/detail/fwd/class_id_fwd.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <string>
 #include <typeinfo>
 
 namespace bksge

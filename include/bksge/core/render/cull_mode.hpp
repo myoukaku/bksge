@@ -11,7 +11,7 @@
 
 #include <bksge/core/render/fwd/cull_mode_fwd.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
-#include <string>
+#include <bksge/fnd/string/string.hpp>
 #include <ostream>
 
 namespace bksge
@@ -33,7 +33,7 @@ enum class CullMode : bksge::uint32_t
 /**
  *	@brief	文字列への変換
  */
-std::string to_string(CullMode const& cull_mode);
+bksge::string to_string(CullMode const& cull_mode);
 
 /**
  *	@brief	ストリームへの出力

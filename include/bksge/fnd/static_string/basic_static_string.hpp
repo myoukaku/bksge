@@ -18,12 +18,12 @@
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/static_vector/static_vector.hpp>
 #include <bksge/fnd/string/char_traits.hpp>
+#include <bksge/fnd/string/basic_string.hpp>
 #include <bksge/fnd/string_view/basic_string_view.hpp>
 #include <bksge/fnd/config.hpp>
 #include <initializer_list>
 #include <istream>	// std::basic_istream
 #include <ostream>	// std::basic_ostream
-#include <string>	// std::string		// TODO
 
 namespace bksge
 {
@@ -1351,9 +1351,9 @@ inline std::basic_istream<CharT, Traits1>&
 operator>>(std::basic_istream<CharT, Traits1>& is,
 	basic_static_string<CharT, Capacity, Traits2>& str)
 {
-	// いったん std::string で受け取る
+	// いったん string で受け取る
 	// TODO 最適化
-	std::basic_string<CharT> tmp;
+	bksge::basic_string<CharT> tmp;
 	is >> tmp;
 	str = tmp.c_str();
 	return is;

@@ -7,14 +7,14 @@
  */
 
 #include <bksge/fnd/utility/as_const.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <gtest/gtest.h>
-#include <string>
 #include "constexpr_test.hpp"
 
 GTEST_TEST(UtilityTest, AsConstTest)
 {
-	std::string mutable_string = "Hello World!";
-	const std::string& const_view = bksge::as_const(mutable_string);
+	bksge::string mutable_string = "Hello World!";
+	const bksge::string& const_view = bksge::as_const(mutable_string);
 
 	EXPECT_TRUE(const_view == mutable_string);
 	EXPECT_TRUE(bksge::as_const(mutable_string) == mutable_string);
@@ -22,6 +22,6 @@ GTEST_TEST(UtilityTest, AsConstTest)
 	auto iter1 = mutable_string.begin();
 	auto iter2 = bksge::as_const(mutable_string).begin();
 
-	static_assert(bksge::is_same<decltype(iter1), std::string::iterator>::value, "");
-	static_assert(bksge::is_same<decltype(iter2), std::string::const_iterator>::value, "");
+	static_assert(bksge::is_same<decltype(iter1), bksge::string::iterator>::value, "");
+	static_assert(bksge::is_same<decltype(iter2), bksge::string::const_iterator>::value, "");
 }

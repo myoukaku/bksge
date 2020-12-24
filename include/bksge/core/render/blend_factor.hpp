@@ -11,7 +11,7 @@
 
 #include <bksge/core/render/fwd/blend_factor_fwd.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
-#include <string>
+#include <bksge/fnd/string/string.hpp>
 #include <ostream>
 
 namespace bksge
@@ -47,7 +47,7 @@ enum class BlendFactor : bksge::uint32_t
 /**
  *	@brief	文字列への変換
  */
-std::string to_string(BlendFactor const& blend_factor);
+bksge::string to_string(BlendFactor const& blend_factor);
 
 /**
  *	@brief	ストリームへの出力

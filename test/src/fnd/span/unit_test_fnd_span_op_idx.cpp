@@ -8,7 +8,6 @@
 
 #include <bksge/fnd/span.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <string>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 #include "noexcept_test.hpp"

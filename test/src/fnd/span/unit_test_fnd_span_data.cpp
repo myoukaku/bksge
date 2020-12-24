@@ -7,7 +7,7 @@
  */
 
 #include <bksge/fnd/span.hpp>
-#include <string>
+#include <bksge/fnd/string/string.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 #include "noexcept_test.hpp"
@@ -35,7 +35,7 @@ GTEST_TEST(SpanTest, DataTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(test(bksge::span<long>(),        nullptr));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(test(bksge::span<double>(),      nullptr));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(test(bksge::span<A>(),           nullptr));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(test(bksge::span<std::string>(), nullptr));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(test(bksge::span<bksge::string>(), nullptr));
 
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(test(bksge::span<int const>(arr, 1), arr));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(test(bksge::span<int const>(arr, 2), arr));
@@ -52,7 +52,7 @@ GTEST_TEST(SpanTest, DataTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(test(bksge::span<long, 0>(),        nullptr));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(test(bksge::span<double, 0>(),      nullptr));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(test(bksge::span<A, 0>(),           nullptr));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(test(bksge::span<std::string, 0>(), nullptr));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(test(bksge::span<bksge::string, 0>(), nullptr));
 
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(test(bksge::span<int const, 1>(arr, 1), arr));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(test(bksge::span<int const, 2>(arr, 2), arr));

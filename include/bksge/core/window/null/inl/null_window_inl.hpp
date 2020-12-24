@@ -10,7 +10,7 @@
 #define BKSGE_CORE_WINDOW_NULL_INL_NULL_WINDOW_INL_HPP
 
 #include <bksge/core/window/null/null_window.hpp>
-#include <string>
+#include <bksge/fnd/string/string.hpp>
 
 namespace bksge
 {
@@ -21,7 +21,7 @@ namespace window
 BKSGE_INLINE
 NullWindow::NullWindow(
 	ExtentType const& client_size,
-	std::string const& title)
+	bksge::string const& title)
 	: Base(client_size, title)
 {}
 
@@ -36,7 +36,7 @@ NullWindow::VDestroy(void)
 {}
 
 BKSGE_INLINE void
-NullWindow::VSetTitle(std::string const& /*title*/)
+NullWindow::VSetTitle(bksge::string const& /*title*/)
 {}
 
 BKSGE_INLINE void

@@ -7,11 +7,11 @@
  */
 
 #include <bksge/fnd/functional/equal_to.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/type_traits/void_t.hpp>
 #include <gtest/gtest.h>
-#include <string>
 #include "constexpr_test.hpp"
 
 namespace bksge_functional_test
@@ -52,8 +52,8 @@ GTEST_TEST(FunctionalTest, EqualToTest)
 		using type = bksge::equal_to<>;
 		BKSGE_CONSTEXPR_EXPECT_TRUE (type()(1, 1.0));
 		BKSGE_CONSTEXPR_EXPECT_FALSE(type()(1.5, 2U));
-		EXPECT_TRUE (type()(std::string("Hello"), "Hello"));
-		EXPECT_FALSE(type()(std::string("Hello"), "hello"));
+		EXPECT_TRUE (type()(bksge::string("Hello"), "Hello"));
+		EXPECT_FALSE(type()(bksge::string("Hello"), "hello"));
 		static_assert( has_is_transparent<type>::value, "");
 	}
 }

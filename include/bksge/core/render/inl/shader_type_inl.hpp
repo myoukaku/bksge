@@ -10,8 +10,8 @@
 #define BKSGE_CORE_RENDER_INL_SHADER_TYPE_INL_HPP
 
 #include <bksge/core/render/shader_type.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/config.hpp>
-#include <string>
 
 namespace bksge
 {
@@ -19,8 +19,8 @@ namespace bksge
 namespace render
 {
 
-BKSGE_INLINE
-std::string to_string(ShaderType const& shader_type)
+BKSGE_INLINE bksge::string
+to_string(ShaderType const& shader_type)
 {
 #define BKSGE_CORE_RENDER_SHADER_TYPE_KVP(x)	case x: return #x
 

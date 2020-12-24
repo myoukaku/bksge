@@ -19,7 +19,6 @@
 #include <bksge/core/render/sampled_texture.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <vector>
-#include <string>
 
 //#include <iostream>
 

@@ -21,7 +21,6 @@
 #include <bksge/core/render/fwd/shader_fwd.hpp>
 #include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
 #include <vector>
-#include <string>
 
 namespace bksge
 {

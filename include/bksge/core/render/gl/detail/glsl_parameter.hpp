@@ -15,7 +15,7 @@
 #include <bksge/core/render/gl/detail/gl_h.hpp>
 #include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
-#include <string>
+#include <bksge/fnd/string/string.hpp>
 
 namespace bksge
 {
@@ -49,7 +49,7 @@ private:
 	GlslParameter& operator=(GlslParameter const&) = delete;
 
 private:
-	std::string		m_name;
+	bksge::string	m_name;
 	::GLint			m_size;
 	::GLenum		m_type;
 	::GLint			m_location;

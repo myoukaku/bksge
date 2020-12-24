@@ -9,8 +9,8 @@
 #ifndef BKSGE_CORE_RENDER_SHADER_STAGE_HPP
 #define BKSGE_CORE_RENDER_SHADER_STAGE_HPP
 
+#include <bksge/fnd/string/string.hpp>
 #include <ostream>
-#include <string>
 
 namespace bksge
 {
@@ -30,7 +30,7 @@ enum class ShaderStage
 /**
  *	@brief	文字列への変換
  */
-std::string to_string(ShaderStage const& shader_stage);
+bksge::string to_string(ShaderStage const& shader_stage);
 
 /**
  *	@brief	ストリームへの出力

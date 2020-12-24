@@ -7,9 +7,9 @@
  */
 
 #include <bksge/fnd/type_traits/is_trivially_constructible.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
-#include <string>
 #include "type_traits_test_utility.hpp"
 
 #define BKSGE_IS_TRIVIALLY_CONSTRUCTIBLE_TEST(b, ...)	\
@@ -27,7 +27,7 @@ namespace is_trivially_constructible_test
 BKSGE_IS_TRIVIALLY_CONSTRUCTIBLE_TEST(true,  int);
 BKSGE_IS_TRIVIALLY_CONSTRUCTIBLE_TEST(true,  int, int);
 BKSGE_IS_TRIVIALLY_CONSTRUCTIBLE_TEST(false, int, int, int);
-BKSGE_IS_TRIVIALLY_CONSTRUCTIBLE_TEST(false, int, std::string);
+BKSGE_IS_TRIVIALLY_CONSTRUCTIBLE_TEST(false, int, bksge::string);
 BKSGE_IS_TRIVIALLY_CONSTRUCTIBLE_TEST(false, int&, int);
 
 BKSGE_IS_TRIVIALLY_CONSTRUCTIBLE_TEST(false, trivial_except_construct);

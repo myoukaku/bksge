@@ -17,8 +17,8 @@
 //#include <bksge/fnd/serialization/nvp.hpp>
 //#include <bksge/fnd/serialization/string.hpp>
 //#include <bksge/fnd/serialization/version.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/utility/pair.hpp>
-#include <string>
 #include <initializer_list>
 #include <unordered_map>
 
@@ -35,7 +35,7 @@ class Shader : public Identifiable
 {
 private:
 	using Base = Identifiable;
-	using ContainerType = std::unordered_map<ShaderStage, std::string>;
+	using ContainerType = std::unordered_map<ShaderStage, bksge::string>;
 
 public:
 	using const_iterator = ContainerType::const_iterator;

@@ -12,9 +12,9 @@
 #include <bksge/core/render/detail/fwd/type_enum_fwd.hpp>
 #include <bksge/fnd/type_traits/is_signed.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/cstdint.hpp>
 #include <ostream>
-#include <string>
 
 namespace bksge
 {
@@ -104,7 +104,7 @@ bksge::size_t GetSizeOf(TypeEnum type_enum);
 /**
  *	@brief	文字列への変換
  */
-std::string to_string(TypeEnum const& type_enum);
+bksge::string to_string(TypeEnum const& type_enum);
 
 /**
  *	@brief	ストリームへの出力

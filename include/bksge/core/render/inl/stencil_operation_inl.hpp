@@ -10,8 +10,8 @@
 #define BKSGE_CORE_RENDER_INL_STENCIL_OPERATION_INL_HPP
 
 #include <bksge/core/render/stencil_operation.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/config.hpp>
-#include <string>
 
 namespace bksge
 {
@@ -19,8 +19,8 @@ namespace bksge
 namespace render
 {
 
-BKSGE_INLINE
-std::string to_string(StencilOperation const& stencil_operation)
+BKSGE_INLINE bksge::string
+to_string(StencilOperation const& stencil_operation)
 {
 #define BKSGE_CORE_RENDER_STENCIL_OPERATION_KVP(x)	case x: return #x
 

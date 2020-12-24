@@ -19,8 +19,6 @@
 #include <bksge/core/render/d3d_common/d3d11.hpp>
 #include <bksge/core/render/shader_parameter_map.hpp>
 #include <bksge/fnd/cstring/memcpy.hpp>
-#include <string>
-#include <vector>
 
 namespace bksge
 {

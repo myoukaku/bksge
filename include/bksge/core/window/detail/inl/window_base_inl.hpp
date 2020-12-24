@@ -11,7 +11,7 @@
 
 #include <bksge/core/window/detail/window_base.hpp>
 #include <bksge/core/math/extent2.hpp>
-#include <string>
+#include <bksge/fnd/string/string.hpp>
 
 namespace bksge
 {
@@ -22,7 +22,7 @@ namespace window
 BKSGE_INLINE
 WindowBase::WindowBase(
 	ExtentType const& client_size,
-	std::string const& title)
+	bksge::string const& title)
 	: m_client_size(client_size)
 	, m_title(title)
 {
@@ -46,7 +46,7 @@ WindowBase::Update(void)
 }
 
 BKSGE_INLINE void
-WindowBase::SetTitle(std::string const& title)
+WindowBase::SetTitle(bksge::string const& title)
 {
 	m_title = title;
 	VSetTitle(title);
@@ -59,7 +59,7 @@ WindowBase::SetClientSize(ExtentType const& size)
 	VSetClientSize(size);
 }
 
-BKSGE_INLINE std::string const&
+BKSGE_INLINE bksge::string const&
 WindowBase::title(void) const
 {
 	return m_title;

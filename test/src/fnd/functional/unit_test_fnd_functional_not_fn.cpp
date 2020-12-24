@@ -8,6 +8,7 @@
 
 #include <bksge/fnd/functional/not_fn.hpp>
 #include <bksge/fnd/functional/invoke.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/type_traits/is_move_constructible.hpp>
 #include <bksge/fnd/type_traits/is_copy_constructible.hpp>
 #include <bksge/fnd/type_traits/is_move_assignable.hpp>
@@ -17,7 +18,6 @@
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
-#include <string>
 #include "constexpr_test.hpp"
 #include "fnd/tuple/tuple_test_utility.hpp"
 
@@ -382,7 +382,7 @@ void return_type_tests()
 		using T = CopyCallable<ExplicitBool>;
 		auto ret = bksge::not_fn(T{true});
 		static_assert(bksge::is_same<decltype(ret()), bool>::value, "");
-		static_assert(bksge::is_same<decltype(ret(std::string("abc"))), bool>::value, "");
+		static_assert(bksge::is_same<decltype(ret(bksge::string("abc"))), bool>::value, "");
 		EXPECT_FALSE(ret());
 	}
 	{
@@ -498,7 +498,7 @@ void call_operator_sfinae_test()
 		auto fn = [](auto x) { return x; };
 		using T = decltype(bksge::not_fn(fn));
 		static_assert( bksge::is_invocable<T, bool>::value, "");
-		static_assert(!bksge::is_invocable<T, std::string>::value, "");
+		static_assert(!bksge::is_invocable<T, bksge::string>::value, "");
 	}
 #endif
 }
@@ -576,15 +576,15 @@ void call_operator_forwarding_test()
 	}
 	{ // test multi arg
 		const double y = 3.14;
-		std::string s = "abc";
-		obj(42, bksge::move(y), s, std::string{"foo"});
-		Fn::check_call<int&&, const double&&, std::string&, std::string&&>(CT_NonConst | CT_LValue);
-		bksge::move(obj)(42, bksge::move(y), s, std::string{"foo"});
-		Fn::check_call<int&&, const double&&, std::string&, std::string&&>(CT_NonConst | CT_RValue);
-		c_obj(42, bksge::move(y), s, std::string{"foo"});
-		Fn::check_call<int&&, const double&&, std::string&, std::string&&>(CT_Const  | CT_LValue);
-		bksge::move(c_obj)(42, bksge::move(y), s, std::string{"foo"});
-		Fn::check_call<int&&, const double&&, std::string&, std::string&&>(CT_Const  | CT_RValue);
+		bksge::string s = "abc";
+		obj(42, bksge::move(y), s, bksge::string{"foo"});
+		Fn::check_call<int&&, const double&&, bksge::string&, bksge::string&&>(CT_NonConst | CT_LValue);
+		bksge::move(obj)(42, bksge::move(y), s, bksge::string{"foo"});
+		Fn::check_call<int&&, const double&&, bksge::string&, bksge::string&&>(CT_NonConst | CT_RValue);
+		c_obj(42, bksge::move(y), s, bksge::string{"foo"});
+		Fn::check_call<int&&, const double&&, bksge::string&, bksge::string&&>(CT_Const  | CT_LValue);
+		bksge::move(c_obj)(42, bksge::move(y), s, bksge::string{"foo"});
+		Fn::check_call<int&&, const double&&, bksge::string&, bksge::string&&>(CT_Const  | CT_RValue);
 	}
 }
 

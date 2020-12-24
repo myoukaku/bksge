@@ -18,7 +18,7 @@
 #include <bksge/core/render/d3d_common/d3d11shader.hpp>
 #include <bksge/core/render/d3d_common/com_ptr.hpp>
 #include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
-#include <string>
+#include <bksge/fnd/string/string.hpp>
 
 namespace bksge
 {
@@ -53,7 +53,7 @@ private:
 	HlslSampler& operator=(HlslSampler const&) = delete;
 
 private:
-	std::string		m_name;
+	bksge::string		m_name;
 };
 
 }	// namespace d3d11

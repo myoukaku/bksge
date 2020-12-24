@@ -10,8 +10,8 @@
 #define BKSGE_CORE_RENDER_PRIMITIVE_TOPOLOGY_HPP
 
 #include <bksge/core/render/fwd/primitive_topology_fwd.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <ostream>
-#include <string>
 
 namespace bksge
 {
@@ -32,7 +32,7 @@ enum class PrimitiveTopology
 /**
  *	@brief	文字列への変換
  */
-std::string to_string(PrimitiveTopology const& primitive_topology);
+bksge::string to_string(PrimitiveTopology const& primitive_topology);
 
 /**
  *	@brief	ストリームへの出力

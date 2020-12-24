@@ -11,7 +11,7 @@
 
 #include <bksge/core/render/fwd/front_face_fwd.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
-#include <string>
+#include <bksge/fnd/string/string.hpp>
 #include <ostream>
 
 namespace bksge
@@ -32,7 +32,7 @@ enum class FrontFace : bksge::uint32_t
 /**
  *	@brief	文字列への変換
  */
-std::string to_string(FrontFace const& front_face);
+bksge::string to_string(FrontFace const& front_face);
 
 /**
  *	@brief	ストリームへの出力

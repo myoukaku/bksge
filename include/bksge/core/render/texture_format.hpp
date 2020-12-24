@@ -12,8 +12,8 @@
 #include <bksge/core/render/fwd/texture_format_fwd.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <ostream>
-#include <string>
 
 namespace bksge
 {
@@ -253,7 +253,7 @@ bksge::size_t GetMipmappedSizeInBytes(
 /**
  *	@brief	文字列への変換
  */
-std::string to_string(TextureFormat const& format);
+bksge::string to_string(TextureFormat const& format);
 
 /**
  *	@brief	ストリームへの出力

@@ -11,8 +11,8 @@
 
 #include <bksge/core/render/fwd/color_write_flag_fwd.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/config.hpp>
-#include <string>
 #include <ostream>
 
 namespace bksge
@@ -60,7 +60,7 @@ Test(ColorWriteFlag lhs, ColorWriteFlag rhs) BKSGE_NOEXCEPT;
 /**
  *	@brief	文字列への変換
  */
-std::string to_string(ColorWriteFlag const& color_write_flag);
+bksge::string to_string(ColorWriteFlag const& color_write_flag);
 
 /**
  *	@brief	ストリームへの出力

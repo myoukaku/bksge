@@ -10,9 +10,9 @@
 #define BKSGE_CORE_RENDER_INL_CLEAR_FLAG_INL_HPP
 
 #include <bksge/core/render/clear_flag.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/type_traits/underlying_type.hpp>
 #include <bksge/fnd/config.hpp>
-#include <string>
 
 namespace bksge
 {
@@ -71,7 +71,7 @@ Test(ClearFlag lhs, ClearFlag rhs) BKSGE_NOEXCEPT
 	return (lhs & rhs) != ClearFlag::kNone;
 }
 
-inline std::string
+inline bksge::string
 to_string(ClearFlag const& clear_flag)
 {
 #define BKSGE_CORE_RENDER_CLEAR_FLAG_KVP(x)	if (clear_flag == (x)) { return #x; }

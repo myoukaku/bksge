@@ -19,7 +19,6 @@
 #include <bksge/core/render/shader_parameter_map.hpp>
 #include <bksge/core/render/detail/shader_parameter.hpp>
 #include <bksge/core/render/sampler.hpp>
-#include <string>
 
 namespace bksge
 {

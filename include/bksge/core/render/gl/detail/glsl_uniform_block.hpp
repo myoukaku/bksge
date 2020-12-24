@@ -14,8 +14,8 @@
 #include <bksge/core/render/gl/detail/fwd/uniform_buffer_fwd.hpp>
 #include <bksge/core/render/gl/detail/gl_h.hpp>
 #include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <vector>
-#include <string>
 
 namespace bksge
 {
@@ -46,7 +46,7 @@ private:
 	GlslUniformBlock& operator=(GlslUniformBlock const&) = delete;
 
 private:
-	std::string				m_name;
+	bksge::string			m_name;
 	::GLint					m_size = 0;
 	::GLint					m_binding = 0;
 	UniformBufferUnique		m_uniform_buffer;

@@ -13,7 +13,8 @@
 #if defined(BKSGE_PLATFORM_WIN32)
 
 #include <bksge/core/window/win32/win32_window.hpp>
-#include <string>
+#include <bksge/fnd/string/string.hpp>
+#include <bksge/fnd/string/basic_string.hpp>
 
 namespace bksge
 {
@@ -31,16 +32,16 @@ inline int GetUniqueNumber(void)
 }
 
 template <typename CharT>
-std::basic_string<CharT> GetUniqueClassName(void);
+bksge::basic_string<CharT> GetUniqueClassName(void);
 
 template <> inline
-std::basic_string<char> GetUniqueClassName(void)
+bksge::basic_string<char> GetUniqueClassName(void)
 {
 	return "BksgeWindow" + std::to_string(GetUniqueNumber());
 }
 
 template <> inline
-std::basic_string<wchar_t> GetUniqueClassName(void)
+bksge::basic_string<wchar_t> GetUniqueClassName(void)
 {
 	return L"BksgeWindow" + std::to_wstring(GetUniqueNumber());
 }
@@ -82,7 +83,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM w_param, LPARAM l_param)
 }
 
 template <typename CharT> inline
-bool RegisterWindowClass(std::basic_string<CharT> const& class_name)
+bool RegisterWindowClass(bksge::basic_string<CharT> const& class_name)
 {
 	auto const instance = win32::GetModuleHandle<CharT>(nullptr);
 	using WC = typename win32::WindowClassEx<CharT>::type;
@@ -185,7 +186,7 @@ inline void SetClientSize(HWND hwnd, Win32Window::ExtentType const& size)
 }	// namespace win32_window_detail
 
 BKSGE_INLINE
-Win32Window::Win32Window(ExtentType const& client_size, std::string const& title)
+Win32Window::Win32Window(ExtentType const& client_size, bksge::string const& title)
 	: Base(client_size, title)
 	, m_hwnd(nullptr)
 {
@@ -211,7 +212,7 @@ Win32Window::VDestroy(void)
 }
 
 BKSGE_INLINE void
-Win32Window::VSetTitle(std::string const& title)
+Win32Window::VSetTitle(bksge::string const& title)
 {
 	win32::SetWindowText(m_hwnd, title.c_str());
 }

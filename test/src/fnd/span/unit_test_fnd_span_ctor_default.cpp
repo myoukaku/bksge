@@ -7,10 +7,10 @@
  */
 
 #include <bksge/fnd/span.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/type_traits/is_default_constructible.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_default_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
-#include <string>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -62,7 +62,7 @@ GTEST_TEST(SpanTest, CtorDefaultTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<long>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<double>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<A>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<std::string>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<bksge::string>()));
 }
 
 }	// namespace ctor_default_test

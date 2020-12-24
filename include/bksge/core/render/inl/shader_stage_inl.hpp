@@ -10,8 +10,8 @@
 #define BKSGE_CORE_RENDER_INL_SHADER_STAGE_INL_HPP
 
 #include <bksge/core/render/shader_stage.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/config.hpp>
-#include <string>
 
 namespace bksge
 {
@@ -19,8 +19,8 @@ namespace bksge
 namespace render
 {
 
-BKSGE_INLINE
-std::string to_string(ShaderStage const& shader_stage)
+BKSGE_INLINE bksge::string
+to_string(ShaderStage const& shader_stage)
 {
 #define BKSGE_CORE_RENDER_SHADER_STAGE_KVP(x)	case x: return #x
 

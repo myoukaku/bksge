@@ -7,8 +7,8 @@
  */
 
 #include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <gtest/gtest.h>
-#include <string>
 #include "type_traits_test_utility.hpp"
 
 #define BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(b, ...)	\
@@ -28,7 +28,7 @@ struct S1
 	S1(S1&&) BKSGE_NOEXCEPT_OR_NOTHROW;
 	S1(int) BKSGE_NOEXCEPT_OR_NOTHROW;
 	S1(int, float) BKSGE_NOEXCEPT_OR_NOTHROW;
-	S1(int, UDT, std::string);
+	S1(int, UDT, bksge::string);
 	S1(int, int, int) BKSGE_NOEXCEPT_OR_NOTHROW;
 };
 
@@ -43,7 +43,7 @@ struct S2
 BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(true,  int);
 BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(true,  int, int);
 BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, int, int, int);
-BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, int, std::string);
+BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, int, bksge::string);
 BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, int&, int);
 
 BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, trivial_except_construct);
@@ -113,14 +113,14 @@ BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, S1, int*);
 BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(true,  S1, int&);
 BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(true,  S1, int&&);
 BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, S1, UDT);
-BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, S1, std::string);
+BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, S1, bksge::string);
 BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(true,  S1, int, float);
 BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, S1, int, UDT);
 BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, S1, UDT, int);
-BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, S1, int, UDT, std::string);
-BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, S1, int, int, std::string);
-BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, S1, UDT, int, std::string);
-BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, S1, int, UDT, std::string, int);
+BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, S1, int, UDT, bksge::string);
+BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, S1, int, int, bksge::string);
+BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, S1, UDT, int, bksge::string);
+BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, S1, int, UDT, bksge::string, int);
 BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(true,  S1, int, int, int);
 	
 BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(false, S2, S2);

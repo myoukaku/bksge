@@ -10,9 +10,9 @@
 #include <bksge/fnd/variant/variant.hpp>
 #include <bksge/fnd/variant/bad_variant_access.hpp>
 #include <bksge/fnd/memory/addressof.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
-#include <string>
 #include <gtest/gtest.h>
 #include "fnd/variant/test_macros.hpp"
 #include "fnd/variant/type_id.hpp"
@@ -137,17 +137,17 @@ void test_call_operator_forwarding()
 	{
 		// test call operator forwarding - multi variant, multi arg
 		using V = bksge::variant<int, long, double>;
-		using V2 = bksge::variant<int*, std::string>;
+		using V2 = bksge::variant<int*, bksge::string>;
 		V v(42l);
 		V2 v2("hello");
 		bksge::visit(obj, v, v2);
-		EXPECT_TRUE((Fn::check_call<long&, std::string&>(CT_NonConst | CT_LValue)));
+		EXPECT_TRUE((Fn::check_call<long&, bksge::string&>(CT_NonConst | CT_LValue)));
 		bksge::visit(cobj, v, v2);
-		EXPECT_TRUE((Fn::check_call<long&, std::string&>(CT_Const | CT_LValue)));
+		EXPECT_TRUE((Fn::check_call<long&, bksge::string&>(CT_Const | CT_LValue)));
 		bksge::visit(bksge::move(obj), v, v2);
-		EXPECT_TRUE((Fn::check_call<long&, std::string&>(CT_NonConst | CT_RValue)));
+		EXPECT_TRUE((Fn::check_call<long&, bksge::string&>(CT_NonConst | CT_RValue)));
 		bksge::visit(bksge::move(cobj), v, v2);
-		EXPECT_TRUE((Fn::check_call<long&, std::string&>(CT_Const | CT_RValue)));
+		EXPECT_TRUE((Fn::check_call<long&, bksge::string&>(CT_Const | CT_RValue)));
 	}
 }
 
@@ -203,9 +203,9 @@ void test_argument_forwarding()
 	}
 	{
 		// multi argument - multi variant
-		using S = const std::string&;
+		using S = const bksge::string&;
 		using V = bksge::variant<int, S, long&&>;
-		const std::string str = "hello";
+		const bksge::string str = "hello";
 		long l = 43;
 		V v1(42);
 		const V& cv1 = v1;
@@ -309,7 +309,7 @@ void test_exceptions()
 	}
 	{
 		using V = bksge::variant<int, MakeEmptyT>;
-		using V2 = bksge::variant<long, std::string, void*>;
+		using V2 = bksge::variant<long, bksge::string, void*>;
 		V v;
 		makeEmpty(v);
 		V2 v2("hello");
@@ -317,7 +317,7 @@ void test_exceptions()
 	}
 	{
 		using V = bksge::variant<int, MakeEmptyT>;
-		using V2 = bksge::variant<long, std::string, void*>;
+		using V2 = bksge::variant<long, bksge::string, void*>;
 		V v;
 		makeEmpty(v);
 		V2 v2("hello");
@@ -325,7 +325,7 @@ void test_exceptions()
 	}
 	{
 		using V = bksge::variant<int, MakeEmptyT>;
-		using V2 = bksge::variant<long, std::string, void*, MakeEmptyT>;
+		using V2 = bksge::variant<long, bksge::string, void*, MakeEmptyT>;
 		V v;
 		makeEmpty(v);
 		V2 v2;

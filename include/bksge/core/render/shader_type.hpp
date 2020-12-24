@@ -9,8 +9,8 @@
 #ifndef BKSGE_CORE_RENDER_SHADER_TYPE_HPP
 #define BKSGE_CORE_RENDER_SHADER_TYPE_HPP
 
+#include <bksge/fnd/string/string.hpp>
 #include <ostream>
-#include <string>
 
 namespace bksge
 {
@@ -27,7 +27,7 @@ enum class ShaderType
 /**
  *	@brief	文字列への変換
  */
-std::string to_string(ShaderType const& shader_type);
+bksge::string to_string(ShaderType const& shader_type);
 
 /**
  *	@brief	ストリームへの出力

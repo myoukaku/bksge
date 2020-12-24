@@ -9,6 +9,7 @@
 #include <bksge/fnd/variant/variant.hpp>
 #include <bksge/fnd/variant/get.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/type_traits/is_convertible.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
@@ -16,7 +17,6 @@
 #include <bksge/fnd/utility/in_place_type.hpp>
 #include <bksge/fnd/utility/in_place_index.hpp>
 #include <bksge/fnd/utility/move.hpp>
-#include <string>
 #include <gtest/gtest.h>
 #include "fnd/variant/test_macros.hpp"
 #include "fnd/variant/variant_test_helpers.hpp"
@@ -69,15 +69,15 @@ void test_T_ctor_sfinae()
 		static_assert(!bksge::is_constructible<V, int>::value, "ambiguous");
 	}
 	{
-		using V = bksge::variant<std::string, std::string>;
+		using V = bksge::variant<bksge::string, bksge::string>;
 		static_assert(!bksge::is_constructible<V, const char*>::value, "ambiguous");
 	}
 	{
-		using V = bksge::variant<std::string, void*>;
+		using V = bksge::variant<bksge::string, void*>;
 		static_assert(!bksge::is_constructible<V, int>::value, "no matching constructor");
 	}
 	{
-		//using V = bksge::variant<std::string, float>;
+		//using V = bksge::variant<bksge::string, float>;
 		//static_assert(bksge::is_constructible<V, int>::value == VariantAllowsNarrowingConversions, "no matching constructor");
 	}
 	{
@@ -139,7 +139,7 @@ void test_T_ctor_basic()
 #endif
 #if 0	// TODO
 	{
-		bksge::variant<std::string, bool const> v = "foo";
+		bksge::variant<bksge::string, bool const> v = "foo";
 		EXPECT_EQ(v.index(), 0u);
 		EXPECT_EQ(get<0>(v), "foo");
 	}

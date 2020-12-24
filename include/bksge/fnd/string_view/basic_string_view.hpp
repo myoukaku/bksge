@@ -34,7 +34,6 @@ using std::basic_string_view;
 #include <bksge/fnd/iterator/reverse_iterator.hpp>
 #include <bksge/fnd/config.hpp>
 #include <iosfwd>	// basic_ostream
-#include <string>	// char_traits
 
 namespace bksge
 {

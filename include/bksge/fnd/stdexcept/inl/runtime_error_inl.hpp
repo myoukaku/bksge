@@ -10,8 +10,8 @@
 #define BKSGE_FND_STDEXCEPT_INL_RUNTIME_ERROR_INL_HPP
 
 #include <bksge/fnd/stdexcept/runtime_error.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/config.hpp>
-#include <string>
 #include <cstdlib>
 
 namespace bksge
@@ -29,7 +29,7 @@ void throw_runtime_error(char const* msg)
 }
 
 BKSGE_NORETURN BKSGE_INLINE
-void throw_runtime_error(std::string const& msg)
+void throw_runtime_error(bksge::string const& msg)
 {
 #if !defined(BKSGE_NO_EXCEPTIONS)
 	throw bksge::runtime_error(msg);

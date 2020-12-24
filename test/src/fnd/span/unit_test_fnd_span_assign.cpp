@@ -8,9 +8,9 @@
 
 #include <bksge/fnd/span.hpp>
 #include <bksge/fnd/iterator/size.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <string>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 #include "noexcept_test.hpp"
@@ -95,11 +95,11 @@ test1()
 
 inline bool test2()
 {
-	std::string strs[] = {"ABC", "DEF", "GHI"};
+	bksge::string strs[] = {"ABC", "DEF", "GHI"};
 
 	//  dynamically sized assignment
 	{
-		bksge::span<std::string> spans[] =
+		bksge::span<bksge::string> spans[] =
 		{
 			{strs, strs},
 			{strs, strs + 1},
@@ -124,7 +124,7 @@ inline bool test2()
 
 	// statically sized assignment
 	{
-		using spanType = bksge::span<std::string, 1>;
+		using spanType = bksge::span<bksge::string, 1>;
 		spanType spans[] =
 		{
 			spanType{strs, strs + 1},

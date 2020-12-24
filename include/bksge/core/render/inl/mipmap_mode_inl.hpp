@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_INL_MIPMAP_MODE_INL_HPP
 
 #include <bksge/core/render/mipmap_mode.hpp>
-#include <string>
+#include <bksge/fnd/string/string.hpp>
 
 namespace bksge
 {
@@ -18,8 +18,8 @@ namespace bksge
 namespace render
 {
 
-BKSGE_INLINE
-std::string to_string(MipmapMode const& mipmap_mode)
+BKSGE_INLINE bksge::string
+to_string(MipmapMode const& mipmap_mode)
 {
 #define BKSGE_CORE_RENDER_MAKE_MIPMAP_MODE_KVP(x)	case x: return #x
 

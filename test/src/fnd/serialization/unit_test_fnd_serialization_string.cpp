@@ -9,8 +9,9 @@
 #include <bksge/fnd/serialization/string.hpp>
 #include <bksge/fnd/serialization/text_oarchive.hpp>
 #include <bksge/fnd/serialization/text_iarchive.hpp>
+#include <bksge/fnd/string/string.hpp>
+#include <bksge/fnd/string/wstring.hpp>
 #include <sstream>
-#include <string>
 #include <gtest/gtest.h>
 
 namespace bksge_serialization_test
@@ -23,7 +24,7 @@ template <typename Stream, typename OArchive, typename IArchive>
 void StringTest()
 {
 	{
-		std::string const value = "The quick brown fox jumps over the lazy dog.";
+		bksge::string const value = "The quick brown fox jumps over the lazy dog.";
 
 		Stream str;
 		{
@@ -32,7 +33,7 @@ void StringTest()
 		}
 		//EXPECT_EQ("", str.str());
 		{
-			std::string tmp;
+			bksge::string tmp;
 			IArchive ia(str);
 			ia >> tmp;
 
@@ -40,7 +41,7 @@ void StringTest()
 		}
 	}
 	{
-		std::wstring const value = L"Jackdaws love my big sphinx of quartz.";
+		bksge::wstring const value = L"Jackdaws love my big sphinx of quartz.";
 
 		Stream str;
 		{
@@ -49,7 +50,7 @@ void StringTest()
 		}
 		//EXPECT_EQ("", str.str());
 		{
-			std::wstring tmp;
+			bksge::wstring tmp;
 			IArchive ia(str);
 			ia >> tmp;
 

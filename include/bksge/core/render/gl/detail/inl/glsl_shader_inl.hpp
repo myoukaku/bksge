@@ -16,8 +16,8 @@
 #include <bksge/core/render/gl/detail/shader_stage.hpp>
 #include <bksge/core/render/gl/detail/gl_h.hpp>
 #include <bksge/core/render/shader_stage.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/assert.hpp>
-#include <string>
 #include <iostream>
 
 namespace bksge
@@ -32,7 +32,7 @@ namespace gl
 BKSGE_INLINE
 GlslShader::GlslShader(
 	bksge::ShaderStage stage,
-	std::string const& source)
+	bksge::string const& source)
 {
 	m_id = ::glCreateShader(gl::ShaderStage(stage));
 	BKSGE_ASSERT(m_id != 0u);
@@ -49,7 +49,7 @@ GlslShader::GlslShader(
 		::glGetShaderiv(m_id, GL_INFO_LOG_LENGTH, &log_length);
 		if (log_length != 0)
 		{
-			std::string info_log;
+			bksge::string info_log;
 			info_log.resize(log_length);
 			::GLsizei length;
 			::glGetShaderInfoLog(m_id, log_length, &length, &info_log[0]);

@@ -10,13 +10,13 @@
 #define BKSGE_CORE_RENDER_INL_TEXTURE_FORMAT_INL_HPP
 
 #include <bksge/core/render/texture_format.hpp>
-#include <bksge/fnd/cmath/round_up.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/algorithm/min.hpp>
+#include <bksge/fnd/cmath/round_up.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/config.hpp>
-#include <string>
 
 namespace bksge
 {
@@ -129,7 +129,7 @@ GetMipmappedSizeInBytes(
 	return size;
 }
 
-BKSGE_INLINE std::string
+BKSGE_INLINE bksge::string
 to_string(TextureFormat const& format)
 {
 #define BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(x)	case x: return #x

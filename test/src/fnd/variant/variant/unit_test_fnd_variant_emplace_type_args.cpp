@@ -8,12 +8,12 @@
 
 #include <bksge/fnd/variant/variant.hpp>
 #include <bksge/fnd/variant/get.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/utility/in_place_type.hpp>
 #include <bksge/fnd/utility/in_place_index.hpp>
 #include <bksge/fnd/utility/move.hpp>
-#include <string>
 #include <gtest/gtest.h>
 #include "fnd/variant/archetypes.hpp"
 #include "fnd/variant/test_convertible.hpp"
@@ -100,7 +100,7 @@ void test_basic()
 		EXPECT_EQ(&ref2, &get<0>(v));
 	}
 	{
-		using V = bksge::variant<int, long, const void*, TestTypes::NoCtors, std::string>;
+		using V = bksge::variant<int, long, const void*, TestTypes::NoCtors, bksge::string>;
 		const int x = 100;
 		V v(bksge::in_place_type_t<int>{}, -1);
 		// default emplace a value
@@ -113,14 +113,14 @@ void test_basic()
 		EXPECT_EQ(get<2>(v), &x);
 		EXPECT_EQ(&ref2, &get<2>(v));
 		// emplace with multiple args
-		auto& ref3 = v.emplace<std::string>(3u, 'a');
-		static_assert(bksge::is_same<std::string&, decltype(ref3)>::value, "");
+		auto& ref3 = v.emplace<bksge::string>(3u, 'a');
+		static_assert(bksge::is_same<bksge::string&, decltype(ref3)>::value, "");
 		EXPECT_EQ(get<4>(v), "aaa");
 		EXPECT_EQ(&ref3, &get<4>(v));
 	}
 #if !defined(TEST_VARIANT_HAS_NO_REFERENCES)
 	{
-		using V = bksge::variant<int, long, const int&, int&&, TestTypes::NoCtors, std::string>;
+		using V = bksge::variant<int, long, const int&, int&&, TestTypes::NoCtors, bksge::string>;
 		const int x = 100;
 		int y = 42;
 		int z = 43;
@@ -146,10 +146,10 @@ void test_basic()
 		EXPECT_EQ(&get<int&&>(v), &z);
 		EXPECT_EQ(&ref4, &get<int&&>(v));
 		// emplace with multiple args
-		auto& ref5 = v.emplace<std::string>(3u, 'a');
-		static_assert(bksge::is_same<std::string&, decltype(ref5)>::value, "");
-		EXPECT_EQ(get<std::string>(v), "aaa");
-		EXPECT_EQ(&ref5, &get<std::string>(v));
+		auto& ref5 = v.emplace<bksge::string>(3u, 'a');
+		static_assert(bksge::is_same<bksge::string&, decltype(ref5)>::value, "");
+		EXPECT_EQ(get<bksge::string>(v), "aaa");
+		EXPECT_EQ(&ref5, &get<bksge::string>(v));
 	}
 #endif
 }

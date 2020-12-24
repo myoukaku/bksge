@@ -9,6 +9,7 @@
 #include <bksge/fnd/ranges/concepts/viewable_range.hpp>
 #include <bksge/fnd/ranges/concepts/enable_view.hpp>
 #include <bksge/fnd/ranges/views/view_base.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/string_view.hpp>
 #include <bksge/fnd/span.hpp>
 #include <array>
@@ -18,7 +19,6 @@
 #include <forward_list>
 #include <set>
 #include <unordered_set>
-#include <string>
 #include "ranges_test.hpp"
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
@@ -88,7 +88,7 @@ BKSGE_RANGES_VIEWABLE_RANGE_TEST(false, std::set<int>);
 BKSGE_RANGES_VIEWABLE_RANGE_TEST(false, std::multiset<int>);
 BKSGE_RANGES_VIEWABLE_RANGE_TEST(false, std::unordered_set<int>);
 BKSGE_RANGES_VIEWABLE_RANGE_TEST(false, std::unordered_multiset<int>);
-BKSGE_RANGES_VIEWABLE_RANGE_TEST(false, std::string);
+BKSGE_RANGES_VIEWABLE_RANGE_TEST(false, bksge::string);
 #if 0	// TODO
 BKSGE_RANGES_VIEWABLE_RANGE_TEST(true,  bksge::string_view);
 BKSGE_RANGES_VIEWABLE_RANGE_TEST(true,  bksge::span<int>);

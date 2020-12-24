@@ -10,8 +10,7 @@
 #include <bksge/fnd/exception/exception.hpp>
 #include <bksge/fnd/type_traits/is_base_of.hpp>
 #include <bksge/fnd/type_traits/is_polymorphic.hpp>
-//#include <bksge/fnd/string.hpp>
-#include <string>
+#include <bksge/fnd/string/string.hpp>
 #include <gtest/gtest.h>
 
 GTEST_TEST(StdExceptTest, RuntimeErrorTest)
@@ -29,7 +28,7 @@ GTEST_TEST(StdExceptTest, RuntimeErrorTest)
 		EXPECT_STREQ(msg, e2.what());
 	}
 	{
-		std::string msg = "runtime_error message 2";
+		bksge::string msg = "runtime_error message 2";
 		bksge::runtime_error e(msg);
 		EXPECT_EQ(msg, e.what());
 		bksge::runtime_error e2(e);

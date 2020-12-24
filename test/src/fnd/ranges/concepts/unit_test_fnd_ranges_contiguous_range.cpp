@@ -7,6 +7,7 @@
  */
 
 #include <bksge/fnd/ranges/concepts/contiguous_range.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <array>
 #include <vector>
 #include <deque>
@@ -14,7 +15,6 @@
 #include <forward_list>
 #include <set>
 #include <unordered_set>
-#include <string>
 #include "ranges_test.hpp"
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
@@ -48,7 +48,7 @@ BKSGE_RANGES_CONTIGUOUS_RANGE_TEST(false, std::set<int>);
 BKSGE_RANGES_CONTIGUOUS_RANGE_TEST(false, std::multiset<int>);
 BKSGE_RANGES_CONTIGUOUS_RANGE_TEST(false, std::unordered_set<int>);
 BKSGE_RANGES_CONTIGUOUS_RANGE_TEST(false, std::unordered_multiset<int>);
-BKSGE_RANGES_CONTIGUOUS_RANGE_TEST(true,  std::string);
+BKSGE_RANGES_CONTIGUOUS_RANGE_TEST(true,  bksge::string);
 #endif
 
 BKSGE_RANGES_CONTIGUOUS_RANGE_TEST(true,  test_contiguous_range<int>);

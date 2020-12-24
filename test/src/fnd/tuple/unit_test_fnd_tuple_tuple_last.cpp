@@ -9,8 +9,8 @@
 #include <bksge/fnd/tuple/tuple_last.hpp>
 #include <bksge/fnd/tuple/tuple.hpp>
 #include <bksge/fnd/tuple/make_tuple.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/utility/move.hpp>
-#include <string>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -69,11 +69,11 @@ GTEST_TEST(TupleTest, TupleLastTest)
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(Noncopyable(2), t1);
 	}
 	{
-		bksge::tuple<std::string, float> t1("foo", 1.5f);
+		bksge::tuple<bksge::string, float> t1("foo", 1.5f);
 		EXPECT_EQ(1.5f, bksge::tuple_last(t1));
 	}
 	{
-		bksge::tuple<std::string, float> t1("foo", 1.5f);
+		bksge::tuple<bksge::string, float> t1("foo", 1.5f);
 		EXPECT_EQ(1.5f, bksge::tuple_last(bksge::move(t1)));
 	}
 	{

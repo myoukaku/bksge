@@ -7,6 +7,7 @@
  */
 
 #include <bksge/fnd/iterator/concepts/output_iterator.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/string_view.hpp>
 #include <bksge/fnd/config.hpp>
 #include <iterator>
@@ -15,7 +16,6 @@
 #include <forward_list>
 #include <list>
 #include <set>
-#include <string>
 #include <vector>
 #include "iterator_test.hpp"
 
@@ -85,10 +85,10 @@ BKSGE_OUTPUT_ITERATOR_TEST(false, std::set<int>::iterator, int);
 BKSGE_OUTPUT_ITERATOR_TEST(false, std::set<A>::iterator, A);
 BKSGE_OUTPUT_ITERATOR_TEST(false, std::set<int>::const_iterator, int);
 BKSGE_OUTPUT_ITERATOR_TEST(false, std::set<A>::const_iterator, A);
-BKSGE_OUTPUT_ITERATOR_TEST(true,  std::string::iterator, char);
-BKSGE_OUTPUT_ITERATOR_TEST(true,  std::string::iterator, int);
-BKSGE_OUTPUT_ITERATOR_TEST(false, std::string::const_iterator, char);
-BKSGE_OUTPUT_ITERATOR_TEST(false, std::string::const_iterator, int);
+BKSGE_OUTPUT_ITERATOR_TEST(true,  bksge::string::iterator, char);
+BKSGE_OUTPUT_ITERATOR_TEST(true,  bksge::string::iterator, int);
+BKSGE_OUTPUT_ITERATOR_TEST(false, bksge::string::const_iterator, char);
+BKSGE_OUTPUT_ITERATOR_TEST(false, bksge::string::const_iterator, int);
 BKSGE_OUTPUT_ITERATOR_TEST(false, bksge::string_view::iterator, char);
 BKSGE_OUTPUT_ITERATOR_TEST(false, bksge::string_view::iterator, int);
 BKSGE_OUTPUT_ITERATOR_TEST(false, bksge::string_view::const_iterator, char);

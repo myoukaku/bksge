@@ -10,8 +10,8 @@
 #define BKSGE_CORE_RENDER_INL_BORDER_COLOR_INL_HPP
 
 #include <bksge/core/render/border_color.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/config.hpp>
-#include <string>
 
 namespace bksge
 {
@@ -19,8 +19,8 @@ namespace bksge
 namespace render
 {
 
-BKSGE_INLINE
-std::string to_string(BorderColor const& border_color)
+BKSGE_INLINE bksge::string
+to_string(BorderColor const& border_color)
 {
 #define BKSGE_CORE_RENDER_BORDER_COLOR_KVP(x)	case x: return #x
 

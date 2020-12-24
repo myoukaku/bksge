@@ -10,8 +10,7 @@
 #include <bksge/fnd/stdexcept/runtime_error.hpp>
 #include <bksge/fnd/type_traits/is_base_of.hpp>
 #include <bksge/fnd/type_traits/is_polymorphic.hpp>
-//#include <bksge/fnd/string.hpp>
-#include <string>
+#include <bksge/fnd/string/string.hpp>
 #include <gtest/gtest.h>
 
 GTEST_TEST(StdExceptTest, RangeErrorTest)
@@ -29,7 +28,7 @@ GTEST_TEST(StdExceptTest, RangeErrorTest)
 		EXPECT_STREQ(msg, e2.what());
 	}
 	{
-		std::string msg = "range_error message 2";
+		bksge::string msg = "range_error message 2";
 		bksge::range_error e(msg);
 		EXPECT_EQ(msg, e.what());
 		bksge::range_error e2(e);

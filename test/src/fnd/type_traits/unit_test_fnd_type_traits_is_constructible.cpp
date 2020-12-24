@@ -7,8 +7,8 @@
  */
 
 #include <bksge/fnd/type_traits/is_constructible.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <gtest/gtest.h>
-#include <string>
 #include "type_traits_test_utility.hpp"
 
 #define BKSGE_IS_CONSTRUCTIBLE_TEST(b, ...)	\
@@ -27,7 +27,7 @@ struct S1
 	S1(const S1&);
 	S1(int);
 	S1(int, UDT);
-	S1(int, UDT, std::string);
+	S1(int, UDT, bksge::string);
 };
 
 struct S2
@@ -82,15 +82,15 @@ BKSGE_IS_CONSTRUCTIBLE_TEST(false, S1, int*);
 BKSGE_IS_CONSTRUCTIBLE_TEST(true,  S1, int&);
 BKSGE_IS_CONSTRUCTIBLE_TEST(true,  S1, int&&);
 BKSGE_IS_CONSTRUCTIBLE_TEST(false, S1, UDT);
-BKSGE_IS_CONSTRUCTIBLE_TEST(false, S1, std::string);
+BKSGE_IS_CONSTRUCTIBLE_TEST(false, S1, bksge::string);
 BKSGE_IS_CONSTRUCTIBLE_TEST(true,  S1, int, UDT);
 BKSGE_IS_CONSTRUCTIBLE_TEST(false, S1, int, int);
 BKSGE_IS_CONSTRUCTIBLE_TEST(false, S1, int, void);
 BKSGE_IS_CONSTRUCTIBLE_TEST(false, S1, UDT, int);
-BKSGE_IS_CONSTRUCTIBLE_TEST(true,  S1, int, UDT, std::string);
-BKSGE_IS_CONSTRUCTIBLE_TEST(false, S1, int, int, std::string);
-BKSGE_IS_CONSTRUCTIBLE_TEST(false, S1, UDT, int, std::string);
-BKSGE_IS_CONSTRUCTIBLE_TEST(false, S1, int, UDT, std::string, int);
+BKSGE_IS_CONSTRUCTIBLE_TEST(true,  S1, int, UDT, bksge::string);
+BKSGE_IS_CONSTRUCTIBLE_TEST(false, S1, int, int, bksge::string);
+BKSGE_IS_CONSTRUCTIBLE_TEST(false, S1, UDT, int, bksge::string);
+BKSGE_IS_CONSTRUCTIBLE_TEST(false, S1, int, UDT, bksge::string, int);
 
 BKSGE_IS_CONSTRUCTIBLE_TEST(false, S1*,                S1);
 BKSGE_IS_CONSTRUCTIBLE_TEST(false, S1*, const          S1);

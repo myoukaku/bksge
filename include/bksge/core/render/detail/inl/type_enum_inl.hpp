@@ -11,8 +11,8 @@
 
 #include <bksge/core/render/detail/type_enum.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/config.hpp>
-#include <string>
 
 namespace bksge
 {
@@ -45,7 +45,7 @@ bksge::size_t GetSizeOf(TypeEnum type_enum)
 }
 
 BKSGE_INLINE
-std::string to_string(TypeEnum const& type_enum)
+bksge::string to_string(TypeEnum const& type_enum)
 {
 #define BKSGE_CORE_RENDER_TYPEENUM_CASE(x)	case x: return #x
 

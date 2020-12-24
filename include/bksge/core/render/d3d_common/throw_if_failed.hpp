@@ -9,8 +9,8 @@
 #ifndef BKSGE_CORE_RENDER_D3D_COMMON_THROW_IF_FAILED_HPP
 #define BKSGE_CORE_RENDER_D3D_COMMON_THROW_IF_FAILED_HPP
 
+#include <bksge/fnd/string/string.hpp>
 #include <stdexcept>
-#include <string>
 
 namespace bksge
 {
@@ -32,11 +32,11 @@ public:
 	}
 
 private:
-	std::string HrToString(::HRESULT hr)
+	bksge::string HrToString(::HRESULT hr)
 	{
 		char s_str[64] ={};
 		sprintf_s(s_str, "HRESULT of 0x%08X", static_cast<::UINT>(hr));
-		return std::string(s_str);
+		return bksge::string(s_str);
 	}
 
 private:

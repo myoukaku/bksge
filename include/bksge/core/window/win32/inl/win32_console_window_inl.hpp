@@ -19,6 +19,7 @@
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint8_t.hpp>
 #include <bksge/fnd/cstdint/uint16_t.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/config.hpp>
 #include <bksge/fnd/assert.hpp>
 
@@ -162,7 +163,7 @@ inline ColorCodeInfo GetColorCodeInfo(bksge::uint8_t r, bksge::uint8_t g, bksge:
 
 BKSGE_INLINE
 Win32ConsoleWindow::Win32ConsoleWindow(
-	ExtentType const& client_size, std::string const& title, ExtentType const& font_size)
+	ExtentType const& client_size, bksge::string const& title, ExtentType const& font_size)
 {
 	m_console = ::GetStdHandle(STD_OUTPUT_HANDLE);
 	if (m_console == NULL)
@@ -333,7 +334,7 @@ bool Win32ConsoleWindow::Update(void)
 }
 
 BKSGE_INLINE
-void Win32ConsoleWindow::SetTitle(std::string const& title)
+void Win32ConsoleWindow::SetTitle(bksge::string const& title)
 {
 	if (!bksge::win32::SetConsoleTitle(title.c_str()))
 	{

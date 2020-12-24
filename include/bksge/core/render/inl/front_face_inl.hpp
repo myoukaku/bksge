@@ -10,8 +10,8 @@
 #define BKSGE_CORE_RENDER_INL_FRONT_FACE_INL_HPP
 
 #include <bksge/core/render/front_face.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/config.hpp>
-#include <string>
 
 namespace bksge
 {
@@ -19,8 +19,8 @@ namespace bksge
 namespace render
 {
 
-BKSGE_INLINE
-std::string to_string(FrontFace const& front_face)
+BKSGE_INLINE bksge::string
+to_string(FrontFace const& front_face)
 {
 #define BKSGE_CORE_RENDER_FRONT_FACE_KVP(x)	case x: return #x
 

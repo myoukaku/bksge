@@ -10,8 +10,8 @@
 #define BKSGE_CORE_RENDER_BORDER_COLOR_HPP
 
 #include <bksge/core/render/fwd/border_color_fwd.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <ostream>
-#include <string>
 
 namespace bksge
 {
@@ -32,7 +32,7 @@ enum class BorderColor
 /**
  *	@brief	文字列への変換
  */
-std::string to_string(BorderColor const& border_color);
+bksge::string to_string(BorderColor const& border_color);
 
 /**
  *	@brief	ストリームへの出力

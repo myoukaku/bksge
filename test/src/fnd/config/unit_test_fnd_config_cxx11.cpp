@@ -7,12 +7,12 @@
  */
 
 #include <bksge/fnd/config.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/string/string.hpp>
+#include <bksge/fnd/utility/move.hpp>
 #include <gtest/gtest.h>
 #include <vector>
 #include <iostream>
-#include <string>
 #include <utility>
 #include <initializer_list>
 
@@ -380,9 +380,9 @@ namespace inheriting_constructors_test
 	struct Base2
 	{
 		Base2() : s() {}
-		Base2(const std::string& x) : s(x) {}
+		Base2(const bksge::string& x) : s(x) {}
 
-		std::string s;
+		bksge::string s;
 	};
 
 	struct Derived : Base1, Base2
@@ -733,7 +733,7 @@ namespace unrestricted_unions_test
 union X
 {
 	int m1;
-	std::string m2;
+	bksge::string m2;
 
 	X() : m1(0) {}
 	~X() {}
@@ -983,7 +983,7 @@ namespace uniform_initialization_test
 
 	struct Y
 	{
-		Y(int, double, std::string) {}
+		Y(int, double, bksge::string) {}
 	};
 
 	Y createY()

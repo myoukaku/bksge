@@ -7,10 +7,10 @@
  */
 
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include <vector>
-#include <string>
 #include <map>
 #include <type_traits>
 
@@ -115,10 +115,10 @@ GTEST_TEST(ConfigTest, Cxx20TemplateLambdaTest)
 	};
 
 	std::vector<int> v = {1, 2, 3};
-	std::vector<std::string> w;
+	std::vector<bksge::string> w;
 
 	EXPECT_EQ(1,  f(v)); // Tの型はint
-	EXPECT_EQ("", f(w)); // Tの型はstd::string
+	EXPECT_EQ("", f(w)); // Tの型はbksge::string
 #endif
 }
 
@@ -334,15 +334,15 @@ concept SequenceContainer =
 
 static_assert( Integral<int>, "");
 static_assert(!Integral<float>, "");
-static_assert(!Integral<std::string>, "");
+static_assert(!Integral<bksge::string>, "");
 static_assert(!FloatingPoint<int>, "");
 static_assert( FloatingPoint<float>, "");
-static_assert(!FloatingPoint<std::string>, "");
+static_assert(!FloatingPoint<bksge::string>, "");
 static_assert( EqualityComparable<int, int>, "");
 static_assert( EqualityComparable<int, float>, "");
-static_assert(!EqualityComparable<int, std::string>, "");
+static_assert(!EqualityComparable<int, bksge::string>, "");
 static_assert( SequenceContainer<std::vector<int>>, "");
-static_assert( SequenceContainer<std::string>, "");
+static_assert( SequenceContainer<bksge::string>, "");
 static_assert(!SequenceContainer<int>, "");
 
 template <Integral T>

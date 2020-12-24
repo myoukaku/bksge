@@ -10,8 +10,8 @@
 #define BKSGE_CORE_RENDER_INL_COMPARISON_FUNCTION_INL_HPP
 
 #include <bksge/core/render/comparison_function.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/config.hpp>
-#include <string>
 
 namespace bksge
 {
@@ -19,8 +19,8 @@ namespace bksge
 namespace render
 {
 
-BKSGE_INLINE
-std::string to_string(ComparisonFunction const& comparison_function)
+BKSGE_INLINE bksge::string
+to_string(ComparisonFunction const& comparison_function)
 {
 #define BKSGE_CORE_RENDER_COMPARISON_FUNCTION_KVP(x)	case x: return #x
 

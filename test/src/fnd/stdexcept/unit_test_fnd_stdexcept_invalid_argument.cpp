@@ -10,8 +10,7 @@
 #include <bksge/fnd/stdexcept/logic_error.hpp>
 #include <bksge/fnd/type_traits/is_base_of.hpp>
 #include <bksge/fnd/type_traits/is_polymorphic.hpp>
-//#include <bksge/fnd/string.hpp>
-#include <string>
+#include <bksge/fnd/string/string.hpp>
 #include <gtest/gtest.h>
 
 GTEST_TEST(StdExceptTest, InvalidArgumentTest)
@@ -29,7 +28,7 @@ GTEST_TEST(StdExceptTest, InvalidArgumentTest)
 		EXPECT_STREQ(msg, e2.what());
 	}
 	{
-		std::string msg = "invalid_argument message 2";
+		bksge::string msg = "invalid_argument message 2";
 		bksge::invalid_argument e(msg);
 		EXPECT_EQ(msg, e.what());
 		bksge::invalid_argument e2(e);

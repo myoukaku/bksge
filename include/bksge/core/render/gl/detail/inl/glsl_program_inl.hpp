@@ -19,9 +19,9 @@
 #include <bksge/core/render/gl/detail/geometry.hpp>
 #include <bksge/core/render/shader.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/assert.hpp>
-#include <string>
 #include <iostream>
 
 namespace bksge
@@ -56,7 +56,7 @@ GlslProgram::GlslProgram(bksge::Shader const& shader)
 		::glGetProgramiv(m_id, GL_INFO_LOG_LENGTH, &log_length);
 		if (log_length != 0)
 		{
-			std::string info_log;
+			bksge::string info_log;
 			info_log.resize(log_length);
 			::GLsizei length;
 			::glGetProgramInfoLog(m_id, log_length, &length, &info_log[0]);

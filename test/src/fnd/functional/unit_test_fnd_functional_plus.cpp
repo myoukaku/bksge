@@ -7,9 +7,9 @@
  */
 
 #include <bksge/fnd/functional/plus.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <gtest/gtest.h>
-#include <string>
 #include "constexpr_test.hpp"
 
 GTEST_TEST(FunctionalTest, PlusTest)
@@ -34,6 +34,6 @@ GTEST_TEST(FunctionalTest, PlusTest)
 		using type = bksge::plus<>;
 		BKSGE_CONSTEXPR_EXPECT_EQ( 1.5, type()(  1,   0.5));
 		BKSGE_CONSTEXPR_EXPECT_EQ( 6.5, type()( -1.5, 8U));
-		EXPECT_EQ("Hello world", type()(std::string("Hello "), "world"));
+		EXPECT_EQ("Hello world", type()(bksge::string("Hello "), "world"));
 	}
 }

@@ -13,8 +13,8 @@
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/size.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <array>
-#include <string>
 #include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
@@ -122,7 +122,7 @@ GTEST_TEST(AlgorithmTest, NextPermutationTest)
 		EXPECT_EQ(bksge::size(expected), i);
 	}
 	{
-		std::string a = "baa";
+		bksge::string a = "baa";
 		{
 			auto ret = bksge::next_permutation(bksge::begin(a), bksge::end(a), bksge::greater<>());
 			EXPECT_EQ(true, ret);

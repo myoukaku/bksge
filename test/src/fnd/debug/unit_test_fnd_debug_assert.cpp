@@ -7,7 +7,7 @@
  */
 
 #include <bksge/fnd/config.hpp>
-#include <string>
+#include <bksge/fnd/string/string.hpp>
 #include <gtest/gtest.h>
 
 #include <bksge/fnd/assert.hpp>
@@ -67,13 +67,13 @@ GTEST_TEST(DebugAssertTest, ConstexprTest)
 
 struct DebugAssertInfo
 {
-	int         invoke_count = 0;
-	std::string file_name;
-	int         line_number;
-	std::string function_name;
-	std::string expr_str;
-	std::string evaluated_expr_str;
-	std::string msg;
+	int           invoke_count = 0;
+	bksge::string file_name;
+	int           line_number;
+	bksge::string function_name;
+	bksge::string expr_str;
+	bksge::string evaluated_expr_str;
+	bksge::string msg;
 };
 
 struct MyAssertionHandler

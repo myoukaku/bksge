@@ -9,7 +9,7 @@
 #include <bksge/fnd/algorithm/min.hpp>
 #include <bksge/fnd/functional/less.hpp>
 #include <bksge/fnd/functional/greater.hpp>
-#include <string>
+#include <bksge/fnd/string/string.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -115,8 +115,8 @@ GTEST_TEST(AlgorithmTest, MinTest)
 	EXPECT_EQ('a', bksge::min({'a'}));
 	EXPECT_EQ('x', bksge::min({'x', 'y'}));
 	EXPECT_EQ('a', bksge::min({'c', 'b', 'a'}));
-	EXPECT_EQ("foo", bksge::min(std::string("foo"), std::string("hoge")));
-	EXPECT_EQ("ABC", bksge::min({std::string("abc"), std::string("ABC"), std::string("zzzz")}));
+	EXPECT_EQ("foo", bksge::min(bksge::string("foo"), bksge::string("hoge")));
+	EXPECT_EQ("ABC", bksge::min({bksge::string("abc"), bksge::string("ABC"), bksge::string("zzzz")}));
 }
 
 }	// namespace min_test

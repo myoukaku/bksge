@@ -7,10 +7,10 @@
  */
 
 #include <bksge/fnd/config.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <gtest/gtest.h>
 #include <iostream>
-#include <string>
 #include <map>
 #include <new>
 #include <sstream>
@@ -269,7 +269,7 @@ namespace range_based_for_test
 template <char delimiter>
 struct EndOfDelimitedString
 {
-	bool operator()(std::string::iterator it)
+	bool operator()(bksge::string::iterator it)
 	{
 		return *it != delimiter && *it != '\0';
 	}
@@ -278,15 +278,15 @@ struct EndOfDelimitedString
 template <char delimiter>
 struct DelimitedString
 {
-	std::string str;
+	bksge::string str;
 
-	DelimitedString(std::string const& s) : str(s) {}
-	std::string::iterator begin() { return str.begin(); }
+	DelimitedString(bksge::string const& s) : str(s) {}
+	bksge::string::iterator begin() { return str.begin(); }
 	EndOfDelimitedString<delimiter> end() const { return EndOfDelimitedString<delimiter>(); }
 };
 
 template <char delimiter>
-bool operator!=(std::string::iterator it, EndOfDelimitedString<delimiter> e)
+bool operator!=(bksge::string::iterator it, EndOfDelimitedString<delimiter> e)
 {
 	return e(it);
 }
@@ -294,7 +294,7 @@ bool operator!=(std::string::iterator it, EndOfDelimitedString<delimiter> e)
 GTEST_TEST(ConfigTest, Cxx17RangeBasedForTest)
 {
 #if defined(BKSGE_HAS_CXX17_RANGE_BASED_FOR)
-	std::string str{"ABCDE, abcde|12345"};
+	bksge::string str{"ABCDE, abcde|12345"};
 	{
 		std::stringstream ss;
 		for (auto c : str)
@@ -591,11 +591,11 @@ BKSGE_WARNING_POP()
 GTEST_TEST(ConfigTest, Cxx17StructuredBindingsTest)
 {
 #if defined(BKSGE_HAS_CXX17_STRUCTURED_BINDINGS)
-	auto [id, message] = std::make_pair(3, std::string("hoge"));
+	auto [id, message] = std::make_pair(3, bksge::string("hoge"));
 	EXPECT_EQ(3, id);
 	EXPECT_EQ("hoge", message);
 
-	auto [x, y, z] = std::make_tuple(0.5f, std::string("foo"), 42);
+	auto [x, y, z] = std::make_tuple(0.5f, bksge::string("foo"), 42);
 	EXPECT_EQ(0.5f, x);
 	EXPECT_EQ("foo", y);
 	EXPECT_EQ(42, z);

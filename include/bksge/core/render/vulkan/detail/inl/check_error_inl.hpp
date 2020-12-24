@@ -13,9 +13,9 @@
 #if BKSGE_CORE_RENDER_HAS_VULKAN_RENDERER
 
 #include <bksge/core/render/vulkan/detail/check_error.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <vulkan/vulkan_core.h>
 #include <stdexcept>
-#include <string>
 
 namespace bksge
 {
@@ -26,7 +26,7 @@ namespace render
 namespace vk
 {
 
-BKSGE_INLINE std::string to_string(::VkResult res)
+BKSGE_INLINE bksge::string to_string(::VkResult res)
 {
 #define BKSGE_VK_RESULT_KVP(x) case x: return #x
 

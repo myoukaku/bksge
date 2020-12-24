@@ -9,10 +9,10 @@
 #include <bksge/fnd/any/any.hpp>
 #include <bksge/fnd/any/any_cast.hpp>
 #include <bksge/fnd/any/bad_any_cast.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
-#include <string>
 
 namespace bksge_any_test
 {
@@ -44,7 +44,7 @@ GTEST_TEST(AnyTest, AnyCastTest)
 	using bksge::any;
 	using bksge::any_cast;
 	{
-		using std::string;
+		using bksge::string;
 
 		// taken from example in N3804 proposal
 

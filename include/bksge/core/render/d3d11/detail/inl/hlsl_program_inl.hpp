@@ -21,7 +21,7 @@
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/utility/move.hpp>
-#include <string>
+#include <bksge/fnd/string/string.hpp>
 
 namespace bksge
 {
@@ -38,7 +38,7 @@ HlslProgram::HlslProgram(Device* device, bksge::Shader const& shader)
 	for (auto&& it : shader)
 	{
 		bksge::ShaderStage const stage = it.first;
-		std::string const& source = it.second;
+		bksge::string const& source = it.second;
 
 		bksge::unique_ptr<HlslShaderBase> hlsl_shader;
 		switch (stage)

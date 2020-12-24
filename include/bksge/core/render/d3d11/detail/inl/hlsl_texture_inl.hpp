@@ -21,7 +21,6 @@
 #include <bksge/core/render/detail/shader_parameter.hpp>
 #include <bksge/core/render/shader_parameter_map.hpp>
 #include <bksge/core/render/texture.hpp>
-#include <string>
 
 namespace bksge
 {

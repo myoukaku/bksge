@@ -10,7 +10,7 @@
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/is_invocable.hpp>
 #include <gtest/gtest.h>
-#include <string>
+#include <functional>
 #include "constexpr_test.hpp"
 
 namespace bksge_optional_test

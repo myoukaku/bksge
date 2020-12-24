@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_FILTER_MODE_HPP
 
 #include <bksge/core/render/fwd/filter_mode_fwd.hpp>
-#include <string>
+#include <bksge/fnd/string/string.hpp>
 #include <ostream>
 
 namespace bksge
@@ -31,7 +31,7 @@ enum class FilterMode
 /**
  *	@brief	文字列への変換
  */
-std::string to_string(FilterMode const& filter_mode);
+bksge::string to_string(FilterMode const& filter_mode);
 
 /**
  *	@brief	ストリームへの出力

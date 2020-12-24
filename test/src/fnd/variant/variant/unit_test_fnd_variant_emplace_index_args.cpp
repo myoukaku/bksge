@@ -8,11 +8,11 @@
 
 #include <bksge/fnd/variant/variant.hpp>
 #include <bksge/fnd/variant/get.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/utility/in_place_index.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <string>
 #include <gtest/gtest.h>
 #include "fnd/variant/archetypes.hpp"
 #include "fnd/variant/test_convertible.hpp"
@@ -99,7 +99,7 @@ void test_basic()
 		EXPECT_EQ(&ref2, &get<0>(v));
 	}
 	{
-		using V = bksge::variant<int, long, const void*, TestTypes::NoCtors, std::string>;
+		using V = bksge::variant<int, long, const void*, TestTypes::NoCtors, bksge::string>;
 		const int x = 100;
 		V v(bksge::in_place_index_t<0>{}, -1);
 		// default emplace a value
@@ -113,13 +113,13 @@ void test_basic()
 		EXPECT_EQ(&ref2, &get<2>(v));
 		// emplace with multiple args
 		auto& ref3 = v.emplace<4>(3u, 'a');
-		static_assert(bksge::is_same<std::string&, decltype(ref3)>::value, "");
+		static_assert(bksge::is_same<bksge::string&, decltype(ref3)>::value, "");
 		EXPECT_EQ(get<4>(v), "aaa");
 		EXPECT_EQ(&ref3, &get<4>(v));
 	}
 #if !defined(TEST_VARIANT_HAS_NO_REFERENCES)
 	{
-		using V = bksge::variant<int, long, const int&, int&&, TestTypes::NoCtors, std::string>;
+		using V = bksge::variant<int, long, const int&, int&&, TestTypes::NoCtors, bksge::string>;
 		const int x = 100;
 		int y = 42;
 		int z = 43;
@@ -146,7 +146,7 @@ void test_basic()
 		EXPECT_EQ(&ref4, &get<3>(v));
 		// emplace with multiple args
 		auto& ref5 = v.emplace<5>(3u, 'a');
-		static_assert(bksge::is_same<std::string&, decltype(ref5)>::value, "");
+		static_assert(bksge::is_same<bksge::string&, decltype(ref5)>::value, "");
 		EXPECT_EQ(get<5>(v), "aaa");
 		EXPECT_EQ(&ref5, &get<5>(v));
 	}

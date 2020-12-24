@@ -9,8 +9,8 @@
 #ifndef BKSGE_FND_SERIALIZATION_STRING_HPP
 #define BKSGE_FND_SERIALIZATION_STRING_HPP
 
+#include <bksge/fnd/string/basic_string.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <string>
 
 namespace bksge
 {
@@ -20,7 +20,7 @@ namespace serialization
 
 template <typename Archive, typename CharT>
 inline void
-save(Archive& ar, std::basic_string<CharT> const& t)
+save(Archive& ar, bksge::basic_string<CharT> const& t)
 {
 	bksge::size_t const size = t.size();
 	ar << size;
@@ -32,7 +32,7 @@ save(Archive& ar, std::basic_string<CharT> const& t)
 
 template <typename Archive, typename CharT>
 inline void
-load(Archive& ar, std::basic_string<CharT>& t)
+load(Archive& ar, bksge::basic_string<CharT>& t)
 {
 	bksge::size_t size;
 	ar >> size;

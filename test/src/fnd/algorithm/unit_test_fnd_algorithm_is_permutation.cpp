@@ -10,10 +10,10 @@
 #include <bksge/fnd/functional/equal_to.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <list>
 #include <vector>
 #include <array>
-#include <string>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -81,9 +81,9 @@ GTEST_TEST(AlgorithmTest, IsPermutationTest)
 		EXPECT_FALSE(bksge::is_permutation(bksge::begin(a), bksge::end(a), bksge::begin(c), bksge::end(c), bksge::equal_to<>()));
 	}
 	{
-		const std::string a = "abc";
-		const std::string b = "cba";
-		const std::string c = "aba";
+		const bksge::string a = "abc";
+		const bksge::string b = "cba";
+		const bksge::string c = "aba";
 
 		EXPECT_TRUE (bksge::is_permutation(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b), bksge::equal_to<>()));
 		EXPECT_FALSE(bksge::is_permutation(bksge::begin(a), bksge::end(a), bksge::begin(c), bksge::end(c), bksge::equal_to<>()));

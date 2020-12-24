@@ -9,6 +9,7 @@
 #include <bksge/fnd/variant/variant.hpp>
 #include <bksge/fnd/variant/variant_npos.hpp>
 #include <bksge/fnd/variant/get.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/type_traits/is_copy_assignable.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_copy_assignable.hpp>
 #include <bksge/fnd/type_traits/is_trivially_copy_assignable.hpp>
@@ -18,7 +19,6 @@
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
-#include <string>
 #include <gtest/gtest.h>
 #include "fnd/variant/test_macros.hpp"
 
@@ -328,7 +328,7 @@ void test_copy_assignment_non_empty_empty()
 		EXPECT_EQ(v1.index(), bksge::variant_npos);
 	}
 	{
-		using V = bksge::variant<int, MET, std::string>;
+		using V = bksge::variant<int, MET, bksge::string>;
 		V v1(bksge::in_place_index_t<2>{}, "hello");
 		V v2(bksge::in_place_index_t<0>{});
 		makeEmpty(v2);
@@ -356,10 +356,10 @@ void test_copy_assignment_empty_non_empty()
 		EXPECT_EQ(get<0>(v1), 42);
 	}
 	{
-		using V = bksge::variant<int, MET, std::string>;
+		using V = bksge::variant<int, MET, bksge::string>;
 		V v1(bksge::in_place_index_t<0>{});
 		makeEmpty(v1);
-		V v2(bksge::in_place_type_t<std::string>{}, "hello");
+		V v2(bksge::in_place_type_t<bksge::string>{}, "hello");
 		V& vref = (v1 = v2);
 		EXPECT_EQ(&vref, &v1);
 		EXPECT_EQ(v1.index(), 2u);
@@ -407,7 +407,7 @@ void test_copy_assignment_same_index()
 #if !defined(BKSGE_NO_EXCEPTIONS)
 	using MET = MakeEmptyT;
 	{
-		using V = bksge::variant<int, MET, std::string>;
+		using V = bksge::variant<int, MET, bksge::string>;
 		V v1(bksge::in_place_type_t<MET>{});
 		MET& mref = get<1>(v1);
 		V v2(bksge::in_place_type_t<MET>{});
@@ -528,8 +528,8 @@ void test_copy_assignment_different_index()
 	}
 #if !defined(BKSGE_NO_EXCEPTIONS)
 	{
-		using V = bksge::variant<int, CopyThrows, std::string>;
-		V v1(bksge::in_place_type_t<std::string>{}, "hello");
+		using V = bksge::variant<int, CopyThrows, bksge::string>;
+		V v1(bksge::in_place_type_t<bksge::string>{}, "hello");
 		V v2(bksge::in_place_type_t<CopyThrows>{});
 		try
 		{
@@ -545,8 +545,8 @@ void test_copy_assignment_different_index()
 		EXPECT_TRUE(v1.valueless_by_exception());
 	}
 	{
-		using V = bksge::variant<int, MoveThrows, std::string>;
-		V v1(bksge::in_place_type_t<std::string>{}, "hello");
+		using V = bksge::variant<int, MoveThrows, bksge::string>;
+		V v1(bksge::in_place_type_t<bksge::string>{}, "hello");
 		V v2(bksge::in_place_type_t<MoveThrows>{});
 		EXPECT_EQ(MoveThrows::alive, 1);
 		// Test that copy construction is used directly if move construction may throw.
@@ -557,8 +557,8 @@ void test_copy_assignment_different_index()
 	}
 	{
 		// Test that direct copy construction is preferred when it cannot throw.
-		using V = bksge::variant<int, CopyCannotThrow, std::string>;
-		V v1(bksge::in_place_type_t<std::string>{}, "hello");
+		using V = bksge::variant<int, CopyCannotThrow, bksge::string>;
+		V v1(bksge::in_place_type_t<bksge::string>{}, "hello");
 		V v2(bksge::in_place_type_t<CopyCannotThrow>{});
 		EXPECT_EQ(CopyCannotThrow::alive, 1);
 		v1 = v2;
@@ -567,9 +567,9 @@ void test_copy_assignment_different_index()
 		EXPECT_EQ(CopyCannotThrow::alive, 2);
 	}
 	{
-		using V = bksge::variant<int, CopyThrows, std::string>;
+		using V = bksge::variant<int, CopyThrows, bksge::string>;
 		V v1(bksge::in_place_type_t<CopyThrows>{});
-		V v2(bksge::in_place_type_t<std::string>{}, "hello");
+		V v2(bksge::in_place_type_t<bksge::string>{}, "hello");
 		V& vref = (v1 = v2);
 		EXPECT_EQ(&vref, &v1);
 		EXPECT_EQ(v1.index(), 2u);
@@ -578,9 +578,9 @@ void test_copy_assignment_different_index()
 		EXPECT_EQ(get<2>(v2), "hello");
 	}
 	{
-		using V = bksge::variant<int, MoveThrows, std::string>;
+		using V = bksge::variant<int, MoveThrows, bksge::string>;
 		V v1(bksge::in_place_type_t<MoveThrows>{});
-		V v2(bksge::in_place_type_t<std::string>{}, "hello");
+		V v2(bksge::in_place_type_t<bksge::string>{}, "hello");
 		V& vref = (v1 = v2);
 		EXPECT_EQ(&vref, &v1);
 		EXPECT_EQ(v1.index(), 2u);

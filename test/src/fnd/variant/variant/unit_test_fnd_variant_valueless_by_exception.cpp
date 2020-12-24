@@ -7,8 +7,8 @@
  */
 
 #include <bksge/fnd/variant/variant.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/config.hpp>
-#include <string>
 #include <gtest/gtest.h>
 #include "fnd/variant/archetypes.hpp"
 #include "fnd/variant/test_macros.hpp"
@@ -33,7 +33,7 @@ GTEST_TEST(VariantTest, ValuelessByExceptionTest)
 		EXPECT_FALSE(v.valueless_by_exception());
 	}
 	{
-		using V = bksge::variant<int, long, std::string>;
+		using V = bksge::variant<int, long, bksge::string>;
 		const V v("abc");
 		EXPECT_FALSE(v.valueless_by_exception());
 	}

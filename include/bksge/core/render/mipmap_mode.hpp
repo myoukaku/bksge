@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_MIPMAP_MODE_HPP
 
 #include <bksge/core/render/fwd/mipmap_mode_fwd.hpp>
-#include <string>
+#include <bksge/fnd/string/string.hpp>
 #include <ostream>
 
 namespace bksge
@@ -32,7 +32,7 @@ enum class MipmapMode
 /**
  *	@brief	文字列への変換
  */
-std::string to_string(MipmapMode const& mipmap_mode);
+bksge::string to_string(MipmapMode const& mipmap_mode);
 
 /**
  *	@brief	ストリームへの出力

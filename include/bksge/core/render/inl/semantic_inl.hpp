@@ -10,8 +10,8 @@
 #define BKSGE_CORE_RENDER_INL_SEMANTIC_INL_HPP
 
 #include <bksge/core/render/semantic.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/config.hpp>
-#include <string>
 
 namespace bksge
 {
@@ -20,7 +20,7 @@ namespace render
 {
 
 BKSGE_INLINE Semantic
-ToSemantic(std::string const& semantic_str)
+ToSemantic(bksge::string const& semantic_str)
 {
 	if (semantic_str == "POSITION")		{ return Semantic::kPosition; }
 	if (semantic_str == "NORMAL")		{ return Semantic::kNormal; }
@@ -59,7 +59,7 @@ ToSemanticName(Semantic const& semantic)
 	return "UNKNOWN";
 }
 
-BKSGE_INLINE std::string
+BKSGE_INLINE bksge::string
 to_string(Semantic const& semantic)
 {
 #define BKSGE_CORE_RENDER_SEMANTIC_KVP(x)	case x: return #x

@@ -15,9 +15,9 @@
 #include <bksge/fnd/algorithm/ranges/equal.hpp>
 #include <bksge/fnd/concepts/same_as.hpp>
 #include <bksge/fnd/functional/identity.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/string_view.hpp>
 #include <gtest/gtest.h>
-#include <string>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
 
@@ -86,7 +86,7 @@ inline bool test03()
 	namespace ranges = bksge::ranges;
 	namespace views  = ranges::views;
 
-	std::string str = "hello world";
+	bksge::string str = "hello world";
 	auto v = str | views::transform(bksge::identity{}) | views::split(' ');
 
 	// Verify that _Iterator<false> is implicitly convertible to _Iterator<true>.

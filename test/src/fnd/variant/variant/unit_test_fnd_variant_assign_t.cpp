@@ -9,12 +9,12 @@
 #include <bksge/fnd/variant/variant.hpp>
 #include <bksge/fnd/variant/get.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/type_traits/is_assignable.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_assignable.hpp>
 #include <bksge/fnd/utility/in_place_type.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
-#include <string>
 #include <gtest/gtest.h>
 #include "fnd/variant/test_macros.hpp"
 #include "fnd/variant/variant_test_helpers.hpp"
@@ -146,15 +146,15 @@ void test_T_assignment_sfinae()
 		static_assert(!bksge::is_assignable<V, int>::value, "ambiguous");
 	}
 	{
-		using V = bksge::variant<std::string, std::string>;
+		using V = bksge::variant<bksge::string, bksge::string>;
 		static_assert(!bksge::is_assignable<V, const char*>::value, "ambiguous");
 	}
 	{
-		using V = bksge::variant<std::string, void*>;
+		using V = bksge::variant<bksge::string, void*>;
 		static_assert(!bksge::is_assignable<V, int>::value, "no matching operator=");
 	}
 	{
-		//using V = bksge::variant<std::string, float>;
+		//using V = bksge::variant<bksge::string, float>;
 		//static_assert(bksge::is_assignable<V, int>::value == VariantAllowsNarrowingConversions, "no matching operator=");
 	}
 	{
@@ -221,7 +221,7 @@ void test_T_assignment_basic()
 #endif
 #if 0	// TODO
 	{
-		bksge::variant<std::string, bool> v = true;
+		bksge::variant<bksge::string, bool> v = true;
 		v = "bar";
 		EXPECT_EQ(v.index(), 0u);
 		EXPECT_EQ(get<0>(v), "bar");
@@ -274,8 +274,8 @@ void test_T_assignment_performs_construction()
 	using namespace RuntimeHelpers;
 #if !defined(BKSGE_NO_EXCEPTIONS)
 	{
-		using V = bksge::variant<std::string, ThrowsCtorT>;
-		V v(bksge::in_place_type_t<std::string>{}, "hello");
+		using V = bksge::variant<bksge::string, ThrowsCtorT>;
+		V v(bksge::in_place_type_t<bksge::string>{}, "hello");
 		try
 		{
 			v = 42;
@@ -289,8 +289,8 @@ void test_T_assignment_performs_construction()
 		EXPECT_EQ(get<0>(v), "hello");
 	}
 	{
-		using V = bksge::variant<ThrowsAssignT, std::string>;
-		V v(bksge::in_place_type_t<std::string>{}, "hello");
+		using V = bksge::variant<ThrowsAssignT, bksge::string>;
+		V v(bksge::in_place_type_t<bksge::string>{}, "hello");
 		v = 42;
 		EXPECT_EQ(v.index(), 0u);
 		EXPECT_EQ(get<0>(v).value, 42);
@@ -311,7 +311,7 @@ void test_T_assignment_performs_assignment()
 		EXPECT_EQ(get<0>(v).value, 42);
 	}
 	{
-		using V = bksge::variant<ThrowsCtorT, std::string>;
+		using V = bksge::variant<ThrowsCtorT, bksge::string>;
 		V v;
 		v = 42;
 		EXPECT_EQ(v.index(), 0u);
@@ -333,7 +333,7 @@ void test_T_assignment_performs_assignment()
 		EXPECT_EQ(get<0>(v).value, 100);
 	}
 	{
-		using V = bksge::variant<std::string, ThrowsAssignT>;
+		using V = bksge::variant<bksge::string, ThrowsAssignT>;
 		V v(100);
 		try
 		{

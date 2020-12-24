@@ -10,10 +10,10 @@
 #define BKSGE_CORE_RENDER_INL_COLOR_WRITE_FLAG_INL_HPP
 
 #include <bksge/core/render/color_write_flag.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/type_traits/underlying_type.hpp>
 #include <bksge/fnd/utility/pair.hpp>
 #include <bksge/fnd/config.hpp>
-#include <string>
 
 namespace bksge
 {
@@ -72,7 +72,7 @@ Test(ColorWriteFlag lhs, ColorWriteFlag rhs) BKSGE_NOEXCEPT
 	return (lhs & rhs) != ColorWriteFlag::kNone;
 }
 
-inline std::string
+inline bksge::string
 to_string(ColorWriteFlag const& color_write_flag)
 {
 	if (color_write_flag == ColorWriteFlag::kAll)
@@ -96,7 +96,7 @@ to_string(ColorWriteFlag const& color_write_flag)
 
 #undef BKSGE_CORE_RENDER_MAKE_COLOR_WRITE_FLAG_KVP
 
-	std::string result;
+	bksge::string result;
 	for (auto p : tbl)
 	{
 		if ((color_write_flag & p.first) != ColorWriteFlag::kNone)

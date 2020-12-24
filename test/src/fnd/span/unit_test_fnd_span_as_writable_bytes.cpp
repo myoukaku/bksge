@@ -9,9 +9,9 @@
 #include <bksge/fnd/span.hpp>
 #include <bksge/fnd/cstddef/byte.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/config.hpp>
-#include <string>
 #include <gtest/gtest.h>
 #include "noexcept_test.hpp"
 
@@ -57,13 +57,13 @@ GTEST_TEST(SpanTest, AsWritableBytesTest)
 	test(bksge::span<long>       ());
 	test(bksge::span<double>     ());
 	test(bksge::span<A>          ());
-	test(bksge::span<std::string>());
+	test(bksge::span<bksge::string>());
 
 	test(bksge::span<int,         0>());
 	test(bksge::span<long,        0>());
 	test(bksge::span<double,      0>());
 	test(bksge::span<A,           0>());
-	test(bksge::span<std::string, 0>());
+	test(bksge::span<bksge::string, 0>());
 
 	int arr[] ={0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 	test(bksge::span<int>(arr, 1));
@@ -78,9 +78,9 @@ GTEST_TEST(SpanTest, AsWritableBytesTest)
 	test(bksge::span<int, 4>(arr + 2, 4));
 	test(bksge::span<int, 5>(arr + 1, 5));
 
-	std::string s;
-	test(bksge::span<std::string>(&s, static_cast<bksge::size_t>(0)));
-	test(bksge::span<std::string>(&s, 1));
+	bksge::string s;
+	test(bksge::span<bksge::string>(&s, static_cast<bksge::size_t>(0)));
+	test(bksge::span<bksge::string>(&s, 1));
 }
 
 }	// namespace as_writable_bytes_test

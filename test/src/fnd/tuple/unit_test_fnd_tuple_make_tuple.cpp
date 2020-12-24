@@ -11,7 +11,6 @@
 #include <bksge/fnd/tuple/get.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <gtest/gtest.h>
-#include <string>
 #include "constexpr_test.hpp"
 
 namespace bksge_tuple_test

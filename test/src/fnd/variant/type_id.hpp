@@ -27,14 +27,14 @@ struct TypeID
 		return LHS.m_id != RHS.m_id;
 	}
 
-	//std::string name() const
+	//bksge::string name() const
 	//{
 	//	return demangle(m_id);
 	//}
 
 	//void dump() const
 	//{
-	//	std::string s = name();
+	//	bksge::string s = name();
 	//	std::printf("TypeID: %s\n", s.c_str());
 	//}
 

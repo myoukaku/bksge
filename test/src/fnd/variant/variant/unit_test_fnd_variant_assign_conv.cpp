@@ -8,10 +8,10 @@
 
 #include <bksge/fnd/variant/variant.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/type_traits/is_assignable.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/config.hpp>
-#include <string>
 #include <gtest/gtest.h>
 #include "fnd/variant/variant_test_helpers.hpp"
 
@@ -30,10 +30,10 @@ GTEST_TEST(VariantTest, AssignConvTest)
 	static_assert(!bksge::is_assignable<bksge::variant<long, long long>, int>::value, "");
 	//static_assert( bksge::is_assignable<bksge::variant<char>, int>::value == VariantAllowsNarrowingConversions, "");
 
-	//static_assert( bksge::is_assignable<bksge::variant<std::string, float>, int>::value == VariantAllowsNarrowingConversions, "");
-	//static_assert( bksge::is_assignable<bksge::variant<std::string, double>, int>::value == VariantAllowsNarrowingConversions, "");
+	//static_assert( bksge::is_assignable<bksge::variant<bksge::string, float>, int>::value == VariantAllowsNarrowingConversions, "");
+	//static_assert( bksge::is_assignable<bksge::variant<bksge::string, double>, int>::value == VariantAllowsNarrowingConversions, "");
 // TODO
-//	static_assert(!bksge::is_assignable<bksge::variant<std::string, bool>, int>::value, "");
+//	static_assert(!bksge::is_assignable<bksge::variant<bksge::string, bool>, int>::value, "");
 
 // TODO
 //	static_assert(!bksge::is_assignable<bksge::variant<int, bool>, decltype("meow")>::value, "");

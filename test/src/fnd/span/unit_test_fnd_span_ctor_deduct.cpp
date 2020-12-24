@@ -14,7 +14,6 @@
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/config.hpp>
 #include <array>
-#include <string>
 #include <gtest/gtest.h>
 
 #define ASSERT_SAME_TYPE(...) \

@@ -9,8 +9,8 @@
 #include <bksge/fnd/tuple/tuple_tail.hpp>
 #include <bksge/fnd/tuple/tuple.hpp>
 #include <bksge/fnd/tuple/make_tuple.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/utility/move.hpp>
-#include <string>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -75,13 +75,13 @@ GTEST_TEST(TupleTest, TupleTailTest)
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(t2, t1);
 	}
 	{
-		bksge::tuple<float, std::string> t1(1.5f, "foo");
-		bksge::tuple<       std::string> t2(      "foo");
+		bksge::tuple<float, bksge::string> t1(1.5f, "foo");
+		bksge::tuple<       bksge::string> t2(      "foo");
 		EXPECT_EQ(t2, bksge::tuple_tail(t1));
 	}
 	{
-		bksge::tuple<float, std::string> t1(1.5f, "foo");
-		bksge::tuple<       std::string> t2(      "foo");
+		bksge::tuple<float, bksge::string> t1(1.5f, "foo");
+		bksge::tuple<       bksge::string> t2(      "foo");
 		EXPECT_EQ(t2, bksge::tuple_tail(bksge::move(t1)));
 	}
 	{

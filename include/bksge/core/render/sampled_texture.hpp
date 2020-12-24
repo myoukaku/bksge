@@ -13,7 +13,6 @@
 #include <bksge/core/render/texture.hpp>
 #include <bksge/core/render/sampler.hpp>
 #include <ostream>
-#include <string>
 
 namespace bksge
 {
@@ -105,4 +104,5 @@ struct hash<bksge::render::SampledTexture>
 };
 
 }	// namespace std
+
 #endif // BKSGE_CORE_RENDER_SAMPLED_TEXTURE_HPP

@@ -7,11 +7,12 @@
  */
 
 #include <bksge/fnd/span.hpp>
-#include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/type_traits/remove_cv.hpp>
-#include <bksge/fnd/iterator/iterator_traits.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstddef/ptrdiff_t.hpp>
+#include <bksge/fnd/iterator/iterator_traits.hpp>
+#include <bksge/fnd/string/string.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
+#include <bksge/fnd/type_traits/remove_cv.hpp>
 #include <gtest/gtest.h>
 
 #define ASSERT_SAME_TYPE(...) \
@@ -76,7 +77,7 @@ GTEST_TEST(SpanTest, TypesTest)
 	test<int>();
 	test<long>();
 	test<double>();
-	test<std::string>();
+	test<bksge::string>();
 	test<A>();
 }
 

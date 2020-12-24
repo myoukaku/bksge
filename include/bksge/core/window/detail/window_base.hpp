@@ -11,8 +11,8 @@
 
 #include <bksge/core/math/extent2.hpp>
 #include <bksge/fnd/cstdint/int32_t.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/config.hpp>
-#include <string>
 
 namespace bksge
 {
@@ -37,7 +37,7 @@ public:
 	 *	@param	client_size	ウィンドウのクライアント領域の大きさ
 	 *	@param	title		ウィンドウのタイトル
 	 */
-	WindowBase(ExtentType const& client_size, std::string const& title);
+	WindowBase(ExtentType const& client_size, bksge::string const& title);
 
 	/**
 	 *	@brief	デストラクタ
@@ -59,7 +59,7 @@ public:
 	/**
 	 *	@brief	ウィンドウタイトルを設定します
 	 */
-	void SetTitle(std::string const& title);
+	void SetTitle(bksge::string const& title);
 
 	/**
 	 *	@brief	ウィンドウのクライアント領域のサイズを設定します
@@ -69,7 +69,7 @@ public:
 	/**
 	 *	@brief	ウィンドウタイトルを取得します
 	 */
-	std::string const& title(void) const;
+	bksge::string const& title(void) const;
 
 	/**
 	 *	@brief	ウィンドウのクライアント領域のサイズを取得します
@@ -81,13 +81,13 @@ private:
 
 	virtual bool VUpdate(void) = 0;
 
-	virtual void VSetTitle(std::string const& title) = 0;
+	virtual void VSetTitle(bksge::string const& title) = 0;
 
 	virtual void VSetClientSize(ExtentType const& size) = 0;
 
 private:
 	ExtentType		m_client_size;
-	std::string		m_title;
+	bksge::string		m_title;
 };
 
 }	// namespace window

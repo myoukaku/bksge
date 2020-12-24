@@ -8,9 +8,9 @@
 
 #include <bksge/fnd/variant/variant.hpp>
 #include <bksge/fnd/variant/variant_npos.hpp>
-#include <bksge/fnd/config.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/utility/in_place_index.hpp>
-#include <string>
+#include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include "fnd/variant/archetypes.hpp"
 #include "fnd/variant/test_macros.hpp"
@@ -40,7 +40,7 @@ GTEST_TEST(VariantTest, IndexTest)
 		static_assert(v.index() == 1, "");
 	}
 	{
-		using V = bksge::variant<int, std::string>;
+		using V = bksge::variant<int, bksge::string>;
 		V v("abc");
 		EXPECT_EQ(v.index(), 1u);
 		v = 42;

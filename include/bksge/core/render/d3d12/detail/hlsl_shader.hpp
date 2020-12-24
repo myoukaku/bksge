@@ -22,8 +22,8 @@
 #include <bksge/core/render/d3d_common/com_ptr.hpp>
 #include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <vector>
-#include <string>
 
 namespace bksge
 {
@@ -52,7 +52,7 @@ public:
 
 	virtual ~HlslShaderBase() = 0;
 
-	bool Compile(Device* device, std::string const& source);
+	bool Compile(Device* device, bksge::string const& source);
 	bksge::unique_ptr<InputLayout> CreateInputLayout(void);
 	void CreateHlslConstantBuffers(/*Device* device, */HlslConstantBuffers* hlsl_constant_buffers);
 	void CreateHlslTextures(HlslTextures* hlsl_textures);

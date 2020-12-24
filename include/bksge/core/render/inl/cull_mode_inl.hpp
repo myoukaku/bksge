@@ -10,8 +10,8 @@
 #define BKSGE_CORE_RENDER_INL_CULL_MODE_INL_HPP
 
 #include <bksge/core/render/cull_mode.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/config.hpp>
-#include <string>
 
 namespace bksge
 {
@@ -19,8 +19,8 @@ namespace bksge
 namespace render
 {
 
-BKSGE_INLINE
-std::string to_string(CullMode const& cull_mode)
+BKSGE_INLINE bksge::string
+to_string(CullMode const& cull_mode)
 {
 #define BKSGE_CORE_RENDER_CULL_MODE_KVP(x)	case x: return #x
 

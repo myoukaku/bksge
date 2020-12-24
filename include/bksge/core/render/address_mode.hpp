@@ -10,8 +10,8 @@
 #define BKSGE_CORE_RENDER_ADDRESS_MODE_HPP
 
 #include <bksge/core/render/fwd/address_mode_fwd.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <ostream>
-#include <string>
 
 namespace bksge
 {
@@ -33,7 +33,7 @@ enum class AddressMode
 /**
  *	@brief	文字列への変換
  */
-std::string to_string(AddressMode const& address_mode);
+bksge::string to_string(AddressMode const& address_mode);
 
 /**
  *	@brief	ストリームへの出力

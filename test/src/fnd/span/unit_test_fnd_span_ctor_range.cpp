@@ -7,11 +7,11 @@
  */
 
 #include <bksge/fnd/span.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
-#include <string>
 #include <vector>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -115,7 +115,7 @@ GTEST_TEST(SpanTest, CtorRangeTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<long>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<double>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test<A>()));
-	EXPECT_TRUE((test<std::string>()));
+	EXPECT_TRUE((test<bksge::string>()));
 }
 
 }	// namespace ctor_range_test

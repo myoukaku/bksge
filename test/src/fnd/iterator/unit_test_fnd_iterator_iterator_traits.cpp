@@ -8,10 +8,10 @@
 
 #include <bksge/fnd/iterator/iterator_traits.hpp>
 #include <bksge/fnd/iterator/tag.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/cstddef/ptrdiff_t.hpp>
 #include <vector>
-#include <string>
 #include <list>
 #include <forward_list>
 #include <iterator>
@@ -67,7 +67,7 @@ static_assert(bksge::is_same<bksge::iterator_traits<it2>::difference_type,   bks
 static_assert(bksge::is_same<bksge::iterator_traits<it2>::pointer,           float const*>::value, "");
 static_assert(bksge::is_same<bksge::iterator_traits<it2>::reference,         float const&>::value, "");
 
-using it3 = std::string::iterator;
+using it3 = bksge::string::iterator;
 //static_assert(bksge::is_same<bksge::iterator_traits<it3>::iterator_concept,  bksge::contiguous_iterator_tag>::value, "");
 static_assert(bksge::is_same<bksge::iterator_traits<it3>::iterator_category, bksge::random_access_iterator_tag>::value, "");
 static_assert(bksge::is_same<bksge::iterator_traits<it3>::value_type,        char>::value, "");

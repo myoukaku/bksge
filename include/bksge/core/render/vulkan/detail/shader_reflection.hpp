@@ -13,8 +13,8 @@
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <vector>
-#include <string>
 
 namespace bksge
 {
@@ -29,14 +29,14 @@ struct ShaderReflectionUniform
 {
 	struct Member
 	{
-		std::string          name;
+		bksge::string        name;
 		bksge::size_t        bytes;
 		bksge::uint32_t      offset;
 	};
 
 	bksge::uint32_t			set;
 	bksge::uint32_t			binding;
-	std::string				name;
+	bksge::string			name;
 	::VkDescriptorType		descriptor_type;
 	bksge::size_t			bytes;
 	::VkShaderStageFlags	stage_flags;

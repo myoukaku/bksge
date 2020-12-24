@@ -10,8 +10,7 @@
 #include <bksge/fnd/stdexcept/logic_error.hpp>
 #include <bksge/fnd/type_traits/is_base_of.hpp>
 #include <bksge/fnd/type_traits/is_polymorphic.hpp>
-//#include <bksge/fnd/string.hpp>
-#include <string>
+#include <bksge/fnd/string/string.hpp>
 #include <gtest/gtest.h>
 
 GTEST_TEST(StdExceptTest, OutOfRangeTest)
@@ -29,7 +28,7 @@ GTEST_TEST(StdExceptTest, OutOfRangeTest)
 		EXPECT_STREQ(msg, e2.what());
 	}
 	{
-		std::string msg = "out_of_range message 2";
+		bksge::string msg = "out_of_range message 2";
 		bksge::out_of_range e(msg);
 		EXPECT_EQ(msg, e.what());
 		bksge::out_of_range e2(e);

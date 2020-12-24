@@ -7,12 +7,12 @@
  */
 
 #include <bksge/fnd/span.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/type_traits/remove_volatile.hpp>
 #include <array>
-#include <string>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 #include "noexcept_test.hpp"
@@ -107,7 +107,7 @@ GTEST_TEST(SpanTest, CtorStdArrayTest)
 	BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE((test<long>()));
 	BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE((test<double>()));
 	BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE((test<A>()));
-	                      EXPECT_TRUE((test<std::string>()));
+	                      EXPECT_TRUE((test<bksge::string>()));
 }
 
 }	// namespace ctor_stdarray_test

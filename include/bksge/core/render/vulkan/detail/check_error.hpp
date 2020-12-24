@@ -9,9 +9,9 @@
 #ifndef BKSGE_CORE_RENDER_VULKAN_DETAIL_CHECK_ERROR_HPP
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_CHECK_ERROR_HPP
 
+#include <bksge/fnd/string/string.hpp>
 #include <vulkan/vulkan_core.h>
 #include <stdexcept>
-#include <string>
 
 namespace bksge
 {
@@ -22,7 +22,7 @@ namespace render
 namespace vk
 {
 
-std::string to_string(::VkResult res);
+bksge::string to_string(::VkResult res);
 
 class ResultException : public std::runtime_error
 {

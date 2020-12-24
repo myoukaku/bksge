@@ -27,10 +27,10 @@
 #include <bksge/core/render/d3d_common/com_ptr.hpp>
 #include <bksge/core/render/d3d_common/throw_if_failed.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <vector>
-#include <string>
 
 #include <iostream>		// TODO
 
@@ -114,7 +114,7 @@ HlslShaderBase::~HlslShaderBase()
 }
 
 BKSGE_INLINE bool
-HlslShaderBase::Compile(Device* device, std::string const& source)
+HlslShaderBase::Compile(Device* device, bksge::string const& source)
 {
 	const char* target = VGetTargetString();
 	::UINT compile_flags = 0;

@@ -16,8 +16,8 @@
 #include <bksge/core/render/d3d_common/d3d12.hpp>
 #include <bksge/core/render/d3d_common/d3d12shader.hpp>
 #include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <vector>
-#include <string>
 
 namespace bksge
 {
@@ -50,12 +50,12 @@ private:
 private:
 	struct Variable
 	{
-		std::string		m_name;
+		bksge::string	m_name;
 		::UINT			m_start_offset;
 		::UINT			m_size;
 	};
 
-	std::string					m_name;
+	bksge::string				m_name;
 	::UINT						m_size = 0;
 	std::vector<Variable>		m_variables;
 };

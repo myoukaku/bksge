@@ -9,6 +9,7 @@
 #include <bksge/fnd/variant/variant.hpp>
 #include <bksge/fnd/variant/variant_npos.hpp>
 #include <bksge/fnd/variant/get.hpp>
+#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/type_traits/is_move_assignable.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_move_assignable.hpp>
 #include <bksge/fnd/type_traits/is_trivially_copyable.hpp>
@@ -19,7 +20,6 @@
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
-#include <string>
 #include <gtest/gtest.h>
 #include "fnd/variant/test_macros.hpp"
 #include "fnd/variant/variant_test_helpers.hpp"
@@ -275,7 +275,7 @@ void test_move_assignment_non_empty_empty()
 		EXPECT_EQ(v1.index(), bksge::variant_npos);
 	}
 	{
-		using V = bksge::variant<int, MET, std::string>;
+		using V = bksge::variant<int, MET, bksge::string>;
 		V v1(bksge::in_place_index_t<2>{}, "hello");
 		V v2(bksge::in_place_index_t<0>{});
 		makeEmpty(v2);
@@ -303,10 +303,10 @@ void test_move_assignment_empty_non_empty()
 		EXPECT_EQ(get<0>(v1), 42);
 	}
 	{
-		using V = bksge::variant<int, MET, std::string>;
+		using V = bksge::variant<int, MET, bksge::string>;
 		V v1(bksge::in_place_index_t<0>{});
 		makeEmpty(v1);
-		V v2(bksge::in_place_type_t<std::string>{}, "hello");
+		V v2(bksge::in_place_type_t<bksge::string>{}, "hello");
 		V& vref = (v1 = bksge::move(v2));
 		EXPECT_EQ(&vref, &v1);
 		EXPECT_EQ(v1.index(), 2u);
@@ -353,7 +353,7 @@ void test_move_assignment_same_index()
 #if !defined(BKSGE_NO_EXCEPTIONS)
 	using MET = MakeEmptyT;
 	{
-		using V = bksge::variant<int, MET, std::string>;
+		using V = bksge::variant<int, MET, bksge::string>;
 		V v1(bksge::in_place_type_t<MET>{});
 		MET& mref = get<1>(v1);
 		V v2(bksge::in_place_type_t<MET>{});
@@ -450,7 +450,7 @@ void test_move_assignment_different_index()
 #if !defined(BKSGE_NO_EXCEPTIONS)
 	using MET = MakeEmptyT;
 	{
-		using V = bksge::variant<int, MET, std::string>;
+		using V = bksge::variant<int, MET, bksge::string>;
 		V v1(bksge::in_place_type_t<int>{});
 		V v2(bksge::in_place_type_t<MET>{});
 		try
@@ -465,9 +465,9 @@ void test_move_assignment_different_index()
 		EXPECT_EQ(v1.index(), bksge::variant_npos);
 	}
 	{
-		using V = bksge::variant<int, MET, std::string>;
+		using V = bksge::variant<int, MET, bksge::string>;
 		V v1(bksge::in_place_type_t<MET>{});
-		V v2(bksge::in_place_type_t<std::string>{}, "hello");
+		V v2(bksge::in_place_type_t<bksge::string>{}, "hello");
 		V& vref = (v1 = bksge::move(v2));
 		EXPECT_EQ(&vref, &v1);
 		EXPECT_EQ(v1.index(), 2u);

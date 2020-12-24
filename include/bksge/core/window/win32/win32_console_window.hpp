@@ -18,7 +18,7 @@
 #include <bksge/core/math/color3.hpp>
 #include <bksge/fnd/cstdint/uint8_t.hpp>
 #include <bksge/fnd/cstdint/int32_t.hpp>
-#include <string>
+#include <bksge/fnd/string/string.hpp>
 #include <vector>
 
 namespace bksge
@@ -34,14 +34,14 @@ public:
 
 	Win32ConsoleWindow(
 		ExtentType const& client_size,
-		std::string const& title,
+		bksge::string const& title,
 		ExtentType const& font_size);
 
 	~Win32ConsoleWindow();
 
 	bool Update(void);
 
-	void SetTitle(std::string const& title);
+	void SetTitle(bksge::string const& title);
 
 	void DrawPixel(int x, int y, Color4f const& color);
 
