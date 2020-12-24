@@ -17,7 +17,7 @@
 #include <bksge/fnd/type_traits/float_promote.hpp>
 #include <bksge/fnd/type_traits/is_floating_point.hpp>
 #include <bksge/fnd/type_traits/is_integral.hpp>
-#include <limits>
+#include <bksge/fnd/limits.hpp>
 
 namespace bksge
 {
@@ -46,7 +46,7 @@ frac_impl(FloatType x) BKSGE_NOEXCEPT
 {
 	return
 		bksge::isnan(x) ?
-			std::numeric_limits<FloatType>::quiet_NaN() :
+			bksge::numeric_limits<FloatType>::quiet_NaN() :
 		bksge::isinf(x) ?
 			FloatType(0) :
 		frac_unchecked(x);

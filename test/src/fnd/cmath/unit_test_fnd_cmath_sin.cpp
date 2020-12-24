@@ -9,9 +9,9 @@
 #include <bksge/fnd/cmath/sin.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/constants.hpp>
+#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
-#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -23,8 +23,8 @@ namespace sin_test
 template <typename T>
 void SinTestFloat(double error)
 {
-	BKSGE_CONSTEXPR auto nan = std::numeric_limits<T>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf = std::numeric_limits<T>::infinity();
+	BKSGE_CONSTEXPR auto nan = bksge::numeric_limits<T>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<T>::infinity();
 
 	EXPECT_NEAR( 0.35078322768961985, (double)bksge::sin(T(-3.5)), error);
 	EXPECT_NEAR(-0.14112000805986722, (double)bksge::sin(T(-3.0)), error);

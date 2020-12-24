@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_INL_SAMPLER_INL_HPP
 
 #include <bksge/core/render/sampler.hpp>
-#include <limits>
+#include <bksge/fnd/limits.hpp>
 
 namespace bksge
 {
@@ -27,8 +27,8 @@ Sampler::Sampler(void)
 	, m_address_mode_v(AddressMode::kRepeat)
 	, m_address_mode_w(AddressMode::kRepeat)
 	, m_border_color(BorderColor::kOpaqueBlack)
-	, m_min_lod(std::numeric_limits<float>::lowest())
-	, m_max_lod(std::numeric_limits<float>::max())
+	, m_min_lod(bksge::numeric_limits<float>::lowest())
+	, m_max_lod(bksge::numeric_limits<float>::max())
 {}
 
 BKSGE_INLINE void

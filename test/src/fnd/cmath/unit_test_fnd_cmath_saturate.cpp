@@ -8,8 +8,8 @@
 
 #include <bksge/fnd/cmath/saturate.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
+#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
-#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -21,10 +21,10 @@ namespace saturate_test
 template <typename T>
 void SaturateTestFloat(void)
 {
-	BKSGE_CONSTEXPR auto inf    = std::numeric_limits<T>::infinity();
-	BKSGE_CONSTEXPR auto nan    = std::numeric_limits<T>::quiet_NaN();
-	BKSGE_CONSTEXPR auto max    = std::numeric_limits<T>::max();
-	BKSGE_CONSTEXPR auto lowest = std::numeric_limits<T>::lowest();
+	BKSGE_CONSTEXPR auto inf    = bksge::numeric_limits<T>::infinity();
+	BKSGE_CONSTEXPR auto nan    = bksge::numeric_limits<T>::quiet_NaN();
+	BKSGE_CONSTEXPR auto max    = bksge::numeric_limits<T>::max();
+	BKSGE_CONSTEXPR auto lowest = bksge::numeric_limits<T>::lowest();
 
 	BKSGE_CONSTEXPR_EXPECT_EQ(T(0.0), bksge::saturate(T(lowest)));
 	BKSGE_CONSTEXPR_EXPECT_EQ(T(0.0), bksge::saturate(T(-0.2)));
@@ -44,8 +44,8 @@ void SaturateTestFloat(void)
 template <typename T>
 void SaturateTestSignedInt(void)
 {
-	BKSGE_CONSTEXPR auto max    = std::numeric_limits<T>::max();
-	BKSGE_CONSTEXPR auto lowest = std::numeric_limits<T>::lowest();
+	BKSGE_CONSTEXPR auto max    = bksge::numeric_limits<T>::max();
+	BKSGE_CONSTEXPR auto lowest = bksge::numeric_limits<T>::lowest();
 
 	BKSGE_CONSTEXPR_EXPECT_EQ(T(0), bksge::saturate(T(lowest)));
 	BKSGE_CONSTEXPR_EXPECT_EQ(T(0), bksge::saturate(T(-2)));
@@ -59,7 +59,7 @@ void SaturateTestSignedInt(void)
 template <typename T>
 void SaturateTestUnsignedInt(void)
 {
-	BKSGE_CONSTEXPR auto max = std::numeric_limits<T>::max();
+	BKSGE_CONSTEXPR auto max = bksge::numeric_limits<T>::max();
 
 	BKSGE_CONSTEXPR_EXPECT_EQ(T(0), bksge::saturate(T(0)));
 	BKSGE_CONSTEXPR_EXPECT_EQ(T(1), bksge::saturate(T(1)));

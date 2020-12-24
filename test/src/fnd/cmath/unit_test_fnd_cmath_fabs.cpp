@@ -10,9 +10,9 @@
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/iszero.hpp>
 #include <bksge/fnd/cmath/signbit.hpp>
+#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
-#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -24,11 +24,11 @@ namespace fabs_test
 template <typename T>
 void FabsTestFloat(void)
 {
-	BKSGE_CONSTEXPR auto nan    = std::numeric_limits<T>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf    = std::numeric_limits<T>::infinity();
-	BKSGE_CONSTEXPR auto max    = std::numeric_limits<T>::max();
-	BKSGE_CONSTEXPR auto min    = std::numeric_limits<T>::min();
-	BKSGE_CONSTEXPR auto lowest = std::numeric_limits<T>::lowest();
+	BKSGE_CONSTEXPR auto nan    = bksge::numeric_limits<T>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf    = bksge::numeric_limits<T>::infinity();
+	BKSGE_CONSTEXPR auto max    = bksge::numeric_limits<T>::max();
+	BKSGE_CONSTEXPR auto min    = bksge::numeric_limits<T>::min();
+	BKSGE_CONSTEXPR auto lowest = bksge::numeric_limits<T>::lowest();
 
 	BKSGE_CONSTEXPR_EXPECT_EQ(T(1.0), bksge::fabs(T( 1.0)));
 	BKSGE_CONSTEXPR_EXPECT_EQ(T(1.0), bksge::fabs(T(-1.0)));
@@ -68,9 +68,9 @@ void FabsTestFloat(void)
 template <typename T>
 void FabsTestSignedInt(void)
 {
-	BKSGE_CONSTEXPR auto max    = std::numeric_limits<T>::max();
-	BKSGE_CONSTEXPR auto min    = std::numeric_limits<T>::min();
-	BKSGE_CONSTEXPR auto lowest = std::numeric_limits<T>::lowest();
+	BKSGE_CONSTEXPR auto max    = bksge::numeric_limits<T>::max();
+	BKSGE_CONSTEXPR auto min    = bksge::numeric_limits<T>::min();
+	BKSGE_CONSTEXPR auto lowest = bksge::numeric_limits<T>::lowest();
 
 	BKSGE_CONSTEXPR_EXPECT_EQ(double(0),     bksge::fabs(T( 0)));
 	BKSGE_CONSTEXPR_EXPECT_EQ(double(1),     bksge::fabs(T( 1)));
@@ -86,9 +86,9 @@ void FabsTestSignedInt(void)
 template <typename T>
 void FabsTestUnsignedInt(void)
 {
-	BKSGE_CONSTEXPR auto max    = std::numeric_limits<T>::max();
-	BKSGE_CONSTEXPR auto min    = std::numeric_limits<T>::min();
-	BKSGE_CONSTEXPR auto lowest = std::numeric_limits<T>::lowest();
+	BKSGE_CONSTEXPR auto max    = bksge::numeric_limits<T>::max();
+	BKSGE_CONSTEXPR auto min    = bksge::numeric_limits<T>::min();
+	BKSGE_CONSTEXPR auto lowest = bksge::numeric_limits<T>::lowest();
 
 	BKSGE_CONSTEXPR_EXPECT_EQ(double(0),      bksge::fabs(T(0)));
 	BKSGE_CONSTEXPR_EXPECT_EQ(double(1),      bksge::fabs(T(1)));

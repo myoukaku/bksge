@@ -7,8 +7,8 @@
  */
 
 #include <bksge/fnd/numeric/midpoint.hpp>
+#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
-#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_numeric_test
@@ -28,7 +28,7 @@ inline BKSGE_CXX14_CONSTEXPR bool test_floating()
 	VERIFY(bksge::midpoint(T(-1.0), T(-2.0)) == T(-1.5));
 	VERIFY(bksge::midpoint(T( 9e9), T(-9e9)) == T( 0.0));
 
-	using lim = std::numeric_limits<T>;
+	using lim = bksge::numeric_limits<T>;
 	VERIFY(bksge::midpoint(lim::min(), lim::min()) == lim::min());
 	VERIFY(bksge::midpoint(lim::max(), lim::min()) == lim::max()/2);
 	VERIFY(bksge::midpoint(lim::min(), lim::max()) == lim::max()/2);
@@ -51,8 +51,8 @@ inline BKSGE_CXX14_CONSTEXPR bool test_signed_integral()
 	VERIFY(bksge::midpoint(T(-5), T(-4)) == T(-5));
 	VERIFY(bksge::midpoint(T(-4), T(-5)) == T(-4));
 
-	T min = std::numeric_limits<T>::min();
-	T max = std::numeric_limits<T>::max();
+	T min = bksge::numeric_limits<T>::min();
+	T max = bksge::numeric_limits<T>::max();
 	VERIFY(bksge::midpoint(T(min),   T(max))   == T(-1));
 	VERIFY(bksge::midpoint(T(max),   T(min))   == T(0));
 	VERIFY(bksge::midpoint(T(max),   T(max))   == T(max));
@@ -73,7 +73,7 @@ inline BKSGE_CXX14_CONSTEXPR bool test_unsigned_integral()
 	VERIFY(bksge::midpoint(T(0), T(2)) == T(1));
 	VERIFY(bksge::midpoint(T(3), T(2)) == T(3));
 
-	T max = std::numeric_limits<T>::max();
+	T max = bksge::numeric_limits<T>::max();
 	VERIFY(bksge::midpoint(T(0),     T(max))   == T(max/2));
 	VERIFY(bksge::midpoint(T(max),   T(0))     == T(max/2 + 1));
 	VERIFY(bksge::midpoint(T(max),   T(max))   == T(max));

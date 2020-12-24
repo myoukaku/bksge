@@ -14,7 +14,8 @@
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/isinf.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
-#include <limits>
+#include <bksge/fnd/limits.hpp>
+#include <bksge/fnd/config.hpp>
 
 namespace bksge
 {
@@ -45,7 +46,7 @@ smoothstep_impl(FloatType from, FloatType to, FloatType x) BKSGE_NOEXCEPT
 {
 	return
 		bksge::isnan(from) || bksge::isnan(to) || bksge::isnan(x) || from > to ?
-			std::numeric_limits<FloatType>::quiet_NaN() :
+			bksge::numeric_limits<FloatType>::quiet_NaN() :
 		x >= to ?
 			FloatType(1) :
 		x <= from ?
@@ -53,7 +54,7 @@ smoothstep_impl(FloatType from, FloatType to, FloatType x) BKSGE_NOEXCEPT
 		from == to ?
 			FloatType(1) :
 		bksge::isinf(from) && bksge::isinf(to) ?
-			std::numeric_limits<FloatType>::quiet_NaN() :
+			bksge::numeric_limits<FloatType>::quiet_NaN() :
 		bksge::isinf(from) ?
 			FloatType(1) :
 		bksge::isinf(to) ?

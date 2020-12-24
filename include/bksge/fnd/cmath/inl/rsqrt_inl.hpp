@@ -15,7 +15,8 @@
 #include <bksge/fnd/cmath/iszero.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
-#include <limits>
+#include <bksge/fnd/limits.hpp>
+#include <bksge/fnd/config.hpp>
 
 namespace bksge
 {
@@ -39,13 +40,13 @@ rsqrt_impl(FloatType x) BKSGE_NOEXCEPT
 {
 	return
 		bksge::isnan(x) ?
-			std::numeric_limits<FloatType>::quiet_NaN() :
+			bksge::numeric_limits<FloatType>::quiet_NaN() :
 		x < 0 ?
-			std::numeric_limits<FloatType>::quiet_NaN() :
+			bksge::numeric_limits<FloatType>::quiet_NaN() :
 		bksge::isinf(x) ?
 			FloatType(0) :
 		bksge::iszero(x) ?
-			std::numeric_limits<FloatType>::infinity() :
+			bksge::numeric_limits<FloatType>::infinity() :
 		rsqrt_unchecked(x);
 }
 

@@ -9,7 +9,7 @@
 #ifndef UNIT_TEST_FND_SERIALIZATION_SERIALIZATION_TEST_UTILITY_HPP
 #define UNIT_TEST_FND_SERIALIZATION_SERIALIZATION_TEST_UTILITY_HPP
 
-#include <limits>
+#include <bksge/fnd/limits.hpp>
 #include <random>
 
 namespace
@@ -32,16 +32,16 @@ template <typename T>
 inline T get_random_int()
 {
 	return get_random_int(
-		std::numeric_limits<T>::min(),
-		std::numeric_limits<T>::max());
+		bksge::numeric_limits<T>::min(),
+		bksge::numeric_limits<T>::max());
 }
 
 template <typename T>
 inline T get_random_float()
 {
 	std::uniform_real_distribution<T> dist(
-		std::numeric_limits<T>::lowest() / 2,
-		std::numeric_limits<T>::max() / 2);
+		bksge::numeric_limits<T>::lowest() / 2,
+		bksge::numeric_limits<T>::max() / 2);
 	return dist(get_random_engine());
 }
 

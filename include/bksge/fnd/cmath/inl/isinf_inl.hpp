@@ -11,7 +11,8 @@
 
 #include <bksge/fnd/cmath/isinf.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
-#include <limits>
+#include <bksge/fnd/limits.hpp>
+#include <bksge/fnd/config.hpp>
 
 namespace bksge
 {
@@ -30,8 +31,8 @@ isinf_impl(FloatType x) BKSGE_NOEXCEPT
 	return __builtin_isinf(x);
 #else
 	return
-		x ==  std::numeric_limits<FloatType>::infinity() ||
-		x == -std::numeric_limits<FloatType>::infinity();
+		x ==  bksge::numeric_limits<FloatType>::infinity() ||
+		x == -bksge::numeric_limits<FloatType>::infinity();
 #endif
 }
 

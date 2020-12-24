@@ -6,12 +6,12 @@
  *	@author	myoukaku
  */
 
-#include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
 #include <bksge/fnd/string/string.hpp>
+#include <bksge/fnd/utility/declval.hpp>
+#include <bksge/fnd/type_traits.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
-#include <type_traits>
 
 #if BKSGE_HAS_INCLUDE(<compare>) && (BKSGE_CXX_STANDARD >= 20)
 #include <compare>
@@ -209,8 +209,8 @@ struct S
 GTEST_TEST(ConfigTest, Cxx20ConditionalExplicitTest)
 {
 #if defined(BKSGE_HAS_CXX20_CONDITIONAL_EXPLICIT)
-	static_assert( std::is_default_constructible<S<true>>::value, "");
-	static_assert( std::is_default_constructible<S<false>>::value, "");
+	static_assert( bksge::is_default_constructible<S<true>>::value, "");
+	static_assert( bksge::is_default_constructible<S<false>>::value, "");
 
 	static_assert(!bksge::is_implicitly_default_constructible<S<true>>::value, "");
 	static_assert( bksge::is_implicitly_default_constructible<S<false>>::value, "");
@@ -250,13 +250,13 @@ GTEST_TEST(ConfigTest, Cxx20Char8TTest)
 	{
 		const auto* s = u8"hoge";
 		const auto c = u8'c';
-		static_assert(std::is_same<const char8_t*, decltype(s)>::value, "");
-		static_assert(std::is_same<const char8_t, decltype(c)>::value, "");
+		static_assert(bksge::is_same<const char8_t*, decltype(s)>::value, "");
+		static_assert(bksge::is_same<const char8_t, decltype(c)>::value, "");
 	}
 
 	static_assert(sizeof(char8_t) == sizeof(unsigned char), "");
-	static_assert(!std::is_same<char8_t, char>::value, "");
-	static_assert(!std::is_same<char8_t, unsigned char>::value, "");
+	static_assert(!bksge::is_same<char8_t, char>::value, "");
+	static_assert(!bksge::is_same<char8_t, unsigned char>::value, "");
 
 	static_assert(S<char8_t>::value, "");
 	static_assert(!S<char>::value, "");
@@ -300,17 +300,17 @@ namespace concepts_test
 
 template <typename From, typename To>
 concept ConvertibleTo =
-	std::is_convertible_v<From, To> &&
-	requires(std::add_rvalue_reference_t<From> (&f)())
+	bksge::is_convertible<From, To>::value &&
+	requires(bksge::add_rvalue_reference_t<From> (&f)())
 	{
 		static_cast<To>(f());
 	};
 
 template <typename T>
-concept Integral = std::is_integral_v<T>;
+concept Integral = bksge::is_integral<T>::value;
 
 template <typename T>
-concept FloatingPoint = std::is_floating_point_v<T>;
+concept FloatingPoint = bksge::is_floating_point<T>::value;
 
 template <typename T, typename U>
 concept EqualityComparable =
@@ -328,7 +328,7 @@ concept SequenceContainer =
 		{std::size(c)} -> ConvertibleTo<typename T::size_type>; // 非メンバ関数の呼び出しも要求できる
 
 		typename T::value_type;
-		c.push_back(std::declval<typename T::value_type>());
+		c.push_back(bksge::declval<typename T::value_type>());
 	};
 
 static_assert( Integral<int>, "");

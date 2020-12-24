@@ -8,8 +8,8 @@
 
 #include <bksge/fnd/cmath/round_down.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
+#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
-#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -228,11 +228,11 @@ void RoundDownTestFloat(void)
 	BKSGE_CONSTEXPR_EXPECT_EQ(R( 5.0), bksge::round_down(T1( 5.0), T2(-2.5)));
 	BKSGE_CONSTEXPR_EXPECT_EQ(R( 7.5), bksge::round_down(T1( 5.1), T2(-2.5)));
 
-	BKSGE_CONSTEXPR auto nan1 = std::numeric_limits<T1>::quiet_NaN();
-	BKSGE_CONSTEXPR auto nan2 = std::numeric_limits<T2>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf1 = std::numeric_limits<T1>::infinity();
-	BKSGE_CONSTEXPR auto inf2 = std::numeric_limits<T2>::infinity();
-	BKSGE_CONSTEXPR auto inf3 = std::numeric_limits<R>::infinity();
+	BKSGE_CONSTEXPR auto nan1 = bksge::numeric_limits<T1>::quiet_NaN();
+	BKSGE_CONSTEXPR auto nan2 = bksge::numeric_limits<T2>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf1 = bksge::numeric_limits<T1>::infinity();
+	BKSGE_CONSTEXPR auto inf2 = bksge::numeric_limits<T2>::infinity();
+	BKSGE_CONSTEXPR auto inf3 = bksge::numeric_limits<R>::infinity();
 
 	// base が NaN  の場合、NaN  を返す。
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::round_down(T1( 1.0), nan2)));

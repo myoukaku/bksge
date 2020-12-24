@@ -14,7 +14,7 @@
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/algorithm/min.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
-#include <limits>
+#include <bksge/fnd/limits.hpp>
 
 namespace bksge
 {
@@ -43,9 +43,9 @@ clamp_impl(
 		bksge::isnan(x) ||
 		bksge::isnan(min_value) ||
 		bksge::isnan(max_value) ?
-			std::numeric_limits<FloatType>::quiet_NaN() :
+			bksge::numeric_limits<FloatType>::quiet_NaN() :
 		min_value > max_value ?
-			std::numeric_limits<FloatType>::quiet_NaN() :
+			bksge::numeric_limits<FloatType>::quiet_NaN() :
 		clamp_unchecked(x, min_value, max_value);
 }
 

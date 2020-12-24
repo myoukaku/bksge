@@ -12,8 +12,8 @@
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/random/engines/detail/split_mix64.hpp>
 #include <bksge/fnd/ios/flags_saver.hpp>
+#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
-#include <limits>
 #include <iosfwd>
 
 namespace bksge
@@ -27,8 +27,8 @@ public:
 
 	static BKSGE_CONSTEXPR result_type const default_seed = 2463534242UL;
 
-	static BKSGE_CONSTEXPR result_type min() { return std::numeric_limits<result_type>::min(); }
-	static BKSGE_CONSTEXPR result_type max() { return std::numeric_limits<result_type>::max(); }
+	static BKSGE_CONSTEXPR result_type min() { return bksge::numeric_limits<result_type>::min(); }
+	static BKSGE_CONSTEXPR result_type max() { return bksge::numeric_limits<result_type>::max(); }
 
 	explicit xorshift_base(result_type sd = default_seed)
 	{

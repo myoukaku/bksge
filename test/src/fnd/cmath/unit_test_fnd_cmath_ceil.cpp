@@ -9,8 +9,8 @@
 #include <bksge/fnd/cmath/ceil.hpp>
 #include <bksge/fnd/cmath/signbit.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
+#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
-#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -22,9 +22,9 @@ namespace ceil_test
 template <typename T>
 void CeilTestFloat(void)
 {
-	BKSGE_CONSTEXPR auto nan = std::numeric_limits<T>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf = std::numeric_limits<T>::infinity();
-	BKSGE_CONSTEXPR auto eps = std::numeric_limits<T>::epsilon() * 2;
+	BKSGE_CONSTEXPR auto nan = bksge::numeric_limits<T>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<T>::infinity();
+	BKSGE_CONSTEXPR auto eps = bksge::numeric_limits<T>::epsilon() * 2;
 
 	BKSGE_CONSTEXPR_EXPECT_EQ((T)  0.0,  bksge::ceil(T(0.0)));
 	BKSGE_CONSTEXPR_EXPECT_EQ((T)  1.0,  bksge::ceil(T(0.0) + eps));

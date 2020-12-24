@@ -11,9 +11,9 @@
 #include <bksge/fnd/cmath/signbit.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/constants.hpp>
+#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
-#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -25,8 +25,8 @@ namespace tan_test
 template <typename T>
 void TanTestFloat(double error)
 {
-	BKSGE_CONSTEXPR auto nan = std::numeric_limits<T>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf = std::numeric_limits<T>::infinity();
+	BKSGE_CONSTEXPR auto nan = bksge::numeric_limits<T>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<T>::infinity();
 
 	EXPECT_NEAR( 0.00000000000, (double)bksge::tan(T( 0.0)), error);
 	EXPECT_NEAR( 0.10033467208, (double)bksge::tan(T( 0.1)), error);

@@ -8,9 +8,9 @@
 
 #include <bksge/fnd/cmath/lerp.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
+#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
-#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -22,12 +22,12 @@ namespace lerp_test
 template <typename T1, typename T2, typename T3>
 void LerpTestFloat(void)
 {
-	BKSGE_CONSTEXPR auto nan1 = std::numeric_limits<T1>::quiet_NaN();
-	BKSGE_CONSTEXPR auto nan2 = std::numeric_limits<T2>::quiet_NaN();
-	BKSGE_CONSTEXPR auto nan3 = std::numeric_limits<T3>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf1 = std::numeric_limits<T1>::infinity();
-	BKSGE_CONSTEXPR auto inf2 = std::numeric_limits<T2>::infinity();
-	BKSGE_CONSTEXPR auto inf3 = std::numeric_limits<T3>::infinity();
+	BKSGE_CONSTEXPR auto nan1 = bksge::numeric_limits<T1>::quiet_NaN();
+	BKSGE_CONSTEXPR auto nan2 = bksge::numeric_limits<T2>::quiet_NaN();
+	BKSGE_CONSTEXPR auto nan3 = bksge::numeric_limits<T3>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf1 = bksge::numeric_limits<T1>::infinity();
+	BKSGE_CONSTEXPR auto inf2 = bksge::numeric_limits<T2>::infinity();
+	BKSGE_CONSTEXPR auto inf3 = bksge::numeric_limits<T3>::infinity();
 
 	BKSGE_CONSTEXPR_EXPECT_EQ( 0.0,   bksge::lerp(T1(0.0), T2(0.5), T3( 0.00)));
 	BKSGE_CONSTEXPR_EXPECT_EQ( 0.125, bksge::lerp(T1(0.0), T2(0.5), T3( 0.25)));

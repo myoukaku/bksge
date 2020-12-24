@@ -7,8 +7,8 @@
  */
 
 #include <bksge/fnd/cmath/almost_equal.hpp>
+#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
-#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -20,12 +20,12 @@ namespace almost_equal_test
 template <typename T>
 void AlmostEqualTestFloat(void)
 {
-	BKSGE_CONSTEXPR auto nan    = std::numeric_limits<T>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf    = std::numeric_limits<T>::infinity();
-	BKSGE_CONSTEXPR auto max    = std::numeric_limits<T>::max();
-	BKSGE_CONSTEXPR auto min    = std::numeric_limits<T>::min();
-	BKSGE_CONSTEXPR auto lowest = std::numeric_limits<T>::lowest();
-	BKSGE_CONSTEXPR auto eps    = std::numeric_limits<T>::epsilon();
+	BKSGE_CONSTEXPR auto nan    = bksge::numeric_limits<T>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf    = bksge::numeric_limits<T>::infinity();
+	BKSGE_CONSTEXPR auto max    = bksge::numeric_limits<T>::max();
+	BKSGE_CONSTEXPR auto min    = bksge::numeric_limits<T>::min();
+	BKSGE_CONSTEXPR auto lowest = bksge::numeric_limits<T>::lowest();
+	BKSGE_CONSTEXPR auto eps    = bksge::numeric_limits<T>::epsilon();
 
 	BKSGE_CONSTEXPR_EXPECT_TRUE (bksge::almost_equal(T(0.0) + (eps * T(0)), T(0.0)));
 	BKSGE_CONSTEXPR_EXPECT_TRUE (bksge::almost_equal(T(0.0) + (eps * T(1)), T(0.0)));
@@ -183,8 +183,8 @@ void AlmostEqualTestFloat(void)
 template <typename T>
 void AlmostEqualTestSignedInt(void)
 {
-	BKSGE_CONSTEXPR auto max = std::numeric_limits<T>::max();
-	BKSGE_CONSTEXPR auto min = std::numeric_limits<T>::min();
+	BKSGE_CONSTEXPR auto max = bksge::numeric_limits<T>::max();
+	BKSGE_CONSTEXPR auto min = bksge::numeric_limits<T>::min();
 
 	BKSGE_CONSTEXPR_EXPECT_TRUE (bksge::almost_equal(T(0), T(0)));
 	BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::almost_equal(T(0), T(1)));
@@ -220,8 +220,8 @@ void AlmostEqualTestSignedInt(void)
 template <typename T>
 void AlmostEqualTestUnsignedInt(void)
 {
-	BKSGE_CONSTEXPR auto max = std::numeric_limits<T>::max();
-	BKSGE_CONSTEXPR auto min = std::numeric_limits<T>::min();
+	BKSGE_CONSTEXPR auto max = bksge::numeric_limits<T>::max();
+	BKSGE_CONSTEXPR auto min = bksge::numeric_limits<T>::min();
 
 	BKSGE_CONSTEXPR_EXPECT_TRUE (bksge::almost_equal(T(0), T(0)));
 	BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::almost_equal(T(0), T(1)));

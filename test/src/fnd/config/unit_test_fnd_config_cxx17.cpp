@@ -10,16 +10,16 @@
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/map/map.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
+#include <functional>
+#include <initializer_list>
 #include <iostream>
 #include <new>
 #include <sstream>
-#include <functional>
-#include <utility>
 #include <tuple>
-#include <type_traits>
-#include <initializer_list>
+#include <utility>
 
 namespace bksge_config_cxx17_test
 {
@@ -349,12 +349,12 @@ GTEST_TEST(ConfigTest, Cxx17AutoDeductionBracedInitListTest)
 	//auto brace_init_multi{0, 1};       // C++14 までは std::initializer_list<int>, C++17 からは 不適格
 	(void)brace_init_single;
 
-	static_assert(std::is_same<decltype(assign_brace_single), std::initializer_list<int>>::value, "");
-	static_assert(std::is_same<decltype(assign_brace_multi), std::initializer_list<int>>::value, "");
+	static_assert(bksge::is_same<decltype(assign_brace_single), std::initializer_list<int>>::value, "");
+	static_assert(bksge::is_same<decltype(assign_brace_multi), std::initializer_list<int>>::value, "");
 #if defined(BKSGE_HAS_CXX17_AUTO_DEDUCTION_BRACED_INIT_LIST)
-	static_assert(std::is_same<decltype(brace_init_single), int>::value, "");
+	static_assert(bksge::is_same<decltype(brace_init_single), int>::value, "");
 #else
-	static_assert(std::is_same<decltype(brace_init_single), std::initializer_list<int>>::value, "");
+	static_assert(bksge::is_same<decltype(brace_init_single), std::initializer_list<int>>::value, "");
 #endif	// defined(BKSGE_HAS_CXX17_AUTO_DEDUCTION_BRACED_INIT_LIST)
 }
 

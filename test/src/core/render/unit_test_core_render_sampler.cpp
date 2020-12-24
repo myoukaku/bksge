@@ -12,7 +12,6 @@
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <functional>
-#include <limits>
 #include <sstream>
 #include <gtest/gtest.h>
 #include "serialize_test.hpp"
