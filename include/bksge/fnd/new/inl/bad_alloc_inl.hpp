@@ -10,8 +10,8 @@
 #define BKSGE_FND_NEW_INL_BAD_ALLOC_INL_HPP
 
 #include <bksge/fnd/new/bad_alloc.hpp>
+#include <bksge/fnd/cstdlib/abort.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstdlib>
 
 namespace bksge
 {
@@ -22,7 +22,7 @@ void throw_bad_alloc(void)
 #if !defined(BKSGE_NO_EXCEPTIONS)
 	throw bksge::bad_alloc();
 #else
-	std::abort();
+	bksge::abort();
 #endif
 }
 

@@ -10,8 +10,8 @@
 #define BKSGE_FND_STDEXCEPT_INL_DOMAIN_ERROR_INL_HPP
 
 #include <bksge/fnd/stdexcept/domain_error.hpp>
+#include <bksge/fnd/cstdlib/abort.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstdlib>
 
 namespace bksge
 {
@@ -23,7 +23,7 @@ void throw_domain_error(char const* msg)
 	throw bksge::domain_error(msg);
 #else
 	(void)msg;
-	std::abort();
+	bksge::abort();
 #endif
 }
 

@@ -15,10 +15,12 @@
 #include <bksge/core/render/vulkan/detail/shader_reflection.hpp>
 #include <bksge/core/render/vulkan/detail/spirv_cross.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
+#include <bksge/fnd/algorithm/ranges/find_if.hpp>
+#include <bksge/fnd/algorithm/ranges/sort.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <bksge/fnd/tuple/make_tuple.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/assert.hpp>
-#include <tuple>
 
 namespace bksge
 {
@@ -51,9 +53,8 @@ inline void AddUniformBuffer(
 
 		*max_sets = bksge::max(*max_sets, set);
 
-		auto it = std::find_if(
-			uniforms->begin(),
-			uniforms->end(),
+		auto it = bksge::ranges::find_if(
+			*uniforms,
 			[=](ShaderReflectionUniform const& info)
 			{
 				return
@@ -110,15 +111,14 @@ ShaderReflection::ShaderReflection(
 		//AddDescriptorSetInfo(glsl, resources.separate_samplers, stage, VK_DESCRIPTOR_TYPE_SAMPLER,                descriptor_set_info_list);
 	}
 
-	std::sort(
-		m_uniforms.begin(),
-		m_uniforms.end(),
+	bksge::ranges::sort(
+		m_uniforms,
 		[](ShaderReflectionUniform const& lhs,
 		   ShaderReflectionUniform const& rhs)
 		{
 			return
-				std::make_tuple(lhs.set, lhs.binding) <
-				std::make_tuple(rhs.set, rhs.binding);
+				bksge::make_tuple(lhs.set, lhs.binding) <
+				bksge::make_tuple(rhs.set, rhs.binding);
 		}
 	);
 }

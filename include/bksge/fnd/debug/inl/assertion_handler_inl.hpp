@@ -10,7 +10,7 @@
 #define BKSGE_FND_DEBUG_INL_ASSERTION_HANDLER_INL_HPP
 
 #include <bksge/fnd/debug/assertion_handler.hpp>
-#include <cstdlib>	// abort
+#include <bksge/fnd/cstdlib/abort.hpp>
 #include <iostream>
 
 namespace bksge
@@ -32,7 +32,7 @@ inline void default_assertion_handler(assertion_info const& info)
 		<< info.evaluated_expr_str << std::endl
 		<< info.msg                << std::endl;
 
-	std::abort();
+	bksge::abort();
 }
 
 inline assertion_handler& assertion_handler_instance(void)

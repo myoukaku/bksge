@@ -51,7 +51,7 @@ public:
 #endif
 
 #if defined(BKSGE_NO_EXCEPTIONS)
-#include <cstdlib>		// abort
+#include <bksge/fnd/cstdlib/abort.hpp>
 #endif
 
 namespace bksge
@@ -63,7 +63,7 @@ void throw_bad_optional_access()
 #if !defined(BKSGE_NO_EXCEPTIONS)
 	throw bksge::bad_optional_access();
 #else
-	std::abort();
+	bksge::abort();
 #endif
 }
 

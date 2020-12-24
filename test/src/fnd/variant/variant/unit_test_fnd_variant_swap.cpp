@@ -12,8 +12,8 @@
 #include <bksge/fnd/type_traits/is_nothrow_swappable.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/utility/in_place_index.hpp>
+#include <bksge/fnd/cstdlib/abort.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstdlib>
 #include <utility>
 #include <gtest/gtest.h>
 #include "fnd/variant/test_convertible.hpp"
@@ -71,7 +71,7 @@ template <> void do_throw<true>()
 #if !defined(BKSGE_NO_EXCEPTIONS)
 	throw 42;
 #else
-	std::abort();
+	bksge::abort();
 #endif
 }
 

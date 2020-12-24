@@ -10,8 +10,8 @@
 #define BKSGE_FND_STDEXCEPT_INL_INVALID_ARGUMENT_INL_HPP
 
 #include <bksge/fnd/stdexcept/invalid_argument.hpp>
+#include <bksge/fnd/cstdlib/abort.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstdlib>
 
 namespace bksge
 {
@@ -23,7 +23,7 @@ void throw_invalid_argument(char const* msg)
 	throw bksge::invalid_argument(msg);
 #else
 	(void)msg;
-	std::abort();
+	bksge::abort();
 #endif
 }
 

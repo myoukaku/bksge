@@ -16,7 +16,8 @@
 #include <bksge/fnd/type_traits/is_trivially_constructible.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/cstddef/ptrdiff_t.hpp>
-#include <cstdlib>
+#include <bksge/fnd/cstdlib/malloc.hpp>
+#include <bksge/fnd/cstdlib/free.hpp>
 
 namespace bksge
 {
@@ -78,7 +79,7 @@ public:
 	~temporary_buffer()
 	{
 		bksge::destroy(m_buffer, m_buffer + m_len);
-		std::free(m_buffer);
+		bksge::free(m_buffer);
 	}
 
 private:
@@ -157,7 +158,7 @@ temporary_buffer<ForwardIterator, T>::temporary_buffer(
 	, m_buffer(0)
 {
 	auto size = sizeof(value_type) * m_original_len;
-	auto p = reinterpret_cast<value_type*>(std::malloc(size));
+	auto p = reinterpret_cast<value_type*>(bksge::malloc(size));
 
 	if (p)
 	{
@@ -169,7 +170,7 @@ temporary_buffer<ForwardIterator, T>::temporary_buffer(
 		}
 		catch(...)
 		{
-			std::free(p);
+			bksge::free(p);
 			throw;
 		}
 	}

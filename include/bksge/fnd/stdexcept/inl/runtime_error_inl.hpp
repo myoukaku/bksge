@@ -11,8 +11,8 @@
 
 #include <bksge/fnd/stdexcept/runtime_error.hpp>
 #include <bksge/fnd/string/string.hpp>
+#include <bksge/fnd/cstdlib/abort.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cstdlib>
 
 namespace bksge
 {
@@ -24,7 +24,7 @@ void throw_runtime_error(char const* msg)
 	throw bksge::runtime_error(msg);
 #else
 	(void)msg;
-	std::abort();
+	bksge::abort();
 #endif
 }
 
@@ -35,7 +35,7 @@ void throw_runtime_error(bksge::string const& msg)
 	throw bksge::runtime_error(msg);
 #else
 	(void)msg;
-	std::abort();
+	bksge::abort();
 #endif
 }
 
