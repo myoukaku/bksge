@@ -14,7 +14,7 @@
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/memory.hpp>
 #include <bksge/fnd/cstdint.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace
 {
@@ -204,9 +204,9 @@ private:
 		return &shader;
 	}
 
-	static std::vector<bksge::Shader const*> const& GetShaderList(void)
+	static bksge::vector<bksge::Shader const*> const& GetShaderList(void)
 	{
-		static std::vector<bksge::Shader const*> const shader_list
+		static bksge::vector<bksge::Shader const*> const shader_list
 		{
 			GetGLSLShader(),
 			GetHLSLShader(),
@@ -232,7 +232,7 @@ MakeTexture(bksge::uint32_t width, bksge::uint32_t height, bksge::size_t mipmap_
 		bksge::TextureFormat::kRGBA_U8,
 		width, height,
 		mipmap_count);
-	std::vector<bksge::uint8_t> pixels(bytes);
+	bksge::vector<bksge::uint8_t> pixels(bytes);
 	auto* p = pixels.data();
 
 	bksge::uint32_t w = width;
@@ -268,8 +268,8 @@ MakeTexture(bksge::uint32_t width, bksge::uint32_t height, bksge::size_t mipmap_
 int main()
 {
 	bksge::Extent2f const extent{800, 600};
-	std::vector<bksge::shared_ptr<bksge::Renderer>>	renderers;
-	std::vector<bksge::shared_ptr<bksge::Window>>	windows;
+	bksge::vector<bksge::shared_ptr<bksge::Renderer>>	renderers;
+	bksge::vector<bksge::shared_ptr<bksge::Window>>		windows;
 
 #if BKSGE_CORE_RENDER_HAS_D3D11_RENDERER
 	{

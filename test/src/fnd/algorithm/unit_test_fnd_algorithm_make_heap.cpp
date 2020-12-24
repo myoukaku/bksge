@@ -11,8 +11,8 @@
 #include <bksge/fnd/functional/greater.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <array>
-#include <vector>
 #include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
@@ -48,19 +48,19 @@ GTEST_TEST(AlgorithmTest, MakeHeapTest)
 		EXPECT_TRUE (bksge::is_heap(bksge::begin(a), bksge::end(a), bksge::greater<>()));
 	}
 	{
-		std::vector<int> a { 5, 4, 1, 1, 3 };
+		bksge::vector<int> a { 5, 4, 1, 1, 3 };
 		bksge::make_heap(bksge::begin(a), bksge::end(a));
 		EXPECT_TRUE (bksge::is_heap(bksge::begin(a), bksge::end(a)));
 		EXPECT_FALSE(bksge::is_heap(bksge::begin(a), bksge::end(a), bksge::greater<>()));
 	}
 	{
-		std::vector<int> a { 5, 4, 1, 1, 3 };
+		bksge::vector<int> a { 5, 4, 1, 1, 3 };
 		bksge::make_heap(bksge::begin(a), bksge::end(a), bksge::greater<>());
 		EXPECT_FALSE(bksge::is_heap(bksge::begin(a), bksge::end(a)));
 		EXPECT_TRUE (bksge::is_heap(bksge::begin(a), bksge::end(a), bksge::greater<>()));
 	}
 	{
-		std::vector<int> a;
+		bksge::vector<int> a;
 		bksge::make_heap(bksge::begin(a), bksge::end(a));
 		EXPECT_TRUE(a.empty());
 	}

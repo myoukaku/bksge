@@ -10,9 +10,9 @@
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <functional>
 #include <sstream>
-#include <vector>
 #include <gtest/gtest.h>
 #include "serialize_test.hpp"
 
@@ -218,7 +218,7 @@ GTEST_TEST(Render_StencilState, HashTest)
 	s8.SetDepthFailOperation(bksge::StencilOperation::kInvert);
 	s9.SetPassOperation(bksge::StencilOperation::kIncr);
 
-	std::vector<bksge::size_t> v;
+	bksge::vector<bksge::size_t> v;
 	v.push_back(h(s1));
 	v.push_back(h(s2));
 	v.push_back(h(s3));

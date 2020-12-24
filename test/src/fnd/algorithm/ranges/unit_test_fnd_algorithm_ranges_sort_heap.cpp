@@ -9,8 +9,8 @@
 #include <bksge/fnd/algorithm/ranges/sort_heap.hpp>
 #include <bksge/fnd/algorithm/ranges/make_heap.hpp>
 #include <bksge/fnd/functional/ranges/greater.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
-#include <vector>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
 
@@ -72,7 +72,7 @@ inline bool test02()
 {
 	namespace ranges = bksge::ranges;
 	{
-		std::vector<int> a { 5, 4, 1, 1, 3 };
+		bksge::vector<int> a { 5, 4, 1, 1, 3 };
 		ranges::make_heap(a);
 		ranges::sort_heap(a);
 		VERIFY(1 == a[0]);
@@ -82,7 +82,7 @@ inline bool test02()
 		VERIFY(5 == a[4]);
 	}
 	{
-		std::vector<int> a { 5, 4, 1, 1, 3 };
+		bksge::vector<int> a { 5, 4, 1, 1, 3 };
 		ranges::make_heap(a, ranges::greater{});
 		ranges::sort_heap(a, ranges::greater{});
 		VERIFY(5 == a[0]);
@@ -92,7 +92,7 @@ inline bool test02()
 		VERIFY(1 == a[4]);
 	}
 	{
-		std::vector<int> a;
+		bksge::vector<int> a;
 		ranges::make_heap(a);
 		ranges::sort_heap(a);
 		VERIFY(a.empty());

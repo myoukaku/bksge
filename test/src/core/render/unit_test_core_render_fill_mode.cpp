@@ -10,9 +10,9 @@
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <functional>
 #include <sstream>
-#include <vector>
 #include <gtest/gtest.h>
 #include "serialize_test.hpp"
 
@@ -61,7 +61,7 @@ GTEST_TEST(Render_FillMode, SerializeTest)
 GTEST_TEST(Render_FillMode, HashTest)
 {
 	std::hash<bksge::FillMode> h;
-	std::vector<bksge::size_t> v;
+	bksge::vector<bksge::size_t> v;
 	v.push_back(h(bksge::FillMode::kSolid));
 	v.push_back(h(bksge::FillMode::kWireframe));
 	bksge::sort(v.begin(), v.end());

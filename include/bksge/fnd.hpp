@@ -46,5 +46,6 @@
 #include <bksge/fnd/units.hpp>
 #include <bksge/fnd/utility.hpp>
 #include <bksge/fnd/variant.hpp>
+#include <bksge/fnd/vector.hpp>
 
 #endif // BKSGE_FND_HPP

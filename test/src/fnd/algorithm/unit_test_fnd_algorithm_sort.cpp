@@ -10,8 +10,8 @@
 #include <bksge/fnd/functional/greater.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <array>
-#include <vector>
 #include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
@@ -57,7 +57,7 @@ GTEST_TEST(AlgorithmTest, SortTest)
 		EXPECT_EQ(1, a[5]);
 	}
 	{
-		std::vector<int> a { 5, 4, 1, 1, 3 };
+		bksge::vector<int> a { 5, 4, 1, 1, 3 };
 		bksge::sort(bksge::begin(a), bksge::end(a));
 		EXPECT_EQ(1, a[0]);
 		EXPECT_EQ(1, a[1]);
@@ -66,7 +66,7 @@ GTEST_TEST(AlgorithmTest, SortTest)
 		EXPECT_EQ(5, a[4]);
 	}
 	{
-		std::vector<int> a { 5, 4, 1, 1, 3 };
+		bksge::vector<int> a { 5, 4, 1, 1, 3 };
 		bksge::sort(bksge::begin(a), bksge::end(a), bksge::greater<>());
 		EXPECT_EQ(5, a[0]);
 		EXPECT_EQ(4, a[1]);
@@ -75,7 +75,7 @@ GTEST_TEST(AlgorithmTest, SortTest)
 		EXPECT_EQ(1, a[4]);
 	}
 	{
-		std::vector<int> a;
+		bksge::vector<int> a;
 		bksge::sort(bksge::begin(a), bksge::end(a));
 		EXPECT_TRUE(a.empty());
 	}

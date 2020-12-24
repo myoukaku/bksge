@@ -9,13 +9,13 @@
 #include <bksge/fnd/iterator/concepts/bidirectional_iterator.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/string_view.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
 #include <iterator>
 #include <array>
 #include <deque>
 #include <forward_list>
 #include <list>
-#include <vector>
 #include "iterator_test.hpp"
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
@@ -82,8 +82,8 @@ BKSGE_BIDIRECTIONAL_ITERATOR_TEST(true,  bksge::string::iterator);
 BKSGE_BIDIRECTIONAL_ITERATOR_TEST(true,  bksge::string::const_iterator);
 BKSGE_BIDIRECTIONAL_ITERATOR_TEST(true,  bksge::string_view::iterator);
 BKSGE_BIDIRECTIONAL_ITERATOR_TEST(true,  bksge::string_view::const_iterator);
-BKSGE_BIDIRECTIONAL_ITERATOR_TEST(true,  std::vector<int>::iterator);
-BKSGE_BIDIRECTIONAL_ITERATOR_TEST(true,  std::vector<A>::const_iterator);
+BKSGE_BIDIRECTIONAL_ITERATOR_TEST(true,  bksge::vector<int>::iterator);
+BKSGE_BIDIRECTIONAL_ITERATOR_TEST(true,  bksge::vector<A>::const_iterator);
 
 BKSGE_BIDIRECTIONAL_ITERATOR_TEST(false, weakly_incrementable_wrapper<int>);
 BKSGE_BIDIRECTIONAL_ITERATOR_TEST(false, incrementable_wrapper<int>);

@@ -11,7 +11,7 @@
 #include <bksge/fnd/iterator/size.hpp>
 #include <bksge/fnd/memory.hpp>
 #include <bksge/fnd/cstdint.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace
 {
@@ -122,8 +122,8 @@ int main()
 {
 	bksge::Extent2f const extent{800, 600};
 
-	std::vector<bksge::shared_ptr<bksge::Renderer>>	renderers;
-	std::vector<bksge::shared_ptr<bksge::Window>>	windows;
+	bksge::vector<bksge::shared_ptr<bksge::Renderer>>	renderers;
+	bksge::vector<bksge::shared_ptr<bksge::Window>>		windows;
 
 #if BKSGE_CORE_RENDER_HAS_D3D11_RENDERER
 	{
@@ -185,7 +185,7 @@ int main()
 
 	bksge::Geometry const geometry(bksge::PrimitiveTopology::kTriangles, vertices, indices);
 
-	std::vector<bksge::Shader const*> const shader_list
+	bksge::vector<bksge::Shader const*> const shader_list
 	{
 		GetGLSLShader(),
 		GetHLSLShader(),
@@ -194,7 +194,7 @@ int main()
 	bksge::size_t const tex_width  = 16;
 	bksge::size_t const tex_height = 16;
 
-	std::vector<bksge::uint8_t> pixels(tex_width * tex_height * 4);
+	bksge::vector<bksge::uint8_t> pixels(tex_width * tex_height * 4);
 	{
 		auto* p = pixels.data();
 		for (bksge::size_t y = 0; y < tex_height; ++y)

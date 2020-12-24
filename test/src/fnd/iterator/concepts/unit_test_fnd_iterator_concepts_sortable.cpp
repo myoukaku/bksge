@@ -11,13 +11,13 @@
 #include <bksge/fnd/memory/shared_ptr.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/string_view.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
 #include <iterator>
 #include <array>
 #include <deque>
 #include <forward_list>
 #include <list>
-#include <vector>
 #include <streambuf>
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
@@ -82,8 +82,8 @@ BKSGE_SORTABLE_TEST(true,  bksge::string::iterator);
 BKSGE_SORTABLE_TEST(false, bksge::string::const_iterator);
 BKSGE_SORTABLE_TEST(false, bksge::string_view::iterator);
 BKSGE_SORTABLE_TEST(false, bksge::string_view::const_iterator);
-BKSGE_SORTABLE_TEST(true,  std::vector<int>::iterator);
-BKSGE_SORTABLE_TEST(false, std::vector<int>::const_iterator);
+BKSGE_SORTABLE_TEST(true,  bksge::vector<int>::iterator);
+BKSGE_SORTABLE_TEST(false, bksge::vector<int>::const_iterator);
 BKSGE_SORTABLE_TEST(false, std::istreambuf_iterator<char>);
 BKSGE_SORTABLE_TEST(false, std::ostreambuf_iterator<char>);
 BKSGE_SORTABLE_TEST(false, bksge::shared_ptr<int>);

@@ -17,7 +17,7 @@
 //#include <bksge/fnd/serialization/vector.hpp>
 //#include <bksge/fnd/serialization/polymorphic_serializable.hpp>
 //#include <bksge/fnd/serialization/version.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -52,8 +52,8 @@ public:
 	size_type count(void) const override;
 
 private:
-	VertexLayout	m_layout = T::make_vertex_layout();
-	std::vector<T>	m_value;
+	VertexLayout		m_layout = T::make_vertex_layout();
+	bksge::vector<T>	m_value;
 
 private:
 #if 0

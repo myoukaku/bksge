@@ -9,9 +9,9 @@
 #include <bksge/fnd/iterator/concepts/indirectly_readable.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
 #include <iterator>
-#include <vector>
 #include <streambuf>
 #include "iterator_test.hpp"
 
@@ -60,9 +60,9 @@ BKSGE_INDIRECTLY_READABLE_TEST(true,  void const volatile** const);
 
 BKSGE_INDIRECTLY_READABLE_TEST(true,  bksge::unique_ptr<int>);
 BKSGE_INDIRECTLY_READABLE_TEST(true,  bksge::shared_ptr<int>);
-BKSGE_INDIRECTLY_READABLE_TEST(false, std::vector<int>);
-BKSGE_INDIRECTLY_READABLE_TEST(true,  std::vector<int>::iterator);
-BKSGE_INDIRECTLY_READABLE_TEST(true,  std::vector<int>::const_iterator);
+BKSGE_INDIRECTLY_READABLE_TEST(false, bksge::vector<int>);
+BKSGE_INDIRECTLY_READABLE_TEST(true,  bksge::vector<int>::iterator);
+BKSGE_INDIRECTLY_READABLE_TEST(true,  bksge::vector<int>::const_iterator);
 BKSGE_INDIRECTLY_READABLE_TEST(true,  std::istream_iterator<int>);
 BKSGE_INDIRECTLY_READABLE_TEST(false, std::ostream_iterator<int>);
 BKSGE_INDIRECTLY_READABLE_TEST(true,  std::istreambuf_iterator<int>);

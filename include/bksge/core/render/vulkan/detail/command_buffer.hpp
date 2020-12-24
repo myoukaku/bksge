@@ -15,7 +15,7 @@
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -48,11 +48,11 @@ public:
 		::VkPipeline          pipeline);
 
 	void PushDescriptorSet(
-		::VkDevice                                 device,
-		::VkPipelineBindPoint                      pipeline_bind_point,
-		::VkPipelineLayout                         layout,
-		bksge::uint32_t                            set,
-		std::vector<::VkWriteDescriptorSet> const& descriptor_writes);
+		::VkDevice                                   device,
+		::VkPipelineBindPoint                        pipeline_bind_point,
+		::VkPipelineLayout                           layout,
+		bksge::uint32_t                              set,
+		bksge::vector<::VkWriteDescriptorSet> const& descriptor_writes);
 
 public:
 	operator ::VkCommandBuffer() const;

@@ -8,8 +8,8 @@
 
 #include <bksge/fnd/algorithm/ranges/adjacent_find.hpp>
 #include <bksge/fnd/iterator/ranges/next.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
-#include <vector>
 #include <forward_list>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
@@ -71,15 +71,15 @@ inline bool test03()
 {
 	namespace ranges = bksge::ranges;
 	{
-		std::vector<int> x{};
+		bksge::vector<int> x{};
 		VERIFY(ranges::adjacent_find(x) == x.end());
 	}
 	{
-		std::vector<int> x{1,2,3};
+		bksge::vector<int> x{1,2,3};
 		VERIFY(ranges::adjacent_find(x) == x.end());
 	}
 	{
-		std::vector<int> x{1,2,2,3,3,3};
+		bksge::vector<int> x{1,2,2,3,3,3};
 		VERIFY(ranges::adjacent_find(x) == x.begin()+1);
 	}
 	{

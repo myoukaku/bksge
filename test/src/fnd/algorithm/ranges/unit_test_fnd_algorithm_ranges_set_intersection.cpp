@@ -10,8 +10,8 @@
 #include <bksge/fnd/algorithm/ranges/equal.hpp>
 #include <bksge/fnd/functional/ranges/greater.hpp>
 #include <bksge/fnd/iterator/ranges/next.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
-#include <vector>
 #include <list>
 #include <forward_list>
 #include <iterator>
@@ -92,7 +92,7 @@ inline bool test02()
 		VERIFY(res.out == z);
 	}
 	{
-		std::vector<int> const x;
+		bksge::vector<int> const x;
 		std::forward_list<int> const y;
 		int z[1];
 		auto res = ranges::set_intersection(x, y, z);

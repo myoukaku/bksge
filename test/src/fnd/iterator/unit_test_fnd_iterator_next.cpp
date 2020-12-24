@@ -16,8 +16,8 @@ BKSGE_WARNING_DISABLE_MSVC(4308); // 負の整数定数が符号なしの型に�
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <array>
-#include <vector>
 #include <list>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -69,7 +69,7 @@ GTEST_TEST(IteratorTest, NextTest)
 		BKSGE_CONSTEXPR_EXPECT_TRUE(it5 == bksge::end(a));
 	}
 	{
-		const std::vector<float> v {3,1,4,1,5};
+		const bksge::vector<float> v {3,1,4,1,5};
 
 		auto it = bksge::begin(v);
 		EXPECT_EQ(3, *it);
@@ -85,7 +85,7 @@ GTEST_TEST(IteratorTest, NextTest)
 		EXPECT_TRUE(it == bksge::end(v));
 	}
 	{
-		std::vector<float> v {3,1,4,1,5};
+		bksge::vector<float> v {3,1,4,1,5};
 
 		auto it = bksge::begin(v);
 		EXPECT_EQ(3, *it);

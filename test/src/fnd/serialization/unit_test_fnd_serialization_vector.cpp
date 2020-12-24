@@ -9,8 +9,8 @@
 #include <bksge/fnd/serialization/vector.hpp>
 #include <bksge/fnd/serialization/text_oarchive.hpp>
 #include <bksge/fnd/serialization/text_iarchive.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <sstream>
-#include <vector>
 #include <gtest/gtest.h>
 
 namespace bksge_serialization_test
@@ -38,7 +38,7 @@ template <typename Stream, typename OArchive, typename IArchive>
 void VectorTest()
 {
 	{
-		std::vector<int> const value = {1,2,3,4,5};
+		bksge::vector<int> const value = {1,2,3,4,5};
 
 		Stream str;
 		{
@@ -46,7 +46,7 @@ void VectorTest()
 			oa << value;
 		}
 		{
-			std::vector<int> tmp;
+			bksge::vector<int> tmp;
 			IArchive ia(str);
 			ia >> tmp;
 
@@ -59,7 +59,7 @@ void VectorTest()
 		}
 	}
 	{
-		std::vector<Point> const value =
+		bksge::vector<Point> const value =
 		{
 			{ 0.5f, 1.5f },
 			{ 2.5f,-3.5f },
@@ -71,7 +71,7 @@ void VectorTest()
 			oa << value;
 		}
 		{
-			std::vector<Point> tmp;
+			bksge::vector<Point> tmp;
 			IArchive ia(str);
 			ia >> tmp;
 

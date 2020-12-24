@@ -9,13 +9,13 @@
 #include <bksge/fnd/iterator/concepts/input_iterator.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/string_view.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
 #include <iterator>
 #include <array>
 #include <deque>
 #include <forward_list>
 #include <list>
-#include <vector>
 #include <streambuf>
 #include "iterator_test.hpp"
 
@@ -92,8 +92,8 @@ BKSGE_INPUT_ITERATOR_TEST(true,  bksge::string::iterator);
 BKSGE_INPUT_ITERATOR_TEST(true,  bksge::string::const_iterator);
 BKSGE_INPUT_ITERATOR_TEST(true,  bksge::string_view::iterator);
 BKSGE_INPUT_ITERATOR_TEST(true,  bksge::string_view::const_iterator);
-BKSGE_INPUT_ITERATOR_TEST(true,  std::vector<int>::iterator);
-BKSGE_INPUT_ITERATOR_TEST(true,  std::vector<A>::const_iterator);
+BKSGE_INPUT_ITERATOR_TEST(true,  bksge::vector<int>::iterator);
+BKSGE_INPUT_ITERATOR_TEST(true,  bksge::vector<A>::const_iterator);
 BKSGE_INPUT_ITERATOR_TEST(true,  std::istreambuf_iterator<char>);
 BKSGE_INPUT_ITERATOR_TEST(false, std::ostreambuf_iterator<char>);
 

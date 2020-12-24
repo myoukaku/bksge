@@ -45,7 +45,7 @@
 #include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -86,7 +86,7 @@ private:
 	bksge::unique_ptr<vulkan::Swapchain>				m_swapchain;
 	bksge::unique_ptr<vulkan::DepthStencilBuffer>		m_depth_stencil_buffer;
 	bksge::unique_ptr<vulkan::RenderPass>				m_render_pass;
-	std::vector<bksge::unique_ptr<vulkan::Framebuffer>>	m_framebuffers;
+	bksge::vector<bksge::unique_ptr<vulkan::Framebuffer>>	m_framebuffers;
 	bksge::unique_ptr<vulkan::Fence>					m_draw_fence;
 	bksge::unique_ptr<vulkan::Semaphore>				m_image_acquired_semaphore;
 	bksge::unique_ptr<vulkan::ResourcePool>				m_resource_pool;

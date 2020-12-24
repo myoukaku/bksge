@@ -16,7 +16,7 @@
 #include <bksge/fnd/functional/identity.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/cstddef/ptrdiff_t.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge_iterator_test
 {
@@ -24,7 +24,7 @@ namespace bksge_iterator_test
 namespace projected_test
 {
 
-using vec_iterator = std::vector<int>::iterator;
+using vec_iterator = bksge::vector<int>::iterator;
 using vecitr_proj = bksge::projected<vec_iterator, bksge::identity>;
 
 static_assert(bksge::is_indirectly_readable<vecitr_proj>::value, "");

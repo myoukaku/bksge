@@ -10,8 +10,8 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <list>
-#include <vector>
 #include <array>
 #include <gtest/gtest.h>
 
@@ -71,7 +71,7 @@ GTEST_TEST(AlgorithmTest, GenerateNTest)
 		EXPECT_EQ( 0, a[5]);
 	}
 	{
-		std::vector<int> a(3);
+		bksge::vector<int> a(3);
 		auto ret = bksge::generate_n(bksge::begin(a), 2, pred3);
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 2));
 		EXPECT_EQ(42, a[0]);
@@ -79,7 +79,7 @@ GTEST_TEST(AlgorithmTest, GenerateNTest)
 		EXPECT_EQ( 0, a[2]);
 	}
 	{
-		std::vector<int> a(4);
+		bksge::vector<int> a(4);
 		auto ret = bksge::generate_n(bksge::begin(a), 0, pred3);
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 0));
 		EXPECT_EQ(0, a[0]);

@@ -8,7 +8,7 @@
 
 #include <bksge/fnd/iterator/iter_value_t.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 #include "constexpr_test.hpp"
 
 namespace bksge_iterator_test
@@ -31,8 +31,8 @@ struct have_element
 
 using T = int;
 
-using vec_iterator = std::vector<T>::iterator;
-using vec_const_iterator = std::vector<T>::const_iterator;
+using vec_iterator = bksge::vector<T>::iterator;
+using vec_const_iterator = bksge::vector<T>::const_iterator;
 
 static_assert(bksge::is_same<bksge::iter_value_t<T               *          >, T>::value, "");
 static_assert(bksge::is_same<bksge::iter_value_t<T const         *          >, T>::value, "");
@@ -54,8 +54,8 @@ static_assert(bksge::is_same<bksge::iter_value_t<vec_iterator               >, T
 static_assert(bksge::is_same<bksge::iter_value_t<vec_iterator const         >, T>::value, "");
 static_assert(bksge::is_same<bksge::iter_value_t<vec_const_iterator         >, T>::value, "");
 static_assert(bksge::is_same<bksge::iter_value_t<vec_const_iterator const   >, T>::value, "");
-static_assert(bksge::is_same<bksge::iter_value_t<std::vector<T>             >, T>::value, "");
-static_assert(bksge::is_same<bksge::iter_value_t<std::vector<T> const       >, T>::value, "");
+static_assert(bksge::is_same<bksge::iter_value_t<bksge::vector<T>           >, T>::value, "");
+static_assert(bksge::is_same<bksge::iter_value_t<bksge::vector<T> const     >, T>::value, "");
 static_assert(bksge::is_same<bksge::iter_value_t<have_value<T      >        >, T>::value, "");
 static_assert(bksge::is_same<bksge::iter_value_t<have_value<T const>        >, T>::value, "");
 static_assert(bksge::is_same<bksge::iter_value_t<have_value<T      > const  >, T>::value, "");

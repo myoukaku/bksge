@@ -8,8 +8,8 @@
 
 #include <bksge/fnd/algorithm/ranges/partition_point.hpp>
 #include <bksge/fnd/iterator/ranges/next.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
-#include <vector>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
 
@@ -77,7 +77,7 @@ inline bool test02()
 		VERIFY(middle == x+0);
 	}
 	{
-		std::vector<int> x {};
+		bksge::vector<int> x {};
 		auto middle = ranges::partition_point(x, [](int a) { return a < 0; });
 		VERIFY(middle == x.begin());
 	}

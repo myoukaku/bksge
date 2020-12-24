@@ -12,7 +12,6 @@
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
-#include <vector>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 

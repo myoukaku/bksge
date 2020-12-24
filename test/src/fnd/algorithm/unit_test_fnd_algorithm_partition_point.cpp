@@ -10,8 +10,8 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <list>
-#include <vector>
 #include <array>
 #include <gtest/gtest.h>
 
@@ -57,7 +57,7 @@ GTEST_TEST(AlgorithmTest, PartitionPointTest)
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 3));
 	}
 	{
-		const std::vector<int> a { 5,3,1,4,2 };
+		const bksge::vector<int> a { 5,3,1,4,2 };
 		auto ret = bksge::partition_point(bksge::begin(a), bksge::end(a), [](int x){ return (x % 2) == 1; });
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 3));
 	}
@@ -67,7 +67,7 @@ GTEST_TEST(AlgorithmTest, PartitionPointTest)
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 1));
 	}
 	{
-		const std::vector<int> a;
+		const bksge::vector<int> a;
 		auto ret = bksge::partition_point(bksge::begin(a), bksge::end(a), pred1);
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 0));
 	}

@@ -19,10 +19,10 @@
 #include <bksge/fnd/utility/in_place_type.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/cstdint/uintptr_t.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
 #include <initializer_list>
 #include <set>
-#include <vector>
 #include <gtest/gtest.h>
 
 namespace bksge_any_test
@@ -69,7 +69,7 @@ stored_internally(void* obj, const bksge::any& a)
 
 struct combined
 {
-	std::vector<int> v;
+	bksge::vector<int> v;
 	bksge::tuple<int, int> t;
 	template <typename... Args>
 	combined(std::initializer_list<int> il, Args&&... args)
@@ -172,8 +172,8 @@ GTEST_TEST(AnyTest, CtorTest)
 		EXPECT_EQ(get<0>(t), 1);
 		EXPECT_EQ(get<1>(t), 2);
 
-		bksge::any o3(bksge::in_place_type_t<std::vector<int>>{}, { 42, 666 });
-		std::vector<int>& v = bksge::any_cast<std::vector<int>&>(o3);
+		bksge::any o3(bksge::in_place_type_t<bksge::vector<int>>{}, { 42, 666 });
+		bksge::vector<int>& v = bksge::any_cast<bksge::vector<int>&>(o3);
 		EXPECT_EQ(v[0], 42);
 		EXPECT_EQ(v[1], 666);
 		EXPECT_EQ(v.size(), 2u);
@@ -258,7 +258,7 @@ struct X2
 
 struct combined
 {
-	std::vector<int> v;
+	bksge::vector<int> v;
 	bksge::tuple<int, int> t;
 	template <typename... Args>
 	combined(std::initializer_list<int> il, Args&&... args)
@@ -386,8 +386,8 @@ GTEST_TEST(AnyTest, AssignTest)
 		EXPECT_EQ(get<1>(t), 2);
 
 		bksge::any o3;
-		o3.emplace<std::vector<int>>({ 42, 666 });
-		std::vector<int>& v = bksge::any_cast<std::vector<int>&>(o3);
+		o3.emplace<bksge::vector<int>>({ 42, 666 });
+		bksge::vector<int>& v = bksge::any_cast<bksge::vector<int>&>(o3);
 		EXPECT_EQ(v[0], 42);
 		EXPECT_EQ(v[1], 666);
 		EXPECT_EQ(v.size(), 2u);
@@ -437,8 +437,8 @@ GTEST_TEST(AnyTest, AssignTest)
 			EXPECT_TRUE(t1 == t2);
 		}
 		{
-			auto t1 = &o11.emplace<std::vector<int>>({ 1, 2, 3 });
-			auto t2 = &bksge::any_cast<std::vector<int>&>(o11);
+			auto t1 = &o11.emplace<bksge::vector<int>>({ 1, 2, 3 });
+			auto t2 = &bksge::any_cast<bksge::vector<int>&>(o11);
 			EXPECT_TRUE(t1 == t2);
 		}
 	}
@@ -560,8 +560,8 @@ GTEST_TEST(AnyTest, TypeTest)
 	EXPECT_TRUE(x.type() == typeid(void));
 	x = 1;
 	EXPECT_TRUE(x.type() == typeid(int));
-	x = std::vector<int>{1,2,3};
-	EXPECT_TRUE(x.type() == typeid(std::vector<int>));
+	x = bksge::vector<int>{1,2,3};
+	EXPECT_TRUE(x.type() == typeid(bksge::vector<int>));
 	x = bksge::any();
 	EXPECT_TRUE(x.type() == typeid(void));
 #endif

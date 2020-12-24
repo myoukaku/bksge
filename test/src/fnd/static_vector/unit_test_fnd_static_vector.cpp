@@ -17,9 +17,9 @@
 #include <bksge/fnd/algorithm/equal.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
 #include <list>
-#include <vector>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -902,16 +902,16 @@ GTEST_TEST(StaticVectorTest, AssignTest)
 		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test_assign_iterator<value_dc, 10>(bksge::begin(a), bksge::end(a))));
 	}
 	{
-		std::vector<value_nd> a = {value_nd(10), value_nd(20), value_nd(30), value_nd(40)};
+		bksge::vector<value_nd> a = {value_nd(10), value_nd(20), value_nd(30), value_nd(40)};
 		EXPECT_TRUE((test_assign_iterator<value_nd, 10>(bksge::begin(a), bksge::end(a))));
 	}
 	{
-		std::vector<counting_value> a = {counting_value(10), counting_value(20), counting_value(30)};
+		bksge::vector<counting_value> a = {counting_value(10), counting_value(20), counting_value(30)};
 		EXPECT_TRUE((test_assign_iterator<counting_value, 10>(bksge::begin(a), bksge::end(a))));
 	}
 	EXPECT_EQ(0u, counting_value::count());
 	{
-		std::vector<shptr_value> a = {shptr_value(10), shptr_value(20), shptr_value(30), shptr_value(40), shptr_value(50)};
+		bksge::vector<shptr_value> a = {shptr_value(10), shptr_value(20), shptr_value(30), shptr_value(40), shptr_value(50)};
 		EXPECT_TRUE((test_assign_iterator<shptr_value, 10>(bksge::begin(a), bksge::end(a))));
 	}
 

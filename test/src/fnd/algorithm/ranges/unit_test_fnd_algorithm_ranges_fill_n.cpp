@@ -9,8 +9,8 @@
 #include <bksge/fnd/algorithm/ranges/fill_n.hpp>
 #include <bksge/fnd/algorithm/ranges/equal.hpp>
 #include <bksge/fnd/iterator/ranges/next.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
-#include <vector>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
 
@@ -66,7 +66,7 @@ inline bool test02()
 		VERIFY(ranges::equal(x, y, {}, &X::i, {}));
 	}
 	{
-		std::vector<int> x(5);
+		bksge::vector<int> x(5);
 		auto res = ranges::fill_n(x.begin(), 2, 42);
 		VERIFY(res == ranges::next(x.begin(), 2));
 		int const y[] = { 42, 42, 0, 0, 0 };

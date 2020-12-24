@@ -10,8 +10,8 @@
 #include <bksge/fnd/functional/greater.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <array>
-#include <vector>
 #include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
@@ -71,7 +71,7 @@ GTEST_TEST(AlgorithmTest, StableSortTest)
 		EXPECT_EQ(4.5, a[4].value);
 	}
 	{
-		std::vector<Foo> a
+		bksge::vector<Foo> a
 		{
 			{ 3, 0.5f },
 			{ 1, 1.5f },
@@ -131,7 +131,7 @@ GTEST_TEST(AlgorithmTest, StableSortTest)
 		EXPECT_EQ(3.5, a[4].value);
 	}
 	{
-		std::vector<Foo> a
+		bksge::vector<Foo> a
 		{
 			{ 3, 0.5f },
 			{ 1, 1.5f },

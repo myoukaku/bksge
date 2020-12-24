@@ -13,7 +13,6 @@
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/iterator/make_reverse_iterator.hpp>
 #include <gtest/gtest.h>
-#include <vector>
 #include "constexpr_test.hpp"
 
 namespace bksge_ranges_test

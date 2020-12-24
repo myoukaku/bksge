@@ -40,9 +40,9 @@
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/memory/make_shared.hpp>
 #include <bksge/fnd/cstdint.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/config.hpp>
-#include <vector>
 
 #if defined(BKSGE_PLATFORM_WIN32)
 #include <bksge/core/detail/win32.hpp>
@@ -198,7 +198,7 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 		auto const& swap_chain_views = m_swapchain->GetImageViews();
 		for (auto const& swap_chain_view : swap_chain_views)
 		{
-			std::vector<::VkImageView> attachments;
+			bksge::vector<::VkImageView> attachments;
 			attachments.push_back(swap_chain_view);
 			if (depthPresent)
 			{

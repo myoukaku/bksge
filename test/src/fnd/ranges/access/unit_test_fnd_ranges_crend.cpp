@@ -12,7 +12,6 @@
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <gtest/gtest.h>
-#include <vector>
 #include "constexpr_test.hpp"
 
 namespace bksge_ranges_test

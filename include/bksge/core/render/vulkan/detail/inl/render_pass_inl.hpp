@@ -15,7 +15,7 @@
 #include <bksge/core/render/vulkan/detail/render_pass.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -36,7 +36,7 @@ RenderPass::RenderPass(
 	: m_device(device)
 	, m_render_pass(VK_NULL_HANDLE)
 {
-	std::vector<::VkAttachmentDescription> attachments;
+	bksge::vector<::VkAttachmentDescription> attachments;
 
 	{
 		::VkAttachmentDescription att;

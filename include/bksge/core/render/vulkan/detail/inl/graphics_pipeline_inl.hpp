@@ -28,7 +28,7 @@
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -138,7 +138,7 @@ GraphicsPipeline::GraphicsPipeline(
 	vi_binding.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
 	vi_binding.stride    = static_cast<bksge::uint32_t>(stride);
 
-	std::vector<::VkVertexInputAttributeDescription> vi_attribs;
+	bksge::vector<::VkVertexInputAttributeDescription> vi_attribs;
 
 	for (auto& attribute : layout.vertex_attribute_array())
 	{
@@ -150,7 +150,7 @@ GraphicsPipeline::GraphicsPipeline(
 		vi_attribs.push_back(a);
 	}
 
-	std::vector<::VkDynamicState> dynamic_states;
+	bksge::vector<::VkDynamicState> dynamic_states;
 
 	vk::PipelineVertexInputStateCreateInfo vertex_input_state;
 	vertex_input_state.SetVertexBindingDescription(&vi_binding);

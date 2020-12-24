@@ -9,9 +9,9 @@
 #include <bksge/fnd/iterator/concepts/sentinel_for.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
 #include <iterator>
-#include <vector>
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_SENTINEL_FOR_TEST(B, ...)	\
@@ -27,23 +27,23 @@ namespace bksge_iterator_test
 namespace sentinel_for_test
 {
 
-BKSGE_SENTINEL_FOR_TEST(true,  int*,                             int      *);
-BKSGE_SENTINEL_FOR_TEST(true,  int const*,                       int      *);
-BKSGE_SENTINEL_FOR_TEST(true,  int*,                             int const*);
-BKSGE_SENTINEL_FOR_TEST(true,  int const*,                       int const*);
-BKSGE_SENTINEL_FOR_TEST(false, int*,                             int      * const);
-BKSGE_SENTINEL_FOR_TEST(false, int*,                             int const* const);
-BKSGE_SENTINEL_FOR_TEST(false, int*,                             void*);
-BKSGE_SENTINEL_FOR_TEST(false, int*,                             bksge::unique_ptr<int>);
-BKSGE_SENTINEL_FOR_TEST(false, int*,                             bksge::shared_ptr<int>);
-BKSGE_SENTINEL_FOR_TEST(false, int*,                             std::vector<int>::iterator);
-BKSGE_SENTINEL_FOR_TEST(true,  std::vector<int>::iterator,       std::vector<int>::iterator);
-BKSGE_SENTINEL_FOR_TEST(false, int*,                             std::vector<int>::const_iterator);
-BKSGE_SENTINEL_FOR_TEST(true,  std::vector<int>::const_iterator, std::vector<int>::const_iterator);
-BKSGE_SENTINEL_FOR_TEST(false, int*,                             std::istream_iterator<int>);
-BKSGE_SENTINEL_FOR_TEST(true,  std::istream_iterator<int>,       std::istream_iterator<int>);
-BKSGE_SENTINEL_FOR_TEST(false, int*,                             std::ostream_iterator<int>);
-BKSGE_SENTINEL_FOR_TEST(false, std::ostream_iterator<int>,       std::ostream_iterator<int>);
+BKSGE_SENTINEL_FOR_TEST(true,  int*,                               int      *);
+BKSGE_SENTINEL_FOR_TEST(true,  int const*,                         int      *);
+BKSGE_SENTINEL_FOR_TEST(true,  int*,                               int const*);
+BKSGE_SENTINEL_FOR_TEST(true,  int const*,                         int const*);
+BKSGE_SENTINEL_FOR_TEST(false, int*,                               int      * const);
+BKSGE_SENTINEL_FOR_TEST(false, int*,                               int const* const);
+BKSGE_SENTINEL_FOR_TEST(false, int*,                               void*);
+BKSGE_SENTINEL_FOR_TEST(false, int*,                               bksge::unique_ptr<int>);
+BKSGE_SENTINEL_FOR_TEST(false, int*,                               bksge::shared_ptr<int>);
+BKSGE_SENTINEL_FOR_TEST(false, int*,                               bksge::vector<int>::iterator);
+BKSGE_SENTINEL_FOR_TEST(true,  bksge::vector<int>::iterator,       bksge::vector<int>::iterator);
+BKSGE_SENTINEL_FOR_TEST(false, int*,                               bksge::vector<int>::const_iterator);
+BKSGE_SENTINEL_FOR_TEST(true,  bksge::vector<int>::const_iterator, bksge::vector<int>::const_iterator);
+BKSGE_SENTINEL_FOR_TEST(false, int*,                               std::istream_iterator<int>);
+BKSGE_SENTINEL_FOR_TEST(true,  std::istream_iterator<int>,         std::istream_iterator<int>);
+BKSGE_SENTINEL_FOR_TEST(false, int*,                               std::ostream_iterator<int>);
+BKSGE_SENTINEL_FOR_TEST(false, std::ostream_iterator<int>,         std::ostream_iterator<int>);
 
 BKSGE_SENTINEL_FOR_TEST(false, int const, int*);
 BKSGE_SENTINEL_FOR_TEST(false, float*,    int*);

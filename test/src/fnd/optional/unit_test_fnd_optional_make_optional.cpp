@@ -12,8 +12,8 @@
 #include <bksge/fnd/tuple/get.hpp>
 #include <bksge/fnd/tuple/tuple.hpp>
 #include <bksge/fnd/utility/forward.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
-#include <vector>
 #include "constexpr_test.hpp"
 
 namespace bksge_optional_test
@@ -24,7 +24,7 @@ namespace make_optional_test
 
 struct combined
 {
-	std::vector<int> v;
+	bksge::vector<int> v;
 	bksge::tuple<int, int> t;
 
 	template<class... Args>
@@ -46,8 +46,8 @@ GTEST_TEST(OptionalTest, MakeOptionalTest)
 		auto o2 = bksge::make_optional<bksge::tuple<int, int>>(1, 2);
 		static_assert(bksge::is_same<decltype(o2), bksge::optional<bksge::tuple<int, int>>>(), "");
 		EXPECT_TRUE(o2 && get<0>(*o2) == 1 && get<1>(*o2) == 2);
-		auto o3 = bksge::make_optional<std::vector<int>>({42, 666});
-		static_assert(bksge::is_same<decltype(o3), bksge::optional<std::vector<int>>>(), "");
+		auto o3 = bksge::make_optional<bksge::vector<int>>({42, 666});
+		static_assert(bksge::is_same<decltype(o3), bksge::optional<bksge::vector<int>>>(), "");
 		EXPECT_TRUE(o3 && (*o3)[0] == 42 && (*o3)[1] == 666);
 		auto o4 = bksge::make_optional<combined>({42, 666});
 		static_assert(bksge::is_same<decltype(o4), bksge::optional<combined>>(), "");

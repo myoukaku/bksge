@@ -10,9 +10,9 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/utility/move.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <iterator>
 #include <list>
-#include <vector>
 #include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -121,7 +121,7 @@ GTEST_TEST(AlgorithmTest, MoveTest)
 		EXPECT_TRUE(it == bksge::begin(a2) + 4);
 	}
 	{
-		std::vector<noncopyable> v;
+		bksge::vector<noncopyable> v;
 		v.emplace_back(noncopyable(5));
 		v.emplace_back(noncopyable(6));
 		v.emplace_back(noncopyable(7));

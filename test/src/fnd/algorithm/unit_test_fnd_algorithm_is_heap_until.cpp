@@ -11,8 +11,8 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <array>
-#include <vector>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -70,27 +70,27 @@ GTEST_TEST(AlgorithmTest, IsHeapUntilTest)
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 7));
 	}
 	{
-		const std::vector<int> a { 9, 9, 7, 3, 4, 3, 2 };
+		const bksge::vector<int> a { 9, 9, 7, 3, 4, 3, 2 };
 		auto ret = bksge::is_heap_until(bksge::begin(a), bksge::end(a));
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 7));
 	}
 	{
-		const std::vector<int> a { 9, 7, 7, 8, 4, 3, 2 };
+		const bksge::vector<int> a { 9, 7, 7, 8, 4, 3, 2 };
 		auto ret = bksge::is_heap_until(bksge::begin(a), bksge::end(a));
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 3));
 	}
 	{
-		const std::vector<int> a { 3, 2, 1 };
+		const bksge::vector<int> a { 3, 2, 1 };
 		auto ret = bksge::is_heap_until(bksge::begin(a), bksge::end(a), [](int x, int y){return x < y;});
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 3));
 	}
 	{
-		const std::vector<int> a { 1, 2, 3 };
+		const bksge::vector<int> a { 1, 2, 3 };
 		auto ret = bksge::is_heap_until(bksge::begin(a), bksge::end(a), [](int x, int y){return x < y;});
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 1));
 	}
 	{
-		const std::vector<int> a { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+		const bksge::vector<int> a { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 		auto ret = bksge::is_heap_until(bksge::begin(a), bksge::end(a), [](int x, int y){return x < y;});
 		EXPECT_TRUE(ret == bksge::end(a));
 	}

@@ -9,8 +9,8 @@
 #include <bksge/fnd/iterator/advance.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <list>
-#include <vector>
 #include <array>
 #include <gtest/gtest.h>
 
@@ -47,7 +47,7 @@ GTEST_TEST(IteratorTest, AdvanceTest)
 		EXPECT_TRUE(it == bksge::end(a));
 	}
 	{
-		std::vector<float> v {3,1,4,1,5};
+		bksge::vector<float> v {3,1,4,1,5};
 
 		auto it = bksge::begin(v);
 		EXPECT_EQ(3, *it);
@@ -63,7 +63,7 @@ GTEST_TEST(IteratorTest, AdvanceTest)
 		EXPECT_TRUE(it == bksge::end(v));
 	}
 	{
-		std::vector<float> v {3,1,4,1,5};
+		bksge::vector<float> v {3,1,4,1,5};
 
 		auto it = bksge::begin(v);
 		EXPECT_EQ(3, *it);

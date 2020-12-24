@@ -8,6 +8,7 @@
 
 #include <bksge/fnd/algorithm/ranges/partition.hpp>
 #include <bksge/fnd/iterator/ranges/next.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
@@ -101,7 +102,7 @@ inline bool test03()
 {
 	namespace ranges = bksge::ranges;
 	{
-		std::vector<int> x {};
+		bksge::vector<int> x {};
 		auto res = ranges::partition(x, [](int a) { return a%2==0; });
 		VERIFY(res.begin() == x.begin());
 		VERIFY(res.end()   == x.end());

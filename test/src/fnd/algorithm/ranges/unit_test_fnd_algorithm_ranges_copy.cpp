@@ -8,8 +8,8 @@
 
 #include <bksge/fnd/algorithm/ranges/copy.hpp>
 #include <bksge/fnd/algorithm/ranges/equal.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
-#include <vector>
 #include <list>
 #include <forward_list>
 #include "constexpr_test.hpp"
@@ -79,8 +79,8 @@ inline bool test03()
 {
 	namespace ranges = bksge::ranges;
 	{
-		std::vector<int> x = { 1, 2, 3, 4, 5, 6, 7 };
-		std::vector<int> w(x.size());
+		bksge::vector<int> x = { 1, 2, 3, 4, 5, 6, 7 };
+		bksge::vector<int> w(x.size());
 		auto res = ranges::copy(x.rbegin(), x.rend(), w.begin());
 		VERIFY(res.in  == x.rend());
 		VERIFY(res.out == w.end());
@@ -103,8 +103,8 @@ inline bool test04()
 {
 	namespace ranges = bksge::ranges;
 	{
-		std::vector<int> x = { 1, 2, 3, 4, 5, 6 };
-		std::vector<int> w(x.size());
+		bksge::vector<int> x = { 1, 2, 3, 4, 5, 6 };
+		bksge::vector<int> w(x.size());
 		auto res = ranges::copy(x, w.rbegin());
 		VERIFY(res.in  == x.end());
 		VERIFY(res.out == w.rend());

@@ -10,9 +10,9 @@
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <functional>
 #include <sstream>
-#include <vector>
 #include <gtest/gtest.h>
 #include "serialize_test.hpp"
 
@@ -77,7 +77,7 @@ GTEST_TEST(Render_ShaderStage, HashTest)
 {
 	std::hash<bksge::ShaderStage> h;
 
-	std::vector<bksge::size_t> v;
+	bksge::vector<bksge::size_t> v;
 	v.push_back(h(bksge::ShaderStage::kVertex));
 	v.push_back(h(bksge::ShaderStage::kGeometry));
 	v.push_back(h(bksge::ShaderStage::kFragment));

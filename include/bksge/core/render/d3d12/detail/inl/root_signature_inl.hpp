@@ -19,8 +19,6 @@
 #include <bksge/core/render/d3d_common/d3d12.hpp>
 #include <bksge/core/render/d3d_common/com_ptr.hpp>
 #include <bksge/core/render/d3d_common/throw_if_failed.hpp>
-#include <vector>
-#include <map>
 
 #include <iostream>
 

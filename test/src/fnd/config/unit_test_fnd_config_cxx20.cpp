@@ -8,9 +8,9 @@
 
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
 #include <bksge/fnd/string/string.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
-#include <vector>
 #include <map>
 #include <type_traits>
 
@@ -102,7 +102,7 @@ GTEST_TEST(ConfigTest, Cxx20DesignatedInitializersTest)
 GTEST_TEST(ConfigTest, Cxx20TemplateLambdaTest)
 {
 #if defined(BKSGE_HAS_CXX20_TEMPLATE_LAMBDA)
-	auto f =[]<class T>(const std::vector<T>& v)
+	auto f =[]<class T>(const bksge::vector<T>& v)
 	{
 		if (v.empty())
 		{
@@ -114,8 +114,8 @@ GTEST_TEST(ConfigTest, Cxx20TemplateLambdaTest)
 		}
 	};
 
-	std::vector<int> v = {1, 2, 3};
-	std::vector<bksge::string> w;
+	bksge::vector<int> v = {1, 2, 3};
+	bksge::vector<bksge::string> w;
 
 	EXPECT_EQ(1,  f(v)); // Tの型はint
 	EXPECT_EQ("", f(w)); // Tの型はbksge::string
@@ -125,7 +125,7 @@ GTEST_TEST(ConfigTest, Cxx20TemplateLambdaTest)
 GTEST_TEST(ConfigTest, Cxx20RangeBasedForInitializerTest)
 {
 #if defined(BKSGE_HAS_CXX20_RANGE_BASED_FOR_INITIALIZER)
-	std::vector<int> v {10, 20, 30};
+	bksge::vector<int> v {10, 20, 30};
 	for (int i = 0; auto& x : v)
 	{
 		x += i;
@@ -341,7 +341,7 @@ static_assert(!FloatingPoint<bksge::string>, "");
 static_assert( EqualityComparable<int, int>, "");
 static_assert( EqualityComparable<int, float>, "");
 static_assert(!EqualityComparable<int, bksge::string>, "");
-static_assert( SequenceContainer<std::vector<int>>, "");
+static_assert( SequenceContainer<bksge::vector<int>>, "");
 static_assert( SequenceContainer<bksge::string>, "");
 static_assert(!SequenceContainer<int>, "");
 
@@ -401,7 +401,7 @@ GTEST_TEST(ConfigTest, Cxx20VaOptTest)
 	static_assert(F(3, "Hello", 'A') == 3, "");
 #undef F
 
-#define F(name, ...) std::vector<int> name __VA_OPT__(= { __VA_ARGS__ })
+#define F(name, ...) bksge::vector<int> name __VA_OPT__(= { __VA_ARGS__ })
 	F(v1);
 	F(v2, 1, 2, 3);
 

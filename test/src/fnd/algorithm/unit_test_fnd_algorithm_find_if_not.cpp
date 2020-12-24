@@ -9,8 +9,8 @@
 #include <bksge/fnd/algorithm/find_if_not.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <list>
-#include <vector>
 #include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -103,7 +103,7 @@ GTEST_TEST(AlgorithmTest, FindIfNotTest)
 	EXPECT_EQ(10, a3[1]);
 	EXPECT_EQ( 2, a3[2]);
 
-	const std::vector<int> v1 {7, 8, 9};
+	const bksge::vector<int> v1 {7, 8, 9};
 	{
 		auto it = bksge::find_if_not(bksge::begin(v1), bksge::end(v1), [](int x) { return x == 7; });
 		EXPECT_TRUE(it == bksge::begin(v1) + 1);

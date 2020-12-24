@@ -11,8 +11,8 @@
 #include <bksge/fnd/type_traits/is_empty.hpp>
 #include <bksge/fnd/type_traits/is_convertible.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
-#include <vector>
 #include "constexpr_test.hpp"
 
 GTEST_TEST(OptionalTest, InPlaceTest)
@@ -34,21 +34,21 @@ GTEST_TEST(OptionalTest, InPlaceTest)
 	}
 
 	{
-		bksge::optional<std::vector<int>> o{ bksge::in_place, 18, 4 };
+		bksge::optional<bksge::vector<int>> o{ bksge::in_place, 18, 4 };
 		EXPECT_TRUE((bool)o);
 		EXPECT_TRUE(o->size() == 18);
 		EXPECT_TRUE((*o)[17] == 4);
 	}
 
 	{
-		bksge::optional<std::vector<int>> o{ bksge::in_place, { 18, 4 } };
+		bksge::optional<bksge::vector<int>> o{ bksge::in_place, { 18, 4 } };
 		EXPECT_TRUE((bool)o);
 		EXPECT_TRUE(o->size() == 2);
 		EXPECT_TRUE((*o)[0] == 18);
 	}
 
 	{
-		bksge::optional<std::vector<int>> o{ bksge::in_place, { 18, 4 }, std::allocator<int> {} };
+		bksge::optional<bksge::vector<int>> o{ bksge::in_place, { 18, 4 }, std::allocator<int> {} };
 		EXPECT_TRUE((bool)o);
 		EXPECT_TRUE(o->size() == 2);
 		EXPECT_TRUE((*o)[0] == 18);

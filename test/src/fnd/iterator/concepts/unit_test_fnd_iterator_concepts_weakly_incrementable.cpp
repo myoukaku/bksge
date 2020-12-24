@@ -9,9 +9,9 @@
 #include <bksge/fnd/iterator/concepts/weakly_incrementable.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
 #include <iterator>
-#include <vector>
 #include "iterator_test.hpp"
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
@@ -66,9 +66,9 @@ BKSGE_WEAKLY_INCREMENTABLE_TEST(false, void const volatile** const);
 
 BKSGE_WEAKLY_INCREMENTABLE_TEST(false, bksge::unique_ptr<int>);
 BKSGE_WEAKLY_INCREMENTABLE_TEST(false, bksge::shared_ptr<int>);
-BKSGE_WEAKLY_INCREMENTABLE_TEST(false, std::vector<int>);
-BKSGE_WEAKLY_INCREMENTABLE_TEST(true,  std::vector<int>::iterator);
-BKSGE_WEAKLY_INCREMENTABLE_TEST(true,  std::vector<int>::const_iterator);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(false, bksge::vector<int>);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(true,  bksge::vector<int>::iterator);
+BKSGE_WEAKLY_INCREMENTABLE_TEST(true,  bksge::vector<int>::const_iterator);
 
 BKSGE_WEAKLY_INCREMENTABLE_TEST(false, int[]);
 BKSGE_WEAKLY_INCREMENTABLE_TEST(false, int[2]);

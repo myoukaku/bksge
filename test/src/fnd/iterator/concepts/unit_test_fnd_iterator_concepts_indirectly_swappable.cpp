@@ -9,9 +9,9 @@
 #include <bksge/fnd/iterator/concepts/indirectly_swappable.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
 #include <iterator>
-#include <vector>
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_INDIRECTLY_SWAPPABLE_TEST(B, ...)	\
@@ -77,12 +77,12 @@ BKSGE_INDIRECTLY_SWAPPABLE_TEST(false, int*, int[2]);
 BKSGE_INDIRECTLY_SWAPPABLE_TEST(false, int*, void*);
 BKSGE_INDIRECTLY_SWAPPABLE_TEST(true,  int*, bksge::unique_ptr<int>);
 BKSGE_INDIRECTLY_SWAPPABLE_TEST(true,  int*, bksge::shared_ptr<int>);
-BKSGE_INDIRECTLY_SWAPPABLE_TEST(true,  std::vector<int>::iterator,       int*);
-BKSGE_INDIRECTLY_SWAPPABLE_TEST(true,  std::vector<int>::iterator,       std::vector<int>::iterator);
-//BKSGE_INDIRECTLY_SWAPPABLE_TEST(false, std::vector<int>::iterator,       std::vector<int>::const_iterator);
-//BKSGE_INDIRECTLY_SWAPPABLE_TEST(false, std::vector<int>::const_iterator, int*);
-//BKSGE_INDIRECTLY_SWAPPABLE_TEST(false, std::vector<int>::const_iterator, std::vector<int>::iterator);
-//BKSGE_INDIRECTLY_SWAPPABLE_TEST(false, std::vector<int>::const_iterator, std::vector<int>::const_iterator);
+BKSGE_INDIRECTLY_SWAPPABLE_TEST(true,  bksge::vector<int>::iterator,       int*);
+BKSGE_INDIRECTLY_SWAPPABLE_TEST(true,  bksge::vector<int>::iterator,       bksge::vector<int>::iterator);
+//BKSGE_INDIRECTLY_SWAPPABLE_TEST(false, bksge::vector<int>::iterator,       bksge::vector<int>::const_iterator);
+//BKSGE_INDIRECTLY_SWAPPABLE_TEST(false, bksge::vector<int>::const_iterator, int*);
+//BKSGE_INDIRECTLY_SWAPPABLE_TEST(false, bksge::vector<int>::const_iterator, bksge::vector<int>::iterator);
+//BKSGE_INDIRECTLY_SWAPPABLE_TEST(false, bksge::vector<int>::const_iterator, bksge::vector<int>::const_iterator);
 BKSGE_INDIRECTLY_SWAPPABLE_TEST(true,  CopyableMovable<true,  true >*, CopyableMovable<true,  true >*);
 BKSGE_INDIRECTLY_SWAPPABLE_TEST(false, CopyableMovable<true,  true >*, CopyableMovable<true,  false>*);
 BKSGE_INDIRECTLY_SWAPPABLE_TEST(false, CopyableMovable<true,  true >*, CopyableMovable<false, true >*);

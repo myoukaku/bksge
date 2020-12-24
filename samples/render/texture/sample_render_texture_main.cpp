@@ -11,7 +11,7 @@
 #include <bksge/core/math.hpp>
 #include <bksge/fnd/memory.hpp>
 #include <bksge/fnd/cstdint.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace
 {
@@ -149,9 +149,9 @@ private:
 		return &shader;
 	}
 
-	static std::vector<bksge::Shader const*> const& GetShaderList(void)
+	static bksge::vector<bksge::Shader const*> const& GetShaderList(void)
 	{
-		static std::vector<bksge::Shader const*> const shader_list
+		static bksge::vector<bksge::Shader const*> const shader_list
 		{
 			GetGLSLShader(),
 			GetHLSLShader(),
@@ -218,8 +218,8 @@ private:
 int main()
 {
 	bksge::Extent2f const extent{800, 600};
-	std::vector<bksge::shared_ptr<bksge::Renderer>>	renderers;
-	std::vector<bksge::shared_ptr<bksge::Window>>	windows;
+	bksge::vector<bksge::shared_ptr<bksge::Renderer>>	renderers;
+	bksge::vector<bksge::shared_ptr<bksge::Window>>		windows;
 
 #if BKSGE_CORE_RENDER_HAS_D3D11_RENDERER
 	{
@@ -269,7 +269,7 @@ int main()
 	bksge::size_t const tex0_width  = 16;
 	bksge::size_t const tex0_height = 16;
 
-	std::vector<bksge::uint8_t> pixels0(tex0_width * tex0_height * 4);
+	bksge::vector<bksge::uint8_t> pixels0(tex0_width * tex0_height * 4);
 	{
 		auto* p = pixels0.data();
 		for (bksge::size_t y = 0; y < tex0_height; ++y)
@@ -289,7 +289,7 @@ int main()
 	bksge::size_t const tex1_width  = 8;
 	bksge::size_t const tex1_height = 8;
 
-	std::vector<bksge::uint8_t> pixels1(tex1_width * tex1_height * 4);
+	bksge::vector<bksge::uint8_t> pixels1(tex1_width * tex1_height * 4);
 	{
 		auto* p = pixels1.data();
 		for (bksge::size_t y = 0; y < tex1_height; ++y)
@@ -306,7 +306,7 @@ int main()
 	bksge::Texture const tex1(
 		bksge::TextureFormat::kRGBA_U8, {tex1_width, tex1_height}, pixels1.data());
 
-	std::vector<bksge::shared_ptr<Sprite>>	sprites;
+	bksge::vector<bksge::shared_ptr<Sprite>>	sprites;
 
 	{
 		auto sprite = bksge::make_shared<Sprite>(tex0, -0.5f,  0.5f);

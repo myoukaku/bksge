@@ -10,9 +10,9 @@
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <functional>
 #include <sstream>
-#include <vector>
 #include <gtest/gtest.h>
 #include "serialize_test.hpp"
 
@@ -73,7 +73,7 @@ GTEST_TEST(Render_ComparisonFunction, SerializeTest)
 GTEST_TEST(Render_ComparisonFunction, HashTest)
 {
 	std::hash<bksge::ComparisonFunction> h;
-	std::vector<bksge::size_t> v;
+	bksge::vector<bksge::size_t> v;
 	v.push_back(h(bksge::ComparisonFunction::kNever));
 	v.push_back(h(bksge::ComparisonFunction::kLess));
 	v.push_back(h(bksge::ComparisonFunction::kEqual));

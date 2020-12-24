@@ -10,8 +10,8 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <list>
-#include <vector>
 #include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -45,7 +45,7 @@ GTEST_TEST(AlgorithmTest, SearchNTest)
 		EXPECT_TRUE(it == bksge::end(a));
 	}
 	{
-		const std::vector<int> a = { 1,2,3,2,2,1,2,2,2,3,4 };
+		const bksge::vector<int> a = { 1,2,3,2,2,1,2,2,2,3,4 };
 		auto const it = bksge::search_n(bksge::begin(a), bksge::end(a), 1, 2);
 		EXPECT_TRUE(it == bksge::next(bksge::begin(a), 1));
 	}
@@ -55,7 +55,7 @@ GTEST_TEST(AlgorithmTest, SearchNTest)
 		EXPECT_TRUE(it == bksge::next(bksge::begin(a), 3));
 	}
 	{
-		const std::vector<int> a = { 1,2,3,2,2,1,2,2,2,3,4 };
+		const bksge::vector<int> a = { 1,2,3,2,2,1,2,2,2,3,4 };
 		auto const it = bksge::search_n(bksge::begin(a), bksge::end(a), 3, 2);
 		EXPECT_TRUE(it == bksge::next(bksge::begin(a), 6));
 	}
@@ -65,7 +65,7 @@ GTEST_TEST(AlgorithmTest, SearchNTest)
 		EXPECT_TRUE(it == bksge::next(bksge::begin(a), 3));
 	}
 	{
-		const std::vector<int> a = { 1,2,3,2,2,1,2,2,2,3,4 };
+		const bksge::vector<int> a = { 1,2,3,2,2,1,2,2,2,3,4 };
 		auto const it = bksge::search_n(bksge::begin(a), bksge::end(a), 3, 2, [](int x, int y) { return x >= y; });
 		EXPECT_TRUE(it == bksge::next(bksge::begin(a), 1));
 	}
@@ -75,7 +75,7 @@ GTEST_TEST(AlgorithmTest, SearchNTest)
 		EXPECT_TRUE(it == bksge::next(bksge::begin(a), 0));
 	}
 	{
-		const std::vector<int> a;
+		const bksge::vector<int> a;
 		auto const it = bksge::search_n(bksge::begin(a), bksge::end(a), 2, 3);
 		EXPECT_TRUE(it == bksge::end(a));
 	}

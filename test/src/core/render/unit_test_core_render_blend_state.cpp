@@ -10,7 +10,7 @@
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 #include <functional>
 #include <sstream>
 #include <gtest/gtest.h>
@@ -211,7 +211,7 @@ GTEST_TEST(Render_BlendState, HashTest)
 	s8.SetAlphaDstFactor(bksge::BlendFactor::kInvDestAlpha);
 	s9.SetColorWriteFlag(bksge::ColorWriteFlag::kAlpha);
 
-	std::vector<bksge::size_t> v;
+	bksge::vector<bksge::size_t> v;
 	v.push_back(h(s1));
 	v.push_back(h(s2));
 	v.push_back(h(s3));

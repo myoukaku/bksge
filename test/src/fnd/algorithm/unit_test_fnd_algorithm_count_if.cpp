@@ -9,8 +9,8 @@
 #include <bksge/fnd/algorithm/count_if.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <list>
-#include <vector>
 #include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -64,7 +64,7 @@ GTEST_TEST(AlgorithmTest, CountIfTest)
 		BKSGE_CXX17_CONSTEXPR_EXPECT_EQ( 4, bksge::count_if(bksge::begin(a), bksge::end(a), pred4()));
 	}
 	{
-		const std::vector<int> v{10, 20, 10, 30, 10, 20};
+		const bksge::vector<int> v{10, 20, 10, 30, 10, 20};
 		EXPECT_EQ(0, bksge::count_if(bksge::begin(v), bksge::end(v), pred1));
 		EXPECT_EQ(6, bksge::count_if(bksge::begin(v), bksge::end(v), pred2));
 		EXPECT_EQ(6, bksge::count_if(bksge::begin(v), bksge::end(v), pred3()));
@@ -73,7 +73,7 @@ GTEST_TEST(AlgorithmTest, CountIfTest)
 		EXPECT_EQ(4, bksge::count_if(bksge::begin(v), bksge::end(v), [](int x) { return x != 20;}));
 	}
 	{
-		const std::vector<int> v;
+		const bksge::vector<int> v;
 		EXPECT_EQ(0, bksge::count_if(bksge::begin(v), bksge::end(v), pred1));
 		EXPECT_EQ(0, bksge::count_if(bksge::begin(v), bksge::end(v), pred2));
 		EXPECT_EQ(0, bksge::count_if(bksge::begin(v), bksge::end(v), pred3()));

@@ -10,6 +10,7 @@
 #include <bksge/fnd/algorithm/ranges/none_of.hpp>
 #include <bksge/fnd/algorithm/ranges/all_of.hpp>
 #include <bksge/fnd/iterator/ranges/next.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
@@ -99,7 +100,7 @@ inline bool test02()
 		VERIFY(ranges::none_of(z, pred, proj));
 	}
 	{
-		std::vector<int> x {};
+		bksge::vector<int> x {};
 		int y[1] = {};
 		int z[1] = {};
 		auto res = ranges::partition_copy(x, y, z, [](int a) { return a%2==0; });

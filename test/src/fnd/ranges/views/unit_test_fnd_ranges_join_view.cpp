@@ -28,8 +28,8 @@
 #include <bksge/fnd/iterator/counted_iterator.hpp>
 #include <bksge/fnd/iterator/default_sentinel.hpp>
 #include <bksge/fnd/string/string.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
-#include <vector>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
 
@@ -162,12 +162,12 @@ inline bool test04()
 	namespace ranges = bksge::ranges;
 	namespace views  = ranges::views;
 
-	std::vector<bksge::string> x = {""};
+	bksge::vector<bksge::string> x = {""};
 #if defined(BKSGE_HAS_CXX17_DEDUCTION_GUIDES)
 	auto i = bksge::counted_iterator(x.begin(), 1);
 	auto r = ranges::subrange{i, bksge::default_sentinel};
 #else
-	using Iterator = std::vector<bksge::string>::iterator;
+	using Iterator = bksge::vector<bksge::string>::iterator;
 	using CountedIterator = bksge::counted_iterator<Iterator>;
 	using Subrange = ranges::subrange<CountedIterator, bksge::default_sentinel_t>;
 	auto i = CountedIterator(x.begin(), 1);
@@ -245,7 +245,7 @@ inline bool test06()
 	namespace ranges = bksge::ranges;
 	namespace views  = ranges::views;
 
-	std::vector<std::vector<std::vector<int>>> nested_vectors =
+	bksge::vector<bksge::vector<bksge::vector<int>>> nested_vectors =
 	{
 		{{1, 2, 3}, {4, 5}, {6}},
 		{{7}, {8, 9}, {10, 11, 12}},

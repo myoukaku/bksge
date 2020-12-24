@@ -7,8 +7,8 @@
  */
 
 #include <bksge/fnd/iterator/concepts/indirectly_movable.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
-#include <vector>
 #include <iterator>
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
@@ -102,14 +102,14 @@ BKSGE_INDIRECTLY_MOVABLE_TEST(false, int*, void*);
 BKSGE_INDIRECTLY_MOVABLE_TEST(true,  float*, int*);
 BKSGE_INDIRECTLY_MOVABLE_TEST(true,  char*, int*);
 BKSGE_INDIRECTLY_MOVABLE_TEST(false, void*, int*);
-BKSGE_INDIRECTLY_MOVABLE_TEST(true,  int*, std::vector<int>::iterator);
-BKSGE_INDIRECTLY_MOVABLE_TEST(false, int*, std::vector<int>::const_iterator);
-BKSGE_INDIRECTLY_MOVABLE_TEST(true,  std::vector<int>::iterator, int*);
-BKSGE_INDIRECTLY_MOVABLE_TEST(true,  std::vector<int>::iterator, std::vector<int>::iterator);
-BKSGE_INDIRECTLY_MOVABLE_TEST(false, std::vector<int>::iterator, std::vector<int>::const_iterator);
-BKSGE_INDIRECTLY_MOVABLE_TEST(true,  std::vector<int>::const_iterator, int*);
-BKSGE_INDIRECTLY_MOVABLE_TEST(true,  std::vector<int>::const_iterator, std::vector<int>::iterator);
-BKSGE_INDIRECTLY_MOVABLE_TEST(false, std::vector<int>::const_iterator, std::vector<int>::const_iterator);
+BKSGE_INDIRECTLY_MOVABLE_TEST(true,  int*, bksge::vector<int>::iterator);
+BKSGE_INDIRECTLY_MOVABLE_TEST(false, int*, bksge::vector<int>::const_iterator);
+BKSGE_INDIRECTLY_MOVABLE_TEST(true,  bksge::vector<int>::iterator, int*);
+BKSGE_INDIRECTLY_MOVABLE_TEST(true,  bksge::vector<int>::iterator, bksge::vector<int>::iterator);
+BKSGE_INDIRECTLY_MOVABLE_TEST(false, bksge::vector<int>::iterator, bksge::vector<int>::const_iterator);
+BKSGE_INDIRECTLY_MOVABLE_TEST(true,  bksge::vector<int>::const_iterator, int*);
+BKSGE_INDIRECTLY_MOVABLE_TEST(true,  bksge::vector<int>::const_iterator, bksge::vector<int>::iterator);
+BKSGE_INDIRECTLY_MOVABLE_TEST(false, bksge::vector<int>::const_iterator, bksge::vector<int>::const_iterator);
 BKSGE_INDIRECTLY_MOVABLE_TEST(true,  CopyableMovable<true,  true >*, CopyableMovable<true,  true >*);
 BKSGE_INDIRECTLY_MOVABLE_TEST(false, CopyableMovable<true,  true >*, CopyableMovable<true,  false>*);
 BKSGE_INDIRECTLY_MOVABLE_TEST(false, CopyableMovable<true,  true >*, CopyableMovable<false, true >*);

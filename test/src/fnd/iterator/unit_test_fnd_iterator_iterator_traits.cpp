@@ -11,7 +11,7 @@
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/cstddef/ptrdiff_t.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 #include <list>
 #include <forward_list>
 #include <iterator>
@@ -51,7 +51,7 @@ static_assert(bksge::is_same<bksge::iterator_traits<int const volatile*>::differ
 static_assert(bksge::is_same<bksge::iterator_traits<int const volatile*>::pointer,           int const volatile*>::value, "");
 static_assert(bksge::is_same<bksge::iterator_traits<int const volatile*>::reference,         int const volatile&>::value, "");
 
-using it1 = std::vector<float>::iterator;
+using it1 = bksge::vector<float>::iterator;
 //static_assert(bksge::is_same<bksge::iterator_traits<it1>::iterator_concept,  bksge::contiguous_iterator_tag>::value, "");
 static_assert(bksge::is_same<bksge::iterator_traits<it1>::iterator_category, bksge::random_access_iterator_tag>::value, "");
 static_assert(bksge::is_same<bksge::iterator_traits<it1>::value_type,        float>::value, "");
@@ -59,7 +59,7 @@ static_assert(bksge::is_same<bksge::iterator_traits<it1>::difference_type,   bks
 static_assert(bksge::is_same<bksge::iterator_traits<it1>::pointer,           float*>::value, "");
 static_assert(bksge::is_same<bksge::iterator_traits<it1>::reference,         float&>::value, "");
 
-using it2 = std::vector<float>::const_iterator;
+using it2 = bksge::vector<float>::const_iterator;
 //static_assert(bksge::is_same<bksge::iterator_traits<it2>::iterator_concept,  bksge::contiguous_iterator_tag>::value, "");
 static_assert(bksge::is_same<bksge::iterator_traits<it2>::iterator_category, bksge::random_access_iterator_tag>::value, "");
 static_assert(bksge::is_same<bksge::iterator_traits<it2>::value_type,        float>::value, "");

@@ -25,8 +25,8 @@
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/utility/move.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/assert.hpp>
-#include <vector>
 #include <iostream>
 
 namespace bksge
@@ -242,13 +242,13 @@ HlslShaderBase::GetBytecode(void) const
 	};
 }
 
-BKSGE_INLINE std::vector<::D3D12_DESCRIPTOR_RANGE1> const&
+BKSGE_INLINE bksge::vector<::D3D12_DESCRIPTOR_RANGE1> const&
 HlslShaderBase::GetDescriptorRanges(void) const
 {
 	return m_descriptor_ranges;
 }
 
-BKSGE_INLINE std::vector<::D3D12_DESCRIPTOR_RANGE1> const&
+BKSGE_INLINE bksge::vector<::D3D12_DESCRIPTOR_RANGE1> const&
 HlslShaderBase::GetSamplerDescriptorRanges(void) const
 {
 	return m_sampler_descriptor_ranges;

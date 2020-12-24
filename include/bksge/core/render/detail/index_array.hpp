@@ -18,7 +18,7 @@
 //#include <bksge/fnd/serialization/polymorphic_serializable.hpp>
 //#include <bksge/fnd/serialization/version.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -55,7 +55,7 @@ public:
 	T const& operator[](bksge::size_t i) const;
 
 private:
-	std::vector<T>	m_value;
+	bksge::vector<T>	m_value;
 
 private:
 #if 0

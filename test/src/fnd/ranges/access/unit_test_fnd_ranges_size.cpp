@@ -9,8 +9,8 @@
 #include <bksge/fnd/ranges/size.hpp>
 #include <bksge/fnd/ranges/concepts/disable_sized_range.hpp>
 #include <bksge/fnd/utility/move.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
-#include <vector>
 #include "constexpr_test.hpp"
 
 namespace bksge_ranges_test
@@ -107,7 +107,7 @@ BKSGE_CXX14_CONSTEXPR bool test03()
 
 bool test04()
 {
-	std::vector<int> v = {1,2,3};
+	bksge::vector<int> v = {1,2,3};
 
 	return bksge::ranges::size(v) == 3;
 }

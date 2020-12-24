@@ -19,7 +19,7 @@
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -118,7 +118,7 @@ CommandBuffer::PushDescriptorSet(
 	::VkPipelineBindPoint                      pipeline_bind_point,
 	::VkPipelineLayout                         layout,
 	bksge::uint32_t                            set,
-	std::vector<::VkWriteDescriptorSet> const& descriptor_writes)
+	bksge::vector<::VkWriteDescriptorSet> const& descriptor_writes)
 {
 	if (!descriptor_writes.empty())
 	{

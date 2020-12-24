@@ -11,8 +11,8 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/string/string.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <list>
-#include <vector>
 #include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -59,9 +59,9 @@ GTEST_TEST(AlgorithmTest, IsPermutationTest)
 		BKSGE_CXX17_CONSTEXPR_EXPECT_FALSE(bksge::is_permutation(bksge::begin(a), bksge::end(a), bksge::begin(e), bksge::end(e), bksge::equal_to<>()));
 	}
 	{
-		const std::vector<int> a { 1, 2, 3 };
-		const std::vector<int> b { 2, 3, 1 };
-		const std::vector<int> c { 2, 3, 4 };
+		const bksge::vector<int> a { 1, 2, 3 };
+		const bksge::vector<int> b { 2, 3, 1 };
+		const bksge::vector<int> c { 2, 3, 4 };
 
 		EXPECT_TRUE (bksge::is_permutation(bksge::begin(a), bksge::end(a), bksge::begin(b), pred1));
 		EXPECT_FALSE(bksge::is_permutation(bksge::begin(a), bksge::end(a), bksge::begin(c), pred1));

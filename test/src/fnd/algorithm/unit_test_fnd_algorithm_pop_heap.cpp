@@ -12,7 +12,7 @@
 #include <bksge/fnd/functional/greater.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
@@ -24,7 +24,7 @@ namespace pop_heap_test
 GTEST_TEST(AlgorithmTest, PopHeapTest)
 {
 	{
-		std::vector<int> a { 3, 1, 4, 1, 5, 9 };
+		bksge::vector<int> a { 3, 1, 4, 1, 5, 9 };
 
 		bksge::make_heap(bksge::begin(a), bksge::end(a));
 		EXPECT_TRUE(bksge::is_heap(bksge::begin(a), bksge::end(a)));
@@ -46,7 +46,7 @@ GTEST_TEST(AlgorithmTest, PopHeapTest)
 		EXPECT_TRUE(bksge::is_heap(bksge::begin(a), bksge::end(a)));
 	}
 	{
-		std::vector<int> a { 1, 1, 2, 2, 2, 3, 5, 9 };
+		bksge::vector<int> a { 1, 1, 2, 2, 2, 3, 5, 9 };
 
 		bksge::make_heap(bksge::begin(a), bksge::end(a), bksge::greater<>());
 		EXPECT_TRUE(bksge::is_heap(bksge::begin(a), bksge::end(a), bksge::greater<>()));

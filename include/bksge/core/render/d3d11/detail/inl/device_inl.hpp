@@ -18,7 +18,7 @@
 #include <bksge/core/render/d3d_common/dxgi.hpp>
 #include <bksge/core/render/d3d_common/throw_if_failed.hpp>
 #include <bksge/fnd/utility/move.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -30,7 +30,7 @@ namespace d3d11
 {
 
 BKSGE_INLINE
-Device::Device(std::vector<ComPtr<IDXGIAdapterN>> const& adapters)
+Device::Device(bksge::vector<ComPtr<IDXGIAdapterN>> const& adapters)
 {
 	::UINT create_device_flags = 0;
 #if defined(_DEBUG)

@@ -12,7 +12,7 @@
 #include <bksge/core/render/d3d12/detail/fwd/root_parameters_fwd.hpp>
 #include <bksge/core/render/d3d12/detail/fwd/hlsl_shader_fwd.hpp>
 #include <bksge/core/render/d3d_common/d3d12.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -44,7 +44,7 @@ private:
 	RootParameters& operator=(RootParameters const&) = delete;
 
 private:
-	std::vector<::D3D12_ROOT_PARAMETER1> m_root_parameters;
+	bksge::vector<::D3D12_ROOT_PARAMETER1> m_root_parameters;
 };
 
 }	// namespace d3d12

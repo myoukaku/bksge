@@ -10,7 +10,7 @@
 #include <bksge/core/render.hpp>
 #include <bksge/core/math.hpp>
 #include <bksge/fnd/memory.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 #include <random>
 
 namespace
@@ -172,9 +172,9 @@ private:
 		return &shader;
 	}
 
-	static std::vector<bksge::Shader const*> const& GetShaderList(void)
+	static bksge::vector<bksge::Shader const*> const& GetShaderList(void)
 	{
-		static std::vector<bksge::Shader const*> const shader_list
+		static bksge::vector<bksge::Shader const*> const shader_list
 		{
 			GetGLSLShader(),
 			GetHLSLShader(),
@@ -354,9 +354,9 @@ private:
 		return &shader;
 	}
 
-	static std::vector<bksge::Shader const*> const& GetShaderList(void)
+	static bksge::vector<bksge::Shader const*> const& GetShaderList(void)
 	{
-		static std::vector<bksge::Shader const*> const shader_map
+		static bksge::vector<bksge::Shader const*> const shader_map
 		{
 			GetGLSLShader(),
 			GetHLSLShader(),
@@ -514,9 +514,9 @@ private:
 		return &shader;
 	}
 
-	static std::vector<bksge::Shader const*> const& GetShaderList(void)
+	static bksge::vector<bksge::Shader const*> const& GetShaderList(void)
 	{
-		static std::vector<bksge::Shader const*> const shader_map
+		static bksge::vector<bksge::Shader const*> const shader_map
 		{
 			GetGLSLShader(),
 			GetHLSLShader(),
@@ -574,8 +574,8 @@ int main()
 {
 	bksge::Extent2f const extent{800, 600};
 
-	std::vector<bksge::shared_ptr<bksge::Renderer>>	renderers;
-	std::vector<bksge::shared_ptr<bksge::Window>>	windows;
+	bksge::vector<bksge::shared_ptr<bksge::Renderer>>	renderers;
+	bksge::vector<bksge::shared_ptr<bksge::Window>>		windows;
 
 #if BKSGE_CORE_RENDER_HAS_D3D11_RENDERER
 	{
@@ -619,7 +619,7 @@ int main()
 	}
 #endif
 
-	std::vector<bksge::shared_ptr<Primitive>>	primitives;
+	bksge::vector<bksge::shared_ptr<Primitive>>	primitives;
 
 	static const int kTriangleNum = 5;
 	static const int kLineNum = 100;

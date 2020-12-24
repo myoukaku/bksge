@@ -17,8 +17,8 @@
 #include <bksge/core/render/gl/detail/gl_h.hpp>
 #include <bksge/core/render/shader_parameter_map.hpp>
 #include <bksge/core/render/sampled_texture.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/assert.hpp>
-#include <vector>
 
 //#include <iostream>
 
@@ -37,7 +37,7 @@ GlslParameter::GlslParameter(::GLuint program, ::GLuint index)
 	::GLint max_length;
 	::glGetProgramiv(program, GL_ACTIVE_UNIFORM_MAX_LENGTH, &max_length);
 
-	std::vector<::GLchar> buf(max_length + 1);
+	bksge::vector<::GLchar> buf(max_length + 1);
 	::glGetActiveUniform(
 		program, index, max_length, nullptr, &m_size, &m_type, buf.data());
 	m_name = buf.data();

@@ -12,7 +12,7 @@
 #include <bksge/core/render/gl/detail/fwd/texture_fwd.hpp>
 #include <bksge/core/render/gl/detail/fwd/render_buffer_fwd.hpp>
 #include <bksge/core/render/gl/detail/gl_h.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -51,7 +51,7 @@ private:
 
 private:
 	::GLuint						m_id;
-	std::vector<TextureShared>	m_color_buffers;
+	bksge::vector<TextureShared>	m_color_buffers;
 };
 
 }	// namespace gl

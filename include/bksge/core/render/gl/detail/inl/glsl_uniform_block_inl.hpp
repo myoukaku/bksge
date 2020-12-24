@@ -17,7 +17,7 @@
 #include <bksge/core/render/gl/detail/uniform_buffer.hpp>
 #include <bksge/core/render/shader_parameter_map.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -35,7 +35,7 @@ GlslUniformBlock::GlslUniformBlock(::GLuint program, ::GLint uniform_block_index
 		::GLint name_length;
 		::glGetActiveUniformBlockiv(program, uniform_block_index, GL_UNIFORM_BLOCK_NAME_LENGTH, &name_length);
 
-		std::vector<::GLchar> buf(name_length + 1);
+		bksge::vector<::GLchar> buf(name_length + 1);
 		::glGetActiveUniformBlockName(program, uniform_block_index, name_length, nullptr, buf.data());
 		m_name = buf.data();
 	}
@@ -63,7 +63,7 @@ GlslUniformBlock::~GlslUniformBlock()
 BKSGE_INLINE void
 GlslUniformBlock::LoadParameter(
 	bksge::ShaderParameterMap const& shader_parameter_map,
-	std::vector<GlslParameterUnique> const& parameters)
+	bksge::vector<GlslParameterUnique> const& parameters)
 {
 	m_uniform_buffer->Bind();
 

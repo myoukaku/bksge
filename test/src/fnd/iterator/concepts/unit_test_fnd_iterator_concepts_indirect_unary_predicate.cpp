@@ -9,9 +9,9 @@
 #include <bksge/fnd/iterator/concepts/indirect_unary_predicate.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
 #include <iterator>
-#include <vector>
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_INDIRECT_UNARY_PREDICATE_TEST(B, ...)	\
@@ -60,8 +60,8 @@ BKSGE_INDIRECT_UNARY_PREDICATE_TEST(false, bool(*)(int), int[]);
 BKSGE_INDIRECT_UNARY_PREDICATE_TEST(false, bool(*)(int), int[3]);
 BKSGE_INDIRECT_UNARY_PREDICATE_TEST(true,  bool(*)(int), bksge::unique_ptr<int>);
 BKSGE_INDIRECT_UNARY_PREDICATE_TEST(true,  bool(*)(int), bksge::shared_ptr<int>);
-BKSGE_INDIRECT_UNARY_PREDICATE_TEST(true,  bool(*)(int), std::vector<int>::iterator);
-BKSGE_INDIRECT_UNARY_PREDICATE_TEST(true,  bool(*)(int), std::vector<int>::const_iterator);
+BKSGE_INDIRECT_UNARY_PREDICATE_TEST(true,  bool(*)(int), bksge::vector<int>::iterator);
+BKSGE_INDIRECT_UNARY_PREDICATE_TEST(true,  bool(*)(int), bksge::vector<int>::const_iterator);
 BKSGE_INDIRECT_UNARY_PREDICATE_TEST(false, void(*)(int), int*);
 BKSGE_INDIRECT_UNARY_PREDICATE_TEST(false, bool(*)(), int*);
 BKSGE_INDIRECT_UNARY_PREDICATE_TEST(false, bool(*)(int, int), int*);

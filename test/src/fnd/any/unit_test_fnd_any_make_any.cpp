@@ -11,9 +11,9 @@
 #include <bksge/fnd/tuple/tuple.hpp>
 #include <bksge/fnd/tuple/get.hpp>
 #include <bksge/fnd/utility/forward.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
 #include <initializer_list>
-#include <vector>
 
 namespace bksge_any_test
 {
@@ -23,7 +23,7 @@ namespace make_any_test
 
 struct combined
 {
-	std::vector<int> v;
+	bksge::vector<int> v;
 	bksge::tuple<int, int> t;
 	template <typename... Args>
 	combined(std::initializer_list<int> il, Args&&... args)
@@ -47,8 +47,8 @@ GTEST_TEST(AnyTest, MakeAnyTest)
 	EXPECT_EQ(get<0>(t), 1);
 	EXPECT_EQ(get<1>(t), 2);
 
-	auto o3 = bksge::make_any<std::vector<int>>({ 42, 666 });
-	std::vector<int>& v = bksge::any_cast<std::vector<int>&>(o3);
+	auto o3 = bksge::make_any<bksge::vector<int>>({ 42, 666 });
+	bksge::vector<int>& v = bksge::any_cast<bksge::vector<int>&>(o3);
 	EXPECT_EQ(v[0], 42);
 	EXPECT_EQ(v[1], 666);
 	EXPECT_EQ(v.size(), 2u);

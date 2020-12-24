@@ -10,8 +10,8 @@
 #include <bksge/fnd/algorithm/ranges/equal.hpp>
 #include <bksge/fnd/iterator/ranges/next.hpp>
 #include <bksge/fnd/functional/ranges/greater.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
-#include <vector>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
 
@@ -59,23 +59,23 @@ inline bool test02()
 {
 	namespace ranges = bksge::ranges;
 	{
-		std::vector<int> a { 9, 9, 7, 3, 4, 3, 2 };
+		bksge::vector<int> a { 9, 9, 7, 3, 4, 3, 2 };
 		VERIFY(true  == ranges::is_heap(a));
 	}
 	{
-		std::vector<int> a { 9, 7, 7, 8, 4, 3, 2 };
+		bksge::vector<int> a { 9, 7, 7, 8, 4, 3, 2 };
 		VERIFY(false == ranges::is_heap(a));
 	}
 	{
-		std::vector<int> a { 3, 2, 1 };
+		bksge::vector<int> a { 3, 2, 1 };
 		VERIFY(true  == ranges::is_heap(a, [](int x, int y){return x < y;}));
 	}
 	{
-		std::vector<int> a { 1, 2, 3 };
+		bksge::vector<int> a { 1, 2, 3 };
 		VERIFY(false == ranges::is_heap(a, [](int x, int y){return x < y;}));
 	}
 	{
-		std::vector<int> a { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+		bksge::vector<int> a { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 		VERIFY(true  == ranges::is_heap(a, [](int x, int y){return x < y;}));
 	}
 	return true;

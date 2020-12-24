@@ -9,8 +9,8 @@
 #include <bksge/fnd/algorithm/ranges/equal.hpp>
 #include <bksge/fnd/functional/ranges/greater.hpp>
 #include <bksge/fnd/functional/ranges/less.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
-#include <vector>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
 
@@ -153,9 +153,9 @@ bool test04()
 
 bool test05()
 {
-	std::vector<int> x = {2, 2, 6, 8, 10, 11};
-	std::vector<int> y = {2, 2, 6, 8, 10, 11};
-	std::vector<int> z = {2, 2, 6, 8, 10, 12};
+	bksge::vector<int> x = {2, 2, 6, 8, 10, 11};
+	bksge::vector<int> y = {2, 2, 6, 8, 10, 11};
+	bksge::vector<int> z = {2, 2, 6, 8, 10, 12};
 	VERIFY( bksge::ranges::equal(x, y));
 	VERIFY(!bksge::ranges::equal(x, z));
 

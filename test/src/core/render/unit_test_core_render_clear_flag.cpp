@@ -10,8 +10,8 @@
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <functional>
-#include <vector>
 #include <sstream>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -195,7 +195,7 @@ GTEST_TEST(Render_ClearFlag, SerializeTest)
 GTEST_TEST(Render_ClearFlag, HashTest)
 {
 	std::hash<bksge::ClearFlag> h;
-	std::vector<bksge::size_t> v;
+	bksge::vector<bksge::size_t> v;
 	v.push_back(h(bksge::ClearFlag::kNone));
 	v.push_back(h(bksge::ClearFlag::kColor));
 	v.push_back(h(bksge::ClearFlag::kDepth));

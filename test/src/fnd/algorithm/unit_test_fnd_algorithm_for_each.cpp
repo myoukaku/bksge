@@ -10,8 +10,8 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/utility/move.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <list>
-#include <vector>
 #include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -58,7 +58,7 @@ GTEST_TEST(AlgorithmTest, ForEachTest)
 		EXPECT_EQ(14, s.get());
 	}
 	{
-		std::vector<int> v { 1, 2, 3 };
+		bksge::vector<int> v { 1, 2, 3 };
 		auto f = bksge::for_each(bksge::begin(v), bksge::end(v), [](int& x) { x *= 2; });
 		EXPECT_EQ(2, v[0]);
 		EXPECT_EQ(4, v[1]);

@@ -11,8 +11,8 @@
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/cmath/abs.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <list>
-#include <vector>
 #include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -71,7 +71,7 @@ GTEST_TEST(AlgorithmTest, MaxElementTest)
 		}
 	}
 	{
-		const std::vector<int> a { 9, 3, 2, 3, 8, 4, 6 };
+		const bksge::vector<int> a { 9, 3, 2, 3, 8, 4, 6 };
 
 		{
 			auto ret = bksge::max_element(bksge::begin(a), bksge::end(a));

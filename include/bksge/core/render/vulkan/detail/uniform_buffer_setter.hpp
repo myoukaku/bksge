@@ -18,7 +18,7 @@
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/string/string.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -61,7 +61,7 @@ private:
 	bksge::string					m_name;
 	::VkDescriptorType				m_descriptor_type;
 	bksge::size_t					m_bytes = 0;
-	std::vector<Variable>			m_variables;
+	bksge::vector<Variable>			m_variables;
 	::VkDescriptorBufferInfo		m_buffer_info;
 };
 

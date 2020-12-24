@@ -21,6 +21,7 @@
 #include <bksge/fnd/cstdint/uint16_t.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/config.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/assert.hpp>
 
 namespace bksge
@@ -120,7 +121,7 @@ inline ColorCodeInfo GetColorCodeInfo(Color3<bksge::uint8_t> const (&palette)[N]
 	return result;
 }
 
-inline std::vector<ColorCodeInfo> ColorCodeInfoTable()
+inline bksge::vector<ColorCodeInfo> ColorCodeInfoTable()
 {
 	static const Color3<bksge::uint8_t> palette[16] =
 	{
@@ -142,7 +143,7 @@ inline std::vector<ColorCodeInfo> ColorCodeInfoTable()
 		{ 255,255,255 },
 	};
 
-	std::vector<ColorCodeInfo> result(0x1000);
+	bksge::vector<ColorCodeInfo> result(0x1000);
 	for (bksge::uint16_t i = 0; i < 0x1000; ++i)
 	{
 		auto r = U16_to_R(i);

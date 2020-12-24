@@ -11,10 +11,10 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <iterator>
 #include <sstream>
 #include <list>
-#include <vector>
 #include <array>
 #include <forward_list>
 #include <gtest/gtest.h>
@@ -31,7 +31,7 @@ GTEST_TEST(AlgorithmTest, SampleTest)
 
 	{
 		int const a[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-		std::vector<int> out;
+		bksge::vector<int> out;
 		auto i = bksge::sample(
 			bksge::begin(a), bksge::end(a),
 			std::back_inserter(out),
@@ -45,7 +45,7 @@ GTEST_TEST(AlgorithmTest, SampleTest)
 		EXPECT_TRUE(0 <= out[4] && out[4] <= 9);
 	}
 	{
-		std::vector<int> const a {10, 11, 12, 13, 14, 15, 16};
+		bksge::vector<int> const a {10, 11, 12, 13, 14, 15, 16};
 		int out[4] {};
 		auto i = bksge::sample(
 			bksge::begin(a), bksge::end(a),
@@ -88,7 +88,7 @@ GTEST_TEST(AlgorithmTest, SampleTest)
 	}
 	{
 		int const a[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-		std::vector<int> out;
+		bksge::vector<int> out;
 		auto i = bksge::sample(
 			bksge::begin(a), bksge::end(a),
 			std::back_inserter(out),
@@ -108,7 +108,7 @@ GTEST_TEST(AlgorithmTest, SampleTest)
 	}
 	{
 		int const a[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-		std::vector<int> out;
+		bksge::vector<int> out;
 		auto i = bksge::sample(
 			bksge::begin(a), bksge::end(a),
 			std::back_inserter(out),
@@ -128,7 +128,7 @@ GTEST_TEST(AlgorithmTest, SampleTest)
 	}
 	{
 		std::list<int> a {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-		std::vector<int> out;
+		bksge::vector<int> out;
 		auto i = bksge::sample(
 			bksge::begin(a), bksge::end(a),
 			std::back_inserter(out),

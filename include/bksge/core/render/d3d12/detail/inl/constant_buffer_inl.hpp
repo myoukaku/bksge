@@ -20,7 +20,7 @@
 #include <bksge/fnd/cstring/memcpy.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint8_t.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -118,7 +118,7 @@ ConstantBuffer::Subresource::~Subresource()
 }
 
 BKSGE_INLINE void
-ConstantBuffer::Subresource::Update(std::vector<bksge::uint8_t> const& buffer)
+ConstantBuffer::Subresource::Update(bksge::vector<bksge::uint8_t> const& buffer)
 {
 	bksge::memcpy(
 		m_mapped_resource,

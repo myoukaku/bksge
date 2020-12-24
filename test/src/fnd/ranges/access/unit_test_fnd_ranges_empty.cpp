@@ -8,8 +8,8 @@
 
 #include <bksge/fnd/ranges/empty.hpp>
 #include <bksge/fnd/concepts/same_as.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
-#include <vector>
 #include <list>
 #include <forward_list>
 #include "constexpr_test.hpp"
@@ -29,8 +29,8 @@ BKSGE_CXX14_CONSTEXPR bool test01()
 
 bool test02()
 {
-	std::vector<int> v1 ={1};
-	std::vector<int> v2;
+	bksge::vector<int> v1 ={1};
+	bksge::vector<int> v2;
 	std::list<int>   l1 ={1,2};
 	std::list<int>   l2;
 	std::forward_list<int> fl1 ={1,2,3};

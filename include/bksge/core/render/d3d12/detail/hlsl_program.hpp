@@ -28,7 +28,7 @@
 #include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
 #include <bksge/core/render/shader_stage.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 #include <map>
 
 namespace bksge
@@ -64,11 +64,11 @@ public:
 
 private:
 	using HlslConstantBuffers =
-		std::vector<bksge::unique_ptr<HlslConstantBuffer>>;
+		bksge::vector<bksge::unique_ptr<HlslConstantBuffer>>;
 	using HlslTextures =
-		std::vector<bksge::unique_ptr<HlslTexture>>;
+		bksge::vector<bksge::unique_ptr<HlslTexture>>;
 	using HlslSamplers =
-		std::vector<bksge::unique_ptr<HlslSampler>>;
+		bksge::vector<bksge::unique_ptr<HlslSampler>>;
 
 private:
 	// noncopyable

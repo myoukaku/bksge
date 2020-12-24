@@ -9,8 +9,8 @@
 #include <bksge/fnd/algorithm/ranges/is_heap_until.hpp>
 #include <bksge/fnd/iterator/ranges/next.hpp>
 #include <bksge/fnd/functional/ranges/greater.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
-#include <vector>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
 
@@ -58,27 +58,27 @@ inline bool test02()
 {
 	namespace ranges = bksge::ranges;
 	{
-		std::vector<int> a { 9, 9, 7, 3, 4, 3, 2 };
+		bksge::vector<int> a { 9, 9, 7, 3, 4, 3, 2 };
 		auto ret = ranges::is_heap_until(a.begin(), a.end());
 		VERIFY(ret == ranges::next(a.begin(), 7));
 	}
 	{
-		std::vector<int> a { 9, 7, 7, 8, 4, 3, 2 };
+		bksge::vector<int> a { 9, 7, 7, 8, 4, 3, 2 };
 		auto ret = ranges::is_heap_until(a.begin(), a.end());
 		VERIFY(ret == ranges::next(a.begin(), 3));
 	}
 	{
-		std::vector<int> a { 3, 2, 1 };
+		bksge::vector<int> a { 3, 2, 1 };
 		auto ret = ranges::is_heap_until(a, [](int x, int y){return x < y;});
 		VERIFY(ret == ranges::next(a.begin(), 3));
 	}
 	{
-		std::vector<int> a { 1, 2, 3 };
+		bksge::vector<int> a { 1, 2, 3 };
 		auto ret = ranges::is_heap_until(a, [](int x, int y){return x < y;});
 		VERIFY(ret == ranges::next(a.begin(), 1));
 	}
 	{
-		std::vector<int> a { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+		bksge::vector<int> a { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 		auto ret = ranges::is_heap_until(a, [](int x, int y){return x < y;});
 		VERIFY(ret == a.end());
 	}

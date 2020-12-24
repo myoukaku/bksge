@@ -9,8 +9,8 @@
 #include <bksge/fnd/numeric/inner_product.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <array>
-#include <vector>
 #include <list>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -75,7 +75,7 @@ GTEST_TEST(NumericTest, InnerProductTest)
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST std::array<int, 3> a1 = {{ 2, 3, 4 }};
-		const std::vector<int> v1 = {{ 4, 5, 6 }};
+		const bksge::vector<int> v1 = {{ 4, 5, 6 }};
 		auto const x1 = bksge::inner_product(bksge::begin(a1), bksge::end(a1), bksge::begin(v1), 0);
 		EXPECT_EQ(47, x1);
 		auto const x2 = bksge::inner_product(bksge::begin(a1), bksge::end(a1), bksge::begin(v1), 20);
@@ -90,15 +90,15 @@ GTEST_TEST(NumericTest, InnerProductTest)
 		EXPECT_EQ(67, x2);
 	}
 	{
-		std::vector<int> v1 = { 3, 4, 5, 6 };
-		std::vector<int> v2 = { 5, 6, 7, 8 };
+		bksge::vector<int> v1 = { 3, 4, 5, 6 };
+		bksge::vector<int> v2 = { 5, 6, 7, 8 };
 		auto x1 = bksge::inner_product(bksge::begin(v1), bksge::end(v1), bksge::begin(v2), 0);
 		EXPECT_EQ(122, x1);
 		auto x2 = bksge::inner_product(bksge::begin(v1), bksge::end(v1), bksge::begin(v2), 30);
 		EXPECT_EQ(152, x2);
 	}
 	{
-		std::vector<int> v1 = { 3, 4, 5, 6 };
+		bksge::vector<int> v1 = { 3, 4, 5, 6 };
 		std::list<int> l1 = { 5, 6, 7, 8 };
 		auto x1 = bksge::inner_product(bksge::begin(v1), bksge::end(v1), bksge::begin(l1), 0);
 		EXPECT_EQ(122, x1);
@@ -106,8 +106,8 @@ GTEST_TEST(NumericTest, InnerProductTest)
 		EXPECT_EQ(152, x2);
 	}
 	{
-		std::vector<int> v1;
-		std::vector<int> v2;
+		bksge::vector<int> v1;
+		bksge::vector<int> v2;
 		auto x1 = bksge::inner_product(bksge::begin(v1), bksge::end(v1), bksge::begin(v2), 0);
 		EXPECT_EQ(0, x1);
 		auto x2 = bksge::inner_product(bksge::begin(v1), bksge::end(v1), bksge::begin(v2), 30);

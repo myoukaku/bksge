@@ -11,8 +11,8 @@
 #include <bksge/fnd/concepts/same_as.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/declval.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
-#include <vector>
 #include "constexpr_test.hpp"
 
 namespace bksge_ranges_test
@@ -87,7 +87,7 @@ BKSGE_CXX14_CONSTEXPR bool test01()
 
 bool test02()
 {
-	std::vector<int> v ={1,2,3};
+	bksge::vector<int> v ={1,2,3};
 
 	static_assert(bksge::is_same<decltype(bksge::ranges::begin(v)), decltype(v.begin())>::value, "");
 	return bksge::ranges::begin(v) == v.begin();

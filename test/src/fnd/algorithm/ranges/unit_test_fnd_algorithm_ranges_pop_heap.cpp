@@ -10,8 +10,8 @@
 #include <bksge/fnd/algorithm/ranges/make_heap.hpp>
 #include <bksge/fnd/algorithm/ranges/is_heap.hpp>
 #include <bksge/fnd/functional/ranges/greater.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
-#include <vector>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
 
@@ -66,7 +66,7 @@ inline bool test02()
 {
 	namespace ranges = bksge::ranges;
 	{
-		std::vector<int> a { 3, 1, 4, 1, 5, 9 };
+		bksge::vector<int> a { 3, 1, 4, 1, 5, 9 };
 
 		auto it = ranges::make_heap(a);
 		VERIFY(it == a.end());
@@ -93,7 +93,7 @@ inline bool test02()
 		VERIFY(ranges::is_heap(a));
 	}
 	{
-		std::vector<int> a { 1, 1, 2, 2, 2, 3, 5, 9 };
+		bksge::vector<int> a { 1, 1, 2, 2, 2, 3, 5, 9 };
 		auto pred = ranges::greater{};
 
 		auto it = ranges::make_heap(a, pred);

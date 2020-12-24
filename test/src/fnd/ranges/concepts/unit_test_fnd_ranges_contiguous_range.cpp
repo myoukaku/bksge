@@ -8,8 +8,8 @@
 
 #include <bksge/fnd/ranges/concepts/contiguous_range.hpp>
 #include <bksge/fnd/string/string.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <array>
-#include <vector>
 #include <deque>
 #include <list>
 #include <forward_list>
@@ -40,7 +40,7 @@ BKSGE_RANGES_CONTIGUOUS_RANGE_TEST(false, int const*);
 
 #if 0
 BKSGE_RANGES_CONTIGUOUS_RANGE_TEST(true,  std::array<int, 2>);
-BKSGE_RANGES_CONTIGUOUS_RANGE_TEST(true,  std::vector<int>);
+BKSGE_RANGES_CONTIGUOUS_RANGE_TEST(true,  bksge::vector<int>);
 BKSGE_RANGES_CONTIGUOUS_RANGE_TEST(false, std::deque<int>);
 BKSGE_RANGES_CONTIGUOUS_RANGE_TEST(false, std::list<int>);
 BKSGE_RANGES_CONTIGUOUS_RANGE_TEST(false, std::forward_list<int>);

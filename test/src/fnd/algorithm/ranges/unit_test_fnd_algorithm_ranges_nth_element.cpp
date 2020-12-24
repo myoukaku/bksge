@@ -14,8 +14,8 @@
 #include <bksge/fnd/functional/identity.hpp>
 #include <bksge/fnd/ranges/begin.hpp>
 #include <bksge/fnd/ranges/end.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
-#include <vector>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
 
@@ -109,7 +109,7 @@ inline bool test02()
 	}
 
 	{
-		std::vector<int> a = {};
+		bksge::vector<int> a = {};
 		auto it = ranges::nth_element(a, a.begin());
 		VERIFY(it == a.end());
 	}

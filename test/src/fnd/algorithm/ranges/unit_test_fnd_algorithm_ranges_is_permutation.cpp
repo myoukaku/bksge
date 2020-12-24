@@ -7,8 +7,8 @@
  */
 
 #include <bksge/fnd/algorithm/ranges/is_permutation.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
-#include <vector>
 #include <forward_list>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
@@ -59,18 +59,18 @@ inline bool test03()
 {
 	namespace ranges = bksge::ranges;
 	{
-		std::vector<int> x{};
-		std::vector<int> y{};
+		bksge::vector<int> x{};
+		bksge::vector<int> y{};
 		VERIFY(ranges::is_permutation(x, y));
 	}
 	{
-		std::vector<int> x{1,2,3};
-		std::vector<int> y{2,3,1};
+		bksge::vector<int> x{1,2,3};
+		bksge::vector<int> y{2,3,1};
 		VERIFY(ranges::is_permutation(x, y));
 	}
 	{
-		std::vector<int> x{1,2,3};
-		std::vector<int> y{1,2};
+		bksge::vector<int> x{1,2,3};
+		bksge::vector<int> y{1,2};
 		VERIFY(!ranges::is_permutation(x, y));
 	}
 	{

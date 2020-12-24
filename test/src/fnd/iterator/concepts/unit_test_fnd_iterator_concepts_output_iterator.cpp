@@ -9,6 +9,7 @@
 #include <bksge/fnd/iterator/concepts/output_iterator.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/string_view.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
 #include <iterator>
 #include <array>
@@ -16,7 +17,6 @@
 #include <forward_list>
 #include <list>
 #include <set>
-#include <vector>
 #include "iterator_test.hpp"
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
@@ -93,10 +93,10 @@ BKSGE_OUTPUT_ITERATOR_TEST(false, bksge::string_view::iterator, char);
 BKSGE_OUTPUT_ITERATOR_TEST(false, bksge::string_view::iterator, int);
 BKSGE_OUTPUT_ITERATOR_TEST(false, bksge::string_view::const_iterator, char);
 BKSGE_OUTPUT_ITERATOR_TEST(false, bksge::string_view::const_iterator, int);
-BKSGE_OUTPUT_ITERATOR_TEST(true,  std::vector<int>::iterator, int);
-BKSGE_OUTPUT_ITERATOR_TEST(true,  std::vector<A>::iterator, A);
-BKSGE_OUTPUT_ITERATOR_TEST(false, std::vector<int>::const_iterator, int);
-BKSGE_OUTPUT_ITERATOR_TEST(false, std::vector<A>::const_iterator, A);
+BKSGE_OUTPUT_ITERATOR_TEST(true,  bksge::vector<int>::iterator, int);
+BKSGE_OUTPUT_ITERATOR_TEST(true,  bksge::vector<A>::iterator, A);
+BKSGE_OUTPUT_ITERATOR_TEST(false, bksge::vector<int>::const_iterator, int);
+BKSGE_OUTPUT_ITERATOR_TEST(false, bksge::vector<A>::const_iterator, A);
 
 BKSGE_OUTPUT_ITERATOR_TEST(false, weakly_incrementable_wrapper<int>,     int);
 BKSGE_OUTPUT_ITERATOR_TEST(false, incrementable_wrapper<int>,            int);

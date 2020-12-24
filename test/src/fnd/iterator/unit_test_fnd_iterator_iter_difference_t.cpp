@@ -9,8 +9,7 @@
 #include <bksge/fnd/iterator/iter_difference_t.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/cstddef/ptrdiff_t.hpp>
-#include <vector>
-#include "constexpr_test.hpp"
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge_iterator_test
 {
@@ -34,8 +33,8 @@ struct can_difference
 
 using T = int;
 
-using vec_iterator = std::vector<T>::iterator;
-using vec_const_iterator = std::vector<T>::const_iterator;
+using vec_iterator = bksge::vector<T>::iterator;
+using vec_const_iterator = bksge::vector<T>::const_iterator;
 
 static_assert(bksge::is_same<bksge::iter_difference_t<T      *                   >, bksge::ptrdiff_t>::value, "");
 static_assert(bksge::is_same<bksge::iter_difference_t<T const*                   >, bksge::ptrdiff_t>::value, "");
@@ -49,8 +48,8 @@ static_assert(bksge::is_same<bksge::iter_difference_t<vec_iterator              
 static_assert(bksge::is_same<bksge::iter_difference_t<vec_iterator const         >, bksge::ptrdiff_t>::value, "");
 static_assert(bksge::is_same<bksge::iter_difference_t<vec_const_iterator         >, bksge::ptrdiff_t>::value, "");
 static_assert(bksge::is_same<bksge::iter_difference_t<vec_const_iterator const   >, bksge::ptrdiff_t>::value, "");
-static_assert(bksge::is_same<bksge::iter_difference_t<std::vector<T>             >, bksge::ptrdiff_t>::value, "");
-static_assert(bksge::is_same<bksge::iter_difference_t<std::vector<T> const       >, bksge::ptrdiff_t>::value, "");
+static_assert(bksge::is_same<bksge::iter_difference_t<bksge::vector<T>           >, bksge::ptrdiff_t>::value, "");
+static_assert(bksge::is_same<bksge::iter_difference_t<bksge::vector<T> const     >, bksge::ptrdiff_t>::value, "");
 static_assert(bksge::is_same<bksge::iter_difference_t<have_difference <T      >      >, T>::value, "");
 static_assert(bksge::is_same<bksge::iter_difference_t<have_difference <T const>      >, T const>::value, "");
 static_assert(bksge::is_same<bksge::iter_difference_t<have_difference <T      > const>, T>::value, "");

@@ -10,10 +10,10 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <iterator>
 #include <sstream>
 #include <list>
-#include <vector>
 #include <array>
 #include <gtest/gtest.h>
 
@@ -59,7 +59,7 @@ GTEST_TEST(AlgorithmTest, UniqueCopyTest)
 	}
 	{
 		const std::array<int, 10> a {{ 1,1,2,2,2,3,4,4,5,5 }};
-		std::vector<int> b(10);
+		bksge::vector<int> b(10);
 		auto ret = bksge::unique_copy(bksge::begin(a), bksge::end(a), bksge::begin(b));
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(b), 5));
 
@@ -75,7 +75,7 @@ GTEST_TEST(AlgorithmTest, UniqueCopyTest)
 		EXPECT_EQ(0, b[9]);
 	}
 	{
-		const std::vector<int> a { 1,4,4,2,1,1,3,3,3 };
+		const bksge::vector<int> a { 1,4,4,2,1,1,3,3,3 };
 		std::list<int> b;
 		auto ret = bksge::unique_copy(bksge::begin(a), bksge::end(a), std::back_inserter(b), pred1);
 		(void)ret;
@@ -89,7 +89,7 @@ GTEST_TEST(AlgorithmTest, UniqueCopyTest)
 		EXPECT_TRUE(it == b.end());
 	}
 	{
-		const std::vector<int> a;
+		const bksge::vector<int> a;
 		int b[3] {};
 		auto ret = bksge::unique_copy(bksge::begin(a), bksge::end(a), bksge::begin(b), [](int, int){ return true; });
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(b), 0));
@@ -99,7 +99,7 @@ GTEST_TEST(AlgorithmTest, UniqueCopyTest)
 	}
 	{
 		const std::list<int> a { 1,1,1,4,4,2,3,3,2 };
-		std::vector<int> b;
+		bksge::vector<int> b;
 		auto ret = bksge::unique_copy(bksge::begin(a), bksge::end(a), std::back_inserter(b), pred2());
 		(void)ret;
 
@@ -111,7 +111,7 @@ GTEST_TEST(AlgorithmTest, UniqueCopyTest)
 	}
 	{
 		const std::list<int> a;
-		std::vector<int> b;
+		bksge::vector<int> b;
 		auto ret = bksge::unique_copy(bksge::begin(a), bksge::end(a), std::back_inserter(b), [](int, int){ return false; });
 		(void)ret;
 		EXPECT_TRUE(b.empty());
@@ -120,7 +120,7 @@ GTEST_TEST(AlgorithmTest, UniqueCopyTest)
 		std::stringstream ss("1 1 1 2 2 3 33");
 		std::istream_iterator<int> ii_first(ss);
 		std::istream_iterator<int> ii_last;
-		std::vector<int> b;
+		bksge::vector<int> b;
 		auto ret = bksge::unique_copy(ii_first, ii_last, std::back_inserter(b));
 		(void)ret;
 		EXPECT_EQ( 4u, b.size());

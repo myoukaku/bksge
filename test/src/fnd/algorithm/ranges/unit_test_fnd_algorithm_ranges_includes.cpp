@@ -8,8 +8,8 @@
 
 #include <bksge/fnd/algorithm/ranges/includes.hpp>
 #include <bksge/fnd/functional/ranges/greater.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
-#include <vector>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
 
@@ -80,8 +80,8 @@ inline bool test02()
 		VERIFY(!ranges::includes(y, x, {}, &X::i, &X::i));
 	}
 	{
-		std::vector<int> x = {};
-		std::vector<int> y = {};
+		bksge::vector<int> x = {};
+		bksge::vector<int> y = {};
 		VERIFY( ranges::includes(x, y));
 		VERIFY( ranges::includes(y, x));
 	}

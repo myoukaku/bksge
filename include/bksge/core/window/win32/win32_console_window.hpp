@@ -19,7 +19,7 @@
 #include <bksge/fnd/cstdint/uint8_t.hpp>
 #include <bksge/fnd/cstdint/int32_t.hpp>
 #include <bksge/fnd/string/string.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -51,8 +51,8 @@ private:
 	::COORD						m_font_size;
 	::COORD						m_screen_size;
 	::SMALL_RECT				m_window_rect;
-	std::vector<::CHAR_INFO>	m_screen_buf;
-	std::vector<Color3_u8>		m_color_buf;
+	bksge::vector<::CHAR_INFO>	m_screen_buf;
+	bksge::vector<Color3_u8>	m_color_buf;
 };
 
 }	// namespace window

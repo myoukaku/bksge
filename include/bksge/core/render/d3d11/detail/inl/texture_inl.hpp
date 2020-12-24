@@ -19,7 +19,7 @@
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint8_t.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -64,7 +64,7 @@ Texture::Texture(Device* device, bksge::Texture const& texture)
 	auto height = texture.height();
 	bksge::uint8_t const* data = texture.data();
 
-	std::vector<::D3D11_SUBRESOURCE_DATA> init_data_list;
+	bksge::vector<::D3D11_SUBRESOURCE_DATA> init_data_list;
 	for (bksge::size_t level = 0; level < texture.mipmap_count(); ++level)
 	{
 		::D3D11_SUBRESOURCE_DATA init_data{};

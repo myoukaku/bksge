@@ -15,7 +15,7 @@
 #include <bksge/core/render/gl/detail/gl_h.hpp>
 #include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
 #include <bksge/fnd/string/string.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -38,7 +38,7 @@ public:
 
 	void LoadParameter(
 		bksge::ShaderParameterMap const& shader_parameter_map,
-		std::vector<GlslParameterUnique> const& parameters);
+		bksge::vector<GlslParameterUnique> const& parameters);
 
 private:
 	// noncopyable
@@ -50,7 +50,7 @@ private:
 	::GLint					m_size = 0;
 	::GLint					m_binding = 0;
 	UniformBufferUnique		m_uniform_buffer;
-	std::vector<::GLint>	m_member_indices;
+	bksge::vector<::GLint>	m_member_indices;
 };
 
 }	// namespace gl

@@ -9,8 +9,8 @@
 #include <bksge/fnd/algorithm/find.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <list>
-#include <vector>
 #include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -86,7 +86,7 @@ GTEST_TEST(AlgorithmTest, FindTest)
 		EXPECT_EQ(20, a[2]);
 	}
 	{
-		const std::vector<int> a {7, 8, 9};
+		const bksge::vector<int> a {7, 8, 9};
 		{
 			auto it = bksge::find(bksge::begin(a), bksge::end(a), 7);
 			EXPECT_TRUE(it == bksge::begin(a));

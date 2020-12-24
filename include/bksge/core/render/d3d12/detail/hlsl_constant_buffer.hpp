@@ -17,7 +17,7 @@
 #include <bksge/core/render/d3d_common/d3d12shader.hpp>
 #include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
 #include <bksge/fnd/string/string.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -57,7 +57,7 @@ private:
 
 	bksge::string				m_name;
 	::UINT						m_size = 0;
-	std::vector<Variable>		m_variables;
+	bksge::vector<Variable>		m_variables;
 };
 
 }	// namespace d3d12

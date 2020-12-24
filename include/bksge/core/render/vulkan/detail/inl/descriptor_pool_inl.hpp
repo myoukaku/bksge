@@ -17,7 +17,7 @@
 #include <bksge/core/render/vulkan/detail/shader_reflection.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
-#include <vector>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -35,7 +35,7 @@ DescriptorPool::DescriptorPool(
 	: m_device(device)
 	, m_descriptor_pool(VK_NULL_HANDLE)
 {
-	std::vector<::VkDescriptorPoolSize> type_count;
+	bksge::vector<::VkDescriptorPoolSize> type_count;
 
 	::VkDescriptorType const descriptor_type_tbl[] =
 	{
@@ -69,7 +69,7 @@ DescriptorPool::~DescriptorPool()
 
 BKSGE_INLINE void
 DescriptorPool::AllocateDescriptorSets(
-	std::vector<::VkDescriptorSetLayout> const& descriptor_set_layouts,
+	bksge::vector<::VkDescriptorSetLayout> const& descriptor_set_layouts,
 	VkDescriptorSet*                            descriptor_sets)
 {
 	vk::DescriptorSetAllocateInfo info;
@@ -80,7 +80,7 @@ DescriptorPool::AllocateDescriptorSets(
 
 BKSGE_INLINE void
 DescriptorPool::FreeDescriptorSets(
-	std::vector<::VkDescriptorSet> const& descriptor_sets)
+	bksge::vector<::VkDescriptorSet> const& descriptor_sets)
 {
 	vk::FreeDescriptorSets(
 		*m_device,

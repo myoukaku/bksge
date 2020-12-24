@@ -10,8 +10,8 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <list>
-#include <vector>
 #include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -85,7 +85,7 @@ GTEST_TEST(AlgorithmTest, EqualRangeTest)
 	}
 	{
 		// ソートされていなくても区分化されていれば良い
-		const std::vector<int> a { 2,1,2,3,3,4,7,5,5 };
+		const bksge::vector<int> a { 2,1,2,3,3,4,7,5,5 };
 		{
 			auto ret = bksge::equal_range(bksge::begin(a), bksge::end(a), 3);
 			EXPECT_TRUE(ret.first  == bksge::next(bksge::begin(a), 3));
@@ -101,7 +101,7 @@ GTEST_TEST(AlgorithmTest, EqualRangeTest)
 		}
 	}
 	{
-		const std::vector<int> a;
+		const bksge::vector<int> a;
 		{
 			auto ret = bksge::equal_range(bksge::begin(a), bksge::end(a), 0);
 			EXPECT_TRUE(ret.first  == bksge::begin(a));

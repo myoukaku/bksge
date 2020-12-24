@@ -11,8 +11,8 @@
 #include <bksge/fnd/concepts/same_as.hpp>
 #include <bksge/fnd/concepts/signed_integral.hpp>
 #include <bksge/fnd/cstddef/ptrdiff_t.hpp>
+#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
-#include <vector>
 #include "constexpr_test.hpp"
 
 namespace bksge_ranges_test
@@ -68,7 +68,7 @@ BKSGE_CXX14_CONSTEXPR bool test01()
 
 bool test02()
 {
-	std::vector<int> v = {1,2,3,4};
+	bksge::vector<int> v = {1,2,3,4};
 	static_assert(bksge::is_signed_integral<decltype(bksge::ranges::ssize(v))>::value, "");
 	return bksge::ranges::size(v) == 4;
 }
