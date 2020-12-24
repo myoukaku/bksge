@@ -10,9 +10,9 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/utility/move.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -53,7 +53,7 @@ GTEST_TEST(AlgorithmTest, ForEachTest)
 		EXPECT_EQ(3, n);
 	}
 	{
-		const std::array<int, 5> a {{ 3, 1, 4, 1, 5 }};
+		const bksge::array<int, 5> a {{ 3, 1, 4, 1, 5 }};
 		auto s = bksge::for_each(bksge::begin(a), bksge::end(a), Sum());
 		EXPECT_EQ(14, s.get());
 	}

@@ -10,10 +10,10 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <iterator>
-#include <array>
+#include <iterator>	// back_inserter
 #include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
@@ -63,7 +63,7 @@ GTEST_TEST(AlgorithmTest, ReplaceCopyIfTest)
 		EXPECT_EQ(5, b[4]);
 	}
 	{
-		const std::array<int, 6> a {{ 3,1,2,1,2,3 }};
+		const bksge::array<int, 6> a {{ 3,1,2,1,2,3 }};
 		bksge::list<int> b;
 		auto ret = bksge::replace_copy_if(bksge::begin(a), bksge::end(a), std::back_inserter(b), [](int a) { return a == 3; }, 5);
 		(void)ret;
@@ -78,7 +78,7 @@ GTEST_TEST(AlgorithmTest, ReplaceCopyIfTest)
 	}
 	{
 		const bksge::vector<int> a { 3,1,4,1,5,9,2 };
-		std::array<int, 7> b{{}};
+		bksge::array<int, 7> b{{}};
 		auto ret = bksge::replace_copy_if(bksge::begin(a), bksge::end(a), bksge::begin(b), [](int a) { return (a % 2) == 0; }, 0);
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(b), 7));
 		EXPECT_EQ(3, b[0]);

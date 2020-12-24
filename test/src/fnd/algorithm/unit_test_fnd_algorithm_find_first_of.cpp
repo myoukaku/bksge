@@ -10,9 +10,9 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -60,12 +60,12 @@ GTEST_TEST(AlgorithmTest, FindFirstOfTest)
 	}
 	{
 		BKSGE_STATIC_CONSTEXPR int a[] { 1, 3, 7, 4, 2 };
-		BKSGE_STATIC_CONSTEXPR std::array<int, 2> b {{ 6, 8 }};
+		BKSGE_STATIC_CONSTEXPR bksge::array<int, 2> b {{ 6, 8 }};
 		BKSGE_CXX17_CONSTEXPR_OR_CONST auto it = bksge::find_first_of(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b));
 		BKSGE_CXX17_CONSTEXPR_EXPECT_EQ(it, bksge::end(a));
 	}
 	{
-		BKSGE_STATIC_CONSTEXPR std::array<int, 5> a {{ 1, 3, 5, 7, 9 }};
+		BKSGE_STATIC_CONSTEXPR bksge::array<int, 5> a {{ 1, 3, 5, 7, 9 }};
 		BKSGE_STATIC_CONSTEXPR int b[] { 3, 1 };
 		BKSGE_CXX17_CONSTEXPR_OR_CONST auto it = bksge::find_first_of(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b));
 		BKSGE_CXX17_CONSTEXPR_EXPECT_EQ(it, bksge::next(bksge::begin(a), 0));

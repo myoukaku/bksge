@@ -9,9 +9,9 @@
 #include <bksge/fnd/algorithm/generate.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -59,7 +59,7 @@ GTEST_TEST(AlgorithmTest, GenerateTest)
 		EXPECT_EQ(4, a[4]);
 	}
 	{
-		std::array<int, 6> a {{}};
+		bksge::array<int, 6> a {{}};
 		bksge::generate(bksge::begin(a), bksge::end(a), pred2());
 		EXPECT_EQ( 3, a[0]);
 		EXPECT_EQ( 5, a[1]);

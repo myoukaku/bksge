@@ -7,9 +7,9 @@
  */
 
 #include <bksge/fnd/iterator/data.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
-#include <array>
 #include "constexpr_test.hpp"
 
 GTEST_TEST(IteratorTest, DataTest)
@@ -31,7 +31,7 @@ GTEST_TEST(IteratorTest, DataTest)
 		EXPECT_EQ(&a[0], bksge::data(a));
 	}
 	{
-		BKSGE_CONSTEXPR std::array<char, 5> a {};
+		BKSGE_CONSTEXPR bksge::array<char, 5> a {};
 		BKSGE_CXX17_CONSTEXPR_EXPECT_EQ(&a[0], bksge::data(a));
 	}
 	{

@@ -11,8 +11,8 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -50,15 +50,15 @@ GTEST_TEST(AlgorithmTest, IsHeapTest)
 		EXPECT_FALSE(bksge::is_heap(bksge::begin(a), bksge::end(a)));
 	}
 	{
-		const std::array<int, 3> a {{ 1, 2, 3 }};
+		const bksge::array<int, 3> a {{ 1, 2, 3 }};
 		EXPECT_FALSE(bksge::is_heap(bksge::begin(a), bksge::end(a), pred1));
 	}
 	{
-		const std::array<int, 3> a {{ 3, 2, 1 }};
+		const bksge::array<int, 3> a {{ 3, 2, 1 }};
 		EXPECT_TRUE(bksge::is_heap(bksge::begin(a), bksge::end(a), pred1));
 	}
 	{
-		const std::array<int, 8> a {{ 9, 5, 4, 1, 1, 3, 2, 6 }};
+		const bksge::array<int, 8> a {{ 9, 5, 4, 1, 1, 3, 2, 6 }};
 		EXPECT_FALSE(bksge::is_heap(bksge::begin(a), bksge::end(a), pred1));
 	}
 	{

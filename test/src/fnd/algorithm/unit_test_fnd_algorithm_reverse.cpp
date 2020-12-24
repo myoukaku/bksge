@@ -9,9 +9,9 @@
 #include <bksge/fnd/algorithm/reverse.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
@@ -35,7 +35,7 @@ GTEST_TEST(AlgorithmTest, ReverseTest)
 		EXPECT_EQ(4, a[0]);
 	}
 	{
-		std::array<int, 4> a {{ 1,2,3,4 }};
+		bksge::array<int, 4> a {{ 1,2,3,4 }};
 		bksge::reverse(bksge::begin(a), bksge::end(a));
 		EXPECT_EQ(4, a[0]);
 		EXPECT_EQ(3, a[1]);

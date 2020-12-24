@@ -10,8 +10,8 @@
 #include <bksge/fnd/functional/greater.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
@@ -65,7 +65,7 @@ GTEST_TEST(AlgorithmTest, InplaceMergeTest)
 		EXPECT_EQ(1, a[2]);
 	}
 	{
-		std::array<int, 10> a {{ 1,2,5,7,  2,2,3,3,5,6 }};
+		bksge::array<int, 10> a {{ 1,2,5,7,  2,2,3,3,5,6 }};
 
 		bksge::inplace_merge(bksge::begin(a), bksge::begin(a) + 4, bksge::end(a));
 
@@ -81,7 +81,7 @@ GTEST_TEST(AlgorithmTest, InplaceMergeTest)
 		EXPECT_EQ(7, a[9]);
 	}
 	{
-		std::array<int, 10> a {{ 7,5,2,1,  6,5,3,3,2,2 }};
+		bksge::array<int, 10> a {{ 7,5,2,1,  6,5,3,3,2,2 }};
 
 		bksge::inplace_merge(bksge::begin(a), bksge::begin(a) + 4, bksge::end(a), bksge::greater<>());
 
@@ -97,7 +97,7 @@ GTEST_TEST(AlgorithmTest, InplaceMergeTest)
 		EXPECT_EQ(1, a[9]);
 	}
 	{
-		std::array<int, 2> a {{ 3, 1 }};
+		bksge::array<int, 2> a {{ 3, 1 }};
 
 		bksge::inplace_merge(bksge::begin(a), bksge::begin(a) + 1, bksge::end(a));
 
@@ -105,7 +105,7 @@ GTEST_TEST(AlgorithmTest, InplaceMergeTest)
 		EXPECT_EQ(3, a[1]);
 	}
 	{
-		std::array<int, 2> a {{ 1, 3 }};
+		bksge::array<int, 2> a {{ 1, 3 }};
 
 		bksge::inplace_merge(bksge::begin(a), bksge::begin(a) + 1, bksge::end(a), bksge::greater<>());
 

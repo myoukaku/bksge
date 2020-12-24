@@ -9,9 +9,9 @@
 #include <bksge/fnd/algorithm/none_of.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -54,7 +54,7 @@ GTEST_TEST(AlgorithmTest, NoneOfTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_FALSE(bksge::none_of(bksge::begin(a1), bksge::end(a1), pred3()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE (bksge::none_of(bksge::begin(a1), bksge::end(a1), pred4()));
 
-	BKSGE_STATIC_CONSTEXPR std::array<int, 8> a2{{2, 4, 4, 8, 6, 4, 0, 6}};
+	BKSGE_STATIC_CONSTEXPR bksge::array<int, 8> a2{{2, 4, 4, 8, 6, 4, 0, 6}};
 	BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE (bksge::none_of(bksge::begin(a2), bksge::end(a2), pred1));
 	BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE (bksge::none_of(bksge::begin(a2), bksge::end(a2), pred2));
 	BKSGE_CXX17_CONSTEXPR_EXPECT_FALSE(bksge::none_of(bksge::begin(a2), bksge::end(a2), pred3()));

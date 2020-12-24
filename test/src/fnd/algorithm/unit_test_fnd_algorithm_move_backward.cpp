@@ -11,9 +11,9 @@
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/utility/move.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -97,7 +97,7 @@ GTEST_TEST(AlgorithmTest, MoveBackwardTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(move_backward_test());
 
 	{
-		std::array<noncopyable, 4> a =
+		bksge::array<noncopyable, 4> a =
 		{{
 			noncopyable(9),
 			noncopyable(8),

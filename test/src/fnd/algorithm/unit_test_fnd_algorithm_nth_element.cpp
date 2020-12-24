@@ -11,8 +11,8 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
@@ -68,13 +68,13 @@ GTEST_TEST(AlgorithmTest, NthElementTest)
 	}
 	{
 		const int nth = 5;
-		std::array<int, 10> a {{ 3, 1, 4, 1, 5, 9, 2, 6, 5, 3 }};
+		bksge::array<int, 10> a {{ 3, 1, 4, 1, 5, 9, 2, 6, 5, 3 }};
 		bksge::nth_element(bksge::begin(a), bksge::next(bksge::begin(a), nth), bksge::end(a));
 		NthElementTest(bksge::begin(a), bksge::next(bksge::begin(a), nth), bksge::end(a));
 	}
 	{
 		const int nth = 7;
-		std::array<int, 10> a {{ 3, 1, 4, 1, 5, 9, 2, 6, 5, 3 }};
+		bksge::array<int, 10> a {{ 3, 1, 4, 1, 5, 9, 2, 6, 5, 3 }};
 		bksge::nth_element(bksge::begin(a), bksge::next(bksge::begin(a), nth), bksge::end(a), bksge::greater<>());
 		NthElementTest(bksge::begin(a), bksge::next(bksge::begin(a), nth), bksge::end(a), bksge::greater<>());
 	}

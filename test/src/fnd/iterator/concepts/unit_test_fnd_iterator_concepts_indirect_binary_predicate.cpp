@@ -11,7 +11,6 @@
 #include <bksge/fnd/memory/shared_ptr.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
-#include <iterator>
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_INDIRECT_BINARY_PREDICATE_TEST(B, ...)	\

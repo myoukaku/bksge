@@ -10,9 +10,9 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -70,7 +70,7 @@ GTEST_TEST(AlgorithmTest, MismatchTest)
 		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(p.second == bksge::next(bksge::begin(a2), 4));
 	}
 	{
-		BKSGE_STATIC_CONSTEXPR std::array<int, 6> a1 ={{ 1,2,3,4,5,6 }};
+		BKSGE_STATIC_CONSTEXPR bksge::array<int, 6> a1 ={{ 1,2,3,4,5,6 }};
 		BKSGE_STATIC_CONSTEXPR int a2[]                = { 1,2,3,1,5 };
 		BKSGE_CXX17_CONSTEXPR_OR_CONST auto p =
 			bksge::mismatch(bksge::begin(a1), bksge::end(a1), bksge::begin(a2));
@@ -79,7 +79,7 @@ GTEST_TEST(AlgorithmTest, MismatchTest)
 	}
 	{
 		const bksge::vector<int>     v = { 1,2,3,4,3,2 };
-		const std::array<int, 6> a ={{ 1,2,4,3,2,1 }};
+		const bksge::array<int, 6> a ={{ 1,2,4,3,2,1 }};
 		auto const p = bksge::mismatch(bksge::begin(v), bksge::end(v), bksge::begin(a));
 		EXPECT_TRUE(p.first  == bksge::next(bksge::begin(v), 2));
 		EXPECT_TRUE(p.second == bksge::next(bksge::begin(a), 2));

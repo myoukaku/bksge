@@ -9,10 +9,10 @@
 #include <bksge/fnd/iterator/distance.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
-#include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -54,15 +54,15 @@ GTEST_TEST(IteratorTest, DistanceTest)
 		EXPECT_EQ(4, bksge::distance(bksge::begin(l), bksge::end(l)));
 	}
 	{
-		std::array<float, 2> a{{1, 2}};
+		bksge::array<float, 2> a{{1, 2}};
 		EXPECT_EQ(2, bksge::distance(bksge::begin(a), bksge::end(a)));
 	}
 	{
-		const std::array<float, 3> a{{1, 2, 3}};
+		const bksge::array<float, 3> a{{1, 2, 3}};
 		EXPECT_EQ(3, bksge::distance(bksge::begin(a), bksge::end(a)));
 	}
 	{
-		BKSGE_CONSTEXPR std::array<float, 4> a{{1, 2, 3, 4}};
+		BKSGE_CONSTEXPR bksge::array<float, 4> a{{1, 2, 3, 4}};
 		BKSGE_CXX17_CONSTEXPR auto d = bksge::distance(bksge::begin(a), bksge::end(a));
 		BKSGE_CXX17_CONSTEXPR_EXPECT_EQ(4, d);
 	}

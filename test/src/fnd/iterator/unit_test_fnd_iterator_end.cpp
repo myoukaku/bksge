@@ -8,8 +8,8 @@
 
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -17,7 +17,7 @@ GTEST_TEST(IteratorTest, EndTest)
 {
 	BKSGE_STATIC_CONSTEXPR int a[] = {0,1,2};
 	bksge::vector<float> v {3,1,4,1,5};
-	std::array<float, 2> a2{{0.5f, 1.5f}};
+	bksge::array<float, 2> a2{{0.5f, 1.5f}};
 
 	{
 		BKSGE_CONSTEXPR auto it = bksge::end(a);

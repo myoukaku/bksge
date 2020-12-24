@@ -14,7 +14,7 @@
 #include <bksge/fnd/iterator/size.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/string/string.hpp>
-#include <array>
+#include <bksge/fnd/array.hpp>
 #include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
@@ -77,7 +77,7 @@ GTEST_TEST(AlgorithmTest, NextPermutationTest)
 		}
 	}
 	{
-		std::array<int, 4> a {{4,5,6,7}};
+		bksge::array<int, 4> a {{4,5,6,7}};
 
 		const int expected[][4]
 		{

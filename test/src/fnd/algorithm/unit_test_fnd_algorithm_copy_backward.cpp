@@ -10,9 +10,9 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
@@ -36,7 +36,7 @@ GTEST_TEST(AlgorithmTest, CopyBackwardTest)
 	}
 	{
 		const int a1[] { 1, 2, 3 };
-		std::array<int, 5> a2{{}};
+		bksge::array<int, 5> a2{{}};
 
 		auto it = bksge::copy_backward(bksge::begin(a1), bksge::end(a1), bksge::end(a2));
 

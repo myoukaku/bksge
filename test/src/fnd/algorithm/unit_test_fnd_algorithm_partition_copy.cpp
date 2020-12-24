@@ -10,10 +10,10 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <iterator>
-#include <array>
+#include <iterator>	// back_inserter
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -58,7 +58,7 @@ GTEST_TEST(AlgorithmTest, PartitionCopyTest)
 		EXPECT_EQ(0, c[4]);
 	}
 	{
-		const std::array<int, 5> a {{1,2,3,4,5}};
+		const bksge::array<int, 5> a {{1,2,3,4,5}};
 		bksge::vector<int> b(5);
 		bksge::list<int> c(5);
 		auto ret = bksge::partition_copy(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::begin(c), pred2());
@@ -81,7 +81,7 @@ GTEST_TEST(AlgorithmTest, PartitionCopyTest)
 	{
 		const bksge::list<int> a {1,2,3,4,5};
 		bksge::vector<int> b;
-		std::array<int, 5> c{{}};
+		bksge::array<int, 5> c{{}};
 		auto ret = bksge::partition_copy(
 			bksge::begin(a),
 			bksge::end(a),

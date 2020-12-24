@@ -9,9 +9,9 @@
 #include <bksge/fnd/algorithm/replace.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
@@ -32,7 +32,7 @@ GTEST_TEST(AlgorithmTest, ReplaceTest)
 		EXPECT_EQ(2, a[4]);
 	}
 	{
-		std::array<int, 6> a {{ 3,1,2,1,2,3 }};
+		bksge::array<int, 6> a {{ 3,1,2,1,2,3 }};
 		bksge::replace(bksge::begin(a), bksge::end(a), 3, 5);
 		EXPECT_EQ(5, a[0]);
 		EXPECT_EQ(1, a[1]);

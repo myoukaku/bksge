@@ -8,9 +8,9 @@
 
 #include <bksge/fnd/iterator/ssize.hpp>
 #include <bksge/fnd/type_traits/is_signed.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
-#include <array>
 #include "constexpr_test.hpp"
 
 GTEST_TEST(IteratorTest, SSizeTest)
@@ -35,7 +35,7 @@ GTEST_TEST(IteratorTest, SSizeTest)
 		EXPECT_EQ(2, bksge::ssize(a));
 	}
 	{
-		BKSGE_CONSTEXPR std::array<char, 5> a {};
+		BKSGE_CONSTEXPR bksge::array<char, 5> a {};
 		static_assert(bksge::is_signed<decltype(bksge::ssize(a))>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(5, bksge::ssize(a));
 	}

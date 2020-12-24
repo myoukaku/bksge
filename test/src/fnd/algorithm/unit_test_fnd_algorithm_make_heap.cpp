@@ -11,8 +11,8 @@
 #include <bksge/fnd/functional/greater.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
@@ -36,13 +36,13 @@ GTEST_TEST(AlgorithmTest, MakeHeapTest)
 		EXPECT_TRUE (bksge::is_heap(bksge::begin(a), bksge::end(a), bksge::greater<>()));
 	}
 	{
-		std::array<int, 6> a {{ 3, 1, 4, 1, 5, 9 }};
+		bksge::array<int, 6> a {{ 3, 1, 4, 1, 5, 9 }};
 		bksge::make_heap(bksge::begin(a), bksge::end(a));
 		EXPECT_TRUE (bksge::is_heap(bksge::begin(a), bksge::end(a)));
 		EXPECT_FALSE(bksge::is_heap(bksge::begin(a), bksge::end(a), bksge::greater<>()));
 	}
 	{
-		std::array<int, 6> a {{ 3, 1, 4, 1, 5, 9 }};
+		bksge::array<int, 6> a {{ 3, 1, 4, 1, 5, 9 }};
 		bksge::make_heap(bksge::begin(a), bksge::end(a), bksge::greater<>());
 		EXPECT_FALSE(bksge::is_heap(bksge::begin(a), bksge::end(a)));
 		EXPECT_TRUE (bksge::is_heap(bksge::begin(a), bksge::end(a), bksge::greater<>()));

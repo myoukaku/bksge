@@ -11,9 +11,9 @@
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/cmath/abs.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -58,7 +58,7 @@ GTEST_TEST(AlgorithmTest, MinmaxElementTest)
 		}
 	}
 	{
-		BKSGE_STATIC_CONSTEXPR std::array<int, 8> a {{ 2, -6, 5, -3, -5, 8, 9, 7 }};
+		BKSGE_STATIC_CONSTEXPR bksge::array<int, 8> a {{ 2, -6, 5, -3, -5, 8, 9, 7 }};
 
 		{
 			BKSGE_CXX17_CONSTEXPR_OR_CONST auto ret = bksge::minmax_element(bksge::begin(a), bksge::end(a));

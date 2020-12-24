@@ -11,8 +11,8 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -55,17 +55,17 @@ GTEST_TEST(AlgorithmTest, IsHeapUntilTest)
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 7));
 	}
 	{
-		const std::array<int, 3> a {{ 1, 2, 3 }};
+		const bksge::array<int, 3> a {{ 1, 2, 3 }};
 		const auto ret = bksge::is_heap_until(bksge::begin(a), bksge::end(a), pred1);
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 1));
 	}
 	{
-		const std::array<int, 3> a {{ 3, 2, 1 }};
+		const bksge::array<int, 3> a {{ 3, 2, 1 }};
 		const auto ret = bksge::is_heap_until(bksge::begin(a), bksge::end(a), pred1);
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 3));
 	}
 	{
-		const std::array<int, 8> a {{ 9, 5, 4, 1, 1, 3, 2, 6 }};
+		const bksge::array<int, 8> a {{ 9, 5, 4, 1, 1, 3, 2, 6 }};
 		const auto ret = bksge::is_heap_until(bksge::begin(a), bksge::end(a), pred1);
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 7));
 	}

@@ -12,9 +12,9 @@
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
@@ -55,7 +55,7 @@ GTEST_TEST(AlgorithmTest, UniqueTest)
 		EXPECT_EQ(3, a[9]);
 	}
 	{
-		std::array<int, 10> a = {{ 1,1,2,2,2,3,4,4,5,5 }};
+		bksge::array<int, 10> a = {{ 1,1,2,2,2,3,4,4,5,5 }};
 		auto ret = bksge::unique(bksge::begin(a), bksge::end(a));
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 5));
 

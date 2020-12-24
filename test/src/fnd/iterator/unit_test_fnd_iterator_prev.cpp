@@ -16,9 +16,9 @@ BKSGE_WARNING_DISABLE_MSVC(4308); // 負の整数定数が符号なしの型に�
 #include <bksge/fnd/iterator/prev.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -125,7 +125,7 @@ GTEST_TEST(IteratorTest, PrevTest)
 		EXPECT_TRUE(it == bksge::begin(l));
 	}
 	{
-		const std::array<float, 4> a{{1, 2, 3, 4}};
+		const bksge::array<float, 4> a{{1, 2, 3, 4}};
 
 		auto it = bksge::end(a);
 		it = bksge::prev(it);
@@ -139,7 +139,7 @@ GTEST_TEST(IteratorTest, PrevTest)
 		EXPECT_TRUE(it == bksge::begin(a));
 	}
 	{
-		std::array<float, 4> a{{1, 2, 3, 4}};
+		bksge::array<float, 4> a{{1, 2, 3, 4}};
 
 		auto it = bksge::end(a);
 		it = bksge::prev(it, 2);
@@ -151,7 +151,7 @@ GTEST_TEST(IteratorTest, PrevTest)
 		EXPECT_TRUE(it == bksge::begin(a));
 	}
 	{
-		BKSGE_STATIC_CONSTEXPR std::array<int,5> a {{0, 1, 2, 3, 4}};
+		BKSGE_STATIC_CONSTEXPR bksge::array<int,5> a {{0, 1, 2, 3, 4}};
 
 		BKSGE_CXX17_CONSTEXPR auto it1 = bksge::end(a);
 		BKSGE_CXX17_CONSTEXPR auto it2 = bksge::prev(it1);

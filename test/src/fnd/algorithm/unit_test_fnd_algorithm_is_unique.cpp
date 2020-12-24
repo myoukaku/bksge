@@ -9,9 +9,9 @@
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -40,19 +40,19 @@ GTEST_TEST(AlgorithmTest, IsUniqueTest)
 		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::is_unique(bksge::begin(a), bksge::end(a)));
 	}
 	{
-		BKSGE_STATIC_CONSTEXPR std::array<int, 15> a {{ 2,5,3,3,1,2,4,2,1,1,4,4,3,3,3 }};
+		BKSGE_STATIC_CONSTEXPR bksge::array<int, 15> a {{ 2,5,3,3,1,2,4,2,1,1,4,4,3,3,3 }};
 		BKSGE_CXX17_CONSTEXPR_EXPECT_FALSE(bksge::is_unique(bksge::begin(a), bksge::end(a)));
 	}
 	{
-		BKSGE_STATIC_CONSTEXPR std::array<int, 10> a {{ 2,5,3,1,2,4,2,1,4,3 }};
+		BKSGE_STATIC_CONSTEXPR bksge::array<int, 10> a {{ 2,5,3,1,2,4,2,1,4,3 }};
 		BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE(bksge::is_unique(bksge::begin(a), bksge::end(a)));
 	}
 	{
-		BKSGE_STATIC_CONSTEXPR std::array<int, 10> a {{ 1,1,2,2,2,3,3,4,4,5 }};
+		BKSGE_STATIC_CONSTEXPR bksge::array<int, 10> a {{ 1,1,2,2,2,3,3,4,4,5 }};
 		BKSGE_CXX17_CONSTEXPR_EXPECT_FALSE(bksge::is_unique(bksge::begin(a), bksge::end(a)));
 	}
 	{
-		BKSGE_STATIC_CONSTEXPR std::array<int, 5> a {{ 1,2,3,4,5 }};
+		BKSGE_STATIC_CONSTEXPR bksge::array<int, 5> a {{ 1,2,3,4,5 }};
 		BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE(bksge::is_unique(bksge::begin(a), bksge::end(a)));
 	}
 	{

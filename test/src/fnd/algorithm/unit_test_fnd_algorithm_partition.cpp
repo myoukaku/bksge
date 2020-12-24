@@ -10,10 +10,10 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/forward_list.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -66,7 +66,7 @@ GTEST_TEST(AlgorithmTest, PartitionTest)
 		EXPECT_TRUE(pred1(a[2]));
 	}
 	{
-		std::array<int, 5> a {{1,2,3,4,5}};
+		bksge::array<int, 5> a {{1,2,3,4,5}};
 		auto ret = bksge::partition(bksge::begin(a), bksge::end(a), pred2());
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 3));
 		EXPECT_TRUE (pred2()(a[0]));

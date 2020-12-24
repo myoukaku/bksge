@@ -10,11 +10,11 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <iterator>
+#include <iterator>	// back_inserter, istream_iterator
 #include <sstream>
-#include <array>
 #include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
@@ -40,7 +40,7 @@ GTEST_TEST(AlgorithmTest, UniqueCopyTest)
 {
 	{
 		const int a[] { 2,5,3,3,1,2,4,2,1,1,4,4,3,3,3 };
-		std::array<int, 12> b {{}};
+		bksge::array<int, 12> b {{}};
 		auto ret = bksge::unique_copy(bksge::begin(a), bksge::end(a), bksge::begin(b));
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(b), 10));
 
@@ -58,7 +58,7 @@ GTEST_TEST(AlgorithmTest, UniqueCopyTest)
 		EXPECT_EQ(0, b[11]);
 	}
 	{
-		const std::array<int, 10> a {{ 1,1,2,2,2,3,4,4,5,5 }};
+		const bksge::array<int, 10> a {{ 1,1,2,2,2,3,4,4,5,5 }};
 		bksge::vector<int> b(10);
 		auto ret = bksge::unique_copy(bksge::begin(a), bksge::end(a), bksge::begin(b));
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(b), 5));

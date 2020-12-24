@@ -12,10 +12,10 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <iterator>
-#include <array>
+#include <iterator>	// back_inserter
 #include <gtest/gtest.h>
 
 GTEST_TEST(NumericTest, PartialSumTest)
@@ -43,7 +43,7 @@ GTEST_TEST(NumericTest, PartialSumTest)
 		EXPECT_EQ(-25, b[4]);
 	}
 	{
-		const std::array<int, 4> a {{ 3, 1, 4, 1 }};
+		const bksge::array<int, 4> a {{ 3, 1, 4, 1 }};
 		bksge::list<int> b;
 		auto ret = bksge::partial_sum(bksge::begin(a), bksge::end(a), std::back_inserter(b));
 		(void)ret;
@@ -55,7 +55,7 @@ GTEST_TEST(NumericTest, PartialSumTest)
 		EXPECT_TRUE(it == b.end());
 	}
 	{
-		const std::array<int, 4> a {{ 3, 1, 4, 1 }};
+		const bksge::array<int, 4> a {{ 3, 1, 4, 1 }};
 		bksge::list<int> b;
 		auto ret = bksge::partial_sum(bksge::begin(a), bksge::end(a), std::back_inserter(b), bksge::minus<>());
 		(void)ret;
@@ -68,7 +68,7 @@ GTEST_TEST(NumericTest, PartialSumTest)
 	}
 	{
 		const bksge::vector<int> a { -3, 2, -5 };
-		std::array<int, 4> b {{}};
+		bksge::array<int, 4> b {{}};
 		auto ret = bksge::partial_sum(bksge::begin(a), bksge::end(a), bksge::begin(b));
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(b), 3));
 		EXPECT_EQ(-3, b[0]);
@@ -99,7 +99,7 @@ GTEST_TEST(NumericTest, PartialSumTest)
 	}
 	{
 		const bksge::vector<int> a;
-		std::array<int, 3> b {{ 1, 2, 3 }};
+		bksge::array<int, 3> b {{ 1, 2, 3 }};
 		auto ret = bksge::partial_sum(bksge::begin(a), bksge::end(a), bksge::begin(b));
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(b), 0));
 		EXPECT_EQ(1, b[0]);

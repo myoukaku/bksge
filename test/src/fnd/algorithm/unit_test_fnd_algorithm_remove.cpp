@@ -10,9 +10,9 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
@@ -93,7 +93,7 @@ GTEST_TEST(AlgorithmTest, RemoveTest)
 		EXPECT_EQ(2, a[6]);
 	}
 	{
-		std::array<int, 7> a = {{1,2,3,1,3,1,2}};
+		bksge::array<int, 7> a = {{1,2,3,1,3,1,2}};
 		auto ret = bksge::remove(bksge::begin(a), bksge::end(a), 3);
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 5));
 		EXPECT_EQ(1, a[0]);
@@ -104,7 +104,7 @@ GTEST_TEST(AlgorithmTest, RemoveTest)
 		EXPECT_EQ(7u, a.size());	// removeしてもコンテナのサイズは変わらない
 	}
 	{
-		std::array<int, 4> a = {{1,1,1,1}};
+		bksge::array<int, 4> a = {{1,1,1,1}};
 		auto ret = bksge::remove(bksge::begin(a), bksge::end(a), 1);
 		EXPECT_TRUE(ret == bksge::begin(a));
 		EXPECT_EQ(4u, a.size());	// removeしてもコンテナのサイズは変わらない

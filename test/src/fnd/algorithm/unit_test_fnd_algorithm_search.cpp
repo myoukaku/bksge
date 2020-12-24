@@ -10,9 +10,9 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -40,14 +40,14 @@ GTEST_TEST(AlgorithmTest, SearchTest)
 	}
 	{
 		const int a[] = { 1,2,3,4,1,2,3,1,2,1 };
-		const std::array<int, 3> b = {{ 1,2,3 }};
+		const bksge::array<int, 3> b = {{ 1,2,3 }};
 
 		const auto it = bksge::search(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b));
 		EXPECT_TRUE(it == bksge::next(bksge::begin(a), 0));
 	}
 	{
 		const int a[] = { 1,2,3,4,1,2,3,1,2,1 };
-		const std::array<int, 3> b = {{ 1,2,3 }};
+		const bksge::array<int, 3> b = {{ 1,2,3 }};
 		const auto it = bksge::search(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::begin(b));
 		EXPECT_TRUE(it == bksge::begin(a));
 	}
@@ -66,7 +66,7 @@ GTEST_TEST(AlgorithmTest, SearchTest)
 		EXPECT_TRUE(it == bksge::next(bksge::begin(a), 2));
 	}
 	{
-		const std::array<int, 10> a = {{ 1,2,3,4,1,2,3,1,2,1 }};
+		const bksge::array<int, 10> a = {{ 1,2,3,4,1,2,3,1,2,1 }};
 		const bksge::list<int> b = { 3,1,2 };
 
 		auto const it = bksge::search(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b), [](int x, int y){return x == y; });

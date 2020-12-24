@@ -9,13 +9,12 @@
 #include <bksge/fnd/iterator/concepts/output_iterator.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/string_view.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/deque.hpp>
 #include <bksge/fnd/forward_list.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
-#include <iterator>
-#include <array>
 #include <set>
 #include "iterator_test.hpp"
 
@@ -65,10 +64,10 @@ BKSGE_OUTPUT_ITERATOR_TEST(false, void(A::*)(), void(A::*)());
 BKSGE_OUTPUT_ITERATOR_TEST(false, int A::*, int);
 BKSGE_OUTPUT_ITERATOR_TEST(false, int A::*, int A::*);
 
-BKSGE_OUTPUT_ITERATOR_TEST(true,  std::array<int, 1>::iterator, int);
-BKSGE_OUTPUT_ITERATOR_TEST(true,  std::array<A, 1>::iterator, A);
-BKSGE_OUTPUT_ITERATOR_TEST(false, std::array<int, 1>::const_iterator, int);
-BKSGE_OUTPUT_ITERATOR_TEST(false, std::array<A, 1>::const_iterator, A);
+BKSGE_OUTPUT_ITERATOR_TEST(true,  bksge::array<int, 1>::iterator, int);
+BKSGE_OUTPUT_ITERATOR_TEST(true,  bksge::array<A, 1>::iterator, A);
+BKSGE_OUTPUT_ITERATOR_TEST(false, bksge::array<int, 1>::const_iterator, int);
+BKSGE_OUTPUT_ITERATOR_TEST(false, bksge::array<A, 1>::const_iterator, A);
 BKSGE_OUTPUT_ITERATOR_TEST(true,  bksge::deque<int>::iterator, int);
 BKSGE_OUTPUT_ITERATOR_TEST(true,  bksge::deque<A>::iterator, A);
 BKSGE_OUTPUT_ITERATOR_TEST(false, bksge::deque<int>::const_iterator, int);

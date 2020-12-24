@@ -11,8 +11,8 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
@@ -53,14 +53,14 @@ GTEST_TEST(AlgorithmTest, PartialSortTest)
 		EXPECT_EQ(5, a[4]);
 	}
 	{
-		std::array<int, 11> a {{ 3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5 }};
+		bksge::array<int, 11> a {{ 3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5 }};
 		bksge::partial_sort(bksge::begin(a), bksge::next(bksge::begin(a), 3), bksge::end(a));
 		EXPECT_EQ(1, a[0]);
 		EXPECT_EQ(1, a[1]);
 		EXPECT_EQ(2, a[2]);
 	}
 	{
-		std::array<int, 11> a {{ 3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5 }};
+		bksge::array<int, 11> a {{ 3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5 }};
 		bksge::partial_sort(bksge::begin(a), bksge::next(bksge::begin(a), 4), bksge::end(a), bksge::greater<>());
 		EXPECT_EQ(9, a[0]);
 		EXPECT_EQ(6, a[1]);
@@ -68,7 +68,7 @@ GTEST_TEST(AlgorithmTest, PartialSortTest)
 		EXPECT_EQ(5, a[3]);
 	}
 	{
-		std::array<int, 10> a {{ 5, 7, 4, 2, 8, 6, 1, 9, 0, 3 }};
+		bksge::array<int, 10> a {{ 5, 7, 4, 2, 8, 6, 1, 9, 0, 3 }};
 		bksge::partial_sort(bksge::begin(a), bksge::next(bksge::begin(a), 10), bksge::end(a));
 		EXPECT_EQ(0, a[0]);
 		EXPECT_EQ(1, a[1]);
@@ -82,7 +82,7 @@ GTEST_TEST(AlgorithmTest, PartialSortTest)
 		EXPECT_EQ(9, a[9]);
 	}
 	{
-		std::array<int, 10> a {{ 5, 7, 4, 2, 8, 6, 1, 9, 0, 3 }};
+		bksge::array<int, 10> a {{ 5, 7, 4, 2, 8, 6, 1, 9, 0, 3 }};
 		bksge::partial_sort(bksge::begin(a), bksge::next(bksge::begin(a), 10), bksge::end(a), bksge::greater<>());
 		EXPECT_EQ(9, a[0]);
 		EXPECT_EQ(8, a[1]);

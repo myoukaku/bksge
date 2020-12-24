@@ -11,7 +11,7 @@
 #include <bksge/fnd/memory/shared_ptr.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
-#include <iterator>
+#include <iterator>	// istream_iterator, ostream_iterator
 #include "iterator_test.hpp"
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)

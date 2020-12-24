@@ -10,9 +10,9 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -66,7 +66,7 @@ GTEST_TEST(AlgorithmTest, EqualRangeTest)
 		}
 	}
 	{
-		BKSGE_STATIC_CONSTEXPR std::array<int, 9> a {{ 5,5,4,2,2,2,1,0,0 }};
+		BKSGE_STATIC_CONSTEXPR bksge::array<int, 9> a {{ 5,5,4,2,2,2,1,0,0 }};
 		{
 			BKSGE_CXX17_CONSTEXPR_OR_CONST auto ret = bksge::equal_range(bksge::begin(a), bksge::end(a), 2, pred2());
 			BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE(ret.first  == bksge::next(bksge::begin(a), 3));

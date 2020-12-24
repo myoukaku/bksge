@@ -9,9 +9,9 @@
 #include <bksge/fnd/algorithm/find_if.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -66,7 +66,7 @@ GTEST_TEST(AlgorithmTest, FindIfTest)
 		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(it == bksge::begin(a1) + 1);
 	}
 
-	BKSGE_STATIC_CONSTEXPR std::array<int, 8> a2{{3, 4, 4, 5, 5, 5, 3, 6}};
+	BKSGE_STATIC_CONSTEXPR bksge::array<int, 8> a2{{3, 4, 4, 5, 5, 5, 3, 6}};
 	{
 		BKSGE_CXX17_CONSTEXPR_OR_CONST auto it = bksge::find_if(bksge::begin(a2), bksge::end(a2), pred1);
 		BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE(it == bksge::end(a2));

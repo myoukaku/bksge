@@ -9,9 +9,9 @@
 #include <bksge/fnd/algorithm/count_if.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -57,7 +57,7 @@ GTEST_TEST(AlgorithmTest, CountIfTest)
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(7, bksge::count_if(bksge::begin(a), bksge::end(a), pred4()));
 	}
 	{
-		BKSGE_CONSTEXPR_OR_CONST std::array<int, 21> a{ { 3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7, 9, 3, 2, 3, 8, 4, 6 } };
+		BKSGE_CONSTEXPR_OR_CONST bksge::array<int, 21> a{ { 3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7, 9, 3, 2, 3, 8, 4, 6 } };
 		BKSGE_CXX17_CONSTEXPR_EXPECT_EQ( 2, bksge::count_if(bksge::begin(a), bksge::end(a), pred1));
 		BKSGE_CXX17_CONSTEXPR_EXPECT_EQ( 8, bksge::count_if(bksge::begin(a), bksge::end(a), pred2));
 		BKSGE_CXX17_CONSTEXPR_EXPECT_EQ(17, bksge::count_if(bksge::begin(a), bksge::end(a), pred3()));

@@ -9,7 +9,6 @@
 #include <bksge/fnd/iterator/concepts/indirectly_copyable.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
-#include <iterator>
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_INDIRECTLY_COPYABLE_TEST(B, ...)	\

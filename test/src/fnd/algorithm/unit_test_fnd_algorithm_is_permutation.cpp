@@ -11,9 +11,9 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/string/string.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -46,11 +46,11 @@ GTEST_TEST(AlgorithmTest, IsPermutationTest)
 		BKSGE_CXX14_CONSTEXPR_EXPECT_FALSE(bksge::is_permutation(bksge::begin(a), bksge::end(a), bksge::begin(f), pred1));
 	}
 	{
-		BKSGE_CONSTEXPR_OR_CONST std::array<int, 4> a {{ 4, 5, 6, 7 }};
-		BKSGE_CONSTEXPR_OR_CONST std::array<int, 4> b {{ 6, 4, 5, 7 }};
-		BKSGE_CONSTEXPR_OR_CONST std::array<int, 4> c {{ 6, 4, 7, 5 }};
-		BKSGE_CONSTEXPR_OR_CONST std::array<int, 4> d {{ 6, 4, 5, 4 }};
-		BKSGE_CONSTEXPR_OR_CONST std::array<int, 4> e {{ 4, 5, 6, 8 }};
+		BKSGE_CONSTEXPR_OR_CONST bksge::array<int, 4> a {{ 4, 5, 6, 7 }};
+		BKSGE_CONSTEXPR_OR_CONST bksge::array<int, 4> b {{ 6, 4, 5, 7 }};
+		BKSGE_CONSTEXPR_OR_CONST bksge::array<int, 4> c {{ 6, 4, 7, 5 }};
+		BKSGE_CONSTEXPR_OR_CONST bksge::array<int, 4> d {{ 6, 4, 5, 4 }};
+		BKSGE_CONSTEXPR_OR_CONST bksge::array<int, 4> e {{ 4, 5, 6, 8 }};
 
 		BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE (bksge::is_permutation(bksge::begin(a), bksge::end(a), bksge::begin(a), bksge::end(a)));
 		BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE (bksge::is_permutation(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b), bksge::equal_to<>()));

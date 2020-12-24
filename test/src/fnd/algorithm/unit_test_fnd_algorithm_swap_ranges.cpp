@@ -9,9 +9,9 @@
 #include <bksge/fnd/algorithm/swap_ranges.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
@@ -24,8 +24,8 @@ GTEST_TEST(AlgorithmTest, SwapRangesTest)
 {
 	int a1[] = {1, 2, 3};
 	int a2[] = {4, 5, 6};
-	std::array<int, 3> a3 {{ 7, 8, 9}};
-	std::array<int, 3> a4 {{10,11,12}};
+	bksge::array<int, 3> a3 {{ 7, 8, 9}};
+	bksge::array<int, 3> a4 {{10,11,12}};
 	bksge::vector<int> v1{13,14,15};
 	bksge::vector<int> v2{16,17,18};
 	bksge::list<int> l1{19,20,21};

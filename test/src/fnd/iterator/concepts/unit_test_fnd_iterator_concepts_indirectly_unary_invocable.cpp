@@ -8,7 +8,6 @@
 
 #include <bksge/fnd/iterator/concepts/indirectly_unary_invocable.hpp>
 #include <bksge/fnd/config.hpp>
-#include <iterator>
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_INDIRECTLY_UNARY_INVOCABLE_TEST(B, ...)	\

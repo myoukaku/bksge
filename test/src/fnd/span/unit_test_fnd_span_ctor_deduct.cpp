@@ -12,8 +12,8 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/config.hpp>
-#include <array>
 #include <gtest/gtest.h>
 
 #define ASSERT_SAME_TYPE(...) \
@@ -54,7 +54,7 @@ GTEST_TEST(SpanTest, CtorDeductTest)
 	}
 
 	{
-		std::array<double, 4> arr = { 1.0, 2.0, 3.0, 4.0 };
+		bksge::array<double, 4> arr = { 1.0, 2.0, 3.0, 4.0 };
 		bksge::span s{ arr };
 		using S = decltype(s);
 		ASSERT_SAME_TYPE(S, bksge::span<double, 4>);
@@ -62,7 +62,7 @@ GTEST_TEST(SpanTest, CtorDeductTest)
 	}
 
 	{
-		std::array<long, 5> const arr = { 4, 5, 6, 7, 8 };
+		bksge::array<long, 5> const arr = { 4, 5, 6, 7, 8 };
 		bksge::span s{ arr };
 		using S = decltype(s);
 		ASSERT_SAME_TYPE(S, bksge::span<long const, 5>);

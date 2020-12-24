@@ -10,9 +10,9 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -66,23 +66,23 @@ GTEST_TEST(AlgorithmTest, IsSortedTest)
 		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::is_sorted(bksge::begin(a), bksge::end(a)));
 	}
 	{
-		BKSGE_STATIC_CONSTEXPR std::array<int, 5> a {{1,2,3,5,4}};
+		BKSGE_STATIC_CONSTEXPR bksge::array<int, 5> a {{1,2,3,5,4}};
 		BKSGE_CXX17_CONSTEXPR_EXPECT_FALSE(bksge::is_sorted(bksge::begin(a), bksge::end(a)));
 	}
 	{
-		BKSGE_STATIC_CONSTEXPR std::array<int, 5> a {{1,1,3,4,2}};
+		BKSGE_STATIC_CONSTEXPR bksge::array<int, 5> a {{1,1,3,4,2}};
 		BKSGE_CXX17_CONSTEXPR_EXPECT_FALSE(bksge::is_sorted(bksge::begin(a), bksge::end(a), pred1));
 	}
 	{
-		BKSGE_STATIC_CONSTEXPR std::array<int, 6> a {{3,5,6,8,10,13}};
+		BKSGE_STATIC_CONSTEXPR bksge::array<int, 6> a {{3,5,6,8,10,13}};
 		BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE(bksge::is_sorted(bksge::begin(a), bksge::end(a)));
 	}
 	{
-		BKSGE_STATIC_CONSTEXPR std::array<int, 6> a {{13,10,8,6,4,1}};
+		BKSGE_STATIC_CONSTEXPR bksge::array<int, 6> a {{13,10,8,6,4,1}};
 		BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE(bksge::is_sorted(bksge::begin(a), bksge::end(a), pred2()));
 	}
 	{
-		BKSGE_STATIC_CONSTEXPR std::array<int, 1> a {{3}};
+		BKSGE_STATIC_CONSTEXPR bksge::array<int, 1> a {{3}};
 		BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE(bksge::is_sorted(bksge::begin(a), bksge::end(a), pred1));
 	}
 	{

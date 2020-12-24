@@ -10,10 +10,10 @@
 #include <bksge/fnd/functional/plus.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <iterator>
-#include <array>
+#include <iterator>	// back_inserter
 #include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
@@ -67,8 +67,8 @@ GTEST_TEST(AlgorithmTest, TransformTest)
 	}
 	// array => array
 	{
-		const std::array<int, 3> a1 {{0,1,2}};
-		std::array<int, 3> a2;
+		const bksge::array<int, 3> a1 {{0,1,2}};
+		bksge::array<int, 3> a2;
 		auto const it = bksge::transform(
 			bksge::begin(a1), bksge::end(a1), bksge::begin(a2), Doubling());
 
@@ -81,7 +81,7 @@ GTEST_TEST(AlgorithmTest, TransformTest)
 	// vector => array
 	{
 		const bksge::vector<int> v1 { 1, 2, 3 };
-		std::array<int, 3> a1;
+		bksge::array<int, 3> a1;
 		auto const it = bksge::transform(
 			bksge::begin(v1), bksge::end(v1), bksge::begin(a1), Doubling());
 
@@ -213,7 +213,7 @@ GTEST_TEST(AlgorithmTest, TransformTest)
 	{
 		const bksge::vector<int> v1 { 1, 2, 3, 4 };
 		const bksge::vector<int> v2 { 4, 5, 6 };
-		std::array<int, 4> a1{{}};
+		bksge::array<int, 4> a1{{}};
 		auto const it = bksge::transform(
 			bksge::begin(v1), bksge::end(v1),
 			bksge::begin(v2), bksge::end(v2),
@@ -268,7 +268,7 @@ GTEST_TEST(AlgorithmTest, TransformTest)
 	// vector, array  => int[]
 	{
 		const bksge::vector<int> v1 { 1, 2, 3, 4 };
-		const std::array<int, 3> a1 {{ 4, 5, 6 }};
+		const bksge::array<int, 3> a1 {{ 4, 5, 6 }};
 		int a2[3];
 		auto const it = bksge::transform(
 			bksge::begin(v1), bksge::end(v1),
@@ -285,7 +285,7 @@ GTEST_TEST(AlgorithmTest, TransformTest)
 	{
 		const bksge::list<int>   l1 { 10, 11, 12 };
 		const bksge::vector<int> v1 { 13, 14, 15, 16 };
-		std::array<int, 3> a1;
+		bksge::array<int, 3> a1;
 		auto const it = bksge::transform(
 			bksge::begin(l1), bksge::end(l1),
 			bksge::begin(v1), bksge::end(v1),
@@ -336,7 +336,7 @@ GTEST_TEST(AlgorithmTest, TransformTest)
 	// vector, array  => array (self assign)
 	{
 		const bksge::vector<int> v1 { 20, 21, 22 };
-		std::array<int, 3> a1 {{23, 24, 25}};
+		bksge::array<int, 3> a1 {{23, 24, 25}};
 		auto const it = bksge::transform(
 			bksge::begin(v1), bksge::end(v1),
 			bksge::begin(a1), bksge::end(a1),

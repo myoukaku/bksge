@@ -9,8 +9,8 @@
 #include <bksge/fnd/iterator/iter_rvalue_reference_t.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <streambuf>
 #include <iterator>
+#include <streambuf>
 
 namespace bksge_iterator_test
 {

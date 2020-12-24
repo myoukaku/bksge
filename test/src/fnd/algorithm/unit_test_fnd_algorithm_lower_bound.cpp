@@ -10,9 +10,9 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -60,12 +60,12 @@ GTEST_TEST(AlgorithmTest, LowerBoundTest)
 	}
 #endif
 	{
-		BKSGE_STATIC_CONSTEXPR std::array<int, 5> a {{ 3,1,4,6,5 }};
+		BKSGE_STATIC_CONSTEXPR bksge::array<int, 5> a {{ 3,1,4,6,5 }};
 		BKSGE_CXX17_CONSTEXPR_OR_CONST auto ret = bksge::lower_bound(bksge::begin(a), bksge::end(a), 4);
 		BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 2));
 	}
 	{
-		BKSGE_STATIC_CONSTEXPR std::array<int, 3> a {{ 10,20,30 }};
+		BKSGE_STATIC_CONSTEXPR bksge::array<int, 3> a {{ 10,20,30 }};
 		BKSGE_CXX17_CONSTEXPR_OR_CONST auto ret = bksge::lower_bound(bksge::begin(a), bksge::end(a), 10, pred2());
 		BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 0));
 	}

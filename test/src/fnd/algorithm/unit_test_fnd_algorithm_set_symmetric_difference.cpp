@@ -11,10 +11,10 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <iterator>
-#include <array>
+#include <iterator>	// back_inserter
 #include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
@@ -27,7 +27,7 @@ GTEST_TEST(AlgorithmTest, SetSymmetricDifferenceTest)
 {
 	{
 		const int a[] { 1, 2, 3, 4 };
-		const std::array<int, 4> b {{ 3, 4, 5, 6 }};
+		const bksge::array<int, 4> b {{ 3, 4, 5, 6 }};
 		int c[6];
 		auto ret = bksge::set_symmetric_difference(
 			bksge::begin(a), bksge::end(a),
@@ -42,7 +42,7 @@ GTEST_TEST(AlgorithmTest, SetSymmetricDifferenceTest)
 		EXPECT_EQ(6, c[3]);
 	}
 	{
-		const std::array<int, 4> a {{ 6, 5, 2, 1 }};
+		const bksge::array<int, 4> a {{ 6, 5, 2, 1 }};
 		const bksge::vector<int> b { 5, 3, 1 };
 		bksge::list<int> c;
 		auto ret = bksge::set_symmetric_difference(

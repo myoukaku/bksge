@@ -14,9 +14,8 @@
 #include <bksge/fnd/forward_list.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <iterator>
+#include <iterator>	// back_inserter, istream_iterator
 #include <sstream>
-#include <array>
 #include <gtest/gtest.h>
 
 namespace bksge_algorithm_test

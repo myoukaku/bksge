@@ -9,9 +9,9 @@
 #include <bksge/fnd/algorithm/is_partitioned.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -53,15 +53,15 @@ GTEST_TEST(AlgorithmTest, IsPartitionedTest)
 		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::is_partitioned(bksge::begin(a), bksge::end(a), pred2()));
 	}
 	{
-		BKSGE_STATIC_CONSTEXPR std::array<int, 5> a {{4,2,3,1,5}};
+		BKSGE_STATIC_CONSTEXPR bksge::array<int, 5> a {{4,2,3,1,5}};
 		BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE(bksge::is_partitioned(bksge::begin(a), bksge::end(a), pred1));
 	}
 	{
-		BKSGE_STATIC_CONSTEXPR std::array<int, 5> a {{4,2,3,1,5}};
+		BKSGE_STATIC_CONSTEXPR bksge::array<int, 5> a {{4,2,3,1,5}};
 		BKSGE_CXX17_CONSTEXPR_EXPECT_FALSE(bksge::is_partitioned(bksge::begin(a), bksge::end(a), pred2()));
 	}
 	{
-		BKSGE_STATIC_CONSTEXPR std::array<int, 3> a {{1,2,3}};
+		BKSGE_STATIC_CONSTEXPR bksge::array<int, 3> a {{1,2,3}};
 		BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE(bksge::is_partitioned(bksge::begin(a), bksge::end(a), pred2()));
 	}
 	{

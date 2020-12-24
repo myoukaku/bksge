@@ -9,9 +9,9 @@
 #include <bksge/fnd/numeric/inner_product.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -42,31 +42,31 @@ GTEST_TEST(NumericTest, InnerProductTest)
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(16, x2);
 	}
 	{
-		std::array<int, 3> a1 = {{ 2, 3, 4 }};
-		std::array<int, 3> a2 = {{ 4, 5, 6 }};
+		bksge::array<int, 3> a1 = {{ 2, 3, 4 }};
+		bksge::array<int, 3> a2 = {{ 4, 5, 6 }};
 		auto x1 = bksge::inner_product(bksge::begin(a1), bksge::end(a1), bksge::begin(a2), 0);
 		EXPECT_EQ(47, x1);
 		auto x2 = bksge::inner_product(bksge::begin(a1), bksge::end(a1), bksge::begin(a2), 20);
 		EXPECT_EQ(67, x2);
 	}
 	{
-		BKSGE_CONSTEXPR_OR_CONST std::array<int, 3> a1 = {{ 2, 3, 4 }};
-		BKSGE_CONSTEXPR_OR_CONST std::array<int, 3> a2 = {{ 4, 5, 6 }};
+		BKSGE_CONSTEXPR_OR_CONST bksge::array<int, 3> a1 = {{ 2, 3, 4 }};
+		BKSGE_CONSTEXPR_OR_CONST bksge::array<int, 3> a2 = {{ 4, 5, 6 }};
 		BKSGE_CXX17_CONSTEXPR auto x1 = bksge::inner_product(bksge::begin(a1), bksge::end(a1), bksge::begin(a2), 0);
 		BKSGE_CXX17_CONSTEXPR_EXPECT_EQ(47, x1);
 		BKSGE_CXX17_CONSTEXPR auto x2 = bksge::inner_product(bksge::begin(a1), bksge::end(a1), bksge::begin(a2), 20);
 		BKSGE_CXX17_CONSTEXPR_EXPECT_EQ(67, x2);
 	}
 	{
-		BKSGE_CONSTEXPR_OR_CONST std::array<int, 3> a1 = {{ 4 }};
-		BKSGE_CONSTEXPR_OR_CONST std::array<int, 3> a2 = {{ 6 }};
+		BKSGE_CONSTEXPR_OR_CONST bksge::array<int, 3> a1 = {{ 4 }};
+		BKSGE_CONSTEXPR_OR_CONST bksge::array<int, 3> a2 = {{ 6 }};
 		BKSGE_CXX17_CONSTEXPR auto x1 = bksge::inner_product(bksge::begin(a1), bksge::end(a1), bksge::begin(a2), 0);
 		BKSGE_CXX17_CONSTEXPR_EXPECT_EQ(24, x1);
 		BKSGE_CXX17_CONSTEXPR auto x2 = bksge::inner_product(bksge::begin(a1), bksge::end(a1), bksge::begin(a2), 20);
 		BKSGE_CXX17_CONSTEXPR_EXPECT_EQ(44, x2);
 	}
 	{
-		BKSGE_CONSTEXPR_OR_CONST std::array<int, 3> a1 = {{ 2, 3, 4 }};
+		BKSGE_CONSTEXPR_OR_CONST bksge::array<int, 3> a1 = {{ 2, 3, 4 }};
 		BKSGE_CONSTEXPR_OR_CONST int a2[] = { 4, 5, 6 };
 		BKSGE_CXX17_CONSTEXPR auto x1 = bksge::inner_product(bksge::begin(a1), bksge::end(a1), bksge::begin(a2), 0);
 		BKSGE_CXX17_CONSTEXPR_EXPECT_EQ(47, x1);
@@ -74,7 +74,7 @@ GTEST_TEST(NumericTest, InnerProductTest)
 		BKSGE_CXX17_CONSTEXPR_EXPECT_EQ(67, x2);
 	}
 	{
-		BKSGE_CONSTEXPR_OR_CONST std::array<int, 3> a1 = {{ 2, 3, 4 }};
+		BKSGE_CONSTEXPR_OR_CONST bksge::array<int, 3> a1 = {{ 2, 3, 4 }};
 		const bksge::vector<int> v1 = {{ 4, 5, 6 }};
 		auto const x1 = bksge::inner_product(bksge::begin(a1), bksge::end(a1), bksge::begin(v1), 0);
 		EXPECT_EQ(47, x1);
@@ -82,7 +82,7 @@ GTEST_TEST(NumericTest, InnerProductTest)
 		EXPECT_EQ(67, x2);
 	}
 	{
-		BKSGE_CONSTEXPR_OR_CONST std::array<int, 3> a1 = {{ 2, 3, 4 }};
+		BKSGE_CONSTEXPR_OR_CONST bksge::array<int, 3> a1 = {{ 2, 3, 4 }};
 		const bksge::list<int> l1 = {{ 4, 5, 6 }};
 		auto const x1 = bksge::inner_product(bksge::begin(a1), bksge::end(a1), bksge::begin(l1), 0);
 		EXPECT_EQ(47, x1);

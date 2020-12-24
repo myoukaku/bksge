@@ -10,9 +10,9 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/functional/multiplies.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -28,7 +28,7 @@ GTEST_TEST(NumericTest, AccumulateTest)
 		EXPECT_EQ(14, x3);
 	}
 	{
-		const std::array<int, 4> a = {{ 11, 12, 13, 14 }};
+		const bksge::array<int, 4> a = {{ 11, 12, 13, 14 }};
 		auto x1 = bksge::accumulate(bksge::begin(a), bksge::end(a), 0);
 		EXPECT_EQ(50, x1);
 		auto x2 = bksge::accumulate(bksge::begin(a), bksge::end(a), -10);
@@ -64,7 +64,7 @@ GTEST_TEST(NumericTest, AccumulateTest)
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(24, x3);
 	}
 	{
-		BKSGE_CONSTEXPR_OR_CONST std::array<int, 5> a = {{ 11, 12, 13, 14, 15 }};
+		BKSGE_CONSTEXPR_OR_CONST bksge::array<int, 5> a = {{ 11, 12, 13, 14, 15 }};
 		BKSGE_CXX17_CONSTEXPR auto x1 = bksge::accumulate(bksge::begin(a), bksge::end(a), 0);
 		BKSGE_CXX17_CONSTEXPR_EXPECT_EQ(65, x1);
 		BKSGE_CXX17_CONSTEXPR auto x2 = bksge::accumulate(bksge::begin(a), bksge::end(a), -20);

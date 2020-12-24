@@ -11,9 +11,9 @@
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/functional/greater.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -44,7 +44,7 @@ GTEST_TEST(AlgorithmTest, AdjacentFindTest)
 		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(it == bksge::next(bksge::begin(a), 2));
 	}
 	{
-		BKSGE_STATIC_CONSTEXPR std::array<int, 3> a {{ 1,1,1 }};
+		BKSGE_STATIC_CONSTEXPR bksge::array<int, 3> a {{ 1,1,1 }};
 		BKSGE_CXX17_CONSTEXPR_OR_CONST auto it = bksge::adjacent_find(bksge::begin(a), bksge::end(a));
 		BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE(it == bksge::next(bksge::begin(a), 0));
 	}
@@ -54,7 +54,7 @@ GTEST_TEST(AlgorithmTest, AdjacentFindTest)
 		BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(it == bksge::end(a));
 	}
 	{
-		BKSGE_STATIC_CONSTEXPR std::array<int, 9> a {{ 9,8,5,3,2,1,3,4,5 }};
+		BKSGE_STATIC_CONSTEXPR bksge::array<int, 9> a {{ 9,8,5,3,2,1,3,4,5 }};
 		BKSGE_CXX17_CONSTEXPR_OR_CONST auto it = bksge::adjacent_find(bksge::begin(a), bksge::end(a), pred1);
 		BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE(it == bksge::next(bksge::begin(a), 5));
 	}

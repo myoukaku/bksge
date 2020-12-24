@@ -9,9 +9,9 @@
 #include <bksge/fnd/algorithm/equal.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -30,10 +30,10 @@ GTEST_TEST(AlgorithmTest, EqualTest)
 	BKSGE_CONSTEXPR_OR_CONST int a5[] {0,1};
 	BKSGE_CONSTEXPR_OR_CONST int a6[] {0,1,2,3};
 
-	BKSGE_CONSTEXPR_OR_CONST std::array<float, 3> a7{{0, 1, 2}};
-	BKSGE_CONSTEXPR_OR_CONST std::array<float, 3> a8{{1, 1, 2}};
-	BKSGE_CONSTEXPR_OR_CONST std::array<float, 2> a9{{0, 1}};
-	BKSGE_CONSTEXPR_OR_CONST std::array<float, 4> a10{{0, 1, 2, 3}};
+	BKSGE_CONSTEXPR_OR_CONST bksge::array<float, 3> a7{{0, 1, 2}};
+	BKSGE_CONSTEXPR_OR_CONST bksge::array<float, 3> a8{{1, 1, 2}};
+	BKSGE_CONSTEXPR_OR_CONST bksge::array<float, 2> a9{{0, 1}};
+	BKSGE_CONSTEXPR_OR_CONST bksge::array<float, 4> a10{{0, 1, 2, 3}};
 
 	const bksge::vector<int> v1 {0,1,2};
 	const bksge::vector<int> v2 {0,1,2,3};

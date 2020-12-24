@@ -11,9 +11,9 @@
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/utility/move.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -60,14 +60,14 @@ GTEST_TEST(AlgorithmTest, ForEachNTest)
 		EXPECT_TRUE(i == bksge::next(bksge::begin(a), 3));
 	}
 	{
-		const std::array<int, 5> a {{ 3, 1, 4, 1, 5 }};
+		const bksge::array<int, 5> a {{ 3, 1, 4, 1, 5 }};
 		int n = 0;
 		auto i = bksge::for_each_n(bksge::begin(a), a.size(), Sum(&n));
 		EXPECT_EQ(14, n);
 		EXPECT_TRUE(i == bksge::end(a));
 	}
 	{
-		const std::array<int, 5> a {{ 3, 1, 4, 1, 5 }};
+		const bksge::array<int, 5> a {{ 3, 1, 4, 1, 5 }};
 		int n = 0;
 		auto i = bksge::for_each_n(bksge::begin(a), a.size() - 1, Sum(&n));
 		EXPECT_EQ(9, n);

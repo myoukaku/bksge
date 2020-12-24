@@ -10,10 +10,10 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <iterator>
-#include <array>
+#include <iterator>	// back_inserter
 #include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
@@ -35,7 +35,7 @@ GTEST_TEST(AlgorithmTest, RotateCopyTest)
 	}
 	{
 		const int a[] { 1,2,3 };
-		std::array<int, 5> b {{}};
+		bksge::array<int, 5> b {{}};
 		auto it = bksge::rotate_copy(bksge::begin(a), bksge::next(bksge::begin(a), 2), bksge::end(a), bksge::begin(b));
 		EXPECT_TRUE(it == bksge::next(bksge::begin(b), 3));
 		EXPECT_EQ(3, b[0]);
@@ -54,7 +54,7 @@ GTEST_TEST(AlgorithmTest, RotateCopyTest)
 		EXPECT_EQ(0, b[2]);
 	}
 	{
-		const std::array<int, 4> a {{ 1,2,3,4 }};
+		const bksge::array<int, 4> a {{ 1,2,3,4 }};
 		int b[4] {};
 		auto it = bksge::rotate_copy(bksge::begin(a), bksge::next(bksge::begin(a), 1), bksge::end(a), bksge::begin(b));
 		EXPECT_TRUE(it == bksge::next(bksge::begin(b), 4));
@@ -64,7 +64,7 @@ GTEST_TEST(AlgorithmTest, RotateCopyTest)
 		EXPECT_EQ(1, b[3]);
 	}
 	{
-		const std::array<int, 4> a {{ 1,2,3,4 }};
+		const bksge::array<int, 4> a {{ 1,2,3,4 }};
 		bksge::list<int> b;
 		bksge::rotate_copy(bksge::begin(a), bksge::next(bksge::begin(a), 4), bksge::end(a), std::back_inserter(b));
 		auto it = b.begin();
@@ -111,7 +111,7 @@ GTEST_TEST(AlgorithmTest, RotateCopyTest)
 	}
 	{
 		const bksge::list<int> a { 1,2,3 };
-		std::array<int, 4> b {{}};
+		bksge::array<int, 4> b {{}};
 		auto it = bksge::rotate_copy(bksge::begin(a), bksge::next(bksge::begin(a), 2), bksge::end(a), bksge::begin(b));
 		EXPECT_TRUE(it == bksge::next(bksge::begin(b), 3));
 		EXPECT_EQ(3, b[0]);

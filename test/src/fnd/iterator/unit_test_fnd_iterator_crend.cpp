@@ -8,9 +8,9 @@
 
 #include <bksge/fnd/iterator/crend.hpp>
 #include <bksge/fnd/iterator/crbegin.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -34,7 +34,7 @@ GTEST_TEST(IteratorTest, CREndTest)
 	}
 
 	BKSGE_STATIC_CONSTEXPR int a[] = {0,1,2};
-	BKSGE_STATIC_CONSTEXPR std::array<float, 2> a2{{0.5f, 1.5f}};
+	BKSGE_STATIC_CONSTEXPR bksge::array<float, 2> a2{{0.5f, 1.5f}};
 	bksge::vector<float> v {3,1,4,1,5};
 	bksge::list<int> l {6, 7, 8};
 

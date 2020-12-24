@@ -51,7 +51,7 @@ using std::span;
 #include <bksge/fnd/iterator/concepts/sized_sentinel_for.hpp>
 #include <bksge/fnd/memory/to_address.hpp>
 #include <bksge/fnd/assert.hpp>
-#include <array>
+#include <bksge/fnd/array.hpp>
 
 namespace bksge
 {
@@ -145,7 +145,7 @@ public:
 	>
 	BKSGE_REQUIRES(is_compatible_array<U, N>::value)
 	BKSGE_CXX14_CONSTEXPR
-	span(std::array<U, N>& arr) BKSGE_NOEXCEPT
+	span(bksge::array<U, N>& arr) BKSGE_NOEXCEPT
 		: span(static_cast<pointer>(arr.data()), N)
 	{}
 
@@ -158,7 +158,7 @@ public:
 	>
 	BKSGE_REQUIRES(is_compatible_array<U const, N>::value)
 	BKSGE_CXX14_CONSTEXPR
-	span(std::array<U, N> const& arr) BKSGE_NOEXCEPT
+	span(bksge::array<U, N> const& arr) BKSGE_NOEXCEPT
 		: span(static_cast<pointer>(arr.data()), N)
 	{}
 
@@ -461,7 +461,7 @@ public:
 	>
 	BKSGE_REQUIRES(is_compatible_array<U, N>::value)
 	BKSGE_CONSTEXPR
-	span(std::array<U, N>& arr) BKSGE_NOEXCEPT
+	span(bksge::array<U, N>& arr) BKSGE_NOEXCEPT
 		: span(static_cast<pointer>(arr.data()), N)
 	{}
 
@@ -474,7 +474,7 @@ public:
 	>
 	BKSGE_REQUIRES(is_compatible_array<U const, N>::value)
 	BKSGE_CONSTEXPR
-	span(std::array<U, N> const& arr) BKSGE_NOEXCEPT
+	span(bksge::array<U, N> const& arr) BKSGE_NOEXCEPT
 		: span(static_cast<pointer>(arr.data()), N)
 	{}
 
@@ -689,10 +689,10 @@ template <typename T, bksge::size_t N>
 span(T(&)[N]) -> span<T, N>;
 
 template <typename T, bksge::size_t N>
-span(std::array<T, N>&) -> span<T, N>;
+span(bksge::array<T, N>&) -> span<T, N>;
 
 template <typename T, bksge::size_t N>
-span(std::array<T, N> const&) -> span<T const, N>;
+span(bksge::array<T, N> const&) -> span<T const, N>;
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 template <bksge::contiguous_iterator It, typename End>

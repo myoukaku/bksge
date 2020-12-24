@@ -9,9 +9,9 @@
 #include <bksge/fnd/algorithm/find.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -43,7 +43,7 @@ GTEST_TEST(AlgorithmTest, FindTest)
 		}
 	}
 	{
-		BKSGE_STATIC_CONSTEXPR std::array<float, 8> a{{3, 4, 4, 5, 5, 5, 3, 6}};
+		BKSGE_STATIC_CONSTEXPR bksge::array<float, 8> a{{3, 4, 4, 5, 5, 5, 3, 6}};
 		{
 			BKSGE_CXX17_CONSTEXPR_OR_CONST auto it = bksge::find(bksge::begin(a), bksge::end(a), 3);
 			BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE(it == bksge::begin(a));

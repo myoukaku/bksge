@@ -11,12 +11,12 @@
 #include <bksge/fnd/ranges/views/view_base.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/string_view.hpp>
+#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/deque.hpp>
 #include <bksge/fnd/forward_list.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/span.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <array>
 #include <set>
 #include <unordered_set>
 #include "ranges_test.hpp"
@@ -79,7 +79,7 @@ BKSGE_RANGES_VIEW_TEST(false, int const(*)[2]);
 BKSGE_RANGES_VIEW_TEST(false, int      *);
 BKSGE_RANGES_VIEW_TEST(false, int const*);
 
-BKSGE_RANGES_VIEW_TEST(false, std::array<int, 2>);
+BKSGE_RANGES_VIEW_TEST(false, bksge::array<int, 2>);
 BKSGE_RANGES_VIEW_TEST(false, bksge::vector<int>);
 BKSGE_RANGES_VIEW_TEST(false, bksge::deque<int>);
 BKSGE_RANGES_VIEW_TEST(false, bksge::list<int>);

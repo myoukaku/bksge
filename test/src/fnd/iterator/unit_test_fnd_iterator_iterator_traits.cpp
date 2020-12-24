@@ -14,7 +14,7 @@
 #include <bksge/fnd/forward_list.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <iterator>
+#include <iterator>	// reverse_iterator
 #include <map>
 
 namespace bksge_iterator_test
