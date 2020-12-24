@@ -10,7 +10,7 @@
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
-#include <sstream>
+#include <bksge/fnd/sstream/basic_stringstream.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -1474,7 +1474,7 @@ TYPED_TEST(StringViewTest, OutputStreamTest)
 {
 	using CharT = TypeParam;
 	using string_view = bksge::basic_string_view<CharT>;
-	using stringstream = std::basic_stringstream<CharT>;
+	using stringstream = bksge::basic_stringstream<CharT>;
 	using Helper = StringViewTestHelper<CharT>;
 
 	string_view sv{Helper::aababc(), 6};	// "aababc"

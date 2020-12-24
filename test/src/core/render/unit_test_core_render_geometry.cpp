@@ -11,7 +11,8 @@
 #include <bksge/core/render/vertex_element.hpp>
 #include <bksge/fnd/cstdint/uint16_t.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
-#include <sstream>
+#include <bksge/fnd/sstream/stringstream.hpp>
+#include <bksge/fnd/sstream/wstringstream.hpp>
 #include <gtest/gtest.h>
 #include "serialize_test.hpp"
 
@@ -322,14 +323,14 @@ GTEST_TEST(Render_Geometry, SerializeTest)
 
 	Geometry v(PrimitiveTopology::kLines, vertex_array, index_array);
 
-	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
-//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v);
+	SerializeTest<text_oarchive,   text_iarchive,   bksge::stringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::stringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, bksge::stringstream>(v);
 
 #if !defined(BKSGE_NO_STD_WSTREAMBUF)
-	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
-//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
+	SerializeTest<text_oarchive,   text_iarchive,   bksge::wstringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::wstringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, bksge::wstringstream>(v);
 #endif
 }
 #endif

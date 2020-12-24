@@ -10,9 +10,9 @@
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/sstream.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <functional>
-#include <sstream>
 #include <gtest/gtest.h>
 #include "serialize_test.hpp"
 
@@ -32,7 +32,7 @@ GTEST_TEST(Render_ShaderType, ToStringTest)
 template <typename TChar>
 static void OutputStreamTestSub(bksge::ShaderType shader_type, const TChar* str)
 {
-	std::basic_stringstream<TChar> ss;
+	bksge::basic_stringstream<TChar> ss;
 	ss << shader_type;
 	EXPECT_EQ(str, ss.str());
 }
@@ -53,14 +53,14 @@ GTEST_TEST(Render_ShaderType, SerializeTest)
 
 	auto const v = bksge::ShaderType::kGLSL;
 
-	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
-//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v);
+	SerializeTest<text_oarchive,   text_iarchive,   bksge::stringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::stringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, bksge::stringstream>(v);
 
 #if !defined(BKSGE_NO_STD_WSTREAMBUF)
-	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
-//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
+	SerializeTest<text_oarchive,   text_iarchive,   bksge::wstringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::wstringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, bksge::wstringstream>(v);
 #endif
 }
 

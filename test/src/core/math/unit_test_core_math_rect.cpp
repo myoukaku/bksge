@@ -9,6 +9,8 @@
 #include <bksge/core/math/rect.hpp>
 #include <bksge/core/math/vector2.hpp>
 #include <bksge/core/math/extent2.hpp>
+#include <bksge/fnd/sstream/stringstream.hpp>
+#include <bksge/fnd/sstream/wstringstream.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/type_traits/is_default_constructible.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_default_constructible.hpp>
@@ -17,7 +19,6 @@
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
-#include <sstream>
 #include "constexpr_test.hpp"
 #include "serialize_test.hpp"
 
@@ -400,13 +401,13 @@ TYPED_TEST(MathRectTest, OutputStreamTest)
 
 	{
 		Rect const r{Vector2{1, -2}, Vector2{3, 4}};
-		std::stringstream ss;
+		bksge::stringstream ss;
 		ss << r;
 		EXPECT_EQ("{ 1, -2, 3, 4 }", ss.str());
 	}
 	{
 		Rect const r{Vector2{-10, 9}, Extent2{10, 15}};
-		std::wstringstream ss;
+		bksge::wstringstream ss;
 		ss << r;
 		EXPECT_EQ(L"{ -10, 9, 0, 24 }", ss.str());
 	}
@@ -422,14 +423,14 @@ TYPED_TEST(MathRectTest, SerializeTest)
 
 	Rect const v{Vector2{1, -2}, Vector2{3, 4}};
 
-	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
-//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v);
+	SerializeTest<text_oarchive,   text_iarchive,   bksge::stringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::stringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, bksge::stringstream>(v);
 
 #if !defined(BKSGE_NO_STD_WSTREAMBUF)
-	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
-//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
+	SerializeTest<text_oarchive,   text_iarchive,   bksge::wstringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::wstringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, bksge::wstringstream>(v);
 #endif
 }
 

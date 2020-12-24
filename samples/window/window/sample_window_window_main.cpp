@@ -7,7 +7,7 @@
  */
 
 #include <bksge/core/window.hpp>
-#include <sstream>
+#include <bksge/fnd/sstream/stringstream.hpp>
 
 int main()
 {
@@ -16,7 +16,7 @@ int main()
 	int count = 0;
 	while (window.Update())
 	{
-		std::stringstream ss;
+		bksge::stringstream ss;
 		ss << "sample_window: " << count;
 		window.SetTitle(ss.str());
 		++count;

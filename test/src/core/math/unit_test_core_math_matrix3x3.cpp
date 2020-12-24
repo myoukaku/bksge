@@ -13,6 +13,8 @@
 #include <bksge/core/math/vector3.hpp>
 #include <bksge/core/math/vector4.hpp>
 #include <bksge/fnd/cmath/degrees_to_radians.hpp>
+#include <bksge/fnd/sstream/stringstream.hpp>
+#include <bksge/fnd/sstream/wstringstream.hpp>
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/type_traits/is_default_constructible.hpp>
@@ -22,7 +24,6 @@
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <gtest/gtest.h>
-#include <sstream>
 #include "constexpr_test.hpp"
 #include "serialize_test.hpp"
 #include "math_test_utility.hpp"
@@ -1352,7 +1353,7 @@ TYPED_TEST(MathMatrix3x3Test, OutputStreamTest)
 			{21, 22, 23},
 			{31, 32, 33},
 		};
-		std::stringstream ss;
+		bksge::stringstream ss;
 		ss << m;
 		EXPECT_EQ("{ { 11, 12, 13 }, { 21, 22, 23 }, { 31, 32, 33 } }", ss.str());
 	}
@@ -1363,7 +1364,7 @@ TYPED_TEST(MathMatrix3x3Test, OutputStreamTest)
 			{61, 62, 63},
 			{71, 72, 73},
 		};
-		std::wstringstream ss;
+		bksge::wstringstream ss;
 		ss << m;
 		EXPECT_EQ(L"{ { 51, 52, 53 }, { 61, 62, 63 }, { 71, 72, 73 } }", ss.str());
 	}
@@ -1894,14 +1895,14 @@ TYPED_TEST(MathMatrix3x3Test, SerializeTest)
 		{31, 32, 33},
 	};
 
-	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
-//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v);
+	SerializeTest<text_oarchive,   text_iarchive,   bksge::stringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::stringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, bksge::stringstream>(v);
 
 #if !defined(BKSGE_NO_STD_WSTREAMBUF)
-	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
-//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
+	SerializeTest<text_oarchive,   text_iarchive,   bksge::wstringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::wstringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, bksge::wstringstream>(v);
 #endif
 }
 

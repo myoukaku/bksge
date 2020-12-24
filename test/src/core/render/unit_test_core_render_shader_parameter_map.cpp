@@ -13,7 +13,8 @@
 #include <bksge/core/math/color4.hpp>
 #include <bksge/core/math/matrix4x4.hpp>
 #include <bksge/fnd/utility/move.hpp>
-#include <sstream>
+#include <bksge/fnd/sstream/stringstream.hpp>
+#include <bksge/fnd/sstream/wstringstream.hpp>
 #include <gtest/gtest.h>
 //#include "serialize_test.hpp"
 
@@ -145,13 +146,13 @@ GTEST_TEST(Render_ShaderParameterMap, SerializeTest)
 	m.SetParameter("Position", bksge::Vector3<float>(5, 6, 7));
 	m.SetParameter("mat", bksge::Matrix4x4<float>::Identity());
 
-	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream> (m);
-	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream> (m);
-	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream> (m);
+	SerializeTest<text_oarchive,   text_iarchive,   bksge::stringstream> (m);
+	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::stringstream> (m);
+	SerializeTest<binary_oarchive, binary_iarchive, bksge::stringstream> (m);
 
 #if !defined(BKSGE_NO_STD_WSTREAMBUF)
-	SerializeTest<text_woarchive,  text_wiarchive,  std::wstringstream>(m);
-	SerializeTest<xml_woarchive,   xml_wiarchive,   std::wstringstream>(m);
+	SerializeTest<text_woarchive,  text_wiarchive,  bksge::wstringstream>(m);
+	SerializeTest<xml_woarchive,   xml_wiarchive,   bksge::wstringstream>(m);
 #endif
 }
 #endif

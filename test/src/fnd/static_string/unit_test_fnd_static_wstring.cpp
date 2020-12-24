@@ -11,8 +11,8 @@
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/concepts/swap.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/sstream/wstringstream.hpp>
 #include <gtest/gtest.h>
-#include <sstream>
 #include "constexpr_test.hpp"
 
 namespace bksge_static_wstring_test
@@ -3367,13 +3367,13 @@ GTEST_TEST(StaticWStringTest, AddTest)
 GTEST_TEST(StaticWStringTest, InputStreamTest)
 {
 	{
-		std::wstringstream ss(L"abc");
+		bksge::wstringstream ss(L"abc");
 		bksge::static_wstring<16> s;
 		ss >> s;
 		EXPECT_TRUE(s == L"abc");
 	}
 	{
-		std::wstringstream ss(L"Hello World");
+		bksge::wstringstream ss(L"Hello World");
 		bksge::static_wstring<32> s;
 		ss >> s;
 		EXPECT_TRUE(s == L"Hello");
@@ -3386,13 +3386,13 @@ GTEST_TEST(StaticWStringTest, OutputStreamTest)
 {
 	{
 		bksge::static_wstring<16> const s = L"abc";
-		std::wstringstream ss;
+		bksge::wstringstream ss;
 		ss << s;
 		EXPECT_TRUE(ss.str() == L"abc");
 	}
 	{
 		bksge::static_wstring<32> const s = L"Hello World";
-		std::wstringstream ss;
+		bksge::wstringstream ss;
 		ss << s;
 		EXPECT_TRUE(ss.str() == L"Hello World");
 	}

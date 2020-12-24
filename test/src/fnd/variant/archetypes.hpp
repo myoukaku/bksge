@@ -9,10 +9,10 @@
 #ifndef UNIT_TEST_FND_VARIANT_ARCHETYPES_HPP
 #define UNIT_TEST_FND_VARIANT_ARCHETYPES_HPP
 
+#include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cassert>
 #include <initializer_list>
-#include <type_traits>
 #include "test_macros.hpp"
 #include "test_workarounds.hpp"
 
@@ -74,38 +74,38 @@ struct TestBase
 		++alive; ++constructed; ++default_constructed;
 	}
 
-	template <bool Dummy = true, typename std::enable_if<Dummy && Explicit, bool>::type = true>
+	template <bool Dummy = true, bksge::enable_if_t<Dummy && Explicit, bool> = true>
 	explicit TestBase(int x) noexcept: value(x)
 	{
 		++alive; ++constructed; ++value_constructed;
 	}
 
-	template <bool Dummy = true, typename std::enable_if<Dummy && !Explicit, bool>::type = true>
+	template <bool Dummy = true, bksge::enable_if_t<Dummy && !Explicit, bool> = true>
 	TestBase(int x) noexcept: value(x)
 	{
 		++alive; ++constructed; ++value_constructed;
 	}
 
-	template <bool Dummy = true, typename std::enable_if<Dummy && Explicit, bool>::type = true>
+	template <bool Dummy = true, bksge::enable_if_t<Dummy && Explicit, bool> = true>
 	explicit TestBase(int, int y) noexcept: value(y)
 	{
 		++alive; ++constructed; ++value_constructed;
 	}
 
-	template <bool Dummy = true, typename std::enable_if<Dummy && !Explicit, bool>::type = true>
+	template <bool Dummy = true, bksge::enable_if_t<Dummy && !Explicit, bool> = true>
 	TestBase(int, int y) noexcept: value(y)
 	{
 		++alive; ++constructed; ++value_constructed;
 	}
 
-	template <bool Dummy = true, typename std::enable_if<Dummy && Explicit, bool>::type = true>
+	template <bool Dummy = true, bksge::enable_if_t<Dummy && Explicit, bool> = true>
 	explicit TestBase(std::initializer_list<int>& il, int = 0) noexcept
 		: value(static_cast<int>(il.size()))
 	{
 		++alive; ++constructed; ++value_constructed;
 	}
 
-	template <bool Dummy = true, typename std::enable_if<Dummy && !Explicit, bool>::type = true>
+	template <bool Dummy = true, bksge::enable_if_t<Dummy && !Explicit, bool> = true>
 	TestBase(std::initializer_list<int>& il, int = 0) noexcept: value(static_cast<int>(il.size()))
 	{
 		++alive; ++constructed; ++value_constructed;
@@ -175,22 +175,22 @@ template <class D, bool E> int TestBase<D, E>::destroyed = 0;
 template <bool Explicit = false>
 struct ValueBase
 {
-	template <bool Dummy = true, typename std::enable_if<Dummy && Explicit, bool>::type = true>
+	template <bool Dummy = true, bksge::enable_if_t<Dummy && Explicit, bool> = true>
 	explicit constexpr ValueBase(int x): value(x) {}
 
-	template <bool Dummy = true, typename std::enable_if<Dummy && !Explicit, bool>::type = true>
+	template <bool Dummy = true, bksge::enable_if_t<Dummy && !Explicit, bool> = true>
 	constexpr ValueBase(int x) : value(x) {}
 
-	template <bool Dummy = true, typename std::enable_if<Dummy && Explicit, bool>::type = true>
+	template <bool Dummy = true, bksge::enable_if_t<Dummy && Explicit, bool> = true>
 	explicit constexpr ValueBase(int, int y) : value(y) {}
 
-	template <bool Dummy = true, typename std::enable_if<Dummy && !Explicit, bool>::type = true>
+	template <bool Dummy = true, bksge::enable_if_t<Dummy && !Explicit, bool> = true>
 	constexpr ValueBase(int, int y) : value(y) {}
 
-	template <bool Dummy = true, typename std::enable_if<Dummy && Explicit, bool>::type = true>
+	template <bool Dummy = true, bksge::enable_if_t<Dummy && Explicit, bool> = true>
 	explicit constexpr ValueBase(std::initializer_list<int>& il, int = 0) : value(static_cast<int>(il.size())) {}
 
-	template <bool Dummy = true, typename std::enable_if<Dummy && !Explicit, bool>::type = true>
+	template <bool Dummy = true, bksge::enable_if_t<Dummy && !Explicit, bool> = true>
 	constexpr ValueBase(std::initializer_list<int>& il, int = 0) : value(static_cast<int>(il.size())) {}
 
 	BKSGE_CXX14_CONSTEXPR ValueBase& operator=(int xvalue) noexcept
@@ -254,22 +254,22 @@ protected:
 template <bool Explicit = false>
 struct TrivialValueBase
 {
-	template <bool Dummy = true, typename std::enable_if<Dummy && Explicit, bool>::type = true>
+	template <bool Dummy = true, bksge::enable_if_t<Dummy && Explicit, bool> = true>
 	explicit constexpr TrivialValueBase(int x): value(x) {}
 
-	template <bool Dummy = true, typename std::enable_if<Dummy && !Explicit, bool>::type = true>
+	template <bool Dummy = true, bksge::enable_if_t<Dummy && !Explicit, bool> = true>
 	constexpr TrivialValueBase(int x) : value(x) {}
 
-	template <bool Dummy = true, typename std::enable_if<Dummy && Explicit, bool>::type = true>
+	template <bool Dummy = true, bksge::enable_if_t<Dummy && Explicit, bool> = true>
 	explicit constexpr TrivialValueBase(int, int y) : value(y) {}
 
-	template <bool Dummy = true, typename std::enable_if<Dummy && !Explicit, bool>::type = true>
+	template <bool Dummy = true, bksge::enable_if_t<Dummy && !Explicit, bool> = true>
 	constexpr TrivialValueBase(int, int y) : value(y) {}
 
-	template <bool Dummy = true, typename std::enable_if<Dummy && Explicit, bool>::type = true>
+	template <bool Dummy = true, bksge::enable_if_t<Dummy && Explicit, bool> = true>
 	explicit constexpr TrivialValueBase(std::initializer_list<int>& il, int = 0) : value(static_cast<int>(il.size())) {}
 
-	template <bool Dummy = true, typename std::enable_if<Dummy && !Explicit, bool>::type = true>
+	template <bool Dummy = true, bksge::enable_if_t<Dummy && !Explicit, bool> = true>
 	constexpr TrivialValueBase(std::initializer_list<int>& il, int = 0) : value(static_cast<int>(il.size())) {}
 
 	int value;

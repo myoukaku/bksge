@@ -10,6 +10,7 @@
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/map/map.hpp>
+#include <bksge/fnd/sstream/stringstream.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
@@ -17,7 +18,6 @@
 #include <initializer_list>
 #include <iostream>
 #include <new>
-#include <sstream>
 #include <tuple>
 #include <utility>
 
@@ -160,7 +160,7 @@ GTEST_TEST(ConfigTest, Cxx17FoldExpressionsTest)
 	EXPECT_EQ(false, all(false, true, true));
 	EXPECT_EQ(true, all());
 
-	std::stringstream ss;
+	bksge::stringstream ss;
 	print_all(ss, 1, 2, 3, 'A');
 	EXPECT_EQ("123A", ss.str());
 #endif
@@ -296,7 +296,7 @@ GTEST_TEST(ConfigTest, Cxx17RangeBasedForTest)
 #if defined(BKSGE_HAS_CXX17_RANGE_BASED_FOR)
 	bksge::string str{"ABCDE, abcde|12345"};
 	{
-		std::stringstream ss;
+		bksge::stringstream ss;
 		for (auto c : str)
 		{
 			ss << c;
@@ -304,7 +304,7 @@ GTEST_TEST(ConfigTest, Cxx17RangeBasedForTest)
 		EXPECT_EQ("ABCDE, abcde|12345", ss.str());
 	}
 	{
-		std::stringstream ss;
+		bksge::stringstream ss;
 		for (auto c : DelimitedString<','>{str})
 		{
 			ss << c;
@@ -312,7 +312,7 @@ GTEST_TEST(ConfigTest, Cxx17RangeBasedForTest)
 		EXPECT_EQ("ABCDE", ss.str());
 	}
 	{
-		std::stringstream ss;
+		bksge::stringstream ss;
 		for (auto c : DelimitedString<'|'>{str})
 		{
 			ss << c;

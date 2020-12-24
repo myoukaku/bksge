@@ -167,7 +167,7 @@ void test_T_assignment_sfinae()
 // TODO
 //		static_assert(!bksge::is_assignable<V, X>::value, "no boolean conversion in operator=");
 // TODO
-//		static_assert(!bksge::is_assignable<V, std::false_type>::value, "no converted to bool in operator=");
+//		static_assert(!bksge::is_assignable<V, bksge::false_type>::value, "no converted to bool in operator=");
 	}
 	{
 		struct X {};

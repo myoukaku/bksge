@@ -11,10 +11,20 @@
 
 #include <bksge/fnd/variant/variant.hpp>
 #include <bksge/fnd/type_traits/is_invocable_r.hpp>
+#include <bksge/fnd/type_traits/is_destructible.hpp>
+#include <bksge/fnd/type_traits/is_default_constructible.hpp>
+#include <bksge/fnd/type_traits/is_copy_constructible.hpp>
+#include <bksge/fnd/type_traits/is_move_constructible.hpp>
+#include <bksge/fnd/type_traits/is_copy_assignable.hpp>
+#include <bksge/fnd/type_traits/is_move_assignable.hpp>
+#include <bksge/fnd/type_traits/is_swappable.hpp>
+#include <bksge/fnd/type_traits/is_function.hpp>
+#include <bksge/fnd/type_traits/remove_pointer.hpp>
+#include <bksge/fnd/type_traits/remove_reference.hpp>
+#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <functional>
-#include <type_traits>
 #include <cassert>
 #include "test_macros.hpp"
 #include "test_workarounds.hpp"
@@ -125,8 +135,8 @@ struct ConvertibleTo
 	To to{};
 	operator To& ()& { return to; }
 	operator To const& () const& { return to; }
-	operator To&&()&& { return std::move(to); }
-	operator To const&& () const&& { return std::move(to); }
+	operator To&&()&& { return bksge::move(to); }
+	operator To const&& () const&& { return bksge::move(to); }
 };
 
 template <typename HashExpr>
@@ -151,18 +161,16 @@ void test_hash_enabled(InputKey const& key)
 {
 	using namespace PoisonedHashDetail;
 
-	static_assert(std::is_destructible<Hash>::value, "");
+	static_assert(bksge::is_destructible<Hash>::value, "");
 	// Enabled hash requirements
-	static_assert(std::is_default_constructible<Hash>::value, "");
-	static_assert(std::is_copy_constructible<Hash>::value, "");
-	static_assert(std::is_move_constructible<Hash>::value, "");
-	static_assert(std::is_copy_assignable<Hash>::value, "");
-	static_assert(std::is_move_assignable<Hash>::value, "");
+	static_assert(bksge::is_default_constructible<Hash>::value, "");
+	static_assert(bksge::is_copy_constructible<Hash>::value, "");
+	static_assert(bksge::is_move_constructible<Hash>::value, "");
+	static_assert(bksge::is_copy_assignable<Hash>::value, "");
+	static_assert(bksge::is_move_assignable<Hash>::value, "");
 
 #if (BKSGE_CXX_STANDARD >= 17) && !defined(BKSGE_APPLE_CLANG)
-	static_assert(std::is_swappable<Hash>::value, "");
-//#elif defined(_LIBCPP_VERSION)
-//	static_assert(std::__is_swappable<Hash>::value, "");
+	static_assert(bksge::is_swappable<Hash>::value, "");
 #endif
 
 	// Hashable requirements
@@ -193,16 +201,16 @@ void test_hash_disabled()
 	using namespace PoisonedHashDetail;
 
 	// Disabled hash requirements
-	static_assert(!std::is_default_constructible<Hash>::value, "");
-	static_assert(!std::is_copy_constructible<Hash>::value, "");
-	static_assert(!std::is_move_constructible<Hash>::value, "");
-	static_assert(!std::is_copy_assignable<Hash>::value, "");
-	static_assert(!std::is_move_assignable<Hash>::value, "");
+	static_assert(!bksge::is_default_constructible<Hash>::value, "");
+	static_assert(!bksge::is_copy_constructible<Hash>::value, "");
+	static_assert(!bksge::is_move_constructible<Hash>::value, "");
+	static_assert(!bksge::is_copy_assignable<Hash>::value, "");
+	static_assert(!bksge::is_move_assignable<Hash>::value, "");
 
-	static_assert(!std::is_function<
-		typename std::remove_pointer<
-		typename std::remove_reference<Hash>::type
-		>::type
+	static_assert(!bksge::is_function<
+		bksge::remove_pointer_t<
+			bksge::remove_reference_t<Hash>
+		>
 	>::value, "");
 
 	// Hashable requirements

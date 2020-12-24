@@ -89,7 +89,7 @@ void test_T_ctor_sfinae()
 		};
 // TODO
 //		static_assert(!bksge::is_constructible<V, X>::value, "no boolean conversion in constructor");
-//		static_assert(!bksge::is_constructible<V, std::false_type>::value, "no converted to bool in constructor");
+//		static_assert(!bksge::is_constructible<V, bksge::false_type>::value, "no converted to bool in constructor");
 	}
 	{
 		struct X {};
