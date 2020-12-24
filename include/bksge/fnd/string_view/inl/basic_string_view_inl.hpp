@@ -13,9 +13,9 @@
 #include <bksge/fnd/algorithm/min.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
+#include <bksge/fnd/ostream/basic_ostream.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/config.hpp>
-#include <ostream>	// basic_ostream
 
 namespace bksge
 {
@@ -775,9 +775,9 @@ basic_string_view<CharT, Traits>::range_check(bool flag) const
 }
 
 template <typename CharT, typename Traits1, typename Traits2>
-inline std::basic_ostream<CharT, Traits1>&
+inline bksge::basic_ostream<CharT, Traits1>&
 operator<<(
-	std::basic_ostream<CharT, Traits1>& os,
+	bksge::basic_ostream<CharT, Traits1>& os,
 	bksge::basic_string_view<CharT, Traits2> const sv)
 {
 	return os.write(sv.data(), sv.size());

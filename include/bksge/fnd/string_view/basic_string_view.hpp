@@ -32,8 +32,8 @@ using std::basic_string_view;
 #include <bksge/fnd/type_traits/is_trivial.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/iterator/reverse_iterator.hpp>
+#include <bksge/fnd/ostream/basic_ostream.hpp>
 #include <bksge/fnd/config.hpp>
-#include <iosfwd>	// basic_ostream
 
 namespace bksge
 {
@@ -227,9 +227,9 @@ operator>=(
 }
 
 template <typename CharT, typename Traits1, typename Traits2>
-std::basic_ostream<CharT, Traits1>&
+bksge::basic_ostream<CharT, Traits1>&
 operator<<(
-	std::basic_ostream<CharT, Traits1>& os,
+	bksge::basic_ostream<CharT, Traits1>& os,
 	bksge::basic_string_view<CharT, Traits2> const sv);
 
 }	// namespace bksge

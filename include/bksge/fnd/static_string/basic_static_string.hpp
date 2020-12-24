@@ -20,10 +20,10 @@
 #include <bksge/fnd/string/char_traits.hpp>
 #include <bksge/fnd/string/basic_string.hpp>
 #include <bksge/fnd/string_view/basic_string_view.hpp>
+#include <bksge/fnd/ostream/basic_ostream.hpp>
 #include <bksge/fnd/config.hpp>
 #include <initializer_list>
 #include <istream>	// std::basic_istream
-#include <ostream>	// std::basic_ostream
 
 namespace bksge
 {
@@ -1360,8 +1360,8 @@ operator>>(std::basic_istream<CharT, Traits1>& is,
 }
 
 template <typename CharT, typename Traits1, bksge::size_t Capacity, typename Traits2>
-inline std::basic_ostream<CharT, Traits1>&
-operator<<(std::basic_ostream<CharT, Traits1>& os,
+inline bksge::basic_ostream<CharT, Traits1>&
+operator<<(bksge::basic_ostream<CharT, Traits1>& os,
 	basic_static_string<CharT, Capacity, Traits2> const& str)
 {
 	return os.write(str.data(), str.size());

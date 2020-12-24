@@ -12,7 +12,7 @@
 #include <bksge/core/render/fwd/stencil_operation_fwd.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/string/string.hpp>
-#include <ostream>
+#include <bksge/fnd/ostream/basic_ostream.hpp>
 
 namespace bksge
 {
@@ -44,8 +44,8 @@ bksge::string to_string(StencilOperation const& stencil_operation);
  *	@brief	ストリームへの出力
  */
 template <typename CharT, typename Traits>
-inline std::basic_ostream<CharT, Traits>&
-operator<<(std::basic_ostream<CharT, Traits>& os, StencilOperation const& rhs)
+inline bksge::basic_ostream<CharT, Traits>&
+operator<<(bksge::basic_ostream<CharT, Traits>& os, StencilOperation const& rhs)
 {
 	return os << to_string(rhs).c_str();
 }

@@ -15,8 +15,8 @@
 #include <bksge/fnd/ratio/ratio_gcd.hpp>
 #include <bksge/fnd/type_traits/common_type.hpp>
 #include <bksge/fnd/cstdint/intmax_t.hpp>
+#include <bksge/fnd/ostream/basic_ostream.hpp>
 #include <bksge/fnd/config.hpp>
-#include <ostream>
 #include <ratio>
 
 namespace bksge
@@ -338,8 +338,8 @@ operator>=(quantity<T...> const& lhs, quantity<U...> const& rhs) BKSGE_NOEXCEPT
 }
 
 template <typename E, typename T, typename... U>
-inline std::basic_ostream<E, T>&
-operator<<(std::basic_ostream<E, T>& os, quantity<U...> const& rhs)
+inline bksge::basic_ostream<E, T>&
+operator<<(bksge::basic_ostream<E, T>& os, quantity<U...> const& rhs)
 {
 	return os << rhs.value();
 }

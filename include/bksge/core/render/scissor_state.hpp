@@ -15,7 +15,7 @@
 #include <bksge/fnd/serialization/nvp.hpp>
 #include <bksge/fnd/serialization/version.hpp>
 #include <bksge/fnd/ios/flags_saver.hpp>
-#include <ostream>
+#include <bksge/fnd/ostream/basic_ostream.hpp>
 #include <ios>
 
 namespace bksge
@@ -62,8 +62,8 @@ bool operator!=(ScissorState const& lhs, ScissorState const& rhs);
  *	@brief	ストリームへの出力
  */
 template <typename CharT, typename Traits>
-inline std::basic_ostream<CharT, Traits>&
-operator<<(std::basic_ostream<CharT, Traits>& os, ScissorState const& rhs)
+inline bksge::basic_ostream<CharT, Traits>&
+operator<<(bksge::basic_ostream<CharT, Traits>& os, ScissorState const& rhs)
 {
 	bksge::ios::flags_saver ifs(os);
 	return os << std::boolalpha << "{ "

@@ -12,7 +12,7 @@
 #include <bksge/core/render/fwd/sampled_texture_fwd.hpp>
 #include <bksge/core/render/texture.hpp>
 #include <bksge/core/render/sampler.hpp>
-#include <ostream>
+#include <bksge/fnd/ostream/basic_ostream.hpp>
 
 namespace bksge
 {
@@ -67,8 +67,8 @@ bool operator!=(SampledTexture const& lhs, SampledTexture const& rhs);
  *	@brief	ストリームへの出力
  */
 template <typename CharT, typename Traits>
-inline std::basic_ostream<CharT, Traits>&
-operator<<(std::basic_ostream<CharT, Traits>& os, SampledTexture const& rhs)
+inline bksge::basic_ostream<CharT, Traits>&
+operator<<(bksge::basic_ostream<CharT, Traits>& os, SampledTexture const& rhs)
 {
 	return os << "{ "
 		   << rhs.sampler() << ", "

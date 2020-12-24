@@ -13,8 +13,8 @@
 #include <bksge/fnd/random/engines/detail/split_mix64.hpp>
 #include <bksge/fnd/ios/flags_saver.hpp>
 #include <bksge/fnd/limits.hpp>
+#include <bksge/fnd/ostream/basic_ostream.hpp>
 #include <bksge/fnd/config.hpp>
-#include <iosfwd>
 
 namespace bksge
 {
@@ -96,9 +96,9 @@ private:
 		typename CharT, typename Traits,
 		typename U, bksge::size_t M, typename D
 	>
-	friend std::basic_ostream<CharT, Traits>&
+	friend bksge::basic_ostream<CharT, Traits>&
 	operator<<(
-		std::basic_ostream<CharT, Traits>& os,
+		bksge::basic_ostream<CharT, Traits>& os,
 		xorshift_base<U, M, D> const& e);
 
 	template <
@@ -115,9 +115,9 @@ template <
 	typename CharT, typename Traits,
 	typename UIntType, bksge::size_t N, typename Derived
 >
-inline std::basic_ostream<CharT, Traits>&
+inline bksge::basic_ostream<CharT, Traits>&
 operator<<(
-	std::basic_ostream<CharT, Traits>& os,
+	bksge::basic_ostream<CharT, Traits>& os,
 	xorshift_base<UIntType, N, Derived> const& e)
 {
 	bksge::ios::flags_saver lx(os);

@@ -21,8 +21,8 @@
 #include <bksge/fnd/unordered_map/unordered_map.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/limits.hpp>
+#include <bksge/fnd/ostream/basic_ostream.hpp>
 #include <iomanip>
-#include <ostream>
 
 namespace bksge
 {
@@ -91,8 +91,8 @@ class text_oarchive
 {
 public:
 	template <typename CharT, typename Traits>
-	explicit text_oarchive(std::basic_ostream<CharT, Traits>& os)
-		: m_impl(new text_oarchive_impl<std::basic_ostream<CharT, Traits>>(os))
+	explicit text_oarchive(bksge::basic_ostream<CharT, Traits>& os)
+		: m_impl(new text_oarchive_impl<bksge::basic_ostream<CharT, Traits>>(os))
 	{
 		m_tracking[nullptr] = 0;
 	}

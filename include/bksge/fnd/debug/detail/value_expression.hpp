@@ -18,8 +18,8 @@
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/declval.hpp>
+#include <bksge/fnd/ostream/basic_ostream.hpp>
 #include <bksge/fnd/config.hpp>
-#include <ostream>
 
 namespace bksge
 {
@@ -67,25 +67,25 @@ struct stream_outputtable_impl<Stream, Expr, bksge::void_t<decltype(bksge::declv
 
 template <typename CharT, typename Traits, typename T>
 using stream_outputtable =
-	typename stream_outputtable_impl<std::basic_ostream<CharT, Traits>, value_expression<T>>::type;
+	typename stream_outputtable_impl<bksge::basic_ostream<CharT, Traits>, value_expression<T>>::type;
 
 template <typename CharT, typename Traits, typename T, typename = bksge::enable_if_t<stream_outputtable<CharT, Traits, T>::value>>
-std::basic_ostream<CharT, Traits>&
-operator<<(std::basic_ostream<CharT, Traits>& os, value_expression<T> const& rhs)
+bksge::basic_ostream<CharT, Traits>&
+operator<<(bksge::basic_ostream<CharT, Traits>& os, value_expression<T> const& rhs)
 {
 	return os << rhs.value();
 }
 
 template <typename CharT, typename Traits, typename T, bksge::enable_if_t<!stream_outputtable<CharT, Traits, T>::value>* = nullptr>
-std::basic_ostream<CharT, Traits>&
-operator<<(std::basic_ostream<CharT, Traits>& os, value_expression<T> const& /*rhs*/)
+bksge::basic_ostream<CharT, Traits>&
+operator<<(bksge::basic_ostream<CharT, Traits>& os, value_expression<T> const& /*rhs*/)
 {
 	return os;// << rhs.value();
 }
 
 template <typename CharT, typename Traits>
-std::basic_ostream<CharT, Traits>&
-operator<<(std::basic_ostream<CharT, Traits>& os, value_expression<bksge::nullptr_t> const& /*rhs*/)
+bksge::basic_ostream<CharT, Traits>&
+operator<<(bksge::basic_ostream<CharT, Traits>& os, value_expression<bksge::nullptr_t> const& /*rhs*/)
 {
 	return os << "nullptr";
 }

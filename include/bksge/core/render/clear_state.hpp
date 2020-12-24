@@ -17,7 +17,7 @@
 #include <bksge/fnd/serialization/version.hpp>
 #include <bksge/fnd/cstdint/uint8_t.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
-#include <ostream>
+#include <bksge/fnd/ostream/basic_ostream.hpp>
 
 namespace bksge
 {
@@ -71,8 +71,8 @@ bool operator!=(ClearState const& lhs, ClearState const& rhs);
  *	@brief	ストリームへの出力
  */
 template <typename CharT, typename Traits>
-inline std::basic_ostream<CharT, Traits>&
-operator<<(std::basic_ostream<CharT, Traits>& os, ClearState const& rhs)
+inline bksge::basic_ostream<CharT, Traits>&
+operator<<(bksge::basic_ostream<CharT, Traits>& os, ClearState const& rhs)
 {
 	return os << "{ "
 		<< rhs.flag() << ", "

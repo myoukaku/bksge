@@ -13,7 +13,7 @@
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/string/string.hpp>
-#include <ostream>
+#include <bksge/fnd/ostream/basic_ostream.hpp>
 
 namespace bksge
 {
@@ -259,8 +259,8 @@ bksge::string to_string(TextureFormat const& format);
  *	@brief	ストリームへの出力
  */
 template <typename CharT, typename Traits>
-std::basic_ostream<CharT, Traits>&
-operator<<(std::basic_ostream<CharT, Traits>& os, TextureFormat const& rhs)
+bksge::basic_ostream<CharT, Traits>&
+operator<<(bksge::basic_ostream<CharT, Traits>& os, TextureFormat const& rhs)
 {
 	return os << to_string(rhs).c_str();
 }
