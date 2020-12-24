@@ -15,7 +15,7 @@
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/iterator/iterator_category.hpp>
 #include <bksge/fnd/iterator/iter_difference_t.hpp>
-#include <iterator>
+#include <bksge/fnd/iterator/tag.hpp>
 
 namespace bksge
 {
@@ -138,8 +138,8 @@ is_permutation(
 	ForwardIterator1 first1, ForwardIterator1 last1,
 	ForwardIterator2 first2, ForwardIterator2 last2,
 	BinaryPredicate pred,
-	std::forward_iterator_tag*,
-	std::forward_iterator_tag*)
+	bksge::forward_iterator_tag*,
+	bksge::forward_iterator_tag*)
 {
 	//  shorten sequences as much as possible by lopping of any equal prefix
 	for (; first1 != last1 && first2 != last2; ++first1, ++first2)
@@ -180,8 +180,8 @@ is_permutation(
 	RandomAccessIterator1 first1, RandomAccessIterator2 last1,
 	RandomAccessIterator1 first2, RandomAccessIterator2 last2,
 	BinaryPredicate pred,
-	std::random_access_iterator_tag*,
-	std::random_access_iterator_tag*)
+	bksge::random_access_iterator_tag*,
+	bksge::random_access_iterator_tag*)
 {
 	if (bksge::distance(first1, last1) != bksge::distance(first2, last2))
 	{

@@ -11,9 +11,9 @@
 
 #include <bksge/fnd/algorithm/partition.hpp>
 #include <bksge/fnd/iterator/iterator_category.hpp>
+#include <bksge/fnd/iterator/tag.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/config.hpp>
-#include <iterator>
 
 namespace bksge
 {
@@ -30,7 +30,7 @@ partition(
 	ForwardIterator first,
 	ForwardIterator last,
 	Predicate pred,
-	std::forward_iterator_tag*)
+	bksge::forward_iterator_tag*)
 {
 	for (;;)
 	{
@@ -65,7 +65,7 @@ partition(
 	BidirectionalIterator first,
 	BidirectionalIterator last,
 	Predicate pred,
-	std::bidirectional_iterator_tag*)
+	bksge::bidirectional_iterator_tag*)
 {
 	for (;;)
 	{

@@ -12,8 +12,8 @@
 #include <bksge/fnd/algorithm/search.hpp>
 #include <bksge/fnd/functional/equal_to.hpp>
 #include <bksge/fnd/iterator/iterator_category.hpp>
+#include <bksge/fnd/iterator/tag.hpp>
 #include <bksge/fnd/config.hpp>
-#include <iterator>
 
 namespace bksge
 {
@@ -34,8 +34,8 @@ search(
 	ForwardIterator1 first1, ForwardIterator1 last1,
 	ForwardIterator2 first2, ForwardIterator2 last2,
 	BinaryPredicate pred,
-	std::forward_iterator_tag*,
-	std::forward_iterator_tag*)
+	bksge::forward_iterator_tag*,
+	bksge::forward_iterator_tag*)
 {
 	if (first2 == last2)
 	{
@@ -98,8 +98,8 @@ search(
 	RandomAccessIterator1 first1, RandomAccessIterator1 last1,
 	RandomAccessIterator2 first2, RandomAccessIterator2 last2,
 	BinaryPredicate pred,
-	std::random_access_iterator_tag*,
-	std::random_access_iterator_tag*)
+	bksge::random_access_iterator_tag*,
+	bksge::random_access_iterator_tag*)
 {
 	// Take advantage of knowing source and pattern lengths.
 	// Stop short when source is smaller than pattern

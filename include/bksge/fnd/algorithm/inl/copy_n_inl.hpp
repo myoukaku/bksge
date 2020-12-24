@@ -12,7 +12,7 @@
 #include <bksge/fnd/algorithm/copy_n.hpp>
 #include <bksge/fnd/algorithm/copy.hpp>
 #include <bksge/fnd/iterator/iterator_category.hpp>
-#include <iterator>
+#include <bksge/fnd/iterator/tag.hpp>
 
 namespace bksge
 {
@@ -33,7 +33,7 @@ copy_n(
 	InputIterator first,
 	Size n,
 	OutputIterator result,
-	std::input_iterator_tag*)
+	bksge::input_iterator_tag*)
 {
 	for (Size i = 0; i < n; i++)
 	{
@@ -53,7 +53,7 @@ copy_n(
 	RandomAccessIterator first,
 	Size n,
 	OutputIterator result,
-	std::random_access_iterator_tag*)
+	bksge::random_access_iterator_tag*)
 {
 	return bksge::copy(first, first + n, result);
 }

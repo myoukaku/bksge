@@ -13,7 +13,7 @@
 #include <bksge/fnd/functional/equal_to.hpp>
 #include <bksge/fnd/iterator/distance.hpp>
 #include <bksge/fnd/iterator/iterator_category.hpp>
-#include <iterator>
+#include <bksge/fnd/iterator/tag.hpp>
 
 namespace bksge
 {
@@ -34,8 +34,8 @@ equal(
 	InputIterator1 first1, InputIterator1 last1,
 	InputIterator2 first2, InputIterator2 last2,
 	BinaryPredicate pred,
-	std::input_iterator_tag*,
-	std::input_iterator_tag*)
+	bksge::input_iterator_tag*,
+	bksge::input_iterator_tag*)
 {
 	for (; first1 != last1 && first2 != last2; ++first1, ++first2)
 	{
@@ -58,8 +58,8 @@ equal(
 	RandomAccessIterator1 first1, RandomAccessIterator1 last1,
 	RandomAccessIterator2 first2, RandomAccessIterator2 last2,
 	BinaryPredicate pred,
-	std::random_access_iterator_tag*,
-	std::random_access_iterator_tag*)
+	bksge::random_access_iterator_tag*,
+	bksge::random_access_iterator_tag*)
 {
 	if (bksge::distance(first1, last1) != bksge::distance(first2, last2))
 	{

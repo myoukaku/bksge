@@ -18,12 +18,12 @@
 #include <bksge/fnd/iterator/prev.hpp>
 #include <bksge/fnd/iterator/iterator_category.hpp>
 #include <bksge/fnd/iterator/iter_value_t.hpp>
+#include <bksge/fnd/iterator/tag.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/is_trivially_move_assignable.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
-#include <iterator>
 
 namespace bksge
 {
@@ -167,7 +167,7 @@ rotate(
 	ForwardIterator first,
 	ForwardIterator middle,
 	ForwardIterator last,
-	std::forward_iterator_tag*,
+	bksge::forward_iterator_tag*,
 	bksge::false_type)
 {
 	return rotate_forward(first, middle, last);
@@ -179,7 +179,7 @@ rotate(
 	ForwardIterator first,
 	ForwardIterator middle,
 	ForwardIterator last,
-	std::forward_iterator_tag*,
+	bksge::forward_iterator_tag*,
 	bksge::true_type)
 {
 	if (bksge::next(first) == middle)
@@ -196,7 +196,7 @@ rotate(
 	BidirectionalIterator first,
 	BidirectionalIterator middle,
 	BidirectionalIterator last,
-	std::bidirectional_iterator_tag*,
+	bksge::bidirectional_iterator_tag*,
 	bksge::true_type)
 {
 	if (bksge::next(first) == middle)
@@ -218,7 +218,7 @@ rotate(
 	RandomAccessIterator first,
 	RandomAccessIterator middle,
 	RandomAccessIterator last,
-	std::random_access_iterator_tag*,
+	bksge::random_access_iterator_tag*,
 	bksge::true_type)
 {
 	if (bksge::next(first) == middle)

@@ -13,9 +13,9 @@
 #include <bksge/fnd/functional/equal_to.hpp>
 #include <bksge/fnd/iterator/iterator_category.hpp>
 #include <bksge/fnd/iterator/iter_value_t.hpp>
+#include <bksge/fnd/iterator/tag.hpp>
 #include <bksge/fnd/type_traits/add_lvalue_reference.hpp>
 #include <bksge/fnd/config.hpp>
-#include <iterator>
 
 namespace bksge
 {
@@ -37,8 +37,8 @@ unique_copy(
 	InputIterator last,
 	OutputIterator result,
 	BinaryPredicate pred,
-	std::input_iterator_tag*,
-	std::output_iterator_tag*)
+	bksge::input_iterator_tag*,
+	bksge::output_iterator_tag*)
 {
 	if (first != last)
 	{
@@ -71,8 +71,8 @@ unique_copy(
 	ForwardIterator last,
 	OutputIterator result,
 	BinaryPredicate pred,
-	std::forward_iterator_tag*,
-	std::output_iterator_tag*)
+	bksge::forward_iterator_tag*,
+	bksge::output_iterator_tag*)
 {
 	if (first != last)
 	{
@@ -105,8 +105,8 @@ unique_copy(
 	InputIterator last,
 	ForwardIterator result,
 	BinaryPredicate pred,
-	std::input_iterator_tag*,
-	std::forward_iterator_tag*)
+	bksge::input_iterator_tag*,
+	bksge::forward_iterator_tag*)
 {
 	if (first != last)
 	{

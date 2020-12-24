@@ -12,7 +12,8 @@
 #include <bksge/fnd/algorithm/fill.hpp>
 #include <bksge/fnd/algorithm/fill_n.hpp>
 #include <bksge/fnd/iterator/iterator_category.hpp>
-#include <iterator>
+#include <bksge/fnd/iterator/tag.hpp>
+#include <bksge/fnd/config.hpp>
 
 namespace bksge
 {
@@ -29,7 +30,7 @@ fill(
 	ForwardIterator first,
 	ForwardIterator last,
 	T const& value,
-	std::forward_iterator_tag*)
+	bksge::forward_iterator_tag*)
 {
 	while (first != last)
 	{
@@ -43,7 +44,7 @@ fill(
 	RandomAccessIterator first,
 	RandomAccessIterator last,
 	T const& value,
-	std::random_access_iterator_tag*)
+	bksge::random_access_iterator_tag*)
 {
 	bksge::fill_n(first, last - first, value);
 }
