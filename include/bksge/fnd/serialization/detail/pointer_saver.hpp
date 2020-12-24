@@ -9,9 +9,9 @@
 #ifndef BKSGE_FND_SERIALIZATION_DETAIL_POINTER_SAVER_HPP
 #define BKSGE_FND_SERIALIZATION_DETAIL_POINTER_SAVER_HPP
 
+#include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
-#include <memory>
 
 namespace bksge
 {
@@ -82,7 +82,7 @@ private:
 		T*	m_ptr;
 	};
 
-	std::unique_ptr<ImplBase> m_impl;
+	bksge::unique_ptr<ImplBase> m_impl;
 };
 
 }	// namespace detail

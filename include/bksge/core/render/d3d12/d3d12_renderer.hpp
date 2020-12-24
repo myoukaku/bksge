@@ -27,7 +27,7 @@
 #include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
 #include <bksge/core/render/renderer.hpp>
 #include <bksge/core/window/fwd/window_fwd.hpp>
-#include <memory>
+#include <bksge/fnd/memory/unique_ptr.hpp>
 
 namespace bksge
 {
@@ -57,16 +57,16 @@ private:
 		RenderState const& render_state) override;
 
 private:
-	std::unique_ptr<DXGIFactory>				m_factory;
-	std::unique_ptr<DXGISwapChain>			m_swap_chain;
-	std::unique_ptr<d3d12::Device>			m_device;
-	std::unique_ptr<d3d12::CommandQueue>		m_command_queue;
-	std::unique_ptr<d3d12::CommandList>		m_command_list;
-	std::unique_ptr<d3d12::RenderTarget>		m_render_target;
-	std::unique_ptr<d3d12::DepthStencil>		m_depth_stencil;
-	std::unique_ptr<d3d12::Fence>				m_fence;
-	std::unique_ptr<d3d12::DescriptorHeaps>	m_descriptor_heaps;
-	std::unique_ptr<d3d12::ResourcePool>		m_resource_pool;
+	bksge::unique_ptr<DXGIFactory>				m_factory;
+	bksge::unique_ptr<DXGISwapChain>			m_swap_chain;
+	bksge::unique_ptr<d3d12::Device>			m_device;
+	bksge::unique_ptr<d3d12::CommandQueue>		m_command_queue;
+	bksge::unique_ptr<d3d12::CommandList>		m_command_list;
+	bksge::unique_ptr<d3d12::RenderTarget>		m_render_target;
+	bksge::unique_ptr<d3d12::DepthStencil>		m_depth_stencil;
+	bksge::unique_ptr<d3d12::Fence>				m_fence;
+	bksge::unique_ptr<d3d12::DescriptorHeaps>	m_descriptor_heaps;
+	bksge::unique_ptr<d3d12::ResourcePool>		m_resource_pool;
 	::UINT										m_frame_index;
 };
 

@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_D3D12_DETAIL_FWD_HLSL_SHADER_FWD_HPP
 
 #include <bksge/core/render/shader_stage.hpp>
-#include <memory>
+#include <bksge/fnd/memory/unique_ptr.hpp>
 #include <map>
 
 namespace bksge
@@ -27,7 +27,7 @@ class HlslVertexShader;
 class HlslPixelShader;
 
 using HlslShaderMap =
-	std::map<ShaderStage, std::unique_ptr<HlslShaderBase>>;
+	std::map<ShaderStage, bksge::unique_ptr<HlslShaderBase>>;
 
 }	// namespace d3d12
 

@@ -7,10 +7,10 @@
  */
 
 #include <bksge/fnd/iterator/concepts/indirect_binary_predicate.hpp>
+#include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/config.hpp>
 #include <iterator>
 #include <vector>
-#include <memory>
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_INDIRECT_BINARY_PREDICATE_TEST(B, ...)	\
@@ -67,7 +67,7 @@ BKSGE_INDIRECT_BINARY_PREDICATE_TEST(false, Pred1, int*, int&&);
 BKSGE_INDIRECT_BINARY_PREDICATE_TEST(false, Pred1, int*, int[]);
 BKSGE_INDIRECT_BINARY_PREDICATE_TEST(false, Pred1, int*, int[2]);
 BKSGE_INDIRECT_BINARY_PREDICATE_TEST(false, Pred1, int*, void*);
-BKSGE_INDIRECT_BINARY_PREDICATE_TEST(true,  Pred1, int*, std::unique_ptr<int>);
+BKSGE_INDIRECT_BINARY_PREDICATE_TEST(true,  Pred1, int*, bksge::unique_ptr<int>);
 BKSGE_INDIRECT_BINARY_PREDICATE_TEST(true,  Pred1, int*, std::shared_ptr<int>);
 BKSGE_INDIRECT_BINARY_PREDICATE_TEST(true,  Pred1, std::vector<int>::iterator,       int*);
 BKSGE_INDIRECT_BINARY_PREDICATE_TEST(true,  Pred1, std::vector<int>::iterator,       std::vector<int>::iterator);

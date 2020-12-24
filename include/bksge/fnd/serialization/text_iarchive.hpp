@@ -16,12 +16,12 @@
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/intmax_t.hpp>
 #include <bksge/fnd/cstdint/uintmax_t.hpp>
+#include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_floating_point.hpp>
 #include <bksge/fnd/type_traits/is_integral.hpp>
 #include <bksge/fnd/type_traits/is_unsigned.hpp>
 #include <bksge/fnd/type_traits/is_signed.hpp>
-#include <memory>
 #include <vector>
 #include <istream>
 #include <unordered_map>
@@ -234,7 +234,7 @@ private:
 	}
 
 private:
-	std::unique_ptr<text_iarchive_impl_base>			m_impl;
+	bksge::unique_ptr<text_iarchive_impl_base>			m_impl;
 	std::unordered_map<const void*, bksge::size_t>		m_tracking;
 	std::vector<detail::pointer_loader<text_iarchive>>	m_pointer_list;
 	std::vector<std::function<void()>>					m_on_destroy;

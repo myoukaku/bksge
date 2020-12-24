@@ -7,11 +7,11 @@
  */
 
 #include <bksge/fnd/variant/variant.hpp>
+#include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/type_traits/is_assignable.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/config.hpp>
 #include <string>
-#include <memory>
 #include <gtest/gtest.h>
 #include "fnd/variant/variant_test_helpers.hpp"
 
@@ -42,7 +42,7 @@ GTEST_TEST(VariantTest, AssignConvTest)
 
 // TODO
 //	static_assert(!bksge::is_assignable<bksge::variant<bool>, bksge::true_type>::value, "");
-	static_assert(!bksge::is_assignable<bksge::variant<bool>, std::unique_ptr<char> >::value, "");
+	static_assert(!bksge::is_assignable<bksge::variant<bool>, bksge::unique_ptr<char> >::value, "");
 // TODO
 //	static_assert(!bksge::is_assignable<bksge::variant<bool>, decltype(nullptr)>::value, "");
 }

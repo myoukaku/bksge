@@ -11,7 +11,7 @@
 
 #include <bksge/core/input/detail/mouse_manager_base.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <memory>
+#include <bksge/fnd/memory/unique_ptr.hpp>
 
 namespace bksge
 {
@@ -38,7 +38,7 @@ private:
 	MouseState const& VGetState(bksge::size_t index) const override;
 
 	class Impl;
-	std::unique_ptr<Impl>	m_impl;
+	bksge::unique_ptr<Impl>	m_impl;
 };
 
 }	// namespace win32

@@ -8,6 +8,7 @@
 
 #include <bksge/fnd/any/any.hpp>
 #include <bksge/fnd/any/any_cast.hpp>
+#include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/type_traits/is_assignable.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/type_traits/is_trivially_copyable.hpp>
@@ -20,7 +21,6 @@
 #include <bksge/fnd/cstdint/uintptr_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <initializer_list>
-#include <memory>	// unique_ptr
 #include <set>
 #include <vector>
 #include <gtest/gtest.h>
@@ -533,7 +533,7 @@ struct NoDefaultCtor
 GTEST_TEST(AnyTest, RequirementsTest)
 {
 	using bksge::any;
-	using std::unique_ptr;
+	using bksge::unique_ptr;
 
 	static_assert( bksge::is_assignable<any&, int>::value, "");
 	static_assert(!bksge::is_assignable<any&, unique_ptr<int>>::value, "");

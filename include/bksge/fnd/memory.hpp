@@ -17,5 +17,6 @@
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/memory/pointer_traits.hpp>
 #include <bksge/fnd/memory/to_address.hpp>
+#include <bksge/fnd/memory/unique_ptr.hpp>
 
 #endif // BKSGE_FND_MEMORY_HPP

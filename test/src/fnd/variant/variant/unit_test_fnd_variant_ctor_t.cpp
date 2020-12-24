@@ -8,6 +8,7 @@
 
 #include <bksge/fnd/variant/variant.hpp>
 #include <bksge/fnd/variant/get.hpp>
+#include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/type_traits/is_convertible.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
@@ -16,7 +17,6 @@
 #include <bksge/fnd/utility/in_place_index.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <string>
-#include <memory>
 #include <gtest/gtest.h>
 #include "fnd/variant/test_macros.hpp"
 #include "fnd/variant/variant_test_helpers.hpp"
@@ -81,8 +81,8 @@ void test_T_ctor_sfinae()
 		//static_assert(bksge::is_constructible<V, int>::value == VariantAllowsNarrowingConversions, "no matching constructor");
 	}
 	{
-		using V = bksge::variant<std::unique_ptr<int>, bool>;
-		static_assert(!bksge::is_constructible<V, std::unique_ptr<char>>::value, "no explicit bool in constructor");
+		using V = bksge::variant<bksge::unique_ptr<int>, bool>;
+		static_assert(!bksge::is_constructible<V, bksge::unique_ptr<char>>::value, "no explicit bool in constructor");
 		struct X
 		{
 			operator void* ();
@@ -146,7 +146,7 @@ void test_T_ctor_basic()
 #endif
 #if 0	// TODO
 	{
-		bksge::variant<bool volatile, std::unique_ptr<int>> v = nullptr;
+		bksge::variant<bool volatile, bksge::unique_ptr<int>> v = nullptr;
 		EXPECT_EQ(v.index(), 1u);
 		EXPECT_EQ(get<1>(v), nullptr);
 	}

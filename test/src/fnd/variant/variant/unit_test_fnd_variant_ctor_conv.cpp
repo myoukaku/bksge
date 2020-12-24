@@ -7,9 +7,9 @@
  */
 
 #include <bksge/fnd/variant/variant.hpp>
+#include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
-#include <memory>
 #include <string>
 #include <gtest/gtest.h>
 #include "fnd/variant/variant_test_helpers.hpp"
@@ -41,7 +41,7 @@ GTEST_TEST(VariantTest, CtorConvTest)
 
 // TODO
 //	static_assert(!bksge::is_constructible<bksge::variant<bool>, bksge::true_type>::value, "");
-	static_assert(!bksge::is_constructible<bksge::variant<bool>, std::unique_ptr<char> >::value, "");
+	static_assert(!bksge::is_constructible<bksge::variant<bool>, bksge::unique_ptr<char> >::value, "");
 //	static_assert(!bksge::is_constructible<bksge::variant<bool>, decltype(nullptr)>::value, "");
 }
 

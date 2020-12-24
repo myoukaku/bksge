@@ -10,7 +10,7 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
-#include <memory>
+#include <bksge/fnd/memory/unique_ptr.hpp>
 #include <list>
 #include <vector>
 #include <array>
@@ -29,7 +29,7 @@ bool pred1(const std::shared_ptr<int>& x, const std::shared_ptr<int>& y)
 
 struct pred2
 {
-	bool operator()(const std::unique_ptr<int>& x, const std::unique_ptr<int>& y) const
+	bool operator()(const bksge::unique_ptr<int>& x, const bksge::unique_ptr<int>& y) const
 	{
 		return *x == *y;
 	}
@@ -91,7 +91,7 @@ GTEST_TEST(AlgorithmTest, UniqueTest)
 		EXPECT_TRUE(a.empty());
 	}
 	{
-		std::list<std::unique_ptr<int>> a;
+		std::list<bksge::unique_ptr<int>> a;
 		a.emplace_back(new int(1));
 		a.emplace_back(new int(1));
 		a.emplace_back(new int(1));

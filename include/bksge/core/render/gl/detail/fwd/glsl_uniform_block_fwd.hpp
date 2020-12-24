@@ -9,7 +9,7 @@
 #ifndef BKSGE_CORE_RENDER_GL_DETAIL_FWD_GLSL_UNIFORM_BLOCK_FWD_HPP
 #define BKSGE_CORE_RENDER_GL_DETAIL_FWD_GLSL_UNIFORM_BLOCK_FWD_HPP
 
-#include <memory>
+#include <bksge/fnd/memory/unique_ptr.hpp>
 
 namespace bksge
 {
@@ -21,7 +21,7 @@ namespace gl
 {
 
 class GlslUniformBlock;
-using GlslUniformBlockUnique = std::unique_ptr<GlslUniformBlock>;
+using GlslUniformBlockUnique = bksge::unique_ptr<GlslUniformBlock>;
 
 }	// namespace gl
 

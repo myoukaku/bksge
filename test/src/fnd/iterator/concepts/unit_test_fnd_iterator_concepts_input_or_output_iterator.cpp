@@ -7,9 +7,9 @@
  */
 
 #include <bksge/fnd/iterator/concepts/input_or_output_iterator.hpp>
+#include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/config.hpp>
 #include <iterator>
-#include <memory>
 #include <vector>
 #include "iterator_test.hpp"
 
@@ -54,7 +54,7 @@ BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, void const         ** const);
 BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, void       volatile** const);
 BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, void const volatile** const);
 
-BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, std::unique_ptr<int>);
+BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, bksge::unique_ptr<int>);
 BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, std::shared_ptr<int>);
 BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(false, std::vector<int>);
 BKSGE_INPUT_OR_OUTPUT_ITERATOR_TEST(true,  std::vector<int>::iterator);

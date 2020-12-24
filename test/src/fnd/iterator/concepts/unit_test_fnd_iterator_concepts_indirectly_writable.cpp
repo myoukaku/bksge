@@ -7,9 +7,9 @@
  */
 
 #include <bksge/fnd/iterator/concepts/indirectly_writable.hpp>
+#include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/config.hpp>
 #include <iterator>
-#include <memory>
 #include <vector>
 #include "iterator_test.hpp"
 
@@ -32,7 +32,7 @@ BKSGE_INDIRECTLY_WRITABLE_TEST(false, int const*,                       int);
 BKSGE_INDIRECTLY_WRITABLE_TEST(true,  int      * const,                 int);
 BKSGE_INDIRECTLY_WRITABLE_TEST(false, int const* const,                 int);
 BKSGE_INDIRECTLY_WRITABLE_TEST(false, void*,                            int);
-BKSGE_INDIRECTLY_WRITABLE_TEST(true,  std::unique_ptr<int>,             int);
+BKSGE_INDIRECTLY_WRITABLE_TEST(true,  bksge::unique_ptr<int>,           int);
 BKSGE_INDIRECTLY_WRITABLE_TEST(true,  std::shared_ptr<int>,             int);
 BKSGE_INDIRECTLY_WRITABLE_TEST(false, std::vector<int>,                 int);
 BKSGE_INDIRECTLY_WRITABLE_TEST(true,  std::vector<int>::iterator,       int);

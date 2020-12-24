@@ -9,7 +9,7 @@
 #ifndef BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_COMBINED_IMAGE_SAMPLER_SETTER_FWD_HPP
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_COMBINED_IMAGE_SAMPLER_SETTER_FWD_HPP
 
-#include <memory>
+#include <bksge/fnd/memory/unique_ptr.hpp>
 
 namespace bksge
 {
@@ -21,7 +21,7 @@ namespace vulkan
 {
 
 class CombinedImageSamplerSetter;
-using CombinedImageSamplerSetterUniquePtr = std::unique_ptr<CombinedImageSamplerSetter>;
+using CombinedImageSamplerSetterUniquePtr = bksge::unique_ptr<CombinedImageSamplerSetter>;
 
 }	// namespace vulkan
 

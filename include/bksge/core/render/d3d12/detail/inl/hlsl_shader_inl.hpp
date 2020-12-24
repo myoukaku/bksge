@@ -22,9 +22,9 @@
 #include <bksge/core/render/d3d_common/d3dcompiler.hpp>
 #include <bksge/core/render/d3d_common/throw_if_failed.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
+#include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/assert.hpp>
-#include <memory>
 #include <vector>
 #include <string>
 #include <iostream>
@@ -165,7 +165,7 @@ HlslShaderBase::CreateDescriptorRanges(void)
 	}
 }
 
-BKSGE_INLINE std::unique_ptr<InputLayout>
+BKSGE_INLINE bksge::unique_ptr<InputLayout>
 HlslShaderBase::CreateInputLayout(void)
 {
 	return bksge::make_unique<InputLayout>(m_reflection);

@@ -8,12 +8,12 @@
 
 #include <bksge/fnd/variant/variant.hpp>
 #include <bksge/fnd/variant/get.hpp>
+#include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/type_traits/is_assignable.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_assignable.hpp>
 #include <bksge/fnd/utility/in_place_type.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
-#include <memory>
 #include <string>
 #include <gtest/gtest.h>
 #include "fnd/variant/test_macros.hpp"
@@ -158,8 +158,8 @@ void test_T_assignment_sfinae()
 		//static_assert(bksge::is_assignable<V, int>::value == VariantAllowsNarrowingConversions, "no matching operator=");
 	}
 	{
-		using V = bksge::variant<std::unique_ptr<int>, bool>;
-		static_assert(!bksge::is_assignable<V, std::unique_ptr<char>>::value,"no explicit bool in operator=");
+		using V = bksge::variant<bksge::unique_ptr<int>, bool>;
+		static_assert(!bksge::is_assignable<V, bksge::unique_ptr<char>>::value,"no explicit bool in operator=");
 		struct X
 		{
 			operator void* ();
@@ -229,7 +229,7 @@ void test_T_assignment_basic()
 #endif
 #if 0	// TODO
 	{
-		bksge::variant<bool, std::unique_ptr<int>> v;
+		bksge::variant<bool, bksge::unique_ptr<int>> v;
 		v = nullptr;
 		EXPECT_EQ(v.index(), 1u);
 		EXPECT_EQ(get<1>(v), nullptr);

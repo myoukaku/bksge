@@ -7,6 +7,7 @@
  */
 
 #include <bksge/fnd/iterator/concepts/permutable.hpp>
+#include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/string_view.hpp>
 #include <bksge/fnd/config.hpp>
 #include <iterator>
@@ -17,7 +18,6 @@
 #include <string>
 #include <vector>
 #include <streambuf>
-#include <memory>
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_PERMUTABLE_TEST(B, ...)	\
@@ -57,7 +57,7 @@ BKSGE_PERMUTABLE_TEST(false, std::vector<int>::const_iterator);
 BKSGE_PERMUTABLE_TEST(false, std::istreambuf_iterator<char>);
 BKSGE_PERMUTABLE_TEST(false, std::ostreambuf_iterator<char>);
 BKSGE_PERMUTABLE_TEST(false, std::shared_ptr<int>);
-BKSGE_PERMUTABLE_TEST(false, std::unique_ptr<int>);
+BKSGE_PERMUTABLE_TEST(false, bksge::unique_ptr<int>);
 
 }	// namespace permutable_test
 
