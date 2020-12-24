@@ -18,6 +18,10 @@
 #include <bksge/fnd/cstdint/uintmax_t.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/type_traits/is_floating_point.hpp>
+#include <bksge/fnd/type_traits/is_integral.hpp>
+#include <bksge/fnd/type_traits/is_unsigned.hpp>
+#include <bksge/fnd/type_traits/is_signed.hpp>
 #include <bksge/fnd/unordered_map/unordered_map.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/limits.hpp>
@@ -150,25 +154,25 @@ private:
 		}
 	}
 
-	template <typename T, bksge::enable_if_t<std::is_floating_point<T>::value>* = nullptr>
+	template <typename T, bksge::enable_if_t<bksge::is_floating_point<T>::value>* = nullptr>
 	void save_arithmetic(T const& t)
 	{
 		m_impl->save_arithmetic(t);
 	}
 
-	template <typename T, bksge::enable_if_t<std::is_integral<T>::value>* = nullptr>
+	template <typename T, bksge::enable_if_t<bksge::is_integral<T>::value>* = nullptr>
 	void save_arithmetic(T const& t)
 	{
 		save_integral(t);
 	}
 
-	template <typename T, bksge::enable_if_t<std::is_unsigned<T>::value>* = nullptr>
+	template <typename T, bksge::enable_if_t<bksge::is_unsigned<T>::value>* = nullptr>
 	void save_integral(T const& t)
 	{
 		m_impl->save_arithmetic(static_cast<bksge::uintmax_t>(t));
 	}
 
-	template <typename T, bksge::enable_if_t<std::is_signed<T>::value>* = nullptr>
+	template <typename T, bksge::enable_if_t<bksge::is_signed<T>::value>* = nullptr>
 	void save_integral(T const& t)
 	{
 		m_impl->save_arithmetic(static_cast<bksge::intmax_t>(t));

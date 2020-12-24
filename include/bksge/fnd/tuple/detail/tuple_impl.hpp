@@ -12,6 +12,7 @@
 #include <bksge/fnd/tuple/detail/head_base.hpp>
 #include <bksge/fnd/tuple/detail/use_alloc.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/memory/allocator_arg.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_move_constructible.hpp>
@@ -19,7 +20,6 @@
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/config.hpp>
-#include <memory>
 
 namespace bksge
 {
@@ -115,14 +115,14 @@ struct tuple_impl<Idx, Head, Tail...>
 
 	template <typename Alloc>
 	BKSGE_CONSTEXPR
-	tuple_impl(std::allocator_arg_t tag, Alloc const& a)
+	tuple_impl(bksge::allocator_arg_t tag, Alloc const& a)
 		: Inherited(tag, a)
 		, Base(tag, use_alloc<Head>(a))
 	{}
 
 	template <typename Alloc>
 	BKSGE_CONSTEXPR
-	tuple_impl(std::allocator_arg_t tag, Alloc const& a, Head const& head, Tail const&... tail)
+	tuple_impl(bksge::allocator_arg_t tag, Alloc const& a, Head const& head, Tail const&... tail)
 		: Inherited(tag, a, tail...)
 		, Base(use_alloc<Head, Alloc, Head>(a), head)
 	{}
@@ -130,35 +130,35 @@ struct tuple_impl<Idx, Head, Tail...>
 	template <typename Alloc, typename UHead, typename... UTail,
 		typename = bksge::enable_if_t<sizeof...(Tail) == sizeof...(UTail)>>
 	BKSGE_CONSTEXPR
-	tuple_impl(std::allocator_arg_t tag, Alloc const& a, UHead&& head, UTail&&... tail)
+	tuple_impl(bksge::allocator_arg_t tag, Alloc const& a, UHead&& head, UTail&&... tail)
 		: Inherited(tag, a, bksge::forward<UTail>(tail)...)
 		, Base(use_alloc<Head, Alloc, UHead>(a), bksge::forward<UHead>(head))
 	{}
 
 	template <typename Alloc>
 	BKSGE_CONSTEXPR
-	tuple_impl(std::allocator_arg_t tag, Alloc const& a, tuple_impl const& in)
+	tuple_impl(bksge::allocator_arg_t tag, Alloc const& a, tuple_impl const& in)
 		: Inherited(tag, a, tail(in))
 		, Base(use_alloc<Head, Alloc, Head>(a), head(in))
 	{}
 
 	template <typename Alloc>
 	BKSGE_CONSTEXPR
-	tuple_impl(std::allocator_arg_t tag, Alloc const& a, tuple_impl&& in)
+	tuple_impl(bksge::allocator_arg_t tag, Alloc const& a, tuple_impl&& in)
 		: Inherited(tag, a, bksge::move(tail(in)))
 		, Base(use_alloc<Head, Alloc, Head>(a), bksge::forward<Head>(head(in)))
 	{}
 
 	template <typename Alloc, typename UHead, typename... UTails>
 	BKSGE_CONSTEXPR
-	tuple_impl(std::allocator_arg_t tag, Alloc const& a, tuple_impl<Idx, UHead, UTails...> const& in)
+	tuple_impl(bksge::allocator_arg_t tag, Alloc const& a, tuple_impl<Idx, UHead, UTails...> const& in)
 		: Inherited(tag, a, tuple_impl<Idx, UHead, UTails...>::tail(in))
 		, Base(use_alloc<Head, Alloc, UHead const&>(a), tuple_impl<Idx, UHead, UTails...>::head(in))
 	{}
 
 	template <typename Alloc, typename UHead, typename... UTails>
 	BKSGE_CONSTEXPR
-	tuple_impl(std::allocator_arg_t tag, Alloc const& a, tuple_impl<Idx, UHead, UTails...>&& in)
+	tuple_impl(bksge::allocator_arg_t tag, Alloc const& a, tuple_impl<Idx, UHead, UTails...>&& in)
 		: Inherited(tag, a, bksge::move(tuple_impl<Idx, UHead, UTails...>::tail(in)))
 		, Base(use_alloc<Head, Alloc, UHead>(a), bksge::forward<UHead>(tuple_impl<Idx, UHead, UTails...>::head(in)))
 	{}
@@ -245,43 +245,43 @@ struct tuple_impl<Idx, Head>
 
 	template <typename Alloc>
 	BKSGE_CONSTEXPR
-	tuple_impl(std::allocator_arg_t tag, Alloc const& a)
+	tuple_impl(bksge::allocator_arg_t tag, Alloc const& a)
 		: Base(tag, use_alloc<Head>(a))
 	{}
 
 	template <typename Alloc>
 	BKSGE_CONSTEXPR
-	tuple_impl(std::allocator_arg_t /*tag*/, Alloc const& a, Head const& head)
+	tuple_impl(bksge::allocator_arg_t /*tag*/, Alloc const& a, Head const& head)
 		: Base(use_alloc<Head, Alloc, Head const&>(a), head)
 	{}
 
 	template <typename Alloc, typename UHead>
 	BKSGE_CONSTEXPR
-	tuple_impl(std::allocator_arg_t /*tag*/, Alloc const& a, UHead&& head)
+	tuple_impl(bksge::allocator_arg_t /*tag*/, Alloc const& a, UHead&& head)
 		: Base(use_alloc<Head, Alloc, UHead>(a), bksge::forward<UHead>(head))
 	{}
 
 	template <typename Alloc>
 	BKSGE_CONSTEXPR
-	tuple_impl(std::allocator_arg_t /*tag*/, Alloc const& a, tuple_impl const& in)
+	tuple_impl(bksge::allocator_arg_t /*tag*/, Alloc const& a, tuple_impl const& in)
 		: Base(use_alloc<Head, Alloc, Head const&>(a), head(in))
 	{}
 
 	template <typename Alloc>
 	BKSGE_CONSTEXPR
-	tuple_impl(std::allocator_arg_t /*tag*/, Alloc const& a, tuple_impl&& in)
+	tuple_impl(bksge::allocator_arg_t /*tag*/, Alloc const& a, tuple_impl&& in)
 		: Base(use_alloc<Head, Alloc, Head>(a), bksge::forward<Head>(head(in)))
 	{}
 
 	template <typename Alloc, typename UHead>
 	BKSGE_CONSTEXPR
-	tuple_impl(std::allocator_arg_t /*tag*/, Alloc const& a, tuple_impl<Idx, UHead> const& in)
+	tuple_impl(bksge::allocator_arg_t /*tag*/, Alloc const& a, tuple_impl<Idx, UHead> const& in)
 		: Base(use_alloc<Head, Alloc, UHead const&>(a), tuple_impl<Idx, UHead>::head(in))
 	{}
 
 	template <typename Alloc, typename UHead>
 	BKSGE_CONSTEXPR
-	tuple_impl(std::allocator_arg_t /*tag*/, Alloc const& a, tuple_impl<Idx, UHead>&& in)
+	tuple_impl(bksge::allocator_arg_t /*tag*/, Alloc const& a, tuple_impl<Idx, UHead>&& in)
 		: Base(use_alloc<Head, Alloc, UHead>(a), bksge::forward<UHead>(tuple_impl<Idx, UHead>::head(in)))
 	{}
 

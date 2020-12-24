@@ -10,6 +10,7 @@
 #define BKSGE_FND_TUPLE_DETAIL_USE_ALLOC_HPP
 
 #include <bksge/fnd/memory/addressof.hpp>
+#include <bksge/fnd/memory/allocator_arg.hpp>
 #include <bksge/fnd/type_traits/conditional.hpp>
 #include <bksge/fnd/type_traits/disjunction.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
@@ -50,12 +51,12 @@ struct uses_alloc;
 template<typename T, typename Alloc, typename... Args>
 struct uses_alloc<true, T, Alloc, Args...>
 	: public bksge::conditional<
-	bksge::is_constructible<T, std::allocator_arg_t, Alloc const&, Args...>::value,
+	bksge::is_constructible<T, bksge::allocator_arg_t, Alloc const&, Args...>::value,
 	uses_alloc1<Alloc>,
 	uses_alloc2<Alloc>>::type
 {
 	static_assert(bksge::disjunction<
-		bksge::is_constructible<T, std::allocator_arg_t, Alloc const&, Args...>,
+		bksge::is_constructible<T, bksge::allocator_arg_t, Alloc const&, Args...>,
 		bksge::is_constructible<T, Args..., Alloc const&>>::value,
 		"construction with an allocator must be possible"
 		" if uses_allocator is true");

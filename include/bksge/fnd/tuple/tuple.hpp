@@ -27,6 +27,7 @@ using std::tuple;
 #include <bksge/fnd/tuple/detail/tuple_impl.hpp>
 #include <bksge/fnd/compare/common_comparison_category.hpp>
 #include <bksge/fnd/compare/detail/synth3way.hpp>
+#include <bksge/fnd/memory/allocator_arg.hpp>
 #include <bksge/fnd/type_traits/is_assignable.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/type_traits/is_convertible.hpp>
@@ -51,7 +52,6 @@ using std::tuple;
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/array.hpp>
 #include <bksge/fnd/config.hpp>
-#include <memory>
 
 namespace bksge
 {
@@ -205,7 +205,7 @@ public:
 	template <typename Alloc,
 		bksge::enable_if_t<IsDefaultConstructible<Alloc>::value>* = nullptr>
 	explicit(!IsImplicitlyDefaultConstructible::value) BKSGE_CONSTEXPR
-	tuple(std::allocator_arg_t tag, Alloc const& a)
+	tuple(bksge::allocator_arg_t tag, Alloc const& a)
 		: Inherited(tag, a) {}
 
 	// (11) Direct constructor
@@ -214,14 +214,14 @@ public:
 			IsConstructible<Types const&...>
 		>::value>* = nullptr>
 	explicit(!IsImplicitlyConstructible<Types const&...>::value) BKSGE_CONSTEXPR
-	tuple(std::allocator_arg_t tag, Alloc const& a, Types const&... args)
+	tuple(bksge::allocator_arg_t tag, Alloc const& a, Types const&... args)
 		: Inherited(tag, a, args...) {}
 
 	// (12) Converting constructor
 	template <typename Alloc, typename... UTypes,
 		bksge::enable_if_t<IsConstructible<UTypes&&...>::value>* = nullptr>
 	explicit(!IsImplicitlyConstructible<UTypes&&...>::value) BKSGE_CONSTEXPR
-	tuple(std::allocator_arg_t tag, Alloc const& a, UTypes&&... args)
+	tuple(bksge::allocator_arg_t tag, Alloc const& a, UTypes&&... args)
 		: Inherited(tag, a, bksge::forward<UTypes>(args)...) {}
 
 	// (13) Converting copy-constructor
@@ -231,7 +231,7 @@ public:
 			IsConvertCopyConstructible<UTypes...>
 		>::value>* = nullptr>
 	explicit(!IsImplicitlyConstructible<UTypes const&...>::value) BKSGE_CONSTEXPR
-	tuple(std::allocator_arg_t tag, Alloc const& a, tuple<UTypes...> const& other)
+	tuple(bksge::allocator_arg_t tag, Alloc const& a, tuple<UTypes...> const& other)
 		: Inherited(tag, a, static_cast<tuple_detail::tuple_impl_t<UTypes...> const&>(other)) {}
 
 	// (14) Converting move-constructor
@@ -241,21 +241,21 @@ public:
 			IsConvertMoveConstructible<UTypes...>
 		>::value>* = nullptr>
 	explicit(!IsImplicitlyConstructible<UTypes&&...>::value) BKSGE_CONSTEXPR
-	tuple(std::allocator_arg_t tag, Alloc const& a, tuple<UTypes...>&& other)
+	tuple(bksge::allocator_arg_t tag, Alloc const& a, tuple<UTypes...>&& other)
 		: Inherited(tag, a, static_cast<tuple_detail::tuple_impl_t<UTypes...>&&>(other)) {}
 
 	// (15) Pair copy constructor
 	template <typename Alloc, typename U1, typename U2,
 		bksge::enable_if_t<IsConstructible<U1 const&, U2 const&>::value>* = nullptr>
 	explicit(!IsImplicitlyConstructible<U1 const&, U2 const&>::value) BKSGE_CONSTEXPR
-	tuple(std::allocator_arg_t tag, Alloc const& a, bksge::pair<U1, U2> const& in)
+	tuple(bksge::allocator_arg_t tag, Alloc const& a, bksge::pair<U1, U2> const& in)
 		: Inherited(tag, a, in.first, in.second) {}
 
 	// (16) Pair move constructor
 	template <typename Alloc, typename U1, typename U2,
 		bksge::enable_if_t<IsConstructible<U1&&, U2&&>::value>* = nullptr>
 	explicit(!IsImplicitlyConstructible<U1&&, U2&&>::value) BKSGE_CONSTEXPR
-	tuple(std::allocator_arg_t tag, Alloc const& a, bksge::pair<U1, U2>&& in)
+	tuple(bksge::allocator_arg_t tag, Alloc const& a, bksge::pair<U1, U2>&& in)
 		: Inherited(tag, a, bksge::forward<U1>(in.first), bksge::forward<U2>(in.second)) {}
 
 #else
@@ -418,7 +418,7 @@ public:
 			IsImplicitlyDefaultConstructible
 		>::value>* = nullptr>
 	BKSGE_CONSTEXPR
-	tuple(std::allocator_arg_t tag, Alloc const& a)
+	tuple(bksge::allocator_arg_t tag, Alloc const& a)
 		: Inherited(tag, a) {}
 
 	template <typename Alloc,
@@ -427,7 +427,7 @@ public:
 			bksge::negation<IsImplicitlyDefaultConstructible>
 		>::value>* = nullptr>
 	explicit BKSGE_CONSTEXPR
-	tuple(std::allocator_arg_t tag, Alloc const& a)
+	tuple(bksge::allocator_arg_t tag, Alloc const& a)
 		: Inherited(tag, a) {}
 
 	// (11) Direct constructor
@@ -437,7 +437,7 @@ public:
 			IsImplicitlyConstructible<Types const&...>
 		>::value>* = nullptr>
 	BKSGE_CONSTEXPR
-	tuple(std::allocator_arg_t tag, Alloc const& a, Types const&... args)
+	tuple(bksge::allocator_arg_t tag, Alloc const& a, Types const&... args)
 		: Inherited(tag, a, args...) {}
 
 	template <typename Alloc,
@@ -446,7 +446,7 @@ public:
 			bksge::negation<IsImplicitlyConstructible<Types const&...>>
 		>::value>* = nullptr>
 	explicit BKSGE_CONSTEXPR
-	tuple(std::allocator_arg_t tag, Alloc const& a, Types const&... args)
+	tuple(bksge::allocator_arg_t tag, Alloc const& a, Types const&... args)
 		: Inherited(tag, a, args...) {}
 
 	// (12) Converting constructor
@@ -456,7 +456,7 @@ public:
 			IsImplicitlyConstructible<UTypes&&...>
 		>::value>* = nullptr>
 	BKSGE_CONSTEXPR
-	tuple(std::allocator_arg_t tag, Alloc const& a, UTypes&&... args)
+	tuple(bksge::allocator_arg_t tag, Alloc const& a, UTypes&&... args)
 		: Inherited(tag, a, bksge::forward<UTypes>(args)...) {}
 
 	template <typename Alloc, typename... UTypes,
@@ -465,7 +465,7 @@ public:
 			bksge::negation<IsImplicitlyConstructible<UTypes&&...>>
 		>::value>* = nullptr>
 	explicit BKSGE_CONSTEXPR
-	tuple(std::allocator_arg_t tag, Alloc const& a, UTypes&&... args)
+	tuple(bksge::allocator_arg_t tag, Alloc const& a, UTypes&&... args)
 		: Inherited(tag, a, bksge::forward<UTypes>(args)...) {}
 
 	// (13) Converting copy-constructor
@@ -476,7 +476,7 @@ public:
 			IsImplicitlyConstructible<UTypes const&...>
 		>::value>* = nullptr>
 	BKSGE_CONSTEXPR
-	tuple(std::allocator_arg_t tag, Alloc const& a, tuple<UTypes...> const& other)
+	tuple(bksge::allocator_arg_t tag, Alloc const& a, tuple<UTypes...> const& other)
 		: Inherited(tag, a, static_cast<tuple_detail::tuple_impl_t<UTypes...> const&>(other)) {}
 
 	template <typename Alloc, typename... UTypes,
@@ -486,7 +486,7 @@ public:
 			bksge::negation<IsImplicitlyConstructible<UTypes const&...>>
 		>::value>* = nullptr>
 	explicit BKSGE_CONSTEXPR
-	tuple(std::allocator_arg_t tag, Alloc const& a, tuple<UTypes...> const& other)
+	tuple(bksge::allocator_arg_t tag, Alloc const& a, tuple<UTypes...> const& other)
 		: Inherited(tag, a, static_cast<tuple_detail::tuple_impl_t<UTypes...> const&>(other)) {}
 
 	// (14) Converting move-constructor
@@ -497,7 +497,7 @@ public:
 			IsImplicitlyConstructible<UTypes&&...>
 		>::value>* = nullptr>
 	BKSGE_CONSTEXPR
-	tuple(std::allocator_arg_t tag, Alloc const& a, tuple<UTypes...>&& other)
+	tuple(bksge::allocator_arg_t tag, Alloc const& a, tuple<UTypes...>&& other)
 		: Inherited(tag, a, static_cast<tuple_detail::tuple_impl_t<UTypes...>&&>(other)) {}
 
 	template <typename Alloc, typename... UTypes,
@@ -507,7 +507,7 @@ public:
 			bksge::negation<IsImplicitlyConstructible<UTypes&&...>>
 		>::value>* = nullptr>
 	explicit BKSGE_CONSTEXPR
-	tuple(std::allocator_arg_t tag, Alloc const& a, tuple<UTypes...>&& other)
+	tuple(bksge::allocator_arg_t tag, Alloc const& a, tuple<UTypes...>&& other)
 		: Inherited(tag, a, static_cast<tuple_detail::tuple_impl_t<UTypes...>&&>(other)) {}
 
 	// (15) Pair copy constructor
@@ -517,7 +517,7 @@ public:
 			IsImplicitlyConstructible<U1 const&, U2 const&>
 		>::value>* = nullptr>
 	BKSGE_CONSTEXPR
-	tuple(std::allocator_arg_t tag, Alloc const& a, bksge::pair<U1, U2> const& in)
+	tuple(bksge::allocator_arg_t tag, Alloc const& a, bksge::pair<U1, U2> const& in)
 		: Inherited(tag, a, in.first, in.second) {}
 
 	template <typename Alloc, typename U1, typename U2,
@@ -526,7 +526,7 @@ public:
 			bksge::negation<IsImplicitlyConstructible<U1 const&, U2 const&>>
 		>::value>* = nullptr>
 	explicit BKSGE_CONSTEXPR
-	tuple(std::allocator_arg_t tag, Alloc const& a, bksge::pair<U1, U2> const& in)
+	tuple(bksge::allocator_arg_t tag, Alloc const& a, bksge::pair<U1, U2> const& in)
 		: Inherited(tag, a, in.first, in.second) {}
 
 	// (16) Pair move constructor
@@ -536,7 +536,7 @@ public:
 			IsImplicitlyConstructible<U1&&, U2&&>
 		>::value>* = nullptr>
 	BKSGE_CONSTEXPR
-	tuple(std::allocator_arg_t tag, Alloc const& a, bksge::pair<U1, U2>&& in)
+	tuple(bksge::allocator_arg_t tag, Alloc const& a, bksge::pair<U1, U2>&& in)
 		: Inherited(tag, a, bksge::forward<U1>(in.first), bksge::forward<U2>(in.second)) {}
 
 	template <typename Alloc, typename U1, typename U2,
@@ -545,44 +545,44 @@ public:
 			bksge::negation<IsImplicitlyConstructible<U1&&, U2&&>>
 		>::value>* = nullptr>
 	explicit BKSGE_CONSTEXPR
-	tuple(std::allocator_arg_t tag, Alloc const& a, bksge::pair<U1, U2>&& in)
+	tuple(bksge::allocator_arg_t tag, Alloc const& a, bksge::pair<U1, U2>&& in)
 		: Inherited(tag, a, bksge::forward<U1>(in.first), bksge::forward<U2>(in.second)) {}
 
 #endif
 
 	// (8) Implicitly-defined copy constructor
 	// TODO
-	// std::is_copy_constructible<Ti>::value must be true for all i,
+	// is_copy_constructible<Ti>::value must be true for all i,
 	// otherwise the program is ill-formed (since C++20).
 	BKSGE_CONSTEXPR tuple(tuple const&) = default;
 
 	// (9) Implicitly-defined move constructor
 	// TODO
-	// std::is_move_constructible<Ti>::value must be true for all i,
+	// is_move_constructible<Ti>::value must be true for all i,
 	// otherwise this overload does not participate in overload resolution (since C++20).
 	BKSGE_CONSTEXPR tuple(tuple&&) = default;
 
 	// (17) Copy constructor
 	template <typename Alloc>
 	BKSGE_CONSTEXPR
-	tuple(std::allocator_arg_t tag, Alloc const& a, tuple const& other)
+	tuple(bksge::allocator_arg_t tag, Alloc const& a, tuple const& other)
 		: Inherited(tag, a, static_cast<Inherited const&>(other))
 	{
-		// std::is_copy_constructible<Ti>::value must be true for all i,
+		// is_copy_constructible<Ti>::value must be true for all i,
 		// otherwise the program is ill-formed (since C++20).
 		static_assert(bksge::conjunction<
 			bksge::is_copy_constructible<Types>...>::value, "");
 	}
 
 	// (18) Move constructor
-	// std::is_move_constructible<Ti>::value must be true for all i,
+	// is_move_constructible<Ti>::value must be true for all i,
 	// otherwise this overload does not participate in overload resolution (since C++20).
 	template <typename Alloc,
 		bksge::enable_if_t<bksge::conjunction<AlwaysTrue<Alloc>,
 			bksge::is_move_constructible<Types>...
 		>::value>* = nullptr>
 	BKSGE_CONSTEXPR
-	tuple(std::allocator_arg_t tag, Alloc const& a, tuple&& other)
+	tuple(bksge::allocator_arg_t tag, Alloc const& a, tuple&& other)
 		: Inherited(tag, a, static_cast<Inherited&&>(other)) {}
 
 private:
@@ -682,11 +682,11 @@ public:
 	// No-op allocator constructors.
 	template <typename Alloc>
 	BKSGE_CONSTEXPR
-	tuple(std::allocator_arg_t, Alloc const&) BKSGE_NOEXCEPT {}
+	tuple(bksge::allocator_arg_t, Alloc const&) BKSGE_NOEXCEPT {}
 
 	template <typename Alloc>
 	BKSGE_CONSTEXPR
-	tuple(std::allocator_arg_t, Alloc const&, tuple const&) BKSGE_NOEXCEPT {}
+	tuple(bksge::allocator_arg_t, Alloc const&, tuple const&) BKSGE_NOEXCEPT {}
 
 	BKSGE_CXX14_CONSTEXPR
 	void swap(tuple&) BKSGE_NOEXCEPT {}
@@ -702,13 +702,13 @@ template <typename T1, typename T2>
 tuple(bksge::pair<T1, T2>) -> tuple<T1, T2>;
 
 template <typename Alloc, typename... UTypes>
-tuple(std::allocator_arg_t, Alloc, UTypes...) -> tuple<UTypes...>;
+tuple(bksge::allocator_arg_t, Alloc, UTypes...) -> tuple<UTypes...>;
 
 template <typename Alloc, typename T1, typename T2>
-tuple(std::allocator_arg_t, Alloc, bksge::pair<T1, T2>) -> tuple<T1, T2>;
+tuple(bksge::allocator_arg_t, Alloc, bksge::pair<T1, T2>) -> tuple<T1, T2>;
 
 template <typename Alloc, typename... UTypes>
-tuple(std::allocator_arg_t, Alloc, tuple<UTypes...>) -> tuple<UTypes...>;
+tuple(bksge::allocator_arg_t, Alloc, tuple<UTypes...>) -> tuple<UTypes...>;
 
 #endif
 

@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	string.hpp
  *
- *	@brief	std::string のシリアライズ
+ *	@brief	string のシリアライズ
  *
  *	@author	myoukaku
  */
