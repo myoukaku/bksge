@@ -11,10 +11,10 @@
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/utility/move.hpp>
+#include <bksge/fnd/forward_list.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <array>
-#include <forward_list>
 #include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
@@ -191,7 +191,7 @@ GTEST_TEST(AlgorithmTest, RotateTest)
 		EXPECT_TRUE(a.empty());
 	}
 	{
-		std::forward_list<int> a { 1,2,3,4,5 };
+		bksge::forward_list<int> a { 1,2,3,4,5 };
 		auto ret = bksge::rotate(bksge::begin(a), bksge::next(bksge::begin(a), 1), bksge::end(a));
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 4));
 		auto it = a.begin();
@@ -203,7 +203,7 @@ GTEST_TEST(AlgorithmTest, RotateTest)
 		EXPECT_TRUE(it == a.end());
 	}
 	{
-		std::forward_list<int> a { 1,2,3,4,5 };
+		bksge::forward_list<int> a { 1,2,3,4,5 };
 		auto ret = bksge::rotate(bksge::begin(a), bksge::next(bksge::begin(a), 2), bksge::end(a));
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 3));
 		auto it = a.begin();
@@ -215,7 +215,7 @@ GTEST_TEST(AlgorithmTest, RotateTest)
 		EXPECT_TRUE(it == a.end());
 	}
 	{
-		std::forward_list<int> a { 1,2,3,4,5 };
+		bksge::forward_list<int> a { 1,2,3,4,5 };
 		auto ret = bksge::rotate(bksge::begin(a), bksge::next(bksge::begin(a), 4), bksge::end(a));
 		EXPECT_TRUE(ret == bksge::next(bksge::begin(a), 1));
 		auto it = a.begin();

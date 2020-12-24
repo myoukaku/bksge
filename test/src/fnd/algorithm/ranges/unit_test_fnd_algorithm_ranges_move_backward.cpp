@@ -12,7 +12,6 @@
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
-#include <forward_list>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
 

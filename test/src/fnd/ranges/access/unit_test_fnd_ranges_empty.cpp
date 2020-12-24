@@ -8,10 +8,10 @@
 
 #include <bksge/fnd/ranges/empty.hpp>
 #include <bksge/fnd/concepts/same_as.hpp>
+#include <bksge/fnd/forward_list.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
-#include <forward_list>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
 
@@ -33,8 +33,8 @@ bool test02()
 	bksge::vector<int> v2;
 	bksge::list<int>   l1 ={1,2};
 	bksge::list<int>   l2;
-	std::forward_list<int> fl1 ={1,2,3};
-	std::forward_list<int> fl2;
+	bksge::forward_list<int> fl1 ={1,2,3};
+	bksge::forward_list<int> fl2;
 
 	static_assert(bksge::is_same<decltype(bksge::ranges::empty(v1)), bool>::value, "");
 	static_assert(bksge::is_same<decltype(bksge::ranges::empty(v2)), bool>::value, "");

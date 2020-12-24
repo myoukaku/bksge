@@ -9,8 +9,8 @@
 #include <bksge/fnd/algorithm/ranges/remove_copy.hpp>
 #include <bksge/fnd/algorithm/ranges/equal.hpp>
 #include <bksge/fnd/iterator/ranges/next.hpp>
+#include <bksge/fnd/forward_list.hpp>
 #include <gtest/gtest.h>
-#include <forward_list>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
 
@@ -75,7 +75,7 @@ inline bool test02()
 		VERIFY(ranges::equal(w, w+3, y, y+3, {}, &X::i));
 	}
 	{
-		std::forward_list<int> x = {};
+		bksge::forward_list<int> x = {};
 		int w[3] = {};
 		auto res = ranges::remove_copy(x, w, 0);
 		VERIFY(res.in  == x.end());

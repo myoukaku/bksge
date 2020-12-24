@@ -22,6 +22,7 @@
 #include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/cstring.hpp>
 #include <bksge/fnd/exception.hpp>
+#include <bksge/fnd/forward_list.hpp>
 #include <bksge/fnd/functional.hpp>
 #include <bksge/fnd/ios.hpp>
 #include <bksge/fnd/iterator.hpp>

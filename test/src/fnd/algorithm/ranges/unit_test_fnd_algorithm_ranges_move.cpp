@@ -8,10 +8,10 @@
 
 #include <bksge/fnd/algorithm/ranges/move.hpp>
 #include <bksge/fnd/algorithm/ranges/equal.hpp>
+#include <bksge/fnd/forward_list.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
-#include <forward_list>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
 
@@ -172,8 +172,8 @@ inline bool test04()
 		VERIFY(ranges::equal(w, y));
 	}
 	{
-		std::forward_list<int> x = { 1, 2, 3, 4, 5 };
-		std::forward_list<int> w(5);
+		bksge::forward_list<int> x = { 1, 2, 3, 4, 5 };
+		bksge::forward_list<int> w(5);
 		auto res = ranges::move(x, w.begin());
 		VERIFY(res.in  == x.end());
 		VERIFY(res.out == w.end());

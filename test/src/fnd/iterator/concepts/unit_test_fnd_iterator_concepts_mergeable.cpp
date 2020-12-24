@@ -15,7 +15,6 @@
 #include <iterator>
 #include <array>
 #include <deque>
-#include <forward_list>
 #include <streambuf>
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)

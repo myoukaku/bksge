@@ -10,8 +10,8 @@
 #include <bksge/fnd/algorithm/ranges/equal.hpp>
 #include <bksge/fnd/iterator/ranges/next.hpp>
 #include <bksge/fnd/functional/ranges/greater.hpp>
+#include <bksge/fnd/forward_list.hpp>
 #include <gtest/gtest.h>
-#include <forward_list>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
 
@@ -90,7 +90,7 @@ inline bool test02()
 		VERIFY(ranges::equal(x, x+5, y, y+5));
 	}
 	{
-		std::forward_list<int> x = {};
+		bksge::forward_list<int> x = {};
 		auto res = ranges::unique(x);
 		VERIFY(res.begin() == x.end());
 		VERIFY(res.end()   == x.end());

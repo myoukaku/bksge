@@ -7,9 +7,9 @@
  */
 
 #include <bksge/fnd/algorithm/ranges/is_permutation.hpp>
+#include <bksge/fnd/forward_list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
-#include <forward_list>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
 
@@ -74,18 +74,18 @@ inline bool test03()
 		VERIFY(!ranges::is_permutation(x, y));
 	}
 	{
-		std::forward_list<int> x{};
-		std::forward_list<int> y{};
+		bksge::forward_list<int> x{};
+		bksge::forward_list<int> y{};
 		VERIFY(ranges::is_permutation(x, y));
 	}
 	{
-		std::forward_list<int> x{1,2,3};
-		std::forward_list<int> y{2,3,1};
+		bksge::forward_list<int> x{1,2,3};
+		bksge::forward_list<int> y{2,3,1};
 		VERIFY(ranges::is_permutation(x, y));
 	}
 	{
-		std::forward_list<int> x{1,2,3};
-		std::forward_list<int> y{1,2};
+		bksge::forward_list<int> x{1,2,3};
+		bksge::forward_list<int> y{1,2};
 		VERIFY(!ranges::is_permutation(x, y));
 	}
 	return true;

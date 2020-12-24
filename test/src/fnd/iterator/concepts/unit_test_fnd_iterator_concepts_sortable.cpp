@@ -11,13 +11,13 @@
 #include <bksge/fnd/memory/shared_ptr.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/string_view.hpp>
+#include <bksge/fnd/forward_list.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
 #include <iterator>
 #include <array>
 #include <deque>
-#include <forward_list>
 #include <streambuf>
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
@@ -74,8 +74,8 @@ BKSGE_SORTABLE_TEST(true,  std::array<int, 1>::iterator);
 BKSGE_SORTABLE_TEST(false, std::array<int, 1>::const_iterator);
 BKSGE_SORTABLE_TEST(true,  std::deque<int>::iterator);
 BKSGE_SORTABLE_TEST(false, std::deque<int>::const_iterator);
-BKSGE_SORTABLE_TEST(true,  std::forward_list<int>::iterator);
-BKSGE_SORTABLE_TEST(false, std::forward_list<int>::const_iterator);
+BKSGE_SORTABLE_TEST(true,  bksge::forward_list<int>::iterator);
+BKSGE_SORTABLE_TEST(false, bksge::forward_list<int>::const_iterator);
 BKSGE_SORTABLE_TEST(true,  bksge::list<int>::iterator);
 BKSGE_SORTABLE_TEST(false, bksge::list<int>::const_iterator);
 BKSGE_SORTABLE_TEST(true,  bksge::string::iterator);

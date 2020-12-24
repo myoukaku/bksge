@@ -9,8 +9,8 @@
 #include <bksge/fnd/algorithm/ranges/is_sorted.hpp>
 #include <bksge/fnd/algorithm/ranges/equal.hpp>
 #include <bksge/fnd/functional/ranges/greater.hpp>
+#include <bksge/fnd/forward_list.hpp>
 #include <gtest/gtest.h>
-#include <forward_list>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
 
@@ -79,7 +79,7 @@ inline bool test02()
 		VERIFY(false == ranges::is_sorted(a, ranges::greater{}, &X::i));
 	}
 	{
-		std::forward_list<int> const a = {};
+		bksge::forward_list<int> const a = {};
 		VERIFY(true  == ranges::is_sorted(a));
 		VERIFY(true  == ranges::is_sorted(a, ranges::greater{}));
 	}

@@ -11,12 +11,12 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/forward_list.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <iterator>
 #include <sstream>
 #include <array>
-#include <forward_list>
 #include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
@@ -58,7 +58,7 @@ GTEST_TEST(AlgorithmTest, SampleTest)
 		EXPECT_TRUE(i == bksge::next(bksge::begin(out), 3));
 	}
 	{
-		std::forward_list<int> const a {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+		bksge::forward_list<int> const a {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 		bksge::list<int> out;
 		auto i = bksge::sample(
 			bksge::begin(a), bksge::end(a),

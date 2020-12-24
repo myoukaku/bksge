@@ -10,10 +10,10 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/forward_list.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <array>
-#include <forward_list>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -86,32 +86,32 @@ GTEST_TEST(AlgorithmTest, FindEndTest)
 		EXPECT_TRUE(it == bksge::end(a));
 	}
 	{
-		const std::forward_list<int> a = { 1,2,3,4,1,2,3,1,2,1 };
+		const bksge::forward_list<int> a = { 1,2,3,4,1,2,3,1,2,1 };
 		const int b[] = { 1,2,3 };
 		auto const it = bksge::find_end(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b));
 		EXPECT_TRUE(it == bksge::next(bksge::begin(a), 4));
 	}
 	{
-		const std::forward_list<int> a = { 1,2,3,4,1,2,3,1,2,1 };
+		const bksge::forward_list<int> a = { 1,2,3,4,1,2,3,1,2,1 };
 		const std::array<int, 3> b = {{ 1,2,3 }};
 		auto const it = bksge::find_end(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b));
 		EXPECT_TRUE(it == bksge::next(bksge::begin(a), 4));
 	}
 	{
-		const std::forward_list<int> a = { 1,2,3,4,1,2,3,1,2,1 };
+		const bksge::forward_list<int> a = { 1,2,3,4,1,2,3,1,2,1 };
 		const bksge::vector<int> b = { 1,2,3 };
 		auto const it = bksge::find_end(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b));
 		EXPECT_TRUE(it == bksge::next(bksge::begin(a), 4));
 	}
 	{
-		const std::forward_list<int> a = { 1,2,3,4,1,2,3,1,2,1 };
+		const bksge::forward_list<int> a = { 1,2,3,4,1,2,3,1,2,1 };
 		const bksge::list<int> b = { 1,2,3 };
 		auto const it = bksge::find_end(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b));
 		EXPECT_TRUE(it == bksge::next(bksge::begin(a), 4));
 	}
 	{
-		const std::forward_list<int> a = { 1,2,3,4,1,2,3,1,2,1 };
-		const std::forward_list<int> b = { 1,2,3 };
+		const bksge::forward_list<int> a = { 1,2,3,4,1,2,3,1,2,1 };
+		const bksge::forward_list<int> b = { 1,2,3 };
 		auto const it = bksge::find_end(bksge::begin(a), bksge::end(a), bksge::begin(b), bksge::end(b));
 		EXPECT_TRUE(it == bksge::next(bksge::begin(a), 4));
 	}

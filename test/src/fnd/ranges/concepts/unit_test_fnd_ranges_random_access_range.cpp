@@ -8,11 +8,11 @@
 
 #include <bksge/fnd/ranges/concepts/random_access_range.hpp>
 #include <bksge/fnd/string/string.hpp>
+#include <bksge/fnd/forward_list.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <array>
 #include <deque>
-#include <forward_list>
 #include <set>
 #include <unordered_set>
 #include "ranges_test.hpp"
@@ -42,7 +42,7 @@ BKSGE_RANGES_RANDOM_ACCESS_RANGE_TEST(true,  std::array<int, 2>);
 BKSGE_RANGES_RANDOM_ACCESS_RANGE_TEST(true,  bksge::vector<int>);
 BKSGE_RANGES_RANDOM_ACCESS_RANGE_TEST(true,  std::deque<int>);
 BKSGE_RANGES_RANDOM_ACCESS_RANGE_TEST(false, bksge::list<int>);
-BKSGE_RANGES_RANDOM_ACCESS_RANGE_TEST(false, std::forward_list<int>);
+BKSGE_RANGES_RANDOM_ACCESS_RANGE_TEST(false, bksge::forward_list<int>);
 BKSGE_RANGES_RANDOM_ACCESS_RANGE_TEST(false, std::set<int>);
 BKSGE_RANGES_RANDOM_ACCESS_RANGE_TEST(false, std::multiset<int>);
 BKSGE_RANGES_RANDOM_ACCESS_RANGE_TEST(false, std::unordered_set<int>);
