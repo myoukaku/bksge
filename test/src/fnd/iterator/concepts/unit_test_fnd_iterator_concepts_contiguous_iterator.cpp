@@ -8,12 +8,12 @@
 
 #include <bksge/fnd/iterator/concepts/contiguous_iterator.hpp>
 #include <bksge/fnd/string/string.hpp>
+#include <bksge/fnd/deque.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
 #include <iterator>
 #include <array>
-#include <deque>
 #include "iterator_test.hpp"
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
@@ -73,8 +73,8 @@ BKSGE_CONTIGUOUS_ITERATOR_TEST(false, int A::*);
 
 BKSGE_CONTIGUOUS_ITERATOR_TEST(true,  std::array<int, 1>::iterator);
 BKSGE_CONTIGUOUS_ITERATOR_TEST(true,  std::array<A, 1>::const_iterator);
-BKSGE_CONTIGUOUS_ITERATOR_TEST(false, std::deque<int>::iterator);
-BKSGE_CONTIGUOUS_ITERATOR_TEST(false, std::deque<A>::const_iterator);
+BKSGE_CONTIGUOUS_ITERATOR_TEST(false, bksge::deque<int>::iterator);
+BKSGE_CONTIGUOUS_ITERATOR_TEST(false, bksge::deque<A>::const_iterator);
 BKSGE_CONTIGUOUS_ITERATOR_TEST(false, bksge::list<int>::iterator);
 BKSGE_CONTIGUOUS_ITERATOR_TEST(false, bksge::list<A>::const_iterator);
 BKSGE_CONTIGUOUS_ITERATOR_TEST(true,  bksge::string::iterator);

@@ -12,10 +12,7 @@
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
-#include <iterator>
 #include <array>
-#include <deque>
-#include <streambuf>
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_MERGEABLE_TEST(B, ...)	\
