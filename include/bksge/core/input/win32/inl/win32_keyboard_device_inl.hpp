@@ -17,7 +17,6 @@
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint8_t.hpp>
 #include <bksge/fnd/array.hpp>
-#include <unordered_map>
 
 #if defined(_MSC_VER)
 #	pragma comment (lib, "dinput8.lib")
@@ -43,157 +42,157 @@ namespace detail
 
 inline KeyCode DIKtoKeyCode(DWORD dik)
 {
-	static std::unordered_map<DWORD, KeyCode> const m =
+	switch (dik)
 	{
-		{ DIK_ESCAPE,		    KeyCode::kEscape },			    //
-		{ DIK_1,				KeyCode::k1 },				    //
-		{ DIK_2,				KeyCode::k2 },				    //
-		{ DIK_3,				KeyCode::k3 },				    //
-		{ DIK_4,				KeyCode::k4 },				    //
-		{ DIK_5,				KeyCode::k5 },				    //
-		{ DIK_6,				KeyCode::k6 },				    //
-		{ DIK_7,				KeyCode::k7 },				    //
-		{ DIK_8,				KeyCode::k8 },				    //
-		{ DIK_9,				KeyCode::k9 },				    //
-		{ DIK_0,				KeyCode::k0 },				    //
-		{ DIK_MINUS,			KeyCode::kMinus },			    // - on main keyboard
-		{ DIK_EQUALS,		    KeyCode::kEquals },			    //
-		{ DIK_BACK,			    KeyCode::kBack },			    // backspace
-		{ DIK_TAB,			    KeyCode::kTab },				//
-		{ DIK_Q,				KeyCode::kQ },				    //
-		{ DIK_W,				KeyCode::kW },				    //
-		{ DIK_E,				KeyCode::kE },				    //
-		{ DIK_R,				KeyCode::kR },				    //
-		{ DIK_T,				KeyCode::kT },				    //
-		{ DIK_Y,				KeyCode::kY },				    //
-		{ DIK_U,				KeyCode::kU },				    //
-		{ DIK_I,				KeyCode::kI },				    //
-		{ DIK_O,				KeyCode::kO },				    //
-		{ DIK_P,				KeyCode::kP },				    //
-		{ DIK_LBRACKET,		    KeyCode::kLBracket },		    //
-		{ DIK_RBRACKET,		    KeyCode::kRBracket },		    //
-		{ DIK_RETURN,		    KeyCode::kReturn },			    // Enter on main keyboard
-		{ DIK_LCONTROL,		    KeyCode::kLControl },		    //
-		{ DIK_A,				KeyCode::kA },				    //
-		{ DIK_S,				KeyCode::kS },				    //
-		{ DIK_D,				KeyCode::kD },				    //
-		{ DIK_F,				KeyCode::kF },				    //
-		{ DIK_G,				KeyCode::kG },				    //
-		{ DIK_H,				KeyCode::kH },				    //
-		{ DIK_J,				KeyCode::kJ },				    //
-		{ DIK_K,				KeyCode::kK },				    //
-		{ DIK_L,				KeyCode::kL },				    //
-		{ DIK_SEMICOLON,		KeyCode::kSemicolon },		    //
-		{ DIK_APOSTROPHE,	    KeyCode::kApostrophe },		    //
-		{ DIK_GRAVE,			KeyCode::kGrave },			    // accent grave
-		{ DIK_LSHIFT,		    KeyCode::kLShift },			    //
-		{ DIK_BACKSLASH,		KeyCode::kBackslash },		    //
-		{ DIK_Z,				KeyCode::kZ },				    //
-		{ DIK_X,				KeyCode::kX },				    //
-		{ DIK_C,				KeyCode::kC },				    //
-		{ DIK_V,				KeyCode::kV },				    //
-		{ DIK_B,				KeyCode::kB },				    //
-		{ DIK_N,				KeyCode::kN },				    //
-		{ DIK_M,				KeyCode::kM },				    //
-		{ DIK_COMMA,			KeyCode::kComma },			    //
-		{ DIK_PERIOD,		    KeyCode::kPeriod },			    // . on main keyboard
-		{ DIK_SLASH,			KeyCode::kSlash },			    // / on main keyboard
-		{ DIK_RSHIFT,		    KeyCode::kRShift },			    //
-		{ DIK_MULTIPLY,		    KeyCode::kMultiply },		    // * on numeric keypad
-		{ DIK_LMENU,			KeyCode::kLMenu },			    // left Alt
-		{ DIK_SPACE,			KeyCode::kSpace },			    //
-		{ DIK_CAPITAL,		    KeyCode::kCapital },			//
-		{ DIK_F1,			    KeyCode::kF1 },				    //
-		{ DIK_F2,			    KeyCode::kF2 },				    //
-		{ DIK_F3,			    KeyCode::kF3 },				    //
-		{ DIK_F4,			    KeyCode::kF4 },				    //
-		{ DIK_F5,			    KeyCode::kF5 },				    //
-		{ DIK_F6,			    KeyCode::kF6 },				    //
-		{ DIK_F7,			    KeyCode::kF7 },				    //
-		{ DIK_F8,			    KeyCode::kF8 },				    //
-		{ DIK_F9,			    KeyCode::kF9 },				    //
-		{ DIK_F10,			    KeyCode::kF10 },				//
-		{ DIK_NUMLOCK,		    KeyCode::kNumlock },			//
-		{ DIK_SCROLL,		    KeyCode::kScroll },			    // Scroll Lock
-		{ DIK_NUMPAD7,		    KeyCode::kNumpad7 },			//
-		{ DIK_NUMPAD8,		    KeyCode::kNumpad8 },			//
-		{ DIK_NUMPAD9,		    KeyCode::kNumpad9 },			//
-		{ DIK_SUBTRACT,		    KeyCode::kSubtract },		    // - on numeric keypad
-		{ DIK_NUMPAD4,		    KeyCode::kNumpad4 },			//
-		{ DIK_NUMPAD5,		    KeyCode::kNumpad5 },			//
-		{ DIK_NUMPAD6,		    KeyCode::kNumpad6 },			//
-		{ DIK_ADD,			    KeyCode::kAdd },				// + on numeric keypad
-		{ DIK_NUMPAD1,		    KeyCode::kNumpad1 },			//
-		{ DIK_NUMPAD2,		    KeyCode::kNumpad2 },			//
-		{ DIK_NUMPAD3,		    KeyCode::kNumpad3 },			//
-		{ DIK_NUMPAD0,		    KeyCode::kNumpad0 },			//
-		{ DIK_DECIMAL,		    KeyCode::kDecimal },			// . on numeric keypad
-		{ DIK_OEM_102,		    KeyCode::kOem_102 },			// <> or \| on RT 102-key keyboard (Non-U.S.)
-		{ DIK_F11,			    KeyCode::kF11 },				//
-		{ DIK_F12,			    KeyCode::kF12 },				//
-		{ DIK_F13,			    KeyCode::kF13 },				//                     (NEC PC98)
-		{ DIK_F14,			    KeyCode::kF14 },				//                     (NEC PC98)
-		{ DIK_F15,			    KeyCode::kF15 },				//                     (NEC PC98)
-		{ DIK_KANA,			    KeyCode::kKana },			    // (Japanese keyboard)
-		{ DIK_ABNT_C1,		    KeyCode::kAbnt_c1 },			// /? on Brazilian keyboard
-		{ DIK_CONVERT,		    KeyCode::kConvert },			// (Japanese keyboard)
-		{ DIK_NOCONVERT,		KeyCode::kNoconvert },		    // (Japanese keyboard)
-		{ DIK_YEN,			    KeyCode::kYen },				// (Japanese keyboard)
-		{ DIK_ABNT_C2,		    KeyCode::kAbnt_c2 },			// Numpad . on Brazilian keyboard
-		{ DIK_NUMPADEQUALS,	    KeyCode::kNumpadEquals },	    // = on numeric keypad (NEC PC98)
+	case DIK_ESCAPE:		    return KeyCode::kEscape;			//
+	case DIK_1:				    return KeyCode::k1;				    //
+	case DIK_2:				    return KeyCode::k2;				    //
+	case DIK_3:				    return KeyCode::k3;				    //
+	case DIK_4:				    return KeyCode::k4;				    //
+	case DIK_5:				    return KeyCode::k5;				    //
+	case DIK_6:				    return KeyCode::k6;				    //
+	case DIK_7:				    return KeyCode::k7;				    //
+	case DIK_8:				    return KeyCode::k8;				    //
+	case DIK_9:				    return KeyCode::k9;				    //
+	case DIK_0:				    return KeyCode::k0;				    //
+	case DIK_MINUS:			    return KeyCode::kMinus;			    // - on main keyboard
+	case DIK_EQUALS:		    return KeyCode::kEquals;			//
+	case DIK_BACK:			    return KeyCode::kBack;			    // backspace
+	case DIK_TAB:			    return KeyCode::kTab;				//
+	case DIK_Q:				    return KeyCode::kQ;				    //
+	case DIK_W:				    return KeyCode::kW;				    //
+	case DIK_E:				    return KeyCode::kE;				    //
+	case DIK_R:				    return KeyCode::kR;				    //
+	case DIK_T:				    return KeyCode::kT;				    //
+	case DIK_Y:				    return KeyCode::kY;				    //
+	case DIK_U:				    return KeyCode::kU;				    //
+	case DIK_I:				    return KeyCode::kI;				    //
+	case DIK_O:				    return KeyCode::kO;				    //
+	case DIK_P:				    return KeyCode::kP;				    //
+	case DIK_LBRACKET:		    return KeyCode::kLBracket;		    //
+	case DIK_RBRACKET:		    return KeyCode::kRBracket;		    //
+	case DIK_RETURN:		    return KeyCode::kReturn;			// Enter on main keyboard
+	case DIK_LCONTROL:		    return KeyCode::kLControl;		    //
+	case DIK_A:				    return KeyCode::kA;				    //
+	case DIK_S:				    return KeyCode::kS;				    //
+	case DIK_D:				    return KeyCode::kD;				    //
+	case DIK_F:				    return KeyCode::kF;				    //
+	case DIK_G:				    return KeyCode::kG;				    //
+	case DIK_H:				    return KeyCode::kH;				    //
+	case DIK_J:				    return KeyCode::kJ;				    //
+	case DIK_K:				    return KeyCode::kK;				    //
+	case DIK_L:				    return KeyCode::kL;				    //
+	case DIK_SEMICOLON:		    return KeyCode::kSemicolon;		    //
+	case DIK_APOSTROPHE:	    return KeyCode::kApostrophe;		//
+	case DIK_GRAVE:			    return KeyCode::kGrave;			    // accent grave
+	case DIK_LSHIFT:		    return KeyCode::kLShift;			//
+	case DIK_BACKSLASH:		    return KeyCode::kBackslash;		    //
+	case DIK_Z:				    return KeyCode::kZ;				    //
+	case DIK_X:				    return KeyCode::kX;				    //
+	case DIK_C:				    return KeyCode::kC;				    //
+	case DIK_V:				    return KeyCode::kV;				    //
+	case DIK_B:				    return KeyCode::kB;				    //
+	case DIK_N:				    return KeyCode::kN;				    //
+	case DIK_M:				    return KeyCode::kM;				    //
+	case DIK_COMMA:			    return KeyCode::kComma;			    //
+	case DIK_PERIOD:		    return KeyCode::kPeriod;			// . on main keyboard
+	case DIK_SLASH:			    return KeyCode::kSlash;			    // / on main keyboard
+	case DIK_RSHIFT:		    return KeyCode::kRShift;			//
+	case DIK_MULTIPLY:		    return KeyCode::kMultiply;		    // * on numeric keypad
+	case DIK_LMENU:			    return KeyCode::kLMenu;			    // left Alt
+	case DIK_SPACE:			    return KeyCode::kSpace;			    //
+	case DIK_CAPITAL:		    return KeyCode::kCapital;			//
+	case DIK_F1:			    return KeyCode::kF1;				//
+	case DIK_F2:			    return KeyCode::kF2;				//
+	case DIK_F3:			    return KeyCode::kF3;				//
+	case DIK_F4:			    return KeyCode::kF4;				//
+	case DIK_F5:			    return KeyCode::kF5;				//
+	case DIK_F6:			    return KeyCode::kF6;				//
+	case DIK_F7:			    return KeyCode::kF7;				//
+	case DIK_F8:			    return KeyCode::kF8;				//
+	case DIK_F9:			    return KeyCode::kF9;				//
+	case DIK_F10:			    return KeyCode::kF10;				//
+	case DIK_NUMLOCK:		    return KeyCode::kNumlock;			//
+	case DIK_SCROLL:		    return KeyCode::kScroll;			// Scroll Lock
+	case DIK_NUMPAD7:		    return KeyCode::kNumpad7;			//
+	case DIK_NUMPAD8:		    return KeyCode::kNumpad8;			//
+	case DIK_NUMPAD9:		    return KeyCode::kNumpad9;			//
+	case DIK_SUBTRACT:		    return KeyCode::kSubtract;		    // - on numeric keypad
+	case DIK_NUMPAD4:		    return KeyCode::kNumpad4;			//
+	case DIK_NUMPAD5:		    return KeyCode::kNumpad5;			//
+	case DIK_NUMPAD6:		    return KeyCode::kNumpad6;			//
+	case DIK_ADD:			    return KeyCode::kAdd;				// + on numeric keypad
+	case DIK_NUMPAD1:		    return KeyCode::kNumpad1;			//
+	case DIK_NUMPAD2:		    return KeyCode::kNumpad2;			//
+	case DIK_NUMPAD3:		    return KeyCode::kNumpad3;			//
+	case DIK_NUMPAD0:		    return KeyCode::kNumpad0;			//
+	case DIK_DECIMAL:		    return KeyCode::kDecimal;			// . on numeric keypad
+	case DIK_OEM_102:		    return KeyCode::kOem_102;			// <> or \| on RT 102-key keyboard (Non-U.S.)
+	case DIK_F11:			    return KeyCode::kF11;				//
+	case DIK_F12:			    return KeyCode::kF12;				//
+	case DIK_F13:			    return KeyCode::kF13;				//                     (NEC PC98)
+	case DIK_F14:			    return KeyCode::kF14;				//                     (NEC PC98)
+	case DIK_F15:			    return KeyCode::kF15;				//                     (NEC PC98)
+	case DIK_KANA:			    return KeyCode::kKana;			    // (Japanese keyboard)
+	case DIK_ABNT_C1:		    return KeyCode::kAbnt_c1;			// /? on Brazilian keyboard
+	case DIK_CONVERT:		    return KeyCode::kConvert;			// (Japanese keyboard)
+	case DIK_NOCONVERT:		    return KeyCode::kNoconvert;		    // (Japanese keyboard)
+	case DIK_YEN:			    return KeyCode::kYen;				// (Japanese keyboard)
+	case DIK_ABNT_C2:		    return KeyCode::kAbnt_c2;			// Numpad . on Brazilian keyboard
+	case DIK_NUMPADEQUALS:	    return KeyCode::kNumpadEquals;	    // = on numeric keypad (NEC PC98)
 #if defined(DIK_PREVTRACK)
-		{ DIK_PREVTRACK,		KeyCode::kPrevtrack },		    // Previous Track (DIK_CIRCUMFLEX on Japanese keyboard)
+	case DIK_PREVTRACK:		    return KeyCode::kPrevtrack;		    // Previous Track (DIK_CIRCUMFLEX on Japanese keyboard)
 #endif
-		{ DIK_AT,			    KeyCode::kAt },				    //                     (NEC PC98)
-		{ DIK_COLON,			KeyCode::kColon },			    //                     (NEC PC98)
-		{ DIK_UNDERLINE,		KeyCode::kUnderline },		    //                     (NEC PC98)
-		{ DIK_KANJI,			KeyCode::kKanji },			    // (Japanese keyboard)
-		{ DIK_STOP,			    KeyCode::kStop },			    //                     (NEC PC98)
-		{ DIK_AX,			    KeyCode::kAx },				    //                     (Japan AX)
-		{ DIK_UNLABELED,		KeyCode::kUnlabeled },		    //                        (J3100)
-		{ DIK_NEXTTRACK,		KeyCode::kNextTrack },		    // Next Track
-		{ DIK_NUMPADENTER,	    KeyCode::kNumpadEnter },		// Enter on numeric keypad
-		{ DIK_RCONTROL,		    KeyCode::kRControl },		    //
-		{ DIK_MUTE,			    KeyCode::kMute },			    // Mute
-		{ DIK_CALCULATOR,	    KeyCode::kCalculator },		    // Calculator
-		{ DIK_PLAYPAUSE,		KeyCode::kPlayPause },		    // Play / Pause
-		{ DIK_MEDIASTOP,		KeyCode::kMediaStop },		    // Media Stop
-		{ DIK_VOLUMEDOWN,	    KeyCode::kVolumeDown },		    // Volume -
-		{ DIK_VOLUMEUP,		    KeyCode::kVolumeUp },		    // Volume +
-		{ DIK_WEBHOME,		    KeyCode::kWebHome },			// Web home
-		{ DIK_NUMPADCOMMA,	    KeyCode::kNumpadComma },		// , on numeric keypad (NEC PC98)
-		{ DIK_DIVIDE,		    KeyCode::kDivide },			    // / on numeric keypad
-		{ DIK_SYSRQ,			KeyCode::kSysrq },			    //
-		{ DIK_RMENU,			KeyCode::kRMenu },			    // right Alt
-		{ DIK_PAUSE,			KeyCode::kPause },			    // Pause
-		{ DIK_HOME,			    KeyCode::kHome },			    // Home on arrow keypad
-		{ DIK_UP,			    KeyCode::kUp },				    // UpArrow on arrow keypad
-		{ DIK_PRIOR,			KeyCode::kPrior },			    // PgUp on arrow keypad
-		{ DIK_LEFT,			    KeyCode::kLeft },			    // LeftArrow on arrow keypad
-		{ DIK_RIGHT,			KeyCode::kRight },			    // RightArrow on arrow keypad
-		{ DIK_END,			    KeyCode::kEnd },				// End on arrow keypad
-		{ DIK_DOWN,			    KeyCode::kDown },			    // DownArrow on arrow keypad
-		{ DIK_NEXT,			    KeyCode::kNext },			    // PgDn on arrow keypad
-		{ DIK_INSERT,		    KeyCode::kInsert },			    // Insert on arrow keypad
-		{ DIK_DELETE,		    KeyCode::kDelete },			    // Delete on arrow keypad
-		{ DIK_LWIN,			    KeyCode::kLWin },			    // Left Windows key
-		{ DIK_RWIN,			    KeyCode::kRWin },			    // Right Windows key
-		{ DIK_APPS,			    KeyCode::kApps },			    // AppMenu key
-		{ DIK_POWER,			KeyCode::kPower },			    // System Power
-		{ DIK_SLEEP,			KeyCode::kSleep },			    // System Sleep
-		{ DIK_WAKE,			    KeyCode::kWake },			    // System Wake
-		{ DIK_WEBSEARCH,		KeyCode::kWebSearch },		    // Web Search
-		{ DIK_WEBFAVORITES,	    KeyCode::kWebFavorites },	    // Web Favorites
-		{ DIK_WEBREFRESH,	    KeyCode::kWebRefresh },		    // Web Refresh
-		{ DIK_WEBSTOP,		    KeyCode::kWebStop },			// Web Stop
-		{ DIK_WEBFORWARD,	    KeyCode::kWebForward },		    // Web Forward
-		{ DIK_WEBBACK,		    KeyCode::kWebBack },			// Web Back
-		{ DIK_MYCOMPUTER,	    KeyCode::kMyComputer },		    // My Computer
-		{ DIK_MAIL,			    KeyCode::kMail },			    // Mail
-		{ DIK_MEDIASELECT,	    KeyCode::kMediaSelect },		// Media Select
-	};
+	case DIK_AT:			    return KeyCode::kAt;				//                     (NEC PC98)
+	case DIK_COLON:			    return KeyCode::kColon;			    //                     (NEC PC98)
+	case DIK_UNDERLINE:		    return KeyCode::kUnderline;		    //                     (NEC PC98)
+	case DIK_KANJI:			    return KeyCode::kKanji;			    // (Japanese keyboard)
+	case DIK_STOP:			    return KeyCode::kStop;			    //                     (NEC PC98)
+	case DIK_AX:			    return KeyCode::kAx;				//                     (Japan AX)
+	case DIK_UNLABELED:		    return KeyCode::kUnlabeled;		    //                        (J3100)
+	case DIK_NEXTTRACK:		    return KeyCode::kNextTrack;		    // Next Track
+	case DIK_NUMPADENTER:	    return KeyCode::kNumpadEnter;		// Enter on numeric keypad
+	case DIK_RCONTROL:		    return KeyCode::kRControl;		    //
+	case DIK_MUTE:			    return KeyCode::kMute;			    // Mute
+	case DIK_CALCULATOR:	    return KeyCode::kCalculator;		// Calculator
+	case DIK_PLAYPAUSE:		    return KeyCode::kPlayPause;		    // Play / Pause
+	case DIK_MEDIASTOP:		    return KeyCode::kMediaStop;		    // Media Stop
+	case DIK_VOLUMEDOWN:	    return KeyCode::kVolumeDown;		// Volume -
+	case DIK_VOLUMEUP:		    return KeyCode::kVolumeUp;		    // Volume +
+	case DIK_WEBHOME:		    return KeyCode::kWebHome;			// Web home
+	case DIK_NUMPADCOMMA:	    return KeyCode::kNumpadComma;		// , on numeric keypad (NEC PC98)
+	case DIK_DIVIDE:		    return KeyCode::kDivide;			// / on numeric keypad
+	case DIK_SYSRQ:			    return KeyCode::kSysrq;			    //
+	case DIK_RMENU:			    return KeyCode::kRMenu;			    // right Alt
+	case DIK_PAUSE:			    return KeyCode::kPause;			    // Pause
+	case DIK_HOME:			    return KeyCode::kHome;			    // Home on arrow keypad
+	case DIK_UP:			    return KeyCode::kUp;				// UpArrow on arrow keypad
+	case DIK_PRIOR:			    return KeyCode::kPrior;			    // PgUp on arrow keypad
+	case DIK_LEFT:			    return KeyCode::kLeft;			    // LeftArrow on arrow keypad
+	case DIK_RIGHT:			    return KeyCode::kRight;			    // RightArrow on arrow keypad
+	case DIK_END:			    return KeyCode::kEnd;				// End on arrow keypad
+	case DIK_DOWN:			    return KeyCode::kDown;			    // DownArrow on arrow keypad
+	case DIK_NEXT:			    return KeyCode::kNext;			    // PgDn on arrow keypad
+	case DIK_INSERT:		    return KeyCode::kInsert;			// Insert on arrow keypad
+	case DIK_DELETE:		    return KeyCode::kDelete;			// Delete on arrow keypad
+	case DIK_LWIN:			    return KeyCode::kLWin;			    // Left Windows key
+	case DIK_RWIN:			    return KeyCode::kRWin;			    // Right Windows key
+	case DIK_APPS:			    return KeyCode::kApps;			    // AppMenu key
+	case DIK_POWER:			    return KeyCode::kPower;			    // System Power
+	case DIK_SLEEP:			    return KeyCode::kSleep;			    // System Sleep
+	case DIK_WAKE:			    return KeyCode::kWake;			    // System Wake
+	case DIK_WEBSEARCH:		    return KeyCode::kWebSearch;		    // Web Search
+	case DIK_WEBFAVORITES:	    return KeyCode::kWebFavorites;	    // Web Favorites
+	case DIK_WEBREFRESH:	    return KeyCode::kWebRefresh;		// Web Refresh
+	case DIK_WEBSTOP:		    return KeyCode::kWebStop;			// Web Stop
+	case DIK_WEBFORWARD:	    return KeyCode::kWebForward;		// Web Forward
+	case DIK_WEBBACK:		    return KeyCode::kWebBack;			// Web Back
+	case DIK_MYCOMPUTER:	    return KeyCode::kMyComputer;		// My Computer
+	case DIK_MAIL:			    return KeyCode::kMail;			    // Mail
+	case DIK_MEDIASELECT:	    return KeyCode::kMediaSelect;		// Media Select
+	}
 
-	return m.at(dik);
+	return KeyCode::kUnassigned;
 }
 
 }	// namespace detail

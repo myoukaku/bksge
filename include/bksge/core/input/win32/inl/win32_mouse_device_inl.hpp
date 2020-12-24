@@ -15,7 +15,6 @@
 #include <bksge/core/input/win32/win32_mouse_device.hpp>
 #include <bksge/core/input/win32/diproperty.hpp>
 #include <bksge/fnd/type_traits/make_signed.hpp>
-#include <unordered_map>
 
 #if defined(_MSC_VER)
 #	pragma comment (lib, "dinput8.lib")
@@ -49,31 +48,31 @@ namespace detail
 
 inline MouseButton DIMOfsToMouseButton(DWORD ofs)
 {
-	static std::unordered_map<DWORD, MouseButton> const m =
+	switch (ofs)
 	{
-		{ DIMOFS_BUTTON0,	MouseButton::k0 },
-		{ DIMOFS_BUTTON1,	MouseButton::k1 },
-		{ DIMOFS_BUTTON2,	MouseButton::k2 },
-		{ DIMOFS_BUTTON3,	MouseButton::k3 },
-		{ DIMOFS_BUTTON4,	MouseButton::k4 },
-		{ DIMOFS_BUTTON5,	MouseButton::k5 },
-		{ DIMOFS_BUTTON6,	MouseButton::k6 },
-		{ DIMOFS_BUTTON7,	MouseButton::k7 },
-	};
+	case DIMOFS_BUTTON0: return MouseButton::k0;
+	case DIMOFS_BUTTON1: return MouseButton::k1;
+	case DIMOFS_BUTTON2: return MouseButton::k2;
+	case DIMOFS_BUTTON3: return MouseButton::k3;
+	case DIMOFS_BUTTON4: return MouseButton::k4;
+	case DIMOFS_BUTTON5: return MouseButton::k5;
+	case DIMOFS_BUTTON6: return MouseButton::k6;
+	case DIMOFS_BUTTON7: return MouseButton::k7;
+	}
 
-	return m.at(ofs);
+	return MouseButton::k0;
 }
 
 inline MouseAxis DIMOfsToMouseAxis(DWORD ofs)
 {
-	static std::unordered_map<DWORD, MouseAxis> const m =
+	switch (ofs)
 	{
-		{ DIMOFS_X,	MouseAxis::kX },
-		{ DIMOFS_Y,	MouseAxis::kY },
-		{ DIMOFS_Z,	MouseAxis::kWheel },
-	};
+	case DIMOFS_X: return MouseAxis::kX;
+	case DIMOFS_Y: return MouseAxis::kY;
+	case DIMOFS_Z: return MouseAxis::kWheel;
+	}
 
-	return m.at(ofs);
+	return MouseAxis::kX;
 }
 
 }	// namespace detail

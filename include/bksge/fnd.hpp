@@ -49,6 +49,7 @@
 #include <bksge/fnd/tuple.hpp>
 #include <bksge/fnd/type_traits.hpp>
 #include <bksge/fnd/units.hpp>
+#include <bksge/fnd/unordered_map.hpp>
 #include <bksge/fnd/unordered_set.hpp>
 #include <bksge/fnd/utility.hpp>
 #include <bksge/fnd/variant.hpp>

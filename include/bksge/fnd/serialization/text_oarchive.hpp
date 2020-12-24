@@ -18,11 +18,11 @@
 #include <bksge/fnd/cstdint/uintmax_t.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/unordered_map/unordered_map.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <iomanip>
 #include <limits>
 #include <ostream>
-#include <unordered_map>
 
 namespace bksge
 {
@@ -214,7 +214,7 @@ private:
 
 private:
 	bksge::unique_ptr<text_oarchive_impl_base>			m_impl;
-	std::unordered_map<const void*, bksge::size_t>		m_tracking;
+	bksge::unordered_map<const void*, bksge::size_t>	m_tracking;
 	bksge::vector<detail::pointer_saver<text_oarchive>>	m_pointer_list;
 
 	friend class bksge::serialization::detail::save_dispatch;
