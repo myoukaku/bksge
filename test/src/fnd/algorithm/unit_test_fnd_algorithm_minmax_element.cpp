@@ -11,8 +11,8 @@
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/cmath/abs.hpp>
+#include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <list>
 #include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -96,7 +96,7 @@ GTEST_TEST(AlgorithmTest, MinmaxElementTest)
 		}
 	}
 	{
-		const std::list<int> a { 1, -5, 7, 3, 7, -5 };
+		const bksge::list<int> a { 1, -5, 7, 3, 7, -5 };
 
 		{
 			auto ret = bksge::minmax_element(bksge::begin(a), bksge::end(a));

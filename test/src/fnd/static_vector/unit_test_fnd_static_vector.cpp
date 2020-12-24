@@ -19,7 +19,6 @@
 #include <bksge/fnd/memory/shared_ptr.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
-#include <list>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();

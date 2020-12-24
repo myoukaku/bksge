@@ -9,8 +9,8 @@
 #include <bksge/fnd/algorithm/find_if.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <list>
 #include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -117,7 +117,7 @@ GTEST_TEST(AlgorithmTest, FindIfTest)
 		EXPECT_TRUE(it == bksge::end(v1));
 	}
 
-	const std::list<int> l1 {0,1,2};
+	const bksge::list<int> l1 {0,1,2};
 	{
 		auto it = bksge::find_if(bksge::begin(l1), bksge::end(l1), pred1);
 		EXPECT_TRUE(it == ++bksge::begin(l1));
@@ -131,7 +131,7 @@ GTEST_TEST(AlgorithmTest, FindIfTest)
 		EXPECT_TRUE(it == bksge::end(l1));
 	}
 
-	std::list<int> l2 {0,1,2};
+	bksge::list<int> l2 {0,1,2};
 	{
 		auto it = bksge::find_if(bksge::begin(l2), bksge::end(l2), [](int x) { return x % 2 == 1; });
 		EXPECT_TRUE(it == ++bksge::begin(l2));

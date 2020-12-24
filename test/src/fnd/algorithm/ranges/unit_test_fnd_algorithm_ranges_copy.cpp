@@ -8,9 +8,9 @@
 
 #include <bksge/fnd/algorithm/ranges/copy.hpp>
 #include <bksge/fnd/algorithm/ranges/equal.hpp>
+#include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
-#include <list>
 #include <forward_list>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
@@ -88,8 +88,8 @@ inline bool test03()
 		VERIFY(ranges::equal(w, y));
 	}
 	{
-		std::list<int> x = { 1, 2, 3, 4, 5, 6, 7 };
-		std::list<int> w(x.size());
+		bksge::list<int> x = { 1, 2, 3, 4, 5, 6, 7 };
+		bksge::list<int> w(x.size());
 		auto res = ranges::copy(x.rbegin(), x.rend(), w.rbegin());
 		VERIFY(res.in  == x.rend());
 		VERIFY(res.out == w.rend());

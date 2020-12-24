@@ -11,10 +11,10 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <iterator>
 #include <sstream>
-#include <list>
 #include <array>
 #include <forward_list>
 #include <gtest/gtest.h>
@@ -59,7 +59,7 @@ GTEST_TEST(AlgorithmTest, SampleTest)
 	}
 	{
 		std::forward_list<int> const a {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-		std::list<int> out;
+		bksge::list<int> out;
 		auto i = bksge::sample(
 			bksge::begin(a), bksge::end(a),
 			std::back_inserter(out),
@@ -127,7 +127,7 @@ GTEST_TEST(AlgorithmTest, SampleTest)
 		EXPECT_EQ(9, out[9]);
 	}
 	{
-		std::list<int> a {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+		bksge::list<int> a {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 		bksge::vector<int> out;
 		auto i = bksge::sample(
 			bksge::begin(a), bksge::end(a),

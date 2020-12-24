@@ -9,9 +9,9 @@
 #include <bksge/fnd/numeric/iota.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <array>
-#include <list>
 #include <gtest/gtest.h>
 
 GTEST_TEST(NumericTest, IotaTest)
@@ -44,7 +44,7 @@ GTEST_TEST(NumericTest, IotaTest)
 		EXPECT_EQ( 4, a[5]);
 	}
 	{
-		std::list<int> a(3);
+		bksge::list<int> a(3);
 		bksge::iota(bksge::begin(a), bksge::end(a), 1);
 		auto it = a.begin();
 		EXPECT_EQ( 1, *it++);

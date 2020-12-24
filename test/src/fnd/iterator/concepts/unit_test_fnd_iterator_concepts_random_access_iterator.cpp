@@ -9,12 +9,12 @@
 #include <bksge/fnd/iterator/concepts/random_access_iterator.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/string_view.hpp>
+#include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
 #include <iterator>
 #include <array>
 #include <deque>
-#include <list>
 #include "iterator_test.hpp"
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
@@ -73,8 +73,8 @@ BKSGE_RANDOM_ACCESS_ITERATOR_TEST(true,  std::array<int, 1>::iterator);
 BKSGE_RANDOM_ACCESS_ITERATOR_TEST(true,  std::array<A, 1>::const_iterator);
 BKSGE_RANDOM_ACCESS_ITERATOR_TEST(true,  std::deque<int>::iterator);
 BKSGE_RANDOM_ACCESS_ITERATOR_TEST(true,  std::deque<A>::const_iterator);
-BKSGE_RANDOM_ACCESS_ITERATOR_TEST(false, std::list<int>::iterator);
-BKSGE_RANDOM_ACCESS_ITERATOR_TEST(false, std::list<A>::const_iterator);
+BKSGE_RANDOM_ACCESS_ITERATOR_TEST(false, bksge::list<int>::iterator);
+BKSGE_RANDOM_ACCESS_ITERATOR_TEST(false, bksge::list<A>::const_iterator);
 BKSGE_RANDOM_ACCESS_ITERATOR_TEST(true,  bksge::string::iterator);
 BKSGE_RANDOM_ACCESS_ITERATOR_TEST(true,  bksge::string::const_iterator);
 BKSGE_RANDOM_ACCESS_ITERATOR_TEST(true,  bksge::string_view::iterator);

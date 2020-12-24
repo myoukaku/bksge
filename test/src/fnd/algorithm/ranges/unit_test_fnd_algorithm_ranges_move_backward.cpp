@@ -9,9 +9,9 @@
 #include <bksge/fnd/algorithm/ranges/move_backward.hpp>
 #include <bksge/fnd/algorithm/ranges/equal.hpp>
 #include <bksge/fnd/iterator/ranges/next.hpp>
+#include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
-#include <list>
 #include <forward_list>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
@@ -149,8 +149,8 @@ inline bool test03()
 		VERIFY(ranges::equal(w, y));
 	}
 	{
-		std::list<int> x = { 1, 2, 3, 4, 5, 6, 7 };
-		std::list<int> w(x.size());
+		bksge::list<int> x = { 1, 2, 3, 4, 5, 6, 7 };
+		bksge::list<int> w(x.size());
 		auto res = ranges::move_backward(x.rbegin(), x.rend(), w.rend());
 		VERIFY(res.in  == x.rend());
 		VERIFY(res.out == w.rbegin());
@@ -173,8 +173,8 @@ inline bool test04()
 		VERIFY(ranges::equal(w, y));
 	}
 	{
-		std::list<int> x = { 1, 2, 3, 4, 5 };
-		std::list<int> w(5);
+		bksge::list<int> x = { 1, 2, 3, 4, 5 };
+		bksge::list<int> w(5);
 		auto res = ranges::move_backward(x, w.end());
 		VERIFY(res.in  == x.end());
 		VERIFY(res.out == w.begin());

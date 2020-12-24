@@ -7,9 +7,9 @@
  */
 
 #include <bksge/fnd/algorithm/ranges/find_end.hpp>
+#include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
-#include <list>
 #include <forward_list>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
@@ -139,14 +139,14 @@ inline bool test05()
 
 	{
 		bksge::vector<int> x { 1,2,3,4,2,3 };
-		std::list<int>   y { 2,3 };
+		bksge::list<int>   y { 2,3 };
 		auto res = ranges::find_end(x, y);
 		VERIFY(res.begin() == x.begin() + 4);
 		VERIFY(res.end()   == x.begin() + 6);
 	}
 	{
 		bksge::vector<int> x { 1,2,3,4,2,3 };
-		std::list<int>   y { };
+		bksge::list<int>   y { };
 		auto res = ranges::find_end(x, y);
 		VERIFY(res.begin() == x.end());
 		VERIFY(res.end()   == x.end());

@@ -9,9 +9,9 @@
 #include <bksge/fnd/iterator/distance.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
-#include <list>
 #include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -46,11 +46,11 @@ GTEST_TEST(IteratorTest, DistanceTest)
 		EXPECT_EQ(5, bksge::distance(bksge::begin(v), bksge::end(v)));
 	}
 	{
-		std::list<int> l {2, 3, 4, 5};
+		bksge::list<int> l {2, 3, 4, 5};
 		EXPECT_EQ(4, bksge::distance(bksge::begin(l), bksge::end(l)));
 	}
 	{
-		const std::list<int> l {2, 3, 4, 5};
+		const bksge::list<int> l {2, 3, 4, 5};
 		EXPECT_EQ(4, bksge::distance(bksge::begin(l), bksge::end(l)));
 	}
 	{

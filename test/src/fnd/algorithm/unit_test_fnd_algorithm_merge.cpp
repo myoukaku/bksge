@@ -11,9 +11,9 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <iterator>
-#include <list>
 #include <array>
 #include <gtest/gtest.h>
 
@@ -48,7 +48,7 @@ GTEST_TEST(AlgorithmTest, MergeTest)
 	{
 		const std::array<int, 4> a {{ 6, 5, 2, 1 }};
 		const bksge::vector<int> b { 5, 3, 1 };
-		std::list<int> c;
+		bksge::list<int> c;
 		auto ret = bksge::merge(
 			bksge::begin(a), bksge::end(a),
 			bksge::begin(b), bksge::end(b),
@@ -69,7 +69,7 @@ GTEST_TEST(AlgorithmTest, MergeTest)
 	}
 	{
 		const int a[] { 1, 2, 3 };
-		const std::list<int> b { 1, 2, 3 };
+		const bksge::list<int> b { 1, 2, 3 };
 		bksge::vector<int> c;
 		auto ret = bksge::merge(
 			bksge::begin(a), bksge::end(a),
@@ -87,7 +87,7 @@ GTEST_TEST(AlgorithmTest, MergeTest)
 		EXPECT_EQ(3, c[5]);
 	}
 	{
-		const std::list<int> a { 5, 6, 7 };
+		const bksge::list<int> a { 5, 6, 7 };
 		const int b[] { 1, 2, 3 };
 		bksge::vector<int> c;
 		auto ret = bksge::merge(
@@ -107,7 +107,7 @@ GTEST_TEST(AlgorithmTest, MergeTest)
 	}
 	{
 		const bksge::vector<int> a;
-		const std::list<int> b;
+		const bksge::list<int> b;
 		bksge::vector<int> c;
 		auto ret = bksge::merge(
 			bksge::begin(a), bksge::end(a),

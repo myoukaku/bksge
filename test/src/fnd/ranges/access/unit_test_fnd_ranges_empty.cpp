@@ -8,9 +8,9 @@
 
 #include <bksge/fnd/ranges/empty.hpp>
 #include <bksge/fnd/concepts/same_as.hpp>
+#include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
-#include <list>
 #include <forward_list>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
@@ -31,8 +31,8 @@ bool test02()
 {
 	bksge::vector<int> v1 ={1};
 	bksge::vector<int> v2;
-	std::list<int>   l1 ={1,2};
-	std::list<int>   l2;
+	bksge::list<int>   l1 ={1,2};
+	bksge::list<int>   l2;
 	std::forward_list<int> fl1 ={1,2,3};
 	std::forward_list<int> fl2;
 

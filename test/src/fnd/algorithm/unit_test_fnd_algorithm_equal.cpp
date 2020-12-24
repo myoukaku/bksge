@@ -9,8 +9,8 @@
 #include <bksge/fnd/algorithm/equal.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <list>
 #include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -39,9 +39,9 @@ GTEST_TEST(AlgorithmTest, EqualTest)
 	const bksge::vector<int> v2 {0,1,2,3};
 	const bksge::vector<int> v3 {0,1,2,3};
 
-	const std::list<int> l1 {0,1,2};
-	const std::list<int> l2 {0,1,2,3};
-	const std::list<int> l3 {0,1,4,3};
+	const bksge::list<int> l1 {0,1,2};
+	const bksge::list<int> l2 {0,1,2,3};
+	const bksge::list<int> l3 {0,1,4,3};
 
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE (bksge::equal(bksge::begin(a1), bksge::end(a1), bksge::begin(a1), bksge::end(a1)));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE (bksge::equal(bksge::begin(a1), bksge::end(a1), bksge::begin(a2), bksge::end(a2)));

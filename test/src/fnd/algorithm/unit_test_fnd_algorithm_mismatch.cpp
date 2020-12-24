@@ -10,8 +10,8 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <list>
 #include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -85,28 +85,28 @@ GTEST_TEST(AlgorithmTest, MismatchTest)
 		EXPECT_TRUE(p.second == bksge::next(bksge::begin(a), 2));
 	}
 	{
-		const std::list<int>   l = { 1,2,3,4,3, };
+		const bksge::list<int>   l = { 1,2,3,4,3, };
 		const bksge::vector<int> v = { 1,2,3,4,3,2 };
 		auto const p = bksge::mismatch(bksge::begin(l), bksge::end(l), bksge::begin(v));
 		EXPECT_TRUE(p.first  == bksge::end(l));
 		EXPECT_TRUE(p.second == bksge::next(bksge::begin(v), 5));
 	}
 	{
-		const std::list<int>   l = { 1,2,3,4,5 };
+		const bksge::list<int>   l = { 1,2,3,4,5 };
 		const bksge::vector<int> v = { 3,4,3,3,5 };
 		auto const p = bksge::mismatch(bksge::begin(l), bksge::end(l), bksge::begin(v), pred1);
 		EXPECT_TRUE(p.first  == bksge::next(bksge::begin(l), 3));
 		EXPECT_TRUE(p.second == bksge::next(bksge::begin(v), 3));
 	}
 	{
-		const std::list<int>   l = { 1,2,3,4,5 };
+		const bksge::list<int>   l = { 1,2,3,4,5 };
 		const bksge::vector<int> v = { 1,2,3,4 };
 		auto const p = bksge::mismatch(bksge::begin(l), bksge::end(l), bksge::begin(v), bksge::end(v));
 		EXPECT_TRUE(p.first  == bksge::next(bksge::begin(l), 4));
 		EXPECT_TRUE(p.second == bksge::end(v));
 	}
 	{
-		const std::list<int>   l = { 1,2,3,4 };
+		const bksge::list<int>   l = { 1,2,3,4 };
 		const bksge::vector<int> v = { 1,2,3,4,5 };
 		auto const p = bksge::mismatch(bksge::begin(l), bksge::end(l), bksge::begin(v), bksge::end(v), [](int x, int y) { return x == y; });
 		EXPECT_TRUE(p.first  == bksge::end(l));

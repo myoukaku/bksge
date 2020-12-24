@@ -9,9 +9,9 @@
 #include <bksge/fnd/algorithm/copy_n.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <iterator>
-#include <list>
 #include <array>
 #include <gtest/gtest.h>
 
@@ -71,7 +71,7 @@ GTEST_TEST(AlgorithmTest, CopyNTest)
 	}
 	{
 		const bksge::vector<int> v { 5, 6, 7, 8, 9 };
-		std::list<int> l;
+		bksge::list<int> l;
 
 		bksge::copy_n(bksge::begin(v), 5, std::back_inserter(l));
 
@@ -84,8 +84,8 @@ GTEST_TEST(AlgorithmTest, CopyNTest)
 		EXPECT_TRUE(it == l.end());
 	}
 	{
-		const std::list<int> a { 1, 2, 3 };
-		std::list<int> b;
+		const bksge::list<int> a { 1, 2, 3 };
+		bksge::list<int> b;
 
 		bksge::copy_n(bksge::begin(a), a.size(), std::back_inserter(b));
 

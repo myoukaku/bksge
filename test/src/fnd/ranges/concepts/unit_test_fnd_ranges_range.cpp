@@ -8,10 +8,10 @@
 
 #include <bksge/fnd/ranges/concepts/range.hpp>
 #include <bksge/fnd/string/string.hpp>
+#include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <array>
 #include <deque>
-#include <list>
 #include <forward_list>
 #include <set>
 #include <unordered_set>
@@ -43,7 +43,7 @@ BKSGE_RANGES_RANGE_TEST(false, int const*);
 BKSGE_RANGES_RANGE_TEST(true,  std::array<int, 2>);
 BKSGE_RANGES_RANGE_TEST(true,  bksge::vector<int>);
 BKSGE_RANGES_RANGE_TEST(true,  std::deque<int>);
-BKSGE_RANGES_RANGE_TEST(true,  std::list<int>);
+BKSGE_RANGES_RANGE_TEST(true,  bksge::list<int>);
 BKSGE_RANGES_RANGE_TEST(true,  std::forward_list<int>);
 BKSGE_RANGES_RANGE_TEST(true,  std::set<int>);
 BKSGE_RANGES_RANGE_TEST(true,  std::multiset<int>);

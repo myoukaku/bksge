@@ -10,8 +10,8 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <list>
 #include <array>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -118,22 +118,22 @@ GTEST_TEST(AlgorithmTest, IsSortedUntilTest)
 		EXPECT_TRUE(it == bksge::end(a));
 	}
 	{
-		const std::list<int> a {5,5,4,4,3,3};
+		const bksge::list<int> a {5,5,4,4,3,3};
 		auto const it = bksge::is_sorted_until(bksge::begin(a), bksge::end(a));
 		EXPECT_TRUE(it == bksge::next(bksge::begin(a), 2));
 	}
 	{
-		const std::list<int> a {5,5,4,4,3,3};
+		const bksge::list<int> a {5,5,4,4,3,3};
 		auto const it = bksge::is_sorted_until(bksge::begin(a), bksge::end(a), [] (int x, int y) { return x < y; });
 		EXPECT_TRUE(it == bksge::next(bksge::begin(a), 2));
 	}
 	{
-		const std::list<int> a {5,5,4,4,3,3};
+		const bksge::list<int> a {5,5,4,4,3,3};
 		auto const it = bksge::is_sorted_until(bksge::begin(a), bksge::end(a), [] (int x, int y) { return x > y; });
 		EXPECT_TRUE(it == bksge::end(a));
 	}
 	{
-		const std::list<int> a;
+		const bksge::list<int> a;
 		auto const it = bksge::is_sorted_until(bksge::begin(a), bksge::end(a), pred1);
 		EXPECT_TRUE(it == bksge::end(a));
 	}

@@ -9,13 +9,13 @@
 #include <bksge/fnd/iterator/concepts/output_iterator.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/string_view.hpp>
+#include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
 #include <iterator>
 #include <array>
 #include <deque>
 #include <forward_list>
-#include <list>
 #include <set>
 #include "iterator_test.hpp"
 
@@ -77,10 +77,10 @@ BKSGE_OUTPUT_ITERATOR_TEST(true,  std::forward_list<int>::iterator, int);
 BKSGE_OUTPUT_ITERATOR_TEST(true,  std::forward_list<A>::iterator, A);
 BKSGE_OUTPUT_ITERATOR_TEST(false, std::forward_list<int>::const_iterator, int);
 BKSGE_OUTPUT_ITERATOR_TEST(false, std::forward_list<A>::const_iterator, A);
-BKSGE_OUTPUT_ITERATOR_TEST(true,  std::list<int>::iterator, int);
-BKSGE_OUTPUT_ITERATOR_TEST(true,  std::list<A>::iterator, A);
-BKSGE_OUTPUT_ITERATOR_TEST(false, std::list<int>::const_iterator, int);
-BKSGE_OUTPUT_ITERATOR_TEST(false, std::list<A>::const_iterator, A);
+BKSGE_OUTPUT_ITERATOR_TEST(true,  bksge::list<int>::iterator, int);
+BKSGE_OUTPUT_ITERATOR_TEST(true,  bksge::list<A>::iterator, A);
+BKSGE_OUTPUT_ITERATOR_TEST(false, bksge::list<int>::const_iterator, int);
+BKSGE_OUTPUT_ITERATOR_TEST(false, bksge::list<A>::const_iterator, A);
 BKSGE_OUTPUT_ITERATOR_TEST(false, std::set<int>::iterator, int);
 BKSGE_OUTPUT_ITERATOR_TEST(false, std::set<A>::iterator, A);
 BKSGE_OUTPUT_ITERATOR_TEST(false, std::set<int>::const_iterator, int);

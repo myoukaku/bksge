@@ -9,8 +9,8 @@
 #include <bksge/fnd/algorithm/replace.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
+#include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <list>
 #include <array>
 #include <gtest/gtest.h>
 
@@ -58,7 +58,7 @@ GTEST_TEST(AlgorithmTest, ReplaceTest)
 		EXPECT_TRUE(a.empty());
 	}
 	{
-		std::list<int> a { 9,1,9 };
+		bksge::list<int> a { 9,1,9 };
 		bksge::replace(bksge::begin(a), bksge::end(a), 9, 0);
 		auto it = a.begin();
 		EXPECT_EQ(0, *it++);
@@ -67,7 +67,7 @@ GTEST_TEST(AlgorithmTest, ReplaceTest)
 		EXPECT_TRUE(it == a.end());
 	}
 	{
-		std::list<int> a;
+		bksge::list<int> a;
 		bksge::replace(bksge::begin(a), bksge::end(a), 0, 1);
 		EXPECT_TRUE(a.empty());
 	}
