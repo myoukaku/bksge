@@ -19,10 +19,10 @@
 #include <bksge/fnd/utility/in_place_type.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/cstdint/uintptr_t.hpp>
+#include <bksge/fnd/set/set.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
 #include <initializer_list>
-#include <set>
 #include <gtest/gtest.h>
 
 namespace bksge_any_test
@@ -290,7 +290,7 @@ struct Good
 };
 
 
-static std::set<const void*> live_objects;
+static bksge::set<const void*> live_objects;
 
 struct A
 {

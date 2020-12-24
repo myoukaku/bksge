@@ -12,8 +12,8 @@
 #include <bksge/fnd/deque.hpp>
 #include <bksge/fnd/forward_list.hpp>
 #include <bksge/fnd/list.hpp>
+#include <bksge/fnd/set.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <set>
 #include <unordered_set>
 #include "ranges_test.hpp"
 
@@ -43,8 +43,8 @@ BKSGE_RANGES_OUTPUT_RANGE_TEST(true,  bksge::vector<int>,             int);
 BKSGE_RANGES_OUTPUT_RANGE_TEST(true,  bksge::deque<int>,              int);
 BKSGE_RANGES_OUTPUT_RANGE_TEST(true,  bksge::list<int>,               int);
 BKSGE_RANGES_OUTPUT_RANGE_TEST(true,  bksge::forward_list<int>,       int);
-BKSGE_RANGES_OUTPUT_RANGE_TEST(false, std::set<int>,                int);
-BKSGE_RANGES_OUTPUT_RANGE_TEST(false, std::multiset<int>,           int);
+BKSGE_RANGES_OUTPUT_RANGE_TEST(false, bksge::set<int>,                int);
+BKSGE_RANGES_OUTPUT_RANGE_TEST(false, bksge::multiset<int>,           int);
 BKSGE_RANGES_OUTPUT_RANGE_TEST(false, std::unordered_set<int>,      int);
 BKSGE_RANGES_OUTPUT_RANGE_TEST(false, std::unordered_multiset<int>, int);
 BKSGE_RANGES_OUTPUT_RANGE_TEST(true,  bksge::string,                char);

@@ -36,6 +36,7 @@
 #include <bksge/fnd/ranges.hpp>
 #include <bksge/fnd/ratio.hpp>
 #include <bksge/fnd/serialization.hpp>
+#include <bksge/fnd/set.hpp>
 #include <bksge/fnd/span.hpp>
 #include <bksge/fnd/static_string.hpp>
 #include <bksge/fnd/static_vector.hpp>
