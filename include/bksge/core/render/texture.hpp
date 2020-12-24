@@ -20,7 +20,7 @@
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint8_t.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
-#include <memory>
+#include <bksge/fnd/memory/shared_ptr.hpp>
 #include <vector>
 #include <ostream>
 
@@ -127,7 +127,7 @@ private:
 	TextureFormat				m_format;       ///< フォーマット
 	ExtentType					m_extent;       ///< 幅と高さ
 	bksge::size_t				m_mipmap_count; ///< ミップマップの数。オリジナル画像を含みます。
-	std::shared_ptr<Pixels>	m_pixels;       ///< 画像データ
+	bksge::shared_ptr<Pixels>	m_pixels;       ///< 画像データ
 
 private:
 #if 0

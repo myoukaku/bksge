@@ -8,6 +8,7 @@
 
 #include <bksge/fnd/iterator/concepts/indirectly_readable.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
+#include <bksge/fnd/memory/shared_ptr.hpp>
 #include <bksge/fnd/config.hpp>
 #include <iterator>
 #include <vector>
@@ -58,7 +59,7 @@ BKSGE_INDIRECTLY_READABLE_TEST(true,  void       volatile** const);
 BKSGE_INDIRECTLY_READABLE_TEST(true,  void const volatile** const);
 
 BKSGE_INDIRECTLY_READABLE_TEST(true,  bksge::unique_ptr<int>);
-BKSGE_INDIRECTLY_READABLE_TEST(true,  std::shared_ptr<int>);
+BKSGE_INDIRECTLY_READABLE_TEST(true,  bksge::shared_ptr<int>);
 BKSGE_INDIRECTLY_READABLE_TEST(false, std::vector<int>);
 BKSGE_INDIRECTLY_READABLE_TEST(true,  std::vector<int>::iterator);
 BKSGE_INDIRECTLY_READABLE_TEST(true,  std::vector<int>::const_iterator);

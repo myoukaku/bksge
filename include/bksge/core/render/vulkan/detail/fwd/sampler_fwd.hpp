@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_SAMPLER_FWD_HPP
 
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <memory>
+#include <bksge/fnd/memory/shared_ptr.hpp>
 #include <map>
 
 namespace bksge
@@ -23,7 +23,7 @@ namespace vulkan
 {
 
 class Sampler;
-using SamplerSharedPtr = std::shared_ptr<Sampler>;
+using SamplerSharedPtr = bksge::shared_ptr<Sampler>;
 using SamplerSharedPtrMap = std::map<bksge::size_t, SamplerSharedPtr>;
 
 }	// namespace vulkan

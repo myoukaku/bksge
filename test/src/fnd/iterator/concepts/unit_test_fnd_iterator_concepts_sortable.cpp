@@ -8,6 +8,7 @@
 
 #include <bksge/fnd/iterator/concepts/sortable.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
+#include <bksge/fnd/memory/shared_ptr.hpp>
 #include <bksge/fnd/string_view.hpp>
 #include <bksge/fnd/config.hpp>
 #include <iterator>
@@ -85,7 +86,7 @@ BKSGE_SORTABLE_TEST(true,  std::vector<int>::iterator);
 BKSGE_SORTABLE_TEST(false, std::vector<int>::const_iterator);
 BKSGE_SORTABLE_TEST(false, std::istreambuf_iterator<char>);
 BKSGE_SORTABLE_TEST(false, std::ostreambuf_iterator<char>);
-BKSGE_SORTABLE_TEST(false, std::shared_ptr<int>);
+BKSGE_SORTABLE_TEST(false, bksge::shared_ptr<int>);
 BKSGE_SORTABLE_TEST(false, bksge::unique_ptr<int>);
 
 }	// namespace sortable_test

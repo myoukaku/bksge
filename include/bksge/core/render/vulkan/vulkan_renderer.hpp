@@ -44,6 +44,7 @@
 #include <bksge/core/window/fwd/window_fwd.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
+#include <bksge/fnd/memory/shared_ptr.hpp>
 #include <vector>
 
 namespace bksge
@@ -74,12 +75,12 @@ private:
 		RenderState const& render_state) override;
 
 private:
-	std::shared_ptr<vulkan::Instance>					m_instance;
+	bksge::shared_ptr<vulkan::Instance>					m_instance;
 	bksge::unique_ptr<vulkan::DebugReportCallback>		m_callback;
-	std::shared_ptr<vulkan::PhysicalDevice>				m_physical_device;
-	std::shared_ptr<vulkan::Device>						m_device;
+	bksge::shared_ptr<vulkan::PhysicalDevice>			m_physical_device;
+	bksge::shared_ptr<vulkan::Device>					m_device;
 	bksge::unique_ptr<vulkan::Surface>					m_surface;
-	std::shared_ptr<vulkan::CommandPool>				m_command_pool;
+	bksge::shared_ptr<vulkan::CommandPool>				m_command_pool;
 	bksge::unique_ptr<vulkan::CommandBuffer>			m_command_buffer;
 	::VkQueue											m_graphics_queue;
 	bksge::unique_ptr<vulkan::Swapchain>				m_swapchain;

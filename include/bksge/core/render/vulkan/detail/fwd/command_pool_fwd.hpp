@@ -9,7 +9,7 @@
 #ifndef BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_COMMAND_POOL_FWD_HPP
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_COMMAND_POOL_FWD_HPP
 
-#include <memory>
+#include <bksge/fnd/memory/shared_ptr.hpp>
 
 namespace bksge
 {
@@ -21,7 +21,7 @@ namespace vulkan
 {
 
 class CommandPool;
-using CommandPoolSharedPtr = std::shared_ptr<CommandPool>;
+using CommandPoolSharedPtr = bksge::shared_ptr<CommandPool>;
 
 }	// namespace vulkan
 

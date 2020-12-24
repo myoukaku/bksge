@@ -11,7 +11,7 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/cstdint.hpp>
-#include <memory>
+#include <bksge/fnd/memory.hpp>
 #include <sstream>
 #include <gtest/gtest.h>
 //#include "serialize_test.hpp"
@@ -222,9 +222,9 @@ void SerializeBasePtrTest(void)
 		const bksge::uint16_t t2[] = { 11, 12, };
 		const bksge::uint32_t t3[] = { 13, 14, 15, };
 
-		std::shared_ptr<IndexArrayBase> a1 = std::make_shared<IndexArray<bksge::uint8_t>>(bksge::begin(t1), bksge::end(t1));
-		std::shared_ptr<IndexArrayBase> a2 = std::make_shared<IndexArray<bksge::uint16_t>>(bksge::begin(t2), bksge::end(t2));
-		std::shared_ptr<IndexArrayBase> a3 = std::make_shared<IndexArray<bksge::uint32_t>>(bksge::begin(t3), bksge::end(t3));
+		bksge::shared_ptr<IndexArrayBase> a1 = bksge::make_shared<IndexArray<bksge::uint8_t>>(bksge::begin(t1), bksge::end(t1));
+		bksge::shared_ptr<IndexArrayBase> a2 = bksge::make_shared<IndexArray<bksge::uint16_t>>(bksge::begin(t2), bksge::end(t2));
+		bksge::shared_ptr<IndexArrayBase> a3 = bksge::make_shared<IndexArray<bksge::uint32_t>>(bksge::begin(t3), bksge::end(t3));
 
 		OArchive oa(s);
 		oa << BKSGE_SERIALIZATION_NVP(a1);
@@ -232,9 +232,9 @@ void SerializeBasePtrTest(void)
 		oa << BKSGE_SERIALIZATION_NVP(a3);
 	}
 	{
-		std::shared_ptr<IndexArrayBase> a1;
-		std::shared_ptr<IndexArrayBase> a2;
-		std::shared_ptr<IndexArrayBase> a3;
+		bksge::shared_ptr<IndexArrayBase> a1;
+		bksge::shared_ptr<IndexArrayBase> a2;
+		bksge::shared_ptr<IndexArrayBase> a3;
 
 		IArchive ia(s);
 		ia >> BKSGE_SERIALIZATION_NVP(a1);

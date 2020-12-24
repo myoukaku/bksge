@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	shared_ptr.hpp
  *
- *	@brief	std::shared_ptr のシリアライズ
+ *	@brief	bksge::shared_ptr のシリアライズ
  *
  *	@author	myoukaku
  */
@@ -9,7 +9,7 @@
 #ifndef BKSGE_FND_SERIALIZATION_SHARED_PTR_HPP
 #define BKSGE_FND_SERIALIZATION_SHARED_PTR_HPP
 
-#include <memory>
+#include <bksge/fnd/memory/shared_ptr.hpp>
 
 namespace bksge
 {
@@ -19,7 +19,7 @@ namespace serialization
 
 template <typename Archive, typename T>
 inline void
-save(Archive& ar, std::shared_ptr<T> const& t)
+save(Archive& ar, bksge::shared_ptr<T> const& t)
 {
 	T* p = t.get();
 	ar << p;
@@ -28,7 +28,7 @@ save(Archive& ar, std::shared_ptr<T> const& t)
 template <typename T>
 struct shared_ptr_helper
 {
-	std::shared_ptr<T>& m_shared_ptr;
+	bksge::shared_ptr<T>& m_shared_ptr;
 	T**					m_ptr;
 
 	void operator()()
@@ -40,7 +40,7 @@ struct shared_ptr_helper
 
 template <typename Archive, typename T>
 inline void
-load(Archive& ar, std::shared_ptr<T>& t)
+load(Archive& ar, bksge::shared_ptr<T>& t)
 {
 	T** p = new T*();
 	ar >> *p;

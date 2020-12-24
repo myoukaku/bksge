@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_D3D11_DETAIL_FWD_SAMPLER_FWD_HPP
 
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <memory>
+#include <bksge/fnd/memory/shared_ptr.hpp>
 #include <map>
 
 namespace bksge
@@ -24,7 +24,7 @@ namespace d3d11
 
 class Sampler;
 
-using SamplerShared = std::shared_ptr<Sampler>;
+using SamplerShared = bksge::shared_ptr<Sampler>;
 using SamplerMap = std::map<bksge::size_t, SamplerShared>;
 
 }	// namespace d3d11

@@ -11,8 +11,8 @@
 #include <bksge/fnd/serialization/nvp.hpp>
 #include <bksge/fnd/serialization/text_oarchive.hpp>
 #include <bksge/fnd/serialization/text_iarchive.hpp>
+#include <bksge/fnd/memory/shared_ptr.hpp>
 #include <sstream>
-#include <memory>
 #include <gtest/gtest.h>
 
 namespace bksge_serialization_test
@@ -66,7 +66,7 @@ void SharedPtrTest()
 
 		Stream str;
 		{
-			std::shared_ptr<Foo> p(new Foo(2, 0.5f));
+			bksge::shared_ptr<Foo> p(new Foo(2, 0.5f));
 
 			EXPECT_EQ(1, Foo::s_count);
 			{
@@ -78,7 +78,7 @@ void SharedPtrTest()
 		EXPECT_EQ(0, Foo::s_count);
 		//EXPECT_STREQ("", str.str().c_str());
 		{
-			std::shared_ptr<Foo> tmp;
+			bksge::shared_ptr<Foo> tmp;
 			{
 				IArchive ia(str);
 				ia >> tmp;

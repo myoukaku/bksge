@@ -8,6 +8,7 @@
 
 #include <bksge/fnd/iterator/concepts/indirectly_swappable.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
+#include <bksge/fnd/memory/shared_ptr.hpp>
 #include <bksge/fnd/config.hpp>
 #include <iterator>
 #include <vector>
@@ -75,7 +76,7 @@ BKSGE_INDIRECTLY_SWAPPABLE_TEST(false, int*, int[]);
 BKSGE_INDIRECTLY_SWAPPABLE_TEST(false, int*, int[2]);
 BKSGE_INDIRECTLY_SWAPPABLE_TEST(false, int*, void*);
 BKSGE_INDIRECTLY_SWAPPABLE_TEST(true,  int*, bksge::unique_ptr<int>);
-BKSGE_INDIRECTLY_SWAPPABLE_TEST(true,  int*, std::shared_ptr<int>);
+BKSGE_INDIRECTLY_SWAPPABLE_TEST(true,  int*, bksge::shared_ptr<int>);
 BKSGE_INDIRECTLY_SWAPPABLE_TEST(true,  std::vector<int>::iterator,       int*);
 BKSGE_INDIRECTLY_SWAPPABLE_TEST(true,  std::vector<int>::iterator,       std::vector<int>::iterator);
 //BKSGE_INDIRECTLY_SWAPPABLE_TEST(false, std::vector<int>::iterator,       std::vector<int>::const_iterator);

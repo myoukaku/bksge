@@ -10,6 +10,7 @@
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_DESCRIPTOR_POOL_FWD_HPP
 
 #include <bksge/fnd/memory/unique_ptr.hpp>
+#include <bksge/fnd/memory/shared_ptr.hpp>
 
 namespace bksge
 {
@@ -21,7 +22,7 @@ namespace vulkan
 {
 
 class DescriptorPool;
-using DescriptorPoolSharedPtr = std::shared_ptr<DescriptorPool>;
+using DescriptorPoolSharedPtr = bksge::shared_ptr<DescriptorPool>;
 using DescriptorPoolUniquePtr = bksge::unique_ptr<DescriptorPool>;
 
 }	// namespace vulkan

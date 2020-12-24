@@ -26,7 +26,7 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <memory>
+#include <bksge/fnd/memory/shared_ptr.hpp>
 
 namespace bksge
 {
@@ -114,8 +114,8 @@ public:
 
 private:
 	PrimitiveTopology					m_primitive_topology;
-	std::shared_ptr<VertexArrayBase>	m_vertex_array;
-	std::shared_ptr<IndexArrayBase>		m_index_array;
+	bksge::shared_ptr<VertexArrayBase>	m_vertex_array;
+	bksge::shared_ptr<IndexArrayBase>	m_index_array;
 
 private:
 #if 0

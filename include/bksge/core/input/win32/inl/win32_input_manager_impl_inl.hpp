@@ -15,7 +15,7 @@
 #include <bksge/core/input/win32/win32_input_manager_impl.hpp>
 #include <bksge/core/input/win32/win32_direct_input.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <memory>
+#include <bksge/fnd/memory/make_shared.hpp>
 
 #if defined(_MSC_VER)
 #	pragma comment (lib, "dinput8.lib")
@@ -81,7 +81,7 @@ inline BOOL CALLBACK
 Win32InputManagerImpl<Device>::EnumDevicesCallback(LPCDIDEVICEINSTANCE lpddi, LPVOID pvRef)
 {
 	auto param = reinterpret_cast<CallbackParam*>(pvRef);
-	auto device = std::make_shared<Device>();
+	auto device = bksge::make_shared<Device>();
 	auto const success = device->Initialize(
 		param->direct_input,
 		lpddi->guidInstance,

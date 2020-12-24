@@ -35,13 +35,13 @@
 #include <bksge/core/render/vulkan/detail/resource_pool.hpp>
 #include <bksge/core/render/shader.hpp>
 #include <bksge/core/render/render_pass_info.hpp>
-#include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/memory/make_unique.hpp>
+#include <bksge/fnd/memory/make_shared.hpp>
 #include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/config.hpp>
-#include <memory>
 #include <vector>
 
 #if defined(BKSGE_PLATFORM_WIN32)
@@ -137,7 +137,7 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 	char sample_title[] = "Draw Cube";
 	const bool depthPresent = true;
 
-	m_instance = std::make_shared<vulkan::Instance>(sample_title);
+	m_instance = bksge::make_shared<vulkan::Instance>(sample_title);
 
 	m_callback = bksge::make_unique<vulkan::DebugReportCallback>(
 		m_instance,
@@ -162,9 +162,9 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 	::VkFormat const surface_format =
 		GetSurfaceFormat(*m_physical_device, *m_surface);
 
-	m_device = std::make_shared<vulkan::Device>(m_physical_device);
+	m_device = bksge::make_shared<vulkan::Device>(m_physical_device);
 
-	m_command_pool = std::make_shared<vulkan::CommandPool>(
+	m_command_pool = bksge::make_shared<vulkan::CommandPool>(
 		m_device, graphics_queue_family_index);
 
 	m_command_buffer = bksge::make_unique<vulkan::CommandBuffer>(

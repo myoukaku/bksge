@@ -16,6 +16,7 @@
 #include <bksge/fnd/iterator/size.hpp>
 #include <bksge/fnd/algorithm/equal.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/memory/shared_ptr.hpp>
 #include <gtest/gtest.h>
 #include <list>
 #include <vector>
@@ -95,7 +96,7 @@ public:
 	bool operator==(shptr_value const& v) const { return *m_ptr == *(v.m_ptr); }
 	bool operator< (shptr_value const& v) const { return *m_ptr <  *(v.m_ptr); }
 private:
-	std::shared_ptr<int> m_ptr;
+	bksge::shared_ptr<int> m_ptr;
 };
 
 class counting_value

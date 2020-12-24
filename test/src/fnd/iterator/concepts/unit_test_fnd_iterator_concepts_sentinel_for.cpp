@@ -8,6 +8,7 @@
 
 #include <bksge/fnd/iterator/concepts/sentinel_for.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
+#include <bksge/fnd/memory/shared_ptr.hpp>
 #include <bksge/fnd/config.hpp>
 #include <iterator>
 #include <vector>
@@ -34,7 +35,7 @@ BKSGE_SENTINEL_FOR_TEST(false, int*,                             int      * cons
 BKSGE_SENTINEL_FOR_TEST(false, int*,                             int const* const);
 BKSGE_SENTINEL_FOR_TEST(false, int*,                             void*);
 BKSGE_SENTINEL_FOR_TEST(false, int*,                             bksge::unique_ptr<int>);
-BKSGE_SENTINEL_FOR_TEST(false, int*,                             std::shared_ptr<int>);
+BKSGE_SENTINEL_FOR_TEST(false, int*,                             bksge::shared_ptr<int>);
 BKSGE_SENTINEL_FOR_TEST(false, int*,                             std::vector<int>::iterator);
 BKSGE_SENTINEL_FOR_TEST(true,  std::vector<int>::iterator,       std::vector<int>::iterator);
 BKSGE_SENTINEL_FOR_TEST(false, int*,                             std::vector<int>::const_iterator);

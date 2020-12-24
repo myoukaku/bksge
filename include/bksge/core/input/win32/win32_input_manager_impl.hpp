@@ -11,7 +11,7 @@
 
 #include <bksge/core/input/win32/dinput.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <memory>
+#include <bksge/fnd/memory/shared_ptr.hpp>
 #include <vector>
 
 namespace bksge
@@ -43,7 +43,7 @@ public:
 private:
 	static BOOL CALLBACK EnumDevicesCallback(LPCDIDEVICEINSTANCE lpddi, LPVOID pvRef);
 
-	using DeviceList = std::vector<std::shared_ptr<Device>>;
+	using DeviceList = std::vector<bksge::shared_ptr<Device>>;
 
 	struct CallbackParam
 	{

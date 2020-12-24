@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_GL_DETAIL_FWD_GLSL_PROGRAM_FWD_HPP
 
 #include <bksge/core/render/detail/identifier.hpp>
-#include <memory>
+#include <bksge/fnd/memory/shared_ptr.hpp>
 #include <map>
 
 namespace bksge
@@ -23,7 +23,7 @@ namespace gl
 {
 
 class GlslProgram;
-using GlslProgramShared = std::shared_ptr<GlslProgram>;
+using GlslProgramShared = bksge::shared_ptr<GlslProgram>;
 using GlslProgramMap    = std::map<Identifier, GlslProgramShared>;
 
 }	// namespace gl

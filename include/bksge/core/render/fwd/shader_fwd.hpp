@@ -9,7 +9,7 @@
 #ifndef BKSGE_CORE_RENDER_FWD_SHADER_FWD_HPP
 #define BKSGE_CORE_RENDER_FWD_SHADER_FWD_HPP
 
-#include <memory>
+#include <bksge/fnd/memory/shared_ptr.hpp>
 
 namespace bksge
 {
@@ -18,7 +18,7 @@ namespace render
 {
 
 class Shader;
-using ShaderPtr = std::shared_ptr<Shader>;
+using ShaderPtr = bksge::shared_ptr<Shader>;
 
 }	// namespace render
 

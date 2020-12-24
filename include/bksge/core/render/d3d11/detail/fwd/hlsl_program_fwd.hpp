@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_D3D11_DETAIL_FWD_HLSL_PROGRAM_FWD_HPP
 
 #include <bksge/core/render/detail/identifier.hpp>
-#include <memory>
+#include <bksge/fnd/memory/shared_ptr.hpp>
 #include <map>
 
 namespace bksge
@@ -24,7 +24,7 @@ namespace d3d11
 
 class HlslProgram;
 
-using HlslProgramShared = std::shared_ptr<HlslProgram>;
+using HlslProgramShared = bksge::shared_ptr<HlslProgram>;
 using HlslProgramMap = std::map<Identifier, HlslProgramShared>;
 
 }	// namespace d3d11

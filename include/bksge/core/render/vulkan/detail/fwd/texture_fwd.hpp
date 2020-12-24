@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_TEXTURE_FWD_HPP
 
 #include <bksge/core/render/detail/identifier.hpp>
-#include <memory>
+#include <bksge/fnd/memory/shared_ptr.hpp>
 #include <map>
 
 namespace bksge
@@ -23,7 +23,7 @@ namespace vulkan
 {
 
 class Texture;
-using TextureSharedPtr = std::shared_ptr<Texture>;
+using TextureSharedPtr = bksge::shared_ptr<Texture>;
 using TextureSharedPtrMap = std::map<Identifier, TextureSharedPtr>;
 
 }	// namespace vulkan
