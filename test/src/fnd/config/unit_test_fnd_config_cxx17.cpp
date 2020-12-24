@@ -9,10 +9,10 @@
 #include <bksge/fnd/config.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/map/map.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
 #include <iostream>
-#include <map>
 #include <new>
 #include <sstream>
 #include <functional>
@@ -116,7 +116,7 @@ using f = void(*)() noexcept;
 GTEST_TEST(ConfigTest, Cxx17ExpressionEvaluationOrderTest)
 {
 #if defined(BKSGE_HAS_CXX17_EXPRESSION_EVALUATION_ORDER)
-	std::map<int, bksge::size_t> m;
+	bksge::map<int, bksge::size_t> m;
 	m[0] = m.size();
 	EXPECT_EQ(0u, m[0]);
 #endif	// defined(BKSGE_HAS_CXX17_EXPRESSION_EVALUATION_ORDER)

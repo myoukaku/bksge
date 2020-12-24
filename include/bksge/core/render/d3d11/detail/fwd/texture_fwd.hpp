@@ -11,7 +11,7 @@
 
 #include <bksge/core/render/detail/identifier.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
-#include <map>
+#include <bksge/fnd/map/map.hpp>
 
 namespace bksge
 {
@@ -25,7 +25,7 @@ namespace d3d11
 class Texture;
 
 using TextureShared = bksge::shared_ptr<Texture>;
-using TextureMap = std::map<Identifier, TextureShared>;
+using TextureMap = bksge::map<Identifier, TextureShared>;
 
 }	// namespace d3d11
 

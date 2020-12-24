@@ -11,7 +11,7 @@
 
 #include <bksge/core/render/detail/identifier.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
-#include <map>
+#include <bksge/fnd/map/map.hpp>
 
 namespace bksge
 {
@@ -25,7 +25,7 @@ namespace d3d11
 class HlslProgram;
 
 using HlslProgramShared = bksge::shared_ptr<HlslProgram>;
-using HlslProgramMap = std::map<Identifier, HlslProgramShared>;
+using HlslProgramMap = bksge::map<Identifier, HlslProgramShared>;
 
 }	// namespace d3d11
 

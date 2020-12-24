@@ -11,7 +11,7 @@
 
 #include <bksge/core/render/detail/identifier.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
-#include <map>
+#include <bksge/fnd/map/map.hpp>
 
 namespace bksge
 {
@@ -25,7 +25,7 @@ namespace vulkan
 class Shader;
 
 using ShaderSharedPtr = bksge::shared_ptr<Shader>;
-using ShaderSharedPtrMap = std::map<Identifier, ShaderSharedPtr>;
+using ShaderSharedPtrMap = bksge::map<Identifier, ShaderSharedPtr>;
 
 }	// namespace vulkan
 

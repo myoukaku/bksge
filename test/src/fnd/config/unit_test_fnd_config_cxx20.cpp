@@ -11,7 +11,6 @@
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
-#include <map>
 #include <type_traits>
 
 #if BKSGE_HAS_INCLUDE(<compare>) && (BKSGE_CXX_STANDARD >= 20)

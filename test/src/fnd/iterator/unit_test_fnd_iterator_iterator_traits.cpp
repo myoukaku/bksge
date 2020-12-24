@@ -11,11 +11,11 @@
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/cstddef/ptrdiff_t.hpp>
+#include <bksge/fnd/map/map.hpp>
 #include <bksge/fnd/forward_list.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <iterator>	// reverse_iterator
-#include <map>
 
 namespace bksge_iterator_test
 {
@@ -99,7 +99,7 @@ static_assert(bksge::is_same<bksge::iterator_traits<it6>::difference_type,   bks
 static_assert(bksge::is_same<bksge::iterator_traits<it6>::pointer,           int*>::value, "");
 static_assert(bksge::is_same<bksge::iterator_traits<it6>::reference,         int&>::value, "");
 
-using it7 = std::map<int, float>::iterator;
+using it7 = bksge::map<int, float>::iterator;
 //static_assert(bksge::is_same<bksge::iterator_traits<it7>::iterator_concept,  bksge::contiguous_iterator_tag>::value, "");
 static_assert(bksge::is_same<bksge::iterator_traits<it7>::iterator_category, bksge::bidirectional_iterator_tag>::value, "");
 static_assert(bksge::is_same<bksge::iterator_traits<it7>::value_type,        std::pair<int const, float>>::value, "");

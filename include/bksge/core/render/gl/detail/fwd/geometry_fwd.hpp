@@ -11,7 +11,7 @@
 
 #include <bksge/core/render/detail/identifier.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
-#include <map>
+#include <bksge/fnd/map/map.hpp>
 
 namespace bksge
 {
@@ -24,7 +24,7 @@ namespace gl
 
 class Geometry;
 using GeometryShared = bksge::shared_ptr<Geometry>;
-using GeometryMap    = std::map<Identifier, GeometryShared>;
+using GeometryMap    = bksge::map<Identifier, GeometryShared>;
 
 }	// namespace gl
 

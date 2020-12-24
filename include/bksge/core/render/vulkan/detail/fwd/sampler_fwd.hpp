@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
-#include <map>
+#include <bksge/fnd/map/map.hpp>
 
 namespace bksge
 {
@@ -24,7 +24,7 @@ namespace vulkan
 
 class Sampler;
 using SamplerSharedPtr = bksge::shared_ptr<Sampler>;
-using SamplerSharedPtrMap = std::map<bksge::size_t, SamplerSharedPtr>;
+using SamplerSharedPtrMap = bksge::map<bksge::size_t, SamplerSharedPtr>;
 
 }	// namespace vulkan
 

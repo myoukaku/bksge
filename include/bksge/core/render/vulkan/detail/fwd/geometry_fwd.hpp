@@ -11,7 +11,7 @@
 
 #include <bksge/core/render/detail/identifier.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
-#include <map>
+#include <bksge/fnd/map/map.hpp>
 
 namespace bksge
 {
@@ -25,7 +25,7 @@ namespace vulkan
 class Geometry;
 
 using GeometrySharedPtr = bksge::shared_ptr<Geometry>;
-using GeometrySharedPtrMap = std::map<Identifier, GeometrySharedPtr>;
+using GeometrySharedPtrMap = bksge::map<Identifier, GeometrySharedPtr>;
 
 }	// namespace vulkan
 

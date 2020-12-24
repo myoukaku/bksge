@@ -29,7 +29,6 @@
 #include <bksge/core/render/shader_stage.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <map>
 
 namespace bksge
 {

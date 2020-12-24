@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
-#include <map>
+#include <bksge/fnd/map/map.hpp>
 
 namespace bksge
 {
@@ -24,7 +24,7 @@ namespace gl
 
 class Sampler;
 using SamplerShared = bksge::shared_ptr<Sampler>;
-using SamplerMap = std::map<bksge::size_t, SamplerShared>;
+using SamplerMap = bksge::map<bksge::size_t, SamplerShared>;
 
 }	// namespace gl
 

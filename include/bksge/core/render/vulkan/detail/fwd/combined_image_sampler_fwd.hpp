@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
-#include <map>
+#include <bksge/fnd/map/map.hpp>
 
 namespace bksge
 {
@@ -24,7 +24,7 @@ namespace vulkan
 
 class CombinedImageSampler;
 using CombinedImageSamplerSharedPtr = bksge::shared_ptr<CombinedImageSampler>;
-using CombinedImageSamplerSharedPtrMap = std::map<bksge::size_t, CombinedImageSamplerSharedPtr>;
+using CombinedImageSamplerSharedPtrMap = bksge::map<bksge::size_t, CombinedImageSamplerSharedPtr>;
 
 }	// namespace vulkan
 

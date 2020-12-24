@@ -18,9 +18,9 @@
 //#include <bksge/fnd/serialization/string.hpp>
 //#include <bksge/fnd/serialization/shared_ptr.hpp>
 //#include <bksge/fnd/serialization/version.hpp>
+#include <bksge/fnd/map/map.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
 #include <bksge/fnd/string/string.hpp>
-#include <map>
 
 namespace bksge
 {
@@ -53,7 +53,7 @@ public:
 	void SetParameter(key_type const& key, T const& value);
 
 private:
-	std::map<key_type, mapped_type>	m_parameters;
+	bksge::map<key_type, mapped_type>	m_parameters;
 
 private:
 #if 0

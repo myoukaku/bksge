@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
-#include <map>
+#include <bksge/fnd/map/map.hpp>
 
 namespace bksge
 {
@@ -24,7 +24,7 @@ namespace vulkan
 
 class GraphicsPipeline;
 using GraphicsPipelineSharedPtr = bksge::shared_ptr<GraphicsPipeline>;
-using GraphicsPipelineSharedPtrMap = std::map<bksge::size_t, GraphicsPipelineSharedPtr>;
+using GraphicsPipelineSharedPtrMap = bksge::map<bksge::size_t, GraphicsPipelineSharedPtr>;
 
 }	// namespace vulkan
 

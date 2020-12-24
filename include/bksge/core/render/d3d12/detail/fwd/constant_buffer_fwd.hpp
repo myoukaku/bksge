@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
-#include <map>
+#include <bksge/fnd/map/map.hpp>
 
 namespace bksge
 {
@@ -24,7 +24,7 @@ namespace d3d12
 
 class ConstantBuffer;
 using ConstantBufferShared = bksge::shared_ptr<ConstantBuffer>;
-using ConstantBufferMap = std::map<bksge::size_t, ConstantBufferShared>;
+using ConstantBufferMap = bksge::map<bksge::size_t, ConstantBufferShared>;
 
 }	// namespace d3d12
 
