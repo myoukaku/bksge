@@ -269,48 +269,6 @@ operator<<(bksge::basic_ostream<CharT, Traits>& os, TextureFormat const& rhs)
 
 }	// namespace bksge
 
-#if BKSGE_CXX_STANDARD <= 11
-
-#include <bksge/fnd/type_traits/underlying_type.hpp>
-#include <functional>
-
-namespace std
-{
-
-template<>
-struct hash<bksge::render::PixelSwizzle>
-{
-	bksge::size_t operator()(bksge::render::PixelSwizzle const& arg) const
-	{
-		using type = bksge::underlying_type_t<bksge::render::PixelSwizzle>;
-		return std::hash<type>{}(static_cast<type>(arg));
-	}
-};
-
-template<>
-struct hash<bksge::render::PixelBaseFormat>
-{
-	bksge::size_t operator()(bksge::render::PixelBaseFormat const& arg) const
-	{
-		using type = bksge::underlying_type_t<bksge::render::PixelBaseFormat>;
-		return std::hash<type>{}(static_cast<type>(arg));
-	}
-};
-
-template<>
-struct hash<bksge::render::TextureFormat>
-{
-	bksge::size_t operator()(bksge::render::TextureFormat const& arg) const
-	{
-		using type = bksge::underlying_type_t<bksge::render::TextureFormat>;
-		return std::hash<type>{}(static_cast<type>(arg));
-	}
-};
-
-}	// namespace std
-
-#endif // BKSGE_CXX_STANDARD <= 11
-
 #include <bksge/fnd/config.hpp>
 #if defined(BKSGE_HEADER_ONLY)
 #include <bksge/core/render/inl/texture_format_inl.hpp>

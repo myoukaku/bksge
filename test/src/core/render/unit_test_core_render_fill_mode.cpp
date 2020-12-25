@@ -12,7 +12,7 @@
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/sstream.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <functional>
+#include <bksge/fnd/functional/hash.hpp>
 #include <gtest/gtest.h>
 #include "serialize_test.hpp"
 
@@ -60,7 +60,7 @@ GTEST_TEST(Render_FillMode, SerializeTest)
 
 GTEST_TEST(Render_FillMode, HashTest)
 {
-	std::hash<bksge::FillMode> h;
+	bksge::hash<bksge::FillMode> h;
 	bksge::vector<bksge::size_t> v;
 	v.push_back(h(bksge::FillMode::kSolid));
 	v.push_back(h(bksge::FillMode::kWireframe));

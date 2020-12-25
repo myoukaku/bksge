@@ -27,6 +27,7 @@
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/tuple/get.hpp>
 #include <bksge/fnd/tuple/tie.hpp>
+#include <bksge/fnd/functional/hash.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 #include "serialize_test.hpp"
@@ -2581,7 +2582,7 @@ inline BKSGE_CXX14_CONSTEXPR bool HashTest()
 		{41, 42, 43,  0},
 	};
 
-	std::hash<Matrix4x4> h;
+	bksge::hash<Matrix4x4> h;
 
 	VERIFY(h(v1) == h(v1));
 	VERIFY(h(v1) != h(v2));

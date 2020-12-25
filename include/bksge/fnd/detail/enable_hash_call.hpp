@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/type_traits/is_invocable.hpp>
 #include <bksge/fnd/type_traits/remove_const.hpp>
-#include <functional>	// hash
+#include <bksge/fnd/functional/hash.hpp>
 
 namespace bksge
 {
@@ -20,7 +20,7 @@ namespace detail
 {
 
 template <typename T, typename U = bksge::remove_const_t<T>>
-struct enable_hash_call : public bksge::is_invocable<std::hash<U>, U> {};
+struct enable_hash_call : public bksge::is_invocable<bksge::hash<U>, U> {};
 
 }	// namespace detail
 

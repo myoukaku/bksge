@@ -120,28 +120,6 @@ operator<<(bksge::basic_ostream<CharT, Traits>& os, TypeEnum const& rhs)
 
 }	// namespace bksge
 
-#if BKSGE_CXX_STANDARD <= 11
-
-#include <bksge/fnd/type_traits/underlying_type.hpp>
-#include <functional>
-
-namespace std
-{
-
-template<>
-struct hash<bksge::render::TypeEnum>
-{
-	bksge::size_t operator()(bksge::render::TypeEnum const& arg) const
-	{
-		using type = bksge::underlying_type_t<bksge::render::TypeEnum>;
-		return std::hash<type>{}(static_cast<type>(arg));
-	}
-};
-
-}	// namespace std
-
-#endif // BKSGE_CXX_STANDARD <= 11
-
 #include <bksge/fnd/config.hpp>
 #if defined(BKSGE_HEADER_ONLY)
 #include <bksge/core/render/detail/inl/type_enum_inl.hpp>

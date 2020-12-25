@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/variant/config.hpp>
 
-#if defined(BKSGE_HAS_STD_VARIANT)
+#if defined(BKSGE_USE_STD_VARIANT)
 
 namespace bksge
 {
@@ -20,7 +20,7 @@ using std::monostate;
 
 }	// namespace bksge
 
-#else
+#else	// defined(BKSGE_USE_STD_VARIANT)
 
 #include <bksge/fnd/config.hpp>
 
@@ -51,10 +51,16 @@ inline BKSGE_CONSTEXPR bool operator!=(monostate, monostate) BKSGE_NOEXCEPT { re
 
 }	// namespace bksge
 
-#include <bksge/fnd/cstddef/size_t.hpp>
-#include <functional>	// hash
+#endif	// defined(BKSGE_USE_STD_VARIANT)
 
-namespace std
+#include <bksge/fnd/functional/config.hpp>
+
+#if !defined(BKSGE_USE_STD_VARIANT) || !defined(BKSGE_USE_STD_HASH)
+
+#include <bksge/fnd/functional/hash.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
+
+namespace BKSGE_HASH_NAMESPACE
 {
 
 template <>
@@ -66,8 +72,8 @@ struct hash<bksge::monostate>
 	}
 };
 
-}	// namespace std
+}	// namespace BKSGE_HASH_NAMESPACE
 
-#endif
+#endif	// !defined(BKSGE_USE_STD_VARIANT) || !defined(BKSGE_USE_STD_HASH)
 
 #endif // BKSGE_FND_VARIANT_MONOSTATE_HPP

@@ -13,7 +13,7 @@
 #include <bksge/fnd/sstream/stringstream.hpp>
 #include <bksge/fnd/sstream/wstringstream.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <functional>
+#include <bksge/fnd/functional/hash.hpp>
 #include <gtest/gtest.h>
 #include "serialize_test.hpp"
 
@@ -191,7 +191,7 @@ GTEST_TEST(Render_RenderState, SerializeTest)
 
 GTEST_TEST(Render_RenderState, HashTest)
 {
-	std::hash<bksge::RenderState> h;
+	bksge::hash<bksge::RenderState> h;
 
 	bksge::RenderState s1;
 	bksge::RenderState s2;

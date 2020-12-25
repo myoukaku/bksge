@@ -12,7 +12,7 @@
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/sstream.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <functional>
+#include <bksge/fnd/functional/hash.hpp>
 #include <gtest/gtest.h>
 #include "serialize_test.hpp"
 
@@ -72,7 +72,7 @@ GTEST_TEST(Render_ComparisonFunction, SerializeTest)
 
 GTEST_TEST(Render_ComparisonFunction, HashTest)
 {
-	std::hash<bksge::ComparisonFunction> h;
+	bksge::hash<bksge::ComparisonFunction> h;
 	bksge::vector<bksge::size_t> v;
 	v.push_back(h(bksge::ComparisonFunction::kNever));
 	v.push_back(h(bksge::ComparisonFunction::kLess));

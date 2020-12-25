@@ -22,6 +22,7 @@
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
+#include <bksge/fnd/functional/hash.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -1063,7 +1064,7 @@ inline BKSGE_CXX14_CONSTEXPR bool HashTest()
 	Extent3 const v4(1, 2, 2);
 	Extent3 const v5(1, 2, 3);
 
-	std::hash<Extent3> h;
+	bksge::hash<Extent3> h;
 
 	VERIFY(h(v1) == h(v1));
 	VERIFY(h(v1) != h(v2));

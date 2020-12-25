@@ -9,12 +9,12 @@
 #ifndef BKSGE_FND_STRING_WSTRING_HPP
 #define BKSGE_FND_STRING_WSTRING_HPP
 
-#include <string>
+#include <bksge/fnd/string/basic_string.hpp>
 
 namespace bksge
 {
 
-using std::wstring;
+using wstring = bksge::basic_string<wchar_t>;
 
 }	// namespace bksge
 

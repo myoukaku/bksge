@@ -12,7 +12,7 @@
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/sstream.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <functional>
+#include <bksge/fnd/functional/hash.hpp>
 #include <gtest/gtest.h>
 #include "serialize_test.hpp"
 
@@ -62,7 +62,7 @@ GTEST_TEST(Render_BorderColor, SerializeTest)
 
 GTEST_TEST(Render_BorderColor, HashTest)
 {
-	std::hash<bksge::BorderColor> h;
+	bksge::hash<bksge::BorderColor> h;
 	bksge::vector<bksge::size_t> v;
 	v.push_back(h(bksge::BorderColor::kTransparentBlack));
 	v.push_back(h(bksge::BorderColor::kOpaqueBlack));

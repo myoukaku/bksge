@@ -12,7 +12,7 @@
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/sstream.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <functional>
+#include <bksge/fnd/functional/hash.hpp>
 #include <gtest/gtest.h>
 #include "serialize_test.hpp"
 
@@ -62,7 +62,7 @@ GTEST_TEST(Render_PrimitiveTopology, SerializeTest)
 
 GTEST_TEST(Render_PrimitiveTopology, HashTest)
 {
-	std::hash<bksge::PrimitiveTopology> h;
+	bksge::hash<bksge::PrimitiveTopology> h;
 	bksge::vector<bksge::size_t> v;
 	v.push_back(h(bksge::PrimitiveTopology::kPoints));
 	v.push_back(h(bksge::PrimitiveTopology::kLines));

@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/variant/config.hpp>
 
-#if defined(BKSGE_HAS_STD_VARIANT)
+#if defined(BKSGE_USE_STD_VARIANT)
 
 namespace bksge
 {

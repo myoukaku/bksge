@@ -24,8 +24,8 @@
 #include <bksge/fnd/type_traits/is_signed.hpp>
 #include <bksge/fnd/unordered_map/unordered_map.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <istream>
-#include <functional>
+#include <istream>		// basic_istream
+#include <functional>	// function
 
 namespace bksge
 {

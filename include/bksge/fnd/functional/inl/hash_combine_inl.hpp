@@ -10,9 +10,9 @@
 #define BKSGE_FND_FUNCTIONAL_INL_HASH_COMBINE_INL_HPP
 
 #include <bksge/fnd/functional/hash_combine.hpp>
+#include <bksge/fnd/functional/hash.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
-#include <functional>	// hash
 
 namespace bksge
 {
@@ -24,7 +24,7 @@ template <typename T>
 inline bksge::size_t
 do_hash_combine(bksge::size_t seed, T const& v) BKSGE_NOEXCEPT
 {
-	return seed ^ (std::hash<T>()(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2));
+	return seed ^ (bksge::hash<T>()(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2));
 }
 
 inline bksge::size_t

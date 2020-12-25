@@ -12,7 +12,7 @@
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/sstream.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <functional>
+#include <bksge/fnd/functional/hash.hpp>
 #include <gtest/gtest.h>
 #include "serialize_test.hpp"
 
@@ -126,7 +126,7 @@ GTEST_TEST(Render_Semantic, SerializeTest)
 
 GTEST_TEST(Render_Semantic, HashTest)
 {
-	std::hash<bksge::Semantic> h;
+	bksge::hash<bksge::Semantic> h;
 
 	bksge::vector<bksge::size_t> v;
 	v.push_back(h(bksge::Semantic::kPosition));

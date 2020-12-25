@@ -13,7 +13,7 @@
 #include <bksge/fnd/sstream/stringstream.hpp>
 #include <bksge/fnd/sstream/wstringstream.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <functional>
+#include <bksge/fnd/functional/hash.hpp>
 #include <gtest/gtest.h>
 #include "serialize_test.hpp"
 
@@ -147,7 +147,7 @@ GTEST_TEST(Render_SampledTexture, SerializeTest)
 
 GTEST_TEST(Render_SampledTexture, HashTest)
 {
-	std::hash<bksge::SampledTexture> h;
+	bksge::hash<bksge::SampledTexture> h;
 
 	bksge::SampledTexture s1;
 	bksge::SampledTexture s2;

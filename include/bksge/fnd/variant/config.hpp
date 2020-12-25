@@ -17,7 +17,7 @@
 #endif
 
 #if defined(__cpp_lib_variant) && (__cpp_lib_variant >= 201606)
-#define BKSGE_HAS_STD_VARIANT
+#define BKSGE_USE_STD_VARIANT
 #endif
 #endif
 

@@ -359,7 +359,7 @@ void test_swap_different_alternatives()
 		EXPECT_EQ(T::swap_called, 0);
 		// The libc++ implementation double copies the argument, and not
 		// the variant swap is called on.
-//		LIBCPP_ASSERT(T::move_called == 1);
+//		EXPECT_TRUE(T::move_called == 1);
 		EXPECT_LE(T::move_called, 2);
 		EXPECT_EQ(T::move_assign_called, 0);
 		EXPECT_EQ(get<1>(v1), 100);
@@ -367,7 +367,7 @@ void test_swap_different_alternatives()
 		T::reset();
 		swap(v1, v2);
 		EXPECT_EQ(T::swap_called, 0);
-//		LIBCPP_ASSERT(T::move_called == 2);
+//		EXPECT_TRUE(T::move_called == 2);
 		EXPECT_LE(T::move_called, 2);
 		EXPECT_EQ(T::move_assign_called, 0);
 		EXPECT_EQ(get<0>(v1).value, 42);
@@ -394,7 +394,7 @@ void test_swap_different_alternatives()
 		EXPECT_EQ(T1::move_called, 1); // throws
 		EXPECT_EQ(T1::move_assign_called, 0);
 		// FIXME: libc++ shouldn't move from T2 here.
-//		LIBCPP_ASSERT(T2::move_called == 1);
+//		EXPECT_TRUE(T2::move_called == 1);
 		EXPECT_LE(T2::move_called, 1);
 		EXPECT_EQ(get<0>(v1).value, 42);
 		if (T2::move_called != 0)
@@ -422,7 +422,7 @@ void test_swap_different_alternatives()
 		catch (int)
 		{
 		}
-//		LIBCPP_ASSERT(T1::move_called == 0);
+//		EXPECT_TRUE(T1::move_called == 0);
 		EXPECT_LE(T1::move_called, 1);
 		EXPECT_EQ(T2::swap_called, 0);
 		EXPECT_EQ(T2::move_called, 1); // throws

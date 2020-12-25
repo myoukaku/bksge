@@ -42,8 +42,8 @@ void iter_move();
 struct iter_move_fn
 {
 private:
-	// (1) if std::remove_cvref_t<T> is a class or enumeration type and
-	//        iter_move(std::forward<T>(t)) is well-formed in unevaluated context
+	// (1) if remove_cvref_t<T> is a class or enumeration type and
+	//        iter_move(forward<T>(t)) is well-formed in unevaluated context
 	template <typename T
 #if !defined(BKSGE_HAS_CXX20_CONCEPTS)
 		, typename = bksge::enable_if_t<bksge::detail::class_or_enum<bksge::remove_reference_t<T>>::value>
@@ -55,7 +55,7 @@ private:
 	static BKSGE_CONSTEXPR auto impl(bksge::detail::overload_priority<2>, T&& t)
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(iter_move(bksge::forward<T>(t)))
 
-	// (2) otherwise, if *std::forward<T>(t) is well-formed and is an lvalue
+	// (2) otherwise, if *forward<T>(t) is well-formed and is an lvalue
 	template <typename T
 #if !defined(BKSGE_HAS_CXX20_CONCEPTS)
 		, typename = bksge::enable_if_t<bksge::is_lvalue_reference<bksge::iter_reference_t<T>>::value>
@@ -67,7 +67,7 @@ private:
 	static BKSGE_CONSTEXPR auto impl(bksge::detail::overload_priority<1>, T&& t)
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(bksge::move(*bksge::forward<T>(t)))
 
-	// (3) otherwise, if *std::forward<T>(t) is well-formed and is an rvalue
+	// (3) otherwise, if *forward<T>(t) is well-formed and is an rvalue
 	template <typename T
 		, typename = bksge::enable_if_t<!bksge::detail::is_void_pointer<T>::value>
 	>

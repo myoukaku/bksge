@@ -35,7 +35,7 @@ namespace algorithm
  *				このアルゴリズムはその他のアルゴリズムと違い、Function の内部で *i の値を書き換えても構わない
  *				（もちろんイテレータの型が mutable iterator の要件を満たしている場合に限る）。
  *
- *	@return		std::move(f)
+ *	@return		move(f)
  *
  *	@complexity	正確に f を last - first 回適用する
  *

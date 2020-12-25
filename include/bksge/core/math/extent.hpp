@@ -75,9 +75,9 @@ struct tuple_element<I, bksge::math::Extent<T, N>>
 
 }	// namespace BKSGE_TUPLE_NAMESPACE
 
-#include <functional>
+#include <bksge/fnd/functional/hash.hpp>
 
-namespace std
+namespace BKSGE_HASH_NAMESPACE
 {
 
 /**
@@ -88,6 +88,6 @@ struct hash<bksge::math::Extent<T, N>>
 	: public hash<bksge::math::detail::VectorBase<T, N>>
 {};
 
-}	// namespace std
+}	// namespace BKSGE_HASH_NAMESPACE
 
 #endif // BKSGE_CORE_MATH_EXTENT_HPP

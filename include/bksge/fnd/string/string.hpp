@@ -9,12 +9,12 @@
 #ifndef BKSGE_FND_STRING_STRING_HPP
 #define BKSGE_FND_STRING_STRING_HPP
 
-#include <string>
+#include <bksge/fnd/string/basic_string.hpp>
 
 namespace bksge
 {
 
-using std::string;
+using string = bksge::basic_string<char>;
 
 }	// namespace bksge
 

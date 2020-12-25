@@ -59,10 +59,10 @@ bool operator< (Identifier const& lhs, Identifier const& rhs);
 
 }	// namespace bksge
 
+#include <bksge/fnd/functional/hash.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <functional>
 
-namespace std
+namespace BKSGE_HASH_NAMESPACE
 {
 
 template<>
@@ -71,11 +71,11 @@ struct hash<bksge::render::Identifier>
 	bksge::size_t operator()(bksge::render::Identifier const& arg) const
 	{
 		using type = bksge::render::Identifier::ValueType;
-		return std::hash<type>{}(arg.value());
+		return bksge::hash<type>{}(arg.value());
 	}
 };
 
-}	// namespace std
+}	// namespace BKSGE_HASH_NAMESPACE
 
 #include <bksge/fnd/config.hpp>
 #if defined(BKSGE_HEADER_ONLY)

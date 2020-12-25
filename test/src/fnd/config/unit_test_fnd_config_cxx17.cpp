@@ -14,7 +14,7 @@
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
-#include <functional>
+#include <functional>	// function
 #include <initializer_list>
 #include <iostream>
 #include <new>

@@ -48,29 +48,6 @@ operator<<(bksge::basic_ostream<CharT, Traits>& os, BorderColor const& rhs)
 
 }	// namespace bksge
 
-#if BKSGE_CXX_STANDARD <= 11
-
-#include <bksge/fnd/type_traits/underlying_type.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
-#include <functional>
-
-namespace std
-{
-
-template<>
-struct hash<bksge::render::BorderColor>
-{
-	bksge::size_t operator()(bksge::render::BorderColor const& arg) const
-	{
-		using type = bksge::underlying_type_t<bksge::render::BorderColor>;
-		return std::hash<type>{}(static_cast<type>(arg));
-	}
-};
-
-}	// namespace std
-
-#endif // BKSGE_CXX_STANDARD <= 11
-
 #include <bksge/fnd/config.hpp>
 #if defined(BKSGE_HEADER_ONLY)
 #include <bksge/core/render/inl/border_color_inl.hpp>

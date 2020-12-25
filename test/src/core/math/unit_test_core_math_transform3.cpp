@@ -19,6 +19,7 @@
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
 #include <bksge/fnd/units/degree.hpp>
+#include <bksge/fnd/functional/hash.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 #include "serialize_test.hpp"
@@ -421,7 +422,7 @@ inline BKSGE_CXX14_CONSTEXPR bool HashTest()
 	Transform3 const v3({1,2,3},{1,1,0,1},{4,5,6});
 	Transform3 const v4({1,2,3},{1,0,0,1},{4,3,6});
 
-	std::hash<Transform3> h;
+	bksge::hash<Transform3> h;
 
 	VERIFY(h(v1) == h(v1));
 	VERIFY(h(v1) != h(v2));

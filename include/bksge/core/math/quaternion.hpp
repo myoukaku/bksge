@@ -447,9 +447,9 @@ struct tuple_element<I, bksge::math::Quaternion<T>>
 
 }	// namespace BKSGE_TUPLE_NAMESPACE
 
-#include <functional>
+#include <bksge/fnd/functional/hash.hpp>
 
-namespace std
+namespace BKSGE_HASH_NAMESPACE
 {
 
 /**
@@ -460,6 +460,6 @@ struct hash<bksge::math::Quaternion<T>>
 	: public hash<bksge::math::detail::VectorBase<T, 4>>
 {};
 
-}	// namespace std
+}	// namespace BKSGE_HASH_NAMESPACE
 
 #endif // BKSGE_CORE_MATH_QUATERNION_HPP

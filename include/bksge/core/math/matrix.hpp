@@ -129,9 +129,9 @@ struct tuple_element<I, bksge::math::Matrix<T, N, M>>
 
 }	// namespace BKSGE_TUPLE_NAMESPACE
 
-#include <functional>
+#include <bksge/fnd/functional/hash.hpp>
 
-namespace std
+namespace BKSGE_HASH_NAMESPACE
 {
 
 /**
@@ -142,6 +142,6 @@ struct hash<bksge::math::Matrix<T, N, M>>
 	: public hash<bksge::math::Vector<bksge::math::Vector<T, M>, N>>
 {};
 
-}	// namespace std
+}	// namespace BKSGE_HASH_NAMESPACE
 
 #endif // BKSGE_CORE_MATH_MATRIX_HPP

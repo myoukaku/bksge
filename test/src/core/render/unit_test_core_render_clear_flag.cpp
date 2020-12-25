@@ -12,7 +12,7 @@
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/sstream.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <functional>
+#include <bksge/fnd/functional/hash.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 #include "serialize_test.hpp"
@@ -194,7 +194,7 @@ GTEST_TEST(Render_ClearFlag, SerializeTest)
 
 GTEST_TEST(Render_ClearFlag, HashTest)
 {
-	std::hash<bksge::ClearFlag> h;
+	bksge::hash<bksge::ClearFlag> h;
 	bksge::vector<bksge::size_t> v;
 	v.push_back(h(bksge::ClearFlag::kNone));
 	v.push_back(h(bksge::ClearFlag::kColor));

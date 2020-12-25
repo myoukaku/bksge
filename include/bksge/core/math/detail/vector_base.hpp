@@ -400,9 +400,9 @@ struct tuple_element<I, bksge::math::detail::VectorBase<T, N>>
 
 #include <bksge/fnd/functional/hash_combine.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
-#include <functional>
+#include <bksge/fnd/functional/hash.hpp>
 
-namespace std
+namespace BKSGE_HASH_NAMESPACE
 {
 
 /**
@@ -425,6 +425,6 @@ public:
 	}
 };
 
-}	// namespace std
+}	// namespace BKSGE_HASH_NAMESPACE
 
 #endif // BKSGE_CORE_MATH_DETAIL_VECTOR_BASE_HPP

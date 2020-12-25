@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	unit_test_core_render_render_pass_info.cpp
  *
- *	@brief		RenderPassInfo のテスト
+ *	@brief	RenderPassInfo のテスト
  *
  *	@author	myoukaku
  */
@@ -13,7 +13,7 @@
 #include <bksge/fnd/sstream/stringstream.hpp>
 #include <bksge/fnd/sstream/wstringstream.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <functional>
+#include <bksge/fnd/functional/hash.hpp>
 #include <gtest/gtest.h>
 #include "serialize_test.hpp"
 
@@ -139,7 +139,7 @@ GTEST_TEST(Render_RenderPassInfo, SerializeTest)
 
 GTEST_TEST(Render_RenderPassInfo, HashTest)
 {
-	std::hash<bksge::RenderPassInfo> h;
+	bksge::hash<bksge::RenderPassInfo> h;
 
 	bksge::RenderPassInfo s1;
 	bksge::RenderPassInfo s2;

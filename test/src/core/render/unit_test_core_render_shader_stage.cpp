@@ -12,7 +12,7 @@
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/sstream.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <functional>
+#include <bksge/fnd/functional/hash.hpp>
 #include <gtest/gtest.h>
 #include "serialize_test.hpp"
 
@@ -75,7 +75,7 @@ GTEST_TEST(Render_ShaderStage, SerializeTest)
 
 GTEST_TEST(Render_ShaderStage, HashTest)
 {
-	std::hash<bksge::ShaderStage> h;
+	bksge::hash<bksge::ShaderStage> h;
 
 	bksge::vector<bksge::size_t> v;
 	v.push_back(h(bksge::ShaderStage::kVertex));

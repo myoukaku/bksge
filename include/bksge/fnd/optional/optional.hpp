@@ -788,7 +788,7 @@ optional(T) -> optional<T>;
 
 #include <bksge/fnd/optional/detail/optional_hash_call_base.hpp>
 
-namespace std
+namespace BKSGE_HASH_NAMESPACE
 {
 
 BKSGE_WARNING_PUSH();
@@ -801,7 +801,7 @@ struct hash<bksge::optional<T>>
 
 BKSGE_WARNING_POP();
 
-}	// namespace std
+}	// namespace BKSGE_HASH_NAMESPACE
 
 #endif
 

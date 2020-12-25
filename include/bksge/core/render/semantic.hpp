@@ -68,29 +68,6 @@ using render::Semantic;
 
 }	// namespace bksge
 
-#if BKSGE_CXX_STANDARD <= 11
-
-#include <bksge/fnd/type_traits/underlying_type.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
-#include <functional>
-
-namespace std
-{
-
-template<>
-struct hash<bksge::render::Semantic>
-{
-	bksge::size_t operator()(bksge::render::Semantic const& arg) const
-	{
-		using type = bksge::underlying_type_t<bksge::render::Semantic>;
-		return std::hash<type>{}(static_cast<type>(arg));
-	}
-};
-
-}	// namespace std
-
-#endif // BKSGE_CXX_STANDARD <= 11
-
 #include <bksge/fnd/config.hpp>
 #if defined(BKSGE_HEADER_ONLY)
 #include <bksge/core/render/inl/semantic_inl.hpp>

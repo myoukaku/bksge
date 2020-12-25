@@ -76,29 +76,6 @@ operator<<(bksge::basic_ostream<CharT, Traits>& os, ColorWriteFlag rhs)
 
 }	// namespace bksge
 
-#if BKSGE_CXX_STANDARD <= 11
-
-#include <bksge/fnd/type_traits/underlying_type.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
-#include <functional>
-
-namespace std
-{
-
-template<>
-struct hash<bksge::render::ColorWriteFlag>
-{
-	bksge::size_t operator()(bksge::render::ColorWriteFlag const& arg) const
-	{
-		using type = bksge::underlying_type_t<bksge::render::ColorWriteFlag>;
-		return std::hash<type>{}(static_cast<type>(arg));
-	}
-};
-
-}	// namespace std
-
-#endif // BKSGE_CXX_STANDARD <= 11
-
 #include <bksge/core/render/inl/color_write_flag_inl.hpp>
 
 #endif // BKSGE_CORE_RENDER_COLOR_WRITE_FLAG_HPP

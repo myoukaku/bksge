@@ -24,11 +24,7 @@
 
 #define TEST_IGNORE_NODISCARD (void)
 
-#define LIBCPP_ASSERT(...) ((void)0)
 #define LIBCPP_STATIC_ASSERT(...) ((void)0)
-#define LIBCPP_ASSERT_NOEXCEPT(...) ((void)0)
-#define LIBCPP_ASSERT_NOT_NOEXCEPT(...) ((void)0)
-#define LIBCPP_ONLY(...) ((void)0)
 
 #if !defined(BKSGE_NO_EXCEPTIONS)
 #  define TEST_THROW(...) throw __VA_ARGS__

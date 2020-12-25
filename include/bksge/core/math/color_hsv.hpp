@@ -144,9 +144,9 @@ struct tuple_element<I, bksge::math::ColorHSV<T>>
 
 }	// namespace BKSGE_TUPLE_NAMESPACE
 
-#include <functional>
+#include <bksge/fnd/functional/hash.hpp>
 
-namespace std
+namespace BKSGE_HASH_NAMESPACE
 {
 
 /**
@@ -157,6 +157,6 @@ struct hash<bksge::math::ColorHSV<T>>
 	: public hash<bksge::math::detail::VectorBase<T, 3>>
 {};
 
-}	// namespace std
+}	// namespace BKSGE_HASH_NAMESPACE
 
 #endif // BKSGE_CORE_MATH_COLOR_HSV_HPP

@@ -15,7 +15,7 @@ GTEST_TEST(FunctionalTest, HashCombineTest)
 	auto const h0 = bksge::hash_combine(0);
 	auto const h1 = bksge::hash_combine(0.5f);
 	auto const h2 = bksge::hash_combine(true);
-	auto const h3 = bksge::hash_combine(bksge::string(""));
+	auto const h3 = bksge::hash_combine(bksge::string("hoge"));
 	auto const h4 = bksge::hash_combine(bksge::string("a"));
 	auto const h5 = bksge::hash_combine(1, 0.25);
 	auto const h6 = bksge::hash_combine(0.25, 1);
@@ -105,7 +105,7 @@ GTEST_TEST(FunctionalTest, HashCombineTest)
 	auto const h0_2 = bksge::hash_combine(0);
 	auto const h1_2 = bksge::hash_combine(0.5f);
 	auto const h2_2 = bksge::hash_combine(true);
-	auto const h3_2 = bksge::hash_combine(bksge::string(""));
+	auto const h3_2 = bksge::hash_combine(bksge::string("hoge"));
 	auto const h4_2 = bksge::hash_combine(bksge::string("a"));
 	auto const h5_2 = bksge::hash_combine(1, 0.25);
 	auto const h6_2 = bksge::hash_combine(0.25, 1);

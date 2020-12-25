@@ -85,11 +85,11 @@ operator<<(bksge::basic_ostream<CharT, Traits>& os, DepthState const& rhs)
 #include <bksge/core/render/inl/depth_state_inl.hpp>
 #endif
 
+#include <bksge/fnd/functional/hash.hpp>
 #include <bksge/fnd/functional/hash_combine.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <functional>
 
-namespace std
+namespace BKSGE_HASH_NAMESPACE
 {
 
 template<>
@@ -104,6 +104,6 @@ struct hash<bksge::render::DepthState>
 	}
 };
 
-}	// namespace std
+}	// namespace BKSGE_HASH_NAMESPACE
 
 #endif // BKSGE_CORE_RENDER_DEPTH_STATE_HPP

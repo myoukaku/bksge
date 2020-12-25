@@ -154,9 +154,9 @@ struct tuple_element<I, bksge::math::Rect<T>>
 
 }	// namespace BKSGE_TUPLE_NAMESPACE
 
-#include <functional>
+#include <bksge/fnd/functional/hash.hpp>
 
-namespace std
+namespace BKSGE_HASH_NAMESPACE
 {
 
 template <typename T>
@@ -164,6 +164,6 @@ struct hash<bksge::math::Rect<T>>
 	: public hash<bksge::math::detail::VectorBase<T, 4>>
 {};
 
-}	// namespace std
+}	// namespace BKSGE_HASH_NAMESPACE
 
 #endif // BKSGE_CORE_MATH_RECT_HPP

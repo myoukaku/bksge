@@ -20,6 +20,7 @@
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
+#include <bksge/fnd/functional/hash.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 #include "serialize_test.hpp"
@@ -1470,7 +1471,7 @@ inline BKSGE_CXX14_CONSTEXPR bool HashTest()
 	Vector4 const v4(1, 2, 2, 4);
 	Vector4 const v5(1, 2, 3, 0);
 
-	std::hash<Vector4> h;
+	bksge::hash<Vector4> h;
 
 	VERIFY(h(v1) == h(v1));
 	VERIFY(h(v1) != h(v2));

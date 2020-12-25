@@ -84,11 +84,11 @@ operator<<(bksge::basic_ostream<CharT, Traits>& os, RasterizerState const& rhs)
 #include <bksge/core/render/inl/rasterizer_state_inl.hpp>
 #endif
 
+#include <bksge/fnd/functional/hash.hpp>
 #include <bksge/fnd/functional/hash_combine.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <functional>
 
-namespace std
+namespace BKSGE_HASH_NAMESPACE
 {
 
 template<>
@@ -103,6 +103,6 @@ struct hash<bksge::render::RasterizerState>
 	}
 };
 
-}	// namespace std
+}	// namespace BKSGE_HASH_NAMESPACE
 
 #endif // BKSGE_CORE_RENDER_RASTERIZER_STATE_HPP

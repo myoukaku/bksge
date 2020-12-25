@@ -33,7 +33,7 @@ namespace algorithm
  *
  *	@effect		[first,last) 内にある要素を、それぞれ [result - (last-first),result) へムーブする。
  *				ムーブは last - 1 から順番に行い、1 以上 last - first 以下であるそれぞれの n について、
- *				*(result - n) = std::move(*(last - n)) を行う。
+ *				*(result - n) = move(*(last - n)) を行う。
  *
  *	@complexity	正確に last - first 回ムーブ代入が行われる。
  *

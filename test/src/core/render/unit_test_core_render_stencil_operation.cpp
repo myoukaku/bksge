@@ -12,7 +12,7 @@
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/sstream.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <functional>
+#include <bksge/fnd/functional/hash.hpp>
 #include <gtest/gtest.h>
 #include "serialize_test.hpp"
 
@@ -72,7 +72,7 @@ GTEST_TEST(Render_StencilOperation, SerializeTest)
 
 GTEST_TEST(Render_StencilOperation, HashTest)
 {
-	std::hash<bksge::StencilOperation> h;
+	bksge::hash<bksge::StencilOperation> h;
 
 	bksge::vector<bksge::size_t> v;
 	v.push_back(h(bksge::StencilOperation::kKeep));

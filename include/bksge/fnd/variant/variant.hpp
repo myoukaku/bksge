@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/variant/config.hpp>
 
-#if defined(BKSGE_HAS_STD_VARIANT)
+#if defined(BKSGE_USE_STD_VARIANT)
 
 namespace bksge
 {
@@ -46,8 +46,8 @@ using std::variant;
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/detail/enable_copy_move.hpp>
 #include <bksge/fnd/detail/enable_default_constructor.hpp>
-#include <bksge/fnd/detail/enable_hash_call.hpp>
 #include <bksge/fnd/functional/invoke.hpp>
+#include <bksge/fnd/functional/hash.hpp>
 #include <bksge/fnd/functional/ranges/equal_to.hpp>
 #include <bksge/fnd/functional/ranges/greater.hpp>
 #include <bksge/fnd/functional/ranges/greater_equal.hpp>
@@ -86,7 +86,6 @@ using std::variant;
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/config.hpp>
 #include <initializer_list>
-#include <functional>	// hash
 
 namespace bksge
 {
@@ -535,6 +534,28 @@ bksge::enable_if_t<!bksge::conjunction<
 >::value>
 swap(variant<Types...>&, variant<Types...>&) = delete;
 
+}	// namespace bksge
+
+#endif	// defined(BKSGE_USE_STD_VARIANT)
+
+#if !defined(BKSGE_USE_STD_VARIANT) || !defined(BKSGE_USE_STD_HASH)
+
+#include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/detail/enable_hash_call.hpp>
+#include <bksge/fnd/functional/hash.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
+#include <bksge/fnd/type_traits/conjunction.hpp>
+#include <bksge/fnd/type_traits/decay.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_invocable.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
+#include <bksge/fnd/type_traits/remove_cvref.hpp>
+#include <bksge/fnd/utility/forward.hpp>
+#include <bksge/fnd/variant/detail/variant_cookie.hpp>
+#include <bksge/fnd/variant/visit.hpp>
+
+namespace bksge
+{
+
 namespace variant_detail
 {
 
@@ -545,21 +566,21 @@ private:
 	struct variant_hash_visitor
 	{
 	public:
-		bksge::size_t&             m_ret;
-		variant<Types...> const& m_var;
+		bksge::size_t&                  m_ret;
+		bksge::variant<Types...> const& m_var;
 
 	private:
 		template <typename VarMem>
 		void impl(VarMem&& /*var_mem*/, bksge::true_type)
 		{
-			m_ret = std::hash<bksge::size_t>{}(m_var.index());
+			m_ret = bksge::hash<bksge::size_t>{}(m_var.index());
 		}
 
 		template <typename VarMem>
 		void impl(VarMem&& var_mem, bksge::false_type)
 		{
 			using Type = bksge::remove_cvref_t<VarMem>;
-			m_ret = std::hash<bksge::size_t>{}(m_var.index()) + std::hash<Type>{}(var_mem);
+			m_ret = bksge::hash<bksge::size_t>{}(m_var.index()) + bksge::hash<Type>{}(var_mem);
 		}
 
 	public:
@@ -575,10 +596,22 @@ private:
 public:
 	bksge::size_t operator()(variant<Types...> const& var) const
 		noexcept((bksge::conjunction<
-			bksge::is_nothrow_invocable<std::hash<bksge::decay_t<Types>>, Types>...>::value))
+			bksge::is_nothrow_invocable<bksge::hash<bksge::decay_t<Types>>, Types>...
+		>::value))
 	{
-		bksge::size_t ret;
+		bksge::size_t ret = {};
+#if !defined(BKSGE_USE_STD_VARIANT)
 		variant_detail::raw_visit(variant_hash_visitor{ret, var}, var);
+#else
+		try
+		{
+			bksge::visit(variant_hash_visitor{ret, var}, var);
+		}
+		catch(std::bad_variant_access const&)
+		{
+			ret = bksge::hash<bksge::size_t>{}(var.index());
+		}
+#endif
 		return ret;
 	}
 };
@@ -602,7 +635,7 @@ using variant_hash_call_base =
 
 }	// namespace bksge
 
-namespace std
+namespace BKSGE_HASH_NAMESPACE
 {
 
 BKSGE_WARNING_PUSH();
@@ -615,8 +648,8 @@ struct hash<bksge::variant<Types...>>
 
 BKSGE_WARNING_POP();
 
-}	// namespace std
+}	// namespace BKSGE_HASH_NAMESPACE
 
-#endif	// defined(BKSGE_HAS_STD_VARIANT)
+#endif	// !defined(BKSGE_USE_STD_VARIANT) || !defined(BKSGE_USE_STD_HASH)
 
 #endif // BKSGE_FND_VARIANT_VARIANT_HPP

@@ -12,7 +12,7 @@
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/sstream.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <functional>
+#include <bksge/fnd/functional/hash.hpp>
 #include <gtest/gtest.h>
 #include "serialize_test.hpp"
 
@@ -693,7 +693,7 @@ GTEST_TEST(TextureFormatTest, SerializeTest)
 
 GTEST_TEST(Render_TextureFormat, HashTest)
 {
-	std::hash<bksge::TextureFormat> h;
+	bksge::hash<bksge::TextureFormat> h;
 
 	bksge::vector<bksge::size_t> v;
 	v.push_back(h(bksge::TextureFormat::kR_U8));

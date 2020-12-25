@@ -12,7 +12,7 @@
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/sstream.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <functional>
+#include <bksge/fnd/functional/hash.hpp>
 #include <gtest/gtest.h>
 #include "serialize_test.hpp"
 
@@ -64,7 +64,7 @@ GTEST_TEST(Render_AddressMode, SerializeTest)
 
 GTEST_TEST(Render_AddressMode, HashTest)
 {
-	std::hash<bksge::AddressMode> h;
+	bksge::hash<bksge::AddressMode> h;
 	bksge::vector<bksge::size_t> v;
 	v.push_back(h(bksge::AddressMode::kRepeat));
 	v.push_back(h(bksge::AddressMode::kMirror));
