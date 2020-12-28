@@ -26,6 +26,7 @@
 #include <bksge/fnd/exception.hpp>
 #include <bksge/fnd/forward_list.hpp>
 #include <bksge/fnd/functional.hpp>
+#include <bksge/fnd/hash_functions.hpp>
 #include <bksge/fnd/ios.hpp>
 #include <bksge/fnd/iterator.hpp>
 #include <bksge/fnd/limits.hpp>

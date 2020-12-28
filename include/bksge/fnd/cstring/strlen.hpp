@@ -31,6 +31,30 @@ strlen(char const* str);
 BKSGE_CXX14_CONSTEXPR bksge::size_t
 strlen(wchar_t const* str);
 
+/**
+ *	@overload
+ */
+#if defined(BKSGE_HAS_CXX20_CHAR8_T)
+BKSGE_CXX14_CONSTEXPR bksge::size_t
+strlen(char8_t const* str);
+#endif
+
+/**
+ *	@overload
+ */
+#if defined(BKSGE_HAS_CXX11_CHAR16_T)
+BKSGE_CXX14_CONSTEXPR bksge::size_t
+strlen(char16_t const* str);
+#endif
+
+/**
+ *	@overload
+ */
+#if defined(BKSGE_HAS_CXX11_CHAR32_T)
+BKSGE_CXX14_CONSTEXPR bksge::size_t
+strlen(char32_t const* str);
+#endif
+
 }	// namespace bksge
 
 #include <bksge/fnd/cstring/inl/strlen_inl.hpp>

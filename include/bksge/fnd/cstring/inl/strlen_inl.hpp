@@ -47,6 +47,30 @@ strlen(wchar_t const* str)
 	return bksge::detail::strlen(str);
 }
 
+#if defined(BKSGE_HAS_CXX20_CHAR8_T)
+inline BKSGE_CXX14_CONSTEXPR bksge::size_t
+strlen(char8_t const* str)
+{
+	return bksge::detail::strlen(str);
+}
+#endif
+
+#if defined(BKSGE_HAS_CXX11_CHAR16_T)
+inline BKSGE_CXX14_CONSTEXPR bksge::size_t
+strlen(char16_t const* str)
+{
+	return bksge::detail::strlen(str);
+}
+#endif
+
+#if defined(BKSGE_HAS_CXX11_CHAR32_T)
+inline BKSGE_CXX14_CONSTEXPR bksge::size_t
+strlen(char32_t const* str)
+{
+	return bksge::detail::strlen(str);
+}
+#endif
+
 }	// namespace bksge
 
 #endif // BKSGE_FND_CSTRING_INL_STRLEN_INL_HPP
