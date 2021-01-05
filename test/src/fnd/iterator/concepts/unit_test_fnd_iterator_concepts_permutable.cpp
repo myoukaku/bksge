@@ -7,6 +7,8 @@
  */
 
 #include <bksge/fnd/iterator/concepts/permutable.hpp>
+#include <bksge/fnd/iterator/istreambuf_iterator.hpp>
+#include <bksge/fnd/iterator/ostreambuf_iterator.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
 #include <bksge/fnd/string/string.hpp>
@@ -17,7 +19,6 @@
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
-#include <iterator>	// istreambuf_iterator, ostreambuf_iterator
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_PERMUTABLE_TEST(B, ...)	\
@@ -54,8 +55,8 @@ BKSGE_PERMUTABLE_TEST(false, bksge::string_view::iterator);
 BKSGE_PERMUTABLE_TEST(false, bksge::string_view::const_iterator);
 BKSGE_PERMUTABLE_TEST(true,  bksge::vector<int>::iterator);
 BKSGE_PERMUTABLE_TEST(false, bksge::vector<int>::const_iterator);
-BKSGE_PERMUTABLE_TEST(false, std::istreambuf_iterator<char>);
-BKSGE_PERMUTABLE_TEST(false, std::ostreambuf_iterator<char>);
+BKSGE_PERMUTABLE_TEST(false, bksge::istreambuf_iterator<char>);
+BKSGE_PERMUTABLE_TEST(false, bksge::ostreambuf_iterator<char>);
 BKSGE_PERMUTABLE_TEST(false, bksge::shared_ptr<int>);
 BKSGE_PERMUTABLE_TEST(false, bksge::unique_ptr<int>);
 

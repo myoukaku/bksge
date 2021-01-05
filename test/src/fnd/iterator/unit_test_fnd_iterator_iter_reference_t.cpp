@@ -7,10 +7,10 @@
  */
 
 #include <bksge/fnd/iterator/iter_reference_t.hpp>
+#include <bksge/fnd/iterator/istreambuf_iterator.hpp>
+#include <bksge/fnd/iterator/ostreambuf_iterator.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <iterator>
-#include <streambuf>
 
 namespace bksge_iterator_test
 {
@@ -43,8 +43,8 @@ static_assert(bksge::is_same<bksge::iter_reference_t<vec_iterator               
 static_assert(bksge::is_same<bksge::iter_reference_t<vec_iterator const         >, T&>::value, "");
 static_assert(bksge::is_same<bksge::iter_reference_t<vec_const_iterator         >, T const&>::value, "");
 static_assert(bksge::is_same<bksge::iter_reference_t<vec_const_iterator const   >, T const&>::value, "");
-static_assert(bksge::is_same<bksge::iter_reference_t<std::istreambuf_iterator<T>>, T>::value, "");
-static_assert(bksge::is_same<bksge::iter_reference_t<std::ostreambuf_iterator<T>>, std::ostreambuf_iterator<T>&>::value, "");
+static_assert(bksge::is_same<bksge::iter_reference_t<bksge::istreambuf_iterator<T>>, T>::value, "");
+static_assert(bksge::is_same<bksge::iter_reference_t<bksge::ostreambuf_iterator<T>>, bksge::ostreambuf_iterator<T>&>::value, "");
 
 }	// namespace iter_reference_t_test
 

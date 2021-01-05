@@ -7,6 +7,8 @@
  */
 
 #include <bksge/fnd/iterator/concepts/input_iterator.hpp>
+#include <bksge/fnd/iterator/istreambuf_iterator.hpp>
+#include <bksge/fnd/iterator/ostreambuf_iterator.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/string_view.hpp>
 #include <bksge/fnd/array.hpp>
@@ -15,7 +17,6 @@
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
-#include <iterator>	// istreambuf_iterator, ostreambuf_iterator
 #include "iterator_test.hpp"
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
@@ -93,8 +94,8 @@ BKSGE_INPUT_ITERATOR_TEST(true,  bksge::string_view::iterator);
 BKSGE_INPUT_ITERATOR_TEST(true,  bksge::string_view::const_iterator);
 BKSGE_INPUT_ITERATOR_TEST(true,  bksge::vector<int>::iterator);
 BKSGE_INPUT_ITERATOR_TEST(true,  bksge::vector<A>::const_iterator);
-BKSGE_INPUT_ITERATOR_TEST(true,  std::istreambuf_iterator<char>);
-BKSGE_INPUT_ITERATOR_TEST(false, std::ostreambuf_iterator<char>);
+BKSGE_INPUT_ITERATOR_TEST(true,  bksge::istreambuf_iterator<char>);
+BKSGE_INPUT_ITERATOR_TEST(false, bksge::ostreambuf_iterator<char>);
 
 BKSGE_INPUT_ITERATOR_TEST(false, weakly_incrementable_wrapper<int>);
 BKSGE_INPUT_ITERATOR_TEST(false, incrementable_wrapper<int>);

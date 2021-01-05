@@ -9,11 +9,12 @@
 #include <bksge/fnd/iterator/concepts/indirectly_readable.hpp>
 #include <bksge/fnd/iterator/istream_iterator.hpp>
 #include <bksge/fnd/iterator/ostream_iterator.hpp>
+#include <bksge/fnd/iterator/istreambuf_iterator.hpp>
+#include <bksge/fnd/iterator/ostreambuf_iterator.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
-#include <streambuf>	// istreambuf_iterator, ostreambuf_iterator
 #include "iterator_test.hpp"
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
@@ -66,8 +67,8 @@ BKSGE_INDIRECTLY_READABLE_TEST(true,  bksge::vector<int>::iterator);
 BKSGE_INDIRECTLY_READABLE_TEST(true,  bksge::vector<int>::const_iterator);
 BKSGE_INDIRECTLY_READABLE_TEST(true,  bksge::istream_iterator<int>);
 BKSGE_INDIRECTLY_READABLE_TEST(false, bksge::ostream_iterator<int>);
-BKSGE_INDIRECTLY_READABLE_TEST(true,  std::istreambuf_iterator<int>);
-BKSGE_INDIRECTLY_READABLE_TEST(false, std::ostreambuf_iterator<int>);
+BKSGE_INDIRECTLY_READABLE_TEST(true,  bksge::istreambuf_iterator<int>);
+BKSGE_INDIRECTLY_READABLE_TEST(false, bksge::ostreambuf_iterator<int>);
 
 BKSGE_INDIRECTLY_READABLE_TEST(false, int[]);
 BKSGE_INDIRECTLY_READABLE_TEST(false, int[2]);

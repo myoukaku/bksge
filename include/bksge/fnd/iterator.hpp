@@ -27,6 +27,7 @@
 #include <bksge/fnd/iterator/incrementable_traits.hpp>
 #include <bksge/fnd/iterator/indirectly_readable_traits.hpp>
 #include <bksge/fnd/iterator/indirect_result_t.hpp>
+#include <bksge/fnd/iterator/istreambuf_iterator.hpp>
 #include <bksge/fnd/iterator/istream_iterator.hpp>
 #include <bksge/fnd/iterator/iterator_category.hpp>
 #include <bksge/fnd/iterator/iterator_traits.hpp>
@@ -39,6 +40,7 @@
 #include <bksge/fnd/iterator/make_reverse_iterator.hpp>
 #include <bksge/fnd/iterator/move_iterator.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/iterator/ostreambuf_iterator.hpp>
 #include <bksge/fnd/iterator/ostream_iterator.hpp>
 #include <bksge/fnd/iterator/prev.hpp>
 #include <bksge/fnd/iterator/projected.hpp>
