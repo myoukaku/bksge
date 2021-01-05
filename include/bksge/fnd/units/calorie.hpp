@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/units/detail/si_prefix.hpp>
 #include <bksge/fnd/units/joule.hpp>
-#include <ratio>
+#include <bksge/fnd/ratio/ratio.hpp>
 
 namespace bksge
 {
@@ -20,7 +20,7 @@ namespace units
 {
 
 // カロリー(正確に4.184ジュール)
-template <typename T> using calorie  = decltype(joule<T>() * std::ratio<4184, 1000>());
+template <typename T> using calorie  = decltype(joule<T>() * bksge::ratio<4184, 1000>());
 template <typename T> using calories = calorie<T>;
 BKSGE_UNITS_SI_PREFIX(calorie);
 BKSGE_UNITS_SI_PREFIX(calories);

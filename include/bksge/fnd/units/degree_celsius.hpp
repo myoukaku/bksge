@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/units/base_dimensions/temperature.hpp>
 #include <bksge/fnd/units/detail/quantity.hpp>
-#include <ratio>
+#include <bksge/fnd/ratio/ratio.hpp>
 
 namespace bksge
 {
@@ -20,7 +20,7 @@ namespace units
 {
 
 // セルシウス度
-template <typename T> using degree_celsius  = quantity<T, temperature_dimension, std::ratio<1>, std::ratio<27315, 100>>;
+template <typename T> using degree_celsius  = quantity<T, temperature_dimension, bksge::ratio<1>, bksge::ratio<27315, 100>>;
 template <typename T> using degrees_celsius = degree_celsius<T>;
 
 }	// namespace units

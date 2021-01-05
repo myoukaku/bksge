@@ -10,7 +10,7 @@
 #define BKSGE_FND_UNITS_MILE_HPP
 
 #include <bksge/fnd/units/yard.hpp>
-#include <ratio>
+#include <bksge/fnd/ratio/ratio.hpp>
 
 namespace bksge
 {
@@ -19,7 +19,7 @@ namespace units
 {
 
 // 国際マイル = 1760ヤード  (正確に1609.344m)
-template <typename T> using mile  = decltype(yard<T>() * std::ratio<1760>());
+template <typename T> using mile  = decltype(yard<T>() * bksge::ratio<1760>());
 template <typename T> using miles = mile<T>;
 
 }	// namespace units

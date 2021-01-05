@@ -12,12 +12,14 @@
 #include <bksge/fnd/units/detail/quantity.hpp>
 #include <bksge/fnd/units/detail/dimension_multiply.hpp>
 #include <bksge/fnd/units/detail/dimension_divide.hpp>
+#include <bksge/fnd/ratio/ratio.hpp>
 #include <bksge/fnd/ratio/ratio_gcd.hpp>
+#include <bksge/fnd/ratio/ratio_multiply.hpp>
+#include <bksge/fnd/ratio/ratio_divide.hpp>
 #include <bksge/fnd/type_traits/common_type.hpp>
 #include <bksge/fnd/cstdint/intmax_t.hpp>
 #include <bksge/fnd/ostream/basic_ostream.hpp>
 #include <bksge/fnd/config.hpp>
-#include <ratio>
 
 namespace bksge
 {
@@ -41,7 +43,7 @@ struct quantity_multiply_result<quantity<T1, D1, S1>, quantity<T2, D2, S2>>
 	using type = quantity<
 		bksge::common_type_t<T1, T2>,
 		dimension_multiply<D1, D2>,
-		std::ratio_multiply<S1, S2>
+		bksge::ratio_multiply<S1, S2>
 	>;
 };
 
@@ -51,7 +53,7 @@ struct quantity_divide_result<quantity<T1, D1, S1>, quantity<T2, D2, S2>>
 	using type = quantity<
 		bksge::common_type_t<T1, T2>,
 		dimension_divide<D1, D2>,
-		std::ratio_divide<S1, S2>
+		bksge::ratio_divide<S1, S2>
 	>;
 };
 
@@ -98,7 +100,7 @@ quantity_cast(FromQuantity const& q) BKSGE_NOEXCEPT
 	using T1 = typename ToQuantity::value_type;
 	using R1 = typename ToQuantity::scale_type;
 	using R2 = typename FromQuantity::scale_type;
-	using R3 = std::ratio_divide<R2, R1>;
+	using R3 = bksge::ratio_divide<R2, R1>;
 	using O1 = typename ToQuantity::offset_type;
 	using O2 = typename FromQuantity::offset_type;
 	return ToQuantity(static_cast<T1>((q.value() + ratio_to_float<O2>()) * R3::num / R3::den - ratio_to_float<O1>()));
@@ -201,10 +203,10 @@ operator*(ArithmeticType lhs, quantity<T...> const& rhs) BKSGE_NOEXCEPT
 
 template <typename... T, bksge::intmax_t N, bksge::intmax_t D>
 BKSGE_CONSTEXPR auto
-operator*(quantity<T...> const& lhs, std::ratio<N, D> const&) BKSGE_NOEXCEPT
--> quantity_multiply_result_t<quantity<T...>, dimensionless<int, std::ratio<N, D>>>
+operator*(quantity<T...> const& lhs, bksge::ratio<N, D> const&) BKSGE_NOEXCEPT
+-> quantity_multiply_result_t<quantity<T...>, dimensionless<int, bksge::ratio<N, D>>>
 {
-	using type = quantity_multiply_result_t<quantity<T...>, dimensionless<int, std::ratio<N, D>>>;
+	using type = quantity_multiply_result_t<quantity<T...>, dimensionless<int, bksge::ratio<N, D>>>;
 	return type(lhs.value());
 }
 

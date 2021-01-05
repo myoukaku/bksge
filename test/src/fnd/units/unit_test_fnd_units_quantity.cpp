@@ -13,6 +13,7 @@
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/sstream/stringstream.hpp>
 #include <bksge/fnd/sstream/wstringstream.hpp>
+#include <bksge/fnd/ratio/ratio.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -41,20 +42,20 @@ TYPED_TEST(QuantityTest, DefaultConstructTest)
 	}
 	{
 		using D = bksge::units::length_dimension;
-		using S = std::ratio<1000, 1>;
+		using S = bksge::ratio<1000, 1>;
 		BKSGE_CONSTEXPR bksge::units::quantity<T, D, S> q;
 		BKSGE_CONSTEXPR_EXPECT_EQ(0, q.value());
 	}
 	{
 		using D = bksge::units::mass_dimension;
-		using S = std::ratio<1, 1000>;
+		using S = bksge::ratio<1, 1000>;
 		BKSGE_CONSTEXPR bksge::units::quantity<T, D, S> q;
 		BKSGE_CONSTEXPR_EXPECT_EQ(0, q.value());
 	}
 	{
 		using D = bksge::units::length_dimension;
-		using S = std::ratio<1000, 1>;
-		using O = std::ratio<100, 3>;
+		using S = bksge::ratio<1000, 1>;
+		using O = bksge::ratio<100, 3>;
 		BKSGE_CONSTEXPR bksge::units::quantity<T, D, S, O> q;
 		BKSGE_CONSTEXPR_EXPECT_EQ(0, q.value());
 	}
@@ -75,20 +76,20 @@ TYPED_TEST(QuantityTest, ValueConstructTest)
 	}
 	{
 		using D = bksge::units::length_dimension;
-		using S = std::ratio<1000, 1>;
+		using S = bksge::ratio<1000, 1>;
 		BKSGE_CONSTEXPR bksge::units::quantity<T, D, S> q{3};
 		BKSGE_CONSTEXPR_EXPECT_EQ(3, q.value());
 	}
 	{
 		using D = bksge::units::mass_dimension;
-		using S = std::ratio<1, 1000>;
+		using S = bksge::ratio<1, 1000>;
 		BKSGE_CONSTEXPR bksge::units::quantity<T, D, S> q(4);
 		BKSGE_CONSTEXPR_EXPECT_EQ(4, q.value());
 	}
 	{
 		using D = bksge::units::length_dimension;
-		using S = std::ratio<1000, 1>;
-		using O = std::ratio<100, 3>;
+		using S = bksge::ratio<1000, 1>;
+		using O = bksge::ratio<100, 3>;
 		BKSGE_CONSTEXPR bksge::units::quantity<T, D, S, O> q{5};
 		BKSGE_CONSTEXPR_EXPECT_EQ(5, q.value());
 	}
@@ -111,22 +112,22 @@ TYPED_TEST(QuantityTest, CopyConstructTest)
 	}
 	{
 		using D = bksge::units::length_dimension;
-		using S = std::ratio<1000, 1>;
+		using S = bksge::ratio<1000, 1>;
 		BKSGE_CONSTEXPR bksge::units::quantity<T, D, S> q1(3);
 		BKSGE_CONSTEXPR bksge::units::quantity<T, D, S> q2(q1);
 		BKSGE_CONSTEXPR_EXPECT_EQ(3, q2.value());
 	}
 	{
 		using D = bksge::units::mass_dimension;
-		using S = std::ratio<1, 1000>;
+		using S = bksge::ratio<1, 1000>;
 		BKSGE_CONSTEXPR bksge::units::quantity<T, D, S> q1{4};
 		BKSGE_CONSTEXPR bksge::units::quantity<T, D, S> q2{q1};
 		BKSGE_CONSTEXPR_EXPECT_EQ(4, q2.value());
 	}
 	{
 		using D = bksge::units::length_dimension;
-		using S = std::ratio<1000, 1>;
-		using O = std::ratio<100, 3>;
+		using S = bksge::ratio<1000, 1>;
+		using O = bksge::ratio<100, 3>;
 		BKSGE_CONSTEXPR bksge::units::quantity<T, D, S, O> q1(5);
 		BKSGE_CONSTEXPR bksge::units::quantity<T, D, S, O> q2(q1);
 		BKSGE_CONSTEXPR_EXPECT_EQ(5, q2.value());
@@ -138,43 +139,43 @@ TYPED_TEST(QuantityTest, ConvertConstructTest)
 	using T = TypeParam;
 	{
 		using D = bksge::units::length_dimension;
-		using S1 = std::ratio<   1, 1>;
-		using S2 = std::ratio<1000, 1>;
+		using S1 = bksge::ratio<   1, 1>;
+		using S2 = bksge::ratio<1000, 1>;
 		BKSGE_CONSTEXPR bksge::units::quantity<T, D, S1> q1(1);
 		BKSGE_CONSTEXPR bksge::units::quantity<T, D, S2> q2(q1);
 		BKSGE_CONSTEXPR_EXPECT_EQ(T(1) / T(1000), q2.value());
 	}
 	{
 		using D = bksge::units::mass_dimension;
-		using S1 = std::ratio<100, 1>;
-		using S2 = std::ratio<1, 1>;
+		using S1 = bksge::ratio<100, 1>;
+		using S2 = bksge::ratio<1, 1>;
 		BKSGE_CONSTEXPR bksge::units::quantity<T, D, S1> q1(2);
 		BKSGE_CONSTEXPR bksge::units::quantity<T, D, S2> q2{q1};
 		BKSGE_CONSTEXPR_EXPECT_EQ(T(2) * T(100), q2.value());
 	}
 	{
 		using D = bksge::units::time_dimension;
-		using S1 = std::ratio<2, 3>;
-		using S2 = std::ratio<5, 7>;
+		using S1 = bksge::ratio<2, 3>;
+		using S2 = bksge::ratio<5, 7>;
 		BKSGE_CONSTEXPR bksge::units::quantity<T, D, S1> q1{3};
 		BKSGE_CONSTEXPR bksge::units::quantity<T, D, S2> q2{q1};
 		BKSGE_CONSTEXPR_EXPECT_NEAR(3.0 * (2.0 / 3.0) / (5.0 / 7.0), (double)q2.value(), 0.0000001);
 	}
 	{
 		using D = bksge::units::length_dimension;
-		using S = std::ratio<1, 1>;
-		using O1 = std::ratio<100, 1>;
-		using O2 = std::ratio<0, 1>;
+		using S = bksge::ratio<1, 1>;
+		using O1 = bksge::ratio<100, 1>;
+		using O2 = bksge::ratio<0, 1>;
 		BKSGE_CONSTEXPR bksge::units::quantity<T, D, S, O1> q1(4);
 		BKSGE_CONSTEXPR bksge::units::quantity<T, D, S, O2> q2(q1);
 		BKSGE_CONSTEXPR_EXPECT_EQ(104, q2.value());
 	}
 	{
 		using D = bksge::units::mass_dimension;
-		using S1 = std::ratio<314, 100>;
-		using S2 = std::ratio<11, 1000>;
-		using O1 = std::ratio<25, 13>;
-		using O2 = std::ratio<10, 17>;
+		using S1 = bksge::ratio<314, 100>;
+		using S2 = bksge::ratio<11, 1000>;
+		using O1 = bksge::ratio<25, 13>;
+		using O2 = bksge::ratio<10, 17>;
 		BKSGE_CONSTEXPR bksge::units::quantity<T, D, S1, O1> q1{5};
 		BKSGE_CONSTEXPR bksge::units::quantity<T, D, S2, O2> q2{q1};
 		BKSGE_CONSTEXPR_EXPECT_NEAR((5.0 + (25.0 / 13.0)) * (314.0 / 100.0) / (11.0 / 1000.0) - (10.0 / 17.0), (double)q2.value(), 0.0001);
@@ -199,10 +200,10 @@ TYPED_TEST(QuantityTest, AssignTest)
 	EXPECT_EQ(3, x.value());
 
 	// 変換代入
-	x = bksge::units::quantity<T, D, std::ratio<100>>(4);
+	x = bksge::units::quantity<T, D, bksge::ratio<100>>(4);
 	EXPECT_EQ(400, x.value());
 
-	x = bksge::units::quantity<T, D, std::ratio<100>, std::ratio<30>>(4);
+	x = bksge::units::quantity<T, D, bksge::ratio<100>, bksge::ratio<30>>(4);
 	EXPECT_EQ(3400, x.value());
 
 	// 自己代入
@@ -210,7 +211,7 @@ TYPED_TEST(QuantityTest, AssignTest)
 	EXPECT_EQ(3400, x.value());
 
 	// 多重代入
-	bksge::units::quantity<T, D, std::ratio<1, 1000>> y;
+	bksge::units::quantity<T, D, bksge::ratio<1, 1000>> y;
 	x = y = bksge::units::quantity<T, D>(5);
 	EXPECT_EQ(5, x.value());
 	EXPECT_EQ(5000, y.value());
@@ -243,7 +244,7 @@ TYPED_TEST(QuantityTest, PlusMinusTest)
 	using T = TypeParam;
 	using D = bksge::units::length_dimension;
 	using Q1 = bksge::units::quantity<T, D>;
-	using Q2 = bksge::units::quantity<T, D, std::ratio<1, 10>>;
+	using Q2 = bksge::units::quantity<T, D, bksge::ratio<1, 10>>;
 
 	BKSGE_CONSTEXPR Q1 x(5);
 
@@ -263,7 +264,7 @@ TYPED_TEST(QuantityTest, AddTest)
 	using T = TypeParam;
 	using D = bksge::units::length_dimension;
 	using Q1 = bksge::units::quantity<T, D>;
-	using Q2 = bksge::units::quantity<T, D, std::ratio<1000>>;
+	using Q2 = bksge::units::quantity<T, D, bksge::ratio<1000>>;
 
 	// quantity += quantity
 	{
@@ -299,7 +300,7 @@ TYPED_TEST(QuantityTest, SubTest)
 	using T = TypeParam;
 	using D = bksge::units::length_dimension;
 	using Q1 = bksge::units::quantity<T, D>;
-	using Q2 = bksge::units::quantity<T, D, std::ratio<1000>>;
+	using Q2 = bksge::units::quantity<T, D, bksge::ratio<1000>>;
 
 	// quantity -= quantity
 	{
@@ -375,25 +376,25 @@ TYPED_TEST(QuantityTest, MulRatioTest)
 	// quantity * ratio
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto x =
-			bksge::units::quantity<T, D>(2) * std::ratio<100>();
+			bksge::units::quantity<T, D>(2) * bksge::ratio<100>();
 		static_assert(bksge::is_same<
-			const bksge::units::quantity<T, D, std::ratio<100>>,
+			const bksge::units::quantity<T, D, bksge::ratio<100>>,
 			decltype(x)>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(2, x.value());
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto x =
-			bksge::units::quantity<T, D, std::ratio<2, 5>>(3) * std::ratio<7, 3>();
+			bksge::units::quantity<T, D, bksge::ratio<2, 5>>(3) * bksge::ratio<7, 3>();
 		static_assert(bksge::is_same<
-			const bksge::units::quantity<T, D, std::ratio<14, 15>>,
+			const bksge::units::quantity<T, D, bksge::ratio<14, 15>>,
 			decltype(x)>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(3, x.value());
 	}
 	{
 		BKSGE_CONSTEXPR_OR_CONST auto x =
-			bksge::units::quantity<T, D, std::ratio<3, 100>>(4) * std::ratio<5>();
+			bksge::units::quantity<T, D, bksge::ratio<3, 100>>(4) * bksge::ratio<5>();
 		static_assert(bksge::is_same<
-			const bksge::units::quantity<T, D, std::ratio<3, 20>>,
+			const bksge::units::quantity<T, D, bksge::ratio<3, 20>>,
 			decltype(x)>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(4, x.value());
 	}
@@ -448,8 +449,8 @@ TYPED_TEST(QuantityTest, MulQuantityTest)
 			>
 		>;
 		using Q1 = bksge::units::quantity<T, D1>;
-		using Q2 = bksge::units::quantity<T, D1, std::ratio<1000>>;
-		using Q3 = bksge::units::quantity<T, D2, std::ratio<1000>>;
+		using Q2 = bksge::units::quantity<T, D1, bksge::ratio<1000>>;
+		using Q3 = bksge::units::quantity<T, D2, bksge::ratio<1000>>;
 		BKSGE_CONSTEXPR_OR_CONST auto x = Q1(4) * Q2(5);
 		static_assert(bksge::is_same<const Q3, decltype(x)>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(20, x.value());
@@ -535,8 +536,8 @@ TYPED_TEST(QuantityTest, DivQuantityTest)
 	{
 		using D1 = bksge::units::length_dimension;
 		using Q1 = bksge::units::quantity<T, D1>;
-		using Q2 = bksge::units::quantity<T, D1, std::ratio<1000>>;
-		using Q3 = bksge::units::dimensionless<T, std::ratio<1, 1000>>;
+		using Q2 = bksge::units::quantity<T, D1, bksge::ratio<1000>>;
+		using Q3 = bksge::units::dimensionless<T, bksge::ratio<1, 1000>>;
 		BKSGE_CONSTEXPR_OR_CONST auto x = Q1(12) / Q2(3);
 		static_assert(bksge::is_same<const Q3, decltype(x)>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_NEAR(4, (double)x.value(), 0.0000000001);
@@ -548,7 +549,7 @@ TYPED_TEST(QuantityTest, CompareTest)
 	using T = TypeParam;
 	using D = bksge::units::length_dimension;
 	using Q1 = bksge::units::quantity<T, D>;
-	using Q2 = bksge::units::quantity<T, D, std::ratio<1, 1000>>;
+	using Q2 = bksge::units::quantity<T, D, bksge::ratio<1, 1000>>;
 
 	BKSGE_CONSTEXPR Q1 x1(4);
 	BKSGE_CONSTEXPR Q1 x2(4);
@@ -605,7 +606,7 @@ TYPED_TEST(QuantityTest, OutputStreamTest)
 	using T = TypeParam;
 	using D = bksge::units::length_dimension;
 	using Q1 = bksge::units::quantity<T, D>;
-	using Q2 = bksge::units::quantity<T, D, std::ratio<1, 1000>>;
+	using Q2 = bksge::units::quantity<T, D, bksge::ratio<1, 1000>>;
 
 	{
 		const Q1 x(321);

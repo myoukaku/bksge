@@ -10,7 +10,7 @@
 #define BKSGE_FND_UNITS_FURLONG_HPP
 
 #include <bksge/fnd/units/foot.hpp>
-#include <ratio>
+#include <bksge/fnd/ratio/ratio.hpp>
 
 namespace bksge
 {
@@ -19,7 +19,7 @@ namespace units
 {
 
 // 国際ハロン = 660フィート (正確に201.168m)
-template <typename T> using furlong  = decltype(foot<T>() * std::ratio<660>());
+template <typename T> using furlong  = decltype(foot<T>() * bksge::ratio<660>());
 template <typename T> using furlongs = furlong<T>;
 
 }	// namespace units

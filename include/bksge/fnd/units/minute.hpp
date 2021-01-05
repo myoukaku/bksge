@@ -10,7 +10,7 @@
 #define BKSGE_FND_UNITS_MINUTE_HPP
 
 #include <bksge/fnd/units/second.hpp>
-#include <ratio>
+#include <bksge/fnd/ratio/ratio.hpp>
 
 namespace bksge
 {
@@ -19,7 +19,7 @@ namespace units
 {
 
 // 分
-template <typename T> using minute  = decltype(second<T>() * std::ratio<60>());
+template <typename T> using minute  = decltype(second<T>() * bksge::ratio<60>());
 template <typename T> using minutes = minute<T>;
 
 }	// namespace units

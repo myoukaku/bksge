@@ -10,7 +10,7 @@
 #define BKSGE_FND_UNITS_TONNE_HPP
 
 #include <bksge/fnd/units/gram.hpp>
-#include <ratio>
+#include <bksge/fnd/ratio/ratio.hpp>
 
 namespace bksge
 {
@@ -19,7 +19,7 @@ namespace units
 {
 
 // トン(メトリックトン) = 1000kg
-template <typename T> using tonne  = decltype(kilogram<T>() * std::ratio<1000>());
+template <typename T> using tonne  = decltype(kilogram<T>() * bksge::ratio<1000>());
 template <typename T> using tonnes = tonne<T>;
 
 }	// namespace units

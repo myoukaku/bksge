@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/units/volt.hpp>
 #include <bksge/fnd/units/second.hpp>
-#include <ratio>
+#include <bksge/fnd/ratio/ratio.hpp>
 
 namespace bksge
 {
@@ -20,7 +20,7 @@ namespace units
 {
 
 // マクスウェル(磁束の単位)
-template <typename T> using maxwell  = decltype(volt<T>() * second<T>() * std::ratio<1, 100000000>());
+template <typename T> using maxwell  = decltype(volt<T>() * second<T>() * bksge::ratio<1, 100000000>());
 template <typename T> using maxwells = maxwell<T>;
 
 }	// namespace units

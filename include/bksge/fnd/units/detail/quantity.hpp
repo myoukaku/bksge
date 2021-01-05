@@ -17,8 +17,8 @@
 #include <bksge/fnd/type_traits/is_arithmetic.hpp>
 #include <bksge/fnd/cstdint/intmax_t.hpp>
 #include <bksge/fnd/ostream/basic_ostream.hpp>
+#include <bksge/fnd/ratio/ratio.hpp>
 #include <bksge/fnd/config.hpp>
-#include <ratio>
 
 namespace bksge
 {
@@ -75,7 +75,7 @@ BKSGE_NOEXCEPT_IF_EXPR(lhs.swap(rhs))
 }
 
 // dimensionless
-template <typename T, typename Scale = std::ratio<1>>
+template <typename T, typename Scale = bksge::ratio<1>>
 using dimensionless = quantity<T, derived_dimension<>, Scale>;
 
 // quantity_common_type
@@ -174,8 +174,8 @@ operator*(ArithmeticType lhs, quantity<T...> const& rhs) BKSGE_NOEXCEPT;
  */
 template <typename... T, bksge::intmax_t N, bksge::intmax_t D>
 BKSGE_CONSTEXPR auto
-operator*(quantity<T...> const& lhs, std::ratio<N, D> const& rhs) BKSGE_NOEXCEPT
--> quantity_multiply_result_t<quantity<T...>, dimensionless<int, std::ratio<N, D>>>;
+operator*(quantity<T...> const& lhs, bksge::ratio<N, D> const& rhs) BKSGE_NOEXCEPT
+-> quantity_multiply_result_t<quantity<T...>, dimensionless<int, bksge::ratio<N, D>>>;
 
 /**
  *	@brief	quantity *= Scalar

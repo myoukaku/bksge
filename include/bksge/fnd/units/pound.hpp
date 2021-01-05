@@ -10,7 +10,7 @@
 #define BKSGE_FND_UNITS_POUND_HPP
 
 #include <bksge/fnd/units/gram.hpp>
-#include <ratio>
+#include <bksge/fnd/ratio/ratio.hpp>
 
 namespace bksge
 {
@@ -19,7 +19,7 @@ namespace units
 {
 
 // 常用ポンド(正確に0.45359237キログラム)
-template <typename T> using pound  = decltype(gram<T>() * std::ratio<45359237LL, 100000LL>());
+template <typename T> using pound  = decltype(gram<T>() * bksge::ratio<45359237LL, 100000LL>());
 template <typename T> using pounds = pound<T>;
 
 }	// namespace units

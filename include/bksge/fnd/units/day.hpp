@@ -10,7 +10,7 @@
 #define BKSGE_FND_UNITS_DAY_HPP
 
 #include <bksge/fnd/units/hour.hpp>
-#include <ratio>
+#include <bksge/fnd/ratio/ratio.hpp>
 
 namespace bksge
 {
@@ -19,7 +19,7 @@ namespace units
 {
 
 // 日
-template <typename T> using day  = decltype(hour<T>() * std::ratio<24>());
+template <typename T> using day  = decltype(hour<T>() * bksge::ratio<24>());
 template <typename T> using days = day<T>;
 
 }	// namespace units

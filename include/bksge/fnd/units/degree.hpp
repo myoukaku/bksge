@@ -12,7 +12,7 @@
 #include <bksge/fnd/units/base_dimensions/angle.hpp>
 #include <bksge/fnd/units/detail/quantity.hpp>
 #include <bksge/fnd/units/radian.hpp>
-#include <ratio>
+#include <bksge/fnd/ratio/ratio.hpp>
 
 namespace bksge
 {
@@ -21,7 +21,7 @@ namespace units
 {
 
 // 度数法
-template <typename T> using degree  = quantity<T, angle_dimension, std::ratio<2646693125139304345LL / 180, 842468587426513207LL>>;
+template <typename T> using degree  = quantity<T, angle_dimension, bksge::ratio<2646693125139304345LL / 180, 842468587426513207LL>>;
 template <typename T> using degrees = degree<T>;
 
 /**

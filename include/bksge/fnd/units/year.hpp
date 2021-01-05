@@ -10,7 +10,7 @@
 #define BKSGE_FND_UNITS_YEAR_HPP
 
 #include <bksge/fnd/units/day.hpp>
-#include <ratio>
+#include <bksge/fnd/ratio/ratio.hpp>
 
 namespace bksge
 {
@@ -19,7 +19,7 @@ namespace units
 {
 
 // 年　= 365.25 日	(ユリウス年)
-template <typename T> using year  = decltype(day<T>() * std::ratio<36525, 100>());
+template <typename T> using year  = decltype(day<T>() * bksge::ratio<36525, 100>());
 template <typename T> using years = year<T>;
 
 }	// namespace units

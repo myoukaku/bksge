@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/units/base_dimensions/temperature.hpp>
 #include <bksge/fnd/units/detail/quantity.hpp>
-#include <ratio>
+#include <bksge/fnd/ratio/ratio.hpp>
 
 namespace bksge
 {
@@ -20,7 +20,7 @@ namespace units
 {
 
 // ファーレンハイト度
-template <typename T> using degree_fahrenheit  = quantity<T, temperature_dimension, std::ratio<5, 9>, std::ratio<45967, 100>>;
+template <typename T> using degree_fahrenheit  = quantity<T, temperature_dimension, bksge::ratio<5, 9>, bksge::ratio<45967, 100>>;
 template <typename T> using degrees_fahrenheit = degree_fahrenheit<T>;
 
 }	// namespace units

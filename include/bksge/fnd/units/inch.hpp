@@ -10,7 +10,7 @@
 #define BKSGE_FND_UNITS_INCH_HPP
 
 #include <bksge/fnd/units/metre.hpp>
-#include <ratio>
+#include <bksge/fnd/ratio/ratio.hpp>
 
 namespace bksge
 {
@@ -19,7 +19,7 @@ namespace units
 {
 
 // 国際インチ  (正確に25.4mm)
-template <typename T> using inch   = decltype(metre<T>() * std::ratio<254, 10000>());
+template <typename T> using inch   = decltype(metre<T>() * bksge::ratio<254, 10000>());
 template <typename T> using inches = inch<T>;
 
 }	// namespace units
