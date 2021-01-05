@@ -22,8 +22,8 @@
 #include <bksge/fnd/string_view/basic_string_view.hpp>
 #include <bksge/fnd/istream/basic_istream.hpp>
 #include <bksge/fnd/ostream/basic_ostream.hpp>
+#include <bksge/fnd/initializer_list.hpp>
 #include <bksge/fnd/config.hpp>
-#include <initializer_list>
 
 namespace bksge
 {
@@ -138,7 +138,7 @@ public:
 	{}
 
 	BKSGE_CXX14_CONSTEXPR
-	basic_static_string(std::initializer_list<CharT> il)
+	basic_static_string(bksge::initializer_list<CharT> il)
 		: basic_static_string(il.begin(), il.end())
 	{}
 
@@ -195,7 +195,7 @@ public:
 	}
 
 	BKSGE_CXX14_CONSTEXPR basic_static_string&
-	operator=(std::initializer_list<CharT> il)
+	operator=(bksge::initializer_list<CharT> il)
 	{
 		return this->assign(il);
 	}
@@ -227,7 +227,7 @@ public:
 	}
 
 	BKSGE_CXX14_CONSTEXPR basic_static_string&
-	operator+=(std::initializer_list<CharT> il)
+	operator+=(bksge::initializer_list<CharT> il)
 	{
 		return this->append(il);
 	}
@@ -444,7 +444,7 @@ public:
 	}
 
 	BKSGE_CXX14_CONSTEXPR basic_static_string&
-	append(std::initializer_list<CharT> il)
+	append(bksge::initializer_list<CharT> il)
 	{
 		return this->append(il.begin(), il.end());
 	}
@@ -518,7 +518,7 @@ public:
 	}
 
 	BKSGE_CXX14_CONSTEXPR basic_static_string&
-	assign(std::initializer_list<CharT> il)
+	assign(bksge::initializer_list<CharT> il)
 	{
 		return this->assign(il.begin(), il.end());
 	}
@@ -600,7 +600,7 @@ public:
 	}
 
 	BKSGE_CXX14_CONSTEXPR iterator
-	insert(const_iterator p, std::initializer_list<CharT> il)
+	insert(const_iterator p, bksge::initializer_list<CharT> il)
 	{
 		return this->insert(p, il.begin(), il.end());
 	}
@@ -735,7 +735,7 @@ public:
 	}
 
 	BKSGE_CXX14_CONSTEXPR basic_static_string&
-	replace(const_iterator i1, const_iterator i2, std::initializer_list<CharT> il)
+	replace(const_iterator i1, const_iterator i2, bksge::initializer_list<CharT> il)
 	{
 		return this->replace(i1, i2, il.begin(), il.end());
 	}

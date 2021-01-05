@@ -31,8 +31,8 @@ using std::make_optional;
 #include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
+#include <bksge/fnd/initializer_list.hpp>
 #include <bksge/fnd/config.hpp>
-#include <initializer_list>
 
 namespace bksge
 {
@@ -61,11 +61,11 @@ make_optional(Args&&... args)
 
 template <typename T, typename U, typename... Args,
 	typename = bksge::enable_if_t<
-		bksge::is_constructible<T, std::initializer_list<U>&, Args...>::value>>
+		bksge::is_constructible<T, bksge::initializer_list<U>&, Args...>::value>>
 inline BKSGE_CONSTEXPR optional<T>
-make_optional(std::initializer_list<U> il, Args&&... args)
+make_optional(bksge::initializer_list<U> il, Args&&... args)
 	BKSGE_NOEXCEPT_IF((
-		bksge::is_nothrow_constructible<T, std::initializer_list<U>&, Args...>::value))
+		bksge::is_nothrow_constructible<T, bksge::initializer_list<U>&, Args...>::value))
 {
 	return optional<T>{ bksge::in_place, il, bksge::forward<Args>(args)... };
 }

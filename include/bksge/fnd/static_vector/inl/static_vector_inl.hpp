@@ -21,9 +21,9 @@
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/move.hpp>
+#include <bksge/fnd/initializer_list.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/config.hpp>
-#include <initializer_list>
 
 namespace bksge
 {
@@ -76,7 +76,7 @@ static_vector<T, C>::static_vector(static_vector&& other)
 
 template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR
-static_vector<T, C>::static_vector(std::initializer_list<value_type> il)
+static_vector<T, C>::static_vector(bksge::initializer_list<value_type> il)
 	: static_vector(il.begin(), il.end())
 {
 }
@@ -111,7 +111,7 @@ static_vector<T, C>::operator=(static_vector&& other)
 
 template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR auto
-static_vector<T, C>::operator=(std::initializer_list<value_type> il)
+static_vector<T, C>::operator=(bksge::initializer_list<value_type> il)
  -> static_vector&
 {
 	assign(il);
@@ -140,7 +140,7 @@ static_vector<T, C>::assign(InputIterator first, InputIterator last)
 
 template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR void
-static_vector<T, C>::assign(std::initializer_list<value_type> il)
+static_vector<T, C>::assign(bksge::initializer_list<value_type> il)
 {
 	assign(il.begin(), il.end());
 }
@@ -393,7 +393,7 @@ static_vector<T, C>::insert(const_iterator pos, InputIterator first, InputIterat
 
 template <typename T, bksge::size_t C>
 inline BKSGE_CXX14_CONSTEXPR auto
-static_vector<T, C>::insert(const_iterator pos, std::initializer_list<value_type> il)
+static_vector<T, C>::insert(const_iterator pos, bksge::initializer_list<value_type> il)
 -> iterator
 {
 	return insert(pos, il.begin(), il.end());

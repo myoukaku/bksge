@@ -11,8 +11,8 @@
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/utility/in_place_index.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/initializer_list.hpp>
 #include <bksge/fnd/config.hpp>
-#include <initializer_list>
 #include <gtest/gtest.h>
 #include "fnd/variant/test_convertible.hpp"
 #include "fnd/variant/test_macros.hpp"
@@ -29,7 +29,7 @@ struct InitList
 	bksge::size_t size;
 
 	BKSGE_CXX14_CONSTEXPR
-	InitList(std::initializer_list<int> il)
+	InitList(bksge::initializer_list<int> il)
 		: size(il.size()) {}
 };
 
@@ -39,13 +39,13 @@ struct InitListArg
 	int value;
 
 	BKSGE_CXX14_CONSTEXPR
-	InitListArg(std::initializer_list<int> il, int v)
+	InitListArg(bksge::initializer_list<int> il, int v)
 		: size(il.size()), value(v) {}
 };
 
 void test_ctor_sfinae()
 {
-	using IL = std::initializer_list<int>;
+	using IL = bksge::initializer_list<int>;
 	{
 		// just init list
 		using V = bksge::variant<InitList, InitListArg, int>;

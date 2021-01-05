@@ -18,8 +18,8 @@
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/in_place_type.hpp>
 #include <bksge/fnd/utility/move.hpp>
+#include <bksge/fnd/initializer_list.hpp>
 #include <bksge/fnd/config.hpp>
-#include <initializer_list>
 #include <typeinfo>		// type_info
 
 namespace bksge
@@ -78,7 +78,7 @@ any::any(bksge::in_place_type_t<ValueType>, Args&&... args)
 
 template <typename ValueType, typename U, typename... Args, typename>
 inline
-any::any(bksge::in_place_type_t<ValueType>, std::initializer_list<U> il, Args&&... args)
+any::any(bksge::in_place_type_t<ValueType>, bksge::initializer_list<U> il, Args&&... args)
 	: m_manager(&Manager<bksge::decay_t<ValueType>>::manage)
 {
 	Manager<bksge::decay_t<ValueType>>::create(m_storage, il, bksge::forward<Args>(args)...);
@@ -135,7 +135,7 @@ any::emplace(Args&&... args)
 
 template <typename ValueType, typename U, typename... Args, typename>
 inline bksge::decay_t<ValueType>&
-any::emplace(std::initializer_list<U> il, Args&&... args)
+any::emplace(bksge::initializer_list<U> il, Args&&... args)
 {
 	do_emplace<bksge::decay_t<ValueType>>(il, bksge::forward<Args>(args)...);
 	any::Arg arg;

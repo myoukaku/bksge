@@ -39,7 +39,7 @@ using std::any;
 #include <bksge/fnd/type_traits/negation.hpp>
 #include <bksge/fnd/utility/in_place_type.hpp>
 #include <bksge/fnd/utility/swap.hpp>
-#include <initializer_list>
+#include <bksge/fnd/initializer_list.hpp>
 #include <typeinfo>		// type_info
 
 namespace bksge
@@ -69,7 +69,7 @@ private:
 	template <typename T, typename U, typename... Args>
 	using IsInitializerListConstructible =
 		bksge::conjunction<
-			bksge::is_constructible<T, std::initializer_list<U>&, Args...>,
+			bksge::is_constructible<T, bksge::initializer_list<U>&, Args...>,
 			bksge::is_copy_constructible<T>
 		>;
 
@@ -106,7 +106,7 @@ public:
 		typename... Args,
 		typename = bksge::enable_if_t<IsInitializerListConstructible<bksge::decay_t<ValueType>, U, Args...>::value>
 	>
-	explicit any(bksge::in_place_type_t<ValueType>, std::initializer_list<U> il, Args&&... args);
+	explicit any(bksge::in_place_type_t<ValueType>, bksge::initializer_list<U> il, Args&&... args);
 
 	~any();
 
@@ -133,7 +133,7 @@ public:
 		typename... Args,
 		typename = bksge::enable_if_t<IsInitializerListConstructible<bksge::decay_t<ValueType>, U, Args...>::value>
 	>
-	bksge::decay_t<ValueType>& emplace(std::initializer_list<U> il, Args&&... args);
+	bksge::decay_t<ValueType>& emplace(bksge::initializer_list<U> il, Args&&... args);
 
 	void reset() BKSGE_NOEXCEPT;
 

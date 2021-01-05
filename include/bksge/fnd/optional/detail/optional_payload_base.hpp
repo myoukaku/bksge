@@ -19,8 +19,8 @@
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
 #include <bksge/fnd/utility/move.hpp>
+#include <bksge/fnd/initializer_list.hpp>
 #include <bksge/fnd/config.hpp>
-#include <initializer_list>
 
 namespace bksge
 {
@@ -47,7 +47,7 @@ struct optional_payload_base
 
 	template <typename U, typename... Args>
 	BKSGE_CONSTEXPR
-	optional_payload_base(std::initializer_list<U> il, Args&&... args)
+	optional_payload_base(bksge::initializer_list<U> il, Args&&... args)
 		: m_payload(il, bksge::forward<Args>(args)...)
 		, m_engaged(true)
 	{}
@@ -151,7 +151,7 @@ struct optional_payload_base
 
 		template <typename V, typename... Args>
 		BKSGE_CONSTEXPR
-		storage(std::initializer_list<V> il, Args&&... args)
+		storage(bksge::initializer_list<V> il, Args&&... args)
 			: m_value(il, bksge::forward<Args>(args)...)
 		{}
 
@@ -175,7 +175,7 @@ struct optional_payload_base
 
 		template <typename V, typename... Args>
 		BKSGE_CONSTEXPR
-		storage(std::initializer_list<V> il, Args&&... args)
+		storage(bksge::initializer_list<V> il, Args&&... args)
 			: m_value(il, bksge::forward<Args>(args)...)
 		{}
 

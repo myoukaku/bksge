@@ -18,6 +18,7 @@
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
 #include <bksge/fnd/vector.hpp>
+#include <bksge/fnd/initializer_list.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -292,7 +293,7 @@ GTEST_TEST(StaticVectorTest, CtorIteratorTest)
 }
 
 template <typename T, bksge::size_t N>
-BKSGE_CXX14_CONSTEXPR bool test_ctor_initializer_list(std::initializer_list<T> il)
+BKSGE_CXX14_CONSTEXPR bool test_ctor_initializer_list(bksge::initializer_list<T> il)
 {
 	bksge::size_t n = il.size();
 
@@ -759,7 +760,7 @@ BKSGE_CXX14_CONSTEXPR bool test_op_assign_move()
 }
 
 template <typename T, bksge::size_t N>
-BKSGE_CXX14_CONSTEXPR bool test_op_assign_initializer_list(std::initializer_list<T> il)
+BKSGE_CXX14_CONSTEXPR bool test_op_assign_initializer_list(bksge::initializer_list<T> il)
 {
 	bksge::static_vector<T, N> s;
 
@@ -861,7 +862,7 @@ BKSGE_CXX14_CONSTEXPR bool test_assign_iterator(Iterator first, Iterator last)
 }
 
 template <typename T, bksge::size_t N>
-BKSGE_CXX14_CONSTEXPR bool test_assign_initializer_list(std::initializer_list<T> il)
+BKSGE_CXX14_CONSTEXPR bool test_assign_initializer_list(bksge::initializer_list<T> il)
 {
 	bksge::static_vector<T, N> s;
 
@@ -1308,7 +1309,7 @@ BKSGE_CXX14_CONSTEXPR bool test_insert_initializer_list()
 
 	for (bksge::size_t i = 0; i <= h; ++i)
 	{
-		std::initializer_list<T> il = {T(3),T(1),T(4)};
+		bksge::initializer_list<T> il = {T(3),T(1),T(4)};
 		bksge::size_t n = il.size();
 		bksge::static_vector<T, N> s1(s);
 		It it = s1.insert(s1.begin() + i, il);

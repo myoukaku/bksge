@@ -20,9 +20,9 @@
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/cstdint/uintptr_t.hpp>
 #include <bksge/fnd/set/set.hpp>
+#include <bksge/fnd/initializer_list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
-#include <initializer_list>
 #include <gtest/gtest.h>
 
 namespace bksge_any_test
@@ -72,7 +72,7 @@ struct combined
 	bksge::vector<int> v;
 	bksge::tuple<int, int> t;
 	template <typename... Args>
-	combined(std::initializer_list<int> il, Args&&... args)
+	combined(bksge::initializer_list<int> il, Args&&... args)
 		: v(il), t(bksge::forward<Args>(args)...)
 	{}
 };
@@ -261,7 +261,7 @@ struct combined
 	bksge::vector<int> v;
 	bksge::tuple<int, int> t;
 	template <typename... Args>
-	combined(std::initializer_list<int> il, Args&&... args)
+	combined(bksge::initializer_list<int> il, Args&&... args)
 		: v(il), t(bksge::forward<Args>(args)...)
 	{}
 };

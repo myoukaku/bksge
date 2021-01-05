@@ -13,7 +13,8 @@
 #include <bksge/fnd/algorithm/minmax_element.hpp>
 #include <bksge/fnd/functional/less.hpp>
 #include <bksge/fnd/utility/pair.hpp>
-#include <initializer_list>
+#include <bksge/fnd/initializer_list.hpp>
+#include <bksge/fnd/config.hpp>
 
 namespace bksge
 {
@@ -39,7 +40,7 @@ minmax(T const& a, T const& b, Compare comp)
 
 template <typename T>
 inline BKSGE_CXX14_CONSTEXPR bksge::pair<T, T>
-minmax(std::initializer_list<T> t)
+minmax(bksge::initializer_list<T> t)
 {
 	return bksge::minmax(t, bksge::less<>());
 }
@@ -58,7 +59,7 @@ minmax_impl(bksge::pair<Iterator, Iterator> const& p)
 
 template <typename T, typename Compare>
 inline BKSGE_CXX14_CONSTEXPR bksge::pair<T, T>
-minmax(std::initializer_list<T> t, Compare comp)
+minmax(bksge::initializer_list<T> t, Compare comp)
 {
 	return detail::minmax_impl<T>(
 		bksge::algorithm::minmax_element(t.begin(), t.end(), comp));

@@ -10,9 +10,9 @@
 #define UNIT_TEST_FND_VARIANT_ARCHETYPES_HPP
 
 #include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/initializer_list.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cassert>
-#include <initializer_list>
 #include "test_macros.hpp"
 #include "test_workarounds.hpp"
 
@@ -99,14 +99,14 @@ struct TestBase
 	}
 
 	template <bool Dummy = true, bksge::enable_if_t<Dummy && Explicit, bool> = true>
-	explicit TestBase(std::initializer_list<int>& il, int = 0) noexcept
+	explicit TestBase(bksge::initializer_list<int>& il, int = 0) noexcept
 		: value(static_cast<int>(il.size()))
 	{
 		++alive; ++constructed; ++value_constructed;
 	}
 
 	template <bool Dummy = true, bksge::enable_if_t<Dummy && !Explicit, bool> = true>
-	TestBase(std::initializer_list<int>& il, int = 0) noexcept: value(static_cast<int>(il.size()))
+	TestBase(bksge::initializer_list<int>& il, int = 0) noexcept: value(static_cast<int>(il.size()))
 	{
 		++alive; ++constructed; ++value_constructed;
 	}
@@ -188,10 +188,10 @@ struct ValueBase
 	constexpr ValueBase(int, int y) : value(y) {}
 
 	template <bool Dummy = true, bksge::enable_if_t<Dummy && Explicit, bool> = true>
-	explicit constexpr ValueBase(std::initializer_list<int>& il, int = 0) : value(static_cast<int>(il.size())) {}
+	explicit constexpr ValueBase(bksge::initializer_list<int>& il, int = 0) : value(static_cast<int>(il.size())) {}
 
 	template <bool Dummy = true, bksge::enable_if_t<Dummy && !Explicit, bool> = true>
-	constexpr ValueBase(std::initializer_list<int>& il, int = 0) : value(static_cast<int>(il.size())) {}
+	constexpr ValueBase(bksge::initializer_list<int>& il, int = 0) : value(static_cast<int>(il.size())) {}
 
 	BKSGE_CXX14_CONSTEXPR ValueBase& operator=(int xvalue) noexcept
 	{
@@ -267,10 +267,10 @@ struct TrivialValueBase
 	constexpr TrivialValueBase(int, int y) : value(y) {}
 
 	template <bool Dummy = true, bksge::enable_if_t<Dummy && Explicit, bool> = true>
-	explicit constexpr TrivialValueBase(std::initializer_list<int>& il, int = 0) : value(static_cast<int>(il.size())) {}
+	explicit constexpr TrivialValueBase(bksge::initializer_list<int>& il, int = 0) : value(static_cast<int>(il.size())) {}
 
 	template <bool Dummy = true, bksge::enable_if_t<Dummy && !Explicit, bool> = true>
-	constexpr TrivialValueBase(std::initializer_list<int>& il, int = 0) : value(static_cast<int>(il.size())) {}
+	constexpr TrivialValueBase(bksge::initializer_list<int>& il, int = 0) : value(static_cast<int>(il.size())) {}
 
 	int value;
 #ifndef TEST_WORKAROUND_C1XX_BROKEN_ZA_CTOR_CHECK

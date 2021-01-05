@@ -9,8 +9,8 @@
 #include <bksge/fnd/optional/optional.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
+#include <bksge/fnd/initializer_list.hpp>
 #include <gtest/gtest.h>
-#include <initializer_list>
 #include "constexpr_test.hpp"
 
 namespace bksge_optional_test
@@ -32,7 +32,7 @@ struct value_type : private mixin_counter
 {
 	value_type() = default;
 	value_type(int) : state(1) {}
-	value_type(std::initializer_list<char>, char const*) : state(2) {}
+	value_type(bksge::initializer_list<char>, char const*) : state(2) {}
 	int state = 0;
 };
 
@@ -77,7 +77,7 @@ GTEST_TEST(OptionalTest, EmplaceTest)
 		EXPECT_TRUE(o && o->state == 2);
 	}
 
-	static_assert(!bksge::is_constructible<O, std::initializer_list<int>, int>::value, "");
+	static_assert(!bksge::is_constructible<O, bksge::initializer_list<int>, int>::value, "");
 
 	EXPECT_EQ(0, counter);
 }

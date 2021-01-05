@@ -17,8 +17,8 @@
 #include <bksge/fnd/type_traits/is_nothrow_move_assignable.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_move_constructible.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_swappable.hpp>
+#include <bksge/fnd/initializer_list.hpp>
 #include <bksge/fnd/config.hpp>
-#include <initializer_list>
 
 namespace bksge
 {
@@ -65,7 +65,7 @@ public:
 	BKSGE_CXX14_CONSTEXPR static_vector(static_vector&& other)
 		BKSGE_NOEXCEPT_IF(bksge::is_nothrow_move_constructible<value_type>::value);
 
-	BKSGE_CXX14_CONSTEXPR static_vector(std::initializer_list<value_type> il);
+	BKSGE_CXX14_CONSTEXPR static_vector(bksge::initializer_list<value_type> il);
 
 	//BKSGE_CXX20_CONSTEXPR ~static_vector();
 
@@ -74,7 +74,7 @@ public:
 	BKSGE_CXX14_CONSTEXPR static_vector& operator=(static_vector&& other)
 		BKSGE_NOEXCEPT_IF(bksge::is_nothrow_move_assignable<value_type>::value);
 
-	BKSGE_CXX14_CONSTEXPR static_vector& operator=(std::initializer_list<value_type> il);
+	BKSGE_CXX14_CONSTEXPR static_vector& operator=(bksge::initializer_list<value_type> il);
 
 	BKSGE_CXX14_CONSTEXPR void assign(size_type count, value_type const& value);
 
@@ -86,7 +86,7 @@ public:
 	>
 	BKSGE_CXX14_CONSTEXPR void assign(InputIterator first, InputIterator last);
 
-	BKSGE_CXX14_CONSTEXPR void assign(std::initializer_list<value_type> il);
+	BKSGE_CXX14_CONSTEXPR void assign(bksge::initializer_list<value_type> il);
 
 	//BKSGE_CXX20_CONSTEXPR allocator_type get_allocator() const BKSGE_NOEXCEPT;
 
@@ -152,7 +152,7 @@ public:
 	>
 	BKSGE_CXX14_CONSTEXPR iterator insert(const_iterator pos, InputIterator first, InputIterator last);
 
-	BKSGE_CXX14_CONSTEXPR iterator insert(const_iterator pos, std::initializer_list<value_type> il);
+	BKSGE_CXX14_CONSTEXPR iterator insert(const_iterator pos, bksge::initializer_list<value_type> il);
 
 	template <typename... Args>
 	BKSGE_CXX14_CONSTEXPR iterator emplace(const_iterator pos, Args&&... args);

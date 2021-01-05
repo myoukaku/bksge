@@ -10,8 +10,8 @@
 #include <bksge/fnd/variant/get.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/initializer_list.hpp>
 #include <bksge/fnd/config.hpp>
-#include <initializer_list>
 #include <gtest/gtest.h>
 #include "fnd/variant/archetypes.hpp"
 #include "fnd/variant/test_convertible.hpp"
@@ -28,7 +28,7 @@ struct InitList
 	bksge::size_t size;
 
 	BKSGE_CXX14_CONSTEXPR
-	InitList(std::initializer_list<int> il)
+	InitList(bksge::initializer_list<int> il)
 		: size(il.size()) {}
 };
 
@@ -38,7 +38,7 @@ struct InitListArg
 	int value;
 
 	BKSGE_CXX14_CONSTEXPR
-	InitListArg(std::initializer_list<int> il, int v)
+	InitListArg(bksge::initializer_list<int> il, int v)
 		: size(il.size()), value(v) {}
 };
 
@@ -64,7 +64,7 @@ constexpr bool emplace_exists()
 void test_emplace_sfinae()
 {
 	using V = bksge::variant<int, TestTypes::NoCtors, InitList, InitListArg, long, long>;
-	using IL = std::initializer_list<int>;
+	using IL = bksge::initializer_list<int>;
 	static_assert(!emplace_exists<V, 1, IL>(), "no such constructor");
 	static_assert( emplace_exists<V, 2, IL>(), "");
 	static_assert(!emplace_exists<V, 2, int>(), "args don't match");

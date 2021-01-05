@@ -12,7 +12,8 @@
 #include <bksge/fnd/algorithm/min.hpp>
 #include <bksge/fnd/algorithm/min_element.hpp>
 #include <bksge/fnd/functional/less.hpp>
-#include <initializer_list>
+#include <bksge/fnd/initializer_list.hpp>
+#include <bksge/fnd/config.hpp>
 
 namespace bksge
 {
@@ -33,14 +34,14 @@ min(T const& a, T const& b, Compare comp)
 
 template <typename T>
 inline BKSGE_CXX14_CONSTEXPR T
-min(std::initializer_list<T> t)
+min(bksge::initializer_list<T> t)
 {
 	return *bksge::min_element(t.begin(), t.end(), bksge::less<>());
 }
 
 template <typename T, typename Compare>
 inline BKSGE_CXX14_CONSTEXPR T
-min(std::initializer_list<T> t, Compare comp)
+min(bksge::initializer_list<T> t, Compare comp)
 {
 	return *bksge::min_element(t.begin(), t.end(), comp);
 }

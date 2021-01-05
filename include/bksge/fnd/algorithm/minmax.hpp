@@ -10,8 +10,8 @@
 #define BKSGE_FND_ALGORITHM_MINMAX_HPP
 
 #include <bksge/fnd/utility/pair.hpp>
+#include <bksge/fnd/initializer_list.hpp>
 #include <bksge/fnd/config.hpp>
-#include <initializer_list>
 
 namespace bksge
 {
@@ -72,7 +72,7 @@ minmax(T const& a, T const& b, Compare comp);
  */
 template <typename T>
 BKSGE_CXX14_CONSTEXPR bksge::pair<T, T>
-minmax(std::initializer_list<T> t);
+minmax(bksge::initializer_list<T> t);
 
 /**
  *	@brief		initializer_listによるN個の値のうち、最小値と最大値の組を取得する。
@@ -92,7 +92,7 @@ minmax(std::initializer_list<T> t);
  */
 template <typename T, typename Compare>
 BKSGE_CXX14_CONSTEXPR bksge::pair<T, T>
-minmax(std::initializer_list<T> t, Compare comp);
+minmax(bksge::initializer_list<T> t, Compare comp);
 
 }	// namespace algorithm
 
