@@ -7,8 +7,9 @@
  */
 
 #include <bksge/fnd/random/engines/xoshiro.hpp>
+#include <bksge/fnd/sstream/istringstream.hpp>
+#include <bksge/fnd/sstream/ostringstream.hpp>
 #include <random>
-#include <sstream>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -245,9 +246,9 @@ TYPED_TEST(XoshiroTest, InputOutputTest)
 
 	Engine e1;
 	e1.discard(100);
-	std::ostringstream os;
+	bksge::ostringstream os;
 	os << e1;
-	std::istringstream is(os.str());
+	bksge::istringstream is(os.str());
 	Engine e2;
 	EXPECT_TRUE(e1 != e2);
 	is >> e2;

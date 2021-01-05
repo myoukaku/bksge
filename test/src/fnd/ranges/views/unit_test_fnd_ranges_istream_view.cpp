@@ -7,8 +7,8 @@
  */
 
 #include <bksge/fnd/ranges/views/istream_view.hpp>
+#include <bksge/fnd/sstream/istringstream.hpp>
 #include <gtest/gtest.h>
-#include <sstream>
 
 namespace bksge_ranges_test
 {
@@ -19,7 +19,7 @@ namespace istream_view_test
 GTEST_TEST(RangesTest, IStreamViewTest)
 {
 	{
-		auto ss = std::istringstream{ "0 1  2   3     4" };
+		auto ss = bksge::istringstream{ "0 1  2   3     4" };
 		auto v = bksge::ranges::istream_view<int>(ss);
 		auto it = v.begin();
 		EXPECT_FALSE(it == v.end());
