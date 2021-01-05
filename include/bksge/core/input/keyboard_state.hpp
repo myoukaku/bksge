@@ -10,9 +10,9 @@
 #define BKSGE_CORE_INPUT_KEYBOARD_STATE_HPP
 
 #include <bksge/core/input/key_code.hpp>
+#include <bksge/fnd/bitset.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
-#include <bitset>
 
 namespace bksge
 {
@@ -29,7 +29,7 @@ public:
 	BKSGE_STATIC_CONSTEXPR auto kKeyCodeMax	=
 		static_cast<bksge::size_t>(KeyCode::kMax);
 
-	using Keys = std::bitset<kKeyCodeMax>;
+	using Keys = bksge::bitset<kKeyCodeMax>;
 
 	/**
 	 *	@brief	デフォルトコンストラクタ

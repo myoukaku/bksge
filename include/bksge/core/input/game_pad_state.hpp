@@ -12,8 +12,8 @@
 #include <bksge/core/math/vector2.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/array.hpp>
+#include <bksge/fnd/bitset.hpp>
 #include <bksge/fnd/config.hpp>
-#include <bitset>
 
 namespace bksge
 {
@@ -31,7 +31,7 @@ public:
 	BKSGE_STATIC_CONSTEXPR bksge::size_t kAnalogButtonMax	=  2;
 	BKSGE_STATIC_CONSTEXPR bksge::size_t kAnalogStickMax	=  2;
 
-	using Buttons		= std::bitset<kButtonMax>;
+	using Buttons		= bksge::bitset<kButtonMax>;
 	using AnalogButtons	= bksge::array<float, kAnalogButtonMax>;
 	using AnalogSticks	= bksge::array<bksge::Vector2f, kAnalogStickMax>;
 

@@ -14,6 +14,7 @@
 #include <bksge/fnd/array.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/bit.hpp>
+#include <bksge/fnd/bitset.hpp>
 #include <bksge/fnd/cmath.hpp>
 #include <bksge/fnd/compare.hpp>
 #include <bksge/fnd/concepts.hpp>
