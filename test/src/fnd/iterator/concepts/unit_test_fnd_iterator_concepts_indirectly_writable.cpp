@@ -7,11 +7,12 @@
  */
 
 #include <bksge/fnd/iterator/concepts/indirectly_writable.hpp>
+#include <bksge/fnd/iterator/istream_iterator.hpp>
+#include <bksge/fnd/iterator/ostream_iterator.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
-#include <iterator>	// istream_iterator, ostream_iterator
 #include "iterator_test.hpp"
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
@@ -38,8 +39,8 @@ BKSGE_INDIRECTLY_WRITABLE_TEST(true,  bksge::shared_ptr<int>,           int);
 BKSGE_INDIRECTLY_WRITABLE_TEST(false, bksge::vector<int>,                 int);
 BKSGE_INDIRECTLY_WRITABLE_TEST(true,  bksge::vector<int>::iterator,       int);
 BKSGE_INDIRECTLY_WRITABLE_TEST(false, bksge::vector<int>::const_iterator, int);
-BKSGE_INDIRECTLY_WRITABLE_TEST(false, std::istream_iterator<int>,       int);
-BKSGE_INDIRECTLY_WRITABLE_TEST(true,  std::ostream_iterator<int>,       int);
+BKSGE_INDIRECTLY_WRITABLE_TEST(false, bksge::istream_iterator<int>,       int);
+BKSGE_INDIRECTLY_WRITABLE_TEST(true,  bksge::ostream_iterator<int>,       int);
 
 BKSGE_INDIRECTLY_WRITABLE_TEST(true,  int*, int const);
 BKSGE_INDIRECTLY_WRITABLE_TEST(true,  int*, float);

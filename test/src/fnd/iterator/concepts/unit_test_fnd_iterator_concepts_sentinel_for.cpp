@@ -7,11 +7,12 @@
  */
 
 #include <bksge/fnd/iterator/concepts/sentinel_for.hpp>
+#include <bksge/fnd/iterator/istream_iterator.hpp>
+#include <bksge/fnd/iterator/ostream_iterator.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
-#include <iterator>	// istream_iterator, ostream_iterator
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_SENTINEL_FOR_TEST(B, ...)	\
@@ -40,10 +41,10 @@ BKSGE_SENTINEL_FOR_TEST(false, int*,                               bksge::vector
 BKSGE_SENTINEL_FOR_TEST(true,  bksge::vector<int>::iterator,       bksge::vector<int>::iterator);
 BKSGE_SENTINEL_FOR_TEST(false, int*,                               bksge::vector<int>::const_iterator);
 BKSGE_SENTINEL_FOR_TEST(true,  bksge::vector<int>::const_iterator, bksge::vector<int>::const_iterator);
-BKSGE_SENTINEL_FOR_TEST(false, int*,                               std::istream_iterator<int>);
-BKSGE_SENTINEL_FOR_TEST(true,  std::istream_iterator<int>,         std::istream_iterator<int>);
-BKSGE_SENTINEL_FOR_TEST(false, int*,                               std::ostream_iterator<int>);
-BKSGE_SENTINEL_FOR_TEST(false, std::ostream_iterator<int>,         std::ostream_iterator<int>);
+BKSGE_SENTINEL_FOR_TEST(false, int*,                               bksge::istream_iterator<int>);
+BKSGE_SENTINEL_FOR_TEST(true,  bksge::istream_iterator<int>,       bksge::istream_iterator<int>);
+BKSGE_SENTINEL_FOR_TEST(false, int*,                               bksge::ostream_iterator<int>);
+BKSGE_SENTINEL_FOR_TEST(false, bksge::ostream_iterator<int>,       bksge::ostream_iterator<int>);
 
 BKSGE_SENTINEL_FOR_TEST(false, int const, int*);
 BKSGE_SENTINEL_FOR_TEST(false, float*,    int*);

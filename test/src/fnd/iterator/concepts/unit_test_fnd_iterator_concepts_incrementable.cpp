@@ -7,11 +7,12 @@
  */
 
 #include <bksge/fnd/iterator/concepts/incrementable.hpp>
+#include <bksge/fnd/iterator/istream_iterator.hpp>
+#include <bksge/fnd/iterator/ostream_iterator.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
-#include <iterator>	// istream_iterator, ostream_iterator
 #include "iterator_test.hpp"
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
@@ -51,8 +52,8 @@ BKSGE_INCREMENTABLE_TEST(false, bksge::shared_ptr<int>);
 BKSGE_INCREMENTABLE_TEST(false, bksge::vector<int>);
 BKSGE_INCREMENTABLE_TEST(true,  bksge::vector<int>::iterator);
 BKSGE_INCREMENTABLE_TEST(true,  bksge::vector<int>::const_iterator);
-BKSGE_INCREMENTABLE_TEST(true,  std::istream_iterator<int>);
-BKSGE_INCREMENTABLE_TEST(false, std::ostream_iterator<int>);
+BKSGE_INCREMENTABLE_TEST(true,  bksge::istream_iterator<int>);
+BKSGE_INCREMENTABLE_TEST(false, bksge::ostream_iterator<int>);
 
 BKSGE_INCREMENTABLE_TEST(false, int[]);
 BKSGE_INCREMENTABLE_TEST(false, int[2]);
