@@ -19,6 +19,7 @@
 #include <bksge/core/render/d3d_common/d3d12shader.hpp>
 #include <bksge/core/render/shader_parameter_map.hpp>
 #include <bksge/fnd/cstdint/uint8_t.hpp>
+#include <bksge/fnd/cstring/memcpy.hpp>
 #include <bksge/fnd/vector.hpp>
 
 namespace bksge
@@ -84,7 +85,7 @@ HlslConstantBuffer::UpdateParameters(
 		auto param = shader_parameter_map[m_name];
 		if (param)
 		{
-			std::memcpy(buf.data(), param->data(), m_size);
+			bksge::memcpy(buf.data(), param->data(), m_size);
 		}
 	}
 
@@ -94,7 +95,7 @@ HlslConstantBuffer::UpdateParameters(
 		auto param = shader_parameter_map[variable.m_name];
 		if (param)
 		{
-			std::memcpy(
+			bksge::memcpy(
 				buf.data() + variable.m_start_offset,
 				param->data(),
 				variable.m_size);

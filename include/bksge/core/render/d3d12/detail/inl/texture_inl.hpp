@@ -22,6 +22,7 @@
 #include <bksge/core/render/texture.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/cstring/memcpy.hpp>
 #include <bksge/fnd/vector.hpp>
 
 namespace bksge
@@ -59,7 +60,7 @@ inline void MemcpySubresource(
 		auto src_slice = reinterpret_cast<::BYTE const*>(src->pData) + src->SlicePitch * z;
 		for (::UINT y = 0; y < num_rows; ++y)
 		{
-			std::memcpy(
+			bksge::memcpy(
 				dst_slice + dst->RowPitch * y,
 				src_slice + src->RowPitch * y,
 				row_size_in_bytes);
