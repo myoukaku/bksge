@@ -47,7 +47,7 @@ TYPED_TEST(PerfectHashTest, BasicTest)
 
 	for (bksge::size_t i = 0; i < MAX_NUM; i++)
 	{
-		t.push_back(std::to_string(i));
+		t.push_back(bksge::to_string(i));
 	}
 
 	bksge::perfect_hash<TypeParam> ph;

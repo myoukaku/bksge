@@ -15,6 +15,8 @@
 #include <bksge/core/window/win32/win32_window.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/string/basic_string.hpp>
+#include <bksge/fnd/string/to_string.hpp>
+#include <bksge/fnd/string/to_wstring.hpp>
 
 namespace bksge
 {
@@ -37,13 +39,13 @@ bksge::basic_string<CharT> GetUniqueClassName(void);
 template <> inline
 bksge::basic_string<char> GetUniqueClassName(void)
 {
-	return "BksgeWindow" + std::to_string(GetUniqueNumber());
+	return "BksgeWindow" + bksge::to_string(GetUniqueNumber());
 }
 
 template <> inline
 bksge::basic_string<wchar_t> GetUniqueClassName(void)
 {
-	return L"BksgeWindow" + std::to_wstring(GetUniqueNumber());
+	return L"BksgeWindow" + bksge::to_wstring(GetUniqueNumber());
 }
 
 template <typename CharT> inline
