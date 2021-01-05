@@ -14,6 +14,7 @@
 #include <bksge/fnd/concepts/movable.hpp>
 #include <bksge/fnd/concepts/default_initializable.hpp>
 #include <bksge/fnd/cstddef/ptrdiff_t.hpp>
+#include <bksge/fnd/istream/basic_istream.hpp>
 #include <bksge/fnd/iterator/default_sentinel.hpp>
 #include <bksge/fnd/iterator/tag.hpp>
 #include <bksge/fnd/memory/addressof.hpp>
@@ -21,7 +22,6 @@
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
 #include <bksge/fnd/assert.hpp>
-#include <istream>
 
 namespace bksge
 {
@@ -53,7 +53,7 @@ public:
 	basic_istream_view() = default;
 
 	BKSGE_CONSTEXPR explicit
-	basic_istream_view(std::basic_istream<CharT, Traits>& stream)
+	basic_istream_view(bksge::basic_istream<CharT, Traits>& stream)
 		: m_stream(bksge::addressof(stream))
 	{}
 
@@ -75,7 +75,7 @@ public:
 	}
 
 private:
-	std::basic_istream<CharT, Traits>* m_stream = nullptr;
+	bksge::basic_istream<CharT, Traits>* m_stream = nullptr;
 	Val m_object = Val();
 
 	struct Iterator

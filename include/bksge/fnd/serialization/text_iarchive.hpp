@@ -16,6 +16,7 @@
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/intmax_t.hpp>
 #include <bksge/fnd/cstdint/uintmax_t.hpp>
+#include <bksge/fnd/istream/basic_istream.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_floating_point.hpp>
@@ -24,7 +25,6 @@
 #include <bksge/fnd/type_traits/is_signed.hpp>
 #include <bksge/fnd/unordered_map/unordered_map.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <istream>		// basic_istream
 #include <functional>	// function
 
 namespace bksge
@@ -87,8 +87,8 @@ class text_iarchive
 {
 public:
 	template <typename CharT, typename Traits>
-	explicit text_iarchive(std::basic_istream<CharT, Traits>& is)
-		: m_impl(new text_iarchive_impl<std::basic_istream<CharT, Traits>>(is))
+	explicit text_iarchive(bksge::basic_istream<CharT, Traits>& is)
+		: m_impl(new text_iarchive_impl<bksge::basic_istream<CharT, Traits>>(is))
 	{
 		m_tracking[nullptr] = 0;
 	}

@@ -11,6 +11,7 @@
 
 #include <bksge/fnd/string/basic_string.hpp>
 #include <bksge/fnd/string/char_traits.hpp>
+#include <bksge/fnd/string/config.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/string/wstring.hpp>
 

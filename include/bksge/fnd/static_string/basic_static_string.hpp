@@ -20,10 +20,10 @@
 #include <bksge/fnd/string/char_traits.hpp>
 #include <bksge/fnd/string/basic_string.hpp>
 #include <bksge/fnd/string_view/basic_string_view.hpp>
+#include <bksge/fnd/istream/basic_istream.hpp>
 #include <bksge/fnd/ostream/basic_ostream.hpp>
 #include <bksge/fnd/config.hpp>
 #include <initializer_list>
-#include <istream>	// std::basic_istream
 
 namespace bksge
 {
@@ -1347,8 +1347,8 @@ inline BKSGE_CXX14_CONSTEXPR void swap(
 }
 
 template <typename CharT, typename Traits1, bksge::size_t Capacity, typename Traits2>
-inline std::basic_istream<CharT, Traits1>&
-operator>>(std::basic_istream<CharT, Traits1>& is,
+inline bksge::basic_istream<CharT, Traits1>&
+operator>>(bksge::basic_istream<CharT, Traits1>& is,
 	basic_static_string<CharT, Capacity, Traits2>& str)
 {
 	// いったん string で受け取る

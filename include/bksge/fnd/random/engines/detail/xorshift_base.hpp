@@ -14,6 +14,7 @@
 #include <bksge/fnd/ios/flags_saver.hpp>
 #include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/ostream/basic_ostream.hpp>
+#include <bksge/fnd/istream/basic_istream.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -105,9 +106,9 @@ private:
 		typename CharT, typename Traits,
 		typename U, bksge::size_t M, typename D
 	>
-	friend std::basic_istream<CharT, Traits>&
+	friend bksge::basic_istream<CharT, Traits>&
 	operator>>(
-		std::basic_istream<CharT, Traits>& is,
+		bksge::basic_istream<CharT, Traits>& is,
 		xorshift_base<U, M, D>& e);
 };
 
@@ -140,9 +141,9 @@ template <
 	typename CharT, typename Traits,
 	typename UIntType, bksge::size_t N, typename Derived
 >
-inline std::basic_istream<CharT, Traits>&
+inline bksge::basic_istream<CharT, Traits>&
 operator>>(
-	std::basic_istream<CharT, Traits>& is,
+	bksge::basic_istream<CharT, Traits>& is,
 	xorshift_base<UIntType, N, Derived>& e)
 {
 	bksge::ios::flags_saver lx(is);

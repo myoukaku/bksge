@@ -9,10 +9,10 @@
 #ifndef BKSGE_FND_RANGES_DETAIL_STREAM_EXTRACTABLE_HPP
 #define BKSGE_FND_RANGES_DETAIL_STREAM_EXTRACTABLE_HPP
 
+#include <bksge/fnd/istream/basic_istream.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
-#include <istream>
 
 namespace bksge
 {
@@ -27,7 +27,7 @@ namespace detail
 
 template <typename Val, typename CharT, typename Traits>
 concept stream_extractable =
-	requires(std::basic_istream<CharT, Traits>& is, Val& t) { is >> t; };
+	requires(bksge::basic_istream<CharT, Traits>& is, Val& t) { is >> t; };
 
 #else
 
@@ -44,7 +44,7 @@ private:
 	static auto test(...) -> bksge::false_type;
 
 public:
-	using type = decltype(test<Val, std::basic_istream<CharT, Traits>>(0));
+	using type = decltype(test<Val, bksge::basic_istream<CharT, Traits>>(0));
 };
 
 template <typename Val, typename CharT, typename Traits>
