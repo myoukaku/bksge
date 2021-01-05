@@ -24,8 +24,8 @@
 #include <bksge/fnd/type_traits/is_unsigned.hpp>
 #include <bksge/fnd/type_traits/is_signed.hpp>
 #include <bksge/fnd/unordered_map/unordered_map.hpp>
+#include <bksge/fnd/functional/function.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <functional>	// function
 
 namespace bksge
 {
@@ -237,7 +237,7 @@ private:
 	bksge::unique_ptr<text_iarchive_impl_base>				m_impl;
 	bksge::unordered_map<const void*, bksge::size_t>		m_tracking;
 	bksge::vector<detail::pointer_loader<text_iarchive>>	m_pointer_list;
-	bksge::vector<std::function<void()>>					m_on_destroy;
+	bksge::vector<bksge::function<void()>>					m_on_destroy;
 
 	friend class bksge::serialization::detail::load_dispatch;
 };

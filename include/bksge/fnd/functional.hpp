@@ -17,6 +17,7 @@
 #include <bksge/fnd/functional/cref.hpp>
 #include <bksge/fnd/functional/divides.hpp>
 #include <bksge/fnd/functional/equal_to.hpp>
+#include <bksge/fnd/functional/function.hpp>
 #include <bksge/fnd/functional/greater.hpp>
 #include <bksge/fnd/functional/greater_equal.hpp>
 #include <bksge/fnd/functional/hash.hpp>

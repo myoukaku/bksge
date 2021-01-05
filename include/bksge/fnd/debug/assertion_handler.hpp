@@ -10,7 +10,7 @@
 #define BKSGE_FND_DEBUG_ASSERTION_HANDLER_HPP
 
 #include <bksge/fnd/debug/assertion_info.hpp>
-#include <functional>	// function
+#include <bksge/fnd/functional/function.hpp>
 
 namespace bksge
 {
@@ -18,7 +18,7 @@ namespace bksge
 namespace debug
 {
 
-using assertion_handler = std::function<void (assertion_info const&)>;
+using assertion_handler = bksge::function<void (assertion_info const&)>;
 
 assertion_handler const& get_assertion_handler(void);
 
