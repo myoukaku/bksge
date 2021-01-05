@@ -10,6 +10,7 @@
 #define BKSGE_FND_ITERATOR_HPP
 
 #include <bksge/fnd/iterator/advance.hpp>
+#include <bksge/fnd/iterator/back_inserter.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/cbegin.hpp>
 #include <bksge/fnd/iterator/cend.hpp>

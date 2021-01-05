@@ -10,10 +10,10 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/iterator/back_inserter.hpp>
 #include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <iterator>	// back_inserter
 #include <gtest/gtest.h>
 
 namespace bksge_algorithm_test
@@ -66,7 +66,7 @@ GTEST_TEST(AlgorithmTest, RotateCopyTest)
 	{
 		const bksge::array<int, 4> a {{ 1,2,3,4 }};
 		bksge::list<int> b;
-		bksge::rotate_copy(bksge::begin(a), bksge::next(bksge::begin(a), 4), bksge::end(a), std::back_inserter(b));
+		bksge::rotate_copy(bksge::begin(a), bksge::next(bksge::begin(a), 4), bksge::end(a), bksge::back_inserter(b));
 		auto it = b.begin();
 		EXPECT_EQ(1, *it++);
 		EXPECT_EQ(2, *it++);
@@ -77,7 +77,7 @@ GTEST_TEST(AlgorithmTest, RotateCopyTest)
 	{
 		const bksge::vector<int> a { 1,2,3,4,5 };
 		bksge::vector<int> b;
-		bksge::rotate_copy(bksge::begin(a), bksge::next(bksge::begin(a), 3), bksge::end(a), std::back_inserter(b));
+		bksge::rotate_copy(bksge::begin(a), bksge::next(bksge::begin(a), 3), bksge::end(a), bksge::back_inserter(b));
 		EXPECT_EQ(4, b[0]);
 		EXPECT_EQ(5, b[1]);
 		EXPECT_EQ(1, b[2]);
@@ -97,13 +97,13 @@ GTEST_TEST(AlgorithmTest, RotateCopyTest)
 	{
 		const bksge::vector<int> a;
 		bksge::vector<int> b;
-		bksge::rotate_copy(bksge::begin(a), bksge::next(bksge::begin(a), 0), bksge::end(a), std::back_inserter(b));
+		bksge::rotate_copy(bksge::begin(a), bksge::next(bksge::begin(a), 0), bksge::end(a), bksge::back_inserter(b));
 		EXPECT_TRUE(b.empty());
 	}
 	{
 		const bksge::list<int> a { 1,2 };
 		bksge::list<int> b;
-		bksge::rotate_copy(bksge::begin(a), bksge::next(bksge::begin(a), 1), bksge::end(a), std::back_inserter(b));
+		bksge::rotate_copy(bksge::begin(a), bksge::next(bksge::begin(a), 1), bksge::end(a), bksge::back_inserter(b));
 		auto it = b.begin();
 		EXPECT_EQ(2, *it++);
 		EXPECT_EQ(1, *it++);
@@ -122,7 +122,7 @@ GTEST_TEST(AlgorithmTest, RotateCopyTest)
 	{
 		const bksge::list<int> a;
 		bksge::list<int> b;
-		bksge::rotate_copy(bksge::begin(a), bksge::next(bksge::begin(a), 0), bksge::end(a), std::back_inserter(b));
+		bksge::rotate_copy(bksge::begin(a), bksge::next(bksge::begin(a), 0), bksge::end(a), bksge::back_inserter(b));
 		EXPECT_TRUE(b.empty());
 	}
 }
