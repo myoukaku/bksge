@@ -11,11 +11,11 @@
 
 #include <bksge/fnd/memory/addressof.hpp>
 #include <bksge/fnd/memory/allocator_arg.hpp>
+#include <bksge/fnd/memory/uses_allocator.hpp>
 #include <bksge/fnd/type_traits/conditional.hpp>
 #include <bksge/fnd/type_traits/disjunction.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/config.hpp>
-#include <memory>
 
 namespace bksge
 {
@@ -67,7 +67,7 @@ struct uses_alloc<false, T, Alloc, Args...>
 	: public uses_alloc0 {};
 
 template<typename T, typename Alloc, typename... Args>
-using uses_alloc_t = uses_alloc<std::uses_allocator<T, Alloc>::value, T, Alloc, Args...>;
+using uses_alloc_t = uses_alloc<bksge::uses_allocator<T, Alloc>::value, T, Alloc, Args...>;
 
 template<typename T, typename Alloc, typename... Args>
 inline BKSGE_CXX14_CONSTEXPR uses_alloc_t<T, Alloc, Args...>

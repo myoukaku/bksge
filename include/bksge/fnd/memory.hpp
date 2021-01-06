@@ -23,5 +23,6 @@
 #include <bksge/fnd/memory/shared_ptr.hpp>
 #include <bksge/fnd/memory/to_address.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
+#include <bksge/fnd/memory/uses_allocator.hpp>
 
 #endif // BKSGE_FND_MEMORY_HPP

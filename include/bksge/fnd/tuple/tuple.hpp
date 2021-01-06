@@ -789,13 +789,15 @@ swap(tuple<Types...>&, tuple<Types...>&) = delete;
 
 }	// namespace bksge
 
-namespace std
+#include <bksge/fnd/memory/uses_allocator.hpp>
+
+namespace BKSGE_USES_ALLOCATOR_NAMESPACE
 {
 
 template <typename... Types, typename Alloc>
 struct uses_allocator<bksge::tuple<Types...>, Alloc> : public bksge::true_type {};
 
-}	// namespace std
+}	// namespace BKSGE_USES_ALLOCATOR_NAMESPACE
 
 #endif
 

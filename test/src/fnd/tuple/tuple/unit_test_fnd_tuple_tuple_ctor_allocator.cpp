@@ -10,6 +10,7 @@
 #include <bksge/fnd/tuple/get.hpp>
 #include <bksge/fnd/tuple/make_tuple.hpp>
 #include <bksge/fnd/memory/allocator_arg.hpp>
+#include <bksge/fnd/memory/uses_allocator.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
@@ -65,13 +66,13 @@ struct DoesNotUse
 
 }	// namespace bksge_tuple_test
 
-namespace std
+namespace BKSGE_USES_ALLOCATOR_NAMESPACE
 {
 
 template<typename A>
 struct uses_allocator<bksge_tuple_test::ctor_allocator_test::DoesNotUse, A> : bksge::false_type {};
 
-}	// namespace std
+}	// namespace BKSGE_USES_ALLOCATOR_NAMESPACE
 
 namespace bksge_tuple_test
 {
