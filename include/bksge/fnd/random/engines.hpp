@@ -9,6 +9,7 @@
 #ifndef BKSGE_FND_RANDOM_ENGINES_HPP
 #define BKSGE_FND_RANDOM_ENGINES_HPP
 
+#include <bksge/fnd/random/engines/mersenne_twister_engine.hpp>
 #include <bksge/fnd/random/engines/xoroshiro.hpp>
 #include <bksge/fnd/random/engines/xorshift.hpp>
 #include <bksge/fnd/random/engines/xoshiro.hpp>

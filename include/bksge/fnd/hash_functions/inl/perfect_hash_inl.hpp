@@ -14,8 +14,7 @@
 #include <bksge/fnd/cmath/ceil.hpp>
 #include <bksge/fnd/algorithm/ranges/reverse.hpp>
 #include <bksge/fnd/algorithm/ranges/fill.hpp>
-//#include <bksge/fnd/random/mersenne_twister_engine.hpp>
-#include <random>
+#include <bksge/fnd/random/engines/mersenne_twister_engine.hpp>
 #include <bksge/fnd/queue.hpp>
 
 namespace bksge
@@ -34,7 +33,7 @@ bool perfect_hash<Hasher>::build(bksge::vector<bksge::string> const& keys)
 	static double const kScale = 1.3;
 	m_vertices_num = bksge::max(5, static_cast<int>(bksge::ceil(keys.size() * kScale / 3)));
 	int const num_3v = m_vertices_num * 3;
-	std::mt19937 rng;
+	bksge::mt19937 rng;
 
 	for (int t = 0; t < kNumTrial; ++t)
 	{

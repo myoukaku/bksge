@@ -15,10 +15,10 @@
 #include <bksge/fnd/iterator/iterator_category.hpp>
 #include <bksge/fnd/iterator/iter_difference_t.hpp>
 #include <bksge/fnd/iterator/tag.hpp>
+#include <bksge/fnd/random/distributions/uniform_int_distribution.hpp>
 #include <bksge/fnd/type_traits/common_type.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/config.hpp>
-#include <random>	// uniform_int_distribution
 
 namespace bksge
 {
@@ -44,7 +44,7 @@ sample(
 	UniformRandomBitGenerator& g,
 	bksge::input_iterator_tag*)
 {
-	using Distribution = std::uniform_int_distribution<Distance>;
+	using Distribution = bksge::uniform_int_distribution<Distance>;
 
 	Distance k = 0;
 	for (; first != last && k < n; ++first, ++k)
@@ -80,7 +80,7 @@ sample(
 	UniformRandomBitGenerator& g,
 	bksge::forward_iterator_tag*)
 {
-	using Distribution = std::uniform_int_distribution<Distance>;
+	using Distribution = bksge::uniform_int_distribution<Distance>;
 
 	auto unsampled_sz = bksge::distance(first, last);
 	for (n = bksge::min(n, unsampled_sz); n != 0; ++first)

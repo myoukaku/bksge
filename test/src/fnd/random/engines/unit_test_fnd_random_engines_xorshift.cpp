@@ -7,9 +7,9 @@
  */
 
 #include <bksge/fnd/random/engines/xorshift.hpp>
+#include <bksge/fnd/random/seed_seq.hpp>
 #include <bksge/fnd/sstream/istringstream.hpp>
 #include <bksge/fnd/sstream/ostringstream.hpp>
-#include <random>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -147,7 +147,7 @@ TYPED_TEST(XorShiftTest, SseqCtorTest)
 	using Engine = TypeParam;
 	{
 		unsigned const a[] ={3, 5, 7};
-		std::seed_seq sseq(a, a+3);
+		bksge::seed_seq sseq(a, a+3);
 		Engine e1;
 		Engine e2(sseq);
 		EXPECT_TRUE(e1 != e2);
@@ -155,7 +155,7 @@ TYPED_TEST(XorShiftTest, SseqCtorTest)
 	}
 	{
 		unsigned const a[] ={3, 5, 7};
-		std::seed_seq sseq(a, a+3);
+		bksge::seed_seq sseq(a, a+3);
 		Engine e1(sseq);
 		Engine e2(sseq);
 		EXPECT_TRUE(e1 == e2);
@@ -244,7 +244,7 @@ TYPED_TEST(XorShiftTest, SeedSseqTest)
 	using Engine = TypeParam;
 
 	unsigned a[] ={1, 2, 3, 4, 5};
-	std::seed_seq sseq(a, a+5);
+	bksge::seed_seq sseq(a, a+5);
 
 	Engine e1(sseq);
 	Engine e2;
