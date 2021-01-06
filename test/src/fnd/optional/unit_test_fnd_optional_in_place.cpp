@@ -7,6 +7,7 @@
  */
 
 #include <bksge/fnd/optional/optional.hpp>
+#include <bksge/fnd/memory/allocator.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/type_traits/is_empty.hpp>
 #include <bksge/fnd/type_traits/is_convertible.hpp>
@@ -37,6 +38,7 @@ GTEST_TEST(OptionalTest, InPlaceTest)
 		bksge::optional<bksge::vector<int>> o{ bksge::in_place, 18, 4 };
 		EXPECT_TRUE((bool)o);
 		EXPECT_TRUE(o->size() == 18);
+		EXPECT_TRUE((*o)[ 0] == 4);
 		EXPECT_TRUE((*o)[17] == 4);
 	}
 
@@ -45,12 +47,14 @@ GTEST_TEST(OptionalTest, InPlaceTest)
 		EXPECT_TRUE((bool)o);
 		EXPECT_TRUE(o->size() == 2);
 		EXPECT_TRUE((*o)[0] == 18);
+		EXPECT_TRUE((*o)[1] ==  4);
 	}
 
 	{
-		bksge::optional<bksge::vector<int>> o{ bksge::in_place, { 18, 4 }, std::allocator<int> {} };
+		bksge::optional<bksge::vector<int>> o{ bksge::in_place, { 18, 4 }, bksge::allocator<int> {} };
 		EXPECT_TRUE((bool)o);
 		EXPECT_TRUE(o->size() == 2);
 		EXPECT_TRUE((*o)[0] == 18);
+		EXPECT_TRUE((*o)[1] ==  4);
 	}
 }
