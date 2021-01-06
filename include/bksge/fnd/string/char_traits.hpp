@@ -12,12 +12,12 @@
 #include <bksge/fnd/algorithm/copy_backward.hpp>
 #include <bksge/fnd/algorithm/copy_n.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
 #include <ios>
 #include <cwchar>
 #include <cuchar>
 #include <cstdio>
-#include <cstdint>
 
 namespace bksge
 {
@@ -59,7 +59,7 @@ struct char_traits_types<char8_t>
 template <>
 struct char_traits_types<char16_t>
 {
-	using int_type   = std::uint_least16_t;
+	using int_type   = bksge::uint_least16_t;
 	using pos_type   = std::u16streampos;
 };
 #endif
@@ -68,7 +68,7 @@ struct char_traits_types<char16_t>
 template <>
 struct char_traits_types<char32_t>
 {
-	using int_type   = std::uint_least32_t;
+	using int_type   = bksge::uint_least32_t;
 	using pos_type   = std::u32streampos;
 };
 #endif
