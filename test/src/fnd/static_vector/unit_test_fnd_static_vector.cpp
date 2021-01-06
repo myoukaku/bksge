@@ -17,6 +17,7 @@
 #include <bksge/fnd/algorithm/equal.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
+#include <bksge/fnd/stdexcept/out_of_range.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/initializer_list.hpp>
 #include <gtest/gtest.h>
@@ -124,7 +125,7 @@ BKSGE_CXX14_CONSTEXPR bool test_ctor_default()
 
 	bksge::static_vector<T, N> s;
 
-	//EXPECT_THROW(s.at(0u), std::out_of_range);
+	//EXPECT_THROW(s.at(0u), bksge::out_of_range);
 
 	return
 		s.size()     == 0u &&
@@ -1379,7 +1380,7 @@ void test_capacity_0_nd()
 	bksge::static_vector<T, 0 > s;
 	EXPECT_EQ(s.size(), 0u);
 	EXPECT_EQ(s.capacity(), 0u);
-	EXPECT_THROW(s.at(0), std::out_of_range);
+	EXPECT_THROW(s.at(0), bksge::out_of_range);
 	EXPECT_THROW(s.resize(5u, T(0)), std::bad_alloc);
 	EXPECT_THROW(s.push_back(T(0)), std::bad_alloc);
 	EXPECT_THROW(s.emplace_back(T(0)), std::bad_alloc);

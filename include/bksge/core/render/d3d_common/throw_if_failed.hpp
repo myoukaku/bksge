@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_D3D_COMMON_THROW_IF_FAILED_HPP
 
 #include <bksge/fnd/string/string.hpp>
-#include <stdexcept>
+#include <bksge/fnd/stdexcept/runtime_error.hpp>
 
 namespace bksge
 {
@@ -18,11 +18,11 @@ namespace bksge
 namespace render
 {
 
-class HrException : public std::runtime_error
+class HrException : public bksge::runtime_error
 {
 public:
 	explicit HrException(::HRESULT hr)
-		: std::runtime_error(HrToString(hr))
+		: bksge::runtime_error(HrToString(hr))
 		, m_hr(hr)
 	{}
 

@@ -10,8 +10,8 @@
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_CHECK_ERROR_HPP
 
 #include <bksge/fnd/string/string.hpp>
+#include <bksge/fnd/stdexcept/runtime_error.hpp>
 #include <vulkan/vulkan_core.h>
-#include <stdexcept>
 
 namespace bksge
 {
@@ -24,7 +24,7 @@ namespace vk
 
 bksge::string to_string(::VkResult res);
 
-class ResultException : public std::runtime_error
+class ResultException : public bksge::runtime_error
 {
 public:
 	explicit ResultException(::VkResult res);

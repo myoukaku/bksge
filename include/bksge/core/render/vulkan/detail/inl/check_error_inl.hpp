@@ -14,8 +14,8 @@
 
 #include <bksge/core/render/vulkan/detail/check_error.hpp>
 #include <bksge/fnd/string/string.hpp>
+#include <bksge/fnd/stdexcept/runtime_error.hpp>
 #include <vulkan/vulkan_core.h>
-#include <stdexcept>
 
 namespace bksge
 {
@@ -75,7 +75,7 @@ BKSGE_INLINE bksge::string to_string(::VkResult res)
 
 BKSGE_INLINE
 ResultException::ResultException(::VkResult res)
-	: std::runtime_error(to_string(res))
+	: bksge::runtime_error(to_string(res))
 {}
 
 BKSGE_INLINE ::VkResult CheckError(::VkResult res)

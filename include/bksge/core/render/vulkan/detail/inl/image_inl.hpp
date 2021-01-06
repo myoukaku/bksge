@@ -18,6 +18,7 @@
 #include <bksge/core/render/vulkan/detail/command_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <bksge/fnd/stdexcept/runtime_error.hpp>
 
 namespace bksge
 {
@@ -145,7 +146,7 @@ TransitionImageLayout(
 		src_stage = VK_PIPELINE_STAGE_HOST_BIT;
 		break;
 	default:
-		throw std::runtime_error("unsupported layout transition!");
+		bksge::throw_runtime_error("unsupported layout transition!");
 	}
 
 	::VkPipelineStageFlags dst_stage;
@@ -186,7 +187,7 @@ TransitionImageLayout(
 		dst_stage = VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT;
 		break;
 	default:
-		throw std::runtime_error("unsupported layout transition!");
+		bksge::throw_runtime_error("unsupported layout transition!");
 	}
 
 	vk::CmdPipelineBarrier(
