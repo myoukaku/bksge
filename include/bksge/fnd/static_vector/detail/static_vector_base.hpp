@@ -14,13 +14,13 @@
 #include <bksge/fnd/algorithm/move_backward.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/iterator/distance.hpp>
+#include <bksge/fnd/memory/allocator_traits.hpp>
 #include <bksge/fnd/new/bad_alloc.hpp>
 #include <bksge/fnd/type_traits/is_trivially_destructible.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/config.hpp>
-#include <memory>
 
 namespace bksge
 {
@@ -35,7 +35,7 @@ public:
 	using allocator_type = detail::static_storage_allocator<T, Capacity>;
 
 private:
-    using alloc_traits = std::allocator_traits<allocator_type>;
+    using alloc_traits = bksge::allocator_traits<allocator_type>;
 
 public:
 	using value_type             = T;
@@ -205,7 +205,7 @@ public:
 	using allocator_type = detail::static_storage_allocator<T, Capacity>;
 
 private:
-    using alloc_traits = std::allocator_traits<allocator_type>;
+    using alloc_traits = bksge::allocator_traits<allocator_type>;
 
 public:
 	using value_type             = T;
