@@ -17,6 +17,7 @@
 #include <bksge/fnd/algorithm/equal.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
+#include <bksge/fnd/new/bad_alloc.hpp>
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/initializer_list.hpp>
@@ -1050,7 +1051,7 @@ template <typename T, bksge::size_t N>
 void test_reserve_throw()
 {
 	bksge::static_vector<T, N> s;
-	EXPECT_THROW(s.reserve(N+1), std::bad_alloc);
+	EXPECT_THROW(s.reserve(N+1), bksge::bad_alloc);
 }
 
 GTEST_TEST(StaticVectorTest, ReserveTest)
@@ -1381,18 +1382,18 @@ void test_capacity_0_nd()
 	EXPECT_EQ(s.size(), 0u);
 	EXPECT_EQ(s.capacity(), 0u);
 	EXPECT_THROW(s.at(0), bksge::out_of_range);
-	EXPECT_THROW(s.resize(5u, T(0)), std::bad_alloc);
-	EXPECT_THROW(s.push_back(T(0)), std::bad_alloc);
-	EXPECT_THROW(s.emplace_back(T(0)), std::bad_alloc);
-	EXPECT_THROW(s.insert(s.end(), T(0)), std::bad_alloc);
-	EXPECT_THROW(s.insert(s.end(), 5u, T(0)), std::bad_alloc);
-	EXPECT_THROW(s.insert(s.end(), v.begin(), v.end()), std::bad_alloc);
-	EXPECT_THROW(s.emplace(s.end(), T(0)), std::bad_alloc);
-	EXPECT_THROW(s.assign(v.begin(), v.end()), std::bad_alloc);
-	EXPECT_THROW(s.assign(5u, T(0)), std::bad_alloc);
+	EXPECT_THROW(s.resize(5u, T(0)), bksge::bad_alloc);
+	EXPECT_THROW(s.push_back(T(0)), bksge::bad_alloc);
+	EXPECT_THROW(s.emplace_back(T(0)), bksge::bad_alloc);
+	EXPECT_THROW(s.insert(s.end(), T(0)), bksge::bad_alloc);
+	EXPECT_THROW(s.insert(s.end(), 5u, T(0)), bksge::bad_alloc);
+	EXPECT_THROW(s.insert(s.end(), v.begin(), v.end()), bksge::bad_alloc);
+	EXPECT_THROW(s.emplace(s.end(), T(0)), bksge::bad_alloc);
+	EXPECT_THROW(s.assign(v.begin(), v.end()), bksge::bad_alloc);
+	EXPECT_THROW(s.assign(5u, T(0)), bksge::bad_alloc);
 	typedef bksge::static_vector<T, 0> static_vector_0_t;
-	EXPECT_THROW(static_vector_0_t s2(v.begin(), v.end()), std::bad_alloc);
-	EXPECT_THROW(static_vector_0_t s1(5u, T(0)), std::bad_alloc);
+	EXPECT_THROW(static_vector_0_t s2(v.begin(), v.end()), bksge::bad_alloc);
+	EXPECT_THROW(static_vector_0_t s1(5u, T(0)), bksge::bad_alloc);
 }
 
 GTEST_TEST(StaticVectorTest, Capacity0Test)
@@ -1413,18 +1414,18 @@ void test_exceptions_nd()
 	bksge::static_vector<T, N> v(N, T(0));
 	bksge::static_vector<T, N/2> s(N/2, T(0));
 
-	EXPECT_THROW(s.resize(N, T(0)), std::bad_alloc);
-	EXPECT_THROW(s.push_back(T(0)), std::bad_alloc);
-	EXPECT_THROW(s.emplace_back(T(0)), std::bad_alloc);
-	EXPECT_THROW(s.insert(s.end(), T(0)), std::bad_alloc);
-	EXPECT_THROW(s.insert(s.end(), 1, T(0)), std::bad_alloc);
-	EXPECT_THROW(s.insert(s.end(), v.begin(), v.end()), std::bad_alloc);
-	EXPECT_THROW(s.emplace(s.end(), T(0)), std::bad_alloc);
-	EXPECT_THROW(s.assign(v.begin(), v.end()), std::bad_alloc);
-	EXPECT_THROW(s.assign(N, T(0)), std::bad_alloc);
+	EXPECT_THROW(s.resize(N, T(0)), bksge::bad_alloc);
+	EXPECT_THROW(s.push_back(T(0)), bksge::bad_alloc);
+	EXPECT_THROW(s.emplace_back(T(0)), bksge::bad_alloc);
+	EXPECT_THROW(s.insert(s.end(), T(0)), bksge::bad_alloc);
+	EXPECT_THROW(s.insert(s.end(), 1, T(0)), bksge::bad_alloc);
+	EXPECT_THROW(s.insert(s.end(), v.begin(), v.end()), bksge::bad_alloc);
+	EXPECT_THROW(s.emplace(s.end(), T(0)), bksge::bad_alloc);
+	EXPECT_THROW(s.assign(v.begin(), v.end()), bksge::bad_alloc);
+	EXPECT_THROW(s.assign(N, T(0)), bksge::bad_alloc);
 	typedef bksge::static_vector<T, N/2> static_vector_n_half_t;
-	EXPECT_THROW(static_vector_n_half_t s2(v.begin(), v.end()), std::bad_alloc);
-	EXPECT_THROW(static_vector_n_half_t s1(N/2+1, T(0)), std::bad_alloc);
+	EXPECT_THROW(static_vector_n_half_t s2(v.begin(), v.end()), bksge::bad_alloc);
+	EXPECT_THROW(static_vector_n_half_t s1(N/2+1, T(0)), bksge::bad_alloc);
 }
 
 GTEST_TEST(StaticVectorTest, ExceptionsTest)
