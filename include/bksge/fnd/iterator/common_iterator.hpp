@@ -50,7 +50,11 @@
 #include <bksge/fnd/type_traits/negation.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/declval.hpp>
+#include <bksge/fnd/config.hpp>
 #include <bksge/fnd/assert.hpp>
+
+BKSGE_WARNING_PUSH();
+BKSGE_WARNING_DISABLE_MSVC(4702);	// unreachable code
 
 namespace bksge
 {
@@ -519,5 +523,7 @@ struct is_iterator_traits_specialized<
 }	// namespace detail
 
 }	// namespace bksge
+
+BKSGE_WARNING_POP();
 
 #endif // BKSGE_FND_ITERATOR_COMMON_ITERATOR_HPP

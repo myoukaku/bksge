@@ -55,6 +55,8 @@ private:
 			_CrtMemDumpStatistics(&mem_diff);
 			FAIL() << "Memory leak in " << test_info.test_case_name() << "." << test_info.name() << '\n';
 		}
+		(void)mem_at_end;
+		(void)mem_diff;
 	}
 
 private:

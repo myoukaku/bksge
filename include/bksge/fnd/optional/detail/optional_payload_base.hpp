@@ -190,6 +190,9 @@ struct optional_payload_base
 
 	bool m_engaged = false;
 
+BKSGE_WARNING_PUSH();
+BKSGE_WARNING_DISABLE_MSVC(4702);	// unreachable code
+
 	template <typename... Args>
 	void construct(Args&&... args)
 		BKSGE_NOEXCEPT_IF((
@@ -198,6 +201,8 @@ struct optional_payload_base
 		::new ((void*)bksge::addressof(this->m_payload))stored_type(bksge::forward<Args>(args)...);
 		this->m_engaged = true;
 	}
+
+BKSGE_WARNING_POP();
 
 	BKSGE_CXX14_CONSTEXPR void destroy() BKSGE_NOEXCEPT
 	{
