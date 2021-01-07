@@ -15,6 +15,8 @@
 #include <bksge/fnd/ranges/concepts/bidirectional_range.hpp>
 #include <bksge/fnd/ranges/concepts/random_access_range.hpp>
 #include <bksge/fnd/ranges/concepts/contiguous_range.hpp>
+#include <bksge/fnd/compare/is_eq.hpp>
+#include <bksge/fnd/compare/is_neq.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -112,6 +114,9 @@ inline BKSGE_CXX14_CONSTEXPR bool test03()
 	VERIFY((it <= v.end()) == true);
 	VERIFY((it >  v.end()) == false);
 	VERIFY((it >= v.end()) == false);
+#if defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
+	VERIFY(bksge::is_neq(it <=> v.end()));
+#endif
 
 	++it;
 
@@ -121,6 +126,9 @@ inline BKSGE_CXX14_CONSTEXPR bool test03()
 	VERIFY((it <= v.end()) == true);
 	VERIFY((it >  v.end()) == false);
 	VERIFY((it >= v.end()) == true);
+#if defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
+	VERIFY(bksge::is_eq(it <=> v.end()));
+#endif
 
 	return true;
 }

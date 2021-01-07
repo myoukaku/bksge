@@ -29,6 +29,7 @@
 #include <bksge/fnd/ranges/sentinel_t.hpp>
 #include <bksge/fnd/ranges/begin.hpp>
 #include <bksge/fnd/ranges/end.hpp>
+#include <bksge/fnd/compare/concepts/three_way_comparable.hpp>
 #include <bksge/fnd/concepts/convertible_to.hpp>
 #include <bksge/fnd/concepts/copyable.hpp>
 #include <bksge/fnd/concepts/copy_constructible.hpp>
@@ -148,8 +149,6 @@ private:
 				bksge::is_convertible_to<ranges::iterator_t<V>, BaseIter>::value>>
 		BKSGE_CONSTEXPR
 		Iterator(Iterator<!Const> i)
-			//BKSGE_REQUIRES(Const &&
-			//	bksge::convertible_to<ranges::iterator_t<V>, BaseIter>)
 			: m_current(bksge::move(i.m_current))
 			, m_parent(i.m_parent)
 		{}
@@ -279,12 +278,12 @@ private:
 			return !(lhs < rhs);
 		}
 
-#if 0//def __cpp_lib_three_way_comparison
+#if defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
 		friend BKSGE_CONSTEXPR auto
 		operator<=>(Iterator const& x, Iterator const& y)
 			requires
 				ranges::random_access_range<Base> &&
-				three_way_comparable<BaseIter>
+				bksge::three_way_comparable<BaseIter>
 		{
 			return x.m_current <=> y.m_current;
 		}
@@ -323,7 +322,7 @@ private:
 			return x.m_current - y.m_current;
 		}
 
-#if 0
+#if 0	// TODO
 		friend BKSGE_CONSTEXPR decltype(auto)
 		iter_move(Iterator const& i)
 			BKSGE_NOEXCEPT_IF_EXPR(*i)

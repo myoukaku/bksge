@@ -9,6 +9,9 @@
 #include <bksge/fnd/static_string/static_string.hpp>
 #include <bksge/fnd/string_view/string_view.hpp>
 #include <bksge/fnd/utility/move.hpp>
+#include <bksge/fnd/compare/is_eq.hpp>
+#include <bksge/fnd/compare/is_gt.hpp>
+#include <bksge/fnd/compare/is_lt.hpp>
 #include <bksge/fnd/concepts/swap.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/sstream/stringstream.hpp>
@@ -2248,6 +2251,15 @@ inline BKSGE_CXX14_CONSTEXPR bool CompareOperatorStringTest()
 		VERIFY((s1 >= s4) == true);
 		VERIFY((s1 >= s5) == false);
 		VERIFY((s1 >= s6) == true);
+
+#if defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
+		VERIFY(bksge::is_eq(s1 <=> s1));
+		VERIFY(bksge::is_eq(s1 <=> s2));
+		VERIFY(bksge::is_lt(s1 <=> s3));
+		VERIFY(bksge::is_gt(s1 <=> s4));
+		VERIFY(bksge::is_lt(s1 <=> s5));
+		VERIFY(bksge::is_gt(s1 <=> s6));
+#endif
 	}
 	return true;
 }
@@ -2334,6 +2346,15 @@ inline BKSGE_CXX14_CONSTEXPR bool CompareOperatorCharPtrTest()
 		VERIFY((s4 >= s1) == false);
 		VERIFY((s5 >= s1) == true);
 		VERIFY((s6 >= s1) == false);
+
+#if defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
+		VERIFY(bksge::is_eq(s1 <=> s1));
+		VERIFY(bksge::is_eq(s1 <=> s2));
+		VERIFY(bksge::is_lt(s1 <=> s3));
+		VERIFY(bksge::is_gt(s1 <=> s4));
+		VERIFY(bksge::is_lt(s1 <=> s5));
+		VERIFY(bksge::is_gt(s1 <=> s6));
+#endif
 	}
 	return true;
 }

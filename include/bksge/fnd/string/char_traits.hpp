@@ -11,7 +11,10 @@
 
 #include <bksge/fnd/algorithm/copy_backward.hpp>
 #include <bksge/fnd/algorithm/copy_n.hpp>
+#include <bksge/fnd/compare/strong_ordering.hpp>
+#include <bksge/fnd/compare/common_comparison_category.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/type_traits/is_void.hpp>
 #include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
 #include <ios>
@@ -81,8 +84,8 @@ struct char_traits_base
 	using pos_type   = typename char_traits_types<CharT>::pos_type;
 	using off_type   = std::streamoff;
 	using state_type = std::mbstate_t;
-#if __cpp_lib_three_way_comparison
-	using comparison_category = std::strong_ordering;
+#if defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
+	using comparison_category = bksge::strong_ordering;
 #endif
 
 	static BKSGE_CXX14_CONSTEXPR void
@@ -296,6 +299,21 @@ struct char_traits<char32_t> : public detail::char_traits_base<char32_t, char_tr
 {
 };
 #endif
+
+namespace detail
+{
+
+template <typename Traits>
+struct char_traits_cmp_cat
+{
+	using type = typename Traits::comparison_category;
+	static_assert(!bksge::is_void<bksge::common_comparison_category_t<type>>::value, "");
+};
+
+template <typename Traits>
+using char_traits_cmp_cat_t = typename char_traits_cmp_cat<Traits>::type;
+
+}	// namespace detail
 
 }	// namespace bksge
 

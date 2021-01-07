@@ -18,7 +18,10 @@
 #include <bksge/fnd/ranges/concepts/range.hpp>
 #include <bksge/fnd/ranges/size.hpp>
 #include <bksge/fnd/algorithm/ranges/equal.hpp>
+#include <bksge/fnd/compare/is_eq.hpp>
+#include <bksge/fnd/compare/is_neq.hpp>
 #include <bksge/fnd/iterator/ranges/distance.hpp>
+#include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
@@ -83,6 +86,10 @@ inline BKSGE_CXX14_CONSTEXPR bool test01()
 		VERIFY((it <= v.end()) == true);
 		VERIFY((it >  v.end()) == false);
 		VERIFY((it >= v.end()) == false);
+#if defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
+		VERIFY(bksge::is_eq(it <=> v.begin()));
+		VERIFY(bksge::is_neq(it <=> v.end()));
+#endif
 		VERIFY(*it == 2);
 		VERIFY(it[1] == 4);
 		VERIFY(*++it == 4);

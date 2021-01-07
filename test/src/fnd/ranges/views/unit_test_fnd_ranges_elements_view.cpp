@@ -19,6 +19,8 @@
 #include <bksge/fnd/ranges/cbegin.hpp>
 #include <bksge/fnd/ranges/cend.hpp>
 #include <bksge/fnd/algorithm/ranges/equal.hpp>
+#include <bksge/fnd/compare/is_eq.hpp>
+#include <bksge/fnd/compare/is_neq.hpp>
 #include <bksge/fnd/functional/identity.hpp>
 #include <bksge/fnd/iterator/concepts/input_iterator.hpp>
 #include <bksge/fnd/tuple/tuple.hpp>
@@ -85,6 +87,9 @@ inline BKSGE_CXX14_CONSTEXPR bool test01()
 		VERIFY((i >  v0.begin()) == false);
 		VERIFY((i <= v0.begin()) == true);
 		VERIFY((i >= v0.begin()) == true);
+#if defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
+		VERIFY(bksge::is_eq(i <=> v0.begin()));
+#endif
 		VERIFY((i - v0.end()) == -3);
 		VERIFY((v0.end() - i) ==  3);
 		i += 3;
@@ -97,6 +102,9 @@ inline BKSGE_CXX14_CONSTEXPR bool test01()
 		VERIFY((i >  v0.begin()) == true);
 		VERIFY((i <= v0.begin()) == false);
 		VERIFY((i >= v0.begin()) == true);
+#if defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
+		VERIFY(bksge::is_neq(i <=> v0.begin()));
+#endif
 		i -= 3;
 		VERIFY((i == v0.begin()) == true);
 		VERIFY((i != v0.begin()) == false);

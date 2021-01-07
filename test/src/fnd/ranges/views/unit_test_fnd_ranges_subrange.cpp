@@ -9,6 +9,8 @@
 #include <bksge/fnd/ranges/views/subrange.hpp>
 #include <bksge/fnd/ranges/range_difference_t.hpp>
 #include <bksge/fnd/ranges/size.hpp>
+#include <bksge/fnd/ranges/iterator_t.hpp>
+#include <bksge/fnd/ranges/sentinel_t.hpp>
 #include <bksge/fnd/ranges/concepts/forward_range.hpp>
 #include <bksge/fnd/ranges/concepts/bidirectional_range.hpp>
 #include <bksge/fnd/ranges/concepts/sized_range.hpp>

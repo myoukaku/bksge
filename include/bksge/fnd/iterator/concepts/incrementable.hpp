@@ -15,6 +15,7 @@
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/type_traits/negation.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
 
@@ -28,6 +29,9 @@ concept incrementable =
 	bksge::regular<Iter> &&
 	bksge::weakly_incrementable<Iter> &&
 	requires(Iter i) { { i++ } -> bksge::same_as<Iter>; };
+
+template <typename Iter>
+concept not_incrementable = !incrementable<Iter>;
 
 template <typename Iter>
 using is_incrementable = bksge::bool_constant<incrementable<Iter>>;
@@ -60,6 +64,9 @@ public:
 template <typename Iter>
 using incrementable =
 	typename detail::incrementable_impl<Iter>::type;
+
+template <typename Iter>
+using not_incrementable = bksge::negation<incrementable<Iter>>;
 
 template <typename Iter>
 using is_incrementable = incrementable<Iter>;

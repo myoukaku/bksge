@@ -17,6 +17,7 @@
 #include <bksge/fnd/iterator/concepts/indirect_binary_predicate.hpp>
 #include <bksge/fnd/iterator/projected.hpp>
 #include <bksge/fnd/ranges/concepts/forward_range.hpp>
+#include <bksge/fnd/ranges/iterator_t.hpp>
 #include <bksge/fnd/ranges/borrowed_iterator_t.hpp>
 #include <bksge/fnd/ranges/begin.hpp>
 #include <bksge/fnd/ranges/end.hpp>
@@ -85,8 +86,8 @@ struct adjacent_find_fn
 		ranges::forward_range Range,
 		typename Proj = bksge::identity,
 		bksge::indirect_binary_predicate<
-			bksge::projected<iterator_t<Range>, Proj>,
-			bksge::projected<iterator_t<Range>, Proj>
+			bksge::projected<ranges::iterator_t<Range>, Proj>,
+			bksge::projected<ranges::iterator_t<Range>, Proj>
 		> Pred = ranges::equal_to
 #else
 		typename Range,
@@ -96,8 +97,8 @@ struct adjacent_find_fn
 			ranges::forward_range<Range>,
 			bksge::indirect_binary_predicate<
 				Pred,
-				bksge::projected<iterator_t<Range>, Proj>,
-				bksge::projected<iterator_t<Range>, Proj>
+				bksge::projected<ranges::iterator_t<Range>, Proj>,
+				bksge::projected<ranges::iterator_t<Range>, Proj>
 			>
 		>::value>
 #endif

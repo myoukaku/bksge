@@ -21,6 +21,7 @@
 #include <bksge/fnd/iterator/ranges/distance.hpp>
 #include <bksge/fnd/iterator/projected.hpp>
 #include <bksge/fnd/ranges/concepts/forward_range.hpp>
+#include <bksge/fnd/ranges/iterator_t.hpp>
 #include <bksge/fnd/ranges/begin.hpp>
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
@@ -170,8 +171,8 @@ public:
 		typename Proj1 = bksge::identity,
 		typename Proj2 = bksge::identity,
 		bksge::indirect_equivalence_relation<
-			bksge::projected<iterator_t<Range1>, Proj1>,
-			bksge::projected<iterator_t<Range2>, Proj2>
+			bksge::projected<ranges::iterator_t<Range1>, Proj1>,
+			bksge::projected<ranges::iterator_t<Range2>, Proj2>
 		> Pred = ranges::equal_to
 #else
 		typename Range1,
@@ -184,8 +185,8 @@ public:
 			ranges::forward_range<Range2>,
 			bksge::indirect_equivalence_relation<
 				Pred,
-				bksge::projected<iterator_t<Range1>, Proj1>,
-				bksge::projected<iterator_t<Range2>, Proj2>
+				bksge::projected<ranges::iterator_t<Range1>, Proj1>,
+				bksge::projected<ranges::iterator_t<Range2>, Proj2>
 			>
 		>::value>
 #endif

@@ -12,7 +12,9 @@
 #include <bksge/fnd/ranges/detail/max_diff_type.hpp>
 #include <bksge/fnd/concepts/signed_integral.hpp>
 #include <bksge/fnd/concepts/same_as.hpp>
+#include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/disjunction.hpp>
+#include <bksge/fnd/type_traits/negation.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -32,6 +34,9 @@ concept signed_integer_like =
 	bksge::same_as<T, detail::max_diff_type>;
 
 template <typename T>
+concept not_signed_integer_like = !signed_integer_like<T>;
+
+template <typename T>
 using is_signed_integer_like = bksge::bool_constant<signed_integer_like<T>>;
 
 #else
@@ -41,6 +46,9 @@ using signed_integer_like = bksge::disjunction<
 	bksge::signed_integral<T>,
 	bksge::same_as<T, detail::max_diff_type>
 >;
+
+template <typename T>
+using not_signed_integer_like = bksge::negation<signed_integer_like<T>>;
 
 template <typename T>
 using is_signed_integer_like = signed_integer_like<T>;

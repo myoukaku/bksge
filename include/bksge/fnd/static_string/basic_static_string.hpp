@@ -1185,24 +1185,28 @@ inline BKSGE_CONSTEXPR bool operator==(
 	return lhs.compare(rhs) == 0;
 }
 
-#if 0//__cpp_lib_three_way_comparison
+#if defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
 
-template <typename CharT, bksge::size_t Capacity, typename Traits>
-inline BKSGE_CONSTEXPR auto operator<=>(
+template <typename CharT, bksge::size_t N1, bksge::size_t N2, typename Traits>
+inline BKSGE_CONSTEXPR auto
+operator<=>(
 	basic_static_string<CharT, N1, Traits> const& lhs,
 	basic_static_string<CharT, N2, Traits> const& rhs) BKSGE_NOEXCEPT
-->decltype(__detail::__char_traits_cmp_cat<Traits>(0))
+-> detail::char_traits_cmp_cat_t<Traits>
 {
-	return __detail::__char_traits_cmp_cat<Traits>(lhs.compare(rhs));
+	using cat = detail::char_traits_cmp_cat_t<Traits>;
+	return static_cast<cat>(lhs.compare(rhs) <=> 0);
 }
 
 template <typename CharT, bksge::size_t Capacity, typename Traits>
-inline BKSGE_CONSTEXPR auto operator<=>(
+inline BKSGE_CONSTEXPR auto
+operator<=>(
 	basic_static_string<CharT, Capacity, Traits> const& lhs,
 	CharT const* rhs) BKSGE_NOEXCEPT
-->decltype(__detail::__char_traits_cmp_cat<Traits>(0))
+-> detail::char_traits_cmp_cat_t<Traits>
 {
-	return __detail::__char_traits_cmp_cat<Traits>(lhs.compare(rhs));
+	using cat = detail::char_traits_cmp_cat_t<Traits>;
+	return static_cast<cat>(lhs.compare(rhs) <=> 0);
 }
 
 #else
@@ -1335,7 +1339,7 @@ inline BKSGE_CONSTEXPR bool operator>=(
 	return rhs.compare(lhs) <= 0;
 }
 
-#endif // three-way comparison
+#endif // defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
 
 template <typename CharT, bksge::size_t N1, bksge::size_t N2, typename Traits>
 inline BKSGE_CXX14_CONSTEXPR void swap(

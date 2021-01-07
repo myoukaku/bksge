@@ -22,6 +22,7 @@ using std::monostate;
 
 #else	// defined(BKSGE_USE_STD_VARIANT)
 
+#include <bksge/fnd/compare/strong_ordering.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -34,10 +35,10 @@ struct monostate {};
 
 inline BKSGE_CONSTEXPR bool operator==(monostate, monostate) BKSGE_NOEXCEPT { return true; }
 
-#if defined(__cpp_lib_three_way_comparison)
+#if defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
 
-inline BKSGE_CONSTEXPR strong_ordering
-operator<=>(monostate, monostate) BKSGE_NOEXCEPT { return strong_ordering::equal; }
+inline BKSGE_CONSTEXPR bksge::strong_ordering
+operator<=>(monostate, monostate) BKSGE_NOEXCEPT { return bksge::strong_ordering::equal; }
 
 #else
 

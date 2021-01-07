@@ -23,6 +23,7 @@
 #include <bksge/fnd/iterator/concepts/sized_sentinel_for.hpp>
 #include <bksge/fnd/iterator/iter_difference_t.hpp>
 #include <bksge/fnd/iterator/unreachable_sentinel.hpp>
+#include <bksge/fnd/compare/concepts/three_way_comparable.hpp>
 #include <bksge/fnd/concepts/equality_comparable.hpp>
 #include <bksge/fnd/concepts/integral.hpp>
 #include <bksge/fnd/concepts/same_as.hpp>
@@ -40,9 +41,6 @@
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/config.hpp>
-#if BKSGE_HAS_INCLUDE(<compare>) && (BKSGE_CXX_STANDARD >= 20)
-#include <compare>
-#endif
 
 namespace bksge
 {
@@ -98,44 +96,29 @@ public:	// TODO
 			return *this;
 		}
 
-#if !defined(BKSGE_HAS_CXX20_CONCEPTS)
-		template <
-			typename W2 = W,
-			typename = bksge::enable_if_t<
-				!bksge::incrementable<W2>::value
-			>
-		>
-#endif
+		template <BKSGE_REQUIRES_PARAM_D(bksge::not_incrementable, W2, W)>
 		BKSGE_CXX14_CONSTEXPR void operator++(int)
 		{
 			++*this;
 		}
 
-#if !defined(BKSGE_HAS_CXX20_CONCEPTS)
-		template <
-			typename W2 = W,
-			typename = bksge::enable_if_t<
-				bksge::incrementable<W2>::value
-			>
-		>
-#endif
+		template <BKSGE_REQUIRES_PARAM_D(bksge::incrementable, W2, W)>
 		BKSGE_CXX14_CONSTEXPR Iterator operator++(int)
-			BKSGE_REQUIRES(bksge::incrementable<W>)
 		{
 			auto tmp = *this;
 			++*this;
 			return tmp;
 		}
 
+		template <BKSGE_REQUIRES_PARAM_D(detail::decrementable, W2, W)>
 		BKSGE_CXX14_CONSTEXPR Iterator& operator--()
-			BKSGE_REQUIRES(detail::decrementable<W>)
 		{
 			--m_value;
 			return *this;
 		}
 
+		template <BKSGE_REQUIRES_PARAM_D(detail::decrementable, W2, W)>
 		BKSGE_CXX14_CONSTEXPR Iterator operator--(int)
-			BKSGE_REQUIRES(detail::decrementable<W>)
 		{
 			auto tmp = *this;
 			--*this;
@@ -144,14 +127,10 @@ public:	// TODO
 
 	private:
 		template <
-			typename W2 = W,
-			typename = bksge::enable_if_t<
-				detail::is_integer_like<W2>::value &&
-				!detail::is_signed_integer_like<W2>::value
-			>
-		>
+			BKSGE_REQUIRES_PARAM_D(detail::integer_like,            W2, W),
+			BKSGE_REQUIRES_PARAM_D(detail::not_signed_integer_like, W3, W)>
 		BKSGE_CXX14_CONSTEXPR void
-		advance_impl(bksge::detail::overload_priority<1>, difference_type n)
+		advance_impl(difference_type n, bksge::detail::overload_priority<1>)
 		{
 			if (n >= difference_type(0))
 			{
@@ -164,122 +143,122 @@ public:	// TODO
 		}
 
 		BKSGE_CXX14_CONSTEXPR void
-		advance_impl(bksge::detail::overload_priority<0>, difference_type n)
+		advance_impl(difference_type n, bksge::detail::overload_priority<0>)
 		{
 			m_value += static_cast<W>(n);
 		}
 
 	public:
+		template <BKSGE_REQUIRES_PARAM_D(detail::advanceable, W2, W)>
 		BKSGE_CXX14_CONSTEXPR Iterator& operator+=(difference_type n)
-			BKSGE_REQUIRES(detail::advanceable<W>)
 		{
-			advance_impl(bksge::detail::overload_priority<1>{}, n);
+			advance_impl(n, bksge::detail::overload_priority<1>{});
 			return *this;
 		}
 
+		template <BKSGE_REQUIRES_PARAM_D(detail::advanceable, W2, W)>
 		BKSGE_CXX14_CONSTEXPR Iterator& operator-=(difference_type n)
-			BKSGE_REQUIRES(detail::advanceable<W>)
 		{
-			advance_impl(bksge::detail::overload_priority<1>{}, -n);
+			advance_impl(-n, bksge::detail::overload_priority<1>{});
 			return *this;
 		}
 
+		template <BKSGE_REQUIRES_PARAM_D(detail::advanceable, W2, W)>
 		BKSGE_CONSTEXPR W operator[](difference_type n) const
-			BKSGE_REQUIRES(detail::advanceable<W>)
 		{
 			return W(m_value + n);
 		}
 
-		friend BKSGE_CONSTEXPR bool operator==(Iterator const& lhs, Iterator const& rhs)
-			BKSGE_REQUIRES(bksge::equality_comparable<W>)
+		template <BKSGE_REQUIRES_PARAM_D(bksge::equality_comparable, W2, W)>
+		friend BKSGE_CONSTEXPR bool
+		operator==(Iterator const& lhs, Iterator const& rhs)
 		{
 			return lhs.m_value == rhs.m_value;
 		}
 
-#if 0//def __cpp_lib_three_way_comparison
-//#if !defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
-		friend BKSGE_CONSTEXPR auto operator<=>(Iterator const& lhs, Iterator const& rhs)
-			BKSGE_REQUIRES(bksge::totally_ordered<W> && std::three_way_comparable<W>)
+#if defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
+		friend BKSGE_CONSTEXPR auto
+		operator<=>(Iterator const& lhs, Iterator const& rhs)
+			requires bksge::totally_ordered<W> && bksge::three_way_comparable<W>
 		{
 			return lhs.m_value <=> rhs.m_value;
 		}
 #else
-		friend BKSGE_CONSTEXPR bool operator!=(Iterator const& lhs, Iterator const& rhs)
-			BKSGE_REQUIRES(bksge::equality_comparable<W>)
+		template <BKSGE_REQUIRES_PARAM_D(bksge::equality_comparable, W2, W)>
+		friend BKSGE_CONSTEXPR bool
+		operator!=(Iterator const& lhs, Iterator const& rhs)
 		{
 			return !(lhs == rhs);
 		}
 
-		friend BKSGE_CONSTEXPR bool operator<(Iterator const& lhs, Iterator const& rhs)
-			BKSGE_REQUIRES(bksge::totally_ordered<W>)
+		template <BKSGE_REQUIRES_PARAM_D(bksge::totally_ordered, W2, W)>
+		friend BKSGE_CONSTEXPR bool
+		operator<(Iterator const& lhs, Iterator const& rhs)
 		{
 			return lhs.m_value < rhs.m_value;
 		}
 
-		friend BKSGE_CONSTEXPR bool operator>(Iterator const& lhs, Iterator const& rhs)
-			BKSGE_REQUIRES(bksge::totally_ordered<W>)
+		template <BKSGE_REQUIRES_PARAM_D(bksge::totally_ordered, W2, W)>
+		friend BKSGE_CONSTEXPR bool
+		operator>(Iterator const& lhs, Iterator const& rhs)
 		{
 			return rhs < lhs;
 		}
 
-		friend BKSGE_CONSTEXPR bool operator<=(Iterator const& lhs, Iterator const& rhs)
-			BKSGE_REQUIRES(bksge::totally_ordered<W>)
+		template <BKSGE_REQUIRES_PARAM_D(bksge::totally_ordered, W2, W)>
+		friend BKSGE_CONSTEXPR bool
+		operator<=(Iterator const& lhs, Iterator const& rhs)
 		{
 			return !(rhs < lhs);
 		}
 
-		friend BKSGE_CONSTEXPR bool operator>=(Iterator const& lhs, Iterator const& rhs)
-			BKSGE_REQUIRES(bksge::totally_ordered<W>)
+		template <BKSGE_REQUIRES_PARAM_D(bksge::totally_ordered, W2, W)>
+		friend BKSGE_CONSTEXPR bool
+		operator>=(Iterator const& lhs, Iterator const& rhs)
 		{
 			return !(lhs < rhs);
 		}
 #endif
-		friend BKSGE_CONSTEXPR Iterator operator+(Iterator i, difference_type n)
-			BKSGE_REQUIRES(detail::advanceable<W>)
+
+		template <BKSGE_REQUIRES_PARAM_D(detail::advanceable, W2, W)>
+		friend BKSGE_CONSTEXPR Iterator
+		operator+(Iterator i, difference_type n)
 		{
 			return i += n;
 		}
 
-		friend BKSGE_CONSTEXPR Iterator operator+(difference_type n, Iterator i)
-			BKSGE_REQUIRES(detail::advanceable<W>)
+		template <BKSGE_REQUIRES_PARAM_D(detail::advanceable, W2, W)>
+		friend BKSGE_CONSTEXPR Iterator
+		operator+(difference_type n, Iterator i)
 		{
 			return i += n;
 		}
 
-		friend BKSGE_CONSTEXPR Iterator operator-(Iterator i, difference_type n)
-			BKSGE_REQUIRES(detail::advanceable<W>)
+		template <BKSGE_REQUIRES_PARAM_D(detail::advanceable, W2, W)>
+		friend BKSGE_CONSTEXPR Iterator
+		operator-(Iterator i, difference_type n)
 		{
 			return i -= n;
 		}
 
 	private:
-		template <
-			typename W2 = W,
-			typename = bksge::enable_if_t<
-				!detail::is_integer_like<W2>::value
-			>
-		>
+		template <BKSGE_REQUIRES_PARAM_D(detail::not_integer_like, W2, W)>
 		BKSGE_CXX14_CONSTEXPR difference_type
-		minus_impl(bksge::detail::overload_priority<2>, Iterator const& rhs) const
+		minus_impl(Iterator const& rhs, bksge::detail::overload_priority<2>) const
 		{
 			return m_value - rhs.m_value;
 		}
 
-		template <
-			typename W2 = W,
-			typename = bksge::enable_if_t<
-				detail::is_signed_integer_like<W2>::value
-			>
-		>
+		template <BKSGE_REQUIRES_PARAM_D(detail::signed_integer_like, W2, W)>
 		BKSGE_CXX14_CONSTEXPR difference_type
-		minus_impl(bksge::detail::overload_priority<1>, Iterator const& rhs) const
+		minus_impl(Iterator const& rhs, bksge::detail::overload_priority<1>) const
 		{
 			using D = difference_type;
 			return D(D(m_value) - D(rhs.m_value));
 		}
 
 		BKSGE_CXX14_CONSTEXPR difference_type
-		minus_impl(bksge::detail::overload_priority<0>, Iterator const& rhs) const
+		minus_impl(Iterator const& rhs, bksge::detail::overload_priority<0>) const
 		{
 			using D = difference_type;
 			return (rhs.m_value > m_value) ?
@@ -287,10 +266,11 @@ public:	// TODO
 				D(m_value - rhs.m_value);
 		}
 
-		friend BKSGE_CONSTEXPR difference_type operator-(Iterator const& lhs, Iterator const& rhs)
-			BKSGE_REQUIRES(detail::advanceable<W>)
+		template <BKSGE_REQUIRES_PARAM_D(detail::advanceable, W2, W)>
+		friend BKSGE_CONSTEXPR difference_type
+		operator-(Iterator const& lhs, Iterator const& rhs)
 		{
-			return lhs.minus_impl(bksge::detail::overload_priority<2>{}, rhs);
+			return lhs.minus_impl(rhs, bksge::detail::overload_priority<2>{});
 		}
 
 	private:
@@ -307,7 +287,8 @@ public:	// TODO
 			return x.m_value == m_bound;
 		}
 
-		BKSGE_CONSTEXPR bksge::iter_difference_t<W> minus(Iterator const& x) const
+		BKSGE_CONSTEXPR bksge::iter_difference_t<W>
+		minus(Iterator const& x) const
 		{
 			return x.m_value - m_bound;
 		}
@@ -346,16 +327,16 @@ public:	// TODO
 		}
 #endif
 
+		template <BKSGE_REQUIRES_PARAM_2_D(bksge::sized_sentinel_for, W, B2, Bound)>
 		friend BKSGE_CONSTEXPR bksge::iter_difference_t<W>
 		operator-(Iterator const& lhs, Sentinel const& rhs)
-			BKSGE_REQUIRES(bksge::sized_sentinel_for<Bound, W>)
 		{
 			return rhs.minus(lhs);
 		}
 
+		template <BKSGE_REQUIRES_PARAM_2_D(bksge::sized_sentinel_for, W, B2, Bound)>
 		friend BKSGE_CONSTEXPR bksge::iter_difference_t<W>
 		operator-(Sentinel const& lhs, Iterator const& rhs)
-			BKSGE_REQUIRES(bksge::sized_sentinel_for<Bound, W>)
 		{
 			return -(rhs - lhs);
 		}
@@ -391,24 +372,26 @@ public:
 	}
 
 private:
-	template <
-		typename W2 = W, typename B2 = Bound,
-		typename = bksge::enable_if_t<
-			bksge::is_same_as<W2, B2>::value
-		>
-	>
+	//template <
+	//	typename W2 = W, typename B2 = Bound,
+	//	typename = bksge::enable_if_t<
+	//		bksge::is_same_as<W2, B2>::value
+	//	>
+	//>
+	template <BKSGE_REQUIRES_PARAM_2_D(bksge::same_as, W, B2, Bound)>
 	BKSGE_CONSTEXPR Iterator
 	end_impl(bksge::detail::overload_priority<2>) const
 	{
 		return Iterator{m_bound};
 	}
 
-	template <
-		typename B2 = Bound,
-		typename = bksge::enable_if_t<
-			bksge::is_same_as<B2, bksge::unreachable_sentinel_t>::value
-		>
-	>
+	//template <
+	//	typename B2 = Bound,
+	//	typename = bksge::enable_if_t<
+	//		bksge::is_same_as<B2, bksge::unreachable_sentinel_t>::value
+	//	>
+	//>
+	template <BKSGE_REQUIRES_PARAM_2_D(bksge::same_as, bksge::unreachable_sentinel_t, B2, Bound)>
 	BKSGE_CONSTEXPR bksge::unreachable_sentinel_t
 	end_impl(bksge::detail::overload_priority<1>) const
 	{
@@ -435,7 +418,7 @@ private:
 			bksge::is_integral<W2>::value &&
 			bksge::is_integral<B2>::value>>
 	static BKSGE_CONSTEXPR auto
-	size_impl(bksge::detail::overload_priority<2>, W2 const& w, B2 const& b)
+	size_impl(W2 const& w, B2 const& b, bksge::detail::overload_priority<2>)
 	-> bksge::make_unsigned_t<decltype(b - w)>
 	{
 	    using U = bksge::make_unsigned_t<decltype(b - w)>;
@@ -447,7 +430,7 @@ private:
 		typename = bksge::enable_if_t<
 			detail::is_integer_like<W2>::value>>
 	static BKSGE_CONSTEXPR auto
-	size_impl(bksge::detail::overload_priority<1>, W2 const& w, B2 const& b)
+	size_impl(W2 const& w, B2 const& b, bksge::detail::overload_priority<1>)
 	->decltype(detail::to_unsigned_like(b) - detail::to_unsigned_like(w))
 	{
 	    return detail::to_unsigned_like(b) - detail::to_unsigned_like(w);
@@ -455,7 +438,7 @@ private:
 
 	template <typename W2, typename B2>
 	static BKSGE_CONSTEXPR auto
-	size_impl(bksge::detail::overload_priority<0>, W2 const& w, B2 const& b)
+	size_impl(W2 const& w, B2 const& b, bksge::detail::overload_priority<0>)
 	->decltype(detail::to_unsigned_like(b - w))
 	{
 		return detail::to_unsigned_like(b - w);
@@ -471,9 +454,9 @@ public:
 		>
 	>
 	BKSGE_CONSTEXPR auto size() const
-	->decltype(size_impl(bksge::detail::overload_priority<2>{}, bksge::declval<W2>(), bksge::declval<B2>()))
+	->decltype(size_impl(bksge::declval<W2>(), bksge::declval<B2>(), bksge::detail::overload_priority<2>{}))
 	{
-		return size_impl(bksge::detail::overload_priority<2>{}, m_value, m_bound);
+		return size_impl(m_value, m_bound, bksge::detail::overload_priority<2>{});
 	}
 };
 
