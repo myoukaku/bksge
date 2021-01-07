@@ -7,15 +7,22 @@
  */
 
 #include <bksge/fnd/string_view/string_view.hpp>
-#include <bksge/fnd/utility/swap.hpp>
+#include <bksge/fnd/compare/is_eq.hpp>
+#include <bksge/fnd/compare/is_gt.hpp>
+#include <bksge/fnd/compare/is_lt.hpp>
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
 #include <bksge/fnd/sstream/basic_stringstream.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
+#include <bksge/fnd/utility/swap.hpp>
+#include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
-namespace bksge_string_view_string_view_test
+namespace bksge_string_view_test
 {
+
+#define VERIFY(...)	if (!(__VA_ARGS__)) { return false; }
 
 template <typename T>
 class StringViewTest : public ::testing::Test {};
@@ -24,6 +31,9 @@ using StringViewTestTypes =
 ::testing::Types<
 	  char
 	, wchar_t
+#if defined(BKSGE_HAS_CXX20_CHAR8_T)
+	, char8_t
+#endif
 #if defined(BKSGE_HAS_CXX11_CHAR16_T)
 	, char16_t
 #endif
@@ -40,12 +50,18 @@ struct StringViewTestHelper;
 template <>
 struct StringViewTestHelper<char>
 {
+	
 	BKSGE_CONSTEXPR static const char* foo_bar()    { return "foo bar"; }
 	BKSGE_CONSTEXPR static const char* with_nulls() { return "This contains \0 a zero byte."; }
 	BKSGE_CONSTEXPR static const char* aababc()     { return "aababc"; }
 	BKSGE_CONSTEXPR static const char* abcd()       { return "abcd"; }
 	BKSGE_CONSTEXPR static const char* ab()         { return "ab"; }
 	BKSGE_CONSTEXPR static const char* cd()         { return "cd"; }
+	BKSGE_CONSTEXPR static bksge::basic_string_view<char> abcd_sv()
+	{
+		using namespace bksge::literals;
+		return "abcd"sv;
+	}
 };
 
 template <>
@@ -57,10 +73,32 @@ struct StringViewTestHelper<wchar_t>
 	BKSGE_CONSTEXPR static const wchar_t* abcd()       { return L"abcd"; }
 	BKSGE_CONSTEXPR static const wchar_t* ab()         { return L"ab"; }
 	BKSGE_CONSTEXPR static const wchar_t* cd()         { return L"cd"; }
+	BKSGE_CONSTEXPR static bksge::basic_string_view<wchar_t> abcd_sv()
+	{
+		using namespace bksge::literals::string_view_literals;
+		return L"abcd"sv;
+	}
 };
 
-#if defined(BKSGE_HAS_CXX11_CHAR16_T)
+#if defined(BKSGE_HAS_CXX20_CHAR8_T)
+template <>
+struct StringViewTestHelper<char8_t>
+{
+	BKSGE_CONSTEXPR static const char8_t* foo_bar()    { return u8"foo bar"; }
+	BKSGE_CONSTEXPR static const char8_t* with_nulls() { return u8"This contains \0 a zero byte."; }
+	BKSGE_CONSTEXPR static const char8_t* aababc()     { return u8"aababc"; }
+	BKSGE_CONSTEXPR static const char8_t* abcd()       { return u8"abcd"; }
+	BKSGE_CONSTEXPR static const char8_t* ab()         { return u8"ab"; }
+	BKSGE_CONSTEXPR static const char8_t* cd()         { return u8"cd"; }
+	BKSGE_CONSTEXPR static bksge::basic_string_view<char8_t> abcd_sv()
+	{
+		using namespace bksge::literals;
+		return u8"abcd"sv;
+	}
+};
+#endif
 
+#if defined(BKSGE_HAS_CXX11_CHAR16_T)
 template <>
 struct StringViewTestHelper<char16_t>
 {
@@ -70,12 +108,15 @@ struct StringViewTestHelper<char16_t>
 	BKSGE_CONSTEXPR static const char16_t* abcd()       { return u"abcd"; }
 	BKSGE_CONSTEXPR static const char16_t* ab()         { return u"ab"; }
 	BKSGE_CONSTEXPR static const char16_t* cd()         { return u"cd"; }
+	BKSGE_CONSTEXPR static bksge::basic_string_view<char16_t> abcd_sv()
+	{
+		using namespace bksge::literals::string_view_literals;
+		return u"abcd"sv;
+	}
 };
-
 #endif
 
 #if defined(BKSGE_HAS_CXX11_CHAR32_T)
-
 template <>
 struct StringViewTestHelper<char32_t>
 {
@@ -85,355 +126,458 @@ struct StringViewTestHelper<char32_t>
 	BKSGE_CONSTEXPR static const char32_t* abcd()       { return U"abcd"; }
 	BKSGE_CONSTEXPR static const char32_t* ab()         { return U"ab"; }
 	BKSGE_CONSTEXPR static const char32_t* cd()         { return U"cd"; }
+	BKSGE_CONSTEXPR static bksge::basic_string_view<char32_t> abcd_sv()
+	{
+		using namespace bksge::string_view_literals;
+		return U"abcd"sv;
+	}
 };
-
 #endif
+
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool CtorDefaultTest()
+{
+	using string_view = bksge::basic_string_view<CharT>;
+	{
+		string_view sv;
+		VERIFY(sv.length() == 0);
+		VERIFY(sv.size()   == 0);
+		VERIFY(sv.data()   == nullptr);
+		VERIFY(sv.empty());
+		VERIFY(sv.max_size() >= sv.size());
+	}
+	{
+		string_view sv{};
+		VERIFY(sv.length() == 0);
+		VERIFY(sv.size()   == 0);
+		VERIFY(sv.data()   == nullptr);
+		VERIFY(sv.empty());
+		VERIFY(sv.max_size() >= sv.size());
+	}
+	{
+		string_view sv = {};
+		VERIFY(sv.length() == 0);
+		VERIFY(sv.size()   == 0);
+		VERIFY(sv.data()   == nullptr);
+		VERIFY(sv.empty());
+		VERIFY(sv.max_size() >= sv.size());
+	}
+	return true;
+}
+
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool CtorCopyTest()
+{
+	using string_view = bksge::basic_string_view<CharT>;
+	{
+		auto str = StringViewTestHelper<CharT>::foo_bar();
+		string_view sv1{str, 7};
+		string_view sv2{sv1};
+
+		VERIFY(sv2.size()   == sv1.size());
+		VERIFY(sv2.data()   == sv1.data());
+
+		VERIFY(sv2.length() == 7);
+		VERIFY(sv2.size()   == 7);
+		VERIFY(sv2.data()   == str);
+		VERIFY(!sv2.empty());
+		VERIFY(sv2.max_size() >= sv2.size());
+	}
+	return true;
+}
+
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool CtorCharPtrCountTest()
+{
+	using string_view = bksge::basic_string_view<CharT>;
+	{
+		auto str = StringViewTestHelper<CharT>::foo_bar();
+		string_view sv{str, 7};
+		VERIFY(sv.length() == 7);
+		VERIFY(sv.size()   == 7);
+		VERIFY(sv.data()   == str);
+		VERIFY(!sv.empty());
+		VERIFY(sv.max_size() >= sv.size());
+	}
+	{
+		string_view sv{nullptr, 0};
+		VERIFY(sv.length() == 0);
+		VERIFY(sv.size()   == 0);
+		VERIFY(sv.data()   == nullptr);
+		VERIFY(sv.empty());
+		VERIFY(sv.max_size() >= sv.size());
+	}
+	{
+		auto str = StringViewTestHelper<CharT>::with_nulls();
+		string_view sv{str, 28};
+		VERIFY(sv.length() == 28);
+		VERIFY(sv.size()   == 28);
+		VERIFY(sv.data()   == str);
+		VERIFY(!sv.empty());
+		VERIFY(sv.max_size() >= sv.size());
+	}
+	return true;
+}
+
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool CtorCharPtrTest()
+{
+	using string_view = bksge::basic_string_view<CharT>;
+	{
+		auto str = StringViewTestHelper<CharT>::foo_bar();
+		const string_view sv{str};
+		VERIFY(sv.length() == 7);
+		VERIFY(sv.size()   == 7);
+		VERIFY(sv.data()   == str);
+		VERIFY(!sv.empty());
+		VERIFY(sv.max_size() >= sv.size());
+	}
+	{
+		auto str = StringViewTestHelper<CharT>::with_nulls();
+		const string_view sv{str};
+		VERIFY(sv.length() == 14);
+		VERIFY(sv.size()   == 14);
+		VERIFY(sv.data()   == str);
+		VERIFY(!sv.empty());
+		VERIFY(sv.max_size() >= sv.size());
+	}
+	return true;
+}
+
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool CtorRangeTest()
+{
+	using string_view = bksge::basic_string_view<CharT>;
+	{
+		auto str = StringViewTestHelper<CharT>::foo_bar();
+		const string_view sv{str, str + 3};
+		VERIFY(sv.length() == 3);
+		VERIFY(sv.size()   == 3);
+		VERIFY(sv.data()   == str);
+		VERIFY(!sv.empty());
+		VERIFY(sv.max_size() >= sv.size());
+	}
+	return true;
+}
+
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool CtorDeductionTest()
+{
+#if defined(BKSGE_HAS_CXX17_DEDUCTION_GUIDES)
+	using Helper = StringViewTestHelper<CharT>;
+	{
+		bksge::basic_string_view sv{Helper::abcd()};
+		static_assert(bksge::is_same<decltype(sv), bksge::basic_string_view<CharT>>::value, "");
+	}
+	{
+		bksge::basic_string_view sv{Helper::abcd(), 3};
+		static_assert(bksge::is_same<decltype(sv), bksge::basic_string_view<CharT>>::value, "");
+	}
+	{
+		auto str = Helper::abcd();
+		bksge::basic_string_view sv{str, str + 2};
+		static_assert(bksge::is_same<decltype(sv), bksge::basic_string_view<CharT>>::value, "");
+	}
+#endif
+	return true;
+}
 
 TYPED_TEST(StringViewTest, CtorTest)
 {
 	using CharT = TypeParam;
-	using string_view = bksge::basic_string_view<CharT>;
-
-	BKSGE_CONSTEXPR_OR_CONST auto npos = string_view::npos;
-	(void)npos;
-
-	// basic_string_view()
-	{
-		BKSGE_CONSTEXPR_OR_CONST string_view sv;
-		BKSGE_CONSTEXPR_EXPECT_EQ(0u, sv.length());
-		BKSGE_CONSTEXPR_EXPECT_EQ(0u, sv.size());
-		BKSGE_CONSTEXPR_EXPECT_TRUE(nullptr == sv.data());
-		BKSGE_CONSTEXPR_EXPECT_TRUE(sv.empty());
-		BKSGE_CONSTEXPR_EXPECT_TRUE(sv.max_size() >= sv.size());
-	}
-	{
-		BKSGE_CONSTEXPR_OR_CONST string_view sv{};
-		BKSGE_CONSTEXPR_EXPECT_EQ(0u, sv.length());
-		BKSGE_CONSTEXPR_EXPECT_EQ(0u, sv.size());
-		BKSGE_CONSTEXPR_EXPECT_TRUE(nullptr == sv.data());
-		BKSGE_CONSTEXPR_EXPECT_TRUE(sv.empty());
-		BKSGE_CONSTEXPR_EXPECT_TRUE(sv.max_size() >= sv.size());
-	}
-
-	// basic_string_view(basic_string_view const&)
-	{
-		const auto str = StringViewTestHelper<CharT>::foo_bar();
-		const string_view sv1{str, 7};
-		const string_view sv2{sv1};
-		EXPECT_EQ(7u, sv2.length());
-		EXPECT_EQ(7u, sv2.size());
-		EXPECT_TRUE(str == sv2.data());
-		EXPECT_FALSE(sv2.empty());
-		EXPECT_TRUE(sv2.max_size() >= sv2.size());
-	}
-
-	// basic_string_view(CharT const*)
-	{
-		BKSGE_CXX14_STATIC_CONSTEXPR auto str = StringViewTestHelper<CharT>::foo_bar();
-		const string_view sv{str};
-		EXPECT_EQ(7u, sv.length());
-		EXPECT_EQ(7u, sv.size());
-		EXPECT_TRUE(str == sv.data());
-		EXPECT_FALSE(sv.empty());
-		EXPECT_TRUE(sv.max_size() >= sv.size());
-	}
-	//{
-	//	const string_view sv{nullptr};
-	//	EXPECT_EQ(0u, sv.length());
-	//	EXPECT_EQ(0u, sv.size());
-	//	EXPECT_TRUE(nullptr == sv.data());
-	//	EXPECT_TRUE(sv.empty());
-	//	EXPECT_TRUE(sv.max_size() >= sv.size());
-	//}
-	{
-		BKSGE_CXX14_STATIC_CONSTEXPR auto str = StringViewTestHelper<CharT>::with_nulls();
-		const string_view sv{str};
-		EXPECT_EQ(14u, sv.length());
-		EXPECT_EQ(14u, sv.size());
-		EXPECT_TRUE(str == sv.data());
-		EXPECT_FALSE(sv.empty());
-		EXPECT_TRUE(sv.max_size() >= sv.size());
-	}
-
-	// basic_string_view(CharT const*, size_type)
-	{
-		const auto str = StringViewTestHelper<CharT>::foo_bar();
-		const string_view sv{str, 7};
-		EXPECT_EQ(7u, sv.length());
-		EXPECT_EQ(7u, sv.size());
-		EXPECT_TRUE(str == sv.data());
-		EXPECT_FALSE(sv.empty());
-		EXPECT_TRUE(sv.max_size() >= sv.size());
-	}
-	{
-		BKSGE_CONSTEXPR_OR_CONST string_view sv{nullptr, 0};
-		BKSGE_CONSTEXPR_EXPECT_EQ(0u, sv.length());
-		BKSGE_CONSTEXPR_EXPECT_EQ(0u, sv.size());
-		BKSGE_CONSTEXPR_EXPECT_TRUE(nullptr == sv.data());
-		BKSGE_CONSTEXPR_EXPECT_TRUE(sv.empty());
-		BKSGE_CONSTEXPR_EXPECT_TRUE(sv.max_size() >= sv.size());
-	}
-	{
-		BKSGE_STATIC_CONSTEXPR auto str = StringViewTestHelper<CharT>::with_nulls();
-		BKSGE_CONSTEXPR_OR_CONST string_view sv{str, 28};
-		BKSGE_CONSTEXPR_EXPECT_EQ(28u, sv.length());
-		BKSGE_CONSTEXPR_EXPECT_EQ(28u, sv.size());
-//		BKSGE_CONSTEXPR_EXPECT_TRUE(str == sv.data());
-		BKSGE_CONSTEXPR_EXPECT_FALSE(sv.empty());
-		BKSGE_CONSTEXPR_EXPECT_TRUE(sv.max_size() >= sv.size());
-	}
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(CtorDefaultTest<CharT>());
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(CtorCopyTest<CharT>());
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(CtorCharPtrCountTest<CharT>());
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(CtorCharPtrTest<CharT>());
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(CtorRangeTest<CharT>());
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(CtorDeductionTest<CharT>());
 }
 
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool AssignTest()
+{
+	using string_view = bksge::basic_string_view<CharT>;
+	{
+		auto str = StringViewTestHelper<CharT>::foo_bar();
+		string_view sv2{str};
+	
+		string_view sv1;
+		VERIFY(sv1.length() == 0);
+		VERIFY(sv1.data() == nullptr);
+		VERIFY(sv1.empty());
+
+		sv1 = sv2;
+		VERIFY(sv1.length() == 7);
+		VERIFY(sv1.data() == str);
+		VERIFY(!sv1.empty());
+	}
+	return true;
+}
 TYPED_TEST(StringViewTest, AssignTest)
 {
 	using CharT = TypeParam;
-	using string_view = bksge::basic_string_view<CharT>;
-
-	auto str = StringViewTestHelper<CharT>::foo_bar();
-	string_view sv2{str};
-	
-	string_view sv1;
-	EXPECT_EQ(0u, sv1.length());
-	EXPECT_TRUE(nullptr == sv1.data());
-	EXPECT_TRUE(sv1.empty());
-
-	sv1 = sv2;
-	EXPECT_EQ(7u, sv1.length());
-	EXPECT_TRUE(str == sv1.data());
-	EXPECT_FALSE(sv1.empty());
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(AssignTest<CharT>());
 }
 
-TYPED_TEST(StringViewTest, BeginEndTest)
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool BeginEndTest()
 {
-	using CharT = TypeParam;
 	using string_view = bksge::basic_string_view<CharT>;
 	using iterator = typename string_view::iterator;
 
 	{
 		const auto str = StringViewTestHelper<CharT>::foo_bar();
-		const string_view sv{str, 7};
+		string_view sv{str, 7};
 		const iterator first = sv.begin();
 		const iterator last = sv.end();
-		const iterator it0 = first;
-		EXPECT_TRUE(str[0] == *it0);
-		EXPECT_FALSE(it0 == last);
-		const iterator it1 = bksge::next(it0);
-		EXPECT_TRUE(str[1] == *it1);
-		EXPECT_FALSE(it1 == last);
-		const iterator it2 = bksge::next(it1);
-		EXPECT_TRUE(str[2] == *it2);
-		EXPECT_FALSE(it2 == last);
-		const iterator it3 = bksge::next(it2);
-		EXPECT_TRUE(str[3] == *it3);
-		EXPECT_FALSE(it3 == last);
-		const iterator it4 = bksge::next(it3);
-		EXPECT_TRUE(str[4] == *it4);
-		EXPECT_FALSE(it4 == last);
-		const iterator it5 = bksge::next(it4);
-		EXPECT_TRUE(str[5] == *it5);
-		EXPECT_FALSE(it5 == last);
-		const iterator it6 = bksge::next(it5);
-		EXPECT_TRUE(str[6] == *it6);
-		EXPECT_FALSE(it6 == last);
-		const iterator it7 = bksge::next(it6);
-		EXPECT_TRUE (it7 == last);
+		iterator it = first;
+		VERIFY(*it == str[0]);
+		VERIFY(it != last);
+		++it;
+		VERIFY(*it == str[1]);
+		VERIFY(it != last);
+		it++;
+		VERIFY(*it == str[2]);
+		VERIFY(it != last);
+		it += 4;
+		VERIFY(*it == str[6]);
+		VERIFY(it != last);
+		it--;
+		VERIFY(*it == str[5]);
+		VERIFY(it != last);
+		--it;
+		VERIFY(*it == str[4]);
+		VERIFY(it != last);
+		it -= 1;
+		VERIFY(*it == str[3]);
+		VERIFY(it != last);
+		it += 4;
+		VERIFY(it == last);
 
-		EXPECT_TRUE(str[0] == first[0]);
-		EXPECT_TRUE(str[1] == first[1]);
-		EXPECT_TRUE(str[2] == first[2]);
-		EXPECT_TRUE(str[3] == first[3]);
-		EXPECT_TRUE(str[4] == first[4]);
-		EXPECT_TRUE(str[5] == first[5]);
-		EXPECT_TRUE(str[6] == first[6]);
+		VERIFY(str[0] == first[0]);
+		VERIFY(str[1] == first[1]);
+		VERIFY(str[2] == first[2]);
+		VERIFY(str[3] == first[3]);
+		VERIFY(str[4] == first[4]);
+		VERIFY(str[5] == first[5]);
+		VERIFY(str[6] == first[6]);
 	}
+	return true;
 }
 
-TYPED_TEST(StringViewTest, CBeginCEndTest)
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool CBeginCEndTest()
 {
-	using CharT = TypeParam;
 	using string_view = bksge::basic_string_view<CharT>;
 	using const_iterator = typename string_view::const_iterator;
 
 	{
 		const auto str = StringViewTestHelper<CharT>::foo_bar();
-		const string_view sv{str, 7};
+		string_view sv{str, 7};
 		const const_iterator first = sv.cbegin();
 		const const_iterator last = sv.cend();
-		const const_iterator it0 = first;
-		EXPECT_TRUE(str[0] == *it0);
-		EXPECT_FALSE(it0 == last);
-		const const_iterator it1 = bksge::next(it0);
-		EXPECT_TRUE(str[1] == *it1);
-		EXPECT_FALSE(it1 == last);
-		const const_iterator it2 = bksge::next(it1);
-		EXPECT_TRUE(str[2] == *it2);
-		EXPECT_FALSE(it2 == last);
-		const const_iterator it3 = bksge::next(it2);
-		EXPECT_TRUE(str[3] == *it3);
-		EXPECT_FALSE(it3 == last);
-		const const_iterator it4 = bksge::next(it3);
-		EXPECT_TRUE(str[4] == *it4);
-		EXPECT_FALSE(it4 == last);
-		const const_iterator it5 = bksge::next(it4);
-		EXPECT_TRUE(str[5] == *it5);
-		EXPECT_FALSE(it5 == last);
-		const const_iterator it6 = bksge::next(it5);
-		EXPECT_TRUE(str[6] == *it6);
-		EXPECT_FALSE(it6 == last);
-		const const_iterator it7 = bksge::next(it6);
-		EXPECT_TRUE (it7 == last);
+		const_iterator it = first;
+		VERIFY(*it == str[0]);
+		VERIFY(it != last);
+		++it;
+		VERIFY(*it == str[1]);
+		VERIFY(it != last);
+		it++;
+		VERIFY(*it == str[2]);
+		VERIFY(it != last);
+		it += 4;
+		VERIFY(*it == str[6]);
+		VERIFY(it != last);
+		it--;
+		VERIFY(*it == str[5]);
+		VERIFY(it != last);
+		--it;
+		VERIFY(*it == str[4]);
+		VERIFY(it != last);
+		it -= 1;
+		VERIFY(*it == str[3]);
+		VERIFY(it != last);
+		it += 4;
+		VERIFY(it == last);
 
-		EXPECT_TRUE(str[0] == first[0]);
-		EXPECT_TRUE(str[1] == first[1]);
-		EXPECT_TRUE(str[2] == first[2]);
-		EXPECT_TRUE(str[3] == first[3]);
-		EXPECT_TRUE(str[4] == first[4]);
-		EXPECT_TRUE(str[5] == first[5]);
-		EXPECT_TRUE(str[6] == first[6]);
+		VERIFY(str[0] == first[0]);
+		VERIFY(str[1] == first[1]);
+		VERIFY(str[2] == first[2]);
+		VERIFY(str[3] == first[3]);
+		VERIFY(str[4] == first[4]);
+		VERIFY(str[5] == first[5]);
+		VERIFY(str[6] == first[6]);
 	}
+	return true;
 }
 
-TYPED_TEST(StringViewTest, RBeginREndTest)
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool RBeginREndTest()
 {
-	using CharT = TypeParam;
 	using string_view = bksge::basic_string_view<CharT>;
 	using reverse_iterator = typename string_view::reverse_iterator;
 
 	{
 		const auto str = StringViewTestHelper<CharT>::foo_bar();
-		const string_view sv{str, 7};
+		string_view sv{str, 7};
 		const reverse_iterator first = sv.rbegin();
 		const reverse_iterator last = sv.rend();
-		const reverse_iterator it0 = first;
-		EXPECT_TRUE(str[6] == *it0);
-		EXPECT_FALSE(it0 == last);
-		const reverse_iterator it1 = bksge::next(it0);
-		EXPECT_TRUE(str[5] == *it1);
-		EXPECT_FALSE(it1 == last);
-		const reverse_iterator it2 = bksge::next(it1);
-		EXPECT_TRUE(str[4] == *it2);
-		EXPECT_FALSE(it2 == last);
-		const reverse_iterator it3 = bksge::next(it2);
-		EXPECT_TRUE(str[3] == *it3);
-		EXPECT_FALSE(it3 == last);
-		const reverse_iterator it4 = bksge::next(it3);
-		EXPECT_TRUE(str[2] == *it4);
-		EXPECT_FALSE(it4 == last);
-		const reverse_iterator it5 = bksge::next(it4);
-		EXPECT_TRUE(str[1] == *it5);
-		EXPECT_FALSE(it5 == last);
-		const reverse_iterator it6 = bksge::next(it5);
-		EXPECT_TRUE(str[0] == *it6);
-		EXPECT_FALSE(it6 == last);
-		const reverse_iterator it7 = bksge::next(it6);
-		EXPECT_TRUE(it7 == last);
+		reverse_iterator it = first;
+		VERIFY(*it == str[6]);
+		VERIFY(it != last);
+		++it;
+		VERIFY(*it == str[5]);
+		VERIFY(it != last);
+		it++;
+		VERIFY(*it == str[4]);
+		VERIFY(it != last);
+		it += 4;
+		VERIFY(*it == str[0]);
+		VERIFY(it != last);
+		it--;
+		VERIFY(*it == str[1]);
+		VERIFY(it != last);
+		--it;
+		VERIFY(*it == str[2]);
+		VERIFY(it != last);
+		it -= 1;
+		VERIFY(*it == str[3]);
+		VERIFY(it != last);
+		it += 4;
+		VERIFY(it == last);
 
-		EXPECT_TRUE(str[6] == first[0]);
-		EXPECT_TRUE(str[5] == first[1]);
-		EXPECT_TRUE(str[4] == first[2]);
-		EXPECT_TRUE(str[3] == first[3]);
-		EXPECT_TRUE(str[2] == first[4]);
-		EXPECT_TRUE(str[1] == first[5]);
-		EXPECT_TRUE(str[0] == first[6]);
+		VERIFY(str[6] == first[0]);
+		VERIFY(str[5] == first[1]);
+		VERIFY(str[4] == first[2]);
+		VERIFY(str[3] == first[3]);
+		VERIFY(str[2] == first[4]);
+		VERIFY(str[1] == first[5]);
+		VERIFY(str[0] == first[6]);
 	}
+	return true;
 }
 
-TYPED_TEST(StringViewTest, CRBeginCREndTest)
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool CRBeginCREndTest()
 {
-	using CharT = TypeParam;
 	using string_view = bksge::basic_string_view<CharT>;
 	using const_reverse_iterator = typename string_view::const_reverse_iterator;
 
 	{
 		const auto str = StringViewTestHelper<CharT>::foo_bar();
-		const string_view sv{str, 7};
+		string_view sv{str, 7};
 		const const_reverse_iterator first = sv.crbegin();
 		const const_reverse_iterator last = sv.crend();
-		const const_reverse_iterator it0 = first;
-		EXPECT_TRUE(str[6] == *it0);
-		EXPECT_FALSE(it0 == last);
-		const const_reverse_iterator it1 = bksge::next(it0);
-		EXPECT_TRUE(str[5] == *it1);
-		EXPECT_FALSE(it1 == last);
-		const const_reverse_iterator it2 = bksge::next(it1);
-		EXPECT_TRUE(str[4] == *it2);
-		EXPECT_FALSE(it2 == last);
-		const const_reverse_iterator it3 = bksge::next(it2);
-		EXPECT_TRUE(str[3] == *it3);
-		EXPECT_FALSE(it3 == last);
-		const const_reverse_iterator it4 = bksge::next(it3);
-		EXPECT_TRUE(str[2] == *it4);
-		EXPECT_FALSE(it4 == last);
-		const const_reverse_iterator it5 = bksge::next(it4);
-		EXPECT_TRUE(str[1] == *it5);
-		EXPECT_FALSE(it5 == last);
-		const const_reverse_iterator it6 = bksge::next(it5);
-		EXPECT_TRUE(str[0] == *it6);
-		EXPECT_FALSE(it6 == last);
-		const const_reverse_iterator it7 = bksge::next(it6);
-		EXPECT_TRUE(it7 == last);
+		const_reverse_iterator it = first;
+		VERIFY(*it == str[6]);
+		VERIFY(it != last);
+		++it;
+		VERIFY(*it == str[5]);
+		VERIFY(it != last);
+		it++;
+		VERIFY(*it == str[4]);
+		VERIFY(it != last);
+		it += 4;
+		VERIFY(*it == str[0]);
+		VERIFY(it != last);
+		it--;
+		VERIFY(*it == str[1]);
+		VERIFY(it != last);
+		--it;
+		VERIFY(*it == str[2]);
+		VERIFY(it != last);
+		it -= 1;
+		VERIFY(*it == str[3]);
+		VERIFY(it != last);
+		it += 4;
+		VERIFY(it == last);
 
-		EXPECT_TRUE(str[6] == first[0]);
-		EXPECT_TRUE(str[5] == first[1]);
-		EXPECT_TRUE(str[4] == first[2]);
-		EXPECT_TRUE(str[3] == first[3]);
-		EXPECT_TRUE(str[2] == first[4]);
-		EXPECT_TRUE(str[1] == first[5]);
-		EXPECT_TRUE(str[0] == first[6]);
+		VERIFY(str[6] == first[0]);
+		VERIFY(str[5] == first[1]);
+		VERIFY(str[4] == first[2]);
+		VERIFY(str[3] == first[3]);
+		VERIFY(str[2] == first[4]);
+		VERIFY(str[1] == first[5]);
+		VERIFY(str[0] == first[6]);
 	}
+	return true;
 }
 
-TYPED_TEST(StringViewTest, OperatorBracketTest)
+TYPED_TEST(StringViewTest, IteratorTest)
 {
 	using CharT = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(BeginEndTest<CharT>());
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(CBeginCEndTest<CharT>());
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(RBeginREndTest<CharT>());
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(CRBeginCREndTest<CharT>());
+}
+
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool OperatorBracketTest()
+{
 	using string_view = bksge::basic_string_view<CharT>;
 	using const_reference = typename string_view::const_reference;
 
 	{
-		BKSGE_STATIC_CONSTEXPR auto str = StringViewTestHelper<CharT>::foo_bar();
-		BKSGE_CONSTEXPR_OR_CONST string_view sv{str, 7};
-		const const_reference r0 = sv[0];
-		const const_reference r1 = sv[1];
-		const const_reference r2 = sv[2];
-		const const_reference r3 = sv[3];
-		const const_reference r4 = sv[4];
-		const const_reference r5 = sv[5];
-		const const_reference r6 = sv[6];
-		EXPECT_TRUE(str[0] == r0);
-		EXPECT_TRUE(str[1] == r1);
-		EXPECT_TRUE(str[2] == r2);
-		EXPECT_TRUE(str[3] == r3);
-		EXPECT_TRUE(str[4] == r4);
-		EXPECT_TRUE(str[5] == r5);
-		EXPECT_TRUE(str[6] == r6);
-		//const reference r7 = sv[7];
-		//(void)r7;
+		auto str = StringViewTestHelper<CharT>::foo_bar();
+		string_view sv{str};
+		const_reference r0 = sv[0];
+		const_reference r1 = sv[1];
+		const_reference r2 = sv[2];
+		const_reference r3 = sv[3];
+		const_reference r4 = sv[4];
+		const_reference r5 = sv[5];
+		const_reference r6 = sv[6];
+		VERIFY(str[0] == r0);
+		VERIFY(str[1] == r1);
+		VERIFY(str[2] == r2);
+		VERIFY(str[3] == r3);
+		VERIFY(str[4] == r4);
+		VERIFY(str[5] == r5);
+		VERIFY(str[6] == r6);
 	}
+	return true;
+}
+TYPED_TEST(StringViewTest, OperatorBracketTest)
+{
+	using CharT = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(OperatorBracketTest<CharT>());
 }
 
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool AtTest()
+{
+	using string_view = bksge::basic_string_view<CharT>;
+	using const_reference = typename string_view::const_reference;
+	{
+		auto str = StringViewTestHelper<CharT>::foo_bar();
+		string_view sv{str};
+		const_reference r0 = sv.at(0);
+		const_reference r1 = sv.at(1);
+		const_reference r2 = sv.at(2);
+		const_reference r3 = sv.at(3);
+		const_reference r4 = sv.at(4);
+		const_reference r5 = sv.at(5);
+		const_reference r6 = sv.at(6);
+		VERIFY(str[0] == r0);
+		VERIFY(str[1] == r1);
+		VERIFY(str[2] == r2);
+		VERIFY(str[3] == r3);
+		VERIFY(str[4] == r4);
+		VERIFY(str[5] == r5);
+		VERIFY(str[6] == r6);
+	}
+	return true;
+}
 TYPED_TEST(StringViewTest, AtTest)
 {
 	using CharT = TypeParam;
 	using string_view = bksge::basic_string_view<CharT>;
-	using const_reference = typename string_view::const_reference;
 
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(AtTest<CharT>());
 	{
-		BKSGE_STATIC_CONSTEXPR auto str = StringViewTestHelper<CharT>::foo_bar();
-		BKSGE_CONSTEXPR_OR_CONST string_view sv{str, 7};
-		const const_reference r0 = sv.at(0);
-		const const_reference r1 = sv.at(1);
-		const const_reference r2 = sv.at(2);
-		const const_reference r3 = sv.at(3);
-		const const_reference r4 = sv.at(4);
-		const const_reference r5 = sv.at(5);
-		const const_reference r6 = sv.at(6);
-		EXPECT_TRUE(str[0] == r0);
-		EXPECT_TRUE(str[1] == r1);
-		EXPECT_TRUE(str[2] == r2);
-		EXPECT_TRUE(str[3] == r3);
-		EXPECT_TRUE(str[4] == r4);
-		EXPECT_TRUE(str[5] == r5);
-		EXPECT_TRUE(str[6] == r6);
+		auto str = StringViewTestHelper<CharT>::foo_bar();
+		string_view sv{str};
 		EXPECT_THROW((void)sv.at(7), bksge::out_of_range);
 	}
 	{
@@ -450,1024 +594,1315 @@ TYPED_TEST(StringViewTest, AtTest)
 	}
 }
 
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool FrontTest()
+{
+	using string_view = bksge::basic_string_view<CharT>;
+	using const_reference = typename string_view::const_reference;
+
+	{
+		auto str = StringViewTestHelper<CharT>::foo_bar();
+		string_view sv{str};
+		const_reference r = sv.front();
+		VERIFY(r == str[0]);
+	}
+	{
+		auto str = StringViewTestHelper<CharT>::abcd();
+		string_view sv{str};
+		const_reference r = sv.front();
+		VERIFY(r == str[0]);
+	}
+	return true;
+}
 TYPED_TEST(StringViewTest, FrontTest)
 {
 	using CharT = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(FrontTest<CharT>());
+}
+
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool BackTest()
+{
 	using string_view = bksge::basic_string_view<CharT>;
 	using const_reference = typename string_view::const_reference;
 
 	{
-		BKSGE_STATIC_CONSTEXPR auto str = StringViewTestHelper<CharT>::foo_bar();
-		BKSGE_CONSTEXPR_OR_CONST string_view sv{str, 7};
-		const const_reference r = sv.front();
-		EXPECT_TRUE(str[0] == r);
+		auto str = StringViewTestHelper<CharT>::foo_bar();
+		string_view sv{str};
+		const_reference r = sv.back();
+		VERIFY(r == str[6]);
 	}
+	{
+		auto str = StringViewTestHelper<CharT>::abcd();
+		string_view sv{str};
+		const_reference r = sv.back();
+		VERIFY(r == str[3]);
+	}
+	return true;
 }
-
 TYPED_TEST(StringViewTest, BackTest)
 {
 	using CharT = TypeParam;
-	using string_view = bksge::basic_string_view<CharT>;
-	using const_reference = typename string_view::const_reference;
-
-	{
-		BKSGE_STATIC_CONSTEXPR auto str = StringViewTestHelper<CharT>::foo_bar();
-		BKSGE_CONSTEXPR_OR_CONST string_view sv{str, 7};
-		const const_reference r = sv.back();
-		EXPECT_TRUE(str[6] == r);
-	}
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(BackTest<CharT>());
 }
 
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool DataTest()
+{
+	using string_view = bksge::basic_string_view<CharT>;
+	using Helper = StringViewTestHelper<CharT>;
+
+	{
+		string_view sv{Helper::foo_bar()};
+		VERIFY(sv.data() == Helper::foo_bar());
+	}
+	{
+		string_view sv{Helper::aababc()};
+		VERIFY(sv.data() == Helper::aababc());
+	}
+	{
+		string_view sv{Helper::abcd()};
+		VERIFY(sv.data() == Helper::abcd());
+	}
+	{
+		string_view sv;
+		VERIFY(sv.data() == nullptr);
+	}
+	return true;
+}
 TYPED_TEST(StringViewTest, DataTest)
 {
 	using CharT = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(DataTest<CharT>());
+}
+
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool SizeTest()
+{
 	using string_view = bksge::basic_string_view<CharT>;
 	using Helper = StringViewTestHelper<CharT>;
 
 	{
 		string_view sv{Helper::foo_bar()};
-		EXPECT_TRUE(Helper::foo_bar() == sv.data());
+		VERIFY(sv.size() == 7);
 	}
 	{
 		string_view sv{Helper::aababc()};
-		EXPECT_TRUE(Helper::aababc() == sv.data());
+		VERIFY(sv.size() == 6);
 	}
 	{
 		string_view sv{Helper::abcd()};
-		EXPECT_TRUE(Helper::abcd() == sv.data());
+		VERIFY(sv.size() == 4);
 	}
 	{
 		string_view sv;
-		EXPECT_TRUE(nullptr == sv.data());
+		VERIFY(sv.size() == 0);
 	}
+	return true;
 }
-
 TYPED_TEST(StringViewTest, SizeTest)
 {
 	using CharT = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(SizeTest<CharT>());
+}
+
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool LengthTest()
+{
 	using string_view = bksge::basic_string_view<CharT>;
 	using Helper = StringViewTestHelper<CharT>;
 
 	{
 		string_view sv{Helper::foo_bar()};
-		EXPECT_EQ(7u, sv.size());
+		VERIFY(sv.length() == 7);
 	}
 	{
 		string_view sv{Helper::aababc()};
-		EXPECT_EQ(6u, sv.size());
+		VERIFY(sv.length() == 6);
 	}
 	{
 		string_view sv{Helper::abcd()};
-		EXPECT_EQ(4u, sv.size());
+		VERIFY(sv.length() == 4);
 	}
 	{
 		string_view sv;
-		EXPECT_EQ(0u, sv.size());
+		VERIFY(sv.length() == 0);
 	}
+	return true;
 }
-
 TYPED_TEST(StringViewTest, LengthTest)
 {
 	using CharT = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(LengthTest<CharT>());
+}
+
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool MaxSizeTest()
+{
 	using string_view = bksge::basic_string_view<CharT>;
 	using Helper = StringViewTestHelper<CharT>;
 
 	{
 		string_view sv{Helper::foo_bar()};
-		EXPECT_EQ(7u, sv.length());
+		VERIFY(sv.max_size() >= sv.size());
 	}
 	{
 		string_view sv{Helper::aababc()};
-		EXPECT_EQ(6u, sv.length());
+		VERIFY(sv.max_size() >= sv.size());
 	}
 	{
 		string_view sv{Helper::abcd()};
-		EXPECT_EQ(4u, sv.length());
+		VERIFY(sv.max_size() >= sv.size());
 	}
 	{
 		string_view sv;
-		EXPECT_EQ(0u, sv.length());
+		VERIFY(sv.max_size() >= sv.size());
 	}
+	return true;
 }
-
 TYPED_TEST(StringViewTest, MaxSizeTest)
 {
 	using CharT = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(MaxSizeTest<CharT>());
+}
+
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool EmptyTest()
+{
 	using string_view = bksge::basic_string_view<CharT>;
 	using Helper = StringViewTestHelper<CharT>;
 
 	{
 		string_view sv{Helper::foo_bar()};
-		EXPECT_TRUE(sv.max_size() >= sv.size());
+		VERIFY(!sv.empty());
 	}
 	{
 		string_view sv{Helper::aababc()};
-		EXPECT_TRUE(sv.max_size() >= sv.size());
+		VERIFY(!sv.empty());
 	}
 	{
 		string_view sv{Helper::abcd()};
-		EXPECT_TRUE(sv.max_size() >= sv.size());
+		VERIFY(!sv.empty());
 	}
 	{
 		string_view sv;
-		EXPECT_TRUE(sv.max_size() >= sv.size());
+		VERIFY(sv.empty());
 	}
+	return true;
 }
-
 TYPED_TEST(StringViewTest, EmptyTest)
 {
 	using CharT = TypeParam;
-	using string_view = bksge::basic_string_view<CharT>;
-	using Helper = StringViewTestHelper<CharT>;
-
-	{
-		string_view sv{Helper::foo_bar()};
-		EXPECT_FALSE(sv.empty());
-	}
-	{
-		string_view sv{Helper::aababc()};
-		EXPECT_FALSE(sv.empty());
-	}
-	{
-		string_view sv{Helper::abcd()};
-		EXPECT_FALSE(sv.empty());
-	}
-	{
-		string_view sv;
-		EXPECT_TRUE(sv.empty());
-	}
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(EmptyTest<CharT>());
 }
 
-TYPED_TEST(StringViewTest, RemovePrefixTest)
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool RemovePrefixTest()
 {
-	using CharT = TypeParam;
 	using string_view = bksge::basic_string_view<CharT>;
 
 	{
 		auto str = StringViewTestHelper<CharT>::foo_bar();
-		string_view sv{str, 7};
+		string_view sv{str};
 
-		EXPECT_TRUE(str == sv.data());
-		EXPECT_EQ(7u, sv.length());
+		VERIFY(sv.data() == str);
+		VERIFY(sv.length() == 7);
 
 		sv.remove_prefix(1);
 
-		EXPECT_TRUE(str + 1 == sv.data());
-		EXPECT_EQ(6u, sv.length());
+		VERIFY(sv.data() == str + 1);
+		VERIFY(sv.length() == 6);
 
 		sv.remove_prefix(2);
 
-		EXPECT_TRUE(str + 3 == sv.data());
-		EXPECT_EQ(4u, sv.length());
+		VERIFY(sv.data() == str + 3);
+		VERIFY(sv.length() == 4);
 	}
+	return true;
 }
-
-TYPED_TEST(StringViewTest, RemoveSuffixTest)
+TYPED_TEST(StringViewTest, RemovePrefixTest)
 {
 	using CharT = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(RemovePrefixTest<CharT>());
+}
+
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool RemoveSuffixTest()
+{
 	using string_view = bksge::basic_string_view<CharT>;
 
 	{
 		auto str = StringViewTestHelper<CharT>::foo_bar();
-		string_view sv{str, 7};
+		string_view sv{str};
 
-		EXPECT_TRUE(str == sv.data());
-		EXPECT_EQ(7u, sv.length());
+		VERIFY(sv.data() == str);
+		VERIFY(sv.length() == 7);
 
 		sv.remove_suffix(1);
 
-		EXPECT_TRUE(str == sv.data());
-		EXPECT_EQ(6u, sv.length());
+		VERIFY(sv.data() == str);
+		VERIFY(sv.length() == 6);
 
 		sv.remove_suffix(2);
 
-		EXPECT_TRUE(str == sv.data());
-		EXPECT_EQ(4u, sv.length());
+		VERIFY(sv.data() == str);
+		VERIFY(sv.length() == 4);
 	}
+	return true;
 }
-
-TYPED_TEST(StringViewTest, SwapTest)
+TYPED_TEST(StringViewTest, RemoveSuffixTest)
 {
 	using CharT = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(RemoveSuffixTest<CharT>());
+}
+
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool SwapTest()
+{
 	using string_view = bksge::basic_string_view<CharT>;
 	using Helper = StringViewTestHelper<CharT>;
 
-	string_view sv1{Helper::aababc(), 6};
-	string_view sv2{Helper::foo_bar(), 7};
+	string_view sv1{Helper::aababc()};
+	string_view sv2{Helper::foo_bar()};
 
-	EXPECT_TRUE(Helper::aababc() == sv1.data());
-	EXPECT_EQ(6u, sv1.length());
-	EXPECT_TRUE(Helper::foo_bar() == sv2.data());
-	EXPECT_EQ(7u, sv2.length());
+	VERIFY(sv1.data() == Helper::aababc());
+	VERIFY(sv2.data() == Helper::foo_bar());
+	VERIFY(sv1.length() == 6);
+	VERIFY(sv2.length() == 7);
 
 	sv1.swap(sv2);
 
-	EXPECT_TRUE(Helper::foo_bar() == sv1.data());
-	EXPECT_EQ(7u, sv1.length());
-	EXPECT_TRUE(Helper::aababc() == sv2.data());
-	EXPECT_EQ(6u, sv2.length());
+	VERIFY(sv1.data() == Helper::foo_bar());
+	VERIFY(sv2.data() == Helper::aababc());
+	VERIFY(sv1.length() == 7);
+	VERIFY(sv2.length() == 6);
 
 	bksge::swap(sv1, sv2);
 
-	EXPECT_TRUE(Helper::aababc() == sv1.data());
-	EXPECT_EQ(6u, sv1.length());
-	EXPECT_TRUE(Helper::foo_bar() == sv2.data());
-	EXPECT_EQ(7u, sv2.length());
+	VERIFY(sv1.data() == Helper::aababc());
+	VERIFY(sv2.data() == Helper::foo_bar());
+	VERIFY(sv1.length() == 6);
+	VERIFY(sv2.length() == 7);
+
+	return true;
+}
+TYPED_TEST(StringViewTest, SwapTest)
+{
+	using CharT = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(SwapTest<CharT>());
 }
 
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool CopyTest()
+{
+	using string_view = bksge::basic_string_view<CharT>;
+
+	auto str = StringViewTestHelper<CharT>::foo_bar();
+	string_view sv{str};
+
+	{
+		CharT buffer[16] {};
+		auto len = sv.copy(buffer, 7);
+		VERIFY(len == 7);
+		VERIFY(str[0] == buffer[0]);
+	}
+	{
+		CharT buffer[16] {};
+		auto len = sv.copy(buffer, 7, 1);
+		VERIFY(len == 6);
+		VERIFY(str[1] == buffer[0]);
+	}
+	{
+		CharT buffer[16] {};
+		auto len = sv.copy(buffer, 3, 1);
+		VERIFY(len == 3);
+		VERIFY(str[1] == buffer[0]);
+	}
+	{
+		CharT buffer[16] {};
+		auto len = sv.copy(buffer, 7, 6);
+		VERIFY(len == 1);
+		VERIFY(str[6] == buffer[0]);
+	}
+	{
+		CharT buffer[16] {};
+		auto len = sv.copy(buffer, 7, 7);
+		VERIFY(len == 0);
+		VERIFY(str[7] == buffer[0]);
+	}
+	return true;
+}
 TYPED_TEST(StringViewTest, CopyTest)
 {
 	using CharT = TypeParam;
 	using string_view = bksge::basic_string_view<CharT>;
 
-	auto str = StringViewTestHelper<CharT>::foo_bar();
-	string_view sv{str, 7};
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(CopyTest<CharT>());
 
 	{
-		CharT buffer[16] {};
-		auto len = sv.copy(buffer, 7);
-		EXPECT_TRUE(str[0] == buffer[0]);
-		EXPECT_EQ(7u, len);
-	}
-	{
-		CharT buffer[16] {};
-		auto len = sv.copy(buffer, 7, 1);
-		EXPECT_TRUE(str[1] == buffer[0]);
-		EXPECT_EQ(6u, len);
-	}
-	{
-		CharT buffer[16] {};
-		auto len = sv.copy(buffer, 3, 1);
-		EXPECT_TRUE(str[1] == buffer[0]);
-		EXPECT_EQ(3u, len);
-	}
-	{
-		CharT buffer[16] {};
-		auto len = sv.copy(buffer, 7, 6);
-		EXPECT_TRUE(str[6] == buffer[0]);
-		EXPECT_EQ(1u, len);
-	}
-	{
-		CharT buffer[16] {};
-		auto len = sv.copy(buffer, 7, 7);
-		EXPECT_TRUE(str[7] == buffer[0]);
-		EXPECT_EQ(0u, len);
-	}
-	{
+		auto str = StringViewTestHelper<CharT>::foo_bar();
+		string_view sv{str};
 		CharT buffer[16] {};
 		EXPECT_THROW(sv.copy(buffer, 7, 8), bksge::out_of_range);
 	}
 }
 
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool SubStrTest()
+{
+	using string_view = bksge::basic_string_view<CharT>;
+	
+	const auto str = StringViewTestHelper<CharT>::foo_bar();
+	const string_view sv1{str};
+	{
+		const string_view sv2 = sv1.substr();
+		VERIFY(sv2.data() == str);
+		VERIFY(sv2.length() == 7);
+	}
+	{
+		const string_view sv2 = sv1.substr(2);
+		VERIFY(sv2.data() == str + 2);
+		VERIFY(sv2.length() == 5);
+	}
+	{
+		const string_view sv2 = sv1.substr(2, 3);
+		VERIFY(sv2.data() == str + 2);
+		VERIFY(sv2.length() == 3);
+	}
+	{
+		const string_view sv2 = sv1.substr(7, 10);
+		VERIFY(sv2.data() == str + 7);
+		VERIFY(sv2.length() == 0);
+	}
+	return true;
+}
 TYPED_TEST(StringViewTest, SubStrTest)
 {
 	using CharT = TypeParam;
 	using string_view = bksge::basic_string_view<CharT>;
+
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(SubStrTest<CharT>());
 	
-	const auto str = StringViewTestHelper<CharT>::foo_bar();
-	const string_view sv1{str, 7};
 	{
-		const string_view sv2 = sv1.substr();
-		EXPECT_TRUE(str == sv2.data());
-		EXPECT_EQ(7u, sv2.length());
-	}
-	{
-		const string_view sv2 = sv1.substr(2);
-		EXPECT_TRUE(str + 2 == sv2.data());
-		EXPECT_EQ(5u, sv2.length());
-	}
-	{
-		const string_view sv2 = sv1.substr(2, 3);
-		EXPECT_TRUE(str + 2 == sv2.data());
-		EXPECT_EQ(3u, sv2.length());
-	}
-	{
-		const string_view sv2 = sv1.substr(7, 10);
-		EXPECT_TRUE(str + 7 == sv2.data());
-		EXPECT_EQ(0u, sv2.length());
-	}
-	{
+		const auto str = StringViewTestHelper<CharT>::foo_bar();
+		const string_view sv1{str};
 		EXPECT_THROW((void)sv1.substr(8), bksge::out_of_range);
 	}
 }
 
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool CompareTest()
+{
+	using string_view = bksge::basic_string_view<CharT>;
+
+	auto const str = StringViewTestHelper<CharT>::foo_bar();
+	string_view const sv1{str, 7};
+	string_view const sv2{str, 6};
+	string_view const sv3{str, 6};
+	string_view const sv4{str, 5};
+	string_view const sv5{str + 1, 2};
+	string_view const sv6{str + 1, 3};
+	string_view const sv7{str + 1, 3};
+	string_view const sv8{str + 1, 4};
+
+	// (1)
+	VERIFY(sv2.compare(sv1) <  0);
+	VERIFY(sv2.compare(sv2) == 0);
+	VERIFY(sv2.compare(sv3) == 0);
+	VERIFY(sv2.compare(sv4) >  0);
+	VERIFY(sv2.compare(sv5) <  0);
+	VERIFY(sv2.compare(sv6) <  0);
+	VERIFY(sv2.compare(sv7) <  0);
+	VERIFY(sv2.compare(sv8) <  0);
+
+	VERIFY(sv6.compare(sv1) >  0);
+	VERIFY(sv6.compare(sv2) >  0);
+	VERIFY(sv6.compare(sv3) >  0);
+	VERIFY(sv6.compare(sv4) >  0);
+	VERIFY(sv6.compare(sv5) >  0);
+	VERIFY(sv6.compare(sv6) == 0);
+	VERIFY(sv6.compare(sv7) == 0);
+	VERIFY(sv6.compare(sv8) <  0);
+
+	// (2)
+	VERIFY(sv1.compare(0, 8, sv1) == 0);
+	VERIFY(sv1.compare(0, 6, sv1) <  0);
+	VERIFY(sv1.compare(1, 3, sv1) >  0);
+	VERIFY(sv1.compare(0, 6, sv2) == 0);
+	VERIFY(sv1.compare(1, 3, sv6) == 0);
+
+	// (3)
+	VERIFY(sv1.compare(0, 7, sv1, 0, 7) == 0);
+	VERIFY(sv1.compare(0, 6, sv1, 0, 6) == 0);
+	VERIFY(sv1.compare(0, 7, sv1, 0, 8) == 0);
+	VERIFY(sv1.compare(0, 6, sv1, 0, 7) <  0);
+	VERIFY(sv1.compare(0, 7, sv1, 0, 6) >  0);
+	VERIFY(sv1.compare(1, 6, sv1, 0, 6) >  0);
+	VERIFY(sv1.compare(0, 6, sv1, 1, 6) <  0);
+	VERIFY(sv1.compare(2, 2, sv6, 1, 2) == 0);
+
+	// (4)
+	VERIFY(sv1.compare(str) == 0);
+	VERIFY(sv1.compare(str + 1) < 0);
+	VERIFY(sv1.compare(str + 4) > 0);
+
+	// (5)
+	VERIFY(sv1.compare(1, 7, str + 1) == 0);
+	VERIFY(sv1.compare(1, 6, str + 1) == 0);
+	VERIFY(sv1.compare(1, 5, str + 1) <  0);
+	VERIFY(sv1.compare(1, 5, str)     >  0);
+
+	// (6)
+	VERIFY(sv1.compare(1, 6, str + 1, 6) == 0);
+	VERIFY(sv1.compare(1, 5, str + 1, 6) <  0);
+	VERIFY(sv1.compare(1, 6, str + 1, 5) >  0);
+	VERIFY(sv1.compare(0, 6, str + 1, 6) <  0);
+	VERIFY(sv1.compare(1, 6, str + 0, 6) >  0);
+
+	return true;
+}
 TYPED_TEST(StringViewTest, CompareTest)
 {
 	using CharT = TypeParam;
-	using string_view = bksge::basic_string_view<CharT>;
-
-	BKSGE_STATIC_CONSTEXPR auto str = StringViewTestHelper<CharT>::foo_bar();
-	BKSGE_CONSTEXPR_OR_CONST string_view sv1{str, 7};
-	BKSGE_CONSTEXPR_OR_CONST string_view sv2{str, 6};
-	BKSGE_CONSTEXPR_OR_CONST string_view sv3{str, 6};
-	BKSGE_CONSTEXPR_OR_CONST string_view sv4{str, 5};
-	BKSGE_CONSTEXPR_OR_CONST string_view sv5{str + 1, 2};
-	BKSGE_CONSTEXPR_OR_CONST string_view sv6{str + 1, 3};
-	BKSGE_CONSTEXPR_OR_CONST string_view sv7{str + 1, 3};
-	BKSGE_CONSTEXPR_OR_CONST string_view sv8{str + 1, 4};
-
-	// (1)
-	EXPECT_TRUE(sv2.compare(sv1) <  0);
-	EXPECT_TRUE(sv2.compare(sv2) == 0);
-	EXPECT_TRUE(sv2.compare(sv3) == 0);
-	EXPECT_TRUE(sv2.compare(sv4) >  0);
-	EXPECT_TRUE(sv2.compare(sv5) <  0);
-	EXPECT_TRUE(sv2.compare(sv6) <  0);
-	EXPECT_TRUE(sv2.compare(sv7) <  0);
-	EXPECT_TRUE(sv2.compare(sv8) <  0);
-
-	EXPECT_TRUE(sv6.compare(sv1) >  0);
-	EXPECT_TRUE(sv6.compare(sv2) >  0);
-	EXPECT_TRUE(sv6.compare(sv3) >  0);
-	EXPECT_TRUE(sv6.compare(sv4) >  0);
-	EXPECT_TRUE(sv6.compare(sv5) >  0);
-	EXPECT_TRUE(sv6.compare(sv6) == 0);
-	EXPECT_TRUE(sv6.compare(sv7) == 0);
-	EXPECT_TRUE(sv6.compare(sv8) <  0);
-
-	// (2)
-	EXPECT_TRUE(sv1.compare(0, 8, sv1) == 0);
-	EXPECT_TRUE(sv1.compare(0, 6, sv1) <  0);
-	EXPECT_TRUE(sv1.compare(1, 3, sv1) >  0);
-	EXPECT_TRUE(sv1.compare(0, 6, sv2) == 0);
-	EXPECT_TRUE(sv1.compare(1, 3, sv6) == 0);
-
-	// (3)
-	EXPECT_TRUE(sv1.compare(0, 7, sv1, 0, 7) == 0);
-	EXPECT_TRUE(sv1.compare(0, 6, sv1, 0, 6) == 0);
-	EXPECT_TRUE(sv1.compare(0, 7, sv1, 0, 8) == 0);
-	EXPECT_TRUE(sv1.compare(0, 6, sv1, 0, 7) <  0);
-	EXPECT_TRUE(sv1.compare(0, 7, sv1, 0, 6) >  0);
-	EXPECT_TRUE(sv1.compare(1, 6, sv1, 0, 6) >  0);
-	EXPECT_TRUE(sv1.compare(0, 6, sv1, 1, 6) <  0);
-	EXPECT_TRUE(sv1.compare(2, 2, sv6, 1, 2) == 0);
-
-	// (4)
-	EXPECT_TRUE(sv1.compare(str) == 0);
-	EXPECT_TRUE(sv1.compare(str + 1) < 0);
-	EXPECT_TRUE(sv1.compare(str + 4) > 0);
-
-	// (5)
-	EXPECT_TRUE(sv1.compare(1, 7, str + 1) == 0);
-	EXPECT_TRUE(sv1.compare(1, 6, str + 1) == 0);
-	EXPECT_TRUE(sv1.compare(1, 5, str + 1) <  0);
-	EXPECT_TRUE(sv1.compare(1, 5, str)     >  0);
-
-	// (6)
-	EXPECT_TRUE(sv1.compare(1, 6, str + 1, 6) == 0);
-	EXPECT_TRUE(sv1.compare(1, 5, str + 1, 6) <  0);
-	EXPECT_TRUE(sv1.compare(1, 6, str + 1, 5) >  0);
-	EXPECT_TRUE(sv1.compare(0, 6, str + 1, 6) <  0);
-	EXPECT_TRUE(sv1.compare(1, 6, str + 0, 6) >  0);
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(CompareTest<CharT>());
 }
 
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool StartsWithTest()
+{
+	using string_view = bksge::basic_string_view<CharT>;
+	using Helper = StringViewTestHelper<CharT>;
+
+	{
+		string_view const sv{Helper::abcd()};
+
+		// (1)
+		VERIFY( (sv.starts_with(string_view{Helper::aababc(), 1})));
+		VERIFY(!(sv.starts_with(string_view{Helper::aababc(), 2})));
+		VERIFY( (sv.starts_with(string_view{Helper::ab()})));
+		VERIFY(!(sv.starts_with(string_view{Helper::cd()})));
+
+		// (2)
+		VERIFY( (sv.starts_with(Helper::aababc()[0])));
+		VERIFY( (sv.starts_with(Helper::aababc()[1])));
+		VERIFY(!(sv.starts_with(Helper::aababc()[2])));
+		VERIFY(!(sv.starts_with(Helper::cd()[0])));
+
+		// (3)
+		VERIFY( (sv.starts_with(Helper::abcd())));
+		VERIFY( (sv.starts_with(Helper::ab())));
+		VERIFY(!(sv.starts_with(Helper::cd())));
+		VERIFY(!(sv.starts_with(Helper::aababc())));
+	}
+	return true;
+}
 TYPED_TEST(StringViewTest, StartsWithTest)
 {
-#if (BKSGE_CXX_STANDARD >= 20 && defined(__cpp_lib_starts_ends_with) && (__cpp_lib_starts_ends_with >= 201711))
 	using CharT = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(StartsWithTest<CharT>());
+}
+
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool EndsWithTest()
+{
 	using string_view = bksge::basic_string_view<CharT>;
 	using Helper = StringViewTestHelper<CharT>;
 
 	{
-		BKSGE_CXX17_CONSTEXPR_OR_CONST string_view sv{Helper::abcd(), 4};
-		BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE (sv.starts_with(Helper::abcd()));
-		BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE (sv.starts_with(Helper::ab()));
-		BKSGE_CXX17_CONSTEXPR_EXPECT_FALSE(sv.starts_with(Helper::cd()));
-		BKSGE_CXX17_CONSTEXPR_EXPECT_FALSE(sv.starts_with(Helper::aababc()));
-		BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE (sv.starts_with(Helper::aababc()[0]));
-		BKSGE_CXX17_CONSTEXPR_EXPECT_FALSE(sv.starts_with(Helper::aababc()[2]));
-		BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE (sv.starts_with(string_view{Helper::aababc(), 1}));
-		BKSGE_CXX17_CONSTEXPR_EXPECT_FALSE(sv.starts_with(string_view{Helper::aababc(), 2}));
-	}
-#endif
-}
+		string_view const sv{Helper::abcd()};
 
+		// (1)
+		VERIFY(!(sv.ends_with(string_view{Helper::aababc(), 1})));
+		VERIFY(!(sv.ends_with(string_view{Helper::aababc(), 2})));
+		VERIFY(!(sv.ends_with(string_view{Helper::ab()})));
+		VERIFY( (sv.ends_with(string_view{Helper::cd()})));
+
+		// (2)
+		VERIFY(!(sv.ends_with(Helper::aababc()[0])));
+		VERIFY(!(sv.ends_with(Helper::aababc()[2])));
+		VERIFY(!(sv.ends_with(Helper::abcd()[2])));
+		VERIFY( (sv.ends_with(Helper::abcd()[3])));
+
+		// (3)
+		VERIFY( (sv.ends_with(Helper::abcd())));
+		VERIFY(!(sv.ends_with(Helper::ab())));
+		VERIFY( (sv.ends_with(Helper::cd())));
+		VERIFY(!(sv.ends_with(Helper::aababc())));
+	}
+	return true;
+}
 TYPED_TEST(StringViewTest, EndsWithTest)
 {
-#if (BKSGE_CXX_STANDARD >= 20 && defined(__cpp_lib_starts_ends_with) && (__cpp_lib_starts_ends_with >= 201711))
 	using CharT = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(EndsWithTest<CharT>());
+}
+
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool ContainsTest()
+{
 	using string_view = bksge::basic_string_view<CharT>;
 	using Helper = StringViewTestHelper<CharT>;
 
-	{
-		BKSGE_CXX17_CONSTEXPR_OR_CONST string_view sv{Helper::abcd(), 4};
-		BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE (sv.ends_with(Helper::abcd()));
-		BKSGE_CXX17_CONSTEXPR_EXPECT_FALSE(sv.ends_with(Helper::ab()));
-		BKSGE_CXX17_CONSTEXPR_EXPECT_TRUE (sv.ends_with(Helper::cd()));
-		BKSGE_CXX17_CONSTEXPR_EXPECT_FALSE(sv.ends_with(Helper::aababc()));
-		BKSGE_CXX17_CONSTEXPR_EXPECT_FALSE(sv.ends_with(Helper::aababc()[0]));
-		BKSGE_CXX17_CONSTEXPR_EXPECT_FALSE(sv.ends_with(Helper::aababc()[2]));
-		BKSGE_CXX17_CONSTEXPR_EXPECT_FALSE(sv.ends_with(string_view{Helper::aababc(), 1}));
-		BKSGE_CXX17_CONSTEXPR_EXPECT_FALSE(sv.ends_with(string_view{Helper::aababc(), 2}));
-	}
-#endif
+	string_view const sv1{Helper::aababc(), 6};	// "aababc"
+
+	// (1)
+	VERIFY( sv1.contains(string_view{Helper::abcd(), 2}));	// "ab"
+	VERIFY( sv1.contains(string_view{Helper::abcd(), 3}));	// "abc"
+	VERIFY(!sv1.contains(string_view{Helper::abcd(), 4}));	// "abcd"
+	VERIFY( sv1.contains(string_view{Helper::aababc()}));	// "aababc"
+
+	// (2)
+	VERIFY( sv1.contains(Helper::abcd()[0]));	// 'a'
+	VERIFY( sv1.contains(Helper::abcd()[1]));	// 'b'
+	VERIFY( sv1.contains(Helper::abcd()[2]));	// 'c'
+	VERIFY(!sv1.contains(Helper::abcd()[3]));	// 'd'
+
+	// (3)
+	VERIFY( sv1.contains(Helper::ab()));		// "ab"
+	VERIFY(!sv1.contains(Helper::cd()));		// "cd"
+	VERIFY(!sv1.contains(Helper::abcd()));		// "abcd"
+	VERIFY( sv1.contains(Helper::aababc()));	// "aababc"
+
+	return true;
+}
+TYPED_TEST(StringViewTest, ContainsTest)
+{
+	using CharT = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(ContainsTest<CharT>());
 }
 
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool FindTest()
+{
+	using string_view = bksge::basic_string_view<CharT>;
+	using Helper = StringViewTestHelper<CharT>;
+
+	auto const npos = string_view::npos;
+
+	string_view const sv1{Helper::aababc(), 6};	// "aababc"
+	string_view const sv2{Helper::abcd(), 1};	// "a"
+	string_view const sv3{Helper::abcd(), 2};	// "ab"
+	string_view const sv4{Helper::abcd(), 3};	// "abc"
+	string_view const sv5{Helper::abcd(), 4};	// "abcd"
+
+	// (1)
+	VERIFY(  0u == sv1.find(sv2));
+	VERIFY(  1u == sv1.find(sv3));
+	VERIFY(  3u == sv1.find(sv4));
+	VERIFY(npos == sv1.find(sv5));
+	VERIFY(  1u == sv1.find(sv2, 1));
+	VERIFY(  1u == sv1.find(sv3, 1));
+	VERIFY(  3u == sv1.find(sv4, 1));
+	VERIFY(npos == sv1.find(sv5, 1));
+	VERIFY(  3u == sv1.find(sv2, 2));
+	VERIFY(  3u == sv1.find(sv3, 2));
+	VERIFY(  3u == sv1.find(sv4, 2));
+	VERIFY(npos == sv1.find(sv5, 2));
+
+	// (2)
+	VERIFY(  0u == sv1.find(Helper::abcd()[0]));
+	VERIFY(  2u == sv1.find(Helper::abcd()[1]));
+	VERIFY(  5u == sv1.find(Helper::abcd()[2]));
+	VERIFY(npos == sv1.find(Helper::abcd()[3]));
+	VERIFY(  2u == sv1.find(Helper::abcd()[1], 2));
+	VERIFY(  4u == sv1.find(Helper::abcd()[1], 3));
+	VERIFY(  4u == sv1.find(Helper::abcd()[1], 4));
+	VERIFY(npos == sv1.find(Helper::abcd()[1], 5));
+
+	// (3)
+	VERIFY(  0u == sv1.find(Helper::abcd(), 0, 0));
+	VERIFY(  0u == sv1.find(Helper::abcd(), 0, 1));
+	VERIFY(  1u == sv1.find(Helper::abcd(), 0, 2));
+	VERIFY(  3u == sv1.find(Helper::abcd(), 0, 3));
+	VERIFY(npos == sv1.find(Helper::abcd(), 0, 4));
+	VERIFY(  2u == sv1.find(Helper::abcd(), 2, 0));
+	VERIFY(  3u == sv1.find(Helper::abcd(), 2, 1));
+	VERIFY(  3u == sv1.find(Helper::abcd(), 2, 2));
+	VERIFY(  3u == sv1.find(Helper::abcd(), 2, 3));
+	VERIFY(npos == sv1.find(Helper::abcd(), 2, 4));
+
+	// (4)
+	VERIFY(npos == sv1.find(Helper::abcd()));
+	VERIFY(  1u == sv1.find(Helper::ab()));
+	VERIFY(  1u == sv1.find(Helper::ab(), 1));
+	VERIFY(  3u == sv1.find(Helper::ab(), 2));
+	VERIFY(  3u == sv1.find(Helper::ab(), 3));
+	VERIFY(npos == sv1.find(Helper::ab(), 4));
+	VERIFY(npos == sv1.find(Helper::ab(), 5));
+
+	return true;
+}
 TYPED_TEST(StringViewTest, FindTest)
 {
 	using CharT = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(FindTest<CharT>());
+}
+
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool RFindTest()
+{
 	using string_view = bksge::basic_string_view<CharT>;
 	using Helper = StringViewTestHelper<CharT>;
 
-	BKSGE_CONSTEXPR_OR_CONST auto npos = string_view::npos;
+	auto const npos = string_view::npos;
 
-	BKSGE_CONSTEXPR_OR_CONST string_view sv1{Helper::aababc(), 6};	// "aababc"
-	BKSGE_CONSTEXPR_OR_CONST string_view sv2{Helper::abcd(), 1};	// "a"
-	BKSGE_CONSTEXPR_OR_CONST string_view sv3{Helper::abcd(), 2};	// "ab"
-	BKSGE_CONSTEXPR_OR_CONST string_view sv4{Helper::abcd(), 3};	// "abc"
-	BKSGE_CONSTEXPR_OR_CONST string_view sv5{Helper::abcd(), 4};	// "abcd"
+	string_view const sv1{Helper::aababc(), 6};	// "aababc"
+	string_view const sv2{Helper::abcd(), 1};	// "a"
+	string_view const sv3{Helper::abcd(), 2};	// "ab"
+	string_view const sv4{Helper::abcd(), 3};	// "abc"
+	string_view const sv5{Helper::abcd(), 4};	// "abcd"
 
 	// (1)
-	EXPECT_EQ(  0u, sv1.find(sv2));
-	EXPECT_EQ(  1u, sv1.find(sv3));
-	EXPECT_EQ(  3u, sv1.find(sv4));
-	EXPECT_EQ(npos, sv1.find(sv5));
-	EXPECT_EQ(  1u, sv1.find(sv2, 1));
-	EXPECT_EQ(  1u, sv1.find(sv3, 1));
-	EXPECT_EQ(  3u, sv1.find(sv4, 1));
-	EXPECT_EQ(npos, sv1.find(sv5, 1));
-	EXPECT_EQ(  3u, sv1.find(sv2, 2));
-	EXPECT_EQ(  3u, sv1.find(sv3, 2));
-	EXPECT_EQ(  3u, sv1.find(sv4, 2));
-	EXPECT_EQ(npos, sv1.find(sv5, 2));
+	VERIFY(  0u == sv1.rfind(sv1));
+	VERIFY(  3u == sv1.rfind(sv2));
+	VERIFY(  3u == sv1.rfind(sv3));
+	VERIFY(  3u == sv1.rfind(sv4));
+	VERIFY(npos == sv1.rfind(sv5));
+	VERIFY(  0u == sv1.rfind(sv1, 0));
+	VERIFY(  0u == sv1.rfind(sv2, 0));
+	VERIFY(npos == sv1.rfind(sv3, 0));
+	VERIFY(npos == sv1.rfind(sv4, 0));
+	VERIFY(npos == sv1.rfind(sv5, 0));
+	VERIFY(  0u == sv1.rfind(sv1, 1));
+	VERIFY(  1u == sv1.rfind(sv2, 1));
+	VERIFY(  1u == sv1.rfind(sv3, 1));
+	VERIFY(npos == sv1.rfind(sv4, 1));
+	VERIFY(npos == sv1.rfind(sv5, 1));
+	VERIFY(  0u == sv1.rfind(sv1, 3));
+	VERIFY(  3u == sv1.rfind(sv2, 3));
+	VERIFY(  3u == sv1.rfind(sv3, 3));
+	VERIFY(  3u == sv1.rfind(sv4, 3));
+	VERIFY(npos == sv1.rfind(sv5, 3));
 
 	// (2)
-	EXPECT_EQ(  0u, sv1.find(Helper::abcd()[0]));
-	EXPECT_EQ(  2u, sv1.find(Helper::abcd()[1]));
-	EXPECT_EQ(  5u, sv1.find(Helper::abcd()[2]));
-	EXPECT_EQ(npos, sv1.find(Helper::abcd()[3]));
-	EXPECT_EQ(  2u, sv1.find(Helper::abcd()[1], 2));
-	EXPECT_EQ(  4u, sv1.find(Helper::abcd()[1], 3));
-	EXPECT_EQ(  4u, sv1.find(Helper::abcd()[1], 4));
-	EXPECT_EQ(npos, sv1.find(Helper::abcd()[1], 5));
+	VERIFY(  3u == sv1.rfind(Helper::abcd()[0]));
+	VERIFY(  4u == sv1.rfind(Helper::abcd()[1]));
+	VERIFY(  5u == sv1.rfind(Helper::abcd()[2]));
+	VERIFY(npos == sv1.rfind(Helper::abcd()[3]));
+	VERIFY(  0u == sv1.rfind(Helper::abcd()[0], 0));
+	VERIFY(npos == sv1.rfind(Helper::abcd()[1], 0));
+	VERIFY(npos == sv1.rfind(Helper::abcd()[2], 0));
+	VERIFY(npos == sv1.rfind(Helper::abcd()[3], 0));
+	VERIFY(  1u == sv1.rfind(Helper::abcd()[0], 1));
+	VERIFY(npos == sv1.rfind(Helper::abcd()[1], 1));
+	VERIFY(npos == sv1.rfind(Helper::abcd()[2], 1));
+	VERIFY(npos == sv1.rfind(Helper::abcd()[3], 1));
+	VERIFY(  1u == sv1.rfind(Helper::abcd()[0], 2));
+	VERIFY(  2u == sv1.rfind(Helper::abcd()[1], 2));
+	VERIFY(npos == sv1.rfind(Helper::abcd()[2], 2));
+	VERIFY(npos == sv1.rfind(Helper::abcd()[3], 2));
+	VERIFY(  3u == sv1.rfind(Helper::abcd()[0], 4));
+	VERIFY(  4u == sv1.rfind(Helper::abcd()[1], 4));
+	VERIFY(npos == sv1.rfind(Helper::abcd()[2], 4));
+	VERIFY(npos == sv1.rfind(Helper::abcd()[3], 4));
+	VERIFY(  3u == sv1.rfind(Helper::abcd()[0], 5));
+	VERIFY(  4u == sv1.rfind(Helper::abcd()[1], 5));
+	VERIFY(  5u == sv1.rfind(Helper::abcd()[2], 5));
+	VERIFY(npos == sv1.rfind(Helper::abcd()[3], 5));
 
 	// (3)
-	EXPECT_EQ(  0u, sv1.find(Helper::abcd(), 0, 0));
-	EXPECT_EQ(  0u, sv1.find(Helper::abcd(), 0, 1));
-	EXPECT_EQ(  1u, sv1.find(Helper::abcd(), 0, 2));
-	EXPECT_EQ(  3u, sv1.find(Helper::abcd(), 0, 3));
-	EXPECT_EQ(npos, sv1.find(Helper::abcd(), 0, 4));
-	EXPECT_EQ(  2u, sv1.find(Helper::abcd(), 2, 0));
-	EXPECT_EQ(  3u, sv1.find(Helper::abcd(), 2, 1));
-	EXPECT_EQ(  3u, sv1.find(Helper::abcd(), 2, 2));
-	EXPECT_EQ(  3u, sv1.find(Helper::abcd(), 2, 3));
-	EXPECT_EQ(npos, sv1.find(Helper::abcd(), 2, 4));
+	VERIFY(  0u == sv1.rfind(Helper::abcd(), 0, 0));
+	VERIFY(  0u == sv1.rfind(Helper::abcd(), 0, 1));
+	VERIFY(npos == sv1.rfind(Helper::abcd(), 0, 2));
+	VERIFY(npos == sv1.rfind(Helper::abcd(), 0, 3));
+	VERIFY(npos == sv1.rfind(Helper::abcd(), 0, 4));
+	VERIFY(  1u == sv1.rfind(Helper::abcd(), 1, 0));
+	VERIFY(  1u == sv1.rfind(Helper::abcd(), 1, 1));
+	VERIFY(  1u == sv1.rfind(Helper::abcd(), 1, 2));
+	VERIFY(npos == sv1.rfind(Helper::abcd(), 1, 3));
+	VERIFY(npos == sv1.rfind(Helper::abcd(), 1, 4));
+	VERIFY(  5u == sv1.rfind(Helper::abcd(), 5, 0));
+	VERIFY(  3u == sv1.rfind(Helper::abcd(), 5, 1));
+	VERIFY(  3u == sv1.rfind(Helper::abcd(), 5, 2));
+	VERIFY(  3u == sv1.rfind(Helper::abcd(), 5, 3));
+	VERIFY(npos == sv1.rfind(Helper::abcd(), 5, 4));
 
 	// (4)
-	EXPECT_EQ(npos, sv1.find(Helper::abcd()));
-	EXPECT_EQ(  1u, sv1.find(Helper::ab()));
-	EXPECT_EQ(  1u, sv1.find(Helper::ab(), 1));
-	EXPECT_EQ(  3u, sv1.find(Helper::ab(), 2));
-	EXPECT_EQ(  3u, sv1.find(Helper::ab(), 3));
-	EXPECT_EQ(npos, sv1.find(Helper::ab(), 4));
-	EXPECT_EQ(npos, sv1.find(Helper::ab(), 5));
-}
+	VERIFY(npos == sv1.rfind(Helper::abcd()));
+	VERIFY(  3u == sv1.rfind(Helper::ab()));
+	VERIFY(npos == sv1.rfind(Helper::ab(), 0));
+	VERIFY(  1u == sv1.rfind(Helper::ab(), 1));
+	VERIFY(  1u == sv1.rfind(Helper::ab(), 2));
+	VERIFY(  3u == sv1.rfind(Helper::ab(), 3));
+	VERIFY(  3u == sv1.rfind(Helper::ab(), 4));
+	VERIFY(  3u == sv1.rfind(Helper::ab(), 5));
+	VERIFY(  3u == sv1.rfind(Helper::ab(), 6));
 
+	return true;
+}
 TYPED_TEST(StringViewTest, RFindTest)
 {
 	using CharT = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(RFindTest<CharT>());
+}
+
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool FindFirstOfTest()
+{
 	using string_view = bksge::basic_string_view<CharT>;
 	using Helper = StringViewTestHelper<CharT>;
 
-	BKSGE_CONSTEXPR_OR_CONST auto npos = string_view::npos;
+	auto const npos = string_view::npos;
 
-	BKSGE_CONSTEXPR_OR_CONST string_view sv1{Helper::aababc(), 6};	// "aababc"
-	BKSGE_CONSTEXPR_OR_CONST string_view sv2{Helper::abcd(), 1};	// "a"
-	BKSGE_CONSTEXPR_OR_CONST string_view sv3{Helper::abcd(), 2};	// "ab"
-	BKSGE_CONSTEXPR_OR_CONST string_view sv4{Helper::abcd(), 3};	// "abc"
-	BKSGE_CONSTEXPR_OR_CONST string_view sv5{Helper::abcd(), 4};	// "abcd"
+	string_view const sv1{Helper::with_nulls(), 28};	// "This contains \0 a zero byte."
+	string_view const sv2{Helper::abcd(), 1};	// "a"
+	string_view const sv3{Helper::abcd(), 2};	// "ab"
+	string_view const sv4{Helper::abcd(), 3};	// "abc"
+	string_view const sv5{Helper::abcd(), 0};	// ""
 
 	// (1)
-	EXPECT_EQ(  0u, sv1.rfind(sv1));
-	EXPECT_EQ(  3u, sv1.rfind(sv2));
-	EXPECT_EQ(  3u, sv1.rfind(sv3));
-	EXPECT_EQ(  3u, sv1.rfind(sv4));
-	EXPECT_EQ(npos, sv1.rfind(sv5));
-	EXPECT_EQ(  0u, sv1.rfind(sv1, 0));
-	EXPECT_EQ(  0u, sv1.rfind(sv2, 0));
-	EXPECT_EQ(npos, sv1.rfind(sv3, 0));
-	EXPECT_EQ(npos, sv1.rfind(sv4, 0));
-	EXPECT_EQ(npos, sv1.rfind(sv5, 0));
-	EXPECT_EQ(  0u, sv1.rfind(sv1, 1));
-	EXPECT_EQ(  1u, sv1.rfind(sv2, 1));
-	EXPECT_EQ(  1u, sv1.rfind(sv3, 1));
-	EXPECT_EQ(npos, sv1.rfind(sv4, 1));
-	EXPECT_EQ(npos, sv1.rfind(sv5, 1));
-	EXPECT_EQ(  0u, sv1.rfind(sv1, 3));
-	EXPECT_EQ(  3u, sv1.rfind(sv2, 3));
-	EXPECT_EQ(  3u, sv1.rfind(sv3, 3));
-	EXPECT_EQ(  3u, sv1.rfind(sv4, 3));
-	EXPECT_EQ(npos, sv1.rfind(sv5, 3));
+	VERIFY(  9u == sv1.find_first_of(sv2));
+	VERIFY(  9u == sv1.find_first_of(sv3));
+	VERIFY(  5u == sv1.find_first_of(sv4));
+	VERIFY(npos == sv1.find_first_of(sv5));
+	VERIFY(  9u == sv1.find_first_of(sv2, 1));
+	VERIFY(  9u == sv1.find_first_of(sv3, 1));
+	VERIFY(  5u == sv1.find_first_of(sv4, 1));
+	VERIFY(npos == sv1.find_first_of(sv5, 1));
+	VERIFY(  9u == sv1.find_first_of(sv2, 5));
+	VERIFY(  9u == sv1.find_first_of(sv3, 5));
+	VERIFY(  5u == sv1.find_first_of(sv4, 5));
+	VERIFY(npos == sv1.find_first_of(sv5, 5));
+	VERIFY(  9u == sv1.find_first_of(sv2, 6));
+	VERIFY(  9u == sv1.find_first_of(sv3, 6));
+	VERIFY(  9u == sv1.find_first_of(sv4, 6));
+	VERIFY(npos == sv1.find_first_of(sv5, 6));
+	VERIFY( 16u == sv1.find_first_of(sv2, 10));
+	VERIFY( 16u == sv1.find_first_of(sv3, 10));
+	VERIFY( 16u == sv1.find_first_of(sv4, 10));
+	VERIFY(npos == sv1.find_first_of(sv5, 10));
+	VERIFY(npos == sv1.find_first_of(sv2, 17));
+	VERIFY( 23u == sv1.find_first_of(sv3, 17));
+	VERIFY( 23u == sv1.find_first_of(sv4, 17));
+	VERIFY(npos == sv1.find_first_of(sv5, 17));
 
 	// (2)
-	EXPECT_EQ(  3u, sv1.rfind(Helper::abcd()[0]));
-	EXPECT_EQ(  4u, sv1.rfind(Helper::abcd()[1]));
-	EXPECT_EQ(  5u, sv1.rfind(Helper::abcd()[2]));
-	EXPECT_EQ(npos, sv1.rfind(Helper::abcd()[3]));
-	EXPECT_EQ(  0u, sv1.rfind(Helper::abcd()[0], 0));
-	EXPECT_EQ(npos, sv1.rfind(Helper::abcd()[1], 0));
-	EXPECT_EQ(npos, sv1.rfind(Helper::abcd()[2], 0));
-	EXPECT_EQ(npos, sv1.rfind(Helper::abcd()[3], 0));
-	EXPECT_EQ(  1u, sv1.rfind(Helper::abcd()[0], 1));
-	EXPECT_EQ(npos, sv1.rfind(Helper::abcd()[1], 1));
-	EXPECT_EQ(npos, sv1.rfind(Helper::abcd()[2], 1));
-	EXPECT_EQ(npos, sv1.rfind(Helper::abcd()[3], 1));
-	EXPECT_EQ(  1u, sv1.rfind(Helper::abcd()[0], 2));
-	EXPECT_EQ(  2u, sv1.rfind(Helper::abcd()[1], 2));
-	EXPECT_EQ(npos, sv1.rfind(Helper::abcd()[2], 2));
-	EXPECT_EQ(npos, sv1.rfind(Helper::abcd()[3], 2));
-	EXPECT_EQ(  3u, sv1.rfind(Helper::abcd()[0], 4));
-	EXPECT_EQ(  4u, sv1.rfind(Helper::abcd()[1], 4));
-	EXPECT_EQ(npos, sv1.rfind(Helper::abcd()[2], 4));
-	EXPECT_EQ(npos, sv1.rfind(Helper::abcd()[3], 4));
-	EXPECT_EQ(  3u, sv1.rfind(Helper::abcd()[0], 5));
-	EXPECT_EQ(  4u, sv1.rfind(Helper::abcd()[1], 5));
-	EXPECT_EQ(  5u, sv1.rfind(Helper::abcd()[2], 5));
-	EXPECT_EQ(npos, sv1.rfind(Helper::abcd()[3], 5));
+	VERIFY(  9u == sv1.find_first_of(Helper::abcd()[0]));
+	VERIFY( 23u == sv1.find_first_of(Helper::abcd()[1]));
+	VERIFY(  5u == sv1.find_first_of(Helper::abcd()[2]));
+	VERIFY(npos == sv1.find_first_of(Helper::abcd()[3]));
+	VERIFY(  9u == sv1.find_first_of(Helper::abcd()[0], 1));
+	VERIFY( 23u == sv1.find_first_of(Helper::abcd()[1], 1));
+	VERIFY(  5u == sv1.find_first_of(Helper::abcd()[2], 1));
+	VERIFY(npos == sv1.find_first_of(Helper::abcd()[3], 1));
+	VERIFY(  9u == sv1.find_first_of(Helper::abcd()[0], 6));
+	VERIFY( 23u == sv1.find_first_of(Helper::abcd()[1], 6));
+	VERIFY(npos == sv1.find_first_of(Helper::abcd()[2], 6));
+	VERIFY(npos == sv1.find_first_of(Helper::abcd()[3], 6));
+	VERIFY( 16u == sv1.find_first_of(Helper::abcd()[0], 10));
+	VERIFY( 23u == sv1.find_first_of(Helper::abcd()[1], 10));
+	VERIFY(npos == sv1.find_first_of(Helper::abcd()[2], 10));
+	VERIFY(npos == sv1.find_first_of(Helper::abcd()[3], 10));
 
 	// (3)
-	EXPECT_EQ(  0u, sv1.rfind(Helper::abcd(), 0, 0));
-	EXPECT_EQ(  0u, sv1.rfind(Helper::abcd(), 0, 1));
-	EXPECT_EQ(npos, sv1.rfind(Helper::abcd(), 0, 2));
-	EXPECT_EQ(npos, sv1.rfind(Helper::abcd(), 0, 3));
-	EXPECT_EQ(npos, sv1.rfind(Helper::abcd(), 0, 4));
-	EXPECT_EQ(  1u, sv1.rfind(Helper::abcd(), 1, 0));
-	EXPECT_EQ(  1u, sv1.rfind(Helper::abcd(), 1, 1));
-	EXPECT_EQ(  1u, sv1.rfind(Helper::abcd(), 1, 2));
-	EXPECT_EQ(npos, sv1.rfind(Helper::abcd(), 1, 3));
-	EXPECT_EQ(npos, sv1.rfind(Helper::abcd(), 1, 4));
-	EXPECT_EQ(  5u, sv1.rfind(Helper::abcd(), 5, 0));
-	EXPECT_EQ(  3u, sv1.rfind(Helper::abcd(), 5, 1));
-	EXPECT_EQ(  3u, sv1.rfind(Helper::abcd(), 5, 2));
-	EXPECT_EQ(  3u, sv1.rfind(Helper::abcd(), 5, 3));
-	EXPECT_EQ(npos, sv1.rfind(Helper::abcd(), 5, 4));
+	VERIFY(npos == sv1.find_first_of(Helper::abcd(),  0, 0));
+	VERIFY(  9u == sv1.find_first_of(Helper::abcd(),  0, 1));
+	VERIFY(  9u == sv1.find_first_of(Helper::abcd(),  0, 2));
+	VERIFY(  5u == sv1.find_first_of(Helper::abcd(),  0, 3));
+	VERIFY(npos == sv1.find_first_of(Helper::abcd(),  5, 0));
+	VERIFY(  9u == sv1.find_first_of(Helper::abcd(),  5, 1));
+	VERIFY(  9u == sv1.find_first_of(Helper::abcd(),  5, 2));
+	VERIFY(  5u == sv1.find_first_of(Helper::abcd(),  5, 3));
+	VERIFY(npos == sv1.find_first_of(Helper::abcd(),  6, 0));
+	VERIFY(  9u == sv1.find_first_of(Helper::abcd(),  6, 1));
+	VERIFY(  9u == sv1.find_first_of(Helper::abcd(),  6, 2));
+	VERIFY(  9u == sv1.find_first_of(Helper::abcd(),  6, 3));
+	VERIFY(npos == sv1.find_first_of(Helper::abcd(),  9, 0));
+	VERIFY(  9u == sv1.find_first_of(Helper::abcd(),  9, 1));
+	VERIFY(  9u == sv1.find_first_of(Helper::abcd(),  9, 2));
+	VERIFY(  9u == sv1.find_first_of(Helper::abcd(),  9, 3));
+	VERIFY(npos == sv1.find_first_of(Helper::abcd(), 10, 0));
+	VERIFY( 16u == sv1.find_first_of(Helper::abcd(), 10, 1));
+	VERIFY( 16u == sv1.find_first_of(Helper::abcd(), 10, 2));
+	VERIFY( 16u == sv1.find_first_of(Helper::abcd(), 10, 3));
 
 	// (4)
-	EXPECT_EQ(npos, sv1.rfind(Helper::abcd()));
-	EXPECT_EQ(  3u, sv1.rfind(Helper::ab()));
-	EXPECT_EQ(npos, sv1.rfind(Helper::ab(), 0));
-	EXPECT_EQ(  1u, sv1.rfind(Helper::ab(), 1));
-	EXPECT_EQ(  1u, sv1.rfind(Helper::ab(), 2));
-	EXPECT_EQ(  3u, sv1.rfind(Helper::ab(), 3));
-	EXPECT_EQ(  3u, sv1.rfind(Helper::ab(), 4));
-	EXPECT_EQ(  3u, sv1.rfind(Helper::ab(), 5));
-	EXPECT_EQ(  3u, sv1.rfind(Helper::ab(), 6));
-}
+	VERIFY(  5u == sv1.find_first_of(Helper::abcd()));
+	VERIFY(  9u == sv1.find_first_of(Helper::ab()));
+	VERIFY(  9u == sv1.find_first_of(Helper::ab(),  0));
+	VERIFY(  9u == sv1.find_first_of(Helper::ab(),  9));
+	VERIFY( 16u == sv1.find_first_of(Helper::ab(), 10));
+	VERIFY( 16u == sv1.find_first_of(Helper::ab(), 16));
+	VERIFY( 23u == sv1.find_first_of(Helper::ab(), 17));
+	VERIFY( 23u == sv1.find_first_of(Helper::ab(), 23));
+	VERIFY(npos == sv1.find_first_of(Helper::ab(), 24));
 
+	return true;
+}
 TYPED_TEST(StringViewTest, FindFirstOfTest)
 {
 	using CharT = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(FindFirstOfTest<CharT>());
+}
+
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool FindLastOfTest()
+{
 	using string_view = bksge::basic_string_view<CharT>;
 	using Helper = StringViewTestHelper<CharT>;
 
-	BKSGE_CONSTEXPR_OR_CONST auto npos = string_view::npos;
+	auto const npos = string_view::npos;
 
-	BKSGE_CONSTEXPR_OR_CONST string_view sv1{Helper::with_nulls(), 28};	// "This contains \0 a zero byte."
-	BKSGE_CONSTEXPR_OR_CONST string_view sv2{Helper::abcd(), 1};	// "a"
-	BKSGE_CONSTEXPR_OR_CONST string_view sv3{Helper::abcd(), 2};	// "ab"
-	BKSGE_CONSTEXPR_OR_CONST string_view sv4{Helper::abcd(), 3};	// "abc"
-	BKSGE_CONSTEXPR_OR_CONST string_view sv5{Helper::abcd(), 0};	// ""
+	string_view const sv1{Helper::with_nulls(), 28};	// "This contains \0 a zero byte."
+	string_view const sv2{Helper::abcd(), 1};	// "a"
+	string_view const sv3{Helper::abcd(), 2};	// "ab"
+	string_view const sv4{Helper::abcd(), 3};	// "abc"
+	string_view const sv5{Helper::abcd(), 0};	// ""
 
 	// (1)
-	EXPECT_EQ(  9u, sv1.find_first_of(sv2));
-	EXPECT_EQ(  9u, sv1.find_first_of(sv3));
-	EXPECT_EQ(  5u, sv1.find_first_of(sv4));
-	EXPECT_EQ(npos, sv1.find_first_of(sv5));
-	EXPECT_EQ(  9u, sv1.find_first_of(sv2, 1));
-	EXPECT_EQ(  9u, sv1.find_first_of(sv3, 1));
-	EXPECT_EQ(  5u, sv1.find_first_of(sv4, 1));
-	EXPECT_EQ(npos, sv1.find_first_of(sv5, 1));
-	EXPECT_EQ(  9u, sv1.find_first_of(sv2, 5));
-	EXPECT_EQ(  9u, sv1.find_first_of(sv3, 5));
-	EXPECT_EQ(  5u, sv1.find_first_of(sv4, 5));
-	EXPECT_EQ(npos, sv1.find_first_of(sv5, 5));
-	EXPECT_EQ(  9u, sv1.find_first_of(sv2, 6));
-	EXPECT_EQ(  9u, sv1.find_first_of(sv3, 6));
-	EXPECT_EQ(  9u, sv1.find_first_of(sv4, 6));
-	EXPECT_EQ(npos, sv1.find_first_of(sv5, 6));
-	EXPECT_EQ( 16u, sv1.find_first_of(sv2, 10));
-	EXPECT_EQ( 16u, sv1.find_first_of(sv3, 10));
-	EXPECT_EQ( 16u, sv1.find_first_of(sv4, 10));
-	EXPECT_EQ(npos, sv1.find_first_of(sv5, 10));
-	EXPECT_EQ(npos, sv1.find_first_of(sv2, 17));
-	EXPECT_EQ( 23u, sv1.find_first_of(sv3, 17));
-	EXPECT_EQ( 23u, sv1.find_first_of(sv4, 17));
-	EXPECT_EQ(npos, sv1.find_first_of(sv5, 17));
+	VERIFY( 16u == sv1.find_last_of(sv2));
+	VERIFY( 23u == sv1.find_last_of(sv3));
+	VERIFY( 23u == sv1.find_last_of(sv4));
+	VERIFY(npos == sv1.find_last_of(sv5));
+	VERIFY(npos == sv1.find_last_of(sv2, 1));
+	VERIFY(npos == sv1.find_last_of(sv3, 1));
+	VERIFY(npos == sv1.find_last_of(sv4, 1));
+	VERIFY(npos == sv1.find_last_of(sv5, 1));
+	VERIFY(npos == sv1.find_last_of(sv2, 5));
+	VERIFY(npos == sv1.find_last_of(sv3, 5));
+	VERIFY(  5u == sv1.find_last_of(sv4, 5));
+	VERIFY(npos == sv1.find_last_of(sv5, 5));
+	VERIFY(npos == sv1.find_last_of(sv2, 6));
+	VERIFY(npos == sv1.find_last_of(sv3, 6));
+	VERIFY(  5u == sv1.find_last_of(sv4, 6));
+	VERIFY(npos == sv1.find_last_of(sv5, 6));
+	VERIFY(  9u == sv1.find_last_of(sv2, 10));
+	VERIFY(  9u == sv1.find_last_of(sv3, 10));
+	VERIFY(  9u == sv1.find_last_of(sv4, 10));
+	VERIFY(npos == sv1.find_last_of(sv5, 10));
+	VERIFY( 16u == sv1.find_last_of(sv2, 17));
+	VERIFY( 16u == sv1.find_last_of(sv3, 17));
+	VERIFY( 16u == sv1.find_last_of(sv4, 17));
+	VERIFY(npos == sv1.find_last_of(sv5, 17));
 
 	// (2)
-	EXPECT_EQ(  9u, sv1.find_first_of(Helper::abcd()[0]));
-	EXPECT_EQ( 23u, sv1.find_first_of(Helper::abcd()[1]));
-	EXPECT_EQ(  5u, sv1.find_first_of(Helper::abcd()[2]));
-	EXPECT_EQ(npos, sv1.find_first_of(Helper::abcd()[3]));
-	EXPECT_EQ(  9u, sv1.find_first_of(Helper::abcd()[0], 1));
-	EXPECT_EQ( 23u, sv1.find_first_of(Helper::abcd()[1], 1));
-	EXPECT_EQ(  5u, sv1.find_first_of(Helper::abcd()[2], 1));
-	EXPECT_EQ(npos, sv1.find_first_of(Helper::abcd()[3], 1));
-	EXPECT_EQ(  9u, sv1.find_first_of(Helper::abcd()[0], 6));
-	EXPECT_EQ( 23u, sv1.find_first_of(Helper::abcd()[1], 6));
-	EXPECT_EQ(npos, sv1.find_first_of(Helper::abcd()[2], 6));
-	EXPECT_EQ(npos, sv1.find_first_of(Helper::abcd()[3], 6));
-	EXPECT_EQ( 16u, sv1.find_first_of(Helper::abcd()[0], 10));
-	EXPECT_EQ( 23u, sv1.find_first_of(Helper::abcd()[1], 10));
-	EXPECT_EQ(npos, sv1.find_first_of(Helper::abcd()[2], 10));
-	EXPECT_EQ(npos, sv1.find_first_of(Helper::abcd()[3], 10));
+	VERIFY( 16u == sv1.find_last_of(Helper::abcd()[0]));
+	VERIFY( 23u == sv1.find_last_of(Helper::abcd()[1]));
+	VERIFY(  5u == sv1.find_last_of(Helper::abcd()[2]));
+	VERIFY(npos == sv1.find_last_of(Helper::abcd()[3]));
+	VERIFY(npos == sv1.find_last_of(Helper::abcd()[0], 1));
+	VERIFY(npos == sv1.find_last_of(Helper::abcd()[1], 1));
+	VERIFY(npos == sv1.find_last_of(Helper::abcd()[2], 1));
+	VERIFY(npos == sv1.find_last_of(Helper::abcd()[3], 1));
+	VERIFY(npos == sv1.find_last_of(Helper::abcd()[0], 6));
+	VERIFY(npos == sv1.find_last_of(Helper::abcd()[1], 6));
+	VERIFY(  5u == sv1.find_last_of(Helper::abcd()[2], 6));
+	VERIFY(npos == sv1.find_last_of(Helper::abcd()[3], 6));
+	VERIFY(  9u == sv1.find_last_of(Helper::abcd()[0], 10));
+	VERIFY(npos == sv1.find_last_of(Helper::abcd()[1], 10));
+	VERIFY(  5u == sv1.find_last_of(Helper::abcd()[2], 10));
+	VERIFY(npos == sv1.find_last_of(Helper::abcd()[3], 10));
 
 	// (3)
-	EXPECT_EQ(npos, sv1.find_first_of(Helper::abcd(),  0, 0));
-	EXPECT_EQ(  9u, sv1.find_first_of(Helper::abcd(),  0, 1));
-	EXPECT_EQ(  9u, sv1.find_first_of(Helper::abcd(),  0, 2));
-	EXPECT_EQ(  5u, sv1.find_first_of(Helper::abcd(),  0, 3));
-	EXPECT_EQ(npos, sv1.find_first_of(Helper::abcd(),  5, 0));
-	EXPECT_EQ(  9u, sv1.find_first_of(Helper::abcd(),  5, 1));
-	EXPECT_EQ(  9u, sv1.find_first_of(Helper::abcd(),  5, 2));
-	EXPECT_EQ(  5u, sv1.find_first_of(Helper::abcd(),  5, 3));
-	EXPECT_EQ(npos, sv1.find_first_of(Helper::abcd(),  6, 0));
-	EXPECT_EQ(  9u, sv1.find_first_of(Helper::abcd(),  6, 1));
-	EXPECT_EQ(  9u, sv1.find_first_of(Helper::abcd(),  6, 2));
-	EXPECT_EQ(  9u, sv1.find_first_of(Helper::abcd(),  6, 3));
-	EXPECT_EQ(npos, sv1.find_first_of(Helper::abcd(),  9, 0));
-	EXPECT_EQ(  9u, sv1.find_first_of(Helper::abcd(),  9, 1));
-	EXPECT_EQ(  9u, sv1.find_first_of(Helper::abcd(),  9, 2));
-	EXPECT_EQ(  9u, sv1.find_first_of(Helper::abcd(),  9, 3));
-	EXPECT_EQ(npos, sv1.find_first_of(Helper::abcd(), 10, 0));
-	EXPECT_EQ( 16u, sv1.find_first_of(Helper::abcd(), 10, 1));
-	EXPECT_EQ( 16u, sv1.find_first_of(Helper::abcd(), 10, 2));
-	EXPECT_EQ( 16u, sv1.find_first_of(Helper::abcd(), 10, 3));
+	VERIFY(npos == sv1.find_last_of(Helper::abcd(),  0, 0));
+	VERIFY(npos == sv1.find_last_of(Helper::abcd(),  0, 1));
+	VERIFY(npos == sv1.find_last_of(Helper::abcd(),  0, 2));
+	VERIFY(npos == sv1.find_last_of(Helper::abcd(),  0, 3));
+	VERIFY(npos == sv1.find_last_of(Helper::abcd(),  5, 0));
+	VERIFY(npos == sv1.find_last_of(Helper::abcd(),  5, 1));
+	VERIFY(npos == sv1.find_last_of(Helper::abcd(),  5, 2));
+	VERIFY(  5u == sv1.find_last_of(Helper::abcd(),  5, 3));
+	VERIFY(npos == sv1.find_last_of(Helper::abcd(),  6, 0));
+	VERIFY(npos == sv1.find_last_of(Helper::abcd(),  6, 1));
+	VERIFY(npos == sv1.find_last_of(Helper::abcd(),  6, 2));
+	VERIFY(  5u == sv1.find_last_of(Helper::abcd(),  6, 3));
+	VERIFY(npos == sv1.find_last_of(Helper::abcd(),  9, 0));
+	VERIFY(  9u == sv1.find_last_of(Helper::abcd(),  9, 1));
+	VERIFY(  9u == sv1.find_last_of(Helper::abcd(),  9, 2));
+	VERIFY(  9u == sv1.find_last_of(Helper::abcd(),  9, 3));
+	VERIFY(npos == sv1.find_last_of(Helper::abcd(), 10, 0));
+	VERIFY(  9u == sv1.find_last_of(Helper::abcd(), 10, 1));
+	VERIFY(  9u == sv1.find_last_of(Helper::abcd(), 10, 2));
+	VERIFY(  9u == sv1.find_last_of(Helper::abcd(), 10, 3));
 
 	// (4)
-	EXPECT_EQ(  5u, sv1.find_first_of(Helper::abcd()));
-	EXPECT_EQ(  9u, sv1.find_first_of(Helper::ab()));
-	EXPECT_EQ(  9u, sv1.find_first_of(Helper::ab(),  0));
-	EXPECT_EQ(  9u, sv1.find_first_of(Helper::ab(),  9));
-	EXPECT_EQ( 16u, sv1.find_first_of(Helper::ab(), 10));
-	EXPECT_EQ( 16u, sv1.find_first_of(Helper::ab(), 16));
-	EXPECT_EQ( 23u, sv1.find_first_of(Helper::ab(), 17));
-	EXPECT_EQ( 23u, sv1.find_first_of(Helper::ab(), 23));
-	EXPECT_EQ(npos, sv1.find_first_of(Helper::ab(), 24));
-}
+	VERIFY( 23u == sv1.find_last_of(Helper::abcd()));
+	VERIFY( 23u == sv1.find_last_of(Helper::ab()));
+	VERIFY(npos == sv1.find_last_of(Helper::ab(),  0));
+	VERIFY(  9u == sv1.find_last_of(Helper::ab(),  9));
+	VERIFY(  9u == sv1.find_last_of(Helper::ab(), 10));
+	VERIFY( 16u == sv1.find_last_of(Helper::ab(), 16));
+	VERIFY( 16u == sv1.find_last_of(Helper::ab(), 17));
+	VERIFY( 23u == sv1.find_last_of(Helper::ab(), 23));
+	VERIFY( 23u == sv1.find_last_of(Helper::ab(), 24));
 
+	return true;
+}
 TYPED_TEST(StringViewTest, FindLastOfTest)
 {
 	using CharT = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(FindLastOfTest<CharT>());
+}
+
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool FindFirstNotOfTest()
+{
 	using string_view = bksge::basic_string_view<CharT>;
 	using Helper = StringViewTestHelper<CharT>;
 
-	BKSGE_CONSTEXPR_OR_CONST auto npos = string_view::npos;
+	auto const npos = string_view::npos;
 
-	BKSGE_CONSTEXPR_OR_CONST string_view sv1{Helper::with_nulls(), 28};	// "This contains \0 a zero byte."
-	BKSGE_CONSTEXPR_OR_CONST string_view sv2{Helper::abcd(), 1};	// "a"
-	BKSGE_CONSTEXPR_OR_CONST string_view sv3{Helper::abcd(), 2};	// "ab"
-	BKSGE_CONSTEXPR_OR_CONST string_view sv4{Helper::abcd(), 3};	// "abc"
-	BKSGE_CONSTEXPR_OR_CONST string_view sv5{Helper::abcd(), 0};	// ""
+	string_view const sv1{Helper::aababc(), 6};	// "aababc"
+	string_view const sv2{Helper::abcd(), 1};	// "a"
+	string_view const sv3{Helper::abcd(), 2};	// "ab"
+	string_view const sv4{Helper::abcd(), 3};	// "abc"
+	string_view const sv5{Helper::abcd(), 0};	// ""
 
 	// (1)
-	EXPECT_EQ( 16u, sv1.find_last_of(sv2));
-	EXPECT_EQ( 23u, sv1.find_last_of(sv3));
-	EXPECT_EQ( 23u, sv1.find_last_of(sv4));
-	EXPECT_EQ(npos, sv1.find_last_of(sv5));
-	EXPECT_EQ(npos, sv1.find_last_of(sv2, 1));
-	EXPECT_EQ(npos, sv1.find_last_of(sv3, 1));
-	EXPECT_EQ(npos, sv1.find_last_of(sv4, 1));
-	EXPECT_EQ(npos, sv1.find_last_of(sv5, 1));
-	EXPECT_EQ(npos, sv1.find_last_of(sv2, 5));
-	EXPECT_EQ(npos, sv1.find_last_of(sv3, 5));
-	EXPECT_EQ(  5u, sv1.find_last_of(sv4, 5));
-	EXPECT_EQ(npos, sv1.find_last_of(sv5, 5));
-	EXPECT_EQ(npos, sv1.find_last_of(sv2, 6));
-	EXPECT_EQ(npos, sv1.find_last_of(sv3, 6));
-	EXPECT_EQ(  5u, sv1.find_last_of(sv4, 6));
-	EXPECT_EQ(npos, sv1.find_last_of(sv5, 6));
-	EXPECT_EQ(  9u, sv1.find_last_of(sv2, 10));
-	EXPECT_EQ(  9u, sv1.find_last_of(sv3, 10));
-	EXPECT_EQ(  9u, sv1.find_last_of(sv4, 10));
-	EXPECT_EQ(npos, sv1.find_last_of(sv5, 10));
-	EXPECT_EQ( 16u, sv1.find_last_of(sv2, 17));
-	EXPECT_EQ( 16u, sv1.find_last_of(sv3, 17));
-	EXPECT_EQ( 16u, sv1.find_last_of(sv4, 17));
-	EXPECT_EQ(npos, sv1.find_last_of(sv5, 17));
+	VERIFY(  2u == sv1.find_first_not_of(sv2));
+	VERIFY(  5u == sv1.find_first_not_of(sv3));
+	VERIFY(npos == sv1.find_first_not_of(sv4));
+	VERIFY(  0u == sv1.find_first_not_of(sv5));
+	VERIFY(  2u == sv1.find_first_not_of(sv2, 1));
+	VERIFY(  5u == sv1.find_first_not_of(sv3, 1));
+	VERIFY(npos == sv1.find_first_not_of(sv4, 1));
+	VERIFY(  1u == sv1.find_first_not_of(sv5, 1));
+	VERIFY(  2u == sv1.find_first_not_of(sv2, 2));
+	VERIFY(  5u == sv1.find_first_not_of(sv3, 2));
+	VERIFY(npos == sv1.find_first_not_of(sv4, 2));
+	VERIFY(  2u == sv1.find_first_not_of(sv5, 2));
+	VERIFY(  4u == sv1.find_first_not_of(sv2, 3));
+	VERIFY(  5u == sv1.find_first_not_of(sv3, 3));
+	VERIFY(npos == sv1.find_first_not_of(sv4, 3));
+	VERIFY(  3u == sv1.find_first_not_of(sv5, 3));
+	VERIFY(  4u == sv1.find_first_not_of(sv2, 4));
+	VERIFY(  5u == sv1.find_first_not_of(sv3, 4));
+	VERIFY(npos == sv1.find_first_not_of(sv4, 4));
+	VERIFY(  4u == sv1.find_first_not_of(sv5, 4));
+	VERIFY(  5u == sv1.find_first_not_of(sv2, 5));
+	VERIFY(  5u == sv1.find_first_not_of(sv3, 5));
+	VERIFY(npos == sv1.find_first_not_of(sv4, 5));
+	VERIFY(  5u == sv1.find_first_not_of(sv5, 5));
+	VERIFY(npos == sv1.find_first_not_of(sv2, 6));
+	VERIFY(npos == sv1.find_first_not_of(sv3, 6));
+	VERIFY(npos == sv1.find_first_not_of(sv4, 6));
+	VERIFY(npos == sv1.find_first_not_of(sv5, 6));
 
 	// (2)
-	EXPECT_EQ( 16u, sv1.find_last_of(Helper::abcd()[0]));
-	EXPECT_EQ( 23u, sv1.find_last_of(Helper::abcd()[1]));
-	EXPECT_EQ(  5u, sv1.find_last_of(Helper::abcd()[2]));
-	EXPECT_EQ(npos, sv1.find_last_of(Helper::abcd()[3]));
-	EXPECT_EQ(npos, sv1.find_last_of(Helper::abcd()[0], 1));
-	EXPECT_EQ(npos, sv1.find_last_of(Helper::abcd()[1], 1));
-	EXPECT_EQ(npos, sv1.find_last_of(Helper::abcd()[2], 1));
-	EXPECT_EQ(npos, sv1.find_last_of(Helper::abcd()[3], 1));
-	EXPECT_EQ(npos, sv1.find_last_of(Helper::abcd()[0], 6));
-	EXPECT_EQ(npos, sv1.find_last_of(Helper::abcd()[1], 6));
-	EXPECT_EQ(  5u, sv1.find_last_of(Helper::abcd()[2], 6));
-	EXPECT_EQ(npos, sv1.find_last_of(Helper::abcd()[3], 6));
-	EXPECT_EQ(  9u, sv1.find_last_of(Helper::abcd()[0], 10));
-	EXPECT_EQ(npos, sv1.find_last_of(Helper::abcd()[1], 10));
-	EXPECT_EQ(  5u, sv1.find_last_of(Helper::abcd()[2], 10));
-	EXPECT_EQ(npos, sv1.find_last_of(Helper::abcd()[3], 10));
+	VERIFY(  2u == sv1.find_first_not_of(Helper::abcd()[0]));
+	VERIFY(  0u == sv1.find_first_not_of(Helper::abcd()[1]));
+	VERIFY(  0u == sv1.find_first_not_of(Helper::abcd()[2]));
+	VERIFY(  0u == sv1.find_first_not_of(Helper::abcd()[3]));
+	VERIFY(  2u == sv1.find_first_not_of(Helper::abcd()[0], 1));
+	VERIFY(  1u == sv1.find_first_not_of(Helper::abcd()[1], 1));
+	VERIFY(  1u == sv1.find_first_not_of(Helper::abcd()[2], 1));
+	VERIFY(  1u == sv1.find_first_not_of(Helper::abcd()[3], 1));
+	VERIFY(  2u == sv1.find_first_not_of(Helper::abcd()[0], 2));
+	VERIFY(  3u == sv1.find_first_not_of(Helper::abcd()[1], 2));
+	VERIFY(  2u == sv1.find_first_not_of(Helper::abcd()[2], 2));
+	VERIFY(  2u == sv1.find_first_not_of(Helper::abcd()[3], 2));
+	VERIFY(  4u == sv1.find_first_not_of(Helper::abcd()[0], 3));
+	VERIFY(  3u == sv1.find_first_not_of(Helper::abcd()[1], 3));
+	VERIFY(  3u == sv1.find_first_not_of(Helper::abcd()[2], 3));
+	VERIFY(  3u == sv1.find_first_not_of(Helper::abcd()[3], 3));
+	VERIFY(  4u == sv1.find_first_not_of(Helper::abcd()[0], 4));
+	VERIFY(  5u == sv1.find_first_not_of(Helper::abcd()[1], 4));
+	VERIFY(  4u == sv1.find_first_not_of(Helper::abcd()[2], 4));
+	VERIFY(  4u == sv1.find_first_not_of(Helper::abcd()[3], 4));
+	VERIFY(  5u == sv1.find_first_not_of(Helper::abcd()[0], 5));
+	VERIFY(  5u == sv1.find_first_not_of(Helper::abcd()[1], 5));
+	VERIFY(npos == sv1.find_first_not_of(Helper::abcd()[2], 5));
+	VERIFY(  5u == sv1.find_first_not_of(Helper::abcd()[3], 5));
+	VERIFY(npos == sv1.find_first_not_of(Helper::abcd()[0], 6));
+	VERIFY(npos == sv1.find_first_not_of(Helper::abcd()[1], 6));
+	VERIFY(npos == sv1.find_first_not_of(Helper::abcd()[2], 6));
+	VERIFY(npos == sv1.find_first_not_of(Helper::abcd()[3], 6));
 
 	// (3)
-	EXPECT_EQ(npos, sv1.find_last_of(Helper::abcd(),  0, 0));
-	EXPECT_EQ(npos, sv1.find_last_of(Helper::abcd(),  0, 1));
-	EXPECT_EQ(npos, sv1.find_last_of(Helper::abcd(),  0, 2));
-	EXPECT_EQ(npos, sv1.find_last_of(Helper::abcd(),  0, 3));
-	EXPECT_EQ(npos, sv1.find_last_of(Helper::abcd(),  5, 0));
-	EXPECT_EQ(npos, sv1.find_last_of(Helper::abcd(),  5, 1));
-	EXPECT_EQ(npos, sv1.find_last_of(Helper::abcd(),  5, 2));
-	EXPECT_EQ(  5u, sv1.find_last_of(Helper::abcd(),  5, 3));
-	EXPECT_EQ(npos, sv1.find_last_of(Helper::abcd(),  6, 0));
-	EXPECT_EQ(npos, sv1.find_last_of(Helper::abcd(),  6, 1));
-	EXPECT_EQ(npos, sv1.find_last_of(Helper::abcd(),  6, 2));
-	EXPECT_EQ(  5u, sv1.find_last_of(Helper::abcd(),  6, 3));
-	EXPECT_EQ(npos, sv1.find_last_of(Helper::abcd(),  9, 0));
-	EXPECT_EQ(  9u, sv1.find_last_of(Helper::abcd(),  9, 1));
-	EXPECT_EQ(  9u, sv1.find_last_of(Helper::abcd(),  9, 2));
-	EXPECT_EQ(  9u, sv1.find_last_of(Helper::abcd(),  9, 3));
-	EXPECT_EQ(npos, sv1.find_last_of(Helper::abcd(), 10, 0));
-	EXPECT_EQ(  9u, sv1.find_last_of(Helper::abcd(), 10, 1));
-	EXPECT_EQ(  9u, sv1.find_last_of(Helper::abcd(), 10, 2));
-	EXPECT_EQ(  9u, sv1.find_last_of(Helper::abcd(), 10, 3));
+	VERIFY(  0u == sv1.find_first_not_of(Helper::abcd(), 0, 0));
+	VERIFY(  2u == sv1.find_first_not_of(Helper::abcd(), 0, 1));
+	VERIFY(  5u == sv1.find_first_not_of(Helper::abcd(), 0, 2));
+	VERIFY(npos == sv1.find_first_not_of(Helper::abcd(), 0, 3));
+	VERIFY(  1u == sv1.find_first_not_of(Helper::abcd(), 1, 0));
+	VERIFY(  2u == sv1.find_first_not_of(Helper::abcd(), 1, 1));
+	VERIFY(  5u == sv1.find_first_not_of(Helper::abcd(), 1, 2));
+	VERIFY(npos == sv1.find_first_not_of(Helper::abcd(), 1, 3));
+	VERIFY(  2u == sv1.find_first_not_of(Helper::abcd(), 2, 0));
+	VERIFY(  2u == sv1.find_first_not_of(Helper::abcd(), 2, 1));
+	VERIFY(  5u == sv1.find_first_not_of(Helper::abcd(), 2, 2));
+	VERIFY(npos == sv1.find_first_not_of(Helper::abcd(), 2, 3));
+	VERIFY(  3u == sv1.find_first_not_of(Helper::abcd(), 3, 0));
+	VERIFY(  4u == sv1.find_first_not_of(Helper::abcd(), 3, 1));
+	VERIFY(  5u == sv1.find_first_not_of(Helper::abcd(), 3, 2));
+	VERIFY(npos == sv1.find_first_not_of(Helper::abcd(), 3, 3));
+	VERIFY(  4u == sv1.find_first_not_of(Helper::abcd(), 4, 0));
+	VERIFY(  4u == sv1.find_first_not_of(Helper::abcd(), 4, 1));
+	VERIFY(  5u == sv1.find_first_not_of(Helper::abcd(), 4, 2));
+	VERIFY(npos == sv1.find_first_not_of(Helper::abcd(), 4, 3));
+	VERIFY(  5u == sv1.find_first_not_of(Helper::abcd(), 5, 0));
+	VERIFY(  5u == sv1.find_first_not_of(Helper::abcd(), 5, 1));
+	VERIFY(  5u == sv1.find_first_not_of(Helper::abcd(), 5, 2));
+	VERIFY(npos == sv1.find_first_not_of(Helper::abcd(), 5, 3));
+	VERIFY(npos == sv1.find_first_not_of(Helper::abcd(), 6, 0));
+	VERIFY(npos == sv1.find_first_not_of(Helper::abcd(), 6, 1));
+	VERIFY(npos == sv1.find_first_not_of(Helper::abcd(), 6, 2));
+	VERIFY(npos == sv1.find_first_not_of(Helper::abcd(), 6, 3));
 
 	// (4)
-	EXPECT_EQ( 23u, sv1.find_last_of(Helper::abcd()));
-	EXPECT_EQ( 23u, sv1.find_last_of(Helper::ab()));
-	EXPECT_EQ(npos, sv1.find_last_of(Helper::ab(),  0));
-	EXPECT_EQ(  9u, sv1.find_last_of(Helper::ab(),  9));
-	EXPECT_EQ(  9u, sv1.find_last_of(Helper::ab(), 10));
-	EXPECT_EQ( 16u, sv1.find_last_of(Helper::ab(), 16));
-	EXPECT_EQ( 16u, sv1.find_last_of(Helper::ab(), 17));
-	EXPECT_EQ( 23u, sv1.find_last_of(Helper::ab(), 23));
-	EXPECT_EQ( 23u, sv1.find_last_of(Helper::ab(), 24));
-}
+	VERIFY(npos == sv1.find_first_not_of(Helper::abcd()));
+	VERIFY(  5u == sv1.find_first_not_of(Helper::ab()));
+	VERIFY(  5u == sv1.find_first_not_of(Helper::ab(), 0));
+	VERIFY(npos == sv1.find_first_not_of(Helper::ab(), 6));
 
+	return true;
+}
 TYPED_TEST(StringViewTest, FindFirstNotOfTest)
 {
 	using CharT = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(FindFirstNotOfTest<CharT>());
+}
+
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool FindLastNotOfTest()
+{
 	using string_view = bksge::basic_string_view<CharT>;
 	using Helper = StringViewTestHelper<CharT>;
 
-	BKSGE_CONSTEXPR_OR_CONST auto npos = string_view::npos;
+	auto const npos = string_view::npos;
 
-	BKSGE_CONSTEXPR_OR_CONST string_view sv1{Helper::aababc(), 6};	// "aababc"
-	BKSGE_CONSTEXPR_OR_CONST string_view sv2{Helper::abcd(), 1};	// "a"
-	BKSGE_CONSTEXPR_OR_CONST string_view sv3{Helper::abcd(), 2};	// "ab"
-	BKSGE_CONSTEXPR_OR_CONST string_view sv4{Helper::abcd(), 3};	// "abc"
-	BKSGE_CONSTEXPR_OR_CONST string_view sv5{Helper::abcd(), 0};	// ""
+	string_view const sv1{Helper::aababc(), 6};	// "aababc"
+	string_view const sv2{Helper::abcd(), 1};	// "a"
+	string_view const sv3{Helper::abcd(), 2};	// "ab"
+	string_view const sv4{Helper::abcd(), 3};	// "abc"
+	string_view const sv5{Helper::abcd(), 0};	// ""
 
 	// (1)
-	EXPECT_EQ(  2u, sv1.find_first_not_of(sv2));
-	EXPECT_EQ(  5u, sv1.find_first_not_of(sv3));
-	EXPECT_EQ(npos, sv1.find_first_not_of(sv4));
-	EXPECT_EQ(  0u, sv1.find_first_not_of(sv5));
-	EXPECT_EQ(  2u, sv1.find_first_not_of(sv2, 1));
-	EXPECT_EQ(  5u, sv1.find_first_not_of(sv3, 1));
-	EXPECT_EQ(npos, sv1.find_first_not_of(sv4, 1));
-	EXPECT_EQ(  1u, sv1.find_first_not_of(sv5, 1));
-	EXPECT_EQ(  2u, sv1.find_first_not_of(sv2, 2));
-	EXPECT_EQ(  5u, sv1.find_first_not_of(sv3, 2));
-	EXPECT_EQ(npos, sv1.find_first_not_of(sv4, 2));
-	EXPECT_EQ(  2u, sv1.find_first_not_of(sv5, 2));
-	EXPECT_EQ(  4u, sv1.find_first_not_of(sv2, 3));
-	EXPECT_EQ(  5u, sv1.find_first_not_of(sv3, 3));
-	EXPECT_EQ(npos, sv1.find_first_not_of(sv4, 3));
-	EXPECT_EQ(  3u, sv1.find_first_not_of(sv5, 3));
-	EXPECT_EQ(  4u, sv1.find_first_not_of(sv2, 4));
-	EXPECT_EQ(  5u, sv1.find_first_not_of(sv3, 4));
-	EXPECT_EQ(npos, sv1.find_first_not_of(sv4, 4));
-	EXPECT_EQ(  4u, sv1.find_first_not_of(sv5, 4));
-	EXPECT_EQ(  5u, sv1.find_first_not_of(sv2, 5));
-	EXPECT_EQ(  5u, sv1.find_first_not_of(sv3, 5));
-	EXPECT_EQ(npos, sv1.find_first_not_of(sv4, 5));
-	EXPECT_EQ(  5u, sv1.find_first_not_of(sv5, 5));
-	EXPECT_EQ(npos, sv1.find_first_not_of(sv2, 6));
-	EXPECT_EQ(npos, sv1.find_first_not_of(sv3, 6));
-	EXPECT_EQ(npos, sv1.find_first_not_of(sv4, 6));
-	EXPECT_EQ(npos, sv1.find_first_not_of(sv5, 6));
+	VERIFY(  5u == sv1.find_last_not_of(sv2));
+	VERIFY(  5u == sv1.find_last_not_of(sv3));
+	VERIFY(npos == sv1.find_last_not_of(sv4));
+	VERIFY(  5u == sv1.find_last_not_of(sv5));
+	VERIFY(npos == sv1.find_last_not_of(sv2, 1));
+	VERIFY(npos == sv1.find_last_not_of(sv3, 1));
+	VERIFY(npos == sv1.find_last_not_of(sv4, 1));
+	VERIFY(  1u == sv1.find_last_not_of(sv5, 1));
+	VERIFY(  2u == sv1.find_last_not_of(sv2, 2));
+	VERIFY(npos == sv1.find_last_not_of(sv3, 2));
+	VERIFY(npos == sv1.find_last_not_of(sv4, 2));
+	VERIFY(  2u == sv1.find_last_not_of(sv5, 2));
+	VERIFY(  2u == sv1.find_last_not_of(sv2, 3));
+	VERIFY(npos == sv1.find_last_not_of(sv3, 3));
+	VERIFY(npos == sv1.find_last_not_of(sv4, 3));
+	VERIFY(  3u == sv1.find_last_not_of(sv5, 3));
+	VERIFY(  4u == sv1.find_last_not_of(sv2, 4));
+	VERIFY(npos == sv1.find_last_not_of(sv3, 4));
+	VERIFY(npos == sv1.find_last_not_of(sv4, 4));
+	VERIFY(  4u == sv1.find_last_not_of(sv5, 4));
+	VERIFY(  5u == sv1.find_last_not_of(sv2, 5));
+	VERIFY(  5u == sv1.find_last_not_of(sv3, 5));
+	VERIFY(npos == sv1.find_last_not_of(sv4, 5));
+	VERIFY(  5u == sv1.find_last_not_of(sv5, 5));
+	VERIFY(  5u == sv1.find_last_not_of(sv2, 6));
+	VERIFY(  5u == sv1.find_last_not_of(sv3, 6));
+	VERIFY(npos == sv1.find_last_not_of(sv4, 6));
+	VERIFY(  5u == sv1.find_last_not_of(sv5, 6));
 
 	// (2)
-	EXPECT_EQ(  2u, sv1.find_first_not_of(Helper::abcd()[0]));
-	EXPECT_EQ(  0u, sv1.find_first_not_of(Helper::abcd()[1]));
-	EXPECT_EQ(  0u, sv1.find_first_not_of(Helper::abcd()[2]));
-	EXPECT_EQ(  0u, sv1.find_first_not_of(Helper::abcd()[3]));
-	EXPECT_EQ(  2u, sv1.find_first_not_of(Helper::abcd()[0], 1));
-	EXPECT_EQ(  1u, sv1.find_first_not_of(Helper::abcd()[1], 1));
-	EXPECT_EQ(  1u, sv1.find_first_not_of(Helper::abcd()[2], 1));
-	EXPECT_EQ(  1u, sv1.find_first_not_of(Helper::abcd()[3], 1));
-	EXPECT_EQ(  2u, sv1.find_first_not_of(Helper::abcd()[0], 2));
-	EXPECT_EQ(  3u, sv1.find_first_not_of(Helper::abcd()[1], 2));
-	EXPECT_EQ(  2u, sv1.find_first_not_of(Helper::abcd()[2], 2));
-	EXPECT_EQ(  2u, sv1.find_first_not_of(Helper::abcd()[3], 2));
-	EXPECT_EQ(  4u, sv1.find_first_not_of(Helper::abcd()[0], 3));
-	EXPECT_EQ(  3u, sv1.find_first_not_of(Helper::abcd()[1], 3));
-	EXPECT_EQ(  3u, sv1.find_first_not_of(Helper::abcd()[2], 3));
-	EXPECT_EQ(  3u, sv1.find_first_not_of(Helper::abcd()[3], 3));
-	EXPECT_EQ(  4u, sv1.find_first_not_of(Helper::abcd()[0], 4));
-	EXPECT_EQ(  5u, sv1.find_first_not_of(Helper::abcd()[1], 4));
-	EXPECT_EQ(  4u, sv1.find_first_not_of(Helper::abcd()[2], 4));
-	EXPECT_EQ(  4u, sv1.find_first_not_of(Helper::abcd()[3], 4));
-	EXPECT_EQ(  5u, sv1.find_first_not_of(Helper::abcd()[0], 5));
-	EXPECT_EQ(  5u, sv1.find_first_not_of(Helper::abcd()[1], 5));
-	EXPECT_EQ(npos, sv1.find_first_not_of(Helper::abcd()[2], 5));
-	EXPECT_EQ(  5u, sv1.find_first_not_of(Helper::abcd()[3], 5));
-	EXPECT_EQ(npos, sv1.find_first_not_of(Helper::abcd()[0], 6));
-	EXPECT_EQ(npos, sv1.find_first_not_of(Helper::abcd()[1], 6));
-	EXPECT_EQ(npos, sv1.find_first_not_of(Helper::abcd()[2], 6));
-	EXPECT_EQ(npos, sv1.find_first_not_of(Helper::abcd()[3], 6));
+	VERIFY(  5u == sv1.find_last_not_of(Helper::abcd()[0]));
+	VERIFY(  5u == sv1.find_last_not_of(Helper::abcd()[1]));
+	VERIFY(  4u == sv1.find_last_not_of(Helper::abcd()[2]));
+	VERIFY(  5u == sv1.find_last_not_of(Helper::abcd()[3]));
+	VERIFY(npos == sv1.find_last_not_of(Helper::abcd()[0], 1));
+	VERIFY(  1u == sv1.find_last_not_of(Helper::abcd()[1], 1));
+	VERIFY(  1u == sv1.find_last_not_of(Helper::abcd()[2], 1));
+	VERIFY(  1u == sv1.find_last_not_of(Helper::abcd()[3], 1));
+	VERIFY(  2u == sv1.find_last_not_of(Helper::abcd()[0], 2));
+	VERIFY(  1u == sv1.find_last_not_of(Helper::abcd()[1], 2));
+	VERIFY(  2u == sv1.find_last_not_of(Helper::abcd()[2], 2));
+	VERIFY(  2u == sv1.find_last_not_of(Helper::abcd()[3], 2));
+	VERIFY(  2u == sv1.find_last_not_of(Helper::abcd()[0], 3));
+	VERIFY(  3u == sv1.find_last_not_of(Helper::abcd()[1], 3));
+	VERIFY(  3u == sv1.find_last_not_of(Helper::abcd()[2], 3));
+	VERIFY(  3u == sv1.find_last_not_of(Helper::abcd()[3], 3));
+	VERIFY(  4u == sv1.find_last_not_of(Helper::abcd()[0], 4));
+	VERIFY(  3u == sv1.find_last_not_of(Helper::abcd()[1], 4));
+	VERIFY(  4u == sv1.find_last_not_of(Helper::abcd()[2], 4));
+	VERIFY(  4u == sv1.find_last_not_of(Helper::abcd()[3], 4));
+	VERIFY(  5u == sv1.find_last_not_of(Helper::abcd()[0], 5));
+	VERIFY(  5u == sv1.find_last_not_of(Helper::abcd()[1], 5));
+	VERIFY(  4u == sv1.find_last_not_of(Helper::abcd()[2], 5));
+	VERIFY(  5u == sv1.find_last_not_of(Helper::abcd()[3], 5));
+	VERIFY(  5u == sv1.find_last_not_of(Helper::abcd()[0], 6));
+	VERIFY(  5u == sv1.find_last_not_of(Helper::abcd()[1], 6));
+	VERIFY(  4u == sv1.find_last_not_of(Helper::abcd()[2], 6));
+	VERIFY(  5u == sv1.find_last_not_of(Helper::abcd()[3], 6));
 
 	// (3)
-	EXPECT_EQ(  0u, sv1.find_first_not_of(Helper::abcd(), 0, 0));
-	EXPECT_EQ(  2u, sv1.find_first_not_of(Helper::abcd(), 0, 1));
-	EXPECT_EQ(  5u, sv1.find_first_not_of(Helper::abcd(), 0, 2));
-	EXPECT_EQ(npos, sv1.find_first_not_of(Helper::abcd(), 0, 3));
-	EXPECT_EQ(  1u, sv1.find_first_not_of(Helper::abcd(), 1, 0));
-	EXPECT_EQ(  2u, sv1.find_first_not_of(Helper::abcd(), 1, 1));
-	EXPECT_EQ(  5u, sv1.find_first_not_of(Helper::abcd(), 1, 2));
-	EXPECT_EQ(npos, sv1.find_first_not_of(Helper::abcd(), 1, 3));
-	EXPECT_EQ(  2u, sv1.find_first_not_of(Helper::abcd(), 2, 0));
-	EXPECT_EQ(  2u, sv1.find_first_not_of(Helper::abcd(), 2, 1));
-	EXPECT_EQ(  5u, sv1.find_first_not_of(Helper::abcd(), 2, 2));
-	EXPECT_EQ(npos, sv1.find_first_not_of(Helper::abcd(), 2, 3));
-	EXPECT_EQ(  3u, sv1.find_first_not_of(Helper::abcd(), 3, 0));
-	EXPECT_EQ(  4u, sv1.find_first_not_of(Helper::abcd(), 3, 1));
-	EXPECT_EQ(  5u, sv1.find_first_not_of(Helper::abcd(), 3, 2));
-	EXPECT_EQ(npos, sv1.find_first_not_of(Helper::abcd(), 3, 3));
-	EXPECT_EQ(  4u, sv1.find_first_not_of(Helper::abcd(), 4, 0));
-	EXPECT_EQ(  4u, sv1.find_first_not_of(Helper::abcd(), 4, 1));
-	EXPECT_EQ(  5u, sv1.find_first_not_of(Helper::abcd(), 4, 2));
-	EXPECT_EQ(npos, sv1.find_first_not_of(Helper::abcd(), 4, 3));
-	EXPECT_EQ(  5u, sv1.find_first_not_of(Helper::abcd(), 5, 0));
-	EXPECT_EQ(  5u, sv1.find_first_not_of(Helper::abcd(), 5, 1));
-	EXPECT_EQ(  5u, sv1.find_first_not_of(Helper::abcd(), 5, 2));
-	EXPECT_EQ(npos, sv1.find_first_not_of(Helper::abcd(), 5, 3));
-	EXPECT_EQ(npos, sv1.find_first_not_of(Helper::abcd(), 6, 0));
-	EXPECT_EQ(npos, sv1.find_first_not_of(Helper::abcd(), 6, 1));
-	EXPECT_EQ(npos, sv1.find_first_not_of(Helper::abcd(), 6, 2));
-	EXPECT_EQ(npos, sv1.find_first_not_of(Helper::abcd(), 6, 3));
+	VERIFY(  0u == sv1.find_last_not_of(Helper::abcd(), 0, 0));
+	VERIFY(npos == sv1.find_last_not_of(Helper::abcd(), 0, 1));
+	VERIFY(npos == sv1.find_last_not_of(Helper::abcd(), 0, 2));
+	VERIFY(npos == sv1.find_last_not_of(Helper::abcd(), 0, 3));
+	VERIFY(  1u == sv1.find_last_not_of(Helper::abcd(), 1, 0));
+	VERIFY(npos == sv1.find_last_not_of(Helper::abcd(), 1, 1));
+	VERIFY(npos == sv1.find_last_not_of(Helper::abcd(), 1, 2));
+	VERIFY(npos == sv1.find_last_not_of(Helper::abcd(), 1, 3));
+	VERIFY(  2u == sv1.find_last_not_of(Helper::abcd(), 2, 0));
+	VERIFY(  2u == sv1.find_last_not_of(Helper::abcd(), 2, 1));
+	VERIFY(npos == sv1.find_last_not_of(Helper::abcd(), 2, 2));
+	VERIFY(npos == sv1.find_last_not_of(Helper::abcd(), 2, 3));
+	VERIFY(  3u == sv1.find_last_not_of(Helper::abcd(), 3, 0));
+	VERIFY(  2u == sv1.find_last_not_of(Helper::abcd(), 3, 1));
+	VERIFY(npos == sv1.find_last_not_of(Helper::abcd(), 3, 2));
+	VERIFY(npos == sv1.find_last_not_of(Helper::abcd(), 3, 3));
+	VERIFY(  4u == sv1.find_last_not_of(Helper::abcd(), 4, 0));
+	VERIFY(  4u == sv1.find_last_not_of(Helper::abcd(), 4, 1));
+	VERIFY(npos == sv1.find_last_not_of(Helper::abcd(), 4, 2));
+	VERIFY(npos == sv1.find_last_not_of(Helper::abcd(), 4, 3));
+	VERIFY(  5u == sv1.find_last_not_of(Helper::abcd(), 5, 0));
+	VERIFY(  5u == sv1.find_last_not_of(Helper::abcd(), 5, 1));
+	VERIFY(  5u == sv1.find_last_not_of(Helper::abcd(), 5, 2));
+	VERIFY(npos == sv1.find_last_not_of(Helper::abcd(), 5, 3));
+	VERIFY(  5u == sv1.find_last_not_of(Helper::abcd(), 6, 0));
+	VERIFY(  5u == sv1.find_last_not_of(Helper::abcd(), 6, 1));
+	VERIFY(  5u == sv1.find_last_not_of(Helper::abcd(), 6, 2));
+	VERIFY(npos == sv1.find_last_not_of(Helper::abcd(), 6, 3));
 
 	// (4)
-	EXPECT_EQ(npos, sv1.find_first_not_of(Helper::abcd()));
-	EXPECT_EQ(  5u, sv1.find_first_not_of(Helper::ab()));
-	EXPECT_EQ(  5u, sv1.find_first_not_of(Helper::ab(), 0));
-	EXPECT_EQ(npos, sv1.find_first_not_of(Helper::ab(), 6));
-}
+	VERIFY(npos == sv1.find_last_not_of(Helper::abcd()));
+	VERIFY(  5u == sv1.find_last_not_of(Helper::ab()));
+	VERIFY(npos == sv1.find_last_not_of(Helper::ab(), 0));
+	VERIFY(npos == sv1.find_last_not_of(Helper::ab(), 1));
+	VERIFY(npos == sv1.find_last_not_of(Helper::ab(), 2));
+	VERIFY(npos == sv1.find_last_not_of(Helper::ab(), 3));
+	VERIFY(npos == sv1.find_last_not_of(Helper::ab(), 4));
+	VERIFY(  5u == sv1.find_last_not_of(Helper::ab(), 5));
+	VERIFY(  5u == sv1.find_last_not_of(Helper::ab(), 6));
 
+	return true;
+}
 TYPED_TEST(StringViewTest, FindLastNotOfTest)
 {
 	using CharT = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(FindLastNotOfTest<CharT>());
+}
+
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool OperatorCompareTest1()
+{
 	using string_view = bksge::basic_string_view<CharT>;
 	using Helper = StringViewTestHelper<CharT>;
 
-	BKSGE_CONSTEXPR_OR_CONST auto npos = string_view::npos;
+	string_view const sv1{Helper::aababc(), 6};	// "aababc"
+	string_view const sv2 = sv1;				// "aababc"
+	string_view const sv3 = sv1.substr(0, 5);	// "aabab"
+	string_view const sv4 = sv1.substr(1, 5);	// "ababc"
 
-	BKSGE_CONSTEXPR_OR_CONST string_view sv1{Helper::aababc(), 6};	// "aababc"
-	BKSGE_CONSTEXPR_OR_CONST string_view sv2{Helper::abcd(), 1};	// "a"
-	BKSGE_CONSTEXPR_OR_CONST string_view sv3{Helper::abcd(), 2};	// "ab"
-	BKSGE_CONSTEXPR_OR_CONST string_view sv4{Helper::abcd(), 3};	// "abc"
-	BKSGE_CONSTEXPR_OR_CONST string_view sv5{Helper::abcd(), 0};	// ""
+	VERIFY( (sv1 == sv1));
+	VERIFY( (sv1 == sv2));
+	VERIFY(!(sv1 == sv3));
+	VERIFY(!(sv1 == sv4));
 
-	// (1)
-	EXPECT_EQ(  5u, sv1.find_last_not_of(sv2));
-	EXPECT_EQ(  5u, sv1.find_last_not_of(sv3));
-	EXPECT_EQ(npos, sv1.find_last_not_of(sv4));
-	EXPECT_EQ(  5u, sv1.find_last_not_of(sv5));
-	EXPECT_EQ(npos, sv1.find_last_not_of(sv2, 1));
-	EXPECT_EQ(npos, sv1.find_last_not_of(sv3, 1));
-	EXPECT_EQ(npos, sv1.find_last_not_of(sv4, 1));
-	EXPECT_EQ(  1u, sv1.find_last_not_of(sv5, 1));
-	EXPECT_EQ(  2u, sv1.find_last_not_of(sv2, 2));
-	EXPECT_EQ(npos, sv1.find_last_not_of(sv3, 2));
-	EXPECT_EQ(npos, sv1.find_last_not_of(sv4, 2));
-	EXPECT_EQ(  2u, sv1.find_last_not_of(sv5, 2));
-	EXPECT_EQ(  2u, sv1.find_last_not_of(sv2, 3));
-	EXPECT_EQ(npos, sv1.find_last_not_of(sv3, 3));
-	EXPECT_EQ(npos, sv1.find_last_not_of(sv4, 3));
-	EXPECT_EQ(  3u, sv1.find_last_not_of(sv5, 3));
-	EXPECT_EQ(  4u, sv1.find_last_not_of(sv2, 4));
-	EXPECT_EQ(npos, sv1.find_last_not_of(sv3, 4));
-	EXPECT_EQ(npos, sv1.find_last_not_of(sv4, 4));
-	EXPECT_EQ(  4u, sv1.find_last_not_of(sv5, 4));
-	EXPECT_EQ(  5u, sv1.find_last_not_of(sv2, 5));
-	EXPECT_EQ(  5u, sv1.find_last_not_of(sv3, 5));
-	EXPECT_EQ(npos, sv1.find_last_not_of(sv4, 5));
-	EXPECT_EQ(  5u, sv1.find_last_not_of(sv5, 5));
-	EXPECT_EQ(  5u, sv1.find_last_not_of(sv2, 6));
-	EXPECT_EQ(  5u, sv1.find_last_not_of(sv3, 6));
-	EXPECT_EQ(npos, sv1.find_last_not_of(sv4, 6));
-	EXPECT_EQ(  5u, sv1.find_last_not_of(sv5, 6));
+	VERIFY(!(sv1 != sv1));
+	VERIFY(!(sv1 != sv2));
+	VERIFY( (sv1 != sv3));
+	VERIFY( (sv1 != sv4));
 
-	// (2)
-	EXPECT_EQ(  5u, sv1.find_last_not_of(Helper::abcd()[0]));
-	EXPECT_EQ(  5u, sv1.find_last_not_of(Helper::abcd()[1]));
-	EXPECT_EQ(  4u, sv1.find_last_not_of(Helper::abcd()[2]));
-	EXPECT_EQ(  5u, sv1.find_last_not_of(Helper::abcd()[3]));
-	EXPECT_EQ(npos, sv1.find_last_not_of(Helper::abcd()[0], 1));
-	EXPECT_EQ(  1u, sv1.find_last_not_of(Helper::abcd()[1], 1));
-	EXPECT_EQ(  1u, sv1.find_last_not_of(Helper::abcd()[2], 1));
-	EXPECT_EQ(  1u, sv1.find_last_not_of(Helper::abcd()[3], 1));
-	EXPECT_EQ(  2u, sv1.find_last_not_of(Helper::abcd()[0], 2));
-	EXPECT_EQ(  1u, sv1.find_last_not_of(Helper::abcd()[1], 2));
-	EXPECT_EQ(  2u, sv1.find_last_not_of(Helper::abcd()[2], 2));
-	EXPECT_EQ(  2u, sv1.find_last_not_of(Helper::abcd()[3], 2));
-	EXPECT_EQ(  2u, sv1.find_last_not_of(Helper::abcd()[0], 3));
-	EXPECT_EQ(  3u, sv1.find_last_not_of(Helper::abcd()[1], 3));
-	EXPECT_EQ(  3u, sv1.find_last_not_of(Helper::abcd()[2], 3));
-	EXPECT_EQ(  3u, sv1.find_last_not_of(Helper::abcd()[3], 3));
-	EXPECT_EQ(  4u, sv1.find_last_not_of(Helper::abcd()[0], 4));
-	EXPECT_EQ(  3u, sv1.find_last_not_of(Helper::abcd()[1], 4));
-	EXPECT_EQ(  4u, sv1.find_last_not_of(Helper::abcd()[2], 4));
-	EXPECT_EQ(  4u, sv1.find_last_not_of(Helper::abcd()[3], 4));
-	EXPECT_EQ(  5u, sv1.find_last_not_of(Helper::abcd()[0], 5));
-	EXPECT_EQ(  5u, sv1.find_last_not_of(Helper::abcd()[1], 5));
-	EXPECT_EQ(  4u, sv1.find_last_not_of(Helper::abcd()[2], 5));
-	EXPECT_EQ(  5u, sv1.find_last_not_of(Helper::abcd()[3], 5));
-	EXPECT_EQ(  5u, sv1.find_last_not_of(Helper::abcd()[0], 6));
-	EXPECT_EQ(  5u, sv1.find_last_not_of(Helper::abcd()[1], 6));
-	EXPECT_EQ(  4u, sv1.find_last_not_of(Helper::abcd()[2], 6));
-	EXPECT_EQ(  5u, sv1.find_last_not_of(Helper::abcd()[3], 6));
+	VERIFY(!(sv1 <  sv1));
+	VERIFY(!(sv1 <  sv2));
+	VERIFY(!(sv1 <  sv3));
+	VERIFY( (sv1 <  sv4));
 
-	// (3)
-	EXPECT_EQ(  0u, sv1.find_last_not_of(Helper::abcd(), 0, 0));
-	EXPECT_EQ(npos, sv1.find_last_not_of(Helper::abcd(), 0, 1));
-	EXPECT_EQ(npos, sv1.find_last_not_of(Helper::abcd(), 0, 2));
-	EXPECT_EQ(npos, sv1.find_last_not_of(Helper::abcd(), 0, 3));
-	EXPECT_EQ(  1u, sv1.find_last_not_of(Helper::abcd(), 1, 0));
-	EXPECT_EQ(npos, sv1.find_last_not_of(Helper::abcd(), 1, 1));
-	EXPECT_EQ(npos, sv1.find_last_not_of(Helper::abcd(), 1, 2));
-	EXPECT_EQ(npos, sv1.find_last_not_of(Helper::abcd(), 1, 3));
-	EXPECT_EQ(  2u, sv1.find_last_not_of(Helper::abcd(), 2, 0));
-	EXPECT_EQ(  2u, sv1.find_last_not_of(Helper::abcd(), 2, 1));
-	EXPECT_EQ(npos, sv1.find_last_not_of(Helper::abcd(), 2, 2));
-	EXPECT_EQ(npos, sv1.find_last_not_of(Helper::abcd(), 2, 3));
-	EXPECT_EQ(  3u, sv1.find_last_not_of(Helper::abcd(), 3, 0));
-	EXPECT_EQ(  2u, sv1.find_last_not_of(Helper::abcd(), 3, 1));
-	EXPECT_EQ(npos, sv1.find_last_not_of(Helper::abcd(), 3, 2));
-	EXPECT_EQ(npos, sv1.find_last_not_of(Helper::abcd(), 3, 3));
-	EXPECT_EQ(  4u, sv1.find_last_not_of(Helper::abcd(), 4, 0));
-	EXPECT_EQ(  4u, sv1.find_last_not_of(Helper::abcd(), 4, 1));
-	EXPECT_EQ(npos, sv1.find_last_not_of(Helper::abcd(), 4, 2));
-	EXPECT_EQ(npos, sv1.find_last_not_of(Helper::abcd(), 4, 3));
-	EXPECT_EQ(  5u, sv1.find_last_not_of(Helper::abcd(), 5, 0));
-	EXPECT_EQ(  5u, sv1.find_last_not_of(Helper::abcd(), 5, 1));
-	EXPECT_EQ(  5u, sv1.find_last_not_of(Helper::abcd(), 5, 2));
-	EXPECT_EQ(npos, sv1.find_last_not_of(Helper::abcd(), 5, 3));
-	EXPECT_EQ(  5u, sv1.find_last_not_of(Helper::abcd(), 6, 0));
-	EXPECT_EQ(  5u, sv1.find_last_not_of(Helper::abcd(), 6, 1));
-	EXPECT_EQ(  5u, sv1.find_last_not_of(Helper::abcd(), 6, 2));
-	EXPECT_EQ(npos, sv1.find_last_not_of(Helper::abcd(), 6, 3));
+	VERIFY(!(sv1 >  sv1));
+	VERIFY(!(sv1 >  sv2));
+	VERIFY( (sv1 >  sv3));
+	VERIFY(!(sv1 >  sv4));
 
-	// (4)
-	EXPECT_EQ(npos, sv1.find_last_not_of(Helper::abcd()));
-	EXPECT_EQ(  5u, sv1.find_last_not_of(Helper::ab()));
-	EXPECT_EQ(npos, sv1.find_last_not_of(Helper::ab(), 0));
-	EXPECT_EQ(npos, sv1.find_last_not_of(Helper::ab(), 1));
-	EXPECT_EQ(npos, sv1.find_last_not_of(Helper::ab(), 2));
-	EXPECT_EQ(npos, sv1.find_last_not_of(Helper::ab(), 3));
-	EXPECT_EQ(npos, sv1.find_last_not_of(Helper::ab(), 4));
-	EXPECT_EQ(  5u, sv1.find_last_not_of(Helper::ab(), 5));
-	EXPECT_EQ(  5u, sv1.find_last_not_of(Helper::ab(), 6));
+	VERIFY( (sv1 <= sv1));
+	VERIFY( (sv1 <= sv2));
+	VERIFY(!(sv1 <= sv3));
+	VERIFY( (sv1 <= sv4));
+
+	VERIFY( (sv1 >= sv1));
+	VERIFY( (sv1 >= sv2));
+	VERIFY( (sv1 >= sv3));
+	VERIFY(!(sv1 >= sv4));
+
+#if defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
+	VERIFY(bksge::is_eq(sv1 <=> sv1));
+	VERIFY(bksge::is_eq(sv1 <=> sv2));
+	VERIFY(bksge::is_gt(sv1 <=> sv3));
+	VERIFY(bksge::is_lt(sv1 <=> sv4));
+#endif
+
+	return true;
+}
+
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool OperatorCompareTest2()
+{
+	using string_view = bksge::basic_string_view<CharT>;
+	using Helper = StringViewTestHelper<CharT>;
+
+	string_view const sv1{Helper::abcd()};	// "abcd"
+	CharT const* s1 = Helper::abcd();		// "abcd"
+	CharT const* s2 = Helper::aababc();		// "aababc"
+	CharT const* s3 = Helper::cd();			// "cd"
+
+	VERIFY( (sv1 == s1));
+	VERIFY(!(sv1 == s2));
+	VERIFY(!(sv1 == s3));
+
+	VERIFY(!(sv1 != s1));
+	VERIFY( (sv1 != s2));
+	VERIFY( (sv1 != s3));
+
+	VERIFY(!(sv1 <  s1));
+	VERIFY(!(sv1 <  s2));
+	VERIFY( (sv1 <  s3));
+
+	VERIFY(!(sv1 >  s1));
+	VERIFY( (sv1 >  s2));
+	VERIFY(!(sv1 >  s3));
+
+	VERIFY( (sv1 <= s1));
+	VERIFY(!(sv1 <= s2));
+	VERIFY( (sv1 <= s3));
+
+	VERIFY( (sv1 >= s1));
+	VERIFY( (sv1 >= s2));
+	VERIFY(!(sv1 >= s3));
+
+	VERIFY( (s1 == sv1));
+	VERIFY(!(s2 == sv1));
+	VERIFY(!(s3 == sv1));
+
+	VERIFY(!(s1 != sv1));
+	VERIFY( (s2 != sv1));
+	VERIFY( (s3 != sv1));
+
+	VERIFY(!(s1 <  sv1));
+	VERIFY( (s2 <  sv1));
+	VERIFY(!(s3 <  sv1));
+
+	VERIFY(!(s1 >  sv1));
+	VERIFY(!(s2 >  sv1));
+	VERIFY( (s3 >  sv1));
+
+	VERIFY( (s1 <= sv1));
+	VERIFY( (s2 <= sv1));
+	VERIFY(!(s3 <= sv1));
+
+	VERIFY( (s1 >= sv1));
+	VERIFY(!(s2 >= sv1));
+	VERIFY( (s3 >= sv1));
+
+#if defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
+	VERIFY(bksge::is_eq(sv1 <=> s1));
+	VERIFY(bksge::is_gt(sv1 <=> s2));
+	VERIFY(bksge::is_lt(sv1 <=> s3));
+
+	VERIFY(bksge::is_eq(s1 <=> sv1));
+	VERIFY(bksge::is_lt(s2 <=> sv1));
+	VERIFY(bksge::is_gt(s3 <=> sv1));
+#endif
+
+	return true;
 }
 
 TYPED_TEST(StringViewTest, OperatorCompareTest)
 {
 	using CharT = TypeParam;
-	using string_view = bksge::basic_string_view<CharT>;
-	using Helper = StringViewTestHelper<CharT>;
-
-	BKSGE_CONSTEXPR_OR_CONST auto npos = string_view::npos;
-	(void)npos;
-
-	BKSGE_CONSTEXPR_OR_CONST string_view sv1{Helper::aababc(), 6};	// "aababc"
-	BKSGE_CONSTEXPR_OR_CONST string_view sv2 = sv1;					// "aababc"
-	BKSGE_CONSTEXPR_OR_CONST string_view sv3 = sv1.substr(0, 5);	// "aabab"
-	BKSGE_CONSTEXPR_OR_CONST string_view sv4 = sv1.substr(1, 5);	// "ababc"
-
-	EXPECT_TRUE (sv1 == sv1);
-	EXPECT_TRUE (sv1 == sv2);
-	EXPECT_FALSE(sv1 == sv3);
-	EXPECT_FALSE(sv1 == sv4);
-
-	EXPECT_FALSE(sv1 != sv1);
-	EXPECT_FALSE(sv1 != sv2);
-	EXPECT_TRUE (sv1 != sv3);
-	EXPECT_TRUE (sv1 != sv4);
-
-	EXPECT_FALSE(sv1 <  sv1);
-	EXPECT_FALSE(sv1 <  sv2);
-	EXPECT_FALSE(sv1 <  sv3);
-	EXPECT_TRUE (sv1 <  sv4);
-
-	EXPECT_FALSE(sv1 >  sv1);
-	EXPECT_FALSE(sv1 >  sv2);
-	EXPECT_TRUE (sv1 >  sv3);
-	EXPECT_FALSE(sv1 >  sv4);
-
-	EXPECT_TRUE (sv1 <= sv1);
-	EXPECT_TRUE (sv1 <= sv2);
-	EXPECT_FALSE(sv1 <= sv3);
-	EXPECT_TRUE (sv1 <= sv4);
-
-	EXPECT_TRUE (sv1 >= sv1);
-	EXPECT_TRUE (sv1 >= sv2);
-	EXPECT_TRUE (sv1 >= sv3);
-	EXPECT_FALSE(sv1 >= sv4);
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(OperatorCompareTest1<CharT>());
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(OperatorCompareTest2<CharT>());
 }
 
 TYPED_TEST(StringViewTest, OutputStreamTest)
@@ -1486,4 +1921,63 @@ TYPED_TEST(StringViewTest, OutputStreamTest)
 	}
 }
 
-}	// namespace bksge_string_view_string_view_test
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool HashTest()
+{
+	using string_view = bksge::basic_string_view<CharT>;
+	using Helper = StringViewTestHelper<CharT>;
+	using Hash = bksge::hash<string_view>;
+
+	string_view const sv1{Helper::aababc()};
+	string_view const sv2{Helper::aababc(), 5};
+	string_view const sv3{Helper::aababc(), 4};
+	string_view const sv4{Helper::abcd()};
+
+	Hash h;
+
+	VERIFY(h(sv1) == h(sv1));
+	VERIFY(h(sv1) != h(sv2));
+	VERIFY(h(sv1) != h(sv3));
+	VERIFY(h(sv1) != h(sv4));
+
+	VERIFY(h(sv2) == h(sv2));
+	VERIFY(h(sv2) != h(sv3));
+	VERIFY(h(sv2) != h(sv4));
+
+	VERIFY(h(sv3) == h(sv3));
+	VERIFY(h(sv3) != h(sv4));
+
+	VERIFY(h(sv4) == h(sv4));
+
+	return true;
+}
+TYPED_TEST(StringViewTest, HashTest)
+{
+	using CharT = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(HashTest<CharT>());
+}
+
+template <typename CharT>
+inline BKSGE_CXX14_CONSTEXPR bool LiteralTest()
+{
+	using string_view = bksge::basic_string_view<CharT>;
+	using Helper = StringViewTestHelper<CharT>;
+
+	auto sv = Helper::abcd_sv();
+	static_assert(bksge::is_same<decltype(sv), string_view>::value, "");
+
+	VERIFY(sv == Helper::abcd());
+	VERIFY(sv != Helper::ab());
+	VERIFY(sv != Helper::cd());
+
+	return true;
+}
+TYPED_TEST(StringViewTest, LiteralTest)
+{
+	using CharT = TypeParam;
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(LiteralTest<CharT>());
+}
+
+#undef VERIFY
+
+}	// namespace bksge_string_view_test

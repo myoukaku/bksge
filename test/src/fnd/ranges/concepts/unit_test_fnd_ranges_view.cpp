@@ -89,8 +89,16 @@ BKSGE_RANGES_VIEW_TEST(false, bksge::multiset<int>);
 BKSGE_RANGES_VIEW_TEST(false, bksge::unordered_set<int>);
 BKSGE_RANGES_VIEW_TEST(false, bksge::unordered_multiset<int>);
 BKSGE_RANGES_VIEW_TEST(false, bksge::string);
-#if 0	// TODO
 BKSGE_RANGES_VIEW_TEST(true,  bksge::string_view);
+BKSGE_RANGES_VIEW_TEST(true, bksge::wstring_view);
+#if defined(BKSGE_HAS_CXX20_CHAR8_T)
+BKSGE_RANGES_VIEW_TEST(true, bksge::u8string_view);
+#endif
+#if defined(BKSGE_HAS_CXX11_CHAR16_T)
+BKSGE_RANGES_VIEW_TEST(true, bksge::u16string_view);
+#endif
+#if defined(BKSGE_HAS_CXX11_CHAR32_T)
+BKSGE_RANGES_VIEW_TEST(true, bksge::u32string_view);
 #endif
 BKSGE_RANGES_VIEW_TEST(true,  bksge::span<int>);
 BKSGE_RANGES_VIEW_TEST(true,  bksge::span<int, 0>);
