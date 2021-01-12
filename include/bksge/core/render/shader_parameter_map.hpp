@@ -34,7 +34,7 @@ namespace render
 class ShaderParameterMap : public Identifiable
 {
 public:
-	using key_type = bksge::string;
+	using key_type = std::string;
 	using mapped_type = bksge::shared_ptr<ShaderParameterBase>;
 
 	ShaderParameterMap(void);

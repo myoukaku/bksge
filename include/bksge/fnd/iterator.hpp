@@ -40,6 +40,7 @@
 #include <bksge/fnd/iterator/make_reverse_iterator.hpp>
 #include <bksge/fnd/iterator/move_iterator.hpp>
 #include <bksge/fnd/iterator/next.hpp>
+#include <bksge/fnd/iterator/normal_iterator.hpp>
 #include <bksge/fnd/iterator/ostreambuf_iterator.hpp>
 #include <bksge/fnd/iterator/ostream_iterator.hpp>
 #include <bksge/fnd/iterator/prev.hpp>

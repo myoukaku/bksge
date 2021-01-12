@@ -35,7 +35,7 @@ class Shader : public Identifiable
 {
 private:
 	using Base = Identifiable;
-	using ContainerType = bksge::unordered_map<ShaderStage, bksge::string>;
+	using ContainerType = bksge::unordered_map<ShaderStage, std::string>;
 
 public:
 	using const_iterator = ContainerType::const_iterator;

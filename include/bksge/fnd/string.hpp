@@ -12,6 +12,9 @@
 #include <bksge/fnd/string/basic_string.hpp>
 #include <bksge/fnd/string/char_traits.hpp>
 #include <bksge/fnd/string/config.hpp>
+#include <bksge/fnd/string/erase.hpp>
+#include <bksge/fnd/string/erase_if.hpp>
+#include <bksge/fnd/string/getline.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/string/to_string.hpp>
 #include <bksge/fnd/string/to_wstring.hpp>

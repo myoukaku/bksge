@@ -21,6 +21,7 @@ namespace bksge
 
 //using std::get;
 
+#if 0
 template <bksge::size_t I, typename... Types>
 BKSGE_CONSTEXPR std::variant_alternative_t<I, std::variant<Types...>>&
 get(std::variant<Types...>& v)
@@ -76,6 +77,7 @@ get(std::variant<Types...> const&& v)
 {
 	return std::get<T>(std::move(v));
 }
+#endif
 
 }	// namespace bksge
 

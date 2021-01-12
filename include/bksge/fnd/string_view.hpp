@@ -10,6 +10,7 @@
 #define BKSGE_FND_STRING_VIEW_HPP
 
 #include <bksge/fnd/string_view/basic_string_view.hpp>
+#include <bksge/fnd/string_view/config.hpp>
 #include <bksge/fnd/string_view/string_view.hpp>
 #include <bksge/fnd/string_view/u16string_view.hpp>
 #include <bksge/fnd/string_view/u32string_view.hpp>
