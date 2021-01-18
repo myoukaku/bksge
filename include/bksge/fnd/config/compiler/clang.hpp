@@ -339,53 +339,108 @@
 
 // C++20
 #if (BKSGE_CXX_STANDARD >= 20)
+#  define BKSGE_HAS_CXX20_STRONGER_UNICODE_REQUIREMENTS						// P1041R4 P1139R2
 #  if (BKSGE_CLANG_VERSION >= 60000)
-#    define BKSGE_HAS_CXX20_BITFIELD_DEFAULT_MEMBER_INITIALIZER
-#    define BKSGE_HAS_CXX20_CONST_QUALIFIED_POINTERS_TO_MEMBERS
-#    define BKSGE_HAS_CXX20_CAPTURE_COPY_THIS
+#    define BKSGE_HAS_CXX20_BITFIELD_DEFAULT_MEMBER_INITIALIZER				// P0683R1
+#    define BKSGE_HAS_CXX20_CONST_QUALIFIED_POINTERS_TO_MEMBERS				// P0704R1
+#    define BKSGE_HAS_CXX20_CAPTURE_COPY_THIS								// P0409R2
+#  endif
+#  if (BKSGE_CLANG_VERSION >= 70000)
+#    if defined(__cpp_char8_t) && (__cpp_char8_t >= 201811)
+#      define BKSGE_HAS_CXX20_CHAR8_T										// P0482R6
+#    endif
 #  endif
 #  if (BKSGE_CLANG_VERSION >= 80000)
-#    define BKSGE_HAS_CXX20_RANGE_BASED_FOR_INITIALIZER
-#    define BKSGE_HAS_CXX20_DEFAULT_CONSTRUCTIBLE_AND_ASSIGNABLE_STATELESS_LAMBDAS
-#    define BKSGE_HAS_CXX20_CONSTEXPR_TRY_CATCH
+#    define BKSGE_HAS_CXX20_RANGE_BASED_FOR_INITIALIZER						// P0614R1
+#    define BKSGE_HAS_CXX20_DEFAULT_CONSTRUCTIBLE_AND_ASSIGNABLE_STATELESS_LAMBDAS	// P0624R2
+#    define BKSGE_HAS_CXX20_CONSTEXPR_TRY_CATCH								// P1002R1
+#    define BKSGE_HAS_CXX20_NESTED_INLINE_NAMESPACES						// P1094R2
+#    define BKSGE_HAS_CXX20_CONST_MISMATCH_WITH_DEFAULTED_COPY_CONSTRUCTOR	// P0641R2
+#    define BKSGE_HAS_CXX20_PROHIBIT_AGGREGATES_WITH_USER_DECLARED_CONSTRUCTORS	// P1008R1
+#    define	BKSGE_HAS_CXX20_CONSTEXPR_IN_DECLTYPE							// P0859R0
 #  endif
 #  if (BKSGE_CLANG_VERSION >= 90000)
-#    define BKSGE_HAS_CXX20_TEMPLATE_LAMBDA
-#    define BKSGE_HAS_CXX20_VA_OPT
+#    if defined(__cpp_generic_lambdas) && (__cpp_generic_lambdas >= 201707)
+#      define BKSGE_HAS_CXX20_GENERIC_LAMBDAS								// P0428R2
+#    endif
+#    define BKSGE_HAS_CXX20_VA_OPT											// P0306R4 P1042R1
+#    if defined(__cpp_init_captures) && (__cpp_init_captures >= 201803)
+#      define BKSGE_HAS_CXX20_INIT_CAPTURES									// P0780R2
+#    endif
+#    define BKSGE_HAS_CXX20_IS_CONSTANT_EVALUATED							// P0595R2
+#    define BKSGE_HAS_CXX20_DEPRECATE_COMMA_IN_SUBSCRIPTING_EXPRESSIONS		// P1161R3
+#    define BKSGE_HAS_CXX20_ARRAY_SIZE_DEDUCTION_NEW						// P1009R2
+#    if defined(__cpp_impl_destroying_delete) && (__cpp_impl_destroying_delete >= 201806)
+#      define BKSGE_HAS_CXX20_DESTROYING_DELETE								// P0722R3
+#    endif
+#    define BKSGE_HAS_CXX20_ADL_AND_FUNCTION_TEMPLATES						// P0846R0
 #    if (BKSGE_HAS_CPP_ATTRIBUTE(nodiscard) >= 201907)
-#      define BKSGE_HAS_CXX20_NODISCARD_WITH_MESSAGE
+#      define BKSGE_HAS_CXX20_NODISCARD_WITH_MESSAGE						// P1301R4
 #    endif
 #    if (BKSGE_HAS_CPP_ATTRIBUTE(no_unique_address) >= 201803)
-#      define BKSGE_HAS_CXX20_NO_UNIQUE_ADDRESS
+#      define BKSGE_HAS_CXX20_NO_UNIQUE_ADDRESS								// P0840R2
+#    endif
+#    if defined(__cpp_conditional_explicit) && (__cpp_conditional_explicit >= 201806)
+#      define BKSGE_HAS_CXX20_CONDITIONAL_EXPLICIT							// P0892R2
 #    endif
 #  endif
 #  if (BKSGE_CLANG_VERSION >= 100000)
-#    define BKSGE_HAS_CXX20_DESIGNATED_INITIALIZERS
+#    if defined(__cpp_designated_initializers) && (__cpp_designated_initializers >= 201707)
+#      define BKSGE_HAS_CXX20_DESIGNATED_INITIALIZERS						// P0329R4
+#    endif
+#    if defined(__cpp_constinit) && (__cpp_constinit >= 201907)
+#      define BKSGE_HAS_CXX20_CONSTINIT										// P1143R2
+#    endif
 #  endif
-#  if defined(__cpp_conditional_explicit) && (__cpp_conditional_explicit >= 201806)
-#    define BKSGE_HAS_CXX20_CONDITIONAL_EXPLICIT
-#  endif
-#  if defined(__cpp_char8_t) && (__cpp_char8_t >= 201811)
-#    define BKSGE_HAS_CXX20_CHAR8_T
-#  endif
-#  if defined(__cpp_impl_three_way_comparison) && (__cpp_impl_three_way_comparison >= 201711L)
-#    define BKSGE_HAS_CXX20_THREE_WAY_COMPARISON
-#  endif
-#  if defined(__cpp_constexpr) && (__cpp_constexpr >= 201907)
-#    define BKSGE_HAS_CXX20_CONSTEXPR
-#  endif
-#  if defined(__cpp_concepts) && (__cpp_concepts >= 201907)
-#    define BKSGE_HAS_CXX20_CONCEPTS
-#  endif
-#  if 0
-#    define BKSGE_HAS_CXX20_NONTYPE_TEMPLATE_PARAMETER_CLASS
+#  if (BKSGE_CLANG_VERSION >= 120000)
+#    define BKSGE_HAS_CXX20_NONTYPE_TEMPLATE_PARAMETER_CLASS				// P0732R2
+#    if defined(__cpp_nontype_template_args) && (__cpp_nontype_template_args >= 201911)
+#      define BKSGE_HAS_CXX20_NONTYPE_TEMPLATE_PARAMETER_FLOAT				// P1907R1
+#    endif
 #    if (BKSGE_HAS_CPP_ATTRIBUTE(likely) >= 201803)
-#      define BKSGE_HAS_CXX20_LIKELY
+#      define BKSGE_HAS_CXX20_LIKELY										// P0479R5
 #    endif
 #    if (BKSGE_HAS_CPP_ATTRIBUTE(unlikely) >= 201803)
-#      define BKSGE_HAS_CXX20_UNLIKELY
+#      define BKSGE_HAS_CXX20_UNLIKELY										// P0479R5
+#    endif
+#    if defined(__cpp_constexpr_dynamic_alloc) && (__cpp_constexpr_dynamic_alloc >= 201907)
+#      define BKSGE_HAS_CXX20_CONSTEXPR_DYNAMIC_ALLOC						// P0784R7
 #    endif
 #  endif
-#endif
+#  if defined(__cpp_impl_three_way_comparison) && (__cpp_impl_three_way_comparison >= 201711L)
+#    define BKSGE_HAS_CXX20_THREE_WAY_COMPARISON							// P0515R3 P1185R2 P1186R3 P1630R1
+#  endif
+#  if defined(__cpp_constexpr) && (__cpp_constexpr >= 201907)
+#    define BKSGE_HAS_CXX20_CONSTEXPR										// P1064R0 P1002R1 P1327R0 P1330R0 P1331R2 P1668R1
+#  endif
+#  if defined(__cpp_concepts) && (__cpp_concepts >= 201907)
+#    define BKSGE_HAS_CXX20_CONCEPTS										// P0734R0
+#  endif
+#  if defined(__cpp_impl_coroutine) && (__cpp_impl_coroutine >= 201902)
+#    define BKSGE_HAS_CXX20_COROUTINES										// P0912R5
+#  endif
+#  if defined(__cpp_consteval) && (__cpp_consteval >= 201811)
+#    define BKSGE_HAS_CXX20_CONSTEVAL										// P1073R3
+#  endif
+#  if defined(__cpp_deduction_guides) && (__cpp_deduction_guides >= 201907)
+#    define BKSGE_HAS_CXX20_DEDUCTION_GUIDES								// P1021R4 P1816R0 P1814R0
+#  endif
+#  if defined(__cpp_using_enum) && (__cpp_using_enum >= 201907)
+#    define BKSGE_HAS_CXX20_USING_ENUM										// P1099R5
+#  endif
+#  if defined(__cpp_aggregate_paren_init) && (__cpp_aggregate_paren_init >= 201902)
+#    define BKSGE_HAS_CXX20_AGGREGATE_PAREN_INIT							// P0960R3
+#  endif
+#  if defined(__cpp_modules) && (__cpp_modules >= 201907)
+#    define BKSGE_HAS_CXX20_MODULES											// P1103R3
+#  endif
+
+//#  define BKSGE_HAS_CXX20_DEPRECATE_IMPLICIT_CAPTURE_COPY_THIS			// P0806R2
+//#  define BKSGE_HAS_CXX20_STRUCTURED_BINDING_EXTENSIONS					// P1091R3
+//#  define BKSGE_HAS_CXX20_ACCESS_CHECKING_ON_SPECIALIZATIONS				// P0692R1
+//#  define BKSGE_HAS_CXX20_CONVERSIONS_TO_UNBOUNDED_ARRAY					// P0388R4
+//#  define BKSGE_HAS_CXX20_LAMBDAS_IN_UNEVALUATED_CONTEXTS					// P0315R4
+//#  define BKSGE_HAS_CXX20_CONDITIONALLY_TRIVIAL_SPECIAL_MEMBER_FUNCTIONS	// P0848R3
+#endif	// C++20
 
 #endif // BKSGE_FND_CONFIG_COMPILER_CLANG_HPP

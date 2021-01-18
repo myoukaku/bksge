@@ -318,7 +318,9 @@
 #    define BKSGE_HAS_CXX20_CONSTEXPR_TRY_CATCH
 #  endif
 #  if (BKSGE_CLANG_VERSION >= 110003)
-#    define BKSGE_HAS_CXX20_TEMPLATE_LAMBDA
+#    if defined(__cpp_generic_lambdas) && (__cpp_generic_lambdas >= 201707)
+#      define BKSGE_HAS_CXX20_GENERIC_LAMBDAS
+#    endif
 #    define BKSGE_HAS_CXX20_VA_OPT
 #    define BKSGE_HAS_CXX20_CONDITIONAL_EXPLICIT
 #    if (BKSGE_HAS_CPP_ATTRIBUTE(nodiscard) >= 201907)

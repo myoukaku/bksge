@@ -401,7 +401,8 @@
 #if (_MSC_FULL_VER >= 192027027)
 #  define BKSGE_HAS_CXX14_VARIABLE_TEMPLATES				// 変数テンプレート
 # if (BKSGE_CXX_STANDARD >= 20)
-#  define BKSGE_HAS_CXX20_THREE_WAY_COMPARISON		// 三方比較演算子
+#  define BKSGE_HAS_CXX20_THREE_WAY_COMPARISON				// 三方比較演算子
+#  define BKSGE_HAS_CXX20_PROHIBIT_AGGREGATES_WITH_USER_DECLARED_CONSTRUCTORS	// P1008R1
 # endif
 #endif
 
@@ -412,24 +413,27 @@
 // Visual Studio 2019 Update 1 (16.1.(0-6)) (Visual C++ 14.21)
 #if (_MSC_FULL_VER >= 192127702)
 # if (BKSGE_CXX_STANDARD >= 20)
-#  define BKSGE_HAS_CXX20_DESIGNATED_INITIALIZERS	// 指示付き初期化子
+#  define BKSGE_HAS_CXX20_DESIGNATED_INITIALIZERS						// P0329R4 指示付き初期化子
+#  define BKSGE_HAS_CXX20_ADL_AND_FUNCTION_TEMPLATES					// P0846R0
 # endif
 #endif
 
 // Visual Studio 2019 Update 2 (16.2.(0-5)) (Visual C++ 14.22)
 #if (_MSC_FULL_VER >= 192227905)
 # if (BKSGE_CXX_STANDARD >= 20)
-#  define BKSGE_HAS_CXX20_CAPTURE_COPY_THIS			// ラムダ式のキャプチャとして[=, this]を許可する
-#  define BKSGE_HAS_CXX20_TEMPLATE_LAMBDA			// ジェネリックラムダのテンプレート構文
-#  define BKSGE_HAS_CXX20_DEFAULT_CONSTRUCTIBLE_AND_ASSIGNABLE_STATELESS_LAMBDAS
-#  define BKSGE_HAS_CXX20_CHAR8_T
+#  define BKSGE_HAS_CXX20_CAPTURE_COPY_THIS								// P0409R2	ラムダ式のキャプチャとして[=, this]を許可する
+#  define BKSGE_HAS_CXX20_GENERIC_LAMBDAS								// P0428R2	ジェネリックラムダのテンプレート構文
+#  define BKSGE_HAS_CXX20_DEFAULT_CONSTRUCTIBLE_AND_ASSIGNABLE_STATELESS_LAMBDAS	// P0624R2 Default constructible and assignable stateless lambdas
+#  define BKSGE_HAS_CXX20_CHAR8_T										// P0482R6	__cpp_char8_t >= 201811	char8_t
+#  define BKSGE_HAS_CXX20_INIT_CAPTURES									// P0780R2	Allow pack expansion in lambda init-capture
+#  define BKSGE_HAS_CXX20_DEPRECATE_IMPLICIT_CAPTURE_COPY_THIS			// P0806R2 [=]によるthisの暗黙のキャプチャを非推奨化
 # endif
 #endif
 
 // Visual Studio 2019 Update 3 (16.3.(0-2)) (Visual C++ 14.23)
 #if (_MSC_FULL_VER >= 192328105)
 # if (BKSGE_CXX_STANDARD >= 20)
-#  define BKSGE_HAS_CXX20_CONCEPTS					// コンセプト
+#  define BKSGE_HAS_CXX20_CONCEPTS							// P0734R0 コンセプト
 # endif
 #endif
 
@@ -444,7 +448,9 @@
 // Visual Studio 2019 Update 4 (16.4.(0-2)) (Visual C++ 14.24)
 #if (_MSC_FULL_VER >= 192428314)
 # if (BKSGE_CXX_STANDARD >= 20)
-#  define BKSGE_HAS_CXX20_CONDITIONAL_EXPLICIT
+#  define BKSGE_HAS_CXX20_CONDITIONAL_EXPLICIT				// P0892R2 explicit(bool)
+#  define BKSGE_HAS_CXX20_STRUCTURED_BINDING_EXTENSIONS		// P1091R3 Structured binding extensions
+#  define BKSGE_HAS_CXX20_USING_ENUM						// P1099R5 using enum
 # endif
 #endif
 
@@ -462,15 +468,17 @@
 
 // Visual Studio 2019 Update 5 (16.5.0) (Visual C++ 14.25)
 #if (_MSC_FULL_VER >= 192528610)
-#  if (BKSGE_CXX_STANDARD >= 20)
-#    define BKSGE_HAS_CXX20_BITFIELD_DEFAULT_MEMBER_INITIALIZER
-#    define BKSGE_HAS_CXX20_RANGE_BASED_FOR_INITIALIZER
-#    define BKSGE_HAS_CXX20_CONSTEXPR_TRY_CATCH
-#    define BKSGE_HAS_CXX20_NODISCARD_WITH_MESSAGE
-#    if !(defined(_MSVC_TRADITIONAL) && _MSVC_TRADITIONAL)
-#      define BKSGE_HAS_CXX20_VA_OPT
-#    endif
+# if (BKSGE_CXX_STANDARD >= 20)
+#  define BKSGE_HAS_CXX20_IS_CONSTANT_EVALUATED					// P0595R2	std::is_constant_evaluated
+#  define BKSGE_HAS_CXX20_RANGE_BASED_FOR_INITIALIZER			// P0614R1	初期化式をともなう範囲for文
+#  define BKSGE_HAS_CXX20_BITFIELD_DEFAULT_MEMBER_INITIALIZER	// P0683R1	ビットフィールドのメンバ変数初期化
+#  define BKSGE_HAS_CXX20_CONSTEXPR_TRY_CATCH					// P1002R1	constexpr関数内でtry-catchブロックを書けるようにする
+#  define BKSGE_HAS_CXX20_DEPRECATE_COMMA_IN_SUBSCRIPTING_EXPRESSIONS	// P1161R3	Deprecate a[b,c]
+#  define BKSGE_HAS_CXX20_NODISCARD_WITH_MESSAGE				// P1301R4	[[nodiscard("with reason")]]
+#  if !(defined(_MSVC_TRADITIONAL) && _MSVC_TRADITIONAL)
+#   define BKSGE_HAS_CXX20_VA_OPT								// P0306R4,P1042R1	VA_OPT
 #  endif
+# endif
 #endif
 
 // Visual Studio 2019 Update 5 (16.5.1) (Visual C++ 14.25)
@@ -487,12 +495,14 @@
 
 // Visual Studio 2019 version 16.6.0
 #if (_MSC_FULL_VER >= 192628805)
-#  if (BKSGE_CXX_STANDARD >= 20)
-#    define BKSGE_HAS_CXX20_LIKELY
-#    define BKSGE_HAS_CXX20_UNLIKELY
-#    define BKSGE_HAS_CXX20_NONTYPE_TEMPLATE_PARAMETER_CLASS
-#    define BKSGE_HAS_CXX20_NONTYPE_TEMPLATE_PARAMETER_FLOAT
-#  endif
+# if (BKSGE_CXX_STANDARD >= 20)
+#  define BKSGE_HAS_CXX20_ACCESS_CHECKING_ON_SPECIALIZATIONS	// P0692R1 Access checking on specializations
+#  define BKSGE_HAS_CXX20_LIKELY								// P0479R5
+#  define BKSGE_HAS_CXX20_UNLIKELY								// P0479R5
+#  define BKSGE_HAS_CXX20_NONTYPE_TEMPLATE_PARAMETER_CLASS		// P0732R2 Class Types in Non-Type Template Parameters
+#  define BKSGE_HAS_CXX20_NONTYPE_TEMPLATE_PARAMETER_FLOAT		// P1907R1
+#  define BKSGE_HAS_CXX20_STRONGER_UNICODE_REQUIREMENTS			// P1041R4,P1139R2
+# endif
 #endif
 
 // Visual Studio 2019 version 16.6.(1-5)
@@ -501,6 +511,13 @@
 
 // Visual Studio 2019 version 16.7.0
 #if (_MSC_FULL_VER >= 192729110)
+# if (BKSGE_CXX_STANDARD >= 20)
+#  define BKSGE_HAS_CXX20_ARRAY_SIZE_DEDUCTION_NEW			// P1009R2	new式での配列要素数の推論
+#  define BKSGE_HAS_CXX20_DESTROYING_DELETE					// P0722R3	destroying_delete_t
+#  define BKSGE_HAS_CXX20_NESTED_INLINE_NAMESPACES			// P1094R2	Nested inline namespaces
+#  define BKSGE_HAS_CXX20_DEDUCTION_GUIDES					// P1814R0,P1816R0
+#  define BKSGE_HAS_CXX20_CONVERSIONS_TO_UNBOUNDED_ARRAY	// P0388R4	要素数不明の配列への変換を許可
+# endif
 #endif
 
 // Visual Studio 2019 version 16.7.(1-4)
@@ -513,6 +530,13 @@
 
 // Visual Studio 2019 version 16.8.0
 #if (_MSC_FULL_VER >= 192800000)
+# if (BKSGE_CXX_STANDARD >= 20)
+#  define BKSGE_HAS_CXX20_MODULES							// P1103R3	モジュール
+#  define BKSGE_HAS_CXX20_COROUTINES						// P0912R5	コルーチン
+#  define BKSGE_HAS_CXX20_LAMBDAS_IN_UNEVALUATED_CONTEXTS	// P0315R4	評価されない文脈でのラムダ式
+#  define BKSGE_HAS_CXX20_AGGREGATE_PAREN_INIT				// P0960R3	丸カッコの値リストからの集成体初期化を許可
+#  define BKSGE_HAS_CXX20_CONDITIONALLY_TRIVIAL_SPECIAL_MEMBER_FUNCTIONS	// P0848R3		Conditionally trivial special member functions 
+# endif
 #endif
 
 // Visual Studio 2019 version 16.8.1
@@ -525,6 +549,10 @@
 
 // Visual Studio 2019 version 16.8.3
 #if (_MSC_FULL_VER >= 192829335)
+#endif
+
+// Visual Studio 2019 version 16.8.4
+#if (_MSC_FULL_VER >= 192829336)
 #endif
 
 #if (BKSGE_CXX_STANDARD >= 17)
@@ -646,79 +674,85 @@
 #define BKSGE_HAS_CXX20_BITFIELD_DEFAULT_MEMBER_INITIALIZER	// P0683R1	ビットフィールドのメンバ変数初期化
 #define BKSGE_HAS_CXX20_CONST_QUALIFIED_POINTERS_TO_MEMBERS	// P0704R1	const修飾されたメンバポインタの制限を修正
 #define BKSGE_HAS_CXX20_CAPTURE_COPY_THIS					// P0409R2	ラムダ式のキャプチャとして[=, this]を許可する
-#define BKSGE_HAS_CXX20_VA_OPT								// P0306R4		__VA_OPT__ for preprocessor comma elision
-// P1042R1
+#define BKSGE_HAS_CXX20_VA_OPT								// P0306R4	Comma omission and comma deletion
+															// P1042R1	VA_OPT_wording clarifications
 #define BKSGE_HAS_CXX20_DESIGNATED_INITIALIZERS				// P0329R4	指示付き初期化子
-#define BKSGE_HAS_CXX20_TEMPLATE_LAMBDA						// P0428R2	ジェネリックラムダのテンプレート構文
-// P0702R1		List deduction of vector
+#define BKSGE_HAS_CXX20_GENERIC_LAMBDAS						// P0428R2	ジェネリックラムダのテンプレート構文
+// P0702R1		Initializer list constructors in class template argument deduction
 #define BKSGE_HAS_CXX20_CONCEPTS							// P0734R0	コンセプト	Concepts
-// P0857R0
-// P1084R2
-// P0848R3
-// P1616R1
-// P1452R2
+															// P0857R0	Wording for "functionality gaps in constraints"
+															// P1084R2	Today's return-type-requirement s Are Insufcient
+															// P1616R1	Using unconstrained template template parameters with constrained templates
+															// P1452R2	On the non-uniform semantics of return-type-requirements
+#define BKSGE_HAS_CXX20_CONDITIONALLY_TRIVIAL_SPECIAL_MEMBER_FUNCTIONS	// P0848R3		Conditionally trivial special member functions 
 // P1141R2		制約付きの宣言のためのもうひとつの方法
 #define BKSGE_HAS_CXX20_RANGE_BASED_FOR_INITIALIZER			// P0614R1	初期化式をともなう範囲for文
 // P0588R1		Simplifying implicit lambda capture
-// P0846R0		ADL and function templates that are not visible
-// P0641R2		const mismatch with defaulted copy constructor
-// P0859R0		Less eager instantiation of constexpr functions
+#define BKSGE_HAS_CXX20_ADL_AND_FUNCTION_TEMPLATES			// P0846R0		ADL and function templates that are not visible
+#define BKSGE_HAS_CXX20_CONST_MISMATCH_WITH_DEFAULTED_COPY_CONSTRUCTOR	// P0641R2		const mismatch with defaulted copy constructor
+#define	BKSGE_HAS_CXX20_CONSTEXPR_IN_DECLTYPE				// P0859R0	Less eager instantiation of constexpr functions
 #define BKSGE_HAS_CXX20_THREE_WAY_COMPARISON				// P0515R3	__cpp_impl_three_way_comparison >= 201711	三方比較演算子 (operator<=>)
 															// P0905R1
-															// P1120R0
-															// P1185R2
-															// P1186R3
+															// P1120R0 Consistency improvements for comparisons
+															// P1185R2 <=> != ==
+															// P1186R3 Synthesizing three-way comparison for specified comparison category
 															// P1630R1
-// P0692R1		Access checking on specializations
+#define BKSGE_HAS_CXX20_ACCESS_CHECKING_ON_SPECIALIZATIONS		// P0692R1		Access checking on specializations
 #define BKSGE_HAS_CXX20_DEFAULT_CONSTRUCTIBLE_AND_ASSIGNABLE_STATELESS_LAMBDAS			// P0624R2		Default constructible and assignable stateless lambdas
-// P0315R4		Lambdas in unevaluated contexts
+#define BKSGE_HAS_CXX20_LAMBDAS_IN_UNEVALUATED_CONTEXTS			// P0315R4		Lambdas in unevaluated contexts
 #define BKSGE_HAS_CXX20_NO_UNIQUE_ADDRESS					// P0840R2		Language support for empty objects
 // P0962R1		Relaxing the range-for loop customization point finding rules
 // P0969R0		Allow structured bindings to accessible members
 // P0961R1		Relaxing the structured bindings customization point finding rules
-// P0634R3		Down with typename!
-// P0780R2		Allow pack expansion in lambda init-capture
-#define BKSGE_HAS_CXX20_LIKELY								// P0479R5		Proposed wording for likely and unlikely attributes
-#define BKSGE_HAS_CXX20_UNLIKELY
-// P0806R2		[=]によるthisの暗黙のキャプチャを非推奨化
+// P0634R3		Make typename more optional
+#define BKSGE_HAS_CXX20_INIT_CAPTURES						// P0780R2		Allow pack expansion in lambda init-capture
+#define BKSGE_HAS_CXX20_LIKELY								// P0479R5		Attributes [[likely]]
+#define BKSGE_HAS_CXX20_UNLIKELY							// P0479R5		Attributes [[unlikely]]
+#define BKSGE_HAS_CXX20_DEPRECATE_IMPLICIT_CAPTURE_COPY_THIS	// P0806R2		[=]によるthisの暗黙のキャプチャを非推奨化
 #define BKSGE_HAS_CXX20_NONTYPE_TEMPLATE_PARAMETER_CLASS	// P0732R2	__cpp_nontype_template_parameter_class >= 201806	Class Types in Non-Type Template Parameters
 #define BKSGE_HAS_CXX20_NONTYPE_TEMPLATE_PARAMETER_FLOAT	// P1907R1	__cpp_nontype_template_args >= 201911
 // P0528R3		Atomic Compare-and-Exchange with Padding Bits
-// P0722R3	__cpp_impl_destroying_delete >= 201806	Efficient sized delete for variable sized classes
+#define BKSGE_HAS_CXX20_DESTROYING_DELETE					// P0722R3	__cpp_impl_destroying_delete >= 201806	Efficient sized delete for variable sized classes
 // P1064R0		Allowing Virtual Function Calls in Constant Expressions
-// P1008R1		Prohibit aggregates with user-declared constructors
+#define BKSGE_HAS_CXX20_PROHIBIT_AGGREGATES_WITH_USER_DECLARED_CONSTRUCTORS	// P1008R1		Prohibit aggregates with user-declared constructors
 #define BKSGE_HAS_CXX20_CONDITIONAL_EXPLICIT				// P0892R2	__cpp_conditional_explicit >= 201806	explicit(bool)
 // P1236R1		Signed integers are two's complement
 #define BKSGE_HAS_CXX20_CHAR8_T								// P0482R6	__cpp_char8_t >= 201811	char8_t
-// P1073R3		Immediate functions (consteval)
-// P0595R2		std::is_constant_evaluated
-// P1094R2		Nested inline namespaces
+#define BKSGE_HAS_CXX20_CONSTEVAL							// P1073R3	Immediate functions (consteval)
+#define BKSGE_HAS_CXX20_IS_CONSTANT_EVALUATED				// P0595R2	std::is_constant_evaluated
+#define BKSGE_HAS_CXX20_NESTED_INLINE_NAMESPACES			// P1094R2	Nested inline namespaces
 #define BKSGE_HAS_CXX20_CONSTEXPR_TRY_CATCH					// P1002R1	constexpr関数内でtry-catchブロックを書けるようにする
-															// P1327R1
-															// P1330R0
+// P1327R1	constexpr dynamic_cast and polymorphic typeid
+// P1330R0	Changing the active member of a union inside constexpr
 #define BKSGE_HAS_CXX20_CONSTEXPR							// P1331R2	__cpp_constexpr >= 201907	
-															// P1668R1
-															// P0784R7
+															// P1668R1	Unevaluated asm-declaration in constexpr functions
+#define BKSGE_HAS_CXX20_CONSTEXPR_DYNAMIC_ALLOC				// P0784R7	constexpr container operations
 // P0941R2		Feature test macros
-// P1103R3		Modules
-// P1766R1
-// P1811R0
-// P1703R1
-// P0912R5		Coroutines
-// P0960R3	__cpp_aggregate_paren_init >= 201902	Parenthesized initialization of aggregates
-// P1041R4		Stronger Unicode requirements
-// P1139R2
-// P1091R3		Structured binding extensions
-// P1381R1
-// P1161R3		Deprecate a[b,c]
+#define BKSGE_HAS_CXX20_MODULES								// P1103R3	Modules
+															// P1766R1	Mitigating minor modules maladies 
+															// P1811R0	Relaxing redefinition restrictions for re-exportation robustness
+															// P1874R1	Dynamic Initialization Order of Non-Local Variables in Modules
+															// P1703R1	Recognizing Header Unit Imports Requires Full Preprocessing
+#define BKSGE_HAS_CXX20_COROUTINES							// P0912R5	Coroutines
+#define BKSGE_HAS_CXX20_AGGREGATE_PAREN_INIT				// P0960R3	__cpp_aggregate_paren_init >= 201902	Parenthesized initialization of aggregates
+#define BKSGE_HAS_CXX20_STRONGER_UNICODE_REQUIREMENTS		// P1041R4,P1139R2	Stronger Unicode requirements
+#define BKSGE_HAS_CXX20_STRUCTURED_BINDING_EXTENSIONS		// P1091R3,P1381R1	Structured binding extensions
+#define BKSGE_HAS_CXX20_DEPRECATE_COMMA_IN_SUBSCRIPTING_EXPRESSIONS	// P1161R3		Deprecate a[b,c]
 // P1152R4		Deprecating some uses of volatile
-#define BKSGE_HAS_CXX20_NODISCARD_WITH_MESSAGE				// P1301R4		[[nodiscard("with reason")]]
-// P1099R5		using enum
-// P1816R0		Class template argument deduction for aggregates
-// P1814R0		Class template argument deduction for alias templates
-// P0388R4		Permit conversions to arrays of unknown bound
-// P1143R2	__cpp_constinit >= 201907	constinit
-// P1825R0		More implicit moves (merge P0527R1 and P1155R3)
+#define BKSGE_HAS_CXX20_NODISCARD_WITH_MESSAGE				// P1301R4	[[nodiscard("with reason")]]
+#define BKSGE_HAS_CXX20_USING_ENUM							// P1099R5	using enum
+#define BKSGE_HAS_CXX20_DEDUCTION_GUIDES					// P1814R0,P1816R0,P1021R4
+#define BKSGE_HAS_CXX20_CONVERSIONS_TO_UNBOUNDED_ARRAY		// P0388R4	Permit conversions to arrays of unknown bound
+#define BKSGE_HAS_CXX20_CONSTINIT							// P1143R2	__cpp_constinit >= 201907	constinit
+// P1825R0	More implicit moves (merge P0527R1 and P1155R3)
+#define BKSGE_HAS_CXX20_ARRAY_SIZE_DEDUCTION_NEW			// P1009R2	Array size deduction in new-expressions
+// P0466R5 Layout-Compatibility and Pointer-Interconvertibility Traits
+// P1286R2 Explicitly defaulted functions with different exception specifications
+// P1771R1 [[nodiscard]] for constructors
+// P1946R0 Allow defaulting comparisons by value
+// P1959R0 Remove std::weak_equality and std::strong_equality
+// P0593R6 Pseudo-destructors end object lifetimes
+// P1957R2 Converting from T* to bool should be considered narrowing
 
 #endif
 
