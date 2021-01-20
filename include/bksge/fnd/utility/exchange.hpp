@@ -9,6 +9,20 @@
 #ifndef BKSGE_FND_UTILITY_EXCHANGE_HPP
 #define BKSGE_FND_UTILITY_EXCHANGE_HPP
 
+#include <utility>
+
+#if defined(__cpp_lib_exchange_function) && (__cpp_lib_exchange_function >= 201304) && \
+	defined(__cpp_lib_constexpr_algorithms) && (__cpp_lib_constexpr_algorithms >= 201806)
+
+namespace bksge
+{
+
+using std::exchange;
+
+}	// namespace bksge
+
+#else
+
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
@@ -40,5 +54,7 @@ exchange(T& obj, U&& new_value)
 }
 
 }	// namespace bksge
+
+#endif
 
 #endif // BKSGE_FND_UTILITY_EXCHANGE_HPP
