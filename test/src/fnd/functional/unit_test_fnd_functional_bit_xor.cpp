@@ -16,9 +16,9 @@ GTEST_TEST(FunctionalTest, BitXorTest)
 {
 	{
 		using type = bksge::bit_xor<int>;
-		static_assert(bksge::is_same<type::result_type,          int>::value, "");
-		static_assert(bksge::is_same<type::first_argument_type,  int>::value, "");
-		static_assert(bksge::is_same<type::second_argument_type, int>::value, "");
+		//static_assert(bksge::is_same<type::result_type,          int>::value, "");
+		//static_assert(bksge::is_same<type::first_argument_type,  int>::value, "");
+		//static_assert(bksge::is_same<type::second_argument_type, int>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_EQ(0xBD, type()(0xFA, 0x47));
 		BKSGE_CONSTEXPR_EXPECT_EQ(0xC5, type()(0x35, 0xf0));
 	}

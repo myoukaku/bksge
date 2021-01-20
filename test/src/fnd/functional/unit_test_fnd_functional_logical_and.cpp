@@ -15,9 +15,9 @@ GTEST_TEST(FunctionalTest, LogicalAndTest)
 {
 	{
 		using type = bksge::logical_and<int>;
-		static_assert(bksge::is_same<type::result_type,          bool>::value, "");
-		static_assert(bksge::is_same<type::first_argument_type,  int>::value, "");
-		static_assert(bksge::is_same<type::second_argument_type, int>::value, "");
+		//static_assert(bksge::is_same<type::result_type,          bool>::value, "");
+		//static_assert(bksge::is_same<type::first_argument_type,  int>::value, "");
+		//static_assert(bksge::is_same<type::second_argument_type, int>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_FALSE(type()(0, 0));
 		BKSGE_CONSTEXPR_EXPECT_FALSE(type()(1, 0));
 		BKSGE_CONSTEXPR_EXPECT_FALSE(type()(0, 1));

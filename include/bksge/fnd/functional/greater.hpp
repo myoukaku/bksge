@@ -9,6 +9,19 @@
 #ifndef BKSGE_FND_FUNCTIONAL_GREATER_HPP
 #define BKSGE_FND_FUNCTIONAL_GREATER_HPP
 
+#include <bksge/fnd/functional/config.hpp>
+
+#if defined(BKSGE_USE_STD_FUNCTIONAL_OPERATORS)
+
+namespace bksge
+{
+
+using std::greater;
+
+}	// namespace bksge
+
+#else
+
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 
@@ -23,10 +36,6 @@ namespace bksge
 template <typename T = void>
 struct greater
 {
-	using result_type          = bool;
-	using first_argument_type  = T;
-	using second_argument_type = T;
-
 	BKSGE_CONSTEXPR bool operator()(T const& lhs, T const& rhs) const
 	{
 		return lhs > rhs;
@@ -50,5 +59,7 @@ struct greater<void>
 };
 
 }	// namespace bksge
+
+#endif
 
 #endif // BKSGE_FND_FUNCTIONAL_GREATER_HPP

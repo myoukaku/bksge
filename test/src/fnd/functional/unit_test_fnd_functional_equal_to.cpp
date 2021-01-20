@@ -32,18 +32,18 @@ GTEST_TEST(FunctionalTest, EqualToTest)
 {
 	{
 		using type = bksge::equal_to<int>;
-		static_assert(bksge::is_same<type::result_type,          bool>::value, "");
-		static_assert(bksge::is_same<type::first_argument_type,  int>::value, "");
-		static_assert(bksge::is_same<type::second_argument_type, int>::value, "");
+		//static_assert(bksge::is_same<type::result_type,          bool>::value, "");
+		//static_assert(bksge::is_same<type::first_argument_type,  int>::value, "");
+		//static_assert(bksge::is_same<type::second_argument_type, int>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_TRUE (type()(0, 0));
 		BKSGE_CONSTEXPR_EXPECT_FALSE(type()(2, 3));
 		static_assert(!has_is_transparent<type>::value, "");
 	}
 	{
 		using type = bksge::equal_to<float>;
-		static_assert(bksge::is_same<type::result_type,          bool>::value, "");
-		static_assert(bksge::is_same<type::first_argument_type,  float>::value, "");
-		static_assert(bksge::is_same<type::second_argument_type, float>::value, "");
+		//static_assert(bksge::is_same<type::result_type,          bool>::value, "");
+		//static_assert(bksge::is_same<type::first_argument_type,  float>::value, "");
+		//static_assert(bksge::is_same<type::second_argument_type, float>::value, "");
 		BKSGE_CONSTEXPR_EXPECT_TRUE (type()(0.5,  0.5));
 		BKSGE_CONSTEXPR_EXPECT_FALSE(type()(0.5, -0.5));
 		static_assert(!has_is_transparent<type>::value, "");

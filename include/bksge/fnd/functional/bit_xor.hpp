@@ -9,6 +9,19 @@
 #ifndef BKSGE_FND_FUNCTIONAL_BIT_XOR_HPP
 #define BKSGE_FND_FUNCTIONAL_BIT_XOR_HPP
 
+#include <bksge/fnd/functional/config.hpp>
+
+#if defined(BKSGE_USE_STD_FUNCTIONAL_OPERATORS)
+
+namespace bksge
+{
+
+using std::bit_xor;
+
+}	// namespace bksge
+
+#else
+
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 
@@ -23,10 +36,6 @@ namespace bksge
 template <typename T = void>
 struct bit_xor
 {
-	using result_type          = T;
-	using first_argument_type  = T;
-	using second_argument_type = T;
-
 	BKSGE_CONSTEXPR T operator()(T const& lhs, T const& rhs) const
 	{
 		return lhs ^ rhs;
@@ -50,5 +59,7 @@ struct bit_xor<void>
 };
 
 }	// namespace bksge
+
+#endif
 
 #endif // BKSGE_FND_FUNCTIONAL_BIT_XOR_HPP
