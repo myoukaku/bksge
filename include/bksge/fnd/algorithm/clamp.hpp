@@ -9,6 +9,19 @@
 #ifndef BKSGE_FND_ALGORITHM_CLAMP_HPP
 #define BKSGE_FND_ALGORITHM_CLAMP_HPP
 
+#include <algorithm>
+
+#if defined(__cpp_lib_clamp) && (__cpp_lib_clamp >= 201603)
+
+namespace bksge
+{
+
+using std::clamp;
+
+}	// namespace bksge
+
+#else
+
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -62,5 +75,7 @@ using algorithm::clamp;
 }	// namespace bksge
 
 #include <bksge/fnd/algorithm/inl/clamp_inl.hpp>
+
+#endif
 
 #endif // BKSGE_FND_ALGORITHM_CLAMP_HPP

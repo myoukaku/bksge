@@ -11,16 +11,12 @@
 
 #include <bksge/fnd/config.hpp>
 
-#if 1
 #if (BKSGE_CXX_STANDARD >= 17) && BKSGE_HAS_INCLUDE(<variant>)
-#include <variant>
+#  include <variant>
 #endif
 
 #if defined(__cpp_lib_variant) && (__cpp_lib_variant >= 201606)
-#define BKSGE_USE_STD_VARIANT
+#  define BKSGE_USE_STD_VARIANT
 #endif
-#endif
-
-//#define BKSGE_ENABLE_NARROWING_CONVERSIONS_IN_VARIANT
 
 #endif // BKSGE_FND_VARIANT_CONFIG_HPP

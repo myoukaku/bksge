@@ -11,6 +11,7 @@
 
 #include <bksge/fnd/span/as_bytes.hpp>
 #include <bksge/fnd/span/as_writable_bytes.hpp>
+#include <bksge/fnd/span/config.hpp>
 #include <bksge/fnd/span/dynamic_extent.hpp>
 #include <bksge/fnd/span/span.hpp>
 

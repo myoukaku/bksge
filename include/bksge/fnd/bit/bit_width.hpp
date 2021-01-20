@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/bit/config.hpp>
 
-#if defined(BKSGE_HAS_CXX_LIB_BITOPS)
+#if defined(BKSGE_HAS_CXX_LIB_INT_POW2)
 
 #include <bit>
 

@@ -1778,21 +1778,21 @@ inline BKSGE_CXX14_CONSTEXPR bool LerpTest()
 		Quaternion q1 {  0,  0,  0,  0 };
 		Quaternion q2 { 10, 20, 30, 40 };
 
-		VERIFY(Quaternion( 0.0,  0.0,  0.0,  0.0) == Lerp(q1, q2, 0.00f));
-		VERIFY(Quaternion( 2.5,  5.0,  7.5, 10.0) == Lerp(q1, q2, 0.25f));
-		VERIFY(Quaternion( 5.0, 10.0, 15.0, 20.0) == Lerp(q1, q2, 0.50f));
-		VERIFY(Quaternion( 7.5, 15.0, 22.5, 30.0) == Lerp(q1, q2, 0.75f));
-		VERIFY(Quaternion(10.0, 20.0, 30.0, 40.0) == Lerp(q1, q2, 1.00f));
+		VERIFY(Quaternion( 0.0,  0.0,  0.0,  0.0) == Lerp(q1, q2, T(0.00)));
+		VERIFY(Quaternion( 2.5,  5.0,  7.5, 10.0) == Lerp(q1, q2, T(0.25)));
+		VERIFY(Quaternion( 5.0, 10.0, 15.0, 20.0) == Lerp(q1, q2, T(0.50)));
+		VERIFY(Quaternion( 7.5, 15.0, 22.5, 30.0) == Lerp(q1, q2, T(0.75)));
+		VERIFY(Quaternion(10.0, 20.0, 30.0, 40.0) == Lerp(q1, q2, T(1.00)));
 	}
 	{
 		Quaternion q1 { -10,  10,  20, -30 };
 		Quaternion q2 {  10, -20, -30,  40 };
 
-		VERIFY(Quaternion(-10.0,  10.0,  20.0, -30.0) == Lerp(q1, q2, 0.00));
-		VERIFY(Quaternion( -5.0,   2.5,   7.5, -12.5) == Lerp(q1, q2, 0.25));
-		VERIFY(Quaternion(  0.0,  -5.0,  -5.0,   5.0) == Lerp(q1, q2, 0.50));
-		VERIFY(Quaternion(  5.0, -12.5, -17.5,  22.5) == Lerp(q1, q2, 0.75));
-		VERIFY(Quaternion( 10.0, -20.0, -30.0,  40.0) == Lerp(q1, q2, 1.00));
+		VERIFY(Quaternion(-10.0,  10.0,  20.0, -30.0) == Lerp(q1, q2, T(0.00)));
+		VERIFY(Quaternion( -5.0,   2.5,   7.5, -12.5) == Lerp(q1, q2, T(0.25)));
+		VERIFY(Quaternion(  0.0,  -5.0,  -5.0,   5.0) == Lerp(q1, q2, T(0.50)));
+		VERIFY(Quaternion(  5.0, -12.5, -17.5,  22.5) == Lerp(q1, q2, T(0.75)));
+		VERIFY(Quaternion( 10.0, -20.0, -30.0,  40.0) == Lerp(q1, q2, T(1.00)));
 	}
 
 	return true;

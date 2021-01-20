@@ -9,6 +9,19 @@
 #ifndef BKSGE_FND_ALGORITHM_SAMPLE_HPP
 #define BKSGE_FND_ALGORITHM_SAMPLE_HPP
 
+#include <algorithm>
+
+#if defined(__cpp_lib_sample) && (__cpp_lib_sample >= 201603)
+
+namespace bksge
+{
+
+using std::sample;
+
+}	// namespace bksge
+
+#else
+
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_integral.hpp>
 #include <bksge/fnd/config.hpp>
@@ -70,5 +83,7 @@ using algorithm::sample;
 }	// namespace bksge
 
 #include <bksge/fnd/algorithm/inl/sample_inl.hpp>
+
+#endif
 
 #endif // BKSGE_FND_ALGORITHM_SAMPLE_HPP

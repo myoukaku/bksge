@@ -908,21 +908,21 @@ inline BKSGE_CXX14_CONSTEXPR bool LerpTest()
 		Scale2 v1 {  0,  0 };
 		Scale2 v2 { 10, 20 };
 
-		VERIFY(Scale2( 0.0,  0.0) == Lerp(v1, v2, 0.00f));
-		VERIFY(Scale2( 2.5,  5.0) == Lerp(v1, v2, 0.25f));
-		VERIFY(Scale2( 5.0, 10.0) == Lerp(v1, v2, 0.50f));
-		VERIFY(Scale2( 7.5, 15.0) == Lerp(v1, v2, 0.75f));
-		VERIFY(Scale2(10.0, 20.0) == Lerp(v1, v2, 1.00f));
+		VERIFY(Scale2( 0.0,  0.0) == Lerp(v1, v2, T(0.00)));
+		VERIFY(Scale2( 2.5,  5.0) == Lerp(v1, v2, T(0.25)));
+		VERIFY(Scale2( 5.0, 10.0) == Lerp(v1, v2, T(0.50)));
+		VERIFY(Scale2( 7.5, 15.0) == Lerp(v1, v2, T(0.75)));
+		VERIFY(Scale2(10.0, 20.0) == Lerp(v1, v2, T(1.00)));
 	}
 	{
 		Scale2 v1 { -10,  10 };
 		Scale2 v2 {  10, -20 };
 
-		VERIFY(Scale2(-10.0,  10.0) == Lerp(v1, v2, 0.00));
-		VERIFY(Scale2( -5.0,   2.5) == Lerp(v1, v2, 0.25));
-		VERIFY(Scale2(  0.0,  -5.0) == Lerp(v1, v2, 0.50));
-		VERIFY(Scale2(  5.0, -12.5) == Lerp(v1, v2, 0.75));
-		VERIFY(Scale2( 10.0, -20.0) == Lerp(v1, v2, 1.00));
+		VERIFY(Scale2(-10.0,  10.0) == Lerp(v1, v2, T(0.00)));
+		VERIFY(Scale2( -5.0,   2.5) == Lerp(v1, v2, T(0.25)));
+		VERIFY(Scale2(  0.0,  -5.0) == Lerp(v1, v2, T(0.50)));
+		VERIFY(Scale2(  5.0, -12.5) == Lerp(v1, v2, T(0.75)));
+		VERIFY(Scale2( 10.0, -20.0) == Lerp(v1, v2, T(1.00)));
 	}
 	return true;
 }

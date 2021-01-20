@@ -9,9 +9,12 @@
 #ifndef BKSGE_FND_FUNCTIONAL_INVOKE_HPP
 #define BKSGE_FND_FUNCTIONAL_INVOKE_HPP
 
+#include <bksge/fnd/config.hpp>
 #include <functional>
 
-#if 0//defined(__cpp_lib_invoke) && (__cpp_lib_invoke >= 201411)
+#if 0 && (BKSGE_CXX_STANDARD >= 20) && \
+	defined(__cpp_lib_invoke) && (__cpp_lib_invoke >= 201411) && \
+	defined(__cpp_lib_constexpr_functional) && (__cpp_lib_constexpr_functional >= 201907)
 
 namespace bksge
 {
@@ -23,7 +26,6 @@ using std::invoke;
 #else
 
 #include <bksge/fnd/utility/forward.hpp>
-#include <bksge/fnd/config.hpp>
 #include <bksge/fnd/functional/inl/invoke_inl.hpp>
 
 #define BKSGE_NOEXCEPT_DECLTYPE_RETURN(...) \

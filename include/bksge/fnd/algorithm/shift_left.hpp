@@ -9,6 +9,19 @@
 #ifndef BKSGE_FND_ALGORITHM_SHIFT_LEFT_HPP
 #define BKSGE_FND_ALGORITHM_SHIFT_LEFT_HPP
 
+#include <algorithm>
+
+#if defined(__cpp_lib_shift) && (__cpp_lib_shift >= 201806)
+
+namespace bksge
+{
+
+using std::shift_left;
+
+}	// namespace bksge
+
+#else
+
 #include <bksge/fnd/algorithm/move.hpp>
 #include <bksge/fnd/iterator/iterator_traits.hpp>
 #include <bksge/fnd/iterator/ranges/next.hpp>
@@ -38,5 +51,7 @@ shift_left(ForwardIterator first, ForwardIterator last,
 }
 
 }	// namespace bksge
+
+#endif
 
 #endif // BKSGE_FND_ALGORITHM_SHIFT_LEFT_HPP

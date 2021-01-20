@@ -9,6 +9,26 @@
 #ifndef BKSGE_FND_TYPE_TRAITS_IS_BOUNDED_ARRAY_HPP
 #define BKSGE_FND_TYPE_TRAITS_IS_BOUNDED_ARRAY_HPP
 
+#include <type_traits>
+
+#if defined(__cpp_lib_bounded_array_traits) && (__cpp_lib_bounded_array_traits >= 201902)
+
+#include <bksge/fnd/type_traits/detail/constant_wrapper.hpp>
+
+namespace bksge
+{
+
+template <typename T>
+struct is_bounded_array
+	: public detail::constant_wrapper<
+		std::is_bounded_array<T>
+	>
+{};
+
+}	// namespace bksge
+
+#else
+
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
@@ -41,5 +61,7 @@ bool is_bounded_array_v  = is_bounded_array<T>::value;
 #endif
 
 }	// namespace bksge
+
+#endif
 
 #endif // BKSGE_FND_TYPE_TRAITS_IS_BOUNDED_ARRAY_HPP

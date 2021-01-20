@@ -9,6 +9,19 @@
 #ifndef BKSGE_FND_NUMERIC_LCM_HPP
 #define BKSGE_FND_NUMERIC_LCM_HPP
 
+#include <numeric>
+
+#if defined(__cpp_lib_gcd_lcm) && (__cpp_lib_gcd_lcm >= 201606)
+
+namespace bksge
+{
+
+using std::lcm;
+
+}	// namespace bksge
+
+#else
+
 #include <bksge/fnd/numeric/gcd.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/common_type.hpp>
@@ -57,5 +70,7 @@ BKSGE_NOEXCEPT
 using numeric::lcm;
 
 }	// namespace bksge
+
+#endif
 
 #endif // BKSGE_FND_NUMERIC_LCM_HPP

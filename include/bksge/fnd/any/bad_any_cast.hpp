@@ -9,12 +9,9 @@
 #ifndef BKSGE_FND_ANY_BAD_ANY_CAST_HPP
 #define BKSGE_FND_ANY_BAD_ANY_CAST_HPP
 
-#include <bksge/fnd/config.hpp>
-#if (BKSGE_CXX_STANDARD >= 17) && BKSGE_HAS_INCLUDE(<any>)
-#include <any>
-#endif
+#include <bksge/fnd/any/config.hpp>
 
-#if defined(__cpp_lib_any) && (__cpp_lib_any >= 201606)
+#if defined(BKSGE_USE_STD_ANY)
 
 namespace bksge
 {

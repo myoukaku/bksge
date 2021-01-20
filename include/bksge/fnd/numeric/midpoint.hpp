@@ -9,6 +9,19 @@
 #ifndef BKSGE_FND_NUMERIC_MIDPOINT_HPP
 #define BKSGE_FND_NUMERIC_MIDPOINT_HPP
 
+#include <numeric>
+
+#if defined(__cpp_lib_interpolate) && (__cpp_lib_interpolate >= 201902)
+
+namespace bksge
+{
+
+using std::midpoint;
+
+}	// namespace bksge
+
+#else
+
 #include <bksge/fnd/concepts/detail/overload_priority.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
@@ -106,5 +119,7 @@ midpoint(T* a, T* b) BKSGE_NOEXCEPT
 }
 
 }	// namespace bksge
+
+#endif
 
 #endif // BKSGE_FND_NUMERIC_MIDPOINT_HPP

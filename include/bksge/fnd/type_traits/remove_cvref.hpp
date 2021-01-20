@@ -9,6 +9,20 @@
 #ifndef BKSGE_FND_TYPE_TRAITS_REMOVE_CVREF_HPP
 #define BKSGE_FND_TYPE_TRAITS_REMOVE_CVREF_HPP
 
+#include <type_traits>
+
+#if defined(__cpp_lib_remove_cvref) && (__cpp_lib_remove_cvref >= 201711)
+
+namespace bksge
+{
+
+using std::remove_cvref;
+using std::remove_cvref_t;
+
+}	// namespace bksge
+
+#else
+
 #include <bksge/fnd/type_traits/remove_cv.hpp>
 #include <bksge/fnd/type_traits/remove_reference.hpp>
 
@@ -32,5 +46,7 @@ template <typename T>
 using remove_cvref_t = typename remove_cvref<T>::type;
 
 }	// namespace bksge
+
+#endif
 
 #endif // BKSGE_FND_TYPE_TRAITS_REMOVE_CVREF_HPP

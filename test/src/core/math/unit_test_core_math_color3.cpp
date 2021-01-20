@@ -1012,21 +1012,21 @@ inline BKSGE_CXX14_CONSTEXPR bool LerpTest()
 		Color3 v1 {  0,  0,  0 };
 		Color3 v2 { 10, 20, 30 };
 
-		VERIFY(Color3( 0.0,  0.0,  0.0) == Lerp(v1, v2, 0.00f));
-		VERIFY(Color3( 2.5,  5.0,  7.5) == Lerp(v1, v2, 0.25f));
-		VERIFY(Color3( 5.0, 10.0, 15.0) == Lerp(v1, v2, 0.50f));
-		VERIFY(Color3( 7.5, 15.0, 22.5) == Lerp(v1, v2, 0.75f));
-		VERIFY(Color3(10.0, 20.0, 30.0) == Lerp(v1, v2, 1.00f));
+		VERIFY(Color3( 0.0,  0.0,  0.0) == Lerp(v1, v2, T(0.00)));
+		VERIFY(Color3( 2.5,  5.0,  7.5) == Lerp(v1, v2, T(0.25)));
+		VERIFY(Color3( 5.0, 10.0, 15.0) == Lerp(v1, v2, T(0.50)));
+		VERIFY(Color3( 7.5, 15.0, 22.5) == Lerp(v1, v2, T(0.75)));
+		VERIFY(Color3(10.0, 20.0, 30.0) == Lerp(v1, v2, T(1.00)));
 	}
 	{
 		Color3 v1 { -10,  10,  20 };
 		Color3 v2 {  10, -20, -30 };
 
-		VERIFY(Color3(-10.0,  10.0,  20.0) == Lerp(v1, v2, 0.00));
-		VERIFY(Color3( -5.0,   2.5,   7.5) == Lerp(v1, v2, 0.25));
-		VERIFY(Color3(  0.0,  -5.0,  -5.0) == Lerp(v1, v2, 0.50));
-		VERIFY(Color3(  5.0, -12.5, -17.5) == Lerp(v1, v2, 0.75));
-		VERIFY(Color3( 10.0, -20.0, -30.0) == Lerp(v1, v2, 1.00));
+		VERIFY(Color3(-10.0,  10.0,  20.0) == Lerp(v1, v2, T(0.00)));
+		VERIFY(Color3( -5.0,   2.5,   7.5) == Lerp(v1, v2, T(0.25)));
+		VERIFY(Color3(  0.0,  -5.0,  -5.0) == Lerp(v1, v2, T(0.50)));
+		VERIFY(Color3(  5.0, -12.5, -17.5) == Lerp(v1, v2, T(0.75)));
+		VERIFY(Color3( 10.0, -20.0, -30.0) == Lerp(v1, v2, T(1.00)));
 	}
 	return true;
 }

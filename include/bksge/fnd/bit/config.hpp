@@ -18,7 +18,10 @@
 #    define BKSGE_HAS_CXX_LIB_BIT_CAST
 #  endif
 #  if defined(__cpp_lib_bitops) && (__cpp_lib_bitops >= 201907)
-//#    define BKSGE_HAS_CXX_LIB_BITOPS
+#    define BKSGE_HAS_CXX_LIB_BITOPS
+#  endif
+#  if defined(__cpp_lib_int_pow2) && (__cpp_lib_int_pow2 >= 202002)
+#    define BKSGE_HAS_CXX_LIB_INT_POW2
 #  endif
 
 #endif

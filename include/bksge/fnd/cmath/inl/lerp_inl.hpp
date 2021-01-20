@@ -10,78 +10,55 @@
 #define BKSGE_FND_CMATH_INL_LERP_INL_HPP
 
 #include <bksge/fnd/cmath/lerp.hpp>
-#include <bksge/fnd/cmath/isinf.hpp>
-#include <bksge/fnd/cmath/isnan.hpp>
-#include <bksge/fnd/type_traits/float_promote.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
-{
-
-namespace cmath
 {
 
 namespace detail
 {
 
 template <typename T>
-inline BKSGE_CONSTEXPR T
-lerp_unchecked(T from, T to, T t) BKSGE_NOEXCEPT
+inline BKSGE_CXX14_CONSTEXPR T
+lerp_impl(T a, T b, T t) BKSGE_NOEXCEPT
 {
-	return from + (to - from) * t;
-}
+	if ((a <= 0 && b >= 0) || (a >= 0 && b <= 0))
+	{
+		return t * b + (1 - t) * a;
+	}
 
-template <typename FloatType>
-inline BKSGE_CONSTEXPR FloatType
-lerp_impl(FloatType from, FloatType to, FloatType t) BKSGE_NOEXCEPT
-{
-	return
-		bksge::isnan(from) ||
-		bksge::isnan(to)   ||
-		bksge::isnan(t)    ||
-		bksge::isinf(from) ||
-		bksge::isinf(to) ?
-			bksge::numeric_limits<FloatType>::quiet_NaN() :
-		bksge::isinf(t) ?
-			t :
-		(from == to) ?
-			from :
-		lerp_unchecked(from, to, t);
+	if (t == 1)
+	{
+		return b;		// exact
+	}
+
+	// Exact at t=0, monotonic except near t=1,
+	// bounded, determinate, and consistent:
+	const T x = a + t * (b - a);
+	return (t > 1) == (b > a) ?
+		(b < x ? x : b) :
+		(b > x ? x : b);  // monotonic near t=1
 }
 
 }	// namespace detail
 
-template <
-	typename ArithmeticType1,
-	typename ArithmeticType2,
-	typename ArithmeticType3,
-	typename
->
-inline BKSGE_CONSTEXPR
-bksge::float_promote_t<
-	ArithmeticType1,
-	ArithmeticType2,
-	ArithmeticType3
->
-lerp(
-	ArithmeticType1 from,
-	ArithmeticType2 to,
-	ArithmeticType3 t) BKSGE_NOEXCEPT
+inline BKSGE_CXX14_CONSTEXPR float
+lerp(float a, float b, float t) BKSGE_NOEXCEPT
 {
-	using type = bksge::float_promote_t<
-		ArithmeticType1,
-		ArithmeticType2,
-		ArithmeticType3
-	>;
-
-	return detail::lerp_impl(
-		static_cast<type>(from),
-		static_cast<type>(to),
-		static_cast<type>(t));
+	return detail::lerp_impl(a, b, t);
 }
 
-}	// namespace cmath
+inline BKSGE_CXX14_CONSTEXPR double
+lerp(double a, double b, double t) BKSGE_NOEXCEPT
+{
+	return detail::lerp_impl(a, b, t);
+}
+
+inline BKSGE_CXX14_CONSTEXPR long double
+lerp(long double a, long double b, long double t) BKSGE_NOEXCEPT
+{
+	return detail::lerp_impl(a, b, t);
+}
 
 }	// namespace bksge
 

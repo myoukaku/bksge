@@ -8,6 +8,7 @@
 
 #include <bksge/fnd/cmath/lerp.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
+//#include <bksge/fnd/cmath/isfinite.hpp>
 #include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
@@ -19,131 +20,64 @@ namespace bksge_cmath_test
 namespace lerp_test
 {
 
-template <typename T1, typename T2, typename T3>
-void LerpTestFloat(void)
+template <typename T>
+void LerpTest(void)
 {
-	BKSGE_CONSTEXPR auto nan1 = bksge::numeric_limits<T1>::quiet_NaN();
-	BKSGE_CONSTEXPR auto nan2 = bksge::numeric_limits<T2>::quiet_NaN();
-	BKSGE_CONSTEXPR auto nan3 = bksge::numeric_limits<T3>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf1 = bksge::numeric_limits<T1>::infinity();
-	BKSGE_CONSTEXPR auto inf2 = bksge::numeric_limits<T2>::infinity();
-	BKSGE_CONSTEXPR auto inf3 = bksge::numeric_limits<T3>::infinity();
+	//BKSGE_CONSTEXPR auto nan = bksge::numeric_limits<T>::quiet_NaN();
+	//BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<T>::infinity();
+	BKSGE_CONSTEXPR auto min = bksge::numeric_limits<T>::lowest();
+	BKSGE_CONSTEXPR auto max = bksge::numeric_limits<T>::max();
 
-	BKSGE_CONSTEXPR_EXPECT_EQ( 0.0,   bksge::lerp(T1(0.0), T2(0.5), T3( 0.00)));
-	BKSGE_CONSTEXPR_EXPECT_EQ( 0.125, bksge::lerp(T1(0.0), T2(0.5), T3( 0.25)));
-	BKSGE_CONSTEXPR_EXPECT_EQ( 0.25,  bksge::lerp(T1(0.0), T2(0.5), T3( 0.50)));
-	BKSGE_CONSTEXPR_EXPECT_EQ( 0.375, bksge::lerp(T1(0.0), T2(0.5), T3( 0.75)));
-	BKSGE_CONSTEXPR_EXPECT_EQ( 0.5,   bksge::lerp(T1(0.0), T2(0.5), T3( 1.00)));
-	BKSGE_CONSTEXPR_EXPECT_EQ( 1.0,   bksge::lerp(T1(0.0), T2(0.5), T3( 2.00)));
-	BKSGE_CONSTEXPR_EXPECT_EQ( 1.5,   bksge::lerp(T1(0.0), T2(0.5), T3( 3.00)));
-	BKSGE_CONSTEXPR_EXPECT_EQ(-0.5,   bksge::lerp(T1(0.0), T2(0.5), T3(-1.00)));
-	BKSGE_CONSTEXPR_EXPECT_EQ(-1.0,   bksge::lerp(T1(0.0), T2(0.5), T3(-2.00)));
-	BKSGE_CONSTEXPR_EXPECT_EQ(-1.5,   bksge::lerp(T1(0.0), T2(0.5), T3(-3.00)));
-	BKSGE_CONSTEXPR_EXPECT_EQ( inf3,  bksge::lerp(T1(0.0), T2(0.5),  inf3));
-	BKSGE_CONSTEXPR_EXPECT_EQ(-inf3,  bksge::lerp(T1(0.0), T2(0.5), -inf3));
+	// When isfinite(a) && isfinite(b):
+	// ・If t == 0, the result is equal to a.
+	// ・If t == 1, the result is equal to b.
+	// ・If t >= 0 && t <= 1, the result is finite.
+	// ・If isfinite(t) && a == b, the result is equal to a.
+	// ・If isfinite(t) || (!isnan(t) && b-a != 0), the result is not NaN.
 
-	BKSGE_CONSTEXPR_EXPECT_EQ(10.0,   bksge::lerp(T1(10.0), T2(5.0), T3( 0.0)));
-	BKSGE_CONSTEXPR_EXPECT_EQ( 8.75,  bksge::lerp(T1(10.0), T2(5.0), T3( 0.25)));
-	BKSGE_CONSTEXPR_EXPECT_EQ( 7.5,   bksge::lerp(T1(10.0), T2(5.0), T3( 0.5)));
-	BKSGE_CONSTEXPR_EXPECT_EQ( 6.25,  bksge::lerp(T1(10.0), T2(5.0), T3( 0.75)));
-	BKSGE_CONSTEXPR_EXPECT_EQ( 5.0,   bksge::lerp(T1(10.0), T2(5.0), T3( 1.0)));
-	BKSGE_CONSTEXPR_EXPECT_EQ( 0.0,   bksge::lerp(T1(10.0), T2(5.0), T3( 2.0)));
-	BKSGE_CONSTEXPR_EXPECT_EQ(15.0,   bksge::lerp(T1(10.0), T2(5.0), T3(-1.0)));
-	BKSGE_CONSTEXPR_EXPECT_EQ(20.0,   bksge::lerp(T1(10.0), T2(5.0), T3(-2.0)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(T(-20.0), bksge::lerp(T( 0.0), T(10.0), T(-2.0)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(T(-10.0), bksge::lerp(T( 0.0), T(10.0), T(-1.0)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(T(  0.0), bksge::lerp(T( 0.0), T(10.0), T( 0.0)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(T(  2.5), bksge::lerp(T( 0.0), T(10.0), T( 0.25)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(T(  5.0), bksge::lerp(T( 0.0), T(10.0), T( 0.5)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(T(  7.5), bksge::lerp(T( 0.0), T(10.0), T( 0.75)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(T( 10.0), bksge::lerp(T( 0.0), T(10.0), T( 1.0)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(T( 20.0), bksge::lerp(T( 0.0), T(10.0), T( 2.0)));
 
-	// from, to, t のうちどれか1つでもNaNの場合、NaNを返す。
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::lerp( nan1,     T2(2.0),  T3(0.0))));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::lerp(-nan1,     T2(2.0),  T3(0.0))));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::lerp( T1(1.0),  nan2,     T3(0.0))));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::lerp( T1(1.0), -nan2,     T3(0.0))));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::lerp( T1(1.0),  T2(2.0),  nan3)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::lerp( T1(1.0),  T2(2.0), -nan3)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::lerp( nan1,     nan2,     nan3)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::lerp(-nan1,    -nan2,    -nan3)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(min, bksge::lerp(min, max, T(0.0)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(max, bksge::lerp(min, max, T(1.0)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(max, bksge::lerp(max, min, T(0.0)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(min, bksge::lerp(max, min, T(1.0)));
+	/*BKSGE_CXX14_CONSTEXPR_*/EXPECT_TRUE(std::isfinite(bksge::lerp(min, max, T(0.1))));
+	/*BKSGE_CXX14_CONSTEXPR_*/EXPECT_TRUE(std::isfinite(bksge::lerp(min, max, T(0.5))));
+	/*BKSGE_CXX14_CONSTEXPR_*/EXPECT_TRUE(std::isfinite(bksge::lerp(min, max, T(0.9))));
 
-	// from か to が ±∞ の場合、NaNを返す。
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::lerp( inf1,     T2(2.0),  T3(0.0))));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::lerp(-inf1,     T2(2.0),  T3(0.0))));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::lerp( T1(1.0),  inf2,     T3(0.0))));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::lerp( T1(1.0), -inf2,     T3(0.0))));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::lerp( inf1,     inf2,     T3(0.0))));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::lerp( inf1,     inf2,     inf3)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::lerp(-inf1,    -inf2,     T3(0.0))));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::lerp(-inf1,    -inf2,    -inf3)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(T( 0.0), bksge::lerp(T( 0.0), T( 0.0), min));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(T( 0.0), bksge::lerp(T( 0.0), T( 0.0), max));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(T(10.0), bksge::lerp(T(10.0), T(10.0), min));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(T(10.0), bksge::lerp(T(10.0), T(10.0), max));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(min, bksge::lerp(min, min, T(0.0)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(min, bksge::lerp(min, min, T(0.5)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(min, bksge::lerp(min, min, T(1.0)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(min, bksge::lerp(min, min, min));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(min, bksge::lerp(min, min, max));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(max, bksge::lerp(max, max, T(0.0)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(max, bksge::lerp(max, max, T(0.5)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(max, bksge::lerp(max, max, T(1.0)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(max, bksge::lerp(max, max, min));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(max, bksge::lerp(max, max, max));
 
-	// t が ±∞ の場合、±∞を返す。
-	BKSGE_CONSTEXPR_EXPECT_EQ( inf3,         bksge::lerp( T1(1.0),  T2(2.0),  inf3));
-	BKSGE_CONSTEXPR_EXPECT_EQ(-inf3,         bksge::lerp( T1(1.0),  T2(2.0), -inf3));
-
-	// from == to の場合、fromを返す。
-	BKSGE_CONSTEXPR_EXPECT_EQ( 2.0,          bksge::lerp(T1(2.0), T2(2.0), T3(0.0)));
-	BKSGE_CONSTEXPR_EXPECT_EQ( 2.0,          bksge::lerp(T1(2.0), T2(2.0), T3(1.0)));
-	BKSGE_CONSTEXPR_EXPECT_EQ( inf3,         bksge::lerp(T1(2.0), T2(2.0),  inf3));
-	BKSGE_CONSTEXPR_EXPECT_EQ(-inf3,         bksge::lerp(T1(2.0), T2(2.0), -inf3));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::lerp(T1(2.0), T2(2.0),  nan3)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::lerp(T1(2.0), T2(2.0), -nan3)));
-}
-  
-template <typename T1, typename T2>
-void LerpTestInteger(void)
-{
-	BKSGE_CONSTEXPR_EXPECT_EQ(  0.0f, bksge::lerp(T1( 0), T1(10), T2( 0.00)));
-	BKSGE_CONSTEXPR_EXPECT_EQ(  2.5f, bksge::lerp(T1( 0), T1(10), T2( 0.25)));
-	BKSGE_CONSTEXPR_EXPECT_EQ(  5.0f, bksge::lerp(T1( 0), T1(10), T2( 0.50)));
-	BKSGE_CONSTEXPR_EXPECT_EQ(  7.5f, bksge::lerp(T1( 0), T1(10), T2( 0.75)));
-	BKSGE_CONSTEXPR_EXPECT_EQ( 10.0f, bksge::lerp(T1( 0), T1(10), T2( 1.00)));
-	BKSGE_CONSTEXPR_EXPECT_EQ( 20.0f, bksge::lerp(T1( 0), T1(10), T2( 2.00)));
-	BKSGE_CONSTEXPR_EXPECT_EQ( -5.0f, bksge::lerp(T1( 0), T1(10), T2(-0.50)));
-	BKSGE_CONSTEXPR_EXPECT_EQ(-10.0f, bksge::lerp(T1( 0), T1(10), T2(-1.00)));
-
-	BKSGE_CONSTEXPR_EXPECT_EQ( 20.0f, bksge::lerp(T1(20), T1(-10), T2( 0.00)));
-	BKSGE_CONSTEXPR_EXPECT_EQ( 12.5f, bksge::lerp(T1(20), T1(-10), T2( 0.25)));
-	BKSGE_CONSTEXPR_EXPECT_EQ(  5.0f, bksge::lerp(T1(20), T1(-10), T2( 0.50)));
-	BKSGE_CONSTEXPR_EXPECT_EQ( -2.5f, bksge::lerp(T1(20), T1(-10), T2( 0.75)));
-	BKSGE_CONSTEXPR_EXPECT_EQ(-10.0f, bksge::lerp(T1(20), T1(-10), T2( 1.00)));
-	BKSGE_CONSTEXPR_EXPECT_EQ(-40.0f, bksge::lerp(T1(20), T1(-10), T2( 2.00)));
-	BKSGE_CONSTEXPR_EXPECT_EQ( 50.0f, bksge::lerp(T1(20), T1(-10), T2(-1.00)));
+	// TODO
+	//BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::isnan(bksge::lerp(T(0.0), T(1.0), inf)));
+	//BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::isnan(bksge::lerp(min,    max,    inf)));
+	//BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::isnan(bksge::lerp(max,    min,    inf)));
 }
 
 GTEST_TEST(CMathTest, LerpTest)
 {
-//	LerpTestFloat<float, float,       float>();
-	LerpTestFloat<float, float,       double>();
-//	LerpTestFloat<float, float,       long double>();
-	LerpTestFloat<float, double,      float>();
-//	LerpTestFloat<float, double,      double>();
-	LerpTestFloat<float, double,      long double>();
-//	LerpTestFloat<float, long double, float>();
-	LerpTestFloat<float, long double, double>();
-//	LerpTestFloat<float, long double, long double>();
-	LerpTestFloat<double, float,       float>();
-//	LerpTestFloat<double, float,       double>();
-	LerpTestFloat<double, float,       long double>();
-//	LerpTestFloat<double, double,      float>();
-	LerpTestFloat<double, double,      double>();
-//	LerpTestFloat<double, double,      long double>();
-	LerpTestFloat<double, long double, float>();
-//	LerpTestFloat<double, long double, double>();
-	LerpTestFloat<double, long double, long double>();
-//	LerpTestFloat<long double, float,       float>();
-	LerpTestFloat<long double, float,       double>();
-//	LerpTestFloat<long double, float,       long double>();
-	LerpTestFloat<long double, double,      float>();
-//	LerpTestFloat<long double, double,      double>();
-	LerpTestFloat<long double, double,      long double>();
-//	LerpTestFloat<long double, long double, float>();
-	LerpTestFloat<long double, long double, double>();
-//	LerpTestFloat<long double, long double, long double>();
-
-	LerpTestInteger<int,   float>();
-//	LerpTestInteger<int,   double>();
-	LerpTestInteger<int,   long double>();
-//	LerpTestInteger<short, float>();
-	LerpTestInteger<short, double>();
-//	LerpTestInteger<short, long double>();
-	LerpTestInteger<long,  float>();
-//	LerpTestInteger<long,  double>();
-	LerpTestInteger<long,  long double>();
+	LerpTest<float>();
+	LerpTest<double>();
+	LerpTest<long double>();
 }
 
 }	// namespace lerp_test

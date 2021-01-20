@@ -912,21 +912,21 @@ inline BKSGE_CXX14_CONSTEXPR bool LerpTest()
 		Vector2 v1 {  0,  0 };
 		Vector2 v2 { 10, 20 };
 
-		VERIFY(Vector2( 0.0,  0.0) == Lerp(v1, v2, 0.00f));
-		VERIFY(Vector2( 2.5,  5.0) == Lerp(v1, v2, 0.25f));
-		VERIFY(Vector2( 5.0, 10.0) == Lerp(v1, v2, 0.50f));
-		VERIFY(Vector2( 7.5, 15.0) == Lerp(v1, v2, 0.75f));
-		VERIFY(Vector2(10.0, 20.0) == Lerp(v1, v2, 1.00f));
+		VERIFY(Vector2( 0.0,  0.0) == Lerp(v1, v2, T(0.00)));
+		VERIFY(Vector2( 2.5,  5.0) == Lerp(v1, v2, T(0.25)));
+		VERIFY(Vector2( 5.0, 10.0) == Lerp(v1, v2, T(0.50)));
+		VERIFY(Vector2( 7.5, 15.0) == Lerp(v1, v2, T(0.75)));
+		VERIFY(Vector2(10.0, 20.0) == Lerp(v1, v2, T(1.00)));
 	}
 	{
 		Vector2 v1 { -10,  10 };
 		Vector2 v2 {  10, -20 };
 
-		VERIFY(Vector2(-10.0,  10.0) == Lerp(v1, v2, 0.00));
-		VERIFY(Vector2( -5.0,   2.5) == Lerp(v1, v2, 0.25));
-		VERIFY(Vector2(  0.0,  -5.0) == Lerp(v1, v2, 0.50));
-		VERIFY(Vector2(  5.0, -12.5) == Lerp(v1, v2, 0.75));
-		VERIFY(Vector2( 10.0, -20.0) == Lerp(v1, v2, 1.00));
+		VERIFY(Vector2(-10.0,  10.0) == Lerp(v1, v2, T(0.00)));
+		VERIFY(Vector2( -5.0,   2.5) == Lerp(v1, v2, T(0.25)));
+		VERIFY(Vector2(  0.0,  -5.0) == Lerp(v1, v2, T(0.50)));
+		VERIFY(Vector2(  5.0, -12.5) == Lerp(v1, v2, T(0.75)));
+		VERIFY(Vector2( 10.0, -20.0) == Lerp(v1, v2, T(1.00)));
 	}
 	return true;
 }

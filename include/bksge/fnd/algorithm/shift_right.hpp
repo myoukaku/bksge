@@ -9,6 +9,19 @@
 #ifndef BKSGE_FND_ALGORITHM_SHIFT_RIGHT_HPP
 #define BKSGE_FND_ALGORITHM_SHIFT_RIGHT_HPP
 
+#include <algorithm>
+
+#if 0//defined(__cpp_lib_shift) && (__cpp_lib_shift >= 201806)
+
+namespace bksge
+{
+
+using std::shift_right;
+
+}	// namespace bksge
+
+#else
+
 #include <bksge/fnd/algorithm/move.hpp>
 #include <bksge/fnd/algorithm/move_backward.hpp>
 #include <bksge/fnd/algorithm/iter_swap.hpp>
@@ -120,5 +133,7 @@ shift_right(ForwardIterator first, ForwardIterator last,
 }
 
 }	// namespace bksge
+
+#endif
 
 #endif // BKSGE_FND_ALGORITHM_SHIFT_RIGHT_HPP
