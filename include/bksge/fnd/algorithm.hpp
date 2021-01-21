@@ -67,6 +67,7 @@
 #include <bksge/fnd/algorithm/pop_heap.hpp>
 #include <bksge/fnd/algorithm/prev_permutation.hpp>
 #include <bksge/fnd/algorithm/push_heap.hpp>
+#include <bksge/fnd/algorithm/radix_sort.hpp>
 #include <bksge/fnd/algorithm/ranges.hpp>
 #include <bksge/fnd/algorithm/remove.hpp>
 #include <bksge/fnd/algorithm/remove_copy.hpp>
