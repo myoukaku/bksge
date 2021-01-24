@@ -17,9 +17,6 @@
 namespace bksge
 {
 
-namespace cmath
-{
-
 /**
  *	@brief	天井関数
  *
@@ -41,10 +38,6 @@ template <
 >
 BKSGE_CONSTEXPR bksge::float_promote_t<ArithmeticType>
 ceil(ArithmeticType x) BKSGE_NOEXCEPT;
-
-}	// namespace cmath
-
-using cmath::ceil;
 
 }	// namespace bksge
 

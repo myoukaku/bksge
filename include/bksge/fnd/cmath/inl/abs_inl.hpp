@@ -18,9 +18,6 @@
 namespace bksge
 {
 
-namespace cmath
-{
-
 namespace detail
 {
 
@@ -69,8 +66,6 @@ abs(ArithmeticType x) BKSGE_NOEXCEPT
 {
 	return detail::abs_impl<ArithmeticType>::invoke(x);
 }
-
-}	// namespace cmath
 
 }	// namespace bksge
 

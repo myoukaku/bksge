@@ -14,9 +14,6 @@
 namespace bksge
 {
 
-namespace cmath
-{
-
 /**
  *	@brief	π
  */
@@ -88,17 +85,6 @@ inline BKSGE_CONSTEXPR T e() BKSGE_NOEXCEPT
 {
 	return static_cast<T>(2.71828182845904523536028747135266249775724709369995957496696762772407663035354759457138217852516642742746639193L);
 }
-
-}	// namespace cmath
-
-using cmath::pi;
-using cmath::half_pi;
-using cmath::quarter_pi;
-using cmath::three_quarters_pi;
-using cmath::third;
-using cmath::ln_ten;
-using cmath::ln_two;
-using cmath::e;
 
 }	// namespace bksge
 

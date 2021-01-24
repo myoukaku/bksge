@@ -20,9 +20,6 @@
 namespace bksge
 {
 
-namespace cmath
-{
-
 namespace detail
 {
 
@@ -78,8 +75,6 @@ cos(ArithmeticType x) BKSGE_NOEXCEPT
 	using type = bksge::float_promote_t<ArithmeticType>;
 	return detail::cos_impl(static_cast<type>(x));
 }
-
-}	// namespace cmath
 
 }	// namespace bksge
 

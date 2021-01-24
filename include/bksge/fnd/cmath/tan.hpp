@@ -17,9 +17,6 @@
 namespace bksge
 {
 
-namespace cmath
-{
-
 /**
  *	@brief	正接（タンジェント）を取得する
  *
@@ -41,10 +38,6 @@ template <
 >
 BKSGE_CONSTEXPR bksge::float_promote_t<ArithmeticType>
 tan(ArithmeticType x) BKSGE_NOEXCEPT;
-
-}	// namespace cmath
-
-using cmath::tan;
 
 }	// namespace bksge
 

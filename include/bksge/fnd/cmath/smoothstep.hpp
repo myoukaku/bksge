@@ -17,9 +17,6 @@
 namespace bksge
 {
 
-namespace cmath
-{
-
 /**
  *	@brief	smoothstep
  *
@@ -54,10 +51,6 @@ template <
 >
 BKSGE_CONSTEXPR bksge::float_promote_t<ArithmeticType1, ArithmeticType2, ArithmeticType3>
 smoothstep(ArithmeticType1 from, ArithmeticType2 to, ArithmeticType3 x) BKSGE_NOEXCEPT;
-
-}	// namespace cmath
-
-using cmath::smoothstep;
 
 }	// namespace bksge
 

@@ -16,9 +16,6 @@
 namespace bksge
 {
 
-namespace cmath
-{
-
 /**
  *	@brief	切り下げ
  *
@@ -50,10 +47,6 @@ template <
 >
 BKSGE_CONSTEXPR ArithmeticType1
 round_down(ArithmeticType1 x, ArithmeticType2 base) BKSGE_NOEXCEPT;
-
-}	// namespace cmath
-
-using cmath::round_down;
 
 }	// namespace bksge
 

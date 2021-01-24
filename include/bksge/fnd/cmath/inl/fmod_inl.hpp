@@ -20,9 +20,6 @@
 namespace bksge
 {
 
-namespace cmath
-{
-
 namespace detail
 {
 
@@ -54,8 +51,6 @@ fmod(ArithmeticType1 x, ArithmeticType2 y) BKSGE_NOEXCEPT
 	using type = bksge::float_promote_t<ArithmeticType1, ArithmeticType2>;
 	return detail::fmod_impl(static_cast<type>(x), static_cast<type>(y));
 }
-
-}	// namespace cmath
 
 }	// namespace bksge
 

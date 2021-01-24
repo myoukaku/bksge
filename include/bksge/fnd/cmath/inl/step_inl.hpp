@@ -17,9 +17,6 @@
 namespace bksge
 {
 
-namespace cmath
-{
-
 namespace detail
 {
 
@@ -44,8 +41,6 @@ step(ArithmeticType1 a, ArithmeticType2 x) BKSGE_NOEXCEPT
 	using type = bksge::float_promote_t<ArithmeticType1, ArithmeticType2>;
 	return detail::step_impl(static_cast<type>(a), static_cast<type>(x));
 }
-
-}	// namespace cmath
 
 }	// namespace bksge
 

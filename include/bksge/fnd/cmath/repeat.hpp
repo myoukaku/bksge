@@ -17,9 +17,6 @@
 namespace bksge
 {
 
-namespace cmath
-{
-
 /**
  *	@brief		回り込み処理
  *
@@ -58,10 +55,6 @@ repeat(
 	ArithmeticType1 x,
 	ArithmeticType2 min,
 	ArithmeticType3 max) BKSGE_NOEXCEPT;
-
-}	// namespace cmath
-
-using cmath::repeat;
 
 }	// namespace bksge
 

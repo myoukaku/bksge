@@ -10,7 +10,9 @@
 #define BKSGE_FND_CMATH_HPP
 
 #include <bksge/fnd/cmath/abs.hpp>
+#include <bksge/fnd/cmath/acos.hpp>
 #include <bksge/fnd/cmath/almost_equal.hpp>
+#include <bksge/fnd/cmath/asin.hpp>
 #include <bksge/fnd/cmath/ceil.hpp>
 #include <bksge/fnd/cmath/clamp.hpp>
 #include <bksge/fnd/cmath/constants.hpp>

@@ -16,9 +16,6 @@
 namespace bksge
 {
 
-namespace cmath
-{
-
 /**
  *	@brief	2つの値がほぼ同じかどうかを調べる
  *
@@ -40,10 +37,6 @@ template <
 >
 BKSGE_CONSTEXPR bool
 almost_equal(ArithmeticType1 x, ArithmeticType2 y) BKSGE_NOEXCEPT;
-
-}	// namespace cmath
-
-using cmath::almost_equal;
 
 }	// namespace bksge
 

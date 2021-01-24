@@ -21,9 +21,6 @@
 namespace bksge
 {
 
-namespace cmath
-{
-
 namespace detail
 {
 
@@ -81,8 +78,6 @@ sqrt(ArithmeticType x) BKSGE_NOEXCEPT
 	using type = bksge::float_promote_t<ArithmeticType>;
 	return detail::sqrt_impl(static_cast<type>(x));
 }
-
-}	// namespace cmath
 
 }	// namespace bksge
 

@@ -17,17 +17,12 @@
 namespace bksge
 {
 
-namespace cmath
-{
-
 template <typename ArithmeticType, typename>
 inline BKSGE_CONSTEXPR bksge::float_promote_t<ArithmeticType>
 saturate(ArithmeticType x) BKSGE_NOEXCEPT
 {
-	return bksge::cmath::clamp(x, ArithmeticType(0), ArithmeticType(1));
+	return bksge::clamp(x, ArithmeticType(0), ArithmeticType(1));
 }
-
-}	// namespace cmath
 
 }	// namespace bksge
 

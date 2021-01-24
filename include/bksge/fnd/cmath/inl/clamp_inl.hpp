@@ -19,9 +19,6 @@
 namespace bksge
 {
 
-namespace cmath
-{
-
 namespace detail
 {
 
@@ -77,8 +74,6 @@ clamp(
 		static_cast<type>(min),
 		static_cast<type>(max));
 }
-
-}	// namespace cmath
 
 }	// namespace bksge
 

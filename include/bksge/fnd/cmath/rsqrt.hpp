@@ -17,9 +17,6 @@
 namespace bksge
 {
 
-namespace cmath
-{
-
 /**
  *	@brief	平方根の逆数を取得する
  *
@@ -42,10 +39,6 @@ template <
 >
 BKSGE_CONSTEXPR bksge::float_promote_t<ArithmeticType>
 rsqrt(ArithmeticType x) BKSGE_NOEXCEPT;
-
-}	// namespace cmath
-
-using cmath::rsqrt;
 
 }	// namespace bksge
 

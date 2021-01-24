@@ -22,9 +22,6 @@
 namespace bksge
 {
 
-namespace cmath
-{
-
 namespace detail
 {
 
@@ -73,8 +70,6 @@ frac(ArithmeticType x) BKSGE_NOEXCEPT
 {
 	return detail::frac_impl(x);
 }
-
-}	// namespace cmath
 
 }	// namespace bksge
 

@@ -17,9 +17,6 @@
 namespace bksge
 {
 
-namespace cmath
-{
-
 /**
  *	@brief	ラジアン値をデグリー値に変換する
  *
@@ -40,10 +37,6 @@ template <
 >
 BKSGE_CONSTEXPR bksge::float_promote_t<ArithmeticType>
 radians_to_degrees(ArithmeticType x) BKSGE_NOEXCEPT;
-
-}	// namespace cmath
-
-using cmath::radians_to_degrees;
 
 }	// namespace bksge
 

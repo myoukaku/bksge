@@ -17,9 +17,6 @@
 namespace bksge
 {
 
-namespace cmath
-{
-
 /**
  *	@brief	剰余を求めます
  *
@@ -47,10 +44,6 @@ template <
 >
 BKSGE_CONSTEXPR bksge::float_promote_t<ArithmeticType1, ArithmeticType2>
 fmod(ArithmeticType1 x, ArithmeticType2 y) BKSGE_NOEXCEPT;
-
-}	// namespace cmath
-
-using cmath::fmod;
 
 }	// namespace bksge
 

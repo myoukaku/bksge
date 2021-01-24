@@ -17,9 +17,6 @@
 namespace bksge
 {
 
-namespace cmath
-{
-
 /**
  *	@brief	ゼロ方向への丸め
  *
@@ -43,10 +40,6 @@ template <
 >
 BKSGE_CONSTEXPR bksge::float_promote_t<ArithmeticType>
 trunc(ArithmeticType x) BKSGE_NOEXCEPT;
-
-}	// namespace cmath
-
-using cmath::trunc;
 
 }	// namespace bksge
 

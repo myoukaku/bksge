@@ -16,9 +16,6 @@
 namespace bksge
 {
 
-namespace cmath
-{
-
 /**
  *	@brief	負の値かどうか調べる
  *
@@ -42,10 +39,6 @@ template <
 >
 BKSGE_CONSTEXPR bool
 signbit(ArithmeticType x) BKSGE_NOEXCEPT;
-
-}	// namespace cmath
-
-using cmath::signbit;
 
 }	// namespace bksge
 

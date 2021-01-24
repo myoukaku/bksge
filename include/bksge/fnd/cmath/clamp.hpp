@@ -17,9 +17,6 @@
 namespace bksge
 {
 
-namespace cmath
-{
-
 /**
  *	@brief	値をmin以上max以下の範囲に丸めます
  *
@@ -51,10 +48,6 @@ clamp(
 	ArithmeticType1 x,
 	ArithmeticType2 min,
 	ArithmeticType3 max) BKSGE_NOEXCEPT;
-
-}	// namespace cmath
-
-using cmath::clamp;
 
 }	// namespace bksge
 

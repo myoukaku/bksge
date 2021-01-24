@@ -16,9 +16,6 @@
 namespace bksge
 {
 
-namespace cmath
-{
-
 /**
  *	@brief	NaNかどうか調べる
  *
@@ -38,10 +35,6 @@ template <
 >
 BKSGE_CONSTEXPR bool
 isnan(ArithmeticType x) BKSGE_NOEXCEPT;
-
-}	// namespace cmath
-
-using cmath::isnan;
 
 }	// namespace bksge
 

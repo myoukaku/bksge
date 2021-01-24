@@ -20,9 +20,6 @@
 namespace bksge
 {
 
-namespace cmath
-{
-
 namespace detail
 {
 
@@ -69,8 +66,6 @@ almost_equal(ArithmeticType1 x, ArithmeticType2 y) BKSGE_NOEXCEPT
 	using type = bksge::arithmetic_promote_t<ArithmeticType1, ArithmeticType2>;
 	return detail::almost_equal_impl<type>::invoke(x, y);
 }
-
-}	// namespace cmath
 
 }	// namespace bksge
 

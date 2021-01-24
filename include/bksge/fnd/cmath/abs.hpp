@@ -16,9 +16,6 @@
 namespace bksge
 {
 
-namespace cmath
-{
-
 /**
  *	@brief	絶対値を求める
  *
@@ -56,10 +53,6 @@ template <
 >
 BKSGE_CONSTEXPR ArithmeticType
 abs(ArithmeticType x) BKSGE_NOEXCEPT;
-
-}	// namespace cmath
-
-using cmath::abs;
 
 }	// namespace bksge
 

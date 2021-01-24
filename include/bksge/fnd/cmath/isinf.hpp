@@ -16,9 +16,6 @@
 namespace bksge
 {
 
-namespace cmath
-{
-
 /**
  *	@brief	∞かどうか調べる
  *
@@ -38,10 +35,6 @@ template <
 >
 BKSGE_CONSTEXPR bool
 isinf(ArithmeticType x) BKSGE_NOEXCEPT;
-
-}	// namespace cmath
-
-using cmath::isinf;
 
 }	// namespace bksge
 

@@ -20,9 +20,6 @@
 namespace bksge
 {
 
-namespace cmath
-{
-
 namespace detail
 {
 
@@ -71,8 +68,6 @@ smoothstep(ArithmeticType1 from, ArithmeticType2 to, ArithmeticType3 x) BKSGE_NO
 	using type = bksge::float_promote_t<ArithmeticType1, ArithmeticType2, ArithmeticType3>;
 	return detail::smoothstep_impl(static_cast<type>(from), static_cast<type>(to), static_cast<type>(x));
 }
-
-}	// namespace cmath
 
 }	// namespace bksge
 

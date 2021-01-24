@@ -21,9 +21,6 @@
 namespace bksge
 {
 
-namespace cmath
-{
-
 namespace detail
 {
 
@@ -31,7 +28,7 @@ template <typename T>
 inline BKSGE_CONSTEXPR T
 rsqrt_unchecked(T x) BKSGE_NOEXCEPT
 {
-	return T(1) / bksge::cmath::detail::sqrt_unchecked(x);
+	return T(1) / bksge::detail::sqrt_unchecked(x);
 }
 
 template <typename FloatType>
@@ -59,8 +56,6 @@ rsqrt(ArithmeticType x) BKSGE_NOEXCEPT
 	using type = bksge::float_promote_t<ArithmeticType>;
 	return detail::rsqrt_impl(static_cast<type>(x));
 }
-
-}	// namespace cmath
 
 }	// namespace bksge
 

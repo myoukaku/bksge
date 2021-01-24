@@ -18,9 +18,6 @@
 namespace bksge
 {
 
-namespace cmath
-{
-
 namespace detail
 {
 
@@ -50,8 +47,6 @@ radians_to_degrees(ArithmeticType x) BKSGE_NOEXCEPT
 	using type = bksge::float_promote_t<ArithmeticType>;
 	return detail::radians_to_degrees_impl(static_cast<type>(x));
 }
-
-}	// namespace cmath
 
 }	// namespace bksge
 

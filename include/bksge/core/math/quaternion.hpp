@@ -16,6 +16,7 @@
 #include <bksge/core/math/detail/matrix3x3_to_quaternion.hpp>
 #include <bksge/core/math/vector3.hpp>
 #include <bksge/core/math/matrix3x3.hpp>
+#include <bksge/fnd/cmath/acos.hpp>
 #include <bksge/fnd/cmath/sin.hpp>
 #include <bksge/fnd/cmath/cos.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
@@ -411,7 +412,7 @@ Slerp(Quaternion<T> const& from, Quaternion<T> const& to, T t) BKSGE_NOEXCEPT
 		return Lerp(from, to, t);
 	}
 
-	auto const half_theta = std::acos(cos_half_theta);
+	auto const half_theta = bksge::acos(cos_half_theta);
 	auto const inv_sin_half_theta = T(1.0) / bksge::sin(half_theta);
 	auto const ratio_a = bksge::sin(half_theta * (T(1.0) - t)) * inv_sin_half_theta;
 	auto const ratio_b = bksge::sin(half_theta * t) * inv_sin_half_theta;

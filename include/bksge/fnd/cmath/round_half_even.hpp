@@ -17,9 +17,6 @@
 namespace bksge
 {
 
-namespace cmath
-{
-
 /**
  *	@brief	最近接偶数への丸め
  *
@@ -50,10 +47,6 @@ template <
 >
 BKSGE_CONSTEXPR bksge::float_promote_t<ArithmeticType>
 round_half_even(ArithmeticType x);
-
-}	// namespace cmath
-
-using cmath::round_half_even;
 
 }	// namespace bksge
 

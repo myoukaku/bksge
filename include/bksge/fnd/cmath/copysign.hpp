@@ -17,9 +17,6 @@
 namespace bksge
 {
 
-namespace cmath
-{
-
 /**
  *	@brief	数の符号をコピーする
  *
@@ -45,10 +42,6 @@ template <
 >
 BKSGE_CONSTEXPR bksge::float_promote_t<ArithmeticType1, ArithmeticType2>
 copysign(ArithmeticType1 x, ArithmeticType2 y) BKSGE_NOEXCEPT;
-
-}	// namespace cmath
-
-using cmath::copysign;
 
 }	// namespace bksge
 

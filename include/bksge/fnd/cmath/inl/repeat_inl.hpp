@@ -20,9 +20,6 @@
 namespace bksge
 {
 
-namespace cmath
-{
-
 namespace detail
 {
 
@@ -30,7 +27,7 @@ template <typename T>
 inline BKSGE_CONSTEXPR T
 repeat_unchecked(T t, T length) BKSGE_NOEXCEPT
 {
-	return t - bksge::cmath::floor(t / length) * length;
+	return t - bksge::floor(t / length) * length;
 }
 
 template <typename T>
@@ -88,8 +85,6 @@ repeat(
 		static_cast<type>(min),
 		static_cast<type>(max));
 }
-
-}	// namespace cmath
 
 }	// namespace bksge
 

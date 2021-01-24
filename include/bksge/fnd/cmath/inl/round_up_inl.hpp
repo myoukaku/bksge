@@ -19,9 +19,6 @@
 namespace bksge
 {
 
-namespace cmath
-{
-
 namespace detail
 {
 
@@ -57,8 +54,6 @@ round_up(ArithmeticType1 x, ArithmeticType2 base) BKSGE_NOEXCEPT
 	using type = bksge::float_promote_t<ArithmeticType1, ArithmeticType2>;
 	return static_cast<ArithmeticType1>(detail::round_up_impl(static_cast<type>(x), static_cast<type>(base)));
 }
-
-}	// namespace cmath
 
 }	// namespace bksge
 
