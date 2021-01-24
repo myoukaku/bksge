@@ -32,6 +32,7 @@ using std::array;
 #include <bksge/fnd/compare/strong_ordering.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstddef/ptrdiff_t.hpp>
+#include <bksge/fnd/cstring/memcmp.hpp>
 #include <bksge/fnd/iterator/reverse_iterator.hpp>
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
@@ -39,8 +40,10 @@ using std::array;
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/type_traits/is_swappable.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_swappable.hpp>
+#include <bksge/fnd/type_traits/detail/is_memcmp_ordered.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <type_traits>	// is_constant_evaluated
 
 namespace bksge
 {
@@ -279,13 +282,13 @@ template <typename T, bksge::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bksge::detail::synth3way_t<T>
 operator<=>(array<T, N> const& lhs, array<T, N> const& rhs)
 {
-#if 0	// TODO defined(__cpp_lib_is_constant_evaluated) && __cpp_lib_is_constant_evaluated >= 201811
-	if constexpr (N != 0 && __is_memcmp_ordered<T>::__value)
+#if defined(__cpp_lib_is_constant_evaluated) && __cpp_lib_is_constant_evaluated >= 201811
+	if constexpr (N != 0 && detail::is_memcmp_ordered<T>::value)
 	{
 		if (!std::is_constant_evaluated())
 		{
 			constexpr bksge::size_t n = N * sizeof(T);
-			return __builtin_memcmp(lhs.data(), rhs.data(), n) <=> 0;
+			return bksge::memcmp(lhs.data(), rhs.data(), n) <=> 0;
 		}
 	}
 #endif

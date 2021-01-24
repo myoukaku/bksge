@@ -398,15 +398,16 @@ GTEST_TEST(ArrayTest, SwapTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test_swap()));
 }
 
+template <typename T>
 inline BKSGE_CXX14_CONSTEXPR bool test_compare()
 {
 	{
-		bksge::array<int, 3> a1 = { { 1, 2, 3 } };
-		bksge::array<int, 3> a2 = { { 1, 2, 3 } };
-		bksge::array<int, 3> a3 = { { 1, 2, 4 } };
-		bksge::array<int, 3> a4 = { { 1, 2, 0 } };
-		bksge::array<int, 3> a5 = { { 2, 2, 3 } };
-		bksge::array<int, 3> a6 = { { 0, 2, 3 } };
+		bksge::array<T, 3> a1 = { { 1, 2, 3 } };
+		bksge::array<T, 3> a2 = { { 1, 2, 3 } };
+		bksge::array<T, 3> a3 = { { 1, 2, 4 } };
+		bksge::array<T, 3> a4 = { { 1, 2, 0 } };
+		bksge::array<T, 3> a5 = { { 2, 2, 3 } };
+		bksge::array<T, 3> a6 = { { 0, 2, 3 } };
 
 		VERIFY((a1 == a1) == true);
 		VERIFY((a1 == a2) == true);
@@ -464,7 +465,16 @@ inline BKSGE_CXX14_CONSTEXPR bool test_compare()
 
 GTEST_TEST(ArrayTest, CompareTest)
 {
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test_compare()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test_compare<unsigned char>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test_compare<unsigned short>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test_compare<unsigned int>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test_compare<unsigned long>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test_compare<unsigned long long>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test_compare<signed char>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test_compare<signed short>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test_compare<signed int>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test_compare<signed long>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test_compare<signed long long>()));
 }
 
 #undef VERIFY
