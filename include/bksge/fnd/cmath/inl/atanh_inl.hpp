@@ -16,6 +16,7 @@
 #include <bksge/fnd/cmath/log.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
 #include <bksge/fnd/limits.hpp>
+#include <cmath>
 
 namespace bksge
 {
@@ -49,7 +50,8 @@ template <typename T>
 inline BKSGE_CONSTEXPR T
 atanh_unchecked(T x) BKSGE_NOEXCEPT
 {
-	return bksge::log((1 + x) / (1 - x)) / 2;
+//	return bksge::log((1 + x) / (1 - x)) / 2;
+	return std::atanh(x);
 }
 
 #endif

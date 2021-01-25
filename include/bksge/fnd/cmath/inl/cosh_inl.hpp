@@ -16,6 +16,7 @@
 #include <bksge/fnd/cmath/exp.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
 #include <bksge/fnd/limits.hpp>
+#include <cmath>	// TODO
 
 namespace bksge
 {
@@ -45,18 +46,19 @@ cosh_unchecked(long double x) BKSGE_NOEXCEPT
 
 #else
 
-template <typename T>
-inline BKSGE_CONSTEXPR T
-cosh_unchecked_1(T x) BKSGE_NOEXCEPT
-{
-	return T(0.5) * x + T(0.5) / x;
-}
+//template <typename T>
+//inline BKSGE_CONSTEXPR T
+//cosh_unchecked_1(T x) BKSGE_NOEXCEPT
+//{
+//	return T(0.5) * x + T(0.5) / x;
+//}
 
 template <typename FloatType>
 inline BKSGE_CONSTEXPR FloatType
 cosh_unchecked(FloatType x) BKSGE_NOEXCEPT
 {
-	return cosh_unchecked_1(bksge::exp(x));
+	//return cosh_unchecked_1(bksge::exp(x));
+	return std::cosh(x);	// TODO
 }
 
 #endif

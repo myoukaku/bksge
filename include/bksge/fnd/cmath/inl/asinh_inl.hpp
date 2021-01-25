@@ -16,6 +16,7 @@
 #include <bksge/fnd/cmath/log.hpp>
 #include <bksge/fnd/cmath/sqrt.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
+#include <cmath>
 
 namespace bksge
 {
@@ -49,7 +50,7 @@ template <typename T>
 inline BKSGE_CONSTEXPR T
 asinh_unchecked(T x) BKSGE_NOEXCEPT
 {
-	return bksge::log(x + bksge::sqrt(x * x + 1));
+	return std::asinh(x);//bksge::log(x + bksge::sqrt(x * x + 1));
 }
 
 #endif

@@ -15,6 +15,7 @@
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/exp.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
+#include <cmath>	// TODO
 
 namespace bksge
 {
@@ -44,18 +45,19 @@ sinh_unchecked(long double x) BKSGE_NOEXCEPT
 
 #else
 
-template <typename T>
-inline BKSGE_CONSTEXPR T
-sinh_unchecked_1(T x) BKSGE_NOEXCEPT
-{
-	return T(0.5) * x - T(0.5) / x;
-}
+//template <typename T>
+//inline BKSGE_CONSTEXPR T
+//sinh_unchecked_1(T x) BKSGE_NOEXCEPT
+//{
+//	return T(0.5) * x - T(0.5) / x;
+//}
 
 template <typename T>
 inline BKSGE_CONSTEXPR T
 sinh_unchecked(T x) BKSGE_NOEXCEPT
 {
-	return sinh_unchecked_1(bksge::exp(x));
+	//return sinh_unchecked_1(bksge::exp(x));
+	return std::sinh(x);	// TODO
 }
 
 #endif

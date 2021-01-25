@@ -20,6 +20,7 @@
 #include <bksge/fnd/cmath/signbit.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
 #include <bksge/fnd/limits.hpp>
+#include <cmath>
 
 namespace bksge
 {
@@ -53,7 +54,7 @@ template <typename T>
 inline BKSGE_CONSTEXPR T
 atan2_unchecked(T y, T x) BKSGE_NOEXCEPT
 {
-	return bksge::atan(y / x) + ((x < 0) ? bksge::copysign(bksge::pi<T>(), y) : 0);
+	return std::atan2(y, x);//bksge::atan(y / x) + ((x < 0) ? bksge::copysign(bksge::pi<T>(), y) : 0);
 }
 
 #endif

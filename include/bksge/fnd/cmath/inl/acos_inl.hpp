@@ -17,6 +17,7 @@
 #include <bksge/fnd/type_traits/float_promote.hpp>
 #include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cmath>
 
 namespace bksge
 {
@@ -50,7 +51,8 @@ template <typename T>
 inline BKSGE_CONSTEXPR T
 acos_unchecked(T x) BKSGE_NOEXCEPT
 {
-	return bksge::half_pi<T>() - bksge::asin(x);
+	//return bksge::half_pi<T>() - bksge::asin(x);
+	return std::acos(x);
 }
 
 #endif

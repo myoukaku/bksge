@@ -17,6 +17,7 @@
 #include <bksge/fnd/bitset.hpp>
 #include <bksge/fnd/cmath.hpp>
 #include <bksge/fnd/compare.hpp>
+#include <bksge/fnd/complex.hpp>
 #include <bksge/fnd/concepts.hpp>
 #include <bksge/fnd/config.hpp>
 #include <bksge/fnd/cstddef.hpp>
