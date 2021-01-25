@@ -12,11 +12,13 @@
 #include <bksge/fnd/algorithm/ranges/in_out_result.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/concepts/detail/overload_priority.hpp>
+#include <bksge/fnd/cstring/memmove.hpp>
 #include <bksge/fnd/iterator/concepts/bidirectional_iterator.hpp>
 #include <bksge/fnd/iterator/concepts/sentinel_for.hpp>
 #include <bksge/fnd/iterator/concepts/sized_sentinel_for.hpp>
 #include <bksge/fnd/iterator/concepts/indirectly_movable.hpp>
 #include <bksge/fnd/iterator/ranges/next.hpp>
+#include <bksge/fnd/iterator/iter_value_t.hpp>
 #include <bksge/fnd/ranges/concepts/bidirectional_range.hpp>
 #include <bksge/fnd/ranges/iterator_t.hpp>
 #include <bksge/fnd/ranges/borrowed_iterator_t.hpp>
@@ -24,8 +26,11 @@
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
+#include <bksge/fnd/type_traits/is_move_assignable.hpp>
+#include <bksge/fnd/type_traits/detail/is_memcpyable.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <type_traits>	// is_constant_evaluated
 
 namespace bksge
 {
@@ -48,22 +53,19 @@ private:
 	impl(Iter first, Sent last, Out result,
 		bksge::detail::overload_priority<1>)
 	{
-#if 0
 #if defined(__cpp_lib_is_constant_evaluated) && __cpp_lib_is_constant_evaluated >= 201811
 		if (!std::is_constant_evaluated())
-#endif
 		{
-			if constexpr (__memcpyable<_Out, _Iter>::__value)
+			if constexpr (bksge::detail::is_memcpyable<Out, Iter>::value)
 			{
-				using _ValueTypeI = iter_value_t<_Iter>;
-				static_assert(_IsMove
-					? is_move_assignable_v<_ValueTypeI>
-					: is_copy_assignable_v<_ValueTypeI>);
-				auto __num = last - first;
-				if (__num)
-					__builtin_memmove(result - __num, first,
-						sizeof(_ValueTypeI) * __num);
-				return { first + __num, result - __num };
+				using ValueTypeI = bksge::iter_value_t<Iter>;
+				static_assert(bksge::is_move_assignable<ValueTypeI>::value, "");
+				auto num = last - first;
+				if (num)
+				{
+					bksge::memmove(result - num, first, sizeof(ValueTypeI) * num);
+				}
+				return { first + num, result - num };
 			}
 		}
 #endif

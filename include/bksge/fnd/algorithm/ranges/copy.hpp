@@ -56,10 +56,10 @@ private:
 #if defined(__cpp_lib_is_constant_evaluated) && __cpp_lib_is_constant_evaluated >= 201811
 		if (!std::is_constant_evaluated())
 		{
-			if constexpr (bksge::detail::is_memcpyable<Iter, Out>::value)
+			if constexpr (bksge::detail::is_memcpyable<Out, Iter>::value)
 			{
 				using ValueTypeI = bksge::iter_value_t<Iter>;
-				static_assert(bksge::is_copy_assignable<ValueTypeI>::value);
+				static_assert(bksge::is_copy_assignable<ValueTypeI>::value, "");
 				auto num = last - first;
 				if (num)
 				{
