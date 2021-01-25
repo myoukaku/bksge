@@ -11,6 +11,7 @@
 
 #include <bksge/fnd/type_traits/is_integral.hpp>
 #include <bksge/fnd/type_traits/detail/is_byte.hpp>
+#include <bksge/fnd/config.hpp>
 
 namespace bksge
 {
@@ -24,8 +25,8 @@ namespace detail
 // as an unsigned char yields the right result. This is true for all
 // unsigned integers on big endian targets, but only unsigned narrow
 // character types (and std::byte) on little endian targets.
-template <typename T, bool _TreatAsBytes =
-#if __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
+template <typename T, bool TreatAsBytes =
+#if defined(BKSGE_BIG_ENDIAN)
 	bksge::is_integral<T>::value
 #else
 	bksge::detail::is_byte<T>::value
