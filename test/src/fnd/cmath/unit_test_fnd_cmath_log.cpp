@@ -15,7 +15,10 @@
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
-namespace bksge_cmath_log_test
+namespace bksge_cmath_test
+{
+
+namespace log_test
 {
 
 template <typename T>
@@ -108,4 +111,6 @@ GTEST_TEST(CMathTest, LogTest)
 	LogTestUnsignedInt<unsigned long long>();
 }
 
-}	// namespace bksge_cmath_log_test
+}	// namespace log_test
+
+}	// namespace bksge_cmath_test

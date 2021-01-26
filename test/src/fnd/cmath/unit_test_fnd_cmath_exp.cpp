@@ -16,7 +16,10 @@
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
-namespace bksge_cmath_exp_test
+namespace bksge_cmath_test
+{
+
+namespace exp_test
 {
 
 template <typename T>
@@ -87,4 +90,6 @@ GTEST_TEST(CMathTest, ExpTest)
 //	ExpTestUnsignedInt<unsigned long long>();
 }
 
-}	// namespace bksge_cmath_exp_test
+}	// namespace exp_test
+
+}	// namespace bksge_cmath_test

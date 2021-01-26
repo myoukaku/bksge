@@ -12,7 +12,10 @@
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
-namespace bksge_cmath_cosh_test
+namespace bksge_cmath_test
+{
+
+namespace cosh_test
 {
 
 template <typename T>
@@ -90,4 +93,6 @@ GTEST_TEST(CMathTest, CoshTest)
 //	CoshTestUnsignedInt<unsigned long long>();
 }
 
-}	// namespace bksge_cmath_cosh_test
+}	// namespace cosh_test
+
+}	// namespace bksge_cmath_test

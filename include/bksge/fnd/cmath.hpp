@@ -11,8 +11,13 @@
 
 #include <bksge/fnd/cmath/abs.hpp>
 #include <bksge/fnd/cmath/acos.hpp>
+#include <bksge/fnd/cmath/acosh.hpp>
 #include <bksge/fnd/cmath/almost_equal.hpp>
 #include <bksge/fnd/cmath/asin.hpp>
+#include <bksge/fnd/cmath/asinh.hpp>
+#include <bksge/fnd/cmath/atan.hpp>
+#include <bksge/fnd/cmath/atan2.hpp>
+#include <bksge/fnd/cmath/atanh.hpp>
 #include <bksge/fnd/cmath/ceil.hpp>
 #include <bksge/fnd/cmath/clamp.hpp>
 #include <bksge/fnd/cmath/constants.hpp>
@@ -25,11 +30,16 @@
 #include <bksge/fnd/cmath/floor.hpp>
 #include <bksge/fnd/cmath/fmod.hpp>
 #include <bksge/fnd/cmath/frac.hpp>
+#include <bksge/fnd/cmath/isfinite.hpp>
 #include <bksge/fnd/cmath/isinf.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/iszero.hpp>
+#include <bksge/fnd/cmath/is_even.hpp>
+#include <bksge/fnd/cmath/is_integer.hpp>
+#include <bksge/fnd/cmath/is_odd.hpp>
 #include <bksge/fnd/cmath/lerp.hpp>
 #include <bksge/fnd/cmath/log.hpp>
+#include <bksge/fnd/cmath/pow.hpp>
 #include <bksge/fnd/cmath/radians_to_degrees.hpp>
 #include <bksge/fnd/cmath/repeat.hpp>
 #include <bksge/fnd/cmath/round_down.hpp>
@@ -44,6 +54,7 @@
 #include <bksge/fnd/cmath/sqrt.hpp>
 #include <bksge/fnd/cmath/step.hpp>
 #include <bksge/fnd/cmath/tan.hpp>
+#include <bksge/fnd/cmath/tanh.hpp>
 #include <bksge/fnd/cmath/trunc.hpp>
 
 #endif // BKSGE_FND_CMATH_HPP

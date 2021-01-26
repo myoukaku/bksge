@@ -12,7 +12,10 @@
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
-namespace bksge_cmath_sinh_test
+namespace bksge_cmath_test
+{
+
+namespace sinh_test
 {
 
 template <typename T>
@@ -85,4 +88,6 @@ GTEST_TEST(CMathTest, SinhTest)
 //	SinhTestUnsignedInt<unsigned long long>();
 }
 
-}	// namespace bksge_cmath_sinh_test
+}	// namespace sinh_test
+
+}	// namespace bksge_cmath_test
