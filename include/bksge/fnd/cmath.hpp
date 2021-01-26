@@ -29,6 +29,7 @@
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/iszero.hpp>
 #include <bksge/fnd/cmath/lerp.hpp>
+#include <bksge/fnd/cmath/log.hpp>
 #include <bksge/fnd/cmath/radians_to_degrees.hpp>
 #include <bksge/fnd/cmath/repeat.hpp>
 #include <bksge/fnd/cmath/round_down.hpp>
