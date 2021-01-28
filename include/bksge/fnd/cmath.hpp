@@ -37,6 +37,7 @@
 #include <bksge/fnd/cmath/is_even.hpp>
 #include <bksge/fnd/cmath/is_integer.hpp>
 #include <bksge/fnd/cmath/is_odd.hpp>
+#include <bksge/fnd/cmath/ldexp.hpp>
 #include <bksge/fnd/cmath/lerp.hpp>
 #include <bksge/fnd/cmath/log.hpp>
 #include <bksge/fnd/cmath/log1p.hpp>
