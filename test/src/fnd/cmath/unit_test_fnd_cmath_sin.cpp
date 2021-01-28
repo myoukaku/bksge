@@ -8,7 +8,7 @@
 
 #include <bksge/fnd/cmath/sin.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
-#include <bksge/fnd/cmath/constants.hpp>
+#include <bksge/fnd/numbers.hpp>
 #include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
@@ -42,8 +42,8 @@ void SinTestFloat(double error)
 	EXPECT_NEAR( 0.14112000805986722, (double)bksge::sin(T( 3.0)), error);
 	EXPECT_NEAR(-0.35078322768961985, (double)bksge::sin(T( 3.5)), error);
 
-	EXPECT_NEAR(0.0, (double)bksge::sin( bksge::pi<T>()), error);
-	EXPECT_NEAR(0.0, (double)bksge::sin(-bksge::pi<T>()), error);
+	EXPECT_NEAR(0.0, (double)bksge::sin( bksge::pi_t<T>()), error);
+	EXPECT_NEAR(0.0, (double)bksge::sin(-bksge::pi_t<T>()), error);
 
 	BKSGE_CONSTEXPR_EXPECT_EQ(0.0, bksge::sin(T(+0.0)));
 	BKSGE_CONSTEXPR_EXPECT_EQ(0.0, bksge::sin(T(-0.0)));

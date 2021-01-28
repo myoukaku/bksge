@@ -10,7 +10,7 @@
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/iszero.hpp>
 #include <bksge/fnd/cmath/signbit.hpp>
-#include <bksge/fnd/cmath/constants.hpp>
+#include <bksge/fnd/numbers.hpp>
 #include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -35,7 +35,7 @@ void LogTestFloat(double error)
 	EXPECT_NEAR( 0.22314355131421, (double)bksge::log(T(1.25)), error);
 	EXPECT_NEAR( 0.40546510810816, (double)bksge::log(T(1.50)), error);
 	EXPECT_NEAR( 0.69314718055994, (double)bksge::log(T(2.00)), error);
-	EXPECT_NEAR( 1.00000000000000, (double)bksge::log(bksge::e<T>()),  error);
+	EXPECT_NEAR( 1.00000000000000, (double)bksge::log(bksge::e_t<T>()),  error);
 	EXPECT_NEAR( 1.09861228866810, (double)bksge::log(T(3.00)), error);
 	EXPECT_NEAR( 1.38629436111989, (double)bksge::log(T(4.00)), error);
 

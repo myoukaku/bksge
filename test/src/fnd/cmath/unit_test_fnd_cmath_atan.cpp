@@ -10,7 +10,7 @@
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/iszero.hpp>
 #include <bksge/fnd/cmath/signbit.hpp>
-#include <bksge/fnd/cmath/constants.hpp>
+#include <bksge/fnd/numbers.hpp>
 #include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -44,8 +44,8 @@ void AtanTestFloat(double error)
 	BKSGE_CONSTEXPR_EXPECT_EQ(0.0, bksge::atan(T(+0.0)));
 	BKSGE_CONSTEXPR_EXPECT_EQ(0.0, bksge::atan(T(-0.0)));
 
-	BKSGE_CONSTEXPR_EXPECT_NEAR( bksge::half_pi<double>(), (double)bksge::atan(+inf), 0.000001);
-	BKSGE_CONSTEXPR_EXPECT_NEAR(-bksge::half_pi<double>(), (double)bksge::atan(-inf), 0.000001);
+	BKSGE_CONSTEXPR_EXPECT_NEAR( bksge::pi_t<double>() / 2, (double)bksge::atan(+inf), 0.000001);
+	BKSGE_CONSTEXPR_EXPECT_NEAR(-bksge::pi_t<double>() / 2, (double)bksge::atan(-inf), 0.000001);
 
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::atan(+nan)));
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::atan(-nan)));

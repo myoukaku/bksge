@@ -38,6 +38,7 @@
 #include <bksge/fnd/map.hpp>
 #include <bksge/fnd/memory.hpp>
 #include <bksge/fnd/new.hpp>
+#include <bksge/fnd/numbers.hpp>
 #include <bksge/fnd/numeric.hpp>
 #include <bksge/fnd/optional.hpp>
 #include <bksge/fnd/ostream.hpp>

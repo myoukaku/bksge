@@ -10,7 +10,7 @@
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/isinf.hpp>
 #include <bksge/fnd/cmath/signbit.hpp>
-#include <bksge/fnd/cmath/constants.hpp>
+#include <bksge/fnd/numbers.hpp>
 #include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
@@ -27,7 +27,7 @@ void RadiansToDegreesTestFloat(void)
 {
 	BKSGE_CONSTEXPR auto nan = bksge::numeric_limits<T>::quiet_NaN();
 	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<T>::infinity();
-	BKSGE_CONSTEXPR auto pi  = bksge::pi<T>();
+	BKSGE_CONSTEXPR auto pi  = bksge::pi_t<T>();
 	
 	BKSGE_CONSTEXPR_EXPECT_EQ(T(   0.0), bksge::radians_to_degrees(pi * T( 0.0)));
 	BKSGE_CONSTEXPR_EXPECT_EQ(T(  90.0), bksge::radians_to_degrees(pi * T( 0.5)));

@@ -20,7 +20,6 @@
 #include <bksge/fnd/cmath/atanh.hpp>
 #include <bksge/fnd/cmath/ceil.hpp>
 #include <bksge/fnd/cmath/clamp.hpp>
-#include <bksge/fnd/cmath/constants.hpp>
 #include <bksge/fnd/cmath/copysign.hpp>
 #include <bksge/fnd/cmath/cos.hpp>
 #include <bksge/fnd/cmath/cosh.hpp>

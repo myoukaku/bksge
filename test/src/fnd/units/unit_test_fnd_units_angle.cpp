@@ -8,7 +8,7 @@
 
 #include <bksge/fnd/units/radian.hpp>
 #include <bksge/fnd/units/degree.hpp>
-#include <bksge/fnd/cmath/constants.hpp>
+#include <bksge/fnd/numbers.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -34,7 +34,7 @@ TYPED_TEST(AngleTest, AccuracyTest)
 	using radians = bksge::units::radians<T>;
 	using degrees = bksge::units::degrees<T>;
 
-	BKSGE_CONSTEXPR auto p = bksge::pi<T>();
+	BKSGE_CONSTEXPR auto p = bksge::pi_t<T>();
 
 	BKSGE_CONSTEXPR double error = angle_accuracy<T>::get();
 
@@ -64,7 +64,7 @@ TYPED_TEST(AngleTest, SinTest)
 	using radians = bksge::units::radians<TypeParam>;
 	using degrees = bksge::units::degrees<TypeParam>;
 
-	BKSGE_CONSTEXPR auto p = bksge::pi<TypeParam>();
+	BKSGE_CONSTEXPR auto p = bksge::pi_t<TypeParam>();
 
 	const double error = 0.000001;
 
@@ -102,7 +102,7 @@ TYPED_TEST(AngleTest, CosTest)
 	using radians = bksge::units::radians<TypeParam>;
 	using degrees = bksge::units::degrees<TypeParam>;
 
-	BKSGE_CONSTEXPR auto p = bksge::pi<TypeParam>();
+	BKSGE_CONSTEXPR auto p = bksge::pi_t<TypeParam>();
 
 	const double error = 0.000001;
 
@@ -140,7 +140,7 @@ TYPED_TEST(AngleTest, TanTest)
 	using radians = bksge::units::radians<TypeParam>;
 	using degrees = bksge::units::degrees<TypeParam>;
 
-	BKSGE_CONSTEXPR auto p = bksge::pi<TypeParam>();
+	BKSGE_CONSTEXPR auto p = bksge::pi_t<TypeParam>();
 
 	const double error = 0.000001;
 

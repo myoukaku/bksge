@@ -11,7 +11,6 @@
 
 #include <bksge/fnd/cmath/acos.hpp>
 #include <bksge/fnd/cmath/asin.hpp>
-#include <bksge/fnd/cmath/constants.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/fabs.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>

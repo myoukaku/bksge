@@ -12,8 +12,9 @@
 #include <bksge/fnd/cmath/radians_to_degrees.hpp>
 #include <bksge/fnd/cmath/isinf.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
-#include <bksge/fnd/cmath/constants.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
+#include <bksge/fnd/numbers.hpp>
+#include <bksge/fnd/config.hpp>
 
 namespace bksge
 {
@@ -25,7 +26,7 @@ template <typename T>
 inline BKSGE_CONSTEXPR T
 radians_to_degrees_unchecked(T x) BKSGE_NOEXCEPT
 {
-	return x * 180 / bksge::pi<T>();
+	return x * 180 / bksge::pi_t<T>();
 }
 
 template <typename FloatType>

@@ -8,7 +8,7 @@
 
 #include <bksge/fnd/cmath/cos.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
-#include <bksge/fnd/cmath/constants.hpp>
+#include <bksge/fnd/numbers.hpp>
 #include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
@@ -43,8 +43,8 @@ void CosTestFloat(double error)
 	EXPECT_NEAR(-0.98999249660, (double)bksge::cos(T( 3.0)), error);
 	EXPECT_NEAR(-0.93645668729, (double)bksge::cos(T( 3.5)), error);
 
-	EXPECT_NEAR(-1.0, (double)bksge::cos( bksge::pi<T>()), error);
-	EXPECT_NEAR(-1.0, (double)bksge::cos(-bksge::pi<T>()), error);
+	EXPECT_NEAR(-1.0, (double)bksge::cos( bksge::pi_t<T>()), error);
+	EXPECT_NEAR(-1.0, (double)bksge::cos(-bksge::pi_t<T>()), error);
 
 	BKSGE_CONSTEXPR_EXPECT_EQ(1.0, bksge::cos(T(+0.0)));
 	BKSGE_CONSTEXPR_EXPECT_EQ(1.0, bksge::cos(T(-0.0)));

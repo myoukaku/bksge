@@ -10,7 +10,6 @@
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/iszero.hpp>
 #include <bksge/fnd/cmath/signbit.hpp>
-#include <bksge/fnd/cmath/constants.hpp>
 #include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"

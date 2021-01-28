@@ -15,10 +15,10 @@
 #include <bksge/fnd/cmath/isinf.hpp>
 #include <bksge/fnd/cmath/isfinite.hpp>
 #include <bksge/fnd/cmath/iszero.hpp>
-#include <bksge/fnd/cmath/constants.hpp>
 #include <bksge/fnd/cmath/copysign.hpp>
 #include <bksge/fnd/cmath/signbit.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
+#include <bksge/fnd/numbers.hpp>
 #include <bksge/fnd/limits.hpp>
 #include <cmath>
 
@@ -54,7 +54,7 @@ template <typename T>
 inline BKSGE_CONSTEXPR T
 atan2_unchecked(T y, T x) BKSGE_NOEXCEPT
 {
-	return std::atan2(y, x);//bksge::atan(y / x) + ((x < 0) ? bksge::copysign(bksge::pi<T>(), y) : 0);
+	return std::atan2(y, x);//bksge::atan(y / x) + ((x < 0) ? bksge::copysign(bksge::pi_t<T>(), y) : 0);
 }
 
 #endif
@@ -68,19 +68,19 @@ atan2_impl(FloatType y, FloatType x) BKSGE_NOEXCEPT
 			bksge::numeric_limits<FloatType>::quiet_NaN() :
 		bksge::iszero(y) ?
 			bksge::signbit(x) ?
-				bksge::copysign(bksge::pi<FloatType>(), y) :
+				bksge::copysign(bksge::pi_t<FloatType>(), y) :
 				bksge::copysign(FloatType(0), y) :
 		bksge::isinf(y) ?
 			bksge::isinf(x) ?
 				bksge::signbit(x) ?
-					bksge::copysign(bksge::three_quarters_pi<FloatType>(), y) :
-					bksge::copysign(bksge::quarter_pi<FloatType>(), y) :
-				bksge::copysign(bksge::half_pi<FloatType>(), y) :
+					bksge::copysign(bksge::pi_t<FloatType>()*3/4, y) :
+					bksge::copysign(bksge::pi_t<FloatType>()/4, y) :
+				bksge::copysign(bksge::pi_t<FloatType>()/2, y) :
 		bksge::iszero(x) ?
-			bksge::copysign(bksge::half_pi<FloatType>(), y) :
+			bksge::copysign(bksge::pi_t<FloatType>()/2, y) :
 		bksge::isinf(x) && bksge::isfinite(y) ?
 			bksge::signbit(x) ?
-				bksge::copysign(bksge::pi<FloatType>(), y) :
+				bksge::copysign(bksge::pi_t<FloatType>(), y) :
 				bksge::copysign(FloatType(0), y) :
 		atan2_unchecked(y, x);
 }

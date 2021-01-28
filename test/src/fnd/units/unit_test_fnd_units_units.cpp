@@ -7,8 +7,8 @@
  */
 
 #include <bksge/fnd/units.hpp>
-#include <bksge/fnd/cmath/constants.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
+#include <bksge/fnd/numbers.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -128,7 +128,7 @@ TYPED_TEST(UnitsTest, AmountTest)
 
 TYPED_TEST(UnitsTest, AngleTest)
 {
-	BKSGE_CONSTEXPR auto p = bksge::pi<double>();
+	BKSGE_CONSTEXPR auto p = bksge::pi_t<double>();
 	BKSGE_CONSTEXPR bksge::units::radians<TypeParam> r(1);
 	BKSGE_CONSTEXPR bksge::units::degrees<TypeParam> d(2);
 

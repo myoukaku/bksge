@@ -67,7 +67,6 @@ using std::atanh;
 #include <bksge/fnd/cmath/exp.hpp>
 #include <bksge/fnd/cmath/asinh.hpp>
 #include <bksge/fnd/cmath/signbit.hpp>
-#include <bksge/fnd/cmath/constants.hpp>
 #include <bksge/fnd/cmath/log1p.hpp>
 #include <bksge/fnd/cmath/ldexp.hpp>
 #include <bksge/fnd/concepts/arithmetic.hpp>
@@ -77,6 +76,7 @@ using std::atanh;
 #include <bksge/fnd/sstream/basic_ostringstream.hpp>
 #include <bksge/fnd/type_traits/is_floating_point.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
+#include <bksge/fnd/numbers.hpp>
 #include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/config.hpp>
@@ -975,7 +975,7 @@ inline bksge::float_promote_t<T>
 arg(T x)
 {
 	using type = bksge::float_promote_t<T>;
-	return bksge::signbit(x) ? bksge::pi<type>() : type();
+	return bksge::signbit(x) ? bksge::pi_t<type>() : type();
 }
 
 template <typename T>
@@ -1125,7 +1125,7 @@ log(complex<T> const& z)
 #if defined(BKSGE_IEC_559_COMPLEX)
 	auto const nan = bksge::numeric_limits<T>::quiet_NaN();
 	auto const inf = bksge::numeric_limits<T>::infinity();
-	auto const pi = bksge::pi<T>();
+	auto const pi_ = bksge::pi_t<T>();
 
 	auto const re = z.real();
 	auto const im = z.imag();
@@ -1137,7 +1137,7 @@ log(complex<T> const& z)
 			if (std::signbit(re))	// TODO
 			{
 				// If z is (-0,+0), the result is (-∞,π) and FE_DIVBYZERO is raised
-				return complex<T>(-inf, pi);
+				return complex<T>(-inf, pi_);
 			}
 			else
 			{
@@ -1152,7 +1152,7 @@ log(complex<T> const& z)
 		if (im == +inf)
 		{
 			// If z is (x,+∞) (for any finite x), the result is (+∞,π/2)
-			return complex<T>(+inf, pi/2);
+			return complex<T>(+inf, pi_/2);
 		}
 		if (bksge::isnan(im))
 		{
@@ -1171,7 +1171,7 @@ log(complex<T> const& z)
 		if (im == +inf)
 		{
 			// If z is (+∞,+∞), the result is (+∞,π/4)
-			return complex<T>(+inf, pi/4);
+			return complex<T>(+inf, pi_/4);
 		}
 	}
 
@@ -1180,12 +1180,12 @@ log(complex<T> const& z)
 		if (bksge::isfinite(im) && !bksge::signbit(im))
 		{
 			// If z is (-∞,y) (for any finite positive y), the result is (+∞,π)
-			return complex<T>(+inf, pi);
+			return complex<T>(+inf, pi_);
 		}
 		if (im == +inf)
 		{
 			// If z is (-∞,+∞), the result is (+∞,3π/4)
-			return complex<T>(+inf, pi*3/4);
+			return complex<T>(+inf, pi_*3/4);
 		}
 	}
 
@@ -1418,19 +1418,19 @@ acos(bksge::complex<T> const& z)
 #if defined(BKSGE_IEC_559_COMPLEX)
 	auto const nan = bksge::numeric_limits<T>::quiet_NaN();
 	auto const inf = bksge::numeric_limits<T>::infinity();
-	auto const pi = bksge::pi<T>();
+	auto const pi_ = bksge::pi_t<T>();
 
 	if (bksge::iszero(re))
 	{
 		if (bksge::iszero(im) && !bksge::signbit(im))
 		{
 			// If z is (±0,+0), the result is (π/2,-0)
-			return complex<T>(pi/2, T(-0.0));
+			return complex<T>(pi_/2, T(-0.0));
 		}
 		if (bksge::isnan(im))
 		{
 			// If z is (±0,NaN), the result is (π/2,NaN)
-			return complex<T>(pi/2, nan);
+			return complex<T>(pi_/2, nan);
 		}
 	}
 
@@ -1439,7 +1439,7 @@ acos(bksge::complex<T> const& z)
 		if (im == +inf)
 		{
 			// If z is (x,+∞) (for any finite x), the result is (π/2,-∞)
-			return complex<T>(pi/2, -inf);
+			return complex<T>(pi_/2, -inf);
 		}
 		if (!bksge::iszero(re) && bksge::isnan(im))
 		{
@@ -1453,12 +1453,12 @@ acos(bksge::complex<T> const& z)
 		if (bksge::isfinite(im) && !bksge::signbit(im))
 		{
 			// If z is (-∞,y) (for any positive finite y), the result is (π,-∞)
-			return complex<T>(pi, -inf);
+			return complex<T>(pi_, -inf);
 		}
 		if (im == +inf)
 		{
 			// If z is (-∞,+∞), the result is (3π/4,-∞)
-			return complex<T>(pi*3/4, -inf);
+			return complex<T>(pi_*3/4, -inf);
 		}
 	}
 
@@ -1472,7 +1472,7 @@ acos(bksge::complex<T> const& z)
 		if (im == +inf)
 		{
 			// If z is (+∞,+∞), the result is (π/4,-∞)
-			return complex<T>(pi/4, -inf);
+			return complex<T>(pi_/4, -inf);
 		}
 	}
 
@@ -1845,7 +1845,7 @@ asinh(bksge::complex<T> const& z)
 #if defined(BKSGE_IEC_559_COMPLEX)
 	auto const nan = bksge::numeric_limits<T>::quiet_NaN();
 	auto const inf = bksge::numeric_limits<T>::infinity();
-	auto const pi = bksge::pi<T>();
+	auto const pi_ = bksge::pi_t<T>();
 
 	if (bksge::iszero(re) && !bksge::signbit(re))
 	{
@@ -1861,7 +1861,7 @@ asinh(bksge::complex<T> const& z)
 		if (!bksge::signbit(re) && im == +inf)
 		{
 			// If z is (x,+∞) (for any positive finite x), the result is (+∞,π/2)
-			return complex<T>(+inf, pi/2);
+			return complex<T>(+inf, pi_/2);
 		}
 		if (bksge::isnan(im))
 		{
@@ -1880,7 +1880,7 @@ asinh(bksge::complex<T> const& z)
 		if (im == +inf)
 		{
 			// If z is (+∞,+∞), the result is (+∞,π/4)
-			return complex<T>(+inf, pi/4);
+			return complex<T>(+inf, pi_/4);
 		}
 		if (bksge::isnan(im))
 		{
@@ -1977,14 +1977,14 @@ acosh(bksge::complex<T> const& z)
 #if defined(BKSGE_IEC_559_COMPLEX)
 	auto const nan = bksge::numeric_limits<T>::quiet_NaN();
 	auto const inf = bksge::numeric_limits<T>::infinity();
-	auto const pi = bksge::pi<T>();
+	auto const pi_ = bksge::pi_t<T>();
 
 	if (bksge::iszero(re))
 	{
 		if (bksge::iszero(im) && !bksge::signbit(im))
 		{
 			// If z is (±0,+0), the result is (+0,π/2)
-			return complex<T>(T(+0.0), pi/2);
+			return complex<T>(T(+0.0), pi_/2);
 		}
 	}
 
@@ -1993,7 +1993,7 @@ acosh(bksge::complex<T> const& z)
 		if (im == +inf)
 		{
 			// If z is (x,+∞) (for any finite x), the result is (+∞,π/2)
-			return complex<T>(+inf, pi/2);
+			return complex<T>(+inf, pi_/2);
 		}
 
 		if (bksge::isnan(im))
@@ -2001,7 +2001,7 @@ acosh(bksge::complex<T> const& z)
 			if (bksge::iszero(re))
 			{
 				// If z is (0,NaN) the result is (NaN,π/2)
-				return complex<T>(nan, pi/2);
+				return complex<T>(nan, pi_/2);
 			}
 			else
 			{
@@ -2016,12 +2016,12 @@ acosh(bksge::complex<T> const& z)
 		if (bksge::isfinite(im) && !bksge::signbit(im))
 		{
 			// If z is (-∞,y) (for any positive finite y), the result is (+∞,π)
-			return complex<T>(+inf, pi);
+			return complex<T>(+inf, pi_);
 		}
 		if (im == +inf)
 		{
 			// If z is (-∞,+∞), the result is (+∞,3π/4)
-			return complex<T>(+inf, pi*3/4);
+			return complex<T>(+inf, pi_*3/4);
 		}
 	}
 
@@ -2123,7 +2123,7 @@ atanh(bksge::complex<T> const& z)
 	auto const inf = bksge::numeric_limits<T>::infinity();
 #if defined(BKSGE_IEC_559_COMPLEX)
 	auto const nan = bksge::numeric_limits<T>::quiet_NaN();
-	auto const pi = bksge::pi<T>();
+	auto const pi_ = bksge::pi_t<T>();
 
 	if (bksge::iszero(re) && !bksge::signbit(re))
 	{
@@ -2150,7 +2150,7 @@ atanh(bksge::complex<T> const& z)
 		if (!bksge::signbit(re) && im == +inf)
 		{
 			// If z is (x,+∞) (for any finite positive x), the result is (+0,π/2)
-			return complex<T>(T(+0.0), pi/2);
+			return complex<T>(T(+0.0), pi_/2);
 		}
 		if (!bksge::iszero(re) && bksge::isnan(im))
 		{
@@ -2164,12 +2164,12 @@ atanh(bksge::complex<T> const& z)
 		if (bksge::isfinite(im) && !bksge::signbit(im))
 		{
 			// If z is (+∞,y) (for any finite positive y), the result is (+0,π/2)
-			return complex<T>(T(+0.0), pi/2);
+			return complex<T>(T(+0.0), pi_/2);
 		}
 		if (im == +inf)
 		{
 			// If z is (+∞,+∞), the result is (+0,π/2)
-			return complex<T>(T(+0.0), pi/2);
+			return complex<T>(T(+0.0), pi_/2);
 		}
 		if (bksge::isnan(im))
 		{
@@ -2188,7 +2188,7 @@ atanh(bksge::complex<T> const& z)
 		if (im == +inf)
 		{
 			// If z is (NaN,+∞), the result is (±0,π/2) (the sign of the real part is unspecified)
-			return complex<T>(T(+0.0), pi/2);
+			return complex<T>(T(+0.0), pi_/2);
 		}
 		if (bksge::isnan(im))
 		{
@@ -2199,7 +2199,7 @@ atanh(bksge::complex<T> const& z)
 #endif
 
 	auto const arcbig = static_cast<T>(0.25) * bksge::sqrt(bksge::numeric_limits<T>::max());
-	constexpr T half_pi = bksge::half_pi<T>();
+	constexpr T half_pi = bksge::pi_t<T>() / 2;
 
 	auto const im_abs  = bksge::abs(im);
 	auto const re_abs  = bksge::abs(re);

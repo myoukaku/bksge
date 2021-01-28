@@ -10,7 +10,7 @@
 #include <bksge/fnd/cmath/isinf.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/iszero.hpp>
-#include <bksge/fnd/cmath/constants.hpp>
+#include <bksge/fnd/numbers.hpp>
 #include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -29,7 +29,7 @@ void AcosTest(double error)
 
 	BKSGE_CONSTEXPR auto min = bksge::numeric_limits<T>::lowest();
 	BKSGE_CONSTEXPR auto max = bksge::numeric_limits<T>::max();
-	BKSGE_CONSTEXPR auto pi = bksge::pi<T>();
+	BKSGE_CONSTEXPR auto pi = bksge::pi_t<T>();
 
 	// acos(conj(z)) == conj(acos(z))
 	// acos(z) == π - acos(-z)

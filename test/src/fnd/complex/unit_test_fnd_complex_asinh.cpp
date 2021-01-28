@@ -10,7 +10,7 @@
 #include <bksge/fnd/cmath/isinf.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/iszero.hpp>
-#include <bksge/fnd/cmath/constants.hpp>
+#include <bksge/fnd/numbers.hpp>
 #include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -76,7 +76,7 @@ void AsinhTest()
 #if defined(BKSGE_IEC_559_COMPLEX)
 	BKSGE_CONSTEXPR auto nan = bksge::numeric_limits<T>::quiet_NaN();
 	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<T>::infinity();
-	BKSGE_CONSTEXPR auto pi = bksge::pi<T>();
+	BKSGE_CONSTEXPR auto pi = bksge::pi_t<T>();
 
 	// If z is (+0,+0), the result is (+0,+0)
 	EXPECT_EQ(complex(T(+0.0), T(+0.0)), bksge::asinh(complex(T(+0.0), T(+0.0))));

@@ -10,7 +10,7 @@
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/iszero.hpp>
 #include <bksge/fnd/cmath/signbit.hpp>
-#include <bksge/fnd/cmath/constants.hpp>
+#include <bksge/fnd/numbers.hpp>
 #include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -30,10 +30,10 @@ void Atan2TestFloat(double error)
 	BKSGE_CONSTEXPR auto inf1 = bksge::numeric_limits<T1>::infinity();
 	BKSGE_CONSTEXPR auto inf2 = bksge::numeric_limits<T2>::infinity();
 
-	BKSGE_CONSTEXPR auto pi                = bksge::pi<R>();
-	BKSGE_CONSTEXPR auto half_pi           = bksge::half_pi<R>();
-	BKSGE_CONSTEXPR auto three_quarters_pi = bksge::three_quarters_pi<R>();
-	BKSGE_CONSTEXPR auto quarter_pi        = bksge::quarter_pi<R>();
+	BKSGE_CONSTEXPR auto pi                = bksge::pi_t<R>();
+	BKSGE_CONSTEXPR auto half_pi           = bksge::pi_t<R>() / 2;
+	BKSGE_CONSTEXPR auto three_quarters_pi = bksge::pi_t<R>() * 3 / 4;
+	BKSGE_CONSTEXPR auto quarter_pi        = bksge::pi_t<R>() / 4;
 
 	EXPECT_NEAR((double)pi *  0.00, (double)bksge::atan2(T1( 0.0), T2( 1.0)), error);
 	EXPECT_NEAR((double)pi *  0.00, (double)bksge::atan2(T1( 0.0), T2( 2.0)), error);
@@ -150,7 +150,7 @@ void Atan2TestInteger(void)
 {
 	BKSGE_CONSTEXPR double error = 0.000000000001;
 
-	BKSGE_CONSTEXPR auto pi = bksge::pi<double>();
+	BKSGE_CONSTEXPR auto pi = bksge::pi_t<double>();
 
 	EXPECT_NEAR(pi *  0.00, (double)bksge::atan2(T1( 0), T2( 1)), error);
 	EXPECT_NEAR(pi *  0.25, (double)bksge::atan2(T1( 1), T2( 1)), error);
