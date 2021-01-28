@@ -29,6 +29,7 @@
 #include <bksge/fnd/cmath/floor.hpp>
 #include <bksge/fnd/cmath/fmod.hpp>
 #include <bksge/fnd/cmath/frac.hpp>
+#include <bksge/fnd/cmath/hypot.hpp>
 #include <bksge/fnd/cmath/isfinite.hpp>
 #include <bksge/fnd/cmath/isinf.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>

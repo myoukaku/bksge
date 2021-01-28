@@ -1,0 +1,185 @@
+﻿/**
+ *	@file	hypot_inl.hpp
+ *
+ *	@brief	hypot関数の実装
+ *
+ *	@author	myoukaku
+ */
+
+#ifndef BKSGE_FND_CMATH_INL_HYPOT_INL_HPP
+#define BKSGE_FND_CMATH_INL_HYPOT_INL_HPP
+
+#include <bksge/fnd/cmath/hypot.hpp>
+#include <bksge/fnd/cmath/abs.hpp>
+#include <bksge/fnd/cmath/fabs.hpp>
+#include <bksge/fnd/cmath/iszero.hpp>
+#include <bksge/fnd/cmath/isinf.hpp>
+#include <bksge/fnd/cmath/isnan.hpp>
+#include <bksge/fnd/cmath/sqrt.hpp>
+#include <bksge/fnd/algorithm/max.hpp>
+#include <bksge/fnd/type_traits/float_promote.hpp>
+#include <bksge/fnd/limits.hpp>
+#include <cmath>	// TODO
+
+namespace bksge
+{
+
+namespace detail
+{
+
+#if defined(BKSGE_USE_BUILTIN_CMATH_FUNCTION)
+
+inline BKSGE_CONSTEXPR float
+hypot_unchecked(float x, float y) BKSGE_NOEXCEPT
+{
+	return __builtin_hypotf(x, y);
+}
+
+inline BKSGE_CONSTEXPR double
+hypot_unchecked(double x, double y) BKSGE_NOEXCEPT
+{
+	return __builtin_hypot(x, y);
+}
+
+inline BKSGE_CONSTEXPR long double
+hypot_unchecked(long double x, long double y) BKSGE_NOEXCEPT
+{
+	return __builtin_hypotl(x, y);
+}
+
+#else
+
+template <typename T>
+inline BKSGE_CONSTEXPR T
+hypot_unchecked(T x, T y) BKSGE_NOEXCEPT
+{
+	return std::hypot(x, y);
+}
+
+template <typename T>
+inline BKSGE_CXX14_CONSTEXPR T
+hypot_unchecked(T x, T y, T z) BKSGE_NOEXCEPT
+{
+#if defined(__cpp_lib_hypot) && (__cpp_lib_hypot >= 201603)
+	return std::hypot(x, y, z);
+#else
+	T const a = bksge::max({bksge::abs(x), bksge::abs(y), bksge::abs(z)});
+	if (a != 0)
+	{
+		T const xx = x / a;
+		T const yy = y / a;
+		T const zz = z / a;
+		return a * bksge::sqrt(xx*xx + yy*yy + zz*zz);
+	}
+	else
+	{
+		return {};
+	}
+#endif
+}
+
+#endif
+
+template <typename FloatType>
+inline BKSGE_CONSTEXPR FloatType
+hypot_impl(FloatType x, FloatType y) BKSGE_NOEXCEPT
+{
+	return
+		bksge::iszero(x) ?
+			bksge::fabs(y) :
+		bksge::iszero(y) ?
+			bksge::fabs(x) :
+		bksge::isinf(x) || bksge::isinf(y) ?
+			bksge::numeric_limits<FloatType>::infinity() :
+		bksge::isnan(x) || bksge::isnan(y) ?
+			bksge::numeric_limits<FloatType>::quiet_NaN() :
+		hypot_unchecked(x, y);
+}
+
+template <typename FloatType>
+inline BKSGE_CONSTEXPR FloatType
+hypot_impl(FloatType x, FloatType y, FloatType z) BKSGE_NOEXCEPT
+{
+	return
+		bksge::iszero(x) && bksge::iszero(y) ?
+			bksge::fabs(z) :
+		bksge::iszero(y) && bksge::iszero(z) ?
+			bksge::fabs(x) :
+		bksge::iszero(z) && bksge::iszero(x) ?
+			bksge::fabs(y) :
+		bksge::isinf(x) || bksge::isinf(y) || bksge::isinf(z) ?
+			bksge::numeric_limits<FloatType>::infinity() :
+		bksge::isnan(x) || bksge::isnan(y) || bksge::isnan(z) ?
+			bksge::numeric_limits<FloatType>::quiet_NaN() :
+		hypot_unchecked(x, y, z);
+}
+
+}	// namespace detail
+
+inline BKSGE_CONSTEXPR float
+hypot(float x, float y) BKSGE_NOEXCEPT
+{
+	return detail::hypot_impl(x, y);
+}
+
+inline BKSGE_CONSTEXPR float
+hypotf(float x, float y) BKSGE_NOEXCEPT
+{
+	return detail::hypot_impl(x, y);
+}
+
+inline BKSGE_CONSTEXPR double
+hypot(double x, double y) BKSGE_NOEXCEPT
+{
+	return detail::hypot_impl(x, y);
+}
+
+inline BKSGE_CONSTEXPR long double
+hypot(long double x, long double y) BKSGE_NOEXCEPT
+{
+	return detail::hypot_impl(x, y);
+}
+
+inline BKSGE_CONSTEXPR long double
+hypotl(long double x, long double y) BKSGE_NOEXCEPT
+{
+	return detail::hypot_impl(x, y);
+}
+
+template <typename ArithmeticType1, typename ArithmeticType2, typename>
+inline BKSGE_CONSTEXPR bksge::float_promote_t<ArithmeticType1, ArithmeticType2>
+hypot(ArithmeticType1 x, ArithmeticType2 y) BKSGE_NOEXCEPT
+{
+	using type = bksge::float_promote_t<ArithmeticType1, ArithmeticType2>;
+	return detail::hypot_impl(static_cast<type>(x), static_cast<type>(y));
+}
+
+inline BKSGE_CONSTEXPR float
+hypot(float x, float y, float z) BKSGE_NOEXCEPT
+{
+	return detail::hypot_impl(x, y, z);
+}
+
+inline BKSGE_CONSTEXPR double
+hypot(double x, double y, double z) BKSGE_NOEXCEPT
+{
+	return detail::hypot_impl(x, y, z);
+}
+
+inline BKSGE_CONSTEXPR long double
+hypot(long double x, long double y, long double z) BKSGE_NOEXCEPT
+{
+	return detail::hypot_impl(x, y, z);
+}
+
+template <typename ArithmeticType1, typename ArithmeticType2, typename ArithmeticType3, typename>
+inline BKSGE_CONSTEXPR bksge::float_promote_t<ArithmeticType1, ArithmeticType2, ArithmeticType3>
+hypot(ArithmeticType1 x, ArithmeticType2 y, ArithmeticType3 z) BKSGE_NOEXCEPT
+{
+	using type = bksge::float_promote_t<ArithmeticType1, ArithmeticType2, ArithmeticType3>;
+	return detail::hypot_impl(static_cast<type>(x), static_cast<type>(y), static_cast<type>(z));
+}
+
+}	// namespace bksge
+
+#endif // BKSGE_FND_CMATH_INL_HYPOT_INL_HPP

@@ -50,25 +50,26 @@ using std::atanh;
 #else
 
 #include <bksge/fnd/algorithm/max.hpp>
+#include <bksge/fnd/cmath/abs.hpp>
+#include <bksge/fnd/cmath/asinh.hpp>
+#include <bksge/fnd/cmath/atan2.hpp>
+#include <bksge/fnd/cmath/copysign.hpp>
+#include <bksge/fnd/cmath/cos.hpp>
+#include <bksge/fnd/cmath/cosh.hpp>
+#include <bksge/fnd/cmath/exp.hpp>
+#include <bksge/fnd/cmath/hypot.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/isinf.hpp>
 #include <bksge/fnd/cmath/isfinite.hpp>
 #include <bksge/fnd/cmath/iszero.hpp>
-#include <bksge/fnd/cmath/copysign.hpp>
-#include <bksge/fnd/cmath/cos.hpp>
-#include <bksge/fnd/cmath/cosh.hpp>
+#include <bksge/fnd/cmath/ldexp.hpp>
+#include <bksge/fnd/cmath/log.hpp>
+#include <bksge/fnd/cmath/log1p.hpp>
+#include <bksge/fnd/cmath/pow.hpp>
+#include <bksge/fnd/cmath/signbit.hpp>
 #include <bksge/fnd/cmath/sin.hpp>
 #include <bksge/fnd/cmath/sinh.hpp>
-#include <bksge/fnd/cmath/abs.hpp>
 #include <bksge/fnd/cmath/sqrt.hpp>
-#include <bksge/fnd/cmath/log.hpp>
-#include <bksge/fnd/cmath/pow.hpp>
-#include <bksge/fnd/cmath/atan2.hpp>
-#include <bksge/fnd/cmath/exp.hpp>
-#include <bksge/fnd/cmath/asinh.hpp>
-#include <bksge/fnd/cmath/signbit.hpp>
-#include <bksge/fnd/cmath/log1p.hpp>
-#include <bksge/fnd/cmath/ldexp.hpp>
 #include <bksge/fnd/concepts/arithmetic.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/istream/basic_istream.hpp>
@@ -950,17 +951,7 @@ template <typename T>
 inline T
 abs(complex<T> const& z)
 {
-	// TODO hypot
-	T re = z.real();
-	T im = z.imag();
-	T const s = bksge::max(bksge::abs(re), bksge::abs(im));
-	if (s == T())  // well ...
-	{
-		return s;
-	}
-	re /= s;
-	im /= s;
-	return s * bksge::sqrt(re * re + im * im);
+	return bksge::hypot(z.real(), z.imag());
 }
 
 template <typename T>
