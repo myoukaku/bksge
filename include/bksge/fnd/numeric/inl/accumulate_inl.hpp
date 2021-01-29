@@ -11,11 +11,10 @@
 
 #include <bksge/fnd/numeric/accumulate.hpp>
 #include <bksge/fnd/functional/plus.hpp>
+#include <bksge/fnd/utility/move.hpp>
+#include <bksge/fnd/config.hpp>
 
 namespace bksge
-{
-
-namespace numeric
 {
 
 namespace detail
@@ -31,7 +30,7 @@ accumulate(
 {
 	while (first != last)
 	{
-		init = binary_op(init, *first++);
+		init = binary_op(bksge::move(init), *first++);
 	}
 
 	return init;
@@ -42,16 +41,22 @@ accumulate(
 template <typename InputIterator, typename T>
 inline BKSGE_CONSTEXPR T accumulate(InputIterator first, InputIterator last, T init)
 {
-	return bksge::numeric::accumulate(first, last, init, bksge::plus<>());
+	return bksge::accumulate(
+		bksge::move(first),
+		bksge::move(last),
+		bksge::move(init),
+		bksge::plus<>());
 }
 
 template <typename InputIterator, typename T, typename BinaryOperation>
 inline BKSGE_CONSTEXPR T accumulate(InputIterator first, InputIterator last, T init, BinaryOperation binary_op)
 {
-	return detail::accumulate(first, last, init, binary_op);
+	return detail::accumulate(
+		bksge::move(first),
+		bksge::move(last),
+		bksge::move(init),
+		bksge::move(binary_op));
 }
-
-}	// namespace numeric
 
 }	// namespace bksge
 

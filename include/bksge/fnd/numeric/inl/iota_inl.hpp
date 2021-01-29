@@ -14,9 +14,6 @@
 namespace bksge
 {
 
-namespace numeric
-{
-
 template <typename ForwardIterator, typename T>
 inline BKSGE_CXX14_CONSTEXPR void
 iota(ForwardIterator first, ForwardIterator last, T value)
@@ -27,8 +24,6 @@ iota(ForwardIterator first, ForwardIterator last, T value)
 		++value;
 	}
 }
-
-}	// namespace numeric
 
 }	// namespace bksge
 

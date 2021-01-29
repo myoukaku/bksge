@@ -14,9 +14,6 @@
 namespace bksge
 {
 
-namespace numeric
-{
-
 /**
  *	@brief		範囲の値の部分和を計算する。
  *
@@ -69,10 +66,6 @@ partial_sum(
 	InputIterator last,
 	OutputIterator result,
 	BinaryOperation binary_op);
-
-}	// namespace numeric
-
-using numeric::partial_sum;
 
 }	// namespace bksge
 

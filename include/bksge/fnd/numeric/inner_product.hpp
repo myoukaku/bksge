@@ -14,9 +14,6 @@
 namespace bksge
 {
 
-namespace numeric
-{
-
 /**
  *	@brief	2つのシーケンスの任意の範囲の値の内積を計算する
  *
@@ -86,10 +83,6 @@ inner_product(
 	T init,
 	BinaryOperation1 binary_op1,
 	BinaryOperation2 binary_op2);
-
-}	// namespace numeric
-
-using numeric::inner_product;
 
 }	// namespace bksge
 

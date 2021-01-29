@@ -31,9 +31,6 @@ using std::gcd;
 namespace bksge
 {
 
-namespace numeric
-{
-
 /**
  *	@brief		最大公約数を得る
  *
@@ -61,12 +58,8 @@ BKSGE_NOEXCEPT
 	return
 		m == 0 ? bksge::abs(n) :
 		n == 0 ? bksge::abs(m) :
-		bksge::numeric::gcd(n, m % n);
+		bksge::gcd(n, m % n);
 }
-
-}	// namespace numeric
-
-using numeric::gcd;
 
 }	// namespace bksge
 

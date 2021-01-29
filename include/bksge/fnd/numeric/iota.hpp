@@ -14,9 +14,6 @@
 namespace bksge
 {
 
-namespace numeric
-{
-
 /**
  *	@brief		指定された値から始まる整数列を生成する。
  *
@@ -37,10 +34,6 @@ namespace numeric
 template <typename ForwardIterator, typename T>
 BKSGE_CXX14_CONSTEXPR void
 iota(ForwardIterator first, ForwardIterator last, T value);
-
-}	// namespace numeric
-
-using numeric::iota;
 
 }	// namespace bksge
 

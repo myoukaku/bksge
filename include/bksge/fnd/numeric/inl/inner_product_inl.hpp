@@ -12,11 +12,10 @@
 #include <bksge/fnd/numeric/inner_product.hpp>
 #include <bksge/fnd/functional/plus.hpp>
 #include <bksge/fnd/functional/multiplies.hpp>
+#include <bksge/fnd/utility/move.hpp>
+#include <bksge/fnd/config.hpp>
 
 namespace bksge
-{
-
-namespace numeric
 {
 
 namespace detail
@@ -40,7 +39,7 @@ inner_product(
 {
 	while (first1 != last1)
 	{
-		init = binary_op1(init, binary_op2(*first1, *first2));
+		init = binary_op1(bksge::move(init), binary_op2(*first1, *first2));
 		++first1;
 		++first2;
 	}
@@ -62,8 +61,13 @@ inner_product(
 	InputIterator2 first2,
 	T init)
 {
-	return bksge::numeric::inner_product(
-		first1, last1, first2, init, bksge::plus<>(), bksge::multiplies<>());
+	return bksge::inner_product(
+		bksge::move(first1),
+		bksge::move(last1),
+		bksge::move(first2),
+		bksge::move(init),
+		bksge::plus<>(),
+		bksge::multiplies<>());
 }
 
 template <
@@ -83,10 +87,13 @@ inner_product(
 	BinaryOperation2 binary_op2)
 {
 	return detail::inner_product(
-		first1, last1, first2, init, binary_op1, binary_op2);
+		bksge::move(first1),
+		bksge::move(last1),
+		bksge::move(first2),
+		bksge::move(init),
+		bksge::move(binary_op1),
+		bksge::move(binary_op2));
 }
-
-}	// namespace numeric
 
 }	// namespace bksge
 

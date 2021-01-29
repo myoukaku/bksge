@@ -32,9 +32,6 @@ using std::lcm;
 namespace bksge
 {
 
-namespace numeric
-{
-
 /**
  *	@brief		最小公倍数を得る
  *
@@ -64,10 +61,6 @@ BKSGE_NOEXCEPT
 			0 :
 		(bksge::abs(m) / bksge::gcd(m, n)) * bksge::abs(n);
 }
-
-}	// namespace numeric
-
-using numeric::lcm;
 
 }	// namespace bksge
 

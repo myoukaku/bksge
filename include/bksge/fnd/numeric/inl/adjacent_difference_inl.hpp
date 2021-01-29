@@ -12,11 +12,9 @@
 #include <bksge/fnd/numeric/adjacent_difference.hpp>
 #include <bksge/fnd/functional/minus.hpp>
 #include <bksge/fnd/utility/move.hpp>
+#include <bksge/fnd/config.hpp>
 
 namespace bksge
-{
-
-namespace numeric
 {
 
 template <typename InputIterator, typename OutputIterator>
@@ -26,7 +24,11 @@ adjacent_difference(
 	InputIterator last,
 	OutputIterator result)
 {
-	return bksge::numeric::adjacent_difference(first, last, result, bksge::minus<>());
+	return bksge::adjacent_difference(
+		bksge::move(first),
+		bksge::move(last),
+		bksge::move(result),
+		bksge::minus<>());
 }
 
 template <typename InputIterator, typename OutputIterator, typename BinaryOperation>
@@ -50,7 +52,7 @@ adjacent_difference(
 	while (first != last)
 	{
 		auto val = *first;
-		*result = binary_op(val, acc);
+		*result = binary_op(val, bksge::move(acc));
 		acc = bksge::move(val);
 
 		++result;
@@ -59,8 +61,6 @@ adjacent_difference(
 
 	return result;
 }
-
-}	// namespace numeric
 
 }	// namespace bksge
 

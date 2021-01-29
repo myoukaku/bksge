@@ -14,9 +14,6 @@
 namespace bksge
 {
 
-namespace numeric
-{
-
 /**
  *	@brief		隣接する要素間の差を計算する。
  *
@@ -67,10 +64,6 @@ adjacent_difference(
 	InputIterator last,
 	OutputIterator result,
 	BinaryOperation binary_op);
-
-}	// namespace numeric
-
-using numeric::adjacent_difference;
 
 }	// namespace bksge
 

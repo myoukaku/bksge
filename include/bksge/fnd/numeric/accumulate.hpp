@@ -14,9 +14,6 @@
 namespace bksge
 {
 
-namespace numeric
-{
-
 /**
  *	@brief	1つのシーケンスの任意の範囲の値を足し合わせる
  *
@@ -65,10 +62,6 @@ accumulate(
 	InputIterator last,
 	T init,
 	BinaryOperation binary_op);
-
-}	// namespace numeric
-
-using numeric::accumulate;
 
 }	// namespace bksge
 
