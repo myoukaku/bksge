@@ -29,7 +29,6 @@
 #include <bksge/fnd/type_traits/decay.hpp>
 #include <bksge/fnd/type_traits/disjunction.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/type_traits/endian.hpp>
 #include <bksge/fnd/type_traits/extent.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
 #include <bksge/fnd/type_traits/has_unique_object_representations.hpp>

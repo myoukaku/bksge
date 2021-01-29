@@ -14,6 +14,9 @@
 #if (BKSGE_CXX_STANDARD >= 20) && BKSGE_HAS_INCLUDE(<bit>)
 #include <bit>
 
+#  if defined(__cpp_lib_endian) && (__cpp_lib_endian >= 201907)
+#    define BKSGE_HAS_CXX_LIB_ENDIAN
+#  endif
 #  if defined(__cpp_lib_bit_cast) && (__cpp_lib_bit_cast >= 201806)
 #    define BKSGE_HAS_CXX_LIB_BIT_CAST
 #  endif

@@ -19,6 +19,7 @@
 #include <bksge/fnd/bit/countl_zero.hpp>
 #include <bksge/fnd/bit/countr_one.hpp>
 #include <bksge/fnd/bit/countr_zero.hpp>
+#include <bksge/fnd/bit/endian.hpp>
 #include <bksge/fnd/bit/has_single_bit.hpp>
 #include <bksge/fnd/bit/popcount.hpp>
 #include <bksge/fnd/bit/rotl.hpp>

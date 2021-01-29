@@ -1,24 +1,23 @@
 ﻿/**
- *	@file	unit_test_fnd_type_traits_endian.cpp
+ *	@file	unit_test_fnd_bit_endian.cpp
  *
  *	@brief	endian のテスト
  *
  *	@author	myoukaku
  */
 
-#include <bksge/fnd/type_traits/endian.hpp>
-#include <bksge/fnd/type_traits/is_enum.hpp>
+#include <bksge/fnd/bit/endian.hpp>
 #include <bksge/fnd/type_traits/is_convertible.hpp>
+#include <bksge/fnd/type_traits/is_enum.hpp>
 #include <bksge/fnd/type_traits/underlying_type.hpp>
 #include <bksge/fnd/cstring/memcpy.hpp>
 #include <bksge/fnd/cstdint.hpp>
 #include <gtest/gtest.h>
-#include "type_traits_test_utility.hpp"
 
-BKSGE_WARNING_PUSH()
-BKSGE_WARNING_DISABLE_MSVC(4127)
+BKSGE_WARNING_PUSH();
+BKSGE_WARNING_DISABLE_MSVC(4127);	// conditional expression is constant
 
-GTEST_TEST(TypeTraitsTest, EndianTest)
+GTEST_TEST(BitTest, EndianTest)
 {
 	static_assert(bksge::is_enum<bksge::endian>::value, "");
 
@@ -59,4 +58,4 @@ GTEST_TEST(TypeTraitsTest, EndianTest)
 	}
 }
 
-BKSGE_WARNING_POP()
+BKSGE_WARNING_POP();

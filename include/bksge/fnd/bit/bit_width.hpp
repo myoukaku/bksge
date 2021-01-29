@@ -31,7 +31,7 @@ namespace bksge
 {
 
 /**
- *	@brief	2を底とした整数値の対数を求めて1を足す
+ *	@brief	値を表現するために必要なビット幅を求める。
  *
  *	@tparam	T	xの型(符号なし整数型)
  *
@@ -43,7 +43,6 @@ namespace bksge
  *
  *	戻り値に1を足す理由は、対数を求められない0を引数として許容することでnoexceptとし、
  *	かつx == 1である場合と区別するためである。
- *	関数名bit_widthのp1は1を足す (plus one) ことを示している。
  */
 template <
 	typename T,
