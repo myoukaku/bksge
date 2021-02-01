@@ -45,6 +45,7 @@
 #include <bksge/fnd/cmath/pow.hpp>
 #include <bksge/fnd/cmath/radians_to_degrees.hpp>
 #include <bksge/fnd/cmath/repeat.hpp>
+#include <bksge/fnd/cmath/round.hpp>
 #include <bksge/fnd/cmath/round_down.hpp>
 #include <bksge/fnd/cmath/round_half_even.hpp>
 #include <bksge/fnd/cmath/round_up.hpp>

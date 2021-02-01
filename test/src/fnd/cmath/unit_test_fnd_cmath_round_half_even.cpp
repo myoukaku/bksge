@@ -23,8 +23,8 @@ namespace round_half_even_test
 
 static_assert(bksge::is_same<float,       decltype(bksge::round_half_even(0.0f))>::value, "");
 static_assert(bksge::is_same<double,      decltype(bksge::round_half_even(0.0 ))>::value, "");
-static_assert(bksge::is_same<double,      decltype(bksge::round_half_even(0   ))>::value, "");
 static_assert(bksge::is_same<long double, decltype(bksge::round_half_even(0.0l))>::value, "");
+static_assert(bksge::is_same<double,      decltype(bksge::round_half_even(0   ))>::value, "");
 
 template <typename T>
 void RoundHalfEvenTestUnsigned(void)
