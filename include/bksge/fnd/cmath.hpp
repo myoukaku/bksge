@@ -26,6 +26,7 @@
 #include <bksge/fnd/cmath/degrees_to_radians.hpp>
 #include <bksge/fnd/cmath/exp.hpp>
 #include <bksge/fnd/cmath/exp2.hpp>
+#include <bksge/fnd/cmath/expm1.hpp>
 #include <bksge/fnd/cmath/fabs.hpp>
 #include <bksge/fnd/cmath/floor.hpp>
 #include <bksge/fnd/cmath/fmod.hpp>
