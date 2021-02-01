@@ -31,6 +31,8 @@
 #include <bksge/fnd/cmath/fdim.hpp>
 #include <bksge/fnd/cmath/floor.hpp>
 #include <bksge/fnd/cmath/fma.hpp>
+#include <bksge/fnd/cmath/fmax.hpp>
+#include <bksge/fnd/cmath/fmin.hpp>
 #include <bksge/fnd/cmath/fmod.hpp>
 #include <bksge/fnd/cmath/frac.hpp>
 #include <bksge/fnd/cmath/hypot.hpp>
