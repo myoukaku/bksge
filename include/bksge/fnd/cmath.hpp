@@ -30,6 +30,7 @@
 #include <bksge/fnd/cmath/fabs.hpp>
 #include <bksge/fnd/cmath/fdim.hpp>
 #include <bksge/fnd/cmath/floor.hpp>
+#include <bksge/fnd/cmath/fma.hpp>
 #include <bksge/fnd/cmath/fmod.hpp>
 #include <bksge/fnd/cmath/frac.hpp>
 #include <bksge/fnd/cmath/hypot.hpp>
