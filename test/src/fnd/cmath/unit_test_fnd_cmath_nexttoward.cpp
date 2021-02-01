@@ -20,8 +20,10 @@ namespace nexttoward_test
 {
 
 static_assert(bksge::is_same<float,       decltype(bksge::nexttoward(0.0f, 0.0l))>::value, "");
+static_assert(bksge::is_same<float,       decltype(bksge::nexttowardf(0.0f, 0.0l))>::value, "");
 static_assert(bksge::is_same<double,      decltype(bksge::nexttoward(0.0 , 0.0l))>::value, "");
 static_assert(bksge::is_same<long double, decltype(bksge::nexttoward(0.0l, 0.0l))>::value, "");
+static_assert(bksge::is_same<long double, decltype(bksge::nexttowardl(0.0l, 0.0l))>::value, "");
 static_assert(bksge::is_same<double,      decltype(bksge::nexttoward(0,    0.0l))>::value, "");
 
 template <typename T>

@@ -7,6 +7,7 @@
  */
 
 #include <bksge/fnd/cmath/iszero.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
@@ -17,6 +18,11 @@ namespace bksge_cmath_test
 
 namespace iszero_test
 {
+
+static_assert(bksge::is_same<bool, decltype(bksge::iszero(0.0f))>::value, "");
+static_assert(bksge::is_same<bool, decltype(bksge::iszero(0.0 ))>::value, "");
+static_assert(bksge::is_same<bool, decltype(bksge::iszero(0.0l))>::value, "");
+static_assert(bksge::is_same<bool, decltype(bksge::iszero(0   ))>::value, "");
 
 BKSGE_WARNING_PUSH()
 BKSGE_WARNING_DISABLE_MSVC(4056)	// 浮動小数点数の定数演算でオーバーフローしました。

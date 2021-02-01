@@ -9,9 +9,10 @@
 #ifndef BKSGE_FND_CMATH_SMOOTHSTEP_HPP
 #define BKSGE_FND_CMATH_SMOOTHSTEP_HPP
 
-#include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/cmath/detail/smoothstep_impl.hpp>
+#include <bksge/fnd/concepts/arithmetic.hpp>
+#include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
-#include <bksge/fnd/type_traits/is_arithmetic.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -20,9 +21,9 @@ namespace bksge
 /**
  *	@brief	smoothstep
  *
- *	@tparam		ArithmeticType1	算術型
- *	@tparam		ArithmeticType2	算術型
- *	@tparam		ArithmeticType3	算術型
+ *	@tparam		Arithmetic1	算術型
+ *	@tparam		Arithmetic2	算術型
+ *	@tparam		Arithmetic3	算術型
  *
  *	@param	from	xの最小値
  *	@param	to		xの最大値
@@ -40,20 +41,17 @@ namespace bksge
  *	toが±∞の場合、0を返す。
  */
 template <
-	typename ArithmeticType1,
-	typename ArithmeticType2,
-	typename ArithmeticType3,
-	typename = bksge::enable_if_t<
-		bksge::is_arithmetic<ArithmeticType1>::value &&
-		bksge::is_arithmetic<ArithmeticType2>::value &&
-		bksge::is_arithmetic<ArithmeticType3>::value
-	>
+	BKSGE_REQUIRES_PARAM(bksge::arithmetic, Arithmetic1),
+	BKSGE_REQUIRES_PARAM(bksge::arithmetic, Arithmetic2),
+	BKSGE_REQUIRES_PARAM(bksge::arithmetic, Arithmetic3)
 >
-BKSGE_CONSTEXPR bksge::float_promote_t<ArithmeticType1, ArithmeticType2, ArithmeticType3>
-smoothstep(ArithmeticType1 from, ArithmeticType2 to, ArithmeticType3 x) BKSGE_NOEXCEPT;
+inline BKSGE_CONSTEXPR bksge::float_promote_t<Arithmetic1, Arithmetic2, Arithmetic3>
+smoothstep(Arithmetic1 from, Arithmetic2 to, Arithmetic3 x) BKSGE_NOEXCEPT
+{
+	using type = bksge::float_promote_t<Arithmetic1, Arithmetic2, Arithmetic3>;
+	return detail::smoothstep_impl(static_cast<type>(from), static_cast<type>(to), static_cast<type>(x));
+}
 
 }	// namespace bksge
-
-#include <bksge/fnd/cmath/inl/smoothstep_inl.hpp>
 
 #endif // BKSGE_FND_CMATH_SMOOTHSTEP_HPP

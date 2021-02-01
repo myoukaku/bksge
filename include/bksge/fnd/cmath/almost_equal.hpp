@@ -9,8 +9,10 @@
 #ifndef BKSGE_FND_CMATH_ALMOST_EQUAL_HPP
 #define BKSGE_FND_CMATH_ALMOST_EQUAL_HPP
 
-#include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/type_traits/is_arithmetic.hpp>
+#include <bksge/fnd/cmath/detail/almost_equal_impl.hpp>
+#include <bksge/fnd/concepts/arithmetic.hpp>
+#include <bksge/fnd/concepts/detail/require.hpp>
+#include <bksge/fnd/type_traits/arithmetic_promote.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -19,8 +21,8 @@ namespace bksge
 /**
  *	@brief	2つの値がほぼ同じかどうかを調べる
  *
- *	@tparam	ArithmeticType1	算術型
- *	@tparam	ArithmeticType2	算術型
+ *	@tparam	Arithmetic1	算術型
+ *	@tparam	Arithmetic2	算術型
  *
  *	@param	x
  *	@param	y
@@ -28,18 +30,16 @@ namespace bksge
  *	@return	xとyがほぼ同じ値ならtrue
  */
 template <
-	typename ArithmeticType1,
-	typename ArithmeticType2,
-	typename = bksge::enable_if_t<
-		bksge::is_arithmetic<ArithmeticType1>::value &&
-		bksge::is_arithmetic<ArithmeticType2>::value
-	>
+	BKSGE_REQUIRES_PARAM(bksge::arithmetic, Arithmetic1),
+	BKSGE_REQUIRES_PARAM(bksge::arithmetic, Arithmetic2)
 >
-BKSGE_CONSTEXPR bool
-almost_equal(ArithmeticType1 x, ArithmeticType2 y) BKSGE_NOEXCEPT;
+inline BKSGE_CONSTEXPR bool
+almost_equal(Arithmetic1 x, Arithmetic2 y) BKSGE_NOEXCEPT
+{
+	using type = bksge::arithmetic_promote_t<Arithmetic1, Arithmetic2>;
+	return detail::almost_equal_impl(static_cast<type>(x), static_cast<type>(y));
+}
 
 }	// namespace bksge
-
-#include <bksge/fnd/cmath/inl/almost_equal_inl.hpp>
 
 #endif // BKSGE_FND_CMATH_ALMOST_EQUAL_HPP

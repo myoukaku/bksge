@@ -9,31 +9,14 @@
 #ifndef BKSGE_FND_CMATH_NEXTAFTER_HPP
 #define BKSGE_FND_CMATH_NEXTAFTER_HPP
 
-#include <bksge/fnd/cmath/isnan.hpp>
+#include <bksge/fnd/cmath/detail/nextafter_impl.hpp>
 #include <bksge/fnd/concepts/arithmetic.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cmath>
 
 namespace bksge
 {
-
-namespace detail
-{
-
-template <typename FloatType>
-inline BKSGE_CONSTEXPR FloatType
-nextafter_impl(FloatType from, FloatType to) BKSGE_NOEXCEPT
-{
-	return
-		bksge::isnan(from) || bksge::isnan(to) ?
-			bksge::numeric_limits<FloatType>::quiet_NaN() :
-		std::nextafter(from, to);
-}
-
-}	// namespace detail
 
 inline BKSGE_CONSTEXPR float
 nextafter(float from, float to) BKSGE_NOEXCEPT

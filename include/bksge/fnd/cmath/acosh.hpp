@@ -9,9 +9,9 @@
 #ifndef BKSGE_FND_CMATH_ACOSH_HPP
 #define BKSGE_FND_CMATH_ACOSH_HPP
 
-#include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/type_traits/is_arithmetic.hpp>
-#include <bksge/fnd/type_traits/float_promote.hpp>
+#include <bksge/fnd/cmath/detail/acosh_impl.hpp>
+#include <bksge/fnd/concepts/integral.hpp>
+#include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -20,26 +20,52 @@ namespace bksge
 /**
  *	@brief	逆双曲線余弦（アークハイパボリックコサイン）を求める
  *
- *	@tparam	ArithmeticType	算術型
+ *	@param	arg	算術型の値
  *
- *	@param	x	算術型の値
+ *	@return	関数に成功すると、argの逆双曲線余弦を返す
  *
- *	@return	関数に成功すると、xの逆双曲線余弦を返す
- *
- *	x < 1  の場合、NaN を返す。
- *	x = 1  の場合、+0  を返す。
- *	x が +∞ の場合、+∞ を返す。
- *	x が NaN の場合、NaN を返す。
+ *	arg < 1  の場合、NaN を返す。
+ *	arg = 1  の場合、+0  を返す。
+ *	arg が +∞ の場合、+∞ を返す。
+ *	arg が NaN の場合、NaN を返す。
  */
-template <
-	typename ArithmeticType,
-	typename = bksge::enable_if_t<bksge::is_arithmetic<ArithmeticType>::value>
->
-BKSGE_CONSTEXPR bksge::float_promote_t<ArithmeticType>
-acosh(ArithmeticType x) BKSGE_NOEXCEPT;
+inline BKSGE_CONSTEXPR float
+acosh(float arg) BKSGE_NOEXCEPT
+{
+	return detail::acosh_impl(arg);
+}
+
+inline BKSGE_CONSTEXPR float
+acoshf(float arg) BKSGE_NOEXCEPT
+{
+	return detail::acosh_impl(arg);
+}
+
+inline BKSGE_CONSTEXPR double
+acosh (double arg) BKSGE_NOEXCEPT
+{
+	return detail::acosh_impl(arg);
+}
+
+inline BKSGE_CONSTEXPR long double
+acosh (long double arg) BKSGE_NOEXCEPT
+{
+	return detail::acosh_impl(arg);
+}
+
+inline BKSGE_CONSTEXPR long double
+acoshl(long double arg) BKSGE_NOEXCEPT
+{
+	return detail::acosh_impl(arg);
+}
+
+template <BKSGE_REQUIRES_PARAM(bksge::integral, IntegralType)>
+inline BKSGE_CONSTEXPR double
+acosh(IntegralType arg) BKSGE_NOEXCEPT
+{
+	return detail::acosh_impl(static_cast<double>(arg));
+}
 
 }	// namespace bksge
-
-#include <bksge/fnd/cmath/inl/acosh_inl.hpp>
 
 #endif // BKSGE_FND_CMATH_ACOSH_HPP

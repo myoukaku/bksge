@@ -9,9 +9,10 @@
 #ifndef BKSGE_FND_CMATH_ROUND_HALF_EVEN_HPP
 #define BKSGE_FND_CMATH_ROUND_HALF_EVEN_HPP
 
-#include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/cmath/detail/round_half_even_impl.hpp>
+#include <bksge/fnd/concepts/arithmetic.hpp>
+#include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
-#include <bksge/fnd/type_traits/is_arithmetic.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -20,7 +21,7 @@ namespace bksge
 /**
  *	@brief	最近接偶数への丸め
  *
- *	@tparam	ArithmeticType	算術型
+ *	@tparam	Arithmetic	算術型
  *
  *	@param	x	対象となる値
  *
@@ -39,17 +40,14 @@ namespace bksge
  *
  *	https://ja.wikipedia.org/wiki/%E7%AB%AF%E6%95%B0%E5%87%A6%E7%90%86#.E6.9C.80.E8.BF.91.E6.8E.A5.E5.81.B6.E6.95.B0.E3.81.B8.E3.81.AE.E4.B8.B8.E3.82.81
  */
-template <
-	typename ArithmeticType,
-	typename = bksge::enable_if_t<
-		bksge::is_arithmetic<ArithmeticType>::value
-	>
->
-BKSGE_CONSTEXPR bksge::float_promote_t<ArithmeticType>
-round_half_even(ArithmeticType x);
+template <BKSGE_REQUIRES_PARAM(bksge::arithmetic, Arithmetic)>
+inline BKSGE_CONSTEXPR bksge::float_promote_t<Arithmetic>
+round_half_even(Arithmetic x)
+{
+	using type = bksge::float_promote_t<Arithmetic>;
+	return detail::round_half_even_impl(static_cast<type>(x));
+}
 
 }	// namespace bksge
-
-#include <bksge/fnd/cmath/inl/round_half_even_inl.hpp>
 
 #endif // BKSGE_FND_CMATH_ROUND_HALF_EVEN_HPP

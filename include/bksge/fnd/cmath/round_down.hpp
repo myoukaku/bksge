@@ -9,8 +9,10 @@
 #ifndef BKSGE_FND_CMATH_ROUND_DOWN_HPP
 #define BKSGE_FND_CMATH_ROUND_DOWN_HPP
 
-#include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/type_traits/is_arithmetic.hpp>
+#include <bksge/fnd/cmath/detail/round_down_impl.hpp>
+#include <bksge/fnd/concepts/arithmetic.hpp>
+#include <bksge/fnd/concepts/detail/require.hpp>
+#include <bksge/fnd/type_traits/float_promote.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -19,8 +21,8 @@ namespace bksge
 /**
  *	@brief	切り下げ
  *
- *	@tparam	ArithmeticType1	算術型
- *	@tparam	ArithmeticType2	算術型
+ *	@tparam	Arithmetic1	算術型
+ *	@tparam	Arithmetic2	算術型
  *
  *	@param	x		切り下げる数
  *	@param	base	基数
@@ -38,18 +40,17 @@ namespace bksge
  *	base == 0　  の場合、x    を返す。
  */
 template <
-	typename ArithmeticType1,
-	typename ArithmeticType2,
-	typename = bksge::enable_if_t<
-		bksge::is_arithmetic<ArithmeticType1>::value &&
-		bksge::is_arithmetic<ArithmeticType2>::value
-	>
+	BKSGE_REQUIRES_PARAM(bksge::arithmetic, Arithmetic1),
+	BKSGE_REQUIRES_PARAM(bksge::arithmetic, Arithmetic2)
 >
-BKSGE_CONSTEXPR ArithmeticType1
-round_down(ArithmeticType1 x, ArithmeticType2 base) BKSGE_NOEXCEPT;
+inline BKSGE_CONSTEXPR Arithmetic1
+round_down(Arithmetic1 x, Arithmetic2 base) BKSGE_NOEXCEPT
+{
+	using type = bksge::float_promote_t<Arithmetic1, Arithmetic2>;
+	return static_cast<Arithmetic1>(
+		detail::round_down_impl(static_cast<type>(x), static_cast<type>(base)));
+}
 
 }	// namespace bksge
-
-#include <bksge/fnd/cmath/inl/round_down_inl.hpp>
 
 #endif // BKSGE_FND_CMATH_ROUND_DOWN_HPP

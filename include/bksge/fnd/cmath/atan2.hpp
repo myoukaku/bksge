@@ -9,8 +9,9 @@
 #ifndef BKSGE_FND_CMATH_ATAN2_HPP
 #define BKSGE_FND_CMATH_ATAN2_HPP
 
-#include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/type_traits/is_arithmetic.hpp>
+#include <bksge/fnd/cmath/detail/atan2_impl.hpp>
+#include <bksge/fnd/concepts/arithmetic.hpp>
+#include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
 #include <bksge/fnd/config.hpp>
 
@@ -19,9 +20,6 @@ namespace bksge
 
 /**
  *	@brief	アークタンジェントを取得する
- *
- *	@tparam	ArithmeticType1	算術型
- *	@tparam	ArithmeticType2	算術型
  *
  *	@param	y	算術型の値
  *	@param	x	算術型の値
@@ -41,19 +39,47 @@ namespace bksge
  *	x が +∞  かつ、y が有限の負の値の場合、-0 を返す。
  *	x か y の少なくともどちらかが NaN の場合、NaN を返す。
  */
+inline BKSGE_CONSTEXPR float
+atan2(float y, float x) BKSGE_NOEXCEPT
+{
+	return detail::atan2_impl(y, x);
+}
+
+inline BKSGE_CONSTEXPR float
+atan2f(float y, float x) BKSGE_NOEXCEPT
+{
+	return detail::atan2_impl(y, x);
+}
+
+inline BKSGE_CONSTEXPR double
+atan2(double y, double x) BKSGE_NOEXCEPT
+{
+	return detail::atan2_impl(y, x);
+}
+
+inline BKSGE_CONSTEXPR long double
+atan2(long double y, long double x) BKSGE_NOEXCEPT
+{
+	return detail::atan2_impl(y, x);
+}
+
+inline BKSGE_CONSTEXPR long double
+atan2l(long double y, long double x) BKSGE_NOEXCEPT
+{
+	return detail::atan2_impl(y, x);
+}
+
 template <
-	typename ArithmeticType1,
-	typename ArithmeticType2,
-	typename = bksge::enable_if_t<
-		bksge::is_arithmetic<ArithmeticType1>::value &&
-		bksge::is_arithmetic<ArithmeticType2>::value
-	>
+	BKSGE_REQUIRES_PARAM(bksge::arithmetic, Arithmetic1),
+	BKSGE_REQUIRES_PARAM(bksge::arithmetic, Arithmetic2)
 >
-BKSGE_CONSTEXPR bksge::float_promote_t<ArithmeticType1, ArithmeticType2>
-atan2(ArithmeticType1 y, ArithmeticType2 x) BKSGE_NOEXCEPT;
+inline BKSGE_CONSTEXPR bksge::float_promote_t<Arithmetic1, Arithmetic2>
+atan2(Arithmetic1 y, Arithmetic2 x) BKSGE_NOEXCEPT
+{
+	using type = bksge::float_promote_t<Arithmetic1, Arithmetic2>;
+	return detail::atan2_impl(static_cast<type>(y), static_cast<type>(x));
+}
 
 }	// namespace bksge
-
-#include <bksge/fnd/cmath/inl/atan2_inl.hpp>
 
 #endif // BKSGE_FND_CMATH_ATAN2_HPP

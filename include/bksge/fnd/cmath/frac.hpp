@@ -9,9 +9,10 @@
 #ifndef BKSGE_FND_CMATH_FRAC_HPP
 #define BKSGE_FND_CMATH_FRAC_HPP
 
-#include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/cmath/detail/frac_impl.hpp>
+#include <bksge/fnd/concepts/arithmetic.hpp>
+#include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
-#include <bksge/fnd/type_traits/is_arithmetic.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -20,7 +21,7 @@ namespace bksge
 /**
  *	@brief	小数部を求める
  *
- *	@tparam	ArithmeticType	算術型
+ *	@tparam	Arithmetic	算術型
  *
  *	@param	x	算術型の値
  *
@@ -29,17 +30,13 @@ namespace bksge
  *	x が ±∞の場合、+0  を返す。
  *	x が NaN の場合、NaN を返す。
  */
-template <
-	typename ArithmeticType,
-	typename = bksge::enable_if_t<
-		bksge::is_arithmetic<ArithmeticType>::value
-	>
->
-BKSGE_CONSTEXPR bksge::float_promote_t<ArithmeticType>
-frac(ArithmeticType x) BKSGE_NOEXCEPT;
+template <BKSGE_REQUIRES_PARAM(bksge::arithmetic, Arithmetic)>
+inline BKSGE_CONSTEXPR bksge::float_promote_t<Arithmetic>
+frac(Arithmetic x) BKSGE_NOEXCEPT
+{
+	return detail::frac_impl(x);
+}
 
 }	// namespace bksge
-
-#include <bksge/fnd/cmath/inl/frac_inl.hpp>
 
 #endif // BKSGE_FND_CMATH_FRAC_HPP

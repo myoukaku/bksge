@@ -9,8 +9,9 @@
 #ifndef BKSGE_FND_CMATH_HYPOT_HPP
 #define BKSGE_FND_CMATH_HYPOT_HPP
 
-#include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/type_traits/is_arithmetic.hpp>
+#include <bksge/fnd/cmath/detail/hypot_impl.hpp>
+#include <bksge/fnd/concepts/arithmetic.hpp>
+#include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
 #include <bksge/fnd/config.hpp>
 
@@ -30,17 +31,41 @@ namespace bksge
  *	x と y のどちらか一方でも±∞の場合（もう一方が NaN であっても）、+∞を返す
  *	上記を満たさずに、x と y のどちらか一方でもNaNの場合、NaNを返す
  */
-BKSGE_CONSTEXPR float       hypot (float x, float y) BKSGE_NOEXCEPT;
-BKSGE_CONSTEXPR float       hypotf(float x, float y) BKSGE_NOEXCEPT;
-BKSGE_CONSTEXPR double      hypot (double x, double y) BKSGE_NOEXCEPT;
-BKSGE_CONSTEXPR long double hypot (long double x, long double y) BKSGE_NOEXCEPT;
-BKSGE_CONSTEXPR long double hypotl(long double x, long double y) BKSGE_NOEXCEPT;
+inline BKSGE_CONSTEXPR float
+hypot(float x, float y) BKSGE_NOEXCEPT
+{
+	return detail::hypot_impl(x, y);
+}
+
+inline BKSGE_CONSTEXPR float
+hypotf(float x, float y) BKSGE_NOEXCEPT
+{
+	return detail::hypot_impl(x, y);
+}
+
+inline BKSGE_CONSTEXPR double
+hypot(double x, double y) BKSGE_NOEXCEPT
+{
+	return detail::hypot_impl(x, y);
+}
+
+inline BKSGE_CONSTEXPR long double
+hypot(long double x, long double y) BKSGE_NOEXCEPT
+{
+	return detail::hypot_impl(x, y);
+}
+
+inline BKSGE_CONSTEXPR long double
+hypotl(long double x, long double y) BKSGE_NOEXCEPT
+{
+	return detail::hypot_impl(x, y);
+}
 
 /**
  *	@brief	平方和の平方根を求める(任意の算術型版)
  *
- *	@tparam	ArithmeticType1	算術型
- *	@tparam	ArithmeticType2	算術型
+ *	@tparam	Arithmetic1	算術型
+ *	@tparam	Arithmetic2	算術型
  *
  *	@note	引数が整数型の場合、doubleにキャストされる
  *
@@ -48,15 +73,15 @@ BKSGE_CONSTEXPR long double hypotl(long double x, long double y) BKSGE_NOEXCEPT;
  *			そうでない場合、戻り値の型はdouble
  */
 template <
-	typename ArithmeticType1,
-	typename ArithmeticType2,
-	typename = bksge::enable_if_t<
-		bksge::is_arithmetic<ArithmeticType1>::value &&
-		bksge::is_arithmetic<ArithmeticType2>::value
-	>
+	BKSGE_REQUIRES_PARAM(bksge::arithmetic, Arithmetic1),
+	BKSGE_REQUIRES_PARAM(bksge::arithmetic, Arithmetic2)
 >
-BKSGE_CONSTEXPR bksge::float_promote_t<ArithmeticType1, ArithmeticType2>
-hypot(ArithmeticType1 x, ArithmeticType2 y) BKSGE_NOEXCEPT;
+inline BKSGE_CONSTEXPR bksge::float_promote_t<Arithmetic1, Arithmetic2>
+hypot(Arithmetic1 x, Arithmetic2 y) BKSGE_NOEXCEPT
+{
+	using type = bksge::float_promote_t<Arithmetic1, Arithmetic2>;
+	return detail::hypot_impl(static_cast<type>(x), static_cast<type>(y));
+}
 
 /**
  *	@brief	平方和の平方根を求める(3引数版)
@@ -73,32 +98,43 @@ hypot(ArithmeticType1 x, ArithmeticType2 y) BKSGE_NOEXCEPT;
  *	引数のどれか1個でも ±∞ の場合（他の引数が NaN であっても）、+∞を返す
  *	上記を満たさずに、引数のどれか1個でも NaN の場合、NaN を返す
  */
-BKSGE_CONSTEXPR float       hypot (float x, float y, float z) BKSGE_NOEXCEPT;
-BKSGE_CONSTEXPR double      hypot (double x, double y, double z) BKSGE_NOEXCEPT;
-BKSGE_CONSTEXPR long double hypot (long double x, long double y, long double z) BKSGE_NOEXCEPT;
+inline BKSGE_CONSTEXPR float
+hypot(float x, float y, float z) BKSGE_NOEXCEPT
+{
+	return detail::hypot_impl(x, y, z);
+}
+
+inline BKSGE_CONSTEXPR double
+hypot(double x, double y, double z) BKSGE_NOEXCEPT
+{
+	return detail::hypot_impl(x, y, z);
+}
+
+inline BKSGE_CONSTEXPR long double
+hypot(long double x, long double y, long double z) BKSGE_NOEXCEPT
+{
+	return detail::hypot_impl(x, y, z);
+}
 
 /**
  *	@brief	平方和の平方根を求める(3引数、任意の算術型版)
  *
- *	@tparam	ArithmeticType1	算術型
- *	@tparam	ArithmeticType2	算術型
- *	@tparam	ArithmeticType3	算術型
+ *	@tparam	Arithmetic1	算術型
+ *	@tparam	Arithmetic2	算術型
+ *	@tparam	Arithmetic3	算術型
  */
 template <
-	typename ArithmeticType1,
-	typename ArithmeticType2,
-	typename ArithmeticType3,
-	typename = bksge::enable_if_t<
-		bksge::is_arithmetic<ArithmeticType1>::value &&
-		bksge::is_arithmetic<ArithmeticType2>::value &&
-		bksge::is_arithmetic<ArithmeticType3>::value
-	>
+	BKSGE_REQUIRES_PARAM(bksge::arithmetic, Arithmetic1),
+	BKSGE_REQUIRES_PARAM(bksge::arithmetic, Arithmetic2),
+	BKSGE_REQUIRES_PARAM(bksge::arithmetic, Arithmetic3)
 >
-BKSGE_CONSTEXPR bksge::float_promote_t<ArithmeticType1, ArithmeticType2, ArithmeticType3>
-hypot(ArithmeticType1 x, ArithmeticType2 y, ArithmeticType3 z) BKSGE_NOEXCEPT;
+inline BKSGE_CONSTEXPR bksge::float_promote_t<Arithmetic1, Arithmetic2, Arithmetic3>
+hypot(Arithmetic1 x, Arithmetic2 y, Arithmetic3 z) BKSGE_NOEXCEPT
+{
+	using type = bksge::float_promote_t<Arithmetic1, Arithmetic2, Arithmetic3>;
+	return detail::hypot_impl(static_cast<type>(x), static_cast<type>(y), static_cast<type>(z));
+}
 
 }	// namespace bksge
-
-#include <bksge/fnd/cmath/inl/hypot_inl.hpp>
 
 #endif // BKSGE_FND_CMATH_HYPOT_HPP

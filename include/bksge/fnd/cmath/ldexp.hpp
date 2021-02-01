@@ -9,9 +9,9 @@
 #ifndef BKSGE_FND_CMATH_LDEXP_HPP
 #define BKSGE_FND_CMATH_LDEXP_HPP
 
-#include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/type_traits/is_arithmetic.hpp>
-#include <bksge/fnd/type_traits/float_promote.hpp>
+#include <bksge/fnd/cmath/detail/ldexp_impl.hpp>
+#include <bksge/fnd/concepts/integral.hpp>
+#include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -19,8 +19,6 @@ namespace bksge
 
 /**
  *	@brief	浮動小数点数に2の整数乗を掛ける
- *
- *	@tparam	ArithmeticType	算術型
  *
  *	@param	x	浮動小数点型の値
  *	@param	exp	整数型の値
@@ -32,15 +30,43 @@ namespace bksge
  *	exp が 0 だった場合、x をそのまま返す。
  *	x が NaN だった場合、NaN を返す。
  */
-template <
-	typename ArithmeticType,
-	typename = bksge::enable_if_t<bksge::is_arithmetic<ArithmeticType>::value>
->
-BKSGE_CONSTEXPR bksge::float_promote_t<ArithmeticType>
-ldexp(ArithmeticType x, int exp) BKSGE_NOEXCEPT;
+inline BKSGE_CONSTEXPR float
+ldexp(float x, int exp) BKSGE_NOEXCEPT
+{
+	return detail::ldexp_impl(x, exp);
+}
+
+inline BKSGE_CONSTEXPR float
+ldexpf(float x, int exp) BKSGE_NOEXCEPT
+{
+	return detail::ldexp_impl(x, exp);
+}
+
+inline BKSGE_CONSTEXPR double
+ldexp(double x, int exp) BKSGE_NOEXCEPT
+{
+	return detail::ldexp_impl(x, exp);
+}
+
+inline BKSGE_CONSTEXPR long double
+ldexp(long double x, int exp) BKSGE_NOEXCEPT
+{
+	return detail::ldexp_impl(x, exp);
+}
+
+inline BKSGE_CONSTEXPR long double
+ldexpl(long double x, int exp) BKSGE_NOEXCEPT
+{
+	return detail::ldexp_impl(x, exp);
+}
+
+template <BKSGE_REQUIRES_PARAM(bksge::integral, IntegralType)>
+inline BKSGE_CONSTEXPR double
+ldexp(IntegralType x, int exp) BKSGE_NOEXCEPT
+{
+	return detail::ldexp_impl(static_cast<double>(x), exp);
+}
 
 }	// namespace bksge
-
-#include <bksge/fnd/cmath/inl/ldexp_inl.hpp>
 
 #endif // BKSGE_FND_CMATH_LDEXP_HPP

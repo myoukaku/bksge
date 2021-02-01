@@ -15,7 +15,7 @@
 #include <bksge/core/math/detail/rgb_to_hsv.hpp>
 #include <bksge/core/math/detail/hsv_to_rgb.hpp>
 #include <bksge/core/math/color3.hpp>
-#include <bksge/fnd/cmath/clamp.hpp>
+#include <bksge/fnd/algorithm/clamp.hpp>
 #include <bksge/fnd/cmath/fmod.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>

@@ -9,8 +9,9 @@
 #ifndef BKSGE_FND_CMATH_POW_HPP
 #define BKSGE_FND_CMATH_POW_HPP
 
-#include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/type_traits/is_arithmetic.hpp>
+#include <bksge/fnd/cmath/detail/pow_impl.hpp>
+#include <bksge/fnd/concepts/arithmetic.hpp>
+#include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
 #include <bksge/fnd/config.hpp>
 
@@ -19,9 +20,6 @@ namespace bksge
 
 /**
  *	@brief	x の y 乗を求める。
- *
- *	@tparam	ArithmeticType1	算術型
- *	@tparam	ArithmeticType2	算術型
  *
  *	@param	x
  *	@param	y
@@ -49,19 +47,47 @@ namespace bksge
  *	x が +∞ かつ、y が正の値の場合、+∞ を返す。
  *	上記以外で、xかyの少なくともどちらかがNaNの場合、NaNを返す。
  */
+inline BKSGE_CONSTEXPR float
+pow(float x, float y) BKSGE_NOEXCEPT
+{
+	return detail::pow_impl(x, y);
+}
+
+inline BKSGE_CONSTEXPR float
+powf(float x, float y) BKSGE_NOEXCEPT
+{
+	return detail::pow_impl(x, y);
+}
+
+inline BKSGE_CONSTEXPR double
+pow(double x, double y) BKSGE_NOEXCEPT
+{
+	return detail::pow_impl(x, y);
+}
+
+inline BKSGE_CONSTEXPR long double
+pow(long double x, long double y) BKSGE_NOEXCEPT
+{
+	return detail::pow_impl(x, y);
+}
+
+inline BKSGE_CONSTEXPR long double
+powl(long double x, long double y) BKSGE_NOEXCEPT
+{
+	return detail::pow_impl(x, y);
+}
+
 template <
-	typename ArithmeticType1,
-	typename ArithmeticType2,
-	typename = bksge::enable_if_t<
-		bksge::is_arithmetic<ArithmeticType1>::value &&
-		bksge::is_arithmetic<ArithmeticType2>::value
-	>
+	BKSGE_REQUIRES_PARAM(bksge::arithmetic, Arithmetic1),
+	BKSGE_REQUIRES_PARAM(bksge::arithmetic, Arithmetic2)
 >
-BKSGE_CONSTEXPR bksge::float_promote_t<ArithmeticType1, ArithmeticType2>
-pow(ArithmeticType1 x, ArithmeticType2 y) BKSGE_NOEXCEPT;
+inline BKSGE_CONSTEXPR bksge::float_promote_t<Arithmetic1, Arithmetic2>
+pow(Arithmetic1 x, Arithmetic2 y) BKSGE_NOEXCEPT
+{
+	using type = bksge::float_promote_t<Arithmetic1, Arithmetic2>;
+	return detail::pow_impl(static_cast<type>(x), static_cast<type>(y));
+}
 
 }	// namespace bksge
-
-#include <bksge/fnd/cmath/inl/pow_inl.hpp>
 
 #endif // BKSGE_FND_CMATH_POW_HPP

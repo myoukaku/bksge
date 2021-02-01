@@ -9,9 +9,10 @@
 #ifndef BKSGE_FND_CMATH_FMOD_HPP
 #define BKSGE_FND_CMATH_FMOD_HPP
 
-#include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/cmath/detail/fmod_impl.hpp>
+#include <bksge/fnd/concepts/arithmetic.hpp>
+#include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
-#include <bksge/fnd/type_traits/is_arithmetic.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -19,9 +20,6 @@ namespace bksge
 
 /**
  *	@brief	剰余を求めます
- *
- *	@tparam	ArithmeticType1	算術型
- *	@tparam	ArithmeticType2	算術型
  *
  *	@param	x
  *	@param	y
@@ -34,19 +32,47 @@ namespace bksge
  *	y が ±∞ かつ、x が 有限の値の場合、x をそのまま返す。
  *	x か y の少なくともどちらかがNaNの場合、NaNを返す。
  */
+inline BKSGE_CONSTEXPR float
+fmod(float x, float y) BKSGE_NOEXCEPT
+{
+	return detail::fmod_impl(x, y);
+}
+
+inline BKSGE_CONSTEXPR float
+fmodf(float x, float y) BKSGE_NOEXCEPT
+{
+	return detail::fmod_impl(x, y);
+}
+
+inline BKSGE_CONSTEXPR double
+fmod(double x, double y) BKSGE_NOEXCEPT
+{
+	return detail::fmod_impl(x, y);
+}
+
+inline BKSGE_CONSTEXPR long double
+fmod(long double x, long double y) BKSGE_NOEXCEPT
+{
+	return detail::fmod_impl(x, y);
+}
+
+inline BKSGE_CONSTEXPR long double
+fmodl(long double x, long double y) BKSGE_NOEXCEPT
+{
+	return detail::fmod_impl(x, y);
+}
+
 template <
-	typename ArithmeticType1,
-	typename ArithmeticType2,
-	typename = bksge::enable_if_t<
-		bksge::is_arithmetic<ArithmeticType1>::value &&
-		bksge::is_arithmetic<ArithmeticType2>::value
-	>
+	BKSGE_REQUIRES_PARAM(bksge::arithmetic, Arithmetic1),
+	BKSGE_REQUIRES_PARAM(bksge::arithmetic, Arithmetic2)
 >
-BKSGE_CONSTEXPR bksge::float_promote_t<ArithmeticType1, ArithmeticType2>
-fmod(ArithmeticType1 x, ArithmeticType2 y) BKSGE_NOEXCEPT;
+inline BKSGE_CONSTEXPR bksge::float_promote_t<Arithmetic1, Arithmetic2>
+fmod(Arithmetic1 x, Arithmetic2 y) BKSGE_NOEXCEPT
+{
+	using type = bksge::float_promote_t<Arithmetic1, Arithmetic2>;
+	return detail::fmod_impl(static_cast<type>(x), static_cast<type>(y));
+}
 
 }	// namespace bksge
-
-#include <bksge/fnd/cmath/inl/fmod_inl.hpp>
 
 #endif // BKSGE_FND_CMATH_FMOD_HPP

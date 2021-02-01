@@ -9,9 +9,9 @@
 #ifndef BKSGE_FND_CMATH_ACOS_HPP
 #define BKSGE_FND_CMATH_ACOS_HPP
 
-#include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/type_traits/is_arithmetic.hpp>
-#include <bksge/fnd/type_traits/float_promote.hpp>
+#include <bksge/fnd/cmath/detail/acos_impl.hpp>
+#include <bksge/fnd/concepts/integral.hpp>
+#include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -20,25 +20,51 @@ namespace bksge
 /**
  *	@brief	アークコサインを取得する
  *
- *	@tparam	ArithmeticType	算術型
+ *	@param	arg	算術型の値
  *
- *	@param	x	算術型の値
+ *	@return	関数に成功すると、argのアークコサインを返す
  *
- *	@return	関数に成功すると、xのアークコサインを返す
- *
- *	x が +1  の場合、+0  を返す。
- *	|x| > 1  の場合、NaN を返す。
- *	x が NaN の場合、NaN を返す。
+ *	arg が +1  の場合、+0  を返す。
+ *	|arg| > 1  の場合、NaN を返す。
+ *	arg が NaN の場合、NaN を返す。
  */
-template <
-	typename ArithmeticType,
-	typename = bksge::enable_if_t<bksge::is_arithmetic<ArithmeticType>::value>
->
-BKSGE_CONSTEXPR bksge::float_promote_t<ArithmeticType>
-acos(ArithmeticType x) BKSGE_NOEXCEPT;
+inline BKSGE_CONSTEXPR float
+acos(float arg) BKSGE_NOEXCEPT
+{
+	return detail::acos_impl(arg);
+}
+
+inline BKSGE_CONSTEXPR float
+acosf(float arg) BKSGE_NOEXCEPT
+{
+	return detail::acos_impl(arg);
+}
+
+inline BKSGE_CONSTEXPR double
+acos(double arg) BKSGE_NOEXCEPT
+{
+	return detail::acos_impl(arg);
+}
+
+inline BKSGE_CONSTEXPR long double
+acos(long double arg) BKSGE_NOEXCEPT
+{
+	return detail::acos_impl(arg);
+}
+
+inline BKSGE_CONSTEXPR long double
+acosl(long double arg) BKSGE_NOEXCEPT
+{
+	return detail::acos_impl(arg);
+}
+
+template <BKSGE_REQUIRES_PARAM(bksge::integral, IntegralType)>
+inline BKSGE_CONSTEXPR double
+acos(IntegralType arg) BKSGE_NOEXCEPT
+{
+	return detail::acos_impl(static_cast<double>(arg));
+}
 
 }	// namespace bksge
-
-#include <bksge/fnd/cmath/inl/acos_inl.hpp>
 
 #endif // BKSGE_FND_CMATH_ACOS_HPP

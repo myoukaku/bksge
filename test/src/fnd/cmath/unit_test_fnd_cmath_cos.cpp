@@ -8,6 +8,7 @@
 
 #include <bksge/fnd/cmath/cos.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/numbers.hpp>
 #include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
@@ -19,6 +20,13 @@ namespace bksge_cmath_test
 
 namespace cos_test
 {
+
+static_assert(bksge::is_same<float,       decltype(bksge::cos(0.0f))>::value, "");
+static_assert(bksge::is_same<float,       decltype(bksge::cosf(0.0f))>::value, "");
+static_assert(bksge::is_same<double,      decltype(bksge::cos(0.0 ))>::value, "");
+static_assert(bksge::is_same<double,      decltype(bksge::cos(0   ))>::value, "");
+static_assert(bksge::is_same<long double, decltype(bksge::cos(0.0l))>::value, "");
+static_assert(bksge::is_same<long double, decltype(bksge::cosl(0.0l))>::value, "");
 
 template <typename T>
 void CosTestFloat(double error)

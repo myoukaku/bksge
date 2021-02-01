@@ -8,6 +8,7 @@
 
 #include <bksge/fnd/cmath/round_down.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -17,6 +18,23 @@ namespace bksge_cmath_test
 
 namespace round_down_test
 {
+
+static_assert(bksge::is_same<float,       decltype(bksge::round_down(0.0f, 0.0f))>::value, "");
+static_assert(bksge::is_same<float,       decltype(bksge::round_down(0.0f, 0.0 ))>::value, "");
+static_assert(bksge::is_same<float,       decltype(bksge::round_down(0.0f, 0.0l))>::value, "");
+static_assert(bksge::is_same<float,       decltype(bksge::round_down(0.0f, 0   ))>::value, "");
+static_assert(bksge::is_same<double,      decltype(bksge::round_down(0.0 , 0.0f))>::value, "");
+static_assert(bksge::is_same<double,      decltype(bksge::round_down(0.0 , 0.0 ))>::value, "");
+static_assert(bksge::is_same<double,      decltype(bksge::round_down(0.0 , 0.0l))>::value, "");
+static_assert(bksge::is_same<double,      decltype(bksge::round_down(0.0 , 0   ))>::value, "");
+static_assert(bksge::is_same<long double, decltype(bksge::round_down(0.0l, 0.0f))>::value, "");
+static_assert(bksge::is_same<long double, decltype(bksge::round_down(0.0l, 0.0 ))>::value, "");
+static_assert(bksge::is_same<long double, decltype(bksge::round_down(0.0l, 0.0l))>::value, "");
+static_assert(bksge::is_same<long double, decltype(bksge::round_down(0.0l, 0   ))>::value, "");
+static_assert(bksge::is_same<int,         decltype(bksge::round_down(0   , 0.0f))>::value, "");
+static_assert(bksge::is_same<int,         decltype(bksge::round_down(0   , 0.0 ))>::value, "");
+static_assert(bksge::is_same<int,         decltype(bksge::round_down(0   , 0.0l))>::value, "");
+static_assert(bksge::is_same<int,         decltype(bksge::round_down(0   , 0   ))>::value, "");
 
 template <typename T1, typename T2>
 void RoundDownTestUnsignedInt(void)

@@ -9,8 +9,9 @@
 #ifndef BKSGE_FND_CMATH_ABS_HPP
 #define BKSGE_FND_CMATH_ABS_HPP
 
-#include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/type_traits/is_arithmetic.hpp>
+#include <bksge/fnd/cmath/detail/abs_impl.hpp>
+#include <bksge/fnd/concepts/arithmetic.hpp>
+#include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -19,7 +20,7 @@ namespace bksge
 /**
  *	@brief	絶対値を求める
  *
- *	@tparam	ArithmeticType	算術型
+ *	@tparam	Arithmetic	算術型
  *
  *	@param	x	算術型の値
  *
@@ -45,17 +46,13 @@ namespace bksge
  *	標準ライブラリ<cstdlib>のabs関数との違い:
  *	　bksge::absは全ての算術型に対応している。
  */
-template <
-	typename ArithmeticType,
-	typename = bksge::enable_if_t<
-		bksge::is_arithmetic<ArithmeticType>::value
-	>
->
-BKSGE_CONSTEXPR ArithmeticType
-abs(ArithmeticType x) BKSGE_NOEXCEPT;
+template <BKSGE_REQUIRES_PARAM(bksge::arithmetic, Arithmetic)>
+inline BKSGE_CONSTEXPR Arithmetic
+abs(Arithmetic x) BKSGE_NOEXCEPT
+{
+	return detail::abs_impl(x);
+}
 
 }	// namespace bksge
-
-#include <bksge/fnd/cmath/inl/abs_inl.hpp>
 
 #endif // BKSGE_FND_CMATH_ABS_HPP

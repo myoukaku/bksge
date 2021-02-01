@@ -22,6 +22,7 @@ using std::lerp;
 
 #else
 
+#include <bksge/fnd/cmath/detail/lerp_impl.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
 #include <bksge/fnd/type_traits/is_arithmetic.hpp>
@@ -50,13 +51,25 @@ namespace bksge
  *	比較関数CMP(x, y)を、x > yであれば1、x < yであれば-1、そうでなければ0を返すものであるとして、
  *	あらゆる時間値t1とt2についてCMP(lerp(a,b,t2), lerp(a,b,t1))、CMP(t2, t1)、CMP(b,a)はいずれも非負となる
  */
-BKSGE_CXX14_CONSTEXPR float lerp(float a, float b, float t) BKSGE_NOEXCEPT;
-BKSGE_CXX14_CONSTEXPR double lerp(double a, double b, double t) BKSGE_NOEXCEPT;
-BKSGE_CXX14_CONSTEXPR long double lerp(long double a, long double b, long double t) BKSGE_NOEXCEPT;
+inline BKSGE_CXX14_CONSTEXPR float
+lerp(float a, float b, float t) BKSGE_NOEXCEPT
+{
+	return detail::lerp_impl(a, b, t);
+}
+
+inline BKSGE_CXX14_CONSTEXPR double
+lerp(double a, double b, double t) BKSGE_NOEXCEPT
+{
+	return detail::lerp_impl(a, b, t);
+}
+
+inline BKSGE_CXX14_CONSTEXPR long double
+lerp(long double a, long double b, long double t) BKSGE_NOEXCEPT
+{
+	return detail::lerp_impl(a, b, t);
+}
 
 }	// namespace bksge
-
-#include <bksge/fnd/cmath/inl/lerp_inl.hpp>
 
 #endif
 

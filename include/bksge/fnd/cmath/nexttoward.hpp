@@ -9,30 +9,13 @@
 #ifndef BKSGE_FND_CMATH_NEXTTOWARD_HPP
 #define BKSGE_FND_CMATH_NEXTTOWARD_HPP
 
-#include <bksge/fnd/cmath/isnan.hpp>
+#include <bksge/fnd/cmath/detail/nexttoward_impl.hpp>
 #include <bksge/fnd/concepts/integral.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
-#include <cmath>
 
 namespace bksge
 {
-
-namespace detail
-{
-
-template <typename FloatType>
-inline BKSGE_CONSTEXPR FloatType
-nexttoward_impl(FloatType from, long double to) BKSGE_NOEXCEPT
-{
-	return
-		bksge::isnan(from) || bksge::isnan(to) ?
-			bksge::numeric_limits<FloatType>::quiet_NaN() :
-		std::nexttoward(from, to);
-}
-
-}	// namespace detail
 
 inline BKSGE_CONSTEXPR float
 nexttoward(float from, long double to) BKSGE_NOEXCEPT
@@ -64,9 +47,7 @@ nexttowardl(long double from, long double to) BKSGE_NOEXCEPT
 	return detail::nexttoward_impl(from, to);
 }
 
-template <
-	BKSGE_REQUIRES_PARAM(bksge::integral, IntegralType)
->
+template <BKSGE_REQUIRES_PARAM(bksge::integral, IntegralType)>
 inline BKSGE_CONSTEXPR double
 nexttoward(IntegralType from, long double to) BKSGE_NOEXCEPT
 {

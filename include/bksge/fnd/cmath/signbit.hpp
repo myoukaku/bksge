@@ -9,8 +9,9 @@
 #ifndef BKSGE_FND_CMATH_SIGNBIT_HPP
 #define BKSGE_FND_CMATH_SIGNBIT_HPP
 
-#include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/type_traits/is_arithmetic.hpp>
+#include <bksge/fnd/cmath/detail/signbit_impl.hpp>
+#include <bksge/fnd/concepts/integral.hpp>
+#include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -19,29 +20,41 @@ namespace bksge
 /**
  *	@brief	負の値かどうか調べる
  *
- *	@tparam	ArithmeticType	算術型
+ *	@param	arg	調べる値
  *
- *	@param	x	調べる値
- *
- *	@return	xが負の値ならtrue,そうでないならfalse.
+ *	@return	argが負の値ならtrue,そうでないならfalse.
  *
  *	@note	ArithmeticTypeが整数型のときはdoubleにキャストしてから調べる。
  *
  *	※std::signbitとの違い
- *	xが±0または±NaNのとき、falseを返す。
+ *	argが±0または±NaNのとき、falseを返す。
  *	これはconstexpr関数にするための制限。
  */
-template <
-	typename ArithmeticType,
-	typename = bksge::enable_if_t<
-		bksge::is_arithmetic<ArithmeticType>::value
-	>
->
-BKSGE_CONSTEXPR bool
-signbit(ArithmeticType x) BKSGE_NOEXCEPT;
+inline BKSGE_CONSTEXPR bool
+signbit(float arg) BKSGE_NOEXCEPT
+{
+	return detail::signbit_impl(arg);
+}
+
+inline BKSGE_CONSTEXPR bool
+signbit(double arg) BKSGE_NOEXCEPT
+{
+	return detail::signbit_impl(arg);
+}
+
+inline BKSGE_CONSTEXPR bool
+signbit(long double arg) BKSGE_NOEXCEPT
+{
+	return detail::signbit_impl(arg);
+}
+
+template <BKSGE_REQUIRES_PARAM(bksge::integral, IntegralType)>
+inline BKSGE_CONSTEXPR bool
+signbit(IntegralType arg) BKSGE_NOEXCEPT
+{
+	return detail::signbit_impl(static_cast<double>(arg));
+}
 
 }	// namespace bksge
-
-#include <bksge/fnd/cmath/inl/signbit_inl.hpp>
 
 #endif // BKSGE_FND_CMATH_SIGNBIT_HPP

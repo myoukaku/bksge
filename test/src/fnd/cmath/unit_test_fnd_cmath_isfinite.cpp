@@ -8,6 +8,7 @@
 
 #include <bksge/fnd/cmath/isfinite.hpp>
 #include <bksge/fnd/cmath/exp.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
@@ -21,6 +22,11 @@ namespace bksge_cmath_test
 
 namespace isfinite_test
 {
+
+static_assert(bksge::is_same<bool, decltype(bksge::isfinite(0.0f))>::value, "");
+static_assert(bksge::is_same<bool, decltype(bksge::isfinite(0.0 ))>::value, "");
+static_assert(bksge::is_same<bool, decltype(bksge::isfinite(0.0l))>::value, "");
+static_assert(bksge::is_same<bool, decltype(bksge::isfinite(0   ))>::value, "");
 
 template <typename T>
 void IsFiniteTestFloat(void)

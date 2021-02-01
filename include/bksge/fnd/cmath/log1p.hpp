@@ -9,9 +9,9 @@
 #ifndef BKSGE_FND_CMATH_LOG1P_HPP
 #define BKSGE_FND_CMATH_LOG1P_HPP
 
-#include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/type_traits/is_arithmetic.hpp>
-#include <bksge/fnd/type_traits/float_promote.hpp>
+#include <bksge/fnd/cmath/detail/log1p_impl.hpp>
+#include <bksge/fnd/concepts/integral.hpp>
+#include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -20,27 +20,53 @@ namespace bksge
 /**
  *	@brief	引数に 1 を足した値の、e (ネイピア数) を底とする自然対数を求める。
  *
- *	@tparam	ArithmeticType	算術型
+ *	@param	arg
  *
- *	@param	x
+ *	@return	引数 arg に対して 1+arg の e (ネイピア数) を底とする自然対数を返す。
  *
- *	@return	引数 x に対して 1+x の e (ネイピア数) を底とする自然対数を返す。
- *
- *	x が ±0    の場合、±0 を返す。
- *	x が -1     の場合、-∞ を返す。
- *	x が -1未満 の場合、NaN を返す。
- *	x が +∞    の場合、+∞ を返す。
- *	x が NaN    の場合、NaN を返す。
+ *	arg が ±0    の場合、±0 を返す。
+ *	arg が -1     の場合、-∞ を返す。
+ *	arg が -1未満 の場合、NaN を返す。
+ *	arg が +∞    の場合、+∞ を返す。
+ *	arg が NaN    の場合、NaN を返す。
  */
-template <
-	typename ArithmeticType,
-	typename = bksge::enable_if_t<bksge::is_arithmetic<ArithmeticType>::value>
->
-BKSGE_CONSTEXPR bksge::float_promote_t<ArithmeticType>
-log1p(ArithmeticType x) BKSGE_NOEXCEPT;
+inline BKSGE_CONSTEXPR float
+log1p(float arg) BKSGE_NOEXCEPT
+{
+	return detail::log1p_impl(arg);
+}
+
+inline BKSGE_CONSTEXPR float
+log1pf(float arg) BKSGE_NOEXCEPT
+{
+	return detail::log1p_impl(arg);
+}
+
+inline BKSGE_CONSTEXPR double
+log1p(double arg) BKSGE_NOEXCEPT
+{
+	return detail::log1p_impl(arg);
+}
+
+inline BKSGE_CONSTEXPR long double
+log1p(long double arg) BKSGE_NOEXCEPT
+{
+	return detail::log1p_impl(arg);
+}
+
+inline BKSGE_CONSTEXPR long double
+log1pl(long double arg) BKSGE_NOEXCEPT
+{
+	return detail::log1p_impl(arg);
+}
+
+template <BKSGE_REQUIRES_PARAM(bksge::integral, IntegralType)>
+inline BKSGE_CONSTEXPR double
+log1p(IntegralType arg) BKSGE_NOEXCEPT
+{
+	return detail::log1p_impl(static_cast<double>(arg));
+}
 
 }	// namespace bksge
-
-#include <bksge/fnd/cmath/inl/log1p_inl.hpp>
 
 #endif // BKSGE_FND_CMATH_LOG1P_HPP

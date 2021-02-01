@@ -9,9 +9,10 @@
 #ifndef BKSGE_FND_CMATH_REPEAT_HPP
 #define BKSGE_FND_CMATH_REPEAT_HPP
 
-#include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/cmath/detail/repeat_impl.hpp>
+#include <bksge/fnd/concepts/arithmetic.hpp>
+#include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
-#include <bksge/fnd/type_traits/is_arithmetic.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -20,9 +21,9 @@ namespace bksge
 /**
  *	@brief		回り込み処理
  *
- *	@tparam		ArithmeticType1
- *	@tparam		ArithmeticType2
- *	@tparam		ArithmeticType3
+ *	@tparam		Arithmetic1
+ *	@tparam		Arithmetic2
+ *	@tparam		Arithmetic3
  *
  *	@param		x	対象となる値
  *	@param		min	最小値
@@ -36,28 +37,21 @@ namespace bksge
  *	min == max の場合、min を返す。
  */
 template <
-	typename ArithmeticType1,
-	typename ArithmeticType2,
-	typename ArithmeticType3,
-	typename = bksge::enable_if_t<
-		bksge::is_arithmetic<ArithmeticType1>::value &&
-		bksge::is_arithmetic<ArithmeticType2>::value &&
-		bksge::is_arithmetic<ArithmeticType3>::value
-	>
+	BKSGE_REQUIRES_PARAM(bksge::arithmetic, Arithmetic1),
+	BKSGE_REQUIRES_PARAM(bksge::arithmetic, Arithmetic2),
+	BKSGE_REQUIRES_PARAM(bksge::arithmetic, Arithmetic3)
 >
-BKSGE_CONSTEXPR
-bksge::float_promote_t<
-	ArithmeticType1,
-	ArithmeticType2,
-	ArithmeticType3
->
-repeat(
-	ArithmeticType1 x,
-	ArithmeticType2 min,
-	ArithmeticType3 max) BKSGE_NOEXCEPT;
+inline BKSGE_CONSTEXPR bksge::float_promote_t<Arithmetic1, Arithmetic2, Arithmetic3>
+repeat(Arithmetic1 x, Arithmetic2 min, Arithmetic3 max) BKSGE_NOEXCEPT
+{
+	using type = bksge::float_promote_t<Arithmetic1, Arithmetic2, Arithmetic3>;
+
+	return detail::repeat_impl(
+		static_cast<type>(x),
+		static_cast<type>(min),
+		static_cast<type>(max));
+}
 
 }	// namespace bksge
-
-#include <bksge/fnd/cmath/inl/repeat_inl.hpp>
 
 #endif // BKSGE_FND_CMATH_REPEAT_HPP

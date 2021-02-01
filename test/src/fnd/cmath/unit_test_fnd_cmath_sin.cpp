@@ -8,6 +8,7 @@
 
 #include <bksge/fnd/cmath/sin.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/numbers.hpp>
 #include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
@@ -19,6 +20,13 @@ namespace bksge_cmath_test
 
 namespace sin_test
 {
+
+static_assert(bksge::is_same<float,       decltype(bksge::sin(0.0f))>::value, "");
+static_assert(bksge::is_same<float,       decltype(bksge::sinf(0.0f))>::value, "");
+static_assert(bksge::is_same<double,      decltype(bksge::sin(0.0 ))>::value, "");
+static_assert(bksge::is_same<double,      decltype(bksge::sin(0   ))>::value, "");
+static_assert(bksge::is_same<long double, decltype(bksge::sin(0.0l))>::value, "");
+static_assert(bksge::is_same<long double, decltype(bksge::sinl(0.0l))>::value, "");
 
 template <typename T>
 void SinTestFloat(double error)

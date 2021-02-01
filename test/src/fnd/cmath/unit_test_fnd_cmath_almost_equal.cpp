@@ -7,6 +7,7 @@
  */
 
 #include <bksge/fnd/cmath/almost_equal.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -16,6 +17,23 @@ namespace bksge_cmath_test
 
 namespace almost_equal_test
 {
+
+static_assert(bksge::is_same<bool, decltype(bksge::almost_equal(0.0f, 0.0f))>::value, "");
+static_assert(bksge::is_same<bool, decltype(bksge::almost_equal(0.0f, 0.0 ))>::value, "");
+static_assert(bksge::is_same<bool, decltype(bksge::almost_equal(0.0f, 0.0l))>::value, "");
+static_assert(bksge::is_same<bool, decltype(bksge::almost_equal(0.0f, 0   ))>::value, "");
+static_assert(bksge::is_same<bool, decltype(bksge::almost_equal(0.0 , 0.0f))>::value, "");
+static_assert(bksge::is_same<bool, decltype(bksge::almost_equal(0.0 , 0.0 ))>::value, "");
+static_assert(bksge::is_same<bool, decltype(bksge::almost_equal(0.0 , 0.0l))>::value, "");
+static_assert(bksge::is_same<bool, decltype(bksge::almost_equal(0.0 , 0   ))>::value, "");
+static_assert(bksge::is_same<bool, decltype(bksge::almost_equal(0.0l, 0.0f))>::value, "");
+static_assert(bksge::is_same<bool, decltype(bksge::almost_equal(0.0l, 0.0 ))>::value, "");
+static_assert(bksge::is_same<bool, decltype(bksge::almost_equal(0.0l, 0.0l))>::value, "");
+static_assert(bksge::is_same<bool, decltype(bksge::almost_equal(0.0l, 0   ))>::value, "");
+static_assert(bksge::is_same<bool, decltype(bksge::almost_equal(0   , 0.0f))>::value, "");
+static_assert(bksge::is_same<bool, decltype(bksge::almost_equal(0   , 0.0 ))>::value, "");
+static_assert(bksge::is_same<bool, decltype(bksge::almost_equal(0   , 0.0l))>::value, "");
+static_assert(bksge::is_same<bool, decltype(bksge::almost_equal(0   , 0   ))>::value, "");
 
 template <typename T>
 void AlmostEqualTestFloat(void)

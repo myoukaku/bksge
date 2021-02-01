@@ -10,6 +10,7 @@
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/iszero.hpp>
 #include <bksge/fnd/cmath/signbit.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
@@ -19,6 +20,13 @@ namespace bksge_cmath_test
 
 namespace acosh_test
 {
+
+static_assert(bksge::is_same<float,       decltype(bksge::acosh(0.0f))>::value, "");
+static_assert(bksge::is_same<float,       decltype(bksge::acoshf(0.0f))>::value, "");
+static_assert(bksge::is_same<double,      decltype(bksge::acosh(0.0 ))>::value, "");
+static_assert(bksge::is_same<double,      decltype(bksge::acosh(0   ))>::value, "");
+static_assert(bksge::is_same<long double, decltype(bksge::acosh(0.0l))>::value, "");
+static_assert(bksge::is_same<long double, decltype(bksge::acoshl(0.0l))>::value, "");
 
 template <typename T>
 void AcoshTestFloat(double error)

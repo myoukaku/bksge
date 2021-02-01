@@ -9,9 +9,9 @@
 #ifndef BKSGE_FND_CMATH_FLOOR_HPP
 #define BKSGE_FND_CMATH_FLOOR_HPP
 
-#include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/type_traits/float_promote.hpp>
-#include <bksge/fnd/type_traits/is_arithmetic.hpp>
+#include <bksge/fnd/cmath/detail/floor_impl.hpp>
+#include <bksge/fnd/concepts/integral.hpp>
+#include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -20,27 +20,51 @@ namespace bksge
 /**
  *	@brief	床関数
  *
- *	@tparam	ArithmeticType	算術型
+ *	@param	arg	対象となる値
  *
- *	@param	x	対象となる値
+ *	@return	arg以下で最大の整数
  *
- *	@return	x以下で最大の整数
- *
- *	x が ±∞ の場合、xをそのまま返す。
- *	x が ±0  の場合、xをそのまま返す。
- *	x が NaN  の場合、NaNを返す。
+ *	arg が ±∞ の場合、argをそのまま返す。
+ *	arg が ±0  の場合、argをそのまま返す。
+ *	arg が NaN  の場合、NaNを返す。
  */
-template <
-	typename ArithmeticType,
-	typename = bksge::enable_if_t<
-		bksge::is_arithmetic<ArithmeticType>::value
-	>
->
-BKSGE_CONSTEXPR bksge::float_promote_t<ArithmeticType>
-floor(ArithmeticType x) BKSGE_NOEXCEPT;
+inline BKSGE_CONSTEXPR float
+floor(float arg) BKSGE_NOEXCEPT
+{
+	return detail::floor_impl(arg);
+}
+
+inline BKSGE_CONSTEXPR float
+floorf(float arg) BKSGE_NOEXCEPT
+{
+	return detail::floor_impl(arg);
+}
+
+inline BKSGE_CONSTEXPR double
+floor(double arg) BKSGE_NOEXCEPT
+{
+	return detail::floor_impl(arg);
+}
+
+inline BKSGE_CONSTEXPR long double
+floor(long double arg) BKSGE_NOEXCEPT
+{
+	return detail::floor_impl(arg);
+}
+
+inline BKSGE_CONSTEXPR long double
+floorl(long double arg) BKSGE_NOEXCEPT
+{
+	return detail::floor_impl(arg);
+}
+
+template <BKSGE_REQUIRES_PARAM(bksge::integral, IntegralType)>
+inline BKSGE_CONSTEXPR double
+floor(IntegralType arg) BKSGE_NOEXCEPT
+{
+	return detail::floor_impl(static_cast<double>(arg));
+}
 
 }	// namespace bksge
-
-#include <bksge/fnd/cmath/inl/floor_inl.hpp>
 
 #endif // BKSGE_FND_CMATH_FLOOR_HPP

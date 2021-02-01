@@ -9,9 +9,9 @@
 #ifndef BKSGE_FND_CMATH_FABS_HPP
 #define BKSGE_FND_CMATH_FABS_HPP
 
-#include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/type_traits/float_promote.hpp>
-#include <bksge/fnd/type_traits/is_arithmetic.hpp>
+#include <bksge/fnd/cmath/detail/fabs_impl.hpp>
+#include <bksge/fnd/concepts/integral.hpp>
+#include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
@@ -19,8 +19,6 @@ namespace bksge
 
 /**
  *	@brief	絶対値を求める
- *
- *	@tparam	ArithmeticType	算術型
  *
  *	@param	x	算術型の値
  *
@@ -30,17 +28,43 @@ namespace bksge
  *	x が ±∞ の場合、+∞ を返す。
  *	x が NaN  の場合、NaN を返す。
  */
-template <
-	typename ArithmeticType,
-	typename = bksge::enable_if_t<
-		bksge::is_arithmetic<ArithmeticType>::value
-	>
->
-BKSGE_CONSTEXPR bksge::float_promote_t<ArithmeticType>
-fabs(ArithmeticType x) BKSGE_NOEXCEPT;
+inline BKSGE_CONSTEXPR float
+fabs(float arg) BKSGE_NOEXCEPT
+{
+	return detail::fabs_impl(arg);
+}
+
+inline BKSGE_CONSTEXPR float
+fabsf(float arg) BKSGE_NOEXCEPT
+{
+	return detail::fabs_impl(arg);
+}
+
+inline BKSGE_CONSTEXPR double
+fabs(double arg) BKSGE_NOEXCEPT
+{
+	return detail::fabs_impl(arg);
+}
+
+inline BKSGE_CONSTEXPR long double
+fabs(long double arg) BKSGE_NOEXCEPT
+{
+	return detail::fabs_impl(arg);
+}
+
+inline BKSGE_CONSTEXPR long double
+fabsl(long double arg) BKSGE_NOEXCEPT
+{
+	return detail::fabs_impl(arg);
+}
+
+template <BKSGE_REQUIRES_PARAM(bksge::integral, IntegralType)>
+inline BKSGE_CONSTEXPR double
+fabs(IntegralType arg) BKSGE_NOEXCEPT
+{
+	return detail::fabs_impl(static_cast<double>(arg));
+}
 
 }	// namespace bksge
-
-#include <bksge/fnd/cmath/inl/fabs_inl.hpp>
 
 #endif // BKSGE_FND_CMATH_FABS_HPP
