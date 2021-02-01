@@ -38,8 +38,10 @@
 #include <bksge/fnd/cmath/is_odd.hpp>
 #include <bksge/fnd/cmath/ldexp.hpp>
 #include <bksge/fnd/cmath/lerp.hpp>
+#include <bksge/fnd/cmath/llround.hpp>
 #include <bksge/fnd/cmath/log.hpp>
 #include <bksge/fnd/cmath/log1p.hpp>
+#include <bksge/fnd/cmath/lround.hpp>
 #include <bksge/fnd/cmath/nextafter.hpp>
 #include <bksge/fnd/cmath/nexttoward.hpp>
 #include <bksge/fnd/cmath/pow.hpp>
