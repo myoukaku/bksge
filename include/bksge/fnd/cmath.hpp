@@ -68,6 +68,7 @@
 #include <bksge/fnd/cmath/lrint.hpp>
 #include <bksge/fnd/cmath/lround.hpp>
 #include <bksge/fnd/cmath/modf.hpp>
+#include <bksge/fnd/cmath/nan.hpp>
 #include <bksge/fnd/cmath/nearbyint.hpp>
 #include <bksge/fnd/cmath/nextafter.hpp>
 #include <bksge/fnd/cmath/nexttoward.hpp>
