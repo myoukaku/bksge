@@ -79,6 +79,8 @@
 #include <bksge/fnd/cmath/round_up.hpp>
 #include <bksge/fnd/cmath/rsqrt.hpp>
 #include <bksge/fnd/cmath/saturate.hpp>
+#include <bksge/fnd/cmath/scalbln.hpp>
+#include <bksge/fnd/cmath/scalbn.hpp>
 #include <bksge/fnd/cmath/signbit.hpp>
 #include <bksge/fnd/cmath/sin.hpp>
 #include <bksge/fnd/cmath/sinh.hpp>
