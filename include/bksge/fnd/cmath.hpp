@@ -57,6 +57,7 @@
 #include <bksge/fnd/cmath/is_positive.hpp>
 #include <bksge/fnd/cmath/ldexp.hpp>
 #include <bksge/fnd/cmath/lerp.hpp>
+#include <bksge/fnd/cmath/lgamma.hpp>
 #include <bksge/fnd/cmath/llround.hpp>
 #include <bksge/fnd/cmath/log.hpp>
 #include <bksge/fnd/cmath/log10.hpp>
@@ -86,6 +87,7 @@
 #include <bksge/fnd/cmath/step.hpp>
 #include <bksge/fnd/cmath/tan.hpp>
 #include <bksge/fnd/cmath/tanh.hpp>
+#include <bksge/fnd/cmath/tgamma.hpp>
 #include <bksge/fnd/cmath/trunc.hpp>
 
 #endif // BKSGE_FND_CMATH_HPP
