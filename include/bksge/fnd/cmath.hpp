@@ -37,6 +37,7 @@
 #include <bksge/fnd/cmath/frac.hpp>
 #include <bksge/fnd/cmath/frexp.hpp>
 #include <bksge/fnd/cmath/hypot.hpp>
+#include <bksge/fnd/cmath/ilogb.hpp>
 #include <bksge/fnd/cmath/isfinite.hpp>
 #include <bksge/fnd/cmath/isinf.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
@@ -49,6 +50,7 @@
 #include <bksge/fnd/cmath/llround.hpp>
 #include <bksge/fnd/cmath/log.hpp>
 #include <bksge/fnd/cmath/log1p.hpp>
+#include <bksge/fnd/cmath/logb.hpp>
 #include <bksge/fnd/cmath/lround.hpp>
 #include <bksge/fnd/cmath/nextafter.hpp>
 #include <bksge/fnd/cmath/nexttoward.hpp>
