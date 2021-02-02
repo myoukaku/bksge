@@ -49,7 +49,9 @@
 #include <bksge/fnd/cmath/lerp.hpp>
 #include <bksge/fnd/cmath/llround.hpp>
 #include <bksge/fnd/cmath/log.hpp>
+#include <bksge/fnd/cmath/log10.hpp>
 #include <bksge/fnd/cmath/log1p.hpp>
+#include <bksge/fnd/cmath/log2.hpp>
 #include <bksge/fnd/cmath/logb.hpp>
 #include <bksge/fnd/cmath/lround.hpp>
 #include <bksge/fnd/cmath/modf.hpp>
