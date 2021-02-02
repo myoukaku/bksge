@@ -58,14 +58,17 @@
 #include <bksge/fnd/cmath/ldexp.hpp>
 #include <bksge/fnd/cmath/lerp.hpp>
 #include <bksge/fnd/cmath/lgamma.hpp>
+#include <bksge/fnd/cmath/llrint.hpp>
 #include <bksge/fnd/cmath/llround.hpp>
 #include <bksge/fnd/cmath/log.hpp>
 #include <bksge/fnd/cmath/log10.hpp>
 #include <bksge/fnd/cmath/log1p.hpp>
 #include <bksge/fnd/cmath/log2.hpp>
 #include <bksge/fnd/cmath/logb.hpp>
+#include <bksge/fnd/cmath/lrint.hpp>
 #include <bksge/fnd/cmath/lround.hpp>
 #include <bksge/fnd/cmath/modf.hpp>
+#include <bksge/fnd/cmath/nearbyint.hpp>
 #include <bksge/fnd/cmath/nextafter.hpp>
 #include <bksge/fnd/cmath/nexttoward.hpp>
 #include <bksge/fnd/cmath/pow.hpp>
@@ -73,6 +76,7 @@
 #include <bksge/fnd/cmath/remainder.hpp>
 #include <bksge/fnd/cmath/remquo.hpp>
 #include <bksge/fnd/cmath/repeat.hpp>
+#include <bksge/fnd/cmath/rint.hpp>
 #include <bksge/fnd/cmath/round.hpp>
 #include <bksge/fnd/cmath/round_down.hpp>
 #include <bksge/fnd/cmath/round_half_even.hpp>
