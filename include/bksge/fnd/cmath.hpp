@@ -24,6 +24,8 @@
 #include <bksge/fnd/cmath/cos.hpp>
 #include <bksge/fnd/cmath/cosh.hpp>
 #include <bksge/fnd/cmath/degrees_to_radians.hpp>
+#include <bksge/fnd/cmath/erf.hpp>
+#include <bksge/fnd/cmath/erfc.hpp>
 #include <bksge/fnd/cmath/exp.hpp>
 #include <bksge/fnd/cmath/exp2.hpp>
 #include <bksge/fnd/cmath/expm1.hpp>
