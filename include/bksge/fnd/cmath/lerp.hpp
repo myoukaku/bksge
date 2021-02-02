@@ -23,9 +23,6 @@ using std::lerp;
 #else
 
 #include <bksge/fnd/cmath/detail/lerp_impl.hpp>
-#include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/type_traits/float_promote.hpp>
-#include <bksge/fnd/type_traits/is_arithmetic.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge

@@ -35,6 +35,7 @@
 #include <bksge/fnd/cmath/fmin.hpp>
 #include <bksge/fnd/cmath/fmod.hpp>
 #include <bksge/fnd/cmath/frac.hpp>
+#include <bksge/fnd/cmath/frexp.hpp>
 #include <bksge/fnd/cmath/hypot.hpp>
 #include <bksge/fnd/cmath/isfinite.hpp>
 #include <bksge/fnd/cmath/isinf.hpp>

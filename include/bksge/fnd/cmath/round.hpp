@@ -12,7 +12,6 @@
 #include <bksge/fnd/cmath/detail/round_impl.hpp>
 #include <bksge/fnd/concepts/integral.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
-#include <bksge/fnd/type_traits/float_promote.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge
