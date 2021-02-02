@@ -59,6 +59,8 @@
 #include <bksge/fnd/cmath/nexttoward.hpp>
 #include <bksge/fnd/cmath/pow.hpp>
 #include <bksge/fnd/cmath/radians_to_degrees.hpp>
+#include <bksge/fnd/cmath/remainder.hpp>
+#include <bksge/fnd/cmath/remquo.hpp>
 #include <bksge/fnd/cmath/repeat.hpp>
 #include <bksge/fnd/cmath/round.hpp>
 #include <bksge/fnd/cmath/round_down.hpp>
