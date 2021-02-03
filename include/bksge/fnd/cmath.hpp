@@ -15,6 +15,7 @@
 #include <bksge/fnd/cmath/almost_equal.hpp>
 #include <bksge/fnd/cmath/asin.hpp>
 #include <bksge/fnd/cmath/asinh.hpp>
+#include <bksge/fnd/cmath/assoc_laguerre.hpp>
 #include <bksge/fnd/cmath/atan.hpp>
 #include <bksge/fnd/cmath/atan2.hpp>
 #include <bksge/fnd/cmath/atanh.hpp>
