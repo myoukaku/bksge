@@ -55,6 +55,7 @@
 #include <bksge/fnd/stdexcept.hpp>
 #include <bksge/fnd/string.hpp>
 #include <bksge/fnd/string_view.hpp>
+#include <bksge/fnd/system_error.hpp>
 #include <bksge/fnd/tmp.hpp>
 #include <bksge/fnd/tpp.hpp>
 #include <bksge/fnd/tuple.hpp>
