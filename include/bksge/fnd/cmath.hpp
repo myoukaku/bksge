@@ -36,6 +36,7 @@
 #include <bksge/fnd/cmath/fmax.hpp>
 #include <bksge/fnd/cmath/fmin.hpp>
 #include <bksge/fnd/cmath/fmod.hpp>
+#include <bksge/fnd/cmath/fpclassify.hpp>
 #include <bksge/fnd/cmath/frac.hpp>
 #include <bksge/fnd/cmath/frexp.hpp>
 #include <bksge/fnd/cmath/hypot.hpp>

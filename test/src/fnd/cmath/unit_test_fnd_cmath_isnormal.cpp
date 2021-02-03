@@ -36,6 +36,7 @@ void IsNormalTestFloat(void)
 	BKSGE_CONSTEXPR auto min    = bksge::numeric_limits<T>::min();
 	BKSGE_CONSTEXPR auto max    = bksge::numeric_limits<T>::max();
 	BKSGE_CONSTEXPR auto lowest = bksge::numeric_limits<T>::lowest();
+	BKSGE_CONSTEXPR auto denorm_min = bksge::numeric_limits<T>::denorm_min();
 	T zero = 0;	// MSVCでのエラーを避けるために変数にする
 
 	BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::isnormal(inf));
@@ -60,6 +61,7 @@ void IsNormalTestFloat(void)
 	BKSGE_CONSTEXPR_EXPECT_TRUE (bksge::isnormal(T(1) / min));
 	BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::isnormal(T(1) / max));
 	BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::isnormal(T(1) / lowest));
+	BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::isnormal(denorm_min));
 }
 
 template <typename T>
