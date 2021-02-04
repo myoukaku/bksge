@@ -31,6 +31,7 @@
 #include <bksge/fnd/cmath/exp2.hpp>
 #include <bksge/fnd/cmath/expm1.hpp>
 #include <bksge/fnd/cmath/fabs.hpp>
+#include <bksge/fnd/cmath/factorial.hpp>
 #include <bksge/fnd/cmath/fdim.hpp>
 #include <bksge/fnd/cmath/floor.hpp>
 #include <bksge/fnd/cmath/fma.hpp>
