@@ -36,8 +36,10 @@ void AssocLaguerreTest(double error)
 	BKSGE_CONSTEXPR auto min = bksge::numeric_limits<Promoted>::lowest();
 	BKSGE_CONSTEXPR auto max = bksge::numeric_limits<Promoted>::max();
 
-	EXPECT_TRUE(bksge::isnan(bksge::assoc_laguerre(0, 0, nan)));
-	EXPECT_TRUE(bksge::isnan(bksge::assoc_laguerre(1, 2, nan)));
+	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_laguerre(0, 0, nan)));
+	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_laguerre(1, 1, nan)));
+	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_laguerre(0, 2, T(-1))));
+	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_laguerre(1, 3, T(-1))));
 
 	struct testcase
 	{
@@ -846,11 +848,16 @@ GTEST_TEST(CMathTest, AssocLaguerreTest)
 	AssocLaguerreTest<int>        (0.0000000000001);
 
 	BKSGE_CONSTEXPR auto nanf = bksge::numeric_limits<float>::quiet_NaN();
+	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_laguerref(0, 0, nanf)));
+	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_laguerref(1, 1, nanf)));
+	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_laguerref(0, 2, -1.0f)));
+	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_laguerref(1, 3, -1.0f)));
+
 	BKSGE_CONSTEXPR auto nanl = bksge::numeric_limits<long double>::quiet_NaN();
-	EXPECT_TRUE(bksge::isnan(bksge::assoc_laguerref(0, 0, nanf)));
-	EXPECT_TRUE(bksge::isnan(bksge::assoc_laguerrel(0, 0, nanl)));
-	EXPECT_TRUE(bksge::isnan(bksge::assoc_laguerref(1, 2, nanf)));
-	EXPECT_TRUE(bksge::isnan(bksge::assoc_laguerrel(1, 2, nanl)));
+	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_laguerrel(0, 0, nanl)));
+	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_laguerrel(1, 1, nanl)));
+	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_laguerrel(0, 2, -1.0l)));
+	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_laguerrel(1, 3, -1.0l)));
 }
 
 }	// namespace assoc_laguerre_test

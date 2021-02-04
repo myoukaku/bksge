@@ -32,21 +32,21 @@ namespace bksge
  *	n >= 128 または m >= 128 のとき、振る舞いは実装定義
  */
 template <BKSGE_REQUIRES_PARAM(bksge::arithmetic, Arithmetic)>
-inline /*BKSGE_CONSTEXPR*/ bksge::float_promote_t<Arithmetic>
-assoc_laguerre(unsigned int n, unsigned int m, Arithmetic x)
+inline BKSGE_CXX14_CONSTEXPR bksge::float_promote_t<Arithmetic>
+assoc_laguerre(unsigned int n, unsigned int m, Arithmetic x) BKSGE_NOEXCEPT
 {
 	using type = bksge::float_promote_t<Arithmetic>;
 	return detail::assoc_laguerre_impl(n, m, static_cast<type>(x));
 }
 
-inline /*BKSGE_CONSTEXPR*/ float
-assoc_laguerref(unsigned int n, unsigned int m, float x)
+inline BKSGE_CXX14_CONSTEXPR float
+assoc_laguerref(unsigned int n, unsigned int m, float x) BKSGE_NOEXCEPT
 {
 	return detail::assoc_laguerre_impl(n, m, x);
 }
 
-inline /*BKSGE_CONSTEXPR*/ long double
-assoc_laguerrel(unsigned int n, unsigned int m, long double x)
+inline BKSGE_CXX14_CONSTEXPR long double
+assoc_laguerrel(unsigned int n, unsigned int m, long double x) BKSGE_NOEXCEPT
 {
 	return detail::assoc_laguerre_impl(n, m, x);
 }
