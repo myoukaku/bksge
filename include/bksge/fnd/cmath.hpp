@@ -20,6 +20,7 @@
 #include <bksge/fnd/cmath/atan.hpp>
 #include <bksge/fnd/cmath/atan2.hpp>
 #include <bksge/fnd/cmath/atanh.hpp>
+#include <bksge/fnd/cmath/beta.hpp>
 #include <bksge/fnd/cmath/cbrt.hpp>
 #include <bksge/fnd/cmath/ceil.hpp>
 #include <bksge/fnd/cmath/copysign.hpp>
