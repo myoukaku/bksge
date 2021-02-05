@@ -23,6 +23,7 @@
 #include <bksge/fnd/cmath/beta.hpp>
 #include <bksge/fnd/cmath/cbrt.hpp>
 #include <bksge/fnd/cmath/ceil.hpp>
+#include <bksge/fnd/cmath/comp_ellint_1.hpp>
 #include <bksge/fnd/cmath/copysign.hpp>
 #include <bksge/fnd/cmath/cos.hpp>
 #include <bksge/fnd/cmath/cosh.hpp>
