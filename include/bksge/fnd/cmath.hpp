@@ -64,6 +64,7 @@
 #include <bksge/fnd/cmath/is_positive.hpp>
 #include <bksge/fnd/cmath/laguerre.hpp>
 #include <bksge/fnd/cmath/ldexp.hpp>
+#include <bksge/fnd/cmath/legendre.hpp>
 #include <bksge/fnd/cmath/lerp.hpp>
 #include <bksge/fnd/cmath/lgamma.hpp>
 #include <bksge/fnd/cmath/llrint.hpp>

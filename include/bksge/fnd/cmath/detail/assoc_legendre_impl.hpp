@@ -13,6 +13,7 @@
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/pow.hpp>
 #include <bksge/fnd/cmath/double_factorial.hpp>
+#include <bksge/fnd/cmath/legendre.hpp>
 //#include <bksge/fnd/stdexcept/domain_error.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
 #include <bksge/fnd/utility/swap.hpp>
@@ -50,27 +51,6 @@ assoc_legendre_unchecked(unsigned int n, unsigned int m, long double x)
 
 template <typename T>
 inline BKSGE_CXX14_CONSTEXPR T
-legendre(unsigned int n, T x)
-{
-	T p0 = 1;
-	if (n == 0)
-	{
-		return p0;
-	}
-
-	T p1 = x;
-	unsigned c = 1;
-	while (c < n)
-	{
-		bksge::swap(p0, p1);
-		p1 = ((2 * c + 1) * x * p0 - c * p1) / (c + 1);
-		++c;
-	}
-	return p1;
-}
-
-template <typename T>
-inline BKSGE_CXX14_CONSTEXPR T
 assoc_legendre_unchecked_2(unsigned int n, unsigned int m, T x)
 {
 	if (m > n)
@@ -80,7 +60,7 @@ assoc_legendre_unchecked_2(unsigned int n, unsigned int m, T x)
 
 	if (m == 0)
 	{
-		return legendre(n, x);
+		return bksge::detail::legendre_unchecked(n, x);
 	}
 
 	// P0 = (2m-1)!!(1-x^2)^(m/2)
