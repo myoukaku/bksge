@@ -33,6 +33,7 @@
 #include <bksge/fnd/cmath/double_factorial.hpp>
 #include <bksge/fnd/cmath/ellint_1.hpp>
 #include <bksge/fnd/cmath/ellint_2.hpp>
+#include <bksge/fnd/cmath/ellint_3.hpp>
 #include <bksge/fnd/cmath/erf.hpp>
 #include <bksge/fnd/cmath/erfc.hpp>
 #include <bksge/fnd/cmath/exp.hpp>
