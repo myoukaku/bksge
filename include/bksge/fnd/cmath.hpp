@@ -99,6 +99,7 @@
 #include <bksge/fnd/cmath/remainder.hpp>
 #include <bksge/fnd/cmath/remquo.hpp>
 #include <bksge/fnd/cmath/repeat.hpp>
+#include <bksge/fnd/cmath/riemann_zeta.hpp>
 #include <bksge/fnd/cmath/rint.hpp>
 #include <bksge/fnd/cmath/round.hpp>
 #include <bksge/fnd/cmath/round_down.hpp>
