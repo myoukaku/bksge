@@ -55,6 +55,7 @@
 #include <bksge/fnd/cmath/fpclassify.hpp>
 #include <bksge/fnd/cmath/frac.hpp>
 #include <bksge/fnd/cmath/frexp.hpp>
+#include <bksge/fnd/cmath/hermite.hpp>
 #include <bksge/fnd/cmath/hypot.hpp>
 #include <bksge/fnd/cmath/ilogb.hpp>
 #include <bksge/fnd/cmath/isfinite.hpp>
