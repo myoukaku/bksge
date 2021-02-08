@@ -31,6 +31,7 @@
 #include <bksge/fnd/cmath/cosh.hpp>
 #include <bksge/fnd/cmath/cyl_bessel_i.hpp>
 #include <bksge/fnd/cmath/cyl_bessel_j.hpp>
+#include <bksge/fnd/cmath/cyl_bessel_k.hpp>
 #include <bksge/fnd/cmath/degrees_to_radians.hpp>
 #include <bksge/fnd/cmath/double_factorial.hpp>
 #include <bksge/fnd/cmath/ellint_1.hpp>
