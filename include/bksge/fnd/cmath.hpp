@@ -42,6 +42,7 @@
 #include <bksge/fnd/cmath/erfc.hpp>
 #include <bksge/fnd/cmath/exp.hpp>
 #include <bksge/fnd/cmath/exp2.hpp>
+#include <bksge/fnd/cmath/expint.hpp>
 #include <bksge/fnd/cmath/expm1.hpp>
 #include <bksge/fnd/cmath/fabs.hpp>
 #include <bksge/fnd/cmath/factorial.hpp>
