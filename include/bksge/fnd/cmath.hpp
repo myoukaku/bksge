@@ -114,6 +114,7 @@
 #include <bksge/fnd/cmath/sinh.hpp>
 #include <bksge/fnd/cmath/smoothstep.hpp>
 #include <bksge/fnd/cmath/sph_bessel.hpp>
+#include <bksge/fnd/cmath/sph_legendre.hpp>
 #include <bksge/fnd/cmath/sqrt.hpp>
 #include <bksge/fnd/cmath/step.hpp>
 #include <bksge/fnd/cmath/tan.hpp>
