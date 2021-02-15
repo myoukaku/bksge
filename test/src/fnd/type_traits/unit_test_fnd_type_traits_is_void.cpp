@@ -9,12 +9,24 @@
 #include <bksge/fnd/type_traits/is_void.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstddef/nullptr_t.hpp>
+#include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+#define BKSGE_IS_VOID_TEST(b, T)	\
+	static_assert(bksge::is_void_v<T>      == b, #T);	\
+	static_assert(bksge::is_void<T>::value == b, #T);	\
+	static_assert(bksge::is_void<T>()      == b, #T)
+
+#else
 
 #define BKSGE_IS_VOID_TEST(b, T)	\
 	static_assert(bksge::is_void<T>::value == b, #T);	\
 	static_assert(bksge::is_void<T>()      == b, #T)
+
+#endif
 
 BKSGE_IS_VOID_TEST(true,                 void);
 BKSGE_IS_VOID_TEST(true,  const          void);

@@ -11,9 +11,20 @@
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+#define BKSGE_IS_NOTHROW_SWAPPABLE_TEST(b, T)	\
+	static_assert(bksge::is_nothrow_swappable_v<T>      == b, #T);	\
+	static_assert(bksge::is_nothrow_swappable<T>::value == b, #T);	\
+	static_assert(bksge::is_nothrow_swappable<T>()      == b, #T)
+
+#else
+
 #define BKSGE_IS_NOTHROW_SWAPPABLE_TEST(b, T)	\
 	static_assert(bksge::is_nothrow_swappable<T>::value == b, #T);	\
 	static_assert(bksge::is_nothrow_swappable<T>()      == b, #T)
+
+#endif
 
 namespace bksge_type_traits_test
 {

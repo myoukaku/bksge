@@ -44,6 +44,14 @@ struct is_aggregate
 
 #define BKSGE_HAS_CXX17_IS_AGGREGATE
 
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+template <typename T>
+BKSGE_INLINE_VAR BKSGE_CONSTEXPR
+bool is_aggregate_v = is_aggregate<T>::value;
+
+#endif
+
 #endif
 
 }	// namespace bksge

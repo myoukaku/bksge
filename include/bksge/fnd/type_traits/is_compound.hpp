@@ -10,6 +10,7 @@
 #define BKSGE_FND_TYPE_TRAITS_IS_COMPOUND_HPP
 
 #include <bksge/fnd/type_traits/detail/constant_wrapper.hpp>
+#include <bksge/fnd/config.hpp>
 #include <type_traits>
 
 namespace bksge
@@ -33,6 +34,14 @@ struct is_compound
 		std::is_compound<T>
 	>
 {};
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+template <typename T>
+BKSGE_INLINE_VAR BKSGE_CONSTEXPR
+bool is_compound_v = is_compound<T>::value;
+
+#endif
 
 }	// namespace bksge
 

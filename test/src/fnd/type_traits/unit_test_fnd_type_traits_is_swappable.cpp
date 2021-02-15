@@ -7,12 +7,24 @@
  */
 
 #include <bksge/fnd/type_traits/is_swappable.hpp>
+#include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+#define BKSGE_IS_SWAPPABLE_TEST(b, T)	\
+	static_assert(bksge::is_swappable_v<T>      == b, #T);	\
+	static_assert(bksge::is_swappable<T>::value == b, #T);	\
+	static_assert(bksge::is_swappable<T>()      == b, #T)
+
+#else
 
 #define BKSGE_IS_SWAPPABLE_TEST(b, T)	\
 	static_assert(bksge::is_swappable<T>::value == b, #T);	\
 	static_assert(bksge::is_swappable<T>()      == b, #T)
+
+#endif
 
 BKSGE_IS_SWAPPABLE_TEST(true,                 int);
 BKSGE_IS_SWAPPABLE_TEST(false, const          int);

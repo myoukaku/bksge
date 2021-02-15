@@ -9,12 +9,24 @@
 #include <bksge/fnd/type_traits/is_abstract.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstddef/nullptr_t.hpp>
+#include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+#define BKSGE_IS_ABSTRACT_TEST(b, T)	\
+	static_assert(bksge::is_abstract_v<T>      == b, #T);	\
+	static_assert(bksge::is_abstract<T>::value == b, #T);	\
+	static_assert(bksge::is_abstract<T>()      == b, #T)
+
+#else
 
 #define BKSGE_IS_ABSTRACT_TEST(b, T)	\
 	static_assert(bksge::is_abstract<T>::value == b, #T);	\
 	static_assert(bksge::is_abstract<T>()      == b, #T)
+
+#endif
 
 BKSGE_IS_ABSTRACT_TEST(true,                 test_abc1);
 BKSGE_IS_ABSTRACT_TEST(true,  const          test_abc1);

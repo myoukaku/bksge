@@ -10,6 +10,21 @@
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+#define BKSGE_IS_NOTHROW_INVOCABLE_TEST(b, ...)	\
+	static_assert(bksge::is_nothrow_invocable_v<__VA_ARGS__>      == b, "");	\
+	static_assert(bksge::is_nothrow_invocable<__VA_ARGS__>::value == b, "");	\
+	static_assert(bksge::is_nothrow_invocable<__VA_ARGS__>()      == b, "")
+
+#else
+
+#define BKSGE_IS_NOTHROW_INVOCABLE_TEST(b, ...)	\
+	static_assert(bksge::is_nothrow_invocable<__VA_ARGS__>::value == b, "");	\
+	static_assert(bksge::is_nothrow_invocable<__VA_ARGS__>()      == b, "")
+
+#endif
+
 BKSGE_WARNING_PUSH()
 BKSGE_WARNING_DISABLE_CLANG("-Wundefined-internal")
 
@@ -22,129 +37,129 @@ namespace is_nothrow_invocable_test
 using func_type_v0 = void(*)();
 
 #if defined(BKSGE_HAS_CXX11_NOEXCEPT)
-static_assert(!bksge::is_nothrow_invocable<func_type_v0>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, func_type_v0);
 #else
-static_assert( bksge::is_nothrow_invocable<func_type_v0>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(true,  func_type_v0);
 #endif
-static_assert(!bksge::is_nothrow_invocable<func_type_v0, int>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, func_type_v0, int);
 
 using func_type_i0 = int(*)();
 
 #if defined(BKSGE_HAS_CXX11_NOEXCEPT)
-static_assert(!bksge::is_nothrow_invocable<func_type_i0>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, func_type_i0);
 #else
-static_assert( bksge::is_nothrow_invocable<func_type_i0>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(true,  func_type_i0);
 #endif
-static_assert(!bksge::is_nothrow_invocable<func_type_i0, int>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, func_type_i0, int);
 
 using func_type_l0 = int&(*)();
 
 #if defined(BKSGE_HAS_CXX11_NOEXCEPT)
-static_assert(!bksge::is_nothrow_invocable<func_type_l0>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, func_type_l0);
 #else
-static_assert( bksge::is_nothrow_invocable<func_type_l0>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(true,  func_type_l0);
 #endif
-static_assert(!bksge::is_nothrow_invocable<func_type_l0, int>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, func_type_l0, int);
 
 using func_type_ii = int(*)(int);
 
-static_assert(!bksge::is_nothrow_invocable<func_type_ii>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, func_type_ii);
 #if defined(BKSGE_HAS_CXX11_NOEXCEPT)
-static_assert(!bksge::is_nothrow_invocable<func_type_ii, int>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, func_type_ii, int);
 #else
-static_assert( bksge::is_nothrow_invocable<func_type_ii, int>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(true,  func_type_ii, int);
 #endif
 
 using func_type_il = int(*)(int&);
 
-static_assert(!bksge::is_nothrow_invocable<func_type_il>::value, "");
-static_assert(!bksge::is_nothrow_invocable<func_type_il, int>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, func_type_il);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, func_type_il, int);
 #if defined(BKSGE_HAS_CXX11_NOEXCEPT)
-static_assert(!bksge::is_nothrow_invocable<func_type_il, int&>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, func_type_il, int&);
 #else
-static_assert( bksge::is_nothrow_invocable<func_type_il, int&>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(true,  func_type_il, int&);
 #endif
 
 using func_type_ir = int(*)(int&&);
 
-static_assert(!bksge::is_nothrow_invocable<func_type_ir>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, func_type_ir);
 #if defined(BKSGE_HAS_CXX11_NOEXCEPT)
-static_assert(!bksge::is_nothrow_invocable<func_type_ir, int>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, func_type_ir, int);
 #else
-static_assert( bksge::is_nothrow_invocable<func_type_ir, int>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(true,  func_type_ir, int);
 #endif
-static_assert(!bksge::is_nothrow_invocable<func_type_ir, int&>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, func_type_ir, int&);
 
 #if defined(BKSGE_HAS_CXX17_NOEXCEPT_FUNCTION_TYPE)
 
 using func_type_v0_nt = void(*)() noexcept;
 
-static_assert( bksge::is_nothrow_invocable<func_type_v0_nt>::value, "");
-static_assert(!bksge::is_nothrow_invocable<func_type_v0_nt, int>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(true,  func_type_v0_nt);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, func_type_v0_nt, int);
 
 using func_type_i0_nt = int(*)() noexcept;
 
-static_assert( bksge::is_nothrow_invocable<func_type_i0_nt>::value, "");
-static_assert(!bksge::is_nothrow_invocable<func_type_i0_nt, int>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(true,  func_type_i0_nt);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, func_type_i0_nt, int);
 
 using func_type_l0_nt = int&(*)() noexcept;
 
-static_assert( bksge::is_nothrow_invocable<func_type_l0_nt>::value, "");
-static_assert(!bksge::is_nothrow_invocable<func_type_l0_nt, int>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(true,  func_type_l0_nt);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, func_type_l0_nt, int);
 
 using func_type_ii_nt = int(*)(int) noexcept;
 
-static_assert(!bksge::is_nothrow_invocable<func_type_ii_nt>::value, "");
-static_assert( bksge::is_nothrow_invocable<func_type_ii_nt, int>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, func_type_ii_nt);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(true,  func_type_ii_nt, int);
 
 using func_type_il_nt = int(*)(int&) noexcept;
 
-static_assert(!bksge::is_nothrow_invocable<func_type_il_nt>::value, "");
-static_assert(!bksge::is_nothrow_invocable<func_type_il_nt, int>::value, "");
-static_assert( bksge::is_nothrow_invocable<func_type_il_nt, int&>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, func_type_il_nt);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, func_type_il_nt, int);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(true,  func_type_il_nt, int&);
 
 using func_type_ir_nt = int(*)(int&&) noexcept;
 
-static_assert(!bksge::is_nothrow_invocable<func_type_ir_nt>::value, "");
-static_assert( bksge::is_nothrow_invocable<func_type_ir_nt, int>::value, "");
-static_assert(!bksge::is_nothrow_invocable<func_type_ir_nt, int&>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, func_type_ir_nt);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(true,  func_type_ir_nt, int);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, func_type_ir_nt, int&);
 
 #endif
 
 struct X {};
 using mem_type = int X::*;
 
-static_assert(!bksge::is_nothrow_invocable<mem_type>::value, "");
-static_assert(!bksge::is_nothrow_invocable<mem_type, int>::value, "");
-static_assert(!bksge::is_nothrow_invocable<mem_type, int&>::value, "");
-static_assert( bksge::is_nothrow_invocable<mem_type, X&>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, mem_type);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, mem_type, int);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, mem_type, int&);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(true,  mem_type, X&);
 
 using memfun_type = int (X::*)();
 
-static_assert(!bksge::is_nothrow_invocable<memfun_type>::value, "");
-static_assert(!bksge::is_nothrow_invocable<memfun_type, int>::value, "");
-static_assert(!bksge::is_nothrow_invocable<memfun_type, int&>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, memfun_type);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, memfun_type, int);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, memfun_type, int&);
 #if defined(BKSGE_HAS_CXX11_NOEXCEPT)
-static_assert(!bksge::is_nothrow_invocable<memfun_type, X&>::value, "");
-static_assert(!bksge::is_nothrow_invocable<memfun_type, X*>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, memfun_type, X&);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, memfun_type, X*);
 #else
-static_assert( bksge::is_nothrow_invocable<memfun_type, X&>::value, "");
-static_assert( bksge::is_nothrow_invocable<memfun_type, X*>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(true,  memfun_type, X&);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(true,  memfun_type, X*);
 #endif
-static_assert(!bksge::is_nothrow_invocable<memfun_type, X&, int>::value, "");
-static_assert(!bksge::is_nothrow_invocable<memfun_type, X*, int>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, memfun_type, X&, int);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, memfun_type, X*, int);
 
 #if defined(BKSGE_HAS_CXX17_NOEXCEPT_FUNCTION_TYPE)
 
 using memfun_type_nt = int (X::*)() noexcept;
 
-static_assert(!bksge::is_nothrow_invocable<memfun_type_nt>::value, "");
-static_assert(!bksge::is_nothrow_invocable<memfun_type_nt, int>::value, "");
-static_assert(!bksge::is_nothrow_invocable<memfun_type_nt, int&>::value, "");
-static_assert( bksge::is_nothrow_invocable<memfun_type_nt, X&>::value, "");
-static_assert( bksge::is_nothrow_invocable<memfun_type_nt, X*>::value, "");
-static_assert(!bksge::is_nothrow_invocable<memfun_type_nt, X&, int>::value, "");
-static_assert(!bksge::is_nothrow_invocable<memfun_type_nt, X*, int>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, memfun_type_nt);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, memfun_type_nt, int);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, memfun_type_nt, int&);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(true,  memfun_type_nt, X&);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(true,  memfun_type_nt, X*);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, memfun_type_nt, X&, int);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, memfun_type_nt, X*, int);
 
 #endif
 
@@ -159,77 +174,79 @@ struct F
 };
 
 #if defined(BKSGE_HAS_CXX11_NOEXCEPT)
-static_assert(!bksge::is_nothrow_invocable<F               >::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, F               );
 #else
-static_assert( bksge::is_nothrow_invocable<F               >::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(true,  F               );
 #endif
-static_assert( bksge::is_nothrow_invocable<F const         >::value, "");
-static_assert(!bksge::is_nothrow_invocable<F       volatile>::value, "");
-static_assert(!bksge::is_nothrow_invocable<F const volatile>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(true,  F const         );
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, F       volatile);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, F const volatile);
 #if defined(BKSGE_HAS_CXX11_NOEXCEPT)
-static_assert(!bksge::is_nothrow_invocable<F               &>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, F               &);
 #else
-static_assert( bksge::is_nothrow_invocable<F               &>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(true,  F               &);
 #endif
-static_assert( bksge::is_nothrow_invocable<F const         &>::value, "");
-static_assert(!bksge::is_nothrow_invocable<F       volatile&>::value, "");
-static_assert(!bksge::is_nothrow_invocable<F const volatile&>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(true,  F const         &);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, F       volatile&);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, F const volatile&);
 #if defined(BKSGE_HAS_CXX11_NOEXCEPT)
-static_assert(!bksge::is_nothrow_invocable<F               &&>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, F               &&);
 #else
-static_assert( bksge::is_nothrow_invocable<F               &&>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(true,  F               &&);
 #endif
-static_assert( bksge::is_nothrow_invocable<F const         &&>::value, "");
-static_assert(!bksge::is_nothrow_invocable<F       volatile&&>::value, "");
-static_assert(!bksge::is_nothrow_invocable<F const volatile&&>::value, "");
-static_assert(!bksge::is_nothrow_invocable<F               *>::value, "");
-static_assert(!bksge::is_nothrow_invocable<F const         *>::value, "");
-static_assert(!bksge::is_nothrow_invocable<F       volatile*>::value, "");
-static_assert(!bksge::is_nothrow_invocable<F const volatile*>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(true,  F const         &&);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, F       volatile&&);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, F const volatile&&);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, F               *);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, F const         *);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, F       volatile*);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, F const volatile*);
 
 #if defined(BKSGE_HAS_CXX11_NOEXCEPT)
-static_assert(!bksge::is_nothrow_invocable<F, int>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, F, int);
 #else
-static_assert( bksge::is_nothrow_invocable<F, int>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(true,  F, int);
 #endif
-static_assert(!bksge::is_nothrow_invocable<F const, int>::value, "");
-static_assert( bksge::is_nothrow_invocable<F       volatile, int>::value, "");
-static_assert(!bksge::is_nothrow_invocable<F const volatile, int>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, F const, int);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(true,  F       volatile, int);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, F const volatile, int);
 #if defined(BKSGE_HAS_CXX11_NOEXCEPT)
-static_assert(!bksge::is_nothrow_invocable<F               &, int>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, F               &, int);
 #else
-static_assert( bksge::is_nothrow_invocable<F               &, int>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(true,  F               &, int);
 #endif
-static_assert(!bksge::is_nothrow_invocable<F const         &, int>::value, "");
-static_assert( bksge::is_nothrow_invocable<F       volatile&, int>::value, "");
-static_assert(!bksge::is_nothrow_invocable<F const volatile&, int>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, F const         &, int);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(true,  F       volatile&, int);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, F const volatile&, int);
 #if defined(BKSGE_HAS_CXX11_NOEXCEPT)
-static_assert(!bksge::is_nothrow_invocable<F, int&>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, F, int&);
 #else
-static_assert( bksge::is_nothrow_invocable<F, int&>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(true,  F, int&);
 #endif
-static_assert(!bksge::is_nothrow_invocable<F const, int&>::value, "");
-static_assert( bksge::is_nothrow_invocable<F       volatile, int&>::value, "");
-static_assert(!bksge::is_nothrow_invocable<F const volatile, int&>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, F const, int&);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(true,  F       volatile, int&);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, F const volatile, int&);
 
-static_assert( bksge::is_nothrow_invocable<F, int, int>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(true,  F, int, int);
 #if defined(BKSGE_HAS_CXX11_NOEXCEPT)
-static_assert(!bksge::is_nothrow_invocable<F const, int, int>::value, "");
-static_assert(!bksge::is_nothrow_invocable<F       volatile, int, int>::value, "");
-static_assert(!bksge::is_nothrow_invocable<F const volatile, int, int>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, F const, int, int);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, F       volatile, int, int);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, F const volatile, int, int);
 #else
-static_assert( bksge::is_nothrow_invocable<F const, int, int>::value, "");
-static_assert( bksge::is_nothrow_invocable<F       volatile, int, int>::value, "");
-static_assert( bksge::is_nothrow_invocable<F const volatile, int, int>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(true,  F const, int, int);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(true,  F       volatile, int, int);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(true,  F const volatile, int, int);
 #endif
 
-static_assert(!bksge::is_nothrow_invocable<F, int, int, int>::value, "");
-static_assert(!bksge::is_nothrow_invocable<F const, int, int, int>::value, "");
-static_assert(!bksge::is_nothrow_invocable<F       volatile, int, int, int>::value, "");
-static_assert(!bksge::is_nothrow_invocable<F const volatile, int, int, int>::value, "");
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, F, int, int, int);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, F const, int, int, int);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, F       volatile, int, int, int);
+BKSGE_IS_NOTHROW_INVOCABLE_TEST(false, F const volatile, int, int, int);
 
 }	// namespace is_nothrow_invocable_test
 
 }	// namespace bksge_type_traits_test
 
 BKSGE_WARNING_POP()
+
+#undef BKSGE_IS_NOTHROW_INVOCABLE_TEST

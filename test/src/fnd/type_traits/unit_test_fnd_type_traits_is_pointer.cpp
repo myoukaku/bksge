@@ -8,12 +8,24 @@
 
 #include <bksge/fnd/type_traits/is_pointer.hpp>
 #include <bksge/fnd/cstddef/nullptr_t.hpp>
+#include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+#define BKSGE_IS_POINTER_TEST_IMPL(b, T)	\
+	static_assert(bksge::is_pointer_v<T>      == b, #T);	\
+	static_assert(bksge::is_pointer<T>::value == b, #T);	\
+	static_assert(bksge::is_pointer<T>()      == b, #T)
+
+#else
 
 #define BKSGE_IS_POINTER_TEST_IMPL(b, T)	\
 	static_assert(bksge::is_pointer<T>::value == b, #T);	\
 	static_assert(bksge::is_pointer<T>()      == b, #T)
+
+#endif
 
 BKSGE_IS_POINTER_TEST_IMPL(false,                int);
 BKSGE_IS_POINTER_TEST_IMPL(false, const          int);

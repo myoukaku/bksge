@@ -9,6 +9,7 @@
 #ifndef BKSGE_FND_TYPE_TRAITS_IS_NOTHROW_SWAPPABLE_HPP
 #define BKSGE_FND_TYPE_TRAITS_IS_NOTHROW_SWAPPABLE_HPP
 
+#include <bksge/fnd/config.hpp>
 #include <type_traits>
 
 #if defined(__cpp_lib_is_swappable) && (__cpp_lib_is_swappable >= 201603)
@@ -57,5 +58,18 @@ struct is_nothrow_swappable;
 #include <bksge/fnd/type_traits/inl/is_nothrow_swappable_inl.hpp>
 
 #endif
+
+namespace bksge
+{
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+template <typename T>
+BKSGE_INLINE_VAR BKSGE_CONSTEXPR
+bool is_nothrow_swappable_v = is_nothrow_swappable<T>::value;
+
+#endif
+
+}	// namespace bksge
 
 #endif // BKSGE_FND_TYPE_TRAITS_IS_NOTHROW_SWAPPABLE_HPP

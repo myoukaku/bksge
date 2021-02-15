@@ -9,14 +9,26 @@
 #include <bksge/fnd/type_traits/is_signed.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstddef/nullptr_t.hpp>
+#include <bksge/fnd/config.hpp>
 #include <cstdint>	// WCHAR_MIN
 #include <climits>	// CHAR_MIN
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+#define BKSGE_IS_SIGNED_TEST(b, T)	\
+	static_assert(bksge::is_signed_v<T>      == b, #T);	\
+	static_assert(bksge::is_signed<T>::value == b, #T);	\
+	static_assert(bksge::is_signed<T>()      == b, #T)
+
+#else
+
 #define BKSGE_IS_SIGNED_TEST(b, T)	\
 	static_assert(bksge::is_signed<T>::value == b, #T);	\
 	static_assert(bksge::is_signed<T>()      == b, #T)
+
+#endif
 
 BKSGE_IS_SIGNED_TEST(true,                 int);
 BKSGE_IS_SIGNED_TEST(true,  const          int);

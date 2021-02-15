@@ -8,12 +8,24 @@
 
 #include <bksge/fnd/type_traits/is_assignable.hpp>
 #include <bksge/fnd/cstddef/nullptr_t.hpp>
+#include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+#define BKSGE_IS_ASSIGNABLE_TEST(b, T, U)	\
+	static_assert(bksge::is_assignable_v<T, U>      == b, #T ", " #U " == " #b);	\
+	static_assert(bksge::is_assignable<T, U>::value == b, #T ", " #U " == " #b);	\
+	static_assert(bksge::is_assignable<T, U>()      == b, #T ", " #U " == " #b)
+
+#else
 
 #define BKSGE_IS_ASSIGNABLE_TEST(b, T, U)	\
 	static_assert(bksge::is_assignable<T, U>::value == b, #T ", " #U " == " #b);	\
 	static_assert(bksge::is_assignable<T, U>()      == b, #T ", " #U " == " #b)
+
+#endif
 
 namespace bksge_type_traits_test
 {

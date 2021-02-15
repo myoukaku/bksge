@@ -10,6 +10,7 @@
 #define BKSGE_FND_TYPE_TRAITS_IS_REFERENCE_HPP
 
 #include <bksge/fnd/type_traits/detail/constant_wrapper.hpp>
+#include <bksge/fnd/config.hpp>
 #include <type_traits>
 
 namespace bksge
@@ -29,6 +30,14 @@ struct is_reference
 		std::is_reference<T>
 	>
 {};
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+template <typename T>
+BKSGE_INLINE_VAR BKSGE_CONSTEXPR
+bool is_reference_v = is_reference<T>::value;
+
+#endif
 
 }	// namespace bksge
 

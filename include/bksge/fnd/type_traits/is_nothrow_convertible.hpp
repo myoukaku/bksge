@@ -9,6 +9,7 @@
 #ifndef BKSGE_FND_TYPE_TRAITS_IS_NOTHROW_CONVERTIBLE_HPP
 #define BKSGE_FND_TYPE_TRAITS_IS_NOTHROW_CONVERTIBLE_HPP
 
+#include <bksge/fnd/config.hpp>
 #include <type_traits>
 
 #if defined(__cpp_lib_is_nothrow_convertible) && (__cpp_lib_is_nothrow_convertible >= 201806)
@@ -28,8 +29,6 @@ struct is_nothrow_convertible
 }	// namespace bksge
 
 #else
-
-#include <bksge/fnd/config.hpp>
 
 namespace bksge
 {
@@ -51,6 +50,15 @@ namespace bksge
 template <typename From, typename To>
 struct is_nothrow_convertible;
 
+}	// namespace bksge
+
+#include <bksge/fnd/type_traits/inl/is_nothrow_convertible_inl.hpp>
+
+#endif
+
+namespace bksge
+{
+
 #if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
 
 template <typename From, typename To>
@@ -60,9 +68,5 @@ bool is_nothrow_convertible_v = is_nothrow_convertible<From, To>::value;
 #endif
 
 }	// namespace bksge
-
-#include <bksge/fnd/type_traits/inl/is_nothrow_convertible_inl.hpp>
-
-#endif
 
 #endif // BKSGE_FND_TYPE_TRAITS_IS_NOTHROW_CONVERTIBLE_HPP

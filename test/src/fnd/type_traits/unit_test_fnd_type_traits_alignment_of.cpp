@@ -9,6 +9,7 @@
 #include <bksge/fnd/type_traits/alignment_of.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstddef/nullptr_t.hpp>
+#include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
@@ -18,9 +19,20 @@ namespace type_traits_test
 namespace alignment_of_test
 {
 
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+#define BKSGE_ALIGNMENT_OF_TEST_IMPL(x, T)	\
+	static_assert(bksge::alignment_of_v<T>      == x, #T);	\
+	static_assert(bksge::alignment_of<T>::value == x, #T);	\
+	static_assert(bksge::alignment_of<T>()      == x, #T)
+
+#else
+
 #define BKSGE_ALIGNMENT_OF_TEST_IMPL(x, T)	\
 	static_assert(bksge::alignment_of<T>::value == x, #T);	\
 	static_assert(bksge::alignment_of<T>()      == x, #T)
+
+#endif
 
 #define BKSGE_ALIGNMENT_OF_TEST(x, T)	\
 	BKSGE_ALIGNMENT_OF_TEST_IMPL(x, T);	\

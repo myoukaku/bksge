@@ -9,6 +9,8 @@
 #ifndef BKSGE_FND_TYPE_TRAITS_IS_TRIVIAL_HPP
 #define BKSGE_FND_TYPE_TRAITS_IS_TRIVIAL_HPP
 
+#include <bksge/fnd/config.hpp>
+
 namespace bksge
 {
 
@@ -27,6 +29,14 @@ namespace bksge
  */
 template <typename T>
 struct is_trivial;
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+template <typename T>
+BKSGE_INLINE_VAR BKSGE_CONSTEXPR
+bool is_trivial_v = is_trivial<T>::value;
+
+#endif
 
 }	// namespace bksge
 

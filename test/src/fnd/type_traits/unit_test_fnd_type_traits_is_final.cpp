@@ -13,9 +13,20 @@
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+#define BKSGE_IS_FINAL_TEST(b, T)	\
+	static_assert(bksge::is_final_v<T>      == b, #T);	\
+	static_assert(bksge::is_final<T>::value == b, #T);	\
+	static_assert(bksge::is_final<T>()      == b, #T)
+
+#else
+
 #define BKSGE_IS_FINAL_TEST(b, T)	\
 	static_assert(bksge::is_final<T>::value == b, #T);	\
 	static_assert(bksge::is_final<T>()      == b, #T)
+
+#endif
 
 #if BKSGE_CXX_STANDARD >= 14
 

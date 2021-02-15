@@ -7,6 +7,7 @@
  */
 
 #include <bksge/fnd/type_traits/is_array.hpp>
+#include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
@@ -21,9 +22,20 @@ struct convertible_to_pointer
 	operator char*() const;
 };
 
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+#define BKSGE_IS_ARRAY_TEST_IMPL(b, T)	\
+	static_assert(bksge::is_array_v<T>      == b, #T);	\
+	static_assert(bksge::is_array<T>::value == b, #T);	\
+	static_assert(bksge::is_array<T>()      == b, #T)
+
+#else
+
 #define BKSGE_IS_ARRAY_TEST_IMPL(b, T)	\
 	static_assert(bksge::is_array<T>::value == b, #T);	\
 	static_assert(bksge::is_array<T>()      == b, #T)
+
+#endif
 
 #define BKSGE_IS_ARRAY_TEST(T)	\
 	BKSGE_IS_ARRAY_TEST_IMPL(false,                T);	\

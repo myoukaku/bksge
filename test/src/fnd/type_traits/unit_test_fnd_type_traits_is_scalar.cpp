@@ -9,12 +9,24 @@
 #include <bksge/fnd/type_traits/is_scalar.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstddef/nullptr_t.hpp>
+#include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+#define BKSGE_IS_SCALAR_TEST(b, T)	\
+	static_assert(bksge::is_scalar_v<T>      == b, #T);	\
+	static_assert(bksge::is_scalar<T>::value == b, #T);	\
+	static_assert(bksge::is_scalar<T>()      == b, #T)
+
+#else
 
 #define BKSGE_IS_SCALAR_TEST(b, T)	\
 	static_assert(bksge::is_scalar<T>::value == b, #T);	\
 	static_assert(bksge::is_scalar<T>()      == b, #T)
+
+#endif
 
 BKSGE_IS_SCALAR_TEST(true,                 int);
 BKSGE_IS_SCALAR_TEST(true,  const          int);

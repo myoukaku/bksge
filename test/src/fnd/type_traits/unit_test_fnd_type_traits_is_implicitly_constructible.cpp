@@ -8,12 +8,24 @@
 
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/cstddef/nullptr_t.hpp>
+#include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+#define BKSGE_IS_IMPLICITLY_CONSTRUCTIBLE_TEST(b, ...)	\
+	static_assert(bksge::is_implicitly_constructible_v<__VA_ARGS__>      == b, #__VA_ARGS__);	\
+	static_assert(bksge::is_implicitly_constructible<__VA_ARGS__>::value == b, #__VA_ARGS__);	\
+	static_assert(bksge::is_implicitly_constructible<__VA_ARGS__>()      == b, #__VA_ARGS__)
+
+#else
 
 #define BKSGE_IS_IMPLICITLY_CONSTRUCTIBLE_TEST(b, ...)	\
 	static_assert(bksge::is_implicitly_constructible<__VA_ARGS__>::value == b, #__VA_ARGS__);	\
 	static_assert(bksge::is_implicitly_constructible<__VA_ARGS__>()      == b, #__VA_ARGS__)
+
+#endif
 
 namespace bksge_type_traits_test
 {

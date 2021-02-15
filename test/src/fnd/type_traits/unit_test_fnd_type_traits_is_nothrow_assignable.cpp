@@ -8,12 +8,24 @@
 
 #include <bksge/fnd/type_traits/is_nothrow_assignable.hpp>
 #include <bksge/fnd/string/string.hpp>
+#include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+#define BKSGE_IS_NOTHROW_ASSIGNABLE_TEST(b, T, U)	\
+	static_assert(bksge::is_nothrow_assignable_v<T, U>      == b, #T ", " #U);	\
+	static_assert(bksge::is_nothrow_assignable<T, U>::value == b, #T ", " #U);	\
+	static_assert(bksge::is_nothrow_assignable<T, U>()      == b, #T ", " #U)
+
+#else
 
 #define BKSGE_IS_NOTHROW_ASSIGNABLE_TEST(b, T, U)	\
 	static_assert(bksge::is_nothrow_assignable<T, U>::value == b, #T ", " #U);	\
 	static_assert(bksge::is_nothrow_assignable<T, U>()      == b, #T ", " #U)
+
+#endif
 
 namespace bksge_type_traits_test
 {

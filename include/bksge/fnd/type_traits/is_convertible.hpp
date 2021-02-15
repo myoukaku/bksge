@@ -9,6 +9,8 @@
 #ifndef BKSGE_FND_TYPE_TRAITS_IS_CONVERTIBLE_HPP
 #define BKSGE_FND_TYPE_TRAITS_IS_CONVERTIBLE_HPP
 
+#include <bksge/fnd/config.hpp>
+
 namespace bksge
 {
 
@@ -25,6 +27,14 @@ namespace bksge
  */
 template <typename From, typename To>
 struct is_convertible;
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+template <typename From, typename To>
+BKSGE_INLINE_VAR BKSGE_CONSTEXPR
+bool is_convertible_v = is_convertible<From, To>::value;
+
+#endif
 
 }	// namespace bksge
 

@@ -7,12 +7,24 @@
  */
 
 #include <bksge/fnd/type_traits/is_bounded_array.hpp>
+#include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+#define BKSGE_IS_BOUNDED_ARRAY_TEST(b, T)	\
+	static_assert(bksge::is_bounded_array_v<T>      == b, #T);	\
+	static_assert(bksge::is_bounded_array<T>::value == b, #T);	\
+	static_assert(bksge::is_bounded_array<T>()      == b, #T)
+
+#else
 
 #define BKSGE_IS_BOUNDED_ARRAY_TEST(b, T)	\
 	static_assert(bksge::is_bounded_array<T>::value == b, #T);	\
 	static_assert(bksge::is_bounded_array<T>()      == b, #T)
+
+#endif
 
 #define BKSGE_IS_BOUNDED_ARRAY_TEST_CV(b, T)	\
 	BKSGE_IS_BOUNDED_ARRAY_TEST(b,                T);	\

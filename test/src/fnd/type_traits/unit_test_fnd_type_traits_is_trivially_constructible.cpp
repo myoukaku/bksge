@@ -12,9 +12,20 @@
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+#define BKSGE_IS_TRIVIALLY_CONSTRUCTIBLE_TEST(b, ...)	\
+	static_assert(bksge::is_trivially_constructible_v<__VA_ARGS__>      == b, "");	\
+	static_assert(bksge::is_trivially_constructible<__VA_ARGS__>::value == b, "");	\
+	static_assert(bksge::is_trivially_constructible<__VA_ARGS__>()      == b, "")
+
+#else
+
 #define BKSGE_IS_TRIVIALLY_CONSTRUCTIBLE_TEST(b, ...)	\
 	static_assert(bksge::is_trivially_constructible<__VA_ARGS__>::value == b, "");	\
 	static_assert(bksge::is_trivially_constructible<__VA_ARGS__>()      == b, "")
+
+#endif
 
 namespace bksge_type_traits_test
 {

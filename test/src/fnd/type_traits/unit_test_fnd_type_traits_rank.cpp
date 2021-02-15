@@ -8,12 +8,24 @@
 
 #include <bksge/fnd/type_traits/rank.hpp>
 #include <bksge/fnd/cstddef/nullptr_t.hpp>
+#include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+#define BKSGE_RANK_TEST_IMPL(T, N)	\
+	static_assert(bksge::rank_v<T>      == N, "");	\
+	static_assert(bksge::rank<T>::value == N, "");	\
+	static_assert(bksge::rank<T>()      == N, "")
+
+#else
 
 #define BKSGE_RANK_TEST_IMPL(T, N)	\
 	static_assert(bksge::rank<T>::value == N, "");	\
 	static_assert(bksge::rank<T>()      == N, "")
+
+#endif
 
 #define BKSGE_RANK_TEST_CV(T, N)	\
 	BKSGE_RANK_TEST_IMPL(T, N);	\

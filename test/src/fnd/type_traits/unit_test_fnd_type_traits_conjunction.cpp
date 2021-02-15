@@ -9,6 +9,7 @@
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/is_unsigned.hpp>
+#include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 
 namespace bksge_type_traits_test
@@ -93,50 +94,65 @@ static_assert(!bksge::conjunction<
 	bksge::is_unsigned<long>
 >::value, "");
 
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+#define BKSGE_CONJUNCTION_TEST(x, ...)	\
+	static_assert(bksge::conjunction_v<__VA_ARGS__>      == x, "");	\
+	static_assert(bksge::conjunction<__VA_ARGS__>::value == x, "");	\
+	static_assert(bksge::conjunction<__VA_ARGS__>()      == x, "")
+
+#else
+
+#define BKSGE_CONJUNCTION_TEST(x, ...)	\
+	static_assert(bksge::conjunction<__VA_ARGS__>::value == x, "");	\
+	static_assert(bksge::conjunction<__VA_ARGS__>()      == x, "")
+
+#endif
+
 using T = bksge::true_type;
 using F = bksge::false_type;
 
-static_assert( bksge::conjunction<>::value, "");
+BKSGE_CONJUNCTION_TEST(true, /**/);
 
-static_assert( bksge::conjunction<T>::value, "");
-static_assert(!bksge::conjunction<F>::value, "");
+BKSGE_CONJUNCTION_TEST(true,  T);
+BKSGE_CONJUNCTION_TEST(false, F);
 
-static_assert( bksge::conjunction<T, T>::value, "");
-static_assert(!bksge::conjunction<T, F>::value, "");
-static_assert(!bksge::conjunction<F, T>::value, "");
-static_assert(!bksge::conjunction<F, F>::value, "");
+BKSGE_CONJUNCTION_TEST(true,  T, T);
+BKSGE_CONJUNCTION_TEST(false, T, F);
+BKSGE_CONJUNCTION_TEST(false, F, T);
+BKSGE_CONJUNCTION_TEST(false, F, F);
 
-static_assert( bksge::conjunction<T, T, T>::value, "");
-static_assert(!bksge::conjunction<T, T, F>::value, "");
-static_assert(!bksge::conjunction<T, F, T>::value, "");
-static_assert(!bksge::conjunction<T, F, F>::value, "");
-static_assert(!bksge::conjunction<F, T, T>::value, "");
-static_assert(!bksge::conjunction<F, T, F>::value, "");
-static_assert(!bksge::conjunction<F, F, T>::value, "");
-static_assert(!bksge::conjunction<F, F, F>::value, "");
+BKSGE_CONJUNCTION_TEST(true,  T, T, T);
+BKSGE_CONJUNCTION_TEST(false, T, T, F);
+BKSGE_CONJUNCTION_TEST(false, T, F, T);
+BKSGE_CONJUNCTION_TEST(false, T, F, F);
+BKSGE_CONJUNCTION_TEST(false, F, T, T);
+BKSGE_CONJUNCTION_TEST(false, F, T, F);
+BKSGE_CONJUNCTION_TEST(false, F, F, T);
+BKSGE_CONJUNCTION_TEST(false, F, F, F);
 
-static_assert( bksge::conjunction<T, T, T, T, T, T, T, T, T, T>::value, "");
-static_assert(!bksge::conjunction<F, T, T, T, T, T, T, T, T, T>::value, "");
-static_assert(!bksge::conjunction<T, F, T, T, T, T, T, T, T, T>::value, "");
-static_assert(!bksge::conjunction<T, T, F, T, T, T, T, T, T, T>::value, "");
-static_assert(!bksge::conjunction<T, T, T, F, T, T, T, T, T, T>::value, "");
-static_assert(!bksge::conjunction<T, T, T, T, F, T, T, T, T, T>::value, "");
-static_assert(!bksge::conjunction<T, T, T, T, T, F, T, T, T, T>::value, "");
-static_assert(!bksge::conjunction<T, T, T, T, T, T, F, T, T, T>::value, "");
-static_assert(!bksge::conjunction<T, T, T, T, T, T, T, F, T, T>::value, "");
-static_assert(!bksge::conjunction<T, T, T, T, T, T, T, T, F, T>::value, "");
-static_assert(!bksge::conjunction<T, T, T, T, T, T, T, T, T, F>::value, "");
-static_assert(!bksge::conjunction<T, F, F, F, F, F, F, F, F, F>::value, "");
-static_assert(!bksge::conjunction<F, T, F, F, F, F, F, F, F, F>::value, "");
-static_assert(!bksge::conjunction<F, F, T, F, F, F, F, F, F, F>::value, "");
-static_assert(!bksge::conjunction<F, F, F, T, F, F, F, F, F, F>::value, "");
-static_assert(!bksge::conjunction<F, F, F, F, T, F, F, F, F, F>::value, "");
-static_assert(!bksge::conjunction<F, F, F, F, F, T, F, F, F, F>::value, "");
-static_assert(!bksge::conjunction<F, F, F, F, F, F, T, F, F, F>::value, "");
-static_assert(!bksge::conjunction<F, F, F, F, F, F, F, T, F, F>::value, "");
-static_assert(!bksge::conjunction<F, F, F, F, F, F, F, F, T, F>::value, "");
-static_assert(!bksge::conjunction<F, F, F, F, F, F, F, F, F, T>::value, "");
-static_assert(!bksge::conjunction<F, F, F, F, F, F, F, F, F, F>::value, "");
+BKSGE_CONJUNCTION_TEST(true,  T, T, T, T, T, T, T, T, T, T);
+BKSGE_CONJUNCTION_TEST(false, F, T, T, T, T, T, T, T, T, T);
+BKSGE_CONJUNCTION_TEST(false, T, F, T, T, T, T, T, T, T, T);
+BKSGE_CONJUNCTION_TEST(false, T, T, F, T, T, T, T, T, T, T);
+BKSGE_CONJUNCTION_TEST(false, T, T, T, F, T, T, T, T, T, T);
+BKSGE_CONJUNCTION_TEST(false, T, T, T, T, F, T, T, T, T, T);
+BKSGE_CONJUNCTION_TEST(false, T, T, T, T, T, F, T, T, T, T);
+BKSGE_CONJUNCTION_TEST(false, T, T, T, T, T, T, F, T, T, T);
+BKSGE_CONJUNCTION_TEST(false, T, T, T, T, T, T, T, F, T, T);
+BKSGE_CONJUNCTION_TEST(false, T, T, T, T, T, T, T, T, F, T);
+BKSGE_CONJUNCTION_TEST(false, T, T, T, T, T, T, T, T, T, F);
+BKSGE_CONJUNCTION_TEST(false, T, F, F, F, F, F, F, F, F, F);
+BKSGE_CONJUNCTION_TEST(false, F, T, F, F, F, F, F, F, F, F);
+BKSGE_CONJUNCTION_TEST(false, F, F, T, F, F, F, F, F, F, F);
+BKSGE_CONJUNCTION_TEST(false, F, F, F, T, F, F, F, F, F, F);
+BKSGE_CONJUNCTION_TEST(false, F, F, F, F, T, F, F, F, F, F);
+BKSGE_CONJUNCTION_TEST(false, F, F, F, F, F, T, F, F, F, F);
+BKSGE_CONJUNCTION_TEST(false, F, F, F, F, F, F, T, F, F, F);
+BKSGE_CONJUNCTION_TEST(false, F, F, F, F, F, F, F, T, F, F);
+BKSGE_CONJUNCTION_TEST(false, F, F, F, F, F, F, F, F, T, F);
+BKSGE_CONJUNCTION_TEST(false, F, F, F, F, F, F, F, F, F, T);
+BKSGE_CONJUNCTION_TEST(false, F, F, F, F, F, F, F, F, F, F);
 
 static_assert(
 	bksge::conjunction<
@@ -273,6 +289,8 @@ static_assert(
 
 		F
 	>::value, "");
+
+#undef BKSGE_CONJUNCTION_TEST
 
 }	// namespace conjunction_test
 

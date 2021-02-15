@@ -9,6 +9,8 @@
 #ifndef BKSGE_FND_TYPE_TRAITS_IS_LITERAL_TYPE_HPP
 #define BKSGE_FND_TYPE_TRAITS_IS_LITERAL_TYPE_HPP
 
+#include <bksge/fnd/config.hpp>
+
 namespace bksge
 {
 
@@ -36,6 +38,14 @@ namespace bksge
  */
 template <typename T>
 struct is_literal_type;
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+template <typename T>
+BKSGE_INLINE_VAR BKSGE_CONSTEXPR
+bool is_literal_type_v = is_literal_type<T>::value;
+
+#endif
 
 }	// namespace bksge
 

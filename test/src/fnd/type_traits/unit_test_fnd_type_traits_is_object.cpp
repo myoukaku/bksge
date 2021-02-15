@@ -7,12 +7,24 @@
  */
 
 #include <bksge/fnd/type_traits/is_object.hpp>
+#include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+#define BKSGE_IS_OBJECT_TEST(b, T)	\
+	static_assert(bksge::is_object_v<T>      == b, #T);	\
+	static_assert(bksge::is_object<T>::value == b, #T);	\
+	static_assert(bksge::is_object<T>()      == b, #T)
+
+#else
 
 #define BKSGE_IS_OBJECT_TEST(b, T)	\
 	static_assert(bksge::is_object<T>::value == b, #T);	\
 	static_assert(bksge::is_object<T>()      == b, #T)
+
+#endif
 
 BKSGE_IS_OBJECT_TEST(true,                 int);
 BKSGE_IS_OBJECT_TEST(true,  const          int);

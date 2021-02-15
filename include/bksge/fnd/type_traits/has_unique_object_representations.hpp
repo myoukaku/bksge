@@ -9,6 +9,8 @@
 #ifndef BKSGE_FND_TYPE_TRAITS_HAS_UNIQUE_OBJECT_REPRESENTATIONS_HPP
 #define BKSGE_FND_TYPE_TRAITS_HAS_UNIQUE_OBJECT_REPRESENTATIONS_HPP
 
+#include <bksge/fnd/config.hpp>
+
 namespace bksge
 {
 
@@ -29,6 +31,14 @@ namespace bksge
  */
 template <typename T>
 struct has_unique_object_representations;
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+template <typename T>
+BKSGE_INLINE_VAR BKSGE_CONSTEXPR
+bool has_unique_object_representations_v = has_unique_object_representations<T>::value;
+
+#endif
 
 }	// namespace bksge
 

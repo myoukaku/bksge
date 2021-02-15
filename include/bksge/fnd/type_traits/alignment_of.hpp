@@ -10,6 +10,8 @@
 #define BKSGE_FND_TYPE_TRAITS_ALIGNMENT_OF_HPP
 
 #include <bksge/fnd/type_traits/detail/constant_wrapper.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/config.hpp>
 #include <type_traits>
 
 namespace bksge
@@ -32,6 +34,14 @@ struct alignment_of
 		std::alignment_of<T>
 	>
 {};
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+template <typename T>
+BKSGE_INLINE_VAR BKSGE_CONSTEXPR
+bksge::size_t alignment_of_v = alignment_of<T>::value;
+
+#endif
 
 }	// namespace bksge
 

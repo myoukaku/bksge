@@ -8,12 +8,25 @@
 
 #include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
 #include <bksge/fnd/string/string.hpp>
+#include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+#define BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(b, ...)	\
+	static_assert(bksge::is_nothrow_constructible_v<__VA_ARGS__>      == b, "");	\
+	static_assert(bksge::is_nothrow_constructible<__VA_ARGS__>::value == b, "");	\
+	static_assert(bksge::is_nothrow_constructible<__VA_ARGS__>()      == b, "")
+
+#else
 
 #define BKSGE_IS_NOTHROW_CONSTRUCTIBLE_TEST(b, ...)	\
 	static_assert(bksge::is_nothrow_constructible<__VA_ARGS__>::value == b, "");	\
 	static_assert(bksge::is_nothrow_constructible<__VA_ARGS__>()      == b, "")
+
+#endif
+
 
 namespace bksge_type_traits_test
 {

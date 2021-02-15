@@ -7,6 +7,7 @@
  */
 
 #include <bksge/fnd/type_traits/is_nothrow_convertible.hpp>
+#include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
@@ -43,9 +44,20 @@ struct F
 	explicit F(A const&) noexcept {}
 };
 
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+#define BKSGE_IS_NOTHROW_CONVERTIBLE_TEST(b, From, To)	\
+	static_assert(bksge::is_nothrow_convertible_v<From, To>      == b, #From ", " #To);	\
+	static_assert(bksge::is_nothrow_convertible<From, To>::value == b, #From ", " #To);	\
+	static_assert(bksge::is_nothrow_convertible<From, To>()      == b, #From ", " #To)
+
+#else
+
 #define BKSGE_IS_NOTHROW_CONVERTIBLE_TEST(b, From, To)	\
 	static_assert(bksge::is_nothrow_convertible<From, To>::value == b, #From ", " #To);	\
 	static_assert(bksge::is_nothrow_convertible<From, To>()      == b, #From ", " #To)
+
+#endif
 
 BKSGE_IS_NOTHROW_CONVERTIBLE_TEST(true,  int, int);
 BKSGE_IS_NOTHROW_CONVERTIBLE_TEST(true,  int, double);

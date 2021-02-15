@@ -10,6 +10,7 @@
 #define BKSGE_FND_TYPE_TRAITS_IS_VOLATILE_HPP
 
 #include <bksge/fnd/type_traits/detail/constant_wrapper.hpp>
+#include <bksge/fnd/config.hpp>
 #include <type_traits>
 
 namespace bksge
@@ -32,6 +33,14 @@ struct is_volatile
 		std::is_volatile<T>
 	>
 {};
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+template <typename T>
+BKSGE_INLINE_VAR BKSGE_CONSTEXPR
+bool is_volatile_v = is_volatile<T>::value;
+
+#endif
 
 }	// namespace bksge
 

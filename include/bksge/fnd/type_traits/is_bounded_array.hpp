@@ -9,6 +9,7 @@
 #ifndef BKSGE_FND_TYPE_TRAITS_IS_BOUNDED_ARRAY_HPP
 #define BKSGE_FND_TYPE_TRAITS_IS_BOUNDED_ARRAY_HPP
 
+#include <bksge/fnd/config.hpp>
 #include <type_traits>
 
 #if defined(__cpp_lib_bounded_array_traits) && (__cpp_lib_bounded_array_traits >= 201902)
@@ -31,7 +32,6 @@ struct is_bounded_array
 
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <bksge/fnd/config.hpp>
 
 namespace bksge
 {
@@ -52,6 +52,13 @@ struct is_bounded_array : public bksge::false_type {};
 template <typename T, bksge::size_t N>
 struct is_bounded_array<T[N]> : public bksge::true_type {};
 
+}	// namespace bksge
+
+#endif
+
+namespace bksge
+{
+
 #if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
 
 template <typename T>
@@ -61,7 +68,5 @@ bool is_bounded_array_v  = is_bounded_array<T>::value;
 #endif
 
 }	// namespace bksge
-
-#endif
 
 #endif // BKSGE_FND_TYPE_TRAITS_IS_BOUNDED_ARRAY_HPP

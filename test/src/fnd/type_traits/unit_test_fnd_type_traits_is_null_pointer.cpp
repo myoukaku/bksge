@@ -9,12 +9,24 @@
 #include <bksge/fnd/type_traits/is_null_pointer.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstddef/nullptr_t.hpp>
+#include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+#define BKSGE_IS_NULL_POINTER_TEST(b, T)	\
+	static_assert(bksge::is_null_pointer_v<T>      == b, #T);	\
+	static_assert(bksge::is_null_pointer<T>::value == b, #T);	\
+	static_assert(bksge::is_null_pointer<T>()      == b, #T)
+
+#else
 
 #define BKSGE_IS_NULL_POINTER_TEST(b, T)	\
 	static_assert(bksge::is_null_pointer<T>::value == b, #T);	\
 	static_assert(bksge::is_null_pointer<T>()      == b, #T)
+
+#endif
 
 BKSGE_IS_NULL_POINTER_TEST(true,                 bksge::nullptr_t);
 BKSGE_IS_NULL_POINTER_TEST(true,  const          bksge::nullptr_t);

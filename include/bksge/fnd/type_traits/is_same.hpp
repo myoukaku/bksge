@@ -9,6 +9,8 @@
 #ifndef BKSGE_FND_TYPE_TRAITS_IS_SAME_HPP
 #define BKSGE_FND_TYPE_TRAITS_IS_SAME_HPP
 
+#include <bksge/fnd/config.hpp>
+
 namespace bksge
 {
 
@@ -23,6 +25,14 @@ namespace bksge
  */
 template <typename T, typename U>
 struct is_same;
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+template <typename T, typename U>
+BKSGE_INLINE_VAR BKSGE_CONSTEXPR
+bool is_same_v = is_same<T, U>::value;
+
+#endif
 
 }	// namespace bksge
 

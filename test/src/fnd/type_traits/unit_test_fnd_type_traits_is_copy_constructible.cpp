@@ -14,9 +14,20 @@
 BKSGE_WARNING_PUSH()
 BKSGE_WARNING_DISABLE_MSVC(4510 4610)
 
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+#define BKSGE_IS_COPY_CONSTRUCTIBLE_TEST(b, T)	\
+	static_assert(bksge::is_copy_constructible_v<T>      == b, #T ", " #b);	\
+	static_assert(bksge::is_copy_constructible<T>::value == b, #T ", " #b);	\
+	static_assert(bksge::is_copy_constructible<T>()      == b, #T ", " #b)
+
+#else
+
 #define BKSGE_IS_COPY_CONSTRUCTIBLE_TEST(b, T)	\
 	static_assert(bksge::is_copy_constructible<T>::value == b, #T ", " #b);	\
 	static_assert(bksge::is_copy_constructible<T>()      == b, #T ", " #b)
+
+#endif
 
 namespace bksge_type_traits_test
 {

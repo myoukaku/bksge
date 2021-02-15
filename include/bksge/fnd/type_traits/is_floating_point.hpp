@@ -10,6 +10,7 @@
 #define BKSGE_FND_TYPE_TRAITS_IS_FLOATING_POINT_HPP
 
 #include <bksge/fnd/type_traits/detail/constant_wrapper.hpp>
+#include <bksge/fnd/config.hpp>
 #include <type_traits>
 
 namespace bksge
@@ -29,6 +30,14 @@ struct is_floating_point
 		std::is_floating_point<T>
 	>
 {};
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+template <typename T>
+BKSGE_INLINE_VAR BKSGE_CONSTEXPR
+bool is_floating_point_v = is_floating_point<T>::value;
+
+#endif
 
 }	// namespace bksge
 

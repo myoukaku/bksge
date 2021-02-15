@@ -7,12 +7,24 @@
  */
 
 #include <bksge/fnd/type_traits/is_nothrow_copy_constructible.hpp>
+#include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+#define BKSGE_IS_NOTHROW_COPY_CONSTRUCTIBLE_TEST(b, T)	\
+	static_assert(bksge::is_nothrow_copy_constructible_v<T>      == b, #T);	\
+	static_assert(bksge::is_nothrow_copy_constructible<T>::value == b, #T);	\
+	static_assert(bksge::is_nothrow_copy_constructible<T>()      == b, #T)
+
+#else
 
 #define BKSGE_IS_NOTHROW_COPY_CONSTRUCTIBLE_TEST(b, T)	\
 	static_assert(bksge::is_nothrow_copy_constructible<T>::value == b, #T);	\
 	static_assert(bksge::is_nothrow_copy_constructible<T>()      == b, #T)
+
+#endif
 
 namespace bksge_type_traits_test
 {

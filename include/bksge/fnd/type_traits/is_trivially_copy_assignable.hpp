@@ -9,6 +9,8 @@
 #ifndef BKSGE_FND_TYPE_TRAITS_IS_TRIVIALLY_COPY_ASSIGNABLE_HPP
 #define BKSGE_FND_TYPE_TRAITS_IS_TRIVIALLY_COPY_ASSIGNABLE_HPP
 
+#include <bksge/fnd/config.hpp>
+
 namespace bksge
 {
 
@@ -31,6 +33,14 @@ namespace bksge
  */
 template <typename T>
 struct is_trivially_copy_assignable;
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+template <typename T>
+BKSGE_INLINE_VAR BKSGE_CONSTEXPR
+bool is_trivially_copy_assignable_v = is_trivially_copy_assignable<T>::value;
+
+#endif
 
 }	// namespace bksge
 

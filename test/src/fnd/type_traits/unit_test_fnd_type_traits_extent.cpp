@@ -7,6 +7,7 @@
  */
 
 #include <bksge/fnd/type_traits/extent.hpp>
+#include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
@@ -16,6 +17,20 @@ namespace type_traits_test
 namespace alignment_of_test
 {
 
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+#define BKSGE_EXTENT_TEST(n, T)	\
+	static_assert(n == bksge::extent_v<T>,      #T);	\
+	static_assert(n == bksge::extent<T>::value, #T);	\
+	static_assert(n == bksge::extent<T>(),      #T)
+
+#define BKSGE_EXTENT_TEST_2(n, T, i)	\
+	static_assert(n == bksge::extent_v<T, i>,      #T);	\
+	static_assert(n == bksge::extent<T, i>::value, #T);	\
+	static_assert(n == bksge::extent<T, i>(),      #T)
+
+#else
+
 #define BKSGE_EXTENT_TEST(n, T)	\
 	static_assert(n == bksge::extent<T>::value, #T);	\
 	static_assert(n == bksge::extent<T>(),      #T)
@@ -23,6 +38,8 @@ namespace alignment_of_test
 #define BKSGE_EXTENT_TEST_2(n, T, i)	\
 	static_assert(n == bksge::extent<T, i>::value, #T);	\
 	static_assert(n == bksge::extent<T, i>(),      #T)
+
+#endif
 
 BKSGE_EXTENT_TEST  ( 0, int);
 BKSGE_EXTENT_TEST  ( 0, int*);

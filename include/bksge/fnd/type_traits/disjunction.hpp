@@ -9,6 +9,7 @@
 #ifndef BKSGE_FND_TYPE_TRAITS_DISJUNCTION_HPP
 #define BKSGE_FND_TYPE_TRAITS_DISJUNCTION_HPP
 
+#include <bksge/fnd/config.hpp>
 #include <type_traits>
 
 #if defined(__cpp_lib_logical_traits) && (__cpp_lib_logical_traits >= 201510)
@@ -52,5 +53,18 @@ struct disjunction;
 #include <bksge/fnd/type_traits/inl/disjunction_inl.hpp>
 
 #endif
+
+namespace bksge
+{
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+template <typename... B>
+BKSGE_INLINE_VAR BKSGE_CONSTEXPR
+bool disjunction_v = disjunction<B...>::value;
+
+#endif
+
+}	// namespace bksge
 
 #endif // BKSGE_FND_TYPE_TRAITS_DISJUNCTION_HPP

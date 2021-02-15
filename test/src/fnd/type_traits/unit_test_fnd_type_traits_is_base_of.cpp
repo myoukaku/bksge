@@ -7,12 +7,24 @@
  */
 
 #include <bksge/fnd/type_traits/is_base_of.hpp>
+#include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+#define BKSGE_IS_BASE_OF_TEST(b, T, U)	\
+	static_assert(bksge::is_base_of_v<T, U>      == b, "is_base_of<" #T ", " #U "> == " #b);	\
+	static_assert(bksge::is_base_of<T, U>::value == b, "is_base_of<" #T ", " #U "> == " #b);	\
+	static_assert(bksge::is_base_of<T, U>()      == b, "is_base_of<" #T ", " #U "> == " #b)
+
+#else
 
 #define BKSGE_IS_BASE_OF_TEST(b, T, U)	\
 	static_assert(bksge::is_base_of<T, U>::value == b, "is_base_of<" #T ", " #U "> == " #b);	\
 	static_assert(bksge::is_base_of<T, U>()      == b, "is_base_of<" #T ", " #U "> == " #b)
+
+#endif
 
 #define BKSGE_IS_BASE_OF_TEST_CV(b, T, U)	\
 	BKSGE_IS_BASE_OF_TEST(b,                T,                U);	\

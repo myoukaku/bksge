@@ -18,9 +18,20 @@ namespace bksge_type_traits_test
 namespace is_aggregate_test
 {
 
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+#define BKSGE_IS_AGGREGATE_TEST(b, T)	\
+	static_assert(bksge::is_aggregate_v<T>      == b, #T);	\
+	static_assert(bksge::is_aggregate<T>::value == b, #T);	\
+	static_assert(bksge::is_aggregate<T>()      == b, #T)
+
+#else
+
 #define BKSGE_IS_AGGREGATE_TEST(b, T)	\
 	static_assert(bksge::is_aggregate<T>::value == b, #T);	\
 	static_assert(bksge::is_aggregate<T>()      == b, #T)
+
+#endif
 
 #define BKSGE_IS_AGGREGATE_TEST_CV(b, T)	\
 	BKSGE_IS_AGGREGATE_TEST(b,                T);	\

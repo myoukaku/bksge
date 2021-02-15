@@ -7,12 +7,24 @@
  */
 
 #include <bksge/fnd/type_traits/is_rvalue_reference.hpp>
+#include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+#define BKSGE_IS_RVALUE_REFERENCE_TEST_IMPL(b, T)	\
+	static_assert(bksge::is_rvalue_reference_v<T>      == b, #T);	\
+	static_assert(bksge::is_rvalue_reference<T>::value == b, #T);	\
+	static_assert(bksge::is_rvalue_reference<T>()      == b, #T)
+
+#else
 
 #define BKSGE_IS_RVALUE_REFERENCE_TEST_IMPL(b, T)	\
 	static_assert(bksge::is_rvalue_reference<T>::value == b, #T);	\
 	static_assert(bksge::is_rvalue_reference<T>()      == b, #T)
+
+#endif
 
 #define BKSGE_IS_RVALUE_REFERENCE_TEST_CV(b, T)	\
 	BKSGE_IS_RVALUE_REFERENCE_TEST_IMPL(b, T);	\

@@ -8,6 +8,7 @@
 
 #include <bksge/fnd/type_traits/is_function.hpp>
 #include <bksge/fnd/cstddef/nullptr_t.hpp>
+#include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
@@ -17,9 +18,20 @@ namespace bksge_type_traits_test
 namespace is_function_test
 {
 
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+#define BKSGE_IS_FUNCTION_TEST(b, T)	\
+	static_assert(bksge::is_function_v<T>      == b, #T);	\
+	static_assert(bksge::is_function<T>::value == b, #T);	\
+	static_assert(bksge::is_function<T>()      == b, #T)
+
+#else
+
 #define BKSGE_IS_FUNCTION_TEST(b, T)	\
 	static_assert(bksge::is_function<T>::value == b, #T);	\
 	static_assert(bksge::is_function<T>()      == b, #T)
+
+#endif
 
 typedef void  func1()                                       ;
 typedef int   func2()                        const          ;

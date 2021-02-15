@@ -9,6 +9,8 @@
 #ifndef BKSGE_FND_TYPE_TRAITS_IS_INVOCABLE_R_HPP
 #define BKSGE_FND_TYPE_TRAITS_IS_INVOCABLE_R_HPP
 
+#include <bksge/fnd/config.hpp>
+
 namespace bksge
 {
 
@@ -28,6 +30,14 @@ namespace bksge
  */
 template <typename R, typename Fn, typename... ArgTypes>
 struct is_invocable_r;
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+template <typename R, typename Fn, typename... ArgTypes>
+BKSGE_INLINE_VAR BKSGE_CONSTEXPR
+bool is_invocable_r_v = is_invocable_r<R, Fn, ArgTypes...>::value;
+
+#endif
 
 }	// namespace bksge
 

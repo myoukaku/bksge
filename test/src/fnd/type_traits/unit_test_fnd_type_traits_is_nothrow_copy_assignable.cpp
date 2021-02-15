@@ -9,12 +9,24 @@
 #include <bksge/fnd/type_traits/is_nothrow_copy_assignable.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstddef/nullptr_t.hpp>
+#include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+#define BKSGE_IS_NOTHROW_COPY_ASSIGNABLE_TEST(b, T)	\
+	static_assert(bksge::is_nothrow_copy_assignable_v<T>      == b, #T ", " #b);	\
+	static_assert(bksge::is_nothrow_copy_assignable<T>::value == b, #T ", " #b);	\
+	static_assert(bksge::is_nothrow_copy_assignable<T>()      == b, #T ", " #b)
+
+#else
 
 #define BKSGE_IS_NOTHROW_COPY_ASSIGNABLE_TEST(b, T)	\
 	static_assert(bksge::is_nothrow_copy_assignable<T>::value == b, #T ", " #b);	\
 	static_assert(bksge::is_nothrow_copy_assignable<T>()      == b, #T ", " #b)
+
+#endif
 
 namespace bksge_type_traits_test
 {

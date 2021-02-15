@@ -7,12 +7,24 @@
  */
 
 #include <bksge/fnd/type_traits/is_const.hpp>
+#include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+#define BKSGE_IS_CONST_TEST_IMPL(b, T)	\
+	static_assert(bksge::is_const_v<T>      == b, #T);	\
+	static_assert(bksge::is_const<T>::value == b, #T);	\
+	static_assert(bksge::is_const<T>()      == b, #T)
+
+#else
 
 #define BKSGE_IS_CONST_TEST_IMPL(b, T)	\
 	static_assert(bksge::is_const<T>::value == b, #T);	\
 	static_assert(bksge::is_const<T>()      == b, #T)
+
+#endif
 
 #define BKSGE_IS_CONST_TEST_CV(T)	\
 	BKSGE_IS_CONST_TEST_IMPL(false,                T);	\

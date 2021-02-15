@@ -7,6 +7,7 @@
  */
 
 #include <bksge/fnd/type_traits/has_unique_object_representations.hpp>
+#include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
@@ -16,9 +17,20 @@ namespace bksge_type_traits_test
 namespace has_unique_object_representations_test
 {
 
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+#define BKSGE_HAS_UNIQUE_OBJECT_REPRESENTATIONS_TEST_IMPL(b, T)	\
+	static_assert(bksge::has_unique_object_representations_v<T>      == b, #T);	\
+	static_assert(bksge::has_unique_object_representations<T>::value == b, #T);	\
+	static_assert(bksge::has_unique_object_representations<T>()      == b, #T)
+
+#else
+
 #define BKSGE_HAS_UNIQUE_OBJECT_REPRESENTATIONS_TEST_IMPL(b, T)	\
 	static_assert(bksge::has_unique_object_representations<T>::value == b, #T);	\
 	static_assert(bksge::has_unique_object_representations<T>()      == b, #T)
+
+#endif
 
 #define BKSGE_HAS_UNIQUE_OBJECT_REPRESENTATIONS_TEST(b, T)	\
 	BKSGE_HAS_UNIQUE_OBJECT_REPRESENTATIONS_TEST_IMPL(b,                T);	\

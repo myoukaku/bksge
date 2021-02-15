@@ -9,6 +9,7 @@
 #ifndef BKSGE_FND_TYPE_TRAITS_IS_UNBOUNDED_ARRAY_HPP
 #define BKSGE_FND_TYPE_TRAITS_IS_UNBOUNDED_ARRAY_HPP
 
+#include <bksge/fnd/config.hpp>
 #include <type_traits>
 
 #if defined(__cpp_lib_bounded_array_traits) && (__cpp_lib_bounded_array_traits >= 201902)
@@ -30,7 +31,6 @@ struct is_unbounded_array
 #else
 
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <bksge/fnd/config.hpp>
 
 namespace bksge
 {
@@ -51,6 +51,13 @@ struct is_unbounded_array : public bksge::false_type {};
 template <typename T>
 struct is_unbounded_array<T[]> : public bksge::true_type {};
 
+}	// namespace bksge
+
+#endif
+
+namespace bksge
+{
+
 #if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
 
 template <typename T>
@@ -60,7 +67,5 @@ bool is_unbounded_array_v  = is_unbounded_array<T>::value;
 #endif
 
 }	// namespace bksge
-
-#endif
 
 #endif // BKSGE_FND_TYPE_TRAITS_IS_UNBOUNDED_ARRAY_HPP

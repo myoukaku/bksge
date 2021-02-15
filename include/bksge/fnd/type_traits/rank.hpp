@@ -10,6 +10,8 @@
 #define BKSGE_FND_TYPE_TRAITS_RANK_HPP
 
 #include <bksge/fnd/type_traits/detail/constant_wrapper.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/config.hpp>
 #include <type_traits>
 
 namespace bksge
@@ -29,6 +31,14 @@ struct rank
 		std::rank<T>
 	>
 {};
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+template <typename T>
+BKSGE_INLINE_VAR BKSGE_CONSTEXPR
+bksge::size_t rank_v = rank<T>::value;
+
+#endif
 
 }	// namespace bksge
 

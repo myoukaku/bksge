@@ -10,6 +10,8 @@
 #define BKSGE_FND_TYPE_TRAITS_EXTENT_HPP
 
 #include <bksge/fnd/type_traits/detail/constant_wrapper.hpp>
+#include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/config.hpp>
 #include <type_traits>
 
 namespace bksge
@@ -32,6 +34,14 @@ struct extent
 		std::extent<T, I>
 	>
 {};
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+template <typename T, unsigned int I = 0>
+BKSGE_INLINE_VAR BKSGE_CONSTEXPR
+bksge::size_t extent_v = extent<T, I>::value;
+
+#endif
 
 }	// namespace bksge
 

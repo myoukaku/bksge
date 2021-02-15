@@ -10,6 +10,7 @@
 #define BKSGE_FND_TYPE_TRAITS_IS_NOTHROW_COPY_ASSIGNABLE_HPP
 
 #include <bksge/fnd/type_traits/detail/constant_wrapper.hpp>
+#include <bksge/fnd/config.hpp>
 #include <type_traits>
 
 namespace bksge
@@ -38,6 +39,14 @@ struct is_nothrow_copy_assignable
 		std::is_nothrow_copy_assignable<T>
 	>
 {};
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+template <typename T>
+BKSGE_INLINE_VAR BKSGE_CONSTEXPR
+bool is_nothrow_copy_assignable_v = is_nothrow_copy_assignable<T>::value;
+
+#endif
 
 }	// namespace bksge
 

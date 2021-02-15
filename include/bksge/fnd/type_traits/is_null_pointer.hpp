@@ -9,6 +9,7 @@
 #ifndef BKSGE_FND_TYPE_TRAITS_IS_NULL_POINTER_HPP
 #define BKSGE_FND_TYPE_TRAITS_IS_NULL_POINTER_HPP
 
+#include <bksge/fnd/config.hpp>
 #include <type_traits>
 
 #if defined(__cpp_lib_is_null_pointer) && (__cpp_lib_is_null_pointer >= 201309)
@@ -54,5 +55,18 @@ struct is_null_pointer
 }	// namespace bksge
 
 #endif
+
+namespace bksge
+{
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+template <typename T>
+BKSGE_INLINE_VAR BKSGE_CONSTEXPR
+bool is_null_pointer_v = is_null_pointer<T>::value;
+
+#endif
+
+}	// namespace bksge
 
 #endif // BKSGE_FND_TYPE_TRAITS_IS_NULL_POINTER_HPP

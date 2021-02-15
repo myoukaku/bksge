@@ -9,6 +9,8 @@
 #ifndef BKSGE_FND_TYPE_TRAITS_IS_IMPLICITLY_CONSTRUCTIBLE_HPP
 #define BKSGE_FND_TYPE_TRAITS_IS_IMPLICITLY_CONSTRUCTIBLE_HPP
 
+#include <bksge/fnd/config.hpp>
+
 namespace bksge
 {
 
@@ -27,6 +29,15 @@ namespace bksge
  */
 template <typename T, typename... Args>
 struct is_implicitly_constructible;
+
+
+#if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
+
+template <typename T, typename... Args>
+BKSGE_INLINE_VAR BKSGE_CONSTEXPR
+bool is_implicitly_constructible_v = is_implicitly_constructible<T, Args...>::value;
+
+#endif
 
 }	// namespace bksge
 
