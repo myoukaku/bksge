@@ -33,22 +33,18 @@ using std::nullopt;
 namespace bksge
 {
 
-/// Tag type to disengage optional objects.
 struct nullopt_t
 {
-	// Do not user-declare default constructor at all for
-	// optional_value = {} syntax to work.
-	// nullopt_t() = delete;
-
-	// Used for constructing nullopt.
 	enum class Construct { Token };
-
-	// Must be constexpr for nullopt_t to be literal.
 	explicit BKSGE_CONSTEXPR nullopt_t(Construct) {}
 };
 
-/// Tag to disengage optional objects.
+#if defined(BKSGE_MSVC_FULL_VER) && (BKSGE_MSVC_FULL_VER == 192829910)
+// Visual Studio 2019 version 16.9.0 だと constexpr にできない(バグ?)
+static const
+#else
 BKSGE_INLINE_VAR BKSGE_CONSTEXPR
+#endif
 nullopt_t nullopt{nullopt_t::Construct::Token};
 
 #if defined(BKSGE_MSVC) && (BKSGE_MSVC <= 1900)

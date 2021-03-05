@@ -12,7 +12,10 @@
 #include <bksge/fnd/config.hpp>
 
 #if (BKSGE_CXX_STANDARD >= 17) && BKSGE_HAS_INCLUDE(<optional>)
+#if !(defined(BKSGE_MSVC_FULL_VER) && (BKSGE_MSVC_FULL_VER == 192829910))
+// Visual Studio 2019 version 16.9.0 で <optional> をインクルードするとコンパイルエラーになる
 #  include <optional>
+#endif
 #endif
 
 #if (BKSGE_CXX_STANDARD >= 17) && \

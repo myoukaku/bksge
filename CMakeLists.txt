@@ -86,11 +86,19 @@ foreach(compiler_flag ${compiler_flags})
       set(${compiler_flag} "${${compiler_flag}} /W4")
     endif()
 
-	# /guard:cf (Enable Control Flow Guard)
-    set(${compiler_flag} "${${compiler_flag}} /guard:cf")
-
 	# /WX (Treat all warnings as errors)
     set(${compiler_flag} "${${compiler_flag}} /WX")
+
+	# Suppress compiler warnings
+
+	# C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+    set(${compiler_flag} "${${compiler_flag}} /wd4103")
+
+	# C4384: #pragma '...' should only be used at global scope
+    set(${compiler_flag} "${${compiler_flag}} /wd4384")
+
+	# /guard:cf (Enable Control Flow Guard)
+    set(${compiler_flag} "${${compiler_flag}} /guard:cf")
 
 	# /MP (Build with Multiple Processes)
 	if (NOT CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
