@@ -39,8 +39,8 @@ struct nullopt_t
 	explicit BKSGE_CONSTEXPR nullopt_t(Construct) {}
 };
 
-#if defined(BKSGE_MSVC_FULL_VER) && (BKSGE_MSVC_FULL_VER == 192829910)
-// Visual Studio 2019 version 16.9.0 だと constexpr にできない(バグ?)
+#if defined(BKSGE_MSVC_FULL_VER) && (192829910 <= BKSGE_MSVC_FULL_VER && BKSGE_MSVC_FULL_VER <= 192829912)
+// Visual Studio 2019 version 16.9.(0-1) だと constexpr にできない(バグ?)
 static const
 #else
 BKSGE_INLINE_VAR BKSGE_CONSTEXPR
