@@ -18,6 +18,9 @@
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/string/to_string.hpp>
 #include <bksge/fnd/string/to_wstring.hpp>
+#include <bksge/fnd/string/u16string.hpp>
+#include <bksge/fnd/string/u32string.hpp>
+#include <bksge/fnd/string/u8string.hpp>
 #include <bksge/fnd/string/wstring.hpp>
 
 #endif // BKSGE_FND_STRING_HPP
