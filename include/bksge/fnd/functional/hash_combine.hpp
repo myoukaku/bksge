@@ -21,7 +21,7 @@ namespace bksge
  *	複数の値からハッシュ値を計算する
  */
 template <typename RT = bksge::size_t, typename... T>
-RT hash_combine(T const&... args) BKSGE_NOEXCEPT;
+BKSGE_CONSTEXPR RT hash_combine(T const&... args) BKSGE_NOEXCEPT;
 
 }	// namespace bksge
 

@@ -21,20 +21,20 @@ namespace detail
 {
 
 template <typename T>
-inline bksge::size_t
+inline BKSGE_CONSTEXPR bksge::size_t
 do_hash_combine(bksge::size_t seed, T const& v) BKSGE_NOEXCEPT
 {
 	return seed ^ (bksge::hash<T>()(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2));
 }
 
-inline bksge::size_t
+inline BKSGE_CONSTEXPR bksge::size_t
 hash_combine_impl(bksge::size_t seed) BKSGE_NOEXCEPT
 {
 	return seed;
 }
 
 template <typename T, typename... Rest>
-inline bksge::size_t
+inline BKSGE_CONSTEXPR bksge::size_t
 hash_combine_impl(bksge::size_t seed, T const& v, Rest const&... rest) BKSGE_NOEXCEPT
 {
 	return hash_combine_impl(do_hash_combine(seed, v), rest...);
@@ -43,7 +43,7 @@ hash_combine_impl(bksge::size_t seed, T const& v, Rest const&... rest) BKSGE_NOE
 }	// namespace detail
 
 template <typename RT, typename... T>
-inline RT hash_combine(T const&... args) BKSGE_NOEXCEPT
+inline BKSGE_CONSTEXPR RT hash_combine(T const&... args) BKSGE_NOEXCEPT
 {
 	return detail::hash_combine_impl(0, args...);
 }
