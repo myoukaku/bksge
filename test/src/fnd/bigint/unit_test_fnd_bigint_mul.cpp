@@ -10,6 +10,9 @@
 #include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
+#include <bksge/fnd/sstream.hpp>
+#include <bksge/fnd/random.hpp>
+#include <chrono>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -21,6 +24,65 @@ BKSGE_WARNING_DISABLE_MSVC(4308);	// negative integral constant converted to uns
 
 namespace bksge_bigint_test
 {
+
+#if 0
+inline bksge::bigint MakeRandomNumber(int digits)
+{
+	static bksge::mt19937 s_random_engine;
+
+	bksge::stringstream ss;
+	for (int i = 0; i < digits; ++i)
+	{
+		if (i == 0)
+		{
+			bksge::uniform_int_distribution<> dist(1, 9);
+			ss << dist(s_random_engine);
+		}
+		else
+		{
+			bksge::uniform_int_distribution<> dist(0, 9);
+			ss << dist(s_random_engine);
+		}
+	}
+	return bksge::bigint(ss.str().c_str());
+}
+
+inline void MulPerfTest(int digits)
+{
+	bksge::bigint x(MakeRandomNumber(digits));
+	bksge::bigint y(MakeRandomNumber(digits));
+
+	auto start = std::chrono::system_clock::now();
+	auto z = x*y;
+	auto elapsed = std::chrono::system_clock::now() - start;
+	auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(elapsed);
+	std::cout << digits << "digits:\t" << elapsed_ms.count() << std::endl;
+}
+
+GTEST_TEST(BigIntTest, MulPerfTest)
+{
+	MulPerfTest(1000);
+	MulPerfTest(2000);
+	MulPerfTest(3000);
+	MulPerfTest(4000);
+	MulPerfTest(5000);
+	MulPerfTest(6000);
+	MulPerfTest(7000);
+	MulPerfTest(8000);
+	MulPerfTest(9000);
+	MulPerfTest(10000);
+	MulPerfTest(11000);
+	MulPerfTest(12000);
+	MulPerfTest(13000);
+	MulPerfTest(14000);
+	MulPerfTest(15000);
+	MulPerfTest(16000);
+	MulPerfTest(17000);
+	MulPerfTest(18000);
+	MulPerfTest(19000);
+	MulPerfTest(20000);
+}
+#endif
 
 #define VERIFY(...)	if (!(__VA_ARGS__)) { return false; }
 
