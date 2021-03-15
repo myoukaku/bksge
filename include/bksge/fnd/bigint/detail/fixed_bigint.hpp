@@ -45,18 +45,10 @@ private:
 
 private:
 	template <bksge::size_t M>
-	static constexpr int
-	get_sign(bksge::array<element_type, M> const& value) noexcept
-	{
-		element_type sign_bit = (1 << (bksge::bitsof<element_type>() - 1));
-		return ((value[M - 1] & sign_bit) == 0) ? 1 : -1;
-	}
-
-	template <bksge::size_t M>
 	static constexpr bksge::array<element_type, M>
 	abs(bksge::array<element_type, M> const& data) noexcept
 	{
-		if (get_sign(data) < 0)
+		if (bigint_algo::get_sign(data) < 0)
 		{
 			return bigint_algo::negate(data);
 		}
@@ -79,7 +71,7 @@ public:
 	constexpr fixed_bigint(Arithmetic x) noexcept
 		: m_data{}
 	{
-		auto sign = bigint_algo::init_from_value(m_data, x);
+		auto sign = bigint_algo::init_from_arithmetic(m_data, x);
 		if (sign < 0)
 		{
 			m_data = bigint_algo::negate(m_data);
@@ -90,7 +82,7 @@ public:
 	constexpr fixed_bigint(fixed_bigint<B2, S2> const& other) noexcept
 		: m_data{}
 	{
-		auto sign = get_sign(other.m_data);
+		auto sign = bigint_algo::get_sign(other.m_data);
 		if (sign < 0)
 		{
 			m_data = bigint_algo::construct_from_vector<vector_type>(bigint_algo::negate(other.m_data));
@@ -137,11 +129,11 @@ public:
 		m_data = bigint_algo::multiply(m_data, rhs.m_data);
 	}
 
-	template <BKSGE_REQUIRES_PARAM(bksge::arithmetic, Arithmetic)>
+	template <BKSGE_REQUIRES_PARAM(bksge::floating_point, Float)>
 	constexpr void
-	operator*=(Arithmetic const& rhs) noexcept
+	operator*=(Float const& rhs) noexcept
 	{
-		m_data = bigint_algo::multiply(m_data, bksge::abs(rhs));
+		m_data = bigint_algo::multiply_float(m_data, bksge::abs(rhs));
 		if (rhs < 0)
 		{
 			m_data = bigint_algo::negate(m_data);
@@ -153,8 +145,8 @@ public:
 	{
 		if (Signed)
 		{
-			auto lsign = get_sign(m_data);
-			auto rsign = get_sign(rhs.m_data);
+			auto lsign = bigint_algo::get_sign(m_data);
+			auto rsign = bigint_algo::get_sign(rhs.m_data);
 
 			m_data = bigint_algo::divide(abs(m_data), abs(rhs.m_data));
 
@@ -181,7 +173,7 @@ public:
 	{
 		if (Signed)
 		{
-			auto lsign = get_sign(m_data);
+			auto lsign = bigint_algo::get_sign(m_data);
 
 			m_data = bigint_algo::modulus(abs(m_data), abs(rhs.m_data));
 
@@ -244,7 +236,7 @@ private:
 	{
 		if (Signed)
 		{
-			return bigint_algo::to_arithmetic<Float>(abs(m_data)) * get_sign(m_data);
+			return bigint_algo::to_arithmetic<Float>(abs(m_data)) * bigint_algo::get_sign(m_data);
 		}
 		else
 		{
@@ -264,8 +256,8 @@ public:
 	{
 		if (Signed)
 		{
-			auto lsign = get_sign(m_data);
-			auto rsign = get_sign(rhs.m_data);
+			auto lsign = bigint_algo::get_sign(m_data);
+			auto rsign = bigint_algo::get_sign(rhs.m_data);
 			if (lsign != rsign)
 			{
 				return lsign;
@@ -282,7 +274,7 @@ public:
 		if (Signed)
 		{
 			bksge::basic_string<CharT> r;
-			if (get_sign(m_data) < 0)
+			if (bigint_algo::get_sign(m_data) < 0)
 			{
 				r += '-';
 			}

@@ -22,6 +22,7 @@
 #include <bksge/fnd/concepts/integral.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/stdexcept/overflow_error.hpp>
 #include <bksge/fnd/type_traits/conditional.hpp>
 #include <bksge/fnd/string_view.hpp>
 #include <bksge/fnd/string.hpp>

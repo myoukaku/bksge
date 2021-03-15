@@ -51,16 +51,23 @@ public:
 	template <BKSGE_REQUIRES_PARAM(bksge::arithmetic, Arithmetic)>
 	/*constexpr*/ arbitrary_bigint(Arithmetic x)
 	{
-		m_sign = bigint_algo::init_from_value(m_magnitude, x);
+		m_sign = bigint_algo::init_from_arithmetic(m_magnitude, x);
 	}
 
 	template <bksge::size_t B2, bool S2>
-	/*constexpr*/ arbitrary_bigint(fixed_bigint<B2, S2> const& other) noexcept
+	/*constexpr*/ arbitrary_bigint(fixed_bigint<B2, S2> const& other)
 	{
 		if (S2)
 		{
 			m_sign = bigint_algo::get_sign(other.m_data);
-			m_magnitude = bigint_algo::construct_from_vector<vector_type>(bigint_algo::abs(other.m_data));
+			if (m_sign < 0)
+			{
+				m_magnitude = bigint_algo::construct_from_vector<vector_type>(bigint_algo::negate(other.m_data));
+			}
+			else
+			{
+				m_magnitude = bigint_algo::construct_from_vector<vector_type>(other.m_data);
+			}
 		}
 		else
 		{
@@ -83,8 +90,6 @@ public:
 
 	template <typename CharT>
 	/*constexpr*/ arbitrary_bigint(bksge::basic_string_view<CharT> str)
-		: m_sign(1)
-		, m_magnitude{0}
 	{
 		m_sign = bigint_algo::init_from_string(m_magnitude, str);
 	}
@@ -176,11 +181,11 @@ public:
 		}
 	}
 
-	template <BKSGE_REQUIRES_PARAM(bksge::arithmetic, Arithmetic)>
+	template <BKSGE_REQUIRES_PARAM(bksge::floating_point, Float)>
 	/*constexpr*/ void
-	operator*=(Arithmetic rhs) noexcept
+	operator*=(Float rhs) noexcept
 	{
-		m_magnitude = bigint_algo::multiply(m_magnitude, bksge::abs(rhs));
+		m_magnitude = bigint_algo::multiply_float(m_magnitude, bksge::abs(rhs));
 		if (bigint_algo::is_zero(m_magnitude))
 		{
 			m_sign = 1;
