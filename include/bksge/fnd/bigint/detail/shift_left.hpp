@@ -9,7 +9,12 @@
 #ifndef BKSGE_FND_BIGINT_DETAIL_SHIFT_LEFT_HPP
 #define BKSGE_FND_BIGINT_DETAIL_SHIFT_LEFT_HPP
 
+#include <bksge/fnd/algorithm/shift_right.hpp>
+#include <bksge/fnd/algorithm/fill_n.hpp>
+#include <bksge/fnd/algorithm/min.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/ranges/begin.hpp>
+#include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/array.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
@@ -23,29 +28,26 @@ namespace detail
 namespace bigint_algo
 {
 
+// bigint の文脈での左シフトは vector/array の文脈では右シフト
+
 template <typename T>
-inline BKSGE_CXX14_CONSTEXPR bksge::vector<T>
-shift_left(bksge::vector<T> const& vec, bksge::size_t offset)
+inline BKSGE_CXX14_CONSTEXPR bksge::vector<T>&
+shift_left(bksge::vector<T>& vec, bksge::size_t offset)
 {
-	auto const N = vec.size() + offset;
-	bksge::vector<T> result(N);
-	for (bksge::size_t i = offset; i < N; ++i)
-	{
-		result[i] = vec[i - offset];
-	}
-	return result;
+	vec.resize(vec.size() + offset);
+	bksge::shift_right(ranges::begin(vec), ranges::end(vec), offset);
+	bksge::fill_n(ranges::begin(vec), offset, 0);
+	return vec;
 }
 
 template <typename T, bksge::size_t N>
-inline BKSGE_CXX14_CONSTEXPR bksge::array<T, N>
-shift_left(bksge::array<T, N> const& vec, bksge::size_t offset) noexcept
+inline BKSGE_CXX14_CONSTEXPR bksge::array<T, N>&
+shift_left(bksge::array<T, N>& vec, bksge::size_t offset)
 {
-	bksge::array<T, N> result{};
-	for (bksge::size_t i = offset; i < N; ++i)
-	{
-		result[i] = vec[i - offset];
-	}
-	return result;
+	auto const n = bksge::min(N, offset);
+	bksge::shift_right(ranges::begin(vec), ranges::end(vec), n);
+	bksge::fill_n(ranges::begin(vec), n, 0);
+	return vec;
 }
 
 }	// namespace bigint_algo

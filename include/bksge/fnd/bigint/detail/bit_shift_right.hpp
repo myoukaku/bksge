@@ -70,7 +70,7 @@ bit_shift_right(VectorType& lhs, VectorType const& rhs)
 		}
 		auto offset = bigint_algo::to_arithmetic<bksge::size_t>(quo);
 		auto N = bksge::min(offset, ranges::size(lhs));
-		lhs = bigint_algo::shift_right(lhs, N);
+		bigint_algo::shift_right(lhs, N);
 	}
 
 	bigint_algo::remove_leading_zeros(lhs);

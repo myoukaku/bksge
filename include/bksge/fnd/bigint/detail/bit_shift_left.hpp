@@ -70,7 +70,7 @@ bit_shift_left(VectorType& lhs, VectorType const& rhs)
 	if (!bigint_algo::is_zero(quo))
 	{
 		auto offset = bigint_algo::to_arithmetic<bksge::size_t>(quo);
-		lhs = bigint_algo::shift_left(lhs, offset);
+		bigint_algo::shift_left(lhs, offset);
 	}
 }
 

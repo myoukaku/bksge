@@ -143,7 +143,7 @@ div_mod(VectorType const& lhs, VectorType const& rhs, VectorType* out_remainder)
 		if (index >= 1)
 		{
 			// 新しく (index-1) の位が降りてくる
-			remainder = bigint_algo::shift_left(remainder, 1);
+			bigint_algo::shift_left(remainder, 1);
 			bigint_algo::add(remainder, lhs[index - 1]);
 		}
 	}
