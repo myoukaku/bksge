@@ -140,7 +140,7 @@ init_from_string(VectorType& value, bksge::basic_string_view<CharT> str)
 	bksge::size_t const count =
 		base == 16 ?    bksge::numeric_limits<element_type>::digits / 4 - 1 :
 		base == 10 ?    bksge::numeric_limits<element_type>::digits10 :
-		base == 8 ?     bksge::numeric_limits<element_type>::digits / 2 - 1 :
+		base == 8 ?     bksge::numeric_limits<element_type>::digits / 3 - 1 :
 		/*base == 2 ?*/ bksge::numeric_limits<element_type>::digits;
 
 	value = {0};
