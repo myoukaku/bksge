@@ -31,7 +31,8 @@ template <typename VectorType>
 inline VectorType
 multiply_ntt(VectorType const& lhs, VectorType const& rhs)
 {
-	using ntt1 = polynomial_ntt<2013265921, 31>;
+//	using ntt2 = polynomial_ntt<2013265921, 31>;//285838663483393
+	using ntt1 = polynomial_ntt<2113929217, 5>;
 	using ntt2 = polynomial_ntt<1811939329, 13>;
 	const ntt2::modulo magic_mult = ntt2::modulo(ntt1::modulo::get_mod()).inv();
 

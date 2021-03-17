@@ -12,7 +12,7 @@
 #include <bksge/fnd/bigint/detail/bit_shift_right.hpp>
 #include <bksge/fnd/bigint/detail/bit_shift_left.hpp>
 #include <bksge/fnd/bigint/detail/construct_from_integral.hpp>
-#include <bksge/fnd/bigint/detail/decompose_floating_point.hpp>
+#include <bksge/fnd/cmath/decompose_float.hpp>
 #include <bksge/fnd/concepts/floating_point.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/cstdint.hpp>
@@ -40,9 +40,9 @@ template <typename VectorType, BKSGE_REQUIRES_PARAM(bksge::floating_point, Float
 inline BKSGE_CXX14_CONSTEXPR VectorType
 construct_from_float(Float value)
 {
-	bksge::uint64_t fraction {};
-	bksge::int64_t exponent {};
-	decompose_floating_point(value, &fraction, &exponent, nullptr);
+	auto const t = bksge::decompose_float(value);
+	auto const fraction = t.fraction;
+	auto const exponent = t.exponent;
 
 	auto vec = bigint_algo::construct_from_integral<VectorType>(fraction);
 	if (exponent < 0)

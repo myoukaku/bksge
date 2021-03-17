@@ -36,7 +36,7 @@ shift_left(bksge::vector<T>& vec, bksge::size_t offset)
 {
 	vec.resize(vec.size() + offset);
 	bksge::shift_right(ranges::begin(vec), ranges::end(vec), offset);
-	bksge::fill_n(ranges::begin(vec), offset, 0);
+	bksge::fill_n(ranges::begin(vec), offset, T{0});
 	return vec;
 }
 
@@ -46,7 +46,7 @@ shift_left(bksge::array<T, N>& vec, bksge::size_t offset)
 {
 	auto const n = bksge::min(N, offset);
 	bksge::shift_right(ranges::begin(vec), ranges::end(vec), n);
-	bksge::fill_n(ranges::begin(vec), n, 0);
+	bksge::fill_n(ranges::begin(vec), n, T{0});
 	return vec;
 }
 

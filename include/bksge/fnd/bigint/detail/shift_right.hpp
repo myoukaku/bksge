@@ -46,7 +46,7 @@ shift_right(bksge::array<T, N>& vec, bksge::size_t offset) noexcept
 {
 	auto const n = bksge::min(N, offset);
 	bksge::shift_left(ranges::begin(vec), ranges::end(vec), n);
-	bksge::fill(ranges::end(vec) - n, ranges::end(vec), 0);
+	bksge::fill(ranges::end(vec) - n, ranges::end(vec), T{0});
 	return vec;
 }
 
