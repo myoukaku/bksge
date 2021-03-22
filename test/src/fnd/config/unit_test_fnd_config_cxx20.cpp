@@ -27,9 +27,537 @@
 namespace bksge_config_cxx20_test
 {
 
+#if defined(BKSGE_HAS_CXX20_CONSTEXPR_UNION)
+namespace constexpr_union_test
+{
+
+union Value
+{
+	float f;
+	std::uint32_t i;
+};
+
+constexpr Value GetFloat(float x)
+{
+	return Value{x}; // value.f がアクティブメンバ
+}
+
+constexpr Value GetUint(std::uint32_t x)
+{
+	Value value = GetFloat(0.0f); // value.f がアクティブメンバ
+	value.i = x; // value.i がアクティブメンバに
+	return value;
+}
+
+GTEST_TEST(ConfigTest, Cxx20ConstexprUnionTest)
+{
+	static_assert(GetUint(123).i == 123, "");
+}
+
+}	// namespace constexpr_union_test
+#endif
+
+#if defined(BKSGE_HAS_CXX20_INITIALIZER_LIST_CTAD)
+GTEST_TEST(ConfigTest, Cxx20InitializerListCTADTest)
+{
+	std::vector v1{1, 2};
+	std::vector v2{v1};
+	static_assert(bksge::is_same<decltype(v2), std::vector<int>>::value, "");
+}
+#endif
+
+#if defined(BKSGE_HAS_CXX17_STRUCTURED_BINDINGS) &&	\
+	defined(BKSGE_HAS_CXX20_RELAXING_STRUCTURED_BINDINGS)
+
+namespace relaxing_structured_bindings_test
+{
+
+struct X : public std::shared_ptr<int>
+{
+	std::string fun_payload = "hoge";
+};
+
+template<int N>
+std::string& get(X& x)
+{
+	if constexpr (N == 0)
+	{
+		return x.fun_payload;
+	}
+}
+
+}	// namespace relaxing_structured_bindings_test
+}	// namespace bksge_config_cxx20_test
+
+namespace std
+{
+
+template<>
+struct tuple_size<bksge_config_cxx20_test::relaxing_structured_bindings_test::X>
+	: public std::integral_constant<int, 1> {};
+
+template<>
+struct tuple_element<0, bksge_config_cxx20_test::relaxing_structured_bindings_test::X>
+{
+	using type = std::string;
+};
+
+}	// namespace std
+
+namespace bksge_config_cxx20_test
+{
+
+namespace relaxing_structured_bindings_test
+{
+
+GTEST_TEST(ConfigTest, Cxx20RelaxingStructuredBindingsTest)
+{
+	X x;
+	auto& [y] = x;
+	EXPECT_TRUE(y == "hoge");
+}
+
+}	// namespace relaxing_structured_bindings_test
+#endif
+
+namespace structured_bindings_to_accessible_members_test
+{
+
+#if defined(BKSGE_HAS_CXX17_STRUCTURED_BINDINGS) &&	\
+	defined(BKSGE_HAS_CXX20_STRUCTURED_BINDINGS_TO_ACCESSIBLE_MEMBERS)
+
+struct A
+{
+	friend void foo();
+private:
+	int i;
+};
+
+void foo()
+{
+	A a{};
+	auto x = a.i; // OK
+	auto [y] = a; // Ill-formed
+	(void)x;
+	(void)y;
+}
+
+#endif
+
+}	// namespace structured_bindings_to_accessible_members_test
+
+namespace synthesizing_three_way_comparison_test
+{
+
+#if defined(BKSGE_HAS_CXX20_SYNTHESIZING_THREE_WAY_COMPARISON)
+
+struct Legacy
+{
+	bool operator==(Legacy const&) const;
+	bool operator<(Legacy const&) const;
+};
+
+struct Aggr
+{
+	int i;
+	char c;
+	Legacy q;
+
+	std::strong_ordering operator<=>(Aggr const&) const = default;
+};
+
+struct X
+{
+	std::weak_ordering operator<=>(X const&) const;
+};
+
+#if !defined(BKSGE_MSVC)	// TODO
+struct Y
+{
+	X x;
+	Legacy q;
+
+	std::strong_ordering operator<=>(Y const&) const = default;
+};
+#endif
+
+struct Q
+{
+	bool operator==(Q const&) const;
+	bool operator<(Q const&) const;
+};
+
+struct Z
+{
+	X x;
+	Q q;
+
+	std::weak_ordering operator<=>(Z const&) const = default;
+};
+
+#endif
+
+}	// namespace synthesizing_three_way_comparison_test
+
+namespace nodiscard_ctor_test
+{
+
+#if defined(BKSGE_HAS_CXX20_NODISCARD_CTOR)
+struct X
+{
+	[[nodiscard]] X() {}
+};
+#endif
+
+}	// namespace nodiscard_ctor_test
+
+namespace implicit_move_test
+{
+
+struct Widget
+{
+	Widget(Widget&&) {}
+};
+
+struct RRefTaker
+{
+	RRefTaker(Widget&&) {}
+};
+
+Widget one(Widget w)
+{
+	return w;  // OK、C++11以降
+}
+
+RRefTaker two(Widget w)
+{
+	return w;  // OK、C++11以降（CWG1579解決後）
+}
+
+#if defined(BKSGE_HAS_CXX20_IMPLICIT_MOVE)
+RRefTaker three(Widget&& w)
+{
+	return w;  // OK、C++20以降（P0527による）
+}
+#endif
+
+}	// namespace implicit_move_test
+
+namespace defaulting_comparison_by_value_test
+{
+
+#if defined(BKSGE_HAS_CXX20_DEFAULTING_COMPARISON_BY_VALUE)
+
+struct A
+{
+	friend bool operator==(A, A) = default;
+};
+
+#endif
+
+}	// namespace defaulting_comparison_by_value_test
+
+namespace relaxing_range_for_test
+{
+
+#if defined(BKSGE_HAS_CXX20_RELAXING_RANGE_FOR)
+
+struct X
+{
+	int a[10];
+
+	int* begin() { return a; }
+};
+
+inline int* begin(X& x) { return x.a; }
+inline int* end(X& x) { return &x.a[9];}
+
+GTEST_TEST(ConfigTest, Cxx20RelaxingRangeForTest)
+{
+	X x{};
+	for (int i : x)
+	{
+		EXPECT_EQ(i, 0);
+	}
+}
+
+#endif
+
+}	// namespace relaxing_range_for_test
+
+namespace constexpr_trivial_default_init_test
+{
+
+#if defined(BKSGE_HAS_CXX20_CONSTEXPR_TRIVIAL_DEFAULT_INIT)
+
+struct NontrivialType
+{
+	bool val = false;
+};
+
+struct TrivialType
+{
+	bool val;
+};
+
+template <typename T>
+constexpr T f(const T& other)
+{
+	T t; // default initialization
+	t = other;
+	return t;
+}
+
+GTEST_TEST(ConfigTest, Cxx20ConstexprTrivialDefaultInitTest)
+{
+	auto nontrivial_rt = f(NontrivialType{});
+	auto trivial_rt    = f(TrivialType{});
+	constexpr auto nontrivial_ct = f(NontrivialType{});
+	constexpr auto trivial_ct    = f(TrivialType{});
+	(void)nontrivial_rt;
+	(void)trivial_rt;
+	(void)nontrivial_ct;
+	(void)trivial_ct;
+}
+
+#endif
+
+}	// namespace constexpr_trivial_default_init_test
+
+namespace ctad_alias_template_test
+{
+
+#if defined(BKSGE_HAS_CXX20_CTAD_ALIAS_TEMPLATE)
+
+template <class T, class U>
+struct C {
+	C(T, U){}   // #1
+};
+template <class T, class U>
+C(T, U)->C<T, bksge::type_identity_t<U>>; // #2
+
+template <class V>
+using A = C<V*, V*>;
+template <bksge::integral W>
+using B = A<W>;
+
+GTEST_TEST(ConfigTest, Cxx20CTADAliasTemplateTest)
+{
+	int i{};
+//	double d{};
+	A a1(&i, &i); // Deduces A<int>
+//	A a2(i, i);   // Ill-formed: cannot deduce V * from i
+//	A a3(&i, &d); // Ill-formed: #1: Cannot deduce (V*, V*) from (int *, double *) 
+				  //             #2: Cannot deduce A<V> from C<int *, double *>
+	B b1(&i, &i); // Deduces B<int>
+//	B b2(&d, &d); // Ill-formed: cannot deduce B<W> from C<double *, double *>
+}
+
+#endif
+
+}	// namespace ctad_alias_template_test
+
+namespace ctad_aggregate_test
+{
+
+template <typename T>
+struct Point
+{
+	T x;
+	T y;
+};
+
+GTEST_TEST(ConfigTest, Cxx20CTADAggregateTest)
+{
+#if defined(BKSGE_HAS_CXX20_CTAD_AGGREGATE)	\
+	 && !defined(BKSGE_MSVC)	// TODO: MSVC で Internal compiler error になる
+	Point p1{3, 4};
+#else
+	Point<int> p1{3, 4};
+#endif
+	static_assert(bksge::is_same<decltype(p1), Point<int>>::value, "");
+	EXPECT_TRUE(p1.x == 3);
+	EXPECT_TRUE(p1.y == 4);
+}
+
+}	// namespace ctad_aggregate_test
+
+namespace deprecate_volatile_test
+{
+
+#if !defined(BKSGE_HAS_CXX20_DEPRECATE_VOLATILE)
+
+// volatile-qualified parameter type is deprecated
+void f(volatile int n);
+
+// volatile-qualified return type is deprecated
+//volatile int g(int n);
+
+GTEST_TEST(ConfigTest, Cxx20DeprecateVolatileTest)
+{
+	volatile int i = 0;
+
+	// increment of object of volatile-qualified type is deprecated
+	++i;
+	i++;
+
+	// decrement of object of volatile-qualified type is deprecated
+	--i;
+	i--;
+
+	// compound assignment to object of volatile-qualified type is deprecated
+	i+=2;
+	i-=2;
+	i*=3;
+	i/=3;
+
+	volatile int j;
+
+	// use of result of assignment to object of volatile-qualified type is deprecated
+	i = j = 1;
+}
+
+#endif
+
+}	// namespace deprecate_volatile_test
+
+namespace pointer_to_bool_converting_test
+{
+
+struct X { bool b; };
+void f(X) {}
+
+BKSGE_WARNING_PUSH();
+BKSGE_WARNING_DISABLE_MSVC(4130);	// '!=': logical operation on address of string constant
+
+GTEST_TEST(ConfigTest, Cxx20PointerToBoolConvertingTest)
+{
+	int X::* p = nullptr;
+#if defined(BKSGE_HAS_CXX20_POINTER_TO_BOOL_CONVERTING)
+	f(X { "whoops?" != nullptr });
+	f(X { p != nullptr });
+#else
+	f(X { "whoops?" });
+	f(X { p });
+#endif
+}
+
+BKSGE_WARNING_POP();
+
+}	// namespace pointer_to_bool_converting_test
+
+#if defined(BKSGE_HAS_CXX20_CONSTEXPR_VIRTUAL_FUNCTION)
+GTEST_TEST(ConfigTest, Cxx20ConstexprVirtualFunctionTest)
+{
+	struct X
+	{
+		virtual int f() const = 0;
+	};
+
+	struct Y : public X
+	{
+		constexpr int f() const override { return 1; }
+	};
+
+	static constexpr Y y{};
+	constexpr X const& x = y;
+	static_assert(x.f() == 1, "");
+}
+#endif
+
+namespace constexpr_asm_test
+{
+
+#if defined(BKSGE_HAS_CXX20_CONSTEXPR_ASM)
+
+constexpr void func()
+{
+	if (std::is_constant_evaluated())
+	{
+	}
+	else
+	{
+#if defined(BKSGE_MSVC)
+#  if defined(_M_IX86)
+		__asm {};
+#  endif
+#else
+		asm("");
+#endif
+	}
+}
+
+#endif
+
+}	// namespace constexpr_asm_test
+
+namespace abbreviated_function_template_test
+{
+#if defined(BKSGE_HAS_CXX20_ABBREVIATED_FUNCTION_TEMPLATE)
+
+// function template parameter, unconstrained
+void func1(auto x);
+
+// function template parameter, constrained
+void func2(bksge::arithmetic auto x);
+
+// function return type, unconstrained
+auto func3();
+
+// function return type, constrained
+bksge::arithmetic auto func4();
+
+// generic lambda, unconstrained
+auto f1 = [](auto x){return x;};
+
+// generic lambda, constrained
+auto f2 = [](bksge::arithmetic auto x){return x;};
+
+// variable, unconstrained
+auto x1 = f1(0);
+
+// variable, constrained
+bksge::arithmetic auto x2 = f2(0);
+
+#endif
+}	// namespace abbreviated_function_template_test
+
+#if defined(BKSGE_HAS_CXX20_EXCEPTION_SPEC_DEFAULTED_FUNCTION)
+GTEST_TEST(ConfigTest, Cxx20ExceptionSpecDefaultedFunctionTest)
+{
+	struct T
+	{
+		T() {}
+		T(T&&) noexcept(false) {}
+	};
+
+	struct U
+	{
+		T t;
+		U() {}
+		U(U&&) noexcept = default;
+	};
+
+	U u1;
+	U u2 = static_cast<U&&>(u1);
+	(void)u2;
+}
+#endif
+
+#if defined(BKSGE_HAS_CXX20_TWOS_COMPLEMENT_SIGNED_INTEGERS)
+GTEST_TEST(ConfigTest, Cxx20TwosComplementSignedIntegersTest)
+{
+	{
+		std::int8_t x = 11;
+		std::int8_t y = -x;
+		EXPECT_TRUE(y == (~x + 1)); // 負数は、ビット反転して+1した値
+	}
+}
+#endif
+
+#if defined(BKSGE_HAS_CXX20_BITFIELD_DEFAULT_MEMBER_INITIALIZER)
 GTEST_TEST(ConfigTest, Cxx20BitfieldDefaultMemberInitializerTest)
 {
-#if defined(BKSGE_HAS_CXX20_BITFIELD_DEFAULT_MEMBER_INITIALIZER)
 	struct X
 	{
 		int a : 6 = 8;
@@ -39,8 +567,8 @@ GTEST_TEST(ConfigTest, Cxx20BitfieldDefaultMemberInitializerTest)
 	X x;
 	EXPECT_EQ(8, x.a);
 	EXPECT_EQ(1, x.b);
-#endif
 }
+#endif
 
 GTEST_TEST(ConfigTest, Cxx20ConstQualifiedPointersToMembersTest)
 {
@@ -52,9 +580,9 @@ GTEST_TEST(ConfigTest, Cxx20ConstQualifiedPointersToMembersTest)
 #endif
 }
 
+#if defined(BKSGE_HAS_CXX20_CAPTURE_COPY_THIS)
 GTEST_TEST(ConfigTest, Cxx20CaptureCopyThisTest)
 {
-#if defined(BKSGE_HAS_CXX20_CAPTURE_COPY_THIS)
 	struct X
 	{
 		void f()
@@ -72,12 +600,12 @@ GTEST_TEST(ConfigTest, Cxx20CaptureCopyThisTest)
 		}
 	};
 	X().f();
-#endif
 }
+#endif
 
+#if defined(BKSGE_HAS_CXX20_DESIGNATED_INITIALIZERS)
 GTEST_TEST(ConfigTest, Cxx20DesignatedInitializersTest)
 {
-#if defined(BKSGE_HAS_CXX20_DESIGNATED_INITIALIZERS)
 	struct A { int x; int y; int z; };
 
 	A a{.x = 1, .y = 2, .z = 3};
@@ -102,12 +630,12 @@ GTEST_TEST(ConfigTest, Cxx20DesignatedInitializersTest)
 
 	U e ={.b = "asdf"};
 	EXPECT_STREQ("asdf", e.b);
-#endif
 }
+#endif
 
+#if defined(BKSGE_HAS_CXX20_GENERIC_LAMBDAS)
 GTEST_TEST(ConfigTest, Cxx20GenericLambdasTest)
 {
-#if defined(BKSGE_HAS_CXX20_GENERIC_LAMBDAS)
 	auto f =[]<class T>(const bksge::vector<T>& v)
 	{
 		if (v.empty())
@@ -125,12 +653,12 @@ GTEST_TEST(ConfigTest, Cxx20GenericLambdasTest)
 
 	EXPECT_EQ(1,  f(v)); // Tの型はint
 	EXPECT_EQ("", f(w)); // Tの型はbksge::string
-#endif
 }
+#endif
 
+#if defined(BKSGE_HAS_CXX20_RANGE_BASED_FOR_INITIALIZER)
 GTEST_TEST(ConfigTest, Cxx20RangeBasedForInitializerTest)
 {
-#if defined(BKSGE_HAS_CXX20_RANGE_BASED_FOR_INITIALIZER)
 	bksge::vector<int> v {10, 20, 30};
 	for (int i = 0; auto& x : v)
 	{
@@ -141,12 +669,12 @@ GTEST_TEST(ConfigTest, Cxx20RangeBasedForInitializerTest)
 	EXPECT_EQ(10, v[0]);
 	EXPECT_EQ(21, v[1]);
 	EXPECT_EQ(32, v[2]);
-#endif
 }
+#endif
 
+#if defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON) && BKSGE_HAS_INCLUDE(<compare>)
 GTEST_TEST(ConfigTest, Cxx20ThreeWayComparisonTest)
 {
-#if defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON) && BKSGE_HAS_INCLUDE(<compare>)
 	struct X
 	{
 		int x;
@@ -189,17 +717,17 @@ GTEST_TEST(ConfigTest, Cxx20ThreeWayComparisonTest)
 	EXPECT_TRUE (x1 >  x4);
 	EXPECT_FALSE(x1 <= x4);
 	EXPECT_TRUE (x1 >= x4);
-#endif
 }
+#endif
 
+#if defined(BKSGE_HAS_CXX20_DEFAULT_CONSTRUCTIBLE_AND_ASSIGNABLE_STATELESS_LAMBDAS)
 GTEST_TEST(ConfigTest, Cxx20DefaultConstructibleAndAssignableStatelessLambdasTest)
 {
-#if defined(BKSGE_HAS_CXX20_DEFAULT_CONSTRUCTIBLE_AND_ASSIGNABLE_STATELESS_LAMBDAS)
 	auto greater = [](auto x, auto y) { return x > y; };
 	decltype(greater) f;
 	f = greater;
-#endif
 }
+#endif
 
 namespace conditional_explicit_test
 {
@@ -211,11 +739,9 @@ struct S
 	explicit(B) S() {}
 	explicit(B) operator bool() const { return true; }
 };
-#endif
 
 GTEST_TEST(ConfigTest, Cxx20ConditionalExplicitTest)
 {
-#if defined(BKSGE_HAS_CXX20_CONDITIONAL_EXPLICIT)
 	static_assert( bksge::is_default_constructible<S<true>>::value, "");
 	static_assert( bksge::is_default_constructible<S<false>>::value, "");
 
@@ -232,8 +758,8 @@ GTEST_TEST(ConfigTest, Cxx20ConditionalExplicitTest)
 	(void)b2;
 	(void)b3;
 	(void)b4;
-#endif
 }
+#endif
 
 }	// namespace conditional_explicit_test
 
@@ -243,11 +769,9 @@ namespace char8_t_test
 #if defined(BKSGE_HAS_CXX20_CHAR8_T)
 template <typename> struct S { static const bool value = false; };
 template <> struct S<char8_t> { static const bool value = true; };
-#endif
 
 GTEST_TEST(ConfigTest, Cxx20Char8TTest)
 {
-#if defined(BKSGE_HAS_CXX20_CHAR8_T)
 	{
 		const char8_t* s = u8"hoge";
 		const char8_t c = u8'c';
@@ -268,8 +792,8 @@ GTEST_TEST(ConfigTest, Cxx20Char8TTest)
 	static_assert(S<char8_t>::value, "");
 	static_assert(!S<char>::value, "");
 	static_assert(!S<unsigned char>::value, "");
-#endif
 }
+#endif
 
 }	// namespace char8_t_test
 
@@ -288,15 +812,13 @@ constexpr int f(int x)
 		return 0;
 	}
 }
-#endif
 
 GTEST_TEST(ConfigTest, Cxx20ConstexprTryCatchTest)
 {
-#if defined(BKSGE_HAS_CXX20_CONSTEXPR_TRY_CATCH)
 	static_assert(f(1) == 2, "");
 	static_assert(f(2) == 3, "");
-#endif
 }
+#endif
 
 }	// namespace constexpr_try_catch_test
 
@@ -391,6 +913,7 @@ static_assert(!func2("0"), "");
 namespace va_opt_test
 {
 
+#if defined(BKSGE_HAS_CXX20_VA_OPT)
 template <typename... Args>
 constexpr int func(Args... args)
 {
@@ -399,8 +922,6 @@ constexpr int func(Args... args)
 
 GTEST_TEST(ConfigTest, Cxx20VaOptTest)
 {
-#if defined(BKSGE_HAS_CXX20_VA_OPT)
-
 #define F(X, ...) func(X __VA_OPT__(,) __VA_ARGS__)
 	static_assert(F(3) == 1, "");
 	static_assert(F(3, "Hello") == 2, "");
@@ -414,9 +935,8 @@ GTEST_TEST(ConfigTest, Cxx20VaOptTest)
 	EXPECT_TRUE(v1.size() == 0);
 	EXPECT_TRUE(v2.size() == 3);
 #undef F
-
-#endif
 }
+#endif
 
 }	// namespace va_opt_test
 
@@ -431,12 +951,8 @@ error_info f() { return error_info{}; }
 
 [[nodiscard("with reason 2")]]  int g() { return 0; }
 
-#endif
-
 GTEST_TEST(ConfigTest, Cxx20NodiscardWithMessageTest)
 {
-#if defined(BKSGE_HAS_CXX20_NODISCARD_WITH_MESSAGE)
-
 BKSGE_WARNING_PUSH()
 BKSGE_WARNING_DISABLE_MSVC(4858)	// 戻り値 "..." を破棄しています 
 BKSGE_WARNING_DISABLE_CLANG("-Wunused-result")
@@ -446,19 +962,17 @@ BKSGE_WARNING_DISABLE_GCC("-Wunused-result")
 	g();
 
 BKSGE_WARNING_POP()
-
-#endif
 }
+#endif
 
 }	// namespace nodiscard_with_message_test
 
 namespace likely_unlikely_test
 {
 
+#if defined(BKSGE_HAS_CXX20_LIKELY) && defined(BKSGE_HAS_CXX20_UNLIKELY)
 GTEST_TEST(ConfigTest, Cxx20LikelyUnlikelyTest)
 {
-#if defined(BKSGE_HAS_CXX20_LIKELY) && defined(BKSGE_HAS_CXX20_UNLIKELY)
-
 #if !(defined(BKSGE_GCC_VERSION) && (BKSGE_GCC_VERSION < 100000))
 	bool f1 = true;
 	bool f2 = false;
@@ -483,9 +997,8 @@ GTEST_TEST(ConfigTest, Cxx20LikelyUnlikelyTest)
 	[[likely]] default:
 		break;
 	}
-
-#endif
 }
+#endif
 
 }	// namespace likely_unlikely_test
 
@@ -502,7 +1015,7 @@ struct A
 	}
 };
 
-template<A a> bool f()
+template <A a> bool f()
 {
 	const A& ra = a, & rb = a;
 	return &ra == &rb;
@@ -575,9 +1088,9 @@ auto f(Args... args)
 }	// namespace init_captures_test
 #endif
 
+#if defined(BKSGE_HAS_CXX20_CAPTURE_COPY_THIS)
 GTEST_TEST(ConfigTest, Cxx20DeprecateImplicitCaptureCopyThisTest)
 {
-#if defined(BKSGE_HAS_CXX20_CAPTURE_COPY_THIS)
 	struct X
 	{
 		void f()
@@ -601,8 +1114,8 @@ GTEST_TEST(ConfigTest, Cxx20DeprecateImplicitCaptureCopyThisTest)
 		}
 	};
 	X().f();
-#endif
 }
+#endif
 
 #if defined(BKSGE_HAS_CXX20_STRUCTURED_BINDING_EXTENSIONS)
 namespace structured_binding_extensions_test
@@ -712,7 +1225,7 @@ GTEST_TEST(ConfigTest, Cxx20IsConstantEvaluatedTest)
 #endif
 
 
-GTEST_TEST(ConfigTest, Cxx20IsConstantEvaluatedTest)
+GTEST_TEST(ConfigTest, Cxx20DeprecateCommaInSubscriptingExpressionsTest)
 {
 	int a[] = {1,2,3,4,5};
 	int index = 0;
@@ -822,80 +1335,14 @@ namespace ns1::inline ns2::ns3 {
 }	// namespace nested_inline_namespaces_test
 #endif
 
-// TODO
-#if 0//defined(BKSGE_HAS_CXX20_DEDUCTION_GUIDES)
-namespace ctad_for_aggregates_test
-{
-
-template <typename T>
-struct Point {
-	T x;
-	T y;
-};
-
-GTEST_TEST(ConfigTest, Cxx20CTADForAggregatesTest)
-{
-	Point p{3.0, 4.0};
-	static_assert(bksge::is_same<decltype(p), Point<double>>::value, "");
-	EXPECT_TRUE(p.x == 3.0);
-	EXPECT_TRUE(p.y == 4.0);
-}
-
-}	// namespace ctad_for_aggregates_test
-#endif
-
-#if defined(BKSGE_HAS_CXX20_DEDUCTION_GUIDES)
-namespace ctad_for_alias_templates_test
-{
-
-template <typename T, typename U>
-struct C
-{
-	C(T, U){}   // #1
-};
-
-template <typename T, typename U>
-C(T, U)->C<T, bksge::type_identity_t<U>>; // #2
-
-template <typename V>
-using A = C<V*, V*>;
-
-#if defined(BKSGE_HAS_CXX20_CONCEPTS)
-template <bksge::integral W>
-using B = A<W>;
-#endif
-
-GTEST_TEST(ConfigTest, Cxx20CTADForAliasTemplatesTest)
-{
-	int i{};
-	double d{};
-	A a1(&i, &i); // Deduces A<int>
-	static_assert(bksge::is_same<decltype(a1), C<int*, int*>>::value, "");
-	A a2(&d, &d); // Deduces A<double>
-	static_assert(bksge::is_same<decltype(a2), C<double*, double*>>::value, "");
-
-//	A a3(i, i);   // Ill-formed: cannot deduce V* from i
-//	A a4(&i, &d); // Ill-formed: #1: Cannot deduce (V*, V*) from (int*, double*) 
-                  //             #2: Cannot deduce A<V> from C<int*, double*>
-
-#if defined(BKSGE_HAS_CXX20_CONCEPTS)
-	B b1(&i, &i); // Deduces B<int>
-	static_assert(bksge::is_same<decltype(b1), C<int*, int*>>::value, "");
-//	B b2(&d, &d); // Ill-formed: cannot deduce B<W> from C<double *, double *>
-#endif
-}
-
-}	// namespace ctad_for_alias_templates_test
-#endif
-
+#if defined(BKSGE_HAS_CXX20_CONVERSIONS_TO_UNBOUNDED_ARRAY)
 GTEST_TEST(ConfigTest, Cxx20ConversionsToUnboundedArrayTest)
 {
-#if defined(BKSGE_HAS_CXX20_CONVERSIONS_TO_UNBOUNDED_ARRAY)
 	int a[2] {1,2};
 	int (&r)[] = a;
 	(void)r;
-#endif
 }
+#endif
 
 #if defined(BKSGE_HAS_CXX20_MODULES)
 // TODO
@@ -958,11 +1405,11 @@ namespace lambdas_in_unevaluated_contexts_test
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 // conceptの定義内
-template<typename T>
+template <typename T>
 concept C = requires { []{}; };
 
 // requires節の中
-template<typename T>
+template <typename T>
 void f() requires(requires{ []{}; });
 #endif
 
@@ -1113,9 +1560,9 @@ static_assert( bksge::is_aggregate<C>::value, "");
 #endif
 }	// namespace prohibit_aggregates_with_user_declared_constructors_test
 
+#if defined(BKSGE_HAS_CXX20_STRONGER_UNICODE_REQUIREMENTS)
 GTEST_TEST(ConfigTest, Cxx20StrongerUnicodeRequirementsTest)
 {
-#if defined(BKSGE_HAS_CXX20_STRONGER_UNICODE_REQUIREMENTS)
 	{
 		char16_t const* s = u"A";
 		EXPECT_EQ(0x0041, s[0]);
@@ -1147,8 +1594,8 @@ GTEST_TEST(ConfigTest, Cxx20StrongerUnicodeRequirementsTest)
 		EXPECT_EQ(0x00020BB7u, s[0]);
 		EXPECT_EQ(0x00000000u, s[1]);
 	}
-#endif
 }
+#endif
 
 #if defined(BKSGE_HAS_CXX20_CONSTINIT)
 namespace constinit_test
@@ -1177,13 +1624,13 @@ struct duration {
 namespace ns_case_2
 {
 
-template<typename T>
+template <typename T>
 int f(T x)
 {
 	return x.get();
 }
 
-template<typename T>
+template <typename T>
 constexpr int g(T x)
 {
 	return x.get();
@@ -1191,19 +1638,19 @@ constexpr int g(T x)
 
 }	// namespace ns_case_2
 
-template<typename T>
+template <typename T>
 constexpr int f() { return T::value; }
 
-template<bool B, typename T>
+template <bool B, typename T>
 void g(decltype(B ? f<T>() : 0)){}
 
-template<bool B, typename T>
+template <bool B, typename T>
 void g(...){}
 
-template<bool B, typename T>
+template <bool B, typename T>
 void h(decltype(int{B ? f<T>() : 0})){}
 
-template<bool B, typename T>
+template <bool B, typename T>
 void h(...){}
 
 GTEST_TEST(ConfigTest, Cxx20ConstexprInDecltypeTest)
