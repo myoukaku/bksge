@@ -536,6 +536,7 @@
 #  define BKSGE_HAS_CXX20_LAMBDAS_IN_UNEVALUATED_CONTEXTS	// P0315R4	評価されない文脈でのラムダ式
 #  define BKSGE_HAS_CXX20_AGGREGATE_PAREN_INIT				// P0960R3	丸カッコの値リストからの集成体初期化を許可
 #  define BKSGE_HAS_CXX20_CONDITIONALLY_TRIVIAL_SPECIAL_MEMBER_FUNCTIONS	// P0848R3		Conditionally trivial special member functions 
+#  define BKSGE_HAS_CXX20_NO_UNIQUE_ADDRESS					// P0840R2	Attribute [[no_unique_address]]
 # endif
 #endif
 
