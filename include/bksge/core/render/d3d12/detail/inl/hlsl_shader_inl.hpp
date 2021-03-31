@@ -123,7 +123,7 @@ HlslShaderBase::CreateDescriptorRanges(void)
 			++sampler_count;
 			break;
 		default:
-			BKSGE_ASSERT(false);
+			//BKSGE_ASSERT(false);
 			break;
 		}
 	}
@@ -203,7 +203,7 @@ HlslShaderBase::CreateHlslTextures(HlslTextures* hlsl_textures)
 			hlsl_textures->push_back(bksge::make_unique<HlslTexture>(bind_desc));
 			break;
 		default:
-			BKSGE_ASSERT(false);
+			//BKSGE_ASSERT(false);
 			break;
 		}
 	}
@@ -226,7 +226,7 @@ HlslShaderBase::CreateHlslSamplers(HlslSamplers* hlsl_samplers)
 			hlsl_samplers->push_back(bksge::make_unique<HlslSampler>(bind_desc));
 			break;
 		default:
-			BKSGE_ASSERT(false);
+			//BKSGE_ASSERT(false);
 			break;
 		}
 	}

@@ -256,7 +256,7 @@ HlslShaderBase::CreateShaderResources(Device* /*device*/)
 			}
 			break;
 		default:
-			BKSGE_ASSERT(false);
+			//BKSGE_ASSERT(false);
 			break;
 		}
 	}
