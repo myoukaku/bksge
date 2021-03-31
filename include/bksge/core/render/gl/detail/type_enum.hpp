@@ -32,7 +32,7 @@ public:
 	operator ::GLenum() const;
 
 private:
-	::GLenum	m_type_enum;
+	::GLenum const	m_type_enum;
 };
 
 }	// namespace gl

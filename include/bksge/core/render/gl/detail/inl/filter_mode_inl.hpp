@@ -69,16 +69,14 @@ ToGlFilterMode(bksge::FilterMode min_filter, bksge::MipmapMode mip_filter)
 BKSGE_INLINE
 FilterMode::FilterMode(bksge::FilterMode mag_filter)
 	: m_mode(detail::ToGlFilterMode(mag_filter))
-{
-}
+{}
 
 BKSGE_INLINE
 FilterMode::FilterMode(
 	bksge::FilterMode min_filter,
 	bksge::MipmapMode mip_filter)
 	: m_mode(detail::ToGlFilterMode(min_filter, mip_filter))
-{
-}
+{}
 
 BKSGE_INLINE
 FilterMode::operator ::GLint() const

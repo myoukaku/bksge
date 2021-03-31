@@ -32,7 +32,7 @@ public:
 	operator ::GLenum() const;
 
 private:
-	::GLenum	m_stencil_operation;
+	::GLenum const	m_stencil_operation;
 };
 
 }	// namespace gl

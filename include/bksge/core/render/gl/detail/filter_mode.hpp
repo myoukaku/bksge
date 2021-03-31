@@ -37,7 +37,7 @@ public:
 	operator ::GLint() const;
 
 private:
-	::GLint	m_mode;
+	::GLint const	m_mode;
 };
 
 }	// namespace gl

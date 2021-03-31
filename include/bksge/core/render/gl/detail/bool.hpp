@@ -31,7 +31,7 @@ public:
 	operator ::GLboolean() const;
 
 private:
-	::GLboolean	m_bool;
+	::GLboolean const	m_bool;
 };
 
 }	// namespace gl

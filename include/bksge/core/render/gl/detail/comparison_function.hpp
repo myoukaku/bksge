@@ -32,7 +32,7 @@ public:
 	operator ::GLenum() const;
 
 private:
-	::GLenum	m_comparison_function;
+	::GLenum const	m_comparison_function;
 };
 
 }	// namespace gl

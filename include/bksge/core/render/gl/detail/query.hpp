@@ -36,6 +36,11 @@ public:
 	void GetResult(::GLuint64* result);
 
 private:
+	// noncopyable
+	Query(Query const&) = delete;
+	Query& operator=(Query const&) = delete;
+
+private:
 	::GLuint	m_id;
 };
 

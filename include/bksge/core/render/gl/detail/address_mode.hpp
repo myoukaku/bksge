@@ -32,7 +32,7 @@ public:
 	operator ::GLint() const;
 
 private:
-	::GLint	m_address_mode;
+	::GLint	const m_address_mode;
 };
 
 }	// namespace gl

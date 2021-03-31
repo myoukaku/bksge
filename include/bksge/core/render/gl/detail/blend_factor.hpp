@@ -32,7 +32,7 @@ public:
 	operator ::GLenum() const;
 
 private:
-	::GLenum	m_blend_factor;
+	::GLenum const	m_blend_factor;
 };
 
 }	// namespace gl

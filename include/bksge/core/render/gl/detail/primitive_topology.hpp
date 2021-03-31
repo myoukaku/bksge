@@ -32,7 +32,7 @@ public:
 	operator ::GLenum() const;
 
 private:
-	::GLenum	m_primitive_topology;
+	::GLenum const	m_primitive_topology;
 };
 
 }	// namespace gl

@@ -57,7 +57,7 @@ public:
 	 *	@brief	Geometryを1つ描画します
 	 *
 	 *	@param	geometry				描画するジオメトリ
-	 *	@param	shader_map				描画に使用するシェーダ
+	 *	@param	shader_list				描画に使用するシェーダ
 	 *	@param	shader_parameter_map	シェーダのパラメータ
 	 *	@param	render_state			レンダリングステート
 	 */

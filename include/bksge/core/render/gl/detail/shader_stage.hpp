@@ -32,7 +32,7 @@ public:
 	operator ::GLenum() const;
 
 private:
-	::GLenum	m_stage;
+	::GLenum const	m_stage;
 };
 
 }	// namespace gl

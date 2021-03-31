@@ -32,7 +32,7 @@ public:
 	operator ::GLenum() const;
 
 private:
-	::GLenum	m_front_face;
+	::GLenum const	m_front_face;
 };
 
 }	// namespace gl

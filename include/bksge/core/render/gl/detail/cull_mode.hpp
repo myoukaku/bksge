@@ -32,7 +32,7 @@ public:
 	operator ::GLenum() const;
 
 private:
-	::GLenum	m_cull_mode;
+	::GLenum const	m_cull_mode;
 };
 
 }	// namespace gl

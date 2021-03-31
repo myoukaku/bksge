@@ -13,18 +13,15 @@
 #if BKSGE_CORE_RENDER_HAS_GL_RENDERER
 
 #include <bksge/core/render/gl/gl_renderer.hpp>
-#include <bksge/core/render/gl/detail/blend_factor.hpp>
-#include <bksge/core/render/gl/detail/blend_operation.hpp>
-#include <bksge/core/render/gl/detail/bool.hpp>
-#include <bksge/core/render/gl/detail/cull_mode.hpp>
-#include <bksge/core/render/gl/detail/comparison_function.hpp>
-#include <bksge/core/render/gl/detail/fill_mode.hpp>
-#include <bksge/core/render/gl/detail/front_face.hpp>
 #include <bksge/core/render/gl/detail/geometry.hpp>
 #include <bksge/core/render/gl/detail/glsl_program.hpp>
 #include <bksge/core/render/gl/detail/query.hpp>
 #include <bksge/core/render/gl/detail/resource_pool.hpp>
-#include <bksge/core/render/gl/detail/stencil_operation.hpp>
+#include <bksge/core/render/gl/detail/rasterizer_state.hpp>
+#include <bksge/core/render/gl/detail/blend_state.hpp>
+#include <bksge/core/render/gl/detail/depth_state.hpp>
+#include <bksge/core/render/gl/detail/stencil_state.hpp>
+#include <bksge/core/render/gl/detail/clear_state.hpp>
 #include <bksge/core/render/gl/detail/gl_h.hpp>
 #include <bksge/core/render/gl/detail/wgl/wgl_context.hpp>
 #include <bksge/core/render/gl/detail/glx/glx_context.hpp>
@@ -106,94 +103,29 @@ ApplyScissorState(bksge::ScissorState const& scissor_state)
 inline void
 ApplyRasterizerState(bksge::RasterizerState const& rasterizer_state)
 {
-	auto const& cull_mode  = rasterizer_state.cull_mode();
-	auto const& front_face = rasterizer_state.front_face();
-	auto const& fill_mode  = rasterizer_state.fill_mode();
-
-	if (cull_mode == bksge::CullMode::kNone)
-	{
-		::glDisable(GL_CULL_FACE);
-	}
-	else
-	{
-		::glEnable(GL_CULL_FACE);
-		::glCullFace(gl::CullMode(cull_mode));
-	}
-
-	::glFrontFace(gl::FrontFace(front_face));
-	::glPolygonMode(GL_FRONT_AND_BACK, gl::FillMode(fill_mode));
+	gl::RasterizerState state(rasterizer_state);
+	state.Apply();
 }
 
 inline void
 ApplyBlendState(bksge::BlendState const& blend_state)
 {
-	if (blend_state.enable())
-	{
-		::glEnable(GL_BLEND);
-	}
-	else
-	{
-		::glDisable(GL_BLEND);
-	}
-
-	::glBlendFuncSeparate(
-		gl::BlendFactor(blend_state.color_src_factor()),
-		gl::BlendFactor(blend_state.color_dst_factor()),
-		gl::BlendFactor(blend_state.alpha_src_factor()),
-		gl::BlendFactor(blend_state.alpha_dst_factor()));
-
-	::glBlendEquationSeparate(
-		gl::BlendOperation(blend_state.color_operation()),
-		gl::BlendOperation(blend_state.alpha_operation()));
-
-	auto const mask = blend_state.color_write_mask();
-	::glColorMask(
-		gl::Bool(Test(mask, ColorWriteFlag::kRed)),
-		gl::Bool(Test(mask, ColorWriteFlag::kGreen)),
-		gl::Bool(Test(mask, ColorWriteFlag::kBlue)),
-		gl::Bool(Test(mask, ColorWriteFlag::kAlpha)));
+	gl::BlendState state(blend_state);
+	state.Apply();
 }
 
 inline void
 ApplyStencilState(bksge::StencilState const& stencil_state)
 {
-	if (stencil_state.enable())
-	{
-		::glEnable(GL_STENCIL_TEST);
-	}
-	else
-	{
-		::glDisable(GL_STENCIL_TEST);
-	}
-
-	::glStencilFunc(
-		gl::ComparisonFunction(stencil_state.func()),
-		static_cast<::GLint>(stencil_state.reference()),
-		static_cast<::GLuint>(stencil_state.read_mask()));
-
-	::glStencilMask(
-		static_cast<::GLuint>(stencil_state.write_mask()));
-
-	::glStencilOp(
-		gl::StencilOperation(stencil_state.fail_operation()),
-		gl::StencilOperation(stencil_state.depth_fail_operation()),
-		gl::StencilOperation(stencil_state.pass_operation()));
+	gl::StencilState state(stencil_state);
+	state.Apply();
 }
 
 inline void
 ApplyDepthState(bksge::DepthState const& depth_state)
 {
-	if (depth_state.enable())
-	{
-		::glEnable(GL_DEPTH_TEST);
-	}
-	else
-	{
-		::glDisable(GL_DEPTH_TEST);
-	}
-
-	::glDepthMask(gl::Bool(depth_state.write()));
-	::glDepthFunc(gl::ComparisonFunction(depth_state.func()));
+	gl::DepthState state(depth_state);
+	state.Apply();
 }
 
 inline void
@@ -214,46 +146,8 @@ ApplyViewport(bksge::Viewport const& viewport)
 inline void
 ApplyClearState(bksge::ClearState const& clear_state)
 {
-	auto const clear_flag    = clear_state.flag();
-	auto const clear_color   = clear_state.color();
-	auto const clear_depth   = clear_state.depth();
-	auto const clear_stencil = clear_state.stencil();
-
-	::GLbitfield mask = 0;
-
-	// カラーバッファをクリアするときは
-	// glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE)を呼ぶ必要がある
-	if (Test(clear_flag, ClearFlag::kColor))
-	{
-		::glClearColor(
-			clear_color.r(),
-			clear_color.g(),
-			clear_color.b(),
-			clear_color.a());
-		::glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-		mask |= GL_COLOR_BUFFER_BIT;
-	}
-
-	// デプスバッファをクリアするときは
-	// glDepthMask(GL_TRUE)を呼ぶ必要がある
-	if (Test(clear_flag, ClearFlag::kDepth))
-	{
-		::glClearDepth(clear_depth);
-		::glDepthMask(GL_TRUE);
-		mask |= GL_DEPTH_BUFFER_BIT;
-	}
-
-	// ステンシルバッファをクリアするときは
-	// glStencilMask(0xFFFFFFFF)を呼ぶ必要がある
-	if (Test(clear_flag, ClearFlag::kStencil))
-	{
-		::glClearStencil(clear_stencil);
-		::glStencilMask(~0u);
-		mask |= GL_STENCIL_BUFFER_BIT;
-	}
-
-	::glDisable(GL_SCISSOR_TEST);
-	::glClear(mask);
+	gl::ClearState state(clear_state);
+	state.Apply();
 }
 
 }	// namespace detail
