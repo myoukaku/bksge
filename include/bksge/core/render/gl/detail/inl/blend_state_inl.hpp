@@ -15,6 +15,7 @@
 #include <bksge/core/render/gl/detail/blend_state.hpp>
 #include <bksge/core/render/gl/detail/blend_factor.hpp>
 #include <bksge/core/render/gl/detail/blend_operation.hpp>
+#include <bksge/core/render/gl/detail/logic_operation.hpp>
 #include <bksge/core/render/gl/detail/bool.hpp>
 #include <bksge/core/render/gl/detail/gl_h.hpp>
 #include <bksge/core/render/blend_state.hpp>
@@ -41,6 +42,8 @@ BlendState::BlendState(bksge::BlendState const& state)
 	, m_color_mask_green(gl::Bool(Test(state.color_write_mask(), ColorWriteFlag::kGreen)))
 	, m_color_mask_blue (gl::Bool(Test(state.color_write_mask(), ColorWriteFlag::kBlue)))
 	, m_color_mask_alpha(gl::Bool(Test(state.color_write_mask(), ColorWriteFlag::kAlpha)))
+	, m_logic_op_enable(state.logic_op_enable())
+	, m_logic_op(gl::LogicOperation(state.logic_operation()))
 {}
 
 BKSGE_INLINE void
@@ -70,6 +73,17 @@ BlendState::Apply(void)
 		m_color_mask_green,
 		m_color_mask_blue,
 		m_color_mask_alpha);
+
+	if (m_logic_op_enable)
+	{
+		::glEnable(GL_COLOR_LOGIC_OP);
+	}
+	else
+	{
+		::glDisable(GL_COLOR_LOGIC_OP);
+	}
+
+	::glLogicOp(m_logic_op);
 }
 
 }	// namespace gl

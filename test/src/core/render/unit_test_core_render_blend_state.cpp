@@ -20,14 +20,16 @@
 GTEST_TEST(Render_BlendState, DefaultCtorTest)
 {
 	bksge::BlendState const state;
-	EXPECT_EQ(false,                       state.enable());
-	EXPECT_EQ(bksge::BlendOperation::kAdd, state.color_operation());
-	EXPECT_EQ(bksge::BlendFactor::kOne,    state.color_src_factor());
-	EXPECT_EQ(bksge::BlendFactor::kZero,   state.color_dst_factor());
-	EXPECT_EQ(bksge::BlendOperation::kAdd, state.alpha_operation());
-	EXPECT_EQ(bksge::BlendFactor::kOne,    state.alpha_src_factor());
-	EXPECT_EQ(bksge::BlendFactor::kZero,   state.alpha_dst_factor());
-	EXPECT_EQ(bksge::ColorWriteFlag::kAll, state.color_write_mask());
+	EXPECT_EQ(false,                        state.enable());
+	EXPECT_EQ(bksge::BlendOperation::kAdd,  state.color_operation());
+	EXPECT_EQ(bksge::BlendFactor::kOne,     state.color_src_factor());
+	EXPECT_EQ(bksge::BlendFactor::kZero,    state.color_dst_factor());
+	EXPECT_EQ(bksge::BlendOperation::kAdd,  state.alpha_operation());
+	EXPECT_EQ(bksge::BlendFactor::kOne,     state.alpha_src_factor());
+	EXPECT_EQ(bksge::BlendFactor::kZero,    state.alpha_dst_factor());
+	EXPECT_EQ(bksge::ColorWriteFlag::kAll,  state.color_write_mask());
+	EXPECT_EQ(false,                        state.logic_op_enable());
+	EXPECT_EQ(bksge::LogicOperation::kCopy, state.logic_operation());
 }
 
 GTEST_TEST(Render_BlendState, SetEnableTest)
@@ -88,6 +90,21 @@ GTEST_TEST(Render_BlendState, SetColorWriteFlagTest)
 	EXPECT_EQ(bksge::ColorWriteFlag::kRed, state.color_write_mask());
 }
 
+GTEST_TEST(Render_BlendState, SetLogicOperationTest)
+{
+	bksge::BlendState state;
+	EXPECT_EQ(false, state.logic_op_enable());
+	EXPECT_EQ(bksge::LogicOperation::kCopy, state.logic_operation());
+
+	state.SetLogicOpEnable(true);
+	EXPECT_EQ(true, state.logic_op_enable());
+	EXPECT_EQ(bksge::LogicOperation::kCopy, state.logic_operation());
+
+	state.SetLogicOperation(bksge::LogicOperation::kAnd);
+	EXPECT_EQ(true, state.logic_op_enable());
+	EXPECT_EQ(bksge::LogicOperation::kAnd, state.logic_operation());
+}
+
 GTEST_TEST(Render_BlendState, CompareTest)
 {
 	bksge::BlendState v1;
@@ -96,6 +113,8 @@ GTEST_TEST(Render_BlendState, CompareTest)
 	bksge::BlendState v4;
 	bksge::BlendState v5;
 	bksge::BlendState v6;
+	bksge::BlendState v7;
+	bksge::BlendState v8;
 
 	v1.SetEnable(true);
 	v1.SetOperation(bksge::BlendOperation::kSubtract);
@@ -125,12 +144,17 @@ GTEST_TEST(Render_BlendState, CompareTest)
 	v6.SetFactor(bksge::BlendFactor::kSrcColor, bksge::BlendFactor::kDestColor);
 	v6.SetColorWriteFlag(bksge::ColorWriteFlag::kRed);
 
+	v7.SetLogicOpEnable(true);
+	v8.SetLogicOperation(bksge::LogicOperation::kInvert);
+
 	EXPECT_TRUE (v1 == v1);
 	EXPECT_TRUE (v1 == v2);
 	EXPECT_FALSE(v1 == v3);
 	EXPECT_FALSE(v1 == v4);
 	EXPECT_FALSE(v1 == v5);
 	EXPECT_FALSE(v1 == v6);
+	EXPECT_FALSE(v1 == v7);
+	EXPECT_FALSE(v1 == v8);
 
 	EXPECT_FALSE(v1 != v1);
 	EXPECT_FALSE(v1 != v2);
@@ -138,6 +162,8 @@ GTEST_TEST(Render_BlendState, CompareTest)
 	EXPECT_TRUE (v1 != v4);
 	EXPECT_TRUE (v1 != v5);
 	EXPECT_TRUE (v1 != v6);
+	EXPECT_TRUE (v1 != v7);
+	EXPECT_TRUE (v1 != v8);
 }
 
 GTEST_TEST(Render_BlendState, OutputStreamTest)
@@ -146,7 +172,7 @@ GTEST_TEST(Render_BlendState, OutputStreamTest)
 		bksge::BlendState v;
 		bksge::stringstream ss;
 		ss << v;
-		EXPECT_EQ("{ false, BlendOperation::kAdd, BlendFactor::kOne, BlendFactor::kZero, BlendOperation::kAdd, BlendFactor::kOne, BlendFactor::kZero, ColorWriteFlag::kAll }", ss.str());
+		EXPECT_EQ("{ false, BlendOperation::kAdd, BlendFactor::kOne, BlendFactor::kZero, BlendOperation::kAdd, BlendFactor::kOne, BlendFactor::kZero, ColorWriteFlag::kAll, false, LogicOperation::kCopy }", ss.str());
 	}
 	{
 		bksge::BlendState v;
@@ -158,9 +184,11 @@ GTEST_TEST(Render_BlendState, OutputStreamTest)
 		v.SetAlphaSrcFactor(bksge::BlendFactor::kInvBlendFactor);
 		v.SetAlphaDstFactor(bksge::BlendFactor::kInvSrc1Alpha);
 		v.SetColorWriteFlag(bksge::ColorWriteFlag::kGreen);
+		v.SetLogicOpEnable(true);
+		v.SetLogicOperation(bksge::LogicOperation::kInvert);
 		bksge::wstringstream ss;
 		ss << v;
-		EXPECT_EQ(L"{ true, BlendOperation::kReverseSubtract, BlendFactor::kBlendFactor, BlendFactor::kDestAlpha, BlendOperation::kAdd, BlendFactor::kInvBlendFactor, BlendFactor::kInvSrc1Alpha, ColorWriteFlag::kGreen }", ss.str());
+		EXPECT_EQ(L"{ true, BlendOperation::kReverseSubtract, BlendFactor::kBlendFactor, BlendFactor::kDestAlpha, BlendOperation::kAdd, BlendFactor::kInvBlendFactor, BlendFactor::kInvSrc1Alpha, ColorWriteFlag::kGreen, true, LogicOperation::kInvert }", ss.str());
 	}
 }
 
@@ -168,24 +196,41 @@ GTEST_TEST(Render_BlendState, SerializeTest)
 {
 	using namespace bksge::serialization;
 
-	bksge::BlendState v;
-	v.SetEnable(true);
-	v.SetColorOperation(bksge::BlendOperation::kMin);
-	v.SetAlphaOperation(bksge::BlendOperation::kMax);
-	v.SetColorSrcFactor(bksge::BlendFactor::kInvSrcColor);
-	v.SetColorDstFactor(bksge::BlendFactor::kInvDestColor);
-	v.SetAlphaSrcFactor(bksge::BlendFactor::kDestAlpha);
-	v.SetAlphaDstFactor(bksge::BlendFactor::kSrcAlpha);
-	v.SetColorWriteFlag(bksge::ColorWriteFlag::kBlue);
+	{
+		bksge::BlendState v;
+		v.SetEnable(true);
+		v.SetColorOperation(bksge::BlendOperation::kMin);
+		v.SetAlphaOperation(bksge::BlendOperation::kMax);
+		v.SetColorSrcFactor(bksge::BlendFactor::kInvSrcColor);
+		v.SetColorDstFactor(bksge::BlendFactor::kInvDestColor);
+		v.SetAlphaSrcFactor(bksge::BlendFactor::kDestAlpha);
+		v.SetAlphaDstFactor(bksge::BlendFactor::kSrcAlpha);
+		v.SetColorWriteFlag(bksge::ColorWriteFlag::kBlue);
+		v.SetLogicOpEnable(true);
+		v.SetLogicOperation(bksge::LogicOperation::kXor);
 
-	SerializeTest<text_oarchive,   text_iarchive,   bksge::stringstream>(v);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::stringstream>(v);
-//	SerializeTest<binary_oarchive, binary_iarchive, bksge::stringstream>(v);
+		SerializeTest<text_oarchive,   text_iarchive,   bksge::stringstream>(v);
+//		SerializeTest<xml_oarchive,    xml_iarchive,    bksge::stringstream>(v);
+//		SerializeTest<binary_oarchive, binary_iarchive, bksge::stringstream>(v);
+	}
 
 #if !defined(BKSGE_NO_STD_WSTREAMBUF)
-	SerializeTest<text_oarchive,   text_iarchive,   bksge::wstringstream>(v);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::wstringstream>(v);
-//	SerializeTest<binary_oarchive, binary_iarchive, bksge::wstringstream>(v);
+	{
+		bksge::BlendState v;
+		v.SetEnable(false);
+		v.SetColorOperation(bksge::BlendOperation::kAdd);
+		v.SetAlphaOperation(bksge::BlendOperation::kReverseSubtract);
+		v.SetColorSrcFactor(bksge::BlendFactor::kBlendFactor);
+		v.SetColorDstFactor(bksge::BlendFactor::kDestAlpha);
+		v.SetAlphaSrcFactor(bksge::BlendFactor::kDestColor);
+		v.SetAlphaDstFactor(bksge::BlendFactor::kInvBlendFactor);
+		v.SetColorWriteFlag(bksge::ColorWriteFlag::kBlue);
+		v.SetLogicOpEnable(true);
+		v.SetLogicOperation(bksge::LogicOperation::kClear);
+		SerializeTest<text_oarchive,   text_iarchive,   bksge::wstringstream>(v);
+//		SerializeTest<xml_oarchive,    xml_iarchive,    bksge::wstringstream>(v);
+//		SerializeTest<binary_oarchive, binary_iarchive, bksge::wstringstream>(v);
+	}
 #endif
 }
 
@@ -202,6 +247,9 @@ GTEST_TEST(Render_BlendState, HashTest)
 	bksge::BlendState s7;
 	bksge::BlendState s8;
 	bksge::BlendState s9;
+	bksge::BlendState s10;
+	bksge::BlendState s11;
+	bksge::BlendState s12;
 
 	s2.SetEnable(true);
 	s3.SetColorOperation(bksge::BlendOperation::kMax);
@@ -211,6 +259,8 @@ GTEST_TEST(Render_BlendState, HashTest)
 	s7.SetAlphaSrcFactor(bksge::BlendFactor::kDestAlpha);
 	s8.SetAlphaDstFactor(bksge::BlendFactor::kInvDestAlpha);
 	s9.SetColorWriteFlag(bksge::ColorWriteFlag::kAlpha);
+	s10.SetLogicOpEnable(true);
+	s11.SetLogicOperation(bksge::LogicOperation::kSet);
 
 	bksge::vector<bksge::size_t> v;
 	v.push_back(h(s1));
@@ -222,10 +272,14 @@ GTEST_TEST(Render_BlendState, HashTest)
 	v.push_back(h(s7));
 	v.push_back(h(s8));
 	v.push_back(h(s9));
+	v.push_back(h(s10));
+	v.push_back(h(s11));
 	bksge::sort(v.begin(), v.end());
 	EXPECT_TRUE(bksge::is_unique(v.begin(), v.end()));
 
 	v.push_back(h(s9));
 	bksge::sort(v.begin(), v.end());
 	EXPECT_FALSE(bksge::is_unique(v.begin(), v.end()));
+
+	EXPECT_EQ(h(s1), h(s12));
 }

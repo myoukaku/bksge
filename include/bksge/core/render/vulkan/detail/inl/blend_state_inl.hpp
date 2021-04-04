@@ -17,6 +17,7 @@
 #include <bksge/core/render/vulkan/detail/blend_operation.hpp>
 #include <bksge/core/render/vulkan/detail/bool.hpp>
 #include <bksge/core/render/vulkan/detail/color_write_flag.hpp>
+#include <bksge/core/render/vulkan/detail/logic_operation.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/blend_state.hpp>
 
@@ -42,8 +43,8 @@ BlendState::BlendState(bksge::BlendState const& blend_state)
 	m_attachment_state.colorWriteMask      = vulkan::ColorWriteFlag(blend_state.color_write_mask());
 
 	m_blend_state.SetAttachment(&m_attachment_state);
-	m_blend_state.logicOpEnable = VK_FALSE;
-	m_blend_state.logicOp       = VK_LOGIC_OP_NO_OP;
+	m_blend_state.logicOpEnable = vulkan::Bool(blend_state.logic_op_enable());
+	m_blend_state.logicOp       = vulkan::LogicOperation(blend_state.logic_operation());
 	m_blend_state.SetBlendConstants(1.0f, 1.0f, 1.0f, 1.0f);
 }
 

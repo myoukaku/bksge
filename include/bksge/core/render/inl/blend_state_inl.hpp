@@ -30,8 +30,9 @@ BlendState::BlendState(void)
 	, m_alpha_src_factor(BlendFactor::kOne)
 	, m_alpha_dst_factor(BlendFactor::kZero)
 	, m_color_write_mask(ColorWriteFlag::kAll)
-{
-}
+	, m_logic_op_enable(false)
+	, m_logic_operation(LogicOperation::kCopy)
+{}
 
 BKSGE_INLINE bool
 BlendState::enable(void) const
@@ -79,6 +80,18 @@ BKSGE_INLINE ColorWriteFlag
 BlendState::color_write_mask(void) const
 {
 	return m_color_write_mask;
+}
+
+BKSGE_INLINE bool
+BlendState::logic_op_enable(void) const
+{
+	return m_logic_op_enable;
+}
+
+BKSGE_INLINE LogicOperation
+BlendState::logic_operation(void) const
+{
+	return m_logic_operation;
 }
 
 BKSGE_INLINE void
@@ -145,6 +158,18 @@ BlendState::SetColorWriteFlag(ColorWriteFlag flag)
 	m_color_write_mask = flag;
 }
 
+BKSGE_INLINE void
+BlendState::SetLogicOpEnable(bool enable)
+{
+	m_logic_op_enable = enable;
+}
+
+BKSGE_INLINE void
+BlendState::SetLogicOperation(LogicOperation op)
+{
+	m_logic_operation = op;
+}
+
 BKSGE_INLINE bool
 operator==(BlendState const& lhs, BlendState const& rhs)
 {
@@ -156,7 +181,9 @@ operator==(BlendState const& lhs, BlendState const& rhs)
 		lhs.alpha_operation()  == rhs.alpha_operation()  &&
 		lhs.alpha_src_factor() == rhs.alpha_src_factor() &&
 		lhs.alpha_dst_factor() == rhs.alpha_dst_factor() &&
-		lhs.color_write_mask() == rhs.color_write_mask();
+		lhs.color_write_mask() == rhs.color_write_mask() &&
+		lhs.logic_op_enable()  == rhs.logic_op_enable()  &&
+		lhs.logic_operation()  == rhs.logic_operation();
 }
 
 BKSGE_INLINE bool

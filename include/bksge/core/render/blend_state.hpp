@@ -13,6 +13,7 @@
 #include <bksge/core/render/blend_operation.hpp>
 #include <bksge/core/render/blend_factor.hpp>
 #include <bksge/core/render/color_write_flag.hpp>
+#include <bksge/core/render/logic_operation.hpp>
 #include <bksge/fnd/serialization/access.hpp>
 #include <bksge/fnd/serialization/nvp.hpp>
 #include <bksge/fnd/serialization/version.hpp>
@@ -42,6 +43,8 @@ public:
 	BlendFactor		alpha_src_factor(void) const;
 	BlendFactor		alpha_dst_factor(void) const;
 	ColorWriteFlag	color_write_mask(void) const;
+	bool			logic_op_enable(void) const;
+	LogicOperation	logic_operation(void) const;
 
 	void SetEnable(bool enable);
 
@@ -57,6 +60,9 @@ public:
 
 	void SetColorWriteFlag(ColorWriteFlag flag);
 
+	void SetLogicOpEnable(bool enable);
+	void SetLogicOperation(LogicOperation op);
+
 private:
 	bool			m_enable;
 	BlendOperation	m_color_operation;
@@ -66,6 +72,8 @@ private:
 	BlendFactor		m_alpha_src_factor;
 	BlendFactor		m_alpha_dst_factor;
 	ColorWriteFlag	m_color_write_mask;
+	bool			m_logic_op_enable;
+	LogicOperation	m_logic_operation;
 
 private:
 	/**
@@ -83,6 +91,8 @@ private:
 		ar & BKSGE_SERIALIZATION_NVP(m_alpha_src_factor);
 		ar & BKSGE_SERIALIZATION_NVP(m_alpha_dst_factor);
 		ar & BKSGE_SERIALIZATION_NVP(m_color_write_mask);
+		ar & BKSGE_SERIALIZATION_NVP(m_logic_op_enable);
+		ar & BKSGE_SERIALIZATION_NVP(m_logic_operation);
 	}
 };
 
@@ -105,7 +115,9 @@ operator<<(bksge::basic_ostream<CharT, Traits>& os, BlendState const& rhs)
 		<< rhs.alpha_operation()  << ", "
 		<< rhs.alpha_src_factor() << ", "
 		<< rhs.alpha_dst_factor() << ", "
-		<< rhs.color_write_mask() << " }";
+		<< rhs.color_write_mask() << ", "
+		<< rhs.logic_op_enable()  << ", "
+		<< rhs.logic_operation()  << " }";
 }
 
 }	// namespace render
@@ -137,7 +149,9 @@ struct hash<bksge::render::BlendState>
 			arg.alpha_operation(),
 			arg.alpha_src_factor(),
 			arg.alpha_dst_factor(),
-			arg.color_write_mask());
+			arg.color_write_mask(),
+			arg.logic_op_enable(),
+			arg.logic_operation());
 	}
 };
 

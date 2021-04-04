@@ -24,14 +24,16 @@ GTEST_TEST(Render_RenderState, DefaultCtorTest)
 	EXPECT_EQ(bksge::CullMode::kNone,       state.rasterizer_state().cull_mode());
 	EXPECT_EQ(bksge::FrontFace::kClockwise, state.rasterizer_state().front_face());
 
-	EXPECT_EQ(false,                       state.blend_state().enable());
-	EXPECT_EQ(bksge::BlendOperation::kAdd, state.blend_state().color_operation());
-	EXPECT_EQ(bksge::BlendFactor::kOne,    state.blend_state().color_src_factor());
-	EXPECT_EQ(bksge::BlendFactor::kZero,   state.blend_state().color_dst_factor());
-	EXPECT_EQ(bksge::BlendOperation::kAdd, state.blend_state().alpha_operation());
-	EXPECT_EQ(bksge::BlendFactor::kOne,    state.blend_state().alpha_src_factor());
-	EXPECT_EQ(bksge::BlendFactor::kZero,   state.blend_state().alpha_dst_factor());
-	EXPECT_EQ(bksge::ColorWriteFlag::kAll, state.blend_state().color_write_mask());
+	EXPECT_EQ(false,                        state.blend_state().enable());
+	EXPECT_EQ(bksge::BlendOperation::kAdd,  state.blend_state().color_operation());
+	EXPECT_EQ(bksge::BlendFactor::kOne,     state.blend_state().color_src_factor());
+	EXPECT_EQ(bksge::BlendFactor::kZero,    state.blend_state().color_dst_factor());
+	EXPECT_EQ(bksge::BlendOperation::kAdd,  state.blend_state().alpha_operation());
+	EXPECT_EQ(bksge::BlendFactor::kOne,     state.blend_state().alpha_src_factor());
+	EXPECT_EQ(bksge::BlendFactor::kZero,    state.blend_state().alpha_dst_factor());
+	EXPECT_EQ(bksge::ColorWriteFlag::kAll,  state.blend_state().color_write_mask());
+	EXPECT_EQ(false,                        state.blend_state().logic_op_enable());
+	EXPECT_EQ(bksge::LogicOperation::kCopy, state.blend_state().logic_operation());
 
 	EXPECT_EQ(false,                            state.depth_state().enable());
 	EXPECT_EQ(false,                            state.depth_state().write());
@@ -62,6 +64,8 @@ GTEST_TEST(Render_RenderState, SetValueTest)
 	state.blend_state().SetAlphaSrcFactor(bksge::BlendFactor::kSrcColor);
 	state.blend_state().SetAlphaDstFactor(bksge::BlendFactor::kSrcAlpha);
 	state.blend_state().SetColorWriteFlag(bksge::ColorWriteFlag::kNone);
+	state.blend_state().SetLogicOpEnable(true);
+	state.blend_state().SetLogicOperation(bksge::LogicOperation::kAnd);
 
 	state.depth_state().SetEnable(true);
 	state.depth_state().SetWrite(true);
@@ -87,6 +91,8 @@ GTEST_TEST(Render_RenderState, SetValueTest)
 	EXPECT_EQ(bksge::BlendFactor::kSrcColor,       state.blend_state().alpha_src_factor());
 	EXPECT_EQ(bksge::BlendFactor::kSrcAlpha,       state.blend_state().alpha_dst_factor());
 	EXPECT_EQ(bksge::ColorWriteFlag::kNone,        state.blend_state().color_write_mask());
+	EXPECT_EQ(true,                                state.blend_state().logic_op_enable());
+	EXPECT_EQ(bksge::LogicOperation::kAnd,         state.blend_state().logic_operation());
 
 	EXPECT_EQ(true,                                state.depth_state().enable());
 	EXPECT_EQ(true,                                state.depth_state().write());
@@ -136,7 +142,7 @@ GTEST_TEST(Render_RenderState, OutputStreamTest)
 		bksge::RenderState v;
 		bksge::stringstream ss;
 		ss << v;
-		EXPECT_EQ("{ { FillMode::kSolid, CullMode::kNone, FrontFace::kClockwise }, { false, BlendOperation::kAdd, BlendFactor::kOne, BlendFactor::kZero, BlendOperation::kAdd, BlendFactor::kOne, BlendFactor::kZero, ColorWriteFlag::kAll }, { false, false, ComparisonFunction::kLess }, { false, 0, 0, 0, ComparisonFunction::kNever, StencilOperation::kKeep, StencilOperation::kKeep, StencilOperation::kKeep } }", ss.str());
+		EXPECT_EQ("{ { FillMode::kSolid, CullMode::kNone, FrontFace::kClockwise }, { false, BlendOperation::kAdd, BlendFactor::kOne, BlendFactor::kZero, BlendOperation::kAdd, BlendFactor::kOne, BlendFactor::kZero, ColorWriteFlag::kAll, false, LogicOperation::kCopy }, { false, false, ComparisonFunction::kLess }, { false, 0, 0, 0, ComparisonFunction::kNever, StencilOperation::kKeep, StencilOperation::kKeep, StencilOperation::kKeep } }", ss.str());
 	}
 	{
 		bksge::RenderState v;
@@ -151,6 +157,8 @@ GTEST_TEST(Render_RenderState, OutputStreamTest)
 		v.blend_state().SetAlphaSrcFactor(bksge::BlendFactor::kSrcColor);
 		v.blend_state().SetAlphaDstFactor(bksge::BlendFactor::kSrcAlpha);
 		v.blend_state().SetColorWriteFlag(bksge::ColorWriteFlag::kNone);
+		v.blend_state().SetLogicOpEnable(true);
+		v.blend_state().SetLogicOperation(bksge::LogicOperation::kAnd);
 		v.depth_state().SetEnable(true);
 		v.depth_state().SetWrite(true);
 		v.depth_state().SetFunc(bksge::ComparisonFunction::kGreater);
@@ -164,7 +172,7 @@ GTEST_TEST(Render_RenderState, OutputStreamTest)
 		v.stencil_state().SetPassOperation(bksge::StencilOperation::kReplace);
 		bksge::wstringstream ss;
 		ss << v;
-		EXPECT_EQ(L"{ { FillMode::kWireframe, CullMode::kBack, FrontFace::kCounterClockwise }, { true, BlendOperation::kMax, BlendFactor::kDestAlpha, BlendFactor::kDestColor, BlendOperation::kMin, BlendFactor::kSrcColor, BlendFactor::kSrcAlpha, ColorWriteFlag::kNone }, { true, true, ComparisonFunction::kGreater }, { true, 1, 2, 3, ComparisonFunction::kLess, StencilOperation::kIncr, StencilOperation::kDecr, StencilOperation::kReplace } }", ss.str());
+		EXPECT_EQ(L"{ { FillMode::kWireframe, CullMode::kBack, FrontFace::kCounterClockwise }, { true, BlendOperation::kMax, BlendFactor::kDestAlpha, BlendFactor::kDestColor, BlendOperation::kMin, BlendFactor::kSrcColor, BlendFactor::kSrcAlpha, ColorWriteFlag::kNone, true, LogicOperation::kAnd }, { true, true, ComparisonFunction::kGreater }, { true, 1, 2, 3, ComparisonFunction::kLess, StencilOperation::kIncr, StencilOperation::kDecr, StencilOperation::kReplace } }", ss.str());
 	}
 }
 

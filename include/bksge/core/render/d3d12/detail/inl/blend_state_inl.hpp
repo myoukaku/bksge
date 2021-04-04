@@ -17,6 +17,7 @@
 #include <bksge/core/render/d3d12/detail/blend_operation.hpp>
 #include <bksge/core/render/d3d12/detail/bool.hpp>
 #include <bksge/core/render/d3d12/detail/color_write_flag.hpp>
+#include <bksge/core/render/d3d12/detail/logic_operation.hpp>
 #include <bksge/core/render/d3d_common/d3d12.hpp>
 #include <bksge/core/render/blend_state.hpp>
 
@@ -45,8 +46,8 @@ BlendState::BlendState(bksge::BlendState const& blend_state)
 		rt.DestBlendAlpha        = d3d12::BlendFactor(blend_state.alpha_dst_factor());
 		rt.BlendOpAlpha          = d3d12::BlendOperation(blend_state.alpha_operation());
 		rt.RenderTargetWriteMask = d3d12::ColorWriteFlag(blend_state.color_write_mask());
-		rt.LogicOpEnable         = FALSE;
-		rt.LogicOp               = D3D12_LOGIC_OP_NOOP;
+		rt.LogicOpEnable         = d3d12::Bool(blend_state.logic_op_enable());
+		rt.LogicOp               = d3d12::LogicOperation(blend_state.logic_operation());
 	}
 }
 

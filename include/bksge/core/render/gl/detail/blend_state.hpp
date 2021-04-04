@@ -40,6 +40,8 @@ private:
 	::GLboolean const	m_color_mask_green;
 	::GLboolean const	m_color_mask_blue;
 	::GLboolean const	m_color_mask_alpha;
+	bool        const	m_logic_op_enable;
+	::GLenum    const	m_logic_op;
 };
 
 }	// namespace gl
