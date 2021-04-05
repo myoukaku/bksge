@@ -193,6 +193,7 @@ void test_hash_enabled(InputKey const& key)
 	const Hash h{};
 	assert(h(key) == h(key));
 	(void)key;
+	(void)h;
 }
 
 template <class Hash, class Key>

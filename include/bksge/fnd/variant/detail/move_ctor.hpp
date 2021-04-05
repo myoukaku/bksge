@@ -34,6 +34,8 @@ struct MoveCtorBase : public variant_detail::CopyCtorAlias<Types...>
 		variant_detail::variant_construct<Types...>(*this, bksge::move(rhs));
 	}
 
+BKSGE_WARNING_PUSH();
+BKSGE_WARNING_DISABLE_MSVC(4702);	// unreachable code
 	template <typename U>
 	void destructive_move(unsigned short rhs_index, U&& rhs)
 	{
@@ -49,6 +51,7 @@ struct MoveCtorBase : public variant_detail::CopyCtorAlias<Types...>
 		variant_detail::variant_construct_single(*this, rhs);
 		this->m_index = rhs_index;
 	}
+BKSGE_WARNING_POP();
 
 	MoveCtorBase(MoveCtorBase const&) = default;
 	MoveCtorBase& operator=(MoveCtorBase const&) = default;

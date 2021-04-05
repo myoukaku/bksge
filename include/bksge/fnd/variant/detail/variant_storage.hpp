@@ -21,6 +21,10 @@
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/in_place_index.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
+#include <bksge/fnd/config.hpp>
+
+BKSGE_WARNING_PUSH();
+BKSGE_WARNING_DISABLE_MSVC(4702);	// unreachable code
 
 namespace bksge
 {
@@ -120,5 +124,7 @@ using VariantStorageAlias = VariantStorage<variant_detail::VariantTraits<Types..
 }	// namespace variant_detail
 
 }	// namespace bksge
+
+BKSGE_WARNING_POP();
 
 #endif // BKSGE_FND_VARIANT_DETAIL_VARIANT_STORAGE_HPP
