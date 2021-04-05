@@ -33,5 +33,6 @@
 #include <bksge/fnd/utility/move_if_noexcept.hpp>
 #include <bksge/fnd/utility/pair.hpp>
 #include <bksge/fnd/utility/swap.hpp>
+#include <bksge/fnd/utility/to_underlying.hpp>
 
 #endif // BKSGE_FND_UTILITY_HPP
