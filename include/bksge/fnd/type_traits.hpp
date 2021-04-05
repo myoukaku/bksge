@@ -92,6 +92,7 @@
 #include <bksge/fnd/type_traits/is_rvalue_reference.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/type_traits/is_scalar.hpp>
+#include <bksge/fnd/type_traits/is_scoped_enum.hpp>
 #include <bksge/fnd/type_traits/is_signed.hpp>
 #include <bksge/fnd/type_traits/is_standard_layout.hpp>
 #include <bksge/fnd/type_traits/is_swappable.hpp>
