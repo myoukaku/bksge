@@ -41,7 +41,7 @@ public:
 
 	~GraphicsPipeline();
 
-	::VkPipelineLayout GetLayout(void) const;
+	vulkan::PipelineLayout const& pipeline_layout(void) const;
 
 	operator ::VkPipeline() const;
 

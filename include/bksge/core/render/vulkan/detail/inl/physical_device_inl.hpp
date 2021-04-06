@@ -52,7 +52,7 @@ PhysicalDevice::~PhysicalDevice()
 }
 
 BKSGE_INLINE ::VkPhysicalDeviceMemoryProperties const&
-PhysicalDevice::GetMemoryProperties(void) const
+PhysicalDevice::memory_properties(void) const
 {
 	return m_memory_properties;
 }

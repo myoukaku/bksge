@@ -33,6 +33,7 @@
 #include <bksge/core/render/vulkan/detail/geometry.hpp>
 #include <bksge/core/render/vulkan/detail/image_view.hpp>
 #include <bksge/core/render/vulkan/detail/resource_pool.hpp>
+#include <bksge/core/render/vulkan/detail/pipeline_layout.hpp>
 #include <bksge/core/render/shader.hpp>
 #include <bksge/core/render/render_pass_info.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
@@ -413,7 +414,7 @@ VulkanRenderer::VRender(
 	m_command_buffer->PushDescriptorSet(
 		*m_device,
 		VK_PIPELINE_BIND_POINT_GRAPHICS,
-		graphics_pipeline->GetLayout(),
+		graphics_pipeline->pipeline_layout(),
 		0,	// TODO set
 		vk_shader->GetWriteDescriptorSets());
 

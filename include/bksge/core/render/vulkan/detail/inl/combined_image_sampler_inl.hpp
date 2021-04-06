@@ -52,7 +52,7 @@ CombinedImageSampler::GetImageInfo(void) const
 {
 	::VkDescriptorImageInfo info;
 	info.sampler     = *m_sampler;
-	info.imageView   = *(m_texture->GetImageView());
+	info.imageView   = m_texture->image_view();
 	info.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 	return info;
 }

@@ -63,8 +63,8 @@ BufferObject::UnmapMemory(void)
 	m_device_memory->UnmapMemory();
 }
 
-BKSGE_INLINE ::VkBuffer
-BufferObject::GetBuffer(void) const
+BKSGE_INLINE vulkan::Buffer const&
+BufferObject::buffer(void) const
 {
 	return *m_buffer;
 }

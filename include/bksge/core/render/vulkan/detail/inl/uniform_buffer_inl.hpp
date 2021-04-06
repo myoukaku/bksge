@@ -61,14 +61,14 @@ UniformBuffer::~UniformBuffer()
 	m_buffer->UnmapMemory();
 }
 
-BKSGE_INLINE ::VkBuffer
-UniformBuffer::GetBuffer(void) const
+BKSGE_INLINE vulkan::Buffer const&
+UniformBuffer::buffer(void) const
 {
-	return m_buffer->GetBuffer();
+	return m_buffer->buffer();
 }
 
 BKSGE_INLINE bksge::uint8_t*
-UniformBuffer::GetMappedBuffer(void) const
+UniformBuffer::mapped_buffer(void) const
 {
 	return m_mapped_buffer;
 }

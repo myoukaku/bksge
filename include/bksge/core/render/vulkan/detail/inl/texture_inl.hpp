@@ -18,10 +18,12 @@
 #include <bksge/core/render/vulkan/detail/command_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/physical_device.hpp>
 #include <bksge/core/render/vulkan/detail/image_object.hpp>
+#include <bksge/core/render/vulkan/detail/image.hpp>
 #include <bksge/core/render/vulkan/detail/image_view.hpp>
 #include <bksge/core/render/vulkan/detail/texture_format.hpp>
 #include <bksge/core/render/vulkan/detail/extent2d.hpp>
 #include <bksge/core/render/vulkan/detail/buffer_object.hpp>
+#include <bksge/core/render/vulkan/detail/buffer.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/texture.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
@@ -36,6 +38,9 @@ namespace render
 {
 
 namespace vulkan
+{
+
+namespace detail
 {
 
 inline void
@@ -81,6 +86,8 @@ CopyBufferToImage(
 
 	EndSingleTimeCommands(command_pool, command_buffer);
 }
+
+}	// namespace detail
 
 BKSGE_INLINE
 Texture::Texture(
@@ -139,9 +146,9 @@ Texture::Texture(
 		initial_layout,
 		VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
 
-	CopyBufferToImage(
+	detail::CopyBufferToImage(
 		command_pool,
-		staging_buffer->GetBuffer(),
+		staging_buffer->buffer(),
 		m_image->image(),
 		texture.format(),
 		extent,
@@ -167,10 +174,10 @@ Texture::~Texture()
 {
 }
 
-BKSGE_INLINE vulkan::ImageViewUniquePtr const&
-Texture::GetImageView(void) const
+BKSGE_INLINE vulkan::ImageView const&
+Texture::image_view(void) const
 {
-	return m_image_view;
+	return *m_image_view;
 }
 
 }	// namespace vulkan

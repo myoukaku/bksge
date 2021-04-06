@@ -39,6 +39,9 @@ namespace render
 namespace vulkan
 {
 
+namespace detail
+{
+
 inline ::VkFormat
 ToVkFormat(bksge::TypeEnum type, bksge::size_t num)
 {
@@ -111,6 +114,8 @@ ToVkFormat(bksge::TypeEnum type, bksge::size_t num)
 	return VK_FORMAT_UNDEFINED;
 }
 
+}	// namespace detail
+
 BKSGE_INLINE
 GraphicsPipeline::GraphicsPipeline(
 	vulkan::DeviceSharedPtr const& device,
@@ -145,7 +150,7 @@ GraphicsPipeline::GraphicsPipeline(
 		::VkVertexInputAttributeDescription a;
 		a.binding  = 0;
 		a.location = static_cast<bksge::uint32_t>(vi_attribs.size());
-		a.format   = ToVkFormat(attribute.type(), attribute.element_num());
+		a.format   = detail::ToVkFormat(attribute.type(), attribute.element_num());
 		a.offset   = static_cast<bksge::uint32_t>(attribute.offset());
 		vi_attribs.push_back(a);
 	}
@@ -243,8 +248,8 @@ GraphicsPipeline::operator ::VkPipeline() const
 	return m_pipeline;
 }
 
-BKSGE_INLINE ::VkPipelineLayout
-GraphicsPipeline::GetLayout(void) const
+BKSGE_INLINE vulkan::PipelineLayout const&
+GraphicsPipeline::pipeline_layout(void) const
 {
 	return *m_pipeline_layout;
 }

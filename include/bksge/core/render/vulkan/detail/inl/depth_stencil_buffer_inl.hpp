@@ -16,6 +16,7 @@
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/physical_device.hpp>
 #include <bksge/core/render/vulkan/detail/image_object.hpp>
+#include <bksge/core/render/vulkan/detail/image.hpp>
 #include <bksge/core/render/vulkan/detail/image_view.hpp>
 #include <bksge/core/render/vulkan/detail/command_pool.hpp>
 #include <bksge/core/render/vulkan/detail/command_buffer.hpp>
@@ -187,7 +188,7 @@ DepthStencilBuffer::Clear(
 BKSGE_INLINE ::VkFormat const&
 DepthStencilBuffer::format(void) const
 {
-	return m_image->format();
+	return m_image->image().format();
 }
 
 BKSGE_INLINE vulkan::ImageView const&

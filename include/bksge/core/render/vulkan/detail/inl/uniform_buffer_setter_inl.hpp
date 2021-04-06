@@ -65,7 +65,7 @@ UniformBufferSetter::LoadParameters(
 	bksge::ShaderParameterMap const& shader_parameter_map,
 	vulkan::UniformBuffer* uniform_buffer)
 {
-	bksge::uint8_t* dst = uniform_buffer->GetMappedBuffer();
+	bksge::uint8_t* dst = uniform_buffer->mapped_buffer();
 	auto const offset = uniform_buffer->Allocate(m_bytes);
 
 	dst += offset;
@@ -92,7 +92,7 @@ UniformBufferSetter::LoadParameters(
 		}
 	}
 
-	m_buffer_info.buffer = uniform_buffer->GetBuffer();
+	m_buffer_info.buffer = uniform_buffer->buffer();
 	m_buffer_info.offset = offset;
 	m_buffer_info.range  = m_bytes;
 }

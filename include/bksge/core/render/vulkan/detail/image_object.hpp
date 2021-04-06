@@ -53,9 +53,7 @@ public:
 		::VkImageLayout old_layout,
 		::VkImageLayout new_layout);
 
-	::VkImage image(void) const;
-
-	::VkFormat const& format(void) const;
+	vulkan::Image const& image(void) const;
 
 private:
 	// noncopyable

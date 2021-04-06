@@ -30,7 +30,7 @@ public:
 
 	~PhysicalDevice();
 
-	::VkPhysicalDeviceMemoryProperties const& GetMemoryProperties(void) const;
+	::VkPhysicalDeviceMemoryProperties const& memory_properties(void) const;
 
 	bksge::uint32_t GetGraphicsQueueFamilyIndex(void) const;
 

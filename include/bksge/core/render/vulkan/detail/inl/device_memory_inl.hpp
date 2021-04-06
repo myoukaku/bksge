@@ -27,6 +27,9 @@ namespace render
 namespace vulkan
 {
 
+namespace detail
+{
+
 inline bksge::uint32_t
 GetMemoryTypeIndex(
 	::VkPhysicalDeviceMemoryProperties const& props,
@@ -52,6 +55,8 @@ GetMemoryTypeIndex(
 	return bksge::uint32_t(-1);
 }
 
+}	// namespace detail
+
 BKSGE_INLINE
 DeviceMemory::DeviceMemory(
 	DeviceSharedPtr const& device,
@@ -65,8 +70,8 @@ DeviceMemory::DeviceMemory(
 	vk::MemoryAllocateInfo info;
 	info.allocationSize = requirements.size;
 	info.memoryTypeIndex =
-		GetMemoryTypeIndex(
-			physical_device->GetMemoryProperties(),
+		detail::GetMemoryTypeIndex(
+			physical_device->memory_properties(),
 			requirements.memoryTypeBits,
 			requirements_mask);
 

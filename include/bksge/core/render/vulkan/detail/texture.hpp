@@ -35,7 +35,7 @@ public:
 
 	~Texture();
 
-	vulkan::ImageViewUniquePtr const& GetImageView(void) const;
+	vulkan::ImageView const& image_view(void) const;
 
 private:
 	// noncopyable

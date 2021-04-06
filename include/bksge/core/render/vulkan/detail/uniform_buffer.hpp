@@ -12,6 +12,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/uniform_buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/buffer_object_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint8_t.hpp>
@@ -35,9 +36,9 @@ public:
 
 	~UniformBuffer();
 
-	::VkBuffer GetBuffer(void) const;
+	vulkan::Buffer const& buffer(void) const;
 
-	bksge::uint8_t* GetMappedBuffer(void) const;
+	bksge::uint8_t* mapped_buffer(void) const;
 
 	bksge::size_t Allocate(bksge::size_t size);
 

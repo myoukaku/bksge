@@ -15,6 +15,7 @@
 #include <bksge/core/render/vulkan/detail/vertex_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/buffer_object.hpp>
+#include <bksge/core/render/vulkan/detail/buffer.hpp>
 #include <bksge/core/render/vulkan/detail/command_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/geometry.hpp>
@@ -62,7 +63,7 @@ VertexBuffer::~VertexBuffer()
 BKSGE_INLINE void
 VertexBuffer::Bind(vulkan::CommandBuffer* command_buffer)
 {
-	::VkBuffer buffer = m_buffer->GetBuffer();
+	::VkBuffer buffer = m_buffer->buffer();
 	::VkDeviceSize offset = 0;
 	vk::CmdBindVertexBuffers(
 		*command_buffer,

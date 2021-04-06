@@ -15,6 +15,7 @@
 #include <bksge/core/render/vulkan/detail/index_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/buffer_object.hpp>
+#include <bksge/core/render/vulkan/detail/buffer.hpp>
 #include <bksge/core/render/vulkan/detail/command_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/index_type.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
@@ -70,7 +71,7 @@ IndexBuffer::~IndexBuffer()
 BKSGE_INLINE void
 IndexBuffer::Bind(CommandBuffer* command_buffer)
 {
-	vk::CmdBindIndexBuffer(*command_buffer, m_buffer->GetBuffer(), 0, m_type);
+	vk::CmdBindIndexBuffer(*command_buffer, m_buffer->buffer(), 0, m_type);
 }
 
 BKSGE_INLINE void

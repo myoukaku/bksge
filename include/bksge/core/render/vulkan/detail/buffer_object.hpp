@@ -39,7 +39,7 @@ public:
 
 	void UnmapMemory(void);
 
-	::VkBuffer GetBuffer(void) const;
+	vulkan::Buffer const& buffer(void) const;
 
 private:
 	// noncopyable

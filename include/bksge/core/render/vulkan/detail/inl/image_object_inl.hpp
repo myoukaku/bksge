@@ -81,16 +81,10 @@ ImageObject::TransitionLayout(
 		command_pool, aspect_mask, mipmap_count, old_layout, new_layout);
 }
 
-BKSGE_INLINE ::VkImage
+BKSGE_INLINE vulkan::Image const&
 ImageObject::image(void) const
 {
 	return *m_image;
-}
-
-BKSGE_INLINE ::VkFormat const&
-ImageObject::format(void) const
-{
-	return m_image->format();
 }
 
 }	// namespace vulkan
