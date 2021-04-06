@@ -58,8 +58,8 @@ D3D12Renderer::D3D12Renderer(Window const& window)
 #endif
 
 	::UINT const frame_buffer_count = 2;	// TODO
-	::UINT const width  = 800;	// TODO
-	::UINT const height = 600;	// TODO
+	::UINT const width  = window.client_size().width();
+	::UINT const height = window.client_size().height();
 
 	m_factory        = bksge::make_unique<DXGIFactory>();
 	m_device         = bksge::make_unique<d3d12::Device>(m_factory->EnumAdapters());

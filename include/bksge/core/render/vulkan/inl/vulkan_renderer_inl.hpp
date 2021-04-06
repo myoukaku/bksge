@@ -44,6 +44,8 @@
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/config.hpp>
+#include <bksge/fnd/sstream.hpp>
+#include <cstdio>	// printf
 
 #if defined(BKSGE_PLATFORM_WIN32)
 #include <bksge/core/detail/win32.hpp>
@@ -94,39 +96,39 @@ DebugCallback(
 	const char* pMessage,
 	void* /*pUserData*/)
 {
-#if defined(BKSGE_PLATFORM_WIN32)
-	win32::OutputDebugString("Vulkan DebugCall: ");
+	bksge::stringstream ss;
+	ss << "Vulkan DebugCall: ";
 	if ((flags & VK_DEBUG_REPORT_INFORMATION_BIT_EXT) != 0)
 	{
-		win32::OutputDebugString("[Info]: ");
+		ss << "[Info]: ";
 	}
 	if ((flags & VK_DEBUG_REPORT_WARNING_BIT_EXT) != 0)
 	{
-		win32::OutputDebugString("[Warning]: ");
+		ss << "[Warning]: ";
 	}
 	if ((flags & VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT) != 0)
 	{
-		win32::OutputDebugString("[PerformanceWarning]: ");
+		ss << "[PerformanceWarning]: ";
 	}
 	if ((flags & VK_DEBUG_REPORT_ERROR_BIT_EXT) != 0)
 	{
-		win32::OutputDebugString("[Error]: ");
+		ss << "[Error]: ";
 	}
 	if ((flags & VK_DEBUG_REPORT_DEBUG_BIT_EXT) != 0)
 	{
-		win32::OutputDebugString("[Debug]: ");
+		ss << "[Debug]: ";
 	}
 
-	win32::OutputDebugString(pMessage);
-	win32::OutputDebugString("\n");
+	ss << pMessage << std::endl;
 
+	std::printf(ss.str().c_str());
+
+#if defined(BKSGE_PLATFORM_WIN32)
+	win32::OutputDebugString(ss.str().c_str());
 	if ((flags & VK_DEBUG_REPORT_ERROR_BIT_EXT) != 0)
 	{
 		win32::MessageBox(nullptr, pMessage, "Vulkan DebugReportCallback", MB_OK);
 	}
-#else
-	(void)flags;
-	(void)pMessage;
 #endif
 
 	return VK_FALSE;

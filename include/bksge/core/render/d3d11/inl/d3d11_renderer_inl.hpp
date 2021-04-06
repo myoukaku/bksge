@@ -55,8 +55,8 @@ D3D11Renderer::D3D11Renderer(Window const& window)
 	}
 
 	::UINT const frame_buffer_count = 2;	// TODO
-	::UINT const width  = 800;	// TODO
-	::UINT const height = 600;	// TODO
+	::UINT const width  = window.client_size().width();
+	::UINT const height = window.client_size().height();
 
 	m_swap_chain = bksge::make_unique<DXGISwapChain>(
 		m_factory.get(), m_device->Get(), frame_buffer_count, width, height, hwnd);
