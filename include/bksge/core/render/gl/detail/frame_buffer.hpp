@@ -23,6 +23,7 @@ namespace render
 namespace gl
 {
 
+#if 0
 /**
  *	@brief
  */
@@ -53,6 +54,7 @@ private:
 	::GLuint						m_id;
 	bksge::vector<TextureShared>	m_color_buffers;
 };
+#endif
 
 }	// namespace gl
 

@@ -27,6 +27,7 @@ namespace render
 namespace gl
 {
 
+#if 0
 BKSGE_INLINE
 FrameBuffer::FrameBuffer()
 {
@@ -62,8 +63,8 @@ FrameBuffer::Unbind(void) const
 BKSGE_INLINE void
 FrameBuffer::CreateColorBuffers(void)
 {
-	int width  = 800;
-	int height = 600;
+	int width  = 800;	// TODO
+	int height = 600;	// TODO
 
 	for (int i = 0; i < 1; i++)
 	{
@@ -91,6 +92,7 @@ BKSGE_INLINE void
 FrameBuffer::CheckFramebufferStatus(void)
 {
 }
+#endif
 
 }	// namespace gl
 
