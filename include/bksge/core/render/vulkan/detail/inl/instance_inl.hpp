@@ -59,7 +59,8 @@ Instance::Instance(char const* app_name)
 #else	// 使うものだけを手動で追加
 
 #if defined(_DEBUG)
-	layer_names.push_back("VK_LAYER_LUNARG_standard_validation");
+//	layer_names.push_back("VK_LAYER_LUNARG_standard_validation");	// Removed in Vulkan SDK 1.2.135
+	layer_names.push_back("VK_LAYER_KHRONOS_validation");
 #endif
 
 	extension_names.push_back(VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME);
