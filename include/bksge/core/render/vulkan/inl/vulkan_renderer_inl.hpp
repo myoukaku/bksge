@@ -134,10 +134,9 @@ DebugCallback(
 BKSGE_INLINE
 VulkanRenderer::VulkanRenderer(Window const& window)
 {
-	char sample_title[] = "Draw Cube";
-	const bool depthPresent = true;
+	char const* app_name = "Bksge VulkanRenderer";	// TODO
 
-	m_instance = bksge::make_shared<vulkan::Instance>(sample_title);
+	m_instance = bksge::make_shared<vulkan::Instance>(app_name);
 
 	m_callback = bksge::make_unique<vulkan::DebugReportCallback>(
 		m_instance,
@@ -156,11 +155,6 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 
 	auto const graphics_queue_family_index =
 		m_physical_device->GetGraphicsQueueFamilyIndex();
-	auto const present_queue_family_index =
-		m_physical_device->GetPresentQueueFamilyIndex(*m_surface);
-
-	::VkFormat const surface_format =
-		GetSurfaceFormat(*m_physical_device, *m_surface);
 
 	m_device = bksge::make_shared<vulkan::Device>(m_physical_device);
 
@@ -172,51 +166,17 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 
 	vk::GetDeviceQueue(*m_device, graphics_queue_family_index, 0, &m_graphics_queue);
 
-	m_swapchain = bksge::make_unique<vulkan::Swapchain>(
-		m_device,
-		m_command_pool,
-		*m_surface,
-		surface_format,
-		graphics_queue_family_index,
-		present_queue_family_index);
-
-	m_depth_stencil_buffer = bksge::make_unique<vulkan::DepthStencilBuffer>(
-		m_device,
-		m_command_pool,
-		m_swapchain->extent(),
-		NUM_SAMPLES);
-
-	m_render_pass = bksge::make_unique<vulkan::RenderPass>(
-		m_device,
-		NUM_SAMPLES,
-		surface_format,
-		m_depth_stencil_buffer->GetFormat(),
-		depthPresent);
-
-	// init_framebuffers
-	{
-		auto const& swap_chain_views = m_swapchain->GetImageViews();
-		for (auto const& swap_chain_view : swap_chain_views)
-		{
-			bksge::vector<::VkImageView> attachments;
-			attachments.push_back(swap_chain_view);
-			if (depthPresent)
-			{
-				attachments.push_back(m_depth_stencil_buffer->GetImageView());
-			}
-
-			m_framebuffers.push_back(
-				bksge::make_unique<vulkan::Framebuffer>(
-					m_device, *m_render_pass, attachments, m_swapchain->extent()));
-		}
-	}
-
 	m_draw_fence = bksge::make_unique<vulkan::Fence>(m_device);
 	m_image_acquired_semaphore = bksge::make_unique<vulkan::Semaphore>(m_device);
 	m_resource_pool = bksge::make_unique<vulkan::ResourcePool>();
 	m_uniform_buffer = bksge::make_unique<vulkan::UniformBuffer>(
 		m_device,
 		65536 * 1024);	// TODO
+
+	CreateSwapchain();
+	CreateDepthStencilBuffer();
+	CreateRenderPass();
+	CreateFrameBuffers();
 }
 
 BKSGE_INLINE
@@ -225,12 +185,99 @@ VulkanRenderer::~VulkanRenderer()
 }
 
 BKSGE_INLINE void
+VulkanRenderer::RecreateSwapchain(void)
+{
+	m_device->WaitIdle();
+
+	m_framebuffers.clear();
+	m_render_pass.reset();
+	m_depth_stencil_buffer.reset();
+	m_swapchain.reset();
+
+	CreateSwapchain();
+	CreateDepthStencilBuffer();
+	CreateRenderPass();
+	CreateFrameBuffers();
+}
+
+BKSGE_INLINE void
+VulkanRenderer::CreateSwapchain(void)
+{
+	auto const graphics_queue_family_index =
+		m_physical_device->GetGraphicsQueueFamilyIndex();
+	auto const present_queue_family_index =
+		m_physical_device->GetPresentQueueFamilyIndex(*m_surface);
+	auto const surface_format =
+		GetSurfaceFormat(*m_physical_device, *m_surface);
+
+	m_swapchain = bksge::make_unique<vulkan::Swapchain>(
+		m_device,
+		m_command_pool,
+		*m_surface,
+		surface_format,
+		graphics_queue_family_index,
+		present_queue_family_index);
+}
+
+BKSGE_INLINE void
+VulkanRenderer::CreateDepthStencilBuffer(void)
+{
+	m_depth_stencil_buffer = bksge::make_unique<vulkan::DepthStencilBuffer>(
+		m_device,
+		m_command_pool,
+		m_swapchain->extent(),
+		NUM_SAMPLES);
+}
+
+BKSGE_INLINE void
+VulkanRenderer::CreateRenderPass(void)
+{
+	const bool depthPresent = true;	// TODO
+
+	auto const surface_format =
+		GetSurfaceFormat(*m_physical_device, *m_surface);
+
+	m_render_pass = bksge::make_unique<vulkan::RenderPass>(
+		m_device,
+		NUM_SAMPLES,
+		surface_format,
+		m_depth_stencil_buffer->format(),
+		depthPresent);
+}
+
+BKSGE_INLINE void
+VulkanRenderer::CreateFrameBuffers(void)
+{
+	const bool depthPresent = true;	// TODO
+
+	auto const& swap_chain_image_views = m_swapchain->image_views();
+	for (auto const& image_view : swap_chain_image_views)
+	{
+		bksge::vector<::VkImageView> attachments;
+		attachments.push_back(image_view);
+		if (depthPresent)
+		{
+			attachments.push_back(m_depth_stencil_buffer->image_view());
+		}
+
+		m_framebuffers.push_back(
+			bksge::make_unique<vulkan::Framebuffer>(
+				m_device, *m_render_pass, attachments, m_swapchain->extent()));
+	}
+}
+
+BKSGE_INLINE void
 VulkanRenderer::VBegin(void)
 {
-	m_frame_index = m_swapchain->AcquireNextImage(
+	auto const result = m_swapchain->AcquireNextImage(
 		UINT64_MAX,
 		*m_image_acquired_semaphore,
-		VK_NULL_HANDLE);
+		VK_NULL_HANDLE,
+		&m_frame_index);
+	if (result == VK_ERROR_OUT_OF_DATE_KHR)
+	{
+		RecreateSwapchain();
+	}
 
 	m_uniform_buffer->BeginFrame();
 
@@ -260,7 +307,12 @@ VulkanRenderer::VEnd(void)
 
 	m_draw_fence->Reset();
 
-	m_swapchain->Present(m_frame_index);
+	auto const result = m_swapchain->Present(m_frame_index);
+	if (result == VK_ERROR_OUT_OF_DATE_KHR ||
+		result == VK_SUBOPTIMAL_KHR)
+	{
+		RecreateSwapchain();
+	}
 }
 
 BKSGE_INLINE void

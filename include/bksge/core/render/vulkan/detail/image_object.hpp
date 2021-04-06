@@ -53,9 +53,9 @@ public:
 		::VkImageLayout old_layout,
 		::VkImageLayout new_layout);
 
-	::VkImage GetImage(void) const;
+	::VkImage image(void) const;
 
-	::VkFormat const& GetFormat(void) const;
+	::VkFormat const& format(void) const;
 
 private:
 	// noncopyable

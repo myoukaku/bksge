@@ -41,10 +41,11 @@ public:
 
 	~Swapchain();
 
-	bksge::uint32_t AcquireNextImage(
-		bksge::uint64_t timeout,
-		::VkSemaphore semaphore,
-		::VkFence     fence);
+	::VkResult AcquireNextImage(
+		bksge::uint64_t  timeout,
+		::VkSemaphore    semaphore,
+		::VkFence        fence,
+		bksge::uint32_t* image_index);
 
 	void ClearColor(
 		vulkan::CommandPoolSharedPtr const& command_pool,
@@ -53,7 +54,7 @@ public:
 
 	//bksge::vector<VkImage> GetImages(void) const;
 
-	bksge::vector<::VkImageView> const& GetImageViews(void) const;
+	bksge::vector<::VkImageView> const& image_views(void) const;
 
 	::VkExtent2D extent(void) const;
 
@@ -62,7 +63,7 @@ public:
 
 	::VkFormat format(void) const;
 
-	void Present(bksge::uint32_t const& image_index);
+	::VkResult Present(bksge::uint32_t image_index);
 
 private:
 	// noncopyable

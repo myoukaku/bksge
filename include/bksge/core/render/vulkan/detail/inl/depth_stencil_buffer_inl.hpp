@@ -41,7 +41,7 @@ DepthStencilBuffer::DepthStencilBuffer(
 {
 	::VkFormat format = VK_FORMAT_D24_UNORM_S8_UINT;//VK_FORMAT_UNDEFINED;
 
-	auto physical_device = device->GetPhysicalDevice();
+	auto physical_device = device->physical_device();
 
 	::VkFormatProperties props;
 
@@ -116,7 +116,7 @@ DepthStencilBuffer::DepthStencilBuffer(
 
 	m_image_view = bksge::make_unique<vulkan::ImageView>(
 		device,
-		m_image->GetImage(),
+		m_image->image(),
 		format,
 		aspect_mask,
 		1);
@@ -169,7 +169,7 @@ DepthStencilBuffer::Clear(
 	auto command_buffer = BeginSingleTimeCommands(command_pool);
 	vk::CmdClearDepthStencilImage(
 		*command_buffer,
-		m_image->GetImage(),
+		m_image->image(),
 		VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
 		&clear_value,
 		1, &range);
@@ -185,13 +185,13 @@ DepthStencilBuffer::Clear(
 }
 
 BKSGE_INLINE ::VkFormat const&
-DepthStencilBuffer::GetFormat(void) const
+DepthStencilBuffer::format(void) const
 {
-	return m_image->GetFormat();
+	return m_image->format();
 }
 
 BKSGE_INLINE vulkan::ImageView const&
-DepthStencilBuffer::GetImageView(void) const
+DepthStencilBuffer::image_view(void) const
 {
 	return *m_image_view;
 }

@@ -6048,15 +6048,29 @@ inline VkResult AcquireNextImageKHR(
     VkFence                                     fence,
     uint32_t*                                   pImageIndex)
 {
-	return vk::CheckError(::vkAcquireNextImageKHR(
-		device, swapchain, timeout, semaphore, fence, pImageIndex));
+	auto const result = ::vkAcquireNextImageKHR(
+		device, swapchain, timeout, semaphore, fence, pImageIndex);
+	if (result == VK_ERROR_OUT_OF_DATE_KHR ||
+		result == VK_SUBOPTIMAL_KHR)
+	{
+		// この2つはウィンドウをリサイズしたときに起きる可能性がある
+		return result;
+	}
+	return vk::CheckError(result);
 }
 
 inline VkResult QueuePresentKHR(
     VkQueue                                     queue,
     const VkPresentInfoKHR*                     pPresentInfo)
 {
-	return vk::CheckError(::vkQueuePresentKHR(queue, pPresentInfo));
+	auto const result = ::vkQueuePresentKHR(queue, pPresentInfo);
+	if (result == VK_ERROR_OUT_OF_DATE_KHR ||
+		result == VK_SUBOPTIMAL_KHR)
+	{
+		// この2つはウィンドウをリサイズしたときに起きる可能性がある
+		return result;
+	}
+	return vk::CheckError(result);
 }
 
 //VkResult vkGetDeviceGroupPresentCapabilitiesKHR(

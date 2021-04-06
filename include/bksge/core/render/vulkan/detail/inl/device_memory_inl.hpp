@@ -60,7 +60,7 @@ DeviceMemory::DeviceMemory(
 	: m_device(device)
 	, m_device_memory(VK_NULL_HANDLE)
 {
-	auto physical_device = device->GetPhysicalDevice();
+	auto physical_device = device->physical_device();
 
 	vk::MemoryAllocateInfo info;
 	info.allocationSize = requirements.size;

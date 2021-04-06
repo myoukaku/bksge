@@ -31,7 +31,9 @@ public:
 
 	~Device();
 
-	vulkan::PhysicalDeviceSharedPtr const& GetPhysicalDevice(void) const;
+	void WaitIdle(void);
+
+	vulkan::PhysicalDeviceSharedPtr const& physical_device(void) const;
 
 	::VkCommandPool	CreateCommandPool(
 		::VkCommandPoolCreateFlags flags,

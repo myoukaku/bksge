@@ -45,8 +45,10 @@ Swapchain::Swapchain(
 	: m_device(device)
 	, m_info()
 	, m_swapchain(VK_NULL_HANDLE)
+	, m_image_views()
+	, m_present_queue(VK_NULL_HANDLE)
 {
-	auto physical_device = device->GetPhysicalDevice();
+	auto physical_device = device->physical_device();
 
 	::VkSurfaceCapabilitiesKHR surface_capabilities;
 	vk::GetPhysicalDeviceSurfaceCapabilitiesKHR(*physical_device, surface, &surface_capabilities);
@@ -184,21 +186,20 @@ Swapchain::~Swapchain()
 	vk::DestroySwapchainKHR(*m_device, m_swapchain, nullptr);
 }
 
-BKSGE_INLINE bksge::uint32_t
+BKSGE_INLINE ::VkResult
 Swapchain::AcquireNextImage(
 	bksge::uint64_t timeout,
 	::VkSemaphore semaphore,
-	::VkFence     fence)
+	::VkFence     fence,
+	bksge::uint32_t*	image_index)
 {
-	bksge::uint32_t image_index;
-	vk::AcquireNextImageKHR(
+	return vk::AcquireNextImageKHR(
 		*m_device,
 		m_swapchain,
 		timeout,
 		semaphore,
 		fence,
-		&image_index);
-	return image_index;
+		image_index);
 }
 
 BKSGE_INLINE void
@@ -270,7 +271,7 @@ Swapchain::ClearColor(
 //}
 
 BKSGE_INLINE bksge::vector<::VkImageView> const&
-Swapchain::GetImageViews(void) const
+Swapchain::image_views(void) const
 {
 	return m_image_views;
 }
@@ -299,8 +300,8 @@ Swapchain::format(void) const
 	return m_info.imageFormat;
 }
 
-BKSGE_INLINE void
-Swapchain::Present(bksge::uint32_t const& image_index)
+BKSGE_INLINE ::VkResult
+Swapchain::Present(bksge::uint32_t image_index)
 {
 	vk::PresentInfoKHR present;
 	present.SetSwapchains(&m_swapchain);
@@ -308,7 +309,7 @@ Swapchain::Present(bksge::uint32_t const& image_index)
 	present.pImageIndices = &image_index;
 	present.pResults      = nullptr;
 
-	vk::QueuePresentKHR(m_present_queue, &present);
+	return vk::QueuePresentKHR(m_present_queue, &present);
 }
 
 }	// namespace vulkan

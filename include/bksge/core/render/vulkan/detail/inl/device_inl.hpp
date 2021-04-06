@@ -89,18 +89,18 @@ Device::Device(vulkan::PhysicalDeviceSharedPtr const& physical_device)
 BKSGE_INLINE
 Device::~Device()
 {
-	vk::DeviceWaitIdle(m_device);
+	this->WaitIdle();
 	vk::DestroyDevice(m_device, nullptr);
 }
 
-BKSGE_INLINE
-Device::operator ::VkDevice() const
+BKSGE_INLINE void
+Device::WaitIdle(void)
 {
-	return m_device;
+	vk::DeviceWaitIdle(m_device);
 }
 
 BKSGE_INLINE vulkan::PhysicalDeviceSharedPtr const&
-Device::GetPhysicalDevice(void) const
+Device::physical_device(void) const
 {
 	return m_physical_device;
 }
@@ -123,6 +123,12 @@ BKSGE_INLINE void
 Device::DestroyCommandPool(::VkCommandPool command_pool)
 {
 	vk::DestroyCommandPool(m_device, command_pool, nullptr);
+}
+
+BKSGE_INLINE
+Device::operator ::VkDevice() const
+{
+	return m_device;
 }
 
 }	// namespace vulkan

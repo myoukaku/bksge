@@ -64,6 +64,13 @@ public:
 	virtual ~VulkanRenderer();
 
 private:
+	void RecreateSwapchain(void);
+	void CreateSwapchain(void);
+	void CreateDepthStencilBuffer(void);
+	void CreateRenderPass(void);
+	void CreateFrameBuffers(void);
+
+private:
 	void VBegin(void) override;
 	void VEnd(void) override;
 	void VBeginRenderPass(RenderPassInfo const& render_pass_info) override;

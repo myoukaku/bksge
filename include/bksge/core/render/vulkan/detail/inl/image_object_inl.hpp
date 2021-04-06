@@ -82,13 +82,13 @@ ImageObject::TransitionLayout(
 }
 
 BKSGE_INLINE ::VkImage
-ImageObject::GetImage(void) const
+ImageObject::image(void) const
 {
 	return *m_image;
 }
 
 BKSGE_INLINE ::VkFormat const&
-ImageObject::GetFormat(void) const
+ImageObject::format(void) const
 {
 	return m_image->format();
 }

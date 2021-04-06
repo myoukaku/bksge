@@ -41,9 +41,9 @@ public:
 		vulkan::CommandPoolSharedPtr const& command_pool,
 		bksge::ClearState const& clear_state);
 
-	::VkFormat const& GetFormat(void) const;
+	::VkFormat const& format(void) const;
 
-	vulkan::ImageView const& GetImageView(void) const;
+	vulkan::ImageView const& image_view(void) const;
 
 private:
 	// noncopyable

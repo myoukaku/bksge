@@ -142,7 +142,7 @@ Texture::Texture(
 	CopyBufferToImage(
 		command_pool,
 		staging_buffer->GetBuffer(),
-		m_image->GetImage(),
+		m_image->image(),
 		texture.format(),
 		extent,
 		mipmap_count);
@@ -156,7 +156,7 @@ Texture::Texture(
 
 	m_image_view = bksge::make_unique<vulkan::ImageView>(
 		device,
-		m_image->GetImage(),
+		m_image->image(),
 		format,
 		VK_IMAGE_ASPECT_COLOR_BIT,
 		mipmap_count);
