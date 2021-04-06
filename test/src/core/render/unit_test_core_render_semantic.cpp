@@ -22,6 +22,8 @@ namespace bksge_core_render_test
 namespace semantic_test
 {
 
+static_assert(sizeof(bksge::Semantic) == 4, "");
+
 template <typename TChar>
 static void StringToSemanticTestSub(bksge::Semantic semantic, const TChar* str)
 {

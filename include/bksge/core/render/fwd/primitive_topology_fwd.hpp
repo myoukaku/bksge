@@ -9,13 +9,15 @@
 #ifndef BKSGE_CORE_RENDER_FWD_PRIMITIVE_TOPOLOGY_FWD_HPP
 #define BKSGE_CORE_RENDER_FWD_PRIMITIVE_TOPOLOGY_FWD_HPP
 
+#include <bksge/fnd/cstdint/uint32_t.hpp>
+
 namespace bksge
 {
 
 namespace render
 {
 
-enum class PrimitiveTopology;
+enum class PrimitiveTopology : bksge::uint32_t;
 
 }	// namespace render
 

@@ -22,6 +22,8 @@ namespace bksge_core_render_test
 namespace cull_mode_test
 {
 
+static_assert(sizeof(bksge::CullMode) == 4, "");
+
 template <typename TChar>
 static void OutputStreamTestSub(bksge::CullMode cull_mode, const TChar* str)
 {

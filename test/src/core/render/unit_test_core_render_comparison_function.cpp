@@ -22,6 +22,8 @@ namespace bksge_core_render_test
 namespace comparison_function_test
 {
 
+static_assert(sizeof(bksge::ComparisonFunction) == 4, "");
+
 template <typename TChar>
 static void OutputStreamTestSub(bksge::ComparisonFunction comparison_function, const TChar* str)
 {

@@ -23,6 +23,8 @@ namespace bksge_core_render_test
 namespace clear_flag_test
 {
 
+static_assert(sizeof(bksge::ClearFlag) == 4, "");
+
 GTEST_TEST(Render_ClearFlag, BasicTest)
 {
 	using bksge::ClearFlag;

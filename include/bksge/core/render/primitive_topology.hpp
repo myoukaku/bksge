@@ -22,7 +22,7 @@ namespace render
 /**
  *	@brief	描画プリミティブの種類
  */
-enum class PrimitiveTopology
+enum class PrimitiveTopology : bksge::uint32_t
 {
 	kPoints,
 	kLines,

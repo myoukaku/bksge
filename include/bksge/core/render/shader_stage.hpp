@@ -18,7 +18,7 @@ namespace bksge
 namespace render
 {
 
-enum class ShaderStage
+enum class ShaderStage : bksge::uint32_t
 {
 	kVertex,
 	kGeometry,

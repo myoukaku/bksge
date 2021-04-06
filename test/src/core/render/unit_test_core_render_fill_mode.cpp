@@ -22,6 +22,8 @@ namespace bksge_core_render_test
 namespace fill_mode_test
 {
 
+static_assert(sizeof(bksge::FillMode) == 4, "");
+
 template <typename TChar>
 static void OutputStreamTestSub(bksge::FillMode fill_mode, const TChar* str)
 {

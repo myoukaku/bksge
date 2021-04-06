@@ -22,6 +22,8 @@ namespace bksge_core_render_test
 namespace front_face_test
 {
 
+static_assert(sizeof(bksge::FrontFace) == 4, "");
+
 template <typename TChar>
 static void OutputStreamTestSub(bksge::FrontFace front_face, const TChar* str)
 {

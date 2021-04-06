@@ -22,6 +22,8 @@ namespace bksge_core_render_test
 namespace shader_stage_test
 {
 
+static_assert(sizeof(bksge::ShaderStage) == 4, "");
+
 GTEST_TEST(Render_ShaderStage, ToStringTest)
 {
 	using namespace bksge;

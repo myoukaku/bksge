@@ -22,7 +22,7 @@ namespace render
 /**
  *	@brief	AddressMode が kBorder のときに塗りつぶす色
  */
-enum class BorderColor
+enum class BorderColor : bksge::uint32_t
 {
 	kTransparentBlack,
 	kOpaqueBlack,

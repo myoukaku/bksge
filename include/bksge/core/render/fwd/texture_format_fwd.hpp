@@ -9,15 +9,17 @@
 #ifndef BKSGE_CORE_RENDER_FWD_TEXTURE_FORMAT_FWD_HPP
 #define BKSGE_CORE_RENDER_FWD_TEXTURE_FORMAT_FWD_HPP
 
+#include <bksge/fnd/cstdint/uint32_t.hpp>
+
 namespace bksge
 {
 
 namespace render
 {
 
-enum class TextureFormat;
-enum class PixelSwizzle;
-enum class PixelBaseFormat;
+enum class TextureFormat : bksge::uint32_t;
+enum class PixelSwizzle : bksge::uint32_t;
+enum class PixelBaseFormat : bksge::uint32_t;
 
 }	// namespace render
 

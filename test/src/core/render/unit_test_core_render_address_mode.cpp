@@ -22,6 +22,8 @@ namespace bksge_core_render_test
 namespace address_mode_test
 {
 
+static_assert(sizeof(bksge::AddressMode) == 4, "");
+
 template <typename TChar>
 static void OutputStreamTestSub(bksge::AddressMode address_mode, const TChar* str)
 {

@@ -22,6 +22,8 @@ namespace bksge_core_render_test
 namespace border_color_test
 {
 
+static_assert(sizeof(bksge::BorderColor) == 4, "");
+
 template <typename TChar>
 static void OutputStreamTestSub(bksge::BorderColor border_color, const TChar* str)
 {

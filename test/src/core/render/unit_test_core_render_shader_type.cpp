@@ -22,6 +22,8 @@ namespace bksge_core_render_test
 namespace shader_type_test
 {
 
+static_assert(sizeof(bksge::ShaderType) == 4, "");
+
 GTEST_TEST(Render_ShaderType, ToStringTest)
 {
 	using namespace bksge;

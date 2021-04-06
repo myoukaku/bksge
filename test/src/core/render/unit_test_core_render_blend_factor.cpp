@@ -22,6 +22,8 @@ namespace bksge_core_render_test
 namespace blend_factor_test
 {
 
+static_assert(sizeof(bksge::BlendFactor) == 4, "");
+
 template <typename TChar>
 static void OutputStreamTestSub(bksge::BlendFactor blend_factor, const TChar* str)
 {

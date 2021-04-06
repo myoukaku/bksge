@@ -22,6 +22,8 @@ namespace bksge_core_render_test
 namespace primitive_topology_test
 {
 
+static_assert(sizeof(bksge::PrimitiveTopology) == 4, "");
+
 template <typename TChar>
 static void OutputStreamTestSub(bksge::PrimitiveTopology p, const TChar* str)
 {

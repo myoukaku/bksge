@@ -36,7 +36,7 @@ static bksge::uint32_t const kDataTypeShift       = 0;
 /**
  *	@brief	チャンネルの型です
  */
-enum class DataType
+enum class DataType : bksge::uint32_t
 {
 	kNone,
 	kUnsigned,
@@ -48,7 +48,7 @@ enum class DataType
 /**
  *	@brief	ピクセルのスウィズルモードです
  */
-enum class PixelSwizzle
+enum class PixelSwizzle : bksge::uint32_t
 {
 	kNone,
 	kR,
@@ -69,7 +69,7 @@ enum class PixelSwizzle
  *
  *	ベースフォーマットとスウィズルモードを組み合わせてピクセルフォーマットを作成します。
  */
-enum class PixelBaseFormat
+enum class PixelBaseFormat : bksge::uint32_t
 {
 #define BKSGE_MAKE_PIXEL_DATA_TYPE(bpc, type)	\
 	(static_cast<bksge::uint32_t>(bpc) << kBitsPerChannelShift) |	\
@@ -103,7 +103,7 @@ static bksge::uint32_t const kPixelBaseFormatShift = 0;
  *	24-27	未使用
  *	28-31	データの型
  */
-enum class TextureFormat
+enum class TextureFormat : bksge::uint32_t
 {
 #define BKSGE_MAKE_TEXTURE_FORMAT(channels, swizzle, base)	\
 	((static_cast<bksge::uint32_t>(channels) << kChannelCountShift)		 |	\

@@ -22,6 +22,8 @@ namespace bksge_core_render_test
 namespace logic_operation_test
 {
 
+static_assert(sizeof(bksge::LogicOperation) == 4, "");
+
 template <typename TChar>
 static void OutputStreamTestSub(bksge::LogicOperation logic_operation, const TChar* str)
 {

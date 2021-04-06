@@ -27,6 +27,7 @@ class SampledTexture
 {
 public:
 	SampledTexture(void);
+
 	explicit SampledTexture(
 		Sampler const& sampler,
 		Texture const& texture);

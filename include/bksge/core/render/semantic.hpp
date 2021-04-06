@@ -21,7 +21,7 @@ namespace render
 /**
  *	@brief	頂点データの意味
  */
-enum class Semantic
+enum class Semantic : bksge::uint32_t
 {
 	kPosition,
 	kNormal,

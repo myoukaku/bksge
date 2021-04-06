@@ -23,6 +23,8 @@ namespace bksge_core_render_test
 namespace color_write_flag_test
 {
 
+static_assert(sizeof(bksge::ColorWriteFlag) == 4, "");
+
 GTEST_TEST(Render_ColorWriteFlag, BasicTest)
 {
 	using bksge::ColorWriteFlag;

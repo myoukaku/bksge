@@ -18,7 +18,7 @@ namespace bksge
 namespace render
 {
 
-enum class ShaderType
+enum class ShaderType : bksge::uint32_t
 {
 	kHLSL,
 	kGLSL,

@@ -22,7 +22,7 @@ namespace render
 /**
  *	@brief	テクスチャ座標がテクスチャのサイズを超えた時の補正方法
  */
-enum class AddressMode
+enum class AddressMode : bksge::uint32_t
 {
 	kRepeat, ///< 繰り返し
 	kMirror, ///< 反転しながら繰り返す

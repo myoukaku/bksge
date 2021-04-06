@@ -22,7 +22,7 @@ namespace render
 /**
  *	@brief	テクスチャの拡大・縮小時の補間方法
  */
-enum class FilterMode
+enum class FilterMode : bksge::uint32_t
 {
 	kNearest,	///< テクセル座標に最も近いテクセルの値を読み出してテクスチャ値とする
 	kLinear,	///< テクセル座標に最も近い4つのテクセルの値を読み出し、それらの加重平均をテクスチャ値とする

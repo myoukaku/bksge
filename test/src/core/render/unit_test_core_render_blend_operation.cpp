@@ -22,6 +22,8 @@ namespace bksge_core_render_test
 namespace blend_operation_test
 {
 
+static_assert(sizeof(bksge::BlendOperation) == 4, "");
+
 template <typename TChar>
 static void OutputStreamTestSub(bksge::BlendOperation blend_operation, const TChar* str)
 {

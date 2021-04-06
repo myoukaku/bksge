@@ -22,6 +22,8 @@ namespace bksge_core_render_test
 namespace texture_format_test
 {
 
+static_assert(sizeof(bksge::TextureFormat) == 4, "");
+
 GTEST_TEST(TextureFormatTest, GetPixelSwizzleTest)
 {
 	using namespace bksge::render;

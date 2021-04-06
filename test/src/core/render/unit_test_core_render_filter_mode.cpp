@@ -22,6 +22,8 @@ namespace bksge_core_render_test
 namespace filter_mode_test
 {
 
+static_assert(sizeof(bksge::FilterMode) == 4, "");
+
 template <typename TChar>
 static void OutputStreamTestSub(bksge::FilterMode filter_mode, const TChar* str)
 {

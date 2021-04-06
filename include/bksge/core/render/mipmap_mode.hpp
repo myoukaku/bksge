@@ -22,7 +22,7 @@ namespace render
 /**
  *	@brief
  */
-enum class MipmapMode
+enum class MipmapMode : bksge::uint32_t
 {
 	kDisable,
 	kNearest,

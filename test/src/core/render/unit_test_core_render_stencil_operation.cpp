@@ -22,6 +22,8 @@ namespace bksge_core_render_test
 namespace stencil_operation_test
 {
 
+static_assert(sizeof(bksge::StencilOperation) == 4, "");
+
 template <typename TChar>
 static void OutputStreamTestSub(bksge::StencilOperation stencil_operation, const TChar* str)
 {
