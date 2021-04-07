@@ -22,9 +22,8 @@ namespace render
 {
 
 BKSGE_INLINE
-Shader::Shader(ShaderType type, bksge::initializer_list<bksge::pair<ShaderStage, char const*>> il)
+Shader::Shader(bksge::initializer_list<bksge::pair<ShaderStage, char const*>> il)
 	: Base()
-	, m_type(type)
 {
 	for (auto i : il)
 	{
@@ -35,7 +34,6 @@ Shader::Shader(ShaderType type, bksge::initializer_list<bksge::pair<ShaderStage,
 BKSGE_INLINE
 Shader::Shader(Shader&& rhs)
 	: Base(bksge::move(rhs))
-	, m_type(bksge::move(rhs.m_type))
 	, m_shaders(bksge::move(rhs.m_shaders))
 {}
 
@@ -43,15 +41,8 @@ BKSGE_INLINE Shader&
 Shader::operator=(Shader&& rhs)
 {
 	Base::operator=(bksge::move(rhs));
-	m_type = bksge::move(rhs.m_type);
 	m_shaders = bksge::move(rhs.m_shaders);
 	return *this;
-}
-
-BKSGE_INLINE ShaderType
-Shader::type(void) const
-{
-	return m_type;
 }
 
 BKSGE_INLINE auto

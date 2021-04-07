@@ -48,11 +48,8 @@ static bksge::Shader const* GetGLSLShader(void)
 
 	static bksge::Shader const shader
 	{
-		bksge::ShaderType::kGLSL,
-		{
-			{ bksge::ShaderStage::kVertex,   vs_source },
-			{ bksge::ShaderStage::kFragment, fs_source },
-		}
+		{ bksge::ShaderStage::kVertex,   vs_source },
+		{ bksge::ShaderStage::kFragment, fs_source },
 	};
 
 	return &shader;
@@ -61,47 +58,44 @@ static bksge::Shader const* GetGLSLShader(void)
 static bksge::Shader const* GetHLSLShader(void)
 {
 	char const* vs_source =
-		"struct VS_INPUT							"
-		"{											"
-		"	float3 pos   : POSITION;				"
-		"	float4 color : COLOR;					"
-		"};											"
- 		"											"
-		"struct VS_OUTPUT							"
-		"{											"
-		"	float4 pos   : SV_POSITION;				"
-		"	float4 color : COLOR;					"
-		"};											"
-		"											"
-		"VS_OUTPUT main(VS_INPUT input)				"
-		"{											"
-		"	VS_OUTPUT output;						"
-		"	output.pos = float4(input.pos, 1.0);	"
-		"	output.color = input.color;				"
-		"	return output;							"
-		"}											"
+		"struct VS_INPUT							\n"
+		"{											\n"
+		"	float3 pos   : POSITION;				\n"
+		"	float4 color : COLOR;					\n"
+		"};											\n"
+ 		"											\n"
+		"struct VS_OUTPUT							\n"
+		"{											\n"
+		"	float4 pos   : SV_POSITION;				\n"
+		"	float4 color : COLOR;					\n"
+		"};											\n"
+		"											\n"
+		"VS_OUTPUT main(VS_INPUT input)				\n"
+		"{											\n"
+		"	VS_OUTPUT output;						\n"
+		"	output.pos = float4(input.pos, 1.0);	\n"
+		"	output.color = input.color;				\n"
+		"	return output;							\n"
+		"}											\n"
 	;
 
 	char const* ps_source =
-		"struct PS_INPUT							"
-		"{											"
-		"	float4 pos   : SV_POSITION;				"
-		"	float4 color : COLOR;					"
-		"};											"
-		"											"
-		"float4 main(PS_INPUT input) : SV_Target	"
-		"{											"
-		"	return input.color;						"
-		"}											"
+		"struct PS_INPUT							\n"
+		"{											\n"
+		"	float4 pos   : SV_POSITION;				\n"
+		"	float4 color : COLOR;					\n"
+		"};											\n"
+		"											\n"
+		"float4 main(PS_INPUT input) : SV_Target	\n"
+		"{											\n"
+		"	return input.color;						\n"
+		"}											\n"
 	;
 
 	static bksge::Shader const shader
 	{
-		bksge::ShaderType::kHLSL,
-		{
-			{ bksge::ShaderStage::kVertex,   vs_source },
-			{ bksge::ShaderStage::kFragment, ps_source },
-		}
+		{ bksge::ShaderStage::kVertex,   vs_source },
+		{ bksge::ShaderStage::kFragment, ps_source },
 	};
 
 	return &shader;
@@ -114,6 +108,7 @@ int main()
 	bksge::Extent2f const extent{800, 600};
 	bksge::vector<bksge::shared_ptr<bksge::Renderer>>	renderers;
 	bksge::vector<bksge::shared_ptr<bksge::Window>>		windows;
+	bksge::vector<bksge::Shader const*>					shaders;
 
 #if BKSGE_CORE_RENDER_HAS_D3D11_RENDERER
 	{
@@ -124,6 +119,8 @@ int main()
 		bksge::shared_ptr<bksge::D3D11Renderer> renderer(
 			new bksge::D3D11Renderer(*window));
 		renderers.push_back(renderer);
+
+		shaders.push_back(GetHLSLShader());
 	}
 #endif
 #if BKSGE_CORE_RENDER_HAS_D3D12_RENDERER
@@ -135,6 +132,8 @@ int main()
 		bksge::shared_ptr<bksge::D3D12Renderer> renderer(
 			new bksge::D3D12Renderer(*window));
 		renderers.push_back(renderer);
+
+		shaders.push_back(GetHLSLShader());
 	}
 #endif
 #if BKSGE_CORE_RENDER_HAS_GL_RENDERER
@@ -146,6 +145,8 @@ int main()
 		bksge::shared_ptr<bksge::GlRenderer> renderer(
 			new bksge::GlRenderer(*window));
 		renderers.push_back(renderer);
+
+		shaders.push_back(GetGLSLShader());
 	}
 #endif
 #if BKSGE_CORE_RENDER_HAS_VULKAN_RENDERER
@@ -157,6 +158,8 @@ int main()
 		bksge::shared_ptr<bksge::VulkanRenderer> renderer(
 			new bksge::VulkanRenderer(*window));
 		renderers.push_back(renderer);
+
+		shaders.push_back(GetGLSLShader());
 	}
 #endif
 
@@ -177,12 +180,6 @@ int main()
 	const bksge::Geometry geometry(
 		bksge::PrimitiveTopology::kTriangles, vertices, indices);
 
-	bksge::vector<bksge::Shader const*> const shader_list
-	{
-		GetGLSLShader(),
-		GetHLSLShader(),
-	};
-
 	bksge::ShaderParameterMap shader_parameter;
 
 	bksge::RenderState render_state;
@@ -201,14 +198,17 @@ int main()
 			}
 		}
 
+		int i = 0;
 		for (auto& renderer : renderers)
 		{
 			renderer->Begin();
 			renderer->BeginRenderPass(render_pass_info);
 			renderer->Render(
-				geometry, shader_list, shader_parameter, render_state);
+				geometry, *shaders[i], shader_parameter, render_state);
 			renderer->EndRenderPass();
 			renderer->End();
+
+			++i;
 		}
 	}
 

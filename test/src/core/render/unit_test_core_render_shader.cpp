@@ -39,11 +39,8 @@ GTEST_TEST(Render_Shader, MoveTest)
 
 	Shader shader_tmp
 	{
-		bksge::ShaderType::kHLSL,
-		{
-			{ ShaderStage::kVertex, vs_source },
-			{ ShaderStage::kFragment, fs_source },
-		}
+		{ ShaderStage::kVertex, vs_source },
+		{ ShaderStage::kFragment, fs_source },
 	};
 
 	auto const id_tmp = shader_tmp.id();
@@ -52,7 +49,6 @@ GTEST_TEST(Render_Shader, MoveTest)
 	Shader shader(bksge::move(shader_tmp));	// moveコンストラクタはOK
 
 	EXPECT_EQ(id_tmp, shader.id());
-	EXPECT_EQ(bksge::ShaderType::kHLSL, shader.type());
 
 	for (auto&& it : shader)
 	{

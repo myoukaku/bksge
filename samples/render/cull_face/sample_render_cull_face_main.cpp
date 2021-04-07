@@ -15,6 +15,84 @@
 namespace
 {
 
+static bksge::Shader const* GetGLSLShader(void)
+{
+	static char const* vs_source =
+		"#version 420											\n"
+		"#extension GL_ARB_separate_shader_objects : enable		\n"
+		"														\n"
+		"layout (location = 0) in vec3 aPosition;				\n"
+		"														\n"
+		"layout(set=0, binding=0) uniform UniformBuffer1 {		\n"
+		"	mat4 uMatrix;										\n"
+		"};														\n"
+		"														\n"
+		"void main()											\n"
+		"{														\n"
+		"	gl_Position = uMatrix * vec4(aPosition, 1.0);		\n"
+		"}														\n"
+	;
+
+		static char const* fs_source =
+		"#version 420											\n"
+		"#extension GL_ARB_separate_shader_objects : enable		\n"
+		"														\n"
+		"layout (location = 0) out vec4 oColor;					\n"
+		"														\n"
+		"layout(set=0, binding=1) uniform UniformBuffer2 {		\n"
+		"	vec3 uColor;										\n"
+		"};														\n"
+		"														\n"
+		"void main()											\n"
+		"{														\n"
+		"	oColor = vec4(uColor, 1.0);							\n"
+		"}														\n"
+	;
+
+	static bksge::Shader const shader
+	{
+		{ bksge::ShaderStage::kVertex,   vs_source },
+		{ bksge::ShaderStage::kFragment, fs_source },
+	};
+
+	return &shader;
+}
+
+static bksge::Shader const* GetHLSLShader(void)
+{
+	static char const* vs_source =
+		"cbuffer ConstantBuffer1								\n"
+		"{														\n"
+		"	row_major float4x4 uMatrix;							\n"
+		"};														\n"
+		"														\n"
+		"float4 main(float3 aPosition : POSITION) : SV_POSITION	\n"
+		"{														\n"
+		"	return mul(float4(aPosition, 1.0), uMatrix);		\n"
+		"}														\n"
+	;
+
+	static char const* ps_source =
+		"cbuffer ConstantBuffer2								\n"
+		"{														\n"
+		"	float3 uColor;										\n"
+		"};														\n"
+		"														\n"
+		"float4 main() : SV_Target								\n"
+		"{														\n"
+		"	return float4(uColor, 1.0);							\n"
+		"}														\n"
+	;
+
+	static bksge::Shader const shader
+	{
+		{ bksge::ShaderStage::kVertex,   vs_source },
+		{ bksge::ShaderStage::kFragment, ps_source },
+	};
+
+	return &shader;
+}
+
 class Triangle
 {
 public:
@@ -42,7 +120,7 @@ public:
 		m_rotation += 0.01f;
 	}
 
-	void Draw(bksge::Renderer* renderer)
+	void Draw(bksge::Renderer* renderer, bksge::Shader const* shader)
 	{
 		bksge::Matrix4x4f mat =
 			bksge::Matrix4x4f::MakeScale(m_scale) *
@@ -54,7 +132,7 @@ public:
 		m_shader_parameter.SetParameter("uColor", m_color);
 		renderer->Render(
 			GetGeometry(),
-			GetShaderList(),
+			*shader,
 			m_shader_parameter,
 			m_render_state);
 	}
@@ -75,101 +153,6 @@ private:
 		return geometry;
 	}
 
-	static bksge::Shader const* GetGLSLShader(void)
-	{
-		static char const* vs_source =
-			"#version 420											\n"
-			"#extension GL_ARB_separate_shader_objects : enable		\n"
-			"														\n"
-			"layout (location = 0) in vec3 aPosition;				\n"
-			"														\n"
-			"layout(set=0, binding=0) uniform UniformBuffer1 {		\n"
-			"	mat4 uMatrix;										\n"
-			"};														\n"
-			"														\n"
-			"void main()											\n"
-			"{														\n"
-			"	gl_Position = uMatrix * vec4(aPosition, 1.0);		\n"
-			"}														\n"
-		;
-
-			static char const* fs_source =
-			"#version 420											\n"
-			"#extension GL_ARB_separate_shader_objects : enable		\n"
-			"														\n"
-			"layout (location = 0) out vec4 oColor;					\n"
-			"														\n"
-			"layout(set=0, binding=1) uniform UniformBuffer2 {		\n"
-			"	vec3 uColor;										\n"
-			"};														\n"
-			"														\n"
-			"void main()											\n"
-			"{														\n"
-			"	oColor = vec4(uColor, 1.0);							\n"
-			"}														\n"
-		;
-
-		static bksge::Shader const shader
-		{
-			bksge::ShaderType::kGLSL,
-			{
-				{ bksge::ShaderStage::kVertex,   vs_source },
-				{ bksge::ShaderStage::kFragment, fs_source },
-			}
-		};
-
-		return &shader;
-	}
-
-	static bksge::Shader const* GetHLSLShader(void)
-	{
-		static char const* vs_source =
-			"cbuffer ConstantBuffer1						"
-			"{												"
-			"	row_major float4x4 uMatrix;					"
-			"};												"
-			"												"
-			"float4 main(float3 aPosition : POSITION) : SV_POSITION	"
-			"{												"
-			"	return mul(float4(aPosition, 1.0), uMatrix);	"
-			"}												"
-		;
-
-		static char const* ps_source =
-			"cbuffer ConstantBuffer2						"
-			"{												"
-			"	float3 uColor;								"
-			"};												"
-			"												"
-			"float4 main() : SV_Target						"
-			"{												"
-			"	return float4(uColor, 1.0);	"
-			"}												"
-		;
-
-		static bksge::Shader const shader
-		{
-			bksge::ShaderType::kHLSL,
-			{
-				{ bksge::ShaderStage::kVertex,   vs_source },
-				{ bksge::ShaderStage::kFragment, ps_source },
-			}
-		};
-
-		return &shader;
-	}
-
-	static bksge::vector<bksge::Shader const*> const& GetShaderList(void)
-	{
-		static bksge::vector<bksge::Shader const*> const shader_map
-		{
-			GetGLSLShader(),
-			GetHLSLShader(),
-		};
-
-		return shader_map;
-	}
-
 private:
 	bksge::ShaderParameterMap	m_shader_parameter;
 	bksge::RenderState			m_render_state;
@@ -186,6 +169,7 @@ int main()
 	bksge::Extent2f const extent{800, 600};
 	bksge::vector<bksge::shared_ptr<bksge::Renderer>>	renderers;
 	bksge::vector<bksge::shared_ptr<bksge::Window>>		windows;
+	bksge::vector<bksge::Shader const*>					shaders;
 
 #if BKSGE_CORE_RENDER_HAS_D3D11_RENDERER
 	{
@@ -195,6 +179,8 @@ int main()
 
 		bksge::shared_ptr<bksge::D3D11Renderer> renderer(new bksge::D3D11Renderer(*window));
 		renderers.push_back(renderer);
+
+		shaders.push_back(GetHLSLShader());
 	}
 #endif
 #if BKSGE_CORE_RENDER_HAS_D3D12_RENDERER
@@ -205,6 +191,8 @@ int main()
 
 		bksge::shared_ptr<bksge::D3D12Renderer> renderer(new bksge::D3D12Renderer(*window));
 		renderers.push_back(renderer);
+
+		shaders.push_back(GetHLSLShader());
 	}
 #endif
 #if BKSGE_CORE_RENDER_HAS_GL_RENDERER
@@ -215,6 +203,8 @@ int main()
 
 		bksge::shared_ptr<bksge::GlRenderer> renderer(new bksge::GlRenderer(*window));
 		renderers.push_back(renderer);
+
+		shaders.push_back(GetGLSLShader());
 	}
 #endif
 #if BKSGE_CORE_RENDER_HAS_VULKAN_RENDERER
@@ -226,6 +216,8 @@ int main()
 		bksge::shared_ptr<bksge::VulkanRenderer> renderer(
 			new bksge::VulkanRenderer(*window));
 		renderers.push_back(renderer);
+
+		shaders.push_back(GetGLSLShader());
 	}
 #endif
 
@@ -252,16 +244,19 @@ int main()
 			}
 		}
 
+		int i = 0;
 		for (auto& renderer : renderers)
 		{
 			renderer->Begin();
 			renderer->BeginRenderPass(render_pass_info);
 			for (auto&& triangle : triangles)
 			{
-				triangle->Draw(renderer.get());
+				triangle->Draw(renderer.get(), shaders[i]);
 			}
 			renderer->EndRenderPass();
 			renderer->End();
+
+			++i;
 		}
 
 		for (auto&& triangle : triangles)

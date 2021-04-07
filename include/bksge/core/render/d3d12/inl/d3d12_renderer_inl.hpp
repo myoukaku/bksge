@@ -30,7 +30,6 @@
 #include <bksge/core/render/dxgi/dxgi_swap_chain.hpp>
 #include <bksge/core/render/geometry.hpp>
 #include <bksge/core/render/shader.hpp>
-#include <bksge/core/render/shader_type.hpp>
 #include <bksge/core/render/render_state.hpp>
 #include <bksge/core/render/render_pass_info.hpp>
 #include <bksge/core/window/window.hpp>
@@ -234,11 +233,6 @@ D3D12Renderer::VRender(
 	ShaderParameterMap const& shader_parameter_map,
 	RenderState const& render_state)
 {
-	if (shader.type() != ShaderType::kHLSL)
-	{
-		return false;
-	}
-
 	m_command_list->OMSetStencilRef(
 		static_cast<UINT>(render_state.stencil_state().reference()));
 

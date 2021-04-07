@@ -11,7 +11,6 @@
 
 #include <bksge/core/render/fwd/shader_fwd.hpp>
 #include <bksge/core/render/detail/identifiable.hpp>
-#include <bksge/core/render/shader_type.hpp>
 #include <bksge/core/render/shader_stage.hpp>
 //#include <bksge/fnd/serialization/access.hpp>
 //#include <bksge/fnd/serialization/nvp.hpp>
@@ -40,7 +39,7 @@ private:
 public:
 	using const_iterator = ContainerType::const_iterator;
 
-	Shader(ShaderType type, bksge::initializer_list<bksge::pair<ShaderStage, char const*>> il);
+	explicit Shader(bksge::initializer_list<bksge::pair<ShaderStage, char const*>> il);
 
 private:
 	// コピー禁止
@@ -54,13 +53,10 @@ public:
 
 	~Shader() = default;
 
-	ShaderType type(void) const;
-
 	const_iterator begin(void) const;
 	const_iterator end(void) const;
 
 private:
-	ShaderType			m_type;
 	ContainerType		m_shaders;
 
 private:
@@ -72,7 +68,6 @@ private:
 	template <typename Archive>
 	void serialize(Archive& ar, bksge::serialization::version_t /*version*/)
 	{
-		ar & BKSGE_SERIALIZATION_NVP(m_type);
 		ar & BKSGE_SERIALIZATION_NVP(m_shaders);
 	}
 #endif

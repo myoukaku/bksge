@@ -190,11 +190,6 @@ D3D11Renderer::VRender(
 	ShaderParameterMap const& shader_parameter_map,
 	RenderState const& render_state)
 {
-	if (shader.type() != ShaderType::kHLSL)
-	{
-		return false;
-	}
-
 	// Set RasterizerState
 	{
 		auto state = m_device->CreateRasterizerState(

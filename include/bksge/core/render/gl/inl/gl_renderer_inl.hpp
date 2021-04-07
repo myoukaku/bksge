@@ -227,11 +227,6 @@ GlRenderer::VRender(
 	ShaderParameterMap const& shader_parameter_map,
 	RenderState const& render_state)
 {
-	if (shader.type() != ShaderType::kGLSL)
-	{
-		return false;
-	}
-
 	gl::detail::ApplyRasterizerState(render_state.rasterizer_state());
 	gl::detail::ApplyBlendState(render_state.blend_state());
 	gl::detail::ApplyStencilState(render_state.stencil_state());

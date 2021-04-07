@@ -43,7 +43,6 @@
 #include <bksge/core/render/shader.hpp>
 #include <bksge/core/render/shader_parameter_map.hpp>
 #include <bksge/core/render/shader_stage.hpp>
-#include <bksge/core/render/shader_type.hpp>
 #include <bksge/core/render/stencil_operation.hpp>
 #include <bksge/core/render/stencil_state.hpp>
 #include <bksge/core/render/texture.hpp>

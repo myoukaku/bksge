@@ -19,6 +19,117 @@
 namespace
 {
 
+static bksge::Shader const* GetGLSLShader(void)
+{
+	static char const* vs_source =
+		"#version 420											\n"
+		"#extension GL_ARB_separate_shader_objects : enable		\n"
+		"														\n"
+		"layout (location = 0) in vec3 aPosition;				\n"
+		"layout (location = 1) in vec2 aTexCoord;				\n"
+		"														\n"
+		"layout (location = 0) out vec2 vTexCoord;				\n"
+		"														\n"
+		"layout(set=0, binding=0) uniform Matrices {			\n"
+		"	mat4 uProjection;									\n"
+		"	mat4 uView;											\n"
+		"	mat4 uModel;										\n"
+		"};														\n"
+		"														\n"
+		"void main()											\n"
+		"{														\n"
+		"	vec4 pos = vec4(aPosition, 1.0);					\n"
+		"	gl_Position = uProjection * uView * uModel * pos;	\n"
+		"	vTexCoord   = aTexCoord;							\n"
+		"}														\n"
+	;
+
+	static char const* fs_source =
+		"#version 420											\n"
+		"#extension GL_ARB_separate_shader_objects : enable		\n"
+		"														\n"
+		"layout (location = 0) in vec2 vTexCoord;				\n"
+		"														\n"
+		"layout (location = 0) out vec4 oColor;					\n"
+		"														\n"
+		"layout (binding = 1) uniform sampler2D uSampler2D;		\n"
+		"														\n"
+		"void main()											\n"
+		"{														\n"
+		"	oColor = texture(uSampler2D, vTexCoord);			\n"
+		"}														\n"
+	;
+
+	static bksge::Shader const shader
+	{
+		{ bksge::ShaderStage::kVertex,   vs_source },
+		{ bksge::ShaderStage::kFragment, fs_source },
+	};
+
+	return &shader;
+}
+
+static bksge::Shader const* GetHLSLShader(void)
+{
+	static char const* vs_source =
+		"struct VS_INPUT								\n"
+		"{												\n"
+		"    float3 pos : POSITION;						\n"
+		"    float2 uv : TEXCOORD;						\n"
+		"};												\n"
+		"												\n"
+		"struct VS_OUTPUT								\n"
+		"{												\n"
+		"    float4 pos : SV_POSITION;					\n"
+		"    float2 uv : TEXCOORD;						\n"
+		"};												\n"
+		"												\n"
+		"cbuffer Matrices								\n"
+		"{												\n"
+		"	row_major float4x4 uProjection;				\n"
+		"	row_major float4x4 uView;					\n"
+		"	row_major float4x4 uModel;					\n"
+		"};												\n"
+		"												\n"
+		"VS_OUTPUT main(VS_INPUT input)					\n"
+		"{												\n"
+		"	float4 pos = float4(input.pos, 1.0);		\n"
+		"	pos = mul(pos, uModel);						\n"
+		"	pos = mul(pos, uView);						\n"
+		"	pos = mul(pos, uProjection);				\n"
+		"												\n"
+		"	VS_OUTPUT output;							\n"
+		"	output.pos   = pos;							\n"
+		"	output.uv = input.uv;						\n"
+		"	return output;								\n"
+		"}												\n"
+	;
+
+	static char const* ps_source =
+		"struct PS_INPUT								\n"
+		"{												\n"
+		"    float4 pos : SV_POSITION;					\n"
+		"    float2 uv : TEXCOORD;						\n"
+		"};												\n"
+		"												\n"
+		"Texture2D uTexture : register(t0);				\n"
+		"SamplerState uSampler : register(s0);			\n"
+		"												\n"
+		"float4 main(PS_INPUT input) : SV_TARGET		\n"
+		"{												\n"
+		"	return uTexture.Sample(uSampler, input.uv);	\n"
+		"}												\n"
+	;
+
+	static bksge::Shader const shader
+	{
+		{ bksge::ShaderStage::kVertex,   vs_source },
+		{ bksge::ShaderStage::kFragment, ps_source },
+	};
+
+	return &shader;
+}
+
 class Plane
 {
 public:
@@ -47,7 +158,7 @@ public:
 		m_sampler.SetMipFilter(mip_filter);
 	}
 
-	void Draw(bksge::Renderer* renderer)
+	void Draw(bksge::Renderer* renderer, bksge::Shader const* shader)
 	{
 		m_shader_parameter.SetParameter("uProjection", m_projection);
 		m_shader_parameter.SetParameter("uView", m_view);
@@ -60,7 +171,7 @@ public:
 
 		renderer->Render(
 			GetGeometry(),
-			GetShaderList(),
+			*shader,
 			m_shader_parameter,
 			m_render_state);
 	}
@@ -85,134 +196,6 @@ private:
 			bksge::PrimitiveTopology::kTriangles, vertices, indices);
 
 		return geometry;
-	}
-
-	static bksge::Shader const* GetGLSLShader(void)
-	{
-		static char const* vs_source =
-			"#version 420											\n"
-			"#extension GL_ARB_separate_shader_objects : enable		\n"
-			"														\n"
-			"layout (location = 0) in vec3 aPosition;				\n"
-			"layout (location = 1) in vec2 aTexCoord;				\n"
-			"														\n"
-			"layout (location = 0) out vec2 vTexCoord;				\n"
-			"														\n"
-			"layout(set=0, binding=0) uniform Matrices {			\n"
-			"	mat4 uProjection;									\n"
-			"	mat4 uView;											\n"
-			"	mat4 uModel;										\n"
-			"};														\n"
-			"														\n"
-			"void main()											\n"
-			"{														\n"
-			"	vec4 pos = vec4(aPosition, 1.0);					\n"
-			"	gl_Position = uProjection * uView * uModel * pos;	\n"
-			"	vTexCoord   = aTexCoord;							\n"
-			"}														\n"
-		;
-
-		static char const* fs_source =
-			"#version 420											\n"
-			"#extension GL_ARB_separate_shader_objects : enable		\n"
-			"														\n"
-			"layout (location = 0) in vec2 vTexCoord;				\n"
-			"														\n"
-			"layout (location = 0) out vec4 oColor;					\n"
-			"														\n"
-			"layout (binding = 1) uniform sampler2D uSampler2D;		\n"
-			"														\n"
-			"void main()											\n"
-			"{														\n"
-			"	oColor = texture(uSampler2D, vTexCoord);			\n"
-			"}														\n"
-		;
-
-		static bksge::Shader const shader
-		{
-			bksge::ShaderType::kGLSL, 
-			{
-				{ bksge::ShaderStage::kVertex,   vs_source },
-				{ bksge::ShaderStage::kFragment, fs_source },
-			}
-		};
-
-		return &shader;
-	}
-
-	static bksge::Shader const* GetHLSLShader(void)
-	{
-		static char const* vs_source =
-			"struct VS_INPUT								\n"
-			"{												\n"
-			"    float3 pos : POSITION;						\n"
-			"    float2 uv : TEXCOORD;						\n"
-			"};												\n"
-			"												\n"
-			"struct VS_OUTPUT								\n"
-			"{												\n"
-			"    float4 pos : SV_POSITION;					\n"
-			"    float2 uv : TEXCOORD;						\n"
-			"};												\n"
-			"												\n"
-			"cbuffer Matrices								\n"
-			"{												\n"
-			"	row_major float4x4 uProjection;				\n"
-			"	row_major float4x4 uView;					\n"
-			"	row_major float4x4 uModel;					\n"
-			"};												\n"
-			"												\n"
-			"VS_OUTPUT main(VS_INPUT input)					\n"
-			"{												\n"
-			"	float4 pos = float4(input.pos, 1.0);		\n"
-			"	pos = mul(pos, uModel);						\n"
-			"	pos = mul(pos, uView);						\n"
-			"	pos = mul(pos, uProjection);				\n"
-			"												\n"
-			"	VS_OUTPUT output;							\n"
-			"	output.pos   = pos;							\n"
-			"	output.uv = input.uv;						\n"
-			"	return output;								\n"
-			"}												\n"
-		;
-
-		static char const* ps_source =
-			"struct PS_INPUT								\n"
-			"{												\n"
-			"    float4 pos : SV_POSITION;					\n"
-			"    float2 uv : TEXCOORD;						\n"
-			"};												\n"
-			"												\n"
-			"Texture2D uTexture : register(t0);				\n"
-			"SamplerState uSampler : register(s0);			\n"
-			"												\n"
-			"float4 main(PS_INPUT input) : SV_TARGET		\n"
-			"{												\n"
-			"	return uTexture.Sample(uSampler, input.uv);	\n"
-			"}												\n"
-		;
-
-		static bksge::Shader const shader
-		{
-			bksge::ShaderType::kHLSL, 
-			{
-				{ bksge::ShaderStage::kVertex,   vs_source },
-				{ bksge::ShaderStage::kFragment, ps_source },
-			}
-		};
-
-		return &shader;
-	}
-
-	static bksge::vector<bksge::Shader const*> const& GetShaderList(void)
-	{
-		static bksge::vector<bksge::Shader const*> const shader_list
-		{
-			GetGLSLShader(),
-			GetHLSLShader(),
-		};
-
-		return shader_list;
 	}
 
 private:
@@ -270,6 +253,7 @@ int main()
 	bksge::Extent2f const extent{800, 600};
 	bksge::vector<bksge::shared_ptr<bksge::Renderer>>	renderers;
 	bksge::vector<bksge::shared_ptr<bksge::Window>>		windows;
+	bksge::vector<bksge::Shader const*>					shaders;
 
 #if BKSGE_CORE_RENDER_HAS_D3D11_RENDERER
 	{
@@ -280,6 +264,8 @@ int main()
 		bksge::shared_ptr<bksge::D3D11Renderer> renderer(
 			new bksge::D3D11Renderer(*window));
 		renderers.push_back(renderer);
+
+		shaders.push_back(GetHLSLShader());
 	}
 #endif
 #if BKSGE_CORE_RENDER_HAS_D3D12_RENDERER
@@ -291,6 +277,8 @@ int main()
 		bksge::shared_ptr<bksge::D3D12Renderer> renderer(
 			new bksge::D3D12Renderer(*window));
 		renderers.push_back(renderer);
+
+		shaders.push_back(GetHLSLShader());
 	}
 #endif
 #if BKSGE_CORE_RENDER_HAS_GL_RENDERER
@@ -302,6 +290,8 @@ int main()
 		bksge::shared_ptr<bksge::GlRenderer> renderer(
 			new bksge::GlRenderer(*window));
 		renderers.push_back(renderer);
+
+		shaders.push_back(GetGLSLShader());
 	}
 #endif
 #if BKSGE_CORE_RENDER_HAS_VULKAN_RENDERER
@@ -313,6 +303,8 @@ int main()
 		bksge::shared_ptr<bksge::VulkanRenderer> renderer(
 			new bksge::VulkanRenderer(*window));
 		renderers.push_back(renderer);
+
+		shaders.push_back(GetGLSLShader());
 	}
 #endif
 
@@ -358,15 +350,18 @@ int main()
 
 		plane.SetMipFilter(mip_filter_tbl[(count / 120) % bksge::size(mip_filter_tbl)]);
 
+		int i = 0;
 		for (auto& renderer : renderers)
 		{
 			renderer->Begin();
 			renderer->BeginRenderPass(render_pass_info);
 
-			plane.Draw(renderer.get());
+			plane.Draw(renderer.get(), shaders[i]);
 
 			renderer->EndRenderPass();
 			renderer->End();
+
+			++i;
 		}
 
 		++count;

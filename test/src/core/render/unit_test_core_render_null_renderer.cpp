@@ -31,10 +31,10 @@ GTEST_TEST(RenderTest, NullRendererTest)
 	bksge::RenderPassInfo render_pass_info;
 	renderer.BeginRenderPass(render_pass_info);
 	bksge::Geometry geometry;
-	bksge::vector<bksge::Shader const*> shader_list;
+	bksge::Shader shader{};
 	bksge::ShaderParameterMap shader_parameter_map;
 	bksge::RenderState render_state;
-	renderer.Render(geometry, shader_list, shader_parameter_map, render_state);
+	renderer.Render(geometry, shader, shader_parameter_map, render_state);
 	renderer.EndRenderPass();
 	renderer.End();
 #endif

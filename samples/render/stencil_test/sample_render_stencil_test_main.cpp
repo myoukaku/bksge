@@ -58,11 +58,8 @@ static bksge::Shader const* GetGLSLShader(void)
 
 	static bksge::Shader const shader
 	{
-		bksge::ShaderType::kGLSL,
-		{
-			{ bksge::ShaderStage::kVertex,   vs_source },
-			{ bksge::ShaderStage::kFragment, fs_source },
-		}
+		{ bksge::ShaderStage::kVertex,   vs_source },
+		{ bksge::ShaderStage::kFragment, fs_source },
 	};
 
 	return &shader;
@@ -119,11 +116,8 @@ static bksge::Shader const* GetHLSLShader(void)
 
 	static bksge::Shader const shader
 	{
-		bksge::ShaderType::kHLSL,
-		{
-			{ bksge::ShaderStage::kVertex,   vs_source },
-			{ bksge::ShaderStage::kFragment, ps_source },
-		}
+		{ bksge::ShaderStage::kVertex,   vs_source },
+		{ bksge::ShaderStage::kFragment, ps_source },
 	};
 
 	return &shader;
@@ -173,7 +167,7 @@ public:
 		m_rotation_y += 0.02f;
 	}
 
-	void Draw(bksge::Renderer* renderer)
+	void Draw(bksge::Renderer* renderer, bksge::Shader const* shader)
 	{
 		auto const model =
 			bksge::Matrix4x4f::MakeRotationX(m_rotation_x) *
@@ -185,7 +179,7 @@ public:
 
 		renderer->Render(
 			GetGeometry(),
-			GetShaderList(),
+			*shader,
 			m_shader_parameter,
 			m_render_state);
 	}
@@ -254,17 +248,6 @@ private:
 		return geometry;
 	}
 
-	static bksge::vector<bksge::Shader const*> const& GetShaderList(void)
-	{
-		static bksge::vector<bksge::Shader const*> const shader_list
-		{
-			GetGLSLShader(),
-			GetHLSLShader(),
-		};
-
-		return shader_list;
-	}
-
 private:
 	float	m_rotation_x = 0.0f;
 	float	m_rotation_y = 0.0f;
@@ -283,7 +266,7 @@ public:
 		//m_rotation_z += 0.01f;
 	}
 
-	void Draw(bksge::Renderer* renderer)
+	void Draw(bksge::Renderer* renderer, bksge::Shader const* shader)
 	{
 		auto const model =
 			bksge::Matrix4x4f::MakeRotationZ(m_rotation_z);
@@ -294,7 +277,7 @@ public:
 
 		renderer->Render(
 			GetGeometry(),
-			GetShaderList(),
+			*shader,
 			m_shader_parameter,
 			m_render_state);
 	}
@@ -320,17 +303,6 @@ private:
 		return geometry;
 	}
 
-	static bksge::vector<bksge::Shader const*> const& GetShaderList(void)
-	{
-		static bksge::vector<bksge::Shader const*> const shader_list
-		{
-			GetGLSLShader(),
-			GetHLSLShader(),
-		};
-
-		return shader_list;
-	}
-
 private:
 	float						m_rotation_z = 0.0f;
 };
@@ -342,6 +314,7 @@ int main()
 	bksge::Extent2f const extent{800, 600};
 	bksge::vector<bksge::shared_ptr<bksge::Renderer>>	renderers;
 	bksge::vector<bksge::shared_ptr<bksge::Window>>		windows;
+	bksge::vector<bksge::Shader const*>					shaders;
 
 #if BKSGE_CORE_RENDER_HAS_D3D11_RENDERER
 	{
@@ -352,6 +325,8 @@ int main()
 		bksge::shared_ptr<bksge::D3D11Renderer> renderer(
 			new bksge::D3D11Renderer(*window));
 		renderers.push_back(renderer);
+
+		shaders.push_back(GetHLSLShader());
 	}
 #endif
 #if BKSGE_CORE_RENDER_HAS_D3D12_RENDERER
@@ -363,6 +338,8 @@ int main()
 		bksge::shared_ptr<bksge::D3D12Renderer> renderer(
 			new bksge::D3D12Renderer(*window));
 		renderers.push_back(renderer);
+
+		shaders.push_back(GetHLSLShader());
 	}
 #endif
 #if BKSGE_CORE_RENDER_HAS_GL_RENDERER
@@ -374,6 +351,8 @@ int main()
 		bksge::shared_ptr<bksge::GlRenderer> renderer(
 			new bksge::GlRenderer(*window));
 		renderers.push_back(renderer);
+
+		shaders.push_back(GetGLSLShader());
 	}
 #endif
 #if BKSGE_CORE_RENDER_HAS_VULKAN_RENDERER
@@ -385,6 +364,8 @@ int main()
 		bksge::shared_ptr<bksge::VulkanRenderer> renderer(
 			new bksge::VulkanRenderer(*window));
 		renderers.push_back(renderer);
+
+		shaders.push_back(GetGLSLShader());
 	}
 #endif
 
@@ -439,16 +420,19 @@ int main()
 		triangle.Update();
 		box.Update();
 
+		int i = 0;
 		for (auto& renderer : renderers)
 		{
 			renderer->Begin();
 			renderer->BeginRenderPass(render_pass_info);
 			{
-				triangle.Draw(renderer.get());
-				box.Draw(renderer.get());
+				triangle.Draw(renderer.get(), shaders[i]);
+				box.Draw(renderer.get(), shaders[i]);
 			}
 			renderer->EndRenderPass();
 			renderer->End();
+
+			++i;
 		}
 	}
 

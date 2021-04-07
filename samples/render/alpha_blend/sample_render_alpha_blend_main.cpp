@@ -11,6 +11,109 @@
 namespace
 {
 
+static bksge::Shader const* GetGLSLShader(void)
+{
+	static char const* vs_source =
+		"#version 420											\n"
+		"#extension GL_ARB_separate_shader_objects : enable		\n"
+		"#extension GL_KHR_vulkan_glsl : enable					\n"
+		"														\n"
+		"layout (location = 0) in vec3 aPosition;				\n"
+		"layout (location = 1) in vec2 aTexCoord;				\n"
+		"														\n"
+		"layout (location = 0) out vec2 vTexCoord;				\n"
+		"														\n"
+		"layout (binding = 0) uniform UniformBuffer1 {			\n"
+		"	mat4 uMatrix;										\n"
+		"};														\n"
+		"														\n"
+		"void main()											\n"
+		"{														\n"
+		"	gl_Position = uMatrix * vec4(aPosition, 1.0);		\n"
+		"	vTexCoord   = aTexCoord;							\n"
+		"}														\n"
+	;
+
+	static char const* fs_source =
+		"#version 420											\n"
+		"#extension GL_ARB_separate_shader_objects : enable		\n"
+		"#extension GL_KHR_vulkan_glsl : enable					\n"
+		"														\n"
+		"layout (location = 0) in vec2 vTexCoord;				\n"
+		"														\n"
+		"layout (location = 0) out vec4 oColor;					\n"
+		"														\n"
+		"layout (binding = 1) uniform sampler2D uSampler2D;		\n"
+		"														\n"
+		"void main()											\n"
+		"{														\n"
+		"	oColor = texture(uSampler2D, vTexCoord);			\n"
+		"}														\n"
+	;
+
+	static bksge::Shader const shader
+	{
+		{ bksge::ShaderStage::kVertex,   vs_source },
+		{ bksge::ShaderStage::kFragment, fs_source },
+	};
+
+	return &shader;
+}
+
+static bksge::Shader const* GetHLSLShader(void)
+{
+	static char const* vs_source =
+		"struct VS_INPUT										\n"
+		"{														\n"
+		"    float3 pos : POSITION;								\n"
+		"    float2 uv : TEXCOORD;								\n"
+		"};														\n"
+		"														\n"
+		"struct VS_OUTPUT										\n"
+		"{														\n"
+		"    float4 pos : SV_POSITION;							\n"
+		"    float2 uv : TEXCOORD;								\n"
+		"};														\n"
+		"														\n"
+		"cbuffer ConstantBuffer									\n"
+		"{														\n"
+		"	row_major float4x4 uMatrix;							\n"
+		"};														\n"
+		"														\n"
+		"VS_OUTPUT main(VS_INPUT input)							\n"
+		"{														\n"
+		"	VS_OUTPUT output;									\n"
+		"	output.pos = mul(float4(input.pos, 1.0), uMatrix);	\n"
+		"	output.uv = input.uv;								\n"
+		"	return output;										\n"
+		"}														\n"
+	;
+
+	static char const* ps_source =
+		"struct PS_INPUT										\n"
+		"{														\n"
+		"    float4 pos : SV_POSITION;							\n"
+		"    float2 uv : TEXCOORD;								\n"
+		"};														\n"
+		"														\n"
+		"Texture2D uTexture : register(t0);						\n"
+		"SamplerState uSampler : register(s0);					\n"
+		"														\n"
+		"float4 main(PS_INPUT input) : SV_TARGET				\n"
+		"{														\n"
+		"	return uTexture.Sample(uSampler, input.uv);			\n"
+		"}														\n"
+	;
+
+	static bksge::Shader const shader
+	{
+		{ bksge::ShaderStage::kVertex,   vs_source },
+		{ bksge::ShaderStage::kFragment, ps_source },
+	};
+
+	return &shader;
+}
+
 class Sprite
 {
 private:
@@ -34,127 +137,7 @@ private:
 
 		return geometry;
 	}
-
-	static bksge::Shader const* GetGLSLShader(void)
-	{
-		static char const* vs_source =
-			"#version 420											\n"
-			"#extension GL_ARB_separate_shader_objects : enable		\n"
-			"#extension GL_KHR_vulkan_glsl : enable					\n"
-			"														\n"
-			"layout (location = 0) in vec3 aPosition;				\n"
-			"layout (location = 1) in vec2 aTexCoord;				\n"
-			"														\n"
-			"layout (location = 0) out vec2 vTexCoord;				\n"
-			"														\n"
-			"layout (binding = 0) uniform UniformBuffer1 {			\n"
-			"	mat4 uMatrix;										\n"
-			"};														\n"
-			"														\n"
-			"void main()											\n"
-			"{														\n"
-			"	gl_Position = uMatrix * vec4(aPosition, 1.0);		\n"
-			"	vTexCoord   = aTexCoord;							\n"
-			"}														\n"
-		;
-
-		static char const* fs_source =
-			"#version 420											\n"
-			"#extension GL_ARB_separate_shader_objects : enable		\n"
-			"#extension GL_KHR_vulkan_glsl : enable					\n"
-			"														\n"
-			"layout (location = 0) in vec2 vTexCoord;				\n"
-			"														\n"
-			"layout (location = 0) out vec4 oColor;					\n"
-			"														\n"
-			"layout (binding = 1) uniform sampler2D uSampler2D;		\n"
-			"														\n"
-			"void main()											\n"
-			"{														\n"
-			"	oColor = texture(uSampler2D, vTexCoord);			\n"
-			"}														\n"
-		;
-
-		static bksge::Shader const shader
-		{
-			bksge::ShaderType::kGLSL, 
-			{
-				{ bksge::ShaderStage::kVertex,   vs_source },
-				{ bksge::ShaderStage::kFragment, fs_source },
-			}
-		};
-
-		return &shader;
-	}
-
-	static bksge::Shader const* GetHLSLShader(void)
-	{
-		static char const* vs_source =
-			"struct VS_INPUT					"
-			"{									"
-			"    float3 pos : POSITION;			"
-			"    float2 uv : TEXCOORD;			"
-			"};									"
-			"									"
-			"struct VS_OUTPUT					"
-			"{									"
-			"    float4 pos : SV_POSITION;		"
-			"    float2 uv : TEXCOORD;			"
-			"};									"
-			"									"
-			"cbuffer ConstantBuffer				"
-			"{									"
-			"	row_major float4x4 uMatrix;		"
-			"};									"
-			"									"
-			"VS_OUTPUT main(VS_INPUT input)		"
-			"{									"
-			"	VS_OUTPUT output;				"
-			"	output.pos = mul(float4(input.pos, 1.0), uMatrix);	"
-			"	output.uv = input.uv;			"
-			"	return output;					"
-			"}									"
-		;
-
-		static char const* ps_source =
-			"struct PS_INPUT								"
-			"{												"
-			"    float4 pos : SV_POSITION;					"
-			"    float2 uv : TEXCOORD;						"
-			"};												"
-			"												"
-			"Texture2D uTexture : register(t0);				"
-			"SamplerState uSampler : register(s0);			"
-			"												"
-			"float4 main(PS_INPUT input) : SV_TARGET		"
-			"{												"
-			"	return uTexture.Sample(uSampler, input.uv);	"
-			"}												"
-		;
-
-		static bksge::Shader const shader
-		{
-			bksge::ShaderType::kHLSL, 
-			{
-				{ bksge::ShaderStage::kVertex,   vs_source },
-				{ bksge::ShaderStage::kFragment, ps_source },
-			}
-		};
-
-		return &shader;
-	}
 	
-	static bksge::vector<bksge::Shader const*> const& GetShaderList(void)
-	{
-		static bksge::vector<bksge::Shader const*> const shader_list
-		{
-			GetGLSLShader(),
-			GetHLSLShader(),
-		};
-
-		return shader_list;
-	}
-
 public:
 	Sprite(bksge::Vector2f const& pos, bksge::Scale2f const& scale)
 		: m_position(pos.x(), pos.y(), 0.0f)
@@ -168,7 +151,7 @@ public:
 		//m_rotation += 0.01f;
 	}
 
-	void Draw(bksge::Renderer* renderer)
+	void Draw(bksge::Renderer* renderer, bksge::Shader const* shader)
 	{
 		bksge::Matrix4x4f mat =
 			bksge::Matrix4x4f::MakeScale(m_scale) *
@@ -183,7 +166,7 @@ public:
 
 		renderer->Render(
 			GetGeometry(),
-			GetShaderList(),
+			*shader,
 			m_shader_parameter,
 			m_render_state);
 	}
@@ -212,7 +195,8 @@ int main()
 {
 	bksge::Extent2f const extent{800, 600};
 	bksge::vector<bksge::shared_ptr<bksge::Renderer>>	renderers;
-	bksge::vector<bksge::shared_ptr<bksge::Window>>	windows;
+	bksge::vector<bksge::shared_ptr<bksge::Window>>		windows;
+	bksge::vector<bksge::Shader const*>					shaders;
 
 #if BKSGE_CORE_RENDER_HAS_D3D11_RENDERER
 	{
@@ -223,6 +207,8 @@ int main()
 		bksge::shared_ptr<bksge::D3D11Renderer> renderer(
 			new bksge::D3D11Renderer(*window));
 		renderers.push_back(renderer);
+
+		shaders.push_back(GetHLSLShader());
 	}
 #endif
 #if BKSGE_CORE_RENDER_HAS_D3D12_RENDERER
@@ -234,6 +220,8 @@ int main()
 		bksge::shared_ptr<bksge::D3D12Renderer> renderer(
 			new bksge::D3D12Renderer(*window));
 		renderers.push_back(renderer);
+
+		shaders.push_back(GetHLSLShader());
 	}
 #endif
 #if BKSGE_CORE_RENDER_HAS_GL_RENDERER
@@ -245,6 +233,8 @@ int main()
 		bksge::shared_ptr<bksge::GlRenderer> renderer(
 			new bksge::GlRenderer(*window));
 		renderers.push_back(renderer);
+
+		shaders.push_back(GetGLSLShader());
 	}
 #endif
 #if BKSGE_CORE_RENDER_HAS_VULKAN_RENDERER
@@ -256,6 +246,8 @@ int main()
 		bksge::shared_ptr<bksge::VulkanRenderer> renderer(
 			new bksge::VulkanRenderer(*window));
 		renderers.push_back(renderer);
+
+		shaders.push_back(GetGLSLShader());
 	}
 #endif
 
@@ -399,6 +391,7 @@ int main()
 			sprite->Update();
 		}
 
+		int i = 0;
 		for (auto& renderer : renderers)
 		{
 			renderer->Begin();
@@ -406,11 +399,13 @@ int main()
 
 			for (auto&& sprite : sprites)
 			{
-				sprite->Draw(renderer.get());
+				sprite->Draw(renderer.get(), shaders[i]);
 			}
 
 			renderer->EndRenderPass();
 			renderer->End();
+
+			++i;
 		}
 	}
 

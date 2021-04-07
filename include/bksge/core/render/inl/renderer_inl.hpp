@@ -52,22 +52,13 @@ void Renderer::EndRenderPass(void)
 }
 
 BKSGE_INLINE
-void Renderer::Render(
+bool Renderer::Render(
 	Geometry const& geometry,
-	bksge::vector<Shader const*> const& shader_list,
+	Shader const& shader,
 	ShaderParameterMap const& shader_parameter_map,
 	RenderState const& render_state)
 {
-	for (auto&& shader : shader_list)
-	{
-		if (shader)
-		{
-			if (VRender(geometry, *shader, shader_parameter_map, render_state))
-			{
-				break;
-			}
-		}
-	}
+	return VRender(geometry, shader, shader_parameter_map, render_state);
 }
 
 }	// namespace render

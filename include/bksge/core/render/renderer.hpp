@@ -57,13 +57,13 @@ public:
 	 *	@brief	Geometryを1つ描画します
 	 *
 	 *	@param	geometry				描画するジオメトリ
-	 *	@param	shader_list				描画に使用するシェーダ
+	 *	@param	shader					描画に使用するシェーダ
 	 *	@param	shader_parameter_map	シェーダのパラメータ
 	 *	@param	render_state			レンダリングステート
 	 */
-	void Render(
+	bool Render(
 		Geometry const& geometry,
-		bksge::vector<Shader const*> const& shader_list,
+		Shader const& shader,
 		ShaderParameterMap const& shader_parameter_map,
 		RenderState const& render_state);
 

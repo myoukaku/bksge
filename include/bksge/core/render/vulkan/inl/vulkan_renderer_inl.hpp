@@ -383,24 +383,17 @@ VulkanRenderer::VRender(
 	ShaderParameterMap const& shader_parameter_map,
 	RenderState const& render_state)
 {
-	if (shader.type() != ShaderType::kGLSL)
-	{
-		return false;
-	}
+	auto vk_shader = m_resource_pool->GetShader(
+		m_device,
+		shader);
 
-	auto vk_shader =
-		m_resource_pool->GetShader(
-			m_device,
-			shader);
-
-	auto graphics_pipeline =
-		m_resource_pool->GetGraphicsPipeline(
-			m_device,
-			NUM_SAMPLES,
-			geometry,
-			shader,
-			render_state,
-			*m_render_pass);
+	auto graphics_pipeline = m_resource_pool->GetGraphicsPipeline(
+		m_device,
+		NUM_SAMPLES,
+		geometry,
+		shader,
+		render_state,
+		*m_render_pass);
 
 	vk_shader->LoadParameters(
 		shader_parameter_map,
