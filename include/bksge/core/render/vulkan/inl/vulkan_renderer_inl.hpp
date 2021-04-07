@@ -121,7 +121,7 @@ DebugCallback(
 
 	ss << pMessage << std::endl;
 
-	std::printf(ss.str().c_str());
+	std::printf("%s", ss.str().c_str());
 
 #if defined(BKSGE_PLATFORM_WIN32)
 	win32::OutputDebugString(ss.str().c_str());
