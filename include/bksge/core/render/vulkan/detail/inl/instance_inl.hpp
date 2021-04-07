@@ -16,6 +16,8 @@
 #include <bksge/core/render/vulkan/detail/physical_device.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/vector.hpp>
+#include <bksge/fnd/string.hpp>
+#include <bksge/fnd/algorithm/ranges/find.hpp>
 
 namespace bksge
 {
@@ -26,64 +28,112 @@ namespace render
 namespace vulkan
 {
 
-BKSGE_INLINE
-Instance::Instance(char const* app_name)
-	: m_instance(VK_NULL_HANDLE)
+namespace detail
 {
-	bksge::vector<char const*> layer_names;
-	bksge::vector<char const*> extension_names;
 
-#if 0	// 可能なレイヤーと拡張を全て追加
+inline bksge::vector<bksge::string> EnumerateLayerNames(void)
+{
+	bksge::vector<bksge::string> result;
 
-	// これらのインスタンスは vk::CreateInstance を呼び出すまで生きていなければいけない
-	// (layer_names 等には char const* をコピーしているだけなので)
-	auto extension_properties = vk::EnumerateInstanceExtensionProperties(nullptr);
-	auto layer_properties     = vk::EnumerateInstanceLayerProperties();
-
+	auto layer_properties = vk::EnumerateInstanceLayerProperties();
 	for (auto&& layer_property : layer_properties)
 	{
-		layer_names.push_back(layer_property.layerName);
+		result.push_back(layer_property.layerName);
+	}
+
+	return result;
+}
+
+inline bksge::vector<bksge::string> EnumerateExtensionNames(void)
+{
+	bksge::vector<bksge::string> result;
+
+	auto extension_properties = vk::EnumerateInstanceExtensionProperties(nullptr);
+	for (auto&& extension_property : extension_properties)
+	{
+		result.push_back(extension_property.extensionName);
+	}
+
+	auto layer_properties = vk::EnumerateInstanceLayerProperties();
+	for (auto&& layer_property : layer_properties)
+	{
 		auto layer_extension_properties =
 			vk::EnumerateInstanceExtensionProperties(layer_property.layerName);
 		for (auto&& layer_extension_property : layer_extension_properties)
 		{
-			extension_properties.push_back(layer_extension_property);
+			result.push_back(layer_extension_property.extensionName);
 		}
 	}
 
-	for (auto&& extension_property : extension_properties)
+	return result;
+}
+
+inline bool AppendIfAvailable(bksge::vector<char const*>* out_list, bksge::vector<bksge::string> const& available_list, char const* s)
+{
+	if (bksge::ranges::find(available_list, s) != available_list.end())
 	{
-		extension_names.push_back(extension_property.extensionName);
+		out_list->push_back(s);
+		return true;
 	}
 
-#else	// 使うものだけを手動で追加
+	return false;
+}
 
+}	// namespace detail
+
+BKSGE_INLINE
+Instance::Instance(char const* app_name)
+	: m_instance(VK_NULL_HANDLE)
+{
+	// 追加可能なレイヤーと拡張を全てリストアップ
+	auto const available_layer_names     = detail::EnumerateLayerNames();
+	auto const available_extension_names = detail::EnumerateExtensionNames();
+
+	// 追加したいレイヤー
+	bksge::vector<char const*> desired_layer_names =
+	{
 #if defined(_DEBUG)
-//	layer_names.push_back("VK_LAYER_LUNARG_standard_validation");	// Removed in Vulkan SDK 1.2.135
-	layer_names.push_back("VK_LAYER_KHRONOS_validation");
+		"VK_LAYER_KHRONOS_validation",
+		"VK_LAYER_LUNARG_standard_validation",
 #endif
+	};
 
-	extension_names.push_back(VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME);
-
-	extension_names.push_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
-	extension_names.push_back(VK_KHR_SURFACE_EXTENSION_NAME);
+	// 追加したい拡張
+	bksge::vector<char const*> desired_extension_names =
+	{
+		VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME,
+		VK_EXT_DEBUG_REPORT_EXTENSION_NAME,
+		VK_KHR_SURFACE_EXTENSION_NAME,
 #if defined(VK_USE_PLATFORM_ANDROID_KHR)
-	extension_names.push_back(VK_KHR_ANDROID_SURFACE_EXTENSION_NAME);
+		VK_KHR_ANDROID_SURFACE_EXTENSION_NAME,
 #endif
 #if defined(VK_USE_PLATFORM_WIN32_KHR)
-	extension_names.push_back(VK_KHR_WIN32_SURFACE_EXTENSION_NAME);
+		VK_KHR_WIN32_SURFACE_EXTENSION_NAME,
 #endif
 #if defined(VK_USE_PLATFORM_METAL_EXT)
-	extension_names.push_back(VK_EXT_METAL_SURFACE_EXTENSION_NAME);
+		VK_EXT_METAL_SURFACE_EXTENSION_NAME,
 #endif
 #if defined(VK_USE_PLATFORM_WAYLAND_KHR)
-	extension_names.push_back(VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME);
+		VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME,
 #endif
 #if defined(VK_USE_PLATFORM_XCB_KHR)
-	extension_names.push_back(VK_KHR_XCB_SURFACE_EXTENSION_NAME);
+		VK_KHR_XCB_SURFACE_EXTENSION_NAME,
 #endif
+	};
 
-#endif
+	// 可能であればレイヤーを追加
+	bksge::vector<char const*> layer_names;
+	for (auto desired_layer_name: desired_layer_names)
+	{
+		detail::AppendIfAvailable(&layer_names, available_layer_names, desired_layer_name);
+	}
+
+	// 可能であれば拡張を追加
+	bksge::vector<char const*> extension_names;
+	for (auto desired_extension_name: desired_extension_names)
+	{
+		detail::AppendIfAvailable(&extension_names, available_extension_names, desired_extension_name);
+	}
 
 	vk::ApplicationInfo app_info;
 	app_info.pApplicationName   = app_name;
