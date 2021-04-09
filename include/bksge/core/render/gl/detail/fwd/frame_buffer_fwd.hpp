@@ -9,6 +9,8 @@
 #ifndef BKSGE_CORE_RENDER_GL_DETAIL_FWD_FRAME_BUFFER_FWD_HPP
 #define BKSGE_CORE_RENDER_GL_DETAIL_FWD_FRAME_BUFFER_FWD_HPP
 
+#include <bksge/fnd/memory/unique_ptr.hpp>
+
 namespace bksge
 {
 
@@ -19,6 +21,7 @@ namespace gl
 {
 
 class FrameBuffer;
+using FrameBufferUnique = bksge::unique_ptr<FrameBuffer>;
 
 }	// namespace gl
 

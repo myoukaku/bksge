@@ -95,7 +95,7 @@ GlslProgram::Render(
 	Geometry const* geometry,
 	ShaderParameterMap const& shader_parameter_map)
 {
-	::glUseProgram(m_id);
+	this->Use();
 	{
 		LoadParameters(resource_pool, shader_parameter_map);
 
@@ -103,6 +103,18 @@ GlslProgram::Render(
 		geometry->Draw();
 		geometry->Unbind();
 	}
+	this->Unuse();
+}
+
+BKSGE_INLINE void
+GlslProgram::Use(void)
+{
+	::glUseProgram(m_id);
+}
+
+BKSGE_INLINE void
+GlslProgram::Unuse(void)
+{
 	::glUseProgram(0u);
 }
 

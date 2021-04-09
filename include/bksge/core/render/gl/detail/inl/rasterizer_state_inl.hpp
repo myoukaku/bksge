@@ -28,29 +28,21 @@ namespace render
 namespace gl
 {
 
-BKSGE_INLINE
-RasterizerState::RasterizerState(bksge::RasterizerState const& state)
-	: m_cull_enable(state.cull_mode() != bksge::CullMode::kNone)
-	, m_cull_mode(gl::CullMode(state.cull_mode()))
-	, m_front_face(gl::FrontFace(state.front_face()))
-	, m_fill_mode(gl::FillMode(state.fill_mode()))
-{}
-
 BKSGE_INLINE void
-RasterizerState::Apply(void)
+RasterizerState::Apply(bksge::RasterizerState const& state)
 {
-	if (m_cull_enable)
+	if (state.cull_mode() != bksge::CullMode::kNone)
 	{
 		::glEnable(GL_CULL_FACE);
-		::glCullFace(m_cull_mode);
+		::glCullFace(gl::CullMode(state.cull_mode()));
 	}
 	else
 	{
 		::glDisable(GL_CULL_FACE);
 	}
 
-	::glFrontFace(m_front_face);
-	::glPolygonMode(GL_FRONT_AND_BACK, m_fill_mode);
+	::glFrontFace(gl::FrontFace(state.front_face()));
+	::glPolygonMode(GL_FRONT_AND_BACK, gl::FillMode(state.fill_mode()));
 }
 
 }	// namespace gl

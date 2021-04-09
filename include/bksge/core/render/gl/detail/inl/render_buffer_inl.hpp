@@ -24,27 +24,38 @@ namespace gl
 {
 
 BKSGE_INLINE
-RenderBuffer::RenderBuffer()
+RenderBuffer::RenderBuffer(
+	::GLenum format,
+	bksge::uint32_t width,
+	bksge::uint32_t height)
 {
-	::glGenRenderbuffersEXT(1, &m_id);
+	::glGenRenderbuffers(1, &m_id);
+	Bind();
+	::glRenderbufferStorage(GL_RENDERBUFFER, format, width, height);
 }
 
 BKSGE_INLINE
 RenderBuffer::~RenderBuffer()
 {
-	::glDeleteRenderbuffersEXT(1, &m_id);
+	::glDeleteRenderbuffers(1, &m_id);
 }
 
 BKSGE_INLINE void
 RenderBuffer::Bind(void) const
 {
-	::glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, m_id);
+	::glBindRenderbuffer(GL_RENDERBUFFER, m_id);
 }
 
 BKSGE_INLINE void
 RenderBuffer::Unbind(void) const
 {
-	::glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
+	::glBindRenderbuffer(GL_RENDERBUFFER, 0);
+}
+
+BKSGE_INLINE ::GLuint
+RenderBuffer::name(void) const
+{
+	return m_id;
 }
 
 }	// namespace gl

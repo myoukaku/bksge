@@ -27,22 +27,10 @@ namespace render
 namespace gl
 {
 
-BKSGE_INLINE
-StencilState::StencilState(bksge::StencilState const& state)
-	: m_enable(state.enable())
-	, m_func(gl::ComparisonFunction(state.func()))
-	, m_reference(static_cast<::GLint>(state.reference()))
-	, m_read_mask(static_cast<::GLuint>(state.read_mask()))
-	, m_write_mask(static_cast<::GLuint>(state.write_mask()))
-	, m_fail_operation      (gl::StencilOperation(state.fail_operation()))
-	, m_depth_fail_operation(gl::StencilOperation(state.depth_fail_operation()))
-	, m_pass_operation      (gl::StencilOperation(state.pass_operation()))
-{}
-
 BKSGE_INLINE void
-StencilState::Apply(void)
+StencilState::Apply(bksge::StencilState const& state)
 {
-	if (m_enable)
+	if (state.enable())
 	{
 		::glEnable(GL_STENCIL_TEST);
 	}
@@ -51,9 +39,15 @@ StencilState::Apply(void)
 		::glDisable(GL_STENCIL_TEST);
 	}
 
-	::glStencilFunc(m_func, m_reference, m_read_mask);
-	::glStencilMask(m_write_mask);
-	::glStencilOp(m_fail_operation, m_depth_fail_operation, m_pass_operation);
+	::glStencilFunc(
+		gl::ComparisonFunction(state.func()),
+		static_cast<::GLint>(state.reference()),
+		static_cast<::GLuint>(state.read_mask()));
+	::glStencilMask(static_cast<::GLuint>(state.write_mask()));
+	::glStencilOp(
+		gl::StencilOperation(state.fail_operation()),
+		gl::StencilOperation(state.depth_fail_operation()),
+		gl::StencilOperation(state.pass_operation()));
 }
 
 }	// namespace gl

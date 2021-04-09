@@ -251,6 +251,7 @@ int main()
 
 	bksge::RenderState render_state;
 	//render_state.rasterizer_state().SetCullMode(bksge::CullMode::kBack);
+	render_state.depth_state().SetEnable(true);
 	render_state.depth_state().SetWrite(true);
 
 	bksge::RenderPassInfo render_pass_info;
@@ -259,7 +260,6 @@ int main()
 
 	float	rotation_x = 0.0f;
 	float	rotation_y = 0.0f;
-	int count = 0;
 
 	for (;;)
 	{
@@ -273,9 +273,6 @@ int main()
 
 		rotation_x += 0.01f;
 		rotation_y += 0.02f;
-
-		render_state.depth_state().SetEnable(((count / 120) % 2) == 0);
-		count++;
 
 		auto const projection =
 			bksge::Matrix4x4f::MakePerspective(

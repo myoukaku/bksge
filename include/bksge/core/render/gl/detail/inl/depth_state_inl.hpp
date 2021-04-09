@@ -27,17 +27,10 @@ namespace render
 namespace gl
 {
 
-BKSGE_INLINE
-DepthState::DepthState(bksge::DepthState const& state)
-	: m_enable(state.enable())
-	, m_write(gl::Bool(state.write()))
-	, m_func(gl::ComparisonFunction(state.func()))
-{}
-
 BKSGE_INLINE void
-DepthState::Apply(void)
+DepthState::Apply(bksge::DepthState const& state)
 {
-	if (m_enable)
+	if (state.enable())
 	{
 		::glEnable(GL_DEPTH_TEST);
 	}
@@ -46,8 +39,8 @@ DepthState::Apply(void)
 		::glDisable(GL_DEPTH_TEST);
 	}
 
-	::glDepthMask(m_write);
-	::glDepthFunc(m_func);
+	::glDepthMask(gl::Bool(state.write()));
+	::glDepthFunc(gl::ComparisonFunction(state.func()));
 }
 
 }	// namespace gl

@@ -44,6 +44,9 @@ public:
 		Geometry const* geometry,
 		bksge::ShaderParameterMap const& shader_parameter_map);
 
+	void Use(void);
+	void Unuse(void);
+
 private:
 	// noncopyable
 	GlslProgram(GlslProgram const&) = delete;
@@ -58,9 +61,9 @@ private:
 	using GlslParameters = bksge::vector<GlslParameterUnique>;
 	using GlslUniformBlocks = bksge::vector<GlslUniformBlockUnique>;
 
-	::GLuint		m_id;
-	GlslShaders		m_shaders;
-	GlslParameters	m_parameters;
+	::GLuint			m_id;
+	GlslShaders			m_shaders;
+	GlslParameters		m_parameters;
 	GlslUniformBlocks	m_uniform_blocks;
 };
 

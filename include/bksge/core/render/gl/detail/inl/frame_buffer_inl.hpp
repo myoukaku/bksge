@@ -14,6 +14,7 @@
 
 #include <bksge/core/render/gl/detail/frame_buffer.hpp>
 #include <bksge/core/render/gl/detail/texture.hpp>
+#include <bksge/core/render/gl/detail/render_buffer.hpp>
 #include <bksge/core/render/texture_format.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/utility/move.hpp>
@@ -27,19 +28,14 @@ namespace render
 namespace gl
 {
 
-#if 0
 BKSGE_INLINE
 FrameBuffer::FrameBuffer()
 {
 	::glGenFramebuffers(1, &m_id);
 
-	Bind();
+	//Bind();
 
-	CreateColorBuffers();
-
-	CreateDepthStencilBuffer();
-
-	CheckFramebufferStatus();
+	//CheckFramebufferStatus();
 }
 
 BKSGE_INLINE
@@ -51,48 +47,56 @@ FrameBuffer::~FrameBuffer()
 BKSGE_INLINE void
 FrameBuffer::Bind(void) const
 {
-	::glBindFramebuffer(GL_FRAMEBUFFER_EXT, m_id);
+	::glBindFramebuffer(GL_FRAMEBUFFER, m_id);
 }
 
 BKSGE_INLINE void
 FrameBuffer::Unbind(void) const
 {
-	::glBindFramebuffer(GL_FRAMEBUFFER_EXT, 0);
+	::glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 BKSGE_INLINE void
-FrameBuffer::CreateColorBuffers(void)
+FrameBuffer::AttachColorBuffer(bksge::size_t index, TextureShared const& texture)
 {
-	int width  = 800;	// TODO
-	int height = 600;	// TODO
-
-	for (int i = 0; i < 1; i++)
+	if (index >= m_color_buffers.size())
 	{
-		auto gl_texture =
-			bksge::make_unique<Texture>(
-				bksge::TextureFormat::kRGBA_U8, width, height, 1, nullptr);
-
-		::glFramebufferTexture2D(
-			GL_FRAMEBUFFER_EXT,
-			GL_COLOR_ATTACHMENT0_EXT + i,
-			GL_TEXTURE_2D,
-			gl_texture->name(),
-			0);
-
-		m_color_buffers.push_back(bksge::move(gl_texture));
+		m_color_buffers.resize(index+1);
 	}
+
+	m_color_buffers[index] = texture;
+
+	Bind();
+	::glFramebufferTexture2D(
+		GL_FRAMEBUFFER,
+		static_cast<::GLenum>(GL_COLOR_ATTACHMENT0 + index),
+		GL_TEXTURE_2D,
+		texture->name(),
+		0);
 }
 
 BKSGE_INLINE void
-FrameBuffer::CreateDepthStencilBuffer(void)
+FrameBuffer::AttachDepthStencilBuffer(gl::RenderBufferShared const& buffer)
 {
+	m_depth_stencil_buffer = buffer;
+	Bind();
+	::glFramebufferRenderbuffer(
+		GL_FRAMEBUFFER,
+		GL_DEPTH_STENCIL_ATTACHMENT,
+		GL_RENDERBUFFER,
+		buffer->name());
 }
 
-BKSGE_INLINE void
-FrameBuffer::CheckFramebufferStatus(void)
+BKSGE_INLINE gl::TextureShared const&
+FrameBuffer::GetColorBuffer(bksge::size_t index) const
 {
+	return m_color_buffers[index];
 }
-#endif
+
+//BKSGE_INLINE void
+//FrameBuffer::CheckFramebufferStatus(void)
+//{
+//}
 
 }	// namespace gl
 

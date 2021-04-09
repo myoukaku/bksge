@@ -10,7 +10,6 @@
 #define BKSGE_CORE_RENDER_GL_DETAIL_DEPTH_STATE_HPP
 
 #include <bksge/core/render/fwd/depth_state_fwd.hpp>
-#include <bksge/core/render/gl/detail/gl_h.hpp>
 
 namespace bksge
 {
@@ -24,14 +23,7 @@ namespace gl
 class DepthState
 {
 public:
-	explicit DepthState(bksge::DepthState const& state);
-
-	void Apply(void);
-
-private:
-	bool        const	m_enable;
-	::GLboolean const	m_write;
-	::GLenum    const	m_func;
+	static void Apply(bksge::DepthState const& state);
 };
 
 }	// namespace gl

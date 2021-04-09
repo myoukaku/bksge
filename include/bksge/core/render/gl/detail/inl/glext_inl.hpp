@@ -554,10 +554,27 @@ BKSGE_INLINE void APIENTRY glBindBufferBase(GLenum target, GLuint index, GLuint 
 //BKSGE_INLINE void APIENTRY glClearBufferfi(GLenum buffer, GLint drawbuffer, GLfloat depth, GLint stencil);
 //BKSGE_INLINE const GLubyte* APIENTRY glGetStringi(GLenum name, GLuint index);
 //BKSGE_INLINE GLboolean APIENTRY glIsRenderbuffer(GLuint renderbuffer);
-//BKSGE_INLINE void APIENTRY glBindRenderbuffer(GLenum target, GLuint renderbuffer);
-//BKSGE_INLINE void APIENTRY glDeleteRenderbuffers(GLsizei n, const GLuint* renderbuffers);
-//BKSGE_INLINE void APIENTRY glGenRenderbuffers(GLsizei n, GLuint* renderbuffers);
-//BKSGE_INLINE void APIENTRY glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei width, GLsizei height);
+
+BKSGE_INLINE void APIENTRY glBindRenderbuffer(GLenum target, GLuint renderbuffer)
+{
+	BKSGE_GLEXT_FUNC(PFNGLBINDRENDERBUFFERPROC, glBindRenderbuffer, target, renderbuffer);
+}
+
+BKSGE_INLINE void APIENTRY glDeleteRenderbuffers(GLsizei n, const GLuint* renderbuffers)
+{
+	BKSGE_GLEXT_FUNC(PFNGLDELETERENDERBUFFERSPROC, glDeleteRenderbuffers, n, renderbuffers);
+}
+
+BKSGE_INLINE void APIENTRY glGenRenderbuffers(GLsizei n, GLuint* renderbuffers)
+{
+	BKSGE_GLEXT_FUNC(PFNGLGENRENDERBUFFERSPROC, glGenRenderbuffers, n, renderbuffers);
+}
+
+BKSGE_INLINE void APIENTRY glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei width, GLsizei height)
+{
+	BKSGE_GLEXT_FUNC(PFNGLRENDERBUFFERSTORAGEPROC, glRenderbufferStorage, target, internalformat, width, height);
+}
+
 //BKSGE_INLINE void APIENTRY glGetRenderbufferParameteriv(GLenum target, GLenum pname, GLint* params);
 //BKSGE_INLINE GLboolean APIENTRY glIsFramebuffer(GLuint framebuffer);
 
@@ -585,7 +602,12 @@ BKSGE_INLINE void APIENTRY glFramebufferTexture2D(GLenum target, GLenum attachme
 }
 
 //BKSGE_INLINE void APIENTRY glFramebufferTexture3D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level, GLint zoffset);
-//BKSGE_INLINE void APIENTRY glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer);
+
+BKSGE_INLINE void APIENTRY glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer)
+{
+	BKSGE_GLEXT_FUNC(PFNGLFRAMEBUFFERRENDERBUFFERPROC, glFramebufferRenderbuffer, target, attachment, renderbuffertarget, renderbuffer);
+}
+
 //BKSGE_INLINE void APIENTRY glGetFramebufferAttachmentParameteriv(GLenum target, GLenum attachment, GLenum pname, GLint* params);
 //BKSGE_INLINE void APIENTRY glGenerateMipmap(GLenum target);
 //BKSGE_INLINE void APIENTRY glBlitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter);

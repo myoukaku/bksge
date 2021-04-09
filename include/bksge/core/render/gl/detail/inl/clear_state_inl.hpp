@@ -48,46 +48,41 @@ inline ::GLbitfield ToGlClearMask(ClearFlag flag)
 
 }	// namespace detail
 
-BKSGE_INLINE
-ClearState::ClearState(bksge::ClearState const& state)
-	: m_mask(detail::ToGlClearMask(state.flag()))
-	, m_red  (state.color().r())
-	, m_green(state.color().g())
-	, m_blue (state.color().b())
-	, m_alpha(state.color().a())
-	, m_depth(state.depth())
-	, m_stencil(state.stencil())
-{}
-
 BKSGE_INLINE void
-ClearState::Apply(void)
+ClearState::Apply(bksge::ClearState const& state)
 {
+	auto const mask = detail::ToGlClearMask(state.flag());
+
 	// カラーバッファをクリアするときは
 	// glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE)を呼ぶ必要がある
-	if (m_mask & GL_COLOR_BUFFER_BIT)
+	if (mask & GL_COLOR_BUFFER_BIT)
 	{
-		::glClearColor(m_red, m_green, m_blue, m_alpha);
+		::glClearColor(
+			state.color().r(),
+			state.color().g(),
+			state.color().b(),
+			state.color().a());
 		::glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 	}
 
 	// デプスバッファをクリアするときは
 	// glDepthMask(GL_TRUE)を呼ぶ必要がある
-	if (m_mask & GL_DEPTH_BUFFER_BIT)
+	if (mask & GL_DEPTH_BUFFER_BIT)
 	{
-		::glClearDepth(m_depth);
+		::glClearDepth(state.depth());
 		::glDepthMask(GL_TRUE);
 	}
 
 	// ステンシルバッファをクリアするときは
 	// glStencilMask(0xFFFFFFFF)を呼ぶ必要がある
-	if (m_mask & GL_STENCIL_BUFFER_BIT)
+	if (mask & GL_STENCIL_BUFFER_BIT)
 	{
-		::glClearStencil(m_stencil);
+		::glClearStencil(state.stencil());
 		::glStencilMask(~0u);
 	}
 
 	::glDisable(GL_SCISSOR_TEST);
-	::glClear(m_mask);
+	::glClear(mask);
 }
 
 }	// namespace gl

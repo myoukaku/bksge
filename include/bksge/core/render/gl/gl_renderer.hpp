@@ -12,6 +12,7 @@
 #include <bksge/core/render/gl/fwd/gl_renderer_fwd.hpp>
 #include <bksge/core/render/gl/detail/fwd/context_fwd.hpp>
 #include <bksge/core/render/gl/detail/fwd/resource_pool_fwd.hpp>
+#include <bksge/core/render/gl/detail/fwd/frame_buffer_fwd.hpp>
 #include <bksge/core/render/gl/detail/fwd/query_fwd.hpp>
 #include <bksge/core/render/gl/detail/gl_h.hpp>
 #include <bksge/core/render/fwd/geometry_fwd.hpp>
@@ -22,6 +23,7 @@
 #include <bksge/core/window/fwd/window_fwd.hpp>
 #include <bksge/fnd/units/time.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -54,10 +56,15 @@ private:
 	using NanoSeconds  = bksge::units::nanoseconds<float>;
 
 private:
-	bksge::unique_ptr<gl::Context>		m_gl_context;
-	bksge::unique_ptr<gl::ResourcePool>	m_resource_pool;
-	bksge::unique_ptr<gl::Query>		m_timer_queries[2];	///< 描画時間を図るためのクエリ
-	MilliSeconds						m_draw_time;		///< 描画時間
+	gl::ContextUnique						m_gl_context;
+	gl::ResourcePoolUnique					m_resource_pool;
+	bksge::vector<gl::FrameBufferUnique>	m_frame_buffers;
+	bksge::size_t							m_frame_index = 0;
+	gl::QueryUnique							m_timer_queries[2];	///< 描画時間を図るためのクエリ
+	MilliSeconds							m_draw_time;		///< 描画時間
+
+	struct FrameBufferDrawer;
+	bksge::unique_ptr<FrameBufferDrawer>	m_frame_buffer_drawer;
 };
 
 }	// namespace render

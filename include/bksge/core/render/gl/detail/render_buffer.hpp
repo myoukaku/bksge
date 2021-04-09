@@ -10,6 +10,7 @@
 #define BKSGE_CORE_RENDER_GL_DETAIL_RENDER_BUFFER_HPP
 
 #include <bksge/core/render/gl/detail/gl_h.hpp>
+#include <bksge/fnd/cstdint/uint32_t.hpp>
 
 namespace bksge
 {
@@ -26,13 +27,18 @@ namespace gl
 class RenderBuffer
 {
 public:
-	RenderBuffer();
+	RenderBuffer(
+		::GLenum format,
+		bksge::uint32_t width,
+		bksge::uint32_t height);
 
 	~RenderBuffer();
 
 	void Bind(void) const;
 
 	void Unbind(void) const;
+
+	::GLuint name(void) const;
 
 private:
 	// noncopyable

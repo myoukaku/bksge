@@ -145,6 +145,17 @@ WglContext::MakeCurrent(bool current)
 	}
 }
 
+BKSGE_INLINE bksge::Extent2f
+WglContext::extent(void) const
+{
+	::RECT rect;
+	::GetClientRect(m_hwnd, &rect);
+	return {
+		static_cast<float>(rect.right - rect.left),
+		static_cast<float>(rect.bottom - rect.top)
+	};
+}
+
 }	// namespace gl
 
 }	// namespace render

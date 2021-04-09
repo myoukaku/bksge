@@ -10,7 +10,6 @@
 #define BKSGE_CORE_RENDER_GL_DETAIL_STENCIL_STATE_HPP
 
 #include <bksge/core/render/fwd/stencil_state_fwd.hpp>
-#include <bksge/core/render/gl/detail/gl_h.hpp>
 
 namespace bksge
 {
@@ -24,19 +23,7 @@ namespace gl
 class StencilState
 {
 public:
-	explicit StencilState(bksge::StencilState const& state);
-
-	void Apply(void);
-
-private:
-	bool     const	m_enable;
-	::GLenum const	m_func;
-	::GLint  const	m_reference;
-	::GLuint const	m_read_mask;
-	::GLuint const	m_write_mask;
-	::GLenum const	m_fail_operation;
-	::GLenum const	m_depth_fail_operation;
-	::GLenum const	m_pass_operation;
+	static void Apply(bksge::StencilState const& state);
 };
 
 }	// namespace gl

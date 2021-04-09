@@ -23,7 +23,6 @@ namespace render
 namespace gl
 {
 
-#if 0
 /**
  *	@brief
  */
@@ -38,12 +37,18 @@ public:
 
 	void Unbind(void) const;
 
+	void AttachColorBuffer(bksge::size_t index, gl::TextureShared const& texture);
+
+	void AttachDepthStencilBuffer(gl::RenderBufferShared const& buffer);
+
+	gl::TextureShared const& GetColorBuffer(bksge::size_t index) const;
+
 private:
-	void CreateColorBuffers(void);
+	//void CreateColorBuffers(void);
 
-	void CreateDepthStencilBuffer(void);
+	//void CreateDepthStencilBuffer(void);
 
-	void CheckFramebufferStatus(void);
+	//void CheckFramebufferStatus(void);
 
 private:
 	// noncopyable
@@ -51,10 +56,10 @@ private:
 	FrameBuffer& operator=(FrameBuffer const&) = delete;
 
 private:
-	::GLuint						m_id;
-	bksge::vector<TextureShared>	m_color_buffers;
+	::GLuint							m_id;
+	bksge::vector<gl::TextureShared>	m_color_buffers;
+	gl::RenderBufferShared				m_depth_stencil_buffer;
 };
-#endif
 
 }	// namespace gl
 

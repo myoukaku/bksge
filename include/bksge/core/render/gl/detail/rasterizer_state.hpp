@@ -10,7 +10,6 @@
 #define BKSGE_CORE_RENDER_GL_DETAIL_RASTERIZER_STATE_HPP
 
 #include <bksge/core/render/fwd/rasterizer_state_fwd.hpp>
-#include <bksge/core/render/gl/detail/gl_h.hpp>
 
 namespace bksge
 {
@@ -24,15 +23,7 @@ namespace gl
 class RasterizerState
 {
 public:
-	explicit RasterizerState(bksge::RasterizerState const& state);
-
-	void Apply(void);
-
-private:
-	bool	 const	m_cull_enable;
-	::GLenum const	m_cull_mode;
-	::GLenum const	m_front_face;
-	::GLenum const	m_fill_mode;
+	static void Apply(bksge::RasterizerState const& state);
 };
 
 }	// namespace gl

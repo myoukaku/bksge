@@ -15,6 +15,7 @@
 #include <bksge/core/render/gl/detail/context.hpp>
 #include <bksge/core/render/gl/detail/gl_h.hpp>
 #include <bksge/core/window/fwd/window_fwd.hpp>
+#include <bksge/core/math/fwd/extent2_fwd.hpp>
 
 namespace bksge
 {
@@ -35,6 +36,8 @@ public:
 	virtual ~WglContext();
 	void SwapBuffers(void) override;
 	void MakeCurrent(bool current) override;
+
+	bksge::Extent2f extent(void) const override;
 
 private:
 	::HWND		m_hwnd;

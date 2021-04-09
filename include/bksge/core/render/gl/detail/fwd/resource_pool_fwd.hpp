@@ -9,6 +9,8 @@
 #ifndef BKSGE_CORE_RENDER_GL_DETAIL_FWD_RESOURCE_POOL_FWD_HPP
 #define BKSGE_CORE_RENDER_GL_DETAIL_FWD_RESOURCE_POOL_FWD_HPP
 
+#include <bksge/fnd/memory/unique_ptr.hpp>
+
 namespace bksge
 {
 
@@ -19,6 +21,7 @@ namespace gl
 {
 
 class ResourcePool;
+using ResourcePoolUnique = bksge::unique_ptr<ResourcePool>;
 
 }	// namespace gl
 

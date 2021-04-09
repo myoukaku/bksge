@@ -29,27 +29,10 @@ namespace render
 namespace gl
 {
 
-BKSGE_INLINE
-BlendState::BlendState(bksge::BlendState const& state)
-	: m_enable(state.enable())
-	, m_color_src_factor(gl::BlendFactor(state.color_src_factor()))
-	, m_color_dst_factor(gl::BlendFactor(state.color_dst_factor()))
-	, m_alpha_src_factor(gl::BlendFactor(state.alpha_src_factor()))
-	, m_alpha_dst_factor(gl::BlendFactor(state.alpha_dst_factor()))
-	, m_color_operation(gl::BlendOperation(state.color_operation()))
-	, m_alpha_operation(gl::BlendOperation(state.alpha_operation()))
-	, m_color_mask_red  (gl::Bool(Test(state.color_write_mask(), ColorWriteFlag::kRed)))
-	, m_color_mask_green(gl::Bool(Test(state.color_write_mask(), ColorWriteFlag::kGreen)))
-	, m_color_mask_blue (gl::Bool(Test(state.color_write_mask(), ColorWriteFlag::kBlue)))
-	, m_color_mask_alpha(gl::Bool(Test(state.color_write_mask(), ColorWriteFlag::kAlpha)))
-	, m_logic_op_enable(state.logic_op_enable())
-	, m_logic_op(gl::LogicOperation(state.logic_operation()))
-{}
-
 BKSGE_INLINE void
-BlendState::Apply(void)
+BlendState::Apply(bksge::BlendState const& state)
 {
-	if (m_enable)
+	if (state.enable())
 	{
 		::glEnable(GL_BLEND);
 	}
@@ -59,22 +42,22 @@ BlendState::Apply(void)
 	}
 
 	::glBlendFuncSeparate(
-		m_color_src_factor,
-		m_color_dst_factor,
-		m_alpha_src_factor,
-		m_alpha_dst_factor);
+		gl::BlendFactor(state.color_src_factor()),
+		gl::BlendFactor(state.color_dst_factor()),
+		gl::BlendFactor(state.alpha_src_factor()),
+		gl::BlendFactor(state.alpha_dst_factor()));
 
 	::glBlendEquationSeparate(
-		m_color_operation,
-		m_alpha_operation);
+		gl::BlendOperation(state.color_operation()),
+		gl::BlendOperation(state.alpha_operation()));
 
 	::glColorMask(
-		m_color_mask_red,
-		m_color_mask_green,
-		m_color_mask_blue,
-		m_color_mask_alpha);
+		gl::Bool(Test(state.color_write_mask(), ColorWriteFlag::kRed)),
+		gl::Bool(Test(state.color_write_mask(), ColorWriteFlag::kGreen)),
+		gl::Bool(Test(state.color_write_mask(), ColorWriteFlag::kBlue)),
+		gl::Bool(Test(state.color_write_mask(), ColorWriteFlag::kAlpha)));
 
-	if (m_logic_op_enable)
+	if (state.logic_op_enable())
 	{
 		::glEnable(GL_COLOR_LOGIC_OP);
 	}
@@ -83,7 +66,7 @@ BlendState::Apply(void)
 		::glDisable(GL_COLOR_LOGIC_OP);
 	}
 
-	::glLogicOp(m_logic_op);
+	::glLogicOp(gl::LogicOperation(state.logic_operation()));
 }
 
 }	// namespace gl
