@@ -42,6 +42,8 @@ public:
 
 	::VkPhysicalDeviceFeatures GetFeatures(void) const;
 
+	::VkFormatProperties GetFormatProperties(::VkFormat format) const;
+
 	operator ::VkPhysicalDevice() const;
 
 private:

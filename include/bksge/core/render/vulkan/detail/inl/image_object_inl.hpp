@@ -73,12 +73,10 @@ BKSGE_INLINE void
 ImageObject::TransitionLayout(
 	vulkan::CommandPoolSharedPtr const& command_pool,
 	::VkImageAspectFlags aspect_mask,
-	bksge::uint32_t mipmap_count,
-	::VkImageLayout old_layout,
 	::VkImageLayout new_layout)
 {
 	m_image->TransitionLayout(
-		command_pool, aspect_mask, mipmap_count, old_layout, new_layout);
+		command_pool, aspect_mask, new_layout);
 }
 
 BKSGE_INLINE vulkan::Image const&

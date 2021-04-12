@@ -122,6 +122,14 @@ PhysicalDevice::GetFeatures(void) const
 	return feature;
 }
 
+BKSGE_INLINE ::VkFormatProperties
+PhysicalDevice::GetFormatProperties(::VkFormat format) const
+{
+	::VkFormatProperties props;
+	vk::GetPhysicalDeviceFormatProperties(m_physical_device, format, &props);
+	return props;
+}
+
 BKSGE_INLINE
 PhysicalDevice::operator ::VkPhysicalDevice() const
 {

@@ -49,8 +49,6 @@ public:
 	void TransitionLayout(
 		vulkan::CommandPoolSharedPtr const& command_pool,
 		::VkImageAspectFlags aspect_mask,
-		bksge::uint32_t mipmap_count,
-		::VkImageLayout old_layout,
 		::VkImageLayout new_layout);
 
 	vulkan::Image const& image(void) const;

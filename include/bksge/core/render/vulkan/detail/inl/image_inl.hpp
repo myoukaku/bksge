@@ -42,6 +42,9 @@ Image::Image(
 	: m_device(device)
 	, m_image(VK_NULL_HANDLE)
 	, m_format(format)
+	, m_extent(extent)
+	, m_mipmap_count(mipmap_count)
+	, m_image_layout(initial_layout)
 {
 	vk::ImageCreateInfo info;
 	info.imageType     = VK_IMAGE_TYPE_2D;
@@ -71,12 +74,11 @@ BKSGE_INLINE void
 Image::TransitionLayout(
 	vulkan::CommandPoolSharedPtr const& command_pool,
 	::VkImageAspectFlags aspect_mask,
-	bksge::uint32_t mipmap_count,
-	::VkImageLayout old_layout,
 	::VkImageLayout new_layout)
 {
 	TransitionImageLayout(
-		command_pool, m_image, aspect_mask, mipmap_count, old_layout, new_layout);
+		command_pool, m_image, aspect_mask, m_mipmap_count, m_image_layout, new_layout);
+	m_image_layout = new_layout;
 }
 
 BKSGE_INLINE void
@@ -213,6 +215,18 @@ BKSGE_INLINE ::VkFormat const&
 Image::format(void) const
 {
 	return m_format;
+}
+
+BKSGE_INLINE ::VkExtent2D const&
+Image::extent(void) const
+{
+	return m_extent;
+}
+
+BKSGE_INLINE bksge::uint32_t
+Image::mipmap_count(void) const
+{
+	return m_mipmap_count;
 }
 
 BKSGE_INLINE ::VkMemoryRequirements

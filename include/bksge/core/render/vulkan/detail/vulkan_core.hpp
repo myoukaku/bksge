@@ -11,6 +11,7 @@
 
 #include <vulkan/vulkan_core.h>
 #include <bksge/core/render/vulkan/detail/check_error.hpp>
+#include <bksge/core/math/extent2.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/vector.hpp>
@@ -828,6 +829,13 @@ struct Extent2D : public ::VkExtent2D
 	{
 		width  = 0;
 		height = 0;
+	}
+
+	template <typename T>
+	Extent2D(bksge::Extent2<T> const& extent)
+	{
+		width  = static_cast<bksge::uint32_t>(extent.width());
+		height = static_cast<bksge::uint32_t>(extent.height());
 	}
 };
 
@@ -5647,14 +5655,23 @@ inline void CmdCopyBufferToImage(
 //    VkDeviceSize                                dstOffset,
 //    VkDeviceSize                                size,
 //    uint32_t                                    data);
-//
-//void vkCmdClearColorImage(
-//    VkCommandBuffer                             commandBuffer,
-//    VkImage                                     image,
-//    VkImageLayout                               imageLayout,
-//    const VkClearColorValue*                    pColor,
-//    uint32_t                                    rangeCount,
-//    const VkImageSubresourceRange*              pRanges);
+
+inline void CmdClearColorImage(
+    VkCommandBuffer                             commandBuffer,
+    VkImage                                     image,
+    VkImageLayout                               imageLayout,
+    const VkClearColorValue*                    pColor,
+    uint32_t                                    rangeCount,
+    const VkImageSubresourceRange*              pRanges)
+{
+	::vkCmdClearColorImage(
+		commandBuffer,
+		image,
+		imageLayout,
+		pColor,
+		rangeCount,
+		pRanges);
+}
 
 inline void CmdClearDepthStencilImage(
     VkCommandBuffer                             commandBuffer,

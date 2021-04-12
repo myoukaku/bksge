@@ -42,11 +42,13 @@ public:
 	void TransitionLayout(
 		vulkan::CommandPoolSharedPtr const& command_pool,
 		::VkImageAspectFlags aspect_mask,
-		bksge::uint32_t mipmap_count,
-		::VkImageLayout old_layout,
 		::VkImageLayout new_layout);
 
 	::VkFormat const&		format(void) const;
+
+	::VkExtent2D const&		extent(void) const;
+
+	bksge::uint32_t			mipmap_count(void) const;
 
 	::VkMemoryRequirements	requirements(void) const;
 
@@ -61,6 +63,9 @@ private:
 	vulkan::DeviceSharedPtr		m_device;
 	::VkImage					m_image;
 	::VkFormat					m_format;
+	::VkExtent2D				m_extent;
+	bksge::uint32_t				m_mipmap_count;
+	::VkImageLayout				m_image_layout;
 };
 
 void TransitionImageLayout(

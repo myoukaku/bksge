@@ -30,24 +30,23 @@ namespace vulkan
 BKSGE_INLINE
 ImageView::ImageView(
 	vulkan::DeviceSharedPtr const& device,
-	::VkImage image,
-	::VkFormat format,
-	::VkImageAspectFlags aspect_mask,
-	bksge::uint32_t mipmap_count)
+	vulkan::Image const& image,
+	::VkImageAspectFlags aspect_mask)
 	: m_device(device)
 	, m_image_view(VK_NULL_HANDLE)
+	, m_aspect_mask(aspect_mask)
 {
 	vk::ImageViewCreateInfo info;
 	info.image                           = image;
 	info.viewType                        = VK_IMAGE_VIEW_TYPE_2D;
-	info.format                          = format;
+	info.format                          = image.format();
 	info.components.r                    = VK_COMPONENT_SWIZZLE_R;
 	info.components.g                    = VK_COMPONENT_SWIZZLE_G;
 	info.components.b                    = VK_COMPONENT_SWIZZLE_B;
 	info.components.a                    = VK_COMPONENT_SWIZZLE_A;
 	info.subresourceRange.aspectMask     = aspect_mask;
 	info.subresourceRange.baseMipLevel   = 0;
-	info.subresourceRange.levelCount     = mipmap_count;
+	info.subresourceRange.levelCount     = image.mipmap_count();
 	info.subresourceRange.baseArrayLayer = 0;
 	info.subresourceRange.layerCount     = 1;
 
@@ -58,6 +57,12 @@ BKSGE_INLINE
 ImageView::~ImageView()
 {
 	vk::DestroyImageView(*m_device, m_image_view, nullptr);
+}
+
+BKSGE_INLINE ::VkImageAspectFlags
+ImageView::aspect_mask(void) const
+{
+	return m_aspect_mask;
 }
 
 BKSGE_INLINE

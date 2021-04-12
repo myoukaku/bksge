@@ -23,6 +23,7 @@
 #include <bksge/core/render/vulkan/detail/command_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/swapchain.hpp>
 #include <bksge/core/render/vulkan/detail/depth_stencil_buffer.hpp>
+#include <bksge/core/render/vulkan/detail/render_texture.hpp>
 #include <bksge/core/render/vulkan/detail/render_pass.hpp>
 #include <bksge/core/render/vulkan/detail/framebuffer.hpp>
 #include <bksge/core/render/vulkan/detail/shader.hpp>
@@ -32,10 +33,12 @@
 #include <bksge/core/render/vulkan/detail/graphics_pipeline.hpp>
 #include <bksge/core/render/vulkan/detail/geometry.hpp>
 #include <bksge/core/render/vulkan/detail/image_view.hpp>
+#include <bksge/core/render/vulkan/detail/image.hpp>
 #include <bksge/core/render/vulkan/detail/resource_pool.hpp>
 #include <bksge/core/render/vulkan/detail/pipeline_layout.hpp>
 #include <bksge/core/render/shader.hpp>
 #include <bksge/core/render/render_pass_info.hpp>
+#include <bksge/core/window/window.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
@@ -151,7 +154,7 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 		&DebugCallback);
 
 	auto gpus = m_instance->EnumeratePhysicalDevices();
-
+	// TODO 一番良いgpuを選ぶ
 	m_physical_device = bksge::make_unique<vulkan::PhysicalDevice>(gpus[0]);
 
 	m_surface = bksge::make_unique<vulkan::Surface>(m_instance, window);
@@ -180,6 +183,39 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 	CreateDepthStencilBuffer();
 	CreateRenderPass();
 	CreateFrameBuffers();
+
+	{
+		vk::Extent2D const extent = window.client_size();
+
+		m_offscreen_color_buffer = bksge::make_unique<vulkan::RenderTexture>(
+			m_device,
+			m_command_pool,
+			VK_FORMAT_R8G8B8A8_UNORM,
+			extent,
+			NUM_SAMPLES);
+
+		m_offscreen_depth_stencil_buffer = bksge::make_unique<vulkan::DepthStencilBuffer>(
+			m_device,
+			m_command_pool,
+			VK_FORMAT_D24_UNORM_S8_UINT,
+			extent,
+			NUM_SAMPLES);
+
+#if 0
+		m_offscreen_render_pass = bksge::make_unique<vulkan::RenderPass>(
+			m_device,
+			NUM_SAMPLES,
+			m_offscreen_color_buffer,
+			m_offscreen_depth_stencil_buffer);
+
+		m_offscreen_framebuffer = bksge::make_unique<vulkan::Framebuffer>(
+			m_device,
+			*m_offscreen_render_pass,
+			m_offscreen_color_buffer,
+			m_offscreen_depth_stencil_buffer,
+			extent);
+#endif
+	}
 }
 
 BKSGE_INLINE
@@ -228,6 +264,7 @@ VulkanRenderer::CreateDepthStencilBuffer(void)
 	m_depth_stencil_buffer = bksge::make_unique<vulkan::DepthStencilBuffer>(
 		m_device,
 		m_command_pool,
+		VK_FORMAT_D24_UNORM_S8_UINT,
 		m_swapchain->extent(),
 		NUM_SAMPLES);
 }
@@ -237,14 +274,11 @@ VulkanRenderer::CreateRenderPass(void)
 {
 	const bool depthPresent = true;	// TODO
 
-	auto const surface_format =
-		GetSurfaceFormat(*m_physical_device, *m_surface);
-
 	m_render_pass = bksge::make_unique<vulkan::RenderPass>(
 		m_device,
 		NUM_SAMPLES,
-		surface_format,
-		m_depth_stencil_buffer->format(),
+		m_swapchain->format(),
+		m_depth_stencil_buffer->image().format(),
 		depthPresent);
 }
 
@@ -292,7 +326,7 @@ VulkanRenderer::VEnd(void)
 {
 	m_command_buffer->End();
 
-	::VkPipelineStageFlags pipe_stage_flags =
+	::VkPipelineStageFlags const pipe_stage_flags =
 		VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
 	vk::SubmitInfo submit_info;
 	submit_info.SetWaitSemaphores(m_image_acquired_semaphore->GetAddressOf());

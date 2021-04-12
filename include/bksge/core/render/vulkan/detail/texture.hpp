@@ -14,6 +14,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/command_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/image_object_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/image_view_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/fwd/texture_fwd.hpp>
 
 namespace bksge
@@ -34,6 +35,10 @@ public:
 		bksge::Texture const& texture);
 
 	~Texture();
+
+	void TransitionLayout(
+		vulkan::CommandPoolSharedPtr const& command_pool,
+		::VkImageLayout new_layout);
 
 	vulkan::ImageView const& image_view(void) const;
 

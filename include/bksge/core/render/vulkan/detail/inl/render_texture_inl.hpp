@@ -1,18 +1,18 @@
 ﻿/**
- *	@file	depth_stencil_buffer_inl.hpp
+ *	@file	render_texture_inl.hpp
  *
- *	@brief	DepthStencilBuffer クラスの実装
+ *	@brief	RenderTexture クラスの実装
  *
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_CORE_RENDER_VULKAN_DETAIL_INL_DEPTH_STENCIL_BUFFER_INL_HPP
-#define BKSGE_CORE_RENDER_VULKAN_DETAIL_INL_DEPTH_STENCIL_BUFFER_INL_HPP
+#ifndef BKSGE_CORE_RENDER_VULKAN_DETAIL_INL_RENDER_TEXTURE_INL_HPP
+#define BKSGE_CORE_RENDER_VULKAN_DETAIL_INL_RENDER_TEXTURE_INL_HPP
 
 #include <bksge/core/render/config.hpp>
 #if BKSGE_CORE_RENDER_HAS_VULKAN_RENDERER
 
-#include <bksge/core/render/vulkan/detail/depth_stencil_buffer.hpp>
+#include <bksge/core/render/vulkan/detail/render_texture.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/physical_device.hpp>
 #include <bksge/core/render/vulkan/detail/image_object.hpp>
@@ -34,60 +34,36 @@ namespace vulkan
 {
 
 BKSGE_INLINE
-DepthStencilBuffer::DepthStencilBuffer(
+RenderTexture::RenderTexture(
 	vulkan::DeviceSharedPtr const& device,
 	vulkan::CommandPoolSharedPtr const& command_pool,
 	::VkFormat format,
 	::VkExtent2D const& extent,
 	::VkSampleCountFlagBits num_samples)
 {
-	bksge::uint32_t const mipmap_count = 1;
-
 	auto physical_device = device->physical_device();
 
-	::VkFormatProperties props;
-
-	/* allow custom depth formats */
-#if defined(__ANDROID__)
-	// Depth format needs to be VK_FORMAT_D24_UNORM_S8_UINT on Android (if available).
-	vk::GetPhysicalDeviceFormatProperties(info.gpus[0], VK_FORMAT_D24_UNORM_S8_UINT, &props);
-	if ((props.linearTilingFeatures & VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT) ||
-		(props.optimalTilingFeatures & VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT))
-	{
-		format = VK_FORMAT_D24_UNORM_S8_UINT;
-	}
-	else
-	{
-		format = VK_FORMAT_D16_UNORM;
-	}
-#elif defined(VK_USE_PLATFORM_IOS_MVK)
-	if (format == VK_FORMAT_UNDEFINED)
-	{
-		format = VK_FORMAT_D32_SFLOAT;
-	}
-#else
-	if (format == VK_FORMAT_UNDEFINED)
-	{
-		format = VK_FORMAT_D16_UNORM;
-	}
-#endif
-
 	::VkImageTiling tiling = VK_IMAGE_TILING_OPTIMAL;
-	props = physical_device->GetFormatProperties(format);
-	if (props.linearTilingFeatures & VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT)
+	auto const props = physical_device->GetFormatProperties(format);
+	if (props.linearTilingFeatures & VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT)
 	{
 		tiling = VK_IMAGE_TILING_LINEAR;
 	}
-	else if (props.optimalTilingFeatures & VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT)
+	else if (props.optimalTilingFeatures & VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT)
 	{
 		tiling = VK_IMAGE_TILING_OPTIMAL;
 	}
 	else
 	{
-	 /* Try other depth formats? */
-		//std::cout << "depth_format " << format << " Unsupported.\n";
-		exit(-1);
+		// TODO エラー処理
 	}
+
+	bksge::uint32_t const mipmap_count = 1;
+
+	::VkImageUsageFlags const usage =
+		VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT |
+		VK_IMAGE_USAGE_SAMPLED_BIT |
+		VK_IMAGE_USAGE_TRANSFER_DST_BIT;
 
 	m_image = bksge::make_unique<vulkan::ImageObject>(
 		device,
@@ -96,36 +72,29 @@ DepthStencilBuffer::DepthStencilBuffer(
 		mipmap_count,
 		num_samples,
 		tiling,
-		VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT |
-		VK_IMAGE_USAGE_TRANSFER_DST_BIT,
+		usage,
 		VK_IMAGE_LAYOUT_UNDEFINED,
 		VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 
-	::VkImageAspectFlags aspect_mask = VK_IMAGE_ASPECT_DEPTH_BIT;
-	if (format == VK_FORMAT_D16_UNORM_S8_UINT ||
-		format == VK_FORMAT_D24_UNORM_S8_UINT ||
-		format == VK_FORMAT_D32_SFLOAT_S8_UINT)
-	{
-		aspect_mask |= VK_IMAGE_ASPECT_STENCIL_BIT;
-	}
+	::VkImageAspectFlags const aspect = VK_IMAGE_ASPECT_COLOR_BIT;
 
 	m_image_view = bksge::make_unique<vulkan::ImageView>(
 		device,
 		m_image->image(),
-		aspect_mask);
+		aspect);
 
 	this->TransitionLayout(
 		command_pool,
-		VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
+		VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
 }
 
 BKSGE_INLINE
-DepthStencilBuffer::~DepthStencilBuffer()
+RenderTexture::~RenderTexture()
 {
 }
 
 BKSGE_INLINE void
-DepthStencilBuffer::TransitionLayout(
+RenderTexture::TransitionLayout(
 	vulkan::CommandPoolSharedPtr const& command_pool,
 	::VkImageLayout new_layout)
 {
@@ -136,18 +105,14 @@ DepthStencilBuffer::TransitionLayout(
 }
 
 BKSGE_INLINE void
-DepthStencilBuffer::Clear(
+RenderTexture::Clear(
 	vulkan::CommandPoolSharedPtr const& command_pool,
 	bksge::ClearState const& clear_state)
 {
 	::VkImageAspectFlags aspect_mask = 0;
-	if (Test(clear_state.flag(), bksge::ClearFlag::kDepth))
+	if (Test(clear_state.flag(), bksge::ClearFlag::kColor))
 	{
-		aspect_mask |= VK_IMAGE_ASPECT_DEPTH_BIT;
-	}
-	if (Test(clear_state.flag(), bksge::ClearFlag::kStencil))
-	{
-		aspect_mask |= VK_IMAGE_ASPECT_STENCIL_BIT;
+		aspect_mask |= VK_IMAGE_ASPECT_COLOR_BIT;
 	}
 
 	if (aspect_mask == 0)
@@ -159,9 +124,11 @@ DepthStencilBuffer::Clear(
 		command_pool,
 		VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
 
-	::VkClearDepthStencilValue clear_value;
-	clear_value.depth   = clear_state.depth();
-	clear_value.stencil = clear_state.stencil();
+	::VkClearColorValue clear_value;
+	clear_value.float32[0] = clear_state.color().r();
+	clear_value.float32[1] = clear_state.color().g();
+	clear_value.float32[2] = clear_state.color().b();
+	clear_value.float32[3] = clear_state.color().a();
 
 	::VkImageSubresourceRange range;
 	range.aspectMask     = aspect_mask;
@@ -171,7 +138,7 @@ DepthStencilBuffer::Clear(
 	range.layerCount     = 1;
 
 	auto command_buffer = BeginSingleTimeCommands(command_pool);
-	vk::CmdClearDepthStencilImage(
+	vk::CmdClearColorImage(
 		*command_buffer,
 		m_image->image(),
 		VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
@@ -181,17 +148,17 @@ DepthStencilBuffer::Clear(
 
 	this->TransitionLayout(
 		command_pool,
-		VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
+		VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
 }
 
 BKSGE_INLINE vulkan::Image const&
-DepthStencilBuffer::image(void) const
+RenderTexture::image(void) const
 {
 	return m_image->image();
 }
 
 BKSGE_INLINE vulkan::ImageView const&
-DepthStencilBuffer::image_view(void) const
+RenderTexture::image_view(void) const
 {
 	return *m_image_view;
 }
@@ -204,4 +171,4 @@ DepthStencilBuffer::image_view(void) const
 
 #endif // BKSGE_CORE_RENDER_HAS_VULKAN_RENDERER
 
-#endif // BKSGE_CORE_RENDER_VULKAN_DETAIL_INL_DEPTH_STENCIL_BUFFER_INL_HPP
+#endif // BKSGE_CORE_RENDER_VULKAN_DETAIL_INL_RENDER_TEXTURE_INL_HPP

@@ -69,7 +69,7 @@ CopyBufferToImage(
 		region.imageSubresource.baseArrayLayer = 0;
 		region.imageSubresource.layerCount     = 1;
 		region.imageOffset                     = {0, 0, 0};
-		region.imageExtent = {width, height, 1};
+		region.imageExtent                     = {width, height, 1};
 
 		vk::CmdCopyBufferToImage(
 			*command_buffer,
@@ -95,9 +95,9 @@ Texture::Texture(
 	vulkan::CommandPoolSharedPtr const& command_pool,
 	bksge::Texture const& texture)
 {
-	::VkFormat const format = vulkan::TextureFormat(texture.format());
+	auto const format = vulkan::TextureFormat(texture.format());
 
-	::VkExtent2D const extent = vulkan::Extent2D(texture.extent());
+	auto const extent = vulkan::Extent2D(texture.extent());
 
 	auto const mipmap_count = static_cast<bksge::uint32_t>(texture.mipmap_count());
 
@@ -124,7 +124,16 @@ Texture::Texture(
 		initial_layout,
 		requirements_mask);
 
-	auto image_size = GetMipmappedSizeInBytes(texture.format(), texture.width(), texture.height(), texture.mipmap_count());//texture.stride() * texture.height();
+	m_image_view = bksge::make_unique<vulkan::ImageView>(
+		device,
+		m_image->image(),
+		VK_IMAGE_ASPECT_COLOR_BIT);
+
+	auto image_size = GetMipmappedSizeInBytes(
+		texture.format(),
+		texture.width(),
+		texture.height(),
+		texture.mipmap_count());
 
 	auto staging_buffer = bksge::make_unique<vulkan::BufferObject>(
 		device,
@@ -132,46 +141,47 @@ Texture::Texture(
 		VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
 		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
 		VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
-
+	// TODO staging_buffer->Copy(texture.data(), image_size);
 	{
 		void* dst = staging_buffer->MapMemory(VK_WHOLE_SIZE);
 		bksge::memcpy(dst, texture.data(), image_size);
 		staging_buffer->UnmapMemory();
 	}
 
-	m_image->TransitionLayout(
-		command_pool,
-		VK_IMAGE_ASPECT_COLOR_BIT,
-		mipmap_count,
-		initial_layout,
-		VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
+	// TODO m_image->CopyFromBuffer(command_pool, staging_buffer->buffer());
+	{
+		this->TransitionLayout(
+			command_pool,
+			VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
 
-	detail::CopyBufferToImage(
-		command_pool,
-		staging_buffer->buffer(),
-		m_image->image(),
-		texture.format(),
-		extent,
-		mipmap_count);
+		detail::CopyBufferToImage(
+			command_pool,
+			staging_buffer->buffer(),
+			m_image->image(),
+			texture.format(),
+			m_image->image().extent(),
+			m_image->image().mipmap_count());
 
-	m_image->TransitionLayout(
-		command_pool,
-		VK_IMAGE_ASPECT_COLOR_BIT,
-		mipmap_count,
-		VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-		VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
-
-	m_image_view = bksge::make_unique<vulkan::ImageView>(
-		device,
-		m_image->image(),
-		format,
-		VK_IMAGE_ASPECT_COLOR_BIT,
-		mipmap_count);
+		this->TransitionLayout(
+			command_pool,
+			VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+	}
 }
 
 BKSGE_INLINE
 Texture::~Texture()
 {
+}
+
+BKSGE_INLINE void
+Texture::TransitionLayout(
+	vulkan::CommandPoolSharedPtr const& command_pool,
+	::VkImageLayout new_layout)
+{
+	m_image->TransitionLayout(
+		command_pool,
+		m_image_view->aspect_mask(),
+		new_layout);
 }
 
 BKSGE_INLINE vulkan::ImageView const&
