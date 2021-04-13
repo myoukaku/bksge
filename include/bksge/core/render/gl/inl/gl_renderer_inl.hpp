@@ -98,7 +98,7 @@ void APIENTRY DebugCallback(
 //
 // これで問題は解消され、他のレンダリングエンジンとも挙動を合わせられる。
 
-struct GlRenderer::FrameBufferDrawer
+struct GlRenderer::OffscreenBufferDrawer
 {
 private:
 	bksge::unique_ptr<gl::GlslProgram> CreateProgram(void)
@@ -171,7 +171,7 @@ private:
 	}
 
 public:
-	FrameBufferDrawer()
+	OffscreenBufferDrawer()
 	{
 		m_program = CreateProgram();
 		m_sampler = CreateSampler();
@@ -215,7 +215,7 @@ BKSGE_INLINE
 GlRenderer::GlRenderer(Window const& window)
 	: m_gl_context(gl::detail::MakeGlContext(window))
 	, m_resource_pool(new gl::ResourcePool())
-	, m_frame_buffer_drawer(new FrameBufferDrawer())
+	, m_offscreen_buffer_drawer(new OffscreenBufferDrawer())
 {
 	auto const width  = window.client_size().width();
 	auto const height = window.client_size().height();
@@ -234,10 +234,9 @@ GlRenderer::GlRenderer(Window const& window)
 	// クリップ座標を左上原点にするので、オフスクリーンレンダリングでも上下反転しない
 	::glClipControl(GL_UPPER_LEFT, GL_ZERO_TO_ONE);
 
-	bksge::size_t const frame_buffer_count = 2;
-	for (bksge::size_t i = 0; i < frame_buffer_count; ++i)
+	// Create Offscreen FrameBuffer
 	{
-		auto frame_buffer = bksge::make_unique<gl::FrameBuffer>();
+		m_offscreen_buffer = bksge::make_unique<gl::FrameBuffer>();
 		{
 			auto texture = bksge::make_shared<gl::Texture>(
 				bksge::TextureFormat::kRGBA_U8,
@@ -245,16 +244,15 @@ GlRenderer::GlRenderer(Window const& window)
 				height,
 				1,
 				nullptr);
-			frame_buffer->AttachColorBuffer(0, texture);
+			m_offscreen_buffer->AttachColorBuffer(0, texture);
 		}
 		{
 			auto depth_stencil = bksge::make_shared<gl::RenderBuffer>(
 				GL_DEPTH24_STENCIL8,
 				width,
 				height);
-			frame_buffer->AttachDepthStencilBuffer(depth_stencil);
+			m_offscreen_buffer->AttachDepthStencilBuffer(depth_stencil);
 		}
-		m_frame_buffers.push_back(bksge::move(frame_buffer));
 	}
 
 	m_timer_queries[0] = bksge::make_unique<gl::Query>();
@@ -269,7 +267,7 @@ GlRenderer::~GlRenderer()
 BKSGE_INLINE void
 GlRenderer::VBegin(void)
 {
-	m_frame_buffers[m_frame_index]->Bind();
+	m_offscreen_buffer->Bind();
 
 	m_timer_queries[0]->QueryCounter(GL_TIMESTAMP);
 }
@@ -277,10 +275,10 @@ GlRenderer::VBegin(void)
 BKSGE_INLINE void
 GlRenderer::VEnd(void)
 {
-	m_frame_buffers[m_frame_index]->Unbind();
+	m_offscreen_buffer->Unbind();
 
-	m_frame_buffer_drawer->Draw(
-		m_frame_buffers[m_frame_index]->GetColorBuffer(0),
+	m_offscreen_buffer_drawer->Draw(
+		m_offscreen_buffer->GetColorBuffer(0),
 		m_gl_context->extent());
 
 	m_timer_queries[1]->QueryCounter(GL_TIMESTAMP);
@@ -293,12 +291,6 @@ GlRenderer::VEnd(void)
 	m_timer_queries[1]->GetResult(&time_1);
 
 	m_draw_time = NanoSeconds(static_cast<float>(time_1 - time_0));
-
-	++m_frame_index;
-	if (m_frame_index >= m_frame_buffers.size())
-	{
-		m_frame_index = 0;
-	}
 }
 
 BKSGE_INLINE void

@@ -58,13 +58,12 @@ private:
 private:
 	gl::ContextUnique						m_gl_context;
 	gl::ResourcePoolUnique					m_resource_pool;
-	bksge::vector<gl::FrameBufferUnique>	m_frame_buffers;
-	bksge::size_t							m_frame_index = 0;
+	gl::FrameBufferUnique					m_offscreen_buffer;
 	gl::QueryUnique							m_timer_queries[2];	///< 描画時間を図るためのクエリ
 	MilliSeconds							m_draw_time;		///< 描画時間
 
-	struct FrameBufferDrawer;
-	bksge::unique_ptr<FrameBufferDrawer>	m_frame_buffer_drawer;
+	struct OffscreenBufferDrawer;
+	bksge::unique_ptr<OffscreenBufferDrawer>	m_offscreen_buffer_drawer;
 };
 
 }	// namespace render
