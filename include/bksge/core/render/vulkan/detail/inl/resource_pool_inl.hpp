@@ -18,6 +18,10 @@
 #include <bksge/core/render/vulkan/detail/graphics_pipeline.hpp>
 #include <bksge/core/render/vulkan/detail/sampler.hpp>
 #include <bksge/core/render/vulkan/detail/texture.hpp>
+#include <bksge/core/render/vulkan/detail/render_pass.hpp>
+#include <bksge/core/render/vulkan/detail/render_state.hpp>
+#include <bksge/core/render/vulkan/detail/pipeline_input_assembly_state.hpp>
+#include <bksge/core/render/vulkan/detail/pipeline_vertex_input_state.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/shader.hpp>
 #include <bksge/core/render/geometry.hpp>
@@ -62,77 +66,73 @@ GetOrCreate(Map& map, Id const& id, Args&&... args)
 }	// namespace detail
 
 BKSGE_INLINE
-ResourcePool::ResourcePool(void)
-{
-}
+ResourcePool::ResourcePool(vulkan::DeviceSharedPtr const& device)
+	: m_device(device)
+{}
 
 BKSGE_INLINE
 ResourcePool::~ResourcePool()
-{
-}
+{}
 
 BKSGE_INLINE vulkan::ShaderSharedPtr
 ResourcePool::GetShader(
-	vulkan::DeviceSharedPtr const& device,
 	bksge::Shader const& shader)
 {
 	return detail::GetOrCreate<vulkan::Shader>(
-		m_shader_map, shader.id(), device, shader);
+		m_shader_map, shader.id(), m_device, shader);
 }
 
 BKSGE_INLINE vulkan::GeometrySharedPtr
 ResourcePool::GetGeometry(
-	vulkan::DeviceSharedPtr const& device,
 	bksge::Geometry const& geometry)
 {
 	return detail::GetOrCreate<vulkan::Geometry>(
-		m_geometry_map, geometry.id(), device, geometry);
+		m_geometry_map, geometry.id(), m_device, geometry);
 }
 
 BKSGE_INLINE vulkan::GraphicsPipelineSharedPtr
 ResourcePool::GetGraphicsPipeline(
-	vulkan::DeviceSharedPtr const& device,
-	::VkSampleCountFlagBits num_samples,
+	vulkan::RenderPass const& render_pass,
 	bksge::Geometry const& geometry,
 	bksge::Shader const& shader,
-	bksge::RenderState const& render_state,
-	vulkan::RenderPass const& render_pass)
+	bksge::RenderState const& render_state)
 {
 	auto const id = bksge::hash_combine(
-		static_cast<bksge::uint32_t>(num_samples),
+		static_cast<bksge::uint32_t>(render_pass.samples()),
 		geometry.id(),
+		// TODO
+		//geometry.primitive_topology(),
+		//geometry.vertex_layout(),
 		shader.id(),
 		render_state);
 
 	return detail::GetOrCreate<vulkan::GraphicsPipeline>(
 		m_graphics_pipeline_map,
 		id,
-		device,
-		num_samples,
-		geometry,
-		render_state,
+		m_device,
 		render_pass,
-		*(this->GetShader(device, shader)));
+		vulkan::PipelineInputAssemblyState(geometry.primitive_topology()),
+		vulkan::PipelineVertexInputState(geometry.vertex_layout()),
+		*(this->GetShader(shader)),
+		vulkan::RenderState(render_state));
 }
 
 BKSGE_INLINE vulkan::SamplerSharedPtr
 ResourcePool::GetSampler(
-	vulkan::DeviceSharedPtr const& device,
 	bksge::Sampler const& sampler)
 {
 	auto const id = bksge::hash_combine(sampler);
 	return detail::GetOrCreate<vulkan::Sampler>(
-		m_sampler_map, id, device, sampler);
+		m_sampler_map, id, m_device, sampler);
 }
 
 BKSGE_INLINE vulkan::TextureSharedPtr
 ResourcePool::GetTexture(
-	vulkan::DeviceSharedPtr const& device,
 	vulkan::CommandPoolSharedPtr const& command_pool,
 	bksge::Texture const& texture)
 {
 	return detail::GetOrCreate<vulkan::Texture>(
-		m_texture_map, texture.id(), device, command_pool, texture);
+		m_texture_map, texture.id(), m_device, command_pool, texture);
 }
 
 }	// namespace vulkan

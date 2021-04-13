@@ -35,6 +35,7 @@ RenderPass::RenderPass(
 	bool include_depth)
 	: m_device(device)
 	, m_render_pass(VK_NULL_HANDLE)
+	, m_samples(num_samples)
 {
 	bksge::vector<::VkAttachmentDescription> attachments;
 
@@ -105,6 +106,12 @@ BKSGE_INLINE
 RenderPass::~RenderPass()
 {
 	vk::DestroyRenderPass(*m_device, m_render_pass, nullptr);
+}
+
+BKSGE_INLINE ::VkSampleCountFlagBits
+RenderPass::samples(void) const
+{
+	return m_samples;
 }
 
 BKSGE_INLINE

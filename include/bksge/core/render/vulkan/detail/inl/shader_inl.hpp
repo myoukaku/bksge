@@ -119,7 +119,6 @@ Shader::GetDescriptorSetLayout(void) const
 BKSGE_INLINE void
 Shader::LoadParameters(
 	bksge::ShaderParameterMap const& shader_parameter_map,
-	vulkan::DeviceSharedPtr const& device,
 	vulkan::CommandPoolSharedPtr const& command_pool,
 	vulkan::UniformBuffer* uniform_buffer,
 	vulkan::ResourcePool* resource_pool)
@@ -132,7 +131,6 @@ Shader::LoadParameters(
 	{
 		setter->LoadParameters(
 			shader_parameter_map,
-			device,
 			command_pool,
 			uniform_buffer,
 			resource_pool);

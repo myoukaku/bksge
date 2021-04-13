@@ -34,6 +34,8 @@ public:
 
 	~RenderPass();
 
+	::VkSampleCountFlagBits	samples(void) const;
+
 	operator ::VkRenderPass() const;
 
 private:
@@ -44,6 +46,7 @@ private:
 private:
 	vulkan::DeviceSharedPtr		m_device;
 	::VkRenderPass				m_render_pass;
+	::VkSampleCountFlagBits		m_samples;
 };
 
 }	// namespace vulkan

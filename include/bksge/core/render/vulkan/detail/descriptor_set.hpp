@@ -29,7 +29,6 @@ class DescriptorSet
 {
 public:
 	explicit DescriptorSet(
-		vulkan::DeviceSharedPtr const& device,
 		vulkan::DescriptorPoolSharedPtr const& descriptor_pool,
 		bksge::vector<::VkDescriptorSetLayout> const& descriptor_set_layout);
 
@@ -43,7 +42,6 @@ private:
 	DescriptorSet& operator=(DescriptorSet const&) = delete;
 
 private:
-	vulkan::DeviceSharedPtr					m_device;
 	vulkan::DescriptorPoolSharedPtr			m_descriptor_pool;
 	bksge::vector<::VkDescriptorSet>		m_descriptor_sets;
 };

@@ -51,7 +51,6 @@ CombinedImageSamplerSetter::~CombinedImageSamplerSetter()
 BKSGE_INLINE void
 CombinedImageSamplerSetter::LoadParameters(
 	bksge::ShaderParameterMap const& shader_parameter_map,
-	vulkan::DeviceSharedPtr const& device,
 	vulkan::CommandPoolSharedPtr const& command_pool,
 	vulkan::UniformBuffer* /*uniform_buffer*/,
 	vulkan::ResourcePool* resource_pool)
@@ -75,7 +74,7 @@ CombinedImageSamplerSetter::LoadParameters(
 	auto sampled_texture = *static_cast<bksge::SampledTexture const*>(param->data());
 
 	CombinedImageSampler combined_image_sampler(
-		resource_pool, device, command_pool, sampled_texture);
+		resource_pool, command_pool, sampled_texture);
 
 	m_image_info = combined_image_sampler.GetImageInfo();
 }

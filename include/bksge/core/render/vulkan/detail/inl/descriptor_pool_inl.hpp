@@ -67,15 +67,17 @@ DescriptorPool::~DescriptorPool()
 	vk::DestroyDescriptorPool(*m_device, m_descriptor_pool, nullptr);
 }
 
-BKSGE_INLINE void
+BKSGE_INLINE bksge::vector<::VkDescriptorSet>
 DescriptorPool::AllocateDescriptorSets(
-	bksge::vector<::VkDescriptorSetLayout> const& descriptor_set_layouts,
-	VkDescriptorSet*                            descriptor_sets)
+	bksge::vector<::VkDescriptorSetLayout> const& descriptor_set_layouts)
 {
 	vk::DescriptorSetAllocateInfo info;
 	info.descriptorPool = m_descriptor_pool;
 	info.SetSetLayouts(descriptor_set_layouts);
-	vk::AllocateDescriptorSets(*m_device, &info, descriptor_sets);
+
+	bksge::vector<::VkDescriptorSet> descriptor_sets(descriptor_set_layouts.size());
+	vk::AllocateDescriptorSets(*m_device, &info, descriptor_sets.data());
+	return descriptor_sets;
 }
 
 BKSGE_INLINE void

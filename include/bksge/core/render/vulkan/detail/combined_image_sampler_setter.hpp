@@ -39,7 +39,6 @@ public:
 
 	void LoadParameters(
 		bksge::ShaderParameterMap const& shader_parameter_map,
-		vulkan::DeviceSharedPtr const& device,
 		vulkan::CommandPoolSharedPtr const& command_pool,
 		vulkan::UniformBuffer* uniform_buffer,
 		vulkan::ResourcePool* resource_pool);

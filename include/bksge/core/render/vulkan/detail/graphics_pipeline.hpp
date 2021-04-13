@@ -13,11 +13,12 @@
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/render_pass_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/shader_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/render_state_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/pipeline_input_assembly_state_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/pipeline_vertex_input_state_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/pipeline_cache_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/pipeline_layout_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <bksge/core/render/fwd/render_state_fwd.hpp>
-#include <bksge/core/render/fwd/geometry_fwd.hpp>
 
 namespace bksge
 {
@@ -33,11 +34,11 @@ class GraphicsPipeline
 public:
 	explicit GraphicsPipeline(
 		vulkan::DeviceSharedPtr const& device,
-		::VkSampleCountFlagBits num_samples,
-		bksge::Geometry const& geometry,
-		bksge::RenderState const& render_state,
 		vulkan::RenderPass const& render_pass,
-		vulkan::Shader const& shader);
+		vulkan::PipelineInputAssemblyState const& input_assembly_state,
+		vulkan::PipelineVertexInputState const& vertex_input_state,
+		vulkan::Shader const& shader,
+		vulkan::RenderState const& render_state);
 
 	~GraphicsPipeline();
 

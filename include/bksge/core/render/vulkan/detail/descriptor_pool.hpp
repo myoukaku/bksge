@@ -33,9 +33,8 @@ public:
 
 	~DescriptorPool();
 
-	void AllocateDescriptorSets(
-		bksge::vector<::VkDescriptorSetLayout> const& descriptor_set_layouts,
-		VkDescriptorSet*                              descriptor_sets);
+	bksge::vector<::VkDescriptorSet> AllocateDescriptorSets(
+		bksge::vector<::VkDescriptorSetLayout> const& descriptor_set_layouts);
 
 	void FreeDescriptorSets(
 		bksge::vector<::VkDescriptorSet> const& descriptor_sets);

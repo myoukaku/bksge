@@ -62,7 +62,7 @@ BlendFactor::BlendFactor(bksge::BlendFactor blend_factor)
 {}
 
 BKSGE_INLINE
-BlendFactor::operator VkBlendFactor() const
+BlendFactor::operator ::VkBlendFactor() const
 {
 	return m_blend_factor;
 }

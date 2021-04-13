@@ -16,6 +16,9 @@
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/render_pass.hpp>
 #include <bksge/core/render/vulkan/detail/shader.hpp>
+#include <bksge/core/render/vulkan/detail/render_state.hpp>
+#include <bksge/core/render/vulkan/detail/pipeline_input_assembly_state.hpp>
+#include <bksge/core/render/vulkan/detail/pipeline_vertex_input_state.hpp>
 #include <bksge/core/render/vulkan/detail/pipeline_cache.hpp>
 #include <bksge/core/render/vulkan/detail/pipeline_layout.hpp>
 #include <bksge/core/render/vulkan/detail/rasterizer_state.hpp>
@@ -23,8 +26,6 @@
 #include <bksge/core/render/vulkan/detail/blend_state.hpp>
 #include <bksge/core/render/vulkan/detail/primitive_topology.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <bksge/core/render/render_state.hpp>
-#include <bksge/core/render/geometry.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
@@ -39,91 +40,14 @@ namespace render
 namespace vulkan
 {
 
-namespace detail
-{
-
-inline ::VkFormat
-ToVkFormat(bksge::TypeEnum type, bksge::size_t num)
-{
-	switch (type)
-	{
-	case bksge::TypeEnum::kSInt8:
-		switch (num)
-		{
-		case 1: return VK_FORMAT_R8_SINT;
-		case 2: return VK_FORMAT_R8G8_SINT;
-		case 3: return VK_FORMAT_R8G8B8_SINT;
-		case 4: return VK_FORMAT_R8G8B8A8_SINT;
-		}
-		break;
-	case bksge::TypeEnum::kUInt8:
-		switch (num)
-		{
-		case 1: return VK_FORMAT_R8_UINT;
-		case 2: return VK_FORMAT_R8G8_UINT;
-		case 3: return VK_FORMAT_R8G8B8_UINT;
-		case 4: return VK_FORMAT_R8G8B8A8_UINT;
-		}
-		break;
-	case bksge::TypeEnum::kSInt16:
-		switch (num)
-		{
-		case 1: return VK_FORMAT_R16_SINT;
-		case 2: return VK_FORMAT_R16G16_SINT;
-		case 3: return VK_FORMAT_R16G16B16_SINT;
-		case 4: return VK_FORMAT_R16G16B16A16_SINT;
-		}
-		break;
-	case bksge::TypeEnum::kUInt16:
-		switch (num)
-		{
-		case 1: return VK_FORMAT_R16_UINT;
-		case 2: return VK_FORMAT_R16G16_UINT;
-		case 3: return VK_FORMAT_R16G16B16_UINT;
-		case 4: return VK_FORMAT_R16G16B16A16_UINT;
-		}
-		break;
-	case bksge::TypeEnum::kSInt32:
-		switch (num)
-		{
-		case 1: return VK_FORMAT_R32_SINT;
-		case 2: return VK_FORMAT_R32G32_SINT;
-		case 3: return VK_FORMAT_R32G32B32_SINT;
-		case 4: return VK_FORMAT_R32G32B32A32_SINT;
-		}
-		break;
-	case bksge::TypeEnum::kUInt32:
-		switch (num)
-		{
-		case 1: return VK_FORMAT_R32_UINT;
-		case 2: return VK_FORMAT_R32G32_UINT;
-		case 3: return VK_FORMAT_R32G32B32_UINT;
-		case 4: return VK_FORMAT_R32G32B32A32_UINT;
-		}
-		break;
-	case bksge::TypeEnum::kFloat:
-		switch (num)
-		{
-		case 1: return VK_FORMAT_R32_SFLOAT;
-		case 2: return VK_FORMAT_R32G32_SFLOAT;
-		case 3: return VK_FORMAT_R32G32B32_SFLOAT;
-		case 4: return VK_FORMAT_R32G32B32A32_SFLOAT;
-		}
-		break;
-	}
-	return VK_FORMAT_UNDEFINED;
-}
-
-}	// namespace detail
-
 BKSGE_INLINE
 GraphicsPipeline::GraphicsPipeline(
 	vulkan::DeviceSharedPtr const& device,
-	::VkSampleCountFlagBits num_samples,
-	bksge::Geometry const& geometry,
-	bksge::RenderState const& render_state,
 	vulkan::RenderPass const& render_pass,
-	vulkan::Shader const& shader)
+	vulkan::PipelineInputAssemblyState const& input_assembly_state,
+	vulkan::PipelineVertexInputState const& vertex_input_state,
+	vulkan::Shader const& shader,
+	vulkan::RenderState const& render_state)
 	: m_device(device)
 	, m_pipeline(VK_NULL_HANDLE)
 {
@@ -135,39 +59,7 @@ GraphicsPipeline::GraphicsPipeline(
 			m_device,
 			shader.GetDescriptorSetLayout());
 
-	auto const& layout = geometry.vertex_layout();
-	auto const stride = layout.total_bytes();
-
-	::VkVertexInputBindingDescription vi_binding;
-	vi_binding.binding   = 0;
-	vi_binding.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-	vi_binding.stride    = static_cast<bksge::uint32_t>(stride);
-
-	bksge::vector<::VkVertexInputAttributeDescription> vi_attribs;
-
-	for (auto& attribute : layout.vertex_attribute_array())
-	{
-		::VkVertexInputAttributeDescription a;
-		a.binding  = 0;
-		a.location = static_cast<bksge::uint32_t>(vi_attribs.size());
-		a.format   = detail::ToVkFormat(attribute.type(), attribute.element_num());
-		a.offset   = static_cast<bksge::uint32_t>(attribute.offset());
-		vi_attribs.push_back(a);
-	}
-
 	bksge::vector<::VkDynamicState> dynamic_states;
-
-	vk::PipelineVertexInputStateCreateInfo vertex_input_state;
-	vertex_input_state.SetVertexBindingDescription(&vi_binding);
-	vertex_input_state.SetVertexAttributeDescriptions(vi_attribs);
-
-	vk::PipelineInputAssemblyStateCreateInfo input_assembly_state;
-	input_assembly_state.topology =
-		vulkan::PrimitiveTopology(geometry.primitive_topology());
-
-	vulkan::RasterizerState raster_state(render_state.rasterizer_state());
-
-	vulkan::BlendState color_blend_state(render_state.blend_state());
 
 	vk::PipelineViewportStateCreateInfo viewport_state;
 #if !defined(__ANDROID__)
@@ -196,12 +88,9 @@ GraphicsPipeline::GraphicsPipeline(
 	viewport_state.pViewports    = &viewports;
 #endif
 
-	vulkan::DepthStencilState depth_stencil_state(
-		render_state.depth_state(), render_state.stencil_state());
-
 	vk::PipelineMultisampleStateCreateInfo multisample_state;
 	multisample_state.pSampleMask           = nullptr;
-	multisample_state.rasterizationSamples  = num_samples;
+	multisample_state.rasterizationSamples  = render_pass.samples();
 	multisample_state.sampleShadingEnable   = VK_FALSE;
 	multisample_state.alphaToCoverageEnable = VK_FALSE;
 	multisample_state.alphaToOneEnable      = VK_FALSE;
@@ -214,15 +103,15 @@ GraphicsPipeline::GraphicsPipeline(
 	pipeline.layout              = *m_pipeline_layout;
 	pipeline.basePipelineHandle  = VK_NULL_HANDLE;
 	pipeline.basePipelineIndex   = 0;
-	pipeline.pVertexInputState   = &vertex_input_state;
-	pipeline.pInputAssemblyState = &input_assembly_state;
-	pipeline.pRasterizationState = raster_state.GetAddressOf();
-	pipeline.pColorBlendState    = color_blend_state.GetAddressOf();
+	pipeline.pVertexInputState   = vertex_input_state.GetAddressOf();
+	pipeline.pInputAssemblyState = input_assembly_state.GetAddressOf();
+	pipeline.pRasterizationState = render_state.rasterizer_state().GetAddressOf();
+	pipeline.pColorBlendState    = render_state.blend_state().GetAddressOf();
 	pipeline.pTessellationState  = nullptr;
 	pipeline.pMultisampleState   = &multisample_state;
 	pipeline.pDynamicState       = &dynamic_state_ci;
 	pipeline.pViewportState      = &viewport_state;
-	pipeline.pDepthStencilState  = depth_stencil_state.GetAddressOf();
+	pipeline.pDepthStencilState  = render_state.depth_stencil_state().GetAddressOf();
 	pipeline.SetStages(shader.GetStages());
 	pipeline.renderPass          = render_pass;
 	pipeline.subpass             = 0;

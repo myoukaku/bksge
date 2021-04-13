@@ -38,32 +38,26 @@ namespace vulkan
 class ResourcePool
 {
 public:
-	explicit ResourcePool(void);
+	explicit ResourcePool(vulkan::DeviceSharedPtr const& device);
 
 	~ResourcePool();
 
 	vulkan::ShaderSharedPtr GetShader(
-		vulkan::DeviceSharedPtr const& device,
 		bksge::Shader const& shader);
 
 	vulkan::GeometrySharedPtr GetGeometry(
-		vulkan::DeviceSharedPtr const& device,
 		bksge::Geometry const& geometry);
 
 	vulkan::GraphicsPipelineSharedPtr GetGraphicsPipeline(
-		vulkan::DeviceSharedPtr const& device,
-		::VkSampleCountFlagBits num_samples,
+		vulkan::RenderPass const& render_pass,
 		bksge::Geometry const& geometry,
 		bksge::Shader const& shader,
-		bksge::RenderState const& render_state,
-		vulkan::RenderPass const& render_pass);
+		bksge::RenderState const& render_state);
 
 	vulkan::SamplerSharedPtr GetSampler(
-		vulkan::DeviceSharedPtr const& device,
 		bksge::Sampler const& sampler);
 
 	vulkan::TextureSharedPtr GetTexture(
-		vulkan::DeviceSharedPtr const& device,
 		vulkan::CommandPoolSharedPtr const& command_pool,
 		bksge::Texture const& texture);
 
@@ -73,6 +67,7 @@ private:
 	ResourcePool& operator=(ResourcePool const&) = delete;
 
 private:
+	vulkan::DeviceSharedPtr						m_device;
 	vulkan::ShaderSharedPtrMap					m_shader_map;
 	vulkan::GeometrySharedPtrMap				m_geometry_map;
 	vulkan::GraphicsPipelineSharedPtrMap		m_graphics_pipeline_map;

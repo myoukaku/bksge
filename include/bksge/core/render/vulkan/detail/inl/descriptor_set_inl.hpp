@@ -32,16 +32,12 @@ namespace vulkan
 
 BKSGE_INLINE
 DescriptorSet::DescriptorSet(
-	vulkan::DeviceSharedPtr const& device,
 	vulkan::DescriptorPoolSharedPtr const& descriptor_pool,
 	bksge::vector<::VkDescriptorSetLayout> const& descriptor_set_layouts)
-	: m_device(device)
-	, m_descriptor_pool(descriptor_pool)
+	: m_descriptor_pool(descriptor_pool)
 {
-	m_descriptor_sets.resize(descriptor_set_layouts.size());
-	m_descriptor_pool->AllocateDescriptorSets(
-		descriptor_set_layouts,
-		m_descriptor_sets.data());
+	m_descriptor_sets =
+		m_descriptor_pool->AllocateDescriptorSets(descriptor_set_layouts);
 }
 
 BKSGE_INLINE

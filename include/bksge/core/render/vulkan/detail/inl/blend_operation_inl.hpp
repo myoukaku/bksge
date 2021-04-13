@@ -50,7 +50,7 @@ BlendOperation::BlendOperation(bksge::BlendOperation blend_operation)
 {}
 
 BKSGE_INLINE
-BlendOperation::operator VkBlendOp() const
+BlendOperation::operator ::VkBlendOp() const
 {
 	return m_blend_operation;
 }

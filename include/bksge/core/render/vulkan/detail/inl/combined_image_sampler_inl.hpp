@@ -34,12 +34,11 @@ namespace vulkan
 BKSGE_INLINE
 CombinedImageSampler::CombinedImageSampler(
 	vulkan::ResourcePool* resource_pool,
-	vulkan::DeviceSharedPtr const& device,
 	vulkan::CommandPoolSharedPtr const& command_pool,
 	bksge::SampledTexture const& sampled_texture)
 {
-	m_sampler = resource_pool->GetSampler(device, sampled_texture.sampler());
-	m_texture = resource_pool->GetTexture(device, command_pool, sampled_texture.texture());
+	m_sampler = resource_pool->GetSampler(sampled_texture.sampler());
+	m_texture = resource_pool->GetTexture(command_pool, sampled_texture.texture());
 }
 
 BKSGE_INLINE

@@ -32,22 +32,27 @@ namespace vulkan
 namespace detail
 {
 
-inline void CreateDescriptorSetLayoutBindingList(
-	bksge::vector<ShaderReflectionUniform> const& reflection_list,
-	bksge::vector<bksge::vector<::VkDescriptorSetLayoutBinding>>* layout_bindings_list)
+inline bksge::vector<bksge::vector<::VkDescriptorSetLayoutBinding>>
+CreateDescriptorSetLayoutBindingList(vulkan::ShaderReflection const& reflection)
 {
-	for (auto const& reflection : reflection_list)
+	bksge::size_t const max_sets = reflection.GetMaxSets() + 1;
+	bksge::vector<bksge::vector<::VkDescriptorSetLayoutBinding>>
+		layout_bindings_list(max_sets);
+
+	for (auto const& uniform : reflection.GetUniforms())
 	{
-		auto& layout_bindings = layout_bindings_list->at(reflection.set);
+		auto& layout_bindings = layout_bindings_list[uniform.set];
 
 		::VkDescriptorSetLayoutBinding layout_binding;
-		layout_binding.binding            = reflection.binding;
-		layout_binding.descriptorType     = reflection.descriptor_type;
+		layout_binding.binding            = uniform.binding;
+		layout_binding.descriptorType     = uniform.descriptor_type;
 		layout_binding.descriptorCount    = 1;		// TODO 配列のときは配列サイズを入れる?
-		layout_binding.stageFlags         = reflection.stage_flags;
+		layout_binding.stageFlags         = uniform.stage_flags;
 		layout_binding.pImmutableSamplers = nullptr;
 		layout_bindings.push_back(layout_binding);
 	}
+
+	return layout_bindings_list;
 }
 
 }	// namespace detail
@@ -58,30 +63,20 @@ DescriptorSetLayout::DescriptorSetLayout(
 	vulkan::ShaderReflection const& reflection)
 	: m_device(device)
 {
-	bksge::size_t const descriptor_set_count = reflection.GetMaxSets() + 1;
+	auto layout_bindings_list =
+		detail::CreateDescriptorSetLayoutBindingList(reflection);
+	auto const max_sets = layout_bindings_list.size();
 
-	bksge::vector<bksge::vector<::VkDescriptorSetLayoutBinding>>
-		descriptor_set_layout_bindings_list(descriptor_set_count);
+	m_descriptor_set_layout.resize(max_sets);
 
-	detail::CreateDescriptorSetLayoutBindingList(
-		reflection.GetUniforms(),
-		&descriptor_set_layout_bindings_list);
-
-	bksge::vector<vk::DescriptorSetLayoutCreateInfo> info;
-	info.resize(descriptor_set_count);
-
-	for (bksge::size_t i = 0; i < descriptor_set_count; ++i)
+	for (bksge::size_t i = 0; i < max_sets; ++i)
 	{
-		info[i].flags = VK_DESCRIPTOR_SET_LAYOUT_CREATE_PUSH_DESCRIPTOR_BIT_KHR;
-		info[i].SetBindings(descriptor_set_layout_bindings_list[i]);
-	}
+		vk::DescriptorSetLayoutCreateInfo info;
+		info.flags = VK_DESCRIPTOR_SET_LAYOUT_CREATE_PUSH_DESCRIPTOR_BIT_KHR;
+		info.SetBindings(layout_bindings_list[i]);
 
-	m_descriptor_set_layout.resize(descriptor_set_count);
-
-	for (bksge::size_t i = 0; i < descriptor_set_count; ++i)
-	{
 		vk::CreateDescriptorSetLayout(
-			*m_device, &info[i], nullptr, &m_descriptor_set_layout[i]);
+			*m_device, &info, nullptr, &m_descriptor_set_layout[i]);
 	}
 }
 

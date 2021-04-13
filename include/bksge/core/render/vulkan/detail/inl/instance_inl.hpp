@@ -31,7 +31,8 @@ namespace vulkan
 namespace detail
 {
 
-inline bksge::vector<bksge::string> EnumerateLayerNames(void)
+inline bksge::vector<bksge::string>
+EnumerateInstanceLayerNames(void)
 {
 	bksge::vector<bksge::string> result;
 
@@ -44,7 +45,8 @@ inline bksge::vector<bksge::string> EnumerateLayerNames(void)
 	return result;
 }
 
-inline bksge::vector<bksge::string> EnumerateExtensionNames(void)
+inline bksge::vector<bksge::string>
+EnumerateInstanceExtensionNames(void)
 {
 	bksge::vector<bksge::string> result;
 
@@ -68,71 +70,74 @@ inline bksge::vector<bksge::string> EnumerateExtensionNames(void)
 	return result;
 }
 
-inline bool AppendIfAvailable(bksge::vector<char const*>* out_list, bksge::vector<bksge::string> const& available_list, char const* s)
-{
-	if (bksge::ranges::find(available_list, s) != available_list.end())
-	{
-		out_list->push_back(s);
-		return true;
-	}
-
-	return false;
-}
-
 }	// namespace detail
 
 BKSGE_INLINE
 Instance::Instance(char const* app_name)
 	: m_instance(VK_NULL_HANDLE)
 {
-	// 追加可能なレイヤーと拡張を全てリストアップ
-	auto const available_layer_names     = detail::EnumerateLayerNames();
-	auto const available_extension_names = detail::EnumerateExtensionNames();
-
-	// 追加したいレイヤー
-	bksge::vector<char const*> desired_layer_names =
-	{
-#if defined(_DEBUG)
-		"VK_LAYER_KHRONOS_validation",
-		"VK_LAYER_LUNARG_standard_validation",
-#endif
-	};
-
-	// 追加したい拡張
-	bksge::vector<char const*> desired_extension_names =
-	{
-		VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME,
-		VK_EXT_DEBUG_REPORT_EXTENSION_NAME,
-		VK_KHR_SURFACE_EXTENSION_NAME,
-#if defined(VK_USE_PLATFORM_ANDROID_KHR)
-		VK_KHR_ANDROID_SURFACE_EXTENSION_NAME,
-#endif
-#if defined(VK_USE_PLATFORM_WIN32_KHR)
-		VK_KHR_WIN32_SURFACE_EXTENSION_NAME,
-#endif
-#if defined(VK_USE_PLATFORM_METAL_EXT)
-		VK_EXT_METAL_SURFACE_EXTENSION_NAME,
-#endif
-#if defined(VK_USE_PLATFORM_WAYLAND_KHR)
-		VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME,
-#endif
-#if defined(VK_USE_PLATFORM_XCB_KHR)
-		VK_KHR_XCB_SURFACE_EXTENSION_NAME,
-#endif
-	};
-
-	// 可能であればレイヤーを追加
 	bksge::vector<char const*> layer_names;
-	for (auto desired_layer_name: desired_layer_names)
 	{
-		detail::AppendIfAvailable(&layer_names, available_layer_names, desired_layer_name);
+		// 追加可能なレイヤーを全てリストアップ
+		auto const available_layer_names =
+			detail::EnumerateInstanceLayerNames();
+
+		// 追加したいレイヤー
+		bksge::vector<char const*> desired_layer_names =
+		{
+#if defined(_DEBUG)
+			"VK_LAYER_KHRONOS_validation",
+			"VK_LAYER_LUNARG_standard_validation",
+#endif
+		};
+
+		// 可能であればレイヤーを追加
+		for (auto desired_layer_name: desired_layer_names)
+		{
+			if (bksge::ranges::find(available_layer_names, desired_layer_name) != available_layer_names.end())
+			{
+				layer_names.push_back(desired_layer_name);
+			}
+		}
 	}
 
-	// 可能であれば拡張を追加
 	bksge::vector<char const*> extension_names;
-	for (auto desired_extension_name: desired_extension_names)
 	{
-		detail::AppendIfAvailable(&extension_names, available_extension_names, desired_extension_name);
+		// 追加可能な拡張を全てリストアップ
+		auto const available_extension_names =
+			detail::EnumerateInstanceExtensionNames();
+
+		// 追加したい拡張
+		bksge::vector<char const*> desired_extension_names =
+		{
+			VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME,
+			VK_EXT_DEBUG_REPORT_EXTENSION_NAME,
+			VK_KHR_SURFACE_EXTENSION_NAME,
+#if defined(VK_USE_PLATFORM_ANDROID_KHR)
+			VK_KHR_ANDROID_SURFACE_EXTENSION_NAME,
+#endif
+#if defined(VK_USE_PLATFORM_WIN32_KHR)
+			VK_KHR_WIN32_SURFACE_EXTENSION_NAME,
+#endif
+#if defined(VK_USE_PLATFORM_METAL_EXT)
+			VK_EXT_METAL_SURFACE_EXTENSION_NAME,
+#endif
+#if defined(VK_USE_PLATFORM_WAYLAND_KHR)
+			VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME,
+#endif
+#if defined(VK_USE_PLATFORM_XCB_KHR)
+			VK_KHR_XCB_SURFACE_EXTENSION_NAME,
+#endif
+		};
+
+		// 可能であれば拡張を追加
+		for (auto desired_extension_name: desired_extension_names)
+		{
+			if (bksge::ranges::find(available_extension_names, desired_extension_name) != available_extension_names.end())
+			{
+				extension_names.push_back(desired_extension_name);
+			}
+		}
 	}
 
 	vk::ApplicationInfo app_info;

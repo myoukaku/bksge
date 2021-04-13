@@ -32,7 +32,6 @@ class CombinedImageSampler
 public:
 	explicit CombinedImageSampler(
 		vulkan::ResourcePool* resource_pool,
-		vulkan::DeviceSharedPtr const& device,
 		vulkan::CommandPoolSharedPtr const& command_pool,
 		bksge::SampledTexture const& sampled_texture);
 

@@ -30,7 +30,7 @@ Bool::Bool(bool b)
 {}
 
 BKSGE_INLINE
-Bool::operator VkBool32() const
+Bool::operator ::VkBool32() const
 {
 	return m_bool;
 }

@@ -171,7 +171,7 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 
 	m_draw_fence = bksge::make_unique<vulkan::Fence>(m_device);
 	m_image_acquired_semaphore = bksge::make_unique<vulkan::Semaphore>(m_device);
-	m_resource_pool = bksge::make_unique<vulkan::ResourcePool>();
+	m_resource_pool = bksge::make_unique<vulkan::ResourcePool>(m_device);
 	m_uniform_buffer = bksge::make_unique<vulkan::UniformBuffer>(
 		m_device,
 		65536 * 1024);	// TODO
@@ -383,21 +383,16 @@ VulkanRenderer::VRender(
 	ShaderParameterMap const& shader_parameter_map,
 	RenderState const& render_state)
 {
-	auto vk_shader = m_resource_pool->GetShader(
-		m_device,
-		shader);
+	auto vk_shader = m_resource_pool->GetShader(shader);
 
 	auto graphics_pipeline = m_resource_pool->GetGraphicsPipeline(
-		m_device,
-		NUM_SAMPLES,
+		*m_render_pass,
 		geometry,
 		shader,
-		render_state,
-		*m_render_pass);
+		render_state);
 
 	vk_shader->LoadParameters(
 		shader_parameter_map,
-		m_device,
 		m_command_pool,
 		m_uniform_buffer.get(),
 		m_resource_pool.get());
@@ -413,7 +408,7 @@ VulkanRenderer::VRender(
 		0,	// TODO set
 		vk_shader->GetWriteDescriptorSets());
 
-	auto vk_geometry = m_resource_pool->GetGeometry(m_device, geometry);
+	auto vk_geometry = m_resource_pool->GetGeometry(geometry);
 
 	vk_geometry->Draw(m_command_buffer.get());
 

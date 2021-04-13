@@ -61,7 +61,7 @@ LogicOperation::LogicOperation(bksge::LogicOperation logic_operation)
 {}
 
 BKSGE_INLINE
-LogicOperation::operator VkLogicOp() const
+LogicOperation::operator ::VkLogicOp() const
 {
 	return m_logic_operation;
 }
