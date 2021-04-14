@@ -11,25 +11,26 @@
 
 #include <bksge/fnd/config.hpp>
 
+// 先にwindows.hをインクルードしないとminとかmaxがdefineされてしまう
 #if defined(BKSGE_PLATFORM_WIN32)
 #  include <bksge/core/detail/win32.hpp>
-#  define GL_GLEXT_PROTOTYPES
-//#  include <GL/gl.h>
-#  include <GL/glcorearb.h>
-#  include <GL/glext.h>
+#endif
+
+#define GL_GLEXT_PROTOTYPES
+//#include <GL/gl.h>
+#include <GL/glcorearb.h>
+#include <GL/glext.h>
+
+#define EGL_EGLEXT_PROTOTYPES
+#include <EGL/egl.h>
+#include <EGL/eglext.h>
+
+#if defined(BKSGE_PLATFORM_WIN32)
 #  define WGL_WGLEXT_PROTOTYPES
 //#  include <GL/wgl.h>
 #  include <GL/wglext.h>
 #elif defined(BKSGE_PLATFORM_MACOS)
-#  define GL_GLEXT_PROTOTYPES
-//#  include <GL/gl.h>
-#  include <GL/glcorearb.h>
-#  include <GL/glext.h>
 #elif defined(BKSGE_PLATFORM_LINUX)
-#  define GL_GLEXT_PROTOTYPES
-//#  include <GL/gl.h>
-#  include <GL/glcorearb.h>
-#  include <GL/glext.h>
 #  define GLX_GLXEXT_PROTOTYPES
 #  include <GL/glx.h>
 #  include <GL/glxext.h>
