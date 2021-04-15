@@ -19,7 +19,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/command_buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/swapchain_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/depth_stencil_buffer_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/render_texture_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/texture_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/render_pass_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/framebuffer_fwd.hpp>
 //#include <bksge/core/render/vulkan/detail/fwd/shader_fwd.hpp>
@@ -101,7 +101,7 @@ private:
 	bksge::unique_ptr<vulkan::UniformBuffer>			m_uniform_buffer;
 	bksge::uint32_t										m_frame_index = 0;
 
-	bksge::unique_ptr<vulkan::RenderTexture>			m_offscreen_color_buffer;
+	bksge::unique_ptr<vulkan::Texture>					m_offscreen_color_buffer;
 	bksge::unique_ptr<vulkan::DepthStencilBuffer>		m_offscreen_depth_stencil_buffer;
 	bksge::unique_ptr<vulkan::RenderPass>				m_offscreen_render_pass;
 	bksge::unique_ptr<vulkan::Framebuffer>				m_offscreen_framebuffer;

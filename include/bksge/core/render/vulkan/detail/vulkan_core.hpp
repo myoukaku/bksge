@@ -830,13 +830,6 @@ struct Extent2D : public ::VkExtent2D
 		width  = 0;
 		height = 0;
 	}
-
-	template <typename T>
-	Extent2D(bksge::Extent2<T> const& extent)
-	{
-		width  = static_cast<bksge::uint32_t>(extent.width());
-		height = static_cast<bksge::uint32_t>(extent.height());
-	}
 };
 
 struct Rect2D : public ::VkRect2D

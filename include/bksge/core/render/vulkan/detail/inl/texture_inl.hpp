@@ -26,6 +26,7 @@
 #include <bksge/core/render/vulkan/detail/buffer.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/texture.hpp>
+#include <bksge/core/render/clear_state.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/cstring/memcpy.hpp>
@@ -92,43 +93,67 @@ CopyBufferToImage(
 BKSGE_INLINE
 Texture::Texture(
 	vulkan::DeviceSharedPtr const& device,
-	vulkan::CommandPoolSharedPtr const& command_pool,
-	bksge::Texture const& texture)
+	::VkFormat format,
+	::VkExtent2D const& extent,
+	bksge::uint32_t mipmap_count,
+	::VkSampleCountFlagBits num_samples,
+	::VkImageUsageFlags usage,
+	::VkImageLayout image_layout)
 {
-	auto const format = vulkan::TextureFormat(texture.format());
+	auto physical_device = device->physical_device();
 
-	auto const extent = vulkan::Extent2D(texture.extent());
-
-	auto const mipmap_count = static_cast<bksge::uint32_t>(texture.mipmap_count());
-
-	::VkImageTiling const tiling = VK_IMAGE_TILING_OPTIMAL;
-
-	::VkImageUsageFlags const usage =
-		VK_IMAGE_USAGE_SAMPLED_BIT |
-		VK_IMAGE_USAGE_TRANSFER_DST_BIT;
-
-	::VkImageLayout const initial_layout =
-		VK_IMAGE_LAYOUT_UNDEFINED;
+	::VkImageTiling tiling = VK_IMAGE_TILING_OPTIMAL;
+	auto const props = physical_device->GetFormatProperties(format);
+	if (props.linearTilingFeatures & VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT)
+	{
+		tiling = VK_IMAGE_TILING_LINEAR;
+	}
+	else if (props.optimalTilingFeatures & VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT)
+	{
+		tiling = VK_IMAGE_TILING_OPTIMAL;
+	}
+	else
+	{
+		// TODO エラー処理
+	}
 
 	::VkFlags const requirements_mask =
 		VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
+
+	::VkImageAspectFlags const aspect = VK_IMAGE_ASPECT_COLOR_BIT;
 
 	m_image = bksge::make_unique<vulkan::ImageObject>(
 		device,
 		format,
 		extent,
 		mipmap_count,
-		VK_SAMPLE_COUNT_1_BIT,
+		num_samples,
 		tiling,
 		usage,
-		initial_layout,
+		image_layout,
 		requirements_mask);
 
 	m_image_view = bksge::make_unique<vulkan::ImageView>(
 		device,
 		m_image->image(),
-		VK_IMAGE_ASPECT_COLOR_BIT);
+		aspect);
+}
 
+BKSGE_INLINE
+Texture::Texture(
+	vulkan::DeviceSharedPtr const& device,
+	vulkan::CommandPoolSharedPtr const& command_pool,
+	bksge::Texture const& texture)
+	: Texture(
+		device,
+		vulkan::TextureFormat(texture.format()),
+		vulkan::Extent2D(texture.extent()),
+		static_cast<bksge::uint32_t>(texture.mipmap_count()),
+		VK_SAMPLE_COUNT_1_BIT,
+		VK_IMAGE_USAGE_SAMPLED_BIT |
+		VK_IMAGE_USAGE_TRANSFER_DST_BIT,
+		VK_IMAGE_LAYOUT_UNDEFINED)
+{
 	auto image_size = GetMipmappedSizeInBytes(
 		texture.format(),
 		texture.width(),
@@ -182,6 +207,61 @@ Texture::TransitionLayout(
 		command_pool,
 		m_image_view->aspect_mask(),
 		new_layout);
+}
+
+BKSGE_INLINE void
+Texture::Clear(
+	vulkan::CommandPoolSharedPtr const& command_pool,
+	bksge::ClearState const& clear_state)
+{
+	::VkImageAspectFlags aspect_mask = 0;
+	if (Test(clear_state.flag(), bksge::ClearFlag::kColor))
+	{
+		aspect_mask |= VK_IMAGE_ASPECT_COLOR_BIT;
+	}
+
+	if (aspect_mask == 0)
+	{
+		return;
+	}
+
+	this->TransitionLayout(
+		command_pool,
+		VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
+
+	auto const& clear_color = clear_state.color();
+
+	::VkClearColorValue clear_value;
+	clear_value.float32[0] = clear_color[0];
+	clear_value.float32[1] = clear_color[1];
+	clear_value.float32[2] = clear_color[2];
+	clear_value.float32[3] = clear_color[3];
+
+	::VkImageSubresourceRange range;
+	range.aspectMask     = aspect_mask;
+	range.baseMipLevel   = 0;
+	range.levelCount     = 1;
+	range.baseArrayLayer = 0;
+	range.layerCount     = 1;
+
+	auto command_buffer = BeginSingleTimeCommands(command_pool);
+	vk::CmdClearColorImage(
+		*command_buffer,
+		m_image->image(),
+		VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+		&clear_value,
+		1, &range);
+	EndSingleTimeCommands(command_pool, command_buffer);
+
+	this->TransitionLayout(
+		command_pool,
+		VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
+}
+
+BKSGE_INLINE vulkan::Image const&
+Texture::image(void) const
+{
+	return m_image->image();
 }
 
 BKSGE_INLINE vulkan::ImageView const&

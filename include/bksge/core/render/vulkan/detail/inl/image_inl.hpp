@@ -44,7 +44,7 @@ Image::Image(
 	, m_format(format)
 	, m_extent(extent)
 	, m_mipmap_count(mipmap_count)
-	, m_image_layout(initial_layout)
+	, m_layout(initial_layout)
 {
 	vk::ImageCreateInfo info;
 	info.imageType     = VK_IMAGE_TYPE_2D;
@@ -77,9 +77,78 @@ Image::TransitionLayout(
 	::VkImageLayout new_layout)
 {
 	TransitionImageLayout(
-		command_pool, m_image, aspect_mask, m_mipmap_count, m_image_layout, new_layout);
-	m_image_layout = new_layout;
+		command_pool,
+		m_image,
+		aspect_mask,
+		m_mipmap_count,
+		m_layout,
+		new_layout);
+	m_layout = new_layout;
 }
+
+namespace detail
+{
+
+inline ::VkAccessFlags
+GetAccessMask(::VkImageLayout layout)
+{
+	switch (layout)
+	{
+	case VK_IMAGE_LAYOUT_UNDEFINED:
+		return 0;
+	case VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL:
+		return VK_ACCESS_TRANSFER_WRITE_BIT;
+	case VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL:
+		return VK_ACCESS_TRANSFER_READ_BIT;
+	case VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL:
+		return VK_ACCESS_SHADER_READ_BIT;
+	case VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL:
+		return VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_READ_BIT |
+			   VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
+	case VK_IMAGE_LAYOUT_PRESENT_SRC_KHR:
+		return VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+	case VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL:
+		return VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT |
+			   VK_ACCESS_COLOR_ATTACHMENT_READ_BIT;
+	case VK_IMAGE_LAYOUT_GENERAL:
+		return VK_ACCESS_SHADER_READ_BIT |
+			   VK_ACCESS_SHADER_WRITE_BIT;
+	case VK_IMAGE_LAYOUT_PREINITIALIZED:
+		return VK_ACCESS_HOST_WRITE_BIT;
+	default:
+		bksge::throw_runtime_error("unsupported layout transition!");
+	}
+}
+
+inline ::VkPipelineStageFlags
+GetPipelineStage(::VkImageLayout layout)
+{
+	switch (layout)
+	{
+	case VK_IMAGE_LAYOUT_UNDEFINED:
+		return VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
+	case VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL:
+		return VK_PIPELINE_STAGE_TRANSFER_BIT;
+	case VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL:
+		return VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+	case VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL:
+		return VK_PIPELINE_STAGE_TRANSFER_BIT;
+	case VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL:
+		return VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT;
+	case VK_IMAGE_LAYOUT_PRESENT_SRC_KHR:
+		return VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+	case VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL:
+		return VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+	case VK_IMAGE_LAYOUT_GENERAL:
+		return VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT;
+	case VK_IMAGE_LAYOUT_PREINITIALIZED:
+		return VK_PIPELINE_STAGE_HOST_BIT;
+	default:
+		bksge::throw_runtime_error("unsupported layout transition!");
+	}
+}
+
+}	// namespace detail
 
 BKSGE_INLINE void
 TransitionImageLayout(
@@ -106,91 +175,10 @@ TransitionImageLayout(
 	barrier.subresourceRange.baseArrayLayer = 0;
 	barrier.subresourceRange.layerCount     = 1;
 
-	::VkPipelineStageFlags src_stage;
-	switch (old_layout)
-	{
-	case VK_IMAGE_LAYOUT_UNDEFINED:
-		barrier.srcAccessMask = 0;
-		src_stage = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
-		break;
-	case VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL:
-		barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
-		src_stage = VK_PIPELINE_STAGE_TRANSFER_BIT;
-		break;
-	case VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL:
-		barrier.srcAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
-		src_stage = VK_PIPELINE_STAGE_TRANSFER_BIT;
-		break;
-	case VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL:
-		barrier.srcAccessMask =
-			VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_READ_BIT |
-			VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
-		src_stage = VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT;
-		break;
-	case VK_IMAGE_LAYOUT_PRESENT_SRC_KHR:
-		barrier.srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
-		src_stage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-		break;
-	case VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL:
-		barrier.srcAccessMask =
-			VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT |
-			VK_ACCESS_COLOR_ATTACHMENT_READ_BIT;
-		src_stage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-		break;
-	case VK_IMAGE_LAYOUT_GENERAL:
-		barrier.srcAccessMask =
-			VK_ACCESS_SHADER_READ_BIT |
-			VK_ACCESS_SHADER_WRITE_BIT;
-		src_stage = VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT;
-		break;
-	case VK_IMAGE_LAYOUT_PREINITIALIZED:
-		barrier.srcAccessMask = VK_ACCESS_HOST_WRITE_BIT;
-		src_stage = VK_PIPELINE_STAGE_HOST_BIT;
-		break;
-	default:
-		bksge::throw_runtime_error("unsupported layout transition!");
-	}
-
-	::VkPipelineStageFlags dst_stage;
-	switch (new_layout)
-	{
-	case VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL:
-		barrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
-		dst_stage = VK_PIPELINE_STAGE_TRANSFER_BIT;
-		break;
-	case VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL:
-		barrier.dstAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
-		dst_stage = VK_PIPELINE_STAGE_TRANSFER_BIT;
-		break;
-	case VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL:
-		barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
-		dst_stage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
-		break;
-	case VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL:
-		barrier.dstAccessMask =
-			VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_READ_BIT |
-			VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
-		dst_stage = VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT;
-		break;
-	case VK_IMAGE_LAYOUT_PRESENT_SRC_KHR:
-		barrier.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
-		dst_stage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-		break;
-	case VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL:
-		barrier.dstAccessMask =
-			VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT |
-			VK_ACCESS_COLOR_ATTACHMENT_READ_BIT;
-		dst_stage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-		break;
-	case VK_IMAGE_LAYOUT_GENERAL:
-		barrier.dstAccessMask =
-			VK_ACCESS_SHADER_READ_BIT |
-			VK_ACCESS_SHADER_WRITE_BIT;
-		dst_stage = VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT;
-		break;
-	default:
-		bksge::throw_runtime_error("unsupported layout transition!");
-	}
+	barrier.srcAccessMask = detail::GetAccessMask(old_layout);
+	barrier.dstAccessMask = detail::GetAccessMask(new_layout);
+	auto const src_stage = detail::GetPipelineStage(old_layout);
+	auto const dst_stage = detail::GetPipelineStage(new_layout);
 
 	vk::CmdPipelineBarrier(
 		*command_buffer,
@@ -199,8 +187,7 @@ TransitionImageLayout(
 		0,
 		0, nullptr,
 		0, nullptr,
-		1, &barrier
-	);
+		1, &barrier);
 
 	EndSingleTimeCommands(command_pool, command_buffer);
 }

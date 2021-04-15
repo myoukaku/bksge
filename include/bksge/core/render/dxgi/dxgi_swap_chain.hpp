@@ -33,11 +33,13 @@ public:
 
 	~DXGISwapChain();
 
-	::UINT GetCurrentBackBufferIndex();
+	::UINT GetBufferCount(void) const;
+
+	::UINT GetCurrentBackBufferIndex(void) const;
 
 	void Present(::UINT sync_interval, ::UINT flags);
 
-	void GetBuffer(::UINT buffer, REFIID riid, void** surface);
+	void GetBuffer(::UINT buffer, REFIID riid, void** surface) const;
 
 private:
 	ComPtr<IDXGISwapChainN> m_swap_chain;

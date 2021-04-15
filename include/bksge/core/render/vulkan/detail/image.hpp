@@ -65,7 +65,7 @@ private:
 	::VkFormat					m_format;
 	::VkExtent2D				m_extent;
 	bksge::uint32_t				m_mipmap_count;
-	::VkImageLayout				m_image_layout;
+	::VkImageLayout				m_layout;
 };
 
 void TransitionImageLayout(

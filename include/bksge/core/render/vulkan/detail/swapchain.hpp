@@ -13,6 +13,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/surface_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/command_pool_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/image_view_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/fwd/clear_state_fwd.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
@@ -35,9 +36,7 @@ public:
 		vulkan::DeviceSharedPtr const& device,
 		vulkan::CommandPoolSharedPtr const& command_pool,
 		vulkan::Surface const& surface,
-		::VkFormat surface_format,
-		bksge::uint32_t graphics_queue_family_index,
-		bksge::uint32_t present_queue_family_index);
+		::VkFormat surface_format);
 
 	~Swapchain();
 
@@ -54,7 +53,7 @@ public:
 
 	//bksge::vector<VkImage> GetImages(void) const;
 
-	bksge::vector<::VkImageView> const& image_views(void) const;
+	bksge::vector<vulkan::ImageViewUniquePtr> const& image_views(void) const;
 
 	::VkExtent2D extent(void) const;
 
@@ -74,7 +73,7 @@ private:
 	vulkan::DeviceSharedPtr			m_device;
 	vk::SwapchainCreateInfoKHR		m_info;
 	::VkSwapchainKHR				m_swapchain;
-	bksge::vector<::VkImageView>	m_image_views;
+	bksge::vector<vulkan::ImageViewUniquePtr>	m_image_views;
 	::VkQueue						m_present_queue;
 };
 

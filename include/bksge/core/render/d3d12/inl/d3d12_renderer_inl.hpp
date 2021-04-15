@@ -95,7 +95,7 @@ D3D12Renderer::D3D12Renderer(Window const& window)
 		DXGI_MWA_NO_PRINT_SCREEN);
 
 	m_render_target = bksge::make_unique<d3d12::RenderTarget>(
-		m_device.get(), m_swap_chain.get(), frame_buffer_count);
+		m_device.get(), m_swap_chain.get());
 
 	m_depth_stencil = bksge::make_unique<d3d12::DepthStencil>(
 		m_device.get(), width, height);

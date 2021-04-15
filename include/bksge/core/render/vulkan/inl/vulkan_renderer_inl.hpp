@@ -23,7 +23,7 @@
 #include <bksge/core/render/vulkan/detail/command_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/swapchain.hpp>
 #include <bksge/core/render/vulkan/detail/depth_stencil_buffer.hpp>
-#include <bksge/core/render/vulkan/detail/render_texture.hpp>
+#include <bksge/core/render/vulkan/detail/texture.hpp>
 #include <bksge/core/render/vulkan/detail/render_pass.hpp>
 #include <bksge/core/render/vulkan/detail/framebuffer.hpp>
 #include <bksge/core/render/vulkan/detail/shader.hpp>
@@ -38,6 +38,7 @@
 #include <bksge/core/render/vulkan/detail/pipeline_layout.hpp>
 #include <bksge/core/render/vulkan/detail/viewport.hpp>
 #include <bksge/core/render/vulkan/detail/scissor_state.hpp>
+#include <bksge/core/render/vulkan/detail/extent2d.hpp>
 #include <bksge/core/render/shader.hpp>
 #include <bksge/core/render/render_pass_info.hpp>
 #include <bksge/core/window/window.hpp>
@@ -185,14 +186,18 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 	CreateFrameBuffers();
 
 	{
-		vk::Extent2D const extent = window.client_size();
+		vulkan::Extent2D const extent(window.client_size());
 
-		m_offscreen_color_buffer = bksge::make_unique<vulkan::RenderTexture>(
+		m_offscreen_color_buffer = bksge::make_unique<vulkan::Texture>(
 			m_device,
-			m_command_pool,
 			VK_FORMAT_R8G8B8A8_UNORM,
 			extent,
-			NUM_SAMPLES);
+			1,
+			NUM_SAMPLES,
+			VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT |
+			VK_IMAGE_USAGE_SAMPLED_BIT |
+			VK_IMAGE_USAGE_TRANSFER_DST_BIT,
+			VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
 
 		m_offscreen_depth_stencil_buffer = bksge::make_unique<vulkan::DepthStencilBuffer>(
 			m_device,
@@ -243,10 +248,6 @@ VulkanRenderer::RecreateSwapchain(void)
 BKSGE_INLINE void
 VulkanRenderer::CreateSwapchain(void)
 {
-	auto const graphics_queue_family_index =
-		m_physical_device->graphics_queue_family_index();
-	auto const present_queue_family_index =
-		m_physical_device->GetPresentQueueFamilyIndex(*m_surface);
 	auto const surface_format =
 		GetSurfaceFormat(*m_physical_device, *m_surface);
 
@@ -254,9 +255,7 @@ VulkanRenderer::CreateSwapchain(void)
 		m_device,
 		m_command_pool,
 		*m_surface,
-		surface_format,
-		graphics_queue_family_index,
-		present_queue_family_index);
+		surface_format);
 }
 
 BKSGE_INLINE void
@@ -289,7 +288,7 @@ VulkanRenderer::CreateFrameBuffers(void)
 	for (auto const& image_view : swap_chain_image_views)
 	{
 		bksge::vector<::VkImageView> attachments;
-		attachments.push_back(image_view);
+		attachments.push_back(*image_view);
 		if (depthPresent)
 		{
 			attachments.push_back(m_depth_stencil_buffer->image_view());
@@ -353,18 +352,32 @@ VulkanRenderer::VEnd(void)
 BKSGE_INLINE void
 VulkanRenderer::VBeginRenderPass(RenderPassInfo const& render_pass_info)
 {
-	m_depth_stencil_buffer->Clear(
-		m_command_pool,
-		render_pass_info.clear_state());
-
+#if 1
 	m_swapchain->ClearColor(
 		m_command_pool,
 		m_frame_index,
 		render_pass_info.clear_state());
 
-	m_render_pass->Begin(
-		m_command_buffer.get(),
-		*m_framebuffers[m_frame_index]);
+	m_depth_stencil_buffer->Clear(
+		m_command_pool,
+		render_pass_info.clear_state());
+
+	m_command_buffer->BeginRenderPass(
+			*m_render_pass,
+			*m_framebuffers[m_frame_index]);
+#else
+	m_offscreen_color_buffer->Clear(
+		m_command_pool,
+		render_pass_info.clear_state());
+
+	m_offscreen_depth_stencil_buffer->Clear(
+		m_command_pool,
+		render_pass_info.clear_state());
+
+	m_command_buffer->BeginRenderPass(
+			*m_offscreen_render_pass,
+			*m_offscreen_framebuffer);
+#endif
 
 	m_command_buffer->SetViewport(
 		vulkan::Viewport(render_pass_info.viewport()));

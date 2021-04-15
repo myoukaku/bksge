@@ -28,7 +28,7 @@ namespace d3d12
 class RenderTarget
 {
 public:
-	explicit RenderTarget(Device* device, DXGISwapChain* swap_chain, ::UINT frame_buffer_count);
+	explicit RenderTarget(Device* device, DXGISwapChain* swap_chain);
 
 	~RenderTarget();
 

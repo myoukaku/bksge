@@ -28,9 +28,10 @@ namespace d3d12
 BKSGE_INLINE
 RenderTarget::RenderTarget(
 	Device* device,
-	DXGISwapChain* swap_chain,
-	::UINT frame_buffer_count)
+	DXGISwapChain* swap_chain)
 {
+	auto const frame_buffer_count = swap_chain->GetBufferCount();
+
 	// Create descriptor heaps.
 	{
 		// Describe and create a render target view (RTV) descriptor heap.

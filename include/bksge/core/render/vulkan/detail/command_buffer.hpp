@@ -12,6 +12,8 @@
 #include <bksge/core/render/vulkan/detail/fwd/command_buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/command_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/render_pass_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/framebuffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
@@ -37,7 +39,9 @@ public:
 	void Begin(::VkCommandBufferUsageFlags flags);
 	void End(void);
 
-	void BeginRenderPass(::VkRenderPassBeginInfo const& render_pass_begin);
+	void BeginRenderPass(
+		vulkan::RenderPass const& render_pass,
+		vulkan::Framebuffer const& framebuffer);
 	void EndRenderPass(void);
 
 	void SetViewport(::VkViewport const& viewport);

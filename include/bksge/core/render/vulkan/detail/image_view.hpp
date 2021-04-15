@@ -29,6 +29,13 @@ class ImageView
 public:
 	explicit ImageView(
 		vulkan::DeviceSharedPtr const& device,
+		::VkImage const& image,
+		::VkFormat format,
+		bksge::uint32_t mipmap_count,
+		::VkImageAspectFlags aspect_mask);
+
+	explicit ImageView(
+		vulkan::DeviceSharedPtr const& device,
 		vulkan::Image const& image,
 		::VkImageAspectFlags aspect_mask);
 

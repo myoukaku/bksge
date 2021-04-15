@@ -57,8 +57,16 @@ DXGISwapChain::~DXGISwapChain()
 {
 }
 
+BKSGE_INLINE ::UINT
+DXGISwapChain::GetBufferCount(void) const
+{
+	::DXGI_SWAP_CHAIN_DESC1 desc = {};
+	m_swap_chain->GetDesc1(&desc);
+	return desc.BufferCount;
+}
+
 BKSGE_INLINE UINT
-DXGISwapChain::GetCurrentBackBufferIndex()
+DXGISwapChain::GetCurrentBackBufferIndex(void) const
 {
 	return m_swap_chain->GetCurrentBackBufferIndex();
 }
@@ -70,7 +78,7 @@ DXGISwapChain::Present(::UINT sync_interval, ::UINT flags)
 }
 
 BKSGE_INLINE void
-DXGISwapChain::GetBuffer(::UINT buffer, REFIID riid, void** surface)
+DXGISwapChain::GetBuffer(::UINT buffer, REFIID riid, void** surface) const
 {
 	ThrowIfFailed(m_swap_chain->GetBuffer(buffer, riid, surface));
 }

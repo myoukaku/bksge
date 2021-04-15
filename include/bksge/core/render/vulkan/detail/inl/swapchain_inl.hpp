@@ -19,11 +19,14 @@
 #include <bksge/core/render/vulkan/detail/command_pool.hpp>
 #include <bksge/core/render/vulkan/detail/command_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/image.hpp>
+#include <bksge/core/render/vulkan/detail/image_view.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/clear_state.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/cstdint/uint64_t.hpp>
 #include <bksge/fnd/vector.hpp>
+#include <bksge/fnd/memory/make_unique.hpp>
+#include <bksge/fnd/utility/move.hpp>
 
 namespace bksge
 {
@@ -39,9 +42,7 @@ Swapchain::Swapchain(
 	vulkan::DeviceSharedPtr const& device,
 	vulkan::CommandPoolSharedPtr const& command_pool,
 	vulkan::Surface const& surface,
-	::VkFormat surface_format,
-	bksge::uint32_t graphics_queue_family_index,
-	bksge::uint32_t present_queue_family_index)
+	::VkFormat surface_format)
 	: m_device(device)
 	, m_info()
 	, m_swapchain(VK_NULL_HANDLE)
@@ -122,6 +123,11 @@ Swapchain::Swapchain(
 #endif
 	m_info.oldSwapchain     = VK_NULL_HANDLE;
 
+	auto const graphics_queue_family_index =
+		physical_device->graphics_queue_family_index();
+	auto const present_queue_family_index =
+		physical_device->GetPresentQueueFamilyIndex(surface);
+
 	bksge::uint32_t const queue_family_indices[] =
 	{
 		graphics_queue_family_index,
@@ -141,32 +147,25 @@ Swapchain::Swapchain(
 
 	vk::CreateSwapchainKHR(*m_device, &m_info, nullptr, &m_swapchain);
 
+	::VkImageAspectFlags const aspect_mask = VK_IMAGE_ASPECT_COLOR_BIT;
+
 	// Create ImageViews
 	auto images = vk::GetSwapchainImagesKHR(*m_device, m_swapchain);
 	for (auto&& image : images)
 	{
-		vk::ImageViewCreateInfo info;
-		info.format                          = surface_format;
-		info.components.r                    = VK_COMPONENT_SWIZZLE_R;
-		info.components.g                    = VK_COMPONENT_SWIZZLE_G;
-		info.components.b                    = VK_COMPONENT_SWIZZLE_B;
-		info.components.a                    = VK_COMPONENT_SWIZZLE_A;
-		info.subresourceRange.aspectMask     = VK_IMAGE_ASPECT_COLOR_BIT;
-		info.subresourceRange.baseMipLevel   = 0;
-		info.subresourceRange.levelCount     = 1;
-		info.subresourceRange.baseArrayLayer = 0;
-		info.subresourceRange.layerCount     = 1;
-		info.viewType                        = VK_IMAGE_VIEW_TYPE_2D;
-		info.image                           = image;
+		auto image_view = bksge::make_unique<vulkan::ImageView>(
+			device,
+			image,
+			surface_format,
+			1,
+			aspect_mask);
 
-		::VkImageView view;
-		vk::CreateImageView(*m_device, &info, nullptr, &view);
-		m_image_views.push_back(view);
+		m_image_views.push_back(bksge::move(image_view));
 
 		TransitionImageLayout(
 			command_pool,
 			image,
-			VK_IMAGE_ASPECT_COLOR_BIT,
+			aspect_mask,
 			1,
 			VK_IMAGE_LAYOUT_UNDEFINED,
 			VK_IMAGE_LAYOUT_PRESENT_SRC_KHR);
@@ -178,11 +177,7 @@ Swapchain::Swapchain(
 BKSGE_INLINE
 Swapchain::~Swapchain()
 {
-	for (auto&& image_view : m_image_views)
-	{
-		vk::DestroyImageView(*m_device, image_view, nullptr);
-	}
-
+	m_image_views.clear();
 	vk::DestroySwapchainKHR(*m_device, m_swapchain, nullptr);
 }
 
@@ -257,20 +252,7 @@ Swapchain::ClearColor(
 		VK_IMAGE_LAYOUT_PRESENT_SRC_KHR);
 }
 
-//BKSGE_INLINE bksge::vector<VkImage>
-//Swapchain::GetImages(void) const
-//{
-//	bksge::uint32_t count = 0;
-//	vk::GetSwapchainImagesKHR(*m_device, m_swapchain, &count, nullptr);
-//
-//	bksge::vector<VkImage> images;
-//	images.resize(count);
-//	vk::GetSwapchainImagesKHR(*m_device, m_swapchain, &count, images.data());
-//
-//	return images;
-//}
-
-BKSGE_INLINE bksge::vector<::VkImageView> const&
+BKSGE_INLINE bksge::vector<vulkan::ImageViewUniquePtr> const&
 Swapchain::image_views(void) const
 {
 	return m_image_views;

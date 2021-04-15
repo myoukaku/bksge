@@ -15,6 +15,8 @@
 #include <bksge/core/render/vulkan/detail/command_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/command_pool.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
+#include <bksge/core/render/vulkan/detail/render_pass.hpp>
+#include <bksge/core/render/vulkan/detail/framebuffer.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
@@ -75,8 +77,17 @@ CommandBuffer::End(void)
 }
 
 BKSGE_INLINE void
-CommandBuffer::BeginRenderPass(::VkRenderPassBeginInfo const& render_pass_begin)
+CommandBuffer::BeginRenderPass(
+	vulkan::RenderPass const& render_pass,
+	vulkan::Framebuffer const& framebuffer)
 {
+	vk::RenderPassBeginInfo render_pass_begin;
+	render_pass_begin.renderPass          = render_pass;
+	render_pass_begin.framebuffer         = framebuffer;
+	render_pass_begin.renderArea.offset.x = 0;
+	render_pass_begin.renderArea.offset.y = 0;
+	render_pass_begin.renderArea.extent   = framebuffer.extent();
+
 	vk::CmdBeginRenderPass(
 		m_command_buffer,
 		&render_pass_begin,
@@ -158,7 +169,6 @@ EndSingleTimeCommands(
 	vk::QueueSubmit(graphics_queue, 1, &submit_info, VK_NULL_HANDLE);
 	vk::QueueWaitIdle(graphics_queue);
 }
-
 
 }	// namespace vulkan
 
