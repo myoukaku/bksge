@@ -87,6 +87,9 @@ using std::variant;
 #include <bksge/fnd/initializer_list.hpp>
 #include <bksge/fnd/config.hpp>
 
+BKSGE_WARNING_PUSH();
+BKSGE_WARNING_DISABLE_MSVC(4702);	// unreachable code
+
 namespace bksge
 {
 
@@ -205,14 +208,11 @@ private:
 		this->emplace<Index>(bksge::forward<T>(rhs));
 	}
 
-BKSGE_WARNING_PUSH();
-BKSGE_WARNING_DISABLE_MSVC(4702);	// unreachable code
 	template <typename T>
 	void assign_impl(T&& rhs, bksge::false_type)
 	{
 		operator=(variant(bksge::forward<T>(rhs)));
 	}
-BKSGE_WARNING_POP();
 
 public:
 	template <typename T>
@@ -356,14 +356,11 @@ private:
 		return this->m_index;
 	}
 
-BKSGE_WARNING_PUSH();
-BKSGE_WARNING_DISABLE_MSVC(4702);	// unreachable code
 	template <typename... UTypes, typename = bksge::enable_if_t<(sizeof...(UTypes) <= typename Base::index_type(-1) / 2)>>
 	constexpr bksge::size_t index_impl(bksge::detail::overload_priority<1>) const noexcept
 	{
 		return bksge::make_signed_t<typename Base::index_type>(this->m_index);
 	}
-BKSGE_WARNING_POP();
 
 	template <typename... UTypes>
 	constexpr bksge::size_t index_impl(bksge::detail::overload_priority<0>) const noexcept
@@ -541,6 +538,8 @@ bksge::enable_if_t<!bksge::conjunction<
 swap(variant<Types...>&, variant<Types...>&) = delete;
 
 }	// namespace bksge
+
+BKSGE_WARNING_POP();
 
 #endif	// defined(BKSGE_USE_STD_VARIANT)
 
