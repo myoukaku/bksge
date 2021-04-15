@@ -103,6 +103,8 @@ private:
 
 	bksge::unique_ptr<vulkan::RenderTexture>			m_offscreen_color_buffer;
 	bksge::unique_ptr<vulkan::DepthStencilBuffer>		m_offscreen_depth_stencil_buffer;
+	bksge::unique_ptr<vulkan::RenderPass>				m_offscreen_render_pass;
+	bksge::unique_ptr<vulkan::Framebuffer>				m_offscreen_framebuffer;
 };
 
 }	// namespace render

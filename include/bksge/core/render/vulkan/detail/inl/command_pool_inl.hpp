@@ -14,6 +14,7 @@
 
 #include <bksge/core/render/vulkan/detail/command_pool.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
+#include <bksge/core/render/vulkan/detail/physical_device.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
 
@@ -27,16 +28,15 @@ namespace vulkan
 {
 
 BKSGE_INLINE
-CommandPool::CommandPool(
-	vulkan::DeviceSharedPtr const& device,
-	bksge::uint32_t queue_family_index)
+CommandPool::CommandPool(vulkan::DeviceSharedPtr const& device)
 	: m_device(device)
-	, m_queue_family_index(queue_family_index)
 {
+	auto const& physical_device = device->physical_device();
+	m_queue_family_index = physical_device->graphics_queue_family_index();
 	m_command_pool =
 		m_device->CreateCommandPool(
 			VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT,
-			queue_family_index);
+			m_queue_family_index);
 }
 
 BKSGE_INLINE

@@ -32,7 +32,7 @@ public:
 
 	::VkPhysicalDeviceMemoryProperties const& memory_properties(void) const;
 
-	bksge::uint32_t GetGraphicsQueueFamilyIndex(void) const;
+	bksge::uint32_t graphics_queue_family_index(void) const;
 
 	bksge::uint32_t GetPresentQueueFamilyIndex(::VkSurfaceKHR surface) const;
 
@@ -40,7 +40,7 @@ public:
 
 	//bksge::vector<::VkSurfaceFormatKHR> GetSurfaceFormats(::VkSurfaceKHR surface);
 
-	::VkPhysicalDeviceFeatures GetFeatures(void) const;
+	::VkPhysicalDeviceFeatures const& features(void) const;
 
 	::VkFormatProperties GetFormatProperties(::VkFormat format) const;
 
@@ -54,6 +54,7 @@ private:
 private:
 	::VkPhysicalDevice					m_physical_device;
 	::VkPhysicalDeviceMemoryProperties	m_memory_properties;
+	::VkPhysicalDeviceFeatures			m_features;
 	bksge::uint32_t						m_queue_family_properties_count = 0;
 	bksge::uint32_t						m_graphics_queue_family_index = UINT32_MAX;
 };

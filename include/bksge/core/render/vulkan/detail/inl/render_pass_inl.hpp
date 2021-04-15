@@ -14,6 +14,8 @@
 
 #include <bksge/core/render/vulkan/detail/render_pass.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
+#include <bksge/core/render/vulkan/detail/framebuffer.hpp>
+#include <bksge/core/render/vulkan/detail/command_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/vector.hpp>
 
@@ -31,8 +33,7 @@ RenderPass::RenderPass(
 	vulkan::DeviceSharedPtr const& device,
 	::VkSampleCountFlagBits num_samples,
 	::VkFormat surface_format,
-	::VkFormat depth_format,
-	bool include_depth)
+	::VkFormat depth_format)
 	: m_device(device)
 	, m_render_pass(VK_NULL_HANDLE)
 	, m_samples(num_samples)
@@ -53,7 +54,6 @@ RenderPass::RenderPass(
 		attachments.push_back(att);
 	}
 
-	if (include_depth)
 	{
 		::VkAttachmentDescription att;
 		att.format         = depth_format;
@@ -81,7 +81,7 @@ RenderPass::RenderPass(
 	subpass.SetInputAttachments(nullptr);
 	subpass.SetColorAttachments(&color_reference);
 	subpass.SetResolveAttachments(nullptr);
-	subpass.SetDepthStencilAttachment(include_depth ? &depth_reference : nullptr);
+	subpass.SetDepthStencilAttachment(&depth_reference);
 	subpass.SetPreserveAttachments(nullptr);
 
 	// Subpass dependency to wait for wsi image acquired semaphore before starting layout transition
@@ -106,6 +106,21 @@ BKSGE_INLINE
 RenderPass::~RenderPass()
 {
 	vk::DestroyRenderPass(*m_device, m_render_pass, nullptr);
+}
+
+BKSGE_INLINE void
+RenderPass::Begin(
+	vulkan::CommandBuffer* command_buffer,
+	vulkan::Framebuffer const& framebuffer)
+{
+	vk::RenderPassBeginInfo rp_begin;
+	rp_begin.renderPass          = m_render_pass;
+	rp_begin.framebuffer         = framebuffer;
+	rp_begin.renderArea.offset.x = 0;
+	rp_begin.renderArea.offset.y = 0;
+	rp_begin.renderArea.extent   = framebuffer.extent();
+
+	command_buffer->BeginRenderPass(rp_begin);
 }
 
 BKSGE_INLINE ::VkSampleCountFlagBits

@@ -36,6 +36,8 @@
 #include <bksge/core/render/vulkan/detail/image.hpp>
 #include <bksge/core/render/vulkan/detail/resource_pool.hpp>
 #include <bksge/core/render/vulkan/detail/pipeline_layout.hpp>
+#include <bksge/core/render/vulkan/detail/viewport.hpp>
+#include <bksge/core/render/vulkan/detail/scissor_state.hpp>
 #include <bksge/core/render/shader.hpp>
 #include <bksge/core/render/render_pass_info.hpp>
 #include <bksge/core/window/window.hpp>
@@ -160,15 +162,13 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 	m_surface = bksge::make_unique<vulkan::Surface>(m_instance, window);
 
 	auto const graphics_queue_family_index =
-		m_physical_device->GetGraphicsQueueFamilyIndex();
+		m_physical_device->graphics_queue_family_index();
 
 	m_device = bksge::make_shared<vulkan::Device>(m_physical_device);
 
-	m_command_pool = bksge::make_shared<vulkan::CommandPool>(
-		m_device, graphics_queue_family_index);
+	m_command_pool = bksge::make_shared<vulkan::CommandPool>(m_device);
 
-	m_command_buffer = bksge::make_unique<vulkan::CommandBuffer>(
-		m_command_pool);
+	m_command_buffer = bksge::make_unique<vulkan::CommandBuffer>(m_command_pool);
 
 	vk::GetDeviceQueue(*m_device, graphics_queue_family_index, 0, &m_graphics_queue);
 
@@ -201,20 +201,21 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 			extent,
 			NUM_SAMPLES);
 
-#if 0
 		m_offscreen_render_pass = bksge::make_unique<vulkan::RenderPass>(
 			m_device,
 			NUM_SAMPLES,
-			m_offscreen_color_buffer,
-			m_offscreen_depth_stencil_buffer);
+			m_offscreen_color_buffer->image().format(),
+			m_offscreen_depth_stencil_buffer->image().format());
+
+		bksge::vector<::VkImageView> attachments;
+		attachments.push_back(m_offscreen_color_buffer->image_view());
+		attachments.push_back(m_offscreen_depth_stencil_buffer->image_view());
 
 		m_offscreen_framebuffer = bksge::make_unique<vulkan::Framebuffer>(
 			m_device,
 			*m_offscreen_render_pass,
-			m_offscreen_color_buffer,
-			m_offscreen_depth_stencil_buffer,
+			attachments,
 			extent);
-#endif
 	}
 }
 
@@ -243,7 +244,7 @@ BKSGE_INLINE void
 VulkanRenderer::CreateSwapchain(void)
 {
 	auto const graphics_queue_family_index =
-		m_physical_device->GetGraphicsQueueFamilyIndex();
+		m_physical_device->graphics_queue_family_index();
 	auto const present_queue_family_index =
 		m_physical_device->GetPresentQueueFamilyIndex(*m_surface);
 	auto const surface_format =
@@ -272,14 +273,11 @@ VulkanRenderer::CreateDepthStencilBuffer(void)
 BKSGE_INLINE void
 VulkanRenderer::CreateRenderPass(void)
 {
-	const bool depthPresent = true;	// TODO
-
 	m_render_pass = bksge::make_unique<vulkan::RenderPass>(
 		m_device,
 		NUM_SAMPLES,
 		m_swapchain->format(),
-		m_depth_stencil_buffer->image().format(),
-		depthPresent);
+		m_depth_stencil_buffer->image().format());
 }
 
 BKSGE_INLINE void
@@ -364,44 +362,18 @@ VulkanRenderer::VBeginRenderPass(RenderPassInfo const& render_pass_info)
 		m_frame_index,
 		render_pass_info.clear_state());
 
-	{
-		vk::RenderPassBeginInfo rp_begin;
-		rp_begin.renderPass          = *m_render_pass;
-		rp_begin.framebuffer         = *m_framebuffers[m_frame_index];
-		rp_begin.renderArea.offset.x = 0;
-		rp_begin.renderArea.offset.y = 0;
-		rp_begin.renderArea.extent   = m_swapchain->extent();
+	m_render_pass->Begin(
+		m_command_buffer.get(),
+		*m_framebuffers[m_frame_index]);
 
-		m_command_buffer->BeginRenderPass(rp_begin);
-	}
-	{
-		auto const& viewport = render_pass_info.viewport();
+	m_command_buffer->SetViewport(
+		vulkan::Viewport(render_pass_info.viewport()));
 
-		::VkViewport vp;
-		vp.x        = viewport.rect().left();
-		vp.y        = viewport.rect().top() + viewport.rect().height();
-		vp.width    = viewport.rect().width();
-		vp.height   = -viewport.rect().height();
-		vp.minDepth = viewport.min_depth();
-		vp.maxDepth = viewport.max_depth();
-		m_command_buffer->SetViewport(vp);
-	}
-	{
-
-		auto const& scissor_state = render_pass_info.scissor_state();
-		auto const rect =
-			scissor_state.enable() ?
-			scissor_state.rect() :
-			render_pass_info.viewport().rect();
-
-		vk::Rect2D scissor_rect;
-		scissor_rect.offset.x = static_cast<bksge::int32_t>(bksge::max(0.0f, rect.left()));
-		scissor_rect.offset.y = static_cast<bksge::int32_t>(bksge::max(0.0f, rect.top()));
-		scissor_rect.extent.width  = static_cast<bksge::uint32_t>(rect.width());
-		scissor_rect.extent.height = static_cast<bksge::uint32_t>(rect.height());
-
-		m_command_buffer->SetScissor(scissor_rect);
-	}
+	m_command_buffer->SetScissor(
+		vulkan::ScissorState(
+			render_pass_info.scissor_state(),
+			render_pass_info.viewport()
+		).rect());
 }
 
 BKSGE_INLINE void

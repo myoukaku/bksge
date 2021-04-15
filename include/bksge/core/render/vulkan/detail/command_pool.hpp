@@ -26,9 +26,7 @@ namespace vulkan
 class CommandPool
 {
 public:
-	explicit CommandPool(
-		vulkan::DeviceSharedPtr const& device,
-		bksge::uint32_t queue_family_index);
+	explicit CommandPool(vulkan::DeviceSharedPtr const& device);
 
 	~CommandPool();
 

@@ -34,6 +34,7 @@ Framebuffer::Framebuffer(
 	::VkExtent2D const& extent)
 	: m_device(device)
 	, m_framebuffer(VK_NULL_HANDLE)
+	, m_extent(extent)
 {
 	vk::FramebufferCreateInfo info;
 	info.renderPass      = render_pass;
@@ -48,6 +49,12 @@ BKSGE_INLINE
 Framebuffer::~Framebuffer()
 {
 	vk::DestroyFramebuffer(*m_device, m_framebuffer, nullptr);
+}
+
+BKSGE_INLINE ::VkExtent2D const&
+Framebuffer::extent(void) const
+{
+	return m_extent;
 }
 
 BKSGE_INLINE

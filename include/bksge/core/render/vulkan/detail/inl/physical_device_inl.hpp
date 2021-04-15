@@ -44,6 +44,8 @@ PhysicalDevice::PhysicalDevice(::VkPhysicalDevice const& physical_device)
 			break;
 		}
 	}
+
+	vk::GetPhysicalDeviceFeatures(m_physical_device, &m_features);
 }
 
 BKSGE_INLINE
@@ -58,7 +60,7 @@ PhysicalDevice::memory_properties(void) const
 }
 
 BKSGE_INLINE bksge::uint32_t
-PhysicalDevice::GetGraphicsQueueFamilyIndex(void) const
+PhysicalDevice::graphics_queue_family_index(void) const
 {
 	return m_graphics_queue_family_index;
 }
@@ -114,12 +116,10 @@ PhysicalDevice::GetSurfaceFormats(::VkSurfaceKHR surface)
 }
 #endif
 
-BKSGE_INLINE ::VkPhysicalDeviceFeatures
-PhysicalDevice::GetFeatures(void) const
+BKSGE_INLINE ::VkPhysicalDeviceFeatures const&
+PhysicalDevice::features(void) const
 {
-	::VkPhysicalDeviceFeatures feature;
-	vk::GetPhysicalDeviceFeatures(m_physical_device, &feature);
-	return feature;
+	return m_features;
 }
 
 BKSGE_INLINE ::VkFormatProperties

@@ -34,6 +34,8 @@ public:
 
 	~Framebuffer();
 
+	::VkExtent2D const&		extent(void) const;
+
 	operator ::VkFramebuffer() const;
 
 private:
@@ -44,6 +46,7 @@ private:
 private:
 	vulkan::DeviceSharedPtr	m_device;
 	::VkFramebuffer			m_framebuffer;
+	::VkExtent2D			m_extent;
 };
 
 }	// namespace vulkan

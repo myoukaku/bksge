@@ -132,11 +132,11 @@ Device::Device(vulkan::PhysicalDeviceSharedPtr const& physical_device)
 
 	vk::DeviceQueueCreateInfo queue_info;
 	queue_info.flags            = 0;
-	queue_info.queueFamilyIndex = physical_device->GetGraphicsQueueFamilyIndex();
+	queue_info.queueFamilyIndex = physical_device->graphics_queue_family_index();
 	queue_info.queueCount       = 1;
 	queue_info.pQueuePriorities = &queue_priorities;
 
-	auto const enabled_features = physical_device->GetFeatures();
+	auto const& enabled_features = physical_device->features();
 
 	vk::DeviceCreateInfo info;
 	info.SetQueueCreateInfos(&queue_info);

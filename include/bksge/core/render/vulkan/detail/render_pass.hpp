@@ -11,6 +11,8 @@
 
 #include <bksge/core/render/vulkan/detail/fwd/render_pass_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/command_buffer_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/framebuffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 
 namespace bksge
@@ -29,10 +31,13 @@ public:
 		vulkan::DeviceSharedPtr const& device,
 		::VkSampleCountFlagBits num_samples,
 		::VkFormat surface_format,
-		::VkFormat depth_format,
-		bool include_depth);
+		::VkFormat depth_format);
 
 	~RenderPass();
+
+	void Begin(
+		vulkan::CommandBuffer* command_buffer,
+		vulkan::Framebuffer const& framebuffer);
 
 	::VkSampleCountFlagBits	samples(void) const;
 
