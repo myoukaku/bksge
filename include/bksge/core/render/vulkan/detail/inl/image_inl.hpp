@@ -14,11 +14,13 @@
 
 #include <bksge/core/render/vulkan/detail/image.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
+#include <bksge/core/render/vulkan/detail/device_memory.hpp>
 #include <bksge/core/render/vulkan/detail/command_pool.hpp>
 #include <bksge/core/render/vulkan/detail/command_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/stdexcept/runtime_error.hpp>
+#include <bksge/fnd/memory/make_unique.hpp>
 
 namespace bksge
 {
@@ -38,7 +40,8 @@ Image::Image(
 	::VkSampleCountFlagBits num_samples,
 	::VkImageTiling tiling,
 	::VkImageUsageFlags usage,
-	::VkImageLayout initial_layout)
+	::VkImageLayout initial_layout,
+	::VkFlags requirements_mask)
 	: m_device(device)
 	, m_image(VK_NULL_HANDLE)
 	, m_format(format)
@@ -62,6 +65,13 @@ Image::Image(
 	info.SetQueueFamilyIndices(nullptr);
 
 	vk::CreateImage(*device, &info, nullptr, &m_image);
+
+	auto const mem_reqs = this->requirements();
+
+	m_device_memory = bksge::make_unique<vulkan::DeviceMemory>(
+		device, mem_reqs, requirements_mask);
+
+	vk::BindImageMemory(*device, m_image, *m_device_memory, 0);
 }
 
 BKSGE_INLINE
@@ -70,20 +80,121 @@ Image::~Image()
 	vk::DestroyImage(*m_device, m_image, nullptr);
 }
 
+BKSGE_INLINE void*
+Image::MapMemory(::VkDeviceSize size)
+{
+	return m_device_memory->MapMemory(size);
+}
+
 BKSGE_INLINE void
+Image::UnmapMemory(void)
+{
+	m_device_memory->UnmapMemory();
+}
+
+BKSGE_INLINE void
+Image::ClearColor(
+	vulkan::CommandPoolSharedPtr const& command_pool,
+	::VkImageAspectFlags aspect_mask,
+	bksge::Color4f const& color)
+{
+	if (aspect_mask == 0)
+	{
+		return;
+	}
+
+	auto const current_layout = this->TransitionLayout(
+		command_pool,
+		aspect_mask,
+		VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
+
+	::VkClearColorValue clear_value;
+	clear_value.float32[0] = color[0];
+	clear_value.float32[1] = color[1];
+	clear_value.float32[2] = color[2];
+	clear_value.float32[3] = color[3];
+
+	::VkImageSubresourceRange range;
+	range.aspectMask     = aspect_mask;
+	range.baseMipLevel   = 0;
+	range.levelCount     = 1;
+	range.baseArrayLayer = 0;
+	range.layerCount     = 1;
+
+	auto command_buffer = BeginSingleTimeCommands(command_pool);
+	vk::CmdClearColorImage(
+		*command_buffer,
+		m_image,
+		VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+		&clear_value,
+		1, &range);
+	EndSingleTimeCommands(command_pool, command_buffer);
+
+	this->TransitionLayout(
+		command_pool,
+		aspect_mask,
+		current_layout);
+}
+
+BKSGE_INLINE void
+Image::ClearDepthStencil(
+	vulkan::CommandPoolSharedPtr const& command_pool,
+	::VkImageAspectFlags aspect_mask,
+	float depth,
+	bksge::uint32_t stencil)
+{
+	if (aspect_mask == 0)
+	{
+		return;
+	}
+
+	auto const current_layout = this->TransitionLayout(
+		command_pool,
+		aspect_mask,
+		VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
+
+	::VkClearDepthStencilValue clear_value;
+	clear_value.depth   = depth;
+	clear_value.stencil = stencil;
+
+	::VkImageSubresourceRange range;
+	range.aspectMask     = aspect_mask;
+	range.baseMipLevel   = 0;
+	range.levelCount     = 1;
+	range.baseArrayLayer = 0;
+	range.layerCount     = 1;
+
+	auto command_buffer = BeginSingleTimeCommands(command_pool);
+	vk::CmdClearDepthStencilImage(
+		*command_buffer,
+		m_image,
+		VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+		&clear_value,
+		1, &range);
+	EndSingleTimeCommands(command_pool, command_buffer);
+
+	this->TransitionLayout(
+		command_pool,
+		aspect_mask,
+		current_layout);
+}
+
+BKSGE_INLINE ::VkImageLayout
 Image::TransitionLayout(
 	vulkan::CommandPoolSharedPtr const& command_pool,
 	::VkImageAspectFlags aspect_mask,
 	::VkImageLayout new_layout)
 {
+	auto const old_layout = m_layout;
+	m_layout = new_layout;
 	TransitionImageLayout(
 		command_pool,
 		m_image,
 		aspect_mask,
 		m_mipmap_count,
-		m_layout,
+		old_layout,
 		new_layout);
-	m_layout = new_layout;
+	return old_layout;
 }
 
 namespace detail

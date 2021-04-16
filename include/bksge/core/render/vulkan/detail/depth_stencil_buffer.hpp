@@ -11,7 +11,6 @@
 
 #include <bksge/core/render/vulkan/detail/fwd/depth_stencil_buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/image_object_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/image_view_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/image_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/command_pool_fwd.hpp>
@@ -39,10 +38,6 @@ public:
 
 	~DepthStencilBuffer();
 
-	void TransitionLayout(
-		vulkan::CommandPoolSharedPtr const& command_pool,
-		::VkImageLayout new_layout);
-
 	void Clear(
 		vulkan::CommandPoolSharedPtr const& command_pool,
 		bksge::ClearState const& clear_state);
@@ -57,7 +52,7 @@ private:
 	DepthStencilBuffer& operator=(DepthStencilBuffer const&) = delete;
 
 private:
-	vulkan::ImageObjectUniquePtr	m_image;
+	vulkan::ImageUniquePtr			m_image;
 	vulkan::ImageViewUniquePtr		m_image_view;
 };
 

@@ -11,8 +11,10 @@
 
 #include <bksge/core/render/vulkan/detail/fwd/image_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/device_memory_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/command_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
+#include <bksge/core/math/color4.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
 
 namespace bksge
@@ -35,11 +37,27 @@ public:
 		::VkSampleCountFlagBits num_samples,
 		::VkImageTiling tiling,
 		::VkImageUsageFlags usage,
-		::VkImageLayout initial_layout);
+		::VkImageLayout initial_layout,
+		::VkFlags requirements_mask);
 
 	~Image();
 
-	void TransitionLayout(
+	void* MapMemory(::VkDeviceSize size);
+
+	void UnmapMemory(void);
+
+	void ClearColor(
+		vulkan::CommandPoolSharedPtr const& command_pool,
+		::VkImageAspectFlags aspect_mask,
+		bksge::Color4f const& color);
+
+	void ClearDepthStencil(
+		vulkan::CommandPoolSharedPtr const& command_pool,
+		::VkImageAspectFlags aspect_mask,
+		float depth,
+		bksge::uint32_t stencil);
+
+	::VkImageLayout TransitionLayout(
 		vulkan::CommandPoolSharedPtr const& command_pool,
 		::VkImageAspectFlags aspect_mask,
 		::VkImageLayout new_layout);
@@ -66,6 +84,7 @@ private:
 	::VkExtent2D				m_extent;
 	bksge::uint32_t				m_mipmap_count;
 	::VkImageLayout				m_layout;
+	vulkan::DeviceMemoryUniquePtr	m_device_memory;
 };
 
 void TransitionImageLayout(

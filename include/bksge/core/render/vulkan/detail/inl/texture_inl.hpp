@@ -17,7 +17,6 @@
 #include <bksge/core/render/vulkan/detail/command_pool.hpp>
 #include <bksge/core/render/vulkan/detail/command_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/physical_device.hpp>
-#include <bksge/core/render/vulkan/detail/image_object.hpp>
 #include <bksge/core/render/vulkan/detail/image.hpp>
 #include <bksge/core/render/vulkan/detail/image_view.hpp>
 #include <bksge/core/render/vulkan/detail/texture_format.hpp>
@@ -122,7 +121,7 @@ Texture::Texture(
 
 	::VkImageAspectFlags const aspect = VK_IMAGE_ASPECT_COLOR_BIT;
 
-	m_image = bksge::make_unique<vulkan::ImageObject>(
+	m_image = bksge::make_unique<vulkan::Image>(
 		device,
 		format,
 		extent,
@@ -135,7 +134,7 @@ Texture::Texture(
 
 	m_image_view = bksge::make_unique<vulkan::ImageView>(
 		device,
-		m_image->image(),
+		*m_image,
 		aspect);
 }
 
@@ -182,10 +181,10 @@ Texture::Texture(
 		detail::CopyBufferToImage(
 			command_pool,
 			staging_buffer->buffer(),
-			m_image->image(),
+			*m_image,
 			texture.format(),
-			m_image->image().extent(),
-			m_image->image().mipmap_count());
+			m_image->extent(),
+			m_image->mipmap_count());
 
 		this->TransitionLayout(
 			command_pool,
@@ -220,48 +219,16 @@ Texture::Clear(
 		aspect_mask |= VK_IMAGE_ASPECT_COLOR_BIT;
 	}
 
-	if (aspect_mask == 0)
-	{
-		return;
-	}
-
-	this->TransitionLayout(
+	m_image->ClearColor(
 		command_pool,
-		VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
-
-	auto const& clear_color = clear_state.color();
-
-	::VkClearColorValue clear_value;
-	clear_value.float32[0] = clear_color[0];
-	clear_value.float32[1] = clear_color[1];
-	clear_value.float32[2] = clear_color[2];
-	clear_value.float32[3] = clear_color[3];
-
-	::VkImageSubresourceRange range;
-	range.aspectMask     = aspect_mask;
-	range.baseMipLevel   = 0;
-	range.levelCount     = 1;
-	range.baseArrayLayer = 0;
-	range.layerCount     = 1;
-
-	auto command_buffer = BeginSingleTimeCommands(command_pool);
-	vk::CmdClearColorImage(
-		*command_buffer,
-		m_image->image(),
-		VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-		&clear_value,
-		1, &range);
-	EndSingleTimeCommands(command_pool, command_buffer);
-
-	this->TransitionLayout(
-		command_pool,
-		VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
+		aspect_mask,
+		clear_state.color());
 }
 
 BKSGE_INLINE vulkan::Image const&
 Texture::image(void) const
 {
-	return m_image->image();
+	return *m_image;
 }
 
 BKSGE_INLINE vulkan::ImageView const&

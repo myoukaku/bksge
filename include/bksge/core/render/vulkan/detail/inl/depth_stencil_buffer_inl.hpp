@@ -15,7 +15,6 @@
 #include <bksge/core/render/vulkan/detail/depth_stencil_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/physical_device.hpp>
-#include <bksge/core/render/vulkan/detail/image_object.hpp>
 #include <bksge/core/render/vulkan/detail/image.hpp>
 #include <bksge/core/render/vulkan/detail/image_view.hpp>
 #include <bksge/core/render/vulkan/detail/command_pool.hpp>
@@ -89,7 +88,7 @@ DepthStencilBuffer::DepthStencilBuffer(
 		exit(-1);
 	}
 
-	m_image = bksge::make_unique<vulkan::ImageObject>(
+	m_image = bksge::make_unique<vulkan::Image>(
 		device,
 		format,
 		extent,
@@ -111,28 +110,18 @@ DepthStencilBuffer::DepthStencilBuffer(
 
 	m_image_view = bksge::make_unique<vulkan::ImageView>(
 		device,
-		m_image->image(),
+		*m_image,
 		aspect_mask);
 
-	this->TransitionLayout(
+	m_image->TransitionLayout(
 		command_pool,
+		aspect_mask,
 		VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
 }
 
 BKSGE_INLINE
 DepthStencilBuffer::~DepthStencilBuffer()
 {
-}
-
-BKSGE_INLINE void
-DepthStencilBuffer::TransitionLayout(
-	vulkan::CommandPoolSharedPtr const& command_pool,
-	::VkImageLayout new_layout)
-{
-	m_image->TransitionLayout(
-		command_pool,
-		m_image_view->aspect_mask(),
-		new_layout);
 }
 
 BKSGE_INLINE void
@@ -150,44 +139,17 @@ DepthStencilBuffer::Clear(
 		aspect_mask |= VK_IMAGE_ASPECT_STENCIL_BIT;
 	}
 
-	if (aspect_mask == 0)
-	{
-		return;
-	}
-
-	this->TransitionLayout(
+	m_image->ClearDepthStencil(
 		command_pool,
-		VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
-
-	::VkClearDepthStencilValue clear_value;
-	clear_value.depth   = clear_state.depth();
-	clear_value.stencil = clear_state.stencil();
-
-	::VkImageSubresourceRange range;
-	range.aspectMask     = aspect_mask;
-	range.baseMipLevel   = 0;
-	range.levelCount     = 1;
-	range.baseArrayLayer = 0;
-	range.layerCount     = 1;
-
-	auto command_buffer = BeginSingleTimeCommands(command_pool);
-	vk::CmdClearDepthStencilImage(
-		*command_buffer,
-		m_image->image(),
-		VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-		&clear_value,
-		1, &range);
-	EndSingleTimeCommands(command_pool, command_buffer);
-
-	this->TransitionLayout(
-		command_pool,
-		VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
+		aspect_mask,
+		clear_state.depth(),
+		clear_state.stencil());
 }
 
 BKSGE_INLINE vulkan::Image const&
 DepthStencilBuffer::image(void) const
 {
-	return m_image->image();
+	return *m_image;
 }
 
 BKSGE_INLINE vulkan::ImageView const&

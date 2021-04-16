@@ -12,7 +12,6 @@
 #include <bksge/core/render/vulkan/detail/fwd/texture_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/command_pool_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/image_object_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/image_view_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/image_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
@@ -65,7 +64,7 @@ private:
 	Texture& operator=(Texture const&) = delete;
 
 private:
-	vulkan::ImageObjectUniquePtr	m_image;
+	vulkan::ImageUniquePtr			m_image;
 	vulkan::ImageViewUniquePtr		m_image_view;
 };
 
