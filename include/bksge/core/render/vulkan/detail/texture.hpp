@@ -16,7 +16,6 @@
 #include <bksge/core/render/vulkan/detail/fwd/image_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/fwd/texture_fwd.hpp>
-#include <bksge/core/render/fwd/clear_state_fwd.hpp>
 
 namespace bksge
 {
@@ -32,6 +31,7 @@ class Texture
 public:
 	explicit Texture(
 		vulkan::DeviceSharedPtr const& device,
+		vulkan::CommandPoolSharedPtr const& command_pool,
 		::VkFormat format,
 		::VkExtent2D const& extent,
 		bksge::uint32_t mipmap_count,
@@ -44,19 +44,15 @@ public:
 		vulkan::CommandPoolSharedPtr const& command_pool,
 		bksge::Texture const& texture);
 
+	explicit Texture(
+		vulkan::ImageSharedPtr const& image,
+		vulkan::ImageViewSharedPtr const& image_view);
+
 	~Texture();
 
-	void TransitionLayout(
-		vulkan::CommandPoolSharedPtr const& command_pool,
-		::VkImageLayout new_layout);
+	vulkan::ImageSharedPtr const& image(void) const;
 
-	void Clear(
-		vulkan::CommandPoolSharedPtr const& command_pool,
-		bksge::ClearState const& clear_state);
-
-	vulkan::Image const& image(void) const;
-
-	vulkan::ImageView const& image_view(void) const;
+	vulkan::ImageViewSharedPtr const& image_view(void) const;
 
 private:
 	// noncopyable
@@ -64,8 +60,8 @@ private:
 	Texture& operator=(Texture const&) = delete;
 
 private:
-	vulkan::ImageUniquePtr			m_image;
-	vulkan::ImageViewUniquePtr		m_image_view;
+	vulkan::ImageSharedPtr			m_image;
+	vulkan::ImageViewSharedPtr		m_image_view;
 };
 
 }	// namespace vulkan

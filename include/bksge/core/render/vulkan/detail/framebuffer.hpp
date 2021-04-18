@@ -11,7 +11,14 @@
 
 #include <bksge/core/render/vulkan/detail/fwd/framebuffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/image_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/image_view_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/render_pass_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/command_buffer_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/texture_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/depth_stencil_buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
+#include <bksge/core/render/fwd/clear_state_fwd.hpp>
 #include <bksge/fnd/vector.hpp>
 
 namespace bksge
@@ -28,13 +35,20 @@ class Framebuffer
 public:
 	explicit Framebuffer(
 		vulkan::DeviceSharedPtr const& device,
-		::VkRenderPass const& render_pass,
-		bksge::vector<::VkImageView> const& attachments,
-		::VkExtent2D const& extent);
+		vulkan::TextureSharedPtr const& color_buffer,
+		vulkan::DepthStencilBufferSharedPtr const& depth_stencil_buffer,
+		vulkan::RenderPassSharedPtr const& render_pass);
 
 	~Framebuffer();
 
+	void Clear(
+		vulkan::CommandBuffer* command_buffer,
+		bksge::ClearState const& clear_state);
+
 	::VkExtent2D const&		extent(void) const;
+
+	vulkan::TextureSharedPtr	const& color_buffer(void) const;
+	vulkan::RenderPassSharedPtr	const& render_pass(void) const;
 
 	operator ::VkFramebuffer() const;
 
@@ -44,9 +58,12 @@ private:
 	Framebuffer& operator=(Framebuffer const&) = delete;
 
 private:
-	vulkan::DeviceSharedPtr	m_device;
-	::VkFramebuffer			m_framebuffer;
-	::VkExtent2D			m_extent;
+	vulkan::DeviceSharedPtr				m_device;
+	::VkFramebuffer						m_framebuffer;
+	::VkExtent2D						m_extent;
+	vulkan::TextureSharedPtr			m_color_buffer;
+	vulkan::DepthStencilBufferSharedPtr	m_depth_stencil_buffer;
+	vulkan::RenderPassSharedPtr			m_render_pass;
 };
 
 }	// namespace vulkan

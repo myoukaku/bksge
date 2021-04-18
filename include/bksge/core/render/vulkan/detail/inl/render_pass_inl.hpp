@@ -14,6 +14,7 @@
 
 #include <bksge/core/render/vulkan/detail/render_pass.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
+#include <bksge/core/render/vulkan/detail/image.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/vector.hpp>
 
@@ -30,8 +31,8 @@ BKSGE_INLINE
 RenderPass::RenderPass(
 	vulkan::DeviceSharedPtr const& device,
 	::VkSampleCountFlagBits num_samples,
-	::VkFormat surface_format,
-	::VkFormat depth_format)
+	vulkan::Image const& color,
+	vulkan::Image const& depth_stencil)
 	: m_device(device)
 	, m_render_pass(VK_NULL_HANDLE)
 	, m_samples(num_samples)
@@ -40,28 +41,28 @@ RenderPass::RenderPass(
 
 	{
 		::VkAttachmentDescription att;
-		att.format         = surface_format;
+		att.format         = color.format();
 		att.samples        = num_samples;
 		att.loadOp         = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
 		att.storeOp        = VK_ATTACHMENT_STORE_OP_STORE;
 		att.stencilLoadOp  = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
 		att.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
 		att.initialLayout  = VK_IMAGE_LAYOUT_UNDEFINED;
-		att.finalLayout    = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+		att.finalLayout    = color.layout();
 		att.flags          = 0;
 		attachments.push_back(att);
 	}
 
 	{
 		::VkAttachmentDescription att;
-		att.format         = depth_format;
+		att.format         = depth_stencil.format();
 		att.samples        = num_samples;
 		att.loadOp         = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
 		att.storeOp        = VK_ATTACHMENT_STORE_OP_STORE;
 		att.stencilLoadOp  = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
 		att.stencilStoreOp = VK_ATTACHMENT_STORE_OP_STORE;
 		att.initialLayout  = VK_IMAGE_LAYOUT_UNDEFINED;
-		att.finalLayout    = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+		att.finalLayout    = depth_stencil.layout();
 		att.flags          = 0;
 		attachments.push_back(att);
 	}

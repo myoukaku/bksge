@@ -33,7 +33,7 @@ public:
 
 	~Geometry();
 
-	void Draw(CommandBuffer* command_buffer);
+	void Draw(vulkan::CommandBuffer* command_buffer);
 
 private:
 	// noncopyable

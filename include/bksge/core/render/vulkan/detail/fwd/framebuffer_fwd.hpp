@@ -9,6 +9,8 @@
 #ifndef BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_FRAMEBUFFER_FWD_HPP
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_FRAMEBUFFER_FWD_HPP
 
+#include <bksge/fnd/memory/shared_ptr.hpp>
+
 namespace bksge
 {
 
@@ -19,6 +21,7 @@ namespace vulkan
 {
 
 class Framebuffer;
+using FramebufferSharedPtr = bksge::shared_ptr<Framebuffer>;
 
 }	// namespace vulkan
 

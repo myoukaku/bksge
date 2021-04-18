@@ -20,8 +20,7 @@
 #include <bksge/core/render/vulkan/detail/command_pool.hpp>
 #include <bksge/core/render/vulkan/detail/command_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <bksge/core/render/clear_state.hpp>
-#include <bksge/fnd/memory/make_unique.hpp>
+#include <bksge/fnd/memory/make_shared.hpp>
 
 namespace bksge
 {
@@ -88,7 +87,7 @@ DepthStencilBuffer::DepthStencilBuffer(
 		exit(-1);
 	}
 
-	m_image = bksge::make_unique<vulkan::Image>(
+	m_image = bksge::make_shared<vulkan::Image>(
 		device,
 		format,
 		extent,
@@ -108,7 +107,7 @@ DepthStencilBuffer::DepthStencilBuffer(
 		aspect_mask |= VK_IMAGE_ASPECT_STENCIL_BIT;
 	}
 
-	m_image_view = bksge::make_unique<vulkan::ImageView>(
+	m_image_view = bksge::make_shared<vulkan::ImageView>(
 		device,
 		*m_image,
 		aspect_mask);
@@ -124,38 +123,16 @@ DepthStencilBuffer::~DepthStencilBuffer()
 {
 }
 
-BKSGE_INLINE void
-DepthStencilBuffer::Clear(
-	vulkan::CommandPoolSharedPtr const& command_pool,
-	bksge::ClearState const& clear_state)
-{
-	::VkImageAspectFlags aspect_mask = 0;
-	if (Test(clear_state.flag(), bksge::ClearFlag::kDepth))
-	{
-		aspect_mask |= VK_IMAGE_ASPECT_DEPTH_BIT;
-	}
-	if (Test(clear_state.flag(), bksge::ClearFlag::kStencil))
-	{
-		aspect_mask |= VK_IMAGE_ASPECT_STENCIL_BIT;
-	}
-
-	m_image->ClearDepthStencil(
-		command_pool,
-		aspect_mask,
-		clear_state.depth(),
-		clear_state.stencil());
-}
-
-BKSGE_INLINE vulkan::Image const&
+BKSGE_INLINE vulkan::ImageSharedPtr const&
 DepthStencilBuffer::image(void) const
 {
-	return *m_image;
+	return m_image;
 }
 
-BKSGE_INLINE vulkan::ImageView const&
+BKSGE_INLINE vulkan::ImageViewSharedPtr const&
 DepthStencilBuffer::image_view(void) const
 {
-	return *m_image_view;
+	return m_image_view;
 }
 
 }	// namespace vulkan

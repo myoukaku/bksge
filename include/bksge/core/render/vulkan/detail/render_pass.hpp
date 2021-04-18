@@ -11,6 +11,7 @@
 
 #include <bksge/core/render/vulkan/detail/fwd/render_pass_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/image_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 
 namespace bksge
@@ -28,8 +29,8 @@ public:
 	explicit RenderPass(
 		vulkan::DeviceSharedPtr const& device,
 		::VkSampleCountFlagBits num_samples,
-		::VkFormat surface_format,
-		::VkFormat depth_format);
+		vulkan::Image const& color,
+		vulkan::Image const& depth_stencil);
 
 	~RenderPass();
 

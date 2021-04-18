@@ -13,9 +13,8 @@
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/surface_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/command_pool_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/image_view_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/image_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <bksge/core/render/fwd/clear_state_fwd.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/cstdint/uint64_t.hpp>
 #include <bksge/fnd/vector.hpp>
@@ -46,14 +45,7 @@ public:
 		::VkFence        fence,
 		bksge::uint32_t* image_index);
 
-	void ClearColor(
-		vulkan::CommandPoolSharedPtr const& command_pool,
-		bksge::uint32_t index,
-		bksge::ClearState const& clear_state);
-
-	//bksge::vector<VkImage> GetImages(void) const;
-
-	bksge::vector<vulkan::ImageViewUniquePtr> const& image_views(void) const;
+	bksge::vector<vulkan::ImageSharedPtr> const& images(void) const;
 
 	::VkExtent2D extent(void) const;
 
@@ -73,7 +65,7 @@ private:
 	vulkan::DeviceSharedPtr			m_device;
 	vk::SwapchainCreateInfoKHR		m_info;
 	::VkSwapchainKHR				m_swapchain;
-	bksge::vector<vulkan::ImageViewUniquePtr>	m_image_views;
+	bksge::vector<vulkan::ImageSharedPtr>	m_images;
 	::VkQueue						m_present_queue;
 };
 

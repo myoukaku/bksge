@@ -56,27 +56,26 @@ CombinedImageSamplerSetter::LoadParameters(
 	vulkan::ResourcePool* resource_pool)
 {
 	auto param = shader_parameter_map[m_name];
-	if (!param)
+	if (!param || !param->data())
 	{
 		return;
 	}
 
-	if (!param->data())
+	if (param->class_id() == ShaderParameter<bksge::SampledTexture>::StaticClassId())
 	{
+		auto sampled_texture = *static_cast<bksge::SampledTexture const*>(param->data());
+		vulkan::CombinedImageSampler combined_image_sampler(
+			resource_pool, command_pool, sampled_texture);
+		m_image_info = combined_image_sampler.GetImageInfo();
 		return;
 	}
 
-	if (param->class_id() != ShaderParameter<bksge::SampledTexture>::StaticClassId())
+	if (param->class_id() == ShaderParameter<vulkan::CombinedImageSampler>::StaticClassId())
 	{
+		auto combined_image_sampler = static_cast<vulkan::CombinedImageSampler const*>(param->data());
+		m_image_info = combined_image_sampler->GetImageInfo();
 		return;
 	}
-
-	auto sampled_texture = *static_cast<bksge::SampledTexture const*>(param->data());
-
-	CombinedImageSampler combined_image_sampler(
-		resource_pool, command_pool, sampled_texture);
-
-	m_image_info = combined_image_sampler.GetImageInfo();
 }
 
 BKSGE_INLINE vk::WriteDescriptorSet

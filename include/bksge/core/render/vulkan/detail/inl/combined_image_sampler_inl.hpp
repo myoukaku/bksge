@@ -33,13 +33,21 @@ namespace vulkan
 
 BKSGE_INLINE
 CombinedImageSampler::CombinedImageSampler(
+	vulkan::SamplerSharedPtr const& sampler,
+	vulkan::TextureSharedPtr const& texture)
+	: m_sampler(sampler)
+	, m_texture(texture)
+{}
+
+BKSGE_INLINE
+CombinedImageSampler::CombinedImageSampler(
 	vulkan::ResourcePool* resource_pool,
 	vulkan::CommandPoolSharedPtr const& command_pool,
 	bksge::SampledTexture const& sampled_texture)
-{
-	m_sampler = resource_pool->GetSampler(sampled_texture.sampler());
-	m_texture = resource_pool->GetTexture(command_pool, sampled_texture.texture());
-}
+	: CombinedImageSampler(
+		resource_pool->GetSampler(sampled_texture.sampler()),
+		resource_pool->GetTexture(command_pool, sampled_texture.texture()))
+{}
 
 BKSGE_INLINE
 CombinedImageSampler::~CombinedImageSampler()
@@ -51,7 +59,7 @@ CombinedImageSampler::GetImageInfo(void) const
 {
 	::VkDescriptorImageInfo info;
 	info.sampler     = *m_sampler;
-	info.imageView   = m_texture->image_view();
+	info.imageView   = *m_texture->image_view();
 	info.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 	return info;
 }

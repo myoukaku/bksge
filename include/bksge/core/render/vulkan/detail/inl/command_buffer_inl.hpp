@@ -144,6 +144,12 @@ CommandBuffer::PushDescriptorSet(
 	}
 }
 
+BKSGE_INLINE ::VkQueue
+CommandBuffer::GetQueue(void) const
+{
+	return m_command_pool->GetQueue();
+}
+
 BKSGE_INLINE bksge::unique_ptr<vulkan::CommandBuffer>
 BeginSingleTimeCommands(
 	vulkan::CommandPoolSharedPtr const& command_pool)
@@ -157,7 +163,6 @@ BeginSingleTimeCommands(
 
 BKSGE_INLINE void
 EndSingleTimeCommands(
-	vulkan::CommandPoolSharedPtr const& command_pool,
 	bksge::unique_ptr<vulkan::CommandBuffer> const& command_buffer)
 {
 	command_buffer->End();
@@ -165,7 +170,7 @@ EndSingleTimeCommands(
 	vk::SubmitInfo submit_info;
 	submit_info.SetCommandBuffers(command_buffer->GetAddressOf());
 
-	auto graphics_queue = command_pool->GetQueue();
+	auto graphics_queue = command_buffer->GetQueue();
 	vk::QueueSubmit(graphics_queue, 1, &submit_info, VK_NULL_HANDLE);
 	vk::QueueWaitIdle(graphics_queue);
 }

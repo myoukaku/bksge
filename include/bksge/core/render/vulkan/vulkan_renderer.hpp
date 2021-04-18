@@ -67,8 +67,6 @@ public:
 private:
 	void RecreateSwapchain(void);
 	void CreateSwapchain(void);
-	void CreateDepthStencilBuffer(void);
-	void CreateRenderPass(void);
 	void CreateFrameBuffers(void);
 
 private:
@@ -92,19 +90,18 @@ private:
 	bksge::unique_ptr<vulkan::CommandBuffer>			m_command_buffer;
 	::VkQueue											m_graphics_queue;
 	bksge::unique_ptr<vulkan::Swapchain>				m_swapchain;
-	bksge::unique_ptr<vulkan::DepthStencilBuffer>		m_depth_stencil_buffer;
-	bksge::unique_ptr<vulkan::RenderPass>				m_render_pass;
-	bksge::vector<bksge::unique_ptr<vulkan::Framebuffer>>	m_framebuffers;
 	bksge::unique_ptr<vulkan::Fence>					m_draw_fence;
 	bksge::unique_ptr<vulkan::Semaphore>				m_image_acquired_semaphore;
 	bksge::unique_ptr<vulkan::ResourcePool>				m_resource_pool;
 	bksge::unique_ptr<vulkan::UniformBuffer>			m_uniform_buffer;
 	bksge::uint32_t										m_frame_index = 0;
 
-	bksge::unique_ptr<vulkan::Texture>					m_offscreen_color_buffer;
-	bksge::unique_ptr<vulkan::DepthStencilBuffer>		m_offscreen_depth_stencil_buffer;
-	bksge::unique_ptr<vulkan::RenderPass>				m_offscreen_render_pass;
-	bksge::unique_ptr<vulkan::Framebuffer>				m_offscreen_framebuffer;
+	bksge::vector<vulkan::FramebufferSharedPtr>			m_default_framebuffers;
+	vulkan::FramebufferSharedPtr						m_offscreen_framebuffer;
+	vulkan::FramebufferSharedPtr						m_current_framebuffer;
+
+	struct OffscreenBufferDrawer;
+	bksge::unique_ptr<OffscreenBufferDrawer>			m_offscreen_buffer_drawer;
 };
 
 }	// namespace render

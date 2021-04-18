@@ -39,7 +39,7 @@ Geometry::~Geometry()
 }
 
 BKSGE_INLINE void
-Geometry::Draw(CommandBuffer* command_buffer)
+Geometry::Draw(vulkan::CommandBuffer* command_buffer)
 {
 	if (m_index_buffer->enable())
 	{

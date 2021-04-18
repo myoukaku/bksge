@@ -9,6 +9,8 @@
 #ifndef BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_DEPTH_STENCIL_BUFFER_FWD_HPP
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_DEPTH_STENCIL_BUFFER_FWD_HPP
 
+#include <bksge/fnd/memory/shared_ptr.hpp>
+
 namespace bksge
 {
 
@@ -19,6 +21,7 @@ namespace vulkan
 {
 
 class DepthStencilBuffer;
+using DepthStencilBufferSharedPtr = bksge::shared_ptr<DepthStencilBuffer>;
 
 }	// namespace vulkan
 

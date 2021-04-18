@@ -12,6 +12,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/image_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_memory_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/command_buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/command_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/math/color4.hpp>
@@ -30,6 +31,13 @@ class Image
 {
 public:
 	explicit Image(
+		::VkImage image,
+		::VkFormat format,
+		::VkExtent2D const& extent,
+		bksge::uint32_t mipmap_count,
+		::VkImageLayout initial_layout);
+
+	explicit Image(
 		vulkan::DeviceSharedPtr const& device,
 		::VkFormat format,
 		::VkExtent2D const& extent,
@@ -47,12 +55,12 @@ public:
 	void UnmapMemory(void);
 
 	void ClearColor(
-		vulkan::CommandPoolSharedPtr const& command_pool,
+		vulkan::CommandBuffer* command_buffer,
 		::VkImageAspectFlags aspect_mask,
 		bksge::Color4f const& color);
 
 	void ClearDepthStencil(
-		vulkan::CommandPoolSharedPtr const& command_pool,
+		vulkan::CommandBuffer* command_buffer,
 		::VkImageAspectFlags aspect_mask,
 		float depth,
 		bksge::uint32_t stencil);
@@ -62,13 +70,18 @@ public:
 		::VkImageAspectFlags aspect_mask,
 		::VkImageLayout new_layout);
 
+	::VkImageLayout TransitionLayout(
+		vulkan::CommandBuffer* command_buffer,
+		::VkImageAspectFlags aspect_mask,
+		::VkImageLayout new_layout);
+
 	::VkFormat const&		format(void) const;
 
 	::VkExtent2D const&		extent(void) const;
 
 	bksge::uint32_t			mipmap_count(void) const;
 
-	::VkMemoryRequirements	requirements(void) const;
+	::VkImageLayout			layout(void) const;
 
 	operator ::VkImage() const;
 
@@ -78,22 +91,14 @@ private:
 	Image& operator=(Image const&) = delete;
 
 private:
-	vulkan::DeviceSharedPtr		m_device;
-	::VkImage					m_image;
-	::VkFormat					m_format;
-	::VkExtent2D				m_extent;
-	bksge::uint32_t				m_mipmap_count;
-	::VkImageLayout				m_layout;
+	vulkan::DeviceSharedPtr			m_device;
 	vulkan::DeviceMemoryUniquePtr	m_device_memory;
+	::VkImage						m_image;
+	::VkFormat						m_format;
+	::VkExtent2D					m_extent;
+	bksge::uint32_t					m_mipmap_count;
+	::VkImageLayout					m_layout;
 };
-
-void TransitionImageLayout(
-	vulkan::CommandPoolSharedPtr const& command_pool,
-	::VkImage image,
-	::VkImageAspectFlags aspect_mask,
-	bksge::uint32_t mipmap_count,
-	::VkImageLayout old_layout,
-	::VkImageLayout new_layout);
 
 }	// namespace vulkan
 

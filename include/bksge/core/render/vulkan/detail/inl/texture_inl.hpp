@@ -25,7 +25,7 @@
 #include <bksge/core/render/vulkan/detail/buffer.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/texture.hpp>
-#include <bksge/core/render/clear_state.hpp>
+#include <bksge/fnd/memory/make_shared.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/cstring/memcpy.hpp>
@@ -50,7 +50,8 @@ CopyBufferToImage(
 	::VkImage image,
 	bksge::TextureFormat format,
 	::VkExtent2D extent,
-	bksge::uint32_t mipmap_count)
+	bksge::uint32_t mipmap_count,
+	::VkImageAspectFlags aspect)
 {
 	auto command_buffer = BeginSingleTimeCommands(command_pool);
 
@@ -64,7 +65,7 @@ CopyBufferToImage(
 		region.bufferOffset                    = src_offset;
 		region.bufferRowLength                 = 0;
 		region.bufferImageHeight               = 0;
-		region.imageSubresource.aspectMask     = VK_IMAGE_ASPECT_COLOR_BIT;
+		region.imageSubresource.aspectMask     = aspect;
 		region.imageSubresource.mipLevel       = i;
 		region.imageSubresource.baseArrayLayer = 0;
 		region.imageSubresource.layerCount     = 1;
@@ -84,7 +85,7 @@ CopyBufferToImage(
 		height = bksge::max(height / 2, 1u);
 	}
 
-	EndSingleTimeCommands(command_pool, command_buffer);
+	EndSingleTimeCommands(command_buffer);
 }
 
 }	// namespace detail
@@ -92,6 +93,7 @@ CopyBufferToImage(
 BKSGE_INLINE
 Texture::Texture(
 	vulkan::DeviceSharedPtr const& device,
+	vulkan::CommandPoolSharedPtr const& command_pool,
 	::VkFormat format,
 	::VkExtent2D const& extent,
 	bksge::uint32_t mipmap_count,
@@ -116,12 +118,11 @@ Texture::Texture(
 		// TODO エラー処理
 	}
 
-	::VkFlags const requirements_mask =
-		VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
+	::VkFlags const requirements_mask = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
 
 	::VkImageAspectFlags const aspect = VK_IMAGE_ASPECT_COLOR_BIT;
 
-	m_image = bksge::make_unique<vulkan::Image>(
+	m_image = bksge::make_shared<vulkan::Image>(
 		device,
 		format,
 		extent,
@@ -129,10 +130,15 @@ Texture::Texture(
 		num_samples,
 		tiling,
 		usage,
-		image_layout,
+		VK_IMAGE_LAYOUT_UNDEFINED,
 		requirements_mask);
 
-	m_image_view = bksge::make_unique<vulkan::ImageView>(
+	if (image_layout != VK_IMAGE_LAYOUT_UNDEFINED)
+	{
+		m_image->TransitionLayout(command_pool, aspect, image_layout);
+	}
+
+	m_image_view = bksge::make_shared<vulkan::ImageView>(
 		device,
 		*m_image,
 		aspect);
@@ -145,6 +151,7 @@ Texture::Texture(
 	bksge::Texture const& texture)
 	: Texture(
 		device,
+		command_pool,
 		vulkan::TextureFormat(texture.format()),
 		vulkan::Extent2D(texture.extent()),
 		static_cast<bksge::uint32_t>(texture.mipmap_count()),
@@ -174,8 +181,11 @@ Texture::Texture(
 
 	// TODO m_image->CopyFromBuffer(command_pool, staging_buffer->buffer());
 	{
-		this->TransitionLayout(
+		auto const aspect = m_image_view->aspect_mask();
+
+		m_image->TransitionLayout(
 			command_pool,
+			aspect,
 			VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
 
 		detail::CopyBufferToImage(
@@ -184,57 +194,38 @@ Texture::Texture(
 			*m_image,
 			texture.format(),
 			m_image->extent(),
-			m_image->mipmap_count());
+			m_image->mipmap_count(),
+			aspect);
 
-		this->TransitionLayout(
+		m_image->TransitionLayout(
 			command_pool,
+			aspect,
 			VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 	}
 }
 
 BKSGE_INLINE
+Texture::Texture(
+	vulkan::ImageSharedPtr const& image,
+	vulkan::ImageViewSharedPtr const& image_view)
+	: m_image(image)
+	, m_image_view(image_view)
+{}
+
+BKSGE_INLINE
 Texture::~Texture()
-{
-}
+{}
 
-BKSGE_INLINE void
-Texture::TransitionLayout(
-	vulkan::CommandPoolSharedPtr const& command_pool,
-	::VkImageLayout new_layout)
-{
-	m_image->TransitionLayout(
-		command_pool,
-		m_image_view->aspect_mask(),
-		new_layout);
-}
-
-BKSGE_INLINE void
-Texture::Clear(
-	vulkan::CommandPoolSharedPtr const& command_pool,
-	bksge::ClearState const& clear_state)
-{
-	::VkImageAspectFlags aspect_mask = 0;
-	if (Test(clear_state.flag(), bksge::ClearFlag::kColor))
-	{
-		aspect_mask |= VK_IMAGE_ASPECT_COLOR_BIT;
-	}
-
-	m_image->ClearColor(
-		command_pool,
-		aspect_mask,
-		clear_state.color());
-}
-
-BKSGE_INLINE vulkan::Image const&
+BKSGE_INLINE vulkan::ImageSharedPtr const&
 Texture::image(void) const
 {
-	return *m_image;
+	return m_image;
 }
 
-BKSGE_INLINE vulkan::ImageView const&
+BKSGE_INLINE vulkan::ImageViewSharedPtr const&
 Texture::image_view(void) const
 {
-	return *m_image_view;
+	return m_image_view;
 }
 
 }	// namespace vulkan

@@ -30,7 +30,7 @@ namespace vulkan
 BKSGE_INLINE
 ImageView::ImageView(
 	vulkan::DeviceSharedPtr const& device,
-	::VkImage const& image,
+	::VkImage image,
 	::VkFormat format,
 	bksge::uint32_t mipmap_count,
 	::VkImageAspectFlags aspect_mask)

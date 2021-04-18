@@ -15,7 +15,6 @@
 #include <bksge/core/render/vulkan/detail/fwd/image_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/command_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <bksge/core/render/fwd/clear_state_fwd.hpp>
 
 namespace bksge
 {
@@ -38,13 +37,9 @@ public:
 
 	~DepthStencilBuffer();
 
-	void Clear(
-		vulkan::CommandPoolSharedPtr const& command_pool,
-		bksge::ClearState const& clear_state);
+	vulkan::ImageSharedPtr const& image(void) const;
 
-	vulkan::Image const& image(void) const;
-
-	vulkan::ImageView const& image_view(void) const;
+	vulkan::ImageViewSharedPtr const& image_view(void) const;
 
 private:
 	// noncopyable
@@ -52,8 +47,8 @@ private:
 	DepthStencilBuffer& operator=(DepthStencilBuffer const&) = delete;
 
 private:
-	vulkan::ImageUniquePtr			m_image;
-	vulkan::ImageViewUniquePtr		m_image_view;
+	vulkan::ImageSharedPtr			m_image;
+	vulkan::ImageViewSharedPtr		m_image_view;
 };
 
 }	// namespace vulkan

@@ -31,6 +31,10 @@ class CombinedImageSampler
 {
 public:
 	explicit CombinedImageSampler(
+		vulkan::SamplerSharedPtr const& sampler,
+		vulkan::TextureSharedPtr const& texture);
+
+	explicit CombinedImageSampler(
 		vulkan::ResourcePool* resource_pool,
 		vulkan::CommandPoolSharedPtr const& command_pool,
 		bksge::SampledTexture const& sampled_texture);
@@ -41,8 +45,8 @@ public:
 
 private:
 	// noncopyable
-	CombinedImageSampler(CombinedImageSampler const&) = delete;
-	CombinedImageSampler& operator=(CombinedImageSampler const&) = delete;
+	//CombinedImageSampler(CombinedImageSampler const&) = delete;
+	//CombinedImageSampler& operator=(CombinedImageSampler const&) = delete;
 
 private:
 	vulkan::SamplerSharedPtr		m_sampler;

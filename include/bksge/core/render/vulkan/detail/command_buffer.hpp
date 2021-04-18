@@ -63,6 +63,8 @@ public:
 public:
 	::VkCommandBuffer const* GetAddressOf(void) const;
 
+	::VkQueue	GetQueue(void) const;
+
 private:
 	// noncopyable
 	CommandBuffer(CommandBuffer const&) = delete;
@@ -79,7 +81,6 @@ BeginSingleTimeCommands(
 
 void
 EndSingleTimeCommands(
-	vulkan::CommandPoolSharedPtr const& command_pool,
 	bksge::unique_ptr<vulkan::CommandBuffer> const& command_buffer);
 
 }	// namespace vulkan
