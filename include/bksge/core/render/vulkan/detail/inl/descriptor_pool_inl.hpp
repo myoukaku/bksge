@@ -32,8 +32,8 @@ BKSGE_INLINE
 DescriptorPool::DescriptorPool(
 	vulkan::DeviceSharedPtr const& device,
 	vulkan::ShaderReflection const& reflection)
-	: m_device(device)
-	, m_descriptor_pool(VK_NULL_HANDLE)
+	: m_descriptor_pool(VK_NULL_HANDLE)
+	, m_device(device)
 {
 	bksge::vector<::VkDescriptorPoolSize> type_count;
 

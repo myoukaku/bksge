@@ -38,8 +38,8 @@ Framebuffer::Framebuffer(
 	vulkan::TextureSharedPtr const& color_buffer,
 	vulkan::DepthStencilBufferSharedPtr const& depth_stencil_buffer,
 	vulkan::RenderPassSharedPtr const& render_pass)
-	: m_device(device)
-	, m_framebuffer(VK_NULL_HANDLE)
+	: m_framebuffer(VK_NULL_HANDLE)
+	, m_device(device)
 	, m_color_buffer(color_buffer)
 	, m_depth_stencil_buffer(depth_stencil_buffer)
 	, m_render_pass(render_pass)

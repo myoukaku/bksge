@@ -14,7 +14,6 @@
 
 #include <bksge/core/render/vulkan/detail/vertex_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
-#include <bksge/core/render/vulkan/detail/buffer_object.hpp>
 #include <bksge/core/render/vulkan/detail/buffer.hpp>
 #include <bksge/core/render/vulkan/detail/command_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
@@ -41,7 +40,7 @@ VertexBuffer::VertexBuffer(
 	auto const src  = geometry.vertex_array_data();
 	auto const size = geometry.vertex_array_bytes();
 
-	m_buffer = bksge::make_unique<vulkan::BufferObject>(
+	m_buffer = bksge::make_unique<vulkan::Buffer>(
 		device,
 		size,
 		VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
@@ -63,13 +62,12 @@ VertexBuffer::~VertexBuffer()
 BKSGE_INLINE void
 VertexBuffer::Bind(vulkan::CommandBuffer* command_buffer)
 {
-	::VkBuffer buffer = m_buffer->buffer();
 	::VkDeviceSize offset = 0;
 	vk::CmdBindVertexBuffers(
 		*command_buffer,
 		0,
 		1,
-		&buffer,
+		m_buffer->GetAddressOf(),
 		&offset);
 }
 

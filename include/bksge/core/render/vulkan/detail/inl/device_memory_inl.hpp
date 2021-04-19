@@ -42,8 +42,7 @@ GetMemoryTypeIndex(
 		if ((type_bits & 1) == 1)
 		{
 			// Type is available, does it match user properties?
-			if ((props.memoryTypes[i].propertyFlags & mask)
-				== mask)
+			if ((props.memoryTypes[i].propertyFlags & mask) == mask)
 			{
 				return i;
 			}
@@ -62,8 +61,8 @@ DeviceMemory::DeviceMemory(
 	DeviceSharedPtr const& device,
 	::VkMemoryRequirements const& requirements,
 	::VkFlags requirements_mask)
-	: m_device(device)
-	, m_device_memory(VK_NULL_HANDLE)
+	: m_device_memory(VK_NULL_HANDLE)
+	, m_device(device)
 {
 	auto physical_device = device->physical_device();
 
@@ -75,33 +74,31 @@ DeviceMemory::DeviceMemory(
 			requirements.memoryTypeBits,
 			requirements_mask);
 
-	vk::AllocateMemory(*m_device, &info, nullptr, &m_device_memory);
+	m_device_memory = m_device->AllocateMemory(info);
 }
 
 BKSGE_INLINE
 DeviceMemory::~DeviceMemory()
 {
-	vk::FreeMemory(*m_device, m_device_memory, nullptr);
+	m_device->FreeMemory(m_device_memory);
+}
+
+BKSGE_INLINE void*
+DeviceMemory::MapMemory(::VkDeviceSize size)
+{
+	return m_device->MapMemory(m_device_memory, size);
+}
+
+BKSGE_INLINE void
+DeviceMemory::UnmapMemory(void)
+{
+	m_device->UnmapMemory(m_device_memory);
 }
 
 BKSGE_INLINE
 DeviceMemory::operator ::VkDeviceMemory() const
 {
 	return m_device_memory;
-}
-
-BKSGE_INLINE void*
-DeviceMemory::MapMemory(::VkDeviceSize size)
-{
-	void* dst;
-	vk::MapMemory(*m_device, m_device_memory, 0, size, 0, &dst);
-	return dst;
-}
-
-BKSGE_INLINE void
-DeviceMemory::UnmapMemory(void)
-{
-	vk::UnmapMemory(*m_device, m_device_memory);
 }
 
 }	// namespace vulkan

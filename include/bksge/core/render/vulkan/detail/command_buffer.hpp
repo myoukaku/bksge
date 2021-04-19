@@ -71,8 +71,8 @@ private:
 	CommandBuffer& operator=(CommandBuffer const&) = delete;
 
 private:
-	vulkan::CommandPoolSharedPtr	m_command_pool;
 	::VkCommandBuffer				m_command_buffer;
+	vulkan::CommandPoolSharedPtr	m_command_pool;
 };
 
 bksge::unique_ptr<vulkan::CommandBuffer>

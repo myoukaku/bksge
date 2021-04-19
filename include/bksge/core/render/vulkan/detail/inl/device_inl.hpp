@@ -76,8 +76,8 @@ EnumerateDeviceExtensionNames(::VkPhysicalDevice physical_device)
 
 BKSGE_INLINE
 Device::Device(vulkan::PhysicalDeviceSharedPtr const& physical_device)
-	: m_physical_device(physical_device)
-	, m_device(VK_NULL_HANDLE)
+	: m_device(VK_NULL_HANDLE)
+	, m_physical_device(physical_device)
 {
 	bksge::vector<char const*> layer_names;
 	{
@@ -166,6 +166,34 @@ Device::physical_device(void) const
 	return m_physical_device;
 }
 
+BKSGE_INLINE ::VkDeviceMemory
+Device::AllocateMemory(vk::MemoryAllocateInfo const& info)
+{
+	::VkDeviceMemory device_memory;
+	vk::AllocateMemory(m_device, &info, nullptr, &device_memory);
+	return device_memory;
+}
+
+BKSGE_INLINE void
+Device::FreeMemory(::VkDeviceMemory device_memory)
+{
+	vk::FreeMemory(m_device, device_memory, nullptr);
+}
+
+BKSGE_INLINE void*
+Device::MapMemory(::VkDeviceMemory device_memory, ::VkDeviceSize size)
+{
+	void* dst;
+	vk::MapMemory(m_device, device_memory, 0, size, 0, &dst);
+	return dst;
+}
+
+BKSGE_INLINE void
+Device::UnmapMemory(::VkDeviceMemory device_memory)
+{
+	vk::UnmapMemory(m_device, device_memory);
+}
+
 BKSGE_INLINE ::VkCommandPool
 Device::CreateCommandPool(
 	::VkCommandPoolCreateFlags flags,
@@ -184,6 +212,74 @@ BKSGE_INLINE void
 Device::DestroyCommandPool(::VkCommandPool command_pool)
 {
 	vk::DestroyCommandPool(m_device, command_pool, nullptr);
+}
+
+BKSGE_INLINE ::VkFence
+Device::CreateFence(vk::FenceCreateInfo const& info)
+{
+	::VkFence fence;
+	vk::CreateFence(m_device, &info, nullptr, &fence);
+	return fence;
+}
+
+BKSGE_INLINE void
+Device::DestroyFence(::VkFence fence)
+{
+	vk::DestroyFence(m_device, fence, nullptr);
+}
+
+BKSGE_INLINE ::VkResult
+Device::ResetFences(bksge::uint32_t fence_count, ::VkFence const* fences)
+{
+	return vk::ResetFences(m_device, fence_count, fences);
+}
+
+BKSGE_INLINE ::VkResult
+Device::WaitForFences(
+	bksge::uint32_t  fence_count,
+	::VkFence const* fences,
+	::VkBool32       wait_all,
+	bksge::uint64_t  timeout)
+{
+	return vk::WaitForFences(
+		m_device, fence_count, fences, wait_all, timeout);
+}
+
+BKSGE_INLINE ::VkBuffer
+Device::CreateBuffer(::VkDeviceSize size, ::VkBufferUsageFlags usage)
+{
+	vk::BufferCreateInfo info;
+    info.size        = size;
+    info.usage       = usage;
+    info.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+    info.SetQueueFamilyIndices(nullptr);
+
+	::VkBuffer buffer;
+	vk::CreateBuffer(m_device, &info, nullptr, &buffer);
+	return buffer;
+}
+
+BKSGE_INLINE void
+Device::DestroyBuffer(::VkBuffer buffer)
+{
+	vk::DestroyBuffer(m_device, buffer, nullptr);
+}
+
+BKSGE_INLINE ::VkMemoryRequirements
+Device::GetBufferMemoryRequirements(::VkBuffer buffer) const
+{
+	::VkMemoryRequirements result;
+	vk::GetBufferMemoryRequirements(m_device, buffer, &result);
+	return result;
+}
+
+BKSGE_INLINE void
+Device::BindBufferMemory(
+	::VkBuffer       buffer,
+	::VkDeviceMemory memory,
+	::VkDeviceSize   memoryOffset)
+{
+	vk::BindBufferMemory(m_device, buffer, memory, memoryOffset);
 }
 
 BKSGE_INLINE

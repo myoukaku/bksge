@@ -11,7 +11,6 @@
 
 #include <bksge/core/render/vulkan/detail/fwd/uniform_buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/buffer_object_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
@@ -50,10 +49,10 @@ private:
 	UniformBuffer& operator=(UniformBuffer const&) = delete;
 
 private:
-	bksge::unique_ptr<vulkan::BufferObject>	m_buffer;
-	bksge::uint8_t*							m_mapped_buffer = nullptr;
-	bksge::size_t							m_offset = 0;
-	bksge::size_t							m_offset_alignment = 0;
+	bksge::unique_ptr<vulkan::Buffer>	m_buffer;
+	bksge::uint8_t*						m_mapped_buffer = nullptr;
+	bksge::size_t						m_offset = 0;
+	bksge::size_t						m_offset_alignment = 0;
 };
 
 }	// namespace vulkan

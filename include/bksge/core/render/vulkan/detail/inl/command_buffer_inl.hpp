@@ -35,8 +35,8 @@ namespace vulkan
 BKSGE_INLINE
 CommandBuffer::CommandBuffer(
 	vulkan::CommandPoolSharedPtr const& command_pool)
-	: m_command_pool(command_pool)
-	, m_command_buffer(VK_NULL_HANDLE)
+	: m_command_buffer(VK_NULL_HANDLE)
+	, m_command_pool(command_pool)
 {
 	m_command_buffer =
 		m_command_pool->AllocateCommandBuffer(

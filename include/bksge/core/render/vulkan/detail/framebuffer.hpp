@@ -58,8 +58,8 @@ private:
 	Framebuffer& operator=(Framebuffer const&) = delete;
 
 private:
-	vulkan::DeviceSharedPtr				m_device;
 	::VkFramebuffer						m_framebuffer;
+	vulkan::DeviceSharedPtr				m_device;
 	::VkExtent2D						m_extent;
 	vulkan::TextureSharedPtr			m_color_buffer;
 	vulkan::DepthStencilBufferSharedPtr	m_depth_stencil_buffer;

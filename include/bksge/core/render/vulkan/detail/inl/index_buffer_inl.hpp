@@ -14,7 +14,6 @@
 
 #include <bksge/core/render/vulkan/detail/index_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
-#include <bksge/core/render/vulkan/detail/buffer_object.hpp>
 #include <bksge/core/render/vulkan/detail/buffer.hpp>
 #include <bksge/core/render/vulkan/detail/command_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/index_type.hpp>
@@ -49,7 +48,7 @@ IndexBuffer::IndexBuffer(
 	m_count = static_cast<bksge::uint32_t>(geometry.index_array_count());
 	m_type  = vulkan::IndexType(geometry.index_array_type());
 
-	m_buffer = bksge::make_unique<vulkan::BufferObject>(
+	m_buffer = bksge::make_unique<vulkan::Buffer>(
 		device,
 		size,
 		VK_BUFFER_USAGE_INDEX_BUFFER_BIT,
@@ -71,7 +70,7 @@ IndexBuffer::~IndexBuffer()
 BKSGE_INLINE void
 IndexBuffer::Bind(CommandBuffer* command_buffer)
 {
-	vk::CmdBindIndexBuffer(*command_buffer, m_buffer->buffer(), 0, m_type);
+	vk::CmdBindIndexBuffer(*command_buffer, *m_buffer->GetAddressOf(), 0, m_type);
 }
 
 BKSGE_INLINE void

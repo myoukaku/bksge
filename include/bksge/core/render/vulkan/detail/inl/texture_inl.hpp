@@ -21,7 +21,6 @@
 #include <bksge/core/render/vulkan/detail/image_view.hpp>
 #include <bksge/core/render/vulkan/detail/texture_format.hpp>
 #include <bksge/core/render/vulkan/detail/extent2d.hpp>
-#include <bksge/core/render/vulkan/detail/buffer_object.hpp>
 #include <bksge/core/render/vulkan/detail/buffer.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/texture.hpp>
@@ -166,7 +165,7 @@ Texture::Texture(
 		texture.height(),
 		texture.mipmap_count());
 
-	auto staging_buffer = bksge::make_unique<vulkan::BufferObject>(
+	auto staging_buffer = bksge::make_unique<vulkan::Buffer>(
 		device,
 		image_size,
 		VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
@@ -190,7 +189,7 @@ Texture::Texture(
 
 		detail::CopyBufferToImage(
 			command_pool,
-			staging_buffer->buffer(),
+			*staging_buffer->GetAddressOf(),
 			*m_image,
 			texture.format(),
 			m_image->extent(),

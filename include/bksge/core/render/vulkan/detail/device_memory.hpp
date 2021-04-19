@@ -44,8 +44,8 @@ private:
 	DeviceMemory& operator=(DeviceMemory const&) = delete;
 
 private:
-	vulkan::DeviceSharedPtr		m_device;
 	::VkDeviceMemory			m_device_memory;
+	vulkan::DeviceSharedPtr		m_device;
 };
 
 }	// namespace vulkan

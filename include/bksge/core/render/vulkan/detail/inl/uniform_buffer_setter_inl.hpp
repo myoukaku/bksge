@@ -92,7 +92,7 @@ UniformBufferSetter::LoadParameters(
 		}
 	}
 
-	m_buffer_info.buffer = uniform_buffer->buffer();
+	m_buffer_info.buffer = *uniform_buffer->buffer().GetAddressOf();
 	m_buffer_info.offset = offset;
 	m_buffer_info.range  = m_bytes;
 }

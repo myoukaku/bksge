@@ -13,7 +13,7 @@
 #if BKSGE_CORE_RENDER_HAS_VULKAN_RENDERER
 
 #include <bksge/core/render/vulkan/detail/uniform_buffer.hpp>
-#include <bksge/core/render/vulkan/detail/buffer_object.hpp>
+#include <bksge/core/render/vulkan/detail/buffer.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/physical_device.hpp>
 #include <bksge/core/render/vulkan/detail/shader_reflection.hpp>
@@ -38,7 +38,7 @@ UniformBuffer::UniformBuffer(
 	vulkan::DeviceSharedPtr const& device,
 	::VkDeviceSize                 size)
 {
-	m_buffer = bksge::make_unique<vulkan::BufferObject>(
+	m_buffer = bksge::make_unique<vulkan::Buffer>(
 		device,
 		size,
 		VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
@@ -64,7 +64,7 @@ UniformBuffer::~UniformBuffer()
 BKSGE_INLINE vulkan::Buffer const&
 UniformBuffer::buffer(void) const
 {
-	return m_buffer->buffer();
+	return *m_buffer;
 }
 
 BKSGE_INLINE bksge::uint8_t*

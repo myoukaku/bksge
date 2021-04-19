@@ -12,7 +12,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/index_buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/command_buffer_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/buffer_object_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/fwd/geometry_fwd.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
@@ -48,9 +48,9 @@ private:
 	IndexBuffer& operator=(IndexBuffer const&) = delete;
 
 private:
-	bksge::unique_ptr<vulkan::BufferObject>	m_buffer;
-	bksge::uint32_t							m_count = 0;
-	::VkIndexType							m_type;
+	bksge::unique_ptr<vulkan::Buffer>	m_buffer;
+	bksge::uint32_t						m_count = 0;
+	::VkIndexType						m_type;
 };
 
 }	// namespace vulkan

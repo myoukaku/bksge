@@ -27,38 +27,36 @@ namespace vulkan
 {
 
 BKSGE_INLINE
-Fence::Fence(
-	vulkan::DeviceSharedPtr const& device)
-	: m_device(device)
-	, m_fence(VK_NULL_HANDLE)
+Fence::Fence(vulkan::DeviceSharedPtr const& device)
+	: m_fence(VK_NULL_HANDLE)
+	, m_device(device)
 {
 	vk::FenceCreateInfo info;
-	vk::CreateFence(*m_device, &info, nullptr, &m_fence);
+	m_fence = m_device->CreateFence(info);
 }
 
 BKSGE_INLINE
 Fence::~Fence()
 {
-	vk::DestroyFence(*m_device, m_fence, nullptr);
+	m_device->DestroyFence(m_fence);
+}
+
+BKSGE_INLINE ::VkResult
+Fence::Wait(::VkBool32 wait_all, bksge::uint64_t timeout)
+{
+	return m_device->WaitForFences(1, &m_fence, wait_all, timeout);
+}
+
+BKSGE_INLINE ::VkResult
+Fence::Reset(void)
+{
+	return m_device->ResetFences(1, &m_fence);
 }
 
 BKSGE_INLINE
 Fence::operator ::VkFence() const
 {
 	return m_fence;
-}
-
-BKSGE_INLINE ::VkResult
-Fence::Wait(::VkBool32 wait_all, bksge::uint64_t timeout)
-{
-	return vk::WaitForFences(
-		*m_device, 1, &m_fence, wait_all, timeout);
-}
-
-BKSGE_INLINE ::VkResult
-Fence::Reset(void)
-{
-	return vk::ResetFences(*m_device, 1, &m_fence);
 }
 
 }	// namespace vulkan

@@ -12,7 +12,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/vertex_buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/command_buffer_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/buffer_object_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/fwd/geometry_fwd.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
@@ -46,8 +46,8 @@ private:
 	VertexBuffer& operator=(VertexBuffer const&) = delete;
 
 private:
-	bksge::unique_ptr<vulkan::BufferObject>	m_buffer;
-	bksge::uint32_t							m_count = 0;
+	bksge::unique_ptr<vulkan::Buffer>	m_buffer;
+	bksge::uint32_t						m_count = 0;
 };
 
 }	// namespace vulkan

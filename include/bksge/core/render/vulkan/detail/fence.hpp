@@ -42,8 +42,8 @@ private:
 	Fence& operator=(Fence const&) = delete;
 
 private:
-	vulkan::DeviceSharedPtr		m_device;
 	::VkFence					m_fence;
+	vulkan::DeviceSharedPtr		m_device;
 };
 
 }	// namespace vulkan

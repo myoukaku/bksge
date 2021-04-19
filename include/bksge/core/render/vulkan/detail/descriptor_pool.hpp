@@ -45,8 +45,8 @@ private:
 	DescriptorPool& operator=(DescriptorPool const&) = delete;
 
 private:
-	vulkan::DeviceSharedPtr		m_device;
 	::VkDescriptorPool			m_descriptor_pool;
+	vulkan::DeviceSharedPtr		m_device;
 };
 
 }	// namespace vulkan
