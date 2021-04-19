@@ -62,9 +62,9 @@ private:
 	Swapchain& operator=(Swapchain const&) = delete;
 
 private:
-	vulkan::DeviceSharedPtr			m_device;
-	vk::SwapchainCreateInfoKHR		m_info;
 	::VkSwapchainKHR				m_swapchain;
+	vk::SwapchainCreateInfoKHR		m_info;
+	vulkan::DeviceSharedPtr			m_device;
 	bksge::vector<vulkan::ImageSharedPtr>	m_images;
 	::VkQueue						m_present_queue;
 };

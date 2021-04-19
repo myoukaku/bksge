@@ -39,28 +39,81 @@ public:
 	void Begin(::VkCommandBufferUsageFlags flags);
 	void End(void);
 
+	void BindPipeline(
+		::VkPipelineBindPoint pipeline_bind_point,
+		::VkPipeline          pipeline);
+
+	void SetViewport(::VkViewport const& viewport);
+
+	void SetScissor(::VkRect2D const& scissor_rect);
+
+	void BindIndexBuffer(
+		::VkBuffer     buffer,
+		::VkDeviceSize offset,
+		::VkIndexType  index_type);
+
+	void BindVertexBuffers(
+		bksge::uint32_t       first_binding,
+		bksge::uint32_t       binding_count,
+		::VkBuffer const*     buffers,
+		::VkDeviceSize const* offsets);
+
+	void Draw(
+		bksge::uint32_t	vertex_count,
+		bksge::uint32_t	instance_count,
+		bksge::uint32_t	first_vertex,
+		bksge::uint32_t	first_instance);
+
+	void DrawIndexed(
+		bksge::uint32_t index_count,
+		bksge::uint32_t instance_count,
+		bksge::uint32_t first_index,
+		bksge::int32_t  vertex_offset,
+		bksge::uint32_t first_instance);
+
+	void CopyBufferToImage(
+		::VkBuffer                 src_buffer,
+		::VkImage                  dst_image,
+		::VkImageLayout            dst_image_layout,
+		bksge::uint32_t            region_count,
+		::VkBufferImageCopy const* regions);
+
+	void ClearColorImage(
+		::VkImage                        image,
+		::VkImageLayout                  image_layout,
+		::VkClearColorValue const*       color,
+		bksge::uint32_t                  range_count,
+		::VkImageSubresourceRange const* ranges);
+
+	void ClearDepthStencilImage(
+		::VkImage                         image,
+		::VkImageLayout                   image_layout,
+		::VkClearDepthStencilValue const* depth_stencil,
+		bksge::uint32_t                   range_count,
+		::VkImageSubresourceRange const*  ranges);
+
+	void PipelineBarrier(
+		::VkPipelineStageFlags         src_stage_mask,
+		::VkPipelineStageFlags         dst_stage_mask,
+		::VkDependencyFlags            dependency_flags,
+		bksge::uint32_t                memory_barrier_count,
+		::VkMemoryBarrier const*       memory_barriers,
+		bksge::uint32_t                buffer_memory_barrier_count,
+		::VkBufferMemoryBarrier const* buffer_memory_barriers,
+		bksge::uint32_t                image_memory_barrier_count,
+		::VkImageMemoryBarrier const*  image_memory_barriers);
+
 	void BeginRenderPass(
 		vulkan::RenderPass const& render_pass,
 		vulkan::Framebuffer const& framebuffer);
 	void EndRenderPass(void);
 
-	void SetViewport(::VkViewport const& viewport);
-	void SetScissor(::VkRect2D const& scissor_rect);
-
-	void BindPipeline(
-		::VkPipelineBindPoint pipeline_bind_point,
-		::VkPipeline          pipeline);
-
 	void PushDescriptorSet(
-		::VkDevice                                   device,
 		::VkPipelineBindPoint                        pipeline_bind_point,
 		::VkPipelineLayout                           layout,
 		bksge::uint32_t                              set,
 		bksge::vector<::VkWriteDescriptorSet> const& descriptor_writes);
 
-public:
-	operator ::VkCommandBuffer() const;
-public:
 	::VkCommandBuffer const* GetAddressOf(void) const;
 
 	::VkQueue	GetQueue(void) const;
@@ -73,6 +126,7 @@ private:
 private:
 	::VkCommandBuffer				m_command_buffer;
 	vulkan::CommandPoolSharedPtr	m_command_pool;
+	vulkan::DeviceSharedPtr			m_device;
 };
 
 bksge::unique_ptr<vulkan::CommandBuffer>

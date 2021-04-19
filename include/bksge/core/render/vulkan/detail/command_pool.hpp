@@ -36,6 +36,8 @@ public:
 
 	void FreeCommandBuffer(::VkCommandBuffer buffer);
 
+	vulkan::DeviceSharedPtr const&	device(void) const;
+
 private:
 	// noncopyable
 	CommandPool(CommandPool const&) = delete;

@@ -32,6 +32,7 @@ public:
 
 	~PipelineLayout();
 
+public:
 	operator ::VkPipelineLayout() const;
 
 private:
@@ -40,8 +41,8 @@ private:
 	PipelineLayout& operator=(PipelineLayout const&) = delete;
 
 private:
+	::VkPipelineLayout			m_pipeline_layout = VK_NULL_HANDLE;
 	vulkan::DeviceSharedPtr		m_device;
-	::VkPipelineLayout			m_pipeline_layout;
 };
 
 }	// namespace vulkan

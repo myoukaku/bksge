@@ -11,6 +11,7 @@
 
 #include <bksge/core/render/vulkan/detail/fwd/surface_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/instance_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/physical_device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/window/fwd/window_fwd.hpp>
 
@@ -32,7 +33,16 @@ public:
 
 	~Surface();
 
-	operator ::VkSurfaceKHR() const;
+	::VkSurfaceCapabilitiesKHR
+	GetCapabilities(vulkan::PhysicalDevice const& physical_device) const;
+
+	bksge::uint32_t
+	GetPresentQueueFamilyIndex(vulkan::PhysicalDevice const& physical_device) const;
+
+	bksge::vector<::VkSurfaceFormatKHR>
+	GetFormats(vulkan::PhysicalDevice const& physical_device) const;
+
+	::VkSurfaceKHR Get(void) const;
 
 private:
 	// noncopyable
@@ -40,8 +50,8 @@ private:
 	Surface& operator=(Surface const&) = delete;
 
 private:
-	vulkan::InstanceSharedPtr   m_instance;
 	::VkSurfaceKHR				m_surface;
+	vulkan::InstanceSharedPtr   m_instance;
 };
 
 }	// namespace vulkan

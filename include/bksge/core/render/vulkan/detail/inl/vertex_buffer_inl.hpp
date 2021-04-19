@@ -63,8 +63,7 @@ BKSGE_INLINE void
 VertexBuffer::Bind(vulkan::CommandBuffer* command_buffer)
 {
 	::VkDeviceSize offset = 0;
-	vk::CmdBindVertexBuffers(
-		*command_buffer,
+	command_buffer->BindVertexBuffers(
 		0,
 		1,
 		m_buffer->GetAddressOf(),
@@ -74,8 +73,7 @@ VertexBuffer::Bind(vulkan::CommandBuffer* command_buffer)
 BKSGE_INLINE void
 VertexBuffer::Draw(vulkan::CommandBuffer* command_buffer)
 {
-	vk::CmdDraw(
-		*command_buffer,
+	command_buffer->Draw(
 		m_count,
 		1,
 		0,

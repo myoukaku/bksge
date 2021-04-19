@@ -52,10 +52,10 @@ private:
 	GraphicsPipeline& operator=(GraphicsPipeline const&) = delete;
 
 private:
+	::VkPipeline					m_pipeline;
 	vulkan::DeviceSharedPtr			m_device;
 	vulkan::PipelineCacheUniquePtr	m_pipeline_cache;
 	vulkan::PipelineLayoutUniquePtr	m_pipeline_layout;
-	::VkPipeline					m_pipeline;
 };
 
 }	// namespace vulkan

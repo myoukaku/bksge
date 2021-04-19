@@ -58,13 +58,13 @@ DescriptorPool::DescriptorPool(
 	info.maxSets = reflection.GetMaxSets() + 1;
 	info.SetPoolSizes(type_count);
 
-	vk::CreateDescriptorPool(*m_device, &info, nullptr, &m_descriptor_pool);
+	m_descriptor_pool = m_device->CreateDescriptorPool(info);
 }
 
 BKSGE_INLINE
 DescriptorPool::~DescriptorPool()
 {
-	vk::DestroyDescriptorPool(*m_device, m_descriptor_pool, nullptr);
+	m_device->DestroyDescriptorPool(m_descriptor_pool);
 }
 
 BKSGE_INLINE bksge::vector<::VkDescriptorSet>
@@ -75,20 +75,14 @@ DescriptorPool::AllocateDescriptorSets(
 	info.descriptorPool = m_descriptor_pool;
 	info.SetSetLayouts(descriptor_set_layouts);
 
-	bksge::vector<::VkDescriptorSet> descriptor_sets(descriptor_set_layouts.size());
-	vk::AllocateDescriptorSets(*m_device, &info, descriptor_sets.data());
-	return descriptor_sets;
+	return m_device->AllocateDescriptorSets(info);
 }
 
 BKSGE_INLINE void
 DescriptorPool::FreeDescriptorSets(
 	bksge::vector<::VkDescriptorSet> const& descriptor_sets)
 {
-	vk::FreeDescriptorSets(
-		*m_device,
-		m_descriptor_pool,
-		static_cast<bksge::uint32_t>(descriptor_sets.size()),
-		descriptor_sets.data());
+	m_device->FreeDescriptorSets(m_descriptor_pool, descriptor_sets);
 }
 
 }	// namespace vulkan

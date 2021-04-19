@@ -75,8 +75,7 @@ DescriptorSetLayout::DescriptorSetLayout(
 		info.flags = VK_DESCRIPTOR_SET_LAYOUT_CREATE_PUSH_DESCRIPTOR_BIT_KHR;
 		info.SetBindings(layout_bindings_list[i]);
 
-		vk::CreateDescriptorSetLayout(
-			*m_device, &info, nullptr, &m_descriptor_set_layout[i]);
+		m_descriptor_set_layout[i] = m_device->CreateDescriptorSetLayout(info);
 	}
 }
 
@@ -85,7 +84,7 @@ DescriptorSetLayout::~DescriptorSetLayout()
 {
 	for (auto&& layout : m_descriptor_set_layout)
 	{
-		vk::DestroyDescriptorSetLayout(*m_device, layout, nullptr);
+		m_device->DestroyDescriptorSetLayout(layout);
 	}
 }
 

@@ -49,8 +49,7 @@ UniformBuffer::UniformBuffer(
 		static_cast<bksge::uint8_t*>(m_buffer->MapMemory(VK_WHOLE_SIZE));
 
 	auto physical_device = device->physical_device();
-	::VkPhysicalDeviceProperties properties;
-	vk::GetPhysicalDeviceProperties(*physical_device, &properties);
+	auto const properties = physical_device->GetProperties();
 	m_offset_alignment = static_cast<bksge::size_t>(
 		properties.limits.minUniformBufferOffsetAlignment);
 }

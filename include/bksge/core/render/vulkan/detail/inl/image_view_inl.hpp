@@ -34,9 +34,9 @@ ImageView::ImageView(
 	::VkFormat format,
 	bksge::uint32_t mipmap_count,
 	::VkImageAspectFlags aspect_mask)
-	: m_device(device)
-	, m_image_view(VK_NULL_HANDLE)
+	: m_image_view(VK_NULL_HANDLE)
 	, m_aspect_mask(aspect_mask)
+	, m_device(device)
 {
 	vk::ImageViewCreateInfo info;
 	info.image                           = image;
@@ -52,7 +52,7 @@ ImageView::ImageView(
 	info.subresourceRange.baseArrayLayer = 0;
 	info.subresourceRange.layerCount     = 1;
 
-	vk::CreateImageView(*m_device, &info, nullptr, &m_image_view);
+	m_image_view = m_device->CreateImageView(info);
 }
 
 BKSGE_INLINE
@@ -71,7 +71,7 @@ ImageView::ImageView(
 BKSGE_INLINE
 ImageView::~ImageView()
 {
-	vk::DestroyImageView(*m_device, m_image_view, nullptr);
+	m_device->DestroyImageView(m_image_view);
 }
 
 BKSGE_INLINE ::VkImageAspectFlags

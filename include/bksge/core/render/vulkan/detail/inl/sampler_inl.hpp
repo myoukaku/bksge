@@ -56,13 +56,13 @@ Sampler::Sampler(
 	info.borderColor             = vulkan::BorderColor(sampler.border_color());
 	info.unnormalizedCoordinates = VK_FALSE;
 
-	vk::CreateSampler(*m_device, &info, nullptr, &m_sampler);
+	m_sampler = m_device->CreateSampler(info);
 }
 
 BKSGE_INLINE
 Sampler::~Sampler()
 {
-	vk::DestroySampler(*m_device, m_sampler, nullptr);
+	m_device->DestroySampler(m_sampler);
 }
 
 BKSGE_INLINE

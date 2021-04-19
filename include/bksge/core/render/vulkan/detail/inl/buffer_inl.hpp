@@ -43,7 +43,7 @@ Buffer::Buffer(
 	m_device_memory = bksge::make_unique<vulkan::DeviceMemory>(
 		device, mem_reqs, requirements_mask);
 
-	m_device->BindBufferMemory(m_buffer, *m_device_memory, 0);
+	m_device_memory->BindBuffer(m_buffer, 0);
 }
 
 BKSGE_INLINE

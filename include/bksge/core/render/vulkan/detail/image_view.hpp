@@ -43,6 +43,7 @@ public:
 
 	::VkImageAspectFlags	aspect_mask(void) const;
 
+public:
 	operator ::VkImageView() const;
 
 private:
@@ -51,9 +52,9 @@ private:
 	ImageView& operator=(ImageView const&) = delete;
 
 private:
-	vulkan::DeviceSharedPtr		m_device;
-	::VkImageView				m_image_view;
+	::VkImageView				m_image_view = VK_NULL_HANDLE;
 	::VkImageAspectFlags		m_aspect_mask;
+	vulkan::DeviceSharedPtr		m_device;
 };
 
 }	// namespace vulkan

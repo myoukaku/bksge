@@ -164,13 +164,58 @@ Instance::~Instance()
 BKSGE_INLINE bksge::vector<::VkPhysicalDevice>
 Instance::EnumeratePhysicalDevices(void) const
 {
-	return vk::EnumeratePhysicalDevices(m_instance);
+	for (;;)
+	{
+		bksge::uint32_t count;
+		vk::EnumeratePhysicalDevices(m_instance, &count, nullptr);
+
+		if (count == 0)
+		{
+			return {};
+		}
+
+		bksge::vector<::VkPhysicalDevice> physical_devices(count);
+		auto res = vk::EnumeratePhysicalDevices(
+			m_instance, &count, physical_devices.data());
+		if (res == VK_INCOMPLETE)
+		{
+			continue;
+		}
+
+		return physical_devices;
+	}
 }
 
-BKSGE_INLINE
-Instance::operator ::VkInstance() const
+BKSGE_INLINE ::VkDebugReportCallbackEXT
+Instance::CreateDebugReportCallback(
+	::VkDebugReportCallbackCreateInfoEXT const& create_info)
 {
-	return m_instance;
+	::VkDebugReportCallbackEXT callback;
+	vk::CreateDebugReportCallbackEXT(m_instance, &create_info, nullptr, &callback);
+	return callback;
+}
+
+BKSGE_INLINE void
+Instance::DestroyDebugReportCallback(::VkDebugReportCallbackEXT callback)
+{
+	vk::DestroyDebugReportCallbackEXT(m_instance, callback, nullptr);
+}
+
+#if defined(BKSGE_PLATFORM_WIN32)
+BKSGE_INLINE ::VkSurfaceKHR
+Instance::CreateSurface(::VkWin32SurfaceCreateInfoKHR const& create_info)
+{
+	::VkSurfaceKHR surface;
+	vk::CreateWin32SurfaceKHR(m_instance, &create_info, nullptr, &surface);
+	return surface;
+}
+#else
+#endif
+
+BKSGE_INLINE void
+Instance::DestroySurface(::VkSurfaceKHR surface)
+{
+	vk::DestroySurfaceKHR(m_instance, surface, nullptr);
 }
 
 }	// namespace vulkan

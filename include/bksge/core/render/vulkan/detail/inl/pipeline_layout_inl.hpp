@@ -30,20 +30,20 @@ BKSGE_INLINE
 PipelineLayout::PipelineLayout(
 	vulkan::DeviceSharedPtr const& device,
 	vulkan::DescriptorSetLayout const& descriptor_set_layout)
-	: m_device(device)
-	, m_pipeline_layout(VK_NULL_HANDLE)
+	: m_pipeline_layout(VK_NULL_HANDLE)
+	, m_device(device)
 {
 	vk::PipelineLayoutCreateInfo info;
 	info.SetSetLayouts(descriptor_set_layout.GetLayouts());
 	info.SetPushConstantRanges(nullptr);
 
-	vk::CreatePipelineLayout(*m_device, &info, nullptr, &m_pipeline_layout);
+	m_pipeline_layout = m_device->CreatePipelineLayout(info);
 }
 
 BKSGE_INLINE
 PipelineLayout::~PipelineLayout()
 {
-	vk::DestroyPipelineLayout(*m_device, m_pipeline_layout, nullptr);
+	m_device->DestroyPipelineLayout(m_pipeline_layout);
 }
 
 BKSGE_INLINE

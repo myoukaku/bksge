@@ -32,6 +32,7 @@ public:
 
 	~Sampler();
 
+public:
 	operator ::VkSampler() const;
 
 private:
@@ -40,8 +41,8 @@ private:
 	Sampler& operator=(Sampler const&) = delete;
 
 private:
-	vulkan::DeviceSharedPtr		m_device;
 	::VkSampler					m_sampler = VK_NULL_HANDLE;
+	vulkan::DeviceSharedPtr		m_device;
 };
 
 }	// namespace vulkan

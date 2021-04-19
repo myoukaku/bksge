@@ -41,16 +41,15 @@ Swapchain::Swapchain(
 	vulkan::CommandPoolSharedPtr const& command_pool,
 	vulkan::Surface const& surface,
 	::VkFormat surface_format)
-	: m_device(device)
+	: m_swapchain(VK_NULL_HANDLE)
 	, m_info()
-	, m_swapchain(VK_NULL_HANDLE)
+	, m_device(device)
 	, m_images()
 	, m_present_queue(VK_NULL_HANDLE)
 {
 	auto physical_device = device->physical_device();
 
-	::VkSurfaceCapabilitiesKHR surface_capabilities;
-	vk::GetPhysicalDeviceSurfaceCapabilitiesKHR(*physical_device, surface, &surface_capabilities);
+	auto const surface_capabilities = surface.GetCapabilities(*physical_device);
 
 	::VkExtent2D swapchain_extent = surface_capabilities.currentExtent;
 	// width and height are either both 0xFFFFFFFF, or both not 0xFFFFFFFF.
@@ -102,7 +101,7 @@ Swapchain::Swapchain(
 		}
 	}
 
-	m_info.surface          = surface;
+	m_info.surface          = surface.Get();
 	m_info.minImageCount    = surface_capabilities.minImageCount;
 	m_info.imageFormat      = surface_format;
 	m_info.imageColorSpace  = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR;
@@ -122,9 +121,9 @@ Swapchain::Swapchain(
 	m_info.oldSwapchain     = VK_NULL_HANDLE;
 
 	auto const graphics_queue_family_index =
-		physical_device->graphics_queue_family_index();
+		physical_device->GetGraphicsQueueFamilyIndex();
 	auto const present_queue_family_index =
-		physical_device->GetPresentQueueFamilyIndex(surface);
+		surface.GetPresentQueueFamilyIndex(*physical_device);
 
 	bksge::uint32_t const queue_family_indices[] =
 	{
@@ -143,12 +142,12 @@ Swapchain::Swapchain(
 		m_info.SetQueueFamilyIndices(nullptr);
 	}
 
-	vk::CreateSwapchainKHR(*m_device, &m_info, nullptr, &m_swapchain);
+	m_swapchain = m_device->CreateSwapchain(m_info);
 
 	::VkImageAspectFlags const aspect_mask = VK_IMAGE_ASPECT_COLOR_BIT;
 
 	// Create ImageViews
-	auto images = vk::GetSwapchainImagesKHR(*m_device, m_swapchain);
+	auto images = m_device->GetSwapchainImages(m_swapchain);
 	for (auto&& img : images)
 	{
 		auto image = bksge::make_shared<vulkan::Image>(
@@ -166,13 +165,13 @@ Swapchain::Swapchain(
 		m_images.push_back(bksge::move(image));
 	}
 
-	vk::GetDeviceQueue(*m_device, present_queue_family_index, 0, &m_present_queue);
+	m_present_queue = m_device->GetQueue(present_queue_family_index, 0);
 }
 
 BKSGE_INLINE
 Swapchain::~Swapchain()
 {
-	vk::DestroySwapchainKHR(*m_device, m_swapchain, nullptr);
+	m_device->DestroySwapchain(m_swapchain);
 }
 
 BKSGE_INLINE ::VkResult
@@ -182,8 +181,7 @@ Swapchain::AcquireNextImage(
 	::VkFence     fence,
 	bksge::uint32_t*	image_index)
 {
-	return vk::AcquireNextImageKHR(
-		*m_device,
+	return m_device->AcquireNextImage(
 		m_swapchain,
 		timeout,
 		semaphore,

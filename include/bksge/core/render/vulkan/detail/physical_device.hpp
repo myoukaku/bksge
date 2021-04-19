@@ -12,7 +12,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/physical_device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
-//#include <bksge/fnd/vector.hpp>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -30,21 +30,29 @@ public:
 
 	~PhysicalDevice();
 
-	::VkPhysicalDeviceMemoryProperties const& memory_properties(void) const;
+	::VkDevice CreateDevice(vk::DeviceCreateInfo const& create_info);
 
-	bksge::uint32_t graphics_queue_family_index(void) const;
+	bksge::vector<::VkLayerProperties>	EnumerateDeviceLayerProperties(void) const;
+
+	bksge::vector<::VkExtensionProperties> EnumerateDeviceExtensionProperties(char const* layer_name) const;
+
+	bksge::vector<::VkQueueFamilyProperties> GetQueueFamilyProperties(void) const;
+
+	bksge::uint32_t GetGraphicsQueueFamilyIndex(void) const;
 
 	bksge::uint32_t GetPresentQueueFamilyIndex(::VkSurfaceKHR surface) const;
 
-	//bksge::vector<::VkQueueFamilyProperties> GetQueueFamilyProperties();
+	bksge::vector<::VkSurfaceFormatKHR> GetSurfaceFormats(::VkSurfaceKHR surface) const;
 
-	//bksge::vector<::VkSurfaceFormatKHR> GetSurfaceFormats(::VkSurfaceKHR surface);
+	::VkSurfaceCapabilitiesKHR GetSurfaceCapabilities(::VkSurfaceKHR surface) const;
 
-	::VkPhysicalDeviceFeatures const& features(void) const;
+	::VkPhysicalDeviceMemoryProperties GetMemoryProperties(void) const;
+
+	::VkPhysicalDeviceProperties GetProperties(void) const;
+
+	::VkPhysicalDeviceFeatures GetFeatures(void) const;
 
 	::VkFormatProperties GetFormatProperties(::VkFormat format) const;
-
-	operator ::VkPhysicalDevice() const;
 
 private:
 	// noncopyable
@@ -52,11 +60,7 @@ private:
 	PhysicalDevice& operator=(PhysicalDevice const&) = delete;
 
 private:
-	::VkPhysicalDevice					m_physical_device;
-	::VkPhysicalDeviceMemoryProperties	m_memory_properties;
-	::VkPhysicalDeviceFeatures			m_features;
-	bksge::uint32_t						m_queue_family_properties_count = 0;
-	bksge::uint32_t						m_graphics_queue_family_index = UINT32_MAX;
+	::VkPhysicalDevice	m_physical_device;
 };
 
 }	// namespace vulkan

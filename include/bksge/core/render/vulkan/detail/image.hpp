@@ -83,6 +83,7 @@ public:
 
 	::VkImageLayout			layout(void) const;
 
+public:
 	operator ::VkImage() const;
 
 private:
@@ -91,9 +92,9 @@ private:
 	Image& operator=(Image const&) = delete;
 
 private:
+	::VkImage						m_image = VK_NULL_HANDLE;
 	vulkan::DeviceSharedPtr			m_device;
 	vulkan::DeviceMemoryUniquePtr	m_device_memory;
-	::VkImage						m_image;
 	::VkFormat						m_format;
 	::VkExtent2D					m_extent;
 	bksge::uint32_t					m_mipmap_count;

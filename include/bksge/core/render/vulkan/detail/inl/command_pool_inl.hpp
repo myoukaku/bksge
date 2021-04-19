@@ -32,7 +32,7 @@ CommandPool::CommandPool(vulkan::DeviceSharedPtr const& device)
 	: m_device(device)
 {
 	auto const& physical_device = device->physical_device();
-	m_queue_family_index = physical_device->graphics_queue_family_index();
+	m_queue_family_index = physical_device->GetGraphicsQueueFamilyIndex();
 	m_command_pool =
 		m_device->CreateCommandPool(
 			VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT,
@@ -48,28 +48,25 @@ CommandPool::~CommandPool()
 BKSGE_INLINE ::VkQueue
 CommandPool::GetQueue(void) const
 {
-	::VkQueue queue;
-	vk::GetDeviceQueue(*m_device, m_queue_family_index, 0, &queue);
-	return queue;
+	return m_device->GetQueue(m_queue_family_index, 0);
 }
 
 BKSGE_INLINE ::VkCommandBuffer
 CommandPool::AllocateCommandBuffer(::VkCommandBufferLevel level)
 {
-	vk::CommandBufferAllocateInfo info;
-	info.commandPool        = m_command_pool;
-	info.level              = level;
-	info.commandBufferCount = 1;
-
-	::VkCommandBuffer buffer;
-	vk::AllocateCommandBuffers(*m_device, &info, &buffer);
-	return buffer;
+	return m_device->AllocateCommandBuffer(m_command_pool, level);
 }
 
 BKSGE_INLINE void
 CommandPool::FreeCommandBuffer(::VkCommandBuffer buffer)
 {
-	vk::FreeCommandBuffers(*m_device, m_command_pool, 1, &buffer);
+	m_device->FreeCommandBuffer(m_command_pool, buffer);
+}
+
+BKSGE_INLINE vulkan::DeviceSharedPtr const&
+CommandPool::device(void) const
+{
+	return m_device;
 }
 
 }	// namespace vulkan

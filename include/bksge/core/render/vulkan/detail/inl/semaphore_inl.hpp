@@ -27,22 +27,17 @@ namespace vulkan
 
 BKSGE_INLINE
 Semaphore::Semaphore(vulkan::DeviceSharedPtr const& device)
-	: m_device(device)
+	: m_semaphore()
+	, m_device(device)
 {
 	vk::SemaphoreCreateInfo info;
-	vk::CreateSemaphore(*m_device, &info, nullptr, &m_semaphore);
+	m_semaphore = m_device->CreateSemaphore(info);
 }
 
 BKSGE_INLINE
 Semaphore::~Semaphore()
 {
-	vk::DestroySemaphore(*m_device, m_semaphore, nullptr);
-}
-
-BKSGE_INLINE
-Semaphore::operator ::VkSemaphore() const
-{
-	return m_semaphore;
+	m_device->DestroySemaphore(m_semaphore);
 }
 
 BKSGE_INLINE

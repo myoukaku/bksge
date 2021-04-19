@@ -53,18 +53,18 @@ Framebuffer::Framebuffer(
 	}
 
 	vk::FramebufferCreateInfo info;
-	info.renderPass      = *render_pass;
-	info.layers          = 1;
+	info.renderPass = *render_pass;
+	info.layers     = 1;
 	info.SetAttachments(attachments);
 	info.SetExtent(m_extent);
 
-	vk::CreateFramebuffer(*m_device, &info, nullptr, &m_framebuffer);
+	m_framebuffer = m_device->CreateFramebuffer(info);
 }
 
 BKSGE_INLINE
 Framebuffer::~Framebuffer()
 {
-	vk::DestroyFramebuffer(*m_device, m_framebuffer, nullptr);
+	m_device->DestroyFramebuffer(m_framebuffer);
 }
 
 BKSGE_INLINE void

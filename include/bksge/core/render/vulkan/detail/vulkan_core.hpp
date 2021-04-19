@@ -4640,29 +4640,17 @@ inline void DestroyInstance(
 	::vkDestroyInstance(instance, pAllocator);
 }
 
-inline bksge::vector<VkPhysicalDevice>
-EnumeratePhysicalDevices(VkInstance instance)
+inline VkResult EnumeratePhysicalDevices(
+    VkInstance                                  instance,
+    uint32_t*                                   pPhysicalDeviceCount,
+    VkPhysicalDevice*                           pPhysicalDevices)
 {
-	for (;;)
+	auto res = ::vkEnumeratePhysicalDevices(instance, pPhysicalDeviceCount, pPhysicalDevices);
+	if (res == VK_INCOMPLETE)
 	{
-		uint32_t count;
-		vk::CheckError(::vkEnumeratePhysicalDevices(instance, &count, nullptr));
-
-		if (count == 0)
-		{
-			return {};
-		}
-
-		bksge::vector<VkPhysicalDevice> physical_devices(count);
-		auto res = ::vkEnumeratePhysicalDevices(instance, &count, physical_devices.data());
-		if (res == VK_INCOMPLETE)
-		{
-			continue;
-		}
-		vk::CheckError(res);
-
-		return physical_devices;
+		return res;
 	}
+	return vk::CheckError(res);
 }
 
 inline void GetPhysicalDeviceFeatures(
@@ -4760,29 +4748,18 @@ EnumerateInstanceExtensionProperties(const char* pLayerName)
 	}
 }
 
-inline bksge::vector<VkExtensionProperties>
-EnumerateDeviceExtensionProperties(VkPhysicalDevice physicalDevice, const char* pLayerName)
+inline VkResult EnumerateDeviceExtensionProperties(
+    VkPhysicalDevice                            physicalDevice,
+    const char*                                 pLayerName,
+    uint32_t*                                   pPropertyCount,
+    VkExtensionProperties*                      pProperties)
 {
-	for (;;)
+	auto res = ::vkEnumerateDeviceExtensionProperties(physicalDevice, pLayerName, pPropertyCount, pProperties);
+	if (res == VK_INCOMPLETE)
 	{
-		uint32_t count;
-		vk::CheckError(::vkEnumerateDeviceExtensionProperties(physicalDevice, pLayerName, &count, nullptr));
-
-		if (count == 0)
-		{
-			return {};
-		}
-
-		bksge::vector<VkExtensionProperties> extension_properties(count);
-		auto res = ::vkEnumerateDeviceExtensionProperties(physicalDevice, pLayerName, &count, extension_properties.data());
-		if (res == VK_INCOMPLETE)
-		{
-			continue;
-		}
-		vk::CheckError(res);
-
-		return extension_properties;
+		return res;
 	}
+	return vk::CheckError(res);
 }
 
 inline bksge::vector<VkLayerProperties>
@@ -4823,29 +4800,17 @@ EnumerateInstanceLayerProperties(void)
 	}
 }
 
-inline bksge::vector<VkLayerProperties>
-EnumerateDeviceLayerProperties(VkPhysicalDevice physicalDevice)
+inline VkResult EnumerateDeviceLayerProperties(
+    VkPhysicalDevice                            physicalDevice,
+    uint32_t*                                   pPropertyCount,
+    VkLayerProperties*                          pProperties)
 {
-	for (;;)
+	auto res = ::vkEnumerateDeviceLayerProperties(physicalDevice, pPropertyCount, pProperties);
+	if (res == VK_INCOMPLETE)
 	{
-		uint32_t count;
-		vk::CheckError(::vkEnumerateDeviceLayerProperties(physicalDevice, &count, nullptr));
-
-		if (count == 0)
-		{
-			return {};
-		}
-
-		bksge::vector<VkLayerProperties> layer_properties(count);
-		auto res = ::vkEnumerateDeviceLayerProperties(physicalDevice, &count, layer_properties.data());
-		if (res == VK_INCOMPLETE)
-		{
-			continue;
-		}
-		vk::CheckError(res);
-
-		return layer_properties;
+		return res;
 	}
+	return vk::CheckError(res);
 }
 
 inline void GetDeviceQueue(
@@ -5983,33 +5948,19 @@ inline VkResult GetPhysicalDeviceSurfaceCapabilitiesKHR(
 		physicalDevice, surface, pSurfaceCapabilities));
 }
 
-inline bksge::vector<VkSurfaceFormatKHR>
-GetPhysicalDeviceSurfaceFormatsKHR(
-    VkPhysicalDevice physicalDevice,
-    VkSurfaceKHR     surface)
+inline VkResult GetPhysicalDeviceSurfaceFormatsKHR(
+    VkPhysicalDevice                            physicalDevice,
+    VkSurfaceKHR                                surface,
+    uint32_t*                                   pSurfaceFormatCount,
+    VkSurfaceFormatKHR*                         pSurfaceFormats)
 {
-	for (;;)
+	auto res = ::vkGetPhysicalDeviceSurfaceFormatsKHR(
+		physicalDevice, surface, pSurfaceFormatCount, pSurfaceFormats);
+	if (res == VK_INCOMPLETE)
 	{
-		uint32_t count;
-		vk::CheckError(::vkGetPhysicalDeviceSurfaceFormatsKHR(
-			physicalDevice, surface, &count, nullptr));
-
-		if (count == 0)
-		{
-			return {};
-		}
-
-		bksge::vector<VkSurfaceFormatKHR> surface_formats(count);
-		auto res = ::vkGetPhysicalDeviceSurfaceFormatsKHR(
-			physicalDevice, surface, &count, surface_formats.data());
-		if (res == VK_INCOMPLETE)
-		{
-			continue;
-		}
-		vk::CheckError(res);
-
-		return surface_formats;
+		return res;
 	}
+	return vk::CheckError(res);
 }
 
 //VkResult vkGetPhysicalDeviceSurfacePresentModesKHR(
@@ -6036,18 +5987,15 @@ inline void DestroySwapchainKHR(
 	::vkDestroySwapchainKHR(device, swapchain, pAllocator);
 }
 
-inline bksge::vector<::VkImage>
-GetSwapchainImagesKHR(VkDevice device, VkSwapchainKHR swapchain)
+inline VkResult
+GetSwapchainImagesKHR(
+	VkDevice                                    device,
+    VkSwapchainKHR                              swapchain,
+    uint32_t*                                   pSwapchainImageCount,
+    VkImage*                                    pSwapchainImages)
 {
-	bksge::uint32_t count = 0;
-	vk::CheckError(::vkGetSwapchainImagesKHR(
-		device, swapchain, &count, nullptr));
-
-	bksge::vector<::VkImage> images(count);
-	vk::CheckError(::vkGetSwapchainImagesKHR(
-		device, swapchain, &count, images.data()));
-
-	return images;
+	return vk::CheckError(::vkGetSwapchainImagesKHR(
+		device, swapchain, pSwapchainImageCount, pSwapchainImages));
 }
 
 inline VkResult AcquireNextImageKHR(

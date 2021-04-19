@@ -70,13 +70,13 @@ IndexBuffer::~IndexBuffer()
 BKSGE_INLINE void
 IndexBuffer::Bind(CommandBuffer* command_buffer)
 {
-	vk::CmdBindIndexBuffer(*command_buffer, *m_buffer->GetAddressOf(), 0, m_type);
+	command_buffer->BindIndexBuffer(*m_buffer->GetAddressOf(), 0, m_type);
 }
 
 BKSGE_INLINE void
 IndexBuffer::Draw(CommandBuffer* command_buffer)
 {
-	vk::CmdDrawIndexed(*command_buffer, m_count, 1, 0, 0, 0);
+	command_buffer->DrawIndexed(m_count, 1, 0, 0, 0);
 }
 
 BKSGE_INLINE bool

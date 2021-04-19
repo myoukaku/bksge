@@ -48,8 +48,8 @@ GraphicsPipeline::GraphicsPipeline(
 	vulkan::PipelineVertexInputState const& vertex_input_state,
 	vulkan::Shader const& shader,
 	vulkan::RenderState const& render_state)
-	: m_device(device)
-	, m_pipeline(VK_NULL_HANDLE)
+	: m_pipeline(VK_NULL_HANDLE)
+	, m_device(device)
 {
 	m_pipeline_cache =
 		bksge::make_unique<vulkan::PipelineCache>(m_device);
@@ -99,36 +99,30 @@ GraphicsPipeline::GraphicsPipeline(
 	vk::PipelineDynamicStateCreateInfo dynamic_state_ci;
 	dynamic_state_ci.SetDynamicStates(dynamic_states);
 
-	vk::GraphicsPipelineCreateInfo pipeline;
-	pipeline.layout              = *m_pipeline_layout;
-	pipeline.basePipelineHandle  = VK_NULL_HANDLE;
-	pipeline.basePipelineIndex   = 0;
-	pipeline.pVertexInputState   = vertex_input_state.GetAddressOf();
-	pipeline.pInputAssemblyState = input_assembly_state.GetAddressOf();
-	pipeline.pRasterizationState = render_state.rasterizer_state().GetAddressOf();
-	pipeline.pColorBlendState    = render_state.blend_state().GetAddressOf();
-	pipeline.pTessellationState  = nullptr;
-	pipeline.pMultisampleState   = &multisample_state;
-	pipeline.pDynamicState       = &dynamic_state_ci;
-	pipeline.pViewportState      = &viewport_state;
-	pipeline.pDepthStencilState  = render_state.depth_stencil_state().GetAddressOf();
-	pipeline.SetStages(shader.GetStages());
-	pipeline.renderPass          = render_pass;
-	pipeline.subpass             = 0;
+	vk::GraphicsPipelineCreateInfo create_info;
+	create_info.layout              = *m_pipeline_layout;
+	create_info.basePipelineHandle  = VK_NULL_HANDLE;
+	create_info.basePipelineIndex   = 0;
+	create_info.pVertexInputState   = vertex_input_state.GetAddressOf();
+	create_info.pInputAssemblyState = input_assembly_state.GetAddressOf();
+	create_info.pRasterizationState = render_state.rasterizer_state().GetAddressOf();
+	create_info.pColorBlendState    = render_state.blend_state().GetAddressOf();
+	create_info.pTessellationState  = nullptr;
+	create_info.pMultisampleState   = &multisample_state;
+	create_info.pDynamicState       = &dynamic_state_ci;
+	create_info.pViewportState      = &viewport_state;
+	create_info.pDepthStencilState  = render_state.depth_stencil_state().GetAddressOf();
+	create_info.SetStages(shader.GetStages());
+	create_info.renderPass          = render_pass;
+	create_info.subpass             = 0;
 
-	vk::CreateGraphicsPipelines(
-		*m_device,
-		*m_pipeline_cache,
-		1,
-		&pipeline,
-		nullptr,
-		&m_pipeline);
+	m_pipeline = m_device->CreateGraphicsPipeline(*m_pipeline_cache, create_info);
 }
 
 BKSGE_INLINE
 GraphicsPipeline::~GraphicsPipeline()
 {
-	vk::DestroyPipeline(*m_device, m_pipeline, nullptr);
+	m_device->DestroyPipeline(m_pipeline);
 }
 
 BKSGE_INLINE

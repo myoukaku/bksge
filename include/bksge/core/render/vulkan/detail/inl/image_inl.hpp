@@ -121,8 +121,7 @@ TransitionImageLayout(
 	auto const src_stage = detail::GetPipelineStage(old_layout);
 	auto const dst_stage = detail::GetPipelineStage(new_layout);
 
-	vk::CmdPipelineBarrier(
-		*command_buffer,
+	command_buffer->PipelineBarrier(
 		src_stage,
 		dst_stage,
 		0,
@@ -140,9 +139,9 @@ Image::Image(
 	::VkExtent2D const& extent,
 	bksge::uint32_t mipmap_count,
 	::VkImageLayout initial_layout)
-	: m_device()
+	: m_image(image)
+	, m_device()
 	, m_device_memory()
-	, m_image(image)
 	, m_format(format)
 	, m_extent(extent)
 	, m_mipmap_count(mipmap_count)
@@ -161,9 +160,9 @@ Image::Image(
 	::VkImageUsageFlags usage,
 	::VkImageLayout initial_layout,
 	::VkFlags requirements_mask)
-	: m_device(device)
+	: m_image(VK_NULL_HANDLE)
+	, m_device(device)
 	, m_device_memory()
-	, m_image(VK_NULL_HANDLE)
 	, m_format(format)
 	, m_extent(extent)
 	, m_mipmap_count(mipmap_count)
@@ -184,15 +183,14 @@ Image::Image(
 	info.initialLayout = initial_layout;
 	info.SetQueueFamilyIndices(nullptr);
 
-	vk::CreateImage(*device, &info, nullptr, &m_image);
+	m_image = device->CreateImage(info);
 
-	::VkMemoryRequirements mem_reqs;
-	vk::GetImageMemoryRequirements(*m_device, m_image, &mem_reqs);
+	auto const mem_reqs = device->GetImageMemoryRequirements(m_image);
 
 	m_device_memory = bksge::make_unique<vulkan::DeviceMemory>(
 		device, mem_reqs, requirements_mask);
 
-	vk::BindImageMemory(*device, m_image, *m_device_memory, 0);
+	m_device_memory->BindImage(m_image, 0);
 }
 
 BKSGE_INLINE
@@ -200,7 +198,7 @@ Image::~Image()
 {
 	if (m_device)
 	{
-		vk::DestroyImage(*m_device, m_image, nullptr);
+		m_device->DestroyImage(m_image);
 	}
 }
 
@@ -252,8 +250,7 @@ Image::ClearColor(
 	range.baseArrayLayer = 0;
 	range.layerCount     = 1;
 
-	vk::CmdClearColorImage(
-		*command_buffer,
+	command_buffer->ClearColorImage(
 		m_image,
 		VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
 		&clear_value,
@@ -293,8 +290,7 @@ Image::ClearDepthStencil(
 	range.baseArrayLayer = 0;
 	range.layerCount     = 1;
 
-	vk::CmdClearDepthStencilImage(
-		*command_buffer,
+	command_buffer->ClearDepthStencilImage(
 		m_image,
 		VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
 		&clear_value,
@@ -336,12 +332,6 @@ Image::TransitionLayout(
 	return old_layout;
 }
 
-BKSGE_INLINE
-Image::operator ::VkImage() const
-{
-	return m_image;
-}
-
 BKSGE_INLINE ::VkFormat const&
 Image::format(void) const
 {
@@ -364,6 +354,12 @@ BKSGE_INLINE ::VkImageLayout
 Image::layout(void) const
 {
 	return m_layout;
+}
+
+BKSGE_INLINE
+Image::operator ::VkImage() const
+{
+	return m_image;
 }
 
 }	// namespace vulkan

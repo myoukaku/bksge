@@ -36,7 +36,9 @@ public:
 
 	void UnmapMemory(void);
 
-	operator ::VkDeviceMemory() const;
+	void BindImage(::VkImage image, ::VkDeviceSize memory_offset);
+
+	void BindBuffer(::VkBuffer buffer, ::VkDeviceSize memory_offset);
 
 private:
 	// noncopyable

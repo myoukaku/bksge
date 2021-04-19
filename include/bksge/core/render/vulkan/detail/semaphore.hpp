@@ -29,8 +29,6 @@ public:
 
 	~Semaphore();
 
-	operator ::VkSemaphore() const;
-
 	::VkSemaphore const* GetAddressOf() const;
 
 private:
@@ -39,8 +37,8 @@ private:
 	Semaphore& operator=(Semaphore const&) = delete;
 
 private:
-	vulkan::DeviceSharedPtr		m_device;
 	::VkSemaphore				m_semaphore;
+	vulkan::DeviceSharedPtr		m_device;
 };
 
 }	// namespace vulkan

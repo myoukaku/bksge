@@ -14,6 +14,7 @@
 
 #include <bksge/core/render/vulkan/detail/surface.hpp>
 #include <bksge/core/render/vulkan/detail/instance.hpp>
+#include <bksge/core/render/vulkan/detail/physical_device.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/window/window.hpp>
 #include <bksge/fnd/config.hpp>
@@ -34,14 +35,14 @@ BKSGE_INLINE
 Surface::Surface(
 	vulkan::InstanceSharedPtr const& instance,
 	Window const& window)
-	: m_instance(instance)
-	, m_surface(VK_NULL_HANDLE)
+	: m_surface(VK_NULL_HANDLE)
+	, m_instance(instance)
 {
 #if defined(BKSGE_PLATFORM_WIN32)
 	vk::Win32SurfaceCreateInfoKHR info;
 	info.hinstance = win32::GetModuleHandle<char>(nullptr);
 	info.hwnd      = window.handle();
-	vk::CreateWin32SurfaceKHR(*m_instance, &info, nullptr, &m_surface);
+	m_surface = m_instance->CreateSurface(info);
 #else
 	(void)window;
 #endif
@@ -50,11 +51,29 @@ Surface::Surface(
 BKSGE_INLINE
 Surface::~Surface()
 {
-	vk::DestroySurfaceKHR(*m_instance, m_surface, nullptr);
+	m_instance->DestroySurface(m_surface);
 }
 
-BKSGE_INLINE
-Surface::operator ::VkSurfaceKHR() const
+BKSGE_INLINE ::VkSurfaceCapabilitiesKHR
+Surface::GetCapabilities(vulkan::PhysicalDevice const& physical_device) const
+{
+	return physical_device.GetSurfaceCapabilities(m_surface);
+}
+
+BKSGE_INLINE bksge::uint32_t
+Surface::GetPresentQueueFamilyIndex(vulkan::PhysicalDevice const& physical_device) const
+{
+	return physical_device.GetPresentQueueFamilyIndex(m_surface);
+}
+
+BKSGE_INLINE bksge::vector<::VkSurfaceFormatKHR>
+Surface::GetFormats(vulkan::PhysicalDevice const& physical_device) const
+{
+	return physical_device.GetSurfaceFormats(m_surface);
+}
+
+BKSGE_INLINE ::VkSurfaceKHR
+Surface::Get(void) const
 {
 	return m_surface;
 }

@@ -30,6 +30,7 @@ public:
 
 	~PipelineCache();
 
+public:
 	operator ::VkPipelineCache() const;
 
 private:
@@ -38,8 +39,8 @@ private:
 	PipelineCache& operator=(PipelineCache const&) = delete;
 
 private:
+	::VkPipelineCache		m_pipeline_cache = VK_NULL_HANDLE;
 	vulkan::DeviceSharedPtr	m_device;
-	::VkPipelineCache		m_pipeline_cache;
 };
 
 }	// namespace vulkan

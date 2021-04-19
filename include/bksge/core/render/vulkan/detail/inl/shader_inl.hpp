@@ -100,7 +100,7 @@ Shader::~Shader()
 {
 	for (auto&& shader_stage : m_shader_stages)
 	{
-		vk::DestroyShaderModule(*m_device, shader_stage.module, nullptr);
+		m_device->DestroyShaderModule(shader_stage.module);
 	}
 }
 
@@ -127,6 +127,7 @@ Shader::LoadParameters(
 	{
 		setter->LoadParameters(shader_parameter_map, uniform_buffer);
 	}
+
 	for (auto&& setter : m_combined_image_sampler_setter)
 	{
 		setter->LoadParameters(
@@ -147,6 +148,7 @@ Shader::GetWriteDescriptorSets(void) const
 		writes.push_back(
 			setter->GetWriteDescriptorSet());
 	}
+
 	for (auto&& setter : m_combined_image_sampler_setter)
 	{
 		writes.push_back(
@@ -172,11 +174,8 @@ Shader::AddShaderStage(
 	module_create_info.codeSize = spv.size() * sizeof(unsigned int);
 	module_create_info.pCode    = spv.data();
 
-	vk::CreateShaderModule(
-		*m_device,
-		&module_create_info,
-		nullptr,
-		&shader_stage_create_info.module);
+	shader_stage_create_info.module =
+		m_device->CreateShaderModule(module_create_info);
 
 	m_shader_stages.push_back(shader_stage_create_info);
 }

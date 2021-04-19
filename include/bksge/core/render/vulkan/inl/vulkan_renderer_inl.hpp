@@ -82,8 +82,7 @@ inline ::VkFormat GetSurfaceFormat(
 	vulkan::PhysicalDevice const& physical_device,
 	vulkan::Surface const& surface)
 {
-	auto surface_formats =
-		vk::GetPhysicalDeviceSurfaceFormatsKHR(physical_device, surface);
+	auto const surface_formats = surface.GetFormats(physical_device);
 	// If the format list includes just one entry of VK_FORMAT_UNDEFINED,
 	// the surface has no preferred format.  Otherwise, at least one
 	// supported format will be returned.
@@ -266,7 +265,7 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 	m_surface = bksge::make_unique<vulkan::Surface>(m_instance, window);
 
 	auto const graphics_queue_family_index =
-		m_physical_device->graphics_queue_family_index();
+		m_physical_device->GetGraphicsQueueFamilyIndex();
 
 	m_device = bksge::make_shared<vulkan::Device>(m_physical_device);
 
@@ -274,7 +273,7 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 
 	m_command_buffer = bksge::make_unique<vulkan::CommandBuffer>(m_command_pool);
 
-	vk::GetDeviceQueue(*m_device, graphics_queue_family_index, 0, &m_graphics_queue);
+	m_graphics_queue = m_device->GetQueue(graphics_queue_family_index, 0);
 
 	m_draw_fence = bksge::make_unique<vulkan::Fence>(m_device);
 	m_image_acquired_semaphore = bksge::make_unique<vulkan::Semaphore>(m_device);
@@ -395,7 +394,7 @@ VulkanRenderer::VBegin(void)
 {
 	auto const result = m_swapchain->AcquireNextImage(
 		UINT64_MAX,
-		*m_image_acquired_semaphore,
+		*m_image_acquired_semaphore->GetAddressOf(),
 		VK_NULL_HANDLE,
 		&m_frame_index);
 	if (result == VK_ERROR_OUT_OF_DATE_KHR)
@@ -521,7 +520,6 @@ VulkanRenderer::VRender(
 		*graphics_pipeline);
 
 	m_command_buffer->PushDescriptorSet(
-		*m_device,
 		VK_PIPELINE_BIND_POINT_GRAPHICS,
 		graphics_pipeline->pipeline_layout(),
 		0,	// TODO set

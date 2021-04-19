@@ -38,8 +38,8 @@ private:
 	DebugReportCallback& operator=(DebugReportCallback const&) = delete;
 
 private:
-	vulkan::InstanceSharedPtr	m_instance;
 	::VkDebugReportCallbackEXT	m_callback;
+	vulkan::InstanceSharedPtr	m_instance;
 };
 
 }	// namespace vulkan

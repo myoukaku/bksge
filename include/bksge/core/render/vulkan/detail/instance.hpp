@@ -32,7 +32,17 @@ public:
 
 	bksge::vector<::VkPhysicalDevice> EnumeratePhysicalDevices(void) const;
 
-	operator ::VkInstance() const;
+	::VkDebugReportCallbackEXT CreateDebugReportCallback(
+		::VkDebugReportCallbackCreateInfoEXT const& create_info);
+
+	void DestroyDebugReportCallback(::VkDebugReportCallbackEXT callback);
+
+#if defined(BKSGE_PLATFORM_WIN32)
+	::VkSurfaceKHR CreateSurface(::VkWin32SurfaceCreateInfoKHR const& create_info);
+#else
+#endif
+
+	void DestroySurface(::VkSurfaceKHR surface);
 
 private:
 	// noncopyable

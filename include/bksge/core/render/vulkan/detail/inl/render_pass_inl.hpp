@@ -33,8 +33,8 @@ RenderPass::RenderPass(
 	::VkSampleCountFlagBits num_samples,
 	vulkan::Image const& color,
 	vulkan::Image const& depth_stencil)
-	: m_device(device)
-	, m_render_pass(VK_NULL_HANDLE)
+	: m_render_pass(VK_NULL_HANDLE)
+	, m_device(device)
 	, m_samples(num_samples)
 {
 	bksge::vector<::VkAttachmentDescription> attachments;
@@ -98,13 +98,13 @@ RenderPass::RenderPass(
 	rp_info.SetSubpasses(&subpass);
 	rp_info.SetDependencies(&subpass_dependency);
 
-	vk::CreateRenderPass(*m_device, &rp_info, nullptr, &m_render_pass);
+	m_render_pass = m_device->CreateRenderPass(rp_info);
 }
 
 BKSGE_INLINE
 RenderPass::~RenderPass()
 {
-	vk::DestroyRenderPass(*m_device, m_render_pass, nullptr);
+	m_device->DestroyRenderPass(m_render_pass);
 }
 
 BKSGE_INLINE ::VkSampleCountFlagBits

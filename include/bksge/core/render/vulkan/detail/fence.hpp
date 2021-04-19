@@ -30,7 +30,7 @@ public:
 
 	~Fence();
 
-	::VkResult Wait(::VkBool32 waitAll, bksge::uint64_t timeout);
+	::VkResult Wait(::VkBool32 wait_all, bksge::uint64_t timeout);
 
 	::VkResult Reset(void);
 

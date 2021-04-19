@@ -36,6 +36,7 @@ public:
 
 	::VkSampleCountFlagBits	samples(void) const;
 
+public:
 	operator ::VkRenderPass() const;
 
 private:
@@ -44,8 +45,8 @@ private:
 	RenderPass& operator=(RenderPass const&) = delete;
 
 private:
+	::VkRenderPass				m_render_pass = VK_NULL_HANDLE;
 	vulkan::DeviceSharedPtr		m_device;
-	::VkRenderPass				m_render_pass;
 	::VkSampleCountFlagBits		m_samples;
 };
 

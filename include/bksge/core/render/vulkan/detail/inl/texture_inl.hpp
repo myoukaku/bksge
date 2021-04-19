@@ -71,8 +71,7 @@ CopyBufferToImage(
 		region.imageOffset                     = {0, 0, 0};
 		region.imageExtent                     = {width, height, 1};
 
-		vk::CmdCopyBufferToImage(
-			*command_buffer,
+		command_buffer->CopyBufferToImage(
 			buffer,
 			image,
 			VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,

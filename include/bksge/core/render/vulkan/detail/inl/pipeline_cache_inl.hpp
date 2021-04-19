@@ -28,17 +28,17 @@ namespace vulkan
 BKSGE_INLINE
 PipelineCache::PipelineCache(
 	vulkan::DeviceSharedPtr const& device)
-	: m_device(device)
-	, m_pipeline_cache(VK_NULL_HANDLE)
+	: m_pipeline_cache(VK_NULL_HANDLE)
+	, m_device(device)
 {
 	vk::PipelineCacheCreateInfo info;
-	vk::CreatePipelineCache(*m_device, &info, nullptr, &m_pipeline_cache);
+	m_pipeline_cache = m_device->CreatePipelineCache(info);
 }
 
 BKSGE_INLINE
 PipelineCache::~PipelineCache()
 {
-	vk::DestroyPipelineCache(*m_device, m_pipeline_cache, nullptr);
+	m_device->DestroyPipelineCache(m_pipeline_cache);
 }
 
 BKSGE_INLINE

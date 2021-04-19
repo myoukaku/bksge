@@ -29,46 +29,104 @@ namespace vulkan
 BKSGE_INLINE
 PhysicalDevice::PhysicalDevice(::VkPhysicalDevice const& physical_device)
 	: m_physical_device(physical_device)
-{
-	vk::GetPhysicalDeviceMemoryProperties(physical_device, &m_memory_properties);
-
-	vk::GetPhysicalDeviceQueueFamilyProperties(physical_device, &m_queue_family_properties_count, nullptr);
-	bksge::vector<VkQueueFamilyProperties> props(m_queue_family_properties_count);
-	vk::GetPhysicalDeviceQueueFamilyProperties(physical_device, &m_queue_family_properties_count, props.data());
-
-	for (bksge::uint32_t i = 0; i < m_queue_family_properties_count; ++i)
-	{
-		if (props[i].queueFlags & VK_QUEUE_GRAPHICS_BIT)
-		{
-			m_graphics_queue_family_index = i;
-			break;
-		}
-	}
-
-	vk::GetPhysicalDeviceFeatures(m_physical_device, &m_features);
-}
+{}
 
 BKSGE_INLINE
 PhysicalDevice::~PhysicalDevice()
+{}
+
+BKSGE_INLINE ::VkDevice
+PhysicalDevice::CreateDevice(vk::DeviceCreateInfo const& create_info)
 {
+	::VkDevice device;
+	vk::CreateDevice(m_physical_device, &create_info, nullptr, &device);
+	return device;
 }
 
-BKSGE_INLINE ::VkPhysicalDeviceMemoryProperties const&
-PhysicalDevice::memory_properties(void) const
+BKSGE_INLINE bksge::vector<::VkLayerProperties>
+PhysicalDevice::EnumerateDeviceLayerProperties(void) const
 {
-	return m_memory_properties;
+	for (;;)
+	{
+		bksge::uint32_t count;
+		vk::EnumerateDeviceLayerProperties(
+			m_physical_device, &count, nullptr);
+
+		if (count == 0)
+		{
+			return {};
+		}
+
+		bksge::vector<::VkLayerProperties> layer_properties(count);
+		auto res = vk::EnumerateDeviceLayerProperties(
+			m_physical_device, &count, layer_properties.data());
+		if (res == VK_INCOMPLETE)
+		{
+			continue;
+		}
+
+		return layer_properties;
+	}
+}
+
+BKSGE_INLINE bksge::vector<::VkExtensionProperties>
+PhysicalDevice::EnumerateDeviceExtensionProperties(char const* layer_name) const
+{
+	for (;;)
+	{
+		bksge::uint32_t count;
+		vk::EnumerateDeviceExtensionProperties(
+			m_physical_device, layer_name, &count, nullptr);
+
+		if (count == 0)
+		{
+			return {};
+		}
+
+		bksge::vector<::VkExtensionProperties> extension_properties(count);
+		auto res = vk::EnumerateDeviceExtensionProperties(
+			m_physical_device, layer_name, &count, extension_properties.data());
+		if (res == VK_INCOMPLETE)
+		{
+			continue;
+		}
+
+		return extension_properties;
+	}
+}
+
+BKSGE_INLINE bksge::vector<::VkQueueFamilyProperties>
+PhysicalDevice::GetQueueFamilyProperties(void) const
+{
+	bksge::uint32_t count = 0;
+	vk::GetPhysicalDeviceQueueFamilyProperties(m_physical_device, &count, nullptr);
+	bksge::vector<::VkQueueFamilyProperties> props(count);
+	vk::GetPhysicalDeviceQueueFamilyProperties(m_physical_device, &count, props.data());
+	return props;
 }
 
 BKSGE_INLINE bksge::uint32_t
-PhysicalDevice::graphics_queue_family_index(void) const
+PhysicalDevice::GetGraphicsQueueFamilyIndex(void) const
 {
-	return m_graphics_queue_family_index;
+	auto const queue_family_properties = GetQueueFamilyProperties();
+
+	for (bksge::uint32_t i = 0; i < queue_family_properties.size(); ++i)
+	{
+		if (queue_family_properties[i].queueFlags & VK_QUEUE_GRAPHICS_BIT)
+		{
+			return i;
+		}
+	}
+
+	return UINT32_MAX;
 }
 
 BKSGE_INLINE bksge::uint32_t
 PhysicalDevice::GetPresentQueueFamilyIndex(::VkSurfaceKHR surface) const
 {
-	for (bksge::uint32_t i = 0; i < m_queue_family_properties_count; i++)
+	auto const queue_family_properties = GetQueueFamilyProperties();
+
+	for (bksge::uint32_t i = 0; i < queue_family_properties.size(); i++)
 	{
 		::VkBool32 supports_present;
 		vk::GetPhysicalDeviceSurfaceSupportKHR(
@@ -82,44 +140,63 @@ PhysicalDevice::GetPresentQueueFamilyIndex(::VkSurfaceKHR surface) const
 	return UINT32_MAX;
 }
 
-#if 0
-BKSGE_INLINE bksge::vector<::VkQueueFamilyProperties>
-PhysicalDevice::GetQueueFamilyProperties()
-{
-	bksge::uint32_t queue_family_count = 0;
-	vk::GetPhysicalDeviceQueueFamilyProperties(
-		m_physical_device,
-		&queue_family_count,
-		nullptr);
-
-	bksge::vector<::VkQueueFamilyProperties> queue_family_properties;
-	queue_family_properties.resize(queue_family_count);
-	vk::GetPhysicalDeviceQueueFamilyProperties(
-		m_physical_device,
-		&queue_family_count,
-		queue_family_properties.data());
-
-	return queue_family_properties;
-}
-
 BKSGE_INLINE bksge::vector<::VkSurfaceFormatKHR>
-PhysicalDevice::GetSurfaceFormats(::VkSurfaceKHR surface)
+PhysicalDevice::GetSurfaceFormats(::VkSurfaceKHR surface) const
 {
-	bksge::uint32_t count;
-	vk::GetPhysicalDeviceSurfaceFormatsKHR(m_physical_device, surface, &count, nullptr);
+	for (;;)
+	{
+		bksge::uint32_t count;
+		vk::GetPhysicalDeviceSurfaceFormatsKHR(
+			m_physical_device, surface, &count, nullptr);
 
-	bksge::vector<::VkSurfaceFormatKHR> formats;
-	formats.resize(count);
-	vk::GetPhysicalDeviceSurfaceFormatsKHR(m_physical_device, surface, &count, formats.data());
+		if (count == 0)
+		{
+			return {};
+		}
 
-	return formats;
+		bksge::vector<::VkSurfaceFormatKHR> formats(count);
+		auto res = vk::GetPhysicalDeviceSurfaceFormatsKHR(
+			m_physical_device, surface, &count, formats.data());
+		if (res == VK_INCOMPLETE)
+		{
+			continue;
+		}
+
+		return formats;
+	}
 }
-#endif
 
-BKSGE_INLINE ::VkPhysicalDeviceFeatures const&
-PhysicalDevice::features(void) const
+BKSGE_INLINE ::VkSurfaceCapabilitiesKHR
+PhysicalDevice::GetSurfaceCapabilities(::VkSurfaceKHR surface) const
 {
-	return m_features;
+	::VkSurfaceCapabilitiesKHR surface_capabilities;
+	vk::GetPhysicalDeviceSurfaceCapabilitiesKHR(
+		m_physical_device, surface, &surface_capabilities);
+	return surface_capabilities;
+}
+
+BKSGE_INLINE ::VkPhysicalDeviceMemoryProperties
+PhysicalDevice::GetMemoryProperties(void) const
+{
+	::VkPhysicalDeviceMemoryProperties memory_properties;
+	vk::GetPhysicalDeviceMemoryProperties(m_physical_device, &memory_properties);
+	return memory_properties;
+}
+
+BKSGE_INLINE ::VkPhysicalDeviceProperties
+PhysicalDevice::GetProperties(void) const
+{
+	::VkPhysicalDeviceProperties properties;
+	vk::GetPhysicalDeviceProperties(m_physical_device, &properties);
+	return properties;
+}
+
+BKSGE_INLINE ::VkPhysicalDeviceFeatures
+PhysicalDevice::GetFeatures(void) const
+{
+	::VkPhysicalDeviceFeatures features;
+	vk::GetPhysicalDeviceFeatures(m_physical_device, &features);
+	return features;
 }
 
 BKSGE_INLINE ::VkFormatProperties
@@ -128,12 +205,6 @@ PhysicalDevice::GetFormatProperties(::VkFormat format) const
 	::VkFormatProperties props;
 	vk::GetPhysicalDeviceFormatProperties(m_physical_device, format, &props);
 	return props;
-}
-
-BKSGE_INLINE
-PhysicalDevice::operator ::VkPhysicalDevice() const
-{
-	return m_physical_device;
 }
 
 }	// namespace vulkan

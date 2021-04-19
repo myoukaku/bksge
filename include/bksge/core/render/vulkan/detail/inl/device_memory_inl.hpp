@@ -70,7 +70,7 @@ DeviceMemory::DeviceMemory(
 	info.allocationSize = requirements.size;
 	info.memoryTypeIndex =
 		detail::GetMemoryTypeIndex(
-			physical_device->memory_properties(),
+			physical_device->GetMemoryProperties(),
 			requirements.memoryTypeBits,
 			requirements_mask);
 
@@ -95,10 +95,16 @@ DeviceMemory::UnmapMemory(void)
 	m_device->UnmapMemory(m_device_memory);
 }
 
-BKSGE_INLINE
-DeviceMemory::operator ::VkDeviceMemory() const
+BKSGE_INLINE void
+DeviceMemory::BindImage(::VkImage image, ::VkDeviceSize memory_offset)
 {
-	return m_device_memory;
+	m_device->BindImageMemory(image, m_device_memory, memory_offset);
+}
+
+BKSGE_INLINE void
+DeviceMemory::BindBuffer(::VkBuffer buffer, ::VkDeviceSize memory_offset)
+{
+	m_device->BindBufferMemory(buffer, m_device_memory, memory_offset);
 }
 
 }	// namespace vulkan

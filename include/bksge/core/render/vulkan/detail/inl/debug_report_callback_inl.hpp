@@ -30,21 +30,21 @@ DebugReportCallback::DebugReportCallback(
 	vulkan::InstanceSharedPtr const& instance,
 	::VkDebugReportFlagsEXT flags,
 	::PFN_vkDebugReportCallbackEXT func)
-	: m_instance(instance)
-	, m_callback(VK_NULL_HANDLE)
+	: m_callback(VK_NULL_HANDLE)
+	, m_instance(instance)
 {
 	vk::DebugReportCallbackCreateInfoEXT info;
 	info.flags       = flags;
 	info.pfnCallback = func;
 	info.pUserData   = nullptr;
 
-	vk::CreateDebugReportCallbackEXT(*m_instance, &info, nullptr, &m_callback);
+	m_callback = m_instance->CreateDebugReportCallback(info);
 }
 
 BKSGE_INLINE
 DebugReportCallback::~DebugReportCallback()
 {
-	vk::DestroyDebugReportCallbackEXT(*m_instance, m_callback, nullptr);
+	m_instance->DestroyDebugReportCallback(m_callback);
 }
 
 }	// namespace vulkan
