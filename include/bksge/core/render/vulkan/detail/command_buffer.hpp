@@ -110,9 +110,9 @@ public:
 		bksge::uint32_t                              set,
 		bksge::vector<::VkWriteDescriptorSet> const& descriptor_writes);
 
-	::VkQueue	GetQueue(void) const;
+	vk::SubmitInfo CreateSubmitInfo(void) const;
 
-public:
+private:
 	::VkCommandBuffer const* GetAddressOf(void) const;
 
 private:
@@ -126,13 +126,20 @@ private:
 	vulkan::DeviceSharedPtr			m_device;
 };
 
-bksge::unique_ptr<vulkan::CommandBuffer>
-BeginSingleTimeCommands(
-	vulkan::CommandPoolSharedPtr const& command_pool);
+class ScopedOneTimeCommandBuffer
+{
+public:
+	explicit ScopedOneTimeCommandBuffer(
+		vulkan::CommandPoolSharedPtr const& command_pool);
 
-void
-EndSingleTimeCommands(
-	bksge::unique_ptr<vulkan::CommandBuffer> const& command_buffer);
+	~ScopedOneTimeCommandBuffer();
+
+	vulkan::CommandBuffer* Get(void) const;
+
+private:
+	vulkan::CommandBufferUniquePtr	m_command_buffer;
+	::VkQueue						m_graphics_queue;
+};
 
 }	// namespace vulkan
 

@@ -427,10 +427,9 @@ VulkanRenderer::VEnd(void)
 
 	::VkPipelineStageFlags const pipe_stage_flags =
 		VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-	vk::SubmitInfo submit_info;
+	vk::SubmitInfo submit_info = m_command_buffer->CreateSubmitInfo();
 	submit_info.SetWaitSemaphores(m_image_acquired_semaphore->GetAddressOf());
 	submit_info.pWaitDstStageMask = &pipe_stage_flags;
-	submit_info.SetCommandBuffers(m_command_buffer->GetAddressOf());
 	submit_info.SetSignalSemaphores(nullptr);
 
 	vk::QueueSubmit(m_graphics_queue, 1, &submit_info, *m_draw_fence->GetAddressOf());

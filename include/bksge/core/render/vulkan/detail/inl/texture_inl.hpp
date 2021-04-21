@@ -52,7 +52,7 @@ CopyBufferToImage(
 	bksge::uint32_t mipmap_count,
 	::VkImageAspectFlags aspect)
 {
-	auto command_buffer = BeginSingleTimeCommands(command_pool);
+	vulkan::ScopedOneTimeCommandBuffer command_buffer(command_pool);
 
 	::VkDeviceSize src_offset = 0;
 	auto width  = extent.width;
@@ -71,7 +71,7 @@ CopyBufferToImage(
 		region.imageOffset                     = {0, 0, 0};
 		region.imageExtent                     = {width, height, 1};
 
-		command_buffer->CopyBufferToImage(
+		command_buffer.Get()->CopyBufferToImage(
 			buffer,
 			image,
 			VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
@@ -82,8 +82,6 @@ CopyBufferToImage(
 		width  = bksge::max(width  / 2, 1u);
 		height = bksge::max(height / 2, 1u);
 	}
-
-	EndSingleTimeCommands(command_buffer);
 }
 
 }	// namespace detail

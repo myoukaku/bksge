@@ -306,10 +306,8 @@ Image::TransitionLayout(
 	::VkImageAspectFlags aspect_mask,
 	::VkImageLayout new_layout)
 {
-	auto command_buffer = BeginSingleTimeCommands(command_pool);
-	auto result = TransitionLayout(command_buffer.get(), aspect_mask, new_layout);
-	EndSingleTimeCommands(command_buffer);
-	return result;
+	vulkan::ScopedOneTimeCommandBuffer command_buffer(command_pool);
+	return TransitionLayout(command_buffer.Get(), aspect_mask, new_layout);
 }
 
 BKSGE_INLINE ::VkImageLayout

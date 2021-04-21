@@ -9,6 +9,8 @@
 #ifndef BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_DEBUG_REPORT_CALLBACK_FWD_HPP
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_DEBUG_REPORT_CALLBACK_FWD_HPP
 
+#include <bksge/fnd/memory/unique_ptr.hpp>
+
 namespace bksge
 {
 
@@ -19,6 +21,7 @@ namespace vulkan
 {
 
 class DebugReportCallback;
+using DebugReportCallbackUniquePtr = bksge::unique_ptr<DebugReportCallback>;
 
 }	// namespace vulkan
 

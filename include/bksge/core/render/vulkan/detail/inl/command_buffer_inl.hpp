@@ -251,10 +251,12 @@ CommandBuffer::PushDescriptorSet(
 		descriptor_writes);
 }
 
-BKSGE_INLINE ::VkQueue
-CommandBuffer::GetQueue(void) const
+BKSGE_INLINE vk::SubmitInfo
+CommandBuffer::CreateSubmitInfo(void) const
 {
-	return m_command_pool->GetQueue();
+	vk::SubmitInfo submit_info;
+	submit_info.SetCommandBuffers(&m_command_buffer);
+	return submit_info;
 }
 
 BKSGE_INLINE ::VkCommandBuffer const*
@@ -263,29 +265,30 @@ CommandBuffer::GetAddressOf(void) const
 	return &m_command_buffer;
 }
 
-BKSGE_INLINE bksge::unique_ptr<vulkan::CommandBuffer>
-BeginSingleTimeCommands(
+BKSGE_INLINE
+ScopedOneTimeCommandBuffer::ScopedOneTimeCommandBuffer(
 	vulkan::CommandPoolSharedPtr const& command_pool)
+	: m_command_buffer(bksge::make_unique<vulkan::CommandBuffer>(command_pool))
+	, m_graphics_queue(command_pool->GetQueue())
 {
-	auto command_buffer = bksge::make_unique<vulkan::CommandBuffer>(command_pool);
-
-	command_buffer->Begin(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
-
-	return command_buffer;
+	m_command_buffer->Begin(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
 }
 
-BKSGE_INLINE void
-EndSingleTimeCommands(
-	bksge::unique_ptr<vulkan::CommandBuffer> const& command_buffer)
+BKSGE_INLINE
+ScopedOneTimeCommandBuffer::~ScopedOneTimeCommandBuffer()
 {
-	command_buffer->End();
+	m_command_buffer->End();
 
-	vk::SubmitInfo submit_info;
-	submit_info.SetCommandBuffers(command_buffer->GetAddressOf());
+	vk::SubmitInfo submit_info = m_command_buffer->CreateSubmitInfo();
 
-	auto graphics_queue = command_buffer->GetQueue();
-	vk::QueueSubmit(graphics_queue, 1, &submit_info, VK_NULL_HANDLE);
-	vk::QueueWaitIdle(graphics_queue);
+	vk::QueueSubmit(m_graphics_queue, 1, &submit_info, VK_NULL_HANDLE);
+	vk::QueueWaitIdle(m_graphics_queue);
+}
+
+BKSGE_INLINE vulkan::CommandBuffer*
+ScopedOneTimeCommandBuffer::Get(void) const
+{
+	return m_command_buffer.get();
 }
 
 }	// namespace vulkan
