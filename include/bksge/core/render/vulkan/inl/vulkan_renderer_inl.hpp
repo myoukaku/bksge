@@ -98,7 +98,7 @@ inline ::VkFormat GetSurfaceFormat(
 	}
 }
 
-VKAPI_ATTR::VkBool32 VKAPI_CALL
+VKAPI_ATTR ::VkBool32 VKAPI_CALL
 DebugCallback(
 	::VkDebugReportFlagsEXT flags,
 	::VkDebugReportObjectTypeEXT,
@@ -313,8 +313,8 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 		auto offscreen_render_pass = bksge::make_shared<vulkan::RenderPass>(
 			m_device,
 			NUM_SAMPLES,
-			*color_buffer->image(),
-			*depth_stencil_buffer->image());
+			color_buffer->image().get(),
+			depth_stencil_buffer->image().get());
 
 		m_offscreen_framebuffer = bksge::make_shared<vulkan::Framebuffer>(
 			m_device,
@@ -360,35 +360,20 @@ VulkanRenderer::CreateSwapchain(void)
 BKSGE_INLINE void
 VulkanRenderer::CreateFrameBuffers(void)
 {
-	auto depth_stencil_buffer = bksge::make_shared<vulkan::DepthStencilBuffer>(
-		m_device,
-		m_command_pool,
-		VK_FORMAT_D24_UNORM_S8_UINT,
-		m_swapchain->extent(),
-		NUM_SAMPLES);
-
-	auto render_pass = bksge::make_shared<vulkan::RenderPass>(
-		m_device,
-		NUM_SAMPLES,
-		*m_swapchain->images()[0],
-		*depth_stencil_buffer->image());
-
 	auto const& swap_chain_images = m_swapchain->images();
 	for (auto const& image : swap_chain_images)
 	{
-		auto image_view = bksge::make_shared<vulkan::ImageView>(
+		auto render_pass = bksge::make_shared<vulkan::RenderPass>(
 			m_device,
-			*image,
-			VK_IMAGE_ASPECT_COLOR_BIT);
-
-		auto color_buffer = bksge::make_shared<vulkan::Texture>(
-			image, image_view);
+			NUM_SAMPLES,
+			image->image().get(),
+			nullptr);
 
 		auto framebuffer = bksge::make_shared<vulkan::Framebuffer>(
 			m_device,
 			m_swapchain->extent(),
-			color_buffer,
-			depth_stencil_buffer,
+			image,
+			nullptr,
 			render_pass);
 		m_default_framebuffers.push_back(framebuffer);
 	}

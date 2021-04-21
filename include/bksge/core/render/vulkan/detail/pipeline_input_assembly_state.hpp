@@ -31,6 +31,7 @@ public:
 	explicit PipelineInputAssemblyState(
 		bksge::PrimitiveTopology const& primitive_topology);
 
+public:
 	::VkPipelineInputAssemblyStateCreateInfo const* GetAddressOf(void) const;
 
 private:

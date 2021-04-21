@@ -42,6 +42,7 @@ public:
 	bksge::vector<::VkSurfaceFormatKHR>
 	GetFormats(vulkan::PhysicalDevice const& physical_device) const;
 
+public:
 	::VkSurfaceKHR Get(void) const;
 
 private:

@@ -9,10 +9,8 @@
 #ifndef BKSGE_CORE_RENDER_VULKAN_DETAIL_DESCRIPTOR_SET_HPP
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_DESCRIPTOR_SET_HPP
 
+#include <bksge/core/render/vulkan/detail/fwd/descriptor_set_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/descriptor_pool_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/descriptor_pool_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/shader_reflection_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/vector.hpp>
 

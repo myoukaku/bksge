@@ -10,11 +10,10 @@
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_COMBINED_IMAGE_SAMPLER_HPP
 
 #include <bksge/core/render/vulkan/detail/fwd/combined_image_sampler_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/command_pool_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/resource_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/sampler_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/texture_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/resource_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/fwd/sampled_texture_fwd.hpp>
 

@@ -12,7 +12,8 @@
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/physical_device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <bksge/fnd/cstdint.hpp>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -133,8 +134,12 @@ public:
 	void DestroyCommandPool(::VkCommandPool command_pool);
 
 	// CommandBuffer
-	::VkCommandBuffer AllocateCommandBuffer(::VkCommandPool command_pool, ::VkCommandBufferLevel level);
-	void FreeCommandBuffer(::VkCommandPool command_pool, ::VkCommandBuffer command_buffer);
+	::VkCommandBuffer AllocateCommandBuffer(
+		::VkCommandPool command_pool,
+		::VkCommandBufferLevel level);
+	void FreeCommandBuffer(
+		::VkCommandPool command_pool,
+		::VkCommandBuffer command_buffer);
 
 	// Swapchain
 	::VkSwapchainKHR CreateSwapchain(vk::SwapchainCreateInfoKHR const& create_info);

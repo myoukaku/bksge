@@ -34,6 +34,7 @@ public:
 
 	::VkResult Reset(void);
 
+public:
 	::VkFence const* GetAddressOf(void) const;
 
 private:

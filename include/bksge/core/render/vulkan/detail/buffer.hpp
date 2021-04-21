@@ -12,6 +12,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_memory_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/command_buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 
 namespace bksge
@@ -38,6 +39,15 @@ public:
 
 	void UnmapMemory(void);
 
+	void BindAsVertexBuffer(
+		vulkan::CommandBuffer* command_buffer);
+
+	void BindAsIndexBuffer(
+		vulkan::CommandBuffer* command_buffer,
+		::VkDeviceSize offset,
+		::VkIndexType index_type);
+
+public:
 	::VkBuffer const* GetAddressOf(void) const;
 
 private:

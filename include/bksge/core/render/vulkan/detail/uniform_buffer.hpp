@@ -35,12 +35,16 @@ public:
 
 	~UniformBuffer();
 
+public:
 	vulkan::Buffer const& buffer(void) const;
 
+public:
 	bksge::uint8_t* mapped_buffer(void) const;
 
+public:
 	bksge::size_t Allocate(bksge::size_t size);
 
+public:
 	void BeginFrame(void);
 
 private:

@@ -29,7 +29,9 @@ namespace vulkan
 class Geometry
 {
 public:
-	explicit Geometry(vulkan::DeviceSharedPtr const& device, bksge::Geometry const& geometry);
+	explicit Geometry(
+		vulkan::DeviceSharedPtr const& device,
+		bksge::Geometry const& geometry);
 
 	~Geometry();
 
@@ -41,8 +43,8 @@ private:
 	Geometry& operator=(Geometry const&) = delete;
 
 private:
-	bksge::unique_ptr<VertexBuffer>		m_vertex_buffer;
-	bksge::unique_ptr<IndexBuffer>		m_index_buffer;
+	bksge::unique_ptr<vulkan::VertexBuffer>		m_vertex_buffer;
+	bksge::unique_ptr<vulkan::IndexBuffer>		m_index_buffer;
 };
 
 }	// namespace vulkan

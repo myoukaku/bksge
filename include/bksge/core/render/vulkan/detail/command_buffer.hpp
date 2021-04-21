@@ -12,12 +12,10 @@
 #include <bksge/core/render/vulkan/detail/fwd/command_buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/command_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/render_pass_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/framebuffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/vector.hpp>
+#include <bksge/fnd/cstdint.hpp>
 
 namespace bksge
 {
@@ -114,6 +112,7 @@ public:
 
 	::VkQueue	GetQueue(void) const;
 
+public:
 	::VkCommandBuffer const* GetAddressOf(void) const;
 
 private:

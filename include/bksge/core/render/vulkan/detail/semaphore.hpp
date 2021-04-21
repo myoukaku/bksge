@@ -29,6 +29,7 @@ public:
 
 	~Semaphore();
 
+public:
 	::VkSemaphore const* GetAddressOf() const;
 
 private:

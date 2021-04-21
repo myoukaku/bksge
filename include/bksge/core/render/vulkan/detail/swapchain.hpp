@@ -14,6 +14,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/surface_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/command_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/image_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/texture_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/extent2d.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
@@ -46,15 +47,19 @@ public:
 		::VkFence        fence,
 		bksge::uint32_t* image_index);
 
-	bksge::vector<vulkan::ImageSharedPtr> const& images(void) const;
+public:
+	bksge::vector<vulkan::TextureSharedPtr> const& images(void) const;
 
+public:
 	vulkan::Extent2D extent(void) const;
 
 	bksge::uint32_t width(void) const;
 	bksge::uint32_t height(void) const;
 
+public:
 	::VkFormat format(void) const;
 
+public:
 	::VkResult Present(bksge::uint32_t image_index);
 
 private:
@@ -66,7 +71,7 @@ private:
 	::VkSwapchainKHR				m_swapchain;
 	vk::SwapchainCreateInfoKHR		m_info;
 	vulkan::DeviceSharedPtr			m_device;
-	bksge::vector<vulkan::ImageSharedPtr>	m_images;
+	bksge::vector<vulkan::TextureSharedPtr>	m_images;
 	::VkQueue						m_present_queue;
 };
 

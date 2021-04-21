@@ -29,11 +29,12 @@ public:
 	explicit RenderPass(
 		vulkan::DeviceSharedPtr const& device,
 		::VkSampleCountFlagBits num_samples,
-		vulkan::Image const& color,
-		vulkan::Image const& depth_stencil);
+		vulkan::Image const* color,
+		vulkan::Image const* depth_stencil);
 
 	~RenderPass();
 
+public:
 	::VkSampleCountFlagBits	samples(void) const;
 
 public:

@@ -62,22 +62,13 @@ VertexBuffer::~VertexBuffer()
 BKSGE_INLINE void
 VertexBuffer::Bind(vulkan::CommandBuffer* command_buffer)
 {
-	::VkDeviceSize offset = 0;
-	command_buffer->BindVertexBuffers(
-		0,
-		1,
-		m_buffer->GetAddressOf(),
-		&offset);
+	m_buffer->BindAsVertexBuffer(command_buffer);
 }
 
 BKSGE_INLINE void
 VertexBuffer::Draw(vulkan::CommandBuffer* command_buffer)
 {
-	command_buffer->Draw(
-		m_count,
-		1,
-		0,
-		0);
+	command_buffer->Draw(m_count, 1, 0, 0);
 }
 
 }	// namespace vulkan

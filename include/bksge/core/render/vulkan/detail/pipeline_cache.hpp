@@ -25,8 +25,7 @@ namespace vulkan
 class PipelineCache
 {
 public:
-	explicit PipelineCache(
-		vulkan::DeviceSharedPtr const& device);
+	explicit PipelineCache(vulkan::DeviceSharedPtr const& device);
 
 	~PipelineCache();
 

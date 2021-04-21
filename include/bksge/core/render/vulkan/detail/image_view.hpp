@@ -41,7 +41,8 @@ public:
 
 	~ImageView();
 
-	::VkImageAspectFlags	aspect_mask(void) const;
+public:
+	::VkImageAspectFlags aspect_mask(void) const;
 
 public:
 	operator ::VkImageView() const;

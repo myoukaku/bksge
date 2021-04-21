@@ -15,6 +15,7 @@
 #include <bksge/core/render/vulkan/detail/buffer.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/device_memory.hpp>
+#include <bksge/core/render/vulkan/detail/command_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 
@@ -62,6 +63,22 @@ BKSGE_INLINE void
 Buffer::UnmapMemory(void)
 {
 	m_device_memory->UnmapMemory();
+}
+
+BKSGE_INLINE void
+Buffer::BindAsVertexBuffer(vulkan::CommandBuffer* command_buffer)
+{
+	::VkDeviceSize offset = 0;
+	command_buffer->BindVertexBuffers(0, 1, &m_buffer, &offset);
+}
+
+BKSGE_INLINE void
+Buffer::BindAsIndexBuffer(
+	vulkan::CommandBuffer* command_buffer,
+	::VkDeviceSize offset,
+	::VkIndexType index_type)
+{
+	command_buffer->BindIndexBuffer(m_buffer, offset, index_type);
 }
 
 BKSGE_INLINE ::VkBuffer const*

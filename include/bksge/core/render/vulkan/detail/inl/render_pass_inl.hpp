@@ -31,8 +31,8 @@ BKSGE_INLINE
 RenderPass::RenderPass(
 	vulkan::DeviceSharedPtr const& device,
 	::VkSampleCountFlagBits num_samples,
-	vulkan::Image const& color,
-	vulkan::Image const& depth_stencil)
+	vulkan::Image const* color,
+	vulkan::Image const* depth_stencil)
 	: m_render_pass(VK_NULL_HANDLE)
 	, m_device(device)
 	, m_samples(num_samples)
@@ -41,28 +41,29 @@ RenderPass::RenderPass(
 
 	{
 		::VkAttachmentDescription att;
-		att.format         = color.format();
+		att.format         = color->format();
 		att.samples        = num_samples;
 		att.loadOp         = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
 		att.storeOp        = VK_ATTACHMENT_STORE_OP_STORE;
 		att.stencilLoadOp  = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
 		att.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
 		att.initialLayout  = VK_IMAGE_LAYOUT_UNDEFINED;
-		att.finalLayout    = color.layout();
+		att.finalLayout    = color->layout();
 		att.flags          = 0;
 		attachments.push_back(att);
 	}
 
+	if (depth_stencil)
 	{
 		::VkAttachmentDescription att;
-		att.format         = depth_stencil.format();
+		att.format         = depth_stencil->format();
 		att.samples        = num_samples;
 		att.loadOp         = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
 		att.storeOp        = VK_ATTACHMENT_STORE_OP_STORE;
 		att.stencilLoadOp  = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
 		att.stencilStoreOp = VK_ATTACHMENT_STORE_OP_STORE;
 		att.initialLayout  = VK_IMAGE_LAYOUT_UNDEFINED;
-		att.finalLayout    = depth_stencil.layout();
+		att.finalLayout    = depth_stencil->layout();
 		att.flags          = 0;
 		attachments.push_back(att);
 	}
@@ -80,7 +81,7 @@ RenderPass::RenderPass(
 	subpass.SetInputAttachments(nullptr);
 	subpass.SetColorAttachments(&color_reference);
 	subpass.SetResolveAttachments(nullptr);
-	subpass.SetDepthStencilAttachment(&depth_reference);
+	subpass.SetDepthStencilAttachment(depth_stencil ? &depth_reference : nullptr);
 	subpass.SetPreserveAttachments(nullptr);
 
 	// Subpass dependency to wait for wsi image acquired semaphore before starting layout transition

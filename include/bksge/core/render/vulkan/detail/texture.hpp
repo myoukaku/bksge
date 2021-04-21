@@ -51,6 +51,7 @@ public:
 
 	~Texture();
 
+public:
 	vulkan::ImageSharedPtr const& image(void) const;
 
 	vulkan::ImageViewSharedPtr const& image_view(void) const;

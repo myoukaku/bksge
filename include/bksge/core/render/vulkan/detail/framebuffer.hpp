@@ -10,17 +10,14 @@
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_FRAMEBUFFER_HPP
 
 #include <bksge/core/render/vulkan/detail/fwd/framebuffer_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/image_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/image_view_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/render_pass_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/command_buffer_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/texture_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/depth_stencil_buffer_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/render_pass_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/texture_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/extent2d.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/fwd/clear_state_fwd.hpp>
-#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -49,6 +46,7 @@ public:
 
 	vk::RenderPassBeginInfo GetRenderPassBeginInfo(void) const;
 
+public:
 	vulkan::TextureSharedPtr const& color_buffer(void) const;
 
 	vulkan::RenderPassSharedPtr const& render_pass(void) const;

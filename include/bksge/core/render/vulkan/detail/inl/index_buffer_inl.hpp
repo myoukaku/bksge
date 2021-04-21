@@ -70,7 +70,7 @@ IndexBuffer::~IndexBuffer()
 BKSGE_INLINE void
 IndexBuffer::Bind(CommandBuffer* command_buffer)
 {
-	command_buffer->BindIndexBuffer(*m_buffer->GetAddressOf(), 0, m_type);
+	m_buffer->BindAsIndexBuffer(command_buffer, 0, m_type);
 }
 
 BKSGE_INLINE void
