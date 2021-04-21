@@ -171,7 +171,7 @@ Image::Image(
 	vk::ImageCreateInfo info;
 	info.imageType     = VK_IMAGE_TYPE_2D;
 	info.format        = format;
-	info.extent        = { extent.width(), extent.height(), 1 };
+	info.extent        = { extent.width, extent.height, 1 };
 	info.mipLevels     = mipmap_count;
 	info.arrayLayers   = 1;
 	info.samples       = num_samples;

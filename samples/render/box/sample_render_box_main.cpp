@@ -134,7 +134,7 @@ int main()
 {
 	bksge::Extent2f const extent{800, 600};
 	bksge::vector<bksge::shared_ptr<bksge::Renderer>>	renderers;
-	bksge::vector<bksge::shared_ptr<bksge::Window>>	windows;
+	bksge::vector<bksge::shared_ptr<bksge::Window>>		windows;
 	bksge::vector<bksge::Shader const*>					shaders;
 
 #if BKSGE_CORE_RENDER_HAS_D3D11_RENDERER
@@ -255,7 +255,7 @@ int main()
 	render_state.depth_state().SetWrite(true);
 
 	bksge::RenderPassInfo render_pass_info;
-	render_pass_info.viewport().SetRect({bksge::Vector2f{0, 0}, extent});
+	render_pass_info.viewport().SetRect({{0, 0}, extent});
 	render_pass_info.clear_state().SetColor({0.5f, 0.0f, 0.5f, 1.0f});
 
 	float	rotation_x = 0.0f;
@@ -283,9 +283,9 @@ int main()
 
 		auto const view =
 			bksge::Matrix4x4f::MakeLookAt(
-				bksge::Vector3f(0, 2, 5),
-				bksge::Vector3f(0, 0, 0),
-				bksge::Vector3f(0, 1, 0));
+				{0, 2, 5},
+				{0, 0, 0},
+				{0, 1, 0});
 
 		auto const model =
 			bksge::Matrix4x4f::MakeRotationX(rotation_x) *

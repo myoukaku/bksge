@@ -55,8 +55,8 @@ CopyBufferToImage(
 	auto command_buffer = BeginSingleTimeCommands(command_pool);
 
 	::VkDeviceSize src_offset = 0;
-	auto width  = extent.width();
-	auto height = extent.height();
+	auto width  = extent.width;
+	auto height = extent.height;
 
 	for (bksge::uint32_t i = 0; i < mipmap_count; ++i)
 	{

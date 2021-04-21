@@ -374,7 +374,7 @@ int main()
 	}
 
 	bksge::RenderPassInfo render_pass_info;
-	render_pass_info.viewport().SetRect({bksge::Vector2f{0, 0}, extent});
+	render_pass_info.viewport().SetRect({{0, 0}, extent});
 
 	for (;;)
 	{

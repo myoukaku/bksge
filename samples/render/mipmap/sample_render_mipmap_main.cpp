@@ -309,7 +309,7 @@ int main()
 #endif
 
 	bksge::RenderPassInfo render_pass_info;
-	render_pass_info.viewport().SetRect({bksge::Vector2f{0, 0}, extent});
+	render_pass_info.viewport().SetRect({{0, 0}, extent});
 	render_pass_info.clear_state().SetColor({0.5f, 0.0f, 0.5f, 1.0f});
 
 	auto const projection =
@@ -321,9 +321,9 @@ int main()
 
 	auto const view =
 		bksge::Matrix4x4f::MakeLookAt(
-			bksge::Vector3f(0.0f, -1.0f, -0.2f),
-			bksge::Vector3f(0.0f,  0.0f,  0.0f),
-			bksge::Vector3f(0.0f,  1.0f,  0.0f));
+			{0.0f, -1.0f, -0.2f},
+			{0.0f,  0.0f,  0.0f},
+			{0.0f,  1.0f,  0.0f});
 
 	Plane plane;
 	plane.SetProjectionMatrix(projection);

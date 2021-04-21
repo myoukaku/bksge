@@ -81,7 +81,7 @@ static bksge::Shader const* GetHLSLShader(void)
 int main()
 {
 	bksge::Extent2f const extent{800, 600};
-	bksge::Rectf viewport({bksge::Vector2f{0, 0}, extent});
+	bksge::Rectf viewport({{0, 0}, extent});
 
 	bksge::vector<bksge::shared_ptr<bksge::Renderer>>	renderers;
 	bksge::vector<bksge::shared_ptr<bksge::Window>>		windows;
@@ -195,7 +195,7 @@ int main()
 				p->y() -= v;
 			}
 
-			viewport = bksge::Rectf(p1, p2);
+			viewport = {p1, p2};
 			render_pass_info.viewport().SetRect(viewport);
 		}
 

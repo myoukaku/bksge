@@ -162,7 +162,7 @@ public:
 		bksge::Extent2<bksge::uint32_t> const& extent)
 	{
 		m_render_pass_info.clear_state().SetFlag(bksge::ClearFlag::kNone);
-		m_render_pass_info.viewport().SetRect({bksge::Vector2f{0, 0}, extent});
+		m_render_pass_info.viewport().SetRect({{0, 0}, extent});
 
 		vulkan::CombinedImageSampler image_sampler(m_sampler, texture);
 		m_shader_parameter_map.SetParameter("uSampler2D", image_sampler);

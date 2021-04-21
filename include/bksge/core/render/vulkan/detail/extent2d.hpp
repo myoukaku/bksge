@@ -25,40 +25,25 @@ namespace vulkan
 /**
  *	@brief
  */
-class Extent2D
+class Extent2D : public ::VkExtent2D
 {
 public:
 	Extent2D(bksge::Extent2<bksge::uint32_t> const& extent)
 	{
-		m_extent2d.width  = extent.width();
-		m_extent2d.height = extent.height();
+		width  = extent.width();
+		height = extent.height();
 	}
 
 	Extent2D(::VkExtent2D const& extent)
 	{
-		m_extent2d.width  = extent.width;
-		m_extent2d.height = extent.height;
+		width  = extent.width;
+		height = extent.height;
 	}
 
 	operator bksge::Extent2<bksge::uint32_t>() const
 	{
-		return
-		{
-			m_extent2d.width,
-			m_extent2d.height,
-		};
+		return { width, height };
 	}
-
-	operator ::VkExtent2D() const
-	{
-		return m_extent2d;
-	}
-
-	bksge::uint32_t width(void)  const { return m_extent2d.width; }
-    bksge::uint32_t height(void) const { return m_extent2d.height; }
-
-private:
-	::VkExtent2D	m_extent2d;
 };
 
 }	// namespace vulkan

@@ -97,19 +97,10 @@ class Triangle
 {
 public:
 	Triangle(float x, float y, bksge::FrontFace front_face, bksge::CullMode cull_mode)
-		: m_position(
-			x,
-			y,
-			0.0f)
-		, m_scale(
-			0.25f,
-			0.25f,
-			0.0f)
+		: m_position(x, y, 0.0f)
+		, m_scale(0.25f, 0.25f, 0.0f)
 		, m_rotation(0)
-		, m_color(
-			1.0f,
-			0.0f,
-			0.0f)
+		, m_color(1.0f, 0.0f, 0.0f)
 	{
 		m_render_state.rasterizer_state().SetFrontFace(front_face);
 		m_render_state.rasterizer_state().SetCullMode(cull_mode);
@@ -231,7 +222,7 @@ int main()
 	triangles.push_back(bksge::make_shared<Triangle>( 0.5f, -0.5f, bksge::FrontFace::kCounterClockwise, bksge::CullMode::kFront));
 
 	bksge::RenderPassInfo render_pass_info;
-	render_pass_info.viewport().SetRect({bksge::Vector2f{0, 0}, extent});
+	render_pass_info.viewport().SetRect({{0, 0}, extent});
 	render_pass_info.clear_state().SetColor({0.5f, 0.0f, 0.5f, 1.0f});
 
 	for (;;)

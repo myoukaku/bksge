@@ -185,7 +185,7 @@ int main()
 	bksge::RenderState render_state;
 
 	bksge::RenderPassInfo render_pass_info;
-	render_pass_info.viewport().SetRect({bksge::Vector2f{0, 0}, extent});
+	render_pass_info.viewport().SetRect({{0, 0}, extent});
 	render_pass_info.clear_state().SetColor({0.5f, 0.0f, 0.5f, 1.0f});
 
 	for (;;)
