@@ -35,16 +35,17 @@ namespace vulkan
 BKSGE_INLINE
 Framebuffer::Framebuffer(
 	vulkan::DeviceSharedPtr const& device,
+	vulkan::Extent2D const& extent,
 	vulkan::TextureSharedPtr const& color_buffer,
 	vulkan::DepthStencilBufferSharedPtr const& depth_stencil_buffer,
 	vulkan::RenderPassSharedPtr const& render_pass)
 	: m_framebuffer(VK_NULL_HANDLE)
 	, m_device(device)
+	, m_extent(extent)
 	, m_color_buffer(color_buffer)
 	, m_depth_stencil_buffer(depth_stencil_buffer)
 	, m_render_pass(render_pass)
 {
-	m_extent = color_buffer->image()->extent();
 	bksge::vector<::VkImageView> attachments;
 	attachments.push_back(*color_buffer->image_view());
 	if (depth_stencil_buffer)
@@ -102,10 +103,16 @@ Framebuffer::Clear(
 	}
 }
 
-BKSGE_INLINE ::VkExtent2D const&
-Framebuffer::extent(void) const
+BKSGE_INLINE vk::RenderPassBeginInfo
+Framebuffer::GetRenderPassBeginInfo(void) const
 {
-	return m_extent;
+	vk::RenderPassBeginInfo render_pass_begin;
+	render_pass_begin.renderPass          = *m_render_pass;
+	render_pass_begin.framebuffer         = m_framebuffer;
+	render_pass_begin.renderArea.offset.x = 0;
+	render_pass_begin.renderArea.offset.y = 0;
+	render_pass_begin.renderArea.extent   = m_extent;
+	return render_pass_begin;
 }
 
 BKSGE_INLINE vulkan::TextureSharedPtr const&
@@ -118,12 +125,6 @@ BKSGE_INLINE vulkan::RenderPassSharedPtr const&
 Framebuffer::render_pass(void) const
 {
 	return m_render_pass;
-}
-
-BKSGE_INLINE
-Framebuffer::operator ::VkFramebuffer() const
-{
-	return m_framebuffer;
 }
 
 }	// namespace vulkan

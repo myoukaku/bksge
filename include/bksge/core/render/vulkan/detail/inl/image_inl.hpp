@@ -136,7 +136,7 @@ BKSGE_INLINE
 Image::Image(
 	::VkImage image,
 	::VkFormat format,
-	::VkExtent2D const& extent,
+	vulkan::Extent2D const& extent,
 	bksge::uint32_t mipmap_count,
 	::VkImageLayout initial_layout)
 	: m_image(image)
@@ -153,7 +153,7 @@ BKSGE_INLINE
 Image::Image(
 	vulkan::DeviceSharedPtr const& device,
 	::VkFormat format,
-	::VkExtent2D const& extent,
+	vulkan::Extent2D const& extent,
 	bksge::uint32_t mipmap_count,
 	::VkSampleCountFlagBits num_samples,
 	::VkImageTiling tiling,
@@ -171,9 +171,7 @@ Image::Image(
 	vk::ImageCreateInfo info;
 	info.imageType     = VK_IMAGE_TYPE_2D;
 	info.format        = format;
-	info.extent.width  = extent.width;
-	info.extent.height = extent.height;
-	info.extent.depth  = 1;
+	info.extent        = { extent.width(), extent.height(), 1 };
 	info.mipLevels     = mipmap_count;
 	info.arrayLayers   = 1;
 	info.samples       = num_samples;
@@ -338,7 +336,7 @@ Image::format(void) const
 	return m_format;
 }
 
-BKSGE_INLINE ::VkExtent2D const&
+BKSGE_INLINE vulkan::Extent2D const&
 Image::extent(void) const
 {
 	return m_extent;

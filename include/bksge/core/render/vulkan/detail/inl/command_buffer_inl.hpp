@@ -222,19 +222,11 @@ CommandBuffer::PipelineBarrier(
 
 BKSGE_INLINE void
 CommandBuffer::BeginRenderPass(
-	vulkan::RenderPass const& render_pass,
-	vulkan::Framebuffer const& framebuffer)
+	vk::RenderPassBeginInfo const& render_pass_begin_info)
 {
-	vk::RenderPassBeginInfo render_pass_begin;
-	render_pass_begin.renderPass          = render_pass;
-	render_pass_begin.framebuffer         = framebuffer;
-	render_pass_begin.renderArea.offset.x = 0;
-	render_pass_begin.renderArea.offset.y = 0;
-	render_pass_begin.renderArea.extent   = framebuffer.extent();
-
 	vk::CmdBeginRenderPass(
 		m_command_buffer,
-		&render_pass_begin,
+		&render_pass_begin_info,
 		VK_SUBPASS_CONTENTS_INLINE);
 }
 
@@ -259,16 +251,16 @@ CommandBuffer::PushDescriptorSet(
 		descriptor_writes);
 }
 
-BKSGE_INLINE ::VkCommandBuffer const*
-CommandBuffer::GetAddressOf(void) const
-{
-	return &m_command_buffer;
-}
-
 BKSGE_INLINE ::VkQueue
 CommandBuffer::GetQueue(void) const
 {
 	return m_command_pool->GetQueue();
+}
+
+BKSGE_INLINE ::VkCommandBuffer const*
+CommandBuffer::GetAddressOf(void) const
+{
+	return &m_command_buffer;
 }
 
 BKSGE_INLINE bksge::unique_ptr<vulkan::CommandBuffer>

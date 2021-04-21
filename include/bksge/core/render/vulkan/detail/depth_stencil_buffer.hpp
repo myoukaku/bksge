@@ -14,6 +14,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/image_view_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/image_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/command_pool_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/extent2d.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 
 namespace bksge
@@ -32,7 +33,7 @@ public:
 		vulkan::DeviceSharedPtr const& device,
 		vulkan::CommandPoolSharedPtr const& command_pool,
 		::VkFormat format,
-		::VkExtent2D const& extent,
+		vulkan::Extent2D const& extent,
 		::VkSampleCountFlagBits num_samples);
 
 	~DepthStencilBuffer();

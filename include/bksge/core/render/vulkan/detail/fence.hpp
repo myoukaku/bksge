@@ -34,7 +34,7 @@ public:
 
 	::VkResult Reset(void);
 
-	operator ::VkFence() const;
+	::VkFence const* GetAddressOf(void) const;
 
 private:
 	// noncopyable

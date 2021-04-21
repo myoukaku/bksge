@@ -814,32 +814,23 @@ struct PipelineInputAssemblyStateCreateInfo : public ::VkPipelineInputAssemblySt
 //	float    maxDepth;
 //};
 
-struct Offset2D : public ::VkOffset2D
-{
-	Offset2D()
-	{
-		x = 0;
-		y = 0;
-	}
-};
+//struct Offset2D : public ::VkOffset2D
+//{
+//    int32_t    x;
+//    int32_t    y;
+//};
 
-struct Extent2D : public ::VkExtent2D
-{
-	Extent2D()
-	{
-		width  = 0;
-		height = 0;
-	}
-};
+//struct Extent2D : public ::VkExtent2D
+//{
+//    uint32_t    width;
+//    uint32_t    height;
+//};
 
-struct Rect2D : public ::VkRect2D
-{
-	Rect2D()
-	{
-		offset = Offset2D();
-		extent = Extent2D();
-	}
-};
+//struct Rect2D : public ::VkRect2D
+//{
+//    VkOffset2D    offset;
+//    VkExtent2D    extent;
+//};
 
 struct PipelineViewportStateCreateInfo : public ::VkPipelineViewportStateCreateInfo
 {
@@ -1504,7 +1495,7 @@ struct RenderPassBeginInfo : public ::VkRenderPassBeginInfo
 		pNext           = nullptr;
 		renderPass      = VK_NULL_HANDLE;
 		framebuffer     = VK_NULL_HANDLE;
-		renderArea      = Rect2D();
+		renderArea      = {};
 		clearValueCount = 0;
 		pClearValues    = nullptr;
 	}
@@ -2136,7 +2127,7 @@ struct SwapchainCreateInfoKHR : public ::VkSwapchainCreateInfoKHR
 		minImageCount         = 0;
 		imageFormat           = VK_FORMAT_UNDEFINED;
 		imageColorSpace       = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR;
-		imageExtent           = Extent2D();
+		imageExtent           = {};
 		imageArrayLayers      = 0;
 		imageUsage            = 0;
 		imageSharingMode      = VK_SHARING_MODE_EXCLUSIVE;

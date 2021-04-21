@@ -19,6 +19,7 @@
 #include <bksge/core/render/vulkan/detail/command_pool.hpp>
 #include <bksge/core/render/vulkan/detail/command_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/image.hpp>
+#include <bksge/core/render/vulkan/detail/extent2d.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/cstdint/uint64_t.hpp>
@@ -51,7 +52,7 @@ Swapchain::Swapchain(
 
 	auto const surface_capabilities = surface.GetCapabilities(*physical_device);
 
-	::VkExtent2D swapchain_extent = surface_capabilities.currentExtent;
+	vulkan::Extent2D swapchain_extent = surface_capabilities.currentExtent;
 	// width and height are either both 0xFFFFFFFF, or both not 0xFFFFFFFF.
 	//if (surface_capabilities.currentExtent.width == 0xFFFFFFFF) {
 	//	// If the surface size is undefined, the size is set to
@@ -195,7 +196,7 @@ Swapchain::images(void) const
 	return m_images;
 }
 
-BKSGE_INLINE ::VkExtent2D
+BKSGE_INLINE vulkan::Extent2D
 Swapchain::extent(void) const
 {
 	return m_info.imageExtent;

@@ -19,6 +19,7 @@
 #include <bksge/core/render/vulkan/detail/image_view.hpp>
 #include <bksge/core/render/vulkan/detail/command_pool.hpp>
 #include <bksge/core/render/vulkan/detail/command_buffer.hpp>
+#include <bksge/core/render/vulkan/detail/extent2d.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/memory/make_shared.hpp>
 
@@ -36,7 +37,7 @@ DepthStencilBuffer::DepthStencilBuffer(
 	vulkan::DeviceSharedPtr const& device,
 	vulkan::CommandPoolSharedPtr const& command_pool,
 	::VkFormat format,
-	::VkExtent2D const& extent,
+	vulkan::Extent2D const& extent,
 	::VkSampleCountFlagBits num_samples)
 {
 	bksge::uint32_t const mipmap_count = 1;

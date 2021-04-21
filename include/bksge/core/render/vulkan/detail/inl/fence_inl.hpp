@@ -53,10 +53,10 @@ Fence::Reset(void)
 	return m_device->ResetFences(1, &m_fence);
 }
 
-BKSGE_INLINE
-Fence::operator ::VkFence() const
+BKSGE_INLINE ::VkFence const*
+Fence::GetAddressOf(void) const
 {
-	return m_fence;
+	return &m_fence;
 }
 
 }	// namespace vulkan

@@ -25,6 +25,7 @@
 #include <bksge/core/render/vulkan/detail/depth_stencil_state.hpp>
 #include <bksge/core/render/vulkan/detail/blend_state.hpp>
 #include <bksge/core/render/vulkan/detail/primitive_topology.hpp>
+#include <bksge/core/render/vulkan/detail/command_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
@@ -125,16 +126,25 @@ GraphicsPipeline::~GraphicsPipeline()
 	m_device->DestroyPipeline(m_pipeline);
 }
 
-BKSGE_INLINE
-GraphicsPipeline::operator ::VkPipeline() const
+BKSGE_INLINE void
+GraphicsPipeline::Bind(vulkan::CommandBuffer* command_buffer)
 {
-	return m_pipeline;
+	command_buffer->BindPipeline(
+		VK_PIPELINE_BIND_POINT_GRAPHICS,
+		m_pipeline);
 }
 
-BKSGE_INLINE vulkan::PipelineLayout const&
-GraphicsPipeline::pipeline_layout(void) const
+BKSGE_INLINE void
+GraphicsPipeline::PushDescriptorSet(
+	vulkan::CommandBuffer* command_buffer,
+	bksge::uint32_t set,
+	bksge::vector<::VkWriteDescriptorSet> const& descriptor_writes)
 {
-	return *m_pipeline_layout;
+	command_buffer->PushDescriptorSet(
+		VK_PIPELINE_BIND_POINT_GRAPHICS,
+		*m_pipeline_layout,
+		set,
+		descriptor_writes);
 }
 
 }	// namespace vulkan

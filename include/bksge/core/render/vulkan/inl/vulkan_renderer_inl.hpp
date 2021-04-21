@@ -156,7 +156,10 @@ public:
 		m_sampler = bksge::make_shared<vulkan::Sampler>(device, sampler);
 	}
 
-	void Draw(VulkanRenderer* renderer, vulkan::TextureSharedPtr const& texture, bksge::Extent2f const& extent)
+	void Draw(
+		VulkanRenderer* renderer,
+		vulkan::TextureSharedPtr const& texture,
+		bksge::Extent2<bksge::uint32_t> const& extent)
 	{
 		m_render_pass_info.clear_state().SetFlag(bksge::ClearFlag::kNone);
 		m_render_pass_info.viewport().SetRect({bksge::Vector2f{0, 0}, extent});
@@ -315,6 +318,7 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 
 		m_offscreen_framebuffer = bksge::make_shared<vulkan::Framebuffer>(
 			m_device,
+			extent,
 			color_buffer,
 			depth_stencil_buffer,
 			offscreen_render_pass);
@@ -382,6 +386,7 @@ VulkanRenderer::CreateFrameBuffers(void)
 
 		auto framebuffer = bksge::make_shared<vulkan::Framebuffer>(
 			m_device,
+			m_swapchain->extent(),
 			color_buffer,
 			depth_stencil_buffer,
 			render_pass);
@@ -415,12 +420,6 @@ VulkanRenderer::VEnd(void)
 	m_current_framebuffer = m_default_framebuffers[m_frame_index];
 
 	{
-		// TODO
-		bksge::Extent2f const extent {
-			static_cast<float>(m_swapchain->extent().width),
-			static_cast<float>(m_swapchain->extent().height)
-		};
-
 		auto& color_buffer = m_offscreen_framebuffer->color_buffer();
 
 		auto current_layout = color_buffer->image()->TransitionLayout(
@@ -431,7 +430,7 @@ VulkanRenderer::VEnd(void)
 		m_offscreen_buffer_drawer->Draw(
 			this,
 			color_buffer,
-			extent);
+			m_swapchain->extent());
 
 		color_buffer->image()->TransitionLayout(
 			m_command_buffer.get(),
@@ -449,7 +448,7 @@ VulkanRenderer::VEnd(void)
 	submit_info.SetCommandBuffers(m_command_buffer->GetAddressOf());
 	submit_info.SetSignalSemaphores(nullptr);
 
-	vk::QueueSubmit(m_graphics_queue, 1, &submit_info, *m_draw_fence);
+	vk::QueueSubmit(m_graphics_queue, 1, &submit_info, *m_draw_fence->GetAddressOf());
 
 	::VkResult res;
 	do {
@@ -475,8 +474,7 @@ VulkanRenderer::VBeginRenderPass(RenderPassInfo const& render_pass_info)
 		render_pass_info.clear_state());
 
 	m_command_buffer->BeginRenderPass(
-		*m_current_framebuffer->render_pass(),
-		*m_current_framebuffer);
+		m_current_framebuffer->GetRenderPassBeginInfo());
 
 	m_command_buffer->SetViewport(
 		vulkan::Viewport(render_pass_info.viewport()));
@@ -515,13 +513,10 @@ VulkanRenderer::VRender(
 		m_uniform_buffer.get(),
 		m_resource_pool.get());
 
-	m_command_buffer->BindPipeline(
-		VK_PIPELINE_BIND_POINT_GRAPHICS,
-		*graphics_pipeline);
+	graphics_pipeline->Bind(m_command_buffer.get());
 
-	m_command_buffer->PushDescriptorSet(
-		VK_PIPELINE_BIND_POINT_GRAPHICS,
-		graphics_pipeline->pipeline_layout(),
+	graphics_pipeline->PushDescriptorSet(
+		m_command_buffer.get(),
 		0,	// TODO set
 		vk_shader->GetWriteDescriptorSets());
 

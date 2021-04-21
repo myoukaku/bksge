@@ -14,6 +14,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/surface_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/command_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/image_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/extent2d.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/cstdint/uint64_t.hpp>
@@ -47,7 +48,7 @@ public:
 
 	bksge::vector<vulkan::ImageSharedPtr> const& images(void) const;
 
-	::VkExtent2D extent(void) const;
+	vulkan::Extent2D extent(void) const;
 
 	bksge::uint32_t width(void) const;
 	bksge::uint32_t height(void) const;

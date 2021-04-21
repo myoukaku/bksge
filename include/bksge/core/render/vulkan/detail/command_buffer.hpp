@@ -103,9 +103,7 @@ public:
 		bksge::uint32_t                image_memory_barrier_count,
 		::VkImageMemoryBarrier const*  image_memory_barriers);
 
-	void BeginRenderPass(
-		vulkan::RenderPass const& render_pass,
-		vulkan::Framebuffer const& framebuffer);
+	void BeginRenderPass(vk::RenderPassBeginInfo const& render_pass_begin_info);
 	void EndRenderPass(void);
 
 	void PushDescriptorSet(
@@ -114,9 +112,9 @@ public:
 		bksge::uint32_t                              set,
 		bksge::vector<::VkWriteDescriptorSet> const& descriptor_writes);
 
-	::VkCommandBuffer const* GetAddressOf(void) const;
-
 	::VkQueue	GetQueue(void) const;
+
+	::VkCommandBuffer const* GetAddressOf(void) const;
 
 private:
 	// noncopyable

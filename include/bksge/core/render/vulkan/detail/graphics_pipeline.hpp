@@ -18,7 +18,10 @@
 #include <bksge/core/render/vulkan/detail/fwd/pipeline_vertex_input_state_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/pipeline_cache_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/pipeline_layout_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/command_buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
+#include <bksge/fnd/cstdint.hpp>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
@@ -42,9 +45,12 @@ public:
 
 	~GraphicsPipeline();
 
-	vulkan::PipelineLayout const& pipeline_layout(void) const;
+	void Bind(vulkan::CommandBuffer* command_buffer);
 
-	operator ::VkPipeline() const;
+	void PushDescriptorSet(
+		vulkan::CommandBuffer* command_buffer,
+		bksge::uint32_t set,
+		bksge::vector<::VkWriteDescriptorSet> const& descriptor_writes);
 
 private:
 	// noncopyable

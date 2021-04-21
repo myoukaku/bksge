@@ -48,15 +48,15 @@ CopyBufferToImage(
 	::VkBuffer buffer,
 	::VkImage image,
 	bksge::TextureFormat format,
-	::VkExtent2D extent,
+	vulkan::Extent2D extent,
 	bksge::uint32_t mipmap_count,
 	::VkImageAspectFlags aspect)
 {
 	auto command_buffer = BeginSingleTimeCommands(command_pool);
 
 	::VkDeviceSize src_offset = 0;
-	auto width  = extent.width;
-	auto height = extent.height;
+	auto width  = extent.width();
+	auto height = extent.height();
 
 	for (bksge::uint32_t i = 0; i < mipmap_count; ++i)
 	{
@@ -93,7 +93,7 @@ Texture::Texture(
 	vulkan::DeviceSharedPtr const& device,
 	vulkan::CommandPoolSharedPtr const& command_pool,
 	::VkFormat format,
-	::VkExtent2D const& extent,
+	vulkan::Extent2D const& extent,
 	bksge::uint32_t mipmap_count,
 	::VkSampleCountFlagBits num_samples,
 	::VkImageUsageFlags usage,

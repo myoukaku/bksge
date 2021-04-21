@@ -14,6 +14,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/device_memory_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/command_buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/command_pool_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/extent2d.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/math/color4.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
@@ -33,14 +34,14 @@ public:
 	explicit Image(
 		::VkImage image,
 		::VkFormat format,
-		::VkExtent2D const& extent,
+		vulkan::Extent2D const& extent,
 		bksge::uint32_t mipmap_count,
 		::VkImageLayout initial_layout);
 
 	explicit Image(
 		vulkan::DeviceSharedPtr const& device,
 		::VkFormat format,
-		::VkExtent2D const& extent,
+		vulkan::Extent2D const& extent,
 		bksge::uint32_t mipmap_count,
 		::VkSampleCountFlagBits num_samples,
 		::VkImageTiling tiling,
@@ -75,13 +76,17 @@ public:
 		::VkImageAspectFlags aspect_mask,
 		::VkImageLayout new_layout);
 
-	::VkFormat const&		format(void) const;
+public:
+	::VkFormat const& format(void) const;
 
-	::VkExtent2D const&		extent(void) const;
+public:
+	vulkan::Extent2D const& extent(void) const;
 
-	bksge::uint32_t			mipmap_count(void) const;
+public:
+	bksge::uint32_t mipmap_count(void) const;
 
-	::VkImageLayout			layout(void) const;
+public:
+	::VkImageLayout layout(void) const;
 
 public:
 	operator ::VkImage() const;
@@ -96,7 +101,7 @@ private:
 	vulkan::DeviceSharedPtr			m_device;
 	vulkan::DeviceMemoryUniquePtr	m_device_memory;
 	::VkFormat						m_format;
-	::VkExtent2D					m_extent;
+	vulkan::Extent2D				m_extent;
 	bksge::uint32_t					m_mipmap_count;
 	::VkImageLayout					m_layout;
 };
