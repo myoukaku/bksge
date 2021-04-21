@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_GL_DETAIL_EGL_INL_EGL_CONTEXT_INL_HPP
 
 #include <bksge/core/render/config.hpp>
-#if BKSGE_CORE_RENDER_HAS_GL_RENDERER
+#if 0//BKSGE_CORE_RENDER_HAS_GL_RENDERER
 
 #include <bksge/core/render/gl/detail/egl/egl_context.hpp>
 #include <bksge/core/window/window.hpp>

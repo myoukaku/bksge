@@ -10,6 +10,7 @@
 #define BKSGE_CORE_RENDER_GL_DETAIL_EGL_EGL_CONTEXT_HPP
 
 #include <bksge/fnd/config.hpp>
+#if 0//BKSGE_CORE_RENDER_HAS_GL_RENDERER
 
 #include <bksge/core/render/gl/detail/context.hpp>
 #include <bksge/core/render/gl/detail/gl_h.hpp>
@@ -53,5 +54,7 @@ private:
 #if defined(BKSGE_HEADER_ONLY)
 #include <bksge/core/render/gl/detail/egl/inl/egl_context_inl.hpp>
 #endif
+
+#endif // BKSGE_CORE_RENDER_HAS_GL_RENDERER
 
 #endif // BKSGE_CORE_RENDER_GL_DETAIL_EGL_EGL_CONTEXT_HPP

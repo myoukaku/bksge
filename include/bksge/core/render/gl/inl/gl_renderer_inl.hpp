@@ -24,7 +24,7 @@
 #include <bksge/core/render/gl/detail/sampler.hpp>
 #include <bksge/core/render/gl/detail/texture.hpp>
 #include <bksge/core/render/gl/detail/gl_h.hpp>
-#include <bksge/core/render/gl/detail/egl/egl_context.hpp>
+//#include <bksge/core/render/gl/detail/egl/egl_context.hpp>
 #include <bksge/core/render/gl/detail/wgl/wgl_context.hpp>
 #include <bksge/core/render/gl/detail/glx/glx_context.hpp>
 #include <bksge/core/render/geometry.hpp>
