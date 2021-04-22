@@ -39,18 +39,11 @@ GlslParameter::GlslParameter(::GLuint program, ::GLuint index)
 
 	bksge::vector<::GLchar> buf(max_length + 1);
 	::glGetActiveUniform(
-		program, index, max_length, nullptr, &m_size, &m_type, buf.data());
+		program, index, max_length, nullptr, nullptr, &m_type, buf.data());
 	m_name = buf.data();
 	m_location = ::glGetUniformLocation(program, m_name.c_str());
 
 	::glGetActiveUniformsiv(program, 1, &index, GL_UNIFORM_OFFSET, &m_offset);
-
-	//std::cout
-	//	<< m_name << ", "
-	//	<< m_location << ", "
-	//	<< m_offset << ", "
-	//	<< m_size << ", "
-	//	<< m_type << std::endl;
 
 	switch (m_type)
 	{
@@ -94,7 +87,7 @@ GlslParameter::LoadParameter(
 {
 	if (m_setter)
 	{
-		m_setter->SetParameter(resource_pool, shader_parameter_map[m_name], m_location);
+		m_setter->LoadUniform(resource_pool, shader_parameter_map[m_name], m_location);
 	}
 }
 
@@ -102,10 +95,18 @@ BKSGE_INLINE void
 GlslParameter::LoadUniformBuffer(
 	bksge::ShaderParameterMap const& shader_parameter_map)
 {
-	if (m_setter)
+	if (m_setter == nullptr)
 	{
-		m_setter->LoadUniformBuffer(shader_parameter_map[m_name], m_offset);
+		return;
 	}
+
+	auto param = shader_parameter_map[m_name];
+	if (param == nullptr || param->data() == nullptr)
+	{
+		return;
+	}
+
+	::glBufferSubData(GL_UNIFORM_BUFFER, m_offset, m_setter->size(), param->data());
 }
 
 }	// namespace gl

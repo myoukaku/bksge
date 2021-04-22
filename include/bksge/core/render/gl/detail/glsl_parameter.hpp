@@ -50,7 +50,6 @@ private:
 
 private:
 	bksge::string	m_name;
-	::GLint			m_size;
 	::GLenum		m_type;
 	::GLint			m_location;
 	::GLint			m_offset;

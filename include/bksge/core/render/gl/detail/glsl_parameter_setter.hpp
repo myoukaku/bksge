@@ -14,6 +14,7 @@
 #include <bksge/core/render/gl/detail/resource_pool.hpp>
 #include <bksge/core/render/gl/detail/sampled_texture.hpp>
 #include <bksge/core/render/detail/shader_parameter_base.hpp>
+#include <bksge/core/render/detail/shader_parameter.hpp>
 #include <bksge/core/render/sampled_texture.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
 
@@ -36,24 +37,18 @@ public:
 
 	virtual ~GlslParameterSetterBase();
 
-	void SetParameter(
+	void LoadUniform(
 		ResourcePool* resource_pool,
 		bksge::shared_ptr<ShaderParameterBase> const& src,
 		::GLint location) const;
 
-	void LoadUniformBuffer(
-		bksge::shared_ptr<ShaderParameterBase> const& src,
-		::GLint offset) const;
+	virtual GLsizeiptr size(void) const = 0;
 
 private:
-	virtual void VSetParameter(
+	virtual void VLoadUniform(
 		ResourcePool* resource_pool,
 		bksge::shared_ptr<ShaderParameterBase> const& src,
 		::GLint location) const = 0;
-
-	virtual void VLoadUniformBuffer(
-		bksge::shared_ptr<ShaderParameterBase> const& src,
-		::GLint offset) const = 0;
 };
 
 /**
@@ -65,91 +60,111 @@ class GlslParameterSetter : public GlslParameterSetterBase
 public:
 	using GlslParameterSetterBase::GlslParameterSetterBase;
 
+	GLsizeiptr size(void) const override
+	{
+		return sizeof(T);
+	}
+
 private:
-	void VSetParameter(
-		ResourcePool* resource_pool,
+	void VLoadUniform(
+		ResourcePool*,
 		bksge::shared_ptr<ShaderParameterBase> const& src,
 		::GLint location) const override
 	{
-		if (src)
-		{
-			auto const* v = static_cast<T const*>(src->data());
-			SetParameterImpl(resource_pool, location, *v);
-		}
+		auto const* v = static_cast<T const*>(src->data());
+		LoadUniformImpl(location, *v);
 	}
 
-	void VLoadUniformBuffer(
-		bksge::shared_ptr<ShaderParameterBase> const& src,
-		::GLint offset) const override
-	{
-		if (src)
-		{
-			::glBufferSubData(GL_UNIFORM_BUFFER, offset, sizeof(T), src->data());
-		}
-	}
-
-	static void SetParameterImpl(ResourcePool*, ::GLint location, float const& v)
+	static void LoadUniformImpl(::GLint location, float const& v)
 	{
 		::glUniform1f(location, v);
 	}
 
-	static void SetParameterImpl(ResourcePool*, ::GLint location, float const (&v)[2])
+	static void LoadUniformImpl(::GLint location, float const (&v)[2])
 	{
 		::glUniform2fv(location, 1, &v[0]);
 	}
 
-	static void SetParameterImpl(ResourcePool*, ::GLint location, float const (&v)[3])
+	static void LoadUniformImpl(::GLint location, float const (&v)[3])
 	{
 		::glUniform3fv(location, 1, &v[0]);
 	}
 
-	static void SetParameterImpl(ResourcePool*, ::GLint location, float const (&v)[4])
+	static void LoadUniformImpl(::GLint location, float const (&v)[4])
 	{
 		::glUniform4fv(location, 1, &v[0]);
 	}
 
-	static void SetParameterImpl(ResourcePool*, ::GLint location, double const& v)
+	static void LoadUniformImpl(::GLint location, double const& v)
 	{
 		::glUniform1d(location, v);
 	}
 
-	static void SetParameterImpl(ResourcePool*, ::GLint location, double const (&v)[2])
+	static void LoadUniformImpl(::GLint location, double const (&v)[2])
 	{
 		::glUniform2dv(location, 1, &v[0]);
 	}
 
-	static void SetParameterImpl(ResourcePool*, ::GLint location, double const (&v)[3])
+	static void LoadUniformImpl(::GLint location, double const (&v)[3])
 	{
 		::glUniform3dv(location, 1, &v[0]);
 	}
 
-	static void SetParameterImpl(ResourcePool*, ::GLint location, double const (&v)[4])
+	static void LoadUniformImpl(::GLint location, double const (&v)[4])
 	{
 		::glUniform4dv(location, 1, &v[0]);
 	}
 
-	static void SetParameterImpl(ResourcePool*, ::GLint location, float const (&v)[2][2])
+	static void LoadUniformImpl(::GLint location, float const (&v)[2][2])
 	{
 		::glUniformMatrix2fv(location, 1, GL_FALSE, &v[0][0]);
 	}
 
-	static void SetParameterImpl(ResourcePool*, ::GLint location, float const (&v)[3][3])
+	static void LoadUniformImpl(::GLint location, float const (&v)[3][3])
 	{
 		::glUniformMatrix3fv(location, 1, GL_FALSE, &v[0][0]);
 	}
 
-	static void SetParameterImpl(ResourcePool*, ::GLint location, float const (&v)[4][4])
+	static void LoadUniformImpl(::GLint location, float const (&v)[4][4])
 	{
 		::glUniformMatrix4fv(location, 1, GL_FALSE, &v[0][0]);
 	}
+};
 
-	static void SetParameterImpl(
-		ResourcePool* resource_pool,
-		::GLint location,
-		bksge::SampledTexture const& sampled_texture)
+template <>
+class GlslParameterSetter<bksge::SampledTexture> : public GlslParameterSetterBase
+{
+private:
+	using T = bksge::SampledTexture;
+
+public:
+	using GlslParameterSetterBase::GlslParameterSetterBase;
+
+	GLsizeiptr size(void) const override
 	{
-		gl::SampledTexture gl_sampled_texture(resource_pool, sampled_texture);
-		gl_sampled_texture.Bind(location);
+		return sizeof(T);
+	}
+
+private:
+	void VLoadUniform(
+		ResourcePool* resource_pool,
+		bksge::shared_ptr<ShaderParameterBase> const& src,
+		::GLint location) const override
+	{
+		if (src->class_id() == ShaderParameter<bksge::SampledTexture>::StaticClassId())
+		{
+			auto sampled_texture = *static_cast<bksge::SampledTexture const*>(src->data());
+			gl::SampledTexture gl_sampled_texture(resource_pool, sampled_texture);
+			gl_sampled_texture.Bind(location);
+			return;
+		}
+
+		if (src->class_id() == ShaderParameter<gl::SampledTexture>::StaticClassId())
+		{
+			auto gl_sampled_texture = *static_cast<gl::SampledTexture const*>(src->data());
+			gl_sampled_texture.Bind(location);
+			return;
+		}
 	}
 };
 

@@ -229,7 +229,7 @@ private:
 			"}														\n"
 		;
 
-		static Shader const s_shader
+		static bksge::Shader const s_shader
 		{
 			{ bksge::ShaderStage::kVertex,   vs_source },
 			{ bksge::ShaderStage::kFragment, fs_source },

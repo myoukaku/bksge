@@ -22,6 +22,7 @@
 #include <bksge/core/render/gl/detail/render_state.hpp>
 #include <bksge/core/render/gl/detail/resource_pool.hpp>
 #include <bksge/core/render/gl/detail/sampler.hpp>
+#include <bksge/core/render/gl/detail/sampled_texture.hpp>
 #include <bksge/core/render/gl/detail/texture.hpp>
 #include <bksge/core/render/gl/detail/gl_h.hpp>
 //#include <bksge/core/render/gl/detail/egl/egl_context.hpp>
@@ -32,6 +33,7 @@
 #include <bksge/core/render/render_pass_info.hpp>
 #include <bksge/core/render/sampler.hpp>
 #include <bksge/core/render/shader.hpp>
+#include <bksge/core/render/shader_parameter_map.hpp>
 #include <bksge/core/render/vertex.hpp>
 #include <bksge/core/render/vertex_element.hpp>
 #include <bksge/core/window/window.hpp>
@@ -103,7 +105,7 @@ void APIENTRY DebugCallback(
 struct GlRenderer::OffscreenBufferDrawer
 {
 private:
-	bksge::unique_ptr<gl::GlslProgram> CreateProgram(void)
+	static bksge::Shader const& GetShader(void)
 	{
 		static char const* vs_source =
 			"#version 420											\n"
@@ -137,75 +139,67 @@ private:
 			"}														\n"
 		;
 
-		bksge::Shader const shader
+		static bksge::Shader const s_shader
 		{
 			{ bksge::ShaderStage::kVertex,   vs_source },
 			{ bksge::ShaderStage::kFragment, fs_source },
 		};
 
-		return bksge::make_unique<gl::GlslProgram>(shader);
+		return s_shader;
 	}
 
-	bksge::unique_ptr<gl::Sampler> CreateSampler(void)
-	{
-		bksge::Sampler	sampler;
-		return bksge::make_unique<gl::Sampler>(sampler);
-	}
-
-	bksge::unique_ptr<gl::Geometry> CreateGeometry(void)
+	static bksge::Geometry const& GetGeometry(void)
 	{
 		// ・全画面を覆う三角形
 		// ・ここのUVで上下反転させる
-		bksge::Vertex<bksge::VPosition, bksge::VTexCoord> const vertices[] =
+		static bksge::Vertex<bksge::VPosition, bksge::VTexCoord> const vertices[] =
 		{
 			{{{-1.0,  3.0, 0.0}}, {{0, 2}}},
 			{{{-1.0, -1.0, 0.0}}, {{0, 0}}},
 			{{{ 3.0, -1.0, 0.0}}, {{2, 0}}},
 		};
-		bksge::uint16_t const indices[] =
+		static bksge::uint16_t const indices[] =
 		{
 			0, 1, 2,
 		};
-		bksge::Geometry const geometry(
+		static bksge::Geometry const s_geometry(
 			bksge::PrimitiveTopology::kTriangles, vertices, indices);
 
-		return bksge::make_unique<gl::Geometry>(geometry);
+		return s_geometry;
 	}
 
 public:
 	OffscreenBufferDrawer()
 	{
-		m_program = CreateProgram();
-		m_sampler = CreateSampler();
-		m_geometry = CreateGeometry();
+		bksge::Sampler sampler;
+		m_sampler = bksge::make_shared<gl::Sampler>(sampler);
 	}
 
-	void Draw(gl::TextureShared const& texture, bksge::Extent2f const& extent)
+	void Draw(
+		GlRenderer* renderer,
+		gl::TextureShared const& texture,
+		bksge::Extent2f const& extent)
 	{
 		m_render_pass_info.clear_state().SetFlag(bksge::ClearFlag::kNone);
-		m_render_pass_info.viewport().SetRect({bksge::Vector2f{0, 0}, extent});
+		m_render_pass_info.viewport().SetRect({{0, 0}, extent});
 
-		gl::RenderPassInfo::Apply(m_render_pass_info);
-		gl::RenderState::Apply(m_render_state);
+		gl::SampledTexture sampled_texture(m_sampler, texture);
+		m_shader_parameter_map.SetParameter("uSampler2D", sampled_texture);
 
-		m_program->Use();
-
-		texture->Bind(0);
-		m_sampler->Bind(0);
-
-		m_geometry->Bind();
-		m_geometry->Draw();
-		m_geometry->Unbind();
-
-		m_program->Unuse();
+		renderer->BeginRenderPass(m_render_pass_info);
+		renderer->Render(
+			GetGeometry(),
+			GetShader(),
+			m_shader_parameter_map,
+			m_render_state);
+		renderer->EndRenderPass();
 	}
 
 private:
-	bksge::RenderPassInfo				m_render_pass_info;
-	bksge::RenderState					m_render_state;
-	bksge::unique_ptr<gl::GlslProgram>	m_program;
-	bksge::unique_ptr<gl::Sampler>		m_sampler;
-	bksge::unique_ptr<gl::Geometry>		m_geometry;
+	bksge::RenderPassInfo		m_render_pass_info;
+	bksge::RenderState			m_render_state;
+	bksge::ShaderParameterMap	m_shader_parameter_map;
+	gl::SamplerShared			m_sampler;
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -280,6 +274,7 @@ GlRenderer::VEnd(void)
 	m_offscreen_buffer->Unbind();
 
 	m_offscreen_buffer_drawer->Draw(
+		this,
 		m_offscreen_buffer->GetColorBuffer(0),
 		m_gl_context->extent());
 

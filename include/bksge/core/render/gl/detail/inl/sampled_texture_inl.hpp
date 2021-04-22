@@ -35,6 +35,15 @@ SampledTexture::SampledTexture(
 {
 }
 
+BKSGE_INLINE
+SampledTexture::SampledTexture(
+	SamplerShared const& sampler,
+	TextureShared const& texture)
+	: m_texture(texture)
+	, m_sampler(sampler)
+{
+}
+
 BKSGE_INLINE void
 SampledTexture::Bind(GLint location) const
 {

@@ -35,20 +35,16 @@ GlslParameterSetterBase::~GlslParameterSetterBase()
 }
 
 BKSGE_INLINE void
-GlslParameterSetterBase::SetParameter(
+GlslParameterSetterBase::LoadUniform(
 	ResourcePool* resource_pool,
-	bksge::shared_ptr<ShaderParameterBase> const& src,
+	bksge::shared_ptr<ShaderParameterBase> const& param,
 	::GLint location) const
 {
-	VSetParameter(resource_pool, src, location);
-}
-
-BKSGE_INLINE void
-GlslParameterSetterBase::LoadUniformBuffer(
-	bksge::shared_ptr<ShaderParameterBase> const& src,
-	::GLint offset) const
-{
-	VLoadUniformBuffer(src, offset);
+	if (param == nullptr || param->data() == nullptr)
+	{
+		return;
+	}
+	VLoadUniform(resource_pool, param, location);
 }
 
 }	// namespace gl

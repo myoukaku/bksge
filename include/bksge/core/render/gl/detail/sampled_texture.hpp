@@ -34,12 +34,16 @@ public:
 		ResourcePool* resource_pool,
 		bksge::SampledTexture const& sampled_texture);
 
+	explicit SampledTexture(
+		SamplerShared const& sampler,
+		TextureShared const& texture);
+
 	void Bind(GLint location) const;
 
 private:
 	// noncopyable
-	SampledTexture(SampledTexture const&) = delete;
-	SampledTexture& operator=(SampledTexture const&) = delete;
+	//SampledTexture(SampledTexture const&) = delete;
+	//SampledTexture& operator=(SampledTexture const&) = delete;
 
 private:
 	TextureShared	m_texture;
