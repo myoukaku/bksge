@@ -38,8 +38,9 @@ GlslParameter::GlslParameter(::GLuint program, ::GLuint index)
 	::glGetProgramiv(program, GL_ACTIVE_UNIFORM_MAX_LENGTH, &max_length);
 
 	bksge::vector<::GLchar> buf(max_length + 1);
+	::GLint size;
 	::glGetActiveUniform(
-		program, index, max_length, nullptr, nullptr, &m_type, buf.data());
+		program, index, max_length, nullptr, &size, &m_type, buf.data());
 	m_name = buf.data();
 	m_location = ::glGetUniformLocation(program, m_name.c_str());
 
