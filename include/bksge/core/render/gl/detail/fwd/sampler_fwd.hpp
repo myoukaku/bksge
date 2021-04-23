@@ -24,7 +24,7 @@ namespace gl
 
 class Sampler;
 using SamplerShared = bksge::shared_ptr<Sampler>;
-using SamplerMap = bksge::map<bksge::size_t, SamplerShared>;
+using SamplerMap    = bksge::map<bksge::size_t, SamplerShared>;
 
 }	// namespace gl
 

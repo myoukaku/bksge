@@ -9,7 +9,9 @@
 #ifndef BKSGE_CORE_RENDER_GL_DETAIL_FWD_FRAME_BUFFER_FWD_HPP
 #define BKSGE_CORE_RENDER_GL_DETAIL_FWD_FRAME_BUFFER_FWD_HPP
 
-#include <bksge/fnd/memory/unique_ptr.hpp>
+#include <bksge/core/render/detail/identifier.hpp>
+#include <bksge/fnd/memory/shared_ptr.hpp>
+#include <bksge/fnd/map/map.hpp>
 
 namespace bksge
 {
@@ -21,7 +23,8 @@ namespace gl
 {
 
 class FrameBuffer;
-using FrameBufferUnique = bksge::unique_ptr<FrameBuffer>;
+using FrameBufferShared = bksge::shared_ptr<FrameBuffer>;
+using FrameBufferMap    = bksge::map<Identifier, FrameBufferShared>;
 
 }	// namespace gl
 

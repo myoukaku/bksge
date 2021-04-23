@@ -9,7 +9,9 @@
 #ifndef BKSGE_CORE_RENDER_GL_DETAIL_RENDER_BUFFER_HPP
 #define BKSGE_CORE_RENDER_GL_DETAIL_RENDER_BUFFER_HPP
 
+#include <bksge/core/render/fwd/render_texture_fwd.hpp>
 #include <bksge/core/render/gl/detail/gl_h.hpp>
+#include <bksge/core/render/texture_format.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
 
 namespace bksge
@@ -27,10 +29,13 @@ namespace gl
 class RenderBuffer
 {
 public:
-	RenderBuffer(
-		::GLenum format,
+	explicit RenderBuffer(
+		bksge::TextureFormat texture_format,
 		bksge::uint32_t width,
 		bksge::uint32_t height);
+
+	explicit RenderBuffer(
+		bksge::RenderTexture const& texture);
 
 	~RenderBuffer();
 

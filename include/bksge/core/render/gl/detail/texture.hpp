@@ -12,6 +12,7 @@
 #include <bksge/core/render/gl/detail/fwd/texture_fwd.hpp>
 #include <bksge/core/render/gl/detail/gl_h.hpp>
 #include <bksge/core/render/fwd/texture_fwd.hpp>
+#include <bksge/core/render/fwd/render_texture_fwd.hpp>
 #include <bksge/core/render/texture_format.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint8_t.hpp>
@@ -32,14 +33,16 @@ namespace gl
 class Texture
 {
 public:
-	explicit Texture(bksge::Texture const& texture);
-
-	Texture(
+	explicit Texture(
 		bksge::TextureFormat format,
 		bksge::uint32_t width,
 		bksge::uint32_t height,
 		bksge::size_t mipmap_count,
 		bksge::uint8_t const* data);
+
+	explicit Texture(bksge::Texture const& texture);
+
+	explicit Texture(bksge::RenderTexture const& texture);
 
 	~Texture();
 

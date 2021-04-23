@@ -21,6 +21,7 @@
 #include <bksge/core/render/detail/shader_parameter.hpp>
 #include <bksge/core/render/sampler.hpp>
 #include <bksge/core/render/texture.hpp>
+#include <bksge/core/render/render_texture.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
 #include <bksge/fnd/utility/pair.hpp>
 
@@ -61,6 +62,17 @@ GlslParameterSetter<GL_SAMPLER_2D>::VLoadUniform(
 	if (param->class_id() == ShaderParameter<Sampler2d>::StaticClassId())
 	{
 		auto sampler_2d = static_cast<Sampler2d const*>(param->data());
+		auto gl_sampler = resource_pool->GetGlSampler(sampler_2d->first);
+		auto gl_texture = resource_pool->GetGlTexture(sampler_2d->second);
+		gl_sampler->Bind(location);
+		gl_texture->Bind(location);
+		return;
+	}
+
+	using RenderTexture2d = bksge::pair<bksge::Sampler, bksge::RenderTexture>;
+	if (param->class_id() == ShaderParameter<RenderTexture2d>::StaticClassId())
+	{
+		auto sampler_2d = static_cast<RenderTexture2d const*>(param->data());
 		auto gl_sampler = resource_pool->GetGlSampler(sampler_2d->first);
 		auto gl_texture = resource_pool->GetGlTexture(sampler_2d->second);
 		gl_sampler->Bind(location);

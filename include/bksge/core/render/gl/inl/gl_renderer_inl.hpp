@@ -185,13 +185,14 @@ public:
 
 		m_shader_parameter_map.SetParameter("uSampler2D", bksge::make_pair(m_sampler, texture));
 
-		renderer->BeginRenderPass(m_render_pass_info);
+//		renderer->BeginRenderPass(m_render_pass_info);
+		gl::RenderPassInfo::Apply(m_render_pass_info);
 		renderer->Render(
 			GetGeometry(),
 			GetShader(),
 			m_shader_parameter_map,
 			m_render_state);
-		renderer->EndRenderPass();
+//		renderer->EndRenderPass();
 	}
 
 private:
@@ -231,7 +232,7 @@ GlRenderer::GlRenderer(Window const& window)
 
 	// Create Offscreen FrameBuffer
 	{
-		m_offscreen_buffer = bksge::make_unique<gl::FrameBuffer>();
+		m_offscreen_buffer = bksge::make_shared<gl::FrameBuffer>();
 		{
 			auto texture = bksge::make_shared<gl::Texture>(
 				bksge::TextureFormat::kRGBA_U8_NORM,
@@ -243,7 +244,7 @@ GlRenderer::GlRenderer(Window const& window)
 		}
 		{
 			auto depth_stencil = bksge::make_shared<gl::RenderBuffer>(
-				GL_DEPTH24_STENCIL8,
+				bksge::TextureFormat::kDepth24_Stencil8,
 				width,
 				height);
 			m_offscreen_buffer->AttachDepthStencilBuffer(depth_stencil);
@@ -262,16 +263,12 @@ GlRenderer::~GlRenderer()
 BKSGE_INLINE void
 GlRenderer::VBegin(void)
 {
-	m_offscreen_buffer->Bind();
-
 	m_timer_queries[0]->QueryCounter(GL_TIMESTAMP);
 }
 
 BKSGE_INLINE void
 GlRenderer::VEnd(void)
 {
-	m_offscreen_buffer->Unbind();
-
 	m_offscreen_buffer_drawer->Draw(
 		this,
 		m_offscreen_buffer->GetColorBuffer(0),
@@ -292,12 +289,24 @@ GlRenderer::VEnd(void)
 BKSGE_INLINE void
 GlRenderer::VBeginRenderPass(RenderPassInfo const& render_pass_info)
 {
+	if (render_pass_info.frame_buffer() != nullptr)
+	{
+		m_current_frame_buffer = m_resource_pool->GetGlFrameBuffer(
+			*render_pass_info.frame_buffer());
+	}
+	else
+	{
+		m_current_frame_buffer = m_offscreen_buffer;
+	}
+
+	m_current_frame_buffer->Bind();
 	gl::RenderPassInfo::Apply(render_pass_info);
 }
 
 BKSGE_INLINE void
 GlRenderer::VEndRenderPass(void)
 {
+	m_current_frame_buffer->Unbind();
 }
 
 BKSGE_INLINE bool

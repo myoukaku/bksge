@@ -13,6 +13,9 @@
 #if BKSGE_CORE_RENDER_HAS_GL_RENDERER
 
 #include <bksge/core/render/gl/detail/render_buffer.hpp>
+#include <bksge/core/render/gl/detail/pixel_format.hpp>
+#include <bksge/core/render/texture_format.hpp>
+#include <bksge/core/render/render_texture.hpp>
 
 namespace bksge
 {
@@ -25,14 +28,24 @@ namespace gl
 
 BKSGE_INLINE
 RenderBuffer::RenderBuffer(
-	::GLenum format,
+	bksge::TextureFormat texture_format,
 	bksge::uint32_t width,
 	bksge::uint32_t height)
 {
 	::glGenRenderbuffers(1, &m_id);
 	Bind();
-	::glRenderbufferStorage(GL_RENDERBUFFER, format, width, height);
+
+	::GLint const  internal_format = ToGlInternalPixelFormat(texture_format);
+	::glRenderbufferStorage(GL_RENDERBUFFER, internal_format, width, height);
 }
+
+BKSGE_INLINE
+RenderBuffer::RenderBuffer(bksge::RenderTexture const& texture)
+	: RenderBuffer(
+		texture.format(),
+		texture.extent().width(),
+		texture.extent().height())
+{}
 
 BKSGE_INLINE
 RenderBuffer::~RenderBuffer()

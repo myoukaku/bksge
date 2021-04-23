@@ -26,6 +26,7 @@ RenderPassInfo::RenderPassInfo(void)
 	: m_clear_state()
 	, m_scissor_state()
 	, m_viewport()
+	, m_frame_buffer(nullptr)
 {
 }
 
@@ -63,6 +64,18 @@ BKSGE_INLINE Viewport&
 RenderPassInfo::viewport(void)
 {
 	return m_viewport;
+}
+
+BKSGE_INLINE void
+RenderPassInfo::SetFrameBuffer(FrameBuffer* frame_buffer)
+{
+	m_frame_buffer = frame_buffer;
+}
+
+BKSGE_INLINE FrameBuffer*
+RenderPassInfo::frame_buffer(void) const
+{
+	return m_frame_buffer;
 }
 
 BKSGE_INLINE bool

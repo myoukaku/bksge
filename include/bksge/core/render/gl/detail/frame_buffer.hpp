@@ -11,7 +11,9 @@
 
 #include <bksge/core/render/gl/detail/fwd/texture_fwd.hpp>
 #include <bksge/core/render/gl/detail/fwd/render_buffer_fwd.hpp>
+#include <bksge/core/render/gl/detail/fwd/resource_pool_fwd.hpp>
 #include <bksge/core/render/gl/detail/gl_h.hpp>
+#include <bksge/core/render/fwd/frame_buffer_fwd.hpp>
 #include <bksge/fnd/vector.hpp>
 
 namespace bksge
@@ -30,6 +32,10 @@ class FrameBuffer
 {
 public:
 	FrameBuffer();
+
+	FrameBuffer(
+		bksge::FrameBuffer const& frame_buffer,
+		ResourcePool* resource_pool);
 
 	~FrameBuffer();
 

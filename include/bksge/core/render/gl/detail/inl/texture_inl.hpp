@@ -15,6 +15,7 @@
 #include <bksge/core/render/gl/detail/texture.hpp>
 #include <bksge/core/render/gl/detail/pixel_format.hpp>
 #include <bksge/core/render/texture.hpp>
+#include <bksge/core/render/render_texture.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint8_t.hpp>
@@ -28,16 +29,6 @@ namespace render
 
 namespace gl
 {
-
-BKSGE_INLINE
-Texture::Texture(bksge::Texture const& texture)
-	: Texture(
-		texture.format(),
-		texture.width(),
-		texture.height(),
-		texture.mipmap_count(),
-		texture.data())
-{}
 
 BKSGE_INLINE
 Texture::Texture(
@@ -75,6 +66,26 @@ Texture::Texture(
 
 	::glBindTexture(GL_TEXTURE_2D , 0);
 }
+
+BKSGE_INLINE
+Texture::Texture(bksge::Texture const& texture)
+	: Texture(
+		texture.format(),
+		texture.width(),
+		texture.height(),
+		texture.mipmap_count(),
+		texture.data())
+{}
+
+BKSGE_INLINE
+Texture::Texture(bksge::RenderTexture const& texture)
+	: Texture(
+		texture.format(),
+		texture.extent().width(),
+		texture.extent().height(),
+		1,
+		nullptr)
+{}
 
 BKSGE_INLINE
 Texture::~Texture()

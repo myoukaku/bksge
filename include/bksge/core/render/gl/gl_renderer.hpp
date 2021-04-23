@@ -58,7 +58,8 @@ private:
 private:
 	gl::ContextUnique						m_gl_context;
 	gl::ResourcePoolUnique					m_resource_pool;
-	gl::FrameBufferUnique					m_offscreen_buffer;
+	gl::FrameBufferShared					m_offscreen_buffer;
+	gl::FrameBufferShared					m_current_frame_buffer;
 	gl::QueryUnique							m_timer_queries[2];	///< 描画時間を図るためのクエリ
 	MilliSeconds							m_draw_time;		///< 描画時間
 

@@ -15,8 +15,11 @@
 #include <bksge/core/render/gl/detail/frame_buffer.hpp>
 #include <bksge/core/render/gl/detail/texture.hpp>
 #include <bksge/core/render/gl/detail/render_buffer.hpp>
+#include <bksge/core/render/gl/detail/resource_pool.hpp>
 #include <bksge/core/render/texture_format.hpp>
+#include <bksge/core/render/frame_buffer.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
+#include <bksge/fnd/memory/make_shared.hpp>
 #include <bksge/fnd/utility/move.hpp>
 
 namespace bksge
@@ -36,6 +39,25 @@ FrameBuffer::FrameBuffer()
 	//Bind();
 
 	//CheckFramebufferStatus();
+}
+
+BKSGE_INLINE
+FrameBuffer::FrameBuffer(
+	bksge::FrameBuffer const& frame_buffer,
+	ResourcePool* resource_pool)
+{
+	::glGenFramebuffers(1, &m_id);
+
+	{
+		auto gl_color = resource_pool->GetGlTexture(
+			frame_buffer.color());
+		this->AttachColorBuffer(0, gl_color);
+	}
+	{
+		auto gl_depth_stencil = resource_pool->GetGlRenderBuffer(
+			frame_buffer.depth_stencil());
+		this->AttachDepthStencilBuffer(gl_depth_stencil);
+	}
 }
 
 BKSGE_INLINE

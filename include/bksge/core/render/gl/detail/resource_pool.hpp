@@ -14,10 +14,14 @@
 #include <bksge/core/render/gl/detail/fwd/glsl_program_fwd.hpp>
 #include <bksge/core/render/gl/detail/fwd/texture_fwd.hpp>
 #include <bksge/core/render/gl/detail/fwd/sampler_fwd.hpp>
+#include <bksge/core/render/gl/detail/fwd/render_buffer_fwd.hpp>
+#include <bksge/core/render/gl/detail/fwd/frame_buffer_fwd.hpp>
 #include <bksge/core/render/fwd/geometry_fwd.hpp>
 #include <bksge/core/render/fwd/shader_fwd.hpp>
 #include <bksge/core/render/fwd/texture_fwd.hpp>
+#include <bksge/core/render/fwd/render_texture_fwd.hpp>
 #include <bksge/core/render/fwd/sampler_fwd.hpp>
+#include <bksge/core/render/fwd/frame_buffer_fwd.hpp>
 
 namespace bksge
 {
@@ -38,10 +42,13 @@ public:
 
 	~ResourcePool();
 
-	GeometryShared    GetGlGeometry(bksge::Geometry const& geometry);
-	GlslProgramShared GetGlslProgram(bksge::Shader const& shader);
-	TextureShared     GetGlTexture(bksge::Texture const& texture);
-	SamplerShared     GetGlSampler(bksge::Sampler const& sampler);
+	GeometryShared		GetGlGeometry(bksge::Geometry const& geometry);
+	GlslProgramShared	GetGlslProgram(bksge::Shader const& shader);
+	TextureShared		GetGlTexture(bksge::Texture const& texture);
+	TextureShared		GetGlTexture(bksge::RenderTexture const& texture);
+	SamplerShared		GetGlSampler(bksge::Sampler const& sampler);
+	RenderBufferShared	GetGlRenderBuffer(bksge::RenderTexture const& render_buffer);
+	FrameBufferShared	GetGlFrameBuffer(bksge::FrameBuffer const& frame_buffer);
 
 private:
 	// noncopyable
@@ -49,10 +56,12 @@ private:
 	ResourcePool& operator=(ResourcePool const&) = delete;
 
 private:
-	GeometryMap               m_geometry_map;
-	GlslProgramMap            m_shader_map;
-	TextureMap                m_texture_map;
-	SamplerMap                m_sampler_map;
+	GeometryMap     m_geometry_map;
+	GlslProgramMap  m_shader_map;
+	TextureMap      m_texture_map;
+	SamplerMap      m_sampler_map;
+	RenderBufferMap m_render_buffer_map;
+	FrameBufferMap  m_frame_buffer_map;
 };
 
 }	// namespace gl

@@ -277,7 +277,7 @@ int main()
 		auto const projection =
 			bksge::Matrix4x4f::MakePerspective(
 				bksge::degrees_to_radians(45.0f),
-				800.0f / 600.0f,
+				extent.width() / extent.height(),
 				0.1f,
 				100.0f);
 

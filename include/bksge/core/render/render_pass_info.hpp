@@ -10,6 +10,7 @@
 #define BKSGE_CORE_RENDER_RENDER_PASS_INFO_HPP
 
 #include <bksge/core/render/fwd/render_pass_info_fwd.hpp>
+#include <bksge/core/render/fwd/frame_buffer_fwd.hpp>
 #include <bksge/core/render/clear_state.hpp>
 #include <bksge/core/render/scissor_state.hpp>
 #include <bksge/core/render/viewport.hpp>
@@ -40,10 +41,14 @@ public:
 	ScissorState&			scissor_state(void);
 	Viewport&				viewport(void);
 
+	void SetFrameBuffer(FrameBuffer* frame_buffer);
+	FrameBuffer* frame_buffer(void) const;
+
 private:
 	ClearState			m_clear_state;
 	ScissorState		m_scissor_state;
 	Viewport			m_viewport;
+	FrameBuffer*		m_frame_buffer;
 
 private:
 	/**

@@ -1,0 +1,3 @@
+﻿add_executable(sample_render_render_to_texture sample_render_render_to_texture_main.cpp)
+set_target_properties(sample_render_render_to_texture PROPERTIES FOLDER "samples")
+target_link_libraries(sample_render_render_to_texture bksge)

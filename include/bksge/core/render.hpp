@@ -25,6 +25,7 @@
 #include <bksge/core/render/depth_state.hpp>
 #include <bksge/core/render/fill_mode.hpp>
 #include <bksge/core/render/filter_mode.hpp>
+#include <bksge/core/render/frame_buffer.hpp>
 #include <bksge/core/render/front_face.hpp>
 #include <bksge/core/render/geometry.hpp>
 #include <bksge/core/render/gl_renderer.hpp>
@@ -36,6 +37,7 @@
 #include <bksge/core/render/renderer.hpp>
 #include <bksge/core/render/render_pass_info.hpp>
 #include <bksge/core/render/render_state.hpp>
+#include <bksge/core/render/render_texture.hpp>
 #include <bksge/core/render/sampler.hpp>
 #include <bksge/core/render/scissor_state.hpp>
 #include <bksge/core/render/semantic.hpp>
