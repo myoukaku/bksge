@@ -409,7 +409,11 @@ BKSGE_INLINE void APIENTRY glUniform1i(GLint location, GLint v0)
 //BKSGE_INLINE void APIENTRY glUniform2i(GLint location, GLint v0, GLint v1);
 //BKSGE_INLINE void APIENTRY glUniform3i(GLint location, GLint v0, GLint v1, GLint v2);
 //BKSGE_INLINE void APIENTRY glUniform4i(GLint location, GLint v0, GLint v1, GLint v2, GLint v3);
-//BKSGE_INLINE void APIENTRY glUniform1fv(GLint location, GLsizei count, const GLfloat* value);
+
+BKSGE_INLINE void APIENTRY glUniform1fv(GLint location, GLsizei count, const GLfloat* value)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORM1FVPROC, glUniform1fv, location, count, value);
+}
 
 BKSGE_INLINE void APIENTRY glUniform2fv(GLint location, GLsizei count, const GLfloat* value)
 {
@@ -426,10 +430,26 @@ BKSGE_INLINE void APIENTRY glUniform4fv(GLint location, GLsizei count, const GLf
 	BKSGE_GLEXT_FUNC(PFNGLUNIFORM4FVPROC, glUniform4fv, location, count, value);
 }
 
-//BKSGE_INLINE void APIENTRY glUniform1iv(GLint location, GLsizei count, const GLint* value);
-//BKSGE_INLINE void APIENTRY glUniform2iv(GLint location, GLsizei count, const GLint* value);
-//BKSGE_INLINE void APIENTRY glUniform3iv(GLint location, GLsizei count, const GLint* value);
-//BKSGE_INLINE void APIENTRY glUniform4iv(GLint location, GLsizei count, const GLint* value);
+BKSGE_INLINE void APIENTRY glUniform1iv(GLint location, GLsizei count, const GLint* value)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORM1IVPROC, glUniform1iv, location, count, value);
+}
+
+BKSGE_INLINE void APIENTRY glUniform2iv(GLint location, GLsizei count, const GLint* value)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORM2IVPROC, glUniform2iv, location, count, value);
+}
+
+BKSGE_INLINE void APIENTRY glUniform3iv(GLint location, GLsizei count, const GLint* value)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORM3IVPROC, glUniform3iv, location, count, value);
+}
+
+BKSGE_INLINE void APIENTRY glUniform4iv(GLint location, GLsizei count, const GLint* value)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORM4IVPROC, glUniform4iv, location, count, value);
+}
+
 BKSGE_INLINE void APIENTRY glUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat* value)
 {
 	BKSGE_GLEXT_FUNC(PFNGLUNIFORMMATRIX2FVPROC, glUniformMatrix2fv, location, count, transpose, value);
@@ -488,6 +508,38 @@ BKSGE_INLINE void APIENTRY glVertexAttribPointer(GLuint index, GLint size, GLenu
 	BKSGE_GLEXT_FUNC(PFNGLVERTEXATTRIBPOINTERPROC, glVertexAttribPointer, index, size, type, normalized, stride, pointer);
 }
 
+// GL_VERSION_2_1
+
+BKSGE_INLINE void APIENTRY glUniformMatrix2x3fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat* value)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORMMATRIX2X3FVPROC, glUniformMatrix2x3fv, location, count, transpose, value);
+}
+
+BKSGE_INLINE void APIENTRY glUniformMatrix3x2fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat* value)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORMMATRIX3X2FVPROC, glUniformMatrix3x2fv, location, count, transpose, value);
+}
+
+BKSGE_INLINE void APIENTRY glUniformMatrix2x4fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat* value)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORMMATRIX2X4FVPROC, glUniformMatrix2x4fv, location, count, transpose, value);
+}
+
+BKSGE_INLINE void APIENTRY glUniformMatrix4x2fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat* value)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORMMATRIX4X2FVPROC, glUniformMatrix4x2fv, location, count, transpose, value);
+}
+
+BKSGE_INLINE void APIENTRY glUniformMatrix3x4fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat* value)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORMMATRIX3X4FVPROC, glUniformMatrix3x4fv, location, count, transpose, value);
+}
+
+BKSGE_INLINE void APIENTRY glUniformMatrix4x3fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat* value)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORMMATRIX4X3FVPROC, glUniformMatrix4x3fv, location, count, transpose, value);
+}
+
 // GL_VERSION_3_0
 
 //BKSGE_INLINE void APIENTRY glColorMaski(GLuint index, GLboolean r, GLboolean g, GLboolean b, GLboolean a);
@@ -540,10 +592,27 @@ BKSGE_INLINE void APIENTRY glBindBufferBase(GLenum target, GLuint index, GLuint 
 //BKSGE_INLINE void APIENTRY glUniform2ui(GLint location, GLuint v0, GLuint v1);
 //BKSGE_INLINE void APIENTRY glUniform3ui(GLint location, GLuint v0, GLuint v1, GLuint v2);
 //BKSGE_INLINE void APIENTRY glUniform4ui(GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3);
-//BKSGE_INLINE void APIENTRY glUniform1uiv(GLint location, GLsizei count, const GLuint* value);
-//BKSGE_INLINE void APIENTRY glUniform2uiv(GLint location, GLsizei count, const GLuint* value);
-//BKSGE_INLINE void APIENTRY glUniform3uiv(GLint location, GLsizei count, const GLuint* value);
-//BKSGE_INLINE void APIENTRY glUniform4uiv(GLint location, GLsizei count, const GLuint* value);
+
+BKSGE_INLINE void APIENTRY glUniform1uiv(GLint location, GLsizei count, const GLuint* value)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORM1UIVPROC, glUniform1uiv, location, count, value);
+}
+
+BKSGE_INLINE void APIENTRY glUniform2uiv(GLint location, GLsizei count, const GLuint* value)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORM2UIVPROC, glUniform2uiv, location, count, value);
+}
+
+BKSGE_INLINE void APIENTRY glUniform3uiv(GLint location, GLsizei count, const GLuint* value)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORM3UIVPROC, glUniform3uiv, location, count, value);
+}
+
+BKSGE_INLINE void APIENTRY glUniform4uiv(GLint location, GLsizei count, const GLuint* value)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORM4UIVPROC, glUniform4uiv, location, count, value);
+}
+
 //BKSGE_INLINE void APIENTRY glTexParameterIiv(GLenum target, GLenum pname, const GLint* params);
 //BKSGE_INLINE void APIENTRY glTexParameterIuiv(GLenum target, GLenum pname, const GLuint* params);
 //BKSGE_INLINE void APIENTRY glGetTexParameterIiv(GLenum target, GLenum pname, GLint* params);
@@ -776,7 +845,11 @@ BKSGE_INLINE void APIENTRY glUniform1d(GLint location, GLdouble x)
 //BKSGE_INLINE void APIENTRY glUniform2d(GLint location, GLdouble x, GLdouble y);
 //BKSGE_INLINE void APIENTRY glUniform3d(GLint location, GLdouble x, GLdouble y, GLdouble z);
 //BKSGE_INLINE void APIENTRY glUniform4d(GLint location, GLdouble x, GLdouble y, GLdouble z, GLdouble w);
-//BKSGE_INLINE void APIENTRY glUniform1dv(GLint location, GLsizei count, const GLdouble *value);
+
+BKSGE_INLINE void APIENTRY glUniform1dv(GLint location, GLsizei count, const GLdouble *value)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORM1DVPROC, glUniform1dv, location, count, value);
+}
 
 BKSGE_INLINE void APIENTRY glUniform2dv(GLint location, GLsizei count, const GLdouble *value)
 {
@@ -793,15 +866,51 @@ BKSGE_INLINE void APIENTRY glUniform4dv(GLint location, GLsizei count, const GLd
 	BKSGE_GLEXT_FUNC(PFNGLUNIFORM4DVPROC, glUniform4dv, location, count, value);
 }
 
-//BKSGE_INLINE void APIENTRY glUniformMatrix2dv(GLint location, GLsizei count, GLboolean transpose, const GLdouble *value);
-//BKSGE_INLINE void APIENTRY glUniformMatrix3dv(GLint location, GLsizei count, GLboolean transpose, const GLdouble *value);
-//BKSGE_INLINE void APIENTRY glUniformMatrix4dv(GLint location, GLsizei count, GLboolean transpose, const GLdouble *value);
-//BKSGE_INLINE void APIENTRY glUniformMatrix2x3dv(GLint location, GLsizei count, GLboolean transpose, const GLdouble *value);
-//BKSGE_INLINE void APIENTRY glUniformMatrix2x4dv(GLint location, GLsizei count, GLboolean transpose, const GLdouble *value);
-//BKSGE_INLINE void APIENTRY glUniformMatrix3x2dv(GLint location, GLsizei count, GLboolean transpose, const GLdouble *value);
-//BKSGE_INLINE void APIENTRY glUniformMatrix3x4dv(GLint location, GLsizei count, GLboolean transpose, const GLdouble *value);
-//BKSGE_INLINE void APIENTRY glUniformMatrix4x2dv(GLint location, GLsizei count, GLboolean transpose, const GLdouble *value);
-//BKSGE_INLINE void APIENTRY glUniformMatrix4x3dv(GLint location, GLsizei count, GLboolean transpose, const GLdouble *value);
+BKSGE_INLINE void APIENTRY glUniformMatrix2dv(GLint location, GLsizei count, GLboolean transpose, const GLdouble *value)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORMMATRIX2DVPROC, glUniformMatrix2dv, location, count, transpose, value);
+}
+
+BKSGE_INLINE void APIENTRY glUniformMatrix3dv(GLint location, GLsizei count, GLboolean transpose, const GLdouble *value)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORMMATRIX3DVPROC, glUniformMatrix3dv, location, count, transpose, value);
+}
+
+BKSGE_INLINE void APIENTRY glUniformMatrix4dv(GLint location, GLsizei count, GLboolean transpose, const GLdouble *value)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORMMATRIX4DVPROC, glUniformMatrix4dv, location, count, transpose, value);
+}
+
+BKSGE_INLINE void APIENTRY glUniformMatrix2x3dv(GLint location, GLsizei count, GLboolean transpose, const GLdouble *value)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORMMATRIX2X3DVPROC, glUniformMatrix2x3dv, location, count, transpose, value);
+}
+
+BKSGE_INLINE void APIENTRY glUniformMatrix2x4dv(GLint location, GLsizei count, GLboolean transpose, const GLdouble *value)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORMMATRIX2X4DVPROC, glUniformMatrix2x4dv, location, count, transpose, value);
+}
+
+BKSGE_INLINE void APIENTRY glUniformMatrix3x2dv(GLint location, GLsizei count, GLboolean transpose, const GLdouble *value)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORMMATRIX3X2DVPROC, glUniformMatrix3x2dv, location, count, transpose, value);
+}
+
+BKSGE_INLINE void APIENTRY glUniformMatrix3x4dv(GLint location, GLsizei count, GLboolean transpose, const GLdouble *value)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORMMATRIX3X4DVPROC, glUniformMatrix3x4dv, location, count, transpose, value);
+}
+
+BKSGE_INLINE void APIENTRY glUniformMatrix4x2dv(GLint location, GLsizei count, GLboolean transpose, const GLdouble *value)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORMMATRIX4X2DVPROC, glUniformMatrix4x2dv, location, count, transpose, value);
+}
+
+BKSGE_INLINE void APIENTRY glUniformMatrix4x3dv(GLint location, GLsizei count, GLboolean transpose, const GLdouble *value)
+{
+	BKSGE_GLEXT_FUNC(PFNGLUNIFORMMATRIX4X3DVPROC, glUniformMatrix4x3dv, location, count, transpose, value);
+}
+
 //BKSGE_INLINE void APIENTRY glGetUniformdv(GLuint program, GLint location, GLdouble *params);
 //BKSGE_INLINE GLint APIENTRY glGetSubroutineUniformLocation(GLuint program, GLenum shadertype, const GLchar *name);
 //BKSGE_INLINE GLuint APIENTRY glGetSubroutineIndex(GLuint program, GLenum shadertype, const GLchar *name);

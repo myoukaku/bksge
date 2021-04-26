@@ -36,7 +36,6 @@
 #include <bksge/core/render/renderer.hpp>
 #include <bksge/core/render/render_pass_info.hpp>
 #include <bksge/core/render/render_state.hpp>
-#include <bksge/core/render/sampled_texture.hpp>
 #include <bksge/core/render/sampler.hpp>
 #include <bksge/core/render/scissor_state.hpp>
 #include <bksge/core/render/semantic.hpp>

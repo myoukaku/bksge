@@ -16,7 +16,6 @@
 #include <bksge/core/render/gl/detail/glsl_parameter_setter.hpp>
 #include <bksge/core/render/gl/detail/gl_h.hpp>
 #include <bksge/core/render/shader_parameter_map.hpp>
-#include <bksge/core/render/sampled_texture.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/assert.hpp>
 
@@ -46,34 +45,54 @@ GlslParameter::GlslParameter(::GLuint program, ::GLuint index)
 
 	::glGetActiveUniformsiv(program, 1, &index, GL_UNIFORM_OFFSET, &m_offset);
 
+#define BKSGE_GL_CREATE_PARAM_SETTER(Type)	\
+	case Type:      m_setter.reset(new GlslParameterSetter<Type>()); break
+
 	switch (m_type)
 	{
-	case GL_FLOAT:      m_setter.reset(new GlslParameterSetter<float>()); break;
-	case GL_FLOAT_VEC2: m_setter.reset(new GlslParameterSetter<float[2]>()); break;
-	case GL_FLOAT_VEC3: m_setter.reset(new GlslParameterSetter<float[3]>()); break;
-	case GL_FLOAT_VEC4: m_setter.reset(new GlslParameterSetter<float[4]>()); break;
-	case GL_DOUBLE:      m_setter.reset(new GlslParameterSetter<double>()); break;
-	case GL_DOUBLE_VEC2: m_setter.reset(new GlslParameterSetter<double[2]>()); break;
-	case GL_DOUBLE_VEC3: m_setter.reset(new GlslParameterSetter<double[3]>()); break;
-	case GL_DOUBLE_VEC4: m_setter.reset(new GlslParameterSetter<double[4]>()); break;
-	//case GL_INT:      m_setter.reset(new GlslParameterSetter<int>()); break;
-	//case GL_INT_VEC2: m_setter.reset(new GlslParameterSetter<int[2]>()); break;
-	//case GL_INT_VEC3: m_setter.reset(new GlslParameterSetter<int[3]>()); break;
-	//case GL_INT_VEC4: m_setter.reset(new GlslParameterSetter<int[4]>()); break;
-	//case GL_UNSIGNED_INT:      m_setter.reset(new GlslParameterSetter<unsigned int>()); break;
-	//case GL_UNSIGNED_INT_VEC2: m_setter.reset(new GlslParameterSetter<unsigned int[2]>()); break;
-	//case GL_UNSIGNED_INT_VEC3: m_setter.reset(new GlslParameterSetter<unsigned int[3]>()); break;
-	//case GL_UNSIGNED_INT_VEC4: m_setter.reset(new GlslParameterSetter<unsigned int[4]>()); break;
-	//case GL_BOOL:      m_setter.reset(new GlslParameterSetter<bool>()); break;
-	//case GL_BOOL_VEC2: m_setter.reset(new GlslParameterSetter<bool[2]>()); break;
-	//case GL_BOOL_VEC3: m_setter.reset(new GlslParameterSetter<bool[3]>()); break;
-	//case GL_BOOL_VEC4: m_setter.reset(new GlslParameterSetter<bool[4]>()); break;
-	case GL_FLOAT_MAT2: m_setter.reset(new GlslParameterSetter<float[2][2]>()); break;
-	case GL_FLOAT_MAT3: m_setter.reset(new GlslParameterSetter<float[3][3]>()); break;
-	case GL_FLOAT_MAT4: m_setter.reset(new GlslParameterSetter<float[4][4]>()); break;
-	case GL_SAMPLER_2D: m_setter.reset(new GlslParameterSetter<bksge::SampledTexture>()); break;
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_FLOAT);
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_FLOAT_VEC2);
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_FLOAT_VEC3);
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_FLOAT_VEC4);
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_DOUBLE);
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_DOUBLE_VEC2);
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_DOUBLE_VEC3);
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_DOUBLE_VEC4);
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_INT);
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_INT_VEC2);
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_INT_VEC3);
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_INT_VEC4);
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_UNSIGNED_INT);
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_UNSIGNED_INT_VEC2);
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_UNSIGNED_INT_VEC3);
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_UNSIGNED_INT_VEC4);
+	//BKSGE_GL_CREATE_PARAM_SETTER(GL_BOOL);
+	//BKSGE_GL_CREATE_PARAM_SETTER(GL_BOOL_VEC2);
+	//BKSGE_GL_CREATE_PARAM_SETTER(GL_BOOL_VEC3);
+	//BKSGE_GL_CREATE_PARAM_SETTER(GL_BOOL_VEC4);
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_FLOAT_MAT2);
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_FLOAT_MAT2x3);
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_FLOAT_MAT2x4);
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_FLOAT_MAT3x2);
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_FLOAT_MAT3);
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_FLOAT_MAT3x4);
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_FLOAT_MAT4x2);
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_FLOAT_MAT4x3);
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_FLOAT_MAT4);
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_DOUBLE_MAT2);
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_DOUBLE_MAT2x3);
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_DOUBLE_MAT2x4);
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_DOUBLE_MAT3x2);
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_DOUBLE_MAT3);
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_DOUBLE_MAT3x4);
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_DOUBLE_MAT4x2);
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_DOUBLE_MAT4x3);
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_DOUBLE_MAT4);
+	BKSGE_GL_CREATE_PARAM_SETTER(GL_SAMPLER_2D);
 	default: BKSGE_ASSERT(false); break;
 	}
+
+#undef BKSGE_GL_CREATE_PARAM_SETTER
 }
 
 BKSGE_INLINE
@@ -88,7 +107,10 @@ GlslParameter::LoadParameter(
 {
 	if (m_setter)
 	{
-		m_setter->LoadUniform(resource_pool, shader_parameter_map[m_name], m_location);
+		m_setter->LoadUniform(
+			resource_pool,
+			shader_parameter_map[m_name].get(),
+			m_location);
 	}
 }
 

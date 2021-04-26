@@ -9,6 +9,8 @@
 #ifndef BKSGE_CORE_RENDER_GL_DETAIL_FWD_GLSL_PARAMETER_SETTER_FWD_HPP
 #define BKSGE_CORE_RENDER_GL_DETAIL_FWD_GLSL_PARAMETER_SETTER_FWD_HPP
 
+#include <bksge/core/render/gl/detail/gl_h.hpp>
+
 namespace bksge
 {
 
@@ -20,7 +22,7 @@ namespace gl
 
 class GlslParameterSetterBase;
 
-template <typename T>
+template <::GLenum Type>
 class GlslParameterSetter;
 
 }	// namespace gl

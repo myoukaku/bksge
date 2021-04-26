@@ -6,12 +6,7 @@
  *	@author	myoukaku
  */
 
-#include <bksge/core/window.hpp>
-#include <bksge/core/render.hpp>
-#include <bksge/fnd/iterator/size.hpp>
-#include <bksge/fnd/memory.hpp>
-#include <bksge/fnd/cstdint.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <bksge/bksge.hpp>
 
 namespace
 {
@@ -286,8 +281,7 @@ int main()
 
 		shader_parameter.SetParameter("uSampler", sampler);
 		shader_parameter.SetParameter("uTexture", tex);
-		bksge::SampledTexture sampler2d(sampler, tex);
-		shader_parameter.SetParameter("uSampler2D", sampler2d);
+		shader_parameter.SetParameter("uSampler2D", bksge::make_pair(sampler, tex));
 
 		int i = 0;
 		for (auto& renderer : renderers)

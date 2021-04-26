@@ -18,7 +18,9 @@
 #include <bksge/core/render/vulkan/detail/resource_pool.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/shader_parameter_map.hpp>
-#include <bksge/core/render/sampled_texture.hpp>
+#include <bksge/core/render/sampler.hpp>
+#include <bksge/core/render/texture.hpp>
+#include <bksge/fnd/utility/pair.hpp>
 
 namespace bksge
 {
@@ -61,11 +63,13 @@ CombinedImageSamplerSetter::LoadParameters(
 		return;
 	}
 
-	if (param->class_id() == ShaderParameter<bksge::SampledTexture>::StaticClassId())
+	using Sampler2d = bksge::pair<bksge::Sampler, bksge::Texture>;
+	if (param->class_id() == ShaderParameter<Sampler2d>::StaticClassId())
 	{
-		auto sampled_texture = *static_cast<bksge::SampledTexture const*>(param->data());
-		vulkan::CombinedImageSampler combined_image_sampler(
-			resource_pool, command_pool, sampled_texture);
+		auto sampler_2d = static_cast<Sampler2d const*>(param->data());
+		vulkan::CombinedImageSampler const combined_image_sampler(
+			resource_pool->GetSampler(sampler_2d->first),
+			resource_pool->GetTexture(command_pool, sampler_2d->second));
 		m_image_info = combined_image_sampler.GetImageInfo();
 		return;
 	}

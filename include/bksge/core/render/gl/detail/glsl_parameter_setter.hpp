@@ -10,13 +10,10 @@
 #define BKSGE_CORE_RENDER_GL_DETAIL_GLSL_PARAMETER_SETTER_HPP
 
 #include <bksge/core/render/gl/detail/fwd/glsl_parameter_setter_fwd.hpp>
+#include <bksge/core/render/gl/detail/fwd/resource_pool_fwd.hpp>
 #include <bksge/core/render/gl/detail/gl_h.hpp>
-#include <bksge/core/render/gl/detail/resource_pool.hpp>
-#include <bksge/core/render/gl/detail/sampled_texture.hpp>
 #include <bksge/core/render/detail/shader_parameter_base.hpp>
-#include <bksge/core/render/detail/shader_parameter.hpp>
-#include <bksge/core/render/sampled_texture.hpp>
-#include <bksge/fnd/memory/shared_ptr.hpp>
+#include <bksge/fnd/cstddef.hpp>
 
 namespace bksge
 {
@@ -33,139 +30,404 @@ namespace gl
 class GlslParameterSetterBase
 {
 public:
-	explicit GlslParameterSetterBase(void);
-
 	virtual ~GlslParameterSetterBase();
 
 	void LoadUniform(
 		ResourcePool* resource_pool,
-		bksge::shared_ptr<ShaderParameterBase> const& src,
+		ShaderParameterBase const* param,
 		::GLint location) const;
 
-	virtual GLsizeiptr size(void) const = 0;
+	virtual ::GLsizeiptr size(void) const = 0;
 
 private:
 	virtual void VLoadUniform(
 		ResourcePool* resource_pool,
-		bksge::shared_ptr<ShaderParameterBase> const& src,
+		ShaderParameterBase const* param,
 		::GLint location) const = 0;
 };
 
 /**
  *	@brief	GlslParameterSetter
  */
-template <typename T>
-class GlslParameterSetter : public GlslParameterSetterBase
+template <::GLenum Type>
+class GlslParameterSetter;
+
+template <typename T, bksge::size_t N, bksge::size_t M = 1>
+class GlslVectorParameterSetter : public GlslParameterSetterBase
 {
 public:
-	using GlslParameterSetterBase::GlslParameterSetterBase;
-
-	GLsizeiptr size(void) const override
+	::GLsizeiptr size(void) const override
 	{
-		return sizeof(T);
+		return sizeof(T) * N * M;
 	}
 
 private:
 	void VLoadUniform(
 		ResourcePool*,
-		bksge::shared_ptr<ShaderParameterBase> const& src,
+		ShaderParameterBase const* param,
 		::GLint location) const override
 	{
-		auto const* v = static_cast<T const*>(src->data());
-		LoadUniformImpl(location, *v);
+		auto const* v = static_cast<T const*>(param->data());
+		VLoadUniformImpl(location, v);
 	}
 
-	static void LoadUniformImpl(::GLint location, float const& v)
-	{
-		::glUniform1f(location, v);
-	}
+	virtual void VLoadUniformImpl(::GLint location, T const* v) const = 0;
+};
 
-	static void LoadUniformImpl(::GLint location, float const (&v)[2])
+template <>
+class GlslParameterSetter<GL_FLOAT>
+	: public GlslVectorParameterSetter<float, 1>
+{
+	void VLoadUniformImpl(::GLint location, float const* v) const override
 	{
-		::glUniform2fv(location, 1, &v[0]);
-	}
-
-	static void LoadUniformImpl(::GLint location, float const (&v)[3])
-	{
-		::glUniform3fv(location, 1, &v[0]);
-	}
-
-	static void LoadUniformImpl(::GLint location, float const (&v)[4])
-	{
-		::glUniform4fv(location, 1, &v[0]);
-	}
-
-	static void LoadUniformImpl(::GLint location, double const& v)
-	{
-		::glUniform1d(location, v);
-	}
-
-	static void LoadUniformImpl(::GLint location, double const (&v)[2])
-	{
-		::glUniform2dv(location, 1, &v[0]);
-	}
-
-	static void LoadUniformImpl(::GLint location, double const (&v)[3])
-	{
-		::glUniform3dv(location, 1, &v[0]);
-	}
-
-	static void LoadUniformImpl(::GLint location, double const (&v)[4])
-	{
-		::glUniform4dv(location, 1, &v[0]);
-	}
-
-	static void LoadUniformImpl(::GLint location, float const (&v)[2][2])
-	{
-		::glUniformMatrix2fv(location, 1, GL_FALSE, &v[0][0]);
-	}
-
-	static void LoadUniformImpl(::GLint location, float const (&v)[3][3])
-	{
-		::glUniformMatrix3fv(location, 1, GL_FALSE, &v[0][0]);
-	}
-
-	static void LoadUniformImpl(::GLint location, float const (&v)[4][4])
-	{
-		::glUniformMatrix4fv(location, 1, GL_FALSE, &v[0][0]);
+		::glUniform1fv(location, 1, v);
 	}
 };
 
 template <>
-class GlslParameterSetter<bksge::SampledTexture> : public GlslParameterSetterBase
+class GlslParameterSetter<GL_FLOAT_VEC2>
+	: public GlslVectorParameterSetter<float, 2>
 {
-private:
-	using T = bksge::SampledTexture;
-
-public:
-	using GlslParameterSetterBase::GlslParameterSetterBase;
-
-	GLsizeiptr size(void) const override
+	void VLoadUniformImpl(::GLint location, float const* v) const override
 	{
-		return sizeof(T);
+		::glUniform2fv(location, 1, v);
+	}
+};
+
+template <>
+class GlslParameterSetter<GL_FLOAT_VEC3>
+	: public GlslVectorParameterSetter<float, 3>
+{
+	void VLoadUniformImpl(::GLint location, float const* v) const override
+	{
+		::glUniform3fv(location, 1, v);
+	}
+};
+
+template <>
+class GlslParameterSetter<GL_FLOAT_VEC4>
+	: public GlslVectorParameterSetter<float, 4>
+{
+	void VLoadUniformImpl(::GLint location, float const* v) const override
+	{
+		::glUniform4fv(location, 1, v);
+	}
+};
+
+template <>
+class GlslParameterSetter<GL_DOUBLE>
+	: public GlslVectorParameterSetter<double, 1>
+{
+	void VLoadUniformImpl(::GLint location, double const* v) const override
+	{
+		::glUniform1dv(location, 1, v);
+	}
+};
+
+template <>
+class GlslParameterSetter<GL_DOUBLE_VEC2>
+	: public GlslVectorParameterSetter<double, 2>
+{
+	void VLoadUniformImpl(::GLint location, double const* v) const override
+	{
+		::glUniform2dv(location, 1, v);
+	}
+};
+
+template <>
+class GlslParameterSetter<GL_DOUBLE_VEC3>
+	: public GlslVectorParameterSetter<double, 3>
+{
+	void VLoadUniformImpl(::GLint location, double const* v) const override
+	{
+		::glUniform3dv(location, 1, v);
+	}
+};
+
+template <>
+class GlslParameterSetter<GL_DOUBLE_VEC4>
+	: public GlslVectorParameterSetter<double, 4>
+{
+	void VLoadUniformImpl(::GLint location, double const* v) const override
+	{
+		::glUniform4dv(location, 1, v);
+	}
+};
+
+template <>
+class GlslParameterSetter<GL_INT>
+	: public GlslVectorParameterSetter<int, 1>
+{
+	void VLoadUniformImpl(::GLint location, int const* v) const override
+	{
+		::glUniform1iv(location, 1, v);
+	}
+};
+
+template <>
+class GlslParameterSetter<GL_INT_VEC2>
+	: public GlslVectorParameterSetter<int, 2>
+{
+	void VLoadUniformImpl(::GLint location, int const* v) const override
+	{
+		::glUniform2iv(location, 1, v);
+	}
+};
+
+template <>
+class GlslParameterSetter<GL_INT_VEC3>
+	: public GlslVectorParameterSetter<int, 3>
+{
+	void VLoadUniformImpl(::GLint location, int const* v) const override
+	{
+		::glUniform3iv(location, 1, v);
+	}
+};
+
+template <>
+class GlslParameterSetter<GL_INT_VEC4>
+	: public GlslVectorParameterSetter<int, 4>
+{
+	void VLoadUniformImpl(::GLint location, int const* v) const override
+	{
+		::glUniform4iv(location, 1, v);
+	}
+};
+
+template <>
+class GlslParameterSetter<GL_UNSIGNED_INT>
+	: public GlslVectorParameterSetter<unsigned int, 1>
+{
+	void VLoadUniformImpl(::GLint location, unsigned int const* v) const override
+	{
+		::glUniform1uiv(location, 1, v);
+	}
+};
+
+template <>
+class GlslParameterSetter<GL_UNSIGNED_INT_VEC2>
+	: public GlslVectorParameterSetter<unsigned int, 2>
+{
+	void VLoadUniformImpl(::GLint location, unsigned int const* v) const override
+	{
+		::glUniform2uiv(location, 1, v);
+	}
+};
+
+template <>
+class GlslParameterSetter<GL_UNSIGNED_INT_VEC3>
+	: public GlslVectorParameterSetter<unsigned int, 3>
+{
+	void VLoadUniformImpl(::GLint location, unsigned int const* v) const override
+	{
+		::glUniform3uiv(location, 1, v);
+	}
+};
+
+template <>
+class GlslParameterSetter<GL_UNSIGNED_INT_VEC4>
+	: public GlslVectorParameterSetter<unsigned int, 4>
+{
+	void VLoadUniformImpl(::GLint location, unsigned int const* v) const override
+	{
+		::glUniform4uiv(location, 1, v);
+	}
+};
+
+template <>
+class GlslParameterSetter<GL_FLOAT_MAT2>
+	: public GlslVectorParameterSetter<float, 2, 2>
+{
+	void VLoadUniformImpl(::GLint location, float const* v) const override
+	{
+		::glUniformMatrix2fv(location, 1, GL_FALSE, v);
+	}
+};
+
+template <>
+class GlslParameterSetter<GL_FLOAT_MAT2x3>
+	: public GlslVectorParameterSetter<float, 2, 3>
+{
+	void VLoadUniformImpl(::GLint location, float const* v) const override
+	{
+		::glUniformMatrix2x3fv(location, 1, GL_FALSE, v);
+	}
+};
+
+template <>
+class GlslParameterSetter<GL_FLOAT_MAT2x4>
+	: public GlslVectorParameterSetter<float, 2, 4>
+{
+	void VLoadUniformImpl(::GLint location, float const* v) const override
+	{
+		::glUniformMatrix2x4fv(location, 1, GL_FALSE, v);
+	}
+};
+
+template <>
+class GlslParameterSetter<GL_FLOAT_MAT3x2>
+	: public GlslVectorParameterSetter<float, 3, 2>
+{
+	void VLoadUniformImpl(::GLint location, float const* v) const override
+	{
+		::glUniformMatrix3x2fv(location, 1, GL_FALSE, v);
+	}
+};
+
+template <>
+class GlslParameterSetter<GL_FLOAT_MAT3>
+	: public GlslVectorParameterSetter<float, 3, 3>
+{
+	void VLoadUniformImpl(::GLint location, float const* v) const override
+	{
+		::glUniformMatrix3fv(location, 1, GL_FALSE, v);
+	}
+};
+
+template <>
+class GlslParameterSetter<GL_FLOAT_MAT3x4>
+	: public GlslVectorParameterSetter<float, 3, 4>
+{
+	void VLoadUniformImpl(::GLint location, float const* v) const override
+	{
+		::glUniformMatrix3x4fv(location, 1, GL_FALSE, v);
+	}
+};
+
+template <>
+class GlslParameterSetter<GL_FLOAT_MAT4x2>
+	: public GlslVectorParameterSetter<float, 4, 2>
+{
+	void VLoadUniformImpl(::GLint location, float const* v) const override
+	{
+		::glUniformMatrix4x2fv(location, 1, GL_FALSE, v);
+	}
+};
+
+template <>
+class GlslParameterSetter<GL_FLOAT_MAT4x3>
+	: public GlslVectorParameterSetter<float, 4, 3>
+{
+	void VLoadUniformImpl(::GLint location, float const* v) const override
+	{
+		::glUniformMatrix4x3fv(location, 1, GL_FALSE, v);
+	}
+};
+
+template <>
+class GlslParameterSetter<GL_FLOAT_MAT4>
+	: public GlslVectorParameterSetter<float, 4, 4>
+{
+	void VLoadUniformImpl(::GLint location, float const* v) const override
+	{
+		::glUniformMatrix4fv(location, 1, GL_FALSE, v);
+	}
+};
+
+template <>
+class GlslParameterSetter<GL_DOUBLE_MAT2>
+	: public GlslVectorParameterSetter<double, 2, 2>
+{
+	void VLoadUniformImpl(::GLint location, double const* v) const override
+	{
+		::glUniformMatrix2dv(location, 1, GL_FALSE, v);
+	}
+};
+
+template <>
+class GlslParameterSetter<GL_DOUBLE_MAT2x3>
+	: public GlslVectorParameterSetter<double, 2, 3>
+{
+	void VLoadUniformImpl(::GLint location, double const* v) const override
+	{
+		::glUniformMatrix2x3dv(location, 1, GL_FALSE, v);
+	}
+};
+
+template <>
+class GlslParameterSetter<GL_DOUBLE_MAT2x4>
+	: public GlslVectorParameterSetter<double, 2, 4>
+{
+	void VLoadUniformImpl(::GLint location, double const* v) const override
+	{
+		::glUniformMatrix2x4dv(location, 1, GL_FALSE, v);
+	}
+};
+
+template <>
+class GlslParameterSetter<GL_DOUBLE_MAT3x2>
+	: public GlslVectorParameterSetter<double, 3, 2>
+{
+	void VLoadUniformImpl(::GLint location, double const* v) const override
+	{
+		::glUniformMatrix3x2dv(location, 1, GL_FALSE, v);
+	}
+};
+
+template <>
+class GlslParameterSetter<GL_DOUBLE_MAT3>
+	: public GlslVectorParameterSetter<double, 3, 3>
+{
+	void VLoadUniformImpl(::GLint location, double const* v) const override
+	{
+		::glUniformMatrix3dv(location, 1, GL_FALSE, v);
+	}
+};
+
+template <>
+class GlslParameterSetter<GL_DOUBLE_MAT3x4>
+	: public GlslVectorParameterSetter<double, 3, 4>
+{
+	void VLoadUniformImpl(::GLint location, double const* v) const override
+	{
+		::glUniformMatrix3x4dv(location, 1, GL_FALSE, v);
+	}
+};
+
+template <>
+class GlslParameterSetter<GL_DOUBLE_MAT4x2>
+	: public GlslVectorParameterSetter<double, 4, 2>
+{
+	void VLoadUniformImpl(::GLint location, double const* v) const override
+	{
+		::glUniformMatrix4x2dv(location, 1, GL_FALSE, v);
+	}
+};
+
+template <>
+class GlslParameterSetter<GL_DOUBLE_MAT4x3>
+	: public GlslVectorParameterSetter<double, 4, 3>
+{
+	void VLoadUniformImpl(::GLint location, double const* v) const override
+	{
+		::glUniformMatrix4x3dv(location, 1, GL_FALSE, v);
+	}
+};
+
+template <>
+class GlslParameterSetter<GL_DOUBLE_MAT4>
+	: public GlslVectorParameterSetter<double, 4, 4>
+{
+	void VLoadUniformImpl(::GLint location, double const* v) const override
+	{
+		::glUniformMatrix4dv(location, 1, GL_FALSE, v);
+	}
+};
+
+template <>
+class GlslParameterSetter<GL_SAMPLER_2D> : public GlslParameterSetterBase
+{
+public:
+	::GLsizeiptr size(void) const override
+	{
+		return 0;
 	}
 
 private:
 	void VLoadUniform(
 		ResourcePool* resource_pool,
-		bksge::shared_ptr<ShaderParameterBase> const& src,
-		::GLint location) const override
-	{
-		if (src->class_id() == ShaderParameter<bksge::SampledTexture>::StaticClassId())
-		{
-			auto sampled_texture = *static_cast<bksge::SampledTexture const*>(src->data());
-			gl::SampledTexture gl_sampled_texture(resource_pool, sampled_texture);
-			gl_sampled_texture.Bind(location);
-			return;
-		}
-
-		if (src->class_id() == ShaderParameter<gl::SampledTexture>::StaticClassId())
-		{
-			auto gl_sampled_texture = *static_cast<gl::SampledTexture const*>(src->data());
-			gl_sampled_texture.Bind(location);
-			return;
-		}
-	}
+		ShaderParameterBase const* param,
+		::GLint location) const override;
 };
 
 }	// namespace gl

@@ -22,7 +22,6 @@
 #include <bksge/core/render/gl/detail/render_state.hpp>
 #include <bksge/core/render/gl/detail/resource_pool.hpp>
 #include <bksge/core/render/gl/detail/sampler.hpp>
-#include <bksge/core/render/gl/detail/sampled_texture.hpp>
 #include <bksge/core/render/gl/detail/texture.hpp>
 #include <bksge/core/render/gl/detail/gl_h.hpp>
 //#include <bksge/core/render/gl/detail/egl/egl_context.hpp>
@@ -39,6 +38,7 @@
 #include <bksge/core/window/window.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/memory/make_shared.hpp>
+#include <bksge/fnd/utility/pair.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <cstdio>	// printf
 
@@ -183,8 +183,7 @@ public:
 		m_render_pass_info.clear_state().SetFlag(bksge::ClearFlag::kNone);
 		m_render_pass_info.viewport().SetRect({{0, 0}, extent});
 
-		gl::SampledTexture sampled_texture(m_sampler, texture);
-		m_shader_parameter_map.SetParameter("uSampler2D", sampled_texture);
+		m_shader_parameter_map.SetParameter("uSampler2D", bksge::make_pair(m_sampler, texture));
 
 		renderer->BeginRenderPass(m_render_pass_info);
 		renderer->Render(

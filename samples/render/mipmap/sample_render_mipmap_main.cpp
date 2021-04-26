@@ -6,15 +6,7 @@
  *	@author	myoukaku
  */
 
-#include <bksge/core/window.hpp>
-#include <bksge/core/render.hpp>
-#include <bksge/core/math.hpp>
-#include <bksge/fnd/cmath.hpp>
-#include <bksge/fnd/iterator/size.hpp>
-#include <bksge/fnd/algorithm/max.hpp>
-#include <bksge/fnd/memory.hpp>
-#include <bksge/fnd/cstdint.hpp>
-#include <bksge/fnd/vector.hpp>
+#include <bksge/bksge.hpp>
 
 namespace
 {
@@ -166,8 +158,8 @@ public:
 
 		m_shader_parameter.SetParameter("uSampler", m_sampler);
 		m_shader_parameter.SetParameter("uTexture", m_texture);
-		bksge::SampledTexture sampler2d(m_sampler, m_texture);
-		m_shader_parameter.SetParameter("uSampler2D", sampler2d);
+		m_shader_parameter.SetParameter(
+			"uSampler2D", bksge::make_pair(m_sampler, m_texture));
 
 		renderer->Render(
 			GetGeometry(),

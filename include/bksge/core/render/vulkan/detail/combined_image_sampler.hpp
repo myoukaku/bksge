@@ -15,7 +15,6 @@
 #include <bksge/core/render/vulkan/detail/fwd/sampler_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/texture_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <bksge/core/render/fwd/sampled_texture_fwd.hpp>
 
 namespace bksge
 {
@@ -32,11 +31,6 @@ public:
 	explicit CombinedImageSampler(
 		vulkan::SamplerSharedPtr const& sampler,
 		vulkan::TextureSharedPtr const& texture);
-
-	explicit CombinedImageSampler(
-		vulkan::ResourcePool* resource_pool,
-		vulkan::CommandPoolSharedPtr const& command_pool,
-		bksge::SampledTexture const& sampled_texture);
 
 	~CombinedImageSampler();
 

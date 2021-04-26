@@ -19,7 +19,6 @@
 #include <bksge/core/render/vulkan/detail/image_view.hpp>
 #include <bksge/core/render/vulkan/detail/resource_pool.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <bksge/core/render/sampled_texture.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 
 namespace bksge
@@ -37,16 +36,6 @@ CombinedImageSampler::CombinedImageSampler(
 	vulkan::TextureSharedPtr const& texture)
 	: m_sampler(sampler)
 	, m_texture(texture)
-{}
-
-BKSGE_INLINE
-CombinedImageSampler::CombinedImageSampler(
-	vulkan::ResourcePool* resource_pool,
-	vulkan::CommandPoolSharedPtr const& command_pool,
-	bksge::SampledTexture const& sampled_texture)
-	: CombinedImageSampler(
-		resource_pool->GetSampler(sampled_texture.sampler()),
-		resource_pool->GetTexture(command_pool, sampled_texture.texture()))
 {}
 
 BKSGE_INLINE
