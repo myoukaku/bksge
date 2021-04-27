@@ -234,7 +234,7 @@ GlRenderer::GlRenderer(Window const& window)
 		m_offscreen_buffer = bksge::make_unique<gl::FrameBuffer>();
 		{
 			auto texture = bksge::make_shared<gl::Texture>(
-				bksge::TextureFormat::kRGBA_U8,
+				bksge::TextureFormat::kRGBA_U8_NORM,
 				width,
 				height,
 				1,

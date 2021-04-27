@@ -20,7 +20,7 @@ GTEST_TEST(Render_Texture, BasicTest)
 	Texture tex1;
 	Texture tex2;
 	Texture tex3(TextureFormat::kRGBA_U8, {16, 24});
-	Texture tex4(TextureFormat::kRGB_F32, {32, 64}, 2);
+	Texture tex4(TextureFormat::kRGBA_F32, {32, 64}, 2);
 
 	EXPECT_TRUE(tex1.id() != tex2.id());
 	EXPECT_TRUE(tex1.id() != tex3.id());
@@ -29,10 +29,10 @@ GTEST_TEST(Render_Texture, BasicTest)
 	EXPECT_TRUE(tex2.id() != tex4.id());
 	EXPECT_TRUE(tex3.id() != tex4.id());
 
-	EXPECT_EQ(TextureFormat::kNone,	   tex1.format());
-	EXPECT_EQ(TextureFormat::kNone,	   tex2.format());
-	EXPECT_EQ(TextureFormat::kRGBA_U8, tex3.format());
-	EXPECT_EQ(TextureFormat::kRGB_F32, tex4.format());
+	EXPECT_EQ(TextureFormat::kUndefined, tex1.format());
+	EXPECT_EQ(TextureFormat::kUndefined, tex2.format());
+	EXPECT_EQ(TextureFormat::kRGBA_U8,   tex3.format());
+	EXPECT_EQ(TextureFormat::kRGBA_F32,  tex4.format());
 
 	EXPECT_EQ( 0u, tex1.width());
 	EXPECT_EQ( 0u, tex2.width());
@@ -52,7 +52,7 @@ GTEST_TEST(Render_Texture, BasicTest)
 	EXPECT_EQ(  0u, tex1.stride());
 	EXPECT_EQ(  0u, tex2.stride());
 	EXPECT_EQ( 64u, tex3.stride());
-	EXPECT_EQ(384u, tex4.stride());
+	EXPECT_EQ(512u, tex4.stride());
 
 	EXPECT_TRUE(tex1.data() == nullptr);
 	EXPECT_TRUE(tex2.data() == nullptr);
@@ -64,10 +64,10 @@ GTEST_TEST(Render_Texture, CopyTest)
 {
 	using namespace bksge;
 
-	Texture tex1(TextureFormat::kRGB_U8, {64, 8});
+	Texture tex1(TextureFormat::kRGBA_U8, {64, 8});
 	Texture tex2(tex1);
 
-	EXPECT_EQ(TextureFormat::kRGB_U8, tex2.format());
+	EXPECT_EQ(TextureFormat::kRGBA_U8, tex2.format());
 	EXPECT_EQ(64u, tex2.width());
 	EXPECT_EQ( 8u, tex2.height());
 	EXPECT_EQ( 1u, tex2.mipmap_count());
@@ -76,7 +76,7 @@ GTEST_TEST(Render_Texture, CopyTest)
 	Texture tex3;
 	tex3 = tex2;
 
-	EXPECT_EQ(TextureFormat::kRGB_U8, tex3.format());
+	EXPECT_EQ(TextureFormat::kRGBA_U8, tex3.format());
 	EXPECT_EQ(64u, tex3.width());
 	EXPECT_EQ( 8u, tex3.height());
 	EXPECT_EQ( 1u, tex3.mipmap_count());

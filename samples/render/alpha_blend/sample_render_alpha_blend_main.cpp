@@ -270,7 +270,7 @@ int main()
 		}
 	}
 	bksge::Texture const tex0(
-		bksge::TextureFormat::kRGBA_U8, {tex0_width, tex0_height}, pixels0.data());
+		bksge::TextureFormat::kRGBA_U8_NORM, {tex0_width, tex0_height}, pixels0.data());
 
 	bksge::size_t const tex1_width  = 64;
 	bksge::size_t const tex1_height = 64;
@@ -294,7 +294,7 @@ int main()
 		}
 	}
 	bksge::Texture const tex1(
-		bksge::TextureFormat::kRGBA_U8, {tex1_width, tex1_height}, pixels1.data());
+		bksge::TextureFormat::kRGBA_U8_NORM, {tex1_width, tex1_height}, pixels1.data());
 
 	bksge::vector<bksge::shared_ptr<Sprite>>	sprites;
 

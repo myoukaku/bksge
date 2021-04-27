@@ -19,6 +19,7 @@
 #include <bksge/core/render/d3d12/detail/fence.hpp>
 #include <bksge/core/render/d3d_common/d3d12.hpp>
 #include <bksge/core/render/d3d_common/throw_if_failed.hpp>
+#include <bksge/core/render/dxgi/dxgi_format.hpp>
 #include <bksge/core/render/texture.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
@@ -33,19 +34,6 @@ namespace render
 
 namespace d3d12
 {
-
-namespace detail
-{
-
-inline ::DXGI_FORMAT
-ToDXGIPixelFormat(bksge::TextureFormat format)
-{
-	// TODO
-	(void)format;
-	return DXGI_FORMAT_R8G8B8A8_UNORM;
-}
-
-}	// namespace detail
 
 inline void MemcpySubresource(
 	::D3D12_MEMCPY_DEST const* dst,
@@ -228,7 +216,7 @@ Texture::Texture(
 	desc.Height             = texture.height();
 	desc.DepthOrArraySize   = 1;
 	desc.MipLevels          = static_cast<::UINT16>(texture.mipmap_count());
-	desc.Format             = detail::ToDXGIPixelFormat(texture.format());
+	desc.Format             = bksge::render::DXGIFormat(texture.format());
 	desc.SampleDesc.Count   = 1;
 	desc.SampleDesc.Quality = 0;
 	desc.Layout             = D3D12_TEXTURE_LAYOUT_UNKNOWN;

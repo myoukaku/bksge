@@ -204,7 +204,7 @@ static bksge::Texture
 MakeTexture(bksge::uint32_t width, bksge::uint32_t height, bksge::size_t mipmap_count)
 {
 	auto const bytes = bksge::render::GetMipmappedSizeInBytes(
-		bksge::TextureFormat::kRGBA_U8,
+		bksge::TextureFormat::kRGBA_U8_NORM,
 		width, height,
 		mipmap_count);
 	bksge::vector<bksge::uint8_t> pixels(bytes);
@@ -232,7 +232,7 @@ MakeTexture(bksge::uint32_t width, bksge::uint32_t height, bksge::size_t mipmap_
 	}
 
 	return bksge::Texture(
-		bksge::TextureFormat::kRGBA_U8,
+		bksge::TextureFormat::kRGBA_U8_NORM,
 		{ width, height },
 		mipmap_count,
 		pixels.data());

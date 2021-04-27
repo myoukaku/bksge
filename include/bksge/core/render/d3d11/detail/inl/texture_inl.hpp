@@ -14,6 +14,7 @@
 
 #include <bksge/core/render/d3d11/detail/texture.hpp>
 #include <bksge/core/render/d3d11/detail/device.hpp>
+#include <bksge/core/render/dxgi/dxgi_format.hpp>
 #include <bksge/core/render/texture.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/assert.hpp>
@@ -30,19 +31,6 @@ namespace render
 namespace d3d11
 {
 
-namespace detail
-{
-
-inline ::DXGI_FORMAT
-ToDXGIPixelFormat(bksge::TextureFormat format)
-{
-	// TODO
-	(void)format;
-	return DXGI_FORMAT_R8G8B8A8_UNORM;
-}
-
-}	// namespace detail
-
 BKSGE_INLINE
 Texture::Texture(Device* device, bksge::Texture const& texture)
 {
@@ -51,7 +39,7 @@ Texture::Texture(Device* device, bksge::Texture const& texture)
 	desc.Height             = texture.height();
 	desc.MipLevels          = static_cast<::UINT>(texture.mipmap_count());
 	desc.ArraySize          = 1;
-	desc.Format             = detail::ToDXGIPixelFormat(texture.format());
+	desc.Format             = bksge::render::DXGIFormat(texture.format());
 	desc.SampleDesc.Count   = 1;
 	desc.SampleDesc.Quality = 0;
 	desc.Usage              = D3D11_USAGE_DEFAULT;

@@ -25,7 +25,7 @@ namespace render
 
 BKSGE_INLINE
 Texture::Texture(void)
-	: m_format(TextureFormat::kNone)
+	: m_format(TextureFormat::kUndefined)
 	, m_extent(0, 0)
 	, m_mipmap_count(0)
 	, m_pixels(bksge::make_shared<Pixels>())
@@ -42,7 +42,7 @@ Texture::Texture(
 	, m_mipmap_count(mipmap_count)
 	, m_pixels(bksge::make_shared<Pixels>())
 {
-	BKSGE_ASSERT(format != TextureFormat::kNone);
+	BKSGE_ASSERT(format != TextureFormat::kUndefined);
 	BKSGE_ASSERT(extent.width() >= 1u);
 	BKSGE_ASSERT(extent.height() >= 1u);
 	BKSGE_ASSERT(mipmap_count >= 1u);

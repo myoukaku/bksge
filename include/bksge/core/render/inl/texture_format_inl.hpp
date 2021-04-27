@@ -24,45 +24,58 @@ namespace bksge
 namespace render
 {
 
-BKSGE_INLINE PixelSwizzle
-GetPixelSwizzle(TextureFormat format)
-{
-	return static_cast<PixelSwizzle>(
-		(static_cast<bksge::uint32_t>(format) & kPixelSwizzleMask) >> kPixelSwizzleShift);
-}
-
-BKSGE_INLINE PixelBaseFormat
-GetPixelBaseFormat(TextureFormat format)
-{
-	return static_cast<PixelBaseFormat>(
-		(static_cast<bksge::uint32_t>(format) & kPixelBaseFormatMask) >> kPixelBaseFormatShift);
-}
-
-BKSGE_INLINE bksge::size_t
-GetChannelCount(TextureFormat format)
-{
-	return (static_cast<bksge::uint32_t>(format) & kChannelCountMask) >> kChannelCountShift;
-}
-
-BKSGE_INLINE bksge::size_t
-GetBitsPerChannel(TextureFormat format)
-{
-	return (static_cast<bksge::uint32_t>(format) & kBitsPerChannelMask) >> kBitsPerChannelShift;
-}
-
-BKSGE_INLINE bool
-IsDxtCompressed(TextureFormat format)
-{
-	return
-		format == TextureFormat::kDxt1 ||
-		format == TextureFormat::kDxt3 ||
-		format == TextureFormat::kDxt5;
-}
-
-BKSGE_INLINE bksge::size_t
+inline bksge::size_t
 GetBitsPerPixel(TextureFormat format)
 {
-	return GetChannelCount(format) * GetBitsPerChannel(format);
+	switch (format)
+	{
+	case bksge::TextureFormat::kUndefined:			return 0;
+	case bksge::TextureFormat::kR_U8:				return  8 * 1;
+	case bksge::TextureFormat::kR_S8:				return  8 * 1;
+	case bksge::TextureFormat::kR_U8_NORM:			return  8 * 1;
+	case bksge::TextureFormat::kR_S8_NORM:			return  8 * 1;
+	case bksge::TextureFormat::kR_U16:				return 16 * 1;
+	case bksge::TextureFormat::kR_S16:				return 16 * 1;
+	case bksge::TextureFormat::kR_U16_NORM:			return 16 * 1;
+	case bksge::TextureFormat::kR_S16_NORM:			return 16 * 1;
+	case bksge::TextureFormat::kR_F16:				return 16 * 1;
+	case bksge::TextureFormat::kR_U32:				return 32 * 1;
+	case bksge::TextureFormat::kR_S32:				return 32 * 1;
+	case bksge::TextureFormat::kR_F32:				return 32 * 1;
+	case bksge::TextureFormat::kRG_U8:				return  8 * 2;
+	case bksge::TextureFormat::kRG_S8:				return  8 * 2;
+	case bksge::TextureFormat::kRG_U8_NORM:			return  8 * 2;
+	case bksge::TextureFormat::kRG_S8_NORM:			return  8 * 2;
+	case bksge::TextureFormat::kRG_U16:				return 16 * 2;
+	case bksge::TextureFormat::kRG_S16:				return 16 * 2;
+	case bksge::TextureFormat::kRG_U16_NORM:		return 16 * 2;
+	case bksge::TextureFormat::kRG_S16_NORM:		return 16 * 2;
+	case bksge::TextureFormat::kRG_F16:				return 16 * 2;
+	case bksge::TextureFormat::kRG_U32:				return 32 * 2;
+	case bksge::TextureFormat::kRG_S32:				return 32 * 2;
+	case bksge::TextureFormat::kRG_F32:				return 32 * 2;
+	case bksge::TextureFormat::kRGBA_U8:			return  8 * 4;
+	case bksge::TextureFormat::kRGBA_S8:			return  8 * 4;
+	case bksge::TextureFormat::kRGBA_U8_NORM:		return  8 * 4;
+	case bksge::TextureFormat::kRGBA_S8_NORM:		return  8 * 4;
+	case bksge::TextureFormat::kRGBA_U16:			return 16 * 4;
+	case bksge::TextureFormat::kRGBA_S16:			return 16 * 4;
+	case bksge::TextureFormat::kRGBA_U16_NORM:		return 16 * 4;
+	case bksge::TextureFormat::kRGBA_S16_NORM:		return 16 * 4;
+	case bksge::TextureFormat::kRGBA_F16:			return 16 * 4;
+	case bksge::TextureFormat::kRGBA_U32:			return 32 * 4;
+	case bksge::TextureFormat::kRGBA_S32:			return 32 * 4;
+	case bksge::TextureFormat::kRGBA_F32:			return 32 * 4;
+	case bksge::TextureFormat::kDepth24_Stencil8:	return 32;
+	case bksge::TextureFormat::kBC1:				return 4;
+	case bksge::TextureFormat::kBC2:				return 8;
+	case bksge::TextureFormat::kBC3:				return 8;
+	case bksge::TextureFormat::kBC4:				return 4;
+	case bksge::TextureFormat::kBC5:				return 8;
+	case bksge::TextureFormat::kBC6H:				return 8;
+	case bksge::TextureFormat::kBC7:				return 8;
+	}
+	return 0;
 }
 
 BKSGE_INLINE bksge::size_t
@@ -71,23 +84,12 @@ GetSizeInBytes(
 	bksge::uint32_t width,
 	bksge::uint32_t height)
 {
-	if (IsDxtCompressed(format))
-	{
-		width  = bksge::round_up(width, 4);
-		height = bksge::round_up(height, 4);
-	}
-
 	return (width * height * GetBitsPerPixel(format)) / 8;
 }
 
 BKSGE_INLINE bksge::size_t
 GetStrideInBytes(TextureFormat format, bksge::uint32_t width)
 {
-	if (IsDxtCompressed(format))
-	{
-		width  = bksge::round_up(width, 4);
-	}
-
 	return (width * GetBitsPerPixel(format)) / 8;
 }
 
@@ -98,7 +100,7 @@ GetMipmappedSizeInBytes(
 	bksge::uint32_t height,
 	bksge::size_t mipmap_level)
 {
-	if (format == TextureFormat::kNone ||
+	if (format == TextureFormat::kUndefined ||
 		width == 0 ||
 		height == 0 ||
 		mipmap_level == 0)
@@ -136,66 +138,51 @@ to_string(TextureFormat const& format)
 
 	switch (format)
 	{
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kNone);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kR_U8);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kR_S8);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kR_U16);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kR_S16);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kR_U32);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kR_S32);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kR_F32);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRG_U8);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRG_S8);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRG_U16);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRG_S16);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRG_U32);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRG_S32);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRG_F32);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRGB_U8);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRGB_S8);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRGB_U16);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRGB_S16);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRGB_U32);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRGB_S32);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRGB_F32);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kBGR_U8);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kBGR_S8);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kBGR_U16);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kBGR_S16);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kBGR_U32);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kBGR_S32);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kBGR_F32);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRGBA_U8);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRGBA_S8);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRGBA_U16);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRGBA_S16);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRGBA_U32);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRGBA_S32);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRGBA_F32);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kBGRA_U8);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kBGRA_S8);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kBGRA_U16);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kBGRA_S16);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kBGRA_U32);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kBGRA_S32);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kBGRA_F32);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kARGB_U8);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kARGB_S8);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kARGB_U16);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kARGB_S16);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kARGB_U32);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kARGB_S32);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kARGB_F32);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kABGR_U8);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kABGR_S8);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kABGR_U16);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kABGR_S16);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kABGR_U32);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kABGR_S32);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kABGR_F32);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kDxt1);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kDxt3);
-		BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kDxt5);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kUndefined);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kR_U8);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kR_S8);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kR_U8_NORM);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kR_S8_NORM);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kR_U16);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kR_S16);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kR_U16_NORM);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kR_S16_NORM);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kR_F16);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kR_U32);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kR_S32);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kR_F32);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRG_U8);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRG_S8);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRG_U8_NORM);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRG_S8_NORM);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRG_U16);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRG_S16);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRG_U16_NORM);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRG_S16_NORM);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRG_F16);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRG_U32);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRG_S32);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRG_F32);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRGBA_U8);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRGBA_S8);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRGBA_U8_NORM);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRGBA_S8_NORM);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRGBA_U16);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRGBA_S16);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRGBA_U16_NORM);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRGBA_S16_NORM);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRGBA_F16);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRGBA_U32);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRGBA_S32);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kRGBA_F32);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kDepth24_Stencil8);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kBC1);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kBC2);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kBC3);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kBC4);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kBC5);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kBC6H);
+	BKSGE_CORE_RENDER_TEXTURE_FORMAT_KVP(TextureFormat::kBC7);
 	}
 
 	return "";

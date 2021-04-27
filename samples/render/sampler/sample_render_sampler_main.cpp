@@ -201,7 +201,7 @@ int main()
 		}
 	}
 	bksge::Texture const tex(
-		bksge::TextureFormat::kRGBA_U8, {tex_width, tex_height}, pixels.data());
+		bksge::TextureFormat::kRGBA_U8_NORM, {tex_width, tex_height}, pixels.data());
 
 	bksge::Sampler	sampler;
 	sampler.SetAddressModeU(bksge::AddressMode::kBorder);
