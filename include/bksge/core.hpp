@@ -9,6 +9,7 @@
 #ifndef BKSGE_CORE_HPP
 #define BKSGE_CORE_HPP
 
+#include <bksge/core/font.hpp>
 #include <bksge/core/input.hpp>
 #include <bksge/core/math.hpp>
 #include <bksge/core/render.hpp>

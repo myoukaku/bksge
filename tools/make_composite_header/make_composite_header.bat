@@ -70,6 +70,7 @@ call :func bksge/fnd/variant              "Variant library"
 call :func bksge/fnd/vector               "Vector library"
 call :func bksge/fnd                      "Foundation library"
 
+call :func bksge/core/font                "Font library"
 call :func bksge/core/input               "Input library"
 call :func bksge/core/math                "Math library"
 call :func bksge/core/render              "Render library"
