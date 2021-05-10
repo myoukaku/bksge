@@ -32,13 +32,11 @@ class Texture
 public:
 	explicit Texture(
 		vulkan::DeviceSharedPtr const& device,
-		vulkan::CommandPoolSharedPtr const& command_pool,
 		::VkFormat format,
 		vulkan::Extent2D const& extent,
 		bksge::uint32_t mipmap_count,
 		::VkSampleCountFlagBits num_samples,
-		::VkImageUsageFlags usage,
-		::VkImageLayout image_layout);
+		::VkImageUsageFlags usage);
 
 	explicit Texture(
 		vulkan::DeviceSharedPtr const& device,

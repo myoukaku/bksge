@@ -89,33 +89,12 @@ CopyBufferToImage(
 BKSGE_INLINE
 Texture::Texture(
 	vulkan::DeviceSharedPtr const& device,
-	vulkan::CommandPoolSharedPtr const& command_pool,
 	::VkFormat format,
 	vulkan::Extent2D const& extent,
 	bksge::uint32_t mipmap_count,
 	::VkSampleCountFlagBits num_samples,
-	::VkImageUsageFlags usage,
-	::VkImageLayout image_layout)
+	::VkImageUsageFlags usage)
 {
-	auto physical_device = device->physical_device();
-
-	::VkImageTiling tiling = VK_IMAGE_TILING_OPTIMAL;
-	auto const props = physical_device->GetFormatProperties(format);
-	if (props.linearTilingFeatures & VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT)
-	{
-		tiling = VK_IMAGE_TILING_LINEAR;
-	}
-	else if (props.optimalTilingFeatures & VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT)
-	{
-		tiling = VK_IMAGE_TILING_OPTIMAL;
-	}
-	else
-	{
-		// TODO エラー処理
-	}
-
-	::VkFlags const requirements_mask = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
-
 	::VkImageAspectFlags const aspect = VK_IMAGE_ASPECT_COLOR_BIT;
 
 	m_image = bksge::make_shared<vulkan::Image>(
@@ -124,15 +103,7 @@ Texture::Texture(
 		extent,
 		mipmap_count,
 		num_samples,
-		tiling,
-		usage,
-		VK_IMAGE_LAYOUT_UNDEFINED,
-		requirements_mask);
-
-	if (image_layout != VK_IMAGE_LAYOUT_UNDEFINED)
-	{
-		m_image->TransitionLayout(command_pool, aspect, image_layout);
-	}
+		usage);
 
 	m_image_view = bksge::make_shared<vulkan::ImageView>(
 		device,
@@ -147,14 +118,12 @@ Texture::Texture(
 	bksge::Texture const& texture)
 	: Texture(
 		device,
-		command_pool,
 		vulkan::TextureFormat(texture.format()),
 		vulkan::Extent2D(texture.extent()),
 		static_cast<bksge::uint32_t>(texture.mipmap_count()),
 		VK_SAMPLE_COUNT_1_BIT,
 		VK_IMAGE_USAGE_SAMPLED_BIT |
-		VK_IMAGE_USAGE_TRANSFER_DST_BIT,
-		VK_IMAGE_LAYOUT_UNDEFINED)
+		VK_IMAGE_USAGE_TRANSFER_DST_BIT)
 {
 	auto image_size = GetMipmappedSizeInBytes(
 		texture.format(),

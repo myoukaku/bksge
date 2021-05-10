@@ -99,9 +99,17 @@ BKSGE_INLINE bksge::vector<::VkQueueFamilyProperties>
 PhysicalDevice::GetQueueFamilyProperties(void) const
 {
 	bksge::uint32_t count = 0;
-	vk::GetPhysicalDeviceQueueFamilyProperties(m_physical_device, &count, nullptr);
+	vk::GetPhysicalDeviceQueueFamilyProperties(
+		m_physical_device, &count, nullptr);
+
+	if (count == 0)
+	{
+		return {};
+	}
+
 	bksge::vector<::VkQueueFamilyProperties> props(count);
-	vk::GetPhysicalDeviceQueueFamilyProperties(m_physical_device, &count, props.data());
+	vk::GetPhysicalDeviceQueueFamilyProperties(
+		m_physical_device, &count, props.data());
 	return props;
 }
 

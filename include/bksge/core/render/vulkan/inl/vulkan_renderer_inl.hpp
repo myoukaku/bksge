@@ -293,14 +293,17 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 
 		auto color_buffer = bksge::make_shared<vulkan::Texture>(
 			m_device,
-			m_command_pool,
 			VK_FORMAT_R8G8B8A8_UNORM,
 			extent,
 			1,
 			NUM_SAMPLES,
 			VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT |
 			VK_IMAGE_USAGE_SAMPLED_BIT |
-			VK_IMAGE_USAGE_TRANSFER_DST_BIT,
+			VK_IMAGE_USAGE_TRANSFER_DST_BIT);
+
+		color_buffer->image()->TransitionLayout(
+			m_command_pool,
+			VK_IMAGE_ASPECT_COLOR_BIT,
 			VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
 
 		auto depth_stencil_buffer = bksge::make_shared<vulkan::DepthStencilBuffer>(

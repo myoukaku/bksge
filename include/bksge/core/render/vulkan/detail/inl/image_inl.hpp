@@ -137,15 +137,14 @@ Image::Image(
 	::VkImage image,
 	::VkFormat format,
 	vulkan::Extent2D const& extent,
-	bksge::uint32_t mipmap_count,
-	::VkImageLayout initial_layout)
+	bksge::uint32_t mipmap_count)
 	: m_image(image)
 	, m_device()
 	, m_device_memory()
 	, m_format(format)
 	, m_extent(extent)
 	, m_mipmap_count(mipmap_count)
-	, m_layout(initial_layout)
+	, m_layout(VK_IMAGE_LAYOUT_UNDEFINED)
 {
 }
 
@@ -156,17 +155,14 @@ Image::Image(
 	vulkan::Extent2D const& extent,
 	bksge::uint32_t mipmap_count,
 	::VkSampleCountFlagBits num_samples,
-	::VkImageTiling tiling,
-	::VkImageUsageFlags usage,
-	::VkImageLayout initial_layout,
-	::VkFlags requirements_mask)
+	::VkImageUsageFlags usage)
 	: m_image(VK_NULL_HANDLE)
 	, m_device(device)
 	, m_device_memory()
 	, m_format(format)
 	, m_extent(extent)
 	, m_mipmap_count(mipmap_count)
-	, m_layout(initial_layout)
+	, m_layout(VK_IMAGE_LAYOUT_UNDEFINED)
 {
 	vk::ImageCreateInfo info;
 	info.imageType     = VK_IMAGE_TYPE_2D;
@@ -175,10 +171,10 @@ Image::Image(
 	info.mipLevels     = mipmap_count;
 	info.arrayLayers   = 1;
 	info.samples       = num_samples;
-	info.tiling        = tiling;
+	info.tiling        = VK_IMAGE_TILING_OPTIMAL;
 	info.usage         = usage;
 	info.sharingMode   = VK_SHARING_MODE_EXCLUSIVE;
-	info.initialLayout = initial_layout;
+	info.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
 	info.SetQueueFamilyIndices(nullptr);
 
 	m_image = device->CreateImage(info);
@@ -186,7 +182,7 @@ Image::Image(
 	auto const mem_reqs = device->GetImageMemoryRequirements(m_image);
 
 	m_device_memory = bksge::make_unique<vulkan::DeviceMemory>(
-		device, mem_reqs, requirements_mask);
+		device, mem_reqs, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 
 	m_device_memory->BindImage(m_image, 0);
 }

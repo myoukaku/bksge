@@ -42,63 +42,14 @@ DepthStencilBuffer::DepthStencilBuffer(
 {
 	bksge::uint32_t const mipmap_count = 1;
 
-	auto physical_device = device->physical_device();
-
-	::VkFormatProperties props;
-
-	/* allow custom depth formats */
-#if defined(__ANDROID__)
-	// Depth format needs to be VK_FORMAT_D24_UNORM_S8_UINT on Android (if available).
-	vk::GetPhysicalDeviceFormatProperties(info.gpus[0], VK_FORMAT_D24_UNORM_S8_UINT, &props);
-	if ((props.linearTilingFeatures & VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT) ||
-		(props.optimalTilingFeatures & VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT))
-	{
-		format = VK_FORMAT_D24_UNORM_S8_UINT;
-	}
-	else
-	{
-		format = VK_FORMAT_D16_UNORM;
-	}
-#elif defined(VK_USE_PLATFORM_IOS_MVK)
-	if (format == VK_FORMAT_UNDEFINED)
-	{
-		format = VK_FORMAT_D32_SFLOAT;
-	}
-#else
-	if (format == VK_FORMAT_UNDEFINED)
-	{
-		format = VK_FORMAT_D16_UNORM;
-	}
-#endif
-
-	::VkImageTiling tiling = VK_IMAGE_TILING_OPTIMAL;
-	props = physical_device->GetFormatProperties(format);
-	if (props.linearTilingFeatures & VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT)
-	{
-		tiling = VK_IMAGE_TILING_LINEAR;
-	}
-	else if (props.optimalTilingFeatures & VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT)
-	{
-		tiling = VK_IMAGE_TILING_OPTIMAL;
-	}
-	else
-	{
-	 /* Try other depth formats? */
-		//std::cout << "depth_format " << format << " Unsupported.\n";
-		exit(-1);
-	}
-
 	m_image = bksge::make_shared<vulkan::Image>(
 		device,
 		format,
 		extent,
 		mipmap_count,
 		num_samples,
-		tiling,
 		VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT |
-		VK_IMAGE_USAGE_TRANSFER_DST_BIT,
-		VK_IMAGE_LAYOUT_UNDEFINED,
-		VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+		VK_IMAGE_USAGE_TRANSFER_DST_BIT);
 
 	::VkImageAspectFlags aspect_mask = VK_IMAGE_ASPECT_DEPTH_BIT;
 	if (format == VK_FORMAT_D16_UNORM_S8_UINT ||
