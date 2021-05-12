@@ -73,8 +73,14 @@ struct NamingTable
 	explicit NamingTable(bksge::uint8_t const* ptr)
 	{
 		auto const start = ptr;
+
+		uint16		version;
 		uint16		count;
 		Offset16	storageOffset;
+//		NameRecord	nameRecord[count];
+		uint16			langTagCount = 0;
+//		LangTagRecord	langTagRecord[langTagCount];
+
 		ptr = ReadBigEndian(ptr, &version);
 		ptr = ReadBigEndian(ptr, &count);
 		ptr = ReadBigEndian(ptr, &storageOffset);
@@ -88,17 +94,13 @@ struct NamingTable
 			return;
 		}
 
-		uint16	langTagCount = 0;
 		ptr = ReadBigEndian(ptr, &langTagCount);
 		langTagRecord.resize(langTagCount);
 		ptr = ReadBigEndian(ptr, &langTagRecord, stringStorage);
 	}
 
-	// Version 0
-	uint16							version;
 	bksge::vector<NameRecord>		nameRecord;
-	// Version 1
-	bksge::vector<LangTagRecord>	langTagRecord;
+	bksge::vector<LangTagRecord>	langTagRecord;	// Version 1
 };
 
 }	// namespace otf

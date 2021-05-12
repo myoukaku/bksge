@@ -23,12 +23,10 @@ namespace otf
 struct CompactFontFormatTable
 {
 	explicit CompactFontFormatTable(bksge::uint8_t const* ptr, uint32 length)
-	{
-		value.resize(length);
-		ptr = ReadBigEndian(ptr, &value);
-	}
+		: m_buf(ptr, ptr + length)
+	{}
 
-	bksge::vector<uint8> value;
+	bksge::vector<uint8> m_buf;
 };
 
 }	// namespace otf
