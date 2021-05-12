@@ -261,6 +261,17 @@ OpenTypeFont::~OpenTypeFont()
 {
 }
 
+BKSGE_INLINE bksge::uint16_t
+OpenTypeFont::GetGlyphIndex(bksge::uint32_t char_code) const
+{
+	if (m_cmap == nullptr)
+	{
+		return 0;
+	}
+
+	return m_cmap->GetGlyphIndex(char_code);
+}
+
 }	// namespace bksge
 
 #endif // BKSGE_CORE_FONT_INL_OPEN_TYPE_FONT_INL_HPP

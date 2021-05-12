@@ -38,6 +38,12 @@ struct CMapTable
 				return result;
 			}
 
+			bksge::uint16_t GetGlyphIndex(bksge::uint32_t char_code) const
+			{
+				(void)char_code;
+				return 0;
+			}
+
 			uint16	length;
 			uint16	language;
 			uint8	glyphIdArray[256];
@@ -65,6 +71,12 @@ struct CMapTable
 				return result;
 			}
 
+			bksge::uint16_t GetGlyphIndex(bksge::uint32_t char_code) const
+			{
+				(void)char_code;
+				return 0;
+			}
+
 			uint16	length;
 			uint16	language;
 			uint16	subHeaderKeys[256];
@@ -76,6 +88,8 @@ struct CMapTable
 		{
 			static Format4 Create(bksge::uint8_t const* ptr)
 			{
+				auto const start = ptr;
+
 				Format4 result;
 
 				ptr = ReadBigEndian(ptr, &result.length);
@@ -102,9 +116,37 @@ struct CMapTable
 				result.idRangeOffsets.resize(segCount);
 				ptr = ReadBigEndian(ptr, &result.idRangeOffsets);
 
-				// TODO glyphIdArray
+				auto const end = start + result.length;
+				result.glyphIdArray.resize((end - ptr) / 2);
+				ptr = ReadBigEndian(ptr, &result.glyphIdArray);
 
 				return result;
+			}
+
+			bksge::uint16_t GetGlyphIndex(bksge::uint32_t char_code) const
+			{
+				auto const segCount = endCode.size();
+				for (bksge::size_t i = 0; i < segCount; ++i)
+				{
+					if (char_code <= endCode[i])
+					{
+						if (char_code < startCode[i])
+						{
+							return 0;
+						}
+
+						auto const offset = idRangeOffsets[i];
+						if (offset == 0)
+						{
+							return (char_code + idDelta[i]) & 0xFFFF;
+						}
+
+						auto const index = offset / 2 - segCount + i + (char_code - startCode[i]);
+						return glyphIdArray[index];
+					}
+				}
+
+				return 0;
 			}
 
 			uint16	length;
@@ -135,6 +177,12 @@ struct CMapTable
 				ptr = ReadBigEndian(ptr, &result.glyphIdArray);
 
 				return result;
+			}
+
+			bksge::uint16_t GetGlyphIndex(bksge::uint32_t char_code) const
+			{
+				(void)char_code;
+				return 0;
 			}
 
 			uint16					length;
@@ -178,6 +226,12 @@ struct CMapTable
 				return result;
 			}
 
+			bksge::uint16_t GetGlyphIndex(bksge::uint32_t char_code) const
+			{
+				(void)char_code;
+				return 0;
+			}
+
 			using SequentialMapGroups = bksge::vector<SequentialMapGroup>;
 
 			uint32				length;
@@ -201,6 +255,12 @@ struct CMapTable
 				// TODO glyphIdArray
 
 				return result;
+			}
+
+			bksge::uint16_t GetGlyphIndex(bksge::uint32_t char_code) const
+			{
+				(void)char_code;
+				return 0;
 			}
 
 			uint32	length;
@@ -244,6 +304,12 @@ struct CMapTable
 				return result;
 			}
 
+			bksge::uint16_t GetGlyphIndex(bksge::uint32_t char_code) const
+			{
+				(void)char_code;
+				return 0;
+			}
+
 			using SequentialMapGroups = bksge::vector<SequentialMapGroup>;
 
 			uint32				length;
@@ -283,6 +349,12 @@ struct CMapTable
 				ptr = ReadBigEndian(ptr, &result.groups);
 
 				return result;
+			}
+
+			bksge::uint16_t GetGlyphIndex(bksge::uint32_t char_code) const
+			{
+				(void)char_code;
+				return 0;
 			}
 
 			using ConstantMapGroups = bksge::vector<ConstantMapGroup>;
@@ -403,6 +475,12 @@ struct CMapTable
 				return result;
 			}
 
+			bksge::uint16_t GetGlyphIndex(bksge::uint32_t char_code) const
+			{
+				(void)char_code;
+				return 0;
+			}
+
 			uint32								length;
 			bksge::vector<VariationSelector>	varSelector;
 		};
@@ -427,6 +505,22 @@ struct CMapTable
 			}
 		}
 
+		struct GetGlyphIndexVisitor
+		{
+			bksge::uint32_t m_char_code;
+
+			template <typename T>
+			bksge::uint16_t operator()(T const& v)
+			{
+				return v.GetGlyphIndex(m_char_code);
+			}
+		};
+
+		bksge::uint16_t GetGlyphIndex(bksge::uint32_t char_code) const
+		{
+			return bksge::visit(GetGlyphIndexVisitor{char_code}, value);
+		}
+
 		bksge::variant<
 			Format0,
 			Format2,
@@ -438,6 +532,15 @@ struct CMapTable
 			Format13,
 			Format14
 		> value;
+	};
+
+	enum PlatformID
+	{
+		Unicode   = 0,
+		Macintosh = 1,
+		ISO       = 2,
+		Windows   = 3,
+		Custom    = 4,
 	};
 
 	struct EncodingRecord
@@ -460,6 +563,11 @@ struct CMapTable
 			return ptr;
 		}
 
+		bksge::uint16_t GetGlyphIndex(bksge::uint32_t char_code) const
+		{
+			return subtable->GetGlyphIndex(char_code);
+		}
+
 		uint16						platformID;
 		uint16						encodingID;
 		bksge::unique_ptr<Subtable>	subtable;
@@ -477,6 +585,44 @@ struct CMapTable
 		ptr = ReadBigEndian(ptr, &encodingRecords, start);
 	}
 
+	bksge::uint16_t GetGlyphIndex(bksge::uint32_t char_code) const
+	{
+		auto encodingRecord = GetEncodingRecord_Unicode();
+		if (encodingRecord == nullptr)
+		{
+			return 0;
+		}
+
+		return encodingRecord->GetGlyphIndex(char_code);
+	}
+
+private:
+	EncodingRecord const* GetEncodingRecord_Unicode() const
+	{
+		for (auto& encodingRecord : encodingRecords)
+		{
+			if (encodingRecord.platformID == Windows)
+			{
+				if (encodingRecord.encodingID == 1 ||	// Unicode BMP
+					encodingRecord.encodingID == 10)	// Unicode full repertoire
+				{
+					return &encodingRecord;
+				}
+			}
+		}
+
+		for (auto& encodingRecord : encodingRecords)
+		{
+			if (encodingRecord.platformID == Unicode)
+			{
+				return &encodingRecord;
+			}
+		}
+
+		return nullptr;
+	}
+
+private:
 	bksge::vector<EncodingRecord>	encodingRecords;
 };
 

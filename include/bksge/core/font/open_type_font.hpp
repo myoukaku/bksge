@@ -103,6 +103,8 @@ public:
 	OpenTypeFont(bksge::uint8_t const* ptr, bksge::size_t size);
 	~OpenTypeFont();
 
+	bksge::uint16_t GetGlyphIndex(bksge::uint32_t char_code) const;
+
 private:
 	bksge::unique_ptr<otf::TableDirectory>				m_table_directory;
 
