@@ -65,8 +65,8 @@ endforeach()
 
 include(externals/glslang.cmake)
 include(externals/spirv-cross.cmake)
-include(externals/vulkan-loader.cmake)
-include(externals/vulkan-headers.cmake)
+#include(externals/vulkan-loader.cmake)
+#include(externals/vulkan-headers.cmake)
 
 foreach(compiler_flag ${compiler_flags})
   if (MSVC)
@@ -173,4 +173,5 @@ if(BKSGE_BUILD_TESTING)
   enable_testing()
   add_subdirectory(test)
 endif()
+
 add_subdirectory(samples)
