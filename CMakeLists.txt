@@ -1,22 +1,13 @@
 ﻿cmake_minimum_required(VERSION 3.12)
-project(bksge C CXX)
+
+project(bksge LANGUAGES C CXX)
+
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-include(Dart)
+#include(Dart)
 
 option(BKSGE_UNITY_BUILD "Use Unity Builds" OFF)
-
-# git ブランチ名を得る
-find_package(Git REQUIRED)
-message("Found GIT: ${GIT_VERSION_STRING}")
-
-execute_process(
-  COMMAND ${GIT_EXECUTABLE} rev-parse --abbrev-ref HEAD
-  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-  OUTPUT_VARIABLE GIT_BRANCH_NAME
-  OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-message(STATUS "GIT_BRANCH_NAME: ${GIT_BRANCH_NAME}")
+option(BKSGE_BUILD_TESTING "" ON)
 
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
 
@@ -144,12 +135,6 @@ if (COVERAGE)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
 endif()
 
-enable_testing()
-
-find_package(OpenGL REQUIRED)
-message(STATUS "OPENGL_LIBRARIES: ${OPENGL_LIBRARIES}")
-message(STATUS "OPENGL_INCLUDE_DIR: ${OPENGL_INCLUDE_DIR}")
-
 message(STATUS "CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
 message(STATUS "CMAKE_CXX_FLAGS_DEBUG: ${CMAKE_CXX_FLAGS_DEBUG}")
 message(STATUS "CMAKE_CXX_FLAGS_RELEASE: ${CMAKE_CXX_FLAGS_RELEASE}")
@@ -164,43 +149,28 @@ message(STATUS "CMAKE_CXX_FLAGS_RELWITHDEBINFO: ${CMAKE_CXX_FLAGS_RELWITHDEBINFO
 message(STATUS "CMAKE_CXX_COMPILER: ${CMAKE_CXX_COMPILER}")
 message(STATUS "CMAKE_C_COMPILER: ${CMAKE_C_COMPILER}")
 
-message(STATUS "OPENGL_INCLUDE_DIR:        ${OPENGL_INCLUDE_DIR}")
-message(STATUS "VulkanHeaders_INCLUDE_DIR: ${VulkanHeaders_INCLUDE_DIR}")
-message(STATUS "glslang_INCLUDE_DIR:       ${glslang_INCLUDE_DIR}")
-message(STATUS "SPIRV-Cross_INCLUDE_DIR:   ${SPIRV-Cross_INCLUDE_DIR}")
-
-include_directories(${PROJECT_SOURCE_DIR}/include)
-include_directories(${OPENGL_INCLUDE_DIR})
-include_directories(${VulkanHeaders_INCLUDE_DIR})
-include_directories(${glslang_INCLUDE_DIR})
-include_directories(${SPIRV-Cross_INCLUDE_DIR})
-
-include(${PROJECT_SOURCE_DIR}/cmake/UnityBuild.cmake)
-
-file(GLOB_RECURSE bksge_sources src/bksge/*)
-if(BKSGE_UNITY_BUILD)
-  ENABLE_UNITY_BUILD(bksge bksge_sources 10 cpp)
-endif()
+file(GLOB_RECURSE bksge_sources CONFIGURE_DEPENDS src/bksge/*)
 add_library(bksge STATIC ${bksge_sources})
-
-target_link_libraries(bksge ${OPENGL_LIBRARIES})
-link_directories("${Vulkan-Loader_BINARY_DIR}/loader")
-add_dependencies(bksge vulkan)
-if(WIN32)
-  target_link_libraries(bksge vulkan-1)
-  target_link_libraries(bksge Cfgmgr32)
-else()
-  target_link_libraries(bksge vulkan)
+if(BKSGE_UNITY_BUILD)
+  set_target_properties(bksge PROPERTIES UNITY_BUILD ON)
 endif()
-add_dependencies(bksge glslang)
-target_link_libraries(bksge glslang SPIRV spirv-cross-glsl)
+target_include_directories(bksge PUBLIC ${PROJECT_SOURCE_DIR}/include)
+
+find_package(OpenGL REQUIRED)
+target_link_libraries(bksge PRIVATE OpenGL::GL)
+
+find_package(Vulkan REQUIRED)
+target_link_libraries(bksge PUBLIC Vulkan::Vulkan)
+
+target_link_libraries(bksge PRIVATE glslang SPIRV)
+target_link_libraries(bksge PRIVATE spirv-cross-glsl)
 
 if(MINGW)
-  target_link_libraries(bksge -lopengl32 -ld3d11 -ld3dcompiler -ldinput8 -ldxguid)
+  target_link_libraries(bksge -ld3d11 -ld3dcompiler -ldinput8 -ldxguid)
 endif()
 
-include(${PROJECT_SOURCE_DIR}/cmake/assign_source_group.cmake)
-assign_source_group(${bksge_sources})
-
-add_subdirectory(test)
+if(BKSGE_BUILD_TESTING)
+  enable_testing()
+  add_subdirectory(test)
+endif()
 add_subdirectory(samples)

@@ -1,10 +1,3 @@
-﻿cmake_minimum_required(VERSION 3.12)
-
-include(${PROJECT_SOURCE_DIR}/cmake/assign_source_group.cmake)
-
-include_directories(${PROJECT_SOURCE_DIR}/include)
-
-add_executable(sample_render_triangle sample_render_triangle_main.cpp)
-assign_source_group(sample_render_triangle.cpp)
+﻿add_executable(sample_render_triangle sample_render_triangle_main.cpp)
 set_target_properties(sample_render_triangle PROPERTIES FOLDER "samples")
-target_link_libraries(sample_render_triangle bksge)
+target_link_libraries(sample_render_triangle PRIVATE bksge)

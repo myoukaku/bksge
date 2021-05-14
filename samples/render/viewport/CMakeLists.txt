@@ -1,10 +1,3 @@
-﻿cmake_minimum_required(VERSION 3.12)
-
-include(${PROJECT_SOURCE_DIR}/cmake/assign_source_group.cmake)
-
-include_directories(${PROJECT_SOURCE_DIR}/include)
-
-add_executable(sample_render_viewport sample_render_viewport_main.cpp)
-assign_source_group(sample_render_viewport.cpp)
+﻿add_executable(sample_render_viewport sample_render_viewport_main.cpp)
 set_target_properties(sample_render_viewport PROPERTIES FOLDER "samples")
-target_link_libraries(sample_render_viewport bksge)
+target_link_libraries(sample_render_viewport PRIVATE bksge)

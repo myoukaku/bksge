@@ -1,6 +1,4 @@
-﻿cmake_minimum_required(VERSION 3.12)
-
-add_subdirectory(alpha_blend)
+﻿add_subdirectory(alpha_blend)
 add_subdirectory(box)
 add_subdirectory(clear)
 add_subdirectory(clear_flag)

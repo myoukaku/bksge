@@ -1,5 +1,4 @@
-﻿cmake_minimum_required(VERSION 3.12)
-
+﻿
 option(BUILD_GMOCK "Builds the googlemock subproject" OFF)
 
 add_subdirectory(googletest)
@@ -8,21 +7,15 @@ set_target_properties(gtest      PROPERTIES FOLDER "externals")
 #set_target_properties(gmock      PROPERTIES FOLDER "externals")
 #set_target_properties(gmock_main PROPERTIES FOLDER "externals")
 
-include(${PROJECT_SOURCE_DIR}/cmake/UnityBuild.cmake)
-
-file(GLOB_RECURSE test_sources src/*.cpp)
-if(BKSGE_UNITY_BUILD)
-  ENABLE_UNITY_BUILD(unit_test test_sources 10 cpp)
-endif()
+file(GLOB_RECURSE test_sources CONFIGURE_DEPENDS src/*)
 add_executable(unit_test ${test_sources} src/main.cpp)
+if(BKSGE_UNITY_BUILD)
+  set_target_properties(unit_test PROPERTIES UNITY_BUILD ON)
+endif()
 
-include_directories(src)
+target_include_directories(unit_test PRIVATE src)
 
-include(${PROJECT_SOURCE_DIR}/cmake/assign_source_group.cmake)
-assign_source_group(${test_sources})
-
-target_link_libraries(unit_test bksge gtest)
-include_directories(${PROJECT_SOURCE_DIR}/include)
+target_link_libraries(unit_test PRIVATE bksge gtest)
 
 include(GoogleTest)
 gtest_discover_tests(unit_test)
