@@ -28,13 +28,6 @@ set(compiler_flags
 
 foreach(compiler_flag ${compiler_flags})
   if (MSVC)
-    # /Wn -> /W0 (Warning Level)
-    if(${compiler_flag} MATCHES "/W[0-4]")
-      string(REGEX REPLACE "/W[0-4]" "/W0" ${compiler_flag} "${${compiler_flag}}")
-    else()
-      set(${compiler_flag} "${${compiler_flag}} /W0")
-    endif()
-
     # /MD[d] -> /MT[d] (Run-Time Library)
     if(${compiler_flag} MATCHES "/MD")
 	  if(CMAKE_BUILD_TYPE MATCHES "Debug")
@@ -65,8 +58,6 @@ endforeach()
 
 include(externals/glslang.cmake)
 include(externals/spirv-cross.cmake)
-#include(externals/vulkan-loader.cmake)
-#include(externals/vulkan-headers.cmake)
 
 foreach(compiler_flag ${compiler_flags})
   if (MSVC)
@@ -77,51 +68,8 @@ foreach(compiler_flag ${compiler_flags})
       set(${compiler_flag} "${${compiler_flag}} /W4")
     endif()
 
-	# /WX (Treat all warnings as errors)
-    set(${compiler_flag} "${${compiler_flag}} /WX")
-
-	# Suppress compiler warnings
-
-	# C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
-    set(${compiler_flag} "${${compiler_flag}} /wd4103")
-
-	# C4384: #pragma '...' should only be used at global scope
-    set(${compiler_flag} "${${compiler_flag}} /wd4384")
-
-	# /guard:cf (Enable Control Flow Guard)
-    set(${compiler_flag} "${${compiler_flag}} /guard:cf")
-
-	# /MP (Build with Multiple Processes)
-	if (NOT CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-      set(${compiler_flag} "${${compiler_flag}} /MP")
-	endif()
-
 	# /GR- (Disable Run-Time Type Information)
     string(REGEX REPLACE "/GR-?" "/GR-" ${compiler_flag} "${${compiler_flag}}")
-
-	# /permissive- (Standards conformance)
-    set(${compiler_flag} "${${compiler_flag}} /permissive-")
-
-	# /bigobj (Increase Number of Sections in .obj file)
-    set(${compiler_flag} "${${compiler_flag}} /bigobj")
-
-	# /Bt
-    #set(${compiler_flag} "${${compiler_flag}} /Bt")
-
-	# /d2cgsummary
-    #set(${compiler_flag} "${${compiler_flag}} /d2cgsummary")
-
-	# /d1reportTime (compiler frontend spends time)
-    #set(${compiler_flag} "${${compiler_flag}} /d1reportTime")
-
-	# /Zc:preprocessor
-    #set(${compiler_flag} "${${compiler_flag}} /Zc:preprocessor /Wv:18")
-
-  elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    set(${compiler_flag} "${${compiler_flag}} -Wall -Wextra -Werror -Wno-mismatched-tags")
-
-  elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    set(${compiler_flag} "${${compiler_flag}} -Wall -Wextra -Werror -Wno-missing-field-initializers")
 
   endif()
 endforeach()
@@ -135,26 +83,45 @@ if (COVERAGE)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
 endif()
 
-message(STATUS "CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
-message(STATUS "CMAKE_CXX_FLAGS_DEBUG: ${CMAKE_CXX_FLAGS_DEBUG}")
-message(STATUS "CMAKE_CXX_FLAGS_RELEASE: ${CMAKE_CXX_FLAGS_RELEASE}")
-message(STATUS "CMAKE_CXX_FLAGS_MINSIZEREL: ${CMAKE_CXX_FLAGS_MINSIZEREL}")
-message(STATUS "CMAKE_CXX_FLAGS_RELWITHDEBINFO: ${CMAKE_CXX_FLAGS_RELWITHDEBINFO}")
-#message(STATUS "CMAKE_C_FLAGS: ${CMAKE_C_FLAGS}")
-#message(STATUS "CMAKE_C_FLAGS_DEBUG: ${CMAKE_C_FLAGS_DEBUG}")
-#message(STATUS "CMAKE_C_FLAGS_RELEASE: ${CMAKE_C_FLAGS_RELEASE}")
-#message(STATUS "CMAKE_C_FLAGS_MINSIZEREL: ${CMAKE_C_FLAGS_MINSIZEREL}")
-#message(STATUS "CMAKE_C_FLAGS_RELWITHDEBINFO: ${CMAKE_C_FLAGS_RELWITHDEBINFO}")
-
-message(STATUS "CMAKE_CXX_COMPILER: ${CMAKE_CXX_COMPILER}")
-message(STATUS "CMAKE_C_COMPILER: ${CMAKE_C_COMPILER}")
-
 file(GLOB_RECURSE bksge_sources CONFIGURE_DEPENDS src/bksge/*)
 add_library(bksge STATIC ${bksge_sources})
+
+target_include_directories(bksge PUBLIC ${PROJECT_SOURCE_DIR}/include)
+
+if (MSVC)
+  # /WX (Treat all warnings as errors)
+  target_compile_options(bksge PRIVATE /WX)
+
+  # C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+  target_compile_options(bksge PUBLIC /wd4103)
+
+  # C4384: #pragma '...' should only be used at global scope
+  target_compile_options(bksge PUBLIC /wd4384)
+
+  # /guard:cf (Enable Control Flow Guard)
+  target_compile_options(bksge PUBLIC /guard:cf)
+
+  # /permissive- (Standards conformance)
+  target_compile_options(bksge PUBLIC /permissive-)
+
+  # /bigobj (Increase Number of Sections in .obj file)
+  target_compile_options(bksge PUBLIC /bigobj)
+
+  # /MP (Build with Multiple Processes)
+  if (NOT CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    target_compile_options(bksge PUBLIC /MP)
+  endif()
+
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+  target_compile_options(bksge PRIVATE -Wall -Wextra -Werror -Wno-mismatched-tags)
+
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  target_compile_options(bksge PRIVATE -Wall -Wextra -Werror -Wno-missing-field-initializers)
+endif()
+
 if(BKSGE_UNITY_BUILD)
   set_target_properties(bksge PROPERTIES UNITY_BUILD ON)
 endif()
-target_include_directories(bksge PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
 find_package(OpenGL REQUIRED)
 target_link_libraries(bksge PRIVATE OpenGL::GL)
@@ -168,6 +135,14 @@ target_link_libraries(bksge PRIVATE spirv-cross-glsl)
 if(MINGW)
   target_link_libraries(bksge -ld3d11 -ld3dcompiler -ldinput8 -ldxguid)
 endif()
+
+message(STATUS "CMAKE_CXX_COMPILER: ${CMAKE_CXX_COMPILER}")
+
+message(STATUS "CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
+message(STATUS "CMAKE_CXX_FLAGS_DEBUG: ${CMAKE_CXX_FLAGS_DEBUG}")
+message(STATUS "CMAKE_CXX_FLAGS_RELEASE: ${CMAKE_CXX_FLAGS_RELEASE}")
+message(STATUS "CMAKE_CXX_FLAGS_MINSIZEREL: ${CMAKE_CXX_FLAGS_MINSIZEREL}")
+message(STATUS "CMAKE_CXX_FLAGS_RELWITHDEBINFO: ${CMAKE_CXX_FLAGS_RELWITHDEBINFO}")
 
 if(BKSGE_BUILD_TESTING)
   enable_testing()
