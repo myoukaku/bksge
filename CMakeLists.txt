@@ -1,15 +1,13 @@
 ﻿cmake_minimum_required(VERSION 3.12)
 
-project(bksge LANGUAGES C CXX)
+project(bksge LANGUAGES CXX)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-#include(Dart)
-
 option(BKSGE_UNITY_BUILD "Use Unity Builds" OFF)
-option(BKSGE_BUILD_TESTING "" ON)
-
-set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
+option(BKSGE_BUILD_TESTING "Build tests" ON)
+option(BKSGE_BUILD_SAMPLES "Build samples" ON)
+option(BKSGE_COVERAGE "Coverage" OFF)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -19,12 +17,7 @@ set(compiler_flags
   CMAKE_CXX_FLAGS_DEBUG
   CMAKE_CXX_FLAGS_RELEASE
   CMAKE_CXX_FLAGS_MINSIZEREL
-  CMAKE_CXX_FLAGS_RELWITHDEBINFO
-  CMAKE_C_FLAGS
-  CMAKE_C_FLAGS_DEBUG
-  CMAKE_C_FLAGS_RELEASE
-  CMAKE_C_FLAGS_MINSIZEREL
-  CMAKE_C_FLAGS_RELWITHDEBINFO)
+  CMAKE_CXX_FLAGS_RELWITHDEBINFO)
 
 foreach(compiler_flag ${compiler_flags})
   if (MSVC)
@@ -78,11 +71,6 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
 endif()
 
-SET(COVERAGE OFF CACHE BOOL "Coverage")
-if (COVERAGE)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
-endif()
-
 file(GLOB_RECURSE bksge_sources CONFIGURE_DEPENDS src/bksge/*)
 add_library(bksge STATIC ${bksge_sources})
 
@@ -119,6 +107,11 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   target_compile_options(bksge PRIVATE -Wall -Wextra -Werror -Wno-missing-field-initializers)
 endif()
 
+if (BKSGE_COVERAGE)
+  target_compile_options(bksge PRIVATE --coverage)
+endif()
+
+
 if(BKSGE_UNITY_BUILD)
   set_target_properties(bksge PROPERTIES UNITY_BUILD ON)
 endif()
@@ -149,4 +142,6 @@ if(BKSGE_BUILD_TESTING)
   add_subdirectory(test)
 endif()
 
-add_subdirectory(samples)
+if(BKSGE_BUILD_SAMPLES)
+  add_subdirectory(samples)
+endif()
