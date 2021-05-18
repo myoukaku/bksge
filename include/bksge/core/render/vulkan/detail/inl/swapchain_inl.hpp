@@ -21,12 +21,14 @@
 #include <bksge/core/render/vulkan/detail/image.hpp>
 #include <bksge/core/render/vulkan/detail/image_view.hpp>
 #include <bksge/core/render/vulkan/detail/texture.hpp>
+#include <bksge/core/render/vulkan/detail/queue.hpp>
 #include <bksge/core/render/vulkan/detail/extent2d.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/cstdint/uint64_t.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/memory/make_shared.hpp>
+#include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/utility/move.hpp>
 
 namespace bksge
@@ -48,7 +50,7 @@ Swapchain::Swapchain(
 	, m_info()
 	, m_device(device)
 	, m_images()
-	, m_present_queue(VK_NULL_HANDLE)
+	, m_present_queue()
 {
 	auto physical_device = device->physical_device();
 
@@ -175,7 +177,8 @@ Swapchain::Swapchain(
 		m_images.push_back(bksge::move(texture));
 	}
 
-	m_present_queue = m_device->GetQueue(present_queue_family_index, 0);
+	m_present_queue = bksge::make_unique<vulkan::Queue>(
+		m_device, present_queue_family_index, 0);
 }
 
 BKSGE_INLINE
@@ -238,7 +241,7 @@ Swapchain::Present(bksge::uint32_t image_index)
 	present.pImageIndices = &image_index;
 	present.pResults      = nullptr;
 
-	return vk::QueuePresentKHR(m_present_queue, &present);
+	return m_present_queue->Present(present);
 }
 
 }	// namespace vulkan

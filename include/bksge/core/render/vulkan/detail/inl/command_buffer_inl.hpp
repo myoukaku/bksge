@@ -17,6 +17,7 @@
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/render_pass.hpp>
 #include <bksge/core/render/vulkan/detail/framebuffer.hpp>
+#include <bksge/core/render/vulkan/detail/queue.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
@@ -269,7 +270,7 @@ BKSGE_INLINE
 ScopedOneTimeCommandBuffer::ScopedOneTimeCommandBuffer(
 	vulkan::CommandPoolSharedPtr const& command_pool)
 	: m_command_buffer(bksge::make_unique<vulkan::CommandBuffer>(command_pool))
-	, m_graphics_queue(command_pool->GetQueue())
+	, m_graphics_queue(bksge::make_unique<vulkan::Queue>(command_pool->GetQueue()))
 {
 	m_command_buffer->Begin(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
 }
@@ -281,8 +282,8 @@ ScopedOneTimeCommandBuffer::~ScopedOneTimeCommandBuffer()
 
 	vk::SubmitInfo submit_info = m_command_buffer->CreateSubmitInfo();
 
-	vk::QueueSubmit(m_graphics_queue, 1, &submit_info, VK_NULL_HANDLE);
-	vk::QueueWaitIdle(m_graphics_queue);
+	m_graphics_queue->Submit(submit_info, VK_NULL_HANDLE);
+	m_graphics_queue->WaitIdle();
 }
 
 BKSGE_INLINE vulkan::CommandBuffer*

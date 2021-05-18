@@ -41,6 +41,7 @@
 #include <bksge/core/render/vulkan/detail/extent2d.hpp>
 #include <bksge/core/render/vulkan/detail/combined_image_sampler.hpp>
 #include <bksge/core/render/vulkan/detail/sampler.hpp>
+#include <bksge/core/render/vulkan/detail/queue.hpp>
 #include <bksge/core/render/shader.hpp>
 #include <bksge/core/render/shader_parameter_map.hpp>
 #include <bksge/core/render/geometry.hpp>
@@ -276,7 +277,8 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 
 	m_command_buffer = bksge::make_unique<vulkan::CommandBuffer>(m_command_pool);
 
-	m_graphics_queue = m_device->GetQueue(graphics_queue_family_index, 0);
+	m_graphics_queue = bksge::make_unique<vulkan::Queue>(
+		m_device, graphics_queue_family_index, 0);
 
 	m_draw_fence = bksge::make_unique<vulkan::Fence>(m_device);
 	m_image_acquired_semaphore = bksge::make_unique<vulkan::Semaphore>(m_device);
@@ -435,7 +437,7 @@ VulkanRenderer::VEnd(void)
 	submit_info.pWaitDstStageMask = &pipe_stage_flags;
 	submit_info.SetSignalSemaphores(nullptr);
 
-	vk::QueueSubmit(m_graphics_queue, 1, &submit_info, *m_draw_fence->GetAddressOf());
+	m_graphics_queue->Submit(submit_info, *m_draw_fence->GetAddressOf());
 
 	::VkResult res;
 	do {

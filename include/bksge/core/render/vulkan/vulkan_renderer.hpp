@@ -36,8 +36,9 @@
 //#include <bksge/core/render/vulkan/detail/fwd/descriptor_set_fwd.hpp>
 //#include <bksge/core/render/vulkan/detail/fwd/graphics_pipeline_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/resource_pool_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/queue_fwd.hpp>
 //#include <bksge/core/render/vulkan/detail/shader_stage.hpp>
-#include <bksge/core/render/vulkan/detail/vulkan.hpp>
+//#include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/fwd/geometry_fwd.hpp>
 #include <bksge/core/render/fwd/render_state_fwd.hpp>
 #include <bksge/core/render/fwd/shader_fwd.hpp>
@@ -88,7 +89,7 @@ private:
 	vulkan::SurfaceUniquePtr					m_surface;
 	vulkan::CommandPoolSharedPtr				m_command_pool;
 	vulkan::CommandBufferUniquePtr				m_command_buffer;
-	::VkQueue									m_graphics_queue;
+	vulkan::QueueUniquePtr						m_graphics_queue;
 	vulkan::SwapchainUniquePtr					m_swapchain;
 	vulkan::FenceUniquePtr						m_draw_fence;
 	vulkan::SemaphoreUniquePtr					m_image_acquired_semaphore;

@@ -120,7 +120,7 @@ find_package(OpenGL REQUIRED)
 target_link_libraries(bksge PRIVATE OpenGL::GL)
 
 find_package(Vulkan REQUIRED)
-target_link_libraries(bksge PUBLIC Vulkan::Vulkan)
+target_link_libraries(bksge PRIVATE Vulkan::Vulkan)
 
 target_link_libraries(bksge PRIVATE glslang SPIRV)
 target_link_libraries(bksge PRIVATE spirv-cross-glsl)

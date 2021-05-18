@@ -12,6 +12,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/command_buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/command_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/queue_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/vector.hpp>
@@ -138,7 +139,7 @@ public:
 
 private:
 	vulkan::CommandBufferUniquePtr	m_command_buffer;
-	::VkQueue						m_graphics_queue;
+	vulkan::QueueUniquePtr			m_graphics_queue;
 };
 
 }	// namespace vulkan

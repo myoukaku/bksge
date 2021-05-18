@@ -15,6 +15,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/command_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/image_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/texture_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/queue_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/extent2d.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
@@ -72,7 +73,7 @@ private:
 	vk::SwapchainCreateInfoKHR		m_info;
 	vulkan::DeviceSharedPtr			m_device;
 	bksge::vector<vulkan::TextureSharedPtr>	m_images;
-	::VkQueue						m_present_queue;
+	vulkan::QueueUniquePtr			m_present_queue;
 };
 
 }	// namespace vulkan
