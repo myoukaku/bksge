@@ -19,8 +19,6 @@
 #include <bksge/core/render/vulkan/detail/command_pool.hpp>
 #include <bksge/core/render/vulkan/detail/command_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/image.hpp>
-#include <bksge/core/render/vulkan/detail/image_view.hpp>
-#include <bksge/core/render/vulkan/detail/texture.hpp>
 #include <bksge/core/render/vulkan/detail/queue.hpp>
 #include <bksge/core/render/vulkan/detail/extent2d.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
@@ -149,32 +147,23 @@ Swapchain::Swapchain(
 
 	m_swapchain = m_device->CreateSwapchain(m_info);
 
-	::VkImageAspectFlags const aspect_mask = VK_IMAGE_ASPECT_COLOR_BIT;
-
 	// Create ImageViews
 	auto images = m_device->GetSwapchainImages(m_swapchain);
 	for (auto&& img : images)
 	{
 		auto image = bksge::make_shared<vulkan::Image>(
+			m_device,
 			img,
 			surface_format,
 			swapchain_extent,
-			1);
+			1,
+			VK_IMAGE_ASPECT_COLOR_BIT);
 
 		image->TransitionLayout(
 			command_pool,
-			aspect_mask,
 			VK_IMAGE_LAYOUT_PRESENT_SRC_KHR);
 
-		auto image_view = bksge::make_shared<vulkan::ImageView>(
-			m_device,
-			*image,
-			VK_IMAGE_ASPECT_COLOR_BIT);
-
-		auto texture = bksge::make_shared<vulkan::Texture>(
-			image, image_view);
-
-		m_images.push_back(bksge::move(texture));
+		m_images.push_back(bksge::move(image));
 	}
 
 	m_present_queue = bksge::make_unique<vulkan::Queue>(
@@ -202,7 +191,7 @@ Swapchain::AcquireNextImage(
 		image_index);
 }
 
-BKSGE_INLINE bksge::vector<vulkan::TextureSharedPtr> const&
+BKSGE_INLINE bksge::vector<vulkan::ImageSharedPtr> const&
 Swapchain::images(void) const
 {
 	return m_images;

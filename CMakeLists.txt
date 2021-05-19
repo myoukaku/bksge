@@ -2,6 +2,8 @@
 
 project(bksge LANGUAGES C CXX)
 
+include(CMakePrintHelpers)
+
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 option(BKSGE_UNITY_BUILD "Use Unity Builds" OFF)
@@ -117,25 +119,36 @@ if(BKSGE_UNITY_BUILD)
 endif()
 
 find_package(OpenGL REQUIRED)
-target_link_libraries(bksge PRIVATE OpenGL::GL)
+if(OPENGL_FOUND)
+  target_link_libraries(bksge PRIVATE OpenGL::GL)
+endif()
+#if(OpenGL_OpenGL_FOUND)
+#  target_link_libraries(bksge PRIVATE OpenGL::OpenGL)
+#endif()
+#if(OpenGL_GLX_FOUND)
+#  target_link_libraries(bksge PRIVATE OpenGL::GLX)
+#endif()
+#if(OpenGL_EGL_FOUND)
+#  target_link_libraries(bksge PRIVATE OpenGL::EGL)
+#endif()
 
 find_package(Vulkan REQUIRED)
-target_link_libraries(bksge PRIVATE Vulkan::Vulkan)
+if(Vulkan_FOUND)
+  target_link_libraries(bksge PRIVATE Vulkan::Vulkan)
 
-target_link_libraries(bksge PRIVATE glslang SPIRV)
-target_link_libraries(bksge PRIVATE spirv-cross-glsl)
+  target_link_libraries(bksge PRIVATE glslang SPIRV)
+  target_link_libraries(bksge PRIVATE spirv-cross-glsl)
+endif()
 
 if(MINGW)
   target_link_libraries(bksge -ld3d11 -ld3dcompiler -ldinput8 -ldxguid)
 endif()
 
-message(STATUS "CMAKE_CXX_COMPILER: ${CMAKE_CXX_COMPILER}")
-
-message(STATUS "CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
-message(STATUS "CMAKE_CXX_FLAGS_DEBUG: ${CMAKE_CXX_FLAGS_DEBUG}")
-message(STATUS "CMAKE_CXX_FLAGS_RELEASE: ${CMAKE_CXX_FLAGS_RELEASE}")
-message(STATUS "CMAKE_CXX_FLAGS_MINSIZEREL: ${CMAKE_CXX_FLAGS_MINSIZEREL}")
-message(STATUS "CMAKE_CXX_FLAGS_RELWITHDEBINFO: ${CMAKE_CXX_FLAGS_RELWITHDEBINFO}")
+#cmake_print_variables(CMAKE_CXX_FLAGS)
+#cmake_print_variables(CMAKE_CXX_FLAGS_DEBUG)
+#cmake_print_variables(CMAKE_CXX_FLAGS_RELEASE)
+#cmake_print_variables(CMAKE_CXX_FLAGS_MINSIZEREL)
+#cmake_print_variables(CMAKE_CXX_FLAGS_RELWITHDEBINFO)
 
 if(BKSGE_BUILD_TESTING)
   enable_testing()

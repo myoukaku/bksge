@@ -18,7 +18,6 @@
 #include <bksge/core/render/vulkan/detail/command_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/physical_device.hpp>
 #include <bksge/core/render/vulkan/detail/image.hpp>
-#include <bksge/core/render/vulkan/detail/image_view.hpp>
 #include <bksge/core/render/vulkan/detail/texture_format.hpp>
 #include <bksge/core/render/vulkan/detail/extent2d.hpp>
 #include <bksge/core/render/vulkan/detail/buffer.hpp>
@@ -103,11 +102,7 @@ Texture::Texture(
 		extent,
 		mipmap_count,
 		num_samples,
-		usage);
-
-	m_image_view = bksge::make_shared<vulkan::ImageView>(
-		device,
-		*m_image,
+		usage,
 		aspect);
 }
 
@@ -146,17 +141,16 @@ Texture::Texture(
 
 	// TODO m_image->CopyFromBuffer(command_pool, staging_buffer->buffer());
 	{
-		auto const aspect = m_image_view->aspect_mask();
+		auto const aspect = m_image->aspect_mask();
 
 		m_image->TransitionLayout(
 			command_pool,
-			aspect,
 			VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
 
 		detail::CopyBufferToImage(
 			command_pool,
 			*staging_buffer->GetAddressOf(),
-			*m_image,
+			m_image->image(),
 			texture.format(),
 			m_image->extent(),
 			m_image->mipmap_count(),
@@ -164,17 +158,13 @@ Texture::Texture(
 
 		m_image->TransitionLayout(
 			command_pool,
-			aspect,
 			VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 	}
 }
 
 BKSGE_INLINE
-Texture::Texture(
-	vulkan::ImageSharedPtr const& image,
-	vulkan::ImageViewSharedPtr const& image_view)
+Texture::Texture(vulkan::ImageSharedPtr const& image)
 	: m_image(image)
-	, m_image_view(image_view)
 {}
 
 BKSGE_INLINE
@@ -185,12 +175,6 @@ BKSGE_INLINE vulkan::ImageSharedPtr const&
 Texture::image(void) const
 {
 	return m_image;
-}
-
-BKSGE_INLINE vulkan::ImageViewSharedPtr const&
-Texture::image_view(void) const
-{
-	return m_image_view;
 }
 
 }	// namespace vulkan

@@ -134,18 +134,39 @@ TransitionImageLayout(
 
 BKSGE_INLINE
 Image::Image(
+	vulkan::DeviceSharedPtr const& device,
 	::VkImage image,
 	::VkFormat format,
 	vulkan::Extent2D const& extent,
-	bksge::uint32_t mipmap_count)
+	bksge::uint32_t mipmap_count,
+	::VkImageAspectFlags aspect_mask)
 	: m_image(image)
-	, m_device()
+	, m_image_view(VK_NULL_HANDLE)
 	, m_device_memory()
+	, m_aspect_mask(aspect_mask)
 	, m_format(format)
 	, m_extent(extent)
 	, m_mipmap_count(mipmap_count)
 	, m_layout(VK_IMAGE_LAYOUT_UNDEFINED)
+	, m_device(device)
 {
+	{
+		vk::ImageViewCreateInfo info;
+		info.image                           = image;
+		info.viewType                        = VK_IMAGE_VIEW_TYPE_2D;
+		info.format                          = format;
+		info.components.r                    = VK_COMPONENT_SWIZZLE_R;
+		info.components.g                    = VK_COMPONENT_SWIZZLE_G;
+		info.components.b                    = VK_COMPONENT_SWIZZLE_B;
+		info.components.a                    = VK_COMPONENT_SWIZZLE_A;
+		info.subresourceRange.aspectMask     = aspect_mask;
+		info.subresourceRange.baseMipLevel   = 0;
+		info.subresourceRange.levelCount     = mipmap_count;
+		info.subresourceRange.baseArrayLayer = 0;
+		info.subresourceRange.layerCount     = 1;
+
+		m_image_view = m_device->CreateImageView(info);
+	}
 }
 
 BKSGE_INLINE
@@ -155,29 +176,34 @@ Image::Image(
 	vulkan::Extent2D const& extent,
 	bksge::uint32_t mipmap_count,
 	::VkSampleCountFlagBits num_samples,
-	::VkImageUsageFlags usage)
+	::VkImageUsageFlags usage,
+	::VkImageAspectFlags aspect_mask)
 	: m_image(VK_NULL_HANDLE)
-	, m_device(device)
+	, m_image_view(VK_NULL_HANDLE)
 	, m_device_memory()
+	, m_aspect_mask(aspect_mask)
 	, m_format(format)
 	, m_extent(extent)
 	, m_mipmap_count(mipmap_count)
 	, m_layout(VK_IMAGE_LAYOUT_UNDEFINED)
+	, m_device(device)
 {
-	vk::ImageCreateInfo info;
-	info.imageType     = VK_IMAGE_TYPE_2D;
-	info.format        = format;
-	info.extent        = { extent.width, extent.height, 1 };
-	info.mipLevels     = mipmap_count;
-	info.arrayLayers   = 1;
-	info.samples       = num_samples;
-	info.tiling        = VK_IMAGE_TILING_OPTIMAL;
-	info.usage         = usage;
-	info.sharingMode   = VK_SHARING_MODE_EXCLUSIVE;
-	info.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-	info.SetQueueFamilyIndices(nullptr);
+	{
+		vk::ImageCreateInfo info;
+		info.imageType     = VK_IMAGE_TYPE_2D;
+		info.format        = format;
+		info.extent        = { extent.width, extent.height, 1 };
+		info.mipLevels     = mipmap_count;
+		info.arrayLayers   = 1;
+		info.samples       = num_samples;
+		info.tiling        = VK_IMAGE_TILING_OPTIMAL;
+		info.usage         = usage;
+		info.sharingMode   = VK_SHARING_MODE_EXCLUSIVE;
+		info.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+		info.SetQueueFamilyIndices(nullptr);
 
-	m_image = device->CreateImage(info);
+		m_image = device->CreateImage(info);
+	}
 
 	auto const mem_reqs = device->GetImageMemoryRequirements(m_image);
 
@@ -185,15 +211,34 @@ Image::Image(
 		device, mem_reqs, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 
 	m_device_memory->BindImage(m_image, 0);
+
+	{
+		vk::ImageViewCreateInfo info;
+		info.image                           = m_image;
+		info.viewType                        = VK_IMAGE_VIEW_TYPE_2D;
+		info.format                          = format;
+		info.components.r                    = VK_COMPONENT_SWIZZLE_R;
+		info.components.g                    = VK_COMPONENT_SWIZZLE_G;
+		info.components.b                    = VK_COMPONENT_SWIZZLE_B;
+		info.components.a                    = VK_COMPONENT_SWIZZLE_A;
+		info.subresourceRange.aspectMask     = aspect_mask;
+		info.subresourceRange.baseMipLevel   = 0;
+		info.subresourceRange.levelCount     = mipmap_count;
+		info.subresourceRange.baseArrayLayer = 0;
+		info.subresourceRange.layerCount     = 1;
+
+		m_image_view = m_device->CreateImageView(info);
+	}
 }
 
 BKSGE_INLINE
 Image::~Image()
 {
-	if (m_device)
+	if (m_device_memory)
 	{
 		m_device->DestroyImage(m_image);
 	}
+	m_device->DestroyImageView(m_image_view);
 }
 
 BKSGE_INLINE void*
@@ -228,7 +273,6 @@ Image::ClearColor(
 
 	auto const current_layout = this->TransitionLayout(
 		command_buffer,
-		aspect_mask,
 		VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
 
 	::VkClearColorValue clear_value;
@@ -252,7 +296,6 @@ Image::ClearColor(
 
 	this->TransitionLayout(
 		command_buffer,
-		aspect_mask,
 		current_layout);
 }
 
@@ -270,7 +313,6 @@ Image::ClearDepthStencil(
 
 	auto const current_layout = this->TransitionLayout(
 		command_buffer,
-		aspect_mask,
 		VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
 
 	::VkClearDepthStencilValue clear_value;
@@ -292,24 +334,21 @@ Image::ClearDepthStencil(
 
 	this->TransitionLayout(
 		command_buffer,
-		aspect_mask,
 		current_layout);
 }
 
 BKSGE_INLINE ::VkImageLayout
 Image::TransitionLayout(
 	vulkan::CommandPoolSharedPtr const& command_pool,
-	::VkImageAspectFlags aspect_mask,
 	::VkImageLayout new_layout)
 {
 	vulkan::ScopedOneTimeCommandBuffer command_buffer(command_pool);
-	return TransitionLayout(command_buffer.Get(), aspect_mask, new_layout);
+	return TransitionLayout(command_buffer.Get(), new_layout);
 }
 
 BKSGE_INLINE ::VkImageLayout
 Image::TransitionLayout(
 	vulkan::CommandBuffer* command_buffer,
-	::VkImageAspectFlags aspect_mask,
 	::VkImageLayout new_layout)
 {
 	auto const old_layout = m_layout;
@@ -317,11 +356,17 @@ Image::TransitionLayout(
 	detail::TransitionImageLayout(
 		command_buffer,
 		m_image,
-		aspect_mask,
+		m_aspect_mask,
 		m_mipmap_count,
 		old_layout,
 		new_layout);
 	return old_layout;
+}
+
+BKSGE_INLINE ::VkImageAspectFlags
+Image::aspect_mask(void) const
+{
+	return m_aspect_mask;
 }
 
 BKSGE_INLINE ::VkFormat const&
@@ -348,10 +393,16 @@ Image::layout(void) const
 	return m_layout;
 }
 
-BKSGE_INLINE
-Image::operator ::VkImage() const
+BKSGE_INLINE ::VkImage
+Image::image(void) const
 {
 	return m_image;
+}
+
+BKSGE_INLINE ::VkImageView
+Image::image_view(void) const
+{
+	return m_image_view;
 }
 
 }	// namespace vulkan

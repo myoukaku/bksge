@@ -12,7 +12,6 @@
 #include <bksge/core/render/vulkan/detail/fwd/texture_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/command_pool_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/image_view_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/image_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/extent2d.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
@@ -44,15 +43,12 @@ public:
 		bksge::Texture const& texture);
 
 	explicit Texture(
-		vulkan::ImageSharedPtr const& image,
-		vulkan::ImageViewSharedPtr const& image_view);
+		vulkan::ImageSharedPtr const& image);
 
 	~Texture();
 
 public:
 	vulkan::ImageSharedPtr const& image(void) const;
-
-	vulkan::ImageViewSharedPtr const& image_view(void) const;
 
 private:
 	// noncopyable
@@ -61,7 +57,6 @@ private:
 
 private:
 	vulkan::ImageSharedPtr			m_image;
-	vulkan::ImageViewSharedPtr		m_image_view;
 };
 
 }	// namespace vulkan

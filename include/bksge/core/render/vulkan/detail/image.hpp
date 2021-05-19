@@ -32,10 +32,12 @@ class Image
 {
 public:
 	explicit Image(
+		vulkan::DeviceSharedPtr const& device,
 		::VkImage image,
 		::VkFormat format,
 		vulkan::Extent2D const& extent,
-		bksge::uint32_t mipmap_count);
+		bksge::uint32_t mipmap_count,
+		::VkImageAspectFlags aspect_mask);
 
 	explicit Image(
 		vulkan::DeviceSharedPtr const& device,
@@ -43,7 +45,8 @@ public:
 		vulkan::Extent2D const& extent,
 		bksge::uint32_t mipmap_count,
 		::VkSampleCountFlagBits num_samples,
-		::VkImageUsageFlags usage);
+		::VkImageUsageFlags usage,
+		::VkImageAspectFlags aspect_mask);
 
 	~Image();
 
@@ -64,13 +67,14 @@ public:
 
 	::VkImageLayout TransitionLayout(
 		vulkan::CommandPoolSharedPtr const& command_pool,
-		::VkImageAspectFlags aspect_mask,
 		::VkImageLayout new_layout);
 
 	::VkImageLayout TransitionLayout(
 		vulkan::CommandBuffer* command_buffer,
-		::VkImageAspectFlags aspect_mask,
 		::VkImageLayout new_layout);
+
+public:
+	::VkImageAspectFlags aspect_mask(void) const;
 
 public:
 	::VkFormat const& format(void) const;
@@ -85,7 +89,9 @@ public:
 	::VkImageLayout layout(void) const;
 
 public:
-	operator ::VkImage() const;
+	::VkImage image(void) const;
+
+	::VkImageView image_view(void) const;
 
 private:
 	// noncopyable
@@ -94,12 +100,14 @@ private:
 
 private:
 	::VkImage						m_image = VK_NULL_HANDLE;
-	vulkan::DeviceSharedPtr			m_device;
+	::VkImageView					m_image_view = VK_NULL_HANDLE;
 	vulkan::DeviceMemoryUniquePtr	m_device_memory;
+	::VkImageAspectFlags			m_aspect_mask;
 	::VkFormat						m_format;
 	vulkan::Extent2D				m_extent;
 	bksge::uint32_t					m_mipmap_count;
 	::VkImageLayout					m_layout;
+	vulkan::DeviceSharedPtr			m_device;
 };
 
 }	// namespace vulkan

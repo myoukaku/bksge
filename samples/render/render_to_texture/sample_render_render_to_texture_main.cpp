@@ -172,7 +172,7 @@ int main()
 		shaders.push_back(GetGLSLShader());
 	}
 #endif
-#if 0//BKSGE_CORE_RENDER_HAS_VULKAN_RENDERER
+#if BKSGE_CORE_RENDER_HAS_VULKAN_RENDERER
 	{
 		bksge::shared_ptr<bksge::Window> window(
 			new bksge::Window(extent, "sample_render_to_texture - Vulkan"));

@@ -9,7 +9,9 @@
 #ifndef BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_FRAMEBUFFER_FWD_HPP
 #define BKSGE_CORE_RENDER_VULKAN_DETAIL_FWD_FRAMEBUFFER_FWD_HPP
 
+#include <bksge/core/render/detail/identifier.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
+#include <bksge/fnd/map/map.hpp>
 
 namespace bksge
 {
@@ -22,6 +24,7 @@ namespace vulkan
 
 class Framebuffer;
 using FramebufferSharedPtr = bksge::shared_ptr<Framebuffer>;
+using FramebufferSharedPtrMap = bksge::map<Identifier, FramebufferSharedPtr>;
 
 }	// namespace vulkan
 

@@ -81,6 +81,9 @@ private:
 		ShaderParameterMap const& shader_parameter_map,
 		RenderState const& render_state) override;
 
+	void ApplyFrameBuffer(RenderPassInfo const& render_pass_info);
+	void ApplyRenderPassInfo(RenderPassInfo const& render_pass_info);
+
 private:
 	vulkan::InstanceSharedPtr					m_instance;
 	vulkan::DebugReportCallbackUniquePtr		m_callback;
