@@ -30,35 +30,15 @@ set(compiler_flags
 foreach(compiler_flag ${compiler_flags})
   if (MSVC)
     # /MD[d] -> /MT[d] (Run-Time Library)
-    if(${compiler_flag} MATCHES "/MD")
-	  if(CMAKE_BUILD_TYPE MATCHES "Debug")
-	    string(REGEX REPLACE "/MDd?" "/MTd" ${compiler_flag} "${${compiler_flag}}")
-      else()
-	    string(REGEX REPLACE "/MDd?" "/MT" ${compiler_flag} "${${compiler_flag}}")
-      endif()
-    else()
-	  if(CMAKE_BUILD_TYPE MATCHES "Debug")
-	    set(${compiler_flag} "${${compiler_flag}} /MTd")
-      else()
-	    set(${compiler_flag} "${${compiler_flag}} /MT")
-      endif()
-    endif()
-
+    string(REPLACE "/MD" "/MT" ${compiler_flag} "${${compiler_flag}}")
+    
     # /ZI -> /Zi
-    if(${compiler_flag} MATCHES "/ZI")
-	  string(REGEX REPLACE "/ZI" "/Zi" ${compiler_flag} "${${compiler_flag}}")
-    else()
-	  set(${compiler_flag} "${${compiler_flag}} /Zi")
-    endif()
-
+    string(REPLACE "/ZI" "/Zi" ${compiler_flag} "${${compiler_flag}}")
+    
     # /Wn -> /W4 (Warning Level)
-    if(${compiler_flag} MATCHES "/W[0-4]")
-      string(REGEX REPLACE "/W[0-4]" "/W4" ${compiler_flag} "${${compiler_flag}}")
-    else()
-      set(${compiler_flag} "${${compiler_flag}} /W4")
-    endif()
-
-	# /GR- (Disable Run-Time Type Information)
+    string(REGEX REPLACE "/W[0-4]" "/W4" ${compiler_flag} "${${compiler_flag}}")
+    
+    # /GR- (Disable Run-Time Type Information)
     string(REGEX REPLACE "/GR-?" "/GR-" ${compiler_flag} "${${compiler_flag}}")
 
   elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
