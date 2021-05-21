@@ -17,7 +17,7 @@
 #include <bksge/core/render/vulkan/detail/geometry.hpp>
 #include <bksge/core/render/vulkan/detail/graphics_pipeline.hpp>
 #include <bksge/core/render/vulkan/detail/sampler.hpp>
-#include <bksge/core/render/vulkan/detail/texture.hpp>
+#include <bksge/core/render/vulkan/detail/image.hpp>
 #include <bksge/core/render/vulkan/detail/render_pass.hpp>
 #include <bksge/core/render/vulkan/detail/render_state.hpp>
 #include <bksge/core/render/vulkan/detail/pipeline_input_assembly_state.hpp>
@@ -126,13 +126,13 @@ ResourcePool::GetSampler(
 		m_sampler_map, id, m_device, sampler);
 }
 
-BKSGE_INLINE vulkan::TextureSharedPtr
-ResourcePool::GetTexture(
-	vulkan::CommandPoolSharedPtr const& command_pool,
-	bksge::Texture const& texture)
+BKSGE_INLINE vulkan::ImageSharedPtr
+ResourcePool::GetImage(
+	bksge::Texture const& texture,
+	vulkan::CommandPoolSharedPtr const& command_pool)
 {
-	return detail::GetOrCreate<vulkan::Texture>(
-		m_texture_map, texture.id(), m_device, command_pool, texture);
+	return detail::GetOrCreate<vulkan::Image>(
+		m_image_map, texture.id(), m_device, texture, command_pool);
 }
 
 }	// namespace vulkan

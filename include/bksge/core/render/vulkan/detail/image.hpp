@@ -16,6 +16,8 @@
 #include <bksge/core/render/vulkan/detail/fwd/command_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/extent2d.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
+#include <bksge/core/render/fwd/texture_fwd.hpp>
+#include <bksge/core/render/fwd/texture_format_fwd.hpp>
 #include <bksge/core/math/color4.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
 
@@ -46,12 +48,24 @@ public:
 		::VkSampleCountFlagBits num_samples,
 		::VkImageUsageFlags usage);
 
+	explicit Image(
+		vulkan::DeviceSharedPtr const& device,
+		bksge::Texture const& texture,
+		vulkan::CommandPoolSharedPtr const& command_pool);
+
 	~Image();
 
 	void* MapMemory(::VkDeviceSize size);
 
 	void UnmapMemory(void);
 
+private:
+	void CopyFromBuffer(
+		vulkan::CommandBuffer* command_buffer,
+		::VkBuffer buffer,
+		bksge::TextureFormat format);
+
+public:
 	void ClearColor(
 		vulkan::CommandBuffer* command_buffer,
 		::VkImageAspectFlags aspect_mask,

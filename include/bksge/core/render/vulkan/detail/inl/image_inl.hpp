@@ -17,8 +17,14 @@
 #include <bksge/core/render/vulkan/detail/device_memory.hpp>
 #include <bksge/core/render/vulkan/detail/command_pool.hpp>
 #include <bksge/core/render/vulkan/detail/command_buffer.hpp>
+#include <bksge/core/render/vulkan/detail/texture_format.hpp>
+#include <bksge/core/render/vulkan/detail/buffer.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
+#include <bksge/core/render/texture.hpp>
+#include <bksge/core/render/texture_format.hpp>
+#include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <bksge/fnd/cstring/memcpy.hpp>
 #include <bksge/fnd/stdexcept/runtime_error.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 
@@ -93,6 +99,24 @@ GetPipelineStage(::VkImageLayout layout)
 	}
 }
 
+inline ::VkImageAspectFlags
+GetImageAspectFlags(::VkFormat format)
+{
+	switch (format)
+	{
+	case VK_FORMAT_D16_UNORM_S8_UINT:
+	case VK_FORMAT_D24_UNORM_S8_UINT:
+	case VK_FORMAT_D32_SFLOAT_S8_UINT:
+		return VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
+	case VK_FORMAT_D16_UNORM:
+	case VK_FORMAT_X8_D24_UNORM_PACK32:
+	case VK_FORMAT_D32_SFLOAT:
+		return VK_IMAGE_ASPECT_DEPTH_BIT;
+	default:
+		return VK_IMAGE_ASPECT_COLOR_BIT;
+	}
+}
+
 inline void
 TransitionImageLayout(
 	vulkan::CommandBuffer* command_buffer,
@@ -130,23 +154,6 @@ TransitionImageLayout(
 		1, &barrier);
 }
 
-inline ::VkImageAspectFlags GetAspectFlags(::VkFormat format)
-{
-	switch (format)
-	{
-	case VK_FORMAT_D16_UNORM_S8_UINT:
-	case VK_FORMAT_D24_UNORM_S8_UINT:
-	case VK_FORMAT_D32_SFLOAT_S8_UINT:
-		return VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
-	case VK_FORMAT_D16_UNORM:
-	case VK_FORMAT_X8_D24_UNORM_PACK32:
-	case VK_FORMAT_D32_SFLOAT:
-		return VK_IMAGE_ASPECT_DEPTH_BIT;
-	default:
-		return VK_IMAGE_ASPECT_COLOR_BIT;
-	}
-}
-
 }	// namespace detail
 
 BKSGE_INLINE
@@ -159,7 +166,7 @@ Image::Image(
 	: m_image(image)
 	, m_image_view(VK_NULL_HANDLE)
 	, m_device_memory()
-	, m_aspect_mask(detail::GetAspectFlags(format))
+	, m_aspect_mask(detail::GetImageAspectFlags(format))
 	, m_format(format)
 	, m_extent(extent)
 	, m_mipmap_count(mipmap_count)
@@ -196,7 +203,7 @@ Image::Image(
 	: m_image(VK_NULL_HANDLE)
 	, m_image_view(VK_NULL_HANDLE)
 	, m_device_memory()
-	, m_aspect_mask(detail::GetAspectFlags(format))
+	, m_aspect_mask(detail::GetImageAspectFlags(format))
 	, m_format(format)
 	, m_extent(extent)
 	, m_mipmap_count(mipmap_count)
@@ -220,12 +227,12 @@ Image::Image(
 		m_image = device->CreateImage(info);
 	}
 
-	auto const mem_reqs = device->GetImageMemoryRequirements(m_image);
-
-	m_device_memory = bksge::make_unique<vulkan::DeviceMemory>(
-		device, mem_reqs, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
-
-	m_device_memory->BindImage(m_image, 0);
+	{
+		auto const mem_reqs = device->GetImageMemoryRequirements(m_image);
+		m_device_memory = bksge::make_unique<vulkan::DeviceMemory>(
+			device, mem_reqs, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+		m_device_memory->BindImage(m_image, 0);
+	}
 
 	{
 		vk::ImageViewCreateInfo info;
@@ -243,6 +250,52 @@ Image::Image(
 		info.subresourceRange.layerCount     = 1;
 
 		m_image_view = m_device->CreateImageView(info);
+	}
+}
+
+BKSGE_INLINE
+Image::Image(
+	vulkan::DeviceSharedPtr const& device,
+	bksge::Texture const& texture,
+	vulkan::CommandPoolSharedPtr const& command_pool)
+	: Image(
+		device,
+		vulkan::TextureFormat(texture.format()),
+		texture.extent(),
+		static_cast<bksge::uint32_t>(texture.mipmap_count()),
+		VK_SAMPLE_COUNT_1_BIT,
+		VK_IMAGE_USAGE_SAMPLED_BIT |
+		VK_IMAGE_USAGE_TRANSFER_DST_BIT)
+{
+	auto image_size = GetMipmappedSizeInBytes(
+		texture.format(),
+		texture.width(),
+		texture.height(),
+		texture.mipmap_count());
+
+	auto staging_buffer = bksge::make_unique<vulkan::Buffer>(
+		device,
+		image_size,
+		VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
+		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
+		VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
+	{
+		void* dst = staging_buffer->MapMemory(VK_WHOLE_SIZE);
+		bksge::memcpy(dst, texture.data(), image_size);
+		staging_buffer->UnmapMemory();
+	}
+
+	{
+		vulkan::ScopedOneTimeCommandBuffer command_buffer(command_pool);
+
+		this->CopyFromBuffer(
+			command_buffer.Get(),
+			*staging_buffer->GetAddressOf(),
+			texture.format());
+
+		this->TransitionLayout(
+			command_buffer.Get(),
+			VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 	}
 }
 
@@ -272,6 +325,46 @@ Image::UnmapMemory(void)
 	if (m_device_memory)
 	{
 		m_device_memory->UnmapMemory();
+	}
+}
+
+BKSGE_INLINE void
+Image::CopyFromBuffer(
+	vulkan::CommandBuffer* command_buffer,
+	::VkBuffer buffer,
+	bksge::TextureFormat format)
+{
+	this->TransitionLayout(
+		command_buffer,
+		VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
+
+	::VkDeviceSize src_offset = 0;
+	auto width  = m_extent.width;
+	auto height = m_extent.height;
+
+	for (bksge::uint32_t i = 0; i < m_mipmap_count; ++i)
+	{
+		::VkBufferImageCopy region {};
+		region.bufferOffset                    = src_offset;
+		region.bufferRowLength                 = 0;
+		region.bufferImageHeight               = 0;
+		region.imageSubresource.aspectMask     = m_aspect_mask;
+		region.imageSubresource.mipLevel       = i;
+		region.imageSubresource.baseArrayLayer = 0;
+		region.imageSubresource.layerCount     = 1;
+		region.imageOffset                     = {0, 0, 0};
+		region.imageExtent                     = {width, height, 1};
+
+		command_buffer->CopyBufferToImage(
+			buffer,
+			m_image,
+			VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+			1,
+			&region);
+
+		src_offset += GetSizeInBytes(format, width, height);
+		width  = bksge::max(width  / 2, 1u);
+		height = bksge::max(height / 2, 1u);
 	}
 }
 

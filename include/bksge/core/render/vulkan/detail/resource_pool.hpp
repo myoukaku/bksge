@@ -18,7 +18,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/render_pass_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/uniform_buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/sampler_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/texture_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/image_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/fwd/shader_fwd.hpp>
 #include <bksge/core/render/fwd/geometry_fwd.hpp>
@@ -57,9 +57,9 @@ public:
 	vulkan::SamplerSharedPtr GetSampler(
 		bksge::Sampler const& sampler);
 
-	vulkan::TextureSharedPtr GetTexture(
-		vulkan::CommandPoolSharedPtr const& command_pool,
-		bksge::Texture const& texture);
+	vulkan::ImageSharedPtr GetImage(
+		bksge::Texture const& texture,
+		vulkan::CommandPoolSharedPtr const& command_pool);
 
 private:
 	// noncopyable
@@ -72,7 +72,7 @@ private:
 	vulkan::GeometrySharedPtrMap				m_geometry_map;
 	vulkan::GraphicsPipelineSharedPtrMap		m_graphics_pipeline_map;
 	vulkan::SamplerSharedPtrMap					m_sampler_map;
-	vulkan::TextureSharedPtrMap					m_texture_map;
+	vulkan::ImageSharedPtrMap					m_image_map;
 };
 
 }	// namespace vulkan

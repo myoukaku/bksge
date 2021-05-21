@@ -16,7 +16,6 @@
 #include <bksge/core/render/vulkan/detail/combined_image_sampler.hpp>
 #include <bksge/core/render/vulkan/detail/shader_reflection.hpp>
 #include <bksge/core/render/vulkan/detail/resource_pool.hpp>
-#include <bksge/core/render/vulkan/detail/texture.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/shader_parameter_map.hpp>
 #include <bksge/core/render/sampler.hpp>
@@ -68,16 +67,17 @@ CombinedImageSamplerSetter::LoadParameters(
 	if (param->class_id() == ShaderParameter<Sampler2d>::StaticClassId())
 	{
 		auto sampler_2d = static_cast<Sampler2d const*>(param->data());
-		vulkan::CombinedImageSampler const combined_image_sampler(
-			resource_pool->GetSampler(sampler_2d->first),
-			resource_pool->GetTexture(command_pool, sampler_2d->second)->image());
+		auto sampler = resource_pool->GetSampler(sampler_2d->first);
+		auto image   = resource_pool->GetImage(sampler_2d->second, command_pool);
+		vulkan::CombinedImageSampler const combined_image_sampler(sampler, image);
 		m_image_info = combined_image_sampler.GetImageInfo();
 		return;
 	}
 
 	if (param->class_id() == ShaderParameter<vulkan::CombinedImageSampler>::StaticClassId())
 	{
-		auto combined_image_sampler = static_cast<vulkan::CombinedImageSampler const*>(param->data());
+		auto combined_image_sampler =
+			static_cast<vulkan::CombinedImageSampler const*>(param->data());
 		m_image_info = combined_image_sampler->GetImageInfo();
 		return;
 	}
