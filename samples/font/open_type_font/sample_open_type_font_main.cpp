@@ -20,7 +20,7 @@ int main()
 //	const char* file_name = "font.ttf";
 	std::ifstream ifs(file_name, std::ios::binary | std::ios::ate);
 
-	bksge::size_t const size = ifs.tellg();
+	auto const size = static_cast<bksge::size_t>(ifs.tellg());
 	ifs.seekg(0);
 
 	bksge::vector<bksge::uint8_t> buf(size);
