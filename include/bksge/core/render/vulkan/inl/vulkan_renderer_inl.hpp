@@ -23,7 +23,7 @@
 #include <bksge/core/render/vulkan/detail/command_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/swapchain.hpp>
 #include <bksge/core/render/vulkan/detail/render_pass.hpp>
-#include <bksge/core/render/vulkan/detail/framebuffer.hpp>
+#include <bksge/core/render/vulkan/detail/frame_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/shader.hpp>
 #include <bksge/core/render/vulkan/detail/uniform_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/fence.hpp>
@@ -316,7 +316,7 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 			m_command_pool,
 			VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
 
-		m_offscreen_framebuffer = bksge::make_shared<vulkan::Framebuffer>(
+		m_offscreen_frame_buffer = bksge::make_shared<vulkan::FrameBuffer>(
 			m_device,
 			extent,
 			NUM_SAMPLES,
@@ -337,7 +337,7 @@ VulkanRenderer::RecreateSwapchain(void)
 {
 	m_device->WaitIdle();
 
-	m_default_framebuffers.clear();
+	m_default_frame_buffers.clear();
 	m_swapchain.reset();
 
 	CreateSwapchain();
@@ -363,13 +363,13 @@ VulkanRenderer::CreateFrameBuffers(void)
 	auto const& swap_chain_images = m_swapchain->images();
 	for (auto const& image : swap_chain_images)
 	{
-		auto framebuffer = bksge::make_shared<vulkan::Framebuffer>(
+		auto frame_buffer = bksge::make_shared<vulkan::FrameBuffer>(
 			m_device,
 			m_swapchain->extent(),
 			NUM_SAMPLES,
 			image,
 			nullptr);
-		m_default_framebuffers.push_back(framebuffer);
+		m_default_frame_buffers.push_back(frame_buffer);
 	}
 }
 
@@ -394,10 +394,10 @@ VulkanRenderer::VBegin(void)
 BKSGE_INLINE void
 VulkanRenderer::VEnd(void)
 {
-	m_current_framebuffer = m_default_framebuffers[m_frame_index];
+	m_current_frame_buffer = m_default_frame_buffers[m_frame_index];
 
 	{
-		auto& color_buffer = m_offscreen_framebuffer->color_buffer();
+		auto& color_buffer = m_offscreen_frame_buffer->color_buffer();
 
 		auto current_layout = color_buffer->TransitionLayout(
 			m_command_buffer.get(),
@@ -452,25 +452,25 @@ VulkanRenderer::ApplyFrameBuffer(RenderPassInfo const& render_pass_info)
 {
 	if (render_pass_info.frame_buffer() != nullptr)
 	{
-		//m_current_framebuffer = m_resource_pool->GetFramebuffer(
+		//m_current_frame_buffer = m_resource_pool->GetFrameBuffer(
 		//	*render_pass_info.frame_buffer());
-		m_current_framebuffer = m_offscreen_framebuffer;
+		m_current_frame_buffer = m_offscreen_frame_buffer;
 	}
 	else
 	{
-		m_current_framebuffer = m_offscreen_framebuffer;
+		m_current_frame_buffer = m_offscreen_frame_buffer;
 	}
 }
 
 BKSGE_INLINE void
 VulkanRenderer::ApplyRenderPassInfo(RenderPassInfo const& render_pass_info)
 {
-	m_current_framebuffer->Clear(
+	m_current_frame_buffer->Clear(
 		m_command_buffer.get(),
 		render_pass_info.clear_state());
 
 	m_command_buffer->BeginRenderPass(
-		m_current_framebuffer->GetRenderPassBeginInfo());
+		m_current_frame_buffer->GetRenderPassBeginInfo());
 
 	m_command_buffer->SetViewport(
 		vulkan::Viewport(render_pass_info.viewport()));
@@ -504,7 +504,7 @@ VulkanRenderer::VRender(
 		m_resource_pool.get());
 
 	auto graphics_pipeline = m_resource_pool->GetGraphicsPipeline(
-		*m_current_framebuffer->render_pass(),
+		*m_current_frame_buffer->render_pass(),
 		geometry,
 		shader,
 		render_state);

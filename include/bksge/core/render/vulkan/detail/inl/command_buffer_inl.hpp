@@ -16,7 +16,7 @@
 #include <bksge/core/render/vulkan/detail/command_pool.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/render_pass.hpp>
-#include <bksge/core/render/vulkan/detail/framebuffer.hpp>
+#include <bksge/core/render/vulkan/detail/frame_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/queue.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>

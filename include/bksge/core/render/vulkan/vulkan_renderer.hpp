@@ -19,7 +19,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/command_buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/swapchain_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/render_pass_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/framebuffer_fwd.hpp>
+#include <bksge/core/render/vulkan/detail/fwd/frame_buffer_fwd.hpp>
 //#include <bksge/core/render/vulkan/detail/fwd/shader_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/uniform_buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/fence_fwd.hpp>
@@ -98,9 +98,9 @@ private:
 	vulkan::UniformBufferUniquePtr				m_uniform_buffer;
 	bksge::uint32_t								m_frame_index = 0;
 
-	bksge::vector<vulkan::FramebufferSharedPtr>	m_default_framebuffers;
-	vulkan::FramebufferSharedPtr				m_offscreen_framebuffer;
-	vulkan::FramebufferSharedPtr				m_current_framebuffer;
+	bksge::vector<vulkan::FrameBufferSharedPtr>	m_default_frame_buffers;
+	vulkan::FrameBufferSharedPtr				m_offscreen_frame_buffer;
+	vulkan::FrameBufferSharedPtr				m_current_frame_buffer;
 
 	struct OffscreenBufferDrawer;
 	bksge::unique_ptr<OffscreenBufferDrawer>	m_offscreen_buffer_drawer;
