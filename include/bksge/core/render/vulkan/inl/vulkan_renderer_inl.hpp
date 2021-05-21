@@ -36,7 +36,6 @@
 #include <bksge/core/render/vulkan/detail/viewport.hpp>
 #include <bksge/core/render/vulkan/detail/scissor_state.hpp>
 #include <bksge/core/render/vulkan/detail/extent2d.hpp>
-#include <bksge/core/render/vulkan/detail/combined_image_sampler.hpp>
 #include <bksge/core/render/vulkan/detail/sampler.hpp>
 #include <bksge/core/render/vulkan/detail/queue.hpp>
 #include <bksge/core/render/shader.hpp>
@@ -162,8 +161,8 @@ public:
 		m_render_pass_info.clear_state().SetFlag(bksge::ClearFlag::kNone);
 		m_render_pass_info.viewport().SetRect({{0, 0}, extent});
 
-		vulkan::CombinedImageSampler image_sampler(m_sampler, image);
-		m_shader_parameter_map.SetParameter("uSampler2D", image_sampler);
+		m_shader_parameter_map.SetParameter(
+			"uSampler2D", bksge::make_pair(m_sampler, image));
 
 		renderer->ApplyRenderPassInfo(m_render_pass_info);
 		renderer->Render(

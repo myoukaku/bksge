@@ -13,9 +13,10 @@
 #if BKSGE_CORE_RENDER_HAS_VULKAN_RENDERER
 
 #include <bksge/core/render/vulkan/detail/combined_image_sampler_setter.hpp>
-#include <bksge/core/render/vulkan/detail/combined_image_sampler.hpp>
 #include <bksge/core/render/vulkan/detail/shader_reflection.hpp>
 #include <bksge/core/render/vulkan/detail/resource_pool.hpp>
+#include <bksge/core/render/vulkan/detail/sampler.hpp>
+#include <bksge/core/render/vulkan/detail/image.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/shader_parameter_map.hpp>
 #include <bksge/core/render/sampler.hpp>
@@ -63,23 +64,31 @@ CombinedImageSamplerSetter::LoadParameters(
 		return;
 	}
 
-	using Sampler2d = bksge::pair<bksge::Sampler, bksge::Texture>;
-	if (param->class_id() == ShaderParameter<Sampler2d>::StaticClassId())
 	{
-		auto sampler_2d = static_cast<Sampler2d const*>(param->data());
-		auto sampler = resource_pool->GetSampler(sampler_2d->first);
-		auto image   = resource_pool->GetImage(sampler_2d->second, command_pool);
-		vulkan::CombinedImageSampler const combined_image_sampler(sampler, image);
-		m_image_info = combined_image_sampler.GetImageInfo();
-		return;
+		using Sampler2d = bksge::pair<bksge::Sampler, bksge::Texture>;
+		if (param->class_id() == ShaderParameter<Sampler2d>::StaticClassId())
+		{
+			auto sampler_2d = static_cast<Sampler2d const*>(param->data());
+			auto sampler = resource_pool->GetSampler(sampler_2d->first);
+			auto image   = resource_pool->GetImage(sampler_2d->second, command_pool);
+			m_image_info.sampler     = *sampler;
+			m_image_info.imageView   = image->image_view();
+			m_image_info.imageLayout = image->layout();
+			return;
+		}
 	}
-
-	if (param->class_id() == ShaderParameter<vulkan::CombinedImageSampler>::StaticClassId())
 	{
-		auto combined_image_sampler =
-			static_cast<vulkan::CombinedImageSampler const*>(param->data());
-		m_image_info = combined_image_sampler->GetImageInfo();
-		return;
+		using Sampler2d = bksge::pair<vulkan::SamplerSharedPtr, vulkan::ImageSharedPtr>;
+		if (param->class_id() == ShaderParameter<Sampler2d>::StaticClassId())
+		{
+			auto sampler_2d = static_cast<Sampler2d const*>(param->data());
+			auto sampler = sampler_2d->first;
+			auto image   = sampler_2d->second;
+			m_image_info.sampler     = *sampler;
+			m_image_info.imageView   = image->image_view();
+			m_image_info.imageLayout = image->layout();
+			return;
+		}
 	}
 }
 
