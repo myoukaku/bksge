@@ -11,7 +11,6 @@
 
 #include <bksge/core/render/vulkan/detail/fwd/framebuffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/command_buffer_fwd.hpp>
-#include <bksge/core/render/vulkan/detail/fwd/depth_stencil_buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/render_pass_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/image_fwd.hpp>
@@ -36,7 +35,7 @@ public:
 		vulkan::Extent2D const& extent,
 		::VkSampleCountFlagBits num_samples,
 		vulkan::ImageSharedPtr const& color_buffer,
-		vulkan::DepthStencilBufferSharedPtr const& depth_stencil_buffer);
+		vulkan::ImageSharedPtr const& depth_stencil_buffer);
 
 	~Framebuffer();
 
@@ -57,12 +56,12 @@ private:
 	Framebuffer& operator=(Framebuffer const&) = delete;
 
 private:
-	::VkFramebuffer						m_framebuffer;
-	vulkan::DeviceSharedPtr				m_device;
-	vulkan::Extent2D					m_extent;
-	vulkan::ImageSharedPtr				m_color_buffer;
-	vulkan::DepthStencilBufferSharedPtr	m_depth_stencil_buffer;
-	vulkan::RenderPassSharedPtr			m_render_pass;
+	::VkFramebuffer					m_framebuffer;
+	vulkan::DeviceSharedPtr			m_device;
+	vulkan::Extent2D				m_extent;
+	vulkan::ImageSharedPtr			m_color_buffer;
+	vulkan::ImageSharedPtr			m_depth_stencil_buffer;
+	vulkan::RenderPassSharedPtr		m_render_pass;
 };
 
 }	// namespace vulkan

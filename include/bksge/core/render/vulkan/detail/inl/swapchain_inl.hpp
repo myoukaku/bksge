@@ -156,8 +156,7 @@ Swapchain::Swapchain(
 			img,
 			surface_format,
 			swapchain_extent,
-			1,
-			VK_IMAGE_ASPECT_COLOR_BIT);
+			1);
 
 		image->TransitionLayout(
 			command_pool,

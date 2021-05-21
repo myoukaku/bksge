@@ -94,16 +94,13 @@ Texture::Texture(
 	::VkSampleCountFlagBits num_samples,
 	::VkImageUsageFlags usage)
 {
-	::VkImageAspectFlags const aspect = VK_IMAGE_ASPECT_COLOR_BIT;
-
 	m_image = bksge::make_shared<vulkan::Image>(
 		device,
 		format,
 		extent,
 		mipmap_count,
 		num_samples,
-		usage,
-		aspect);
+		usage);
 }
 
 BKSGE_INLINE

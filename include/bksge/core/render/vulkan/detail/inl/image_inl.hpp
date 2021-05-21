@@ -130,6 +130,23 @@ TransitionImageLayout(
 		1, &barrier);
 }
 
+inline ::VkImageAspectFlags GetAspectFlags(::VkFormat format)
+{
+	switch (format)
+	{
+	case VK_FORMAT_D16_UNORM_S8_UINT:
+	case VK_FORMAT_D24_UNORM_S8_UINT:
+	case VK_FORMAT_D32_SFLOAT_S8_UINT:
+		return VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
+	case VK_FORMAT_D16_UNORM:
+	case VK_FORMAT_X8_D24_UNORM_PACK32:
+	case VK_FORMAT_D32_SFLOAT:
+		return VK_IMAGE_ASPECT_DEPTH_BIT;
+	default:
+		return VK_IMAGE_ASPECT_COLOR_BIT;
+	}
+}
+
 }	// namespace detail
 
 BKSGE_INLINE
@@ -138,12 +155,11 @@ Image::Image(
 	::VkImage image,
 	::VkFormat format,
 	vulkan::Extent2D const& extent,
-	bksge::uint32_t mipmap_count,
-	::VkImageAspectFlags aspect_mask)
+	bksge::uint32_t mipmap_count)
 	: m_image(image)
 	, m_image_view(VK_NULL_HANDLE)
 	, m_device_memory()
-	, m_aspect_mask(aspect_mask)
+	, m_aspect_mask(detail::GetAspectFlags(format))
 	, m_format(format)
 	, m_extent(extent)
 	, m_mipmap_count(mipmap_count)
@@ -159,7 +175,7 @@ Image::Image(
 		info.components.g                    = VK_COMPONENT_SWIZZLE_G;
 		info.components.b                    = VK_COMPONENT_SWIZZLE_B;
 		info.components.a                    = VK_COMPONENT_SWIZZLE_A;
-		info.subresourceRange.aspectMask     = aspect_mask;
+		info.subresourceRange.aspectMask     = m_aspect_mask;
 		info.subresourceRange.baseMipLevel   = 0;
 		info.subresourceRange.levelCount     = mipmap_count;
 		info.subresourceRange.baseArrayLayer = 0;
@@ -176,12 +192,11 @@ Image::Image(
 	vulkan::Extent2D const& extent,
 	bksge::uint32_t mipmap_count,
 	::VkSampleCountFlagBits num_samples,
-	::VkImageUsageFlags usage,
-	::VkImageAspectFlags aspect_mask)
+	::VkImageUsageFlags usage)
 	: m_image(VK_NULL_HANDLE)
 	, m_image_view(VK_NULL_HANDLE)
 	, m_device_memory()
-	, m_aspect_mask(aspect_mask)
+	, m_aspect_mask(detail::GetAspectFlags(format))
 	, m_format(format)
 	, m_extent(extent)
 	, m_mipmap_count(mipmap_count)
@@ -221,7 +236,7 @@ Image::Image(
 		info.components.g                    = VK_COMPONENT_SWIZZLE_G;
 		info.components.b                    = VK_COMPONENT_SWIZZLE_B;
 		info.components.a                    = VK_COMPONENT_SWIZZLE_A;
-		info.subresourceRange.aspectMask     = aspect_mask;
+		info.subresourceRange.aspectMask     = m_aspect_mask;
 		info.subresourceRange.baseMipLevel   = 0;
 		info.subresourceRange.levelCount     = mipmap_count;
 		info.subresourceRange.baseArrayLayer = 0;

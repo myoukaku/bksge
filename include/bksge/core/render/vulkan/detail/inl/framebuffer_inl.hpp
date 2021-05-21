@@ -16,8 +16,6 @@
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/image.hpp>
 #include <bksge/core/render/vulkan/detail/render_pass.hpp>
-#include <bksge/core/render/vulkan/detail/texture.hpp>
-#include <bksge/core/render/vulkan/detail/depth_stencil_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/clear_state.hpp>
 #include <bksge/fnd/memory/make_shared.hpp>
@@ -38,7 +36,7 @@ Framebuffer::Framebuffer(
 	vulkan::Extent2D const& extent,
 	::VkSampleCountFlagBits num_samples,
 	vulkan::ImageSharedPtr const& color_buffer,
-	vulkan::DepthStencilBufferSharedPtr const& depth_stencil_buffer)
+	vulkan::ImageSharedPtr const& depth_stencil_buffer)
 	: m_framebuffer(VK_NULL_HANDLE)
 	, m_device(device)
 	, m_extent(extent)
@@ -50,13 +48,16 @@ Framebuffer::Framebuffer(
 		device,
 		num_samples,
 		color_buffer ? color_buffer.get() : nullptr,
-		depth_stencil_buffer ? depth_stencil_buffer->image().get() : nullptr);
+		depth_stencil_buffer ? depth_stencil_buffer.get() : nullptr);
 
 	bksge::vector<::VkImageView> attachments;
-	attachments.push_back(color_buffer->image_view());
+	if (color_buffer)
+	{
+		attachments.push_back(color_buffer->image_view());
+	}
 	if (depth_stencil_buffer)
 	{
-		attachments.push_back(depth_stencil_buffer->image()->image_view());
+		attachments.push_back(depth_stencil_buffer->image_view());
 	}
 
 	vk::FramebufferCreateInfo info;
@@ -101,7 +102,7 @@ Framebuffer::Clear(
 
 	if (m_depth_stencil_buffer)
 	{
-		m_depth_stencil_buffer->image()->ClearDepthStencil(
+		m_depth_stencil_buffer->ClearDepthStencil(
 			command_buffer,
 			depth_aspect_mask,
 			clear_state.depth(),

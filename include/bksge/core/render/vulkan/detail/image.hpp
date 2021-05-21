@@ -36,8 +36,7 @@ public:
 		::VkImage image,
 		::VkFormat format,
 		vulkan::Extent2D const& extent,
-		bksge::uint32_t mipmap_count,
-		::VkImageAspectFlags aspect_mask);
+		bksge::uint32_t mipmap_count);
 
 	explicit Image(
 		vulkan::DeviceSharedPtr const& device,
@@ -45,8 +44,7 @@ public:
 		vulkan::Extent2D const& extent,
 		bksge::uint32_t mipmap_count,
 		::VkSampleCountFlagBits num_samples,
-		::VkImageUsageFlags usage,
-		::VkImageAspectFlags aspect_mask);
+		::VkImageUsageFlags usage);
 
 	~Image();
 

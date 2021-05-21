@@ -22,7 +22,6 @@
 #include <bksge/core/render/vulkan/detail/command_pool.hpp>
 #include <bksge/core/render/vulkan/detail/command_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/swapchain.hpp>
-#include <bksge/core/render/vulkan/detail/depth_stencil_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/texture.hpp>
 #include <bksge/core/render/vulkan/detail/render_pass.hpp>
 #include <bksge/core/render/vulkan/detail/framebuffer.hpp>
@@ -300,19 +299,24 @@ VulkanRenderer::VulkanRenderer(Window const& window)
 			NUM_SAMPLES,
 			VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT |
 			VK_IMAGE_USAGE_SAMPLED_BIT |
-			VK_IMAGE_USAGE_TRANSFER_DST_BIT,
-			VK_IMAGE_ASPECT_COLOR_BIT);
+			VK_IMAGE_USAGE_TRANSFER_DST_BIT);
 
 		color_buffer->TransitionLayout(
 			m_command_pool,
 			VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
 
-		auto depth_stencil_buffer = bksge::make_shared<vulkan::DepthStencilBuffer>(
+		auto depth_stencil_buffer = bksge::make_shared<vulkan::Image>(
 			m_device,
-			m_command_pool,
 			VK_FORMAT_D24_UNORM_S8_UINT,
 			extent,
-			NUM_SAMPLES);
+			1,
+			NUM_SAMPLES,
+			VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT |
+			VK_IMAGE_USAGE_TRANSFER_DST_BIT);
+
+		depth_stencil_buffer->TransitionLayout(
+			m_command_pool,
+			VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
 
 		m_offscreen_framebuffer = bksge::make_shared<vulkan::Framebuffer>(
 			m_device,
@@ -495,17 +499,17 @@ VulkanRenderer::VRender(
 {
 	auto vk_shader = m_resource_pool->GetShader(shader);
 
-	auto graphics_pipeline = m_resource_pool->GetGraphicsPipeline(
-		*m_current_framebuffer->render_pass(),
-		geometry,
-		shader,
-		render_state);
-
 	vk_shader->LoadParameters(
 		shader_parameter_map,
 		m_command_pool,
 		m_uniform_buffer.get(),
 		m_resource_pool.get());
+
+	auto graphics_pipeline = m_resource_pool->GetGraphicsPipeline(
+		*m_current_framebuffer->render_pass(),
+		geometry,
+		shader,
+		render_state);
 
 	graphics_pipeline->Bind(m_command_buffer.get());
 
