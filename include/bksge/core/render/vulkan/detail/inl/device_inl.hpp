@@ -139,7 +139,7 @@ Device::Device(vulkan::PhysicalDeviceSharedPtr const& physical_device)
 	auto const enabled_features = physical_device->GetFeatures();
 
 	vk::DeviceCreateInfo info;
-	info.SetQueueCreateInfos(&queue_info);
+	info.SetQueueCreateInfos(queue_info);
 	info.SetEnabledLayerNames(layer_names);
 	info.SetEnabledExtensionNames(extension_names);
 	info.pEnabledFeatures = &enabled_features;

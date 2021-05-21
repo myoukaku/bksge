@@ -256,7 +256,7 @@ BKSGE_INLINE vk::SubmitInfo
 CommandBuffer::CreateSubmitInfo(void) const
 {
 	vk::SubmitInfo submit_info;
-	submit_info.SetCommandBuffers(&m_command_buffer);
+	submit_info.SetCommandBuffers(m_command_buffer);
 	return submit_info;
 }
 

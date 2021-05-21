@@ -79,7 +79,7 @@ RenderPass::RenderPass(
 	vk::SubpassDescription subpass;
 	subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
 	subpass.SetInputAttachments(nullptr);
-	subpass.SetColorAttachments(&color_reference);
+	subpass.SetColorAttachments(color_reference);
 	subpass.SetResolveAttachments(nullptr);
 	subpass.SetDepthStencilAttachment(depth_stencil ? &depth_reference : nullptr);
 	subpass.SetPreserveAttachments(nullptr);
@@ -96,8 +96,8 @@ RenderPass::RenderPass(
 
 	vk::RenderPassCreateInfo rp_info;
 	rp_info.SetAttachments(attachments);
-	rp_info.SetSubpasses(&subpass);
-	rp_info.SetDependencies(&subpass_dependency);
+	rp_info.SetSubpasses(subpass);
+	rp_info.SetDependencies(subpass_dependency);
 
 	m_render_pass = m_device->CreateRenderPass(rp_info);
 }

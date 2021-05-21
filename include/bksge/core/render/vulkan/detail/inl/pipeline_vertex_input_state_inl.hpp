@@ -45,7 +45,7 @@ PipelineVertexInputState::PipelineVertexInputState(
 		m_attribute_description.push_back(desc);
 	}
 
-	m_vertex_input_state.SetVertexBindingDescription(&m_binding_descriptions);
+	m_vertex_input_state.SetVertexBindingDescriptions(m_binding_descriptions);
 	m_vertex_input_state.SetVertexAttributeDescriptions(m_attribute_description);
 }
 

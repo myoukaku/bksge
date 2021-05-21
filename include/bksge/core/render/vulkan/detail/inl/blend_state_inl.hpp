@@ -42,7 +42,7 @@ BlendState::BlendState(bksge::BlendState const& blend_state)
 	m_attachment_state.alphaBlendOp        = vulkan::BlendOperation(blend_state.alpha_operation());
 	m_attachment_state.colorWriteMask      = vulkan::ColorWriteFlag(blend_state.color_write_mask());
 
-	m_blend_state.SetAttachment(&m_attachment_state);
+	m_blend_state.SetAttachments(m_attachment_state);
 	m_blend_state.logicOpEnable = vulkan::Bool(blend_state.logic_op_enable());
 	m_blend_state.logicOp       = vulkan::LogicOperation(blend_state.logic_operation());
 	m_blend_state.SetBlendConstants(1.0f, 1.0f, 1.0f, 1.0f);

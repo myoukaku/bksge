@@ -15,6 +15,7 @@
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/vector.hpp>
+#include <bksge/fnd/config.hpp>
 
 namespace bksge
 {
@@ -40,6 +41,53 @@ namespace vk
 	{	                                                    \
 		p(__VA_ARGS__);										\
 	}
+
+template <typename T>
+class ArrayProxy
+{
+public:
+	BKSGE_CONSTEXPR ArrayProxy() BKSGE_NOEXCEPT
+		: m_ptr(nullptr)
+		, m_count(0)
+	{}
+
+	BKSGE_CONSTEXPR ArrayProxy(std::nullptr_t) BKSGE_NOEXCEPT
+		: m_ptr(nullptr)
+		, m_count(0)
+	{}
+
+	BKSGE_CONSTEXPR ArrayProxy(T const& value) BKSGE_NOEXCEPT
+		: m_ptr(&value)
+		, m_count(1)
+	{}
+
+	template <bksge::size_t N>
+	BKSGE_CONSTEXPR ArrayProxy(T const (&data)[N]) BKSGE_NOEXCEPT
+		: m_ptr(data)
+		, m_count(N)
+	{}
+
+	BKSGE_CONSTEXPR ArrayProxy(bksge::vector<T> const& data) BKSGE_NOEXCEPT
+		: m_ptr(data.data())
+		, m_count(static_cast<bksge::uint32_t>(data.size()))
+	{}
+
+	BKSGE_CONSTEXPR T const*
+	data() const BKSGE_NOEXCEPT
+	{
+		return m_ptr;
+	}
+
+	BKSGE_CONSTEXPR bksge::uint32_t
+	size() const BKSGE_NOEXCEPT
+	{
+		return m_count;
+	}
+
+private:
+	T const*		m_ptr;
+	bksge::uint32_t	m_count;
+};
 
 struct ApplicationInfo : public ::VkApplicationInfo
 {
@@ -69,15 +117,15 @@ struct InstanceCreateInfo : public ::VkInstanceCreateInfo
 		ppEnabledExtensionNames = nullptr;
 	}
 
-	void SetEnabledLayerNames(bksge::vector<char const*> const& layer_names)
+	void SetEnabledLayerNames(ArrayProxy<char const*> layer_names)
 	{
-		enabledLayerCount       = static_cast<bksge::uint32_t>(layer_names.size());
+		enabledLayerCount       = layer_names.size();
 		ppEnabledLayerNames     = layer_names.data();
 	}
 
-	void SetEnabledExtensionNames(bksge::vector<char const*> const& extension_names)
+	void SetEnabledExtensionNames(ArrayProxy<char const*> extension_names)
 	{
-		enabledExtensionCount   = static_cast<bksge::uint32_t>(extension_names.size());
+		enabledExtensionCount   = extension_names.size();
 		ppEnabledExtensionNames = extension_names.data();
 	}
 };
@@ -363,21 +411,21 @@ struct DeviceCreateInfo : public ::VkDeviceCreateInfo
 		pEnabledFeatures        = nullptr;
 	}
 
-	void SetQueueCreateInfos(::VkDeviceQueueCreateInfo const* queue_create_info)
+	void SetQueueCreateInfos(ArrayProxy<::VkDeviceQueueCreateInfo> queue_create_infos)
 	{
-		queueCreateInfoCount   = queue_create_info ? 1 : 0;
-		pQueueCreateInfos      = queue_create_info;
+		queueCreateInfoCount   = queue_create_infos.size();
+		pQueueCreateInfos      = queue_create_infos.data();
 	}
 
-	void SetEnabledLayerNames(bksge::vector<char const*> const& layer_names)
+	void SetEnabledLayerNames(ArrayProxy<char const*> layer_names)
 	{
-		enabledLayerCount       = static_cast<bksge::uint32_t>(layer_names.size());
+		enabledLayerCount       = layer_names.size();
 		ppEnabledLayerNames     = layer_names.data();
 	}
 
-	void SetEnabledExtensionNames(bksge::vector<char const*> const& extension_names)
+	void SetEnabledExtensionNames(ArrayProxy<char const*> extension_names)
 	{
-		enabledExtensionCount   = static_cast<bksge::uint32_t>(extension_names.size());
+		enabledExtensionCount   = extension_names.size();
 		ppEnabledExtensionNames = extension_names.data();
 	}
 };
@@ -411,22 +459,22 @@ struct SubmitInfo : public ::VkSubmitInfo
 		pSignalSemaphores    = nullptr;
 	}
 
-	void SetWaitSemaphores(::VkSemaphore const* wait_semaphore)
+	void SetWaitSemaphores(ArrayProxy<::VkSemaphore> wait_semaphores)
 	{
-		waitSemaphoreCount   = wait_semaphore ? 1 : 0;
-		pWaitSemaphores      = wait_semaphore;
+		waitSemaphoreCount   = wait_semaphores.size();
+		pWaitSemaphores      = wait_semaphores.data();
 	}
 
-	void SetCommandBuffers(::VkCommandBuffer const* command_buffer)
+	void SetCommandBuffers(ArrayProxy<::VkCommandBuffer> command_buffers)
 	{
-		commandBufferCount   = command_buffer ? 1 : 0;
-		pCommandBuffers      = command_buffer;
+		commandBufferCount   = command_buffers.size();
+		pCommandBuffers      = command_buffers.data();
 	}
 
-	void SetSignalSemaphores(::VkSemaphore const* signal_semaphore)
+	void SetSignalSemaphores(ArrayProxy<::VkSemaphore> signal_semaphores)
 	{
-		signalSemaphoreCount = signal_semaphore ? 1 : 0;
-		pSignalSemaphores    = signal_semaphore;
+		signalSemaphoreCount = signal_semaphores.size();
+		pSignalSemaphores    = signal_semaphores.data();
 	}
 };
 
@@ -594,10 +642,10 @@ struct BufferCreateInfo : public ::VkBufferCreateInfo
 		pQueueFamilyIndices   = nullptr;
 	}
 
-	void SetQueueFamilyIndices(bksge::uint32_t const* queue_family_index)
+	void SetQueueFamilyIndices(ArrayProxy<bksge::uint32_t> queue_family_indices)
 	{
-		queueFamilyIndexCount = queue_family_index ? 1 : 0;
-		pQueueFamilyIndices   = queue_family_index;
+		queueFamilyIndexCount = queue_family_indices.size();
+		pQueueFamilyIndices   = queue_family_indices.data();
 	}
 };
 
@@ -635,10 +683,10 @@ struct ImageCreateInfo : public ::VkImageCreateInfo
 		initialLayout         = VK_IMAGE_LAYOUT_UNDEFINED;
 	}
 
-	void SetQueueFamilyIndices(bksge::uint32_t const* queue_family_index)
+	void SetQueueFamilyIndices(ArrayProxy<bksge::uint32_t> queue_family_indices)
 	{
-		queueFamilyIndexCount = queue_family_index ? 1 : 0;
-		pQueueFamilyIndices   = queue_family_index;
+		queueFamilyIndexCount = queue_family_indices.size();
+		pQueueFamilyIndices   = queue_family_indices.data();
 	}
 };
 
@@ -770,16 +818,17 @@ struct PipelineVertexInputStateCreateInfo : public ::VkPipelineVertexInputStateC
 		pVertexAttributeDescriptions    = nullptr;
 	}
 
-	void SetVertexBindingDescription(::VkVertexInputBindingDescription const* vi_binding)
+	void SetVertexBindingDescriptions(
+		ArrayProxy<::VkVertexInputBindingDescription> vi_binding)
 	{
-		vertexBindingDescriptionCount   = vi_binding ? 1 : 0;
-		pVertexBindingDescriptions      = vi_binding;
+		vertexBindingDescriptionCount   = vi_binding.size();
+		pVertexBindingDescriptions      = vi_binding.data();
 	}
 
 	void SetVertexAttributeDescriptions(
-		bksge::vector<::VkVertexInputAttributeDescription> const& vi_attribs)
+		ArrayProxy<::VkVertexInputAttributeDescription> vi_attribs)
 	{
-		vertexAttributeDescriptionCount = static_cast<bksge::uint32_t>(vi_attribs.size());
+		vertexAttributeDescriptionCount = vi_attribs.size();
 		pVertexAttributeDescriptions    = vi_attribs.data();
 	}
 };
@@ -944,10 +993,10 @@ struct PipelineColorBlendStateCreateInfo : public ::VkPipelineColorBlendStateCre
 		blendConstants[3] = 0.0f;
 	}
 
-	void SetAttachment(::VkPipelineColorBlendAttachmentState const* att_state)
+	void SetAttachments(ArrayProxy<::VkPipelineColorBlendAttachmentState> attachments)
 	{
-		attachmentCount   = att_state ? 1 : 0;
-		pAttachments      = att_state;
+		attachmentCount = attachments.size();
+		pAttachments    = attachments.data();
 	}
 
 	void SetBlendConstants(float r, float g, float b, float a)
@@ -970,9 +1019,9 @@ struct PipelineDynamicStateCreateInfo : public ::VkPipelineDynamicStateCreateInf
 		pDynamicStates    = nullptr;
 	}
 
-	void SetDynamicStates(bksge::vector<::VkDynamicState> const& dynamic_states)
+	void SetDynamicStates(ArrayProxy<::VkDynamicState> dynamic_states)
 	{
-		dynamicStateCount = static_cast<bksge::uint32_t>(dynamic_states.size());
+		dynamicStateCount = dynamic_states.size();
 		pDynamicStates    = dynamic_states.data();
 	}
 };
@@ -1002,9 +1051,9 @@ struct GraphicsPipelineCreateInfo : public ::VkGraphicsPipelineCreateInfo
 		basePipelineIndex   = 0;
 	}
 
-	void SetStages(bksge::vector<::VkPipelineShaderStageCreateInfo> const& stages)
+	void SetStages(ArrayProxy<::VkPipelineShaderStageCreateInfo> stages)
 	{
-		stageCount = static_cast<bksge::uint32_t>(stages.size());
+		stageCount = stages.size();
 		pStages    = stages.data();
 	}
 };
@@ -1040,16 +1089,16 @@ struct PipelineLayoutCreateInfo : public ::VkPipelineLayoutCreateInfo
 		pPushConstantRanges    = nullptr;
 	}
 
-	void SetSetLayouts(bksge::vector<::VkDescriptorSetLayout> const& set_layouts)
+	void SetSetLayouts(ArrayProxy<::VkDescriptorSetLayout> set_layouts)
 	{
-		setLayoutCount = static_cast<bksge::uint32_t>(set_layouts.size());
+		setLayoutCount = set_layouts.size();
 		pSetLayouts    = set_layouts.data();
 	}
 
-	void SetPushConstantRanges(::VkPushConstantRange const* range)
+	void SetPushConstantRanges(ArrayProxy<::VkPushConstantRange> ranges)
 	{
-		pushConstantRangeCount = range ? 1 : 0;
-		pPushConstantRanges    = range;
+		pushConstantRangeCount = ranges.size();
+		pPushConstantRanges    = ranges.data();
 	}
 };
 
@@ -1098,9 +1147,9 @@ struct DescriptorSetLayoutCreateInfo : public ::VkDescriptorSetLayoutCreateInfo
 		pBindings    = nullptr;
 	}
 
-	void SetBindings(bksge::vector<::VkDescriptorSetLayoutBinding> const& bindings)
+	void SetBindings(ArrayProxy<::VkDescriptorSetLayoutBinding> bindings)
 	{
-		bindingCount = static_cast<bksge::uint32_t>(bindings.size());
+		bindingCount = bindings.size();
 		pBindings    = bindings.data();
 	}
 };
@@ -1123,9 +1172,9 @@ struct DescriptorPoolCreateInfo : public ::VkDescriptorPoolCreateInfo
 		pPoolSizes    = nullptr;
 	}
 
-	void SetPoolSizes(bksge::vector<::VkDescriptorPoolSize> const& pool_sizes)
+	void SetPoolSizes(ArrayProxy<::VkDescriptorPoolSize> pool_sizes)
 	{
-		poolSizeCount = static_cast<bksge::uint32_t>(pool_sizes.size());
+		poolSizeCount = pool_sizes.size();
 		pPoolSizes    = pool_sizes.data();
 	}
 };
@@ -1141,9 +1190,9 @@ struct DescriptorSetAllocateInfo : public ::VkDescriptorSetAllocateInfo
 		pSetLayouts        = nullptr;
 	}
 
-	void SetSetLayouts(bksge::vector<::VkDescriptorSetLayout> const& set_layouts)
+	void SetSetLayouts(ArrayProxy<::VkDescriptorSetLayout> set_layouts)
 	{
-		descriptorSetCount = static_cast<bksge::uint32_t>(set_layouts.size());
+		descriptorSetCount = set_layouts.size();
 		pSetLayouts        = set_layouts.data();
 	}
 };
@@ -1207,9 +1256,9 @@ struct FramebufferCreateInfo : public ::VkFramebufferCreateInfo
 		layers          = 0;
 	}
 
-	void SetAttachments(bksge::vector<::VkImageView> const& attachments)
+	void SetAttachments(ArrayProxy<::VkImageView> attachments)
 	{
-		attachmentCount = static_cast<bksge::uint32_t>(attachments.size());
+		attachmentCount = attachments.size();
 		pAttachments    = attachments.data();
 	}
 
@@ -1255,16 +1304,16 @@ struct SubpassDescription : public ::VkSubpassDescription
 		pPreserveAttachments    = nullptr;
 	}
 
-	void SetInputAttachments(::VkAttachmentReference const* input_attachment)
+	void SetInputAttachments(ArrayProxy<::VkAttachmentReference> input_attachments)
 	{
-		inputAttachmentCount = input_attachment ? 1 : 0;
-		pInputAttachments    = input_attachment;
+		inputAttachmentCount = input_attachments.size();
+		pInputAttachments    = input_attachments.data();
 	}
 
-	void SetColorAttachments(::VkAttachmentReference const* color_attachment)
+	void SetColorAttachments(ArrayProxy<::VkAttachmentReference> color_attachment)
 	{
-		colorAttachmentCount = color_attachment ? 1 : 0;
-		pColorAttachments    = color_attachment;
+		colorAttachmentCount = color_attachment.size();
+		pColorAttachments    = color_attachment.data();
 	}
 
 	void SetResolveAttachments(::VkAttachmentReference const* resolve_attachments)
@@ -1277,10 +1326,10 @@ struct SubpassDescription : public ::VkSubpassDescription
 		pDepthStencilAttachment = depth_stencil_attachment;
 	}
 
-	void SetPreserveAttachments(bksge::uint32_t const* preserve_attachment)
+	void SetPreserveAttachments(ArrayProxy<bksge::uint32_t> preserve_attachments)
 	{
-		preserveAttachmentCount = preserve_attachment ? 1 : 0;
-		pPreserveAttachments    = preserve_attachment;
+		preserveAttachmentCount = preserve_attachments.size();
+		pPreserveAttachments    = preserve_attachments.data();
 	}
 };
 
@@ -1313,22 +1362,22 @@ struct RenderPassCreateInfo : public ::VkRenderPassCreateInfo
 		pDependencies   = nullptr;
 	}
 
-	void SetAttachments(bksge::vector<::VkAttachmentDescription> const& attachments)
+	void SetAttachments(ArrayProxy<::VkAttachmentDescription> attachments)
 	{
-		attachmentCount = static_cast<bksge::uint32_t>(attachments.size());
+		attachmentCount = attachments.size();
 		pAttachments    = attachments.data();
 	}
 
-	void SetSubpasses(::VkSubpassDescription const* subpass)
+	void SetSubpasses(ArrayProxy<::VkSubpassDescription> subpasses)
 	{
-		subpassCount = subpass ? 1 : 0;
-		pSubpasses   = subpass;
+		subpassCount = subpasses.size();
+		pSubpasses   = subpasses.data();
 	}
 
-	void SetDependencies(::VkSubpassDependency const* dependency)
+	void SetDependencies(ArrayProxy<::VkSubpassDependency> dependencies)
 	{
-		dependencyCount = dependency ? 1 : 0;
-		pDependencies   = dependency;
+		dependencyCount = dependencies.size();
+		pDependencies   = dependencies.data();
 	}
 };
 
@@ -1500,11 +1549,10 @@ struct RenderPassBeginInfo : public ::VkRenderPassBeginInfo
 		pClearValues    = nullptr;
 	}
 
-	template <bksge::size_t N>
-	void SetClearValues(::VkClearValue const (&clear_values)[N])
+	void SetClearValues(ArrayProxy<::VkClearValue> clear_values)
 	{
-		clearValueCount     = N;
-		pClearValues        = clear_values;
+		clearValueCount = clear_values.size();
+		pClearValues    = clear_values.data();
 	}
 };
 
@@ -2140,17 +2188,10 @@ struct SwapchainCreateInfoKHR : public ::VkSwapchainCreateInfoKHR
 		oldSwapchain          = VK_NULL_HANDLE;
 	}
 
-	void SetQueueFamilyIndices(bksge::uint32_t const* queue_family_index)
+	void SetQueueFamilyIndices(ArrayProxy<bksge::uint32_t> queue_family_indices)
 	{
-		queueFamilyIndexCount = queue_family_index ? 1 : 0;
-		pQueueFamilyIndices   = queue_family_index;
-	}
-
-	template <bksge::size_t N>
-	void SetQueueFamilyIndices(bksge::uint32_t const (&queue_family_indices)[N])
-	{
-		queueFamilyIndexCount = N;
-		pQueueFamilyIndices   = queue_family_indices;
+		queueFamilyIndexCount = queue_family_indices.size();
+		pQueueFamilyIndices   = queue_family_indices.data();
 	}
 };
 
@@ -2168,16 +2209,16 @@ struct PresentInfoKHR : public ::VkPresentInfoKHR
 		pResults           = nullptr;
 	}
 
-	void SetWaitSemaphores(::VkSemaphore const* wait_semaphore)
+	void SetWaitSemaphores(ArrayProxy<::VkSemaphore> wait_semaphores)
 	{
-		waitSemaphoreCount = wait_semaphore ? 1 : 0;
-		pWaitSemaphores    = wait_semaphore;
+		waitSemaphoreCount = wait_semaphores.size();
+		pWaitSemaphores    = wait_semaphores.data();
 	}
 
-	void SetSwapchains(::VkSwapchainKHR const* swapchain)
+	void SetSwapchains(ArrayProxy<::VkSwapchainKHR> swapchains)
 	{
-		swapchainCount = swapchain ? 1 : 0;
-		pSwapchains    = swapchain;
+		swapchainCount = swapchains.size();
+		pSwapchains    = swapchains.data();
 	}
 };
 

@@ -224,7 +224,7 @@ BKSGE_INLINE ::VkResult
 Swapchain::Present(bksge::uint32_t image_index)
 {
 	vk::PresentInfoKHR present;
-	present.SetSwapchains(&m_swapchain);
+	present.SetSwapchains(m_swapchain);
 	present.SetWaitSemaphores(nullptr);
 	present.pImageIndices = &image_index;
 	present.pResults      = nullptr;
