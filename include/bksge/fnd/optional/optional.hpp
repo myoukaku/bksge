@@ -785,6 +785,12 @@ optional(T) -> optional<T>;
 
 }	// namespace bksge
 
+#endif
+
+#include <bksge/fnd/functional/config.hpp>
+
+#if !defined(BKSGE_USE_STD_OPTIONAL) || !defined(BKSGE_USE_STD_HASH)
+
 #include <bksge/fnd/optional/detail/optional_hash_call_base.hpp>
 
 namespace BKSGE_HASH_NAMESPACE

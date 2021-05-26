@@ -66,18 +66,18 @@ struct is_sorted_until_fn
 			return first;
 		}
 
-		auto next = first;
-		for (++next; next != last; first = next, (void)++next)
+		auto next_it = first;
+		for (++next_it; next_it != last; first = next_it, (void)++next_it)
 		{
 			if (bksge::invoke(comp,
-				bksge::invoke(proj, *next),
+				bksge::invoke(proj, *next_it),
 				bksge::invoke(proj, *first)))
 			{
-				return next;
+				return next_it;
 			}
 		}
 
-		return next;
+		return next_it;
 	}
 
 	template <

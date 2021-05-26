@@ -8,6 +8,7 @@
 
 #include <bksge/fnd/compare/partial_order.hpp>
 #include <bksge/fnd/compare/partial_ordering.hpp>
+#include <bksge/fnd/compare/weak_ordering.hpp>
 #include <bksge/fnd/compare/is_eq.hpp>
 #include <bksge/fnd/compare/concepts/three_way_comparable.hpp>
 #include <bksge/fnd/limits.hpp>

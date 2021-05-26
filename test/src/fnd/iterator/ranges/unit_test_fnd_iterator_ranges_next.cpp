@@ -99,7 +99,6 @@ BKSGE_CXX14_CONSTEXPR bool test03()
 	VERIFY( bksge::ranges::next(endi, end) == end);
 	VERIFY( bksge::ranges::next(begin, 0, begin) == begin);
 	VERIFY( bksge::ranges::next(begin, 5, begin) == begin);
-	VERIFY( bksge::ranges::next(begin, -5, begin) == begin);
 	VERIFY( bksge::ranges::next(begin, 0, end) == begin);
 	VERIFY(*bksge::ranges::next(begin, 5, end) == 5);
 	VERIFY( bksge::ranges::next(begin, 55, end) == end);
@@ -142,8 +141,6 @@ BKSGE_CXX14_CONSTEXPR bool test04()
 	iter = bksge::ranges::next(begin, 0, begin);
 	VERIFY(*iter == 0);
 	iter = bksge::ranges::next(begin, 5, begin);
-	VERIFY(*iter == 0);
-	iter = bksge::ranges::next(begin, -5, begin);
 	VERIFY(*iter == 0);
 	iter = bksge::ranges::next(begin, 0, end);
 	VERIFY(*iter == 0);

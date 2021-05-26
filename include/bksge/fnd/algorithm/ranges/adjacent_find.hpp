@@ -67,18 +67,18 @@ struct adjacent_find_fn
 			return first;
 		}
 
-		auto next = first;
-		for (; ++next != last; first = next)
+		auto next_it = first;
+		for (; ++next_it != last; first = next_it)
 		{
 			if (bksge::invoke(pred,
 				bksge::invoke(proj, *first),
-				bksge::invoke(proj, *next)))
+				bksge::invoke(proj, *next_it)))
 			{
 				return first;
 			}
 		}
 
-		return next;
+		return next_it;
 	}
 
 	template <

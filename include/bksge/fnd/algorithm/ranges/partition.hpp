@@ -116,17 +116,17 @@ private:
 			}
 		}
 
-		auto next = first;
-		while (++next != last)
+		auto next_it = first;
+		while (++next_it != last)
 		{
-			if (bksge::invoke(pred, bksge::invoke(proj, *next)))
+			if (bksge::invoke(pred, bksge::invoke(proj, *next_it)))
 			{
-				ranges::iter_swap(first, next);
+				ranges::iter_swap(first, next_it);
 				++first;
 			}
 		}
 
-		return { bksge::move(first), bksge::move(next) };
+		return { bksge::move(first), bksge::move(next_it) };
 	}
 
 public:
