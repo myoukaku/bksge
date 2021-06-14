@@ -30,7 +30,7 @@ FetchContent_MakeAvailable(googletest)
 
 target_link_libraries(${TARGET_NAME}
 	PRIVATE
-		Bksge::preprocessor
+		Bksge::ratio
 		GTest::gtest
 		GTest::gtest_main)
 

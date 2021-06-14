@@ -1,4 +1,5 @@
 ﻿add_subdirectory(config)
 add_subdirectory(cstdint)
 add_subdirectory(preprocessor)
+add_subdirectory(ratio)
 add_subdirectory(tmp)

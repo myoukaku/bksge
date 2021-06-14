@@ -2,15 +2,15 @@
 
 set(TARGET_NAME "unit_test")
 
+file(GLOB_RECURSE test_sources CONFIGURE_DEPENDS src/*)
+
 if (TARGET ${TARGET_NAME})
-	file(GLOB_RECURSE test_sources CONFIGURE_DEPENDS src/*)
 	target_sources(${TARGET_NAME} PRIVATE ${test_sources})
 	RETURN()
 endif()
 
 add_executable(${TARGET_NAME})
 
-file(GLOB_RECURSE test_sources CONFIGURE_DEPENDS src/*)
 target_sources(${TARGET_NAME} PRIVATE ${test_sources})
 
 if(BKSGE_UNITY_BUILD)
