@@ -7,8 +7,8 @@
  */
 
 #include <bksge/fnd/config.hpp>
-#include <bksge/fnd/cstdint/intptr_t.hpp>
 #include <gtest/gtest.h>
+#include <cstdint>
 
 BKSGE_WARNING_PUSH()
 BKSGE_WARNING_DISABLE_MSVC(4324)	// __declspec(align()) のために構造体がパッドされました。
@@ -41,7 +41,7 @@ struct Foo
 
 bool is_align_of(void* p, int alignment)
 {
-	return (reinterpret_cast<bksge::intptr_t>(p) % alignment) == 0;
+	return (reinterpret_cast<std::intptr_t>(p) % alignment) == 0;
 }
 
 GTEST_TEST(ConfigTest, AlignasTest)

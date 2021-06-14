@@ -7,19 +7,19 @@
  */
 
 #include <bksge/fnd/config.hpp>
-#include <bksge/fnd/string/string.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
-#include <bksge/fnd/map/map.hpp>
-#include <bksge/fnd/sstream/stringstream.hpp>
-#include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
-#include <functional>	// function
+#include <cstddef>
+#include <functional>
 #include <initializer_list>
 #include <iostream>
+#include <map>
 #include <new>
+#include <sstream>
+#include <string>
 #include <tuple>
+#include <type_traits>
 #include <utility>
+#include <vector>
 
 namespace bksge_config_cxx17_test
 {
@@ -116,7 +116,7 @@ using f = void(*)() noexcept;
 GTEST_TEST(ConfigTest, Cxx17ExpressionEvaluationOrderTest)
 {
 #if defined(BKSGE_HAS_CXX17_EXPRESSION_EVALUATION_ORDER)
-	bksge::map<int, bksge::size_t> m;
+	std::map<int, std::size_t> m;
 	m[0] = m.size();
 	EXPECT_EQ(0u, m[0]);
 #endif	// defined(BKSGE_HAS_CXX17_EXPRESSION_EVALUATION_ORDER)
@@ -160,7 +160,7 @@ GTEST_TEST(ConfigTest, Cxx17FoldExpressionsTest)
 	EXPECT_EQ(false, all(false, true, true));
 	EXPECT_EQ(true, all());
 
-	bksge::stringstream ss;
+	std::stringstream ss;
 	print_all(ss, 1, 2, 3, 'A');
 	EXPECT_EQ("123A", ss.str());
 #endif
@@ -269,7 +269,7 @@ namespace range_based_for_test
 template <char delimiter>
 struct EndOfDelimitedString
 {
-	bool operator()(bksge::string::iterator it)
+	bool operator()(std::string::iterator it)
 	{
 		return *it != delimiter && *it != '\0';
 	}
@@ -278,15 +278,15 @@ struct EndOfDelimitedString
 template <char delimiter>
 struct DelimitedString
 {
-	bksge::string str;
+	std::string str;
 
-	DelimitedString(bksge::string const& s) : str(s) {}
-	bksge::string::iterator begin() { return str.begin(); }
+	DelimitedString(std::string const& s) : str(s) {}
+	std::string::iterator begin() { return str.begin(); }
 	EndOfDelimitedString<delimiter> end() const { return EndOfDelimitedString<delimiter>(); }
 };
 
 template <char delimiter>
-bool operator!=(bksge::string::iterator it, EndOfDelimitedString<delimiter> e)
+bool operator!=(std::string::iterator it, EndOfDelimitedString<delimiter> e)
 {
 	return e(it);
 }
@@ -294,9 +294,9 @@ bool operator!=(bksge::string::iterator it, EndOfDelimitedString<delimiter> e)
 GTEST_TEST(ConfigTest, Cxx17RangeBasedForTest)
 {
 #if defined(BKSGE_HAS_CXX17_RANGE_BASED_FOR)
-	bksge::string str{"ABCDE, abcde|12345"};
+	std::string str{"ABCDE, abcde|12345"};
 	{
-		bksge::stringstream ss;
+		std::stringstream ss;
 		for (auto c : str)
 		{
 			ss << c;
@@ -304,7 +304,7 @@ GTEST_TEST(ConfigTest, Cxx17RangeBasedForTest)
 		EXPECT_EQ("ABCDE, abcde|12345", ss.str());
 	}
 	{
-		bksge::stringstream ss;
+		std::stringstream ss;
 		for (auto c : DelimitedString<','>{str})
 		{
 			ss << c;
@@ -312,7 +312,7 @@ GTEST_TEST(ConfigTest, Cxx17RangeBasedForTest)
 		EXPECT_EQ("ABCDE", ss.str());
 	}
 	{
-		bksge::stringstream ss;
+		std::stringstream ss;
 		for (auto c : DelimitedString<'|'>{str})
 		{
 			ss << c;
@@ -349,12 +349,12 @@ GTEST_TEST(ConfigTest, Cxx17AutoDeductionBracedInitListTest)
 	//auto brace_init_multi{0, 1};       // C++14 までは std::initializer_list<int>, C++17 からは 不適格
 	(void)brace_init_single;
 
-	static_assert(bksge::is_same<decltype(assign_brace_single), std::initializer_list<int>>::value, "");
-	static_assert(bksge::is_same<decltype(assign_brace_multi), std::initializer_list<int>>::value, "");
+	static_assert(std::is_same<decltype(assign_brace_single), std::initializer_list<int>>::value, "");
+	static_assert(std::is_same<decltype(assign_brace_multi), std::initializer_list<int>>::value, "");
 #if defined(BKSGE_HAS_CXX17_AUTO_DEDUCTION_BRACED_INIT_LIST)
-	static_assert(bksge::is_same<decltype(brace_init_single), int>::value, "");
+	static_assert(std::is_same<decltype(brace_init_single), int>::value, "");
 #else
-	static_assert(bksge::is_same<decltype(brace_init_single), std::initializer_list<int>>::value, "");
+	static_assert(std::is_same<decltype(brace_init_single), std::initializer_list<int>>::value, "");
 #endif	// defined(BKSGE_HAS_CXX17_AUTO_DEDUCTION_BRACED_INIT_LIST)
 }
 
@@ -363,7 +363,7 @@ BKSGE_WARNING_POP()
 GTEST_TEST(ConfigTest, Cxx17DeductionGuidesTest)
 {
 #if defined(BKSGE_HAS_CXX17_DEDUCTION_GUIDES)
-	bksge::vector v = {1, 2, 3};
+	std::vector v = {1, 2, 3};
 	EXPECT_EQ(1, v[0]);
 	EXPECT_EQ(2, v[1]);
 	EXPECT_EQ(3, v[2]);
@@ -591,11 +591,11 @@ BKSGE_WARNING_POP()
 GTEST_TEST(ConfigTest, Cxx17StructuredBindingsTest)
 {
 #if defined(BKSGE_HAS_CXX17_STRUCTURED_BINDINGS)
-	auto [id, message] = std::make_pair(3, bksge::string("hoge"));
+	auto [id, message] = std::make_pair(3, std::string("hoge"));
 	EXPECT_EQ(3, id);
 	EXPECT_EQ("hoge", message);
 
-	auto [x, y, z] = std::make_tuple(0.5f, bksge::string("foo"), 42);
+	auto [x, y, z] = std::make_tuple(0.5f, std::string("foo"), 42);
 	EXPECT_EQ(0.5f, x);
 	EXPECT_EQ("foo", y);
 	EXPECT_EQ(42, z);

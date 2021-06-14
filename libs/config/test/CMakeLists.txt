@@ -2,6 +2,12 @@
 
 set(TARGET_NAME "unit_test")
 
+if (TARGET ${TARGET_NAME})
+	file(GLOB_RECURSE test_sources CONFIGURE_DEPENDS src/*)
+	target_sources(${TARGET_NAME} PRIVATE ${test_sources})
+	RETURN()
+endif()
+
 add_executable(${TARGET_NAME})
 
 file(GLOB_RECURSE test_sources CONFIGURE_DEPENDS src/*)
@@ -24,7 +30,7 @@ FetchContent_MakeAvailable(googletest)
 
 target_link_libraries(${TARGET_NAME}
 	PRIVATE
-		bksge
+		Bksge::config
 		GTest::gtest
 		GTest::gtest_main)
 

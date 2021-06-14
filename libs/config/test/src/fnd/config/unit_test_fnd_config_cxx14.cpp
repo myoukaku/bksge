@@ -7,10 +7,10 @@
  */
 
 #include <bksge/fnd/config.hpp>
-#include <bksge/fnd/utility/move.hpp>
-#include <bksge/fnd/array.hpp>
-#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
+#include <array>
+#include <utility>
+#include <vector>
 
 BKSGE_WARNING_PUSH()
 BKSGE_WARNING_DISABLE_MSVC(4189)	// ローカル変数が初期化されましたが、参照されていません
@@ -76,8 +76,8 @@ GTEST_TEST(ConfigTest, Cxx14InitCapturesTest)
 		EXPECT_EQ(6, result);
 	}
 	{
-		bksge::vector<int> v;
-		auto f = [x = bksge::move(v)]{};
+		std::vector<int> v;
+		auto f = [x = std::move(v)]{};
 	}
 	{
 		int a = 3;
@@ -178,13 +178,13 @@ GTEST_TEST(ConfigTest, Cxx14ConstexprTest)
 
 GTEST_TEST(ConfigTest, Cxx14AggregateNsdmiTest)
 {
-	bksge::array<int, 3> ar1 = {{1, 2, 3}};
+	std::array<int, 3> ar1 = {{1, 2, 3}};
 	EXPECT_EQ(1, ar1[0]);
 	EXPECT_EQ(2, ar1[1]);
 	EXPECT_EQ(3, ar1[2]);
 
 #if defined(BKSGE_HAS_CXX14_AGGREGATE_NSDMI)
-	bksge::array<int, 3> ar2 = {1, 2, 3};
+	std::array<int, 3> ar2 = {1, 2, 3};
 	EXPECT_EQ(1, ar2[0]);
 	EXPECT_EQ(2, ar2[1]);
 	EXPECT_EQ(3, ar2[2]);

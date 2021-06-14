@@ -1,8 +1,15 @@
-﻿cmake_minimum_required(VERSION 3.12)
+﻿cmake_minimum_required(VERSION 3.14)
 
-project(bksge LANGUAGES C CXX)
+set(TARGET_NAME "bksge_config")
 
-include(CMakePrintHelpers)
+if (TARGET ${TARGET_NAME})
+	RETURN()
+endif()
+
+project(${TARGET_NAME} LANGUAGES C CXX)
+
+add_library(${TARGET_NAME} INTERFACE)
+add_library(Bksge::config ALIAS ${TARGET_NAME})
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
@@ -10,9 +17,6 @@ option(BKSGE_UNITY_BUILD "Use Unity Builds" OFF)
 option(BKSGE_BUILD_TESTING "Build tests" ON)
 option(BKSGE_BUILD_SAMPLES "Build samples" ON)
 option(BKSGE_COVERAGE "Coverage" OFF)
-
-# CMAKE_CXX_FLAGS_* を変更する前にexternalsを追加する
-add_subdirectory(externals)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -51,93 +55,43 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
 endif()
 
-add_library(bksge STATIC)
-
-file(GLOB_RECURSE bksge_sources CONFIGURE_DEPENDS src/bksge/*)
 file(GLOB_RECURSE bksge_headers CONFIGURE_DEPENDS include/bksge/*)
-target_sources(bksge PRIVATE ${bksge_sources} ${bksge_headers})
+target_sources(${TARGET_NAME} PRIVATE ${bksge_headers})
 
-target_include_directories(bksge PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(${TARGET_NAME} INTERFACE ${PROJECT_SOURCE_DIR}/include)
 
 if (MSVC)
   # /WX (Treat all warnings as errors)
-  target_compile_options(bksge PRIVATE /WX)
+  target_compile_options(${TARGET_NAME} INTERFACE /WX)
 
   # C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
-  target_compile_options(bksge PUBLIC /wd4103)
+  target_compile_options(${TARGET_NAME} INTERFACE /wd4103)
 
   # C4384: #pragma '...' should only be used at global scope
-  target_compile_options(bksge PUBLIC /wd4384)
+  target_compile_options(${TARGET_NAME} INTERFACE /wd4384)
 
   # /guard:cf (Enable Control Flow Guard)
-  target_compile_options(bksge PUBLIC /guard:cf)
+  target_compile_options(${TARGET_NAME} INTERFACE /guard:cf)
 
   # /permissive- (Standards conformance)
-  target_compile_options(bksge PUBLIC /permissive-)
+  target_compile_options(${TARGET_NAME} INTERFACE /permissive-)
 
   # /bigobj (Increase Number of Sections in .obj file)
-  target_compile_options(bksge PUBLIC /bigobj)
+  target_compile_options(${TARGET_NAME} INTERFACE /bigobj)
 
   # /MP (Build with Multiple Processes)
   if (NOT CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    target_compile_options(bksge PUBLIC /MP)
+    target_compile_options(${TARGET_NAME} INTERFACE /MP)
   endif()
 
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-  target_compile_options(bksge PRIVATE -Wall -Wextra -Werror -Wno-mismatched-tags)
+  target_compile_options(${TARGET_NAME} INTERFACE -Wall -Wextra -Werror -Wno-mismatched-tags)
 
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  target_compile_options(bksge PRIVATE -Wall -Wextra -Werror -Wno-missing-field-initializers)
+  target_compile_options(${TARGET_NAME} INTERFACE -Wall -Wextra -Werror -Wno-missing-field-initializers)
 endif()
-
-if (BKSGE_COVERAGE)
-  target_compile_options(bksge PRIVATE --coverage)
-endif()
-
-if(BKSGE_UNITY_BUILD)
-  set_target_properties(bksge PROPERTIES UNITY_BUILD ON)
-endif()
-
-find_package(OpenGL REQUIRED)
-if(OPENGL_FOUND)
-  target_link_libraries(bksge PRIVATE OpenGL::GL)
-endif()
-#if(OpenGL_OpenGL_FOUND)
-#  target_link_libraries(bksge PRIVATE OpenGL::OpenGL)
-#endif()
-#if(OpenGL_GLX_FOUND)
-#  target_link_libraries(bksge PRIVATE OpenGL::GLX)
-#endif()
-#if(OpenGL_EGL_FOUND)
-#  target_link_libraries(bksge PRIVATE OpenGL::EGL)
-#endif()
-
-find_package(Vulkan REQUIRED)
-if(Vulkan_FOUND)
-  target_link_libraries(bksge PRIVATE Vulkan::Vulkan)
-
-  target_link_libraries(bksge PRIVATE glslang SPIRV)
-  target_link_libraries(bksge PRIVATE spirv-cross-glsl)
-endif()
-
-if(MINGW)
-  target_link_libraries(bksge -ld3d11 -ld3dcompiler -ldinput8 -ldxguid)
-endif()
-
-#cmake_print_variables(CMAKE_CXX_FLAGS)
-#cmake_print_variables(CMAKE_CXX_FLAGS_DEBUG)
-#cmake_print_variables(CMAKE_CXX_FLAGS_RELEASE)
-#cmake_print_variables(CMAKE_CXX_FLAGS_MINSIZEREL)
-#cmake_print_variables(CMAKE_CXX_FLAGS_RELWITHDEBINFO)
 
 if(BKSGE_BUILD_TESTING)
   enable_testing()
   add_subdirectory(test)
 endif()
-
-if(BKSGE_BUILD_SAMPLES)
-  add_subdirectory(samples)
-endif()
-
-add_subdirectory(libs)
-target_link_libraries(bksge PUBLIC Bksge::config)

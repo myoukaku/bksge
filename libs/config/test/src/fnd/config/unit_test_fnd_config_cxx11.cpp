@@ -7,14 +7,13 @@
  */
 
 #include <bksge/fnd/config.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
-#include <bksge/fnd/string/string.hpp>
-#include <bksge/fnd/utility/move.hpp>
-#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
-#include <iostream>
-#include <utility>
+#include <cstddef>
 #include <initializer_list>
+#include <iostream>
+#include <string>
+#include <utility>
+#include <vector>
 
 BKSGE_WARNING_PUSH()
 BKSGE_WARNING_DISABLE_MSVC(4101)	// ローカル変数は 1 度も使われていません。
@@ -67,11 +66,11 @@ struct hoge
 struct empty
 {};
 
-static const bksge::size_t a1 = alignof(char);
-static const bksge::size_t a2 = alignof(int);
-static const bksge::size_t a3 = alignof(hoge);
-static const bksge::size_t a4 = alignof(empty);
-static const bksge::size_t a5 = alignof(void*);
+static const std::size_t a1 = alignof(char);
+static const std::size_t a2 = alignof(int);
+static const std::size_t a3 = alignof(hoge);
+static const std::size_t a4 = alignof(empty);
+static const std::size_t a5 = alignof(void*);
 
 #endif	// defined(BKSGE_HAS_CXX11_ALIGNOF)
 
@@ -106,7 +105,7 @@ void func()
 	int* dp = new auto(i);
 	delete dp;
 
-	bksge::vector<int> v(10);
+	std::vector<int> v(10);
 	for (auto it = v.begin(); it != v.end(); ++it)
 	{
 		if (auto x = *it)
@@ -380,9 +379,9 @@ namespace inheriting_constructors_test
 	struct Base2
 	{
 		Base2() : s() {}
-		Base2(const bksge::string& x) : s(x) {}
+		Base2(const std::string& x) : s(x) {}
 
-		bksge::string s;
+		std::string s;
 	};
 
 	struct Derived : Base1, Base2
@@ -634,7 +633,7 @@ GTEST_TEST(ConfigTest, Cxx11NullptrTest)
 GTEST_TEST(ConfigTest, Cxx11RightAngleBracketsTest)
 {
 #if defined(BKSGE_HAS_CXX11_RIGHT_ANGLE_BRACKETS)
-	bksge::vector<bksge::vector<int>> v;
+	std::vector<std::vector<int>> v;
 #endif
 }
 
@@ -673,11 +672,11 @@ GTEST_TEST(ConfigTest, Cxx11RvalueReferencesTest)
 
 	Foo f1;
 //	Foo f2(f1);
-	Foo f3(bksge::move(f1));
+	Foo f3(std::move(f1));
 
 	Foo f4;
 //	f4 = f3;
-	f4 = bksge::move(f3);
+	f4 = std::move(f3);
 #endif
 }
 
@@ -717,7 +716,7 @@ namespace alias_templates_test
 #if defined(BKSGE_HAS_CXX11_ALIAS_TEMPLATES)
 
 template <typename T>
-using Vec = bksge::vector<T>;
+using Vec = std::vector<T>;
 
 using Integer = int;
 
@@ -733,7 +732,7 @@ namespace unrestricted_unions_test
 union X
 {
 	int m1;
-	bksge::string m2;
+	std::string m2;
 
 	X() : m1(0) {}
 	~X() {}
@@ -761,7 +760,7 @@ void f(Args... args);
 GTEST_TEST(ConfigTest, Cxx11RangeBasedForTest)
 {
 #if defined(BKSGE_HAS_CXX11_RANGE_BASED_FOR)
-	bksge::vector<int> v;
+	std::vector<int> v;
 
 	for (auto e : v)
 	{
@@ -932,7 +931,7 @@ namespace initializer_lists_test
 	template <typename T>
 	class MyVector1
 	{
-		bksge::vector<T> data_;
+		std::vector<T> data_;
 	public:
 		MyVector1(std::initializer_list<T> init)
 			: data_(init.begin(), init.end()) {}
@@ -941,7 +940,7 @@ namespace initializer_lists_test
 	template <typename T>
 	class MyVector2
 	{
-		bksge::vector<T> data_;
+		std::vector<T> data_;
 	public:
 		explicit MyVector2(std::initializer_list<T> init)
 			: data_(init.begin(), init.end()) {}
@@ -954,8 +953,8 @@ GTEST_TEST(ConfigTest, Cxx11InitializerListsTest)
 #if defined(BKSGE_HAS_CXX11_INITIALIZER_LISTS)
 	using namespace initializer_lists_test;
 	{
-		bksge::vector<int> v1 = {1, 2, 3};
-		bksge::vector<int> v2 {1, 2, 3};
+		std::vector<int> v1 = {1, 2, 3};
+		std::vector<int> v2 {1, 2, 3};
 		v2 = {4, 5, 6};
 	}
 	{
@@ -983,7 +982,7 @@ namespace uniform_initialization_test
 
 	struct Y
 	{
-		Y(int, double, bksge::string) {}
+		Y(int, double, std::string) {}
 	};
 
 	Y createY()

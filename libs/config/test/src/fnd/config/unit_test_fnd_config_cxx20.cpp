@@ -6,16 +6,13 @@
  *	@author	myoukaku
  */
 
-#include <bksge/fnd/string/string.hpp>
-#include <bksge/fnd/utility/declval.hpp>
-#include <bksge/fnd/utility/move.hpp>
-#include <bksge/fnd/concepts.hpp>
-#include <bksge/fnd/type_traits.hpp>
-#include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
-#include <type_traits>	// is_constant_evaluated
 #include <new>			// destroying_delete_t
+#include <string>
+#include <type_traits>
+#include <utility>
+#include <vector>
 
 #if BKSGE_HAS_INCLUDE(<coroutine>) && (BKSGE_CXX_STANDARD >= 20)
 #include <coroutine>
@@ -62,7 +59,7 @@ GTEST_TEST(ConfigTest, Cxx20InitializerListCTADTest)
 {
 	std::vector v1{1, 2};
 	std::vector v2{v1};
-	static_assert(bksge::is_same<decltype(v2), std::vector<int>>::value, "");
+	static_assert(std::is_same<decltype(v2), std::vector<int>>::value, "");
 }
 #endif
 
@@ -334,11 +331,11 @@ struct C {
 	C(T, U){}   // #1
 };
 template <class T, class U>
-C(T, U)->C<T, bksge::type_identity_t<U>>; // #2
+C(T, U)->C<T, std::type_identity_t<U>>; // #2
 
 template <class V>
 using A = C<V*, V*>;
-template <bksge::integral W>
+template <std::integral W>
 using B = A<W>;
 
 GTEST_TEST(ConfigTest, Cxx20CTADAliasTemplateTest)
@@ -377,7 +374,7 @@ GTEST_TEST(ConfigTest, Cxx20CTADAggregateTest)
 #else
 	Point<int> p1{3, 4};
 #endif
-	static_assert(bksge::is_same<decltype(p1), Point<int>>::value, "");
+	static_assert(std::is_same<decltype(p1), Point<int>>::value, "");
 	EXPECT_TRUE(p1.x == 3);
 	EXPECT_TRUE(p1.y == 4);
 }
@@ -501,25 +498,25 @@ namespace abbreviated_function_template_test
 void func1(auto x);
 
 // function template parameter, constrained
-void func2(bksge::arithmetic auto x);
+void func2(std::integral auto x);
 
 // function return type, unconstrained
 auto func3();
 
 // function return type, constrained
-bksge::arithmetic auto func4();
+std::integral auto func4();
 
 // generic lambda, unconstrained
 auto f1 = [](auto x){return x;};
 
 // generic lambda, constrained
-auto f2 = [](bksge::arithmetic auto x){return x;};
+auto f2 = [](std::integral auto x){return x;};
 
 // variable, unconstrained
 auto x1 = f1(0);
 
 // variable, constrained
-bksge::arithmetic auto x2 = f2(0);
+std::integral auto x2 = f2(0);
 
 #endif
 }	// namespace abbreviated_function_template_test
@@ -638,7 +635,7 @@ GTEST_TEST(ConfigTest, Cxx20DesignatedInitializersTest)
 #if defined(BKSGE_HAS_CXX20_GENERIC_LAMBDAS)
 GTEST_TEST(ConfigTest, Cxx20GenericLambdasTest)
 {
-	auto f =[]<class T>(const bksge::vector<T>& v)
+	auto f =[]<class T>(const std::vector<T>& v)
 	{
 		if (v.empty())
 		{
@@ -650,18 +647,18 @@ GTEST_TEST(ConfigTest, Cxx20GenericLambdasTest)
 		}
 	};
 
-	bksge::vector<int> v = {1, 2, 3};
-	bksge::vector<bksge::string> w;
+	std::vector<int> v = {1, 2, 3};
+	std::vector<std::string> w;
 
 	EXPECT_EQ(1,  f(v)); // Tの型はint
-	EXPECT_EQ("", f(w)); // Tの型はbksge::string
+	EXPECT_EQ("", f(w)); // Tの型はstd::string
 }
 #endif
 
 #if defined(BKSGE_HAS_CXX20_RANGE_BASED_FOR_INITIALIZER)
 GTEST_TEST(ConfigTest, Cxx20RangeBasedForInitializerTest)
 {
-	bksge::vector<int> v {10, 20, 30};
+	std::vector<int> v {10, 20, 30};
 	for (int i = 0; auto& x : v)
 	{
 		x += i;
@@ -744,11 +741,11 @@ struct S
 
 GTEST_TEST(ConfigTest, Cxx20ConditionalExplicitTest)
 {
-	static_assert( bksge::is_default_constructible<S<true>>::value, "");
-	static_assert( bksge::is_default_constructible<S<false>>::value, "");
+	static_assert( std::is_default_constructible<S<true>>::value, "");
+	static_assert( std::is_default_constructible<S<false>>::value, "");
 
-	static_assert(!bksge::is_implicitly_default_constructible<S<true>>::value, "");
-	static_assert( bksge::is_implicitly_default_constructible<S<false>>::value, "");
+//	static_assert(!bksge::is_implicitly_default_constructible<S<true>>::value, "");
+//	static_assert( bksge::is_implicitly_default_constructible<S<false>>::value, "");
 
 	S<true> x1;
 	S<false> x2;
@@ -783,13 +780,13 @@ GTEST_TEST(ConfigTest, Cxx20Char8TTest)
 	{
 		const auto* s = u8"hoge";
 		const auto c = u8'c';
-		static_assert(bksge::is_same<const char8_t*, decltype(s)>::value, "");
-		static_assert(bksge::is_same<const char8_t, decltype(c)>::value, "");
+		static_assert(std::is_same<const char8_t*, decltype(s)>::value, "");
+		static_assert(std::is_same<const char8_t, decltype(c)>::value, "");
 	}
 
 	static_assert(sizeof(char8_t) == sizeof(unsigned char), "");
-	static_assert(!bksge::is_same<char8_t, char>::value, "");
-	static_assert(!bksge::is_same<char8_t, unsigned char>::value, "");
+	static_assert(!std::is_same<char8_t, char>::value, "");
+	static_assert(!std::is_same<char8_t, unsigned char>::value, "");
 
 	static_assert(S<char8_t>::value, "");
 	static_assert(!S<char>::value, "");
@@ -831,17 +828,17 @@ namespace concepts_test
 
 template <typename From, typename To>
 concept ConvertibleTo =
-	bksge::is_convertible<From, To>::value &&
-	requires(bksge::add_rvalue_reference_t<From> (&f)())
+	std::is_convertible<From, To>::value &&
+	requires(std::add_rvalue_reference_t<From> (&f)())
 	{
 		static_cast<To>(f());
 	};
 
 template <typename T>
-concept Integral = bksge::is_integral<T>::value;
+concept Integral = std::is_integral<T>::value;
 
 template <typename T>
-concept FloatingPoint = bksge::is_floating_point<T>::value;
+concept FloatingPoint = std::is_floating_point<T>::value;
 
 template <typename T, typename U>
 concept EqualityComparable =
@@ -859,20 +856,20 @@ concept SequenceContainer =
 		{std::size(c)} -> ConvertibleTo<typename T::size_type>; // 非メンバ関数の呼び出しも要求できる
 
 		typename T::value_type;
-		c.push_back(bksge::declval<typename T::value_type>());
+		c.push_back(std::declval<typename T::value_type>());
 	};
 
 static_assert( Integral<int>, "");
 static_assert(!Integral<float>, "");
-static_assert(!Integral<bksge::string>, "");
+static_assert(!Integral<std::string>, "");
 static_assert(!FloatingPoint<int>, "");
 static_assert( FloatingPoint<float>, "");
-static_assert(!FloatingPoint<bksge::string>, "");
+static_assert(!FloatingPoint<std::string>, "");
 static_assert( EqualityComparable<int, int>, "");
 static_assert( EqualityComparable<int, float>, "");
-static_assert(!EqualityComparable<int, bksge::string>, "");
-static_assert( SequenceContainer<bksge::vector<int>>, "");
-static_assert( SequenceContainer<bksge::string>, "");
+static_assert(!EqualityComparable<int, std::string>, "");
+static_assert( SequenceContainer<std::vector<int>>, "");
+static_assert( SequenceContainer<std::string>, "");
 static_assert(!SequenceContainer<int>, "");
 
 template <Integral T>
@@ -930,7 +927,7 @@ GTEST_TEST(ConfigTest, Cxx20VaOptTest)
 	static_assert(F(3, "Hello", 'A') == 3, "");
 #undef F
 
-#define F(name, ...) bksge::vector<int> name __VA_OPT__(= { __VA_ARGS__ })
+#define F(name, ...) std::vector<int> name __VA_OPT__(= { __VA_ARGS__ })
 	F(v1);
 	F(v2, 1, 2, 3);
 
@@ -1081,7 +1078,7 @@ namespace init_captures_test
 template <typename... Args>
 auto f(Args... args)
 {
-	[...args = bksge::move(args)]	// 初期化キャプチャでのパック展開
+	[...args = std::move(args)]	// 初期化キャプチャでのパック展開
 	{
 		g(args...); // ラムダ式内で、パックを使う例
 	};
@@ -1459,7 +1456,7 @@ namespace conditionally_trivial_special_member_functions_test
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 template <typename T>
-concept trivially_copy_constructible = bksge::is_trivially_copy_constructible<T>::value;
+concept trivially_copy_constructible = std::is_trivially_copy_constructible<T>::value;
 
 template <typename T>
 struct A
@@ -1468,16 +1465,16 @@ struct A
     A(A const&)
 		requires
 			trivially_copy_constructible<T> &&
-			bksge::copy_constructible<T> = default;
+			std::copy_constructible<T> = default;
         
     // #2
     A(A const&)
-		requires bksge::copy_constructible<T>
+		requires std::copy_constructible<T>
     {}
 };
 
-static_assert(bksge::is_trivially_copyable<A<int>>::value == true, "");
-static_assert(bksge::is_trivially_copyable<A<bksge::vector<int>>>::value == false, "");
+static_assert(std::is_trivially_copyable<A<int>>::value == true, "");
+static_assert(std::is_trivially_copyable<A<std::vector<int>>>::value == false, "");
 #endif
 
 }	// namespace conditionally_trivial_special_member_functions_test
@@ -1551,13 +1548,13 @@ struct C
 };
 
 #if defined(BKSGE_HAS_CXX20_PROHIBIT_AGGREGATES_WITH_USER_DECLARED_CONSTRUCTORS)
-static_assert(!bksge::is_aggregate<A>::value, "");
-static_assert(!bksge::is_aggregate<B>::value, "");
-static_assert(!bksge::is_aggregate<C>::value, "");
+static_assert(!std::is_aggregate<A>::value, "");
+static_assert(!std::is_aggregate<B>::value, "");
+static_assert(!std::is_aggregate<C>::value, "");
 #else
-static_assert( bksge::is_aggregate<A>::value, "");
-static_assert( bksge::is_aggregate<B>::value, "");
-static_assert( bksge::is_aggregate<C>::value, "");
+static_assert( std::is_aggregate<A>::value, "");
+static_assert( std::is_aggregate<B>::value, "");
+static_assert( std::is_aggregate<C>::value, "");
 #endif
 #endif
 }	// namespace prohibit_aggregates_with_user_declared_constructors_test
