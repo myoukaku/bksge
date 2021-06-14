@@ -1,6 +1,6 @@
 ﻿cmake_minimum_required(VERSION 3.14)
 
-set(TARGET_NAME "bksge_cmath")
+set(TARGET_NAME "bksge_algorithm")
 
 if (TARGET ${TARGET_NAME})
 	RETURN()
@@ -9,34 +9,12 @@ endif()
 project(${TARGET_NAME} LANGUAGES C CXX)
 
 add_library(${TARGET_NAME} INTERFACE)
-add_library(Bksge::cmath ALIAS ${TARGET_NAME})
+add_library(Bksge::algorithm ALIAS ${TARGET_NAME})
 
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../algorithm ${CMAKE_CURRENT_BINARY_DIR}/algorithm)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../array ${CMAKE_CURRENT_BINARY_DIR}/array)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../bit ${CMAKE_CURRENT_BINARY_DIR}/bit)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../concepts ${CMAKE_CURRENT_BINARY_DIR}/concepts)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../config ${CMAKE_CURRENT_BINARY_DIR}/config)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstddef ${CMAKE_CURRENT_BINARY_DIR}/cstddef)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstdint ${CMAKE_CURRENT_BINARY_DIR}/cstdint)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../limits ${CMAKE_CURRENT_BINARY_DIR}/limits)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../numbers ${CMAKE_CURRENT_BINARY_DIR}/numbers)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../stdexcept ${CMAKE_CURRENT_BINARY_DIR}/stdexcept)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../type_traits ${CMAKE_CURRENT_BINARY_DIR}/type_traits)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../utility ${CMAKE_CURRENT_BINARY_DIR}/utility)
 target_link_libraries(${TARGET_NAME}
 	INTERFACE
-		Bksge::algorithm
-		Bksge::array
-		Bksge::bit
-		Bksge::concepts
-		Bksge::config
-		Bksge::cstddef
-		Bksge::cstdint
-		Bksge::limits
-		Bksge::numbers
-		Bksge::stdexcept
-		Bksge::type_traits
-		Bksge::utility)
+		Bksge::config)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
