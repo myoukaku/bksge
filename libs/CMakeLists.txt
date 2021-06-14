@@ -1,4 +1,5 @@
 ﻿add_subdirectory(algorithm)
+add_subdirectory(array)
 add_subdirectory(cmath)
 add_subdirectory(compare)
 add_subdirectory(concepts)
