@@ -1,6 +1,6 @@
 ﻿cmake_minimum_required(VERSION 3.14)
 
-set(TARGET_NAME "bksge_utility")
+set(TARGET_NAME "bksge_compare")
 
 if (TARGET ${TARGET_NAME})
 	RETURN()
@@ -9,22 +9,12 @@ endif()
 project(${TARGET_NAME} LANGUAGES C CXX)
 
 add_library(${TARGET_NAME} INTERFACE)
-add_library(Bksge::utility ALIAS ${TARGET_NAME})
+add_library(Bksge::compare ALIAS ${TARGET_NAME})
 
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../compare ${CMAKE_CURRENT_BINARY_DIR}/compare)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../config ${CMAKE_CURRENT_BINARY_DIR}/config)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstddef ${CMAKE_CURRENT_BINARY_DIR}/cstddef)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../limits ${CMAKE_CURRENT_BINARY_DIR}/limits)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../tuple ${CMAKE_CURRENT_BINARY_DIR}/tuple)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../type_traits ${CMAKE_CURRENT_BINARY_DIR}/type_traits)
 target_link_libraries(${TARGET_NAME}
 	INTERFACE
-		Bksge::compare
-		Bksge::config
-		Bksge::cstddef
-		Bksge::limits
-		Bksge::tuple
-		Bksge::type_traits)
+		Bksge::config)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
