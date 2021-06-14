@@ -1,6 +1,6 @@
 ﻿cmake_minimum_required(VERSION 3.14)
 
-set(TARGET_NAME "bksge_compare")
+set(TARGET_NAME "bksge_cmath")
 
 if (TARGET ${TARGET_NAME})
 	RETURN()
@@ -9,26 +9,12 @@ endif()
 project(${TARGET_NAME} LANGUAGES C CXX)
 
 add_library(${TARGET_NAME} INTERFACE)
-add_library(Bksge::compare ALIAS ${TARGET_NAME})
+add_library(Bksge::cmath ALIAS ${TARGET_NAME})
 
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cmath ${CMAKE_CURRENT_BINARY_DIR}/cmath)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../concepts ${CMAKE_CURRENT_BINARY_DIR}/concepts)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../config ${CMAKE_CURRENT_BINARY_DIR}/config)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstdint ${CMAKE_CURRENT_BINARY_DIR}/cstdint)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../functional ${CMAKE_CURRENT_BINARY_DIR}/functional)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../tpp ${CMAKE_CURRENT_BINARY_DIR}/tpp)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../type_traits ${CMAKE_CURRENT_BINARY_DIR}/type_traits)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../utility ${CMAKE_CURRENT_BINARY_DIR}/utility)
 target_link_libraries(${TARGET_NAME}
 	INTERFACE
-		Bksge::cmath
-		Bksge::concepts
-		Bksge::config
-		Bksge::cstdint
-		Bksge::functional
-		Bksge::tpp
-		Bksge::type_traits
-		Bksge::utility)
+		Bksge::concepts)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
