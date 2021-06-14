@@ -1,6 +1,6 @@
 ﻿cmake_minimum_required(VERSION 3.14)
 
-set(TARGET_NAME "bksge_config")
+set(TARGET_NAME "bksge_preprocessor")
 
 if (TARGET ${TARGET_NAME})
 	RETURN()
@@ -9,7 +9,7 @@ endif()
 project(${TARGET_NAME} LANGUAGES C CXX)
 
 add_library(${TARGET_NAME} INTERFACE)
-add_library(Bksge::config ALIAS ${TARGET_NAME})
+add_library(Bksge::preprocessor ALIAS ${TARGET_NAME})
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
