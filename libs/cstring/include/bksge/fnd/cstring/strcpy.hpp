@@ -9,8 +9,8 @@
 #ifndef BKSGE_FND_CSTRING_STRCPY_HPP
 #define BKSGE_FND_CSTRING_STRCPY_HPP
 
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 #include <cstring>
 
 namespace bksge
@@ -26,7 +26,7 @@ BKSGE_WARNING_DISABLE_CLANG("-Wdeprecated-declarations");
 BKSGE_WARNING_POP();
 }
 
-template <bksge::size_t N>  
+template <std::size_t N>  
 inline char*
 strcpy(char (&dest)[N], char const* src)
 {
