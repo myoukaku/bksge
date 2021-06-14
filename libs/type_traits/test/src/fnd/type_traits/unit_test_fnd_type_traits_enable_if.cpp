@@ -9,9 +9,9 @@
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_unsigned.hpp>
 #include <bksge/fnd/type_traits/is_signed.hpp>
-#include <bksge/fnd/string/string.hpp>
-#include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
+#include <string>
+#include <vector>
 
 namespace bksge_type_traits_test
 {
@@ -62,8 +62,8 @@ GTEST_TEST(TypeTraitsTest, EnableIfTest)
 	float f = 0;
 	double d = 0;
 	void* vp = 0;
-	bksge::string str;
-	bksge::vector<int> vec;
+	std::string str;
+	std::vector<int> vec;
 	A a;
 
 	EXPECT_EQ(0, func1(sc));

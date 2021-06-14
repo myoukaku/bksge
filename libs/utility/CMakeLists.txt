@@ -1,6 +1,6 @@
 ﻿cmake_minimum_required(VERSION 3.14)
 
-set(TARGET_NAME "bksge_type_traits")
+set(TARGET_NAME "bksge_utility")
 
 if (TARGET ${TARGET_NAME})
 	RETURN()
@@ -9,22 +9,12 @@ endif()
 project(${TARGET_NAME} LANGUAGES C CXX)
 
 add_library(${TARGET_NAME} INTERFACE)
-add_library(Bksge::type_traits ALIAS ${TARGET_NAME})
+add_library(Bksge::utility ALIAS ${TARGET_NAME})
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../config ${CMAKE_CURRENT_BINARY_DIR}/config)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstddef ${CMAKE_CURRENT_BINARY_DIR}/cstddef)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../functional ${CMAKE_CURRENT_BINARY_DIR}/functional)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../memory ${CMAKE_CURRENT_BINARY_DIR}/memory)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../preprocessor ${CMAKE_CURRENT_BINARY_DIR}/preprocessor)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../utility ${CMAKE_CURRENT_BINARY_DIR}/utility)
 target_link_libraries(${TARGET_NAME}
 	INTERFACE
-		Bksge::config
-		Bksge::cstddef
-		Bksge::functional
-		Bksge::memory
-		Bksge::preprocessor
-		Bksge::utility)
+		Bksge::config)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 

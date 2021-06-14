@@ -7,9 +7,9 @@
  */
 
 #include <bksge/fnd/type_traits/is_aggregate.hpp>
-#include <bksge/fnd/array.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <array>
 #include "type_traits_test_utility.hpp"
 
 namespace bksge_type_traits_test
@@ -113,7 +113,7 @@ BKSGE_IS_AGGREGATE_TEST_CV(true,  int[3]);
 BKSGE_IS_AGGREGATE_TEST_CV(false, void);
 BKSGE_IS_AGGREGATE_TEST_CV(false, void*);
 BKSGE_IS_AGGREGATE_TEST   (false, void());
-using ArrayType = bksge::array<Aggregate1, 4>;
+using ArrayType = std::array<Aggregate1, 4>;
 BKSGE_IS_AGGREGATE_TEST_CV(true,  ArrayType);
 
 #endif

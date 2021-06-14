@@ -7,9 +7,9 @@
  */
 
 #include <bksge/fnd/type_traits/is_nothrow_assignable.hpp>
-#include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <string>
 #include "type_traits_test_utility.hpp"
 
 #if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
@@ -42,7 +42,7 @@ struct S1
 struct S2
 {
 	S2& operator=(const S2&) BKSGE_NOEXCEPT_OR_NOTHROW;
-	S2& operator=(const bksge::string&) BKSGE_NOEXCEPT_OR_NOTHROW;
+	S2& operator=(const std::string&) BKSGE_NOEXCEPT_OR_NOTHROW;
 };
 
 BKSGE_IS_NOTHROW_ASSIGNABLE_TEST(false, int,		int);
@@ -106,11 +106,11 @@ BKSGE_IS_NOTHROW_ASSIGNABLE_TEST(false, const volatile S1, const volatile int);
 BKSGE_IS_NOTHROW_ASSIGNABLE_TEST(true,  S1&,	int);
 BKSGE_IS_NOTHROW_ASSIGNABLE_TEST(true,  S1&&,	int);
 BKSGE_IS_NOTHROW_ASSIGNABLE_TEST(false, S1&,	int[2]);
-BKSGE_IS_NOTHROW_ASSIGNABLE_TEST(false, S1,	bksge::string);
+BKSGE_IS_NOTHROW_ASSIGNABLE_TEST(false, S1,	std::string);
 
 BKSGE_IS_NOTHROW_ASSIGNABLE_TEST(true,  S2, S2);
 BKSGE_IS_NOTHROW_ASSIGNABLE_TEST(false, S2, int);
-BKSGE_IS_NOTHROW_ASSIGNABLE_TEST(true,  S2, bksge::string);
+BKSGE_IS_NOTHROW_ASSIGNABLE_TEST(true,  S2, std::string);
 
 BKSGE_IS_NOTHROW_ASSIGNABLE_TEST(true,  trivial_except_construct,		trivial_except_construct);
 BKSGE_IS_NOTHROW_ASSIGNABLE_TEST(true,  trivial_except_destroy,			trivial_except_destroy);

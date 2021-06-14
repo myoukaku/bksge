@@ -11,8 +11,8 @@
 #include <bksge/fnd/type_traits/is_standard_layout.hpp>
 #include <bksge/fnd/type_traits/is_trivial.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/string/string.hpp>
 #include <gtest/gtest.h>
+#include <string>
 
 namespace type_traits_test
 {
@@ -27,12 +27,12 @@ static_assert(bksge::is_trivial<aligned_1::type>::value, "");
 static_assert(sizeof(aligned_1::type) >= 128, "");
 static_assert(bksge::is_same<aligned_1::type, bksge::aligned_union_t<128, int>>::value, "");
 
-using aligned_2 = bksge::aligned_union<64, char, short, bksge::string>;
-static_assert(aligned_2::alignment_value == bksge::alignment_of<bksge::string>::value, "");
+using aligned_2 = bksge::aligned_union<64, char, short, std::string>;
+static_assert(aligned_2::alignment_value == bksge::alignment_of<std::string>::value, "");
 static_assert(bksge::is_standard_layout<aligned_2::type>::value, "");
 static_assert(bksge::is_trivial<aligned_2::type>::value, "");
 static_assert(sizeof(aligned_2::type) >= 64, "");
-static_assert(bksge::is_same<aligned_2::type, bksge::aligned_union_t<64, char, short, bksge::string>>::value, "");
+static_assert(bksge::is_same<aligned_2::type, bksge::aligned_union_t<64, char, short, std::string>>::value, "");
 
 }	// namespace aligned_union_test
 

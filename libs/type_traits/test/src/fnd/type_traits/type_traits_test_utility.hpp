@@ -12,8 +12,8 @@
 #include <bksge/fnd/config.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <gtest/gtest.h>
+#include <cstdint>
 
 namespace
 {
@@ -23,21 +23,21 @@ namespace
 //
 enum enum_UDT{ one, two, three };
 
-enum enum_uint32_t_UDT : bksge::uint32_t { four, five, six };
-enum enum_uint16_t_UDT : bksge::uint16_t { seven, eight };
-enum enum_uint8_t_UDT  : bksge::uint8_t { nine };
-enum enum_int32_t_UDT  : bksge::int32_t { ten};
-enum enum_int16_t_UDT  : bksge::int16_t { eleven };
-enum enum_int8_t_UDT   : bksge::int8_t { twelve };
+enum enum_uint32_t_UDT : std::uint32_t { four, five, six };
+enum enum_uint16_t_UDT : std::uint16_t { seven, eight };
+enum enum_uint8_t_UDT  : std::uint8_t { nine };
+enum enum_int32_t_UDT  : std::int32_t { ten};
+enum enum_int16_t_UDT  : std::int16_t { eleven };
+enum enum_int8_t_UDT   : std::int8_t { twelve };
 
 enum class enum_class_UDT { one, two, three };
 
-enum class enum_class_uint32_t_UDT : bksge::uint32_t { one, two, three };
-enum class enum_class_uint16_t_UDT : bksge::uint16_t { one, two, three };
-enum class enum_class_uint8_t_UDT  : bksge::uint8_t { one, two, three };
-enum class enum_class_int32_t_UDT  : bksge::int32_t { one, two, three };
-enum class enum_class_int16_t_UDT  : bksge::int16_t { one, two, three };
-enum class enum_class_int8_t_UDT   : bksge::int8_t { one, two, three };
+enum class enum_class_uint32_t_UDT : std::uint32_t { one, two, three };
+enum class enum_class_uint16_t_UDT : std::uint16_t { one, two, three };
+enum class enum_class_uint8_t_UDT  : std::uint8_t { one, two, three };
+enum class enum_class_int32_t_UDT  : std::int32_t { one, two, three };
+enum class enum_class_int16_t_UDT  : std::int16_t { one, two, three };
+enum class enum_class_int8_t_UDT   : std::int8_t { one, two, three };
 
 struct UDT
 {
