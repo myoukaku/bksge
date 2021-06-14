@@ -7,13 +7,12 @@
  */
 
 #include <bksge/fnd/tmp/any_of.hpp>
-#include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 
 GTEST_TEST(TmpTest, AnyOfTest)
 {
-	BKSGE_CONSTEXPR bool t = true;
-	BKSGE_CONSTEXPR bool f = false;
+	constexpr bool t = true;
+	constexpr bool f = false;
 
 	static_assert(bksge::tmp::any_of<>::value == false, "");
 
