@@ -1,6 +1,6 @@
 ﻿cmake_minimum_required(VERSION 3.14)
 
-set(TARGET_NAME "bksge_algorithm")
+set(TARGET_NAME "bksge_debug")
 
 if (TARGET ${TARGET_NAME})
 	RETURN()
@@ -9,44 +9,12 @@ endif()
 project(${TARGET_NAME} LANGUAGES C CXX)
 
 add_library(${TARGET_NAME} INTERFACE)
-add_library(Bksge::algorithm ALIAS ${TARGET_NAME})
+add_library(Bksge::debug ALIAS ${TARGET_NAME})
 
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../bit ${CMAKE_CURRENT_BINARY_DIR}/bit)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../concepts ${CMAKE_CURRENT_BINARY_DIR}/concepts)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../config ${CMAKE_CURRENT_BINARY_DIR}/config)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstddef ${CMAKE_CURRENT_BINARY_DIR}/cstddef)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstdlib ${CMAKE_CURRENT_BINARY_DIR}/cstdlib)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstring ${CMAKE_CURRENT_BINARY_DIR}/cstring)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../debug ${CMAKE_CURRENT_BINARY_DIR}/debug)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../functional ${CMAKE_CURRENT_BINARY_DIR}/functional)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../initializer_list ${CMAKE_CURRENT_BINARY_DIR}/initializer_list)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../iterator ${CMAKE_CURRENT_BINARY_DIR}/iterator)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../memory ${CMAKE_CURRENT_BINARY_DIR}/memory)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../numeric ${CMAKE_CURRENT_BINARY_DIR}/numeric)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../random ${CMAKE_CURRENT_BINARY_DIR}/random)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../ranges ${CMAKE_CURRENT_BINARY_DIR}/ranges)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../type_traits ${CMAKE_CURRENT_BINARY_DIR}/type_traits)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../utility ${CMAKE_CURRENT_BINARY_DIR}/utility)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../vector ${CMAKE_CURRENT_BINARY_DIR}/vector)
 target_link_libraries(${TARGET_NAME}
 	INTERFACE
-		Bksge::bit
-		Bksge::concepts
-		Bksge::config
-		Bksge::cstddef
-		Bksge::cstdlib
-		Bksge::cstring
-		Bksge::debug
-		Bksge::functional
-		Bksge::initializer_list
-		Bksge::iterator
-		Bksge::memory
-		Bksge::numeric
-		Bksge::random
-		Bksge::ranges
-		Bksge::type_traits
-		Bksge::utility
-		Bksge::vector)
+		Bksge::config)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
