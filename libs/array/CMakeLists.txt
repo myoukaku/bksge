@@ -11,10 +11,28 @@ project(${TARGET_NAME} LANGUAGES C CXX)
 add_library(${TARGET_NAME} INTERFACE)
 add_library(Bksge::array ALIAS ${TARGET_NAME})
 
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../algorithm ${CMAKE_CURRENT_BINARY_DIR}/algorithm)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../compare ${CMAKE_CURRENT_BINARY_DIR}/compare)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../config ${CMAKE_CURRENT_BINARY_DIR}/config)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstddef ${CMAKE_CURRENT_BINARY_DIR}/cstddef)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstring ${CMAKE_CURRENT_BINARY_DIR}/cstring)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../iterator ${CMAKE_CURRENT_BINARY_DIR}/iterator)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../stdexcept ${CMAKE_CURRENT_BINARY_DIR}/stdexcept)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../tuple ${CMAKE_CURRENT_BINARY_DIR}/tuple)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../type_traits ${CMAKE_CURRENT_BINARY_DIR}/type_traits)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../utility ${CMAKE_CURRENT_BINARY_DIR}/utility)
 target_link_libraries(${TARGET_NAME}
 	INTERFACE
-		Bksge::config)
+		Bksge::algorithm
+		Bksge::compare
+		Bksge::config
+		Bksge::cstddef
+		Bksge::cstring
+		Bksge::iterator
+		Bksge::stdexcept
+		Bksge::tuple
+		Bksge::type_traits
+		Bksge::utility)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
