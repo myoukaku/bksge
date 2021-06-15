@@ -17,8 +17,6 @@ if(BKSGE_UNITY_BUILD)
   set_target_properties(${TARGET_NAME} PROPERTIES UNITY_BUILD ON)
 endif()
 
-target_include_directories(${TARGET_NAME} PRIVATE src)
-
 include(FetchContent)
 
 FetchContent_Declare(
@@ -30,7 +28,7 @@ FetchContent_MakeAvailable(googletest)
 
 target_link_libraries(${TARGET_NAME}
 	PRIVATE
-		Bksge::ranges
+		Bksge::optional
 		GTest::gtest
 		GTest::gtest_main)
 

@@ -1,6 +1,6 @@
 ﻿cmake_minimum_required(VERSION 3.14)
 
-set(TARGET_NAME "bksge_ranges")
+set(TARGET_NAME "bksge_optional")
 
 if (TARGET ${TARGET_NAME})
 	RETURN()
@@ -9,38 +9,30 @@ endif()
 project(${TARGET_NAME} LANGUAGES C CXX)
 
 add_library(${TARGET_NAME} INTERFACE)
-add_library(Bksge::ranges ALIAS ${TARGET_NAME})
+add_library(Bksge::optional ALIAS ${TARGET_NAME})
 
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../algorithm ${CMAKE_CURRENT_BINARY_DIR}/algorithm)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../compare ${CMAKE_CURRENT_BINARY_DIR}/compare)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../concepts ${CMAKE_CURRENT_BINARY_DIR}/concepts)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../config ${CMAKE_CURRENT_BINARY_DIR}/config)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstddef ${CMAKE_CURRENT_BINARY_DIR}/cstddef)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstdlib ${CMAKE_CURRENT_BINARY_DIR}/cstdlib)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../debug ${CMAKE_CURRENT_BINARY_DIR}/debug)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../detail ${CMAKE_CURRENT_BINARY_DIR}/detail)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../exception ${CMAKE_CURRENT_BINARY_DIR}/exception)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../functional ${CMAKE_CURRENT_BINARY_DIR}/functional)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../istream ${CMAKE_CURRENT_BINARY_DIR}/istream)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../iterator ${CMAKE_CURRENT_BINARY_DIR}/iterator)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../limits ${CMAKE_CURRENT_BINARY_DIR}/limits)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../initializer_list ${CMAKE_CURRENT_BINARY_DIR}/initializer_list)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../memory ${CMAKE_CURRENT_BINARY_DIR}/memory)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../optional ${CMAKE_CURRENT_BINARY_DIR}/optional)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../tuple ${CMAKE_CURRENT_BINARY_DIR}/tuple)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../type_traits ${CMAKE_CURRENT_BINARY_DIR}/type_traits)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../utility ${CMAKE_CURRENT_BINARY_DIR}/utility)
 target_link_libraries(${TARGET_NAME}
 	INTERFACE
-		Bksge::algorithm
 		Bksge::compare
-		Bksge::concepts
 		Bksge::config
-		Bksge::cstddef
+		Bksge::cstdlib
 		Bksge::debug
+		Bksge::detail
+		Bksge::exception
 		Bksge::functional
-		Bksge::istream
-		Bksge::iterator
-		Bksge::limits
+		Bksge::initializer_list
 		Bksge::memory
-		Bksge::optional
-		Bksge::tuple
 		Bksge::type_traits
 		Bksge::utility)
 
