@@ -7,13 +7,13 @@
  */
 
 #include <bksge/fnd/iterator/concepts/output_iterator.hpp>
-#include <bksge/fnd/string/string.hpp>
-#include <bksge/fnd/set/set.hpp>
-#include <bksge/fnd/string_view.hpp>
 #include <bksge/fnd/array.hpp>
 #include <bksge/fnd/deque.hpp>
 #include <bksge/fnd/forward_list.hpp>
 #include <bksge/fnd/list.hpp>
+#include <bksge/fnd/set.hpp>
+#include <bksge/fnd/string.hpp>
+#include <bksge/fnd/string_view.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
 #include "iterator_test.hpp"
