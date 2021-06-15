@@ -28,9 +28,30 @@ FetchContent_Declare(
 option(BUILD_GMOCK "Builds the googlemock subproject" OFF)
 FetchContent_MakeAvailable(googletest)
 
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../array ${CMAKE_CURRENT_BINARY_DIR}/array)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../deque ${CMAKE_CURRENT_BINARY_DIR}/deque)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../forward_list ${CMAKE_CURRENT_BINARY_DIR}/forward_list)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../list ${CMAKE_CURRENT_BINARY_DIR}/list)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../set ${CMAKE_CURRENT_BINARY_DIR}/set)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../string ${CMAKE_CURRENT_BINARY_DIR}/string)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../string_view ${CMAKE_CURRENT_BINARY_DIR}/string_view)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../span ${CMAKE_CURRENT_BINARY_DIR}/span)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../unordered_set ${CMAKE_CURRENT_BINARY_DIR}/unordered_set)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../vector ${CMAKE_CURRENT_BINARY_DIR}/vector)
+
 target_link_libraries(${TARGET_NAME}
 	PRIVATE
 		Bksge::ranges
+		Bksge::array
+		Bksge::deque
+		Bksge::forward_list
+		Bksge::list
+		Bksge::set
+		Bksge::string
+		Bksge::string_view
+		Bksge::span
+		Bksge::unordered_set
+		Bksge::vector
 		GTest::gtest
 		GTest::gtest_main)
 
