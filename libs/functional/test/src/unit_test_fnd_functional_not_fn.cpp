@@ -19,7 +19,7 @@
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
-#include "fnd/tuple/tuple_test_utility.hpp"
+#include "tuple_test_utility.hpp"
 
 BKSGE_WARNING_PUSH()
 BKSGE_WARNING_DISABLE_CLANG("-Wunneeded-internal-declaration")

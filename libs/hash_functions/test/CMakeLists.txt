@@ -26,9 +26,14 @@ FetchContent_Declare(
 option(BUILD_GMOCK "Builds the googlemock subproject" OFF)
 FetchContent_MakeAvailable(googletest)
 
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../string ${CMAKE_CURRENT_BINARY_DIR}/string)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../vector ${CMAKE_CURRENT_BINARY_DIR}/vector)
+
 target_link_libraries(${TARGET_NAME}
 	PRIVATE
 		Bksge::hash_functions
+		Bksge::string
+		Bksge::vector
 		GTest::gtest
 		GTest::gtest_main)
 
