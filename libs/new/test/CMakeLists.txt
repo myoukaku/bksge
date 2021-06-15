@@ -26,12 +26,14 @@ FetchContent_Declare(
 option(BUILD_GMOCK "Builds the googlemock subproject" OFF)
 FetchContent_MakeAvailable(googletest)
 
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../new ${CMAKE_CURRENT_BINARY_DIR}/new)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../exception ${CMAKE_CURRENT_BINARY_DIR}/exception)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../type_traits ${CMAKE_CURRENT_BINARY_DIR}/type_traits)
 
 target_link_libraries(${TARGET_NAME}
 	PRIVATE
-		Bksge::string
 		Bksge::new
+		Bksge::exception
+		Bksge::type_traits
 		GTest::gtest
 		GTest::gtest_main)
 

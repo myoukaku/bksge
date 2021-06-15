@@ -22,8 +22,6 @@ void throw_bad_alloc(void);
 
 }	// namespace bksge
 
-#if defined(BKSGE_HEADER_ONLY)
 #include <bksge/fnd/new/inl/bad_alloc_inl.hpp>
-#endif
 
 #endif // BKSGE_FND_NEW_BAD_ALLOC_HPP

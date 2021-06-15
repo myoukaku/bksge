@@ -16,7 +16,7 @@
 namespace bksge
 {
 
-BKSGE_NORETURN BKSGE_INLINE
+BKSGE_NORETURN inline
 void throw_bad_alloc(void)
 {
 #if !defined(BKSGE_NO_EXCEPTIONS)
