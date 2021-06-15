@@ -1,0 +1,1 @@
+﻿# Bksge.Variant
