@@ -12,9 +12,17 @@ add_library(${TARGET_NAME} INTERFACE)
 add_library(Bksge::bit ALIAS ${TARGET_NAME})
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../config ${CMAKE_CURRENT_BINARY_DIR}/config)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstddef ${CMAKE_CURRENT_BINARY_DIR}/cstddef)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstdint ${CMAKE_CURRENT_BINARY_DIR}/cstdint)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstring ${CMAKE_CURRENT_BINARY_DIR}/cstring)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../type_traits ${CMAKE_CURRENT_BINARY_DIR}/type_traits)
 target_link_libraries(${TARGET_NAME}
 	INTERFACE
-		Bksge::config)
+		Bksge::config
+		Bksge::cstddef
+		Bksge::cstdint
+		Bksge::cstring
+		Bksge::type_traits)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
