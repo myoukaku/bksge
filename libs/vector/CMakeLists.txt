@@ -11,9 +11,11 @@ project(${TARGET_NAME} LANGUAGES C CXX)
 add_library(${TARGET_NAME} INTERFACE)
 add_library(Bksge::vector ALIAS ${TARGET_NAME})
 
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../algorithm ${CMAKE_CURRENT_BINARY_DIR}/algorithm)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../config ${CMAKE_CURRENT_BINARY_DIR}/config)
 target_link_libraries(${TARGET_NAME}
 	INTERFACE
+		Bksge::algorithm
 		Bksge::config)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
