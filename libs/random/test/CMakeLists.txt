@@ -17,6 +17,8 @@ if(BKSGE_UNITY_BUILD)
   set_target_properties(${TARGET_NAME} PROPERTIES UNITY_BUILD ON)
 endif()
 
+target_include_directories(${TARGET_NAME} PRIVATE src)
+
 include(FetchContent)
 
 FetchContent_Declare(
