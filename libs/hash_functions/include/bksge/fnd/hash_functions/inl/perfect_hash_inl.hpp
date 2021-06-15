@@ -16,6 +16,7 @@
 #include <bksge/fnd/algorithm/ranges/fill.hpp>
 #include <bksge/fnd/random/engines/mersenne_twister_engine.hpp>
 #include <bksge/fnd/queue.hpp>
+#include <bksge/fnd/vector.hpp>
 
 namespace bksge
 {
