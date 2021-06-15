@@ -22,8 +22,6 @@ void throw_domain_error(char const* msg);
 
 }	// namespace bksge
 
-#if defined(BKSGE_HEADER_ONLY)
 #include <bksge/fnd/stdexcept/inl/domain_error_inl.hpp>
-#endif
 
 #endif // BKSGE_FND_STDEXCEPT_DOMAIN_ERROR_HPP

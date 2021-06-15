@@ -22,8 +22,6 @@ void throw_length_error(char const* msg);
 
 }	// namespace bksge
 
-#if defined(BKSGE_HEADER_ONLY)
 #include <bksge/fnd/stdexcept/inl/length_error_inl.hpp>
-#endif
 
 #endif // BKSGE_FND_STDEXCEPT_LENGTH_ERROR_HPP

@@ -22,8 +22,6 @@ void throw_invalid_argument(char const* msg);
 
 }	// namespace bksge
 
-#if defined(BKSGE_HEADER_ONLY)
 #include <bksge/fnd/stdexcept/inl/invalid_argument_inl.hpp>
-#endif
 
 #endif // BKSGE_FND_STDEXCEPT_INVALID_ARGUMENT_HPP

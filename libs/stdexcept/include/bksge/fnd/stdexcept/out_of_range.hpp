@@ -22,8 +22,6 @@ void throw_out_of_range(char const* msg);
 
 }	// namespace bksge
 
-#if defined(BKSGE_HEADER_ONLY)
 #include <bksge/fnd/stdexcept/inl/out_of_range_inl.hpp>
-#endif
 
 #endif // BKSGE_FND_STDEXCEPT_OUT_OF_RANGE_HPP

@@ -1,6 +1,6 @@
 ﻿cmake_minimum_required(VERSION 3.14)
 
-set(TARGET_NAME "bksge_stdexcept")
+set(TARGET_NAME "bksge_exception")
 
 if (TARGET ${TARGET_NAME})
 	RETURN()
@@ -9,16 +9,7 @@ endif()
 project(${TARGET_NAME} LANGUAGES C CXX)
 
 add_library(${TARGET_NAME} INTERFACE)
-add_library(Bksge::stdexcept ALIAS ${TARGET_NAME})
-
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../config ${CMAKE_CURRENT_BINARY_DIR}/config)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstdlib ${CMAKE_CURRENT_BINARY_DIR}/cstdlib)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../string ${CMAKE_CURRENT_BINARY_DIR}/string)
-target_link_libraries(${TARGET_NAME}
-	INTERFACE
-		Bksge::config
-		Bksge::cstdlib
-		Bksge::string)
+add_library(Bksge::exception ALIAS ${TARGET_NAME})
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
@@ -98,11 +89,4 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   target_compile_options(${TARGET_NAME} INTERFACE -Wall -Wextra -Werror -Wno-missing-field-initializers)
-endif()
-
-if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-  if(BKSGE_BUILD_TESTING)
-    enable_testing()
-    add_subdirectory(test)
-  endif()
 endif()

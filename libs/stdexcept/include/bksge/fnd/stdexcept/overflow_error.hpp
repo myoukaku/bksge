@@ -22,8 +22,6 @@ void throw_overflow_error(char const* msg);
 
 }	// namespace bksge
 
-#if defined(BKSGE_HEADER_ONLY)
 #include <bksge/fnd/stdexcept/inl/overflow_error_inl.hpp>
-#endif
 
 #endif // BKSGE_FND_STDEXCEPT_OVERFLOW_ERROR_HPP

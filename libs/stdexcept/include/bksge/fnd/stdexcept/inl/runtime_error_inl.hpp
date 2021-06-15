@@ -17,7 +17,7 @@
 namespace bksge
 {
 
-BKSGE_NORETURN BKSGE_INLINE
+BKSGE_NORETURN inline
 void throw_runtime_error(char const* msg)
 {
 #if !defined(BKSGE_NO_EXCEPTIONS)
@@ -28,7 +28,7 @@ void throw_runtime_error(char const* msg)
 #endif
 }
 
-BKSGE_NORETURN BKSGE_INLINE
+BKSGE_NORETURN inline
 void throw_runtime_error(bksge::string const& msg)
 {
 #if !defined(BKSGE_NO_EXCEPTIONS)

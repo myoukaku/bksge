@@ -16,7 +16,7 @@
 namespace bksge
 {
 
-BKSGE_NORETURN BKSGE_INLINE
+BKSGE_NORETURN inline
 void throw_overflow_error(char const* msg)
 {
 #if !defined(BKSGE_NO_EXCEPTIONS)

@@ -22,8 +22,6 @@ void throw_range_error(char const* msg);
 
 }	// namespace bksge
 
-#if defined(BKSGE_HEADER_ONLY)
 #include <bksge/fnd/stdexcept/inl/range_error_inl.hpp>
-#endif
 
 #endif // BKSGE_FND_STDEXCEPT_RANGE_ERROR_HPP
