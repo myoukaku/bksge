@@ -1,6 +1,6 @@
 ﻿cmake_minimum_required(VERSION 3.14)
 
-set(TARGET_NAME "bksge_random")
+set(TARGET_NAME "bksge_ios")
 
 if (TARGET ${TARGET_NAME})
 	RETURN()
@@ -9,29 +9,17 @@ endif()
 project(${TARGET_NAME} LANGUAGES C CXX)
 
 add_library(${TARGET_NAME} INTERFACE)
-add_library(Bksge::random ALIAS ${TARGET_NAME})
+add_library(Bksge::ios ALIAS ${TARGET_NAME})
 
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../bit ${CMAKE_CURRENT_BINARY_DIR}/bit)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../concepts ${CMAKE_CURRENT_BINARY_DIR}/concepts)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../config ${CMAKE_CURRENT_BINARY_DIR}/config)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstddef ${CMAKE_CURRENT_BINARY_DIR}/cstddef)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstdint ${CMAKE_CURRENT_BINARY_DIR}/cstdint)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../ios ${CMAKE_CURRENT_BINARY_DIR}/ios)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../istream ${CMAKE_CURRENT_BINARY_DIR}/istream)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../limits ${CMAKE_CURRENT_BINARY_DIR}/limits)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../ostream ${CMAKE_CURRENT_BINARY_DIR}/ostream)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../string ${CMAKE_CURRENT_BINARY_DIR}/string)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../system_error ${CMAKE_CURRENT_BINARY_DIR}/system_error)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../type_traits ${CMAKE_CURRENT_BINARY_DIR}/type_traits)
 target_link_libraries(${TARGET_NAME}
 	INTERFACE
-		Bksge::bit
-		Bksge::concepts
 		Bksge::config
-		Bksge::cstddef
-		Bksge::cstdint
-		Bksge::ios
-		Bksge::istream
-		Bksge::limits
-		Bksge::ostream
+		Bksge::string
+		Bksge::system_error
 		Bksge::type_traits)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
