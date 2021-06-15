@@ -17,6 +17,8 @@ if(BKSGE_UNITY_BUILD)
   set_target_properties(${TARGET_NAME} PROPERTIES UNITY_BUILD ON)
 endif()
 
+target_include_directories(${TARGET_NAME} PRIVATE src)
+
 include(FetchContent)
 
 FetchContent_Declare(
@@ -26,9 +28,16 @@ FetchContent_Declare(
 option(BUILD_GMOCK "Builds the googlemock subproject" OFF)
 FetchContent_MakeAvailable(googletest)
 
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../array ${CMAKE_CURRENT_BINARY_DIR}/array)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../list ${CMAKE_CURRENT_BINARY_DIR}/list)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../vector ${CMAKE_CURRENT_BINARY_DIR}/vector)
+
 target_link_libraries(${TARGET_NAME}
 	PRIVATE
 		Bksge::numeric
+		Bksge::array
+		Bksge::list
+		Bksge::vector
 		GTest::gtest
 		GTest::gtest_main)
 
