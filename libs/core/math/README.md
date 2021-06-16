@@ -1,1 +1,1 @@
-﻿# Bksge.Algorithm
+﻿# Bksge.Math

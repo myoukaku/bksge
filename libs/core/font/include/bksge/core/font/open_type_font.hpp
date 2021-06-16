@@ -177,8 +177,6 @@ private:
 
 }	// namespace bksge
 
-#if defined(BKSGE_HEADER_ONLY)
-#include <bksge/core/input/inl/game_pad_state_inl.hpp>
-#endif
+#include <bksge/core/font/inl/open_type_font_inl.hpp>
 
 #endif // BKSGE_CORE_FONT_OPEN_TYPE_FONT_HPP

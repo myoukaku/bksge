@@ -2,7 +2,7 @@
 
 add_executable(${TARGET_NAME} sample_open_type_font_main.cpp)
 set_target_properties(${TARGET_NAME} PROPERTIES FOLDER "samples")
-target_link_libraries(${TARGET_NAME} bksge)
+target_link_libraries(${TARGET_NAME} Bksge::font)
 
 #set(ASSETS_DIR "${PROJECT_SOURCE_DIR}/assets")
 #set(ASSETS

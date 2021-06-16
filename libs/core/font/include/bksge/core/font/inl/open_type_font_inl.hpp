@@ -65,7 +65,7 @@
 namespace bksge
 {
 
-BKSGE_INLINE
+inline
 OpenTypeFont::OpenTypeFont(bksge::uint8_t const* ptr, bksge::size_t size)
 {
 	(void)size;
@@ -256,12 +256,12 @@ OpenTypeFont::OpenTypeFont(bksge::uint8_t const* ptr, bksge::size_t size)
 	}
 }
 
-BKSGE_INLINE
+inline
 OpenTypeFont::~OpenTypeFont()
 {
 }
 
-BKSGE_INLINE bksge::uint16_t
+inline bksge::uint16_t
 OpenTypeFont::GetGlyphIndex(bksge::uint32_t char_code) const
 {
 	if (m_cmap == nullptr)
