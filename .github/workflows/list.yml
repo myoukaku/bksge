@@ -1,4 +1,4 @@
-name: any
+name: list
 
 on:
   push:
@@ -21,7 +21,7 @@ jobs:
         with:
           submodules: true
       - name: Configure CMake
-        run: cmake ${{github.workspace}}/libs/fnd/any -B ${{github.workspace}}/build -G "Visual Studio 16 2019" -A "${{matrix.architecture}}" -DCMAKE_CXX_STANDARD="${{matrix.cxx_standard}}" -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
+        run: cmake ${{github.workspace}}/libs/fnd/list -B ${{github.workspace}}/build -G "Visual Studio 16 2019" -A "${{matrix.architecture}}" -DCMAKE_CXX_STANDARD="${{matrix.cxx_standard}}" -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
       - name: Build
         run: cmake --build ${{github.workspace}}/build --config ${{matrix.build_type}}
       - name: Test
