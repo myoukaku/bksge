@@ -7,6 +7,7 @@
  */
 
 #include <bksge/fnd/optional/optional.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/vector.hpp>
