@@ -11,39 +11,11 @@ project(${TARGET_NAME} LANGUAGES C CXX)
 add_library(${TARGET_NAME} INTERFACE)
 add_library(Bksge::math ALIAS ${TARGET_NAME})
 
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../fnd/algorithm ${CMAKE_CURRENT_BINARY_DIR}/algorithm)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../fnd/array ${CMAKE_CURRENT_BINARY_DIR}/array)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../fnd/cmath ${CMAKE_CURRENT_BINARY_DIR}/cmath)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../fnd/concepts ${CMAKE_CURRENT_BINARY_DIR}/concepts)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../fnd/config ${CMAKE_CURRENT_BINARY_DIR}/config)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../fnd/cstddef ${CMAKE_CURRENT_BINARY_DIR}/cstddef)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../fnd/functional ${CMAKE_CURRENT_BINARY_DIR}/functional)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../fnd/iterator ${CMAKE_CURRENT_BINARY_DIR}/iterator)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../fnd/numeric ${CMAKE_CURRENT_BINARY_DIR}/numeric)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../fnd/ostream ${CMAKE_CURRENT_BINARY_DIR}/ostream)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../fnd/preprocessor ${CMAKE_CURRENT_BINARY_DIR}/preprocessor)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../fnd/serialization ${CMAKE_CURRENT_BINARY_DIR}/serialization)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../fnd/tuple ${CMAKE_CURRENT_BINARY_DIR}/tuple)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../fnd/type_traits ${CMAKE_CURRENT_BINARY_DIR}/type_traits)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../fnd/utility ${CMAKE_CURRENT_BINARY_DIR}/utility)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../fnd ${CMAKE_CURRENT_BINARY_DIR}/fnd)
 
 target_link_libraries(${TARGET_NAME}
 	INTERFACE
-		Bksge::algorithm
-		Bksge::array
-		Bksge::cmath
-		Bksge::concepts
-		Bksge::config
-		Bksge::cstddef
-		Bksge::functional
-		Bksge::iterator
-		Bksge::numeric
-		Bksge::ostream
-		Bksge::preprocessor
-		Bksge::serialization
-		Bksge::tuple
-		Bksge::type_traits
-		Bksge::utility)
+		Bksge::fnd)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 

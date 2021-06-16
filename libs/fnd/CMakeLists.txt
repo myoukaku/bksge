@@ -1,3 +1,14 @@
+set(TARGET_NAME "bksge_fnd")
+
+if (TARGET ${TARGET_NAME})
+	RETURN()
+endif()
+
+project(${TARGET_NAME} LANGUAGES C CXX)
+
+add_library(${TARGET_NAME} INTERFACE)
+add_library(Bksge::fnd ALIAS ${TARGET_NAME})
+
 add_subdirectory(algorithm)
 add_subdirectory(any)
 add_subdirectory(array)
@@ -58,3 +69,66 @@ add_subdirectory(unordered_set)
 add_subdirectory(utility)
 add_subdirectory(variant)
 add_subdirectory(vector)
+
+target_link_libraries(${TARGET_NAME}
+	INTERFACE
+		Bksge::algorithm
+		Bksge::any
+		Bksge::array
+		Bksge::bigint
+		Bksge::bit
+		Bksge::bitset
+		Bksge::cmath
+		Bksge::compare
+		Bksge::complex
+		Bksge::concepts
+		Bksge::config
+		Bksge::cstddef
+		Bksge::cstdint
+		Bksge::cstdlib
+		Bksge::cstring
+		Bksge::debug
+		Bksge::deque
+		Bksge::detail
+		Bksge::exception
+		Bksge::forward_list
+		Bksge::functional
+		Bksge::hash_functions
+		Bksge::initializer_list
+		Bksge::ios
+		Bksge::istream
+		Bksge::iterator
+		Bksge::limits
+		Bksge::list
+		Bksge::map
+		Bksge::memory
+		Bksge::new
+		Bksge::numbers
+		Bksge::numeric
+		Bksge::optional
+		Bksge::ostream
+		Bksge::preprocessor
+		Bksge::queue
+		Bksge::random
+		Bksge::ranges
+		Bksge::ratio
+		Bksge::serialization
+		Bksge::set
+		Bksge::span
+		Bksge::sstream
+		Bksge::static_string
+		Bksge::static_vector
+		Bksge::stdexcept
+		Bksge::string
+		Bksge::string_view
+		Bksge::system_error
+		Bksge::tmp
+		Bksge::tpp
+		Bksge::tuple
+		Bksge::type_traits
+		Bksge::units
+		Bksge::unordered_map
+		Bksge::unordered_set
+		Bksge::utility
+		Bksge::variant
+		Bksge::vector)

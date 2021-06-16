@@ -28,12 +28,9 @@ FetchContent_Declare(
 option(BUILD_GMOCK "Builds the googlemock subproject" OFF)
 FetchContent_MakeAvailable(googletest)
 
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../../fnd/units ${CMAKE_CURRENT_BINARY_DIR}/algorithm)
-
 target_link_libraries(${TARGET_NAME}
 	PRIVATE
 		Bksge::math
-		Bksge::units
 		GTest::gtest
 		GTest::gtest_main)
 
