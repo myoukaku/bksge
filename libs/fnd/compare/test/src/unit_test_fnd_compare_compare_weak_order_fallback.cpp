@@ -8,6 +8,7 @@
 
 #include <bksge/fnd/compare/compare_weak_order_fallback.hpp>
 #include <bksge/fnd/compare/weak_ordering.hpp>
+#include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
