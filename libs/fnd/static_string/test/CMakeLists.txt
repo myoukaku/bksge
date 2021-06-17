@@ -19,14 +19,8 @@ endif()
 
 target_include_directories(${TARGET_NAME} PRIVATE src)
 
-include(FetchContent)
-
-FetchContent_Declare(
-  googletest
-  GIT_REPOSITORY https://github.com/google/googletest.git
-  GIT_TAG        master)
 option(BUILD_GMOCK "Builds the googlemock subproject" OFF)
-FetchContent_MakeAvailable(googletest)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../../../externals/googletest ${CMAKE_CURRENT_BINARY_DIR}/googletest)
 
 target_link_libraries(${TARGET_NAME}
 	PRIVATE
