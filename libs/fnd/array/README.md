@@ -1,6 +1,6 @@
 ﻿[![array](https://github.com/myoukaku/bksge/actions/workflows/array.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/array.yml)
 
-# Bksge.Algorithm
+# Bksge.Array
 
 このライブラリはstd::arrayの独自実装またはラッパーです。
 ほとんどの場面でstd::arrayと同じように使えます。
