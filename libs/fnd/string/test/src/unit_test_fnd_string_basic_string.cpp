@@ -13,12 +13,12 @@
 #include <bksge/fnd/compare/is_lt.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/swap.hpp>
-#include <bksge/fnd/sstream/basic_stringstream.hpp>
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
 #include <bksge/fnd/stdexcept/length_error.hpp>
 #include <bksge/fnd/memory/addressof.hpp>
 #include <bksge/fnd/new/bad_alloc.hpp>
 #include <gtest/gtest.h>
+#include <sstream>
 #include "constexpr_test.hpp"
 #include "iterator_test.hpp"
 
@@ -5527,7 +5527,7 @@ TYPED_TEST(BasicStringTest, OutputStreamTest)
 {
 	using CharT = TypeParam;
 	using string = bksge::basic_string<CharT>;
-	using stringstream = bksge::basic_stringstream<CharT>;
+	using stringstream = std::basic_stringstream<CharT>;
 	using Helper = StringTestHelper<CharT>;
 
 	string s = Helper::aababc();
@@ -5540,7 +5540,7 @@ TYPED_TEST(BasicStringTest, InputStreamTest)
 {
 	using CharT = TypeParam;
 	using string = bksge::basic_string<CharT>;
-	using stringstream = bksge::basic_stringstream<CharT>;
+	using stringstream = std::basic_stringstream<CharT>;
 	using Helper = StringTestHelper<CharT>;
 
 	{
@@ -5573,7 +5573,7 @@ TYPED_TEST(BasicStringTest, GetLineTest)
 {
 	using CharT = TypeParam;
 	using string = bksge::basic_string<CharT>;
-	using stringstream = bksge::basic_stringstream<CharT>;
+	using stringstream = std::basic_stringstream<CharT>;
 	using Helper = StringTestHelper<CharT>;
 
 	stringstream ss;

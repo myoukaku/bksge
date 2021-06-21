@@ -151,7 +151,7 @@ GTEST_TEST(Render_StencilState, OutputStreamTest)
 {
 	{
 		bksge::StencilState v;
-		bksge::stringstream ss;
+		std::stringstream ss;
 		ss << v;
 		EXPECT_EQ("{ false, 0, 0, 0, ComparisonFunction::kNever, StencilOperation::kKeep, StencilOperation::kKeep, StencilOperation::kKeep }", ss.str());
 	}
@@ -165,7 +165,7 @@ GTEST_TEST(Render_StencilState, OutputStreamTest)
 		v.SetFailOperation(bksge::StencilOperation::kIncr);
 		v.SetDepthFailOperation(bksge::StencilOperation::kDecr);
 		v.SetPassOperation(bksge::StencilOperation::kReplace);
-		bksge::wstringstream ss;
+		std::wstringstream ss;
 		ss << v;
 		EXPECT_EQ(L"{ true, 1, 2, 10, ComparisonFunction::kLessEqual, StencilOperation::kIncr, StencilOperation::kDecr, StencilOperation::kReplace }", ss.str());
 	}
@@ -185,14 +185,14 @@ GTEST_TEST(Render_StencilState, SerializeTest)
 	v.SetDepthFailOperation(bksge::StencilOperation::kInvert);
 	v.SetPassOperation(bksge::StencilOperation::kIncr);
 
-	SerializeTest<text_oarchive,   text_iarchive,   bksge::stringstream>(v);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::stringstream>(v);
-//	SerializeTest<binary_oarchive, binary_iarchive, bksge::stringstream>(v);
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v);
 
 #if !defined(BKSGE_NO_STD_WSTREAMBUF)
-	SerializeTest<text_oarchive,   text_iarchive,   bksge::wstringstream>(v);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::wstringstream>(v);
-//	SerializeTest<binary_oarchive, binary_iarchive, bksge::wstringstream>(v);
+	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
 #endif
 }
 

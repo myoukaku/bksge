@@ -11,9 +11,8 @@
 #include <bksge/fnd/serialization/text_iarchive.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/string/wstring.hpp>
-#include <bksge/fnd/sstream/stringstream.hpp>
-#include <bksge/fnd/sstream/wstringstream.hpp>
 #include <gtest/gtest.h>
+#include <sstream>
 
 namespace bksge_serialization_test
 {
@@ -64,8 +63,8 @@ GTEST_TEST(SerializationTest, StringTest)
 {
 	using namespace bksge::serialization;
 
-	StringTest<bksge::stringstream,  text_oarchive, text_iarchive>();
-	StringTest<bksge::wstringstream, text_oarchive, text_iarchive>();
+	StringTest<std::stringstream,  text_oarchive, text_iarchive>();
+	StringTest<std::wstringstream, text_oarchive, text_iarchive>();
 }
 
 }	// namespace string_test

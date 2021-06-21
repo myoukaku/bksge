@@ -27,7 +27,7 @@ static_assert(sizeof(bksge::LogicOperation) == 4, "");
 template <typename TChar>
 static void OutputStreamTestSub(bksge::LogicOperation logic_operation, const TChar* str)
 {
-	bksge::basic_stringstream<TChar> ss;
+	std::basic_stringstream<TChar> ss;
 	ss << logic_operation;
 	EXPECT_EQ(str, ss.str());
 }
@@ -76,15 +76,15 @@ GTEST_TEST(Render_LogicOperation, SerializeTest)
 	using namespace bksge::serialization;
 
 	auto const v1 = bksge::LogicOperation::kSet;
-	SerializeTest<text_oarchive,   text_iarchive,   bksge::stringstream>(v1);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::stringstream>(v1);
-//	SerializeTest<binary_oarchive, binary_iarchive, bksge::stringstream>(v1);
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v1);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v1);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v1);
 
 #if !defined(BKSGE_NO_STD_WSTREAMBUF)
 	auto const v2 = bksge::LogicOperation::kCopy;
-	SerializeTest<text_oarchive,   text_iarchive,   bksge::wstringstream>(v2);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::wstringstream>(v2);
-//	SerializeTest<binary_oarchive, binary_iarchive, bksge::wstringstream>(v2);
+	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v2);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v2);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v2);
 #endif
 }
 

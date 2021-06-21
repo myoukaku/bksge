@@ -7,10 +7,10 @@
  */
 
 #include <bksge/fnd/bigint.hpp>
-#include <bksge/fnd/sstream.hpp>
 #include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <sstream>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -24,28 +24,28 @@ template <typename BigInt>
 inline bool IStreamTest()
 {
 	{
-		bksge::stringstream ss;
+		std::stringstream ss;
 		ss << "0";
 		BigInt x{};
 		ss >> x;
 		VERIFY(x == 0);
 	}
 	{
-		bksge::stringstream ss;
+		std::stringstream ss;
 		ss << "1";
 		BigInt x{};
 		ss >> x;
 		VERIFY(x == 1);
 	}
 	{
-		bksge::stringstream ss;
+		std::stringstream ss;
 		ss << "-2";
 		BigInt x{};
 		ss >> x;
 		VERIFY(x == BigInt(-2));
 	}
 	{
-		bksge::stringstream ss;
+		std::stringstream ss;
 		ss << "12345";
 		BigInt x{};
 		ss >> x;
@@ -58,28 +58,28 @@ template <typename BigInt>
 inline bool IStreamLargeTest()
 {
 	{
-		bksge::stringstream ss;
+		std::stringstream ss;
 		ss << "0xdeadbeef";
 		BigInt x{};
 		ss >> x;
 		VERIFY(x == 3735928559);
 	}
 	{
-		bksge::stringstream ss;
+		std::stringstream ss;
 		ss << "0777777777";
 		BigInt x{};
 		ss >> x;
 		VERIFY(x == BigInt{"134217727"});
 	}
 	{
-		bksge::stringstream ss;
+		std::stringstream ss;
 		ss << "314159265358979323846264338327950288419716939937510";
 		BigInt x = 0;
 		ss >> x;
 		VERIFY(x == BigInt{"314159265358979323846264338327950288419716939937510"});
 	}
 	{
-		bksge::stringstream ss;
+		std::stringstream ss;
 		ss << "-10000000000000000000000000000000000000000000000000000000000000000000000";
 		BigInt x = 0;
 		ss >> x;

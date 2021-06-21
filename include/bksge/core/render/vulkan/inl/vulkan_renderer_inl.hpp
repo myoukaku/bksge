@@ -106,7 +106,7 @@ DebugCallback(
 	const char* pMessage,
 	void* /*pUserData*/)
 {
-	bksge::stringstream ss;
+	std::stringstream ss;
 	ss << "Vulkan DebugCall: ";
 	if ((flags & VK_DEBUG_REPORT_INFORMATION_BIT_EXT) != 0)
 	{

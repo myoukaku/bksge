@@ -27,7 +27,7 @@ static_assert(sizeof(bksge::BlendOperation) == 4, "");
 template <typename TChar>
 static void OutputStreamTestSub(bksge::BlendOperation blend_operation, const TChar* str)
 {
-	bksge::basic_stringstream<TChar> ss;
+	std::basic_stringstream<TChar> ss;
 	ss << blend_operation;
 	EXPECT_EQ(str, ss.str());
 }
@@ -55,14 +55,14 @@ GTEST_TEST(Render_BlendOperation, SerializeTest)
 
 	auto const v = bksge::BlendOperation::kReverseSubtract;
 
-	SerializeTest<text_oarchive,   text_iarchive,   bksge::stringstream>(v);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::stringstream>(v);
-//	SerializeTest<binary_oarchive, binary_iarchive, bksge::stringstream>(v);
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v);
 
 #if !defined(BKSGE_NO_STD_WSTREAMBUF)
-	SerializeTest<text_oarchive,   text_iarchive,   bksge::wstringstream>(v);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::wstringstream>(v);
-//	SerializeTest<binary_oarchive, binary_iarchive, bksge::wstringstream>(v);
+	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
 #endif
 }
 

@@ -11,8 +11,8 @@
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/concepts/swap.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <bksge/fnd/sstream/basic_stringstream.hpp>
 #include <gtest/gtest.h>
+#include <sstream>
 #include "constexpr_test.hpp"
 
 namespace bksge_static_u8string_test
@@ -3370,13 +3370,13 @@ GTEST_TEST(StaticU8StringTest, AddTest)
 GTEST_TEST(StaticU8StringTest, InputStreamTest)
 {
 	{
-		bksge::basic_stringstream<char8_t> ss(u8"abc");
+		std::basic_stringstream<char8_t> ss(u8"abc");
 		bksge::static_u8string<16> s;
 		ss >> s;
 		EXPECT_TRUE(s == u8"abc");
 	}
 	{
-		bksge::basic_stringstream<char8_t> ss(u8"Hello World");
+		std::basic_stringstream<char8_t> ss(u8"Hello World");
 		bksge::static_u8string<32> s;
 		ss >> s;
 		EXPECT_TRUE(s == u8"Hello");
@@ -3390,13 +3390,13 @@ GTEST_TEST(StaticU8StringTest, OutputStreamTest)
 {
 	{
 		bksge::static_u8string<16> const s = u8"abc";
-		bksge::basic_stringstream<char8_t> ss;
+		std::basic_stringstream<char8_t> ss;
 		ss << s;
 		EXPECT_TRUE(ss.str() == u8"abc");
 	}
 	{
 		bksge::static_u8string<32> const s = u8"Hello World";
-		bksge::basic_stringstream<char8_t> ss;
+		std::basic_stringstream<char8_t> ss;
 		ss << s;
 		EXPECT_TRUE(ss.str() == u8"Hello World");
 	}

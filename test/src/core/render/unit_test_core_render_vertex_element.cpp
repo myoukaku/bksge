@@ -61,19 +61,19 @@ GTEST_TEST(Render_VertexElement, SerializeTest)
 	const bksge::VPosition v {{1,2,3}};
 	const bksge::VNormal n {{4,5,6}};
 
-	SerializeTest<text_oarchive,   text_iarchive,   bksge::stringstream>(v);
-	SerializeTest<text_oarchive,   text_iarchive,   bksge::stringstream>(n);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::stringstream>(v);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::stringstream>(n);
-//	SerializeTest<binary_oarchive, binary_iarchive, bksge::stringstream>(v);
-//	SerializeTest<binary_oarchive, binary_iarchive, bksge::stringstream>(n);
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(n);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(n);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(n);
 
 #if !defined(BKSGE_NO_STD_WSTREAMBUF)
-	SerializeTest<text_oarchive,   text_iarchive,   bksge::wstringstream>(v);
-	SerializeTest<text_oarchive,   text_iarchive,   bksge::wstringstream>(n);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::wstringstream>(v);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::wstringstream>(n);
-//	SerializeTest<binary_oarchive, binary_iarchive, bksge::wstringstream>(v);
-//	SerializeTest<binary_oarchive, binary_iarchive, bksge::wstringstream>(n);
+	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v);
+	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(n);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(n);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(n);
 #endif
 }

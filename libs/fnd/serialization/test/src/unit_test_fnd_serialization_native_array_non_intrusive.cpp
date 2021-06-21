@@ -11,9 +11,8 @@
 #include <bksge/fnd/algorithm/equal.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
-#include <bksge/fnd/sstream/stringstream.hpp>
-#include <bksge/fnd/sstream/wstringstream.hpp>
 #include <gtest/gtest.h>
+#include <sstream>
 #include "serialization_test_utility.hpp"
 
 namespace bksge_serialization_test
@@ -124,12 +123,12 @@ void NativeArrayNonIntrusiveTest()
 GTEST_TEST(SerializationTest, NativeArrayNonIntrusiveTest)
 {
 	NativeArrayNonIntrusiveTest<
-		bksge::stringstream,
+		std::stringstream,
 		bksge::serialization::text_oarchive,
 		bksge::serialization::text_iarchive
 	>();
 	NativeArrayNonIntrusiveTest<
-		bksge::wstringstream,
+		std::wstringstream,
 		bksge::serialization::text_oarchive,
 		bksge::serialization::text_iarchive
 	>();

@@ -12,9 +12,8 @@
 #include <bksge/fnd/serialization/text_oarchive.hpp>
 #include <bksge/fnd/serialization/text_iarchive.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
-#include <bksge/fnd/sstream/stringstream.hpp>
-#include <bksge/fnd/sstream/wstringstream.hpp>
 #include <gtest/gtest.h>
+#include <sstream>
 
 namespace bksge_serialization_test
 {
@@ -97,8 +96,8 @@ GTEST_TEST(SerializationTest, SharedPtrTest)
 {
 	using namespace bksge::serialization;
 
-	SharedPtrTest<bksge::stringstream,  text_oarchive, text_iarchive>();
-	SharedPtrTest<bksge::wstringstream, text_oarchive, text_iarchive>();
+	SharedPtrTest<std::stringstream,  text_oarchive, text_iarchive>();
+	SharedPtrTest<std::wstringstream, text_oarchive, text_iarchive>();
 }
 
 }	// namespace shared_ptr_test

@@ -170,7 +170,7 @@ GTEST_TEST(Render_BlendState, OutputStreamTest)
 {
 	{
 		bksge::BlendState v;
-		bksge::stringstream ss;
+		std::stringstream ss;
 		ss << v;
 		EXPECT_EQ("{ false, BlendOperation::kAdd, BlendFactor::kOne, BlendFactor::kZero, BlendOperation::kAdd, BlendFactor::kOne, BlendFactor::kZero, ColorWriteFlag::kAll, false, LogicOperation::kCopy }", ss.str());
 	}
@@ -186,7 +186,7 @@ GTEST_TEST(Render_BlendState, OutputStreamTest)
 		v.SetColorWriteFlag(bksge::ColorWriteFlag::kGreen);
 		v.SetLogicOpEnable(true);
 		v.SetLogicOperation(bksge::LogicOperation::kInvert);
-		bksge::wstringstream ss;
+		std::wstringstream ss;
 		ss << v;
 		EXPECT_EQ(L"{ true, BlendOperation::kReverseSubtract, BlendFactor::kBlendFactor, BlendFactor::kDestAlpha, BlendOperation::kAdd, BlendFactor::kInvBlendFactor, BlendFactor::kInvSrc1Alpha, ColorWriteFlag::kGreen, true, LogicOperation::kInvert }", ss.str());
 	}
@@ -209,9 +209,9 @@ GTEST_TEST(Render_BlendState, SerializeTest)
 		v.SetLogicOpEnable(true);
 		v.SetLogicOperation(bksge::LogicOperation::kXor);
 
-		SerializeTest<text_oarchive,   text_iarchive,   bksge::stringstream>(v);
-//		SerializeTest<xml_oarchive,    xml_iarchive,    bksge::stringstream>(v);
-//		SerializeTest<binary_oarchive, binary_iarchive, bksge::stringstream>(v);
+		SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
+//		SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
+//		SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v);
 	}
 
 #if !defined(BKSGE_NO_STD_WSTREAMBUF)
@@ -227,9 +227,9 @@ GTEST_TEST(Render_BlendState, SerializeTest)
 		v.SetColorWriteFlag(bksge::ColorWriteFlag::kBlue);
 		v.SetLogicOpEnable(true);
 		v.SetLogicOperation(bksge::LogicOperation::kClear);
-		SerializeTest<text_oarchive,   text_iarchive,   bksge::wstringstream>(v);
-//		SerializeTest<xml_oarchive,    xml_iarchive,    bksge::wstringstream>(v);
-//		SerializeTest<binary_oarchive, binary_iarchive, bksge::wstringstream>(v);
+		SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v);
+//		SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
+//		SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
 	}
 #endif
 }

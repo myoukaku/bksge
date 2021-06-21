@@ -110,13 +110,13 @@ GTEST_TEST(Render_Identifier, SerializeTest)
 
 	Identifier id;
 
-	SerializeTest<text_oarchive,   text_iarchive,   bksge::stringstream> (id);
-	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::stringstream> (id);
-	SerializeTest<binary_oarchive, binary_iarchive, bksge::stringstream> (id);
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream> (id);
+	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream> (id);
+	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream> (id);
 
 #if !defined(BKSGE_NO_STD_WSTREAMBUF)
-	SerializeTest<text_woarchive,  text_wiarchive,  bksge::wstringstream>(id);
-	SerializeTest<xml_woarchive,   xml_wiarchive,   bksge::wstringstream>(id);
+	SerializeTest<text_woarchive,  text_wiarchive,  std::wstringstream>(id);
+	SerializeTest<xml_woarchive,   xml_wiarchive,   std::wstringstream>(id);
 #endif
 #endif
 }

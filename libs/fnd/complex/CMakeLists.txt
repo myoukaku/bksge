@@ -19,7 +19,6 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../debug ${CMAKE_CURRENT_BINARY_DIR
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../istream ${CMAKE_CURRENT_BINARY_DIR}/istream)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../numbers ${CMAKE_CURRENT_BINARY_DIR}/numbers)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../ostream ${CMAKE_CURRENT_BINARY_DIR}/ostream)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../sstream ${CMAKE_CURRENT_BINARY_DIR}/sstream)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../type_traits ${CMAKE_CURRENT_BINARY_DIR}/type_traits)
 target_link_libraries(${TARGET_NAME}
 	INTERFACE
@@ -31,7 +30,6 @@ target_link_libraries(${TARGET_NAME}
 		Bksge::istream
 		Bksge::numbers
 		Bksge::ostream
-		Bksge::sstream
 		Bksge::type_traits)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)

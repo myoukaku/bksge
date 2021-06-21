@@ -43,7 +43,6 @@
 [![serialization](https://github.com/myoukaku/bksge/actions/workflows/serialization.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/serialization.yml)
 [![set](https://github.com/myoukaku/bksge/actions/workflows/set.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/set.yml)
 [![span](https://github.com/myoukaku/bksge/actions/workflows/span.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/span.yml)
-[![sstream](https://github.com/myoukaku/bksge/actions/workflows/sstream.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/sstream.yml)
 [![static_string](https://github.com/myoukaku/bksge/actions/workflows/static_string.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/static_string.yml)
 [![static_vector](https://github.com/myoukaku/bksge/actions/workflows/static_vector.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/static_vector.yml)
 [![stdexcept](https://github.com/myoukaku/bksge/actions/workflows/stdexcept.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/stdexcept.yml)

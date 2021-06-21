@@ -95,7 +95,7 @@ GTEST_TEST(Render_ClearState, OutputStreamTest)
 {
 	{
 		bksge::ClearState s;
-		bksge::stringstream ss;
+		std::stringstream ss;
 		ss << s;
 		EXPECT_EQ("{ ClearFlag::kAll, { 0, 0, 0, 0 }, 1, 0 }", ss.str());
 	}
@@ -105,7 +105,7 @@ GTEST_TEST(Render_ClearState, OutputStreamTest)
 		s.SetColor({1,2,3,4});
 		s.SetDepth(0.5f);
 		s.SetStencil(2);
-		bksge::wstringstream ss;
+		std::wstringstream ss;
 		ss << s;
 		EXPECT_EQ(L"{ ClearFlag::kColor, { 1, 2, 3, 4 }, 0.5, 2 }", ss.str());
 	}
@@ -121,14 +121,14 @@ GTEST_TEST(Render_ClearState, SerializeTest)
 	s.SetDepth(1.5f);
 	s.SetStencil(10);
 
-	SerializeTest<text_oarchive,   text_iarchive,   bksge::stringstream>(s);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::stringstream>(s);
-//	SerializeTest<binary_oarchive, binary_iarchive, bksge::stringstream>(s);
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(s);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(s);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(s);
 
 #if !defined(BKSGE_NO_STD_WSTREAMBUF)
-	SerializeTest<text_oarchive,   text_iarchive,   bksge::wstringstream>(s);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::wstringstream>(s);
-//	SerializeTest<binary_oarchive, binary_iarchive, bksge::wstringstream>(s);
+	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(s);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(s);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(s);
 #endif
 }
 

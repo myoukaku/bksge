@@ -12,11 +12,11 @@
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/iterator/back_inserter.hpp>
 #include <bksge/fnd/iterator/istream_iterator.hpp>
-#include <bksge/fnd/sstream/stringstream.hpp>
 #include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
+#include <sstream>
 
 namespace bksge_algorithm_test
 {
@@ -118,7 +118,7 @@ GTEST_TEST(AlgorithmTest, UniqueCopyTest)
 		EXPECT_TRUE(b.empty());
 	}
 	{
-		bksge::stringstream ss("1 1 1 2 2 3 33");
+		std::stringstream ss("1 1 1 2 2 3 33");
 		bksge::istream_iterator<int> ii_first(ss);
 		bksge::istream_iterator<int> ii_last;
 		bksge::vector<int> b;

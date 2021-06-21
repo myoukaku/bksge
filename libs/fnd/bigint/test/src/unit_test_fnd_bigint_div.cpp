@@ -9,11 +9,11 @@
 #include <bksge/fnd/bigint.hpp>
 #include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
-#include <bksge/fnd/sstream.hpp>
 #include <bksge/fnd/random.hpp>
+#include <gtest/gtest.h>
 #include <chrono>
 #include <limits>
-#include <gtest/gtest.h>
+#include <sstream>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -31,7 +31,7 @@ inline bksge::bigint MakeRandomNumber(int digits)
 {
 	static bksge::mt19937 s_random_engine;
 
-	bksge::stringstream ss;
+	std::stringstream ss;
 	for (int i = 0; i < digits; ++i)
 	{
 		if (i == 0)

@@ -10,9 +10,8 @@
 #include <bksge/fnd/serialization/text_oarchive.hpp>
 #include <bksge/fnd/serialization/text_iarchive.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/sstream/stringstream.hpp>
-#include <bksge/fnd/sstream/wstringstream.hpp>
 #include <gtest/gtest.h>
+#include <sstream>
 
 namespace bksge_serialization_test
 {
@@ -89,8 +88,8 @@ GTEST_TEST(SerializationTest, VectorTest)
 {
 	using namespace bksge::serialization;
 
-	VectorTest<bksge::stringstream,  text_oarchive, text_iarchive>();
-	VectorTest<bksge::wstringstream, text_oarchive, text_iarchive>();
+	VectorTest<std::stringstream,  text_oarchive, text_iarchive>();
+	VectorTest<std::wstringstream, text_oarchive, text_iarchive>();
 }
 
 }	// namespace vector_test

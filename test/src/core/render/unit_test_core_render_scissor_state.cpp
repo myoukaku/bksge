@@ -67,7 +67,7 @@ GTEST_TEST(Render_ScissorState, OutputStreamTest)
 {
 	{
 		bksge::ScissorState v;
-		bksge::stringstream ss;
+		std::stringstream ss;
 		ss << v;
 		EXPECT_EQ("{ false, { 0, 0, 0, 0 } }", ss.str());
 	}
@@ -75,7 +75,7 @@ GTEST_TEST(Render_ScissorState, OutputStreamTest)
 		bksge::ScissorState v;
 		v.SetEnable(true);
 		v.SetRect({bksge::Vector2f(2, 3), bksge::Extent2f(20, 10)});
-		bksge::wstringstream ss;
+		std::wstringstream ss;
 		ss << v;
 		EXPECT_EQ(L"{ true, { 2, 3, 22, 13 } }", ss.str());
 	}
@@ -89,14 +89,14 @@ GTEST_TEST(Render_ScissorState, SerializeTest)
 	v.SetEnable(true);
 	v.SetRect({bksge::Vector2f(-5, 4), bksge::Extent2f(20, 30)});
 
-	SerializeTest<text_oarchive,   text_iarchive,   bksge::stringstream>(v);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::stringstream>(v);
-//	SerializeTest<binary_oarchive, binary_iarchive, bksge::stringstream>(v);
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v);
 
 #if !defined(BKSGE_NO_STD_WSTREAMBUF)
-	SerializeTest<text_oarchive,   text_iarchive,   bksge::wstringstream>(v);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::wstringstream>(v);
-//	SerializeTest<binary_oarchive, binary_iarchive, bksge::wstringstream>(v);
+	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
 #endif
 }
 

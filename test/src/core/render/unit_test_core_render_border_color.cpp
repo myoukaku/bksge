@@ -27,7 +27,7 @@ static_assert(sizeof(bksge::BorderColor) == 4, "");
 template <typename TChar>
 static void OutputStreamTestSub(bksge::BorderColor border_color, const TChar* str)
 {
-	bksge::basic_stringstream<TChar> ss;
+	std::basic_stringstream<TChar> ss;
 	ss << border_color;
 	EXPECT_EQ(str, ss.str());
 }
@@ -51,14 +51,14 @@ GTEST_TEST(Render_BorderColor, SerializeTest)
 
 	auto const v = bksge::BorderColor::kOpaqueWhite;
 
-	SerializeTest<text_oarchive,   text_iarchive,   bksge::stringstream>(v);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::stringstream>(v);
-//	SerializeTest<binary_oarchive, binary_iarchive, bksge::stringstream>(v);
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v);
 
 #if !defined(BKSGE_NO_STD_WSTREAMBUF)
-	SerializeTest<text_oarchive,   text_iarchive,   bksge::wstringstream>(v);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::wstringstream>(v);
-//	SerializeTest<binary_oarchive, binary_iarchive, bksge::wstringstream>(v);
+	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
 #endif
 }
 

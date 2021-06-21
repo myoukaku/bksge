@@ -16,7 +16,7 @@ int main()
 	int count = 0;
 	while (window.Update())
 	{
-		bksge::stringstream ss;
+		std::stringstream ss;
 		ss << "sample_window: " << count;
 		window.SetTitle(ss.str());
 		++count;

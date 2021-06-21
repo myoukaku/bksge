@@ -103,7 +103,7 @@ GTEST_TEST(TextureFormatTest, GetMipmappedSizeInBytesTest)
 template <typename TChar>
 static void OutputStreamTestSub(bksge::TextureFormat texture_format, const TChar* str)
 {
-	bksge::basic_stringstream<TChar> ss;
+	std::basic_stringstream<TChar> ss;
 	ss << texture_format;
 	EXPECT_EQ(str, ss.str());
 }
@@ -161,14 +161,14 @@ GTEST_TEST(TextureFormatTest, SerializeTest)
 {
 	using namespace bksge::serialization;
 
-	SerializeTest<text_oarchive,   text_iarchive,   bksge::stringstream>(bksge::TextureFormat::kRGBA_U8);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::stringstream>(bksge::TextureFormat::kR_F32);
-//	SerializeTest<binary_oarchive, binary_iarchive, bksge::stringstream>(bksge::TextureFormat::kRG_S32);
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(bksge::TextureFormat::kRGBA_U8);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(bksge::TextureFormat::kR_F32);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(bksge::TextureFormat::kRG_S32);
 
 #if !defined(BKSGE_NO_STD_WSTREAMBUF)
-	SerializeTest<text_oarchive,   text_iarchive,   bksge::wstringstream>(bksge::TextureFormat::kRGBA_U16);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::wstringstream>(bksge::TextureFormat::kBGR_U32);
-//	SerializeTest<binary_oarchive, binary_iarchive, bksge::wstringstream>(bksge::TextureFormat::kDxt1);
+	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(bksge::TextureFormat::kRGBA_U16);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(bksge::TextureFormat::kBGR_U32);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(bksge::TextureFormat::kDxt1);
 #endif
 }
 

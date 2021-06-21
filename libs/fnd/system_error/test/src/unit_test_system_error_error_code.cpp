@@ -7,11 +7,11 @@
  */
 
 #include <bksge/fnd/system_error.hpp>
-#include <bksge/fnd/sstream.hpp>
 #include <bksge/fnd/functional/hash.hpp>
 #include <bksge/fnd/ios/io_errc.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <gtest/gtest.h>
+#include <sstream>
 
 namespace bksge_system_error_test
 {
@@ -118,7 +118,7 @@ GTEST_TEST(ErrorCodeTest, MakeErrorCodeTest)
 
 GTEST_TEST(ErrorCodeTest, StreamInserterTest)
 {
-	bksge::ostringstream out;
+	std::ostringstream out;
 	out << bksge::error_code(bksge::io_errc::stream);
 	EXPECT_TRUE(out.str() == "iostream:1");
 }

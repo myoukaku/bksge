@@ -10,8 +10,6 @@
 #include <bksge/core/math/vector3.hpp>
 #include <bksge/core/math/vector2.hpp>
 #include <bksge/fnd/concepts/swap.hpp>
-#include <bksge/fnd/sstream/stringstream.hpp>
-#include <bksge/fnd/sstream/wstringstream.hpp>
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/type_traits/is_default_constructible.hpp>
@@ -22,6 +20,7 @@
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/functional/hash.hpp>
 #include <gtest/gtest.h>
+#include <sstream>
 #include "constexpr_test.hpp"
 #include "serialize_test.hpp"
 
@@ -1229,13 +1228,13 @@ TYPED_TEST(MathVector4Test, OutputStreamTest)
 	using Vector4 = bksge::math::Vector4<TypeParam>;
 	{
 		Vector4 const v{1, -2, 3, 4};
-		bksge::stringstream ss;
+		std::stringstream ss;
 		ss << v;
 		EXPECT_EQ("{ 1, -2, 3, 4 }", ss.str());
 	}
 	{
 		Vector4 const v{-10, 9, 8, -7};
-		bksge::wstringstream ss;
+		std::wstringstream ss;
 		ss << v;
 		EXPECT_EQ(L"{ -10, 9, 8, -7 }", ss.str());
 	}
@@ -1449,14 +1448,14 @@ TYPED_TEST(MathVector4Test, SerializeTest)
 
 	Vector4 const v { 1, -2, 3, -4 };
 
-	SerializeTest<text_oarchive,   text_iarchive,   bksge::stringstream>(v);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::stringstream>(v);
-//	SerializeTest<binary_oarchive, binary_iarchive, bksge::stringstream>(v);
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(v);
 
 #if !defined(BKSGE_NO_STD_WSTREAMBUF)
-	SerializeTest<text_oarchive,   text_iarchive,   bksge::wstringstream>(v);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::wstringstream>(v);
-//	SerializeTest<binary_oarchive, binary_iarchive, bksge::wstringstream>(v);
+	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(v);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(v);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(v);
 #endif
 }
 

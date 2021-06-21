@@ -50,7 +50,6 @@ add_subdirectory(ratio)
 add_subdirectory(serialization)
 add_subdirectory(set)
 add_subdirectory(span)
-add_subdirectory(sstream)
 add_subdirectory(static_string)
 add_subdirectory(static_vector)
 add_subdirectory(stdexcept)
@@ -111,7 +110,6 @@ target_link_libraries(${TARGET_NAME}
 		Bksge::serialization
 		Bksge::set
 		Bksge::span
-		Bksge::sstream
 		Bksge::static_string
 		Bksge::static_vector
 		Bksge::stdexcept

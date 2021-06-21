@@ -39,7 +39,7 @@ int main()
 		auto elapsed_time = std::chrono::duration_cast<std::chrono::nanoseconds>(t - current_time);
 		current_time = t;
 
-		bksge::stringstream ss;
+		std::stringstream ss;
 		ss << "console_window: " << std::fixed << std::setprecision(2)
 			<< std::chrono::duration<float>(1) / elapsed_time << " fps";
 		window.SetTitle(ss.str());

@@ -14,8 +14,8 @@
 #include <bksge/fnd/compare/is_lt.hpp>
 #include <bksge/fnd/concepts/swap.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <bksge/fnd/sstream/stringstream.hpp>
 #include <gtest/gtest.h>
+#include <sstream>
 #include "constexpr_test.hpp"
 
 namespace bksge_static_string_test
@@ -3388,13 +3388,13 @@ GTEST_TEST(StaticStringTest, AddTest)
 GTEST_TEST(StaticStringTest, InputStreamTest)
 {
 	{
-		bksge::stringstream ss("abc");
+		std::stringstream ss("abc");
 		bksge::static_string<16> s;
 		ss >> s;
 		EXPECT_TRUE(s == "abc");
 	}
 	{
-		bksge::stringstream ss("Hello World");
+		std::stringstream ss("Hello World");
 		bksge::static_string<32> s;
 		ss >> s;
 		EXPECT_TRUE(s == "Hello");
@@ -3407,13 +3407,13 @@ GTEST_TEST(StaticStringTest, OutputStreamTest)
 {
 	{
 		bksge::static_string<16> const s = "abc";
-		bksge::stringstream ss;
+		std::stringstream ss;
 		ss << s;
 		EXPECT_TRUE(ss.str() == "abc");
 	}
 	{
 		bksge::static_string<32> const s = "Hello World";
-		bksge::stringstream ss;
+		std::stringstream ss;
 		ss << s;
 		EXPECT_TRUE(ss.str() == "Hello World");
 	}

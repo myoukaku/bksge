@@ -12,12 +12,11 @@
 #include <bksge/fnd/cmath/iszero.hpp>
 #include <bksge/fnd/concepts/floating_point.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
-#include <bksge/fnd/sstream/stringstream.hpp>
-#include <bksge/fnd/sstream/wstringstream.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include <limits>
+#include <sstream>
 #include "constexpr_test.hpp"
 #include "complex_test_utility.hpp"
 
@@ -701,13 +700,13 @@ TYPED_TEST(ComplexTest, OutputStreamTest)
 
 	{
 		complex const c{1,2};
-		bksge::stringstream ss;
+		std::stringstream ss;
 		ss << c;
 		EXPECT_EQ("(1,2)", ss.str());
 	}
 	{
 		complex const c{-3,4};
-		bksge::wstringstream ss;
+		std::wstringstream ss;
 		ss << c;
 		EXPECT_EQ(L"(-3,4)", ss.str());
 	}
@@ -718,7 +717,7 @@ TYPED_TEST(ComplexTest, InputStreamTest)
 	using complex = bksge::complex<TypeParam>;
 
 	{
-		bksge::stringstream ss;
+		std::stringstream ss;
 		ss << "(1,2)";
 
 		complex c;
@@ -726,7 +725,7 @@ TYPED_TEST(ComplexTest, InputStreamTest)
 		EXPECT_TRUE(c == complex(1,2));
 	}
 	{
-		bksge::stringstream ss;
+		std::stringstream ss;
 		ss << "3";
 
 		complex c;
@@ -734,7 +733,7 @@ TYPED_TEST(ComplexTest, InputStreamTest)
 		EXPECT_TRUE(c == complex(3,0));
 	}
 	{
-		bksge::wstringstream ss;
+		std::wstringstream ss;
 		ss << L"(-4)";
 
 		complex c;

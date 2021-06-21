@@ -74,7 +74,6 @@ using std::atanh;
 #include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/istream/basic_istream.hpp>
 #include <bksge/fnd/ostream/basic_ostream.hpp>
-#include <bksge/fnd/sstream/basic_ostringstream.hpp>
 #include <bksge/fnd/type_traits/is_floating_point.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
 #include <bksge/fnd/numbers.hpp>
@@ -82,6 +81,7 @@ using std::atanh;
 #include <bksge/fnd/config.hpp>
 #include <ios>	// ios_base
 #include <limits>
+#include <sstream>
 
 namespace bksge
 {
@@ -469,7 +469,7 @@ template <typename T, typename CharT, typename Traits>
 bksge::basic_ostream<CharT, Traits>&
 operator<<(bksge::basic_ostream<CharT, Traits>& os, complex<T> const& x)
 {
-	bksge::basic_ostringstream<CharT, Traits> ss;
+	std::basic_ostringstream<CharT, Traits> ss;
 	ss.flags(os.flags());
 	ss.imbue(os.getloc());
 	ss.precision(os.precision());

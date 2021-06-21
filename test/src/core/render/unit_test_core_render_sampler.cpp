@@ -285,7 +285,7 @@ GTEST_TEST(Render_Sampler, OutputStreamTest)
 		sampler.SetMinLod(0.0f);
 		sampler.SetMaxLod(0.0f);
 
-		bksge::stringstream ss;
+		std::stringstream ss;
 		ss << sampler;
 		EXPECT_EQ("{ FilterMode::kNearest, FilterMode::kNearest, MipmapMode::kDisable, AddressMode::kRepeat, AddressMode::kRepeat, AddressMode::kRepeat, BorderColor::kOpaqueBlack, 0, 0 }", ss.str());
 	}
@@ -301,7 +301,7 @@ GTEST_TEST(Render_Sampler, OutputStreamTest)
 		sampler.SetMinLod(1.0f);
 		sampler.SetMaxLod(2.0f);
 
-		bksge::wstringstream ss;
+		std::wstringstream ss;
 		ss << sampler;
 		EXPECT_EQ(L"{ FilterMode::kNearest, FilterMode::kLinear, MipmapMode::kLinear, AddressMode::kClamp, AddressMode::kRepeat, AddressMode::kBorder, BorderColor::kTransparentBlack, 1, 2 }", ss.str());
 	}
@@ -313,9 +313,9 @@ GTEST_TEST(Render_Sampler, SerializeTest)
 
 	bksge::Sampler sampler;
 
-	SerializeTest<text_oarchive,   text_iarchive,   bksge::stringstream>(sampler);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::stringstream>(sampler);
-//	SerializeTest<binary_oarchive, binary_iarchive, bksge::stringstream>(sampler);
+	SerializeTest<text_oarchive,   text_iarchive,   std::stringstream>(sampler);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::stringstream>(sampler);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::stringstream>(sampler);
 
 #if !defined(BKSGE_NO_STD_WSTREAMBUF)
 	sampler.SetMinFilter(bksge::FilterMode::kNearest);
@@ -328,9 +328,9 @@ GTEST_TEST(Render_Sampler, SerializeTest)
 	sampler.SetMinLod(-2.5f);
 	sampler.SetMaxLod( 2.5f);
 
-	SerializeTest<text_oarchive,   text_iarchive,   bksge::wstringstream>(sampler);
-//	SerializeTest<xml_oarchive,    xml_iarchive,    bksge::wstringstream>(sampler);
-//	SerializeTest<binary_oarchive, binary_iarchive, bksge::wstringstream>(sampler);
+	SerializeTest<text_oarchive,   text_iarchive,   std::wstringstream>(sampler);
+//	SerializeTest<xml_oarchive,    xml_iarchive,    std::wstringstream>(sampler);
+//	SerializeTest<binary_oarchive, binary_iarchive, std::wstringstream>(sampler);
 #endif
 }
 

@@ -74,7 +74,7 @@ GTEST_TEST(Render_TypeEnum, ToStringTest)
 template <typename TChar>
 static void OutputStreamTestSub(bksge::TypeEnum t, const TChar* str)
 {
-	bksge::basic_stringstream<TChar> ss;
+	std::basic_stringstream<TChar> ss;
 	ss << t;
 	EXPECT_EQ(str, ss.str());
 }
