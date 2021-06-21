@@ -1,3 +1,0 @@
-﻿add_executable(sample_window_console_window sample_window_console_window_main.cpp)
-set_target_properties(sample_window_console_window PROPERTIES FOLDER "samples")
-target_link_libraries(sample_window_console_window PRIVATE bksge)

@@ -7,7 +7,7 @@
  */
 
 #include <bksge/core/window.hpp>
-#include <bksge/fnd/sstream/stringstream.hpp>
+#include <sstream>
 
 int main()
 {

@@ -7,7 +7,7 @@
  */
 
 #include <bksge/core/window/win32/win32_console_window.hpp>
-#include <bksge/fnd/sstream/stringstream.hpp>
+#include <sstream>
 #include <iomanip>
 #include <chrono>
 
