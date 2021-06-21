@@ -404,8 +404,8 @@ operator!=(T const& lhs, complex<T> const& rhs)
 #endif
 
 template <typename T, typename CharT, typename Traits>
-bksge::basic_istream<CharT, Traits>&
-operator>>(bksge::basic_istream<CharT, Traits>& is, complex<T>& x)
+std::basic_istream<CharT, Traits>&
+operator>>(std::basic_istream<CharT, Traits>& is, complex<T>& x)
 {
 	bool fail = true;
 	CharT ch;
