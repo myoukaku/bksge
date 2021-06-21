@@ -25,8 +25,8 @@ using std::in_range;
 #include <bksge/fnd/type_traits/is_signed.hpp>
 #include <bksge/fnd/type_traits/make_unsigned.hpp>
 #include <bksge/fnd/type_traits/detail/is_standard_integer.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -43,7 +43,7 @@ struct in_range_impl
 	static BKSGE_CONSTEXPR bool
 	invoke(T t) BKSGE_NOEXCEPT
 	{
-		return bksge::numeric_limits<U>::min() <= t && t <= bksge::numeric_limits<U>::max();
+		return std::numeric_limits<U>::min() <= t && t <= std::numeric_limits<U>::max();
 	}
 };
 
@@ -53,7 +53,7 @@ struct in_range_impl<U, T, false, true>
 	static BKSGE_CONSTEXPR bool
 	invoke(T t) BKSGE_NOEXCEPT
 	{
-		return t >= 0 && bksge::make_unsigned_t<T>(t) <= bksge::numeric_limits<U>::max();
+		return t >= 0 && bksge::make_unsigned_t<T>(t) <= std::numeric_limits<U>::max();
 	}
 };
 
@@ -63,7 +63,7 @@ struct in_range_impl<U, T, true, false>
 	static BKSGE_CONSTEXPR bool
 	invoke(T t) BKSGE_NOEXCEPT
 	{
-		return t <= bksge::make_unsigned_t<U>(bksge::numeric_limits<U>::max());
+		return t <= bksge::make_unsigned_t<U>(std::numeric_limits<U>::max());
 	}
 };
 

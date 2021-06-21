@@ -10,8 +10,8 @@
 #include <bksge/fnd/cmath/isinf.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/iszero.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 #include "complex_test_utility.hpp"
 
@@ -26,8 +26,8 @@ void Log10Test(double error)
 {
 	using complex = bksge::complex<T>;
 
-	BKSGE_CONSTEXPR auto min = bksge::numeric_limits<T>::lowest();
-	BKSGE_CONSTEXPR auto max = bksge::numeric_limits<T>::max();
+	BKSGE_CONSTEXPR auto min = std::numeric_limits<T>::lowest();
+	BKSGE_CONSTEXPR auto max = std::numeric_limits<T>::max();
 
 	// The behavior of this function is equivalent to log(z)/log(T(10)).
 	{

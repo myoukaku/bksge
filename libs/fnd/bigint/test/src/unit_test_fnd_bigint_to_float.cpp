@@ -7,10 +7,10 @@
  */
 
 #include <bksge/fnd/bigint.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -47,7 +47,7 @@ inline BKSGE_CXX14_CONSTEXPR bool ToFloatTest()
 		float       f(x);
 		double      d(x);
 		long double l(x);
-		if (bksge::numeric_limits<BigInt>::is_signed)
+		if (std::numeric_limits<BigInt>::is_signed)
 		{
 			VERIFY(f == -1);
 			VERIFY(d == -1);
@@ -69,27 +69,27 @@ inline BKSGE_CXX14_CONSTEXPR bool ToFloatTest()
 		VERIFY(d == 123);
 		VERIFY(l == 123);
 	}
-	if (bksge::numeric_limits<BigInt>::digits10 >= 40)
+	if (std::numeric_limits<BigInt>::digits10 >= 40)
 	{
-		BigInt const x = bksge::numeric_limits<float>::max();
+		BigInt const x = std::numeric_limits<float>::max();
 		float       f(x);
 		double      d(x);
 		long double l(x);
-		VERIFY(f == bksge::numeric_limits<float>::max());
-		VERIFY(d == bksge::numeric_limits<float>::max());
-		VERIFY(l == bksge::numeric_limits<float>::max());
+		VERIFY(f == std::numeric_limits<float>::max());
+		VERIFY(d == std::numeric_limits<float>::max());
+		VERIFY(l == std::numeric_limits<float>::max());
 	}
-	if (bksge::numeric_limits<BigInt>::digits10 >= 40)
+	if (std::numeric_limits<BigInt>::digits10 >= 40)
 	{
-		BigInt const x = bksge::numeric_limits<float>::lowest();
+		BigInt const x = std::numeric_limits<float>::lowest();
 		float       f(x);
 		double      d(x);
 		long double l(x);
-		if (bksge::numeric_limits<BigInt>::is_signed)
+		if (std::numeric_limits<BigInt>::is_signed)
 		{
-			VERIFY(f == bksge::numeric_limits<float>::lowest());
-			VERIFY(d == bksge::numeric_limits<float>::lowest());
-			VERIFY(l == bksge::numeric_limits<float>::lowest());
+			VERIFY(f == std::numeric_limits<float>::lowest());
+			VERIFY(d == std::numeric_limits<float>::lowest());
+			VERIFY(l == std::numeric_limits<float>::lowest());
 		}
 		else
 		{

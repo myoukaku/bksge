@@ -24,9 +24,9 @@
 #include <bksge/fnd/type_traits/is_signed.hpp>
 #include <bksge/fnd/unordered_map/unordered_map.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/ostream/basic_ostream.hpp>
 #include <iomanip>
+#include <limits>
 
 namespace bksge
 {
@@ -81,7 +81,7 @@ private:
 	template <typename T>
 	void save_float(T t)
 	{
-		auto const digits = bksge::numeric_limits<T>::max_digits10;
+		auto const digits = std::numeric_limits<T>::max_digits10;
 		m_os << std::setprecision(digits) << std::scientific << t << " ";
 	}
 

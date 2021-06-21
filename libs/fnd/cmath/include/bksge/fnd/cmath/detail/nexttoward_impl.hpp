@@ -10,9 +10,9 @@
 #define BKSGE_FND_CMATH_DETAIL_NEXTTOWARD_IMPL_HPP
 
 #include <bksge/fnd/cmath/isnan.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cmath>
+#include <limits>
 
 namespace bksge
 {
@@ -26,7 +26,7 @@ nexttoward_impl(FloatType from, long double to) BKSGE_NOEXCEPT
 {
 	return
 		bksge::isnan(from) || bksge::isnan(to) ?
-			bksge::numeric_limits<FloatType>::quiet_NaN() :
+			std::numeric_limits<FloatType>::quiet_NaN() :
 		std::nexttoward(from, to);
 }
 

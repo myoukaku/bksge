@@ -11,8 +11,8 @@
 #include <bksge/fnd/cmath/abs.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -34,11 +34,11 @@ static_assert(bksge::is_same<long double, decltype(bksge::sph_legendrel(0u, 0u, 
 template <typename T>
 void SphLegendreTestFloat(double error)
 {
-	BKSGE_CONSTEXPR auto nan    = bksge::numeric_limits<T>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf    = bksge::numeric_limits<T>::infinity();
-	BKSGE_CONSTEXPR auto lowest = bksge::numeric_limits<T>::lowest();
-	BKSGE_CONSTEXPR auto max    = bksge::numeric_limits<T>::max();
-	BKSGE_CONSTEXPR auto min    = bksge::numeric_limits<T>::min();
+	BKSGE_CONSTEXPR auto nan    = std::numeric_limits<T>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf    = std::numeric_limits<T>::infinity();
+	BKSGE_CONSTEXPR auto lowest = std::numeric_limits<T>::lowest();
+	BKSGE_CONSTEXPR auto max    = std::numeric_limits<T>::max();
+	BKSGE_CONSTEXPR auto min    = std::numeric_limits<T>::min();
 
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::sph_legendre(0u, 0u, nan)));
 
@@ -875,10 +875,10 @@ GTEST_TEST(CMathTest, SphLegendreTest)
 	SphLegendreTestFloat<double>     (0.00000000001);
 	SphLegendreTestFloat<long double>(0.00000000001);
 
-	BKSGE_CONSTEXPR auto nanf = bksge::numeric_limits<float>::quiet_NaN();
+	BKSGE_CONSTEXPR auto nanf = std::numeric_limits<float>::quiet_NaN();
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::sph_legendref(0u, 0u, nanf)));
 
-	BKSGE_CONSTEXPR auto nanl = bksge::numeric_limits<long double>::quiet_NaN();
+	BKSGE_CONSTEXPR auto nanl = std::numeric_limits<long double>::quiet_NaN();
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::sph_legendrel(0u, 0u, nanl)));
 }
 

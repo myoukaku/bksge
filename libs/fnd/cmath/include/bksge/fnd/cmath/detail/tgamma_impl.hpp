@@ -14,8 +14,8 @@
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/signbit.hpp>
 #include <bksge/fnd/cmath/is_integer.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <cmath>
+#include <limits>
 
 namespace bksge
 {
@@ -60,15 +60,15 @@ tgamma_impl(FloatType x) BKSGE_NOEXCEPT
 {
 	return
 		bksge::iszero(x) ?
-			bksge::numeric_limits<FloatType>::infinity() :
+			std::numeric_limits<FloatType>::infinity() :
 		(x < 0 && bksge::is_integer(x)) ?
-			bksge::numeric_limits<FloatType>::quiet_NaN() :
+			std::numeric_limits<FloatType>::quiet_NaN() :
 		bksge::isinf(x)  ?
 			bksge::signbit(x) ?
-				bksge::numeric_limits<FloatType>::quiet_NaN() :
-			bksge::numeric_limits<FloatType>::infinity() :
+				std::numeric_limits<FloatType>::quiet_NaN() :
+			std::numeric_limits<FloatType>::infinity() :
 		bksge::isnan(x) ?
-			bksge::numeric_limits<FloatType>::quiet_NaN() :
+			std::numeric_limits<FloatType>::quiet_NaN() :
 		tgamma_unchecked(x);
 }
 

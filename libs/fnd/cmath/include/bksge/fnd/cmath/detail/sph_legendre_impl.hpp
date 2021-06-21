@@ -19,9 +19,9 @@
 #include <bksge/fnd/cmath/legendre.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
 #include <bksge/fnd/numbers.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cmath>
+#include <limits>
 
 namespace bksge
 {
@@ -138,7 +138,7 @@ sph_legendre_impl(unsigned int l, unsigned int m, T theta)
 {
 	if (bksge::isnan(theta))
 	{
-		return bksge::numeric_limits<T>::quiet_NaN();
+		return std::numeric_limits<T>::quiet_NaN();
 	}
 
 	return sph_legendre_unchecked(l, m, theta);

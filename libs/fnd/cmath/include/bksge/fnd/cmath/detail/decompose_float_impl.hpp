@@ -16,11 +16,11 @@
 #include <bksge/fnd/cmath/isinf.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/type_traits/conditional.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/cstddef.hpp>
 #include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/array.hpp>
 #include <bksge/fnd/config.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -33,7 +33,7 @@ struct decompose_float_common
 {
 private:
 	static bksge::uint64_t constexpr sign_bits = 1;
-	static bksge::uint64_t constexpr fraction_bits = bksge::numeric_limits<T>::digits - 1;
+	static bksge::uint64_t constexpr fraction_bits = std::numeric_limits<T>::digits - 1;
 	static bksge::uint64_t constexpr exponent_bits = bksge::bitsof<T>() - 1 - fraction_bits;
 
 	static bksge::uint64_t constexpr sign_bit_shift = bksge::bitsof<T>() - 1;
@@ -44,7 +44,7 @@ private:
 	static bksge::uint64_t constexpr exponent_bit_mask  = ((1ULL << exponent_bits) - 1) << exponent_bit_shift;
 	static bksge::uint64_t constexpr fraction_bit_mask  = ((1ULL << fraction_bits) - 1) << fraction_bit_shift;
 
-	static bksge::int64_t constexpr exponent_bias = bksge::numeric_limits<T>::max_exponent - 1;
+	static bksge::int64_t constexpr exponent_bias = std::numeric_limits<T>::max_exponent - 1;
 	static bksge::int64_t constexpr exponent_max  = (1ULL << exponent_bits) - 1;
 	static bksge::int64_t constexpr fraction_bias = (1ULL << fraction_bits);
 
@@ -115,7 +115,7 @@ protected:
 // なので、単純に型で処理を分岐することはできない。
 // また、binary80の場合はパディングがあるため、sizeof(T)で分岐することもできない。
 // numeric_limits<T>::digits で処理を分岐する。
-template <typename T, bksge::size_t = bksge::numeric_limits<T>::digits>
+template <typename T, bksge::size_t = std::numeric_limits<T>::digits>
 struct decompose_float_impl_t;
 
 // 単精度浮動小数点数 (32bit)
@@ -159,7 +159,7 @@ struct decompose_float_impl_t<T, 64> : public decompose_float_common<T>
 private:
 	using base = decompose_float_common<T>;
 
-	static bksge::uint64_t constexpr fraction_bits = bksge::numeric_limits<T>::digits - 1;
+	static bksge::uint64_t constexpr fraction_bits = std::numeric_limits<T>::digits - 1;
 
     static bksge::uint64_t constexpr sign_bits = 1;
 	static bksge::uint64_t constexpr sign_bit_shift = bksge::bitsof<bksge::uint16_t>() - 1;
@@ -168,7 +168,7 @@ private:
 	static bksge::uint64_t constexpr exponent_bits = bksge::bitsof<bksge::uint16_t>() - 1;
 	static bksge::uint64_t constexpr exponent_bit_shift = 0;
 	static bksge::uint64_t constexpr exponent_bit_mask  = ((1ULL << exponent_bits) - 1) << exponent_bit_shift;
-	static bksge::uint64_t constexpr exponent_bias = bksge::numeric_limits<T>::max_exponent - 1;
+	static bksge::uint64_t constexpr exponent_bias = std::numeric_limits<T>::max_exponent - 1;
 	static bksge::uint64_t constexpr exponent_max  = (1ULL << exponent_bits) - 1;
 
 public:

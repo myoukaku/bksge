@@ -22,7 +22,6 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../functional ${CMAKE_CURRENT_BINAR
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../hash_functions ${CMAKE_CURRENT_BINARY_DIR}/hash_functions)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../istream ${CMAKE_CURRENT_BINARY_DIR}/istream)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../iterator ${CMAKE_CURRENT_BINARY_DIR}/iterator)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../limits ${CMAKE_CURRENT_BINARY_DIR}/limits)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../memory ${CMAKE_CURRENT_BINARY_DIR}/memory)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../ostream ${CMAKE_CURRENT_BINARY_DIR}/ostream)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../stdexcept ${CMAKE_CURRENT_BINARY_DIR}/stdexcept)
@@ -42,7 +41,6 @@ target_link_libraries(${TARGET_NAME}
 		Bksge::hash_functions
 		Bksge::istream
 		Bksge::iterator
-		Bksge::limits
 		Bksge::memory
 		Bksge::ostream
 		Bksge::stdexcept

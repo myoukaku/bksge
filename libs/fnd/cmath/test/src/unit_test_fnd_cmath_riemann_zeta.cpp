@@ -11,8 +11,8 @@
 #include <bksge/fnd/cmath/abs.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -35,8 +35,8 @@ template <typename T>
 void RiemannZetaTestFloat(double error)
 {
 	using Promoted = bksge::float_promote_t<T>;
-	BKSGE_CONSTEXPR auto nan = bksge::numeric_limits<Promoted>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<Promoted>::infinity();
+	BKSGE_CONSTEXPR auto nan = std::numeric_limits<Promoted>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf = std::numeric_limits<Promoted>::infinity();
 
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::riemann_zeta(nan)));
 
@@ -331,10 +331,10 @@ GTEST_TEST(CMathTest, RiemannZetaTest)
 
 	RiemannZetaTestInt<int>          (0.00000000000001);
 
-	BKSGE_CONSTEXPR auto nanf = bksge::numeric_limits<float>::quiet_NaN();
+	BKSGE_CONSTEXPR auto nanf = std::numeric_limits<float>::quiet_NaN();
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::riemann_zetaf(nanf)));
 
-	BKSGE_CONSTEXPR auto nanl = bksge::numeric_limits<long double>::quiet_NaN();
+	BKSGE_CONSTEXPR auto nanl = std::numeric_limits<long double>::quiet_NaN();
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::riemann_zetal(nanl)));
 }
 

@@ -11,8 +11,8 @@
 #include <bksge/fnd/cmath/iszero.hpp>
 #include <bksge/fnd/cmath/signbit.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -31,9 +31,9 @@ static_assert(bksge::is_same<long double, decltype(bksge::atanhl(0.0l))>::value,
 template <typename T>
 void AtanhTestFloat(double error)
 {
-	BKSGE_CONSTEXPR auto nan = bksge::numeric_limits<T>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<T>::infinity();
-	BKSGE_CONSTEXPR auto eps = bksge::numeric_limits<T>::epsilon();
+	BKSGE_CONSTEXPR auto nan = std::numeric_limits<T>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf = std::numeric_limits<T>::infinity();
+	BKSGE_CONSTEXPR auto eps = std::numeric_limits<T>::epsilon();
 
 	EXPECT_NEAR( 0.0000000000000, (double)bksge::atanh(T( 0.0)), error);
 	EXPECT_NEAR( 0.1003353477310, (double)bksge::atanh(T( 0.1)), error);
@@ -66,7 +66,7 @@ template <typename T>
 void AtanhTestSignedInt(void)
 {
 	using R = bksge::float_promote_t<T>;
-	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<R>::infinity();
+	BKSGE_CONSTEXPR auto inf = std::numeric_limits<R>::infinity();
 
 	BKSGE_CONSTEXPR_EXPECT_EQ(0.0, bksge::atanh(T(0)));
 	BKSGE_CONSTEXPR_EXPECT_EQ(+inf, bksge::atanh(T(+1)));
@@ -79,7 +79,7 @@ template <typename T>
 void AtanhTestUnsignedInt(void)
 {
 	using R = bksge::float_promote_t<T>;
-	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<R>::infinity();
+	BKSGE_CONSTEXPR auto inf = std::numeric_limits<R>::infinity();
 
 	BKSGE_CONSTEXPR_EXPECT_EQ(0.0, bksge::atanh(T(0)));
 	BKSGE_CONSTEXPR_EXPECT_EQ(+inf, bksge::atanh(T(1)));

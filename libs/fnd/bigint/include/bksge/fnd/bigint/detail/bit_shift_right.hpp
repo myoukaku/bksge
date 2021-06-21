@@ -24,8 +24,8 @@
 #include <bksge/fnd/ranges/range_value_t.hpp>
 #include <bksge/fnd/ranges/size.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -63,7 +63,7 @@ bit_shift_right(VectorType& lhs, VectorType const& rhs)
 
 	if (!bigint_algo::is_zero(quo))
 	{
-		if (bigint_algo::compare(quo, bksge::numeric_limits<bksge::size_t>::max()) > 0)
+		if (bigint_algo::compare(quo, std::numeric_limits<bksge::size_t>::max()) > 0)
 		{
 			lhs = {0};
 			return;

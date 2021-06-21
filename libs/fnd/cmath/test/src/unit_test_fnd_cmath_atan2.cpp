@@ -12,8 +12,8 @@
 #include <bksge/fnd/cmath/signbit.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/numbers.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -45,10 +45,10 @@ template <typename T1, typename T2>
 void Atan2TestFloat(double error)
 {
 	using R = bksge::float_promote_t<T1, T2>;
-	BKSGE_CONSTEXPR auto nan1 = bksge::numeric_limits<T1>::quiet_NaN();
-	BKSGE_CONSTEXPR auto nan2 = bksge::numeric_limits<T2>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf1 = bksge::numeric_limits<T1>::infinity();
-	BKSGE_CONSTEXPR auto inf2 = bksge::numeric_limits<T2>::infinity();
+	BKSGE_CONSTEXPR auto nan1 = std::numeric_limits<T1>::quiet_NaN();
+	BKSGE_CONSTEXPR auto nan2 = std::numeric_limits<T2>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf1 = std::numeric_limits<T1>::infinity();
+	BKSGE_CONSTEXPR auto inf2 = std::numeric_limits<T2>::infinity();
 
 	BKSGE_CONSTEXPR auto pi                = bksge::pi_t<R>();
 	BKSGE_CONSTEXPR auto half_pi           = bksge::pi_t<R>() / 2;

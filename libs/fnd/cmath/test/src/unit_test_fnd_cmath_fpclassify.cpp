@@ -8,8 +8,8 @@
 
 #include <bksge/fnd/cmath/fpclassify.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -26,12 +26,12 @@ static_assert(bksge::is_same<int, decltype(bksge::fpclassify(0   ))>::value, "")
 template <typename T>
 void FpClassifyTestFloat(void)
 {
-	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<T>::infinity();
-	BKSGE_CONSTEXPR auto nan = bksge::numeric_limits<T>::quiet_NaN();
-	BKSGE_CONSTEXPR auto min = bksge::numeric_limits<T>::min();
-	BKSGE_CONSTEXPR auto max = bksge::numeric_limits<T>::max();
-	BKSGE_CONSTEXPR auto lowest = bksge::numeric_limits<T>::lowest();
-	BKSGE_CONSTEXPR auto denorm_min = bksge::numeric_limits<T>::denorm_min();
+	BKSGE_CONSTEXPR auto inf = std::numeric_limits<T>::infinity();
+	BKSGE_CONSTEXPR auto nan = std::numeric_limits<T>::quiet_NaN();
+	BKSGE_CONSTEXPR auto min = std::numeric_limits<T>::min();
+	BKSGE_CONSTEXPR auto max = std::numeric_limits<T>::max();
+	BKSGE_CONSTEXPR auto lowest = std::numeric_limits<T>::lowest();
+	BKSGE_CONSTEXPR auto denorm_min = std::numeric_limits<T>::denorm_min();
 
 	EXPECT_EQ(FP_INFINITE,  bksge::fpclassify(+inf));
 	EXPECT_EQ(FP_INFINITE,  bksge::fpclassify(-inf));
@@ -53,8 +53,8 @@ void FpClassifyTestFloat(void)
 template <typename T>
 void FpClassifyTestSignedInt(void)
 {
-	BKSGE_CONSTEXPR auto min = bksge::numeric_limits<T>::min();
-	BKSGE_CONSTEXPR auto max = bksge::numeric_limits<T>::max();
+	BKSGE_CONSTEXPR auto min = std::numeric_limits<T>::min();
+	BKSGE_CONSTEXPR auto max = std::numeric_limits<T>::max();
 
 	EXPECT_EQ(FP_ZERO,   bksge::fpclassify(T( 0)));
 	EXPECT_EQ(FP_NORMAL, bksge::fpclassify(T(-1)));
@@ -68,8 +68,8 @@ void FpClassifyTestSignedInt(void)
 template <typename T>
 void FpClassifyTestUnsignedInt(void)
 {
-	BKSGE_CONSTEXPR auto min = bksge::numeric_limits<T>::min();
-	BKSGE_CONSTEXPR auto max = bksge::numeric_limits<T>::max();
+	BKSGE_CONSTEXPR auto min = std::numeric_limits<T>::min();
+	BKSGE_CONSTEXPR auto max = std::numeric_limits<T>::max();
 
 	EXPECT_EQ(FP_ZERO,   bksge::fpclassify(T( 0)));
 	EXPECT_EQ(FP_NORMAL, bksge::fpclassify(T( 1)));

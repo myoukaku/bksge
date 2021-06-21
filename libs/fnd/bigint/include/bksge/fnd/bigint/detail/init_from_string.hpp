@@ -15,8 +15,8 @@
 #include <bksge/fnd/stdexcept/runtime_error.hpp>
 #include <bksge/fnd/ranges/range_value_t.hpp>
 #include <bksge/fnd/string_view.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -138,10 +138,10 @@ init_from_string(VectorType& value, bksge::basic_string_view<CharT> str)
 	auto const base = init_from_string_detail::base_from_string<element_type>(&str);
 
 	bksge::size_t const count =
-		base == 16 ?    bksge::numeric_limits<element_type>::digits / 4 - 1 :
-		base == 10 ?    bksge::numeric_limits<element_type>::digits10 :
-		base == 8 ?     bksge::numeric_limits<element_type>::digits / 3 - 1 :
-		/*base == 2 ?*/ bksge::numeric_limits<element_type>::digits;
+		base == 16 ?    std::numeric_limits<element_type>::digits / 4 - 1 :
+		base == 10 ?    std::numeric_limits<element_type>::digits10 :
+		base == 8 ?     std::numeric_limits<element_type>::digits / 3 - 1 :
+		/*base == 2 ?*/ std::numeric_limits<element_type>::digits;
 
 	value = {0};
 	while (!str.empty())

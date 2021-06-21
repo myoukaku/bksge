@@ -11,8 +11,8 @@
 #include <bksge/fnd/cmath/abs.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -32,8 +32,8 @@ template <typename T>
 void ExpintTest(double error)
 {
 	using Promoted = bksge::float_promote_t<T>;
-	BKSGE_CONSTEXPR auto nan = bksge::numeric_limits<Promoted>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<Promoted>::infinity();
+	BKSGE_CONSTEXPR auto nan = std::numeric_limits<Promoted>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf = std::numeric_limits<Promoted>::infinity();
 
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::expint(nan)));
 	BKSGE_CONSTEXPR_EXPECT_EQ(-inf, bksge::expint(T( 0)));
@@ -164,14 +164,14 @@ GTEST_TEST(CMathTest, ExpintTest)
 	ExpintTest<long double>(0.00000000000001);
 	ExpintTest<int>        (0.00000000000001);
 
-	BKSGE_CONSTEXPR auto nanf = bksge::numeric_limits<float>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inff = bksge::numeric_limits<float>::infinity();
+	BKSGE_CONSTEXPR auto nanf = std::numeric_limits<float>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inff = std::numeric_limits<float>::infinity();
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::expintf(nanf)));
 	BKSGE_CONSTEXPR_EXPECT_EQ(-inff, bksge::expintf( 0.0f));
 	BKSGE_CONSTEXPR_EXPECT_EQ(-inff, bksge::expintf(-0.0f));
 
-	BKSGE_CONSTEXPR auto nanl = bksge::numeric_limits<long double>::quiet_NaN();
-	BKSGE_CONSTEXPR auto infl = bksge::numeric_limits<long double>::infinity();
+	BKSGE_CONSTEXPR auto nanl = std::numeric_limits<long double>::quiet_NaN();
+	BKSGE_CONSTEXPR auto infl = std::numeric_limits<long double>::infinity();
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::expintl(nanl)));
 	BKSGE_CONSTEXPR_EXPECT_EQ(-infl, bksge::expintl( 0.0l));
 	BKSGE_CONSTEXPR_EXPECT_EQ(-infl, bksge::expintl(-0.0l));

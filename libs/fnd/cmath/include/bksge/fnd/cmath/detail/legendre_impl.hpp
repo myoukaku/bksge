@@ -13,9 +13,9 @@
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
 #include <bksge/fnd/utility/swap.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cmath>
+#include <limits>
 
 namespace bksge
 {
@@ -82,12 +82,12 @@ legendre_impl(unsigned int n, T x)
 {
 	if (bksge::abs(x) > T(1))
 	{
-		return bksge::numeric_limits<T>::quiet_NaN();
+		return std::numeric_limits<T>::quiet_NaN();
 	}
 
 	if (bksge::isnan(x))
 	{
-		return bksge::numeric_limits<T>::quiet_NaN();
+		return std::numeric_limits<T>::quiet_NaN();
 	}
 
 	return legendre_unchecked(n, x);

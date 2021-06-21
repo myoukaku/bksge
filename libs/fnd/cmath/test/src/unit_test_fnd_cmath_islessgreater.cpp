@@ -8,8 +8,8 @@
 
 #include <bksge/fnd/cmath/islessgreater.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -38,14 +38,14 @@ static_assert(bksge::is_same<bool, decltype(bksge::islessgreater(0   , 0   ))>::
 template <typename T1, typename T2>
 void IsLessGreaterTestFloat(void)
 {
-	BKSGE_CONSTEXPR auto nan1 = bksge::numeric_limits<T1>::quiet_NaN();
-	BKSGE_CONSTEXPR auto nan2 = bksge::numeric_limits<T2>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf1 = bksge::numeric_limits<T1>::infinity();
-	BKSGE_CONSTEXPR auto inf2 = bksge::numeric_limits<T2>::infinity();
-	BKSGE_CONSTEXPR auto min1 = bksge::numeric_limits<T1>::min();
-	BKSGE_CONSTEXPR auto min2 = bksge::numeric_limits<T2>::min();
-	BKSGE_CONSTEXPR auto max1 = bksge::numeric_limits<T1>::max();
-	BKSGE_CONSTEXPR auto max2 = bksge::numeric_limits<T2>::max();
+	BKSGE_CONSTEXPR auto nan1 = std::numeric_limits<T1>::quiet_NaN();
+	BKSGE_CONSTEXPR auto nan2 = std::numeric_limits<T2>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf1 = std::numeric_limits<T1>::infinity();
+	BKSGE_CONSTEXPR auto inf2 = std::numeric_limits<T2>::infinity();
+	BKSGE_CONSTEXPR auto min1 = std::numeric_limits<T1>::min();
+	BKSGE_CONSTEXPR auto min2 = std::numeric_limits<T2>::min();
+	BKSGE_CONSTEXPR auto max1 = std::numeric_limits<T1>::max();
+	BKSGE_CONSTEXPR auto max2 = std::numeric_limits<T2>::max();
 
 	BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::islessgreater(T1(0.0), T2(0.0)));
 	BKSGE_CONSTEXPR_EXPECT_TRUE (bksge::islessgreater(T1(1.0), T2(0.0)));

@@ -11,9 +11,9 @@
 
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/fabs.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cmath>
+#include <limits>
 
 namespace bksge
 {
@@ -60,7 +60,7 @@ acos_impl(FloatType x) BKSGE_NOEXCEPT
 		bksge::isnan(x) ?
 			x :
 		bksge::fabs(x) > FloatType(1) ?
-			bksge::numeric_limits<FloatType>::quiet_NaN() :
+			std::numeric_limits<FloatType>::quiet_NaN() :
 		x == FloatType(1) ?
 			FloatType(0) :
 		acos_unchecked(x);

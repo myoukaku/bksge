@@ -10,8 +10,8 @@
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/abs.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -31,10 +31,10 @@ template <typename T>
 void AssocLaguerreTest(double error)
 {
 	using Promoted = bksge::float_promote_t<T>;
-	BKSGE_CONSTEXPR auto nan = bksge::numeric_limits<Promoted>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<Promoted>::infinity();
-	BKSGE_CONSTEXPR auto min = bksge::numeric_limits<Promoted>::lowest();
-	BKSGE_CONSTEXPR auto max = bksge::numeric_limits<Promoted>::max();
+	BKSGE_CONSTEXPR auto nan = std::numeric_limits<Promoted>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf = std::numeric_limits<Promoted>::infinity();
+	BKSGE_CONSTEXPR auto min = std::numeric_limits<Promoted>::lowest();
+	BKSGE_CONSTEXPR auto max = std::numeric_limits<Promoted>::max();
 
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_laguerre(0, 0, nan)));
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_laguerre(1, 1, nan)));
@@ -847,13 +847,13 @@ GTEST_TEST(CMathTest, AssocLaguerreTest)
 	AssocLaguerreTest<long double>(0.0000000000001);
 	AssocLaguerreTest<int>        (0.0000000000001);
 
-	BKSGE_CONSTEXPR auto nanf = bksge::numeric_limits<float>::quiet_NaN();
+	BKSGE_CONSTEXPR auto nanf = std::numeric_limits<float>::quiet_NaN();
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_laguerref(0, 0, nanf)));
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_laguerref(1, 1, nanf)));
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_laguerref(0, 2, -1.0f)));
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_laguerref(1, 3, -1.0f)));
 
-	BKSGE_CONSTEXPR auto nanl = bksge::numeric_limits<long double>::quiet_NaN();
+	BKSGE_CONSTEXPR auto nanl = std::numeric_limits<long double>::quiet_NaN();
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_laguerrel(0, 0, nanl)));
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_laguerrel(1, 1, nanl)));
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_laguerrel(0, 2, -1.0l)));

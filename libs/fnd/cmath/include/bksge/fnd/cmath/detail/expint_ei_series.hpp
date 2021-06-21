@@ -10,9 +10,9 @@
 #define BKSGE_FND_CMATH_DETAIL_EXPINT_EI_SERIES_HPP
 
 #include <bksge/fnd/cmath/log.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/numbers.hpp>
 #include <bksge/fnd/config.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -31,7 +31,7 @@ expint_Ei_series(T x)
 	{
 		term *= x / i;
 		sum += term / i;
-		if (term < bksge::numeric_limits<T>::epsilon() * sum)
+		if (term < std::numeric_limits<T>::epsilon() * sum)
 		{
 			break;
 		}

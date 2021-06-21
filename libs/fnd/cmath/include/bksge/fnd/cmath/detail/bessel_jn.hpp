@@ -21,8 +21,8 @@
 #include <bksge/fnd/stdexcept/runtime_error.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/numbers.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -55,17 +55,17 @@ bessel_jn(T nu, T x, T& Jnu, T& Nnu, T& Jpnu, T& Npnu)
 			Jnu = T(0);
 			Jpnu = T(0);
 		}
-		Nnu = -bksge::numeric_limits<T>::infinity();
-		Npnu = bksge::numeric_limits<T>::infinity();
+		Nnu = -std::numeric_limits<T>::infinity();
+		Npnu = std::numeric_limits<T>::infinity();
 		return;
 	}
 
-	const T eps = bksge::numeric_limits<T>::epsilon();
+	const T eps = std::numeric_limits<T>::epsilon();
 	//  When the multiplier is N i.e.
 	//  fp_min = N * min()
 	//  Then J_0 and N_0 tank at x = 8 * N (J_0 = 0 and N_0 = nan)!
-	//const T fp_min = T(20) * bksge::numeric_limits<T>::min();
-	const T fp_min = bksge::sqrt(bksge::numeric_limits<T>::min());
+	//const T fp_min = T(20) * std::numeric_limits<T>::min();
+	const T fp_min = bksge::sqrt(std::numeric_limits<T>::min());
 	const int max_iter = 15000;
 	const T x_min = T(2);
 

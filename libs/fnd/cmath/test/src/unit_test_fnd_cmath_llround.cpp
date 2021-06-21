@@ -8,8 +8,8 @@
 
 #include <bksge/fnd/cmath/llround.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -28,14 +28,14 @@ static_assert(bksge::is_same<long long, decltype(bksge::llround(0   ))>::value, 
 template <typename T>
 void LLRoundTestFloat(void)
 {
-	BKSGE_CONSTEXPR auto nan = bksge::numeric_limits<T>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<T>::infinity();
-	BKSGE_CONSTEXPR auto min = bksge::numeric_limits<T>::lowest();
-	BKSGE_CONSTEXPR auto max = bksge::numeric_limits<T>::max();
-	BKSGE_CONSTEXPR auto eps = bksge::numeric_limits<T>::epsilon() * 2;
+	BKSGE_CONSTEXPR auto nan = std::numeric_limits<T>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf = std::numeric_limits<T>::infinity();
+	BKSGE_CONSTEXPR auto min = std::numeric_limits<T>::lowest();
+	BKSGE_CONSTEXPR auto max = std::numeric_limits<T>::max();
+	BKSGE_CONSTEXPR auto eps = std::numeric_limits<T>::epsilon() * 2;
 
-	BKSGE_CONSTEXPR auto llmin = bksge::numeric_limits<long long>::lowest();
-	BKSGE_CONSTEXPR auto llmax = bksge::numeric_limits<long long>::max();
+	BKSGE_CONSTEXPR auto llmin = std::numeric_limits<long long>::lowest();
+	BKSGE_CONSTEXPR auto llmax = std::numeric_limits<long long>::max();
 
 	BKSGE_CONSTEXPR_EXPECT_EQ(-2L,  bksge::llround(T(-1.5) - eps));
 	BKSGE_CONSTEXPR_EXPECT_EQ(-2L,  bksge::llround(T(-1.5)));

@@ -10,8 +10,8 @@
 #define BKSGE_FND_CMATH_DETAIL_EXPINT_EI_ASYMP_HPP
 
 #include <bksge/fnd/cmath/exp.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -31,7 +31,7 @@ expint_Ei_asymp(T x)
 		T prev = term;
 		term *= i / x;
 
-		if (term < bksge::numeric_limits<T>::epsilon())
+		if (term < std::numeric_limits<T>::epsilon())
 		{
 			break;
 		}

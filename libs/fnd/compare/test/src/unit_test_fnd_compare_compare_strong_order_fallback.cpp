@@ -8,9 +8,9 @@
 
 #include <bksge/fnd/compare/compare_strong_order_fallback.hpp>
 #include <bksge/fnd/compare/strong_ordering.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_compare_test
@@ -54,8 +54,8 @@ inline BKSGE_CXX17_CONSTEXPR bool test01()
 	X x1 { 0 };
 	X x2 { 1 };
 	X x3 {-1 };
-	X x4 { bksge::numeric_limits<int>::max() };
-	X x5 { bksge::numeric_limits<int>::min() };
+	X x4 { std::numeric_limits<int>::max() };
+	X x5 { std::numeric_limits<int>::min() };
 
 	VERIFY(compare_strong_order_fallback(x1, x1) == strong_ordering::equal);
 	VERIFY(compare_strong_order_fallback(x1, x2) == strong_ordering::less);

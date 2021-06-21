@@ -13,9 +13,9 @@
 #include <bksge/fnd/cmath/abs.hpp>
 #include <bksge/fnd/cmath/detail/ellint_rf.hpp>
 #include <bksge/fnd/cmath/detail/ellint_rj.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cmath>
+#include <limits>
 
 namespace bksge
 {
@@ -73,17 +73,17 @@ comp_ellint_3_impl(T k, T nu)
 {
 	if (bksge::isnan(k) || bksge::isnan(nu))
 	{
-		return bksge::numeric_limits<T>::quiet_NaN();
+		return std::numeric_limits<T>::quiet_NaN();
 	}
 
 	if (bksge::abs(k) > T(1))
 	{
-		return bksge::numeric_limits<T>::quiet_NaN();
+		return std::numeric_limits<T>::quiet_NaN();
 	}
 
 	if (bksge::abs(k) == T(1))
 	{
-		return bksge::numeric_limits<T>::infinity();
+		return std::numeric_limits<T>::infinity();
 	}
 
 	return comp_ellint_3_unchecked(k, nu);

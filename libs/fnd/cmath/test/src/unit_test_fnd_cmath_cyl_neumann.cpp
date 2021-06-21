@@ -10,8 +10,8 @@
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/abs.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -46,12 +46,12 @@ template <typename T1, typename T2>
 void CylNeumannTest(double error)
 {
 	using Promoted = bksge::float_promote_t<T1, T2>;
-	BKSGE_CONSTEXPR auto nan1 = bksge::numeric_limits<T1>::quiet_NaN();
-	BKSGE_CONSTEXPR auto nan2 = bksge::numeric_limits<T2>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<Promoted>::infinity();
-	BKSGE_CONSTEXPR auto lowest = bksge::numeric_limits<Promoted>::lowest();
-	BKSGE_CONSTEXPR auto max = bksge::numeric_limits<Promoted>::max();
-	BKSGE_CONSTEXPR auto min = bksge::numeric_limits<Promoted>::min();
+	BKSGE_CONSTEXPR auto nan1 = std::numeric_limits<T1>::quiet_NaN();
+	BKSGE_CONSTEXPR auto nan2 = std::numeric_limits<T2>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf = std::numeric_limits<Promoted>::infinity();
+	BKSGE_CONSTEXPR auto lowest = std::numeric_limits<Promoted>::lowest();
+	BKSGE_CONSTEXPR auto max = std::numeric_limits<Promoted>::max();
+	BKSGE_CONSTEXPR auto min = std::numeric_limits<Promoted>::min();
 
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::cyl_neumann(nan1, nan2)));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::cyl_neumann(nan1, T2(0))));
@@ -587,12 +587,12 @@ GTEST_TEST(CMathTest, CylNeumannTest)
 	CylNeumannTest<long double, double>     (0.0000000001);
 	CylNeumannTest<long double, long double>(0.0000000001);
 
-	BKSGE_CONSTEXPR auto nanf = bksge::numeric_limits<float>::quiet_NaN();
+	BKSGE_CONSTEXPR auto nanf = std::numeric_limits<float>::quiet_NaN();
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::cyl_neumannf(nanf, nanf)));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::cyl_neumannf(nanf, 0.0f)));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::cyl_neumannf(0.0f, nanf)));
 
-	BKSGE_CONSTEXPR auto nanl = bksge::numeric_limits<long double>::quiet_NaN();
+	BKSGE_CONSTEXPR auto nanl = std::numeric_limits<long double>::quiet_NaN();
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::cyl_neumannl(nanl, nanl)));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::cyl_neumannl(nanl, 0.0l)));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::cyl_neumannl(0.0l, nanl)));

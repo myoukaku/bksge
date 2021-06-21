@@ -63,10 +63,10 @@ using std::basic_string;
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/swap.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <initializer_list>
+#include <limits>
 
 namespace bksge
 {
@@ -510,13 +510,13 @@ private:
 	{
 		difference_type const d = difference_type(n1 - n2);
 
-		if (d > bksge::numeric_limits<int>::max())
+		if (d > std::numeric_limits<int>::max())
 		{
-			return bksge::numeric_limits<int>::max();
+			return std::numeric_limits<int>::max();
 		}
-		else if (d < bksge::numeric_limits<int>::min())
+		else if (d < std::numeric_limits<int>::min())
 		{
-			return bksge::numeric_limits<int>::min();
+			return std::numeric_limits<int>::min();
 		}
 		else
 		{

@@ -19,9 +19,9 @@
 #include <bksge/fnd/cmath/detail/ellint_rd.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
 #include <bksge/fnd/numbers.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cmath>
+#include <limits>
 
 namespace bksge
 {
@@ -96,17 +96,17 @@ ellint_2_impl(T k, T phi_)
 {
 	if (bksge::isnan(k) || bksge::isnan(phi_))
 	{
-		return bksge::numeric_limits<T>::quiet_NaN();
+		return std::numeric_limits<T>::quiet_NaN();
 	}
 
 	if (bksge::abs(k) > T(1))
 	{
-		return bksge::numeric_limits<T>::quiet_NaN();
+		return std::numeric_limits<T>::quiet_NaN();
 	}
 
 	//if (bksge::abs(k) == T(1) && bksge::abs(phi_) >= (bksge::pi_t<T>() / 2))
 	//{
-	//	return bksge::numeric_limits<T>::infinity();
+	//	return std::numeric_limits<T>::infinity();
 	//}
 
 	return ellint_2_unchecked(k, phi_);

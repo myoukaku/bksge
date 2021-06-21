@@ -14,8 +14,8 @@
 #include <bksge/fnd/cmath/sin.hpp>
 #include <bksge/fnd/cmath/sqrt.hpp>
 #include <bksge/fnd/numbers.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -39,7 +39,7 @@ cyl_bessel_jn_asymp(T nu, T x, T& Jnu, T& Nnu)
 	int epsP = 0;
 	int epsQ = 0;
 
-	T eps = bksge::numeric_limits<T>::epsilon();
+	T eps = std::numeric_limits<T>::epsilon();
 
 	do
 	{

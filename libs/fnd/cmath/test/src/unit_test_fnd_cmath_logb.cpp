@@ -9,8 +9,8 @@
 #include <bksge/fnd/cmath/logb.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -29,8 +29,8 @@ static_assert(bksge::is_same<long double, decltype(bksge::logbl(0.0l))>::value, 
 template <typename T>
 void LogbTestFloat(void)
 {
-	BKSGE_CONSTEXPR auto nan = bksge::numeric_limits<T>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<T>::infinity();
+	BKSGE_CONSTEXPR auto nan = std::numeric_limits<T>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf = std::numeric_limits<T>::infinity();
 
 	EXPECT_EQ( 4, bksge::logb(T(-17.0)));
 	EXPECT_EQ( 4, bksge::logb(T(-16.0)));
@@ -77,7 +77,7 @@ template <typename T>
 void LogbTestSignedInt(void)
 {
 	using R = bksge::float_promote_t<T>;
-	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<R>::infinity();
+	BKSGE_CONSTEXPR auto inf = std::numeric_limits<R>::infinity();
 
 	EXPECT_EQ( 4, bksge::logb(T(-17)));
 	EXPECT_EQ( 4, bksge::logb(T(-16)));
@@ -109,7 +109,7 @@ template <typename T>
 void LogbTestUnsignedInt(void)
 {
 	using R = bksge::float_promote_t<T>;
-	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<R>::infinity();
+	BKSGE_CONSTEXPR auto inf = std::numeric_limits<R>::infinity();
 
 	EXPECT_EQ( 0, bksge::logb(T(  1)));
 	EXPECT_EQ( 1, bksge::logb(T(  2)));

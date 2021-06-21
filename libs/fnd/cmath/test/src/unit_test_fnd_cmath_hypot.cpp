@@ -10,8 +10,8 @@
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/sqrt.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -107,10 +107,10 @@ static_assert(bksge::is_same<double,      decltype(bksge::hypot(0   , 0   , 0   
 template <typename T>
 void HypotTestFloat(double error)
 {
-	BKSGE_CONSTEXPR auto nan    = bksge::numeric_limits<T>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf    = bksge::numeric_limits<T>::infinity();
-	BKSGE_CONSTEXPR auto max    = bksge::numeric_limits<T>::max();
-	BKSGE_CONSTEXPR auto lowest = bksge::numeric_limits<T>::lowest();
+	BKSGE_CONSTEXPR auto nan    = std::numeric_limits<T>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf    = std::numeric_limits<T>::infinity();
+	BKSGE_CONSTEXPR auto max    = std::numeric_limits<T>::max();
+	BKSGE_CONSTEXPR auto lowest = std::numeric_limits<T>::lowest();
 
 	EXPECT_NEAR(0.0000000000000000000000000000000, (double)bksge::hypot(T( 0.0), T( 0.0)), error);
 	EXPECT_NEAR(0.5000000000000000000000000000000, (double)bksge::hypot(T( 0.0), T( 0.5)), error);
@@ -263,8 +263,8 @@ void Hypot3TestFloat(double error)
 	EXPECT_NEAR(0.01000099995,               (double)bksge::hypot(T(1e-2), T(1e-4), T(1e-4)), error);
 	EXPECT_NEAR(371955077.2902952,           (double)bksge::hypot(T(214748364), T(214748364), T(214748364)), error*1e7);
 
-	BKSGE_CONSTEXPR auto nan = bksge::numeric_limits<T>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<T>::infinity();
+	BKSGE_CONSTEXPR auto nan = std::numeric_limits<T>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf = std::numeric_limits<T>::infinity();
 
 	BKSGE_CONSTEXPR_EXPECT_EQ(+inf, bksge::hypot(+inf, +inf, +inf));
 	BKSGE_CONSTEXPR_EXPECT_EQ(+inf, bksge::hypot(+inf, +inf, -inf));
@@ -340,7 +340,7 @@ void Hypot3TestInteger(void)
 {
 	BKSGE_CONSTEXPR double error = 1e-12;
 
-	BKSGE_CONSTEXPR auto max = bksge::numeric_limits<T>::max();
+	BKSGE_CONSTEXPR auto max = std::numeric_limits<T>::max();
 
 	EXPECT_NEAR(0.0,              bksge::hypot(T( 0), T( 0), T( 0)), error);
 	EXPECT_NEAR(bksge::sqrt(2.0), bksge::hypot(T( 1), T( 0), T( 1)), error);

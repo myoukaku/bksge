@@ -12,9 +12,9 @@
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/isinf.hpp>
 #include <bksge/fnd/cmath/iszero.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cmath>
+#include <limits>
 
 namespace bksge
 {
@@ -38,7 +38,7 @@ remquo_impl(FloatType x, FloatType y, int* quo) BKSGE_NOEXCEPT
 		bksge::isnan(y) ||
 		bksge::isinf(x) ||
 		bksge::iszero(y) ?
-			bksge::numeric_limits<FloatType>::quiet_NaN() :
+			std::numeric_limits<FloatType>::quiet_NaN() :
 		remquo_unchecked(x, y, quo);
 }
 

@@ -12,8 +12,8 @@
 #include <bksge/fnd/cmath/abs.hpp>
 #include <bksge/fnd/cmath/exp.hpp>
 #include <bksge/fnd/stdexcept/runtime_error.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -26,8 +26,8 @@ T
 expint_En_cont_frac(unsigned int n, T x)
 {
 	unsigned int const max_iter = 1000;
-	T const eps = bksge::numeric_limits<T>::epsilon();
-	T const fp_min = bksge::numeric_limits<T>::min();
+	T const eps = std::numeric_limits<T>::epsilon();
+	T const fp_min = std::numeric_limits<T>::min();
 	int const nm1 = n - 1;
 	T b = x + T(n);
 	T c = T(1) / fp_min;

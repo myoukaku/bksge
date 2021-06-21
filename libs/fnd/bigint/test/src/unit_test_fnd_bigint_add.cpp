@@ -8,10 +8,10 @@
 
 #include <bksge/fnd/bigint.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -99,8 +99,8 @@ inline BKSGE_CXX14_CONSTEXPR bool Add2Test()
 		auto x = (-2) + BigInt2{3};
 		VERIFY(x == 1);
 	}
-	if (bksge::numeric_limits<BigInt1>::is_signed &&
-		bksge::numeric_limits<BigInt2>::is_signed)
+	if (std::numeric_limits<BigInt1>::is_signed &&
+		std::numeric_limits<BigInt2>::is_signed)
 	{
 		auto x = BigInt1(-2) + BigInt2(-3);
 		VERIFY(x == -5);
@@ -186,8 +186,8 @@ inline BKSGE_CXX14_CONSTEXPR bool Add2LargeTest()
 	{
 		auto x = BigInt1{"3565257399734975859457283787877529836964"} +
 			     BigInt2{"-7966969762968552357477389456772596794377"};
-		if (bksge::numeric_limits<BigInt1>::is_signed &&
-			bksge::numeric_limits<BigInt2>::is_signed)
+		if (std::numeric_limits<BigInt1>::is_signed &&
+			std::numeric_limits<BigInt2>::is_signed)
 		{
 			VERIFY(x == BigInt1{"-4401712363233576498020105668895066957413"});
 		}

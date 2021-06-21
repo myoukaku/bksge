@@ -12,8 +12,8 @@
 #include <bksge/fnd/cmath/signbit.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/numbers.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -32,9 +32,9 @@ static_assert(bksge::is_same<long double, decltype(bksge::logl(0.0l))>::value, "
 template <typename T>
 void LogTestFloat(double error)
 {
-	BKSGE_CONSTEXPR auto nan = bksge::numeric_limits<T>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<T>::infinity();
-	BKSGE_CONSTEXPR auto eps = bksge::numeric_limits<T>::epsilon();
+	BKSGE_CONSTEXPR auto nan = std::numeric_limits<T>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf = std::numeric_limits<T>::infinity();
+	BKSGE_CONSTEXPR auto eps = std::numeric_limits<T>::epsilon();
 
 	EXPECT_NEAR(-1.38629436111989, (double)bksge::log(T(0.25)), error);
 	EXPECT_NEAR(-0.69314718055995, (double)bksge::log(T(0.50)), error);
@@ -73,7 +73,7 @@ template <typename T>
 void LogTestSignedInt(void)
 {
 	using R = bksge::float_promote_t<T>;
-	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<R>::infinity();
+	BKSGE_CONSTEXPR auto inf = std::numeric_limits<R>::infinity();
 
 	BKSGE_CONSTEXPR double error = 0.000000000001;
 
@@ -90,7 +90,7 @@ template <typename T>
 void LogTestUnsignedInt(void)
 {
 	using R = bksge::float_promote_t<T>;
-	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<R>::infinity();
+	BKSGE_CONSTEXPR auto inf = std::numeric_limits<R>::infinity();
 
 	BKSGE_CONSTEXPR double error = 0.000000000001;
 

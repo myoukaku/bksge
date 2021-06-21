@@ -9,9 +9,9 @@
 #include <bksge/fnd/cmath/isnormal.hpp>
 #include <bksge/fnd/cmath/exp.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH()
@@ -31,12 +31,12 @@ static_assert(bksge::is_same<bool, decltype(bksge::isnormal(0   ))>::value, "");
 template <typename T>
 void IsNormalTestFloat(void)
 {
-	BKSGE_CONSTEXPR auto nan    = bksge::numeric_limits<T>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf    = bksge::numeric_limits<T>::infinity();
-	BKSGE_CONSTEXPR auto min    = bksge::numeric_limits<T>::min();
-	BKSGE_CONSTEXPR auto max    = bksge::numeric_limits<T>::max();
-	BKSGE_CONSTEXPR auto lowest = bksge::numeric_limits<T>::lowest();
-	BKSGE_CONSTEXPR auto denorm_min = bksge::numeric_limits<T>::denorm_min();
+	BKSGE_CONSTEXPR auto nan    = std::numeric_limits<T>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf    = std::numeric_limits<T>::infinity();
+	BKSGE_CONSTEXPR auto min    = std::numeric_limits<T>::min();
+	BKSGE_CONSTEXPR auto max    = std::numeric_limits<T>::max();
+	BKSGE_CONSTEXPR auto lowest = std::numeric_limits<T>::lowest();
+	BKSGE_CONSTEXPR auto denorm_min = std::numeric_limits<T>::denorm_min();
 	T zero = 0;	// MSVCでのエラーを避けるために変数にする
 
 	BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::isnormal(inf));
@@ -67,8 +67,8 @@ void IsNormalTestFloat(void)
 template <typename T>
 void IsNormalTestSignedInt(void)
 {
-	BKSGE_CONSTEXPR auto min = bksge::numeric_limits<T>::min();
-	BKSGE_CONSTEXPR auto max = bksge::numeric_limits<T>::max();
+	BKSGE_CONSTEXPR auto min = std::numeric_limits<T>::min();
+	BKSGE_CONSTEXPR auto max = std::numeric_limits<T>::max();
 
 	BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::isnormal(T(0)));
 	BKSGE_CONSTEXPR_EXPECT_TRUE (bksge::isnormal(T(-1)));
@@ -80,8 +80,8 @@ void IsNormalTestSignedInt(void)
 template <typename T>
 void IsNormalTestUnsignedInt(void)
 {
-	BKSGE_CONSTEXPR auto min = bksge::numeric_limits<T>::min();
-	BKSGE_CONSTEXPR auto max = bksge::numeric_limits<T>::max();
+	BKSGE_CONSTEXPR auto min = std::numeric_limits<T>::min();
+	BKSGE_CONSTEXPR auto max = std::numeric_limits<T>::max();
 
 	BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::isnormal(T(0)));
 	BKSGE_CONSTEXPR_EXPECT_TRUE (bksge::isnormal(T(1)));

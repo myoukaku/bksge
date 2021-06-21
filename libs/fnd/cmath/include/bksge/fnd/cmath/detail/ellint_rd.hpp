@@ -13,8 +13,8 @@
 #include <bksge/fnd/cmath/abs.hpp>
 #include <bksge/fnd/cmath/sqrt.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -26,20 +26,20 @@ template <typename T>
 inline BKSGE_CXX14_CONSTEXPR T
 ellint_rd(T x, T y, T z)
 {
-	T const eps = bksge::numeric_limits<T>::epsilon();
+	T const eps = std::numeric_limits<T>::epsilon();
 	T const errtol = bksge::pow(eps / T(8), T(1) / T(6));
-	T const max = bksge::numeric_limits<T>::max();
+	T const max = std::numeric_limits<T>::max();
 	T const lolim = T(2) / bksge::pow(max, T(2) / T(3));
 
 	if (x < T(0) || y < T(0))
 	{
 		//bksge::throw_domain_error("Argument less than zero in ellint_rd.");
-		return bksge::numeric_limits<T>::quiet_NaN();
+		return std::numeric_limits<T>::quiet_NaN();
 	}
 	else if (x + y < lolim || z < lolim)
 	{
 		//bksge::throw_domain_error("Argument too small in ellint_rd.");
-		return bksge::numeric_limits<T>::quiet_NaN();
+		return std::numeric_limits<T>::quiet_NaN();
 	}
 	else
 	{

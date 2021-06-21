@@ -37,8 +37,8 @@ lrint_impl(FloatType x) BKSGE_NOEXCEPT
 			0L :
 		bksge::isinf(x) ?
 			bksge::signbit(x) ?
-				bksge::numeric_limits<long>::min() :
-				bksge::numeric_limits<long>::max() :
+				std::numeric_limits<long>::min() :
+				std::numeric_limits<long>::max() :
 		lrint_unchecked(x);
 }
 

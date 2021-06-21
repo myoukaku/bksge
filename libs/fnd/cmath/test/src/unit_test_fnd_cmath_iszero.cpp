@@ -8,9 +8,9 @@
 
 #include <bksge/fnd/cmath/iszero.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -31,11 +31,11 @@ BKSGE_WARNING_DISABLE_MSVC(4723)	// 除算の 2 番目のオペランドは、�
 template <typename T>
 void IsZeroTestFloat(void)
 {
-	BKSGE_CONSTEXPR auto nan    = bksge::numeric_limits<T>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf    = bksge::numeric_limits<T>::infinity();
-	BKSGE_CONSTEXPR auto min    = bksge::numeric_limits<T>::min();
-	BKSGE_CONSTEXPR auto max    = bksge::numeric_limits<T>::max();
-	BKSGE_CONSTEXPR auto lowest = bksge::numeric_limits<T>::lowest();
+	BKSGE_CONSTEXPR auto nan    = std::numeric_limits<T>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf    = std::numeric_limits<T>::infinity();
+	BKSGE_CONSTEXPR auto min    = std::numeric_limits<T>::min();
+	BKSGE_CONSTEXPR auto max    = std::numeric_limits<T>::max();
+	BKSGE_CONSTEXPR auto lowest = std::numeric_limits<T>::lowest();
 	T zero = 0;	// MSVCでのエラーを避けるために変数にする
 
 	BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::iszero(inf));
@@ -64,8 +64,8 @@ BKSGE_WARNING_POP()
 template <typename T>
 void IsZeroTestSignedInt(void)
 {
-	BKSGE_CONSTEXPR auto min = bksge::numeric_limits<T>::min();
-	BKSGE_CONSTEXPR auto max = bksge::numeric_limits<T>::max();
+	BKSGE_CONSTEXPR auto min = std::numeric_limits<T>::min();
+	BKSGE_CONSTEXPR auto max = std::numeric_limits<T>::max();
 
 	BKSGE_CONSTEXPR_EXPECT_TRUE (bksge::iszero(T(0)));
 	BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::iszero(T(-1)));
@@ -77,8 +77,8 @@ void IsZeroTestSignedInt(void)
 template <typename T>
 void IsZeroTestUnsignedInt(void)
 {
-	BKSGE_CONSTEXPR auto min = bksge::numeric_limits<T>::min();
-	BKSGE_CONSTEXPR auto max = bksge::numeric_limits<T>::max();
+	BKSGE_CONSTEXPR auto min = std::numeric_limits<T>::min();
+	BKSGE_CONSTEXPR auto max = std::numeric_limits<T>::max();
 
 	BKSGE_CONSTEXPR_EXPECT_TRUE (bksge::iszero(T(0)));
 	BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::iszero(T(1)));

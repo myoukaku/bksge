@@ -25,8 +25,8 @@ using std::to_wstring;
 
 #else
 
-#include <bksge/fnd/limits.hpp>
 #include <cwchar>	// swprintf
+#include <limits>
 
 namespace bksge
 {
@@ -83,21 +83,21 @@ to_wstring(unsigned long long val)
 inline wstring
 to_wstring(float val)
 {
-	constexpr int n = bksge::numeric_limits<float>::max_exponent10 + 20;
+	constexpr int n = std::numeric_limits<float>::max_exponent10 + 20;
 	return detail::to_wstring_impl<n>(L"%f", val);
 }
 
 inline wstring
 to_wstring(double val)
 {
-	constexpr int n = bksge::numeric_limits<double>::max_exponent10 + 20;
+	constexpr int n = std::numeric_limits<double>::max_exponent10 + 20;
 	return detail::to_wstring_impl<n>(L"%f", val);
 }
 
 inline wstring
 to_wstring(long double val)
 {
-	constexpr int n = bksge::numeric_limits<long double>::max_exponent10 + 20;
+	constexpr int n = std::numeric_limits<long double>::max_exponent10 + 20;
 	return detail::to_wstring_impl<n>(L"%Lf", val);
 }
 

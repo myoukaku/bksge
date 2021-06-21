@@ -10,9 +10,9 @@
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
 #include <cfenv>
+#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -42,8 +42,8 @@ nearbyint_helper(T x, int round_mode)
 template <typename T>
 void NearbyIntTestFloat(void)
 {
-	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<T>::infinity();
-	BKSGE_CONSTEXPR auto nan = bksge::numeric_limits<T>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf = std::numeric_limits<T>::infinity();
+	BKSGE_CONSTEXPR auto nan = std::numeric_limits<T>::quiet_NaN();
 
 	EXPECT_EQ(T( 0.0), nearbyint_helper(T( 0.0), FE_DOWNWARD));
 	EXPECT_EQ(T( 2.0), nearbyint_helper(T( 2.5), FE_DOWNWARD));

@@ -12,8 +12,8 @@
 #include <bksge/fnd/cmath/iszero.hpp>
 #include <bksge/fnd/cmath/signbit.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -30,9 +30,9 @@ static_assert(bksge::is_same<long double, decltype(bksge::rsqrt(0.0l))>::value, 
 template <typename T>
 void RsqrtTestFloat(void)
 {
-	BKSGE_CONSTEXPR auto nan = bksge::numeric_limits<T>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<T>::infinity();
-	BKSGE_CONSTEXPR auto eps = bksge::numeric_limits<T>::epsilon();
+	BKSGE_CONSTEXPR auto nan = std::numeric_limits<T>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf = std::numeric_limits<T>::infinity();
+	BKSGE_CONSTEXPR auto eps = std::numeric_limits<T>::epsilon();
 
 	BKSGE_CONSTEXPR double error = 0.0000001;
 
@@ -62,7 +62,7 @@ template <typename T>
 void RsqrtTestSignedInt(void)
 {
 	using R = bksge::float_promote_t<T>;
-	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<R>::infinity();
+	BKSGE_CONSTEXPR auto inf = std::numeric_limits<R>::infinity();
 
 	BKSGE_CONSTEXPR double error = 0.0000001;
 
@@ -80,7 +80,7 @@ template <typename T>
 void RsqrtTestUnsignedInt(void)
 {
 	using R = bksge::float_promote_t<T>;
-	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<R>::infinity();
+	BKSGE_CONSTEXPR auto inf = std::numeric_limits<R>::infinity();
 
 	BKSGE_CONSTEXPR double error = 0.0000001;
 

@@ -16,8 +16,8 @@
 #include <bksge/fnd/cmath/copysign.hpp>
 #include <bksge/fnd/cmath/signbit.hpp>
 #include <bksge/fnd/numbers.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <cmath>
+#include <limits>
 
 namespace bksge
 {
@@ -62,7 +62,7 @@ atan2_impl(FloatType y, FloatType x) BKSGE_NOEXCEPT
 {
 	return
 		bksge::isnan(x) || bksge::isnan(y) ?
-			bksge::numeric_limits<FloatType>::quiet_NaN() :
+			std::numeric_limits<FloatType>::quiet_NaN() :
 		bksge::iszero(y) ?
 			bksge::signbit(x) ?
 				bksge::copysign(bksge::pi_t<FloatType>(), y) :

@@ -19,8 +19,8 @@
 #include <bksge/fnd/cmath/detail/gamma_temme.hpp>
 #include <bksge/fnd/stdexcept/runtime_error.hpp>
 #include <bksge/fnd/numbers.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -53,13 +53,13 @@ bessel_ik(T nu, T x, T& Inu, T& Knu, T& Ipnu, T& Kpnu)
 			Inu = T(0);
 			Ipnu = T(0);
 		}
-		Knu = bksge::numeric_limits<T>::infinity();
-		Kpnu = -bksge::numeric_limits<T>::infinity();
+		Knu = std::numeric_limits<T>::infinity();
+		Kpnu = -std::numeric_limits<T>::infinity();
 		return;
 	}
 
-	const T eps = bksge::numeric_limits<T>::epsilon();
-	const T fp_min = T(10) * bksge::numeric_limits<T>::epsilon();
+	const T eps = std::numeric_limits<T>::epsilon();
+	const T fp_min = T(10) * std::numeric_limits<T>::epsilon();
 	const int max_iter = 15000;
 	const T x_min = T(2);
 

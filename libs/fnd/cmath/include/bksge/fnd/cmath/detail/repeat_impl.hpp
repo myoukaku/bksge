@@ -12,8 +12,8 @@
 #include <bksge/fnd/cmath/floor.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/isinf.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -47,7 +47,7 @@ repeat_impl(FloatType x, FloatType min, FloatType max) BKSGE_NOEXCEPT
 		bksge::isinf(min) ||
 		bksge::isinf(max) ||
 		min > max ?
-			bksge::numeric_limits<FloatType>::quiet_NaN() :
+			std::numeric_limits<FloatType>::quiet_NaN() :
 		min == max ?
 			min :
 		repeat_unchecked(x, min, max);

@@ -13,9 +13,9 @@
 #include <bksge/fnd/cmath/iszero.hpp>
 #include <bksge/fnd/cmath/detail/expint_ei.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cmath>
+#include <limits>
 
 namespace bksge
 {
@@ -68,12 +68,12 @@ expint_impl(T x)
 {
 	if (bksge::isnan(x))
 	{
-		return bksge::numeric_limits<T>::quiet_NaN();
+		return std::numeric_limits<T>::quiet_NaN();
 	}
 
 	if (bksge::iszero(x))
 	{
-		return -bksge::numeric_limits<T>::infinity();
+		return -std::numeric_limits<T>::infinity();
 	}
 
 	return expint_unchecked(x);

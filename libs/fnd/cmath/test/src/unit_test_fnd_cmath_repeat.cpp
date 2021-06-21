@@ -10,8 +10,8 @@
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -216,8 +216,8 @@ void RepeatTestSignedInt(void)
 template <typename T>
 void RepeatTestFloat(void)
 {
-	BKSGE_CONSTEXPR auto nan = bksge::numeric_limits<T>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<T>::infinity();
+	BKSGE_CONSTEXPR auto nan = std::numeric_limits<T>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf = std::numeric_limits<T>::infinity();
 	BKSGE_CONSTEXPR double error = 0.0001;
 
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::repeat(nan,  T(0), T(0))));

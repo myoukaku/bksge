@@ -10,8 +10,8 @@
 #include <bksge/fnd/cmath/isinf.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -30,8 +30,8 @@ static_assert(bksge::is_same<long double, decltype(bksge::tgammal(0.0l))>::value
 template <typename T>
 void TgammaTestFloat(double error)
 {
-	BKSGE_CONSTEXPR auto nan = bksge::numeric_limits<T>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<T>::infinity();
+	BKSGE_CONSTEXPR auto nan = std::numeric_limits<T>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf = std::numeric_limits<T>::infinity();
 
 	/*BKSGE_CONSTEXPR_*/EXPECT_NEAR( 1.77245385090551602729, (double)bksge::tgamma(T( 0.5)), error);
 	/*BKSGE_CONSTEXPR_*/EXPECT_NEAR( 1.00000000000000000000, (double)bksge::tgamma(T( 1.0)), error);

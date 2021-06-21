@@ -23,8 +23,8 @@
 #include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/ranges/range_value_t.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -119,7 +119,7 @@ div_mod(VectorType const& lhs, VectorType const& rhs, VectorType* out_remainder)
 		{
 			// remainder / rhs をバイナリサーチで探す
 			double_element_type left = 1;
-			double_element_type right = bksge::numeric_limits<element_type>::max();
+			double_element_type right = std::numeric_limits<element_type>::max();
 			right++;
 
 			while (right - left > 1)

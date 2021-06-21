@@ -14,8 +14,8 @@
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/copysign.hpp>
 #include <bksge/fnd/numbers.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <cmath>	// TODO
+#include <limits>
 
 namespace bksge
 {
@@ -64,7 +64,7 @@ atan_impl(FloatType x) BKSGE_NOEXCEPT
 		bksge::isinf(x) ?
 			bksge::copysign(bksge::pi_t<FloatType>() / 2, x) :
 		bksge::isnan(x) ?
-			bksge::numeric_limits<FloatType>::quiet_NaN() :
+			std::numeric_limits<FloatType>::quiet_NaN() :
 		atan_unchecked(x);
 }
 

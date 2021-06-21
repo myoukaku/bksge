@@ -15,9 +15,9 @@
 #include <bksge/fnd/sstream/stringstream.hpp>
 #include <bksge/fnd/sstream/wstringstream.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 #include "complex_test_utility.hpp"
 
@@ -559,7 +559,7 @@ inline BKSGE_CXX14_CONSTEXPR bool DivTest()
 {
 	using complex = bksge::complex<T>;
 
-	auto const max = bksge::numeric_limits<T>::max();
+	auto const max = std::numeric_limits<T>::max();
 	double const error = 0.0000001;
 
 	// complex<T> operator/(const complex<T>& lhs, const complex<T>& rhs);
@@ -605,8 +605,8 @@ inline bool DivTest2()
 {
 	using complex = bksge::complex<T>;
 
-	auto const nan = bksge::numeric_limits<T>::quiet_NaN();
-	auto const inf = bksge::numeric_limits<T>::infinity();
+	auto const nan = std::numeric_limits<T>::quiet_NaN();
+	auto const inf = std::numeric_limits<T>::infinity();
 	{
 		auto c = complex(1, 2) / complex(inf, inf);
 		static_assert(bksge::is_same<decltype(c), complex>::value, "");
@@ -748,7 +748,7 @@ inline BKSGE_CXX14_CONSTEXPR bool AbsTest()
 {
 	using complex = bksge::complex<T>;
 
-	auto const max = bksge::numeric_limits<T>::max();
+	auto const max = std::numeric_limits<T>::max();
 	double const error = 0.0000001;
 	{
 		complex const c{1,2};
@@ -878,7 +878,7 @@ inline BKSGE_CXX14_CONSTEXPR bool ProjTest()
 {
 	using complex = bksge::complex<T>;
 
-	auto inf = bksge::numeric_limits<T>::infinity();
+	auto inf = std::numeric_limits<T>::infinity();
 	{
 		complex const c{1, 2};
 		VERIFY(bksge::proj(c) == complex(1, 2));

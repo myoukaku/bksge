@@ -7,10 +7,10 @@
  */
 
 #include <bksge/fnd/bigint.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -45,8 +45,8 @@ inline BKSGE_CXX14_CONSTEXPR bool ModTest()
 		x %= BigInt2(1);
 		VERIFY(x == 0);
 	}
-	if (bksge::numeric_limits<BigInt1>::is_signed &&
-		bksge::numeric_limits<BigInt2>::is_signed)
+	if (std::numeric_limits<BigInt1>::is_signed &&
+		std::numeric_limits<BigInt2>::is_signed)
 	{
 		auto x = BigInt1(-51);
 		VERIFY(x == -51);

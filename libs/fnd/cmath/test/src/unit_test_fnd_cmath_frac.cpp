@@ -9,8 +9,8 @@
 #include <bksge/fnd/cmath/frac.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -56,11 +56,11 @@ void FracTestFloat(void)
 	BKSGE_CONSTEXPR_EXPECT_NEAR(0.1,    (double)bksge::frac(T( 2.1)),    error);
 	BKSGE_CONSTEXPR_EXPECT_NEAR(0.2,    (double)bksge::frac(T( 2.2)),    error);
 
-	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<T>::infinity();
+	BKSGE_CONSTEXPR auto inf = std::numeric_limits<T>::infinity();
 	BKSGE_CONSTEXPR_EXPECT_EQ(T(0.0), bksge::frac(T( inf)));
 	BKSGE_CONSTEXPR_EXPECT_EQ(T(0.0), bksge::frac(T(-inf)));
 
-	BKSGE_CONSTEXPR auto nan = bksge::numeric_limits<T>::quiet_NaN();
+	BKSGE_CONSTEXPR auto nan = std::numeric_limits<T>::quiet_NaN();
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::frac(T( nan))));
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::frac(T(-nan))));
 }
@@ -68,8 +68,8 @@ void FracTestFloat(void)
 template <typename T>
 void FracTestSignedInt(void)
 {
-	BKSGE_CONSTEXPR auto max    = bksge::numeric_limits<T>::max();
-	BKSGE_CONSTEXPR auto lowest = bksge::numeric_limits<T>::lowest();
+	BKSGE_CONSTEXPR auto max    = std::numeric_limits<T>::max();
+	BKSGE_CONSTEXPR auto lowest = std::numeric_limits<T>::lowest();
 
 	BKSGE_CONSTEXPR_EXPECT_EQ(T(0), bksge::frac(T(lowest)));
 	BKSGE_CONSTEXPR_EXPECT_EQ(T(0), bksge::frac(T(-2)));
@@ -83,7 +83,7 @@ void FracTestSignedInt(void)
 template <typename T>
 void FracTestUnsignedInt(void)
 {
-	BKSGE_CONSTEXPR auto max = bksge::numeric_limits<T>::max();
+	BKSGE_CONSTEXPR auto max = std::numeric_limits<T>::max();
 
 	BKSGE_CONSTEXPR_EXPECT_EQ(T(0), bksge::frac(T(0)));
 	BKSGE_CONSTEXPR_EXPECT_EQ(T(0), bksge::frac(T(1)));

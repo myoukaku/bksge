@@ -12,8 +12,8 @@
 #include <bksge/fnd/cmath/iszero.hpp>
 #include <bksge/fnd/cmath/isinf.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <cmath>
+#include <limits>
 
 namespace bksge
 {
@@ -60,7 +60,7 @@ cos_impl(FloatType x) BKSGE_NOEXCEPT
 		bksge::iszero(x) ?
 			FloatType(1) :
 		bksge::isinf(x) || bksge::isnan(x) ?
-			bksge::numeric_limits<FloatType>::quiet_NaN() :
+			std::numeric_limits<FloatType>::quiet_NaN() :
 		cos_unchecked(x);
 }
 

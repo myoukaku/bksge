@@ -13,9 +13,9 @@
 //#include <bksge/fnd/stdexcept/domain_error.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
 #include <bksge/fnd/utility/swap.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cmath>
+#include <limits>
 
 namespace bksge
 {
@@ -83,12 +83,12 @@ laguerre_impl(unsigned int n, T x)
 	if (x < T(0))
 	{
 		//bksge::throw_domain_error("Negative argument in poly_laguerre.");
-		return bksge::numeric_limits<T>::quiet_NaN();
+		return std::numeric_limits<T>::quiet_NaN();
 	}
 
 	if (bksge::isnan(x))
 	{
-		return bksge::numeric_limits<T>::quiet_NaN();
+		return std::numeric_limits<T>::quiet_NaN();
 	}
 
 	return laguerre_unchecked(n, x);

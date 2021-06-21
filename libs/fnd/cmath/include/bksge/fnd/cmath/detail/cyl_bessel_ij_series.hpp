@@ -13,8 +13,8 @@
 #include <bksge/fnd/cmath/lgamma.hpp>
 #include <bksge/fnd/cmath/exp.hpp>
 #include <bksge/fnd/cmath/abs.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -43,7 +43,7 @@ cyl_bessel_ij_series(T nu, T x, T sgn, unsigned int max_iter)
 	{
 		term *= xx4 / (T(i) * (nu + T(i)));
 		Jn += term;
-		if (bksge::abs(term / Jn) < bksge::numeric_limits<T>::epsilon())
+		if (bksge::abs(term / Jn) < std::numeric_limits<T>::epsilon())
 		{
 			break;
 		}

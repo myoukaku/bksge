@@ -14,8 +14,8 @@
 #include <bksge/fnd/cmath/isnan.hpp>
 //#include <bksge/fnd/cmath/pow.hpp>
 //#include <bksge/fnd/cmath/constants.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <cmath>	// TODO
+#include <limits>
 
 namespace bksge
 {
@@ -66,7 +66,7 @@ cbrt_impl(FloatType x) BKSGE_NOEXCEPT
 		bksge::isinf(x) || bksge::iszero(x) ?
 			x :
 		bksge::isnan(x) ?
-			bksge::numeric_limits<FloatType>::quiet_NaN() :
+			std::numeric_limits<FloatType>::quiet_NaN() :
 		cbrt_unchecked(x);
 }
 

@@ -11,9 +11,9 @@
 
 #include <bksge/fnd/cmath/abs.hpp>
 #include <bksge/fnd/cmath/log.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/numbers.hpp>
 #include <bksge/fnd/config.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -25,7 +25,7 @@ template <typename T>
 inline BKSGE_CXX14_CONSTEXPR T
 expint_E1_series(T x)
 {
-	T const eps = bksge::numeric_limits<T>::epsilon();
+	T const eps = std::numeric_limits<T>::epsilon();
 	T term = T(1);
 	T esum = T(0);
 	T osum = T(0);

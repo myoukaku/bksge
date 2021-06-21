@@ -9,10 +9,10 @@
 #ifndef UNIT_TEST_FND_SERIALIZATION_SERIALIZATION_TEST_UTILITY_HPP
 #define UNIT_TEST_FND_SERIALIZATION_SERIALIZATION_TEST_UTILITY_HPP
 
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/random/distributions/uniform_int_distribution.hpp>
 #include <bksge/fnd/random/distributions/uniform_real_distribution.hpp>
 #include <bksge/fnd/random/engines/mersenne_twister_engine.hpp>
+#include <limits>
 
 namespace
 {
@@ -34,16 +34,16 @@ template <typename T>
 inline T get_random_int()
 {
 	return get_random_int(
-		bksge::numeric_limits<T>::min(),
-		bksge::numeric_limits<T>::max());
+		std::numeric_limits<T>::min(),
+		std::numeric_limits<T>::max());
 }
 
 template <typename T>
 inline T get_random_float()
 {
 	bksge::uniform_real_distribution<T> dist(
-		bksge::numeric_limits<T>::lowest() / 2,
-		bksge::numeric_limits<T>::max() / 2);
+		std::numeric_limits<T>::lowest() / 2,
+		std::numeric_limits<T>::max() / 2);
 	return dist(get_random_engine());
 }
 

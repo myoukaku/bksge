@@ -16,7 +16,7 @@
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/type_traits/common_type.hpp>
 #include <bksge/fnd/type_traits/conditional.hpp>
-#include <bksge/fnd/limits.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -40,8 +40,8 @@ struct common_type<basic_bigint<B1, S1>, Arithmetic>
 {
 private:
 	static const bksge::size_t B2 = sizeof(Arithmetic) * CHAR_BIT;
-	static const bool S2 = bksge::numeric_limits<Arithmetic>::is_signed;
-	static const bool is_integer = bksge::numeric_limits<Arithmetic>::is_integer;
+	static const bool S2 = std::numeric_limits<Arithmetic>::is_signed;
+	static const bool is_integer = std::numeric_limits<Arithmetic>::is_integer;
 public:
 	using type =
 		bksge::conditional_t<!is_integer,

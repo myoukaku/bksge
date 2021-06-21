@@ -8,8 +8,8 @@
 
 #include <bksge/fnd/cmath/is_positive.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -26,11 +26,11 @@ static_assert(bksge::is_same<bool, decltype(bksge::is_positive(0   ))>::value, "
 template <typename T>
 void IsPositiveTestFloat(void)
 {
-	BKSGE_CONSTEXPR auto nan    = bksge::numeric_limits<T>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf    = bksge::numeric_limits<T>::infinity();
-	BKSGE_CONSTEXPR auto max    = bksge::numeric_limits<T>::max();
-	BKSGE_CONSTEXPR auto min    = bksge::numeric_limits<T>::min();
-	BKSGE_CONSTEXPR auto lowest = bksge::numeric_limits<T>::lowest();
+	BKSGE_CONSTEXPR auto nan    = std::numeric_limits<T>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf    = std::numeric_limits<T>::infinity();
+	BKSGE_CONSTEXPR auto max    = std::numeric_limits<T>::max();
+	BKSGE_CONSTEXPR auto min    = std::numeric_limits<T>::min();
+	BKSGE_CONSTEXPR auto lowest = std::numeric_limits<T>::lowest();
 
 	BKSGE_CONSTEXPR_EXPECT_TRUE (bksge::is_positive(T( 1.0)));
 	BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::is_positive(T(-1.0)));
@@ -52,9 +52,9 @@ void IsPositiveTestFloat(void)
 template <typename T>
 void IsPositiveTestSignedInt(void)
 {
-	BKSGE_CONSTEXPR auto max    = bksge::numeric_limits<T>::max();
-	BKSGE_CONSTEXPR auto min    = bksge::numeric_limits<T>::min();
-	BKSGE_CONSTEXPR auto lowest = bksge::numeric_limits<T>::lowest();
+	BKSGE_CONSTEXPR auto max    = std::numeric_limits<T>::max();
+	BKSGE_CONSTEXPR auto min    = std::numeric_limits<T>::min();
+	BKSGE_CONSTEXPR auto lowest = std::numeric_limits<T>::lowest();
 
 	BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::is_positive(T( 0)));
 	BKSGE_CONSTEXPR_EXPECT_TRUE (bksge::is_positive(T( 1)));
@@ -69,9 +69,9 @@ void IsPositiveTestSignedInt(void)
 template <typename T>
 void IsPositiveTestUnsignedInt(void)
 {
-	BKSGE_CONSTEXPR auto max    = bksge::numeric_limits<T>::max();
-	BKSGE_CONSTEXPR auto min    = bksge::numeric_limits<T>::min();
-	BKSGE_CONSTEXPR auto lowest = bksge::numeric_limits<T>::lowest();
+	BKSGE_CONSTEXPR auto max    = std::numeric_limits<T>::max();
+	BKSGE_CONSTEXPR auto min    = std::numeric_limits<T>::min();
+	BKSGE_CONSTEXPR auto lowest = std::numeric_limits<T>::lowest();
 
 	BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::is_positive(T( 0)));
 	BKSGE_CONSTEXPR_EXPECT_TRUE (bksge::is_positive(T( 1)));

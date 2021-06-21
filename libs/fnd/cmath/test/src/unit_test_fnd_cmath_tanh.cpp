@@ -9,8 +9,8 @@
 #include <bksge/fnd/cmath/tanh.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -29,8 +29,8 @@ static_assert(bksge::is_same<long double, decltype(bksge::tanhl(0.0l))>::value, 
 template <typename T>
 void TanhTestFloat(double error)
 {
-	BKSGE_CONSTEXPR auto nan = bksge::numeric_limits<T>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<T>::infinity();
+	BKSGE_CONSTEXPR auto nan = std::numeric_limits<T>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf = std::numeric_limits<T>::infinity();
 
 	EXPECT_NEAR(-0.99505475368, (double)bksge::tanh(T(-3.0)), error);
 	EXPECT_NEAR(-0.98661429815, (double)bksge::tanh(T(-2.5)), error);

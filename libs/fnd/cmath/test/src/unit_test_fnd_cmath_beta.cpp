@@ -10,8 +10,8 @@
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/abs.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -43,8 +43,8 @@ template <typename T1, typename T2>
 void AssocLaguerreTest(double error)
 {
 	using Promoted = bksge::float_promote_t<T1, T2>;
-	BKSGE_CONSTEXPR auto nan = bksge::numeric_limits<Promoted>::quiet_NaN();
-	BKSGE_CONSTEXPR auto min = bksge::numeric_limits<Promoted>::min();
+	BKSGE_CONSTEXPR auto nan = std::numeric_limits<Promoted>::quiet_NaN();
+	BKSGE_CONSTEXPR auto min = std::numeric_limits<Promoted>::min();
 
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::beta(nan, nan)));
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::beta(nan, T2(1))));
@@ -218,7 +218,7 @@ GTEST_TEST(CMathTest, AssocLaguerreTest)
 	AssocLaguerreTest<int,         long double>(0.000000000001);
 	AssocLaguerreTest<int,         int>        (0.000000000001);
 
-	BKSGE_CONSTEXPR auto nanf = bksge::numeric_limits<float>::quiet_NaN();
+	BKSGE_CONSTEXPR auto nanf = std::numeric_limits<float>::quiet_NaN();
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::betaf(nanf, nanf)));
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::betaf(nanf, 1.0f)));
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::betaf(1.0f, nanf)));
@@ -226,7 +226,7 @@ GTEST_TEST(CMathTest, AssocLaguerreTest)
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::betaf(0.0f, 1.0f)));
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::betaf(1.0f, 0.0f)));
 
-	BKSGE_CONSTEXPR auto nanl = bksge::numeric_limits<long double>::quiet_NaN();
+	BKSGE_CONSTEXPR auto nanl = std::numeric_limits<long double>::quiet_NaN();
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::betal(nanl, nanl)));
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::betal(nanl, 1.0l)));
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::betal(1.0l, nanl)));

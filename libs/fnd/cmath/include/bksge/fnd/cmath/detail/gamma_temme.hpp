@@ -12,8 +12,8 @@
 #include <bksge/fnd/cmath/tgamma.hpp>
 #include <bksge/fnd/cmath/abs.hpp>
 #include <bksge/fnd/numbers.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -28,7 +28,7 @@ gamma_temme(T mu, T& gam1, T& gam2, T& gampl, T& gammi)
 	gampl = T(1) / bksge::tgamma(T(1) + mu);
 	gammi = T(1) / bksge::tgamma(T(1) - mu);
 
-	if (bksge::abs(mu) < bksge::numeric_limits<T>::epsilon())
+	if (bksge::abs(mu) < std::numeric_limits<T>::epsilon())
 	{
 		gam1 = -T(bksge::egamma_t<T>());
 	}

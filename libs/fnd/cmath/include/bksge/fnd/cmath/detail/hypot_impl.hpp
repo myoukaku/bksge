@@ -16,8 +16,8 @@
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/sqrt.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <cmath>	// TODO
+#include <limits>
 
 namespace bksge
 {
@@ -88,9 +88,9 @@ hypot_impl(FloatType x, FloatType y) BKSGE_NOEXCEPT
 		bksge::iszero(y) ?
 			bksge::fabs(x) :
 		bksge::isinf(x) || bksge::isinf(y) ?
-			bksge::numeric_limits<FloatType>::infinity() :
+			std::numeric_limits<FloatType>::infinity() :
 		bksge::isnan(x) || bksge::isnan(y) ?
-			bksge::numeric_limits<FloatType>::quiet_NaN() :
+			std::numeric_limits<FloatType>::quiet_NaN() :
 		hypot_unchecked(x, y);
 }
 
@@ -106,9 +106,9 @@ hypot_impl(FloatType x, FloatType y, FloatType z) BKSGE_NOEXCEPT
 		bksge::iszero(z) && bksge::iszero(x) ?
 			bksge::fabs(y) :
 		bksge::isinf(x) || bksge::isinf(y) || bksge::isinf(z) ?
-			bksge::numeric_limits<FloatType>::infinity() :
+			std::numeric_limits<FloatType>::infinity() :
 		bksge::isnan(x) || bksge::isnan(y) || bksge::isnan(z) ?
-			bksge::numeric_limits<FloatType>::quiet_NaN() :
+			std::numeric_limits<FloatType>::quiet_NaN() :
 		hypot_unchecked(x, y, z);
 }
 

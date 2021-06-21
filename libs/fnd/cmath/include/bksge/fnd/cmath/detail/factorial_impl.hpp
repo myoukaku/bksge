@@ -16,8 +16,8 @@
 #include <bksge/fnd/type_traits/is_unsigned.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uintmax_t.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -284,7 +284,7 @@ factorial_impl(unsigned int n) BKSGE_NOEXCEPT
 {
 	if (n > max_factorial<T>())
 	{
-		return bksge::numeric_limits<T>::infinity();
+		return std::numeric_limits<T>::infinity();
 	}
 
 	return unchecked_factorial<T>(n);

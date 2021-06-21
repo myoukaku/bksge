@@ -27,8 +27,8 @@ using std::to_string;
 
 #include <bksge/fnd/string/detail/to_chars_len.hpp>
 #include <bksge/fnd/string/detail/to_chars_10_impl.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <cstdio>	// snprintf
+#include <limits>
 
 namespace bksge
 {
@@ -106,21 +106,21 @@ to_string(unsigned long long val)
 inline string
 to_string(float val)
 {
-	constexpr int n = bksge::numeric_limits<float>::max_exponent10 + 20;
+	constexpr int n = std::numeric_limits<float>::max_exponent10 + 20;
 	return detail::to_string_impl<n>("%f", val);
 }
 
 inline string
 to_string(double val)
 {
-	constexpr int n = bksge::numeric_limits<double>::max_exponent10 + 20;
+	constexpr int n = std::numeric_limits<double>::max_exponent10 + 20;
 	return detail::to_string_impl<n>("%f", val);
 }
 
 inline string
 to_string(long double val)
 {
-	constexpr int n = bksge::numeric_limits<long double>::max_exponent10 + 20;
+	constexpr int n = std::numeric_limits<long double>::max_exponent10 + 20;
 	return detail::to_string_impl<n>("%Lf", val);
 }
 

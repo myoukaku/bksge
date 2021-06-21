@@ -11,8 +11,8 @@
 
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/algorithm/clamp.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -26,7 +26,7 @@ saturate_impl(FloatType x) BKSGE_NOEXCEPT
 {
 	return
 		bksge::isnan(x) ?
-			bksge::numeric_limits<FloatType>::quiet_NaN() :
+			std::numeric_limits<FloatType>::quiet_NaN() :
 		bksge::clamp(x, FloatType(0), FloatType(1));
 }
 

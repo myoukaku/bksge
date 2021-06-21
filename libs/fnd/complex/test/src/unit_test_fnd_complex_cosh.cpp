@@ -11,8 +11,8 @@
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/iszero.hpp>
 #include <bksge/fnd/cmath/signbit.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 #include "complex_test_utility.hpp"
 
@@ -27,8 +27,8 @@ void CoshTest()
 {
 	using complex = bksge::complex<T>;
 
-	BKSGE_CONSTEXPR auto min = bksge::numeric_limits<T>::lowest();
-	BKSGE_CONSTEXPR auto max = bksge::numeric_limits<T>::max();
+	BKSGE_CONSTEXPR auto min = std::numeric_limits<T>::lowest();
+	BKSGE_CONSTEXPR auto max = std::numeric_limits<T>::max();
 
 	// cosh(conj(z)) == conj(cosh(z))
 	// cosh(z) == cosh(-z)
@@ -74,8 +74,8 @@ void CoshTest()
 	}
 
 #if defined(BKSGE_IEC_559_COMPLEX)
-	BKSGE_CONSTEXPR auto nan = bksge::numeric_limits<T>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<T>::infinity();
+	BKSGE_CONSTEXPR auto nan = std::numeric_limits<T>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf = std::numeric_limits<T>::infinity();
 
 	// If z is (+0,+0), the result is (1,+0)
 	EXPECT_EQ(complex(T(+1.0), T(+0.0)), bksge::cosh(complex(T(+0.0), T(+0.0))));

@@ -13,9 +13,9 @@
 #include <bksge/fnd/cmath/detail/cyl_bessel_jn_asymp.hpp>
 #include <bksge/fnd/cmath/detail/bessel_jn.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cmath>
+#include <limits>
 
 namespace bksge
 {
@@ -80,7 +80,7 @@ cyl_neumann_impl(T nu, T x)
 {
 	if (bksge::isnan(nu) || bksge::isnan(x))
 	{
-		return bksge::numeric_limits<T>::quiet_NaN();
+		return std::numeric_limits<T>::quiet_NaN();
 	}
 
 	return cyl_neumann_unchecked(nu, x);

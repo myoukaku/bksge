@@ -78,10 +78,10 @@ using std::atanh;
 #include <bksge/fnd/type_traits/is_floating_point.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
 #include <bksge/fnd/numbers.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/config.hpp>
 #include <ios>	// ios_base
+#include <limits>
 
 namespace bksge
 {
@@ -555,8 +555,8 @@ struct complex_base
         if (bksge::isnan(re) || bksge::isnan(im))
 		{
 			// set NaN result
-            m_value[0] = bksge::numeric_limits<T>::quiet_NaN();
-            m_value[1] = bksge::numeric_limits<T>::quiet_NaN();
+            m_value[0] = std::numeric_limits<T>::quiet_NaN();
+            m_value[1] = std::numeric_limits<T>::quiet_NaN();
         }
 		else if (bksge::abs(im) < bksge::abs(re))
 		{
@@ -567,8 +567,8 @@ struct complex_base
             if (bksge::isnan(wd) || wd == 0)
 			{
 				// set NaN result
-                m_value[0] = bksge::numeric_limits<T>::quiet_NaN();
-                m_value[1] = bksge::numeric_limits<T>::quiet_NaN();
+                m_value[0] = std::numeric_limits<T>::quiet_NaN();
+                m_value[1] = std::numeric_limits<T>::quiet_NaN();
             }
 			else
 			{
@@ -581,8 +581,8 @@ struct complex_base
 		else if (im == 0)
 		{
 			// set NaN result
-            m_value[0] = bksge::numeric_limits<T>::quiet_NaN();
-            m_value[1] = bksge::numeric_limits<T>::quiet_NaN();
+            m_value[0] = std::numeric_limits<T>::quiet_NaN();
+            m_value[1] = std::numeric_limits<T>::quiet_NaN();
         }
 		else
 		{
@@ -593,8 +593,8 @@ struct complex_base
             if (bksge::isnan(wd) || wd == 0)
 			{
 				// set NaN result
-                m_value[0] = bksge::numeric_limits<T>::quiet_NaN();
-                m_value[1] = bksge::numeric_limits<T>::quiet_NaN();
+                m_value[0] = std::numeric_limits<T>::quiet_NaN();
+                m_value[1] = std::numeric_limits<T>::quiet_NaN();
             }
 			else
 			{
@@ -1007,7 +1007,7 @@ proj(bksge::complex<T> const& z)
 {
 	if (bksge::isinf(z.real()) || bksge::isinf(z.imag()))
 	{
-		return complex<T>(bksge::numeric_limits<T>::infinity(), bksge::copysign(T(0), z.imag()));
+		return complex<T>(std::numeric_limits<T>::infinity(), bksge::copysign(T(0), z.imag()));
 	}
 	return z;
 }
@@ -1036,8 +1036,8 @@ exp(complex<T> const& z)
 	auto const im = z.imag();
 
 #if defined(BKSGE_IEC_559_COMPLEX)
-	auto const nan = bksge::numeric_limits<T>::quiet_NaN();
-	auto const inf = bksge::numeric_limits<T>::infinity();
+	auto const nan = std::numeric_limits<T>::quiet_NaN();
+	auto const inf = std::numeric_limits<T>::infinity();
 
 	// If z is (±0,+0), the result is (1,+0)
 	if (bksge::iszero(re) && bksge::iszero(im) && !bksge::signbit(im))
@@ -1114,8 +1114,8 @@ inline complex<T>
 log(complex<T> const& z)
 {
 #if defined(BKSGE_IEC_559_COMPLEX)
-	auto const nan = bksge::numeric_limits<T>::quiet_NaN();
-	auto const inf = bksge::numeric_limits<T>::infinity();
+	auto const nan = std::numeric_limits<T>::quiet_NaN();
+	auto const inf = std::numeric_limits<T>::infinity();
 	auto const pi_ = bksge::pi_t<T>();
 
 	auto const re = z.real();
@@ -1283,8 +1283,8 @@ sqrt(complex<T> const& z)
 	auto const im = z.imag();
 
 #if defined(BKSGE_IEC_559_COMPLEX)
-	auto const nan = bksge::numeric_limits<T>::quiet_NaN();
-	auto const inf = bksge::numeric_limits<T>::infinity();
+	auto const nan = std::numeric_limits<T>::quiet_NaN();
+	auto const inf = std::numeric_limits<T>::infinity();
 
 	if (bksge::iszero(re) && bksge::iszero(im) && !bksge::signbit(im))
 	{
@@ -1407,8 +1407,8 @@ acos(bksge::complex<T> const& z)
 	auto const im = z.imag();
 
 #if defined(BKSGE_IEC_559_COMPLEX)
-	auto const nan = bksge::numeric_limits<T>::quiet_NaN();
-	auto const inf = bksge::numeric_limits<T>::infinity();
+	auto const nan = std::numeric_limits<T>::quiet_NaN();
+	auto const inf = std::numeric_limits<T>::infinity();
 	auto const pi_ = bksge::pi_t<T>();
 
 	if (bksge::iszero(re))
@@ -1493,7 +1493,7 @@ acos(bksge::complex<T> const& z)
 	}
 #endif
 
-    auto const arcbig = static_cast<T>(0.25) * bksge::sqrt(bksge::numeric_limits<T>::max());
+    auto const arcbig = static_cast<T>(0.25) * bksge::sqrt(std::numeric_limits<T>::max());
 	auto const x = bksge::sqrt(bksge::complex<T>(1 + re, -im));
 	auto const y = bksge::sqrt(bksge::complex<T>(1 - re, -im));
 	auto const xr = x.real();
@@ -1562,8 +1562,8 @@ sinh(complex<T> const& z)
 	auto const im = z.imag();
 
 #if defined(BKSGE_IEC_559_COMPLEX)
-	auto const nan = bksge::numeric_limits<T>::quiet_NaN();
-	auto const inf = bksge::numeric_limits<T>::infinity();
+	auto const nan = std::numeric_limits<T>::quiet_NaN();
+	auto const inf = std::numeric_limits<T>::infinity();
 
 	if (bksge::iszero(re) && !bksge::signbit(re))
 	{
@@ -1655,8 +1655,8 @@ cosh(complex<T> const& z)
 	auto const im = z.imag();
 
 #if defined(BKSGE_IEC_559_COMPLEX)
-	auto const nan = bksge::numeric_limits<T>::quiet_NaN();
-	auto const inf = bksge::numeric_limits<T>::infinity();
+	auto const nan = std::numeric_limits<T>::quiet_NaN();
+	auto const inf = std::numeric_limits<T>::infinity();
 
 	if (bksge::iszero(re) && !bksge::signbit(re))
 	{
@@ -1748,8 +1748,8 @@ tanh(complex<T> const& z)
 	auto const re = z.real();
 	auto const im = z.imag();
 
-	auto const nan = bksge::numeric_limits<T>::quiet_NaN();
-	auto const inf = bksge::numeric_limits<T>::infinity();
+	auto const nan = std::numeric_limits<T>::quiet_NaN();
+	auto const inf = std::numeric_limits<T>::infinity();
 
 	if (bksge::iszero(re) && !bksge::signbit(re))
 	{
@@ -1834,8 +1834,8 @@ asinh(bksge::complex<T> const& z)
 	auto const im = z.imag();
 
 #if defined(BKSGE_IEC_559_COMPLEX)
-	auto const nan = bksge::numeric_limits<T>::quiet_NaN();
-	auto const inf = bksge::numeric_limits<T>::infinity();
+	auto const nan = std::numeric_limits<T>::quiet_NaN();
+	auto const inf = std::numeric_limits<T>::infinity();
 	auto const pi_ = bksge::pi_t<T>();
 
 	if (bksge::iszero(re) && !bksge::signbit(re))
@@ -1905,7 +1905,7 @@ asinh(bksge::complex<T> const& z)
 	}
 #endif
 
-	auto const arcbig = static_cast<T>(0.25) * bksge::sqrt(bksge::numeric_limits<T>::max());
+	auto const arcbig = static_cast<T>(0.25) * bksge::sqrt(std::numeric_limits<T>::max());
 	auto const x = bksge::sqrt(complex<T>(1 - im,  re));
 	auto const y = bksge::sqrt(complex<T>(1 + im, -re));
 	auto const xr = x.real();
@@ -1966,8 +1966,8 @@ acosh(bksge::complex<T> const& z)
 	auto const im = z.imag();
 
 #if defined(BKSGE_IEC_559_COMPLEX)
-	auto const nan = bksge::numeric_limits<T>::quiet_NaN();
-	auto const inf = bksge::numeric_limits<T>::infinity();
+	auto const nan = std::numeric_limits<T>::quiet_NaN();
+	auto const inf = std::numeric_limits<T>::infinity();
 	auto const pi_ = bksge::pi_t<T>();
 
 	if (bksge::iszero(re))
@@ -2051,7 +2051,7 @@ acosh(bksge::complex<T> const& z)
 	}
 #endif
 
-	auto const arcbig = static_cast<T>(0.25) * bksge::sqrt(bksge::numeric_limits<T>::max());
+	auto const arcbig = static_cast<T>(0.25) * bksge::sqrt(std::numeric_limits<T>::max());
 	auto const x = bksge::sqrt(bksge::complex<T>(re - 1, -im));
 	auto const y = bksge::sqrt(bksge::complex<T>(re + 1,  im));
 	auto const xr = x.real();
@@ -2111,9 +2111,9 @@ atanh(bksge::complex<T> const& z)
 	auto const re = z.real();
 	auto const im = z.imag();
 
-	auto const inf = bksge::numeric_limits<T>::infinity();
+	auto const inf = std::numeric_limits<T>::infinity();
 #if defined(BKSGE_IEC_559_COMPLEX)
-	auto const nan = bksge::numeric_limits<T>::quiet_NaN();
+	auto const nan = std::numeric_limits<T>::quiet_NaN();
 	auto const pi_ = bksge::pi_t<T>();
 
 	if (bksge::iszero(re) && !bksge::signbit(re))
@@ -2189,7 +2189,7 @@ atanh(bksge::complex<T> const& z)
 	}
 #endif
 
-	auto const arcbig = static_cast<T>(0.25) * bksge::sqrt(bksge::numeric_limits<T>::max());
+	auto const arcbig = static_cast<T>(0.25) * bksge::sqrt(std::numeric_limits<T>::max());
 	constexpr T half_pi = bksge::pi_t<T>() / 2;
 
 	auto const im_abs  = bksge::abs(im);

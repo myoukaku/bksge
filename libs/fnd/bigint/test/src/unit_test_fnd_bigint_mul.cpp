@@ -7,13 +7,13 @@
  */
 
 #include <bksge/fnd/bigint.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
 #include <bksge/fnd/sstream.hpp>
 #include <bksge/fnd/random.hpp>
-#include <chrono>
 #include <gtest/gtest.h>
+#include <chrono>
+#include <limits>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -143,7 +143,7 @@ inline BKSGE_CXX14_CONSTEXPR bool MulFloatTest()
 		x *= 0.5;
 		VERIFY(x == 12);
 
-		if (bksge::numeric_limits<BigInt>::is_signed)
+		if (std::numeric_limits<BigInt>::is_signed)
 		{
 			x *= -3.5;
 			VERIFY(x == -42);
@@ -228,8 +228,8 @@ inline BKSGE_CXX14_CONSTEXPR bool Mul2Test()
 		auto x = -2 * BigInt2(3);
 		VERIFY(x == -6);
 	}
-	if (bksge::numeric_limits<BigInt1>::is_signed &&
-		bksge::numeric_limits<BigInt2>::is_signed)
+	if (std::numeric_limits<BigInt1>::is_signed &&
+		std::numeric_limits<BigInt2>::is_signed)
 	{
 		auto x = BigInt1(-2) * BigInt2(-3);
 		VERIFY(x == 6);
@@ -305,7 +305,7 @@ inline BKSGE_CXX14_CONSTEXPR bool Mul2LargeTest()
 		auto x = -BigInt1{"36968175473499613142"} *
 			BigInt2{"190512936091683569991370045758"};
 		using result_type = decltype(x);
-		if (bksge::numeric_limits<BigInt1>::is_signed)
+		if (std::numeric_limits<BigInt1>::is_signed)
 		{
 			VERIFY(x == result_type{"-7042915651408975798024456175730948594979838151636"});
 		}
@@ -314,7 +314,7 @@ inline BKSGE_CXX14_CONSTEXPR bool Mul2LargeTest()
 		auto x = BigInt1{"36968175473499613142"} *
 			-BigInt2{"190512936091683569991370045758"};
 		using result_type = decltype(x);
-		if (bksge::numeric_limits<BigInt2>::is_signed)
+		if (std::numeric_limits<BigInt2>::is_signed)
 		{
 			VERIFY(x == result_type{"-7042915651408975798024456175730948594979838151636"});
 		}

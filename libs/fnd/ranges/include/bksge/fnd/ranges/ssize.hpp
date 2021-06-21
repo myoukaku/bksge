@@ -17,8 +17,8 @@
 #include <bksge/fnd/type_traits/conditional.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/declval.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -39,7 +39,7 @@ private:
 		using diff_type = bksge::iter_difference_t<iter_type>;
 		using type = bksge::conditional_t<
 			bksge::is_integral<diff_type>::value &&
-			bksge::numeric_limits<diff_type>::digits < bksge::numeric_limits<bksge::ptrdiff_t>::digits,
+			std::numeric_limits<diff_type>::digits < std::numeric_limits<bksge::ptrdiff_t>::digits,
 			bksge::ptrdiff_t,
 			diff_type
 		>;

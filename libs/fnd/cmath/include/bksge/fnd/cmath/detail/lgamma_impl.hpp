@@ -13,8 +13,8 @@
 #include <bksge/fnd/cmath/isinf.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/is_integer.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <cmath>	// TODO
+#include <limits>
 
 namespace bksge
 {
@@ -64,9 +64,9 @@ lgamma_impl(FloatType x) BKSGE_NOEXCEPT
 		bksge::iszero(x) ||
 		bksge::isinf(x)  ||
 		(x < 0 && bksge::is_integer(x)) ?
-			bksge::numeric_limits<FloatType>::infinity() :
+			std::numeric_limits<FloatType>::infinity() :
 		bksge::isnan(x) ?
-			bksge::numeric_limits<FloatType>::quiet_NaN() :
+			std::numeric_limits<FloatType>::quiet_NaN() :
 		lgamma_unchecked(x);
 }
 

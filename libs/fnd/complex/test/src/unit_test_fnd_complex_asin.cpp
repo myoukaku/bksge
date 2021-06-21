@@ -11,8 +11,8 @@
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/iszero.hpp>
 #include <bksge/fnd/numbers.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 #include "complex_test_utility.hpp"
 
@@ -27,8 +27,8 @@ void AsinTest(double error)
 {
 	using complex = bksge::complex<T>;
 
-	BKSGE_CONSTEXPR auto min = bksge::numeric_limits<T>::lowest();
-	BKSGE_CONSTEXPR auto max = bksge::numeric_limits<T>::max();
+	BKSGE_CONSTEXPR auto min = std::numeric_limits<T>::lowest();
+	BKSGE_CONSTEXPR auto max = std::numeric_limits<T>::max();
 	BKSGE_CONSTEXPR auto pi = bksge::pi_t<T>();
 
 	auto const i = complex(T(0.0), T(1.0));

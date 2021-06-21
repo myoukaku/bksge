@@ -13,8 +13,8 @@
 #include <bksge/fnd/cmath/detail/expint_e1.hpp>
 #include <bksge/fnd/cmath/detail/expint_ei_series.hpp>
 #include <bksge/fnd/cmath/detail/expint_ei_asymp.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -33,7 +33,7 @@ expint_Ei(T x)
 	{
 		return -bksge::detail::expint_E1(-x);
 	}
-	else if (x < -bksge::log(bksge::numeric_limits<T>::epsilon()))
+	else if (x < -bksge::log(std::numeric_limits<T>::epsilon()))
 	{
 		return bksge::detail::expint_Ei_series(x);
 	}

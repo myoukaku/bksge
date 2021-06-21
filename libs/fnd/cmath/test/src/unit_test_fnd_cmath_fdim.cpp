@@ -9,8 +9,8 @@
 #include <bksge/fnd/cmath/fdim.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -41,10 +41,10 @@ static_assert(bksge::is_same<double,      decltype(bksge::fdim(0   , 0   ))>::va
 template <typename T1, typename T2>
 void FdimTestFloat(void)
 {
-	BKSGE_CONSTEXPR auto nan1    = bksge::numeric_limits<T1>::quiet_NaN();
-	BKSGE_CONSTEXPR auto nan2    = bksge::numeric_limits<T2>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf1    = bksge::numeric_limits<T1>::infinity();
-	BKSGE_CONSTEXPR auto inf2    = bksge::numeric_limits<T2>::infinity();
+	BKSGE_CONSTEXPR auto nan1    = std::numeric_limits<T1>::quiet_NaN();
+	BKSGE_CONSTEXPR auto nan2    = std::numeric_limits<T2>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf1    = std::numeric_limits<T1>::infinity();
+	BKSGE_CONSTEXPR auto inf2    = std::numeric_limits<T2>::infinity();
 
 	BKSGE_CONSTEXPR_EXPECT_EQ(0.0, bksge::fdim(T1( 0.0), T2( 0.0)));
 	BKSGE_CONSTEXPR_EXPECT_EQ(0.5, bksge::fdim(T1( 0.5), T2( 0.0)));

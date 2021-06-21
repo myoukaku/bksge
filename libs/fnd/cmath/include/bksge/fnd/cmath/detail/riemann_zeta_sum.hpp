@@ -11,8 +11,8 @@
 
 #include <bksge/fnd/cmath/pow.hpp>
 #include <bksge/fnd/stdexcept/domain_error.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -35,7 +35,7 @@ riemann_zeta_sum(T s)
 	for (unsigned int k = 1; k < max_iter; ++k)
 	{
 		T term = bksge::pow(static_cast<T>(k), -s);
-		if (term < bksge::numeric_limits<T>::epsilon())
+		if (term < std::numeric_limits<T>::epsilon())
 		{
 			break;
 		}

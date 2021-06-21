@@ -17,8 +17,8 @@
 #include <bksge/fnd/cmath/lgamma.hpp>
 #include <bksge/fnd/cmath/abs.hpp>
 #include <bksge/fnd/numbers.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -30,9 +30,9 @@ template <typename T>
 inline BKSGE_CXX14_CONSTEXPR T
 riemann_zeta_glob(T s)
 {
-	T const eps = bksge::numeric_limits<T>::epsilon();
+	T const eps = std::numeric_limits<T>::epsilon();
 	//  Max e exponent before overflow.
-	T const max_bincoeff = bksge::numeric_limits<T>::max_exponent10 * bksge::log(T(10)) - T(1);
+	T const max_bincoeff = std::numeric_limits<T>::max_exponent10 * bksge::log(T(10)) - T(1);
 
 	//  This series works until the binomial coefficient blows up
 	//  so use reflection.

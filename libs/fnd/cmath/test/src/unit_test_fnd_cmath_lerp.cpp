@@ -10,9 +10,9 @@
 #include <bksge/fnd/cmath/isnan.hpp>
 //#include <bksge/fnd/cmath/isfinite.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -28,10 +28,10 @@ static_assert(bksge::is_same<long double, decltype(bksge::lerp(0.0l, 0.0l, 0.0l)
 template <typename T>
 void LerpTest(void)
 {
-	//BKSGE_CONSTEXPR auto nan = bksge::numeric_limits<T>::quiet_NaN();
-	//BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<T>::infinity();
-	BKSGE_CONSTEXPR auto min = bksge::numeric_limits<T>::lowest();
-	BKSGE_CONSTEXPR auto max = bksge::numeric_limits<T>::max();
+	//BKSGE_CONSTEXPR auto nan = std::numeric_limits<T>::quiet_NaN();
+	//BKSGE_CONSTEXPR auto inf = std::numeric_limits<T>::infinity();
+	BKSGE_CONSTEXPR auto min = std::numeric_limits<T>::lowest();
+	BKSGE_CONSTEXPR auto max = std::numeric_limits<T>::max();
 
 	// When isfinite(a) && isfinite(b):
 	// ・If t == 0, the result is equal to a.

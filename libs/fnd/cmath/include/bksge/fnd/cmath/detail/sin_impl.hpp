@@ -12,9 +12,9 @@
 #include <bksge/fnd/cmath/iszero.hpp>
 #include <bksge/fnd/cmath/isinf.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cmath>
+#include <limits>
 
 namespace bksge
 {
@@ -61,7 +61,7 @@ sin_impl(FloatType x) BKSGE_NOEXCEPT
 		bksge::iszero(x) ?
 			x :
 		bksge::isinf(x) || bksge::isnan(x) ?
-			bksge::numeric_limits<FloatType>::quiet_NaN() :
+			std::numeric_limits<FloatType>::quiet_NaN() :
 		sin_unchecked(x);
 }
 

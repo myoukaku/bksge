@@ -9,9 +9,9 @@
 #include <bksge/fnd/compare/compare_weak_order_fallback.hpp>
 #include <bksge/fnd/compare/weak_ordering.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_compare_test
@@ -60,12 +60,12 @@ inline BKSGE_CXX17_CONSTEXPR bool test01()
 	X x2  {-0.0};
 	X x3  {+1.0};
 	X x4  {-1.0};
-	X x5  { bksge::numeric_limits<double>::quiet_NaN()};
-	X x6  {-bksge::numeric_limits<double>::quiet_NaN()};
-	X x7  { bksge::numeric_limits<double>::max()};
-	X x8  { bksge::numeric_limits<double>::lowest()};
-	X x9  { bksge::numeric_limits<double>::infinity()};
-	X x10 {-bksge::numeric_limits<double>::infinity()};
+	X x5  { std::numeric_limits<double>::quiet_NaN()};
+	X x6  {-std::numeric_limits<double>::quiet_NaN()};
+	X x7  { std::numeric_limits<double>::max()};
+	X x8  { std::numeric_limits<double>::lowest()};
+	X x9  { std::numeric_limits<double>::infinity()};
+	X x10 {-std::numeric_limits<double>::infinity()};
 
 	VERIFY(compare_weak_order_fallback(x1, x1)  == weak_ordering::equivalent);
 	VERIFY(compare_weak_order_fallback(x1, x2)  == weak_ordering::equivalent);

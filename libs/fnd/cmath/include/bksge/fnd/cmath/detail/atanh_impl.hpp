@@ -12,8 +12,8 @@
 #include <bksge/fnd/cmath/iszero.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/fabs.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <cmath>
+#include <limits>
 
 namespace bksge
 {
@@ -60,13 +60,13 @@ atanh_impl(FloatType x) BKSGE_NOEXCEPT
 		bksge::iszero(x) ?
 			x :
 		x == FloatType(1) ?
-			bksge::numeric_limits<FloatType>::infinity() :
+			std::numeric_limits<FloatType>::infinity() :
 		x == FloatType(-1) ?
-			-bksge::numeric_limits<FloatType>::infinity() :
+			-std::numeric_limits<FloatType>::infinity() :
 		bksge::fabs(x) > FloatType(1) ?
-			bksge::numeric_limits<FloatType>::quiet_NaN() :
+			std::numeric_limits<FloatType>::quiet_NaN() :
 		bksge::isnan(x) ?
-			bksge::numeric_limits<FloatType>::quiet_NaN() :
+			std::numeric_limits<FloatType>::quiet_NaN() :
 		atanh_unchecked(x);
 }
 

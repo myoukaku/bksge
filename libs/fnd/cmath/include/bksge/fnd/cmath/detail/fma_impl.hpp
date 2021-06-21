@@ -13,7 +13,7 @@
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/iszero.hpp>
 #include <bksge/fnd/cmath/signbit.hpp>
-#include <bksge/fnd/limits.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -63,7 +63,7 @@ fma_impl(FloatType x, FloatType y, FloatType z) BKSGE_NOEXCEPT
 		(bksge::isinf(x) && bksge::iszero(y)) ||
 		(bksge::iszero(x) && bksge::isinf(y)) ||
 		((bksge::isinf(x) || bksge::isinf(y)) && bksge::isinf(z) && (bksge::signbit(x) ^ bksge::signbit(y) ^ bksge::signbit(z))) ?
-			bksge::numeric_limits<FloatType>::quiet_NaN() :
+			std::numeric_limits<FloatType>::quiet_NaN() :
 		fma_unchecked(x, y, z);
 }
 

@@ -12,9 +12,9 @@
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/lgamma.hpp>
 #include <bksge/fnd/cmath/exp.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cmath>
+#include <limits>
 
 namespace bksge
 {
@@ -69,12 +69,12 @@ beta_impl(T x, T y)
 {
 	if (bksge::isnan(x) || bksge::isnan(y))
 	{
-		return bksge::numeric_limits<T>::quiet_NaN();
+		return std::numeric_limits<T>::quiet_NaN();
 	}
 
 	if (x <= T(0) || y <= T(0))
 	{
-		return bksge::numeric_limits<T>::quiet_NaN();
+		return std::numeric_limits<T>::quiet_NaN();
 	}
 
 	return beta_unchecked(x, y);

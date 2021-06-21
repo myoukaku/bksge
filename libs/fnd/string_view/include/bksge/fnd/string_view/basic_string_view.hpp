@@ -44,9 +44,9 @@ using std::basic_string_view;
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/negation.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/config.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -695,7 +695,7 @@ private:
 	static BKSGE_CXX14_CONSTEXPR int
 	compare_length(size_type n1, size_type n2) BKSGE_NOEXCEPT
 	{
-		using limits = bksge::numeric_limits<int>;
+		using limits = std::numeric_limits<int>;
 		difference_type const diff = n1 - n2;
 		if (diff > limits::max())
 		{

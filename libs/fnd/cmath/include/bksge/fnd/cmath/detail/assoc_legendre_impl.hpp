@@ -17,9 +17,9 @@
 //#include <bksge/fnd/stdexcept/domain_error.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
 #include <bksge/fnd/utility/swap.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cmath>
+#include <limits>
 
 namespace bksge
 {
@@ -108,12 +108,12 @@ assoc_legendre_impl(unsigned int n, unsigned int m, T x)
 	if (bksge::abs(x) > T(1))
 	{
 		//bksge::throw_domain_error("");
-		return bksge::numeric_limits<T>::quiet_NaN();
+		return std::numeric_limits<T>::quiet_NaN();
 	}
 
 	if (bksge::isnan(x))
 	{
-		return bksge::numeric_limits<T>::quiet_NaN();
+		return std::numeric_limits<T>::quiet_NaN();
 	}
 
 	return assoc_legendre_unchecked(n, m, x);

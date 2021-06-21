@@ -17,8 +17,8 @@
 #include <bksge/fnd/cmath/is_integer.hpp>
 #include <bksge/fnd/cmath/signbit.hpp>
 #include <bksge/fnd/cmath/copysign.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <cmath>	// TODO
+#include <limits>
 
 namespace bksge
 {
@@ -131,8 +131,8 @@ inline BKSGE_CONSTEXPR FloatType
 pow_impl(FloatType x, FloatType y) BKSGE_NOEXCEPT
 {
 	return pow_impl_2(x, y,
-		bksge::numeric_limits<FloatType>::infinity(),
-		bksge::numeric_limits<FloatType>::quiet_NaN());
+		std::numeric_limits<FloatType>::infinity(),
+		std::numeric_limits<FloatType>::quiet_NaN());
 }
 
 }	// namespace detail

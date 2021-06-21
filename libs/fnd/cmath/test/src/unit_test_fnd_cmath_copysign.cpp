@@ -11,9 +11,9 @@
 #include <bksge/fnd/cmath/iszero.hpp>
 #include <bksge/fnd/cmath/signbit.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -44,11 +44,11 @@ static_assert(bksge::is_same<double,      decltype(bksge::copysign(0   , 0   ))>
 template <typename T>
 void CopysignTestFloat(void)
 {
-	BKSGE_CONSTEXPR auto nan    = bksge::numeric_limits<T>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf    = bksge::numeric_limits<T>::infinity();
-	BKSGE_CONSTEXPR auto max    = bksge::numeric_limits<T>::max();
-	BKSGE_CONSTEXPR auto min    = bksge::numeric_limits<T>::min();
-	BKSGE_CONSTEXPR auto lowest = bksge::numeric_limits<T>::lowest();
+	BKSGE_CONSTEXPR auto nan    = std::numeric_limits<T>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf    = std::numeric_limits<T>::infinity();
+	BKSGE_CONSTEXPR auto max    = std::numeric_limits<T>::max();
+	BKSGE_CONSTEXPR auto min    = std::numeric_limits<T>::min();
+	BKSGE_CONSTEXPR auto lowest = std::numeric_limits<T>::lowest();
 
 	BKSGE_CONSTEXPR_EXPECT_EQ(T( 1.0), bksge::copysign(T( 1.0), T(+2.0)));
 	BKSGE_CONSTEXPR_EXPECT_EQ(T(-1.0), bksge::copysign(T( 1.0), T(-2.0)));
@@ -116,9 +116,9 @@ void CopysignTestFloat(void)
 template <typename T>
 void CopysignTestSignedInt(void)
 {
-	BKSGE_CONSTEXPR auto max    = bksge::numeric_limits<T>::max();
-	BKSGE_CONSTEXPR auto min    = bksge::numeric_limits<T>::min();
-	BKSGE_CONSTEXPR auto lowest = bksge::numeric_limits<T>::lowest();
+	BKSGE_CONSTEXPR auto max    = std::numeric_limits<T>::max();
+	BKSGE_CONSTEXPR auto min    = std::numeric_limits<T>::min();
+	BKSGE_CONSTEXPR auto lowest = std::numeric_limits<T>::lowest();
 
 	BKSGE_CONSTEXPR_EXPECT_EQ(T( 1), bksge::copysign(T(1), T(+2)));
 	BKSGE_CONSTEXPR_EXPECT_EQ(T(-1), bksge::copysign(T(1), T(-2)));
@@ -135,9 +135,9 @@ void CopysignTestSignedInt(void)
 template <typename T>
 void CopysignTestUnsignedInt(void)
 {
-	BKSGE_CONSTEXPR auto max    = bksge::numeric_limits<T>::max();
-	BKSGE_CONSTEXPR auto min    = bksge::numeric_limits<T>::min();
-	BKSGE_CONSTEXPR auto lowest = bksge::numeric_limits<T>::lowest();
+	BKSGE_CONSTEXPR auto max    = std::numeric_limits<T>::max();
+	BKSGE_CONSTEXPR auto min    = std::numeric_limits<T>::min();
+	BKSGE_CONSTEXPR auto lowest = std::numeric_limits<T>::lowest();
 
 	BKSGE_CONSTEXPR_EXPECT_EQ( 1.0, bksge::copysign(T(1), T(+2)));
 	BKSGE_CONSTEXPR_EXPECT_EQ(-1.0, bksge::copysign(T(1), -2.0));

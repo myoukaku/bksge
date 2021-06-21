@@ -11,8 +11,8 @@
 
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/iszero.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -26,8 +26,8 @@ issubnormal_or_zero(T x) BKSGE_NOEXCEPT
 {
 	return
 		x > 0 ?
-			x <  (bksge::numeric_limits<T>::min)():
-			x > -(bksge::numeric_limits<T>::min)();
+			x <  (std::numeric_limits<T>::min)():
+			x > -(std::numeric_limits<T>::min)();
 }
 
 template <typename FloatType>

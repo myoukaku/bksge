@@ -27,7 +27,7 @@
 #include <bksge/fnd/string_view.hpp>
 #include <bksge/fnd/string.hpp>
 #include <bksge/fnd/config.hpp>
-#include <bksge/fnd/limits.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -644,7 +644,7 @@ struct hash<bksge::basic_bigint<B, S>>
 
 }	// namespace BKSGE_HASH_NAMESPACE
 
-namespace BKSGE_NUMERIC_LIMITS_NAMESPACE
+namespace std
 {
 
 template <bksge::size_t Bits, bool Signed>
@@ -693,6 +693,6 @@ public:
 	static BKSGE_CONSTEXPR T denorm_min()    { return 0; }
 };
 
-}	// namespace BKSGE_NUMERIC_LIMITS_NAMESPACE
+}	// namespace std
 
 #endif // BKSGE_FND_BIGINT_BASIC_BIGINT_HPP

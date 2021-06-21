@@ -25,10 +25,10 @@
 #include <bksge/fnd/type_traits/is_trivially_move_constructible.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/string.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -67,7 +67,7 @@ inline BKSGE_CXX14_CONSTEXPR bool CtorDefaultTest()
 template <typename BigInt>
 inline BKSGE_CXX14_CONSTEXPR bool CtorIntTest()
 {
-	constexpr bool is_bounded = bksge::numeric_limits<BigInt>::is_bounded;
+	constexpr bool is_bounded = std::numeric_limits<BigInt>::is_bounded;
 	static_assert(bksge::is_constructible<BigInt, int>::value            == true, "");
 	static_assert(bksge::is_nothrow_constructible<BigInt, int>::value    == is_bounded, "");
 	static_assert(bksge::is_implicitly_constructible<BigInt, int>::value == true, "");
@@ -86,52 +86,52 @@ inline BKSGE_CXX14_CONSTEXPR bool CtorIntTest()
 		VERIFY(x == 3);
 	}
 	{
-		BigInt x = {bksge::numeric_limits<bksge::int8_t>::min()};
-		VERIFY(x == bksge::numeric_limits<bksge::int8_t>::min());
+		BigInt x = {std::numeric_limits<bksge::int8_t>::min()};
+		VERIFY(x == std::numeric_limits<bksge::int8_t>::min());
 	}
 	{
-		BigInt x = {bksge::numeric_limits<bksge::int8_t>::max()};
-		VERIFY(x == bksge::numeric_limits<bksge::int8_t>::max());
+		BigInt x = {std::numeric_limits<bksge::int8_t>::max()};
+		VERIFY(x == std::numeric_limits<bksge::int8_t>::max());
 	}
 	{
-		BigInt x = {bksge::numeric_limits<bksge::int16_t>::min()};
-		VERIFY(x == bksge::numeric_limits<bksge::int16_t>::min());
+		BigInt x = {std::numeric_limits<bksge::int16_t>::min()};
+		VERIFY(x == std::numeric_limits<bksge::int16_t>::min());
 	}
 	{
-		BigInt x = {bksge::numeric_limits<bksge::int16_t>::max()};
-		VERIFY(x == bksge::numeric_limits<bksge::int16_t>::max());
+		BigInt x = {std::numeric_limits<bksge::int16_t>::max()};
+		VERIFY(x == std::numeric_limits<bksge::int16_t>::max());
 	}
 	{
-		BigInt x = {bksge::numeric_limits<bksge::int32_t>::min()};
-		VERIFY(x == bksge::numeric_limits<bksge::int32_t>::min());
+		BigInt x = {std::numeric_limits<bksge::int32_t>::min()};
+		VERIFY(x == std::numeric_limits<bksge::int32_t>::min());
 	}
 	{
-		BigInt x = {bksge::numeric_limits<bksge::int32_t>::max()};
-		VERIFY(x == bksge::numeric_limits<bksge::int32_t>::max());
+		BigInt x = {std::numeric_limits<bksge::int32_t>::max()};
+		VERIFY(x == std::numeric_limits<bksge::int32_t>::max());
 	}
 	{
-		BigInt x = {bksge::numeric_limits<bksge::int64_t>::min()};
-		VERIFY(x == bksge::numeric_limits<bksge::int64_t>::min());
+		BigInt x = {std::numeric_limits<bksge::int64_t>::min()};
+		VERIFY(x == std::numeric_limits<bksge::int64_t>::min());
 	}
 	{
-		BigInt x = {bksge::numeric_limits<bksge::int64_t>::max()};
-		VERIFY(x == bksge::numeric_limits<bksge::int64_t>::max());
+		BigInt x = {std::numeric_limits<bksge::int64_t>::max()};
+		VERIFY(x == std::numeric_limits<bksge::int64_t>::max());
 	}
 	{
-		BigInt x = {bksge::numeric_limits<bksge::uint8_t>::max()};
-		VERIFY(x == bksge::numeric_limits<bksge::uint8_t>::max());
+		BigInt x = {std::numeric_limits<bksge::uint8_t>::max()};
+		VERIFY(x == std::numeric_limits<bksge::uint8_t>::max());
 	}
 	{
-		BigInt x = {bksge::numeric_limits<bksge::uint16_t>::max()};
-		VERIFY(x == bksge::numeric_limits<bksge::uint16_t>::max());
+		BigInt x = {std::numeric_limits<bksge::uint16_t>::max()};
+		VERIFY(x == std::numeric_limits<bksge::uint16_t>::max());
 	}
 	{
-		BigInt x = {bksge::numeric_limits<bksge::uint32_t>::max()};
-		VERIFY(x == bksge::numeric_limits<bksge::uint32_t>::max());
+		BigInt x = {std::numeric_limits<bksge::uint32_t>::max()};
+		VERIFY(x == std::numeric_limits<bksge::uint32_t>::max());
 	}
 	{
-		BigInt x = {bksge::numeric_limits<bksge::uint64_t>::max()};
-		VERIFY(x == bksge::numeric_limits<bksge::uint64_t>::max());
+		BigInt x = {std::numeric_limits<bksge::uint64_t>::max()};
+		VERIFY(x == std::numeric_limits<bksge::uint64_t>::max());
 	}
 
 	return true;
@@ -140,7 +140,7 @@ inline BKSGE_CXX14_CONSTEXPR bool CtorIntTest()
 template <typename BigInt>
 inline BKSGE_CXX14_CONSTEXPR bool CtorFloatTest()
 {
-	constexpr bool is_bounded = bksge::numeric_limits<BigInt>::is_bounded;
+	constexpr bool is_bounded = std::numeric_limits<BigInt>::is_bounded;
 	static_assert(bksge::is_constructible<BigInt, float>::value            == true, "");
 	static_assert(bksge::is_nothrow_constructible<BigInt, float>::value    == is_bounded, "");
 	static_assert(bksge::is_implicitly_constructible<BigInt, float>::value == true, "");
@@ -224,83 +224,83 @@ template <typename BigInt>
 inline BKSGE_CXX14_CONSTEXPR bool CtorFloatLargeTest()
 {
 	{
-		BigInt x((float)bksge::numeric_limits<bksge::int32_t>::max());
+		BigInt x((float)std::numeric_limits<bksge::int32_t>::max());
 		VERIFY(x == BigInt("2147483648"));
 	}
 	{
-		BigInt x((float)bksge::numeric_limits<bksge::int32_t>::min());
+		BigInt x((float)std::numeric_limits<bksge::int32_t>::min());
 		VERIFY(x == BigInt("-2147483648"));
 	}
 	{
-		BigInt x((float)bksge::numeric_limits<bksge::uint32_t>::max());
+		BigInt x((float)std::numeric_limits<bksge::uint32_t>::max());
 		VERIFY(x == BigInt("4294967296"));
 	}
 	{
-		BigInt x((float)bksge::numeric_limits<bksge::uint32_t>::min());
+		BigInt x((float)std::numeric_limits<bksge::uint32_t>::min());
 		VERIFY(x == BigInt("0"));
 	}
 	{
-		BigInt x((float)bksge::numeric_limits<bksge::int64_t>::max());
+		BigInt x((float)std::numeric_limits<bksge::int64_t>::max());
 		VERIFY(x == BigInt("9223372036854775808"));
 	}
 	{
-		BigInt x((float)bksge::numeric_limits<bksge::int64_t>::min());
+		BigInt x((float)std::numeric_limits<bksge::int64_t>::min());
 		VERIFY(x == BigInt("-9223372036854775808"));
 	}
 	{
-		BigInt x((float)bksge::numeric_limits<bksge::uint64_t>::max());
+		BigInt x((float)std::numeric_limits<bksge::uint64_t>::max());
 		VERIFY(x == BigInt("18446744073709551616"));
 	}
 	{
-		BigInt x((float)bksge::numeric_limits<bksge::uint64_t>::min());
+		BigInt x((float)std::numeric_limits<bksge::uint64_t>::min());
 		VERIFY(x == BigInt("0"));
 	}
 	{
-		BigInt x((double)bksge::numeric_limits<bksge::int32_t>::max());
+		BigInt x((double)std::numeric_limits<bksge::int32_t>::max());
 		VERIFY(x == BigInt("2147483647"));
 	}
 	{
-		BigInt x((double)bksge::numeric_limits<bksge::int32_t>::min());
+		BigInt x((double)std::numeric_limits<bksge::int32_t>::min());
 		VERIFY(x == BigInt("-2147483648"));
 	}
 	{
-		BigInt x((double)bksge::numeric_limits<bksge::uint32_t>::max());
+		BigInt x((double)std::numeric_limits<bksge::uint32_t>::max());
 		VERIFY(x == BigInt("4294967295"));
 	}
 	{
-		BigInt x((double)bksge::numeric_limits<bksge::uint32_t>::min());
+		BigInt x((double)std::numeric_limits<bksge::uint32_t>::min());
 		VERIFY(x == BigInt("0"));
 	}
 	{
-		BigInt x((double)bksge::numeric_limits<bksge::int64_t>::max());
+		BigInt x((double)std::numeric_limits<bksge::int64_t>::max());
 		VERIFY(x == BigInt("9223372036854775808"));
 	}
 	{
-		BigInt x((double)bksge::numeric_limits<bksge::int64_t>::min());
+		BigInt x((double)std::numeric_limits<bksge::int64_t>::min());
 		VERIFY(x == BigInt("-9223372036854775808"));
 	}
 	{
-		BigInt x((double)bksge::numeric_limits<bksge::uint64_t>::max());
+		BigInt x((double)std::numeric_limits<bksge::uint64_t>::max());
 		VERIFY(x == BigInt("18446744073709551616"));
 	}
 	{
-		BigInt x((double)bksge::numeric_limits<bksge::uint64_t>::min());
+		BigInt x((double)std::numeric_limits<bksge::uint64_t>::min());
 		VERIFY(x == BigInt("0"));
 	}
 	{
-		BigInt x(bksge::numeric_limits<float>::max());
+		BigInt x(std::numeric_limits<float>::max());
 		VERIFY(x == BigInt("340282346638528859811704183484516925440"));
 	}
 	{
-		BigInt x(bksge::numeric_limits<float>::lowest());
+		BigInt x(std::numeric_limits<float>::lowest());
 		VERIFY(x == BigInt("-340282346638528859811704183484516925440"));
 	}
 	{
-		BigInt x(bksge::numeric_limits<double>::max());
+		BigInt x(std::numeric_limits<double>::max());
 		VERIFY(x == BigInt("179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368"));
 	}
 	{
-		BigInt x(bksge::numeric_limits<double>::lowest());
+		BigInt x(std::numeric_limits<double>::lowest());
 		VERIFY(x == BigInt("-179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368"));
 	}
 	return true;
@@ -324,8 +324,8 @@ inline BKSGE_CXX14_CONSTEXPR bool CtorConvTest()
 	{
 		BigInt1 x1(-1);
 		BigInt2 x2(x1);
-		if (bksge::numeric_limits<BigInt1>::is_signed &&
-			bksge::numeric_limits<BigInt2>::is_signed)
+		if (std::numeric_limits<BigInt1>::is_signed &&
+			std::numeric_limits<BigInt2>::is_signed)
 		{
 			VERIFY(x2 == -1);
 			VERIFY(x1 == x2);
@@ -340,8 +340,8 @@ inline BKSGE_CXX14_CONSTEXPR bool CtorConvTest()
 	{
 		BigInt1 x1(-123);
 		BigInt2 x2(x1);
-		if (bksge::numeric_limits<BigInt1>::is_signed &&
-			bksge::numeric_limits<BigInt2>::is_signed)
+		if (std::numeric_limits<BigInt1>::is_signed &&
+			std::numeric_limits<BigInt2>::is_signed)
 		{
 			VERIFY(x2 == -123);
 			VERIFY(x1 == x2);
@@ -537,7 +537,7 @@ inline BKSGE_CXX14_CONSTEXPR bool CtorStringTest()
 template <typename BigInt>
 inline BKSGE_CXX14_CONSTEXPR bool CtorCopyTest()
 {
-	constexpr bool is_bounded = bksge::numeric_limits<BigInt>::is_bounded;
+	constexpr bool is_bounded = std::numeric_limits<BigInt>::is_bounded;
 	static_assert(bksge::is_copy_constructible<BigInt>::value            == true, "");
 	static_assert(bksge::is_nothrow_copy_constructible<BigInt>::value    == is_bounded, "");
 	static_assert(bksge::is_implicitly_copy_constructible<BigInt>::value == true, "");
@@ -569,7 +569,7 @@ inline BKSGE_CXX14_CONSTEXPR bool CtorCopyTest()
 template <typename BigInt>
 inline BKSGE_CXX14_CONSTEXPR bool CtorMoveTest()
 {
-	constexpr bool is_bounded = bksge::numeric_limits<BigInt>::is_bounded;
+	constexpr bool is_bounded = std::numeric_limits<BigInt>::is_bounded;
 	static_assert(bksge::is_move_constructible<BigInt>::value            == true, "");
 	static_assert(bksge::is_nothrow_move_constructible<BigInt>::value    == true, "");
 	static_assert(bksge::is_implicitly_move_constructible<BigInt>::value == true, "");

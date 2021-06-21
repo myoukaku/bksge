@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/cmath/fdim.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
-#include <bksge/fnd/limits.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -56,7 +56,7 @@ fdim_impl_2(FloatType x, FloatType y, FloatType inf) BKSGE_NOEXCEPT
 {
 	return
 		bksge::isnan(x) || bksge::isnan(y) ?
-			bksge::numeric_limits<FloatType>::quiet_NaN() :
+			std::numeric_limits<FloatType>::quiet_NaN() :
 		x == inf ?
 			y == inf ?
 				FloatType(0) :
@@ -74,7 +74,7 @@ template <typename FloatType>
 inline BKSGE_CONSTEXPR FloatType
 fdim_impl(FloatType x, FloatType y) BKSGE_NOEXCEPT
 {
-	return fdim_impl_2(x, y, bksge::numeric_limits<FloatType>::infinity());
+	return fdim_impl_2(x, y, std::numeric_limits<FloatType>::infinity());
 }
 
 }	// namespace detail

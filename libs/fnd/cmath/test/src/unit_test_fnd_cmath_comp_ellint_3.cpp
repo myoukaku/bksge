@@ -11,8 +11,8 @@
 #include <bksge/fnd/cmath/isinf.hpp>
 #include <bksge/fnd/cmath/abs.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -43,13 +43,13 @@ static_assert(bksge::is_same<long double, decltype(bksge::comp_ellint_3l(0.0l, 0
 template <typename T1, typename T2>
 void CompEllint3TestFloat(double error)
 {
-	BKSGE_CONSTEXPR auto nan1 = bksge::numeric_limits<T1>::quiet_NaN();
-	BKSGE_CONSTEXPR auto nan2 = bksge::numeric_limits<T2>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf1 = bksge::numeric_limits<T1>::infinity();
-	BKSGE_CONSTEXPR auto max1 = bksge::numeric_limits<T1>::max();
-	BKSGE_CONSTEXPR auto lowest1 = bksge::numeric_limits<T1>::lowest();
-	BKSGE_CONSTEXPR auto eps1 = bksge::numeric_limits<T1>::epsilon();
-	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<double>::infinity();
+	BKSGE_CONSTEXPR auto nan1 = std::numeric_limits<T1>::quiet_NaN();
+	BKSGE_CONSTEXPR auto nan2 = std::numeric_limits<T2>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf1 = std::numeric_limits<T1>::infinity();
+	BKSGE_CONSTEXPR auto max1 = std::numeric_limits<T1>::max();
+	BKSGE_CONSTEXPR auto lowest1 = std::numeric_limits<T1>::lowest();
+	BKSGE_CONSTEXPR auto eps1 = std::numeric_limits<T1>::epsilon();
+	BKSGE_CONSTEXPR auto inf = std::numeric_limits<double>::infinity();
 
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_3(nan1, nan2)));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_3(nan1, T2(0))));
@@ -308,8 +308,8 @@ void CompEllint3TestInt()
 {
 	double const error = 0.000000000001;
 
-	BKSGE_CONSTEXPR auto nan = bksge::numeric_limits<double>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<double>::infinity();
+	BKSGE_CONSTEXPR auto nan = std::numeric_limits<double>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf = std::numeric_limits<double>::infinity();
 
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_3(T(0), nan)));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_3(nan, T(0))));
@@ -385,16 +385,16 @@ GTEST_TEST(CMathTest, CompEllint3Test)
 	CompEllint3TestInt<int>();
 	CompEllint3TestInt<short>();
 
-	BKSGE_CONSTEXPR auto nanf = bksge::numeric_limits<float>::quiet_NaN();
-	BKSGE_CONSTEXPR auto epsf = bksge::numeric_limits<float>::epsilon();
+	BKSGE_CONSTEXPR auto nanf = std::numeric_limits<float>::quiet_NaN();
+	BKSGE_CONSTEXPR auto epsf = std::numeric_limits<float>::epsilon();
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_3f(nanf, nanf)));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_3f(nanf, 0.0f)));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_3f(0.0f, nanf)));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_3f( 1.0f + epsf, 0.0f)));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_3f(-1.0f - epsf, 0.0f)));
 
-	BKSGE_CONSTEXPR auto nanl = bksge::numeric_limits<long double>::quiet_NaN();
-	BKSGE_CONSTEXPR auto epsl = bksge::numeric_limits<long double>::epsilon();
+	BKSGE_CONSTEXPR auto nanl = std::numeric_limits<long double>::quiet_NaN();
+	BKSGE_CONSTEXPR auto epsl = std::numeric_limits<long double>::epsilon();
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_3l(nanl, nanl)));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_3l(nanl, 0.0l)));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_3l(0.0l, nanl)));

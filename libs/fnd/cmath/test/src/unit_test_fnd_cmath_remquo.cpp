@@ -50,10 +50,10 @@ void RemquoTestFloat(void)
 {
 	using R = bksge::float_promote_t<T1, T2>;
 
-	BKSGE_CONSTEXPR auto nan1 = bksge::numeric_limits<T1>::quiet_NaN();
-	BKSGE_CONSTEXPR auto nan2 = bksge::numeric_limits<T2>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf1 = bksge::numeric_limits<T1>::infinity();
-	BKSGE_CONSTEXPR auto inf2 = bksge::numeric_limits<T2>::infinity();
+	BKSGE_CONSTEXPR auto nan1 = std::numeric_limits<T1>::quiet_NaN();
+	BKSGE_CONSTEXPR auto nan2 = std::numeric_limits<T2>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf1 = std::numeric_limits<T1>::infinity();
+	BKSGE_CONSTEXPR auto inf2 = std::numeric_limits<T2>::infinity();
 
 	EXPECT_TRUE(RemquoTestImpl(R( 1.0), 2, T1( 7.0), T2(3)));
 	EXPECT_TRUE(RemquoTestImpl(R( 1.5), 2, T1( 7.5), T2(3)));

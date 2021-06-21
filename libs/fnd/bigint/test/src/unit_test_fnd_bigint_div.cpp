@@ -7,12 +7,12 @@
  */
 
 #include <bksge/fnd/bigint.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
 #include <bksge/fnd/sstream.hpp>
 #include <bksge/fnd/random.hpp>
 #include <chrono>
+#include <limits>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
@@ -105,7 +105,7 @@ inline BKSGE_CXX14_CONSTEXPR bool DivTest()
 		x /= BigInt2{2};
 		VERIFY(x == 0);
 	}
-	if (bksge::numeric_limits<BigInt1>::is_signed)
+	if (std::numeric_limits<BigInt1>::is_signed)
 	{
 		BigInt1 x(-256);
 		VERIFY(x == -256);
@@ -174,8 +174,8 @@ inline BKSGE_CXX14_CONSTEXPR bool Div2Test()
 	}
 	{
 		auto x = BigInt1( 6) / BigInt2(-3);
-		if (bksge::numeric_limits<BigInt1>::is_signed &&
-			bksge::numeric_limits<BigInt2>::is_signed)
+		if (std::numeric_limits<BigInt1>::is_signed &&
+			std::numeric_limits<BigInt2>::is_signed)
 		{
 			VERIFY(x == -2);
 		}
@@ -186,16 +186,16 @@ inline BKSGE_CXX14_CONSTEXPR bool Div2Test()
 	}
 	{
 		auto x = BigInt1(-6) / BigInt2( 3);
-		if (bksge::numeric_limits<BigInt1>::is_signed &&
-			bksge::numeric_limits<BigInt2>::is_signed)
+		if (std::numeric_limits<BigInt1>::is_signed &&
+			std::numeric_limits<BigInt2>::is_signed)
 		{
 			VERIFY(x == -2);
 		}
 	}
 	{
 		auto x = BigInt1(-6) / BigInt2(-3);
-		if (bksge::numeric_limits<BigInt1>::is_signed &&
-			bksge::numeric_limits<BigInt2>::is_signed)
+		if (std::numeric_limits<BigInt1>::is_signed &&
+			std::numeric_limits<BigInt2>::is_signed)
 		{
 			VERIFY(x == 2);
 		}

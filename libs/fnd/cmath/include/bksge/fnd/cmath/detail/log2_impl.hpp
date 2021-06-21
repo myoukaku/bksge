@@ -12,9 +12,9 @@
 #include <bksge/fnd/cmath/iszero.hpp>
 #include <bksge/fnd/cmath/isinf.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cmath>
+#include <limits>
 
 namespace bksge
 {
@@ -59,13 +59,13 @@ log2_impl(FloatType x) BKSGE_NOEXCEPT
 {
 	return
 		bksge::iszero(x) ?
-			-bksge::numeric_limits<FloatType>::infinity() :
+			-std::numeric_limits<FloatType>::infinity() :
 		x == FloatType(1) ?
 			FloatType(0) :
 		x < FloatType(0) || bksge::isnan(x) ?
-			bksge::numeric_limits<FloatType>::quiet_NaN() :
+			std::numeric_limits<FloatType>::quiet_NaN() :
 		bksge::isinf(x) ?
-			bksge::numeric_limits<FloatType>::infinity() :
+			std::numeric_limits<FloatType>::infinity() :
 		log2_unchecked(x);
 }
 

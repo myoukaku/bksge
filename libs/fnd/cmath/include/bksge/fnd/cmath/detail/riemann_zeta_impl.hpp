@@ -20,9 +20,9 @@
 #include <bksge/fnd/cmath/detail/riemann_zeta_sum.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
 #include <bksge/fnd/numbers.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cmath>
+#include <limits>
 
 namespace bksge
 {
@@ -112,12 +112,12 @@ riemann_zeta_impl(T x)
 {
 	if (bksge::isnan(x))
 	{
-		return bksge::numeric_limits<T>::quiet_NaN();
+		return std::numeric_limits<T>::quiet_NaN();
 	}
 
 	if (x == T(1))
 	{
-		return bksge::numeric_limits<T>::infinity();
+		return std::numeric_limits<T>::infinity();
 	}
 
 	return riemann_zeta_unchecked(x);

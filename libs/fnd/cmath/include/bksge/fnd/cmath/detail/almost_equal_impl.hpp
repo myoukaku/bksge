@@ -14,8 +14,8 @@
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_floating_point.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -39,7 +39,7 @@ almost_equal_impl(FloatType x, FloatType y) BKSGE_NOEXCEPT
 			x == y :
 		x == y ||
 		bksge::fabs(x - y) <=
-			bksge::numeric_limits<FloatType>::epsilon() *
+			std::numeric_limits<FloatType>::epsilon() *
 			tmax(tmax(bksge::fabs(x), bksge::fabs(y)), FloatType(1));
 }
 

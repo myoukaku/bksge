@@ -9,8 +9,8 @@
 #include <bksge/fnd/cmath/fma.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -91,13 +91,13 @@ void FmaTestFloat(void)
 {
 	using R = bksge::float_promote_t<T1, T2, T3>;
 
-	BKSGE_CONSTEXPR auto inf1 = bksge::numeric_limits<T1>::infinity();
-	BKSGE_CONSTEXPR auto inf2 = bksge::numeric_limits<T2>::infinity();
-	BKSGE_CONSTEXPR auto inf3 = bksge::numeric_limits<T3>::infinity();
-	BKSGE_CONSTEXPR auto inf4 = bksge::numeric_limits<R>::infinity();
-	BKSGE_CONSTEXPR auto nan1 = bksge::numeric_limits<T1>::quiet_NaN();
-	BKSGE_CONSTEXPR auto nan2 = bksge::numeric_limits<T2>::quiet_NaN();
-	BKSGE_CONSTEXPR auto nan3 = bksge::numeric_limits<T3>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf1 = std::numeric_limits<T1>::infinity();
+	BKSGE_CONSTEXPR auto inf2 = std::numeric_limits<T2>::infinity();
+	BKSGE_CONSTEXPR auto inf3 = std::numeric_limits<T3>::infinity();
+	BKSGE_CONSTEXPR auto inf4 = std::numeric_limits<R>::infinity();
+	BKSGE_CONSTEXPR auto nan1 = std::numeric_limits<T1>::quiet_NaN();
+	BKSGE_CONSTEXPR auto nan2 = std::numeric_limits<T2>::quiet_NaN();
+	BKSGE_CONSTEXPR auto nan3 = std::numeric_limits<T3>::quiet_NaN();
 
 	BKSGE_CONSTEXPR_EXPECT_EQ( 0.0, bksge::fma(T1( 0.0), T2( 0.0), T3( 0.0)));
 	BKSGE_CONSTEXPR_EXPECT_EQ( 0.5, bksge::fma(T1( 0.0), T2( 0.0), T3( 0.5)));

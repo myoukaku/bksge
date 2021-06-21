@@ -13,8 +13,8 @@
 #include <bksge/fnd/cmath/isinf.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
 //#include <bksge/fnd/cmath/signbit.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <cmath>
+#include <limits>
 
 namespace bksge
 {
@@ -62,13 +62,13 @@ log1p_impl(FloatType x) BKSGE_NOEXCEPT
 		bksge::iszero(x) ?
 			x :
 		x == -1 ?
-			-bksge::numeric_limits<FloatType>::infinity() :
+			-std::numeric_limits<FloatType>::infinity() :
 		x < -1 ?
-			bksge::numeric_limits<FloatType>::quiet_NaN() :
+			std::numeric_limits<FloatType>::quiet_NaN() :
 		bksge::isinf(x) ? //&& !bksge::signbit(x) ?
-			bksge::numeric_limits<FloatType>::infinity() :
+			std::numeric_limits<FloatType>::infinity() :
 		bksge::isnan(x) ?
-			bksge::numeric_limits<FloatType>::quiet_NaN() :
+			std::numeric_limits<FloatType>::quiet_NaN() :
 		log1p_unchecked(x);
 }
 

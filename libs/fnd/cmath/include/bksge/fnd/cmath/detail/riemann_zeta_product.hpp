@@ -10,8 +10,8 @@
 #define BKSGE_FND_CMATH_DETAIL_RIEMANN_ZETA_PRODUCT_HPP
 
 #include <bksge/fnd/cmath/pow.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -36,7 +36,7 @@ riemann_zeta_product(T s)
 	{
 		T const fact = T(1) - bksge::pow(prime, -s);
 		zeta *= fact;
-		if (T(1) - fact < bksge::numeric_limits<T>::epsilon())
+		if (T(1) - fact < std::numeric_limits<T>::epsilon())
 		{
 			break;
 		}

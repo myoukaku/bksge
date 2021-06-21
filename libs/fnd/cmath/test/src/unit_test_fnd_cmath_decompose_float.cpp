@@ -8,8 +8,8 @@
 
 #include <bksge/fnd/cmath/decompose_float.hpp>
 #include <bksge/fnd/cmath/pow.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -43,10 +43,10 @@ void DecomposeFloatTest(void)
 	EXPECT_TRUE(DecomposeFloatTestImpl(T(0.1L)));
 	EXPECT_TRUE(DecomposeFloatTestImpl(T(0.2L)));
 	EXPECT_TRUE(DecomposeFloatTestImpl(T(1.0L / 3.0L)));
-	EXPECT_TRUE(DecomposeFloatTestImpl(bksge::numeric_limits<T>::max()));
-	EXPECT_TRUE(DecomposeFloatTestImpl(bksge::numeric_limits<T>::min()));
-	EXPECT_TRUE(DecomposeFloatTestImpl(bksge::numeric_limits<T>::lowest()));
-	EXPECT_TRUE(DecomposeFloatTestImpl(bksge::numeric_limits<T>::denorm_min()));
+	EXPECT_TRUE(DecomposeFloatTestImpl(std::numeric_limits<T>::max()));
+	EXPECT_TRUE(DecomposeFloatTestImpl(std::numeric_limits<T>::min()));
+	EXPECT_TRUE(DecomposeFloatTestImpl(std::numeric_limits<T>::lowest()));
+	EXPECT_TRUE(DecomposeFloatTestImpl(std::numeric_limits<T>::denorm_min()));
 
 	{
 		// 0.0 == -1^0 * 0 * 2^0
@@ -113,28 +113,28 @@ void DecomposeFloatTest(void)
 	}
 	{
 		// infinity
-		auto result = bksge::decompose_float(bksge::numeric_limits<T>::infinity());
+		auto result = bksge::decompose_float(std::numeric_limits<T>::infinity());
 		EXPECT_EQ(0u, result.sign);
 		EXPECT_EQ(0u, result.fraction);
 		EXPECT_EQ(0,  result.exponent);
 	}
 	{
 		// -infinity
-		auto result = bksge::decompose_float(-bksge::numeric_limits<T>::infinity());
+		auto result = bksge::decompose_float(-std::numeric_limits<T>::infinity());
 		EXPECT_EQ(1u, result.sign);
 		EXPECT_EQ(0u, result.fraction);
 		EXPECT_EQ(0,  result.exponent);
 	}
 	{
 		// NaN
-		auto result = bksge::decompose_float(bksge::numeric_limits<T>::quiet_NaN());
+		auto result = bksge::decompose_float(std::numeric_limits<T>::quiet_NaN());
 		EXPECT_EQ(0u, result.sign);
 		EXPECT_EQ(0u, result.fraction);
 		EXPECT_EQ(0,  result.exponent);
 	}
 	{
 		// -NaN
-		auto result = bksge::decompose_float(-bksge::numeric_limits<T>::quiet_NaN());
+		auto result = bksge::decompose_float(-std::numeric_limits<T>::quiet_NaN());
 		EXPECT_EQ(1u, result.sign);
 		EXPECT_EQ(0u, result.fraction);
 		EXPECT_EQ(0,  result.exponent);

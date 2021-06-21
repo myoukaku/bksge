@@ -12,8 +12,8 @@
 #include <bksge/fnd/cmath/pow.hpp>
 #include <bksge/fnd/cmath/abs.hpp>
 #include <bksge/fnd/cmath/sqrt.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -25,12 +25,12 @@ template <typename T>
 inline BKSGE_CXX14_CONSTEXPR T
 ellint_rc(T x, T y)
 {
-	T const lolim = T(5) * bksge::numeric_limits<T>::min();
+	T const lolim = T(5) * std::numeric_limits<T>::min();
 
 	if (x < T(0) || y < T(0) || x + y < lolim)
 	{
 		//bksge::throw_domain_error("Argument less than zero in __ellint_rc.");
-		return bksge::numeric_limits<T>::quiet_NaN();
+		return std::numeric_limits<T>::quiet_NaN();
 	}
 	else
 	{
@@ -43,7 +43,7 @@ ellint_rc(T x, T y)
 		T xn = x;
 		T yn = y;
 
-		T const eps = bksge::numeric_limits<T>::epsilon();
+		T const eps = std::numeric_limits<T>::epsilon();
 		T const errtol = bksge::pow(eps / T(30), T(1) / T(6));
 		T mu;
 		T sn;

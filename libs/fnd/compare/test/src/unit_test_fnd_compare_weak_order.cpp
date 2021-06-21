@@ -11,9 +11,9 @@
 #include <bksge/fnd/compare/strong_ordering.hpp>
 #include <bksge/fnd/compare/is_eq.hpp>
 #include <bksge/fnd/compare/concepts/three_way_comparable.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 #if defined(BKSGE_HAS_STD_COMPARE) && defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
@@ -124,13 +124,13 @@ inline BKSGE_CXX14_CONSTEXPR bool test01()
 	VERIFY(weak_order(-0.0,  0.0) == weak_ordering::equivalent);
 	VERIFY(weak_order( 0.0, -0.0) == weak_ordering::equivalent);
 
-	double min = bksge::numeric_limits<double>::lowest();
-	double max = bksge::numeric_limits<double>::max();
-	double nan = bksge::numeric_limits<double>::quiet_NaN();
-	double inf = bksge::numeric_limits<double>::infinity();
-	double denorm = bksge::numeric_limits<double>::denorm_min();
-	double smallest = bksge::numeric_limits<double>::min();
-	double epsilon = bksge::numeric_limits<double>::epsilon();
+	double min = std::numeric_limits<double>::lowest();
+	double max = std::numeric_limits<double>::max();
+	double nan = std::numeric_limits<double>::quiet_NaN();
+	double inf = std::numeric_limits<double>::infinity();
+	double denorm = std::numeric_limits<double>::denorm_min();
+	double smallest = std::numeric_limits<double>::min();
+	double epsilon = std::numeric_limits<double>::epsilon();
 
 	VERIFY(weak_order(denorm, smallest) == weak_ordering::less);
 	VERIFY(weak_order(denorm, 0.0) == weak_ordering::greater);

@@ -32,8 +32,8 @@ using std::midpoint;
 #include <bksge/fnd/type_traits/make_unsigned.hpp>
 #include <bksge/fnd/type_traits/negation.hpp>
 #include <bksge/fnd/type_traits/remove_cv.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -70,8 +70,8 @@ template <typename T>
 inline BKSGE_CXX14_CONSTEXPR T
 midpoint_impl(T a, T b, bksge::detail::overload_priority<0>) BKSGE_NOEXCEPT
 {
-	constexpr T lo = bksge::numeric_limits<T>::min() * 2;
-	constexpr T hi = bksge::numeric_limits<T>::max() / 2;
+	constexpr T lo = std::numeric_limits<T>::min() * 2;
+	constexpr T hi = std::numeric_limits<T>::max() / 2;
 	const T abs_a = a < 0 ? -a : a;
 	const T abs_b = b < 0 ? -b : b;
 

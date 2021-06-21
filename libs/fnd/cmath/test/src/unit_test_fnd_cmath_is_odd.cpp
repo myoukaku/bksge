@@ -8,8 +8,8 @@
 
 #include <bksge/fnd/cmath/is_odd.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -26,8 +26,8 @@ static_assert(bksge::is_same<bool, decltype(bksge::is_odd(0   ))>::value, "");
 template <typename T>
 void IsOddTestFloat(void)
 {
-	BKSGE_CONSTEXPR auto nan = bksge::numeric_limits<T>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<T>::infinity();
+	BKSGE_CONSTEXPR auto nan = std::numeric_limits<T>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf = std::numeric_limits<T>::infinity();
 
 	BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::is_odd(T(-4.1)));
 	BKSGE_CONSTEXPR_EXPECT_FALSE(bksge::is_odd(T(-4.0)));

@@ -7,9 +7,9 @@
  */
 
 #include <bksge/fnd/cmath/double_factorial.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/cstdint.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -252,7 +252,7 @@ GTEST_TEST(CMathTest, DoubleFactorialTest)
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(1.461479318123759876522E+36f,  bksge::double_factorial<float>( 54));
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(8.687364368561751199827E+36f,  bksge::double_factorial<float>( 55));
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(8.184284181493055308524E+37f,  bksge::double_factorial<float>( 56));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(bksge::numeric_limits<float>::infinity(),  bksge::double_factorial<float>( 57));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(std::numeric_limits<float>::infinity(),  bksge::double_factorial<float>( 57));
 	}
 	{
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(1.0,                          bksge::double_factorial<double>(  0));
@@ -556,7 +556,7 @@ GTEST_TEST(CMathTest, DoubleFactorialTest)
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(2.718138023126864781854E+305, bksge::double_factorial<double>(298));
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(3.753274111571925953339E+306, bksge::double_factorial<double>(299));
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(8.154414069380594345562E+307, bksge::double_factorial<double>(300));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(bksge::numeric_limits<float>::infinity(), bksge::double_factorial<double>(301));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(std::numeric_limits<float>::infinity(), bksge::double_factorial<double>(301));
 	}
 }
 

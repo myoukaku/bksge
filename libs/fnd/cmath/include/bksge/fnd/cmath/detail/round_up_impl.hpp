@@ -12,8 +12,8 @@
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/isinf.hpp>
 #include <bksge/fnd/cmath/ceil.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -34,7 +34,7 @@ round_up_impl(FloatType x, FloatType base) BKSGE_NOEXCEPT
 {
 	return
 		bksge::isnan(x) || bksge::isnan(base) ?
-			bksge::numeric_limits<FloatType>::quiet_NaN() :
+			std::numeric_limits<FloatType>::quiet_NaN() :
 		bksge::isinf(base) ?
 			base :
 		bksge::isinf(x) ?

@@ -9,8 +9,8 @@
 #include <bksge/fnd/cmath/erfc.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -29,8 +29,8 @@ static_assert(bksge::is_same<long double, decltype(bksge::erfcl(0.0l))>::value, 
 template <typename T>
 void ErfcTestFloat(double error)
 {
-	BKSGE_CONSTEXPR auto nan = bksge::numeric_limits<T>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<T>::infinity();
+	BKSGE_CONSTEXPR auto nan = std::numeric_limits<T>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf = std::numeric_limits<T>::infinity();
 
 	BKSGE_CONSTEXPR_EXPECT_EQ(T(0.0), bksge::erfc(+inf));
 	BKSGE_CONSTEXPR_EXPECT_EQ(T(2.0), bksge::erfc(-inf));

@@ -12,8 +12,8 @@
 #include <bksge/fnd/cmath/isinf.hpp>
 #include <bksge/fnd/cmath/iszero.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
+#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -32,9 +32,9 @@ static_assert(bksge::is_same<long double, decltype(bksge::truncl(0.0l))>::value,
 template <typename T>
 void TruncTestFloat(void)
 {
-	BKSGE_CONSTEXPR auto nan = bksge::numeric_limits<T>::quiet_NaN();
-	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<T>::infinity();
-	BKSGE_CONSTEXPR auto eps = bksge::numeric_limits<T>::epsilon() * 2;
+	BKSGE_CONSTEXPR auto nan = std::numeric_limits<T>::quiet_NaN();
+	BKSGE_CONSTEXPR auto inf = std::numeric_limits<T>::infinity();
+	BKSGE_CONSTEXPR auto eps = std::numeric_limits<T>::epsilon() * 2;
 
 	BKSGE_CONSTEXPR_EXPECT_EQ(T( 0.0), bksge::trunc(T( 0.0)));
 	BKSGE_CONSTEXPR_EXPECT_EQ(T( 0.0), bksge::trunc(T( 0.1)));

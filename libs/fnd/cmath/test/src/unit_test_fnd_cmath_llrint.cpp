@@ -9,9 +9,9 @@
 #include <bksge/fnd/cmath/llrint.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <gtest/gtest.h>
 #include <cfenv>
+#include <limits>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -40,10 +40,10 @@ inline long long llrint_helper(T x, int round_mode)
 template <typename T>
 void LLRIntTestFloat(void)
 {
-	BKSGE_CONSTEXPR auto inf = bksge::numeric_limits<T>::infinity();
-	BKSGE_CONSTEXPR auto nan = bksge::numeric_limits<T>::quiet_NaN();
-	BKSGE_CONSTEXPR auto llmax = bksge::numeric_limits<long long>::max();
-	BKSGE_CONSTEXPR auto llmin = bksge::numeric_limits<long long>::min();
+	BKSGE_CONSTEXPR auto inf = std::numeric_limits<T>::infinity();
+	BKSGE_CONSTEXPR auto nan = std::numeric_limits<T>::quiet_NaN();
+	BKSGE_CONSTEXPR auto llmax = std::numeric_limits<long long>::max();
+	BKSGE_CONSTEXPR auto llmin = std::numeric_limits<long long>::min();
 
 	EXPECT_EQ(T( 0.0), llrint_helper(T( 0.0), FE_DOWNWARD));
 	EXPECT_EQ(T( 2.0), llrint_helper(T( 2.5), FE_DOWNWARD));

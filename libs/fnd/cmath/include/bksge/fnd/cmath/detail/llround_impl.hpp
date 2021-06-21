@@ -13,8 +13,8 @@
 #include <bksge/fnd/cmath/isinf.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/cmath/iszero.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -59,11 +59,11 @@ llround_impl(FloatType x) BKSGE_NOEXCEPT
 {
 	return
 		bksge::isnan(x) ?
-			bksge::numeric_limits<long long>::min() :
-		x < (FloatType)bksge::numeric_limits<long long>::min() ?
-			bksge::numeric_limits<long long>::min() :
-		x > (FloatType)bksge::numeric_limits<long long>::max() ?
-			bksge::numeric_limits<long long>::max() :
+			std::numeric_limits<long long>::min() :
+		x < (FloatType)std::numeric_limits<long long>::min() ?
+			std::numeric_limits<long long>::min() :
+		x > (FloatType)std::numeric_limits<long long>::max() ?
+			std::numeric_limits<long long>::max() :
 		llround_unchecked(x);
 }
 

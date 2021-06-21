@@ -13,8 +13,8 @@
 #include <bksge/fnd/cmath/isinf.hpp>
 #include <bksge/fnd/cmath/iszero.hpp>
 #include <bksge/fnd/cmath/trunc.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -35,7 +35,7 @@ fmod_impl(FloatType x, FloatType y) BKSGE_NOEXCEPT
 {
 	return
 		bksge::isnan(x) || bksge::isnan(y) || bksge::isinf(x) || bksge::iszero(y) ?
-			bksge::numeric_limits<FloatType>::quiet_NaN() :
+			std::numeric_limits<FloatType>::quiet_NaN() :
 		bksge::iszero(x) || bksge::isinf(y) ?
 			x :
 		fmod_unchecked(x, y);

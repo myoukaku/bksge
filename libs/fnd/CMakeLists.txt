@@ -34,7 +34,6 @@ add_subdirectory(hash_functions)
 add_subdirectory(ios)
 add_subdirectory(istream)
 add_subdirectory(iterator)
-add_subdirectory(limits)
 add_subdirectory(list)
 add_subdirectory(map)
 add_subdirectory(memory)
@@ -96,7 +95,6 @@ target_link_libraries(${TARGET_NAME}
 		Bksge::ios
 		Bksge::istream
 		Bksge::iterator
-		Bksge::limits
 		Bksge::list
 		Bksge::map
 		Bksge::memory

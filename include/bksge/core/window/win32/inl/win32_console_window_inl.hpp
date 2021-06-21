@@ -22,8 +22,8 @@
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/config.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/assert.hpp>
+#include <limits>
 
 namespace bksge
 {
@@ -96,7 +96,7 @@ template <bksge::size_t N>
 inline ColorCodeInfo GetColorCodeInfo(Color3<bksge::uint8_t> const (&palette)[N], Color3<bksge::uint8_t> const& color)
 {
 	ColorCodeInfo result {};
-	auto nearest_distance = bksge::numeric_limits<int>::max();
+	auto nearest_distance = std::numeric_limits<int>::max();
 
 	for (bksge::size_t i = 0; i < N; ++i)
 	{
