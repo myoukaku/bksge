@@ -36,7 +36,6 @@ using std::basic_string;
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <bksge/fnd/functional/less.hpp>
-#include <bksge/fnd/istream/basic_istream.hpp>
 #include <bksge/fnd/ostream/basic_ostream.hpp>
 #include <bksge/fnd/iterator/distance.hpp>
 #include <bksge/fnd/iterator/normal_iterator.hpp>
@@ -67,6 +66,7 @@ using std::basic_string;
 #include <bksge/fnd/assert.hpp>
 #include <initializer_list>
 #include <limits>
+#include <istream>
 
 namespace bksge
 {
@@ -2807,12 +2807,12 @@ swap(
 }
 
 template <typename CharT, typename Traits1, typename Traits2, typename Allocator>
-inline bksge::basic_istream<CharT, Traits1>&
+inline std::basic_istream<CharT, Traits1>&
 operator>>(
-	bksge::basic_istream<CharT, Traits1>& is,
+	std::basic_istream<CharT, Traits1>& is,
 	basic_string<CharT, Traits2, Allocator>& str)
 {
-	using istream_type = bksge::basic_istream<CharT, Traits1>;
+	using istream_type = std::basic_istream<CharT, Traits1>;
 	using string_type  = bksge::basic_string<CharT, Traits2, Allocator>;
 	using ios_base     = typename istream_type::ios_base;
 	using int_type     = typename istream_type::int_type;
@@ -2894,9 +2894,9 @@ operator>>(
 }
 
 //template <>
-//bksge::basic_istream<char>&
+//std::basic_istream<char>&
 //operator>>(
-//	bksge::basic_istream<char>& is,
+//	std::basic_istream<char>& is,
 //	basic_string<char>& str);
 
 template <typename CharT, typename Traits1, typename Traits2, typename Allocator>

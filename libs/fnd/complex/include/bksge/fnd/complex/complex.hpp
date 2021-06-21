@@ -72,7 +72,6 @@ using std::atanh;
 #include <bksge/fnd/cmath/sqrt.hpp>
 #include <bksge/fnd/concepts/arithmetic.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
-#include <bksge/fnd/istream/basic_istream.hpp>
 #include <bksge/fnd/ostream/basic_ostream.hpp>
 #include <bksge/fnd/type_traits/is_floating_point.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
@@ -80,6 +79,7 @@ using std::atanh;
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/config.hpp>
 #include <ios>	// ios_base
+#include <istream>
 #include <limits>
 #include <sstream>
 

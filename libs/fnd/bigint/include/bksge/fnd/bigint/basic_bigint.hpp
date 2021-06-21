@@ -614,8 +614,8 @@ operator<<(bksge::basic_ostream<Char, Traits>& os, basic_bigint<B, S> const& val
 }
 
 template <typename Char, typename Traits, bksge::size_t B, bool S>
-bksge::basic_istream<Char, Traits>&
-operator>>(bksge::basic_istream<Char, Traits>& is, basic_bigint<B, S>& val)
+std::basic_istream<Char, Traits>&
+operator>>(std::basic_istream<Char, Traits>& is, basic_bigint<B, S>& val)
 {
 	// いったん string で受け取る
 	// TODO 最適化

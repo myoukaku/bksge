@@ -25,18 +25,18 @@ using std::getline;
 
 #else
 
-#include <bksge/fnd/istream/basic_istream.hpp>
+#include <istream>
 
 namespace bksge
 {
 
 template <typename CharT, typename Traits1, typename Traits2, typename Allocator>
-inline bksge::basic_istream<CharT, Traits1>&
+inline std::basic_istream<CharT, Traits1>&
 getline(
-	bksge::basic_istream<CharT, Traits1>& is,
+	std::basic_istream<CharT, Traits1>& is,
 	bksge::basic_string<CharT, Traits2, Allocator>& str, CharT delim)
 {
-	using istream_type = bksge::basic_istream<CharT, Traits1>;
+	using istream_type = std::basic_istream<CharT, Traits1>;
 	using string_type  = bksge::basic_string<CharT, Traits2, Allocator>;
 	using ios_base     = typename istream_type::ios_base;
 	using int_type     = typename istream_type::int_type;
@@ -110,39 +110,39 @@ getline(
 }
 
 template <typename CharT, typename Traits1, typename Traits2, typename Allocator>
-inline bksge::basic_istream<CharT, Traits1>&
+inline std::basic_istream<CharT, Traits1>&
 getline(
-	bksge::basic_istream<CharT, Traits1>& is,
+	std::basic_istream<CharT, Traits1>& is,
 	bksge::basic_string<CharT, Traits2, Allocator>& str)
 {
 	return bksge::getline(is, str, is.widen('\n'));
 }
 
 template <typename CharT, typename Traits1, typename Traits2, typename Allocator>
-inline bksge::basic_istream<CharT, Traits1>&
+inline std::basic_istream<CharT, Traits1>&
 getline(
-	bksge::basic_istream<CharT, Traits1>&& is,
+	std::basic_istream<CharT, Traits1>&& is,
 	bksge::basic_string<CharT, Traits2, Allocator>& str, CharT delim)
 {
 	return bksge::getline(is, str, delim);
 }
 
 template <typename CharT, typename Traits1, typename Traits2, typename Allocator>
-inline bksge::basic_istream<CharT, Traits1>&
+inline std::basic_istream<CharT, Traits1>&
 getline(
-	bksge::basic_istream<CharT, Traits1>&& is,
+	std::basic_istream<CharT, Traits1>&& is,
 	bksge::basic_string<CharT, Traits2, Allocator>& str)
 {
 	return bksge::getline(is, str);
 }
 
 //template <>
-//bksge::basic_istream<char>&
-//getline(bksge::basic_istream<char>& in, bksge::basic_string<char>& str, char delim);
+//std::basic_istream<char>&
+//getline(std::basic_istream<char>& in, bksge::basic_string<char>& str, char delim);
 //
 //template <>
-//bksge::basic_istream<wchar_t>&
-//getline(bksge::basic_istream<wchar_t>& in, bksge::basic_string<wchar_t>& str, wchar_t delim);
+//std::basic_istream<wchar_t>&
+//getline(std::basic_istream<wchar_t>& in, bksge::basic_string<wchar_t>& str, wchar_t delim);
 
 }	// namespace bksge
 

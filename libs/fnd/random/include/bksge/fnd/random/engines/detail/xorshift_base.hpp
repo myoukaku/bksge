@@ -13,9 +13,9 @@
 #include <bksge/fnd/random/engines/detail/split_mix64.hpp>
 #include <bksge/fnd/ios/flags_saver.hpp>
 #include <bksge/fnd/ostream/basic_ostream.hpp>
-#include <bksge/fnd/istream/basic_istream.hpp>
 #include <bksge/fnd/config.hpp>
 #include <limits>
+#include <istream>
 
 namespace bksge
 {
@@ -106,9 +106,9 @@ private:
 		typename CharT, typename Traits,
 		typename U, bksge::size_t M, typename D
 	>
-	friend bksge::basic_istream<CharT, Traits>&
+	friend std::basic_istream<CharT, Traits>&
 	operator>>(
-		bksge::basic_istream<CharT, Traits>& is,
+		std::basic_istream<CharT, Traits>& is,
 		xorshift_base<U, M, D>& e);
 };
 
@@ -141,9 +141,9 @@ template <
 	typename CharT, typename Traits,
 	typename UIntType, bksge::size_t N, typename Derived
 >
-inline bksge::basic_istream<CharT, Traits>&
+inline std::basic_istream<CharT, Traits>&
 operator>>(
-	bksge::basic_istream<CharT, Traits>& is,
+	std::basic_istream<CharT, Traits>& is,
 	xorshift_base<UIntType, N, Derived>& e)
 {
 	bksge::ios::flags_saver lx(is);
