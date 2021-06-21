@@ -20,7 +20,6 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstdint ${CMAKE_CURRENT_BINARY_D
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../debug ${CMAKE_CURRENT_BINARY_DIR}/debug)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../functional ${CMAKE_CURRENT_BINARY_DIR}/functional)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../hash_functions ${CMAKE_CURRENT_BINARY_DIR}/hash_functions)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../initializer_list ${CMAKE_CURRENT_BINARY_DIR}/initializer_list)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../istream ${CMAKE_CURRENT_BINARY_DIR}/istream)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../iterator ${CMAKE_CURRENT_BINARY_DIR}/iterator)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../limits ${CMAKE_CURRENT_BINARY_DIR}/limits)
@@ -41,7 +40,6 @@ target_link_libraries(${TARGET_NAME}
 		Bksge::debug
 		Bksge::functional
 		Bksge::hash_functions
-		Bksge::initializer_list
 		Bksge::istream
 		Bksge::iterator
 		Bksge::limits

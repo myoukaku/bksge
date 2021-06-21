@@ -31,7 +31,6 @@ add_subdirectory(exception)
 add_subdirectory(forward_list)
 add_subdirectory(functional)
 add_subdirectory(hash_functions)
-add_subdirectory(initializer_list)
 add_subdirectory(ios)
 add_subdirectory(istream)
 add_subdirectory(iterator)
@@ -94,7 +93,6 @@ target_link_libraries(${TARGET_NAME}
 		Bksge::forward_list
 		Bksge::functional
 		Bksge::hash_functions
-		Bksge::initializer_list
 		Bksge::ios
 		Bksge::istream
 		Bksge::iterator

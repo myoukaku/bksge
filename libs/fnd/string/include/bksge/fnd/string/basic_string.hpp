@@ -63,10 +63,10 @@ using std::basic_string;
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/swap.hpp>
-#include <bksge/fnd/initializer_list.hpp>
 #include <bksge/fnd/limits.hpp>
 #include <bksge/fnd/config.hpp>
 #include <bksge/fnd/assert.hpp>
+#include <initializer_list>
 
 namespace bksge
 {
@@ -816,7 +816,7 @@ public:
 	}
 
 	BKSGE_CXX14_CONSTEXPR
-	basic_string(bksge::initializer_list<CharT> ilist, Allocator const& alloc = Allocator())
+	basic_string(std::initializer_list<CharT> ilist, Allocator const& alloc = Allocator())
 		: m_dataplus(GetLocalData(), alloc)
 	{
 		Construct(ilist.begin(), ilist.end());
@@ -989,7 +989,7 @@ BKSGE_WARNING_DISABLE_MSVC(4127);	// conditional expression is constant
 BKSGE_WARNING_POP();
 
 	BKSGE_CXX14_CONSTEXPR basic_string&
-	operator=(bksge::initializer_list<CharT> ilist)
+	operator=(std::initializer_list<CharT> ilist)
 	{
 		this->assign(ilist.begin(), ilist.size());
 		return *this;
@@ -1291,7 +1291,7 @@ public:
 	}
 
 	BKSGE_CXX14_CONSTEXPR basic_string&
-	operator+=(bksge::initializer_list<CharT> ilist)
+	operator+=(std::initializer_list<CharT> ilist)
 	{
 		return this->append(ilist.begin(), ilist.size());
 	}
@@ -1342,7 +1342,7 @@ public:
 	}
 
 	BKSGE_CXX14_CONSTEXPR basic_string&
-	append(bksge::initializer_list<CharT> ilist)
+	append(std::initializer_list<CharT> ilist)
 	{
 		return this->append(ilist.begin(), ilist.size());
 	}
@@ -1469,7 +1469,7 @@ BKSGE_WARNING_POP();
 	}
 
 	BKSGE_CXX14_CONSTEXPR basic_string&
-	assign(bksge::initializer_list<CharT> ilist)
+	assign(std::initializer_list<CharT> ilist)
 	{
 		return this->assign(ilist.begin(), ilist.size());
 	}
@@ -1512,7 +1512,7 @@ BKSGE_WARNING_POP();
 	}
 
 	BKSGE_CXX14_CONSTEXPR iterator
-	insert(const_iterator pos, bksge::initializer_list<CharT> ilist)
+	insert(const_iterator pos, std::initializer_list<CharT> ilist)
 	{
 		return this->insert(pos, ilist.begin(), ilist.end());
 	}
@@ -1747,7 +1747,7 @@ BKSGE_WARNING_POP();
 
 	// (7)
 	BKSGE_CXX14_CONSTEXPR basic_string&
-	replace(const_iterator first, const_iterator last, bksge::initializer_list<CharT> ilist)
+	replace(const_iterator first, const_iterator last, std::initializer_list<CharT> ilist)
 	{
 		return this->replace(first, last, ilist.begin(), ilist.size());
 	}

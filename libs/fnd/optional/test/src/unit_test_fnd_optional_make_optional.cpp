@@ -12,9 +12,9 @@
 #include <bksge/fnd/tuple/get.hpp>
 #include <bksge/fnd/tuple/tuple.hpp>
 #include <bksge/fnd/utility/forward.hpp>
-#include <bksge/fnd/initializer_list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
+#include <initializer_list>
 #include "constexpr_test.hpp"
 
 namespace bksge_optional_test
@@ -29,7 +29,7 @@ struct combined
 	bksge::tuple<int, int> t;
 
 	template<class... Args>
-	combined(bksge::initializer_list<int> il, Args&&... args)
+	combined(std::initializer_list<int> il, Args&&... args)
 		: v(il), t(bksge::forward<Args>(args)...)
 	{
 	}

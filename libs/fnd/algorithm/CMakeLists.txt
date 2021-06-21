@@ -19,7 +19,6 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstdlib ${CMAKE_CURRENT_BINARY_D
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstring ${CMAKE_CURRENT_BINARY_DIR}/cstring)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../debug ${CMAKE_CURRENT_BINARY_DIR}/debug)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../functional ${CMAKE_CURRENT_BINARY_DIR}/functional)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../initializer_list ${CMAKE_CURRENT_BINARY_DIR}/initializer_list)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../iterator ${CMAKE_CURRENT_BINARY_DIR}/iterator)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../memory ${CMAKE_CURRENT_BINARY_DIR}/memory)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../numeric ${CMAKE_CURRENT_BINARY_DIR}/numeric)
@@ -38,7 +37,6 @@ target_link_libraries(${TARGET_NAME}
 		Bksge::cstring
 		Bksge::debug
 		Bksge::functional
-		Bksge::initializer_list
 		Bksge::iterator
 		Bksge::memory
 		Bksge::numeric

@@ -12,8 +12,8 @@
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/algorithm/max_element.hpp>
 #include <bksge/fnd/functional/less.hpp>
-#include <bksge/fnd/initializer_list.hpp>
 #include <bksge/fnd/config.hpp>
+#include <initializer_list>
 
 namespace bksge
 {
@@ -34,14 +34,14 @@ max(T const& a, T const& b, Compare comp)
 
 template <typename T>
 inline BKSGE_CXX14_CONSTEXPR T
-max(bksge::initializer_list<T> t)
+max(std::initializer_list<T> t)
 {
 	return *bksge::max_element(t.begin(), t.end(), bksge::less<>());
 }
 
 template <typename T, typename Compare>
 inline BKSGE_CXX14_CONSTEXPR T
-max(bksge::initializer_list<T> t, Compare comp)
+max(std::initializer_list<T> t, Compare comp)
 {
 	return *bksge::max_element(t.begin(), t.end(), comp);
 }

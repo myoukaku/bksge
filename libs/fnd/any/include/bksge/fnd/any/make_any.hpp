@@ -23,7 +23,7 @@ using std::make_any;
 #else
 
 #include <bksge/fnd/any/any.hpp>
-#include <bksge/fnd/initializer_list.hpp>
+#include <initializer_list>
 
 namespace bksge
 {
@@ -32,7 +32,7 @@ template <typename T, typename... Args>
 any make_any(Args&&... args);
 
 template <typename T, typename U, typename... Args>
-any make_any(bksge::initializer_list<U> il, Args&&... args);
+any make_any(std::initializer_list<U> il, Args&&... args);
 
 }	// namespace bksge
 

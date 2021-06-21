@@ -18,7 +18,6 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../debug ${CMAKE_CURRENT_BINARY_DIR
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../detail ${CMAKE_CURRENT_BINARY_DIR}/detail)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../exception ${CMAKE_CURRENT_BINARY_DIR}/exception)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../functional ${CMAKE_CURRENT_BINARY_DIR}/functional)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../initializer_list ${CMAKE_CURRENT_BINARY_DIR}/initializer_list)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../memory ${CMAKE_CURRENT_BINARY_DIR}/memory)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../type_traits ${CMAKE_CURRENT_BINARY_DIR}/type_traits)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../utility ${CMAKE_CURRENT_BINARY_DIR}/utility)
@@ -31,7 +30,6 @@ target_link_libraries(${TARGET_NAME}
 		Bksge::detail
 		Bksge::exception
 		Bksge::functional
-		Bksge::initializer_list
 		Bksge::memory
 		Bksge::type_traits
 		Bksge::utility)

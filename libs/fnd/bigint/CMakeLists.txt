@@ -42,7 +42,6 @@ target_link_libraries(${TARGET_NAME}
 		Bksge::cstring
 		Bksge::debug
 		Bksge::functional
-		Bksge::initializer_list
 		Bksge::iterator
 		Bksge::memory
 		Bksge::numeric

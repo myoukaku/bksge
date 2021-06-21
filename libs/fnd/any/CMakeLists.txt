@@ -13,14 +13,12 @@ add_library(Bksge::any ALIAS ${TARGET_NAME})
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../config ${CMAKE_CURRENT_BINARY_DIR}/config)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstdlib ${CMAKE_CURRENT_BINARY_DIR}/cstdlib)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../initializer_list ${CMAKE_CURRENT_BINARY_DIR}/initializer_list)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../type_traits ${CMAKE_CURRENT_BINARY_DIR}/type_traits)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../utility ${CMAKE_CURRENT_BINARY_DIR}/utility)
 target_link_libraries(${TARGET_NAME}
 	INTERFACE
 		Bksge::config
 		Bksge::cstdlib
-		Bksge::initializer_list
 		Bksge::type_traits
 		Bksge::utility)
 

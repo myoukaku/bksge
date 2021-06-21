@@ -84,8 +84,8 @@ using std::variant;
 #include <bksge/fnd/utility/index_sequence_for.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/swap.hpp>
-#include <bksge/fnd/initializer_list.hpp>
 #include <bksge/fnd/config.hpp>
+#include <initializer_list>
 
 BKSGE_WARNING_PUSH();
 BKSGE_WARNING_DISABLE_MSVC(4702);	// unreachable code
@@ -176,9 +176,9 @@ public:
 	{}
 
 	template <typename T, typename U, typename... Args,
-		typename = bksge::enable_if_t<exactly_once<T>::value && bksge::is_constructible<T, bksge::initializer_list<U>&, Args...>::value>>
+		typename = bksge::enable_if_t<exactly_once<T>::value && bksge::is_constructible<T, std::initializer_list<U>&, Args...>::value>>
 	constexpr explicit
-	variant(bksge::in_place_type_t<T>, bksge::initializer_list<U> il, Args&&... args)
+	variant(bksge::in_place_type_t<T>, std::initializer_list<U> il, Args&&... args)
 		: variant(bksge::in_place_index<index_of<T>::value>, il, bksge::forward<Args>(args)...)
 	{}
 
@@ -193,9 +193,9 @@ public:
 
 	template <bksge::size_t N, typename U, typename... Args,
 		typename T = to_type<N>,
-		typename = bksge::enable_if_t<bksge::is_constructible<T, bksge::initializer_list<U>&, Args...>::value>>
+		typename = bksge::enable_if_t<bksge::is_constructible<T, std::initializer_list<U>&, Args...>::value>>
 	constexpr explicit
-	variant(bksge::in_place_index_t<N>, bksge::initializer_list<U> il, Args&&... args)
+	variant(bksge::in_place_index_t<N>, std::initializer_list<U> il, Args&&... args)
 		: Base(bksge::in_place_index<N>, il, bksge::forward<Args>(args)...)
 		, DefaultCtorEnabler(detail::enable_default_constructor_tag{})
 	{}
@@ -257,11 +257,11 @@ public:
 
 	template <typename T, typename U, typename... Args>
 	bksge::enable_if_t<
-		bksge::is_constructible<T, bksge::initializer_list<U>&, Args...>::value &&
+		bksge::is_constructible<T, std::initializer_list<U>&, Args...>::value &&
 		exactly_once<T>::value,
 		T&
 	>
-	emplace(bksge::initializer_list<U> il, Args&&... args)
+	emplace(std::initializer_list<U> il, Args&&... args)
 	{
 		constexpr bksge::size_t Index = index_of<T>::value;
 		return this->emplace<Index>(il, bksge::forward<Args>(args)...);
@@ -333,14 +333,14 @@ public:
 
 	template <bksge::size_t N, typename U, typename... Args>
 	bksge::enable_if_t<
-		bksge::is_constructible<variant_alternative_t<N, variant>, bksge::initializer_list<U>&, Args...>::value,
+		bksge::is_constructible<variant_alternative_t<N, variant>, std::initializer_list<U>&, Args...>::value,
 		variant_alternative_t<N, variant>&
 	>
-	emplace(bksge::initializer_list<U> il, Args&&... args)
+	emplace(std::initializer_list<U> il, Args&&... args)
 	{
 		static_assert(N < sizeof...(Types), "The index must be in [0, number of alternatives)");
 		using alt_type = variant_alternative_t<N, variant>;
-		emplace_impl<N, alt_type, bksge::initializer_list<U>&, Args...>(il, bksge::forward<Args>(args)..., bksge::detail::overload_priority<3>{});
+		emplace_impl<N, alt_type, std::initializer_list<U>&, Args...>(il, bksge::forward<Args>(args)..., bksge::detail::overload_priority<3>{});
 		return bksge::get<N>(*this);
 	}
 

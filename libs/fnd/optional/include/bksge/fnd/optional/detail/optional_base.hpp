@@ -19,8 +19,8 @@
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
 #include <bksge/fnd/utility/move.hpp>
-#include <bksge/fnd/initializer_list.hpp>
 #include <bksge/fnd/config.hpp>
+#include <initializer_list>
 
 namespace bksge
 {
@@ -64,9 +64,9 @@ struct optional_base
 	{}
 
 	template <typename U, typename... Args,
-		typename = bksge::enable_if_t<bksge::is_constructible<T, bksge::initializer_list<U>&, Args...>::value>>
+		typename = bksge::enable_if_t<bksge::is_constructible<T, std::initializer_list<U>&, Args...>::value>>
 	BKSGE_CONSTEXPR explicit
-	optional_base(bksge::in_place_t, bksge::initializer_list<U> il, Args&&... args)
+	optional_base(bksge::in_place_t, std::initializer_list<U> il, Args&&... args)
 		: m_payload(bksge::in_place, il, bksge::forward<Args>(args)...)
 	{}
 
@@ -105,9 +105,9 @@ struct optional_base<T, false, true>
 	{}
 
 	template <typename U, typename... Args,
-		typename = bksge::enable_if_t<bksge::is_constructible<T, bksge::initializer_list<U>&, Args...>::value>>
+		typename = bksge::enable_if_t<bksge::is_constructible<T, std::initializer_list<U>&, Args...>::value>>
 	BKSGE_CONSTEXPR explicit
-	optional_base(bksge::in_place_t, bksge::initializer_list<U> il, Args... args)
+	optional_base(bksge::in_place_t, std::initializer_list<U> il, Args... args)
 		: m_payload(bksge::in_place, il, bksge::forward<Args>(args)...)
 	{}
 
@@ -141,9 +141,9 @@ struct optional_base<T, true, false>
 	{}
 
 	template <typename U, typename... Args,
-		typename = bksge::enable_if_t<bksge::is_constructible<T, bksge::initializer_list<U>&, Args...>::value>>
+		typename = bksge::enable_if_t<bksge::is_constructible<T, std::initializer_list<U>&, Args...>::value>>
 	BKSGE_CONSTEXPR explicit
-	optional_base(bksge::in_place_t, bksge::initializer_list<U> il, Args&&... args)
+	optional_base(bksge::in_place_t, std::initializer_list<U> il, Args&&... args)
 		: m_payload(bksge::in_place, il, bksge::forward<Args>(args)...)
 	{}
 
@@ -179,9 +179,9 @@ struct optional_base<T, true, true>
 	{}
 
 	template <typename U, typename... Args,
-		typename = bksge::enable_if_t<bksge::is_constructible<T, bksge::initializer_list<U>&, Args...>::value>>
+		typename = bksge::enable_if_t<bksge::is_constructible<T, std::initializer_list<U>&, Args...>::value>>
 	BKSGE_CONSTEXPR explicit
-	optional_base(bksge::in_place_t, bksge::initializer_list<U> il, Args&&... args)
+	optional_base(bksge::in_place_t, std::initializer_list<U> il, Args&&... args)
 		: m_payload(bksge::in_place, il, bksge::forward<Args>(args)...)
 	{}
 

@@ -23,8 +23,8 @@ using std::data;
 #else
 
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <bksge/fnd/initializer_list.hpp>
 #include <bksge/fnd/config.hpp>
+#include <initializer_list>
 
 namespace bksge
 {
@@ -48,7 +48,7 @@ BKSGE_NODISCARD BKSGE_CONSTEXPR T* data(T (&a)[N]) BKSGE_NOEXCEPT
 }
 
 template <typename E>
-BKSGE_NODISCARD BKSGE_CONSTEXPR E const* data(bksge::initializer_list<E> il) BKSGE_NOEXCEPT
+BKSGE_NODISCARD BKSGE_CONSTEXPR E const* data(std::initializer_list<E> il) BKSGE_NOEXCEPT
 {
 	return il.begin();
 }

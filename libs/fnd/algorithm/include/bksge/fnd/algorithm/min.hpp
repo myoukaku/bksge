@@ -9,8 +9,8 @@
 #ifndef BKSGE_FND_ALGORITHM_MIN_HPP
 #define BKSGE_FND_ALGORITHM_MIN_HPP
 
-#include <bksge/fnd/initializer_list.hpp>
 #include <bksge/fnd/config.hpp>
+#include <initializer_list>
 
 namespace bksge
 {
@@ -68,7 +68,7 @@ min(T const& a, T const& b, Compare comp);
  */
 template <typename T>
 BKSGE_CXX14_CONSTEXPR T
-min(bksge::initializer_list<T> t);
+min(std::initializer_list<T> t);
 
 /**
  *	@brief		initializer_listによるN個の値のうち、最小値を取得する。
@@ -88,7 +88,7 @@ min(bksge::initializer_list<T> t);
  */
 template <typename T, typename Compare>
 BKSGE_CXX14_CONSTEXPR T
-min(bksge::initializer_list<T> t, Compare comp);
+min(std::initializer_list<T> t, Compare comp);
 
 }	// namespace algorithm
 

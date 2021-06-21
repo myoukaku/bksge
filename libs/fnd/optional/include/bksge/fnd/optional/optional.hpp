@@ -56,8 +56,8 @@ using std::optional;
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/swap.hpp>
-#include <bksge/fnd/initializer_list.hpp>
 #include <bksge/fnd/config.hpp>
+#include <initializer_list>
 
 #if defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
 #include <bksge/fnd/compare/concepts/three_way_comparable_with.hpp>
@@ -233,11 +233,11 @@ public:
 		: base(bksge::in_place, bksge::forward<Args>(args)...) {}
 
 	template <typename U, typename... Args,
-		typename = bksge::enable_if_t<bksge::is_constructible<T, bksge::initializer_list<U>&, Args...>::value>>
+		typename = bksge::enable_if_t<bksge::is_constructible<T, std::initializer_list<U>&, Args...>::value>>
 	explicit BKSGE_CONSTEXPR
-	optional(bksge::in_place_t, bksge::initializer_list<U> il, Args&&... args)
+	optional(bksge::in_place_t, std::initializer_list<U> il, Args&&... args)
 		BKSGE_NOEXCEPT_IF((
-			bksge::is_nothrow_constructible<T, bksge::initializer_list<U>&, Args...>::value))
+			bksge::is_nothrow_constructible<T, std::initializer_list<U>&, Args...>::value))
 		: base(bksge::in_place, il, bksge::forward<Args>(args)...) {}
 
 	// Assignment operators.
@@ -360,10 +360,10 @@ public:
 	}
 
 	template <typename U, typename... Args>
-	bksge::enable_if_t<bksge::is_constructible<T, bksge::initializer_list<U>&, Args...>::value, T&>
-	emplace(bksge::initializer_list<U> il, Args&&... args)
+	bksge::enable_if_t<bksge::is_constructible<T, std::initializer_list<U>&, Args...>::value, T&>
+	emplace(std::initializer_list<U> il, Args&&... args)
 		BKSGE_NOEXCEPT_IF((
-			bksge::is_nothrow_constructible<T, bksge::initializer_list<U>&, Args...>::value))
+			bksge::is_nothrow_constructible<T, std::initializer_list<U>&, Args...>::value))
 	{
 		this->reset_impl();
 		this->construct(il, bksge::forward<Args>(args)...);

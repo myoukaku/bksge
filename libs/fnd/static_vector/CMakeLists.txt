@@ -15,7 +15,6 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../algorithm ${CMAKE_CURRENT_BINARY
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../config ${CMAKE_CURRENT_BINARY_DIR}/config)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstddef ${CMAKE_CURRENT_BINARY_DIR}/cstddef)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../debug ${CMAKE_CURRENT_BINARY_DIR}/debug)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../initializer_list ${CMAKE_CURRENT_BINARY_DIR}/initializer_list)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../iterator ${CMAKE_CURRENT_BINARY_DIR}/iterator)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../memory ${CMAKE_CURRENT_BINARY_DIR}/memory)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../new ${CMAKE_CURRENT_BINARY_DIR}/new)
@@ -28,7 +27,6 @@ target_link_libraries(${TARGET_NAME}
 		Bksge::config
 		Bksge::cstddef
 		Bksge::debug
-		Bksge::initializer_list
 		Bksge::iterator
 		Bksge::memory
 		Bksge::new

@@ -23,8 +23,8 @@ using std::empty;
 #else
 
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <bksge/fnd/initializer_list.hpp>
 #include <bksge/fnd/config.hpp>
+#include <initializer_list>
 
 namespace bksge
 {
@@ -42,7 +42,7 @@ BKSGE_NODISCARD BKSGE_CONSTEXPR bool empty(T const (&)[N]) BKSGE_NOEXCEPT
 }
 
 template <typename E>
-BKSGE_NODISCARD BKSGE_CONSTEXPR bool empty(bksge::initializer_list<E> il) BKSGE_NOEXCEPT
+BKSGE_NODISCARD BKSGE_CONSTEXPR bool empty(std::initializer_list<E> il) BKSGE_NOEXCEPT
 {
 	return il.size() == 0;
 }

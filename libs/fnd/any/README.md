@@ -10,7 +10,6 @@ std::any はC++17で追加されましたが、bksge::any はC++11以降なら�
 
 * Bksge.Config
 * Bksge.CStdLib
-* Bksge.InitializerList
 * Bksge.TypeTraits
 * Bksge.Utility
 

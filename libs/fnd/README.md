@@ -24,7 +24,6 @@
 [![forward_list](https://github.com/myoukaku/bksge/actions/workflows/forward_list.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/forward_list.yml)
 [![functional](https://github.com/myoukaku/bksge/actions/workflows/functional.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/functional.yml)
 [![hash_functions](https://github.com/myoukaku/bksge/actions/workflows/hash_functions.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/hash_functions.yml)
-[![initializer_list](https://github.com/myoukaku/bksge/actions/workflows/initializer_list.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/initializer_list.yml)
 [![ios](https://github.com/myoukaku/bksge/actions/workflows/ios.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/ios.yml)
 [![istream](https://github.com/myoukaku/bksge/actions/workflows/istream.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/istream.yml)
 [![iterator](https://github.com/myoukaku/bksge/actions/workflows/iterator.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/iterator.yml)

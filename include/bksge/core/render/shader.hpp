@@ -19,7 +19,7 @@
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/utility/pair.hpp>
 #include <bksge/fnd/unordered_map/unordered_map.hpp>
-#include <bksge/fnd/initializer_list.hpp>
+#include <initializer_list>
 
 namespace bksge
 {
@@ -39,7 +39,7 @@ private:
 public:
 	using const_iterator = ContainerType::const_iterator;
 
-	explicit Shader(bksge::initializer_list<bksge::pair<ShaderStage, char const*>> il);
+	explicit Shader(std::initializer_list<bksge::pair<ShaderStage, char const*>> il);
 
 private:
 	// コピー禁止

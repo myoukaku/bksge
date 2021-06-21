@@ -33,7 +33,6 @@ TODO
 * Bksge.CString
 * Bksge.Debug
 * Bksge.Functional
-* Bksge.InitializerList
 * Bksge.Iterator
 * Bksge.Memory
 * Bksge.Numeric

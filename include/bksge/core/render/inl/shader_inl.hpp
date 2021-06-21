@@ -13,7 +13,7 @@
 #include <bksge/core/render/detail/shader_parameter.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/pair.hpp>
-#include <bksge/fnd/initializer_list.hpp>
+#include <initializer_list>
 
 namespace bksge
 {
@@ -22,7 +22,7 @@ namespace render
 {
 
 BKSGE_INLINE
-Shader::Shader(bksge::initializer_list<bksge::pair<ShaderStage, char const*>> il)
+Shader::Shader(std::initializer_list<bksge::pair<ShaderStage, char const*>> il)
 	: Base()
 {
 	for (auto i : il)

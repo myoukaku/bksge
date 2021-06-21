@@ -26,9 +26,9 @@
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/utility/move.hpp>
-#include <bksge/fnd/initializer_list.hpp>
 #include <bksge/fnd/config.hpp>
 #include <bksge/fnd/assert.hpp>
+#include <initializer_list>
 
 namespace bksge
 {
@@ -146,7 +146,7 @@ struct minmax_fn
 #endif
 	>
 	BKSGE_CXX14_CONSTEXPR minmax_result<T>
-	operator()(bksge::initializer_list<T> r,
+	operator()(std::initializer_list<T> r,
 		Comp comp = {}, Proj proj = {}) const
 	{
 		return (*this)(ranges::subrange<T const*>(r),
