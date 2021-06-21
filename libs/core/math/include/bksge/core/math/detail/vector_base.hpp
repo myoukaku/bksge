@@ -14,7 +14,6 @@
 #include <bksge/fnd/concepts/arithmetic.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <bksge/fnd/ostream/basic_ostream.hpp>
 #include <bksge/fnd/serialization/array.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
@@ -22,6 +21,7 @@
 #include <bksge/fnd/tuple/tuple_size.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <ostream>
 
 namespace bksge
 {
@@ -311,9 +311,9 @@ Lerp(VectorLike const& from, VectorLike const& to, U const& t) BKSGE_NOEXCEPT
  *	@brief	ストリームへの出力
  */
 template <typename CharT, typename Traits, typename T, bksge::size_t N>
-inline bksge::basic_ostream<CharT, Traits>&
+inline std::basic_ostream<CharT, Traits>&
 operator<<(
-	bksge::basic_ostream<CharT, Traits>& os,
+	std::basic_ostream<CharT, Traits>& os,
 	VectorBase<T, N> const& rhs)
 {
 	os << "{ ";

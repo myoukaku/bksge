@@ -72,7 +72,6 @@ using std::atanh;
 #include <bksge/fnd/cmath/sqrt.hpp>
 #include <bksge/fnd/concepts/arithmetic.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
-#include <bksge/fnd/ostream/basic_ostream.hpp>
 #include <bksge/fnd/type_traits/is_floating_point.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
 #include <bksge/fnd/numbers.hpp>
@@ -82,6 +81,7 @@ using std::atanh;
 #include <istream>
 #include <limits>
 #include <sstream>
+#include <ostream>
 
 namespace bksge
 {
@@ -466,8 +466,8 @@ operator>>(bksge::basic_istream<CharT, Traits>& is, complex<T>& x)
 
 ///  Insertion operator for complex values.
 template <typename T, typename CharT, typename Traits>
-bksge::basic_ostream<CharT, Traits>&
-operator<<(bksge::basic_ostream<CharT, Traits>& os, complex<T> const& x)
+std::basic_ostream<CharT, Traits>&
+operator<<(std::basic_ostream<CharT, Traits>& os, complex<T> const& x)
 {
 	std::basic_ostringstream<CharT, Traits> ss;
 	ss.flags(os.flags());

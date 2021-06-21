@@ -16,7 +16,6 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../concepts ${CMAKE_CURRENT_BINARY_
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../config ${CMAKE_CURRENT_BINARY_DIR}/config)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstddef ${CMAKE_CURRENT_BINARY_DIR}/cstddef)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../iterator ${CMAKE_CURRENT_BINARY_DIR}/iterator)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../ostream ${CMAKE_CURRENT_BINARY_DIR}/ostream)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../static_vector ${CMAKE_CURRENT_BINARY_DIR}/static_vector)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../string ${CMAKE_CURRENT_BINARY_DIR}/string)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../string_view ${CMAKE_CURRENT_BINARY_DIR}/string_view)
@@ -28,7 +27,6 @@ target_link_libraries(${TARGET_NAME}
 		Bksge::config
 		Bksge::cstddef
 		Bksge::iterator
-		Bksge::ostream
 		Bksge::static_vector
 		Bksge::string
 		Bksge::string_view

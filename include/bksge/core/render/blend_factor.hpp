@@ -12,7 +12,7 @@
 #include <bksge/core/render/fwd/blend_factor_fwd.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/string/string.hpp>
-#include <bksge/fnd/ostream/basic_ostream.hpp>
+#include <ostream>
 
 namespace bksge
 {
@@ -53,8 +53,8 @@ bksge::string to_string(BlendFactor const& blend_factor);
  *	@brief	ストリームへの出力
  */
 template <typename CharT, typename Traits>
-inline bksge::basic_ostream<CharT, Traits>&
-operator<<(bksge::basic_ostream<CharT, Traits>& os, BlendFactor const& rhs)
+inline std::basic_ostream<CharT, Traits>&
+operator<<(std::basic_ostream<CharT, Traits>& os, BlendFactor const& rhs)
 {
 	return os << to_string(rhs).c_str();
 }

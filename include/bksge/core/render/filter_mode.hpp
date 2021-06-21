@@ -11,7 +11,7 @@
 
 #include <bksge/core/render/fwd/filter_mode_fwd.hpp>
 #include <bksge/fnd/string/string.hpp>
-#include <bksge/fnd/ostream/basic_ostream.hpp>
+#include <ostream>
 
 namespace bksge
 {
@@ -37,8 +37,8 @@ bksge::string to_string(FilterMode const& filter_mode);
  *	@brief	ストリームへの出力
  */
 template <typename CharT, typename Traits>
-inline bksge::basic_ostream<CharT, Traits>&
-operator<<(bksge::basic_ostream<CharT, Traits>& os, FilterMode const& rhs)
+inline std::basic_ostream<CharT, Traits>&
+operator<<(std::basic_ostream<CharT, Traits>& os, FilterMode const& rhs)
 {
 	return os << to_string(rhs).c_str();
 }

@@ -26,10 +26,10 @@ using std::error_code;
 
 #include <bksge/fnd/system_error/is_error_code_enum.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/ostream/basic_ostream.hpp>
 #include <bksge/fnd/compare/strong_ordering.hpp>
 #include <bksge/fnd/string.hpp>
 #include <bksge/fnd/config.hpp>
+#include <ostream>
 
 namespace bksge
 {
@@ -85,8 +85,8 @@ bool operator!=(error_condition const& lhs, error_code const& rhs) BKSGE_NOEXCEP
 #endif
 
 template <typename CharT, typename Traits>
-bksge::basic_ostream<CharT, Traits>&
-operator<<(bksge::basic_ostream<CharT, Traits>& os, error_code const& ec);
+std::basic_ostream<CharT, Traits>&
+operator<<(std::basic_ostream<CharT, Traits>& os, error_code const& ec);
 
 }	// namespace bksge
 

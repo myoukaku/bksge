@@ -40,7 +40,6 @@ add_subdirectory(new)
 add_subdirectory(numbers)
 add_subdirectory(numeric)
 add_subdirectory(optional)
-add_subdirectory(ostream)
 add_subdirectory(preprocessor)
 add_subdirectory(queue)
 add_subdirectory(random)
@@ -99,7 +98,6 @@ target_link_libraries(${TARGET_NAME}
 		Bksge::numbers
 		Bksge::numeric
 		Bksge::optional
-		Bksge::ostream
 		Bksge::preprocessor
 		Bksge::queue
 		Bksge::random

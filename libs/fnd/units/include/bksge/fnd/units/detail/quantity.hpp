@@ -16,9 +16,9 @@
 #include <bksge/fnd/type_traits/is_nothrow_swappable.hpp>
 #include <bksge/fnd/type_traits/is_arithmetic.hpp>
 #include <bksge/fnd/cstdint/intmax_t.hpp>
-#include <bksge/fnd/ostream/basic_ostream.hpp>
 #include <bksge/fnd/ratio/ratio.hpp>
 #include <bksge/fnd/config.hpp>
+#include <ostream>
 
 namespace bksge
 {
@@ -291,7 +291,7 @@ operator>=(quantity<T...> const& lhs, quantity<U...> const& rhs) BKSGE_NOEXCEPT;
  *	@brief	ストリームへの出力
  */
 template <typename E, typename T, typename... U>
-bksge::basic_ostream<E, T>& operator<<(bksge::basic_ostream<E, T>& os, quantity<U...> const& rhs);
+std::basic_ostream<E, T>& operator<<(std::basic_ostream<E, T>& os, quantity<U...> const& rhs);
 
 }	// namespace units
 

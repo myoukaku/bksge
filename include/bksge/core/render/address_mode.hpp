@@ -11,7 +11,7 @@
 
 #include <bksge/core/render/fwd/address_mode_fwd.hpp>
 #include <bksge/fnd/string/string.hpp>
-#include <bksge/fnd/ostream/basic_ostream.hpp>
+#include <ostream>
 
 namespace bksge
 {

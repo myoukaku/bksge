@@ -36,7 +36,6 @@ using std::basic_string;
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <bksge/fnd/functional/less.hpp>
-#include <bksge/fnd/ostream/basic_ostream.hpp>
 #include <bksge/fnd/iterator/distance.hpp>
 #include <bksge/fnd/iterator/normal_iterator.hpp>
 #include <bksge/fnd/iterator/reverse_iterator.hpp>
@@ -67,6 +66,7 @@ using std::basic_string;
 #include <initializer_list>
 #include <limits>
 #include <istream>
+#include <ostream>
 
 namespace bksge
 {
@@ -2900,9 +2900,9 @@ operator>>(
 //	basic_string<char>& str);
 
 template <typename CharT, typename Traits1, typename Traits2, typename Allocator>
-inline bksge::basic_ostream<CharT, Traits1>&
+inline std::basic_ostream<CharT, Traits1>&
 operator<<(
-	bksge::basic_ostream<CharT, Traits1>& os,
+	std::basic_ostream<CharT, Traits1>& os,
 	basic_string<CharT, Traits2, Allocator> const& str)
 {
 	//return __ostream_insert(os, str.data(), str.size());

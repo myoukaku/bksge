@@ -16,7 +16,7 @@
 #include <bksge/fnd/serialization/access.hpp>
 #include <bksge/fnd/serialization/nvp.hpp>
 #include <bksge/fnd/serialization/version.hpp>
-#include <bksge/fnd/ostream/basic_ostream.hpp>
+#include <ostream>
 
 namespace bksge
 {
@@ -66,8 +66,8 @@ bool operator!=(RasterizerState const& lhs, RasterizerState const& rhs);
  *	@brief	ストリームへの出力
  */
 template <typename CharT, typename Traits>
-inline bksge::basic_ostream<CharT, Traits>&
-operator<<(bksge::basic_ostream<CharT, Traits>& os, RasterizerState const& rhs)
+inline std::basic_ostream<CharT, Traits>&
+operator<<(std::basic_ostream<CharT, Traits>& os, RasterizerState const& rhs)
 {
 	return os << "{ "
 		<< rhs.fill_mode() << ", "

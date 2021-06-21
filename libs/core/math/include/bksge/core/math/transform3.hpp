@@ -21,8 +21,8 @@
 #include <bksge/fnd/serialization/access.hpp>
 #include <bksge/fnd/serialization/nvp.hpp>
 #include <bksge/fnd/serialization/version.hpp>
-#include <bksge/fnd/ostream/basic_ostream.hpp>
 #include <bksge/fnd/config.hpp>
+#include <ostream>
 
 namespace bksge
 {
@@ -179,8 +179,8 @@ operator!=(Transform3<T> const& lhs, Transform3<T> const& rhs) BKSGE_NOEXCEPT
  *	@brief	ストリームへの出力
  */
 template <typename CharT, typename Traits, typename T>
-bksge::basic_ostream<CharT, Traits>&
-operator<<(bksge::basic_ostream<CharT, Traits>& os, Transform3<T> const& rhs)
+std::basic_ostream<CharT, Traits>&
+operator<<(std::basic_ostream<CharT, Traits>& os, Transform3<T> const& rhs)
 {
 	return
 		os << "{ "

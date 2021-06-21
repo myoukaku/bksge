@@ -15,7 +15,7 @@
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint8_t.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/ostream/basic_ostream.hpp>
+#include <ostream>
 
 namespace bksge
 {
@@ -55,8 +55,8 @@ bool operator==(Pixels const& lhs, Pixels const& rhs);
 bool operator!=(Pixels const& lhs, Pixels const& rhs);
 
 template <typename CharT, typename Traits> inline
-bksge::basic_ostream<CharT, Traits>&
-operator<<(bksge::basic_ostream<CharT, Traits>& os, Pixels const& rhs)
+std::basic_ostream<CharT, Traits>&
+operator<<(std::basic_ostream<CharT, Traits>& os, Pixels const& rhs)
 {
 	os << "{ ";
 

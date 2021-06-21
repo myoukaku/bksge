@@ -607,8 +607,8 @@ bksge::wstring to_wstring(basic_bigint<B, S> const& val)
 //from_chars(const char* first, const char* last, basic_bigint<B, S>& value, int base = 10);
 
 template <typename Char, typename Traits, bksge::size_t B, bool S>
-bksge::basic_ostream<Char, Traits>&
-operator<<(bksge::basic_ostream<Char, Traits>& os, basic_bigint<B, S> const& val)
+std::basic_ostream<Char, Traits>&
+operator<<(std::basic_ostream<Char, Traits>& os, basic_bigint<B, S> const& val)
 {
 	return os << bksge::detail::bigint_access::to_basic_string<Char>(val);
 }

@@ -33,7 +33,6 @@ using std::basic_string_view;
 #include <bksge/fnd/iterator/concepts/contiguous_iterator.hpp>
 #include <bksge/fnd/iterator/concepts/sized_sentinel_for.hpp>
 #include <bksge/fnd/memory/to_address.hpp>
-#include <bksge/fnd/ostream/basic_ostream.hpp>
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
 #include <bksge/fnd/string/char_traits.hpp>
 #include <bksge/fnd/type_traits/is_array.hpp>
@@ -47,6 +46,7 @@ using std::basic_string_view;
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/config.hpp>
 #include <limits>
+#include <ostream>
 
 namespace bksge
 {
@@ -913,9 +913,9 @@ operator>=(
 #endif // defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
 
 template <typename CharT, typename Traits1, typename Traits2>
-inline bksge::basic_ostream<CharT, Traits1>&
+inline std::basic_ostream<CharT, Traits1>&
 operator<<(
-	bksge::basic_ostream<CharT, Traits1>& os,
+	std::basic_ostream<CharT, Traits1>& os,
 	basic_string_view<CharT, Traits2> sv)
 {
 	return os.write(sv.data(), sv.size());

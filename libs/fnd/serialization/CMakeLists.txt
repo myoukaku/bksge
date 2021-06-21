@@ -17,7 +17,6 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstddef ${CMAKE_CURRENT_BINARY_D
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstdint ${CMAKE_CURRENT_BINARY_DIR}/cstdint)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../functional ${CMAKE_CURRENT_BINARY_DIR}/functional)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../memory ${CMAKE_CURRENT_BINARY_DIR}/memory)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../ostream ${CMAKE_CURRENT_BINARY_DIR}/ostream)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../string ${CMAKE_CURRENT_BINARY_DIR}/string)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../type_traits ${CMAKE_CURRENT_BINARY_DIR}/type_traits)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../unordered_map ${CMAKE_CURRENT_BINARY_DIR}/unordered_map)
@@ -31,7 +30,6 @@ target_link_libraries(${TARGET_NAME}
 		Bksge::cstdint
 		Bksge::functional
 		Bksge::memory
-		Bksge::ostream
 		Bksge::string
 		Bksge::type_traits
 		Bksge::unordered_map

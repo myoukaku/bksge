@@ -17,7 +17,6 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../config ${CMAKE_CURRENT_BINARY_DI
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstddef ${CMAKE_CURRENT_BINARY_DIR}/cstddef)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstdint ${CMAKE_CURRENT_BINARY_DIR}/cstdint)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../ios ${CMAKE_CURRENT_BINARY_DIR}/ios)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../ostream ${CMAKE_CURRENT_BINARY_DIR}/ostream)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../type_traits ${CMAKE_CURRENT_BINARY_DIR}/type_traits)
 target_link_libraries(${TARGET_NAME}
 	INTERFACE
@@ -27,7 +26,6 @@ target_link_libraries(${TARGET_NAME}
 		Bksge::cstddef
 		Bksge::cstdint
 		Bksge::ios
-		Bksge::ostream
 		Bksge::type_traits)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)

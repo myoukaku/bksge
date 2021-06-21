@@ -13,10 +13,10 @@
 #include <bksge/fnd/system_error/error_condition.hpp>
 #include <bksge/fnd/system_error/error_category.hpp>
 #include <bksge/fnd/system_error/system_category.hpp>
-#include <bksge/fnd/ostream/basic_ostream.hpp>
 #include <bksge/fnd/compare/strong_ordering.hpp>
 #include <bksge/fnd/string.hpp>
 #include <bksge/fnd/config.hpp>
+#include <ostream>
 
 namespace bksge
 {
@@ -155,9 +155,9 @@ operator!=(error_condition const& lhs, error_code const& rhs) BKSGE_NOEXCEPT
 #endif
 
 template <typename CharT, typename Traits>
-inline bksge::basic_ostream<CharT, Traits>&
+inline std::basic_ostream<CharT, Traits>&
 operator<<(
-	bksge::basic_ostream<CharT, Traits>& os,
+	std::basic_ostream<CharT, Traits>& os,
 	bksge::error_code const& ec)
 {
 	return os << ec.category().name() << ':' << ec.value();

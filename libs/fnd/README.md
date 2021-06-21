@@ -33,7 +33,6 @@
 [![numbers](https://github.com/myoukaku/bksge/actions/workflows/numbers.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/numbers.yml)
 [![numeric](https://github.com/myoukaku/bksge/actions/workflows/numeric.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/numeric.yml)
 [![optional](https://github.com/myoukaku/bksge/actions/workflows/optional.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/optional.yml)
-[![ostream](https://github.com/myoukaku/bksge/actions/workflows/ostream.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/ostream.yml)
 [![preprocessor](https://github.com/myoukaku/bksge/actions/workflows/preprocessor.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/preprocessor.yml)
 [![queue](https://github.com/myoukaku/bksge/actions/workflows/queue.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/queue.yml)
 [![random](https://github.com/myoukaku/bksge/actions/workflows/random.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/random.yml)

@@ -18,7 +18,7 @@
 #include <bksge/fnd/ios/flags_saver.hpp>
 #include <bksge/fnd/cstdint/uint8_t.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
-#include <bksge/fnd/ostream/basic_ostream.hpp>
+#include <ostream>
 #include <ios>
 
 namespace bksge
@@ -89,8 +89,8 @@ bool operator!=(StencilState const& lhs, StencilState const& rhs);
  *	@brief	ストリームへの出力
  */
 template <typename CharT, typename Traits>
-inline bksge::basic_ostream<CharT, Traits>&
-operator<<(bksge::basic_ostream<CharT, Traits>& os, StencilState const& rhs)
+inline std::basic_ostream<CharT, Traits>&
+operator<<(std::basic_ostream<CharT, Traits>& os, StencilState const& rhs)
 {
 	bksge::ios::flags_saver ifs(os);
 	return os << std::boolalpha << "{ "
