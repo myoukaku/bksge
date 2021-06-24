@@ -16,9 +16,9 @@
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
 #include <bksge/fnd/stdexcept/length_error.hpp>
 #include <bksge/fnd/memory/addressof.hpp>
-#include <bksge/fnd/new/bad_alloc.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
+#include <new>
 #include "constexpr_test.hpp"
 #include "iterator_test.hpp"
 
@@ -2470,7 +2470,7 @@ TYPED_TEST(BasicStringTest, ReserveTest)
 	// May throw any exceptions thrown by allocator_traits<Allocator>::allocate(), such as bad_alloc.
 	{
 		string s;
-		EXPECT_THROW(s.reserve(s.max_size()), bksge::bad_alloc);
+		EXPECT_THROW(s.reserve(s.max_size()), std::bad_alloc);
 	}
 }
 

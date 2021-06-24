@@ -33,7 +33,6 @@ add_subdirectory(iterator)
 add_subdirectory(list)
 add_subdirectory(map)
 add_subdirectory(memory)
-add_subdirectory(new)
 add_subdirectory(numbers)
 add_subdirectory(numeric)
 add_subdirectory(optional)
@@ -88,7 +87,6 @@ target_link_libraries(${TARGET_NAME}
 		Bksge::list
 		Bksge::map
 		Bksge::memory
-		Bksge::new
 		Bksge::numbers
 		Bksge::numeric
 		Bksge::optional

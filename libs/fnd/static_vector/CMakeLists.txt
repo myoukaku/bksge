@@ -15,9 +15,9 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../algorithm ${CMAKE_CURRENT_BINARY
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../config ${CMAKE_CURRENT_BINARY_DIR}/config)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstddef ${CMAKE_CURRENT_BINARY_DIR}/cstddef)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../debug ${CMAKE_CURRENT_BINARY_DIR}/debug)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../detail ${CMAKE_CURRENT_BINARY_DIR}/detail)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../iterator ${CMAKE_CURRENT_BINARY_DIR}/iterator)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../memory ${CMAKE_CURRENT_BINARY_DIR}/memory)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../new ${CMAKE_CURRENT_BINARY_DIR}/new)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../stdexcept ${CMAKE_CURRENT_BINARY_DIR}/stdexcept)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../type_traits ${CMAKE_CURRENT_BINARY_DIR}/type_traits)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../utility ${CMAKE_CURRENT_BINARY_DIR}/utility)
@@ -27,9 +27,9 @@ target_link_libraries(${TARGET_NAME}
 		Bksge::config
 		Bksge::cstddef
 		Bksge::debug
+		Bksge::detail
 		Bksge::iterator
 		Bksge::memory
-		Bksge::new
 		Bksge::stdexcept
 		Bksge::type_traits
 		Bksge::utility)

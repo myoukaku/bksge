@@ -15,7 +15,7 @@
 #include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/iterator/distance.hpp>
 #include <bksge/fnd/memory/allocator_traits.hpp>
-#include <bksge/fnd/new/bad_alloc.hpp>
+#include <bksge/fnd/detail/throw_bad_alloc.hpp>
 #include <bksge/fnd/type_traits/is_trivially_destructible.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/move.hpp>
@@ -71,7 +71,7 @@ public:
 	{
 		if (new_cap > Capacity)
 		{
-			bksge::throw_bad_alloc();
+			bksge::detail::throw_bad_alloc();
 		}
 	}
 
@@ -238,7 +238,7 @@ public:
 	{
 		if (new_cap > Capacity)
 		{
-			bksge::throw_bad_alloc();
+			bksge::detail::throw_bad_alloc();
 		}
 	}
 

@@ -22,12 +22,9 @@ target_include_directories(${TARGET_NAME} PRIVATE src)
 option(BUILD_GMOCK "Builds the googlemock subproject" OFF)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../../../externals/googletest ${CMAKE_CURRENT_BINARY_DIR}/googletest)
 
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../new ${CMAKE_CURRENT_BINARY_DIR}/new)
-
 target_link_libraries(${TARGET_NAME}
 	PRIVATE
 		Bksge::string
-		Bksge::new
 		GTest::gtest
 		GTest::gtest_main)
 

@@ -26,7 +26,6 @@
 [![list](https://github.com/myoukaku/bksge/actions/workflows/list.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/list.yml)
 [![map](https://github.com/myoukaku/bksge/actions/workflows/map.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/map.yml)
 [![memory](https://github.com/myoukaku/bksge/actions/workflows/memory.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/memory.yml)
-[![new](https://github.com/myoukaku/bksge/actions/workflows/new.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/new.yml)
 [![numbers](https://github.com/myoukaku/bksge/actions/workflows/numbers.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/numbers.yml)
 [![numeric](https://github.com/myoukaku/bksge/actions/workflows/numeric.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/numeric.yml)
 [![optional](https://github.com/myoukaku/bksge/actions/workflows/optional.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/optional.yml)
