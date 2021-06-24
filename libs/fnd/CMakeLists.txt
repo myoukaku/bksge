@@ -14,7 +14,6 @@ add_subdirectory(any)
 add_subdirectory(array)
 add_subdirectory(bigint)
 add_subdirectory(bit)
-add_subdirectory(bitset)
 add_subdirectory(cmath)
 add_subdirectory(compare)
 add_subdirectory(complex)
@@ -72,7 +71,6 @@ target_link_libraries(${TARGET_NAME}
 		Bksge::array
 		Bksge::bigint
 		Bksge::bit
-		Bksge::bitset
 		Bksge::cmath
 		Bksge::compare
 		Bksge::complex

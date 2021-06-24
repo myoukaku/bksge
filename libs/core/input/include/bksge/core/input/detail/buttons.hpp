@@ -10,7 +10,7 @@
 #define BKSGE_CORE_INPUT_DETAIL_BUTTONS_HPP
 
 #include <bksge/fnd/cstddef/size_t.hpp>
-#include <bksge/fnd/bitset.hpp>
+#include <bitset>
 
 namespace bksge
 {
@@ -103,7 +103,7 @@ public:
 	}
 
 private:
-	using ValueType = bksge::bitset<N>;
+	using ValueType = std::bitset<N>;
 
 	ValueType			m_press;
 	ValueType			m_press_old;

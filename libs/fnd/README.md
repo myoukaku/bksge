@@ -7,7 +7,6 @@
 [![array](https://github.com/myoukaku/bksge/actions/workflows/array.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/array.yml)
 [![bigint](https://github.com/myoukaku/bksge/actions/workflows/bigint.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/bigint.yml)
 [![bit](https://github.com/myoukaku/bksge/actions/workflows/bit.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/bit.yml)
-[![bitset](https://github.com/myoukaku/bksge/actions/workflows/bitset.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/bitset.yml)
 [![cmath](https://github.com/myoukaku/bksge/actions/workflows/cmath.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/cmath.yml)
 [![compare](https://github.com/myoukaku/bksge/actions/workflows/compare.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/compare.yml)
 [![complex](https://github.com/myoukaku/bksge/actions/workflows/complex.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/complex.yml)
