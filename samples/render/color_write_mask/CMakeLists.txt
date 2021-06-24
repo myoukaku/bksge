@@ -1,3 +1,0 @@
-﻿add_executable(sample_render_color_write_mask sample_render_color_write_mask_main.cpp)
-set_target_properties(sample_render_color_write_mask PROPERTIES FOLDER "samples")
-target_link_libraries(sample_render_color_write_mask PRIVATE bksge)

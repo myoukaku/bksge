@@ -1,3 +1,0 @@
-﻿add_executable(sample_render_constant_buffer sample_render_constant_buffer_main.cpp)
-set_target_properties(sample_render_constant_buffer PROPERTIES FOLDER "samples")
-target_link_libraries(sample_render_constant_buffer PRIVATE bksge)

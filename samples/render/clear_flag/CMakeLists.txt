@@ -1,3 +1,0 @@
-﻿add_executable(sample_render_clear_flag sample_render_clear_flag_main.cpp)
-set_target_properties(sample_render_clear_flag PROPERTIES FOLDER "samples")
-target_link_libraries(sample_render_clear_flag PRIVATE bksge)

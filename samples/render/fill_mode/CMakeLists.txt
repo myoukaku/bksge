@@ -1,3 +1,0 @@
-﻿add_executable(sample_render_fill_mode sample_render_fill_mode_main.cpp)
-set_target_properties(sample_render_fill_mode PROPERTIES FOLDER "samples")
-target_link_libraries(sample_render_fill_mode PRIVATE bksge)

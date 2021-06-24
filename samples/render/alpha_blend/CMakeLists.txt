@@ -1,3 +1,0 @@
-﻿add_executable(sample_render_alpha_blend sample_render_alpha_blend_main.cpp)
-set_target_properties(sample_render_alpha_blend PROPERTIES FOLDER "samples")
-target_link_libraries(sample_render_alpha_blend PRIVATE bksge)

@@ -1,3 +1,0 @@
-﻿add_executable(sample_render_depth_test sample_render_depth_test_main.cpp)
-set_target_properties(sample_render_depth_test PROPERTIES FOLDER "samples")
-target_link_libraries(sample_render_depth_test PRIVATE bksge)
