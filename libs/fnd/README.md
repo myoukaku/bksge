@@ -18,7 +18,6 @@
 [![debug](https://github.com/myoukaku/bksge/actions/workflows/debug.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/debug.yml)
 [![deque](https://github.com/myoukaku/bksge/actions/workflows/deque.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/deque.yml)
 [![detail](https://github.com/myoukaku/bksge/actions/workflows/detail.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/detail.yml)
-[![exception](https://github.com/myoukaku/bksge/actions/workflows/exception.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/exception.yml)
 [![forward_list](https://github.com/myoukaku/bksge/actions/workflows/forward_list.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/forward_list.yml)
 [![functional](https://github.com/myoukaku/bksge/actions/workflows/functional.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/functional.yml)
 [![hash_functions](https://github.com/myoukaku/bksge/actions/workflows/hash_functions.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/hash_functions.yml)

@@ -7,15 +7,15 @@
  */
 
 #include <bksge/fnd/stdexcept/runtime_error.hpp>
-#include <bksge/fnd/exception/exception.hpp>
 #include <bksge/fnd/type_traits/is_base_of.hpp>
 #include <bksge/fnd/type_traits/is_polymorphic.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <gtest/gtest.h>
+#include <exception>
 
 GTEST_TEST(StdExceptTest, RuntimeErrorTest)
 {
-	static_assert(bksge::is_base_of<bksge::exception, bksge::runtime_error>::value, "");
+	static_assert(bksge::is_base_of<std::exception, bksge::runtime_error>::value, "");
 	static_assert(bksge::is_polymorphic<bksge::runtime_error>::value, "");
 
 	{

@@ -24,7 +24,7 @@ using std::bad_optional_access;
 
 #else
 
-#include <bksge/fnd/exception/exception.hpp>
+#include <exception>
 
 namespace bksge
 {
@@ -34,7 +34,7 @@ namespace bksge
  *  dereferenced.
  *  @ingroup exceptions
  */
-class bad_optional_access : public bksge::exception
+class bad_optional_access : public std::exception
 {
 public:
 	bad_optional_access() = default;

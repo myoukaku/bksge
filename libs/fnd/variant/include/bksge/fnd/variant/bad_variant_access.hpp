@@ -22,8 +22,8 @@ using std::bad_variant_access;
 
 #else
 
-#include <bksge/fnd/exception/exception.hpp>
 #include <bksge/fnd/config.hpp>
+#include <exception>
 #if defined(BKSGE_NO_EXCEPTIONS)
 #include <cstdlib>
 #endif
@@ -38,7 +38,7 @@ namespace bksge
  *	・get(variant)を有効でないインデックスや型で呼び出した
  *	・valueless_by_exception が true の variant に対して visit を呼び出した
  */
-class bad_variant_access : public bksge::exception
+class bad_variant_access : public std::exception
 {
 public:
 	bad_variant_access() BKSGE_NOEXCEPT {}

@@ -25,7 +25,6 @@ add_subdirectory(cstring)
 add_subdirectory(debug)
 add_subdirectory(deque)
 add_subdirectory(detail)
-add_subdirectory(exception)
 add_subdirectory(forward_list)
 add_subdirectory(functional)
 add_subdirectory(hash_functions)
@@ -81,7 +80,6 @@ target_link_libraries(${TARGET_NAME}
 		Bksge::debug
 		Bksge::deque
 		Bksge::detail
-		Bksge::exception
 		Bksge::forward_list
 		Bksge::functional
 		Bksge::hash_functions
