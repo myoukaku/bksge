@@ -14,7 +14,6 @@ add_library(Bksge::system_error ALIAS ${TARGET_NAME})
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../compare ${CMAKE_CURRENT_BINARY_DIR}/compare)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../config ${CMAKE_CURRENT_BINARY_DIR}/config)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstddef ${CMAKE_CURRENT_BINARY_DIR}/cstddef)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstdlib ${CMAKE_CURRENT_BINARY_DIR}/cstdlib)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../functional ${CMAKE_CURRENT_BINARY_DIR}/functional)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../string ${CMAKE_CURRENT_BINARY_DIR}/string)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../type_traits ${CMAKE_CURRENT_BINARY_DIR}/type_traits)
@@ -23,7 +22,6 @@ target_link_libraries(${TARGET_NAME}
 		Bksge::compare
 		Bksge::config
 		Bksge::cstddef
-		Bksge::cstdlib
 		Bksge::functional
 		Bksge::string
 		Bksge::type_traits)

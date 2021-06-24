@@ -12,12 +12,10 @@ add_library(${TARGET_NAME} INTERFACE)
 add_library(Bksge::stdexcept ALIAS ${TARGET_NAME})
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../config ${CMAKE_CURRENT_BINARY_DIR}/config)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstdlib ${CMAKE_CURRENT_BINARY_DIR}/cstdlib)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../string ${CMAKE_CURRENT_BINARY_DIR}/string)
 target_link_libraries(${TARGET_NAME}
 	INTERFACE
 		Bksge::config
-		Bksge::cstdlib
 		Bksge::string)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)

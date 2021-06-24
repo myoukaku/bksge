@@ -37,7 +37,6 @@ target_link_libraries(${TARGET_NAME}
 		Bksge::concepts
 		Bksge::config
 		Bksge::cstddef
-		Bksge::cstdlib
 		Bksge::cstring
 		Bksge::debug
 		Bksge::functional

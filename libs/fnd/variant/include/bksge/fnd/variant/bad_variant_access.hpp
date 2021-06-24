@@ -25,7 +25,7 @@ using std::bad_variant_access;
 #include <bksge/fnd/exception/exception.hpp>
 #include <bksge/fnd/config.hpp>
 #if defined(BKSGE_NO_EXCEPTIONS)
-#include <bksge/fnd/cstdlib/abort.hpp>
+#include <cstdlib>
 #endif
 
 namespace bksge
@@ -64,7 +64,7 @@ throw_bad_variant_access(char const* what)
 #if !defined(BKSGE_NO_EXCEPTIONS)
 	throw bksge::bad_variant_access(what);
 #else
-	bksge::abort();
+	std::abort();
 #endif
 }
 

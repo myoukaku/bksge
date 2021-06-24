@@ -21,4 +21,4 @@
 * Bksge.StdExcept
 * Bksge.Tuple
 * Bksge.TypeTraits
-* Bksge.Utility)
+* Bksge.Utility

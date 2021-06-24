@@ -13,7 +13,6 @@ add_library(Bksge::optional ALIAS ${TARGET_NAME})
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../compare ${CMAKE_CURRENT_BINARY_DIR}/compare)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../config ${CMAKE_CURRENT_BINARY_DIR}/config)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstdlib ${CMAKE_CURRENT_BINARY_DIR}/cstdlib)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../debug ${CMAKE_CURRENT_BINARY_DIR}/debug)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../detail ${CMAKE_CURRENT_BINARY_DIR}/detail)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../exception ${CMAKE_CURRENT_BINARY_DIR}/exception)
@@ -25,7 +24,6 @@ target_link_libraries(${TARGET_NAME}
 	INTERFACE
 		Bksge::compare
 		Bksge::config
-		Bksge::cstdlib
 		Bksge::debug
 		Bksge::detail
 		Bksge::exception

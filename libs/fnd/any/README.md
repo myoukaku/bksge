@@ -9,7 +9,6 @@ std::any はC++17で追加されましたが、bksge::any はC++11以降なら�
 ### 依存ライブラリ
 
 * Bksge.Config
-* Bksge.CStdLib
 * Bksge.TypeTraits
 * Bksge.Utility
 

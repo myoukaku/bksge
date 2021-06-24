@@ -85,7 +85,7 @@ handle_strerror_r_return(int strerror_return, char* buffer)
 	BKSGE_ASSERT(new_errno == ERANGE, "unexpected error from ::strerror_r");
 	// FIXME maybe? 'strerror_buff_size' is likely to exceed the
 	// maximum error size so ERANGE shouldn't be returned.
-	bksge::abort();
+	std::abort();
 }
 
 // This function handles both GNU and POSIX variants, dispatching to

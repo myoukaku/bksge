@@ -14,7 +14,6 @@
 [![config](https://github.com/myoukaku/bksge/actions/workflows/config.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/config.yml)
 [![cstddef](https://github.com/myoukaku/bksge/actions/workflows/cstddef.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/cstddef.yml)
 [![cstdint](https://github.com/myoukaku/bksge/actions/workflows/cstdint.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/cstdint.yml)
-[![cstdlib](https://github.com/myoukaku/bksge/actions/workflows/cstdlib.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/cstdlib.yml)
 [![cstring](https://github.com/myoukaku/bksge/actions/workflows/cstring.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/cstring.yml)
 [![debug](https://github.com/myoukaku/bksge/actions/workflows/debug.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/debug.yml)
 [![deque](https://github.com/myoukaku/bksge/actions/workflows/deque.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/deque.yml)

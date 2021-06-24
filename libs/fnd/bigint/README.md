@@ -24,8 +24,19 @@
 
 ### 依存ライブラリ
 
+* Bksge.Bit
+* Bksge.Concepts
 * Bksge.Config
-* Bksge.CStdLib
+* Bksge.CStdDef
+* Bksge.CString
+* Bksge.Debug
+* Bksge.Functional
+* Bksge.Iterator
+* Bksge.Memory
+* Bksge.Numeric
+* Bksge.Random
+* Bksge.Ranges
 * Bksge.TypeTraits
 * Bksge.Utility
+* Bksge.Vector
 

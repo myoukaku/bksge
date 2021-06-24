@@ -10,8 +10,8 @@
 #define BKSGE_FND_STDEXCEPT_INL_RANGE_ERROR_INL_HPP
 
 #include <bksge/fnd/stdexcept/range_error.hpp>
-#include <bksge/fnd/cstdlib/abort.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstdlib>
 
 namespace bksge
 {
@@ -23,7 +23,7 @@ void throw_range_error(char const* msg)
 	throw bksge::range_error(msg);
 #else
 	(void)msg;
-	bksge::abort();
+	std::abort();
 #endif
 }
 

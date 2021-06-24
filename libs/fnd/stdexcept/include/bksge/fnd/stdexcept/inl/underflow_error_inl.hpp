@@ -10,8 +10,8 @@
 #define BKSGE_FND_STDEXCEPT_INL_UNDERFLOW_ERROR_INL_HPP
 
 #include <bksge/fnd/stdexcept/underflow_error.hpp>
-#include <bksge/fnd/cstdlib/abort.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstdlib>
 
 namespace bksge
 {
@@ -23,7 +23,7 @@ void throw_underflow_error(char const* msg)
 	throw bksge::underflow_error(msg);
 #else
 	(void)msg;
-	bksge::abort();
+	std::abort();
 #endif
 }
 

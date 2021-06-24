@@ -21,7 +21,6 @@ add_subdirectory(concepts)
 add_subdirectory(config)
 add_subdirectory(cstddef)
 add_subdirectory(cstdint)
-add_subdirectory(cstdlib)
 add_subdirectory(cstring)
 add_subdirectory(debug)
 add_subdirectory(deque)
@@ -78,7 +77,6 @@ target_link_libraries(${TARGET_NAME}
 		Bksge::config
 		Bksge::cstddef
 		Bksge::cstdint
-		Bksge::cstdlib
 		Bksge::cstring
 		Bksge::debug
 		Bksge::deque

@@ -13,9 +13,9 @@
 #include <bksge/fnd/system_error/system_category.hpp>
 #include <bksge/fnd/system_error/error_code.hpp>
 #include <bksge/fnd/system_error/error_category.hpp>
-#include <bksge/fnd/cstdlib/abort.hpp>
 #include <bksge/fnd/string.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstdlib>
 
 namespace bksge
 {
@@ -91,7 +91,7 @@ throw_system_error(int ev, char const* what_arg)
 #else
 	(void)ev;
 	(void)what_arg;
-	bksge::abort();
+	std::abort();
 #endif
 }
 

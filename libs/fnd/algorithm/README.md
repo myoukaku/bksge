@@ -26,7 +26,6 @@ TODO
 * Bksge.Concepts
 * Bksge.Config
 * Bksge.CStdDef
-* Bksge.CStdLib
 * Bksge.CString
 * Bksge.Debug
 * Bksge.Functional
