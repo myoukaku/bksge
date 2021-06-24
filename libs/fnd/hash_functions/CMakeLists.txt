@@ -20,7 +20,6 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstddef ${CMAKE_CURRENT_BINARY_D
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstdint ${CMAKE_CURRENT_BINARY_DIR}/cstdint)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstring ${CMAKE_CURRENT_BINARY_DIR}/cstring)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../iterator ${CMAKE_CURRENT_BINARY_DIR}/iterator)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../queue ${CMAKE_CURRENT_BINARY_DIR}/queue)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../random ${CMAKE_CURRENT_BINARY_DIR}/random)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../string ${CMAKE_CURRENT_BINARY_DIR}/string)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../utility ${CMAKE_CURRENT_BINARY_DIR}/utility)
@@ -36,7 +35,6 @@ target_link_libraries(${TARGET_NAME}
 		Bksge::cstdint
 		Bksge::cstring
 		Bksge::iterator
-		Bksge::queue
 		Bksge::random
 		Bksge::string
 		Bksge::utility

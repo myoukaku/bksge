@@ -37,7 +37,6 @@ add_subdirectory(numbers)
 add_subdirectory(numeric)
 add_subdirectory(optional)
 add_subdirectory(preprocessor)
-add_subdirectory(queue)
 add_subdirectory(random)
 add_subdirectory(ranges)
 add_subdirectory(ratio)
@@ -91,7 +90,6 @@ target_link_libraries(${TARGET_NAME}
 		Bksge::numeric
 		Bksge::optional
 		Bksge::preprocessor
-		Bksge::queue
 		Bksge::random
 		Bksge::ranges
 		Bksge::ratio

@@ -35,7 +35,6 @@
 #include <bksge/fnd/numbers.hpp>
 #include <bksge/fnd/numeric.hpp>
 #include <bksge/fnd/optional.hpp>
-#include <bksge/fnd/queue.hpp>
 #include <bksge/fnd/random.hpp>
 #include <bksge/fnd/ranges.hpp>
 #include <bksge/fnd/ratio.hpp>

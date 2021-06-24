@@ -15,8 +15,8 @@
 #include <bksge/fnd/algorithm/ranges/reverse.hpp>
 #include <bksge/fnd/algorithm/ranges/fill.hpp>
 #include <bksge/fnd/random/engines/mersenne_twister_engine.hpp>
-#include <bksge/fnd/queue.hpp>
 #include <bksge/fnd/vector.hpp>
+#include <queue>
 
 namespace bksge
 {
@@ -84,7 +84,7 @@ bool perfect_hash<Hasher>::build(bksge::vector<bksge::string> const& keys)
 
 		// Prepare for BFS
 		bksge::vector<int> deg(num_3v);
-		bksge::queue<int> que;
+		std::queue<int> que;
 
 		for (int i = 0; i < num_3v; ++i)
 		{
