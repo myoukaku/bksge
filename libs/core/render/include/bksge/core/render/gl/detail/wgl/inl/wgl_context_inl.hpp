@@ -19,10 +19,6 @@
 #include <bksge/core/render/gl/detail/wgl/wglext.hpp>
 #include <bksge/core/window/window.hpp>
 
-#if defined(_MSC_VER)
-#	pragma comment(lib, "OpenGL32.lib")
-#endif
-
 namespace bksge
 {
 
