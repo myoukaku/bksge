@@ -14,7 +14,7 @@
 #include <utility>
 #include <vector>
 
-#if BKSGE_HAS_INCLUDE(<coroutine>) && (BKSGE_CXX_STANDARD >= 20)
+#if BKSGE_HAS_INCLUDE(<coroutine>) && (BKSGE_CXX_STANDARD >= 20) && defined(BKSGE_HAS_CXX20_COROUTINES)
 #include <coroutine>
 #endif
 #if BKSGE_HAS_INCLUDE(<compare>) && (BKSGE_CXX_STANDARD >= 20)
@@ -1128,6 +1128,9 @@ thread_local auto [a_tls, b_tls] = std::make_tuple(1.0, 2.0);
 
 GTEST_TEST(ConfigTest, Cxx20StructuredBindingExtensionsTest)
 {
+	EXPECT_TRUE(a_static == 1.0);
+	EXPECT_TRUE(b_static == 2.0);
+	
 	auto tuple = std::make_tuple(1.0, 2.0, 3.0);
 	auto& [a, b, c] = tuple;
 
@@ -1386,7 +1389,7 @@ generator f() { co_yield 1; co_yield 2; }
 GTEST_TEST(ConfigTest, Cxx20CoroutinesTest)
 {
 	auto g = f();
-	EXPECT_EQ(0, g.current_value());
+//	EXPECT_EQ(0, g.current_value());
 	g.move_next();
 	EXPECT_EQ(1, g.current_value());
 	g.move_next();

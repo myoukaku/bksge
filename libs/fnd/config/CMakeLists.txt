@@ -89,6 +89,9 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   target_compile_options(${TARGET_NAME} INTERFACE -Wall -Wextra -Werror -Wno-missing-field-initializers)
+  if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL "10.0.0")
+    target_compile_options(${TARGET_NAME} INTERFACE -fcoroutines)
+  endif()
 endif()
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
