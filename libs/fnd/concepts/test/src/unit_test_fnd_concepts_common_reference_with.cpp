@@ -384,7 +384,7 @@ struct F { F(const G&) { } };
 
 }	// namespace bksge_concepts_test
 
-namespace bksge
+namespace BKSGE_BASIC_COMMON_REFERENCE_NAMESPACE
 {
 
 template <template <typename> class Qual1, template <typename> class Qual2>
@@ -405,7 +405,7 @@ struct basic_common_reference<
 	using type = Qual1<Qual2<bksge_concepts_test::common_reference_with_test::F>>;
 };
 
-}	// namespace bksge
+}	// namespace BKSGE_BASIC_COMMON_REFERENCE_NAMESPACE
 
 namespace bksge_concepts_test
 {

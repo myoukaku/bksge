@@ -43,7 +43,7 @@ struct F { };
 
 }	// namespace bksge_type_traits_test
 
-namespace bksge
+namespace BKSGE_BASIC_COMMON_REFERENCE_NAMESPACE
 {
 
 template <template <typename> class AQual, template <typename> class BQual>
@@ -54,6 +54,11 @@ struct basic_common_reference<
 {
 	using type = BQual<AQual<bksge_type_traits_test::common_reference_test::C>>;
 };
+
+}	// namespace BKSGE_BASIC_COMMON_REFERENCE_NAMESPACE
+
+namespace bksge
+{
 
 template <>
 struct common_type<
