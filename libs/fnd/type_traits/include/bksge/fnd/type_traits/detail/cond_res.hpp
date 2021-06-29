@@ -11,6 +11,7 @@
 
 #include <bksge/fnd/type_traits/copy_cv.hpp>
 #include <bksge/fnd/type_traits/void_t.hpp>
+#include <bksge/fnd/type_traits/remove_cv.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
 
@@ -42,7 +43,9 @@ template <typename X, typename Y>
 struct cond_res_impl_base<X, Y,
 	bksge::void_t<decltype(false ? bksge::declval<X(&)()>()() : bksge::declval<Y(&)()>()())>>
 {
-	using type = decltype(false ? bksge::declval<X(&)()>()() : bksge::declval<Y(&)()>()());
+	using type = bksge::remove_cv_t<
+		decltype(false ? bksge::declval<X(&)()>()() : bksge::declval<Y(&)()>()())
+	>;
 };
 
 template <typename X, typename Y>

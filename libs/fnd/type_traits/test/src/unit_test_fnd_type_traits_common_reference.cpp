@@ -273,16 +273,9 @@ BKSGE_COMMON_REFERENCE_TEST(void*,       int      *       , void      *       );
 BKSGE_COMMON_REFERENCE_TEST(void*,       int      *      &, void      *      &);
 BKSGE_COMMON_REFERENCE_TEST(void const*, int const*      &, void      *      &);
 BKSGE_COMMON_REFERENCE_TEST(void const*, int      *      &, void const*      &);
-#if (defined(_MSC_VER) && (_MSC_VER < 1920))
-// TODO
-BKSGE_COMMON_REFERENCE_TEST(void* const,       int      * const&, void      *      &);
-BKSGE_COMMON_REFERENCE_TEST(void* const,       int      *      &, void      * const&);
-BKSGE_COMMON_REFERENCE_TEST(void const* const, int const* const&, void      *      &);
-#else
 BKSGE_COMMON_REFERENCE_TEST(void*,       int      * const&, void      *      &);
 BKSGE_COMMON_REFERENCE_TEST(void*,       int      *      &, void      * const&);
 BKSGE_COMMON_REFERENCE_TEST(void const*, int const* const&, void      *      &);
-#endif
 
 BKSGE_COMMON_REFERENCE_TEST(C, A, B);
 BKSGE_COMMON_REFERENCE_TEST(C&, A&, B);
