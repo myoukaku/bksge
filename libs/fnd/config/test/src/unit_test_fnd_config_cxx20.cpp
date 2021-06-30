@@ -1448,6 +1448,11 @@ GTEST_TEST(ConfigTest, Cxx20AggregateParenInitTest)
 	int n[](1, 2, 3, 4, 5);
 	EXPECT_EQ(1, n[0]);
 	EXPECT_EQ(5, n[4]);
+
+	int m[3](42);
+	EXPECT_EQ(42, m[0]);
+	EXPECT_EQ( 0, m[1]);
+	EXPECT_EQ( 0, m[2]);
 }
 
 }	// namespace aggregate_paren_init_test
