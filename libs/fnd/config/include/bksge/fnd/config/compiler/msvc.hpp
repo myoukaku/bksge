@@ -618,7 +618,7 @@
 #if (_MSC_FULL_VER >= 192930037)
 #endif
 
-// Visual Studio 2019 version 16.10.2
+// Visual Studio 2019 version 16.10.(2-3)
 #if (_MSC_FULL_VER >= 192930038)
 #endif
 
