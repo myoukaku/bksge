@@ -10,6 +10,9 @@
 #include <bksge/fnd/string/string.hpp>
 #include <gtest/gtest.h>
 
+BKSGE_WARNING_PUSH();
+BKSGE_WARNING_DISABLE_MSVC(4307);	// integral constant overflow
+
 GTEST_TEST(FunctionalTest, HashCombineTest)
 {
 	auto const h0 = bksge::hash_combine(0);
@@ -128,3 +131,5 @@ GTEST_TEST(FunctionalTest, HashCombineTest)
 	EXPECT_TRUE(h10 == h10_2);
 	EXPECT_TRUE(h11 == h11_2);
 }
+
+BKSGE_WARNING_POP();

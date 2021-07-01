@@ -22,6 +22,9 @@
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
+BKSGE_WARNING_PUSH();
+BKSGE_WARNING_DISABLE_MSVC(4307);	// integral constant overflow
+
 namespace bksge_functional_test
 {
 
@@ -359,3 +362,5 @@ GTEST_TEST(FunctionalTest, HashTest)
 }	// namespace hash_test
 
 }	// namespace bksge_functional_test
+
+BKSGE_WARNING_POP();
