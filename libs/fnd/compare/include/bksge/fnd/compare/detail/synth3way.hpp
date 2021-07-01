@@ -33,16 +33,13 @@ private:
 		{
 			return noexcept(*t <=> *u);
 		}
-		else
 #endif
-		{
-			return noexcept(*t < *u) && noexcept(*u < *t);
-		}
+		return noexcept(*t < *u) && noexcept(*u < *t);
 	}
 
 public:
 	template <typename T, typename U>
-	BKSGE_CXX14_CONSTEXPR auto
+	BKSGE_CXX14_CONSTEXPR bksge::weak_ordering
 	operator()(T const& t, U const& u) const
 		BKSGE_NOEXCEPT_IF((s_noexcept<T, U>()))
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
