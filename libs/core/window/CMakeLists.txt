@@ -8,7 +8,7 @@ endif()
 
 project(${TARGET_NAME} LANGUAGES C CXX)
 
-add_library(${TARGET_NAME} INTERFACE)
+add_library(${TARGET_NAME} STATIC)
 add_library(Bksge::window ALIAS ${TARGET_NAME})
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../fnd ${CMAKE_CURRENT_BINARY_DIR}/fnd)
@@ -16,7 +16,7 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../core/math ${CMAKE_CURRENT_BIN
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../core/win32 ${CMAKE_CURRENT_BINARY_DIR}/win32)
 
 target_link_libraries(${TARGET_NAME}
-	INTERFACE
+	PUBLIC
 		Bksge::fnd
 		Bksge::math
 		Bksge::win32)
@@ -67,39 +67,39 @@ endif()
 
 file(GLOB_RECURSE bksge_sources CONFIGURE_DEPENDS src/*)
 file(GLOB_RECURSE bksge_headers CONFIGURE_DEPENDS include/bksge/*)
-target_sources(${TARGET_NAME} INTERFACE ${bksge_sources} ${bksge_headers})
+target_sources(${TARGET_NAME} PRIVATE ${bksge_sources} ${bksge_headers})
 
-target_include_directories(${TARGET_NAME} INTERFACE ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(${TARGET_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
 if (MSVC)
   # /WX (Treat all warnings as errors)
-  target_compile_options(${TARGET_NAME} INTERFACE /WX)
+  target_compile_options(${TARGET_NAME} PRIVATE /WX)
 
   # C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
-  target_compile_options(${TARGET_NAME} INTERFACE /wd4103)
+  target_compile_options(${TARGET_NAME} PRIVATE /wd4103)
 
   # C4384: #pragma '...' should only be used at global scope
-  target_compile_options(${TARGET_NAME} INTERFACE /wd4384)
+  target_compile_options(${TARGET_NAME} PRIVATE /wd4384)
 
   # /guard:cf (Enable Control Flow Guard)
-  target_compile_options(${TARGET_NAME} INTERFACE /guard:cf)
+  target_compile_options(${TARGET_NAME} PRIVATE /guard:cf)
 
   # /permissive- (Standards conformance)
-  target_compile_options(${TARGET_NAME} INTERFACE /permissive-)
+  target_compile_options(${TARGET_NAME} PRIVATE /permissive-)
 
   # /bigobj (Increase Number of Sections in .obj file)
-  target_compile_options(${TARGET_NAME} INTERFACE /bigobj)
+  target_compile_options(${TARGET_NAME} PRIVATE /bigobj)
 
   # /MP (Build with Multiple Processes)
   if (NOT CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    target_compile_options(${TARGET_NAME} INTERFACE /MP)
+    target_compile_options(${TARGET_NAME} PRIVATE /MP)
   endif()
 
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-  target_compile_options(${TARGET_NAME} INTERFACE -Wall -Wextra -Werror -Wno-mismatched-tags)
+  target_compile_options(${TARGET_NAME} PRIVATE -Wall -Wextra -Werror -Wno-mismatched-tags)
 
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  target_compile_options(${TARGET_NAME} INTERFACE -Wall -Wextra -Werror -Wno-missing-field-initializers)
+  target_compile_options(${TARGET_NAME} PRIVATE -Wall -Wextra -Werror -Wno-missing-field-initializers)
 endif()
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
