@@ -27,7 +27,7 @@ namespace strong_ordering_test
 
 #define VERIFY(...)	if (!(__VA_ARGS__)) { return false; }
 
-inline BKSGE_CXX14_CONSTEXPR bool test01()
+inline BKSGE_CXX17_CONSTEXPR bool test01()
 {
 	VERIFY(bksge::strong_ordering::less       == bksge::strong_ordering::less);
 	VERIFY(bksge::strong_ordering::less       != bksge::strong_ordering::equal);
@@ -162,7 +162,7 @@ inline BKSGE_CXX14_CONSTEXPR bool test01()
 
 GTEST_TEST(CompareTest, StrongOrderingTest)
 {
-#if defined(BKSGE_HAS_CXX17_INLINE_VARIABLES)
+#if defined(BKSGE_COMPARE_USE_INLINE_VARIABLES)
 	BKSGE_CONSTEXPR_EXPECT_TRUE(test01());
 #else
 	EXPECT_TRUE(test01());

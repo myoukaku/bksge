@@ -35,11 +35,7 @@ struct X
 
 	friend constexpr bool operator<(const X& lhs, const X& rhs)
 	{
-#if defined(BKSGE_MSVC)
 		return !bksge::isnan(lhs.v) && !bksge::isnan(rhs.v) && lhs.v < rhs.v;
-#else
-		return lhs.v < rhs.v;
-#endif
 	}
 };
 
@@ -184,7 +180,7 @@ inline BKSGE_CXX17_CONSTEXPR bool test01()
 
 GTEST_TEST(CompareTest, ComparePartialOrderFallbackTest)
 {
-#if defined(BKSGE_HAS_CXX17_INLINE_VARIABLES)
+#if defined(BKSGE_COMPARE_USE_INLINE_VARIABLES)
 	BKSGE_CONSTEXPR_EXPECT_TRUE(test01());
 #else
 	EXPECT_TRUE(test01());

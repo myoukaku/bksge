@@ -94,7 +94,7 @@ inline BKSGE_CXX17_CONSTEXPR bool test01()
 
 GTEST_TEST(CompareTest, CompareStrongOrderFallbackTest)
 {
-#if defined(BKSGE_HAS_CXX17_INLINE_VARIABLES)
+#if defined(BKSGE_COMPARE_USE_INLINE_VARIABLES)
 	BKSGE_CONSTEXPR_EXPECT_TRUE(test01());
 #else
 	EXPECT_TRUE(test01());

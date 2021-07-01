@@ -30,8 +30,13 @@ namespace detail
 	-> decltype((__VA_ARGS__))              \
 	{ return __VA_ARGS__; }
 
+#if defined(BKSGE_MSVC) && (BKSGE_MSVC < 1920)
+template <typename T, typename U>
+void strong_order(T&&, U&&);
+#else
 template <typename T, typename U>
 void strong_order(T&&, U&&) = delete;
+#endif
 
 class strong_order_t
 {

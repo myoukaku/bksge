@@ -41,7 +41,7 @@ template <typename... Ts>
 struct common_comparison_category
 {
 private:
-#if defined(BKSGE_HAS_CXX17_FOLD_EXPRESSIONS)
+#if defined(BKSGE_HAS_CXX17_FOLD_EXPRESSIONS) && !(defined(BKSGE_MSVC) && (BKSGE_MSVC < 1920))
 	static constexpr unsigned cats = (detail::cmp_cat_id<Ts>::value | ...);
 #else
 	static constexpr unsigned cats = bksge::tpp::fold_left(bksge::bit_or<>{}, detail::cmp_cat_id<Ts>::value...);

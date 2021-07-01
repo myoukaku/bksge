@@ -26,7 +26,7 @@ namespace weak_ordering_test
 
 #define VERIFY(...)	if (!(__VA_ARGS__)) { return false; }
 
-inline BKSGE_CXX14_CONSTEXPR bool test01()
+inline BKSGE_CXX17_CONSTEXPR bool test01()
 {
 	VERIFY(bksge::weak_ordering::less       == bksge::weak_ordering::less);
 	VERIFY(bksge::weak_ordering::less       != bksge::weak_ordering::equivalent);
@@ -130,7 +130,7 @@ inline BKSGE_CXX14_CONSTEXPR bool test01()
 
 GTEST_TEST(CompareTest, WeakOrderingTest)
 {
-#if defined(BKSGE_HAS_CXX17_INLINE_VARIABLES)
+#if defined(BKSGE_COMPARE_USE_INLINE_VARIABLES)
 	BKSGE_CONSTEXPR_EXPECT_TRUE(test01());
 #else
 	EXPECT_TRUE(test01());

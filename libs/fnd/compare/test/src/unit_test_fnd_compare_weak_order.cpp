@@ -156,11 +156,8 @@ inline BKSGE_CXX14_CONSTEXPR bool test01()
 
 GTEST_TEST(CompareTest, WeakOrderTest)
 {
-#if defined(_MSC_VER)
+//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(test01());
 	EXPECT_TRUE(test01());
-#else
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(test01());
-#endif
 }
 
 }	// namespace weak_order_test
