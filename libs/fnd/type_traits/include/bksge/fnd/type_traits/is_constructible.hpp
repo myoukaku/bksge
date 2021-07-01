@@ -16,14 +16,14 @@ namespace bksge
 
 /**
  *	@brief	型Tのコンストラクタ呼出しが適格か調べる。
- *			T( Args... ) の形式のコンストラクタ呼び出しが適格であるか。
  *
  *	@tparam		T		チェックする型
  *	@tparam		Args...	パラメータパック
  *
- *	@require	型TおよびパラメータパックArgs...のすべての型は完全型でなければならない。
+ *	@require	型TおよびパラメータパックArgs...のすべての型は、完全型であるか、
+ *				void(cv修飾を含む)か、要素数不明の配列型でなければならない。
  *
- *	is_constructibleは、T( Args... )の形式のコンストラクタ呼出しが適格であるならば
+ *	is_constructibleは、T obj(std::declval<Args>()...);の形式の変数定義が適格であるならば
  *	true_typeから派生し、そうでなければfalse_typeから派生する。
  *
  *	注意：MSVC2013では、std::is_constructibleが正しい値を返さないうえに、
