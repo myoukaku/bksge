@@ -62,15 +62,6 @@ struct hash_enum
 	}
 };
 
-template <typename T, bksge::size_t = sizeof(T), bksge::size_t = sizeof(bksge::size_t)>
-struct hash_representation_impl
-{
-	static BKSGE_CONSTEXPR bksge::size_t hash(T val) BKSGE_NOEXCEPT
-	{
-		return static_cast<bksge::size_t>(val);
-	}
-};
-
 inline BKSGE_CONSTEXPR bksge::size_t
 hash_fnv_impl(bksge::size_t ret) BKSGE_NOEXCEPT
 {
@@ -88,6 +79,15 @@ hash_fnv(Args const&... args) BKSGE_NOEXCEPT
 {
 	return hash_fnv_impl(0x811c9dc5, args...);
 }
+
+template <typename T, bksge::size_t = sizeof(T), bksge::size_t = sizeof(bksge::size_t)>
+struct hash_representation_impl
+{
+	static BKSGE_CONSTEXPR bksge::size_t hash(T val) BKSGE_NOEXCEPT
+	{
+		return static_cast<bksge::size_t>(val);
+	}
+};
 
 template <typename T>
 struct hash_representation_impl<T, 8, 4>
@@ -201,6 +201,16 @@ struct hash_float<T, 8>
 	static BKSGE_CXX20_CONSTEXPR bksge::size_t hash(T val) BKSGE_NOEXCEPT
 	{
 		return detail::hash_representation(bksge::bit_cast<bksge::uint64_t>(val));
+	}
+};
+template <typename T>
+struct hash_float<T, 16>
+{
+	static BKSGE_CXX20_CONSTEXPR bksge::size_t hash(T val) BKSGE_NOEXCEPT
+	{
+		struct Dummy { bksge::uint32_t a[4]; };
+		auto const t = bksge::bit_cast<Dummy>(val);
+		return detail::hash_fnv(t.a[0], t.a[1], t.a[2], t.a[3]);
 	}
 };
 
