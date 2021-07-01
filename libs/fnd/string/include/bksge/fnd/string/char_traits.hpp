@@ -19,7 +19,6 @@
 #include <bksge/fnd/config.hpp>
 #include <ios>
 #include <cwchar>
-#include <cuchar>
 #include <cstdio>
 
 namespace bksge
