@@ -194,11 +194,12 @@ public:
 	BKSGE_CONSTEXPR const_reference
 	operator[](size_type pos) const BKSGE_NOEXCEPT
 	{
-		BKSGE_ASSERT(pos < this->m_len);
-		return *(this->m_str + pos);
+		return
+			BKSGE_ASSERT(pos < this->m_len),
+			*(this->m_str + pos);
 	}
 
-	BKSGE_CONSTEXPR const_reference
+	BKSGE_CXX14_CONSTEXPR const_reference
 	at(size_type pos) const
 	{
 		if (pos >= m_len)
@@ -215,15 +216,17 @@ public:
 	BKSGE_CONSTEXPR const_reference
 	front() const BKSGE_NOEXCEPT
 	{
-		BKSGE_ASSERT(this->m_len > 0u);
-		return *this->m_str;
+		return
+			BKSGE_ASSERT(this->m_len > 0u),
+			*this->m_str;
 	}
 
 	BKSGE_CONSTEXPR const_reference
 	back() const BKSGE_NOEXCEPT
 	{
-		BKSGE_ASSERT(this->m_len > 0u);
-		return *(this->m_str + this->m_len - 1);
+		return
+			BKSGE_ASSERT(this->m_len > 0u),
+			*(this->m_str + this->m_len - 1);
 	}
 
 	BKSGE_CONSTEXPR const_pointer
@@ -977,6 +980,7 @@ inline namespace string_view_literals
 BKSGE_WARNING_PUSH();
 BKSGE_WARNING_DISABLE_MSVC(4455);	// literal suffix identifiers that do not start with an underscore are reserved
 BKSGE_WARNING_DISABLE_CLANG("-Wuser-defined-literals");
+BKSGE_WARNING_DISABLE_CLANG("-Wreserved-user-defined-literal");
 BKSGE_WARNING_DISABLE_GCC("-Wliteral-suffix");
 
 inline BKSGE_CONSTEXPR bksge::basic_string_view<char>
