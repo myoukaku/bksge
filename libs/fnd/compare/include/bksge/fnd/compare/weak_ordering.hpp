@@ -31,7 +31,7 @@ using std::weak_ordering;
 namespace bksge
 {
 
-#if !defined(BKSGE_HAS_CXX17_INLINE_VARIABLES)
+#if !defined(BKSGE_COMPARE_USE_INLINE_VARIABLES)
 template <typename>
 #endif
 class weak_ordering_t
@@ -181,7 +181,7 @@ public:
 #endif
 };
 
-#if defined(BKSGE_HAS_CXX17_INLINE_VARIABLES)
+#if defined(BKSGE_COMPARE_USE_INLINE_VARIABLES)
 
 using weak_ordering = weak_ordering_t;
 

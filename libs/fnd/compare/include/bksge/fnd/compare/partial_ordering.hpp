@@ -30,7 +30,7 @@ using std::partial_ordering;
 namespace bksge
 {
 
-#if !defined(BKSGE_HAS_CXX17_INLINE_VARIABLES)
+#if !defined(BKSGE_COMPARE_USE_INLINE_VARIABLES)
 template <typename>
 #endif
 class partial_ordering_t
@@ -193,7 +193,7 @@ public:
 #endif
 };
 
-#if defined(BKSGE_HAS_CXX17_INLINE_VARIABLES)
+#if defined(BKSGE_COMPARE_USE_INLINE_VARIABLES)
 
 using partial_ordering = partial_ordering_t;
 

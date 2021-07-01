@@ -32,7 +32,7 @@ using std::strong_ordering;
 namespace bksge
 {
 
-#if !defined(BKSGE_HAS_CXX17_INLINE_VARIABLES)
+#if !defined(BKSGE_COMPARE_USE_INLINE_VARIABLES)
 template <typename>
 #endif
 class strong_ordering_t
@@ -183,7 +183,7 @@ public:
 #endif
 };
 
-#if defined(BKSGE_HAS_CXX17_INLINE_VARIABLES)
+#if defined(BKSGE_COMPARE_USE_INLINE_VARIABLES)
 
 using strong_ordering = strong_ordering_t;
 

@@ -25,4 +25,11 @@
 
 #endif
 
+// Visual Studio 2017 はinline変数に対応しているのに変数の多重定義でリンクエラーになる
+#if defined(BKSGE_HAS_CXX17_INLINE_VARIABLES)
+#if !(defined(BKSGE_MSVC) && (BKSGE_MSVC < 1920))
+#define BKSGE_COMPARE_USE_INLINE_VARIABLES
+#endif
+#endif
+
 #endif // BKSGE_FND_COMPARE_CONFIG_HPP
