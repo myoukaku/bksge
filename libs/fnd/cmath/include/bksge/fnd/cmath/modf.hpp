@@ -26,31 +26,31 @@ namespace bksge
  *	x が ±∞  の場合、±0 を返し、*iptrに ±∞ がセットされる。
  *	x が NaN の場合、NaN を返し、*iptrに NaN がセットされる。
  */
-inline BKSGE_CONSTEXPR float
+inline BKSGE_CXX14_CONSTEXPR float
 modf(float x, float* iptr) BKSGE_NOEXCEPT
 {
 	return detail::modf_impl(x, iptr);
 }
 
-inline BKSGE_CONSTEXPR float
+inline BKSGE_CXX14_CONSTEXPR float
 modff(float x, float* iptr) BKSGE_NOEXCEPT
 {
 	return detail::modf_impl(x, iptr);
 }
 
-inline BKSGE_CONSTEXPR double
+inline BKSGE_CXX14_CONSTEXPR double
 modf(double x, double* iptr) BKSGE_NOEXCEPT
 {
 	return detail::modf_impl(x, iptr);
 }
 
-inline BKSGE_CONSTEXPR long double
+inline BKSGE_CXX14_CONSTEXPR long double
 modf(long double x, long double* iptr) BKSGE_NOEXCEPT
 {
 	return detail::modf_impl(x, iptr);
 }
 
-inline BKSGE_CONSTEXPR long double
+inline BKSGE_CXX14_CONSTEXPR long double
 modfl(long double x, long double* iptr) BKSGE_NOEXCEPT
 {
 	return detail::modf_impl(x, iptr);

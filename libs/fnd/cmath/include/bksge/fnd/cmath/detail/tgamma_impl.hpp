@@ -59,6 +59,8 @@ inline BKSGE_CONSTEXPR FloatType
 tgamma_impl(FloatType x) BKSGE_NOEXCEPT
 {
 	return
+		bksge::isnan(x) ?
+			std::numeric_limits<FloatType>::quiet_NaN() :
 		bksge::iszero(x) ?
 			std::numeric_limits<FloatType>::infinity() :
 		(x < 0 && bksge::is_integer(x)) ?
@@ -67,8 +69,6 @@ tgamma_impl(FloatType x) BKSGE_NOEXCEPT
 			bksge::signbit(x) ?
 				std::numeric_limits<FloatType>::quiet_NaN() :
 			std::numeric_limits<FloatType>::infinity() :
-		bksge::isnan(x) ?
-			std::numeric_limits<FloatType>::quiet_NaN() :
 		tgamma_unchecked(x);
 }
 

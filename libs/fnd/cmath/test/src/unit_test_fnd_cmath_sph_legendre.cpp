@@ -40,7 +40,7 @@ void SphLegendreTestFloat(double error)
 	BKSGE_CONSTEXPR auto max    = std::numeric_limits<T>::max();
 	BKSGE_CONSTEXPR auto min    = std::numeric_limits<T>::min();
 
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::sph_legendre(0u, 0u, nan)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::sph_legendre(0u, 0u, nan)));
 
 	struct testcase
 	{
@@ -872,14 +872,14 @@ void SphLegendreTestFloat(double error)
 GTEST_TEST(CMathTest, SphLegendreTest)
 {
 //	SphLegendreTestFloat<float>      (0.0001);
-	SphLegendreTestFloat<double>     (0.00000000001);
-	SphLegendreTestFloat<long double>(0.00000000001);
+	SphLegendreTestFloat<double>     (0.000001);
+	SphLegendreTestFloat<long double>(0.000001);
 
 	BKSGE_CONSTEXPR auto nanf = std::numeric_limits<float>::quiet_NaN();
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::sph_legendref(0u, 0u, nanf)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::sph_legendref(0u, 0u, nanf)));
 
 	BKSGE_CONSTEXPR auto nanl = std::numeric_limits<long double>::quiet_NaN();
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::sph_legendrel(0u, 0u, nanl)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::sph_legendrel(0u, 0u, nanl)));
 }
 
 }	// namespace sph_legendre_test

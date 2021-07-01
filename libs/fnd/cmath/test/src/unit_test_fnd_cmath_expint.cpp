@@ -35,9 +35,9 @@ void ExpintTest(double error)
 	BKSGE_CONSTEXPR auto nan = std::numeric_limits<Promoted>::quiet_NaN();
 	BKSGE_CONSTEXPR auto inf = std::numeric_limits<Promoted>::infinity();
 
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::expint(nan)));
-	BKSGE_CONSTEXPR_EXPECT_EQ(-inf, bksge::expint(T( 0)));
-	BKSGE_CONSTEXPR_EXPECT_EQ(-inf, bksge::expint(T(-0)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::expint(nan)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(-inf, bksge::expint(T( 0)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(-inf, bksge::expint(T(-0)));
 
 	struct testcase
 	{
@@ -166,15 +166,15 @@ GTEST_TEST(CMathTest, ExpintTest)
 
 	BKSGE_CONSTEXPR auto nanf = std::numeric_limits<float>::quiet_NaN();
 	BKSGE_CONSTEXPR auto inff = std::numeric_limits<float>::infinity();
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::expintf(nanf)));
-	BKSGE_CONSTEXPR_EXPECT_EQ(-inff, bksge::expintf( 0.0f));
-	BKSGE_CONSTEXPR_EXPECT_EQ(-inff, bksge::expintf(-0.0f));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::expintf(nanf)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(-inff, bksge::expintf( 0.0f));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(-inff, bksge::expintf(-0.0f));
 
 	BKSGE_CONSTEXPR auto nanl = std::numeric_limits<long double>::quiet_NaN();
 	BKSGE_CONSTEXPR auto infl = std::numeric_limits<long double>::infinity();
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::expintl(nanl)));
-	BKSGE_CONSTEXPR_EXPECT_EQ(-infl, bksge::expintl( 0.0l));
-	BKSGE_CONSTEXPR_EXPECT_EQ(-infl, bksge::expintl(-0.0l));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::expintl(nanl)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(-infl, bksge::expintl( 0.0l));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(-infl, bksge::expintl(-0.0l));
 }
 
 }	// namespace expint_test

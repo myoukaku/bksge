@@ -38,10 +38,10 @@ void LegendreTest(double error)
 	BKSGE_CONSTEXPR auto max = std::numeric_limits<T>::max();
 	BKSGE_CONSTEXPR auto eps = std::numeric_limits<T>::epsilon();
 
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::legendre(0, nan)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::legendre(1, nan)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::legendre(2, T( 1) + eps)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::legendre(3, T(-1) - eps)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::legendre(0, nan)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::legendre(1, nan)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::legendre(2, T( 1) + eps)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::legendre(3, T(-1) - eps)));
 
 	struct testcase
 	{
@@ -252,8 +252,8 @@ void LegendreTest(double error)
 template <typename T>
 void LegendreTestInt(double error)
 {
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::legendre(0, T( 2))));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::legendre(1, T(-2))));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::legendre(0, T( 2))));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::legendre(1, T(-2))));
 
 	struct testcase
 	{
@@ -318,17 +318,17 @@ GTEST_TEST(CMathTest, LegendreTest)
 
 	BKSGE_CONSTEXPR auto nanf = std::numeric_limits<float>::quiet_NaN();
 	BKSGE_CONSTEXPR auto epsf = std::numeric_limits<float>::epsilon();
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::legendref(0, nanf)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::legendref(1, nanf)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::legendref(2,  1.0f + epsf)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::legendref(3, -1.0f - epsf)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::legendref(0, nanf)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::legendref(1, nanf)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::legendref(2,  1.0f + epsf)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::legendref(3, -1.0f - epsf)));
 
 	BKSGE_CONSTEXPR auto nanl = std::numeric_limits<long double>::quiet_NaN();
 	BKSGE_CONSTEXPR auto epsl = std::numeric_limits<long double>::epsilon();
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::legendrel(0, nanl)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::legendrel(1, nanl)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::legendrel(2,  1.0l + epsl)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::legendrel(3, -1.0l - epsl)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::legendrel(0, nanl)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::legendrel(1, nanl)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::legendrel(2,  1.0l + epsl)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::legendrel(3, -1.0l - epsl)));
 }
 
 }	// namespace legendre_test

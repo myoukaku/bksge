@@ -57,11 +57,13 @@ inline BKSGE_CONSTEXPR FloatType
 log_impl(FloatType x) BKSGE_NOEXCEPT
 {
 	return
+		bksge::isnan(x) ?
+			std::numeric_limits<FloatType>::quiet_NaN() :
 		bksge::iszero(x) ?
 			-std::numeric_limits<FloatType>::infinity() :
 		x == FloatType(1) ?
 			FloatType(0) :
-		x < FloatType(0) || bksge::isnan(x) ?
+		x < FloatType(0) ?
 			std::numeric_limits<FloatType>::quiet_NaN() :
 		bksge::isinf(x) ?
 			std::numeric_limits<FloatType>::infinity() :

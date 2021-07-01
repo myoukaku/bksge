@@ -27,34 +27,34 @@ static_assert(bksge::is_same<long double, decltype(bksge::cbrt(0.0l))>::value, "
 static_assert(bksge::is_same<long double, decltype(bksge::cbrtl(0.0l))>::value, "");
 
 template <typename T>
-void CbrtTestFloat(void)
+void CbrtTestFloat(double error)
 {
 	BKSGE_CONSTEXPR auto nan = std::numeric_limits<T>::quiet_NaN();
 	BKSGE_CONSTEXPR auto inf = std::numeric_limits<T>::infinity();
 
-	EXPECT_EQ( 0.0, bksge::cbrt(T(   0.0)));
-	EXPECT_EQ( 0.5, bksge::cbrt(T(   0.125)));
-	EXPECT_EQ( 1.0, bksge::cbrt(T(   1.0)));
-	EXPECT_EQ( 1.5, bksge::cbrt(T(   3.375)));
-	EXPECT_EQ( 2.0, bksge::cbrt(T(   8.0)));
-	EXPECT_EQ( 3.0, bksge::cbrt(T(  27.0)));
-	EXPECT_EQ( 4.0, bksge::cbrt(T(  64.0)));
-	EXPECT_EQ( 5.0, bksge::cbrt(T( 125.0)));
-	EXPECT_EQ( 6.0, bksge::cbrt(T( 216.0)));
-	EXPECT_EQ( 7.0, bksge::cbrt(T( 343.0)));
-	EXPECT_EQ( 8.0, bksge::cbrt(T( 512.0)));
-	EXPECT_EQ( 9.0, bksge::cbrt(T( 729.0)));
-	EXPECT_EQ(-0.5, bksge::cbrt(T(  -0.125)));
-	EXPECT_EQ(-1.0, bksge::cbrt(T(  -1.0)));
-	EXPECT_EQ(-1.5, bksge::cbrt(T(  -3.375)));
-	EXPECT_EQ(-2.0, bksge::cbrt(T(  -8.0)));
-	EXPECT_EQ(-3.0, bksge::cbrt(T( -27.0)));
-	EXPECT_EQ(-4.0, bksge::cbrt(T( -64.0)));
-	EXPECT_EQ(-5.0, bksge::cbrt(T(-125.0)));
-	EXPECT_EQ(-6.0, bksge::cbrt(T(-216.0)));
-	EXPECT_EQ(-7.0, bksge::cbrt(T(-343.0)));
-	EXPECT_EQ(-8.0, bksge::cbrt(T(-512.0)));
-	EXPECT_EQ(-9.0, bksge::cbrt(T(-729.0)));
+	EXPECT_NEAR( 0.0, (double)bksge::cbrt(T(   0.0)), error);
+	EXPECT_NEAR( 0.5, (double)bksge::cbrt(T(   0.125)), error);
+	EXPECT_NEAR( 1.0, (double)bksge::cbrt(T(   1.0)), error);
+	EXPECT_NEAR( 1.5, (double)bksge::cbrt(T(   3.375)), error);
+	EXPECT_NEAR( 2.0, (double)bksge::cbrt(T(   8.0)), error);
+	EXPECT_NEAR( 3.0, (double)bksge::cbrt(T(  27.0)), error);
+	EXPECT_NEAR( 4.0, (double)bksge::cbrt(T(  64.0)), error);
+	EXPECT_NEAR( 5.0, (double)bksge::cbrt(T( 125.0)), error);
+	EXPECT_NEAR( 6.0, (double)bksge::cbrt(T( 216.0)), error);
+	EXPECT_NEAR( 7.0, (double)bksge::cbrt(T( 343.0)), error);
+	EXPECT_NEAR( 8.0, (double)bksge::cbrt(T( 512.0)), error);
+	EXPECT_NEAR( 9.0, (double)bksge::cbrt(T( 729.0)), error);
+	EXPECT_NEAR(-0.5, (double)bksge::cbrt(T(  -0.125)), error);
+	EXPECT_NEAR(-1.0, (double)bksge::cbrt(T(  -1.0)), error);
+	EXPECT_NEAR(-1.5, (double)bksge::cbrt(T(  -3.375)), error);
+	EXPECT_NEAR(-2.0, (double)bksge::cbrt(T(  -8.0)), error);
+	EXPECT_NEAR(-3.0, (double)bksge::cbrt(T( -27.0)), error);
+	EXPECT_NEAR(-4.0, (double)bksge::cbrt(T( -64.0)), error);
+	EXPECT_NEAR(-5.0, (double)bksge::cbrt(T(-125.0)), error);
+	EXPECT_NEAR(-6.0, (double)bksge::cbrt(T(-216.0)), error);
+	EXPECT_NEAR(-7.0, (double)bksge::cbrt(T(-343.0)), error);
+	EXPECT_NEAR(-8.0, (double)bksge::cbrt(T(-512.0)), error);
+	EXPECT_NEAR(-9.0, (double)bksge::cbrt(T(-729.0)), error);
 
 	BKSGE_CONSTEXPR_EXPECT_EQ(T(+0.0), bksge::cbrt(T(+0.0)));
 	BKSGE_CONSTEXPR_EXPECT_EQ(T(-0.0), bksge::cbrt(T(-0.0)));
@@ -111,9 +111,9 @@ void CbrtTestUnsignedInt(void)
 
 GTEST_TEST(CMathTest, CbrtTest)
 {
-	CbrtTestFloat<float>();
-	CbrtTestFloat<double>();
-	CbrtTestFloat<long double>();
+	CbrtTestFloat<float>(0.000000000000001);
+	CbrtTestFloat<double>(0.000000000000001);
+	CbrtTestFloat<long double>(0.000000000000001);
 
 	CbrtTestSignedInt<int>();
 	CbrtTestSignedInt<signed char>();

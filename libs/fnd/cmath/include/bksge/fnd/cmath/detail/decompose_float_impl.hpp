@@ -22,6 +22,9 @@
 #include <bksge/fnd/config.hpp>
 #include <limits>
 
+BKSGE_WARNING_PUSH();
+BKSGE_WARNING_DISABLE_MSVC(4309);	// truncation of constant value
+
 namespace bksge
 {
 
@@ -57,7 +60,7 @@ protected:
 	};
 
 	template <typename UnsignedType>
-	static constexpr result
+	static BKSGE_CXX14_CONSTEXPR result
 	invoke_impl(T x) noexcept
 	{
 		auto rep = bksge::bit_cast<UnsignedType>(x);
@@ -128,7 +131,7 @@ private:
 public:
 	using result = typename base::result;
 
-	static constexpr result
+	static BKSGE_CXX14_CONSTEXPR result
 	invoke(T x) noexcept
 	{
 		return base::template invoke_impl<bksge::uint32_t>(x);
@@ -145,7 +148,7 @@ private:
 public:
 	using result = typename base::result;
 
-	static constexpr result
+	static BKSGE_CXX14_CONSTEXPR result
 	invoke(T x) noexcept
 	{
 		return base::template invoke_impl<bksge::uint64_t>(x);
@@ -154,11 +157,9 @@ public:
 
 // 拡張倍精度浮動小数点数 (80bit)
 template <typename T>
-struct decompose_float_impl_t<T, 64> : public decompose_float_common<T>
+struct decompose_float_impl_t<T, 64>
 {
 private:
-	using base = decompose_float_common<T>;
-
 	static bksge::uint64_t constexpr fraction_bits = std::numeric_limits<T>::digits - 1;
 
     static bksge::uint64_t constexpr sign_bits = 1;
@@ -172,9 +173,14 @@ private:
 	static bksge::uint64_t constexpr exponent_max  = (1ULL << exponent_bits) - 1;
 
 public:
-	using result = typename base::result;
+	struct result
+	{
+		bksge::uint32_t	sign;
+		bksge::int32_t	exponent;
+		bksge::uint64_t	fraction;
+	};
 
-	static constexpr result
+	static BKSGE_CXX14_CONSTEXPR result
 	invoke(T x) noexcept
 	{
 		auto a = bksge::bit_cast<bksge::array<bksge::uint64_t, 2>>(x);
@@ -246,7 +252,7 @@ struct decompose_float_impl_t<T, 113>
 };
 
 template <typename T>
-inline constexpr
+inline BKSGE_CXX14_CONSTEXPR
 typename decompose_float_impl_t<T>::result
 decompose_float_impl(T x) noexcept
 {
@@ -261,5 +267,7 @@ using decompose_float_result_t =
 	typename detail::decompose_float_impl_t<T>::result;
 
 }	// namespace bksge
+
+BKSGE_WARNING_POP();
 
 #endif // BKSGE_FND_CMATH_DETAIL_DECOMPOSE_FLOAT_IMPL_HPP

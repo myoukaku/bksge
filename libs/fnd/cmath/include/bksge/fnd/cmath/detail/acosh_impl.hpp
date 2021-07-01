@@ -57,13 +57,13 @@ inline BKSGE_CONSTEXPR FloatType
 acosh_impl(FloatType x) BKSGE_NOEXCEPT
 {
 	return
+		bksge::isnan(x) ?
+			x :
 		x < FloatType(1) ?
 			std::numeric_limits<FloatType>::quiet_NaN() :
 		x == FloatType(1) ?
 			FloatType(0) :
 		bksge::isinf(x) ?
-			x :
-		bksge::isnan(x) ?
 			x :
 		acosh_unchecked(x);
 }

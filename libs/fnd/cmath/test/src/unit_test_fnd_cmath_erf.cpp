@@ -35,9 +35,9 @@ void ErfTestFloat(double error)
 	BKSGE_CONSTEXPR auto nan = std::numeric_limits<T>::quiet_NaN();
 	BKSGE_CONSTEXPR auto inf = std::numeric_limits<T>::infinity();
 
-	BKSGE_CONSTEXPR_EXPECT_EQ(T( 1.0), bksge::erf(+inf));
-	BKSGE_CONSTEXPR_EXPECT_EQ(T(-1.0), bksge::erf(-inf));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::erf(nan)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(T( 1.0), bksge::erf(+inf));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(T(-1.0), bksge::erf(-inf));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::erf(nan)));
 
 	EXPECT_NEAR(-0.9953222650189527341621, (double)bksge::erf(T(-2.0)), error);
 	EXPECT_NEAR(-0.8427007929497148693412, (double)bksge::erf(T(-1.0)), error);

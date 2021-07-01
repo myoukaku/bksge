@@ -40,7 +40,7 @@ void SphBesselTestFloat(double error)
 	BKSGE_CONSTEXPR auto max    = std::numeric_limits<T>::max();
 	BKSGE_CONSTEXPR auto min    = std::numeric_limits<T>::min();
 
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::sph_bessel(0u, nan)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::sph_bessel(0u, nan)));
 
 	struct testcase
 	{
@@ -590,10 +590,10 @@ GTEST_TEST(CMathTest, SphBesselTest)
 	SphBesselTestInt<int>          (0.00000000001);
 
 	BKSGE_CONSTEXPR auto nanf = std::numeric_limits<float>::quiet_NaN();
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::sph_besself(0u, nanf)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::sph_besself(0u, nanf)));
 
 	BKSGE_CONSTEXPR auto nanl = std::numeric_limits<long double>::quiet_NaN();
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::sph_bessell(0u, nanl)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::sph_bessell(0u, nanl)));
 }
 
 }	// namespace sph_bessel_test

@@ -9,6 +9,11 @@
 #ifndef BKSGE_FND_CMATH_ISSUBNORMAL_HPP
 #define BKSGE_FND_CMATH_ISSUBNORMAL_HPP
 
+#include <cmath>
+#if defined(issubnormal)
+#undef issubnormal
+#endif
+
 #include <bksge/fnd/cmath/detail/issubnormal_impl.hpp>
 #include <bksge/fnd/concepts/arithmetic.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>

@@ -40,7 +40,7 @@ void HermiteTestFloat(double error)
 	BKSGE_CONSTEXPR auto max    = std::numeric_limits<T>::max();
 	BKSGE_CONSTEXPR auto min    = std::numeric_limits<T>::min();
 
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::hermite(0u, nan)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::hermite(0u, nan)));
 
 	struct testcase
 	{
@@ -1858,10 +1858,10 @@ GTEST_TEST(CMathTest, HermiteTest)
 	HermiteTestInt<int>          (0.000000000001);
 
 	BKSGE_CONSTEXPR auto nanf = std::numeric_limits<float>::quiet_NaN();
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::hermitef(0u, nanf)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::hermitef(0u, nanf)));
 
 	BKSGE_CONSTEXPR auto nanl = std::numeric_limits<long double>::quiet_NaN();
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::hermitel(0u, nanl)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::hermitel(0u, nanl)));
 }
 
 }	// namespace hermite_test

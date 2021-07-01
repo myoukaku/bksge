@@ -37,13 +37,13 @@ void CompEllint2TestFloat(double error)
 	BKSGE_CONSTEXPR auto lowest = std::numeric_limits<T>::lowest();
 	BKSGE_CONSTEXPR auto eps = std::numeric_limits<T>::epsilon();
 
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_2(nan)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_2(T( 1) + eps)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_2(T(-1) - eps)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_2(max)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_2(lowest)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_2(+inf)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_2(-inf)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_2(nan)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_2(T( 1) + eps)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_2(T(-1) - eps)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_2(max)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_2(lowest)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_2(+inf)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_2(-inf)));
 
 	struct testcase
 	{
@@ -108,15 +108,15 @@ GTEST_TEST(CMathTest, CompEllint2Test)
 
 	BKSGE_CONSTEXPR auto nanf = std::numeric_limits<float>::quiet_NaN();
 	BKSGE_CONSTEXPR auto epsf = std::numeric_limits<float>::epsilon();
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_2f(nanf)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_2f( 1.0f + epsf)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_2f(-1.0f - epsf)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_2f(nanf)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_2f( 1.0f + epsf)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_2f(-1.0f - epsf)));
 
 	BKSGE_CONSTEXPR auto nanl = std::numeric_limits<long double>::quiet_NaN();
 	BKSGE_CONSTEXPR auto epsl = std::numeric_limits<long double>::epsilon();
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_2l(nanl)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_2l( 1.0l + epsl)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_2l(-1.0l - epsl)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_2l(nanl)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_2l( 1.0l + epsl)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::comp_ellint_2l(-1.0l - epsl)));
 }
 
 }	// namespace comp_ellint_2_test

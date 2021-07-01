@@ -38,9 +38,9 @@ void RiemannZetaTestFloat(double error)
 	BKSGE_CONSTEXPR auto nan = std::numeric_limits<Promoted>::quiet_NaN();
 	BKSGE_CONSTEXPR auto inf = std::numeric_limits<Promoted>::infinity();
 
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::riemann_zeta(nan)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::riemann_zeta(nan)));
 
-	BKSGE_CONSTEXPR_EXPECT_EQ(inf, bksge::riemann_zeta(T(1)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(inf, bksge::riemann_zeta(T(1)));
 
 	struct testcase
 	{
@@ -332,10 +332,10 @@ GTEST_TEST(CMathTest, RiemannZetaTest)
 	RiemannZetaTestInt<int>          (0.00000000000001);
 
 	BKSGE_CONSTEXPR auto nanf = std::numeric_limits<float>::quiet_NaN();
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::riemann_zetaf(nanf)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::riemann_zetaf(nanf)));
 
 	BKSGE_CONSTEXPR auto nanl = std::numeric_limits<long double>::quiet_NaN();
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::riemann_zetal(nanl)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::riemann_zetal(nanl)));
 }
 
 }	// namespace riemann_zeta_test

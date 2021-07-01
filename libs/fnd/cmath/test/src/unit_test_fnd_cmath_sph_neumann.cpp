@@ -40,10 +40,10 @@ void SphNeumannTestFloat(double error)
 	BKSGE_CONSTEXPR auto max    = std::numeric_limits<T>::max();
 	BKSGE_CONSTEXPR auto min    = std::numeric_limits<T>::min();
 
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::sph_neumann(0u, nan)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::sph_neumann(0u, nan)));
 
-	BKSGE_CONSTEXPR_EXPECT_EQ(-inf, bksge::sph_neumann(0u, T(0)));
-	BKSGE_CONSTEXPR_EXPECT_EQ(-inf, bksge::sph_neumann(1u, T(0)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(-inf, bksge::sph_neumann(0u, T(0)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(-inf, bksge::sph_neumann(1u, T(0)));
 
 	struct testcase
 	{
@@ -422,10 +422,10 @@ GTEST_TEST(CMathTest, SphNeumannTest)
 	SphNeumannTestFloat<long double>(0.0000000001);
 
 	BKSGE_CONSTEXPR auto nanf = std::numeric_limits<float>::quiet_NaN();
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::sph_neumannf(0u, nanf)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::sph_neumannf(0u, nanf)));
 
 	BKSGE_CONSTEXPR auto nanl = std::numeric_limits<long double>::quiet_NaN();
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::sph_neumannl(0u, nanl)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::sph_neumannl(0u, nanl)));
 }
 
 }	// namespace sph_neumann_test

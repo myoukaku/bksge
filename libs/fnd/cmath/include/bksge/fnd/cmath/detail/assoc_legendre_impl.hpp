@@ -105,14 +105,14 @@ template <typename T>
 inline BKSGE_CXX14_CONSTEXPR T
 assoc_legendre_impl(unsigned int n, unsigned int m, T x)
 {
-	if (bksge::abs(x) > T(1))
+	if (bksge::isnan(x))
 	{
-		//bksge::throw_domain_error("");
 		return std::numeric_limits<T>::quiet_NaN();
 	}
 
-	if (bksge::isnan(x))
+	if (bksge::abs(x) > T(1))
 	{
+		//bksge::throw_domain_error("");
 		return std::numeric_limits<T>::quiet_NaN();
 	}
 

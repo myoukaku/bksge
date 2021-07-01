@@ -40,23 +40,23 @@ static_assert(bksge::is_same<float,       decltype(bksge::betaf(0.0f, 0.0f))>::v
 static_assert(bksge::is_same<long double, decltype(bksge::betal(0.0l, 0.0l))>::value, "");
 
 template <typename T1, typename T2>
-void AssocLaguerreTest(double error)
+void BetaTest(double error)
 {
 	using Promoted = bksge::float_promote_t<T1, T2>;
 	BKSGE_CONSTEXPR auto nan = std::numeric_limits<Promoted>::quiet_NaN();
 	BKSGE_CONSTEXPR auto min = std::numeric_limits<Promoted>::min();
 
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::beta(nan, nan)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::beta(nan, T2(1))));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::beta(T1(1), nan)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::beta(nan, nan)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::beta(nan, T2(1))));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::beta(T1(1), nan)));
 
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::beta(T1(0), T2(0))));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::beta(T1(0), T2(1))));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::beta(T1(1), T2(0))));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::beta(T1(0), T2(0))));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::beta(T1(0), T2(1))));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::beta(T1(1), T2(0))));
 
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::beta(T1(-1), T2(-1))));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::beta(T1(-1), T2( 1))));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::beta(T1( 1), T2(-1))));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::beta(T1(-1), T2(-1))));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::beta(T1(-1), T2( 1))));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::beta(T1( 1), T2(-1))));
 
 	struct testcase
 	{
@@ -199,40 +199,40 @@ void AssocLaguerreTest(double error)
 	}
 }
 
-GTEST_TEST(CMathTest, AssocLaguerreTest)
+GTEST_TEST(CMathTest, BetaTest)
 {
-	AssocLaguerreTest<float,       float>      (0.0000001);
-	AssocLaguerreTest<float,       double>     (0.000000000001);
-	AssocLaguerreTest<float,       long double>(0.000000000001);
-	AssocLaguerreTest<float,       int>        (0.000000000001);
-	AssocLaguerreTest<double,      float>      (0.000000000001);
-	AssocLaguerreTest<double,      double>     (0.000000000001);
-	AssocLaguerreTest<double,      long double>(0.000000000001);
-	AssocLaguerreTest<double,      int>        (0.000000000001);
-	AssocLaguerreTest<long double, float>      (0.000000000001);
-	AssocLaguerreTest<long double, double>     (0.000000000001);
-	AssocLaguerreTest<long double, long double>(0.000000000001);
-	AssocLaguerreTest<long double, int>        (0.000000000001);
-	AssocLaguerreTest<int,         float>      (0.000000000001);
-	AssocLaguerreTest<int,         double>     (0.000000000001);
-	AssocLaguerreTest<int,         long double>(0.000000000001);
-	AssocLaguerreTest<int,         int>        (0.000000000001);
+	BetaTest<float,       float>      (0.0000001);
+	BetaTest<float,       double>     (0.000000000001);
+	BetaTest<float,       long double>(0.000000000001);
+	BetaTest<float,       int>        (0.000000000001);
+	BetaTest<double,      float>      (0.000000000001);
+	BetaTest<double,      double>     (0.000000000001);
+	BetaTest<double,      long double>(0.000000000001);
+	BetaTest<double,      int>        (0.000000000001);
+	BetaTest<long double, float>      (0.000000000001);
+	BetaTest<long double, double>     (0.000000000001);
+	BetaTest<long double, long double>(0.000000000001);
+	BetaTest<long double, int>        (0.000000000001);
+	BetaTest<int,         float>      (0.000000000001);
+	BetaTest<int,         double>     (0.000000000001);
+	BetaTest<int,         long double>(0.000000000001);
+	BetaTest<int,         int>        (0.000000000001);
 
 	BKSGE_CONSTEXPR auto nanf = std::numeric_limits<float>::quiet_NaN();
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::betaf(nanf, nanf)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::betaf(nanf, 1.0f)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::betaf(1.0f, nanf)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::betaf(0.0f, 0.0f)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::betaf(0.0f, 1.0f)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::betaf(1.0f, 0.0f)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::betaf(nanf, nanf)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::betaf(nanf, 1.0f)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::betaf(1.0f, nanf)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::betaf(0.0f, 0.0f)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::betaf(0.0f, 1.0f)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::betaf(1.0f, 0.0f)));
 
 	BKSGE_CONSTEXPR auto nanl = std::numeric_limits<long double>::quiet_NaN();
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::betal(nanl, nanl)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::betal(nanl, 1.0l)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::betal(1.0l, nanl)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::betal(0.0l, 0.0l)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::betal(0.0l, 1.0l)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::betal(1.0l, 0.0l)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::betal(nanl, nanl)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::betal(nanl, 1.0l)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::betal(1.0l, nanl)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::betal(0.0l, 0.0l)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::betal(0.0l, 1.0l)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::betal(1.0l, 0.0l)));
 }
 
 }	// namespace beta_test

@@ -14,6 +14,8 @@
 #include <bksge/fnd/cmath/isinf.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cmath>	// FP_ILOGB0, FP_ILOGBNAN
+#include <climits>	// INT_MAX
 
 namespace bksge
 {

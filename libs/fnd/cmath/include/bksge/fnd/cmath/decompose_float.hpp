@@ -26,7 +26,7 @@ namespace bksge
  *	で元の浮動小数点数と同じになる。
  */
 template <BKSGE_REQUIRES_PARAM(bksge::floating_point, Float)>
-inline BKSGE_CONSTEXPR decompose_float_result_t<Float>
+inline BKSGE_CXX14_CONSTEXPR decompose_float_result_t<Float>
 decompose_float(Float x) BKSGE_NOEXCEPT
 {
 	return detail::decompose_float_impl(x);

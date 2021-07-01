@@ -23,7 +23,7 @@ namespace detail
 {
 
 template <typename T>
-inline BKSGE_CONSTEXPR T
+inline BKSGE_CXX14_CONSTEXPR T
 modf_unchecked(T x, T* iptr) BKSGE_NOEXCEPT
 {
 	return std::modf(x, iptr);

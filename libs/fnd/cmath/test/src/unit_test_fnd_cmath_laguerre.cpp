@@ -36,10 +36,10 @@ void LaguerreTest(double error)
 	BKSGE_CONSTEXPR auto min = std::numeric_limits<Promoted>::lowest();
 	BKSGE_CONSTEXPR auto max = std::numeric_limits<Promoted>::max();
 
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::laguerre(0, nan)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::laguerre(1, nan)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::laguerre(0, T(-1))));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::laguerre(1, T(-1))));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::laguerre(0, nan)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::laguerre(1, nan)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::laguerre(0, T(-1))));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::laguerre(1, T(-1))));
 
 	struct testcase
 	{
@@ -175,16 +175,16 @@ GTEST_TEST(CMathTest, LaguerreTest)
 	LaguerreTest<int>        (0.0000000000001);
 
 	BKSGE_CONSTEXPR auto nanf = std::numeric_limits<float>::quiet_NaN();
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::laguerref(0, nanf)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::laguerref(1, nanf)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::laguerref(0, -1.0f)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::laguerref(1, -1.0f)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::laguerref(0, nanf)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::laguerref(1, nanf)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::laguerref(0, -1.0f)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::laguerref(1, -1.0f)));
 
 	BKSGE_CONSTEXPR auto nanl = std::numeric_limits<long double>::quiet_NaN();
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::laguerrel(0, nanl)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::laguerrel(1, nanl)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::laguerrel(0, -1.0l)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::laguerrel(1, -1.0l)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::laguerrel(0, nanl)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::laguerrel(1, nanl)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::laguerrel(0, -1.0l)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::laguerrel(1, -1.0l)));
 }
 
 }	// namespace laguerre_test

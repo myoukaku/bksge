@@ -57,6 +57,8 @@ inline BKSGE_CONSTEXPR FloatType
 atanh_impl(FloatType x) BKSGE_NOEXCEPT
 {
 	return
+		bksge::isnan(x) ?
+			std::numeric_limits<FloatType>::quiet_NaN() :
 		bksge::iszero(x) ?
 			x :
 		x == FloatType(1) ?
@@ -64,8 +66,6 @@ atanh_impl(FloatType x) BKSGE_NOEXCEPT
 		x == FloatType(-1) ?
 			-std::numeric_limits<FloatType>::infinity() :
 		bksge::fabs(x) > FloatType(1) ?
-			std::numeric_limits<FloatType>::quiet_NaN() :
-		bksge::isnan(x) ?
 			std::numeric_limits<FloatType>::quiet_NaN() :
 		atanh_unchecked(x);
 }

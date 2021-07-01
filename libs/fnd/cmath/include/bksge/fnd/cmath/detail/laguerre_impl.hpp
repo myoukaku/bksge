@@ -80,14 +80,14 @@ template <typename T>
 inline BKSGE_CXX14_CONSTEXPR T
 laguerre_impl(unsigned int n, T x)
 {
-	if (x < T(0))
+	if (bksge::isnan(x))
 	{
-		//bksge::throw_domain_error("Negative argument in poly_laguerre.");
 		return std::numeric_limits<T>::quiet_NaN();
 	}
 
-	if (bksge::isnan(x))
+	if (x < T(0))
 	{
+		//bksge::throw_domain_error("Negative argument in poly_laguerre.");
 		return std::numeric_limits<T>::quiet_NaN();
 	}
 

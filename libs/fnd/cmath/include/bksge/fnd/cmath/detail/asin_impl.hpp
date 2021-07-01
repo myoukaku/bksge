@@ -58,9 +58,11 @@ inline BKSGE_CONSTEXPR FloatType
 asin_impl(FloatType x) BKSGE_NOEXCEPT
 {
 	return
+		bksge::isnan(x) ?
+			std::numeric_limits<FloatType>::quiet_NaN() :
 		bksge::iszero(x) ?
 			x :
-		bksge::fabs(x) > FloatType(1) || bksge::isnan(x) ?
+		bksge::fabs(x) > FloatType(1) ?
 			std::numeric_limits<FloatType>::quiet_NaN() :
 		asin_unchecked(x);
 }

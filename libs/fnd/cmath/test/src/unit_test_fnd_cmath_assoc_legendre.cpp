@@ -38,10 +38,10 @@ void AssocLegendreTest(double error)
 	BKSGE_CONSTEXPR auto max = std::numeric_limits<T>::max();
 	BKSGE_CONSTEXPR auto eps = std::numeric_limits<T>::epsilon();
 
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_legendre(0, 0, nan)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_legendre(1, 1, nan)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_legendre(0, 2, T( 1) + eps)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_legendre(1, 3, T(-1) - eps)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_legendre(0, 0, nan)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_legendre(1, 1, nan)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_legendre(0, 2, T( 1) + eps)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_legendre(1, 3, T(-1) - eps)));
 
 	struct testcase
 	{
@@ -1023,8 +1023,8 @@ void AssocLegendreTest(double error)
 template <typename T>
 void AssocLegendreTestInt(double error)
 {
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_legendre(0, 0, T( 2))));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_legendre(1, 2, T(-2))));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_legendre(0, 0, T( 2))));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_legendre(1, 2, T(-2))));
 
 	struct testcase
 	{
@@ -1202,17 +1202,17 @@ GTEST_TEST(CMathTest, AssocLegendreTest)
 
 	BKSGE_CONSTEXPR auto nanf = std::numeric_limits<float>::quiet_NaN();
 	BKSGE_CONSTEXPR auto epsf = std::numeric_limits<float>::epsilon();
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_legendref(0, 0, nanf)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_legendref(1, 1, nanf)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_legendref(0, 2,  1.0f + epsf)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_legendref(1, 3, -1.0f - epsf)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_legendref(0, 0, nanf)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_legendref(1, 1, nanf)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_legendref(0, 2,  1.0f + epsf)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_legendref(1, 3, -1.0f - epsf)));
 
 	BKSGE_CONSTEXPR auto nanl = std::numeric_limits<long double>::quiet_NaN();
 	BKSGE_CONSTEXPR auto epsl = std::numeric_limits<long double>::epsilon();
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_legendrel(0, 0, nanl)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_legendrel(1, 1, nanl)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_legendrel(0, 2,  1.0l + epsl)));
-	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_legendrel(1, 3, -1.0l - epsl)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_legendrel(0, 0, nanl)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_legendrel(1, 1, nanl)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_legendrel(0, 2,  1.0l + epsl)));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(bksge::isnan(bksge::assoc_legendrel(1, 3, -1.0l - epsl)));
 }
 
 }	// namespace assoc_legendre_test
