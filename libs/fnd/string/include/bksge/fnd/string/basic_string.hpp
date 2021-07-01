@@ -1206,20 +1206,20 @@ public:
 	BKSGE_CONSTEXPR const_reference
 	operator[] (size_type pos) const BKSGE_NOEXCEPT
 	{
-		// Allow pos == size().
-		BKSGE_ASSERT(pos <= size());
-		return GetData()[pos];
+		return
+			BKSGE_ASSERT(pos <= size()),	// Allow pos == size().
+			GetData()[pos];
 	}
 
 	BKSGE_CXX14_CONSTEXPR reference
 	operator[](size_type pos) BKSGE_NOEXCEPT
 	{
-		// Allow pos == size().
-		BKSGE_ASSERT(pos <= size());
-		return GetData()[pos];
+		return
+			BKSGE_ASSERT(pos <= size()),	// Allow pos == size().
+			GetData()[pos];
 	}
 
-	BKSGE_CONSTEXPR const_reference
+	BKSGE_CXX14_CONSTEXPR const_reference
 	at(size_type pos) const
 	{
 		if (pos >= this->size())
@@ -1249,26 +1249,30 @@ public:
 
 	BKSGE_CXX14_CONSTEXPR reference front() BKSGE_NOEXCEPT
 	{
-		BKSGE_ASSERT(!empty());
-		return operator[](0);
+		return
+			BKSGE_ASSERT(!empty()),
+			operator[](0);
 	}
 
 	BKSGE_CONSTEXPR const_reference front() const BKSGE_NOEXCEPT
 	{
-		BKSGE_ASSERT(!empty());
-		return operator[](0);
+		return
+			BKSGE_ASSERT(!empty()),
+			operator[](0);
 	}
 
 	BKSGE_CXX14_CONSTEXPR reference back() BKSGE_NOEXCEPT
 	{
-		BKSGE_ASSERT(!empty());
-		return operator[](this->size() - 1);
+		return
+			BKSGE_ASSERT(!empty()),
+			operator[](this->size() - 1);
 	}
 
 	BKSGE_CONSTEXPR const_reference back() const BKSGE_NOEXCEPT
 	{
-		BKSGE_ASSERT(!empty());
-		return operator[](this->size() - 1);
+		return
+			BKSGE_ASSERT(!empty()),
+			operator[](this->size() - 1);
 	}
 
 	BKSGE_CXX14_CONSTEXPR basic_string&
@@ -2918,6 +2922,7 @@ BKSGE_WARNING_PUSH();
 BKSGE_WARNING_DISABLE_MSVC(4455);	// literal suffix identifiers that do not start with an underscore are reserved
 BKSGE_WARNING_DISABLE_MSVC(4267);	// conversion from 'bksge::size_t' to 'const int', possible loss of data
 BKSGE_WARNING_DISABLE_CLANG("-Wuser-defined-literals");
+BKSGE_WARNING_DISABLE_CLANG("-Wreserved-user-defined-literal");
 BKSGE_WARNING_DISABLE_GCC("-Wliteral-suffix");
 
 inline basic_string<char>
