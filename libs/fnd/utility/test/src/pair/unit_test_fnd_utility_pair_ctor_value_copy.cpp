@@ -50,6 +50,7 @@ static_assert( bksge::is_implicitly_constructible<bksge::pair<Implicit, int>,   
 static_assert( bksge::is_implicitly_constructible<bksge::pair<int,      Implicit>, int      const&, Implicit const&>::value, "");
 static_assert( bksge::is_implicitly_constructible<bksge::pair<int,      int>,      int      const&, int      const&>::value, "");
 
+#if 0
 static_assert( bksge::is_nothrow_constructible<bksge::pair<Explicit, Explicit>, Explicit const&, Explicit const&>::value, "");
 static_assert(!bksge::is_nothrow_constructible<bksge::pair<Explicit, Implicit>, Explicit const&, Implicit const&>::value, "");
 static_assert(!bksge::is_nothrow_constructible<bksge::pair<Implicit, Explicit>, Implicit const&, Explicit const&>::value, "");
@@ -60,6 +61,7 @@ static_assert( bksge::is_nothrow_constructible<bksge::pair<int,      Explicit>, 
 static_assert(!bksge::is_nothrow_constructible<bksge::pair<Implicit, int>,      Implicit const&, int      const&>::value, "");
 static_assert(!bksge::is_nothrow_constructible<bksge::pair<int,      Implicit>, int      const&, Implicit const&>::value, "");
 static_assert( bksge::is_nothrow_constructible<bksge::pair<int,      int>,      int      const&, int      const&>::value, "");
+#endif
 
 #define VERIFY(...)	if (!(__VA_ARGS__)) { return false; }
 

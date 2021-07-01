@@ -48,11 +48,13 @@ static_assert(!bksge::is_implicitly_constructible<bksge::pair<Explicit, Implicit
 static_assert(!bksge::is_implicitly_constructible<bksge::pair<Implicit, Explicit>, bksge::pair<int, int> &&>::value, "");
 static_assert( bksge::is_implicitly_constructible<bksge::pair<Implicit, Implicit>, bksge::pair<int, int> &&>::value, "");
 
+#if 0
 static_assert( bksge::is_nothrow_constructible<bksge::pair<short, float>, bksge::pair<int, double> &&>::value, "");
 static_assert( bksge::is_nothrow_constructible<bksge::pair<Explicit, Explicit>, bksge::pair<int, int> &&>::value, "");
 static_assert(!bksge::is_nothrow_constructible<bksge::pair<Explicit, Implicit>, bksge::pair<int, int> &&>::value, "");
 static_assert(!bksge::is_nothrow_constructible<bksge::pair<Implicit, Explicit>, bksge::pair<int, int> &&>::value, "");
 static_assert(!bksge::is_nothrow_constructible<bksge::pair<Implicit, Implicit>, bksge::pair<int, int> &&>::value, "");
+#endif
 
 #define VERIFY(...)	if (!(__VA_ARGS__)) { return false; }
 

@@ -1,7 +1,7 @@
 ﻿/**
  *	@file	unit_test_fnd_utility_pair_ctor_copy.cpp
  *
- *	@brief	pair::pair(pair&&) のテスト
+ *	@brief	pair::pair(pair const&) のテスト
  *
  *	@author	myoukaku
  */
