@@ -164,7 +164,7 @@ struct tuple_impl<Idx, Head, Tail...>
 	{}
 
 	template <typename... UTypes>
-	BKSGE_CONSTEXPR
+	BKSGE_CXX14_CONSTEXPR
 	void assign(tuple_impl<Idx, UTypes...> const& in)
 	{
 		head(*this) = tuple_impl<Idx, UTypes...>::head(in);
@@ -172,7 +172,7 @@ struct tuple_impl<Idx, Head, Tail...>
 	}
 
 	template <typename UHead, typename... UTails>
-	BKSGE_CONSTEXPR
+	BKSGE_CXX14_CONSTEXPR
 	void assign(tuple_impl<Idx, UHead, UTails...>&& in)
 	{
 		head(*this) = bksge::forward<UHead>(tuple_impl<Idx, UHead, UTails...>::head(in));
@@ -180,7 +180,7 @@ struct tuple_impl<Idx, Head, Tail...>
 	}
 
 protected:
-	BKSGE_CONSTEXPR
+	BKSGE_CXX14_CONSTEXPR
 	void swap(tuple_impl& in)
 	{
 		using bksge::swap;
@@ -286,21 +286,21 @@ struct tuple_impl<Idx, Head>
 	{}
 
 	template <typename UHead>
-	BKSGE_CONSTEXPR
+	BKSGE_CXX14_CONSTEXPR
 	void assign(tuple_impl<Idx, UHead> const& in)
 	{
 		head(*this) = tuple_impl<Idx, UHead>::head(in);
 	}
 
 	template <typename UHead>
-	BKSGE_CONSTEXPR
+	BKSGE_CXX14_CONSTEXPR
 	void assign(tuple_impl<Idx, UHead>&& in)
 	{
 		head(*this) = bksge::forward<UHead>(tuple_impl<Idx, UHead>::head(in));
 	}
 
 protected:
-	BKSGE_CONSTEXPR
+	BKSGE_CXX14_CONSTEXPR
 	void swap(tuple_impl& in)
 	{
 		using bksge::swap;
