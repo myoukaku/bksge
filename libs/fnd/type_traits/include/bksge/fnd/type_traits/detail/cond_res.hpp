@@ -17,7 +17,7 @@
 
 BKSGE_WARNING_PUSH();
 
-#if defined(BKSGE_CLANG_VERSION) && (BKSGE_CLANG_VERSION >= 100000) && !defined(__APPLE__)
+#if defined(BKSGE_CLANG_VERSION) && (BKSGE_CLANG_VERSION >= 100000)
 BKSGE_WARNING_DISABLE_CLANG("-Wdeprecated-volatile");
 #endif
 
