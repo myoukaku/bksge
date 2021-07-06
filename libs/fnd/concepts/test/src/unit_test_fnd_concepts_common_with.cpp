@@ -35,11 +35,7 @@ BKSGE_COMMON_WITH_TEST(false, int, int());
 
 BKSGE_COMMON_WITH_TEST(true,  int, short);
 BKSGE_COMMON_WITH_TEST(true,  short, int);
-#if (defined(_MSC_VER) && (_MSC_VER < 1920))
-BKSGE_COMMON_WITH_TEST(false, void*, const int*);	// TODO
-#else
 BKSGE_COMMON_WITH_TEST(true,  void*, const int*);
-#endif
 
 struct A { A(int) { } };
 BKSGE_COMMON_WITH_TEST(true,  A, int);
@@ -106,11 +102,7 @@ BKSGE_COMMON_WITH_TEST(true,  const F, const G);
 struct Base { };
 struct Derived : Base { };
 BKSGE_COMMON_WITH_TEST(true,  Derived, Base);
-#if (defined(_MSC_VER) && (_MSC_VER < 1920))
-BKSGE_COMMON_WITH_TEST(false, Derived*, Base*);	// TODO
-#else
 BKSGE_COMMON_WITH_TEST(true,  Derived*, Base*);
-#endif
 
 }	// namespace common_with_test
 
