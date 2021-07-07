@@ -15,11 +15,6 @@ namespace bksge_string_test
 namespace to_string_test
 {
 
-#define VERIFY(...)	if (!(__VA_ARGS__)) { return false; }
-
-
-#undef VERIFY
-
 GTEST_TEST(StringTest, ToStringTest)
 {
 	{

@@ -783,7 +783,10 @@ public:
 	basic_string(CharT const* s, Allocator const& alloc = Allocator())
 		: m_dataplus(GetLocalData(), alloc)
 	{
+BKSGE_WARNING_PUSH();
+BKSGE_WARNING_DISABLE_MSVC(4307);	// integral constant overflow (Visual Studio 2017)
 		Construct(s, s ? s + traits_type::length(s) : s+npos);
+BKSGE_WARNING_POP();
 	}
 
 	BKSGE_CXX14_CONSTEXPR
@@ -2922,38 +2925,37 @@ BKSGE_WARNING_PUSH();
 BKSGE_WARNING_DISABLE_MSVC(4455);	// literal suffix identifiers that do not start with an underscore are reserved
 BKSGE_WARNING_DISABLE_MSVC(4267);	// conversion from 'bksge::size_t' to 'const int', possible loss of data
 BKSGE_WARNING_DISABLE_CLANG("-Wuser-defined-literals");
-BKSGE_WARNING_DISABLE_CLANG("-Wreserved-user-defined-literal");
 BKSGE_WARNING_DISABLE_GCC("-Wliteral-suffix");
 
 inline basic_string<char>
-operator""s(char const* str, bksge::size_t len)
+operator"" s(char const* str, bksge::size_t len)
 {
 	return basic_string<char>{str, len};
 }
 
 inline basic_string<wchar_t>
-operator""s(const wchar_t* str, bksge::size_t len)
+operator"" s(const wchar_t* str, bksge::size_t len)
 {
 	return basic_string<wchar_t>{str, len};
 }
 
 #if defined(BKSGE_HAS_CXX20_CHAR8_T)
 inline basic_string<char8_t>
-operator""s(const char8_t* str, bksge::size_t len)
+operator"" s(const char8_t* str, bksge::size_t len)
 {
 	return basic_string<char8_t>{str, len};
 }
 #endif
 #if defined(BKSGE_HAS_CXX11_CHAR16_T)
 inline basic_string<char16_t>
-operator""s(const char16_t* str, bksge::size_t len)
+operator"" s(const char16_t* str, bksge::size_t len)
 {
 	return basic_string<char16_t>{str, len};
 }
 #endif
 #if defined(BKSGE_HAS_CXX11_CHAR32_T)
 inline basic_string<char32_t>
-operator""s(const char32_t* str, bksge::size_t len)
+operator"" s(const char32_t* str, bksge::size_t len)
 {
 	return basic_string<char32_t>{str, len};
 }

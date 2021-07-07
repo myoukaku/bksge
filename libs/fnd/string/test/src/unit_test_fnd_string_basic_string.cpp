@@ -6,6 +6,13 @@
  *	@author	myoukaku
  */
 
+#include <bksge/fnd/config.hpp>
+
+BKSGE_WARNING_PUSH();
+// GCC: -O2, -O3 のとき、不要な警告が出てしまう
+BKSGE_WARNING_DISABLE_GCC("-Wstringop-overflow");
+BKSGE_WARNING_DISABLE_GCC("-Warray-bounds");
+
 #include <bksge/fnd/string.hpp>
 #include <bksge/fnd/string_view.hpp>
 #include <bksge/fnd/compare/is_eq.hpp>
@@ -17,7 +24,7 @@
 #include <bksge/fnd/stdexcept/length_error.hpp>
 #include <bksge/fnd/memory/addressof.hpp>
 #include <gtest/gtest.h>
-#include <sstream>
+#include <vector>
 #include <new>
 #include "constexpr_test.hpp"
 #include "iterator_test.hpp"
@@ -89,11 +96,13 @@ struct StringTestHelper<char>
 	BKSGE_CONSTEXPR static const char* cba()    { return "cba"; }
 	BKSGE_CONSTEXPR static const char* cde()    { return "cde"; }
 	BKSGE_CONSTEXPR static const char* cdede()    { return "cdede"; }
+#if (BKSGE_CXX_STANDARD >= 14)
 	/*BKSGE_CONSTEXPR*/ static bksge::basic_string<char> abcd_s()
 	{
 		using namespace bksge::literals;
 		return "abcd"s;
 	}
+#endif
 };
 
 template <>
@@ -133,11 +142,13 @@ struct StringTestHelper<wchar_t>
 	BKSGE_CONSTEXPR static const wchar_t* cba()    { return L"cba"; }
 	BKSGE_CONSTEXPR static const wchar_t* cde()    { return L"cde"; }
 	BKSGE_CONSTEXPR static const wchar_t* cdede()    { return L"cdede"; }
+#if (BKSGE_CXX_STANDARD >= 14)
 	/*BKSGE_CONSTEXPR*/ static bksge::basic_string<wchar_t> abcd_s()
 	{
 		using namespace bksge::string_literals;
 		return L"abcd"s;
 	}
+#endif
 };
 
 #if defined(BKSGE_HAS_CXX20_CHAR8_T)
@@ -178,11 +189,13 @@ struct StringTestHelper<char8_t>
 	BKSGE_CONSTEXPR static const char8_t* cba()    { return u8"cba"; }
 	BKSGE_CONSTEXPR static const char8_t* cde()    { return u8"cde"; }
 	BKSGE_CONSTEXPR static const char8_t* cdede()    { return u8"cdede"; }
+#if (BKSGE_CXX_STANDARD >= 14)
 	/*BKSGE_CONSTEXPR*/ static bksge::basic_string<char8_t> abcd_s()
 	{
 		using namespace bksge::literals::string_literals;
 		return u8"abcd"s;
 	}
+#endif
 };
 #endif
 
@@ -224,11 +237,13 @@ struct StringTestHelper<char16_t>
 	BKSGE_CONSTEXPR static const char16_t* cba()    { return u"cba"; }
 	BKSGE_CONSTEXPR static const char16_t* cde()    { return u"cde"; }
 	BKSGE_CONSTEXPR static const char16_t* cdede()    { return u"cdede"; }
+#if (BKSGE_CXX_STANDARD >= 14)
 	/*BKSGE_CONSTEXPR*/ static bksge::basic_string<char16_t> abcd_s()
 	{
 		using namespace bksge::literals::string_literals;
 		return u"abcd"s;
 	}
+#endif
 };
 #endif
 
@@ -270,11 +285,13 @@ struct StringTestHelper<char32_t>
 	BKSGE_CONSTEXPR static const char32_t* cba()    { return U"cba"; }
 	BKSGE_CONSTEXPR static const char32_t* cde()    { return U"cde"; }
 	BKSGE_CONSTEXPR static const char32_t* cdede()    { return U"cdede"; }
+#if (BKSGE_CXX_STANDARD >= 14)
 	/*BKSGE_CONSTEXPR*/ static bksge::basic_string<char32_t> abcd_s()
 	{
 		using namespace bksge::literals::string_literals;
 		return U"abcd"s;
 	}
+#endif
 };
 #endif
 
@@ -904,12 +921,14 @@ TYPED_TEST(BasicStringTest, CtorTest)
 
 	// (6) basic_string::basic_string(InputIt first, InputIt last)
 	{
-		std::basic_stringstream<CharT> ss;
-		ss << Helper::abcde();
+		std::vector<CharT> vec;
+		vec.push_back(Helper::abcde()[0]);
+		vec.push_back(Helper::abcde()[1]);
+		vec.push_back(Helper::abcde()[2]);
+		vec.push_back(Helper::abcde()[3]);
+		vec.push_back(Helper::abcde()[4]);
 
-		std::istreambuf_iterator<CharT> first(ss);
-		std::istreambuf_iterator<CharT> last;
-		string const s(first, last);
+		string const s(vec.begin(), vec.end());
 		EXPECT_TRUE(s == Helper::abcde());
 	}
 
@@ -5523,67 +5542,7 @@ TYPED_TEST(BasicStringTest, StdEraseIfTest)
 	/*BKSGE_CXX14_CONSTEXPR_*/EXPECT_TRUE(StdEraseIfTest<CharT>());
 }
 
-TYPED_TEST(BasicStringTest, OutputStreamTest)
-{
-	using CharT = TypeParam;
-	using string = bksge::basic_string<CharT>;
-	using stringstream = std::basic_stringstream<CharT>;
-	using Helper = StringTestHelper<CharT>;
-
-	string s = Helper::aababc();
-	stringstream ss;
-	ss << s;
-	EXPECT_TRUE(ss.str() == Helper::aababc());
-}
-
-TYPED_TEST(BasicStringTest, InputStreamTest)
-{
-	using CharT = TypeParam;
-	using string = bksge::basic_string<CharT>;
-	using stringstream = std::basic_stringstream<CharT>;
-	using Helper = StringTestHelper<CharT>;
-
-	{
-		stringstream ss;
-		ss << Helper::multi_line_str();
-
-		string s;
-		bksge::getline(ss, s);
-		EXPECT_TRUE(s == Helper::abc());
-		bksge::getline(ss, s);
-		EXPECT_TRUE(s == Helper::bcd());
-		bksge::getline(bksge::move(ss), s);
-		EXPECT_TRUE(s == Helper::cd());
-	}
-	{
-		stringstream ss;
-		ss << Helper::csv_str();
-
-		string s;
-		bksge::getline(ss, s, Helper::comma_char());
-		EXPECT_TRUE(s == Helper::abc());
-		bksge::getline(ss, s, Helper::comma_char());
-		EXPECT_TRUE(s == Helper::bcd());
-		bksge::getline(bksge::move(ss), s, Helper::comma_char());
-		EXPECT_TRUE(s == Helper::cd());
-	}
-}
-
-TYPED_TEST(BasicStringTest, GetLineTest)
-{
-	using CharT = TypeParam;
-	using string = bksge::basic_string<CharT>;
-	using stringstream = std::basic_stringstream<CharT>;
-	using Helper = StringTestHelper<CharT>;
-
-	stringstream ss;
-	ss << Helper::aababc();
-
-	string s;
-	ss >> s;
-	EXPECT_TRUE(s == Helper::aababc());
-}
-
+#if (BKSGE_CXX_STANDARD >= 14)
 template <typename CharT>
 inline BKSGE_CXX14_CONSTEXPR bool LiteralsTest()
 {
@@ -5604,6 +5563,7 @@ TYPED_TEST(BasicStringTest, LiteralsTest)
 	using CharT = TypeParam;
 	/*BKSGE_CXX14_CONSTEXPR_*/EXPECT_TRUE(LiteralsTest<CharT>());
 }
+#endif
 
 template <typename CharT>
 inline BKSGE_CXX14_CONSTEXPR bool HashTest()
@@ -5646,3 +5606,5 @@ TYPED_TEST(BasicStringTest, HashTest)
 }	// namespace basic_string_test
 
 }	// namespace bksge_string_test
+
+BKSGE_WARNING_POP();
