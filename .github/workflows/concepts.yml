@@ -2,7 +2,8 @@ name: concepts
 
 on:
   push:
-
+    paths:
+      - libs/fnd/concepts/**
   workflow_dispatch:
 
 env:

@@ -2,7 +2,8 @@ name: stdexcept
 
 on:
   push:
-
+    paths:
+      - libs/fnd/stdexcept/**
   workflow_dispatch:
 
 env:

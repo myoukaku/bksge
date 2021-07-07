@@ -2,7 +2,8 @@ name: tmp
 
 on:
   push:
-
+    paths:
+      - libs/fnd/tmp/**
   workflow_dispatch:
 
 env:

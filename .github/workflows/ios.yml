@@ -2,7 +2,8 @@ name: ios
 
 on:
   push:
-
+    paths:
+      - libs/fnd/ios/**
   workflow_dispatch:
 
 env:

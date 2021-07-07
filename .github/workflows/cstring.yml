@@ -2,7 +2,8 @@ name: cstring
 
 on:
   push:
-
+    paths:
+      - libs/fnd/cstring/**
   workflow_dispatch:
 
 env:

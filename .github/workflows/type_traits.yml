@@ -2,7 +2,8 @@ name: type_traits
 
 on:
   push:
-
+    paths:
+      - libs/fnd/type_traits/**
   workflow_dispatch:
 
 env:

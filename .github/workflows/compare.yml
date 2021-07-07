@@ -2,7 +2,8 @@ name: compare
 
 on:
   push:
-
+    paths:
+      - libs/fnd/compare/**
   workflow_dispatch:
 
 env:

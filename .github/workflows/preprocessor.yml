@@ -2,7 +2,8 @@ name: preprocessor
 
 on:
   push:
-
+    paths:
+      - libs/fnd/preprocessor/**
   workflow_dispatch:
 
 env:

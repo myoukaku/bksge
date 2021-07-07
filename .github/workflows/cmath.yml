@@ -2,7 +2,8 @@ name: cmath
 
 on:
   push:
-
+    paths:
+      - libs/fnd/cmath/**
   workflow_dispatch:
 
 env:

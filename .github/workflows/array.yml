@@ -2,29 +2,102 @@ name: array
 
 on:
   push:
-
+    paths:
+      - libs/fnd/array/**
   workflow_dispatch:
+
+env:
+  SRC_DIR: ${{github.workspace}}/libs/fnd/array
+  BUILD_DIR: ${{github.workspace}}/build
 
 jobs:
   windows-test:
-    runs-on: windows-latest
+    runs-on: ${{matrix.config.os}}
     strategy:
+      fail-fast: false
       matrix:
+        config:
+        - { os: windows-2019, generator: "Visual Studio 16 2019" }
+        - { os: windows-2016, generator: "Visual Studio 15 2017" }
         architecture: [x64, Win32]
         cxx_standard: [14, 17, 20]
         build_type: [Debug, Release]
     defaults:
       run:
-        shell: cmd
+        shell: bash
     steps:
       - uses: actions/checkout@v2
         with:
           submodules: true
       - name: Configure CMake
-        run: cmake ${{github.workspace}}/libs/fnd/array -B ${{github.workspace}}/build -G "Visual Studio 16 2019" -A "${{matrix.architecture}}" -DCMAKE_CXX_STANDARD="${{matrix.cxx_standard}}" -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
+        run: |
+          cmake "$SRC_DIR" \
+            -B "$BUILD_DIR" \
+            -G "${{matrix.config.generator}}" \
+            -A "${{matrix.architecture}}" \
+            -DCMAKE_CXX_STANDARD="${{matrix.cxx_standard}}" \
+            -DCMAKE_BUILD_TYPE="${{matrix.build_type}}"
       - name: Build
-        run: cmake --build ${{github.workspace}}/build --config ${{matrix.build_type}}
+        run: cmake --build "$BUILD_DIR" --config ${{matrix.build_type}}
       - name: Test
-        working-directory: ${{github.workspace}}/build
+        working-directory: ${{env.BUILD_DIR}}
+        run: ctest -j 4 -C ${{matrix.build_type}}
+
+  ubuntu-test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler:
+        - { cc: "gcc-10",   cxx: "g++-10" }
+        - { cc: "gcc-9",    cxx: "g++-9"  }
+        - { cc: "clang-12", cxx: "clang++-12" }
+        - { cc: "clang-11", cxx: "clang++-11" }
+        - { cc: "clang-10", cxx: "clang++-10" }
+        cxx_standard: [11, 14, 17, 20]
+        build_type: [Debug, Release]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - name: Configure CMake
+        run: |
+          cmake "$SRC_DIR" \
+            -B "$BUILD_DIR" \
+            -DCMAKE_CXX_COMPILER=${{matrix.compiler.cxx}} \
+            -DCMAKE_C_COMPILER=${{matrix.compiler.cc}} \
+            -DCMAKE_CXX_STANDARD=${{matrix.cxx_standard}} \
+            -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
+      - name: Build
+        run: cmake --build "$BUILD_DIR" --config ${{matrix.build_type}}
+      - name: Test
+        working-directory: ${{env.BUILD_DIR}}
+        run: ctest -j 4 -C ${{matrix.build_type}}
+
+  macos-test:
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler:
+        - { cc: "clang", cxx: "clang++" }
+        cxx_standard: [11, 14, 17, 20]
+        build_type: [Debug, Release]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - name: Configure CMake
+        run: |
+          cmake "${SRC_DIR}" \
+            -B "$BUILD_DIR" \
+            -DCMAKE_CXX_COMPILER=${{matrix.compiler.cxx}} \
+            -DCMAKE_C_COMPILER=${{matrix.compiler.cc}} \
+            -DCMAKE_CXX_STANDARD=${{matrix.cxx_standard}} \
+            -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
+      - name: Build
+        run: cmake --build "$BUILD_DIR" --config ${{matrix.build_type}}
+      - name: Test
+        working-directory: ${{env.BUILD_DIR}}
         run: ctest -j 4 -C ${{matrix.build_type}}
 

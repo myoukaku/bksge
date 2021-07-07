@@ -2,7 +2,8 @@ name: cstdint
 
 on:
   push:
-
+    paths:
+      - libs/fnd/cstdint/**
   workflow_dispatch:
 
 env:

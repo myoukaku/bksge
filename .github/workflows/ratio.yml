@@ -2,7 +2,8 @@ name: ratio
 
 on:
   push:
-
+    paths:
+      - libs/fnd/ratio/**
   workflow_dispatch:
 
 env:

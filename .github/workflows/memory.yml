@@ -2,7 +2,8 @@ name: memory
 
 on:
   push:
-
+    paths:
+      - libs/fnd/memory/**
   workflow_dispatch:
 
 env:

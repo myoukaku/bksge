@@ -2,7 +2,8 @@ name: utility
 
 on:
   push:
-
+    paths:
+      - libs/fnd/utility/**
   workflow_dispatch:
 
 env:

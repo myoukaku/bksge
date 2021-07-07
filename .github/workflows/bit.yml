@@ -2,7 +2,8 @@ name: bit
 
 on:
   push:
-
+    paths:
+      - libs/fnd/bit/**
   workflow_dispatch:
 
 env:

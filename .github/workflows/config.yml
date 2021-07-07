@@ -2,7 +2,8 @@ name: config
 
 on:
   push:
-
+    paths:
+      - libs/fnd/config/**
   workflow_dispatch:
 
 env:

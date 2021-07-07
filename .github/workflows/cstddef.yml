@@ -2,7 +2,8 @@ name: cstddef
 
 on:
   push:
-
+    paths:
+      - libs/fnd/cstddef/**
   workflow_dispatch:
 
 env:

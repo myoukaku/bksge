@@ -2,7 +2,8 @@ name: tpp
 
 on:
   push:
-
+    paths:
+      - libs/fnd/tpp/**
   workflow_dispatch:
 
 env:
