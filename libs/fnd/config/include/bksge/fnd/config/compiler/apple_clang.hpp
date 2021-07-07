@@ -356,8 +356,53 @@
 #    define BKSGE_HAS_CXX20_TWOS_COMPLEMENT_SIGNED_INTEGERS		// P1236R1
 #    define BKSGE_HAS_CXX20_DEPRECATE_COMMA_IN_SUBSCRIPTING_EXPRESSIONS	// P1161R3
 #  endif
+#  if defined(__cpp_designated_initializers) && (__cpp_designated_initializers >= 201707)
+#    define BKSGE_HAS_CXX20_DESIGNATED_INITIALIZERS							// P0329R4
+#  endif
 #  if defined(__cpp_impl_three_way_comparison) && (__cpp_impl_three_way_comparison >= 201711L)
 #    define BKSGE_HAS_CXX20_THREE_WAY_COMPARISON							// P0515R3 P1185R2 P1186R3 P1630R1
+#  endif
+#  if defined(__cpp_constexpr_in_decltype) && (__cpp_constexpr_in_decltype >= 201711)
+#    define BKSGE_HAS_CXX20_CONSTEXPR_IN_DECLTYPE							// P0859R0
+#  endif
+#  if defined(__cpp_nontype_template_args) && (__cpp_nontype_template_args >= 201911)
+#    define BKSGE_HAS_CXX20_NONTYPE_TEMPLATE_PARAMETER_FLOAT				// P1907R1
+#  endif
+#  if (BKSGE_HAS_CPP_ATTRIBUTE(likely) >= 201803)
+#    define BKSGE_HAS_CXX20_LIKELY											// P0479R5
+#  endif
+#  if (BKSGE_HAS_CPP_ATTRIBUTE(unlikely) >= 201803)
+#    define BKSGE_HAS_CXX20_UNLIKELY										// P0479R5
+#  endif
+#  if defined(__cpp_constinit) && (__cpp_constinit >= 201907)
+#    define BKSGE_HAS_CXX20_CONSTINIT										// P1143R2
+#  endif
+#  if defined(__cpp_constexpr_dynamic_alloc) && (__cpp_constexpr_dynamic_alloc >= 201907)
+#    define BKSGE_HAS_CXX20_CONSTEXPR_DYNAMIC_ALLOC							// P0784R7
+#  endif
+#  if defined(__cpp_constexpr) && (__cpp_constexpr >= 201907)
+#    define BKSGE_HAS_CXX20_CONSTEXPR										// P1064R0 P1002R1 P1327R0 P1330R0 P1331R2 P1668R1
+#  endif
+#  if defined(__cpp_concepts) && (__cpp_concepts >= 201907)
+#    define BKSGE_HAS_CXX20_CONCEPTS										// P0734R0
+#  endif
+#  if defined(__cpp_impl_coroutine) && (__cpp_impl_coroutine >= 201902)
+#    define BKSGE_HAS_CXX20_COROUTINES										// P0912R5
+#  endif
+#  if defined(__cpp_consteval) && (__cpp_consteval >= 201811)
+#    define BKSGE_HAS_CXX20_CONSTEVAL										// P1073R3
+#  endif
+#  if defined(__cpp_deduction_guides) && (__cpp_deduction_guides >= 201907)
+#    define BKSGE_HAS_CXX20_DEDUCTION_GUIDES								// P1021R4 P1816R0 P1814R0
+#  endif
+#  if defined(__cpp_using_enum) && (__cpp_using_enum >= 201907)
+#    define BKSGE_HAS_CXX20_USING_ENUM										// P1099R5
+#  endif
+#  if defined(__cpp_aggregate_paren_init) && (__cpp_aggregate_paren_init >= 201902)
+#    define BKSGE_HAS_CXX20_AGGREGATE_PAREN_INIT							// P0960R3
+#  endif
+#  if defined(__cpp_modules) && (__cpp_modules >= 201907)
+#    define BKSGE_HAS_CXX20_MODULES											// P1103R3
 #  endif
 #endif
 
