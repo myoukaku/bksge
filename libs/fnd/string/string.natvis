@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+	<Type Name="bksge::basic_string&lt;*,*&gt;">
+		<Intrinsic Name="Size" Expression="m_string_length" />
+		<Intrinsic Name="GetData" Expression="m_dataplus.m_p" />
+		<Intrinsic Name="GetLocalData" Expression="m_local_buf" />
+		<Intrinsic Name="IsLocal" Expression="m_dataplus.m_p == m_local_buf" />
+		<Intrinsic Name="Capacity" Expression="IsLocal() ? s_local_capacity : m_allocated_capacity" />
+		<DisplayString>{GetData()}</DisplayString>
+		<StringView>GetData()</StringView>
+		<Expand>
+			<Item Name="[size]" ExcludeView="simple">Size()</Item>
+			<Item Name="[capacity]" ExcludeView="simple">Capacity()</Item>
+			<Item Name="[allocator]" ExcludeView="simple">m_dataplus</Item>
+			<ArrayItems>
+				<Size>Size()</Size>
+				<ValuePointer>GetData()</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+</AutoVisualizer>

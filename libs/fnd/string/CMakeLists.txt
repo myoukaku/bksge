@@ -90,6 +90,7 @@ endif()
 
 file(GLOB_RECURSE bksge_headers CONFIGURE_DEPENDS include/bksge/*)
 target_sources(${TARGET_NAME} INTERFACE ${bksge_headers})
+target_sources(${TARGET_NAME} INTERFACE string.natvis)
 
 target_include_directories(${TARGET_NAME} INTERFACE ${PROJECT_SOURCE_DIR}/include)
 
