@@ -1,3 +1,5 @@
+﻿cmake_minimum_required(VERSION 3.14)
+
 set(TARGET_NAME "bksge_fnd")
 
 if (TARGET ${TARGET_NAME})
@@ -112,3 +114,39 @@ target_link_libraries(${TARGET_NAME}
 		Bksge::utility
 		Bksge::variant
 		Bksge::vector)
+
+set(compiler_flags
+  CMAKE_CXX_FLAGS
+  CMAKE_CXX_FLAGS_DEBUG
+  CMAKE_CXX_FLAGS_RELEASE
+  CMAKE_CXX_FLAGS_MINSIZEREL
+  CMAKE_CXX_FLAGS_RELWITHDEBINFO)
+
+foreach(compiler_flag ${compiler_flags})
+  if (MSVC)
+    # /MD[d] -> /MT[d] (Run-Time Library)
+    string(REPLACE "/MD" "/MT" ${compiler_flag} "${${compiler_flag}}")
+    
+    # /ZI -> /Zi
+    string(REPLACE "/ZI" "/Zi" ${compiler_flag} "${${compiler_flag}}")
+    
+  endif()
+endforeach()
+
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+  if(BKSGE_BUILD_TESTING)
+    enable_testing()
+    option(BUILD_GMOCK "Builds the googlemock subproject" OFF)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../externals/googletest ${CMAKE_CURRENT_BINARY_DIR}/googletest)
+	add_executable(unit_test)
+	target_link_libraries(unit_test
+	  PRIVATE
+		Bksge::algorithm_test
+		Bksge::config_test
+		Bksge::utility_test
+		GTest::gtest
+		GTest::gtest_main)
+    include(GoogleTest)
+    gtest_discover_tests(unit_test)
+  endif()
+endif()
