@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - libs/fnd/numeric/**
+      - .github/workflows/numeric.yml
+
   workflow_dispatch:
 
 env:

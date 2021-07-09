@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - libs/fnd/unordered_map/**
+      - .github/workflows/unordered_map.yml
+
   workflow_dispatch:
 
 env:

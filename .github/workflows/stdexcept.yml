@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - libs/fnd/stdexcept/**
+      - .github/workflows/stdexcept.yml
+
   workflow_dispatch:
 
 env:

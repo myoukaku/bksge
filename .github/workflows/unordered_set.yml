@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - libs/fnd/unordered_set/**
+      - .github/workflows/unordered_set.yml
+
   workflow_dispatch:
 
 env:

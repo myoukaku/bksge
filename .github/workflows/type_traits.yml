@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - libs/fnd/type_traits/**
+      - .github/workflows/type_traits.yml
+
   workflow_dispatch:
 
 env:

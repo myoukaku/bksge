@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - libs/fnd/memory/**
+      - .github/workflows/memory.yml
+
   workflow_dispatch:
 
 env:

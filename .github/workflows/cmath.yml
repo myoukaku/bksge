@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - libs/fnd/cmath/**
+      - .github/workflows/cmath.yml
+
   workflow_dispatch:
 
 env:

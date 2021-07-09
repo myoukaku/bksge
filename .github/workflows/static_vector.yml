@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - libs/fnd/static_vector/**
+      - .github/workflows/static_vector.yml
+
   workflow_dispatch:
 
 env:

@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - libs/fnd/tmp/**
+      - .github/workflows/tmp.yml
+
   workflow_dispatch:
 
 env:

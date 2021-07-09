@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - libs/fnd/cstring/**
+      - .github/workflows/cstring.yml
+
   workflow_dispatch:
 
 env:

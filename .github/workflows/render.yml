@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - libs/core/render/**
+      - .github/workflows/render.yml
+
   workflow_dispatch:
 
 env:

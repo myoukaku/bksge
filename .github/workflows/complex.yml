@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - libs/fnd/complex/**
+      - .github/workflows/complex.yml
+
   workflow_dispatch:
 
 env:

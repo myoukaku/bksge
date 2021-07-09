@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - libs/fnd/list/**
+      - .github/workflows/list.yml
+
   workflow_dispatch:
 
 env:

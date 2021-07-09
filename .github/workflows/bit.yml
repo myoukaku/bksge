@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - libs/fnd/bit/**
+      - .github/workflows/bit.yml
+
   workflow_dispatch:
 
 env:

@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - libs/fnd/concepts/**
+      - .github/workflows/concepts.yml
+
   workflow_dispatch:
 
 env:

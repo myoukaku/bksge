@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - libs/fnd/system_error/**
+      - .github/workflows/system_error.yml
+
   workflow_dispatch:
 
 env:

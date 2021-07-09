@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - libs/fnd/string_view/**
+      - .github/workflows/string_view.yml
+
   workflow_dispatch:
 
 env:

@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - libs/fnd/serialization/**
+      - .github/workflows/serialization.yml
+
   workflow_dispatch:
 
 env:

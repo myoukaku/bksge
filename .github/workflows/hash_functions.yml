@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - libs/fnd/hash_functions/**
+      - .github/workflows/hash_functions.yml
+
   workflow_dispatch:
 
 env:

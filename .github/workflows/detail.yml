@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - libs/fnd/detail/**
+      - .github/workflows/detail.yml
+
   workflow_dispatch:
 
 env:

@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - libs/core/math/**
+      - .github/workflows/math.yml
+
   workflow_dispatch:
 
 env:

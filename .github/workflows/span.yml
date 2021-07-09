@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - libs/fnd/span/**
+      - .github/workflows/span.yml
+
   workflow_dispatch:
 
 env:

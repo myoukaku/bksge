@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - libs/fnd/ios/**
+      - .github/workflows/ios.yml
+
   workflow_dispatch:
 
 env:

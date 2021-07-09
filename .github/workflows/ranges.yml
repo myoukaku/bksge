@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - libs/fnd/ranges/**
+      - .github/workflows/ranges.yml
+
   workflow_dispatch:
 
 env:

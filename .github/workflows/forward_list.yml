@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - libs/fnd/forward_list/**
+      - .github/workflows/forward_list.yml
+
   workflow_dispatch:
 
 env:

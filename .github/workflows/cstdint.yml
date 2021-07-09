@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - libs/fnd/cstdint/**
+      - .github/workflows/cstdint.yml
+
   workflow_dispatch:
 
 env:

@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - libs/fnd/vector/**
+      - .github/workflows/vector.yml
+
   workflow_dispatch:
 
 env:

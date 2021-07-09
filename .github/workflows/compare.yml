@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - libs/fnd/compare/**
+      - .github/workflows/compare.yml
+
   workflow_dispatch:
 
 env:

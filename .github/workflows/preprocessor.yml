@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - libs/fnd/preprocessor/**
+      - .github/workflows/preprocessor.yml
+
   workflow_dispatch:
 
 env:

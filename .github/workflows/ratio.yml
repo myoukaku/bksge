@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - libs/fnd/ratio/**
+      - .github/workflows/ratio.yml
+
   workflow_dispatch:
 
 env:

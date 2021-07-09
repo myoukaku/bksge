@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - libs/fnd/tuple/**
+      - .github/workflows/tuple.yml
+
   workflow_dispatch:
 
 env:
