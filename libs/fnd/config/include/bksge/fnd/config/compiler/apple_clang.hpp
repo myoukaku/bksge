@@ -359,9 +359,9 @@
 #  if defined(__cpp_designated_initializers) && (__cpp_designated_initializers >= 201707)
 #    define BKSGE_HAS_CXX20_DESIGNATED_INITIALIZERS							// P0329R4
 #  endif
-#  if defined(__cpp_impl_three_way_comparison) && (__cpp_impl_three_way_comparison >= 201711L)
-#    define BKSGE_HAS_CXX20_THREE_WAY_COMPARISON							// P0515R3 P1185R2 P1186R3 P1630R1
-#  endif
+//#  if defined(__cpp_impl_three_way_comparison) && (__cpp_impl_three_way_comparison >= 201711L)
+//#    define BKSGE_HAS_CXX20_THREE_WAY_COMPARISON							// P0515R3 P1185R2 P1186R3 P1630R1
+//#  endif
 #  if defined(__cpp_constexpr_in_decltype) && (__cpp_constexpr_in_decltype >= 201711)
 #    define BKSGE_HAS_CXX20_CONSTEXPR_IN_DECLTYPE							// P0859R0
 #  endif
