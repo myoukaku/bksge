@@ -1,9 +1,12 @@
 ﻿cmake_minimum_required(VERSION 3.14)
 
-set(TARGET_NAME "config_test")
+set(TARGET_NAME_BASE config)
+
+set(TARGET_NAME bksge_${TARGET_NAME_BASE}_test)
+set(TARGET_ALIAS_NAME Bksge::${TARGET_NAME_BASE}_test)
 
 add_library(${TARGET_NAME} INTERFACE)
-add_library(Bksge::${TARGET_NAME} ALIAS ${TARGET_NAME})
+add_library(${TARGET_ALIAS_NAME} ALIAS ${TARGET_NAME})
 
 file(GLOB_RECURSE test_sources CONFIGURE_DEPENDS src/*)
 
@@ -15,6 +18,4 @@ endif()
 
 target_include_directories(${TARGET_NAME} INTERFACE src)
 
-target_link_libraries(${TARGET_NAME}
-	INTERFACE
-		Bksge::config)
+target_link_libraries(${TARGET_NAME} INTERFACE Bksge::${TARGET_NAME_BASE})

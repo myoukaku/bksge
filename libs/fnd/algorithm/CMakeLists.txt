@@ -1,6 +1,9 @@
 ﻿cmake_minimum_required(VERSION 3.14)
 
-set(TARGET_NAME "bksge_algorithm")
+set(TARGET_NAME_BASE algorithm)
+
+set(TARGET_NAME bksge_${TARGET_NAME_BASE})
+set(TARGET_ALIAS_NAME Bksge::${TARGET_NAME_BASE})
 
 if (TARGET ${TARGET_NAME})
 	RETURN()
@@ -9,7 +12,7 @@ endif()
 project(${TARGET_NAME} LANGUAGES C CXX)
 
 add_library(${TARGET_NAME} INTERFACE)
-add_library(Bksge::algorithm ALIAS ${TARGET_NAME})
+add_library(${TARGET_ALIAS_NAME} ALIAS ${TARGET_NAME})
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../bit ${CMAKE_CURRENT_BINARY_DIR}/bit)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../concepts ${CMAKE_CURRENT_BINARY_DIR}/concepts)
@@ -134,7 +137,7 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
 	add_executable(unit_test)
 	target_link_libraries(unit_test
 	  PRIVATE
-		Bksge::algorithm_test
+		Bksge::${TARGET_NAME_BASE}_test
 		GTest::gtest
 		GTest::gtest_main)
     include(GoogleTest)

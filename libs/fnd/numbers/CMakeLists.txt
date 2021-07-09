@@ -1,6 +1,9 @@
 ﻿cmake_minimum_required(VERSION 3.14)
 
-set(TARGET_NAME "bksge_numbers")
+set(TARGET_NAME_BASE numbers)
+
+set(TARGET_NAME bksge_${TARGET_NAME_BASE})
+set(TARGET_ALIAS_NAME Bksge::${TARGET_NAME_BASE})
 
 if (TARGET ${TARGET_NAME})
 	RETURN()
@@ -9,7 +12,7 @@ endif()
 project(${TARGET_NAME} LANGUAGES C CXX)
 
 add_library(${TARGET_NAME} INTERFACE)
-add_library(Bksge::numbers ALIAS ${TARGET_NAME})
+add_library(${TARGET_ALIAS_NAME} ALIAS ${TARGET_NAME})
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../concepts ${CMAKE_CURRENT_BINARY_DIR}/concepts)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../config ${CMAKE_CURRENT_BINARY_DIR}/config)

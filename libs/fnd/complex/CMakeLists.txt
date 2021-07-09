@@ -1,6 +1,9 @@
 ﻿cmake_minimum_required(VERSION 3.14)
 
-set(TARGET_NAME "bksge_complex")
+set(TARGET_NAME_BASE complex)
+
+set(TARGET_NAME bksge_${TARGET_NAME_BASE})
+set(TARGET_ALIAS_NAME Bksge::${TARGET_NAME_BASE})
 
 if (TARGET ${TARGET_NAME})
 	RETURN()
@@ -9,7 +12,7 @@ endif()
 project(${TARGET_NAME} LANGUAGES C CXX)
 
 add_library(${TARGET_NAME} INTERFACE)
-add_library(Bksge::complex ALIAS ${TARGET_NAME})
+add_library(${TARGET_ALIAS_NAME} ALIAS ${TARGET_NAME})
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../algorithm ${CMAKE_CURRENT_BINARY_DIR}/algorithm)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cmath ${CMAKE_CURRENT_BINARY_DIR}/cmath)
@@ -108,9 +111,20 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   target_compile_options(${TARGET_NAME} INTERFACE -Wall -Wextra -Werror -Wno-missing-field-initializers)
 endif()
 
+add_subdirectory(test)
+
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
   if(BKSGE_BUILD_TESTING)
     enable_testing()
-    add_subdirectory(test)
+    option(BUILD_GMOCK "Builds the googlemock subproject" OFF)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../../externals/googletest ${CMAKE_CURRENT_BINARY_DIR}/googletest)
+	add_executable(unit_test)
+	target_link_libraries(unit_test
+	  PRIVATE
+		Bksge::${TARGET_NAME_BASE}_test
+		GTest::gtest
+		GTest::gtest_main)
+    include(GoogleTest)
+    gtest_discover_tests(unit_test)
   endif()
 endif()

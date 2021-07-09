@@ -11,109 +11,62 @@ project(${TARGET_NAME} LANGUAGES C CXX)
 add_library(${TARGET_NAME} INTERFACE)
 add_library(Bksge::fnd ALIAS ${TARGET_NAME})
 
-add_subdirectory(algorithm)
-add_subdirectory(any)
-add_subdirectory(array)
-add_subdirectory(bigint)
-add_subdirectory(bit)
-add_subdirectory(cmath)
-add_subdirectory(compare)
-add_subdirectory(complex)
-add_subdirectory(concepts)
-add_subdirectory(config)
-add_subdirectory(cstddef)
-add_subdirectory(cstdint)
-add_subdirectory(cstring)
-add_subdirectory(debug)
-add_subdirectory(deque)
-add_subdirectory(detail)
-add_subdirectory(forward_list)
-add_subdirectory(functional)
-add_subdirectory(hash_functions)
-add_subdirectory(ios)
-add_subdirectory(iterator)
-add_subdirectory(list)
-add_subdirectory(map)
-add_subdirectory(memory)
-add_subdirectory(numbers)
-add_subdirectory(numeric)
-add_subdirectory(optional)
-add_subdirectory(preprocessor)
-add_subdirectory(random)
-add_subdirectory(ranges)
-add_subdirectory(ratio)
-add_subdirectory(serialization)
-add_subdirectory(set)
-add_subdirectory(span)
-add_subdirectory(static_string)
-add_subdirectory(static_vector)
-add_subdirectory(stdexcept)
-add_subdirectory(string)
-add_subdirectory(string_view)
-add_subdirectory(system_error)
-add_subdirectory(tmp)
-add_subdirectory(tpp)
-add_subdirectory(tuple)
-add_subdirectory(type_traits)
-add_subdirectory(units)
-add_subdirectory(unordered_map)
-add_subdirectory(unordered_set)
-add_subdirectory(utility)
-add_subdirectory(variant)
-add_subdirectory(vector)
+set(SUBDIRECTORIES
+	algorithm
+	any
+	array
+	bigint
+	bit
+	cmath
+	compare
+	complex
+	concepts
+	config
+	cstddef
+	cstdint
+	cstring
+	debug
+	deque
+#	detail
+	forward_list
+	functional
+	hash_functions
+	ios
+	iterator
+	list
+	map
+	memory
+#	numbers
+	numeric
+	optional
+	preprocessor
+	random
+	ranges
+	ratio
+	serialization
+	set
+	span
+	static_string
+	static_vector
+	stdexcept
+	string
+	string_view
+	system_error
+	tmp
+	tpp
+	tuple
+	type_traits
+	units
+	unordered_map
+	unordered_set
+	utility
+	variant
+	vector)
 
-target_link_libraries(${TARGET_NAME}
-	INTERFACE
-		Bksge::algorithm
-		Bksge::any
-		Bksge::array
-		Bksge::bigint
-		Bksge::bit
-		Bksge::cmath
-		Bksge::compare
-		Bksge::complex
-		Bksge::concepts
-		Bksge::config
-		Bksge::cstddef
-		Bksge::cstdint
-		Bksge::cstring
-		Bksge::debug
-		Bksge::deque
-		Bksge::detail
-		Bksge::forward_list
-		Bksge::functional
-		Bksge::hash_functions
-		Bksge::ios
-		Bksge::iterator
-		Bksge::list
-		Bksge::map
-		Bksge::memory
-		Bksge::numbers
-		Bksge::numeric
-		Bksge::optional
-		Bksge::preprocessor
-		Bksge::random
-		Bksge::ranges
-		Bksge::ratio
-		Bksge::serialization
-		Bksge::set
-		Bksge::span
-		Bksge::static_string
-		Bksge::static_vector
-		Bksge::stdexcept
-		Bksge::string
-		Bksge::string_view
-		Bksge::system_error
-		Bksge::tmp
-		Bksge::tpp
-		Bksge::tuple
-		Bksge::type_traits
-		Bksge::units
-		Bksge::unordered_map
-		Bksge::unordered_set
-		Bksge::utility
-		Bksge::variant
-		Bksge::vector)
+foreach(SUBDIRECTORY ${SUBDIRECTORIES})
+	add_subdirectory(${SUBDIRECTORY})
+	target_link_libraries(${TARGET_NAME} INTERFACE Bksge::${SUBDIRECTORY})
+endforeach()
 
 set(compiler_flags
   CMAKE_CXX_FLAGS
@@ -133,6 +86,12 @@ foreach(compiler_flag ${compiler_flags})
   endif()
 endforeach()
 
+add_library(bksge_fnd_test INTERFACE)
+add_library(Bksge::fnd_test ALIAS bksge_fnd_test)
+foreach(SUBDIRECTORY ${SUBDIRECTORIES})
+	target_link_libraries(bksge_fnd_test INTERFACE Bksge::${SUBDIRECTORY}_test)
+endforeach()
+
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
   if(BKSGE_BUILD_TESTING)
     enable_testing()
@@ -141,9 +100,7 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
 	add_executable(unit_test)
 	target_link_libraries(unit_test
 	  PRIVATE
-		Bksge::algorithm_test
-		Bksge::config_test
-		Bksge::utility_test
+		Bksge::fnd_test
 		GTest::gtest
 		GTest::gtest_main)
     include(GoogleTest)
