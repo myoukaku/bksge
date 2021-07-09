@@ -36,7 +36,7 @@ set(SUBDIRECTORIES
 	list
 	map
 	memory
-#	numbers
+	numbers
 	numeric
 	optional
 	preprocessor
