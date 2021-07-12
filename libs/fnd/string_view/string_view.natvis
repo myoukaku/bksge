@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+	<Type Name="bksge::basic_string_view&lt;*,*&gt;">
+		<Intrinsic Name="GetSize" Expression="m_len" />
+		<Intrinsic Name="GetData" Expression="m_str" />
+		<DisplayString>{GetData(),[GetSize()]}</DisplayString>
+		<StringView>GetData(),[GetSize()]</StringView>
+		<Expand>
+			<Item Name="[size]" ExcludeView="simple">GetSize()</Item>
+			<ArrayItems>
+				<Size>GetSize()</Size>
+				<ValuePointer>GetData()</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+</AutoVisualizer>
