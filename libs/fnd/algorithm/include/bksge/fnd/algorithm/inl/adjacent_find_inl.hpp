@@ -33,16 +33,16 @@ adjacent_find(
 {
 	if (first != last)
 	{
-		auto next = first;
+		auto next_it = first;
 
-		while (++next != last)
+		while (++next_it != last)
 		{
-			if (pred(*first, *next))
+			if (pred(*first, *next_it))
 			{
 				return first;
 			}
 
-			first = next;
+			first = next_it;
 		}
 	}
 

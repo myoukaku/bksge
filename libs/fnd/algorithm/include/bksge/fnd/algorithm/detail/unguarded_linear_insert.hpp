@@ -28,14 +28,14 @@ unguarded_linear_insert(RandomAccessIterator last, Compare comp)
 {
 	using value_t = bksge::iter_value_t<RandomAccessIterator>;
 	value_t val = bksge::move(*last);
-	auto next = last;
-	--next;
+	auto next_it = last;
+	--next_it;
 
-	while (comp(val, *next))
+	while (comp(val, *next_it))
 	{
-		*last = bksge::move(*next);
-		last = next;
-		--next;
+		*last = bksge::move(*next_it);
+		last = next_it;
+		--next_it;
 	}
 
 	*last = bksge::move(val);

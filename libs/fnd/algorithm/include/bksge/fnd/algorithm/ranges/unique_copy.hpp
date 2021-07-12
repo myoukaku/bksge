@@ -57,20 +57,20 @@ private:
 	impl(Iter first, Sent last, Out result, Comp comp, Proj proj,
 		bksge::detail::overload_priority<2>)
 	{
-		auto next = first;
-		*result = *next;
-		while (++next != last)
+		auto next_it = first;
+		*result = *next_it;
+		while (++next_it != last)
 		{
 			if (!bksge::invoke(comp,
 				bksge::invoke(proj, *first),
-				bksge::invoke(proj, *next)))
+				bksge::invoke(proj, *next_it)))
 			{
-				first = next;
+				first = next_it;
 				*++result = *first;
 			}
 		}
 
-		return { next, bksge::move(++result) };
+		return { next_it, bksge::move(++result) };
 	}
 
 	template <

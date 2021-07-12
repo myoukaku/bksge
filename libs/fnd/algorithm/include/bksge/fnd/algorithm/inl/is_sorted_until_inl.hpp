@@ -36,16 +36,16 @@ is_sorted_until(
 {
 	if (first != last)
 	{
-		auto next = first;
+		auto next_it = first;
 
-		while (++next != last)
+		while (++next_it != last)
 		{
-			if (comp(*next, *first))
+			if (comp(*next_it, *first))
 			{
-				return next;
+				return next_it;
 			}
 
-			first = next;
+			first = next_it;
 		}
 	}
 
