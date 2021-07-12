@@ -11,6 +11,9 @@
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
+BKSGE_WARNING_PUSH();
+BKSGE_WARNING_DISABLE_MSVC(4307);	// 整数定数がオーバーフローしました。
+
 namespace bksge_hash_functions_test
 {
 
@@ -212,3 +215,5 @@ GTEST_TEST(HashTest, SipHashTest)
 }	// namespace sip_hash_test
 
 }	// namespace bksge_hash_functions_test
+
+BKSGE_WARNING_POP();
