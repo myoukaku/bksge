@@ -1,6 +1,9 @@
 ﻿cmake_minimum_required(VERSION 3.14)
 
-set(TARGET_NAME "bksge_input")
+set(TARGET_NAME_BASE input)
+
+set(TARGET_NAME bksge_${TARGET_NAME_BASE})
+set(TARGET_ALIAS_NAME Bksge::${TARGET_NAME_BASE})
 
 if (TARGET ${TARGET_NAME})
 	RETURN()
@@ -9,7 +12,7 @@ endif()
 project(${TARGET_NAME} LANGUAGES C CXX)
 
 add_library(${TARGET_NAME} STATIC)
-add_library(Bksge::input ALIAS ${TARGET_NAME})
+add_library(${TARGET_ALIAS_NAME} ALIAS ${TARGET_NAME})
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../fnd ${CMAKE_CURRENT_BINARY_DIR}/fnd)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../core/math ${CMAKE_CURRENT_BINARY_DIR}/math)
@@ -106,10 +109,21 @@ if(BKSGE_UNITY_BUILD)
   set_target_properties(${TARGET_NAME} PROPERTIES UNITY_BUILD ON)
 endif()
 
+add_subdirectory(test)
+
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
   if(BKSGE_BUILD_TESTING)
     enable_testing()
-    add_subdirectory(test)
+    option(BUILD_GMOCK "Builds the googlemock subproject" OFF)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../../externals/googletest ${CMAKE_CURRENT_BINARY_DIR}/googletest)
+	add_executable(unit_test)
+	target_link_libraries(unit_test
+	  PRIVATE
+		Bksge::${TARGET_NAME_BASE}_test
+		GTest::gtest
+		GTest::gtest_main)
+    include(GoogleTest)
+    gtest_discover_tests(unit_test)
   endif()
 
   if(BKSGE_BUILD_SAMPLES)
