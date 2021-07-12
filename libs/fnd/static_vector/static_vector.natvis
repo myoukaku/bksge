@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+	<Type Name="bksge::static_vector&lt;*,*&gt;">
+		<Intrinsic Name="GetSize" Expression="(size_t)(m_end - m_begin)" />
+		<Intrinsic Name="GetCapacity" Expression="$T2" />
+		<Intrinsic Name="GetData" Expression="m_begin" />
+		<DisplayString>{{ size={GetSize()} }}</DisplayString>
+		<Expand>
+			<Item Name="[capacity]" ExcludeView="simple">GetCapacity()</Item>
+			<Item Name="[allocator]" ExcludeView="simple">m_allocator</Item>
+			<ArrayItems>
+				<Size>GetSize()</Size>
+				<ValuePointer>GetData()</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+</AutoVisualizer>
