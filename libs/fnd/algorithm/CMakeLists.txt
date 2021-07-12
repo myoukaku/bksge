@@ -14,6 +14,10 @@ project(${TARGET_NAME} LANGUAGES C CXX)
 add_library(${TARGET_NAME} INTERFACE)
 add_library(${TARGET_ALIAS_NAME} ALIAS ${TARGET_NAME})
 
+option(BKSGE_BUILD_TESTING "Build tests" ON)
+option(BKSGE_BUILD_SAMPLES "Build samples" ON)
+option(BKSGE_COVERAGE "Coverage" OFF)
+
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../bit ${CMAKE_CURRENT_BINARY_DIR}/bit)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../concepts ${CMAKE_CURRENT_BINARY_DIR}/concepts)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../config ${CMAKE_CURRENT_BINARY_DIR}/config)
@@ -48,11 +52,6 @@ target_link_libraries(${TARGET_NAME}
 		Bksge::vector)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-
-option(BKSGE_UNITY_BUILD "Use Unity Builds" OFF)
-option(BKSGE_BUILD_TESTING "Build tests" ON)
-option(BKSGE_BUILD_SAMPLES "Build samples" ON)
-option(BKSGE_COVERAGE "Coverage" OFF)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)

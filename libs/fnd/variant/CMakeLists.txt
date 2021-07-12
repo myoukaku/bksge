@@ -41,7 +41,6 @@ target_link_libraries(${TARGET_NAME}
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-option(BKSGE_UNITY_BUILD "Use Unity Builds" OFF)
 option(BKSGE_BUILD_TESTING "Build tests" ON)
 option(BKSGE_BUILD_SAMPLES "Build samples" ON)
 option(BKSGE_COVERAGE "Coverage" OFF)

@@ -12,10 +12,6 @@ file(GLOB_RECURSE test_sources CONFIGURE_DEPENDS src/*)
 
 target_sources(${TARGET_NAME} INTERFACE ${test_sources})
 
-if(BKSGE_UNITY_BUILD)
-  set_target_properties(${TARGET_NAME} PROPERTIES UNITY_BUILD ON)
-endif()
-
 target_include_directories(${TARGET_NAME} INTERFACE src)
 
 target_link_libraries(${TARGET_NAME} INTERFACE Bksge::${TARGET_NAME_BASE})

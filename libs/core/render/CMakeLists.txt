@@ -28,7 +28,6 @@ target_link_libraries(${TARGET_NAME}
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-option(BKSGE_UNITY_BUILD "Use Unity Builds" OFF)
 option(BKSGE_BUILD_TESTING "Build tests" ON)
 option(BKSGE_BUILD_SAMPLES "Build samples" ON)
 option(BKSGE_COVERAGE "Coverage" OFF)
@@ -108,10 +107,6 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   target_compile_options(${TARGET_NAME} PRIVATE -Wall -Wextra -Werror -Wno-missing-field-initializers)
-endif()
-
-if(BKSGE_UNITY_BUILD)
-  set_target_properties(${TARGET_NAME} PROPERTIES UNITY_BUILD ON)
 endif()
 
 find_package(OpenGL REQUIRED)

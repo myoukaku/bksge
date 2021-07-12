@@ -37,6 +37,7 @@ jobs:
             -B "$BUILD_DIR" \
             -G "${{matrix.config.generator}}" \
             -A "${{matrix.architecture}}" \
+            -DCMAKE_UNITY_BUILD="ON" \
             -DCMAKE_CXX_STANDARD="${{matrix.cxx_standard}}" \
             -DCMAKE_BUILD_TYPE="${{matrix.build_type}}"
       - name: Build
@@ -66,6 +67,7 @@ jobs:
         run: |
           cmake "$SRC_DIR" \
             -B "$BUILD_DIR" \
+            -DCMAKE_UNITY_BUILD="ON" \
             -DCMAKE_CXX_COMPILER=${{matrix.compiler.cxx}} \
             -DCMAKE_C_COMPILER=${{matrix.compiler.cc}} \
             -DCMAKE_CXX_STANDARD=${{matrix.cxx_standard}} \
@@ -93,6 +95,7 @@ jobs:
         run: |
           cmake "${SRC_DIR}" \
             -B "$BUILD_DIR" \
+            -DCMAKE_UNITY_BUILD="ON" \
             -DCMAKE_CXX_COMPILER=${{matrix.compiler.cxx}} \
             -DCMAKE_C_COMPILER=${{matrix.compiler.cc}} \
             -DCMAKE_CXX_STANDARD=${{matrix.cxx_standard}} \

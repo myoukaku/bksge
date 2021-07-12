@@ -10,7 +10,6 @@ add_library(${TARGET_ALIAS_NAME} ALIAS ${TARGET_NAME})
 
 set_target_properties(${TARGET_NAME} PROPERTIES USE_FOLDERS ON)
 
-option(BKSGE_UNITY_BUILD "Use Unity Builds" OFF)
 option(BKSGE_BUILD_TESTING "Build tests" ON)
 option(BKSGE_BUILD_SAMPLES "Build samples" ON)
 option(BKSGE_COVERAGE "Coverage" OFF)
@@ -20,10 +19,6 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 if (BKSGE_COVERAGE)
   target_compile_options(${TARGET_NAME} PRIVATE --coverage)
-endif()
-
-if(BKSGE_UNITY_BUILD)
-  set_target_properties(${TARGET_NAME} PROPERTIES UNITY_BUILD ON)
 endif()
 
 add_subdirectory(libs)
