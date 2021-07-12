@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+	<Type Name="bksge::basic_static_string&lt;*,*&gt;">
+		<Intrinsic Name="GetSize" Expression="(size_t)(m_vec.m_end - m_vec.m_begin)" />
+		<Intrinsic Name="GetCapacity" Expression="$T2" />
+		<Intrinsic Name="GetData" Expression="m_vec.m_begin" />
+		<DisplayString>{GetData()}</DisplayString>
+		<StringView>GetData()</StringView>
+		<Expand>
+			<Item Name="[size]" ExcludeView="simple">GetSize()</Item>
+			<Item Name="[capacity]" ExcludeView="simple">GetCapacity()</Item>
+			<Item Name="[allocator]" ExcludeView="simple">m_vec.m_allocator</Item>
+			<ArrayItems>
+				<Size>GetSize()</Size>
+				<ValuePointer>GetData()</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+</AutoVisualizer>
