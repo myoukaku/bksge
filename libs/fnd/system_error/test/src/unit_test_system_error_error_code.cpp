@@ -178,13 +178,13 @@ GTEST_TEST(ErrorCodeTest, LtTest)
 GTEST_TEST(ErrorCodeTest, CompareTest)
 {
 	bksge::error_code e_code1(5, bksge::generic_category());
-	bksge::error_code e_code2(5, bksge::system_category());
-	bksge::error_code e_code3(6, bksge::generic_category());
-	bksge::error_code e_code4(6, bksge::system_category());
+	bksge::error_code e_code2(6, bksge::system_category());
+	bksge::error_code e_code3(7, bksge::generic_category());
+	bksge::error_code e_code4(8, bksge::system_category());
 	bksge::error_condition e_condition1(5, bksge::generic_category());
-	bksge::error_condition e_condition2(5, bksge::system_category());
-	bksge::error_condition e_condition3(6, bksge::generic_category());
-	bksge::error_condition e_condition4(6, bksge::system_category());
+	bksge::error_condition e_condition2(6, bksge::system_category());
+	bksge::error_condition e_condition3(7, bksge::generic_category());
+	bksge::error_condition e_condition4(8, bksge::system_category());
 
 	EXPECT_TRUE (e_code1 == e_code1);
 	EXPECT_FALSE(e_code1 == e_code2);
