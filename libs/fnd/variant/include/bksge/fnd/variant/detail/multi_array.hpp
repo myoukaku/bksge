@@ -97,14 +97,15 @@ private:
 	using T = Ret(*)(Visitor, Variants...);
 
 public:
+	MultiArray<T, Rest...> m_arr[First + DoCookie];
+
 	template <typename... Args>
-	constexpr decltype(auto)
+	constexpr auto
 	access(bksge::size_t first_index, Args... rest_indices) const
+	->decltype(m_arr[first_index + DoCookie].access(rest_indices...))
 	{
 		return m_arr[first_index + DoCookie].access(rest_indices...);
 	}
-
-	MultiArray<T, Rest...> m_arr[First + DoCookie];
 };
 
 }	// namespace variant_detail

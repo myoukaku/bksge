@@ -18,7 +18,6 @@
 #include <bksge/fnd/type_traits/is_lvalue_reference.hpp>
 #include <bksge/fnd/type_traits/remove_reference.hpp>
 #include <bksge/fnd/utility/forward.hpp>
-#include <bksge/fnd/utility/in_place_index.hpp>
 
 namespace bksge
 {
@@ -30,21 +29,21 @@ class variant_access
 {
 private:
 	template <typename... Types, typename T, typename = bksge::enable_if_t<!bksge::is_lvalue_reference<T>::value>>
-	static decltype(auto)
+	static variant<Types...>&&
 	variant_cast_impl(T&& rhs, bksge::detail::overload_priority<2>)
 	{
 		return static_cast<variant<Types...>&&>(rhs);
 	}
 
 	template <typename... Types, typename T, typename = bksge::enable_if_t<bksge::is_const<bksge::remove_reference_t<T>>::value>>
-	static decltype(auto)
+	static variant<Types...> const&
 	variant_cast_impl(T&& rhs, bksge::detail::overload_priority<1>)
 	{
 		return static_cast<variant<Types...> const&>(rhs);
 	}
 
 	template <typename... Types, typename T>
-	static decltype(auto)
+	static variant<Types...>&
 	variant_cast_impl(T&& rhs, bksge::detail::overload_priority<0>)
 	{
 		return static_cast<variant<Types...>&>(rhs);
@@ -52,32 +51,46 @@ private:
 
 public:
 	template <typename... Types, typename T>
-	static decltype(auto)
+	static auto
 	variant_cast(T&& rhs)
+	->decltype(variant_cast_impl<Types...>(bksge::forward<T>(rhs), bksge::detail::overload_priority<2>{}))
 	{
 		return variant_cast_impl<Types...>(bksge::forward<T>(rhs), bksge::detail::overload_priority<2>{});
 	}
 
-	template <typename Union>
-	static constexpr decltype(auto)
-	get_impl(bksge::in_place_index_t<0>, Union&& u) noexcept
+private:
+	template <bksge::size_t N, typename Dummy = void> // Dummy for avoid explicit specialization in class scope
+	struct get_impl_t
 	{
-		return bksge::forward<Union>(u).m_first.get();
-	}
+		template <typename Union>
+		constexpr auto
+		operator()(Union&& u) const noexcept
+		->decltype(get_impl_t<N-1>{}(bksge::forward<Union>(u).m_rest))
+		{
+			return get_impl_t<N-1>{}(bksge::forward<Union>(u).m_rest);
+		}
+	};
 
-	template <bksge::size_t N, typename Union>
-	static constexpr decltype(auto)
-	get_impl(bksge::in_place_index_t<N>, Union&& u) noexcept
+	template <typename Dummy>
+	struct get_impl_t<0, Dummy>
 	{
-		return get_impl(bksge::in_place_index_t<N-1>{}, bksge::forward<Union>(u).m_rest);
-	}
+		template <typename Union>
+		constexpr auto
+		operator()(Union&& u) const noexcept
+		->decltype(bksge::forward<Union>(u).m_first.get())
+		{
+			return bksge::forward<Union>(u).m_first.get();
+		}
+	};
 
+public:
 	// Returns the typed storage for v.
 	template <bksge::size_t N, typename Variant>
-	static constexpr decltype(auto)
+	static constexpr auto
 	get_impl(Variant&& v) noexcept
+	->decltype(get_impl_t<N>{}(bksge::forward<Variant>(v).m_u))
 	{
-		return get_impl(bksge::in_place_index_t<N>{}, bksge::forward<Variant>(v).m_u);
+		return get_impl_t<N>{}(bksge::forward<Variant>(v).m_u);
 	}
 
 	template <bksge::size_t N, typename Variant, typename... Args>

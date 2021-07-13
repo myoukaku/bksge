@@ -143,76 +143,95 @@ private:
 	using ArrayType = variant_detail::MultiArray<ResultType (*)(Visitor, Variants...)>;
 
 	template <bksge::size_t Index, typename Variant, typename = bksge::enable_if_t<Index != bksge::variant_npos>>
-	static constexpr decltype(auto)
+	static constexpr auto
 	element_by_index_or_cookie_impl(Variant&& var, bksge::detail::overload_priority<1>) noexcept
+	->decltype(variant_detail::variant_access::get_impl<Index>(bksge::forward<Variant>(var)))
 	{
 		return variant_detail::variant_access::get_impl<Index>(bksge::forward<Variant>(var));
 	}
 
 	template <bksge::size_t Index, typename Variant>
-	static constexpr decltype(auto)
+	static constexpr variant_detail::VariantCookie
 	element_by_index_or_cookie_impl(Variant&& , bksge::detail::overload_priority<0>) noexcept
 	{
 		return variant_detail::VariantCookie{};
 	}
 
 	template <bksge::size_t Index, typename Variant>
-	static constexpr decltype(auto)
+	static constexpr auto
 	element_by_index_or_cookie(Variant&& var) noexcept
+	->decltype(element_by_index_or_cookie_impl<Index>(
+			bksge::forward<Variant>(var), bksge::detail::overload_priority<1>{}))
 	{
 		return element_by_index_or_cookie_impl<Index>(
 			bksge::forward<Variant>(var), bksge::detail::overload_priority<1>{});
 	}
 
+	template <typename R = ResultType, bool = ArrayType::result_is_deduced>
+	struct visit_invoke_impl;
+
 	// ResultType == VariantIdxCookie
-	template <typename R = ResultType, typename = bksge::enable_if_t<bksge::is_same<R, variant_detail::VariantIdxCookie>::value>>
-	static constexpr decltype(auto)
-	visit_invoke_impl(Visitor&& visitor, Variants... vars, bksge::detail::overload_priority<3>)
+	template <>
+	struct visit_invoke_impl<VariantIdxCookie, false>
 	{
-		// For raw visitation using indices, pass the indices to the visitor
-		// and discard the return value:
-		bksge::invoke(bksge::forward<Visitor>(visitor),
-			element_by_index_or_cookie<Indices>(bksge::forward<Variants>(vars))...,
-			bksge::integral_constant<bksge::size_t, Indices>()...);
-	}
+		constexpr void operator()(Visitor&& visitor, Variants... vars) const
+		{
+			// For raw visitation using indices, pass the indices to the visitor
+			// and discard the return value:
+			bksge::invoke(bksge::forward<Visitor>(visitor),
+				element_by_index_or_cookie<Indices>(bksge::forward<Variants>(vars))...,
+				bksge::integral_constant<bksge::size_t, Indices>()...);
+		}
+	};
 
 	// ResultType == VariantCookie
-	template <typename R = ResultType, typename = bksge::enable_if_t<bksge::is_same<R, variant_detail::VariantCookie>::value>>
-	static constexpr decltype(auto)
-	visit_invoke_impl(Visitor&& visitor, Variants... vars, bksge::detail::overload_priority<2>)
+	template <>
+	struct visit_invoke_impl<VariantCookie, false>
 	{
-		// For raw visitation without indices, and discard the return value:
-		bksge::invoke(bksge::forward<Visitor>(visitor),
-			element_by_index_or_cookie<Indices>(bksge::forward<Variants>(vars))...);
-	}
+		constexpr void operator()(Visitor&& visitor, Variants... vars) const
+		{
+			// For raw visitation without indices, and discard the return value:
+			bksge::invoke(bksge::forward<Visitor>(visitor),
+				element_by_index_or_cookie<Indices>(bksge::forward<Variants>(vars))...);
+		}
+	};
 
 	// ArrayType::result_is_deduced
-	template <typename A = ArrayType, typename = bksge::enable_if_t<A::result_is_deduced>>
-	static constexpr decltype(auto)
-	visit_invoke_impl(Visitor&& visitor, Variants... vars, bksge::detail::overload_priority<1>)
+	template <typename R>
+	struct visit_invoke_impl<R, true>
 	{
-		// For the usual std::visit case deduce the return value:
-		return bksge::invoke(bksge::forward<Visitor>(visitor),
-			element_by_index_or_cookie<Indices>(bksge::forward<Variants>(vars))...);
-	}
+		constexpr decltype(auto) operator()(Visitor&& visitor, Variants... vars) const
+		{
+			// For the usual std::visit case deduce the return value:
+			return bksge::invoke(bksge::forward<Visitor>(visitor),
+				element_by_index_or_cookie<Indices>(bksge::forward<Variants>(vars))...);
+		}
+	};
 
 	// else std::visit<R> use INVOKE<R>
-	static constexpr decltype(auto)
-	visit_invoke_impl(Visitor&& visitor, Variants... vars, bksge::detail::overload_priority<0>)
+	template <typename R>
+	struct visit_invoke_impl<R, false>
 	{
-		//return std::__invoke_r<ResultType>(
-		return bksge::invoke(bksge::forward<Visitor>(visitor),
-			variant_detail::variant_access::get_impl<Indices>(bksge::forward<Variants>(vars))...);
+		constexpr ResultType operator()(Visitor&& visitor, Variants... vars) const
+		{
+			//return std::__invoke_r<ResultType>(
+			return bksge::invoke(bksge::forward<Visitor>(visitor),
+				variant_detail::variant_access::get_impl<Indices>(bksge::forward<Variants>(vars))...);
+		}
+	};
+
+	static constexpr auto
+	visit_invoke(Visitor&& visitor, Variants... vars)
+	->decltype(visit_invoke_impl<>{}(
+			bksge::forward<Visitor>(visitor),
+			bksge::forward<Variants>(vars)...))
+	{
+		return visit_invoke_impl<>{}(
+			bksge::forward<Visitor>(visitor),
+			bksge::forward<Variants>(vars)...);
 	}
 
-	static constexpr decltype(auto)
-	visit_invoke(Visitor&& visitor, Variants... vars)
-	{
-		return visit_invoke_impl(
-			bksge::forward<Visitor>(visitor),
-			bksge::forward<Variants>(vars)...,
-			bksge::detail::overload_priority<3>{});
-	}
+	struct cannot_match {};
 
 	template <
 		typename A = ArrayType,
@@ -225,14 +244,13 @@ private:
 			>::value
 		>
 	>
-	static constexpr auto
+	static constexpr cannot_match
 	apply_impl(bksge::detail::overload_priority<1>)
 	{
-		struct cannot_match {};
 		return cannot_match{};
 	}
 
-	static constexpr auto
+	static constexpr ArrayType
 	apply_impl(bksge::detail::overload_priority<0>)
 	{
 		return ArrayType{&visit_invoke};
@@ -240,6 +258,7 @@ private:
 
 public:
 	static constexpr auto apply()
+	->decltype(apply_impl(bksge::detail::overload_priority<1>{}))
 	{
 		return apply_impl(bksge::detail::overload_priority<1>{});
 	}

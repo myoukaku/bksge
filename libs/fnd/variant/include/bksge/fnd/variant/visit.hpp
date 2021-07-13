@@ -49,24 +49,26 @@ namespace variant_detail
 template <typename T, typename... Types>
 struct same_types : public bksge::conjunction<bksge::is_same<T, Types>...> {};
 
-template <bksge::size_t Idx, typename Visitor, typename Variant>
-decltype(auto)
-check_visitor_result(Visitor&& vis, Variant&& var)
-{
-	return bksge::invoke(bksge::forward<Visitor>(vis), bksge::get<Idx>(bksge::forward<Variant>(var)));
-}
-
 template <typename Visitor, typename Variant, bksge::size_t... Idxs>
 constexpr bool check_visitor_results(bksge::index_sequence<Idxs...>)
 {
-	return same_types<decltype(check_visitor_result<Idxs>(
-		bksge::declval<Visitor>(),
-		bksge::declval<Variant>()))...>::value;
+	return same_types<bksge::invoke_result_t<
+		Visitor, decltype(bksge::get<Idxs>(bksge::declval<Variant>()))>...>::value;
 }
+
+template <typename Visitor, typename... Variants>
+struct VisitResult
+{
+	using type = bksge::invoke_result_t<Visitor,
+		decltype(bksge::get<0>(bksge::declval<Variants>()))...>;
+};
+
+template <typename Visitor, typename... Variants>
+using VisitResultT = typename VisitResult<Visitor, Variants...>::type;
 
 // sizeof...(Variants) != 1
 template <typename Visitor, typename... Variants>
-constexpr decltype(auto)
+constexpr VisitResultT<Visitor, Variants...>
 visit_impl(bksge::false_type, Visitor&& visitor, Variants&&... variants)
 {
 	using ResultType = bksge::invoke_result_t<Visitor,
@@ -81,7 +83,7 @@ visit_impl(bksge::false_type, Visitor&& visitor, Variants&&... variants)
 
 // sizeof...(Variants) == 1
 template <typename Visitor, typename... Variants>
-constexpr decltype(auto)
+constexpr VisitResultT<Visitor, Variants...>
 visit_impl(bksge::true_type, Visitor&& visitor, Variants&&... variants)
 {
 	constexpr bool visit_rettypes_match =
@@ -101,7 +103,7 @@ visit_impl(bksge::true_type, Visitor&& visitor, Variants&&... variants)
 }	// namespace variant_detail
 
 template <typename Visitor, typename... Variants>
-constexpr decltype(auto)
+constexpr variant_detail::VisitResultT<Visitor, Variants...>
 visit(Visitor&& visitor, Variants&&... variants)
 {
 	if (bksge::tpp::any_of(variants.valueless_by_exception()...))
