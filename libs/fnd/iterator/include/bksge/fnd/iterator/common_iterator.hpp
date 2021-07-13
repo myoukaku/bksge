@@ -272,9 +272,12 @@ public:
 		return *m_it;
 	}
 
+private:
+	using deref_type = decltype((*m_it));
+
+public:
 	template <BKSGE_REQUIRES_PARAM_D(bksge::detail::dereferenceable, It2, It const)>
-	auto operator*() const
-	->decltype((*m_it))
+	deref_type operator*() const
 	{
 		BKSGE_ASSERT(m_index == 0);
 		return *m_it;
