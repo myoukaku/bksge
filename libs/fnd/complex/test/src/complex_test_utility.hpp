@@ -14,6 +14,8 @@
 #include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/cmath/fabs.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
+#include <bksge/fnd/cmath/isinf.hpp>
+#include <bksge/fnd/cmath/signbit.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge_complex_test
@@ -23,7 +25,10 @@ template <BKSGE_REQUIRES_PARAM(bksge::floating_point, T)>
 inline BKSGE_CXX14_CONSTEXPR bool
 IsNear(T lhs, T rhs, double error)
 {
-	return bksge::fabs(lhs - rhs) <= error;
+	return
+		(bksge::isnan(lhs) && bksge::isnan(rhs)) ||
+		(bksge::isinf(lhs) && bksge::isinf(rhs) && bksge::signbit(lhs) == bksge::signbit(rhs)) ||
+		bksge::fabs(lhs - rhs) <= error;
 }
 
 template <typename T>

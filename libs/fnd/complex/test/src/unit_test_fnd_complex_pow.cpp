@@ -116,8 +116,8 @@ void PowTest(double error)
 GTEST_TEST(ComplexTest, PowTest)
 {
 	PowTest<float>      (0.00001);
-	PowTest<double>     (0.000000000000001);
-	PowTest<long double>(0.000000000000001);
+	PowTest<double>     (0.00000000000001);
+	PowTest<long double>(0.00000000000001);
 }
 
 }	// namespace pow_test

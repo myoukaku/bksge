@@ -899,26 +899,6 @@ inline BKSGE_CONSTEXPR
 complex<double>::complex(complex<long double> const& other)
 	: base{static_cast<double>(other.real()), static_cast<double>(other.imag())} {}
 
-// Inhibit implicit instantiations for required instantiations,
-// which are defined via explicit instantiations elsewhere.
-// NB:  This syntax is a GNU extension.
-#if _GLIBCXX_EXTERN_TEMPLATE
-extern template istream& operator>>(istream&, complex<float>&);
-extern template ostream& operator<<(ostream&, complex<float> const&);
-extern template istream& operator>>(istream&, complex<double>&);
-extern template ostream& operator<<(ostream&, complex<double> const&);
-extern template istream& operator>>(istream&, complex<long double>&);
-extern template ostream& operator<<(ostream&, complex<long double> const&);
-
-extern template wistream& operator>>(wistream&, complex<float>&);
-extern template wostream& operator<<(wostream&, complex<float> const&);
-extern template wistream& operator>>(wistream&, complex<double>&);
-extern template wostream& operator<<(wostream&, complex<double> const&);
-extern template wistream& operator>>(wistream&, complex<long double>&);
-extern template wostream& operator<<(wostream&, complex<long double> const&);
-#endif
-
-
 template <typename T>
 inline BKSGE_CONSTEXPR T
 real(complex<T> const& z)

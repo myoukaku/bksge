@@ -52,23 +52,19 @@ void Log10Test(double error)
 	}
 	{
 		auto z = complex(min, min);
-		EXPECT_EQ(bksge::log10(z), bksge::log(z)/bksge::log(T(10)));
-		//EXPECT_TRUE(IsNear(bksge::log10(z), bksge::log(z)/bksge::log(T(10)), error));
+		EXPECT_TRUE(IsNear(bksge::log10(z), bksge::log(z)/bksge::log(T(10)), error));
 	}
 	{
 		auto z = complex(min, max);
-		EXPECT_EQ(bksge::log10(z), bksge::log(z)/bksge::log(T(10)));
-		//EXPECT_TRUE(IsNear(bksge::log10(z), bksge::log(z)/bksge::log(T(10)), error));
+		EXPECT_TRUE(IsNear(bksge::log10(z), bksge::log(z)/bksge::log(T(10)), error));
 	}
 	{
 		auto z = complex(max, min);
-		EXPECT_EQ(bksge::log10(z), bksge::log(z)/bksge::log(T(10)));
-		//EXPECT_TRUE(IsNear(bksge::log10(z), bksge::log(z)/bksge::log(T(10)), error));
+		EXPECT_TRUE(IsNear(bksge::log10(z), bksge::log(z)/bksge::log(T(10)), error));
 	}
 	{
 		auto z = complex(max, max);
-		EXPECT_EQ(bksge::log10(z), bksge::log(z)/bksge::log(T(10)));
-		//EXPECT_TRUE(IsNear(bksge::log10(z), bksge::log(z)/bksge::log(T(10)), error));
+		EXPECT_TRUE(IsNear(bksge::log10(z), bksge::log(z)/bksge::log(T(10)), error));
 	}
 }
 
