@@ -61,14 +61,16 @@ protected:
 	// The get operations have m_engaged as a precondition.
 	BKSGE_CXX14_CONSTEXPR T& get() BKSGE_NOEXCEPT
 	{
-		BKSGE_ASSERT(this->is_engaged());
-		return static_cast<D*>(this)->m_payload.get();
+		return
+			BKSGE_ASSERT(this->is_engaged()),
+			static_cast<D*>(this)->m_payload.get();
 	}
 
 	BKSGE_CONSTEXPR T const& get() const BKSGE_NOEXCEPT
 	{
-		BKSGE_ASSERT(this->is_engaged());
-		return static_cast<D const*>(this)->m_payload.get();
+		return
+			BKSGE_ASSERT(this->is_engaged()),
+			static_cast<D const*>(this)->m_payload.get();
 	}
 };
 
