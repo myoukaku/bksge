@@ -29,7 +29,7 @@ struct VariantBase : public variant_detail::MoveAssignAlias<Types...>
 	constexpr
 	VariantBase()
 		noexcept(variant_detail::VariantTraits<Types...>::s_nothrow_default_ctor)
-		: VariantBase(bksge::in_place_index<0>)
+		: VariantBase(bksge::in_place_index_t<0>{})
 	{}
 
 	template <bksge::size_t N, typename... Args>

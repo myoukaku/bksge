@@ -69,7 +69,7 @@ public:
 	static constexpr decltype(auto)
 	get_impl(bksge::in_place_index_t<N>, Union&& u) noexcept
 	{
-		return get_impl(bksge::in_place_index<N-1>, bksge::forward<Union>(u).m_rest);
+		return get_impl(bksge::in_place_index_t<N-1>{}, bksge::forward<Union>(u).m_rest);
 	}
 
 	// Returns the typed storage for v.
@@ -77,7 +77,7 @@ public:
 	static constexpr decltype(auto)
 	get_impl(Variant&& v) noexcept
 	{
-		return get_impl(bksge::in_place_index<N>, bksge::forward<Variant>(v).m_u);
+		return get_impl(bksge::in_place_index_t<N>{}, bksge::forward<Variant>(v).m_u);
 	}
 
 	template <bksge::size_t N, typename Variant, typename... Args>

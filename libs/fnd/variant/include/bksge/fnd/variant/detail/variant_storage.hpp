@@ -25,6 +25,7 @@
 
 BKSGE_WARNING_PUSH();
 BKSGE_WARNING_DISABLE_MSVC(4702);	// unreachable code
+BKSGE_WARNING_DISABLE_MSVC(4309);	// 'static_cast': 定数値が切り捨てられました。
 
 namespace bksge
 {
@@ -48,7 +49,7 @@ struct VariantStorage<false, Types...>
 	template <bksge::size_t N, typename... Args>
 	constexpr
 	VariantStorage(bksge::in_place_index_t<N>, Args&&... args)
-		: m_u(bksge::in_place_index<N>, bksge::forward<Args>(args)...)
+		: m_u(bksge::in_place_index_t<N>{}, bksge::forward<Args>(args)...)
 		, m_index{N}
 	{}
 
@@ -97,7 +98,7 @@ struct VariantStorage<true, Types...>
 	template <bksge::size_t N, typename... Args>
 	constexpr
 	VariantStorage(bksge::in_place_index_t<N>, Args&&... args)
-		: m_u(bksge::in_place_index<N>, bksge::forward<Args>(args)...)
+		: m_u(bksge::in_place_index_t<N>{}, bksge::forward<Args>(args)...)
 		, m_index{N}
 	{}
 

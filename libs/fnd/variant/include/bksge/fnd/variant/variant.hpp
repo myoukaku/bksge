@@ -89,6 +89,7 @@ using std::variant;
 
 BKSGE_WARNING_PUSH();
 BKSGE_WARNING_DISABLE_MSVC(4702);	// unreachable code
+BKSGE_WARNING_DISABLE_MSVC(4309);	// 'static_cast': 定数値が切り捨てられました。
 
 namespace bksge
 {
@@ -165,21 +166,21 @@ public:
 	constexpr
 	variant(T&& t)
 		noexcept(bksge::is_nothrow_constructible<Tj, T>::value)
-		: variant(bksge::in_place_index<accepted_index<T>::value>, bksge::forward<T>(t))
+		: variant(bksge::in_place_index_t<accepted_index<T>::value>{}, bksge::forward<T>(t))
 	{}
 
 	template <typename T, typename... Args,
 		typename = bksge::enable_if_t<exactly_once<T>::value && bksge::is_constructible<T, Args...>::value>>
 	constexpr explicit
 	variant(bksge::in_place_type_t<T>, Args&&... args)
-		: variant(bksge::in_place_index<index_of<T>::value>, bksge::forward<Args>(args)...)
+		: variant(bksge::in_place_index_t<index_of<T>::value>{}, bksge::forward<Args>(args)...)
 	{}
 
 	template <typename T, typename U, typename... Args,
 		typename = bksge::enable_if_t<exactly_once<T>::value && bksge::is_constructible<T, std::initializer_list<U>&, Args...>::value>>
 	constexpr explicit
 	variant(bksge::in_place_type_t<T>, std::initializer_list<U> il, Args&&... args)
-		: variant(bksge::in_place_index<index_of<T>::value>, il, bksge::forward<Args>(args)...)
+		: variant(bksge::in_place_index_t<index_of<T>::value>{}, il, bksge::forward<Args>(args)...)
 	{}
 
 	template <bksge::size_t N, typename... Args,
@@ -187,7 +188,7 @@ public:
 		typename = bksge::enable_if_t<bksge::is_constructible<T, Args...>::value>>
 	constexpr explicit
 	variant(bksge::in_place_index_t<N>, Args&&... args)
-		: Base(bksge::in_place_index<N>, bksge::forward<Args>(args)...)
+		: Base(bksge::in_place_index_t<N>{}, bksge::forward<Args>(args)...)
 		, DefaultCtorEnabler(detail::enable_default_constructor_tag{})
 	{}
 
@@ -196,7 +197,7 @@ public:
 		typename = bksge::enable_if_t<bksge::is_constructible<T, std::initializer_list<U>&, Args...>::value>>
 	constexpr explicit
 	variant(bksge::in_place_index_t<N>, std::initializer_list<U> il, Args&&... args)
-		: Base(bksge::in_place_index<N>, il, bksge::forward<Args>(args)...)
+		: Base(bksge::in_place_index_t<N>{}, il, bksge::forward<Args>(args)...)
 		, DefaultCtorEnabler(detail::enable_default_constructor_tag{})
 	{}
 
@@ -294,7 +295,7 @@ private:
 	void emplace_impl(Args&&... args, bksge::detail::overload_priority<1>)
 	{
 		// This construction might throw:
-		variant tmp(bksge::in_place_index<N>, bksge::forward<Args>(args)...);
+		variant tmp(bksge::in_place_index_t<N>{}, bksge::forward<Args>(args)...);
 		// But NeverValuelessAlt<AltType> means this won't:
 		*this = bksge::move(tmp);
 	}

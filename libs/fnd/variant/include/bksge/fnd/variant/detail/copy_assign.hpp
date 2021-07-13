@@ -51,7 +51,7 @@ struct CopyAssignVisitor
 	constexpr void impl2(RhsMem&& rhs_mem, RhsIndex rhs_index, bksge::false_type)
 	{
 		variant_detail::variant_access::variant_cast<Types...>(*m_this) =
-			bksge::variant<Types...>(bksge::in_place_index<rhs_index>, rhs_mem);
+			bksge::variant<Types...>(bksge::in_place_index_t<rhs_index>{}, rhs_mem);
 	}
 
 	template <typename RhsMem, typename RhsIndex>
