@@ -130,7 +130,7 @@ void PiTest(double error)
 
 GTEST_TEST(NumbersTest, PiTest)
 {
-	PiTest<float>(0.0);
+	PiTest<float>(0.0000001);
 	PiTest<double>(0.0);
 	PiTest<long double>(0.0);
 }
