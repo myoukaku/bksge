@@ -120,7 +120,11 @@ inline bool test02()
 
 GTEST_TEST(AlgorithmTest, RangesNthElementTest)
 {
+#if defined(BKSGE_MSVC) && (BKSGE_MSVC < 1920)
+	EXPECT_TRUE(test01());
+#else
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(test01());
+#endif
 	EXPECT_TRUE(test02());
 }
 
