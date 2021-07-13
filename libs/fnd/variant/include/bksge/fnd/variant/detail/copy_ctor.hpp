@@ -35,6 +35,7 @@ struct CopyCtorBase : public variant_detail::VariantStorageAlias<Types...>
 
 	CopyCtorBase(CopyCtorBase const& rhs)
 		noexcept(variant_detail::VariantTraits<Types...>::s_nothrow_copy_ctor)
+		: Base()
 	{
 		variant_detail::variant_construct<Types...>(*this, rhs);
 	}
