@@ -21,7 +21,7 @@ namespace variant_detail
 
 // Visit variants that might be valueless.
 template <typename Visitor, typename... Variants>
-constexpr void
+inline BKSGE_CXX14_CONSTEXPR void
 raw_visit(Visitor&& visitor, Variants&&... variants)
 {
 	variant_detail::do_visit<variant_detail::VariantCookie>(

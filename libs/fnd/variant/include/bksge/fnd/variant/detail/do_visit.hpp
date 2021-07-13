@@ -34,7 +34,7 @@ struct do_visit_t
 			bksge::declval<Visitor>(),
 			bksge::declval<Variants>()...));
 
-	constexpr result_type operator()(Visitor&& visitor, Variants&&... variants) const
+	BKSGE_CXX14_CONSTEXPR result_type operator()(Visitor&& visitor, Variants&&... variants) const
 	{
 		constexpr auto& vtable = variant_detail::GenVtable<
 			ResultType, Visitor&&, Variants&&...>::s_vtable;
@@ -46,7 +46,7 @@ struct do_visit_t
 };
 
 template <typename ResultType, typename Visitor, typename... Variants>
-constexpr typename do_visit_t<ResultType, Visitor, Variants...>::result_type
+BKSGE_CXX14_CONSTEXPR typename do_visit_t<ResultType, Visitor, Variants...>::result_type
 do_visit(Visitor&& visitor, Variants&&... variants)
 {
 	return do_visit_t<ResultType, Visitor, Variants...>{}(

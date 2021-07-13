@@ -74,7 +74,7 @@ private:
 	using ArrayType = variant_detail::MultiArray<ResultType (*)(Visitor, Variants...), Dimensions...>;
 
 	template <bksge::size_t Index, typename T>
-	static constexpr void
+	static BKSGE_CXX14_CONSTEXPR void
 	apply_single_alt(T& element, T* cookie_element)
 	{
 		element         = GenVtableImpl<T, bksge::index_sequence<Indices..., Index>>::apply();
@@ -82,7 +82,7 @@ private:
 	}
 
 	template <bksge::size_t Index, typename T>
-	static constexpr void
+	static BKSGE_CXX14_CONSTEXPR void
 	apply_single_alt(T& element)
 	{
 		auto tmp_element = GenVtableImpl<
@@ -95,31 +95,31 @@ private:
 	}
 
 	template <bksge::size_t First, bksge::size_t... Rest>
-	static constexpr void
+	static BKSGE_CXX14_CONSTEXPR void
 	apply_all_alts(ArrayType& vtable, bksge::index_sequence<First, Rest...>, bksge::true_type)
 	{
 		apply_single_alt<First>(vtable.m_arr[First + 1], &(vtable.m_arr[0]));
 		apply_all_alts(vtable, bksge::index_sequence<Rest...>{}, bksge::true_type{});
 	}
 
-	static constexpr void
+	static BKSGE_CXX14_CONSTEXPR void
 	apply_all_alts(ArrayType&, bksge::index_sequence<>, bksge::true_type)
 	{}
 
 	template <bksge::size_t First, bksge::size_t... Rest>
-	static constexpr void
+	static BKSGE_CXX14_CONSTEXPR void
 	apply_all_alts(ArrayType& vtable, bksge::index_sequence<First, Rest...>, bksge::false_type)
 	{
 		apply_single_alt<First>(vtable.m_arr[First]);
 		apply_all_alts(vtable, bksge::index_sequence<Rest...>{}, bksge::false_type{});
 	}
 
-	static constexpr void
+	static BKSGE_CXX14_CONSTEXPR void
 	apply_all_alts(ArrayType&, bksge::index_sequence<>, bksge::false_type)
 	{}
 
 public:
-	static constexpr ArrayType
+	static BKSGE_CXX14_CONSTEXPR ArrayType
 	apply()
 	{
 		ArrayType vtable{};
@@ -143,7 +143,7 @@ private:
 	using ArrayType = variant_detail::MultiArray<ResultType (*)(Visitor, Variants...)>;
 
 	template <bksge::size_t Index, typename Variant, typename = bksge::enable_if_t<Index != bksge::variant_npos>>
-	static constexpr auto
+	static BKSGE_CXX14_CONSTEXPR auto
 	element_by_index_or_cookie_impl(Variant&& var, bksge::detail::overload_priority<1>) noexcept
 	->decltype(variant_detail::variant_access::get_impl<Index>(bksge::forward<Variant>(var)))
 	{
@@ -151,14 +151,14 @@ private:
 	}
 
 	template <bksge::size_t Index, typename Variant>
-	static constexpr variant_detail::VariantCookie
+	static BKSGE_CXX14_CONSTEXPR variant_detail::VariantCookie
 	element_by_index_or_cookie_impl(Variant&& , bksge::detail::overload_priority<0>) noexcept
 	{
 		return variant_detail::VariantCookie{};
 	}
 
 	template <bksge::size_t Index, typename Variant>
-	static constexpr auto
+	static BKSGE_CXX14_CONSTEXPR auto
 	element_by_index_or_cookie(Variant&& var) noexcept
 	->decltype(element_by_index_or_cookie_impl<Index>(
 			bksge::forward<Variant>(var), bksge::detail::overload_priority<1>{}))
@@ -167,14 +167,14 @@ private:
 			bksge::forward<Variant>(var), bksge::detail::overload_priority<1>{});
 	}
 
-	template <typename R = ResultType, bool = ArrayType::result_is_deduced>
+	template <typename R = ResultType, bool = ArrayType::result_is_deduced, typename = void>
 	struct visit_invoke_impl;
 
 	// ResultType == VariantIdxCookie
-	template <>
-	struct visit_invoke_impl<VariantIdxCookie, false>
+	template <typename Dummy>
+	struct visit_invoke_impl<VariantIdxCookie, false, Dummy>
 	{
-		constexpr void operator()(Visitor&& visitor, Variants... vars) const
+		BKSGE_CXX14_CONSTEXPR void operator()(Visitor&& visitor, Variants... vars) const
 		{
 			// For raw visitation using indices, pass the indices to the visitor
 			// and discard the return value:
@@ -185,10 +185,10 @@ private:
 	};
 
 	// ResultType == VariantCookie
-	template <>
-	struct visit_invoke_impl<VariantCookie, false>
+	template <typename Dummy>
+	struct visit_invoke_impl<VariantCookie, false, Dummy>
 	{
-		constexpr void operator()(Visitor&& visitor, Variants... vars) const
+		BKSGE_CXX14_CONSTEXPR void operator()(Visitor&& visitor, Variants... vars) const
 		{
 			// For raw visitation without indices, and discard the return value:
 			bksge::invoke(bksge::forward<Visitor>(visitor),
@@ -197,10 +197,10 @@ private:
 	};
 
 	// ArrayType::result_is_deduced
-	template <typename R>
-	struct visit_invoke_impl<R, true>
+	template <typename R, typename Dummy>
+	struct visit_invoke_impl<R, true, Dummy>
 	{
-		constexpr decltype(auto) operator()(Visitor&& visitor, Variants... vars) const
+		BKSGE_CXX14_CONSTEXPR decltype(auto) operator()(Visitor&& visitor, Variants... vars) const
 		{
 			// For the usual std::visit case deduce the return value:
 			return bksge::invoke(bksge::forward<Visitor>(visitor),
@@ -209,10 +209,10 @@ private:
 	};
 
 	// else std::visit<R> use INVOKE<R>
-	template <typename R>
-	struct visit_invoke_impl<R, false>
+	template <typename R, typename Dummy>
+	struct visit_invoke_impl<R, false, Dummy>
 	{
-		constexpr ResultType operator()(Visitor&& visitor, Variants... vars) const
+		BKSGE_CXX14_CONSTEXPR ResultType operator()(Visitor&& visitor, Variants... vars) const
 		{
 			//return std::__invoke_r<ResultType>(
 			return bksge::invoke(bksge::forward<Visitor>(visitor),
@@ -220,7 +220,7 @@ private:
 		}
 	};
 
-	static constexpr auto
+	static BKSGE_CXX14_CONSTEXPR auto
 	visit_invoke(Visitor&& visitor, Variants... vars)
 	->decltype(visit_invoke_impl<>{}(
 			bksge::forward<Visitor>(visitor),
@@ -244,20 +244,20 @@ private:
 			>::value
 		>
 	>
-	static constexpr cannot_match
+	static BKSGE_CXX14_CONSTEXPR cannot_match
 	apply_impl(bksge::detail::overload_priority<1>)
 	{
 		return cannot_match{};
 	}
 
-	static constexpr ArrayType
+	static BKSGE_CXX14_CONSTEXPR ArrayType
 	apply_impl(bksge::detail::overload_priority<0>)
 	{
 		return ArrayType{&visit_invoke};
 	}
 
 public:
-	static constexpr auto apply()
+	static BKSGE_CXX14_CONSTEXPR auto apply()
 	->decltype(apply_impl(bksge::detail::overload_priority<1>{}))
 	{
 		return apply_impl(bksge::detail::overload_priority<1>{});
@@ -273,7 +273,7 @@ private:
 		bksge::variant_size<bksge::remove_reference_t<Variants>>::value...>;
 
 public:
-	static constexpr ArrayType
+	static BKSGE_CXX14_CONSTEXPR ArrayType
 	s_vtable = GenVtableImpl<ArrayType, bksge::index_sequence<>>::apply();
 };
 

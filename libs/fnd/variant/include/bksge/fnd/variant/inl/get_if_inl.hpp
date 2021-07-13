@@ -24,7 +24,7 @@ namespace bksge
 {
 
 template <bksge::size_t I, typename... Types>
-BKSGE_CONSTEXPR bksge::add_pointer_t<variant_alternative_t<I, variant<Types...>>>
+BKSGE_CXX14_CONSTEXPR bksge::add_pointer_t<variant_alternative_t<I, variant<Types...>>>
 get_if(variant<Types...>* pv) BKSGE_NOEXCEPT
 {
 	using alt_type = variant_alternative_t<I, variant<Types...>>;
@@ -39,7 +39,7 @@ get_if(variant<Types...>* pv) BKSGE_NOEXCEPT
 }
 
 template <bksge::size_t I, typename... Types>
-BKSGE_CONSTEXPR bksge::add_pointer_t<variant_alternative_t<I, variant<Types...>> const>
+BKSGE_CXX14_CONSTEXPR bksge::add_pointer_t<variant_alternative_t<I, variant<Types...>> const>
 get_if(variant<Types...> const* pv) BKSGE_NOEXCEPT
 {
 	using alt_type = variant_alternative_t<I, variant<Types...>>;

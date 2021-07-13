@@ -24,7 +24,7 @@ namespace bksge
 {
 
 template <bksge::size_t I, typename... Types>
-BKSGE_CONSTEXPR variant_alternative_t<I, variant<Types...>>&
+BKSGE_CXX14_CONSTEXPR variant_alternative_t<I, variant<Types...>>&
 get(variant<Types...>& v)
 {
 	static_assert(I < sizeof...(Types),
@@ -37,7 +37,7 @@ get(variant<Types...>& v)
 }
 
 template <bksge::size_t I, typename... Types>
-BKSGE_CONSTEXPR variant_alternative_t<I, variant<Types...>>&&
+BKSGE_CXX14_CONSTEXPR variant_alternative_t<I, variant<Types...>>&&
 get(variant<Types...>&& v)
 {
 	static_assert(I < sizeof...(Types),
@@ -50,7 +50,7 @@ get(variant<Types...>&& v)
 }
 
 template <bksge::size_t I, typename... Types>
-BKSGE_CONSTEXPR variant_alternative_t<I, variant<Types...>> const&
+BKSGE_CXX14_CONSTEXPR variant_alternative_t<I, variant<Types...>> const&
 get(variant<Types...> const& v)
 {
 	static_assert(I < sizeof...(Types),
@@ -63,7 +63,7 @@ get(variant<Types...> const& v)
 }
 
 template <bksge::size_t I, typename... Types>
-BKSGE_CONSTEXPR variant_alternative_t<I, variant<Types...>> const&&
+BKSGE_CXX14_CONSTEXPR variant_alternative_t<I, variant<Types...>> const&&
 get(variant<Types...> const&& v)
 {
 	static_assert(I < sizeof...(Types),

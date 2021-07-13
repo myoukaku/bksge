@@ -32,7 +32,7 @@ struct MoveAssignVisitor
 	MoveAssignBase<B, Types...>*	m_this;
 
 	template <typename RhsMem, typename RhsIndex>
-	constexpr void impl(RhsMem&& rhs_mem, RhsIndex rhs_index, bksge::true_type)
+	BKSGE_CXX14_CONSTEXPR void impl(RhsMem&& rhs_mem, RhsIndex rhs_index, bksge::true_type)
 	{
 		if (m_this->m_index == rhs_index)
 		{
@@ -45,13 +45,13 @@ struct MoveAssignVisitor
 	}
 
 	template <typename RhsMem, typename RhsIndex>
-	constexpr void impl(RhsMem&& /*rhs_mem*/, RhsIndex /*rhs_index*/, bksge::false_type)
+	BKSGE_CXX14_CONSTEXPR void impl(RhsMem&& /*rhs_mem*/, RhsIndex /*rhs_index*/, bksge::false_type)
 	{
 		m_this->reset();
 	}
 
 	template <typename RhsMem, typename RhsIndex>
-	constexpr void operator()(RhsMem&& rhs_mem, RhsIndex rhs_index)
+	BKSGE_CXX14_CONSTEXPR void operator()(RhsMem&& rhs_mem, RhsIndex rhs_index)
 	{
 		impl(bksge::forward<RhsMem>(rhs_mem), rhs_index,
 			bksge::bool_constant<rhs_index != bksge::variant_npos>{});

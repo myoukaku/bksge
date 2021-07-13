@@ -35,7 +35,7 @@ struct CopyAssignVisitor
 	CopyAssignBase<B, Types...>*	m_this;
 
 	template <typename RhsMem, typename RhsIndex>
-	constexpr void impl2(RhsMem&& rhs_mem, RhsIndex rhs_index, bksge::true_type)
+	BKSGE_CXX14_CONSTEXPR void impl2(RhsMem&& rhs_mem, RhsIndex rhs_index, bksge::true_type)
 	{
 		// The standard says this->emplace<rhs_type>(rhs_mem)
 		// should be used here, but destructive_copy is
@@ -48,14 +48,14 @@ struct CopyAssignVisitor
 	}
 
 	template <typename RhsMem, typename RhsIndex>
-	constexpr void impl2(RhsMem&& rhs_mem, RhsIndex rhs_index, bksge::false_type)
+	BKSGE_CXX14_CONSTEXPR void impl2(RhsMem&& rhs_mem, RhsIndex rhs_index, bksge::false_type)
 	{
 		variant_detail::variant_access::variant_cast<Types...>(*m_this) =
 			bksge::variant<Types...>(bksge::in_place_index_t<rhs_index>{}, rhs_mem);
 	}
 
 	template <typename RhsMem, typename RhsIndex>
-	constexpr void impl(RhsMem&& rhs_mem, RhsIndex rhs_index, bksge::true_type)
+	BKSGE_CXX14_CONSTEXPR void impl(RhsMem&& rhs_mem, RhsIndex rhs_index, bksge::true_type)
 	{
 		if (m_this->m_index == rhs_index)
 		{
@@ -71,13 +71,13 @@ struct CopyAssignVisitor
 	}
 
 	template <typename RhsMem, typename RhsIndex>
-	constexpr void impl(RhsMem&& /*rhs_mem*/, RhsIndex /*rhs_index*/, bksge::false_type)
+	BKSGE_CXX14_CONSTEXPR void impl(RhsMem&& /*rhs_mem*/, RhsIndex /*rhs_index*/, bksge::false_type)
 	{
 		m_this->reset();
 	}
 
 	template <typename RhsMem, typename RhsIndex>
-	constexpr void operator()(RhsMem&& rhs_mem, RhsIndex rhs_index)
+	BKSGE_CXX14_CONSTEXPR void operator()(RhsMem&& rhs_mem, RhsIndex rhs_index)
 	{
 		impl(bksge::forward<RhsMem>(rhs_mem), rhs_index,
 			bksge::bool_constant<rhs_index != bksge::variant_npos>{});
