@@ -115,8 +115,4 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     include(GoogleTest)
     gtest_discover_tests(unit_test)
   endif()
-
-  if(BKSGE_BUILD_SAMPLES)
-    add_subdirectory(samples)
-  endif()
 endif()
