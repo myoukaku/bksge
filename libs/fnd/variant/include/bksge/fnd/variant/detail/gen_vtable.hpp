@@ -167,7 +167,7 @@ private:
 			bksge::forward<Variant>(var), bksge::detail::overload_priority<1>{});
 	}
 
-	template <typename R = ResultType, bool = ArrayType::result_is_deduced, typename = void>
+	template <typename R, bool, typename>
 	struct visit_invoke_impl;
 
 	// ResultType == VariantIdxCookie
@@ -222,11 +222,11 @@ private:
 
 	static BKSGE_CXX14_CONSTEXPR auto
 	visit_invoke(Visitor&& visitor, Variants... vars)
-	->decltype(visit_invoke_impl<>{}(
+	->decltype(visit_invoke_impl<ResultType, ArrayType::result_is_deduced, void>{}(
 			bksge::forward<Visitor>(visitor),
 			bksge::forward<Variants>(vars)...))
 	{
-		return visit_invoke_impl<>{}(
+		return visit_invoke_impl<ResultType, ArrayType::result_is_deduced, void>{}(
 			bksge::forward<Visitor>(visitor),
 			bksge::forward<Variants>(vars)...);
 	}
