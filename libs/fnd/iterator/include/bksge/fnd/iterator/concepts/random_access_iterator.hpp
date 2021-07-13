@@ -75,7 +75,9 @@ private:
 	static auto test(int) -> bksge::conjunction<
 		bksge::same_as<T1, I2&>,
 		bksge::same_as<T2, I2>,
+#if !(defined(BKSGE_MSVC) && (BKSGE_MSVC < 1920))
 		bksge::same_as<T3, I2>,
+#endif
 		bksge::same_as<T4, I2&>,
 		bksge::same_as<T5, I2>,
 		bksge::same_as<T6, bksge::iter_reference_t<I2>>
