@@ -487,7 +487,7 @@ public:
 
 		if (n <= this->m_len)
 		{
-			pos = std::min(size_type(this->m_len - n), pos);
+			pos = bksge::min(size_type(this->m_len - n), pos);
 			do
 			{
 				if (traits_type::compare(this->m_str + pos, s, n) == 0)
