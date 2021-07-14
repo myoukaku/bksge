@@ -21,11 +21,11 @@ namespace swap_test
 
 struct ThrowOnMove
 {
-	BKSGE_CONSTEXPR ThrowOnMove(int x)                         noexcept(true) : n(x) {}
-	BKSGE_CONSTEXPR ThrowOnMove(ThrowOnMove const&)            noexcept(true)  = default;
-	BKSGE_CONSTEXPR ThrowOnMove(ThrowOnMove&&)                 noexcept(false) = default;
-	BKSGE_CONSTEXPR ThrowOnMove& operator=(ThrowOnMove const&) noexcept(true)  = default;
-	BKSGE_CONSTEXPR ThrowOnMove& operator=(ThrowOnMove&&)      noexcept(false) = default;
+	BKSGE_CONSTEXPR ThrowOnMove(int)                           noexcept(true)  : n() {}
+	BKSGE_CONSTEXPR ThrowOnMove(ThrowOnMove const&)            noexcept(true)  : n() {}
+	BKSGE_CONSTEXPR ThrowOnMove(ThrowOnMove&&)                 noexcept(false) : n() {}
+	BKSGE_CONSTEXPR ThrowOnMove& operator=(ThrowOnMove const&) noexcept(true)  {return *this;}
+	BKSGE_CONSTEXPR ThrowOnMove& operator=(ThrowOnMove&&)      noexcept(false) {return *this;}
 	int n;
 };
 
