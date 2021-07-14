@@ -159,7 +159,7 @@ void ExpintTest(double error)
 
 GTEST_TEST(CMathTest, ExpintTest)
 {
-	ExpintTest<float>      (0.0000001);
+	ExpintTest<float>      (0.00001);
 	ExpintTest<double>     (0.00000000000001);
 	ExpintTest<long double>(0.00000000000001);
 	ExpintTest<int>        (0.00000000000001);

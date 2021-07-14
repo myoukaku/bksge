@@ -346,7 +346,7 @@ void Ellint2TestInt()
 
 GTEST_TEST(CMathTest, Ellint2Test)
 {
-	Ellint2TestFloat<float,       float>      (0.000001);
+	Ellint2TestFloat<float,       float>      (0.0001);
 	Ellint2TestFloat<float,       double>     (0.000001);
 	Ellint2TestFloat<float,       long double>(0.000001);
 	Ellint2TestFloat<double,      float>      (0.000001);

@@ -87,7 +87,6 @@ void TgammaTestUnsignedInt(void)
 	/*BKSGE_CONSTEXPR_*/EXPECT_EQ(  6, bksge::tgamma(T( 4)));
 	/*BKSGE_CONSTEXPR_*/EXPECT_EQ( 24, bksge::tgamma(T( 5)));
 	/*BKSGE_CONSTEXPR_*/EXPECT_EQ(120, bksge::tgamma(T( 6)));
-	/*BKSGE_CONSTEXPR_*/EXPECT_EQ(720, bksge::tgamma(T( 7)));
 
 	BKSGE_CONSTEXPR_EXPECT_TRUE(bksge::isinf(bksge::tgamma(T( 0))));
 }

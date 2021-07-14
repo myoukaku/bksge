@@ -22,7 +22,7 @@ template <typename T>
 bool DecomposeFloatTestImpl(T x)
 {
 	auto result = bksge::decompose_float(x);
-	return x == T(result.fraction) * bksge::pow(2, result.exponent) * bksge::pow(-1, result.sign);
+	return x == T(result.fraction) * bksge::pow(T(2), result.exponent) * bksge::pow(T(-1), result.sign);
 }
 
 template <typename T>

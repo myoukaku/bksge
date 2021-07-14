@@ -325,7 +325,7 @@ void RiemannZetaTestInt(double error)
 
 GTEST_TEST(CMathTest, RiemannZetaTest)
 {
-	RiemannZetaTestFloat<float>      (0.000001);
+	RiemannZetaTestFloat<float>      (0.00001);
 	RiemannZetaTestFloat<double>     (0.00000000000001);
 	RiemannZetaTestFloat<long double>(0.00000000000001);
 

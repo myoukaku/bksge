@@ -29,105 +29,64 @@ static_assert(bksge::is_same<long double, decltype(bksge::nearbyint(0.0l))>::val
 static_assert(bksge::is_same<long double, decltype(bksge::nearbyintl(0.0l))>::value, "");
 
 template <typename T>
-inline bksge::float_promote_t<T>
-nearbyint_helper(T x, int round_mode)
-{
-	auto current = std::fegetround();
-	std::fesetround(round_mode);
-	auto ret = bksge::nearbyint(x);
-	std::fesetround(current);
-	return ret;
-}
-
-template <typename T>
 void NearbyIntTestFloat(void)
 {
 	BKSGE_CONSTEXPR auto inf = std::numeric_limits<T>::infinity();
 	BKSGE_CONSTEXPR auto nan = std::numeric_limits<T>::quiet_NaN();
 
-	EXPECT_EQ(T( 0.0), nearbyint_helper(T( 0.0), FE_DOWNWARD));
-	EXPECT_EQ(T( 2.0), nearbyint_helper(T( 2.5), FE_DOWNWARD));
-	EXPECT_EQ(T(-3.0), nearbyint_helper(T(-2.5), FE_DOWNWARD));
-	EXPECT_EQ(T( 3.0), nearbyint_helper(T( 3.5), FE_DOWNWARD));
-	EXPECT_EQ(T(-4.0), nearbyint_helper(T(-3.5), FE_DOWNWARD));
-	EXPECT_EQ(+inf,    nearbyint_helper(+inf,    FE_DOWNWARD));
-	EXPECT_EQ(-inf,    nearbyint_helper(-inf,    FE_DOWNWARD));
-	EXPECT_TRUE(bksge::isnan(nearbyint_helper(nan, FE_DOWNWARD)));
+	switch (std::fegetround())
+	{
+	case FE_DOWNWARD:
+		EXPECT_EQ(T( 0.0), bksge::nearbyint(T( 0.0)));
+		EXPECT_EQ(T( 2.0), bksge::nearbyint(T( 2.5)));
+		EXPECT_EQ(T(-3.0), bksge::nearbyint(T(-2.5)));
+		EXPECT_EQ(T( 3.0), bksge::nearbyint(T( 3.5)));
+		EXPECT_EQ(T(-4.0), bksge::nearbyint(T(-3.5)));
+		break;
+	case FE_TONEAREST:
+		EXPECT_EQ(T( 0.0), bksge::nearbyint(T( 0.0)));
+		EXPECT_EQ(T( 2.0), bksge::nearbyint(T( 2.5)));
+		EXPECT_EQ(T(-2.0), bksge::nearbyint(T(-2.5)));
+		EXPECT_EQ(T( 4.0), bksge::nearbyint(T( 3.5)));
+		EXPECT_EQ(T(-4.0), bksge::nearbyint(T(-3.5)));
+		break;
+	case FE_TOWARDZERO:
+		EXPECT_EQ(T( 0.0), bksge::nearbyint(T( 0.0)));
+		EXPECT_EQ(T( 2.0), bksge::nearbyint(T( 2.5)));
+		EXPECT_EQ(T(-2.0), bksge::nearbyint(T(-2.5)));
+		EXPECT_EQ(T( 3.0), bksge::nearbyint(T( 3.5)));
+		EXPECT_EQ(T(-3.0), bksge::nearbyint(T(-3.5)));
+		break;
+	case FE_UPWARD:
+		EXPECT_EQ(T( 0.0), bksge::nearbyint(T( 0.0)));
+		EXPECT_EQ(T( 3.0), bksge::nearbyint(T( 2.5)));
+		EXPECT_EQ(T(-2.0), bksge::nearbyint(T(-2.5)));
+		EXPECT_EQ(T( 4.0), bksge::nearbyint(T( 3.5)));
+		EXPECT_EQ(T(-3.0), bksge::nearbyint(T(-3.5)));
+		break;
+	}
 
-	EXPECT_EQ(T( 0.0), nearbyint_helper(T( 0.0), FE_TONEAREST));
-	EXPECT_EQ(T( 2.0), nearbyint_helper(T( 2.5), FE_TONEAREST));
-	EXPECT_EQ(T(-2.0), nearbyint_helper(T(-2.5), FE_TONEAREST));
-	EXPECT_EQ(T( 4.0), nearbyint_helper(T( 3.5), FE_TONEAREST));
-	EXPECT_EQ(T(-4.0), nearbyint_helper(T(-3.5), FE_TONEAREST));
-	EXPECT_EQ(+inf,    nearbyint_helper(+inf,    FE_TONEAREST));
-	EXPECT_EQ(-inf,    nearbyint_helper(-inf,    FE_TONEAREST));
-	EXPECT_TRUE(bksge::isnan(nearbyint_helper(nan, FE_TONEAREST)));
-
-	EXPECT_EQ(T( 0.0), nearbyint_helper(T( 0.0), FE_TOWARDZERO));
-	EXPECT_EQ(T( 2.0), nearbyint_helper(T( 2.5), FE_TOWARDZERO));
-	EXPECT_EQ(T(-2.0), nearbyint_helper(T(-2.5), FE_TOWARDZERO));
-	EXPECT_EQ(T( 3.0), nearbyint_helper(T( 3.5), FE_TOWARDZERO));
-	EXPECT_EQ(T(-3.0), nearbyint_helper(T(-3.5), FE_TOWARDZERO));
-	EXPECT_EQ(+inf,    nearbyint_helper(+inf,    FE_TOWARDZERO));
-	EXPECT_EQ(-inf,    nearbyint_helper(-inf,    FE_TOWARDZERO));
-	EXPECT_TRUE(bksge::isnan(nearbyint_helper(nan, FE_TOWARDZERO)));
-
-	EXPECT_EQ(T( 0.0), nearbyint_helper(T( 0.0), FE_UPWARD));
-	EXPECT_EQ(T( 3.0), nearbyint_helper(T( 2.5), FE_UPWARD));
-	EXPECT_EQ(T(-2.0), nearbyint_helper(T(-2.5), FE_UPWARD));
-	EXPECT_EQ(T( 4.0), nearbyint_helper(T( 3.5), FE_UPWARD));
-	EXPECT_EQ(T(-3.0), nearbyint_helper(T(-3.5), FE_UPWARD));
-	EXPECT_EQ(+inf,    nearbyint_helper(+inf,    FE_UPWARD));
-	EXPECT_EQ(-inf,    nearbyint_helper(-inf,    FE_UPWARD));
-	EXPECT_TRUE(bksge::isnan(nearbyint_helper(nan, FE_UPWARD)));
+	EXPECT_EQ(+inf, bksge::nearbyint(+inf));
+	EXPECT_EQ(-inf, bksge::nearbyint(-inf));
+	EXPECT_TRUE(bksge::isnan(bksge::nearbyint(nan)));
 }
 
 template <typename T>
 void NearbyIntTestSignedInt(void)
 {
-	EXPECT_EQ( 0.0, nearbyint_helper(T( 0), FE_DOWNWARD));
-	EXPECT_EQ( 2.0, nearbyint_helper(T( 2), FE_DOWNWARD));
-	EXPECT_EQ(-2.0, nearbyint_helper(T(-2), FE_DOWNWARD));
-	EXPECT_EQ( 3.0, nearbyint_helper(T( 3), FE_DOWNWARD));
-	EXPECT_EQ(-3.0, nearbyint_helper(T(-3), FE_DOWNWARD));
-
-	EXPECT_EQ( 0.0, nearbyint_helper(T( 0), FE_TONEAREST));
-	EXPECT_EQ( 2.0, nearbyint_helper(T( 2), FE_TONEAREST));
-	EXPECT_EQ(-2.0, nearbyint_helper(T(-2), FE_TONEAREST));
-	EXPECT_EQ( 3.0, nearbyint_helper(T( 3), FE_TONEAREST));
-	EXPECT_EQ(-3.0, nearbyint_helper(T(-3), FE_TONEAREST));
-
-	EXPECT_EQ( 0.0, nearbyint_helper(T( 0), FE_TOWARDZERO));
-	EXPECT_EQ( 2.0, nearbyint_helper(T( 2), FE_TOWARDZERO));
-	EXPECT_EQ(-2.0, nearbyint_helper(T(-2), FE_TOWARDZERO));
-	EXPECT_EQ( 3.0, nearbyint_helper(T( 3), FE_TOWARDZERO));
-	EXPECT_EQ(-3.0, nearbyint_helper(T(-3), FE_TOWARDZERO));
-
-	EXPECT_EQ( 0.0, nearbyint_helper(T( 0), FE_UPWARD));
-	EXPECT_EQ( 2.0, nearbyint_helper(T( 2), FE_UPWARD));
-	EXPECT_EQ(-2.0, nearbyint_helper(T(-2), FE_UPWARD));
-	EXPECT_EQ( 3.0, nearbyint_helper(T( 3), FE_UPWARD));
-	EXPECT_EQ(-3.0, nearbyint_helper(T(-3), FE_UPWARD));
+	EXPECT_EQ( 0.0, bksge::nearbyint(T( 0)));
+	EXPECT_EQ( 2.0, bksge::nearbyint(T( 2)));
+	EXPECT_EQ(-2.0, bksge::nearbyint(T(-2)));
+	EXPECT_EQ( 3.0, bksge::nearbyint(T( 3)));
+	EXPECT_EQ(-3.0, bksge::nearbyint(T(-3)));
 }
 
 template <typename T>
 void NearbyIntTestUnsignedInt(void)
 {
-	EXPECT_EQ( 0.0, nearbyint_helper(T( 0), FE_DOWNWARD));
-	EXPECT_EQ( 2.0, nearbyint_helper(T( 2), FE_DOWNWARD));
-	EXPECT_EQ( 3.0, nearbyint_helper(T( 3), FE_DOWNWARD));
-
-	EXPECT_EQ( 0.0, nearbyint_helper(T( 0), FE_TONEAREST));
-	EXPECT_EQ( 2.0, nearbyint_helper(T( 2), FE_TONEAREST));
-	EXPECT_EQ( 3.0, nearbyint_helper(T( 3), FE_TONEAREST));
-
-	EXPECT_EQ( 0.0, nearbyint_helper(T( 0), FE_TOWARDZERO));
-	EXPECT_EQ( 2.0, nearbyint_helper(T( 2), FE_TOWARDZERO));
-	EXPECT_EQ( 3.0, nearbyint_helper(T( 3), FE_TOWARDZERO));
-
-	EXPECT_EQ( 0.0, nearbyint_helper(T( 0), FE_UPWARD));
-	EXPECT_EQ( 2.0, nearbyint_helper(T( 2), FE_UPWARD));
-	EXPECT_EQ( 3.0, nearbyint_helper(T( 3), FE_UPWARD));
+	EXPECT_EQ( 0.0, bksge::nearbyint(T( 0)));
+	EXPECT_EQ( 2.0, bksge::nearbyint(T( 2)));
+	EXPECT_EQ( 3.0, bksge::nearbyint(T( 3)));
 }
 
 GTEST_TEST(CMathTest, NearbyIntTest)

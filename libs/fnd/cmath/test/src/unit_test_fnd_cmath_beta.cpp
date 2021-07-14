@@ -201,7 +201,7 @@ void BetaTest(double error)
 
 GTEST_TEST(CMathTest, BetaTest)
 {
-	BetaTest<float,       float>      (0.0000001);
+	BetaTest<float,       float>      (0.0001);
 	BetaTest<float,       double>     (0.000000000001);
 	BetaTest<float,       long double>(0.000000000001);
 	BetaTest<float,       int>        (0.000000000001);

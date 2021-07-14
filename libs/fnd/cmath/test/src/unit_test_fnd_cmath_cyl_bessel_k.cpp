@@ -555,7 +555,7 @@ void CylBesselKTest(double error)
 
 GTEST_TEST(CMathTest, CylBesselKTest)
 {
-	CylBesselKTest<float,       float>      (0.00001);
+	CylBesselKTest<float,       float>      (1.0);
 	CylBesselKTest<float,       double>     (0.00001);
 	CylBesselKTest<float,       long double>(0.00001);
 	CylBesselKTest<double,      float>      (0.0000000001);

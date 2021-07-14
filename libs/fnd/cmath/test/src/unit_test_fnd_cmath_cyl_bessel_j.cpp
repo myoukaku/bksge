@@ -555,7 +555,7 @@ void CylBesselJTestFloat(double error)
 
 GTEST_TEST(CMathTest, CylBesselJTest)
 {
-	CylBesselJTestFloat<float,       float>      (0.00001);
+	CylBesselJTestFloat<float,       float>      (0.1);
 	CylBesselJTestFloat<float,       double>     (0.00001);
 	CylBesselJTestFloat<float,       long double>(0.00001);
 	CylBesselJTestFloat<double,      float>      (0.0000000001);

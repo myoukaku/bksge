@@ -99,7 +99,7 @@ void CompEllint2TestInt()
 
 GTEST_TEST(CMathTest, CompEllint2Test)
 {
-	CompEllint2TestFloat<float>      (0.0000001);
+	CompEllint2TestFloat<float>      (0.000001);
 	CompEllint2TestFloat<double>     (0.00000000000001);
 	CompEllint2TestFloat<long double>(0.00000000000001);
 

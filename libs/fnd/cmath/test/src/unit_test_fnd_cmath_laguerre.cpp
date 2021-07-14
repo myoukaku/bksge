@@ -169,7 +169,7 @@ void LaguerreTest(double error)
 
 GTEST_TEST(CMathTest, LaguerreTest)
 {
-	LaguerreTest<float>      (0.0000001);
+	LaguerreTest<float>      (0.0001);
 	LaguerreTest<double>     (0.0000000000001);
 	LaguerreTest<long double>(0.0000000000001);
 	LaguerreTest<int>        (0.0000000000001);

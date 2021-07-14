@@ -111,9 +111,9 @@ void CbrtTestUnsignedInt(void)
 
 GTEST_TEST(CMathTest, CbrtTest)
 {
-	CbrtTestFloat<float>(0.000000000000001);
-	CbrtTestFloat<double>(0.000000000000001);
-	CbrtTestFloat<long double>(0.000000000000001);
+	CbrtTestFloat<float>      (0.00000000000001);
+	CbrtTestFloat<double>     (0.00000000000001);
+	CbrtTestFloat<long double>(0.00000000000001);
 
 	CbrtTestSignedInt<int>();
 	CbrtTestSignedInt<signed char>();
