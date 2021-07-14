@@ -7,9 +7,14 @@
  */
 
 #include <bksge/fnd/numeric/midpoint.hpp>
+#include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include <limits>
 #include "constexpr_test.hpp"
+
+BKSGE_WARNING_PUSH();
+BKSGE_WARNING_DISABLE_MSVC(4307);	// 整数定数がオーバーフローしました。
+BKSGE_WARNING_DISABLE_MSVC(4308);	// 負の整数定数が符号なしの型に変換されました。
 
 namespace bksge_numeric_test
 {
@@ -132,3 +137,5 @@ GTEST_TEST(NumericTest, MidpointTest)
 }	// namespace midpoint_test
 
 }	// namespace bksge_numeric_test
+
+BKSGE_WARNING_POP();
