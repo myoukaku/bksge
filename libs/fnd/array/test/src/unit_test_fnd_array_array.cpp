@@ -60,6 +60,7 @@ inline BKSGE_CXX14_CONSTEXPR bool test_ctor_aggregate()
 inline BKSGE_CXX14_CONSTEXPR bool test_ctor_deduction()
 {
 #if defined(BKSGE_HAS_CXX17_DEDUCTION_GUIDES)
+#if !(defined(BKSGE_MSVC) && (BKSGE_MSVC < 1920))	// Visual Studio 2017 でコンパイラ内部エラー
 	{
 		bksge::array a = {1,2,3};
 		static_assert(bksge::is_same<decltype(a), bksge::array<int, 3>>::value, "");
@@ -97,6 +98,7 @@ inline BKSGE_CXX14_CONSTEXPR bool test_ctor_deduction()
 		VERIFY(c.max_size() == 4);
 		VERIFY(c.empty()    == false);
 	}
+#endif
 #endif
 	return true;
 }

@@ -76,6 +76,7 @@ inline BKSGE_CXX14_CONSTEXPR bool test_to_array()
 		VERIFY(y[1].m_value == 2);
 		VERIFY(y[2].m_value == 3);
 	}
+#if !(defined(BKSGE_MSVC) && (BKSGE_MSVC < 1920))
 	{
 		MoveOnly x[] = {{1},{2},{3}};
 		auto y = bksge::to_array(bksge::move(x));
@@ -84,6 +85,7 @@ inline BKSGE_CXX14_CONSTEXPR bool test_to_array()
 		VERIFY(y[1].m_value == 2);
 		VERIFY(y[2].m_value == 3);
 	}
+#endif
 	return true;
 }
 
