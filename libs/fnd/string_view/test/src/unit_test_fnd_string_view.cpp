@@ -1921,6 +1921,9 @@ TYPED_TEST(StringViewTest, OutputStreamTest)
 	}
 }
 
+BKSGE_WARNING_PUSH();
+BKSGE_WARNING_DISABLE_MSVC(4307);	// 整数定数がオーバーフローしました。
+
 template <typename CharT>
 inline BKSGE_CXX14_CONSTEXPR bool HashTest()
 {
@@ -1956,6 +1959,8 @@ TYPED_TEST(StringViewTest, HashTest)
 	using CharT = TypeParam;
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(HashTest<CharT>());
 }
+
+BKSGE_WARNING_POP();
 
 template <typename CharT>
 inline BKSGE_CXX14_CONSTEXPR bool LiteralTest()
