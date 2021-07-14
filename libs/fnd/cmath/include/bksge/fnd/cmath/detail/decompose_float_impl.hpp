@@ -54,9 +54,9 @@ private:
 protected:
 	struct result
 	{
-		bksge::uint32_t	sign;
-		bksge::int32_t	exponent;
-		bksge::uint64_t	fraction;
+		bksge::uint32_t	sign     = {};
+		bksge::int32_t	exponent = {};
+		bksge::uint64_t	fraction = {};
 	};
 
 	template <typename UnsignedType>
@@ -175,9 +175,9 @@ private:
 public:
 	struct result
 	{
-		bksge::uint32_t	sign;
-		bksge::int32_t	exponent;
-		bksge::uint64_t	fraction;
+		bksge::uint32_t	sign     = {};
+		bksge::int32_t	exponent = {};
+		bksge::uint64_t	fraction = {};
 	};
 
 	static BKSGE_CXX14_CONSTEXPR result
