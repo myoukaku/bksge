@@ -33,6 +33,7 @@
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
 
+#if !(defined(BKSGE_MSVC) && (BKSGE_MSVC < 1920))	// TODO
 namespace bksge_ranges_test
 {
 
@@ -293,3 +294,4 @@ GTEST_TEST(RangesTest, JoinViewTest)
 }	// namespace join_view_test
 
 }	// namespace bksge_ranges_test
+#endif
