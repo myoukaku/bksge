@@ -9,12 +9,12 @@
 #include <bksge/fnd/tuple/tuple_cat.hpp>
 #include <bksge/fnd/tuple/tuple.hpp>
 #include <bksge/fnd/tuple/get.hpp>
-#include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/utility/pair.hpp>
 #include <bksge/fnd/array/array.hpp>
 #include <gtest/gtest.h>
+#include <cstddef>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -118,8 +118,8 @@ static_assert(bksge::is_same<
 		bksge::declval<bksge::tuple<double>>(),
 		bksge::declval<bksge::tuple<>>(),
 		bksge::declval<bksge::tuple<unsigned&>>(),
-		bksge::declval<bksge::pair<bool, bksge::nullptr_t>>())),
-	bksge::tuple<wchar_t, wchar_t, wchar_t, double, unsigned&, bool, bksge::nullptr_t>>::value, "");
+		bksge::declval<bksge::pair<bool, std::nullptr_t>>())),
+	bksge::tuple<wchar_t, wchar_t, wchar_t, double, unsigned&, bool, std::nullptr_t>>::value, "");
 
 #define VERIFY(...)	if (!(__VA_ARGS__)) { return false; }
 

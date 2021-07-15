@@ -7,7 +7,6 @@
  */
 
 #include <bksge/fnd/type_traits/is_copy_assignable.hpp>
-#include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include <cstddef>
@@ -129,7 +128,7 @@ BKSGE_IS_COPY_ASSIGNABLE_TEST(true, float);
 BKSGE_IS_COPY_ASSIGNABLE_TEST(true, double);
 BKSGE_IS_COPY_ASSIGNABLE_TEST(true, long double);
 BKSGE_IS_COPY_ASSIGNABLE_TEST(true, void*);
-BKSGE_IS_COPY_ASSIGNABLE_TEST(true, bksge::nullptr_t);
+BKSGE_IS_COPY_ASSIGNABLE_TEST(true, std::nullptr_t);
 BKSGE_IS_COPY_ASSIGNABLE_TEST(true, decltype(nullptr));
 BKSGE_IS_COPY_ASSIGNABLE_TEST(true, enum_UDT);
 BKSGE_IS_COPY_ASSIGNABLE_TEST(true, enum_uint32_t_UDT);

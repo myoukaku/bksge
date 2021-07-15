@@ -7,7 +7,6 @@
  */
 
 #include <bksge/fnd/type_traits/is_final.hpp>
-#include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include <cstddef>
@@ -52,7 +51,7 @@ BKSGE_IS_FINAL_TEST(false, const          void);
 BKSGE_IS_FINAL_TEST(false,       volatile void);
 BKSGE_IS_FINAL_TEST(false, const volatile void);
 BKSGE_IS_FINAL_TEST(false, void*);
-BKSGE_IS_FINAL_TEST(false, bksge::nullptr_t);
+BKSGE_IS_FINAL_TEST(false, std::nullptr_t);
 BKSGE_IS_FINAL_TEST(false, decltype(nullptr));
 BKSGE_IS_FINAL_TEST(false, enum_UDT);
 BKSGE_IS_FINAL_TEST(false, enum_uint32_t_UDT);

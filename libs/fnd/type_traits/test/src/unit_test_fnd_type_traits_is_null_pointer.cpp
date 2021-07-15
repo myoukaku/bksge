@@ -7,7 +7,6 @@
  */
 
 #include <bksge/fnd/type_traits/is_null_pointer.hpp>
-#include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include <cstddef>
@@ -28,21 +27,21 @@
 
 #endif
 
-BKSGE_IS_NULL_POINTER_TEST(true,                 bksge::nullptr_t);
-BKSGE_IS_NULL_POINTER_TEST(true,  const          bksge::nullptr_t);
-BKSGE_IS_NULL_POINTER_TEST(true,        volatile bksge::nullptr_t);
-BKSGE_IS_NULL_POINTER_TEST(true,  const volatile bksge::nullptr_t);
-BKSGE_IS_NULL_POINTER_TEST(false, bksge::nullptr_t*);
-BKSGE_IS_NULL_POINTER_TEST(false, bksge::nullptr_t&);
-BKSGE_IS_NULL_POINTER_TEST(false, bksge::nullptr_t&&);
-BKSGE_IS_NULL_POINTER_TEST(false, bksge::nullptr_t[2]);
-BKSGE_IS_NULL_POINTER_TEST(false, bksge::nullptr_t[]);
-BKSGE_IS_NULL_POINTER_TEST(false, bksge::nullptr_t(*)[2]);
-BKSGE_IS_NULL_POINTER_TEST(false, bksge::nullptr_t(*)[]);
-BKSGE_IS_NULL_POINTER_TEST(false, bksge::nullptr_t(&)[2]);
-BKSGE_IS_NULL_POINTER_TEST(false, bksge::nullptr_t(&)[]);
-BKSGE_IS_NULL_POINTER_TEST(false, bksge::nullptr_t(&&)[2]);
-BKSGE_IS_NULL_POINTER_TEST(false, bksge::nullptr_t(&&)[]);
+BKSGE_IS_NULL_POINTER_TEST(true,                 std::nullptr_t);
+BKSGE_IS_NULL_POINTER_TEST(true,  const          std::nullptr_t);
+BKSGE_IS_NULL_POINTER_TEST(true,        volatile std::nullptr_t);
+BKSGE_IS_NULL_POINTER_TEST(true,  const volatile std::nullptr_t);
+BKSGE_IS_NULL_POINTER_TEST(false, std::nullptr_t*);
+BKSGE_IS_NULL_POINTER_TEST(false, std::nullptr_t&);
+BKSGE_IS_NULL_POINTER_TEST(false, std::nullptr_t&&);
+BKSGE_IS_NULL_POINTER_TEST(false, std::nullptr_t[2]);
+BKSGE_IS_NULL_POINTER_TEST(false, std::nullptr_t[]);
+BKSGE_IS_NULL_POINTER_TEST(false, std::nullptr_t(*)[2]);
+BKSGE_IS_NULL_POINTER_TEST(false, std::nullptr_t(*)[]);
+BKSGE_IS_NULL_POINTER_TEST(false, std::nullptr_t(&)[2]);
+BKSGE_IS_NULL_POINTER_TEST(false, std::nullptr_t(&)[]);
+BKSGE_IS_NULL_POINTER_TEST(false, std::nullptr_t(&&)[2]);
+BKSGE_IS_NULL_POINTER_TEST(false, std::nullptr_t(&&)[]);
 
 BKSGE_IS_NULL_POINTER_TEST(true,  decltype(nullptr));
 

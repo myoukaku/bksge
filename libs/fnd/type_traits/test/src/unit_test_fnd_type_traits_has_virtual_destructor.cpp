@@ -7,7 +7,6 @@
  */
 
 #include <bksge/fnd/type_traits/has_virtual_destructor.hpp>
-#include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include <cstddef>
@@ -83,7 +82,7 @@ BKSGE_HAS_VIRTUAL_DESTRUCTOR_TEST(false, float);
 BKSGE_HAS_VIRTUAL_DESTRUCTOR_TEST(false, double);
 BKSGE_HAS_VIRTUAL_DESTRUCTOR_TEST(false, long double);
 BKSGE_HAS_VIRTUAL_DESTRUCTOR_TEST(false, void*);
-BKSGE_HAS_VIRTUAL_DESTRUCTOR_TEST(false, bksge::nullptr_t);
+BKSGE_HAS_VIRTUAL_DESTRUCTOR_TEST(false, std::nullptr_t);
 BKSGE_HAS_VIRTUAL_DESTRUCTOR_TEST(false, decltype(nullptr));
 BKSGE_HAS_VIRTUAL_DESTRUCTOR_TEST(false, enum_UDT);
 BKSGE_HAS_VIRTUAL_DESTRUCTOR_TEST(false, enum_uint32_t_UDT);

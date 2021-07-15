@@ -7,8 +7,8 @@
  */
 
 #include <bksge/fnd/concepts/constructible_from.hpp>
-#include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 #  define BKSGE_CONSTRUCTIBLE_FROM_TEST(B, ...)	\
@@ -49,7 +49,7 @@ BKSGE_CONSTRUCTIBLE_FROM_TEST(false, int[]);
 BKSGE_CONSTRUCTIBLE_FROM_TEST(true,  int[2]);
 BKSGE_CONSTRUCTIBLE_FROM_TEST(false, int());
 BKSGE_CONSTRUCTIBLE_FROM_TEST(true,  int(*)());
-BKSGE_CONSTRUCTIBLE_FROM_TEST(true,  int(*)(), bksge::nullptr_t);
+BKSGE_CONSTRUCTIBLE_FROM_TEST(true,  int(*)(), std::nullptr_t);
 #if defined(BKSGE_HAS_CXX17_NOEXCEPT_FUNCTION_TYPE)
 BKSGE_CONSTRUCTIBLE_FROM_TEST(true,  int(*)(), int(*)() noexcept);
 BKSGE_CONSTRUCTIBLE_FROM_TEST(true,  int(*)(), int(&)() noexcept);
@@ -85,7 +85,7 @@ struct C
 };
 BKSGE_CONSTRUCTIBLE_FROM_TEST(false, C);
 BKSGE_CONSTRUCTIBLE_FROM_TEST(false, C, void*);
-BKSGE_CONSTRUCTIBLE_FROM_TEST(false, C, bksge::nullptr_t);
+BKSGE_CONSTRUCTIBLE_FROM_TEST(false, C, std::nullptr_t);
 
 class D
 {

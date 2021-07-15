@@ -7,7 +7,6 @@
  */
 
 #include <bksge/fnd/type_traits/is_signed.hpp>
-#include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstdint>	// WCHAR_MIN
 #include <climits>	// CHAR_MIN
@@ -73,7 +72,7 @@ BKSGE_IS_SIGNED_TEST(true, double);
 BKSGE_IS_SIGNED_TEST(true, long double);
 BKSGE_IS_SIGNED_TEST(false, void);
 BKSGE_IS_SIGNED_TEST(false, void*);
-BKSGE_IS_SIGNED_TEST(false, bksge::nullptr_t);
+BKSGE_IS_SIGNED_TEST(false, std::nullptr_t);
 BKSGE_IS_SIGNED_TEST(false, decltype(nullptr));
 BKSGE_IS_SIGNED_TEST(false, enum_UDT);
 BKSGE_IS_SIGNED_TEST(false, enum_uint32_t_UDT);

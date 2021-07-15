@@ -9,8 +9,8 @@
 #ifndef BKSGE_FND_STRING_DETAIL_IS_NULL_POINTER_HPP
 #define BKSGE_FND_STRING_DETAIL_IS_NULL_POINTER_HPP
 
-#include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -33,7 +33,7 @@ is_null_pointer(T)
 }
 
 inline BKSGE_CONSTEXPR bool
-is_null_pointer(bksge::nullptr_t)
+is_null_pointer(std::nullptr_t)
 {
 	return true;
 }

@@ -7,7 +7,6 @@
  */
 
 #include <bksge/fnd/type_traits/is_class.hpp>
-#include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include <cstddef>
@@ -67,7 +66,7 @@ BKSGE_IS_CLASS_TEST(false, float);
 BKSGE_IS_CLASS_TEST(false, double);
 BKSGE_IS_CLASS_TEST(false, long double);
 BKSGE_IS_CLASS_TEST(false, void*);
-BKSGE_IS_CLASS_TEST(false, bksge::nullptr_t);
+BKSGE_IS_CLASS_TEST(false, std::nullptr_t);
 BKSGE_IS_CLASS_TEST(false, decltype(nullptr));
 BKSGE_IS_CLASS_TEST(false, enum_UDT);
 BKSGE_IS_CLASS_TEST(false, enum_uint32_t_UDT);

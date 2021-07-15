@@ -7,9 +7,9 @@
  */
 
 #include <bksge/fnd/type_traits/is_function.hpp>
-#include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <cstddef>
 #include "type_traits_test_utility.hpp"
 
 namespace bksge_type_traits_test
@@ -129,7 +129,7 @@ BKSGE_IS_FUNCTION_TEST(false, bool);
 BKSGE_IS_FUNCTION_TEST(false, char);
 BKSGE_IS_FUNCTION_TEST(false, float);
 BKSGE_IS_FUNCTION_TEST(false, void*);
-BKSGE_IS_FUNCTION_TEST(false, bksge::nullptr_t);
+BKSGE_IS_FUNCTION_TEST(false, std::nullptr_t);
 BKSGE_IS_FUNCTION_TEST(false, decltype(nullptr));
 BKSGE_IS_FUNCTION_TEST(false, enum_UDT);
 BKSGE_IS_FUNCTION_TEST(false, enum_class_UDT);

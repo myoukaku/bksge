@@ -33,7 +33,6 @@ using std::basic_string;
 #include <bksge/fnd/string/char_traits.hpp>
 #include <bksge/fnd/algorithm/min.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
-#include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <bksge/fnd/functional/less.hpp>
 #include <bksge/fnd/iterator/distance.hpp>
 #include <bksge/fnd/iterator/normal_iterator.hpp>

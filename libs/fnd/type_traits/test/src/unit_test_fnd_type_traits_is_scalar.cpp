@@ -7,7 +7,6 @@
  */
 
 #include <bksge/fnd/type_traits/is_scalar.hpp>
-#include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include <cstddef>
@@ -67,7 +66,7 @@ BKSGE_IS_SCALAR_TEST(true,  std::size_t);
 BKSGE_IS_SCALAR_TEST(true,  float);
 BKSGE_IS_SCALAR_TEST(true,  double);
 BKSGE_IS_SCALAR_TEST(true,  long double);
-BKSGE_IS_SCALAR_TEST(true,  bksge::nullptr_t);
+BKSGE_IS_SCALAR_TEST(true,  std::nullptr_t);
 BKSGE_IS_SCALAR_TEST(true,  decltype(nullptr));
 BKSGE_IS_SCALAR_TEST(true,  void*);
 BKSGE_IS_SCALAR_TEST(true,  enum_UDT);

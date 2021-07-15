@@ -7,7 +7,6 @@
  */
 
 #include <bksge/fnd/functional/hash.hpp>
-#include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <bksge/fnd/type_traits/is_default_constructible.hpp>
 #include <bksge/fnd/type_traits/is_copy_constructible.hpp>
 #include <bksge/fnd/type_traits/is_move_constructible.hpp>
@@ -226,10 +225,10 @@ inline BKSGE_CXX14_CONSTEXPR bool test_bool()
 
 inline BKSGE_CXX14_CONSTEXPR bool test_nullptr()
 {
-	test_common<bksge::nullptr_t>();
+	test_common<std::nullptr_t>();
 
-	auto h1 = bksge::hash<bksge::nullptr_t>{}(nullptr);
-	auto h2 = bksge::hash<bksge::nullptr_t>{}(nullptr);
+	auto h1 = bksge::hash<std::nullptr_t>{}(nullptr);
+	auto h2 = bksge::hash<std::nullptr_t>{}(nullptr);
 	VERIFY(h1 == h2);
 
 	return true;

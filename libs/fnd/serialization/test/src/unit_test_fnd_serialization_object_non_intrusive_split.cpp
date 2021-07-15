@@ -8,7 +8,6 @@
 
 #include <bksge/fnd/serialization/text_oarchive.hpp>
 #include <bksge/fnd/serialization/text_iarchive.hpp>
-#include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
 #include <cstddef>
@@ -40,7 +39,7 @@ public:
 	long double        p = get_random_float<long double>();
 	Enum               q = Enum(get_random_int<unsigned int>() % 3);
 	std::size_t        r = get_random_int<std::size_t>();
-	bksge::nullptr_t   s = nullptr;
+	std::nullptr_t     s = nullptr;
 };
 
 inline bool

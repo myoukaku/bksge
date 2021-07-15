@@ -25,7 +25,6 @@ using std::hash;
 #else
 
 #include <bksge/fnd/bit/bit_cast.hpp>
-#include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <bksge/fnd/type_traits/conditional.hpp>
 #include <bksge/fnd/type_traits/is_enum.hpp>
 #include <bksge/fnd/type_traits/underlying_type.hpp>
@@ -250,10 +249,10 @@ struct hash<long double>
 };
 
 template <>
-struct hash<bksge::nullptr_t>
+struct hash<std::nullptr_t>
 {
 	BKSGE_CONSTEXPR std::size_t
-	operator()(bksge::nullptr_t) const BKSGE_NOEXCEPT
+	operator()(std::nullptr_t) const BKSGE_NOEXCEPT
 	{
 		return detail::hash_representation(0u);
 	}
