@@ -10,8 +10,8 @@
 #include <bksge/fnd/type_traits/alignment_of.hpp>
 #include <bksge/fnd/type_traits/is_standard_layout.hpp>
 #include <bksge/fnd/type_traits/is_trivial.hpp>
-#include <bksge/fnd/cstddef/max_align_t.hpp>
 #include <gtest/gtest.h>
+#include <cstddef>
 #include "type_traits_test_utility.hpp"
 
 namespace type_traits_test
@@ -20,7 +20,7 @@ namespace type_traits_test
 namespace aligned_storage_test
 {
 
-static auto const default_alignment = bksge::alignment_of<bksge::max_align_t>::value;
+static auto const default_alignment = bksge::alignment_of<std::max_align_t>::value;
 
 #define BKSGE_ALIGNED_STORAGE_TEST_IMPL(T, Len, Align)	\
 	static_assert(bksge::is_standard_layout<T>::value, "bksge::is_standard_layout<" #T ">");	\
