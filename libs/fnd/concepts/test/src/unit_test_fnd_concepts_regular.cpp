@@ -58,7 +58,7 @@ bool operator==(HasEq, HasEq) { return true; }
 #if defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
 BKSGE_REGULAR_TEST(true,  HasEq);
 #else
-BKSGE_REGULAR_TEST(false, HasEq);
+//BKSGE_REGULAR_TEST(false, HasEq);
 #endif
 
 struct HasEqNeq { };
