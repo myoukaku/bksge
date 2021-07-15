@@ -30,13 +30,6 @@ inline BKSGE_CXX14_CONSTEXPR bool test01()
 	namespace ranges = bksge::ranges;
 	{
 		int x[] = { 1,2,3,4,5 };
-		auto ret = bksge::shift_left(ranges::begin(x), ranges::end(x), -1);
-		VERIFY(ret == ranges::end(x));
-		int y[] = { 1,2,3,4,5 };
-		VERIFY(ranges::equal(x, y));
-	}
-	{
-		int x[] = { 1,2,3,4,5 };
 		auto ret = bksge::shift_left(ranges::begin(x), ranges::end(x), 0);
 		VERIFY(ret == ranges::end(x));
 		int y[] = { 1,2,3,4,5 };
@@ -103,14 +96,6 @@ template <template <typename> class IterWrap>
 inline BKSGE_CXX14_CONSTEXPR bool test02()
 {
 	namespace ranges = bksge::ranges;
-	{
-		int x[] = { 1,2,3,4,5 };
-		test_container<int, IterWrap> cx(x);
-		auto ret = bksge::shift_left(ranges::begin(cx), ranges::end(cx), -1);
-		VERIFY(ret == ranges::end(cx));
-		int y[] = { 1,2,3,4,5 };
-		VERIFY(ranges::equal(x, y));
-	}
 	{
 		int x[] = { 1,2,3,4,5 };
 		test_container<int, IterWrap> cx(x);
