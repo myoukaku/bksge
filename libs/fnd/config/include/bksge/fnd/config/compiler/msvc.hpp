@@ -626,6 +626,10 @@
 #if (_MSC_FULL_VER >= 192930130)
 #endif
 
+// Visual Studio 2022 Preview version 17.0.0 Preview 2.0
+#if (_MSC_FULL_VER >= 193030401)
+#endif
+
 #if (BKSGE_CXX_STANDARD >= 17)
 #  define BKSGE_HAS_CXX17_CONSTEXPR
 #endif
