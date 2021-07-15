@@ -66,10 +66,20 @@ struct incrementable_traits<T
 	using difference_type = typename T::difference_type;
 };
 
+// GCC 10 だと 下の
+// { a - b } -> bksge::integral;
+// の行で error: invalid use of ‘void’
+// のエラーになってしまうのでそれを回避する
+#if defined(__GNUC__) && (__GNUC__ == 10)
+#define BKSGE_GCC_10	1
+#else
+#define BKSGE_GCC_10	0
+#endif
+
 // (5) Specialization for types that do not define a public and accessible member type difference_type
 //     but do support subtraction
 template <typename T>
-#if defined(BKSGE_HAS_CXX20_CONCEPTS)
+#if defined(BKSGE_HAS_CXX20_CONCEPTS) && !BKSGE_GCC_10
 requires (
 	!requires { typename T::difference_type; } &&
 	requires(T const& a, T const& b)
@@ -78,20 +88,22 @@ requires (
 	})
 #endif
 struct incrementable_traits<T
-#if !defined(BKSGE_HAS_CXX20_CONCEPTS)
+#if !(defined(BKSGE_HAS_CXX20_CONCEPTS) && !BKSGE_GCC_10)
 	, bksge::enable_if_t<
 		!bksge::is_const<T>::value &&
 		!bksge::is_pointer<T>::value &&
 		!detail::has_difference_type<T>::value
 	>
 	, bksge::enable_if_t<
-		bksge::integral<decltype(bksge::declval<T>() - bksge::declval<T>())>::value
+		bksge::is_integral<decltype(bksge::declval<T>() - bksge::declval<T>())>::value
 	>
 #endif
 >
 {
 	using difference_type = bksge::make_signed_t<decltype(bksge::declval<T>() - bksge::declval<T>())>;
 };
+
+#undef BKSGE_GCC_10
 
 }	// namespace bksge
 

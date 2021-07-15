@@ -479,26 +479,32 @@ struct incrementable_traits<common_iterator<It, Sent>>
 	using difference_type = bksge::iter_difference_t<It>;
 };
 
+namespace iterator_traits_detail
+{
+
+// この struct ptr は iterator_traits の内部クラスにしたいところだが、
+// G++10 でコンパイラ内部エラーになるので仕方なく外に出した
+template <typename Iter, typename Sent, typename = bksge::detail::is_common_iter_has_arrow<Iter>>
+struct ptr
+{
+	using type = void;
+};
+
+template <typename Iter, typename Sent>
+struct ptr<Iter, Sent, bksge::true_type>
+{
+	using CIter = common_iterator<Iter, Sent>;
+	using type = decltype(bksge::declval<CIter const&>().operator->());
+};
+
+}	// namespace iterator_traits_detail
+
 template <typename It, typename Sent>
 struct iterator_traits<
 	detail::enable_iterator_traits_helper<
 		common_iterator<It, Sent>,
 		bksge::enable_if_t<bksge::is_input_iterator<It>::value>>>
 {
-private:
-	template <typename Iter, typename = bksge::detail::is_common_iter_has_arrow<Iter>>
-	struct ptr
-	{
-		using type = void;
-	};
-
-	template <typename Iter>
-	struct ptr<Iter, bksge::true_type>
-	{
-		using CIter = common_iterator<Iter, Sent>;
-		using type = decltype(bksge::declval<CIter const&>().operator->());
-	};
-
 public:
 	using iterator_concept = bksge::conditional_t<bksge::is_forward_iterator<It>::value,
 		bksge::forward_iterator_tag, bksge::input_iterator_tag>;
@@ -507,7 +513,7 @@ public:
 		bksge::forward_iterator_tag, bksge::input_iterator_tag>;
 	using value_type      = bksge::iter_value_t<It>;
 	using difference_type = bksge::iter_difference_t<It>;
-	using pointer         = typename ptr<It>::type;
+	using pointer         = typename iterator_traits_detail::ptr<It, Sent>::type;
 	using reference       = bksge::iter_reference_t<It>;
 };
 
