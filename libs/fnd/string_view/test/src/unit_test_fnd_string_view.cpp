@@ -19,6 +19,9 @@
 #include <sstream>
 #include "constexpr_test.hpp"
 
+BKSGE_WARNING_PUSH();
+BKSGE_WARNING_DISABLE_CLANG("-Wreserved-user-defined-literal");
+
 namespace bksge_string_view_test
 {
 
@@ -1986,3 +1989,5 @@ TYPED_TEST(StringViewTest, LiteralTest)
 #undef VERIFY
 
 }	// namespace bksge_string_view_test
+
+BKSGE_WARNING_POP();
