@@ -200,7 +200,9 @@ private:
 	template <typename R, typename Dummy>
 	struct visit_invoke_impl<R, true, Dummy>
 	{
-		BKSGE_CXX14_CONSTEXPR decltype(auto) operator()(Visitor&& visitor, Variants... vars) const
+		BKSGE_CXX14_CONSTEXPR auto operator()(Visitor&& visitor, Variants... vars) const
+		->decltype(bksge::invoke(bksge::forward<Visitor>(visitor),
+				element_by_index_or_cookie<Indices>(bksge::forward<Variants>(vars))...))
 		{
 			// For the usual std::visit case deduce the return value:
 			return bksge::invoke(bksge::forward<Visitor>(visitor),

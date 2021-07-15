@@ -20,17 +20,26 @@ namespace bksge
 namespace variant_detail
 {
 
+template <typename T>
+struct variant_construct_t
+{
+	T& m_lhs;
+
+	template <typename U>
+	void operator()(U&& rhs_mem)
+	{
+		variant_detail::variant_construct_single(
+			bksge::forward<T>(m_lhs),
+			bksge::forward<U>(rhs_mem));
+	}
+};
+
 template <typename... Types, typename T, typename U>
 void variant_construct(T&& lhs, U&& rhs)
 {
 	lhs.m_index = rhs.m_index;
 	variant_detail::raw_visit(
-		[&lhs](auto&& rhs_mem) mutable
-		{
-			variant_detail::variant_construct_single(
-				bksge::forward<T>(lhs),
-				bksge::forward<decltype(rhs_mem)>(rhs_mem));
-		},
+		variant_construct_t<T>{lhs},
 		variant_detail::variant_access::variant_cast<Types...>(bksge::forward<U>(rhs)));
 }
 

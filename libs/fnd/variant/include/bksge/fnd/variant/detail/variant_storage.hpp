@@ -37,7 +37,6 @@ namespace variant_detail
 template <bool trivially_destructible, typename... Types>
 struct VariantStorage;
 
-
 template <typename... Types>
 struct VariantStorage<false, Types...>
 {
@@ -53,6 +52,17 @@ struct VariantStorage<false, Types...>
 		, m_index{N}
 	{}
 
+private:
+	struct ResetFunc
+	{
+		template <typename T>
+		void operator()(T&& this_mem)
+		{
+			bksge::destroy_at(bksge::addressof(this_mem));
+		}
+	};
+
+public:
 	void reset()
 	{
 		if (!valid()) /*[[unlikely]]*/
@@ -61,10 +71,7 @@ struct VariantStorage<false, Types...>
 		}
 
 		variant_detail::do_visit<void>(
-			[](auto&& this_mem) mutable
-			{
-				bksge::destroy_at(bksge::addressof(this_mem));
-			},
+			ResetFunc{},
 			variant_detail::variant_access::variant_cast<Types...>(*this));
 
 		m_index = static_cast<index_type>(bksge::variant_npos);
