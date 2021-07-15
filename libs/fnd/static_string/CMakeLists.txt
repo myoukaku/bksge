@@ -17,7 +17,6 @@ add_library(${TARGET_ALIAS_NAME} ALIAS ${TARGET_NAME})
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../algorithm ${CMAKE_CURRENT_BINARY_DIR}/algorithm)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../concepts ${CMAKE_CURRENT_BINARY_DIR}/concepts)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../config ${CMAKE_CURRENT_BINARY_DIR}/config)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstddef ${CMAKE_CURRENT_BINARY_DIR}/cstddef)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../iterator ${CMAKE_CURRENT_BINARY_DIR}/iterator)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../static_vector ${CMAKE_CURRENT_BINARY_DIR}/static_vector)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../string ${CMAKE_CURRENT_BINARY_DIR}/string)
@@ -28,7 +27,6 @@ target_link_libraries(${TARGET_NAME}
 		Bksge::algorithm
 		Bksge::concepts
 		Bksge::config
-		Bksge::cstddef
 		Bksge::iterator
 		Bksge::static_vector
 		Bksge::string
