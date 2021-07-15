@@ -63,7 +63,11 @@ private:
 			bksge::detail::iter_concept<I2>, bksge::random_access_iterator_tag>::value>,
 		typename = bksge::enable_if_t<bksge::totally_ordered<I2>::value>,
 		typename = bksge::enable_if_t<bksge::sized_sentinel_for<I2, I2>::value>,
+#if defined(BKSGE_MSVC) && (BKSGE_MSVC < 1920)
+		typename J2 = I2,
+#else
 		typename J2 = I2 const,
+#endif
 		typename D = bksge::iter_difference_t<I2> const,
 		typename T1 = decltype(bksge::declval<I2&>() += bksge::declval<D >()),
 		typename T2 = decltype(bksge::declval<J2 >() +  bksge::declval<D >()),
@@ -75,9 +79,7 @@ private:
 	static auto test(int) -> bksge::conjunction<
 		bksge::same_as<T1, I2&>,
 		bksge::same_as<T2, I2>,
-#if !(defined(BKSGE_MSVC) && (BKSGE_MSVC < 1920))
 		bksge::same_as<T3, I2>,
-#endif
 		bksge::same_as<T4, I2&>,
 		bksge::same_as<T5, I2>,
 		bksge::same_as<T6, bksge::iter_reference_t<I2>>
