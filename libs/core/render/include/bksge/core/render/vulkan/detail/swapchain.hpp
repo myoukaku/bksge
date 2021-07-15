@@ -17,9 +17,8 @@
 #include <bksge/core/render/vulkan/detail/fwd/queue_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/extent2d.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
-#include <bksge/fnd/cstdint/uint64_t.hpp>
 #include <bksge/fnd/vector.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -42,10 +41,10 @@ public:
 	~Swapchain();
 
 	::VkResult AcquireNextImage(
-		bksge::uint64_t  timeout,
+		std::uint64_t    timeout,
 		::VkSemaphore    semaphore,
 		::VkFence        fence,
-		bksge::uint32_t* image_index);
+		std::uint32_t*   image_index);
 
 public:
 	bksge::vector<vulkan::ImageSharedPtr> const& images(void) const;
@@ -53,14 +52,14 @@ public:
 public:
 	vulkan::Extent2D extent(void) const;
 
-	bksge::uint32_t width(void) const;
-	bksge::uint32_t height(void) const;
+	std::uint32_t width(void) const;
+	std::uint32_t height(void) const;
 
 public:
 	::VkFormat format(void) const;
 
 public:
-	::VkResult Present(bksge::uint32_t image_index);
+	::VkResult Present(std::uint32_t image_index);
 
 private:
 	// noncopyable

@@ -11,6 +11,7 @@
 
 #include <bksge/fnd/string/string.hpp>
 #include <ostream>
+#include <cstdint>
 
 namespace bksge
 {
@@ -21,7 +22,7 @@ namespace render
 /**
  *	@brief	頂点データの意味
  */
-enum class Semantic : bksge::uint32_t
+enum class Semantic : std::uint32_t
 {
 	kPosition,
 	kNormal,

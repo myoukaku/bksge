@@ -13,7 +13,7 @@
 #include <bksge/core/font/otf/types.hpp>
 #include <bksge/fnd/variant.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -27,7 +27,7 @@ struct StyleAttributesTable
 	{
 		struct Format1
 		{
-			static Format1 Create(bksge::uint8_t const* ptr)
+			static Format1 Create(std::uint8_t const* ptr)
 			{
 				Format1 result;
 				ptr = ReadBigEndian(ptr, &result.axisIndex);
@@ -45,7 +45,7 @@ struct StyleAttributesTable
 
 		struct Format2
 		{
-			static Format2 Create(bksge::uint8_t const* ptr)
+			static Format2 Create(std::uint8_t const* ptr)
 			{
 				Format2 result;
 				ptr = ReadBigEndian(ptr, &result.axisIndex);
@@ -67,7 +67,7 @@ struct StyleAttributesTable
 
 		struct Format3
 		{
-			static Format3 Create(bksge::uint8_t const* ptr)
+			static Format3 Create(std::uint8_t const* ptr)
 			{
 				Format3 result;
 				ptr = ReadBigEndian(ptr, &result.axisIndex);
@@ -89,8 +89,8 @@ struct StyleAttributesTable
 		{
 			struct AxisValue
 			{
-				friend bksge::uint8_t const*
-				ReadBigEndian(bksge::uint8_t const* ptr, AxisValue* dst)
+				friend std::uint8_t const*
+				ReadBigEndian(std::uint8_t const* ptr, AxisValue* dst)
 				{
 					ptr = ReadBigEndian(ptr, &dst->axisIndex);
 					ptr = ReadBigEndian(ptr, &dst->value);
@@ -101,7 +101,7 @@ struct StyleAttributesTable
 				Fixed	value;
 			};
 
-			static Format4 Create(bksge::uint8_t const* ptr)
+			static Format4 Create(std::uint8_t const* ptr)
 			{
 				Format4 result;
 				ptr = ReadBigEndian(ptr, &result.axisCount);
@@ -118,7 +118,7 @@ struct StyleAttributesTable
 			bksge::vector<AxisValue>	axisValues;
 		};
 
-		explicit AxisValueTable(bksge::uint8_t const* ptr)
+		explicit AxisValueTable(std::uint8_t const* ptr)
 		{
 			uint16	format;
 			ptr = ReadBigEndian(ptr, &format);
@@ -141,8 +141,8 @@ struct StyleAttributesTable
 
 	struct AxisRecord
 	{
-		friend bksge::uint8_t const*
-		ReadBigEndian(bksge::uint8_t const* ptr, AxisRecord* dst)
+		friend std::uint8_t const*
+		ReadBigEndian(std::uint8_t const* ptr, AxisRecord* dst)
 		{
 			ptr = ReadBigEndian(ptr, &dst->axisTag);
 			ptr = ReadBigEndian(ptr, &dst->axisNameID);
@@ -155,7 +155,7 @@ struct StyleAttributesTable
 		uint16	axisOrdering;
 	};
 
-	explicit StyleAttributesTable(bksge::uint8_t const* ptr)
+	explicit StyleAttributesTable(std::uint8_t const* ptr)
 	{
 		auto const start = ptr;
 

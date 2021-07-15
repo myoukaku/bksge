@@ -15,7 +15,7 @@
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -25,7 +25,7 @@ namespace otf
 
 struct LookupList
 {
-	explicit LookupList(bksge::uint8_t const* ptr, Lookup::SubtableCreateFunc func)
+	explicit LookupList(std::uint8_t const* ptr, Lookup::SubtableCreateFunc func)
 	{
 		auto const start = ptr;
 

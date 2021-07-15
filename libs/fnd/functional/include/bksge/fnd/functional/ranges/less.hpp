@@ -12,12 +12,12 @@
 #include <bksge/fnd/functional/detail/less_builtin_ptr_cmp.hpp>
 #include <bksge/fnd/concepts/totally_ordered_with.hpp>
 #include <bksge/fnd/concepts/detail/overload_priority.hpp>
-#include <bksge/fnd/cstdint/uintptr_t.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
 #include <type_traits>	// is_constant_evaluated
+#include <cstdint>
 
 namespace bksge
 {
@@ -50,9 +50,9 @@ private:
 			return t < u;
 		}
 #endif
-		auto x = reinterpret_cast<bksge::uintptr_t>(
+		auto x = reinterpret_cast<std::uintptr_t>(
 			static_cast<const volatile void*>(bksge::forward<T>(t)));
-		auto y = reinterpret_cast<bksge::uintptr_t>(
+		auto y = reinterpret_cast<std::uintptr_t>(
 			static_cast<const volatile void*>(bksge::forward<U>(u)));
 		return x < y;
 	}

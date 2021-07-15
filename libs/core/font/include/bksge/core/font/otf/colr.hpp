@@ -12,7 +12,7 @@
 #include <bksge/core/font/otf/read_big_endian.hpp>
 #include <bksge/core/font/otf/types.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -24,9 +24,9 @@ struct ColorTable
 {
 	struct BaseGlyphRecord
 	{
-		friend bksge::uint8_t const*
+		friend std::uint8_t const*
 		ReadBigEndian(
-			bksge::uint8_t const* ptr,
+			std::uint8_t const* ptr,
 			BaseGlyphRecord* dst)
 		{
 			ptr = ReadBigEndian(ptr, &dst->glyphID);
@@ -42,9 +42,9 @@ struct ColorTable
 
 	struct LayerRecord
 	{
-		friend bksge::uint8_t const*
+		friend std::uint8_t const*
 		ReadBigEndian(
-			bksge::uint8_t const* ptr,
+			std::uint8_t const* ptr,
 			LayerRecord* dst)
 		{
 			ptr = ReadBigEndian(ptr, &dst->glyphID);
@@ -56,7 +56,7 @@ struct ColorTable
 		uint16	paletteIndex;
 	};
 
-	explicit ColorTable(bksge::uint8_t const* ptr)
+	explicit ColorTable(std::uint8_t const* ptr)
 	{
 		auto const start = ptr;
 

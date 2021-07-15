@@ -12,7 +12,7 @@
 #include <bksge/core/font/otf/read_big_endian.hpp>
 #include <bksge/core/font/otf/types.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -22,7 +22,7 @@ namespace otf
 
 struct LinearThresholdTable
 {
-	explicit LinearThresholdTable(bksge::uint8_t const* ptr)
+	explicit LinearThresholdTable(std::uint8_t const* ptr)
 	{
 		uint16	version;
 		uint16	numGlyphs;

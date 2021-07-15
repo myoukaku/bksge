@@ -14,9 +14,9 @@
 #include <bksge/core/render/d3d_common/d3d12.hpp>
 #include <bksge/core/render/d3d_common/com_ptr.hpp>
 //#include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
-#include <bksge/fnd/cstdint/uint8_t.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <cstddef>
+#include <cstdint>
 
 namespace bksge
 {
@@ -42,18 +42,18 @@ public:
 		Subresource(
 			::UINT						  size,
 			::D3D12_GPU_VIRTUAL_ADDRESS	  gpu_virtual_address,
-			bksge::uint8_t*				  mapped_resource);
+			std::uint8_t*				  mapped_resource);
 
 		~Subresource();
 
-		void Update(bksge::vector<bksge::uint8_t> const& buffer);
+		void Update(bksge::vector<std::uint8_t> const& buffer);
 
 		void CreateView(Device* device, ::D3D12_CPU_DESCRIPTOR_HANDLE dest);
 
 	private:
 		::UINT						m_size;
 		::D3D12_GPU_VIRTUAL_ADDRESS	m_gpu_virtual_address;
-		bksge::uint8_t*				m_mapped_resource;
+		std::uint8_t*				m_mapped_resource;
 	};
 
 	Subresource AssignSubresource(std::size_t size);
@@ -68,8 +68,8 @@ private:
 
 private:
 	ComPtr<ID3D12ResourceN>		m_resource;
-	bksge::uint8_t*				m_mapped_resource = nullptr;
-	std::size_t				m_offset = 0;
+	std::uint8_t*				m_mapped_resource = nullptr;
+	std::size_t					m_offset = 0;
 };
 
 }	// namespace d3d12

@@ -17,6 +17,7 @@
 #include <bksge/fnd/random/engines/mersenne_twister_engine.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <queue>
+#include <cstdint>
 
 namespace bksge
 {
@@ -177,7 +178,7 @@ bool perfect_hash<Hasher>::build(bksge::vector<bksge::string> const& keys)
 		}
 
 		m_g.resize((num_3v + 3) / 4);
-		bksge::ranges::fill(m_g, static_cast<bksge::uint8_t>(0));
+		bksge::ranges::fill(m_g, static_cast<std::uint8_t>(0));
 
 		for (int i = 0; i < num_3v; ++i)
 		{

@@ -13,10 +13,10 @@
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/algorithm/min.hpp>
 #include <bksge/fnd/cmath/round_up.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
+#include <cstdint>
 
 namespace bksge
 {
@@ -81,14 +81,14 @@ GetBitsPerPixel(TextureFormat format)
 BKSGE_INLINE std::size_t
 GetSizeInBytes(
 	TextureFormat format,
-	bksge::uint32_t width,
-	bksge::uint32_t height)
+	std::uint32_t width,
+	std::uint32_t height)
 {
 	return (width * height * GetBitsPerPixel(format)) / 8;
 }
 
 BKSGE_INLINE std::size_t
-GetStrideInBytes(TextureFormat format, bksge::uint32_t width)
+GetStrideInBytes(TextureFormat format, std::uint32_t width)
 {
 	return (width * GetBitsPerPixel(format)) / 8;
 }
@@ -96,8 +96,8 @@ GetStrideInBytes(TextureFormat format, bksge::uint32_t width)
 BKSGE_INLINE std::size_t
 GetMipmappedSizeInBytes(
 	TextureFormat format,
-	bksge::uint32_t width,
-	bksge::uint32_t height,
+	std::uint32_t width,
+	std::uint32_t height,
 	std::size_t mipmap_level)
 {
 	if (format == TextureFormat::kUndefined ||

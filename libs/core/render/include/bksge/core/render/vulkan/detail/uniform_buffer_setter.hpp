@@ -15,10 +15,10 @@
 #include <bksge/core/render/vulkan/detail/fwd/shader_reflection_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <cstddef>
+#include <cstdint>
 
 namespace bksge
 {
@@ -53,11 +53,11 @@ private:
 	{
 		bksge::string	name;
 		std::size_t		bytes = 0;
-		bksge::uint32_t	offset = 0;
+		std::uint32_t	offset = 0;
 	};
 
-	bksge::uint32_t					m_set = 0;
-	bksge::uint32_t					m_binding = 0;
+	std::uint32_t					m_set = 0;
+	std::uint32_t					m_binding = 0;
 	bksge::string					m_name;
 	::VkDescriptorType				m_descriptor_type;
 	std::size_t						m_bytes = 0;

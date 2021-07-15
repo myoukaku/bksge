@@ -50,13 +50,13 @@
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/memory/make_shared.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/config.hpp>
 #include <sstream>
 #include <cstdio>	// printf
 #include <cstddef>
+#include <cstdint>
 
 #if defined(BKSGE_PLATFORM_WIN32)
 #include <bksge/core/detail/win32.hpp>
@@ -99,9 +99,9 @@ VKAPI_ATTR ::VkBool32 VKAPI_CALL
 DebugCallback(
 	::VkDebugReportFlagsEXT flags,
 	::VkDebugReportObjectTypeEXT,
-	bksge::uint64_t /*object*/,
+	std::uint64_t /*object*/,
 	std::size_t /*location*/,
-	bksge::int32_t /*messageCode*/,
+	std::int32_t /*messageCode*/,
 	const char* /*pLayerPrefix*/,
 	const char* pMessage,
 	void* /*pUserData*/)
@@ -156,7 +156,7 @@ public:
 	void Draw(
 		VulkanRenderer* renderer,
 		vulkan::ImageSharedPtr const& image,
-		bksge::Extent2<bksge::uint32_t> const& extent)
+		bksge::Extent2<std::uint32_t> const& extent)
 	{
 		m_render_pass_info.clear_state().SetFlag(bksge::ClearFlag::kNone);
 		m_render_pass_info.viewport().SetRect({{0, 0}, extent});
@@ -181,7 +181,7 @@ private:
 			{{{-1.0, -1.0, 0.0}}, {{0, 2}}},
 			{{{ 3.0, -1.0, 0.0}}, {{2, 2}}},
 		};
-		static bksge::uint16_t const indices[] =
+		static std::uint16_t const indices[] =
 		{
 			0, 1, 2,
 		};

@@ -15,7 +15,7 @@
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -27,7 +27,7 @@ struct JustificationTable
 {
 	struct ExtenderGlyph
 	{
-		explicit ExtenderGlyph(bksge::uint8_t const* ptr)
+		explicit ExtenderGlyph(std::uint8_t const* ptr)
 		{
 			uint16	glyphCount;
 			ptr = ReadBigEndian(ptr, &glyphCount);
@@ -40,7 +40,7 @@ struct JustificationTable
 
 	struct JstfGSUBModList
 	{
-		explicit JstfGSUBModList(bksge::uint8_t const* ptr)
+		explicit JstfGSUBModList(std::uint8_t const* ptr)
 		{
 			uint16	lookupCount;
 			ptr = ReadBigEndian(ptr, &lookupCount);
@@ -53,7 +53,7 @@ struct JustificationTable
 
 	struct JstfGPOSModList
 	{
-		explicit JstfGPOSModList(bksge::uint8_t const* ptr)
+		explicit JstfGPOSModList(std::uint8_t const* ptr)
 		{
 			uint16	lookupCount;
 			ptr = ReadBigEndian(ptr, &lookupCount);
@@ -66,7 +66,7 @@ struct JustificationTable
 
 	struct JstfMax
 	{
-		explicit JstfMax(bksge::uint8_t const* ptr)
+		explicit JstfMax(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -87,7 +87,7 @@ struct JustificationTable
 
 	struct JstfPriority
 	{
-		explicit JstfPriority(bksge::uint8_t const* ptr)
+		explicit JstfPriority(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -179,7 +179,7 @@ struct JustificationTable
 
 	struct JstfLangSys
 	{
-		explicit JstfLangSys(bksge::uint8_t const* ptr)
+		explicit JstfLangSys(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -198,11 +198,11 @@ struct JustificationTable
 
 	struct JstfLangSysRecord
 	{
-		friend bksge::uint8_t const*
+		friend std::uint8_t const*
 		ReadBigEndian(
-			bksge::uint8_t const* ptr,
+			std::uint8_t const* ptr,
 			JstfLangSysRecord* dst,
-			bksge::uint8_t const* start)
+			std::uint8_t const* start)
 		{
 			Offset16 jstfLangSysOffset;
 			ptr = ReadBigEndian(ptr, &dst->jstfLangSysTag);
@@ -221,7 +221,7 @@ struct JustificationTable
 
 	struct JstfScript
 	{
-		explicit JstfScript(bksge::uint8_t const* ptr)
+		explicit JstfScript(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -254,11 +254,11 @@ struct JustificationTable
 
 	struct JstfScriptRecord
 	{
-		friend bksge::uint8_t const*
+		friend std::uint8_t const*
 		ReadBigEndian(
-			bksge::uint8_t const* ptr,
+			std::uint8_t const* ptr,
 			JstfScriptRecord* dst,
-			bksge::uint8_t const* start)
+			std::uint8_t const* start)
 		{
 			Offset16 jstfScriptOffset;
 			ptr = ReadBigEndian(ptr, &dst->jstfScriptTag);
@@ -275,7 +275,7 @@ struct JustificationTable
 		bksge::unique_ptr<JstfScript>	jstfScript;
 	};
 
-	explicit JustificationTable(bksge::uint8_t const* ptr)
+	explicit JustificationTable(std::uint8_t const* ptr)
 	{
 		auto const start = ptr;
 

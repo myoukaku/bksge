@@ -12,10 +12,10 @@
 #include <vulkan/vulkan_core.h>
 #include <bksge/core/render/vulkan/detail/check_error.hpp>
 #include <bksge/core/math/extent2.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
+#include <cstdint>
 
 namespace bksge
 {
@@ -69,7 +69,7 @@ public:
 
 	BKSGE_CONSTEXPR ArrayProxy(bksge::vector<T> const& data) BKSGE_NOEXCEPT
 		: m_ptr(data.data())
-		, m_count(static_cast<bksge::uint32_t>(data.size()))
+		, m_count(static_cast<std::uint32_t>(data.size()))
 	{}
 
 	BKSGE_CONSTEXPR T const*
@@ -78,7 +78,7 @@ public:
 		return m_ptr;
 	}
 
-	BKSGE_CONSTEXPR bksge::uint32_t
+	BKSGE_CONSTEXPR std::uint32_t
 	size() const BKSGE_NOEXCEPT
 	{
 		return m_count;
@@ -86,7 +86,7 @@ public:
 
 private:
 	T const*		m_ptr;
-	bksge::uint32_t	m_count;
+	std::uint32_t	m_count;
 };
 
 struct ApplicationInfo : public ::VkApplicationInfo
@@ -642,7 +642,7 @@ struct BufferCreateInfo : public ::VkBufferCreateInfo
 		pQueueFamilyIndices   = nullptr;
 	}
 
-	void SetQueueFamilyIndices(ArrayProxy<bksge::uint32_t> queue_family_indices)
+	void SetQueueFamilyIndices(ArrayProxy<std::uint32_t> queue_family_indices)
 	{
 		queueFamilyIndexCount = queue_family_indices.size();
 		pQueueFamilyIndices   = queue_family_indices.data();
@@ -683,7 +683,7 @@ struct ImageCreateInfo : public ::VkImageCreateInfo
 		initialLayout         = VK_IMAGE_LAYOUT_UNDEFINED;
 	}
 
-	void SetQueueFamilyIndices(ArrayProxy<bksge::uint32_t> queue_family_indices)
+	void SetQueueFamilyIndices(ArrayProxy<std::uint32_t> queue_family_indices)
 	{
 		queueFamilyIndexCount = queue_family_indices.size();
 		pQueueFamilyIndices   = queue_family_indices.data();
@@ -1326,7 +1326,7 @@ struct SubpassDescription : public ::VkSubpassDescription
 		pDepthStencilAttachment = depth_stencil_attachment;
 	}
 
-	void SetPreserveAttachments(ArrayProxy<bksge::uint32_t> preserve_attachments)
+	void SetPreserveAttachments(ArrayProxy<std::uint32_t> preserve_attachments)
 	{
 		preserveAttachmentCount = preserve_attachments.size();
 		pPreserveAttachments    = preserve_attachments.data();
@@ -2188,7 +2188,7 @@ struct SwapchainCreateInfoKHR : public ::VkSwapchainCreateInfoKHR
 		oldSwapchain          = VK_NULL_HANDLE;
 	}
 
-	void SetQueueFamilyIndices(ArrayProxy<bksge::uint32_t> queue_family_indices)
+	void SetQueueFamilyIndices(ArrayProxy<std::uint32_t> queue_family_indices)
 	{
 		queueFamilyIndexCount = queue_family_indices.size();
 		pQueueFamilyIndices   = queue_family_indices.data();

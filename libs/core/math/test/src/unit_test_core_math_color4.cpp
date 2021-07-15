@@ -20,10 +20,10 @@
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_default_constructible.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/cstdint/uint8_t.hpp>
 #include <bksge/fnd/functional/hash.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
+#include <cstdint>
 #include "constexpr_test.hpp"
 #include "serialize_test.hpp"
 #include "math_test_utility.hpp"
@@ -225,7 +225,7 @@ template <typename T>
 inline BKSGE_CXX14_CONSTEXPR bool ConvertConstructTest()
 {
 	using Color4 = bksge::math::Color4<T>;
-	using Color4u8 = bksge::math::Color4<bksge::uint8_t>;
+	using Color4u8 = bksge::math::Color4<std::uint8_t>;
 
 	static_assert(bksge::is_constructible<Color4,   Color4u8 const&>::value, "");
 	static_assert(bksge::is_constructible<Color4u8, Color4   const&>::value, "");

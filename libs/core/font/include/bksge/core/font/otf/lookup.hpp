@@ -13,7 +13,7 @@
 #include <bksge/core/font/otf/types.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -29,9 +29,9 @@ struct Lookup
 	};
 
 	using SubtableCreateFunc =
-		bksge::unique_ptr<Subtable> (*)(uint16, bksge::uint8_t const*);
+		bksge::unique_ptr<Subtable> (*)(uint16, std::uint8_t const*);
 
-	explicit Lookup(bksge::uint8_t const* ptr, SubtableCreateFunc func)
+	explicit Lookup(std::uint8_t const* ptr, SubtableCreateFunc func)
 	{
 		auto const start = ptr;
 

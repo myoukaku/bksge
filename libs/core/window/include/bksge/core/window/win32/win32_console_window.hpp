@@ -16,10 +16,9 @@
 #include <bksge/core/math/extent2.hpp>
 #include <bksge/core/math/color4.hpp>
 #include <bksge/core/math/color3.hpp>
-#include <bksge/fnd/cstdint/uint8_t.hpp>
-#include <bksge/fnd/cstdint/int32_t.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/vector.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -30,7 +29,7 @@ namespace window
 class Win32ConsoleWindow
 {
 public:
-	using ExtentType = Extent2<bksge::int32_t>;
+	using ExtentType = Extent2<std::int32_t>;
 
 	Win32ConsoleWindow(
 		ExtentType const& client_size,
@@ -46,7 +45,8 @@ public:
 	void DrawPixel(int x, int y, Color4f const& color);
 
 private:
-	using Color3_u8 = Color3<bksge::uint8_t>;
+	using Color3_u8 = Color3<std::uint8_t>;
+
 	::HANDLE					m_console;
 	::COORD						m_font_size;
 	::COORD						m_screen_size;

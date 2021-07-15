@@ -7,20 +7,20 @@
  */
 
 #include <bksge/fnd/utility/cmp_less.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <gtest/gtest.h>
+#include <cstdint>
 #include "constexpr_test.hpp"
 
 GTEST_TEST(UtilityTest, CmpLessTest)
 {
-	BKSGE_CONSTEXPR bksge::int8_t   s08  = -1;
-	BKSGE_CONSTEXPR bksge::int16_t  s16  = -1;
-	BKSGE_CONSTEXPR bksge::int32_t  s32  = -1;
-	BKSGE_CONSTEXPR bksge::int64_t  s64  = -1;
-	BKSGE_CONSTEXPR bksge::uint8_t  u08  = (bksge::uint8_t )-1;
-	BKSGE_CONSTEXPR bksge::uint16_t u16  = (bksge::uint16_t)-1;
-	BKSGE_CONSTEXPR bksge::uint32_t u32  = (bksge::uint32_t)-1;
-	BKSGE_CONSTEXPR bksge::uint64_t u64  = (bksge::uint64_t)-1;
+	BKSGE_CONSTEXPR std::int8_t   s08  = -1;
+	BKSGE_CONSTEXPR std::int16_t  s16  = -1;
+	BKSGE_CONSTEXPR std::int32_t  s32  = -1;
+	BKSGE_CONSTEXPR std::int64_t  s64  = -1;
+	BKSGE_CONSTEXPR std::uint8_t  u08  = (std::uint8_t )-1;
+	BKSGE_CONSTEXPR std::uint16_t u16  = (std::uint16_t)-1;
+	BKSGE_CONSTEXPR std::uint32_t u32  = (std::uint32_t)-1;
+	BKSGE_CONSTEXPR std::uint64_t u64  = (std::uint64_t)-1;
 
 	BKSGE_CONSTEXPR_EXPECT_TRUE(!bksge::cmp_less(s08, s08));
 	BKSGE_CONSTEXPR_EXPECT_TRUE(!bksge::cmp_less(s08, s16));

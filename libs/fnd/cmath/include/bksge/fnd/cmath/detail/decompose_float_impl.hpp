@@ -16,11 +16,11 @@
 #include <bksge/fnd/cmath/isinf.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/type_traits/conditional.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/array.hpp>
 #include <bksge/fnd/config.hpp>
 #include <limits>
 #include <cstddef>
+#include <cstdint>
 
 BKSGE_WARNING_PUSH();
 BKSGE_WARNING_DISABLE_MSVC(4309);	// truncation of constant value
@@ -35,28 +35,28 @@ template <typename T>
 struct decompose_float_common
 {
 private:
-	static bksge::uint64_t constexpr sign_bits = 1;
-	static bksge::uint64_t constexpr fraction_bits = std::numeric_limits<T>::digits - 1;
-	static bksge::uint64_t constexpr exponent_bits = bksge::bitsof<T>() - 1 - fraction_bits;
+	static std::uint64_t constexpr sign_bits = 1;
+	static std::uint64_t constexpr fraction_bits = std::numeric_limits<T>::digits - 1;
+	static std::uint64_t constexpr exponent_bits = bksge::bitsof<T>() - 1 - fraction_bits;
 
-	static bksge::uint64_t constexpr sign_bit_shift = bksge::bitsof<T>() - 1;
-	static bksge::uint64_t constexpr exponent_bit_shift = fraction_bits;
-	static bksge::uint64_t constexpr fraction_bit_shift = 0;
+	static std::uint64_t constexpr sign_bit_shift = bksge::bitsof<T>() - 1;
+	static std::uint64_t constexpr exponent_bit_shift = fraction_bits;
+	static std::uint64_t constexpr fraction_bit_shift = 0;
 
-	static bksge::uint64_t constexpr sign_bit_mask      = ((1ULL << sign_bits)     - 1) << sign_bit_shift;
-	static bksge::uint64_t constexpr exponent_bit_mask  = ((1ULL << exponent_bits) - 1) << exponent_bit_shift;
-	static bksge::uint64_t constexpr fraction_bit_mask  = ((1ULL << fraction_bits) - 1) << fraction_bit_shift;
+	static std::uint64_t constexpr sign_bit_mask      = ((1ULL << sign_bits)     - 1) << sign_bit_shift;
+	static std::uint64_t constexpr exponent_bit_mask  = ((1ULL << exponent_bits) - 1) << exponent_bit_shift;
+	static std::uint64_t constexpr fraction_bit_mask  = ((1ULL << fraction_bits) - 1) << fraction_bit_shift;
 
-	static bksge::int64_t constexpr exponent_bias = std::numeric_limits<T>::max_exponent - 1;
-	static bksge::int64_t constexpr exponent_max  = (1ULL << exponent_bits) - 1;
-	static bksge::int64_t constexpr fraction_bias = (1ULL << fraction_bits);
+	static std::int64_t constexpr exponent_bias = std::numeric_limits<T>::max_exponent - 1;
+	static std::int64_t constexpr exponent_max  = (1ULL << exponent_bits) - 1;
+	static std::int64_t constexpr fraction_bias = (1ULL << fraction_bits);
 
 protected:
 	struct result
 	{
-		bksge::uint32_t	sign     = {};
-		bksge::int32_t	exponent = {};
-		bksge::uint64_t	fraction = {};
+		std::uint32_t	sign     = {};
+		std::int32_t	exponent = {};
+		std::uint64_t	fraction = {};
 	};
 
 	template <typename UnsignedType>
@@ -69,7 +69,7 @@ protected:
 		UnsignedType const fraction = (rep & fraction_bit_mask) >> fraction_bit_shift;
 
 		result ret;
-		ret.sign     = static_cast<bksge::uint32_t>(sign);
+		ret.sign     = static_cast<std::uint32_t>(sign);
         if (exponent == 0)
         {
 			if (fraction == 0)
@@ -81,8 +81,8 @@ protected:
 			else
 			{
 				// denormal
-    			ret.exponent = static_cast<bksge::int32_t>(1ULL - exponent_bias - fraction_bits);
-				ret.fraction = static_cast<bksge::uint64_t>(fraction);
+    			ret.exponent = static_cast<std::int32_t>(1ULL - exponent_bias - fraction_bits);
+				ret.fraction = static_cast<std::uint64_t>(fraction);
 			}
         }
 		else if (exponent == exponent_max)
@@ -94,8 +94,8 @@ protected:
         else
         {
 			// normal
-    		ret.exponent = static_cast<bksge::int32_t>(exponent - exponent_bias - fraction_bits);
-            ret.fraction = static_cast<bksge::uint64_t>(fraction | fraction_bias);
+    		ret.exponent = static_cast<std::int32_t>(exponent - exponent_bias - fraction_bits);
+            ret.fraction = static_cast<std::uint64_t>(fraction | fraction_bias);
         }
 
 		if (ret.fraction != 0)
@@ -104,7 +104,7 @@ protected:
 			if (s != 0)
 			{
 				ret.fraction >>= s;
-				ret.exponent += static_cast<bksge::int32_t>(s);
+				ret.exponent += static_cast<std::int32_t>(s);
 			}
 		}
 
@@ -134,7 +134,7 @@ public:
 	static BKSGE_CXX14_CONSTEXPR result
 	invoke(T x) noexcept
 	{
-		return base::template invoke_impl<bksge::uint32_t>(x);
+		return base::template invoke_impl<std::uint32_t>(x);
 	}
 };
 
@@ -151,7 +151,7 @@ public:
 	static BKSGE_CXX14_CONSTEXPR result
 	invoke(T x) noexcept
 	{
-		return base::template invoke_impl<bksge::uint64_t>(x);
+		return base::template invoke_impl<std::uint64_t>(x);
 	}
 };
 
@@ -160,36 +160,36 @@ template <typename T>
 struct decompose_float_impl_t<T, 64>
 {
 private:
-	static bksge::uint64_t constexpr fraction_bits = std::numeric_limits<T>::digits - 1;
+	static std::uint64_t constexpr fraction_bits = std::numeric_limits<T>::digits - 1;
 
-    static bksge::uint64_t constexpr sign_bits = 1;
-	static bksge::uint64_t constexpr sign_bit_shift = bksge::bitsof<bksge::uint16_t>() - 1;
-	static bksge::uint64_t constexpr sign_bit_mask = ((1ULL << sign_bits) - 1) << sign_bit_shift;
+    static std::uint64_t constexpr sign_bits = 1;
+	static std::uint64_t constexpr sign_bit_shift = bksge::bitsof<std::uint16_t>() - 1;
+	static std::uint64_t constexpr sign_bit_mask = ((1ULL << sign_bits) - 1) << sign_bit_shift;
 
-	static bksge::uint64_t constexpr exponent_bits = bksge::bitsof<bksge::uint16_t>() - 1;
-	static bksge::uint64_t constexpr exponent_bit_shift = 0;
-	static bksge::uint64_t constexpr exponent_bit_mask  = ((1ULL << exponent_bits) - 1) << exponent_bit_shift;
-	static bksge::uint64_t constexpr exponent_bias = std::numeric_limits<T>::max_exponent - 1;
-	static bksge::uint64_t constexpr exponent_max  = (1ULL << exponent_bits) - 1;
+	static std::uint64_t constexpr exponent_bits = bksge::bitsof<std::uint16_t>() - 1;
+	static std::uint64_t constexpr exponent_bit_shift = 0;
+	static std::uint64_t constexpr exponent_bit_mask  = ((1ULL << exponent_bits) - 1) << exponent_bit_shift;
+	static std::uint64_t constexpr exponent_bias = std::numeric_limits<T>::max_exponent - 1;
+	static std::uint64_t constexpr exponent_max  = (1ULL << exponent_bits) - 1;
 
 public:
 	struct result
 	{
-		bksge::uint32_t	sign     = {};
-		bksge::int32_t	exponent = {};
-		bksge::uint64_t	fraction = {};
+		std::uint32_t	sign     = {};
+		std::int32_t	exponent = {};
+		std::uint64_t	fraction = {};
 	};
 
 	static BKSGE_CXX14_CONSTEXPR result
 	invoke(T x) noexcept
 	{
-		auto a = bksge::bit_cast<bksge::array<bksge::uint64_t, 2>>(x);
-		bksge::uint16_t const hi = static_cast<bksge::uint16_t>(a[1]);
-		bksge::uint64_t const lo = a[0];
+		auto a = bksge::bit_cast<bksge::array<std::uint64_t, 2>>(x);
+		std::uint16_t const hi = static_cast<std::uint16_t>(a[1]);
+		std::uint64_t const lo = a[0];
 
-		bksge::uint16_t const sign     = (hi & sign_bit_mask)     >> sign_bit_shift;
-		bksge::uint16_t const exponent = (hi & exponent_bit_mask) >> exponent_bit_shift;
-		bksge::uint64_t const fraction = lo;
+		std::uint16_t const sign     = (hi & sign_bit_mask)     >> sign_bit_shift;
+		std::uint16_t const exponent = (hi & exponent_bit_mask) >> exponent_bit_shift;
+		std::uint64_t const fraction = lo;
 
 		result ret;
 		ret.sign     = sign;
@@ -204,7 +204,7 @@ public:
 			else
 			{
 				// denormal
-    			ret.exponent = static_cast<bksge::int32_t>(1ULL - exponent_bias - fraction_bits);
+    			ret.exponent = static_cast<std::int32_t>(1ULL - exponent_bias - fraction_bits);
 				ret.fraction = fraction;
 			}
         }
@@ -217,7 +217,7 @@ public:
         else
         {
 			// normal
-			ret.exponent = static_cast<bksge::int32_t>(exponent - exponent_bias - fraction_bits);
+			ret.exponent = static_cast<std::int32_t>(exponent - exponent_bias - fraction_bits);
 			ret.fraction = fraction;	// 拡張倍精度のときはケチ表現でない
 		}
 
@@ -227,7 +227,7 @@ public:
 			if (s != 0)
 			{
 				ret.fraction >>= s;
-				ret.exponent += static_cast<bksge::int32_t>(s);
+				ret.exponent += static_cast<std::int32_t>(s);
 			}
 		}
 
@@ -241,10 +241,10 @@ struct decompose_float_impl_t<T, 113>
 {
 	struct result
 	{
-		bksge::uint32_t	sign;
-		bksge::int32_t	exponent;
-		bksge::uint64_t	fraction_hi;
-		bksge::uint64_t	fraction_lo;
+		std::uint32_t	sign;
+		std::int32_t	exponent;
+		std::uint64_t	fraction_hi;
+		std::uint64_t	fraction_lo;
 	};
 
 	// not implemented yet

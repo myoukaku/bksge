@@ -19,7 +19,7 @@
 #include <bksge/core/render/fwd/texture_fwd.hpp>
 #include <bksge/core/render/fwd/texture_format_fwd.hpp>
 #include <bksge/core/math/color4.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -38,13 +38,13 @@ public:
 		::VkImage image,
 		::VkFormat format,
 		vulkan::Extent2D const& extent,
-		bksge::uint32_t mipmap_count);
+		std::uint32_t mipmap_count);
 
 	explicit Image(
 		vulkan::DeviceSharedPtr const& device,
 		::VkFormat format,
 		vulkan::Extent2D const& extent,
-		bksge::uint32_t mipmap_count,
+		std::uint32_t mipmap_count,
 		::VkSampleCountFlagBits num_samples,
 		::VkImageUsageFlags usage);
 
@@ -75,7 +75,7 @@ public:
 		vulkan::CommandBuffer* command_buffer,
 		::VkImageAspectFlags aspect_mask,
 		float depth,
-		bksge::uint32_t stencil);
+		std::uint32_t stencil);
 
 	::VkImageLayout TransitionLayout(
 		vulkan::CommandPoolSharedPtr const& command_pool,
@@ -95,7 +95,7 @@ public:
 	vulkan::Extent2D const& extent(void) const;
 
 public:
-	bksge::uint32_t mipmap_count(void) const;
+	std::uint32_t mipmap_count(void) const;
 
 public:
 	::VkImageLayout layout(void) const;
@@ -117,7 +117,7 @@ private:
 	::VkImageAspectFlags			m_aspect_mask;
 	::VkFormat						m_format;
 	vulkan::Extent2D				m_extent;
-	bksge::uint32_t					m_mipmap_count;
+	std::uint32_t					m_mipmap_count;
 	::VkImageLayout					m_layout;
 	vulkan::DeviceSharedPtr			m_device;
 };

@@ -28,8 +28,8 @@
 #include <bksge/core/render/vulkan/detail/command_buffer.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/vector.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -136,7 +136,7 @@ GraphicsPipeline::Bind(vulkan::CommandBuffer* command_buffer)
 BKSGE_INLINE void
 GraphicsPipeline::PushDescriptorSet(
 	vulkan::CommandBuffer* command_buffer,
-	bksge::uint32_t set,
+	std::uint32_t set,
 	bksge::vector<::VkWriteDescriptorSet> const& descriptor_writes)
 {
 	command_buffer->PushDescriptorSet(

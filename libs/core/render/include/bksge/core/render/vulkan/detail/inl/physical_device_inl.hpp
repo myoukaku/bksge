@@ -14,8 +14,8 @@
 
 #include <bksge/core/render/vulkan/detail/physical_device.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/vector.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -48,7 +48,7 @@ PhysicalDevice::EnumerateDeviceLayerProperties(void) const
 {
 	for (;;)
 	{
-		bksge::uint32_t count;
+		std::uint32_t count;
 		vk::EnumerateDeviceLayerProperties(
 			m_physical_device, &count, nullptr);
 
@@ -74,7 +74,7 @@ PhysicalDevice::EnumerateDeviceExtensionProperties(char const* layer_name) const
 {
 	for (;;)
 	{
-		bksge::uint32_t count;
+		std::uint32_t count;
 		vk::EnumerateDeviceExtensionProperties(
 			m_physical_device, layer_name, &count, nullptr);
 
@@ -98,7 +98,7 @@ PhysicalDevice::EnumerateDeviceExtensionProperties(char const* layer_name) const
 BKSGE_INLINE bksge::vector<::VkQueueFamilyProperties>
 PhysicalDevice::GetQueueFamilyProperties(void) const
 {
-	bksge::uint32_t count = 0;
+	std::uint32_t count = 0;
 	vk::GetPhysicalDeviceQueueFamilyProperties(
 		m_physical_device, &count, nullptr);
 
@@ -113,12 +113,12 @@ PhysicalDevice::GetQueueFamilyProperties(void) const
 	return props;
 }
 
-BKSGE_INLINE bksge::uint32_t
+BKSGE_INLINE std::uint32_t
 PhysicalDevice::GetGraphicsQueueFamilyIndex(void) const
 {
 	auto const queue_family_properties = GetQueueFamilyProperties();
 
-	for (bksge::uint32_t i = 0; i < queue_family_properties.size(); ++i)
+	for (std::uint32_t i = 0; i < queue_family_properties.size(); ++i)
 	{
 		if (queue_family_properties[i].queueFlags & VK_QUEUE_GRAPHICS_BIT)
 		{
@@ -129,12 +129,12 @@ PhysicalDevice::GetGraphicsQueueFamilyIndex(void) const
 	return UINT32_MAX;
 }
 
-BKSGE_INLINE bksge::uint32_t
+BKSGE_INLINE std::uint32_t
 PhysicalDevice::GetPresentQueueFamilyIndex(::VkSurfaceKHR surface) const
 {
 	auto const queue_family_properties = GetQueueFamilyProperties();
 
-	for (bksge::uint32_t i = 0; i < queue_family_properties.size(); i++)
+	for (std::uint32_t i = 0; i < queue_family_properties.size(); i++)
 	{
 		::VkBool32 supports_present;
 		vk::GetPhysicalDeviceSurfaceSupportKHR(
@@ -153,7 +153,7 @@ PhysicalDevice::GetSurfaceFormats(::VkSurfaceKHR surface) const
 {
 	for (;;)
 	{
-		bksge::uint32_t count;
+		std::uint32_t count;
 		vk::GetPhysicalDeviceSurfaceFormatsKHR(
 			m_physical_device, surface, &count, nullptr);
 

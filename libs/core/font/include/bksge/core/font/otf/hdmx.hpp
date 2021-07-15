@@ -12,7 +12,7 @@
 #include <bksge/core/font/otf/read_big_endian.hpp>
 #include <bksge/core/font/otf/types.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -24,9 +24,9 @@ struct HorizontalDeviceMetrics
 {
 	struct DeviceRecord
 	{
-		friend bksge::uint8_t const*
+		friend std::uint8_t const*
 		ReadBigEndian(
-			bksge::uint8_t const* ptr,
+			std::uint8_t const* ptr,
 			DeviceRecord* dst,
 			uint16 numGlyphs)
 		{
@@ -44,7 +44,7 @@ struct HorizontalDeviceMetrics
 		bksge::vector<uint8>	widths;
 	};
 
-	explicit HorizontalDeviceMetrics(bksge::uint8_t const* ptr, uint16 numGlyphs)
+	explicit HorizontalDeviceMetrics(std::uint8_t const* ptr, uint16 numGlyphs)
 	{
 		uint16	version;
 		uint16	numRecords;

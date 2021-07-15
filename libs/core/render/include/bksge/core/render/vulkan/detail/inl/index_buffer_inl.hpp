@@ -21,7 +21,7 @@
 #include <bksge/core/render/geometry.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/cstring/memcpy.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -45,7 +45,7 @@ IndexBuffer::IndexBuffer(
 		return;
 	}
 
-	m_count = static_cast<bksge::uint32_t>(geometry.index_array_count());
+	m_count = static_cast<std::uint32_t>(geometry.index_array_count());
 	m_type  = vulkan::IndexType(geometry.index_array_type());
 
 	m_buffer = bksge::make_unique<vulkan::Buffer>(

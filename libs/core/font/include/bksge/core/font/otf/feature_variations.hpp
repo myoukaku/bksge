@@ -14,7 +14,7 @@
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -26,11 +26,11 @@ struct FeatureVariations
 {
 	struct FeatureTableSubstitutionRecord
 	{
-		friend bksge::uint8_t const*
+		friend std::uint8_t const*
 		ReadBigEndian(
-			bksge::uint8_t const* ptr,
+			std::uint8_t const* ptr,
 			FeatureTableSubstitutionRecord* dst,
-			bksge::uint8_t const* start)
+			std::uint8_t const* start)
 		{
 			ptr = ReadBigEndian(ptr, &dst->featureIndex);
 			ptr = ReadBigEndian(ptr, &dst->alternateFeatureOffset);
@@ -52,7 +52,7 @@ struct FeatureVariations
 
 	struct FeatureTableSubstitution
 	{
-		explicit FeatureTableSubstitution(bksge::uint8_t const* ptr)
+		explicit FeatureTableSubstitution(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -72,7 +72,7 @@ struct FeatureVariations
 
 	struct Condition
 	{
-		explicit Condition(bksge::uint8_t const* ptr)
+		explicit Condition(std::uint8_t const* ptr)
 		{
 			ptr = ReadBigEndian(ptr, &Format);
 			ptr = ReadBigEndian(ptr, &AxisIndex);
@@ -88,7 +88,7 @@ struct FeatureVariations
 
 	struct ConditionSet
 	{
-		explicit ConditionSet(bksge::uint8_t const* ptr)
+		explicit ConditionSet(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -107,11 +107,11 @@ struct FeatureVariations
 
 	struct FeatureVariationRecord
 	{
-		friend bksge::uint8_t const*
+		friend std::uint8_t const*
 		ReadBigEndian(
-			bksge::uint8_t const* ptr,
+			std::uint8_t const* ptr,
 			FeatureVariationRecord* dst,
-			bksge::uint8_t const* start)
+			std::uint8_t const* start)
 		{
 			Offset32 conditionSetOffset;
 			Offset32 featureTableSubstitutionOffset;
@@ -139,7 +139,7 @@ struct FeatureVariations
 		bksge::unique_ptr<FeatureTableSubstitution>	featureTableSubstitution;
 	};
 
-	explicit FeatureVariations(bksge::uint8_t const* ptr)
+	explicit FeatureVariations(std::uint8_t const* ptr)
 	{
 		auto const start = ptr;
 

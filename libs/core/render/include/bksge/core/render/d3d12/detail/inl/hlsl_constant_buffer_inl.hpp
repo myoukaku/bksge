@@ -18,9 +18,9 @@
 #include <bksge/core/render/d3d12/detail/descriptor_heaps.hpp>
 #include <bksge/core/render/d3d_common/d3d12shader.hpp>
 #include <bksge/core/render/shader_parameter_map.hpp>
-#include <bksge/fnd/cstdint/uint8_t.hpp>
 #include <bksge/fnd/cstring/memcpy.hpp>
 #include <bksge/fnd/vector.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -78,7 +78,7 @@ HlslConstantBuffer::UpdateParameters(
 	ResourcePool* resource_pool,
 	bksge::ShaderParameterMap const& shader_parameter_map)
 {
-	bksge::vector<bksge::uint8_t> buf(m_size);
+	bksge::vector<std::uint8_t> buf(m_size);
 
 	// ConstantBuffer をまとめて更新
 	{

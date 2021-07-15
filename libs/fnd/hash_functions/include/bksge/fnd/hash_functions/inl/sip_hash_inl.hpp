@@ -14,9 +14,9 @@
 #include <bksge/fnd/cmath/round_down.hpp>
 //#include <bksge/fnd/range/irange.hpp>
 //#include <bksge/fnd/range/adaptor/as_array.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/utility/make_integer_sequence.hpp>
 #include <cstddef>
+#include <cstdint>
 
 namespace bksge
 {
@@ -25,21 +25,21 @@ namespace sip_hash_detail
 {
 
 template <typename Iterator>
-inline BKSGE_CXX14_CONSTEXPR bksge::uint64_t
+inline BKSGE_CXX14_CONSTEXPR std::uint64_t
 read_64(Iterator p)
 {
-	bksge::uint64_t result = 0;
+	std::uint64_t result = 0;
 
 	for (int i = 0; i < 8; ++i)
 	{
-		result |= (static_cast<bksge::uint64_t>(p[i]) << (i * 8));
+		result |= (static_cast<std::uint64_t>(p[i]) << (i * 8));
 	}
 
 	return result;
 }
 
 inline BKSGE_CXX14_CONSTEXPR void
-sip_round(bksge::uint64_t& state0, bksge::uint64_t& state1, bksge::uint64_t& state2, bksge::uint64_t& state3)
+sip_round(std::uint64_t& state0, std::uint64_t& state1, std::uint64_t& state2, std::uint64_t& state3)
 {
 	state0 += state1;
 	state2 += state3;
@@ -58,12 +58,12 @@ sip_round(bksge::uint64_t& state0, bksge::uint64_t& state1, bksge::uint64_t& sta
 }
 
 template <typename Iterator>
-inline BKSGE_CXX14_CONSTEXPR bksge::uint64_t
+inline BKSGE_CXX14_CONSTEXPR std::uint64_t
 sip_hash_impl(
 	Iterator first,
 	Iterator last,
-	bksge::uint64_t key0,
-	bksge::uint64_t key1,
+	std::uint64_t key0,
+	std::uint64_t key1,
 	int c_rounds,
 	int d_rounds)
 {
@@ -92,11 +92,11 @@ sip_hash_impl(
 	}
 
 	// We're left with 0..7 bytes.
-	auto tail_word = static_cast<bksge::uint64_t>(bytes) << 56;
+	auto tail_word = static_cast<std::uint64_t>(bytes) << 56;
 
 	for (std::size_t i = 0; i < tail_size; ++i)
 	{
-		tail_word |= static_cast<bksge::uint64_t>(first[i]) << (i * 8);
+		tail_word |= static_cast<std::uint64_t>(first[i]) << (i * 8);
 	}
 
 	// Mix-in the tail block.

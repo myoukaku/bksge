@@ -128,7 +128,7 @@ private:
 			{{{ 0.5,  0.5, 0.0}}, {{1, 0}}},
 			{{{ 0.5, -0.5, 0.0}}, {{1, 1}}},
 		};
-		static bksge::uint16_t const indices[] =
+		static std::uint16_t const indices[] =
 		{
 			0, 1, 2,
 			2, 1, 3,
@@ -257,15 +257,15 @@ int main()
 	std::size_t const tex0_width  = 16;
 	std::size_t const tex0_height = 16;
 
-	bksge::vector<bksge::uint8_t> pixels0(tex0_width * tex0_height * 4);
+	bksge::vector<std::uint8_t> pixels0(tex0_width * tex0_height * 4);
 	{
 		auto* p = pixels0.data();
 		for (std::size_t y = 0; y < tex0_height; ++y)
 		{
 			for (std::size_t x = 0; x < tex0_width; ++x)
 			{
-				*p++ = static_cast<bksge::uint8_t>(x * 16);
-				*p++ = static_cast<bksge::uint8_t>(y * 16);
+				*p++ = static_cast<std::uint8_t>(x * 16);
+				*p++ = static_cast<std::uint8_t>(y * 16);
 				*p++ = 0;
 				*p++ = 255;
 			}
@@ -277,16 +277,16 @@ int main()
 	std::size_t const tex1_width  = 8;
 	std::size_t const tex1_height = 8;
 
-	bksge::vector<bksge::uint8_t> pixels1(tex1_width * tex1_height * 4);
+	bksge::vector<std::uint8_t> pixels1(tex1_width * tex1_height * 4);
 	{
 		auto* p = pixels1.data();
 		for (std::size_t y = 0; y < tex1_height; ++y)
 		{
 			for (std::size_t x = 0; x < tex1_width; ++x)
 			{
-				*p++ = static_cast<bksge::uint8_t>(x * 16);
-				*p++ = static_cast<bksge::uint8_t>(x * 16);
-				*p++ = static_cast<bksge::uint8_t>(x * 16);
+				*p++ = static_cast<std::uint8_t>(x * 16);
+				*p++ = static_cast<std::uint8_t>(x * 16);
+				*p++ = static_cast<std::uint8_t>(x * 16);
 				*p++ = 255;
 			}
 		}

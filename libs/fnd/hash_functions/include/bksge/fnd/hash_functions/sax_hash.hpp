@@ -10,8 +10,8 @@
 #define BKSGE_FND_HASH_FUNCTIONS_SAX_HASH_HPP
 
 #include <bksge/fnd/hash_functions/hash_facade.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -21,11 +21,11 @@ namespace bksge
  *
  *	Sax(Shift-Add-Xor) ハッシュ
  */
-class sax_hash : public hash_facade<sax_hash, bksge::uint32_t>
+class sax_hash : public hash_facade<sax_hash, std::uint32_t>
 {
 public:
-	using result_type = bksge::uint32_t;
-	using seed_type   = bksge::uint32_t;
+	using result_type = std::uint32_t;
+	using seed_type   = std::uint32_t;
 
 	BKSGE_CONSTEXPR
 	sax_hash(void)

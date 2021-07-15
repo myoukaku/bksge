@@ -17,9 +17,8 @@
 #include <bksge/core/render/texture.hpp>
 #include <bksge/core/render/render_texture.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
-#include <bksge/fnd/cstdint/uint8_t.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <cstddef>
+#include <cstdint>
 
 namespace bksge
 {
@@ -33,10 +32,10 @@ namespace gl
 BKSGE_INLINE
 Texture::Texture(
 	bksge::TextureFormat texture_format,
-	bksge::uint32_t width,
-	bksge::uint32_t height,
+	std::uint32_t width,
+	std::uint32_t height,
 	std::size_t mipmap_count,
-	bksge::uint8_t const* data)
+	std::uint8_t const* data)
 {
 	::glGenTextures(1, &m_name);
 

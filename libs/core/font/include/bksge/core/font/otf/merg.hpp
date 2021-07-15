@@ -13,7 +13,7 @@
 #include <bksge/core/font/otf/types.hpp>
 #include <bksge/core/font/otf/class_definition_table.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -25,9 +25,9 @@ struct MergeTable
 {
 	struct MergeEntryRow
 	{
-		friend bksge::uint8_t const*
+		friend std::uint8_t const*
 		ReadBigEndian(
-			bksge::uint8_t const* ptr,
+			std::uint8_t const* ptr,
 			MergeEntryRow* dst,
 			uint16 mergeClassCount)
 		{
@@ -41,9 +41,9 @@ struct MergeTable
 
 	struct MergeEntry
 	{
-		friend bksge::uint8_t const*
+		friend std::uint8_t const*
 		ReadBigEndian(
-			bksge::uint8_t const* ptr,
+			std::uint8_t const* ptr,
 			MergeEntry* dst,
 			uint16 mergeClassCount)
 		{
@@ -55,7 +55,7 @@ struct MergeTable
 		bksge::vector<MergeEntryRow>	mergeEntryRows;
 	};
 
-	explicit MergeTable(bksge::uint8_t const* ptr)
+	explicit MergeTable(std::uint8_t const* ptr)
 	{
 		auto const start = ptr;
 

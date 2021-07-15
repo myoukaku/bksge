@@ -12,7 +12,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/queue_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -31,8 +31,8 @@ class Queue
 public:
 	explicit Queue(
 		vulkan::DeviceSharedPtr const& device,
-		bksge::uint32_t queue_family_index,
-		bksge::uint32_t queue_index);
+		std::uint32_t queue_family_index,
+		std::uint32_t queue_index);
 
 	explicit Queue(::VkQueue queue);
 

@@ -13,8 +13,6 @@
 #include <bksge/fnd/serialization/detail/pointer_loader.hpp>
 #include <bksge/fnd/serialization/nvp.hpp>
 #include <bksge/fnd/serialization/base_object.hpp>
-#include <bksge/fnd/cstdint/intmax_t.hpp>
-#include <bksge/fnd/cstdint/uintmax_t.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_floating_point.hpp>
@@ -26,6 +24,7 @@
 #include <bksge/fnd/vector.hpp>
 #include <istream>
 #include <cstddef>
+#include <cstdint>
 
 namespace bksge
 {
@@ -40,8 +39,8 @@ public:
 	{
 	}
 
-	virtual void load_arithmetic(bksge::intmax_t&) = 0;
-	virtual void load_arithmetic(bksge::uintmax_t&) = 0;
+	virtual void load_arithmetic(std::intmax_t&) = 0;
+	virtual void load_arithmetic(std::uintmax_t&) = 0;
 	virtual void load_arithmetic(float&) = 0;
 	virtual void load_arithmetic(double&) = 0;
 	virtual void load_arithmetic(long double&) = 0;
@@ -56,11 +55,11 @@ public:
 		: m_is(is)
 	{}
 
-	void load_arithmetic(bksge::intmax_t& t) override
+	void load_arithmetic(std::intmax_t& t) override
 	{
 		m_is >> t;
 	}
-	void load_arithmetic(bksge::uintmax_t& t) override
+	void load_arithmetic(std::uintmax_t& t) override
 	{
 		m_is >> t;
 	}
@@ -180,7 +179,7 @@ private:
 	template <typename T, bksge::enable_if_t<bksge::is_unsigned<T>::value>* = nullptr>
 	void load_integral(T& t)
 	{
-		bksge::uintmax_t i;
+		std::uintmax_t i;
 		m_impl->load_arithmetic(i);
 		t = static_cast<T>(i);
 	}
@@ -188,7 +187,7 @@ private:
 	template <typename T, bksge::enable_if_t<bksge::is_signed<T>::value>* = nullptr>
 	void load_integral(T& t)
 	{
-		bksge::intmax_t i;
+		std::intmax_t i;
 		m_impl->load_arithmetic(i);
 		t = static_cast<T>(i);
 	}
@@ -196,7 +195,7 @@ private:
 	template <typename T>
 	void load_enum(T& t)
 	{
-		bksge::uintmax_t i;
+		std::uintmax_t i;
 		m_impl->load_arithmetic(i);
 		t = static_cast<T>(i);
 	}

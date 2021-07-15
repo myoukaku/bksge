@@ -8,10 +8,10 @@
 
 #include <bksge/core/font/open_type_font.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <fstream>
 #include <iostream>
 #include <cstddef>
+#include <cstdint>
 
 int main()
 {
@@ -24,12 +24,12 @@ int main()
 	auto const size = static_cast<std::size_t>(ifs.tellg());
 	ifs.seekg(0);
 
-	bksge::vector<bksge::uint8_t> buf(size);
+	bksge::vector<std::uint8_t> buf(size);
 	ifs.read((char*)buf.data(), size);
 
 	bksge::OpenTypeFont font(buf.data(), buf.size());
 
-	for (bksge::uint32_t i = 0; i <= 0xFFFF; ++i)
+	for (std::uint32_t i = 0; i <= 0xFFFF; ++i)
 	{
 		std::cout << font.GetGlyphIndex(i) << std::endl;
 	}

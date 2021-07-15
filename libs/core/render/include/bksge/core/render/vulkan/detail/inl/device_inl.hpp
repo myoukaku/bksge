@@ -15,10 +15,10 @@
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/physical_device.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/string.hpp>
 #include <bksge/fnd/algorithm/ranges/find.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -155,7 +155,7 @@ Device::~Device()
 }
 
 BKSGE_INLINE ::VkQueue
-Device::GetQueue(bksge::uint32_t queue_family_index, bksge::uint32_t queue_index)
+Device::GetQueue(std::uint32_t queue_family_index, std::uint32_t queue_index)
 {
 	::VkQueue queue;
 	vk::GetDeviceQueue(m_device, queue_family_index, queue_index, &queue);
@@ -217,17 +217,17 @@ Device::DestroyFence(::VkFence fence)
 }
 
 BKSGE_INLINE ::VkResult
-Device::ResetFences(bksge::uint32_t fence_count, ::VkFence const* fences)
+Device::ResetFences(std::uint32_t fence_count, ::VkFence const* fences)
 {
 	return vk::ResetFences(m_device, fence_count, fences);
 }
 
 BKSGE_INLINE ::VkResult
 Device::WaitForFences(
-	bksge::uint32_t  fence_count,
+	std::uint32_t    fence_count,
 	::VkFence const* fences,
 	::VkBool32       wait_all,
-	bksge::uint64_t  timeout)
+	std::uint64_t    timeout)
 {
 	return vk::WaitForFences(
 		m_device, fence_count, fences, wait_all, timeout);
@@ -454,7 +454,7 @@ Device::FreeDescriptorSets(
 	vk::FreeDescriptorSets(
 		m_device,
 		descriptor_pool,
-		static_cast<bksge::uint32_t>(descriptor_sets.size()),
+		static_cast<std::uint32_t>(descriptor_sets.size()),
 		descriptor_sets.data());
 }
 
@@ -463,7 +463,7 @@ Device::PushDescriptorSet(
 	::VkCommandBuffer                            command_buffer,
 	::VkPipelineBindPoint                        pipeline_bind_point,
 	::VkPipelineLayout                           layout,
-	bksge::uint32_t                              set,
+	std::uint32_t                                set,
 	bksge::vector<::VkWriteDescriptorSet> const& descriptor_writes)
 {
 	if (!descriptor_writes.empty())
@@ -474,7 +474,7 @@ Device::PushDescriptorSet(
 			pipeline_bind_point,
 			layout,
 			set,
-			static_cast<bksge::uint32_t>(descriptor_writes.size()),
+			static_cast<std::uint32_t>(descriptor_writes.size()),
 			descriptor_writes.data());
 	}
 }
@@ -510,7 +510,7 @@ Device::DestroyRenderPass(::VkRenderPass render_pass)
 BKSGE_INLINE ::VkCommandPool
 Device::CreateCommandPool(
 	::VkCommandPoolCreateFlags flags,
-	bksge::uint32_t queue_family_index)
+	std::uint32_t queue_family_index)
 {
 	vk::CommandPoolCreateInfo info;
 	info.flags            = flags;
@@ -563,7 +563,7 @@ Device::DestroySwapchain(::VkSwapchainKHR swapchain)
 BKSGE_INLINE bksge::vector<::VkImage>
 Device::GetSwapchainImages(::VkSwapchainKHR swapchain) const
 {
-	bksge::uint32_t count = 0;
+	std::uint32_t count = 0;
 	vk::GetSwapchainImagesKHR(m_device, swapchain, &count, nullptr);
 
 	bksge::vector<::VkImage> images(count);
@@ -575,10 +575,10 @@ Device::GetSwapchainImages(::VkSwapchainKHR swapchain) const
 BKSGE_INLINE ::VkResult
 Device::AcquireNextImage(
 	::VkSwapchainKHR swapchain,
-	bksge::uint64_t  timeout,
+	std::uint64_t    timeout,
 	::VkSemaphore    semaphore,
 	::VkFence        fence,
-	bksge::uint32_t* image_index)
+	std::uint32_t*   image_index)
 {
 	return vk::AcquireNextImageKHR(
 		m_device,

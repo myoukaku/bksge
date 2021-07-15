@@ -7,9 +7,9 @@
  */
 
 #include <bksge/fnd/bigint.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <cstdint>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -106,13 +106,13 @@ inline BKSGE_CXX14_CONSTEXPR bool ToStringLargeTest()
 GTEST_TEST(BigIntTest, ToStringTest)
 {
 	EXPECT_TRUE(ToStringTest<bksge::bigint>());
-	EXPECT_TRUE(ToStringTest<bksge::int64_t>());
+	EXPECT_TRUE(ToStringTest<std::int64_t>());
 	EXPECT_TRUE(ToStringTest<bksge::int128_t>());
 	EXPECT_TRUE(ToStringTest<bksge::int256_t>());
 	EXPECT_TRUE(ToStringTest<bksge::int512_t>());
 	EXPECT_TRUE(ToStringTest<bksge::int1024_t>());
 
-	EXPECT_TRUE(ToStringUnsignedTest<bksge::uint64_t>());
+	EXPECT_TRUE(ToStringUnsignedTest<std::uint64_t>());
 	EXPECT_TRUE(ToStringUnsignedTest<bksge::uint128_t>());
 	EXPECT_TRUE(ToStringUnsignedTest<bksge::uint256_t>());
 	EXPECT_TRUE(ToStringUnsignedTest<bksge::uint512_t>());

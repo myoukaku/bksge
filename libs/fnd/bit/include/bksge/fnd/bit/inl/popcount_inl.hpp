@@ -10,8 +10,8 @@
 #define BKSGE_FND_BIT_INL_POPCOUNT_INL_HPP
 
 #include <bksge/fnd/bit/popcount.hpp>
-#include <bksge/fnd/cstdint/uint64_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -27,7 +27,7 @@ namespace detail
 #if defined(BKSGE_HAS_CXX14_CONSTEXPR)
 
 inline constexpr int
-popcount_impl(bksge::uint64_t x) BKSGE_NOEXCEPT
+popcount_impl(std::uint64_t x) BKSGE_NOEXCEPT
 {
 	x = (x - ((x >> 1) & UINT64_C(0x5555555555555555)));
 	x = ((x & UINT64_C(0x3333333333333333)) + ((x >> 2) & UINT64_C(0x3333333333333333)));
@@ -39,25 +39,25 @@ popcount_impl(bksge::uint64_t x) BKSGE_NOEXCEPT
 #else
 
 inline BKSGE_CONSTEXPR int
-popcount_impl_4(bksge::uint64_t x) BKSGE_NOEXCEPT
+popcount_impl_4(std::uint64_t x) BKSGE_NOEXCEPT
 {
 	return (x * UINT64_C(0x0101010101010101)) >> 56;
 }
 
 inline BKSGE_CONSTEXPR int
-popcount_impl_3(bksge::uint64_t x) BKSGE_NOEXCEPT
+popcount_impl_3(std::uint64_t x) BKSGE_NOEXCEPT
 {
 	return popcount_impl_4((x + (x >> 4)) & UINT64_C(0x0f0f0f0f0f0f0f0f));
 }
 
 inline BKSGE_CONSTEXPR int
-popcount_impl_2(bksge::uint64_t x) BKSGE_NOEXCEPT
+popcount_impl_2(std::uint64_t x) BKSGE_NOEXCEPT
 {
 	return popcount_impl_3((x & UINT64_C(0x3333333333333333)) + ((x >> 2) & UINT64_C(0x3333333333333333)));
 }
 
 inline BKSGE_CONSTEXPR int
-popcount_impl(bksge::uint64_t x) BKSGE_NOEXCEPT
+popcount_impl(std::uint64_t x) BKSGE_NOEXCEPT
 {
 	return popcount_impl_2(x - ((x >> 1) & UINT64_C(0x5555555555555555)));
 }

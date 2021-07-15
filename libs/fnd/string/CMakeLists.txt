@@ -18,7 +18,6 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../algorithm ${CMAKE_CURRENT_BINARY
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../compare ${CMAKE_CURRENT_BINARY_DIR}/compare)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../concepts ${CMAKE_CURRENT_BINARY_DIR}/concepts)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../config ${CMAKE_CURRENT_BINARY_DIR}/config)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstdint ${CMAKE_CURRENT_BINARY_DIR}/cstdint)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../debug ${CMAKE_CURRENT_BINARY_DIR}/debug)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../functional ${CMAKE_CURRENT_BINARY_DIR}/functional)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../hash_functions ${CMAKE_CURRENT_BINARY_DIR}/hash_functions)
@@ -34,7 +33,6 @@ target_link_libraries(${TARGET_NAME}
 		Bksge::compare
 		Bksge::concepts
 		Bksge::config
-		Bksge::cstdint
 		Bksge::debug
 		Bksge::functional
 		Bksge::hash_functions

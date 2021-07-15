@@ -7,9 +7,9 @@
  */
 
 #include <bksge/fnd/bigint.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <cstdint>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -136,24 +136,24 @@ inline BKSGE_CXX14_CONSTEXPR bool PostIncrementTest()
 GTEST_TEST(BigIntTest, IncrementTest)
 {
 	EXPECT_TRUE(PreIncrementTest<bksge::bigint>());
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PreIncrementTest<bksge::int64_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PreIncrementTest<std::int64_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PreIncrementTest<bksge::int128_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PreIncrementTest<bksge::int256_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PreIncrementTest<bksge::int512_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PreIncrementTest<bksge::int1024_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PreIncrementTest<bksge::uint64_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PreIncrementTest<std::uint64_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PreIncrementTest<bksge::uint128_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PreIncrementTest<bksge::uint256_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PreIncrementTest<bksge::uint512_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PreIncrementTest<bksge::uint1024_t>()));
 
 	EXPECT_TRUE(PostIncrementTest<bksge::bigint>());
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PostIncrementTest<bksge::int64_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PostIncrementTest<std::int64_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PostIncrementTest<bksge::int128_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PostIncrementTest<bksge::int256_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PostIncrementTest<bksge::int512_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PostIncrementTest<bksge::int1024_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PostIncrementTest<bksge::uint64_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PostIncrementTest<std::uint64_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PostIncrementTest<bksge::uint128_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PostIncrementTest<bksge::uint256_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PostIncrementTest<bksge::uint512_t>()));

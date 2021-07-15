@@ -12,6 +12,7 @@
 #include <bksge/core/render/fwd/primitive_topology_fwd.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <ostream>
+#include <cstdint>
 
 namespace bksge
 {
@@ -22,7 +23,7 @@ namespace render
 /**
  *	@brief	描画プリミティブの種類
  */
-enum class PrimitiveTopology : bksge::uint32_t
+enum class PrimitiveTopology : std::uint32_t
 {
 	kPoints,
 	kLines,

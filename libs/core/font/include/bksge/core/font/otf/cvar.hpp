@@ -13,7 +13,7 @@
 #include <bksge/core/font/otf/types.hpp>
 #include <bksge/core/font/otf/tuple_variation_header.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -23,7 +23,7 @@ namespace otf
 
 struct CVTVariationsTable
 {
-	explicit CVTVariationsTable(bksge::uint8_t const* ptr, uint16 axisCount)
+	explicit CVTVariationsTable(std::uint8_t const* ptr, uint16 axisCount)
 	{
 		enum TupleVariationCount
 		{

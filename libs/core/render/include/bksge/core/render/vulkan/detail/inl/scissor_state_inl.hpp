@@ -17,7 +17,7 @@
 #include <bksge/core/render/scissor_state.hpp>
 #include <bksge/core/render/viewport.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -37,10 +37,10 @@ ScissorState::ScissorState(
 		scissor_state.enable() ?
 		scissor_state.rect() :
 		viewport.rect();
-	m_rect.offset.x = static_cast<bksge::int32_t>(bksge::max(0.0f, rect.left()));
-	m_rect.offset.y = static_cast<bksge::int32_t>(bksge::max(0.0f, rect.top()));
-	m_rect.extent.width  = static_cast<bksge::uint32_t>(rect.width());
-	m_rect.extent.height = static_cast<bksge::uint32_t>(rect.height());
+	m_rect.offset.x = static_cast<std::int32_t>(bksge::max(0.0f, rect.left()));
+	m_rect.offset.y = static_cast<std::int32_t>(bksge::max(0.0f, rect.top()));
+	m_rect.extent.width  = static_cast<std::uint32_t>(rect.width());
+	m_rect.extent.height = static_cast<std::uint32_t>(rect.height());
 }
 
 BKSGE_INLINE ::VkRect2D const&

@@ -10,8 +10,8 @@
 #define BKSGE_FND_HASH_FUNCTIONS_CRC32_HPP
 
 #include <bksge/fnd/hash_functions/hash_facade.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -29,11 +29,11 @@ namespace bksge
  *	ただし、CRC値が変化しないように元のデータを改ざんすることは容易であり、
  *	CRC単独では意図的なデータ改ざんを検出する目的には向いていない。
  */
-class crc32 : public hash_facade<crc32, bksge::uint32_t>
+class crc32 : public hash_facade<crc32, std::uint32_t>
 {
 public:
-	using result_type = bksge::uint32_t;
-	using seed_type   = bksge::uint32_t;
+	using result_type = std::uint32_t;
+	using seed_type   = std::uint32_t;
 
 	BKSGE_CONSTEXPR
 	crc32(void)

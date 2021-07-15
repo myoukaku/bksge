@@ -12,7 +12,7 @@
 #include <bksge/core/font/otf/read_big_endian.hpp>
 #include <bksge/core/font/otf/types.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -24,9 +24,9 @@ struct TableDirectory
 {
 	struct TableRecord
 	{
-		friend bksge::uint8_t const*
+		friend std::uint8_t const*
 		ReadBigEndian(
-			bksge::uint8_t const* ptr,
+			std::uint8_t const* ptr,
 			TableRecord* dst)
 		{
 			ptr = ReadBigEndian(ptr, &dst->tableTag);
@@ -42,7 +42,7 @@ struct TableDirectory
 		uint32		length;
 	};
 
-	explicit TableDirectory(bksge::uint8_t const* ptr)
+	explicit TableDirectory(std::uint8_t const* ptr)
 	{
 		ptr = ReadBigEndian(ptr, &sfntVersion);
 		ptr = ReadBigEndian(ptr, &numTables);

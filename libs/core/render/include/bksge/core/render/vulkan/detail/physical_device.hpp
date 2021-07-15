@@ -11,8 +11,8 @@
 
 #include <bksge/core/render/vulkan/detail/fwd/physical_device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/vector.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -38,9 +38,9 @@ public:
 
 	bksge::vector<::VkQueueFamilyProperties> GetQueueFamilyProperties(void) const;
 
-	bksge::uint32_t GetGraphicsQueueFamilyIndex(void) const;
+	std::uint32_t GetGraphicsQueueFamilyIndex(void) const;
 
-	bksge::uint32_t GetPresentQueueFamilyIndex(::VkSurfaceKHR surface) const;
+	std::uint32_t GetPresentQueueFamilyIndex(::VkSurfaceKHR surface) const;
 
 	bksge::vector<::VkSurfaceFormatKHR> GetSurfaceFormats(::VkSurfaceKHR surface) const;
 

@@ -18,7 +18,7 @@
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/variant.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -32,7 +32,7 @@ struct ChainedSequenceContext
 	{
 		struct ChainedSequenceRule
 		{
-			explicit ChainedSequenceRule(bksge::uint8_t const* ptr)
+			explicit ChainedSequenceRule(std::uint8_t const* ptr)
 			{
 				uint16	backtrackGlyphCount;
 				uint16	inputGlyphCount;
@@ -64,7 +64,7 @@ struct ChainedSequenceContext
 
 		struct ChainedSequenceRuleSet
 		{
-			explicit ChainedSequenceRuleSet(bksge::uint8_t const* ptr)
+			explicit ChainedSequenceRuleSet(std::uint8_t const* ptr)
 			{
 				auto const start = ptr;
 
@@ -81,7 +81,7 @@ struct ChainedSequenceContext
 			bksge::vector<ChainedSequenceRule>	chainedSeqRules;
 		};
 
-		static Format1 Create(bksge::uint8_t const* ptr, bksge::uint8_t const* start)
+		static Format1 Create(std::uint8_t const* ptr, std::uint8_t const* start)
 		{
 			Format1 result;
 
@@ -116,7 +116,7 @@ struct ChainedSequenceContext
 	{
 		struct ChainedClassSequenceRule
 		{
-			explicit ChainedClassSequenceRule(bksge::uint8_t const* ptr)
+			explicit ChainedClassSequenceRule(std::uint8_t const* ptr)
 			{
 				uint16	backtrackGlyphCount;
 				uint16	inputGlyphCount;
@@ -148,7 +148,7 @@ struct ChainedSequenceContext
 
 		struct ChainedClassSequenceRuleSet
 		{
-			explicit ChainedClassSequenceRuleSet(bksge::uint8_t const* ptr)
+			explicit ChainedClassSequenceRuleSet(std::uint8_t const* ptr)
 			{
 				auto const start = ptr;
 
@@ -166,7 +166,7 @@ struct ChainedSequenceContext
 			bksge::vector<ChainedClassSequenceRule>	chainedClassSeqRules;
 		};
 
-		static Format2 Create(bksge::uint8_t const* ptr, bksge::uint8_t const* start)
+		static Format2 Create(std::uint8_t const* ptr, std::uint8_t const* start)
 		{
 			Format2 result;
 
@@ -222,7 +222,7 @@ struct ChainedSequenceContext
 
 	struct Format3
 	{
-		static Format3 Create(bksge::uint8_t const* ptr, bksge::uint8_t const* start)
+		static Format3 Create(std::uint8_t const* ptr, std::uint8_t const* start)
 		{
 			Format3 result;
 
@@ -271,7 +271,7 @@ struct ChainedSequenceContext
 		bksge::vector<SequenceLookupRecord>	seqLookupRecords;
 	};
 
-	explicit ChainedSequenceContext(bksge::uint8_t const* ptr)
+	explicit ChainedSequenceContext(std::uint8_t const* ptr)
 	{
 		auto const start = ptr;
 

@@ -7,9 +7,9 @@
  */
 
 #include <bksge/fnd/bigint.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <cstdint>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -42,12 +42,12 @@ inline BKSGE_CXX14_CONSTEXPR bool UnaryPlusLargeTest()
 GTEST_TEST(BigIntTest, UnaryPlusTest)
 {
 	EXPECT_TRUE(UnaryPlusTest<bksge::bigint>());
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(UnaryPlusTest<bksge::int64_t>());
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(UnaryPlusTest<std::int64_t>());
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(UnaryPlusTest<bksge::int128_t>());
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(UnaryPlusTest<bksge::int256_t>());
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(UnaryPlusTest<bksge::int512_t>());
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(UnaryPlusTest<bksge::int1024_t>());
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(UnaryPlusTest<bksge::uint64_t>());
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(UnaryPlusTest<std::uint64_t>());
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(UnaryPlusTest<bksge::uint128_t>());
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(UnaryPlusTest<bksge::uint256_t>());
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(UnaryPlusTest<bksge::uint512_t>());

@@ -15,8 +15,8 @@
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/variant.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <cstddef>
+#include <cstdint>
 
 namespace bksge
 {
@@ -30,7 +30,7 @@ struct CMapTable
 	{
 		struct Format0
 		{
-			static Format0 Create(bksge::uint8_t const* ptr)
+			static Format0 Create(std::uint8_t const* ptr)
 			{
 				Format0 result;
 				ptr = ReadBigEndian(ptr, &result.length);
@@ -39,7 +39,7 @@ struct CMapTable
 				return result;
 			}
 
-			bksge::uint16_t GetGlyphIndex(bksge::uint32_t char_code) const
+			std::uint16_t GetGlyphIndex(std::uint32_t char_code) const
 			{
 				(void)char_code;
 				return 0;
@@ -60,7 +60,7 @@ struct CMapTable
 				uint16	idRangeOffset;
 			};
 
-			static Format2 Create(bksge::uint8_t const* ptr)
+			static Format2 Create(std::uint8_t const* ptr)
 			{
 				Format2 result;
 				ptr = ReadBigEndian(ptr, &result.length);
@@ -72,7 +72,7 @@ struct CMapTable
 				return result;
 			}
 
-			bksge::uint16_t GetGlyphIndex(bksge::uint32_t char_code) const
+			std::uint16_t GetGlyphIndex(std::uint32_t char_code) const
 			{
 				(void)char_code;
 				return 0;
@@ -87,7 +87,7 @@ struct CMapTable
 
 		struct Format4
 		{
-			static Format4 Create(bksge::uint8_t const* ptr)
+			static Format4 Create(std::uint8_t const* ptr)
 			{
 				auto const start = ptr;
 
@@ -124,7 +124,7 @@ struct CMapTable
 				return result;
 			}
 
-			bksge::uint16_t GetGlyphIndex(bksge::uint32_t char_code) const
+			std::uint16_t GetGlyphIndex(std::uint32_t char_code) const
 			{
 				auto const segCount = endCode.size();
 				for (std::size_t i = 0; i < segCount; ++i)
@@ -165,7 +165,7 @@ struct CMapTable
 
 		struct Format6
 		{
-			static Format6 Create(bksge::uint8_t const* ptr)
+			static Format6 Create(std::uint8_t const* ptr)
 			{
 				Format6 result;
 
@@ -180,7 +180,7 @@ struct CMapTable
 				return result;
 			}
 
-			bksge::uint16_t GetGlyphIndex(bksge::uint32_t char_code) const
+			std::uint16_t GetGlyphIndex(std::uint32_t char_code) const
 			{
 				(void)char_code;
 				return 0;
@@ -196,8 +196,8 @@ struct CMapTable
 		{
 			struct SequentialMapGroup
 			{
-				friend bksge::uint8_t const*
-				ReadBigEndian(bksge::uint8_t const* ptr, SequentialMapGroup* dst)
+				friend std::uint8_t const*
+				ReadBigEndian(std::uint8_t const* ptr, SequentialMapGroup* dst)
 				{
 					ptr = ReadBigEndian(ptr, &dst->startCharCode);
 					ptr = ReadBigEndian(ptr, &dst->endCharCode);
@@ -210,7 +210,7 @@ struct CMapTable
 				uint32	startGlyphID;
 			};
 
-			static Format8 Create(bksge::uint8_t const* ptr)
+			static Format8 Create(std::uint8_t const* ptr)
 			{
 				Format8 result;
 
@@ -227,7 +227,7 @@ struct CMapTable
 				return result;
 			}
 
-			bksge::uint16_t GetGlyphIndex(bksge::uint32_t char_code) const
+			std::uint16_t GetGlyphIndex(std::uint32_t char_code) const
 			{
 				(void)char_code;
 				return 0;
@@ -243,7 +243,7 @@ struct CMapTable
 
 		struct Format10
 		{
-			static Format10 Create(bksge::uint8_t const* ptr)
+			static Format10 Create(std::uint8_t const* ptr)
 			{
 				Format10 result;
 
@@ -258,7 +258,7 @@ struct CMapTable
 				return result;
 			}
 
-			bksge::uint16_t GetGlyphIndex(bksge::uint32_t char_code) const
+			std::uint16_t GetGlyphIndex(std::uint32_t char_code) const
 			{
 				(void)char_code;
 				return 0;
@@ -275,8 +275,8 @@ struct CMapTable
 		{
 			struct SequentialMapGroup
 			{
-				friend bksge::uint8_t const*
-				ReadBigEndian(bksge::uint8_t const* ptr, SequentialMapGroup* dst)
+				friend std::uint8_t const*
+				ReadBigEndian(std::uint8_t const* ptr, SequentialMapGroup* dst)
 				{
 					ptr = ReadBigEndian(ptr, &dst->startCharCode);
 					ptr = ReadBigEndian(ptr, &dst->endCharCode);
@@ -289,7 +289,7 @@ struct CMapTable
 				uint32	startGlyphID;
 			};
 
-			static Format12 Create(bksge::uint8_t const* ptr)
+			static Format12 Create(std::uint8_t const* ptr)
 			{
 				Format12 result;
 
@@ -305,7 +305,7 @@ struct CMapTable
 				return result;
 			}
 
-			bksge::uint16_t GetGlyphIndex(bksge::uint32_t char_code) const
+			std::uint16_t GetGlyphIndex(std::uint32_t char_code) const
 			{
 				(void)char_code;
 				return 0;
@@ -322,8 +322,8 @@ struct CMapTable
 		{
 			struct ConstantMapGroup
 			{
-				friend bksge::uint8_t const*
-				ReadBigEndian(bksge::uint8_t const* ptr, ConstantMapGroup* dst)
+				friend std::uint8_t const*
+				ReadBigEndian(std::uint8_t const* ptr, ConstantMapGroup* dst)
 				{
 					ptr = ReadBigEndian(ptr, &dst->startCharCode);
 					ptr = ReadBigEndian(ptr, &dst->endCharCode);
@@ -336,7 +336,7 @@ struct CMapTable
 				uint32	glyphID;
 			};
 
-			static Format13 Create(bksge::uint8_t const* ptr)
+			static Format13 Create(std::uint8_t const* ptr)
 			{
 				Format13 result;
 
@@ -352,7 +352,7 @@ struct CMapTable
 				return result;
 			}
 
-			bksge::uint16_t GetGlyphIndex(bksge::uint32_t char_code) const
+			std::uint16_t GetGlyphIndex(std::uint32_t char_code) const
 			{
 				(void)char_code;
 				return 0;
@@ -371,8 +371,8 @@ struct CMapTable
 			{
 				struct UnicodeRange
 				{
-					friend bksge::uint8_t const*
-					ReadBigEndian(bksge::uint8_t const* ptr, UnicodeRange* dst)
+					friend std::uint8_t const*
+					ReadBigEndian(std::uint8_t const* ptr, UnicodeRange* dst)
 					{
 						uint24	startUnicodeValue24;
 						ptr = ReadBigEndian(ptr, &startUnicodeValue24);
@@ -385,7 +385,7 @@ struct CMapTable
 					uint8	additionalCount;
 				};
 
-				explicit DefaultUVS(bksge::uint8_t const* ptr)
+				explicit DefaultUVS(std::uint8_t const* ptr)
 				{
 					uint32	numUnicodeValueRanges;
 					ptr = ReadBigEndian(ptr, &numUnicodeValueRanges);
@@ -400,8 +400,8 @@ struct CMapTable
 			{
 				struct UVSMapping
 				{
-					friend bksge::uint8_t const*
-					ReadBigEndian(bksge::uint8_t const* ptr, UVSMapping* dst)
+					friend std::uint8_t const*
+					ReadBigEndian(std::uint8_t const* ptr, UVSMapping* dst)
 					{
 						uint24	unicodeValue24;
 						ptr = ReadBigEndian(ptr, &unicodeValue24);
@@ -414,7 +414,7 @@ struct CMapTable
 					uint16	glyphID;
 				};
 
-				explicit NonDefaultUVS(bksge::uint8_t const* ptr)
+				explicit NonDefaultUVS(std::uint8_t const* ptr)
 				{
 					uint32	numUVSMappings;
 					ptr = ReadBigEndian(ptr, &numUVSMappings);
@@ -427,11 +427,11 @@ struct CMapTable
 
 			struct VariationSelector
 			{
-				friend bksge::uint8_t const*
+				friend std::uint8_t const*
 				ReadBigEndian(
-					bksge::uint8_t const* ptr,
+					std::uint8_t const* ptr,
 					VariationSelector* dst,
-					bksge::uint8_t const* start)
+					std::uint8_t const* start)
 				{
 					uint24		varSelector24;
 					Offset32	defaultUVSOffset;
@@ -463,7 +463,7 @@ struct CMapTable
 			};
 
 			static Format14 Create(
-				bksge::uint8_t const* ptr, bksge::uint8_t const* start)
+				std::uint8_t const* ptr, std::uint8_t const* start)
 			{
 				Format14 result;
 
@@ -476,7 +476,7 @@ struct CMapTable
 				return result;
 			}
 
-			bksge::uint16_t GetGlyphIndex(bksge::uint32_t char_code) const
+			std::uint16_t GetGlyphIndex(std::uint32_t char_code) const
 			{
 				(void)char_code;
 				return 0;
@@ -486,7 +486,7 @@ struct CMapTable
 			bksge::vector<VariationSelector>	varSelector;
 		};
 
-		explicit Subtable(bksge::uint8_t const* ptr)
+		explicit Subtable(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -508,16 +508,16 @@ struct CMapTable
 
 		struct GetGlyphIndexVisitor
 		{
-			bksge::uint32_t m_char_code;
+			std::uint32_t m_char_code;
 
 			template <typename T>
-			bksge::uint16_t operator()(T const& v)
+			std::uint16_t operator()(T const& v)
 			{
 				return v.GetGlyphIndex(m_char_code);
 			}
 		};
 
-		bksge::uint16_t GetGlyphIndex(bksge::uint32_t char_code) const
+		std::uint16_t GetGlyphIndex(std::uint32_t char_code) const
 		{
 			return bksge::visit(GetGlyphIndexVisitor{char_code}, value);
 		}
@@ -546,11 +546,11 @@ struct CMapTable
 
 	struct EncodingRecord
 	{
-		friend bksge::uint8_t const*
+		friend std::uint8_t const*
 		ReadBigEndian(
-			bksge::uint8_t const* ptr,
+			std::uint8_t const* ptr,
 			EncodingRecord* dst,
-			bksge::uint8_t const* start)
+			std::uint8_t const* start)
 		{
 			Offset32	subtableOffset;
 
@@ -564,7 +564,7 @@ struct CMapTable
 			return ptr;
 		}
 
-		bksge::uint16_t GetGlyphIndex(bksge::uint32_t char_code) const
+		std::uint16_t GetGlyphIndex(std::uint32_t char_code) const
 		{
 			return subtable->GetGlyphIndex(char_code);
 		}
@@ -574,7 +574,7 @@ struct CMapTable
 		bksge::unique_ptr<Subtable>	subtable;
 	};
 
-	explicit CMapTable(bksge::uint8_t const* ptr)
+	explicit CMapTable(std::uint8_t const* ptr)
 	{
 		auto const start = ptr;
 
@@ -586,7 +586,7 @@ struct CMapTable
 		ptr = ReadBigEndian(ptr, &encodingRecords, start);
 	}
 
-	bksge::uint16_t GetGlyphIndex(bksge::uint32_t char_code) const
+	std::uint16_t GetGlyphIndex(std::uint32_t char_code) const
 	{
 		auto encodingRecord = GetEncodingRecord_Unicode();
 		if (encodingRecord == nullptr)

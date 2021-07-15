@@ -12,7 +12,7 @@
 #include <bksge/core/font/otf/read_big_endian.hpp>
 #include <bksge/core/font/otf/types.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -24,8 +24,8 @@ struct VerticalDeviceMetrics
 {
 	struct RatioRange
 	{
-		friend bksge::uint8_t const*
-		ReadBigEndian(bksge::uint8_t const* ptr, RatioRange* dst)
+		friend std::uint8_t const*
+		ReadBigEndian(std::uint8_t const* ptr, RatioRange* dst)
 		{
 			ptr = ReadBigEndian(ptr, &dst->bCharSet);
 			ptr = ReadBigEndian(ptr, &dst->xRatio);
@@ -42,8 +42,8 @@ struct VerticalDeviceMetrics
 
 	struct vTable
 	{
-		friend bksge::uint8_t const*
-		ReadBigEndian(bksge::uint8_t const* ptr, vTable* dst)
+		friend std::uint8_t const*
+		ReadBigEndian(std::uint8_t const* ptr, vTable* dst)
 		{
 			ptr = ReadBigEndian(ptr, &dst->yPelHeight);
 			ptr = ReadBigEndian(ptr, &dst->yMax);
@@ -58,7 +58,7 @@ struct VerticalDeviceMetrics
 
 	struct VDMXGroup
 	{
-		explicit VDMXGroup(bksge::uint8_t const* ptr)
+		explicit VDMXGroup(std::uint8_t const* ptr)
 		{
 			ptr = ReadBigEndian(ptr, &recs);
 			ptr = ReadBigEndian(ptr, &startsz);
@@ -73,7 +73,7 @@ struct VerticalDeviceMetrics
 		bksge::vector<vTable>	entry;
 	};
 
-	explicit VerticalDeviceMetrics(bksge::uint8_t const* ptr)
+	explicit VerticalDeviceMetrics(std::uint8_t const* ptr)
 	{
 		auto const start = ptr;
 

@@ -15,7 +15,7 @@
 #include <bksge/core/font/otf/coverage_table.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -27,11 +27,11 @@ struct MathTable
 {
 	struct MathValueRecord
 	{
-		friend bksge::uint8_t const*
+		friend std::uint8_t const*
 		ReadBigEndian(
-			bksge::uint8_t const* ptr,
+			std::uint8_t const* ptr,
 			MathValueRecord* dst,
-			bksge::uint8_t const* start)
+			std::uint8_t const* start)
 		{
 			Offset16 deviceOffset;
 
@@ -53,7 +53,7 @@ struct MathTable
 
 	struct MathConstants
 	{
-		explicit MathConstants(bksge::uint8_t const* ptr)
+		explicit MathConstants(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -177,7 +177,7 @@ struct MathTable
 	{
 		struct MathItalicsCorrectionInfo
 		{
-			explicit MathItalicsCorrectionInfo(bksge::uint8_t const* ptr)
+			explicit MathItalicsCorrectionInfo(std::uint8_t const* ptr)
 			{
 				auto const start = ptr;
 
@@ -202,7 +202,7 @@ struct MathTable
 
 		struct MathTopAccentAttachment
 		{
-			explicit MathTopAccentAttachment(bksge::uint8_t const* ptr)
+			explicit MathTopAccentAttachment(std::uint8_t const* ptr)
 			{
 				auto const start = ptr;
 
@@ -227,7 +227,7 @@ struct MathTable
 
 		struct ExtendedShapeCoverage
 		{
-			explicit ExtendedShapeCoverage(bksge::uint8_t const* ptr)
+			explicit ExtendedShapeCoverage(std::uint8_t const* ptr)
 			{
 				(void)ptr;
 			}
@@ -236,7 +236,7 @@ struct MathTable
 
 		struct MathKern
 		{
-			explicit MathKern(bksge::uint8_t const* ptr)
+			explicit MathKern(std::uint8_t const* ptr)
 			{
 				auto const start = ptr;
 
@@ -256,11 +256,11 @@ struct MathTable
 
 		struct MathKernInfoRecord
 		{
-			friend bksge::uint8_t const*
+			friend std::uint8_t const*
 			ReadBigEndian(
-				bksge::uint8_t const* ptr,
+				std::uint8_t const* ptr,
 				MathKernInfoRecord* dst,
-				bksge::uint8_t const* start)
+				std::uint8_t const* start)
 			{
 				Offset16	topRightMathKernOffset;
 				Offset16	topLeftMathKernOffset;
@@ -304,7 +304,7 @@ struct MathTable
 
 		struct MathKernInfo
 		{
-			explicit MathKernInfo(bksge::uint8_t const* ptr)
+			explicit MathKernInfo(std::uint8_t const* ptr)
 			{
 				auto const start = ptr;
 
@@ -327,7 +327,7 @@ struct MathTable
 			bksge::vector<MathKernInfoRecord>	mathKernInfoRecords;
 		};
 
-		explicit MathGlyphInfo(bksge::uint8_t const* ptr)
+		explicit MathGlyphInfo(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -377,9 +377,9 @@ struct MathTable
 	{
 		struct GlyphPartRecord
 		{
-			friend bksge::uint8_t const*
+			friend std::uint8_t const*
 			ReadBigEndian(
-				bksge::uint8_t const* ptr,
+				std::uint8_t const* ptr,
 				GlyphPartRecord* dst)
 			{
 				ptr = ReadBigEndian(ptr, &dst->glyphID);
@@ -399,7 +399,7 @@ struct MathTable
 
 		struct GlyphAssembly
 		{
-			explicit GlyphAssembly(bksge::uint8_t const* ptr)
+			explicit GlyphAssembly(std::uint8_t const* ptr)
 			{
 				auto const start = ptr;
 
@@ -417,9 +417,9 @@ struct MathTable
 
 		struct MathGlyphVariantRecord
 		{
-			friend bksge::uint8_t const*
+			friend std::uint8_t const*
 			ReadBigEndian(
-				bksge::uint8_t const* ptr,
+				std::uint8_t const* ptr,
 				MathGlyphVariantRecord* dst)
 			{
 				ptr = ReadBigEndian(ptr, &dst->variantGlyph);
@@ -433,7 +433,7 @@ struct MathTable
 
 		struct MathGlyphConstruction
 		{
-			explicit MathGlyphConstruction(bksge::uint8_t const* ptr)
+			explicit MathGlyphConstruction(std::uint8_t const* ptr)
 			{
 				auto const start = ptr;
 
@@ -456,7 +456,7 @@ struct MathTable
 			bksge::vector<MathGlyphVariantRecord>	mathGlyphVariantRecord;
 		};
 
-		explicit MathVariants(bksge::uint8_t const* ptr)
+		explicit MathVariants(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -506,7 +506,7 @@ struct MathTable
 		bksge::vector<MathGlyphConstruction>	horizGlyphConstructions;
 	};
 
-	explicit MathTable(bksge::uint8_t const* ptr)
+	explicit MathTable(std::uint8_t const* ptr)
 	{
 		auto const start = ptr;
 

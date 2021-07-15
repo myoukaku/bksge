@@ -16,7 +16,7 @@
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/physical_device.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -30,14 +30,14 @@ namespace vulkan
 namespace detail
 {
 
-inline bksge::uint32_t
+inline std::uint32_t
 GetMemoryTypeIndex(
 	::VkPhysicalDeviceMemoryProperties const& props,
-	bksge::uint32_t type_bits,
+	std::uint32_t type_bits,
 	::VkFlags mask)
 {
 	// Search memtypes to find first index with those properties
-	for (bksge::uint32_t i = 0; i < props.memoryTypeCount; i++)
+	for (std::uint32_t i = 0; i < props.memoryTypeCount; i++)
 	{
 		if ((type_bits & 1) == 1)
 		{
@@ -51,7 +51,7 @@ GetMemoryTypeIndex(
 	}
 
 	// No memory types matched, return failure
-	return bksge::uint32_t(-1);
+	return std::uint32_t(-1);
 }
 
 }	// namespace detail

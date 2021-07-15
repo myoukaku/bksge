@@ -10,8 +10,8 @@
 #define BKSGE_FND_HASH_FUNCTIONS_FNV_HASH_HPP
 
 #include <bksge/fnd/hash_functions/hash_facade.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -23,11 +23,11 @@ namespace bksge
  *	1バイトごとに乗算1回と排他的論理和1回という高速なハッシュ関数。
  *	http://www.isthe.com/chongo/tech/comp/fnv/
  */
-class fnv_hash : public hash_facade<fnv_hash, bksge::uint32_t>
+class fnv_hash : public hash_facade<fnv_hash, std::uint32_t>
 {
 public:
-	using result_type = bksge::uint32_t;
-	using seed_type   = bksge::uint32_t;
+	using result_type = std::uint32_t;
+	using seed_type   = std::uint32_t;
 
 	BKSGE_CONSTEXPR
 	fnv_hash(void)

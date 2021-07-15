@@ -15,9 +15,8 @@
 #include <bksge/fnd/serialization/access.hpp>
 #include <bksge/fnd/serialization/nvp.hpp>
 #include <bksge/fnd/serialization/version.hpp>
-#include <bksge/fnd/cstdint/uint8_t.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <ostream>
+#include <cstdint>
 
 namespace bksge
 {
@@ -36,18 +35,18 @@ public:
 	ClearFlag const&	flag(void) const;
 	Color4f const&		color(void) const;
 	float				depth(void) const;
-	bksge::uint8_t		stencil(void) const;
+	std::uint8_t		stencil(void) const;
 
 	void SetFlag(ClearFlag const& flag);
 	void SetColor(Color4f const& color);
 	void SetDepth(float depth);
-	void SetStencil(bksge::uint8_t stencil);
+	void SetStencil(std::uint8_t stencil);
 
 private:
 	ClearFlag			m_flag;
 	Color4f				m_color;
 	float				m_depth;
-	bksge::uint8_t		m_stencil;
+	std::uint8_t		m_stencil;
 
 private:
 	/**
@@ -78,7 +77,7 @@ operator<<(std::basic_ostream<CharT, Traits>& os, ClearState const& rhs)
 		<< rhs.flag() << ", "
 		<< rhs.color() << ", "
 		<< rhs.depth() << ", "
-		<< static_cast<bksge::uint32_t>(rhs.stencil()) << " }";
+		<< static_cast<std::uint32_t>(rhs.stencil()) << " }";
 }
 
 }	// namespace render

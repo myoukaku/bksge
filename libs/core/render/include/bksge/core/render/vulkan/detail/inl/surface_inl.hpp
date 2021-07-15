@@ -18,6 +18,7 @@
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/window/window.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstdint>
 
 #if defined(BKSGE_PLATFORM_WIN32)
 #include <bksge/core/detail/win32.hpp>
@@ -60,7 +61,7 @@ Surface::GetCapabilities(vulkan::PhysicalDevice const& physical_device) const
 	return physical_device.GetSurfaceCapabilities(m_surface);
 }
 
-BKSGE_INLINE bksge::uint32_t
+BKSGE_INLINE std::uint32_t
 Surface::GetPresentQueueFamilyIndex(vulkan::PhysicalDevice const& physical_device) const
 {
 	return physical_device.GetPresentQueueFamilyIndex(m_surface);

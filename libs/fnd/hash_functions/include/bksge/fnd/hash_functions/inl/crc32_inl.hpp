@@ -10,6 +10,7 @@
 #define BKSGE_FND_HASH_FUNCTIONS_INL_CRC32_INL_HPP
 
 #include <bksge/fnd/hash_functions/crc32.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -19,7 +20,7 @@ inline BKSGE_CXX14_CONSTEXPR auto
 crc32::invoke(Iterator first, Iterator last) const
 -> result_type
 {
-	const bksge::uint32_t table[256] =
+	const std::uint32_t table[256] =
 	{
 		0x00000000,0x77073096,0xee0e612c,0x990951ba,
 		0x076dc419,0x706af48f,0xe963a535,0x9e6495a3,

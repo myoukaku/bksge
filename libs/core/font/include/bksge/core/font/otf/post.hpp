@@ -12,7 +12,7 @@
 #include <bksge/core/font/otf/read_big_endian.hpp>
 #include <bksge/core/font/otf/types.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -22,7 +22,7 @@ namespace otf
 
 struct PostScriptTable
 {
-	explicit PostScriptTable(bksge::uint8_t const* ptr)
+	explicit PostScriptTable(std::uint8_t const* ptr)
 	{
 		ptr = ReadBigEndian(ptr, &version);
 		ptr = ReadBigEndian(ptr, &italicAngle);

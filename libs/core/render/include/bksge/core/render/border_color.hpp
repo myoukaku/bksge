@@ -12,6 +12,7 @@
 #include <bksge/core/render/fwd/border_color_fwd.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <ostream>
+#include <cstdint>
 
 namespace bksge
 {
@@ -22,7 +23,7 @@ namespace render
 /**
  *	@brief	AddressMode が kBorder のときに塗りつぶす色
  */
-enum class BorderColor : bksge::uint32_t
+enum class BorderColor : std::uint32_t
 {
 	kTransparentBlack,
 	kOpaqueBlack,

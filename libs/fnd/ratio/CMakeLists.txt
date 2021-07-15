@@ -14,11 +14,9 @@ project(${TARGET_NAME} LANGUAGES C CXX)
 add_library(${TARGET_NAME} INTERFACE)
 add_library(${TARGET_ALIAS_NAME} ALIAS ${TARGET_NAME})
 
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstdint ${CMAKE_CURRENT_BINARY_DIR}/cstdint)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../tmp ${CMAKE_CURRENT_BINARY_DIR}/tmp)
 target_link_libraries(${TARGET_NAME}
 	INTERFACE
-		Bksge::cstdint
 		Bksge::tmp)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)

@@ -7,10 +7,10 @@
  */
 
 #include <bksge/fnd/bigint.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include <limits>
+#include <cstdint>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -27,14 +27,14 @@ inline BKSGE_CXX14_CONSTEXPR bool ToIntegralTest()
 {
 	{
 		BigInt const x = 0;
-		bksge::int8_t   i8(x);
-		bksge::int16_t  i16(x);
-		bksge::int32_t  i32(x);
-		bksge::int64_t  i64(x);
-		bksge::uint8_t  ui8(x);
-		bksge::uint16_t ui16(x);
-		bksge::uint32_t ui32(x);
-		bksge::uint64_t ui64(x);
+		std::int8_t   i8(x);
+		std::int16_t  i16(x);
+		std::int32_t  i32(x);
+		std::int64_t  i64(x);
+		std::uint8_t  ui8(x);
+		std::uint16_t ui16(x);
+		std::uint32_t ui32(x);
+		std::uint64_t ui64(x);
 		VERIFY(i8   == 0);
 		VERIFY(i16  == 0);
 		VERIFY(i32  == 0);
@@ -46,14 +46,14 @@ inline BKSGE_CXX14_CONSTEXPR bool ToIntegralTest()
 	}
 	{
 		BigInt const x = 1;
-		bksge::int8_t   i8(x);
-		bksge::int16_t  i16(x);
-		bksge::int32_t  i32(x);
-		bksge::int64_t  i64(x);
-		bksge::uint8_t  ui8(x);
-		bksge::uint16_t ui16(x);
-		bksge::uint32_t ui32(x);
-		bksge::uint64_t ui64(x);
+		std::int8_t   i8(x);
+		std::int16_t  i16(x);
+		std::int32_t  i32(x);
+		std::int64_t  i64(x);
+		std::uint8_t  ui8(x);
+		std::uint16_t ui16(x);
+		std::uint32_t ui32(x);
+		std::uint64_t ui64(x);
 		VERIFY(i8   == 1);
 		VERIFY(i16  == 1);
 		VERIFY(i32  == 1);
@@ -65,14 +65,14 @@ inline BKSGE_CXX14_CONSTEXPR bool ToIntegralTest()
 	}
 	{
 		BigInt const x = -1;
-		bksge::int8_t   i8(x);
-		bksge::int16_t  i16(x);
-		bksge::int32_t  i32(x);
-		bksge::int64_t  i64(x);
-		bksge::uint8_t  ui8(x);
-		bksge::uint16_t ui16(x);
-		bksge::uint32_t ui32(x);
-		bksge::uint64_t ui64(x);
+		std::int8_t   i8(x);
+		std::int16_t  i16(x);
+		std::int32_t  i32(x);
+		std::int64_t  i64(x);
+		std::uint8_t  ui8(x);
+		std::uint16_t ui16(x);
+		std::uint32_t ui32(x);
+		std::uint64_t ui64(x);
 		VERIFY(i8   == -1);
 		VERIFY(i16  == -1);
 		VERIFY(i32  == -1);
@@ -84,132 +84,132 @@ inline BKSGE_CXX14_CONSTEXPR bool ToIntegralTest()
 	}
 	{
 		BigInt const x = 0xffff;
-		bksge::int8_t   i8(x);
-		bksge::int16_t  i16(x);
-		bksge::int32_t  i32(x);
-		bksge::int64_t  i64(x);
-		bksge::uint8_t  ui8(x);
-		bksge::uint16_t ui16(x);
-		bksge::uint32_t ui32(x);
-		bksge::uint64_t ui64(x);
-		VERIFY(i8   == bksge::int8_t (0xff));
-		VERIFY(i16  == bksge::int16_t(0xffff));
-		VERIFY(i32  == bksge::int32_t(0xffff));
-		VERIFY(i64  == bksge::int64_t(0xffff));
-		VERIFY(ui8  == bksge::uint8_t (0xff));
-		VERIFY(ui16 == bksge::uint16_t(0xffff));
-		VERIFY(ui32 == bksge::uint32_t(0xffff));
-		VERIFY(ui64 == bksge::uint64_t(0xffff));
+		std::int8_t   i8(x);
+		std::int16_t  i16(x);
+		std::int32_t  i32(x);
+		std::int64_t  i64(x);
+		std::uint8_t  ui8(x);
+		std::uint16_t ui16(x);
+		std::uint32_t ui32(x);
+		std::uint64_t ui64(x);
+		VERIFY(i8   == std::int8_t (0xff));
+		VERIFY(i16  == std::int16_t(0xffff));
+		VERIFY(i32  == std::int32_t(0xffff));
+		VERIFY(i64  == std::int64_t(0xffff));
+		VERIFY(ui8  == std::uint8_t (0xff));
+		VERIFY(ui16 == std::uint16_t(0xffff));
+		VERIFY(ui32 == std::uint32_t(0xffff));
+		VERIFY(ui64 == std::uint64_t(0xffff));
 	}
 	{
 		BigInt const x = -0xffff;
-		bksge::int8_t   i8(x);
-		bksge::int16_t  i16(x);
-		bksge::int32_t  i32(x);
-		bksge::int64_t  i64(x);
-		bksge::uint8_t  ui8(x);
-		bksge::uint16_t ui16(x);
-		bksge::uint32_t ui32(x);
-		bksge::uint64_t ui64(x);
-		VERIFY(i8   == bksge::int8_t (-0xffff));
-		VERIFY(i16  == bksge::int16_t(-0xffff));
-		VERIFY(i32  == bksge::int32_t(-0xffff));
-		VERIFY(i64  == bksge::int64_t(-0xffff));
-		VERIFY(ui8  == bksge::uint8_t (-0xffff));
-		VERIFY(ui16 == bksge::uint16_t(-0xffff));
-		VERIFY(ui32 == bksge::uint32_t(-0xffff));
-		VERIFY(ui64 == bksge::uint64_t(-0xffff));
+		std::int8_t   i8(x);
+		std::int16_t  i16(x);
+		std::int32_t  i32(x);
+		std::int64_t  i64(x);
+		std::uint8_t  ui8(x);
+		std::uint16_t ui16(x);
+		std::uint32_t ui32(x);
+		std::uint64_t ui64(x);
+		VERIFY(i8   == std::int8_t (-0xffff));
+		VERIFY(i16  == std::int16_t(-0xffff));
+		VERIFY(i32  == std::int32_t(-0xffff));
+		VERIFY(i64  == std::int64_t(-0xffff));
+		VERIFY(ui8  == std::uint8_t (-0xffff));
+		VERIFY(ui16 == std::uint16_t(-0xffff));
+		VERIFY(ui32 == std::uint32_t(-0xffff));
+		VERIFY(ui64 == std::uint64_t(-0xffff));
 	}
 	{
 		BigInt const x = 0xffffffff;
-		bksge::int8_t   i8(x);
-		bksge::int16_t  i16(x);
-		bksge::int32_t  i32(x);
-		bksge::int64_t  i64(x);
-		bksge::uint8_t  ui8(x);
-		bksge::uint16_t ui16(x);
-		bksge::uint32_t ui32(x);
-		bksge::uint64_t ui64(x);
-		VERIFY(i8   == bksge::int8_t (0xff));
-		VERIFY(i16  == bksge::int16_t(0xffff));
-		VERIFY(i32  == bksge::int32_t(0xffffffff));
-		VERIFY(i64  == bksge::int64_t(0xffffffff));
-		VERIFY(ui8  == bksge::uint8_t (0xff));
-		VERIFY(ui16 == bksge::uint16_t(0xffff));
-		VERIFY(ui32 == bksge::uint32_t(0xffffffff));
-		VERIFY(ui64 == bksge::uint64_t(0xffffffff));
+		std::int8_t   i8(x);
+		std::int16_t  i16(x);
+		std::int32_t  i32(x);
+		std::int64_t  i64(x);
+		std::uint8_t  ui8(x);
+		std::uint16_t ui16(x);
+		std::uint32_t ui32(x);
+		std::uint64_t ui64(x);
+		VERIFY(i8   == std::int8_t (0xff));
+		VERIFY(i16  == std::int16_t(0xffff));
+		VERIFY(i32  == std::int32_t(0xffffffff));
+		VERIFY(i64  == std::int64_t(0xffffffff));
+		VERIFY(ui8  == std::uint8_t (0xff));
+		VERIFY(ui16 == std::uint16_t(0xffff));
+		VERIFY(ui32 == std::uint32_t(0xffffffff));
+		VERIFY(ui64 == std::uint64_t(0xffffffff));
 	}
 	{
 		BigInt const x = -0xffffffff;
-		bksge::int8_t   i8(x);
-		bksge::int16_t  i16(x);
-		bksge::int32_t  i32(x);
-		bksge::int64_t  i64(x);
-		bksge::uint8_t  ui8(x);
-		bksge::uint16_t ui16(x);
-		bksge::uint32_t ui32(x);
-		bksge::uint64_t ui64(x);
-		VERIFY(i8   == bksge::int8_t (-0xffffffff));
-		VERIFY(i16  == bksge::int16_t(-0xffffffff));
-		VERIFY(i32  == bksge::int32_t(-0xffffffff));
-		VERIFY(i64  == bksge::int64_t(-0xffffffff));
-		VERIFY(ui8  == bksge::uint8_t (-0xffffffff));
-		VERIFY(ui16 == bksge::uint16_t(-0xffffffff));
-		VERIFY(ui32 == bksge::uint32_t(-0xffffffff));
-		VERIFY(ui64 == bksge::uint64_t(-0xffffffff));
+		std::int8_t   i8(x);
+		std::int16_t  i16(x);
+		std::int32_t  i32(x);
+		std::int64_t  i64(x);
+		std::uint8_t  ui8(x);
+		std::uint16_t ui16(x);
+		std::uint32_t ui32(x);
+		std::uint64_t ui64(x);
+		VERIFY(i8   == std::int8_t (-0xffffffff));
+		VERIFY(i16  == std::int16_t(-0xffffffff));
+		VERIFY(i32  == std::int32_t(-0xffffffff));
+		VERIFY(i64  == std::int64_t(-0xffffffff));
+		VERIFY(ui8  == std::uint8_t (-0xffffffff));
+		VERIFY(ui16 == std::uint16_t(-0xffffffff));
+		VERIFY(ui32 == std::uint32_t(-0xffffffff));
+		VERIFY(ui64 == std::uint64_t(-0xffffffff));
 	}
 	{
 		BigInt const x = 0xffffffffffffffff;
-		bksge::int8_t   i8(x);
-		bksge::int16_t  i16(x);
-		bksge::int32_t  i32(x);
-		bksge::int64_t  i64(x);
-		bksge::uint8_t  ui8(x);
-		bksge::uint16_t ui16(x);
-		bksge::uint32_t ui32(x);
-		bksge::uint64_t ui64(x);
-		VERIFY(i8   == bksge::int8_t (0xff));
-		VERIFY(i16  == bksge::int16_t(0xffff));
-		VERIFY(i32  == bksge::int32_t(0xffffffff));
-		VERIFY(i64  == bksge::int64_t(0xffffffffffffffff));
-		VERIFY(ui8  == bksge::uint8_t (0xff));
-		VERIFY(ui16 == bksge::uint16_t(0xffff));
-		VERIFY(ui32 == bksge::uint32_t(0xffffffff));
-		VERIFY(ui64 == bksge::uint64_t(0xffffffffffffffff));
+		std::int8_t   i8(x);
+		std::int16_t  i16(x);
+		std::int32_t  i32(x);
+		std::int64_t  i64(x);
+		std::uint8_t  ui8(x);
+		std::uint16_t ui16(x);
+		std::uint32_t ui32(x);
+		std::uint64_t ui64(x);
+		VERIFY(i8   == std::int8_t (0xff));
+		VERIFY(i16  == std::int16_t(0xffff));
+		VERIFY(i32  == std::int32_t(0xffffffff));
+		VERIFY(i64  == std::int64_t(0xffffffffffffffff));
+		VERIFY(ui8  == std::uint8_t (0xff));
+		VERIFY(ui16 == std::uint16_t(0xffff));
+		VERIFY(ui32 == std::uint32_t(0xffffffff));
+		VERIFY(ui64 == std::uint64_t(0xffffffffffffffff));
 	}
 	{
 		BigInt const x = -0xffffffffffffffff;
-		bksge::int8_t   i8(x);
-		bksge::int16_t  i16(x);
-		bksge::int32_t  i32(x);
-		bksge::int64_t  i64(x);
-		bksge::uint8_t  ui8(x);
-		bksge::uint16_t ui16(x);
-		bksge::uint32_t ui32(x);
-		bksge::uint64_t ui64(x);
-		VERIFY(i8   == bksge::int8_t (-0xffffffffffffffff));
-		VERIFY(i16  == bksge::int16_t(-0xffffffffffffffff));
-		VERIFY(i32  == bksge::int32_t(-0xffffffffffffffff));
-		VERIFY(i64  == bksge::int64_t(-0xffffffffffffffff));
-		VERIFY(ui8  == bksge::uint8_t (-0xffffffffffffffff));
-		VERIFY(ui16 == bksge::uint16_t(-0xffffffffffffffff));
-		VERIFY(ui32 == bksge::uint32_t(-0xffffffffffffffff));
-		VERIFY(ui64 == bksge::uint64_t(-0xffffffffffffffff));
+		std::int8_t   i8(x);
+		std::int16_t  i16(x);
+		std::int32_t  i32(x);
+		std::int64_t  i64(x);
+		std::uint8_t  ui8(x);
+		std::uint16_t ui16(x);
+		std::uint32_t ui32(x);
+		std::uint64_t ui64(x);
+		VERIFY(i8   == std::int8_t (-0xffffffffffffffff));
+		VERIFY(i16  == std::int16_t(-0xffffffffffffffff));
+		VERIFY(i32  == std::int32_t(-0xffffffffffffffff));
+		VERIFY(i64  == std::int64_t(-0xffffffffffffffff));
+		VERIFY(ui8  == std::uint8_t (-0xffffffffffffffff));
+		VERIFY(ui16 == std::uint16_t(-0xffffffffffffffff));
+		VERIFY(ui32 == std::uint32_t(-0xffffffffffffffff));
+		VERIFY(ui64 == std::uint64_t(-0xffffffffffffffff));
 	}
 	{
 		BigInt const x{"0xffffffffffffffffffffffffffffffff"};
-		bksge::int8_t   i8(x);
-		bksge::int16_t  i16(x);
-		bksge::int32_t  i32(x);
-		bksge::int64_t  i64(x);
-		bksge::uint8_t  ui8(x);
-		bksge::uint16_t ui16(x);
-		bksge::uint32_t ui32(x);
-		bksge::uint64_t ui64(x);
-		VERIFY(i8   == bksge::int8_t (0xff));
-		VERIFY(i16  == bksge::int16_t(0xffff));
-		VERIFY(i32  == bksge::int32_t(0xffffffff));
-		VERIFY(i64  == bksge::int64_t(0xffffffffffffffff));
+		std::int8_t   i8(x);
+		std::int16_t  i16(x);
+		std::int32_t  i32(x);
+		std::int64_t  i64(x);
+		std::uint8_t  ui8(x);
+		std::uint16_t ui16(x);
+		std::uint32_t ui32(x);
+		std::uint64_t ui64(x);
+		VERIFY(i8   == std::int8_t (0xff));
+		VERIFY(i16  == std::int16_t(0xffff));
+		VERIFY(i32  == std::int32_t(0xffffffff));
+		VERIFY(i64  == std::int64_t(0xffffffffffffffff));
 		VERIFY(ui8  == 0xff);
 		VERIFY(ui16 == 0xffff);
 		VERIFY(ui32 == 0xffffffff);
@@ -217,14 +217,14 @@ inline BKSGE_CXX14_CONSTEXPR bool ToIntegralTest()
 	}
 	{
 		BigInt const x{"-0xffffffffffffffffffffffffffffffff"};
-		bksge::int8_t   i8(x);
-		bksge::int16_t  i16(x);
-		bksge::int32_t  i32(x);
-		bksge::int64_t  i64(x);
-		bksge::uint8_t  ui8(x);
-		bksge::uint16_t ui16(x);
-		bksge::uint32_t ui32(x);
-		bksge::uint64_t ui64(x);
+		std::int8_t   i8(x);
+		std::int16_t  i16(x);
+		std::int32_t  i32(x);
+		std::int64_t  i64(x);
+		std::uint8_t  ui8(x);
+		std::uint16_t ui16(x);
+		std::uint32_t ui32(x);
+		std::uint64_t ui64(x);
 		VERIFY(i8   == 1);
 		VERIFY(i16  == 1);
 		VERIFY(i32  == 1);

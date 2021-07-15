@@ -7,9 +7,9 @@
  */
 
 #include <bksge/fnd/bigint.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <cstdint>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -50,12 +50,12 @@ inline BKSGE_CXX14_CONSTEXPR bool BitNotLargeTest()
 
 GTEST_TEST(BigIntTest, BitNotTest)
 {
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((BitNotTest<bksge::int64_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((BitNotTest<std::int64_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((BitNotTest<bksge::int128_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((BitNotTest<bksge::int256_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((BitNotTest<bksge::int512_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((BitNotTest<bksge::int1024_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((BitNotTest<bksge::uint64_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((BitNotTest<std::uint64_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((BitNotTest<bksge::uint128_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((BitNotTest<bksge::uint256_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((BitNotTest<bksge::uint512_t>()));

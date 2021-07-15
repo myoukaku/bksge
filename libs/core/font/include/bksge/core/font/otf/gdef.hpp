@@ -18,7 +18,7 @@
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -30,7 +30,7 @@ struct GlyphDefinitionTable
 {
 	struct GlyphClassDef : public ClassDefinitionTable
 	{
-		explicit GlyphClassDef(bksge::uint8_t const* ptr)
+		explicit GlyphClassDef(std::uint8_t const* ptr)
 			: ClassDefinitionTable(ptr)
 		{}
 	};
@@ -39,7 +39,7 @@ struct GlyphDefinitionTable
 	{
 		struct AttachPoint
 		{
-			explicit AttachPoint(bksge::uint8_t const* ptr)
+			explicit AttachPoint(std::uint8_t const* ptr)
 			{
 				uint16	pointCount;
 				ptr = ReadBigEndian(ptr, &pointCount);
@@ -50,7 +50,7 @@ struct GlyphDefinitionTable
 			bksge::vector<uint16>	pointIndices;
 		};
 
-		explicit AttachList(bksge::uint8_t const* ptr)
+		explicit AttachList(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -83,7 +83,7 @@ struct GlyphDefinitionTable
 		{
 			struct Format1
 			{
-				static Format1 Create(bksge::uint8_t const* ptr)
+				static Format1 Create(std::uint8_t const* ptr)
 				{
 					Format1 result;
 					ptr = ReadBigEndian(ptr, &result.coordinate);
@@ -95,7 +95,7 @@ struct GlyphDefinitionTable
 
 			struct Format2
 			{
-				static Format2 Create(bksge::uint8_t const* ptr)
+				static Format2 Create(std::uint8_t const* ptr)
 				{
 					Format2 result;
 					ptr = ReadBigEndian(ptr, &result.caretValuePointIndex);
@@ -108,8 +108,8 @@ struct GlyphDefinitionTable
 			struct Format3
 			{
 				static Format3 Create(
-					bksge::uint8_t const* ptr,
-					bksge::uint8_t const* start)
+					std::uint8_t const* ptr,
+					std::uint8_t const* start)
 				{
 					Format3 result;
 
@@ -131,7 +131,7 @@ struct GlyphDefinitionTable
 				bksge::unique_ptr<DeviceTable>	device;
 			};
 
-			explicit CaretValue(bksge::uint8_t const* ptr)
+			explicit CaretValue(std::uint8_t const* ptr)
 			{
 				auto const start = ptr;
 
@@ -154,7 +154,7 @@ struct GlyphDefinitionTable
 
 		struct LigGlyph
 		{
-			explicit LigGlyph(bksge::uint8_t const* ptr)
+			explicit LigGlyph(std::uint8_t const* ptr)
 			{
 				auto const start = ptr;
 
@@ -171,7 +171,7 @@ struct GlyphDefinitionTable
 			bksge::vector<CaretValue>	caretValues;
 		};
 
-		explicit LigCaretList(bksge::uint8_t const* ptr)
+		explicit LigCaretList(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -200,14 +200,14 @@ struct GlyphDefinitionTable
 
 	struct MarkAttachClassDef : public ClassDefinitionTable
 	{
-		explicit MarkAttachClassDef(bksge::uint8_t const* ptr)
+		explicit MarkAttachClassDef(std::uint8_t const* ptr)
 			: ClassDefinitionTable(ptr)
 		{}
 	};
 
 	struct MarkGlyphSetsDef
 	{
-		explicit MarkGlyphSetsDef(bksge::uint8_t const* ptr)
+		explicit MarkGlyphSetsDef(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -227,7 +227,7 @@ struct GlyphDefinitionTable
 		bksge::vector<CoverageTable>	coverages;
 	};
 
-	explicit GlyphDefinitionTable(bksge::uint8_t const* ptr)
+	explicit GlyphDefinitionTable(std::uint8_t const* ptr)
 	{
 		auto const start = ptr;
 

@@ -18,6 +18,7 @@
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/string.hpp>
 #include <bksge/fnd/algorithm/ranges/find.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -166,7 +167,7 @@ Instance::EnumeratePhysicalDevices(void) const
 {
 	for (;;)
 	{
-		bksge::uint32_t count;
+		std::uint32_t count;
 		vk::EnumeratePhysicalDevices(m_instance, &count, nullptr);
 
 		if (count == 0)

@@ -13,6 +13,7 @@
 #include <bksge/fnd/bit/rotl.hpp>
 #include <bksge/fnd/cmath/round_down.hpp>
 #include <cstddef>
+#include <cstdint>
 
 namespace bksge
 {
@@ -39,17 +40,17 @@ namespace murmur_hash_3_detail
 {
 
 template <typename Iterator>
-inline BKSGE_CONSTEXPR bksge::uint32_t
+inline BKSGE_CONSTEXPR std::uint32_t
 read_32(Iterator p)
 {
 #if defined(BKSGE_BIG_ENDIAN)
 	// TODO
 #else
 	return
-		(static_cast<bksge::uint32_t>(p[0]) << (0 * 8)) |
-		(static_cast<bksge::uint32_t>(p[1]) << (1 * 8)) |
-		(static_cast<bksge::uint32_t>(p[2]) << (2 * 8)) |
-		(static_cast<bksge::uint32_t>(p[3]) << (3 * 8));
+		(static_cast<std::uint32_t>(p[0]) << (0 * 8)) |
+		(static_cast<std::uint32_t>(p[1]) << (1 * 8)) |
+		(static_cast<std::uint32_t>(p[2]) << (2 * 8)) |
+		(static_cast<std::uint32_t>(p[3]) << (3 * 8));
 #endif
 }
 
@@ -63,8 +64,8 @@ murmur_hash_3::invoke(Iterator first, Iterator last) const -> result_type
 	std::size_t const nblocks = bytes / 4;
 	auto h1 = m_seed;
 
-	bksge::uint32_t const c1 = 0xcc9e2d51;
-	bksge::uint32_t const c2 = 0x1b873593;
+	std::uint32_t const c1 = 0xcc9e2d51;
+	std::uint32_t const c2 = 0x1b873593;
 
 	//----------
 	// body
@@ -88,7 +89,7 @@ murmur_hash_3::invoke(Iterator first, Iterator last) const -> result_type
 	{
 		auto tail = (first + nblocks * 4);
 
-		bksge::uint32_t k1 = 0;
+		std::uint32_t k1 = 0;
 
 		for (auto i = (bytes & 3); i >= 1; --i)
 		{

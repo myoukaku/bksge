@@ -16,7 +16,7 @@
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -28,7 +28,7 @@ struct BaselineTable
 {
 	struct BaseCoord
 	{
-		explicit BaseCoord(bksge::uint8_t const* ptr)
+		explicit BaseCoord(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -62,11 +62,11 @@ struct BaselineTable
 
 	struct FeatMinMaxRecord
 	{
-		friend bksge::uint8_t const*
+		friend std::uint8_t const*
 		ReadBigEndian(
-			bksge::uint8_t const* ptr,
+			std::uint8_t const* ptr,
 			FeatMinMaxRecord* dst,
-			bksge::uint8_t const* start)
+			std::uint8_t const* start)
 		{
 			Offset16	minCoordOffset;
 			Offset16	maxCoordOffset;
@@ -94,7 +94,7 @@ struct BaselineTable
 
 	struct MinMax
 	{
-		explicit MinMax(bksge::uint8_t const* ptr)
+		explicit MinMax(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -127,7 +127,7 @@ struct BaselineTable
 
 	struct BaseValues
 	{
-		explicit BaseValues(bksge::uint8_t const* ptr)
+		explicit BaseValues(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -148,11 +148,11 @@ struct BaselineTable
 
 	struct BaseLangSysRecord
 	{
-		friend bksge::uint8_t const*
+		friend std::uint8_t const*
 		ReadBigEndian(
-			bksge::uint8_t const* ptr,
+			std::uint8_t const* ptr,
 			BaseLangSysRecord* dst,
-			bksge::uint8_t const* start)
+			std::uint8_t const* start)
 		{
 			Offset16 minMaxOffset;
 			ptr = ReadBigEndian(ptr, &dst->baseLangSysTag);
@@ -169,7 +169,7 @@ struct BaselineTable
 
 	struct BaseScript
 	{
-		explicit BaseScript(bksge::uint8_t const* ptr)
+		explicit BaseScript(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -202,11 +202,11 @@ struct BaselineTable
 
 	struct BaseScriptRecord
 	{
-		friend bksge::uint8_t const*
+		friend std::uint8_t const*
 		ReadBigEndian(
-			bksge::uint8_t const* ptr,
+			std::uint8_t const* ptr,
 			BaseScriptRecord* dst,
-			bksge::uint8_t const* start)
+			std::uint8_t const* start)
 		{
 			Offset16 baseScriptOffset;
 
@@ -224,7 +224,7 @@ struct BaselineTable
 
 	struct BaseScriptList
 	{
-		explicit BaseScriptList(bksge::uint8_t const* ptr)
+		explicit BaseScriptList(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -240,7 +240,7 @@ struct BaselineTable
 
 	struct BaseTagList
 	{
-		explicit BaseTagList(bksge::uint8_t const* ptr)
+		explicit BaseTagList(std::uint8_t const* ptr)
 		{
 			uint16	baseTagCount;
 			ptr = ReadBigEndian(ptr, &baseTagCount);
@@ -253,7 +253,7 @@ struct BaselineTable
 
 	struct Axis
 	{
-		explicit Axis(bksge::uint8_t const* ptr)
+		explicit Axis(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -281,7 +281,7 @@ struct BaselineTable
 		bksge::unique_ptr<BaseScriptList>	baseScriptList;
 	};
 
-	explicit BaselineTable(bksge::uint8_t const* ptr)
+	explicit BaselineTable(std::uint8_t const* ptr)
 	{
 		auto const start = ptr;
 

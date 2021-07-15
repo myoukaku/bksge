@@ -18,9 +18,9 @@
 #include <bksge/fnd/functional/hash_combine.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
 #include <bksge/fnd/array.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
+#include <cstdint>
 
 namespace bksge
 {
@@ -39,7 +39,7 @@ private:
 
 	friend class arbitrary_bigint;
 
-	using element_type = bksge::uint32_t;
+	using element_type = std::uint32_t;
 	static const std::size_t N = (Bits / 8) / sizeof(element_type);
 	using vector_type = bksge::array<element_type, N>;
 

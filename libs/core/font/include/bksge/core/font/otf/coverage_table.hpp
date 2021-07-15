@@ -13,7 +13,7 @@
 #include <bksge/core/font/otf/types.hpp>
 #include <bksge/fnd/variant.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -25,8 +25,8 @@ struct CoverageTable
 {
 	struct RangeRecord
 	{
-		friend bksge::uint8_t const*
-		ReadBigEndian(bksge::uint8_t const* ptr, RangeRecord* dst)
+		friend std::uint8_t const*
+		ReadBigEndian(std::uint8_t const* ptr, RangeRecord* dst)
 		{
 			ptr = ReadBigEndian(ptr, &dst->startGlyphID);
 			ptr = ReadBigEndian(ptr, &dst->endGlyphID);
@@ -41,7 +41,7 @@ struct CoverageTable
 
 	struct Format1
 	{
-		static Format1 Create(bksge::uint8_t const* ptr)
+		static Format1 Create(std::uint8_t const* ptr)
 		{
 			Format1 result;
 
@@ -58,7 +58,7 @@ struct CoverageTable
 
 	struct Format2
 	{
-		static Format2 Create(bksge::uint8_t const* ptr)
+		static Format2 Create(std::uint8_t const* ptr)
 		{
 			Format2 result;
 
@@ -73,7 +73,7 @@ struct CoverageTable
 		bksge::vector<RangeRecord>	rangeRecords;
 	};
 
-	explicit CoverageTable(bksge::uint8_t const* ptr)
+	explicit CoverageTable(std::uint8_t const* ptr)
 	{
 		uint16	coverageFormat;
 		ptr = ReadBigEndian(ptr, &coverageFormat);

@@ -11,9 +11,9 @@
 
 #include <bksge/fnd/hash_functions/hash_facade.hpp>
 #include <bksge/fnd/hash_functions/perfect_hash.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/string.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -44,10 +44,10 @@ namespace bksge
  *	@endcode
  */
 template <typename Hasher>
-class minimal_perfect_hash : public hash_facade<minimal_perfect_hash<Hasher>, bksge::uint32_t>
+class minimal_perfect_hash : public hash_facade<minimal_perfect_hash<Hasher>, std::uint32_t>
 {
 public:
-	using result_type = bksge::uint32_t;
+	using result_type = std::uint32_t;
 	using seed_type   = typename Hasher::seed_type;
 
 	minimal_perfect_hash(void);

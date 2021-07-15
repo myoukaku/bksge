@@ -10,10 +10,10 @@
 #define BKSGE_CORE_RENDER_TEXTURE_FORMAT_HPP
 
 #include <bksge/core/render/fwd/texture_format_fwd.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <ostream>
 #include <cstddef>
+#include <cstdint>
 
 namespace bksge
 {
@@ -24,7 +24,7 @@ namespace render
 /**
  *	@brief	ピクセルフォーマット
  */
-enum class TextureFormat : bksge::uint32_t
+enum class TextureFormat : std::uint32_t
 {
 	kUndefined = 0,
 
@@ -89,8 +89,8 @@ enum class TextureFormat : bksge::uint32_t
  */
 std::size_t GetSizeInBytes(
 	TextureFormat format,
-	bksge::uint32_t width,
-	bksge::uint32_t height);
+	std::uint32_t width,
+	std::uint32_t height);
 
 /**
  *	@brief	画像の１行のバイト数を得る
@@ -102,7 +102,7 @@ std::size_t GetSizeInBytes(
  */
 std::size_t GetStrideInBytes(
 	TextureFormat format,
-	bksge::uint32_t width);
+	std::uint32_t width);
 
 /**
  *	@brief	ミップマップレベルを考慮した画像のバイト数を得る
@@ -116,8 +116,8 @@ std::size_t GetStrideInBytes(
  */
 std::size_t GetMipmappedSizeInBytes(
 	TextureFormat format,
-	bksge::uint32_t width,
-	bksge::uint32_t height,
+	std::uint32_t width,
+	std::uint32_t height,
 	std::size_t mipmap_level);
 
 /**

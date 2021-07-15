@@ -13,7 +13,7 @@
 #include <bksge/core/font/otf/types.hpp>
 #include <bksge/core/font/otf/tuple_record.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -26,7 +26,7 @@ struct GlyphVariationsTable
 	struct GlyphVariationData
 	{
 		explicit GlyphVariationData(
-			bksge::uint8_t const* ptr,
+			std::uint8_t const* ptr,
 			uint16 axisCount)
 		{
 			enum TupleVariationCount
@@ -52,7 +52,7 @@ struct GlyphVariationsTable
 	struct SharedTuples
 	{
 		explicit SharedTuples(
-			bksge::uint8_t const* ptr,
+			std::uint8_t const* ptr,
 			uint16 axisCount,
 			uint16 sharedTupleCount)
 		{
@@ -63,7 +63,7 @@ struct GlyphVariationsTable
 		bksge::vector<TupleRecord>	sharedTuples;
 	};
 
-	explicit GlyphVariationsTable(bksge::uint8_t const* ptr)
+	explicit GlyphVariationsTable(std::uint8_t const* ptr)
 	{
 		auto const start = ptr;
 

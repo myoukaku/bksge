@@ -28,10 +28,10 @@
 #include <bksge/core/render/sampler.hpp>
 #include <bksge/core/render/texture.hpp>
 #include <bksge/core/render/render_state.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/functional/hash_combine.hpp>
 #include <bksge/fnd/memory/make_shared.hpp>
 #include <bksge/fnd/utility/forward.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -98,7 +98,7 @@ ResourcePool::GetGraphicsPipeline(
 	bksge::RenderState const& render_state)
 {
 	auto const id = bksge::hash_combine(
-		static_cast<bksge::uint32_t>(render_pass.samples()),
+		static_cast<std::uint32_t>(render_pass.samples()),
 		geometry.id(),
 		// TODO
 		//geometry.primitive_topology(),

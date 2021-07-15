@@ -14,7 +14,7 @@
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -26,7 +26,7 @@ struct FeatureList
 {
 	struct FeatureParams
 	{
-		explicit FeatureParams(bksge::uint8_t const* ptr)
+		explicit FeatureParams(std::uint8_t const* ptr)
 		{
 			// TODO
 			(void)ptr;
@@ -35,7 +35,7 @@ struct FeatureList
 
 	struct Feature
 	{
-		explicit Feature(bksge::uint8_t const* ptr)
+		explicit Feature(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -60,11 +60,11 @@ struct FeatureList
 
 	struct FeatureRecord
 	{
-		friend bksge::uint8_t const*
+		friend std::uint8_t const*
 		ReadBigEndian(
-			bksge::uint8_t const* ptr,
+			std::uint8_t const* ptr,
 			FeatureRecord* dst,
-			bksge::uint8_t const* start)
+			std::uint8_t const* start)
 		{
 			Offset16 featureOffset;
 
@@ -84,7 +84,7 @@ struct FeatureList
 		bksge::unique_ptr<Feature>	feature;
 	};
 
-	explicit FeatureList(bksge::uint8_t const* ptr)
+	explicit FeatureList(std::uint8_t const* ptr)
 	{
 		auto const start = ptr;
 

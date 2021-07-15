@@ -14,9 +14,9 @@
 
 #include <bksge/core/input/win32/win32_keyboard_device.hpp>
 #include <bksge/core/input/win32/diproperty.hpp>
-#include <bksge/fnd/cstdint/uint8_t.hpp>
 #include <bksge/fnd/array.hpp>
 #include <cstddef>
+#include <cstdint>
 
 #if defined(_MSC_VER)
 #	pragma comment (lib, "dinput8.lib")
@@ -348,7 +348,7 @@ Win32KeyboardDevice::ReadNonBuffered(void)
 {
 	m_state = KeyboardState();
 
-	bksge::array<bksge::uint8_t, 256> buffer;
+	bksge::array<std::uint8_t, 256> buffer;
 	HRESULT hr = m_device->GetDeviceState(sizeof(buffer), buffer.data());
 
 	if (hr == DIERR_INPUTLOST || hr == DIERR_NOTACQUIRED)

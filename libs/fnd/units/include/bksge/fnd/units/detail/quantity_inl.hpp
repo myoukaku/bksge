@@ -17,9 +17,9 @@
 #include <bksge/fnd/ratio/ratio_multiply.hpp>
 #include <bksge/fnd/ratio/ratio_divide.hpp>
 #include <bksge/fnd/type_traits/common_type.hpp>
-#include <bksge/fnd/cstdint/intmax_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <ostream>
+#include <cstdint>
 
 namespace bksge
 {
@@ -201,7 +201,7 @@ operator*(ArithmeticType lhs, quantity<T...> const& rhs) BKSGE_NOEXCEPT
 	return rhs * lhs;
 }
 
-template <typename... T, bksge::intmax_t N, bksge::intmax_t D>
+template <typename... T, std::intmax_t N, std::intmax_t D>
 BKSGE_CONSTEXPR auto
 operator*(quantity<T...> const& lhs, bksge::ratio<N, D> const&) BKSGE_NOEXCEPT
 -> quantity_multiply_result_t<quantity<T...>, dimensionless<int, bksge::ratio<N, D>>>

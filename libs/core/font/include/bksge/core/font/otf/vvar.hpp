@@ -15,7 +15,7 @@
 #include <bksge/core/font/otf/hvar.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -27,7 +27,7 @@ struct VerticalMetricsVariationsTable
 {
 	using DeltaSetIndexMap = HorizontalMetricsVariationsTable::DeltaSetIndexMap;
 
-	explicit VerticalMetricsVariationsTable(bksge::uint8_t const* ptr)
+	explicit VerticalMetricsVariationsTable(std::uint8_t const* ptr)
 	{
 		auto const start = ptr;
 

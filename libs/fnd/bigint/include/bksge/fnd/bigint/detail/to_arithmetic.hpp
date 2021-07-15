@@ -18,8 +18,8 @@
 #include <bksge/fnd/ranges/range_value_t.hpp>
 #include <bksge/fnd/ranges/rbegin.hpp>
 #include <bksge/fnd/ranges/rend.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -40,7 +40,7 @@ to_arithmetic_impl(VectorType const& value, bksge::detail::overload_priority<1>)
 	namespace ranges = bksge::ranges;
 	using element_type = ranges::range_value_t<VectorType>;
 
-	bksge::uintmax_t r = 0;
+	std::uintmax_t r = 0;
 	for (auto it = ranges::rbegin(value); it != ranges::rend(value); ++it)
 	{
 		r = (r << bksge::bitsof<element_type>()) + *it;

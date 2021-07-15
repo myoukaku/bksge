@@ -10,10 +10,10 @@
 #define BKSGE_CORE_RENDER_COLOR_WRITE_FLAG_HPP
 
 #include <bksge/core/render/fwd/color_write_flag_fwd.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/config.hpp>
 #include <ostream>
+#include <cstdint>
 
 namespace bksge
 {
@@ -24,7 +24,7 @@ namespace render
 /**
  *	@brief
  */
-enum class ColorWriteFlag : bksge::uint32_t
+enum class ColorWriteFlag : std::uint32_t
 {
 	kNone    = 0,
 

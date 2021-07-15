@@ -12,7 +12,7 @@
 #include <bksge/core/font/otf/read_big_endian.hpp>
 #include <bksge/core/font/otf/types.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -24,8 +24,8 @@ struct EmbeddedBitmapLocationTable
 {
 	struct SbitLineMetrics
 	{
-		friend bksge::uint8_t const*
-		ReadBigEndian(bksge::uint8_t const* ptr, SbitLineMetrics* dst)
+		friend std::uint8_t const*
+		ReadBigEndian(std::uint8_t const* ptr, SbitLineMetrics* dst)
 		{
 			ptr = ReadBigEndian(ptr, &dst->ascender);
 			ptr = ReadBigEndian(ptr, &dst->descender);
@@ -58,8 +58,8 @@ struct EmbeddedBitmapLocationTable
 
 	struct BitmapSize
 	{
-		friend bksge::uint8_t const*
-		ReadBigEndian(bksge::uint8_t const* ptr, BitmapSize* dst)
+		friend std::uint8_t const*
+		ReadBigEndian(std::uint8_t const* ptr, BitmapSize* dst)
 		{
 			ptr = ReadBigEndian(ptr, &dst->indexSubTableArrayOffset);
 			ptr = ReadBigEndian(ptr, &dst->indexTablesSize);
@@ -93,7 +93,7 @@ struct EmbeddedBitmapLocationTable
 		int8			flags;
 	};
 
-	explicit EmbeddedBitmapLocationTable(bksge::uint8_t const* ptr)
+	explicit EmbeddedBitmapLocationTable(std::uint8_t const* ptr)
 	{
 		uint16	majorVersion;
 		uint16	minorVersion;

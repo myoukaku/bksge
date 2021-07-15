@@ -11,7 +11,7 @@
 
 #include <bksge/core/font/otf/read_big_endian.hpp>
 #include <bksge/core/font/otf/types.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -28,7 +28,7 @@ struct ColorBitmapDataTable
 	// Compressed Color Bitmaps
 	// Glyph Metrics
 
-	explicit ColorBitmapDataTable(bksge::uint8_t const* ptr)
+	explicit ColorBitmapDataTable(std::uint8_t const* ptr)
 	{
 		ptr = ReadBigEndian(ptr, &majorVersion);
 		ptr = ReadBigEndian(ptr, &minorVersion);

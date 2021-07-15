@@ -13,9 +13,9 @@
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/buffer_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <bksge/fnd/cstdint/uint8_t.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <cstddef>
+#include <cstdint>
 
 namespace bksge
 {
@@ -39,7 +39,7 @@ public:
 	vulkan::Buffer const& buffer(void) const;
 
 public:
-	bksge::uint8_t* mapped_buffer(void) const;
+	std::uint8_t* mapped_buffer(void) const;
 
 public:
 	std::size_t Allocate(std::size_t size);
@@ -54,7 +54,7 @@ private:
 
 private:
 	bksge::unique_ptr<vulkan::Buffer>	m_buffer;
-	bksge::uint8_t*						m_mapped_buffer = nullptr;
+	std::uint8_t*						m_mapped_buffer = nullptr;
 	std::size_t							m_offset = 0;
 	std::size_t							m_offset_alignment = 0;
 };

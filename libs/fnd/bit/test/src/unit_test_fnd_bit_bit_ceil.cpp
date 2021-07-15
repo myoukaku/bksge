@@ -7,8 +7,8 @@
  */
 
 #include <bksge/fnd/bit/bit_ceil.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <gtest/gtest.h>
+#include <cstdint>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -229,19 +229,19 @@ void BitCeilTestU64(void)
 
 GTEST_TEST(BitTest, BitCeilTest)
 {
-	BitCeilTestU8<bksge::uint8_t>();
-	BitCeilTestU8<bksge::uint16_t>();
-	BitCeilTestU8<bksge::uint32_t>();
-	BitCeilTestU8<bksge::uint64_t>();
+	BitCeilTestU8<std::uint8_t>();
+	BitCeilTestU8<std::uint16_t>();
+	BitCeilTestU8<std::uint32_t>();
+	BitCeilTestU8<std::uint64_t>();
 
-	BitCeilTestU16<bksge::uint16_t>();
-	BitCeilTestU16<bksge::uint32_t>();
-	BitCeilTestU16<bksge::uint64_t>();
+	BitCeilTestU16<std::uint16_t>();
+	BitCeilTestU16<std::uint32_t>();
+	BitCeilTestU16<std::uint64_t>();
 
-	BitCeilTestU32<bksge::uint32_t>();
-	BitCeilTestU32<bksge::uint64_t>();
+	BitCeilTestU32<std::uint32_t>();
+	BitCeilTestU32<std::uint64_t>();
 
-	BitCeilTestU64<bksge::uint64_t>();
+	BitCeilTestU64<std::uint64_t>();
 }
 
 }	// namespace bit_ceil_test

@@ -13,7 +13,7 @@
 #include <bksge/core/font/otf/types.hpp>
 #include <bksge/fnd/variant.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -34,7 +34,7 @@ struct DeviceTable
 	struct Device
 	{
 		static Device Create(
-			bksge::uint8_t const* ptr,
+			std::uint8_t const* ptr,
 			uint16 value1,
 			uint16 value2,
 			uint16 deltaFormat)
@@ -132,7 +132,7 @@ struct DeviceTable
 		uint16	deltaSetInnerIndex;
 	};
 
-	explicit DeviceTable(bksge::uint8_t const* ptr)
+	explicit DeviceTable(std::uint8_t const* ptr)
 	{
 		uint16	value1;
 		uint16	value2;

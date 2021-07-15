@@ -15,7 +15,7 @@
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/string.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -27,9 +27,9 @@ struct SVGTable
 {
 	struct SVGDocumentRecord
 	{
-		friend bksge::uint8_t const*
+		friend std::uint8_t const*
 		ReadBigEndian(
-			bksge::uint8_t const* ptr,
+			std::uint8_t const* ptr,
 			SVGDocumentRecord* dst,
 			char const* start)
 		{
@@ -50,7 +50,7 @@ struct SVGTable
 
 	struct SVGDocumentList
 	{
-		explicit SVGDocumentList(bksge::uint8_t const* ptr)
+		explicit SVGDocumentList(std::uint8_t const* ptr)
 		{
 			auto const start = reinterpret_cast<char const*>(ptr);
 
@@ -63,7 +63,7 @@ struct SVGTable
 		bksge::vector<SVGDocumentRecord>	documentRecords;
 	};
 
-	explicit SVGTable(bksge::uint8_t const* ptr)
+	explicit SVGTable(std::uint8_t const* ptr)
 	{
 		auto start = ptr;
 

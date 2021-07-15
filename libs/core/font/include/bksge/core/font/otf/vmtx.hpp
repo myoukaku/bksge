@@ -11,7 +11,7 @@
 
 #include <bksge/core/font/otf/read_big_endian.hpp>
 #include <bksge/core/font/otf/types.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -23,8 +23,8 @@ struct VerticalMetricsTable
 {
 	struct longVerMetric
 	{
-		friend bksge::uint8_t const*
-		ReadBigEndian(bksge::uint8_t const* ptr, longVerMetric* dst)
+		friend std::uint8_t const*
+		ReadBigEndian(std::uint8_t const* ptr, longVerMetric* dst)
 		{
 			ptr = ReadBigEndian(ptr, &dst->advanceHeight);
 			ptr = ReadBigEndian(ptr, &dst->topSideBearing);
@@ -36,7 +36,7 @@ struct VerticalMetricsTable
 	};
 
 	explicit VerticalMetricsTable(
-		bksge::uint8_t const* ptr,
+		std::uint8_t const* ptr,
 		uint16	numOfLongVerMetrics,
 		uint16	numGlyphs)
 	{

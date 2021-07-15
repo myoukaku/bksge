@@ -24,7 +24,7 @@
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/variant.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -39,8 +39,8 @@ struct GlyphSubstitutionTable
 		struct Format1
 		{
 			static Format1 Create(
-				bksge::uint8_t const* ptr,
-				bksge::uint8_t const* start)
+				std::uint8_t const* ptr,
+				std::uint8_t const* start)
 			{
 				Format1 result;
 
@@ -64,8 +64,8 @@ struct GlyphSubstitutionTable
 		struct Format2
 		{
 			static Format2 Create(
-				bksge::uint8_t const* ptr,
-				bksge::uint8_t const* start)
+				std::uint8_t const* ptr,
+				std::uint8_t const* start)
 			{
 				Format2 result;
 
@@ -90,7 +90,7 @@ struct GlyphSubstitutionTable
 			bksge::vector<uint16>				substituteGlyphIDs;
 		};
 
-		explicit SingleSubstitution(bksge::uint8_t const* ptr)
+		explicit SingleSubstitution(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -113,7 +113,7 @@ struct GlyphSubstitutionTable
 	{
 		struct Sequence
 		{
-			explicit Sequence(bksge::uint8_t const* ptr)
+			explicit Sequence(std::uint8_t const* ptr)
 			{
 				uint16	glyphCount;
 
@@ -125,7 +125,7 @@ struct GlyphSubstitutionTable
 			bksge::vector<uint16>	substituteGlyphIDs;
 		};
 
-		explicit MultipleSubstitution(bksge::uint8_t const* ptr)
+		explicit MultipleSubstitution(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -159,7 +159,7 @@ struct GlyphSubstitutionTable
 	{
 		struct AlternateSet
 		{
-			explicit AlternateSet(bksge::uint8_t const* ptr)
+			explicit AlternateSet(std::uint8_t const* ptr)
 			{
 				uint16	glyphCount;
 
@@ -171,7 +171,7 @@ struct GlyphSubstitutionTable
 			bksge::vector<uint16>	alternateGlyphIDs;
 		};
 
-		explicit AlternateSubstitution(bksge::uint8_t const* ptr)
+		explicit AlternateSubstitution(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -204,7 +204,7 @@ struct GlyphSubstitutionTable
 	{
 		struct Ligature
 		{
-			explicit Ligature(bksge::uint8_t const* ptr)
+			explicit Ligature(std::uint8_t const* ptr)
 			{
 				uint16	componentCount;
 				ptr = ReadBigEndian(ptr, &ligatureGlyph);
@@ -219,7 +219,7 @@ struct GlyphSubstitutionTable
 
 		struct LigatureSet
 		{
-			explicit LigatureSet(bksge::uint8_t const* ptr)
+			explicit LigatureSet(std::uint8_t const* ptr)
 			{
 				auto const start = ptr;
 
@@ -236,7 +236,7 @@ struct GlyphSubstitutionTable
 			bksge::vector<Ligature>		ligatures;
 		};
 
-		explicit LigatureSubstitution(bksge::uint8_t const* ptr)
+		explicit LigatureSubstitution(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -267,7 +267,7 @@ struct GlyphSubstitutionTable
 
 	struct ContextualSubstitution : public Lookup::Subtable
 	{
-		explicit ContextualSubstitution(bksge::uint8_t const* ptr)
+		explicit ContextualSubstitution(std::uint8_t const* ptr)
 			: sequenceContext(ptr)
 		{}
 
@@ -276,7 +276,7 @@ struct GlyphSubstitutionTable
 
 	struct ChainedContextsSubstitution : public Lookup::Subtable
 	{
-		explicit ChainedContextsSubstitution(bksge::uint8_t const* ptr)
+		explicit ChainedContextsSubstitution(std::uint8_t const* ptr)
 			: chainedSequenceContext(ptr)
 		{}
 
@@ -285,7 +285,7 @@ struct GlyphSubstitutionTable
 
 	struct ExtensionSubstitution : public Lookup::Subtable
 	{
-		explicit ExtensionSubstitution(bksge::uint8_t const* ptr)
+		explicit ExtensionSubstitution(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -305,7 +305,7 @@ struct GlyphSubstitutionTable
 
 	struct ReverseChainingContextualSingleSubstitution : public Lookup::Subtable
 	{
-		explicit ReverseChainingContextualSingleSubstitution(bksge::uint8_t const* ptr)
+		explicit ReverseChainingContextualSingleSubstitution(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -351,7 +351,7 @@ struct GlyphSubstitutionTable
 	};
 
 	static bksge::unique_ptr<Lookup::Subtable>
-	CreateSubtable(uint16 lookupType, bksge::uint8_t const* ptr)
+	CreateSubtable(uint16 lookupType, std::uint8_t const* ptr)
 	{
 		switch (lookupType)
 		{
@@ -367,7 +367,7 @@ struct GlyphSubstitutionTable
 		return {};
 	}
 
-	explicit GlyphSubstitutionTable(bksge::uint8_t const* ptr)
+	explicit GlyphSubstitutionTable(std::uint8_t const* ptr)
 	{
 		auto const start = ptr;
 

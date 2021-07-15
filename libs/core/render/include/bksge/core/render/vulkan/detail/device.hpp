@@ -12,8 +12,8 @@
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/physical_device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/vector.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -31,7 +31,7 @@ public:
 
 	~Device();
 
-	::VkQueue GetQueue(bksge::uint32_t queue_family_index, bksge::uint32_t queue_index);
+	::VkQueue GetQueue(std::uint32_t queue_family_index, std::uint32_t queue_index);
 
 	void WaitIdle(void);
 
@@ -46,12 +46,12 @@ public:
 	// Fence
 	::VkFence CreateFence(vk::FenceCreateInfo const& info);
 	void DestroyFence(::VkFence fence);
-	::VkResult ResetFences(bksge::uint32_t fence_count, ::VkFence const* fences);
+	::VkResult ResetFences(std::uint32_t fence_count, ::VkFence const* fences);
 	::VkResult WaitForFences(
-		bksge::uint32_t  fence_count,
+		std::uint32_t  fence_count,
 		::VkFence const* fences,
 		::VkBool32       wait_all,
-		bksge::uint64_t  timeout);
+		std::uint64_t  timeout);
 
 	// Semaphore
 	::VkSemaphore CreateSemaphore(vk::SemaphoreCreateInfo const& create_info);
@@ -116,7 +116,7 @@ public:
 		::VkCommandBuffer                            command_buffer,
 		::VkPipelineBindPoint                        pipeline_bind_point,
 		::VkPipelineLayout                           layout,
-		bksge::uint32_t                              set,
+		std::uint32_t                              set,
 		bksge::vector<::VkWriteDescriptorSet> const& descriptor_writes);
 
 	// Framebuffer
@@ -130,7 +130,7 @@ public:
 	// CommandPool
 	::VkCommandPool	CreateCommandPool(
 		::VkCommandPoolCreateFlags flags,
-		bksge::uint32_t queue_family_index);
+		std::uint32_t queue_family_index);
 	void DestroyCommandPool(::VkCommandPool command_pool);
 
 	// CommandBuffer
@@ -147,10 +147,10 @@ public:
 	bksge::vector<::VkImage> GetSwapchainImages(::VkSwapchainKHR swapchain) const;
 	::VkResult AcquireNextImage(
 		::VkSwapchainKHR swapchain,
-		bksge::uint64_t  timeout,
+		std::uint64_t  timeout,
 		::VkSemaphore    semaphore,
 		::VkFence        fence,
-		bksge::uint32_t* image_index);
+		std::uint32_t* image_index);
 
 private:
 	// noncopyable

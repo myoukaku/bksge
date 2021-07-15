@@ -12,7 +12,7 @@
 #include <bksge/core/font/otf/read_big_endian.hpp>
 #include <bksge/core/font/otf/types.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -22,9 +22,9 @@ namespace otf
 
 struct TupleRecord
 {
-	friend bksge::uint8_t const*
+	friend std::uint8_t const*
 	ReadBigEndian(
-		bksge::uint8_t const* ptr,
+		std::uint8_t const* ptr,
 		TupleRecord* dst,
 		uint16 axisCount)
 	{

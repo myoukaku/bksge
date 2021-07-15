@@ -15,7 +15,7 @@
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -32,9 +32,9 @@ struct TupleVariationHeader
 		PRIVATE_POINT_NUMBERS = 0x2000,
 	};
 
-	friend bksge::uint8_t const*
+	friend std::uint8_t const*
 	ReadBigEndian(
-		bksge::uint8_t const* ptr,
+		std::uint8_t const* ptr,
 		TupleVariationHeader* dst,
 		uint16 axisCount)
 	{

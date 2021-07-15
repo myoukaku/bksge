@@ -15,7 +15,7 @@
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -33,7 +33,7 @@ struct HorizontalMetricsVariationsTable
 
 	struct DeltaSetIndexMap
 	{
-		explicit DeltaSetIndexMap(bksge::uint8_t const* ptr)
+		explicit DeltaSetIndexMap(std::uint8_t const* ptr)
 		{
 			ptr = ReadBigEndian(ptr, &entryFormat);
 			ptr = ReadBigEndian(ptr, &mapCount);
@@ -46,7 +46,7 @@ struct HorizontalMetricsVariationsTable
 		bksge::vector<uint8>	mapData;
 	};
 
-	explicit HorizontalMetricsVariationsTable(bksge::uint8_t const* ptr)
+	explicit HorizontalMetricsVariationsTable(std::uint8_t const* ptr)
 	{
 		auto const start = ptr;
 

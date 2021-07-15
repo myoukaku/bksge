@@ -18,7 +18,7 @@
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/variant.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -32,7 +32,7 @@ struct SequenceContext
 	{
 		struct SequenceRule
 		{
-			explicit SequenceRule(bksge::uint8_t const* ptr)
+			explicit SequenceRule(std::uint8_t const* ptr)
 			{
 				uint16	glyphCount;
 				uint16	seqLookupCount;
@@ -51,7 +51,7 @@ struct SequenceContext
 
 		struct SequenceRuleSet
 		{
-			explicit SequenceRuleSet(bksge::uint8_t const* ptr)
+			explicit SequenceRuleSet(std::uint8_t const* ptr)
 			{
 				auto const start = ptr;
 
@@ -68,7 +68,7 @@ struct SequenceContext
 			bksge::vector<SequenceRule>		seqRules;
 		};
 
-		static Format1 Create(bksge::uint8_t const* ptr, bksge::uint8_t const* start)
+		static Format1 Create(std::uint8_t const* ptr, std::uint8_t const* start)
 		{
 			Format1 result;
 
@@ -102,7 +102,7 @@ struct SequenceContext
 	{
 		struct ClassSequenceRule
 		{
-			explicit ClassSequenceRule(bksge::uint8_t const* ptr)
+			explicit ClassSequenceRule(std::uint8_t const* ptr)
 			{
 				uint16	glyphCount;
 				uint16	seqLookupCount;
@@ -120,7 +120,7 @@ struct SequenceContext
 
 		struct ClassSequenceRuleSet
 		{
-			explicit ClassSequenceRuleSet(bksge::uint8_t const* ptr)
+			explicit ClassSequenceRuleSet(std::uint8_t const* ptr)
 			{
 				auto const start = ptr;
 
@@ -137,7 +137,7 @@ struct SequenceContext
 			bksge::vector<ClassSequenceRule>		classSeqRules;
 		};
 
-		static Format2 Create(bksge::uint8_t const* ptr, bksge::uint8_t const* start)
+		static Format2 Create(std::uint8_t const* ptr, std::uint8_t const* start)
 		{
 			Format2 result;
 
@@ -177,7 +177,7 @@ struct SequenceContext
 
 	struct Format3
 	{
-		static Format3 Create(bksge::uint8_t const* ptr, bksge::uint8_t const* start)
+		static Format3 Create(std::uint8_t const* ptr, std::uint8_t const* start)
 		{
 			Format3 result;
 
@@ -203,7 +203,7 @@ struct SequenceContext
 		bksge::vector<SequenceLookupRecord>		seqLookupRecords;
 	};
 
-	explicit SequenceContext(bksge::uint8_t const* ptr)
+	explicit SequenceContext(std::uint8_t const* ptr)
 	{
 		auto const start = ptr;
 

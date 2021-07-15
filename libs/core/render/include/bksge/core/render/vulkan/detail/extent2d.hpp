@@ -11,7 +11,7 @@
 
 #include <bksge/core/math/extent2.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -28,7 +28,7 @@ namespace vulkan
 class Extent2D : public ::VkExtent2D
 {
 public:
-	Extent2D(bksge::Extent2<bksge::uint32_t> const& extent)
+	Extent2D(bksge::Extent2<std::uint32_t> const& extent)
 	{
 		width  = extent.width();
 		height = extent.height();
@@ -40,7 +40,7 @@ public:
 		height = extent.height;
 	}
 
-	operator bksge::Extent2<bksge::uint32_t>() const
+	operator bksge::Extent2<std::uint32_t>() const
 	{
 		return { width, height };
 	}

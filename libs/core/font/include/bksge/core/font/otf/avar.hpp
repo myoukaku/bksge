@@ -12,7 +12,7 @@
 #include <bksge/core/font/otf/read_big_endian.hpp>
 #include <bksge/core/font/otf/types.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -24,8 +24,8 @@ struct AxisVariationsTable
 {
 	struct AxisValueMap
 	{
-		friend bksge::uint8_t const*
-		ReadBigEndian(bksge::uint8_t const* ptr, AxisValueMap* dst)
+		friend std::uint8_t const*
+		ReadBigEndian(std::uint8_t const* ptr, AxisValueMap* dst)
 		{
 			ptr = ReadBigEndian(ptr, &dst->fromCoordinate);
 			ptr = ReadBigEndian(ptr, &dst->toCoordinate);
@@ -38,8 +38,8 @@ struct AxisVariationsTable
 
 	struct SegmentMaps
 	{
-		friend bksge::uint8_t const*
-		ReadBigEndian(bksge::uint8_t const* ptr, SegmentMaps* dst)
+		friend std::uint8_t const*
+		ReadBigEndian(std::uint8_t const* ptr, SegmentMaps* dst)
 		{
 			uint16	positionMapCount;
 			ptr = ReadBigEndian(ptr, &positionMapCount);
@@ -51,7 +51,7 @@ struct AxisVariationsTable
 		bksge::vector<AxisValueMap>	axisValueMaps;
 	};
 
-	explicit AxisVariationsTable(bksge::uint8_t const* ptr)
+	explicit AxisVariationsTable(std::uint8_t const* ptr)
 	{
 		uint16	majorVersion;
 		uint16	minorVersion;

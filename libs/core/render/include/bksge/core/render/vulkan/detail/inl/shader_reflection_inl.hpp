@@ -17,10 +17,10 @@
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/algorithm/ranges/find_if.hpp>
 #include <bksge/fnd/algorithm/ranges/sort.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/tuple/make_tuple.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/assert.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -40,7 +40,7 @@ inline void AddUniformBuffer(
 	::VkShaderStageFlagBits stage,
 	::VkDescriptorType descriptor_type,
 	bksge::vector<ShaderReflectionUniform>* uniforms,
-	bksge::uint32_t* max_sets)
+	std::uint32_t* max_sets)
 {
 	for (auto const& resource : resource_vector)
 	{
@@ -80,7 +80,7 @@ inline void AddUniformBuffer(
 			info.stage_flags     = stage;
 			info.members.resize(member_count);
 
-			for (bksge::uint32_t index = 0; index < member_count; ++index)
+			for (std::uint32_t index = 0; index < member_count; ++index)
 			{
 				auto& member = info.members[index];
 				member.name   = glsl.get_member_name(resource.base_type_id, index);
@@ -128,16 +128,16 @@ ShaderReflection::~ShaderReflection()
 {
 }
 
-BKSGE_INLINE bksge::uint32_t
+BKSGE_INLINE std::uint32_t
 ShaderReflection::GetMaxSets(void) const
 {
 	return m_max_sets;
 }
 
-BKSGE_INLINE bksge::uint32_t
+BKSGE_INLINE std::uint32_t
 ShaderReflection::GetUniformCount(::VkDescriptorType descriptor_type) const
 {
-	bksge::uint32_t result = 0;
+	std::uint32_t result = 0;
 
 	for (auto const& uniform : m_uniforms)
 	{

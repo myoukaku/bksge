@@ -12,7 +12,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/command_pool_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -46,7 +46,7 @@ private:
 private:
 	::VkCommandPool				m_command_pool = VK_NULL_HANDLE;
 	vulkan::DeviceSharedPtr		m_device;
-	bksge::uint32_t				m_queue_family_index = 0;
+	std::uint32_t				m_queue_family_index = 0;
 };
 
 }	// namespace vulkan

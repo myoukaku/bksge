@@ -11,7 +11,7 @@
 
 #include <bksge/core/font/otf/read_big_endian.hpp>
 #include <bksge/core/font/otf/types.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -21,7 +21,7 @@ namespace otf
 
 struct VerticalHeaderTable
 {
-	explicit VerticalHeaderTable(bksge::uint8_t const* ptr)
+	explicit VerticalHeaderTable(std::uint8_t const* ptr)
 	{
 		int16	reserved0;
 		int16	reserved1;

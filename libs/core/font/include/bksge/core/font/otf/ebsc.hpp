@@ -12,7 +12,7 @@
 #include <bksge/core/font/otf/read_big_endian.hpp>
 #include <bksge/core/font/otf/types.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -24,8 +24,8 @@ struct EmbeddedBitmapScalingTable
 {
 	struct SbitLineMetrics
 	{
-		friend bksge::uint8_t const*
-		ReadBigEndian(bksge::uint8_t const* ptr, SbitLineMetrics* dst)
+		friend std::uint8_t const*
+		ReadBigEndian(std::uint8_t const* ptr, SbitLineMetrics* dst)
 		{
 			ptr = ReadBigEndian(ptr, &dst->ascender);
 			ptr = ReadBigEndian(ptr, &dst->descender);
@@ -58,8 +58,8 @@ struct EmbeddedBitmapScalingTable
 
 	struct BitmapScale
 	{
-		friend bksge::uint8_t const*
-		ReadBigEndian(bksge::uint8_t const* ptr, BitmapScale* dst)
+		friend std::uint8_t const*
+		ReadBigEndian(std::uint8_t const* ptr, BitmapScale* dst)
 		{
 			ptr = ReadBigEndian(ptr, &dst->hori);
 			ptr = ReadBigEndian(ptr, &dst->vert);
@@ -78,7 +78,7 @@ struct EmbeddedBitmapScalingTable
 		uint8			substitutePpemY;
 	};
 
-	explicit EmbeddedBitmapScalingTable(bksge::uint8_t const* ptr)
+	explicit EmbeddedBitmapScalingTable(std::uint8_t const* ptr)
 	{
 		uint16	majorVersion;
 		uint16	minorVersion;

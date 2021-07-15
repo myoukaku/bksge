@@ -7,9 +7,9 @@
  */
 
 #include <bksge/fnd/bigint.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <cstdint>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -123,24 +123,24 @@ inline BKSGE_CXX14_CONSTEXPR bool PostDecrementTest()
 GTEST_TEST(BigIntTest, DecrementTest)
 {
 	EXPECT_TRUE(PreDecrementTest<bksge::bigint>());
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PreDecrementTest<bksge::int64_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PreDecrementTest<std::int64_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PreDecrementTest<bksge::int128_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PreDecrementTest<bksge::int256_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PreDecrementTest<bksge::int512_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PreDecrementTest<bksge::int1024_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PreDecrementTest<bksge::uint64_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PreDecrementTest<std::uint64_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PreDecrementTest<bksge::uint128_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PreDecrementTest<bksge::uint256_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PreDecrementTest<bksge::uint512_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PreDecrementTest<bksge::uint1024_t>()));
 
 	EXPECT_TRUE(PostDecrementTest<bksge::bigint>());
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PostDecrementTest<bksge::int64_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PostDecrementTest<std::int64_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PostDecrementTest<bksge::int128_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PostDecrementTest<bksge::int256_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PostDecrementTest<bksge::int512_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PostDecrementTest<bksge::int1024_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PostDecrementTest<bksge::uint64_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PostDecrementTest<std::uint64_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PostDecrementTest<bksge::uint128_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PostDecrementTest<bksge::uint256_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((PostDecrementTest<bksge::uint512_t>()));

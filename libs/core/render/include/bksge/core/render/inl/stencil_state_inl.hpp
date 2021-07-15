@@ -10,8 +10,8 @@
 #define BKSGE_CORE_RENDER_INL_STENCIL_STATE_INL_HPP
 
 #include <bksge/core/render/stencil_state.hpp>
-#include <bksge/fnd/cstdint/uint8_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -38,19 +38,19 @@ StencilState::enable(void) const
 	return m_enable;
 }
 
-BKSGE_INLINE bksge::uint8_t
+BKSGE_INLINE std::uint8_t
 StencilState::read_mask(void) const
 {
 	return m_read_mask;
 }
 
-BKSGE_INLINE bksge::uint8_t
+BKSGE_INLINE std::uint8_t
 StencilState::write_mask(void) const
 {
 	return m_write_mask;
 }
 
-BKSGE_INLINE bksge::uint8_t
+BKSGE_INLINE std::uint8_t
 StencilState::reference(void) const
 {
 	return m_reference;
@@ -87,19 +87,19 @@ StencilState::SetEnable(bool enable)
 }
 
 BKSGE_INLINE void
-StencilState::SetReadMask(bksge::uint8_t mask)
+StencilState::SetReadMask(std::uint8_t mask)
 {
 	m_read_mask = mask;
 }
 
 BKSGE_INLINE void
-StencilState::SetWriteMask(bksge::uint8_t mask)
+StencilState::SetWriteMask(std::uint8_t mask)
 {
 	m_write_mask = mask;
 }
 
 BKSGE_INLINE void
-StencilState::SetReference(bksge::uint8_t ref)
+StencilState::SetReference(std::uint8_t ref)
 {
 	m_reference = ref;
 }

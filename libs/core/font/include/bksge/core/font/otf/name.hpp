@@ -13,7 +13,7 @@
 #include <bksge/core/font/otf/types.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/string.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -25,9 +25,9 @@ struct NamingTable
 {
 	struct NameRecord
 	{
-		friend bksge::uint8_t const*
+		friend std::uint8_t const*
 		ReadBigEndian(
-			bksge::uint8_t const* ptr,
+			std::uint8_t const* ptr,
 			NameRecord* dst,
 			char const* stringStorage)
 		{
@@ -52,9 +52,9 @@ struct NamingTable
 
 	struct LangTagRecord
 	{
-		friend bksge::uint8_t const*
+		friend std::uint8_t const*
 		ReadBigEndian(
-			bksge::uint8_t const* ptr,
+			std::uint8_t const* ptr,
 			LangTagRecord* dst,
 			char const* stringStorage)
 		{
@@ -70,7 +70,7 @@ struct NamingTable
 		bksge::string	str;
 	};
 
-	explicit NamingTable(bksge::uint8_t const* ptr)
+	explicit NamingTable(std::uint8_t const* ptr)
 	{
 		auto const start = ptr;
 

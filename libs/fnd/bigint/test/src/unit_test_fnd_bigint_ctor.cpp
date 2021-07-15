@@ -25,10 +25,10 @@
 #include <bksge/fnd/type_traits/is_trivially_move_constructible.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/string.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include <limits>
+#include <cstdint>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -86,52 +86,52 @@ inline BKSGE_CXX14_CONSTEXPR bool CtorIntTest()
 		VERIFY(x == 3);
 	}
 	{
-		BigInt x = {std::numeric_limits<bksge::int8_t>::min()};
-		VERIFY(x == std::numeric_limits<bksge::int8_t>::min());
+		BigInt x = {std::numeric_limits<std::int8_t>::min()};
+		VERIFY(x == std::numeric_limits<std::int8_t>::min());
 	}
 	{
-		BigInt x = {std::numeric_limits<bksge::int8_t>::max()};
-		VERIFY(x == std::numeric_limits<bksge::int8_t>::max());
+		BigInt x = {std::numeric_limits<std::int8_t>::max()};
+		VERIFY(x == std::numeric_limits<std::int8_t>::max());
 	}
 	{
-		BigInt x = {std::numeric_limits<bksge::int16_t>::min()};
-		VERIFY(x == std::numeric_limits<bksge::int16_t>::min());
+		BigInt x = {std::numeric_limits<std::int16_t>::min()};
+		VERIFY(x == std::numeric_limits<std::int16_t>::min());
 	}
 	{
-		BigInt x = {std::numeric_limits<bksge::int16_t>::max()};
-		VERIFY(x == std::numeric_limits<bksge::int16_t>::max());
+		BigInt x = {std::numeric_limits<std::int16_t>::max()};
+		VERIFY(x == std::numeric_limits<std::int16_t>::max());
 	}
 	{
-		BigInt x = {std::numeric_limits<bksge::int32_t>::min()};
-		VERIFY(x == std::numeric_limits<bksge::int32_t>::min());
+		BigInt x = {std::numeric_limits<std::int32_t>::min()};
+		VERIFY(x == std::numeric_limits<std::int32_t>::min());
 	}
 	{
-		BigInt x = {std::numeric_limits<bksge::int32_t>::max()};
-		VERIFY(x == std::numeric_limits<bksge::int32_t>::max());
+		BigInt x = {std::numeric_limits<std::int32_t>::max()};
+		VERIFY(x == std::numeric_limits<std::int32_t>::max());
 	}
 	{
-		BigInt x = {std::numeric_limits<bksge::int64_t>::min()};
-		VERIFY(x == std::numeric_limits<bksge::int64_t>::min());
+		BigInt x = {std::numeric_limits<std::int64_t>::min()};
+		VERIFY(x == std::numeric_limits<std::int64_t>::min());
 	}
 	{
-		BigInt x = {std::numeric_limits<bksge::int64_t>::max()};
-		VERIFY(x == std::numeric_limits<bksge::int64_t>::max());
+		BigInt x = {std::numeric_limits<std::int64_t>::max()};
+		VERIFY(x == std::numeric_limits<std::int64_t>::max());
 	}
 	{
-		BigInt x = {std::numeric_limits<bksge::uint8_t>::max()};
-		VERIFY(x == std::numeric_limits<bksge::uint8_t>::max());
+		BigInt x = {std::numeric_limits<std::uint8_t>::max()};
+		VERIFY(x == std::numeric_limits<std::uint8_t>::max());
 	}
 	{
-		BigInt x = {std::numeric_limits<bksge::uint16_t>::max()};
-		VERIFY(x == std::numeric_limits<bksge::uint16_t>::max());
+		BigInt x = {std::numeric_limits<std::uint16_t>::max()};
+		VERIFY(x == std::numeric_limits<std::uint16_t>::max());
 	}
 	{
-		BigInt x = {std::numeric_limits<bksge::uint32_t>::max()};
-		VERIFY(x == std::numeric_limits<bksge::uint32_t>::max());
+		BigInt x = {std::numeric_limits<std::uint32_t>::max()};
+		VERIFY(x == std::numeric_limits<std::uint32_t>::max());
 	}
 	{
-		BigInt x = {std::numeric_limits<bksge::uint64_t>::max()};
-		VERIFY(x == std::numeric_limits<bksge::uint64_t>::max());
+		BigInt x = {std::numeric_limits<std::uint64_t>::max()};
+		VERIFY(x == std::numeric_limits<std::uint64_t>::max());
 	}
 
 	return true;
@@ -224,67 +224,67 @@ template <typename BigInt>
 inline BKSGE_CXX14_CONSTEXPR bool CtorFloatLargeTest()
 {
 	{
-		BigInt x((float)std::numeric_limits<bksge::int32_t>::max());
+		BigInt x((float)std::numeric_limits<std::int32_t>::max());
 		VERIFY(x == BigInt("2147483648"));
 	}
 	{
-		BigInt x((float)std::numeric_limits<bksge::int32_t>::min());
+		BigInt x((float)std::numeric_limits<std::int32_t>::min());
 		VERIFY(x == BigInt("-2147483648"));
 	}
 	{
-		BigInt x((float)std::numeric_limits<bksge::uint32_t>::max());
+		BigInt x((float)std::numeric_limits<std::uint32_t>::max());
 		VERIFY(x == BigInt("4294967296"));
 	}
 	{
-		BigInt x((float)std::numeric_limits<bksge::uint32_t>::min());
+		BigInt x((float)std::numeric_limits<std::uint32_t>::min());
 		VERIFY(x == BigInt("0"));
 	}
 	{
-		BigInt x((float)std::numeric_limits<bksge::int64_t>::max());
+		BigInt x((float)std::numeric_limits<std::int64_t>::max());
 		VERIFY(x == BigInt("9223372036854775808"));
 	}
 	{
-		BigInt x((float)std::numeric_limits<bksge::int64_t>::min());
+		BigInt x((float)std::numeric_limits<std::int64_t>::min());
 		VERIFY(x == BigInt("-9223372036854775808"));
 	}
 	{
-		BigInt x((float)std::numeric_limits<bksge::uint64_t>::max());
+		BigInt x((float)std::numeric_limits<std::uint64_t>::max());
 		VERIFY(x == BigInt("18446744073709551616"));
 	}
 	{
-		BigInt x((float)std::numeric_limits<bksge::uint64_t>::min());
+		BigInt x((float)std::numeric_limits<std::uint64_t>::min());
 		VERIFY(x == BigInt("0"));
 	}
 	{
-		BigInt x((double)std::numeric_limits<bksge::int32_t>::max());
+		BigInt x((double)std::numeric_limits<std::int32_t>::max());
 		VERIFY(x == BigInt("2147483647"));
 	}
 	{
-		BigInt x((double)std::numeric_limits<bksge::int32_t>::min());
+		BigInt x((double)std::numeric_limits<std::int32_t>::min());
 		VERIFY(x == BigInt("-2147483648"));
 	}
 	{
-		BigInt x((double)std::numeric_limits<bksge::uint32_t>::max());
+		BigInt x((double)std::numeric_limits<std::uint32_t>::max());
 		VERIFY(x == BigInt("4294967295"));
 	}
 	{
-		BigInt x((double)std::numeric_limits<bksge::uint32_t>::min());
+		BigInt x((double)std::numeric_limits<std::uint32_t>::min());
 		VERIFY(x == BigInt("0"));
 	}
 	{
-		BigInt x((double)std::numeric_limits<bksge::int64_t>::max());
+		BigInt x((double)std::numeric_limits<std::int64_t>::max());
 		VERIFY(x == BigInt("9223372036854775808"));
 	}
 	{
-		BigInt x((double)std::numeric_limits<bksge::int64_t>::min());
+		BigInt x((double)std::numeric_limits<std::int64_t>::min());
 		VERIFY(x == BigInt("-9223372036854775808"));
 	}
 	{
-		BigInt x((double)std::numeric_limits<bksge::uint64_t>::max());
+		BigInt x((double)std::numeric_limits<std::uint64_t>::max());
 		VERIFY(x == BigInt("18446744073709551616"));
 	}
 	{
-		BigInt x((double)std::numeric_limits<bksge::uint64_t>::min());
+		BigInt x((double)std::numeric_limits<std::uint64_t>::min());
 		VERIFY(x == BigInt("0"));
 	}
 	{
@@ -621,14 +621,14 @@ GTEST_TEST(BigIntTest, CtorTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(CtorIntTest<bksge::uint1024_t>());
 
 	EXPECT_TRUE(CtorFloatTest<bksge::bigint>());
-	/*BKSGE_CXX14_CONSTEXPR_*/EXPECT_TRUE(CtorFloatTest<bksge::int32_t>());
-	/*BKSGE_CXX14_CONSTEXPR_*/EXPECT_TRUE(CtorFloatTest<bksge::int64_t>());
+	/*BKSGE_CXX14_CONSTEXPR_*/EXPECT_TRUE(CtorFloatTest<std::int32_t>());
+	/*BKSGE_CXX14_CONSTEXPR_*/EXPECT_TRUE(CtorFloatTest<std::int64_t>());
 	/*BKSGE_CXX14_CONSTEXPR_*/EXPECT_TRUE(CtorFloatTest<bksge::int128_t>());
 	/*BKSGE_CXX14_CONSTEXPR_*/EXPECT_TRUE(CtorFloatTest<bksge::int256_t>());
 	/*BKSGE_CXX14_CONSTEXPR_*/EXPECT_TRUE(CtorFloatTest<bksge::int512_t>());
 	/*BKSGE_CXX14_CONSTEXPR_*/EXPECT_TRUE(CtorFloatTest<bksge::int1024_t>());
-//	/*BKSGE_CXX14_CONSTEXPR_*/EXPECT_TRUE(CtorFloatTest<bksge::uint32_t>());
-//	/*BKSGE_CXX14_CONSTEXPR_*/EXPECT_TRUE(CtorFloatTest<bksge::uint64_t>());
+//	/*BKSGE_CXX14_CONSTEXPR_*/EXPECT_TRUE(CtorFloatTest<std::uint32_t>());
+//	/*BKSGE_CXX14_CONSTEXPR_*/EXPECT_TRUE(CtorFloatTest<std::uint64_t>());
 	/*BKSGE_CXX14_CONSTEXPR_*/EXPECT_TRUE(CtorFloatTest<bksge::uint128_t>());
 	/*BKSGE_CXX14_CONSTEXPR_*/EXPECT_TRUE(CtorFloatTest<bksge::uint256_t>());
 	/*BKSGE_CXX14_CONSTEXPR_*/EXPECT_TRUE(CtorFloatTest<bksge::uint512_t>());
@@ -890,171 +890,171 @@ GTEST_TEST(BigIntTest, CtorTest)
 	static_assert(bksge::is_implicitly_constructible<bksge::uint1024_t, bksge::uint512_t>::value  == true, "");
 	static_assert(bksge::is_implicitly_constructible<bksge::uint1024_t, bksge::uint1024_t>::value == true, "");
 
-	EXPECT_TRUE((CtorConvTest<bksge::int32_t,    bksge::bigint>()));
-	EXPECT_TRUE((CtorConvTest<bksge::int64_t,    bksge::bigint>()));
+	EXPECT_TRUE((CtorConvTest<std::int32_t,    bksge::bigint>()));
+	EXPECT_TRUE((CtorConvTest<std::int64_t,    bksge::bigint>()));
 	EXPECT_TRUE((CtorConvTest<bksge::int128_t,   bksge::bigint>()));
 	EXPECT_TRUE((CtorConvTest<bksge::int256_t,   bksge::bigint>()));
 	EXPECT_TRUE((CtorConvTest<bksge::int512_t,   bksge::bigint>()));
 	EXPECT_TRUE((CtorConvTest<bksge::int1024_t,  bksge::bigint>()));
-	EXPECT_TRUE((CtorConvTest<bksge::uint32_t,   bksge::bigint>()));
-	EXPECT_TRUE((CtorConvTest<bksge::uint64_t,   bksge::bigint>()));
+	EXPECT_TRUE((CtorConvTest<std::uint32_t,   bksge::bigint>()));
+	EXPECT_TRUE((CtorConvTest<std::uint64_t,   bksge::bigint>()));
 	EXPECT_TRUE((CtorConvTest<bksge::uint128_t,  bksge::bigint>()));
 	EXPECT_TRUE((CtorConvTest<bksge::uint256_t,  bksge::bigint>()));
 	EXPECT_TRUE((CtorConvTest<bksge::uint512_t,  bksge::bigint>()));
 	EXPECT_TRUE((CtorConvTest<bksge::uint1024_t, bksge::bigint>()));
-//	EXPECT_TRUE((CtorConvTest<bksge::bigint,     bksge::int32_t>()));
-//	EXPECT_TRUE((CtorConvTest<bksge::bigint,     bksge::int64_t>()));
+//	EXPECT_TRUE((CtorConvTest<bksge::bigint,     std::int32_t>()));
+//	EXPECT_TRUE((CtorConvTest<bksge::bigint,     std::int64_t>()));
 	EXPECT_TRUE((CtorConvTest<bksge::bigint,     bksge::int128_t>()));
 	EXPECT_TRUE((CtorConvTest<bksge::bigint,     bksge::int256_t>()));
 	EXPECT_TRUE((CtorConvTest<bksge::bigint,     bksge::int512_t>()));
 	EXPECT_TRUE((CtorConvTest<bksge::bigint,     bksge::int1024_t>()));
-//	EXPECT_TRUE((CtorConvTest<bksge::bigint,     bksge::uint32_t>()));
-//	EXPECT_TRUE((CtorConvTest<bksge::bigint,     bksge::uint64_t>()));
+//	EXPECT_TRUE((CtorConvTest<bksge::bigint,     std::uint32_t>()));
+//	EXPECT_TRUE((CtorConvTest<bksge::bigint,     std::uint64_t>()));
 	EXPECT_TRUE((CtorConvTest<bksge::bigint,     bksge::uint128_t>()));
 	EXPECT_TRUE((CtorConvTest<bksge::bigint,     bksge::uint256_t>()));
 	EXPECT_TRUE((CtorConvTest<bksge::bigint,     bksge::uint512_t>()));
 	EXPECT_TRUE((CtorConvTest<bksge::bigint,     bksge::uint1024_t>()));
 
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int32_t, bksge::int32_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int32_t, bksge::int64_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int32_t, bksge::int128_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int32_t, bksge::int256_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int32_t, bksge::int512_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int32_t, bksge::int1024_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int32_t, bksge::uint32_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int32_t, bksge::uint64_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int32_t, bksge::uint128_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int32_t, bksge::uint256_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int32_t, bksge::uint512_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int32_t, bksge::uint1024_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int64_t, bksge::int32_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int64_t, bksge::int64_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int64_t, bksge::int128_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int64_t, bksge::int256_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int64_t, bksge::int512_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int64_t, bksge::int1024_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int64_t, bksge::uint32_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int64_t, bksge::uint64_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int64_t, bksge::uint128_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int64_t, bksge::uint256_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int64_t, bksge::uint512_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int64_t, bksge::uint1024_t>()));
-//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int128_t, bksge::int32_t>()));
-//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int128_t, bksge::int64_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::int32_t, std::int32_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::int32_t, std::int64_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::int32_t, bksge::int128_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::int32_t, bksge::int256_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::int32_t, bksge::int512_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::int32_t, bksge::int1024_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::int32_t, std::uint32_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::int32_t, std::uint64_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::int32_t, bksge::uint128_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::int32_t, bksge::uint256_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::int32_t, bksge::uint512_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::int32_t, bksge::uint1024_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::int64_t, std::int32_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::int64_t, std::int64_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::int64_t, bksge::int128_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::int64_t, bksge::int256_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::int64_t, bksge::int512_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::int64_t, bksge::int1024_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::int64_t, std::uint32_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::int64_t, std::uint64_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::int64_t, bksge::uint128_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::int64_t, bksge::uint256_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::int64_t, bksge::uint512_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::int64_t, bksge::uint1024_t>()));
+//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int128_t, std::int32_t>()));
+//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int128_t, std::int64_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int128_t, bksge::int128_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int128_t, bksge::int256_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int128_t, bksge::int512_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int128_t, bksge::int1024_t>()));
-//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int128_t, bksge::uint32_t>()));
-//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int128_t, bksge::uint64_t>()));
+//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int128_t, std::uint32_t>()));
+//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int128_t, std::uint64_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int128_t, bksge::uint128_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int128_t, bksge::uint256_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int128_t, bksge::uint512_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int128_t, bksge::uint1024_t>()));
-//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int256_t, bksge::int32_t>()));
-//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int256_t, bksge::int64_t>()));
+//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int256_t, std::int32_t>()));
+//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int256_t, std::int64_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int256_t, bksge::int128_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int256_t, bksge::int256_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int256_t, bksge::int512_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int256_t, bksge::int1024_t>()));
-//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int256_t, bksge::uint32_t>()));
-//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int256_t, bksge::uint64_t>()));
+//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int256_t, std::uint32_t>()));
+//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int256_t, std::uint64_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int256_t, bksge::uint128_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int256_t, bksge::uint256_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int256_t, bksge::uint512_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int256_t, bksge::uint1024_t>()));
-//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int512_t, bksge::int32_t>()));
-//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int512_t, bksge::int64_t>()));
+//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int512_t, std::int32_t>()));
+//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int512_t, std::int64_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int512_t, bksge::int128_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int512_t, bksge::int256_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int512_t, bksge::int512_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int512_t, bksge::int1024_t>()));
-//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int512_t, bksge::uint32_t>()));
-//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int512_t, bksge::uint64_t>()));
+//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int512_t, std::uint32_t>()));
+//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int512_t, std::uint64_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int512_t, bksge::uint128_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int512_t, bksge::uint256_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int512_t, bksge::uint512_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int512_t, bksge::uint1024_t>()));
-//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int1024_t, bksge::int32_t>()));
-//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int1024_t, bksge::int64_t>()));
+//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int1024_t, std::int32_t>()));
+//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int1024_t, std::int64_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int1024_t, bksge::int128_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int1024_t, bksge::int256_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int1024_t, bksge::int512_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int1024_t, bksge::int1024_t>()));
-//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int1024_t, bksge::uint32_t>()));
-//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int1024_t, bksge::uint64_t>()));
+//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int1024_t, std::uint32_t>()));
+//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int1024_t, std::uint64_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int1024_t, bksge::uint128_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int1024_t, bksge::uint256_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int1024_t, bksge::uint512_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::int1024_t, bksge::uint1024_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint32_t, bksge::int32_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint32_t, bksge::int64_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint32_t, bksge::int128_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint32_t, bksge::int256_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint32_t, bksge::int512_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint32_t, bksge::int1024_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint32_t, bksge::uint32_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint32_t, bksge::uint64_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint32_t, bksge::uint128_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint32_t, bksge::uint256_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint32_t, bksge::uint512_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint32_t, bksge::uint1024_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint64_t, bksge::int32_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint64_t, bksge::int64_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint64_t, bksge::int128_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint64_t, bksge::int256_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint64_t, bksge::int512_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint64_t, bksge::int1024_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint64_t, bksge::uint32_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint64_t, bksge::uint64_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint64_t, bksge::uint128_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint64_t, bksge::uint256_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint64_t, bksge::uint512_t>()));
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint64_t, bksge::uint1024_t>()));
-//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint128_t, bksge::int32_t>()));
-//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint128_t, bksge::int64_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::uint32_t, std::int32_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::uint32_t, std::int64_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::uint32_t, bksge::int128_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::uint32_t, bksge::int256_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::uint32_t, bksge::int512_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::uint32_t, bksge::int1024_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::uint32_t, std::uint32_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::uint32_t, std::uint64_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::uint32_t, bksge::uint128_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::uint32_t, bksge::uint256_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::uint32_t, bksge::uint512_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::uint32_t, bksge::uint1024_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::uint64_t, std::int32_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::uint64_t, std::int64_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::uint64_t, bksge::int128_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::uint64_t, bksge::int256_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::uint64_t, bksge::int512_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::uint64_t, bksge::int1024_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::uint64_t, std::uint32_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::uint64_t, std::uint64_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::uint64_t, bksge::uint128_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::uint64_t, bksge::uint256_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::uint64_t, bksge::uint512_t>()));
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<std::uint64_t, bksge::uint1024_t>()));
+//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint128_t, std::int32_t>()));
+//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint128_t, std::int64_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint128_t, bksge::int128_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint128_t, bksge::int256_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint128_t, bksge::int512_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint128_t, bksge::int1024_t>()));
-//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint128_t, bksge::uint32_t>()));
-//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint128_t, bksge::uint64_t>()));
+//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint128_t, std::uint32_t>()));
+//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint128_t, std::uint64_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint128_t, bksge::uint128_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint128_t, bksge::uint256_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint128_t, bksge::uint512_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint128_t, bksge::uint1024_t>()));
-//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint256_t, bksge::int32_t>()));
-//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint256_t, bksge::int64_t>()));
+//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint256_t, std::int32_t>()));
+//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint256_t, std::int64_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint256_t, bksge::int128_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint256_t, bksge::int256_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint256_t, bksge::int512_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint256_t, bksge::int1024_t>()));
-//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint256_t, bksge::uint32_t>()));
-//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint256_t, bksge::uint64_t>()));
+//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint256_t, std::uint32_t>()));
+//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint256_t, std::uint64_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint256_t, bksge::uint128_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint256_t, bksge::uint256_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint256_t, bksge::uint512_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint256_t, bksge::uint1024_t>()));
-//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint512_t, bksge::int32_t>()));
-//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint512_t, bksge::int64_t>()));
+//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint512_t, std::int32_t>()));
+//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint512_t, std::int64_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint512_t, bksge::int128_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint512_t, bksge::int256_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint512_t, bksge::int512_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint512_t, bksge::int1024_t>()));
-//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint512_t, bksge::uint32_t>()));
-//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint512_t, bksge::uint64_t>()));
+//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint512_t, std::uint32_t>()));
+//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint512_t, std::uint64_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint512_t, bksge::uint128_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint512_t, bksge::uint256_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint512_t, bksge::uint512_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint512_t, bksge::uint1024_t>()));
-//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint1024_t, bksge::int32_t>()));
-//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint1024_t, bksge::int64_t>()));
+//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint1024_t, std::int32_t>()));
+//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint1024_t, std::int64_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint1024_t, bksge::int128_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint1024_t, bksge::int256_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint1024_t, bksge::int512_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint1024_t, bksge::int1024_t>()));
-//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint1024_t, bksge::uint32_t>()));
-//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint1024_t, bksge::uint64_t>()));
+//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint1024_t, std::uint32_t>()));
+//	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint1024_t, std::uint64_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint1024_t, bksge::uint128_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint1024_t, bksge::uint256_t>()));
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((CtorConvTest<bksge::uint1024_t, bksge::uint512_t>()));

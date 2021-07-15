@@ -18,12 +18,12 @@
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/utility/in_place_type.hpp>
 #include <bksge/fnd/utility/move.hpp>
-#include <bksge/fnd/cstdint/uintptr_t.hpp>
 #include <bksge/fnd/set/set.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include <initializer_list>
+#include <cstdint>
 
 namespace bksge_any_test
 {
@@ -59,9 +59,9 @@ struct alignas(2 * alignof(void*)) Y {};
 inline bool
 stored_internally(void* obj, const bksge::any& a)
 {
-	bksge::uintptr_t a_addr = reinterpret_cast<bksge::uintptr_t>(&a);
-	bksge::uintptr_t a_end = a_addr + sizeof(a);
-	bksge::uintptr_t obj_addr = reinterpret_cast<bksge::uintptr_t>(obj);
+	std::uintptr_t a_addr = reinterpret_cast<std::uintptr_t>(&a);
+	std::uintptr_t a_end = a_addr + sizeof(a);
+	std::uintptr_t obj_addr = reinterpret_cast<std::uintptr_t>(obj);
 	return (a_addr <= obj_addr) && (obj_addr < a_end);
 }
 

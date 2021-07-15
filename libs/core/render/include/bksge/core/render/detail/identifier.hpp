@@ -12,7 +12,7 @@
 //#include <bksge/fnd/serialization/access.hpp>
 //#include <bksge/fnd/serialization/nvp.hpp>
 //#include <bksge/fnd/serialization/version.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -26,7 +26,7 @@ namespace render
 class Identifier
 {
 public:
-	using ValueType = bksge::uint32_t;
+	using ValueType = std::uint32_t;
 
 	Identifier(void);
 

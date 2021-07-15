@@ -23,10 +23,10 @@
 #include <bksge/core/render/texture.hpp>
 #include <bksge/core/render/texture_format.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/cstring/memcpy.hpp>
 #include <bksge/fnd/stdexcept/runtime_error.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -122,7 +122,7 @@ TransitionImageLayout(
 	vulkan::CommandBuffer* command_buffer,
 	::VkImage image,
 	::VkImageAspectFlags aspect_mask,
-	bksge::uint32_t mipmap_count,
+	std::uint32_t mipmap_count,
 	::VkImageLayout old_layout,
 	::VkImageLayout new_layout)
 {
@@ -162,7 +162,7 @@ Image::Image(
 	::VkImage image,
 	::VkFormat format,
 	vulkan::Extent2D const& extent,
-	bksge::uint32_t mipmap_count)
+	std::uint32_t mipmap_count)
 	: m_image(image)
 	, m_image_view(VK_NULL_HANDLE)
 	, m_device_memory()
@@ -197,7 +197,7 @@ Image::Image(
 	vulkan::DeviceSharedPtr const& device,
 	::VkFormat format,
 	vulkan::Extent2D const& extent,
-	bksge::uint32_t mipmap_count,
+	std::uint32_t mipmap_count,
 	::VkSampleCountFlagBits num_samples,
 	::VkImageUsageFlags usage)
 	: m_image(VK_NULL_HANDLE)
@@ -262,7 +262,7 @@ Image::Image(
 		device,
 		vulkan::TextureFormat(texture.format()),
 		texture.extent(),
-		static_cast<bksge::uint32_t>(texture.mipmap_count()),
+		static_cast<std::uint32_t>(texture.mipmap_count()),
 		VK_SAMPLE_COUNT_1_BIT,
 		VK_IMAGE_USAGE_SAMPLED_BIT |
 		VK_IMAGE_USAGE_TRANSFER_DST_BIT)
@@ -342,7 +342,7 @@ Image::CopyFromBuffer(
 	auto width  = m_extent.width;
 	auto height = m_extent.height;
 
-	for (bksge::uint32_t i = 0; i < m_mipmap_count; ++i)
+	for (std::uint32_t i = 0; i < m_mipmap_count; ++i)
 	{
 		::VkBufferImageCopy region {};
 		region.bufferOffset                    = src_offset;
@@ -412,7 +412,7 @@ Image::ClearDepthStencil(
 	vulkan::CommandBuffer* command_buffer,
 	::VkImageAspectFlags aspect_mask,
 	float depth,
-	bksge::uint32_t stencil)
+	std::uint32_t stencil)
 {
 	if (aspect_mask == 0)
 	{
@@ -489,7 +489,7 @@ Image::extent(void) const
 	return m_extent;
 }
 
-BKSGE_INLINE bksge::uint32_t
+BKSGE_INLINE std::uint32_t
 Image::mipmap_count(void) const
 {
 	return m_mipmap_count;

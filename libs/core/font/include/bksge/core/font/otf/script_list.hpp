@@ -14,7 +14,7 @@
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -26,7 +26,7 @@ struct ScriptList
 {
 	struct LangSys
 	{
-		explicit LangSys(bksge::uint8_t const* ptr)
+		explicit LangSys(std::uint8_t const* ptr)
 		{
 			Offset16	lookupOrderOffset;
 			uint16		featureIndexCount;
@@ -44,11 +44,11 @@ struct ScriptList
 
 	struct LangSysRecord
 	{
-		friend bksge::uint8_t const*
+		friend std::uint8_t const*
 		ReadBigEndian(
-			bksge::uint8_t const* ptr,
+			std::uint8_t const* ptr,
 			LangSysRecord* dst,
-			bksge::uint8_t const* start)
+			std::uint8_t const* start)
 		{
 			Offset16 langSysOffset;
 
@@ -67,7 +67,7 @@ struct ScriptList
 
 	struct Script
 	{
-		explicit Script(bksge::uint8_t const* ptr)
+		explicit Script(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -92,11 +92,11 @@ struct ScriptList
 
 	struct ScriptRecord
 	{
-		friend bksge::uint8_t const*
+		friend std::uint8_t const*
 		ReadBigEndian(
-			bksge::uint8_t const* ptr,
+			std::uint8_t const* ptr,
 			ScriptRecord* dst,
-			bksge::uint8_t const* start)
+			std::uint8_t const* start)
 		{
 			Offset16 scriptOffset;
 
@@ -113,7 +113,7 @@ struct ScriptList
 		bksge::unique_ptr<Script>	script;
 	};
 
-	explicit ScriptList(bksge::uint8_t const* ptr)
+	explicit ScriptList(std::uint8_t const* ptr)
 	{
 		auto const start = ptr;
 

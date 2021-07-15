@@ -16,6 +16,7 @@
 #include <bksge/core/render/gl/detail/pixel_format.hpp>
 #include <bksge/core/render/texture_format.hpp>
 #include <bksge/core/render/render_texture.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -29,8 +30,8 @@ namespace gl
 BKSGE_INLINE
 RenderBuffer::RenderBuffer(
 	bksge::TextureFormat texture_format,
-	bksge::uint32_t width,
-	bksge::uint32_t height)
+	std::uint32_t width,
+	std::uint32_t height)
 {
 	::glGenRenderbuffers(1, &m_id);
 	Bind();

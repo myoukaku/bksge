@@ -12,7 +12,7 @@
 #include <bksge/core/font/otf/read_big_endian.hpp>
 #include <bksge/core/font/otf/types.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -24,8 +24,8 @@ struct HorizontalMetricsTable
 {
 	struct longHorMetric
 	{
-		friend bksge::uint8_t const*
-		ReadBigEndian(bksge::uint8_t const* ptr, longHorMetric* dst)
+		friend std::uint8_t const*
+		ReadBigEndian(std::uint8_t const* ptr, longHorMetric* dst)
 		{
 			ptr = ReadBigEndian(ptr, &dst->advanceWidth);
 			ptr = ReadBigEndian(ptr, &dst->lsb);
@@ -37,7 +37,7 @@ struct HorizontalMetricsTable
 	};
 
 	explicit HorizontalMetricsTable(
-		bksge::uint8_t const* ptr,
+		std::uint8_t const* ptr,
 		uint16	numberOfHMetrics,
 		uint16	numGlyphs)
 	{

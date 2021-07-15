@@ -25,10 +25,10 @@
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/string_view.hpp>
 #include <bksge/fnd/string.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <cstddef>
+#include <cstdint>
 
 namespace bksge
 {
@@ -39,7 +39,7 @@ namespace detail
 class arbitrary_bigint
 {
 private:
-	using element_type = bksge::uint32_t;
+	using element_type = std::uint32_t;
 	using vector_type = bksge::vector<element_type>;
 
 public:

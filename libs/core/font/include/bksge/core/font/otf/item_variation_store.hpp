@@ -14,7 +14,7 @@
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -26,9 +26,9 @@ struct ItemVariationStore
 {
 	struct RegionAxisCoordinates
 	{
-		friend bksge::uint8_t const*
+		friend std::uint8_t const*
 		ReadBigEndian(
-			bksge::uint8_t const* ptr,
+			std::uint8_t const* ptr,
 			RegionAxisCoordinates* dst)
 		{
 			ptr = ReadBigEndian(ptr, &dst->startCoord);
@@ -44,9 +44,9 @@ struct ItemVariationStore
 
 	struct VariationRegion
 	{
-		friend bksge::uint8_t const*
+		friend std::uint8_t const*
 		ReadBigEndian(
-			bksge::uint8_t const* ptr,
+			std::uint8_t const* ptr,
 			VariationRegion* dst,
 			uint16 axisCount)
 		{
@@ -60,7 +60,7 @@ struct ItemVariationStore
 
 	struct VariationRegionList
 	{
-		explicit VariationRegionList(bksge::uint8_t const* ptr)
+		explicit VariationRegionList(std::uint8_t const* ptr)
 		{
 			uint16	axisCount;
 			uint16	regionCount;
@@ -75,9 +75,9 @@ struct ItemVariationStore
 
 	struct DeltaSet
 	{
-		friend bksge::uint8_t const*
+		friend std::uint8_t const*
 		ReadBigEndian(
-			bksge::uint8_t const* ptr,
+			std::uint8_t const* ptr,
 			DeltaSet* dst,
 			uint16 shortDeltaCount,
 			uint16 regionIndexCount)
@@ -95,7 +95,7 @@ struct ItemVariationStore
 
 	struct ItemVariationData
 	{
-		explicit ItemVariationData(bksge::uint8_t const* ptr)
+		explicit ItemVariationData(std::uint8_t const* ptr)
 		{
 			uint16	itemCount;
 			uint16	shortDeltaCount;
@@ -114,7 +114,7 @@ struct ItemVariationStore
 		bksge::vector<DeltaSet>	deltaSets;
 	};
 
-	explicit ItemVariationStore(bksge::uint8_t const* ptr)
+	explicit ItemVariationStore(std::uint8_t const* ptr)
 	{
 		auto const start = ptr;
 

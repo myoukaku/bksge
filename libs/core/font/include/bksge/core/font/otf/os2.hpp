@@ -11,7 +11,7 @@
 
 #include <bksge/core/font/otf/read_big_endian.hpp>
 #include <bksge/core/font/otf/types.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -21,7 +21,7 @@ namespace otf
 
 struct OS2Table
 {
-	explicit OS2Table(bksge::uint8_t const* ptr)
+	explicit OS2Table(std::uint8_t const* ptr)
 	{
 		// Version 0
 		ptr = ReadBigEndian(ptr, &version);

@@ -15,8 +15,8 @@
 #include <bksge/fnd/bigint/detail/shift_left.hpp>
 //#include <bksge/fnd/bigint/detail/remove_leading_zeros.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -44,10 +44,10 @@ multiply_ntt(VectorType const& lhs, VectorType const& rhs)
 		bksge::vector<ntt2::modulo>(rhs.begin(), rhs.end()));
 	auto const capacity = nxtdigit1.size();
 	VectorType result{0};//(capacity);
-	for (bksge::uint32_t i = 0; i < capacity; ++i)
+	for (std::uint32_t i = 0; i < capacity; ++i)
 	{
-		bksge::uint64_t nxtdigit =
-			bksge::uint64_t(ntt1::modulo::get_mod()) *
+		std::uint64_t nxtdigit =
+			std::uint64_t(ntt1::modulo::get_mod()) *
 			((nxtdigit2[i] - nxtdigit1[i].get()) * magic_mult).get() +
 			nxtdigit1[i].get();
 		//using value_type = bksge::ranges::range_value_t<VectorType>;

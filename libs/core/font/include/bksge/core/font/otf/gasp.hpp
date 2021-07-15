@@ -12,7 +12,7 @@
 #include <bksge/core/font/otf/read_big_endian.hpp>
 #include <bksge/core/font/otf/types.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -24,8 +24,8 @@ struct GaspTable
 {
 	struct GaspRange
 	{
-		friend bksge::uint8_t const*
-		ReadBigEndian(bksge::uint8_t const* ptr, GaspRange* dst)
+		friend std::uint8_t const*
+		ReadBigEndian(std::uint8_t const* ptr, GaspRange* dst)
 		{
 			ptr = ReadBigEndian(ptr, &dst->rangeMaxPPEM);
 			ptr = ReadBigEndian(ptr, &dst->rangeGaspBehavior);
@@ -36,7 +36,7 @@ struct GaspTable
 		uint16	rangeGaspBehavior;
 	};
 
-	explicit GaspTable(bksge::uint8_t const* ptr)
+	explicit GaspTable(std::uint8_t const* ptr)
 	{
 		uint16	version;
 		uint16	numRanges;

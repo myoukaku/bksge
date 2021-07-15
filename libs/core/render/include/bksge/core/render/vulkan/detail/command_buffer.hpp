@@ -16,7 +16,7 @@
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -52,54 +52,54 @@ public:
 		::VkIndexType  index_type);
 
 	void BindVertexBuffers(
-		bksge::uint32_t       first_binding,
-		bksge::uint32_t       binding_count,
+		std::uint32_t       first_binding,
+		std::uint32_t       binding_count,
 		::VkBuffer const*     buffers,
 		::VkDeviceSize const* offsets);
 
 	void Draw(
-		bksge::uint32_t	vertex_count,
-		bksge::uint32_t	instance_count,
-		bksge::uint32_t	first_vertex,
-		bksge::uint32_t	first_instance);
+		std::uint32_t	vertex_count,
+		std::uint32_t	instance_count,
+		std::uint32_t	first_vertex,
+		std::uint32_t	first_instance);
 
 	void DrawIndexed(
-		bksge::uint32_t index_count,
-		bksge::uint32_t instance_count,
-		bksge::uint32_t first_index,
-		bksge::int32_t  vertex_offset,
-		bksge::uint32_t first_instance);
+		std::uint32_t index_count,
+		std::uint32_t instance_count,
+		std::uint32_t first_index,
+		std::int32_t  vertex_offset,
+		std::uint32_t first_instance);
 
 	void CopyBufferToImage(
 		::VkBuffer                 src_buffer,
 		::VkImage                  dst_image,
 		::VkImageLayout            dst_image_layout,
-		bksge::uint32_t            region_count,
+		std::uint32_t            region_count,
 		::VkBufferImageCopy const* regions);
 
 	void ClearColorImage(
 		::VkImage                        image,
 		::VkImageLayout                  image_layout,
 		::VkClearColorValue const*       color,
-		bksge::uint32_t                  range_count,
+		std::uint32_t                  range_count,
 		::VkImageSubresourceRange const* ranges);
 
 	void ClearDepthStencilImage(
 		::VkImage                         image,
 		::VkImageLayout                   image_layout,
 		::VkClearDepthStencilValue const* depth_stencil,
-		bksge::uint32_t                   range_count,
+		std::uint32_t                   range_count,
 		::VkImageSubresourceRange const*  ranges);
 
 	void PipelineBarrier(
 		::VkPipelineStageFlags         src_stage_mask,
 		::VkPipelineStageFlags         dst_stage_mask,
 		::VkDependencyFlags            dependency_flags,
-		bksge::uint32_t                memory_barrier_count,
+		std::uint32_t                memory_barrier_count,
 		::VkMemoryBarrier const*       memory_barriers,
-		bksge::uint32_t                buffer_memory_barrier_count,
+		std::uint32_t                buffer_memory_barrier_count,
 		::VkBufferMemoryBarrier const* buffer_memory_barriers,
-		bksge::uint32_t                image_memory_barrier_count,
+		std::uint32_t                image_memory_barrier_count,
 		::VkImageMemoryBarrier const*  image_memory_barriers);
 
 	void BeginRenderPass(vk::RenderPassBeginInfo const& render_pass_begin_info);
@@ -108,7 +108,7 @@ public:
 	void PushDescriptorSet(
 		::VkPipelineBindPoint                        pipeline_bind_point,
 		::VkPipelineLayout                           layout,
-		bksge::uint32_t                              set,
+		std::uint32_t                              set,
 		bksge::vector<::VkWriteDescriptorSet> const& descriptor_writes);
 
 	vk::SubmitInfo CreateSubmitInfo(void) const;

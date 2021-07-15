@@ -11,7 +11,7 @@
 
 #include <bksge/core/font/otf/read_big_endian.hpp>
 #include <bksge/core/font/otf/types.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -29,7 +29,7 @@ struct EmbeddedBitmapDataTable
 	// SmallGlyphMetrics
 	// Glyph Bitmap Data
 
-	explicit EmbeddedBitmapDataTable(bksge::uint8_t const* ptr)
+	explicit EmbeddedBitmapDataTable(std::uint8_t const* ptr)
 	{
 		ptr = ReadBigEndian(ptr, &majorVersion);
 		ptr = ReadBigEndian(ptr, &minorVersion);

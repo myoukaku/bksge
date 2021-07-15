@@ -12,6 +12,7 @@
 #include <bksge/core/render/fwd/mipmap_mode_fwd.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <ostream>
+#include <cstdint>
 
 namespace bksge
 {
@@ -22,7 +23,7 @@ namespace render
 /**
  *	@brief
  */
-enum class MipmapMode : bksge::uint32_t
+enum class MipmapMode : std::uint32_t
 {
 	kDisable,
 	kNearest,

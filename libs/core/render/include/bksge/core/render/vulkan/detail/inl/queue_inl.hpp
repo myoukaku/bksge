@@ -15,6 +15,7 @@
 #include <bksge/core/render/vulkan/detail/queue.hpp>
 #include <bksge/core/render/vulkan/detail/device.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -28,8 +29,8 @@ namespace vulkan
 BKSGE_INLINE
 Queue::Queue(
 	vulkan::DeviceSharedPtr const& device,
-	bksge::uint32_t queue_family_index,
-	bksge::uint32_t queue_index)
+	std::uint32_t queue_family_index,
+	std::uint32_t queue_index)
 	: Queue(device->GetQueue(queue_family_index, queue_index))
 {}
 

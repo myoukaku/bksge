@@ -12,7 +12,7 @@
 #include <bksge/core/font/otf/read_big_endian.hpp>
 #include <bksge/core/font/otf/types.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -24,9 +24,9 @@ struct DigitalSignatureTable
 {
 	struct SignatureBlock
 	{
-		friend bksge::uint8_t const*
+		friend std::uint8_t const*
 		ReadBigEndian(
-			bksge::uint8_t const* ptr,
+			std::uint8_t const* ptr,
 			SignatureBlock* dst)
 		{
 			uint16	reserved1;
@@ -47,11 +47,11 @@ struct DigitalSignatureTable
 
 	struct SignatureRecord
 	{
-		friend bksge::uint8_t const*
+		friend std::uint8_t const*
 		ReadBigEndian(
-			bksge::uint8_t const* ptr,
+			std::uint8_t const* ptr,
 			SignatureRecord* dst,
-			bksge::uint8_t const* start)
+			std::uint8_t const* start)
 		{
 			uint32		format;
 			uint32		length;
@@ -69,7 +69,7 @@ struct DigitalSignatureTable
 		SignatureBlock signatureBlock;
 	};
 
-	explicit DigitalSignatureTable(bksge::uint8_t const* ptr)
+	explicit DigitalSignatureTable(std::uint8_t const* ptr)
 	{
 		auto const start = ptr;
 

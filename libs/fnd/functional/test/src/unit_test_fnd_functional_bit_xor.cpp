@@ -8,8 +8,8 @@
 
 #include <bksge/fnd/functional/bit_xor.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <gtest/gtest.h>
+#include <cstdint>
 #include "constexpr_test.hpp"
 
 GTEST_TEST(FunctionalTest, BitXorTest)
@@ -24,7 +24,7 @@ GTEST_TEST(FunctionalTest, BitXorTest)
 	}
 	{
 		using type = bksge::bit_xor<>;
-		BKSGE_CONSTEXPR_EXPECT_EQ(bksge::uint16_t(0xBD), type()(bksge::uint8_t (0xFA), bksge::uint16_t(0x47)));
-		BKSGE_CONSTEXPR_EXPECT_EQ(bksge::uint32_t(0x53), type()(bksge::uint32_t(0x73), bksge::uint16_t(0x20)));
+		BKSGE_CONSTEXPR_EXPECT_EQ(std::uint16_t(0xBD), type()(std::uint8_t (0xFA), std::uint16_t(0x47)));
+		BKSGE_CONSTEXPR_EXPECT_EQ(std::uint32_t(0x53), type()(std::uint32_t(0x73), std::uint16_t(0x20)));
 	}
 }

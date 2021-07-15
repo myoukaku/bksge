@@ -15,10 +15,10 @@
 #include <bksge/fnd/bit/bit_ceil.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/swap.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
+#include <cstdint>
 
 namespace bksge
 {
@@ -29,7 +29,7 @@ namespace detail
 namespace bigint_algo
 {
 
-template <bksge::uint32_t Mod, bksge::uint32_t PrimRoot>
+template <std::uint32_t Mod, std::uint32_t PrimRoot>
 class polynomial_ntt
 {
 public:

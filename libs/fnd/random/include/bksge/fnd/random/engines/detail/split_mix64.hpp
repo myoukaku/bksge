@@ -9,7 +9,7 @@
 #ifndef BKSGE_FND_RANDOM_ENGINES_DETAIL_SPLIT_MIX64_HPP
 #define BKSGE_FND_RANDOM_ENGINES_DETAIL_SPLIT_MIX64_HPP
 
-#include <bksge/fnd/cstdint/uint64_t.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -17,7 +17,7 @@ namespace bksge
 class split_mix64
 {
 public:
-	using result_type = bksge::uint64_t;
+	using result_type = std::uint64_t;
 
 	explicit split_mix64(result_type sd)
 		: m_state(sd)

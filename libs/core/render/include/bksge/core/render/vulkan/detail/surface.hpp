@@ -14,6 +14,7 @@
 #include <bksge/core/render/vulkan/detail/fwd/physical_device_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/window/fwd/window_fwd.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -36,7 +37,7 @@ public:
 	::VkSurfaceCapabilitiesKHR
 	GetCapabilities(vulkan::PhysicalDevice const& physical_device) const;
 
-	bksge::uint32_t
+	std::uint32_t
 	GetPresentQueueFamilyIndex(vulkan::PhysicalDevice const& physical_device) const;
 
 	bksge::vector<::VkSurfaceFormatKHR>

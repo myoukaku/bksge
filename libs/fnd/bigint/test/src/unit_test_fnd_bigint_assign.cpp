@@ -7,9 +7,9 @@
  */
 
 #include <bksge/fnd/bigint.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <cstdint>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -115,12 +115,12 @@ GTEST_TEST(BigIntTest, AssignTest)
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(AssignMoveTest<bksge::uint1024_t>());
 
 	EXPECT_TRUE(AssignIntTest<bksge::bigint>());
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(AssignIntTest<bksge::int64_t>());
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(AssignIntTest<std::int64_t>());
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(AssignIntTest<bksge::int128_t>());
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(AssignIntTest<bksge::int256_t>());
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(AssignIntTest<bksge::int512_t>());
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(AssignIntTest<bksge::int1024_t>());
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(AssignIntTest<bksge::uint64_t>());
+	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(AssignIntTest<std::uint64_t>());
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(AssignIntTest<bksge::uint128_t>());
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(AssignIntTest<bksge::uint256_t>());
 	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(AssignIntTest<bksge::uint512_t>());

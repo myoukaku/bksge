@@ -13,11 +13,11 @@
 #include <bksge/fnd/concepts/integral.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/concepts/detail/overload_priority.hpp>
-#include <bksge/fnd/cstdint/uintmax_t.hpp>
 #include <bksge/fnd/type_traits/is_unsigned.hpp>
 #include <bksge/fnd/config.hpp>
 #include <limits>
 #include <cstddef>
+#include <cstdint>
 
 namespace bksge
 {
@@ -59,7 +59,7 @@ inline BKSGE_CONSTEXPR unsigned int max_double_factorial<long double>() BKSGE_NO
 	return 300;
 }
 
-static BKSGE_CONSTEXPR bksge::uintmax_t s_double_factorial_tbl_int[] =
+static BKSGE_CONSTEXPR std::uintmax_t s_double_factorial_tbl_int[] =
 {
 	1,					 //  0!!
 	1,					 //  1!!

@@ -16,7 +16,6 @@
 #include <bksge/fnd/cmath/decompose_float.hpp>
 #include <bksge/fnd/concepts/floating_point.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge

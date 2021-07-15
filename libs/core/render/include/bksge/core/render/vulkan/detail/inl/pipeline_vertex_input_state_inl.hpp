@@ -15,6 +15,7 @@
 #include <bksge/core/render/vulkan/detail/pipeline_vertex_input_state.hpp>
 #include <bksge/core/render/vulkan/detail/vertex_format.hpp>
 #include <bksge/core/render/vertex_layout.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -33,15 +34,15 @@ PipelineVertexInputState::PipelineVertexInputState(
 
 	m_binding_descriptions.binding   = 0;
 	m_binding_descriptions.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-	m_binding_descriptions.stride    = static_cast<bksge::uint32_t>(stride);
+	m_binding_descriptions.stride    = static_cast<std::uint32_t>(stride);
 
 	for (auto& attribute : vertex_layout.vertex_attribute_array())
 	{
 		::VkVertexInputAttributeDescription desc;
 		desc.binding  = 0;
-		desc.location = static_cast<bksge::uint32_t>(m_attribute_description.size());
+		desc.location = static_cast<std::uint32_t>(m_attribute_description.size());
 		desc.format   = vulkan::VertexFormat(attribute);
-		desc.offset   = static_cast<bksge::uint32_t>(attribute.offset());
+		desc.offset   = static_cast<std::uint32_t>(attribute.offset());
 		m_attribute_description.push_back(desc);
 	}
 

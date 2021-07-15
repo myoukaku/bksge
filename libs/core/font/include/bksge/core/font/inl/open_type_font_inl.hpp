@@ -62,19 +62,20 @@
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
+#include <cstdint>
 
 namespace bksge
 {
 
 BKSGE_INLINE
-OpenTypeFont::OpenTypeFont(bksge::uint8_t const* ptr, std::size_t size)
+OpenTypeFont::OpenTypeFont(std::uint8_t const* ptr, std::size_t size)
 {
 	(void)size;
 	m_table_directory = bksge::make_unique<otf::TableDirectory>(ptr);
 
 	for (auto const& record : m_table_directory->tableRecords)
 	{
-		bksge::uint8_t const* src = ptr + record.offset;
+		std::uint8_t const* src = ptr + record.offset;
 		switch (record.tableTag)
 		{
 		case 'cmap':
@@ -219,7 +220,7 @@ OpenTypeFont::OpenTypeFont(bksge::uint8_t const* ptr, std::size_t size)
 
 	for (auto const& record : m_table_directory->tableRecords)
 	{
-		bksge::uint8_t const* src = ptr + record.offset;
+		std::uint8_t const* src = ptr + record.offset;
 		switch (record.tableTag)
 		{
 		case 'hmtx':
@@ -262,8 +263,8 @@ OpenTypeFont::~OpenTypeFont()
 {
 }
 
-BKSGE_INLINE bksge::uint16_t
-OpenTypeFont::GetGlyphIndex(bksge::uint32_t char_code) const
+BKSGE_INLINE std::uint16_t
+OpenTypeFont::GetGlyphIndex(std::uint32_t char_code) const
 {
 	if (m_cmap == nullptr)
 	{

@@ -42,10 +42,10 @@
 #include <bksge/core/render/fwd/shader_fwd.hpp>
 #include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
 #include <bksge/core/window/fwd/window_fwd.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
 #include <bksge/fnd/vector.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -96,7 +96,7 @@ private:
 	vulkan::SemaphoreUniquePtr					m_image_acquired_semaphore;
 	vulkan::ResourcePoolUniquePtr				m_resource_pool;
 	vulkan::UniformBufferUniquePtr				m_uniform_buffer;
-	bksge::uint32_t								m_frame_index = 0;
+	std::uint32_t								m_frame_index = 0;
 
 	bksge::vector<vulkan::FrameBufferSharedPtr>	m_default_frame_buffers;
 	vulkan::FrameBufferSharedPtr				m_offscreen_frame_buffer;

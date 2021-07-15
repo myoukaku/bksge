@@ -28,9 +28,9 @@ using std::hash;
 #include <bksge/fnd/type_traits/conditional.hpp>
 #include <bksge/fnd/type_traits/is_enum.hpp>
 #include <bksge/fnd/type_traits/underlying_type.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
+#include <cstdint>
 
 namespace bksge
 {
@@ -124,7 +124,7 @@ struct hash<T*>
 	/*BKSGE_CONSTEXPR*/ std::size_t
 	operator()(T* p) const BKSGE_NOEXCEPT
 	{
-		return detail::hash_representation(reinterpret_cast<bksge::uintptr_t>(p));
+		return detail::hash_representation(reinterpret_cast<std::uintptr_t>(p));
 	}
 };
 
@@ -175,7 +175,7 @@ struct hash_float<T, 1>
 {
 	static BKSGE_CXX20_CONSTEXPR std::size_t hash(T val) BKSGE_NOEXCEPT
 	{
-		return detail::hash_representation(bksge::bit_cast<bksge::uint8_t>(val));
+		return detail::hash_representation(bksge::bit_cast<std::uint8_t>(val));
 	}
 };
 template <typename T>
@@ -183,7 +183,7 @@ struct hash_float<T, 2>
 {
 	static BKSGE_CXX20_CONSTEXPR std::size_t hash(T val) BKSGE_NOEXCEPT
 	{
-		return detail::hash_representation(bksge::bit_cast<bksge::uint16_t>(val));
+		return detail::hash_representation(bksge::bit_cast<std::uint16_t>(val));
 	}
 };
 template <typename T>
@@ -191,7 +191,7 @@ struct hash_float<T, 4>
 {
 	static BKSGE_CXX20_CONSTEXPR std::size_t hash(T val) BKSGE_NOEXCEPT
 	{
-		return detail::hash_representation(bksge::bit_cast<bksge::uint32_t>(val));
+		return detail::hash_representation(bksge::bit_cast<std::uint32_t>(val));
 	}
 };
 template <typename T>
@@ -199,7 +199,7 @@ struct hash_float<T, 8>
 {
 	static BKSGE_CXX20_CONSTEXPR std::size_t hash(T val) BKSGE_NOEXCEPT
 	{
-		return detail::hash_representation(bksge::bit_cast<bksge::uint64_t>(val));
+		return detail::hash_representation(bksge::bit_cast<std::uint64_t>(val));
 	}
 };
 template <typename T>
@@ -207,7 +207,7 @@ struct hash_float<T, 16>
 {
 	static BKSGE_CXX20_CONSTEXPR std::size_t hash(T val) BKSGE_NOEXCEPT
 	{
-		struct Dummy { bksge::uint32_t a[4]; };
+		struct Dummy { std::uint32_t a[4]; };
 		auto const t = bksge::bit_cast<Dummy>(val);
 		return detail::hash_fnv(t.a[0], t.a[1], t.a[2], t.a[3]);
 	}

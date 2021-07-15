@@ -12,7 +12,7 @@
 #include <bksge/core/font/otf/read_big_endian.hpp>
 #include <bksge/core/font/otf/types.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -24,9 +24,9 @@ struct VerticalOriginTable
 {
 	struct VertOriginYMetric
 	{
-		friend bksge::uint8_t const*
+		friend std::uint8_t const*
 		ReadBigEndian(
-			bksge::uint8_t const* ptr,
+			std::uint8_t const* ptr,
 			VertOriginYMetric* dst)
 		{
 			ptr = ReadBigEndian(ptr, &dst->glyphIndex);
@@ -38,7 +38,7 @@ struct VerticalOriginTable
 		int16	vertOriginY;
 	};
 
-	explicit VerticalOriginTable(bksge::uint8_t const* ptr)
+	explicit VerticalOriginTable(std::uint8_t const* ptr)
 	{
 		uint16	majorVersion;
 		uint16	minorVersion;

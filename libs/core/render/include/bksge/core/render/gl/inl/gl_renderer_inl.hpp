@@ -41,6 +41,7 @@
 #include <bksge/fnd/utility/pair.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <cstdio>	// printf
+#include <cstdint>
 
 namespace bksge
 {
@@ -158,7 +159,7 @@ private:
 			{{{-1.0, -1.0, 0.0}}, {{0, 0}}},
 			{{{ 3.0, -1.0, 0.0}}, {{2, 0}}},
 		};
-		static bksge::uint16_t const indices[] =
+		static std::uint16_t const indices[] =
 		{
 			0, 1, 2,
 		};

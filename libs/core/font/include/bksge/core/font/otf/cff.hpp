@@ -12,7 +12,7 @@
 #include <bksge/core/font/otf/read_big_endian.hpp>
 #include <bksge/core/font/otf/types.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -22,7 +22,7 @@ namespace otf
 
 struct CompactFontFormatTable
 {
-	explicit CompactFontFormatTable(bksge::uint8_t const* ptr, uint32 length)
+	explicit CompactFontFormatTable(std::uint8_t const* ptr, uint32 length)
 		: m_buf(ptr, ptr + length)
 	{}
 

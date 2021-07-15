@@ -12,7 +12,7 @@
 #include <bksge/core/font/otf/read_big_endian.hpp>
 #include <bksge/core/font/otf/types.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -24,11 +24,11 @@ struct MetadataTable
 {
 	struct DataMap
 	{
-		friend bksge::uint8_t const*
+		friend std::uint8_t const*
 		ReadBigEndian(
-			bksge::uint8_t const* ptr,
+			std::uint8_t const* ptr,
 			DataMap* dst,
-			bksge::uint8_t const* start)
+			std::uint8_t const* start)
 		{
 			Offset32	dataOffset;
 			uint32		dataLength;
@@ -44,7 +44,7 @@ struct MetadataTable
 		bksge::vector<uint8>	data;
 	};
 
-	explicit MetadataTable(bksge::uint8_t const* ptr)
+	explicit MetadataTable(std::uint8_t const* ptr)
 	{
 		auto const start = ptr;
 

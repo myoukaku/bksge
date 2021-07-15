@@ -10,9 +10,9 @@
 #define BKSGE_CORE_RENDER_LOGIC_OPERATION_HPP
 
 #include <bksge/core/render/fwd/logic_operation_fwd.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <ostream>
+#include <cstdint>
 
 namespace bksge
 {
@@ -23,7 +23,7 @@ namespace render
 /**
  *	@brief	ブレンド方法
  */
-enum class LogicOperation : bksge::uint32_t
+enum class LogicOperation : std::uint32_t
 {
 	kClear,
 	kSet,

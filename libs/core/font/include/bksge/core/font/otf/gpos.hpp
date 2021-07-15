@@ -24,7 +24,7 @@
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/variant.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -48,11 +48,11 @@ struct GlyphPositioningTable
 			Y_ADVANCE_DEVICE   = 0x0080,
 		};
 
-		friend bksge::uint8_t const*
+		friend std::uint8_t const*
 		ReadBigEndian(
-			bksge::uint8_t const* ptr,
+			std::uint8_t const* ptr,
 			ValueRecord* dst,
-			bksge::uint8_t const* start,
+			std::uint8_t const* start,
 			uint16 valueFormat)
 		{
 			Offset16	xPlaDeviceOffset = 0;
@@ -105,7 +105,7 @@ struct GlyphPositioningTable
 
 	struct AnchorTable
 	{
-		explicit AnchorTable(bksge::uint8_t const* ptr)
+		explicit AnchorTable(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -149,11 +149,11 @@ struct GlyphPositioningTable
 	{
 		struct MarkRecord
 		{
-			friend bksge::uint8_t const*
+			friend std::uint8_t const*
 			ReadBigEndian(
-				bksge::uint8_t const* ptr,
+				std::uint8_t const* ptr,
 				MarkRecord* dst,
-				bksge::uint8_t const* start)
+				std::uint8_t const* start)
 			{
 				Offset16	markAnchorOffset;
 				ptr = ReadBigEndian(ptr, &dst->markClass);
@@ -172,7 +172,7 @@ struct GlyphPositioningTable
 			bksge::unique_ptr<AnchorTable>	markAnchor;
 		};
 
-		explicit MarkArray(bksge::uint8_t const* ptr)
+		explicit MarkArray(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -187,7 +187,7 @@ struct GlyphPositioningTable
 
 	struct SingleAdjustment : public Lookup::Subtable
 	{
-		explicit SingleAdjustment(bksge::uint8_t const* ptr)
+		explicit SingleAdjustment(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -227,9 +227,9 @@ struct GlyphPositioningTable
 	{
 		struct PairValueRecord
 		{
-			friend bksge::uint8_t const*
+			friend std::uint8_t const*
 			ReadBigEndian(
-				bksge::uint8_t const* ptr,
+				std::uint8_t const* ptr,
 				PairValueRecord* dst,
 				uint16 valueFormat1,
 				uint16 valueFormat2)
@@ -249,7 +249,7 @@ struct GlyphPositioningTable
 		struct PairSet
 		{
 			explicit PairSet(
-				bksge::uint8_t const* ptr,
+				std::uint8_t const* ptr,
 				uint16 valueFormat1,
 				uint16 valueFormat2)
 			{
@@ -265,8 +265,8 @@ struct GlyphPositioningTable
 		struct Format1
 		{
 			static Format1 Create(
-				bksge::uint8_t const* ptr,
-				bksge::uint8_t const* start)
+				std::uint8_t const* ptr,
+				std::uint8_t const* start)
 			{
 				Format1 result;
 
@@ -302,9 +302,9 @@ struct GlyphPositioningTable
 
 		struct Class2Record
 		{
-			friend bksge::uint8_t const*
+			friend std::uint8_t const*
 			ReadBigEndian(
-				bksge::uint8_t const* ptr,
+				std::uint8_t const* ptr,
 				Class2Record* dst,
 				uint16 valueFormat1,
 				uint16 valueFormat2)
@@ -321,9 +321,9 @@ struct GlyphPositioningTable
 
 		struct Class1Record
 		{
-			friend bksge::uint8_t const*
+			friend std::uint8_t const*
 			ReadBigEndian(
-				bksge::uint8_t const* ptr,
+				std::uint8_t const* ptr,
 				Class1Record* dst,
 				uint16 class2Count,
 				uint16 valueFormat1,
@@ -341,8 +341,8 @@ struct GlyphPositioningTable
 		struct Format2
 		{
 			static Format2 Create(
-				bksge::uint8_t const* ptr,
-				bksge::uint8_t const* start)
+				std::uint8_t const* ptr,
+				std::uint8_t const* start)
 			{
 				Format2 result;
 
@@ -390,7 +390,7 @@ struct GlyphPositioningTable
 			bksge::vector<Class1Record>				class1Records;
 		};
 
-		explicit PairAdjustment(bksge::uint8_t const* ptr)
+		explicit PairAdjustment(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -413,11 +413,11 @@ struct GlyphPositioningTable
 	{
 		struct EntryExitRecord
 		{
-			friend bksge::uint8_t const*
+			friend std::uint8_t const*
 			ReadBigEndian(
-				bksge::uint8_t const* ptr,
+				std::uint8_t const* ptr,
 				EntryExitRecord* dst,
-				bksge::uint8_t const* start)
+				std::uint8_t const* start)
 			{
 				Offset16	entryAnchorOffset;
 				Offset16	exitAnchorOffset;
@@ -443,7 +443,7 @@ struct GlyphPositioningTable
 			bksge::unique_ptr<AnchorTable>	exitAnchor;
 		};
 
-		explicit CursiveAttachment(bksge::uint8_t const* ptr)
+		explicit CursiveAttachment(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -472,11 +472,11 @@ struct GlyphPositioningTable
 	{
 		struct BaseRecord
 		{
-			friend bksge::uint8_t const*
+			friend std::uint8_t const*
 			ReadBigEndian(
-				bksge::uint8_t const* ptr,
+				std::uint8_t const* ptr,
 				BaseRecord* dst,
-				bksge::uint8_t const* start,
+				std::uint8_t const* start,
 				uint16 markClassCount)
 			{
 				for (uint16 i = 0; i < markClassCount; ++i)
@@ -499,7 +499,7 @@ struct GlyphPositioningTable
 
 		struct BaseArray
 		{
-			explicit BaseArray(bksge::uint8_t const* ptr, uint16 markClassCount)
+			explicit BaseArray(std::uint8_t const* ptr, uint16 markClassCount)
 			{
 				auto const start = ptr;
 
@@ -512,7 +512,7 @@ struct GlyphPositioningTable
 			bksge::vector<BaseRecord>	baseRecords;
 		};
 
-		explicit MarkToBaseAttachment(bksge::uint8_t const* ptr)
+		explicit MarkToBaseAttachment(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -562,11 +562,11 @@ struct GlyphPositioningTable
 	{
 		struct ComponentRecord
 		{
-			friend bksge::uint8_t const*
+			friend std::uint8_t const*
 			ReadBigEndian(
-				bksge::uint8_t const* ptr,
+				std::uint8_t const* ptr,
 				ComponentRecord* dst,
-				bksge::uint8_t const* start,
+				std::uint8_t const* start,
 				uint16 markClassCount)
 			{
 				for (uint16 i = 0; i < markClassCount; ++i)
@@ -589,7 +589,7 @@ struct GlyphPositioningTable
 
 		struct LigatureAttach
 		{
-			explicit LigatureAttach(bksge::uint8_t const* ptr, uint16 markClassCount)
+			explicit LigatureAttach(std::uint8_t const* ptr, uint16 markClassCount)
 			{
 				auto const start = ptr;
 
@@ -604,7 +604,7 @@ struct GlyphPositioningTable
 
 		struct LigatureArray
 		{
-			explicit LigatureArray(bksge::uint8_t const* ptr, uint16 markClassCount)
+			explicit LigatureArray(std::uint8_t const* ptr, uint16 markClassCount)
 			{
 				auto const start = ptr;
 
@@ -622,7 +622,7 @@ struct GlyphPositioningTable
 			bksge::vector<LigatureAttach>	ligatureAttachs;
 		};
 
-		explicit MarkToLigatureAttachment(bksge::uint8_t const* ptr)
+		explicit MarkToLigatureAttachment(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -672,11 +672,11 @@ struct GlyphPositioningTable
 	{
 		struct Mark2Record
 		{
-			friend bksge::uint8_t const*
+			friend std::uint8_t const*
 			ReadBigEndian(
-				bksge::uint8_t const* ptr,
+				std::uint8_t const* ptr,
 				Mark2Record* dst,
-				bksge::uint8_t const* start,
+				std::uint8_t const* start,
 				uint16 markClassCount)
 			{
 				for (uint16 i = 0; i < markClassCount; ++i)
@@ -699,7 +699,7 @@ struct GlyphPositioningTable
 
 		struct Mark2Array
 		{
-			explicit Mark2Array(bksge::uint8_t const* ptr, uint16 markClassCount)
+			explicit Mark2Array(std::uint8_t const* ptr, uint16 markClassCount)
 			{
 				auto const start = ptr;
 
@@ -712,7 +712,7 @@ struct GlyphPositioningTable
 			bksge::vector<Mark2Record>	mark2Records;
 		};
 
-		explicit MarkToMarkAttachment(bksge::uint8_t const* ptr)
+		explicit MarkToMarkAttachment(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -760,7 +760,7 @@ struct GlyphPositioningTable
 
 	struct ContextPositioning : public Lookup::Subtable
 	{
-		explicit ContextPositioning(bksge::uint8_t const* ptr)
+		explicit ContextPositioning(std::uint8_t const* ptr)
 			: sequenceContext(ptr)
 		{}
 
@@ -769,7 +769,7 @@ struct GlyphPositioningTable
 
 	struct ChainedContextPositioning : public Lookup::Subtable
 	{
-		explicit ChainedContextPositioning(bksge::uint8_t const* ptr)
+		explicit ChainedContextPositioning(std::uint8_t const* ptr)
 			: chainedSequenceContext(ptr)
 		{}
 
@@ -778,7 +778,7 @@ struct GlyphPositioningTable
 
 	struct ExtensionPositioning : public Lookup::Subtable
 	{
-		explicit ExtensionPositioning(bksge::uint8_t const* ptr)
+		explicit ExtensionPositioning(std::uint8_t const* ptr)
 		{
 			auto const start = ptr;
 
@@ -797,7 +797,7 @@ struct GlyphPositioningTable
 	};
 
 	static bksge::unique_ptr<Lookup::Subtable>
-	CreateSubtable(uint16 lookupType, bksge::uint8_t const* ptr)
+	CreateSubtable(uint16 lookupType, std::uint8_t const* ptr)
 	{
 		switch (lookupType)
 		{
@@ -814,7 +814,7 @@ struct GlyphPositioningTable
 		return {};
 	}
 
-	explicit GlyphPositioningTable(bksge::uint8_t const* ptr)
+	explicit GlyphPositioningTable(std::uint8_t const* ptr)
 	{
 		auto const start = ptr;
 

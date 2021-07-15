@@ -11,7 +11,6 @@
 #include <bksge/core/math.hpp>
 #include <bksge/fnd/cmath.hpp>
 #include <bksge/fnd/memory.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/vector.hpp>
 
 namespace
@@ -221,7 +220,7 @@ private:
 
 		};
 
-		static bksge::uint16_t const indices[] =
+		static std::uint16_t const indices[] =
 		{
 			0+0, 0+2, 0+1,
 			0+1, 0+2, 0+3,
@@ -292,7 +291,7 @@ private:
 			{{{ 2.0f, -1.5f,  0.0f}}, {{ 0.0f, 0.0f, 1.0f, 1.0f }}},
 		};
 
-		static bksge::uint16_t const indices[] =
+		static std::uint16_t const indices[] =
 		{
 			0, 1, 2,
 		};

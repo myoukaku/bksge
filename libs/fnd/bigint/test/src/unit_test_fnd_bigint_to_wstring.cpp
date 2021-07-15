@@ -7,9 +7,9 @@
  */
 
 #include <bksge/fnd/bigint.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <cstdint>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -116,7 +116,7 @@ GTEST_TEST(BigIntTest, ToWStringTest)
 	EXPECT_TRUE(ToWStringTest<bksge::int512_t>());
 	EXPECT_TRUE(ToWStringTest<bksge::int1024_t>());
 
-	EXPECT_TRUE(ToWStringUnsignedTest<bksge::uint64_t>());
+	EXPECT_TRUE(ToWStringUnsignedTest<std::uint64_t>());
 	EXPECT_TRUE(ToWStringUnsignedTest<bksge::uint128_t>());
 	EXPECT_TRUE(ToWStringUnsignedTest<bksge::uint256_t>());
 	EXPECT_TRUE(ToWStringUnsignedTest<bksge::uint512_t>());

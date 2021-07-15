@@ -12,7 +12,7 @@
 #include <bksge/core/render/fwd/render_texture_fwd.hpp>
 #include <bksge/core/render/gl/detail/gl_h.hpp>
 #include <bksge/core/render/texture_format.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -31,8 +31,8 @@ class RenderBuffer
 public:
 	explicit RenderBuffer(
 		bksge::TextureFormat texture_format,
-		bksge::uint32_t width,
-		bksge::uint32_t height);
+		std::uint32_t width,
+		std::uint32_t height);
 
 	explicit RenderBuffer(
 		bksge::RenderTexture const& texture);

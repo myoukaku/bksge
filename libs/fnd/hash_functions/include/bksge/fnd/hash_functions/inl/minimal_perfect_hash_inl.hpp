@@ -14,6 +14,7 @@
 #include <bksge/fnd/bit/bitsof.hpp>
 //#include <bksge/fnd/bit/make_bitmask_lower.hpp>
 #include <bksge/fnd/algorithm/ranges/fill.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -68,7 +69,7 @@ bool minimal_perfect_hash<Hasher>::build(bksge::vector<bksge::string> const& key
 
 		if (i % 32 == 0)
 		{
-			m_exists_acm32[i / 32] = static_cast<bksge::uint8_t>(rnk - m_exists_acm256[i / 256]);
+			m_exists_acm32[i / 32] = static_cast<std::uint8_t>(rnk - m_exists_acm256[i / 256]);
 		}
 
 		auto const g = m_perfect_hash.g(i);

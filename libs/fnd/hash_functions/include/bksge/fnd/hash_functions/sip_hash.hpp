@@ -10,9 +10,9 @@
 #define BKSGE_FND_HASH_FUNCTIONS_SIP_HASH_HPP
 
 #include <bksge/fnd/hash_functions/hash_facade.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
 #include <bksge/fnd/array/array.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -28,11 +28,11 @@ namespace bksge
  *	http://en.wikipedia.org/wiki/SipHash
  */
 template <int CompressionRounds, int FinalizationRounds>
-class sip_hash : public hash_facade<sip_hash<CompressionRounds, FinalizationRounds>, bksge::uint64_t>
+class sip_hash : public hash_facade<sip_hash<CompressionRounds, FinalizationRounds>, std::uint64_t>
 {
 public:
-	using result_type = bksge::uint64_t;
-	using seed_type   = bksge::array<bksge::uint8_t, 16>;
+	using result_type = std::uint64_t;
+	using seed_type   = bksge::array<std::uint8_t, 16>;
 
 	BKSGE_CONSTEXPR
 	sip_hash(void);

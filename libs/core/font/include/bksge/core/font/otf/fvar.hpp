@@ -12,7 +12,7 @@
 #include <bksge/core/font/otf/read_big_endian.hpp>
 #include <bksge/core/font/otf/types.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -24,9 +24,9 @@ struct FontVariationsTable
 {
 	struct Tuple
 	{
-		friend bksge::uint8_t const*
+		friend std::uint8_t const*
 		ReadBigEndian(
-			bksge::uint8_t const* ptr,
+			std::uint8_t const* ptr,
 			Tuple* dst,
 			uint16 axisCount)
 		{
@@ -40,9 +40,9 @@ struct FontVariationsTable
 
 	struct InstanceRecord
 	{
-		friend bksge::uint8_t const*
+		friend std::uint8_t const*
 		ReadBigEndian(
-			bksge::uint8_t const* ptr,
+			std::uint8_t const* ptr,
 			InstanceRecord* dst,
 			uint16 axisCount)
 		{
@@ -61,8 +61,8 @@ struct FontVariationsTable
 
 	struct VariationAxisRecord
 	{
-		friend bksge::uint8_t const*
-		ReadBigEndian(bksge::uint8_t const* ptr, VariationAxisRecord* dst)
+		friend std::uint8_t const*
+		ReadBigEndian(std::uint8_t const* ptr, VariationAxisRecord* dst)
 		{
 			ptr = ReadBigEndian(ptr, &dst->axisTag);
 			ptr = ReadBigEndian(ptr, &dst->minValue);
@@ -81,7 +81,7 @@ struct FontVariationsTable
 		uint16	axisNameID;
 	};
 
-	explicit FontVariationsTable(bksge::uint8_t const* ptr)
+	explicit FontVariationsTable(std::uint8_t const* ptr)
 	{
 		auto const start = ptr;
 

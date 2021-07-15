@@ -7,10 +7,10 @@
  */
 
 #include <bksge/fnd/bigint.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
+#include <cstdint>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -91,12 +91,12 @@ inline bool IStreamLargeTest()
 GTEST_TEST(BigIntTest, IStreamTest)
 {
 	EXPECT_TRUE(IStreamTest<bksge::bigint>());
-	EXPECT_TRUE(IStreamTest<bksge::int64_t>());
+	EXPECT_TRUE(IStreamTest<std::int64_t>());
 	EXPECT_TRUE(IStreamTest<bksge::int128_t>());
 	EXPECT_TRUE(IStreamTest<bksge::int256_t>());
 	EXPECT_TRUE(IStreamTest<bksge::int512_t>());
 	EXPECT_TRUE(IStreamTest<bksge::int1024_t>());
-	EXPECT_TRUE(IStreamTest<bksge::uint64_t>());
+	EXPECT_TRUE(IStreamTest<std::uint64_t>());
 	EXPECT_TRUE(IStreamTest<bksge::uint128_t>());
 	EXPECT_TRUE(IStreamTest<bksge::uint256_t>());
 	EXPECT_TRUE(IStreamTest<bksge::uint512_t>());

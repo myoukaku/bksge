@@ -7,9 +7,9 @@
  */
 
 #include <bksge/fnd/cmath/factorial.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <gtest/gtest.h>
 #include <limits>
+#include <cstdint>
 #include "constexpr_test.hpp"
 
 namespace bksge_cmath_test
@@ -21,125 +21,125 @@ namespace factorial_test
 GTEST_TEST(CMathTest, FactorialTest)
 {
 	{
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(  1, bksge::factorial<bksge::int8_t>( 0));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(  1, bksge::factorial<bksge::int8_t>( 1));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(  2, bksge::factorial<bksge::int8_t>( 2));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(  6, bksge::factorial<bksge::int8_t>( 3));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ( 24, bksge::factorial<bksge::int8_t>( 4));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(120, bksge::factorial<bksge::int8_t>( 5));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(  0, bksge::factorial<bksge::int8_t>( 6));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(  1, bksge::factorial<std::int8_t>( 0));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(  1, bksge::factorial<std::int8_t>( 1));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(  2, bksge::factorial<std::int8_t>( 2));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(  6, bksge::factorial<std::int8_t>( 3));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ( 24, bksge::factorial<std::int8_t>( 4));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(120, bksge::factorial<std::int8_t>( 5));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(  0, bksge::factorial<std::int8_t>( 6));
 	}
 	{
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(  1U, bksge::factorial<bksge::uint8_t>( 0));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(  1U, bksge::factorial<bksge::uint8_t>( 1));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(  2U, bksge::factorial<bksge::uint8_t>( 2));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(  6U, bksge::factorial<bksge::uint8_t>( 3));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ( 24U, bksge::factorial<bksge::uint8_t>( 4));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(120U, bksge::factorial<bksge::uint8_t>( 5));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(  0U, bksge::factorial<bksge::uint8_t>( 6));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(  1U, bksge::factorial<std::uint8_t>( 0));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(  1U, bksge::factorial<std::uint8_t>( 1));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(  2U, bksge::factorial<std::uint8_t>( 2));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(  6U, bksge::factorial<std::uint8_t>( 3));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ( 24U, bksge::factorial<std::uint8_t>( 4));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(120U, bksge::factorial<std::uint8_t>( 5));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(  0U, bksge::factorial<std::uint8_t>( 6));
 	}
 	{
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(   1, bksge::factorial<bksge::int16_t>( 0));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(   1, bksge::factorial<bksge::int16_t>( 1));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(   2, bksge::factorial<bksge::int16_t>( 2));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(   6, bksge::factorial<bksge::int16_t>( 3));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(  24, bksge::factorial<bksge::int16_t>( 4));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ( 120, bksge::factorial<bksge::int16_t>( 5));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ( 720, bksge::factorial<bksge::int16_t>( 6));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(5040, bksge::factorial<bksge::int16_t>( 7));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(   0, bksge::factorial<bksge::int16_t>( 8));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(   1, bksge::factorial<std::int16_t>( 0));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(   1, bksge::factorial<std::int16_t>( 1));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(   2, bksge::factorial<std::int16_t>( 2));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(   6, bksge::factorial<std::int16_t>( 3));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(  24, bksge::factorial<std::int16_t>( 4));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ( 120, bksge::factorial<std::int16_t>( 5));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ( 720, bksge::factorial<std::int16_t>( 6));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(5040, bksge::factorial<std::int16_t>( 7));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(   0, bksge::factorial<std::int16_t>( 8));
 	}
 	{
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(    1U, bksge::factorial<bksge::uint16_t>( 0));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(    1U, bksge::factorial<bksge::uint16_t>( 1));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(    2U, bksge::factorial<bksge::uint16_t>( 2));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(    6U, bksge::factorial<bksge::uint16_t>( 3));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(   24U, bksge::factorial<bksge::uint16_t>( 4));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(  120U, bksge::factorial<bksge::uint16_t>( 5));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(  720U, bksge::factorial<bksge::uint16_t>( 6));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ( 5040U, bksge::factorial<bksge::uint16_t>( 7));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(40320U, bksge::factorial<bksge::uint16_t>( 8));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(    0U, bksge::factorial<bksge::uint16_t>( 9));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(    1U, bksge::factorial<std::uint16_t>( 0));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(    1U, bksge::factorial<std::uint16_t>( 1));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(    2U, bksge::factorial<std::uint16_t>( 2));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(    6U, bksge::factorial<std::uint16_t>( 3));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(   24U, bksge::factorial<std::uint16_t>( 4));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(  120U, bksge::factorial<std::uint16_t>( 5));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(  720U, bksge::factorial<std::uint16_t>( 6));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ( 5040U, bksge::factorial<std::uint16_t>( 7));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(40320U, bksge::factorial<std::uint16_t>( 8));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(    0U, bksge::factorial<std::uint16_t>( 9));
 	}
 	{
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(        1, bksge::factorial<bksge::int32_t>( 0));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(        1, bksge::factorial<bksge::int32_t>( 1));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(        2, bksge::factorial<bksge::int32_t>( 2));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(        6, bksge::factorial<bksge::int32_t>( 3));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(       24, bksge::factorial<bksge::int32_t>( 4));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(      120, bksge::factorial<bksge::int32_t>( 5));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(      720, bksge::factorial<bksge::int32_t>( 6));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(     5040, bksge::factorial<bksge::int32_t>( 7));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(    40320, bksge::factorial<bksge::int32_t>( 8));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(   362880, bksge::factorial<bksge::int32_t>( 9));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(  3628800, bksge::factorial<bksge::int32_t>(10));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ( 39916800, bksge::factorial<bksge::int32_t>(11));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(479001600, bksge::factorial<bksge::int32_t>(12));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(        0, bksge::factorial<bksge::int32_t>(13));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(        1, bksge::factorial<std::int32_t>( 0));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(        1, bksge::factorial<std::int32_t>( 1));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(        2, bksge::factorial<std::int32_t>( 2));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(        6, bksge::factorial<std::int32_t>( 3));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(       24, bksge::factorial<std::int32_t>( 4));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(      120, bksge::factorial<std::int32_t>( 5));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(      720, bksge::factorial<std::int32_t>( 6));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(     5040, bksge::factorial<std::int32_t>( 7));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(    40320, bksge::factorial<std::int32_t>( 8));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(   362880, bksge::factorial<std::int32_t>( 9));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(  3628800, bksge::factorial<std::int32_t>(10));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ( 39916800, bksge::factorial<std::int32_t>(11));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(479001600, bksge::factorial<std::int32_t>(12));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(        0, bksge::factorial<std::int32_t>(13));
 	}
 	{
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(        1U, bksge::factorial<bksge::uint32_t>( 0));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(        1U, bksge::factorial<bksge::uint32_t>( 1));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(        2U, bksge::factorial<bksge::uint32_t>( 2));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(        6U, bksge::factorial<bksge::uint32_t>( 3));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(       24U, bksge::factorial<bksge::uint32_t>( 4));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(      120U, bksge::factorial<bksge::uint32_t>( 5));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(      720U, bksge::factorial<bksge::uint32_t>( 6));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(     5040U, bksge::factorial<bksge::uint32_t>( 7));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(    40320U, bksge::factorial<bksge::uint32_t>( 8));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(   362880U, bksge::factorial<bksge::uint32_t>( 9));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(  3628800U, bksge::factorial<bksge::uint32_t>(10));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ( 39916800U, bksge::factorial<bksge::uint32_t>(11));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(479001600U, bksge::factorial<bksge::uint32_t>(12));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(        0U, bksge::factorial<bksge::uint32_t>(13));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(        1U, bksge::factorial<std::uint32_t>( 0));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(        1U, bksge::factorial<std::uint32_t>( 1));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(        2U, bksge::factorial<std::uint32_t>( 2));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(        6U, bksge::factorial<std::uint32_t>( 3));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(       24U, bksge::factorial<std::uint32_t>( 4));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(      120U, bksge::factorial<std::uint32_t>( 5));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(      720U, bksge::factorial<std::uint32_t>( 6));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(     5040U, bksge::factorial<std::uint32_t>( 7));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(    40320U, bksge::factorial<std::uint32_t>( 8));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(   362880U, bksge::factorial<std::uint32_t>( 9));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(  3628800U, bksge::factorial<std::uint32_t>(10));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ( 39916800U, bksge::factorial<std::uint32_t>(11));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(479001600U, bksge::factorial<std::uint32_t>(12));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(        0U, bksge::factorial<std::uint32_t>(13));
 	}
 	{
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(                  1LL, bksge::factorial<bksge::int64_t>( 0));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(                  1LL, bksge::factorial<bksge::int64_t>( 1));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(                  2LL, bksge::factorial<bksge::int64_t>( 2));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(                  6LL, bksge::factorial<bksge::int64_t>( 3));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(                 24LL, bksge::factorial<bksge::int64_t>( 4));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(                120LL, bksge::factorial<bksge::int64_t>( 5));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(                720LL, bksge::factorial<bksge::int64_t>( 6));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(               5040LL, bksge::factorial<bksge::int64_t>( 7));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(              40320LL, bksge::factorial<bksge::int64_t>( 8));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(             362880LL, bksge::factorial<bksge::int64_t>( 9));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(            3628800LL, bksge::factorial<bksge::int64_t>(10));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(           39916800LL, bksge::factorial<bksge::int64_t>(11));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(          479001600LL, bksge::factorial<bksge::int64_t>(12));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(         6227020800LL, bksge::factorial<bksge::int64_t>(13));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(        87178291200LL, bksge::factorial<bksge::int64_t>(14));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(      1307674368000LL, bksge::factorial<bksge::int64_t>(15));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(     20922789888000LL, bksge::factorial<bksge::int64_t>(16));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(    355687428096000LL, bksge::factorial<bksge::int64_t>(17));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(   6402373705728000LL, bksge::factorial<bksge::int64_t>(18));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ( 121645100408832000LL, bksge::factorial<bksge::int64_t>(19));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(2432902008176640000LL, bksge::factorial<bksge::int64_t>(20));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(                  0LL, bksge::factorial<bksge::int64_t>(21));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(                  1LL, bksge::factorial<std::int64_t>( 0));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(                  1LL, bksge::factorial<std::int64_t>( 1));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(                  2LL, bksge::factorial<std::int64_t>( 2));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(                  6LL, bksge::factorial<std::int64_t>( 3));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(                 24LL, bksge::factorial<std::int64_t>( 4));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(                120LL, bksge::factorial<std::int64_t>( 5));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(                720LL, bksge::factorial<std::int64_t>( 6));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(               5040LL, bksge::factorial<std::int64_t>( 7));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(              40320LL, bksge::factorial<std::int64_t>( 8));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(             362880LL, bksge::factorial<std::int64_t>( 9));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(            3628800LL, bksge::factorial<std::int64_t>(10));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(           39916800LL, bksge::factorial<std::int64_t>(11));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(          479001600LL, bksge::factorial<std::int64_t>(12));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(         6227020800LL, bksge::factorial<std::int64_t>(13));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(        87178291200LL, bksge::factorial<std::int64_t>(14));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(      1307674368000LL, bksge::factorial<std::int64_t>(15));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(     20922789888000LL, bksge::factorial<std::int64_t>(16));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(    355687428096000LL, bksge::factorial<std::int64_t>(17));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(   6402373705728000LL, bksge::factorial<std::int64_t>(18));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ( 121645100408832000LL, bksge::factorial<std::int64_t>(19));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(2432902008176640000LL, bksge::factorial<std::int64_t>(20));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(                  0LL, bksge::factorial<std::int64_t>(21));
 	}
 	{
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(                  1ULL, bksge::factorial<bksge::uint64_t>( 0));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(                  1ULL, bksge::factorial<bksge::uint64_t>( 1));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(                  2ULL, bksge::factorial<bksge::uint64_t>( 2));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(                  6ULL, bksge::factorial<bksge::uint64_t>( 3));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(                 24ULL, bksge::factorial<bksge::uint64_t>( 4));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(                120ULL, bksge::factorial<bksge::uint64_t>( 5));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(                720ULL, bksge::factorial<bksge::uint64_t>( 6));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(               5040ULL, bksge::factorial<bksge::uint64_t>( 7));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(              40320ULL, bksge::factorial<bksge::uint64_t>( 8));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(             362880ULL, bksge::factorial<bksge::uint64_t>( 9));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(            3628800ULL, bksge::factorial<bksge::uint64_t>(10));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(           39916800ULL, bksge::factorial<bksge::uint64_t>(11));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(          479001600ULL, bksge::factorial<bksge::uint64_t>(12));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(         6227020800ULL, bksge::factorial<bksge::uint64_t>(13));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(        87178291200ULL, bksge::factorial<bksge::uint64_t>(14));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(      1307674368000ULL, bksge::factorial<bksge::uint64_t>(15));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(     20922789888000ULL, bksge::factorial<bksge::uint64_t>(16));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(    355687428096000ULL, bksge::factorial<bksge::uint64_t>(17));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(   6402373705728000ULL, bksge::factorial<bksge::uint64_t>(18));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ( 121645100408832000ULL, bksge::factorial<bksge::uint64_t>(19));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(2432902008176640000ULL, bksge::factorial<bksge::uint64_t>(20));
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(                  0ULL, bksge::factorial<bksge::uint64_t>(21));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(                  1ULL, bksge::factorial<std::uint64_t>( 0));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(                  1ULL, bksge::factorial<std::uint64_t>( 1));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(                  2ULL, bksge::factorial<std::uint64_t>( 2));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(                  6ULL, bksge::factorial<std::uint64_t>( 3));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(                 24ULL, bksge::factorial<std::uint64_t>( 4));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(                120ULL, bksge::factorial<std::uint64_t>( 5));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(                720ULL, bksge::factorial<std::uint64_t>( 6));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(               5040ULL, bksge::factorial<std::uint64_t>( 7));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(              40320ULL, bksge::factorial<std::uint64_t>( 8));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(             362880ULL, bksge::factorial<std::uint64_t>( 9));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(            3628800ULL, bksge::factorial<std::uint64_t>(10));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(           39916800ULL, bksge::factorial<std::uint64_t>(11));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(          479001600ULL, bksge::factorial<std::uint64_t>(12));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(         6227020800ULL, bksge::factorial<std::uint64_t>(13));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(        87178291200ULL, bksge::factorial<std::uint64_t>(14));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(      1307674368000ULL, bksge::factorial<std::uint64_t>(15));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(     20922789888000ULL, bksge::factorial<std::uint64_t>(16));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(    355687428096000ULL, bksge::factorial<std::uint64_t>(17));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(   6402373705728000ULL, bksge::factorial<std::uint64_t>(18));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ( 121645100408832000ULL, bksge::factorial<std::uint64_t>(19));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(2432902008176640000ULL, bksge::factorial<std::uint64_t>(20));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(                  0ULL, bksge::factorial<std::uint64_t>(21));
 	}
 	{
 		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(1.0f, bksge::factorial<float>(0));

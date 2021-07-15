@@ -11,6 +11,7 @@
 
 #include <bksge/fnd/string/string.hpp>
 #include <ostream>
+#include <cstdint>
 
 namespace bksge
 {
@@ -18,7 +19,7 @@ namespace bksge
 namespace render
 {
 
-enum class ShaderStage : bksge::uint32_t
+enum class ShaderStage : std::uint32_t
 {
 	kVertex,
 	kGeometry,

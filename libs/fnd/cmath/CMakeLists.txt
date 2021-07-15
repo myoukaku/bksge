@@ -19,7 +19,6 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../array ${CMAKE_CURRENT_BINARY_DIR
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../bit ${CMAKE_CURRENT_BINARY_DIR}/bit)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../concepts ${CMAKE_CURRENT_BINARY_DIR}/concepts)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../config ${CMAKE_CURRENT_BINARY_DIR}/config)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../cstdint ${CMAKE_CURRENT_BINARY_DIR}/cstdint)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../numbers ${CMAKE_CURRENT_BINARY_DIR}/numbers)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../stdexcept ${CMAKE_CURRENT_BINARY_DIR}/stdexcept)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../type_traits ${CMAKE_CURRENT_BINARY_DIR}/type_traits)
@@ -31,7 +30,6 @@ target_link_libraries(${TARGET_NAME}
 		Bksge::bit
 		Bksge::concepts
 		Bksge::config
-		Bksge::cstdint
 		Bksge::numbers
 		Bksge::stdexcept
 		Bksge::type_traits

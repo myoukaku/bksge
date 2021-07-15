@@ -13,7 +13,7 @@
 #include <bksge/core/font/otf/types.hpp>
 #include <bksge/fnd/variant.hpp>
 #include <bksge/fnd/vector.hpp>
-#include <bksge/fnd/cstdint.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -25,8 +25,8 @@ struct ClassDefinitionTable
 {
 	struct ClassRangeRecord
 	{
-		friend bksge::uint8_t const*
-		ReadBigEndian(bksge::uint8_t const* ptr, ClassRangeRecord* dst)
+		friend std::uint8_t const*
+		ReadBigEndian(std::uint8_t const* ptr, ClassRangeRecord* dst)
 		{
 			ptr = ReadBigEndian(ptr, &dst->startGlyphID);
 			ptr = ReadBigEndian(ptr, &dst->endGlyphID);
@@ -41,7 +41,7 @@ struct ClassDefinitionTable
 
 	struct Format1
 	{
-		static Format1 Create(bksge::uint8_t const* ptr)
+		static Format1 Create(std::uint8_t const* ptr)
 		{
 			Format1 result;
 
@@ -60,7 +60,7 @@ struct ClassDefinitionTable
 
 	struct Format2
 	{
-		static Format2 Create(bksge::uint8_t const* ptr)
+		static Format2 Create(std::uint8_t const* ptr)
 		{
 			Format2 result;
 
@@ -75,7 +75,7 @@ struct ClassDefinitionTable
 		bksge::vector<ClassRangeRecord>	classRangeRecords;
 	};
 
-	explicit ClassDefinitionTable(bksge::uint8_t const* ptr)
+	explicit ClassDefinitionTable(std::uint8_t const* ptr)
 	{
 		uint16	classFormat;
 		ptr = ReadBigEndian(ptr, &classFormat);

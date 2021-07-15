@@ -10,8 +10,8 @@
 #define BKSGE_FND_HASH_FUNCTIONS_DJB_HASH_HPP
 
 #include <bksge/fnd/hash_functions/hash_facade.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -22,11 +22,11 @@ namespace bksge
  *	D. J. Bernstein によるハッシュ関数
  *	http://cr.yp.to/hash.html
  */
-class djb_hash : public hash_facade<djb_hash, bksge::uint32_t>
+class djb_hash : public hash_facade<djb_hash, std::uint32_t>
 {
 public:
-	using result_type = bksge::uint32_t;
-	using seed_type   = bksge::uint32_t;
+	using result_type = std::uint32_t;
+	using seed_type   = std::uint32_t;
 
 	BKSGE_CONSTEXPR
 	djb_hash(void)

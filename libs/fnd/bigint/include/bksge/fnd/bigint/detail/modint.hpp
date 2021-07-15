@@ -10,8 +10,8 @@
 #define BKSGE_FND_BIGINT_DETAIL_MODINT_HPP
 
 #include <bksge/fnd/assert.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -22,27 +22,27 @@ namespace detail
 namespace bigint_algo
 {
 
-template <bksge::uint32_t Mod>
+template <std::uint32_t Mod>
 class modint
 {
 private:
-	bksge::uint32_t m_value;
+	std::uint32_t m_value;
 
 public:
 	BKSGE_CONSTEXPR modint() BKSGE_NOEXCEPT
 		: m_value(0)
 	{};
 
-	BKSGE_CONSTEXPR modint(bksge::int64_t n) BKSGE_NOEXCEPT
+	BKSGE_CONSTEXPR modint(std::int64_t n) BKSGE_NOEXCEPT
 		: m_value((n >= 0 ? n : Mod - (-n) % Mod) % Mod)
 	{};
 
-	static BKSGE_CONSTEXPR bksge::uint32_t get_mod() BKSGE_NOEXCEPT
+	static BKSGE_CONSTEXPR std::uint32_t get_mod() BKSGE_NOEXCEPT
 	{
 		return Mod;
 	}
 
-	BKSGE_CONSTEXPR bksge::uint32_t get() const BKSGE_NOEXCEPT
+	BKSGE_CONSTEXPR std::uint32_t get() const BKSGE_NOEXCEPT
 	{
 		return m_value;
 	}
@@ -73,7 +73,7 @@ public:
 
 	BKSGE_CXX14_CONSTEXPR modint& operator*=(modint const& m) BKSGE_NOEXCEPT
 	{
-		m_value = bksge::uint64_t(m_value) * m.m_value % Mod;
+		m_value = std::uint64_t(m_value) * m.m_value % Mod;
 		return *this;
 	}
 
@@ -98,7 +98,7 @@ public:
 		return pow(Mod - 2);
 	}
 
-	BKSGE_CONSTEXPR modint pow(bksge::uint64_t b) const BKSGE_NOEXCEPT
+	BKSGE_CONSTEXPR modint pow(std::uint64_t b) const BKSGE_NOEXCEPT
 	{
 		modint ans = 1, m = modint(*this);
 		while (b)

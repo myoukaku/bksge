@@ -10,9 +10,9 @@
 #define BKSGE_FND_HASH_FUNCTIONS_PERFECT_HASH_HPP
 
 #include <bksge/fnd/hash_functions/hash_facade.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/string.hpp>
 #include <bksge/fnd/vector.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -44,11 +44,11 @@ namespace bksge
  *	@endcode
  */
 template <typename Hasher>
-class perfect_hash : public hash_facade<perfect_hash<Hasher>, bksge::uint32_t>
+class perfect_hash : public hash_facade<perfect_hash<Hasher>, std::uint32_t>
 {
 public:
-	using result_type = bksge::uint32_t;
-	using seed_type   = bksge::uint32_t;
+	using result_type = std::uint32_t;
+	using seed_type   = std::uint32_t;
 
 	perfect_hash(void);
 
@@ -68,7 +68,7 @@ private:
 private:
 	result_type				        m_vertices_num;	// Number of the vertices of each block in the hyper graph
 	seed_type				        m_seeds[3];	// Generated set of the seeds
-	bksge::vector<bksge::uint8_t>	m_g;	// G value of each vertices
+	bksge::vector<std::uint8_t>		m_g;	// G value of each vertices
 };
 
 }	// namespace bksge

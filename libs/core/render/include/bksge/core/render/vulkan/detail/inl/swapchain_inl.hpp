@@ -22,12 +22,11 @@
 #include <bksge/core/render/vulkan/detail/queue.hpp>
 #include <bksge/core/render/vulkan/detail/extent2d.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
-#include <bksge/fnd/cstdint/uint64_t.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/memory/make_shared.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/utility/move.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -128,7 +127,7 @@ Swapchain::Swapchain(
 	auto const present_queue_family_index =
 		surface.GetPresentQueueFamilyIndex(*physical_device);
 
-	bksge::uint32_t const queue_family_indices[] =
+	std::uint32_t const queue_family_indices[] =
 	{
 		graphics_queue_family_index,
 		present_queue_family_index,
@@ -177,10 +176,10 @@ Swapchain::~Swapchain()
 
 BKSGE_INLINE ::VkResult
 Swapchain::AcquireNextImage(
-	bksge::uint64_t timeout,
-	::VkSemaphore semaphore,
-	::VkFence     fence,
-	bksge::uint32_t*	image_index)
+	std::uint64_t   timeout,
+	::VkSemaphore   semaphore,
+	::VkFence       fence,
+	std::uint32_t*	image_index)
 {
 	return m_device->AcquireNextImage(
 		m_swapchain,
@@ -202,13 +201,13 @@ Swapchain::extent(void) const
 	return m_info.imageExtent;
 }
 
-BKSGE_INLINE bksge::uint32_t
+BKSGE_INLINE std::uint32_t
 Swapchain::width(void) const
 {
 	return m_info.imageExtent.width;
 }
 
-BKSGE_INLINE bksge::uint32_t
+BKSGE_INLINE std::uint32_t
 Swapchain::height(void) const
 {
 	return m_info.imageExtent.height;
@@ -221,7 +220,7 @@ Swapchain::format(void) const
 }
 
 BKSGE_INLINE ::VkResult
-Swapchain::Present(bksge::uint32_t image_index)
+Swapchain::Present(std::uint32_t image_index)
 {
 	vk::PresentInfoKHR present;
 	present.SetSwapchains(m_swapchain);

@@ -20,7 +20,7 @@
 #include <bksge/core/render/geometry.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/cstring/memcpy.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -36,7 +36,7 @@ VertexBuffer::VertexBuffer(
 	vulkan::DeviceSharedPtr const& device,
 	bksge::Geometry const& geometry)
 {
-	m_count = static_cast<bksge::uint32_t>(geometry.vertex_array_count());
+	m_count = static_cast<std::uint32_t>(geometry.vertex_array_count());
 	auto const src  = geometry.vertex_array_data();
 	auto const size = geometry.vertex_array_bytes();
 

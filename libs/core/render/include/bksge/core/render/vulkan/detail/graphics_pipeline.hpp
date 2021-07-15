@@ -20,8 +20,8 @@
 #include <bksge/core/render/vulkan/detail/fwd/render_state_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/fwd/shader_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
-#include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/vector.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -49,7 +49,7 @@ public:
 
 	void PushDescriptorSet(
 		vulkan::CommandBuffer* command_buffer,
-		bksge::uint32_t set,
+		std::uint32_t set,
 		bksge::vector<::VkWriteDescriptorSet> const& descriptor_writes);
 
 private:

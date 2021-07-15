@@ -13,7 +13,7 @@
 #include <bksge/core/render/detail/identifiable.hpp>
 #include <bksge/core/render/texture_format.hpp>
 #include <bksge/core/math/extent2.hpp>
-#include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -24,7 +24,7 @@ namespace render
 class RenderTexture : public Identifiable
 {
 public:
-	using ExtentType = Extent2<bksge::uint32_t>;
+	using ExtentType = Extent2<std::uint32_t>;
 
 	RenderTexture(TextureFormat format, ExtentType const& extent);
 

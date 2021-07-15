@@ -9,7 +9,7 @@
 #ifndef BKSGE_CORE_RENDER_FWD_CULL_MODE_FWD_HPP
 #define BKSGE_CORE_RENDER_FWD_CULL_MODE_FWD_HPP
 
-#include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <cstdint>
 
 namespace bksge
 {
@@ -17,7 +17,7 @@ namespace bksge
 namespace render
 {
 
-enum class CullMode : bksge::uint32_t;
+enum class CullMode : std::uint32_t;
 
 }	// namespace render
 
