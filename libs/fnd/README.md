@@ -41,7 +41,6 @@
 [![stdexcept](https://github.com/myoukaku/bksge/actions/workflows/stdexcept.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/stdexcept.yml)
 [![string](https://github.com/myoukaku/bksge/actions/workflows/string.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/string.yml)
 [![string_view](https://github.com/myoukaku/bksge/actions/workflows/string_view.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/string_view.yml)
-[![system_error](https://github.com/myoukaku/bksge/actions/workflows/system_error.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/system_error.yml)
 [![tmp](https://github.com/myoukaku/bksge/actions/workflows/tmp.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/tmp.yml)
 [![tpp](https://github.com/myoukaku/bksge/actions/workflows/tpp.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/tpp.yml)
 [![tuple](https://github.com/myoukaku/bksge/actions/workflows/tuple.yml/badge.svg)](https://github.com/myoukaku/bksge/actions/workflows/tuple.yml)

@@ -51,7 +51,6 @@ set(SUBDIRECTORIES
 	stdexcept
 	string
 	string_view
-	system_error
 	tmp
 	tpp
 	tuple

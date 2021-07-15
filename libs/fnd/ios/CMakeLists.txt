@@ -16,13 +16,11 @@ add_library(${TARGET_ALIAS_NAME} ALIAS ${TARGET_NAME})
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../config ${CMAKE_CURRENT_BINARY_DIR}/config)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../string ${CMAKE_CURRENT_BINARY_DIR}/string)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../system_error ${CMAKE_CURRENT_BINARY_DIR}/system_error)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../type_traits ${CMAKE_CURRENT_BINARY_DIR}/type_traits)
 target_link_libraries(${TARGET_NAME}
 	INTERFACE
 		Bksge::config
 		Bksge::string
-		Bksge::system_error
 		Bksge::type_traits)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
