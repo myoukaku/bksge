@@ -7,7 +7,6 @@
  */
 
 #include <bksge/fnd/span.hpp>
-#include <bksge/fnd/cstddef/ptrdiff_t.hpp>
 #include <bksge/fnd/iterator/iterator_traits.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
@@ -43,7 +42,7 @@ void testSpan()
 	ASSERT_SAME_TYPE(typename S::element_type,    ElementType);
 	ASSERT_SAME_TYPE(typename S::value_type,      bksge::remove_cv_t<ElementType>);
 	ASSERT_SAME_TYPE(typename S::size_type,       std::size_t);
-	ASSERT_SAME_TYPE(typename S::difference_type, bksge::ptrdiff_t);
+	ASSERT_SAME_TYPE(typename S::difference_type, std::ptrdiff_t);
 	ASSERT_SAME_TYPE(typename S::pointer,         ElementType*);
 	ASSERT_SAME_TYPE(typename S::const_pointer,   const ElementType*);
 	ASSERT_SAME_TYPE(typename S::reference,       ElementType&);

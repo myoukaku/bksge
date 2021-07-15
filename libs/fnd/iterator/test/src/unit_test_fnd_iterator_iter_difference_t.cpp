@@ -8,8 +8,8 @@
 
 #include <bksge/fnd/iterator/iter_difference_t.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/cstddef/ptrdiff_t.hpp>
 #include <bksge/fnd/vector.hpp>
+#include <cstddef>
 
 namespace bksge_iterator_test
 {
@@ -36,20 +36,20 @@ using T = int;
 using vec_iterator = bksge::vector<T>::iterator;
 using vec_const_iterator = bksge::vector<T>::const_iterator;
 
-static_assert(bksge::is_same<bksge::iter_difference_t<T      *                   >, bksge::ptrdiff_t>::value, "");
-static_assert(bksge::is_same<bksge::iter_difference_t<T const*                   >, bksge::ptrdiff_t>::value, "");
-static_assert(bksge::is_same<bksge::iter_difference_t<T      * const             >, bksge::ptrdiff_t>::value, "");
-static_assert(bksge::is_same<bksge::iter_difference_t<T const* const             >, bksge::ptrdiff_t>::value, "");
-static_assert(bksge::is_same<bksge::iter_difference_t<T[3]                       >, bksge::ptrdiff_t>::value, "");
-static_assert(bksge::is_same<bksge::iter_difference_t<T const[3]                 >, bksge::ptrdiff_t>::value, "");
-static_assert(bksge::is_same<bksge::iter_difference_t<T[]                        >, bksge::ptrdiff_t>::value, "");
-static_assert(bksge::is_same<bksge::iter_difference_t<T const[]                  >, bksge::ptrdiff_t>::value, "");
-static_assert(bksge::is_same<bksge::iter_difference_t<vec_iterator               >, bksge::ptrdiff_t>::value, "");
-static_assert(bksge::is_same<bksge::iter_difference_t<vec_iterator const         >, bksge::ptrdiff_t>::value, "");
-static_assert(bksge::is_same<bksge::iter_difference_t<vec_const_iterator         >, bksge::ptrdiff_t>::value, "");
-static_assert(bksge::is_same<bksge::iter_difference_t<vec_const_iterator const   >, bksge::ptrdiff_t>::value, "");
-static_assert(bksge::is_same<bksge::iter_difference_t<bksge::vector<T>           >, bksge::ptrdiff_t>::value, "");
-static_assert(bksge::is_same<bksge::iter_difference_t<bksge::vector<T> const     >, bksge::ptrdiff_t>::value, "");
+static_assert(bksge::is_same<bksge::iter_difference_t<T      *                   >, std::ptrdiff_t>::value, "");
+static_assert(bksge::is_same<bksge::iter_difference_t<T const*                   >, std::ptrdiff_t>::value, "");
+static_assert(bksge::is_same<bksge::iter_difference_t<T      * const             >, std::ptrdiff_t>::value, "");
+static_assert(bksge::is_same<bksge::iter_difference_t<T const* const             >, std::ptrdiff_t>::value, "");
+static_assert(bksge::is_same<bksge::iter_difference_t<T[3]                       >, std::ptrdiff_t>::value, "");
+static_assert(bksge::is_same<bksge::iter_difference_t<T const[3]                 >, std::ptrdiff_t>::value, "");
+static_assert(bksge::is_same<bksge::iter_difference_t<T[]                        >, std::ptrdiff_t>::value, "");
+static_assert(bksge::is_same<bksge::iter_difference_t<T const[]                  >, std::ptrdiff_t>::value, "");
+static_assert(bksge::is_same<bksge::iter_difference_t<vec_iterator               >, std::ptrdiff_t>::value, "");
+static_assert(bksge::is_same<bksge::iter_difference_t<vec_iterator const         >, std::ptrdiff_t>::value, "");
+static_assert(bksge::is_same<bksge::iter_difference_t<vec_const_iterator         >, std::ptrdiff_t>::value, "");
+static_assert(bksge::is_same<bksge::iter_difference_t<vec_const_iterator const   >, std::ptrdiff_t>::value, "");
+static_assert(bksge::is_same<bksge::iter_difference_t<bksge::vector<T>           >, std::ptrdiff_t>::value, "");
+static_assert(bksge::is_same<bksge::iter_difference_t<bksge::vector<T> const     >, std::ptrdiff_t>::value, "");
 static_assert(bksge::is_same<bksge::iter_difference_t<have_difference <T      >      >, T>::value, "");
 static_assert(bksge::is_same<bksge::iter_difference_t<have_difference <T const>      >, T const>::value, "");
 static_assert(bksge::is_same<bksge::iter_difference_t<have_difference <T      > const>, T>::value, "");

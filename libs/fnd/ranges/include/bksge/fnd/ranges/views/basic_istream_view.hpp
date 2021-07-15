@@ -13,7 +13,6 @@
 #include <bksge/fnd/ranges/detail/stream_extractable.hpp>
 #include <bksge/fnd/concepts/movable.hpp>
 #include <bksge/fnd/concepts/default_initializable.hpp>
-#include <bksge/fnd/cstddef/ptrdiff_t.hpp>
 #include <bksge/fnd/iterator/default_sentinel.hpp>
 #include <bksge/fnd/iterator/tag.hpp>
 #include <bksge/fnd/memory/addressof.hpp>
@@ -22,6 +21,7 @@
 #include <bksge/fnd/config.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <istream>
+#include <cstddef>
 
 namespace bksge
 {
@@ -82,7 +82,7 @@ private:
 	{
 	public:
 		using iterator_concept = bksge::input_iterator_tag;
-		using difference_type = bksge::ptrdiff_t;
+		using difference_type = std::ptrdiff_t;
 		using value_type = Val;
 
 		Iterator() = default;

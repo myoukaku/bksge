@@ -12,13 +12,13 @@
 #include <bksge/fnd/ranges/begin.hpp>
 #include <bksge/fnd/ranges/size.hpp>
 #include <bksge/fnd/concepts/integral.hpp>
-#include <bksge/fnd/cstddef/ptrdiff_t.hpp>
 #include <bksge/fnd/iterator/iter_difference_t.hpp>
 #include <bksge/fnd/type_traits/conditional.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
 #include <limits>
+#include <cstddef>
 
 namespace bksge
 {
@@ -39,8 +39,8 @@ private:
 		using diff_type = bksge::iter_difference_t<iter_type>;
 		using type = bksge::conditional_t<
 			bksge::is_integral<diff_type>::value &&
-			std::numeric_limits<diff_type>::digits < std::numeric_limits<bksge::ptrdiff_t>::digits,
-			bksge::ptrdiff_t,
+			std::numeric_limits<diff_type>::digits < std::numeric_limits<std::ptrdiff_t>::digits,
+			std::ptrdiff_t,
 			diff_type
 		>;
 	};

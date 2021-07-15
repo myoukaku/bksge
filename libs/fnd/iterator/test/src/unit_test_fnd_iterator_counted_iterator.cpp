@@ -24,9 +24,9 @@
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/type_traits/is_convertible.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/cstddef/ptrdiff_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <cstddef>
 #include "constexpr_test.hpp"
 #include "iterator_test.hpp"
 
@@ -41,8 +41,8 @@ static_assert( bksge::is_default_constructible<I>::value, "");
 static_assert( bksge::is_copy_constructible<I>::value, "");
 static_assert( bksge::is_copy_assignable<I>::value, "");
 static_assert(!bksge::is_constructible<I, int*>::value, "");
-static_assert( bksge::is_constructible<I, int*, bksge::ptrdiff_t>::value, "");
-static_assert( bksge::is_same<bksge::iter_difference_t<I>, bksge::ptrdiff_t>::value, "");
+static_assert( bksge::is_constructible<I, int*, std::ptrdiff_t>::value, "");
+static_assert( bksge::is_same<bksge::iter_difference_t<I>, std::ptrdiff_t>::value, "");
 static_assert( bksge::is_same<bksge::iter_reference_t<I>, int&>::value, "");
 static_assert( bksge::is_same<bksge::iter_rvalue_reference_t<I>, int&&>::value, "");
 static_assert( bksge::is_same<bksge::iter_value_t<I>, int>::value, "");
@@ -54,13 +54,13 @@ static_assert(!bksge::is_random_access_iterator<I>::value, "");
 using J = bksge::counted_iterator<int const*>;
 static_assert( bksge::is_constructible<J, I const&>::value, "");
 static_assert( bksge::is_convertible<I const&, J>::value, "");
-static_assert( bksge::is_same<bksge::iter_difference_t<J>, bksge::ptrdiff_t>::value, "");
+static_assert( bksge::is_same<bksge::iter_difference_t<J>, std::ptrdiff_t>::value, "");
 static_assert( bksge::is_same<bksge::iter_reference_t<J>, int const&>::value, "");
 static_assert( bksge::is_same<bksge::iter_rvalue_reference_t<J>, int const&&>::value, "");
 static_assert( bksge::is_same<bksge::iter_value_t<J>, int>::value, "");
 
 using I2 = bksge::counted_iterator<input_iterator_wrapper<char>>;
-static_assert( bksge::is_same<bksge::iter_difference_t<I2>, bksge::ptrdiff_t>::value, "");
+static_assert( bksge::is_same<bksge::iter_difference_t<I2>, std::ptrdiff_t>::value, "");
 static_assert( bksge::is_same<bksge::iter_reference_t<I2>, char&>::value, "");
 static_assert( bksge::is_same<bksge::iter_rvalue_reference_t<I2>, char&&>::value, "");
 static_assert( bksge::is_same<bksge::iter_value_t<I2>, char>::value, "");
@@ -70,7 +70,7 @@ static_assert(!bksge::is_bidirectional_iterator<I2>::value, "");
 static_assert(!bksge::is_random_access_iterator<I2>::value, "");
 
 using I3 = bksge::counted_iterator<forward_iterator_wrapper<double>>;
-static_assert( bksge::is_same<bksge::iter_difference_t<I3>, bksge::ptrdiff_t>::value, "");
+static_assert( bksge::is_same<bksge::iter_difference_t<I3>, std::ptrdiff_t>::value, "");
 static_assert( bksge::is_same<bksge::iter_reference_t<I3>, double&>::value, "");
 static_assert( bksge::is_same<bksge::iter_rvalue_reference_t<I3>, double&&>::value, "");
 static_assert( bksge::is_same<bksge::iter_value_t<I3>, double>::value, "");
@@ -80,7 +80,7 @@ static_assert(!bksge::is_bidirectional_iterator<I3>::value, "");
 static_assert(!bksge::is_random_access_iterator<I3>::value, "");
 
 using I4 = bksge::counted_iterator<bidirectional_iterator_wrapper<float>>;
-static_assert( bksge::is_same<bksge::iter_difference_t<I4>, bksge::ptrdiff_t>::value, "");
+static_assert( bksge::is_same<bksge::iter_difference_t<I4>, std::ptrdiff_t>::value, "");
 static_assert( bksge::is_same<bksge::iter_reference_t<I4>, float&>::value, "");
 static_assert( bksge::is_same<bksge::iter_rvalue_reference_t<I4>, float&&>::value, "");
 static_assert( bksge::is_same<bksge::iter_value_t<I4>, float>::value, "");

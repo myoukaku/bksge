@@ -24,8 +24,8 @@ using std::ssize;
 
 #include <bksge/fnd/type_traits/common_type.hpp>
 #include <bksge/fnd/type_traits/make_signed.hpp>
-#include <bksge/fnd/cstddef/ptrdiff_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -33,17 +33,17 @@ namespace bksge
 template <typename C>
 BKSGE_CONSTEXPR auto ssize(C const& c)
 -> bksge::common_type_t<
-	bksge::ptrdiff_t,
+	std::ptrdiff_t,
 	bksge::make_signed_t<decltype(c.size())>>
 {
 	using R = bksge::common_type_t<
-		bksge::ptrdiff_t,
+		std::ptrdiff_t,
 		bksge::make_signed_t<decltype(c.size())>>;
 	return static_cast<R>(c.size());
 }
 
-template <typename T, bksge::ptrdiff_t N>
-BKSGE_CONSTEXPR bksge::ptrdiff_t
+template <typename T, std::ptrdiff_t N>
+BKSGE_CONSTEXPR std::ptrdiff_t
 ssize(T const(&)[N]) BKSGE_NOEXCEPT
 {
 	return N;

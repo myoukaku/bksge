@@ -30,7 +30,6 @@ using std::array;
 #include <bksge/fnd/algorithm/lexicographical_compare.hpp>
 #include <bksge/fnd/compare/detail/synth3way.hpp>
 #include <bksge/fnd/compare/strong_ordering.hpp>
-#include <bksge/fnd/cstddef/ptrdiff_t.hpp>
 #include <bksge/fnd/cstring/memcmp.hpp>
 #include <bksge/fnd/iterator/reverse_iterator.hpp>
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
@@ -100,7 +99,7 @@ struct array
 	using iterator               = value_type*;
 	using const_iterator         = value_type const*;
 	using size_type              = std::size_t;
-	using difference_type        = bksge::ptrdiff_t;
+	using difference_type        = std::ptrdiff_t;
 	using reverse_iterator       = bksge::reverse_iterator<iterator>;
 	using const_reverse_iterator = bksge::reverse_iterator<const_iterator>;
 

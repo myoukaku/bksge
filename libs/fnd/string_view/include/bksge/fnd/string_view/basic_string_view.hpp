@@ -26,7 +26,6 @@ using std::basic_string_view;
 #include <bksge/fnd/concepts/same_as.hpp>
 #include <bksge/fnd/concepts/convertible_to.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
-#include <bksge/fnd/cstddef/ptrdiff_t.hpp>
 #include <bksge/fnd/iterator/reverse_iterator.hpp>
 #include <bksge/fnd/iterator/iter_value_t.hpp>
 #include <bksge/fnd/iterator/concepts/contiguous_iterator.hpp>
@@ -71,7 +70,7 @@ public:
 	using const_reverse_iterator    = bksge::reverse_iterator<const_iterator>;
 	using reverse_iterator	        = const_reverse_iterator;
 	using size_type		            = std::size_t;
-	using difference_type	        = bksge::ptrdiff_t;
+	using difference_type	        = std::ptrdiff_t;
 
 	BKSGE_STATIC_CONSTEXPR size_type npos = size_type(-1);
 

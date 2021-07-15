@@ -12,7 +12,6 @@
 #include <bksge/fnd/iterator/concepts/detail/has_difference_type.hpp>
 #include <bksge/fnd/iterator/concepts/detail/is_void_pointer.hpp>
 #include <bksge/fnd/concepts/integral.hpp>
-#include <bksge/fnd/cstddef/ptrdiff_t.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_const.hpp>
@@ -21,6 +20,7 @@
 #include <bksge/fnd/type_traits/make_signed.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -40,7 +40,7 @@ struct incrementable_traits<T*
 #endif
 >
 {
-	using difference_type = bksge::ptrdiff_t;
+	using difference_type = std::ptrdiff_t;
 };
 
 // (3) Specialization for const-qualified types
