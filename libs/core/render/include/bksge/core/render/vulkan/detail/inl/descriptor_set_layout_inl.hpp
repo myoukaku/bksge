@@ -17,8 +17,8 @@
 #include <bksge/core/render/vulkan/detail/shader_reflection.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/vector.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -35,7 +35,7 @@ namespace detail
 inline bksge::vector<bksge::vector<::VkDescriptorSetLayoutBinding>>
 CreateDescriptorSetLayoutBindingList(vulkan::ShaderReflection const& reflection)
 {
-	bksge::size_t const max_sets = reflection.GetMaxSets() + 1;
+	std::size_t const max_sets = reflection.GetMaxSets() + 1;
 	bksge::vector<bksge::vector<::VkDescriptorSetLayoutBinding>>
 		layout_bindings_list(max_sets);
 
@@ -69,7 +69,7 @@ DescriptorSetLayout::DescriptorSetLayout(
 
 	m_descriptor_set_layout.resize(max_sets);
 
-	for (bksge::size_t i = 0; i < max_sets; ++i)
+	for (std::size_t i = 0; i < max_sets; ++i)
 	{
 		vk::DescriptorSetLayoutCreateInfo info;
 		info.flags = VK_DESCRIPTOR_SET_LAYOUT_CREATE_PUSH_DESCRIPTOR_BIT_KHR;

@@ -9,8 +9,8 @@
 #ifndef BKSGE_FND_BIGINT_DETAIL_MAKE_SIZED_UNSIGNED_HPP
 #define BKSGE_FND_BIGINT_DETAIL_MAKE_SIZED_UNSIGNED_HPP
 
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -18,10 +18,10 @@ namespace bksge
 namespace detail
 {
 
-template <bksge::size_t N>
+template <std::size_t N>
 struct make_sized_unsigned{};
 
-template <bksge::size_t N>
+template <std::size_t N>
 using make_sized_unsigned_t = typename make_sized_unsigned<N>::type;
 
 template <> struct make_sized_unsigned<1> {using type = bksge::uint8_t; };

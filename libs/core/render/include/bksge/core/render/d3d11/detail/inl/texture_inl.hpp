@@ -18,9 +18,9 @@
 #include <bksge/core/render/texture.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/assert.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint8_t.hpp>
 #include <bksge/fnd/vector.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -53,7 +53,7 @@ Texture::Texture(Device* device, bksge::Texture const& texture)
 	bksge::uint8_t const* data = texture.data();
 
 	bksge::vector<::D3D11_SUBRESOURCE_DATA> init_data_list;
-	for (bksge::size_t level = 0; level < texture.mipmap_count(); ++level)
+	for (std::size_t level = 0; level < texture.mipmap_count(); ++level)
 	{
 		::D3D11_SUBRESOURCE_DATA init_data{};
 		init_data.pSysMem          = data;

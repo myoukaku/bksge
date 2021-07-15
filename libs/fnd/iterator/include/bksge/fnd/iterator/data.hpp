@@ -22,9 +22,9 @@ using std::data;
 
 #else
 
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <initializer_list>
+#include <cstddef>
 
 namespace bksge
 {
@@ -41,7 +41,7 @@ BKSGE_NODISCARD BKSGE_CONSTEXPR auto data(Container const& c) -> decltype(c.data
 	return c.data();
 }
 
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 BKSGE_NODISCARD BKSGE_CONSTEXPR T* data(T (&a)[N]) BKSGE_NOEXCEPT
 {
 	return a;

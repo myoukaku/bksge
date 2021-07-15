@@ -12,9 +12,9 @@
 #include <bksge/fnd/type_traits/integral_constant.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/forward.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <cstddef>
 #include "test_macros.hpp"
 #include "test_workarounds.hpp"
 #include "variant_test_helpers.hpp"
@@ -273,8 +273,8 @@ void test_throws_for_all_value_categories()
 	V v1(42l);
 	const V& cv1 = v1;
 	EXPECT_EQ(v1.index(), 1u);
-	bksge::integral_constant<bksge::size_t, 0> zero;
-	bksge::integral_constant<bksge::size_t, 1> one;
+	bksge::integral_constant<std::size_t, 0> zero;
+	bksge::integral_constant<std::size_t, 1> one;
 
 	Test test;
 

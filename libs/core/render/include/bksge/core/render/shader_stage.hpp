@@ -52,7 +52,7 @@ using render::ShaderStage;
 
 #include <bksge/fnd/functional/hash.hpp>
 #include <bksge/fnd/type_traits/underlying_type.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
+#include <cstddef>
 
 namespace BKSGE_HASH_NAMESPACE
 {
@@ -60,7 +60,7 @@ namespace BKSGE_HASH_NAMESPACE
 template<>
 struct hash<bksge::render::ShaderStage>
 {
-	bksge::size_t operator()(bksge::render::ShaderStage const& arg) const
+	std::size_t operator()(bksge::render::ShaderStage const& arg) const
 	{
 		using type = bksge::underlying_type_t<bksge::render::ShaderStage>;
 		return bksge::hash<type>{}(static_cast<type>(arg));

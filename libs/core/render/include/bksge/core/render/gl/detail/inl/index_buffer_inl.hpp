@@ -14,7 +14,7 @@
 
 #include <bksge/core/render/gl/detail/index_buffer.hpp>
 #include <bksge/core/render/gl/detail/gl_h.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -26,7 +26,7 @@ namespace gl
 {
 
 BKSGE_INLINE
-IndexBuffer::IndexBuffer(void const* src, bksge::size_t size)
+IndexBuffer::IndexBuffer(void const* src, std::size_t size)
 	: m_id(0)
 	, m_enable(false)
 {

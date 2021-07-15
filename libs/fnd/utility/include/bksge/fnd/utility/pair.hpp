@@ -30,7 +30,6 @@ using std::piecewise_construct_t;
 
 #include <bksge/fnd/compare/common_comparison_category.hpp>
 #include <bksge/fnd/compare/detail/synth3way.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/type_traits/conditional.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
@@ -58,6 +57,7 @@ using std::piecewise_construct_t;
 #include <bksge/fnd/utility/make_index_sequence.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -345,8 +345,8 @@ BKSGE_WARNING_POP();
 
 private:
 	template <
-		typename... Args1, bksge::size_t... Indices1,
-		typename... Args2, bksge::size_t... Indices2>
+		typename... Args1, std::size_t... Indices1,
+		typename... Args2, std::size_t... Indices2>
 	constexpr
 	pair(
 		bksge::tuple<Args1...>& tuple1,
@@ -458,7 +458,7 @@ make_pair(T1&& x, T2&& y)
 namespace detail
 {
 
-template <bksge::size_t I>
+template <std::size_t I>
 struct pair_get;
 
 template <>
@@ -527,7 +527,7 @@ struct pair_get<1>
 
 }	// namespace detail
 
-template <bksge::size_t I, typename T1, typename T2>
+template <std::size_t I, typename T1, typename T2>
 inline BKSGE_CONSTEXPR
 bksge::tuple_element_t<I, pair<T1, T2>>&
 get(pair<T1, T2>& in) BKSGE_NOEXCEPT
@@ -535,7 +535,7 @@ get(pair<T1, T2>& in) BKSGE_NOEXCEPT
 	return detail::pair_get<I>::get(in);
 }
 
-template <bksge::size_t I, typename T1, typename T2>
+template <std::size_t I, typename T1, typename T2>
 inline BKSGE_CONSTEXPR
 bksge::tuple_element_t<I, pair<T1, T2>>&&
 get(pair<T1, T2>&& in) BKSGE_NOEXCEPT
@@ -543,7 +543,7 @@ get(pair<T1, T2>&& in) BKSGE_NOEXCEPT
 	return detail::pair_get<I>::get(bksge::move(in));
 }
 
-template <bksge::size_t I, typename T1, typename T2>
+template <std::size_t I, typename T1, typename T2>
 inline BKSGE_CONSTEXPR
 bksge::tuple_element_t<I, pair<T1, T2>> const&
 get(pair<T1, T2> const& in) BKSGE_NOEXCEPT
@@ -551,7 +551,7 @@ get(pair<T1, T2> const& in) BKSGE_NOEXCEPT
 	return detail::pair_get<I>::get(in);
 }
 
-template <bksge::size_t I, typename T1, typename T2>
+template <std::size_t I, typename T1, typename T2>
 inline BKSGE_CONSTEXPR
 bksge::tuple_element_t<I, pair<T1, T2>> const&&
 get(pair<T1, T2> const&& in) BKSGE_NOEXCEPT
@@ -625,8 +625,8 @@ namespace bksge
 
 template <typename T1, typename T2>
 template <
-	typename... Args1, bksge::size_t... Indices1,
-	typename... Args2, bksge::size_t... Indices2>
+	typename... Args1, std::size_t... Indices1,
+	typename... Args2, std::size_t... Indices2>
 constexpr
 pair<T1, T2>::pair(
 	bksge::tuple<Args1...>& tuple1,
@@ -654,7 +654,7 @@ namespace BKSGE_TUPLE_NAMESPACE
 
 template <typename T1, typename T2>
 struct tuple_size<bksge::pair<T1, T2>>
-	: public bksge::integral_constant<bksge::size_t, 2> {};
+	: public bksge::integral_constant<std::size_t, 2> {};
 
 template <typename T1, typename T2>
 struct tuple_element<0, bksge::pair<T1, T2>>

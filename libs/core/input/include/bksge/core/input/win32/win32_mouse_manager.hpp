@@ -10,8 +10,8 @@
 #define BKSGE_CORE_INPUT_WIN32_WIN32_MOUSE_MANAGER_HPP
 
 #include <bksge/core/input/detail/mouse_manager_base.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -35,7 +35,7 @@ public:
 private:
 	void VUpdate(void) override;
 
-	MouseState const& VGetState(bksge::size_t index) const override;
+	MouseState const& VGetState(std::size_t index) const override;
 
 	class Impl;
 	bksge::unique_ptr<Impl>	m_impl;

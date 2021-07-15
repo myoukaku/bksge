@@ -9,10 +9,10 @@
 #include <bksge/core/render/stencil_operation.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/functional/hash.hpp>
 #include <gtest/gtest.h>
+#include <cstddef>
 #include <sstream>
 #include "serialize_test.hpp"
 
@@ -76,7 +76,7 @@ GTEST_TEST(Render_StencilOperation, HashTest)
 {
 	bksge::hash<bksge::StencilOperation> h;
 
-	bksge::vector<bksge::size_t> v;
+	bksge::vector<std::size_t> v;
 	v.push_back(h(bksge::StencilOperation::kKeep));
 	v.push_back(h(bksge::StencilOperation::kZero));
 	v.push_back(h(bksge::StencilOperation::kReplace));

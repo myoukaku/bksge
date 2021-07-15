@@ -12,8 +12,8 @@
 #include <bksge/core/math/fwd/color_fwd.hpp>
 #include <bksge/core/math/detail/vector_base.hpp>
 #include <bksge/core/math/detail/vector_functions.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -47,7 +47,7 @@ struct color_scale<long double>
 
 }	// namespace detail
 
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 class Color : public detail::VectorBase<T, N>
 {
 };
@@ -55,7 +55,7 @@ class Color : public detail::VectorBase<T, N>
 /**
  *	@brief	Color *= Color
  */
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 inline BKSGE_CXX14_CONSTEXPR Color<T, N>&
 operator*=(Color<T, N>& lhs, Color<T, N> const& rhs) BKSGE_NOEXCEPT
 {
@@ -65,7 +65,7 @@ operator*=(Color<T, N>& lhs, Color<T, N> const& rhs) BKSGE_NOEXCEPT
 /**
  *	@brief	Color * Color -> Color
  */
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 inline BKSGE_CONSTEXPR Color<T, N> const
 operator*(Color<T, N> const& lhs, Color<T, N> const& rhs) BKSGE_NOEXCEPT
 {
@@ -75,7 +75,7 @@ operator*(Color<T, N> const& lhs, Color<T, N> const& rhs) BKSGE_NOEXCEPT
 /**
  *	@brief	Color /= Color
  */
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 inline BKSGE_CXX14_CONSTEXPR Color<T, N>&
 operator/=(Color<T, N>& lhs, Color<T, N> const& rhs) BKSGE_NOEXCEPT
 {
@@ -85,7 +85,7 @@ operator/=(Color<T, N>& lhs, Color<T, N> const& rhs) BKSGE_NOEXCEPT
 /**
  *	@brief	Color / Color -> Color
  */
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 inline BKSGE_CONSTEXPR Color<T, N> const
 operator/(Color<T, N> const& lhs, Color<T, N> const& rhs) BKSGE_NOEXCEPT
 {
@@ -105,7 +105,7 @@ namespace BKSGE_TUPLE_NAMESPACE
 /**
  *	@brief	tuple_size
  */
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 struct tuple_size<bksge::math::Color<T, N>>
 	: public tuple_size<bksge::math::detail::VectorBase<T, N>>
 {};
@@ -113,7 +113,7 @@ struct tuple_size<bksge::math::Color<T, N>>
 /**
  *	@brief	tuple_element
  */
-template <bksge::size_t I, typename T, bksge::size_t N>
+template <std::size_t I, typename T, std::size_t N>
 struct tuple_element<I, bksge::math::Color<T, N>>
 	: public tuple_element<I, bksge::math::detail::VectorBase<T, N>>
 {};
@@ -128,7 +128,7 @@ namespace BKSGE_HASH_NAMESPACE
 /**
  *	@brief	hash
  */
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 struct hash<bksge::math::Color<T, N>>
 	: public hash<bksge::math::detail::VectorBase<T, N>>
 {};

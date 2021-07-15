@@ -10,9 +10,9 @@
 #define BKSGE_CORE_FONT_OPEN_TYPE_FONT_HPP
 
 #include <bksge/fnd/memory/unique_ptr.hpp>
-#include <bksge/fnd/cstddef.hpp>
 #include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -100,7 +100,7 @@ struct VerticalMetricsTable;
 class OpenTypeFont
 {
 public:
-	OpenTypeFont(bksge::uint8_t const* ptr, bksge::size_t size);
+	OpenTypeFont(bksge::uint8_t const* ptr, std::size_t size);
 	~OpenTypeFont();
 
 	bksge::uint16_t GetGlyphIndex(bksge::uint32_t char_code) const;

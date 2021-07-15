@@ -254,15 +254,15 @@ int main()
 	}
 #endif
 
-	bksge::size_t const tex0_width  = 32;
-	bksge::size_t const tex0_height = 32;
+	std::size_t const tex0_width  = 32;
+	std::size_t const tex0_height = 32;
 
 	bksge::vector<bksge::uint8_t> pixels0(tex0_width * tex0_height * 4);
 	{
 		auto* p = pixels0.data();
-		for (bksge::size_t y = 0; y < tex0_height; ++y)
+		for (std::size_t y = 0; y < tex0_height; ++y)
 		{
-			for (bksge::size_t x = 0; x < tex0_width; ++x)
+			for (std::size_t x = 0; x < tex0_width; ++x)
 			{
 				bksge::uint8_t const c = (y % 2) == (x % 2) ? 255 : 128;
 				*p++ = c;
@@ -275,15 +275,15 @@ int main()
 	bksge::Texture const tex0(
 		bksge::TextureFormat::kRGBA_U8_NORM, {tex0_width, tex0_height}, pixels0.data());
 
-	bksge::size_t const tex1_width  = 64;
-	bksge::size_t const tex1_height = 64;
+	std::size_t const tex1_width  = 64;
+	std::size_t const tex1_height = 64;
 
 	bksge::vector<bksge::uint8_t> pixels1(tex1_width * tex1_height * 4);
 	{
 		auto* p = pixels1.data();
-		for (bksge::size_t y = 0; y < tex1_height; ++y)
+		for (std::size_t y = 0; y < tex1_height; ++y)
 		{
-			for (bksge::size_t x = 0; x < tex1_width; ++x)
+			for (std::size_t x = 0; x < tex1_width; ++x)
 			{
 				bksge::Vector2f const center(0.5f, 0.5f);
 				bksge::Vector2f const v((float)x / tex1_width, (float)y / tex1_height);

@@ -8,8 +8,8 @@
 
 #include <bksge/fnd/span.hpp>
 #include <bksge/fnd/algorithm/equal.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <gtest/gtest.h>
+#include <cstddef>
 #include "constexpr_test.hpp"
 #include "noexcept_test.hpp"
 
@@ -23,7 +23,7 @@ namespace bksge_span_test
 namespace first_test
 {
 
-template <typename Span, bksge::size_t Count>
+template <typename Span, std::size_t Count>
 BKSGE_CXX14_CONSTEXPR bool test(Span sp)
 {
 	BKSGE_ASSERT_NOEXCEPT(sp.template first<Count>());

@@ -19,9 +19,9 @@
 #include <bksge/fnd/utility/in_place_index.hpp>
 #include <bksge/fnd/utility/in_place_type.hpp>
 #include <bksge/fnd/utility/move.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <cstddef>
 #include "test_macros.hpp"
 #include "test_workarounds.hpp"
 
@@ -187,7 +187,7 @@ void test_move_ctor_sfinae()
 }
 
 template <typename T>
-struct Result { bksge::size_t index; T value; };
+struct Result { std::size_t index; T value; };
 
 void test_move_ctor_basic()
 {
@@ -336,7 +336,7 @@ void test_move_ctor_valueless_by_exception()
 }
 
 #if BKSGE_CXX_STANDARD >= 20
-template <bksge::size_t Idx>
+template <std::size_t Idx>
 constexpr bool
 test_constexpr_ctor_imp(bksge::variant<long, void*, const int> const& v)
 {

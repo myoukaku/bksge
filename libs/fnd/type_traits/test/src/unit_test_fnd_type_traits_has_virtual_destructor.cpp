@@ -7,10 +7,10 @@
  */
 
 #include <bksge/fnd/type_traits/has_virtual_destructor.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <cstddef>
 #include "type_traits_test_utility.hpp"
 
 #if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
@@ -78,7 +78,7 @@ BKSGE_HAS_VIRTUAL_DESTRUCTOR_TEST(false, unsigned int);
 BKSGE_HAS_VIRTUAL_DESTRUCTOR_TEST(false, unsigned short);
 BKSGE_HAS_VIRTUAL_DESTRUCTOR_TEST(false, unsigned long);
 BKSGE_HAS_VIRTUAL_DESTRUCTOR_TEST(false, unsigned long long);
-BKSGE_HAS_VIRTUAL_DESTRUCTOR_TEST(false, bksge::size_t);
+BKSGE_HAS_VIRTUAL_DESTRUCTOR_TEST(false, std::size_t);
 BKSGE_HAS_VIRTUAL_DESTRUCTOR_TEST(false, float);
 BKSGE_HAS_VIRTUAL_DESTRUCTOR_TEST(false, double);
 BKSGE_HAS_VIRTUAL_DESTRUCTOR_TEST(false, long double);

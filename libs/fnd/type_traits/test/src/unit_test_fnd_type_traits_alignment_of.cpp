@@ -7,10 +7,10 @@
  */
 
 #include <bksge/fnd/type_traits/alignment_of.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <cstddef>
 #include "type_traits_test_utility.hpp"
 
 namespace type_traits_test
@@ -63,7 +63,7 @@ BKSGE_ALIGNMENT_OF_TEST_PRIMITIVE(unsigned int);
 BKSGE_ALIGNMENT_OF_TEST_PRIMITIVE(unsigned short);
 BKSGE_ALIGNMENT_OF_TEST_PRIMITIVE(unsigned long);
 BKSGE_ALIGNMENT_OF_TEST_PRIMITIVE(unsigned long long);
-BKSGE_ALIGNMENT_OF_TEST_PRIMITIVE(bksge::size_t);
+BKSGE_ALIGNMENT_OF_TEST_PRIMITIVE(std::size_t);
 BKSGE_ALIGNMENT_OF_TEST_PRIMITIVE(float);
 BKSGE_ALIGNMENT_OF_TEST_PRIMITIVE(double);
 BKSGE_ALIGNMENT_OF_TEST_PRIMITIVE(long double);

@@ -22,9 +22,9 @@
 #include <bksge/fnd/concepts/integral.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/ranges/range_value_t.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <limits>
+#include <cstddef>
 
 namespace bksge
 {
@@ -69,7 +69,7 @@ div_mod(VectorType const& lhs, VectorType const& rhs, VectorType* out_remainder)
 	auto const NB = bigint_algo::get_digits(rhs);
 
 	// ----- ステップ 1. A ÷ B の桁数を求める ----- //
-	bksge::size_t D = NA - NB;
+	std::size_t D = NA - NB;
 	// digit_a_partial : A の上 NB 桁を取り出したもの
 	auto digit_a_partial = bigint_algo::construct_from_iterator<VectorType>(lhs.begin() + D, lhs.end());
 	if (bigint_algo::compare(digit_a_partial, rhs) >= 0)
@@ -106,7 +106,7 @@ div_mod(VectorType const& lhs, VectorType const& rhs, VectorType* out_remainder)
 
 	for (auto i = D; i > 0; --i)
 	{
-		bksge::size_t index = i - 1;
+		std::size_t index = i - 1;
 
 		if (NB <= 2 && bigint_algo::get_digits(remainder) <= 2)
 		{

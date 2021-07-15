@@ -7,10 +7,10 @@
  */
 
 #include <bksge/fnd/type_traits/is_class.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <cstddef>
 #include "type_traits_test_utility.hpp"
 
 #if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
@@ -62,7 +62,7 @@ BKSGE_IS_CLASS_TEST(false, unsigned int);
 BKSGE_IS_CLASS_TEST(false, unsigned short);
 BKSGE_IS_CLASS_TEST(false, unsigned long);
 BKSGE_IS_CLASS_TEST(false, unsigned long long);
-BKSGE_IS_CLASS_TEST(false, bksge::size_t);
+BKSGE_IS_CLASS_TEST(false, std::size_t);
 BKSGE_IS_CLASS_TEST(false, float);
 BKSGE_IS_CLASS_TEST(false, double);
 BKSGE_IS_CLASS_TEST(false, long double);

@@ -26,7 +26,6 @@
 #include <bksge/fnd/concepts/convertible_to.hpp>
 #include <bksge/fnd/concepts/copyable.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/iterator/concepts/input_or_output_iterator.hpp>
 #include <bksge/fnd/iterator/concepts/forward_iterator.hpp>
 #include <bksge/fnd/iterator/concepts/bidirectional_iterator.hpp>
@@ -44,6 +43,7 @@
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -429,7 +429,7 @@ BKSGE_CONSTEXPR auto make_subrange(Rng&& r)
 namespace detail
 {
 
-template <bksge::size_t N>
+template <std::size_t N>
 struct subrange_get;
 
 template <>
@@ -455,7 +455,7 @@ struct subrange_get<1>
 
 }	// namespace detail
 
-template <bksge::size_t Num, typename It, typename Sent, ranges::subrange_kind Kind>
+template <std::size_t Num, typename It, typename Sent, ranges::subrange_kind Kind>
 	BKSGE_REQUIRES(Num < 2)
 BKSGE_CXX14_CONSTEXPR auto get(subrange<It, Sent, Kind> const& r)
 ->decltype(detail::subrange_get<Num>()(r))
@@ -463,7 +463,7 @@ BKSGE_CXX14_CONSTEXPR auto get(subrange<It, Sent, Kind> const& r)
 	return detail::subrange_get<Num>()(r);
 }
 
-template <bksge::size_t Num, typename It, typename Sent, ranges::subrange_kind Kind>
+template <std::size_t Num, typename It, typename Sent, ranges::subrange_kind Kind>
 	BKSGE_REQUIRES(Num < 2)
 BKSGE_CXX14_CONSTEXPR auto get(subrange<It, Sent, Kind>&& r)
 ->decltype(detail::subrange_get<Num>()(bksge::move(r)))
@@ -494,7 +494,7 @@ namespace BKSGE_TUPLE_NAMESPACE
 
 template <typename Iter, typename Sent, bksge::ranges::subrange_kind Kind>
 struct tuple_size<bksge::ranges::subrange<Iter, Sent, Kind>>
-	: public bksge::integral_constant<bksge::size_t, 2>
+	: public bksge::integral_constant<std::size_t, 2>
 {
 };
 

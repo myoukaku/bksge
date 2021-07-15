@@ -33,7 +33,6 @@ using std::basic_string;
 #include <bksge/fnd/string/char_traits.hpp>
 #include <bksge/fnd/algorithm/min.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <bksge/fnd/functional/less.hpp>
 #include <bksge/fnd/iterator/distance.hpp>
@@ -67,6 +66,7 @@ using std::basic_string;
 #include <limits>
 #include <istream>
 #include <ostream>
+#include <cstddef>
 
 namespace bksge
 {
@@ -75,8 +75,8 @@ namespace detail
 {
 
 // Helper for basic_string and basic_string_view members.
-inline BKSGE_CXX14_CONSTEXPR bksge::size_t
-sv_check_pos(bksge::size_t size, bksge::size_t pos, char const* s)
+inline BKSGE_CXX14_CONSTEXPR std::size_t
+sv_check_pos(std::size_t size, std::size_t pos, char const* s)
 {
 	if (pos > size)
 	{
@@ -89,8 +89,8 @@ sv_check_pos(bksge::size_t size, bksge::size_t pos, char const* s)
 
 // Helper for basic_string members.
 // NB: sv_limit doesn't check for a bad pos value.
-inline BKSGE_CONSTEXPR bksge::size_t
-sv_limit(bksge::size_t size, bksge::size_t pos, bksge::size_t off) BKSGE_NOEXCEPT
+inline BKSGE_CONSTEXPR std::size_t
+sv_limit(std::size_t size, std::size_t pos, std::size_t off) BKSGE_NOEXCEPT
 {
 	return (off < size - pos) ? off : size - pos;
 }
@@ -2923,39 +2923,39 @@ inline namespace string_literals
 
 BKSGE_WARNING_PUSH();
 BKSGE_WARNING_DISABLE_MSVC(4455);	// literal suffix identifiers that do not start with an underscore are reserved
-BKSGE_WARNING_DISABLE_MSVC(4267);	// conversion from 'bksge::size_t' to 'const int', possible loss of data
+BKSGE_WARNING_DISABLE_MSVC(4267);	// conversion from 'std::size_t' to 'const int', possible loss of data
 BKSGE_WARNING_DISABLE_CLANG("-Wuser-defined-literals");
 BKSGE_WARNING_DISABLE_GCC("-Wliteral-suffix");
 
 inline basic_string<char>
-operator"" s(char const* str, bksge::size_t len)
+operator"" s(char const* str, std::size_t len)
 {
 	return basic_string<char>{str, len};
 }
 
 inline basic_string<wchar_t>
-operator"" s(const wchar_t* str, bksge::size_t len)
+operator"" s(const wchar_t* str, std::size_t len)
 {
 	return basic_string<wchar_t>{str, len};
 }
 
 #if defined(BKSGE_HAS_CXX20_CHAR8_T)
 inline basic_string<char8_t>
-operator"" s(const char8_t* str, bksge::size_t len)
+operator"" s(const char8_t* str, std::size_t len)
 {
 	return basic_string<char8_t>{str, len};
 }
 #endif
 #if defined(BKSGE_HAS_CXX11_CHAR16_T)
 inline basic_string<char16_t>
-operator"" s(const char16_t* str, bksge::size_t len)
+operator"" s(const char16_t* str, std::size_t len)
 {
 	return basic_string<char16_t>{str, len};
 }
 #endif
 #if defined(BKSGE_HAS_CXX11_CHAR32_T)
 inline basic_string<char32_t>
-operator"" s(const char32_t* str, bksge::size_t len)
+operator"" s(const char32_t* str, std::size_t len)
 {
 	return basic_string<char32_t>{str, len};
 }
@@ -2976,8 +2976,8 @@ BKSGE_WARNING_POP();
 
 #include <bksge/fnd/functional/hash.hpp>
 #include <bksge/fnd/hash_functions/murmur_hash_3.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace BKSGE_HASH_NAMESPACE
 {
@@ -2985,7 +2985,7 @@ namespace BKSGE_HASH_NAMESPACE
 template <typename T>
 struct hash<bksge::basic_string<T>>
 {
-	BKSGE_CXX14_CONSTEXPR bksge::size_t
+	BKSGE_CXX14_CONSTEXPR std::size_t
 	operator()(bksge::basic_string<T> const& arg) const BKSGE_NOEXCEPT
 	{
 		return bksge::murmur_hash_3{}(arg.data(), arg.length());

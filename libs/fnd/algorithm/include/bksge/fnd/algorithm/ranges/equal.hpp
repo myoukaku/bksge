@@ -11,7 +11,6 @@
 
 #include <bksge/fnd/concepts/same_as.hpp>
 #include <bksge/fnd/concepts/detail/overload_priority.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstring/memcmp.hpp>
 #include <bksge/fnd/functional/ranges/equal_to.hpp>
 #include <bksge/fnd/functional/identity.hpp>
@@ -32,6 +31,7 @@
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -79,7 +79,7 @@ private:
 			&& bksge::is_same<Proj2, bksge::identity>::value);
 		if constexpr (use_memcmp)
 		{
-			if (const bksge::size_t len = (last1 - first1))
+			if (const std::size_t len = (last1 - first1))
 			{
 				return !bksge::memcmp(first1, first2, len);
 			}

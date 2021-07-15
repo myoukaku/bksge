@@ -9,10 +9,10 @@
 #ifndef BKSGE_FND_BIGINT_DETAIL_IS_ZERO_HPP
 #define BKSGE_FND_BIGINT_DETAIL_IS_ZERO_HPP
 
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/array.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -32,11 +32,11 @@ is_zero(bksge::vector<T> const& value) noexcept
 		(value.size() == 1 && value[0] == 0);
 }
 
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool
 is_zero(bksge::array<T, N> const& value) noexcept
 {
-	for (bksge::size_t i = 0; i < N; ++i)
+	for (std::size_t i = 0; i < N; ++i)
 	{
 		if (value[i] != 0)
 		{

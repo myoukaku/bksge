@@ -12,7 +12,6 @@
 #include <bksge/fnd/static_vector/detail/static_storage_allocator.hpp>
 #include <bksge/fnd/algorithm/fill_n.hpp>
 #include <bksge/fnd/algorithm/move_backward.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/iterator/distance.hpp>
 #include <bksge/fnd/memory/allocator_traits.hpp>
 #include <bksge/fnd/detail/throw_bad_alloc.hpp>
@@ -21,6 +20,7 @@
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -28,7 +28,7 @@ namespace bksge
 namespace detail
 {
 
-template <typename T, bksge::size_t Capacity, bool = bksge::is_trivially_destructible<T>::value>
+template <typename T, std::size_t Capacity, bool = bksge::is_trivially_destructible<T>::value>
 class static_vector_base
 {
 public:
@@ -198,7 +198,7 @@ private:
 	pointer			m_end;
 };
 
-template <typename T, bksge::size_t Capacity>
+template <typename T, std::size_t Capacity>
 class static_vector_base<T, Capacity, true>
 {
 public:

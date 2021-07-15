@@ -24,13 +24,13 @@ using std::make_index_sequence;
 #else
 
 #include <bksge/fnd/utility/make_integer_sequence.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
+#include <cstddef>
 
 namespace bksge
 {
 
-template <bksge::size_t N>
-using make_index_sequence = bksge::make_integer_sequence<bksge::size_t, N>;
+template <std::size_t N>
+using make_index_sequence = bksge::make_integer_sequence<std::size_t, N>;
 
 }	// namespace bksge
 

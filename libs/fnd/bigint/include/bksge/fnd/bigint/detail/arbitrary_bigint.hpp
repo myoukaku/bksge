@@ -20,7 +20,6 @@
 #include <bksge/fnd/concepts/arithmetic.hpp>
 #include <bksge/fnd/concepts/unsigned_integral.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/functional/hash_combine.hpp>
 #include <bksge/fnd/stdexcept/runtime_error.hpp>
 #include <bksge/fnd/vector.hpp>
@@ -29,6 +28,7 @@
 #include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
 #include <bksge/fnd/assert.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -54,7 +54,7 @@ public:
 		m_sign = bigint_algo::init_from_arithmetic(m_magnitude, x);
 	}
 
-	template <bksge::size_t B2, bool S2>
+	template <std::size_t B2, bool S2>
 	/*constexpr*/ arbitrary_bigint(fixed_bigint<B2, S2> const& other)
 	{
 		if (S2)
@@ -76,7 +76,7 @@ public:
 		}
 	}
 
-	template <bksge::size_t B2, bool S2>
+	template <std::size_t B2, bool S2>
 	/*constexpr*/ operator fixed_bigint<B2, S2>() const
 	{
 		using vec_type = typename fixed_bigint<B2, S2>::vector_type;
@@ -286,10 +286,10 @@ public:
 		return r + bigint_algo::to_basic_string<CharT>(m_magnitude);
 	}
 
-	/*constexpr*/ bksge::size_t
+	/*constexpr*/ std::size_t
 	hash() const BKSGE_NOEXCEPT
 	{
-		bksge::size_t result = bksge::hash_combine(m_sign);
+		std::size_t result = bksge::hash_combine(m_sign);
 		for (auto mag : m_magnitude)
 		{
 			result = bksge::hash_combine(result, mag);

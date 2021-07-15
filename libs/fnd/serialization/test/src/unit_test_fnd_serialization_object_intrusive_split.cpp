@@ -9,10 +9,10 @@
 #include <bksge/fnd/serialization/access.hpp>
 #include <bksge/fnd/serialization/text_oarchive.hpp>
 #include <bksge/fnd/serialization/text_iarchive.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
+#include <cstddef>
 #include "serialization_test_utility.hpp"
 
 namespace bksge_serialization_test
@@ -40,7 +40,7 @@ private:
 	double             o = get_random_float<double>();
 	long double        p = get_random_float<long double>();
 	Enum               q = Enum(get_random_int<unsigned int>() % 3);
-	bksge::size_t      r = get_random_int<bksge::size_t>();
+	std::size_t        r = get_random_int<std::size_t>();
 	bksge::nullptr_t   s = nullptr;
 
 	friend bool operator==(IntrusiveSplitObject const& lhs, IntrusiveSplitObject const& rhs)

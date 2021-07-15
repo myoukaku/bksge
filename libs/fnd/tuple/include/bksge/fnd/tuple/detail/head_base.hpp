@@ -11,7 +11,6 @@
 
 #include <bksge/fnd/tuple/fwd/tuple_fwd.hpp>
 #include <bksge/fnd/tuple/detail/use_alloc.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/memory/allocator_arg.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conditional.hpp>
@@ -19,6 +18,7 @@
 #include <bksge/fnd/type_traits/is_final.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -40,13 +40,13 @@ using empty_not_final = bksge::conditional_t<
 	bksge::false_type,
 	is_empty_non_tuple<T>>;
 
-template <bksge::size_t Idx, typename Head,
+template <std::size_t Idx, typename Head,
 	bool = empty_not_final<Head>::value>
 struct head_base;
 
 #if defined(BKSGE_HAS_CXX20_NO_UNIQUE_ADDRESS)
 
-template <bksge::size_t Idx, typename Head>
+template <std::size_t Idx, typename Head>
 struct head_base<Idx, Head, true>
 {
 	BKSGE_CONSTEXPR
@@ -114,7 +114,7 @@ struct head_base<Idx, Head, true>
 
 #else
 
-template <bksge::size_t Idx, typename Head>
+template <std::size_t Idx, typename Head>
 struct head_base<Idx, Head, true>
 	: public Head
 {
@@ -180,7 +180,7 @@ struct head_base<Idx, Head, true>
 };
 #endif
 
-template <bksge::size_t Idx, typename Head>
+template <std::size_t Idx, typename Head>
 struct head_base<Idx, Head, false>
 {
 	BKSGE_CONSTEXPR head_base()

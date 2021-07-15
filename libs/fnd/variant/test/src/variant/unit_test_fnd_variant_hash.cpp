@@ -22,11 +22,11 @@
 //#include <bksge/fnd/type_traits/remove_reference.hpp>
 //#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/in_place_index.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/functional/hash.hpp>
 #include <bksge/fnd/config.hpp>
 //#include <type_traits>
 #include <gtest/gtest.h>
+#include <cstddef>
 #include "test_macros.hpp"
 #include "variant_test_helpers.hpp"
 #include "poisoned_hash_helper.hpp"
@@ -39,7 +39,7 @@ namespace BKSGE_HASH_NAMESPACE
 template <>
 struct hash<bksge_variant_test::MakeEmptyT>
 {
-	bksge::size_t operator()(const bksge_variant_test::MakeEmptyT&) const
+	std::size_t operator()(const bksge_variant_test::MakeEmptyT&) const
 	{
 		assert(false);
 		return 0;
@@ -69,7 +69,7 @@ void test_hash_variant()
 		EXPECT_TRUE(h(v) != h(v2));
 		EXPECT_TRUE(h(v) == h(v_copy));
 		{
-			ASSERT_SAME_TYPE(decltype(h(v)), bksge::size_t);
+			ASSERT_SAME_TYPE(decltype(h(v)), std::size_t);
 			static_assert(bksge::is_copy_constructible<H>::value, "");
 		}
 	}
@@ -125,7 +125,7 @@ void test_hash_monostate()
 	EXPECT_TRUE(h(m2) == h(m2));
 	EXPECT_TRUE(h(m1) == h(m2));
 	{
-		ASSERT_SAME_TYPE(decltype(h(m1)), bksge::size_t);
+		ASSERT_SAME_TYPE(decltype(h(m1)), std::size_t);
 		ASSERT_NOEXCEPT(h(m1));
 		static_assert(bksge::is_copy_constructible<H>::value, "");
 	}

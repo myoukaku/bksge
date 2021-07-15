@@ -21,6 +21,7 @@
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/memory/make_shared.hpp>
 #include <bksge/fnd/utility/move.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -79,7 +80,7 @@ FrameBuffer::Unbind(void) const
 }
 
 BKSGE_INLINE void
-FrameBuffer::AttachColorBuffer(bksge::size_t index, TextureShared const& texture)
+FrameBuffer::AttachColorBuffer(std::size_t index, TextureShared const& texture)
 {
 	if (index >= m_color_buffers.size())
 	{
@@ -110,7 +111,7 @@ FrameBuffer::AttachDepthStencilBuffer(gl::RenderBufferShared const& buffer)
 }
 
 BKSGE_INLINE gl::TextureShared const&
-FrameBuffer::GetColorBuffer(bksge::size_t index) const
+FrameBuffer::GetColorBuffer(std::size_t index) const
 {
 	return m_color_buffers[index];
 }

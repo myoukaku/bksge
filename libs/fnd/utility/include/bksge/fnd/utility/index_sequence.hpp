@@ -23,13 +23,13 @@ using std::index_sequence;
 #else
 
 #include <bksge/fnd/utility/integer_sequence.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
+#include <cstddef>
 
 namespace bksge
 {
 
-template <bksge::size_t... I>
-using index_sequence = bksge::integer_sequence<bksge::size_t, I...>;
+template <std::size_t... I>
+using index_sequence = bksge::integer_sequence<std::size_t, I...>;
 
 }	// namespace bksge
 

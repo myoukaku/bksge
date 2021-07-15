@@ -11,7 +11,6 @@
 
 #include <bksge/fnd/concepts/derived_from.hpp>
 #include <bksge/fnd/concepts/convertible_to.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/tuple/tuple_element.hpp>
 #include <bksge/fnd/tuple/tuple_size.hpp>
 #include <bksge/fnd/tuple/get.hpp>
@@ -23,6 +22,7 @@
 #include <bksge/fnd/type_traits/remove_const.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -41,7 +41,7 @@ concept pair_like =
 	requires(T t)
 	{
 		typename bksge::tuple_size<T>::type;
-		requires bksge::derived_from<bksge::tuple_size<T>, bksge::integral_constant<bksge::size_t, 2>>;
+		requires bksge::derived_from<bksge::tuple_size<T>, bksge::integral_constant<std::size_t, 2>>;
 		typename bksge::tuple_element_t<0, bksge::remove_const_t<T>>;
 		typename bksge::tuple_element_t<1, bksge::remove_const_t<T>>;
 		{ get<0>(t) } -> bksge::convertible_to<bksge::tuple_element_t<0, T> const&>;
@@ -58,7 +58,7 @@ private:
 		typename = bksge::enable_if_t<!bksge::is_reference<T>::value>,
 		typename = typename bksge::tuple_size<U>::type,
 		typename = bksge::enable_if_t<bksge::derived_from<
-			bksge::tuple_size<U>, bksge::integral_constant<bksge::size_t, 2>
+			bksge::tuple_size<U>, bksge::integral_constant<std::size_t, 2>
 		>::value>,
 		typename = bksge::tuple_element_t<0, bksge::remove_const_t<U>>,
 		typename = bksge::tuple_element_t<1, bksge::remove_const_t<U>>,

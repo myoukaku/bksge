@@ -21,8 +21,8 @@
 #include <bksge/core/render/shader_parameter_map.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/cmath/round_up.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint8_t.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -50,7 +50,7 @@ UniformBuffer::UniformBuffer(
 
 	auto physical_device = device->physical_device();
 	auto const properties = physical_device->GetProperties();
-	m_offset_alignment = static_cast<bksge::size_t>(
+	m_offset_alignment = static_cast<std::size_t>(
 		properties.limits.minUniformBufferOffsetAlignment);
 }
 
@@ -72,8 +72,8 @@ UniformBuffer::mapped_buffer(void) const
 	return m_mapped_buffer;
 }
 
-BKSGE_INLINE bksge::size_t
-UniformBuffer::Allocate(bksge::size_t size)
+BKSGE_INLINE std::size_t
+UniformBuffer::Allocate(std::size_t size)
 {
 	auto const offset = m_offset;
 

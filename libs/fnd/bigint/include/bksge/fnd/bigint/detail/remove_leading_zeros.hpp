@@ -9,10 +9,10 @@
 #ifndef BKSGE_FND_BIGINT_DETAIL_REMOVE_LEADING_ZEROS_HPP
 #define BKSGE_FND_BIGINT_DETAIL_REMOVE_LEADING_ZEROS_HPP
 
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/array.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -33,7 +33,7 @@ remove_leading_zeros(bksge::vector<T>& vec)
 	}
 }
 
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 inline BKSGE_CXX14_CONSTEXPR void
 remove_leading_zeros(bksge::array<T, N>&) noexcept
 {}

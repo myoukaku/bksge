@@ -13,15 +13,15 @@
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/concepts/arithmetic.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/type_traits/common_type.hpp>
 #include <bksge/fnd/type_traits/conditional.hpp>
 #include <limits>
+#include <cstddef>
 
 namespace bksge
 {
 
-template <bksge::size_t B1, bool S1, bksge::size_t B2, bool S2>
+template <std::size_t B1, bool S1, std::size_t B2, bool S2>
 struct common_type<basic_bigint<B1, S1>, basic_bigint<B2, S2>>
 {
 private:
@@ -34,12 +34,12 @@ public:
 };
 
 // TODO
-//template <bksge::size_t B1, bool S1, BKSGE_REQUIRES_PARAM(bksge::arithmetic, Arithmetic)>
-template <bksge::size_t B1, bool S1, typename Arithmetic>
+//template <std::size_t B1, bool S1, BKSGE_REQUIRES_PARAM(bksge::arithmetic, Arithmetic)>
+template <std::size_t B1, bool S1, typename Arithmetic>
 struct common_type<basic_bigint<B1, S1>, Arithmetic>
 {
 private:
-	static const bksge::size_t B2 = sizeof(Arithmetic) * CHAR_BIT;
+	static const std::size_t B2 = sizeof(Arithmetic) * CHAR_BIT;
 	static const bool S2 = std::numeric_limits<Arithmetic>::is_signed;
 	static const bool is_integer = std::numeric_limits<Arithmetic>::is_integer;
 public:
@@ -59,8 +59,8 @@ public:
 };
 
 // TODO
-//template <BKSGE_REQUIRES_PARAM(bksge::arithmetic, Arithmetic), bksge::size_t B, bool S>
-template <typename Arithmetic, bksge::size_t B, bool S>
+//template <BKSGE_REQUIRES_PARAM(bksge::arithmetic, Arithmetic), std::size_t B, bool S>
+template <typename Arithmetic, std::size_t B, bool S>
 struct common_type<Arithmetic, basic_bigint<B, S>>
 	: public common_type<basic_bigint<B, S>, Arithmetic>
 {};

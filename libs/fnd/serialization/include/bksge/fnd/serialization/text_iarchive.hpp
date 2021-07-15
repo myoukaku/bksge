@@ -13,7 +13,6 @@
 #include <bksge/fnd/serialization/detail/pointer_loader.hpp>
 #include <bksge/fnd/serialization/nvp.hpp>
 #include <bksge/fnd/serialization/base_object.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/intmax_t.hpp>
 #include <bksge/fnd/cstdint/uintmax_t.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
@@ -26,6 +25,7 @@
 #include <bksge/fnd/functional/function.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <istream>
+#include <cstddef>
 
 namespace bksge
 {
@@ -98,11 +98,11 @@ public:
 		// ※このループ中にm_pointer_listに要素が追加されて、
 		// 　イテレータが無効になる可能性があるので、
 		// 　Range-based For や イテレータでループはできない
-		for (bksge::size_t i = 0; i < m_pointer_list.size(); ++i)
+		for (std::size_t i = 0; i < m_pointer_list.size(); ++i)
 		{
 			auto&& ptr = m_pointer_list[i];
 
-			bksge::size_t id;
+			std::size_t id;
 			load(id);
 
 			bool found = false;
@@ -156,10 +156,10 @@ private:
 		bksge::serialization::detail::load_dispatch::invoke(*this, t);
 	}
 
-	template <typename T, bksge::size_t N>
+	template <typename T, std::size_t N>
 	void load_array(T (&t)[N])
 	{
-		for (bksge::size_t i = 0; i < N; ++i)
+		for (std::size_t i = 0; i < N; ++i)
 		{
 			*this >> t[i];
 		}
@@ -235,7 +235,7 @@ private:
 
 private:
 	bksge::unique_ptr<text_iarchive_impl_base>				m_impl;
-	bksge::unordered_map<const void*, bksge::size_t>		m_tracking;
+	bksge::unordered_map<const void*, std::size_t>		m_tracking;
 	bksge::vector<detail::pointer_loader<text_iarchive>>	m_pointer_list;
 	bksge::vector<bksge::function<void()>>					m_on_destroy;
 

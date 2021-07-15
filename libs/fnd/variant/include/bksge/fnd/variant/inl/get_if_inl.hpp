@@ -17,13 +17,13 @@
 #include <bksge/fnd/memory/addressof.hpp>
 #include <bksge/fnd/type_traits/add_pointer.hpp>
 #include <bksge/fnd/type_traits/is_void.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
 
-template <bksge::size_t I, typename... Types>
+template <std::size_t I, typename... Types>
 BKSGE_CXX14_CONSTEXPR bksge::add_pointer_t<variant_alternative_t<I, variant<Types...>>>
 get_if(variant<Types...>* pv) BKSGE_NOEXCEPT
 {
@@ -38,7 +38,7 @@ get_if(variant<Types...>* pv) BKSGE_NOEXCEPT
 	return nullptr;
 }
 
-template <bksge::size_t I, typename... Types>
+template <std::size_t I, typename... Types>
 BKSGE_CXX14_CONSTEXPR bksge::add_pointer_t<variant_alternative_t<I, variant<Types...>> const>
 get_if(variant<Types...> const* pv) BKSGE_NOEXCEPT
 {

@@ -7,7 +7,6 @@
  */
 
 #include <bksge/fnd/functional/hash.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <bksge/fnd/type_traits/is_default_constructible.hpp>
 #include <bksge/fnd/type_traits/is_copy_constructible.hpp>
@@ -20,6 +19,7 @@
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <cstddef>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -42,7 +42,7 @@ inline BKSGE_CXX14_CONSTEXPR void test_common()
 	static_assert(bksge::is_copy_assignable<bksge::hash<T>>::value, "");
 	static_assert(bksge::is_move_assignable<bksge::hash<T>>::value, "");
 
-	static_assert(bksge::is_same<decltype(bksge::hash<T>{}(bksge::declval<T>())), bksge::size_t>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::hash<T>{}(bksge::declval<T>())), std::size_t>::value, "");
 
 	static_assert(bksge::is_nothrow_invocable<bksge::hash<T>      ,   T>::value, "");
 	static_assert(bksge::is_nothrow_invocable<bksge::hash<T> const,   T>::value, "");

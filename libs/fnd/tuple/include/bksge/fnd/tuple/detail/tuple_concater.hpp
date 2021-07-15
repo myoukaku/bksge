@@ -11,12 +11,12 @@
 
 #include <bksge/fnd/tuple/tuple_size.hpp>
 #include <bksge/fnd/tuple/get.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/type_traits/remove_reference.hpp>
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -34,7 +34,7 @@ template <typename Ret, typename T, typename... Tuples>
 struct tuple_concater<Ret, T, Tuples...>
 {
 private:
-	template <bksge::size_t... Indices, typename... Args>
+	template <std::size_t... Indices, typename... Args>
 	static BKSGE_CONSTEXPR Ret
 	invoke_impl(bksge::index_sequence<Indices...>, T&& tp, Tuples&&... tps, Args&&... args)
 	{

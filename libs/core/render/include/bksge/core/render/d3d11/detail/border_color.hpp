@@ -11,7 +11,7 @@
 
 #include <bksge/core/render/border_color.hpp>
 #include <bksge/core/render/d3d_common/d3d11.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -30,7 +30,7 @@ class BorderColor
 public:
 	explicit BorderColor(bksge::BorderColor border_color);
 
-	::FLOAT operator[](bksge::size_t i) const;
+	::FLOAT operator[](std::size_t i) const;
 
 private:
 	::FLOAT	m_border_color[4];

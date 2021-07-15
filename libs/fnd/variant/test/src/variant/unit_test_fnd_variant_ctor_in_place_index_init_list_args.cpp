@@ -10,10 +10,10 @@
 #include <bksge/fnd/variant/get.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/utility/in_place_index.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include <initializer_list>
+#include <cstddef>
 #include "test_convertible.hpp"
 #include "test_macros.hpp"
 #include "constexpr_test.hpp"
@@ -26,7 +26,7 @@ namespace ctor_in_place_index_init_list_args_test
 
 struct InitList
 {
-	bksge::size_t size;
+	std::size_t size;
 
 	BKSGE_CXX14_CONSTEXPR
 	InitList(std::initializer_list<int> il)
@@ -35,7 +35,7 @@ struct InitList
 
 struct InitListArg
 {
-	bksge::size_t size;
+	std::size_t size;
 	int value;
 
 	BKSGE_CXX14_CONSTEXPR

@@ -13,7 +13,7 @@
 #include <bksge/fnd/algorithm/equal.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -21,31 +21,31 @@ namespace bksge
 namespace render
 {
 
-template <typename T, bksge::size_t N, Semantic S>
-inline auto VertexElement<T, N, S>::operator[](bksge::size_t index) const -> value_type const&
+template <typename T, std::size_t N, Semantic S>
+inline auto VertexElement<T, N, S>::operator[](std::size_t index) const -> value_type const&
 {
 	return m_data[index];
 }
 
-template <typename T, bksge::size_t N, Semantic S>
+template <typename T, std::size_t N, Semantic S>
 inline auto VertexElement<T, N, S>::begin(void) const -> const_iterator
 {
 	return bksge::begin(m_data);
 }
 
-template <typename T, bksge::size_t N, Semantic S>
+template <typename T, std::size_t N, Semantic S>
 inline auto VertexElement<T, N, S>::end(void) const -> const_iterator
 {
 	return bksge::end(m_data);
 }
 
-template <typename T, bksge::size_t N, Semantic S>
+template <typename T, std::size_t N, Semantic S>
 inline bool operator==(VertexElement<T, N, S> const& lhs, VertexElement<T, N, S> const& rhs)
 {
 	return bksge::equal(lhs.begin(), lhs.end(), rhs.begin());
 }
 
-template <typename T, bksge::size_t N, Semantic S>
+template <typename T, std::size_t N, Semantic S>
 inline bool operator!=(VertexElement<T, N, S> const& lhs, VertexElement<T, N, S> const& rhs)
 {
 	return !(lhs == rhs);

@@ -15,6 +15,7 @@
 #include <bksge/core/render/gl/detail/gl_h.hpp>
 #include <bksge/core/render/fwd/frame_buffer_fwd.hpp>
 #include <bksge/fnd/vector.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -43,11 +44,11 @@ public:
 
 	void Unbind(void) const;
 
-	void AttachColorBuffer(bksge::size_t index, gl::TextureShared const& texture);
+	void AttachColorBuffer(std::size_t index, gl::TextureShared const& texture);
 
 	void AttachDepthStencilBuffer(gl::RenderBufferShared const& buffer);
 
-	gl::TextureShared const& GetColorBuffer(bksge::size_t index) const;
+	gl::TextureShared const& GetColorBuffer(std::size_t index) const;
 
 private:
 	//void CreateColorBuffers(void);

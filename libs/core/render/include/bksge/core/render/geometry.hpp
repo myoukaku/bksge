@@ -25,8 +25,8 @@
 #include <bksge/fnd/iterator/iter_value_t.hpp>
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -103,13 +103,13 @@ public:
 	PrimitiveTopology const& primitive_topology(void) const;
 	VertexLayout const& vertex_layout(void) const;
 
-	void const*   vertex_array_data(void) const;
-	bksge::size_t vertex_array_bytes(void) const;
-	bksge::size_t vertex_array_count(void) const;
+	void const* vertex_array_data(void) const;
+	std::size_t vertex_array_bytes(void) const;
+	std::size_t vertex_array_count(void) const;
 
-	void const*   index_array_data(void) const;
-	bksge::size_t index_array_bytes(void) const;
-	bksge::size_t index_array_count(void) const;
+	void const* index_array_data(void) const;
+	std::size_t index_array_bytes(void) const;
+	std::size_t index_array_count(void) const;
 	TypeEnum index_array_type(void) const;
 
 private:

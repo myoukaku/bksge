@@ -15,10 +15,10 @@
 #include <bksge/core/render/vulkan/detail/fwd/shader_reflection_fwd.hpp>
 #include <bksge/core/render/vulkan/detail/vulkan.hpp>
 #include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/vector.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -52,7 +52,7 @@ private:
 	struct Variable
 	{
 		bksge::string	name;
-		bksge::size_t	bytes = 0;
+		std::size_t		bytes = 0;
 		bksge::uint32_t	offset = 0;
 	};
 
@@ -60,7 +60,7 @@ private:
 	bksge::uint32_t					m_binding = 0;
 	bksge::string					m_name;
 	::VkDescriptorType				m_descriptor_type;
-	bksge::size_t					m_bytes = 0;
+	std::size_t						m_bytes = 0;
 	bksge::vector<Variable>			m_variables;
 	::VkDescriptorBufferInfo		m_buffer_info;
 };

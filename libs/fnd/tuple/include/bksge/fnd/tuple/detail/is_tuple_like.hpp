@@ -12,9 +12,9 @@
 #include <bksge/fnd/tuple/fwd/tuple_fwd.hpp>
 #include <bksge/fnd/array/fwd/array_fwd.hpp>
 #include <bksge/fnd/utility/fwd/pair_fwd.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/remove_cvref.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -30,7 +30,7 @@ template <typename... Types>
 struct is_tuple_like_impl<bksge::tuple<Types...>> : public bksge::true_type
 {};
 
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 struct is_tuple_like_impl<bksge::array<T, N>> : public bksge::true_type
 {};
 

@@ -23,9 +23,9 @@
 #include <bksge/fnd/type_traits/remove_reference.hpp>
 #include <bksge/fnd/functional/hash.hpp>
 #include <bksge/fnd/utility/move.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cassert>
+#include <cstddef>
 #include "test_macros.hpp"
 #include "test_workarounds.hpp"
 
@@ -145,7 +145,7 @@ struct can_hash_impl;
 template <typename F, typename... ArgTypes>
 struct can_hash_impl<F(ArgTypes...)>
 {
-	static const bool value = bksge::is_invocable_r<bksge::size_t, F, ArgTypes...>::value;
+	static const bool value = bksge::is_invocable_r<std::size_t, F, ArgTypes...>::value;
 };
 
 template <class HashExpr>

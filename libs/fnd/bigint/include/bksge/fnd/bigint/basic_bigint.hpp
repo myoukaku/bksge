@@ -21,22 +21,22 @@
 #include <bksge/fnd/concepts/arithmetic.hpp>
 #include <bksge/fnd/concepts/integral.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/stdexcept/overflow_error.hpp>
 #include <bksge/fnd/type_traits/conditional.hpp>
 #include <bksge/fnd/string_view.hpp>
 #include <bksge/fnd/string.hpp>
 #include <bksge/fnd/config.hpp>
 #include <limits>
+#include <cstddef>
 
 namespace bksge
 {
 
-template <bksge::size_t Bits, bool Signed>
+template <std::size_t Bits, bool Signed>
 class basic_bigint
 {
 private:
-	template <bksge::size_t, bool>
+	template <std::size_t, bool>
 	friend class basic_bigint;
 
 	friend class bksge::detail::bigint_access;
@@ -84,21 +84,21 @@ public:
 	 *	@note	Bits < B2 のとき、explicit指定される
 	 */
 #if defined(BKSGE_HAS_CXX20_CONDITIONAL_EXPLICIT)
-	template <bksge::size_t B2, bool S2>
+	template <std::size_t B2, bool S2>
 	explicit(Bits < B2)
 	constexpr basic_bigint(basic_bigint<B2, S2> const& other)
 		noexcept(Bits != infinity_bits)
 		: m_value(other.m_value)
 	{}
 #else
-	template <bksge::size_t B2, bool S2, bksge::enable_if_t<(Bits < B2)>* = nullptr>
+	template <std::size_t B2, bool S2, bksge::enable_if_t<(Bits < B2)>* = nullptr>
 	explicit
 	constexpr basic_bigint(basic_bigint<B2, S2> const& other)
 		noexcept(Bits != infinity_bits)
 		: m_value(other.m_value)
 	{}
 
-	template <bksge::size_t B2, bool S2, bksge::enable_if_t<!(Bits < B2)>* = nullptr>
+	template <std::size_t B2, bool S2, bksge::enable_if_t<!(Bits < B2)>* = nullptr>
 	constexpr basic_bigint(basic_bigint<B2, S2> const& other)
 		noexcept(Bits != infinity_bits)
 		: m_value(other.m_value)
@@ -160,7 +160,7 @@ public:
 		return {-m_value};
 	}
 
-	template <bksge::size_t B2, bool S2>
+	template <std::size_t B2, bool S2>
 	constexpr basic_bigint&
 	operator+=(basic_bigint<B2, S2> const& rhs) noexcept
 	{
@@ -175,7 +175,7 @@ public:
 		return *this += basic_bigint(rhs);
 	}
 
-	template <bksge::size_t B2, bool S2>
+	template <std::size_t B2, bool S2>
 	constexpr basic_bigint&
 	operator-=(basic_bigint<B2, S2> const& rhs) noexcept
 	{
@@ -190,7 +190,7 @@ public:
 		return *this -= basic_bigint(rhs);
 	}
 
-	template <bksge::size_t B2, bool S2>
+	template <std::size_t B2, bool S2>
 	constexpr basic_bigint&
 	operator*=(basic_bigint<B2, S2> const& rhs) noexcept
 	{
@@ -206,7 +206,7 @@ public:
 		return *this;
 	}
 
-	template <bksge::size_t B2, bool S2>
+	template <std::size_t B2, bool S2>
 	constexpr basic_bigint&
 	operator/=(basic_bigint<B2, S2> const& rhs)
 	{
@@ -232,7 +232,7 @@ public:
 		return *this;
 	}
 
-	template <bksge::size_t B2, bool S2>
+	template <std::size_t B2, bool S2>
 	constexpr basic_bigint&
 	operator%=(basic_bigint<B2, S2> const& rhs)
 	{
@@ -257,7 +257,7 @@ public:
 		return *this %= basic_bigint(rhs);
 	}
 
-	template <bksge::size_t B2, bool S2>
+	template <std::size_t B2, bool S2>
 	constexpr basic_bigint&
 	operator&=(basic_bigint<B2, S2> const& rhs) noexcept
 	{
@@ -272,7 +272,7 @@ public:
 		return *this &= basic_bigint(rhs);
 	}
 
-	template <bksge::size_t B2, bool S2>
+	template <std::size_t B2, bool S2>
 	constexpr basic_bigint&
 	operator|=(basic_bigint<B2, S2> const& rhs) noexcept
 	{
@@ -287,7 +287,7 @@ public:
 		return *this |= basic_bigint(rhs);
 	}
 
-	template <bksge::size_t B2, bool S2>
+	template <std::size_t B2, bool S2>
 	constexpr basic_bigint&
 	operator^=(basic_bigint<B2, S2> const& rhs) noexcept
 	{
@@ -302,7 +302,7 @@ public:
 		return *this ^= basic_bigint(rhs);
 	}
 
-	template <bksge::size_t B2, bool S2>
+	template <std::size_t B2, bool S2>
 	constexpr basic_bigint&
 	operator<<=(basic_bigint<B2, S2> const& rhs) noexcept
 	{
@@ -317,7 +317,7 @@ public:
 		return *this <<= basic_bigint(rhs);
 	}
 
-	template <bksge::size_t B2, bool S2>
+	template <std::size_t B2, bool S2>
 	constexpr basic_bigint&
 	operator>>=(basic_bigint<B2, S2> const& rhs) noexcept
 	{
@@ -376,7 +376,7 @@ private:
 		return m_value.template to_basic_string<CharT>();
 	}
 
-	BKSGE_CXX14_CONSTEXPR bksge::size_t
+	BKSGE_CXX14_CONSTEXPR std::size_t
 	hash() const BKSGE_NOEXCEPT
 	{
 		return m_value.hash();
@@ -586,34 +586,34 @@ operator>>(BigInt1 const& lhs, BigInt2 const& rhs) noexcept
 	return tmp >>= CT(rhs);
 }
 
-template <bksge::size_t B, bool S>
+template <std::size_t B, bool S>
 bksge::string to_string(basic_bigint<B, S> const& val)
 {
 	return bksge::detail::bigint_access::to_basic_string<char>(val);
 }
 
-template <bksge::size_t B, bool S>
+template <std::size_t B, bool S>
 bksge::wstring to_wstring(basic_bigint<B, S> const& val)
 {
 	return bksge::detail::bigint_access::to_basic_string<wchar_t>(val);
 }
 
-//template <bksge::size_t B, bool S>
+//template <std::size_t B, bool S>
 //bksge::to_chars_result
 //to_chars(char* first, char* last, basic_bigint<B, S> const& value, int base = 10);
 
-//template <bksge::size_t B, bool S>
+//template <std::size_t B, bool S>
 //bksge::from_chars_result
 //from_chars(const char* first, const char* last, basic_bigint<B, S>& value, int base = 10);
 
-template <typename Char, typename Traits, bksge::size_t B, bool S>
+template <typename Char, typename Traits, std::size_t B, bool S>
 std::basic_ostream<Char, Traits>&
 operator<<(std::basic_ostream<Char, Traits>& os, basic_bigint<B, S> const& val)
 {
 	return os << bksge::detail::bigint_access::to_basic_string<Char>(val);
 }
 
-template <typename Char, typename Traits, bksge::size_t B, bool S>
+template <typename Char, typename Traits, std::size_t B, bool S>
 std::basic_istream<Char, Traits>&
 operator>>(std::basic_istream<Char, Traits>& is, basic_bigint<B, S>& val)
 {
@@ -632,10 +632,10 @@ operator>>(std::basic_istream<Char, Traits>& is, basic_bigint<B, S>& val)
 namespace BKSGE_HASH_NAMESPACE
 {
 
-template <bksge::size_t B, bool S>
+template <std::size_t B, bool S>
 struct hash<bksge::basic_bigint<B, S>>
 {
-	BKSGE_CXX14_CONSTEXPR bksge::size_t
+	BKSGE_CXX14_CONSTEXPR std::size_t
 	operator()(bksge::basic_bigint<B, S> const& x) const BKSGE_NOEXCEPT
 	{
 		return bksge::detail::bigint_access::hash(x);
@@ -647,7 +647,7 @@ struct hash<bksge::basic_bigint<B, S>>
 namespace std
 {
 
-template <bksge::size_t Bits, bool Signed>
+template <std::size_t Bits, bool Signed>
 class numeric_limits<bksge::basic_bigint<Bits, Signed>>
 {
 private:

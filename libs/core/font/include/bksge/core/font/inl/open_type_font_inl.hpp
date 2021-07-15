@@ -61,12 +61,13 @@
 #include <bksge/core/font/otf/vmtx.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
 
 BKSGE_INLINE
-OpenTypeFont::OpenTypeFont(bksge::uint8_t const* ptr, bksge::size_t size)
+OpenTypeFont::OpenTypeFont(bksge::uint8_t const* ptr, std::size_t size)
 {
 	(void)size;
 	m_table_directory = bksge::make_unique<otf::TableDirectory>(ptr);

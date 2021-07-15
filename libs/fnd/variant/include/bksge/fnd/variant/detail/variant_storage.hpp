@@ -20,8 +20,8 @@
 #include <bksge/fnd/memory/destroy_at.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/in_place_index.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 BKSGE_WARNING_PUSH();
 BKSGE_WARNING_DISABLE_MSVC(4702);	// unreachable code
@@ -45,7 +45,7 @@ struct VariantStorage<false, Types...>
 		: m_index(static_cast<index_type>(bksge::variant_npos))
 	{}
 
-	template <bksge::size_t N, typename... Args>
+	template <std::size_t N, typename... Args>
 	constexpr
 	VariantStorage(bksge::in_place_index_t<N>, Args&&... args)
 		: m_u(bksge::in_place_index_t<N>{}, bksge::forward<Args>(args)...)
@@ -102,7 +102,7 @@ struct VariantStorage<true, Types...>
 		: m_index(static_cast<index_type>(bksge::variant_npos))
 	{}
 
-	template <bksge::size_t N, typename... Args>
+	template <std::size_t N, typename... Args>
 	constexpr
 	VariantStorage(bksge::in_place_index_t<N>, Args&&... args)
 		: m_u(bksge::in_place_index_t<N>{}, bksge::forward<Args>(args)...)

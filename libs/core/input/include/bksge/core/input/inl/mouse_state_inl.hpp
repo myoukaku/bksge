@@ -10,7 +10,7 @@
 #define BKSGE_CORE_INPUT_INL_MOUSE_STATE_INL_HPP
 
 #include <bksge/core/input/mouse_state.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -29,28 +29,28 @@ BKSGE_INLINE auto
 MouseState::pressed(MouseButton button) const
 -> bool
 {
-	return m_buttons[static_cast<bksge::size_t>(button)];
+	return m_buttons[static_cast<std::size_t>(button)];
 }
 
 BKSGE_INLINE auto
 MouseState::pressed(MouseButton button)
 -> Buttons::reference
 {
-	return m_buttons[static_cast<bksge::size_t>(button)];
+	return m_buttons[static_cast<std::size_t>(button)];
 }
 
 BKSGE_INLINE auto
 MouseState::velocity(MouseAxis axis) const
 -> float
 {
-	return m_velocities[static_cast<bksge::size_t>(axis)];
+	return m_velocities[static_cast<std::size_t>(axis)];
 }
 
 BKSGE_INLINE auto
 MouseState::velocity(MouseAxis axis)
 -> Velocities::reference
 {
-	return m_velocities[static_cast<bksge::size_t>(axis)];
+	return m_velocities[static_cast<std::size_t>(axis)];
 }
 
 BKSGE_INLINE auto

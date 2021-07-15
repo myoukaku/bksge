@@ -11,10 +11,10 @@
 
 #include <bksge/fnd/bigint/detail/get_digits.hpp>
 #include <bksge/fnd/bigint/detail/construct_from_integral.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/concepts/integral.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -35,7 +35,7 @@ compare(VectorType const& lhs, VectorType const& rhs) noexcept
 	if (NA > NB) { return  1; }
 	if (NA < NB) { return -1; }
 
-	for (bksge::size_t i = 0; i < NA; ++i)
+	for (std::size_t i = 0; i < NA; ++i)
 	{
 		auto const j = NA - i - 1;
 		if (lhs[j] > rhs[j]) { return  1; }

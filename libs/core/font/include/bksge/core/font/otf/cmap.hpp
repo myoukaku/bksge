@@ -16,6 +16,7 @@
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/variant.hpp>
 #include <bksge/fnd/cstdint.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -126,7 +127,7 @@ struct CMapTable
 			bksge::uint16_t GetGlyphIndex(bksge::uint32_t char_code) const
 			{
 				auto const segCount = endCode.size();
-				for (bksge::size_t i = 0; i < segCount; ++i)
+				for (std::size_t i = 0; i < segCount; ++i)
 				{
 					if (char_code <= endCode[i])
 					{

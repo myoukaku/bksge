@@ -13,10 +13,10 @@
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/algorithm/min.hpp>
 #include <bksge/fnd/cmath/round_up.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -24,7 +24,7 @@ namespace bksge
 namespace render
 {
 
-inline bksge::size_t
+inline std::size_t
 GetBitsPerPixel(TextureFormat format)
 {
 	switch (format)
@@ -78,7 +78,7 @@ GetBitsPerPixel(TextureFormat format)
 	return 0;
 }
 
-BKSGE_INLINE bksge::size_t
+BKSGE_INLINE std::size_t
 GetSizeInBytes(
 	TextureFormat format,
 	bksge::uint32_t width,
@@ -87,18 +87,18 @@ GetSizeInBytes(
 	return (width * height * GetBitsPerPixel(format)) / 8;
 }
 
-BKSGE_INLINE bksge::size_t
+BKSGE_INLINE std::size_t
 GetStrideInBytes(TextureFormat format, bksge::uint32_t width)
 {
 	return (width * GetBitsPerPixel(format)) / 8;
 }
 
-BKSGE_INLINE bksge::size_t
+BKSGE_INLINE std::size_t
 GetMipmappedSizeInBytes(
 	TextureFormat format,
 	bksge::uint32_t width,
 	bksge::uint32_t height,
-	bksge::size_t mipmap_level)
+	std::size_t mipmap_level)
 {
 	if (format == TextureFormat::kUndefined ||
 		width == 0 ||
@@ -110,7 +110,7 @@ GetMipmappedSizeInBytes(
 
 	auto w = width;
 	auto h = height;
-	bksge::size_t size = 0;
+	std::size_t size = 0;
 
 	while (mipmap_level != 0)
 	{

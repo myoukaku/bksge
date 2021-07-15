@@ -10,7 +10,7 @@
 #define BKSGE_CORE_INPUT_DETAIL_KEYBOARD_MANAGER_BASE_HPP
 
 #include <bksge/core/input/keyboard_state.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -41,7 +41,7 @@ public:
 	/**
 	 *	@brief	キーボードの状態を取得します
 	 */
-	KeyboardState const& state(bksge::size_t index) const
+	KeyboardState const& state(std::size_t index) const
 	{
 		return VGetState(index);
 	}
@@ -49,7 +49,7 @@ public:
 private:
 	virtual void VUpdate(void) = 0;
 
-	virtual KeyboardState const& VGetState(bksge::size_t index) const = 0;
+	virtual KeyboardState const& VGetState(std::size_t index) const = 0;
 };
 
 }	// namespace input

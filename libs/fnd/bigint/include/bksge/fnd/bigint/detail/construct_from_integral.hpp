@@ -19,8 +19,8 @@
 #include <bksge/fnd/ranges/size.hpp>
 #include <bksge/fnd/ranges/range_value_t.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -38,7 +38,7 @@ template <
 	typename VectorType,
 	typename ElementType,
 	typename Integral,
-	bksge::size_t N = sizeof(Integral) / sizeof(ElementType),
+	std::size_t N = sizeof(Integral) / sizeof(ElementType),
 	typename = bksge::enable_if_t<N != 0>
 >
 inline BKSGE_CXX14_CONSTEXPR VectorType
@@ -46,7 +46,7 @@ construct_from_integral_impl(Integral value, bksge::detail::overload_priority<1>
 {
 	auto ret = bigint_algo::construct_from_size<VectorType>(N);
 	auto const size = bksge::ranges::size(ret);
-	for (bksge::size_t i = 0; i < size && value != 0; ++i)
+	for (std::size_t i = 0; i < size && value != 0; ++i)
 	{
 		ret[i] = bigint_algo::lo<ElementType>(value);
 		value  = bigint_algo::hi<ElementType>(value);

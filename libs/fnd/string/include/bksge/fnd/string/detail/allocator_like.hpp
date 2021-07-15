@@ -9,11 +9,11 @@
 #ifndef BKSGE_FND_STRING_DETAIL_ALLOCATOR_LIKE_HPP
 #define BKSGE_FND_STRING_DETAIL_ALLOCATOR_LIKE_HPP
 
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/void_t.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -28,7 +28,7 @@ concept allocator_like =
 	requires(Allocator& alloc)
 	{
 		typename Allocator::value_type;
-		alloc.allocate(bksge::declval<bksge::size_t>());
+		alloc.allocate(bksge::declval<std::size_t>());
 	};
 
 #else
@@ -39,7 +39,7 @@ struct allocator_like : public bksge::false_type {};
 template <typename Allocator>
 struct allocator_like<Allocator,
 	bksge::void_t<typename Allocator::value_type,
-	decltype(bksge::declval<Allocator&>().allocate(bksge::size_t{}))>>
+	decltype(bksge::declval<Allocator&>().allocate(std::size_t{}))>>
 	: public bksge::true_type {};
 
 #endif

@@ -13,8 +13,8 @@
 #include <bksge/core/math/detail/vector_base.hpp>
 #include <bksge/core/math/detail/vector_functions.hpp>
 #include <bksge/core/math/vector.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -22,7 +22,7 @@ namespace bksge
 namespace math
 {
 
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 class Scale : public detail::VectorBase<T, N>
 {
 };
@@ -30,7 +30,7 @@ class Scale : public detail::VectorBase<T, N>
 /**
  *	@brief	Scale *= Scale
  */
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 inline BKSGE_CXX14_CONSTEXPR Scale<T, N>&
 operator*=(Scale<T, N>& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
 {
@@ -40,7 +40,7 @@ operator*=(Scale<T, N>& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
 /**
  *	@brief	Scale * Scale -> Scale
  */
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 inline BKSGE_CONSTEXPR Scale<T, N> const
 operator*(Scale<T, N> const& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
 {
@@ -50,7 +50,7 @@ operator*(Scale<T, N> const& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
 /**
  *	@brief	Scale /= Scale
  */
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 inline BKSGE_CXX14_CONSTEXPR Scale<T, N>&
 operator/=(Scale<T, N>& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
 {
@@ -60,7 +60,7 @@ operator/=(Scale<T, N>& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
 /**
  *	@brief	Scale / Scale -> Scale
  */
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 inline BKSGE_CONSTEXPR Scale<T, N> const
 operator/(Scale<T, N> const& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
 {
@@ -70,7 +70,7 @@ operator/(Scale<T, N> const& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
 /**
  *	@brief	Vector *= Scale
  */
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 inline BKSGE_CXX14_CONSTEXPR Vector<T, N>&
 operator*=(Vector<T, N>& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
 {
@@ -80,7 +80,7 @@ operator*=(Vector<T, N>& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
 /**
  *	@brief	Vector * Scale -> Vector
  */
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 inline BKSGE_CONSTEXPR Vector<T, N> const
 operator*(Vector<T, N> const& lhs, Scale<T, N> const& rhs) BKSGE_NOEXCEPT
 {
@@ -100,7 +100,7 @@ namespace BKSGE_TUPLE_NAMESPACE
 /**
  *	@brief	tuple_size
  */
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 struct tuple_size<bksge::math::Scale<T, N>>
 	: public tuple_size<bksge::math::detail::VectorBase<T, N>>
 {};
@@ -108,7 +108,7 @@ struct tuple_size<bksge::math::Scale<T, N>>
 /**
  *	@brief	tuple_element
  */
-template <bksge::size_t I, typename T, bksge::size_t N>
+template <std::size_t I, typename T, std::size_t N>
 struct tuple_element<I, bksge::math::Scale<T, N>>
 	: public tuple_element<I, bksge::math::detail::VectorBase<T, N>>
 {};
@@ -123,7 +123,7 @@ namespace BKSGE_HASH_NAMESPACE
 /**
  *	@brief	hash
  */
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 struct hash<bksge::math::Scale<T, N>>
 	: public hash<bksge::math::detail::VectorBase<T, N>>
 {};

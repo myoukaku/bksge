@@ -18,8 +18,8 @@
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/ranges/range_value_t.hpp>
 #include <bksge/fnd/ranges/size.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -45,7 +45,7 @@ sub(VectorType& lhs, VectorType const& rhs)
 	auto const N = ranges::size(lhs);
 
 	double_element_type carry = 0;
-	bksge::size_t i = 0;
+	std::size_t i = 0;
 	for (; i < NB; ++i)
 	{
 		auto t = double_element_type(lhs[i]) - rhs[i] + carry;

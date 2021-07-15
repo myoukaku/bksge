@@ -195,8 +195,8 @@ operator<<(std::basic_ostream<CharT, Traits>& os, Transform3<T> const& rhs)
 }	// namespace bksge
 
 #include <bksge/fnd/functional/hash_combine.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/functional/hash.hpp>
+#include <cstddef>
 
 namespace BKSGE_HASH_NAMESPACE
 {
@@ -207,7 +207,7 @@ namespace BKSGE_HASH_NAMESPACE
 template <typename T>
 struct hash<bksge::math::Transform3<T>>
 {
-	bksge::size_t operator()(bksge::math::Transform3<T> const& arg) const
+	std::size_t operator()(bksge::math::Transform3<T> const& arg) const
 	{
 		return bksge::hash_combine(
 			arg.position(),

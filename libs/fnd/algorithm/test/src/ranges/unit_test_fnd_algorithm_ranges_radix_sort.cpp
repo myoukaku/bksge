@@ -15,6 +15,7 @@
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 //#include <chrono>
+#include <cstddef>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
 
@@ -144,7 +145,7 @@ inline bool test02()
 		unsigned int const min = 0;
 		unsigned int const max = 0xFFFFFFFF;
 		bksge::uniform_int_distribution<unsigned int> dist(min, max);
-		bksge::size_t const n = 100;
+		std::size_t const n = 100;
 		bksge::vector<unsigned int> v(n);
 		for (auto& x : v)
 		{
@@ -165,7 +166,7 @@ GTEST_TEST(AlgorithmTest, RangesRadixSortTest)
 #if 0
 	namespace ranges = bksge::ranges;
 	{
-		bksge::size_t const n_tbl[] =
+		std::size_t const n_tbl[] =
 		{
 			10,
 			100,

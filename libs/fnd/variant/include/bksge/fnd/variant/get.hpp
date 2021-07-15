@@ -13,8 +13,8 @@
 
 #if defined(BKSGE_USE_STD_VARIANT)
 
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <utility>
+#include <cstddef>
 
 namespace bksge
 {
@@ -22,28 +22,28 @@ namespace bksge
 //using std::get;
 
 #if 0
-template <bksge::size_t I, typename... Types>
+template <std::size_t I, typename... Types>
 BKSGE_CONSTEXPR std::variant_alternative_t<I, std::variant<Types...>>&
 get(std::variant<Types...>& v)
 {
 	return std::get<I>(v);
 }
 
-template <bksge::size_t I, typename... Types>
+template <std::size_t I, typename... Types>
 BKSGE_CONSTEXPR std::variant_alternative_t<I, std::variant<Types...>>&&
 get(std::variant<Types...>&& v)
 {
 	return std::get<I>(std::move(v));
 }
 
-template <bksge::size_t I, typename... Types>
+template <std::size_t I, typename... Types>
 BKSGE_CONSTEXPR std::variant_alternative_t<I, std::variant<Types...>> const&
 get(std::variant<Types...> const& v)
 {
 	return std::get<I>(v);
 }
 
-template <bksge::size_t I, typename... Types>
+template <std::size_t I, typename... Types>
 BKSGE_CONSTEXPR std::variant_alternative_t<I, std::variant<Types...>> const&&
 get(std::variant<Types...> const&& v)
 {
@@ -85,8 +85,8 @@ get(std::variant<Types...> const&& v)
 
 #include <bksge/fnd/variant/fwd/variant_fwd.hpp>
 #include <bksge/fnd/variant/variant_alternative.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -103,19 +103,19 @@ namespace bksge
  *
  *	@return		v.index() == I なら、variant内の値への参照
  */
-template <bksge::size_t I, typename... Types>
+template <std::size_t I, typename... Types>
 BKSGE_CXX14_CONSTEXPR variant_alternative_t<I, variant<Types...>>&
 get(variant<Types...>& v);
 
-template <bksge::size_t I, typename... Types>
+template <std::size_t I, typename... Types>
 BKSGE_CXX14_CONSTEXPR variant_alternative_t<I, variant<Types...>>&&
 get(variant<Types...>&& v);
 
-template <bksge::size_t I, typename... Types>
+template <std::size_t I, typename... Types>
 BKSGE_CXX14_CONSTEXPR variant_alternative_t<I, variant<Types...>> const&
 get(variant<Types...> const& v);
 
-template <bksge::size_t I, typename... Types>
+template <std::size_t I, typename... Types>
 BKSGE_CXX14_CONSTEXPR variant_alternative_t<I, variant<Types...>> const&&
 get(variant<Types...> const&& v);
 

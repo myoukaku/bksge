@@ -13,7 +13,6 @@
 #include <bksge/fnd/bit/bitsof.hpp>
 #include <bksge/fnd/bit/countr_zero.hpp>
 #include <bksge/fnd/bit/has_single_bit.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/functional/identity.hpp>
 #include <bksge/fnd/functional/invoke.hpp>
 #include <bksge/fnd/iterator/ranges/distance.hpp>
@@ -21,6 +20,7 @@
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -29,18 +29,18 @@ namespace detail
 {
 
 template <
-	bksge::size_t Radix,
+	std::size_t Radix,
 	typename Iter1,
 	typename Iter2,
 	typename Proj,
 	typename SizeType
 >
 inline BKSGE_CXX14_CONSTEXPR void
-radix_sort_loop(Iter1 input, Iter2 output, Proj proj, SizeType size, bksge::size_t shift)
+radix_sort_loop(Iter1 input, Iter2 output, Proj proj, SizeType size, std::size_t shift)
 {
-	bksge::size_t const Mask = Radix - 1;
+	std::size_t const Mask = Radix - 1;
 
-	bksge::size_t counts[Radix] = {};
+	std::size_t counts[Radix] = {};
 
 	// Count occurrences
 	for (SizeType i = 0; i < size; ++i)
@@ -50,7 +50,7 @@ radix_sort_loop(Iter1 input, Iter2 output, Proj proj, SizeType size, bksge::size
 	}
 
 	// Prefix Sum
-	for (bksge::size_t i = 1; i < Radix; ++i)
+	for (std::size_t i = 1; i < Radix; ++i)
 	{
 		counts[i] += counts[i - 1];
 	}
@@ -72,7 +72,7 @@ template <
 inline BKSGE_CXX14_CONSTEXPR void
 radix_sort(RandomAccessIterator first, RandomAccessIterator last, Proj proj = {})
 {
-	bksge::size_t const Radix = 0x100;
+	std::size_t const Radix = 0x100;
 	static_assert(bksge::has_single_bit(Radix), "");
 
 	using value_t = bksge::iter_value_t<RandomAccessIterator>;
@@ -80,7 +80,7 @@ radix_sort(RandomAccessIterator first, RandomAccessIterator last, Proj proj = {}
 	bksge::vector<value_t> tmp(size);
 
 	int loop_count = 0;
-	for (bksge::size_t shift = 0;
+	for (std::size_t shift = 0;
 		shift < bksge::bitsof<value_t>();
 		shift += bksge::countr_zero(Radix))
 	{

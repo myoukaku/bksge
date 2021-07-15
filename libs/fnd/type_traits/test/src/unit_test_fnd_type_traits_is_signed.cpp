@@ -7,11 +7,11 @@
  */
 
 #include <bksge/fnd/type_traits/is_signed.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstdint>	// WCHAR_MIN
 #include <climits>	// CHAR_MIN
+#include <cstddef>
 #include <gtest/gtest.h>
 #include "type_traits_test_utility.hpp"
 
@@ -67,7 +67,7 @@ BKSGE_IS_SIGNED_TEST(false, unsigned int);
 BKSGE_IS_SIGNED_TEST(false, unsigned short);
 BKSGE_IS_SIGNED_TEST(false, unsigned long);
 BKSGE_IS_SIGNED_TEST(false, unsigned long long);
-BKSGE_IS_SIGNED_TEST(false, bksge::size_t);
+BKSGE_IS_SIGNED_TEST(false, std::size_t);
 BKSGE_IS_SIGNED_TEST(true, float);
 BKSGE_IS_SIGNED_TEST(true, double);
 BKSGE_IS_SIGNED_TEST(true, long double);

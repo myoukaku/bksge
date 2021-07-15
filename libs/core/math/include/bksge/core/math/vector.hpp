@@ -13,10 +13,10 @@
 #include <bksge/core/math/detail/vector_base.hpp>
 #include <bksge/core/math/detail/vector_functions.hpp>
 #include <bksge/fnd/cmath/sqrt.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/numeric/ranges/inner_product.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -24,7 +24,7 @@ namespace bksge
 namespace math
 {
 
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 class Vector : public detail::VectorBase<T, N>
 {
 private:
@@ -41,7 +41,7 @@ public:
  *	@param	v2	ベクトルその２
  *	@return	v1とv2の内積
  */
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 inline BKSGE_CXX14_CONSTEXPR T
 Dot(Vector<T, N> const& v1, Vector<T, N> const& v2)
 {
@@ -54,7 +54,7 @@ Dot(Vector<T, N> const& v1, Vector<T, N> const& v2)
  *	@param	v	対象となるベクトル
  *	@return	vの長さの２乗
  */
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 inline BKSGE_CONSTEXPR T
 SquaredLength(Vector<T, N> const& v)
 {
@@ -67,7 +67,7 @@ SquaredLength(Vector<T, N> const& v)
  *	@param	v	対象となるベクトル
  *	@return	vの長さ
  */
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 inline BKSGE_CONSTEXPR bksge::float_promote_t<T>
 Length(Vector<T, N> const& v)
 {
@@ -83,7 +83,7 @@ Length(Vector<T, N> const& v)
  *	@param	v	対象となるベクトル
  *	@return	vを正規化したベクトル
  */
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 inline BKSGE_CONSTEXPR Vector<T, N>
 Normalized(Vector<T, N> const& v)
 {
@@ -106,7 +106,7 @@ namespace BKSGE_TUPLE_NAMESPACE
 /**
  *	@brief	tuple_size
  */
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 struct tuple_size<bksge::math::Vector<T, N>>
 	: public tuple_size<bksge::math::detail::VectorBase<T, N>>
 {};
@@ -114,7 +114,7 @@ struct tuple_size<bksge::math::Vector<T, N>>
 /**
  *	@brief	tuple_element
  */
-template <bksge::size_t I, typename T, bksge::size_t N>
+template <std::size_t I, typename T, std::size_t N>
 struct tuple_element<I, bksge::math::Vector<T, N>>
 	: public tuple_element<I, bksge::math::detail::VectorBase<T, N>>
 {};
@@ -129,7 +129,7 @@ namespace BKSGE_HASH_NAMESPACE
 /**
  *	@brief	hash
  */
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 struct hash<bksge::math::Vector<T, N>>
 	: public hash<bksge::math::detail::VectorBase<T, N>>
 {};

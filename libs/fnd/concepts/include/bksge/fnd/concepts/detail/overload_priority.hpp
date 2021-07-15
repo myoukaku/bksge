@@ -9,7 +9,7 @@
 #ifndef BKSGE_FND_CONCEPTS_DETAIL_OVERLOAD_PRIORITY_HPP
 #define BKSGE_FND_CONCEPTS_DETAIL_OVERLOAD_PRIORITY_HPP
 
-#include <bksge/fnd/cstddef/size_t.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -17,7 +17,7 @@ namespace bksge
 namespace detail
 {
 
-template <bksge::size_t N>
+template <std::size_t N>
 struct overload_priority : public overload_priority<N - 1>
 {};
 

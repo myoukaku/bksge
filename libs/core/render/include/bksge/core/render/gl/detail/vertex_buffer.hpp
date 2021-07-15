@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_GL_DETAIL_VERTEX_BUFFER_HPP
 
 #include <bksge/core/render/gl/detail/gl_h.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -27,7 +27,7 @@ namespace gl
 class VertexBuffer
 {
 public:
-	explicit VertexBuffer(void const* src, bksge::size_t size);
+	explicit VertexBuffer(void const* src, std::size_t size);
 
 	~VertexBuffer();
 

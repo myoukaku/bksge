@@ -27,7 +27,6 @@ using std::basic_string_view;
 #include <bksge/fnd/concepts/convertible_to.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/cstddef/ptrdiff_t.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/iterator/reverse_iterator.hpp>
 #include <bksge/fnd/iterator/iter_value_t.hpp>
 #include <bksge/fnd/iterator/concepts/contiguous_iterator.hpp>
@@ -47,6 +46,7 @@ using std::basic_string_view;
 #include <bksge/fnd/config.hpp>
 #include <limits>
 #include <ostream>
+#include <cstddef>
 
 namespace bksge
 {
@@ -70,7 +70,7 @@ public:
 	using iterator		            = const_iterator;
 	using const_reverse_iterator    = bksge::reverse_iterator<const_iterator>;
 	using reverse_iterator	        = const_reverse_iterator;
-	using size_type		            = bksge::size_t;
+	using size_type		            = std::size_t;
 	using difference_type	        = bksge::ptrdiff_t;
 
 	BKSGE_STATIC_CONSTEXPR size_type npos = size_type(-1);
@@ -711,7 +711,7 @@ private:
 		return static_cast<int>(diff);
 	}
 
-	bksge::size_t	m_len;
+	std::size_t		m_len;
 	CharT const*	m_str;
 };
 
@@ -934,8 +934,8 @@ operator<<(
 
 #include <bksge/fnd/functional/hash.hpp>
 #include <bksge/fnd/hash_functions/murmur_hash_3.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace BKSGE_HASH_NAMESPACE
 {
@@ -943,7 +943,7 @@ namespace BKSGE_HASH_NAMESPACE
 template <typename CharT, typename Traits>
 struct hash<bksge::basic_string_view<CharT, Traits>>
 {
-	BKSGE_CXX14_CONSTEXPR bksge::size_t
+	BKSGE_CXX14_CONSTEXPR std::size_t
 	operator()(bksge::basic_string_view<CharT, Traits> const& sv) const BKSGE_NOEXCEPT
 	{
 		return bksge::murmur_hash_3{}(sv.data(), sv.length());
@@ -956,7 +956,7 @@ struct hash<bksge::basic_string_view<CharT, Traits>>
 
 #include <bksge/fnd/ranges/concepts/enable_borrowed_range.hpp>
 #include <bksge/fnd/ranges/concepts/enable_view.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -984,34 +984,34 @@ BKSGE_WARNING_DISABLE_CLANG("-Wreserved-user-defined-literal");
 BKSGE_WARNING_DISABLE_GCC("-Wliteral-suffix");
 
 inline BKSGE_CONSTEXPR bksge::basic_string_view<char>
-operator""sv(char const* str, bksge::size_t len) BKSGE_NOEXCEPT
+operator""sv(char const* str, std::size_t len) BKSGE_NOEXCEPT
 {
 	return bksge::basic_string_view<char>{str, len};
 }
 
 inline BKSGE_CONSTEXPR bksge::basic_string_view<wchar_t>
-operator""sv(wchar_t const* str, bksge::size_t len) BKSGE_NOEXCEPT
+operator""sv(wchar_t const* str, std::size_t len) BKSGE_NOEXCEPT
 {
 	return bksge::basic_string_view<wchar_t>{str, len};
 }
 
 #if defined(BKSGE_HAS_CXX20_CHAR8_T)
 inline BKSGE_CONSTEXPR bksge::basic_string_view<char8_t>
-operator""sv(char8_t const* str, bksge::size_t len) BKSGE_NOEXCEPT
+operator""sv(char8_t const* str, std::size_t len) BKSGE_NOEXCEPT
 {
 	return bksge::basic_string_view<char8_t>{str, len};
 }
 #endif
 #if defined(BKSGE_HAS_CXX11_CHAR16_T)
 inline BKSGE_CONSTEXPR bksge::basic_string_view<char16_t>
-operator""sv(char16_t const* str, bksge::size_t len) BKSGE_NOEXCEPT
+operator""sv(char16_t const* str, std::size_t len) BKSGE_NOEXCEPT
 {
 	return bksge::basic_string_view<char16_t>{str, len};
 }
 #endif
 #if defined(BKSGE_HAS_CXX11_CHAR32_T)
 inline BKSGE_CONSTEXPR bksge::basic_string_view<char32_t>
-operator""sv(char32_t const* str, bksge::size_t len) BKSGE_NOEXCEPT
+operator""sv(char32_t const* str, std::size_t len) BKSGE_NOEXCEPT
 {
 	return bksge::basic_string_view<char32_t>{str, len};
 }

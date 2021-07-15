@@ -16,6 +16,7 @@
 #include <bksge/fnd/bigint/detail/shift_left.hpp>
 #include <bksge/fnd/ranges/range_value_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -48,9 +49,9 @@ multiply_naive(VectorType const& lhs, VectorType const& rhs)
 
 	VectorType result {0};
 
-	for (bksge::size_t i = 0; i < NA; ++i)
+	for (std::size_t i = 0; i < NA; ++i)
 	{
-		for (bksge::size_t j = 0; j < NB; ++j)
+		for (std::size_t j = 0; j < NB; ++j)
 		{
 			auto t = (double_element_type(lhs[i]) * rhs[j]);
 			auto tmp = bigint_algo::construct_from_integral<VectorType>(t);

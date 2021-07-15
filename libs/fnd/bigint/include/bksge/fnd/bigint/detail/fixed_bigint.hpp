@@ -15,12 +15,12 @@
 #include <bksge/fnd/concepts/arithmetic.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/concepts/detail/overload_priority.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/functional/hash_combine.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
 #include <bksge/fnd/array.hpp>
 #include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -30,21 +30,21 @@ namespace detail
 
 class arbitrary_bigint;
 
-template <bksge::size_t Bits, bool Signed>
+template <std::size_t Bits, bool Signed>
 class fixed_bigint
 {
 private:
-	template <bksge::size_t, bool>
+	template <std::size_t, bool>
 	friend class fixed_bigint;
 
 	friend class arbitrary_bigint;
 
 	using element_type = bksge::uint32_t;
-	static const bksge::size_t N = (Bits / 8) / sizeof(element_type);
+	static const std::size_t N = (Bits / 8) / sizeof(element_type);
 	using vector_type = bksge::array<element_type, N>;
 
 private:
-	template <bksge::size_t M>
+	template <std::size_t M>
 	static constexpr bksge::array<element_type, M>
 	abs(bksge::array<element_type, M> const& data) noexcept
 	{
@@ -78,7 +78,7 @@ public:
 		}
 	}
 
-	template <bksge::size_t B2, bool S2>
+	template <std::size_t B2, bool S2>
 	constexpr fixed_bigint(fixed_bigint<B2, S2> const& other) noexcept
 		: m_data{}
 	{
@@ -287,15 +287,15 @@ public:
 	}
 
 private:
-	template <bksge::size_t... Indices>
-	constexpr bksge::size_t
+	template <std::size_t... Indices>
+	constexpr std::size_t
 	hash_impl(bksge::index_sequence<Indices...>) const BKSGE_NOEXCEPT
 	{
 		return bksge::hash_combine(m_data[Indices]...);
 	}
 
 public:
-	constexpr bksge::size_t
+	constexpr std::size_t
 	hash() const BKSGE_NOEXCEPT
 	{
 		return hash_impl(bksge::make_index_sequence<N>{});

@@ -15,8 +15,8 @@
 //#include <bksge/fnd/range/irange.hpp>
 //#include <bksge/fnd/range/adaptor/as_array.hpp>
 #include <bksge/fnd/cstdint.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/utility/make_integer_sequence.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -72,7 +72,7 @@ sip_hash_impl(
 	auto state2 = key0 ^ UINT64_C(0x6c7967656e657261);
 	auto state3 = key1 ^ UINT64_C(0x7465646279746573);
 
-	bksge::size_t const bytes = last - first;
+	std::size_t const bytes = last - first;
 	auto const tail_size = bytes & 7;
 	auto const main_loop_end = first + bytes - tail_size;
 
@@ -94,7 +94,7 @@ sip_hash_impl(
 	// We're left with 0..7 bytes.
 	auto tail_word = static_cast<bksge::uint64_t>(bytes) << 56;
 
-	for (bksge::size_t i = 0; i < tail_size; ++i)
+	for (std::size_t i = 0; i < tail_size; ++i)
 	{
 		tail_word |= static_cast<bksge::uint64_t>(first[i]) << (i * 8);
 	}
@@ -120,14 +120,14 @@ sip_hash_impl(
 	return state0 ^ state1 ^ state2  ^ state3;
 }
 
-template <typename T, bksge::size_t N, T... Is>
+template <typename T, std::size_t N, T... Is>
 inline BKSGE_CONSTEXPR bksge::array<T, N>
 init_seed_impl(bksge::integer_sequence<T, Is...>)
 {
 	return {{Is...}};
 }
 
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 inline BKSGE_CONSTEXPR bksge::array<T, N>
 init_seed(bksge::array<T, N> const&)
 {

@@ -16,11 +16,11 @@
 #include <bksge/fnd/cmath/isinf.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/type_traits/conditional.hpp>
-#include <bksge/fnd/cstddef.hpp>
 #include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/array.hpp>
 #include <bksge/fnd/config.hpp>
 #include <limits>
+#include <cstddef>
 
 BKSGE_WARNING_PUSH();
 BKSGE_WARNING_DISABLE_MSVC(4309);	// truncation of constant value
@@ -118,7 +118,7 @@ protected:
 // なので、単純に型で処理を分岐することはできない。
 // また、binary80の場合はパディングがあるため、sizeof(T)で分岐することもできない。
 // numeric_limits<T>::digits で処理を分岐する。
-template <typename T, bksge::size_t = std::numeric_limits<T>::digits>
+template <typename T, std::size_t = std::numeric_limits<T>::digits>
 struct decompose_float_impl_t;
 
 // 単精度浮動小数点数 (32bit)

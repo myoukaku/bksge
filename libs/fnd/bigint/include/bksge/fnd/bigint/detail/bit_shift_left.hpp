@@ -23,8 +23,8 @@
 #include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/ranges/range_value_t.hpp>
 #include <bksge/fnd/ranges/size.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -52,7 +52,7 @@ bit_shift_left(VectorType& lhs, VectorType const& rhs)
 		auto shift = bigint_algo::to_arithmetic<double_element_type>(rem);
 		double_element_type carry = 0;
 		auto const N = ranges::size(lhs);
-		bksge::size_t i = 0;
+		std::size_t i = 0;
 		for (; i < N; ++i)
 		{
 			auto const t = carry + (double_element_type(lhs[i]) << shift);
@@ -69,7 +69,7 @@ bit_shift_left(VectorType& lhs, VectorType const& rhs)
 
 	if (!bigint_algo::is_zero(quo))
 	{
-		auto offset = bigint_algo::to_arithmetic<bksge::size_t>(quo);
+		auto offset = bigint_algo::to_arithmetic<std::size_t>(quo);
 		bigint_algo::shift_left(lhs, offset);
 	}
 }

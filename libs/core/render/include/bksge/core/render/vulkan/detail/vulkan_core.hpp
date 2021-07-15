@@ -12,10 +12,10 @@
 #include <vulkan/vulkan_core.h>
 #include <bksge/core/render/vulkan/detail/check_error.hpp>
 #include <bksge/core/math/extent2.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -61,7 +61,7 @@ public:
 		, m_count(1)
 	{}
 
-	template <bksge::size_t N>
+	template <std::size_t N>
 	BKSGE_CONSTEXPR ArrayProxy(T const (&data)[N]) BKSGE_NOEXCEPT
 		: m_ptr(data)
 		, m_count(N)

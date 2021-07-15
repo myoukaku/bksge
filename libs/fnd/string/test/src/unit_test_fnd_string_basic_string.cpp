@@ -26,6 +26,7 @@ BKSGE_WARNING_DISABLE_GCC("-Warray-bounds");
 #include <gtest/gtest.h>
 #include <vector>
 #include <new>
+#include <cstddef>
 #include "constexpr_test.hpp"
 #include "iterator_test.hpp"
 
@@ -300,7 +301,7 @@ class MyAllocator
 {
 public:
 	using value_type                             = T;
-	using size_type                              = bksge::size_t;
+	using size_type                              = std::size_t;
 	using difference_type                        = bksge::ptrdiff_t;
 	using propagate_on_container_copy_assignment = bksge::true_type;
 	using propagate_on_container_move_assignment = bksge::true_type;
@@ -313,12 +314,12 @@ public:
 	template <typename U>
 	constexpr MyAllocator(MyAllocator<U> const&) noexcept {}
 
-	BKSGE_NODISCARD T* allocate(bksge::size_t count)
+	BKSGE_NODISCARD T* allocate(std::size_t count)
 	{
 		return (T*)std::malloc(sizeof(T) * count);
 	}
 
-	void deallocate(T* ptr, bksge::size_t count)
+	void deallocate(T* ptr, std::size_t count)
 	{
 		(void)count;
 		std::free(ptr);
@@ -342,7 +343,7 @@ class MyAllocator2
 {
 public:
 	using value_type                             = T;
-	using size_type                              = bksge::size_t;
+	using size_type                              = std::size_t;
 	using difference_type                        = bksge::ptrdiff_t;
 	using propagate_on_container_copy_assignment = bksge::true_type;
 	using propagate_on_container_move_assignment = bksge::true_type;
@@ -355,12 +356,12 @@ public:
 	template <typename U>
 	constexpr MyAllocator2(MyAllocator2<U> const&) noexcept {}
 
-	BKSGE_NODISCARD T* allocate(bksge::size_t count)
+	BKSGE_NODISCARD T* allocate(std::size_t count)
 	{
 		return (T*)std::malloc(sizeof(T) * count);
 	}
 
-	void deallocate(T* ptr, bksge::size_t count)
+	void deallocate(T* ptr, std::size_t count)
 	{
 		(void)count;
 		std::free(ptr);
@@ -384,7 +385,7 @@ class MyAllocator3
 {
 public:
 	using value_type                             = T;
-	using size_type                              = bksge::size_t;
+	using size_type                              = std::size_t;
 	using difference_type                        = bksge::ptrdiff_t;
 	using propagate_on_container_copy_assignment = bksge::true_type;
 	using propagate_on_container_move_assignment = bksge::false_type;
@@ -397,12 +398,12 @@ public:
 	template <typename U>
 	constexpr MyAllocator3(MyAllocator3<U> const&) noexcept {}
 
-	BKSGE_NODISCARD T* allocate(bksge::size_t count)
+	BKSGE_NODISCARD T* allocate(std::size_t count)
 	{
 		return (T*)std::malloc(sizeof(T) * count);
 	}
 
-	void deallocate(T* ptr, bksge::size_t count)
+	void deallocate(T* ptr, std::size_t count)
 	{
 		(void)count;
 		std::free(ptr);

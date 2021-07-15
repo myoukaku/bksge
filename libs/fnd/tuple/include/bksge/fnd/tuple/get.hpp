@@ -27,29 +27,29 @@ namespace bksge
 #include <bksge/fnd/tuple/detail/index_of.hpp>
 #include <bksge/fnd/tuple/detail/exactly_once.hpp>
 #include <bksge/fnd/tuple/tuple_element.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
 
-template <bksge::size_t I, typename... Types>
+template <std::size_t I, typename... Types>
 BKSGE_CONSTEXPR bksge::tuple_element_t<I, tuple<Types...>>&
 get(tuple<Types...>& t) BKSGE_NOEXCEPT
 {
 	return tuple_detail::get_helper<I>(t);
 }
 
-template <bksge::size_t I, typename... Types>
+template <std::size_t I, typename... Types>
 BKSGE_CONSTEXPR bksge::tuple_element_t<I, tuple<Types...>> const&
 get(tuple<Types...> const& t) BKSGE_NOEXCEPT
 {
 	return tuple_detail::get_helper<I>(t);
 }
 
-template <bksge::size_t I, typename... Types>
+template <std::size_t I, typename... Types>
 BKSGE_CONSTEXPR bksge::tuple_element_t<I, tuple<Types...>>&&
 get(tuple<Types...>&& t) BKSGE_NOEXCEPT
 {
@@ -57,7 +57,7 @@ get(tuple<Types...>&& t) BKSGE_NOEXCEPT
 	return bksge::forward<element_type&&>(bksge::get<I>(t));
 }
 
-template <bksge::size_t I, typename... Types>
+template <std::size_t I, typename... Types>
 BKSGE_CONSTEXPR bksge::tuple_element_t<I, tuple<Types...>> const&&
 get(tuple<Types...> const&& t) BKSGE_NOEXCEPT
 {

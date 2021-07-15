@@ -7,9 +7,9 @@
  */
 
 #include <bksge/fnd/utility/in_place_index.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <cstddef>
 #include "constexpr_test.hpp"
 
 namespace bksge_utility_test
@@ -20,19 +20,19 @@ namespace in_place_index_test
 
 struct Foo
 {
-	BKSGE_CONSTEXPR Foo(bksge::size_t i)
+	BKSGE_CONSTEXPR Foo(std::size_t i)
 		: m_in_place_initialized(false)
 		, m_value(i)
 	{}
 
-	template <bksge::size_t I>
+	template <std::size_t I>
 	BKSGE_CONSTEXPR Foo(bksge::in_place_index_t<I>)
 		: m_in_place_initialized(true)
 		, m_value(I)
 	{}
 
 	bool           m_in_place_initialized;
-	bksge::size_t  m_value;
+	std::size_t  m_value;
 };
 
 GTEST_TEST(UtilityTest, InPlaceIndexTest)

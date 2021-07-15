@@ -9,10 +9,10 @@
 #include <bksge/core/render/blend_state.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/functional/hash.hpp>
 #include <gtest/gtest.h>
+#include <cstddef>
 #include <sstream>
 #include "serialize_test.hpp"
 
@@ -261,7 +261,7 @@ GTEST_TEST(Render_BlendState, HashTest)
 	s10.SetLogicOpEnable(true);
 	s11.SetLogicOperation(bksge::LogicOperation::kSet);
 
-	bksge::vector<bksge::size_t> v;
+	bksge::vector<std::size_t> v;
 	v.push_back(h(s1));
 	v.push_back(h(s2));
 	v.push_back(h(s3));

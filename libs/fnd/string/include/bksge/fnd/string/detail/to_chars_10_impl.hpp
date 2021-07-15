@@ -9,10 +9,10 @@
 #ifndef BKSGE_FND_STRING_DETAIL_TO_CHARS_10_IMPL_HPP
 #define BKSGE_FND_STRING_DETAIL_TO_CHARS_10_IMPL_HPP
 
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/type_traits/is_integral.hpp>
 #include <bksge/fnd/type_traits/is_unsigned.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -22,7 +22,7 @@ namespace detail
 
 template <typename T>
 inline void
-to_chars_10_impl(char* first, bksge::size_t len, T val) noexcept
+to_chars_10_impl(char* first, std::size_t len, T val) noexcept
 {
 	static_assert(bksge::is_integral<T>::value, "");
 	static_assert(bksge::is_unsigned<T>::value, "");
@@ -33,7 +33,7 @@ to_chars_10_impl(char* first, bksge::size_t len, T val) noexcept
 		"4041424344454647484950515253545556575859"
 		"6061626364656667686970717273747576777879"
 		"8081828384858687888990919293949596979899";
-	bksge::size_t pos = len - 1;
+	std::size_t pos = len - 1;
 	while (val >= 100)
 	{
 		auto const num = (val % 100) * 2;

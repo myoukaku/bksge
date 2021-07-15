@@ -10,7 +10,7 @@
 #define BKSGE_CORE_RENDER_DETAIL_CLASS_ID_HPP
 
 #include <bksge/core/render/detail/fwd/class_id_fwd.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
+#include <cstddef>
 #include <typeinfo>
 
 namespace bksge
@@ -25,7 +25,7 @@ namespace render
 class ClassId
 {
 public:
-	using value_type = bksge::size_t;
+	using value_type = std::size_t;
 
 	explicit ClassId(value_type const& value);
 

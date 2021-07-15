@@ -31,7 +31,7 @@ struct is_bounded_array
 #else
 
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -49,7 +49,7 @@ namespace bksge
 template <typename T>
 struct is_bounded_array : public bksge::false_type {};
 
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 struct is_bounded_array<T[N]> : public bksge::true_type {};
 
 }	// namespace bksge

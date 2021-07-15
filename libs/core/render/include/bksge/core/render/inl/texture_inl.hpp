@@ -10,12 +10,12 @@
 #define BKSGE_CORE_RENDER_INL_TEXTURE_INL_HPP
 
 #include <bksge/core/render/texture.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint8_t.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/memory/make_shared.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -35,7 +35,7 @@ BKSGE_INLINE
 Texture::Texture(
 	TextureFormat format,
 	ExtentType const& extent,
-	bksge::size_t mipmap_count,
+	std::size_t mipmap_count,
 	bksge::uint8_t const* src)
 	: m_format(format)
 	, m_extent(extent)
@@ -59,7 +59,7 @@ Texture::Texture(
 }
 
 BKSGE_INLINE
-Texture::Texture(TextureFormat format, ExtentType const& extent, bksge::size_t mipmap_count)
+Texture::Texture(TextureFormat format, ExtentType const& extent, std::size_t mipmap_count)
 	: Texture(format, extent, mipmap_count, nullptr)
 {}
 
@@ -99,13 +99,13 @@ bksge::uint32_t Texture::height(void) const
 }
 
 BKSGE_INLINE
-bksge::size_t Texture::mipmap_count(void) const
+std::size_t Texture::mipmap_count(void) const
 {
 	return m_mipmap_count;
 }
 
 BKSGE_INLINE
-bksge::size_t Texture::stride(void) const
+std::size_t Texture::stride(void) const
 {
 	return GetStrideInBytes(format(), width());
 }

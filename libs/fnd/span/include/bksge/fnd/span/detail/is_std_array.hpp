@@ -11,8 +11,8 @@
 
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/remove_cv.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/array.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -25,7 +25,7 @@ template <typename T>
 struct is_std_array_impl
 	: public bksge::false_type {};
 
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 struct is_std_array_impl<bksge::array<T, N>>
 	: public bksge::true_type {};
 

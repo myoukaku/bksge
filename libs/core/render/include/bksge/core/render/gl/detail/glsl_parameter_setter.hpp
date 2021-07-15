@@ -13,7 +13,7 @@
 #include <bksge/core/render/gl/detail/fwd/resource_pool_fwd.hpp>
 #include <bksge/core/render/gl/detail/gl_h.hpp>
 #include <bksge/core/render/detail/shader_parameter_base.hpp>
-#include <bksge/fnd/cstddef.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -52,7 +52,7 @@ private:
 template <::GLenum Type>
 class GlslParameterSetter;
 
-template <typename T, bksge::size_t N, bksge::size_t M = 1>
+template <typename T, std::size_t N, std::size_t M = 1>
 class GlslVectorParameterSetter : public GlslParameterSetterBase
 {
 public:

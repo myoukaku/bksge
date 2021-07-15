@@ -14,7 +14,6 @@
 #include <bksge/fnd/concepts/assignable_from.hpp>
 #include <bksge/fnd/concepts/detail/overload_priority.hpp>
 #include <bksge/fnd/concepts/detail/has_adl_swap.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/remove_reference.hpp>
 #include <bksge/fnd/type_traits/is_lvalue_reference.hpp>
@@ -23,6 +22,7 @@
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 #define BKSGE_NOEXCEPT_DECLTYPE_RETURN(...) \
 	BKSGE_NOEXCEPT_IF_EXPR(__VA_ARGS__)     \
@@ -57,7 +57,7 @@ private:
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(swap(bksge::forward<T>(t), bksge::forward<U>(u)))
 
 	template <
-		typename T, typename U, bksge::size_t N
+		typename T, typename U, std::size_t N
 #if !defined(BKSGE_HAS_CXX20_CONCEPTS)
 		, typename = decltype(bksge::declval<swap_fn const&>()(bksge::declval<T&>(), bksge::declval<U&>()))
 #endif
@@ -72,7 +72,7 @@ private:
 	impl(bksge::detail::overload_priority<1>, T (&t)[N], U (&u)[N])
 		BKSGE_NOEXCEPT_IF_EXPR(bksge::declval<swap_fn const&>()(*t, *u))
 	{
-		for (bksge::size_t i = 0; i < N; ++i)
+		for (std::size_t i = 0; i < N; ++i)
 		{
 			swap_fn{}(t[i], u[i]);
 		}

@@ -16,6 +16,7 @@
 #include <bksge/fnd/string.hpp>
 #include <bksge/fnd/cstddef.hpp>
 #include <gtest/gtest.h>
+#include <cstddef>
 
 namespace bksge_hash_functions_test
 {
@@ -39,12 +40,12 @@ TYPED_TEST_SUITE(MinimalPerfectHashTest, MinimalPerfectHashTestTypes);
 
 TYPED_TEST(MinimalPerfectHashTest, BasicTest)
 {
-	static const bksge::size_t MAX_NUM = 500;
+	static const std::size_t MAX_NUM = 500;
 
 	bksge::vector<bksge::string> t;
 	t.reserve(MAX_NUM);
 
-	for (bksge::size_t i = 0; i < MAX_NUM; i++)
+	for (std::size_t i = 0; i < MAX_NUM; i++)
 	{
 		t.push_back(bksge::to_string(i));
 	}
@@ -58,13 +59,13 @@ TYPED_TEST(MinimalPerfectHashTest, BasicTest)
 
 	bksge::vector<int> hash_tbl(mph.range());
 
-	for (bksge::size_t i = 0; i < t.size(); ++i)
+	for (std::size_t i = 0; i < t.size(); ++i)
 	{
 		hash_tbl[mph(t[i])]++;
 	}
 
 	// 全てのハッシュ値はただ1度だけ現れるはず
-	for (bksge::size_t i = 0; i < MAX_NUM; i++)
+	for (std::size_t i = 0; i < MAX_NUM; i++)
 	{
 		EXPECT_EQ(1, hash_tbl[i]);
 	}

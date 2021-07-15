@@ -13,9 +13,9 @@
 #include <bksge/fnd/bigint/detail/resize.hpp>
 #include <bksge/fnd/bigint/detail/remove_leading_zeros.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/ranges/size.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -36,7 +36,7 @@ bit_xor(VectorType& lhs, VectorType const& rhs)
 	bigint_algo::resize(lhs, bksge::max(NA, NB));
 	auto const N = bksge::ranges::size(lhs);
 
-	bksge::size_t i = 0;
+	std::size_t i = 0;
 	for (; i < NB; ++i)
 	{
 		lhs[i] ^= rhs[i];

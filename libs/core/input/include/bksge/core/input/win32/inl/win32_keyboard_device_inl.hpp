@@ -14,9 +14,9 @@
 
 #include <bksge/core/input/win32/win32_keyboard_device.hpp>
 #include <bksge/core/input/win32/diproperty.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint8_t.hpp>
 #include <bksge/fnd/array.hpp>
+#include <cstddef>
 
 #if defined(_MSC_VER)
 #	pragma comment (lib, "dinput8.lib")
@@ -366,7 +366,7 @@ Win32KeyboardDevice::ReadNonBuffered(void)
 		return;
 	}
 
-	for (bksge::size_t i = 0; i < buffer.size(); ++i)
+	for (std::size_t i = 0; i < buffer.size(); ++i)
 	{
 		if ((buffer[i] & 0x80) != 0)
 		{

@@ -13,9 +13,9 @@
 #include <bksge/fnd/bigint/detail/div_mod.hpp>
 #include <bksge/fnd/bigint/detail/is_zero.hpp>
 #include <bksge/fnd/ranges/range_value_t.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {

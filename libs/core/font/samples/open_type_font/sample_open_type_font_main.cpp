@@ -11,6 +11,7 @@
 #include <bksge/fnd/cstdint.hpp>
 #include <fstream>
 #include <iostream>
+#include <cstddef>
 
 int main()
 {
@@ -20,7 +21,7 @@ int main()
 //	const char* file_name = "font.ttf";
 	std::ifstream ifs(file_name, std::ios::binary | std::ios::ate);
 
-	auto const size = static_cast<bksge::size_t>(ifs.tellg());
+	auto const size = static_cast<std::size_t>(ifs.tellg());
 	ifs.seekg(0);
 
 	bksge::vector<bksge::uint8_t> buf(size);

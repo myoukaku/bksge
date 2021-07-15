@@ -9,10 +9,10 @@
 #include <bksge/core/render/blend_factor.hpp>
 #include <bksge/fnd/algorithm/is_unique.hpp>
 #include <bksge/fnd/algorithm/sort.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/functional/hash.hpp>
 #include <gtest/gtest.h>
+#include <cstddef>
 #include <sstream>
 #include "serialize_test.hpp"
 
@@ -93,7 +93,7 @@ GTEST_TEST(Render_BlendFactor, SerializeTest)
 GTEST_TEST(Render_BlendFactor, HashTest)
 {
 	bksge::hash<bksge::BlendFactor> h;
-	bksge::vector<bksge::size_t> v;
+	bksge::vector<std::size_t> v;
 	v.push_back(h(bksge::BlendFactor::kZero));
 	v.push_back(h(bksge::BlendFactor::kOne));
 	v.push_back(h(bksge::BlendFactor::kSrcColor));

@@ -11,12 +11,12 @@
 
 #include <bksge/fnd/bigint/detail/multiply.hpp>
 #include <bksge/fnd/bigint/detail/add.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/stdexcept/runtime_error.hpp>
 #include <bksge/fnd/ranges/range_value_t.hpp>
 #include <bksge/fnd/string_view.hpp>
 #include <bksge/fnd/config.hpp>
 #include <limits>
+#include <cstddef>
 
 namespace bksge
 {
@@ -100,11 +100,11 @@ char_to_int(char c)
 
 template <typename ElementType, typename CharT>
 inline BKSGE_CXX14_CONSTEXPR ElementType
-init_from_string_sub(bksge::basic_string_view<CharT>* str, bksge::size_t count, ElementType base, ElementType* out_multiplier)
+init_from_string_sub(bksge::basic_string_view<CharT>* str, std::size_t count, ElementType base, ElementType* out_multiplier)
 {
 	ElementType base_multiplier = 1;
 	ElementType val = 0;
-	bksge::size_t i = 0;
+	std::size_t i = 0;
 	for (auto c : *str)
 	{
 		auto const n = char_to_int<ElementType>(c);
@@ -137,7 +137,7 @@ init_from_string(VectorType& value, bksge::basic_string_view<CharT> str)
 	auto const sign = init_from_string_detail::sign_from_string(&str);
 	auto const base = init_from_string_detail::base_from_string<element_type>(&str);
 
-	bksge::size_t const count =
+	std::size_t const count =
 		base == 16 ?    std::numeric_limits<element_type>::digits / 4 - 1 :
 		base == 10 ?    std::numeric_limits<element_type>::digits10 :
 		base == 8 ?     std::numeric_limits<element_type>::digits / 3 - 1 :

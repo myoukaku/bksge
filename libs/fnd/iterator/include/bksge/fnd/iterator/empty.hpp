@@ -22,9 +22,9 @@ using std::empty;
 
 #else
 
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <initializer_list>
+#include <cstddef>
 
 namespace bksge
 {
@@ -35,7 +35,7 @@ BKSGE_NODISCARD BKSGE_CONSTEXPR auto empty(Container const& c) -> decltype(c.emp
 	return c.empty();
 }
 
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 BKSGE_NODISCARD BKSGE_CONSTEXPR bool empty(T const (&)[N]) BKSGE_NOEXCEPT
 {
 	return false;

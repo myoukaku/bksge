@@ -14,9 +14,9 @@
 #include <bksge/core/render/d3d_common/d3d12.hpp>
 #include <bksge/core/render/d3d_common/com_ptr.hpp>
 //#include <bksge/core/render/fwd/shader_parameter_map_fwd.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint8_t.hpp>
 #include <bksge/fnd/vector.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -56,7 +56,7 @@ public:
 		bksge::uint8_t*				m_mapped_resource;
 	};
 
-	Subresource AssignSubresource(bksge::size_t size);
+	Subresource AssignSubresource(std::size_t size);
 
 private:
 	::UINT GetSizeInBytes(void) const;
@@ -69,7 +69,7 @@ private:
 private:
 	ComPtr<ID3D12ResourceN>		m_resource;
 	bksge::uint8_t*				m_mapped_resource = nullptr;
-	bksge::size_t				m_offset = 0;
+	std::size_t				m_offset = 0;
 };
 
 }	// namespace d3d12

@@ -17,6 +17,7 @@
 #include <bksge/fnd/array.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -35,7 +36,7 @@ multiply(bksge::vector<T> const& lhs, bksge::vector<T> const& rhs)
 //	return multiply_ntt(lhs, rhs);
 }
 
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bksge::array<T, N>
 multiply(bksge::array<T, N> const& lhs, bksge::array<T, N> const& rhs)
 {

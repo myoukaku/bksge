@@ -10,6 +10,7 @@
 #define BKSGE_FND_BIGINT_DETAIL_BIGINT_ACCESS_HPP
 
 #include <bksge/fnd/string.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -35,7 +36,7 @@ public:
 	}
 
 	template <typename BigInt>
-	static BKSGE_CXX14_CONSTEXPR bksge::size_t
+	static BKSGE_CXX14_CONSTEXPR std::size_t
 	hash(BigInt const& x) BKSGE_NOEXCEPT
 	{
 		return x.hash();

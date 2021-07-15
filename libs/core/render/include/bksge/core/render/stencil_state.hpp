@@ -115,7 +115,7 @@ operator<<(std::basic_ostream<CharT, Traits>& os, StencilState const& rhs)
 
 #include <bksge/fnd/functional/hash.hpp>
 #include <bksge/fnd/functional/hash_combine.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
+#include <cstddef>
 
 namespace BKSGE_HASH_NAMESPACE
 {
@@ -123,7 +123,7 @@ namespace BKSGE_HASH_NAMESPACE
 template<>
 struct hash<bksge::render::StencilState>
 {
-	bksge::size_t operator()(bksge::render::StencilState const& arg) const
+	std::size_t operator()(bksge::render::StencilState const& arg) const
 	{
 		return bksge::hash_combine(
 			arg.enable(),

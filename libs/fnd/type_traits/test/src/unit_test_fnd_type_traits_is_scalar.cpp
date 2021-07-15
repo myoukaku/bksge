@@ -7,10 +7,10 @@
  */
 
 #include <bksge/fnd/type_traits/is_scalar.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstddef/nullptr_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <cstddef>
 #include "type_traits_test_utility.hpp"
 
 #if defined(BKSGE_HAS_CXX14_VARIABLE_TEMPLATES)
@@ -63,7 +63,7 @@ BKSGE_IS_SCALAR_TEST(true,  unsigned int);
 BKSGE_IS_SCALAR_TEST(true,  unsigned short);
 BKSGE_IS_SCALAR_TEST(true,  unsigned long);
 BKSGE_IS_SCALAR_TEST(true,  unsigned long long);
-BKSGE_IS_SCALAR_TEST(true,  bksge::size_t);
+BKSGE_IS_SCALAR_TEST(true,  std::size_t);
 BKSGE_IS_SCALAR_TEST(true,  float);
 BKSGE_IS_SCALAR_TEST(true,  double);
 BKSGE_IS_SCALAR_TEST(true,  long double);

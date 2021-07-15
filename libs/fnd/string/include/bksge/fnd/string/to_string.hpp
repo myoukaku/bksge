@@ -29,6 +29,7 @@ using std::to_string;
 #include <bksge/fnd/string/detail/to_chars_10_impl.hpp>
 #include <cstdio>	// snprintf
 #include <limits>
+#include <cstddef>
 
 namespace bksge
 {
@@ -36,7 +37,7 @@ namespace bksge
 namespace detail
 {
 
-template <bksge::size_t N, typename T>
+template <std::size_t N, typename T>
 inline bksge::string to_string_impl(char const* fmt, T val)
 {
 	char buf[N]{};

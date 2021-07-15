@@ -13,6 +13,7 @@
 #include <bksge/fnd/concepts/integral.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -28,7 +29,7 @@ namespace hi_detail
 
 template <BKSGE_REQUIRES_PARAM(bksge::integral, Integral)>
 inline BKSGE_CXX14_CONSTEXPR Integral
-rshift(Integral value, bksge::size_t n) noexcept
+rshift(Integral value, std::size_t n) noexcept
 {
 	return (n >= bksge::bitsof<Integral>()) ? 0 : (value >> n);
 }

@@ -10,9 +10,9 @@
 #define BKSGE_FND_TYPE_TRAITS_EXTENT_HPP
 
 #include <bksge/fnd/type_traits/detail/constant_wrapper.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <type_traits>
+#include <cstddef>
 
 namespace bksge
 {
@@ -39,7 +39,7 @@ struct extent
 
 template <typename T, unsigned int I = 0>
 BKSGE_INLINE_VAR BKSGE_CONSTEXPR
-bksge::size_t extent_v = extent<T, I>::value;
+std::size_t extent_v = extent<T, I>::value;
 
 #endif
 

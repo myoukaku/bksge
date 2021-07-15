@@ -11,7 +11,6 @@
 
 #include <bksge/fnd/algorithm/min.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/iterator/concepts/input_iterator.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_convertible.hpp>
@@ -24,11 +23,12 @@
 #include <initializer_list>
 #include <istream>
 #include <ostream>
+#include <cstddef>
 
 namespace bksge
 {
 
-template <typename CharT, bksge::size_t Capacity, typename Traits = bksge::char_traits<CharT>>
+template <typename CharT, std::size_t Capacity, typename Traits = bksge::char_traits<CharT>>
 class basic_static_string
 {
 private:
@@ -87,13 +87,13 @@ public:
 		: m_vec(n, ch)
 	{}
 
-	template <bksge::size_t N>
+	template <std::size_t N>
 	BKSGE_CXX14_CONSTEXPR
 	basic_static_string(basic_static_string<CharT, N, Traits> const& str, size_type pos)
 		: basic_static_string(str.begin() + pos, str.end())
 	{}
 
-	template <bksge::size_t N>
+	template <std::size_t N>
 	BKSGE_CXX14_CONSTEXPR
 	basic_static_string(basic_static_string<CharT, N, Traits> const& str, size_type pos, size_type n)
 		: basic_static_string(str.begin() + pos, bksge::min(n, str.size() - pos))
@@ -115,7 +115,7 @@ public:
 		: m_vec(first, last)
 	{}
 
-	template <bksge::size_t N>
+	template <std::size_t N>
 	BKSGE_CXX14_CONSTEXPR
 	basic_static_string(basic_static_string<CharT, N, Traits> const& other)
 		: basic_static_string(other.begin(), other.end())
@@ -126,7 +126,7 @@ public:
 		: basic_static_string(other.begin(), other.end())
 	{}
 
-	template <bksge::size_t N>
+	template <std::size_t N>
 	BKSGE_CXX14_CONSTEXPR
 	basic_static_string(basic_static_string<CharT, N, Traits>&& other)
 		: basic_static_string(other.begin(), other.end())
@@ -162,7 +162,7 @@ public:
 		return this->assign(str);
 	}
 
-	template <bksge::size_t N>
+	template <std::size_t N>
 	BKSGE_CXX14_CONSTEXPR basic_static_string&
 	operator=(basic_static_string<CharT, N, Traits> const& str)
 	{
@@ -175,7 +175,7 @@ public:
 		return this->assign(bksge::move(str));
 	}
 
-	template <bksge::size_t N>
+	template <std::size_t N>
 	BKSGE_CXX14_CONSTEXPR basic_static_string&
 	operator=(basic_static_string<CharT, N, Traits>&& str)
 	{
@@ -207,7 +207,7 @@ public:
 		return this->assign(t);
 	}
 
-	template <bksge::size_t N>
+	template <std::size_t N>
 	BKSGE_CXX14_CONSTEXPR basic_static_string&
 	operator+=(basic_static_string<CharT, N, Traits> const& str)
 	{
@@ -401,14 +401,14 @@ public:
 	}
 
 	// append
-	template <bksge::size_t N>
+	template <std::size_t N>
 	BKSGE_CXX14_CONSTEXPR basic_static_string&
 	append(basic_static_string<CharT, N, Traits> const& str)
 	{
 		return this->append(str.data(), str.size());
 	}
 
-	template <bksge::size_t N>
+	template <std::size_t N>
 	BKSGE_CXX14_CONSTEXPR basic_static_string&
 	append(basic_static_string<CharT, N, Traits> const& str, size_type pos, size_type n = npos)
 	{
@@ -466,21 +466,21 @@ public:
 	}
 
 	// assign
-	template <bksge::size_t N>
+	template <std::size_t N>
 	BKSGE_CXX14_CONSTEXPR basic_static_string&
 	assign(basic_static_string<CharT, N, Traits> const& str)
 	{
 		return this->assign(str.begin(), str.end());
 	}
 
-	template <bksge::size_t N>
+	template <std::size_t N>
 	BKSGE_CXX14_CONSTEXPR basic_static_string&
 	assign(basic_static_string<CharT, N, Traits>&& str)
 	{
 		return this->assign(str.begin(), str.end());
 	}
 
-	template <bksge::size_t N>
+	template <std::size_t N>
 	BKSGE_CXX14_CONSTEXPR basic_static_string&
 	assign(basic_static_string<CharT, N, Traits> const& str, size_type pos, size_type n = npos)
 	{
@@ -540,14 +540,14 @@ public:
 	}
 
 	// insert
-	template <bksge::size_t N>
+	template <std::size_t N>
 	BKSGE_CXX14_CONSTEXPR basic_static_string&
 	insert(size_type pos1, basic_static_string<CharT, N, Traits> const& str)
 	{
 		return this->insert(pos1, str.data(), str.size());
 	}
 
-	template <bksge::size_t N>
+	template <std::size_t N>
 	BKSGE_CXX14_CONSTEXPR basic_static_string&
 	insert(size_type pos1, basic_static_string<CharT, N, Traits> const& str,
 		   size_type pos2, size_type n = npos)
@@ -660,14 +660,14 @@ public:
 	}
 
 	// replace
-	template <bksge::size_t N>
+	template <std::size_t N>
 	BKSGE_CXX14_CONSTEXPR basic_static_string&
 	replace(size_type pos, size_type n, basic_static_string<CharT, N, Traits> const& str)
 	{
 		return this->replace(pos, n, str.data(), str.size());
 	}
 
-	template <bksge::size_t N>
+	template <std::size_t N>
 	BKSGE_CXX14_CONSTEXPR basic_static_string&
 	replace(size_type pos1, size_type n1, basic_static_string<CharT, N, Traits> const& str,
 			size_type pos2, size_type n2 = npos)
@@ -698,7 +698,7 @@ public:
 		return *this;
 	}
 
-	template <bksge::size_t N>
+	template <std::size_t N>
 	BKSGE_CXX14_CONSTEXPR basic_static_string&
 	replace(const_iterator i1, const_iterator i2, basic_static_string<CharT, N, Traits> const& str)
 	{
@@ -772,7 +772,7 @@ public:
 		return rlen;
 	}
 
-	template <bksge::size_t N>
+	template <std::size_t N>
 	BKSGE_CXX14_CONSTEXPR void
 	swap(basic_static_string<CharT, N, Traits>& s)
 	{
@@ -799,7 +799,7 @@ public:
 //	BKSGE_CONSTEXPR allocator_type get_allocator() const BKSGE_NOEXCEPT;
 
 	// find
-	template <bksge::size_t N>
+	template <std::size_t N>
 	BKSGE_CONSTEXPR size_type
 	find(basic_static_string<CharT, N, Traits> const& str, size_type pos = 0) const BKSGE_NOEXCEPT
 	{
@@ -833,7 +833,7 @@ public:
 	}
 
 	// rfind
-	template <bksge::size_t N>
+	template <std::size_t N>
 	BKSGE_CONSTEXPR size_type
 	rfind(basic_static_string<CharT, N, Traits> const& str, size_type pos = npos) const BKSGE_NOEXCEPT
 	{
@@ -867,7 +867,7 @@ public:
 	}
 
 	// find_first_of
-	template <bksge::size_t N>
+	template <std::size_t N>
 	BKSGE_CONSTEXPR size_type
 	find_first_of(basic_static_string<CharT, N, Traits> const& str, size_type pos = 0) const BKSGE_NOEXCEPT
 	{
@@ -901,7 +901,7 @@ public:
 	}
 
 	// find_last_of
-	template <bksge::size_t N>
+	template <std::size_t N>
 	BKSGE_CONSTEXPR size_type
 	find_last_of(basic_static_string<CharT, N, Traits> const& str, size_type pos = npos) const BKSGE_NOEXCEPT
 	{
@@ -935,7 +935,7 @@ public:
 	}
 
 	// find_first_not_of
-	template <bksge::size_t N>
+	template <std::size_t N>
 	BKSGE_CONSTEXPR size_type
 	find_first_not_of(basic_static_string<CharT, N, Traits> const& str, size_type pos = 0) const BKSGE_NOEXCEPT
 	{
@@ -969,7 +969,7 @@ public:
 	}
 
 	// find_last_not_of
-	template <bksge::size_t N>
+	template <std::size_t N>
 	BKSGE_CONSTEXPR size_type
 	find_last_not_of(basic_static_string<CharT, N, Traits> const& str, size_type pos = npos) const BKSGE_NOEXCEPT
 	{
@@ -1010,21 +1010,21 @@ public:
 	}
 
 	// compare
-	template <bksge::size_t N>
+	template <std::size_t N>
 	BKSGE_CXX14_CONSTEXPR int
 	compare(basic_static_string<CharT, N, Traits> const& str) const
 	{
 		return to_string_view(*this).compare(to_string_view(str));
 	}
 
-	template <bksge::size_t N>
+	template <std::size_t N>
 	BKSGE_CXX14_CONSTEXPR int
 	compare(size_type pos, size_type n, basic_static_string<CharT, N, Traits> const& str) const
 	{
 		return to_string_view(*this).compare(pos, n, to_string_view(str));
 	}
 
-	template <bksge::size_t N>
+	template <std::size_t N>
 	BKSGE_CXX14_CONSTEXPR int
 	compare(size_type pos1, size_type n1, basic_static_string<CharT, N, Traits> const& str,
 		    size_type pos2, size_type n2 = npos) const
@@ -1118,7 +1118,7 @@ public:
 
 // operator+
 
-template <typename CharT, bksge::size_t N1, bksge::size_t N2, typename Traits>
+template <typename CharT, std::size_t N1, std::size_t N2, typename Traits>
 inline BKSGE_CXX14_CONSTEXPR basic_static_string<CharT, N1, Traits>
 operator+(
 	basic_static_string<CharT, N1, Traits> const& lhs,
@@ -1129,7 +1129,7 @@ operator+(
 	return str;
 }
 
-template <typename CharT, bksge::size_t Capacity, typename Traits>
+template <typename CharT, std::size_t Capacity, typename Traits>
 inline BKSGE_CXX14_CONSTEXPR basic_static_string<CharT, Capacity, Traits>
 operator+(basic_static_string<CharT, Capacity, Traits> const& lhs, CharT const* rhs)
 {
@@ -1138,7 +1138,7 @@ operator+(basic_static_string<CharT, Capacity, Traits> const& lhs, CharT const* 
 	return str;
 }
 
-template <typename CharT, bksge::size_t Capacity, typename Traits>
+template <typename CharT, std::size_t Capacity, typename Traits>
 inline BKSGE_CXX14_CONSTEXPR basic_static_string<CharT, Capacity, Traits>
 operator+(basic_static_string<CharT, Capacity, Traits> const& lhs, CharT rhs)
 {
@@ -1147,7 +1147,7 @@ operator+(basic_static_string<CharT, Capacity, Traits> const& lhs, CharT rhs)
 	return str;
 }
 
-template <typename CharT, bksge::size_t Capacity, typename Traits>
+template <typename CharT, std::size_t Capacity, typename Traits>
 inline BKSGE_CXX14_CONSTEXPR basic_static_string<CharT, Capacity, Traits>
 operator+(CharT const* lhs, basic_static_string<CharT, Capacity, Traits> const& rhs)
 {
@@ -1156,7 +1156,7 @@ operator+(CharT const* lhs, basic_static_string<CharT, Capacity, Traits> const& 
 	return str;
 }
 
-template <typename CharT, bksge::size_t Capacity, typename Traits>
+template <typename CharT, std::size_t Capacity, typename Traits>
 inline BKSGE_CXX14_CONSTEXPR basic_static_string<CharT, Capacity, Traits>
 operator+(CharT lhs, basic_static_string<CharT, Capacity, Traits> const& rhs)
 {
@@ -1169,7 +1169,7 @@ operator+(CharT lhs, basic_static_string<CharT, Capacity, Traits> const& rhs)
 
 // operator==
 
-template <typename CharT, bksge::size_t N1, bksge::size_t N2, typename Traits>
+template <typename CharT, std::size_t N1, std::size_t N2, typename Traits>
 inline BKSGE_CONSTEXPR bool operator==(
 	basic_static_string<CharT, N1, Traits> const& lhs,
 	basic_static_string<CharT, N2, Traits> const& rhs) BKSGE_NOEXCEPT
@@ -1177,7 +1177,7 @@ inline BKSGE_CONSTEXPR bool operator==(
 	return lhs.compare(rhs) == 0;
 }
 
-template <typename CharT, bksge::size_t Capacity, typename Traits>
+template <typename CharT, std::size_t Capacity, typename Traits>
 inline BKSGE_CONSTEXPR bool operator==(
 	basic_static_string<CharT, Capacity, Traits> const& lhs,
 	CharT const* rhs)
@@ -1187,7 +1187,7 @@ inline BKSGE_CONSTEXPR bool operator==(
 
 #if defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
 
-template <typename CharT, bksge::size_t N1, bksge::size_t N2, typename Traits>
+template <typename CharT, std::size_t N1, std::size_t N2, typename Traits>
 inline BKSGE_CONSTEXPR auto
 operator<=>(
 	basic_static_string<CharT, N1, Traits> const& lhs,
@@ -1198,7 +1198,7 @@ operator<=>(
 	return static_cast<cat>(lhs.compare(rhs) <=> 0);
 }
 
-template <typename CharT, bksge::size_t Capacity, typename Traits>
+template <typename CharT, std::size_t Capacity, typename Traits>
 inline BKSGE_CONSTEXPR auto
 operator<=>(
 	basic_static_string<CharT, Capacity, Traits> const& lhs,
@@ -1211,7 +1211,7 @@ operator<=>(
 
 #else
 
-template <typename CharT, bksge::size_t Capacity, typename Traits>
+template <typename CharT, std::size_t Capacity, typename Traits>
 inline BKSGE_CONSTEXPR bool operator==(
 	CharT const* lhs,
 	basic_static_string<CharT, Capacity, Traits> const& rhs)
@@ -1219,7 +1219,7 @@ inline BKSGE_CONSTEXPR bool operator==(
 	return rhs.compare(lhs) == 0;
 }
 
-template <typename CharT, bksge::size_t N1, bksge::size_t N2, typename Traits>
+template <typename CharT, std::size_t N1, std::size_t N2, typename Traits>
 inline BKSGE_CONSTEXPR bool operator!=(
 	basic_static_string<CharT, N1, Traits> const& lhs,
 	basic_static_string<CharT, N2, Traits> const& rhs) BKSGE_NOEXCEPT
@@ -1227,7 +1227,7 @@ inline BKSGE_CONSTEXPR bool operator!=(
 	return !(lhs == rhs);
 }
 
-template <typename CharT, bksge::size_t Capacity, typename Traits>
+template <typename CharT, std::size_t Capacity, typename Traits>
 inline BKSGE_CONSTEXPR bool operator!=(
 	CharT const* lhs,
 	basic_static_string<CharT, Capacity, Traits> const& rhs)
@@ -1235,7 +1235,7 @@ inline BKSGE_CONSTEXPR bool operator!=(
 	return !(lhs == rhs);
 }
 
-template <typename CharT, bksge::size_t Capacity, typename Traits>
+template <typename CharT, std::size_t Capacity, typename Traits>
 inline BKSGE_CONSTEXPR bool operator!=(
 	basic_static_string<CharT, Capacity, Traits> const& lhs,
 	CharT const* rhs)
@@ -1243,7 +1243,7 @@ inline BKSGE_CONSTEXPR bool operator!=(
 	return !(lhs == rhs);
 }
 
-template <typename CharT, bksge::size_t N1, bksge::size_t N2, typename Traits>
+template <typename CharT, std::size_t N1, std::size_t N2, typename Traits>
 inline BKSGE_CONSTEXPR bool operator<(
 	basic_static_string<CharT, N1, Traits> const& lhs,
 	basic_static_string<CharT, N2, Traits> const& rhs) BKSGE_NOEXCEPT
@@ -1251,7 +1251,7 @@ inline BKSGE_CONSTEXPR bool operator<(
 	return lhs.compare(rhs) < 0;
 }
 
-template <typename CharT, bksge::size_t Capacity, typename Traits>
+template <typename CharT, std::size_t Capacity, typename Traits>
 inline BKSGE_CONSTEXPR bool operator<(
 	basic_static_string<CharT, Capacity, Traits> const& lhs,
 	CharT const* rhs)
@@ -1259,7 +1259,7 @@ inline BKSGE_CONSTEXPR bool operator<(
 	return lhs.compare(rhs) < 0;
 }
 
-template <typename CharT, bksge::size_t Capacity, typename Traits>
+template <typename CharT, std::size_t Capacity, typename Traits>
 inline BKSGE_CONSTEXPR bool operator<(
 	CharT const* lhs,
 	basic_static_string<CharT, Capacity, Traits> const& rhs)
@@ -1267,7 +1267,7 @@ inline BKSGE_CONSTEXPR bool operator<(
 	return rhs.compare(lhs) > 0;
 }
 
-template <typename CharT, bksge::size_t N1, bksge::size_t N2, typename Traits>
+template <typename CharT, std::size_t N1, std::size_t N2, typename Traits>
 inline BKSGE_CONSTEXPR bool operator>(
 	basic_static_string<CharT, N1, Traits> const& lhs,
 	basic_static_string<CharT, N2, Traits> const& rhs) BKSGE_NOEXCEPT
@@ -1275,7 +1275,7 @@ inline BKSGE_CONSTEXPR bool operator>(
 	return lhs.compare(rhs) > 0;
 }
 
-template <typename CharT, bksge::size_t Capacity, typename Traits>
+template <typename CharT, std::size_t Capacity, typename Traits>
 inline BKSGE_CONSTEXPR bool operator>(
 	basic_static_string<CharT, Capacity, Traits> const& lhs,
 	CharT const* rhs)
@@ -1283,7 +1283,7 @@ inline BKSGE_CONSTEXPR bool operator>(
 	return lhs.compare(rhs) > 0;
 }
 
-template <typename CharT, bksge::size_t Capacity, typename Traits>
+template <typename CharT, std::size_t Capacity, typename Traits>
 inline BKSGE_CONSTEXPR bool operator>(
 	CharT const* lhs,
 	basic_static_string<CharT, Capacity, Traits> const& rhs)
@@ -1291,7 +1291,7 @@ inline BKSGE_CONSTEXPR bool operator>(
 	return rhs.compare(lhs) < 0;
 }
 
-template <typename CharT, bksge::size_t N1, bksge::size_t N2, typename Traits>
+template <typename CharT, std::size_t N1, std::size_t N2, typename Traits>
 inline BKSGE_CONSTEXPR bool operator<=(
 	basic_static_string<CharT, N1, Traits> const& lhs,
 	basic_static_string<CharT, N2, Traits> const& rhs) BKSGE_NOEXCEPT
@@ -1299,7 +1299,7 @@ inline BKSGE_CONSTEXPR bool operator<=(
 	return lhs.compare(rhs) <= 0;
 }
 
-template <typename CharT, bksge::size_t Capacity, typename Traits>
+template <typename CharT, std::size_t Capacity, typename Traits>
 inline BKSGE_CONSTEXPR bool operator<=(
 	basic_static_string<CharT, Capacity, Traits> const& lhs,
 	CharT const* rhs)
@@ -1307,7 +1307,7 @@ inline BKSGE_CONSTEXPR bool operator<=(
 	return lhs.compare(rhs) <= 0;
 }
 
-template <typename CharT, bksge::size_t Capacity, typename Traits>
+template <typename CharT, std::size_t Capacity, typename Traits>
 inline BKSGE_CONSTEXPR bool operator<=(
 	CharT const* lhs,
 	basic_static_string<CharT, Capacity, Traits> const& rhs)
@@ -1315,7 +1315,7 @@ inline BKSGE_CONSTEXPR bool operator<=(
 	return rhs.compare(lhs) >= 0;
 }
 
-template <typename CharT, bksge::size_t N1, bksge::size_t N2, typename Traits>
+template <typename CharT, std::size_t N1, std::size_t N2, typename Traits>
 inline BKSGE_CONSTEXPR bool operator>=(
 	basic_static_string<CharT, N1, Traits> const& lhs,
 	basic_static_string<CharT, N2, Traits> const& rhs) BKSGE_NOEXCEPT
@@ -1323,7 +1323,7 @@ inline BKSGE_CONSTEXPR bool operator>=(
 	return lhs.compare(rhs) >= 0;
 }
 
-template <typename CharT, bksge::size_t Capacity, typename Traits>
+template <typename CharT, std::size_t Capacity, typename Traits>
 inline BKSGE_CONSTEXPR bool operator>=(
 	basic_static_string<CharT, Capacity, Traits> const& lhs,
 	CharT const* rhs)
@@ -1331,7 +1331,7 @@ inline BKSGE_CONSTEXPR bool operator>=(
 	return lhs.compare(rhs) >= 0;
 }
 
-template <typename CharT, bksge::size_t Capacity, typename Traits>
+template <typename CharT, std::size_t Capacity, typename Traits>
 inline BKSGE_CONSTEXPR bool operator>=(
 	CharT const* lhs,
 	basic_static_string<CharT, Capacity, Traits> const& rhs)
@@ -1341,7 +1341,7 @@ inline BKSGE_CONSTEXPR bool operator>=(
 
 #endif // defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
 
-template <typename CharT, bksge::size_t N1, bksge::size_t N2, typename Traits>
+template <typename CharT, std::size_t N1, std::size_t N2, typename Traits>
 inline BKSGE_CXX14_CONSTEXPR void swap(
 	basic_static_string<CharT, N1, Traits>& lhs,
 	basic_static_string<CharT, N2, Traits>& rhs)
@@ -1350,7 +1350,7 @@ inline BKSGE_CXX14_CONSTEXPR void swap(
 	lhs.swap(rhs);
 }
 
-template <typename CharT, typename Traits1, bksge::size_t Capacity, typename Traits2>
+template <typename CharT, typename Traits1, std::size_t Capacity, typename Traits2>
 inline std::basic_istream<CharT, Traits1>&
 operator>>(std::basic_istream<CharT, Traits1>& is,
 	basic_static_string<CharT, Capacity, Traits2>& str)
@@ -1363,7 +1363,7 @@ operator>>(std::basic_istream<CharT, Traits1>& is,
 	return is;
 }
 
-template <typename CharT, typename Traits1, bksge::size_t Capacity, typename Traits2>
+template <typename CharT, typename Traits1, std::size_t Capacity, typename Traits2>
 inline std::basic_ostream<CharT, Traits1>&
 operator<<(std::basic_ostream<CharT, Traits1>& os,
 	basic_static_string<CharT, Capacity, Traits2> const& str)

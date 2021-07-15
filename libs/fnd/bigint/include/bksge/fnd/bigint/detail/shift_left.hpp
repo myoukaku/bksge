@@ -12,12 +12,12 @@
 #include <bksge/fnd/algorithm/shift_right.hpp>
 #include <bksge/fnd/algorithm/fill_n.hpp>
 #include <bksge/fnd/algorithm/min.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/ranges/begin.hpp>
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/array.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -32,7 +32,7 @@ namespace bigint_algo
 
 template <typename T>
 inline BKSGE_CXX14_CONSTEXPR bksge::vector<T>&
-shift_left(bksge::vector<T>& vec, bksge::size_t offset)
+shift_left(bksge::vector<T>& vec, std::size_t offset)
 {
 	vec.resize(vec.size() + offset);
 	bksge::shift_right(ranges::begin(vec), ranges::end(vec), offset);
@@ -40,9 +40,9 @@ shift_left(bksge::vector<T>& vec, bksge::size_t offset)
 	return vec;
 }
 
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bksge::array<T, N>&
-shift_left(bksge::array<T, N>& vec, bksge::size_t offset)
+shift_left(bksge::array<T, N>& vec, std::size_t offset)
 {
 	auto const n = bksge::min(N, offset);
 	bksge::shift_right(ranges::begin(vec), ranges::end(vec), n);

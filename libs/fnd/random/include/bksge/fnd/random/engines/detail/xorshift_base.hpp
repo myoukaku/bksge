@@ -9,18 +9,18 @@
 #ifndef BKSGE_FND_RANDOM_ENGINES_DETAIL_XORSHIFT_BASE_HPP
 #define BKSGE_FND_RANDOM_ENGINES_DETAIL_XORSHIFT_BASE_HPP
 
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/random/engines/detail/split_mix64.hpp>
 #include <bksge/fnd/ios/flags_saver.hpp>
 #include <bksge/fnd/config.hpp>
 #include <limits>
 #include <istream>
 #include <ostream>
+#include <cstddef>
 
 namespace bksge
 {
 
-template <typename UIntType, bksge::size_t N, typename Derived>
+template <typename UIntType, std::size_t N, typename Derived>
 class xorshift_base
 {
 public:
@@ -46,7 +46,7 @@ public:
 	{
 		split_mix64 sm(sd);
 
-		for (bksge::size_t i = 0; i < N; ++i)
+		for (std::size_t i = 0; i < N; ++i)
 		{
 			m_state[i] = static_cast<result_type>(sm());
 		}
@@ -57,7 +57,7 @@ public:
 	{
 		typename Sseq::result_type ar[N];
 		q.generate(ar, ar + N);
-		for (bksge::size_t i = 0; i < N; ++i)
+		for (std::size_t i = 0; i < N; ++i)
 		{
 			m_state[i] = ar[i];
 		}
@@ -74,7 +74,7 @@ public:
 
 	bool operator==(xorshift_base const& rhs) const
 	{
-		for (bksge::size_t i = 0; i < N; ++i)
+		for (std::size_t i = 0; i < N; ++i)
 		{
 			if (m_state[i] != rhs.m_state[i])
 			{
@@ -95,7 +95,7 @@ protected:
 private:
 	template <
 		typename CharT, typename Traits,
-		typename U, bksge::size_t M, typename D
+		typename U, std::size_t M, typename D
 	>
 	friend std::basic_ostream<CharT, Traits>&
 	operator<<(
@@ -104,7 +104,7 @@ private:
 
 	template <
 		typename CharT, typename Traits,
-		typename U, bksge::size_t M, typename D
+		typename U, std::size_t M, typename D
 	>
 	friend std::basic_istream<CharT, Traits>&
 	operator>>(
@@ -114,7 +114,7 @@ private:
 
 template <
 	typename CharT, typename Traits,
-	typename UIntType, bksge::size_t N, typename Derived
+	typename UIntType, std::size_t N, typename Derived
 >
 inline std::basic_ostream<CharT, Traits>&
 operator<<(
@@ -129,7 +129,7 @@ operator<<(
 		std::ios_base::scientific);
 	CharT sp = os.widen(' ');
 
-	for (bksge::size_t i = 0; i < N; ++i)
+	for (std::size_t i = 0; i < N; ++i)
 	{
 		os << sp << e.m_state[i];
 	}
@@ -139,7 +139,7 @@ operator<<(
 
 template <
 	typename CharT, typename Traits,
-	typename UIntType, bksge::size_t N, typename Derived
+	typename UIntType, std::size_t N, typename Derived
 >
 inline std::basic_istream<CharT, Traits>&
 operator>>(
@@ -154,14 +154,14 @@ operator>>(
 		std::ios_base::scientific);
 
 	UIntType tbl[N];
-	for (bksge::size_t i = 0; i < N; ++i)
+	for (std::size_t i = 0; i < N; ++i)
 	{
 		is >> tbl[i];
 	}
 
 	if (!is.fail())
 	{
-		for (bksge::size_t i = 0; i < N; ++i)
+		for (std::size_t i = 0; i < N; ++i)
 		{
 			e.m_state[i] = tbl[i];
 		}

@@ -16,13 +16,13 @@
 #include <bksge/core/detail/win32.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
 #include <bksge/fnd/algorithm/min.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint8_t.hpp>
 #include <bksge/fnd/cstdint/uint16_t.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/config.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/assert.hpp>
+#include <cstddef>
 #include <limits>
 
 namespace bksge
@@ -77,7 +77,7 @@ inline bksge::uint8_t U16_to_B(bksge::uint16_t v)
 inline int GetSquaredDistance(Color3<bksge::uint8_t> const& c1, Color3<bksge::uint8_t> const& c2)
 {
 	int result = 0;
-	for (bksge::size_t i = 0; i < c1.size(); ++i)
+	for (std::size_t i = 0; i < c1.size(); ++i)
 	{
 		auto x = c1[i] - c2[i];
 		result += x * x;
@@ -92,17 +92,17 @@ struct ColorCodeInfo
 	bksge::uint8_t	ratio;
 };
 
-template <bksge::size_t N>
+template <std::size_t N>
 inline ColorCodeInfo GetColorCodeInfo(Color3<bksge::uint8_t> const (&palette)[N], Color3<bksge::uint8_t> const& color)
 {
 	ColorCodeInfo result {};
 	auto nearest_distance = std::numeric_limits<int>::max();
 
-	for (bksge::size_t i = 0; i < N; ++i)
+	for (std::size_t i = 0; i < N; ++i)
 	{
-		for (bksge::size_t j = 0; j < N; ++j)
+		for (std::size_t j = 0; j < N; ++j)
 		{
-			for (bksge::size_t k = 0; k < 8; ++k)
+			for (std::size_t k = 0; k < 8; ++k)
 			{
 				auto c1 = palette[i];
 				auto c2 = palette[j];
@@ -310,7 +310,7 @@ bool Win32ConsoleWindow::Update(void)
 		0x258A,	// 6.0 / 8.0
 		0x2589,	// 7.0 / 8.0
 	};
-	bksge::size_t i = 0;
+	std::size_t i = 0;
 	for (auto&& c : m_color_buf)
 	{
 		auto info = detail::GetColorCodeInfo(c.r(), c.g(), c.b());

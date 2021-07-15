@@ -12,9 +12,9 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/cstring/strlen.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -73,7 +73,7 @@ public:
 
 	template <typename T>
 	BKSGE_CXX14_CONSTEXPR result_type
-	operator()(T const* ptr, bksge::size_t bytes) const
+	operator()(T const* ptr, std::size_t bytes) const
 	{
 		return operator()(ptr, ptr + bytes);
 	}

@@ -10,10 +10,10 @@
 #define BKSGE_CORE_RENDER_TEXTURE_FORMAT_HPP
 
 #include <bksge/core/render/fwd/texture_format_fwd.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <ostream>
+#include <cstddef>
 
 namespace bksge
 {
@@ -87,7 +87,7 @@ enum class TextureFormat : bksge::uint32_t
  *
  *	@return	format,width,heightに設定された画像のバイト数
  */
-bksge::size_t GetSizeInBytes(
+std::size_t GetSizeInBytes(
 	TextureFormat format,
 	bksge::uint32_t width,
 	bksge::uint32_t height);
@@ -100,7 +100,7 @@ bksge::size_t GetSizeInBytes(
  *
  *	@return	format,widthに設定された画像の１行のバイト数
  */
-bksge::size_t GetStrideInBytes(
+std::size_t GetStrideInBytes(
 	TextureFormat format,
 	bksge::uint32_t width);
 
@@ -114,11 +114,11 @@ bksge::size_t GetStrideInBytes(
  *
  *	@return	format,width,height,mipmap_levelに設定された画像のバイト数
  */
-bksge::size_t GetMipmappedSizeInBytes(
+std::size_t GetMipmappedSizeInBytes(
 	TextureFormat format,
 	bksge::uint32_t width,
 	bksge::uint32_t height,
-	bksge::size_t mipmap_level);
+	std::size_t mipmap_level);
 
 /**
  *	@brief	文字列への変換

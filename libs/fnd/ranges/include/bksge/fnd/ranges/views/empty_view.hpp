@@ -13,8 +13,8 @@
 #include <bksge/fnd/ranges/concepts/enable_borrowed_range.hpp>
 #include <bksge/fnd/ranges/detail/object.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -29,7 +29,7 @@ public:
 	static BKSGE_CONSTEXPR T*            begin() BKSGE_NOEXCEPT { return nullptr; }
 	static BKSGE_CONSTEXPR T*            end()   BKSGE_NOEXCEPT { return nullptr; }
 	static BKSGE_CONSTEXPR T*            data()  BKSGE_NOEXCEPT { return nullptr; }
-	static BKSGE_CONSTEXPR bksge::size_t size()  BKSGE_NOEXCEPT { return 0; }
+	static BKSGE_CONSTEXPR std::size_t   size()  BKSGE_NOEXCEPT { return 0; }
 	static BKSGE_CONSTEXPR bool          empty() BKSGE_NOEXCEPT { return true; }
 
 	// 独自拡張

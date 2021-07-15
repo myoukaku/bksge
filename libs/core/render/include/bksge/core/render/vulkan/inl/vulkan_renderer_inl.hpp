@@ -48,7 +48,6 @@
 #include <bksge/core/render/sampler.hpp>
 #include <bksge/core/window/window.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/memory/make_shared.hpp>
 #include <bksge/fnd/cstdint.hpp>
@@ -57,6 +56,7 @@
 #include <bksge/fnd/config.hpp>
 #include <sstream>
 #include <cstdio>	// printf
+#include <cstddef>
 
 #if defined(BKSGE_PLATFORM_WIN32)
 #include <bksge/core/detail/win32.hpp>
@@ -100,7 +100,7 @@ DebugCallback(
 	::VkDebugReportFlagsEXT flags,
 	::VkDebugReportObjectTypeEXT,
 	bksge::uint64_t /*object*/,
-	bksge::size_t /*location*/,
+	std::size_t /*location*/,
 	bksge::int32_t /*messageCode*/,
 	const char* /*pLayerPrefix*/,
 	const char* pMessage,

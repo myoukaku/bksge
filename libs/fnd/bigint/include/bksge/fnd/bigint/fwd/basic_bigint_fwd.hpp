@@ -9,12 +9,12 @@
 #ifndef BKSGE_FND_BIGINT_FWD_BASIC_BIGINT_FWD_HPP
 #define BKSGE_FND_BIGINT_FWD_BASIC_BIGINT_FWD_HPP
 
-#include <bksge/fnd/cstddef/size_t.hpp>
+#include <cstddef>
 
 namespace bksge
 {
 
-template <bksge::size_t Bits, bool Signed>
+template <std::size_t Bits, bool Signed>
 class basic_bigint;
 
 }	// namespace bksge

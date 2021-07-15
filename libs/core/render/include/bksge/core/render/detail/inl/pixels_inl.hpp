@@ -11,9 +11,9 @@
 
 #include <bksge/core/render/detail/pixels.hpp>
 #include <bksge/fnd/cstring/memcpy.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint8_t.hpp>
 #include <bksge/fnd/vector.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -22,13 +22,13 @@ namespace render
 {
 
 BKSGE_INLINE
-void Pixels::resize(bksge::size_t size)
+void Pixels::resize(std::size_t size)
 {
 	m_value.resize(size);
 }
 
 BKSGE_INLINE
-void Pixels::copy(void const* src, bksge::size_t size)
+void Pixels::copy(void const* src, std::size_t size)
 {
 	if (m_value.empty())
 	{

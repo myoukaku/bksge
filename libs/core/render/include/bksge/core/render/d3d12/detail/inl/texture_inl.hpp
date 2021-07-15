@@ -22,9 +22,9 @@
 #include <bksge/core/render/dxgi/dxgi_format.hpp>
 #include <bksge/core/render/texture.hpp>
 #include <bksge/fnd/algorithm/max.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstring/memcpy.hpp>
 #include <bksge/fnd/vector.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -124,7 +124,7 @@ inline void UpdateSubresource(
 	auto src_width  = src_texture.width();
 	auto src_height = src_texture.height();
 
-	for (bksge::size_t i = 0; i < num_subresources; ++i)
+	for (std::size_t i = 0; i < num_subresources; ++i)
 	{
 		//if (row_size_in_bytes > ::SIZE_T(-1))
 		//{
@@ -167,7 +167,7 @@ inline void UpdateSubresource(
 	//}
 	//else
 	{
-		for (bksge::size_t i = 0; i < num_subresources; ++i)
+		for (std::size_t i = 0; i < num_subresources; ++i)
 		{
 			::D3D12_TEXTURE_COPY_LOCATION dst;
 			::D3D12_TEXTURE_COPY_LOCATION src;

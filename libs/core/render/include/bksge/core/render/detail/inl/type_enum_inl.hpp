@@ -10,9 +10,9 @@
 #define BKSGE_CORE_RENDER_DETAIL_INL_TYPE_ENUM_INL_HPP
 
 #include <bksge/core/render/detail/type_enum.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -30,7 +30,7 @@ namespace render
 	F(TypeEnum::kFloat);
 
 BKSGE_INLINE
-bksge::size_t GetSizeOf(TypeEnum type_enum)
+std::size_t GetSizeOf(TypeEnum type_enum)
 {
 #define BKSGE_CORE_RENDER_TYPEENUM_CASE(x)	case x: return sizeof(EnumToType<x>::type)
 

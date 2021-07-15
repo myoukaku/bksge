@@ -23,9 +23,9 @@
 #include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/ranges/range_value_t.hpp>
 #include <bksge/fnd/ranges/size.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <limits>
+#include <cstddef>
 
 namespace bksge
 {
@@ -53,7 +53,7 @@ bit_shift_right(VectorType& lhs, VectorType const& rhs)
 		auto shift = bigint_algo::to_arithmetic<double_element_type>(rem);
 		double_element_type carry = 0;
 		auto const N = ranges::size(lhs);
-		for (bksge::size_t i = N; i > 0; --i)
+		for (std::size_t i = N; i > 0; --i)
 		{
 			auto const t = (double_element_type(lhs[i-1]) << element_bits >> shift);
 			lhs[i-1] = static_cast<element_type>(carry + (t >> element_bits));
@@ -63,12 +63,12 @@ bit_shift_right(VectorType& lhs, VectorType const& rhs)
 
 	if (!bigint_algo::is_zero(quo))
 	{
-		if (bigint_algo::compare(quo, std::numeric_limits<bksge::size_t>::max()) > 0)
+		if (bigint_algo::compare(quo, std::numeric_limits<std::size_t>::max()) > 0)
 		{
 			lhs = {0};
 			return;
 		}
-		auto offset = bigint_algo::to_arithmetic<bksge::size_t>(quo);
+		auto offset = bigint_algo::to_arithmetic<std::size_t>(quo);
 		auto N = bksge::min(offset, ranges::size(lhs));
 		bigint_algo::shift_right(lhs, N);
 	}

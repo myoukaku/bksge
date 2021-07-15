@@ -13,6 +13,7 @@
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/cstdint.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -106,24 +107,24 @@ bksge::uint8_t const* ReadBigEndian(
 	return src;
 }
 
-template <bksge::size_t N>
+template <std::size_t N>
 inline
 bksge::uint8_t const* ReadBigEndian(
 	bksge::uint8_t const* src, bksge::uint8_t (*dst)[N])
 {
-	for (bksge::size_t i = 0; i < N; ++i)
+	for (std::size_t i = 0; i < N; ++i)
 	{
 		(*dst)[i] = *src++;
 	}
 	return src;
 }
 
-template <bksge::size_t N>
+template <std::size_t N>
 inline
 bksge::uint8_t const* ReadBigEndian(
 	bksge::uint8_t const* src, bksge::uint16_t (*dst)[N])
 {
-	for (bksge::size_t i = 0; i < N; ++i)
+	for (std::size_t i = 0; i < N; ++i)
 	{
 		bksge::uint16_t a = *src++;
 		bksge::uint16_t b = *src++;

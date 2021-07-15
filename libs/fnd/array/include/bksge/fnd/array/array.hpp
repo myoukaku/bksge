@@ -30,7 +30,6 @@ using std::array;
 #include <bksge/fnd/algorithm/lexicographical_compare.hpp>
 #include <bksge/fnd/compare/detail/synth3way.hpp>
 #include <bksge/fnd/compare/strong_ordering.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstddef/ptrdiff_t.hpp>
 #include <bksge/fnd/cstring/memcmp.hpp>
 #include <bksge/fnd/iterator/reverse_iterator.hpp>
@@ -44,6 +43,7 @@ using std::array;
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
 #include <type_traits>	// is_constant_evaluated
+#include <cstddef>
 
 namespace bksge
 {
@@ -51,13 +51,13 @@ namespace bksge
 namespace detail
 {
 
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 struct array_traits
 {
 	using type = T[N];
 
 	static BKSGE_CONSTEXPR T&
-	ref(type const& t, bksge::size_t n) BKSGE_NOEXCEPT
+	ref(type const& t, std::size_t n) BKSGE_NOEXCEPT
 	{
 		return const_cast<T&>(t[n]);
 	}
@@ -75,7 +75,7 @@ struct array_traits<T, 0>
 	struct type {};
 
 	static BKSGE_CONSTEXPR T&
-	ref(type const&, bksge::size_t) BKSGE_NOEXCEPT
+	ref(type const&, std::size_t) BKSGE_NOEXCEPT
 	{
 		return *static_cast<T*>(nullptr);
 	}
@@ -89,7 +89,7 @@ struct array_traits<T, 0>
 
 }	// namespace detail
 
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 struct array
 {
 	using value_type             = T;
@@ -99,7 +99,7 @@ struct array
 	using const_reference        = value_type const&;
 	using iterator               = value_type*;
 	using const_iterator         = value_type const*;
-	using size_type              = bksge::size_t;
+	using size_type              = std::size_t;
 	using difference_type        = bksge::ptrdiff_t;
 	using reverse_iterator       = bksge::reverse_iterator<iterator>;
 	using const_reverse_iterator = bksge::reverse_iterator<const_iterator>;
@@ -269,7 +269,7 @@ array(T, U...)
 #endif
 
 // Array comparisons.
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool
 operator==(array<T, N> const& lhs, array<T, N> const& rhs)
 {
@@ -278,7 +278,7 @@ operator==(array<T, N> const& lhs, array<T, N> const& rhs)
 
 #if defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
 
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bksge::detail::synth3way_t<T>
 operator<=>(array<T, N> const& lhs, array<T, N> const& rhs)
 {
@@ -287,13 +287,13 @@ operator<=>(array<T, N> const& lhs, array<T, N> const& rhs)
 	{
 		if (!std::is_constant_evaluated())
 		{
-			constexpr bksge::size_t n = N * sizeof(T);
+			constexpr std::size_t n = N * sizeof(T);
 			return bksge::memcmp(lhs.data(), rhs.data(), n) <=> 0;
 		}
 	}
 #endif
 
-	for (bksge::size_t i = 0; i < N; ++i)
+	for (std::size_t i = 0; i < N; ++i)
 	{
 		auto c = bksge::detail::synth3way(lhs[i], rhs[i]);
 		if (c != 0)
@@ -307,14 +307,14 @@ operator<=>(array<T, N> const& lhs, array<T, N> const& rhs)
 
 #else
 
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool
 operator!=(array<T, N> const& lhs, array<T, N> const& rhs)
 {
 	return !(lhs == rhs);
 }
 
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool
 operator<(array<T, N> const& lhs, array<T, N> const& rhs)
 {
@@ -323,21 +323,21 @@ operator<(array<T, N> const& lhs, array<T, N> const& rhs)
 		rhs.begin(), rhs.end());
 }
 
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool
 operator>(array<T, N> const& lhs, array<T, N> const& rhs)
 {
 	return rhs < lhs;
 }
 
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool
 operator<=(array<T, N> const& lhs, array<T, N> const& rhs)
 {
 	return !(lhs > rhs);
 }
 
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 inline BKSGE_CXX14_CONSTEXPR bool
 operator>=(array<T, N> const& lhs, array<T, N> const& rhs)
 {
@@ -347,7 +347,7 @@ operator>=(array<T, N> const& lhs, array<T, N> const& rhs)
 #endif
 
 // Specialized algorithms.
-template <typename T, bksge::size_t N,
+template <typename T, std::size_t N,
 	typename = bksge::enable_if_t<
 		N == 0 || bksge::is_swappable<T>::value
 	>
@@ -374,11 +374,11 @@ BKSGE_NOEXCEPT_IF_EXPR(lhs.swap(rhs))
 namespace BKSGE_TUPLE_NAMESPACE
 {
 
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 struct tuple_size<bksge::array<T, N>>
-	: public bksge::integral_constant<bksge::size_t, N> {};
+	: public bksge::integral_constant<std::size_t, N> {};
 
-template <bksge::size_t I, typename T, bksge::size_t N>
+template <std::size_t I, typename T, std::size_t N>
 struct tuple_element<I, bksge::array<T, N>>
 {
 	static_assert(I < N, "index is out of bounds");

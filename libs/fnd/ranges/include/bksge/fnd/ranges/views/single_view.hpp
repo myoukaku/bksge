@@ -13,7 +13,6 @@
 #include <bksge/fnd/ranges/detail/box.hpp>
 #include <bksge/fnd/concepts/copy_constructible.hpp>
 #include <bksge/fnd/concepts/constructible_from.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/type_traits/is_object.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
@@ -21,6 +20,7 @@
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -91,7 +91,7 @@ public:
 		return data() + 1;
 	}
 
-	static BKSGE_CONSTEXPR bksge::size_t size() BKSGE_NOEXCEPT
+	static BKSGE_CONSTEXPR std::size_t size() BKSGE_NOEXCEPT
 	{
 		return 1;
 	}

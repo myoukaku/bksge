@@ -14,9 +14,9 @@
 #include <bksge/core/render/fwd/texture_fwd.hpp>
 #include <bksge/core/render/fwd/render_texture_fwd.hpp>
 #include <bksge/core/render/texture_format.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uint8_t.hpp>
 #include <bksge/fnd/cstdint/uint32_t.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -37,7 +37,7 @@ public:
 		bksge::TextureFormat format,
 		bksge::uint32_t width,
 		bksge::uint32_t height,
-		bksge::size_t mipmap_count,
+		std::size_t mipmap_count,
 		bksge::uint8_t const* data);
 
 	explicit Texture(bksge::Texture const& texture);

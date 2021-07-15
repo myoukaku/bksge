@@ -246,15 +246,15 @@ int main()
 
 	const bksge::Geometry geometry(bksge::PrimitiveTopology::kTriangles, vertices, indices);
 
-	bksge::size_t const tex_width  = 16;
-	bksge::size_t const tex_height = 16;
+	std::size_t const tex_width  = 16;
+	std::size_t const tex_height = 16;
 
 	bksge::vector<bksge::uint8_t> pixels(tex_width * tex_height * 4);
 	{
 		auto* p = pixels.data();
-		for (bksge::size_t y = 0; y < tex_height; ++y)
+		for (std::size_t y = 0; y < tex_height; ++y)
 		{
-			for (bksge::size_t x = 0; x < tex_width; ++x)
+			for (std::size_t x = 0; x < tex_width; ++x)
 			{
 				*p++ = static_cast<bksge::uint8_t>(x * 16);
 				*p++ = static_cast<bksge::uint8_t>(y * 16);

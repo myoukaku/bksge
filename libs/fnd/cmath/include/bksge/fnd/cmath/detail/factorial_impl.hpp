@@ -14,10 +14,10 @@
 #include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/concepts/detail/overload_priority.hpp>
 #include <bksge/fnd/type_traits/is_unsigned.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/cstdint/uintmax_t.hpp>
 #include <bksge/fnd/config.hpp>
 #include <limits>
+#include <cstddef>
 
 namespace bksge
 {
@@ -25,7 +25,7 @@ namespace bksge
 namespace detail
 {
 
-template <bool Unsigned, bksge::size_t N>
+template <bool Unsigned, std::size_t N>
 struct max_factorial_t;
 
 template <> struct max_factorial_t<false, 1> { static const unsigned int value = 5; };

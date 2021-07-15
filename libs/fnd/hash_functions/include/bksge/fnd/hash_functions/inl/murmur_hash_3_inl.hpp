@@ -12,7 +12,7 @@
 #include <bksge/fnd/hash_functions/murmur_hash_3.hpp>
 #include <bksge/fnd/bit/rotl.hpp>
 #include <bksge/fnd/cmath/round_down.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -59,8 +59,8 @@ template <typename Iterator>
 inline BKSGE_CXX14_CONSTEXPR auto
 murmur_hash_3::invoke(Iterator first, Iterator last) const -> result_type
 {
-	bksge::size_t const bytes   = last - first;
-	bksge::size_t const nblocks = bytes / 4;
+	std::size_t const bytes   = last - first;
+	std::size_t const nblocks = bytes / 4;
 	auto h1 = m_seed;
 
 	bksge::uint32_t const c1 = 0xcc9e2d51;
@@ -69,7 +69,7 @@ murmur_hash_3::invoke(Iterator first, Iterator last) const -> result_type
 	//----------
 	// body
 
-	for (bksge::size_t i = 0; i < nblocks; ++i)
+	for (std::size_t i = 0; i < nblocks; ++i)
 	{
 		auto k1 = murmur_hash_3_detail::read_32(first + i * 4);
 

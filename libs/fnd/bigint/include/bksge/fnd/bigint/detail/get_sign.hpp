@@ -9,11 +9,11 @@
 #ifndef BKSGE_FND_BIGINT_DETAIL_GET_SIGN_HPP
 #define BKSGE_FND_BIGINT_DETAIL_GET_SIGN_HPP
 
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/bit/bitsof.hpp>
 #include <bksge/fnd/array.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -31,7 +31,7 @@ get_sign(bksge::vector<T> const&) noexcept
 	return 1;
 }
 
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 inline BKSGE_CXX14_CONSTEXPR int
 get_sign(bksge::array<T, N> const& vec) noexcept
 {

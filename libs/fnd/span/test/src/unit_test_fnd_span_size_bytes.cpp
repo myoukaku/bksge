@@ -7,9 +7,9 @@
  */
 
 #include <bksge/fnd/span.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <gtest/gtest.h>
+#include <cstddef>
 #include "constexpr_test.hpp"
 #include "noexcept_test.hpp"
 
@@ -20,10 +20,10 @@ namespace size_bytes_test
 {
 
 template <typename Span>
-BKSGE_CXX14_CONSTEXPR bool test(Span sp, bksge::size_t sz)
+BKSGE_CXX14_CONSTEXPR bool test(Span sp, std::size_t sz)
 {
 	BKSGE_ASSERT_NOEXCEPT(sp.size_bytes());
-	return (bksge::size_t)sp.size_bytes() == sz * sizeof(typename Span::element_type);
+	return (std::size_t)sp.size_bytes() == sz * sizeof(typename Span::element_type);
 }
 
 struct A {};

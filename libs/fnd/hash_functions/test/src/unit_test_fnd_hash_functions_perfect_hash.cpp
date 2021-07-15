@@ -15,8 +15,8 @@
 #include <bksge/fnd/hash_functions/sax_hash.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/string.hpp>
-#include <bksge/fnd/cstddef.hpp>
 #include <gtest/gtest.h>
+#include <cstddef>
 
 namespace bksge_hash_functions_test
 {
@@ -40,12 +40,12 @@ TYPED_TEST_SUITE(PerfectHashTest, PerfectHashTestTypes);
 
 TYPED_TEST(PerfectHashTest, BasicTest)
 {
-	static const bksge::size_t MAX_NUM = 500;
+	static const std::size_t MAX_NUM = 500;
 
 	bksge::vector<bksge::string> t;
 	t.reserve(MAX_NUM);
 
-	for (bksge::size_t i = 0; i < MAX_NUM; i++)
+	for (std::size_t i = 0; i < MAX_NUM; i++)
 	{
 		t.push_back(bksge::to_string(i));
 	}
@@ -59,13 +59,13 @@ TYPED_TEST(PerfectHashTest, BasicTest)
 
 	bksge::vector<int> hash_tbl(ph.range());
 
-	for (bksge::size_t i = 0; i < t.size(); ++i)
+	for (std::size_t i = 0; i < t.size(); ++i)
 	{
 		hash_tbl[ph(t[i])]++;
 	}
 
 	// 全てのハッシュ値は1回または0回現れるはず
-	for (bksge::size_t i = 0; i < ph.range(); i++)
+	for (std::size_t i = 0; i < ph.range(); i++)
 	{
 		EXPECT_GE(1, hash_tbl[i]);
 	}

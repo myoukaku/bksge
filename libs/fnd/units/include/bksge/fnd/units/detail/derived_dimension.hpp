@@ -14,8 +14,8 @@
 #include <bksge/fnd/type_traits/integral_constant.hpp>
 #include <bksge/fnd/tuple/tuple_element.hpp>
 #include <bksge/fnd/tuple/tuple_size.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -48,13 +48,13 @@ namespace BKSGE_TUPLE_NAMESPACE
  */
 template <typename... Types>
 struct tuple_size<bksge::units::derived_dimension<Types...>>
-	: public bksge::integral_constant<bksge::size_t, sizeof...(Types)>
+	: public bksge::integral_constant<std::size_t, sizeof...(Types)>
 {};
 
 /**
  *	@brief	tuple_element
  */
-template <bksge::size_t I, typename... Types>
+template <std::size_t I, typename... Types>
 struct tuple_element<I, bksge::units::derived_dimension<Types...>>
 {
 public:

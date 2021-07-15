@@ -27,6 +27,7 @@ using std::to_wstring;
 
 #include <cwchar>	// swprintf
 #include <limits>
+#include <cstddef>
 
 namespace bksge
 {
@@ -34,7 +35,7 @@ namespace bksge
 namespace detail
 {
 
-template <bksge::size_t N, typename T>
+template <std::size_t N, typename T>
 inline bksge::wstring to_wstring_impl(wchar_t const* fmt, T val)
 {
 	wchar_t buf[N]{};

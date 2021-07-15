@@ -13,8 +13,8 @@
 #include <bksge/fnd/type_traits/is_default_constructible.hpp>
 #include <bksge/fnd/type_traits/is_trivially_destructible.hpp>
 #include <bksge/fnd/memory/addressof.hpp>
-#include <bksge/fnd/cstddef/size_t.hpp>
 #include <bksge/fnd/config.hpp>
+#include <cstddef>
 
 namespace bksge
 {
@@ -24,7 +24,7 @@ namespace detail
 
 template <
 	typename T,
-	bksge::size_t N,
+	std::size_t N,
 	bool = bksge::is_trivially_destructible<T>::value &&
 	       bksge::is_default_constructible<T>::value
 >
@@ -40,7 +40,7 @@ public:
 	}
 };
 
-template <typename T, bksge::size_t N>
+template <typename T, std::size_t N>
 class static_storage<T, N, true>
 {
 private:

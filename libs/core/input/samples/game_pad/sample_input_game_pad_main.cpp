@@ -8,6 +8,7 @@
 
 #include <bksge/core/input.hpp>
 #include <iostream>
+#include <cstddef>
 
 int main()
 {
@@ -18,15 +19,15 @@ int main()
 		game_pad.Update();
 		auto const& state = game_pad.state(0);
 
-		for (bksge::size_t i = 0; i < state.kButtonMax; ++i)
+		for (std::size_t i = 0; i < state.kButtonMax; ++i)
 		{
 			std::cout << state.pressed(i);
 		}
-		for (bksge::size_t i = 0; i < state.kAnalogButtonMax; ++i)
+		for (std::size_t i = 0; i < state.kAnalogButtonMax; ++i)
 		{
 			std::cout << " " << state.analog_button(i);
 		}
-		for (bksge::size_t i = 0; i < state.kAnalogStickMax; ++i)
+		for (std::size_t i = 0; i < state.kAnalogStickMax; ++i)
 		{
 			std::cout << " " << state.analog_stick(i);
 		}
