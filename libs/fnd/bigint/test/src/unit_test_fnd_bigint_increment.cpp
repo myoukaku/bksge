@@ -15,6 +15,7 @@
 BKSGE_WARNING_PUSH();
 BKSGE_WARNING_DISABLE_CLANG("-Wsign-compare");
 BKSGE_WARNING_DISABLE_MSVC(4245);	// conversion from '...' to '...', signed/unsigned mismatch
+BKSGE_WARNING_DISABLE_MSVC(4307);	// integral constant overflow
 
 namespace bksge_bigint_test
 {

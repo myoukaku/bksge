@@ -17,6 +17,7 @@
 BKSGE_WARNING_PUSH();
 BKSGE_WARNING_DISABLE_MSVC(4127);	// conditional expression is constant
 BKSGE_WARNING_DISABLE_MSVC(4245);	// conversion from '...' to '...', signed/unsigned mismatch
+BKSGE_WARNING_DISABLE_MSVC(4307);	// integral constant overflow
 BKSGE_WARNING_DISABLE_MSVC(4308);	// negative integral constant converted to unsigned type
 
 namespace bksge_bigint_test

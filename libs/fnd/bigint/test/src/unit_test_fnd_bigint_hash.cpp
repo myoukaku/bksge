@@ -11,6 +11,9 @@
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 
+BKSGE_WARNING_PUSH();
+BKSGE_WARNING_DISABLE_MSVC(4307);	// integral constant overflow
+
 namespace bksge_bigint_test
 {
 
@@ -70,3 +73,5 @@ GTEST_TEST(BigIntTest, HashTest)
 #undef VERIFY
 
 }	// namespace bksge_bigint_test
+
+BKSGE_WARNING_POP();

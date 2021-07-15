@@ -107,7 +107,7 @@ init_from_string_sub(bksge::basic_string_view<CharT>* str, std::size_t count, El
 	std::size_t i = 0;
 	for (auto c : *str)
 	{
-		auto const n = char_to_int<ElementType>(c);
+		auto const n = char_to_int<ElementType>(static_cast<char>(c));
 		if (n >= base)
 		{
 			bksge::throw_runtime_error("");
