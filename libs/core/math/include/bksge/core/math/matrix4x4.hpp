@@ -458,7 +458,7 @@ public:
 	/**
 	 *	@brief	4x4行列から平行移動、スケール、回転行列を取り出します。
 	 */
-	static BKSGE_CONSTEXPR auto
+	static BKSGE_CXX14_CONSTEXPR auto
 	Decompose(Matrix<T, 4, 4> const& mat) BKSGE_NOEXCEPT
 		-> bksge::tuple<Vector<T, 3>, Scale<T, 3>, Matrix<T, 3, 3>>
 	{
