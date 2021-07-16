@@ -16,7 +16,7 @@
 #include <bksge/fnd/iterator/advance.hpp>
 #include <bksge/fnd/iterator/distance.hpp>
 #include <bksge/fnd/type_traits/add_lvalue_reference.hpp>
-#include <bksge/fnd/utility/pair.hpp>
+#include <bksge/fnd/pair.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge

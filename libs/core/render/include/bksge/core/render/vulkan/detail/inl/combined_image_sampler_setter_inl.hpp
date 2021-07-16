@@ -21,7 +21,7 @@
 #include <bksge/core/render/shader_parameter_map.hpp>
 #include <bksge/core/render/sampler.hpp>
 #include <bksge/core/render/texture.hpp>
-#include <bksge/fnd/utility/pair.hpp>
+#include <bksge/fnd/pair.hpp>
 
 namespace bksge
 {

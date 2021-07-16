@@ -6,7 +6,7 @@
  *	@author	myoukaku
  */
 
-#include <bksge/fnd/utility/pair.hpp>
+#include <bksge/fnd/pair.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>

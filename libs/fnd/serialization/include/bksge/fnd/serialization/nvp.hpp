@@ -10,7 +10,7 @@
 #define BKSGE_FND_SERIALIZATION_NVP_HPP
 
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <bksge/fnd/utility/pair.hpp>
+#include <bksge/fnd/pair.hpp>
 
 namespace bksge
 {

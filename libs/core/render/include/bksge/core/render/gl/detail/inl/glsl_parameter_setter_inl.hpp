@@ -23,7 +23,7 @@
 #include <bksge/core/render/texture.hpp>
 #include <bksge/core/render/render_texture.hpp>
 #include <bksge/fnd/memory/shared_ptr.hpp>
-#include <bksge/fnd/utility/pair.hpp>
+#include <bksge/fnd/pair.hpp>
 
 namespace bksge
 {

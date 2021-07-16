@@ -8,7 +8,7 @@
 
 #include <bksge/fnd/tuple/apply.hpp>
 #include <bksge/fnd/tuple/tuple.hpp>
-#include <bksge/fnd/utility/pair.hpp>
+#include <bksge/fnd/pair.hpp>
 #include <bksge/fnd/array.hpp>
 #include <gtest/gtest.h>
 

@@ -6,7 +6,7 @@
  *	@author	myoukaku
  */
 
-#include <bksge/fnd/utility/pair.hpp>
+#include <bksge/fnd/pair.hpp>
 #include <bksge/fnd/compare/is_eq.hpp>
 #include <bksge/fnd/compare/is_lt.hpp>
 #include <bksge/fnd/compare/is_gt.hpp>

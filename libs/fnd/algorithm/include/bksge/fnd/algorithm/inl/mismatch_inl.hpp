@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/algorithm/mismatch.hpp>
 #include <bksge/fnd/functional/equal_to.hpp>
-#include <bksge/fnd/utility/pair.hpp>
+#include <bksge/fnd/pair.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge

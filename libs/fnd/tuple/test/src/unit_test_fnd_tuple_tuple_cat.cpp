@@ -11,7 +11,7 @@
 #include <bksge/fnd/tuple/get.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/utility/declval.hpp>
-#include <bksge/fnd/utility/pair.hpp>
+#include <bksge/fnd/pair.hpp>
 #include <bksge/fnd/array/array.hpp>
 #include <gtest/gtest.h>
 #include <cstddef>

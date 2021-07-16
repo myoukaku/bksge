@@ -6,7 +6,7 @@
  *	@author	myoukaku
  */
 
-#include <bksge/fnd/utility/pair.hpp>
+#include <bksge/fnd/pair.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_move_constructible.hpp>
 #include <gtest/gtest.h>

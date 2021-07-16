@@ -8,7 +8,7 @@
 
 #include <bksge/fnd/tuple/tuple.hpp>
 #include <bksge/fnd/tuple/get.hpp>
-#include <bksge/fnd/utility/pair.hpp>
+#include <bksge/fnd/pair.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>

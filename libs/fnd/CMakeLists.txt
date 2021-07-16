@@ -38,6 +38,7 @@ set(SUBDIRECTORIES
 	numbers
 	numeric
 	optional
+	pair
 	preprocessor
 	random
 	ranges

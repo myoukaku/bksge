@@ -17,7 +17,7 @@
 //#include <bksge/fnd/serialization/string.hpp>
 //#include <bksge/fnd/serialization/version.hpp>
 #include <bksge/fnd/string/string.hpp>
-#include <bksge/fnd/utility/pair.hpp>
+#include <bksge/fnd/pair.hpp>
 #include <bksge/fnd/unordered_map/unordered_map.hpp>
 #include <initializer_list>
 

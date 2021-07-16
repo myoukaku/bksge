@@ -12,7 +12,7 @@
 #include <bksge/core/render/shader.hpp>
 #include <bksge/core/render/detail/shader_parameter.hpp>
 #include <bksge/fnd/utility/move.hpp>
-#include <bksge/fnd/utility/pair.hpp>
+#include <bksge/fnd/pair.hpp>
 #include <initializer_list>
 
 namespace bksge

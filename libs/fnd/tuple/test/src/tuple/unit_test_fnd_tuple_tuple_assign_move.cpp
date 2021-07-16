@@ -12,7 +12,7 @@
 #include <bksge/fnd/type_traits/is_move_assignable.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_assignable.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_move_assignable.hpp>
-#include <bksge/fnd/utility/pair.hpp>
+#include <bksge/fnd/pair.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>

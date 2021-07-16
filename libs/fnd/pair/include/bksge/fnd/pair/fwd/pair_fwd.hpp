@@ -6,10 +6,10 @@
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_FND_UTILITY_FWD_PAIR_FWD_HPP
-#define BKSGE_FND_UTILITY_FWD_PAIR_FWD_HPP
+#ifndef BKSGE_FND_PAIR_FWD_PAIR_FWD_HPP
+#define BKSGE_FND_PAIR_FWD_PAIR_FWD_HPP
 
-#include <bksge/fnd/utility/config.hpp>
+#include <bksge/fnd/pair/config.hpp>
 
 #if defined(BKSGE_USE_STD_PAIR)
 
@@ -34,4 +34,4 @@ struct pair;
 
 #endif	// defined(BKSGE_USE_STD_PAIR)
 
-#endif // BKSGE_FND_UTILITY_FWD_PAIR_FWD_HPP
+#endif // BKSGE_FND_PAIR_FWD_PAIR_FWD_HPP

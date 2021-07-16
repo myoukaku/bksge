@@ -18,6 +18,7 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../array ${CMAKE_CURRENT_BINARY_DIR
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../config ${CMAKE_CURRENT_BINARY_DIR}/config)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../functional ${CMAKE_CURRENT_BINARY_DIR}/functional)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../memory ${CMAKE_CURRENT_BINARY_DIR}/memory)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../pair ${CMAKE_CURRENT_BINARY_DIR}/pair)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../string ${CMAKE_CURRENT_BINARY_DIR}/string)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../type_traits ${CMAKE_CURRENT_BINARY_DIR}/type_traits)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../unordered_map ${CMAKE_CURRENT_BINARY_DIR}/unordered_map)
@@ -29,6 +30,7 @@ target_link_libraries(${TARGET_NAME}
 		Bksge::config
 		Bksge::functional
 		Bksge::memory
+		Bksge::pair
 		Bksge::string
 		Bksge::type_traits
 		Bksge::unordered_map

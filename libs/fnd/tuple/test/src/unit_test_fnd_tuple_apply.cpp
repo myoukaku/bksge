@@ -12,7 +12,7 @@
 #include <bksge/fnd/array.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/declval.hpp>
-#include <bksge/fnd/utility/pair.hpp>
+#include <bksge/fnd/pair.hpp>
 #include <gtest/gtest.h>
 #include "tuple_test_utility.hpp"
 #include "constexpr_test.hpp"

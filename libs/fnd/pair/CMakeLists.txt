@@ -1,6 +1,6 @@
 ﻿cmake_minimum_required(VERSION 3.14)
 
-set(TARGET_NAME_BASE utility)
+set(TARGET_NAME_BASE pair)
 
 set(TARGET_NAME bksge_${TARGET_NAME_BASE})
 set(TARGET_ALIAS_NAME Bksge::${TARGET_NAME_BASE})
@@ -14,12 +14,18 @@ project(${TARGET_NAME} LANGUAGES C CXX)
 add_library(${TARGET_NAME} INTERFACE)
 add_library(${TARGET_ALIAS_NAME} ALIAS ${TARGET_NAME})
 
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../compare ${CMAKE_CURRENT_BINARY_DIR}/compare)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../config ${CMAKE_CURRENT_BINARY_DIR}/config)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../tuple ${CMAKE_CURRENT_BINARY_DIR}/tuple)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../type_traits ${CMAKE_CURRENT_BINARY_DIR}/type_traits)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../utility ${CMAKE_CURRENT_BINARY_DIR}/utility)
 target_link_libraries(${TARGET_NAME}
 	INTERFACE
+		Bksge::compare
 		Bksge::config
-		Bksge::type_traits)
+		Bksge::tuple
+		Bksge::type_traits
+		Bksge::utility)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 

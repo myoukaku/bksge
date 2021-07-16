@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/tuple/fwd/tuple_fwd.hpp>
 #include <bksge/fnd/array/fwd/array_fwd.hpp>
-#include <bksge/fnd/utility/fwd/pair_fwd.hpp>
+#include <bksge/fnd/pair/fwd/pair_fwd.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/remove_cvref.hpp>
 #include <cstddef>

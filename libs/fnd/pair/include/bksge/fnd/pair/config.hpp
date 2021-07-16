@@ -6,8 +6,8 @@
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_FND_UTILITY_CONFIG_HPP
-#define BKSGE_FND_UTILITY_CONFIG_HPP
+#ifndef BKSGE_FND_PAIR_CONFIG_HPP
+#define BKSGE_FND_PAIR_CONFIG_HPP
 
 #include <bksge/fnd/tuple/config.hpp>
 
@@ -17,4 +17,4 @@
 
 #endif
 
-#endif // BKSGE_FND_UTILITY_CONFIG_HPP
+#endif // BKSGE_FND_PAIR_CONFIG_HPP

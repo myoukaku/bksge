@@ -14,7 +14,7 @@
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/declval.hpp>
-#include <bksge/fnd/utility/pair.hpp>
+#include <bksge/fnd/pair.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cassert>
 #include <cstddef>

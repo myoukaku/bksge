@@ -12,7 +12,7 @@
 #include <bksge/core/render/color_write_flag.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/type_traits/underlying_type.hpp>
-#include <bksge/fnd/utility/pair.hpp>
+#include <bksge/fnd/pair.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge

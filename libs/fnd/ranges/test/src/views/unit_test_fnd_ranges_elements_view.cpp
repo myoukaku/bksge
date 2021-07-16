@@ -26,7 +26,7 @@
 #include <bksge/fnd/tuple/tuple.hpp>
 #include <bksge/fnd/tuple/get.hpp>
 #include <bksge/fnd/utility/as_const.hpp>
-#include <bksge/fnd/utility/pair.hpp>
+#include <bksge/fnd/pair.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"

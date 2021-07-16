@@ -16,7 +16,6 @@
 #include <bksge/fnd/utility/cmp_less.hpp>
 #include <bksge/fnd/utility/cmp_less_equal.hpp>
 #include <bksge/fnd/utility/cmp_not_equal.hpp>
-#include <bksge/fnd/utility/config.hpp>
 #include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/utility/exchange.hpp>
 #include <bksge/fnd/utility/forward.hpp>
@@ -31,7 +30,6 @@
 #include <bksge/fnd/utility/make_integer_sequence.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/move_if_noexcept.hpp>
-#include <bksge/fnd/utility/pair.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/utility/to_underlying.hpp>
 

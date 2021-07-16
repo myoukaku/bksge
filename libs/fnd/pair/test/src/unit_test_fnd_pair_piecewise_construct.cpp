@@ -6,7 +6,7 @@
  *	@author	myoukaku
  */
 
-#include <bksge/fnd/utility/pair.hpp>
+#include <bksge/fnd/pair.hpp>
 #include <bksge/fnd/tuple/forward_as_tuple.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"

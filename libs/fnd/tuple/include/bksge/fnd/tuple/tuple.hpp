@@ -48,8 +48,8 @@ using std::tuple;
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/index_sequence_for.hpp>
 #include <bksge/fnd/utility/move.hpp>
-#include <bksge/fnd/utility/pair.hpp>
 #include <bksge/fnd/utility/swap.hpp>
+#include <bksge/fnd/pair.hpp>
 #include <bksge/fnd/array.hpp>
 #include <bksge/fnd/config.hpp>
 

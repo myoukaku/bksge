@@ -6,7 +6,7 @@
  *	@author	myoukaku
  */
 
-#include <bksge/fnd/utility/pair.hpp>
+#include <bksge/fnd/pair.hpp>
 #include <bksge/fnd/tuple/tuple_size.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"

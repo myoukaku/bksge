@@ -9,7 +9,7 @@
 #ifndef BKSGE_FND_ALGORITHM_EQUAL_RANGE_HPP
 #define BKSGE_FND_ALGORITHM_EQUAL_RANGE_HPP
 
-#include <bksge/fnd/utility/pair.hpp>
+#include <bksge/fnd/pair.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge

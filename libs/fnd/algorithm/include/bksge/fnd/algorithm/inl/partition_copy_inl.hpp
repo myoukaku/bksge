@@ -10,7 +10,7 @@
 #define BKSGE_FND_ALGORITHM_INL_PARTITION_COPY_INL_HPP
 
 #include <bksge/fnd/algorithm/partition_copy.hpp>
-#include <bksge/fnd/utility/pair.hpp>
+#include <bksge/fnd/pair.hpp>
 #include <bksge/fnd/config.hpp>
 
 namespace bksge

@@ -11,7 +11,7 @@
 #include <bksge/fnd/array.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/move.hpp>
-#include <bksge/fnd/utility/pair.hpp>
+#include <bksge/fnd/pair.hpp>
 #include <bksge/fnd/type_traits/decay.hpp>
 #include <gtest/gtest.h>
 #include "tuple_test_utility.hpp"

@@ -6,10 +6,10 @@
  *	@author	myoukaku
  */
 
-#ifndef BKSGE_FND_UTILITY_PAIR_HPP
-#define BKSGE_FND_UTILITY_PAIR_HPP
+#ifndef BKSGE_FND_PAIR_PAIR_HPP
+#define BKSGE_FND_PAIR_PAIR_HPP
 
-#include <bksge/fnd/utility/config.hpp>
+#include <bksge/fnd/pair/config.hpp>
 
 #if defined(BKSGE_USE_STD_PAIR)
 
@@ -672,4 +672,4 @@ struct tuple_element<1, bksge::pair<T1, T2>>
 
 #endif
 
-#endif // BKSGE_FND_UTILITY_PAIR_HPP
+#endif // BKSGE_FND_PAIR_PAIR_HPP

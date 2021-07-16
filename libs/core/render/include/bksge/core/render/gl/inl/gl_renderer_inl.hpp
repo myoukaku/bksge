@@ -38,7 +38,7 @@
 #include <bksge/core/window/window.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/memory/make_shared.hpp>
-#include <bksge/fnd/utility/pair.hpp>
+#include <bksge/fnd/pair.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <cstdio>	// printf
 #include <cstdint>

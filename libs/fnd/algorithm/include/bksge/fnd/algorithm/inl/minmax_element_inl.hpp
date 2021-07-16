@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/algorithm/minmax_element.hpp>
 #include <bksge/fnd/functional/less.hpp>
-#include <bksge/fnd/utility/pair.hpp>
+#include <bksge/fnd/pair.hpp>
 
 namespace bksge
 {

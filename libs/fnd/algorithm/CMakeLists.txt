@@ -27,6 +27,7 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../functional ${CMAKE_CURRENT_BINAR
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../iterator ${CMAKE_CURRENT_BINARY_DIR}/iterator)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../memory ${CMAKE_CURRENT_BINARY_DIR}/memory)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../numeric ${CMAKE_CURRENT_BINARY_DIR}/numeric)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../pair ${CMAKE_CURRENT_BINARY_DIR}/pair)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../random ${CMAKE_CURRENT_BINARY_DIR}/random)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../ranges ${CMAKE_CURRENT_BINARY_DIR}/ranges)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../type_traits ${CMAKE_CURRENT_BINARY_DIR}/type_traits)
@@ -43,6 +44,7 @@ target_link_libraries(${TARGET_NAME}
 		Bksge::iterator
 		Bksge::memory
 		Bksge::numeric
+		Bksge::pair
 		Bksge::random
 		Bksge::ranges
 		Bksge::type_traits
