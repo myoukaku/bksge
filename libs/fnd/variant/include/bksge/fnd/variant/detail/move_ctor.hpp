@@ -14,7 +14,7 @@
 #include <bksge/fnd/variant/detail/variant_construct_single.hpp>
 #include <bksge/fnd/variant/detail/variant_traits.hpp>
 #include <bksge/fnd/utility/forward.hpp>
-#include <bksge/fnd/utility/move.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -31,7 +31,7 @@ struct MoveCtorBase : public variant_detail::CopyCtorAlias<Types...>
 	MoveCtorBase(MoveCtorBase&& rhs)
 		noexcept(variant_detail::VariantTraits<Types...>::s_nothrow_move_ctor)
 	{
-		variant_detail::variant_construct<Types...>(*this, bksge::move(rhs));
+		variant_detail::variant_construct<Types...>(*this, std::move(rhs));
 	}
 
 BKSGE_WARNING_PUSH();

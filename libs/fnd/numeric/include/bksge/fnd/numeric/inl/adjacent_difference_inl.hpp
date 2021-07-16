@@ -11,8 +11,8 @@
 
 #include <bksge/fnd/numeric/adjacent_difference.hpp>
 #include <bksge/fnd/functional/minus.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -25,9 +25,9 @@ adjacent_difference(
 	OutputIterator result)
 {
 	return bksge::adjacent_difference(
-		bksge::move(first),
-		bksge::move(last),
-		bksge::move(result),
+		std::move(first),
+		std::move(last),
+		std::move(result),
 		bksge::minus<>());
 }
 
@@ -52,8 +52,8 @@ adjacent_difference(
 	while (first != last)
 	{
 		auto val = *first;
-		*result = binary_op(val, bksge::move(acc));
-		acc = bksge::move(val);
+		*result = binary_op(val, std::move(acc));
+		acc = std::move(val);
 
 		++result;
 		++first;

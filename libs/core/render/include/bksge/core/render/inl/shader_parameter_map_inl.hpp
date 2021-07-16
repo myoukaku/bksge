@@ -11,7 +11,7 @@
 
 #include <bksge/core/render/shader_parameter_map.hpp>
 #include <bksge/core/render/detail/shader_parameter.hpp>
-#include <bksge/fnd/utility/move.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -26,13 +26,13 @@ ShaderParameterMap::ShaderParameterMap(void)
 
 BKSGE_INLINE
 ShaderParameterMap::ShaderParameterMap(ShaderParameterMap&& rhs)
-	: m_parameters(bksge::move(rhs.m_parameters))
+	: m_parameters(std::move(rhs.m_parameters))
 {}
 
 BKSGE_INLINE
 ShaderParameterMap& ShaderParameterMap::operator=(ShaderParameterMap&& rhs)
 {
-	m_parameters = bksge::move(rhs.m_parameters);
+	m_parameters = std::move(rhs.m_parameters);
 	return *this;
 }
 

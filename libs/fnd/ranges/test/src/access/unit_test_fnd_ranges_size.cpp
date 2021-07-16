@@ -8,7 +8,6 @@
 
 #include <bksge/fnd/ranges/size.hpp>
 #include <bksge/fnd/ranges/concepts/disable_sized_range.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
 #include <utility>
@@ -102,8 +101,8 @@ BKSGE_CXX14_CONSTEXPR bool test03()
 	return
 		bksge::ranges::size(r) == 1 &&
 		bksge::ranges::size(c) == 2L &&
-		bksge::ranges::size(bksge::move(r)) == 3U &&
-		bksge::ranges::size(bksge::move(c)) == 4UL;
+		bksge::ranges::size(std::move(r)) == 3U &&
+		bksge::ranges::size(std::move(c)) == 4UL;
 }
 
 bool test04()

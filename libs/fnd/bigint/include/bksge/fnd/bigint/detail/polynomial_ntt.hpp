@@ -13,7 +13,6 @@
 #include <bksge/fnd/algorithm/copy.hpp>
 #include <bksge/fnd/algorithm/fill.hpp>
 #include <bksge/fnd/bit/bit_ceil.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>

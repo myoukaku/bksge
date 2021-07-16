@@ -8,8 +8,8 @@
 
 #include <bksge/fnd/tuple/get.hpp>
 #include <bksge/fnd/tuple/tuple.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "constexpr_test.hpp"
 
 namespace bksge_tuple_test
@@ -27,7 +27,7 @@ inline BKSGE_CXX14_CONSTEXPR bool test01()
 		bksge::tuple<int> t(3);
 		int& i = get<0>(t);
 		VERIFY(i == 3);
-		int&& j = get<0>(bksge::move(t));
+		int&& j = get<0>(std::move(t));
 		VERIFY(j == 3);
 	}
 	{
@@ -38,8 +38,8 @@ inline BKSGE_CXX14_CONSTEXPR bool test01()
 		VERIFY(f1 == 1.5f);
 		VERIFY(i1 == 2);
 
-		float const&& f2 = get<0>(bksge::move(t));
-		int   const&& i2 = get<1>(bksge::move(t));
+		float const&& f2 = get<0>(std::move(t));
+		int   const&& i2 = get<1>(std::move(t));
 		VERIFY(f2 == 1.5f);
 		VERIFY(i2 == 2);
 	}
@@ -53,9 +53,9 @@ inline BKSGE_CXX14_CONSTEXPR bool test01()
 		VERIFY(f1 == 2.5f);
 		VERIFY(i1 == 4);
 
-		char  const&& c2 = get<0>(bksge::move(t));
-		float const&& f2 = get<1>(bksge::move(t));
-		int   const&& i2 = get<2>(bksge::move(t));
+		char  const&& c2 = get<0>(std::move(t));
+		float const&& f2 = get<1>(std::move(t));
+		int   const&& i2 = get<2>(std::move(t));
 		VERIFY(c2 == 'a');
 		VERIFY(f2 == 2.5f);
 		VERIFY(i2 == 4);
@@ -70,7 +70,7 @@ inline BKSGE_CXX14_CONSTEXPR bool test02()
 		bksge::tuple<int> t(3);
 		int& i = get<int>(t);
 		VERIFY(i == 3);
-		int&& j = get<int>(bksge::move(t));
+		int&& j = get<int>(std::move(t));
 		VERIFY(j == 3);
 	}
 	{
@@ -81,8 +81,8 @@ inline BKSGE_CXX14_CONSTEXPR bool test02()
 		VERIFY(f1 == 1.5f);
 		VERIFY(i1 == 2);
 
-		float const&& f2 = get<float>(bksge::move(t));
-		int   const&& i2 = get<int>(bksge::move(t));
+		float const&& f2 = get<float>(std::move(t));
+		int   const&& i2 = get<int>(std::move(t));
 		VERIFY(f2 == 1.5f);
 		VERIFY(i2 == 2);
 	}
@@ -96,9 +96,9 @@ inline BKSGE_CXX14_CONSTEXPR bool test02()
 		VERIFY(f1 == 3.5f);
 		VERIFY(i1 == 4);
 
-		char  const&& c2 = get<char>(bksge::move(t));
-		float const&& f2 = get<float>(bksge::move(t));
-		int   const&& i2 = get<int>(bksge::move(t));
+		char  const&& c2 = get<char>(std::move(t));
+		float const&& f2 = get<float>(std::move(t));
+		int   const&& i2 = get<int>(std::move(t));
 		VERIFY(c2 == 'a');
 		VERIFY(f2 == 3.5f);
 		VERIFY(i2 == 4);

@@ -10,11 +10,11 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "constexpr_test.hpp"
 
 namespace bksge_algorithm_test
@@ -36,14 +36,14 @@ public:
 	}
 
 	BKSGE_CXX14_CONSTEXPR noncopyable(noncopyable&& rhs)
-		: value(bksge::move(rhs.value))
+		: value(std::move(rhs.value))
 	{
 		rhs.value = -1;
 	}
 	
 	BKSGE_CXX14_CONSTEXPR noncopyable& operator=(noncopyable&& rhs)
 	{
-		value = bksge::move(rhs.value);
+		value = std::move(rhs.value);
 		rhs.value = -1;
 		return *this;
 	}

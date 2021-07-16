@@ -18,8 +18,8 @@
 #include <bksge/fnd/type_traits/is_trivially_copy_constructible.hpp>
 #include <bksge/fnd/type_traits/is_trivially_move_assignable.hpp>
 #include <bksge/fnd/type_traits/is_trivially_move_constructible.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -88,7 +88,7 @@ struct optional_payload<T, true, true, false>
 			bksge::is_nothrow_move_constructible<T>,
 			bksge::is_nothrow_move_assignable<T>>::value))
 	{
-		this->move_assign(bksge::move(other));
+		this->move_assign(std::move(other));
 		return *this;
 	}
 };
@@ -120,7 +120,7 @@ struct optional_payload<T, true, false, false>
 			bksge::is_nothrow_move_constructible<T>,
 			bksge::is_nothrow_move_assignable<T>>::value))
 	{
-		this->move_assign(bksge::move(other));
+		this->move_assign(std::move(other));
 		return *this;
 	}
 };

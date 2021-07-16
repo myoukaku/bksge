@@ -28,9 +28,9 @@
 #include <bksge/core/render/d3d_common/throw_if_failed.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/string/string.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/assert.hpp>
+#include <utility>
 
 #include <iostream>		// TODO
 
@@ -226,7 +226,7 @@ HlslShaderBase::CreateConstantBuffer(Device* device)
 		auto cb = bksge::make_unique<ConstantBuffer>(
 			device,
 			m_reflection->GetConstantBufferByIndex(i));
-		m_constant_buffers.push_back(bksge::move(cb));
+		m_constant_buffers.push_back(std::move(cb));
 	}
 }
 
@@ -246,13 +246,13 @@ HlslShaderBase::CreateShaderResources(Device* /*device*/)
 		case D3D_SIT_TEXTURE:
 			{
 				auto hlsl_texture = bksge::make_unique<HlslTexture>(bind_desc);
-				m_hlsl_textures.push_back(bksge::move(hlsl_texture));
+				m_hlsl_textures.push_back(std::move(hlsl_texture));
 			}
 			break;
 		case D3D_SIT_SAMPLER:
 			{
 				auto hlsl_sampler = bksge::make_unique<HlslSampler>(bind_desc);
-				m_hlsl_samplers.push_back(bksge::move(hlsl_sampler));
+				m_hlsl_samplers.push_back(std::move(hlsl_sampler));
 			}
 			break;
 		default:

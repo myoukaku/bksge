@@ -25,8 +25,8 @@ using std::shift_left;
 #include <bksge/fnd/algorithm/move.hpp>
 #include <bksge/fnd/iterator/iterator_traits.hpp>
 #include <bksge/fnd/iterator/ranges/next.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -47,7 +47,7 @@ shift_left(ForwardIterator first, ForwardIterator last,
 		return first;
 	}
 
-	return bksge::move(bksge::move(mid), bksge::move(last), bksge::move(first));
+	return bksge::move(std::move(mid), std::move(last), std::move(first));
 }
 
 }	// namespace bksge

@@ -56,7 +56,6 @@ using std::basic_string;
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/type_traits/negation.hpp>
 #include <bksge/fnd/type_traits/void_t.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/config.hpp>
 #include <bksge/fnd/assert.hpp>
@@ -65,6 +64,7 @@ using std::basic_string;
 #include <istream>
 #include <ostream>
 #include <cstddef>
+#include <utility>
 
 namespace bksge
 {
@@ -178,9 +178,9 @@ private:
 			: allocator_type(a)
 			, m_p(dat) {}
 
-		BKSGE_CONSTEXPR
+		BKSGE_CXX14_CONSTEXPR
 		AllocHider(pointer dat, Allocator&& a = Allocator())
-			: allocator_type(bksge::move(a))
+			: allocator_type(std::move(a))
 			, m_p(dat) {}
 
 		pointer m_p; // The actual data.
@@ -796,7 +796,7 @@ BKSGE_WARNING_POP();
 
 	BKSGE_CXX14_CONSTEXPR
 	basic_string(basic_string&& str) BKSGE_NOEXCEPT
-		: m_dataplus(GetLocalData(), bksge::move(str.GetAllocator()))
+		: m_dataplus(GetLocalData(), std::move(str.GetAllocator()))
 	{
 		if (str.IsLocal())
 		{
@@ -1435,7 +1435,7 @@ BKSGE_WARNING_POP();
 			AllocTraits::propagate_on_container_move_assignment::value ||
 			AllocTraits::is_always_equal::value))
 	{
-		return *this = bksge::move(str);
+		return *this = std::move(str);
 	}
 
 	BKSGE_CXX14_CONSTEXPR basic_string&
@@ -2556,7 +2556,7 @@ inline basic_string<CharT, Traits, Allocator> operator+(
 	basic_string<CharT, Traits, Allocator>&& lhs,
 	basic_string<CharT, Traits, Allocator> const& rhs)
 {
-	return bksge::move(lhs.append(rhs));
+	return std::move(lhs.append(rhs));
 }
 
 template <typename CharT, typename Traits, typename Allocator>
@@ -2564,7 +2564,7 @@ inline basic_string<CharT, Traits, Allocator> operator+(
 	basic_string<CharT, Traits, Allocator> const& lhs,
 	basic_string<CharT, Traits, Allocator>&& rhs)
 {
-	return bksge::move(rhs.insert(0, lhs));
+	return std::move(rhs.insert(0, lhs));
 }
 
 template <typename CharT, typename Traits, typename Allocator>
@@ -2582,11 +2582,11 @@ inline basic_string<CharT, Traits, Allocator> operator+(
 		auto const size = lhs.size() + rhs.size();
 		if (lhs.capacity() < size && size <= rhs.capacity())
 		{
-			return bksge::move(rhs.insert(0, lhs));
+			return std::move(rhs.insert(0, lhs));
 		}
 	}
 
-	return bksge::move(lhs.append(rhs));
+	return std::move(lhs.append(rhs));
 }
 
 template <typename CharT, typename Traits, typename Allocator>
@@ -2594,7 +2594,7 @@ inline basic_string<CharT, Traits, Allocator> operator+(
 	CharT const* lhs,
 	basic_string<CharT, Traits, Allocator>&& rhs)
 {
-	return bksge::move(rhs.insert(0, lhs));
+	return std::move(rhs.insert(0, lhs));
 }
 
 template <typename CharT, typename Traits, typename Allocator>
@@ -2602,7 +2602,7 @@ inline basic_string<CharT, Traits, Allocator> operator+(
 	CharT lhs,
 	basic_string<CharT, Traits, Allocator>&& rhs)
 {
-	return bksge::move(rhs.insert(0, 1, lhs));
+	return std::move(rhs.insert(0, 1, lhs));
 }
 
 template <typename CharT, typename Traits, typename Allocator>
@@ -2610,7 +2610,7 @@ inline basic_string<CharT, Traits, Allocator> operator+(
 	basic_string<CharT, Traits, Allocator>&& lhs,
 	CharT const* rhs)
 {
-	return bksge::move(lhs.append(rhs));
+	return std::move(lhs.append(rhs));
 }
 
 template <typename CharT, typename Traits, typename Allocator>
@@ -2618,7 +2618,7 @@ inline basic_string<CharT, Traits, Allocator> operator+(
 	basic_string<CharT, Traits, Allocator>&& lhs,
 	CharT rhs)
 {
-	return bksge::move(lhs.append(1, rhs));
+	return std::move(lhs.append(1, rhs));
 }
 
 template <typename CharT, typename Traits, typename Allocator>

@@ -492,15 +492,15 @@ namespace detail
 struct iota_fn
 {
 	template <typename T>
-	BKSGE_CONSTEXPR iota_view<T> operator()(T t) const
+	BKSGE_CXX14_CONSTEXPR iota_view<T> operator()(T t) const
 	{
-		return iota_view<T>{bksge::move(t)};
+		return iota_view<T>{std::move(t)};
 	}
 
 	template <typename T, typename U>
-	BKSGE_CONSTEXPR iota_view<T, U> operator()(T t, U f) const
+	BKSGE_CXX14_CONSTEXPR iota_view<T, U> operator()(T t, U f) const
 	{
-		return iota_view<T, U>{bksge::move(t), bksge::move(f)};
+		return iota_view<T, U>{std::move(t), std::move(f)};
 	}
 };
 

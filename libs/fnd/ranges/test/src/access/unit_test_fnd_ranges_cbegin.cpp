@@ -10,9 +10,9 @@
 #include <bksge/fnd/ranges/concepts/enable_borrowed_range.hpp>
 #include <bksge/fnd/concepts/same_as.hpp>
 #include <bksge/fnd/utility/as_const.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "constexpr_test.hpp"
 
 namespace bksge_ranges_test
@@ -103,8 +103,8 @@ BKSGE_CXX14_CONSTEXPR bool test03()
 	return
 		bksge::ranges::cbegin(r) == bksge::ranges::begin(c) &&
 		bksge::ranges::cbegin(c) == bksge::ranges::begin(c) &&
-		bksge::ranges::cbegin(bksge::move(v))  == bksge::ranges::begin(c) &&
-		bksge::ranges::cbegin(bksge::move(cv)) == bksge::ranges::begin(c);
+		bksge::ranges::cbegin(std::move(v))  == bksge::ranges::begin(c) &&
+		bksge::ranges::cbegin(std::move(cv)) == bksge::ranges::begin(c);
 }
 
 BKSGE_CXX14_CONSTEXPR bool test04()
@@ -115,8 +115,8 @@ BKSGE_CXX14_CONSTEXPR bool test04()
 	return
 		bksge::ranges::cbegin(r) == bksge::ranges::begin(c) &&
 		bksge::ranges::cbegin(c) == bksge::ranges::begin(c) &&
-		bksge::ranges::cbegin(bksge::move(r)) == bksge::ranges::begin(c) &&
-		bksge::ranges::cbegin(bksge::move(c)) == bksge::ranges::begin(c);
+		bksge::ranges::cbegin(std::move(r)) == bksge::ranges::begin(c) &&
+		bksge::ranges::cbegin(std::move(c)) == bksge::ranges::begin(c);
 }
 
 GTEST_TEST(RangesTest, CBeginTest)

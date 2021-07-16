@@ -10,7 +10,6 @@
 #include <bksge/fnd/ranges/data.hpp>
 #include <bksge/fnd/ranges/begin.hpp>
 #include <bksge/fnd/ranges/concepts/enable_borrowed_range.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <gtest/gtest.h>
 #include <utility>
 #include "constexpr_test.hpp"
@@ -89,8 +88,8 @@ BKSGE_CXX14_CONSTEXPR bool test03()
 
 	return
 		bksge::ranges::cdata(r) == bksge::ranges::data(c) &&
-		bksge::ranges::cdata(bksge::move(r)) == bksge::ranges::begin(c) &&
-		bksge::ranges::cdata(bksge::move(c)) == bksge::ranges::begin(c);
+		bksge::ranges::cdata(std::move(r)) == bksge::ranges::begin(c) &&
+		bksge::ranges::cdata(std::move(c)) == bksge::ranges::begin(c);
 }
 
 GTEST_TEST(RangesTest, CDataTest)

@@ -12,7 +12,6 @@
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/utility/in_place_type.hpp>
 #include <bksge/fnd/utility/in_place_index.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <gtest/gtest.h>
 #include <utility>
 #include "archetypes.hpp"
@@ -136,12 +135,12 @@ void test_basic()
 		EXPECT_EQ(&get<const int&>(v), &x);
 		EXPECT_EQ(&ref2, &get<const int&>(v));
 		// emplace an rvalue reference
-		auto& ref3 = v.emplace<int&&>(bksge::move(y));
+		auto& ref3 = v.emplace<int&&>(std::move(y));
 		static_assert(bksge::is_same<int&&, decltype(ref3)>::value, "");
 		EXPECT_EQ(&get<int&&>(v), &y);
 		EXPECT_EQ(&ref3, &get<int&&>(v));
 		// re-emplace a new reference over the active member
-		auto& ref4 = v.emplace<int&&>(bksge::move(z));
+		auto& ref4 = v.emplace<int&&>(std::move(z));
 		static_assert(bksge::is_same<int&, decltype(ref4)>::value, "");
 		EXPECT_EQ(&get<int&&>(v), &z);
 		EXPECT_EQ(&ref4, &get<int&&>(v));

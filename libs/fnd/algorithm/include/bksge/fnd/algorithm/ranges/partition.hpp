@@ -28,8 +28,8 @@
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -58,7 +58,7 @@ private:
 			{
 				if (first == tail)
 				{
-					return { bksge::move(first), bksge::move(lasti) };
+					return { std::move(first), std::move(lasti) };
 				}
 				else if (bksge::invoke(pred, bksge::invoke(proj, *first)))
 				{
@@ -76,7 +76,7 @@ private:
 			{
 				if (first == tail)
 				{
-					return { bksge::move(first), bksge::move(lasti) };
+					return { std::move(first), std::move(lasti) };
 				}
 				else if (!(bool)bksge::invoke(pred, bksge::invoke(proj, *tail)))
 				{
@@ -105,14 +105,14 @@ private:
 	{
 		if (first == last)
 		{
-			return { bksge::move(first), bksge::move(first) };
+			return { std::move(first), std::move(first) };
 		}
 
 		while (bksge::invoke(pred, bksge::invoke(proj, *first)))
 		{
 			if (++first == last)
 			{
-				return { bksge::move(first), bksge::move(first) };
+				return { std::move(first), std::move(first) };
 			}
 		}
 
@@ -126,7 +126,7 @@ private:
 			}
 		}
 
-		return { bksge::move(first), bksge::move(next_it) };
+		return { std::move(first), std::move(next_it) };
 	}
 
 public:
@@ -157,10 +157,10 @@ public:
 		Pred pred, Proj proj = {}) const
 	{
 		return impl(
-			bksge::move(first),
-			bksge::move(last),
-			bksge::move(pred),
-			bksge::move(proj),
+			std::move(first),
+			std::move(last),
+			std::move(pred),
+			std::move(proj),
 			bksge::detail::overload_priority<1>{});
 	}
 
@@ -191,7 +191,7 @@ public:
 	{
 		return (*this)(
 			ranges::begin(r), ranges::end(r),
-			bksge::move(pred), bksge::move(proj));
+			std::move(pred), std::move(proj));
 	}
 };
 

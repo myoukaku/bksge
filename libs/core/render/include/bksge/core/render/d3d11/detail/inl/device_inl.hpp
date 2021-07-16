@@ -17,7 +17,6 @@
 #include <bksge/core/render/d3d_common/com_ptr.hpp>
 #include <bksge/core/render/d3d_common/dxgi.hpp>
 #include <bksge/core/render/d3d_common/throw_if_failed.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/vector.hpp>
 
 namespace bksge
@@ -93,7 +92,7 @@ Device::GetImmediateContext(void)
 
 	ComPtr<ID3D11DeviceContextN> device_context_n;
 	ThrowIfFailed(device_context.As(&device_context_n));
-	return bksge::move(device_context_n);
+	return device_context_n;
 }
 
 BKSGE_INLINE ComPtr<::ID3D11RenderTargetView1>
@@ -103,7 +102,7 @@ Device::CreateRenderTargetView(
 {
 	ComPtr<::ID3D11RenderTargetView1> rtv;
 	ThrowIfFailed(m_device->CreateRenderTargetView1(resource, desc, &rtv));
-	return bksge::move(rtv);
+	return rtv;
 }
 
 BKSGE_INLINE ComPtr<::ID3D11RenderTargetView>
@@ -113,7 +112,7 @@ Device::CreateRenderTargetView(
 {
 	ComPtr<::ID3D11RenderTargetView> rtv;
 	ThrowIfFailed(m_device->CreateRenderTargetView(resource, desc, &rtv));
-	return bksge::move(rtv);
+	return rtv;
 }
 
 BKSGE_INLINE ComPtr<::ID3D11DepthStencilView>
@@ -123,7 +122,7 @@ Device::CreateDepthStencilView(
 {
 	ComPtr<::ID3D11DepthStencilView> dsv;
 	ThrowIfFailed(m_device->CreateDepthStencilView(resource, desc, &dsv));
-	return bksge::move(dsv);
+	return dsv;
 }
 
 BKSGE_INLINE ComPtr<::ID3D11Buffer>
@@ -133,7 +132,7 @@ Device::CreateBuffer(
 {
 	ComPtr<::ID3D11Buffer> buffer;
 	ThrowIfFailed(m_device->CreateBuffer(&desc, subsource_data, &buffer));
-	return bksge::move(buffer);
+	return buffer;
 }
 
 BKSGE_INLINE ComPtr<::ID3D11SamplerState>
@@ -141,7 +140,7 @@ Device::CreateSamplerState(::D3D11_SAMPLER_DESC const& desc)
 {
 	ComPtr<::ID3D11SamplerState> state;
 	ThrowIfFailed(m_device->CreateSamplerState(&desc, &state));
-	return bksge::move(state);
+	return state;
 }
 
 BKSGE_INLINE ComPtr<::ID3D11Texture2D1>
@@ -151,7 +150,7 @@ Device::CreateTexture2D(
 {
 	ComPtr<::ID3D11Texture2D1> texture;
 	ThrowIfFailed(m_device->CreateTexture2D1(&desc, init_data, &texture));
-	return bksge::move(texture);
+	return texture;
 }
 
 BKSGE_INLINE ComPtr<::ID3D11Texture2D>
@@ -161,7 +160,7 @@ Device::CreateTexture2D(
 {
 	ComPtr<::ID3D11Texture2D> texture;
 	ThrowIfFailed(m_device->CreateTexture2D(&desc, init_data, &texture));
-	return bksge::move(texture);
+	return texture;
 }
 
 BKSGE_INLINE ComPtr<::ID3D11VertexShader>
@@ -173,7 +172,7 @@ Device::CreateVertexShader(::ID3DBlob* micro_code)
 		micro_code->GetBufferSize(),
 		nullptr,
 		shader.GetAddressOf()));
-	return bksge::move(shader);
+	return shader;
 }
 
 BKSGE_INLINE ComPtr<::ID3D11PixelShader>
@@ -185,7 +184,7 @@ Device::CreatePixelShader(::ID3DBlob* micro_code)
 		micro_code->GetBufferSize(),
 		nullptr,
 		shader.GetAddressOf()));
-	return bksge::move(shader);
+	return shader;
 }
 
 BKSGE_INLINE ComPtr<::ID3D11ShaderResourceView1>
@@ -195,7 +194,7 @@ Device::CreateShaderResourceView(
 {
 	ComPtr<::ID3D11ShaderResourceView1> srv;
 	ThrowIfFailed(m_device->CreateShaderResourceView1(resource, &desc, &srv));
-	return bksge::move(srv);
+	return srv;
 }
 
 BKSGE_INLINE ComPtr<::ID3D11ShaderResourceView>
@@ -205,7 +204,7 @@ Device::CreateShaderResourceView(
 {
 	ComPtr<::ID3D11ShaderResourceView> srv;
 	ThrowIfFailed(m_device->CreateShaderResourceView(resource, &desc, &srv));
-	return bksge::move(srv);
+	return srv;
 }
 
 BKSGE_INLINE ComPtr<::ID3D11InputLayout>
@@ -222,7 +221,7 @@ Device::CreateInputLayout(
 		bytecode,
 		bytecode_length,
 		&layout));
-	return bksge::move(layout);
+	return layout;
 }
 
 BKSGE_INLINE ComPtr<::ID3D11RasterizerState2>
@@ -231,7 +230,7 @@ Device::CreateRasterizerState(
 {
 	ComPtr<::ID3D11RasterizerState2> state;
 	ThrowIfFailed(m_device->CreateRasterizerState2(&rasterizer_desc, &state));
-	return bksge::move(state);
+	return state;
 }
 
 BKSGE_INLINE ComPtr<::ID3D11RasterizerState1>
@@ -240,7 +239,7 @@ Device::CreateRasterizerState(
 {
 	ComPtr<::ID3D11RasterizerState1> state;
 	ThrowIfFailed(m_device->CreateRasterizerState1(&rasterizer_desc, &state));
-	return bksge::move(state);
+	return state;
 }
 
 BKSGE_INLINE ComPtr<::ID3D11RasterizerState>
@@ -249,7 +248,7 @@ Device::CreateRasterizerState(
 {
 	ComPtr<::ID3D11RasterizerState> state;
 	ThrowIfFailed(m_device->CreateRasterizerState(&rasterizer_desc, &state));
-	return bksge::move(state);
+	return state;
 }
 
 BKSGE_INLINE ComPtr<::ID3D11BlendState1>
@@ -258,7 +257,7 @@ Device::CreateBlendState(
 {
 	ComPtr<::ID3D11BlendState1> state;
 	ThrowIfFailed(m_device->CreateBlendState1(&blend_state_desc, &state));
-	return bksge::move(state);
+	return state;
 }
 
 BKSGE_INLINE ComPtr<::ID3D11BlendState>
@@ -267,7 +266,7 @@ Device::CreateBlendState(
 {
 	ComPtr<::ID3D11BlendState> state;
 	ThrowIfFailed(m_device->CreateBlendState(&blend_state_desc, &state));
-	return bksge::move(state);
+	return state;
 }
 
 BKSGE_INLINE ComPtr<::ID3D11DepthStencilState>
@@ -276,7 +275,7 @@ Device::CreateDepthStencilState(
 {
 	ComPtr<::ID3D11DepthStencilState> state;
 	ThrowIfFailed(m_device->CreateDepthStencilState(&depth_stencil_desc, &state));
-	return bksge::move(state);
+	return state;
 }
 
 }	// namespace d3d11

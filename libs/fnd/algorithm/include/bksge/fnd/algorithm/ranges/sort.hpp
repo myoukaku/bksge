@@ -24,8 +24,8 @@
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -61,7 +61,7 @@ struct sort_fn
 		Comp comp = {}, Proj proj = {}) const
 	{
 		auto lasti = ranges::next(first, last);
-		bksge::sort(bksge::move(first), lasti,
+		bksge::sort(std::move(first), lasti,
 			ranges::detail::make_comp_proj(comp, proj));
 		return lasti;
 	}
@@ -89,7 +89,7 @@ struct sort_fn
 	{
 		return (*this)(
 			ranges::begin(r), ranges::end(r),
-			bksge::move(comp), bksge::move(proj));
+			std::move(comp), std::move(proj));
 	}
 };
 

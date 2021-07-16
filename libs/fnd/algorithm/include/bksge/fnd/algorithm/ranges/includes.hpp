@@ -22,8 +22,8 @@
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -125,8 +125,8 @@ struct includes_fn
 		return (*this)(
 			ranges::begin(r1), ranges::end(r1),
 			ranges::begin(r2), ranges::end(r2),
-			bksge::move(comp),
-			bksge::move(proj1), bksge::move(proj2));
+			std::move(comp),
+			std::move(proj1), std::move(proj2));
 	}
 };
 

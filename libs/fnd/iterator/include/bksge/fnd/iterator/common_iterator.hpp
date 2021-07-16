@@ -48,7 +48,6 @@
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/negation.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <utility>
@@ -92,7 +91,7 @@ class common_iterator
 		bksge::iter_value_t<It> m_keep;
 
 		Proxy(bksge::iter_reference_t<It>&& x)
-			: m_keep(bksge::move(x))
+			: m_keep(std::move(x))
 		{}
 
 		friend class common_iterator;
@@ -114,21 +113,21 @@ private:
 	unsigned char m_index; // 0==m_it, 1==m_sent, 2==valueless
 
 public:
-	BKSGE_CONSTEXPR common_iterator()
+	BKSGE_CXX14_CONSTEXPR common_iterator()
 		BKSGE_NOEXCEPT_IF(bksge::is_nothrow_default_constructible<It>::value)
 		: m_it()
 		, m_index(0)
 	{}
 
-	BKSGE_CONSTEXPR common_iterator(It i)
+	BKSGE_CXX14_CONSTEXPR common_iterator(It i)
 		BKSGE_NOEXCEPT_IF(bksge::is_nothrow_move_constructible<It>::value)
-		: m_it(bksge::move(i))
+		: m_it(std::move(i))
 		, m_index(0)
 	{}
 
-	BKSGE_CONSTEXPR common_iterator(Sent s)
+	BKSGE_CXX14_CONSTEXPR common_iterator(Sent s)
 		BKSGE_NOEXCEPT_IF(bksge::is_nothrow_move_constructible<Sent>::value)
-		: m_sent(bksge::move(s))
+		: m_sent(std::move(s))
 		, m_index(1)
 	{}
 
@@ -136,7 +135,7 @@ private:
 	template <typename CommonIterator>
 	BKSGE_CXX14_CONSTEXPR void construct_it(CommonIterator const& x, bksge::true_type)
 	{
-		m_it = bksge::move(x.m_it);
+		m_it = std::move(x.m_it);
 	}
 
 	template <typename CommonIterator>
@@ -148,7 +147,7 @@ private:
 	template <typename CommonIterator>
 	BKSGE_CXX14_CONSTEXPR void construct_sent(CommonIterator const& x, bksge::true_type)
 	{
-		m_sent = bksge::move(x.m_sent);
+		m_sent = std::move(x.m_sent);
 	}
 
 	template <typename CommonIterator>

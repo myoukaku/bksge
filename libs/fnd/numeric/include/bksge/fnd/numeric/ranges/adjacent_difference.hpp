@@ -27,8 +27,8 @@
 #include <bksge/fnd/ranges/begin.hpp>
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -67,7 +67,7 @@ struct adjacent_difference_fn
 	{
 		if (first == last)
 		{
-			return { bksge::move(first), bksge::move(result) };
+			return { std::move(first), std::move(result) };
 		}
 
 		auto acc = bksge::invoke(proj, *first);
@@ -79,13 +79,13 @@ struct adjacent_difference_fn
 		{
 			auto val = bksge::invoke(proj, *first);
 			*result = bksge::invoke(binary_op, val, acc);
-			acc = bksge::move(val);
+			acc = std::move(val);
 
 			++result;
 			++first;
 		}
 
-		return { bksge::move(first), bksge::move(result) };
+		return { std::move(first), std::move(result) };
 	}
 
 	template <
@@ -113,9 +113,9 @@ struct adjacent_difference_fn
 	{
 		return (*this)(
 			ranges::begin(r), ranges::end(r),
-			bksge::move(result),
-			bksge::move(binary_op),
-			bksge::move(proj));
+			std::move(result),
+			std::move(binary_op),
+			std::move(proj));
 	}
 };
 

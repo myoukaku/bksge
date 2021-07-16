@@ -8,8 +8,8 @@
 
 #include <bksge/fnd/variant/get_if.hpp>
 #include <bksge/fnd/variant/variant.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "test_macros.hpp"
 #include "variant_test_helpers.hpp"
 
@@ -53,14 +53,14 @@ void test_const_get_if()
 	{
 		using V = bksge::variant<int&&>;
 		int x = 42;
-		const V v(bksge::move(x));
+		const V v(std::move(x));
 		ASSERT_SAME_TYPE(decltype(bksge::get_if<0>(&v)), int*);
 		EXPECT_EQ(bksge::get_if<0>(&v), &x);
 	}
 	{
 		using V = bksge::variant<const int&&>;
 		int x = 42;
-		const V v(bksge::move(x));
+		const V v(std::move(x));
 		ASSERT_SAME_TYPE(decltype(bksge::get_if<0>(&v)), const int*);
 		EXPECT_EQ(bksge::get_if<0>(&v), &x);
 	}
@@ -108,14 +108,14 @@ void test_get_if()
 	{
 		using V = bksge::variant<int&&>;
 		int x = 42;
-		V v(bksge::move(x));
+		V v(std::move(x));
 		ASSERT_SAME_TYPE(decltype(bksge::get_if<0>(&v)), int*);
 		EXPECT_EQ(bksge::get_if<0>(&v), &x);
 	}
 	{
 		using V = bksge::variant<const int&&>;
 		int x = 42;
-		V v(bksge::move(x));
+		V v(std::move(x));
 		ASSERT_SAME_TYPE(decltype(bksge::get_if<0>(&v)), const int*);
 		EXPECT_EQ(bksge::get_if<0>(&v), &x);
 	}

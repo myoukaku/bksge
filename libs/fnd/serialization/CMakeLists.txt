@@ -22,7 +22,6 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../pair ${CMAKE_CURRENT_BINARY_DIR}
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../string ${CMAKE_CURRENT_BINARY_DIR}/string)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../type_traits ${CMAKE_CURRENT_BINARY_DIR}/type_traits)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../unordered_map ${CMAKE_CURRENT_BINARY_DIR}/unordered_map)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../utility ${CMAKE_CURRENT_BINARY_DIR}/utility)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../vector ${CMAKE_CURRENT_BINARY_DIR}/vector)
 target_link_libraries(${TARGET_NAME}
 	INTERFACE
@@ -34,7 +33,6 @@ target_link_libraries(${TARGET_NAME}
 		Bksge::string
 		Bksge::type_traits
 		Bksge::unordered_map
-		Bksge::utility
 		Bksge::vector)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)

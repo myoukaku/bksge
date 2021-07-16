@@ -27,7 +27,7 @@ namespace bksge
  *	@return	集計結果の値
  */
 template <typename InputIterator, typename T>
-BKSGE_CONSTEXPR T
+BKSGE_CXX14_CONSTEXPR T
 accumulate(
 	InputIterator first,
 	InputIterator last,
@@ -56,7 +56,7 @@ template <
 	typename T,
 	typename BinaryOperation
 >
-BKSGE_CONSTEXPR T
+BKSGE_CXX14_CONSTEXPR T
 accumulate(
 	InputIterator first,
 	InputIterator last,

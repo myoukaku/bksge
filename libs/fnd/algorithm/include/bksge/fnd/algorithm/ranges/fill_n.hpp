@@ -15,8 +15,8 @@
 #include <bksge/fnd/iterator/iter_difference_t.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_scalar.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -79,8 +79,8 @@ public:
 		}
 
 		return impl(
-			bksge::move(first),
-			bksge::move(n),
+			std::move(first),
+			std::move(n),
 			value,
 			bksge::detail::overload_priority<1>{});
 	}

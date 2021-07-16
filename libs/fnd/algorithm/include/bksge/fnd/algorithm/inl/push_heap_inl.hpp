@@ -14,8 +14,8 @@
 #include <bksge/fnd/functional/less.hpp>
 #include <bksge/fnd/iterator/iter_value_t.hpp>
 #include <bksge/fnd/iterator/iter_difference_t.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -42,12 +42,12 @@ push_heap(
 	using value_t = bksge::iter_value_t<RandomAccessIterator>;
 	using difference_t = bksge::iter_difference_t<RandomAccessIterator>;
 
-	value_t value = bksge::move(*(last - 1));
+	value_t value = std::move(*(last - 1));
 	detail::push_heap(
 		first,
 		difference_t((last - first) - 1),
 		difference_t(0),
-		bksge::move(value),
+		std::move(value),
 		comp);
 }
 

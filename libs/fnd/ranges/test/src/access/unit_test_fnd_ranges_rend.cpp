@@ -10,7 +10,6 @@
 #include <bksge/fnd/ranges/begin.hpp>
 #include <bksge/fnd/ranges/concepts/enable_borrowed_range.hpp>
 #include <bksge/fnd/concepts/same_as.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/iterator/make_reverse_iterator.hpp>
 #include <bksge/fnd/iterator/concepts/sentinel_for.hpp>
 #include <gtest/gtest.h>
@@ -88,7 +87,7 @@ BKSGE_CXX14_CONSTEXPR bool test01()
 
 	return
 		bksge::ranges::rend(r) == &r.i + 1 &&
-		bksge::ranges::rend(bksge::move(r)) == &r.i + 1;
+		bksge::ranges::rend(std::move(r)) == &r.i + 1;
 }
 
 BKSGE_CXX14_CONSTEXPR bool test02()
@@ -122,8 +121,8 @@ BKSGE_CXX14_CONSTEXPR bool test03()
 	// of the same type I which models bidirectional_iterator.
 
 	return
-		bksge::ranges::rend(r)              == bksge::make_reverse_iterator(bksge::ranges::begin(r)) &&
-		bksge::ranges::rend(bksge::move(r)) == bksge::make_reverse_iterator(bksge::ranges::begin(bksge::move(r)));
+		bksge::ranges::rend(r)            == bksge::make_reverse_iterator(bksge::ranges::begin(r)) &&
+		bksge::ranges::rend(std::move(r)) == bksge::make_reverse_iterator(bksge::ranges::begin(std::move(r)));
 }
 
 GTEST_TEST(RangesTest, REndTest)

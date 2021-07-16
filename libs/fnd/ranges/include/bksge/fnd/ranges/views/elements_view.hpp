@@ -48,7 +48,6 @@
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/remove_reference.hpp>
 #include <bksge/fnd/type_traits/remove_cvref.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
@@ -137,9 +136,9 @@ private:
 public:
 	BKSGE_CONSTEXPR elements_view() = default;
 
-	BKSGE_CONSTEXPR explicit
+	BKSGE_CXX14_CONSTEXPR explicit
 	elements_view(V base)
-		: m_base(bksge::move(base))
+		: m_base(std::move(base))
 	{}
 
 	template <BKSGE_REQUIRES_PARAM_D(bksge::copy_constructible, V2, V)>
@@ -150,7 +149,7 @@ public:
 
 	BKSGE_CXX14_CONSTEXPR V base() &&
 	{
-		return bksge::move(m_base);
+		return std::move(m_base);
 	}
 
 	template <BKSGE_REQUIRES_PARAM_D(ranges::detail::not_simple_view, V2, V)>
@@ -234,9 +233,9 @@ private:
 
 		BKSGE_CONSTEXPR Iterator() = default;
 
-		BKSGE_CONSTEXPR explicit
+		BKSGE_CXX14_CONSTEXPR explicit
 		Iterator(ranges::iterator_t<Base> current)
-			: m_current(bksge::move(current))
+			: m_current(std::move(current))
 		{}
 
 		template <bool Const2 = Const,
@@ -246,9 +245,9 @@ private:
 					ranges::iterator_t<V>,
 					ranges::iterator_t<Base>
 				>::value>>
-		BKSGE_CONSTEXPR
+		BKSGE_CXX14_CONSTEXPR
 		Iterator(Iterator<!Const> i)
-			: m_current(bksge::move(i.m_current))
+			: m_current(std::move(i.m_current))
 		{}
 
 		template <BKSGE_REQUIRES_PARAM_D(bksge::copyable, I, ranges::iterator_t<Base>)>
@@ -259,7 +258,7 @@ private:
 
 		BKSGE_CXX14_CONSTEXPR ranges::iterator_t<Base> base() &&
 		{
-			return bksge::move(m_current);
+			return std::move(m_current);
 		}
 
 		BKSGE_CONSTEXPR auto operator*() const
@@ -430,9 +429,9 @@ private:
 	public:
 		BKSGE_CONSTEXPR Sentinel() = default;
 
-		BKSGE_CONSTEXPR explicit
+		BKSGE_CXX14_CONSTEXPR explicit
 		Sentinel(ranges::sentinel_t<Base> end)
-			: m_end(bksge::move(end))
+			: m_end(std::move(end))
 		{}
 
 		template <bool Const2 = Const,
@@ -442,9 +441,9 @@ private:
 					ranges::sentinel_t<V>,
 					ranges::sentinel_t<Base>
 				>::value>>
-		BKSGE_CONSTEXPR
+		BKSGE_CXX14_CONSTEXPR
 		Sentinel(Sentinel<!Const> other)
-			: m_end(bksge::move(other.m_end))
+			: m_end(std::move(other.m_end))
 		{}
 
 		BKSGE_CONSTEXPR ranges::sentinel_t<Base> base() const

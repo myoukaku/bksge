@@ -27,8 +27,8 @@
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/type_traits/invoke_result.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -127,15 +127,15 @@ struct inner_product_fn
 		Proj2 proj2 = {}) const
 	{
 		return (*this)(
-			bksge::move(first1),
-			bksge::move(last1),
-			bksge::move(first2),
+			std::move(first1),
+			std::move(last1),
+			std::move(first2),
 			bksge::unreachable_sentinel,
-			bksge::move(init),
-			bksge::move(binary_op1),
-			bksge::move(binary_op2),
-			bksge::move(proj1),
-			bksge::move(proj2));
+			std::move(init),
+			std::move(binary_op1),
+			std::move(binary_op2),
+			std::move(proj1),
+			std::move(proj2));
 	}
 
 	template <
@@ -177,11 +177,11 @@ struct inner_product_fn
 		return (*this)(
 			ranges::begin(r1), ranges::end(r1),
 			ranges::begin(r2), ranges::end(r2),
-			bksge::move(init),
-			bksge::move(binary_op1),
-			bksge::move(binary_op2),
-			bksge::move(proj1),
-			bksge::move(proj2));
+			std::move(init),
+			std::move(binary_op1),
+			std::move(binary_op2),
+			std::move(proj1),
+			std::move(proj2));
 	}
 };
 

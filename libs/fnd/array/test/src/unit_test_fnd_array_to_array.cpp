@@ -8,8 +8,8 @@
 
 #include <bksge/fnd/array/to_array.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "constexpr_test.hpp"
 
 namespace bksge_array_test
@@ -51,7 +51,7 @@ inline BKSGE_CXX14_CONSTEXPR bool test_to_array()
 	}
 	{
 		int x[] = {1,2,3,4};
-		auto y = bksge::to_array(bksge::move(x));
+		auto y = bksge::to_array(std::move(x));
 		static_assert(bksge::is_same<decltype(y), bksge::array<int, 4>>::value, "");
 		VERIFY(y[0] == 1);
 		VERIFY(y[1] == 2);
@@ -79,7 +79,7 @@ inline BKSGE_CXX14_CONSTEXPR bool test_to_array()
 #if !(defined(BKSGE_MSVC) && (BKSGE_MSVC < 1920))
 	{
 		MoveOnly x[] = {{1},{2},{3}};
-		auto y = bksge::to_array(bksge::move(x));
+		auto y = bksge::to_array(std::move(x));
 		static_assert(bksge::is_same<decltype(y), bksge::array<MoveOnly, 3>>::value, "");
 		VERIFY(y[0].m_value == 1);
 		VERIFY(y[1].m_value == 2);

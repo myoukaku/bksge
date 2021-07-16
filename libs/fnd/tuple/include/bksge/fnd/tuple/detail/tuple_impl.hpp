@@ -16,10 +16,10 @@
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_move_constructible.hpp>
 #include <bksge/fnd/utility/forward.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
+#include <utility>
 
 namespace bksge
 {
@@ -90,12 +90,12 @@ struct tuple_impl<Idx, Head, Tail...>
 
 	tuple_impl& operator=(tuple_impl const&) = delete;
 
-	BKSGE_CONSTEXPR
+	BKSGE_CXX14_CONSTEXPR
 	tuple_impl(tuple_impl&& in)
 		BKSGE_NOEXCEPT_IF((bksge::conjunction<
 			bksge::is_nothrow_move_constructible<Head>,
 			bksge::is_nothrow_move_constructible<Inherited>>::value))
-		: Inherited(bksge::move(tail(in)))
+		: Inherited(std::move(tail(in)))
 		, Base(bksge::forward<Head>(head(in)))
 	{}
 
@@ -107,9 +107,9 @@ struct tuple_impl<Idx, Head, Tail...>
 	{}
 
 	template <typename UHead, typename... UTails>
-	BKSGE_CONSTEXPR
+	BKSGE_CXX14_CONSTEXPR
 	tuple_impl(tuple_impl<Idx, UHead, UTails...>&& in)
-		: Inherited(bksge::move(tuple_impl<Idx, UHead, UTails...>::tail(in)))
+		: Inherited(std::move(tuple_impl<Idx, UHead, UTails...>::tail(in)))
 		, Base(bksge::forward<UHead>(tuple_impl<Idx, UHead, UTails...>::head(in)))
 	{}
 
@@ -143,9 +143,9 @@ struct tuple_impl<Idx, Head, Tail...>
 	{}
 
 	template <typename Alloc>
-	BKSGE_CONSTEXPR
+	BKSGE_CXX14_CONSTEXPR
 	tuple_impl(bksge::allocator_arg_t tag, Alloc const& a, tuple_impl&& in)
-		: Inherited(tag, a, bksge::move(tail(in)))
+		: Inherited(tag, a, std::move(tail(in)))
 		, Base(use_alloc<Head, Alloc, Head>(a), bksge::forward<Head>(head(in)))
 	{}
 
@@ -157,9 +157,9 @@ struct tuple_impl<Idx, Head, Tail...>
 	{}
 
 	template <typename Alloc, typename UHead, typename... UTails>
-	BKSGE_CONSTEXPR
+	BKSGE_CXX14_CONSTEXPR
 	tuple_impl(bksge::allocator_arg_t tag, Alloc const& a, tuple_impl<Idx, UHead, UTails...>&& in)
-		: Inherited(tag, a, bksge::move(tuple_impl<Idx, UHead, UTails...>::tail(in)))
+		: Inherited(tag, a, std::move(tuple_impl<Idx, UHead, UTails...>::tail(in)))
 		, Base(use_alloc<Head, Alloc, UHead>(a), bksge::forward<UHead>(tuple_impl<Idx, UHead, UTails...>::head(in)))
 	{}
 
@@ -176,7 +176,7 @@ struct tuple_impl<Idx, Head, Tail...>
 	void assign(tuple_impl<Idx, UHead, UTails...>&& in)
 	{
 		head(*this) = bksge::forward<UHead>(tuple_impl<Idx, UHead, UTails...>::head(in));
-		tail(*this).assign(bksge::move(tuple_impl<Idx, UHead, UTails...>::tail(in)));
+		tail(*this).assign(std::move(tuple_impl<Idx, UHead, UTails...>::tail(in)));
 	}
 
 protected:

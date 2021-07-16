@@ -9,8 +9,8 @@
 #ifndef BKSGE_FND_NUMERIC_TRANSFORM_INCLUSIVE_SCAN_HPP
 #define BKSGE_FND_NUMERIC_TRANSFORM_INCLUSIVE_SCAN_HPP
 
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -67,7 +67,7 @@ transform_inclusive_scan(
 				result,
 				binary_op,
 				unary_op,
-				bksge::move(init));
+				std::move(init));
 		}
 	}
 

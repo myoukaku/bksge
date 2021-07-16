@@ -19,7 +19,6 @@
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/invoke_result.hpp>
 #include <bksge/fnd/functional/reference_wrapper.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
@@ -178,7 +177,7 @@ protected:
 
 public:
 	constexpr range_adaptor(Callable callable)
-		: m_callable(bksge::move(callable))
+		: m_callable(std::move(callable))
 	{}
 };
 

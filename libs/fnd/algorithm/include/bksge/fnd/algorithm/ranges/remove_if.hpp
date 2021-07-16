@@ -24,8 +24,8 @@
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -75,7 +75,7 @@ struct remove_if_fn
 		{
 			if (!bksge::invoke(pred, bksge::invoke(proj, *first)))
 			{
-				*result = bksge::move(*first);
+				*result = std::move(*first);
 				++result;
 			}
 		}
@@ -110,7 +110,7 @@ struct remove_if_fn
 	{
 		return (*this)(
 			ranges::begin(r), ranges::end(r),
-			bksge::move(pred), bksge::move(proj));
+			std::move(pred), std::move(proj));
 	}
 };
 

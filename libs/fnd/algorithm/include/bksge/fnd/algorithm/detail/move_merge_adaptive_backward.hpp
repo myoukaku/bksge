@@ -10,7 +10,7 @@
 #define BKSGE_FND_ALGORITHM_DETAIL_MOVE_MERGE_ADAPTIVE_BACKWARD_HPP
 
 #include <bksge/fnd/algorithm/move_backward.hpp>
-#include <bksge/fnd/utility/move.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -50,7 +50,7 @@ void move_merge_adaptive_backward(
 	{
 		if (comp(*last2, *last1))
 		{
-			*--result = bksge::move(*last1);
+			*--result = std::move(*last1);
 			if (first1 == last1)
 			{
 				bksge::move_backward(first2, ++last2, result);
@@ -61,7 +61,7 @@ void move_merge_adaptive_backward(
 		}
 		else
 		{
-			*--result = bksge::move(*last2);
+			*--result = std::move(*last2);
 			if (first2 == last2)
 			{
 				return;

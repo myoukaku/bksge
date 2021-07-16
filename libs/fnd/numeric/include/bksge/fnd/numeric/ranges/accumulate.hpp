@@ -25,8 +25,8 @@
 #include <bksge/fnd/ranges/begin.hpp>
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -86,9 +86,9 @@ struct accumulate_fn
 	{
 		return (*this)(
 			ranges::begin(r), ranges::end(r),
-			bksge::move(init),
-			bksge::move(binary_op),
-			bksge::move(proj));
+			std::move(init),
+			std::move(binary_op),
+			std::move(proj));
 	}
 };
 

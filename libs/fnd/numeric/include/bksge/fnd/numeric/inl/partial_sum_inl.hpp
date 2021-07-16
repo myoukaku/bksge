@@ -11,8 +11,8 @@
 
 #include <bksge/fnd/numeric/partial_sum.hpp>
 #include <bksge/fnd/functional/plus.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -25,9 +25,9 @@ partial_sum(
 	OutputIterator result)
 {
 	return bksge::partial_sum(
-		bksge::move(first),
-		bksge::move(last),
-		bksge::move(result),
+		std::move(first),
+		std::move(last),
+		std::move(result),
 		bksge::plus<>());
 }
 
@@ -49,7 +49,7 @@ partial_sum(
 	
 	while (++first != last)
 	{
-		sum = binary_op(bksge::move(sum), *first);
+		sum = binary_op(std::move(sum), *first);
 		*++result = sum;
 	}
 	

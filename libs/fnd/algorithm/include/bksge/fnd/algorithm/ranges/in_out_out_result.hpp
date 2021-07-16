@@ -12,8 +12,8 @@
 #include <bksge/fnd/concepts/convertible_to.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -69,7 +69,7 @@ struct in_out_out_result
 	BKSGE_CXX14_CONSTEXPR
 	operator in_out_out_result<IIter, OOut1, OOut2>() &&
 	{
-		return { bksge::move(in), bksge::move(out1), bksge::move(out2) };
+		return { std::move(in), std::move(out1), std::move(out2) };
 	}
 };
 

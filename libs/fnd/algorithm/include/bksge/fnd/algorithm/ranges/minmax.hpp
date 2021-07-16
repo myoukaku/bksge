@@ -25,10 +25,10 @@
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <initializer_list>
+#include <utility>
 
 namespace bksge
 {
@@ -61,7 +61,7 @@ struct minmax_fn
 	operator()(T const& a, T const& b,
 		Comp comp = {}, Proj proj = {}) const
 	{
-		if (bksge::invoke(bksge::move(comp),
+		if (bksge::invoke(std::move(comp),
 			bksge::invoke(proj, b),
 			bksge::invoke(proj, a)))
 		{
@@ -113,14 +113,14 @@ struct minmax_fn
 				bksge::invoke(proj, tmp),
 				bksge::invoke(proj, result.min)))
 			{
-				result.min = bksge::move(tmp);
+				result.min = std::move(tmp);
 			}
 
 			if (!(bool)bksge::invoke(comp,
 				bksge::invoke(proj, tmp),
 				bksge::invoke(proj, result.max)))
 			{
-				result.max = bksge::move(tmp);
+				result.max = std::move(tmp);
 			}
 		}
 
@@ -150,7 +150,7 @@ struct minmax_fn
 		Comp comp = {}, Proj proj = {}) const
 	{
 		return (*this)(ranges::subrange<T const*>(r),
-			bksge::move(comp), bksge::move(proj));
+			std::move(comp), std::move(proj));
 	}
 };
 

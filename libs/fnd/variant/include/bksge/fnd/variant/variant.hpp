@@ -80,11 +80,11 @@ using std::variant;
 #include <bksge/fnd/utility/in_place_type.hpp>
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/utility/index_sequence_for.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/config.hpp>
 #include <initializer_list>
 #include <cstddef>
+#include <utility>
 
 BKSGE_WARNING_PUSH();
 BKSGE_WARNING_DISABLE_MSVC(4702);	// unreachable code
@@ -296,7 +296,7 @@ private:
 		// This construction might throw:
 		variant tmp(bksge::in_place_index_t<N>{}, bksge::forward<Args>(args)...);
 		// But NeverValuelessAlt<AltType> means this won't:
-		*this = bksge::move(tmp);
+		*this = std::move(tmp);
 	}
 
 	template <std::size_t N, typename AltType, typename... Args>
@@ -386,7 +386,7 @@ private:
 		{
 			if (!m_lhs.valueless_by_exception()) /*[[__likely__]]*/
 			{
-				m_rhs = bksge::move(m_lhs);
+				m_rhs = std::move(m_lhs);
 				m_lhs.reset();
 			}
 		}
@@ -405,13 +405,13 @@ private:
 			{
 				if (!m_lhs.valueless_by_exception()) /*[[__likely__]]*/
 				{
-					auto tmp(bksge::move(rhs_mem));
-					m_rhs = bksge::move(m_lhs);
-					m_lhs.destructive_move(static_cast<unsigned short>(rhs_index), bksge::move(tmp));
+					auto tmp(std::move(rhs_mem));
+					m_rhs = std::move(m_lhs);
+					m_lhs.destructive_move(static_cast<unsigned short>(rhs_index), std::move(tmp));
 				}
 				else
 				{
-					m_lhs.destructive_move(static_cast<unsigned short>(rhs_index), bksge::move(rhs_mem));
+					m_lhs.destructive_move(static_cast<unsigned short>(rhs_index), std::move(rhs_mem));
 					m_rhs.reset();
 				}
 			}

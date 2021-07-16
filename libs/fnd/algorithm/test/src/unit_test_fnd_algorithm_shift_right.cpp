@@ -13,7 +13,6 @@
 #include <bksge/fnd/iterator/ranges/next.hpp>
 #include <bksge/fnd/ranges/begin.hpp>
 #include <bksge/fnd/ranges/end.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <gtest/gtest.h>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"

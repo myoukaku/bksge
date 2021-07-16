@@ -18,7 +18,6 @@ BKSGE_WARNING_DISABLE_GCC("-Warray-bounds");
 #include <bksge/fnd/compare/is_eq.hpp>
 #include <bksge/fnd/compare/is_gt.hpp>
 #include <bksge/fnd/compare/is_lt.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
 #include <bksge/fnd/stdexcept/length_error.hpp>
@@ -27,6 +26,7 @@ BKSGE_WARNING_DISABLE_GCC("-Warray-bounds");
 #include <vector>
 #include <new>
 #include <cstddef>
+#include <utility>
 #include "constexpr_test.hpp"
 #include "iterator_test.hpp"
 
@@ -717,7 +717,7 @@ inline BKSGE_CXX14_CONSTEXPR bool CtorMoveTest()
 	// (8) basic_string::basic_string(basic_string&&)
 	{
 		string s1(Helper::abcde());
-		string const s2(bksge::move(s1));
+		string const s2(std::move(s1));
 		VERIFY(s2.length() == 5);
 		VERIFY(s2.size()   == 5);
 		VERIFY(!s2.empty());
@@ -726,13 +726,13 @@ inline BKSGE_CXX14_CONSTEXPR bool CtorMoveTest()
 	}
 	{
 		string s1(Helper::long_str());
-		string const s2(bksge::move(s1));
+		string const s2(std::move(s1));
 		VERIFY(s2 == Helper::long_str());
 	}
 	// (8) basic_string::basic_string(basic_string&&, Allocator const&)
 	{
 		string s1(Helper::abcd());
-		string const s2(bksge::move(s1), Allocator());
+		string const s2(std::move(s1), Allocator());
 		VERIFY(s2.length() == 4);
 		VERIFY(s2.size()   == 4);
 		VERIFY(!s2.empty());
@@ -741,12 +741,12 @@ inline BKSGE_CXX14_CONSTEXPR bool CtorMoveTest()
 	}
 	{
 		string s1(Helper::long_str(), Allocator());
-		string const s2(bksge::move(s1));
+		string const s2(std::move(s1));
 		VERIFY(s2 == Helper::long_str());
 	}
 	{
 		string2 s1(Helper::long_str());
-		string2 const s2(bksge::move(s1), MyAllocator<CharT>());
+		string2 const s2(std::move(s1), MyAllocator<CharT>());
 		VERIFY(s2 == Helper::long_str());
 	}
 	return true;
@@ -5272,21 +5272,21 @@ inline BKSGE_CXX14_CONSTEXPR bool OperatorPlusTest()
 	{
 		string s1 = Helper::ab();
 		string s2 = Helper::cde();
-		auto r = bksge::move(s1) + bksge::move(s2);
+		auto r = std::move(s1) + std::move(s2);
 		static_assert(bksge::is_same<decltype(r), string>::value, "");
 		VERIFY(r == Helper::abcde());
 	}
 	{
 		string s1 = Helper::abcde();
 		string s2;
-		auto r = bksge::move(s1) + bksge::move(s2);
+		auto r = std::move(s1) + std::move(s2);
 		static_assert(bksge::is_same<decltype(r), string>::value, "");
 		VERIFY(r == Helper::abcde());
 	}
 	{
 		string s1;
 		string s2 = Helper::abcde();
-		auto r = bksge::move(s1) + bksge::move(s2);
+		auto r = std::move(s1) + std::move(s2);
 		static_assert(bksge::is_same<decltype(r), string>::value, "");
 		VERIFY(r == Helper::abcde());
 	}
@@ -5294,7 +5294,7 @@ inline BKSGE_CXX14_CONSTEXPR bool OperatorPlusTest()
 	{
 		string s1 = Helper::ab();
 		string const s2 = Helper::cde();
-		auto r = bksge::move(s1) + s2;
+		auto r = std::move(s1) + s2;
 		static_assert(bksge::is_same<decltype(r), string>::value, "");
 		VERIFY(r == Helper::abcde());
 	}
@@ -5302,7 +5302,7 @@ inline BKSGE_CXX14_CONSTEXPR bool OperatorPlusTest()
 	{
 		string s1 = Helper::ab();
 		CharT const* s2 = Helper::cde();
-		auto r = bksge::move(s1) + s2;
+		auto r = std::move(s1) + s2;
 		static_assert(bksge::is_same<decltype(r), string>::value, "");
 		VERIFY(r == Helper::abcde());
 	}
@@ -5310,7 +5310,7 @@ inline BKSGE_CXX14_CONSTEXPR bool OperatorPlusTest()
 	{
 		string s1 = Helper::abcd();
 		CharT const s2 = Helper::cde()[2];
-		auto r = bksge::move(s1) + s2;
+		auto r = std::move(s1) + s2;
 		static_assert(bksge::is_same<decltype(r), string>::value, "");
 		VERIFY(r == Helper::abcde());
 	}
@@ -5318,7 +5318,7 @@ inline BKSGE_CXX14_CONSTEXPR bool OperatorPlusTest()
 	{
 		string const s1 = Helper::ab();
 		string s2 = Helper::cde();
-		auto r = s1 + bksge::move(s2);
+		auto r = s1 + std::move(s2);
 		static_assert(bksge::is_same<decltype(r), string>::value, "");
 		VERIFY(r == Helper::abcde());
 	}
@@ -5326,7 +5326,7 @@ inline BKSGE_CXX14_CONSTEXPR bool OperatorPlusTest()
 	{
 		CharT const* s1 = Helper::ab();
 		string s2 = Helper::cde();
-		auto r = s1 + bksge::move(s2);
+		auto r = s1 + std::move(s2);
 		static_assert(bksge::is_same<decltype(r), string>::value, "");
 		VERIFY(r == Helper::abcde());
 	}
@@ -5334,7 +5334,7 @@ inline BKSGE_CXX14_CONSTEXPR bool OperatorPlusTest()
 	{
 		CharT const s1 = Helper::ab()[0];
 		string s2 = Helper::bcde();
-		auto r = s1 + bksge::move(s2);
+		auto r = s1 + std::move(s2);
 		static_assert(bksge::is_same<decltype(r), string>::value, "");
 		VERIFY(r == Helper::abcde());
 	}

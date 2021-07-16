@@ -7,10 +7,10 @@
  */
 
 #include <bksge/fnd/pair.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/tuple/tuple.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_move_assignable.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "constexpr_test.hpp"
 
 namespace bksge_pair_test
@@ -103,10 +103,10 @@ inline BKSGE_CXX14_CONSTEXPR bool test04()
 	bksge::pair<int, int> p0, p1, p2, p3;
 	bksge::pair<int, int> pij(bksge::piecewise_construct, T(i), T(j));
 	p0 = pij;
-	p1 = bksge::move(pij);
+	p1 = std::move(pij);
 	bksge::pair<long, long> pijl(i, j);
 	p2 = pijl;
-	p3 = bksge::move(pijl);
+	p3 = std::move(pijl);
 
 	VERIFY(p0.first  == i);
 	VERIFY(p0.second == j);

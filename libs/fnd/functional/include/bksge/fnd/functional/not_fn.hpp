@@ -22,15 +22,15 @@ using std::not_fn;
 
 #else
 
- #include <bksge/fnd/functional/invoke.hpp>
- #include <bksge/fnd/type_traits/decay.hpp>
- #include <bksge/fnd/type_traits/enable_if.hpp>
- #include <bksge/fnd/type_traits/is_same.hpp>
- #include <bksge/fnd/type_traits/is_constructible.hpp>
- #include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
- #include <bksge/fnd/utility/forward.hpp>
- #include <bksge/fnd/utility/move.hpp>
- #include <bksge/fnd/config.hpp>
+#include <bksge/fnd/functional/invoke.hpp>
+#include <bksge/fnd/type_traits/decay.hpp>
+#include <bksge/fnd/type_traits/enable_if.hpp>
+#include <bksge/fnd/type_traits/is_same.hpp>
+#include <bksge/fnd/type_traits/is_constructible.hpp>
+#include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
+#include <bksge/fnd/utility/forward.hpp>
+#include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -60,7 +60,7 @@ public:
 	template <typename... Args>
 	auto operator()(Args&&... args) &&
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
-			!bksge::invoke(bksge::move(m_fd), bksge::forward<Args>(args)...))
+			!bksge::invoke(std::move(m_fd), bksge::forward<Args>(args)...))
 
 	template <typename... Args>
 	auto operator()(Args&&... args) const&
@@ -70,7 +70,7 @@ public:
 	template <typename... Args>
 	auto operator()(Args&&... args) const&&
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
-			!bksge::invoke(bksge::move(m_fd), bksge::forward<Args>(args)...))
+			!bksge::invoke(std::move(m_fd), bksge::forward<Args>(args)...))
 
 	template <
 		typename F2,

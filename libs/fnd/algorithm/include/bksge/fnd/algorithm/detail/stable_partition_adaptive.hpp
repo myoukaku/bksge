@@ -13,7 +13,7 @@
 #include <bksge/fnd/algorithm/rotate.hpp>
 #include <bksge/fnd/algorithm/detail/find_if_not_n.hpp>
 #include <bksge/fnd/iterator/advance.hpp>
-#include <bksge/fnd/utility/move.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -51,19 +51,19 @@ ForwardIterator stable_partition_adaptive(
 		// The precondition guarantees that !pred(first), so
 		// move that element to the buffer before starting the loop.
 		// This ensures that we only call pred once per element.
-		*result2 = bksge::move(*first);
+		*result2 = std::move(*first);
 		++result2;
 		++first;
 		for (; first != last; ++first)
 		{
 			if (pred(*first))
 			{
-				*result1 = bksge::move(*first);
+				*result1 = std::move(*first);
 				++result1;
 			}
 			else
 			{
-				*result2 = bksge::move(*first);
+				*result2 = std::move(*first);
 				++result2;
 			}
 		}

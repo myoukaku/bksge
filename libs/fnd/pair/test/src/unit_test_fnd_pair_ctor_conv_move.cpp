@@ -7,12 +7,12 @@
  */
 
 #include <bksge/fnd/pair.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -62,31 +62,31 @@ inline BKSGE_CXX14_CONSTEXPR bool test()
 {
 	{
 		bksge::pair<short, float> p1(1, 2);
-		bksge::pair<int, double>  const p2(bksge::move(p1));
+		bksge::pair<int, double>  const p2(std::move(p1));
 		VERIFY(p2.first  == 1);
 		VERIFY(p2.second == 2.0f);
 	}
 	{
 		bksge::pair<int, int>           p1(3, 4);
-		bksge::pair<Explicit, Explicit> const p2(bksge::move(p1));
+		bksge::pair<Explicit, Explicit> const p2(std::move(p1));
 		VERIFY(p2.first.n  == 3);
 		VERIFY(p2.second.n == 4);
 	}
 	{
 		bksge::pair<int, int>           p1(5, 6);
-		bksge::pair<Explicit, Implicit> const p2(bksge::move(p1));
+		bksge::pair<Explicit, Implicit> const p2(std::move(p1));
 		VERIFY(p2.first.n  == 5);
 		VERIFY(p2.second.n == 6);
 	}
 	{
 		bksge::pair<int, int>           p1(7, 8);
-		bksge::pair<Implicit, Explicit> const p2 {bksge::move(p1)};
+		bksge::pair<Implicit, Explicit> const p2 {std::move(p1)};
 		VERIFY(p2.first.n  == 7);
 		VERIFY(p2.second.n == 8);
 	}
 	{
 		bksge::pair<int, int>           p1(9, 10);
-		bksge::pair<Implicit, Implicit> const p2 = {bksge::move(p1)};
+		bksge::pair<Implicit, Implicit> const p2 = {std::move(p1)};
 		VERIFY(p2.first.n  == 9);
 		VERIFY(p2.second.n == 10);
 	}

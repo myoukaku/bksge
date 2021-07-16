@@ -10,9 +10,9 @@
 #include <bksge/fnd/any/any_cast.hpp>
 #include <bksge/fnd/any/bad_any_cast.hpp>
 #include <bksge/fnd/string/string.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 
 namespace bksge_any_test
 {
@@ -60,9 +60,9 @@ GTEST_TEST(AnyTest, AnyCastTest)
 
 		x = string("Meow");                         // x holds string
 		string s, s2("Jane");
-		s = bksge::move(any_cast<string&>(x));             // move from any 
+		s = std::move(any_cast<string&>(x));             // move from any 
 		EXPECT_TRUE(s == "Meow");
-		any_cast<string&>(x) = bksge::move(s2);            // move to any
+		any_cast<string&>(x) = std::move(s2);            // move to any
 		EXPECT_TRUE(any_cast<const string&>(x) == "Jane");
 
 		string cat("Meow");
@@ -121,9 +121,9 @@ BKSGE_WARNING_POP()
 #if 0
 		MoveDeleted md;
 		(void)md;
-		//MoveDeleted&& md2 = any_cast<MoveDeleted>(any(bksge::move(md)));
+		//MoveDeleted&& md2 = any_cast<MoveDeleted>(any(std::move(md)));
 		//(void)md2;
-		MoveDeleted&& md3 = any_cast<MoveDeleted&&>(any(bksge::move(md)));
+		MoveDeleted&& md3 = any_cast<MoveDeleted&&>(any(std::move(md)));
 		(void)md3;
 #endif
 	}
@@ -137,7 +137,7 @@ BKSGE_WARNING_POP()
 		any x = ExplicitCopy();
 		ExplicitCopy ec{ any_cast<ExplicitCopy>(x) };
 		(void)ec;
-		ExplicitCopy ec2{ any_cast<ExplicitCopy>(bksge::move(x)) };
+		ExplicitCopy ec2{ any_cast<ExplicitCopy>(std::move(x)) };
 		(void)ec2;
 	}
 	{
@@ -179,7 +179,7 @@ BKSGE_WARNING_POP()
 
 		try
 		{
-			(void)any_cast<double>(bksge::move(x));
+			(void)any_cast<double>(std::move(x));
 			EXPECT_TRUE(false);
 		}
 		catch (const bad_any_cast&)

@@ -26,8 +26,8 @@
 #include <bksge/fnd/ranges/borrowed_subrange_t.hpp>
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/ranges/begin.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -59,9 +59,9 @@ private:
 			bksge::reverse_iterator<Iter1>{first1},
 			bksge::reverse_iterator<Iter2>{i2},
 			bksge::reverse_iterator<Iter2>{first2},
-			bksge::move(pred),
-			bksge::move(proj1),
-			bksge::move(proj2));
+			std::move(pred),
+			std::move(proj1),
+			std::move(proj2));
 		auto result_first = ranges::end(rresult).base();
 		auto result_last  = ranges::begin(rresult).base();
 		if (result_last == first1)
@@ -152,11 +152,11 @@ public:
 		Proj2 proj2 = {}) const
 	{
 		return impl(
-			bksge::move(first1), bksge::move(last1),
-			bksge::move(first2), bksge::move(last2),
-			bksge::move(pred),
-			bksge::move(proj1),
-			bksge::move(proj2),
+			std::move(first1), std::move(last1),
+			std::move(first2), std::move(last2),
+			std::move(pred),
+			std::move(proj1),
+			std::move(proj2),
 			bksge::detail::overload_priority<1>{});
 	}
 
@@ -200,9 +200,9 @@ public:
 		return (*this)(
 			ranges::begin(r1), ranges::end(r1),
 			ranges::begin(r2), ranges::end(r2),
-			bksge::move(pred),
-			bksge::move(proj1),
-			bksge::move(proj2));
+			std::move(pred),
+			std::move(proj1),
+			std::move(proj2));
 	}
 };
 

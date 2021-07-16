@@ -20,8 +20,8 @@
 #include <bksge/fnd/iterator/iter_difference_t.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -45,10 +45,10 @@ private:
 	{
 		if (n > 0)
 		{
-			return ranges::copy(first, first + n, bksge::move(result));
+			return ranges::copy(first, first + n, std::move(result));
 		}
 
-		return { bksge::move(first), bksge::move(result) };
+		return { std::move(first), std::move(result) };
 	}
 
 	template <typename Iter, typename Difference, typename Out>
@@ -61,7 +61,7 @@ private:
 			*result = *first;
 		}
 
-		return { bksge::move(first), bksge::move(result) };
+		return { std::move(first), std::move(result) };
 	}
 
 public:
@@ -86,9 +86,9 @@ public:
 	operator()(Iter first, bksge::iter_difference_t<Iter> n, Out result) const
 	{
 		return impl(
-			bksge::move(first),
-			bksge::move(n),
-			bksge::move(result),
+			std::move(first),
+			std::move(n),
+			std::move(result),
 			bksge::detail::overload_priority<1>{});
 	}
 };

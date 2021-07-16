@@ -37,9 +37,9 @@ using std::ranges::advance;
 #include <bksge/fnd/concepts/detail/overload_priority.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -112,7 +112,7 @@ requires bksge::assignable_from<It&, Sent>
 inline BKSGE_CXX14_CONSTEXPR void
 advance_impl_2(bksge::detail::overload_priority<2>, It& it, Sent bound)
 {
-	it = bksge::move(bound);
+	it = std::move(bound);
 }
 
 template <

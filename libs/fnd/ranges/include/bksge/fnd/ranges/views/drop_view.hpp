@@ -31,10 +31,10 @@
 #include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/iterator/ranges/next.hpp>
 #include <bksge/fnd/type_traits/conditional.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <bksge/fnd/assert.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -66,7 +66,7 @@ public:
 	BKSGE_CXX14_CONSTEXPR
 	drop_view(V base, ranges::range_difference_t<V> count)
 		: m_count(count)
-		, m_base(bksge::move(base))
+		, m_base(std::move(base))
 	{
 		BKSGE_ASSERT(count >= 0);
 	}
@@ -79,7 +79,7 @@ public:
 
 	BKSGE_CXX14_CONSTEXPR V base() &&
 	{
-		return bksge::move(m_base);
+		return std::move(m_base);
 	}
 
 private:

@@ -17,10 +17,10 @@
 #include <bksge/fnd/type_traits/is_lvalue_reference.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/in_place_type.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
 #include <initializer_list>
 #include <typeinfo>		// type_info
+#include <utility>
 
 namespace bksge
 {
@@ -243,7 +243,7 @@ struct any::ManagerInternal
 			ptr->~T();
 			break;
 		case OpXfer:
-			::new(&arg->m_any->m_storage.m_buffer) T(bksge::move(*const_cast<T*>(ptr)));
+			::new(&arg->m_any->m_storage.m_buffer) T(std::move(*const_cast<T*>(ptr)));
 			ptr->~T();
 			arg->m_any->m_manager = a->m_manager;
 			const_cast<any*>(a)->m_manager = nullptr;

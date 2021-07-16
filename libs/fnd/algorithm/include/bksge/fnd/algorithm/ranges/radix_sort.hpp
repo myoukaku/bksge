@@ -22,8 +22,8 @@
 #include <bksge/fnd/ranges/begin.hpp>
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -50,7 +50,7 @@ struct radix_sort_fn
 	operator()(Iter first, Sent last, Proj proj = {}) const
 	{
 		auto lasti = ranges::next(first, last);
-		bksge::radix_sort(bksge::move(first), lasti, proj);
+		bksge::radix_sort(std::move(first), lasti, proj);
 		return lasti;
 	}
 
@@ -69,7 +69,7 @@ struct radix_sort_fn
 	BKSGE_CXX14_CONSTEXPR ranges::borrowed_iterator_t<Range>
 	operator()(Range&& r, Proj proj = {}) const
 	{
-		return (*this)(ranges::begin(r), ranges::end(r), bksge::move(proj));
+		return (*this)(ranges::begin(r), ranges::end(r), std::move(proj));
 	}
 };
 

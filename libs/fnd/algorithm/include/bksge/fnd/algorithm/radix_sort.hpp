@@ -17,10 +17,10 @@
 #include <bksge/fnd/functional/invoke.hpp>
 #include <bksge/fnd/iterator/ranges/distance.hpp>
 #include <bksge/fnd/iterator/iter_value_t.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
+#include <utility>
 
 namespace bksge
 {
@@ -59,7 +59,7 @@ radix_sort_loop(Iter1 input, Iter2 output, Proj proj, SizeType size, std::size_t
 	for (auto i = size - 1; i >= 0; --i)
 	{
 		auto const idx = (bksge::invoke(proj, input[i]) >> shift) & Mask;
-		output[--counts[idx]] = bksge::move(input[i]);
+		output[--counts[idx]] = std::move(input[i]);
 	}
 }
 

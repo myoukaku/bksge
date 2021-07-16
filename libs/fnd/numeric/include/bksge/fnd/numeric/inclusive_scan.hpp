@@ -10,8 +10,8 @@
 #define BKSGE_FND_NUMERIC_INCLUSIVE_SCAN_HPP
 
 #include <bksge/fnd/functional/plus.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -58,7 +58,7 @@ inclusive_scan(
 		if (first != last)
 		{
 			result = bksge::inclusive_scan(
-				first, last, result, binary_op, bksge::move(init));
+				first, last, result, binary_op, std::move(init));
 		}
 	}
 

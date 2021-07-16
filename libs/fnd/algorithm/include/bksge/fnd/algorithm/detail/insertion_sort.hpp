@@ -12,8 +12,8 @@
 #include <bksge/fnd/algorithm/move_backward.hpp>
 #include <bksge/fnd/algorithm/detail/unguarded_linear_insert.hpp>
 #include <bksge/fnd/iterator/iter_value_t.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -37,9 +37,9 @@ insertion_sort(RandomAccessIterator first, RandomAccessIterator last, Compare co
 	{
 		if (comp(*i, *first))
 		{
-			bksge::iter_value_t<RandomAccessIterator> val = bksge::move(*i);
+			bksge::iter_value_t<RandomAccessIterator> val = std::move(*i);
 			bksge::move_backward(first, i, i + 1);
-			*first = bksge::move(val);
+			*first = std::move(val);
 		}
 		else
 		{

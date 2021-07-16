@@ -10,12 +10,12 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/array.hpp>
 #include <bksge/fnd/forward_list.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 
 namespace bksge_algorithm_test
 {
@@ -27,8 +27,8 @@ class Foo
 {
 public:
 	Foo(int value) : m_value(value) {}
-	Foo(Foo&& other) : m_value(bksge::move(other.m_value)) {}
-	Foo& operator=(Foo&& other) { m_value = bksge::move(other.m_value); return *this; }
+	Foo(Foo&& other) : m_value(std::move(other.m_value)) {}
+	Foo& operator=(Foo&& other) { m_value = std::move(other.m_value); return *this; }
 	int get() const { return m_value; }
 private:
 	int	m_value;

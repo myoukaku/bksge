@@ -9,7 +9,6 @@
 #include <bksge/fnd/ranges/begin.hpp>
 #include <bksge/fnd/ranges/concepts/enable_borrowed_range.hpp>
 #include <bksge/fnd/concepts/same_as.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
 #include <utility>
@@ -104,21 +103,21 @@ BKSGE_CXX14_CONSTEXPR bool test03()
 
 	static_assert(bksge::is_same<decltype(bksge::ranges::begin(r)), decltype(begin(r))>::value, "");
 	static_assert(bksge::is_same<decltype(bksge::ranges::begin(c)), decltype(begin(c))>::value, "");
-	static_assert(bksge::is_same<decltype(bksge::ranges::begin(bksge::move(v))), decltype(begin(v))>::value, "");
-	static_assert(bksge::is_same<decltype(bksge::ranges::begin(bksge::move(cv))), decltype(begin(cv))>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::ranges::begin(std::move(v))), decltype(begin(v))>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::ranges::begin(std::move(cv))), decltype(begin(cv))>::value, "");
 
 #if !(defined(BKSGE_GCC_VERSION) && (BKSGE_GCC_VERSION < 90000))
 	static_assert(!noexcept(bksge::ranges::begin(std::declval<R&>())), "");
 	static_assert( noexcept(bksge::ranges::begin(std::declval<R const&>())), "");
-	static_assert(!noexcept(bksge::ranges::begin(bksge::move(v))), "");
-	static_assert( noexcept(bksge::ranges::begin(bksge::move(cv))), "");
+	static_assert(!noexcept(bksge::ranges::begin(std::move(v))), "");
+	static_assert( noexcept(bksge::ranges::begin(std::move(cv))), "");
 #endif
 
 	return
 		bksge::ranges::begin(r) == begin(r) &&
 		bksge::ranges::begin(c) == begin(c) &&
-		bksge::ranges::begin(bksge::move(v))  == begin(v) &&
-		bksge::ranges::begin(bksge::move(cv)) == begin(cv);
+		bksge::ranges::begin(std::move(v))  == begin(v) &&
+		bksge::ranges::begin(std::move(cv)) == begin(cv);
 }
 
 BKSGE_CXX14_CONSTEXPR bool test04()
@@ -129,15 +128,15 @@ BKSGE_CXX14_CONSTEXPR bool test04()
 #if !(defined(BKSGE_GCC_VERSION) && (BKSGE_GCC_VERSION < 90000))
 	static_assert( noexcept(bksge::ranges::begin(std::declval<RR&>())), "");
 	static_assert(!noexcept(bksge::ranges::begin(std::declval<RR const&>())), "");
-	static_assert( noexcept(bksge::ranges::begin(bksge::move(r))), "");
-	static_assert(!noexcept(bksge::ranges::begin(bksge::move(c))), "");
+	static_assert( noexcept(bksge::ranges::begin(std::move(r))), "");
+	static_assert(!noexcept(bksge::ranges::begin(std::move(c))), "");
 #endif
 
 	return
 		bksge::ranges::begin(r) == &r.s &&
 		bksge::ranges::begin(c) == &r.l &&
-		bksge::ranges::begin(bksge::move(r)) == bksge::ranges::begin(r) &&
-		bksge::ranges::begin(bksge::move(c)) == bksge::ranges::begin(c);
+		bksge::ranges::begin(std::move(r)) == bksge::ranges::begin(r) &&
+		bksge::ranges::begin(std::move(c)) == bksge::ranges::begin(c);
 }
 
 GTEST_TEST(RangesTest, BeginTest)

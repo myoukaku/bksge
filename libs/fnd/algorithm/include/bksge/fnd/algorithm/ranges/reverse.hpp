@@ -24,8 +24,8 @@
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -107,8 +107,8 @@ public:
 	operator()(Iter first, Sent last) const
 	{
 		return impl(
-			bksge::move(first),
-			bksge::move(last),
+			std::move(first),
+			std::move(last),
 			bksge::detail::overload_priority<1>{});
 	}
 

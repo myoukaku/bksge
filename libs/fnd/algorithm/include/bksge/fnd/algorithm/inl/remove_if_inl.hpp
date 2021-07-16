@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/algorithm/remove_if.hpp>
 #include <bksge/fnd/algorithm/find_if.hpp>
-#include <bksge/fnd/utility/move.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -34,7 +34,7 @@ remove_if(
 	{
 		if (!pred(*first))
 		{
-			*result = bksge::move(*first);
+			*result = std::move(*first);
 			++result;
 		}
 	}

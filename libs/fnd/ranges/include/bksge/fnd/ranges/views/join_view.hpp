@@ -43,9 +43,9 @@
 #include <bksge/fnd/type_traits/conditional.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -108,7 +108,7 @@ private:
 		update_inner_impl(ranges::range_reference_t<Base> x, bksge::false_type)
 		->decltype((m_parent->m_inner))
 		{
-			return (m_parent->m_inner = views::all(bksge::move(x)));
+			return (m_parent->m_inner = views::all(std::move(x)));
 		}
 
 		BKSGE_CXX14_CONSTEXPR auto
@@ -196,7 +196,7 @@ private:
 
 		BKSGE_CXX14_CONSTEXPR
 		Iterator(Parent* parent, OuterIter outer)
-			: m_outer(bksge::move(outer))
+			: m_outer(std::move(outer))
 			, m_parent(parent)
 		{
 			satisfy();
@@ -209,9 +209,9 @@ private:
 				bksge::is_convertible_to<ranges::iterator_t<InnerRange>, InnerIter>
 			>::value>
 		>
-		BKSGE_CONSTEXPR
+		BKSGE_CXX14_CONSTEXPR
 		Iterator(Iterator<!Const> i)
-			: m_outer(bksge::move(i.m_outer))
+			: m_outer(std::move(i.m_outer))
 			, m_inner(i.m_inner)
 			, m_parent(i.m_parent)
 		{}
@@ -416,9 +416,9 @@ private:
 					ranges::sentinel_t<V>,
 					ranges::sentinel_t<Base>
 				>::value>>
-		BKSGE_CONSTEXPR
+		BKSGE_CXX14_CONSTEXPR
 		Sentinel(Sentinel<!Const> s)
-			: m_end(bksge::move(s.m_end))
+			: m_end(std::move(s.m_end))
 		{}
 
 	private:
@@ -475,9 +475,9 @@ private:
 public:
 	BKSGE_CONSTEXPR join_view() = default;
 
-	BKSGE_CONSTEXPR explicit
+	BKSGE_CXX14_CONSTEXPR explicit
 	join_view(V base)
-		: m_base(bksge::move(base))
+		: m_base(std::move(base))
 	{}
 
 	template <BKSGE_REQUIRES_PARAM_D(bksge::copy_constructible, V2, V)>
@@ -488,7 +488,7 @@ public:
 
 	BKSGE_CXX14_CONSTEXPR V base() &&
 	{
-		return bksge::move(m_base);
+		return std::move(m_base);
 	}
 
 	BKSGE_CXX14_CONSTEXPR auto begin()

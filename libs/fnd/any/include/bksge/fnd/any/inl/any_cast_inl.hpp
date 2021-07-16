@@ -18,8 +18,8 @@
 #include <bksge/fnd/type_traits/disjunction.hpp>
 #include <bksge/fnd/type_traits/is_copy_constructible.hpp>
 #include <bksge/fnd/type_traits/is_reference.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -135,7 +135,7 @@ any_cast(any&& a)
 	static_assert(any_cast_detail::IsValidCast<ValueType>::value,
 		"Template argument must be a reference or CopyConstructible type");
 	using U = bksge::remove_cv_t<bksge::remove_reference_t<ValueType>>;
-	return static_cast<ValueType>(bksge::move(*any_cast_detail::any_cast_impl<U>(&a)));
+	return static_cast<ValueType>(std::move(*any_cast_detail::any_cast_impl<U>(&a)));
 }
 
 }	// namespace bksge

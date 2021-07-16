@@ -18,9 +18,9 @@
 #include <bksge/fnd/type_traits/is_trivially_move_constructible.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
 #include <initializer_list>
+#include <utility>
 
 namespace bksge
 {
@@ -76,10 +76,10 @@ struct optional_base
 		: m_payload(other.m_payload.m_engaged, other.m_payload)
 	{}
 
-	BKSGE_CONSTEXPR
+	BKSGE_CXX14_CONSTEXPR
 	optional_base(optional_base&& other)
 		BKSGE_NOEXCEPT_IF((bksge::is_nothrow_move_constructible<T>::value))
-		: m_payload(other.m_payload.m_engaged, bksge::move(other.m_payload))
+		: m_payload(other.m_payload.m_engaged, std::move(other.m_payload))
 	{}
 
 	// Assignment operators.
@@ -150,10 +150,10 @@ struct optional_base<T, true, false>
 	// Copy and move constructors.
 	BKSGE_CONSTEXPR optional_base(optional_base const& other) = default;
 
-	BKSGE_CONSTEXPR
+	BKSGE_CXX14_CONSTEXPR
 	optional_base(optional_base&& other)
 		BKSGE_NOEXCEPT_IF((bksge::is_nothrow_move_constructible<T>::value))
-		: m_payload(other.m_payload.m_engaged, bksge::move(other.m_payload))
+		: m_payload(other.m_payload.m_engaged, std::move(other.m_payload))
 	{}
 
 	// Assignment operators.

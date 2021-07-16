@@ -36,7 +36,6 @@
 #include <bksge/fnd/iterator/concepts/sentinel_for.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_const.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
@@ -77,9 +76,9 @@ private:
 				bksge::is_convertible_to<
 					ranges::sentinel_t<V>,
 					ranges::sentinel_t<Base>>::value>>
-		BKSGE_CONSTEXPR
+		BKSGE_CXX14_CONSTEXPR
 		Sentinel(Sentinel<!Const> s)
-			: m_end(bksge::move(s.m_end))
+			: m_end(std::move(s.m_end))
 		{}
 
 		BKSGE_CONSTEXPR ranges::sentinel_t<Base> base() const
@@ -137,10 +136,10 @@ private:
 public:
 	BKSGE_CONSTEXPR take_view() = default;
 
-	BKSGE_CONSTEXPR
+	BKSGE_CXX14_CONSTEXPR
 	take_view(V base, ranges::range_difference_t<V> count)
-		: m_count(bksge::move(count))
-		, m_base(bksge::move(base))
+		: m_count(std::move(count))
+		, m_base(std::move(base))
 	{}
 
 	BKSGE_CONSTEXPR V base() const&
@@ -151,7 +150,7 @@ public:
 
 	BKSGE_CXX14_CONSTEXPR V base() &&
 	{
-		return bksge::move(m_base);
+		return std::move(m_base);
 	}
 
 private:

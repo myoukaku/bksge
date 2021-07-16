@@ -13,9 +13,9 @@
 #include <bksge/fnd/type_traits/is_assignable.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_assignable.hpp>
 #include <bksge/fnd/utility/in_place_type.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "test_macros.hpp"
 #include "variant_test_helpers.hpp"
 
@@ -257,7 +257,7 @@ void test_T_assignment_basic()
 		v = x;
 		EXPECT_EQ(v.index(), 0u);
 		EXPECT_EQ(&get<0>(v), &x);
-		v = bksge::move(x);
+		v = std::move(x);
 		EXPECT_EQ(v.index(), 1u);
 		EXPECT_EQ(&get<1>(v), &x);
 		// 'long' is selected by FUN(const int &) since 'const int &' cannot bind

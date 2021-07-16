@@ -22,8 +22,8 @@
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -60,8 +60,8 @@ struct is_heap_fn
 	{
 		return last == ranges::is_heap_until(
 			first, last,
-			bksge::move(comp),
-			bksge::move(proj));
+			std::move(comp),
+			std::move(proj));
 	}
 
 	template <
@@ -88,7 +88,7 @@ struct is_heap_fn
 	{
 		return (*this)(
 			ranges::begin(r), ranges::end(r),
-			bksge::move(comp), bksge::move(proj));
+			std::move(comp), std::move(proj));
 	}
 };
 

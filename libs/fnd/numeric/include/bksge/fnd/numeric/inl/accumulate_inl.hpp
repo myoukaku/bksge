@@ -11,8 +11,8 @@
 
 #include <bksge/fnd/numeric/accumulate.hpp>
 #include <bksge/fnd/functional/plus.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -30,7 +30,7 @@ accumulate(
 {
 	while (first != last)
 	{
-		init = binary_op(bksge::move(init), *first++);
+		init = binary_op(std::move(init), *first++);
 	}
 
 	return init;
@@ -39,23 +39,23 @@ accumulate(
 }	// namespace detail
 
 template <typename InputIterator, typename T>
-inline BKSGE_CONSTEXPR T accumulate(InputIterator first, InputIterator last, T init)
+inline BKSGE_CXX14_CONSTEXPR T accumulate(InputIterator first, InputIterator last, T init)
 {
 	return bksge::accumulate(
-		bksge::move(first),
-		bksge::move(last),
-		bksge::move(init),
+		std::move(first),
+		std::move(last),
+		std::move(init),
 		bksge::plus<>());
 }
 
 template <typename InputIterator, typename T, typename BinaryOperation>
-inline BKSGE_CONSTEXPR T accumulate(InputIterator first, InputIterator last, T init, BinaryOperation binary_op)
+inline BKSGE_CXX14_CONSTEXPR T accumulate(InputIterator first, InputIterator last, T init, BinaryOperation binary_op)
 {
 	return detail::accumulate(
-		bksge::move(first),
-		bksge::move(last),
-		bksge::move(init),
-		bksge::move(binary_op));
+		std::move(first),
+		std::move(last),
+		std::move(init),
+		std::move(binary_op));
 }
 
 }	// namespace bksge

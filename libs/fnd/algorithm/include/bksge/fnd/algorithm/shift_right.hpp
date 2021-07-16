@@ -30,8 +30,8 @@ using std::shift_right;
 #include <bksge/fnd/iterator/ranges/next.hpp>
 #include <bksge/fnd/iterator/tag.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -52,7 +52,7 @@ shift_right_impl(BidirectionalIterator first, BidirectionalIterator last, Differ
 		return last;
 	}
 
-	return bksge::move_backward(bksge::move(first), bksge::move(mid), bksge::move(last));
+	return bksge::move_backward(std::move(first), std::move(mid), std::move(last));
 }
 
 template <typename ForwardIterator, typename Difference>
@@ -76,7 +76,7 @@ shift_right_impl(ForwardIterator first, ForwardIterator last, Difference n, bksg
 			// i.e. we are shifting out at least half of the range.  In
 			// this case we can safely perform the shift with a single
 			// move.
-			bksge::move(bksge::move(first), bksge::move(dest_head), bksge::move(result));
+			bksge::move(std::move(first), std::move(dest_head), std::move(result));
 			return result;
 		}
 		++dest_head;
@@ -101,8 +101,8 @@ shift_right_impl(ForwardIterator first, ForwardIterator last, Difference n, bksg
 				// At this point the ranges [first, result) and
 				// [dest_head, dest_tail) are disjoint, so we can safely
 				// move the remaining elements.
-				dest_head = bksge::move(cursor, result, bksge::move(dest_head));
-				bksge::move(bksge::move(first), bksge::move(cursor), bksge::move(dest_head));
+				dest_head = bksge::move(cursor, result, std::move(dest_head));
+				bksge::move(std::move(first), std::move(cursor), std::move(dest_head));
 				return result;
 			}
 			bksge::iter_swap(cursor, dest_head);
@@ -126,8 +126,8 @@ shift_right(ForwardIterator first, ForwardIterator last,
 	}
 
 	return detail::shift_right_impl(
-		bksge::move(first),
-		bksge::move(last),
+		std::move(first),
+		std::move(last),
 		n,
 		bksge::detail::overload_priority<1>{});
 }

@@ -16,10 +16,10 @@
 #include <bksge/fnd/ranges/concepts/sized_range.hpp>
 #include <bksge/fnd/algorithm/ranges/equal.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/pair.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
 
@@ -53,7 +53,7 @@ BKSGE_CXX14_CONSTEXPR bool test01()
 	VERIFY(ranges::equal(sr, a2));
 	VERIFY(sr.size() == 4);
 
-	sr = bksge::move(sr).next(2);
+	sr = std::move(sr).next(2);
 	VERIFY(!sr.empty());
 	int const a3[] = { 4, 5 };
 	VERIFY(ranges::equal(sr, a3));
@@ -110,7 +110,7 @@ BKSGE_CXX14_CONSTEXPR bool test02()
 	int const a2[] = { 2, 3, 4, 5 };
 	VERIFY(ranges::equal(sr, a2));
 
-	sr = bksge::move(sr).next(2);
+	sr = std::move(sr).next(2);
 	VERIFY(!sr.empty());
 	int const a3[] = { 4, 5 };
 	VERIFY(ranges::equal(sr, a3));
@@ -164,7 +164,7 @@ BKSGE_CXX14_CONSTEXPR bool test03()
 	VERIFY(ranges::equal(sr, a2));
 	VERIFY(sr.size() == 4);
 
-	sr = bksge::move(sr).next(2);
+	sr = std::move(sr).next(2);
 	VERIFY(!sr.empty());
 	int const a3[] = { 4, 5 };
 	VERIFY(ranges::equal(sr, a3));
@@ -204,7 +204,7 @@ BKSGE_CXX14_CONSTEXPR bool test04()
 	int const a2[] = { 2, 3, 4, 5 };
 	VERIFY(ranges::equal(sr, a2));
 
-	sr = bksge::move(sr).next(2);
+	sr = std::move(sr).next(2);
 	VERIFY(!sr.empty());
 	int const a3[] = { 4, 5 };
 	VERIFY(ranges::equal(sr, a3));
@@ -272,10 +272,10 @@ BKSGE_CXX14_CONSTEXPR bool test06()
 	VERIFY(get<1>(s1) == a+5);
 	VERIFY(get<0>(c1) == a);
 	VERIFY(get<1>(c1) == a+5);
-	VERIFY(get<0>(bksge::move(s1)) == a);
-	VERIFY(get<1>(bksge::move(s1)) == a+5);
-	VERIFY(get<0>(bksge::move(c1)) == a);
-	VERIFY(get<1>(bksge::move(c1)) == a+5);
+	VERIFY(get<0>(std::move(s1)) == a);
+	VERIFY(get<1>(std::move(s1)) == a+5);
+	VERIFY(get<0>(std::move(c1)) == a);
+	VERIFY(get<1>(std::move(c1)) == a+5);
 
 	return true;
 }

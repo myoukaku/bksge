@@ -24,9 +24,9 @@
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/string/string.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/assert.hpp>
+#include <utility>
 #include <iostream>
 
 namespace bksge
@@ -182,7 +182,7 @@ HlslShaderBase::CreateHlslConstantBuffers(/*Device* device, */HlslConstantBuffer
 		auto cb = bksge::make_unique<HlslConstantBuffer>(
 //			device,
 			m_reflection->GetConstantBufferByIndex(i));
-		hlsl_constant_buffers->push_back(bksge::move(cb));
+		hlsl_constant_buffers->push_back(std::move(cb));
 	}
 }
 

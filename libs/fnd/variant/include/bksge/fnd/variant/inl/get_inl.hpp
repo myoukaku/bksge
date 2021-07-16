@@ -16,9 +16,9 @@
 #include <bksge/fnd/variant/detail/index_of.hpp>
 #include <bksge/fnd/variant/detail/variant_access.hpp>
 #include <bksge/fnd/type_traits/is_void.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
+#include <utility>
 
 namespace bksge
 {
@@ -46,7 +46,7 @@ get(variant<Types...>&& v)
 	{
 		throw_bad_variant_access(v.valueless_by_exception());
 	}
-	return variant_detail::variant_access::get_impl<I>(bksge::move(v));
+	return variant_detail::variant_access::get_impl<I>(std::move(v));
 }
 
 template <std::size_t I, typename... Types>
@@ -72,12 +72,12 @@ get(variant<Types...> const&& v)
 	{
 		throw_bad_variant_access(v.valueless_by_exception());
 	}
-	return variant_detail::variant_access::get_impl<I>(bksge::move(v));
+	return variant_detail::variant_access::get_impl<I>(std::move(v));
 }
 
 
 template <typename T, typename... Types>
-BKSGE_CONSTEXPR T&
+BKSGE_CXX14_CONSTEXPR T&
 get(variant<Types...>& v)
 {
 	static_assert(variant_detail::exactly_once<T, Types...>::value,
@@ -87,17 +87,17 @@ get(variant<Types...>& v)
 }
 
 template <typename T, typename... Types>
-BKSGE_CONSTEXPR T&&
+BKSGE_CXX14_CONSTEXPR T&&
 get(variant<Types...>&& v)
 {
 	static_assert(variant_detail::exactly_once<T, Types...>::value,
 		"T must occur exactly once in alternatives");
 	static_assert(!bksge::is_void<T>::value, "T must not be void");
-	return bksge::get<variant_detail::index_of<T, Types...>::value>(bksge::move(v));
+	return bksge::get<variant_detail::index_of<T, Types...>::value>(std::move(v));
 }
 
 template <typename T, typename... Types>
-BKSGE_CONSTEXPR T const&
+BKSGE_CXX14_CONSTEXPR T const&
 get(variant<Types...> const& v)
 {
 	static_assert(variant_detail::exactly_once<T, Types...>::value,
@@ -107,13 +107,13 @@ get(variant<Types...> const& v)
 }
 
 template <typename T, typename... Types>
-BKSGE_CONSTEXPR T const&&
+BKSGE_CXX14_CONSTEXPR T const&&
 get(variant<Types...> const&& v)
 {
 	static_assert(variant_detail::exactly_once<T, Types...>::value,
 		"T must occur exactly once in alternatives");
 	static_assert(!bksge::is_void<T>::value, "T must not be void");
-	return bksge::get<variant_detail::index_of<T, Types...>::value>(bksge::move(v));
+	return bksge::get<variant_detail::index_of<T, Types...>::value>(std::move(v));
 }
 
 }	// namespace bksge

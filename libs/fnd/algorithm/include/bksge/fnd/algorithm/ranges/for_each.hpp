@@ -23,8 +23,8 @@
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -63,7 +63,7 @@ struct for_each_fn
 			bksge::invoke(f, bksge::invoke(proj, *first));
 		}
 
-		return { bksge::move(first), bksge::move(f) };
+		return { std::move(first), std::move(f) };
 	}
 
 	template <
@@ -86,7 +86,7 @@ struct for_each_fn
 	{
 		return (*this)(
 			ranges::begin(r), ranges::end(r),
-			bksge::move(f), bksge::move(proj));
+			std::move(f), std::move(proj));
 	}
 };
 

@@ -10,8 +10,8 @@
 #include <bksge/core/render/detail/shader_parameter.hpp>
 #include <bksge/core/math/vector3.hpp>
 #include <bksge/core/math/matrix3x3.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include <sstream>
 //#include "serialize_test.hpp"
 
@@ -45,7 +45,7 @@ GTEST_TEST(Render_Shader, MoveTest)
 	auto const id_tmp = shader_tmp.id();
 
 //	Shader shader(shader_tmp);			// コピーコンストラクタはエラー
-	Shader shader(bksge::move(shader_tmp));	// moveコンストラクタはOK
+	Shader shader(std::move(shader_tmp));	// moveコンストラクタはOK
 
 	EXPECT_EQ(id_tmp, shader.id());
 

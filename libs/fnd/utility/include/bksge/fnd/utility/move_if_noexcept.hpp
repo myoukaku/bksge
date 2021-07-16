@@ -12,8 +12,8 @@
 #include <bksge/fnd/type_traits/conditional.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_move_constructible.hpp>
 #include <bksge/fnd/type_traits/is_copy_constructible.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -39,7 +39,7 @@ inline BKSGE_CONSTEXPR typename bksge::conditional<
 >::type
 move_if_noexcept(T& x) BKSGE_NOEXCEPT
 {
-	return bksge::move(x);
+	return std::move(x);
 }
 
 }	// namespace bksge

@@ -21,8 +21,8 @@
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -62,7 +62,7 @@ struct swap_ranges_fn
 			ranges::iter_swap(first1, first2);
 		}
 
-		return { bksge::move(first1), bksge::move(first2) };
+		return { std::move(first1), std::move(first2) };
 	}
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)

@@ -7,9 +7,9 @@
  */
 
 #include <bksge/fnd/pair.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_move_constructible.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "constexpr_test.hpp"
 
 namespace bksge_pair_test
@@ -49,7 +49,7 @@ inline BKSGE_CXX14_CONSTEXPR bool test()
 {
 	{
 		bksge::pair<int, double> p1(1, 2);
-		bksge::pair<int, double> p2(bksge::move(p1));
+		bksge::pair<int, double> p2(std::move(p1));
 		VERIFY(p2.first  == 1);
 		VERIFY(p2.second == 2.0f);
 	}

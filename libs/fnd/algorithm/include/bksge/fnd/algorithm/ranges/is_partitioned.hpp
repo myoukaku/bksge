@@ -22,8 +22,8 @@
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -58,7 +58,7 @@ struct is_partitioned_fn
 	operator()(Iter first, Sent last, Pred pred, Proj proj = {}) const
 	{
 		first = ranges::find_if_not(
-			bksge::move(first), last, pred, proj);
+			std::move(first), last, pred, proj);
 
 		if (first == last)
 		{
@@ -67,8 +67,8 @@ struct is_partitioned_fn
 
 		++first;
 		return ranges::none_of(
-			bksge::move(first), bksge::move(last),
-			bksge::move(pred), bksge::move(proj));
+			std::move(first), std::move(last),
+			std::move(pred), std::move(proj));
 	}
 
 	template <
@@ -94,7 +94,7 @@ struct is_partitioned_fn
 	{
 		return (*this)(
 			ranges::begin(r), ranges::end(r),
-			bksge::move(pred), bksge::move(proj));
+			std::move(pred), std::move(proj));
 	}
 };
 

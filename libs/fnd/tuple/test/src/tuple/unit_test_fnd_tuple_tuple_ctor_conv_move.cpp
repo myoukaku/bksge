@@ -11,9 +11,9 @@
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -159,72 +159,72 @@ inline BKSGE_CXX14_CONSTEXPR bool test()
 	using std::get;
 	{
 		bksge::tuple<short> t1(1);
-		bksge::tuple<int>   t2(bksge::move(t1));
+		bksge::tuple<int>   t2(std::move(t1));
 		VERIFY(get<0>(t2) == 1);
 	}
 	{
 		bksge::tuple<short> const t1(1);
-		bksge::tuple<int>   const t2(bksge::move(t1));
+		bksge::tuple<int>   const t2(std::move(t1));
 		VERIFY(get<0>(t2) == 1);
 	}
 	{
 		bksge::tuple<int, float>   t1 = {2, 2.5};
-		bksge::tuple<long, double> t2 = {bksge::move(t1)};
+		bksge::tuple<long, double> t2 = {std::move(t1)};
 		VERIFY(get<0>(t2) == 2);
 		VERIFY(get<1>(t2) == 2.5);
 	}
 	{
 		bksge::tuple<int, float>   const t1 = {2, 2.5};
-		bksge::tuple<long, double> const t2 = {bksge::move(t1)};
+		bksge::tuple<long, double> const t2 = {std::move(t1)};
 		VERIFY(get<0>(t2) == 2);
 		VERIFY(get<1>(t2) == 2.5);
 	}
 	{
 		bksge::tuple<short, char, double> t1 = {3, 'b', 4.5};
-		bksge::tuple<int,   char, float>  t2 = {bksge::move(t1)};
+		bksge::tuple<int,   char, float>  t2 = {std::move(t1)};
 		VERIFY(get<0>(t2) == 3);
 		VERIFY(get<1>(t2) == 'b');
 		VERIFY(get<2>(t2) == 4.5);
 	}
 	{
 		bksge::tuple<short, char, double> const t1 = {3, 'b', 4.5};
-		bksge::tuple<int,   char, float>  const t2 = {bksge::move(t1)};
+		bksge::tuple<int,   char, float>  const t2 = {std::move(t1)};
 		VERIFY(get<0>(t2) == 3);
 		VERIFY(get<1>(t2) == 'b');
 		VERIFY(get<2>(t2) == 4.5);
 	}
 	{
 		bksge::tuple<int>      t1 = {5};
-		bksge::tuple<Explicit> t2{bksge::move(t1)};
+		bksge::tuple<Explicit> t2{std::move(t1)};
 		VERIFY(get<0>(t2).n == 5);
 	}
 	{
 		bksge::tuple<int>      t1 = {5};
-		bksge::tuple<Implicit> t2 = {bksge::move(t1)};
+		bksge::tuple<Implicit> t2 = {std::move(t1)};
 		VERIFY(get<0>(t2).n == 5);
 	}
 	{
 		bksge::tuple<int, int>           t1 = {7, 8};
-		bksge::tuple<Explicit, Implicit> t2 {bksge::move(t1)};
+		bksge::tuple<Explicit, Implicit> t2 {std::move(t1)};
 		VERIFY(get<0>(t2).n == 7);
 		VERIFY(get<1>(t2).n == 8);
 	}
 	{
 		bksge::tuple<int, int>           t1 = {7, 8};
-		bksge::tuple<Implicit, Implicit> t2 = {bksge::move(t1)};
+		bksge::tuple<Implicit, Implicit> t2 = {std::move(t1)};
 		VERIFY(get<0>(t2).n == 7);
 		VERIFY(get<1>(t2).n == 8);
 	}
 	{
 		bksge::tuple<int, int, int>                t1 = {11, 12, 13};
-		bksge::tuple<Implicit, Explicit, Implicit> t2 {bksge::move(t1)};
+		bksge::tuple<Implicit, Explicit, Implicit> t2 {std::move(t1)};
 		VERIFY(get<0>(t2).n == 11);
 		VERIFY(get<1>(t2).n == 12);
 		VERIFY(get<2>(t2).n == 13);
 	}
 	{
 		bksge::tuple<int, int, int>                t1 = {11, 12, 13};
-		bksge::tuple<Implicit, Implicit, Implicit> t2 = {bksge::move(t1)};
+		bksge::tuple<Implicit, Implicit, Implicit> t2 = {std::move(t1)};
 		VERIFY(get<0>(t2).n == 11);
 		VERIFY(get<1>(t2).n == 12);
 		VERIFY(get<2>(t2).n == 13);

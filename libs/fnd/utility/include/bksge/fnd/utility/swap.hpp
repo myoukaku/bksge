@@ -14,9 +14,9 @@
 #include <bksge/fnd/type_traits/is_move_assignable.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_move_constructible.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_move_assignable.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
+#include <utility>
 
 namespace bksge
 {
@@ -39,9 +39,9 @@ BKSGE_NOEXCEPT_IF(
 	bksge::is_nothrow_move_constructible<T>::value &&
 	bksge::is_nothrow_move_assignable<T>::value)
 {
-	T temp = bksge::move(a);
-	a = bksge::move(b);
-	b = bksge::move(temp);
+	T temp = std::move(a);
+	a = std::move(b);
+	b = std::move(temp);
 }
 
 BKSGE_WARNING_POP()

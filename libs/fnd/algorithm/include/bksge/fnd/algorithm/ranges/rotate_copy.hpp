@@ -22,8 +22,8 @@
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -61,13 +61,13 @@ struct rotate_copy_fn
 	{
 		auto copy1 = ranges::copy(
 			middle,
-			bksge::move(last),
-			bksge::move(result));
+			std::move(last),
+			std::move(result));
 		auto copy2 = ranges::copy(
-			bksge::move(first),
-			bksge::move(middle),
-			bksge::move(copy1.out));
-		return { bksge::move(copy1.in), bksge::move(copy2.out) };
+			std::move(first),
+			std::move(middle),
+			std::move(copy1.out));
+		return { std::move(copy1.in), std::move(copy2.out) };
 	}
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
@@ -93,9 +93,9 @@ struct rotate_copy_fn
 	{
 		return (*this)(
 			ranges::begin(r),
-			bksge::move(middle),
+			std::move(middle),
 			ranges::end(r),
-			bksge::move(result));
+			std::move(result));
 	}
 };
 

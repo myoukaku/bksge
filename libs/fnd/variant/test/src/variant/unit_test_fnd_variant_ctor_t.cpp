@@ -16,8 +16,8 @@
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/utility/in_place_type.hpp>
 #include <bksge/fnd/utility/in_place_index.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "test_macros.hpp"
 #include "variant_test_helpers.hpp"
 
@@ -177,7 +177,7 @@ void test_T_ctor_basic()
 		using V = bksge::variant<const int&, int&&, long>;
 		static_assert(bksge::is_convertible<int, V>::value, "must be implicit");
 		int x = 42;
-		V v(bksge::move(x));
+		V v(std::move(x));
 		EXPECT_EQ(v.index(), 1u);
 		EXPECT_EQ(&get<1>(v), &x);
 	}

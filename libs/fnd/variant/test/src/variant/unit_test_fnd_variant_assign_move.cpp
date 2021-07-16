@@ -17,10 +17,10 @@
 #include <bksge/fnd/type_traits/is_trivially_move_assignable.hpp>
 #include <bksge/fnd/utility/in_place_index.hpp>
 #include <bksge/fnd/utility/in_place_type.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "test_macros.hpp"
 #include "variant_test_helpers.hpp"
 
@@ -252,7 +252,7 @@ void test_move_assignment_empty_empty()
 		makeEmpty(v1);
 		V v2(bksge::in_place_index_t<0>{});
 		makeEmpty(v2);
-		V& vref = (v1 = bksge::move(v2));
+		V& vref = (v1 = std::move(v2));
 		EXPECT_EQ(&vref, &v1);
 		EXPECT_TRUE(v1.valueless_by_exception());
 		EXPECT_EQ(v1.index(), bksge::variant_npos);
@@ -269,7 +269,7 @@ void test_move_assignment_non_empty_empty()
 		V v1(bksge::in_place_index_t<0>{}, 42);
 		V v2(bksge::in_place_index_t<0>{});
 		makeEmpty(v2);
-		V& vref = (v1 = bksge::move(v2));
+		V& vref = (v1 = std::move(v2));
 		EXPECT_EQ(&vref, &v1);
 		EXPECT_TRUE(v1.valueless_by_exception());
 		EXPECT_EQ(v1.index(), bksge::variant_npos);
@@ -279,7 +279,7 @@ void test_move_assignment_non_empty_empty()
 		V v1(bksge::in_place_index_t<2>{}, "hello");
 		V v2(bksge::in_place_index_t<0>{});
 		makeEmpty(v2);
-		V& vref = (v1 = bksge::move(v2));
+		V& vref = (v1 = std::move(v2));
 		EXPECT_EQ(&vref, &v1);
 		EXPECT_TRUE(v1.valueless_by_exception());
 		EXPECT_EQ(v1.index(), bksge::variant_npos);
@@ -297,7 +297,7 @@ void test_move_assignment_empty_non_empty()
 		V v1(bksge::in_place_index_t<0>{});
 		makeEmpty(v1);
 		V v2(bksge::in_place_index_t<0>{}, 42);
-		V& vref = (v1 = bksge::move(v2));
+		V& vref = (v1 = std::move(v2));
 		EXPECT_EQ(&vref, &v1);
 		EXPECT_EQ(v1.index(), 0u);
 		EXPECT_EQ(get<0>(v1), 42);
@@ -307,7 +307,7 @@ void test_move_assignment_empty_non_empty()
 		V v1(bksge::in_place_index_t<0>{});
 		makeEmpty(v1);
 		V v2(bksge::in_place_type_t<bksge::string>{}, "hello");
-		V& vref = (v1 = bksge::move(v2));
+		V& vref = (v1 = std::move(v2));
 		EXPECT_EQ(&vref, &v1);
 		EXPECT_EQ(v1.index(), 2u);
 		EXPECT_EQ(get<2>(v1), "hello");
@@ -324,7 +324,7 @@ void test_move_assignment_same_index()
 		using V = bksge::variant<int>;
 		V v1(43);
 		V v2(42);
-		V& vref = (v1 = bksge::move(v2));
+		V& vref = (v1 = std::move(v2));
 		EXPECT_EQ(&vref, &v1);
 		EXPECT_EQ(v1.index(), 0u);
 		EXPECT_EQ(get<0>(v1), 42);
@@ -333,7 +333,7 @@ void test_move_assignment_same_index()
 		using V = bksge::variant<int, long, unsigned>;
 		V v1(43l);
 		V v2(42l);
-		V& vref = (v1 = bksge::move(v2));
+		V& vref = (v1 = std::move(v2));
 		EXPECT_EQ(&vref, &v1);
 		EXPECT_EQ(v1.index(), 1u);
 		EXPECT_EQ(get<1>(v1), 42);
@@ -343,7 +343,7 @@ void test_move_assignment_same_index()
 		V v1(bksge::in_place_type_t<MoveAssign>{}, 43);
 		V v2(bksge::in_place_type_t<MoveAssign>{}, 42);
 		MoveAssign::reset();
-		V& vref = (v1 = bksge::move(v2));
+		V& vref = (v1 = std::move(v2));
 		EXPECT_EQ(&vref, &v1);
 		EXPECT_EQ(v1.index(), 1u);
 		EXPECT_EQ(get<1>(v1).value, 42);
@@ -359,7 +359,7 @@ void test_move_assignment_same_index()
 		V v2(bksge::in_place_type_t<MET>{});
 		try
 		{
-			v1 = bksge::move(v2);
+			v1 = std::move(v2);
 			assert(false);
 		}
 		catch (...)
@@ -380,7 +380,7 @@ void test_move_assignment_same_index()
 				using V = bksge::variant<int>;
 				V v(43);
 				V v2(42);
-				v = bksge::move(v2);
+				v = std::move(v2);
 				return { v.index(), get<0>(v) };
 			}
 		} test;
@@ -396,7 +396,7 @@ void test_move_assignment_same_index()
 				using V = bksge::variant<int, long, unsigned>;
 				V v(43l);
 				V v2(42l);
-				v = bksge::move(v2);
+				v = std::move(v2);
 				return { v.index(), get<1>(v) };
 			}
 		} test;
@@ -412,7 +412,7 @@ void test_move_assignment_same_index()
 				using V = bksge::variant<int, TMoveAssign, unsigned>;
 				V v(bksge::in_place_type_t<TMoveAssign>{}, 43);
 				V v2(bksge::in_place_type_t<TMoveAssign>{}, 42);
-				v = bksge::move(v2);
+				v = std::move(v2);
 				return { v.index(), get<1>(v).value };
 			}
 		} test;
@@ -430,7 +430,7 @@ void test_move_assignment_different_index()
 		using V = bksge::variant<int, long, unsigned>;
 		V v1(43);
 		V v2(42l);
-		V& vref = (v1 = bksge::move(v2));
+		V& vref = (v1 = std::move(v2));
 		EXPECT_EQ(&vref, &v1);
 		EXPECT_EQ(v1.index(), 1u);
 		EXPECT_EQ(get<1>(v1), 42);
@@ -440,7 +440,7 @@ void test_move_assignment_different_index()
 		V v1(bksge::in_place_type_t<unsigned>{}, 43u);
 		V v2(bksge::in_place_type_t<MoveAssign>{}, 42);
 		MoveAssign::reset();
-		V& vref = (v1 = bksge::move(v2));
+		V& vref = (v1 = std::move(v2));
 		EXPECT_EQ(&vref, &v1);
 		EXPECT_EQ(v1.index(), 1u);
 		EXPECT_EQ(get<1>(v1).value, 42);
@@ -455,7 +455,7 @@ void test_move_assignment_different_index()
 		V v2(bksge::in_place_type_t<MET>{});
 		try
 		{
-			v1 = bksge::move(v2);
+			v1 = std::move(v2);
 			assert(false);
 		}
 		catch (...)
@@ -468,7 +468,7 @@ void test_move_assignment_different_index()
 		using V = bksge::variant<int, MET, bksge::string>;
 		V v1(bksge::in_place_type_t<MET>{});
 		V v2(bksge::in_place_type_t<bksge::string>{}, "hello");
-		V& vref = (v1 = bksge::move(v2));
+		V& vref = (v1 = std::move(v2));
 		EXPECT_EQ(&vref, &v1);
 		EXPECT_EQ(v1.index(), 2u);
 		EXPECT_EQ(get<2>(v1), "hello");
@@ -485,7 +485,7 @@ void test_move_assignment_different_index()
 				using V = bksge::variant<int, long, unsigned>;
 				V v(43);
 				V v2(42l);
-				v = bksge::move(v2);
+				v = std::move(v2);
 				return { v.index(), get<1>(v) };
 			}
 		} test;
@@ -501,7 +501,7 @@ void test_move_assignment_different_index()
 				using V = bksge::variant<int, TMoveAssign, unsigned>;
 				V v(bksge::in_place_type_t<unsigned>{}, 43u);
 				V v2(bksge::in_place_type_t<TMoveAssign>{}, 42);
-				v = bksge::move(v2);
+				v = std::move(v2);
 				return { v.index(), get<1>(v).value };
 			}
 		} test;
@@ -521,7 +521,7 @@ constexpr bool test_constexpr_assign_imp(
 	bksge::variant<long, void*, int> v2(
 		bksge::forward<ValueType>(new_value));
 	const auto cp = v2;
-	v = bksge::move(v2);
+	v = std::move(v2);
 	return v.index() == NewIdx &&
 		get<NewIdx>(v) == get<NewIdx>(cp);
 }

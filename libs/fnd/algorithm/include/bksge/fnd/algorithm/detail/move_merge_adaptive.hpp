@@ -10,7 +10,7 @@
 #define BKSGE_FND_ALGORITHM_DETAIL_MOVE_MERGE_ADAPTIVE_HPP
 
 #include <bksge/fnd/algorithm/move.hpp>
-#include <bksge/fnd/utility/move.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -36,12 +36,12 @@ void move_merge_adaptive(
 	{
 		if (comp(*first2, *first1))
 		{
-			*result = bksge::move(*first2);
+			*result = std::move(*first2);
 			++first2;
 		}
 		else
 		{
-			*result = bksge::move(*first1);
+			*result = std::move(*first1);
 			++first1;
 		}
 

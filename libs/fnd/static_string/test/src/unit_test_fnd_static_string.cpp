@@ -8,7 +8,6 @@
 
 #include <bksge/fnd/static_string/static_string.hpp>
 #include <bksge/fnd/string_view/string_view.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/compare/is_eq.hpp>
 #include <bksge/fnd/compare/is_gt.hpp>
 #include <bksge/fnd/compare/is_lt.hpp>
@@ -16,6 +15,7 @@
 #include <gtest/gtest.h>
 #include <sstream>
 #include <cstddef>
+#include <utility>
 #include "constexpr_test.hpp"
 
 namespace bksge_static_string_test
@@ -276,7 +276,7 @@ inline BKSGE_CXX14_CONSTEXPR bool CtorMoveTest()
 {
 	{
 		bksge::static_string<N1> s1("hello world");
-		bksge::static_string<N2> const s2(bksge::move(s1));
+		bksge::static_string<N2> const s2(std::move(s1));
 		VERIFY(!s2.empty());
 		VERIFY(s2.size()     == 11);
 		VERIFY(s2.length()   == 11);
@@ -469,7 +469,7 @@ inline BKSGE_CXX14_CONSTEXPR bool AssignStringMoveTest()
 		VERIFY(s1.empty());
 
 		bksge::static_string<N2> s2("hello world");
-		s1 = bksge::move(s2);
+		s1 = std::move(s2);
 		VERIFY(!s1.empty());
 		VERIFY(s1.size()     == 11);
 		VERIFY(s1.length()   == 11);
@@ -478,7 +478,7 @@ inline BKSGE_CXX14_CONSTEXPR bool AssignStringMoveTest()
 		VERIFY(c_str_test(s1, "hello world"));
 
 		bksge::static_string<N2> s3("abc");
-		s1.assign(bksge::move(s3));
+		s1.assign(std::move(s3));
 		VERIFY(!s1.empty());
 		VERIFY(s1.size()     == 3);
 		VERIFY(s1.length()   == 3);

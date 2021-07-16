@@ -14,9 +14,9 @@
 #include <bksge/fnd/memory/addressof.hpp>
 #include <bksge/fnd/iterator/iter_value_t.hpp>
 #include <bksge/fnd/type_traits/is_trivially_constructible.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <cstdlib>
 #include <cstddef>
+#include <utility>
 
 namespace bksge
 {
@@ -103,16 +103,16 @@ struct uninitialized_construct_buf_dispatch
 
 		try
 		{
-			bksge::construct_at(bksge::addressof(*first), bksge::move(*seed));
+			bksge::construct_at(bksge::addressof(*first), std::move(*seed));
 			Pointer prev = cur;
 			++cur;
 
 			for (; cur != last; ++cur, ++prev)
 			{
-				bksge::construct_at(bksge::addressof(*cur), bksge::move(*prev));
+				bksge::construct_at(bksge::addressof(*cur), std::move(*prev));
 			}
 
-			*seed = bksge::move(*prev);
+			*seed = std::move(*prev);
 		}
 		catch(...)
 		{

@@ -34,8 +34,8 @@
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/disjunction.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -70,7 +70,7 @@ private:
 			}
 		}
 
-		return { next_it, bksge::move(++result) };
+		return { next_it, std::move(++result) };
 	}
 
 	template <
@@ -99,7 +99,7 @@ private:
 			}
 		}
 
-		return { bksge::move(first), bksge::move(++result) };
+		return { std::move(first), std::move(++result) };
 	}
 
 	template <
@@ -126,7 +126,7 @@ private:
 			}
 		}
 
-		return { bksge::move(first), bksge::move(++result) };
+		return { std::move(first), std::move(++result) };
 	}
 
 public:
@@ -177,15 +177,15 @@ public:
 	{
 		if (first == last)
 		{
-			return { bksge::move(first), bksge::move(result) };
+			return { std::move(first), std::move(result) };
 		}
 
 		return impl(
-			bksge::move(first),
-			bksge::move(last),
-			bksge::move(result),
-			bksge::move(comp),
-			bksge::move(proj),
+			std::move(first),
+			std::move(last),
+			std::move(result),
+			std::move(comp),
+			std::move(proj),
 			bksge::detail::overload_priority<2>{});
 	}
 
@@ -234,9 +234,9 @@ public:
 	{
 		return (*this)(
 			ranges::begin(r), ranges::end(r),
-			bksge::move(result),
-			bksge::move(comp),
-			bksge::move(proj));
+			std::move(result),
+			std::move(comp),
+			std::move(proj));
 	}
 };
 

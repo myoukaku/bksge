@@ -10,7 +10,6 @@
 #include <bksge/fnd/ranges/begin.hpp>
 #include <bksge/fnd/ranges/concepts/enable_borrowed_range.hpp>
 #include <bksge/fnd/memory/to_address.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <gtest/gtest.h>
 #include <utility>
 #include "constexpr_test.hpp"
@@ -84,8 +83,8 @@ BKSGE_CXX14_CONSTEXPR bool test03()
 	// r.data() can only be used on an lvalue, but ranges::begin(R3&&) is OK
 	// because R3 satisfies ranges::borrowed_range.
 	return
-		bksge::ranges::data(bksge::move(r)) == bksge::to_address(bksge::ranges::begin(bksge::move(r))) &&
-		bksge::ranges::data(bksge::move(c)) == bksge::to_address(bksge::ranges::begin(bksge::move(c)));
+		bksge::ranges::data(std::move(r)) == bksge::to_address(bksge::ranges::begin(std::move(r))) &&
+		bksge::ranges::data(std::move(c)) == bksge::to_address(bksge::ranges::begin(std::move(c)));
 }
 
 GTEST_TEST(RangesTest, DataTest)

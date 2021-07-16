@@ -10,7 +10,6 @@
 #include <bksge/fnd/tuple/tuple.hpp>
 #include <bksge/fnd/tuple/forward_as_tuple.hpp>
 #include <bksge/fnd/array.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/pair.hpp>
 #include <gtest/gtest.h>
 #include <utility>
@@ -167,13 +166,13 @@ void check_apply_quals_and_types(Tuple&& t)
 		EXPECT_EQ(ret.args, t);
 	}
 	{
-		auto ret = bksge::apply(bksge::move(obj), bksge::forward<Tuple>(t));
+		auto ret = bksge::apply(std::move(obj), bksge::forward<Tuple>(t));
 		EXPECT_EQ(ret.quals, CQ_RValue);
 		EXPECT_EQ(ret.arg_types, expect_args);
 		EXPECT_EQ(ret.args, t);
 	}
 	{
-		auto ret = bksge::apply(bksge::move(cobj), bksge::forward<Tuple>(t));
+		auto ret = bksge::apply(std::move(cobj), bksge::forward<Tuple>(t));
 		EXPECT_EQ(ret.quals, CQ_ConstRValue);
 		EXPECT_EQ(ret.arg_types, expect_args);
 		EXPECT_EQ(ret.args, t);
@@ -185,12 +184,12 @@ GTEST_TEST(TupleApplyTest, CallQualsAndArgTypesTest)
 	using Tup = bksge::tuple<int, int const&, unsigned&&>;
 	const int x = 42;
 	unsigned y = 101;
-	Tup t(-1, x, bksge::move(y));
+	Tup t(-1, x, std::move(y));
 	Tup const& ct = t;
 	check_apply_quals_and_types<int&, int const&, unsigned&>(t);
 	check_apply_quals_and_types<int const&, int const&, unsigned&>(ct);
-	check_apply_quals_and_types<int&&, int const&, unsigned&&>(bksge::move(t));
-//	check_apply_quals_and_types<int const&&, int const&, unsigned&&>(bksge::move(ct));
+	check_apply_quals_and_types<int&&, int const&, unsigned&&>(std::move(t));
+//	check_apply_quals_and_types<int const&&, int const&, unsigned&&>(std::move(ct));
 }
 
 #if 0	// TODO
@@ -226,7 +225,7 @@ GTEST_TEST(TupleApplyTest, NoexceptTest)
 		using Tup = bksge::tuple<NothrowMoveable, int>;
 		Tup t;
 		ASSERT_NOT_NOEXCEPT(bksge::apply(nec, t));
-		ASSERT_NOEXCEPT(bksge::apply(nec, bksge::move(t)));
+		ASSERT_NOEXCEPT(bksge::apply(nec, std::move(t)));
 	}
 }
 #endif

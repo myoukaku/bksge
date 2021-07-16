@@ -18,10 +18,10 @@
 #include <bksge/fnd/type_traits/is_trivially_move_constructible.hpp>
 #include <bksge/fnd/utility/in_place_index.hpp>
 #include <bksge/fnd/utility/in_place_type.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include <cstddef>
+#include <utility>
 #include "test_macros.hpp"
 #include "test_workarounds.hpp"
 
@@ -114,7 +114,7 @@ void makeEmpty(Variant& v)
 	Variant v2(bksge::in_place_type_t<MakeEmptyT>{});
 	try
 	{
-		v = bksge::move(v2);
+		v = std::move(v2);
 		GTEST_FAIL();
 	}
 	catch (...)
@@ -194,34 +194,34 @@ void test_move_ctor_basic()
 	using std::get;
 	{
 		bksge::variant<int> v(bksge::in_place_index_t<0>{}, 42);
-		bksge::variant<int> v2 = bksge::move(v);
+		bksge::variant<int> v2 = std::move(v);
 		EXPECT_EQ(v2.index(), 0u);
 		EXPECT_EQ(get<0>(v2), 42);
 	}
 	{
 		bksge::variant<int, long> v(bksge::in_place_index_t<1>{}, 42);
-		bksge::variant<int, long> v2 = bksge::move(v);
+		bksge::variant<int, long> v2 = std::move(v);
 		EXPECT_EQ(v2.index(), 1u);
 		EXPECT_EQ(get<1>(v2), 42);
 	}
 	{
 		bksge::variant<MoveOnly> v(bksge::in_place_index_t<0>{}, 42);
 		EXPECT_EQ(v.index(), 0u);
-		bksge::variant<MoveOnly> v2(bksge::move(v));
+		bksge::variant<MoveOnly> v2(std::move(v));
 		EXPECT_EQ(v2.index(), 0u);
 		EXPECT_EQ(get<0>(v2).value, 42);
 	}
 	{
 		bksge::variant<int, MoveOnly> v(bksge::in_place_index_t<1>{}, 42);
 		EXPECT_EQ(v.index(), 1u);
-		bksge::variant<int, MoveOnly> v2(bksge::move(v));
+		bksge::variant<int, MoveOnly> v2(std::move(v));
 		EXPECT_EQ(v2.index(), 1u);
 		EXPECT_EQ(get<1>(v2).value, 42);
 	}
 	{
 		bksge::variant<MoveOnlyNT> v(bksge::in_place_index_t<0>{}, 42);
 		EXPECT_EQ(v.index(), 0u);
-		bksge::variant<MoveOnlyNT> v2(bksge::move(v));
+		bksge::variant<MoveOnlyNT> v2(std::move(v));
 		EXPECT_EQ(v2.index(), 0u);
 		EXPECT_EQ(get<0>(v).value, -1);
 		EXPECT_EQ(get<0>(v2).value, 42);
@@ -229,7 +229,7 @@ void test_move_ctor_basic()
 	{
 		bksge::variant<int, MoveOnlyNT> v(bksge::in_place_index_t<1>{}, 42);
 		EXPECT_EQ(v.index(), 1u);
-		bksge::variant<int, MoveOnlyNT> v2(bksge::move(v));
+		bksge::variant<int, MoveOnlyNT> v2(std::move(v));
 		EXPECT_EQ(v2.index(), 1u);
 		EXPECT_EQ(get<1>(v).value, -1);
 		EXPECT_EQ(get<1>(v2).value, 42);
@@ -243,8 +243,8 @@ void test_move_ctor_basic()
 			constexpr Result<int> operator()() const
 			{
 				bksge::variant<int> v(bksge::in_place_index_t<0>{}, 42);
-				bksge::variant<int> v2 = bksge::move(v);
-				return { v2.index(), get<0>(bksge::move(v2)) };
+				bksge::variant<int> v2 = std::move(v);
+				return { v2.index(), get<0>(std::move(v2)) };
 			}
 		} test;
 		constexpr auto result = test();
@@ -257,8 +257,8 @@ void test_move_ctor_basic()
 			constexpr Result<long> operator()() const
 			{
 				bksge::variant<int, long> v(bksge::in_place_index_t<1>{}, 42);
-				bksge::variant<int, long> v2 = bksge::move(v);
-				return { v2.index(), get<1>(bksge::move(v2)) };
+				bksge::variant<int, long> v2 = std::move(v);
+				return { v2.index(), get<1>(std::move(v2)) };
 			}
 		} test;
 		constexpr auto result = test();
@@ -271,8 +271,8 @@ void test_move_ctor_basic()
 			constexpr Result<TMove> operator()() const
 			{
 				bksge::variant<TMove> v(bksge::in_place_index_t<0>{}, 42);
-				bksge::variant<TMove> v2(bksge::move(v));
-				return { v2.index(), get<0>(bksge::move(v2)) };
+				bksge::variant<TMove> v2(std::move(v));
+				return { v2.index(), get<0>(std::move(v2)) };
 			}
 		} test;
 		constexpr auto result = test();
@@ -285,8 +285,8 @@ void test_move_ctor_basic()
 			constexpr Result<TMove> operator()() const
 			{
 				bksge::variant<int, TMove> v(bksge::in_place_index_t<1>{}, 42);
-				bksge::variant<int, TMove> v2(bksge::move(v));
-				return { v2.index(), get<1>(bksge::move(v2)) };
+				bksge::variant<int, TMove> v2(std::move(v));
+				return { v2.index(), get<1>(std::move(v2)) };
 			}
 		} test;
 		constexpr auto result = test();
@@ -299,8 +299,8 @@ void test_move_ctor_basic()
 			constexpr Result<TMoveNTCopy> operator()() const
 			{
 				bksge::variant<TMoveNTCopy> v(bksge::in_place_index_t<0>{}, 42);
-				bksge::variant<TMoveNTCopy> v2(bksge::move(v));
-				return { v2.index(), get<0>(bksge::move(v2)) };
+				bksge::variant<TMoveNTCopy> v2(std::move(v));
+				return { v2.index(), get<0>(std::move(v2)) };
 			}
 		} test;
 		constexpr auto result = test();
@@ -313,8 +313,8 @@ void test_move_ctor_basic()
 			constexpr Result<TMoveNTCopy> operator()() const
 			{
 				bksge::variant<int, TMoveNTCopy> v(bksge::in_place_index_t<1>{}, 42);
-				bksge::variant<int, TMoveNTCopy> v2(bksge::move(v));
-				return { v2.index(), get<1>(bksge::move(v2)) };
+				bksge::variant<int, TMoveNTCopy> v2(std::move(v));
+				return { v2.index(), get<1>(std::move(v2)) };
 			}
 		} test;
 		constexpr auto result = test();
@@ -330,7 +330,7 @@ void test_move_ctor_valueless_by_exception()
 	using V = bksge::variant<int, MakeEmptyT>;
 	V v1;
 	makeEmpty(v1);
-	V v(bksge::move(v1));
+	V v(std::move(v1));
 	EXPECT_TRUE(v.valueless_by_exception());
 #endif
 }
@@ -342,7 +342,7 @@ test_constexpr_ctor_imp(bksge::variant<long, void*, const int> const& v)
 {
 	using std::get;
 	auto copy = v;
-	auto v2 = bksge::move(copy);
+	auto v2 = std::move(copy);
 	return v2.index() == v.index() &&
 		v2.index() == Idx &&
 		get<Idx>(v2) == get<Idx>(v);

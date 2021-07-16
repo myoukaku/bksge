@@ -17,10 +17,10 @@
 #include <bksge/fnd/detail/throw_bad_alloc.hpp>
 #include <bksge/fnd/type_traits/is_trivially_destructible.hpp>
 #include <bksge/fnd/utility/forward.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
+#include <utility>
 
 namespace bksge
 {
@@ -110,11 +110,11 @@ public:
 		{
 			if (dst > m_end)
 			{
-				alloc_traits::construct(m_allocator, --dst, bksge::move(*--last));
+				alloc_traits::construct(m_allocator, --dst, std::move(*--last));
 			}
 			else
 			{
-				*--dst = bksge::move(*--last);
+				*--dst = std::move(*--last);
 			}
 		}
 	}

@@ -173,14 +173,14 @@ public:
 	BKSGE_CXX14_CONSTEXPR basic_static_string&
 	operator=(basic_static_string&& str)
 	{
-		return this->assign(bksge::move(str));
+		return this->assign(std::move(str));
 	}
 
 	template <std::size_t N>
 	BKSGE_CXX14_CONSTEXPR basic_static_string&
 	operator=(basic_static_string<CharT, N, Traits>&& str)
 	{
-		return this->assign(bksge::move(str));
+		return this->assign(std::move(str));
 	}
 
 	BKSGE_CXX14_CONSTEXPR basic_static_string&
@@ -777,9 +777,9 @@ public:
 	BKSGE_CXX14_CONSTEXPR void
 	swap(basic_static_string<CharT, N, Traits>& s)
 	{
-		auto tmp = bksge::move(s);
-		s = bksge::move(*this);
-		*this = bksge::move(tmp);
+		auto tmp = std::move(s);
+		s = std::move(*this);
+		*this = std::move(tmp);
 	}
 
 	BKSGE_CONSTEXPR CharT const* c_str() const BKSGE_NOEXCEPT

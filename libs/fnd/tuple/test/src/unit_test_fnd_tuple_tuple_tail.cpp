@@ -10,8 +10,8 @@
 #include <bksge/fnd/tuple/tuple.hpp>
 #include <bksge/fnd/tuple/make_tuple.hpp>
 #include <bksge/fnd/string/string.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "constexpr_test.hpp"
 
 namespace bksge_tuple_test
@@ -52,7 +52,7 @@ GTEST_TEST(TupleTest, TupleTailTest)
 	{
 		BKSGE_CXX14_CONSTEXPR bksge::tuple<int, double, float> t1(1, 2.5, 3.5f);
 		BKSGE_CXX14_CONSTEXPR bksge::tuple<     double, float> t2(   2.5, 3.5f);
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(t2, bksge::tuple_tail(bksge::move(t1)));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(t2, bksge::tuple_tail(std::move(t1)));
 	}
 	{
 		BKSGE_CXX14_CONSTEXPR auto t1 = bksge::make_tuple(1, 2, 3, 4, 5.5, 6.5f, 7);
@@ -67,7 +67,7 @@ GTEST_TEST(TupleTest, TupleTailTest)
 	{
 		auto t1 = bksge::make_tuple(Noncopyable(1), Noncopyable(2), Noncopyable(3));
 		auto t2 = bksge::make_tuple(                Noncopyable(2), Noncopyable(3));
-		EXPECT_EQ(t2, bksge::tuple_tail(bksge::move(t1)));
+		EXPECT_EQ(t2, bksge::tuple_tail(std::move(t1)));
 	}
 	{
 		BKSGE_CXX14_CONSTEXPR auto t1 = bksge::tuple_tail(bksge::make_tuple(Noncopyable(1), Noncopyable(2)));
@@ -82,7 +82,7 @@ GTEST_TEST(TupleTest, TupleTailTest)
 	{
 		bksge::tuple<float, bksge::string> t1(1.5f, "foo");
 		bksge::tuple<       bksge::string> t2(      "foo");
-		EXPECT_EQ(t2, bksge::tuple_tail(bksge::move(t1)));
+		EXPECT_EQ(t2, bksge::tuple_tail(std::move(t1)));
 	}
 	{
 		BKSGE_CXX14_CONSTEXPR bksge::tuple<int> t1(42);
@@ -92,7 +92,7 @@ GTEST_TEST(TupleTest, TupleTailTest)
 	{
 		BKSGE_CXX14_CONSTEXPR bksge::tuple<int> t1(42);
 		BKSGE_CXX14_CONSTEXPR bksge::tuple<>    t2;
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(t2, bksge::tuple_tail(bksge::move(t1)));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(t2, bksge::tuple_tail(std::move(t1)));
 	}
 	{
 		BKSGE_CXX14_CONSTEXPR auto t1 = bksge::tuple_tail(bksge::make_tuple(42));
@@ -107,7 +107,7 @@ GTEST_TEST(TupleTest, TupleTailTest)
 	{
 		BKSGE_CONSTEXPR bksge::tuple<> t1;
 		BKSGE_CONSTEXPR bksge::tuple<> t2;
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(t2, bksge::tuple_tail(bksge::move(t1)));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(t2, bksge::tuple_tail(std::move(t1)));
 	}
 	{
 		BKSGE_CXX14_CONSTEXPR auto t1 = bksge::tuple_tail(bksge::make_tuple());

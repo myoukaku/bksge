@@ -12,10 +12,10 @@
 #include <bksge/fnd/compare/is_gt.hpp>
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "constexpr_test.hpp"
 
 namespace bksge_array_test
@@ -92,7 +92,7 @@ inline BKSGE_CXX14_CONSTEXPR bool test_ctor_deduction()
 		VERIFY(b.max_size() == 4);
 		VERIFY(b.empty()    == false);
 
-		bksge::array c = bksge::move(a);
+		bksge::array c = std::move(a);
 		static_assert(bksge::is_same<decltype(c), bksge::array<int, 4>>::value, "");
 		VERIFY(c.size()     == 4);
 		VERIFY(c.max_size() == 4);

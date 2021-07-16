@@ -33,9 +33,9 @@
 #include <bksge/fnd/type_traits/is_object.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -147,10 +147,10 @@ class take_while_view : public ranges::view_interface<take_while_view<V, Pred>>
 public:
 	BKSGE_CONSTEXPR take_while_view() = default;
 
-	BKSGE_CONSTEXPR
+	BKSGE_CXX14_CONSTEXPR
 	take_while_view(V base, Pred pred)
-		: m_pred(bksge::move(pred))
-		, m_base(bksge::move(base))
+		: m_pred(std::move(pred))
+		, m_base(std::move(base))
 	{}
 
 	BKSGE_CONSTEXPR V base() const&
@@ -161,7 +161,7 @@ public:
 
 	BKSGE_CXX14_CONSTEXPR V base() &&
 	{
-		return bksge::move(m_base);
+		return std::move(m_base);
 	}
 
 	BKSGE_CONSTEXPR Pred const& pred() const

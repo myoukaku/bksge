@@ -15,8 +15,8 @@
 #include <bksge/fnd/type_traits/is_invocable_r.hpp>
 #include <bksge/fnd/type_traits/is_convertible.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -53,10 +53,10 @@ reduce_impl(InputIterator first, InputIterator last, T init, BinaryOperation bin
 	}
 
 	return reduce_impl(
-		bksge::move(first),
-		bksge::move(last),
-		bksge::move(init),
-		bksge::move(binary_op),
+		std::move(first),
+		std::move(last),
+		std::move(init),
+		std::move(binary_op),
 		bksge::false_type{});
 }
 
@@ -73,10 +73,10 @@ reduce(InputIterator first, InputIterator last, T init, BinaryOperation binary_o
 	static_assert(bksge::is_convertible<value_type, T>::value, "");
 
 	return detail::reduce_impl(
-		bksge::move(first),
-		bksge::move(last),
-		bksge::move(init),
-		bksge::move(binary_op),
+		std::move(first),
+		std::move(last),
+		std::move(init),
+		std::move(binary_op),
 		bksge::is_random_access_iterator<InputIterator>{});
 }
 
@@ -85,9 +85,9 @@ inline BKSGE_CXX14_CONSTEXPR T
 reduce(InputIterator first, InputIterator last, T init)
 {
 	return bksge::reduce(
-		bksge::move(first),
-		bksge::move(last),
-		bksge::move(init),
+		std::move(first),
+		std::move(last),
+		std::move(init),
 		bksge::plus<>{});
 }
 
@@ -97,8 +97,8 @@ reduce(InputIterator first, InputIterator last)
 {
 	using value_type = typename bksge::iterator_traits<InputIterator>::value_type;
 	return bksge::reduce(
-		bksge::move(first),
-		bksge::move(last),
+		std::move(first),
+		std::move(last),
 		value_type{},
 		bksge::plus<>{});
 }

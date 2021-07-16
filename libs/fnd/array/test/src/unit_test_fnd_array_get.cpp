@@ -7,8 +7,8 @@
  */
 
 #include <bksge/fnd/array/get.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "constexpr_test.hpp"
 
 namespace bksge_array_test
@@ -35,12 +35,12 @@ inline BKSGE_CXX14_CONSTEXPR bool test_get()
 	}
 	{
 		bksge::array<int, 2> a{{1,2}};
-		int&& r0 = get<0>(bksge::move(a));
+		int&& r0 = get<0>(std::move(a));
 		VERIFY(r0 == 1);
 	}
 	{
 		bksge::array<int, 2> const a{{3,4}};
-		int const&& r0 = get<0>(bksge::move(a));
+		int const&& r0 = get<0>(std::move(a));
 		VERIFY(r0 == 3);
 	}
 	return true;

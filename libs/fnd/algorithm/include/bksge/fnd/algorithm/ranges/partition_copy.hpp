@@ -25,8 +25,8 @@
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -89,7 +89,7 @@ struct partition_copy_fn
 			}
 		}
 
-		return { bksge::move(first), bksge::move(out_true), bksge::move(out_false) };
+		return { std::move(first), std::move(out_true), std::move(out_false) };
 	}
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
@@ -128,8 +128,8 @@ struct partition_copy_fn
 	{
 		return (*this)(
 			ranges::begin(r), ranges::end(r),
-			bksge::move(out_true), bksge::move(out_false),
-			bksge::move(pred), bksge::move(proj));
+			std::move(out_true), std::move(out_false),
+			std::move(pred), std::move(proj));
 	}
 };
 

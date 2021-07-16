@@ -32,7 +32,6 @@
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/negation.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
@@ -63,9 +62,9 @@ private:
 public:
 	BKSGE_CONSTEXPR common_view() = default;
 
-	BKSGE_CONSTEXPR explicit
+	BKSGE_CXX14_CONSTEXPR explicit
 	common_view(V r)
-		: m_base(bksge::move(r))
+		: m_base(std::move(r))
 	{}
 
 	/* XXX: LWG 3280 didn't remove this constructor, but I think it should?
@@ -86,7 +85,7 @@ public:
 
 	BKSGE_CXX14_CONSTEXPR V base() &&
 	{
-		return bksge::move(m_base);
+		return std::move(m_base);
 	}
 
 private:

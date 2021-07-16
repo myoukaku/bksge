@@ -38,7 +38,6 @@
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/negation.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
@@ -78,9 +77,9 @@ private:
 public:
 	BKSGE_CONSTEXPR reverse_view() = default;
 
-	BKSGE_CONSTEXPR explicit
+	BKSGE_CXX14_CONSTEXPR explicit
 	reverse_view(V r)
-		: m_base(bksge::move(r))
+		: m_base(std::move(r))
 	{}
 
 	template <BKSGE_REQUIRES_PARAM_D(bksge::copy_constructible, V2, V)>
@@ -91,7 +90,7 @@ public:
 
 	BKSGE_CXX14_CONSTEXPR V base() &&
 	{
-		return bksge::move(m_base);
+		return std::move(m_base);
 	}
 
 private:
@@ -99,7 +98,7 @@ private:
 	-> bksge::reverse_iterator<ranges::iterator_t<V>>
 	{
 		auto it = ranges::next(ranges::begin(m_base), ranges::end(m_base));
-		return bksge::make_reverse_iterator(bksge::move(it));
+		return bksge::make_reverse_iterator(std::move(it));
 	}
 
 	BKSGE_CXX14_CONSTEXPR auto begin_impl(bksge::true_type)
@@ -112,7 +111,7 @@ private:
 
 		auto it = ranges::next(ranges::begin(m_base), ranges::end(m_base));
 		m_cached_begin.set(m_base, it);
-		return bksge::make_reverse_iterator(bksge::move(it));
+		return bksge::make_reverse_iterator(std::move(it));
 	}
 
 public:

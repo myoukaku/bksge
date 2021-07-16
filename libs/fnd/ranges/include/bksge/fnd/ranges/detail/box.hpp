@@ -25,10 +25,10 @@
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/optional.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -94,7 +94,7 @@ struct box<T, true, false> : bksge::optional<T>
 	{
 		if ((bool)that)
 		{
-			this->emplace(bksge::move(*that));
+			this->emplace(std::move(*that));
 		}
 		else
 		{
@@ -120,10 +120,10 @@ public:
 		: m_value{t}
 	{}
 
-	BKSGE_CONSTEXPR explicit
+	BKSGE_CXX14_CONSTEXPR explicit
 	box(T&& t)
 		BKSGE_NOEXCEPT_IF(bksge::is_nothrow_move_constructible<T>::value)
-		: m_value{bksge::move(t)}
+		: m_value{std::move(t)}
 	{}
 
 	template <typename... Args>

@@ -135,12 +135,12 @@ void test_basic()
 		EXPECT_EQ(&get<2>(v), &x);
 		EXPECT_EQ(&ref2, &get<2>(v));
 		// emplace an rvalue reference
-		auto& ref3 = v.emplace<3>(bksge::move(y));
+		auto& ref3 = v.emplace<3>(std::move(y));
 		static_assert(bksge::is_same<int&, decltype(ref3)>::value, "");
 		EXPECT_EQ(&get<3>(v), &y);
 		EXPECT_EQ(&ref3, &get<3>(v));
 		// re-emplace a new reference over the active member
-		auto& ref4 = v.emplace<3>(bksge::move(z));
+		auto& ref4 = v.emplace<3>(std::move(z));
 		static_assert(bksge::is_same<int&, decltype(ref4)>::value, "");
 		EXPECT_EQ(&get<3>(v), &z);
 		EXPECT_EQ(&ref4, &get<3>(v));

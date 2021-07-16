@@ -19,8 +19,8 @@
 #include <bksge/fnd/type_traits/is_lvalue_reference.hpp>
 //#include <bksge/fnd/type_traits/is_rvalue_reference.hpp>
 #include <bksge/fnd/utility/forward.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 #define BKSGE_NOEXCEPT_DECLTYPE_RETURN(...) \
 	BKSGE_NOEXCEPT_IF_EXPR(__VA_ARGS__)     \
@@ -51,7 +51,7 @@ private:
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 	requires bksge::detail::class_or_enum<bksge::remove_reference_t<T>>
 #endif
-	static BKSGE_CONSTEXPR auto impl(bksge::detail::overload_priority<2>, T&& t)
+	static BKSGE_CXX14_CONSTEXPR auto impl(bksge::detail::overload_priority<2>, T&& t)
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(iter_move(bksge::forward<T>(t)))
 
 	// (2) otherwise, if *forward<T>(t) is well-formed and is an lvalue
@@ -63,20 +63,20 @@ private:
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 	requires bksge::is_lvalue_reference<bksge::iter_reference_t<T>>::value
 #endif
-	static BKSGE_CONSTEXPR auto impl(bksge::detail::overload_priority<1>, T&& t)
-		BKSGE_NOEXCEPT_DECLTYPE_RETURN(bksge::move(*bksge::forward<T>(t)))
+	static BKSGE_CXX14_CONSTEXPR auto impl(bksge::detail::overload_priority<1>, T&& t)
+		BKSGE_NOEXCEPT_DECLTYPE_RETURN(std::move(*bksge::forward<T>(t)))
 
 	// (3) otherwise, if *forward<T>(t) is well-formed and is an rvalue
 	template <typename T
 		, typename = bksge::enable_if_t<!bksge::detail::is_void_pointer<T>::value>
 	>
 //	requires bksge::is_rvalue_reference<bksge::iter_reference_t<T>>::value
-	static BKSGE_CONSTEXPR auto impl(bksge::detail::overload_priority<0>, T&& t)
+	static BKSGE_CXX14_CONSTEXPR auto impl(bksge::detail::overload_priority<0>, T&& t)
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(*bksge::forward<T>(t))
 
 public:
 	template <typename T>
-	BKSGE_CONSTEXPR auto operator()(T&& t) const
+	BKSGE_CXX14_CONSTEXPR auto operator()(T&& t) const
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
 			impl(bksge::detail::overload_priority<2>{}, bksge::forward<T>(t)))
 };

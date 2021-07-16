@@ -9,8 +9,8 @@
 #ifndef BKSGE_FND_NUMERIC_TRANSFORM_EXCLUSIVE_SCAN_HPP
 #define BKSGE_FND_NUMERIC_TRANSFORM_EXCLUSIVE_SCAN_HPP
 
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -36,7 +36,7 @@ transform_exclusive_scan(
 		auto v = init;
 		init = binary_op(init, unary_op(*first));
 		++first;
-		*result++ = bksge::move(v);
+		*result++ = std::move(v);
 	}
 
 	return result;

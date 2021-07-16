@@ -28,9 +28,9 @@
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/is_move_assignable.hpp>
 #include <bksge/fnd/type_traits/detail/is_memcpyable.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
 #include <type_traits>	// is_constant_evaluated
+#include <utility>
 
 namespace bksge
 {
@@ -72,12 +72,12 @@ private:
 
 		for (auto n = last - first; n > 0; --n)
 		{
-			*result = bksge::move(*first);
+			*result = std::move(*first);
 			++first;
 			++result;
 		}
 
-		return { bksge::move(first), bksge::move(result) };
+		return { std::move(first), std::move(result) };
 	}
 
 	template <
@@ -91,12 +91,12 @@ private:
 	{
 		while (first != last)
 		{
-			*result = bksge::move(*first);
+			*result = std::move(*first);
 			++first;
 			++result;
 		}
 
-		return { bksge::move(first), bksge::move(result) };
+		return { std::move(first), std::move(result) };
 	}
 
 public:
@@ -124,9 +124,9 @@ public:
 	operator()(Iter first, Sent last, Out result) const
 	{
 		return impl(
-			bksge::move(first),
-			bksge::move(last),
-			bksge::move(result),
+			std::move(first),
+			std::move(last),
+			std::move(result),
 			bksge::detail::overload_priority<1>{});
 	}
 
@@ -153,7 +153,7 @@ public:
 	{
 		return (*this)(
 			ranges::begin(r), ranges::end(r),
-			bksge::move(result));
+			std::move(result));
 	}
 };
 

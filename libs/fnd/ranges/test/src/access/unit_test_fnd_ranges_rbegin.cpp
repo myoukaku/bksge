@@ -10,9 +10,9 @@
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/ranges/concepts/enable_borrowed_range.hpp>
 #include <bksge/fnd/concepts/same_as.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/iterator/make_reverse_iterator.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "constexpr_test.hpp"
 
 namespace bksge_ranges_test
@@ -70,7 +70,7 @@ BKSGE_CXX14_CONSTEXPR bool test01()
 	// and its type I models input_or_output_iterator.
 	return
 		bksge::ranges::rbegin(r) == &r.i &&
-		bksge::ranges::rbegin(bksge::move(r)) == &r.i;
+		bksge::ranges::rbegin(std::move(r)) == &r.i;
 }
 
 BKSGE_CXX14_CONSTEXPR bool test02()
@@ -79,8 +79,8 @@ BKSGE_CXX14_CONSTEXPR bool test02()
 	// Otherwise, decay-copy(rbegin(t)) if it is a valid expression
 	// and its type I models input_or_output_iterator [...]
 	return
-		bksge::ranges::rbegin(r)              == bksge::make_reverse_iterator(bksge::ranges::end(r)) &&
-		bksge::ranges::rbegin(bksge::move(r)) == bksge::make_reverse_iterator(bksge::ranges::end(bksge::move(r)));
+		bksge::ranges::rbegin(r)            == bksge::make_reverse_iterator(bksge::ranges::end(r)) &&
+		bksge::ranges::rbegin(std::move(r)) == bksge::make_reverse_iterator(bksge::ranges::end(std::move(r)));
 }
 
 GTEST_TEST(RangesTest, RBeginTest)

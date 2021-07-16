@@ -14,8 +14,8 @@
 #include <bksge/fnd/iterator/concepts/random_access_iterator.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -71,12 +71,12 @@ transform_reduce_impl(
 	}
 
 	return transform_reduce_impl(
-		bksge::move(first1),
-		bksge::move(last1),
-		bksge::move(first2),
-		bksge::move(init),
-		bksge::move(binary_op1),
-		bksge::move(binary_op2),
+		std::move(first1),
+		std::move(last1),
+		std::move(first2),
+		std::move(init),
+		std::move(binary_op1),
+		std::move(binary_op2),
 		bksge::false_type{});
 }
 
@@ -116,11 +116,11 @@ transform_reduce_impl(
 	}
 
 	return transform_reduce_impl(
-		bksge::move(first),
-		bksge::move(last),
-		bksge::move(init),
-		bksge::move(binary_op),
-		bksge::move(unary_op),
+		std::move(first),
+		std::move(last),
+		std::move(init),
+		std::move(binary_op),
+		std::move(unary_op),
 		bksge::false_type{});
 }
 
@@ -141,12 +141,12 @@ transform_reduce(
 	BinaryOperation2 binary_op2)
 {
 	return detail::transform_reduce_impl(
-		bksge::move(first1),
-		bksge::move(last1),
-		bksge::move(first2),
-		bksge::move(init),
-		bksge::move(binary_op1),
-		bksge::move(binary_op2),
+		std::move(first1),
+		std::move(last1),
+		std::move(first2),
+		std::move(init),
+		std::move(binary_op1),
+		std::move(binary_op2),
 		bksge::conjunction<
 			bksge::is_random_access_iterator<InputIterator1>,
 			bksge::is_random_access_iterator<InputIterator2>>{});
@@ -160,10 +160,10 @@ transform_reduce(
 	T init)
 {
 	return bksge::transform_reduce(
-		bksge::move(first1),
-		bksge::move(last1),
-		bksge::move(first2),
-		bksge::move(init),
+		std::move(first1),
+		std::move(last1),
+		std::move(first2),
+		std::move(init),
 		bksge::plus<>{},
 		bksge::multiplies<>{});
 }
@@ -177,11 +177,11 @@ transform_reduce(
 	UnaryOperation unary_op)
 {
 	return detail::transform_reduce_impl(
-		bksge::move(first),
-		bksge::move(last),
-		bksge::move(init),
-		bksge::move(binary_op),
-		bksge::move(unary_op),
+		std::move(first),
+		std::move(last),
+		std::move(init),
+		std::move(binary_op),
+		std::move(unary_op),
 		bksge::is_random_access_iterator<InputIterator>{});
 }
 

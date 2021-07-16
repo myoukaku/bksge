@@ -19,11 +19,11 @@
 #include <bksge/fnd/iterator/make_move_iterator.hpp>
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
 #include <bksge/fnd/utility/forward.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/config.hpp>
 #include <initializer_list>
 #include <cstddef>
+#include <utility>
 
 namespace bksge
 {
@@ -366,7 +366,7 @@ inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::insert(const_iterator pos, value_type&& value) -> iterator
 {
 	pointer p = base_t::begin() + (pos - cbegin());
-	base_t::emplace(p, 1, bksge::move(value));
+	base_t::emplace(p, 1, std::move(value));
 	return iterator(p);
 }
 
@@ -445,7 +445,7 @@ template <typename T, std::size_t C>
 inline BKSGE_CXX14_CONSTEXPR void
 static_vector<T, C>::push_back(value_type&& value)
 {
-	base_t::emplace_back_n(1, bksge::move(value));
+	base_t::emplace_back_n(1, std::move(value));
 }
 
 template <typename T, std::size_t C>
@@ -500,9 +500,9 @@ inline BKSGE_CXX14_CONSTEXPR void
 static_vector<T, C>::swap(static_vector& other)
 	BKSGE_NOEXCEPT_IF(bksge::is_nothrow_swappable<value_type>::value)
 {
-	static_vector tmp(bksge::move(other));
-	other = bksge::move(*this);
-	*this = bksge::move(tmp);
+	static_vector tmp(std::move(other));
+	other = std::move(*this);
+	*this = std::move(tmp);
 }
 
 template <typename T, std::size_t C>

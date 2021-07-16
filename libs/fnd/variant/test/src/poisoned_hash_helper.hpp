@@ -22,10 +22,10 @@
 #include <bksge/fnd/type_traits/remove_pointer.hpp>
 #include <bksge/fnd/type_traits/remove_reference.hpp>
 #include <bksge/fnd/functional/hash.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cassert>
 #include <cstddef>
+#include <utility>
 #include "test_macros.hpp"
 #include "test_workarounds.hpp"
 
@@ -135,8 +135,8 @@ struct ConvertibleTo
 	To to{};
 	operator To& ()& { return to; }
 	operator To const& () const& { return to; }
-	operator To&&()&& { return bksge::move(to); }
-	operator To const&& () const&& { return bksge::move(to); }
+	operator To&&()&& { return std::move(to); }
+	operator To const&& () const&& { return std::move(to); }
 };
 
 template <typename HashExpr>

@@ -23,9 +23,8 @@ using std::exchange;
 
 #else
 
-#include <bksge/fnd/utility/move.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -48,8 +47,8 @@ template <typename T, typename U = T>
 inline BKSGE_CXX14_CONSTEXPR T
 exchange(T& obj, U&& new_value)
 {
-    T old_value = bksge::move(obj);
-    obj = bksge::forward<U>(new_value);
+    T old_value = std::move(obj);
+    obj = std::forward<U>(new_value);
     return old_value;
 }
 

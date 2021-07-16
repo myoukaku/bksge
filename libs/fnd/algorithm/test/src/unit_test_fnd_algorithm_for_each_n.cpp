@@ -10,11 +10,11 @@
 #include <bksge/fnd/iterator/begin.hpp>
 #include <bksge/fnd/iterator/end.hpp>
 #include <bksge/fnd/iterator/next.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/array.hpp>
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "constexpr_test.hpp"
 
 namespace bksge_algorithm_test
@@ -27,8 +27,8 @@ struct Sum
 {
 	Sum(int* p) : m_p(p) {}
 	void operator()(int x) { *m_p += x; }
-	Sum(Sum&& rhs) : m_p(bksge::move(rhs.m_p)) {}
-	Sum& operator=(Sum&& rhs) { m_p = bksge::move(rhs.m_p); return *this; }
+	Sum(Sum&& rhs) : m_p(std::move(rhs.m_p)) {}
+	Sum& operator=(Sum&& rhs) { m_p = std::move(rhs.m_p); return *this; }
 
 private:
 	Sum(Sum const&) = delete;

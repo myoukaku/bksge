@@ -9,10 +9,10 @@
 #include <bksge/fnd/variant/variant.hpp>
 #include <bksge/fnd/utility/in_place_type.hpp>
 #include <bksge/fnd/utility/in_place_index.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 
 namespace bksge_variant_test
 {
@@ -65,7 +65,7 @@ void makeEmpty(Variant& v)
 	Variant v2(bksge::in_place_type_t<MakeEmptyT>{});
 	try
 	{
-		v = bksge::move(v2);
+		v = std::move(v2);
 		assert(false);
 	}
 	catch (...)

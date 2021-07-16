@@ -18,10 +18,10 @@
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/type_traits/is_base_of.hpp>
 #include <bksge/fnd/tuple/tuple_size.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
 #include <ostream>
 #include <cstddef>
+#include <utility>
 
 namespace bksge
 {
@@ -358,15 +358,15 @@ BKSGE_NODISCARD inline BKSGE_CXX14_CONSTEXPR T&&
 get(bksge::math::detail::VectorBase<T, N>&& v) BKSGE_NOEXCEPT
 {
 	static_assert(I < N, "Vector index out of bounds");
-	return bksge::move(v[I]);
+	return std::move(v[I]);
 }
 
 template <std::size_t I, typename T, std::size_t N>
-BKSGE_NODISCARD inline BKSGE_CONSTEXPR T const&&
+BKSGE_NODISCARD inline BKSGE_CXX14_CONSTEXPR T const&&
 get(bksge::math::detail::VectorBase<T, N> const&& v) BKSGE_NOEXCEPT
 {
 	static_assert(I < N, "Vector index out of bounds");
-	return bksge::move(v[I]);
+	return std::move(v[I]);
 }
 
 }	// namespace bksge

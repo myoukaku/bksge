@@ -22,8 +22,8 @@
 #include <bksge/fnd/iterator/iter_difference_t.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -48,13 +48,13 @@ private:
 	{
 		if (n <= 0)
 		{
-			return { bksge::move(first), bksge::move(f) };
+			return { std::move(first), std::move(f) };
 		}
 
 		auto last = first + n;
 		return ranges::for_each(
-			bksge::move(first), bksge::move(last),
-			bksge::move(f), bksge::move(proj));
+			std::move(first), std::move(last),
+			std::move(f), std::move(proj));
 	}
 
 	template <
@@ -72,7 +72,7 @@ private:
 			++first;
 		}
 
-		return { bksge::move(first), bksge::move(f) };
+		return { std::move(first), std::move(f) };
 	}
 
 public:

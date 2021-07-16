@@ -39,11 +39,11 @@
 #include <bksge/fnd/tuple/get.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
+#include <utility>
 
 namespace bksge
 {
@@ -96,10 +96,10 @@ private:
 		subrange_base() = default;
 
 		BKSGE_CXX14_CONSTEXPR subrange_base(I&& begin, S end)
-			: m_begin(bksge::move(begin)), m_end(end) {}
+			: m_begin(std::move(begin)), m_end(end) {}
 
 		BKSGE_CXX14_CONSTEXPR subrange_base(I&& begin, S end, size_type)
-			: m_begin(bksge::move(begin)), m_end(end) {}
+			: m_begin(std::move(begin)), m_end(end) {}
 
 		template <typename Rng>
 		BKSGE_CXX14_CONSTEXPR subrange_base(Rng&& r)
@@ -132,7 +132,7 @@ private:
 		subrange_base() = default;
 
 		BKSGE_CXX14_CONSTEXPR subrange_base(It&& begin, S end, size_type n)
-			: m_begin(bksge::move(begin)), m_end(end), m_size(n)
+			: m_begin(std::move(begin)), m_end(end), m_size(n)
 		{
 			BKSGE_ASSERT(n == ranges::detail::to_unsigned_like(ranges::distance(begin, end)));
 		}
@@ -169,14 +169,14 @@ public:
 	BKSGE_CXX14_CONSTEXPR
 	subrange(I2 i, Sent s)
 		BKSGE_REQUIRES(!StoreSize)
-		: m_value{bksge::move(i), s}
+		: m_value{std::move(i), s}
 	{}
 
 	template <BKSGE_REQUIRES_PARAM_2(ranges::detail::convertible_to_non_slicing, It, I2)>
 	BKSGE_CXX14_CONSTEXPR
 	subrange(I2 i, Sent s, size_type n)
 		BKSGE_REQUIRES(Kind == ranges::subrange_kind::sized)
-		: m_value{bksge::move(i), s, n}
+		: m_value{std::move(i), s, n}
 	{
 		BKSGE_ASSERT(n == ranges::detail::to_unsigned_like(ranges::distance(i, s)));
 	}
@@ -257,7 +257,7 @@ public:
 	BKSGE_CXX14_CONSTEXPR It begin()
 		BKSGE_REQUIRES(!bksge::copyable<It>)
 	{
-		return bksge::move(m_value.m_begin);
+		return std::move(m_value.m_begin);
 	}
 
 	BKSGE_CXX14_CONSTEXPR Sent end() const
@@ -301,7 +301,7 @@ public:
 	next(bksge::iter_difference_t<It> n = 1) &&
 	{
 		advance(n);
-		return bksge::move(*this);
+		return std::move(*this);
 	}
 
 #if !defined(BKSGE_HAS_CXX20_CONCEPTS)
@@ -466,9 +466,9 @@ BKSGE_CXX14_CONSTEXPR auto get(subrange<It, Sent, Kind> const& r)
 template <std::size_t Num, typename It, typename Sent, ranges::subrange_kind Kind>
 	BKSGE_REQUIRES(Num < 2)
 BKSGE_CXX14_CONSTEXPR auto get(subrange<It, Sent, Kind>&& r)
-->decltype(detail::subrange_get<Num>()(bksge::move(r)))
+->decltype(detail::subrange_get<Num>()(std::move(r)))
 {
-	return detail::subrange_get<Num>()(bksge::move(r));
+	return detail::subrange_get<Num>()(std::move(r));
 }
 
 template <

@@ -9,6 +9,7 @@
 #include <bksge/fnd/string.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
+#include <utility>
 #include "constexpr_test.hpp"
 
 namespace bksge_string_test
@@ -73,7 +74,7 @@ void InputStreamTest()
 		EXPECT_TRUE(s == Helper::abc());
 		bksge::getline(ss, s);
 		EXPECT_TRUE(s == Helper::bcd());
-		bksge::getline(bksge::move(ss), s);
+		bksge::getline(std::move(ss), s);
 		EXPECT_TRUE(s == Helper::cd());
 	}
 	{
@@ -85,7 +86,7 @@ void InputStreamTest()
 		EXPECT_TRUE(s == Helper::abc());
 		bksge::getline(ss, s, Helper::comma_char());
 		EXPECT_TRUE(s == Helper::bcd());
-		bksge::getline(bksge::move(ss), s, Helper::comma_char());
+		bksge::getline(std::move(ss), s, Helper::comma_char());
 		EXPECT_TRUE(s == Helper::cd());
 	}
 }

@@ -10,15 +10,15 @@
 #define BKSGE_FND_ARRAY_GET_HPP
 
 #include <bksge/fnd/array/array.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
+#include <utility>
 
 namespace bksge
 {
 
 template <std::size_t I, typename T, std::size_t N>
-inline BKSGE_CONSTEXPR T&
+inline BKSGE_CXX14_CONSTEXPR T&
 get(array<T, N>& arr) BKSGE_NOEXCEPT
 {
 	static_assert(I < N, "array index is within bounds");
@@ -26,15 +26,15 @@ get(array<T, N>& arr) BKSGE_NOEXCEPT
 }
 
 template <std::size_t I, typename T, std::size_t N>
-inline BKSGE_CONSTEXPR T&&
+inline BKSGE_CXX14_CONSTEXPR T&&
 get(array<T, N>&& arr) BKSGE_NOEXCEPT
 {
 	static_assert(I < N, "array index is within bounds");
-	return bksge::move(bksge::get<I>(arr));
+	return std::move(bksge::get<I>(arr));
 }
 
 template <std::size_t I, typename T, std::size_t N>
-inline BKSGE_CONSTEXPR T const&
+inline BKSGE_CXX14_CONSTEXPR T const&
 get(array<T, N> const& arr) BKSGE_NOEXCEPT
 {
 	static_assert(I < N, "array index is within bounds");
@@ -42,11 +42,11 @@ get(array<T, N> const& arr) BKSGE_NOEXCEPT
 }
 
 template <std::size_t I, typename T, std::size_t N>
-inline BKSGE_CONSTEXPR T const&&
+inline BKSGE_CXX14_CONSTEXPR T const&&
 get(array<T, N> const&& arr) BKSGE_NOEXCEPT
 {
 	static_assert(I < N, "array index is within bounds");
-	return bksge::move(bksge::get<I>(arr));
+	return std::move(bksge::get<I>(arr));
 }
 
 }	// namespace bksge

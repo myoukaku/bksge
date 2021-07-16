@@ -10,8 +10,8 @@
 #include <bksge/fnd/tuple/tuple.hpp>
 #include <bksge/fnd/tuple/make_tuple.hpp>
 #include <bksge/fnd/string/string.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "constexpr_test.hpp"
 
 namespace bksge_tuple_test
@@ -50,7 +50,7 @@ GTEST_TEST(TupleTest, TupleLastTest)
 	}
 	{
 		BKSGE_CXX14_CONSTEXPR bksge::tuple<int, double, float> t1(1, 2.5, 3.5f);
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(3.5f, bksge::tuple_last(bksge::move(t1)));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(3.5f, bksge::tuple_last(std::move(t1)));
 	}
 	{
 		BKSGE_CXX14_CONSTEXPR auto t1 = bksge::make_tuple(1, 2, 3, 4, 5.5, 6.5f, 7);
@@ -62,7 +62,7 @@ GTEST_TEST(TupleTest, TupleLastTest)
 	}
 	{
 		auto t1 = bksge::make_tuple(Noncopyable(1), Noncopyable(2), Noncopyable(3));
-		EXPECT_EQ(Noncopyable(3), bksge::tuple_last(bksge::move(t1)));
+		EXPECT_EQ(Noncopyable(3), bksge::tuple_last(std::move(t1)));
 	}
 	{
 		BKSGE_CXX14_CONSTEXPR auto t1 = bksge::tuple_last(bksge::make_tuple(Noncopyable(1), Noncopyable(2)));
@@ -74,7 +74,7 @@ GTEST_TEST(TupleTest, TupleLastTest)
 	}
 	{
 		bksge::tuple<bksge::string, float> t1("foo", 1.5f);
-		EXPECT_EQ(1.5f, bksge::tuple_last(bksge::move(t1)));
+		EXPECT_EQ(1.5f, bksge::tuple_last(std::move(t1)));
 	}
 	{
 		BKSGE_CXX14_CONSTEXPR bksge::tuple<int> t1(42);
@@ -82,7 +82,7 @@ GTEST_TEST(TupleTest, TupleLastTest)
 	}
 	{
 		BKSGE_CXX14_CONSTEXPR bksge::tuple<int> t1(42);
-		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(42, bksge::tuple_last(bksge::move(t1)));
+		BKSGE_CXX14_CONSTEXPR_EXPECT_EQ(42, bksge::tuple_last(std::move(t1)));
 	}
 	{
 		BKSGE_CXX14_CONSTEXPR auto t1 = bksge::tuple_last(bksge::make_tuple(42));

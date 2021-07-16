@@ -15,8 +15,8 @@
 #include <bksge/fnd/type_traits/is_trivially_destructible.hpp>
 #include <bksge/fnd/utility/in_place_index.hpp>
 #include <bksge/fnd/utility/forward.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -48,14 +48,14 @@ struct Uninitialized<Type, true>
 		return m_storage;
 	}
 
-	BKSGE_CONSTEXPR Type const&& get() const&& noexcept
+	BKSGE_CXX14_CONSTEXPR Type const&& get() const&& noexcept
 	{
-		return bksge::move(m_storage);
+		return std::move(m_storage);
 	}
 
 	BKSGE_CXX14_CONSTEXPR Type&& get() && noexcept
 	{
-		return bksge::move(m_storage);
+		return std::move(m_storage);
 	}
 
 private:
@@ -84,12 +84,12 @@ struct Uninitialized<Type, false>
 
 	Type const&& get() const&& noexcept
 	{
-		return bksge::move(*addr());
+		return std::move(*addr());
 	}
 
 	Type&& get() && noexcept
 	{
-		return bksge::move(*addr());
+		return std::move(*addr());
 	}
 
 private:

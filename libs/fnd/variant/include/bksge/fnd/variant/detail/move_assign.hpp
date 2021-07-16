@@ -15,7 +15,7 @@
 #include <bksge/fnd/variant/detail/variant_access.hpp>
 #include <bksge/fnd/variant/detail/variant_traits.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <bksge/fnd/utility/move.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -36,11 +36,11 @@ struct MoveAssignVisitor
 	{
 		if (m_this->m_index == rhs_index)
 		{
-			variant_detail::variant_access::get_impl<rhs_index>(*m_this) = bksge::move(rhs_mem);
+			variant_detail::variant_access::get_impl<rhs_index>(*m_this) = std::move(rhs_mem);
 		}
 		else
 		{
-			variant_detail::variant_access::variant_cast<Types...>(*m_this).template emplace<rhs_index>(bksge::move(rhs_mem));
+			variant_detail::variant_access::variant_cast<Types...>(*m_this).template emplace<rhs_index>(std::move(rhs_mem));
 		}
 	}
 

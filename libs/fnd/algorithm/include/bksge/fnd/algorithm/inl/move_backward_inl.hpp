@@ -16,9 +16,9 @@
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/type_traits/is_trivially_copy_assignable.hpp>
 #include <bksge/fnd/cstring/memmove.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
+#include <utility>
 
 namespace bksge
 {
@@ -38,7 +38,7 @@ move_backward(
 {
 	while (first != last)
 	{
-		*--result = bksge::move(*--last);
+		*--result = std::move(*--last);
 	}
 
 	return result;

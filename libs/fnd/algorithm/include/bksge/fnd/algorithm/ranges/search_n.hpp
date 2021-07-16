@@ -30,8 +30,8 @@
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/utility/forward.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -168,10 +168,10 @@ public:
 		if (count == 1)
 		{
 			first = ranges::find_if(
-				bksge::move(first),
+				std::move(first),
 				last,
-				bksge::move(value_comp),
-				bksge::move(proj));
+				std::move(value_comp),
+				std::move(proj));
 
 			if (first == last)
 			{
@@ -185,11 +185,11 @@ public:
 		}
 
 		return impl(
-			bksge::move(first),
-			bksge::move(last),
-			bksge::move(count),
+			std::move(first),
+			std::move(last),
+			std::move(count),
 			value_comp,
-			bksge::move(proj),
+			std::move(proj),
 			bksge::detail::overload_priority<1>{});
 	}
 
@@ -222,10 +222,10 @@ public:
 	{
 		return (*this)(
 			ranges::begin(r), ranges::end(r),
-			bksge::move(count),
+			std::move(count),
 			value,
-			bksge::move(pred),
-			bksge::move(proj));
+			std::move(pred),
+			std::move(proj));
 	}
 };
 

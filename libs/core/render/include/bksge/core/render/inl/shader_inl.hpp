@@ -11,9 +11,9 @@
 
 #include <bksge/core/render/shader.hpp>
 #include <bksge/core/render/detail/shader_parameter.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/pair.hpp>
 #include <initializer_list>
+#include <utility>
 
 namespace bksge
 {
@@ -33,15 +33,15 @@ Shader::Shader(std::initializer_list<bksge::pair<ShaderStage, char const*>> il)
 
 BKSGE_INLINE
 Shader::Shader(Shader&& rhs)
-	: Base(bksge::move(rhs))
-	, m_shaders(bksge::move(rhs.m_shaders))
+	: Base(std::move(rhs))
+	, m_shaders(std::move(rhs.m_shaders))
 {}
 
 BKSGE_INLINE Shader&
 Shader::operator=(Shader&& rhs)
 {
-	Base::operator=(bksge::move(rhs));
-	m_shaders = bksge::move(rhs.m_shaders);
+	Base::operator=(std::move(rhs));
+	m_shaders = std::move(rhs.m_shaders);
 	return *this;
 }
 

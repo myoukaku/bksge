@@ -11,9 +11,9 @@
 #include <bksge/fnd/array.hpp>
 #include <bksge/fnd/utility/integer_sequence.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <gtest/gtest.h>
 #include <cstddef>
+#include <utility>
 
 namespace bksge_tuple_test
 {
@@ -87,7 +87,7 @@ void test_all()
 		EXPECT_TRUE(bksge::apply(val_fn, a));
 		EXPECT_TRUE(bksge::apply(ref_fn, a));
 		EXPECT_TRUE(bksge::apply(cref_fn, a));
-		EXPECT_TRUE(bksge::apply(rref_fn, bksge::move(a)));
+		EXPECT_TRUE(bksge::apply(rref_fn, std::move(a)));
 	}
 	{
 		ConstA a{{}};
@@ -99,7 +99,7 @@ void test_all()
 		EXPECT_TRUE(bksge::apply(val_fn, a));
 		EXPECT_TRUE(bksge::apply(ref_fn, a));
 		EXPECT_TRUE(bksge::apply(cref_fn, a));
-		EXPECT_TRUE(bksge::apply(rref_fn, bksge::move(a)));
+		EXPECT_TRUE(bksge::apply(rref_fn, std::move(a)));
 	}
 	{
 		CTuple a{};

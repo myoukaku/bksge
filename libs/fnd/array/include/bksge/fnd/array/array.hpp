@@ -39,7 +39,6 @@ using std::array;
 #include <bksge/fnd/type_traits/is_swappable.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_swappable.hpp>
 #include <bksge/fnd/type_traits/detail/is_memcmp_ordered.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
 #include <type_traits>	// is_constant_evaluated
 #include <cstddef>

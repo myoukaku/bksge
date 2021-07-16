@@ -12,8 +12,8 @@
 #include <bksge/fnd/concepts/detail/overload_priority.hpp>
 #include <bksge/fnd/memory/allocator_traits.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -30,7 +30,7 @@ template <typename Alloc,
 inline BKSGE_CXX14_CONSTEXPR void
 alloc_on_move_impl(Alloc& one, Alloc& two, bksge::detail::overload_priority<1>)
 {
-	one = bksge::move(two);
+	one = std::move(two);
 }
 
 template <typename Alloc>

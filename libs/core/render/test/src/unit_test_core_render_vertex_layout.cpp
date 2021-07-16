@@ -8,8 +8,8 @@
 
 #include <bksge/core/render/vertex_layout.hpp>
 #include <bksge/core/render/vertex_element.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 
 GTEST_TEST(Render_VertexLayout, BasicTest)
 {
@@ -70,7 +70,7 @@ GTEST_TEST(Render_VertexLayout, MoveCtorTest)
 	l.AddAttribute(MakeVertexAttribute<VTexCoord>(l.total_bytes()));
 
 //	VertexLayout const l2(l);	// コピー禁止
-	VertexLayout const l2(bksge::move(l));
+	VertexLayout const l2(std::move(l));
 
 	EXPECT_EQ(32u, l2.total_bytes());
 	EXPECT_NE(nullptr, l2.FindVertexAttributeBySemantic(Semantic::kPosition));
@@ -91,7 +91,7 @@ GTEST_TEST(Render_VertexLayout, MoveAssignTest)
 
 	VertexLayout l2;
 //	l2 = l;	// コピー禁止
-	l2 = bksge::move(l);
+	l2 = std::move(l);
 	EXPECT_EQ(32u, l2.total_bytes());
 	EXPECT_NE(nullptr, l2.FindVertexAttributeBySemantic(Semantic::kPosition));
 	EXPECT_EQ(nullptr, l2.FindVertexAttributeBySemantic(Semantic::kColor));

@@ -25,8 +25,8 @@
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/utility/forward.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -87,8 +87,8 @@ public:
 		auto pred = Pred<T>{value};
 		return ranges::remove_if(
 			first, last,
-			bksge::move(pred),
-			bksge::move(proj));
+			std::move(pred),
+			std::move(proj));
 	}
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
@@ -125,7 +125,7 @@ public:
 	{
 		return (*this)(
 			ranges::begin(r), ranges::end(r),
-			value, bksge::move(proj));
+			value, std::move(proj));
 	}
 };
 

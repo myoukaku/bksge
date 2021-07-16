@@ -16,11 +16,11 @@
 #include <bksge/fnd/type_traits/is_object.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
+#include <utility>
 
 namespace bksge
 {
@@ -54,8 +54,8 @@ public:
 		: m_value(t)
 	{}
 
-	BKSGE_CONSTEXPR explicit single_view(T&& t)
-		: m_value(bksge::move(t))
+	BKSGE_CXX14_CONSTEXPR explicit single_view(T&& t)
+		: m_value(std::move(t))
 	{}
 
 	template <typename... Args

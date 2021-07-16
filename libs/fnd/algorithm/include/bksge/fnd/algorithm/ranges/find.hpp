@@ -23,8 +23,8 @@
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -100,7 +100,7 @@ struct find_fn
 	operator()(Range&& r, T const& value, Proj proj = {}) const
 	{
 		return (*this)(
-			ranges::begin(r), ranges::end(r), value, bksge::move(proj));
+			ranges::begin(r), ranges::end(r), value, std::move(proj));
 	}
 };
 

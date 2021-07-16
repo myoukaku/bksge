@@ -28,8 +28,8 @@
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -125,7 +125,7 @@ struct equal_range_fn
 	{
 		return (*this)(
 			ranges::begin(r), ranges::end(r),
-			value, bksge::move(comp), bksge::move(proj));
+			value, std::move(comp), std::move(proj));
 	}
 };
 

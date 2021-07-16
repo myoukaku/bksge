@@ -25,8 +25,8 @@
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -101,18 +101,18 @@ struct set_union_fn
 		}
 
 		auto copy1 = ranges::copy(
-			bksge::move(first1),
-			bksge::move(last1),
-			bksge::move(result));
+			std::move(first1),
+			std::move(last1),
+			std::move(result));
 		auto copy2 = ranges::copy(
-			bksge::move(first2),
-			bksge::move(last2),
-			bksge::move(copy1.out));
+			std::move(first2),
+			std::move(last2),
+			std::move(copy1.out));
 
 		return {
-			bksge::move(copy1.in),
-			bksge::move(copy2.in),
-			bksge::move(copy2.out)
+			std::move(copy1.in),
+			std::move(copy2.in),
+			std::move(copy2.out)
 		};
 	}
 
@@ -163,8 +163,8 @@ struct set_union_fn
 		return (*this)(
 			ranges::begin(r1), ranges::end(r1),
 			ranges::begin(r2), ranges::end(r2),
-			bksge::move(result), bksge::move(comp),
-			bksge::move(proj1), bksge::move(proj2));
+			std::move(result), std::move(comp),
+			std::move(proj1), std::move(proj2));
 	}
 };
 

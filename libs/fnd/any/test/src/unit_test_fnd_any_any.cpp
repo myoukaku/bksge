@@ -17,13 +17,13 @@
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/utility/in_place_type.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/set/set.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include <initializer_list>
 #include <cstdint>
+#include <utility>
 
 namespace bksge_any_test
 {
@@ -102,7 +102,7 @@ GTEST_TEST(AnyTest, CtorTest)
 		EXPECT_TRUE(!x.has_value());
 		EXPECT_TRUE(!y.has_value());
 
-		bksge::any z(bksge::move(y));
+		bksge::any z(std::move(y));
 		EXPECT_TRUE(!y.has_value());
 		EXPECT_TRUE(!z.has_value());
 	}
@@ -114,7 +114,7 @@ GTEST_TEST(AnyTest, CtorTest)
 		EXPECT_TRUE(x.has_value());
 		EXPECT_TRUE(y.has_value());
 
-		bksge::any z(bksge::move(y));
+		bksge::any z(std::move(y));
 //		EXPECT_TRUE(!y.has_value());
 		EXPECT_TRUE(z.has_value());
 	}
@@ -123,7 +123,7 @@ GTEST_TEST(AnyTest, CtorTest)
 		X x;
 		bksge::any a1(x);
 		EXPECT_FALSE(moved);
-		bksge::any a2(bksge::move(x));
+		bksge::any a2(std::move(x));
 		EXPECT_TRUE(moved);
 	}
 	{
@@ -132,7 +132,7 @@ GTEST_TEST(AnyTest, CtorTest)
 		bksge::any a1(x);
 		EXPECT_FALSE(moved);
 		copied = false;
-		bksge::any a2(bksge::move(a1));
+		bksge::any a2(std::move(a1));
 		EXPECT_FALSE(copied);
 	}
 	{
@@ -141,7 +141,7 @@ GTEST_TEST(AnyTest, CtorTest)
 		bksge::any a1(x);
 		EXPECT_FALSE(moved);
 		copied = false;
-		bksge::any a2(bksge::move(a1));
+		bksge::any a2(std::move(a1));
 		EXPECT_FALSE(copied);
 		EXPECT_TRUE(moved);
 	}
@@ -219,9 +219,9 @@ GTEST_TEST(AnyTest, CtorTest)
 		bksge::any a = l;
 		bksge::any b = a;
 		{
-			bksge::any tmp = bksge::move(a);
-			a = bksge::move(b);
-			b = bksge::move(tmp);
+			bksge::any tmp = std::move(a);
+			a = std::move(b);
+			b = std::move(tmp);
 		}
 	}
 	{
@@ -314,7 +314,7 @@ GTEST_TEST(AnyTest, AssignTest)
 		EXPECT_TRUE(!x.has_value());
 		EXPECT_TRUE(!y.has_value());
 
-		y = bksge::move(x);
+		y = std::move(x);
 		EXPECT_TRUE(!x.has_value());
 		EXPECT_TRUE(!y.has_value());
 	}
@@ -325,7 +325,7 @@ GTEST_TEST(AnyTest, AssignTest)
 		EXPECT_TRUE(x.has_value());
 		EXPECT_TRUE(y.has_value());
 
-		x = bksge::move(y);
+		x = std::move(y);
 		EXPECT_TRUE(x.has_value());
 //		EXPECT_TRUE(!y.has_value());
 	}
@@ -338,7 +338,7 @@ GTEST_TEST(AnyTest, AssignTest)
 		EXPECT_FALSE(moved);
 		bksge::any a2;
 		copied = false;
-		a2 = bksge::move(x);
+		a2 = std::move(x);
 		EXPECT_TRUE(moved);
 		EXPECT_FALSE(copied);
 	}
@@ -350,7 +350,7 @@ GTEST_TEST(AnyTest, AssignTest)
 		EXPECT_FALSE(moved);
 		bksge::any a2;
 		copied = false;
-		a2 = bksge::move(a1);
+		a2 = std::move(a1);
 		EXPECT_FALSE(moved);
 		EXPECT_FALSE(copied);
 	}
@@ -365,7 +365,7 @@ GTEST_TEST(AnyTest, AssignTest)
 		bksge::any a2;
 		moved = false;
 		copied = false;
-		a2 = bksge::move(a1);
+		a2 = std::move(a1);
 		EXPECT_TRUE(moved);
 		EXPECT_FALSE(copied);
 	}

@@ -13,9 +13,9 @@
 #include <bksge/fnd/type_traits/is_nothrow_assignable.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_move_assignable.hpp>
 #include <bksge/fnd/pair.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -137,30 +137,30 @@ inline BKSGE_CXX14_CONSTEXPR bool test()
 	{
 		bksge::tuple<Empty> t1;
 		bksge::tuple<Empty> t2;
-		t2 = bksge::move(t1);
+		t2 = std::move(t1);
 	}
 	{
 		bksge::tuple<Empty, Empty> t1;
 		bksge::tuple<Empty, Empty> t2;
-		t2 = bksge::move(t1);
+		t2 = std::move(t1);
 	}
 	{
 		bksge::tuple<Empty, Empty, Empty> t1;
 		bksge::tuple<Empty, Empty, Empty> t2;
-		t2 = bksge::move(t1);
+		t2 = std::move(t1);
 	}
 	{
 		bksge::tuple<int> t1(1);
 		bksge::tuple<int> t2(2);
 		VERIFY(get<0>(t2) == 2);
-		t2 = bksge::move(t1);
+		t2 = std::move(t1);
 		VERIFY(get<0>(t2) == 1);
 	}
 	{
 		bksge::tuple<float>  t1(1);
 		bksge::tuple<double> t2(2);
 		VERIFY(get<0>(t2) == 2);
-		t2 = bksge::move(t1);
+		t2 = std::move(t1);
 		VERIFY(get<0>(t2) == 1);
 	}
 	{
@@ -168,7 +168,7 @@ inline BKSGE_CXX14_CONSTEXPR bool test()
 		bksge::tuple<int, float> t2(3, 4.5f);
 		VERIFY(get<0>(t2) == 3);
 		VERIFY(get<1>(t2) == 4.5f);
-		t2 = bksge::move(t1);
+		t2 = std::move(t1);
 		VERIFY(get<0>(t2) == 2);
 		VERIFY(get<1>(t2) == 0.5f);
 	}
@@ -177,7 +177,7 @@ inline BKSGE_CXX14_CONSTEXPR bool test()
 		bksge::tuple<long, double> t2(3, 4.5f);
 		VERIFY(get<0>(t2) == 3);
 		VERIFY(get<1>(t2) == 4.5f);
-		t2 = bksge::move(t1);
+		t2 = std::move(t1);
 		VERIFY(get<0>(t2) == 2);
 		VERIFY(get<1>(t2) == 0.5f);
 	}
@@ -186,7 +186,7 @@ inline BKSGE_CXX14_CONSTEXPR bool test()
 		bksge::tuple<int, float> t2(3, 4.5f);
 		VERIFY(get<0>(t2) == 3);
 		VERIFY(get<1>(t2) == 4.5f);
-		t2 = bksge::move(t1);
+		t2 = std::move(t1);
 		VERIFY(get<0>(t2) == 2);
 		VERIFY(get<1>(t2) == 0.5f);
 	}
@@ -195,7 +195,7 @@ inline BKSGE_CXX14_CONSTEXPR bool test()
 		bksge::tuple<long, double> t2(3, 4.5f);
 		VERIFY(get<0>(t2) == 3);
 		VERIFY(get<1>(t2) == 4.5f);
-		t2 = bksge::move(t1);
+		t2 = std::move(t1);
 		VERIFY(get<0>(t2) == 2);
 		VERIFY(get<1>(t2) == 0.5f);
 	}
@@ -205,7 +205,7 @@ inline BKSGE_CXX14_CONSTEXPR bool test()
 		VERIFY(get<0>(t2) == 3);
 		VERIFY(get<1>(t2) == 4.5f);
 		VERIFY(get<2>(t2) == 'b');
-		t2 = bksge::move(t1);
+		t2 = std::move(t1);
 		VERIFY(get<0>(t2) == 2);
 		VERIFY(get<1>(t2) == 0.5f);
 		VERIFY(get<2>(t2) == 'a');
@@ -216,7 +216,7 @@ inline BKSGE_CXX14_CONSTEXPR bool test()
 		VERIFY(get<0>(t2) == 3);
 		VERIFY(get<1>(t2) == 4.5f);
 		VERIFY(get<2>(t2) == 'b');
-		t2 = bksge::move(t1);
+		t2 = std::move(t1);
 		VERIFY(get<0>(t2) == 2);
 		VERIFY(get<1>(t2) == 0.5f);
 		VERIFY(get<2>(t2) == 'a');

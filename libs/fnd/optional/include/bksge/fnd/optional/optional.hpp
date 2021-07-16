@@ -54,10 +54,10 @@ using std::optional;
 #include <bksge/fnd/type_traits/remove_cvref.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
 #include <bksge/fnd/utility/forward.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/config.hpp>
 #include <initializer_list>
+#include <utility>
 
 #if defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
 #include <bksge/fnd/compare/concepts/three_way_comparable_with.hpp>
@@ -202,7 +202,7 @@ public:
 	{
 		if (t)
 		{
-			emplace(bksge::move(*t));
+			emplace(std::move(*t));
 		}
 	}
 
@@ -220,7 +220,7 @@ public:
 	{
 		if (t)
 		{
-			emplace(bksge::move(*t));
+			emplace(std::move(*t));
 		}
 	}
 
@@ -333,11 +333,11 @@ public:
 		{
 			if (this->is_engaged())
 			{
-				this->get() = bksge::move(*u);
+				this->get() = std::move(*u);
 			}
 			else
 			{
-				this->construct(bksge::move(*u));
+				this->construct(std::move(*u));
 			}
 		}
 		else
@@ -386,12 +386,12 @@ public:
 		}
 		else if (this->is_engaged())
 		{
-			other.construct(bksge::move(this->get()));
+			other.construct(std::move(this->get()));
 			this->destruct();
 		}
 		else if (other.is_engaged())
 		{
-			this->construct(bksge::move(other.get()));
+			this->construct(std::move(other.get()));
 			other.destruct();
 		}
 	}
@@ -421,16 +421,16 @@ public:
 		return this->get();
 	}
 
-	BKSGE_CONSTEXPR T const&&
+	BKSGE_CXX14_CONSTEXPR T const&&
 	operator*() const&& BKSGE_NOEXCEPT
 	{
-		return bksge::move(this->get());
+		return std::move(this->get());
 	}
 
 	BKSGE_CXX14_CONSTEXPR T&&
 	operator*() && BKSGE_NOEXCEPT
 	{
-		return bksge::move(this->get());
+		return std::move(this->get());
 	}
 
 	BKSGE_CONSTEXPR explicit operator bool() const BKSGE_NOEXCEPT
@@ -460,18 +460,18 @@ public:
 			: (throw_bad_optional_access(), this->get());
 	}
 
-	BKSGE_CONSTEXPR T const&& value() const&&
+	BKSGE_CXX14_CONSTEXPR T const&& value() const&&
 	{
 		return this->is_engaged()
-			? bksge::move(this->get())
-			: (throw_bad_optional_access(), bksge::move(this->get()));
+			? std::move(this->get())
+			: (throw_bad_optional_access(), std::move(this->get()));
 	}
 
 	BKSGE_CXX14_CONSTEXPR T&& value() &&
 	{
 		return this->is_engaged()
-			? bksge::move(this->get())
-			: (throw_bad_optional_access(), bksge::move(this->get()));
+			? std::move(this->get())
+			: (throw_bad_optional_access(), std::move(this->get()));
 	}
 
 	template <typename U>
@@ -489,7 +489,7 @@ public:
 		static_assert(bksge::is_move_constructible<T>::value, "");
 		static_assert(bksge::is_convertible<U&&, T>::value, "");
 
-		return this->is_engaged() ? bksge::move(this->get()) : static_cast<T>(bksge::forward<U>(u));
+		return this->is_engaged() ? std::move(this->get()) : static_cast<T>(bksge::forward<U>(u));
 	}
 
 	void reset() BKSGE_NOEXCEPT { this->reset_impl(); }

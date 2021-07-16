@@ -47,11 +47,11 @@ using std::tuple;
 #include <bksge/fnd/type_traits/negation.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/index_sequence_for.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/pair.hpp>
 #include <bksge/fnd/array.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -615,7 +615,7 @@ public:
 		nonesuch&&> in)
 		BKSGE_NOEXCEPT_IF((IsNothrowAssignable<Types...>::value))
 	{
-		this->assign(bksge::move(in));
+		this->assign(std::move(in));
 		return *this;
 	}
 
@@ -635,7 +635,7 @@ public:
 	operator=(tuple<UTypes...>&& in)
 		BKSGE_NOEXCEPT_IF((IsNothrowAssignable<UTypes...>::value))
 	{
-		this->assign(bksge::move(in));
+		this->assign(std::move(in));
 		return *this;
 	}
 

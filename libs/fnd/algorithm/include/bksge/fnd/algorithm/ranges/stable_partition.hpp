@@ -26,8 +26,8 @@
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -68,8 +68,8 @@ struct stable_partition_fn
 	{
 		auto lasti = ranges::next(first, last);
 		auto middle = bksge::stable_partition(
-			bksge::move(first), lasti, detail::make_pred_proj(pred, proj));
-		return { bksge::move(middle), bksge::move(lasti) };
+			std::move(first), lasti, detail::make_pred_proj(pred, proj));
+		return { std::move(middle), std::move(lasti) };
 	}
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
@@ -99,7 +99,7 @@ struct stable_partition_fn
 	{
 		return (*this)(
 			ranges::begin(r), ranges::end(r),
-			bksge::move(pred), bksge::move(proj));
+			std::move(pred), std::move(proj));
 	}
 };
 

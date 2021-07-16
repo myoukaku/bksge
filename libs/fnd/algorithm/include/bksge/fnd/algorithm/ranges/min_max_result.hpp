@@ -11,8 +11,8 @@
 
 #include <bksge/fnd/concepts/convertible_to.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -53,7 +53,7 @@ struct min_max_result
 #endif
 	BKSGE_CXX14_CONSTEXPR operator min_max_result<T2>() &&
 	{
-		return { bksge::move(min), bksge::move(max) };
+		return { std::move(min), std::move(max) };
 	}
 };
 

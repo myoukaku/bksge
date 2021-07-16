@@ -22,6 +22,7 @@
 #include <initializer_list>
 #include <new>
 #include <cstddef>
+#include <utility>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -406,7 +407,7 @@ BKSGE_CXX14_CONSTEXPR bool test_ctor_move(std::size_t n)
 		t.emplace_back((int)i);
 	}
 
-	bksge::static_vector<T, N> s(bksge::move(t));
+	bksge::static_vector<T, N> s(std::move(t));
 
 	if (!t.empty())
 	{
@@ -597,7 +598,7 @@ BKSGE_CXX14_CONSTEXPR bool test_push_back_move()
 	for (std::size_t i = 0; i < N; ++i)
 	{
 		T t(i);
-		s.push_back(bksge::move(t));
+		s.push_back(std::move(t));
 
 		if (!(
 			s.size()  == i + 1 &&
@@ -749,7 +750,7 @@ BKSGE_CXX14_CONSTEXPR bool test_op_assign_move()
 		return false;
 	}
 
-	s3 = bksge::move(s2);
+	s3 = std::move(s2);
 
 	if ( s1.empty() ||
 	    !s2.empty() ||

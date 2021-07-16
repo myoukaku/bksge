@@ -47,10 +47,10 @@
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_object.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <bksge/fnd/assert.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -120,9 +120,9 @@ private:
 
 		BKSGE_CONSTEXPR Iterator() = default;
 
-		BKSGE_CONSTEXPR
+		BKSGE_CXX14_CONSTEXPR
 		Iterator(filter_view* parent, v_iter current)
-			: m_current(bksge::move(current))
+			: m_current(std::move(current))
 			, m_parent(parent)
 		{}
 
@@ -134,7 +134,7 @@ private:
 
 		BKSGE_CXX14_CONSTEXPR v_iter base() &&
 		{
-			return bksge::move(m_current);
+			return std::move(m_current);
 		}
 
 		BKSGE_CONSTEXPR ranges::range_reference_t<V>
@@ -153,7 +153,7 @@ private:
 
 		BKSGE_CXX14_CONSTEXPR Iterator& operator++()
 		{
-			m_current = ranges::find_if(bksge::move(++m_current),
+			m_current = ranges::find_if(std::move(++m_current),
 				ranges::end(m_parent->m_base),
 				bksge::ref(m_parent->pred()));
 			return *this;
@@ -293,10 +293,10 @@ private:
 public:
 	BKSGE_CONSTEXPR filter_view() = default;
 
-	BKSGE_CONSTEXPR
+	BKSGE_CXX14_CONSTEXPR
 	filter_view(V base, Pred pred)
-		: m_pred(bksge::move(pred))
-		, m_base(bksge::move(base))
+		: m_pred(std::move(pred))
+		, m_base(std::move(base))
 	{}
 
 	BKSGE_CONSTEXPR V base() const&
@@ -307,7 +307,7 @@ public:
 
 	BKSGE_CXX14_CONSTEXPR V base() &&
 	{
-		return bksge::move(m_base);
+		return std::move(m_base);
 	}
 
 	BKSGE_CONSTEXPR Pred const& pred() const
@@ -331,7 +331,7 @@ public:
 			ranges::end(m_base),
 			bksge::ref(pred()));
 		m_cached_begin.set(m_base, it);
-		return { this, bksge::move(it) };
+		return { this, std::move(it) };
 	}
 
 private:

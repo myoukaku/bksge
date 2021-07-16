@@ -17,8 +17,8 @@
 #include <bksge/fnd/iterator/iter_difference_t.hpp>
 #include <bksge/fnd/iterator/counted_iterator.hpp>
 #include <bksge/fnd/iterator/default_sentinel.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -39,7 +39,7 @@ struct counted_fn
 	defined(BKSGE_HAS_CXX14_RETURN_TYPE_DEDUCTION)
 
 	template <BKSGE_REQUIRES_PARAM(bksge::input_or_output_iterator, Iter)>
-	BKSGE_CONSTEXPR auto
+	BKSGE_CXX14_CONSTEXPR auto
 	operator()(Iter i, bksge::iter_difference_t<Iter> n) const
 	{
 		if constexpr (bksge::is_random_access_iterator<Iter>::value)
@@ -49,7 +49,7 @@ struct counted_fn
 		else
 		{
 			return ranges::subrange{
-				bksge::counted_iterator{bksge::move(i), n},
+				bksge::counted_iterator{std::move(i), n},
 				bksge::default_sentinel
 			};
 		}
@@ -59,7 +59,7 @@ struct counted_fn
 
 private:
 	template <BKSGE_REQUIRES_PARAM(bksge::random_access_iterator, Iter), typename Difference>
-	static BKSGE_CONSTEXPR auto
+	static BKSGE_CXX14_CONSTEXPR auto
 	impl(Iter i, Difference n, bksge::detail::overload_priority<1>)
 	-> ranges::subrange<Iter, Iter>
 	{
@@ -67,25 +67,25 @@ private:
 	}
 
 	template <typename Iter, typename Difference>
-	static BKSGE_CONSTEXPR auto
+	static BKSGE_CXX14_CONSTEXPR auto
 	impl(Iter i, Difference n, bksge::detail::overload_priority<0>)
 	-> ranges::subrange<
 		bksge::counted_iterator<Iter>,
 		bksge::default_sentinel_t>
 	{
 		return {
-			bksge::counted_iterator<Iter>{bksge::move(i), n},
+			bksge::counted_iterator<Iter>{std::move(i), n},
 			bksge::default_sentinel
 		};
 	}
 
 public:
 	template <BKSGE_REQUIRES_PARAM(bksge::input_or_output_iterator, Iter)>
-	BKSGE_CONSTEXPR auto
+	BKSGE_CXX14_CONSTEXPR auto
 	operator()(Iter i, bksge::iter_difference_t<Iter> n) const
-	->decltype(impl(bksge::move(i), n, bksge::detail::overload_priority<1>{}))
+	->decltype(impl(std::move(i), n, bksge::detail::overload_priority<1>{}))
 	{
-		return impl(bksge::move(i), n, bksge::detail::overload_priority<1>{});
+		return impl(std::move(i), n, bksge::detail::overload_priority<1>{});
 	}
 
 #endif

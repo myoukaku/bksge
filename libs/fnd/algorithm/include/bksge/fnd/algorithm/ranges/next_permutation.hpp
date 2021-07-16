@@ -26,8 +26,8 @@
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -67,14 +67,14 @@ struct next_permutation_fn
 	{
 		if (first == last)
 		{
-			return { bksge::move(first), false };
+			return { std::move(first), false };
 		}
 
 		auto i = first;
 		++i;
 		if (i == last)
 		{
-			return { bksge::move(i), false };
+			return { std::move(i), false };
 		}
 
 		auto lasti = ranges::next(first, last);
@@ -99,13 +99,13 @@ struct next_permutation_fn
 
 				ranges::iter_swap(i, j);
 				ranges::reverse(ii, last);
-				return { bksge::move(lasti), true };
+				return { std::move(lasti), true };
 			}
 
 			if (i == first)
 			{
 				ranges::reverse(first, last);
-				return { bksge::move(lasti), false };
+				return { std::move(lasti), false };
 			}
 		}
 	}
@@ -136,7 +136,7 @@ struct next_permutation_fn
 	{
 		return (*this)(
 			ranges::begin(r), ranges::end(r),
-			bksge::move(comp), bksge::move(proj));
+			std::move(comp), std::move(proj));
 	}
 };
 

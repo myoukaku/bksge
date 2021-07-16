@@ -15,10 +15,10 @@
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/pair.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -447,7 +447,7 @@ inline BKSGE_CXX14_CONSTEXPR bool test00()
 	VERIFY(get<3>(t2).ok);
 
 	// move construction
-	test_type t3(bksge::allocator_arg, a, bksge::move(t1));
+	test_type t3(bksge::allocator_arg, a, std::move(t1));
 	VERIFY(get<0>(t3).ok);
 	VERIFY(get<1>(t3).ok);
 	VERIFY(get<2>(t3).ok);
@@ -470,7 +470,7 @@ inline BKSGE_CXX14_CONSTEXPR bool test00()
 	VERIFY(get<3>(t2).ok);
 
 	// construction from rvalue tuple of ints
-	test_type t6(bksge::allocator_arg, a, bksge::move(ints));
+	test_type t6(bksge::allocator_arg, a, std::move(ints));
 	VERIFY(get<0>(t6).ok);
 	VERIFY(get<1>(t6).ok);
 	VERIFY(get<2>(t6).ok);
@@ -488,7 +488,7 @@ inline BKSGE_CXX14_CONSTEXPR bool test01()
 	// copy construction
 	bksge::tuple<> t2(bksge::allocator_arg, a, t1);
 	// move construction
-	bksge::tuple<> t3(bksge::allocator_arg, a, bksge::move(t1));
+	bksge::tuple<> t3(bksge::allocator_arg, a, std::move(t1));
 
 	(void)t2;
 	(void)t3;
@@ -705,33 +705,33 @@ inline BKSGE_CXX14_CONSTEXPR bool test02()
 	// move ctor
 	{
 		bksge::tuple<Empty> t1;
-		bksge::tuple<Empty> t2(bksge::allocator_arg, a, bksge::move(t1));
+		bksge::tuple<Empty> t2(bksge::allocator_arg, a, std::move(t1));
 		(void)t2;
 	}
 	{
 		bksge::tuple<Empty, Empty> t1;
-		bksge::tuple<Empty, Empty> t2(bksge::allocator_arg, a, bksge::move(t1));
+		bksge::tuple<Empty, Empty> t2(bksge::allocator_arg, a, std::move(t1));
 		(void)t2;
 	}
 	{
 		bksge::tuple<Empty, Empty, Empty> t1;
-		bksge::tuple<Empty, Empty, Empty> t2(bksge::allocator_arg, a, bksge::move(t1));
+		bksge::tuple<Empty, Empty, Empty> t2(bksge::allocator_arg, a, std::move(t1));
 		(void)t2;
 	}
 	{
 		bksge::tuple<int> t1(6);
-		bksge::tuple<int> t2(bksge::allocator_arg, a, bksge::move(t1));
+		bksge::tuple<int> t2(bksge::allocator_arg, a, std::move(t1));
 		VERIFY(get<0>(t2) == 6);
 	}
 	{
 		bksge::tuple<int, int> t1(6, 7);
-		bksge::tuple<int, int> t2(bksge::allocator_arg, a, bksge::move(t1));
+		bksge::tuple<int, int> t2(bksge::allocator_arg, a, std::move(t1));
 		VERIFY(get<0>(t2) == 6);
 		VERIFY(get<1>(t2) == 7);
 	}
 	{
 		bksge::tuple<int, int, int> t1(6, 7, 8);
-		bksge::tuple<int, int, int> t2(bksge::allocator_arg, a, bksge::move(t1));
+		bksge::tuple<int, int, int> t2(bksge::allocator_arg, a, std::move(t1));
 		VERIFY(get<0>(t2) == 6);
 		VERIFY(get<1>(t2) == 7);
 		VERIFY(get<2>(t2) == 8);
@@ -781,41 +781,41 @@ inline BKSGE_CXX14_CONSTEXPR bool test02()
 	// convert move ctor
 	{
 		bksge::tuple<int> t1;
-		bksge::tuple<Empty> t2(bksge::allocator_arg, a, bksge::move(t1));
+		bksge::tuple<Empty> t2(bksge::allocator_arg, a, std::move(t1));
 		(void)t2;
 	}
 	{
 		bksge::tuple<int, int> t1;
-		bksge::tuple<Empty, Empty> t2(bksge::allocator_arg, a, bksge::move(t1));
+		bksge::tuple<Empty, Empty> t2(bksge::allocator_arg, a, std::move(t1));
 		(void)t2;
 	}
 	{
 		bksge::tuple<int, int, int> t1;
-		bksge::tuple<Empty, Empty, Empty> t2(bksge::allocator_arg, a, bksge::move(t1));
+		bksge::tuple<Empty, Empty, Empty> t2(bksge::allocator_arg, a, std::move(t1));
 		(void)t2;
 	}
 	{
 		bksge::tuple<int, int> t1(5, 6);
-		bksge::tuple<Explicit, Explicit> const t2 {bksge::allocator_arg, a, bksge::move(t1)};
+		bksge::tuple<Explicit, Explicit> const t2 {bksge::allocator_arg, a, std::move(t1)};
 		VERIFY(get<0>(t2).n == 5);
 		VERIFY(get<1>(t2).n == 6);
 	}
 	{
 		bksge::tuple<int, int> t1(5, 6);
-		bksge::tuple<Implicit, Implicit> const t2 = {bksge::allocator_arg, a, bksge::move(t1)};
+		bksge::tuple<Implicit, Implicit> const t2 = {bksge::allocator_arg, a, std::move(t1)};
 		VERIFY(get<0>(t2).n == 5);
 		VERIFY(get<1>(t2).n == 6);
 	}
 	{
 		bksge::tuple<int, int, int> t1(4, 5, 6);
-		bksge::tuple<Implicit, Explicit, Explicit> const t2 {bksge::allocator_arg, a, bksge::move(t1)};
+		bksge::tuple<Implicit, Explicit, Explicit> const t2 {bksge::allocator_arg, a, std::move(t1)};
 		VERIFY(get<0>(t2).n == 4);
 		VERIFY(get<1>(t2).n == 5);
 		VERIFY(get<2>(t2).n == 6);
 	}
 	{
 		bksge::tuple<int, int, int> t1(4, 5, 6);
-		bksge::tuple<Implicit, Implicit, Implicit> const t2 = {bksge::allocator_arg, a, bksge::move(t1)};
+		bksge::tuple<Implicit, Implicit, Implicit> const t2 = {bksge::allocator_arg, a, std::move(t1)};
 		VERIFY(get<0>(t2).n == 4);
 		VERIFY(get<1>(t2).n == 5);
 		VERIFY(get<2>(t2).n == 6);
@@ -847,24 +847,24 @@ inline BKSGE_CXX14_CONSTEXPR bool test02()
 	// pair move ctor
 	{
 		bksge::pair<int, int> t1;
-		bksge::tuple<Empty, Empty> t2(bksge::allocator_arg, a, bksge::move(t1));
+		bksge::tuple<Empty, Empty> t2(bksge::allocator_arg, a, std::move(t1));
 		(void)t2;
 	}
 	{
 		bksge::pair<int, int> t1(5, 6);
-		bksge::tuple<int, int> const t2 {bksge::allocator_arg, a, bksge::move(t1)};
+		bksge::tuple<int, int> const t2 {bksge::allocator_arg, a, std::move(t1)};
 		VERIFY(get<0>(t2) == 5);
 		VERIFY(get<1>(t2) == 6);
 	}
 	{
 		bksge::pair<int, int> t1(5, 6);
-		bksge::tuple<Explicit, Explicit> const t2 {bksge::allocator_arg, a, bksge::move(t1)};
+		bksge::tuple<Explicit, Explicit> const t2 {bksge::allocator_arg, a, std::move(t1)};
 		VERIFY(get<0>(t2).n == 5);
 		VERIFY(get<1>(t2).n == 6);
 	}
 	{
 		bksge::pair<int, int> t1(5, 6);
-		bksge::tuple<Implicit, Implicit> const t2 = {bksge::allocator_arg, a, bksge::move(t1)};
+		bksge::tuple<Implicit, Implicit> const t2 = {bksge::allocator_arg, a, std::move(t1)};
 		VERIFY(get<0>(t2).n == 5);
 		VERIFY(get<1>(t2).n == 6);
 	}
@@ -922,7 +922,7 @@ inline BKSGE_CXX14_CONSTEXPR bool test03()
 	}
 	{
 		bksge::tuple<float, int> t1(0.5f, 6);
-		bksge::tuple t2(bksge::allocator_arg, a, bksge::move(t1));
+		bksge::tuple t2(bksge::allocator_arg, a, std::move(t1));
 		static_assert(bksge::is_same<decltype(t2), bksge::tuple<float, int>>::value, "");
 		VERIFY(get<0>(t2) == 0.5f);
 		VERIFY(get<1>(t2) == 6);
@@ -936,7 +936,7 @@ inline BKSGE_CXX14_CONSTEXPR bool test03()
 	}
 	{
 		bksge::pair<long, int> t1(3, 4);
-		bksge::tuple t2(bksge::allocator_arg, a, bksge::move(t1));
+		bksge::tuple t2(bksge::allocator_arg, a, std::move(t1));
 		static_assert(bksge::is_same<decltype(t2), bksge::tuple<long, int>>::value, "");
 		VERIFY(get<0>(t2) == 3);
 		VERIFY(get<1>(t2) == 4);

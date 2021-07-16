@@ -17,8 +17,8 @@
 #include <bksge/fnd/ranges/borrowed_iterator_t.hpp>
 #include <bksge/fnd/ranges/begin.hpp>
 #include <bksge/fnd/ranges/end.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -53,7 +53,7 @@ struct iota_fn
 	{
 		return (*this)(
 			ranges::begin(r), ranges::end(r),
-			bksge::move(value));
+			std::move(value));
 	}
 };
 

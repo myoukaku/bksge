@@ -20,6 +20,7 @@
 #include <bksge/fnd/ranges/begin.hpp>
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/type_traits/is_scalar.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -81,8 +82,8 @@ public:
 		Out first, Sent last, T const& value) const
 	{
 		return impl(
-			bksge::move(first),
-			bksge::move(last),
+			std::move(first),
+			std::move(last),
 			value,
 			bksge::detail::overload_priority<2>{});
 	}

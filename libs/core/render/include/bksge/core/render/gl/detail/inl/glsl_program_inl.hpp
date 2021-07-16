@@ -20,8 +20,8 @@
 #include <bksge/core/render/shader.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/string/string.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/assert.hpp>
+#include <utility>
 #include <iostream>
 
 namespace bksge
@@ -43,7 +43,7 @@ GlslProgram::GlslProgram(bksge::Shader const& shader)
 	{
 		auto shader_object = bksge::make_unique<GlslShader>(it.first, it.second);
 		::glAttachShader(m_id, shader_object->id());
-		m_shaders.push_back(bksge::move(shader_object));
+		m_shaders.push_back(std::move(shader_object));
 	}
 
 	::glLinkProgram(m_id);
@@ -70,7 +70,7 @@ GlslProgram::GlslProgram(bksge::Shader const& shader)
 	for (::GLint i = 0; i < uniform_block_count; i++)
 	{
 		auto uniform_block = bksge::make_unique<gl::GlslUniformBlock>(m_id, i);
-		m_uniform_blocks.push_back(bksge::move(uniform_block));
+		m_uniform_blocks.push_back(std::move(uniform_block));
 	}
 
 	::GLint uniform_count;
@@ -79,7 +79,7 @@ GlslProgram::GlslProgram(bksge::Shader const& shader)
 	for (::GLint i = 0; i < uniform_count; i++)
 	{
 		auto parameter = bksge::make_unique<GlslParameter>(m_id, i);
-		m_parameters.push_back(bksge::move(parameter));
+		m_parameters.push_back(std::move(parameter));
 	}
 }
 

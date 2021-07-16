@@ -20,7 +20,6 @@
 #include <bksge/core/render/frame_buffer.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/memory/make_shared.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <cstddef>
 
 namespace bksge

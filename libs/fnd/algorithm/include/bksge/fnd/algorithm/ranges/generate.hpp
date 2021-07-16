@@ -22,8 +22,8 @@
 #include <bksge/fnd/type_traits/invoke_result.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -80,7 +80,7 @@ struct generate_fn
 	BKSGE_CXX14_CONSTEXPR ranges::borrowed_iterator_t<Range>
 	operator()(Range&& r, F gen) const
 	{
-		return (*this)(ranges::begin(r), ranges::end(r), bksge::move(gen));
+		return (*this)(ranges::begin(r), ranges::end(r), std::move(gen));
 	}
 };
 

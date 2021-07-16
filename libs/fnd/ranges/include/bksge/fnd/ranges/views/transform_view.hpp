@@ -51,7 +51,6 @@
 #include <bksge/fnd/type_traits/remove_cvref.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
@@ -137,9 +136,9 @@ private:
 
 		Iterator() = default;
 
-		BKSGE_CONSTEXPR
+		BKSGE_CXX14_CONSTEXPR
 		Iterator(Parent* parent, BaseIter current)
-			: m_current(bksge::move(current))
+			: m_current(std::move(current))
 			, m_parent(parent)
 		{}
 
@@ -147,9 +146,9 @@ private:
 			typename = bksge::enable_if_t<
 				C2 &&
 				bksge::is_convertible_to<ranges::iterator_t<V>, BaseIter>::value>>
-		BKSGE_CONSTEXPR
+		BKSGE_CXX14_CONSTEXPR
 		Iterator(Iterator<!Const> i)
-			: m_current(bksge::move(i.m_current))
+			: m_current(std::move(i.m_current))
 			, m_parent(i.m_parent)
 		{}
 
@@ -161,7 +160,7 @@ private:
 
 		BKSGE_CXX14_CONSTEXPR BaseIter base() &&
 		{
-			return bksge::move(m_current);
+			return std::move(m_current);
 		}
 
 		BKSGE_CONSTEXPR Result operator*() const
@@ -323,13 +322,13 @@ private:
 		}
 
 #if 0	// TODO
-		friend BKSGE_CONSTEXPR decltype(auto)
+		friend BKSGE_CXX14_CONSTEXPR decltype(auto)
 		iter_move(Iterator const& i)
 			BKSGE_NOEXCEPT_IF_EXPR(*i)
 		{
 			if constexpr (bksge::is_lvalue_reference<decltype(*i)>::value)
 			{
-				return bksge::move(*i);
+				return std::move(*i);
 			}
 			else
 			{
@@ -388,9 +387,9 @@ private:
 				bksge::is_convertible_to<
 					ranges::sentinel_t<V>,
 					ranges::sentinel_t<Base>>::value>>
-		BKSGE_CONSTEXPR
+		BKSGE_CXX14_CONSTEXPR
 		Sentinel(Sentinel<!Const> i)
-			: m_end(bksge::move(i.m_end))
+			: m_end(std::move(i.m_end))
 		{}
 
 		BKSGE_CONSTEXPR ranges::sentinel_t<Base> base() const
@@ -480,10 +479,10 @@ private:
 public:
 	transform_view() = default;
 
-	BKSGE_CONSTEXPR
+	BKSGE_CXX14_CONSTEXPR
 	transform_view(V base, F fun)
-		: m_fun(bksge::move(fun))
-		, m_base(bksge::move(base))
+		: m_fun(std::move(fun))
+		, m_base(std::move(base))
 	{}
 
 	BKSGE_CONSTEXPR V base() const&
@@ -494,7 +493,7 @@ public:
 
 	BKSGE_CXX14_CONSTEXPR V base() &&
 	{
-		return bksge::move(m_base);
+		return std::move(m_base);
 	}
 
 	BKSGE_CXX14_CONSTEXPR Iterator<false> begin()

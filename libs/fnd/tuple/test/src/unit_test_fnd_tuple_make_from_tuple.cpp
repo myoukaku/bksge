@@ -10,10 +10,10 @@
 #include <bksge/fnd/tuple/tuple.hpp>
 #include <bksge/fnd/array.hpp>
 #include <bksge/fnd/utility/forward.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/pair.hpp>
 #include <bksge/fnd/type_traits/decay.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "tuple_test_utility.hpp"
 #include "constexpr_test.hpp"
 
@@ -136,19 +136,19 @@ GTEST_TEST(MakeFromTupleTest, PerfectForwardingTest)
 		Tup const& ctup = tup;
 		EXPECT_TRUE(do_forwarding_test<int&>(tup));
 		EXPECT_TRUE(do_forwarding_test<int const&>(ctup));
-		EXPECT_TRUE(do_forwarding_test<int&&>(bksge::move(tup)));
-//		EXPECT_TRUE(do_forwarding_test<int const&&>(bksge::move(ctup)));
+		EXPECT_TRUE(do_forwarding_test<int&&>(std::move(tup)));
+//		EXPECT_TRUE(do_forwarding_test<int const&&>(std::move(ctup)));
 	}
 	{
 		using Tup = bksge::tuple<int&, const char*, unsigned&&>;
 		int x = 42;
 		unsigned y = 101;
-		Tup tup(x, "hello world", bksge::move(y));
+		Tup tup(x, "hello world", std::move(y));
 		Tup const& ctup = tup;
 		EXPECT_TRUE((do_forwarding_test<int&, const char*&, unsigned&>(tup)));
 		EXPECT_TRUE((do_forwarding_test<int&, const char* const&, unsigned &>(ctup)));
-		EXPECT_TRUE((do_forwarding_test<int&, const char*&&, unsigned&&>(bksge::move(tup))));
-//		EXPECT_TRUE((do_forwarding_test<int&, const char* const&&, unsigned &&>(bksge::move(ctup))));
+		EXPECT_TRUE((do_forwarding_test<int&, const char*&&, unsigned&&>(std::move(tup))));
+//		EXPECT_TRUE((do_forwarding_test<int&, const char* const&&, unsigned &&>(std::move(ctup))));
 	}
 	// test with pair<T, U>
 	{
@@ -158,8 +158,8 @@ GTEST_TEST(MakeFromTupleTest, PerfectForwardingTest)
 		Tup const& ctup = tup;
 		EXPECT_TRUE((do_forwarding_test<int&, const char*&>(tup)));
 		EXPECT_TRUE((do_forwarding_test<int&, const char* const&>(ctup)));
-		EXPECT_TRUE((do_forwarding_test<int&, const char*&&>(bksge::move(tup))));
-//		EXPECT_TRUE((do_forwarding_test<int&, const char* const&&>(bksge::move(ctup))));
+		EXPECT_TRUE((do_forwarding_test<int&, const char*&&>(std::move(tup))));
+//		EXPECT_TRUE((do_forwarding_test<int&, const char* const&&>(std::move(ctup))));
 	}
 	// test with array<T, I>
 	{
@@ -168,8 +168,8 @@ GTEST_TEST(MakeFromTupleTest, PerfectForwardingTest)
 		Tup const& ctup = tup;
 		EXPECT_TRUE((do_forwarding_test<int&, int&, int&>(tup)));
 		EXPECT_TRUE((do_forwarding_test<int const&, int const&, int const&>(ctup)));
-		EXPECT_TRUE((do_forwarding_test<int&&, int&&, int&&>(bksge::move(tup))));
-		EXPECT_TRUE((do_forwarding_test<int const&&, int const&&, int const&&>(bksge::move(ctup))));
+		EXPECT_TRUE((do_forwarding_test<int&&, int&&, int&&>(std::move(tup))));
+		EXPECT_TRUE((do_forwarding_test<int const&&, int const&&, int const&&>(std::move(ctup))));
 	}
 }
 
@@ -194,14 +194,14 @@ GTEST_TEST(MakeFromTupleTest, NoexceptTest)
 		Tuple tup; ((void)tup);
 		Tuple const& ctup = tup; ((void)ctup);
 		ASSERT_NOT_NOEXCEPT(bksge::make_from_tuple<TestType>(ctup));
-		//ASSERT_NOEXCEPT(bksge::make_from_tuple<TestType>(bksge::move(tup)));
+		//ASSERT_NOEXCEPT(bksge::make_from_tuple<TestType>(std::move(tup)));
 	}
 	{
 		using Tuple = bksge::pair<int, NothrowMoveable>;
 		Tuple tup; ((void)tup);
 		Tuple const& ctup = tup; ((void)ctup);
 		ASSERT_NOT_NOEXCEPT(bksge::make_from_tuple<TestType>(ctup));
-		//ASSERT_NOEXCEPT(bksge::make_from_tuple<TestType>(bksge::move(tup)));
+		//ASSERT_NOEXCEPT(bksge::make_from_tuple<TestType>(std::move(tup)));
 	}
 	{
 		using Tuple = bksge::tuple<int, int, int>;

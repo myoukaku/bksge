@@ -7,8 +7,8 @@
  */
 
 #include <bksge/fnd/utility/forward.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "constexpr_test.hpp"
 
 namespace bksge_utility_test
@@ -35,7 +35,7 @@ int func2(T&& x)
 
 GTEST_TEST(UtilityTest, ForwardTest)
 {
-	using bksge::move;
+	using std::move;
 
 	int i = 42;
 	EXPECT_EQ(1, func(42));

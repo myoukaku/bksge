@@ -11,9 +11,9 @@
 #include <bksge/fnd/variant/bad_variant_access.hpp>
 #include <bksge/fnd/memory/addressof.hpp>
 #include <bksge/fnd/string/string.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "test_macros.hpp"
 #include "type_id.hpp"
 #include "variant_test_helpers.hpp"
@@ -103,9 +103,9 @@ void test_call_operator_forwarding()
 		EXPECT_TRUE(Fn::check_call<>(CT_NonConst | CT_LValue));
 		bksge::visit(cobj);
 		EXPECT_TRUE(Fn::check_call<>(CT_Const | CT_LValue));
-		bksge::visit(bksge::move(obj));
+		bksge::visit(std::move(obj));
 		EXPECT_TRUE(Fn::check_call<>(CT_NonConst | CT_RValue));
-		bksge::visit(bksge::move(cobj));
+		bksge::visit(std::move(cobj));
 		EXPECT_TRUE(Fn::check_call<>(CT_Const | CT_RValue));
 	}
 	{
@@ -116,9 +116,9 @@ void test_call_operator_forwarding()
 		EXPECT_TRUE(Fn::check_call<int&>(CT_NonConst | CT_LValue));
 		bksge::visit(cobj, v);
 		EXPECT_TRUE(Fn::check_call<int&>(CT_Const | CT_LValue));
-		bksge::visit(bksge::move(obj), v);
+		bksge::visit(std::move(obj), v);
 		EXPECT_TRUE(Fn::check_call<int&>(CT_NonConst | CT_RValue));
-		bksge::visit(bksge::move(cobj), v);
+		bksge::visit(std::move(cobj), v);
 		EXPECT_TRUE(Fn::check_call<int&>(CT_Const | CT_RValue));
 	}
 	{
@@ -129,9 +129,9 @@ void test_call_operator_forwarding()
 		EXPECT_TRUE(Fn::check_call<long&>(CT_NonConst | CT_LValue));
 		bksge::visit(cobj, v);
 		EXPECT_TRUE(Fn::check_call<long&>(CT_Const | CT_LValue));
-		bksge::visit(bksge::move(obj), v);
+		bksge::visit(std::move(obj), v);
 		EXPECT_TRUE(Fn::check_call<long&>(CT_NonConst | CT_RValue));
-		bksge::visit(bksge::move(cobj), v);
+		bksge::visit(std::move(cobj), v);
 		EXPECT_TRUE(Fn::check_call<long&>(CT_Const | CT_RValue));
 	}
 	{
@@ -144,9 +144,9 @@ void test_call_operator_forwarding()
 		EXPECT_TRUE((Fn::check_call<long&, bksge::string&>(CT_NonConst | CT_LValue)));
 		bksge::visit(cobj, v, v2);
 		EXPECT_TRUE((Fn::check_call<long&, bksge::string&>(CT_Const | CT_LValue)));
-		bksge::visit(bksge::move(obj), v, v2);
+		bksge::visit(std::move(obj), v, v2);
 		EXPECT_TRUE((Fn::check_call<long&, bksge::string&>(CT_NonConst | CT_RValue)));
-		bksge::visit(bksge::move(cobj), v, v2);
+		bksge::visit(std::move(cobj), v, v2);
 		EXPECT_TRUE((Fn::check_call<long&, bksge::string&>(CT_Const | CT_RValue)));
 	}
 }
@@ -165,9 +165,9 @@ void test_argument_forwarding()
 		EXPECT_TRUE(Fn::check_call<int&>(Val));
 		bksge::visit(obj, cv);
 		EXPECT_TRUE(Fn::check_call<const int&>(Val));
-		bksge::visit(obj, bksge::move(v));
+		bksge::visit(obj, std::move(v));
 		EXPECT_TRUE(Fn::check_call<int&&>(Val));
-		bksge::visit(obj, bksge::move(cv));
+		bksge::visit(obj, std::move(cv));
 		EXPECT_TRUE(Fn::check_call<const int&&>(Val));
 	}
 #if !defined(TEST_VARIANT_HAS_NO_REFERENCES)
@@ -181,24 +181,24 @@ void test_argument_forwarding()
 		EXPECT_TRUE(Fn::check_call<int&>(Val));
 		bksge::visit(obj, cv);
 		EXPECT_TRUE(Fn::check_call<int&>(Val));
-		bksge::visit(obj, bksge::move(v));
+		bksge::visit(obj, std::move(v));
 		EXPECT_TRUE(Fn::check_call<int&>(Val));
-		bksge::visit(obj, bksge::move(cv));
+		bksge::visit(obj, std::move(cv));
 		EXPECT_TRUE(Fn::check_call<int&>(Val));
 	}
 	{
 		// single argument - rvalue reference
 		using V = bksge::variant<int&&>;
 		int x = 42;
-		V v(bksge::move(x));
+		V v(std::move(x));
 		const V& cv = v;
 		bksge::visit(obj, v);
 		EXPECT_TRUE(Fn::check_call<int&>(Val));
 		bksge::visit(obj, cv);
 		EXPECT_TRUE(Fn::check_call<int&>(Val));
-		bksge::visit(obj, bksge::move(v));
+		bksge::visit(obj, std::move(v));
 		EXPECT_TRUE(Fn::check_call<int&&>(Val));
-		bksge::visit(obj, bksge::move(cv));
+		bksge::visit(obj, std::move(cv));
 		EXPECT_TRUE(Fn::check_call<int&&>(Val));
 	}
 	{
@@ -211,11 +211,11 @@ void test_argument_forwarding()
 		const V& cv1 = v1;
 		V v2(str);
 		const V& cv2 = v2;
-		V v3(bksge::move(l));
+		V v3(std::move(l));
 		const V& cv3 = v3;
 		bksge::visit(obj, v1, v2, v3);
 		EXPECT_TRUE((Fn::check_call<int&, S, long&>(Val)));
-		bksge::visit(obj, cv1, cv2, bksge::move(v3));
+		bksge::visit(obj, cv1, cv2, std::move(v3));
 		EXPECT_TRUE((Fn::check_call<const int&, S, long&&>(Val)));
 	}
 #endif

@@ -43,9 +43,9 @@
 #include <bksge/fnd/type_traits/conditional.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -154,9 +154,9 @@ private:
 		public:
 			BKSGE_CONSTEXPR value_type() = default;
 
-			BKSGE_CONSTEXPR explicit
+			BKSGE_CXX14_CONSTEXPR explicit
 			value_type(OuterIter i)
-				: m_i(bksge::move(i))
+				: m_i(std::move(i))
 			{}
 
 			template <BKSGE_REQUIRES_PARAM_D(bksge::copyable, I2, OuterIter)>
@@ -168,7 +168,7 @@ private:
 			template <BKSGE_REQUIRES_PARAM_D(bksge::not_copyable, I2, OuterIter)>
 			BKSGE_CXX14_CONSTEXPR InnerIter<Const> begin()
 			{
-				return InnerIter<Const>{bksge::move(m_i)};
+				return InnerIter<Const>{std::move(m_i)};
 			}
 
 			BKSGE_CONSTEXPR bksge::default_sentinel_t end() const
@@ -186,10 +186,10 @@ private:
 		{}
 
 		template <BKSGE_REQUIRES_PARAM_D(ranges::forward_range, B2, Base)>
-		BKSGE_CONSTEXPR
+		BKSGE_CXX14_CONSTEXPR
 		OuterIter(Parent* parent, ranges::iterator_t<Base> current)
 			: m_parent(parent)
-			, m_current(bksge::move(current))
+			, m_current(std::move(current))
 		{}
 
 		template <bool Const2 = Const,
@@ -199,10 +199,10 @@ private:
 					ranges::iterator_t<V>,
 					ranges::iterator_t<Base>
 				>::value>>
-		BKSGE_CONSTEXPR
+		BKSGE_CXX14_CONSTEXPR
 		OuterIter(OuterIter<!Const> i)
 			: m_parent(i.m_parent)
-			, m_current(bksge::move(i.m_current))
+			, m_current(std::move(i.m_current))
 		{}
 
 		BKSGE_CONSTEXPR value_type operator*() const
@@ -230,8 +230,8 @@ private:
 			{
 				do
 				{
-					auto ret = ranges::mismatch(bksge::move(current()), end, pbegin, pend);
-					current() = bksge::move(ret.in1);
+					auto ret = ranges::mismatch(std::move(current()), end, pbegin, pend);
+					current() = std::move(ret.in1);
 					if (ret.in2 == pend)
 					{
 						break;
@@ -411,9 +411,9 @@ private:
 
 		BKSGE_CONSTEXPR InnerIter() = default;
 
-		BKSGE_CONSTEXPR explicit
+		BKSGE_CXX14_CONSTEXPR explicit
 		InnerIter(OuterIter<Const> i)
-			: m_i(bksge::move(i))
+			: m_i(std::move(i))
 		{}
 
 		BKSGE_CONSTEXPR auto operator*() const
@@ -544,10 +544,10 @@ private:
 public:
 	BKSGE_CONSTEXPR split_view() = default;
 
-	BKSGE_CONSTEXPR
+	BKSGE_CXX14_CONSTEXPR
 	split_view(V base, Pattern pattern)
-		: m_pattern(bksge::move(pattern))
-		, m_base(bksge::move(base))
+		: m_pattern(std::move(pattern))
+		, m_base(std::move(base))
 	{}
 
 	template <BKSGE_REQUIRES_PARAM(ranges::input_range, Range),
@@ -555,9 +555,9 @@ public:
 			bksge::is_constructible_from<V, views::all_t<Range>>,
 			bksge::is_constructible_from<Pattern, ranges::single_view<ranges::range_value_t<Range>>>
 		>::value>>
-	BKSGE_CONSTEXPR
+	BKSGE_CXX14_CONSTEXPR
 	split_view(Range&& r, ranges::range_value_t<Range> e)
-		: m_pattern(bksge::move(e))
+		: m_pattern(std::move(e))
 		, m_base(views::all(bksge::forward<Range>(r)))
 	{}
 
@@ -569,7 +569,7 @@ public:
 
 	BKSGE_CXX14_CONSTEXPR V base() &&
 	{
-		return bksge::move(m_base);
+		return std::move(m_base);
 	}
 
 private:
@@ -670,7 +670,7 @@ struct split_fn
 	}
 #else
 	template <BKSGE_REQUIRES_PARAM(ranges::viewable_range, Range), typename Pred>
-	BKSGE_CONSTEXPR auto operator()(Range&& r, Pred&& pred) const
+	BKSGE_CXX14_CONSTEXPR auto operator()(Range&& r, Pred&& pred) const
 	-> split_view<views::all_t<Range>, views::all_t<Pred>>
 	{
 		return split_view<views::all_t<Range>, views::all_t<Pred>>
@@ -680,12 +680,12 @@ struct split_fn
 	}
 
 	template <BKSGE_REQUIRES_PARAM(ranges::viewable_range, Range)>
-	BKSGE_CONSTEXPR auto operator()(Range&& r, ranges::range_value_t<Range> v) const
+	BKSGE_CXX14_CONSTEXPR auto operator()(Range&& r, ranges::range_value_t<Range> v) const
 	-> split_view<views::all_t<Range>, ranges::single_view<ranges::range_value_t<Range>>>
 	{
 		return split_view<views::all_t<Range>, ranges::single_view<ranges::range_value_t<Range>>>
 		{
-			bksge::forward<Range>(r), bksge::move(v)
+			bksge::forward<Range>(r), std::move(v)
 		};
 	}
 #endif

@@ -24,8 +24,8 @@
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -74,18 +74,18 @@ struct lexicographical_compare_fn
 			same_as<Iter1, Sent1>)
 		{
 			return (*this)(first1.base(), last1.base(),
-				bksge::move(first2), bksge::move(last2),
-				bksge::move(comp),
-				bksge::move(proj1), bksge::move(proj2));
+				std::move(first2), std::move(last2),
+				std::move(comp),
+				std::move(proj1), std::move(proj2));
 		}
 		else if constexpr (
 			detail::is_normal_iterator<Iter2> &&
 			same_as<Iter2, Sent2>)
 		{
-			return (*this)(bksge::move(first1), bksge::move(last1),
+			return (*this)(std::move(first1), std::move(last1),
 				first2.base(), last2.base(),
-				bksge::move(comp),
-				bksge::move(proj1), bksge::move(proj2));
+				std::move(comp),
+				std::move(proj1), std::move(proj2));
 		}
 		else
 #endif
@@ -201,8 +201,8 @@ struct lexicographical_compare_fn
 		return (*this)(
 			ranges::begin(r1), ranges::end(r1),
 			ranges::begin(r2), ranges::end(r2),
-			bksge::move(comp),
-			bksge::move(proj1), bksge::move(proj2));
+			std::move(comp),
+			std::move(proj1), std::move(proj2));
 	}
 
 private:

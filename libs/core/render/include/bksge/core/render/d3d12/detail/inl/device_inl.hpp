@@ -15,7 +15,6 @@
 #include <bksge/core/render/d3d12/detail/device.hpp>
 #include <bksge/core/render/d3d_common/throw_if_failed.hpp>
 #include <bksge/core/render/d3d_common/dxgi.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/vector.hpp>
 
 namespace bksge
@@ -81,7 +80,7 @@ Device::CreateCommandQueue(
 		m_device->CreateCommandQueue(
 			&desc,
 			IID_PPV_ARGS(&command_queue)));
-	return bksge::move(command_queue);
+	return command_queue;
 }
 
 BKSGE_INLINE ComPtr<::ID3D12CommandAllocator>
@@ -93,7 +92,7 @@ Device::CreateCommandAllocator(
 		m_device->CreateCommandAllocator(
 			type,
 			IID_PPV_ARGS(&command_allocator)));
-	return bksge::move(command_allocator);
+	return command_allocator;
 }
 
 BKSGE_INLINE ComPtr<ID3D12GraphicsCommandListN>
@@ -109,7 +108,7 @@ Device::CreateGraphicsCommandList(
 			command_allocator,
 			nullptr,
 			IID_PPV_ARGS(&command_list)));
-	return bksge::move(command_list);
+	return command_list;
 }
 
 BKSGE_INLINE ComPtr<::ID3D12DescriptorHeap>
@@ -121,7 +120,7 @@ Device::CreateDescriptorHeap(
 		m_device->CreateDescriptorHeap(
 			&desc,
 			IID_PPV_ARGS(&descriptor_heap)));
-	return bksge::move(descriptor_heap);
+	return descriptor_heap;
 }
 
 BKSGE_INLINE UINT
@@ -213,7 +212,7 @@ Device::CreateFence(
 			initial_value,
 			flags,
 			IID_PPV_ARGS(&fence)));
-	return bksge::move(fence);
+	return fence;
 }
 
 BKSGE_INLINE ComPtr<::ID3D12RootSignature>
@@ -229,7 +228,7 @@ Device::CreateRootSignature(
 			blob_with_root_signature,
 			blob_length_in_bytes,
 			IID_PPV_ARGS(&root_signature)));
-	return bksge::move(root_signature);
+	return root_signature;
 }
 
 BKSGE_INLINE ComPtr<::ID3D12PipelineState>
@@ -241,7 +240,7 @@ Device::CreateGraphicsPipelineState(
 		m_device->CreateGraphicsPipelineState(
 			&desc,
 			IID_PPV_ARGS(&pipeline_state)));
-	return bksge::move(pipeline_state);
+	return pipeline_state;
 }
 
 BKSGE_INLINE ComPtr<ID3D12ResourceN>
@@ -261,7 +260,7 @@ Device::CreateCommittedResource(
 			initial_resource_state,
 			optimized_clearvalue,
 			IID_PPV_ARGS(&resource)));
-	return bksge::move(resource);
+	return resource;
 }
 
 }	// namespace d3d12

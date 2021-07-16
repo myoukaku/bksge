@@ -10,8 +10,8 @@
 #define BKSGE_FND_ALGORITHM_DETAIL_ADJUST_HEAP_HPP
 
 #include <bksge/fnd/algorithm/detail/push_heap.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -46,18 +46,18 @@ adjust_heap(
 			second_child--;
 		}
 
-		*(first + hole_index) = bksge::move(*(first + second_child));
+		*(first + hole_index) = std::move(*(first + second_child));
 		hole_index = second_child;
 	}
 
 	if ((len & 1) == 0 && second_child == (len - 2) / 2)
 	{
 		second_child = 2 * (second_child + 1);
-		*(first + hole_index) = bksge::move(*(first + (second_child - 1)));
+		*(first + hole_index) = std::move(*(first + (second_child - 1)));
 		hole_index = second_child - 1;
 	}
 
-	detail::push_heap(first, hole_index, top_index, bksge::move(value), comp);
+	detail::push_heap(first, hole_index, top_index, std::move(value), comp);
 }
 
 }	// namespace detail

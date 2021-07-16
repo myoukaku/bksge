@@ -53,11 +53,11 @@ using std::piecewise_construct_t;
 #include <bksge/fnd/tuple/fwd/tuple_fwd.hpp>
 #include <bksge/fnd/tuple/tuple_element.hpp>
 #include <bksge/fnd/utility/forward.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
+#include <utility>
 
 namespace bksge
 {
@@ -528,7 +528,7 @@ struct pair_get<1>
 }	// namespace detail
 
 template <std::size_t I, typename T1, typename T2>
-inline BKSGE_CONSTEXPR
+inline BKSGE_CXX14_CONSTEXPR
 bksge::tuple_element_t<I, pair<T1, T2>>&
 get(pair<T1, T2>& in) BKSGE_NOEXCEPT
 {
@@ -536,15 +536,15 @@ get(pair<T1, T2>& in) BKSGE_NOEXCEPT
 }
 
 template <std::size_t I, typename T1, typename T2>
-inline BKSGE_CONSTEXPR
+inline BKSGE_CXX14_CONSTEXPR
 bksge::tuple_element_t<I, pair<T1, T2>>&&
 get(pair<T1, T2>&& in) BKSGE_NOEXCEPT
 {
-	return detail::pair_get<I>::get(bksge::move(in));
+	return detail::pair_get<I>::get(std::move(in));
 }
 
 template <std::size_t I, typename T1, typename T2>
-inline BKSGE_CONSTEXPR
+inline BKSGE_CXX14_CONSTEXPR
 bksge::tuple_element_t<I, pair<T1, T2>> const&
 get(pair<T1, T2> const& in) BKSGE_NOEXCEPT
 {
@@ -552,67 +552,67 @@ get(pair<T1, T2> const& in) BKSGE_NOEXCEPT
 }
 
 template <std::size_t I, typename T1, typename T2>
-inline BKSGE_CONSTEXPR
+inline BKSGE_CXX14_CONSTEXPR
 bksge::tuple_element_t<I, pair<T1, T2>> const&&
 get(pair<T1, T2> const&& in) BKSGE_NOEXCEPT
 {
-	return detail::pair_get<I>::get(bksge::move(in));
+	return detail::pair_get<I>::get(std::move(in));
 }
 
 template <typename T1, typename T2>
-inline BKSGE_CONSTEXPR T1&
+inline BKSGE_CXX14_CONSTEXPR T1&
 get(pair<T1, T2>& p) BKSGE_NOEXCEPT
 {
 	return p.first;
 }
 
 template <typename T1, typename T2>
-inline BKSGE_CONSTEXPR T1 const&
+inline BKSGE_CXX14_CONSTEXPR T1 const&
 get(pair<T1, T2> const& p) BKSGE_NOEXCEPT
 {
 	return p.first;
 }
 
 template <typename T1, typename T2>
-inline BKSGE_CONSTEXPR T1&&
+inline BKSGE_CXX14_CONSTEXPR T1&&
 get(pair<T1, T2>&& p) BKSGE_NOEXCEPT
 {
-	return bksge::move(p.first);
+	return std::move(p.first);
 }
 
 template <typename T1, typename T2>
-inline BKSGE_CONSTEXPR T1 const&&
+inline BKSGE_CXX14_CONSTEXPR T1 const&&
 get(pair<T1, T2> const&& p) BKSGE_NOEXCEPT
 {
-	return bksge::move(p.first);
+	return std::move(p.first);
 }
 
 template <typename T1, typename T2>
-inline BKSGE_CONSTEXPR T1&
+inline BKSGE_CXX14_CONSTEXPR T1&
 get(pair<T2, T1>& p) BKSGE_NOEXCEPT
 {
 	return p.second;
 }
 
 template <typename T1, typename T2>
-inline BKSGE_CONSTEXPR T1 const&
+inline BKSGE_CXX14_CONSTEXPR T1 const&
 get(pair<T2, T1> const& p) BKSGE_NOEXCEPT
 {
 	return p.second;
 }
 
 template <typename T1, typename T2>
-inline BKSGE_CONSTEXPR T1&&
+inline BKSGE_CXX14_CONSTEXPR T1&&
 get(pair<T2, T1>&& p) BKSGE_NOEXCEPT
 {
-	return bksge::move(p.second);
+	return std::move(p.second);
 }
 
 template <typename T1, typename T2>
-inline BKSGE_CONSTEXPR T1 const&&
+inline BKSGE_CXX14_CONSTEXPR T1 const&&
 get(pair<T2, T1> const&& p) BKSGE_NOEXCEPT
 {
-	return bksge::move(p.second);
+	return std::move(p.second);
 }
 
 }	// namespace bksge

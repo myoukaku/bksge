@@ -11,8 +11,8 @@
 
 #include <bksge/fnd/memory/unique_ptr.hpp>
 #include <bksge/fnd/type_traits/remove_cv.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -35,7 +35,7 @@ public:
 	pointer_loader(pointer_loader const&) = delete;
 
 	pointer_loader(pointer_loader&& rhs) BKSGE_NOEXCEPT_OR_NOTHROW
-		: m_impl(bksge::move(rhs.m_impl))
+		: m_impl(std::move(rhs.m_impl))
 	{}
 
 	void set_address(void const* ptr)

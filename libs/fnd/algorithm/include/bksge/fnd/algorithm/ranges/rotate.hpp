@@ -27,8 +27,8 @@
 #include <bksge/fnd/ranges/borrowed_subrange_t.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -54,7 +54,7 @@ private:
 		if (k == n - k)
 		{
 			ranges::swap_ranges(first, middle, middle, middle + k);
-			return { bksge::move(middle), bksge::move(lasti) };
+			return { std::move(middle), std::move(lasti) };
 		}
 
 		auto p = first;
@@ -70,10 +70,10 @@ private:
 				//{
 				//	if (k == 1)
 				//	{
-				//		auto t = bksge::move(*p);
+				//		auto t = std::move(*p);
 				//		ranges::move(p + 1, p + n, p);
-				//		*(p + n - 1) = bksge::move(t);
-				//		return { bksge::move(ret), bksge::move(lasti) };
+				//		*(p + n - 1) = std::move(t);
+				//		return { std::move(ret), std::move(lasti) };
 				//	}
 				//}
 
@@ -88,7 +88,7 @@ private:
 				n %= k;
 				if (n == 0)
 				{
-					return { bksge::move(ret), bksge::move(lasti) };
+					return { std::move(ret), std::move(lasti) };
 				}
 
 				ranges::swap(n, k);
@@ -103,10 +103,10 @@ private:
 				//{
 				//	if (k == 1)
 				//	{
-				//		auto t = bksge::move(*(p + n - 1));
+				//		auto t = std::move(*(p + n - 1));
 				//		ranges::move_backward(p, p + n - 1, p + n);
-				//		*p = bksge::move(t);
-				//		return { bksge::move(ret), bksge::move(lasti) };
+				//		*p = std::move(t);
+				//		return { std::move(ret), std::move(lasti) };
 				//	}
 				//}
 
@@ -122,7 +122,7 @@ private:
 				n %= k;
 				if (n == 0)
 				{
-					return { bksge::move(ret), bksge::move(lasti) };
+					return { std::move(ret), std::move(lasti) };
 				}
 
 				ranges::swap(n, k);
@@ -150,12 +150,12 @@ private:
 		if (first == middle)
 		{
 			ranges::reverse(middle, tail);
-			return { bksge::move(tail), bksge::move(lasti) };
+			return { std::move(tail), std::move(lasti) };
 		}
 		else
 		{
 			ranges::reverse(first, middle);
-			return { bksge::move(first), bksge::move(lasti) };
+			return { std::move(first), std::move(lasti) };
 		}
 	}
 
@@ -197,7 +197,7 @@ private:
 			}
 		}
 
-		return { bksge::move(ret), bksge::move(lasti) };
+		return { std::move(ret), std::move(lasti) };
 	}
 
 public:
@@ -227,13 +227,13 @@ public:
 
 		if (last == middle)
 		{
-			return { bksge::move(first), bksge::move(lasti) };
+			return { std::move(first), std::move(lasti) };
 		}
 
 		return impl(
-			bksge::move(first),
-			bksge::move(middle),
-			bksge::move(lasti),
+			std::move(first),
+			std::move(middle),
+			std::move(lasti),
 			bksge::detail::overload_priority<2>{});
 	}
 
@@ -254,7 +254,7 @@ public:
 	{
 		return (*this)(
 			ranges::begin(r),
-			bksge::move(middle),
+			std::move(middle),
 			ranges::end(r));
 	}
 };

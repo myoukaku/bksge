@@ -23,12 +23,12 @@
 #include <bksge/fnd/type_traits/is_nothrow_move_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_move_constructible.hpp>
 #include <bksge/fnd/type_traits/is_trivially_move_constructible.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/string.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include <limits>
 #include <cstdint>
+#include <utility>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -577,22 +577,22 @@ inline BKSGE_CXX14_CONSTEXPR bool CtorMoveTest()
 
 	{
 		BigInt x1;
-		BigInt x2(bksge::move(x1));
+		BigInt x2(std::move(x1));
 		VERIFY(x2 == 0);
 	}
 	{
 		BigInt x1 = 1;
-		BigInt x2{bksge::move(x1)};
+		BigInt x2{std::move(x1)};
 		VERIFY(x2 == 1);
 	}
 	{
 		BigInt x1{"12345"};
-		BigInt x2(bksge::move(x1));
+		BigInt x2(std::move(x1));
 		VERIFY(x2 == 12345);
 	}
 	{
 		BigInt x1{"-12345"};
-		BigInt x2{bksge::move(x1)};
+		BigInt x2{std::move(x1)};
 		VERIFY(x2 == -12345);
 	}
 	return true;

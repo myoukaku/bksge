@@ -9,13 +9,13 @@
 #include <bksge/fnd/tuple/tuple.hpp>
 #include <bksge/fnd/tuple/get.hpp>
 #include <bksge/fnd/pair.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/type_traits/is_implicitly_constructible.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -106,56 +106,56 @@ inline BKSGE_CXX14_CONSTEXPR bool test()
 	using std::get;
 	{
 		bksge::pair<int, float>  p = {2, 2.5};
-		bksge::tuple<int, float> t = {bksge::move(p)};
+		bksge::tuple<int, float> t = {std::move(p)};
 		VERIFY(get<0>(t) == 2);
 		VERIFY(get<1>(t) == 2.5);
 	}
 	{
 		bksge::pair<int, float>  const p = {2, 2.5};
-		bksge::tuple<int, float> const t = {bksge::move(p)};
+		bksge::tuple<int, float> const t = {std::move(p)};
 		VERIFY(get<0>(t) == 2);
 		VERIFY(get<1>(t) == 2.5);
 	}
 	{
 		bksge::pair<int, float>    p = {3, 4.5};
-		bksge::tuple<long, double> t = {bksge::move(p)};
+		bksge::tuple<long, double> t = {std::move(p)};
 		VERIFY(get<0>(t) == 3);
 		VERIFY(get<1>(t) == 4.5);
 	}
 	{
 		bksge::pair<int, float>    const p = {3, 4.5};
-		bksge::tuple<long, double> const t = {bksge::move(p)};
+		bksge::tuple<long, double> const t = {std::move(p)};
 		VERIFY(get<0>(t) == 3);
 		VERIFY(get<1>(t) == 4.5);
 	}
 	{
 		bksge::pair<int, int>            p = {1, 2};
-		bksge::tuple<Explicit, Explicit> t {bksge::move(p)};
+		bksge::tuple<Explicit, Explicit> t {std::move(p)};
 		VERIFY(get<0>(t).n == 1);
 		VERIFY(get<1>(t).n == 2);
 	}
 	{
 		bksge::pair<int, int>            p = {3, 4};
-		bksge::tuple<Explicit, Implicit> t {bksge::move(p)};
+		bksge::tuple<Explicit, Implicit> t {std::move(p)};
 		VERIFY(get<0>(t).n == 3);
 		VERIFY(get<1>(t).n == 4);
 	}
 	{
 		bksge::pair<int, int>            p = {5, 6};
-		bksge::tuple<Implicit, Explicit> t {bksge::move(p)};
+		bksge::tuple<Implicit, Explicit> t {std::move(p)};
 		VERIFY(get<0>(t).n == 5);
 		VERIFY(get<1>(t).n == 6);
 	}
 	{
 		bksge::pair<int, int>            p = {7, 8};
-		bksge::tuple<Implicit, Implicit> t = {bksge::move(p)};
+		bksge::tuple<Implicit, Implicit> t = {std::move(p)};
 		VERIFY(get<0>(t).n == 7);
 		VERIFY(get<1>(t).n == 8);
 	}
 #if defined(BKSGE_HAS_CXX17_DEDUCTION_GUIDES)
 	{
 		bksge::pair<int, float> p = {2, 2.5};
-		bksge::tuple            t = {bksge::move(p)};
+		bksge::tuple            t = {std::move(p)};
 		static_assert(bksge::is_same<decltype(t), bksge::tuple<int, float>>::value, "");
 		VERIFY(get<0>(t) == 2);
 		VERIFY(get<1>(t) == 2.5);

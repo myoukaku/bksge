@@ -10,8 +10,8 @@
 #define BKSGE_FND_NUMERIC_EXCLUSIVE_SCAN_HPP
 
 #include <bksge/fnd/functional/plus.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -35,7 +35,7 @@ exclusive_scan(
 		auto v = init;
 		init = binary_op(init, *first);
 		++first;
-		*result++ = bksge::move(v);
+		*result++ = std::move(v);
 	}
 
 	return result;
@@ -53,7 +53,7 @@ exclusive_scan(
 		first,
 		last,
 		result,
-		bksge::move(init),
+		std::move(init),
 		bksge::plus<>{});
 }
 

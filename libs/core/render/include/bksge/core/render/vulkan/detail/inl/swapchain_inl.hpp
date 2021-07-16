@@ -25,8 +25,8 @@
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/memory/make_shared.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <cstdint>
+#include <utility>
 
 namespace bksge
 {
@@ -161,7 +161,7 @@ Swapchain::Swapchain(
 			command_pool,
 			VK_IMAGE_LAYOUT_PRESENT_SRC_KHR);
 
-		m_images.push_back(bksge::move(image));
+		m_images.push_back(std::move(image));
 	}
 
 	m_present_queue = bksge::make_unique<vulkan::Queue>(

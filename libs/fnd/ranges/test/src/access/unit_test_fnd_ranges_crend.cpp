@@ -9,7 +9,6 @@
 #include <bksge/fnd/ranges/crend.hpp>
 #include <bksge/fnd/ranges/concepts/enable_borrowed_range.hpp>
 #include <bksge/fnd/concepts/same_as.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <gtest/gtest.h>
 #include <utility>
 #include "constexpr_test.hpp"
@@ -88,8 +87,8 @@ BKSGE_CXX14_CONSTEXPR bool test01()
 	return
 		bksge::ranges::crend(r) == bksge::ranges::rend(c) &&
 		bksge::ranges::crend(c) == bksge::ranges::rend(c) &&
-		bksge::ranges::crend(bksge::move(r)) == bksge::ranges::rend(c) &&
-		bksge::ranges::crend(bksge::move(c)) == bksge::ranges::rend(c);
+		bksge::ranges::crend(std::move(r)) == bksge::ranges::rend(c) &&
+		bksge::ranges::crend(std::move(c)) == bksge::ranges::rend(c);
 }
 
 BKSGE_CXX14_CONSTEXPR bool test02()
@@ -100,8 +99,8 @@ BKSGE_CXX14_CONSTEXPR bool test02()
 	return
 		bksge::ranges::crend(r) == bksge::ranges::rend(c) &&
 		bksge::ranges::crend(c) == bksge::ranges::rend(c) &&
-		bksge::ranges::crend(bksge::move(r)) == bksge::ranges::rend(bksge::move(c)) &&
-		bksge::ranges::crend(bksge::move(c)) == bksge::ranges::rend(bksge::move(c));
+		bksge::ranges::crend(std::move(r)) == bksge::ranges::rend(std::move(c)) &&
+		bksge::ranges::crend(std::move(c)) == bksge::ranges::rend(std::move(c));
 }
 
 BKSGE_CXX14_CONSTEXPR bool test03()

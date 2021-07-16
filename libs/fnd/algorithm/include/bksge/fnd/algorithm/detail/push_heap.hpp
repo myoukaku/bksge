@@ -9,8 +9,8 @@
 #ifndef BKSGE_FND_ALGORITHM_DETAIL_PUSH_HEAP_HPP
 #define BKSGE_FND_ALGORITHM_DETAIL_PUSH_HEAP_HPP
 
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -38,11 +38,11 @@ push_heap(
 	Distance parent = (hole_index - 1) / 2;
 	while (hole_index > top_index && comp(*(first + parent), value))
 	{
-		*(first + hole_index) = bksge::move(*(first + parent));
+		*(first + hole_index) = std::move(*(first + parent));
 		hole_index = parent;
 		parent = (hole_index - 1) / 2;
 	}
-	*(first + hole_index) = bksge::move(value);
+	*(first + hole_index) = std::move(value);
 }
 
 }	// namespace detail

@@ -20,8 +20,8 @@
 #include <bksge/core/render/shader_stage.hpp>
 #include <bksge/fnd/memory/make_unique.hpp>
 #include <bksge/fnd/memory/unique_ptr.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/string/string.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -75,7 +75,7 @@ HlslProgram::HlslProgram(Device* device, bksge::Shader const& shader)
 			m_input_layout = hlsl_shader->CreateInputLayout(device);
 		}
 
-		m_shaders.push_back(bksge::move(hlsl_shader));
+		m_shaders.push_back(std::move(hlsl_shader));
 	}
 }
 

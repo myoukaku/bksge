@@ -20,7 +20,6 @@
 //#include <bksge/fnd/type_traits/is_swappable.hpp>
 //#include <bksge/fnd/type_traits/remove_pointer.hpp>
 //#include <bksge/fnd/type_traits/remove_reference.hpp>
-//#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/in_place_index.hpp>
 #include <bksge/fnd/functional/hash.hpp>
 #include <bksge/fnd/config.hpp>

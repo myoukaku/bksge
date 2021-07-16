@@ -33,9 +33,9 @@
 #include <bksge/fnd/type_traits/is_nothrow_copy_constructible.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_move_constructible.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
 #include <bksge/fnd/assert.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -65,7 +65,7 @@ public:
 
 	BKSGE_CXX14_CONSTEXPR
 	counted_iterator(It i, bksge::iter_difference_t<It> n)
-		: m_current(bksge::move(i))
+		: m_current(std::move(i))
 		, m_length(n)
 	{
 		BKSGE_ASSERT(n >= 0);
@@ -101,7 +101,7 @@ public:
 	BKSGE_CXX14_CONSTEXPR It base() &&
 		BKSGE_NOEXCEPT_IF(bksge::is_nothrow_move_constructible<It>::value)
 	{
-		return bksge::move(m_current);
+		return std::move(m_current);
 	}
 
 	BKSGE_CONSTEXPR bksge::iter_difference_t<It>

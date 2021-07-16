@@ -33,9 +33,9 @@ using std::to_array;
 #include <bksge/fnd/type_traits/remove_cv.hpp>
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
+#include <utility>
 
 namespace bksge
 {
@@ -44,23 +44,23 @@ namespace detail
 {
 
 template <typename T, std::size_t N, std::size_t... I>
-inline BKSGE_CONSTEXPR bksge::array<bksge::remove_cv_t<T>, N>
+inline BKSGE_CXX14_CONSTEXPR bksge::array<bksge::remove_cv_t<T>, N>
 to_array_impl(T (&a)[N], bksge::index_sequence<I...>)
 {
 	return {{a[I]...}};
 }
 
 template <typename T, std::size_t N, std::size_t... I>
-inline BKSGE_CONSTEXPR bksge::array<bksge::remove_cv_t<T>, N>
+inline BKSGE_CXX14_CONSTEXPR bksge::array<bksge::remove_cv_t<T>, N>
 to_array_impl(T (&&a)[N], bksge::index_sequence<I...>)
 {
-	return {{bksge::move(a[I])...}};
+	return {{std::move(a[I])...}};
 }
 
 }	// namespace detail
 
 template <typename T, std::size_t N>
-inline BKSGE_CONSTEXPR bksge::array<bksge::remove_cv_t<T>, N>
+inline BKSGE_CXX14_CONSTEXPR bksge::array<bksge::remove_cv_t<T>, N>
 to_array(T (&a)[N])
 BKSGE_NOEXCEPT_IF(bksge::is_nothrow_copy_constructible<T>::value)
 {
@@ -70,13 +70,13 @@ BKSGE_NOEXCEPT_IF(bksge::is_nothrow_copy_constructible<T>::value)
 }
 
 template <typename T, std::size_t N>
-inline BKSGE_CONSTEXPR bksge::array<bksge::remove_cv_t<T>, N>
+inline BKSGE_CXX14_CONSTEXPR bksge::array<bksge::remove_cv_t<T>, N>
 to_array(T (&&a)[N])
 BKSGE_NOEXCEPT_IF(bksge::is_nothrow_move_constructible<T>::value)
 {
 	static_assert(!bksge::is_array<T>::value, "");
 	static_assert(bksge::is_move_constructible<T>::value, "");
-	return bksge::detail::to_array_impl(bksge::move(a), bksge::make_index_sequence<N>{});
+	return bksge::detail::to_array_impl(std::move(a), bksge::make_index_sequence<N>{});
 }
 
 }	// namespace bksge

@@ -33,8 +33,8 @@
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -92,8 +92,8 @@ struct partial_sort_copy_fn
 		if (result_first == result_last)
 		{
 			// TODO: Eliminating the variable lasti triggers an ICE.
-			auto lasti = ranges::next(bksge::move(first), bksge::move(last));
-			return { bksge::move(lasti), bksge::move(result_first) };
+			auto lasti = ranges::next(std::move(first), std::move(last));
+			return { std::move(lasti), std::move(result_first) };
 		}
 
 		auto result_real_last = result_first;
@@ -119,7 +119,7 @@ struct partial_sort_copy_fn
 
 		ranges::sort_heap(result_first, result_real_last, comp, proj2);
 
-		return { bksge::move(first), bksge::move(result_real_last) };
+		return { std::move(first), std::move(result_real_last) };
 	}
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
@@ -170,9 +170,9 @@ struct partial_sort_copy_fn
 		return (*this)(
 			ranges::begin(r), ranges::end(r),
 			ranges::begin(out), ranges::end(out),
-			bksge::move(comp),
-			bksge::move(proj1),
-			bksge::move(proj2));
+			std::move(comp),
+			std::move(proj1),
+			std::move(proj2));
 	}
 };
 

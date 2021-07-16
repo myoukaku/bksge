@@ -18,9 +18,9 @@
 #include <bksge/fnd/type_traits/remove_const.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
 #include <initializer_list>
+#include <utility>
 
 namespace bksge
 {
@@ -70,7 +70,7 @@ struct optional_payload_base
 	{
 		if (other.m_engaged)
 		{
-			this->construct(bksge::move(other.get()));
+			this->construct(std::move(other.get()));
 		}
 	}
 
@@ -118,13 +118,13 @@ struct optional_payload_base
 	{
 		if (this->m_engaged && other.m_engaged)
 		{
-			this->get() = bksge::move(other.get());
+			this->get() = std::move(other.get());
 		}
 		else
 		{
 			if (other.m_engaged)
 			{
-				this->construct(bksge::move(other.get()));
+				this->construct(std::move(other.get()));
 			}
 			else
 			{

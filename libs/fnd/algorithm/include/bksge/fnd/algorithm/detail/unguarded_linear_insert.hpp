@@ -10,8 +10,8 @@
 #define BKSGE_FND_ALGORITHM_DETAIL_UNGUARDED_LINEAR_INSERT_HPP
 
 #include <bksge/fnd/iterator/iter_value_t.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -27,18 +27,18 @@ inline BKSGE_CXX14_CONSTEXPR void
 unguarded_linear_insert(RandomAccessIterator last, Compare comp)
 {
 	using value_t = bksge::iter_value_t<RandomAccessIterator>;
-	value_t val = bksge::move(*last);
+	value_t val = std::move(*last);
 	auto next_it = last;
 	--next_it;
 
 	while (comp(val, *next_it))
 	{
-		*last = bksge::move(*next_it);
+		*last = std::move(*next_it);
 		last = next_it;
 		--next_it;
 	}
 
-	*last = bksge::move(val);
+	*last = std::move(val);
 }
 
 }	// namespace detail

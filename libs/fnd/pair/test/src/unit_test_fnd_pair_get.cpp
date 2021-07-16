@@ -7,8 +7,8 @@
  */
 
 #include <bksge/fnd/pair.hpp>
-#include <bksge/fnd/utility/move.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -32,9 +32,9 @@ inline BKSGE_CXX14_CONSTEXPR bool test()
 		i1 = 3;
 		int const& i2 = get<1>(p);
 		VERIFY(i2  == 2);
-		int&& i3 = get<0>(bksge::move(p));
+		int&& i3 = get<0>(std::move(p));
 		VERIFY(i3  == 3);
-		int&& i4 = get<1>(bksge::move(p));
+		int&& i4 = get<1>(std::move(p));
 		VERIFY(i4  == 2);
 	}
 	{
@@ -43,9 +43,9 @@ inline BKSGE_CXX14_CONSTEXPR bool test()
 		VERIFY(i1  == 3);
 		int const& i2 = get<1>(p);
 		VERIFY(i2  == 4);
-		int const&& i3 = get<0>(bksge::move(p));
+		int const&& i3 = get<0>(std::move(p));
 		VERIFY(i3  == 3);
-		int const&& i4 = get<1>(bksge::move(p));
+		int const&& i4 = get<1>(std::move(p));
 		VERIFY(i4  == 4);
 	}
 	{
@@ -57,9 +57,9 @@ inline BKSGE_CXX14_CONSTEXPR bool test()
 	}
 	{
 		bksge::pair<float, int> p(1, 2);
-		float&& f = get<float>(bksge::move(p));
+		float&& f = get<float>(std::move(p));
 		VERIFY(f == 1);
-		int&& i   = get<int>(bksge::move(p));
+		int&& i   = get<int>(std::move(p));
 		VERIFY(i == 2);
 	}
 	{
@@ -71,9 +71,9 @@ inline BKSGE_CXX14_CONSTEXPR bool test()
 	}
 	{
 		bksge::pair<float, int> const p(1, 2);
-		float const&& f = get<float>(bksge::move(p));
+		float const&& f = get<float>(std::move(p));
 		VERIFY(f == 1);
-		int const&& i   = get<int>(bksge::move(p));
+		int const&& i   = get<int>(std::move(p));
 		VERIFY(i == 2);
 	}
 	return true;
