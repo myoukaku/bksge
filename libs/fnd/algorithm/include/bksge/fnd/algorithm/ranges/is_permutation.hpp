@@ -39,18 +39,17 @@ namespace ranges
 struct is_permutation_fn
 {
 private:
-	template <typename Pred, typename Proj, typename Iter>
+	template <typename Pred, typename T>
 	struct comp_scan_t
 	{
 		Pred& m_pred;
-		Proj& m_proj;
-		Iter& m_scan;
+		T&    m_scan_proj;
 
-		template <typename T>
-		BKSGE_CXX14_CONSTEXPR auto operator()(T&& arg) const
-		->decltype(bksge::invoke(m_pred, bksge::invoke(m_proj, *m_scan), bksge::forward<T>(arg)))
+		template <typename U>
+		BKSGE_CXX14_CONSTEXPR auto operator()(U&& arg) const
+		->decltype(bksge::invoke(m_pred, m_scan_proj, bksge::forward<U>(arg)))
 		{
-			return bksge::invoke(m_pred, bksge::invoke(m_proj, *m_scan), bksge::forward<T>(arg));
+			return bksge::invoke(m_pred, m_scan_proj, bksge::forward<U>(arg));
 		}
 	};
 
@@ -147,7 +146,8 @@ public:
 
 		for (auto scan = first1; scan != last1; ++scan)
 		{
-			auto comp_scan = comp_scan_t<Pred, Proj1, Iter1> {pred, proj1, scan};
+			const auto scan_proj{ bksge::invoke(proj1, *scan) };
+			auto comp_scan = comp_scan_t<Pred, decltype(scan_proj)> {pred, scan_proj};
 
 			if (scan != ranges::find_if(first1, scan, comp_scan, proj1))
 			{
