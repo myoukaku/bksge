@@ -24,6 +24,7 @@
 #include <istream>
 #include <ostream>
 #include <cstddef>
+#include <utility>
 
 namespace bksge
 {
@@ -53,7 +54,7 @@ private:
 	}
 
 	template <typename T>
-	using enable_if_sv = decltype(to_string_view(bksge::declval<T>()));
+	using enable_if_sv = decltype(to_string_view(std::declval<T>()));
 
 	BKSGE_CXX14_CONSTEXPR void append_null_char()
 	{

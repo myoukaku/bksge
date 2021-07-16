@@ -16,9 +16,9 @@
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -49,7 +49,7 @@ private:
 	template <typename L, typename R,
 		typename = bksge::enable_if_t<bksge::is_lvalue_reference<L>::value>,
 		typename = bksge::enable_if_t<bksge::common_reference_with<detail::cref<L>, detail::cref<R>>::value>,
-		typename T = decltype(bksge::declval<L&>() = bksge::declval<R&&>())
+		typename T = decltype(std::declval<L&>() = std::declval<R&&>())
 	>
 	static auto test(int) -> bksge::same_as<T, L>;
 

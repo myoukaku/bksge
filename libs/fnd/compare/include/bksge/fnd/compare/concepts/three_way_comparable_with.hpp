@@ -37,8 +37,8 @@ using std::three_way_comparable_with;
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -91,8 +91,8 @@ private:
 		typename = bksge::enable_if_t<detail::partially_ordered_with<T2, U2>>,
 		typename A = bksge::remove_reference_t<T2>,
 		typename B = bksge::remove_reference_t<U2>,
-		typename R1 = decltype(bksge::declval<A const&>() <=> bksge::declval<B const&>()),
-		typename R2 = decltype(bksge::declval<B const&>() <=> bksge::declval<A const&>())
+		typename R1 = decltype(std::declval<A const&>() <=> std::declval<B const&>()),
+		typename R2 = decltype(std::declval<B const&>() <=> std::declval<A const&>())
 	>
 	static auto test(int) -> bksge::conjunction<
 		detail::compares_as<R1, C2>,

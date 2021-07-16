@@ -19,8 +19,8 @@
 #include <bksge/fnd/type_traits/decay.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/utility/forward.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -85,7 +85,7 @@ BKSGE_INLINE_VAR BKSGE_CONSTEXPR
 views::detail::range_adaptor_closure<views::detail::all_fn> all{};
 
 template <BKSGE_REQUIRES_PARAM(ranges::viewable_range, Range)>
-using all_t = decltype(all(bksge::declval<Range>()));
+using all_t = decltype(all(std::declval<Range>()));
 
 }	// namespace views
 

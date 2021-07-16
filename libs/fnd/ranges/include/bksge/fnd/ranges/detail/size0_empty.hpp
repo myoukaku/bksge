@@ -12,8 +12,8 @@
 #include <bksge/fnd/ranges/size.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/utility/forward.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -40,7 +40,7 @@ struct size0_empty_impl
 {
 private:
 	template <typename U,
-		typename = decltype(ranges::size(bksge::declval<U&&>()) == 0)
+		typename = decltype(ranges::size(std::declval<U&&>()) == 0)
 	>
 	static auto test(int) -> bksge::true_type;
 

@@ -14,8 +14,8 @@
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -48,8 +48,8 @@ struct decrementable_impl
 private:
 	template <typename U,
 		typename = bksge::enable_if_t<bksge::incrementable<U>::value>,
-		typename T1 = decltype(--bksge::declval<U&>()),
-		typename T2 = decltype(  bksge::declval<U&>()--)
+		typename T1 = decltype(--std::declval<U&>()),
+		typename T2 = decltype(  std::declval<U&>()--)
 	>
 	static auto test(int) -> bksge::conjunction<
 		bksge::same_as<T1, U&>,

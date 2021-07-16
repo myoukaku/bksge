@@ -16,8 +16,8 @@
 #include <bksge/fnd/concepts/convertible_to.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -57,12 +57,12 @@ private:
 		typename = bksge::enable_if_t<detail::decrementable<I2>::value>,
 		typename = bksge::enable_if_t<bksge::totally_ordered<I2>::value>,
 		typename D = detail::iota_diff_t<I2>,
-		typename T1 = decltype(bksge::declval<I2&>() += bksge::declval<D const>()),
-		typename T2 = decltype(bksge::declval<I2&>() -= bksge::declval<D const>()),
-		typename = decltype(I2(bksge::declval<I2 const>() + bksge::declval<D  const>())),
-		typename = decltype(I2(bksge::declval<D  const>() + bksge::declval<I2 const>())),
-		typename = decltype(I2(bksge::declval<I2 const>() - bksge::declval<D  const>())),
-		typename T3 = decltype(bksge::declval<I2 const>() - bksge::declval<I2 const>())
+		typename T1 = decltype(std::declval<I2&>() += std::declval<D const>()),
+		typename T2 = decltype(std::declval<I2&>() -= std::declval<D const>()),
+		typename = decltype(I2(std::declval<I2 const>() + std::declval<D  const>())),
+		typename = decltype(I2(std::declval<D  const>() + std::declval<I2 const>())),
+		typename = decltype(I2(std::declval<I2 const>() - std::declval<D  const>())),
+		typename T3 = decltype(std::declval<I2 const>() - std::declval<I2 const>())
 	>
 	static auto test(int) -> bksge::conjunction<
 		bksge::same_as<T1, I2&>,

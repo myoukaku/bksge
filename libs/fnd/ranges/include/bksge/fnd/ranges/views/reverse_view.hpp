@@ -40,8 +40,8 @@
 #include <bksge/fnd/type_traits/negation.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/forward.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -221,7 +221,7 @@ private:
 		typename T = bksge::remove_cvref_t<Range>,
 		typename = bksge::enable_if_t<views::detail::is_reversible_subrange<T>::value>,
 		typename = bksge::enable_if_t<ranges::is_sized_range<T>::value>,
-		typename Iter = decltype(ranges::begin(bksge::declval<Range>()).base())
+		typename Iter = decltype(ranges::begin(std::declval<Range>()).base())
 	>
 	BKSGE_CONSTEXPR auto impl(Range&& r, bksge::detail::overload_priority<2>) const
 	-> ranges::subrange<Iter, Iter, ranges::subrange_kind::sized>
@@ -233,7 +233,7 @@ private:
 		typename Range,
 		typename T = bksge::remove_cvref_t<Range>,
 		typename = bksge::enable_if_t<views::detail::is_reversible_subrange<T>::value>,
-		typename Iter = decltype(ranges::begin(bksge::declval<Range>()).base())
+		typename Iter = decltype(ranges::begin(std::declval<Range>()).base())
 	>
 	BKSGE_CONSTEXPR auto impl(Range&& r, bksge::detail::overload_priority<1>) const
 	-> ranges::subrange<Iter, Iter, ranges::subrange_kind::unsized>

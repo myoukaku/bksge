@@ -39,6 +39,7 @@
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -235,7 +236,7 @@ public:
 
 	template <BKSGE_REQUIRES_PARAM_D(ranges::sized_range, V2, V)>
 	BKSGE_CXX14_CONSTEXPR auto size()
-	->decltype(ranges::size(bksge::declval<V2>()))
+	->decltype(ranges::size(std::declval<V2>()))
 	{
 		return ranges::min(ranges::size(m_base),
 			static_cast<decltype(ranges::size(m_base))>(m_count));
@@ -243,7 +244,7 @@ public:
 
 	template <BKSGE_REQUIRES_PARAM_D(ranges::sized_range, V2, V const)>
 	BKSGE_CONSTEXPR auto size() const
-	->decltype(ranges::size(bksge::declval<V2>()))
+	->decltype(ranges::size(std::declval<V2>()))
 	{
 		return ranges::min(ranges::size(m_base),
 			static_cast<decltype(ranges::size(m_base))>(m_count));

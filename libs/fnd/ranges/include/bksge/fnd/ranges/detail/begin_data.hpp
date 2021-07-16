@@ -11,9 +11,9 @@
 
 #include <bksge/fnd/ranges/begin.hpp>
 #include <bksge/fnd/iterator/concepts/contiguous_iterator.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -39,7 +39,7 @@ template <typename T>
 struct begin_data_impl
 {
 private:
-	template <typename U, typename B = decltype(ranges::begin(bksge::declval<U>()))>
+	template <typename U, typename B = decltype(ranges::begin(std::declval<U>()))>
 	static auto test(int) -> bksge::contiguous_iterator<B>;
 
 	template <typename U>

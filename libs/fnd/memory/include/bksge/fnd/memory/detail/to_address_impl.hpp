@@ -15,8 +15,8 @@
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_function.hpp>
 #include <bksge/fnd/type_traits/void_t.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 #define BKSGE_NOEXCEPT_DECLTYPE_RETURN(...) \
 	BKSGE_NOEXCEPT_IF_EXPR(__VA_ARGS__)     \
@@ -39,7 +39,7 @@ struct pointer_traits_to_address
 template <typename T>
 struct pointer_traits_to_address<T,
 	bksge::void_t<
-		decltype(bksge::pointer_traits<T>::to_address(bksge::declval<T const&>()))
+		decltype(bksge::pointer_traits<T>::to_address(std::declval<T const&>()))
 	>
 > : bksge::true_type {};
 
@@ -50,7 +50,7 @@ struct has_operator_arrow
 template <typename T>
 struct has_operator_arrow<T,
 	bksge::void_t<
-		decltype(bksge::declval<T const&>().operator->())
+		decltype(std::declval<T const&>().operator->())
 	>
 > : bksge::true_type {};
 

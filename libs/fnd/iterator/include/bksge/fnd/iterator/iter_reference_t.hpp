@@ -12,14 +12,14 @@
 #include <bksge/fnd/iterator/concepts/detail/dereferenceable.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
 
 template <BKSGE_REQUIRES_PARAM(detail::dereferenceable, I)>
-using iter_reference_t = decltype(*bksge::declval<I&>());
+using iter_reference_t = decltype(*std::declval<I&>());
 
 }	// namespace bksge
 

@@ -15,6 +15,7 @@
 #include <bksge/fnd/concepts/same_as.hpp>
 #include <bksge/fnd/type_traits/remove_cv.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -47,8 +48,8 @@ private:
 		typename = bksge::enable_if_t<bksge::sentinel_for<S2, I2>::value>,
 		typename = bksge::enable_if_t<
 			!BKSGE_DISABLE_SIZED_SENTINEL_FOR(bksge::remove_cv_t<S2>, bksge::remove_cv_t<I2>)>,
-		typename D1 = decltype(bksge::declval<S2 const&>() - bksge::declval<I2 const&>()),
-		typename D2 = decltype(bksge::declval<I2 const&>() - bksge::declval<S2 const&>()),
+		typename D1 = decltype(std::declval<S2 const&>() - std::declval<I2 const&>()),
+		typename D2 = decltype(std::declval<I2 const&>() - std::declval<S2 const&>()),
 		typename D3 = bksge::iter_difference_t<I2>
 	>
 	static auto test(int) -> bksge::conjunction<

@@ -33,8 +33,8 @@ using std::three_way_comparable;
 #include <bksge/fnd/type_traits/remove_reference.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -68,7 +68,7 @@ private:
 		>::value>,
 		typename A = bksge::remove_reference_t<T2>,
 		typename R = decltype(
-			bksge::declval<A const&>() <=> bksge::declval<A const&>())
+			std::declval<A const&>() <=> std::declval<A const&>())
 	>
 	static auto test(int) -> detail::compares_as<R, C2>;
 

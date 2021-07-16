@@ -14,8 +14,8 @@
 #include <bksge/fnd/concepts/totally_ordered_with.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/utility/forward.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -42,7 +42,7 @@ struct less_equal
 	>
 #endif
 	BKSGE_CONSTEXPR bool operator()(T&& t, U&& u) const
-		BKSGE_NOEXCEPT_IF_EXPR(bksge::declval<U>() < bksge::declval<T>())
+		BKSGE_NOEXCEPT_IF_EXPR(std::declval<U>() < std::declval<T>())
 	{
 		return !bksge::ranges::less{}(bksge::forward<U>(u), bksge::forward<T>(t));
 	}

@@ -10,9 +10,9 @@
 #include <bksge/fnd/ranges/begin.hpp>
 #include <bksge/fnd/ranges/concepts/enable_borrowed_range.hpp>
 #include <bksge/fnd/memory/to_address.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "constexpr_test.hpp"
 
 namespace bksge_ranges_test
@@ -62,8 +62,8 @@ BKSGE_CXX14_CONSTEXPR bool test01()
 	const R& c = r;
 
 #if !(defined(BKSGE_GCC_VERSION) && (BKSGE_GCC_VERSION < 90000))
-	static_assert(!noexcept(bksge::ranges::data(bksge::declval<R&>())), "");
-	static_assert( noexcept(bksge::ranges::data(bksge::declval<R const&>())), "");
+	static_assert(!noexcept(bksge::ranges::data(std::declval<R&>())), "");
+	static_assert( noexcept(bksge::ranges::data(std::declval<R const&>())), "");
 #endif
 
 	return

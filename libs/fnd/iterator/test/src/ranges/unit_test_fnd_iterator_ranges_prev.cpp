@@ -8,8 +8,8 @@
 
 #include <bksge/fnd/iterator/ranges/prev.hpp>
 #include <bksge/fnd/iterator/ranges/next.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
 
@@ -101,9 +101,9 @@ struct can_prev_impl
 private:
 	template <typename U>
 	static auto test(int) -> decltype(
-		bksge::ranges::prev(bksge::declval<U&>()),
-		bksge::ranges::prev(bksge::declval<U&>(), 1),
-		bksge::ranges::prev(bksge::declval<U&>(), 1, bksge::declval<U&>()),
+		bksge::ranges::prev(std::declval<U&>()),
+		bksge::ranges::prev(std::declval<U&>(), 1),
+		bksge::ranges::prev(std::declval<U&>(), 1, std::declval<U&>()),
 		bksge::true_type{});
 
 	template <typename U>

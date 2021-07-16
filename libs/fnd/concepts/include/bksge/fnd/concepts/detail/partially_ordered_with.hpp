@@ -13,8 +13,8 @@
 #include <bksge/fnd/concepts/detail/boolean_testable.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -48,14 +48,14 @@ private:
 		typename T2, typename U2,
 		typename TR = detail::cref<T2>,
 		typename UR = detail::cref<U2>,
-		typename B1 = decltype(bksge::declval<TR>() <  bksge::declval<UR>()),
-		typename B2 = decltype(bksge::declval<TR>() >  bksge::declval<UR>()),
-		typename B3 = decltype(bksge::declval<TR>() <= bksge::declval<UR>()),
-		typename B4 = decltype(bksge::declval<TR>() >= bksge::declval<UR>()),
-		typename B5 = decltype(bksge::declval<UR>() <  bksge::declval<TR>()),
-		typename B6 = decltype(bksge::declval<UR>() >  bksge::declval<TR>()),
-		typename B7 = decltype(bksge::declval<UR>() <= bksge::declval<TR>()),
-		typename B8 = decltype(bksge::declval<UR>() >= bksge::declval<TR>())
+		typename B1 = decltype(std::declval<TR>() <  std::declval<UR>()),
+		typename B2 = decltype(std::declval<TR>() >  std::declval<UR>()),
+		typename B3 = decltype(std::declval<TR>() <= std::declval<UR>()),
+		typename B4 = decltype(std::declval<TR>() >= std::declval<UR>()),
+		typename B5 = decltype(std::declval<UR>() <  std::declval<TR>()),
+		typename B6 = decltype(std::declval<UR>() >  std::declval<TR>()),
+		typename B7 = decltype(std::declval<UR>() <= std::declval<TR>()),
+		typename B8 = decltype(std::declval<UR>() >= std::declval<TR>())
 	>
 	static auto test(int) -> bksge::conjunction<
 		boolean_testable<B1>,

@@ -14,8 +14,8 @@
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/disjunction.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -39,7 +39,7 @@ template <typename It>
 struct has_arrow_impl
 {
 private:
-	template <typename U, typename = decltype(bksge::declval<U&>().operator->())>
+	template <typename U, typename = decltype(std::declval<U&>().operator->())>
 	static auto test(int) -> bksge::true_type;
 
 	template <typename U>

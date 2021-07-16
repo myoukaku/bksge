@@ -14,8 +14,8 @@
 #include <bksge/fnd/type_traits/is_object.hpp>
 #include <bksge/fnd/type_traits/is_pointer.hpp>
 #include <bksge/fnd/type_traits/remove_pointer.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -44,7 +44,7 @@ template <typename T>
 struct has_member_data_impl
 {
 private:
-	template <typename U, typename P = decltype(bksge::declval<U&>().data())>
+	template <typename U, typename P = decltype(std::declval<U&>().data())>
 	static auto test(int) -> bksge::conjunction<
 		bksge::is_lvalue_reference<U>,
 		bksge::is_pointer<P>,

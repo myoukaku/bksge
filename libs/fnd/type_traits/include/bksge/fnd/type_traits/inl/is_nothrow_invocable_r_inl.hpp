@@ -43,7 +43,7 @@ BKSGE_WARNING_POP()
 #include <bksge/fnd/type_traits/invoke_result.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/functional/invoke.hpp>
-#include <bksge/fnd/utility/declval.hpp>
+#include <utility>
 #else
 #include <bksge/fnd/type_traits/is_invocable_r.hpp>
 #endif
@@ -64,7 +64,7 @@ struct is_nothrow_invocable_impl_2
 template <typename... Types>
 struct is_nothrow_invocable_impl_2<true, Types...>
 	: public bksge::bool_constant<
-		noexcept(bksge::invoke(bksge::declval<Types>()...))
+		noexcept(bksge::invoke(std::declval<Types>()...))
 	>
 {};
 

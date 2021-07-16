@@ -11,8 +11,8 @@
 
 #include <bksge/fnd/iterator/iter_reference_t.hpp>
 #include <bksge/fnd/utility/forward.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -40,10 +40,10 @@ struct indirectly_writable_impl
 private:
 	template <typename Out2, typename T2,
 		typename R = bksge::iter_reference_t<Out2> const&&,
-		typename = decltype(*bksge::declval<Out2&>()  = bksge::declval<T2&&>()),
-		typename = decltype(*bksge::declval<Out2&&>() = bksge::declval<T2&&>()),
-		typename = decltype(const_cast<R>(*bksge::declval<Out2&>())  = bksge::declval<T2&&>()),
-		typename = decltype(const_cast<R>(*bksge::declval<Out2&&>()) = bksge::declval<T2&&>())
+		typename = decltype(*std::declval<Out2&>()  = std::declval<T2&&>()),
+		typename = decltype(*std::declval<Out2&&>() = std::declval<T2&&>()),
+		typename = decltype(const_cast<R>(*std::declval<Out2&>())  = std::declval<T2&&>()),
+		typename = decltype(const_cast<R>(*std::declval<Out2&&>()) = std::declval<T2&&>())
 	>
 	static auto test(int) -> bksge::true_type;
 

@@ -12,8 +12,8 @@
 #include <bksge/fnd/ranges/detail/decay_copy.hpp>
 #include <bksge/fnd/iterator/concepts/input_or_output_iterator.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -40,7 +40,7 @@ struct has_member_begin_impl
 {
 private:
 	template <typename U,
-		typename B = decltype(decay_copy(bksge::declval<U&>().begin()))
+		typename B = decltype(decay_copy(std::declval<U&>().begin()))
 	>
 	static auto test(int) -> bksge::input_or_output_iterator<B>;
 

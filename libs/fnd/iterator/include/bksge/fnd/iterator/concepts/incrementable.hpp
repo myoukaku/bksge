@@ -16,8 +16,8 @@
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/negation.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -48,7 +48,7 @@ private:
 	template <typename I2,
 		typename = bksge::enable_if_t<bksge::regular<I2>::value>,
 		typename = bksge::enable_if_t<bksge::weakly_incrementable<I2>::value>,
-		typename T = decltype(bksge::declval<I2&>()++)
+		typename T = decltype(std::declval<I2&>()++)
 	>
 	static auto test(int) -> bksge::same_as<T, I2>;
 

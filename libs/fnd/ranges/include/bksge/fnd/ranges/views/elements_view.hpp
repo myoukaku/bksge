@@ -52,10 +52,10 @@
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
+#include <utility>
 
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 
 namespace bksge
 {
@@ -91,7 +91,7 @@ private:
 	static auto test(int) -> bksge::conjunction<
 		bksge::bool_constant<(N2 < bksge::tuple_size<T2>::value)>,
 		bksge::convertible_to<
-			decltype(get<N2>(bksge::declval<T2&>())),
+			decltype(get<N2>(std::declval<T2&>())),
 			bksge::tuple_element_t<N2, T2> const&
 		>
 	>;

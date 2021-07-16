@@ -41,6 +41,7 @@
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -454,7 +455,7 @@ public:
 		>
 	>
 	BKSGE_CONSTEXPR auto size() const
-	->decltype(size_impl(bksge::declval<W2>(), bksge::declval<B2>(), bksge::detail::overload_priority<2>{}))
+	->decltype(size_impl(std::declval<W2>(), std::declval<B2>(), bksge::detail::overload_priority<2>{}))
 	{
 		return size_impl(m_value, m_bound, bksge::detail::overload_priority<2>{});
 	}

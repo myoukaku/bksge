@@ -14,9 +14,9 @@
 #include <bksge/fnd/iterator/concepts/forward_iterator.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -44,9 +44,9 @@ struct eq_iter_empty_impl
 {
 private:
 	template <typename U,
-		typename B = decltype(ranges::begin(bksge::declval<U&&>())),
+		typename B = decltype(ranges::begin(std::declval<U&&>())),
 		typename = bksge::enable_if_t<bksge::forward_iterator<B>::value>,
-		typename = decltype(bool(ranges::begin(bksge::declval<U&&>()) == ranges::end(bksge::declval<U&&>())))
+		typename = decltype(bool(ranges::begin(std::declval<U&&>()) == ranges::end(std::declval<U&&>())))
 	>
 	static auto test(int) -> bksge::true_type;
 

@@ -20,9 +20,9 @@
 #include <bksge/fnd/type_traits/is_reference.hpp>
 #include <bksge/fnd/type_traits/integral_constant.hpp>
 #include <bksge/fnd/type_traits/remove_const.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
+#include <utility>
 
 namespace bksge
 {
@@ -62,8 +62,8 @@ private:
 		>::value>,
 		typename = bksge::tuple_element_t<0, bksge::remove_const_t<U>>,
 		typename = bksge::tuple_element_t<1, bksge::remove_const_t<U>>,
-		typename E1 = decltype(get<0>(bksge::declval<U>())),
-		typename E2 = decltype(get<1>(bksge::declval<U>()))
+		typename E1 = decltype(get<0>(std::declval<U>())),
+		typename E2 = decltype(get<1>(std::declval<U>()))
 	>
 	static auto test(int) -> bksge::conjunction<
 		bksge::convertible_to<E1, bksge::tuple_element_t<0, U> const&>,

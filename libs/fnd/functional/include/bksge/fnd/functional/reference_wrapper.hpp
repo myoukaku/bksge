@@ -17,9 +17,9 @@
 #include <bksge/fnd/type_traits/is_object.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/type_traits/remove_cvref.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -41,11 +41,11 @@ public:
 		typename = bksge::enable_if_t<
 			!bksge::is_same<reference_wrapper, bksge::remove_cvref_t<U>>::value
 		>,
-		typename = decltype(reference_wrapper::FUN(bksge::declval<U>()))
+		typename = decltype(reference_wrapper::FUN(std::declval<U>()))
 	>
 	BKSGE_CONSTEXPR
 	reference_wrapper(U&& u)
-		BKSGE_NOEXCEPT_IF_EXPR(reference_wrapper::FUN(bksge::declval<U>()))
+		BKSGE_NOEXCEPT_IF_EXPR(reference_wrapper::FUN(std::declval<U>()))
 		: m_ptr(reference_wrapper::FUN(bksge::forward<U>(u)))
 	{}
 

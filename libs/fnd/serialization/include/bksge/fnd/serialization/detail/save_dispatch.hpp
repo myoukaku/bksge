@@ -19,7 +19,7 @@
 #include <bksge/fnd/type_traits/is_enum.hpp>
 #include <bksge/fnd/type_traits/is_pointer.hpp>
 #include <bksge/fnd/type_traits/conditional.hpp>
-#include <bksge/fnd/utility/declval.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -39,7 +39,7 @@ private:
 	private:
 		template <typename A2, typename T2>
 		static auto test(int) -> decltype(
-			save(bksge::declval<A2&>(), bksge::declval<T2 const&>(), bksge::declval<bksge::serialization::version_t>()),
+			save(std::declval<A2&>(), std::declval<T2 const&>(), std::declval<bksge::serialization::version_t>()),
 			bksge::true_type());
 
 		template <typename A2, typename T2>
@@ -57,7 +57,7 @@ private:
 	private:
 		template <typename A2, typename T2>
 		static auto test(int) -> decltype(
-			save(bksge::declval<A2&>(), bksge::declval<T2 const&>()),
+			save(std::declval<A2&>(), std::declval<T2 const&>()),
 			bksge::true_type());
 
 		template <typename A2, typename T2>

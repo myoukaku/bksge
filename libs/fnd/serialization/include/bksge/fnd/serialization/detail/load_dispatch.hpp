@@ -20,7 +20,7 @@
 #include <bksge/fnd/type_traits/is_pointer.hpp>
 #include <bksge/fnd/type_traits/remove_const.hpp>
 #include <bksge/fnd/type_traits/conditional.hpp>
-#include <bksge/fnd/utility/declval.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -40,7 +40,7 @@ private:
 	private:
 		template <typename A2, typename T2>
 		static auto test(int) -> decltype(
-			load(bksge::declval<A2&>(), bksge::declval<T2&>(), bksge::declval<bksge::serialization::version_t>()),
+			load(std::declval<A2&>(), std::declval<T2&>(), std::declval<bksge::serialization::version_t>()),
 			bksge::true_type());
 
 		template <typename A2, typename T2>
@@ -58,7 +58,7 @@ private:
 	private:
 		template <typename A2, typename T2>
 		static auto test(int) -> decltype(
-			load(bksge::declval<A2&>(), bksge::declval<T2&>()),
+			load(std::declval<A2&>(), std::declval<T2&>()),
 			bksge::true_type());
 
 		template <typename A2, typename T2>

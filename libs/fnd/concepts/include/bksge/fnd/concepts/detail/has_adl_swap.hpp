@@ -14,9 +14,9 @@
 #include <bksge/fnd/type_traits/disjunction.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/utility/forward.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
+#include <utility>
 
 namespace bksge
 {
@@ -48,7 +48,7 @@ struct has_adl_swap_impl
 {
 private:
 	template <typename T2, typename U2,
-		typename = decltype(swap(bksge::declval<T2>(), bksge::declval<U2>()))
+		typename = decltype(swap(std::declval<T2>(), std::declval<U2>()))
 	>
 	static auto test(int) -> bksge::disjunction<
 		bksge::detail::class_or_enum<bksge::remove_reference_t<T2>>,

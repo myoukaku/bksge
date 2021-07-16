@@ -16,8 +16,8 @@
 #include <bksge/fnd/ranges/detail/signed_integer_like.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -53,9 +53,9 @@ private:
 		typename = bksge::enable_if_t<bksge::movable<I2>::value>,
 		typename D = bksge::iter_difference_t<I2>,
 		typename = bksge::enable_if_t<bksge::ranges::detail::signed_integer_like<D>::value>,
-		typename T = decltype(++bksge::declval<I2&>()),
+		typename T = decltype(++std::declval<I2&>()),
 		typename = bksge::enable_if_t<bksge::same_as<T, I2&>::value>,
-		typename = decltype(bksge::declval<I2&>()++)
+		typename = decltype(std::declval<I2&>()++)
 	>
 	static auto test(int) -> bksge::true_type;
 

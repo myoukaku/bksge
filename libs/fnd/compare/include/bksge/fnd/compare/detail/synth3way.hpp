@@ -12,8 +12,8 @@
 #include <bksge/fnd/compare/concepts/three_way_comparable_with.hpp>
 #include <bksge/fnd/compare/weak_ordering.hpp>
 #include <bksge/fnd/concepts/detail/boolean_testable.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -78,7 +78,7 @@ BKSGE_INLINE_VAR BKSGE_CONSTEXPR
 Synth3way synth3way = {};
 
 template <typename T, typename U = T>
-using synth3way_t = decltype(detail::synth3way(bksge::declval<T&>(), bksge::declval<U&>()));
+using synth3way_t = decltype(detail::synth3way(std::declval<T&>(), std::declval<U&>()));
 
 }	// namespace detail
 

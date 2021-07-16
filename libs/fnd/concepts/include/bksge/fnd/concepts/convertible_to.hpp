@@ -13,8 +13,8 @@
 #include <bksge/fnd/type_traits/add_rvalue_reference.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -44,7 +44,7 @@ private:
 	template <typename F, typename T,
 		typename = bksge::enable_if_t<bksge::is_convertible<F, T>::value>,
 		typename Func = bksge::add_rvalue_reference_t<F> (&)(),
-		typename = decltype(static_cast<T>(bksge::declval<Func>()()))
+		typename = decltype(static_cast<T>(std::declval<Func>()()))
 	>
 	static auto test(int) -> bksge::true_type;
 

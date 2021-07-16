@@ -11,8 +11,8 @@
 
 #include <bksge/fnd/concepts/swap.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -34,7 +34,7 @@ struct swappable_impl
 private:
 	template <typename U,
 		typename = decltype(
-			ranges::swap(bksge::declval<U&>(), bksge::declval<U&>()))
+			ranges::swap(std::declval<U&>(), std::declval<U&>()))
 	>
 	static auto test(int) -> bksge::true_type;
 

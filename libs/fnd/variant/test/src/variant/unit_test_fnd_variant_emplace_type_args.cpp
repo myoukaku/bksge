@@ -10,11 +10,11 @@
 #include <bksge/fnd/variant/get.hpp>
 #include <bksge/fnd/string/string.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/utility/in_place_type.hpp>
 #include <bksge/fnd/utility/in_place_index.hpp>
 #include <bksge/fnd/utility/move.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "archetypes.hpp"
 #include "test_convertible.hpp"
 #include "test_macros.hpp"
@@ -28,7 +28,7 @@ namespace emplace_type_args_test
 
 template <typename Var, typename T, typename... Args>
 constexpr auto test_emplace_exists_imp(int) -> decltype(
-	bksge::declval<Var>().template emplace<T>(bksge::declval<Args>()...), true)
+	std::declval<Var>().template emplace<T>(std::declval<Args>()...), true)
 {
 	return true;
 }

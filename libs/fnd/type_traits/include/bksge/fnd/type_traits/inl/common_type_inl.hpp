@@ -15,7 +15,7 @@
 #include <bksge/fnd/type_traits/void_t.hpp>
 #include <bksge/fnd/type_traits/detail/common_type_fold.hpp>
 #include <bksge/fnd/type_traits/detail/common_type_pack.hpp>
-#include <bksge/fnd/utility/declval.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -44,7 +44,7 @@ private:
 	{};
 
 	template <typename T, typename U>
-	using cond_t = decltype(false ? bksge::declval<T>() : bksge::declval<U>());
+	using cond_t = decltype(false ? std::declval<T>() : std::declval<U>());
 
 	// Otherwise, if decay_t<decltype(false ? declval<D1>() : declval<D2>())>
 	// denotes a valid type, let C denote that type.

@@ -11,6 +11,7 @@
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "constexpr_test.hpp"
 
 namespace bksge_ranges_test
@@ -77,8 +78,8 @@ BKSGE_CXX14_CONSTEXPR bool test02()
 	const R& c = r;
 
 #if !(defined(BKSGE_GCC_VERSION) && (BKSGE_GCC_VERSION < 90000))
-	static_assert(!noexcept(bksge::ranges::size(bksge::declval<R&>())), "");
-	static_assert( noexcept(bksge::ranges::size(bksge::declval<R const&>())), "");
+	static_assert(!noexcept(bksge::ranges::size(std::declval<R&>())), "");
+	static_assert( noexcept(bksge::ranges::size(std::declval<R const&>())), "");
 #endif
 
 	return
@@ -92,10 +93,10 @@ BKSGE_CXX14_CONSTEXPR bool test03()
 	const R3& c = r;
 
 #if !(defined(BKSGE_GCC_VERSION) && (BKSGE_GCC_VERSION < 90000))
-	static_assert( noexcept(bksge::ranges::size(bksge::declval<R3&>())), "");
-	static_assert(!noexcept(bksge::ranges::size(bksge::declval<R3 const&>())), "");
-	static_assert(!noexcept(bksge::ranges::size(bksge::declval<R3&&>())), "");
-	static_assert( noexcept(bksge::ranges::size(bksge::declval<R3 const&&>())), "");
+	static_assert( noexcept(bksge::ranges::size(std::declval<R3&>())), "");
+	static_assert(!noexcept(bksge::ranges::size(std::declval<R3 const&>())), "");
+	static_assert(!noexcept(bksge::ranges::size(std::declval<R3&&>())), "");
+	static_assert( noexcept(bksge::ranges::size(std::declval<R3 const&&>())), "");
 #endif
 
 	return

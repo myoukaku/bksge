@@ -12,6 +12,7 @@
 #include <bksge/fnd/list.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "constexpr_test.hpp"
 #include "ranges_test.hpp"
 
@@ -70,8 +71,8 @@ BKSGE_CXX14_CONSTEXPR bool test03()
 	static_assert(bksge::is_same<decltype(bksge::ranges::empty(r2)), bool>::value, "");
 
 #if !(defined(BKSGE_GCC_VERSION) && (BKSGE_GCC_VERSION < 90000))
-	static_assert( noexcept(bksge::ranges::empty(bksge::declval<R1 const&>())), "");
-	static_assert(!noexcept(bksge::ranges::empty(bksge::declval<R2 const&>())), "");
+	static_assert( noexcept(bksge::ranges::empty(std::declval<R1 const&>())), "");
+	static_assert(!noexcept(bksge::ranges::empty(std::declval<R2 const&>())), "");
 #endif
 
 	return
@@ -97,8 +98,8 @@ BKSGE_CXX14_CONSTEXPR bool test04()
 	static_assert(bksge::is_same<decltype(bksge::ranges::empty(r4)), bool>::value, "");
 
 #if !(defined(BKSGE_GCC_VERSION) && (BKSGE_GCC_VERSION < 90000))
-	static_assert( noexcept(bksge::ranges::empty(bksge::declval<R3 const&>())), "");
-	static_assert(!noexcept(bksge::ranges::empty(bksge::declval<R4 const&>())), "");
+	static_assert( noexcept(bksge::ranges::empty(std::declval<R3 const&>())), "");
+	static_assert(!noexcept(bksge::ranges::empty(std::declval<R4 const&>())), "");
 #endif
 
 	return

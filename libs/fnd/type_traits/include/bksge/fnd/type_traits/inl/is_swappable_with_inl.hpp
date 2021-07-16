@@ -12,7 +12,7 @@
 #include <bksge/fnd/type_traits/is_swappable_with.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/utility/swap.hpp>
-#include <bksge/fnd/utility/declval.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -30,8 +30,8 @@ private:
 		typename T2,
 		typename U2,
 		typename = decltype(
-			swap(bksge::declval<T2>(), bksge::declval<U2>()),
-			swap(bksge::declval<U2>(), bksge::declval<T2>()))
+			swap(std::declval<T2>(), std::declval<U2>()),
+			swap(std::declval<U2>(), std::declval<T2>()))
 	>
 	static bksge::true_type test(int);
 

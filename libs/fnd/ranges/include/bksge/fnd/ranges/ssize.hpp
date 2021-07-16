@@ -15,10 +15,10 @@
 #include <bksge/fnd/iterator/iter_difference_t.hpp>
 #include <bksge/fnd/type_traits/conditional.hpp>
 #include <bksge/fnd/utility/forward.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
 #include <limits>
 #include <cstddef>
+#include <utility>
 
 namespace bksge
 {
@@ -35,7 +35,7 @@ private:
 	template <typename T>
 	struct result_type
 	{
-		using iter_type = decltype(ranges::begin(bksge::declval<T&&>()));
+		using iter_type = decltype(ranges::begin(std::declval<T&&>()));
 		using diff_type = bksge::iter_difference_t<iter_type>;
 		using type = bksge::conditional_t<
 			bksge::is_integral<diff_type>::value &&
@@ -52,8 +52,8 @@ public:
 	template <
 		typename T
 #if !defined(BKSGE_HAS_CXX20_CONCEPTS)
-		, typename = decltype(ranges::begin(bksge::declval<T&&>()))
-		, typename = decltype(ranges::size(bksge::declval<T&&>()))
+		, typename = decltype(ranges::begin(std::declval<T&&>()))
+		, typename = decltype(ranges::size(std::declval<T&&>()))
 #endif
 	>
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)

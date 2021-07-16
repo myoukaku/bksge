@@ -14,6 +14,7 @@
 #include <bksge/fnd/iterator/make_reverse_iterator.hpp>
 #include <bksge/fnd/iterator/concepts/sentinel_for.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "constexpr_test.hpp"
 
 namespace bksge_ranges_test
@@ -106,7 +107,7 @@ BKSGE_CXX14_CONSTEXPR bool test02()
 #endif
 
 #if !(defined(BKSGE_GCC_VERSION) && (BKSGE_GCC_VERSION < 90000))
-	static_assert(!noexcept(bksge::ranges::rend(bksge::declval<R2&>())), "");
+	static_assert(!noexcept(bksge::ranges::rend(std::declval<R2&>())), "");
 #endif
 
 	return bksge::ranges::rend(r) == &r.i;

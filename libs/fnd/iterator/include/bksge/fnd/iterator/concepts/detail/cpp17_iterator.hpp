@@ -14,8 +14,8 @@
 #include <bksge/fnd/concepts/copyable.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -45,9 +45,9 @@ struct cpp17_iterator_impl
 {
 private:
 	template <typename I2,
-		typename T1 = decltype( *bksge::declval<I2&>()),
-		typename T2 = decltype(++bksge::declval<I2&>()),
-		typename T3 = decltype( *bksge::declval<I2&>()++)
+		typename T1 = decltype( *std::declval<I2&>()),
+		typename T2 = decltype(++std::declval<I2&>()),
+		typename T3 = decltype( *std::declval<I2&>()++)
 	>
 	static auto test(int) -> bksge::conjunction<
 		bksge::detail::can_reference<T1>,

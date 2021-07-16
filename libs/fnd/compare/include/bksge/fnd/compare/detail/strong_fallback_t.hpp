@@ -15,9 +15,9 @@
 #include <bksge/fnd/concepts/same_as.hpp>
 #include <bksge/fnd/type_traits/decay.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -47,8 +47,8 @@ private:
 	static BKSGE_CONSTEXPR bksge::strong_ordering
 	impl(T&& e, U&& f, bksge::detail::overload_priority<0>)
 		BKSGE_NOEXCEPT_IF(
-			BKSGE_NOEXCEPT_EXPR(bool(bksge::declval<T>() == bksge::declval<U>())) &&
-			BKSGE_NOEXCEPT_EXPR(bool(bksge::declval<T>() <  bksge::declval<U>())))
+			BKSGE_NOEXCEPT_EXPR(bool(std::declval<T>() == std::declval<U>())) &&
+			BKSGE_NOEXCEPT_EXPR(bool(std::declval<T>() <  std::declval<U>())))
 	{
 		return
 			bksge::forward<T>(e) == bksge::forward<U>(f) ? bksge::strong_ordering::equal :

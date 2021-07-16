@@ -10,7 +10,6 @@
 #include <bksge/fnd/variant/get.hpp>
 #include <bksge/fnd/type_traits/is_swappable.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_swappable.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/utility/in_place_index.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
@@ -521,7 +520,7 @@ void test_swap_different_alternatives()
 
 template <class Var>
 constexpr auto has_swap_member_imp(int)
--> decltype(bksge::declval<Var&>().swap(bksge::declval<Var&>()), true)
+-> decltype(std::declval<Var&>().swap(std::declval<Var&>()), true)
 {
 	return true;
 }

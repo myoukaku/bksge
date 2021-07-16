@@ -49,9 +49,9 @@
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/negation.hpp>
 #include <bksge/fnd/utility/move.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
 #include <bksge/fnd/assert.hpp>
+#include <utility>
 
 BKSGE_WARNING_PUSH();
 BKSGE_WARNING_DISABLE_MSVC(4702);	// unreachable code
@@ -294,7 +294,7 @@ private:
 	template <typename It2 = It,
 		typename = bksge::enable_if_t<bksge::is_reference<bksge::iter_reference_t<It2>>::value>>
 	auto operator_arrow(bksge::detail::overload_priority<1>) const
-	->decltype(bksge::addressof(bksge::declval<bksge::iter_reference_t<It2>>()))
+	->decltype(bksge::addressof(std::declval<bksge::iter_reference_t<It2>>()))
 	{
 		auto&& tmp = *m_it;
 		return bksge::addressof(tmp);
@@ -443,7 +443,7 @@ public:
 	template <BKSGE_REQUIRES_PARAM_D(bksge::input_iterator, It2, It)>
 	friend bksge::iter_rvalue_reference_t<It2>
 	iter_move(common_iterator<It2, Sent> const& i)
-		BKSGE_NOEXCEPT_IF_EXPR((ranges::iter_move(bksge::declval<It2 const&>())))
+		BKSGE_NOEXCEPT_IF_EXPR((ranges::iter_move(std::declval<It2 const&>())))
 	{
 		BKSGE_ASSERT(i.m_index == 0);
 		return ranges::iter_move(i.m_it);
@@ -453,8 +453,8 @@ public:
 	friend void
 	iter_swap(common_iterator const& x, common_iterator<It2, Sent2> const& y)
 		BKSGE_NOEXCEPT_IF_EXPR((ranges::iter_swap(
-			bksge::declval<It  const&>(),
-			bksge::declval<It2 const&>())))
+			std::declval<It  const&>(),
+			std::declval<It2 const&>())))
 	{
 		BKSGE_ASSERT(x.m_index == 0);
 		BKSGE_ASSERT(y.m_index == 0);
@@ -494,7 +494,7 @@ template <typename Iter, typename Sent>
 struct ptr<Iter, Sent, bksge::true_type>
 {
 	using CIter = common_iterator<Iter, Sent>;
-	using type = decltype(bksge::declval<CIter const&>().operator->());
+	using type = decltype(std::declval<CIter const&>().operator->());
 };
 
 }	// namespace iterator_traits_detail

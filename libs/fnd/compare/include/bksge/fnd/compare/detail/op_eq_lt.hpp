@@ -12,8 +12,8 @@
 #include <bksge/fnd/concepts/convertible_to.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -37,8 +37,8 @@ struct op_eq_lt_impl
 {
 private:
 	template <typename T2, typename U2,
-		typename R1 = decltype(bksge::declval<T2&&>() == bksge::declval<U2&&>()),
-		typename R2 = decltype(bksge::declval<T2&&>() <  bksge::declval<U2&&>())
+		typename R1 = decltype(std::declval<T2&&>() == std::declval<U2&&>()),
+		typename R2 = decltype(std::declval<T2&&>() <  std::declval<U2&&>())
 	>
 	static auto test(int) -> bksge::conjunction<
 		bksge::is_convertible_to<R1, bool>,

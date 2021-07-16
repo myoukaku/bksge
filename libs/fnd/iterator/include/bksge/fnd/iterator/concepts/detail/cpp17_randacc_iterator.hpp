@@ -18,8 +18,8 @@
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -57,13 +57,13 @@ private:
 		typename = bksge::enable_if_t<cpp17_bidi_iterator<I2>::value>,
 		typename = bksge::enable_if_t<bksge::totally_ordered<I2>::value>,
 		typename D = typename bksge::incrementable_traits<I2>::difference_type,
-		typename T1 = decltype(bksge::declval<I2&>() += bksge::declval<D& >()),
-		typename T2 = decltype(bksge::declval<I2&>() -= bksge::declval<D& >()),
-		typename T3 = decltype(bksge::declval<I2&>() +  bksge::declval<D& >()),
-		typename T4 = decltype(bksge::declval<D& >() +  bksge::declval<I2&>()),
-		typename T5 = decltype(bksge::declval<I2&>() -  bksge::declval<D& >()),
-		typename T6 = decltype(bksge::declval<I2&>() -  bksge::declval<I2&>()),
-		typename T7 = decltype(bksge::declval<I2&>()[bksge::declval<D&>()])
+		typename T1 = decltype(std::declval<I2&>() += std::declval<D& >()),
+		typename T2 = decltype(std::declval<I2&>() -= std::declval<D& >()),
+		typename T3 = decltype(std::declval<I2&>() +  std::declval<D& >()),
+		typename T4 = decltype(std::declval<D& >() +  std::declval<I2&>()),
+		typename T5 = decltype(std::declval<I2&>() -  std::declval<D& >()),
+		typename T6 = decltype(std::declval<I2&>() -  std::declval<I2&>()),
+		typename T7 = decltype(std::declval<I2&>()[std::declval<D&>()])
 	>
 	static auto test(int) -> bksge::conjunction<
 		bksge::same_as<T1, I2&>,

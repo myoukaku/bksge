@@ -18,8 +18,8 @@
 #include <bksge/fnd/type_traits/common_reference.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -63,7 +63,7 @@ private:
 		typename D = typename bksge::incrementable_traits<I2>::difference_type,
 		typename V = typename bksge::indirectly_readable_traits<I2>::value_type,
 		typename = bksge::common_reference_t<bksge::iter_reference_t<I2>&&, V&>,
-		typename = bksge::common_reference_t<decltype(*bksge::declval<I2&>()++)&&, V&>,
+		typename = bksge::common_reference_t<decltype(*std::declval<I2&>()++)&&, V&>,
 		typename = bksge::enable_if_t<bksge::signed_integral<D>::value>
 	>
 	static auto test(int) -> bksge::true_type;

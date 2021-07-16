@@ -14,9 +14,9 @@
 #include <bksge/fnd/type_traits/is_default_constructible.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -37,13 +37,13 @@ struct range_adaptor_closure : public range_adaptor<Callable>
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 	template <ranges::viewable_range Range>
-	requires requires { bksge::declval<Callable>()(bksge::declval<Range>()); }
+	requires requires { std::declval<Callable>()(std::declval<Range>()); }
 #else
 	template <typename Range,
 		typename = bksge::enable_if_t<bksge::conjunction<
 			ranges::viewable_range<Range>
 		>::value>,
-		typename = decltype(bksge::declval<Callable>()(bksge::declval<Range>()))
+		typename = decltype(std::declval<Callable>()(std::declval<Range>()))
 	>
 #endif
 	constexpr auto operator()(Range&& r) const
@@ -54,13 +54,13 @@ struct range_adaptor_closure : public range_adaptor<Callable>
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 	template <ranges::viewable_range Range>
-	requires requires { bksge::declval<Callable>()(bksge::declval<Range>()); }
+	requires requires { std::declval<Callable>()(std::declval<Range>()); }
 #else
 	template <typename Range,
 		typename = bksge::enable_if_t<bksge::conjunction<
 			ranges::viewable_range<Range>
 		>::value>,
-		typename = decltype(bksge::declval<Callable>()(bksge::declval<Range>()))
+		typename = decltype(std::declval<Callable>()(std::declval<Range>()))
 	>
 #endif
 	friend constexpr auto

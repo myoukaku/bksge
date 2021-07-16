@@ -14,7 +14,7 @@
 #include <bksge/fnd/type_traits/disjunction.hpp>
 #include <bksge/fnd/type_traits/is_convertible.hpp>
 #include <bksge/fnd/type_traits/is_void.hpp>
-#include <bksge/fnd/utility/declval.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -26,7 +26,7 @@ template <typename T>
 static void test_noexcept(T) noexcept;
 
 template <typename From, typename To>
-static bksge::bool_constant<noexcept(test_noexcept<To>(bksge::declval<From>()))>
+static bksge::bool_constant<noexcept(test_noexcept<To>(std::declval<From>()))>
 is_nothrow_convertible_test();
 
 template <typename From, typename To>

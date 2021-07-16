@@ -12,8 +12,8 @@
 #include <bksge/fnd/type_traits/copy_cv.hpp>
 #include <bksge/fnd/type_traits/void_t.hpp>
 #include <bksge/fnd/type_traits/remove_cv.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 BKSGE_WARNING_PUSH();
 
@@ -30,7 +30,7 @@ namespace detail
 #if !defined(_MSC_VER)
 
 template <typename X, typename Y>
-using cond_res = decltype(false ? bksge::declval<X(&)()>()() : bksge::declval<Y(&)()>()());
+using cond_res = decltype(false ? std::declval<X(&)()>()() : std::declval<Y(&)()>()());
 
 #else
 
@@ -41,10 +41,10 @@ struct cond_res_impl_base {};
 
 template <typename X, typename Y>
 struct cond_res_impl_base<X, Y,
-	bksge::void_t<decltype(false ? bksge::declval<X(&)()>()() : bksge::declval<Y(&)()>()())>>
+	bksge::void_t<decltype(false ? std::declval<X(&)()>()() : std::declval<Y(&)()>()())>>
 {
 	using type = bksge::remove_cv_t<
-		decltype(false ? bksge::declval<X(&)()>()() : bksge::declval<Y(&)()>()())
+		decltype(false ? std::declval<X(&)()>()() : std::declval<Y(&)()>()())
 	>;
 };
 

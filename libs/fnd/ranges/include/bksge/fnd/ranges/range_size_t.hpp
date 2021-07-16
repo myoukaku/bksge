@@ -13,8 +13,8 @@
 #include <bksge/fnd/ranges/size.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -23,7 +23,7 @@ namespace ranges
 {
 
 template <BKSGE_REQUIRES_PARAM(ranges::sized_range, Range)>
-using range_size_t = decltype(ranges::size(bksge::declval<Range&>()));
+using range_size_t = decltype(ranges::size(std::declval<Range&>()));
 
 }	// namespace ranges
 

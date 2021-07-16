@@ -11,8 +11,8 @@
 
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/utility/forward.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -39,7 +39,7 @@ struct has_member_empty_impl
 {
 private:
 	template <typename U,
-		typename = decltype(bool(bksge::declval<U&&>().empty()))
+		typename = decltype(bool(std::declval<U&&>().empty()))
 	>
 	static auto test(int) -> bksge::true_type;
 

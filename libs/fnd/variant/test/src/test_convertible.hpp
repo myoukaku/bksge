@@ -9,7 +9,7 @@
 #ifndef UNIT_TEST_FND_VARIANT_TEST_CONVERTIBLE_HPP
 #define UNIT_TEST_FND_VARIANT_TEST_CONVERTIBLE_HPP
 
-#include <bksge/fnd/utility/declval.hpp>
+#include <utility>
 
 namespace bksge_variant_test
 {
@@ -21,7 +21,7 @@ template <typename T> void eat_type(T);
 
 template <typename T, typename... Args>
 constexpr auto test_convertible_imp(int)
--> decltype(eat_type<T>({bksge::declval<Args>()...}), true)
+-> decltype(eat_type<T>({std::declval<Args>()...}), true)
 {
 	return true;
 }

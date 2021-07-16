@@ -11,8 +11,8 @@
 
 #include <bksge/fnd/variant/detail/gen_vtable.hpp>
 #include <bksge/fnd/utility/forward.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/type_traits/invoke_result.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -27,12 +27,12 @@ struct do_visit_t
 		ResultType, Visitor&&, Variants&&...>::s_vtable);
 
 	using func_type = decltype(
-		bksge::declval<vtable_type>().access(bksge::declval<Variants>().index()...));
+		std::declval<vtable_type>().access(std::declval<Variants>().index()...));
 
 	using result_type = decltype(
-		(*bksge::declval<func_type>())(
-			bksge::declval<Visitor>(),
-			bksge::declval<Variants>()...));
+		(*std::declval<func_type>())(
+			std::declval<Visitor>(),
+			std::declval<Variants>()...));
 
 	BKSGE_CXX14_CONSTEXPR result_type operator()(Visitor&& visitor, Variants&&... variants) const
 	{

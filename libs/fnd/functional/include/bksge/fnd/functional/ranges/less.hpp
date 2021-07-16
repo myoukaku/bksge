@@ -14,10 +14,10 @@
 #include <bksge/fnd/concepts/detail/overload_priority.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/utility/forward.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
 #include <type_traits>	// is_constant_evaluated
 #include <cstdint>
+#include <utility>
 
 namespace bksge
 {
@@ -42,7 +42,7 @@ private:
 	requires detail::less_builtin_ptr_cmp<T, U>
 #endif
 	static BKSGE_CXX14_CONSTEXPR bool impl(bksge::detail::overload_priority<1>, T&& t, U&& u)
-		BKSGE_NOEXCEPT_IF_EXPR(bksge::declval<T>() < bksge::declval<U>())
+		BKSGE_NOEXCEPT_IF_EXPR(std::declval<T>() < std::declval<U>())
 	{
 #if defined(__cpp_lib_is_constant_evaluated) && __cpp_lib_is_constant_evaluated >= 201811
 		if (std::is_constant_evaluated())
@@ -68,7 +68,7 @@ private:
 	requires bksge::totally_ordered_with<T, U>
 #endif
 	static BKSGE_CONSTEXPR bool impl(bksge::detail::overload_priority<0>, T&& t, U&& u)
-		BKSGE_NOEXCEPT_IF_EXPR(bksge::declval<T>() < bksge::declval<U>())
+		BKSGE_NOEXCEPT_IF_EXPR(std::declval<T>() < std::declval<U>())
 	{
 		return bksge::forward<T>(t) < bksge::forward<U>(u);
 	}

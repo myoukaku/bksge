@@ -24,7 +24,7 @@
 #include <bksge/fnd/iterator/incrementable_traits.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/void_t.hpp>
-#include <bksge/fnd/utility/declval.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -202,11 +202,11 @@ private:
 		, bksge::enable_if_t<
 			!bksge::detail::has_pointer<Iter>::value
 		>,
-		bksge::void_t<decltype(bksge::declval<Iter&>().operator->())>
+		bksge::void_t<decltype(std::declval<Iter&>().operator->())>
 #endif
 	>
 	{
-		using type = decltype(bksge::declval<Iter&>().operator->());
+		using type = decltype(std::declval<Iter&>().operator->());
 	};
 
 	template <typename Iter, typename = void>

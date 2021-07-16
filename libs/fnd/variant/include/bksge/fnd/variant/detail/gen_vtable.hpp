@@ -26,8 +26,8 @@
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
 #include <bksge/fnd/utility/forward.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <cstddef>
+#include <utility>
 
 namespace bksge
 {
@@ -242,7 +242,7 @@ private:
 			A::result_is_deduced &&
 			!bksge::is_same<
 				typename R::type,
-				decltype(visit_invoke(bksge::declval<Visitor>(), bksge::declval<Variants>()...))
+				decltype(visit_invoke(std::declval<Visitor>(), std::declval<Variants>()...))
 			>::value
 		>
 	>

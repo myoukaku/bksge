@@ -16,10 +16,10 @@
 #include <bksge/fnd/type_traits/void_t.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/utility/forward.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
 #include <ostream>
 #include <cstddef>
+#include <utility>
 
 namespace bksge
 {
@@ -62,7 +62,7 @@ struct stream_outputtable_impl
 	: public bksge::false_type {};
 
 template <typename Stream, typename Expr>
-struct stream_outputtable_impl<Stream, Expr, bksge::void_t<decltype(bksge::declval<Stream&>() << bksge::declval<Expr const&>().value())>>
+struct stream_outputtable_impl<Stream, Expr, bksge::void_t<decltype(std::declval<Stream&>() << std::declval<Expr const&>().value())>>
 	: public bksge::true_type {};
 
 template <typename CharT, typename Traits, typename T>

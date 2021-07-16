@@ -15,10 +15,10 @@
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_invocable.hpp>
 #include <bksge/fnd/type_traits/is_invocable.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include <cstddef>
+#include <utility>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -41,7 +41,7 @@ inline BKSGE_CXX14_CONSTEXPR void test_common()
 	static_assert(bksge::is_copy_assignable<bksge::hash<T>>::value, "");
 	static_assert(bksge::is_move_assignable<bksge::hash<T>>::value, "");
 
-	static_assert(bksge::is_same<decltype(bksge::hash<T>{}(bksge::declval<T>())), std::size_t>::value, "");
+	static_assert(bksge::is_same<decltype(bksge::hash<T>{}(std::declval<T>())), std::size_t>::value, "");
 
 	static_assert(bksge::is_nothrow_invocable<bksge::hash<T>      ,   T>::value, "");
 	static_assert(bksge::is_nothrow_invocable<bksge::hash<T> const,   T>::value, "");

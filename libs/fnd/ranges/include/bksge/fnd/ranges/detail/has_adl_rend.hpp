@@ -16,8 +16,8 @@
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/remove_reference.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -57,8 +57,8 @@ private:
 			bksge::detail::class_or_enum<
 				bksge::remove_reference_t<U>
 			>::value>,
-		typename E = decltype(decay_copy(rend(bksge::declval<U&>()))),
-		typename B = decltype(ranges::rbegin(bksge::declval<U&>()))
+		typename E = decltype(decay_copy(rend(std::declval<U&>()))),
+		typename B = decltype(ranges::rbegin(std::declval<U&>()))
 	>
 	static auto test(int) -> bksge::sentinel_for<E, B>;
 

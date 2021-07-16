@@ -11,9 +11,9 @@
 #include <bksge/fnd/tuple/forward_as_tuple.hpp>
 #include <bksge/fnd/array.hpp>
 #include <bksge/fnd/utility/move.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/pair.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "tuple_test_utility.hpp"
 #include "constexpr_test.hpp"
 
@@ -113,7 +113,7 @@ struct CallInfo
 };
 
 template <typename ...Args>
-inline CallInfo<decltype(bksge::forward_as_tuple(bksge::declval<Args>()...))>
+inline CallInfo<decltype(bksge::forward_as_tuple(std::declval<Args>()...))>
 makeCallInfo(CallQuals quals, Args&&... args)
 {
 	return{quals, bksge::forward<Args>(args)...};

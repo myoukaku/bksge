@@ -21,8 +21,8 @@
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -69,12 +69,12 @@ private:
 		typename J2 = I2 const,
 #endif
 		typename D = bksge::iter_difference_t<I2> const,
-		typename T1 = decltype(bksge::declval<I2&>() += bksge::declval<D >()),
-		typename T2 = decltype(bksge::declval<J2 >() +  bksge::declval<D >()),
-		typename T3 = decltype(bksge::declval<D  >() +  bksge::declval<J2>()),
-		typename T4 = decltype(bksge::declval<I2&>() -= bksge::declval<D >()),
-		typename T5 = decltype(bksge::declval<J2 >() -  bksge::declval<D >()),
-		typename T6 = decltype(bksge::declval<J2 >()[bksge::declval<D>()])
+		typename T1 = decltype(std::declval<I2&>() += std::declval<D >()),
+		typename T2 = decltype(std::declval<J2 >() +  std::declval<D >()),
+		typename T3 = decltype(std::declval<D  >() +  std::declval<J2>()),
+		typename T4 = decltype(std::declval<I2&>() -= std::declval<D >()),
+		typename T5 = decltype(std::declval<J2 >() -  std::declval<D >()),
+		typename T6 = decltype(std::declval<J2 >()[std::declval<D>()])
 	>
 	static auto test(int) -> bksge::conjunction<
 		bksge::same_as<T1, I2&>,

@@ -19,10 +19,10 @@
 #include <bksge/fnd/type_traits/is_lvalue_reference.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_move_assignable.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_move_constructible.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
+#include <utility>
 
 #define BKSGE_NOEXCEPT_DECLTYPE_RETURN(...) \
 	BKSGE_NOEXCEPT_IF_EXPR(__VA_ARGS__)     \
@@ -59,7 +59,7 @@ private:
 	template <
 		typename T, typename U, std::size_t N
 #if !defined(BKSGE_HAS_CXX20_CONCEPTS)
-		, typename = decltype(bksge::declval<swap_fn const&>()(bksge::declval<T&>(), bksge::declval<U&>()))
+		, typename = decltype(std::declval<swap_fn const&>()(std::declval<T&>(), std::declval<U&>()))
 #endif
 	>
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
@@ -70,7 +70,7 @@ private:
 #endif
 	static BKSGE_CXX14_CONSTEXPR void
 	impl(bksge::detail::overload_priority<1>, T (&t)[N], U (&u)[N])
-		BKSGE_NOEXCEPT_IF_EXPR(bksge::declval<swap_fn const&>()(*t, *u))
+		BKSGE_NOEXCEPT_IF_EXPR(std::declval<swap_fn const&>()(*t, *u))
 	{
 		for (std::size_t i = 0; i < N; ++i)
 		{

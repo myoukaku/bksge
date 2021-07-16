@@ -17,7 +17,7 @@
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/detail/is_constructible_helper.hpp>
-#include <bksge/fnd/utility/declval.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -50,7 +50,7 @@ BKSGE_WARNING_DISABLE_MSVC(4197)	// キャストの トップレベルの volati
 template <typename T, typename... Args>
 struct is_nothrow_constructible_impl<true, T, Args...>
 	: public bksge::bool_constant<
-		noexcept(T(bksge::declval<Args>()...))
+		noexcept(T(std::declval<Args>()...))
 	>
 {};
 
@@ -58,7 +58,7 @@ struct is_nothrow_constructible_impl<true, T, Args...>
 template <typename T, typename Arg>
 struct is_nothrow_constructible_impl<true, T, Arg>
 	: public bksge::bool_constant<
-		noexcept(static_cast<T>(bksge::declval<Arg>()))
+		noexcept(static_cast<T>(std::declval<Arg>()))
 	>
 {};
 

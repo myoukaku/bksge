@@ -21,7 +21,6 @@
 #include <bksge/fnd/type_traits/extent.hpp>
 #include <bksge/fnd/type_traits/is_bounded_array.hpp>
 #include <bksge/fnd/type_traits/remove_reference.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 

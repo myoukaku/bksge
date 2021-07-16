@@ -8,11 +8,11 @@
 
 #include <bksge/fnd/variant/variant.hpp>
 #include <bksge/fnd/variant/get.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include <initializer_list>
 #include <cstddef>
+#include <utility>
 #include "archetypes.hpp"
 #include "test_convertible.hpp"
 #include "test_macros.hpp"
@@ -44,7 +44,7 @@ struct InitListArg
 
 template <typename Var, std::size_t I, typename... Args>
 constexpr auto test_emplace_exists_imp(int) -> decltype(
-	bksge::declval<Var>().template emplace<I>(bksge::declval<Args>()...), true)
+	std::declval<Var>().template emplace<I>(std::declval<Args>()...), true)
 {
 	return true;
 }

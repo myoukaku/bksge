@@ -23,7 +23,6 @@
 #include <bksge/fnd/type_traits/detail/common_type_fold.hpp>
 #include <bksge/fnd/type_traits/detail/common_type_pack.hpp>
 #include <bksge/fnd/type_traits/detail/cond_res.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 
 namespace bksge
 {

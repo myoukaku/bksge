@@ -22,6 +22,7 @@
 #include <bksge/fnd/utility/move.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -74,7 +75,7 @@ private:
 	{
 		using BaseT = ClosureT<C, Args...>;
 
-		decltype(maybe_refwrap(bksge::declval<Arg0>()))	m_ref;
+		decltype(maybe_refwrap(std::declval<Arg0>()))	m_ref;
 
 		constexpr ClosureT(Arg0&& arg0, Args&&... args)
 			: BaseT(bksge::forward<Args>(args)...)

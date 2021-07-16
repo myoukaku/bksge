@@ -14,8 +14,8 @@
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/void_t.hpp>
 #include <bksge/fnd/utility/forward.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -54,7 +54,7 @@ struct has_operator_eq
 	: public bksge::false_type {};
 
 template <typename T, typename U>
-struct has_operator_eq<T, U, bksge::void_t<decltype(operator==(bksge::declval<T>(), bksge::declval<U>()))>>
+struct has_operator_eq<T, U, bksge::void_t<decltype(operator==(std::declval<T>(), std::declval<U>()))>>
 	: public bksge::true_type {};
 
 template <typename T, typename U, typename = void>
@@ -62,7 +62,7 @@ struct has_member_eq
 	: public bksge::false_type {};
 
 template <typename T, typename U>
-struct has_member_eq<T, U, bksge::void_t<decltype(bksge::declval<T>().operator==(bksge::declval<U>()))>>
+struct has_member_eq<T, U, bksge::void_t<decltype(std::declval<T>().operator==(std::declval<U>()))>>
 	: public bksge::true_type {};
 
 template <typename T, typename U>
@@ -71,7 +71,7 @@ struct eq_builtin_ptr_cmp_impl
 private:
 	template <typename T2, typename U2,
 		typename = bksge::enable_if_t<
-			bksge::same_as<decltype(bksge::declval<T2>() == bksge::declval<U2>()), bool>::value &&
+			bksge::same_as<decltype(std::declval<T2>() == std::declval<U2>()), bool>::value &&
 			bksge::convertible_to<T2, const volatile void*>::value &&
 			bksge::convertible_to<U2, const volatile void*>::value &&
 			!has_operator_eq<T2, U2>::value &&

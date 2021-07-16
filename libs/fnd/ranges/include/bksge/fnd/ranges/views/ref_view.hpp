@@ -29,9 +29,9 @@
 #include <bksge/fnd/type_traits/is_object.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -64,12 +64,12 @@ public:
 	template <BKSGE_REQUIRES_PARAM_2(detail::not_same_as, ref_view, T)
 #if !defined(BKSGE_HAS_CXX20_CONCEPTS)
 		, typename = bksge::enable_if_t<bksge::convertible_to<T, Range&>::value>
-		, typename = decltype(Fun(bksge::declval<T>()))
+		, typename = decltype(Fun(std::declval<T>()))
 #endif
 	>
 	BKSGE_REQUIRES(
 		bksge::convertible_to<T, Range&> &&
-		requires { Fun(bksge::declval<T>()); })
+		requires { Fun(std::declval<T>()); })
 	BKSGE_CONSTEXPR ref_view(T&& t)
 		: m_r(bksge::addressof(static_cast<Range&>(bksge::forward<T>(t))))
 	{}
@@ -101,7 +101,7 @@ public:
 		>
 	>
 	BKSGE_CONSTEXPR auto size() const
-	->decltype(ranges::size(bksge::declval<R2 const&>()))
+	->decltype(ranges::size(std::declval<R2 const&>()))
 	{
 		return ranges::size(*m_r);
 	}
@@ -112,7 +112,7 @@ public:
 		>
 	>
 	BKSGE_CONSTEXPR auto data() const
-	->decltype(ranges::data(bksge::declval<R2 const&>()))
+	->decltype(ranges::data(std::declval<R2 const&>()))
 	{
 		return ranges::data(*m_r);
 	}

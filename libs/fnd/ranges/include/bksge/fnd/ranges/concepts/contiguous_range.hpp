@@ -18,8 +18,8 @@
 #include <bksge/fnd/type_traits/add_pointer.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -54,7 +54,7 @@ private:
 		typename U,
 		typename = bksge::enable_if_t<ranges::random_access_range<U>::value>,
 		typename = bksge::enable_if_t<bksge::contiguous_iterator<ranges::iterator_t<U>>::value>,
-		typename P1 = decltype(ranges::data(bksge::declval<U&>())),
+		typename P1 = decltype(ranges::data(std::declval<U&>())),
 		typename P2 = bksge::add_pointer_t<ranges::range_reference_t<U>>
 	>
 	static auto test(int) -> bksge::same_as<P1, P2>;

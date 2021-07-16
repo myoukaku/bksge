@@ -10,9 +10,9 @@
 #include <bksge/fnd/ranges/concepts/enable_borrowed_range.hpp>
 #include <bksge/fnd/concepts/same_as.hpp>
 #include <bksge/fnd/utility/move.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "constexpr_test.hpp"
 
 namespace bksge_ranges_test
@@ -108,8 +108,8 @@ BKSGE_CXX14_CONSTEXPR bool test03()
 	static_assert(bksge::is_same<decltype(bksge::ranges::begin(bksge::move(cv))), decltype(begin(cv))>::value, "");
 
 #if !(defined(BKSGE_GCC_VERSION) && (BKSGE_GCC_VERSION < 90000))
-	static_assert(!noexcept(bksge::ranges::begin(bksge::declval<R&>())), "");
-	static_assert( noexcept(bksge::ranges::begin(bksge::declval<R const&>())), "");
+	static_assert(!noexcept(bksge::ranges::begin(std::declval<R&>())), "");
+	static_assert( noexcept(bksge::ranges::begin(std::declval<R const&>())), "");
 	static_assert(!noexcept(bksge::ranges::begin(bksge::move(v))), "");
 	static_assert( noexcept(bksge::ranges::begin(bksge::move(cv))), "");
 #endif
@@ -127,8 +127,8 @@ BKSGE_CXX14_CONSTEXPR bool test04()
 	const RR& c = r;
 
 #if !(defined(BKSGE_GCC_VERSION) && (BKSGE_GCC_VERSION < 90000))
-	static_assert( noexcept(bksge::ranges::begin(bksge::declval<RR&>())), "");
-	static_assert(!noexcept(bksge::ranges::begin(bksge::declval<RR const&>())), "");
+	static_assert( noexcept(bksge::ranges::begin(std::declval<RR&>())), "");
+	static_assert(!noexcept(bksge::ranges::begin(std::declval<RR const&>())), "");
 	static_assert( noexcept(bksge::ranges::begin(bksge::move(r))), "");
 	static_assert(!noexcept(bksge::ranges::begin(bksge::move(c))), "");
 #endif

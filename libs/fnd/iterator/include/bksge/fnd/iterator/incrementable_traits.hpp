@@ -18,9 +18,9 @@
 #include <bksge/fnd/type_traits/is_object.hpp>
 #include <bksge/fnd/type_traits/is_pointer.hpp>
 #include <bksge/fnd/type_traits/make_signed.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
+#include <utility>
 
 namespace bksge
 {
@@ -95,12 +95,12 @@ struct incrementable_traits<T
 		!detail::has_difference_type<T>::value
 	>
 	, bksge::enable_if_t<
-		bksge::is_integral<decltype(bksge::declval<T>() - bksge::declval<T>())>::value
+		bksge::is_integral<decltype(std::declval<T>() - std::declval<T>())>::value
 	>
 #endif
 >
 {
-	using difference_type = bksge::make_signed_t<decltype(bksge::declval<T>() - bksge::declval<T>())>;
+	using difference_type = bksge::make_signed_t<decltype(std::declval<T>() - std::declval<T>())>;
 };
 
 #undef BKSGE_GCC_10

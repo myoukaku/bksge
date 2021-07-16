@@ -14,6 +14,7 @@
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -41,7 +42,7 @@ struct boolean_testable_impl
 {
 private:
 	template <typename U,
-		typename V = decltype(!bksge::declval<U&&>())
+		typename V = decltype(!std::declval<U&&>())
 	>
 	static auto test(int) -> bksge::conjunction<
 		bksge::convertible_to<U, bool>,

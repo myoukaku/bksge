@@ -13,14 +13,14 @@
 #include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/iterator/ranges/iter_move.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
 
 template <BKSGE_REQUIRES_PARAM(detail::dereferenceable, I)>
-using iter_rvalue_reference_t = decltype(ranges::iter_move(bksge::declval<I&>()));
+using iter_rvalue_reference_t = decltype(ranges::iter_move(std::declval<I&>()));
 
 }	// namespace bksge
 

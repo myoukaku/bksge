@@ -22,9 +22,9 @@
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/memory/to_address.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -74,7 +74,7 @@ private:
 				bksge::remove_cvref_t<R>
 			>::value
 		>,
-		typename P1 = decltype(bksge::to_address(bksge::declval<I2 const&>()))
+		typename P1 = decltype(bksge::to_address(std::declval<I2 const&>()))
 	>
 	static auto test(int) -> bksge::same_as<P1, bksge::add_pointer_t<R>>;
 

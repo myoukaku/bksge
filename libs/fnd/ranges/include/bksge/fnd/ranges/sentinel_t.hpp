@@ -12,9 +12,9 @@
 #include <bksge/fnd/ranges/concepts/range.hpp>
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -23,7 +23,7 @@ namespace ranges
 {
 
 template <BKSGE_REQUIRES_PARAM(ranges::range, Range)>
-using sentinel_t = decltype(ranges::end(bksge::declval<Range&>()));
+using sentinel_t = decltype(ranges::end(std::declval<Range&>()));
 
 }	// namespace ranges
 

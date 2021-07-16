@@ -13,8 +13,8 @@
 #include <bksge/fnd/ranges/detail/decay_copy.hpp>
 #include <bksge/fnd/iterator/concepts/sentinel_for.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -41,8 +41,8 @@ struct has_member_end_impl
 {
 private:
 	template <typename U,
-		typename E = decltype(decay_copy(bksge::declval<U&>().end())),
-		typename B = decltype(ranges::begin(bksge::declval<U&>()))
+		typename E = decltype(decay_copy(std::declval<U&>().end())),
+		typename B = decltype(ranges::begin(std::declval<U&>()))
 	>
 	static auto test(int) -> bksge::sentinel_for<E, B>;
 

@@ -13,11 +13,11 @@
 #include <bksge/fnd/variant/variant_npos.hpp>
 #include <bksge/fnd/type_traits/integral_constant.hpp>
 #include <bksge/fnd/type_traits/void_t.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
+#include <utility>
 
 namespace bksge
 {
@@ -43,7 +43,7 @@ BKSGE_WARNING_DISABLE_CLANG("-Wdeprecated-volatile");
 
 // "... for which Ti x[] = {bksge::forward<T>(t)}; is well-formed."
 template <std::size_t Index, typename T, typename Ti>
-struct Build_FUN<Index, T, Ti, bksge::void_t<decltype(Arr<Ti>{ { bksge::declval<T>() }})>>
+struct Build_FUN<Index, T, Ti, bksge::void_t<decltype(Arr<Ti>{ { std::declval<T>() }})>>
 {
 	// This is the FUN function for type Ti, with index Index
 	static bksge::integral_constant<std::size_t, Index> fun(Ti);
@@ -83,7 +83,7 @@ struct Build_FUNs<T, variant<T0>, bksge::index_sequence<I0>>
 // The index j of the overload FUN(Tj) selected by overload resolution
 // for FUN(bksge::forward<T>(t))
 template <typename T, typename Variant>
-using FUN_type = decltype(Build_FUNs<T, Variant>::fun(bksge::declval<T>()));
+using FUN_type = decltype(Build_FUNs<T, Variant>::fun(std::declval<T>()));
 
 // The index selected for FUN(bksge::forward<T>(t)), or variant_npos if none.
 template <typename T, typename Variant, typename = void>

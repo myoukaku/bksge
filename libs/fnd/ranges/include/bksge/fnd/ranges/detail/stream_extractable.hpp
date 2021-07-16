@@ -10,9 +10,9 @@
 #define BKSGE_FND_RANGES_DETAIL_STREAM_EXTRACTABLE_HPP
 
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
 #include <istream>
+#include <utility>
 
 namespace bksge
 {
@@ -36,7 +36,7 @@ struct stream_extractable_impl
 {
 private:
 	template <typename V2, typename Stream,
-		typename = decltype(bksge::declval<Stream&>() >> bksge::declval<V2&>())
+		typename = decltype(std::declval<Stream&>() >> std::declval<V2&>())
 	>
 	static auto test(int) -> bksge::true_type;
 

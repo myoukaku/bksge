@@ -18,7 +18,6 @@
 #include <bksge/fnd/concepts/swap.hpp>
 #include <bksge/fnd/concepts/swappable_with.hpp>
 #include <bksge/fnd/type_traits/remove_reference.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 

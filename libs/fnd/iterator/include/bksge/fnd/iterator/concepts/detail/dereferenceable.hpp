@@ -13,8 +13,8 @@
 #include <bksge/fnd/iterator/concepts/detail/is_void_pointer.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -40,7 +40,7 @@ struct dereferenceable_impl
 private:
 	template <typename U,
 		typename = bksge::enable_if_t<!bksge::detail::is_void_pointer<U>::value>,
-		typename U2 = decltype(*bksge::declval<U&>())
+		typename U2 = decltype(*std::declval<U&>())
 	>
 	static auto test(int) -> detail::can_reference<U2>;
 

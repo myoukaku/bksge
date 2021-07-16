@@ -33,12 +33,12 @@ using std::visit;
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/type_traits/invoke_result.hpp>
 #include <bksge/fnd/type_traits/remove_reference.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
+#include <utility>
 
 namespace bksge
 {
@@ -53,14 +53,14 @@ template <typename Visitor, typename Variant, std::size_t... Idxs>
 constexpr bool check_visitor_results(bksge::index_sequence<Idxs...>)
 {
 	return same_types<bksge::invoke_result_t<
-		Visitor, decltype(bksge::get<Idxs>(bksge::declval<Variant>()))>...>::value;
+		Visitor, decltype(bksge::get<Idxs>(std::declval<Variant>()))>...>::value;
 }
 
 template <typename Visitor, typename... Variants>
 struct VisitResult
 {
 	using type = bksge::invoke_result_t<Visitor,
-		decltype(bksge::get<0>(bksge::declval<Variants>()))...>;
+		decltype(bksge::get<0>(std::declval<Variants>()))...>;
 };
 
 template <typename Visitor, typename... Variants>
@@ -72,7 +72,7 @@ constexpr VisitResultT<Visitor, Variants...>
 visit_impl(bksge::false_type, Visitor&& visitor, Variants&&... variants)
 {
 	using ResultType = bksge::invoke_result_t<Visitor,
-		decltype(bksge::get<0>(bksge::declval<Variants>()))...>;
+		decltype(bksge::get<0>(std::declval<Variants>()))...>;
 
 	using Tag = variant_detail::DeduceVisitResult<ResultType>;
 

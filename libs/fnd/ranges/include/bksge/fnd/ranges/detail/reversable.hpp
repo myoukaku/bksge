@@ -15,8 +15,8 @@
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/concepts/same_as.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -44,8 +44,8 @@ struct reversable_impl
 {
 private:
 	template <typename U,
-		typename B = decltype(ranges::begin(bksge::declval<U&>())),
-		typename E = decltype(ranges::end(bksge::declval<U&>()))
+		typename B = decltype(ranges::begin(std::declval<U&>())),
+		typename E = decltype(ranges::end(std::declval<U&>()))
 	>
 	static auto test(int) -> bksge::conjunction<
 		bksge::bidirectional_iterator<B>,

@@ -18,9 +18,9 @@
 #include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/memory/to_address.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 #define BKSGE_NOEXCEPT_DECLTYPE_RETURN(...) \
 	BKSGE_NOEXCEPT_IF_EXPR(__VA_ARGS__)     \
@@ -42,7 +42,7 @@ private:
 	template <BKSGE_REQUIRES_PARAM(has_member_data, T)>
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<1>, T&& t)
-		BKSGE_NOEXCEPT_IF_EXPR(decay_copy(bksge::declval<T>().data()))
+		BKSGE_NOEXCEPT_IF_EXPR(decay_copy(std::declval<T>().data()))
 	->decltype(t.data())
 	{
 		return t.data();

@@ -14,8 +14,8 @@
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/negation.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -47,7 +47,7 @@ struct sized_range_impl
 private:
 	template <typename U,
 		typename = bksge::enable_if_t<ranges::range<U>::value>,
-		typename = decltype(ranges::size(bksge::declval<U&>()))
+		typename = decltype(ranges::size(std::declval<U&>()))
 	>
 	static auto test(int) -> bksge::true_type;
 

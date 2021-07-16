@@ -10,11 +10,11 @@
 #include <bksge/fnd/tuple/tuple.hpp>
 #include <bksge/fnd/tuple/get.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/pair.hpp>
 #include <bksge/fnd/array/array.hpp>
 #include <gtest/gtest.h>
 #include <cstddef>
+#include <utility>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -31,94 +31,94 @@ static_assert(bksge::is_same<
 	bksge::tuple<>>::value, "");
 
 static_assert(bksge::is_same<
-	decltype(bksge::tuple_cat(bksge::declval<bksge::tuple<>>())),
+	decltype(bksge::tuple_cat(std::declval<bksge::tuple<>>())),
 	bksge::tuple<>>::value, "");
 
 static_assert(bksge::is_same<
-	decltype(bksge::tuple_cat(bksge::declval<bksge::tuple<>&>())),
+	decltype(bksge::tuple_cat(std::declval<bksge::tuple<>&>())),
 	bksge::tuple<>>::value, "");
 
 static_assert(bksge::is_same<
-	decltype(bksge::tuple_cat(bksge::declval<bksge::tuple<> const>())),
+	decltype(bksge::tuple_cat(std::declval<bksge::tuple<> const>())),
 	bksge::tuple<>>::value, "");
 
 static_assert(bksge::is_same<
-	decltype(bksge::tuple_cat(bksge::declval<bksge::tuple<> const&>())),
+	decltype(bksge::tuple_cat(std::declval<bksge::tuple<> const&>())),
 	bksge::tuple<>>::value, "");
 
 static_assert(bksge::is_same<
-	decltype(bksge::tuple_cat(bksge::declval<bksge::pair<int, bool>>())),
+	decltype(bksge::tuple_cat(std::declval<bksge::pair<int, bool>>())),
 	bksge::tuple<int, bool>>::value, "");
 
 static_assert(bksge::is_same<
-	decltype(bksge::tuple_cat(bksge::declval<bksge::pair<int, bool>&>())),
+	decltype(bksge::tuple_cat(std::declval<bksge::pair<int, bool>&>())),
 	bksge::tuple<int, bool>>::value, "");
 
 static_assert(bksge::is_same<
-	decltype(bksge::tuple_cat(bksge::declval<bksge::pair<int, bool> const>())),
+	decltype(bksge::tuple_cat(std::declval<bksge::pair<int, bool> const>())),
 	bksge::tuple<int, bool>>::value, "");
 
 static_assert(bksge::is_same<
-	decltype(bksge::tuple_cat(bksge::declval<bksge::pair<int, bool> const&>())),
+	decltype(bksge::tuple_cat(std::declval<bksge::pair<int, bool> const&>())),
 	bksge::tuple<int, bool>>::value, "");
 
 static_assert(bksge::is_same<
-	decltype(bksge::tuple_cat(bksge::declval<bksge::array<int, 3>>())),
+	decltype(bksge::tuple_cat(std::declval<bksge::array<int, 3>>())),
 	bksge::tuple<int, int, int>>::value, "");
 
 static_assert(bksge::is_same<
-	decltype(bksge::tuple_cat(bksge::declval<bksge::array<int, 3>&>())),
+	decltype(bksge::tuple_cat(std::declval<bksge::array<int, 3>&>())),
 	bksge::tuple<int, int, int>>::value, "");
 
 static_assert(bksge::is_same<
-	decltype(bksge::tuple_cat(bksge::declval<bksge::array<int, 3> const>())),
+	decltype(bksge::tuple_cat(std::declval<bksge::array<int, 3> const>())),
 	bksge::tuple<int, int, int>>::value, "");
 
 static_assert(bksge::is_same<
-	decltype(bksge::tuple_cat(bksge::declval<bksge::array<int, 3> const&>())),
+	decltype(bksge::tuple_cat(std::declval<bksge::array<int, 3> const&>())),
 	bksge::tuple<int, int, int>>::value, "");
 
 static_assert(bksge::is_same<
 	decltype(bksge::tuple_cat(
-		bksge::declval<bksge::tuple<>>(),
-		bksge::declval<bksge::tuple<>>())),
+		std::declval<bksge::tuple<>>(),
+		std::declval<bksge::tuple<>>())),
 	bksge::tuple<>>::value, "");
 
 static_assert(bksge::is_same<
 	decltype(bksge::tuple_cat(
-		bksge::declval<bksge::tuple<>>(),
-		bksge::declval<bksge::tuple<>>(),
-		bksge::declval<bksge::tuple<>>())),
+		std::declval<bksge::tuple<>>(),
+		std::declval<bksge::tuple<>>(),
+		std::declval<bksge::tuple<>>())),
 	bksge::tuple<>>::value, "");
 
 static_assert(bksge::is_same<
 	decltype(bksge::tuple_cat(
-		bksge::declval<bksge::tuple<>>(),
-		bksge::declval<bksge::array<char, 0>>(),
-		bksge::declval<bksge::array<int, 0>>(),
-		bksge::declval<bksge::tuple<>>())),
+		std::declval<bksge::tuple<>>(),
+		std::declval<bksge::array<char, 0>>(),
+		std::declval<bksge::array<int, 0>>(),
+		std::declval<bksge::tuple<>>())),
 	bksge::tuple<>>::value, "");
 
 static_assert(bksge::is_same<
 	decltype(bksge::tuple_cat(
-		bksge::declval<bksge::tuple<int>>(),
-		bksge::declval<bksge::tuple<double>>())),
+		std::declval<bksge::tuple<int>>(),
+		std::declval<bksge::tuple<double>>())),
 	bksge::tuple<int, double>>::value, "");
 
 static_assert(bksge::is_same<
 	decltype(bksge::tuple_cat(
-		bksge::declval<bksge::tuple<int>>(),
-		bksge::declval<bksge::tuple<double>>(),
-		bksge::declval<bksge::tuple<const long&>>())),
+		std::declval<bksge::tuple<int>>(),
+		std::declval<bksge::tuple<double>>(),
+		std::declval<bksge::tuple<const long&>>())),
 	bksge::tuple<int, double, const long&>>::value, "");
 
 static_assert(bksge::is_same<
 	decltype(bksge::tuple_cat(
-		bksge::declval<bksge::array<wchar_t, 3>&>(),
-		bksge::declval<bksge::tuple<double>>(),
-		bksge::declval<bksge::tuple<>>(),
-		bksge::declval<bksge::tuple<unsigned&>>(),
-		bksge::declval<bksge::pair<bool, std::nullptr_t>>())),
+		std::declval<bksge::array<wchar_t, 3>&>(),
+		std::declval<bksge::tuple<double>>(),
+		std::declval<bksge::tuple<>>(),
+		std::declval<bksge::tuple<unsigned&>>(),
+		std::declval<bksge::pair<bool, std::nullptr_t>>())),
 	bksge::tuple<wchar_t, wchar_t, wchar_t, double, unsigned&, bool, std::nullptr_t>>::value, "");
 
 #define VERIFY(...)	if (!(__VA_ARGS__)) { return false; }

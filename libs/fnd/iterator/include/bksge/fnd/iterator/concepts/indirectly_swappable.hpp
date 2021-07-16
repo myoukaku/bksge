@@ -13,8 +13,8 @@
 #include <bksge/fnd/iterator/ranges/iter_swap.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -45,10 +45,10 @@ private:
 	template <typename J1, typename J2,
 		typename = bksge::enable_if_t<bksge::indirectly_readable<J1>::value>,
 		typename = bksge::enable_if_t<bksge::indirectly_readable<J2>::value>,
-		typename = decltype(bksge::ranges::iter_swap(bksge::declval<J1 const>(), bksge::declval<J1 const>())),
-		typename = decltype(bksge::ranges::iter_swap(bksge::declval<J1 const>(), bksge::declval<J2 const>())),
-		typename = decltype(bksge::ranges::iter_swap(bksge::declval<J2 const>(), bksge::declval<J1 const>())),
-		typename = decltype(bksge::ranges::iter_swap(bksge::declval<J2 const>(), bksge::declval<J2 const>()))
+		typename = decltype(bksge::ranges::iter_swap(std::declval<J1 const>(), std::declval<J1 const>())),
+		typename = decltype(bksge::ranges::iter_swap(std::declval<J1 const>(), std::declval<J2 const>())),
+		typename = decltype(bksge::ranges::iter_swap(std::declval<J2 const>(), std::declval<J1 const>())),
+		typename = decltype(bksge::ranges::iter_swap(std::declval<J2 const>(), std::declval<J2 const>()))
 	>
 	static auto test(int) -> bksge::true_type;
 

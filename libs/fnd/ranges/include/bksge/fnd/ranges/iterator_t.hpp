@@ -10,7 +10,7 @@
 #define BKSGE_FND_RANGES_ITERATOR_T_HPP
 
 #include <bksge/fnd/ranges/begin.hpp>
-#include <bksge/fnd/utility/declval.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -19,7 +19,7 @@ namespace ranges
 {
 
 template <typename T>
-using iterator_t = decltype(ranges::begin(bksge::declval<T&>()));
+using iterator_t = decltype(ranges::begin(std::declval<T&>()));
 
 }	// namespace ranges
 

@@ -12,8 +12,8 @@
 #include <bksge/fnd/concepts/common_reference_with.hpp>
 #include <bksge/fnd/concepts/swap.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -42,10 +42,10 @@ struct swappable_with_impl
 private:
 	template <typename T2, typename U2,
 		typename = decltype(
-			ranges::swap(bksge::declval<T2>(), bksge::declval<T2>()),
-			ranges::swap(bksge::declval<U2>(), bksge::declval<U2>()),
-			ranges::swap(bksge::declval<T2>(), bksge::declval<U2>()),
-			ranges::swap(bksge::declval<U2>(), bksge::declval<T2>()))
+			ranges::swap(std::declval<T2>(), std::declval<T2>()),
+			ranges::swap(std::declval<U2>(), std::declval<U2>()),
+			ranges::swap(std::declval<T2>(), std::declval<U2>()),
+			ranges::swap(std::declval<U2>(), std::declval<T2>()))
 	>
 	static auto test(int) -> bksge::common_reference_with<T2, U2>;
 

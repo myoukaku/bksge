@@ -15,8 +15,8 @@
 #include <bksge/fnd/type_traits/common_type.hpp>
 #include <bksge/fnd/type_traits/common_reference.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -28,8 +28,8 @@ concept common_with =
 	bksge::same_as<bksge::common_type_t<T, U>, bksge::common_type_t<U, T>> &&
 	requires
 	{
-		static_cast<bksge::common_type_t<T, U>>(bksge::declval<T>());
-		static_cast<bksge::common_type_t<T, U>>(bksge::declval<U>());
+		static_cast<bksge::common_type_t<T, U>>(std::declval<T>());
+		static_cast<bksge::common_type_t<T, U>>(std::declval<U>());
 	} &&
 	bksge::common_reference_with<
 		bksge::add_lvalue_reference_t<T const>,
@@ -54,8 +54,8 @@ struct common_with_impl
 private:
 	template <typename T2, typename U2,
 		typename C = bksge::common_type_t<T2, U2>,
-		typename = decltype(static_cast<C>(bksge::declval<T2>())),
-		typename = decltype(static_cast<C>(bksge::declval<U2>()))
+		typename = decltype(static_cast<C>(std::declval<T2>())),
+		typename = decltype(static_cast<C>(std::declval<U2>()))
 	>
 	static auto test(int) -> bksge::conjunction<
 		bksge::same_as<

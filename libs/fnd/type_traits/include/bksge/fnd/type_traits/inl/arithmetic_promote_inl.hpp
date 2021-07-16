@@ -14,7 +14,7 @@
 #include <bksge/fnd/type_traits/remove_cv.hpp>
 #include <bksge/fnd/type_traits/is_arithmetic.hpp>
 #include <bksge/fnd/type_traits/decay.hpp>
-#include <bksge/fnd/utility/declval.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -34,7 +34,7 @@ struct arithmetic_promote_impl<T>
 
 template <typename T, typename U>
 struct arithmetic_promote_impl<T, U>
-	: public bksge::decay<decltype(bksge::declval<T>() + bksge::declval<U>())>
+	: public bksge::decay<decltype(std::declval<T>() + std::declval<U>())>
 {
 	static_assert(bksge::is_arithmetic<T>::value, "");
 };

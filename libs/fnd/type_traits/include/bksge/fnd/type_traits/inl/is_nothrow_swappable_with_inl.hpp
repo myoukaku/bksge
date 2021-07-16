@@ -13,8 +13,8 @@
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/is_swappable_with.hpp>
 #include <bksge/fnd/utility/swap.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -32,8 +32,8 @@ struct is_nothrow_swappable_with_impl_2
 private:
 	template <typename T2, typename U2>
 	static bksge::bool_constant<
-		BKSGE_NOEXCEPT_EXPR(swap(bksge::declval<T2>(), bksge::declval<U2>())) &&
-		BKSGE_NOEXCEPT_EXPR(swap(bksge::declval<U2>(), bksge::declval<T2>()))
+		BKSGE_NOEXCEPT_EXPR(swap(std::declval<T2>(), std::declval<U2>())) &&
+		BKSGE_NOEXCEPT_EXPR(swap(std::declval<U2>(), std::declval<T2>()))
 	>
 	test(int);
 

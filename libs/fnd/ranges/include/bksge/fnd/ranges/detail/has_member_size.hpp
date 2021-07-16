@@ -16,8 +16,8 @@
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/remove_cvref.hpp>
 #include <bksge/fnd/utility/forward.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -48,7 +48,7 @@ private:
 		typename = bksge::enable_if_t<
 			!BKSGE_RANGES_DISABLE_SIZED_RANGE(bksge::remove_cvref_t<U>)
 		>,
-		typename S = decltype(decay_copy(bksge::declval<U&&>().size()))
+		typename S = decltype(decay_copy(std::declval<U&&>().size()))
 	>
 	static auto test(int) -> detail::integer_like<S>;
 

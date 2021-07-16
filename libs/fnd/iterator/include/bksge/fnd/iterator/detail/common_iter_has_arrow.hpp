@@ -17,8 +17,8 @@
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/disjunction.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -47,7 +47,7 @@ struct common_iter_has_arrow_impl
 {
 private:
 	template <typename U,
-		typename = decltype(bksge::declval<U const&>().operator->())
+		typename = decltype(std::declval<U const&>().operator->())
 	>
 	static auto test(int) -> bksge::true_type;
 

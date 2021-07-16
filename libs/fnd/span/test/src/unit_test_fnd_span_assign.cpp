@@ -9,9 +9,9 @@
 #include <bksge/fnd/span.hpp>
 #include <bksge/fnd/iterator/size.hpp>
 #include <bksge/fnd/string/string.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <gtest/gtest.h>
 #include <cstddef>
+#include <utility>
 #include "constexpr_test.hpp"
 #include "noexcept_test.hpp"
 
@@ -24,7 +24,7 @@ namespace assign_test
 template <typename T>
 BKSGE_CXX14_CONSTEXPR bool do_assign(T lhs, T rhs)
 {
-	BKSGE_ASSERT_NOEXCEPT(bksge::declval<T&>() = rhs);
+	BKSGE_ASSERT_NOEXCEPT(std::declval<T&>() = rhs);
 	lhs = rhs;
 	return
 		lhs.data() == rhs.data() &&

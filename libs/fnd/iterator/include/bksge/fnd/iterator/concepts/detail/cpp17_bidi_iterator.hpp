@@ -16,8 +16,8 @@
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/declval.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -48,9 +48,9 @@ struct cpp17_bidi_iterator_impl
 private:
 	template <typename I2,
 		typename = bksge::enable_if_t<cpp17_fwd_iterator<I2>::value>,
-		typename T1 = decltype(--bksge::declval<I2&>()),
-		typename T2 = decltype(  bksge::declval<I2&>()--),
-		typename T3 = decltype( *bksge::declval<I2&>()--)
+		typename T1 = decltype(--std::declval<I2&>()),
+		typename T2 = decltype(  std::declval<I2&>()--),
+		typename T3 = decltype( *std::declval<I2&>()--)
 	>
 	static auto test(int) -> bksge::conjunction<
 		bksge::same_as<T1, I2&>,

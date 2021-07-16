@@ -12,7 +12,7 @@
 #include <bksge/fnd/serialization/version.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/remove_const.hpp>
-#include <bksge/fnd/utility/declval.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -29,9 +29,9 @@ public:
 	private:
 		template <typename A2, typename T2>
 		static auto test(int) -> decltype(
-			bksge::declval<T2>().save(
-				bksge::declval<A2&>(),
-				bksge::declval<bksge::serialization::version_t>()),
+			std::declval<T2>().save(
+				std::declval<A2&>(),
+				std::declval<bksge::serialization::version_t>()),
 			bksge::true_type());
 
 		template <typename A2, typename T2>
@@ -49,8 +49,8 @@ public:
 	private:
 		template <typename A2, typename T2>
 		static auto test(int) -> decltype(
-			bksge::declval<T2>().save(
-				bksge::declval<A2&>()),
+			std::declval<T2>().save(
+				std::declval<A2&>()),
 			bksge::true_type());
 
 		template <typename A2, typename T2>
@@ -68,9 +68,9 @@ public:
 	private:
 		template <typename A2, typename T2>
 		static auto test(int) -> decltype(
-			bksge::declval<bksge::remove_const_t<T2>>().load(
-				bksge::declval<A2&>(),
-				bksge::declval<bksge::serialization::version_t>()),
+			std::declval<bksge::remove_const_t<T2>>().load(
+				std::declval<A2&>(),
+				std::declval<bksge::serialization::version_t>()),
 			bksge::true_type());
 
 		template <typename A2, typename T2>
@@ -88,8 +88,8 @@ public:
 	private:
 		template <typename A2, typename T2>
 		static auto test(int) -> decltype(
-			bksge::declval<bksge::remove_const_t<T2>>().load(
-				bksge::declval<A2&>()),
+			std::declval<bksge::remove_const_t<T2>>().load(
+				std::declval<A2&>()),
 			bksge::true_type());
 
 		template <typename A2, typename T2>
@@ -107,9 +107,9 @@ public:
 	private:
 		template <typename A2, typename T2>
 		static auto test(int) -> decltype(
-			bksge::declval<T2>().serialize(
-				bksge::declval<A2&>(),
-				bksge::declval<bksge::serialization::version_t>()),
+			std::declval<T2>().serialize(
+				std::declval<A2&>(),
+				std::declval<bksge::serialization::version_t>()),
 			bksge::true_type());
 
 		template <typename A2, typename T2>
@@ -127,8 +127,8 @@ public:
 	private:
 		template <typename A2, typename T2>
 		static auto test(int) -> decltype(
-			bksge::declval<T2>().serialize(
-				bksge::declval<A2&>()),
+			std::declval<T2>().serialize(
+				std::declval<A2&>()),
 			bksge::true_type());
 
 		template <typename A2, typename T2>
