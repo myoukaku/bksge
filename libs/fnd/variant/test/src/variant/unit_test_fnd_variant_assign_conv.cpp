@@ -26,6 +26,7 @@ namespace assign_conv_test
 
 GTEST_TEST(VariantTest, AssignConvTest)
 {
+#if !(defined(BKSGE_MSVC) && (BKSGE_MSVC < 1920))
 	static_assert(!bksge::is_assignable<bksge::variant<int, int>, int>::value, "");
 	static_assert(!bksge::is_assignable<bksge::variant<long, long long>, int>::value, "");
 	//static_assert( bksge::is_assignable<bksge::variant<char>, int>::value == VariantAllowsNarrowingConversions, "");
@@ -45,6 +46,7 @@ GTEST_TEST(VariantTest, AssignConvTest)
 	static_assert(!bksge::is_assignable<bksge::variant<bool>, bksge::unique_ptr<char> >::value, "");
 // TODO
 //	static_assert(!bksge::is_assignable<bksge::variant<bool>, decltype(nullptr)>::value, "");
+#endif
 }
 
 }	// namespace assign_conv_test

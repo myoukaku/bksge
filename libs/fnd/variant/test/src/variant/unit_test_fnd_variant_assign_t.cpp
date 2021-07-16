@@ -141,6 +141,7 @@ void test_T_assignment_noexcept()
 
 void test_T_assignment_sfinae()
 {
+#if !(defined(BKSGE_MSVC) && (BKSGE_MSVC < 1920))
 	{
 		using V = bksge::variant<long, long long>;
 		static_assert(!bksge::is_assignable<V, int>::value, "ambiguous");
@@ -169,6 +170,7 @@ void test_T_assignment_sfinae()
 // TODO
 //		static_assert(!bksge::is_assignable<V, bksge::false_type>::value, "no converted to bool in operator=");
 	}
+#endif
 	{
 		struct X {};
 		struct Y
