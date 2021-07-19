@@ -18,7 +18,6 @@ BKSGE_WARNING_DISABLE_GCC("-Warray-bounds");
 #include <bksge/fnd/compare/is_eq.hpp>
 #include <bksge/fnd/compare/is_gt.hpp>
 #include <bksge/fnd/compare/is_lt.hpp>
-#include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
 #include <bksge/fnd/stdexcept/length_error.hpp>
 #include <bksge/fnd/memory/addressof.hpp>
@@ -4426,6 +4425,8 @@ inline BKSGE_CXX14_CONSTEXPR bool SwapTest()
 	using string = bksge::basic_string<CharT>;
 	using Helper = StringTestHelper<CharT>;
 
+	using std::swap;
+
 	{
 		string s1 = Helper::abcde();
 		string s2 = Helper::bbcd();
@@ -4434,7 +4435,7 @@ inline BKSGE_CXX14_CONSTEXPR bool SwapTest()
 		VERIFY(s1 == Helper::bbcd());
 		VERIFY(s2 == Helper::abcde());
 
-		bksge::swap(s1, s2);
+		swap(s1, s2);
 		VERIFY(s1 == Helper::abcde());
 		VERIFY(s2 == Helper::bbcd());
 
@@ -4450,7 +4451,7 @@ inline BKSGE_CXX14_CONSTEXPR bool SwapTest()
 		VERIFY(s1 == Helper::abcd());
 		VERIFY(s2.empty());
 
-		bksge::swap(s1, s2);
+		swap(s1, s2);
 		VERIFY(s1.empty());
 		VERIFY(s2 == Helper::abcd());
 

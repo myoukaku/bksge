@@ -53,7 +53,6 @@ using std::piecewise_construct_t;
 #include <bksge/fnd/tuple/fwd/tuple_fwd.hpp>
 #include <bksge/fnd/tuple/tuple_element.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
-#include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
 #include <utility>
@@ -337,7 +336,7 @@ BKSGE_WARNING_POP();
 			bksge::is_nothrow_swappable<T2>
 		>::value))
 	{
-		using bksge::swap;
+		using std::swap;
 		swap(first, p.first);
 		swap(second, p.second);
 	}

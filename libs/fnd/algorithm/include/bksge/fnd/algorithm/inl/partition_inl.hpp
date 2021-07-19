@@ -12,8 +12,8 @@
 #include <bksge/fnd/algorithm/partition.hpp>
 #include <bksge/fnd/iterator/iterator_category.hpp>
 #include <bksge/fnd/iterator/tag.hpp>
-#include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -51,6 +51,7 @@ partition(
 	{
 		if (pred(*p))
 		{
+			using std::swap;
 			swap(*first, *p);
 			++first;
 		}
@@ -92,6 +93,7 @@ partition(
 		}
 		while (!pred(*last));
 
+		using std::swap;
 		swap(*first, *last);
 		++first;
 	}

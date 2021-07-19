@@ -13,10 +13,10 @@
 #include <bksge/fnd/iterator/next.hpp>
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include <sstream>
+#include <utility>
 #include "constexpr_test.hpp"
 
 BKSGE_WARNING_PUSH();
@@ -880,7 +880,8 @@ inline BKSGE_CXX14_CONSTEXPR bool SwapTest()
 	VERIFY(sv1.length() == 7);
 	VERIFY(sv2.length() == 6);
 
-	bksge::swap(sv1, sv2);
+	using std::swap;
+	swap(sv1, sv2);
 
 	VERIFY(sv1.data() == Helper::aababc());
 	VERIFY(sv2.data() == Helper::foo_bar());
@@ -892,7 +893,9 @@ inline BKSGE_CXX14_CONSTEXPR bool SwapTest()
 TYPED_TEST(StringViewTest, SwapTest)
 {
 	using CharT = TypeParam;
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE(SwapTest<CharT>());
+	// TODO
+	//BKSGE_CXX20_CONSTEXPR_EXPECT_TRUE(SwapTest<CharT>());
+	EXPECT_TRUE(SwapTest<CharT>());
 }
 
 template <typename CharT>

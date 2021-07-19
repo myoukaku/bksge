@@ -11,7 +11,6 @@
 
 #include <bksge/fnd/units/detail/quantity_fwd.hpp>
 #include <bksge/fnd/units/detail/derived_dimension_fwd.hpp>
-#include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_swappable.hpp>
 #include <bksge/fnd/type_traits/is_arithmetic.hpp>
@@ -19,6 +18,7 @@
 #include <bksge/fnd/config.hpp>
 #include <ostream>
 #include <cstdint>
+#include <utility>
 
 namespace bksge
 {
@@ -53,7 +53,7 @@ public:
 	BKSGE_CXX14_CONSTEXPR void swap(quantity& other)
 		BKSGE_NOEXCEPT_IF(bksge::is_nothrow_swappable<T>::value)
 	{
-		using bksge::swap;
+		using std::swap;
 		swap(m_value, other.m_value);
 	}
 

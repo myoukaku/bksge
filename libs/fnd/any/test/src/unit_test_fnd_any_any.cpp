@@ -14,7 +14,6 @@
 #include <bksge/fnd/type_traits/is_trivially_copyable.hpp>
 #include <bksge/fnd/tuple/tuple.hpp>
 #include <bksge/fnd/tuple/get.hpp>
-#include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/utility/in_place_type.hpp>
 #include <bksge/fnd/set/set.hpp>
 #include <bksge/fnd/vector.hpp>
@@ -492,12 +491,14 @@ GTEST_TEST(AnyTest, AssignTest)
 			bksge::any a;
 		};
 
+		using std::swap;
+
 		X x;
-		bksge::swap(x, x); // results in "self-move-assignment" of X::a
+		swap(x, x); // results in "self-move-assignment" of X::a
 		EXPECT_TRUE(!x.a.has_value());
 
 		x.a = A{};
-		bksge::swap(x, x); // results in "self-move-assignment" of X::a
+		swap(x, x); // results in "self-move-assignment" of X::a
 		EXPECT_TRUE(x.a.has_value());
 
 		x.a.reset();

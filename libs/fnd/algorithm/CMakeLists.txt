@@ -31,7 +31,6 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../pair ${CMAKE_CURRENT_BINARY_DIR}
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../random ${CMAKE_CURRENT_BINARY_DIR}/random)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../ranges ${CMAKE_CURRENT_BINARY_DIR}/ranges)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../type_traits ${CMAKE_CURRENT_BINARY_DIR}/type_traits)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../utility ${CMAKE_CURRENT_BINARY_DIR}/utility)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../vector ${CMAKE_CURRENT_BINARY_DIR}/vector)
 target_link_libraries(${TARGET_NAME}
 	INTERFACE
@@ -48,7 +47,6 @@ target_link_libraries(${TARGET_NAME}
 		Bksge::random
 		Bksge::ranges
 		Bksge::type_traits
-		Bksge::utility
 		Bksge::vector)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)

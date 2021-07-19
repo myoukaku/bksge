@@ -11,7 +11,6 @@
 
 #include <bksge/fnd/type_traits/is_swappable_with.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <bksge/fnd/utility/swap.hpp>
 #include <utility>
 
 namespace bksge
@@ -20,7 +19,7 @@ namespace bksge
 namespace is_swappable_detail
 {
 
-using bksge::swap;
+using std::swap;
 
 template <typename T, typename U>
 struct is_swappable_with_impl

@@ -10,7 +10,7 @@
 #define BKSGE_FND_ALGORITHM_INL_ITER_SWAP_INL_HPP
 
 #include <bksge/fnd/algorithm/iter_swap.hpp>
-#include <bksge/fnd/utility/swap.hpp>
+#include <bksge/fnd/concepts/swap.hpp>
 
 namespace bksge
 {
@@ -22,7 +22,7 @@ template <typename ForwardIterator1, typename ForwardIterator2>
 inline BKSGE_CXX14_CONSTEXPR void
 iter_swap(ForwardIterator1 a, ForwardIterator2 b)
 {
-	bksge::swap(*a, *b);
+	bksge::ranges::swap(*a, *b);
 }
 
 }	// namespace algorithm

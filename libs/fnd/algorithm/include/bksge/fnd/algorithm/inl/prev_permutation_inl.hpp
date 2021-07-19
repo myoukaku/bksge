@@ -12,9 +12,9 @@
 #include <bksge/fnd/algorithm/prev_permutation.hpp>
 #include <bksge/fnd/algorithm/reverse.hpp>
 #include <bksge/fnd/functional/less.hpp>
-#include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/type_traits/add_lvalue_reference.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -52,6 +52,7 @@ prev_permutation(
 				;
 			}
 
+			using std::swap;
 			swap(*i, *j);
 			bksge::reverse(ip1, last);
 			return true;

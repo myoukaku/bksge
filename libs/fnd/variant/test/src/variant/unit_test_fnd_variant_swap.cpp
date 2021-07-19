@@ -537,7 +537,7 @@ template <class Var> constexpr bool has_swap_member()
 
 void test_swap_sfinae()
 {
-#if 0	// TODO	bksge::swap を削除する?
+#if BKSGE_CXX_STANDARD >= 17
 	{
 		// This variant type does not provide either a member or non-member swap
 		// but is still swappable via the generic swap algorithm, since the
@@ -557,11 +557,13 @@ void test_swap_sfinae()
 		LIBCPP_STATIC_ASSERT(!has_swap_member<V>(), "");
 		static_assert(!bksge::is_swappable<V>::value, "");
 	}
+#if BKSGE_CXX_STANDARD >= 17
 	{
 		using V = bksge::variant<int, NotMoveAssignable>;
 		LIBCPP_STATIC_ASSERT(!has_swap_member<V>(), "");
 		static_assert(!bksge::is_swappable<V>::value, "");
 	}
+#endif
 }
 
 void test_swap_noexcept()
@@ -611,7 +613,7 @@ void test_swap_noexcept()
 		v1.swap(v2);
 		swap(v1, v2);
 	}
-#if 0	// TODO clang だけ？
+#if BKSGE_CXX_STANDARD >= 17
 	{
 		using V = bksge::variant<int, NotMoveAssignableWithSwap>;
 		static_assert(bksge::is_swappable<V>::value && has_swap_member<V>(), "");
@@ -622,7 +624,7 @@ void test_swap_noexcept()
 		swap(v1, v2);
 	}
 #endif
-#if 0	// TODO	bksge::swap を削除する?
+#if BKSGE_CXX_STANDARD >= 17
 	{
 		// This variant type does not provide either a member or non-member swap
 		// but is still swappable via the generic swap algorithm, since the
@@ -632,8 +634,8 @@ void test_swap_noexcept()
 		static_assert(bksge::is_swappable<V>::value, "");
 		static_assert(bksge::is_nothrow_swappable<V>::value, "");
 		V v1, v2;
-//		swap(v1, v2);	// TODO
-		std::swap(v1, v2);
+		using std::swap;
+		swap(v1, v2);
 	}
 #endif
 }

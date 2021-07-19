@@ -13,11 +13,11 @@
 #include <bksge/fnd/algorithm/copy.hpp>
 #include <bksge/fnd/algorithm/fill.hpp>
 #include <bksge/fnd/bit/bit_ceil.hpp>
-#include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
 #include <cstdint>
+#include <utility>
 
 namespace bksge
 {
@@ -47,7 +47,8 @@ private:
 
 			if (i < j)
 			{
-				bksge::swap(v[i], v[j]);
+				using std::swap;
+				swap(v[i], v[j]);
 			}
 		}
 

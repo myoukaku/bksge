@@ -12,7 +12,6 @@
 #include <bksge/fnd/type_traits/is_nothrow_swappable_with.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/is_swappable_with.hpp>
-#include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
 
@@ -22,7 +21,7 @@ namespace bksge
 namespace is_nothrow_swappable_detail
 {
 
-using bksge::swap;
+using std::swap;
 
 #if defined(BKSGE_HAS_CXX11_NOEXCEPT)
 

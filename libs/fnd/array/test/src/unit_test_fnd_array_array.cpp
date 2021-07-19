@@ -12,7 +12,6 @@
 #include <bksge/fnd/compare/is_gt.hpp>
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include <utility>
@@ -383,7 +382,8 @@ inline BKSGE_CXX14_CONSTEXPR bool test_swap()
 		VERIFY(a2[1] == 2);
 		VERIFY(a2[2] == 3);
 
-		bksge::swap(a1, a2);
+		using std::swap;
+		swap(a1, a2);
 
 		VERIFY(a1[0] == 1);
 		VERIFY(a1[1] == 2);

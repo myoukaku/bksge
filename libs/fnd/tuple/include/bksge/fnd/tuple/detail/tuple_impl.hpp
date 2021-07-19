@@ -15,7 +15,6 @@
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_move_constructible.hpp>
-#include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
 #include <utility>
@@ -182,7 +181,7 @@ protected:
 	BKSGE_CXX14_CONSTEXPR
 	void swap(tuple_impl& in)
 	{
-		using bksge::swap;
+		using std::swap;
 		swap(head(*this), head(in));
 		Inherited::swap(tail(in));
 	}
@@ -302,7 +301,7 @@ protected:
 	BKSGE_CXX14_CONSTEXPR
 	void swap(tuple_impl& in)
 	{
-		using bksge::swap;
+		using std::swap;
 		swap(head(*this), head(in));
 	}
 };

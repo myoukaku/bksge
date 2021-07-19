@@ -46,7 +46,6 @@ using std::tuple;
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/negation.hpp>
 #include <bksge/fnd/utility/index_sequence_for.hpp>
-#include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/pair.hpp>
 #include <bksge/fnd/array.hpp>
 #include <bksge/fnd/config.hpp>

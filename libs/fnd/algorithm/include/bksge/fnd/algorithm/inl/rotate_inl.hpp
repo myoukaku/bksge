@@ -21,7 +21,6 @@
 #include <bksge/fnd/iterator/tag.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/is_trivially_move_assignable.hpp>
-#include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
 
@@ -66,6 +65,8 @@ rotate_forward(
 	ForwardIterator middle,
 	ForwardIterator last)
 {
+	using std::swap;
+
 	auto i = middle;
 
 	for (;;)

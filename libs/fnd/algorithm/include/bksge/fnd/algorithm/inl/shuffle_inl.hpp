@@ -12,8 +12,8 @@
 #include <bksge/fnd/algorithm/shuffle.hpp>
 #include <bksge/fnd/iterator/iter_difference_t.hpp>
 #include <bksge/fnd/random/distributions/uniform_int_distribution.hpp>
-#include <bksge/fnd/utility/swap.hpp>
 #include <cstddef>
+#include <utility>
 
 namespace bksge
 {
@@ -47,6 +47,7 @@ shuffle(
 
 			if (i != difference_type(0))
 			{
+				using std::swap;
 				swap(*first, *(first + i));
 			}
 		}

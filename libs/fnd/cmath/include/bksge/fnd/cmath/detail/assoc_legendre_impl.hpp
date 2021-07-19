@@ -16,10 +16,10 @@
 #include <bksge/fnd/cmath/legendre.hpp>
 //#include <bksge/fnd/stdexcept/domain_error.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
-#include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cmath>
 #include <limits>
+#include <utility>
 
 namespace bksge
 {
@@ -83,7 +83,8 @@ assoc_legendre_unchecked_2(unsigned int n, unsigned int m, T x)
 
 	while (c < n)
 	{
-		bksge::swap(p0, p1);
+		using std::swap;
+		swap(p0, p1);
 		p1 = ((2 * c + 1) * x * p0 - (c + m) * p1) / (c + 1 - m);
 		++c;
 	}

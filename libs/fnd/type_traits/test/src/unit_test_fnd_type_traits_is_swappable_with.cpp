@@ -31,7 +31,9 @@ BKSGE_IS_SWAPPABLE_WITH_TEST(false,                int, const          int);
 BKSGE_IS_SWAPPABLE_WITH_TEST(false,                int,       volatile int);
 BKSGE_IS_SWAPPABLE_WITH_TEST(false,                int, const volatile int);
 BKSGE_IS_SWAPPABLE_WITH_TEST(false, const          int,                int);
+#if BKSGE_CXX_STANDARD >= 17
 BKSGE_IS_SWAPPABLE_WITH_TEST(false, const          int, const          int);
+#endif
 BKSGE_IS_SWAPPABLE_WITH_TEST(false, const          int,       volatile int);
 BKSGE_IS_SWAPPABLE_WITH_TEST(false, const          int, const volatile int);
 BKSGE_IS_SWAPPABLE_WITH_TEST(false,       volatile int,                int);
@@ -48,7 +50,9 @@ BKSGE_IS_SWAPPABLE_WITH_TEST(false,                int&, const          int&);
 BKSGE_IS_SWAPPABLE_WITH_TEST(false,                int&,       volatile int&);
 BKSGE_IS_SWAPPABLE_WITH_TEST(false,                int&, const volatile int&);
 BKSGE_IS_SWAPPABLE_WITH_TEST(false, const          int&,                int&);
+#if BKSGE_CXX_STANDARD >= 17
 BKSGE_IS_SWAPPABLE_WITH_TEST(false, const          int&, const          int&);
+#endif
 BKSGE_IS_SWAPPABLE_WITH_TEST(false, const          int&,       volatile int&);
 BKSGE_IS_SWAPPABLE_WITH_TEST(false, const          int&, const volatile int&);
 BKSGE_IS_SWAPPABLE_WITH_TEST(false,       volatile int&,                int&);
@@ -58,7 +62,9 @@ BKSGE_IS_SWAPPABLE_WITH_TEST(false,       volatile int&, const volatile int&);
 BKSGE_IS_SWAPPABLE_WITH_TEST(false, const volatile int&,                int&);
 BKSGE_IS_SWAPPABLE_WITH_TEST(false, const volatile int&, const          int&);
 BKSGE_IS_SWAPPABLE_WITH_TEST(false, const volatile int&,       volatile int&);
+#if BKSGE_CXX_STANDARD >= 17
 BKSGE_IS_SWAPPABLE_WITH_TEST(false, const volatile int&, const volatile int&);
+#endif
 
 BKSGE_IS_SWAPPABLE_WITH_TEST(false, int, int*);
 BKSGE_IS_SWAPPABLE_WITH_TEST(false, int, int&);

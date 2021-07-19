@@ -53,7 +53,6 @@ using std::optional;
 #include <bksge/fnd/type_traits/remove_cv.hpp>
 #include <bksge/fnd/type_traits/remove_cvref.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
-#include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/config.hpp>
 #include <initializer_list>
 #include <utility>
@@ -377,7 +376,7 @@ public:
 			bksge::is_nothrow_move_constructible<T>,
 			bksge::is_nothrow_swappable<T>>::value))
 	{
-		using bksge::swap;
+		using std::swap;
 
 		if (this->is_engaged() && other.is_engaged())
 		{

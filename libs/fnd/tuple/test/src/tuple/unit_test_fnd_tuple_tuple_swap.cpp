@@ -55,23 +55,31 @@ static_assert( bksge::is_swappable<bksge::tuple<int, int>>::value, "");
 static_assert( bksge::is_swappable<bksge::tuple<int, int, int>>::value, "");
 static_assert( bksge::is_swappable<bksge::tuple<ThrowOnMove>>::value, "");
 static_assert( bksge::is_swappable<bksge::tuple<NothrowOnMove>>::value, "");
+#if BKSGE_CXX_STANDARD >= 17
 static_assert(!bksge::is_swappable<bksge::tuple<NonMovable>>::value, "");
+#endif
 static_assert( bksge::is_swappable<bksge::tuple<ThrowOnMove, ThrowOnMove>>::value, "");
 static_assert( bksge::is_swappable<bksge::tuple<ThrowOnMove, NothrowOnMove>>::value, "");
+#if BKSGE_CXX_STANDARD >= 17
 static_assert(!bksge::is_swappable<bksge::tuple<ThrowOnMove, NonMovable>>::value, "");
+#endif
 static_assert( bksge::is_swappable<bksge::tuple<NothrowOnMove, ThrowOnMove>>::value, "");
 static_assert( bksge::is_swappable<bksge::tuple<NothrowOnMove, NothrowOnMove>>::value, "");
+#if BKSGE_CXX_STANDARD >= 17
 static_assert(!bksge::is_swappable<bksge::tuple<NothrowOnMove, NonMovable>>::value, "");
 static_assert(!bksge::is_swappable<bksge::tuple<NonMovable, ThrowOnMove>>::value, "");
 static_assert(!bksge::is_swappable<bksge::tuple<NonMovable, NothrowOnMove>>::value, "");
 static_assert(!bksge::is_swappable<bksge::tuple<NonMovable, NonMovable>>::value, "");
+#endif
 static_assert( bksge::is_swappable<bksge::tuple<NothrowOnMove, NothrowOnMove, NothrowOnMove>>::value, "");
 static_assert( bksge::is_swappable<bksge::tuple<ThrowOnMove,   NothrowOnMove, NothrowOnMove>>::value, "");
 static_assert( bksge::is_swappable<bksge::tuple<NothrowOnMove, ThrowOnMove,   NothrowOnMove>>::value, "");
 static_assert( bksge::is_swappable<bksge::tuple<NothrowOnMove, NothrowOnMove, ThrowOnMove>>::value, "");
+#if BKSGE_CXX_STANDARD >= 17
 static_assert(!bksge::is_swappable<bksge::tuple<NonMovable,   NothrowOnMove, NothrowOnMove>>::value, "");
 static_assert(!bksge::is_swappable<bksge::tuple<NothrowOnMove, NonMovable,   NothrowOnMove>>::value, "");
 static_assert(!bksge::is_swappable<bksge::tuple<NothrowOnMove, NothrowOnMove, NonMovable>>::value, "");
+#endif
 
 static_assert( bksge::is_nothrow_swappable<bksge::tuple<>>::value, "");
 static_assert( bksge::is_nothrow_swappable<bksge::tuple<int>>::value, "");
@@ -163,7 +171,9 @@ inline BKSGE_CXX14_CONSTEXPR bool test()
 
 GTEST_TEST(TupleTest, SwapTest)
 {
-	BKSGE_CXX14_CONSTEXPR_EXPECT_TRUE((test()));
+	// TODO
+	//BKSGE_CXX20_CONSTEXPR_EXPECT_TRUE((test()));
+	EXPECT_TRUE((test()));
 }
 
 }	// namespace swap_test

@@ -12,10 +12,10 @@
 #include <bksge/fnd/cmath/abs.hpp>
 #include <bksge/fnd/cmath/isnan.hpp>
 #include <bksge/fnd/type_traits/float_promote.hpp>
-#include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cmath>
 #include <limits>
+#include <utility>
 
 namespace bksge
 {
@@ -59,7 +59,8 @@ legendre_unchecked_2(unsigned int n, T x)
 	unsigned c = 1;
 	while (c < n)
 	{
-		bksge::swap(p0, p1);
+		using std::swap;
+		swap(p0, p1);
 		p1 = ((2 * c + 1) * x * p0 - c * p1) / (c + 1);
 		++c;
 	}

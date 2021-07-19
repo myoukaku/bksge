@@ -35,7 +35,6 @@ using std::any;
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/type_traits/negation.hpp>
 #include <bksge/fnd/utility/in_place_type.hpp>
-#include <bksge/fnd/utility/swap.hpp>
 #include <initializer_list>
 #include <typeinfo>		// type_info
 

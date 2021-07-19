@@ -24,9 +24,11 @@ static_assert(!bksge::is_swappable<bksge::pair<int, C>>::value, "");
 static_assert(!bksge::is_swappable<bksge::pair<C, int>>::value, "");
 #endif
 
+#if BKSGE_CXX_STANDARD >= 17
 struct D { D(D&&) = delete; };
 static_assert(!bksge::is_swappable<bksge::pair<int, D>>::value, "");
 static_assert(!bksge::is_swappable<bksge::pair<D, int>>::value, "");
+#endif
 
 #define VERIFY(...)	if (!(__VA_ARGS__)) { return false; }
 

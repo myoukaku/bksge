@@ -7,9 +7,9 @@
  */
 
 #include <bksge/fnd/optional/optional.hpp>
-#include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 #include "constexpr_test.hpp"
 
 namespace bksge_optional_test
@@ -38,7 +38,7 @@ int swaps = 0;
 inline void swap(value_type& lhs, value_type& rhs)
 {
 	++swaps;
-	using bksge::swap;
+	using std::swap;
 	swap(lhs.state, rhs.state);
 }
 
