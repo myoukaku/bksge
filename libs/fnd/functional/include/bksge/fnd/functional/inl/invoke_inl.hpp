@@ -17,8 +17,8 @@
 #include <bksge/fnd/type_traits/is_member_object_pointer.hpp>
 #include <bksge/fnd/type_traits/detail/member_object_pointer_traits.hpp>
 #include <bksge/fnd/type_traits/detail/member_function_pointer_traits.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 BKSGE_WARNING_PUSH()
 BKSGE_WARNING_DISABLE_MSVC(4244)	// '...' から '...' への変換です。データが失われる可能性があります。
@@ -53,7 +53,7 @@ struct invoke_memfun_impl<true, IsRefWrapper>
 	template <typename F, typename A0, typename... Args>
 	static BKSGE_CONSTEXPR auto
 	invoke(F&& f, A0&& t, Args&&... args)
-	BKSGE_INVOKE_RETURN((bksge::forward<A0>(t).*f)(bksge::forward<Args>(args)...))
+	BKSGE_INVOKE_RETURN((std::forward<A0>(t).*f)(std::forward<Args>(args)...))
 };
 
 template <>
@@ -62,7 +62,7 @@ struct invoke_memfun_impl<false, true>
 	template <typename F, typename A0, typename... Args>
 	static BKSGE_CONSTEXPR auto
 	invoke(F&& f, A0&& t, Args&&... args)
-	BKSGE_INVOKE_RETURN((t.get().*f)(bksge::forward<Args>(args)...))
+	BKSGE_INVOKE_RETURN((t.get().*f)(std::forward<Args>(args)...))
 };
 
 template <>
@@ -71,7 +71,7 @@ struct invoke_memfun_impl<false, false>
 	template <typename F, typename A0, typename... Args>
 	static BKSGE_CONSTEXPR auto
 	invoke(F&& f, A0&& t, Args&&... args)
-	BKSGE_INVOKE_RETURN(((*bksge::forward<A0>(t)).*f)(bksge::forward<Args>(args)...))
+	BKSGE_INVOKE_RETURN(((*std::forward<A0>(t)).*f)(std::forward<Args>(args)...))
 };
 
 template <typename ClassT, typename A0>
@@ -92,7 +92,7 @@ struct invoke_memobj_impl<true, IsRefWrapper>
 	template <typename F, typename A0>
 	static BKSGE_CONSTEXPR auto
 	invoke(F&& f, A0&& t)
-	BKSGE_INVOKE_RETURN(bksge::forward<A0>(t).*f)
+	BKSGE_INVOKE_RETURN(std::forward<A0>(t).*f)
 };
 
 template <>
@@ -110,7 +110,7 @@ struct invoke_memobj_impl<false, false>
 	template <typename F, typename A0>
 	static BKSGE_CONSTEXPR auto
 	invoke(F&& f, A0&& t)
-	BKSGE_INVOKE_RETURN((*bksge::forward<A0>(t)).*f)
+	BKSGE_INVOKE_RETURN((*std::forward<A0>(t)).*f)
 };
 
 template <typename ClassT, typename A0>
@@ -127,7 +127,7 @@ struct invoke_other
 	template <typename F, typename... Args>
 	static BKSGE_CONSTEXPR auto
 	invoke(F&& f, Args&&... args)
-	BKSGE_INVOKE_RETURN(bksge::forward<F>(f)(bksge::forward<Args>(args)...))
+	BKSGE_INVOKE_RETURN(std::forward<F>(f)(std::forward<Args>(args)...))
 };
 
 // invoke_impl
@@ -158,7 +158,7 @@ BKSGE_INVOKE_RETURN((invoke_impl<
 		bksge::is_member_object_pointer<bksge::decay_t<F>>::value,
 		bksge::decay_t<F>,
 		bksge::decay_t<Args>...
-	>::invoke(bksge::forward<F>(f), bksge::forward<Args>(args)...)))
+	>::invoke(std::forward<F>(f), std::forward<Args>(args)...)))
 
 #undef BKSGE_INVOKE_RETURN
 

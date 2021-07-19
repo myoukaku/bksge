@@ -16,7 +16,6 @@
 #include <bksge/fnd/type_traits/is_object.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
@@ -68,7 +67,7 @@ public:
 	BKSGE_REQUIRES(bksge::constructible_from<T, Args...>)
 	BKSGE_CONSTEXPR explicit
 	single_view(bksge::in_place_t, Args&&... args)
-		: m_value{bksge::in_place, bksge::forward<Args>(args)...}
+		: m_value{bksge::in_place, std::forward<Args>(args)...}
 	{}
 
 	BKSGE_CXX14_CONSTEXPR T* begin() BKSGE_NOEXCEPT
@@ -121,7 +120,7 @@ struct single_fn
 	template <typename T>
 	BKSGE_CONSTEXPR single_view<T> operator()(T&& t) const
 	{
-		return single_view<T>{bksge::forward<T>(t)};
+		return single_view<T>{std::forward<T>(t)};
 	}
 };
 

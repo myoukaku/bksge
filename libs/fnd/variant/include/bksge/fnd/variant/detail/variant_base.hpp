@@ -11,9 +11,9 @@
 
 #include <bksge/fnd/variant/detail/move_assign.hpp>
 #include <bksge/fnd/variant/detail/variant_traits.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/in_place_index.hpp>
 #include <cstddef>
+#include <utility>
 
 namespace bksge
 {
@@ -35,7 +35,7 @@ struct VariantBase : public variant_detail::MoveAssignAlias<Types...>
 	template <std::size_t N, typename... Args>
 	constexpr explicit
 	VariantBase(bksge::in_place_index_t<N> i, Args&&... args)
-		: Base(i, bksge::forward<Args>(args)...)
+		: Base(i, std::forward<Args>(args)...)
 	{}
 
 	VariantBase(VariantBase const&)            = default;

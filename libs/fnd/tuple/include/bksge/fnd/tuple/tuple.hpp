@@ -45,7 +45,6 @@ using std::tuple;
 #include <bksge/fnd/type_traits/disjunction.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/negation.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/index_sequence_for.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/pair.hpp>
@@ -159,7 +158,7 @@ public:
 	explicit(!IsImplicitlyConstructible<UTypes&&...>::value) BKSGE_CONSTEXPR
 	tuple(UTypes&&... args)
 		BKSGE_NOEXCEPT_IF((IsNothrowConstructible<UTypes&&...>::value))
-		: Inherited(bksge::forward<UTypes>(args)...) {}
+		: Inherited(std::forward<UTypes>(args)...) {}
 
 	// (4) Converting copy-constructor
 	template <typename... UTypes,
@@ -197,7 +196,7 @@ public:
 	explicit(!IsImplicitlyConstructible<U1&&, U2&&>::value) BKSGE_CONSTEXPR
 	tuple(bksge::pair<U1, U2>&& in)
 		BKSGE_NOEXCEPT_IF((IsNothrowConstructible<U1&&, U2&&>::value))
-		: Inherited(bksge::forward<U1>(in.first), bksge::forward<U2>(in.second)) {}
+		: Inherited(std::forward<U1>(in.first), std::forward<U2>(in.second)) {}
 
 	// Allocator-extended constructors.
 
@@ -222,7 +221,7 @@ public:
 		bksge::enable_if_t<IsConstructible<UTypes&&...>::value>* = nullptr>
 	explicit(!IsImplicitlyConstructible<UTypes&&...>::value) BKSGE_CONSTEXPR
 	tuple(bksge::allocator_arg_t tag, Alloc const& a, UTypes&&... args)
-		: Inherited(tag, a, bksge::forward<UTypes>(args)...) {}
+		: Inherited(tag, a, std::forward<UTypes>(args)...) {}
 
 	// (13) Converting copy-constructor
 	template <typename Alloc, typename... UTypes,
@@ -256,7 +255,7 @@ public:
 		bksge::enable_if_t<IsConstructible<U1&&, U2&&>::value>* = nullptr>
 	explicit(!IsImplicitlyConstructible<U1&&, U2&&>::value) BKSGE_CONSTEXPR
 	tuple(bksge::allocator_arg_t tag, Alloc const& a, bksge::pair<U1, U2>&& in)
-		: Inherited(tag, a, bksge::forward<U1>(in.first), bksge::forward<U2>(in.second)) {}
+		: Inherited(tag, a, std::forward<U1>(in.first), std::forward<U2>(in.second)) {}
 
 #else
 
@@ -309,7 +308,7 @@ public:
 	BKSGE_CONSTEXPR
 	tuple(UTypes&&... args)
 		BKSGE_NOEXCEPT_IF((IsNothrowConstructible<UTypes&&...>::value))
-		: Inherited(bksge::forward<UTypes>(args)...) {}
+		: Inherited(std::forward<UTypes>(args)...) {}
 
 	template <typename... UTypes,
 		bksge::enable_if_t<bksge::conjunction<
@@ -319,7 +318,7 @@ public:
 	explicit BKSGE_CONSTEXPR
 	tuple(UTypes&&... args)
 		BKSGE_NOEXCEPT_IF((IsNothrowConstructible<UTypes&&...>::value))
-		: Inherited(bksge::forward<UTypes>(args)...) {}
+		: Inherited(std::forward<UTypes>(args)...) {}
 
 	// (4) Converting copy-constructor
 	template <typename... UTypes,
@@ -397,7 +396,7 @@ public:
 	BKSGE_CONSTEXPR
 	tuple(bksge::pair<U1, U2>&& in)
 		BKSGE_NOEXCEPT_IF((IsNothrowConstructible<U1&&, U2&&>::value))
-		: Inherited(bksge::forward<U1>(in.first), bksge::forward<U2>(in.second)) {}
+		: Inherited(std::forward<U1>(in.first), std::forward<U2>(in.second)) {}
 
 	template <typename U1, typename U2,
 		bksge::enable_if_t<bksge::conjunction<
@@ -407,7 +406,7 @@ public:
 	explicit BKSGE_CONSTEXPR
 	tuple(bksge::pair<U1, U2>&& in)
 		BKSGE_NOEXCEPT_IF((IsNothrowConstructible<U1&&, U2&&>::value))
-		: Inherited(bksge::forward<U1>(in.first), bksge::forward<U2>(in.second)) {}
+		: Inherited(std::forward<U1>(in.first), std::forward<U2>(in.second)) {}
 
 	// Allocator-extended constructors.
 
@@ -457,7 +456,7 @@ public:
 		>::value>* = nullptr>
 	BKSGE_CONSTEXPR
 	tuple(bksge::allocator_arg_t tag, Alloc const& a, UTypes&&... args)
-		: Inherited(tag, a, bksge::forward<UTypes>(args)...) {}
+		: Inherited(tag, a, std::forward<UTypes>(args)...) {}
 
 	template <typename Alloc, typename... UTypes,
 		bksge::enable_if_t<bksge::conjunction<
@@ -466,7 +465,7 @@ public:
 		>::value>* = nullptr>
 	explicit BKSGE_CONSTEXPR
 	tuple(bksge::allocator_arg_t tag, Alloc const& a, UTypes&&... args)
-		: Inherited(tag, a, bksge::forward<UTypes>(args)...) {}
+		: Inherited(tag, a, std::forward<UTypes>(args)...) {}
 
 	// (13) Converting copy-constructor
 	template <typename Alloc, typename... UTypes,
@@ -537,7 +536,7 @@ public:
 		>::value>* = nullptr>
 	BKSGE_CONSTEXPR
 	tuple(bksge::allocator_arg_t tag, Alloc const& a, bksge::pair<U1, U2>&& in)
-		: Inherited(tag, a, bksge::forward<U1>(in.first), bksge::forward<U2>(in.second)) {}
+		: Inherited(tag, a, std::forward<U1>(in.first), std::forward<U2>(in.second)) {}
 
 	template <typename Alloc, typename U1, typename U2,
 		bksge::enable_if_t<bksge::conjunction<
@@ -546,7 +545,7 @@ public:
 		>::value>* = nullptr>
 	explicit BKSGE_CONSTEXPR
 	tuple(bksge::allocator_arg_t tag, Alloc const& a, bksge::pair<U1, U2>&& in)
-		: Inherited(tag, a, bksge::forward<U1>(in.first), bksge::forward<U2>(in.second)) {}
+		: Inherited(tag, a, std::forward<U1>(in.first), std::forward<U2>(in.second)) {}
 
 #endif
 
@@ -656,8 +655,8 @@ public:
 	operator=(bksge::pair<U1, U2>&& in)
 		BKSGE_NOEXCEPT_IF((IsNothrowAssignable<U1, U2>::value))
 	{
-		this->head(*this) = bksge::forward<U1>(in.first);
-		this->tail(*this).head(*this) = bksge::forward<U2>(in.second);
+		this->head(*this) = std::forward<U1>(in.first);
+		this->tail(*this).head(*this) = std::forward<U2>(in.second);
 		return *this;
 	}
 

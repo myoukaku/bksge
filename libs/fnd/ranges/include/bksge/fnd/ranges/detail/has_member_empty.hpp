@@ -10,7 +10,6 @@
 #define BKSGE_FND_RANGES_DETAIL_HAS_MEMBER_EMPTY_HPP
 
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
 
@@ -29,7 +28,7 @@ template <typename T>
 concept has_member_empty =
 	requires(T&& t)
 	{
-		bool(bksge::forward<T>(t).empty());
+		bool(std::forward<T>(t).empty());
 	};
 
 #else

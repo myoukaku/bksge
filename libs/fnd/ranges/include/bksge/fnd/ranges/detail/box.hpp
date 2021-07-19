@@ -25,7 +25,6 @@
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/optional.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
@@ -131,7 +130,7 @@ public:
 	BKSGE_CONSTEXPR explicit
 	box(bksge::in_place_t, Args&&... args)
 		BKSGE_NOEXCEPT_IF((bksge::is_nothrow_constructible<T, Args...>::value))
-		: m_value{bksge::forward<Args>(args)...}
+		: m_value{std::forward<Args>(args)...}
 	{}
 
 	BKSGE_CONSTEXPR bool has_value() const BKSGE_NOEXCEPT

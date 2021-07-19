@@ -11,8 +11,8 @@
 
 #include <bksge/fnd/tpp/fold_left.hpp>
 #include <bksge/fnd/functional/plus.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -26,7 +26,7 @@ namespace tpp
 template <typename Result, typename... Args>
 inline BKSGE_CONSTEXPR Result accumulate(Args&&... args)
 {
-	return bksge::tpp::fold_left(bksge::plus<>{}, Result{}, bksge::forward<Args>(args)...);
+	return bksge::tpp::fold_left(bksge::plus<>{}, Result{}, std::forward<Args>(args)...);
 }
 
 }	// namespace tpp

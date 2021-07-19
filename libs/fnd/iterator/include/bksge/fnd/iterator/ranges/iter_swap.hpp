@@ -18,8 +18,8 @@
 #include <bksge/fnd/concepts/swap.hpp>
 #include <bksge/fnd/concepts/swappable_with.hpp>
 #include <bksge/fnd/type_traits/remove_reference.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 #define BKSGE_NOEXCEPT_DECLTYPE_RETURN(...) \
 	BKSGE_NOEXCEPT_IF_EXPR(__VA_ARGS__)     \
@@ -75,7 +75,7 @@ private:
 #endif
 	static BKSGE_CXX14_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<2>, I1&& i1, I2&& i2)
-		BKSGE_NOEXCEPT_DECLTYPE_RETURN(iter_swap(bksge::forward<I1>(i1), bksge::forward<I2>(i2)))
+		BKSGE_NOEXCEPT_DECLTYPE_RETURN(iter_swap(std::forward<I1>(i1), std::forward<I2>(i2)))
 
 	template <typename I1, typename I2
 #if !defined(BKSGE_HAS_CXX20_CONCEPTS)
@@ -121,8 +121,8 @@ public:
 	BKSGE_CXX14_CONSTEXPR auto operator()(I1&& i1, I2&& i2) const
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(impl(
 			bksge::detail::overload_priority<2>{},
-			bksge::forward<I1>(i1),
-			bksge::forward<I2>(i2)))
+			std::forward<I1>(i1),
+			std::forward<I2>(i2)))
 };
 
 }	// namespace iter_swap_detail

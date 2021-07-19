@@ -11,7 +11,6 @@
 
 #include <bksge/fnd/ranges/size.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
 
@@ -30,7 +29,7 @@ template <typename T>
 concept size0_empty =
 	requires(T&& t)
 	{
-		ranges::size(bksge::forward<T>(t)) == 0;
+		ranges::size(std::forward<T>(t)) == 0;
 	};
 
 #else

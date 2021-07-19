@@ -16,7 +16,6 @@
 #include <bksge/fnd/type_traits/is_trivially_copyable.hpp>
 #include <bksge/fnd/utility/in_place_index.hpp>
 #include <bksge/fnd/utility/in_place_type.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include <utility>
@@ -636,7 +635,7 @@ constexpr bool test_constexpr_assign_imp(
 {
 	using std::get;
 	const bksge::variant<long, void*, int> cp(
-		bksge::forward<ValueType>(new_value));
+		std::forward<ValueType>(new_value));
 	v = cp;
 	return v.index() == NewIdx &&
 		get<NewIdx>(v) == get<NewIdx>(cp);

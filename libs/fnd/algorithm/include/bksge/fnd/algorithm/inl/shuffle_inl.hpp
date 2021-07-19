@@ -12,7 +12,6 @@
 #include <bksge/fnd/algorithm/shuffle.hpp>
 #include <bksge/fnd/iterator/iter_difference_t.hpp>
 #include <bksge/fnd/random/distributions/uniform_int_distribution.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 #include <cstddef>
 

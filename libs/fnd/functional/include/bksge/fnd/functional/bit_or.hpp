@@ -22,8 +22,8 @@ using std::bit_or;
 
 #else
 
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -52,9 +52,9 @@ struct bit_or<void>
 
 	template <typename T, typename U>
 	BKSGE_CONSTEXPR auto operator()(T&& lhs, U&& rhs) const
-	-> decltype(bksge::forward<T>(lhs) | bksge::forward<U>(rhs))
+	->decltype(std::forward<T>(lhs) | std::forward<U>(rhs))
 	{
-		return bksge::forward<T>(lhs) | bksge::forward<U>(rhs);
+		return std::forward<T>(lhs) | std::forward<U>(rhs);
 	}
 };
 

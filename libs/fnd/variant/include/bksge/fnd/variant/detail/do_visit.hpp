@@ -10,7 +10,6 @@
 #define BKSGE_FND_VARIANT_DETAIL_DO_VISIT_HPP
 
 #include <bksge/fnd/variant/detail/gen_vtable.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/type_traits/invoke_result.hpp>
 #include <utility>
 
@@ -40,8 +39,8 @@ struct do_visit_t
 			ResultType, Visitor&&, Variants&&...>::s_vtable;
 		auto func_ptr = vtable.access(variants.index()...);
 		return (*func_ptr)(
-			bksge::forward<Visitor>(visitor),
-			bksge::forward<Variants>(variants)...);
+			std::forward<Visitor>(visitor),
+			std::forward<Variants>(variants)...);
 	}
 };
 
@@ -50,8 +49,8 @@ BKSGE_CXX14_CONSTEXPR typename do_visit_t<ResultType, Visitor, Variants...>::res
 do_visit(Visitor&& visitor, Variants&&... variants)
 {
 	return do_visit_t<ResultType, Visitor, Variants...>{}(
-		bksge::forward<Visitor>(visitor),
-		bksge::forward<Variants>(variants)...);
+		std::forward<Visitor>(visitor),
+		std::forward<Variants>(variants)...);
 }
 
 }	// namespace variant_detail

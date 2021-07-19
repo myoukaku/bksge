@@ -31,7 +31,6 @@
 #include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/iterator/ranges/next.hpp>
 #include <bksge/fnd/type_traits/conditional.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <utility>
@@ -195,7 +194,7 @@ struct drop_fn
 	BKSGE_CONSTEXPR auto operator()(Range&& r, T&& n) const
 	-> drop_view<views::all_t<Range>>
 	{
-		return {bksge::forward<Range>(r), bksge::forward<T>(n)};
+		return {std::forward<Range>(r), std::forward<T>(n)};
 	}
 };
 

@@ -15,8 +15,8 @@
 #include <bksge/fnd/concepts/same_as.hpp>
 #include <bksge/fnd/concepts/detail/overload_priority.hpp>
 #include <bksge/fnd/type_traits/decay.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -48,7 +48,7 @@ private:
 	static BKSGE_CONSTEXPR auto
 	impl(T&& e, U&& f, bksge::detail::overload_priority<2>)
 	BKSGE_NOEXCEPT_DECLTYPE_RETURN(
-		bksge::partial_ordering(partial_order(bksge::forward<T>(e), bksge::forward<U>(f))))
+		bksge::partial_ordering(partial_order(std::forward<T>(e), std::forward<U>(f))))
 
 #if defined(BKSGE_HAS_STD_COMPARE) && defined(BKSGE_HAS_CXX20_THREE_WAY_COMPARISON)
 	// partial_ordering(e <=> f)
@@ -56,7 +56,7 @@ private:
 	static BKSGE_CONSTEXPR auto
 	impl(T&& e, U&& f, bksge::detail::overload_priority<1>)
 	BKSGE_NOEXCEPT_DECLTYPE_RETURN(
-		bksge::partial_ordering(bksge::compare_three_way()(bksge::forward<T>(e), bksge::forward<U>(f))))
+		bksge::partial_ordering(bksge::compare_three_way()(std::forward<T>(e), std::forward<U>(f))))
 #endif
 
 	// partial_ordering(weak_order(e, f))
@@ -64,17 +64,17 @@ private:
 	static BKSGE_CONSTEXPR auto
 	impl(T&& e, U&& f, bksge::detail::overload_priority<0>)
 	BKSGE_NOEXCEPT_DECLTYPE_RETURN(
-		bksge::partial_ordering(detail::weak_order_t{}(bksge::forward<T>(e), bksge::forward<U>(f))))
+		bksge::partial_ordering(detail::weak_order_t{}(std::forward<T>(e), std::forward<U>(f))))
 
 public:
 	template <typename T, typename U>
 	BKSGE_CONSTEXPR auto operator()(T&& e, U&& f) const
-		BKSGE_NOEXCEPT_IF_EXPR(impl(bksge::forward<T>(e), bksge::forward<U>(f), bksge::detail::overload_priority<2>{}))
-	->decltype((impl(bksge::forward<T>(e), bksge::forward<U>(f), bksge::detail::overload_priority<2>{})))
+		BKSGE_NOEXCEPT_IF_EXPR(impl(std::forward<T>(e), std::forward<U>(f), bksge::detail::overload_priority<2>{}))
+	->decltype((impl(std::forward<T>(e), std::forward<U>(f), bksge::detail::overload_priority<2>{})))
 	{
 		static_assert(bksge::is_same_as<bksge::decay_t<T>, bksge::decay_t<U>>::value, "");
 
-		return impl(bksge::forward<T>(e), bksge::forward<U>(f), bksge::detail::overload_priority<2>{});
+		return impl(std::forward<T>(e), std::forward<U>(f), bksge::detail::overload_priority<2>{});
 	}
 };
 

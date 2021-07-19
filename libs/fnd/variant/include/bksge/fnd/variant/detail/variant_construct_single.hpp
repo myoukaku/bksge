@@ -13,7 +13,7 @@
 #include <bksge/fnd/memory/addressof.hpp>
 #include <bksge/fnd/type_traits/remove_reference.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/utility/forward.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -31,14 +31,14 @@ void variant_construct_single_impl(T&& lhs, U&& rhs_mem, bksge::false_type)
 {
 	using Type = bksge::remove_reference_t<U>;
 	void* storage = bksge::addressof(lhs.m_u);
-	::new (storage) Type(bksge::forward<U>(rhs_mem));
+	::new (storage) Type(std::forward<U>(rhs_mem));
 }
 
 template <typename T, typename U>
 void variant_construct_single(T&& lhs, U&& rhs_mem)
 {
 	using Type = bksge::remove_reference_t<U>;
-	variant_construct_single_impl(bksge::forward<T>(lhs), bksge::forward<U>(rhs_mem),
+	variant_construct_single_impl(std::forward<T>(lhs), std::forward<U>(rhs_mem),
 		bksge::is_same<Type, variant_detail::VariantCookie>{});
 }
 

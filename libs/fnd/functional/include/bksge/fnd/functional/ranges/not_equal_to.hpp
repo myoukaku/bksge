@@ -13,7 +13,6 @@
 #include <bksge/fnd/functional/detail/eq_builtin_ptr_cmp.hpp>
 #include <bksge/fnd/concepts/equality_comparable_with.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
 
@@ -44,7 +43,7 @@ struct not_equal_to
 	BKSGE_CONSTEXPR bool operator()(T&& t, U&& u) const
 		BKSGE_NOEXCEPT_IF_EXPR(std::declval<U>() == std::declval<T>())
 	{
-		return !bksge::ranges::equal_to{}(bksge::forward<T>(t), bksge::forward<U>(u));
+		return !bksge::ranges::equal_to{}(std::forward<T>(t), std::forward<U>(u));
 	}
 
 	using is_transparent = void;

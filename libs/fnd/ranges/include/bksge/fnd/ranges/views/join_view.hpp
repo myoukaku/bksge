@@ -43,7 +43,6 @@
 #include <bksge/fnd/type_traits/conditional.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
 
@@ -592,7 +591,7 @@ struct join_fn
 	BKSGE_CONSTEXPR auto operator()(Range&& r) const
 	-> join_view<views::all_t<Range>>
 	{
-		return join_view<views::all_t<Range>>{bksge::forward<Range>(r)};
+		return join_view<views::all_t<Range>>{std::forward<Range>(r)};
 	}
 };
 

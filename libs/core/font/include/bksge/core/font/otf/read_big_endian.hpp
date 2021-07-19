@@ -10,10 +10,10 @@
 #define BKSGE_CORE_FONT_OTF_READ_BIG_ENDIAN_HPP
 
 #include <bksge/core/font/otf/types.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <cstddef>
 #include <cstdint>
+#include <utility>
 
 namespace bksge
 {
@@ -147,7 +147,7 @@ inline std::uint8_t const* ReadBigEndian(
 {
 	for (auto& x : *dst)
 	{
-		src = ReadBigEndian(src, &x, bksge::forward<Args>(args)...);
+		src = ReadBigEndian(src, &x, std::forward<Args>(args)...);
 	}
 	return src;
 }

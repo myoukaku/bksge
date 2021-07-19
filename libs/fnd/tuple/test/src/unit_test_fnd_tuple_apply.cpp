@@ -107,7 +107,7 @@ struct CallInfo
 
 	template <typename ...Args>
 	CallInfo(CallQuals q, Args&&... xargs)
-		: quals(q), arg_types(&makeArgumentID<Args&&...>()), args(bksge::forward<Args>(xargs)...)
+		: quals(q), arg_types(&makeArgumentID<Args&&...>()), args(std::forward<Args>(xargs)...)
 	{}
 };
 
@@ -115,7 +115,7 @@ template <typename ...Args>
 inline CallInfo<decltype(bksge::forward_as_tuple(std::declval<Args>()...))>
 makeCallInfo(CallQuals quals, Args&&... args)
 {
-	return{quals, bksge::forward<Args>(args)...};
+	return{quals, std::forward<Args>(args)...};
 }
 
 struct TrackedCallable
@@ -123,27 +123,27 @@ struct TrackedCallable
 	TrackedCallable() = default;
 
 	template <typename ...Args> auto operator()(Args&&... xargs) &
-	->decltype(makeCallInfo(CQ_LValue, bksge::forward<Args>(xargs)...))
+	->decltype(makeCallInfo(CQ_LValue, std::forward<Args>(xargs)...))
 	{
-		return makeCallInfo(CQ_LValue, bksge::forward<Args>(xargs)...);
+		return makeCallInfo(CQ_LValue, std::forward<Args>(xargs)...);
 	}
 
 	template <typename ...Args> auto operator()(Args&&... xargs) const&
-	->decltype(makeCallInfo(CQ_ConstLValue, bksge::forward<Args>(xargs)...))
+	->decltype(makeCallInfo(CQ_ConstLValue, std::forward<Args>(xargs)...))
 	{
-		return makeCallInfo(CQ_ConstLValue, bksge::forward<Args>(xargs)...);
+		return makeCallInfo(CQ_ConstLValue, std::forward<Args>(xargs)...);
 	}
 
 	template <typename ...Args> auto operator()(Args&&... xargs) &&
-	->decltype(makeCallInfo(CQ_RValue, bksge::forward<Args>(xargs)...))
+	->decltype(makeCallInfo(CQ_RValue, std::forward<Args>(xargs)...))
 	{
-		return makeCallInfo(CQ_RValue, bksge::forward<Args>(xargs)...);
+		return makeCallInfo(CQ_RValue, std::forward<Args>(xargs)...);
 	}
 
 	template <typename ...Args> auto operator()(Args&&... xargs) const&&
-	->decltype(makeCallInfo(CQ_ConstRValue, bksge::forward<Args>(xargs)...))
+	->decltype(makeCallInfo(CQ_ConstRValue, std::forward<Args>(xargs)...))
 	{
-		return makeCallInfo(CQ_ConstRValue, bksge::forward<Args>(xargs)...);
+		return makeCallInfo(CQ_ConstRValue, std::forward<Args>(xargs)...);
 	}
 };
 
@@ -154,25 +154,25 @@ void check_apply_quals_and_types(Tuple&& t)
 	TrackedCallable obj;
 	TrackedCallable const& cobj = obj;
 	{
-		auto ret = bksge::apply(obj, bksge::forward<Tuple>(t));
+		auto ret = bksge::apply(obj, std::forward<Tuple>(t));
 		EXPECT_EQ(ret.quals, CQ_LValue);
 		EXPECT_EQ(ret.arg_types, expect_args);
 		EXPECT_EQ(ret.args, t);
 	}
 	{
-		auto ret = bksge::apply(cobj, bksge::forward<Tuple>(t));
+		auto ret = bksge::apply(cobj, std::forward<Tuple>(t));
 		EXPECT_EQ(ret.quals, CQ_ConstLValue);
 		EXPECT_EQ(ret.arg_types, expect_args);
 		EXPECT_EQ(ret.args, t);
 	}
 	{
-		auto ret = bksge::apply(std::move(obj), bksge::forward<Tuple>(t));
+		auto ret = bksge::apply(std::move(obj), std::forward<Tuple>(t));
 		EXPECT_EQ(ret.quals, CQ_RValue);
 		EXPECT_EQ(ret.arg_types, expect_args);
 		EXPECT_EQ(ret.args, t);
 	}
 	{
-		auto ret = bksge::apply(std::move(cobj), bksge::forward<Tuple>(t));
+		auto ret = bksge::apply(std::move(cobj), std::forward<Tuple>(t));
 		EXPECT_EQ(ret.quals, CQ_ConstRValue);
 		EXPECT_EQ(ret.arg_types, expect_args);
 		EXPECT_EQ(ret.args, t);

@@ -20,8 +20,8 @@
 #include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_copy_constructible.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 #define BKSGE_NOEXCEPT_DECLTYPE_RETURN(...) \
 	BKSGE_NOEXCEPT_IF_EXPR(__VA_ARGS__)     \
@@ -74,7 +74,7 @@ public:
 	template <BKSGE_REQUIRES_PARAM(maybe_borrowed_range, T)>
 	BKSGE_CONSTEXPR auto operator()(T&& t) const
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
-			impl(bksge::detail::overload_priority<2>{}, bksge::forward<T>(t)))
+			impl(bksge::detail::overload_priority<2>{}, std::forward<T>(t)))
 };
 
 }	// namespace detail

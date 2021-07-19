@@ -11,9 +11,9 @@
 
 #include <bksge/fnd/debug/detail/binary_expression_fwd.hpp>
 #include <bksge/fnd/debug/detail/expression_base.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <ostream>
+#include <utility>
 
 namespace bksge
 {
@@ -37,14 +37,14 @@ public:
 	}
 
 	BKSGE_CONSTEXPR binary_expression(binary_expression&& be)
-		: m_lhs(bksge::forward<Lhs>(be.m_lhs))
-		, m_rhs(bksge::forward<Rhs>(be.m_rhs))
+		: m_lhs(std::forward<Lhs>(be.m_lhs))
+		, m_rhs(std::forward<Rhs>(be.m_rhs))
 	{
 	}
 
 	BKSGE_CONSTEXPR binary_expression(Lhs&& lhs, Rhs&& rhs)
-		: m_lhs(bksge::forward<Lhs>(lhs))
-		, m_rhs(bksge::forward<Rhs>(rhs))
+		: m_lhs(std::forward<Lhs>(lhs))
+		, m_rhs(std::forward<Rhs>(rhs))
 	{
 	}
 

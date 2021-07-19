@@ -24,8 +24,8 @@ using std::make_tuple;
 
 #include <bksge/fnd/tuple/tuple.hpp>
 #include <bksge/fnd/type_traits/unwrap_ref_decay.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -35,7 +35,7 @@ inline BKSGE_CONSTEXPR bksge::tuple<bksge::unwrap_ref_decay_t<Types>...>
 make_tuple(Types&&... args)
 {
 	return bksge::tuple<bksge::unwrap_ref_decay_t<Types>...>(
-		bksge::forward<Types>(args)...);
+		std::forward<Types>(args)...);
 }
 
 }	// namespace bksge

@@ -25,8 +25,8 @@ using std::invoke;
 
 #else
 
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/functional/inl/invoke_inl.hpp>
+#include <utility>
 
 #define BKSGE_NOEXCEPT_DECLTYPE_RETURN(...) \
 	BKSGE_NOEXCEPT_IF_EXPR(__VA_ARGS__)     \
@@ -40,7 +40,7 @@ template <typename F, typename... Args>
 inline BKSGE_CONSTEXPR auto
 invoke(F&& f, Args&&... args)
 	BKSGE_NOEXCEPT_DECLTYPE_RETURN(
-		detail::invoke(bksge::forward<F>(f), bksge::forward<Args>(args)...))
+		detail::invoke(std::forward<F>(f), std::forward<Args>(args)...))
 
 }	// namespace bksge
 

@@ -17,7 +17,6 @@
 #include <bksge/fnd/utility/cmp_less_equal.hpp>
 #include <bksge/fnd/utility/cmp_not_equal.hpp>
 #include <bksge/fnd/utility/exchange.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/utility/index_sequence_for.hpp>
 #include <bksge/fnd/utility/integer_sequence.hpp>

@@ -12,7 +12,6 @@
 #include <bksge/fnd/concepts/convertible_to.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
 
@@ -32,7 +31,7 @@ concept boolean_testable =
 	boolean_testable_impl<T> &&
 	requires(T&& t)
 	{
-		{ !bksge::forward<T>(t) } -> boolean_testable_impl;
+		{ !std::forward<T>(t) } -> boolean_testable_impl;
 	};
 
 #else

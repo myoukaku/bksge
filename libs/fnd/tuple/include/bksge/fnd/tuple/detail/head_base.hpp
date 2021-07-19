@@ -16,9 +16,9 @@
 #include <bksge/fnd/type_traits/conditional.hpp>
 #include <bksge/fnd/type_traits/is_empty.hpp>
 #include <bksge/fnd/type_traits/is_final.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
+#include <utility>
 
 namespace bksge
 {
@@ -65,7 +65,7 @@ struct head_base<Idx, Head, true>
 	template <typename UHead>
 	BKSGE_CONSTEXPR
 	head_base(UHead&& h)
-		: m_head_impl(bksge::forward<UHead>(h))
+		: m_head_impl(std::forward<UHead>(h))
 	{}
 
 	BKSGE_CONSTEXPR
@@ -88,19 +88,19 @@ struct head_base<Idx, Head, true>
 	template <typename UHead>
 	BKSGE_CONSTEXPR
 	head_base(uses_alloc0, UHead&& uhead)
-		: m_head_impl(bksge::forward<UHead>(uhead))
+		: m_head_impl(std::forward<UHead>(uhead))
 	{}
 
 	template <typename Alloc, typename UHead>
 	BKSGE_CONSTEXPR
 	head_base(uses_alloc1<Alloc> a, UHead&& uhead)
-		: m_head_impl(bksge::allocator_arg, *a.m_a, bksge::forward<UHead>(uhead))
+		: m_head_impl(bksge::allocator_arg, *a.m_a, std::forward<UHead>(uhead))
 	{}
 
 	template <typename Alloc, typename UHead>
 	BKSGE_CONSTEXPR
 	head_base(uses_alloc2<Alloc> a, UHead&& uhead)
-		: m_head_impl(bksge::forward<UHead>(uhead), *a.m_a)
+		: m_head_impl(std::forward<UHead>(uhead), *a.m_a)
 	{}
 
 	static BKSGE_CONSTEXPR Head&
@@ -134,7 +134,7 @@ struct head_base<Idx, Head, true>
 	template <typename UHead>
 	BKSGE_CONSTEXPR
 	head_base(UHead&& h)
-		: Head(bksge::forward<UHead>(h))
+		: Head(std::forward<UHead>(h))
 	{}
 
 	BKSGE_CONSTEXPR
@@ -157,19 +157,19 @@ struct head_base<Idx, Head, true>
 	template <typename UHead>
 	BKSGE_CONSTEXPR
 	head_base(uses_alloc0, UHead&& uhead)
-		: Head(bksge::forward<UHead>(uhead))
+		: Head(std::forward<UHead>(uhead))
 	{}
 
 	template <typename Alloc, typename UHead>
 	BKSGE_CONSTEXPR
 	head_base(uses_alloc1<Alloc> a, UHead&& uhead)
-		: Head(bksge::allocator_arg, *a.m_a, bksge::forward<UHead>(uhead))
+		: Head(bksge::allocator_arg, *a.m_a, std::forward<UHead>(uhead))
 	{}
 
 	template <typename Alloc, typename UHead>
 	BKSGE_CONSTEXPR
 	head_base(uses_alloc2<Alloc> a, UHead&& uhead)
-		: Head(bksge::forward<UHead>(uhead), *a.m_a)
+		: Head(std::forward<UHead>(uhead), *a.m_a)
 	{}
 
 	static BKSGE_CONSTEXPR Head&
@@ -199,7 +199,7 @@ BKSGE_WARNING_DISABLE_MSVC(4244);
 
 	template <typename UHead>
 	BKSGE_CONSTEXPR head_base(UHead&& h)
-		: m_head_impl(bksge::forward<UHead>(h))
+		: m_head_impl(std::forward<UHead>(h))
 	{}
 
 BKSGE_WARNING_POP();
@@ -227,7 +227,7 @@ BKSGE_WARNING_DISABLE_MSVC(4244);
 	template <typename UHead>
 	BKSGE_CONSTEXPR
 	head_base(uses_alloc0, UHead&& uhead)
-		: m_head_impl(bksge::forward<UHead>(uhead))
+		: m_head_impl(std::forward<UHead>(uhead))
 	{}
 
 BKSGE_WARNING_POP();
@@ -235,13 +235,13 @@ BKSGE_WARNING_POP();
 	template <typename Alloc, typename UHead>
 	BKSGE_CONSTEXPR
 	head_base(uses_alloc1<Alloc> a, UHead&& uhead)
-		: m_head_impl(bksge::allocator_arg, *a.m_a, bksge::forward<UHead>(uhead))
+		: m_head_impl(bksge::allocator_arg, *a.m_a, std::forward<UHead>(uhead))
 	{}
 
 	template <typename Alloc, typename UHead>
 	BKSGE_CONSTEXPR
 	head_base(uses_alloc2<Alloc> a, UHead&& uhead)
-		: m_head_impl(bksge::forward<UHead>(uhead), *a.m_a)
+		: m_head_impl(std::forward<UHead>(uhead), *a.m_a)
 	{}
 
 	static BKSGE_CONSTEXPR Head&

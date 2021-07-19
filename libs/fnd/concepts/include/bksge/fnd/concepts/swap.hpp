@@ -19,7 +19,6 @@
 #include <bksge/fnd/type_traits/is_lvalue_reference.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_move_assignable.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_move_constructible.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
 #include <utility>
@@ -54,7 +53,7 @@ private:
 #endif
 	static BKSGE_CXX14_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<2>, T&& t, U&& u)
-		BKSGE_NOEXCEPT_DECLTYPE_RETURN(swap(bksge::forward<T>(t), bksge::forward<U>(u)))
+		BKSGE_NOEXCEPT_DECLTYPE_RETURN(swap(std::forward<T>(t), std::forward<U>(u)))
 
 	template <
 		typename T, typename U, std::size_t N
@@ -111,7 +110,7 @@ public:
 	template <typename T, typename U>
 	BKSGE_CXX14_CONSTEXPR auto operator()(T&& t, U&& u) const
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
-			impl(bksge::detail::overload_priority<2>{}, bksge::forward<T>(t), bksge::forward<U>(u)))
+			impl(bksge::detail::overload_priority<2>{}, std::forward<T>(t), std::forward<U>(u)))
 };
 
 }	// namespace swap_detail

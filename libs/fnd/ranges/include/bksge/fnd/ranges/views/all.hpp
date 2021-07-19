@@ -18,7 +18,6 @@
 #include <bksge/fnd/concepts/detail/overload_priority.hpp>
 #include <bksge/fnd/type_traits/decay.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
 
@@ -51,7 +50,7 @@ private:
 	impl(Range&& r, bksge::detail::overload_priority<2>)
 	-> bksge::decay_t<Range>
 	{
-		return bksge::forward<Range>(r);
+		return std::forward<Range>(r);
 	}
 
 	template <typename Range>
@@ -59,23 +58,23 @@ private:
 	impl(Range&& r, bksge::detail::overload_priority<1>)
 	-> ranges::ref_view<bksge::decay_t<Range>>
 	{
-		return { bksge::forward<Range>(r) };
+		return { std::forward<Range>(r) };
 	}
 
 	template <typename Range>
 	static BKSGE_CONSTEXPR auto
 	impl(Range&& r, bksge::detail::overload_priority<0>)
-	->decltype(ranges::make_subrange(bksge::forward<Range>(r)))
+	->decltype(ranges::make_subrange(std::forward<Range>(r)))
 	{
-		return ranges::make_subrange(bksge::forward<Range>(r));
+		return ranges::make_subrange(std::forward<Range>(r));
 	}
 
 public:
 	template <BKSGE_REQUIRES_PARAM(ranges::viewable_range, Range)>
 	BKSGE_CONSTEXPR auto operator()(Range&& r) const
-	->decltype(impl(bksge::forward<Range>(r), bksge::detail::overload_priority<2>{}))
+	->decltype(impl(std::forward<Range>(r), bksge::detail::overload_priority<2>{}))
 	{
-		return impl(bksge::forward<Range>(r), bksge::detail::overload_priority<2>{});
+		return impl(std::forward<Range>(r), bksge::detail::overload_priority<2>{});
 	}
 };
 

@@ -29,7 +29,6 @@
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
 
@@ -50,9 +49,9 @@ private:
 
 		template <typename R>
 		BKSGE_CXX14_CONSTEXPR auto operator()(R&& arg) const
-		->decltype(bksge::invoke(m_pred, bksge::forward<R>(arg), m_value))
+		->decltype(bksge::invoke(m_pred, std::forward<R>(arg), m_value))
 		{
-			return bksge::invoke(m_pred, bksge::forward<R>(arg), m_value);
+			return bksge::invoke(m_pred, std::forward<R>(arg), m_value);
 		}
 	};
 

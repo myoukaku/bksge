@@ -11,8 +11,8 @@
 
 #include <bksge/fnd/ranges/data.hpp>
 #include <bksge/fnd/ranges/detail/as_const.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 #define BKSGE_NOEXCEPT_DECLTYPE_RETURN(...) \
 	BKSGE_NOEXCEPT_IF_EXPR(__VA_ARGS__)     \
@@ -33,7 +33,7 @@ struct cdata_fn
 	template <typename T>
 	BKSGE_CONSTEXPR auto operator()(T&& t) const
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
-			ranges::data(ranges::detail::as_const(bksge::forward<T>(t))))
+			ranges::data(ranges::detail::as_const(std::forward<T>(t))))
 };
 
 }	// namespace detail

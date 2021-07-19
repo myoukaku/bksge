@@ -10,8 +10,8 @@
 #define BKSGE_FND_ALGORITHM_RANGES_DETAIL_MAKE_PRED_PROJ_HPP
 
 #include <bksge/fnd/functional/invoke.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -32,7 +32,7 @@ struct PredProjT
 	BKSGE_CXX14_CONSTEXPR bool operator()(T&& arg) const
 	{
 		return bksge::invoke(m_pred,
-			bksge::invoke(m_proj, bksge::forward<T>(arg)));
+			bksge::invoke(m_proj, std::forward<T>(arg)));
 	}
 };
 

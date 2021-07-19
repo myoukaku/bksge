@@ -38,7 +38,6 @@
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/negation.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
 
@@ -210,9 +209,9 @@ private:
 		typename = bksge::enable_if_t<views::detail::is_reverse_view<T>::value>
 	>
 	BKSGE_CONSTEXPR auto impl(Range&& r, bksge::detail::overload_priority<3>) const
-	->decltype(bksge::forward<Range>(r).base())
+	->decltype(std::forward<Range>(r).base())
 	{
-		return bksge::forward<Range>(r).base();
+		return std::forward<Range>(r).base();
 	}
 
 	template <
@@ -244,15 +243,15 @@ private:
 	BKSGE_CONSTEXPR auto impl(Range&& r, bksge::detail::overload_priority<0>) const
 	-> ranges::reverse_view<views::all_t<Range>>
 	{
-		return ranges::reverse_view<views::all_t<Range>>{bksge::forward<Range>(r)};
+		return ranges::reverse_view<views::all_t<Range>>{std::forward<Range>(r)};
 	}
 
 public:
 	template <BKSGE_REQUIRES_PARAM(ranges::viewable_range, Range)>
 	BKSGE_CONSTEXPR auto operator()(Range&& r) const
-	->decltype(impl(bksge::forward<Range>(r), bksge::detail::overload_priority<3>{}))
+	->decltype(impl(std::forward<Range>(r), bksge::detail::overload_priority<3>{}))
 	{
-		return impl(bksge::forward<Range>(r), bksge::detail::overload_priority<3>{});
+		return impl(std::forward<Range>(r), bksge::detail::overload_priority<3>{});
 	}
 };
 

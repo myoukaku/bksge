@@ -21,8 +21,8 @@
 #include <bksge/fnd/type_traits/extent.hpp>
 #include <bksge/fnd/type_traits/is_bounded_array.hpp>
 #include <bksge/fnd/type_traits/remove_reference.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 #define BKSGE_NOEXCEPT_DECLTYPE_RETURN(...) \
 	BKSGE_NOEXCEPT_IF_EXPR(__VA_ARGS__)     \
@@ -62,32 +62,32 @@ private:
 	template <BKSGE_REQUIRES_PARAM(has_member_size, T)>
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<2>, T&& t)
-		BKSGE_NOEXCEPT_IF_EXPR(decay_copy(bksge::forward<T>(t).size()))
-	->decltype(bksge::forward<T>(t).size())
+		BKSGE_NOEXCEPT_IF_EXPR(decay_copy(std::forward<T>(t).size()))
+	->decltype(std::forward<T>(t).size())
 	{
-		return bksge::forward<T>(t).size();
+		return std::forward<T>(t).size();
 	}
 
 	template <BKSGE_REQUIRES_PARAM(has_adl_size, T)>
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<1>, T&& t)
-		BKSGE_NOEXCEPT_IF_EXPR(decay_copy(size(bksge::forward<T>(t))))
-	->decltype(size(bksge::forward<T>(t)))
+		BKSGE_NOEXCEPT_IF_EXPR(decay_copy(size(std::forward<T>(t))))
+	->decltype(size(std::forward<T>(t)))
 	{
-		return size(bksge::forward<T>(t));
+		return size(std::forward<T>(t));
 	}
 
 	template <BKSGE_REQUIRES_PARAM(sentinel_size, T)>
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<0>, T&& t)
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
-			detail::to_unsigned_like(ranges::end(bksge::forward<T>(t)) - ranges::begin(bksge::forward<T>(t))))
+			detail::to_unsigned_like(ranges::end(std::forward<T>(t)) - ranges::begin(std::forward<T>(t))))
 
 public:
 	template <typename T>
 	BKSGE_CONSTEXPR auto operator()(T&& t) const
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
-			impl(bksge::detail::overload_priority<3>{}, bksge::forward<T>(t)))
+			impl(bksge::detail::overload_priority<3>{}, std::forward<T>(t)))
 };
 
 }	// namespace detail

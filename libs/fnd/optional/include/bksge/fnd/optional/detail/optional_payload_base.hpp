@@ -16,7 +16,6 @@
 #include <bksge/fnd/type_traits/is_nothrow_move_assignable.hpp>
 #include <bksge/fnd/type_traits/is_trivially_destructible.hpp>
 #include <bksge/fnd/type_traits/remove_const.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
 #include <bksge/fnd/config.hpp>
 #include <initializer_list>
@@ -41,14 +40,14 @@ struct optional_payload_base
 	template <typename... Args>
 	BKSGE_CONSTEXPR
 	optional_payload_base(bksge::in_place_t tag, Args&&... args)
-		: m_payload(tag, bksge::forward<Args>(args)...)
+		: m_payload(tag, std::forward<Args>(args)...)
 		, m_engaged(true)
 	{}
 
 	template <typename U, typename... Args>
 	BKSGE_CONSTEXPR
 	optional_payload_base(std::initializer_list<U> il, Args&&... args)
-		: m_payload(il, bksge::forward<Args>(args)...)
+		: m_payload(il, std::forward<Args>(args)...)
 		, m_engaged(true)
 	{}
 
@@ -146,13 +145,13 @@ struct optional_payload_base
 		template <typename... Args>
 		BKSGE_CONSTEXPR
 		storage(bksge::in_place_t, Args&&... args)
-			: m_value(bksge::forward<Args>(args)...)
+			: m_value(std::forward<Args>(args)...)
 		{}
 
 		template <typename V, typename... Args>
 		BKSGE_CONSTEXPR
 		storage(std::initializer_list<V> il, Args&&... args)
-			: m_value(il, bksge::forward<Args>(args)...)
+			: m_value(il, std::forward<Args>(args)...)
 		{}
 
 		empty_byte m_empty;
@@ -170,13 +169,13 @@ struct optional_payload_base
 		template <typename... Args>
 		BKSGE_CONSTEXPR
 		storage(bksge::in_place_t, Args&&... args)
-			: m_value(bksge::forward<Args>(args)...)
+			: m_value(std::forward<Args>(args)...)
 		{}
 
 		template <typename V, typename... Args>
 		BKSGE_CONSTEXPR
 		storage(std::initializer_list<V> il, Args&&... args)
-			: m_value(il, bksge::forward<Args>(args)...)
+			: m_value(il, std::forward<Args>(args)...)
 		{}
 
 		// User-provided destructor is needed when U has non-trivial dtor.
@@ -198,7 +197,7 @@ BKSGE_WARNING_DISABLE_MSVC(4702);	// unreachable code
 		BKSGE_NOEXCEPT_IF((
 			bksge::is_nothrow_constructible<stored_type, Args...>::value))
 	{
-		::new ((void*)bksge::addressof(this->m_payload))stored_type(bksge::forward<Args>(args)...);
+		::new ((void*)bksge::addressof(this->m_payload))stored_type(std::forward<Args>(args)...);
 		this->m_engaged = true;
 	}
 

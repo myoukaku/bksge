@@ -20,7 +20,6 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../config ${CMAKE_CURRENT_BINARY_DI
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../functional ${CMAKE_CURRENT_BINARY_DIR}/functional)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../tpp ${CMAKE_CURRENT_BINARY_DIR}/tpp)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../type_traits ${CMAKE_CURRENT_BINARY_DIR}/type_traits)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../utility ${CMAKE_CURRENT_BINARY_DIR}/utility)
 target_link_libraries(${TARGET_NAME}
 	INTERFACE
 		Bksge::cmath
@@ -28,8 +27,7 @@ target_link_libraries(${TARGET_NAME}
 		Bksge::config
 		Bksge::functional
 		Bksge::tpp
-		Bksge::type_traits
-		Bksge::utility)
+		Bksge::type_traits)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 

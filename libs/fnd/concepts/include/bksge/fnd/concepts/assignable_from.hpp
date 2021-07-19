@@ -16,7 +16,6 @@
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
 
@@ -31,7 +30,7 @@ concept assignable_from =
 	bksge::common_reference_with<detail::cref<Lhs>, detail::cref<Rhs>> &&
 	requires(Lhs lhs, Rhs&& rhs)
 	{
-		{ lhs = bksge::forward<Rhs>(rhs) } -> bksge::same_as<Lhs>;
+		{ lhs = std::forward<Rhs>(rhs) } -> bksge::same_as<Lhs>;
 	};
 
 template <typename Lhs, typename Rhs>

@@ -22,8 +22,8 @@ using std::bit_not;
 
 #else
 
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -52,9 +52,9 @@ struct bit_not<void>
 
 	template <typename T>
 	BKSGE_CONSTEXPR auto operator()(T&& arg) const
-	-> decltype(~bksge::forward<T>(arg))
+	->decltype(~std::forward<T>(arg))
 	{
-		return ~bksge::forward<T>(arg);
+		return ~std::forward<T>(arg);
 	}
 };
 

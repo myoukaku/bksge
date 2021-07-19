@@ -11,9 +11,9 @@
 
 #include <bksge/fnd/any/make_any.hpp>
 #include <bksge/fnd/any/any.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/in_place_type.hpp>
 #include <initializer_list>
+#include <utility>
 
 namespace bksge
 {
@@ -21,13 +21,13 @@ namespace bksge
 template <typename T, typename... Args>
 inline any make_any(Args&&... args)
 {
-	return any(bksge::in_place_type_t<T>{}, bksge::forward<Args>(args)...);
+	return any(bksge::in_place_type_t<T>{}, std::forward<Args>(args)...);
 }
 
 template <typename T, typename U, typename... Args>
 inline any make_any(std::initializer_list<U> il, Args&&... args)
 {
-	return any(bksge::in_place_type_t<T>{}, il, bksge::forward<Args>(args)...);
+	return any(bksge::in_place_type_t<T>{}, il, std::forward<Args>(args)...);
 }
 
 }	// namespace bksge

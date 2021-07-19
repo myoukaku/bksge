@@ -23,8 +23,8 @@ using std::forward_as_tuple;
 #else
 
 #include <bksge/fnd/tuple/tuple.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -33,7 +33,7 @@ template <typename... Types>
 inline BKSGE_CONSTEXPR bksge::tuple<Types&&...>
 forward_as_tuple(Types&&... args) noexcept
 {
-	return bksge::tuple<Types&&...>(bksge::forward<Types>(args)...);
+	return bksge::tuple<Types&&...>(std::forward<Types>(args)...);
 }
 
 }	// namespace bksge

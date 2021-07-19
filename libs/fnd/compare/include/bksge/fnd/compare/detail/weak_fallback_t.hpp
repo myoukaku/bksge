@@ -15,7 +15,6 @@
 #include <bksge/fnd/concepts/same_as.hpp>
 #include <bksge/fnd/type_traits/decay.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
 
@@ -38,7 +37,7 @@ private:
 	static BKSGE_CONSTEXPR auto
 	impl(T&& e, U&& f, bksge::detail::overload_priority<1>)
 	BKSGE_NOEXCEPT_DECLTYPE_RETURN(
-		detail::weak_order_t{}(bksge::forward<T>(e), bksge::forward<U>(f)))
+		detail::weak_order_t{}(std::forward<T>(e), std::forward<U>(f)))
 
 	// e == f, e < f
 	template <typename T, typename U,
@@ -51,20 +50,20 @@ private:
 			BKSGE_NOEXCEPT_EXPR(bool(std::declval<T>() <  std::declval<U>())))
 	{
 		return
-			bksge::forward<T>(e) == bksge::forward<U>(f) ? bksge::weak_ordering::equivalent :
-			bksge::forward<T>(e) <  bksge::forward<U>(f) ? bksge::weak_ordering::less       :
-				                                           bksge::weak_ordering::greater;
+			std::forward<T>(e) == std::forward<U>(f) ? bksge::weak_ordering::equivalent :
+			std::forward<T>(e) <  std::forward<U>(f) ? bksge::weak_ordering::less       :
+				                                       bksge::weak_ordering::greater;
 	}
 
 public:
 	template <typename T, typename U>
 	BKSGE_CONSTEXPR auto operator()(T&& e, U&& f) const
-		BKSGE_NOEXCEPT_IF_EXPR(impl(bksge::forward<T>(e), bksge::forward<U>(f), bksge::detail::overload_priority<1>{}))
-	->decltype((impl(bksge::forward<T>(e), bksge::forward<U>(f), bksge::detail::overload_priority<1>{})))
+		BKSGE_NOEXCEPT_IF_EXPR(impl(std::forward<T>(e), std::forward<U>(f), bksge::detail::overload_priority<1>{}))
+	->decltype((impl(std::forward<T>(e), std::forward<U>(f), bksge::detail::overload_priority<1>{})))
 	{
 		static_assert(bksge::is_same_as<bksge::decay_t<T>, bksge::decay_t<U>>::value, "");
 
-		return impl(bksge::forward<T>(e), bksge::forward<U>(f), bksge::detail::overload_priority<1>{});
+		return impl(std::forward<T>(e), std::forward<U>(f), bksge::detail::overload_priority<1>{});
 	}
 };
 

@@ -15,7 +15,6 @@
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/void_t.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <ostream>
 #include <cstddef>
@@ -35,7 +34,7 @@ class value_expression : public expression_base<value_expression<T>, bksge::remo
 {
 public:
 	BKSGE_CONSTEXPR value_expression(value_expression&& ve)
-		: m_value(bksge::forward<T>(ve.m_value))
+		: m_value(std::forward<T>(ve.m_value))
 	{
 	}
 
@@ -45,7 +44,7 @@ public:
 	}
 
 	explicit BKSGE_CONSTEXPR value_expression(T&& val)
-		: m_value(bksge::forward<T>(val))
+		: m_value(std::forward<T>(val))
 	{
 	}
 

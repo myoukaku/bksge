@@ -15,7 +15,6 @@
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/remove_cvref.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
 
@@ -35,7 +34,7 @@ concept has_member_size =
 	!BKSGE_RANGES_DISABLE_SIZED_RANGE(bksge::remove_cvref_t<T>) &&
 	requires(T&& t)
 	{
-		{ decay_copy(bksge::forward<T>(t).size()) } -> detail::integer_like;
+		{ decay_copy(std::forward<T>(t).size()) } -> detail::integer_like;
 	};
 
 #else

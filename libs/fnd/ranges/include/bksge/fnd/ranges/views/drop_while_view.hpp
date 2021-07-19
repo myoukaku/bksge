@@ -29,7 +29,6 @@
 #include <bksge/fnd/type_traits/is_object.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
 
@@ -137,7 +136,7 @@ struct drop_while_fn
 	BKSGE_CONSTEXPR auto operator()(Range&& r, Pred&& p) const
 	-> drop_while_view<views::all_t<Range>, Pred>
 	{
-		return {bksge::forward<Range>(r), bksge::forward<Pred>(p)};
+		return {std::forward<Range>(r), std::forward<Pred>(p)};
 	}
 };
 

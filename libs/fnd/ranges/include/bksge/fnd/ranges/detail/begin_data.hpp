@@ -11,7 +11,6 @@
 
 #include <bksge/fnd/ranges/begin.hpp>
 #include <bksge/fnd/iterator/concepts/contiguous_iterator.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
 
@@ -30,7 +29,7 @@ template <typename T>
 concept begin_data =
 	requires(T&& t)
 	{
-		{ ranges::begin(bksge::forward<T>(t)) } -> bksge::contiguous_iterator;
+		{ ranges::begin(std::forward<T>(t)) } -> bksge::contiguous_iterator;
 	};
 
 #else

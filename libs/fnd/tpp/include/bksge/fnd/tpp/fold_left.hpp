@@ -10,8 +10,8 @@
 #define BKSGE_FND_TPP_FOLD_LEFT_HPP
 
 #include <bksge/fnd/type_traits/remove_cvref.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -37,8 +37,8 @@ inline BKSGE_CONSTEXPR bksge::remove_cvref_t<A0>
 fold_left(BinaryOperation binary_op, A0&& a0, A1&& a1, Args&&... args)
 {
 	return fold_left(binary_op,
-		binary_op(bksge::forward<A0>(a0), bksge::forward<A1>(a1)),
-		bksge::forward<Args>(args)...);
+		binary_op(std::forward<A0>(a0), std::forward<A1>(a1)),
+		std::forward<Args>(args)...);
 }
 
 }	// namespace tpp

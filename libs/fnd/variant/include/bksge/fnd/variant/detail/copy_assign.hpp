@@ -19,6 +19,7 @@
 #include <bksge/fnd/type_traits/is_nothrow_move_constructible.hpp>
 #include <bksge/fnd/type_traits/remove_cvref.hpp>
 #include <bksge/fnd/utility/in_place_index.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -64,7 +65,7 @@ struct CopyAssignVisitor
 		else
 		{
 			using rhs_type = bksge::remove_cvref_t<decltype(rhs_mem)>;
-			impl2(bksge::forward<RhsMem>(rhs_mem), rhs_index, bksge::bool_constant<
+			impl2(std::forward<RhsMem>(rhs_mem), rhs_index, bksge::bool_constant<
 				bksge::is_nothrow_copy_constructible<rhs_type>::value ||
 				!bksge::is_nothrow_move_constructible<rhs_type>::value>{});
 		}
@@ -79,7 +80,7 @@ struct CopyAssignVisitor
 	template <typename RhsMem, typename RhsIndex>
 	BKSGE_CXX14_CONSTEXPR void operator()(RhsMem&& rhs_mem, RhsIndex rhs_index)
 	{
-		impl(bksge::forward<RhsMem>(rhs_mem), rhs_index,
+		impl(std::forward<RhsMem>(rhs_mem), rhs_index,
 			bksge::bool_constant<rhs_index != bksge::variant_npos>{});
 	}
 };

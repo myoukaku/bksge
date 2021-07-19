@@ -11,7 +11,6 @@
 #include <bksge/fnd/variant/bad_variant_access.hpp>
 #include <bksge/fnd/type_traits/type_identity.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include <utility>
@@ -251,7 +250,7 @@ struct Test
 		using std::get;
 		try
 		{
-			TEST_IGNORE_NODISCARD get<typename Idx::type>(bksge::forward<V>(v));
+			TEST_IGNORE_NODISCARD get<typename Idx::type>(std::forward<V>(v));
 		}
 		catch (const bksge::bad_variant_access&)
 		{

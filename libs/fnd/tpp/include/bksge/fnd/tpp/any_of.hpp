@@ -11,8 +11,8 @@
 
 #include <bksge/fnd/tpp/fold_left.hpp>
 #include <bksge/fnd/functional/logical_or.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -26,7 +26,7 @@ namespace tpp
 template <typename... Args>
 inline BKSGE_CONSTEXPR bool any_of(Args&&... args)
 {
-	return bksge::tpp::fold_left(bksge::logical_or<>{}, false, bksge::forward<Args>(args)...);
+	return bksge::tpp::fold_left(bksge::logical_or<>{}, false, std::forward<Args>(args)...);
 }
 
 }	// namespace tpp

@@ -29,7 +29,6 @@
 #include <bksge/fnd/type_traits/is_object.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
 
@@ -71,7 +70,7 @@ public:
 		bksge::convertible_to<T, Range&> &&
 		requires { Fun(std::declval<T>()); })
 	BKSGE_CONSTEXPR ref_view(T&& t)
-		: m_r(bksge::addressof(static_cast<Range&>(bksge::forward<T>(t))))
+		: m_r(bksge::addressof(static_cast<Range&>(std::forward<T>(t))))
 	{}
 
 	BKSGE_CONSTEXPR Range& base() const

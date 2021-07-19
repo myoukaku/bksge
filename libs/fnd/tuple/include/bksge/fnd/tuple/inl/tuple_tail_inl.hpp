@@ -17,9 +17,9 @@
 #include <bksge/fnd/type_traits/decay.hpp>
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
+#include <utility>
 
 namespace bksge
 {
@@ -34,7 +34,7 @@ struct tuple_tail_impl
 	invoke(Tuple&& t)
 	{
 		return do_tuple_tail(
-			bksge::forward<Tuple>(t),
+			std::forward<Tuple>(t),
 			bksge::make_index_sequence<N>());
 	}
 
@@ -44,7 +44,7 @@ private:
 	do_tuple_tail(Tuple&& t, bksge::index_sequence<I, Indices...>)
 	{
 		using std::get;
-		return bksge::make_tuple(get<Indices>(bksge::forward<Tuple>(t))...);
+		return bksge::make_tuple(get<Indices>(std::forward<Tuple>(t))...);
 	}
 };
 
@@ -68,7 +68,7 @@ tuple_tail(Tuple&& t)
 		Tuple,
 		tuple_tail_type_t<bksge::decay_t<Tuple>>,
 		bksge::tuple_size<bksge::decay_t<Tuple>>::value
-	>::invoke(bksge::forward<Tuple>(t));
+	>::invoke(std::forward<Tuple>(t));
 }
 
 }	// namespace bksge

@@ -43,7 +43,6 @@
 #include <bksge/fnd/type_traits/conditional.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
 
@@ -558,7 +557,7 @@ public:
 	BKSGE_CXX14_CONSTEXPR
 	split_view(Range&& r, ranges::range_value_t<Range> e)
 		: m_pattern(std::move(e))
-		, m_base(views::all(bksge::forward<Range>(r)))
+		, m_base(views::all(std::forward<Range>(r)))
 	{}
 
 	template <BKSGE_REQUIRES_PARAM_D(bksge::copy_constructible, V2, V)>
@@ -666,7 +665,7 @@ struct split_fn
 	template <BKSGE_REQUIRES_PARAM(ranges::viewable_range, Range), typename F>
 	BKSGE_CONSTEXPR auto operator()(Range&& r, F&& f) const
 	{
-		return split_view{ bksge::forward<Range>(r), bksge::forward<F>(f) };
+		return split_view{ std::forward<Range>(r), std::forward<F>(f) };
 	}
 #else
 	template <BKSGE_REQUIRES_PARAM(ranges::viewable_range, Range), typename Pred>
@@ -675,7 +674,7 @@ struct split_fn
 	{
 		return split_view<views::all_t<Range>, views::all_t<Pred>>
 		{
-			bksge::forward<Range>(r), bksge::forward<Pred>(pred)
+			std::forward<Range>(r), std::forward<Pred>(pred)
 		};
 	}
 
@@ -685,7 +684,7 @@ struct split_fn
 	{
 		return split_view<views::all_t<Range>, ranges::single_view<ranges::range_value_t<Range>>>
 		{
-			bksge::forward<Range>(r), std::move(v)
+			std::forward<Range>(r), std::move(v)
 		};
 	}
 #endif

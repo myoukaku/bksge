@@ -14,7 +14,6 @@
 #include <bksge/fnd/iterator/concepts/forward_iterator.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
 
@@ -33,8 +32,8 @@ template <typename T>
 concept eq_iter_empty =
 	requires(T&& t)
 	{
-		{ ranges::begin(bksge::forward<T>(t)) } -> bksge::forward_iterator;
-		bool(ranges::begin(bksge::forward<T>(t)) == ranges::end(bksge::forward<T>(t)));
+		{ ranges::begin(std::forward<T>(t)) } -> bksge::forward_iterator;
+		bool(ranges::begin(std::forward<T>(t)) == ranges::end(std::forward<T>(t)));
 	};
 
 #else

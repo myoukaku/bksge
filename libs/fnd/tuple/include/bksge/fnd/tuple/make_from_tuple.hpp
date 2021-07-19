@@ -26,11 +26,11 @@ using std::make_from_tuple;
 #include <bksge/fnd/tuple/tuple_size.hpp>
 #include <bksge/fnd/tuple/get.hpp>
 #include <bksge/fnd/type_traits/remove_reference.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
+#include <utility>
 
 BKSGE_WARNING_PUSH()
 BKSGE_WARNING_DISABLE_MSVC(4100)
@@ -47,7 +47,7 @@ template <typename T, typename Tuple, std::size_t... Indices>
 inline BKSGE_CXX14_CONSTEXPR T
 make_from_tuple_impl(Tuple&& t, bksge::index_sequence<Indices...>)
 BKSGE_NOEXCEPT_RETURN(
-	T(bksge::get<Indices>(bksge::forward<Tuple>(t))...))
+	T(bksge::get<Indices>(std::forward<Tuple>(t))...))
 
 }	// namespace detail
 
@@ -69,7 +69,7 @@ template <typename T, typename Tuple>
 inline BKSGE_CXX14_CONSTEXPR T
 make_from_tuple(Tuple&& t)
 BKSGE_NOEXCEPT_RETURN(
-	detail::make_from_tuple_impl<T>(bksge::forward<Tuple>(t),
+	detail::make_from_tuple_impl<T>(std::forward<Tuple>(t),
 		bksge::make_index_sequence<bksge::tuple_size<bksge::remove_reference_t<Tuple>>::value>{}))
 
 #undef BKSGE_NOEXCEPT_RETURN

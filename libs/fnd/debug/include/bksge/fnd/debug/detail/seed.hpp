@@ -10,8 +10,8 @@
 #define BKSGE_FND_DEBUG_DETAIL_SEED_HPP
 
 #include <bksge/fnd/debug/detail/value_expression.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -30,7 +30,7 @@ public:
 	BKSGE_CONSTEXPR value_expression<T>
 	operator->*(T&& v) const
 	{
-		return value_expression<T>(bksge::forward<T>(v));
+		return value_expression<T>(std::forward<T>(v));
 	}
 };
 

@@ -39,7 +39,6 @@
 #include <bksge/fnd/tuple/get.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
@@ -422,7 +421,7 @@ BKSGE_CONSTEXPR auto make_subrange(Rng&& r)
 			ranges::subrange_kind::unsized)
 	>
 {
-	return {bksge::forward<Rng>(r)};
+	return {std::forward<Rng>(r)};
 }
 // 拡張ここまで
 

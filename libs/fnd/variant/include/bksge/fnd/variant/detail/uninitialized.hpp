@@ -14,7 +14,6 @@
 #include <bksge/fnd/type_traits/alignment_of.hpp>
 #include <bksge/fnd/type_traits/is_trivially_destructible.hpp>
 #include <bksge/fnd/utility/in_place_index.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
 
@@ -35,7 +34,7 @@ struct Uninitialized<Type, true>
 	template <typename... Args>
 	BKSGE_CONSTEXPR
 	Uninitialized(bksge::in_place_index_t<0>, Args&&... args)
-		: m_storage(bksge::forward<Args>(args)...)
+		: m_storage(std::forward<Args>(args)...)
 	{}
 
 	BKSGE_CONSTEXPR Type const& get() const& noexcept
@@ -69,7 +68,7 @@ struct Uninitialized<Type, false>
 	/*constexpr*/
 	Uninitialized(bksge::in_place_index_t<0>, Args&&... args)
 	{
-		::new ((void*)bksge::addressof(m_storage)) Type(bksge::forward<Args>(args)...);
+		::new ((void*)bksge::addressof(m_storage)) Type(std::forward<Args>(args)...);
 	}
 
 	Type const& get() const& noexcept

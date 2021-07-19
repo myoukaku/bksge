@@ -23,7 +23,6 @@
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
 
@@ -57,7 +56,7 @@ struct shuffle_fn
 	Iter operator()(Iter first, Sent last, Gen&& g) const
 	{
 		auto lasti = ranges::next(first, last);
-		bksge::shuffle(std::move(first), lasti, bksge::forward<Gen>(g));
+		bksge::shuffle(std::move(first), lasti, std::forward<Gen>(g));
 		return lasti;
 	}
 
@@ -79,7 +78,7 @@ struct shuffle_fn
 	operator()(Range&& r, Gen&& g) const
 	{
 		return (*this)(
-			ranges::begin(r), ranges::end(r), bksge::forward<Gen>(g));
+			ranges::begin(r), ranges::end(r), std::forward<Gen>(g));
 	}
 };
 

@@ -24,7 +24,6 @@
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
 
@@ -45,7 +44,7 @@ private:
 		template <typename U>
 		constexpr bool operator()(U&& arg) const
 		{
-			return bksge::forward<U>(arg) == m_value;
+			return std::forward<U>(arg) == m_value;
 		}
 	};
 

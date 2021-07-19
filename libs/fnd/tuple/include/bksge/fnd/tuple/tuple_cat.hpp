@@ -28,8 +28,8 @@ using std::tuple_cat;
 #include <bksge/fnd/tuple/detail/is_tuple_like.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -44,7 +44,7 @@ tuple_cat(Tuples&&... args)
 {
 	using ret = tuple_detail::tuple_cat_result_t<Tuples...>;
 	using concater = tuple_detail::tuple_concater<ret, Tuples...>;
-	return concater::invoke(bksge::forward<Tuples>(args)...);
+	return concater::invoke(std::forward<Tuples>(args)...);
 }
 
 }	// namespace bksge

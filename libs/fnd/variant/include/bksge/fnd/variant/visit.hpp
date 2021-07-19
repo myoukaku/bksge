@@ -33,7 +33,6 @@ using std::visit;
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/type_traits/invoke_result.hpp>
 #include <bksge/fnd/type_traits/remove_reference.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
 #include <bksge/fnd/config.hpp>
@@ -77,8 +76,8 @@ visit_impl(bksge::false_type, Visitor&& visitor, Variants&&... variants)
 	using Tag = variant_detail::DeduceVisitResult<ResultType>;
 
 	return variant_detail::do_visit<Tag>(
-		bksge::forward<Visitor>(visitor),
-		bksge::forward<Variants>(variants)...);
+		std::forward<Visitor>(visitor),
+		std::forward<Variants>(variants)...);
 }
 
 // sizeof...(Variants) == 1
@@ -96,8 +95,8 @@ visit_impl(bksge::true_type, Visitor&& visitor, Variants&&... variants)
 
 	return variant_detail::visit_impl(
 		bksge::false_type{},
-		bksge::forward<Visitor>(visitor),
-		bksge::forward<Variants>(variants)...);
+		std::forward<Visitor>(visitor),
+		std::forward<Variants>(variants)...);
 }
 
 }	// namespace variant_detail
@@ -113,8 +112,8 @@ visit(Visitor&& visitor, Variants&&... variants)
 
 	return variant_detail::visit_impl(
 		bksge::bool_constant<sizeof...(Variants) == 1>{},
-		bksge::forward<Visitor>(visitor),
-		bksge::forward<Variants>(variants)...);
+		std::forward<Visitor>(visitor),
+		std::forward<Variants>(variants)...);
 }
 
 template <typename Res, typename Visitor, typename... Variants>
@@ -127,8 +126,8 @@ visit(Visitor&& visitor, Variants&&... variants)
 	}
 
 	return variant_detail::do_visit<Res>(
-		bksge::forward<Visitor>(visitor),
-		bksge::forward<Variants>(variants)...);
+		std::forward<Visitor>(visitor),
+		std::forward<Variants>(variants)...);
 }
 
 }	// namespace bksge

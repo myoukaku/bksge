@@ -51,7 +51,6 @@
 #include <bksge/fnd/type_traits/remove_cvref.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
 
@@ -594,7 +593,7 @@ struct transform_fn
 	{
 		return transform_view<views::all_t<Range>, F>
 		{
-			bksge::forward<Range>(r), bksge::forward<F>(f)
+			std::forward<Range>(r), std::forward<F>(f)
 		};
 	}
 };

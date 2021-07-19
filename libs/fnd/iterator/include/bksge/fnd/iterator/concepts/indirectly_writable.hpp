@@ -10,7 +10,6 @@
 #define BKSGE_FND_ITERATOR_CONCEPTS_INDIRECTLY_WRITABLE_HPP
 
 #include <bksge/fnd/iterator/iter_reference_t.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
 
@@ -23,10 +22,10 @@ template <typename Out, typename T>
 concept indirectly_writable =
 	requires(Out&& o, T&& t)
 	{
-		*o = bksge::forward<T>(t);
-		*bksge::forward<Out>(o) = bksge::forward<T>(t);
-		const_cast<bksge::iter_reference_t<Out> const&&>(*o) = bksge::forward<T>(t);
-		const_cast<bksge::iter_reference_t<Out> const&&>(*bksge::forward<Out>(o)) = bksge::forward<T>(t);
+		*o = std::forward<T>(t);
+		*std::forward<Out>(o) = std::forward<T>(t);
+		const_cast<bksge::iter_reference_t<Out> const&&>(*o) = std::forward<T>(t);
+		const_cast<bksge::iter_reference_t<Out> const&&>(*std::forward<Out>(o)) = std::forward<T>(t);
 	};
 
 #else

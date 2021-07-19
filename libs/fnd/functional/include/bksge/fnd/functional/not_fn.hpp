@@ -28,7 +28,6 @@ using std::not_fn;
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
 
@@ -55,22 +54,22 @@ public:
 	template <typename... Args>
 	auto operator()(Args&&... args) &
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
-			!bksge::invoke(m_fd, bksge::forward<Args>(args)...))
+			!bksge::invoke(m_fd, std::forward<Args>(args)...))
 
 	template <typename... Args>
 	auto operator()(Args&&... args) &&
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
-			!bksge::invoke(std::move(m_fd), bksge::forward<Args>(args)...))
+			!bksge::invoke(std::move(m_fd), std::forward<Args>(args)...))
 
 	template <typename... Args>
 	auto operator()(Args&&... args) const&
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
-			!bksge::invoke(m_fd, bksge::forward<Args>(args)...))
+			!bksge::invoke(m_fd, std::forward<Args>(args)...))
 
 	template <typename... Args>
 	auto operator()(Args&&... args) const&&
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
-			!bksge::invoke(std::move(m_fd), bksge::forward<Args>(args)...))
+			!bksge::invoke(std::move(m_fd), std::forward<Args>(args)...))
 
 	template <
 		typename F2,
@@ -79,7 +78,7 @@ public:
 		>
 	>
 	explicit not_fn_imp(F2&& fn)
-		: m_fd(bksge::forward<F2>(fn)) {}
+		: m_fd(std::forward<F2>(fn)) {}
 };
 
 #undef BKSGE_NOEXCEPT_DECLTYPE_RETURN
@@ -97,7 +96,7 @@ not_fn(F&& fn)
 BKSGE_NOEXCEPT_IF((
 	bksge::is_nothrow_constructible<bksge::decay_t<F>, F&&>::value))
 {
-	return detail::not_fn_imp<F>(bksge::forward<F>(fn));
+	return detail::not_fn_imp<F>(std::forward<F>(fn));
 }
 
 }	// namespace bksge

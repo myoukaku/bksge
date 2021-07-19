@@ -48,7 +48,6 @@
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/remove_reference.hpp>
 #include <bksge/fnd/type_traits/remove_cvref.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
 #include <utility>
@@ -545,7 +544,7 @@ struct elements_fn
 	BKSGE_CONSTEXPR auto operator()(Range&& r) const
 	-> elements_view<views::all_t<Range>, N>
 	{
-		return elements_view<views::all_t<Range>, N>{ bksge::forward<Range>(r) };
+		return elements_view<views::all_t<Range>, N>{ std::forward<Range>(r) };
 	}
 };
 

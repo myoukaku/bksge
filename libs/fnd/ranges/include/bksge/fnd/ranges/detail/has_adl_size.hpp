@@ -17,7 +17,6 @@
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/remove_reference.hpp>
 #include <bksge/fnd/type_traits/remove_cvref.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
 
@@ -46,7 +45,7 @@ concept has_adl_size =
 	!BKSGE_RANGES_DISABLE_SIZED_RANGE(bksge::remove_cvref_t<T>) &&
 	requires(T&& t)
 	{
-		{ decay_copy(size(bksge::forward<T>(t))) } -> detail::integer_like;
+		{ decay_copy(size(std::forward<T>(t))) } -> detail::integer_like;
 	};
 
 #else

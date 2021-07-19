@@ -53,7 +53,7 @@ struct MoveAssignVisitor
 	template <typename RhsMem, typename RhsIndex>
 	BKSGE_CXX14_CONSTEXPR void operator()(RhsMem&& rhs_mem, RhsIndex rhs_index)
 	{
-		impl(bksge::forward<RhsMem>(rhs_mem), rhs_index,
+		impl(std::forward<RhsMem>(rhs_mem), rhs_index,
 			bksge::bool_constant<rhs_index != bksge::variant_npos>{});
 	}
 };

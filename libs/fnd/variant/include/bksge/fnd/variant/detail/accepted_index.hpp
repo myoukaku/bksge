@@ -41,7 +41,7 @@ struct Build_FUN
 BKSGE_WARNING_PUSH();
 BKSGE_WARNING_DISABLE_CLANG("-Wdeprecated-volatile");
 
-// "... for which Ti x[] = {bksge::forward<T>(t)}; is well-formed."
+// "... for which Ti x[] = {std::forward<T>(t)}; is well-formed."
 template <std::size_t Index, typename T, typename Ti>
 struct Build_FUN<Index, T, Ti, bksge::void_t<decltype(Arr<Ti>{ { std::declval<T>() }})>>
 {
@@ -81,11 +81,11 @@ struct Build_FUNs<T, variant<T0>, bksge::index_sequence<I0>>
 #endif
 
 // The index j of the overload FUN(Tj) selected by overload resolution
-// for FUN(bksge::forward<T>(t))
+// for FUN(std::forward<T>(t))
 template <typename T, typename Variant>
 using FUN_type = decltype(Build_FUNs<T, Variant>::fun(std::declval<T>()));
 
-// The index selected for FUN(bksge::forward<T>(t)), or variant_npos if none.
+// The index selected for FUN(std::forward<T>(t)), or variant_npos if none.
 template <typename T, typename Variant, typename = void>
 struct accepted_index
 	: public bksge::integral_constant<std::size_t, bksge::variant_npos>

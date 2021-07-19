@@ -14,8 +14,8 @@
 #include <bksge/fnd/tuple/tuple_size.hpp>
 #include <bksge/fnd/tuple/get.hpp>
 #include <bksge/fnd/type_traits/decay.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -27,7 +27,7 @@ tuple_last(Tuple&& t)
 	using std::get;
 	return get<
 		bksge::tuple_size<bksge::decay_t<Tuple>>::value - 1
-	>(bksge::forward<Tuple>(t));
+	>(std::forward<Tuple>(t));
 }
 
 }	// namespace bksge

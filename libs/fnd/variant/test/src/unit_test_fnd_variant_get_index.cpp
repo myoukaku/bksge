@@ -10,7 +10,6 @@
 #include <bksge/fnd/variant/variant.hpp>
 #include <bksge/fnd/variant/bad_variant_access.hpp>
 #include <bksge/fnd/type_traits/integral_constant.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include <cstddef>
@@ -249,7 +248,7 @@ struct Test
 		try
 		{
 			using std::get;
-			TEST_IGNORE_NODISCARD get<Idx::value>(bksge::forward<V>(v));
+			TEST_IGNORE_NODISCARD get<Idx::value>(std::forward<V>(v));
 		}
 		catch (const bksge::bad_variant_access&)
 		{

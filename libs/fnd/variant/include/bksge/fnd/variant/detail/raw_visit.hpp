@@ -11,7 +11,7 @@
 
 #include <bksge/fnd/variant/detail/do_visit.hpp>
 #include <bksge/fnd/variant/detail/variant_cookie.hpp>
-#include <bksge/fnd/utility/forward.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -25,8 +25,8 @@ inline BKSGE_CXX14_CONSTEXPR void
 raw_visit(Visitor&& visitor, Variants&&... variants)
 {
 	variant_detail::do_visit<variant_detail::VariantCookie>(
-		bksge::forward<Visitor>(visitor),
-		bksge::forward<Variants>(variants)...);
+		std::forward<Visitor>(visitor),
+		std::forward<Variants>(variants)...);
 }
 
 }	// namespace variant_detail

@@ -38,8 +38,8 @@ using std::ranges::distance;
 #include <bksge/fnd/ranges/end.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -122,7 +122,7 @@ inline BKSGE_CXX14_CONSTEXPR ranges::range_difference_t<Range>
 distance(Range&& r)
 {
 	return ranges::detail::distance_impl_2(
-		bksge::detail::overload_priority<1>{}, bksge::forward<Range>(r));
+		bksge::detail::overload_priority<1>{}, std::forward<Range>(r));
 }
 
 }	// namespace ranges

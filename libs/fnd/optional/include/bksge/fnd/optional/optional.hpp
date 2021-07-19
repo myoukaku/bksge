@@ -53,7 +53,6 @@ using std::optional;
 #include <bksge/fnd/type_traits/remove_cv.hpp>
 #include <bksge/fnd/type_traits/remove_cvref.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/config.hpp>
 #include <initializer_list>
@@ -137,7 +136,7 @@ public:
 	BKSGE_CONSTEXPR
 	optional(U&& t)
 		BKSGE_NOEXCEPT_IF((bksge::is_nothrow_constructible<T, U>::value))
-		: base(bksge::in_place, bksge::forward<U>(t)) {}
+		: base(bksge::in_place, std::forward<U>(t)) {}
 
 	template <typename U = T,
 		bksge::enable_if_t<bksge::conjunction<
@@ -150,7 +149,7 @@ public:
 	explicit BKSGE_CONSTEXPR
 	optional(U&& t)
 		BKSGE_NOEXCEPT_IF((bksge::is_nothrow_constructible<T, U>::value))
-		: base(bksge::in_place, bksge::forward<U>(t)) {}
+		: base(bksge::in_place, std::forward<U>(t)) {}
 
 	template <typename U,
 		bksge::enable_if_t<bksge::conjunction<
@@ -230,7 +229,7 @@ public:
 	optional(bksge::in_place_t, Args&&... args)
 		BKSGE_NOEXCEPT_IF((
 			bksge::is_nothrow_constructible<T, Args...>::value))
-		: base(bksge::in_place, bksge::forward<Args>(args)...) {}
+		: base(bksge::in_place, std::forward<Args>(args)...) {}
 
 	template <typename U, typename... Args,
 		typename = bksge::enable_if_t<bksge::is_constructible<T, std::initializer_list<U>&, Args...>::value>>
@@ -238,7 +237,7 @@ public:
 	optional(bksge::in_place_t, std::initializer_list<U> il, Args&&... args)
 		BKSGE_NOEXCEPT_IF((
 			bksge::is_nothrow_constructible<T, std::initializer_list<U>&, Args...>::value))
-		: base(bksge::in_place, il, bksge::forward<Args>(args)...) {}
+		: base(bksge::in_place, il, std::forward<Args>(args)...) {}
 
 	// Assignment operators.
 	optional& operator=(bksge::nullopt_t) BKSGE_NOEXCEPT
@@ -269,11 +268,11 @@ public:
 	{
 		if (this->is_engaged())
 		{
-			this->get() = bksge::forward<U>(u);
+			this->get() = std::forward<U>(u);
 		}
 		else
 		{
-			this->construct(bksge::forward<U>(u));
+			this->construct(std::forward<U>(u));
 		}
 
 		return *this;
@@ -355,7 +354,7 @@ public:
 			bksge::is_nothrow_constructible<T, Args...>::value))
 	{
 		this->reset_impl();
-		this->construct(bksge::forward<Args>(args)...);
+		this->construct(std::forward<Args>(args)...);
 		return this->get();
 	}
 
@@ -366,7 +365,7 @@ public:
 			bksge::is_nothrow_constructible<T, std::initializer_list<U>&, Args...>::value))
 	{
 		this->reset_impl();
-		this->construct(il, bksge::forward<Args>(args)...);
+		this->construct(il, std::forward<Args>(args)...);
 		return this->get();
 	}
 
@@ -480,7 +479,7 @@ public:
 		static_assert(bksge::is_copy_constructible<T>::value, "");
 		static_assert(bksge::is_convertible<U&&, T>::value, "");
 
-		return this->is_engaged() ? this->get() : static_cast<T>(bksge::forward<U>(u));
+		return this->is_engaged() ? this->get() : static_cast<T>(std::forward<U>(u));
 	}
 
 	template <typename U>
@@ -489,7 +488,7 @@ public:
 		static_assert(bksge::is_move_constructible<T>::value, "");
 		static_assert(bksge::is_convertible<U&&, T>::value, "");
 
-		return this->is_engaged() ? std::move(this->get()) : static_cast<T>(bksge::forward<U>(u));
+		return this->is_engaged() ? std::move(this->get()) : static_cast<T>(std::forward<U>(u));
 	}
 
 	void reset() BKSGE_NOEXCEPT { this->reset_impl(); }

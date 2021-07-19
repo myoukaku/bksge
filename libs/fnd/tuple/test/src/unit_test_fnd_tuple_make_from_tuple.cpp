@@ -9,7 +9,6 @@
 #include <bksge/fnd/tuple/make_from_tuple.hpp>
 #include <bksge/fnd/tuple/tuple.hpp>
 #include <bksge/fnd/array.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/pair.hpp>
 #include <bksge/fnd/type_traits/decay.hpp>
 #include <gtest/gtest.h>
@@ -31,7 +30,7 @@ struct ConstexprConstructibleFromTuple
 {
 	template <typename ...Args>
 	explicit constexpr ConstexprConstructibleFromTuple(Args&&... xargs)
-		: args{bksge::forward<Args>(xargs)...}
+		: args{std::forward<Args>(xargs)...}
 	{}
 	
 	Tuple args;
@@ -71,7 +70,7 @@ constexpr bool do_constexpr_test(Tuple&& tup)
 {
 	using RawTuple = bksge::decay_t<Tuple>;
 	using Tp = ConstexprConstructibleFromTuple<RawTuple>;
-	return bksge::make_from_tuple<Tp>(bksge::forward<Tuple>(tup)).args == tup;
+	return bksge::make_from_tuple<Tp>(std::forward<Tuple>(tup)).args == tup;
 }
 
 // Needed by do_forwarding_test() since it compares pairs of different types.
@@ -86,7 +85,7 @@ bool do_forwarding_test(Tuple&& tup)
 {
 	using RawTuple = bksge::decay_t<Tuple>;
 	using Tp = ConstructibleFromTuple<RawTuple>;
-	const Tp value = bksge::make_from_tuple<Tp>(bksge::forward<Tuple>(tup));
+	const Tp value = bksge::make_from_tuple<Tp>(std::forward<Tuple>(tup));
 	return value.args == tup &&
 		value.arg_types == &makeArgumentID<ExpectTypes...>();
 }

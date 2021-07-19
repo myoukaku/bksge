@@ -16,8 +16,8 @@
 #include <bksge/fnd/type_traits/is_const.hpp>
 #include <bksge/fnd/type_traits/is_lvalue_reference.hpp>
 #include <bksge/fnd/type_traits/remove_reference.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <cstddef>
+#include <utility>
 
 namespace bksge
 {
@@ -53,9 +53,9 @@ public:
 	template <typename... Types, typename T>
 	static auto
 	variant_cast(T&& rhs)
-	->decltype(variant_cast_impl<Types...>(bksge::forward<T>(rhs), bksge::detail::overload_priority<2>{}))
+	->decltype(variant_cast_impl<Types...>(std::forward<T>(rhs), bksge::detail::overload_priority<2>{}))
 	{
-		return variant_cast_impl<Types...>(bksge::forward<T>(rhs), bksge::detail::overload_priority<2>{});
+		return variant_cast_impl<Types...>(std::forward<T>(rhs), bksge::detail::overload_priority<2>{});
 	}
 
 private:
@@ -65,9 +65,9 @@ private:
 		template <typename Union>
 		constexpr auto
 		operator()(Union&& u) const noexcept
-		->decltype(get_impl_t<N-1>{}(bksge::forward<Union>(u).m_rest))
+		->decltype(get_impl_t<N-1>{}(std::forward<Union>(u).m_rest))
 		{
-			return get_impl_t<N-1>{}(bksge::forward<Union>(u).m_rest);
+			return get_impl_t<N-1>{}(std::forward<Union>(u).m_rest);
 		}
 	};
 
@@ -77,9 +77,9 @@ private:
 		template <typename Union>
 		constexpr auto
 		operator()(Union&& u) const noexcept
-		->decltype(bksge::forward<Union>(u).m_first.get())
+		->decltype(std::forward<Union>(u).m_first.get())
 		{
-			return bksge::forward<Union>(u).m_first.get();
+			return std::forward<Union>(u).m_first.get();
 		}
 	};
 
@@ -88,9 +88,9 @@ public:
 	template <std::size_t N, typename Variant>
 	static constexpr auto
 	get_impl(Variant&& v) noexcept
-	->decltype(get_impl_t<N>{}(bksge::forward<Variant>(v).m_u))
+	->decltype(get_impl_t<N>{}(std::forward<Variant>(v).m_u))
 	{
-		return get_impl_t<N>{}(bksge::forward<Variant>(v).m_u);
+		return get_impl_t<N>{}(std::forward<Variant>(v).m_u);
 	}
 
 	template <std::size_t N, typename Variant, typename... Args>
@@ -100,7 +100,7 @@ public:
 		v.m_index = N;
 		auto&& storage = get_impl<N>(v);
 		::new ((void*)bksge::addressof(storage))
-			bksge::remove_reference_t<decltype(storage)>(bksge::forward<Args>(args)...);
+			bksge::remove_reference_t<decltype(storage)>(std::forward<Args>(args)...);
 	}
 };
 

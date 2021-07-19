@@ -22,7 +22,6 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../iterator ${CMAKE_CURRENT_BINARY_
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../memory ${CMAKE_CURRENT_BINARY_DIR}/memory)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../stdexcept ${CMAKE_CURRENT_BINARY_DIR}/stdexcept)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../type_traits ${CMAKE_CURRENT_BINARY_DIR}/type_traits)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../utility ${CMAKE_CURRENT_BINARY_DIR}/utility)
 target_link_libraries(${TARGET_NAME}
 	INTERFACE
 		Bksge::algorithm
@@ -32,8 +31,7 @@ target_link_libraries(${TARGET_NAME}
 		Bksge::iterator
 		Bksge::memory
 		Bksge::stdexcept
-		Bksge::type_traits
-		Bksge::utility)
+		Bksge::type_traits)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 

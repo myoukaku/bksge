@@ -14,7 +14,6 @@
 #include <bksge/fnd/iterator/concepts/forward_iterator.hpp>
 #include <bksge/fnd/iterator/concepts/sized_sentinel_for.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
 
@@ -33,11 +32,11 @@ template <typename T>
 concept sentinel_size =
 	requires(T&& t)
 	{
-		{ ranges::begin(bksge::forward<T>(t)) }
+		{ ranges::begin(std::forward<T>(t)) }
 			-> bksge::forward_iterator;
 
-		{ ranges::end(bksge::forward<T>(t)) }
-			-> bksge::sized_sentinel_for<decltype(ranges::begin(bksge::forward<T>(t)))>;
+		{ ranges::end(std::forward<T>(t)) }
+			-> bksge::sized_sentinel_for<decltype(ranges::begin(std::forward<T>(t)))>;
 	};
 
 #else

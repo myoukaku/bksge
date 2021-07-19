@@ -10,10 +10,10 @@
 #define BKSGE_FND_VARIANT_DETAIL_VARIADIC_UNION_HPP
 
 #include <bksge/fnd/variant/detail/uninitialized.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/in_place_index.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
+#include <utility>
 
 namespace bksge
 {
@@ -33,12 +33,12 @@ union VariadicUnion<First, Rest...>
 
 	template <typename... Args>
 	BKSGE_CONSTEXPR VariadicUnion(bksge::in_place_index_t<0>, Args&&... args)
-		: m_first(bksge::in_place_index_t<0>{}, bksge::forward<Args>(args)...)
+		: m_first(bksge::in_place_index_t<0>{}, std::forward<Args>(args)...)
 	{}
 
 	template <std::size_t N, typename... Args>
 	BKSGE_CONSTEXPR VariadicUnion(bksge::in_place_index_t<N>, Args&&... args)
-		: m_rest(bksge::in_place_index_t<N-1>{}, bksge::forward<Args>(args)...)
+		: m_rest(bksge::in_place_index_t<N-1>{}, std::forward<Args>(args)...)
 	{}
 
 	Uninitialized<First>   m_first;

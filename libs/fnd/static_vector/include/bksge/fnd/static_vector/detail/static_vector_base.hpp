@@ -16,7 +16,6 @@
 #include <bksge/fnd/memory/allocator_traits.hpp>
 #include <bksge/fnd/detail/throw_bad_alloc.hpp>
 #include <bksge/fnd/type_traits/is_trivially_destructible.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
@@ -83,7 +82,7 @@ public:
 	template <typename... Args>
 	void emplace_back_n(size_type count, Args&&... args)
 	{
-		emplace(end(), count, bksge::forward<Args>(args)...);
+		emplace(end(), count, std::forward<Args>(args)...);
 	}
 
 	template <typename InputIterator>
@@ -152,11 +151,11 @@ public:
 		{
 			if (p >= m_end)
 			{
-				alloc_traits::construct(m_allocator, p, bksge::forward<Args>(args)...);
+				alloc_traits::construct(m_allocator, p, std::forward<Args>(args)...);
 			}
 			else
 			{
-				*p = T(bksge::forward<Args>(args)...);
+				*p = T(std::forward<Args>(args)...);
 			}
 			++p;
 		}
@@ -250,7 +249,7 @@ public:
 	template <typename... Args>
 	BKSGE_CXX14_CONSTEXPR void emplace_back_n(size_type count, Args&&... args)
 	{
-		emplace(end(), count, bksge::forward<Args>(args)...);
+		emplace(end(), count, std::forward<Args>(args)...);
 	}
 
 	template <typename InputIterator>
@@ -283,7 +282,7 @@ public:
 
 		for (size_type i = 0; i < count; ++i)
 		{
-			*p = T(bksge::forward<Args>(args)...);
+			*p = T(std::forward<Args>(args)...);
 			++p;
 		}
 

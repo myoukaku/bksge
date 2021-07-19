@@ -14,9 +14,9 @@
 #include <bksge/fnd/type_traits/remove_reference.hpp>
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
+#include <utility>
 
 namespace bksge
 {
@@ -40,9 +40,9 @@ private:
 	{
 		using next = tuple_concater<Ret, Tuples...>;
 		return next::invoke(
-			bksge::forward<Tuples>(tps)...,
-			bksge::forward<Args>(args)...,
-			bksge::get<Indices>(bksge::forward<T>(tp))...);
+			std::forward<Tuples>(tps)...,
+			std::forward<Args>(args)...,
+			bksge::get<Indices>(std::forward<T>(tp))...);
 	}
 
 public:
@@ -56,9 +56,9 @@ public:
 			>::value>;
 		return invoke_impl(
 			IndexSeq{},
-			bksge::forward<T>(tp),
-			bksge::forward<Tuples>(tps)...,
-			bksge::forward<Args>(args)...);
+			std::forward<T>(tp),
+			std::forward<Tuples>(tps)...,
+			std::forward<Args>(args)...);
 	}
 };
 
@@ -69,7 +69,7 @@ struct tuple_concater<Ret>
 	static BKSGE_CONSTEXPR Ret
 	invoke(Args&&... args)
 	{
-		return Ret(bksge::forward<Args>(args)...);
+		return Ret(std::forward<Args>(args)...);
 	}
 };
 

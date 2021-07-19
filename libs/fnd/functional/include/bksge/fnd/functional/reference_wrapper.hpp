@@ -17,7 +17,6 @@
 #include <bksge/fnd/type_traits/is_object.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/type_traits/remove_cvref.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
 
@@ -46,7 +45,7 @@ public:
 	BKSGE_CONSTEXPR
 	reference_wrapper(U&& u)
 		BKSGE_NOEXCEPT_IF_EXPR(reference_wrapper::FUN(std::declval<U>()))
-		: m_ptr(reference_wrapper::FUN(bksge::forward<U>(u)))
+		: m_ptr(reference_wrapper::FUN(std::forward<U>(u)))
 	{}
 
 	BKSGE_CONSTEXPR
@@ -75,7 +74,7 @@ public:
 			static_assert(sizeof(type), "type must be complete");
 		}
 #endif
-		return bksge::invoke(get(), bksge::forward<Args>(args)...);
+		return bksge::invoke(get(), std::forward<Args>(args)...);
 	}
 
 private:

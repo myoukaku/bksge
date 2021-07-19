@@ -13,7 +13,6 @@
 #include <bksge/fnd/iterator/concepts/indirectly_writable.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
 
@@ -26,7 +25,7 @@ template <typename Iter, typename T>
 concept output_iterator =
 	bksge::input_or_output_iterator<Iter> &&
 	bksge::indirectly_writable<Iter, T> &&
-	requires(Iter i, T&& t) { *i++ = bksge::forward<T>(t); };
+	requires(Iter i, T&& t) { *i++ = std::forward<T>(t); };
 
 #else
 

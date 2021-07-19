@@ -26,6 +26,7 @@
 #include <bksge/core/render/frame_buffer.hpp>
 #include <bksge/fnd/functional/hash_combine.hpp>
 #include <bksge/fnd/memory/make_shared.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -52,7 +53,7 @@ GetOrCreate(Map& map, Id const& id, Args&&... args)
 		}
 	}
 
-	auto p = bksge::make_shared<Ret>(bksge::forward<Args>(args)...);
+	auto p = bksge::make_shared<Ret>(std::forward<Args>(args)...);
 	map[id] = p;
 	return p;
 }

@@ -17,7 +17,6 @@
 #include <bksge/fnd/type_traits/is_trivially_move_assignable.hpp>
 #include <bksge/fnd/utility/in_place_index.hpp>
 #include <bksge/fnd/utility/in_place_type.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <gtest/gtest.h>
 #include <utility>
@@ -519,7 +518,7 @@ constexpr bool test_constexpr_assign_imp(
 {
 	using std::get;
 	bksge::variant<long, void*, int> v2(
-		bksge::forward<ValueType>(new_value));
+		std::forward<ValueType>(new_value));
 	const auto cp = v2;
 	v = std::move(v2);
 	return v.index() == NewIdx &&

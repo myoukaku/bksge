@@ -36,7 +36,6 @@
 #include <bksge/fnd/iterator/concepts/sentinel_for.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_const.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
 
@@ -275,7 +274,7 @@ struct take_fn
 	BKSGE_CONSTEXPR auto operator()(Range&& r, T&& n) const
 	-> take_view<views::all_t<Range>>
 	{
-		return {bksge::forward<Range>(r), bksge::forward<T>(n)};
+		return {std::forward<Range>(r), std::forward<T>(n)};
 	}
 };
 

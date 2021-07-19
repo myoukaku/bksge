@@ -18,7 +18,6 @@
 #include <bksge/fnd/iterator/distance.hpp>
 #include <bksge/fnd/iterator/make_move_iterator.hpp>
 #include <bksge/fnd/stdexcept/out_of_range.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/config.hpp>
 #include <initializer_list>
@@ -405,7 +404,7 @@ inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::emplace(const_iterator pos, Args&&... args) -> iterator
 {
 	pointer p = base_t::begin() + (pos - cbegin());
-	base_t::emplace(p, 1, bksge::forward<Args>(args)...);
+	base_t::emplace(p, 1, std::forward<Args>(args)...);
 	return iterator(p);
 }
 
@@ -453,7 +452,7 @@ template <typename... Args>
 inline BKSGE_CXX14_CONSTEXPR auto
 static_vector<T, C>::emplace_back(Args&&... args) -> reference
 {
-	base_t::emplace_back_n(1, bksge::forward<Args>(args)...);
+	base_t::emplace_back_n(1, std::forward<Args>(args)...);
 	return back();
 }
 

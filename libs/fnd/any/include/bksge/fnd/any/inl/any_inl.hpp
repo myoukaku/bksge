@@ -15,7 +15,6 @@
 #include <bksge/fnd/type_traits/disjunction.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/type_traits/is_lvalue_reference.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/in_place_type.hpp>
 #include <bksge/fnd/config.hpp>
 #include <initializer_list>
@@ -65,7 +64,7 @@ inline
 any::any(ValueType&& value)
 	: m_manager(&Manager<bksge::decay_t<ValueType>>::manage)
 {
-	Manager<bksge::decay_t<ValueType>>::create(m_storage, bksge::forward<ValueType>(value));
+	Manager<bksge::decay_t<ValueType>>::create(m_storage, std::forward<ValueType>(value));
 }
 
 template <typename ValueType, typename... Args, typename>
@@ -73,7 +72,7 @@ inline
 any::any(bksge::in_place_type_t<ValueType>, Args&&... args)
 	: m_manager(&Manager<bksge::decay_t<ValueType>>::manage)
 {
-	Manager<bksge::decay_t<ValueType>>::create(m_storage, bksge::forward<Args>(args)...);
+	Manager<bksge::decay_t<ValueType>>::create(m_storage, std::forward<Args>(args)...);
 }
 
 template <typename ValueType, typename U, typename... Args, typename>
@@ -81,7 +80,7 @@ inline
 any::any(bksge::in_place_type_t<ValueType>, std::initializer_list<U> il, Args&&... args)
 	: m_manager(&Manager<bksge::decay_t<ValueType>>::manage)
 {
-	Manager<bksge::decay_t<ValueType>>::create(m_storage, il, bksge::forward<Args>(args)...);
+	Manager<bksge::decay_t<ValueType>>::create(m_storage, il, std::forward<Args>(args)...);
 }
 
 inline
@@ -119,7 +118,7 @@ template <typename ValueType, typename>
 inline any&
 any::operator=(ValueType&& rhs)
 {
-	*this = any(bksge::forward<ValueType>(rhs));
+	*this = any(std::forward<ValueType>(rhs));
 	return *this;
 }
 
@@ -127,7 +126,7 @@ template <typename ValueType, typename... Args, typename>
 inline bksge::decay_t<ValueType>&
 any::emplace(Args&&... args)
 {
-	do_emplace<bksge::decay_t<ValueType>>(bksge::forward<Args>(args)...);
+	do_emplace<bksge::decay_t<ValueType>>(std::forward<Args>(args)...);
 	any::Arg arg;
 	this->m_manager(any::OpAccess, this, &arg);
 	return *static_cast<bksge::decay_t<ValueType>*>(arg.m_obj);
@@ -137,7 +136,7 @@ template <typename ValueType, typename U, typename... Args, typename>
 inline bksge::decay_t<ValueType>&
 any::emplace(std::initializer_list<U> il, Args&&... args)
 {
-	do_emplace<bksge::decay_t<ValueType>>(il, bksge::forward<Args>(args)...);
+	do_emplace<bksge::decay_t<ValueType>>(il, std::forward<Args>(args)...);
 	any::Arg arg;
 	this->m_manager(any::OpAccess, this, &arg);
 	return *static_cast<bksge::decay_t<ValueType>*>(arg.m_obj);
@@ -216,7 +215,7 @@ any::do_emplace(Args&&... args)
 {
 	reset();
 	m_manager = &Manager<T>::manage;
-	Manager<T>::create(m_storage, bksge::forward<Args>(args)...);
+	Manager<T>::create(m_storage, std::forward<Args>(args)...);
 }
 
 template <typename T>
@@ -261,7 +260,7 @@ struct any::ManagerInternal
 	static void create(Storage& storage, Args&&... args)
 	{
 		void* addr = &storage.m_buffer;
-		::new (addr) T(bksge::forward<Args>(args)...);
+		::new (addr) T(std::forward<Args>(args)...);
 	}
 
 	template <
@@ -317,7 +316,7 @@ struct any::ManagerExternal
 	>
 	static void create(Storage& storage, Args&&... args)
 	{
-		storage.m_ptr = new T(bksge::forward<Args>(args)...);
+		storage.m_ptr = new T(std::forward<Args>(args)...);
 	}
 
 	template <

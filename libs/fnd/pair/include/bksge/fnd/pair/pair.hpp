@@ -52,7 +52,6 @@ using std::piecewise_construct_t;
 #include <bksge/fnd/type_traits/unwrap_ref_decay.hpp>
 #include <bksge/fnd/tuple/fwd/tuple_fwd.hpp>
 #include <bksge/fnd/tuple/tuple_element.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/config.hpp>
@@ -171,8 +170,8 @@ BKSGE_WARNING_DISABLE_MSVC(4244);	// conversion from '' to '', possible loss of 
 		BKSGE_NOEXCEPT_IF((bksge::conjunction<
 			bksge::is_nothrow_constructible<T1, U1&&>,
 			bksge::is_nothrow_constructible<T2, U2&&>>::value))
-		: first (bksge::forward<U1>(x))
-		, second(bksge::forward<U2>(y)) {}
+		: first (std::forward<U1>(x))
+		, second(std::forward<U2>(y)) {}
 
 BKSGE_WARNING_POP();
 
@@ -189,8 +188,8 @@ BKSGE_WARNING_POP();
 		BKSGE_NOEXCEPT_IF((bksge::conjunction<
 			bksge::is_nothrow_constructible<T1, U1&&>,
 			bksge::is_nothrow_constructible<T2, U2&&>>::value))
-		: first (bksge::forward<U1>(x))
-		, second(bksge::forward<U2>(y)) {}
+		: first (std::forward<U1>(x))
+		, second(std::forward<U2>(y)) {}
 
 	// (4) Construct from pair<U1, U2> const&
 	template <
@@ -235,8 +234,8 @@ BKSGE_WARNING_POP();
 		BKSGE_NOEXCEPT_IF((bksge::conjunction<
 			bksge::is_nothrow_constructible<T1, U1&&>,
 			bksge::is_nothrow_constructible<T2, U2&&>>::value))
-		: first (bksge::forward<U1>(p.first))
-		, second(bksge::forward<U2>(p.second)) {}
+		: first (std::forward<U1>(p.first))
+		, second(std::forward<U2>(p.second)) {}
 
 	template <typename U1, typename U2,
 		bksge::enable_if_t<bksge::conjunction<
@@ -251,8 +250,8 @@ BKSGE_WARNING_POP();
 		BKSGE_NOEXCEPT_IF((bksge::conjunction<
 			bksge::is_nothrow_constructible<T1, U1&&>,
 			bksge::is_nothrow_constructible<T2, U2&&>>::value))
-		: first (bksge::forward<U1>(p.first))
-		, second(bksge::forward<U2>(p.second)) {}
+		: first (std::forward<U1>(p.first))
+		, second(std::forward<U2>(p.second)) {}
 
 	// (6) Piecewise constructor
 	template <typename... Args1, typename... Args2>
@@ -299,8 +298,8 @@ BKSGE_WARNING_POP();
 			bksge::is_nothrow_move_assignable<T1>,
 			bksge::is_nothrow_move_assignable<T2>>::value))
 	{
-		first  = bksge::forward<first_type>(p.first);
-		second = bksge::forward<second_type>(p.second);
+		first  = std::forward<first_type>(p.first);
+		second = std::forward<second_type>(p.second);
 		return *this;
 	}
 
@@ -325,8 +324,8 @@ BKSGE_WARNING_POP();
 		pair&>
 	operator=(pair<U1, U2>&& p)
 	{
-		first  = bksge::forward<U1>(p.first);
-		second = bksge::forward<U2>(p.second);
+		first  = std::forward<U1>(p.first);
+		second = std::forward<U2>(p.second);
 		return *this;
 	}
 
@@ -452,7 +451,7 @@ make_pair(T1&& x, T2&& y)
 	using type1 = bksge::unwrap_ref_decay_t<T1>;
 	using type2 = bksge::unwrap_ref_decay_t<T2>;
 	using pair_type = pair<type1, type2>;
-	return pair_type(bksge::forward<T1>(x), bksge::forward<T2>(y));
+	return pair_type(std::forward<T1>(x), std::forward<T2>(y));
 }
 
 namespace detail
@@ -475,7 +474,7 @@ struct pair_get<0>
 	static BKSGE_CONSTEXPR T1&&
 	get(pair<T1, T2>&& p) BKSGE_NOEXCEPT
 	{
-		return bksge::forward<T1>(p.first);
+		return std::forward<T1>(p.first);
 	}
 
 	template <typename T1, typename T2>
@@ -489,7 +488,7 @@ struct pair_get<0>
 	static BKSGE_CONSTEXPR T1 const&&
 	get(pair<T1, T2> const&& p) BKSGE_NOEXCEPT
 	{
-		return bksge::forward<T1 const>(p.first);
+		return std::forward<T1 const>(p.first);
 	}
 };
 
@@ -507,7 +506,7 @@ struct pair_get<1>
 	static BKSGE_CONSTEXPR T2&&
 	get(pair<T1, T2>&& p) BKSGE_NOEXCEPT
 	{
-		return bksge::forward<T2>(p.second);
+		return std::forward<T2>(p.second);
 	}
 
 	template <typename T1, typename T2>
@@ -521,7 +520,7 @@ struct pair_get<1>
 	static BKSGE_CONSTEXPR T2 const&&
 	get(pair<T1, T2> const&& p) BKSGE_NOEXCEPT
 	{
-		return bksge::forward<T2 const>(p.second);
+		return std::forward<T2 const>(p.second);
 	}
 };
 
@@ -633,8 +632,8 @@ pair<T1, T2>::pair(
 	bksge::tuple<Args2...>& tuple2,
 	bksge::index_sequence<Indices1...>,
 	bksge::index_sequence<Indices2...>)
-	: first (bksge::forward<Args1>(get<Indices1>(tuple1))...)
-	, second(bksge::forward<Args2>(get<Indices2>(tuple2))...)
+	: first (std::forward<Args1>(get<Indices1>(tuple1))...)
+	, second(std::forward<Args2>(get<Indices2>(tuple2))...)
 {}
 
 }	// namespace bksge

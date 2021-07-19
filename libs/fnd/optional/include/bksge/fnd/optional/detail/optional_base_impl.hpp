@@ -12,9 +12,9 @@
 #include <bksge/fnd/memory/addressof.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
 #include <bksge/fnd/type_traits/remove_const.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -38,7 +38,7 @@ protected:
 			bksge::is_nothrow_constructible<stored_type, Args...>::value))
 	{
 		::new (bksge::addressof(static_cast<D*>(this)->m_payload.m_payload))
-			stored_type(bksge::forward<Args>(args)...);
+			stored_type(std::forward<Args>(args)...);
 		static_cast<D*>(this)->m_payload.m_engaged = true;
 	}
 

@@ -14,7 +14,6 @@
 #include <bksge/fnd/concepts/integral.hpp>
 #include <bksge/fnd/iterator/iter_difference_t.hpp>
 #include <bksge/fnd/type_traits/conditional.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <limits>
 #include <cstddef>
@@ -59,14 +58,14 @@ public:
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
 	requires requires (T&& e)
 	{
-		ranges::begin(bksge::forward<T>(e));
-		ranges::size(bksge::forward<T>(e));
+		ranges::begin(std::forward<T>(e));
+		ranges::size(std::forward<T>(e));
 	}
 #endif
 	BKSGE_CONSTEXPR result_type_t<T> operator()(T&& e) const
-		BKSGE_NOEXCEPT_IF_EXPR(ranges::size(bksge::forward<T>(e)))
+		BKSGE_NOEXCEPT_IF_EXPR(ranges::size(std::forward<T>(e)))
 	{
-		return static_cast<result_type_t<T>>(ranges::size(bksge::forward<T>(e)));
+		return static_cast<result_type_t<T>>(ranges::size(std::forward<T>(e)));
 	}
 };
 

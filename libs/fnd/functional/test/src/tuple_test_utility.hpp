@@ -12,7 +12,6 @@
 #include <bksge/fnd/memory/allocator_arg.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/pair.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cassert>
@@ -232,7 +231,7 @@ public:
 	template <typename U, typename... Args>
 	void construct(U* p, Args&& ...args)
 	{
-		::new (p) U(bksge::forward<Args>(args)...);
+		::new (p) U(std::forward<Args>(args)...);
 		constructed = true;
 	}
 

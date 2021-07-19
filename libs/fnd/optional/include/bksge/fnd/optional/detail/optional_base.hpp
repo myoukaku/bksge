@@ -16,7 +16,6 @@
 #include <bksge/fnd/type_traits/is_nothrow_move_constructible.hpp>
 #include <bksge/fnd/type_traits/is_trivially_copy_constructible.hpp>
 #include <bksge/fnd/type_traits/is_trivially_move_constructible.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
 #include <bksge/fnd/config.hpp>
 #include <initializer_list>
@@ -60,14 +59,14 @@ struct optional_base
 		typename = bksge::enable_if_t<bksge::is_constructible<T, Args...>::value>>
 	BKSGE_CONSTEXPR explicit
 	optional_base(bksge::in_place_t, Args&&... args)
-		: m_payload(bksge::in_place, bksge::forward<Args>(args)...)
+		: m_payload(bksge::in_place, std::forward<Args>(args)...)
 	{}
 
 	template <typename U, typename... Args,
 		typename = bksge::enable_if_t<bksge::is_constructible<T, std::initializer_list<U>&, Args...>::value>>
 	BKSGE_CONSTEXPR explicit
 	optional_base(bksge::in_place_t, std::initializer_list<U> il, Args&&... args)
-		: m_payload(bksge::in_place, il, bksge::forward<Args>(args)...)
+		: m_payload(bksge::in_place, il, std::forward<Args>(args)...)
 	{}
 
 	// Copy and move constructors.
@@ -101,14 +100,14 @@ struct optional_base<T, false, true>
 		typename = bksge::enable_if_t<bksge::is_constructible<T, Args...>::value>>
 	BKSGE_CONSTEXPR explicit
 	optional_base(bksge::in_place_t, Args&&... args)
-		: m_payload(bksge::in_place, bksge::forward<Args>(args)...)
+		: m_payload(bksge::in_place, std::forward<Args>(args)...)
 	{}
 
 	template <typename U, typename... Args,
 		typename = bksge::enable_if_t<bksge::is_constructible<T, std::initializer_list<U>&, Args...>::value>>
 	BKSGE_CONSTEXPR explicit
 	optional_base(bksge::in_place_t, std::initializer_list<U> il, Args... args)
-		: m_payload(bksge::in_place, il, bksge::forward<Args>(args)...)
+		: m_payload(bksge::in_place, il, std::forward<Args>(args)...)
 	{}
 
 	// Copy and move constructors.
@@ -137,14 +136,14 @@ struct optional_base<T, true, false>
 		typename = bksge::enable_if_t<bksge::is_constructible<T, Args...>::value>>
 	BKSGE_CONSTEXPR explicit
 	optional_base(bksge::in_place_t, Args&&... args)
-		: m_payload(bksge::in_place, bksge::forward<Args>(args)...)
+		: m_payload(bksge::in_place, std::forward<Args>(args)...)
 	{}
 
 	template <typename U, typename... Args,
 		typename = bksge::enable_if_t<bksge::is_constructible<T, std::initializer_list<U>&, Args...>::value>>
 	BKSGE_CONSTEXPR explicit
 	optional_base(bksge::in_place_t, std::initializer_list<U> il, Args&&... args)
-		: m_payload(bksge::in_place, il, bksge::forward<Args>(args)...)
+		: m_payload(bksge::in_place, il, std::forward<Args>(args)...)
 	{}
 
 	// Copy and move constructors.
@@ -175,14 +174,14 @@ struct optional_base<T, true, true>
 		typename = bksge::enable_if_t<bksge::is_constructible<T, Args...>::value>>
 	BKSGE_CONSTEXPR explicit
 	optional_base(bksge::in_place_t, Args&&... args)
-		: m_payload(bksge::in_place, bksge::forward<Args>(args)...)
+		: m_payload(bksge::in_place, std::forward<Args>(args)...)
 	{}
 
 	template <typename U, typename... Args,
 		typename = bksge::enable_if_t<bksge::is_constructible<T, std::initializer_list<U>&, Args...>::value>>
 	BKSGE_CONSTEXPR explicit
 	optional_base(bksge::in_place_t, std::initializer_list<U> il, Args&&... args)
-		: m_payload(bksge::in_place, il, bksge::forward<Args>(args)...)
+		: m_payload(bksge::in_place, il, std::forward<Args>(args)...)
 	{}
 
 	// Copy and move constructors.

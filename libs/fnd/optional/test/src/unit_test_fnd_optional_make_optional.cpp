@@ -11,10 +11,10 @@
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/tuple/get.hpp>
 #include <bksge/fnd/tuple/tuple.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/vector.hpp>
 #include <gtest/gtest.h>
 #include <initializer_list>
+#include <utility>
 #include "constexpr_test.hpp"
 
 namespace bksge_optional_test
@@ -30,7 +30,7 @@ struct combined
 
 	template<class... Args>
 	combined(std::initializer_list<int> il, Args&&... args)
-		: v(il), t(bksge::forward<Args>(args)...)
+		: v(il), t(std::forward<Args>(args)...)
 	{
 	}
 };

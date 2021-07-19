@@ -13,7 +13,6 @@
 #include <bksge/fnd/concepts/convertible_to.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/void_t.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
 
@@ -36,11 +35,11 @@ concept less_builtin_ptr_cmp =
 	(
 		!requires(T&& t, U&& u)
 		{
-			operator<(bksge::forward<T>(t), bksge::forward<U>(u));
+			operator<(std::forward<T>(t), std::forward<U>(u));
 		} &&
 		!requires(T&& t, U&& u)
 		{
-			bksge::forward<T>(t).operator<(bksge::forward<U>(u));
+			std::forward<T>(t).operator<(std::forward<U>(u));
 		}
 	);
 

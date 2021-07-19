@@ -27,7 +27,6 @@ namespace bksge
 #include <bksge/fnd/tuple/detail/index_of.hpp>
 #include <bksge/fnd/tuple/detail/exactly_once.hpp>
 #include <bksge/fnd/tuple/tuple_element.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
 #include <utility>
@@ -54,7 +53,7 @@ BKSGE_CXX14_CONSTEXPR bksge::tuple_element_t<I, tuple<Types...>>&&
 get(tuple<Types...>&& t) BKSGE_NOEXCEPT
 {
 	using element_type = bksge::tuple_element_t<I, tuple<Types...>>;
-	return bksge::forward<element_type&&>(bksge::get<I>(t));
+	return std::forward<element_type&&>(bksge::get<I>(t));
 }
 
 template <std::size_t I, typename... Types>
@@ -62,7 +61,7 @@ BKSGE_CXX14_CONSTEXPR bksge::tuple_element_t<I, tuple<Types...>> const&&
 get(tuple<Types...> const&& t) BKSGE_NOEXCEPT
 {
 	using element_type = bksge::tuple_element_t<I, tuple<Types...>>;
-	return bksge::forward<element_type const&&>(bksge::get<I>(t));
+	return std::forward<element_type const&&>(bksge::get<I>(t));
 }
 
 template <typename T, typename... Types>

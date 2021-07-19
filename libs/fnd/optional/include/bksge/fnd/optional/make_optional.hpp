@@ -29,10 +29,10 @@ using std::make_optional;
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/is_constructible.hpp>
 #include <bksge/fnd/type_traits/is_nothrow_constructible.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/in_place.hpp>
 #include <bksge/fnd/config.hpp>
 #include <initializer_list>
+#include <utility>
 
 namespace bksge
 {
@@ -45,7 +45,7 @@ make_optional(T&& t)
 	BKSGE_NOEXCEPT_IF((
 		bksge::is_nothrow_constructible<optional<bksge::decay_t<T>>, T>::value))
 {
-	return optional<bksge::decay_t<T>>{ bksge::forward<T>(t) };
+	return optional<bksge::decay_t<T>>{ std::forward<T>(t) };
 }
 
 template <typename T, typename... Args,
@@ -56,7 +56,7 @@ make_optional(Args&&... args)
 	BKSGE_NOEXCEPT_IF((
 		bksge::is_nothrow_constructible<T, Args...>::value))
 {
-	return optional<T>{ bksge::in_place, bksge::forward<Args>(args)... };
+	return optional<T>{ bksge::in_place, std::forward<Args>(args)... };
 }
 
 template <typename T, typename U, typename... Args,
@@ -67,7 +67,7 @@ make_optional(std::initializer_list<U> il, Args&&... args)
 	BKSGE_NOEXCEPT_IF((
 		bksge::is_nothrow_constructible<T, std::initializer_list<U>&, Args...>::value))
 {
-	return optional<T>{ bksge::in_place, il, bksge::forward<Args>(args)... };
+	return optional<T>{ bksge::in_place, il, std::forward<Args>(args)... };
 }
 
 }	// namespace bksge

@@ -12,7 +12,7 @@
 #include <bksge/fnd/variant/detail/raw_visit.hpp>
 #include <bksge/fnd/variant/detail/variant_access.hpp>
 #include <bksge/fnd/variant/detail/variant_construct_single.hpp>
-#include <bksge/fnd/utility/forward.hpp>
+#include <utility>
 
 namespace bksge
 {
@@ -29,8 +29,8 @@ struct variant_construct_t
 	void operator()(U&& rhs_mem)
 	{
 		variant_detail::variant_construct_single(
-			bksge::forward<T>(m_lhs),
-			bksge::forward<U>(rhs_mem));
+			std::forward<T>(m_lhs),
+			std::forward<U>(rhs_mem));
 	}
 };
 
@@ -40,7 +40,7 @@ void variant_construct(T&& lhs, U&& rhs)
 	lhs.m_index = rhs.m_index;
 	variant_detail::raw_visit(
 		variant_construct_t<T>{lhs},
-		variant_detail::variant_access::variant_cast<Types...>(bksge::forward<U>(rhs)));
+		variant_detail::variant_access::variant_cast<Types...>(std::forward<U>(rhs)));
 }
 
 }	// namespace variant_detail

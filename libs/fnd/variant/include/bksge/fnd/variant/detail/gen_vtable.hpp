@@ -25,7 +25,6 @@
 #include <bksge/fnd/type_traits/remove_reference.hpp>
 #include <bksge/fnd/utility/index_sequence.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <cstddef>
 #include <utility>
 
@@ -145,9 +144,9 @@ private:
 	template <std::size_t Index, typename Variant, typename = bksge::enable_if_t<Index != bksge::variant_npos>>
 	static BKSGE_CXX14_CONSTEXPR auto
 	element_by_index_or_cookie_impl(Variant&& var, bksge::detail::overload_priority<1>) noexcept
-	->decltype(variant_detail::variant_access::get_impl<Index>(bksge::forward<Variant>(var)))
+	->decltype(variant_detail::variant_access::get_impl<Index>(std::forward<Variant>(var)))
 	{
-		return variant_detail::variant_access::get_impl<Index>(bksge::forward<Variant>(var));
+		return variant_detail::variant_access::get_impl<Index>(std::forward<Variant>(var));
 	}
 
 	template <std::size_t Index, typename Variant>
@@ -161,10 +160,10 @@ private:
 	static BKSGE_CXX14_CONSTEXPR auto
 	element_by_index_or_cookie(Variant&& var) noexcept
 	->decltype(element_by_index_or_cookie_impl<Index>(
-			bksge::forward<Variant>(var), bksge::detail::overload_priority<1>{}))
+			std::forward<Variant>(var), bksge::detail::overload_priority<1>{}))
 	{
 		return element_by_index_or_cookie_impl<Index>(
-			bksge::forward<Variant>(var), bksge::detail::overload_priority<1>{});
+			std::forward<Variant>(var), bksge::detail::overload_priority<1>{});
 	}
 
 	template <typename R, bool, typename>
@@ -178,8 +177,8 @@ private:
 		{
 			// For raw visitation using indices, pass the indices to the visitor
 			// and discard the return value:
-			bksge::invoke(bksge::forward<Visitor>(visitor),
-				element_by_index_or_cookie<Indices>(bksge::forward<Variants>(vars))...,
+			bksge::invoke(std::forward<Visitor>(visitor),
+				element_by_index_or_cookie<Indices>(std::forward<Variants>(vars))...,
 				bksge::integral_constant<std::size_t, Indices>()...);
 		}
 	};
@@ -191,8 +190,8 @@ private:
 		BKSGE_CXX14_CONSTEXPR void operator()(Visitor&& visitor, Variants... vars) const
 		{
 			// For raw visitation without indices, and discard the return value:
-			bksge::invoke(bksge::forward<Visitor>(visitor),
-				element_by_index_or_cookie<Indices>(bksge::forward<Variants>(vars))...);
+			bksge::invoke(std::forward<Visitor>(visitor),
+				element_by_index_or_cookie<Indices>(std::forward<Variants>(vars))...);
 		}
 	};
 
@@ -201,12 +200,12 @@ private:
 	struct visit_invoke_impl<R, true, Dummy>
 	{
 		BKSGE_CXX14_CONSTEXPR auto operator()(Visitor&& visitor, Variants... vars) const
-		->decltype(bksge::invoke(bksge::forward<Visitor>(visitor),
-				element_by_index_or_cookie<Indices>(bksge::forward<Variants>(vars))...))
+		->decltype(bksge::invoke(std::forward<Visitor>(visitor),
+				element_by_index_or_cookie<Indices>(std::forward<Variants>(vars))...))
 		{
 			// For the usual std::visit case deduce the return value:
-			return bksge::invoke(bksge::forward<Visitor>(visitor),
-				element_by_index_or_cookie<Indices>(bksge::forward<Variants>(vars))...);
+			return bksge::invoke(std::forward<Visitor>(visitor),
+				element_by_index_or_cookie<Indices>(std::forward<Variants>(vars))...);
 		}
 	};
 
@@ -217,20 +216,20 @@ private:
 		BKSGE_CXX14_CONSTEXPR ResultType operator()(Visitor&& visitor, Variants... vars) const
 		{
 			//return std::__invoke_r<ResultType>(
-			return bksge::invoke(bksge::forward<Visitor>(visitor),
-				variant_detail::variant_access::get_impl<Indices>(bksge::forward<Variants>(vars))...);
+			return bksge::invoke(std::forward<Visitor>(visitor),
+				variant_detail::variant_access::get_impl<Indices>(std::forward<Variants>(vars))...);
 		}
 	};
 
 	static BKSGE_CXX14_CONSTEXPR auto
 	visit_invoke(Visitor&& visitor, Variants... vars)
 	->decltype(visit_invoke_impl<ResultType, ArrayType::result_is_deduced, void>{}(
-			bksge::forward<Visitor>(visitor),
-			bksge::forward<Variants>(vars)...))
+			std::forward<Visitor>(visitor),
+			std::forward<Variants>(vars)...))
 	{
 		return visit_invoke_impl<ResultType, ArrayType::result_is_deduced, void>{}(
-			bksge::forward<Visitor>(visitor),
-			bksge::forward<Variants>(vars)...);
+			std::forward<Visitor>(visitor),
+			std::forward<Variants>(vars)...);
 	}
 
 	struct cannot_match {};

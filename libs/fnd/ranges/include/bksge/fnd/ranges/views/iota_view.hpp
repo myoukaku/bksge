@@ -38,7 +38,6 @@
 #include <bksge/fnd/type_traits/is_nothrow_copy_constructible.hpp>
 #include <bksge/fnd/type_traits/type_identity.hpp>
 #include <bksge/fnd/type_traits/make_unsigned.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/assert.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>

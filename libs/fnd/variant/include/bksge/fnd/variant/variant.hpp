@@ -75,7 +75,6 @@ using std::variant;
 #include <bksge/fnd/type_traits/negation.hpp>
 #include <bksge/fnd/type_traits/remove_cvref.hpp>
 #include <bksge/fnd/type_traits/void_t.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/in_place_index.hpp>
 #include <bksge/fnd/utility/in_place_type.hpp>
 #include <bksge/fnd/utility/index_sequence.hpp>
@@ -165,21 +164,21 @@ public:
 	constexpr
 	variant(T&& t)
 		noexcept(bksge::is_nothrow_constructible<Tj, T>::value)
-		: variant(bksge::in_place_index_t<accepted_index<T>::value>{}, bksge::forward<T>(t))
+		: variant(bksge::in_place_index_t<accepted_index<T>::value>{}, std::forward<T>(t))
 	{}
 
 	template <typename T, typename... Args,
 		typename = bksge::enable_if_t<exactly_once<T>::value && bksge::is_constructible<T, Args...>::value>>
 	constexpr explicit
 	variant(bksge::in_place_type_t<T>, Args&&... args)
-		: variant(bksge::in_place_index_t<index_of<T>::value>{}, bksge::forward<Args>(args)...)
+		: variant(bksge::in_place_index_t<index_of<T>::value>{}, std::forward<Args>(args)...)
 	{}
 
 	template <typename T, typename U, typename... Args,
 		typename = bksge::enable_if_t<exactly_once<T>::value && bksge::is_constructible<T, std::initializer_list<U>&, Args...>::value>>
 	constexpr explicit
 	variant(bksge::in_place_type_t<T>, std::initializer_list<U> il, Args&&... args)
-		: variant(bksge::in_place_index_t<index_of<T>::value>{}, il, bksge::forward<Args>(args)...)
+		: variant(bksge::in_place_index_t<index_of<T>::value>{}, il, std::forward<Args>(args)...)
 	{}
 
 	template <std::size_t N, typename... Args,
@@ -187,7 +186,7 @@ public:
 		typename = bksge::enable_if_t<bksge::is_constructible<T, Args...>::value>>
 	constexpr explicit
 	variant(bksge::in_place_index_t<N>, Args&&... args)
-		: Base(bksge::in_place_index_t<N>{}, bksge::forward<Args>(args)...)
+		: Base(bksge::in_place_index_t<N>{}, std::forward<Args>(args)...)
 		, DefaultCtorEnabler(detail::enable_default_constructor_tag{})
 	{}
 
@@ -196,7 +195,7 @@ public:
 		typename = bksge::enable_if_t<bksge::is_constructible<T, std::initializer_list<U>&, Args...>::value>>
 	constexpr explicit
 	variant(bksge::in_place_index_t<N>, std::initializer_list<U> il, Args&&... args)
-		: Base(bksge::in_place_index_t<N>{}, il, bksge::forward<Args>(args)...)
+		: Base(bksge::in_place_index_t<N>{}, il, std::forward<Args>(args)...)
 		, DefaultCtorEnabler(detail::enable_default_constructor_tag{})
 	{}
 
@@ -205,13 +204,13 @@ private:
 	void assign_impl(T&& rhs, bksge::true_type)
 	{
 		constexpr auto Index = accepted_index<T>::value;
-		this->emplace<Index>(bksge::forward<T>(rhs));
+		this->emplace<Index>(std::forward<T>(rhs));
 	}
 
 	template <typename T>
 	void assign_impl(T&& rhs, bksge::false_type)
 	{
-		operator=(variant(bksge::forward<T>(rhs)));
+		operator=(variant(std::forward<T>(rhs)));
 	}
 
 public:
@@ -230,12 +229,12 @@ public:
 		constexpr auto Index = accepted_index<T>::value;
 		if (index() == Index)
 		{
-			bksge::get<Index>(*this) = bksge::forward<T>(rhs);
+			bksge::get<Index>(*this) = std::forward<T>(rhs);
 		}
 		else
 		{
 			using Tj = accepted_type<T&&>;
-			assign_impl(bksge::forward<T>(rhs),
+			assign_impl(std::forward<T>(rhs),
 				bksge::bool_constant<
 					bksge::is_nothrow_constructible<Tj, T>::value ||
 					!bksge::is_nothrow_move_constructible<Tj>::value>{});
@@ -252,7 +251,7 @@ public:
 	emplace(Args&&... args)
 	{
 		constexpr std::size_t Index = index_of<T>::value;
-		return this->emplace<Index>(bksge::forward<Args>(args)...);
+		return this->emplace<Index>(std::forward<Args>(args)...);
 	}
 
 	template <typename T, typename U, typename... Args>
@@ -264,7 +263,7 @@ public:
 	emplace(std::initializer_list<U> il, Args&&... args)
 	{
 		constexpr std::size_t Index = index_of<T>::value;
-		return this->emplace<Index>(il, bksge::forward<Args>(args)...);
+		return this->emplace<Index>(il, std::forward<Args>(args)...);
 	}
 
 private:
@@ -275,7 +274,7 @@ private:
 	void emplace_impl(Args&&... args, bksge::detail::overload_priority<3>)
 	{
 		this->reset();
-		variant_detail::variant_access::variant_construct_by_index<N>(*this, bksge::forward<Args>(args)...);
+		variant_detail::variant_access::variant_construct_by_index<N>(*this, std::forward<Args>(args)...);
 	}
 
 	template <std::size_t N, typename AltType, typename... Args,
@@ -283,7 +282,7 @@ private:
 	void emplace_impl(Args&&... args, bksge::detail::overload_priority<2>)
 	{
 		// This might invoke a potentially-throwing conversion operator:
-		const AltType tmp(bksge::forward<Args>(args)...);
+		const AltType tmp(std::forward<Args>(args)...);
 		// But these steps won't throw:
 		this->reset();
 		variant_detail::variant_access::variant_construct_by_index<N>(*this, tmp);
@@ -294,7 +293,7 @@ private:
 	void emplace_impl(Args&&... args, bksge::detail::overload_priority<1>)
 	{
 		// This construction might throw:
-		variant tmp(bksge::in_place_index_t<N>{}, bksge::forward<Args>(args)...);
+		variant tmp(bksge::in_place_index_t<N>{}, std::forward<Args>(args)...);
 		// But NeverValuelessAlt<AltType> means this won't:
 		*this = std::move(tmp);
 	}
@@ -307,7 +306,7 @@ private:
 		this->reset();
 		try
 		{
-			variant_detail::variant_access::variant_construct_by_index<N>(*this, bksge::forward<Args>(args)...);
+			variant_detail::variant_access::variant_construct_by_index<N>(*this, std::forward<Args>(args)...);
 		}
 		catch (...)
 		{
@@ -327,7 +326,7 @@ public:
 	{
 		static_assert(N < sizeof...(Types), "The index must be in [0, number of alternatives)");
 		using alt_type = variant_alternative_t<N, variant>;
-		emplace_impl<N, alt_type, Args...>(bksge::forward<Args>(args)..., bksge::detail::overload_priority<3>{});
+		emplace_impl<N, alt_type, Args...>(std::forward<Args>(args)..., bksge::detail::overload_priority<3>{});
 		return bksge::get<N>(*this);
 	}
 
@@ -340,7 +339,7 @@ public:
 	{
 		static_assert(N < sizeof...(Types), "The index must be in [0, number of alternatives)");
 		using alt_type = variant_alternative_t<N, variant>;
-		emplace_impl<N, alt_type, std::initializer_list<U>&, Args...>(il, bksge::forward<Args>(args)..., bksge::detail::overload_priority<3>{});
+		emplace_impl<N, alt_type, std::initializer_list<U>&, Args...>(il, std::forward<Args>(args)..., bksge::detail::overload_priority<3>{});
 		return bksge::get<N>(*this);
 	}
 
@@ -420,7 +419,7 @@ private:
 		template <typename RhsMem, typename RhsIndex>
 		void operator()(RhsMem&& rhs_mem, RhsIndex rhs_index)
 		{
-			impl(bksge::forward<RhsMem>(rhs_mem), rhs_index,
+			impl(std::forward<RhsMem>(rhs_mem), rhs_index,
 				bksge::bool_constant<rhs_index == bksge::variant_npos>{});
 		}
 	};
@@ -466,14 +465,14 @@ struct VariantRelopVisitor
 		}
 		else
 		{
-			impl(bksge::forward<RhsMem>(rhs_mem), rhs_index, bksge::false_type{});
+			impl(std::forward<RhsMem>(rhs_mem), rhs_index, bksge::false_type{});
 		}
 	}
 
 	template <typename RhsMem, typename RhsIndex>
 	constexpr void operator()(RhsMem&& rhs_mem, RhsIndex rhs_index)
 	{
-		impl(bksge::forward<RhsMem>(rhs_mem), rhs_index,
+		impl(std::forward<RhsMem>(rhs_mem), rhs_index,
 			bksge::bool_constant<rhs_index != bksge::variant_npos>{});
 	}
 };
@@ -553,10 +552,10 @@ BKSGE_WARNING_POP();
 #include <bksge/fnd/type_traits/is_nothrow_invocable.hpp>
 #include <bksge/fnd/type_traits/is_same.hpp>
 #include <bksge/fnd/type_traits/remove_cvref.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/variant/detail/variant_cookie.hpp>
 #include <bksge/fnd/variant/visit.hpp>
 #include <cstddef>
+#include <utility>
 
 namespace bksge
 {
@@ -593,7 +592,7 @@ private:
 		void operator()(VarMem&& var_mem)
 		{
 			using Type = bksge::remove_cvref_t<VarMem>;
-			impl(bksge::forward<VarMem>(var_mem),
+			impl(std::forward<VarMem>(var_mem),
 				bksge::is_same<Type, variant_detail::VariantCookie>{});
 		}
 	};

@@ -14,7 +14,6 @@
 #include <bksge/fnd/type_traits/is_trivially_copyable.hpp>
 #include <bksge/fnd/tuple/tuple.hpp>
 #include <bksge/fnd/tuple/get.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/utility/in_place_type.hpp>
 #include <bksge/fnd/set/set.hpp>
@@ -73,7 +72,7 @@ struct combined
 	bksge::tuple<int, int> t;
 	template <typename... Args>
 	combined(std::initializer_list<int> il, Args&&... args)
-		: v(il), t(bksge::forward<Args>(args)...)
+		: v(il), t(std::forward<Args>(args)...)
 	{}
 };
 
@@ -262,7 +261,7 @@ struct combined
 	bksge::tuple<int, int> t;
 	template <typename... Args>
 	combined(std::initializer_list<int> il, Args&&... args)
-		: v(il), t(bksge::forward<Args>(args)...)
+		: v(il), t(std::forward<Args>(args)...)
 	{}
 };
 

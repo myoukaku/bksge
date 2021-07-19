@@ -14,7 +14,6 @@
 #include <bksge/fnd/type_traits/is_default_constructible.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
 
@@ -47,9 +46,9 @@ struct range_adaptor_closure : public range_adaptor<Callable>
 	>
 #endif
 	constexpr auto operator()(Range&& r) const
-	->decltype(this->get_callable()(bksge::forward<Range>(r)))
+	->decltype(this->get_callable()(std::forward<Range>(r)))
 	{
-		return this->get_callable()(bksge::forward<Range>(r));
+		return this->get_callable()(std::forward<Range>(r));
 	}
 
 #if defined(BKSGE_HAS_CXX20_CONCEPTS)
@@ -65,9 +64,9 @@ struct range_adaptor_closure : public range_adaptor<Callable>
 #endif
 	friend constexpr auto
 	operator|(Range&& r, const range_adaptor_closure& o)
-	->decltype(o(bksge::forward<Range>(r)))
+	->decltype(o(std::forward<Range>(r)))
 	{
-		return o(bksge::forward<Range>(r));
+		return o(std::forward<Range>(r));
 	}
 
 private:
@@ -82,9 +81,9 @@ private:
 
 		template <typename U>
 		constexpr auto operator()(U&& e) const
-		->decltype(bksge::forward<U>(e) | T1{} | T2{})
+		->decltype(std::forward<U>(e) | T1{} | T2{})
 		{
-			return bksge::forward<U>(e) | T1{} | T2{};
+			return std::forward<U>(e) | T1{} | T2{};
 		};
 	};
 
@@ -99,9 +98,9 @@ private:
 
 		template <typename U>
 		constexpr auto operator()(U&& e) const
-		->decltype(bksge::forward<U>(e) | T1{} | m_y)
+		->decltype(std::forward<U>(e) | T1{} | m_y)
 		{
-			return bksge::forward<U>(e) | T1{} | m_y;
+			return std::forward<U>(e) | T1{} | m_y;
 		};
 	};
 
@@ -116,9 +115,9 @@ private:
 
 		template <typename U>
 		constexpr auto operator()(U&& e) const
-		->decltype(bksge::forward<U>(e) | m_x | T2{})
+		->decltype(std::forward<U>(e) | m_x | T2{})
 		{
-			return bksge::forward<U>(e) | m_x | T2{};
+			return std::forward<U>(e) | m_x | T2{};
 		};
 	};
 
@@ -135,9 +134,9 @@ private:
 
 		template <typename U>
 		constexpr auto operator()(U&& e) const
-		->decltype(bksge::forward<U>(e) | m_x | m_y)
+		->decltype(std::forward<U>(e) | m_x | m_y)
 		{
-			return bksge::forward<U>(e) | m_x | m_y;
+			return std::forward<U>(e) | m_x | m_y;
 		};
 	};
 

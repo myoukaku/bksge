@@ -13,7 +13,6 @@
 #include <bksge/fnd/variant/detail/variant_construct.hpp>
 #include <bksge/fnd/variant/detail/variant_construct_single.hpp>
 #include <bksge/fnd/variant/detail/variant_traits.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <utility>
 
 namespace bksge
@@ -40,7 +39,7 @@ BKSGE_WARNING_DISABLE_MSVC(4702);	// unreachable code
 	void destructive_move(unsigned short rhs_index, U&& rhs)
 	{
 		this->reset();
-		variant_detail::variant_construct_single(*this, bksge::forward<U>(rhs));
+		variant_detail::variant_construct_single(*this, std::forward<U>(rhs));
 		this->m_index = rhs_index;
 	}
 
@@ -68,7 +67,7 @@ struct MoveCtorBase<true, Types...> : public variant_detail::CopyCtorAlias<Types
 	void destructive_move(unsigned short rhs_index, U&& rhs)
 	{
 		this->reset();
-		variant_detail::variant_construct_single(*this, bksge::forward<U>(rhs));
+		variant_detail::variant_construct_single(*this, std::forward<U>(rhs));
 		this->m_index = rhs_index;
 	}
 

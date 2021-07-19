@@ -20,8 +20,8 @@
 #include <bksge/fnd/type_traits/is_bounded_array.hpp>
 #include <bksge/fnd/type_traits/is_lvalue_reference.hpp>
 #include <bksge/fnd/type_traits/remove_reference.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 #define BKSGE_NOEXCEPT_DECLTYPE_RETURN(...) \
 	BKSGE_NOEXCEPT_IF_EXPR(__VA_ARGS__)     \
@@ -79,7 +79,7 @@ public:
 	template <BKSGE_REQUIRES_PARAM(maybe_borrowed_range, T)>
 	BKSGE_CONSTEXPR auto operator()(T&& t) const
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
-			impl(bksge::detail::overload_priority<2>{}, bksge::forward<T>(t)))
+			impl(bksge::detail::overload_priority<2>{}, std::forward<T>(t)))
 };
 
 }	// namespace detail

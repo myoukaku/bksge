@@ -18,8 +18,8 @@
 #include <bksge/fnd/concepts/detail/overload_priority.hpp>
 #include <bksge/fnd/concepts/detail/require.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
+#include <utility>
 
 #define BKSGE_NOEXCEPT_DECLTYPE_RETURN(...) \
 	BKSGE_NOEXCEPT_IF_EXPR(__VA_ARGS__)     \
@@ -42,25 +42,25 @@ private:
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<2>, T&& t)
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
-			bool(bksge::forward<T>(t).empty()))
+			bool(std::forward<T>(t).empty()))
 
 	template <BKSGE_REQUIRES_PARAM(size0_empty, T)>
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<1>, T&& t)
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
-			ranges::size(bksge::forward<T>(t)) == 0)
+			ranges::size(std::forward<T>(t)) == 0)
 
 	template <BKSGE_REQUIRES_PARAM(eq_iter_empty, T)>
 	static BKSGE_CONSTEXPR auto
 	impl(bksge::detail::overload_priority<0>, T&& t)
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
-			bool(ranges::begin(bksge::forward<T>(t)) == ranges::end(bksge::forward<T>(t))))
+			bool(ranges::begin(std::forward<T>(t)) == ranges::end(std::forward<T>(t))))
 
 public:
 	template <typename T>
 	BKSGE_CONSTEXPR auto operator()(T&& t) const
 		BKSGE_NOEXCEPT_DECLTYPE_RETURN(
-			impl(bksge::detail::overload_priority<2>{}, bksge::forward<T>(t)))
+			impl(bksge::detail::overload_priority<2>{}, std::forward<T>(t)))
 };
 
 }	// namespace detail

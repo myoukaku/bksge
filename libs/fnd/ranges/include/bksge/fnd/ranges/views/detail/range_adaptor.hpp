@@ -19,7 +19,6 @@
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/invoke_result.hpp>
 #include <bksge/fnd/functional/reference_wrapper.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
 
@@ -54,9 +53,9 @@ maybe_refwrap(T const& arg)
 template <typename T>
 inline constexpr auto
 maybe_refwrap(T&& arg)
-->decltype((bksge::forward<T>(arg)))
+->decltype((std::forward<T>(arg)))
 {
-	return bksge::forward<T>(arg);
+	return std::forward<T>(arg);
 }
 
 template <typename Callable>
@@ -77,20 +76,20 @@ private:
 		decltype(maybe_refwrap(std::declval<Arg0>()))	m_ref;
 
 		constexpr ClosureT(Arg0&& arg0, Args&&... args)
-			: BaseT(bksge::forward<Args>(args)...)
-			, m_ref(maybe_refwrap(bksge::forward<Arg0>(arg0)))
+			: BaseT(std::forward<Args>(args)...)
+			, m_ref(maybe_refwrap(std::forward<Arg0>(arg0)))
 		{}
 
 		template <typename Range, typename... Ts>
 		constexpr auto operator()(Range&& r, Ts&&... ts) const
 		->decltype(BaseT::operator()(
-				bksge::forward<Range>(r),
-				bksge::forward<Ts>(ts)...,
+				std::forward<Range>(r),
+				std::forward<Ts>(ts)...,
 				static_cast<bksge::unwrap_reference_t<bksge::remove_const_t<decltype(m_ref)>>>(m_ref)))
 		{
 			return BaseT::operator()(
-				bksge::forward<Range>(r),
-				bksge::forward<Ts>(ts)...,
+				std::forward<Range>(r),
+				std::forward<Ts>(ts)...,
 				// This static_cast has two purposes: it forwards a
 				// bksge::reference_wrapper<T> capture as a T&, and otherwise
 				// forwards the captured argument as an rvalue.
@@ -105,7 +104,7 @@ private:
 		constexpr auto operator()(Range&& r, Ts&&... ts) const
 		-> bksge::invoke_result_t<C, Range, Ts...>
 		{
-			return C{}(bksge::forward<Range>(r), bksge::forward<Ts>(ts)...);
+			return C{}(std::forward<Range>(r), std::forward<Ts>(ts)...);
 		}
 	};
 
@@ -129,7 +128,7 @@ private:
 			"should be defined as a range_adaptor_closure");
 		// Here we handle adaptor(range, args...) -- just forward all
 		// arguments to the underlying adaptor routine.
-		return Callable{}(bksge::forward<Args>(args)...);
+		return Callable{}(std::forward<Args>(args)...);
 	}
 
 	// Here we handle adaptor(args...)(range).
@@ -144,7 +143,7 @@ private:
 	static constexpr auto impl(bksge::detail::overload_priority<0>, Args&&... args)
 	-> range_adaptor_closure<ClosureType>
 	{
-		return range_adaptor_closure<ClosureType>(ClosureType(bksge::forward<Args>(args)...));
+		return range_adaptor_closure<ClosureType>(ClosureType(std::forward<Args>(args)...));
 	}
 
 public:
@@ -152,13 +151,13 @@ public:
 	constexpr auto operator()(Arg0&& arg0, Args&&... args) const
 	->decltype(impl(
 			bksge::detail::overload_priority<1>{},
-			bksge::forward<Arg0>(arg0),
-			bksge::forward<Args>(args)...))
+			std::forward<Arg0>(arg0),
+			std::forward<Args>(args)...))
 	{
 		return impl(
 			bksge::detail::overload_priority<1>{},
-			bksge::forward<Arg0>(arg0),
-			bksge::forward<Args>(args)...);
+			std::forward<Arg0>(arg0),
+			std::forward<Args>(args)...);
 	}
 };
 

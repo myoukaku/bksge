@@ -32,7 +32,6 @@
 #include <bksge/fnd/type_traits/enable_if.hpp>
 #include <bksge/fnd/type_traits/conjunction.hpp>
 #include <bksge/fnd/type_traits/negation.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <utility>
 
@@ -73,7 +72,7 @@ public:
 		constructible_from<V, views::all_t<Range>>
 	constexpr explicit
 	common_view(Range&& r)
-		: m_base(views::all(bksge::forward<Range>(r)))
+		: m_base(views::all(std::forward<Range>(r)))
 	{}
 	*/
 
@@ -213,24 +212,24 @@ private:
 	template <BKSGE_REQUIRES_PARAM(ranges::common_range, Range)>
 	static BKSGE_CONSTEXPR views::all_t<Range>
 	impl(Range&& r, bksge::detail::overload_priority<1>)
-		BKSGE_REQUIRES(requires { views::all(bksge::forward<Range>(r)); })
+		BKSGE_REQUIRES(requires { views::all(std::forward<Range>(r)); })
 	{
-		return views::all(bksge::forward<Range>(r));
+		return views::all(std::forward<Range>(r));
 	}
 
 	template <typename Range>
 	static BKSGE_CONSTEXPR common_view<views::all_t<Range>>
 	impl(Range&& r, bksge::detail::overload_priority<0>)
 	{
-		return common_view<views::all_t<Range>>{bksge::forward<Range>(r)};
+		return common_view<views::all_t<Range>>{std::forward<Range>(r)};
 	}
 
 public:
 	template <BKSGE_REQUIRES_PARAM(ranges::viewable_range, Range)>
 	BKSGE_CONSTEXPR auto operator()(Range&& r) const
-	->decltype(impl(bksge::forward<Range>(r), bksge::detail::overload_priority<1>{}))
+	->decltype(impl(std::forward<Range>(r), bksge::detail::overload_priority<1>{}))
 	{
-		return impl(bksge::forward<Range>(r), bksge::detail::overload_priority<1>{});
+		return impl(std::forward<Range>(r), bksge::detail::overload_priority<1>{});
 	}
 };
 

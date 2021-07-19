@@ -13,7 +13,6 @@
 #include <bksge/fnd/concepts/totally_ordered_with.hpp>
 #include <bksge/fnd/concepts/detail/overload_priority.hpp>
 #include <bksge/fnd/type_traits/enable_if.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <type_traits>	// is_constant_evaluated
 #include <cstdint>
@@ -51,9 +50,9 @@ private:
 		}
 #endif
 		auto x = reinterpret_cast<std::uintptr_t>(
-			static_cast<const volatile void*>(bksge::forward<T>(t)));
+			static_cast<const volatile void*>(std::forward<T>(t)));
 		auto y = reinterpret_cast<std::uintptr_t>(
-			static_cast<const volatile void*>(bksge::forward<U>(u)));
+			static_cast<const volatile void*>(std::forward<U>(u)));
 		return x < y;
 	}
 
@@ -70,16 +69,16 @@ private:
 	static BKSGE_CONSTEXPR bool impl(bksge::detail::overload_priority<0>, T&& t, U&& u)
 		BKSGE_NOEXCEPT_IF_EXPR(std::declval<T>() < std::declval<U>())
 	{
-		return bksge::forward<T>(t) < bksge::forward<U>(u);
+		return std::forward<T>(t) < std::forward<U>(u);
 	}
 
 public:
 	template <typename T, typename U>
 	BKSGE_CONSTEXPR auto operator()(T&& t, U&& u) const
-		BKSGE_NOEXCEPT_IF_EXPR(impl(bksge::detail::overload_priority<1>{}, bksge::forward<T>(t), bksge::forward<U>(u)))
-	->decltype(impl(bksge::detail::overload_priority<1>{}, bksge::forward<T>(t), bksge::forward<U>(u)))
+		BKSGE_NOEXCEPT_IF_EXPR(impl(bksge::detail::overload_priority<1>{}, std::forward<T>(t), std::forward<U>(u)))
+	->decltype(impl(bksge::detail::overload_priority<1>{}, std::forward<T>(t), std::forward<U>(u)))
 	{
-		return impl(bksge::detail::overload_priority<1>{}, bksge::forward<T>(t), bksge::forward<U>(u));
+		return impl(bksge::detail::overload_priority<1>{}, std::forward<T>(t), std::forward<U>(u));
 	}
 
 	using is_transparent = void;

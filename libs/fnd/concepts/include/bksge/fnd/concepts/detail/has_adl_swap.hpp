@@ -13,7 +13,6 @@
 #include <bksge/fnd/type_traits/remove_reference.hpp>
 #include <bksge/fnd/type_traits/disjunction.hpp>
 #include <bksge/fnd/type_traits/bool_constant.hpp>
-#include <bksge/fnd/utility/forward.hpp>
 #include <bksge/fnd/config.hpp>
 #include <cstddef>
 #include <utility>
@@ -38,7 +37,7 @@ concept has_adl_swap =
 	 bksge::detail::class_or_enum<bksge::remove_reference_t<U>>) &&
 	requires(T&& t, U&& u)
 	{
-		swap(bksge::forward<T>(t), bksge::forward<U>(u));
+		swap(std::forward<T>(t), std::forward<U>(u));
 	};
 
 #else
