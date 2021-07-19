@@ -26,7 +26,6 @@
 #include <bksge/fnd/utility/in_range.hpp>
 #include <bksge/fnd/utility/make_index_sequence.hpp>
 #include <bksge/fnd/utility/make_integer_sequence.hpp>
-#include <bksge/fnd/utility/move_if_noexcept.hpp>
 #include <bksge/fnd/utility/swap.hpp>
 #include <bksge/fnd/utility/to_underlying.hpp>
 
