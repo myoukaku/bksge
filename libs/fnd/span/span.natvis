@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+	<!-- span<T, Extent> -->
+	<Type Name="bksge::span&lt;*,*&gt;">
+		<Intrinsic Name="data" Expression="m_ptr" />
+		<Intrinsic Name="size" Expression="$T2" />
+		<Intrinsic Name="size_bytes" Expression="size() * sizeof(element_type)" />
+		<DisplayString>{{ size={size()} }}</DisplayString>
+		<Expand>
+			<ArrayItems>
+				<Size>size()</Size>
+				<ValuePointer>data()</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+
+	<!-- span<T, dynamic_extent> -->
+	<Type Name="bksge::span&lt;*,-1&gt;">
+		<Intrinsic Name="data" Expression="m_ptr" />
+		<Intrinsic Name="size" Expression="m_extent" />
+		<Intrinsic Name="size_bytes" Expression="size() * sizeof(element_type)" />
+		<DisplayString>{{ size={size()} }}</DisplayString>
+		<Expand>
+			<ArrayItems>
+				<Size>size()</Size>
+				<ValuePointer>data()</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+</AutoVisualizer>
