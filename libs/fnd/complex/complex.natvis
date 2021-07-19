@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+	<Type Name="bksge::complex&lt;*&gt;">
+		<Intrinsic Name="real" Expression="m_real" />
+		<Intrinsic Name="imag" Expression="m_imag" />
+		<DisplayString Condition="(imag() &lt; 0) &amp;&amp; (real() == 0)">-i*{-imag()}</DisplayString>
+		<DisplayString Condition="(imag() &lt; 0) &amp;&amp; (real() != 0)">{real()}-i*{-imag()}</DisplayString>
+		<DisplayString Condition="imag() == 0">{real()}</DisplayString>
+		<DisplayString Condition="(imag() &gt; 0) &amp;&amp; (real() == 0)">i*{imag()}</DisplayString>
+		<DisplayString Condition="(imag() &gt; 0) &amp;&amp; (real() != 0)">{real()}+i*{imag()}</DisplayString>
+		<Expand>
+			<Item Name="real">real()</Item>
+			<Item Name="imag">imag()</Item>
+		</Expand>
+	</Type>
+
+	<Type Name="bksge::detail::complex_base&lt;*&gt;">
+		<Intrinsic Name="real" Expression="m_value[0]" />
+		<Intrinsic Name="imag" Expression="m_value[1]" />
+		<DisplayString Condition="(imag() &lt; 0) &amp;&amp; (real() == 0)">-i*{-imag()}</DisplayString>
+		<DisplayString Condition="(imag() &lt; 0) &amp;&amp; (real() != 0)">{real()}-i*{-imag()}</DisplayString>
+		<DisplayString Condition="imag() == 0">{real()}</DisplayString>
+		<DisplayString Condition="(imag() &gt; 0) &amp;&amp; (real() == 0)">i*{imag()}</DisplayString>
+		<DisplayString Condition="(imag() &gt; 0) &amp;&amp; (real() != 0)">{real()}+i*{imag()}</DisplayString>
+		<Expand>
+			<Item Name="real">real()</Item>
+			<Item Name="imag">imag()</Item>
+		</Expand>
+	</Type>
+</AutoVisualizer>
