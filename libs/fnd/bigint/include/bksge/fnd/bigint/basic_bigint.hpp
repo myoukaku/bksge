@@ -660,7 +660,10 @@ private:
 public:
 	BKSGE_STATIC_CONSTEXPR bool is_specialized = true;
 
+BKSGE_WARNING_PUSH();
+BKSGE_WARNING_DISABLE_MSVC(4309);	// 定数値が切り捨てられました。
 	BKSGE_STATIC_CONSTEXPR int  digits            = is_fixed_precision ? static_cast<int>(Bits - (Signed ? 1 : 0)) : INT_MAX;
+BKSGE_WARNING_POP();
 	BKSGE_STATIC_CONSTEXPR int  digits10          = is_fixed_precision ? get_digits10(digits) : INT_MAX;
 	BKSGE_STATIC_CONSTEXPR int  max_digits10      = 0;
 	BKSGE_STATIC_CONSTEXPR bool is_signed         = Signed;
