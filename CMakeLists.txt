@@ -8,7 +8,8 @@ project(${TARGET_NAME} LANGUAGES C CXX)
 add_library(${TARGET_NAME} STATIC)
 add_library(${TARGET_ALIAS_NAME} ALIAS ${TARGET_NAME})
 
-set_target_properties(${TARGET_NAME} PROPERTIES USE_FOLDERS ON)
+set_property(TARGET ${TARGET_NAME} PROPERTY USE_FOLDERS ON)
+set_property(TARGET ${TARGET_NAME} PROPERTY FOLDER bksge)
 
 option(BKSGE_BUILD_TESTING "Build tests" ON)
 option(BKSGE_BUILD_SAMPLES "Build samples" ON)

@@ -14,6 +14,8 @@ project(${TARGET_NAME} LANGUAGES C CXX)
 add_library(${TARGET_NAME} STATIC)
 add_library(${TARGET_ALIAS_NAME} ALIAS ${TARGET_NAME})
 
+set_property(TARGET ${TARGET_NAME} PROPERTY FOLDER bksge/core)
+
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../fnd ${CMAKE_CURRENT_BINARY_DIR}/fnd)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../core/math ${CMAKE_CURRENT_BINARY_DIR}/math)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../core/win32 ${CMAKE_CURRENT_BINARY_DIR}/win32)

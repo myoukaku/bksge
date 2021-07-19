@@ -11,8 +11,6 @@ project(${TARGET_NAME} LANGUAGES C CXX)
 add_library(${TARGET_NAME} INTERFACE)
 add_library(Bksge::win32 ALIAS ${TARGET_NAME})
 
-set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-
 option(BKSGE_BUILD_TESTING "Build tests" ON)
 option(BKSGE_BUILD_SAMPLES "Build samples" ON)
 option(BKSGE_COVERAGE "Coverage" OFF)
