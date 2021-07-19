@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+	<Type Name="bksge::any">
+		<Intrinsic Name="has_value" Expression="m_manager != 0"/>
+		<DisplayString Condition="has_value()">[not empty]</DisplayString>
+		<DisplayString Condition="!has_value()">[empty]</DisplayString>
+		<Expand>
+			<Synthetic Name="has_value">
+				<DisplayString>{has_value()}</DisplayString>
+			</Synthetic>
+		</Expand>
+	</Type>
+</AutoVisualizer>
