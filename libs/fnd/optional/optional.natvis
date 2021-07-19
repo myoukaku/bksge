@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+	<Type Name="bksge::optional&lt;*&gt;">
+		<Intrinsic Name="has_value" Expression="m_payload.m_engaged"/>
+		<Intrinsic Name="value" Expression="m_payload.m_payload.m_value"/>
+		<DisplayString Condition="has_value()">{value()}</DisplayString>
+		<DisplayString Condition="!has_value()">nullopt</DisplayString>
+		<Expand>
+			<Item Condition="has_value()" Name="value">value()</Item>
+		</Expand>
+	</Type>
+</AutoVisualizer>
